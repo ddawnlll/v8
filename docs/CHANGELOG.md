@@ -3,6 +3,42 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Session-2 closure: Phase 1 real data + preregistration (operator pass)
+
+Session 2 (commits `3436248`..`91396fe`) executed Phase 1 on real data and
+wrote the `v8_slice_001` preregistration; all 5 steps DONE, suite 42 -> 50
+tests, monograph probe byte-identical to the session-2 baseline
+(`ea5b7705…`) at every step, corpus untouched (verified independently on
+re-review). This operator pass closes the pins the agent left.
+
+- **D-038 registered** — Phase-1 tooling deps (polars/pyarrow/
+  pandera[polars]/duckdb) admitted as the `tooling` extra for `tools/data.py`
+  + `tools/materialize_views.py`; decision path stays stdlib-only. Resolves
+  the session-2 open pin 1.
+- **IMPLEMENTATION_LAYOUT updated** — `tools/vision_backfill.py` and
+  `tools/materialize_views.py` moved from "planned" into the file family
+  (tree + file table); five test files listed.
+- **Real tape pinned** — BTCUSDT 1h 2026-04..06 (2184 rows, tape hash
+  `8b12707e…`), verified via `data.py`; JSONL PIT tape audit clean;
+  materializations + lab run deterministic (ledger `2c1e0fd8…`,
+  `NO_ECONOMIC_CLAIM`). Derived artifacts live under `research/tape/`
+  (gitignored, reproducible — never committed).
+- **`v8_slice_001` preregistration** (`docs/PREREGISTRATION_V8_SLICE_001.md`)
+  written with all HYPOTHESIS_LAB_PROTOCOL fields; O-017 proposal (share
+  floor 0.25, KS threshold 0.20) derived pre-holdout from the dev baseline
+  (execution_share 0.4156, KS 0.073); adversarial review (1 blocker + 7
+  warnings) incorporated. **Not yet in the monograph** — it is frozen content
+  awaiting operator ratification (§16); holdout not downloaded, experiment
+  not run.
+- **Carry-forwards (operator + Phase 4):** D-027 verdict gating
+  (`execution_share`/divergence/`ATTRIBUTION_UNSAFE_*` in `LabReport`)
+  remains code-pending; it lands with the Phase-4 experiment runner. The
+  preregistration's §16 operator actions (ratify thresholds; record holdout
+  tape hash at download time; authority receipt before any verdict) are
+  unperformed by design.
+- Rebuilt `site/index.html` (31 sections — the three edited corpus files are
+  all monograph sections; the probe baseline for the next session changes).
+
 ## 2026-08-01 — Autonomous build session closure (operator pass)
 
 The Phase 0-3 autonomous build (commits `4f34abe`..`f2f8bf2`) completed all

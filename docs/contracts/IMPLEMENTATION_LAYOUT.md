@@ -29,16 +29,24 @@ src/v8/
                      renewed (D-022)
 tools/
   build_monograph.py            docs corpus -> site/index.html, site/tr.html
-  data.py                       V7 Binance archive -> verified tape builder
+  data.py                       Binance archive -> verified canonical dataset
+                                (download + SHA-256 + Parquet + DuckDB audit)
+  vision_backfill.py            Vision monthly klines -> JSONL PIT tape + audit
+  materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
+                                pinned manifest, fail-closed hashes)
   download_v8_reading_list.py   research manifest downloader
 tests/
   test_vertical_slice.py        contract tests (pytest)
+  test_tape_audit.py            offline tape audit tests
+  test_expert_registry.py       registry consistency tests
+  test_data_pipeline.py         offline data.py planning/checksum tests
+  test_materialize_views.py     materialization roundtrip + fail-closed tests
 ```
 
-Planned, not yet present: `tools/vision_backfill.py` (Phase 1, ROADMAP);
-materialization scripts for the `DATASET_SPEC` §5 parquet views (Phase 2);
-additional Expert modules land under `src/v8/experts/` only after registry
-admission (Phase 3).
+Planned, not yet present: additional Expert modules land under
+`src/v8/experts/` only after registry admission (Phase 3); the Phase-4
+experiment runner (D-027 gating in `LabReport`, runbook-owned preregistration
+execution) is the next build target.
 
 ## 2. File-by-file contract
 
@@ -59,7 +67,9 @@ admission (Phase 3).
 | `synth.py` | deterministic synthetic tape — contracts only, not economics | `make_synthetic_tape(seed, n_bars, symbol, base)` | rule 10 |
 | `simtruth/` | vendored V7 reference simulation | import-only rewrite (`sim.py`, `market.py`, `features.py`, `events.py`, `indicators.py`, `evaluate.py`) | D-022; authority stays FAIL |
 | `tools/build_monograph.py` | reproducible EN/TR monograph build | CLI `--lang --docs --out` | CHANGELOG build rule |
-| `tools/data.py` | V7 Binance archive -> verified tape builder | CLI | FEED_INGESTION_SPEC §5 |
+| `tools/data.py` | Binance archive -> verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit) | CLI `build/verify/audit/load` | FEED_INGESTION_SPEC §5; DATASET_SPEC §1 |
+| `tools/vision_backfill.py` | Vision monthly klines -> JSONL PIT tape (three clocks) + audit | CLI `--symbol --interval --month --out [--audit]` | FEED_INGESTION_SPEC §4-5 |
+| `tools/materialize_views.py` | DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch | CLI `--manifest --store` | DATASET_SPEC §5; compile-once (rule 17) |
 | `tests/test_vertical_slice.py` | runnable contract gates (vertical slice) | pytest | audit gate; PROJECT_EVIDENCE_AUDIT |
 
 ## 3. Layering rules

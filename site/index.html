@@ -2124,15 +2124,23 @@ evolves by challenger, never in place (D-032).</p>
                      renewed (D-022)
 tools/
   build_monograph.py            docs corpus -&gt; site/index.html, site/tr.html
-  data.py                       V7 Binance archive -&gt; verified tape builder
+  data.py                       Binance archive -&gt; verified canonical dataset
+                                (download + SHA-256 + Parquet + DuckDB audit)
+  vision_backfill.py            Vision monthly klines -&gt; JSONL PIT tape + audit
+  materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
+                                pinned manifest, fail-closed hashes)
   download_v8_reading_list.py   research manifest downloader
 tests/
   test_vertical_slice.py        contract tests (pytest)
+  test_tape_audit.py            offline tape audit tests
+  test_expert_registry.py       registry consistency tests
+  test_data_pipeline.py         offline data.py planning/checksum tests
+  test_materialize_views.py     materialization roundtrip + fail-closed tests
 </code></pre>
-<p>Planned, not yet present: <code>tools/vision_backfill.py</code> (Phase 1, ROADMAP);
-materialization scripts for the <code>DATASET_SPEC</code> §5 parquet views (Phase 2);
-additional Expert modules land under <code>src/v8/experts/</code> only after registry
-admission (Phase 3).</p>
+<p>Planned, not yet present: additional Expert modules land under
+<code>src/v8/experts/</code> only after registry admission (Phase 3); the Phase-4
+experiment runner (D-027 gating in <code>LabReport</code>, runbook-owned preregistration
+execution) is the next build target.</p>
 <h2 id="2-file-by-file-contract">2. File-by-file contract</h2>
 <table>
 <thead>
@@ -2236,9 +2244,21 @@ admission (Phase 3).</p>
 </tr>
 <tr>
 <td><code>tools/data.py</code></td>
-<td>V7 Binance archive -&gt; verified tape builder</td>
-<td>CLI</td>
-<td>FEED_INGESTION_SPEC §5</td>
+<td>Binance archive -&gt; verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit)</td>
+<td>CLI <code>build/verify/audit/load</code></td>
+<td>FEED_INGESTION_SPEC §5; DATASET_SPEC §1</td>
+</tr>
+<tr>
+<td><code>tools/vision_backfill.py</code></td>
+<td>Vision monthly klines -&gt; JSONL PIT tape (three clocks) + audit</td>
+<td>CLI <code>--symbol --interval --month --out [--audit]</code></td>
+<td>FEED_INGESTION_SPEC §4-5</td>
+</tr>
+<tr>
+<td><code>tools/materialize_views.py</code></td>
+<td>DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch</td>
+<td>CLI <code>--manifest --store</code></td>
+<td>DATASET_SPEC §5; compile-once (rule 17)</td>
 </tr>
 <tr>
 <td><code>tests/test_vertical_slice.py</code></td>
@@ -2536,6 +2556,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>Accept the stdlib mirror of <code>tools/data.py</code> contracts inside <code>tools/vision_backfill.py</code>; literal reuse is deferred until <code>data.py</code>'s heavy deps (polars/pandera/pyarrow/duckdb) are admitted with Phase-1 parquet materialization (DATASET_SPEC §5). <code>pyyaml&gt;=6</code> joins the dev extra only (environment, not the decision path)</td>
 <td>PROVISIONAL_DECISION</td>
 <td>Resolves the Step-4 OPEN_PIN: <code>data.py</code> hard-exits at import without the forbidden deps (O-009 smallest-engine rule). The mirror implements the same documented contracts (kline column order, ms-&gt;ns conversion, checksum-file format), cited inline; produced rows round-trip <code>TapeRow(**r)</code> through <code>store.replay_tape</code>.</td>
+</tr>
+<tr>
+<td>D-038</td>
+<td>Phase-1 tooling deps admitted as the <code>tooling</code> extra (polars/pyarrow/pandera[polars]/duckdb) for <code>tools/data.py</code> and <code>tools/materialize_views.py</code> (parquet materialization, DATASET_SPEC §5); the decision path (<code>src/v8/</code> minus <code>simtruth/</code>) stays stdlib-only; no test or contract depends on the new deps except pure planning/checksum helpers</td>
+<td>PROVISIONAL_DECISION</td>
+<td>D-037's deferral condition is met: Phase-1 materialization is now being built (session 2: real tape + DuckDB views, O-009 keeps the smallest engine on the decision side). Recorded at the admission's own OPEN_PIN; the operator registers it here.</td>
 </tr>
 </tbody>
 </table>
@@ -4770,6 +4796,41 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-session-2-closure-phase-1-real-data-preregistration-operator-pass">2026-08-01 — Session-2 closure: Phase 1 real data + preregistration (operator pass)</h2>
+<p>Session 2 (commits <code>3436248</code>..<code>91396fe</code>) executed Phase 1 on real data and
+wrote the <code>v8_slice_001</code> preregistration; all 5 steps DONE, suite 42 -&gt; 50
+tests, monograph probe byte-identical to the session-2 baseline
+(<code>ea5b7705…</code>) at every step, corpus untouched (verified independently on
+re-review). This operator pass closes the pins the agent left.</p>
+<ul>
+<li><strong>D-038 registered</strong> — Phase-1 tooling deps (polars/pyarrow/
+  pandera[polars]/duckdb) admitted as the <code>tooling</code> extra for <code>tools/data.py</code></li>
+<li><code>tools/materialize_views.py</code>; decision path stays stdlib-only. Resolves
+  the session-2 open pin 1.</li>
+<li><strong>IMPLEMENTATION_LAYOUT updated</strong> — <code>tools/vision_backfill.py</code> and
+  <code>tools/materialize_views.py</code> moved from "planned" into the file family
+  (tree + file table); five test files listed.</li>
+<li><strong>Real tape pinned</strong> — BTCUSDT 1h 2026-04..06 (2184 rows, tape hash
+  <code>8b12707e…</code>), verified via <code>data.py</code>; JSONL PIT tape audit clean;
+  materializations + lab run deterministic (ledger <code>2c1e0fd8…</code>,
+  <code>NO_ECONOMIC_CLAIM</code>). Derived artifacts live under <code>research/tape/</code>
+  (gitignored, reproducible — never committed).</li>
+<li><strong><code>v8_slice_001</code> preregistration</strong> (<code>docs/PREREGISTRATION_V8_SLICE_001.md</code>)
+  written with all HYPOTHESIS_LAB_PROTOCOL fields; O-017 proposal (share
+  floor 0.25, KS threshold 0.20) derived pre-holdout from the dev baseline
+  (execution_share 0.4156, KS 0.073); adversarial review (1 blocker + 7
+  warnings) incorporated. <strong>Not yet in the monograph</strong> — it is frozen content
+  awaiting operator ratification (§16); holdout not downloaded, experiment
+  not run.</li>
+<li><strong>Carry-forwards (operator + Phase 4):</strong> D-027 verdict gating
+  (<code>execution_share</code>/divergence/<code>ATTRIBUTION_UNSAFE_*</code> in <code>LabReport</code>)
+  remains code-pending; it lands with the Phase-4 experiment runner. The
+  preregistration's §16 operator actions (ratify thresholds; record holdout
+  tape hash at download time; authority receipt before any verdict) are
+  unperformed by design.</li>
+<li>Rebuilt <code>site/index.html</code> (31 sections — the three edited corpus files are
+  all monograph sections; the probe baseline for the next session changes).</li>
+</ul>
 <h2 id="2026-08-01-autonomous-build-session-closure-operator-pass">2026-08-01 — Autonomous build session closure (operator pass)</h2>
 <p>The Phase 0-3 autonomous build (commits <code>4f34abe</code>..<code>f2f8bf2</code>) completed all
 7 runbook steps: the vertical-slice suite grew 15 -&gt; 42 tests, the monograph
