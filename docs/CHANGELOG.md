@@ -3,6 +3,47 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — D-027 attribution-validity gating in LabReport (Phase 4a)
+
+- **`src/v8/schema.py`** — LabReport gains `n_executed` / `n_portfolio_rejected`
+  / `execution_share` / `divergence_ks` (two-sample KS on executed vs
+  portfolio-state-rejected net_R) and the verdict vocabulary
+  NO_ECONOMIC_CLAIM | CERTIFIED_AVAILABLE | ATTRIBUTION_UNSAFE_LOW_COVERAGE |
+  ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE. Authority blocks first (receipt
+  None -> NO_ECONOMIC_CLAIM regardless); thresholds are the ratified O-017
+  numbers (0.25 / 0.20), fixed forever.
+- **`src/v8/lab.py`** — stdlib-pure `_two_sample_ks` (scipy/numpy banned in the
+  decision path, D-031), `_d027_verdict`, and the epilogue computation of both
+  populations. Verified to reproduce the prereg §15 12-month diagnostics
+  exactly (execution_share 0.4576, KS 0.1044, n=1111/1317) on the dev tape.
+  Hash-neutral (statistics derive from ledgers already inside ledger_hash) —
+  no golden re-pin.
+- **Prereg §15** — the 12-month diagnostics corrected to the
+  label_status-based population definition (n_executed 1,111 — the earlier
+  draft counted INVALIDATED_BEFORE_TRIGGER as executed); the lab's own
+  D-027 computation is now the source of these numbers.
+- 9 new tests; suite 127 -> 136.
+
+## 2026-08-01 — Phase 2 completion: per-feature input lineage + state provenance
+
+- **`src/v8/schema.py`** — `FeatureValue` gains `input_lineage_hash` (identity
+  of the raw rows that produced the feature) and `calculation_time`;
+  `FEATURE_GRAPH_VERSION` (hash of the FEATURE_GROUPS declaration);
+  `MarketState` gains a `provenance` block
+  {raw_manifest_hash, feature_graph_version, code_version}.
+- **`src/v8/marketstate.py`** — build_state binds each feature's input lineage
+  (payload_hash when the tape computes it, else the payload — synthetic tapes
+  carry no payload_hash) and fills the provenance block. These are audit
+  metadata: they do NOT join the identity hashes (a raw revision that does not
+  change a value must not fabricate a new state identity).
+- **Golden re-pin (deliberate, PERSISTENCE_REPLAY_SPEC 4):** the persisted
+  state records gain the new fields, so `GOLDEN_STATES_HASH` and
+  `GOLDEN_LEDGER_HASH` move; `GOLDEN_DATA_HASH`, candidate count 21 and the
+  terminal distribution are unchanged (feature values are identical — expert
+  behavior is byte-identical).
+- 3 new tests (per-feature lineage + calculation clock, revision-without-
+  value-change lineage, provenance determinism). Suite 136 -> 139.
+
 ## 2026-08-01 — 12-month dev materialization + pinned rebuild (D-041)
 
 - **12-month dev tape built and audited clean** — BTCUSDT 1h 2025-07-01..

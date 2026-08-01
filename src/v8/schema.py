@@ -65,6 +65,13 @@ FEATURE_TO_GROUP: dict[str, str] = {
     name: group for group, spec in FEATURE_GROUPS.items() for name in spec['features']
 }
 
+# The feature graph is itself a versioned artifact: any change to the group
+# table, a group's `requires`, or the feature membership re-versions the
+# graph. It is surfaced in every MarketState.provenance so a consumer can
+# verify the exact graph that produced a state (MARKET_STATE_CONTRACT 2;
+# DATASET_SPEC 1).
+FEATURE_GRAPH_VERSION = sha1_hex(FEATURE_GROUPS)
+
 
 @dataclass(frozen=True)
 class FeatureValue:
@@ -81,6 +88,16 @@ class FeatureValue:
     # feature carries it and it joins the lineage hash, so a re-tag or
     # re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).
     group: str = ''
+    # Per-feature input lineage (MARKET_STATE_CONTRACT 2): a hash of the
+    # (event_id, payload_hash) identities of the raw rows that produced this
+    # feature. A revised raw row changes it even when the emitted value
+    # round-trips, so per-feature provenance is auditable independently of the
+    # state-level lineage_hash (which binds semantic values). Metadata only —
+    # it does not join the lineage/state identity hashes.
+    input_lineage_hash: str = ''
+    # The clock at which this feature became computable (the latest consumed
+    # input row's available_time; MARKET_STATE_CONTRACT 2).
+    calculation_time: int = 0
 
 
 @dataclass(frozen=True)
@@ -92,6 +109,11 @@ class MarketState:
     features: dict[str, FeatureValue]
     lineage_hash: str
     quality: str = 'COMPLETE'
+    # Provenance (MARKET_STATE_CONTRACT 2; DATASET_SPEC 1): the raw-input
+    # manifest the state was built from, the feature-graph version that
+    # produced it, and the builder code version. Audit metadata — not part of
+    # the lineage/state identity hashes.
+    provenance: dict | None = None
 
 
 @dataclass(frozen=True)

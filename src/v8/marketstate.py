@@ -6,7 +6,15 @@ available_time <= D; a future row must fail, never silently pass
 """
 from __future__ import annotations
 
-from .schema import TapeRow, MarketState, FeatureValue, sha1_hex, FEATURE_GROUPS, FEATURE_TO_GROUP
+from pathlib import Path
+
+from .schema import (TapeRow, MarketState, FeatureValue, sha1_hex, FEATURE_GROUPS,
+                     FEATURE_TO_GROUP, FEATURE_GRAPH_VERSION)
+
+# Builder code version bound into every state's provenance: a semantic change
+# in build_state re-versions every state's provenance even when the emitted
+# values round-trip (MARKET_STATE_CONTRACT 2 code_version).
+_BUILDER_SRC_HASH = sha1_hex(Path(__file__).read_bytes())
 
 
 class FutureRowError(ValueError):
@@ -69,25 +77,39 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         lows = [float(b.payload['low']) for b in closed]
         avail = closed[-1].available_time
 
-        def add(name: str, value: float | None) -> None:
+        def add(name: str, value: float | None, consumed: list,
+                quality: str = 'COMPLETE', null_reason: str | None = None) -> None:
+            # Per-feature input lineage + calculation clock (MARKET_STATE_
+            # CONTRACT 2): the identity of the raw rows that produced this
+            # feature and the latest such row's availability.
+            calc = max((b.available_time for b in consumed), default=0) or \
+                (closed[-1].available_time if closed else 0)
+            # Bind the raw row identity: payload_hash when the tape computes it
+            # (vision_backfill real tapes — compact), else the payload itself
+            # (synthetic tapes without payload_hash — small, still detects any
+            # raw revision). A value-irrelevant payload change must move the
+            # per-feature lineage without fabricating a new state identity.
+            inp = sha1_hex([(b.event_id, b.payload.get('payload_hash', b.payload))
+                            for b in consumed]) if consumed else ''
             features[f'{sym}.{name}'] = FeatureValue(
                 f'{sym}.{name}', value, 'float', feature_version,
                 avail if value is not None else closed[-1].available_time,
-                quality='COMPLETE' if value is not None else 'DEGRADED',
-                null_reason=None if value is not None else 'NOT_YET_AVAILABLE',
-                group=FEATURE_TO_GROUP.get(name, 'raw'))
+                quality=quality, null_reason=null_reason,
+                group=FEATURE_TO_GROUP.get(name, 'raw'),
+                input_lineage_hash=inp, calculation_time=calc)
 
-        add('close', closes[-1])
-        add('prior_high', max(highs[:-1]) if len(highs) > 1 else None)
-        add('prior_low', min(lows[:-1]) if len(lows) > 1 else None)
+        add('close', closes[-1], [closed[-1]])
+        add('prior_high', max(highs[:-1]) if len(highs) > 1 else None, closed[:-1])
+        add('prior_low', min(lows[:-1]) if len(lows) > 1 else None, closed[:-1])
         # The EMA series are computed ONCE and shared by the trend features and
         # the per-bar history tuples (previously computed twice per state).
         fast_series = _ema(closes, 5)
         slow_series = _ema(closes, 20)
         if len(closes) >= 20:
-            add('ema_fast', fast_series[-1])
-            add('ema_slow', slow_series[-1])
-            add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14)
+            add('ema_fast', fast_series[-1], closed)
+            add('ema_slow', slow_series[-1], closed)
+            add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14,
+                closed[-14:])
         # D-026 history feature group: last 32 closed bars as a tuple of
         # (event_id, open, high, low, close, ema_fast, ema_slow), oldest first,
         # per-bar EMAs over the full close series. This is the anchor scan the
@@ -102,7 +124,11 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 for i, b in enumerate(window))
             features[f'{sym}.history'] = FeatureValue(
                 f'{sym}.history', hist, 'history', 'v2',
-                closed[-1].available_time, quality='COMPLETE', group='history')
+                closed[-1].available_time, quality='COMPLETE', group='history',
+                input_lineage_hash=sha1_hex(
+                    [(b.event_id, b.payload.get('payload_hash', b.payload))
+                     for b in window]),
+                calculation_time=closed[-1].available_time)
     validate_feature_groups(features)
     # A universe symbol with no emitted features (zero kline rows or zero CLOSED
     # bars) degrades the state: an entirely absent symbol is a data-integrity
@@ -120,10 +146,21 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         else 'COMPLETE'
     # Lineage binds every feature's value, availability, group tag and version,
     # so a re-tag or re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).
+    # Per-feature input_lineage_hash and the state provenance are audit
+    # metadata and deliberately do NOT join this identity hash (the identity is
+    # a function of the semantic values; a raw revision that does not change a
+    # value must not fabricate a new state identity).
     lineage = sha1_hex({k: [v.value, v.max_input_available_time, v.group,
                             v.feature_version]
                         for k, v in sorted(features.items())})
+    provenance = {
+        'raw_manifest_hash': sha1_hex(
+            [(r.event_id, r.payload.get('payload_hash', r.payload))
+             for r in rows if r.channel == 'kline']),
+        'feature_graph_version': FEATURE_GRAPH_VERSION,
+        'code_version': _BUILDER_SRC_HASH,
+    }
     return MarketState(
         state_id=sha1_hex((as_of, universe, lineage)),
         as_of=as_of, universe=universe, features=features,
-        lineage_hash=lineage, quality=quality)
+        lineage_hash=lineage, quality=quality, provenance=provenance)

@@ -5,7 +5,8 @@ from dataclasses import replace
 
 import pytest
 
-from v8.schema import ExperimentManifest, TapeRow, FeatureValue, FEATURE_GROUPS
+from v8.schema import (ExperimentManifest, TapeRow, FeatureValue, FEATURE_GROUPS,
+                       FEATURE_GRAPH_VERSION)
 from v8.store import AppendOnlyLog
 from v8.marketstate import build_state, FutureRowError, validate_feature_groups
 from v8.lifecycle import CandidateRegistry, episode_key, IllegalTransitionError, ExposureBook
@@ -749,6 +750,59 @@ def test_revision_replay_reproduces_prior_state_hash():
     st3 = build_state([r for r in rows + [revised] if r.available_time <= D2],
                       D2, UNIVERSE)
     assert st3.state_id != st1.state_id
+
+
+# --- Phase-2 completion: per-feature input lineage + state provenance ------
+# (MARKET_STATE_CONTRACT 2; DATASET_SPEC 1). Every emitted FeatureValue
+# carries an input_lineage_hash (identity of the raw rows that produced it)
+# and a calculation_time; the state carries a provenance block
+# {raw_manifest_hash, feature_graph_version, code_version}. These are audit
+# metadata — they do NOT join the identity hashes (a raw revision that does
+# not change a value must not fabricate a new state identity).
+
+def test_per_feature_input_lineage_and_calculation_time():
+    rows = make_synthetic_tape(seed=5, n_bars=40)
+    as_of = rows[-1].available_time
+    st = build_state(rows, as_of, UNIVERSE)
+    for name, fv in st.features.items():
+        assert fv.input_lineage_hash, f'{name} must carry an input lineage'
+        assert fv.calculation_time > 0, f'{name} must carry a calculation clock'
+        assert fv.calculation_time <= as_of
+
+
+def test_input_lineage_detects_raw_revision_without_value_change():
+    """A raw payload revision that keeps the close VALUE unchanged changes the
+    per-feature input lineage but keeps the state identity (the lineage hash
+    binds semantic values, not raw provenance — the two must not be conflated)."""
+    rows = make_synthetic_tape(seed=3, n_bars=30)
+    D = rows[-1].available_time
+    st1 = build_state([r for r in rows if r.available_time <= D], D, UNIVERSE)
+    last = rows[-1]
+    revised = TapeRow(source=last.source, channel=last.channel,
+                      instrument=last.instrument, event_time=last.event_time,
+                      available_time=last.available_time,
+                      ingested_time=last.ingested_time,
+                      venue_sequence=last.venue_sequence, event_id=last.event_id,
+                      payload=dict(last.payload, number_of_trades=999))  # value-irrelevant
+    st2 = build_state([r for r in rows[:-1] + [revised] if r.available_time <= D],
+                      D, UNIVERSE)
+    assert st2.state_id == st1.state_id          # values unchanged -> same identity
+    assert st2.lineage_hash == st1.lineage_hash
+    assert st2.features['SOLUSDT.close'].input_lineage_hash != \
+        st1.features['SOLUSDT.close'].input_lineage_hash
+
+
+def test_state_provenance_present_and_deterministic():
+    rows = make_synthetic_tape(seed=5, n_bars=40)
+    as_of = rows[-1].available_time
+    st = build_state(rows, as_of, UNIVERSE)
+    assert st.provenance is not None
+    assert set(st.provenance.keys()) == {'raw_manifest_hash',
+                                         'feature_graph_version', 'code_version'}
+    assert st.provenance['feature_graph_version'] == FEATURE_GRAPH_VERSION
+    # Deterministic: an identical rebuild reproduces identical provenance.
+    st2 = build_state(rows, as_of, UNIVERSE)
+    assert st2.provenance == st.provenance
 
 
 # --- Session 2: decision ledger + birth snapshot (DATASET_SPEC 1;            ---
