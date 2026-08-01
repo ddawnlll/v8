@@ -1260,7 +1260,131 @@ Recompilation happens only when the feature graph, an Expert definition, the
 simulator, or the outcome definition changes — never per training run. This
 separates simulation from training, keeps replay deterministic
 (<code>PERSISTENCE_REPLAY_SPEC</code> section 4), and prevents the same defect from being
-charged twice (<code>V8_CONSTITUTION</code> rule 17).</p></section>
+charged twice (<code>V8_CONSTITUTION</code> rule 17).</p>
+<h2 id="6-declared-dataset-v01-d-039">6. Declared dataset v0.1 (D-039)</h2>
+<p><strong>Status:</strong> PROVISIONAL_DECISION. This section is the frozen declaration of
+what the V8 dataset is, at what scale, with which channels, and what it
+explicitly is <strong>not</strong>. A change to this declaration is a register decision
+with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
+<h3 id="61-declared-scope">6.1 Declared scope</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Declaration</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Universe</td>
+<td><code>BTCUSDT</code> (USDT-M perpetual)</td>
+<td>Single symbol; extension only on a binding coverage failure (O-011)</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td>1h bars, UTC</td>
+<td>Frozen for <code>v8_slice_001</code></td>
+</tr>
+<tr>
+<td>Channels</td>
+<td><code>kline</code> (ingested, 2,184 rows dev); <code>funding</code> (declared, <strong>ingestion pending</strong> — 6.4)</td>
+<td>aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice)</td>
+</tr>
+<tr>
+<td>Development window</td>
+<td><code>2026-04-01 00:00</code> .. <code>2026-07-01 00:00</code> UTC, tape hash <code>8b12707e…</code></td>
+<td>Pipeline correctness + O-017 calibration only; never a test window</td>
+</tr>
+<tr>
+<td>Frozen out-of-sample</td>
+<td>First <strong>two published months strictly after</strong> <code>2026-07-01</code>, + 9-bar label-horizon extension</td>
+<td>Downloaded only at experiment time; hash recorded before any evaluation (<code>PREREGISTRATION_V8_SLICE_001</code> §13)</td>
+</tr>
+<tr>
+<td>Full history</td>
+<td>BTCUSDT 1h from Vision availability (~2020-09) — <strong>not declared</strong>, a future option</td>
+<td>Requires a register decision + preregistration revision</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-scale-expectations-honest-measured">6.2 Scale expectations (honest, measured)</h3>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Approximate size</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BTCUSDT 1h, 3 months (current dev)</td>
+<td>2,184 bars; ~1.4 MB JSONL; ~132 KB raw zip; ~140 KB parquet</td>
+<td>Measured, session 2</td>
+</tr>
+<tr>
+<td>BTCUSDT 1h, 1 year</td>
+<td>~8,760 bars; ~5.6 MB JSONL</td>
+<td>640 B/row measured</td>
+</tr>
+<tr>
+<td>BTCUSDT 1h, full history (~6 y)</td>
+<td>~52,000 bars; ~33 MB JSONL; ~2.7 MB zips</td>
+<td>Linear extrapolation from monthly archives (~37 KB/month)</td>
+</tr>
+<tr>
+<td>~30 major symbols, full history</td>
+<td>~1 GB tape</td>
+<td>Universe extension is gated (O-011); shown for scale literacy only</td>
+</tr>
+<tr>
+<td>Tick/depth (Tier-A/S)</td>
+<td>GB–TB</td>
+<td><strong>Not declared</strong> — Level-2+ fidelity is gated (O-010; SIMULATION_TRUTH_SPEC fidelity ladder)</td>
+</tr>
+<tr>
+<td>Funding history (BTCUSDT)</td>
+<td>~3 rows/day (~1,095/yr, ~200 B/row)</td>
+<td>Source: <code>GET /fapi/v1/fundingRate</code>, paginated</td>
+</tr>
+</tbody>
+</table>
+<p>A 1h kline tape is small by construction. "More data" at this fidelity level
+means more history or more symbols, both of which are register decisions —
+never a silent download. Big data arrives only with an admitted fidelity
+level, which this program has not earned yet.</p>
+<h3 id="63-storage-mapping-fixed">6.3 Storage mapping (fixed)</h3>
+<p>Raw evidence: immutable Parquet (<code>tools/data.py</code>). Decision/execution/outcome
+ledgers: append-only JSONL. Derived/research views: DuckDB parquet
+(<code>tools/materialize_views.py</code>), rebuilt from a pinned <code>ExperimentManifest</code>,
+fail-closed on hash mismatch. Physical engines per <code>PERSISTENCE_REPLAY_SPEC</code>
+§1; the decision path stays stdlib-only (D-038).</p>
+<h3 id="64-funding-channel-declared-ingestion-pending">6.4 Funding channel (declared, ingestion pending)</h3>
+<ul>
+<li><strong>Channel:</strong> <code>funding</code> — one <code>TapeRow</code> per settlement boundary with the
+  three clocks, <code>funding_time</code>, and <code>funding_rate</code> (source:
+  <code>GET /fapi/v1/fundingRate</code>, FEED_INGESTION_SPEC §3; schedule from
+  <code>fundingInfo</code> for dynamic-interval symbols, versioned venue input — never
+  assumed 8h).</li>
+<li><strong>Status:</strong> declared but <strong>not yet ingested</strong> — the simulator settles at
+  boundaries with <code>funding_rate_r</code> today (<code>funding_rate_r = 0.0</code> in
+  <code>manifest_dev.json</code> and <code>PREREGISTRATION_V8_SLICE_001</code> §8), i.e. funding
+  economics are currently zeroed. Closing this gap (ingest → wire
+  <code>funding_settled_r = entry_price × rate / risk_unit</code> → revise
+  preregistration §8 <strong>before</strong> the holdout is opened) is the immediate next
+  data-plane step.</li>
+<li><strong>Mask:</strong> D-024's funding-window veto is independent of the rate and stays
+  as declared.</li>
+</ul>
+<h3 id="65-declared-not-declared-boundary">6.5 Declared-not-declared boundary</h3>
+<ul>
+<li>Declared: universe, interval, channels, windows, hashes, storage mapping,
+  scale expectations, funding channel contract.</li>
+<li><strong>Not</strong> declared: any economic claim (rules 8-9, 12); Level-2+ fidelity
+  (O-010); universe extension (O-011); any learned component (rules 6, 14);
+  an <code>authority_receipt</code> (absent until independently renewed).</li>
+</ul></section>
 <section id="sec-feed-ingestion-spec"><h1>FEED INGESTION SPEC</h1><h1 id="v8-feed-and-ingestion-specification">V8 Feed and Ingestion Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the research-only data intake contract.
 It defines how raw market evidence enters the canonical store. It deliberately
@@ -2562,6 +2686,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>Phase-1 tooling deps admitted as the <code>tooling</code> extra (polars/pyarrow/pandera[polars]/duckdb) for <code>tools/data.py</code> and <code>tools/materialize_views.py</code> (parquet materialization, DATASET_SPEC §5); the decision path (<code>src/v8/</code> minus <code>simtruth/</code>) stays stdlib-only; no test or contract depends on the new deps except pure planning/checksum helpers</td>
 <td>PROVISIONAL_DECISION</td>
 <td>D-037's deferral condition is met: Phase-1 materialization is now being built (session 2: real tape + DuckDB views, O-009 keeps the smallest engine on the decision side). Recorded at the admission's own OPEN_PIN; the operator registers it here.</td>
+</tr>
+<tr>
+<td>D-039</td>
+<td>Declared dataset v0.1: BTCUSDT 1h, channels <code>kline</code> + declared-but-pending <code>funding</code>, dev window 2026-04..06 (hash <code>8b12707e…</code>), frozen OOS = first two published months after 2026-07-01 + 9-bar extension, full history/other symbols not declared, Tier-A/S not declared (O-010). Scale expectations table bound to measured numbers (DATASET_SPEC §6)</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Closes the corpus gap: no contract previously declared what the dataset is or at what scale; "more data" is now a register decision, never a silent download. The funding channel is declared with ingestion pending — the preregistration §8 revision (0.0 -&gt; tape-driven) is the next data-plane step, legal until the holdout is opened (§16).</td>
 </tr>
 </tbody>
 </table>
@@ -4807,6 +4937,27 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-declared-dataset-v01-operator">2026-08-01 — Declared dataset v0.1 (operator)</h2>
+<ul>
+<li><strong>D-039 — <code>DATASET_SPEC</code> §6 "Declared dataset v0.1" added.</strong> The corpus had
+  no declaration of what the dataset is or at what scale; this closes it.
+  Declares: universe BTCUSDT (O-011 lock), 1h interval, channels <code>kline</code>
+  (ingested) + <code>funding</code> (<strong>declared, ingestion pending</strong>), dev window
+  2026-04..06 (hash <code>8b12707e…</code>), frozen OOS = first two published months
+  after 2026-07-01 + 9-bar label extension (downloaded only at experiment
+  time). Scale expectations table is measured (1h tape is small by
+  construction: ~640 B/row; full history ~33 MB; 30 symbols ~1 GB; Tier-A/S
+  gated by O-010). "More data" is now a register decision, never a silent
+  download.</li>
+<li><strong>Funding gap made explicit and actionable:</strong> simulator funding plumbing
+  exists but <code>funding_rate_r = 0.0</code> (dev manifest + preregistration §8) — the
+  channel is now declared with ingestion pending; next step is
+  <code>GET /fapi/v1/fundingRate</code> backfill -&gt; <code>funding</code> tape rows -&gt;
+  <code>funding_settled_r = entry_price × rate / risk_unit</code> -&gt; preregistration §8
+  revision, all before the holdout is opened (§16).</li>
+<li>Rebuilt <code>site/index.html</code> (32 sections — new probe baseline for the next
+  session).</li>
+</ul>
 <h2 id="2026-08-01-o-017-ratification-preregistration-promoted-operator">2026-08-01 — O-017 ratification + preregistration promoted (operator)</h2>
 <ul>
 <li><strong>O-017 resolved by operator ratification</strong> (2026-08-01):

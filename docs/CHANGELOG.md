@@ -3,6 +3,27 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Declared dataset v0.1 (operator)
+
+- **D-039 — `DATASET_SPEC` §6 "Declared dataset v0.1" added.** The corpus had
+  no declaration of what the dataset is or at what scale; this closes it.
+  Declares: universe BTCUSDT (O-011 lock), 1h interval, channels `kline`
+  (ingested) + `funding` (**declared, ingestion pending**), dev window
+  2026-04..06 (hash `8b12707e…`), frozen OOS = first two published months
+  after 2026-07-01 + 9-bar label extension (downloaded only at experiment
+  time). Scale expectations table is measured (1h tape is small by
+  construction: ~640 B/row; full history ~33 MB; 30 symbols ~1 GB; Tier-A/S
+  gated by O-010). "More data" is now a register decision, never a silent
+  download.
+- **Funding gap made explicit and actionable:** simulator funding plumbing
+  exists but `funding_rate_r = 0.0` (dev manifest + preregistration §8) — the
+  channel is now declared with ingestion pending; next step is
+  `GET /fapi/v1/fundingRate` backfill -> `funding` tape rows ->
+  `funding_settled_r = entry_price × rate / risk_unit` -> preregistration §8
+  revision, all before the holdout is opened (§16).
+- Rebuilt `site/index.html` (32 sections — new probe baseline for the next
+  session).
+
 ## 2026-08-01 — O-017 ratification + preregistration promoted (operator)
 
 - **O-017 resolved by operator ratification** (2026-08-01):

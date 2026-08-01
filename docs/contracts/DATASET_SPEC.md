@@ -114,3 +114,70 @@ simulator, or the outcome definition changes — never per training run. This
 separates simulation from training, keeps replay deterministic
 (`PERSISTENCE_REPLAY_SPEC` section 4), and prevents the same defect from being
 charged twice (`V8_CONSTITUTION` rule 17).
+
+## 6. Declared dataset v0.1 (D-039)
+
+**Status:** PROVISIONAL_DECISION. This section is the frozen declaration of
+what the V8 dataset is, at what scale, with which channels, and what it
+explicitly is **not**. A change to this declaration is a register decision
+with a CHANGELOG entry. It is a data contract, not an economic claim.
+
+### 6.1 Declared scope
+
+| Dimension | Declaration | Lock |
+|---|---|---|
+| Universe | `BTCUSDT` (USDT-M perpetual) | Single symbol; extension only on a binding coverage failure (O-011) |
+| Interval | 1h bars, UTC | Frozen for `v8_slice_001` |
+| Channels | `kline` (ingested, 2,184 rows dev); `funding` (declared, **ingestion pending** — 6.4) | aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice) |
+| Development window | `2026-04-01 00:00` .. `2026-07-01 00:00` UTC, tape hash `8b12707e…` | Pipeline correctness + O-017 calibration only; never a test window |
+| Frozen out-of-sample | First **two published months strictly after** `2026-07-01`, + 9-bar label-horizon extension | Downloaded only at experiment time; hash recorded before any evaluation (`PREREGISTRATION_V8_SLICE_001` §13) |
+| Full history | BTCUSDT 1h from Vision availability (~2020-09) — **not declared**, a future option | Requires a register decision + preregistration revision |
+
+### 6.2 Scale expectations (honest, measured)
+
+| Dataset | Approximate size | Basis |
+|---|---|---|
+| BTCUSDT 1h, 3 months (current dev) | 2,184 bars; ~1.4 MB JSONL; ~132 KB raw zip; ~140 KB parquet | Measured, session 2 |
+| BTCUSDT 1h, 1 year | ~8,760 bars; ~5.6 MB JSONL | 640 B/row measured |
+| BTCUSDT 1h, full history (~6 y) | ~52,000 bars; ~33 MB JSONL; ~2.7 MB zips | Linear extrapolation from monthly archives (~37 KB/month) |
+| ~30 major symbols, full history | ~1 GB tape | Universe extension is gated (O-011); shown for scale literacy only |
+| Tick/depth (Tier-A/S) | GB–TB | **Not declared** — Level-2+ fidelity is gated (O-010; SIMULATION_TRUTH_SPEC fidelity ladder) |
+| Funding history (BTCUSDT) | ~3 rows/day (~1,095/yr, ~200 B/row) | Source: `GET /fapi/v1/fundingRate`, paginated |
+
+A 1h kline tape is small by construction. "More data" at this fidelity level
+means more history or more symbols, both of which are register decisions —
+never a silent download. Big data arrives only with an admitted fidelity
+level, which this program has not earned yet.
+
+### 6.3 Storage mapping (fixed)
+
+Raw evidence: immutable Parquet (`tools/data.py`). Decision/execution/outcome
+ledgers: append-only JSONL. Derived/research views: DuckDB parquet
+(`tools/materialize_views.py`), rebuilt from a pinned `ExperimentManifest`,
+fail-closed on hash mismatch. Physical engines per `PERSISTENCE_REPLAY_SPEC`
+§1; the decision path stays stdlib-only (D-038).
+
+### 6.4 Funding channel (declared, ingestion pending)
+
+- **Channel:** `funding` — one `TapeRow` per settlement boundary with the
+  three clocks, `funding_time`, and `funding_rate` (source:
+  `GET /fapi/v1/fundingRate`, FEED_INGESTION_SPEC §3; schedule from
+  `fundingInfo` for dynamic-interval symbols, versioned venue input — never
+  assumed 8h).
+- **Status:** declared but **not yet ingested** — the simulator settles at
+  boundaries with `funding_rate_r` today (`funding_rate_r = 0.0` in
+  `manifest_dev.json` and `PREREGISTRATION_V8_SLICE_001` §8), i.e. funding
+  economics are currently zeroed. Closing this gap (ingest → wire
+  `funding_settled_r = entry_price × rate / risk_unit` → revise
+  preregistration §8 **before** the holdout is opened) is the immediate next
+  data-plane step.
+- **Mask:** D-024's funding-window veto is independent of the rate and stays
+  as declared.
+
+### 6.5 Declared-not-declared boundary
+
+- Declared: universe, interval, channels, windows, hashes, storage mapping,
+  scale expectations, funding channel contract.
+- **Not** declared: any economic claim (rules 8-9, 12); Level-2+ fidelity
+  (O-010); universe extension (O-011); any learned component (rules 6, 14);
+  an `authority_receipt` (absent until independently renewed).
