@@ -31,6 +31,14 @@ def _code_hash() -> str:
     return sha1_hex(files)
 
 
+def _geometry_version(draft) -> str:
+    """Structural risk geometry only: `atr_ref` is data-dependent (it moves with
+    the market) and must not be part of episode identity — a stable setup would
+    otherwise change key across decision clocks and disable deduplication."""
+    structural = {k: v for k, v in draft.risk_geometry.items() if k != 'atr_ref'}
+    return sha1_hex(structural)
+
+
 class Lab:
     """One store directory = one immutable run's evidence."""
 
@@ -162,12 +170,16 @@ class Lab:
                 if ev.draft is None:
                     continue
                 sym = ev.draft.instrument
-                cid = episode_key(ex.expert_id, ex.version, sym, ev.draft.direction,
-                                  ev.draft.setup_fingerprint, as_of)
-                if self.registry.is_duplicate(cid, as_of):
+                cid = episode_key(ex.expert_id, ex.version, sym,
+                                  ev.draft.direction,
+                                  ev.draft.setup_anchor_event_id,
+                                  _geometry_version(ev.draft))
+                if self.registry.is_duplicate(cid):
                     self.candidates.append({'kind': 'suppressed_duplicate',
                                             'candidate_id': cid, 'birth_time': as_of,
-                                            'expert_id': ex.expert_id})
+                                            'expert_id': ex.expert_id,
+                                            'source': 'expert',
+                                            'event_id': f'{cid}:suppressed:{as_of}'})
                     continue
                 self.registry.apply(cid, None, 'DETECTED', 'setup_detected', as_of)
                 self.registry.apply(cid, 'DETECTED', 'PENDING', 'hypothesis_completed', as_of)

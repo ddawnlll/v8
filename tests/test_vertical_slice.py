@@ -10,7 +10,7 @@ from v8.lifecycle import CandidateRegistry, episode_key, IllegalTransitionError,
 from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
 from v8.schema import CandidateDraft
 from v8.simulator import CanonicalSimulator, OpenPosition, risk_unit
-from v8.synth import make_synthetic_tape
+from v8.synth import make_synthetic_tape, HOUR_NS
 from v8.lab import Lab
 
 UNIVERSE = ('SOLUSDT',)
@@ -58,13 +58,22 @@ def test_illegal_transition_fails(tmp_path):
 
 
 def test_episode_key_deterministic_and_dedup_window(tmp_path):
-    key = episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'fp', 1_000)
-    assert key == episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'fp', 1_000)
-    assert key != episode_key('e', 'v1', 'SOLUSDT', 'SHORT', 'fp', 1_000)
+    """D-026 anchor form: same setup anchor -> same key (determinism); a
+    distinct anchor, direction, or geometry -> a distinct key; a repeat is a
+    duplicate regardless of time (the window parameter is removed — anchor
+    equality subsumes it, CANDIDATE_LIFECYCLE_SPEC 1)."""
+    key = episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-1', 'geo-v1')
+    assert key == episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-1', 'geo-v1')
+    assert key != episode_key('e', 'v1', 'SOLUSDT', 'SHORT', 'anchor-1', 'geo-v1')
+    assert key != episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-2', 'geo-v1')
+    assert key != episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-1', 'geo-v2')
     reg = CandidateRegistry(AppendOnlyLog(tmp_path / 'c.jsonl'))
     reg.apply(key, None, 'DETECTED', 'setup_detected', 1_000)
-    assert reg.is_duplicate(key, 1_000 + 2 * 3_600_000_000_000) is True
-    assert reg.is_duplicate(key, 1_000 + 20 * 3_600_000_000_000) is False
+    assert reg.is_duplicate(key) is True            # repeat is a duplicate
+    # A repeat 100 hours later is still a duplicate: no time window remains.
+    assert reg.is_duplicate(key) is True
+    fresh = episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-2', 'geo-v1')
+    assert reg.is_duplicate(fresh) is False
 
 
 def test_vertical_slice_runs_deterministically(tmp_path):
@@ -112,6 +121,99 @@ def test_duplicate_keys_never_double_apply(tmp_path):
             key = (rec['candidate_id'], rec['sequence'])
             assert key not in seen, f'duplicate transition {key}'
             seen.add(key)
+
+
+# --- D-026: setup-anchored episode identity --------------------------------
+# Key stability (CANDIDATE_LIFECYCLE_SPEC 5): one unchanged setup on two
+# consecutive decision clocks yields the same episode_key; a fresh setup (new
+# anchor event) yields a different one; a repeat is SUPPRESSED_DUPLICATE.
+
+def _craft_pullback_tape() -> list[TapeRow]:
+    """Deterministic tape engineered for consecutive trend-pullback setups:
+    40 flat bars (EMAs converge to 100), 20 bars of +1/bar uptrend (101..120),
+    a shallow dip (108, 107) that keeps close < ema_slow while ema_fast >
+    ema_slow on consecutive bars (run A), a recovery that ends the run, then a
+    second dip (113, 112, 111) that starts a *new* run with a new anchor.
+    Numbers verified against build_state's EMA: ema_fast falls below ema_slow
+    at bar 62 (close 106) and the recovery keeps close above ema_slow."""
+    closes = [100.0] * 40
+    closes += [100.0 + (i + 1) for i in range(20)]     # 101..120
+    closes += [108.0, 107.0]                           # pullback run A
+    closes += [106.0, 115.0, 120.0, 124.0, 126.0]      # exit + recovery
+    closes += [113.0, 112.0, 111.0]                    # pullback run B
+    rows: list[TapeRow] = []
+    for i, c in enumerate(closes):
+        rows.append(TapeRow(
+            source='binance-um', channel='kline', instrument='SOLUSDT',
+            event_time=HOUR_NS * i, available_time=HOUR_NS * i,
+            ingested_time=HOUR_NS * i, venue_sequence=i + 1,
+            event_id=f'SOLUSDT:{i + 1}',
+            payload={'open': c, 'high': c * 1.002, 'low': c * 0.998,
+                     'close': c, 'volume': 1.0, 'closed': True}))
+    return rows
+
+
+def _draft_at(rows: list[TapeRow], expert, bar_idx: int) -> CandidateDraft:
+    as_of = rows[bar_idx].available_time
+    st = build_state([r for r in rows if r.available_time <= as_of],
+                     as_of, UNIVERSE)
+    ev = expert.evaluate(st)
+    assert ev.draft is not None, f'no draft at bar {bar_idx}'
+    return ev.draft
+
+
+def test_episode_key_stable_across_consecutive_decision_clocks():
+    """The same setup observed on two consecutive decision clocks hashes to
+    the same key: the anchor (run start) is unchanged, so dedup can fire."""
+    ex = TrendPullbackExpert()
+    rows = _craft_pullback_tape()
+    d60, d61 = _draft_at(rows, ex, 60), _draft_at(rows, ex, 61)
+    assert d60.setup_anchor_event_id == d61.setup_anchor_event_id
+    assert d60.setup_anchor_event_id == 'SOLUSDT:61'
+    keys = {episode_key(ex.expert_id, ex.version, d.instrument, d.direction,
+                        d.setup_anchor_event_id, _geo(d)) for d in (d60, d61)}
+    assert len(keys) == 1
+
+
+def _geo(draft: CandidateDraft) -> str:
+    structural = {k: v for k, v in draft.risk_geometry.items() if k != 'atr_ref'}
+    from v8.schema import sha1_hex
+    return sha1_hex(structural)
+
+
+def test_fresh_setup_gets_new_anchor_and_key():
+    """A new setup (a new anchor event) is a different episode: a distinct
+    episode_key, so it is not suppressed by the earlier run."""
+    ex = TrendPullbackExpert()
+    rows = _craft_pullback_tape()
+    run_a = _draft_at(rows, ex, 61)          # inside pullback run A
+    run_b = _draft_at(rows, ex, 68)          # inside pullback run B
+    assert run_a.setup_anchor_event_id == 'SOLUSDT:61'
+    assert run_b.setup_anchor_event_id == 'SOLUSDT:68'
+    assert run_a.setup_anchor_event_id != run_b.setup_anchor_event_id
+    ka = episode_key(ex.expert_id, ex.version, run_a.instrument, run_a.direction,
+                     run_a.setup_anchor_event_id, _geo(run_a))
+    kb = episode_key(ex.expert_id, ex.version, run_b.instrument, run_b.direction,
+                     run_b.setup_anchor_event_id, _geo(run_b))
+    assert ka != kb
+
+
+def test_repeat_is_suppressed_duplicate_not_dropped(tmp_path):
+    """A repeat of an already-detected setup inside the window is logged
+    SUPPRESSED_DUPLICATE and never becomes a second candidate."""
+    lab = Lab(tmp_path)
+    lab.ingest(_craft_pullback_tape())
+    lab.run(_manifest(), [TrendPullbackExpert()])
+    suppressed = [rec for rec in lab.candidates.read()
+                  if rec.get('kind') == 'suppressed_duplicate']
+    assert suppressed, 'the consecutive setup must produce a suppressed repeat'
+    detected = {rec['candidate_id'] for rec in lab.candidates.read()
+                if rec.get('to_state') == 'DETECTED'}
+    assert all(s['candidate_id'] in detected for s in suppressed)
+    # Every DETECTED key appears at most once as a real candidate.
+    detected_seqs = [rec['sequence'] for rec in lab.candidates.read()
+                     if rec.get('to_state') == 'DETECTED']
+    assert detected_seqs == [1] * len(detected_seqs)
 
 
 # --- R-unit semantics, excursions, ambiguity, thesis exit -------------------

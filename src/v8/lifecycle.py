@@ -34,21 +34,24 @@ class IllegalTransitionError(ValueError):
 
 
 def episode_key(expert_id: str, expert_version: str, instrument: str,
-                direction: str, setup_fingerprint: str, birth_time: int) -> str:
-    """Deterministic candidate identity (CANDIDATE_LIFECYCLE_SPEC section 1)."""
+                direction: str, setup_anchor_event_id: str,
+                geometry_version: str) -> str:
+    """Deterministic candidate identity anchored to the setup event, never the
+    decision clock (D-026; CANDIDATE_LIFECYCLE_SPEC section 1). A birth
+    timestamp in the key would make a re-detected setup hash differently and
+    silently disable deduplication."""
     return sha1_hex((expert_id, expert_version, instrument, direction,
-                     setup_fingerprint, birth_time))
+                     setup_anchor_event_id, geometry_version))
 
 
 class CandidateRegistry:
     """Owns transition legality; projects current state from the log."""
 
-    def __init__(self, log: AppendOnlyLog, dedup_window_bars: int = 6):
+    def __init__(self, log: AppendOnlyLog):
         self.log = log
-        self.dedup_window_bars = dedup_window_bars
         self._state: dict[str, str] = {}
         self._seq: dict[str, int] = {}
-        self._birth_time: dict[str, int] = {}
+        self._detected: set[str] = set()
         for rec in self.log.read():
             if 'from_state' in rec:
                 self._apply_projection(rec)
@@ -58,7 +61,7 @@ class CandidateRegistry:
         self._seq[cid] = rec['sequence']
         self._state[cid] = rec['to_state']
         if rec['to_state'] == 'DETECTED':
-            self._birth_time[cid] = rec['knowledge_time']
+            self._detected.add(cid)
 
     def current(self, candidate_id: str) -> str | None:
         return self._state.get(candidate_id)
@@ -84,12 +87,15 @@ class CandidateRegistry:
         self._apply_projection(rec)
         return rec
 
-    def is_duplicate(self, key: str, birth_time: int) -> bool:
-        prev = self._birth_time.get(key)
-        if prev is None:
-            return False
-        # Time-windowed suppression window; a distinct new setup gets a new key.
-        return birth_time - prev < self.dedup_window_bars * 3_600_000_000_000
+    def is_duplicate(self, key: str) -> bool:
+        """True iff the key already produced a DETECTED episode.
+
+        The time window is removed: key stability under D-026 means the same
+        setup re-detected on any later decision clock hashes to the same key,
+        so anchor equality subsumes the window (keeping both would
+        double-suppress).
+        """
+        return key in self._detected
 
 
 class ExposureBook:

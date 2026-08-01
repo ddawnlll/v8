@@ -14,10 +14,18 @@ class TrendPullbackExpert(Expert):
     expert_id = 'trend_pullback'
     version = 'v1'
 
+    @staticmethod
+    def _setup_pred(i: int, bar: tuple) -> bool:
+        """Per-history-bar predicate (pinned D-026 interpretation): uptrend with
+        a pullback to the slow EMA."""
+        _event_id, _open, _high, _low, close, ema_fast, ema_slow = bar
+        return ema_fast > ema_slow and close < ema_slow
+
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
         t = state.as_of
         sym = state.universe[0]
-        need = [f'{sym}.close', f'{sym}.ema_fast', f'{sym}.ema_slow', f'{sym}.atr']
+        need = [f'{sym}.close', f'{sym}.ema_fast', f'{sym}.ema_slow', f'{sym}.atr',
+                f'{sym}.history']
         if not self._need(state, need):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
@@ -29,6 +37,11 @@ class TrendPullbackExpert(Expert):
         if atr is None or not (fast > slow and close < slow):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
+        hist_value = f[f'{sym}.history'].value
+        if not isinstance(hist_value, (tuple, list)) or not hist_value:
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_HABITAT', t)
+        anchor = self.find_setup_anchor(tuple(hist_value), self._setup_pred)
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='LONG',
@@ -36,7 +49,7 @@ class TrendPullbackExpert(Expert):
             risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
                            'stop_r': 1.0, 'expiry_bars': 8,
                            'atr_ref': atr},
-            birth_time=t)
+            birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)
 

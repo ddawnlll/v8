@@ -15,10 +15,20 @@ class FailedBreakoutExpert(Expert):
     expert_id = 'failed_breakout'
     version = 'v1'
 
+    def _setup_pred(self, i: int, bar: tuple) -> bool:
+        """Per-history-bar predicate (pinned D-026 interpretation): a close
+        below the prior high within the window (per-bar prior high)."""
+        if i == 0:
+            return False                       # no prior bar: no prior high
+        event_id, _open, high, _low, close, _f, _s = bar
+        prior = max(h for (_e, _o, h, _l, _c, _ff, _ss) in self._hist[:i])
+        return close < prior
+
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
         t = state.as_of
         sym = state.universe[0]
-        need = [f'{sym}.close', f'{sym}.prior_high', f'{sym}.atr']
+        need = [f'{sym}.close', f'{sym}.prior_high', f'{sym}.atr',
+                f'{sym}.history']
         if not self._need(state, need):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
@@ -29,6 +39,12 @@ class FailedBreakoutExpert(Expert):
         if prior_high is None or atr is None or not (close < prior_high):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
+        hist_value = f[f'{sym}.history'].value
+        if not isinstance(hist_value, (tuple, list)) or not hist_value:
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_HABITAT', t)
+        self._hist = tuple(hist_value)
+        anchor = self.find_setup_anchor(self._hist, self._setup_pred)
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='SHORT',
@@ -36,7 +52,7 @@ class FailedBreakoutExpert(Expert):
             risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
                            'stop_r': 1.0, 'expiry_bars': 8,
                            'atr_ref': atr},
-            birth_time=t)
+            birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)
 

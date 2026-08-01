@@ -46,7 +46,9 @@ class TapeRow:
 @dataclass(frozen=True)
 class FeatureValue:
     name: str
-    value: float | str | None
+    # `tuple | list` covers structured feature groups (e.g. `{sym}.history`,
+    # a tuple of per-bar tuples); JSON-serializable for canonical hashing.
+    value: float | str | None | tuple | list
     dtype: str
     feature_version: str
     max_input_available_time: int
@@ -87,6 +89,11 @@ class CandidateDraft:
     setup_fingerprint: str
     risk_geometry: dict
     birth_time: int
+    # D-026: the event that created the setup (first closed bar of the current
+    # consecutive run where the Expert's predicate holds), never the decision
+    # clock. This is the episode-identity primitive (CANDIDATE_LIFECYCLE_SPEC
+    # section 1). Empty string only for drafts that never enter the registry.
+    setup_anchor_event_id: str = ''
 
 
 @dataclass(frozen=True)

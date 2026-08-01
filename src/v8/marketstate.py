@@ -57,6 +57,23 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             add('ema_fast', fast)
             add('ema_slow', slow)
             add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14)
+        # D-026 history feature group: last 32 closed bars as a tuple of
+        # (event_id, open, high, low, close, ema_fast, ema_slow), oldest first,
+        # per-bar EMAs over the full close series. This is the anchor scan the
+        # pilots use to find setup_anchor_event_id (CANDIDATE_LIFECYCLE_SPEC 1).
+        if closed:
+            fast_series = _ema(closes, 5)
+            slow_series = _ema(closes, 20)
+            window = closed[-32:]
+            hist = tuple(
+                (b.event_id, float(b.payload['open']), float(b.payload['high']),
+                 float(b.payload['low']), float(b.payload['close']),
+                 fast_series[i + len(closed) - len(window)],
+                 slow_series[i + len(closed) - len(window)])
+                for i, b in enumerate(window))
+            features[f'{sym}.history'] = FeatureValue(
+                f'{sym}.history', hist, 'history', 'v2',
+                closed[-1].available_time, quality='COMPLETE')
     lineage = sha1_hex({k: [v.value, v.max_input_available_time]
                         for k, v in sorted(features.items())})
     return MarketState(

@@ -34,3 +34,28 @@ class Expert:
 
     def _need(self, state: MarketState, keys: list[str]) -> bool:
         return all(k in state.features for k in keys)
+
+    @staticmethod
+    def find_setup_anchor(history: tuple, predicate) -> str:
+        """event_id of the first closed bar of the current consecutive run in
+        which `predicate(i, bar)` holds (D-026; CANDIDATE_LIFECYCLE_SPEC 1).
+
+        Scans newest -> oldest for the newest bar where the predicate is false;
+        the anchor is the next (newer) bar after it — the run start. If no
+        false bar exists in the window, the anchor is the oldest bar in the
+        window (documented bound: anchors older than the window are unstable).
+        If the predicate is false on the newest bar there is no active run; the
+        newest bar is returned as a bounded fallback (a caller that emits a
+        draft under the state predicate should not reach this branch).
+        """
+        if not history:
+            raise ValueError('setup anchor requires non-empty history')
+        newest_false = -1
+        for i in range(len(history) - 1, -1, -1):
+            if not predicate(i, history[i]):
+                newest_false = i
+                break
+        start = newest_false + 1
+        if start == len(history):
+            start = len(history) - 1
+        return history[start][0]
