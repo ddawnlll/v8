@@ -201,3 +201,18 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-6: Phase 3 expert metadata + registry (mechanism/behavior/variant ids, docs/EXPERTS_REGISTRY.yaml, code-registry consistency + consumption audit tests)`
 - gate: pytest=42 monograph=byte-identical?yes forbidden-scan=clean?yes
   wall-clock=clean?yes
+
+## Step 7 — Status report — DONE
+- started: 2026-08-01T03:18:30Z finished: 2026-08-01T03:21:00Z
+- files touched: docs/STATUS_REPORT.md (new), RUNLOG.md
+- evidence: final gate sweep `.venv/bin/python -m pytest tests -q` -> `42 passed`;
+  monograph probe byte-identical (65eef39..., uniq -c = 2) even with
+  docs/STATUS_REPORT.md present (not in the build NAMES list);
+  forbidden-scan over changed files -> no matches;
+  wall-clock scan -> no matches.
+- fixes / deviations: none. docs/STATUS_REPORT.md is the runbook-owned final
+  artifact (step 7); its presence does not change the probe, proving no
+  corpus section was touched.
+- commit: (below) `v8-step-7: status report`
+- gate: pytest=42 monograph=byte-identical?yes forbidden-scan=clean?yes
+  wall-clock=clean?yes
