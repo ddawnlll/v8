@@ -3,6 +3,25 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Tape-driven funding wiring (D-041) + golden re-pin (sim v5)
+
+- **`src/v8/simulator.py`** — `CanonicalSimulator` gains `funding_schedule`
+  ((boundary_time_ns, rate) pairs); a non-empty schedule settles each crossed
+  boundary at `entry_price × rate / risk_unit` (DATASET_SPEC 6.4) and fails
+  closed on a missing boundary; the empty schedule keeps the legacy scalar
+  path byte-identical. Sim hash bumps to `canonical-sim-v5`; schedule values
+  are tape data bound by `data_hash`, never by `sim.hash()`.
+- **`src/v8/lab.py`** — `Lab.run` builds the schedule from the tape's
+  `funding` rows and passes it to the simulator; `_validate_tape_rows` gains
+  the funding branch (non-finite / |rate| > 0.10 fail closed).
+- **Golden re-pin (PERSISTENCE_REPLAY_SPEC 4, deliberate):** the only moved
+  pin is `GOLDEN_LEDGER_HASH` (outcomes' `simulator_hash` changed via the sim
+  source hash + v5); `GOLDEN_DATA_HASH`, `GOLDEN_STATES_HASH`, candidate
+  count 21 and the terminal distribution are unchanged — the synthetic tape
+  carries no funding rows, so the event stream is byte-identical.
+- Tests: 4 schedule-driven funding tests + 1 lab-level schedule wiring test;
+  sim-hash canaries re-pinned to v5. Full suite 122 -> 127.
+
 ## 2026-08-01 — D-041: 12-month dev window + tape-driven funding (owner)
 
 - **D-041 registered** — the declared dev dataset expands from 3 to 12 months

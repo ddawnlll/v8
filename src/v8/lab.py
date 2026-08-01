@@ -65,26 +65,35 @@ def _validate_tape_rows(rows) -> None:
     downstream with a misleading risk_unit error; this gives the real reason.
     """
     for r in rows:
-        if r.channel != 'kline':
-            continue
-        p = r.payload
-        try:
-            o, h, l, c = (float(p[f]) for f in ('open', 'high', 'low', 'close'))
-        except (KeyError, TypeError, ValueError) as exc:
-            raise ValueError(f'kline {r.event_id}: missing or non-numeric OHLC') from exc
-        if not all(math.isfinite(x) for x in (o, h, l, c)):
-            raise ValueError(f'kline {r.event_id}: non-finite OHLC')
-        if min(o, h, l, c) <= 0:
-            raise ValueError(f'kline {r.event_id}: non-positive OHLC '
-                             f'({o}, {h}, {l}, {c})')
-        if h < max(o, c) or l > min(o, c) or h < l:
-            raise ValueError(f'kline {r.event_id}: OHLC invariant violation '
-                             f'(high={h} low={l} open={o} close={c})')
-        vol = p.get('volume')
-        if vol is not None:
-            v = float(vol)
-            if not math.isfinite(v) or v < 0:
-                raise ValueError(f'kline {r.event_id}: negative or non-finite volume')
+        if r.channel == 'kline':
+            p = r.payload
+            try:
+                o, h, l, c = (float(p[f]) for f in ('open', 'high', 'low', 'close'))
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ValueError(f'kline {r.event_id}: missing or non-numeric OHLC') from exc
+            if not all(math.isfinite(x) for x in (o, h, l, c)):
+                raise ValueError(f'kline {r.event_id}: non-finite OHLC')
+            if min(o, h, l, c) <= 0:
+                raise ValueError(f'kline {r.event_id}: non-positive OHLC '
+                                 f'({o}, {h}, {l}, {c})')
+            if h < max(o, c) or l > min(o, c) or h < l:
+                raise ValueError(f'kline {r.event_id}: OHLC invariant violation '
+                                 f'(high={h} low={l} open={o} close={c})')
+            vol = p.get('volume')
+            if vol is not None:
+                v = float(vol)
+                if not math.isfinite(v) or v < 0:
+                    raise ValueError(f'kline {r.event_id}: negative or non-finite volume')
+        elif r.channel == 'funding':
+            p = r.payload
+            try:
+                rate = float(p['funding_rate'])
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ValueError(f'funding {r.event_id}: missing or non-numeric rate') from exc
+            if not math.isfinite(rate):
+                raise ValueError(f'funding {r.event_id}: non-finite rate')
+            if abs(rate) > 0.10:
+                raise ValueError(f'funding {r.event_id}: implausible rate {rate}')
 
 
 def _geometry_version(draft) -> str:
@@ -145,13 +154,22 @@ class Lab:
             raise ValueError(
                 'store already contains a run; one store directory = one '
                 "immutable run's evidence (use a fresh store dir)")
-        sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r,
-                                 funding_rate_r=manifest.funding_rate_r,
-                                 funding_hours=manifest.funding_hours,
-                                 fill_policy=manifest.fill_policy)
         gate = risk_gate or RiskGate()
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
+        # Tape-driven funding schedule (D-041): every funding TapeRow is a
+        # (boundary_time_ns, rate) pair, sorted by boundary time. Non-empty
+        # when the tape carries the funding channel; the manifest scalar stays
+        # as the no-funding-tape fallback.
+        funding_schedule = tuple(
+            (r.event_time, float(r.payload['funding_rate']))
+            for r in sorted((r for r in tape if r.channel == 'funding'),
+                            key=lambda r: r.event_time))
+        sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r,
+                                 funding_rate_r=manifest.funding_rate_r,
+                                 funding_hours=manifest.funding_hours,
+                                 fill_policy=manifest.fill_policy,
+                                 funding_schedule=funding_schedule)
         # Validate at the run boundary too: a tape written directly to the
         # store (bypassing ingest) must still fail closed on bad OHLC/volume.
         _validate_tape_rows(tape)

@@ -107,7 +107,8 @@ SUPPORTED_FILL_POLICIES = ('FILL_AT_BAR_CLOSE',)
 class CanonicalSimulator:
     def __init__(self, round_trip_cost_r: float = 0.07,
                  funding_rate_r: float = 0.0, funding_hours: int = 8,
-                 fill_policy: str = 'FILL_AT_BAR_CLOSE'):
+                 fill_policy: str = 'FILL_AT_BAR_CLOSE',
+                 funding_schedule: tuple[tuple[int, float], ...] = ()):
         if fill_policy not in SUPPORTED_FILL_POLICIES:
             raise ValueError(
                 f'unsupported fill_policy {fill_policy!r}; implemented: '
@@ -116,6 +117,13 @@ class CanonicalSimulator:
         self.funding_rate_r = funding_rate_r
         self.funding_hours = funding_hours
         self.fill_policy = fill_policy
+        # Tape-driven funding (D-041): (boundary_time_ns, rate) pairs. When
+        # non-empty it REPLACES the scalar funding_rate_r at each crossed
+        # boundary (entry_price * rate / risk_unit, DATASET_SPEC 6.4); the
+        # scalar stays as the no-funding-tape fallback. Schedule VALUES are
+        # tape data bound by data_hash, never by sim.hash().
+        self.funding_schedule = tuple(funding_schedule)
+        self._schedule_map = dict(self.funding_schedule)
 
     def _boundaries_crossed(self, entry_ns: int, t_ns: int) -> int:
         """Funding boundaries B with entry_ns < B <= t_ns.
@@ -135,10 +143,28 @@ class CanonicalSimulator:
         b = t_ns // HOUR_NS
         return b // self.funding_hours - a // self.funding_hours
 
-    def _apply_funding(self, pos: OpenPosition, t_ns: int
+    def _crossed_boundary_times(self, entry_ns: int, t_ns: int) -> list[int]:
+        """Boundary TIMES B with entry_ns < B <= t_ns (the schedule path)."""
+        if t_ns <= entry_ns or self.funding_hours <= 0:
+            return []
+        a = entry_ns // HOUR_NS
+        b = t_ns // HOUR_NS
+        first = (a // self.funding_hours + 1) * self.funding_hours
+        last = (b // self.funding_hours) * self.funding_hours
+        return [hour * HOUR_NS
+                for hour in range(first, last + 1, self.funding_hours)]
+
+    def _apply_funding(self, pos: OpenPosition, t_ns: int, unit: float
                        ) -> tuple[OpenPosition, int]:
         """Settle every boundary crossed since the position was last stepped;
-        returns (position, number of funding_settled events this step)."""
+        returns (position, number of funding_settled events this step).
+
+        Scalar path (empty schedule): the pre-D-041 R-flat semantics,
+        sign * funding_rate_r per boundary. Schedule path (non-empty): each
+        crossed boundary settles sign * entry_price * rate / risk_unit
+        (DATASET_SPEC 6.4); a boundary missing from the schedule fails closed
+        (the tape funding coverage horizon must span every possible hold).
+        """
         if pos.entry_time_ns is None:
             return pos, 0
         total = self._boundaries_crossed(pos.entry_time_ns, t_ns)
@@ -146,7 +172,19 @@ class CanonicalSimulator:
         if new <= 0:
             return pos, 0
         sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
-        cost = sign * self.funding_rate_r * new      # LONG pays when rate > 0
+        if self.funding_schedule:
+            crossed = self._crossed_boundary_times(pos.entry_time_ns, t_ns)
+            cost = 0.0
+            for boundary in crossed[pos.settlements:]:
+                rate = self._schedule_map.get(boundary)
+                if rate is None:
+                    raise ValueError(
+                        f'funding schedule missing boundary {boundary}: the '
+                        'tape coverage horizon must span every crossed '
+                        'boundary (D-041); fail closed')
+                cost += sign * pos.entry_price * rate / unit
+        else:
+            cost = sign * self.funding_rate_r * new   # LONG pays when rate > 0
         return replace(pos, settlements=total,
                        funding_paid_r=pos.funding_paid_r + cost), new
 
@@ -155,9 +193,12 @@ class CanonicalSimulator:
         # Funding settles BEFORE any order/exit event of a bar whose decision
         # clock crosses a boundary while the position is held (event order 5,
         # SETTLEMENT_BEFORE_ORDERS). bar_time None = no venue time -> no funding
-        # (backward-compatible with time-less callers).
+        # (backward-compatible with time-less callers). entry/unit are needed
+        # by the schedule-driven funding path (entry_price * rate / risk_unit).
+        entry = pos.entry_price
+        unit = risk_unit(pos.draft, entry)
         if bar_time is not None:
-            pos, new_settlements = self._apply_funding(pos, bar_time)
+            pos, new_settlements = self._apply_funding(pos, bar_time, unit)
         else:
             new_settlements = 0
 
@@ -166,8 +207,6 @@ class CanonicalSimulator:
         target_r = float(geom['target_r'])
         stop_r = float(geom['stop_r'])
         expiry = int(geom['expiry_bars'])
-        entry = pos.entry_price
-        unit = risk_unit(pos.draft, entry)
         sign = 1.0 if long else -1.0
         target = entry + sign * target_r * unit
         stop = entry - sign * stop_r * unit
@@ -273,12 +312,12 @@ class CanonicalSimulator:
                                      ambiguous_bars=pos.ambiguous_bars)
 
     def hash(self) -> str:
-        # v4: R-unit semantics + excursions + ambiguity counting + funding
-        # settlement policy. The version tag is part of the hash so pre-fix
-        # ledgers can never compare equal to post-fix ones; funding parameters
-        # bind the schedule into the hash (SIMULATION_TRUTH_SPEC: outputs bind
-        # simulator hash). v4 bumps regardless of funding_rate_r=0.0 because
-        # the policy changed.
-        return sha1_hex(('canonical-sim-v4', self.fill_policy,
+        # v5: tape-driven funding schedule (D-041). The version tag is part of
+        # the hash so pre-change ledgers can never compare equal to post-change
+        # ones; funding PARAMETERS bind into the hash but the schedule VALUES
+        # are tape data bound by data_hash (SIMULATION_TRUTH_SPEC: outputs bind
+        # simulator hash). v5 bumps regardless of funding_rate_r=0.0 because
+        # the settlement policy changed.
+        return sha1_hex(('canonical-sim-v5', self.fill_policy,
                          self.round_trip_cost_r, self.funding_rate_r,
                          self.funding_hours, _SIMULATOR_SRC_HASH))

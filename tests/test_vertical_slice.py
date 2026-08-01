@@ -345,6 +345,49 @@ def test_funding_spanning_one_boundary_books_one_settlement():
     assert r.net_r == pytest.approx(2.0 - 0.01, abs=1e-12)
 
 
+def test_funding_schedule_settles_per_boundary_price_and_unit():
+    """A non-empty funding_schedule replaces the scalar: each crossed boundary
+    settles sign * entry_price * rate / risk_unit (DATASET_SPEC 6.4). With
+    entry 100, atr unit 2, rate 0.0001, one boundary = 100*0.0001/2 = 0.005 R;
+    two boundaries = 0.010 R (LONG pays on a positive rate)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_hours=8,
+                             funding_schedule=((8 * HOUR_NS, 0.0001),
+                                               (16 * HOUR_NS, 0.0001)))
+    pos = _fund_pos(entry_time=2 * HOUR_NS, expiry=20)
+    pos, settled = _fund_step(sim, pos, list(range(3, 17)))   # crosses 8 and 16
+    assert settled == [8, 16]
+    assert pos.funding_paid_r == pytest.approx(100.0 * 0.0001 / 2.0 * 2)
+
+
+def test_funding_schedule_short_receives_on_positive_rate():
+    sim_s = CanonicalSimulator(round_trip_cost_r=0.0, funding_hours=8,
+                               funding_schedule=((8 * HOUR_NS, 0.0001),))
+    pos3 = _fund_pos(cid='c3', entry_time=2 * HOUR_NS,
+                     direction='SHORT', expiry=20)
+    pos3, _ = _fund_step(sim_s, pos3, [3, 4, 5, 6, 7, 8])
+    assert pos3.funding_paid_r == pytest.approx(-100.0 * 0.0001 / 2.0)
+
+
+def test_funding_schedule_empty_falls_back_to_scalar():
+    """An empty schedule keeps the scalar path byte-identical (the zero-rate
+    no-op and the existing scalar goldens are unchanged)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_rate_r=0.01,
+                             funding_hours=8)
+    pos = _fund_pos(entry_time=2 * HOUR_NS, expiry=20)
+    pos, settled = _fund_step(sim, pos, [3, 4, 5, 6, 7, 8])
+    assert settled == [8] and pos.funding_paid_r == pytest.approx(0.01)
+
+
+def test_funding_schedule_missing_boundary_fails_closed():
+    """A non-empty schedule missing a crossed boundary fails closed instead of
+    silently settling at zero (the coverage horizon must span every hold)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_hours=8,
+                             funding_schedule=((16 * HOUR_NS, 0.0001),))
+    pos = _fund_pos(entry_time=2 * HOUR_NS, expiry=20)
+    with pytest.raises(ValueError, match='funding schedule missing boundary'):
+        _fund_step(sim, pos, [3, 4, 5, 6, 7, 8])
+
+
 def test_funding_boundary_edges_settle_exactly_once():
     """A hold starting exactly on a boundary is not double-settled; a hold
     ending exactly on a boundary settles exactly once (V7 defect: missed
@@ -415,7 +458,7 @@ def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
     # Hash-canary contract: the simulator hash binds the module source, so a
     # step()/run() semantics change moves every outcome's simulator_hash.
     assert CanonicalSimulator().hash() == _sh(
-        ('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
+        ('canonical-sim-v5', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
          _SIMULATOR_SRC_HASH))
     assert CanonicalSimulator().hash() != _sh(
         ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))
@@ -482,6 +525,39 @@ def test_funding_integration_through_lab_run(tmp_path):
     # One settlement at +0.01 (SHORT receives on a positive rate).
     for cid in differing:
         assert outs1[cid]['net_r'] - outs0[cid]['net_r'] == pytest.approx(0.01)
+
+
+def test_funding_schedule_wired_through_lab_run(tmp_path):
+    """Funding TapeRows in the tape reach lab.run through the schedule path
+    (D-041): adding funding rows changes the ledger and the held SHORT books a
+    positive net_R gain across the 40h boundary — no manifest scalar involved."""
+    rows = _funding_cross_tape()
+    funding = TapeRow(
+        source='binance-um', channel='funding', instrument='SOLUSDT',
+        event_time=40 * HOUR_NS,
+        available_time=40 * HOUR_NS + 1_000_000_000,
+        ingested_time=40 * HOUR_NS + 1_000_000_000, venue_sequence=40,
+        event_id='SOLUSDT:funding:40',
+        payload={'funding_time_ms': 40 * HOUR_NS // 1_000_000,
+                 'funding_rate': 0.0001, 'funding_interval_hours': 8.0})
+    rows_f = sorted(rows + [funding],
+                    key=lambda r: (r.event_time, r.available_time,
+                                   r.venue_sequence))
+    lab0 = Lab(tmp_path / 'f0')
+    lab0.ingest(rows)
+    r0 = lab0.run(_manifest(), [FailedBreakoutExpert()])
+    lab1 = Lab(tmp_path / 'f1')
+    lab1.ingest(rows_f)
+    r1 = lab1.run(_manifest(), [FailedBreakoutExpert()])
+    assert r0.candidate_count == r1.candidate_count == 1
+    assert r0.ledger_hash != r1.ledger_hash       # funding rows reached the ledger
+    outs0 = {o['candidate_id']: o for o in lab0.outcomes.read()}
+    outs1 = {o['candidate_id']: o for o in lab1.outcomes.read()}
+    differing = [cid for cid in outs0
+                 if outs0[cid].get('net_r') != outs1[cid].get('net_r')]
+    assert differing, 'the held SHORT must book schedule funding at 40h'
+    for cid in differing:
+        assert outs1[cid]['net_r'] > outs0[cid]['net_r']   # SHORT receives
 
 
 # --- D-024 mechanical tradability mask (CANDIDATE_LIFECYCLE_SPEC 6.3) -------
