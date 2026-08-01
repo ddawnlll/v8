@@ -216,3 +216,31 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-7: status report`
 - gate: pytest=42 monograph=byte-identical?yes forbidden-scan=clean?yes
   wall-clock=clean?yes
+
+# ══════════════════════════════════════════════════════════════════════════
+# SESSION 2 — Phase 1 on real data + v8_slice_001 preregistration
+# Start: 2026-08-01T03:22Z. Contract: session-1 runbook hard rules verbatim.
+# ══════════════════════════════════════════════════════════════════════════
+
+## Session 2 — Step 0 — Pre-flight baseline — DONE
+- started: 2026-08-01T03:22:10Z finished: 2026-08-01T03:24:10Z
+- files touched: RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `42 passed in 0.50s`
+  (session-1 count preserved); probe rebuild — NEW BASELINE (corpus changed at
+  operator closure 76ef874): `.venv/bin/python tools/build_monograph.py --lang
+  en --docs docs --out /tmp/v8_index_probe.html` ->
+  `wrote /tmp/v8_index_probe.html: sections=31 papers=60 words=46763`;
+  `shasum -a 256 /tmp/v8_index_probe.html site/index.html` ->
+  `ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def` (both —
+  site/index.html is current with the operator-closed corpus; the session-1
+  hash 65eef39f… is stale by design, 31 sections now after EXPERTS_REGISTRY
+  was added to the monograph at closure); TR probe ->
+  `2c5b973ac9c59e807b2a6fb4715b392d725e24ee1d6d6295e45aed553eb44409`;
+  `git log --oneline -3` -> `69c7a83 v8-step-9: session-2 goal prompt`,
+  `76ef874 v8-step-8: operator closure — close divergence rows, register
+  D-037, EXPERTS_REGISTRY in monograph (31 sections)`;
+  `git status --short` -> clean tree.
+- fixes / deviations: none. New EN probe baseline = ea5b7705… replaces the
+  stale session-1 65eef39f… for all byte-identity gates this session.
+- commit: (below) `v8-step-0: session-2 preflight — new probe baseline ea5b7705…, 42 tests green, clean tree`
+- gate: pytest=42 monograph=baseline-reset?yes (ea5b7705…) tree-clean?yes
