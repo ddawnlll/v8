@@ -147,6 +147,15 @@ class ExperimentManifest:
     # is held. 0.0 = no funding cost (numbers byte-identical to no-funding).
     funding_rate_r: float = 0.0
     funding_hours: int = 8
+    # D-024 mechanical tradability mask (CANDIDATE_LIFECYCLE_SPEC section 6.3).
+    # Frozen manifest constants — no fitting, no leakage, no learned component.
+    # A candidate is vetoed at admission (TRADABILITY_MASK_VETO, kept
+    # counterfactual NOT_EXECUTED) when the entry bar's (high-low)/close
+    # exceeds max_spread_frac, when StateQuality == DEGRADED at decision time,
+    # or when the entry bar closes within funding_window_bars of a funding
+    # boundary.
+    max_spread_frac: float = 0.05
+    funding_window_bars: int = 1
     authority_receipt: str | None = None
 
 

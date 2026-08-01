@@ -1,6 +1,8 @@
 """Vertical-slice tests: prove the contracts run end-to-end, deterministically."""
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pytest
 
 from v8.schema import ExperimentManifest, TapeRow
@@ -12,6 +14,7 @@ from v8.schema import CandidateDraft
 from v8.simulator import CanonicalSimulator, OpenPosition, risk_unit
 from v8.synth import make_synthetic_tape, HOUR_NS
 from v8.lab import Lab
+from v8.risk import tradability_mask_veto
 
 UNIVERSE = ('SOLUSDT',)
 
@@ -422,3 +425,110 @@ def test_trend_expert_thesis_dies_when_trend_dies(tmp_path):
     if f'SOLUSDT.ema_fast' in f and f['SOLUSDT.ema_fast'].value is not None:
         expected = float(f['SOLUSDT.ema_fast'].value) > float(f['SOLUSDT.ema_slow'].value)
         assert ex.still_valid(state, draft) is expected
+
+
+# --- D-024 mechanical tradability mask (CANDIDATE_LIFECYCLE_SPEC 6.3) -------
+# Deterministic data-integrity vetoes at admission, applied before any risk
+# admission: entry-bar spread beyond max_spread_frac, StateQuality == DEGRADED,
+# entry bar closing within funding_window_bars of a funding boundary. A vetoed
+# candidate is REJECTED with reason TRADABILITY_MASK_VETO and keeps a
+# NOT_EXECUTED counterfactual outcome.
+#
+# Tape geometry: on the epoch-0 crafted tape (event_time = i*HOUR_NS) the run-A
+# pullback is detected at bar 60 (anchor 'SOLUSDT:61') and enters at bar 62.
+# Prepending k flat bars shifts every bar index by k without changing the
+# predicate truth table (EMAs depend only on the close sequence), so the entry
+# bar index moves to 62+k — used below to park the entry exactly 1h before a
+# funding boundary (index ≡ 7 mod 8).
+
+def _pullback_tape_with_offset(offset_bars: int = 0) -> list[TapeRow]:
+    """_craft_pullback_tape with `offset_bars` leading flat bars; identical
+    close sequence, so every run/EMA fact is simply index-shifted."""
+    closes = [100.0] * (40 + offset_bars)
+    closes += [100.0 + (i + 1) for i in range(20)]     # 101..120
+    closes += [108.0, 107.0]                           # pullback run A
+    closes += [106.0, 115.0, 120.0, 124.0, 126.0]      # exit + recovery
+    closes += [113.0, 112.0, 111.0]                    # pullback run B
+    rows: list[TapeRow] = []
+    for i, c in enumerate(closes):
+        rows.append(TapeRow(
+            source='binance-um', channel='kline', instrument='SOLUSDT',
+            event_time=HOUR_NS * i, available_time=HOUR_NS * i,
+            ingested_time=HOUR_NS * i, venue_sequence=i + 1,
+            event_id=f'SOLUSDT:{i + 1}',
+            payload={'open': c, 'high': c * 1.002, 'low': c * 0.998,
+                     'close': c, 'volume': 1.0, 'closed': True}))
+    return rows
+
+
+def _inflate_bar_high(rows: list[TapeRow], idx: int, mult: float = 1.10) -> list[TapeRow]:
+    out = list(rows)
+    p = dict(out[idx].payload)
+    p['high'] = float(p['close']) * mult
+    out[idx] = replace(out[idx], payload=p)
+    return out
+
+
+def test_mask_vetoes_spread_tail_bar(tmp_path):
+    """Entry bar with (high-low)/close > max_spread_frac -> TRADABILITY_MASK_VETO
+    (detail SPREAD), never executed, counterfactual NOT_EXECUTED preserved."""
+    rows = _inflate_bar_high(_pullback_tape_with_offset(0), 62)   # entry bar
+    lab = Lab(tmp_path)
+    lab.ingest(rows)
+    lab.run(_manifest(), [TrendPullbackExpert()])
+    vetoed = [rec for rec in lab.candidates.read()
+              if rec.get('to_state') == 'REJECTED'
+              and rec.get('reason_code') == 'TRADABILITY_MASK_VETO']
+    assert vetoed, 'a spread-tail entry must be mask-vetoed'
+    cid = vetoed[0]['candidate_id']
+    detail = [rec for rec in lab.candidates.read()
+              if rec.get('kind') == 'tradability_veto' and rec['candidate_id'] == cid]
+    assert detail and detail[0]['detail'] == 'SPREAD'
+    outs = [rec for rec in lab.outcomes.read() if rec['candidate_id'] == cid]
+    assert len(outs) == 1 and outs[0]['label_status'] == 'NOT_EXECUTED'
+
+
+def test_mask_vetoes_in_funding_window(tmp_path):
+    """Entry bar closing within funding_window_bars of a boundary -> veto
+    (detail FUNDING_WINDOW). One leading flat bar shifts run A's entry (62) to
+    bar 63 = 7 mod 8, i.e. exactly 1h before the 64h boundary."""
+    rows = _pullback_tape_with_offset(1)
+    entry = rows[63]
+    period, window = 8 * HOUR_NS, 1 * HOUR_NS
+    assert 0 < entry.event_time % period and entry.event_time % period >= period - window
+    lab = Lab(tmp_path)
+    lab.ingest(rows)
+    lab.run(_manifest(), [TrendPullbackExpert()])
+    vetoed = [rec for rec in lab.candidates.read()
+              if rec.get('to_state') == 'REJECTED'
+              and rec.get('reason_code') == 'TRADABILITY_MASK_VETO']
+    assert vetoed, 'an entry 1h before a boundary must be mask-vetoed'
+    cid = vetoed[0]['candidate_id']
+    detail = [rec for rec in lab.candidates.read()
+              if rec.get('kind') == 'tradability_veto' and rec['candidate_id'] == cid]
+    assert detail and detail[0]['detail'] == 'FUNDING_WINDOW'
+    outs = [rec for rec in lab.outcomes.read() if rec['candidate_id'] == cid]
+    assert len(outs) == 1 and outs[0]['label_status'] == 'NOT_EXECUTED'
+
+
+def test_mask_degraded_state_vetoes():
+    """StateQuality == DEGRADED at decision time vetoes, whatever the bar."""
+    ok_bar = {'open': 100.0, 'high': 101.0, 'low': 99.0, 'close': 100.0}
+    kw = dict(max_spread_frac=0.05, funding_window_bars=1,
+              funding_hours=8, interval_ns=HOUR_NS)
+    assert tradability_mask_veto(ok_bar, 'DEGRADED', 3 * HOUR_NS, **kw) == (True, 'DEGRADED')
+    assert tradability_mask_veto(ok_bar, 'COMPLETE', 3 * HOUR_NS, **kw) == (False, None)
+
+
+def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
+    """Thresholds at defaults never veto the synthetic baseline via spread or
+    state quality (no SPREAD/DEGRADED vetoes on seed-7). Funding-window vetoes
+    may still occur — with 1h bars some bar is always within 1h of an 8h
+    boundary; that is a schedule property of the synthetic epoch, not a
+    threshold overreach."""
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=160)
+    r = lab.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    assert r.candidate_count > 0
+    details = [rec.get('detail') for rec in lab.candidates.read()
+               if rec.get('kind') == 'tradability_veto']
+    assert not any(d in ('SPREAD', 'DEGRADED') for d in details), details

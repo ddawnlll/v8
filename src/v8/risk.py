@@ -25,6 +25,42 @@ DEFAULT_CLUSTERS = {
     'SOLUSDT': 'major', 'BNBUSDT': 'major', 'XRPUSDT': 'major', 'DOGEUSDT': 'major',
 }
 
+# D-024 (CANDIDATE_LIFECYCLE_SPEC section 6.3): data-plane integrity veto,
+# distinct from the capacity/heat rejections below. Kept counterfactual.
+TRADABILITY_MASK_VETO = 'TRADABILITY_MASK_VETO'
+
+
+def tradability_mask_veto(bar: dict, state_quality: str, close_time_ns: int, *,
+                          max_spread_frac: float, funding_window_bars: int,
+                          funding_hours: int, interval_ns: int,
+                          ) -> tuple[bool, str | None]:
+    """Deterministic D-024 vetoes; data-plane, not a regime filter.
+
+    Pure function of the entry bar and the frozen manifest constants: no
+    degrees of freedom, no fitting, no learned component. Returns
+    (vetoed, reason) with reason one of 'SPREAD' | 'DEGRADED' |
+    'FUNDING_WINDOW' | None.
+
+    Funding window: a boundary B with 0 < B - close <= window means the first
+    post-entry step crosses B and books funding immediately, so the entry is
+    vetoed. The bar ending EXACTLY on B is not vetoed: its fill happens after
+    B settled (open-interval start, Step 2 boundary golden), so it enters with
+    the next settlement `funding_hours` away.
+    """
+    high, low, close = float(bar['high']), float(bar['low']), float(bar['close'])
+    if close <= 0 or (high - low) / close > max_spread_frac:
+        return True, 'SPREAD'
+    if state_quality == 'DEGRADED':
+        return True, 'DEGRADED'
+    if funding_hours > 0 and funding_window_bars > 0 and interval_ns > 0:
+        period = funding_hours * interval_ns
+        window = funding_window_bars * interval_ns
+        if window < period:
+            remainder = close_time_ns % period
+            if remainder >= period - window:
+                return True, 'FUNDING_WINDOW'
+    return False, None
+
 
 @dataclass(frozen=True)
 class RiskVerdict:

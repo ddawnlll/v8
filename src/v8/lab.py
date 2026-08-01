@@ -21,7 +21,13 @@ from .store import AppendOnlyLog
 from .marketstate import build_state
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
 from .simulator import CanonicalSimulator, OpenPosition, risk_unit
-from .risk import RiskGate
+from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
+
+# D-024 funding-window veto measures bars from the entry bar's close time to
+# the next boundary; the canonical slice tape is 1h bars (synth.py), so
+# funding_hours (in hours) times this interval is the boundary period.
+_INTERVAL_NS = {'1m': 60_000_000_000, '1h': 3_600_000_000_000,
+                '4h': 14_400_000_000_000, '1d': 86_400_000_000_000}
 
 
 def _code_hash() -> str:
@@ -97,6 +103,29 @@ class Lab:
                     continue
                 draft = info['draft']
                 entry = float(bar.payload['close'])
+                # D-024 mechanical tradability mask, applied before any risk
+                # admission: data-plane integrity veto, kept counterfactual
+                # (NOT_EXECUTED) like the other rejections below.
+                vetoed, veto_reason = tradability_mask_veto(
+                    bar.payload, state.quality, bar.event_time,
+                    max_spread_frac=manifest.max_spread_frac,
+                    funding_window_bars=manifest.funding_window_bars,
+                    funding_hours=manifest.funding_hours,
+                    interval_ns=_INTERVAL_NS.get(manifest.interval, 3_600_000_000_000))
+                if vetoed:
+                    self.registry.apply(cid, 'TRIGGERED', 'REJECTED',
+                                        TRADABILITY_MASK_VETO, as_of)
+                    self.candidates.append({'kind': 'tradability_veto',
+                                            'candidate_id': cid, 'detail': veto_reason,
+                                            'source': 'risk',
+                                            'event_id': f'{cid}:veto:{as_of}'})
+                    out = counterfactual(cid, draft, i + 1)
+                    self._record_outcome(cid, out.endpoint, out.net_r,
+                                         'NOT_EXECUTED', sim.hash(), out.horizon_bars,
+                                         mae_r=out.mae_r, mfe_r=out.mfe_r,
+                                         ambiguous_bars=out.ambiguous_bars)
+                    del pending[cid]
+                    continue
                 verdict = gate.admit(draft)
                 if not verdict.ok:
                     if verdict.reason_code == 'EXISTING_EXPOSURE_CONFLICT':
