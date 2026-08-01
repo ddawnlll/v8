@@ -104,6 +104,20 @@ def test_funding_rows_mapping():
     assert rows[0]['venue_sequence'] == 1735689600000 // HOUR_MS
 
 
+def test_funding_calc_time_ms_jitter_floors_to_boundary():
+    """calc_time can carry a +1ms sub-boundary jitter (observed in the real
+    2026-06 archive); the settlement boundary must stay hour-aligned so the
+    schedule lookup and the hour-alignment audit check can both match."""
+    csv_text = 'calc_time,funding_interval_hours,last_funding_rate\n'
+    csv_text += '1780272000001,8,0.00005703\n'       # 00:00 + 1ms
+    csv_text += '1780329600000,8,0.00010000\n'       # 16:00 exactly
+    rows = funding_csv_to_rows(csv_text, 'BTCUSDT')
+    assert [r['event_time'] % 3_600_000_000_000 for r in rows] == [0, 0]
+    assert [r['payload']['funding_time_ms'] for r in rows] == [1780272000000, 1780329600000]
+    assert [r['event_id'] for r in rows] == ['BTCUSDT:funding:1780272000000',
+                                             'BTCUSDT:funding:1780329600000']
+
+
 def test_funding_headerless_three_column():
     csv_text = '1735689600000,8,0.0001\n1735718400000,8,0.00005\n'
     rows = funding_csv_to_rows(csv_text, 'BTCUSDT')

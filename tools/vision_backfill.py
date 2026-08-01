@@ -246,9 +246,13 @@ def funding_csv_to_rows(csv_text: str, symbol: str,
             interval_hours = float(line[interval_idx])
         else:
             interval_hours = 8.0
-        event_ns = _ms_to_ns(funding_ts_ms)
+        # calc_time carries a sub-boundary ms jitter (+1ms in some archives,
+        # observed 2026-06); the settlement boundary is the hour-aligned floor,
+        # which is what the schedule lookup and the venue sequence use.
+        boundary_ms = (funding_ts_ms // HOUR_MS) * HOUR_MS
+        event_ns = _ms_to_ns(boundary_ms)
         avail_ns = event_ns + latency_ns
-        content = {'funding_time_ms': funding_ts_ms,
+        content = {'funding_time_ms': boundary_ms,
                    'funding_rate': rate,
                    'funding_interval_hours': interval_hours}
         payload_hash = sha1_hex(content)
@@ -257,8 +261,8 @@ def funding_csv_to_rows(csv_text: str, symbol: str,
             'event_time': event_ns,
             'available_time': avail_ns,
             'ingested_time': avail_ns,      # offline backfill: no live arrival
-            'venue_sequence': funding_ts_ms // HOUR_MS,
-            'event_id': f'{symbol}:funding:{funding_ts_ms}',
+            'venue_sequence': boundary_ms // HOUR_MS,
+            'event_id': f'{symbol}:funding:{boundary_ms}',
             'payload': dict(content, payload_hash=payload_hash,
                             schema_version=FUNDING_SCHEMA_VERSION),
         })
@@ -517,7 +521,7 @@ def _http_download(url: str, dest: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--symbol', required=True, help='e.g. BTCUSDT')
+    ap.add_argument('--symbol', default=None, help='e.g. BTCUSDT (build runs)')
     ap.add_argument('--interval', default='1h', choices=sorted(INTERVAL_MS))
     ap.add_argument('--month', default=None, help='YYYY-MM, e.g. 2025-01 '
                                                   '(build runs only)')
@@ -552,8 +556,8 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(report, sort_keys=True))
         return 0
 
-    if not args.month:
-        raise SystemExit('--month is required for a build run')
+    if not args.symbol or not args.month:
+        raise SystemExit('--symbol and --month are required for a build run')
     channel = args.channel
     base = args.url_base or (FUNDING_BASE if channel == 'funding' else VISION_BASE)
     zip_name = _zip_name(args.symbol, args.interval, channel, args.month)
