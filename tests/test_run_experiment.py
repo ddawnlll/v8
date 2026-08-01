@@ -18,7 +18,10 @@ import pytest
 
 from v8.schema import sha1_hex
 from v8.synth import make_synthetic_tape
-from tools.run_experiment import (block_bootstrap_lower_bound, run_experiment)
+from tools.run_experiment import (block_bootstrap_lower_bound, run_experiment,
+                                  _block_size, _lag1_autocorrelation)
+
+HOLDOUT_ANCHOR_NS = 1782864000000000000      # 2026-07-01 00:00 UTC
 
 
 def _write_tape(path: Path, seed: int = 7, n_bars: int = 160) -> str:
@@ -34,7 +37,8 @@ def _manifest(tmp_path: Path, tape: Path, data_hash: str) -> Path:
     m = tmp_path / 'manifest.json'
     m.write_text(json.dumps({
         'experiment_id': 'v8_slice_001', 'code_hash': '', 'data_hash': data_hash,
-        'universe': ['BTCUSDT'], 'start_ns': 0, 'end_ns': 0, 'interval': '1h',
+        'universe': ['BTCUSDT'], 'start_ns': HOLDOUT_ANCHOR_NS,
+        'end_ns': 0, 'interval': '1h',
         'tape_path': str(tape),
     }), encoding='utf-8')
     return m
@@ -113,3 +117,39 @@ def test_block_bootstrap_lower_bound_is_the_LOWER_percentile():
     lower = block_bootstrap_lower_bound(net_rs)
     assert lower <= mu                                  # lower bound <= mean
     assert lower <= 0.0                                 # negative mean -> no signal
+
+
+def test_block_size_mechanical_rule():
+    """Prereg §9: block 24 by default; 168 when the lag-1 autocorrelation of
+    the family's episode net_R exceeds 0.10 in magnitude."""
+    import random
+    rng = random.Random(42)                           # i.i.d. -> ~0 autocorr
+    low_ac = [rng.uniform(-0.01, 0.01) for _ in range(60)]
+    assert abs(_lag1_autocorrelation(low_ac)) < 0.10
+    assert _block_size(low_ac) == 24
+    high_ac = [0.05] * 40 + [0.1] * 40                # step -> strong +ac
+    assert abs(_lag1_autocorrelation(high_ac)) > 0.10
+    assert _block_size(high_ac) == 168
+
+
+def test_window_overlapping_dev_is_not_the_holdout(tmp_path):
+    """A manifest whose window starts before the 2026-07-01 anchor cannot be
+    the holdout (prereg §13) — the runner must fail closed, not evaluate."""
+    tape = tmp_path / 'holdout.jsonl'
+    h = _write_tape(tape)
+    m = _manifest(tmp_path, tape, h)
+    data = json.loads(m.read_text())
+    data['start_ns'] = HOLDOUT_ANCHOR_NS - 1_000_000_000
+    m.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match='holdout anchor'):
+        run_experiment(m)
+
+
+def test_missing_recorded_hash_fails_closed(tmp_path):
+    """An un-pinned holdout (empty data_hash) must fail closed — the hash is
+    recorded at download time before any evaluation (prereg §16)."""
+    tape = tmp_path / 'holdout.jsonl'
+    _write_tape(tape)
+    m = _manifest(tmp_path, tape, '')
+    with pytest.raises(ValueError, match='data_hash is empty'):
+        run_experiment(m)

@@ -75,13 +75,16 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         closes = [float(b.payload['close']) for b in closed]
         highs = [float(b.payload['high']) for b in closed]
         lows = [float(b.payload['low']) for b in closed]
-        avail = closed[-1].available_time
 
         def add(name: str, value: float | None, consumed: list,
                 quality: str = 'COMPLETE', null_reason: str | None = None) -> None:
             # Per-feature input lineage + calculation clock (MARKET_STATE_
             # CONTRACT 2): the identity of the raw rows that produced this
-            # feature and the latest such row's availability.
+            # feature and the latest such row's availability. max_input_
+            # available_time is the SAME consumed-derived clock (never the
+            # newest bar for a feature that does not consume it — prior_high/
+            # prior_low exclude the newest bar), so the field never claims an
+            # input newer than the feature's own calculation time.
             calc = max((b.available_time for b in consumed), default=0) or \
                 (closed[-1].available_time if closed else 0)
             # Bind the raw row identity: payload_hash when the tape computes it
@@ -92,8 +95,7 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             inp = sha1_hex([(b.event_id, b.payload.get('payload_hash', b.payload))
                             for b in consumed]) if consumed else ''
             features[f'{sym}.{name}'] = FeatureValue(
-                f'{sym}.{name}', value, 'float', feature_version,
-                avail if value is not None else closed[-1].available_time,
+                f'{sym}.{name}', value, 'float', feature_version, calc,
                 quality=quality, null_reason=null_reason,
                 group=FEATURE_TO_GROUP.get(name, 'raw'),
                 input_lineage_hash=inp, calculation_time=calc)
@@ -122,12 +124,15 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                  fast_series[i + len(closed) - len(window)],
                  slow_series[i + len(closed) - len(window)])
                 for i, b in enumerate(window))
+            # The history tuples embed per-bar EMAs computed over the FULL
+            # close series, so the input lineage covers all closed bars — a
+            # revision anywhere in the series changes the embedded EMA values.
             features[f'{sym}.history'] = FeatureValue(
                 f'{sym}.history', hist, 'history', 'v2',
                 closed[-1].available_time, quality='COMPLETE', group='history',
                 input_lineage_hash=sha1_hex(
                     [(b.event_id, b.payload.get('payload_hash', b.payload))
-                     for b in window]),
+                     for b in closed]),
                 calculation_time=closed[-1].available_time)
     validate_feature_groups(features)
     # A universe symbol with no emitted features (zero kline rows or zero CLOSED

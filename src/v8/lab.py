@@ -490,17 +490,41 @@ class Lab:
                 self.registry.apply(cid, 'DETECTED', 'PENDING', 'hypothesis_completed', as_of)
                 pl = state.features.get(f'{sym}.prior_low')
                 ph = state.features.get(f'{sym}.prior_high')
-                # Trigger geometry must exist: defaulting to 0.0/inf would make
-                # the Phase-2/entry-bar invalidation silently permissive (a LONG
-                # would almost never be invalidated). Fail closed instead.
-                if pl is None or pl.value is None or ph is None or ph.value is None:
-                    raise ValueError(
-                        f'{sym} prior_low/prior_high unavailable at birth {as_of}: '
-                        f'Expert {ev.draft.expert_id} emitted a draft without '
-                        'trigger geometry — refuse, never default to 0/inf')
+                # The pre-entry invalidation level must match the expert's
+                # thesis reference. failed_breakout / liquidity_sweep freeze a
+                # WINDOWED prior extreme in the draft geometry (prior_high_ref
+                # / prior_low_ref) and their gate/anchor/still_valid all use
+                # it; the all-bars state feature diverges from it (an old spike
+                # outside the 32-bar window pins it), so an invalidation tested
+                # against the state feature would let a dead-thesis candidate
+                # trigger and enter, polluting the executed population. Use the
+                # frozen draft ref when present; the all-bars state feature is
+                # the fallback for experts without a prior-level thesis
+                # (trend_pullback). Defaulting to 0.0/inf would make the check
+                # silently permissive — fail closed instead.
+                geom = ev.draft.risk_geometry
+                prior_low = (float(geom['prior_low_ref'])
+                             if 'prior_low_ref' in geom else None)
+                prior_high = (float(geom['prior_high_ref'])
+                              if 'prior_high_ref' in geom else None)
+                if prior_low is None:
+                    if pl is None or pl.value is None:
+                        raise ValueError(
+                            f'{sym} prior_low unavailable at birth {as_of}: '
+                            f'Expert {ev.draft.expert_id} emitted a draft '
+                            'without trigger geometry — refuse, never default '
+                            'to 0/inf')
+                    prior_low = float(pl.value)
+                if prior_high is None:
+                    if ph is None or ph.value is None:
+                        raise ValueError(
+                            f'{sym} prior_high unavailable at birth {as_of}: '
+                            f'Expert {ev.draft.expert_id} emitted a draft '
+                            'without trigger geometry — refuse, never default '
+                            'to 0/inf')
+                    prior_high = float(ph.value)
                 pending[cid] = {'draft': ev.draft, 'birth_idx': i, 'entry_bar': None,
-                                'prior_low': float(pl.value),
-                                'prior_high': float(ph.value)}
+                                'prior_low': prior_low, 'prior_high': prior_high}
 
         # Epilogue: close whatever the tape end leaves dangling, deterministically.
         for cid, pos in list(open_positions.items()):

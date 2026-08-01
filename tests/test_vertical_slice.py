@@ -587,6 +587,31 @@ def test_liquidity_sweep_reclaim_still_valid_tracks_reclaimed_level():
     assert ex.still_valid(st2, ev.draft) is False
 
 
+def test_pre_entry_invalidation_uses_frozen_windowed_ref(tmp_path):
+    """A sweep candidate whose thesis is already dead on the entry bar must be
+    INVALIDATED_BEFORE_TRIGGER (NOT_EXECUTED), never enter and pollute the
+    executed population — the pre-entry check uses the draft's FROZEN windowed
+    prior ref, not the all-bars state feature (adversarial-audit finding)."""
+    rows = _craft_sweep_tape()
+    # Entry bar (bar 26): sweeps below the windowed prior low (99.5) again, so
+    # the thesis is dead before entry; the all-bars prior low (99.5 here, but
+    # an old spike outside the window would pin it far lower) must NOT govern.
+    rows.append(TapeRow(
+        source='binance-um', channel='kline', instrument='SOLUSDT',
+        event_time=HOUR_NS * 26, available_time=HOUR_NS * 26,
+        ingested_time=HOUR_NS * 26, venue_sequence=27,
+        event_id='SOLUSDT:27',
+        payload={'open': 100.0, 'high': 100.5, 'low': 98.8,
+                 'close': 99.0, 'volume': 1.0, 'closed': True}))
+    lab = Lab(tmp_path)
+    lab.ingest(rows)
+    r = lab.run(_manifest(), [LiquiditySweepReclaimExpert()])
+    outs = lab.outcomes.read()
+    assert outs and all(o['label_status'] == 'NOT_EXECUTED' for o in outs)
+    assert any(o['endpoint'] == 'INVALIDATED_BEFORE_TRIGGER' for o in outs)
+    assert r.n_executed == 0
+
+
 def test_liquidity_sweep_reclaim_runs_in_lab(tmp_path):
     lab = _fresh_lab(tmp_path, seed=11, n_bars=160)
     m = _manifest()

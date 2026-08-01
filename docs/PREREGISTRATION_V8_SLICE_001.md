@@ -114,14 +114,14 @@ Fixed, frozen definitions (they already exist in code; they are the
   is recorded **at download time, before any evaluation**, and appended to
   this record's operator approval (never silently).
 - Development manifest (pinned input, D-041): `experiment_id
-  v8-dev-12m-btcusdt`, `code_hash fec878c53bc5b3c93c67c1d2891494ebbdcb0ed7`,
+  v8-dev-12m-btcusdt`, `code_hash 898bb540deecef0424f950a398675bb422e58418`,
   `data_hash 4c8e58885b88b903b54bcdffa093af336cef8d1c`. Derived run outputs
   (not input fields) are recorded in
-  `research/tape/btcusdt-1h-12m/views3/views_manifest.json`: ledger_hash
-  `40d4f23a056e096cfee69f7965816d7ebef6e2ba`, verdict `NO_ECONOMIC_CLAIM`,
+  `research/tape/btcusdt-1h-12m/views4/views_manifest.json`: ledger_hash
+  `adad594a971fdb934cd86a085786760196e24cd4`, verdict `NO_ECONOMIC_CLAIM`,
   and materialized view row counts (three pilots, D-042): market_states 8760,
-  candidate_birth 3323, candidate_trigger 3295, candidate_outcomes 3323,
-  execution_trajectories 14186.
+  candidate_birth 3323, candidate_trigger 2939, candidate_outcomes 3323,
+  execution_trajectories 13059.
 - `tools/data.py` / `tools/vision_backfill.py` / `tools/materialize_views.py`
   versions are bound by the recursive `src/v8/` code hash at run time;
   materializations fail closed on any pinned-hash mismatch (compile-once).
@@ -283,13 +283,13 @@ they never re-set the ratified thresholds, which are fixed pre-holdout
 (O-017).
 
 On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, three
-pilots incl. `liquidity_sweep_reclaim`, D-042): `n_executed = 1,415` (outcome
-`label_status` != `NOT_EXECUTED`), `n_portfolio_rejected = 1,476` (all
+pilots incl. `liquidity_sweep_reclaim`, D-042): `n_executed = 1,158` (outcome
+`label_status` != `NOT_EXECUTED`), `n_portfolio_rejected = 1,326` (all
 `EXISTING_EXPOSURE_CONFLICT`; `PORTFOLIO_HEAT_EXCEEDED = 0`), so
-`execution_share = 1415/(1415+1476) = 0.4895`. The executed vs
-portfolio-rejected `net_R` samples (n=1415/1476) had means `−0.0591/+0.0354`,
-std `0.8846/0.9067`, and a **two-sample KS statistic of 0.0932**. Both sit
-inside the ratified bounds (share 0.4895 ≥ 0.25; KS 0.0932 ≤ 0.20) —
+`execution_share = 1158/(1158+1326) = 0.4662`. The executed vs
+portfolio-rejected `net_R` samples (n=1158/1326) had means `−0.0440/+0.0458`,
+std `0.8971/0.9209`, and a **two-sample KS statistic of 0.1028**. Both sit
+inside the ratified bounds (share 0.4662 ≥ 0.25; KS 0.1028 ≤ 0.20) —
 informational only; never a verdict and never a threshold re-set. These
 numbers are produced by the lab's own D-027 computation
 (`LabReport.execution_share` / `divergence_ks`, `src/v8/lab.py`).

@@ -49,11 +49,18 @@ FAMILIES = {
 N_FAMILIES = len(FAMILIES)
 ALPHA_FAMILY = 0.05
 ALPHA_F = ALPHA_FAMILY / N_FAMILIES          # Bonferroni per-family alpha
-# Block bootstrap (prereg §9): fixed mechanical block size and a fixed seed
-# so the lower bound is reproducible run-to-run.
-BLOCK_SIZE = 24
+# Block bootstrap (prereg §9): a fixed mechanical rule, not a free parameter.
+# 24 episode-blocks (one day) by default; if the estimated lag-1
+# autocorrelation of the family's episode net_R exceeds 0.10 in magnitude,
+# 168 (one week). Fixed seed so the lower bound is reproducible run-to-run.
+BLOCK_SIZE_DEFAULT = 24
+BLOCK_SIZE_WEEK = 168
+LAG1_AUTOCORR_GATE = 0.10
 N_RESAMPLES = 2000
 BOOTSTRAP_SEED = 7
+# Holdout anchor: the frozen OOS is strictly after the dev window (prereg
+# §13). 2026-07-01 00:00 UTC in ns.
+HOLDOUT_ANCHOR_NS = 1782864000000000000
 # Sufficiency gates (prereg §12): >= 30 episodes and >= 1400 bars.
 MIN_EPISODES = 30
 MIN_BARS = 1400
@@ -61,13 +68,34 @@ MIN_BARS = 1400
 _EXPERTS = list(FAMILIES.values())
 
 
-def block_bootstrap_lower_bound(net_rs: list[float], *, block: int = BLOCK_SIZE,
+def _lag1_autocorrelation(xs: list[float]) -> float:
+    """Lag-1 autocorrelation of the episode net_R series (prereg §9 gate)."""
+    n = len(xs)
+    if n < 3:
+        return 0.0
+    m = sum(xs) / n
+    num = sum((xs[i] - m) * (xs[i + 1] - m) for i in range(n - 1))
+    den = sum((x - m) ** 2 for x in xs)
+    return num / den if den else 0.0
+
+
+def _block_size(net_rs: list[float]) -> int:
+    """Prereg §9 mechanical block-size rule: 24 by default; 168 when the
+    lag-1 autocorrelation of the family's episode net_R exceeds 0.10 in
+    magnitude. Fixed, never tuned."""
+    return BLOCK_SIZE_WEEK if abs(_lag1_autocorrelation(net_rs)) > LAG1_AUTOCORR_GATE \
+        else BLOCK_SIZE_DEFAULT
+
+
+def block_bootstrap_lower_bound(net_rs: list[float], *,
                                 n_resamples: int = N_RESAMPLES,
                                 seed: int = BOOTSTRAP_SEED) -> float:
     """2.5th-percentile lower bound of the block bootstrap on episode net_R
-    (prereg §9: fixed block size, mechanical rule). One-sided at alpha_f via
-    the percentile method; H0 (mu_f <= 0) is rejected when this bound > 0.
-    Deterministic for a fixed seed; an empty sample returns 0.0 (no signal)."""
+    (prereg §9: mechanical block-size rule + fixed seed). One-sided at alpha_f
+    via the percentile method; H0 (mu_f <= 0) is rejected only when this bound
+    > 0 AND n_f >= MIN_EPISODES (composite §11/§12 test). Deterministic for a
+    fixed seed; an empty sample returns 0.0 (no signal)."""
+    block = _block_size(net_rs)
     n = len(net_rs)
     if n == 0:
         return 0.0
@@ -136,9 +164,22 @@ def run_experiment(manifest_path: Path) -> dict:
     holdout_present = tape_path.exists()
     holdout_hash: str | None = None
     if holdout_present:
+        # The frozen OOS must be strictly after the dev window (prereg §13);
+        # a manifest whose window overlaps the dev tape cannot be the holdout.
+        if manifest.start_ns < HOLDOUT_ANCHOR_NS:
+            raise ValueError(
+                f'frozen manifest start_ns {manifest.start_ns} is before the '
+                f'holdout anchor {HOLDOUT_ANCHOR_UTC} ({HOLDOUT_ANCHOR_NS}): '
+                'the OOS window must be strictly after the dev window '
+                '(prereg §13); a dev-overlapping tape is not the holdout')
         rows = AppendOnlyLog(tape_path).read()
         holdout_hash = sha1_hex(rows)
-        if manifest.data_hash and manifest.data_hash != holdout_hash:
+        if not manifest.data_hash:
+            raise ValueError(
+                'frozen manifest data_hash is empty: the holdout hash must be '
+                'recorded at download time before any evaluation (prereg §16) '
+                '— fail closed, never evaluate an un-pinned holdout')
+        if manifest.data_hash != holdout_hash:
             raise ValueError(
                 f'holdout tape hash {holdout_hash} != manifest data_hash '
                 f'{manifest.data_hash}: the holdout was recorded at download '
@@ -181,6 +222,11 @@ def run_experiment(manifest_path: Path) -> dict:
         'execution_share': r.execution_share,
         'divergence_ks': r.divergence_ks,
     }
+    # D-027 is evaluated first (prereg §11): when the attribution-validity gate
+    # fires ATTRIBUTION_UNSAFE_*, the run is NOT scored for the primary metric.
+    if r.verdict.startswith('ATTRIBUTION_UNSAFE_'):
+        report['families'] = {fid: {'scored': False} for fid in FAMILIES}
+        return report
     report['sufficiency']['bars'] = sum(
         1 for r in AppendOnlyLog(tape_path).read() if r.get('channel') == 'kline')
     net_by_family = _family_net_rs(lab.dir)
@@ -192,7 +238,11 @@ def run_experiment(manifest_path: Path) -> dict:
             'n': n,
             'mu_hat': mu_hat,
             'ci_lower_2p5': lower,
-            'h0_rejected': lower > 0.0,
+            'block_size': _block_size(net_rs),
+            # Composite §11/§12 test: the lower bound must exceed 0 AND the
+            # family must have >= MIN_EPISODES executed episodes (n_f < 30
+            # blocks the family-level conclusion).
+            'h0_rejected': lower > 0.0 and n >= MIN_EPISODES,
         }
     report['sufficiency']['episodes_ok'] = \
         report['sufficiency']['bars'] >= MIN_BARS and all(

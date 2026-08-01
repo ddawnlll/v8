@@ -3,6 +3,37 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Adversarial-audit fixes on Phase 2-4 code (14 findings, 6 fixed)
+
+A four-dimension adversarial review (correctness / contract / determinism /
+runner) confirmed 14 findings; the real ones are fixed here.
+
+- **`src/v8/lab.py` (medium)** — the pre-entry invalidation now uses the
+  expert's FROZEN windowed prior ref (`prior_low_ref` / `prior_high_ref` in
+  the draft geometry) instead of the all-bars state feature, which diverges
+  from the thesis ref (an old spike outside the 32-bar window pins it). A
+  dead-thesis candidate no longer triggers and enters, polluting the executed
+  population. Dev trigger count 3,295 -> 2,939; golden terminal distribution
+  changes (deliberate re-pin).
+- **`src/v8/marketstate.py` (low ×2)** — `max_input_available_time` is now
+  the consumed-derived clock (prior_high/prior_low never claim the newest bar,
+  which is not their input); the history feature's `input_lineage_hash` now
+  covers the full close series (its EMA columns depend on it).
+- **`tools/run_experiment.py` (medium ×2, low)** — prereg §9 mechanical
+  block-size rule implemented (24 by default; 168 when the lag-1
+  autocorrelation of episode net_R exceeds 0.10); family scores are NOT
+  reported when the D-027 gate fires ATTRIBUTION_UNSAFE_* (§11 "not scored");
+  the holdout hash is REQUIRED (fail closed on an un-pinned holdout, §16);
+  the frozen OOS window must start strictly after the 2026-07-01 anchor (§13);
+  `h0_rejected` is now the composite §11/§12 test (lower bound > 0 AND
+  n_f >= 30).
+- **Runner bootstrap percentile fix** (caught by the dev-tape smoke run) — the
+  2.5th-percentile LOWER bound was indexed at the 97.5th percentile; a
+  negative-mean family could falsely report h0_rejected.
+- 5 new regression tests; suite 148 -> 152. Dev materialization re-pinned
+  (`adad594a…`, views4); prereg §6/§15 updated (execution_share 0.4662,
+  KS 0.1028 — diagnostics only; thresholds unchanged).
+
 ## 2026-08-01 — Dev materialization re-pin (three pilots, D-042)
 
 - Dev tape re-materialized with the third pilot (`liquidity_sweep_reclaim`)
