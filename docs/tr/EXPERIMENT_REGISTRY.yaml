@@ -1,0 +1,46 @@
+schema_version: v8-experiment-registry-v0.1
+registry_status: DRAFT_PREREGISTRATION_TEMPLATE
+global_invariants:
+  - point_in_time_state_only
+  - append_only_candidate_transitions
+  - source_data_code_config_and_ledger_hashes
+  - chronological_frozen_oos
+  - no_profitability_claim_while_simulation_authority_uncertified
+experiments:
+  - id: V8-H1-H2-BASELINE-001
+    question: Sabit bir davranış tanımı, maliyet-sonrası seçilebilir değer üretiyor mu?
+    status: NOT_RUN
+    baseline: [NO_TRADE, DIRECTION_SCRAMBLED, FIXED_DETERMINISTIC_EXPERT]
+    simulator: LEVEL_1_CANONICAL
+    primary_metric: preregistered_net_utility_per_declared_risk
+    dependence: day_or_session_block_declared_before_run
+    decision: reject_expert_or_schedule_replication
+    prohibits: [oracle_direction_selection, searched_geometry_on_frozen_oos]
+  - id: V8-H3-EXPERT-VS-GLOBAL-001
+    question: Davranışa-özgü Expert'ler, eşit bilgili bir global taban çizgiyi yeniyor mu?
+    status: BLOCKED_BY_V8-H1-H2-BASELINE-001
+    comparison: paired_frozen_oos_net_utility_and_stability
+    decision: admit_expert_decomposition_only_on_incremental_replication
+  - id: V8-H4-LIFECYCLE-001
+    question: Tam candidate yaşam döngüsü, sabit alt-görev kalitesini iyileştiriyor mu?
+    status: BLOCKED_BY_V8-H1-H2-BASELINE-001
+    comparison: candidate_transition_dataset_vs_executed_only_dataset
+    decision: retain_or_simplify_research_schema
+  - id: V8-ROUTER-001
+    question: Deterministik ön-yönlendirme, bağlayıcı bir kaynak bütçesini karşılarken değerli-candidate geri çağırımını koruyabilir mi?
+    status: BLOCKED_BY_V8-H1-H2-BASELINE-001
+    baseline: ALL_EXPERTS_SELF_GATING
+    required_metrics: [valuable_candidate_recall, false_exclusion, compute, latency, overlap]
+    decision: admit_or_reject_router
+  - id: V8-SCORER-001
+    question: Bir scorer, sabit candidate kapsamında net faydayı iyileştiriyor mu?
+    status: BLOCKED_BY_V8-H1-H2-BASELINE-001
+    baselines: [random_selection, deterministic_evidence_score, cost_only_filter, logistic, shallow_tree]
+    required_metrics: [paired_oos_net_utility, calibration, coverage, cost_stress]
+    decision: admit_or_reject_scorer
+  - id: V8-RANKER-001
+    question: Sıralama, gerçek kapasite çekişmesi sırasında tahsisi iyileştiriyor mu?
+    status: BLOCKED_BY_V8-SCORER-001
+    baselines: [accept_all_with_risk_cap, deterministic_1_over_n, deterministic_risk_budget]
+    required_precondition: recurring_simultaneous_acceptable_candidates_exceeding_capacity
+    decision: admit_or_reject_ranker

@@ -1,0 +1,24 @@
+# Agent/editor state
+.mimocode/
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Local run stores (lab output dirs)
+*.jsonl
+!research/manifest/*.json
+
+# Downloaded tape (derived from public archives, reproducible)
+research/tape/
+
+# Downloaded papers (derived from public archives; research/manifest tracks
+# them, tools/download_v8_reading_list.py re-fetches)
+research/papers/

@@ -1,0 +1,59 @@
+schema_version: v8-claims-v0.1
+claims:
+  - id: C-001
+    claim: "Liquidity and order flow are economically meaningful market-state inputs."
+    status: LITERATURE_SUPPORTED
+    sources: [S1]
+    decision_refs: [D-002]
+    boundary: "Does not establish a crypto feature or trade rule."
+  - id: C-002
+    claim: "Conditional volatility/activity can be relevant context."
+    status: LITERATURE_SUPPORTED
+    sources: [S3]
+    decision_refs: [D-002]
+    boundary: "The V8 regime taxonomy remains provisional."
+  - id: C-003
+    claim: "Professional intuition is reliable only when the environment supplies learnable regularities and feedback."
+    status: LITERATURE_SUPPORTED
+    sources: [S11]
+    decision_refs: [D-003]
+    boundary: "It does not prove discretionary trading edge."
+  - id: C-004
+    claim: "Behavior-specific Experts beat an equal-information global predictor."
+    status: OPEN_QUESTION
+    sources: []
+    decision_refs: [D-003]
+    resolution: V8-H3-EXPERT-VS-GLOBAL-001
+  - id: C-005
+    claim: "A Candidate Episode improves trade-quality learning over an executed-trade-only dataset."
+    status: OPEN_QUESTION
+    sources: [S7]
+    decision_refs: [D-001]
+    resolution: V8-H4-LIFECYCLE-001
+  - id: C-006
+    claim: "Candidate is distinct from order and outcome."
+    status: PROVISIONAL_DECISION
+    sources: [PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-001]
+    boundary: "Auditability/attribution choice, not an economic result."
+  - id: C-007
+    claim: "A learned router is necessary."
+    status: REJECTED_OPTION
+    sources: [S10]
+    decision_refs: [D-004]
+    boundary: "Rejected only for the initial baseline."
+  - id: C-008
+    claim: "Canonical execution makes alpha and execution statistically independent."
+    status: REJECTED_OPTION
+    sources: [S8, PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-009]
+  - id: C-009
+    claim: "Every component must beat its simpler deterministic baseline under preregistered OOS evaluation."
+    status: LOCKED_INVARIANT
+    sources: [S9, PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-010]
+  - id: C-010
+    claim: "V7 project evidence currently supports a profitability or validated-execution claim."
+    status: REJECTED_OPTION
+    sources: [PROJECT_EVIDENCE_AUDIT]
+    boundary: "Current authority is FAIL/BLOCKED."

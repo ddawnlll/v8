@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>V8 — Behavior-Driven Trading Intelligence | Research Brief v0.3</title>
+<style>
+:root{
+  --bg:#08111f;
+  --panel:#0e1a2d;
+  --panel2:#12233c;
+  --text:#e9f1ff;
+  --muted:#9fb0c9;
+  --line:#263a58;
+  --accent:#6ee7ff;
+  --accent2:#8b7cff;
+  --good:#46d39a;
+  --warn:#f2c14e;
+  --bad:#ff6b7a;
+  --paper:#f7f9fc;
+  --ink:#14213d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:linear-gradient(180deg,#07101d 0%,#0a1424 45%,#07101d 100%);
+  color:var(--text);
+  line-height:1.62;
+}
+a{color:inherit}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
+aside{
+  position:sticky;top:0;height:100vh;overflow:auto;
+  border-right:1px solid var(--line);
+  background:rgba(7,16,29,.96);backdrop-filter:blur(10px);
+  padding:28px 20px;
+}
+.brand{font-weight:850;letter-spacing:.02em;font-size:1.08rem;margin-bottom:6px}
+.version{color:var(--muted);font-size:.84rem;margin-bottom:22px}
+nav a{
+  display:block;text-decoration:none;color:var(--muted);
+  padding:7px 10px;border-radius:8px;font-size:.9rem;margin:1px 0;
+}
+nav a:hover{background:var(--panel);color:var(--text)}
+.status-key{margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.status-key div{margin:7px 0;font-size:.8rem;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+main{min-width:0}
+.hero{
+  padding:86px clamp(28px,6vw,92px) 70px;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(circle at 75% 15%,rgba(110,231,255,.12),transparent 28%),
+    radial-gradient(circle at 15% 70%,rgba(139,124,255,.12),transparent 35%);
+}
+.kicker{color:var(--accent);font-size:.82rem;text-transform:uppercase;letter-spacing:.18em;font-weight:800}
+h1{font-size:clamp(2.6rem,6vw,5.4rem);line-height:.98;margin:18px 0 22px;max-width:1000px}
+.subtitle{font-size:clamp(1.05rem,2.1vw,1.4rem);max-width:860px;color:var(--muted)}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.badge{
+  border:1px solid var(--line);background:rgba(14,26,45,.75);
+  padding:7px 11px;border-radius:999px;font-size:.82rem;color:var(--muted)
+}
+.badge.locked{border-color:rgba(70,211,154,.45);color:var(--good)}
+.badge.open{border-color:rgba(242,193,78,.45);color:var(--warn)}
+section{padding:64px clamp(28px,6vw,92px);border-bottom:1px solid var(--line)}
+section:nth-of-type(even){background:rgba(13,26,45,.38)}
+.section-label{font-size:.78rem;color:var(--accent);font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h2{font-size:clamp(1.9rem,4vw,3rem);line-height:1.12;margin:8px 0 26px}
+h3{font-size:1.28rem;margin:28px 0 12px}
+p{max-width:940px;color:#d8e4f7}
+.lead{font-size:1.12rem;color:#eaf2ff;max-width:980px}
+.grid{display:grid;gap:18px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{
+  border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),rgba(14,26,45,.75));
+  border-radius:16px;padding:22px;min-width:0;
+}
+.card h3{margin-top:0}
+.muted{color:var(--muted)}
+.callout{
+  border-left:4px solid var(--accent);background:rgba(110,231,255,.06);
+  padding:18px 20px;border-radius:0 12px 12px 0;margin:24px 0;max-width:1050px
+}
+.callout.warn{border-color:var(--warn);background:rgba(242,193,78,.06)}
+.callout.bad{border-color:var(--bad);background:rgba(255,107,122,.06)}
+.quote{
+  font-size:clamp(1.35rem,3vw,2.15rem);line-height:1.28;
+  font-weight:780;max-width:1050px;margin:26px 0;color:#f6fbff
+}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;margin-bottom:10px}
+.tag.locked{background:rgba(70,211,154,.12);color:var(--good)}
+.tag.provisional{background:rgba(139,124,255,.15);color:#b8adff}
+.tag.open{background:rgba(242,193,78,.12);color:var(--warn)}
+table{width:100%;border-collapse:collapse;margin:18px 0 30px;font-size:.94rem}
+th,td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{color:#f4f8ff;background:rgba(255,255,255,.025)}
+td{color:#cbd9ee}
+.arch{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;
+  padding:26px;border:1px solid var(--line);background:rgba(7,16,29,.7);border-radius:18px;margin:28px 0;
+}
+.node{
+  min-width:150px;max-width:220px;padding:16px 14px;border-radius:13px;
+  border:1px solid #355174;background:linear-gradient(180deg,#12233c,#0d1b30);
+  text-align:center;font-weight:750;
+}
+.node small{display:block;color:var(--muted);font-weight:500;margin-top:5px;line-height:1.3}
+.arrow{color:var(--accent);font-size:1.35rem;font-weight:900}
+.split{
+  display:grid;grid-template-columns:1fr 70px 1fr;gap:10px;align-items:center;margin:22px 0
+}
+.stack{display:grid;gap:10px}
+.timeline{display:grid;gap:0;margin:28px 0}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;position:relative;padding-bottom:22px}
+.step:not(:last-child)::before{content:"";position:absolute;left:21px;top:38px;bottom:0;width:2px;background:var(--line)}
+.num{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:var(--panel2);border:1px solid #355174;color:var(--accent);font-weight:900;z-index:1
+}
+.step .card{padding:17px 19px}
+.code{
+  font-family:"SFMono-Regular",Consolas,monospace;font-size:.86rem;
+  white-space:pre-wrap;word-break:break-word;background:#06101d;border:1px solid var(--line);
+  color:#d9e7fb;padding:18px;border-radius:12px;overflow:auto
+}
+.metric{margin:10px 0}
+.metric-head{display:flex;justify-content:space-between;color:#dce8f9;font-size:.88rem;margin-bottom:6px}
+.bar{height:9px;border-radius:999px;background:#07101d;border:1px solid var(--line);overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.mini-flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.pill{padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:#0b1728;color:#d9e6f8;font-size:.82rem}
+.part-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px}
+.part{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(14,26,45,.75)}
+.part strong{display:block;margin-bottom:5px}
+.part span{color:var(--muted);font-size:.86rem}
+.footer{padding:38px clamp(28px,6vw,92px);color:var(--muted);font-size:.85rem}
+@media(max-width:1050px){
+  .layout{grid-template-columns:1fr}
+  aside{display:none}
+}
+@media(max-width:760px){
+  .grid.two,.grid.three,.part-map,.split{grid-template-columns:1fr}
+  .split .arrow{transform:rotate(90deg);text-align:center}
+  h1{font-size:2.65rem}
+}
+@media print{
+  body{background:white;color:#111}
+  aside{display:none}
+  .layout{display:block}
+  section,.hero{background:white!important;color:#111;border-color:#ddd;padding:34px 42px}
+  p,.muted,td{color:#333}
+  .card,.arch,.code,.node,.part{background:white!important;color:#111;border-color:#bbb}
+  .badge{color:#333;background:white}
+  .section-label,.kicker{color:#174c72}
+  .arrow{color:#174c72}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="brand">V8 Research Brief</div>
+  <div class="version">Behavior-Driven Trading Intelligence · v0.3</div>
+  <nav>
+    <a href="#abstract">01 — Abstract</a>
+    <a href="#problem">02 — Problem Tanımı</a>
+    <a href="#solution">03 — Önerilen Çözüm</a>
+    <a href="#theory">04 — Trading Teorisi</a>
+    <a href="#ontology">05 — Market Ontology</a>
+    <a href="#architecture">06 — Sistem Mimarisi</a>
+    <a href="#walkthrough">07 — Nasıl Çalışır?</a>
+    <a href="#lifecycle">08 — Candidate Lifecycle</a>
+    <a href="#contracts">09 — Veri Sözleşmeleri</a>
+    <a href="#method">10 — Araştırma Metodolojisi</a>
+    <a href="#validation">11 — Validasyon</a>
+    <a href="#roadmap">12 — Roadmap</a>
+    <a href="#appendix">13 — Appendix</a>
+  </nav>
+  <div class="status-key">
+    <div><span class="dot" style="background:var(--good)"></span>Locked / temel karar</div>
+    <div><span class="dot" style="background:var(--accent2)"></span>Provisional / uygulanabilir taslak</div>
+    <div><span class="dot" style="background:var(--warn)"></span>Open / araştırma kararı</div>
+  </div>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="kicker">Research Charter + Operational Summary</div>
+  <h1>V8 — Behavior-Driven Trading Intelligence</h1>
+  <p class="subtitle">
+    Başarılı discretionary trader karar sürecini; davranış uzmanları, candidate episode’ları,
+    bağlamsal kalite filtreleri ve bağımsız execution katmanları halinde test edilebilir bir sisteme dönüştürme araştırması.
+  </p>
+  <div class="badges">
+    <span class="badge locked">Core thesis defined</span>
+    <span class="badge locked">Candidate-centric workflow</span>
+    <span class="badge open">Routing mechanism open</span>
+    <span class="badge open">Ontology not locked</span>
+    <span class="badge">Draft v0.3</span>
+  </div>
+</header>
+
+<section id="abstract">
+  <div class="section-label">01 · Abstract</div>
+  <h2>Araştırmanın kısa tanımı</h2>
+  <p class="lead">
+    V8, finansal piyasayı her zaman ve her koşulda tahmin etmeye çalışan tek bir global model yerine,
+    yalnızca belirli davranış bağlamlarında çalışan uzman stratejilerden oluşan modüler bir karar sistemi olarak ele alır.
+  </p>
+  <p>
+    Araştırmanın merkezindeki iddia şudur: piyasa edge’i sürekli değildir; belirli davranış ailelerinde,
+    belirli zaman ve yapı koşullarında ortaya çıkar. Başarılı discretionary trader da her barda tahmin üretmez.
+    Tanıdığı bir davranış yapısı oluştuğunda hipotez kurar, doğrulanmasını bekler, fırsatın kalitesini değerlendirir
+    ve ancak sonrasında sermaye tahsis eder.
+  </p>
+  <p>
+    V8 bu süreci dört bağımsız probleme ayırır: <strong>davranışı tanıma</strong>, <strong>trade candidate üretme</strong>,
+    <strong>candidate kalitesini ölçme</strong> ve <strong>pozisyonu yürütme</strong>. Bu ayrım; her parçanın ayrı
+    baseline’larla test edilmesini, başarısızlığın kaynağının belirlenmesini ve sistemin tek bir black-box modele
+    dönüşmeden genişletilmesini sağlar.
+  </p>
+
+  <div class="part-map">
+    <div class="part"><strong>Part I</strong><span>Vision & Philosophy</span></div>
+    <div class="part"><strong>Part II</strong><span>Trading Theory</span></div>
+    <div class="part"><strong>Part III</strong><span>Market Ontology</span></div>
+    <div class="part"><strong>Part IV</strong><span>System Architecture</span></div>
+    <div class="part"><strong>Part V</strong><span>Components</span></div>
+    <div class="part"><strong>Part VI</strong><span>Research Methodology</span></div>
+    <div class="part"><strong>Part VII</strong><span>Validation</span></div>
+    <div class="part"><strong>Part VIII</strong><span>Roadmap</span></div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="section-label">02 · Problem Definition</div>
+  <h2>Yanlış problem: “Bir sonraki fiyat hareketini her yerde tahmin et”</h2>
+
+  <div class="grid two">
+    <div class="card">
+      <span class="tag locked">Observed failure mode</span>
+      <h3>Global prediction yaklaşımı</h3>
+      <p class="muted">
+        Tek model; trend, range, squeeze, capitulation, breakout, mean reversion ve likidite şoklarını
+        aynı hedef fonksiyonunun altında öğrenmeye zorlanır.
+      </p>
+      <div class="mini-flow">
+        <span class="pill">Raw market</span><span>→</span>
+        <span class="pill">Universal model</span><span>→</span>
+        <span class="pill">Long / Short / Flat</span>
+      </div>
+      <p>
+        Sonuç çoğu zaman ortalamaya yakın, düşük expectancy’li, rejim değişimlerine kırılgan ve
+        neden işlem açtığı açıklanamayan bir politika olur.
+      </p>
+    </div>
+
+    <div class="card">
+      <span class="tag locked">V8 reframing</span>
+      <h3>Davranışa bağlı karar problemi</h3>
+      <p class="muted">
+        Piyasa önce davranış ailesi açısından değerlendirilir. Yalnızca bağlama uygun uzmanlar candidate üretir.
+        Candidate ayrı bir kalite katmanından geçer ve execution daha sonra başlar.
+      </p>
+      <div class="mini-flow">
+        <span class="pill">Market state</span><span>→</span>
+        <span class="pill">Behavior expert</span><span>→</span>
+        <span class="pill">Candidate</span><span>→</span>
+        <span class="pill">Quality</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>V6 / V7’den taşınan ana ders</h3>
+  <div class="callout bad">
+    Çok sayıda feature, model ve hipotez denemek tek başına edge üretmez. Edge tanımlanmadan model
+    kapasitesini büyütmek, veri içindeki rastlantısal ayrımları daha iyi ezberleyen bir sistem yaratabilir.
+  </div>
+
+  <table>
+    <thead><tr><th>Problem</th><th>Belirti</th><th>V8 karşılığı</th></tr></thead>
+    <tbody>
+      <tr><td>Heterojen rejimler</td><td>Tek modelin tutarsız OOS davranışı</td><td>Uzmanlaşmış behavior experts</td></tr>
+      <tr><td>Sürekli sinyal üretme baskısı</td><td>Düşük kaliteli trade yoğunluğu</td><td>Doğal NO_TRADE ve candidate gating</td></tr>
+      <tr><td>Signal ile execution’ın karışması</td><td>Hatanın kaynağı ölçülemiyor</td><td>Detection, scoring, ranking ve execution ayrımı</td></tr>
+      <tr><td>Timestamp merkezli dataset</td><td>Non-triggered fikirler kayboluyor</td><td>Candidate Trade Episode araştırma birimi</td></tr>
+      <tr><td>Parametre madenciliği</td><td>Backtest kazananı canlıda bozuluyor</td><td>Canonical execution policy ve strict validation</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quote">“V8’in amacı her hareketi tahmin etmek değil; yalnızca anlaşılabilir bir davranış ortaya çıktığında doğru karar protokolünü çalıştırmaktır.”</div>
+</section>
+
+<section id="solution">
+  <div class="section-label">03 · Proposed Solution</div>
+  <h2>Çözüm: davranış uzmanlarıyla ayrıştırılmış karar sistemi</h2>
+
+  <div class="arch">
+    <div class="node">Market Data<small>OHLCV, trades, funding, liquidity</small></div>
+    <div class="arrow">→</div>
+    <div class="node">Market State<small>normalized context snapshot</small></div>
+    <div class="arrow">→</div>
+    <div class="node">Expert Layer<small>behavior-specific logic</small></div>
+    <div class="arrow">→</div>
+    <div class="node">Candidate Pool<small>conditional trade hypotheses</small></div>
+    <div class="arrow">→</div>
+    <div class="node">Quality + Ranking<small>filter, score, allocate</small></div>
+    <div class="arrow">→</div>
+    <div class="node">Trade Manager<small>entry, hold, exit, invalidation</small></div>
+  </div>
+
+  <div class="grid three">
+    <div class="card"><span class="tag locked">H1</span><h3>Behavioral structure</h3><p>Piyasa tek bir durağan süreç değil; tekrar eden davranış ailelerinin bileşimidir.</p></div>
+    <div class="card"><span class="tag locked">H2</span><h3>Local edge</h3><p>Bir stratejinin edge’i yalnızca doğal habitatında vardır; her yerde çalışması beklenmez.</p></div>
+    <div class="card"><span class="tag provisional">H3</span><h3>Expert advantage</h3><p>Uzman modellerin kendi dağılımlarında global modele göre daha kararlı olması beklenir.</p></div>
+    <div class="card"><span class="tag locked">H4</span><h3>Candidate ≠ order</h3><p>Expert’ın çıktısı emir değil, koşullu ve izlenebilir bir trade hipotezidir.</p></div>
+    <div class="card"><span class="tag provisional">H5</span><h3>Meta-quality</h3><p>Setup tespiti ile o setup örneğinin trade edilmeye değer olması farklı problemlerdir.</p></div>
+    <div class="card"><span class="tag locked">H6</span><h3>Independent execution</h3><p>Entry ve lifecycle optimizasyonu, davranış tanımından ayrı tutulmalıdır.</p></div>
+  </div>
+</section>
+
+<section id="theory">
+  <div class="section-label">04 · Trading Theory</div>
+  <h2>Başarılı discretionary trader nasıl düşünür?</h2>
+  <p class="lead">
+    Trader “şimdi long mu short mu?” sorusuna her barda cevap vermez. Önce tanıdığı bir yapının oluşmasını bekler,
+    ardından şartlı bir hipotez kurar.
+  </p>
+
+  <div class="timeline">
+    <div class="step"><div class="num">1</div><div class="card"><h3>Observe</h3><p>Trend, volatilite, likidite, konum, zaman ve piyasa liderliği okunur.</p></div></div>
+    <div class="step"><div class="num">2</div><div class="card"><h3>Recognize behavior</h3><p>“Trend pullback”, “failed breakout”, “capitulation reclaim” gibi tanımlı davranış ailesi eşleşir.</p></div></div>
+    <div class="step"><div class="num">3</div><div class="card"><h3>Form a conditional thesis</h3><p>Giriş, doğrulama, invalidation, target ve expiry içeren candidate oluşturulur.</p></div></div>
+    <div class="step"><div class="num">4</div><div class="card"><h3>Wait for evidence</h3><p>Candidate anında trade olmak zorunda değildir. Trigger oluşmazsa episode expire veya invalidate olur.</p></div></div>
+    <div class="step"><div class="num">5</div><div class="card"><h3>Evaluate quality</h3><p>Bağlam, maliyet, risk, uncertainty ve beklenen net utility ölçülür.</p></div></div>
+    <div class="step"><div class="num">6</div><div class="card"><h3>Execute and manage</h3><p>Sermaye ayrılır; pozisyon bağımsız lifecycle kurallarıyla yürütülür.</p></div></div>
+  </div>
+
+  <div class="callout">
+    V8’in temel araştırma birimi timestamp değil, <strong>Candidate Trade Episode</strong>’dır.
+    Böylece yalnızca açılmış işlemler değil; trigger olmayan, erken invalidate olan ve expire eden fikirler de veri setinde kalır.
+  </div>
+</section>
+
+<section id="ontology">
+  <div class="section-label">05 · Market Ontology</div>
+  <h2>MarketState neyi temsil eder?</h2>
+  <p>
+    MarketState, raw feature yığını değildir. Her bileşenin ortak dilde okuyabileceği,
+    zamana bağlı ve leakage-safe bir bağlam sözleşmesidir.
+  </p>
+
+  <table>
+    <thead><tr><th>Boyut</th><th>Örnek durumlar</th><th>Expert açısından anlamı</th></tr></thead>
+    <tbody>
+      <tr><td>Trend</td><td>Up / Down / Flat, strength, age</td><td>Pullback ve continuation expert’larının habitatı</td></tr>
+      <tr><td>Volatilite</td><td>Compressed / Normal / Expanded / Shock</td><td>Squeeze, breakout ve capitulation ayrımı</td></tr>
+      <tr><td>Location</td><td>HTF support, resistance, value edge, range extreme</td><td>Trade’in yapısal konumu</td></tr>
+      <tr><td>Liquidity</td><td>Spread, depth, slippage, imbalance</td><td>İşlem yapılabilirlik ve maliyet</td></tr>
+      <tr><td>Flow</td><td>Volume impulse, funding, liquidation, aggressor bias</td><td>Hareketin katılım kalitesi</td></tr>
+      <tr><td>Time</td><td>Session, event proximity, regime age</td><td>Expiry ve context decay</td></tr>
+      <tr><td>Cross-market</td><td>BTC leadership, sector breadth, correlation stress</td><td>Altcoin candidate kalitesinin üst bağlamı</td></tr>
+    </tbody>
+  </table>
+
+  <h3>İlk davranış aileleri — örnek ontoloji</h3>
+  <div class="grid three">
+    <div class="card"><h3>Trend Continuation</h3><p>Trend pullback, breakout retest, compression continuation.</p></div>
+    <div class="card"><h3>Reversal / Failure</h3><p>Failed breakout, exhaustion reversal, liquidity sweep reclaim.</p></div>
+    <div class="card"><h3>Dislocation</h3><p>Capitulation, liquidation cascade, volatility shock normalization.</p></div>
+  </div>
+  <div class="callout warn">
+    Ontoloji henüz locked değildir. V8’in en kritik bilimsel riski, gerçek olmayan veya birbirini aşırı örten
+    davranış aileleri tanımlamaktır.
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="section-label">06 · System Architecture</div>
+  <h2>Kutular ve gerçek sorumlulukları</h2>
+
+  <div class="split">
+    <div class="stack">
+      <div class="node" style="max-width:none">Market State Engine<small>raw market → normalized context</small></div>
+      <div class="node" style="max-width:none">Expert Router / Dispatch<small>hangi expert’lar değerlendirilecek?</small></div>
+      <div class="node" style="max-width:none">Strategy Experts<small>candidate üret veya None dön</small></div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stack">
+      <div class="node" style="max-width:none">Candidate Scorers<small>bu candidate trade edilmeye değer mi?</small></div>
+      <div class="node" style="max-width:none">Cross-Candidate Ranker<small>hangisine sermaye ayrılmalı?</small></div>
+      <div class="node" style="max-width:none">Trade Manager + Execution<small>giriş, yönetim, çıkış, maliyet</small></div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>Kutu</th><th>Girdi</th><th>Çıktı</th><th>Yapmaması gereken</th></tr></thead>
+    <tbody>
+      <tr><td>Market State Engine</td><td>Raw market streams</td><td>Leakage-safe MarketState</td><td>Trade kararı vermek</td></tr>
+      <tr><td>Expert Router</td><td>MarketState + expert registry</td><td>Eligible expert list</td><td>Candidate kalitesini tahmin etmek</td></tr>
+      <tr><td>Strategy Expert</td><td>MarketState</td><td>Candidate veya None</td><td>Sermaye tahsis etmek</td></tr>
+      <tr><td>Candidate Scorer</td><td>Candidate + context + cost</td><td>Quality vector / accept-reject</td><td>Setup tanımını yeniden yazmak</td></tr>
+      <tr><td>Ranker</td><td>Accepted candidate pool</td><td>Priority / allocation</td><td>Tek candidate’ın validity’sini belirlemek</td></tr>
+      <tr><td>Trade Manager</td><td>Approved candidate</td><td>Lifecycle actions</td><td>Yeni strateji keşfetmek</td></tr>
+      <tr><td>Execution Engine</td><td>Orders + venue state</td><td>Fills, costs, order status</td><td>Directional alpha üretmek</td></tr>
+      <tr><td>Lab + Simulation</td><td>Hypotheses + historical data</td><td>Validated artifacts</td><td>Runtime karar yolu olmak</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pre-router konusunda iki geçerli tasarım</h3>
+  <div class="grid two">
+    <div class="card">
+      <span class="tag provisional">Design A</span>
+      <h3>Explicit Expert Router</h3>
+      <p>MarketState’e bakar ve yalnızca ilgili expert’ları çağırır.</p>
+      <div class="mini-flow"><span class="pill">State</span><span>→</span><span class="pill">Router</span><span>→</span><span class="pill">1–3 Experts</span></div>
+      <p class="muted">Avantaj: compute azalır. Risk: expert habitatı router ve expert içinde iki kez kodlanabilir.</p>
+    </div>
+    <div class="card">
+      <span class="tag open">Design B</span>
+      <h3>Self-gating Experts</h3>
+      <p>Tüm expert’lar ucuz bir applicability kontrolü yapar; uygun değilse None döner.</p>
+      <div class="mini-flow"><span class="pill">State</span><span>→</span><span class="pill">All Experts</span><span>→</span><span class="pill">Candidate Pool</span></div>
+      <p class="muted">Avantaj: tek sorumluluk noktası. Risk: expert sayısı ve hesaplama büyüdükçe maliyet artar.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    Bu iki tasarımın ortak noktası değişmez: expert’ın dış çıktısı <strong>order değil Candidate | None</strong> olmalıdır.
+  </div>
+</section>
+
+<section id="walkthrough">
+  <div class="section-label">07 · Operational Walkthrough</div>
+  <h2>V8 bir trade fırsatını nasıl işler?</h2>
+  <p class="lead">Aşağıdaki örnek, sistemin kutudan kutuya hangi bilgiyi taşıdığını gösterir.</p>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="num">1</div>
+      <div class="card">
+        <h3>MarketState oluşur</h3>
+        <div class="code">symbol: SOLUSDT
+timeframe: 1h
+trend: up / strength 0.78 / age 26 bars
+volatility: normalizing after expansion
+location: 0.9 ATR above HTF support
+flow: pullback volume contraction
+btc_context: neutral-positive
+estimated_round_trip_cost: 0.07R</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="card">
+        <h3>Expert applicability</h3>
+        <div class="mini-flow">
+          <span class="pill">Trend Pullback → eligible</span>
+          <span class="pill">Breakout Retest → possible</span>
+          <span class="pill">Failed Breakout → skip</span>
+          <span class="pill">Capitulation → skip</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="card">
+        <h3>Trend Pullback Expert candidate üretir</h3>
+        <div class="code">candidate_id: TP_SOL_2026_07_31_0200
+strategy_id: trend_pullback_v1
+status: WATCHING
+direction: LONG
+trigger: 1h close above reclaim_level
+entry_zone: [76.20, 76.35]
+invalidation: close below structural_low
+target: previous impulse high
+expiry: 8 bars
+canonical_policy: TP_V1_FIXED</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="card">
+        <h3>Candidate Scorer kalite vektörü üretir</h3>
+        <div class="grid two">
+          <div>
+            <div class="metric"><div class="metric-head"><span>P(net R &gt; 0)</span><strong>0.63</strong></div><div class="bar"><div class="fill" style="width:63%"></div></div></div>
+            <div class="metric"><div class="metric-head"><span>Expected net R</span><strong>+0.24R</strong></div><div class="bar"><div class="fill" style="width:58%"></div></div></div>
+            <div class="metric"><div class="metric-head"><span>Expected MAE quality</span><strong>0.71</strong></div><div class="bar"><div class="fill" style="width:71%"></div></div></div>
+          </div>
+          <div>
+            <div class="metric"><div class="metric-head"><span>Trigger probability</span><strong>0.74</strong></div><div class="bar"><div class="fill" style="width:74%"></div></div></div>
+            <div class="metric"><div class="metric-head"><span>Uncertainty</span><strong>0.18</strong></div><div class="bar"><div class="fill" style="width:18%"></div></div></div>
+            <div class="metric"><div class="metric-head"><span>Cost burden</span><strong>0.07R</strong></div><div class="bar"><div class="fill" style="width:14%"></div></div></div>
+          </div>
+        </div>
+        <p><strong>Decision:</strong> ACCEPT — threshold’ları geçiyor.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div class="card">
+        <h3>Ranker sermaye yarışmasını çözer</h3>
+        <table>
+          <thead><tr><th>Candidate</th><th>Utility</th><th>Correlation penalty</th><th>Final rank</th></tr></thead>
+          <tbody>
+            <tr><td>SOL Trend Pullback</td><td>0.24R</td><td>-0.02</td><td>1</td></tr>
+            <tr><td>ETH Breakout Retest</td><td>0.21R</td><td>-0.05</td><td>2</td></tr>
+            <tr><td>BTC Range Reversal</td><td>0.13R</td><td>0.00</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">6</div>
+      <div class="card">
+        <h3>Trade Manager candidate’ı yürütür</h3>
+        <div class="mini-flow">
+          <span class="pill">WATCHING</span><span>→</span>
+          <span class="pill">ARMED</span><span>→</span>
+          <span class="pill">TRIGGERED</span><span>→</span>
+          <span class="pill">ACTIVE</span><span>→</span>
+          <span class="pill">RESOLVED</span>
+        </div>
+        <p>Trigger gelmezse order açılmaz. Invalidation önce gerçekleşirse candidate kapanır. Trade aktif olduğunda executor yalnızca canonical lifecycle policy’yi uygular.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="lifecycle">
+  <div class="section-label">08 · Candidate Lifecycle</div>
+  <h2>Sadece gerçekleşen trade’ler değil, tüm fikirler kaydedilir</h2>
+
+  <div class="arch">
+    <div class="node">DETECTED<small>setup ilk kez bulundu</small></div>
+    <div class="arrow">→</div>
+    <div class="node">WATCHING<small>trigger bekleniyor</small></div>
+    <div class="arrow">→</div>
+    <div class="node">TRIGGERED<small>entry şartı oluştu</small></div>
+    <div class="arrow">→</div>
+    <div class="node">ACTIVE<small>pozisyon yürütülüyor</small></div>
+    <div class="arrow">→</div>
+    <div class="node">RESOLVED<small>target / stop / timeout</small></div>
+  </div>
+
+  <div class="grid four"></div>
+  <table>
+    <thead><tr><th>Terminal outcome</th><th>Anlamı</th><th>Neden veri olarak tutulur?</th></tr></thead>
+    <tbody>
+      <tr><td>TRIGGERED_WIN</td><td>Candidate tetiklendi ve net pozitif sonuçlandı</td><td>Kaliteli pozitif örnek</td></tr>
+      <tr><td>TRIGGERED_LOSS</td><td>Tetiklendi ve kayıpla sonuçlandı</td><td>False positive yapısını öğrenmek</td></tr>
+      <tr><td>EXPIRED_NO_TRIGGER</td><td>Setup oluştu fakat trigger gelmedi</td><td>Trigger olasılığı ve opportunity cost</td></tr>
+      <tr><td>INVALIDATED_BEFORE_TRIGGER</td><td>Hipotez entry’den önce bozuldu</td><td>Context decay ve erken invalidation</td></tr>
+      <tr><td>CANCELLED_BY_RISK</td><td>Kaliteli olsa da portföy/risk engelledi</td><td>Alpha ile allocation etkisini ayırmak</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    Yalnızca açılan işlemleri saklamak survivorship bias üretir. Router ve scorer, “hangi candidate’ların hiç
+    tetiklenmediğini” görmeden güvenilir biçimde eğitilemez.
+  </div>
+</section>
+
+<section id="contracts">
+  <div class="section-label">09 · Core Contracts</div>
+  <h2>Kutular birbirleriyle nasıl konuşur?</h2>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>Strategy Expert arayüzü</h3>
+      <div class="code">class StrategyExpert:
+    strategy_id: str
+    version: str
+
+    def evaluate(
+        self,
+        state: MarketState
+    ) -> Candidate | None:
+        ...</div>
+      <p class="muted">Expert, habitat uygun değilse veya setup yoksa None döner.</p>
+    </div>
+    <div class="card">
+      <h3>Candidate Scorer arayüzü</h3>
+      <div class="code">class CandidateScorer:
+    strategy_id: str
+
+    def score(
+        self,
+        candidate: Candidate,
+        state: MarketState,
+        costs: CostEstimate
+    ) -> QualityVector:
+        ...</div>
+      <p class="muted">İlk sürümde per-strategy meta-label yaklaşımı önerilir.</p>
+    </div>
+  </div>
+
+  <h3>Candidate minimum sözleşmesi</h3>
+  <div class="code">Candidate {
+  candidate_id
+  strategy_id
+  strategy_version
+  symbol
+  detected_at
+  direction
+
+  setup_snapshot
+  trigger_rule
+  entry_definition
+  invalidation_rule
+  target_definition
+  expiry_rule
+
+  canonical_execution_policy_id
+  provenance
+}</div>
+
+  <h3>QualityVector minimum sözleşmesi</h3>
+  <div class="code">QualityVector {
+  p_trigger
+  p_net_positive
+  expected_net_r
+  expected_mae
+  expected_mfe
+  expected_duration
+  uncertainty
+  cost_adjusted_utility
+  accept_reject
+}</div>
+</section>
+
+<section id="method">
+  <div class="section-label">10 · Research Methodology</div>
+  <h2>Bir fikir nasıl “expert” olur?</h2>
+
+  <div class="arch">
+    <div class="node">Observation<small>insan trader davranışı</small></div><div class="arrow">→</div>
+    <div class="node">Economic Thesis<small>neden edge olmalı?</small></div><div class="arrow">→</div>
+    <div class="node">Formal Definition<small>state, trigger, invalidation</small></div><div class="arrow">→</div>
+    <div class="node">Candidate Generator<small>tüm episode’ları çıkar</small></div><div class="arrow">→</div>
+    <div class="node">Canonical Simulation<small>tek execution policy</small></div><div class="arrow">→</div>
+    <div class="node">Validation<small>OOS, costs, stability</small></div>
+  </div>
+
+  <table>
+    <thead><tr><th>Aşama</th><th>Zorunlu çıktı</th><th>Red kriteri</th></tr></thead>
+    <tbody>
+      <tr><td>Economic thesis</td><td>Davranışın neden tekrar etmesi gerektiği</td><td>Sadece görsel pattern veya indicator adı</td></tr>
+      <tr><td>Formalization</td><td>Leakage-safe state, setup, trigger, invalidation, expiry</td><td>Belirsiz veya hindsight kullanan tanım</td></tr>
+      <tr><td>Episode generation</td><td>Tüm triggered ve non-triggered candidate’lar</td><td>Sadece başarılı trade’lerin toplanması</td></tr>
+      <tr><td>Canonical simulation</td><td>Sabit ve versiyonlanmış execution policy</td><td>Her dataset için farklı optimum parametre</td></tr>
+      <tr><td>Validation</td><td>Purged walk-forward OOS + maliyet stresi</td><td>Tek dönem veya tek coin başarısı</td></tr>
+      <tr><td>Promotion</td><td>Expert registry artifact + test evidence</td><td>Baseline’ı geçemeyen complexity</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Post-router / Candidate Scorer eğitim planı</h3>
+  <div class="grid three">
+    <div class="card"><span class="tag locked">Baseline</span><h3>Deterministic filter</h3><p>RR, cost, liquidity, location ve uncertainty için açık kurallar.</p></div>
+    <div class="card"><span class="tag provisional">First learned model</span><h3>Per-strategy meta-label</h3><p>Her expert için ayrı logistic/LightGBM modeli; calibrated probabilities.</p></div>
+    <div class="card"><span class="tag open">Later</span><h3>Shared multi-task utility</h3><p>Yeterli veri oluşunca ortak representation + strategy-specific heads.</p></div>
+  </div>
+
+  <div class="callout bad">
+    Parametre varyantları router arm’ı değildir. “Trend Pullback stop=1.2”, “stop=1.3”, “stop=1.4”
+    ayrı expert yapılırsa sistem strateji seçmez; backtest parametresi ezberler.
+  </div>
+</section>
+
+<section id="validation">
+  <div class="section-label">11 · Validation</div>
+  <h2>V8’in iddiası nasıl yanlışlanır?</h2>
+
+  <table>
+    <thead><tr><th>Hipotez</th><th>Karşılaştırma</th><th>Başarı ölçütü</th><th>Yanlışlama</th></tr></thead>
+    <tbody>
+      <tr><td>Expert specialization</td><td>Global model vs expert ensemble</td><td>OOS net expectancy, stability</td><td>Uzmanlar global baseline’ı geçmiyor</td></tr>
+      <tr><td>Routing value</td><td>All experts vs gated experts</td><td>Utility / compute / opportunity capture</td><td>Gate edge eklemiyor veya fırsat kaçırıyor</td></tr>
+      <tr><td>Meta-quality</td><td>Raw candidates vs scored candidates</td><td>Net R, precision, trade reduction</td><td>Scorer yalnızca trade azaltıyor, kaliteyi artırmıyor</td></tr>
+      <tr><td>Candidate episodes</td><td>Trade-only dataset vs full lifecycle</td><td>Calibration ve trigger modeling</td><td>Non-triggered data anlamlı katkı vermiyor</td></tr>
+      <tr><td>Independent execution</td><td>Canonical vs adaptive manager</td><td>Incremental utility</td><td>Complex manager baseline’ı geçemiyor</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Zorunlu validasyon katmanları</h3>
+  <div class="grid three">
+    <div class="card"><h3>Temporal validity</h3><p>Purged walk-forward, embargo, true OOS, regime holdouts.</p></div>
+    <div class="card"><h3>Economic validity</h3><p>Fees, spread, slippage, capacity, latency ve opportunity cost.</p></div>
+    <div class="card"><h3>Structural validity</h3><p>Coin, timeframe, exchange ve volatility bucket tutarlılığı.</p></div>
+    <div class="card"><h3>Statistical validity</h3><p>Bootstrap confidence, multiple-testing control, calibration.</p></div>
+    <div class="card"><h3>Operational validity</h3><p>Missing data, partial fills, order rejects, clock drift.</p></div>
+    <div class="card"><h3>Complexity validity</h3><p>Her yeni katman deterministic baseline’a karşı incremental test edilir.</p></div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="section-label">12 · Roadmap</div>
+  <h2>Architecture lock’a giden yol</h2>
+
+  <div class="timeline">
+    <div class="step"><div class="num">A</div><div class="card"><span class="tag locked">Phase 0</span><h3>Research charter</h3><p>Problem, hipotez, component boundaries ve non-goals tanımlanır.</p></div></div>
+    <div class="step"><div class="num">B</div><div class="card"><span class="tag open">Phase 1</span><h3>Ontology pilot</h3><p>2–3 behavior family, elle audit edilmiş candidate episode dataset’i.</p></div></div>
+    <div class="step"><div class="num">C</div><div class="card"><span class="tag open">Phase 2</span><h3>Deterministic V8 baseline</h3><p>Self-gating experts, canonical execution, candidate registry, no ML router.</p></div></div>
+    <div class="step"><div class="num">D</div><div class="card"><span class="tag open">Phase 3</span><h3>Per-strategy scorers</h3><p>Meta-label models ve calibrated quality vectors.</p></div></div>
+    <div class="step"><div class="num">E</div><div class="card"><span class="tag open">Phase 4</span><h3>Cross-candidate ranking</h3><p>Sermaye limiti, correlation ve portfolio utility.</p></div></div>
+    <div class="step"><div class="num">F</div><div class="card"><span class="tag open">Phase 5</span><h3>Architecture lock</h3><p>Baselines geçildikten sonra tam teknik spesifikasyon yazılır.</p></div></div>
+  </div>
+
+  <h3>Lock öncesi açık kararlar</h3>
+  <table>
+    <thead><tr><th>Karar</th><th>Mevcut adaylar</th><th>Karar deneyinin sonucu</th></tr></thead>
+    <tbody>
+      <tr><td>Pre-router gerekli mi?</td><td>Explicit gate vs self-gating experts</td><td>Compute / recall / duplication kıyası</td></tr>
+      <tr><td>Ontology granularity</td><td>3–5 geniş family vs çok sayıda mikro-pattern</td><td>Separability ve OOS stability</td></tr>
+      <tr><td>Scorer yapısı</td><td>Per-strategy vs shared model</td><td>Data efficiency ve strategy memorization</td></tr>
+      <tr><td>Forecast kapsamı</td><td>Binary label vs full outcome vector</td><td>Calibration ve allocation utility</td></tr>
+      <tr><td>Executor complexity</td><td>Canonical rules vs learned lifecycle</td><td>Incremental net R</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="appendix">
+  <div class="section-label">13 · Appendix</div>
+  <h2>Kısa sözlük ve sınırlar</h2>
+
+  <div class="grid two">
+    <div class="card"><h3>MarketState</h3><p>Belirli bir anda yalnızca geçmiş ve mevcut veriden türetilmiş, tüm sistemin ortak bağlam nesnesi.</p></div>
+    <div class="card"><h3>Strategy Expert</h3><p>Tek bir davranış ailesini tanıyan ve Candidate | None üreten versiyonlanmış karar modülü.</p></div>
+    <div class="card"><h3>Candidate</h3><p>Trigger, entry, invalidation, target ve expiry içeren koşullu trade hipotezi.</p></div>
+    <div class="card"><h3>Candidate Scorer</h3><p>Bir candidate’ın kendi başına trade edilmeye değer olup olmadığını ölçen meta-model.</p></div>
+    <div class="card"><h3>Ranker</h3><p>Kabul edilmiş candidate’lar arasında sermaye önceliğini belirleyen katman.</p></div>
+    <div class="card"><h3>Canonical Policy</h3><p>Araştırma sırasında sabit tutulan, versiyonlanmış entry/exit/lifecycle politikası.</p></div>
+  </div>
+
+  <div class="callout">
+    Bu belge tam V8 spesifikasyonu değildir. Tam spesifikasyonun hangi başlıklardan oluşacağını ve sistemin
+    uçtan uca nasıl çalışacağını somutlaştıran, architecture-lock öncesi yaşayan araştırma brief’idir.
+  </div>
+</section>
+
+<footer class="footer">
+  V8 Research Brief v0.3 · Architecture-lock öncesi taslak · Tek dosyalık, offline HTML
+</footer>
+</main>
+</div>
+</body>
+</html>

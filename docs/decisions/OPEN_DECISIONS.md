@@ -1,0 +1,24 @@
+# V8 Open Decisions v0.1
+
+| ID | Open question | Cheapest resolving experiment | Admission / rejection condition |
+|---|---|---|---|
+| O-001 | Does any selected behavior have after-cost conditional value? | Fixed deterministic Expert vs no-trade/scrambled control | Promote only with preregistered, replicated OOS evidence; otherwise reject that Expert. |
+| O-002 | What state representation adds value? | raw window vs engineered state vs hybrid, equal data/model budget | Retain only an incremental replicated result; learned latent state deferred. |
+| O-003 | Does full lifecycle improve learning/auditability? | Candidate-transition table vs executed-only table for a fixed task | Retain if it improves preregistered calibration/attribution; otherwise keep logging only if governance value justifies cost. |
+| O-004 | Is a router worthwhile? | A self-gating vs deterministic pre-router paired replay | Require near-perfect preregistered valuable-candidate recall plus binding resource gain. |
+| O-005 | Does a scorer add selection value? | deterministic evidence score vs logistic vs shallow tree at matched coverage | Require repeated OOS net-utility gain and calibration; fewer trades alone fails. |
+| O-006 | Is ranking necessary? | all accepted candidates vs deterministic 1/N/risk cap during contention | Require recurring contention and paired marginal portfolio utility gain. |
+| O-007 | Which fidelity is required? | Sensitivity of the specific conclusion across Levels 0/1; advance only on material ambiguity | If conclusion changes with unsupported fill assumptions, block it pending richer tape. |
+| O-008 | Can execution be specialized? | fixed canonical execution under stress before any learned policy | No learned executor without a certified positive Expert and stable canonical baseline. |
+| O-009 | Which storage engine for the derived/research store? | The design mapping is resolved (D-031; PERSISTENCE_REPLAY_SPEC §1): immutable Parquet archive, JSONL append-only ledgers at slice scale, DuckDB derived/research tables from a pinned manifest. What stays open is scale validation only — adopt the DuckDB materializations if deterministic replay and hash audit pass at declared scale; otherwise keep the smallest engine (plain JSONL). |
+| O-010 | Is an event-driven (trade/depth) evaluation loop worth its cost? | bar-driven vs event-driven on the same preregistered campaign | Replace the bar driver only on replicated incremental utility or a declared fidelity defect. |
+| O-011 | Does the Binance adapter's coverage meet research needs? | tape quality audit: gaps, funding schedule, depth coverage vs declared universe | Extend venues only if the audit shows binding coverage/cost failure on the locked universe. |
+| O-012 | When do exposure conflicts justify a ranker? | count + economics of `EXISTING_EXPOSURE_CONFLICT` rejections on the locked baseline | Admit a ranker only when conflicts are frequent and economically material; 1/N or risk cap otherwise. |
+| O-013 | Does active position management (partial exit, breakeven, trail) beat static geometry? | pessimistic-intrabar canonical comparison, costed | Test only under the conservative same-bar rule; admission requires replicated OOS gain (dependent on O-007 resolution). |
+| O-014 | Do executed and portfolio-rejected populations differ systematically? | two-sample KS + Mann-Whitney on executed vs portfolio-rejected counterfactual net_R | Divergence does **not** license an OPE correction layer: deterministic admission gives rejected Candidates propensity 0 (deficient support), and no admissible finance OPE application was found. Divergence beyond the declared threshold blocks the economic verdict instead (D-027). What stays open is whether divergence is stable enough to characterise, not whether to correct for it. |
+| O-015 | Does a learned regime veto beat mechanical masks? | learned regime label vs mechanical mask, same signal family | Learnable filters enter through the router gate (EXPERT_PROTOCOL §3); mechanical masks are baseline. |
+| O-016 | Does drawdown-conditioned sizing beat fixed fractional risk? | drawdown ladder vs fixed 1R, costed OOS | Literature is empty for crypto perps; the program must produce its own evidence (Novy-Marx cautions on added degrees of freedom). |
+| O-017 | Where are the attribution-validity thresholds set? | sweep `execution_share` floor and divergence threshold on the locked baseline; record the conflict/heat rejection rate they imply | The **gate** is decided (D-027); only its two numbers are open. Set them from the observed rejection rate before the frozen slice is opened, never after seeing a verdict. A floor so low that no run ever trips it fails the gate's purpose as surely as one that blocks every run. |
+
+All are `OPEN_QUESTION`. No field may be silently resolved by a dashboard result,
+unregistered parameter sweep, or synthetic data.

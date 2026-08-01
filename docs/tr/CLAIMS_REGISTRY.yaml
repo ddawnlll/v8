@@ -1,0 +1,59 @@
+schema_version: v8-claims-v0.1
+claims:
+  - id: C-001
+    claim: "Likidite ve emir akışı ekonomik olarak anlamlı piyasa-durumu girdileridir."
+    status: LITERATURE_SUPPORTED
+    sources: [S1]
+    decision_refs: [D-002]
+    boundary: "Bir kripto feature'ı ya da trade kuralı kurmaz."
+  - id: C-002
+    claim: "Koşullu volatilite/aktivite ilgili bir bağlam olabilir."
+    status: LITERATURE_SUPPORTED
+    sources: [S3]
+    decision_refs: [D-002]
+    boundary: "V8 rejim taksonomisi geçici olarak kalır."
+  - id: C-003
+    claim: "Profesyonel sezgi yalnızca, ortam öğrenilebilir düzenlilikler ve geri bildirim sağladığında güvenilirdir."
+    status: LITERATURE_SUPPORTED
+    sources: [S11]
+    decision_refs: [D-003]
+    boundary: "Discretionary trading edge'ini kanıtlamaz."
+  - id: C-004
+    claim: "Davranışa-özgü Expert'ler, eşit bilgili bir global tahminciyi yener."
+    status: OPEN_QUESTION
+    sources: []
+    decision_refs: [D-003]
+    resolution: V8-H3-EXPERT-VS-GLOBAL-001
+  - id: C-005
+    claim: "Bir Candidate Episode, yalnızca-işlem-verisi veri kümesine kıyasla trade-kalitesi öğrenimini iyileştirir."
+    status: OPEN_QUESTION
+    sources: [S7]
+    decision_refs: [D-001]
+    resolution: V8-H4-LIFECYCLE-001
+  - id: C-006
+    claim: "Candidate, order ve outcome'tan farklıdır."
+    status: PROVISIONAL_DECISION
+    sources: [PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-001]
+    boundary: "Denetlenebilirlik/atıf seçimi, ekonomik bir sonuç değil."
+  - id: C-007
+    claim: "Öğrenilmiş bir router gereklidir."
+    status: REJECTED_OPTION
+    sources: [S10]
+    decision_refs: [D-004]
+    boundary: "Yalnızca başlangıç taban çizgisi için reddedildi."
+  - id: C-008
+    claim: "Kurallı execution, alpha ve execution'ı istatistiksel olarak bağımsız kılar."
+    status: REJECTED_OPTION
+    sources: [S8, PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-009]
+  - id: C-009
+    claim: "Her bileşen, önceden kayıtlı OOS değerlendirmesi altında daha basit deterministik taban çizgisini yenmelidir."
+    status: LOCKED_INVARIANT
+    sources: [S9, PROJECT_EVIDENCE_AUDIT]
+    decision_refs: [D-010]
+  - id: C-010
+    claim: "V7 proje kanıtı şu anda bir kârlılık ya da doğrulanmış-execution iddiasını desteklemektedir."
+    status: REJECTED_OPTION
+    sources: [PROJECT_EVIDENCE_AUDIT]
+    boundary: "Mevcut otorite FAIL/BLOCKED'dır."

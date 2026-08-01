@@ -1,0 +1,893 @@
+[
+  {
+    "list_number": 1,
+    "title": "A Comprehensive Survey of Mixture-of-Experts: Algorithms, Theory, and Applications",
+    "urls": [
+      "https://arxiv.org/abs/2503.07137",
+      "https://arxiv.org/abs/2503.07137"
+    ],
+    "arxiv_id": "2503.07137",
+    "canonical_url": "https://arxiv.org/pdf/2503.07137.pdf",
+    "file": "research_papers/01_2503.07137_a-comprehensive-survey-of-mixture-of-experts-algorithms-theory-and-app.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e473e8c790a2dd644673448031defffa21e260b2b8b1dc4e5efd10f1c96cf2d9"
+  },
+  {
+    "list_number": 2,
+    "title": "Mixture of Experts in Large Language Models",
+    "urls": [
+      "https://arxiv.org/abs/2507.11181",
+      "https://arxiv.org/abs/2507.11181"
+    ],
+    "arxiv_id": "2507.11181",
+    "canonical_url": "https://arxiv.org/pdf/2507.11181.pdf",
+    "file": "research_papers/02_2507.11181_mixture-of-experts-in-large-language-models.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "7fc23f5cc8de26cd59ad68c3f81bf8266d3d1e423e9b70bf8f2e4208b4f24be1"
+  },
+  {
+    "list_number": 3,
+    "title": "Towards Understanding Mixture of Experts in Deep Learning",
+    "urls": [
+      "https://arxiv.org/abs/2208.02813",
+      "https://arxiv.org/abs/2208.02813"
+    ],
+    "arxiv_id": "2208.02813",
+    "canonical_url": "https://arxiv.org/pdf/2208.02813.pdf",
+    "file": "research_papers/03_2208.02813_towards-understanding-mixture-of-experts-in-deep-learning.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "df7397d2fe041042b07a7039e3e425f84492dd14179987bc3a7ad301a39c12fc"
+  },
+  {
+    "list_number": 4,
+    "title": "A Closer Look into Mixture-of-Experts in Large Language Models",
+    "urls": [
+      "https://arxiv.org/abs/2406.18219",
+      "https://arxiv.org/abs/2406.18219"
+    ],
+    "arxiv_id": "2406.18219",
+    "canonical_url": "https://arxiv.org/pdf/2406.18219.pdf",
+    "file": "research_papers/04_2406.18219_a-closer-look-into-mixture-of-experts-in-large-language-models.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "3c0678d962b9f583cc75ea3a9be457021b993bb0c42a65244da89713405073b0"
+  },
+  {
+    "list_number": 5,
+    "title": "A Survey on Mixture of Experts in Large Language Models",
+    "urls": [
+      "https://arxiv.org/abs/2407.06204",
+      "https://arxiv.org/abs/2407.06204"
+    ],
+    "arxiv_id": "2407.06204",
+    "canonical_url": "https://arxiv.org/pdf/2407.06204.pdf",
+    "file": "research_papers/05_2407.06204_a-survey-on-mixture-of-experts-in-large-language-models.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e38a59989280e1e9295c00a7643bda0bf980afbed210c0593e0430636578ad81"
+  },
+  {
+    "list_number": 6,
+    "title": "Mixture of Experts in Large Language Models (HTML version)",
+    "urls": [
+      "https://arxiv.org/html/2507.11181v1",
+      "https://arxiv.org/html/2507.11181v1"
+    ],
+    "arxiv_id": "2507.11181",
+    "canonical_url": "https://arxiv.org/pdf/2507.11181.pdf",
+    "file": "research_papers/06_2507.11181_mixture-of-experts-in-large-language-models-html-version.pdf",
+    "duplicate_of": 2,
+    "download_status": "DUPLICATE_REFERENCE"
+  },
+  {
+    "list_number": 7,
+    "title": "Mixtral of Experts: Mixtral 8x7B Sparse MoE Language Model",
+    "urls": [
+      "https://arxiv.org/abs/2401.04088",
+      "https://arxiv.org/abs/2401.04088"
+    ],
+    "arxiv_id": "2401.04088",
+    "canonical_url": "https://arxiv.org/pdf/2401.04088.pdf",
+    "file": "research_papers/07_2401.04088_mixtral-of-experts-mixtral-8x7b-sparse-moe-language-model.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da"
+  },
+  {
+    "list_number": 8,
+    "title": "Conditional computation in neural networks: principles and research trends",
+    "urls": [
+      "https://arxiv.org/abs/2403.07965",
+      "https://arxiv.org/abs/2403.07965"
+    ],
+    "arxiv_id": "2403.07965",
+    "canonical_url": "https://arxiv.org/pdf/2403.07965.pdf",
+    "file": "research_papers/08_2403.07965_conditional-computation-in-neural-networks-principles-and-research-tre.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "fdaa0fd62cf75a5f479429fda09074caec76c03b9a32014b167ca817f39aa975"
+  },
+  {
+    "list_number": 9,
+    "title": "Towards Better Selective Classification",
+    "urls": [
+      "https://arxiv.org/abs/2206.09034",
+      "https://arxiv.org/abs/2206.09034"
+    ],
+    "arxiv_id": "2206.09034",
+    "canonical_url": "https://arxiv.org/pdf/2206.09034.pdf",
+    "file": "research_papers/09_2206.09034_towards-better-selective-classification.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "99e65e78cc84e3af79869a0876eebe0a474c898e757e5537313e974c5940f627"
+  },
+  {
+    "list_number": 10,
+    "title": "Optimal strategies for reject option classifiers",
+    "urls": [
+      "https://arxiv.org/abs/2101.12523",
+      "https://arxiv.org/abs/2101.12523"
+    ],
+    "arxiv_id": "2101.12523",
+    "canonical_url": "https://arxiv.org/pdf/2101.12523.pdf",
+    "file": "research_papers/10_2101.12523_optimal-strategies-for-reject-option-classifiers.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "12a1c182e37d114fd96aae36bee35e377f28450665f424fdfee721aece4600ad"
+  },
+  {
+    "list_number": 11,
+    "title": "Selective Time Series Forecasting via Metalearning",
+    "urls": [
+      "https://arxiv.org/abs/2606.23448",
+      "https://arxiv.org/abs/2606.23448"
+    ],
+    "arxiv_id": "2606.23448",
+    "canonical_url": "https://arxiv.org/pdf/2606.23448.pdf",
+    "file": "research_papers/11_2606.23448_selective-time-series-forecasting-via-metalearning.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "dd46d495f8cc77b0f0a77f21cc13d9694b8f0c1e2f6851d8fa951324ed2cceeb"
+  },
+  {
+    "list_number": 12,
+    "title": "Selective Learning for Deep Time Series Forecasting",
+    "urls": [
+      "https://arxiv.org/abs/2510.25207",
+      "https://arxiv.org/abs/2510.25207"
+    ],
+    "arxiv_id": "2510.25207",
+    "canonical_url": "https://arxiv.org/pdf/2510.25207.pdf",
+    "file": "research_papers/12_2510.25207_selective-learning-for-deep-time-series-forecasting.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "155c55507ee2dd30184b9377d57a7423a993515701d830133aa3814bb4df924a"
+  },
+  {
+    "list_number": 13,
+    "title": "Distribution-free Error Guarantees via Conformal Prediction (ML with reject option)",
+    "urls": [
+      "https://arxiv.org/abs/2506.21802",
+      "https://arxiv.org/abs/2506.21802"
+    ],
+    "arxiv_id": "2506.21802",
+    "canonical_url": "https://arxiv.org/pdf/2506.21802.pdf",
+    "file": "research_papers/13_2506.21802_distribution-free-error-guarantees-via-conformal-prediction-ml-with-re.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "44b0e3b8ee3e777b2b1a3b52920bc0c5ae4a24769558a3d766a5592491ed94a6"
+  },
+  {
+    "list_number": 14,
+    "title": "On Reject and Refine Options in Multicategory Classification",
+    "urls": [
+      "https://arxiv.org/abs/1701.02265v1",
+      "https://arxiv.org/abs/1701.02265v1"
+    ],
+    "arxiv_id": "1701.02265",
+    "canonical_url": "https://arxiv.org/pdf/1701.02265.pdf",
+    "file": "research_papers/14_1701.02265_on-reject-and-refine-options-in-multicategory-classification.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "962ecc962540d9f426212a9a386785638e2deeb7ff37d89ac386289cfafe1d9f"
+  },
+  {
+    "list_number": 15,
+    "title": "Consistent Algorithms for Multiclass Classification with a Reject Option",
+    "urls": [
+      "https://arxiv.org/abs/1505.04137",
+      "https://arxiv.org/abs/1505.04137"
+    ],
+    "arxiv_id": "1505.04137",
+    "canonical_url": "https://arxiv.org/pdf/1505.04137.pdf",
+    "file": "research_papers/15_1505.04137_consistent-algorithms-for-multiclass-classification-with-a-reject-opti.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "17d479f1d0303a225a615eef44d0e292ddf30a493d234d1d378a69a14e891e5e"
+  },
+  {
+    "list_number": 16,
+    "title": "From Risk to Rescue: An Agentic Survival Analysis Framework for Liquidation Prevention",
+    "urls": [
+      "https://arxiv.org/abs/2604.14583",
+      "https://arxiv.org/abs/2604.14583"
+    ],
+    "arxiv_id": "2604.14583",
+    "canonical_url": "https://arxiv.org/pdf/2604.14583.pdf",
+    "file": "research_papers/16_2604.14583_from-risk-to-rescue-an-agentic-survival-analysis-framework-for-liquida.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "ab191502a52691e8ace905591004f5ef80ae09785699f4fe34eca42903834031"
+  },
+  {
+    "list_number": 17,
+    "title": "Survival Analysis as Imprecise Classification with Trainable Kernels",
+    "urls": [
+      "https://arxiv.org/abs/2506.10140",
+      "https://arxiv.org/abs/2506.10140"
+    ],
+    "arxiv_id": "2506.10140",
+    "canonical_url": "https://arxiv.org/pdf/2506.10140.pdf",
+    "file": "research_papers/17_2506.10140_survival-analysis-as-imprecise-classification-with-trainable-kernels.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "39146e09f1826d98e8608c4e70a59ddb233b370eae5993ee080bc2ac74843853"
+  },
+  {
+    "list_number": 18,
+    "title": "FinSurvival: A Suite of Large Scale Survival Modeling Tasks from Finance",
+    "urls": [
+      "https://arxiv.org/abs/2507.14160",
+      "https://arxiv.org/abs/2507.14160"
+    ],
+    "arxiv_id": "2507.14160",
+    "canonical_url": "https://arxiv.org/pdf/2507.14160.pdf",
+    "file": "research_papers/18_2507.14160_finsurvival-a-suite-of-large-scale-survival-modeling-tasks-from-financ.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e6c87f1791bcceab59ed001792d66219c74db9c3fadc4da08e16b2afcd0238fb"
+  },
+  {
+    "list_number": 19,
+    "title": "A General Framework for Survival Analysis and Multi-State Modelling",
+    "urls": [
+      "https://arxiv.org/abs/2006.04893",
+      "https://arxiv.org/abs/2006.04893"
+    ],
+    "arxiv_id": "2006.04893",
+    "canonical_url": "https://arxiv.org/pdf/2006.04893.pdf",
+    "file": "research_papers/19_2006.04893_a-general-framework-for-survival-analysis-and-multi-state-modelling.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "6e005a6317e0ce42431fa894297eea773c5393ddcebde67a2d28d8bc8d81b3d5"
+  },
+  {
+    "list_number": 20,
+    "title": "arXiv:1703.08090v1 [stat.ME] (multi-state survival / measurement error)",
+    "urls": [
+      "https://arxiv.org/pdf/1703.08090.pdf",
+      "https://arxiv.org/pdf/1703.08090.pdf"
+    ],
+    "arxiv_id": "1703.08090",
+    "canonical_url": "https://arxiv.org/pdf/1703.08090.pdf",
+    "file": "research_papers/20_1703.08090_arxiv-1703-08090v1-stat-me-multi-state-survival-measurement-error.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "2311b5381e057879b510461feecd73185449b735d703b2e62fea8df72a57902f"
+  },
+  {
+    "list_number": 21,
+    "title": "Exchangeable, Markov multi-state survival process",
+    "urls": [
+      "https://www.arxiv.org/abs/1810.10598",
+      "https://www.arxiv.org/abs/1810.10598"
+    ],
+    "arxiv_id": "1810.10598",
+    "canonical_url": "https://arxiv.org/pdf/1810.10598.pdf",
+    "file": "research_papers/21_1810.10598_exchangeable-markov-multi-state-survival-process.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "f5f55d3bdcfefcfc01bb4654dd08c0918a29d9625a0a4841170fcf715b572dd1"
+  },
+  {
+    "list_number": 22,
+    "title": "KANFormer for Predicting Fill Probabilities via Survival Analysis in Limit Order Books",
+    "urls": [
+      "https://arxiv.org/pdf/2512.05734.pdf",
+      "https://arxiv.org/pdf/2512.05734.pdf"
+    ],
+    "arxiv_id": "2512.05734",
+    "canonical_url": "https://arxiv.org/pdf/2512.05734.pdf",
+    "file": "research_papers/22_2512.05734_kanformer-for-predicting-fill-probabilities-via-survival-analysis-in-l.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "d19073bbad98cf2aec895209e5d5d6482ed9799d198728d7943296ece545036d"
+  },
+  {
+    "list_number": 23,
+    "title": "Estimation of Semi-Markov Multi-state Models",
+    "urls": [
+      "https://arxiv.org/pdf/2005.14462.pdf",
+      "https://arxiv.org/pdf/2005.14462.pdf"
+    ],
+    "arxiv_id": "2005.14462",
+    "canonical_url": "https://arxiv.org/pdf/2005.14462.pdf",
+    "file": "research_papers/23_2005.14462_estimation-of-semi-markov-multi-state-models.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "cdcbd92ffb944f87af8c940895538e5ab049185158156420fe4afa7ac157e3b4"
+  },
+  {
+    "list_number": 24,
+    "title": "Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis",
+    "urls": [
+      "https://arxiv.org/abs/2207.05291",
+      "https://arxiv.org/abs/2207.05291"
+    ],
+    "arxiv_id": "2207.05291",
+    "canonical_url": "https://arxiv.org/pdf/2207.05291.pdf",
+    "file": "research_papers/24_2207.05291_pseudo-value-based-deep-neural-networks-for-multi-state-survival-analy.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "6deb454aa43e1609b3253bb37d93e541176c011c0ac674eb5f50950408ca74fe"
+  },
+  {
+    "list_number": 25,
+    "title": "A Scorecard Model Using Survival Analysis Framework (behavioral credit scorecard)",
+    "urls": [
+      "https://arxiv.org/abs/2503.05023",
+      "https://arxiv.org/abs/2503.05023"
+    ],
+    "arxiv_id": "2503.05023",
+    "canonical_url": "https://arxiv.org/pdf/2503.05023.pdf",
+    "file": "research_papers/25_2503.05023_a-scorecard-model-using-survival-analysis-framework-behavioral-credit-.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "b62f7cbb34a4d9ac5d99d49da2e0173e5c4cada26bc4ddf56f876631d9dfe54d"
+  },
+  {
+    "list_number": 26,
+    "title": "A multi-state model incorporating estimation of excess hazards and multiple time scales",
+    "urls": [
+      "https://ar5iv.labs.arxiv.org/html/2012.13926",
+      "https://ar5iv.labs.arxiv.org/html/2012.13926"
+    ],
+    "arxiv_id": "2012.13926",
+    "canonical_url": "https://arxiv.org/pdf/2012.13926.pdf",
+    "file": "research_papers/26_2012.13926_a-multi-state-model-incorporating-estimation-of-excess-hazards-and-mul.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e1cf801fe502f2633688c797c6802f7a9afbd8697dea78fb1cea6d0cf80b13b5"
+  },
+  {
+    "list_number": 27,
+    "title": "SURVIVAEL: Variational Autoencoders for Clustering Time Series in a multi-state survival framework",
+    "urls": [
+      "https://openreview.net/pdf?id=pREEF8_kWNT",
+      "https://openreview.net/pdf?id=pREEF8_kWNT"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://openreview.net/pdf?id=pREEF8_kWNT",
+    "file": "research_papers/27_external_survivael-variational-autoencoders-for-clustering-time-series-in-a-mul.html",
+    "duplicate_of": null,
+    "download_status": "UNAVAILABLE",
+    "error": "HTTPError: HTTP Error 403: Forbidden"
+  },
+  {
+    "list_number": 28,
+    "title": "Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis (HTML version)",
+    "urls": [
+      "https://ar5iv.labs.arxiv.org/html/2207.05291",
+      "https://ar5iv.labs.arxiv.org/html/2207.05291"
+    ],
+    "arxiv_id": "2207.05291",
+    "canonical_url": "https://arxiv.org/pdf/2207.05291.pdf",
+    "file": "research_papers/28_2207.05291_pseudo-value-based-deep-neural-networks-for-multi-state-survival-analy.pdf",
+    "duplicate_of": 24,
+    "download_status": "DUPLICATE_REFERENCE"
+  },
+  {
+    "list_number": 29,
+    "title": "Advances in Temporal Point Processes: Bayesian, Deep, and LLM Approaches",
+    "urls": [
+      "https://arxiv.org/html/2501.14291v1",
+      "https://arxiv.org/html/2501.14291v1"
+    ],
+    "arxiv_id": "2501.14291",
+    "canonical_url": "https://arxiv.org/pdf/2501.14291.pdf",
+    "file": "research_papers/29_2501.14291_advances-in-temporal-point-processes-bayesian-deep-and-llm-approaches.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "586a3de17abb550ccc5cc74a40a079a223244e603bd2649533e8d824e6219e3f"
+  },
+  {
+    "list_number": 30,
+    "title": "Avoiding Backtesting Overfitting by Covariance-Penalties: an empirical investigation",
+    "urls": [
+      "https://arxiv.org/abs/1905.05023",
+      "https://arxiv.org/abs/1905.05023"
+    ],
+    "arxiv_id": "1905.05023",
+    "canonical_url": "https://arxiv.org/pdf/1905.05023.pdf",
+    "file": "research_papers/30_1905.05023_avoiding-backtesting-overfitting-by-covariance-penalties-an-empirical-.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "f144863e04613cedfaf93387b6177485f539ee8ae756eab3a407003f5e183120"
+  },
+  {
+    "list_number": 31,
+    "title": "Backtesting Trading Strategies with GAN To Avoid Overfitting",
+    "urls": [
+      "https://arxiv.org/abs/2209.04895",
+      "https://arxiv.org/abs/2209.04895"
+    ],
+    "arxiv_id": "2209.04895",
+    "canonical_url": "https://arxiv.org/pdf/2209.04895.pdf",
+    "file": "research_papers/31_2209.04895_backtesting-trading-strategies-with-gan-to-avoid-overfitting.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "332d38e3489b24a6fa084856bad2ff3ccb16c7ca1790fb6747515a5b05df5deb"
+  },
+  {
+    "list_number": 32,
+    "title": "How should you discount your backtest PnL?",
+    "urls": [
+      "https://arxiv.org/abs/1902.01802",
+      "https://arxiv.org/abs/1902.01802"
+    ],
+    "arxiv_id": "1902.01802",
+    "canonical_url": "https://arxiv.org/pdf/1902.01802.pdf",
+    "file": "research_papers/32_1902.01802_how-should-you-discount-your-backtest-pnl.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "7a83b8cd46af6d29b1f7b0275937a654d5d2ad48d18f986575065d6ba332a840"
+  },
+  {
+    "list_number": 33,
+    "title": "Deep Reinforcement Learning for Cryptocurrency Trading: Practical Approach to Address Backtest Overfitting",
+    "urls": [
+      "https://arxiv.org/abs/2209.05559",
+      "https://arxiv.org/abs/2209.05559"
+    ],
+    "arxiv_id": "2209.05559",
+    "canonical_url": "https://arxiv.org/pdf/2209.05559.pdf",
+    "file": "research_papers/33_2209.05559_deep-reinforcement-learning-for-cryptocurrency-trading-practical-appro.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "00bb16636d6306d24f092e3d86abfcfe39be6c50d280ee50c1dffe83b2963ae4"
+  },
+  {
+    "list_number": 34,
+    "title": "Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (high-throughput alpha research)",
+    "urls": [
+      "https://arxiv.org/html/2507.07107v2",
+      "https://arxiv.org/html/2507.07107v2"
+    ],
+    "arxiv_id": "2507.07107",
+    "canonical_url": "https://arxiv.org/pdf/2507.07107.pdf",
+    "file": "research_papers/34_2507.07107_machine-learning-enhanced-multi-factor-quantitative-asset-pricing-high.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "111b1ba18150fe3310e078220b7338977fe79a986c6cd234b2dfd2b19ee0834c"
+  },
+  {
+    "list_number": 35,
+    "title": "The GT-Score: A Robust Objective Function for Reducing Overfitting in Data-Driven Trading Strategies",
+    "urls": [
+      "https://arxiv.org/pdf/2602.00080.pdf",
+      "https://arxiv.org/pdf/2602.00080.pdf"
+    ],
+    "arxiv_id": "2602.00080",
+    "canonical_url": "https://arxiv.org/pdf/2602.00080.pdf",
+    "file": "research_papers/35_2602.00080_the-gt-score-a-robust-objective-function-for-reducing-overfitting-in-d.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "a9bca7ee4e4e809a1625ec27969219eb398afc39d70561deb04fa236c35faf12"
+  },
+  {
+    "list_number": 36,
+    "title": "AlgoXpert Alpha Research Framework: A Rigorous IS–WFA–OOS Protocol for Mitigating Overfitting",
+    "urls": [
+      "https://arxiv.org/abs/2603.09219",
+      "https://arxiv.org/abs/2603.09219"
+    ],
+    "arxiv_id": "2603.09219",
+    "canonical_url": "https://arxiv.org/pdf/2603.09219.pdf",
+    "file": "research_papers/36_2603.09219_algoxpert-alpha-research-framework-a-rigorous-is-wfa-oos-protocol-for-.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "29fb8e6bfac48324d407e97664ea64fd2c59c63a0ebab78d04850c30660d706a"
+  },
+  {
+    "list_number": 37,
+    "title": "A Rigorous Walk-Forward Validation Framework for Market ...",
+    "urls": [
+      "https://arxiv.org/html/2512.12924v1",
+      "https://arxiv.org/html/2512.12924v1"
+    ],
+    "arxiv_id": "2512.12924",
+    "canonical_url": "https://arxiv.org/pdf/2512.12924.pdf",
+    "file": "research_papers/37_2512.12924_a-rigorous-walk-forward-validation-framework-for-market.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e3e75a4c90499d22f83c36cc3777d7671b0d2b28e0c5da3ce89a6ac62917348a"
+  },
+  {
+    "list_number": 38,
+    "title": "Markets Are Not Random, They Are Hard to Predict",
+    "urls": [
+      "https://arxiv.org/pdf/2606.08209.pdf",
+      "https://arxiv.org/pdf/2606.08209.pdf"
+    ],
+    "arxiv_id": "2606.08209",
+    "canonical_url": "https://arxiv.org/pdf/2606.08209.pdf",
+    "file": "research_papers/38_2606.08209_markets-are-not-random-they-are-hard-to-predict.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "9a67af7d143b82e7ff56f3a4bf5c1f555a947d8026a7d0b508ae0d057dac1f26"
+  },
+  {
+    "list_number": 39,
+    "title": "In-Sample and Out-of-Sample Sharpe Ratios for Linear Strategies",
+    "urls": [
+      "https://arxiv.org/pdf/2501.03938.pdf",
+      "https://arxiv.org/pdf/2501.03938.pdf"
+    ],
+    "arxiv_id": "2501.03938",
+    "canonical_url": "https://arxiv.org/pdf/2501.03938.pdf",
+    "file": "research_papers/39_2501.03938_in-sample-and-out-of-sample-sharpe-ratios-for-linear-strategies.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "5e66848c666213679c193d97351480fc019c7e66435a42662e18ec4c8b0af705"
+  },
+  {
+    "list_number": 40,
+    "title": "The Probability of Backtest Overfitting (journal article, CSCV method)",
+    "urls": [
+      "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+      "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+    "file": "research_papers/40_external_the-probability-of-backtest-overfitting-journal-article-cscv-method.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "d8bfbadaaedb430d9dec929646d92f3580fdf18238f34121ae7738fa1c69a63d"
+  },
+  {
+    "list_number": 41,
+    "title": "The Probability of Backtest Overfitting (working paper version)",
+    "urls": [
+      "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253",
+      "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+    "file": "research_papers/41_probability_backtest_overfitting_alternate.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED_ALTERNATE_SOURCE",
+    "error": "Original SSRN URL returned 403; openly hosted author PDF downloaded."
+  },
+  {
+    "list_number": 42,
+    "title": "The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality",
+    "urls": [
+      "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551",
+      "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf",
+    "file": "research_papers/42_deflated_sharpe_alternate.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED_ALTERNATE_SOURCE",
+    "error": "Original SSRN URL returned 403; openly hosted author PDF downloaded."
+  },
+  {
+    "list_number": 43,
+    "title": "High-Throughput Asset Pricing",
+    "urls": [
+      "https://arxiv.org/html/2311.10685v2",
+      "https://arxiv.org/html/2311.10685v2"
+    ],
+    "arxiv_id": "2311.10685",
+    "canonical_url": "https://arxiv.org/pdf/2311.10685.pdf",
+    "file": "research_papers/43_2311.10685_high-throughput-asset-pricing.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "d338d13e08302df0f5d38c8886449eebe30ebd1a20d29390757658644ec50b7e"
+  },
+  {
+    "list_number": 44,
+    "title": "A SWE-bench-Style Framework for Backtesting Trading Strategies",
+    "urls": [
+      "https://www.arxiv.org/pdf/2602.00133.pdf",
+      "https://www.arxiv.org/pdf/2602.00133.pdf"
+    ],
+    "arxiv_id": "2602.00133",
+    "canonical_url": "https://arxiv.org/pdf/2602.00133.pdf",
+    "file": "research_papers/44_2602.00133_a-swe-bench-style-framework-for-backtesting-trading-strategies.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "540d563eebc59e16d68e03df5e9dc7dc6060dff8636a7f6ee5f6bdb280eed15c"
+  },
+  {
+    "list_number": 45,
+    "title": "The Price Impact of Generalized Order Flow Imbalance",
+    "urls": [
+      "https://arxiv.org/abs/2112.02947",
+      "https://arxiv.org/abs/2112.02947"
+    ],
+    "arxiv_id": "2112.02947",
+    "canonical_url": "https://arxiv.org/pdf/2112.02947.pdf",
+    "file": "research_papers/45_2112.02947_the-price-impact-of-generalized-order-flow-imbalance.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "344534056ec87659e6b0ca494532d62cfb3d54e695bdbe19750e7b2f3ff59f96"
+  },
+  {
+    "list_number": 46,
+    "title": "A unified theory of order flow, market impact, and volatility",
+    "urls": [
+      "https://arxiv.org/abs/2601.23172",
+      "https://arxiv.org/abs/2601.23172"
+    ],
+    "arxiv_id": "2601.23172",
+    "canonical_url": "https://arxiv.org/pdf/2601.23172.pdf",
+    "file": "research_papers/46_2601.23172_a-unified-theory-of-order-flow-market-impact-and-volatility.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "95dbaa84b93df5a68fc4f8d04c2f640abdfdc24fe2e92761fed1ec0897eb62b8"
+  },
+  {
+    "list_number": 47,
+    "title": "The Subtle Interplay between Square-root Impact, Order Flow Imbalance, and Price Dynamics",
+    "urls": [
+      "https://arxiv.org/html/2509.05065v1",
+      "https://arxiv.org/html/2509.05065v1"
+    ],
+    "arxiv_id": "2509.05065",
+    "canonical_url": "https://arxiv.org/pdf/2509.05065.pdf",
+    "file": "research_papers/47_2509.05065_the-subtle-interplay-between-square-root-impact-order-flow-imbalance-a.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "8b2c6073a1fca19d7dff0ef53e38802dc1427efddab93e5b36a8a0a76d8769b7"
+  },
+  {
+    "list_number": 48,
+    "title": "The Price Impact of Order Book Events",
+    "urls": [
+      "https://arxiv.org/abs/1011.6402",
+      "https://arxiv.org/abs/1011.6402"
+    ],
+    "arxiv_id": "1011.6402",
+    "canonical_url": "https://arxiv.org/pdf/1011.6402.pdf",
+    "file": "research_papers/48_1011.6402_the-price-impact-of-order-book-events.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "40d1d5f0baf7944a1b9f4c12d3644038e657acf4a3dfb500b2057c2269edd25f"
+  },
+  {
+    "list_number": 49,
+    "title": "Linear models for the impact of order flow on prices I. Propagators: Transient vs. History Dependent Impact",
+    "urls": [
+      "https://arxiv.org/abs/1602.02735",
+      "https://arxiv.org/abs/1602.02735"
+    ],
+    "arxiv_id": "1602.02735",
+    "canonical_url": "https://arxiv.org/pdf/1602.02735.pdf",
+    "file": "research_papers/49_1602.02735_linear-models-for-the-impact-of-order-flow-on-prices-i-propagators-tra.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "3da32638f19b1f7b13b54a6732169f2569ff3a1575542ba19f166a99feea1ffa"
+  },
+  {
+    "list_number": 50,
+    "title": "A Theory for Market Impact: How Order Flow Affects Stock Price",
+    "urls": [
+      "https://arxiv.org/abs/0804.3818",
+      "https://arxiv.org/abs/0804.3818"
+    ],
+    "arxiv_id": "0804.3818",
+    "canonical_url": "https://arxiv.org/pdf/0804.3818.pdf",
+    "file": "research_papers/50_0804.3818_a-theory-for-market-impact-how-order-flow-affects-stock-price.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "820a1c7f42a57ffed9d4e968bc4ccf5a685720dd9a0f519a198eeaa71e28ecd7"
+  },
+  {
+    "list_number": 51,
+    "title": "Empirical Study of Market Impact Conditional on Order-Flow Imbalance",
+    "urls": [
+      "https://arxiv.org/abs/2004.08290",
+      "https://arxiv.org/abs/2004.08290"
+    ],
+    "arxiv_id": "2004.08290",
+    "canonical_url": "https://arxiv.org/pdf/2004.08290.pdf",
+    "file": "research_papers/51_2004.08290_empirical-study-of-market-impact-conditional-on-order-flow-imbalance.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "acefefa49ac54af8100bd6abdafda8eefccff341dbb420cdecd305f8e46581b1"
+  },
+  {
+    "list_number": 52,
+    "title": "Price Impact During Order ... (order submission / impact study, 2023)",
+    "urls": [
+      "https://arxiv.org/html/2307.02375v2",
+      "https://arxiv.org/html/2307.02375v2"
+    ],
+    "arxiv_id": "2307.02375",
+    "canonical_url": "https://arxiv.org/pdf/2307.02375.pdf",
+    "file": "research_papers/52_2307.02375_price-impact-during-order-order-submission-impact-study-2023.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "0e676efa0f8acc55a824fa8703c220f33cd6d7da8419bee909b29e01fb57c207"
+  },
+  {
+    "list_number": 53,
+    "title": "Returns and Order Flow Imbalances: Intraday Dynamics and Macroeconomic News Effects",
+    "urls": [
+      "https://arxiv.org/abs/2508.06788",
+      "https://arxiv.org/abs/2508.06788"
+    ],
+    "arxiv_id": "2508.06788",
+    "canonical_url": "https://arxiv.org/pdf/2508.06788.pdf",
+    "file": "research_papers/53_2508.06788_returns-and-order-flow-imbalances-intraday-dynamics-and-macroeconomic-.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "79bb14f8e7d8d859e971187825433511c6d0ce00f1ff267be24887a48bbb95b2"
+  },
+  {
+    "list_number": 54,
+    "title": "Cross-Impact of Order Flow Imbalance in Equity Markets",
+    "urls": [
+      "https://arxiv.org/html/2112.13213v4",
+      "https://arxiv.org/html/2112.13213v4"
+    ],
+    "arxiv_id": "2112.13213",
+    "canonical_url": "https://arxiv.org/pdf/2112.13213.pdf",
+    "file": "research_papers/54_2112.13213_cross-impact-of-order-flow-imbalance-in-equity-markets.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "8a8559063f7bbe93827407cddd21b41d5b7ba80870772f2800a835b77cee44c9"
+  },
+  {
+    "list_number": 55,
+    "title": "Stochastic Price Dynamics in Response to Order Flow Imbalance: Evidence from CSI 300 Index Futures",
+    "urls": [
+      "https://arxiv.org/html/2505.17388v1",
+      "https://arxiv.org/html/2505.17388v1"
+    ],
+    "arxiv_id": "2505.17388",
+    "canonical_url": "https://arxiv.org/pdf/2505.17388.pdf",
+    "file": "research_papers/55_2505.17388_stochastic-price-dynamics-in-response-to-order-flow-imbalance-evidence.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "a816e911616e859722eb561728ed2b5d3f27602080ea2e6a32ab485afff337f9"
+  },
+  {
+    "list_number": 56,
+    "title": "Universal scaling and nonlinearity of aggregate price impact in financial markets",
+    "urls": [
+      "https://www.cfm.com/wp-content/uploads/2022/12/301-2017-Universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financial-markets.pdf",
+      "https://www.cfm.com/wp-content/uploads/2022/12/301-2017-Universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financial-markets.pdf"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://www.cfm.com/wp-content/uploads/2022/12/301-2017-Universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financial-markets.pdf",
+    "file": "research_papers/56_external_universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financ.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "e1143e710d1401b4837e41075bdb3f0090d69a8a08b9c0ca62b1333a42070fb6"
+  },
+  {
+    "list_number": 57,
+    "title": "Linear models for the impact of order flow on prices II. The ...",
+    "urls": [
+      "https://ideas.repec.org/p/arx/papers/1604.07556.html",
+      "https://ideas.repec.org/p/arx/papers/1604.07556.html"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://ideas.repec.org/p/arx/papers/1604.07556.html",
+    "file": "research_papers/57_external_linear-models-for-the-impact-of-order-flow-on-prices-ii-the.html",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "420caef97a7411f12d064c8fa7d167d8875b8de3febaa4e1cc16eed6468ae360"
+  },
+  {
+    "list_number": 58,
+    "title": "Order flow and price formation (survey of price formation from order arrivals)",
+    "urls": [
+      "https://ideas.repec.org/p/arx/papers/2105.00521.html",
+      "https://ideas.repec.org/p/arx/papers/2105.00521.html"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://ideas.repec.org/p/arx/papers/2105.00521.html",
+    "file": "research_papers/58_external_order-flow-and-price-formation-survey-of-price-formation-from-order-ar.html",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED",
+    "error": null,
+    "sha256": "f20a41243ab72ac1d89783f510e0e9de6d621467e77e5be95cda7755e49dbe23"
+  },
+  {
+    "list_number": 59,
+    "title": "Deep Reinforcement Learning for Cryptocurrency Trading (execution & overfitting safeguards)",
+    "urls": [
+      "https://arxiv.org/abs/2209.05559",
+      "https://arxiv.org/abs/2209.05559"
+    ],
+    "arxiv_id": "2209.05559",
+    "canonical_url": "https://arxiv.org/pdf/2209.05559.pdf",
+    "file": "research_papers/59_2209.05559_deep-reinforcement-learning-for-cryptocurrency-trading-execution-overf.pdf",
+    "duplicate_of": 33,
+    "download_status": "DUPLICATE_REFERENCE"
+  },
+  {
+    "list_number": 60,
+    "title": "Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (execution-aware alpha testing)",
+    "urls": [
+      "https://arxiv.org/html/2507.07107v2",
+      "https://arxiv.org/html/2507.07107v2",
+      "https://arxiv.org/abs/2209.05559",
+      "https://arxiv.org/abs/2209.05559"
+    ],
+    "arxiv_id": "2507.07107",
+    "canonical_url": "https://arxiv.org/pdf/2507.07107.pdf",
+    "file": "research_papers/60_2507.07107_machine-learning-enhanced-multi-factor-quantitative-asset-pricing-exec.pdf",
+    "duplicate_of": 34,
+    "download_status": "DUPLICATE_REFERENCE"
+  }
+]

@@ -1,0 +1,51 @@
+"""Trend-pullback-continuation behavior family (`trend_pullback`).
+
+Hypothesis: inside an uptrend, a pullback to the slow EMA is a continuation
+setup. Detected on closed bars only; emits LONG CandidateDrafts.
+"""
+from __future__ import annotations
+
+from ..schema import MarketState, CandidateDraft, ExpertEvaluation
+from .base import Expert
+
+
+class TrendPullbackExpert(Expert):
+    """Uptrend (ema_fast > ema_slow) with a pullback (close < ema_slow)."""
+    expert_id = 'trend_pullback'
+    version = 'v1'
+
+    def evaluate(self, state: MarketState) -> ExpertEvaluation:
+        t = state.as_of
+        sym = state.universe[0]
+        need = [f'{sym}.close', f'{sym}.ema_fast', f'{sym}.ema_slow', f'{sym}.atr']
+        if not self._need(state, need):
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_HABITAT', t)
+        f = state.features
+        close = float(f[f'{sym}.close'].value)
+        fast = float(f[f'{sym}.ema_fast'].value)
+        slow = float(f[f'{sym}.ema_slow'].value)
+        atr = f[f'{sym}.atr'].value
+        if atr is None or not (fast > slow and close < slow):
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_SETUP', t)
+        draft = CandidateDraft(
+            expert_id=self.expert_id, expert_version=self.version,
+            instrument=sym, direction='LONG',
+            setup_fingerprint=f'{sym}:{close:.6f}:{slow:.6f}',
+            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
+                           'stop_r': 1.0, 'expiry_bars': 8,
+                           'atr_ref': atr},
+            birth_time=t)
+        return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                'APPLICABLE', 'CANDIDATE', t, draft)
+
+    def still_valid(self, state: MarketState, draft: CandidateDraft) -> bool:
+        """The thesis is "pullback inside an uptrend"; if the uptrend is gone,
+        so is the reason to hold, whatever the stop distance still says."""
+        sym = draft.instrument
+        f = state.features
+        fast, slow = f.get(f'{sym}.ema_fast'), f.get(f'{sym}.ema_slow')
+        if fast is None or slow is None or fast.value is None or slow.value is None:
+            return True          # unobservable: fail open, price still governs
+        return float(fast.value) > float(slow.value)

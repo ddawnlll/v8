@@ -1,0 +1,2954 @@
+                                         Journal of Machine Learning Research A (B) C                                  Submitted 1/2021; Published E
+
+
+
+
+                                                      Optimal strategies for reject option classifiers
+
+                                         Vojtech Franc                                                                   xfrancv@fel.cvut.cz
+                                         Daniel Prusa                                                                       prusa@fel.cvut.cz
+                                         Vaclav Voracek                                                                  voracva1@fel.cvut.cz
+                                         Department of Cybernetics, Faculty of Electrical Engineering
+arXiv:2101.12523v1 [cs.LG] 29 Jan 2021
+
+
+
+
+                                         Czech Technical University in Prague, Czech Republic
+
+
+                                         Editor: Editors
+
+
+                                                                                        Abstract
+                                             In classification with a reject option, the classifier is allowed in uncertain cases to abstain
+                                             from prediction. The classical cost-based model of a reject option classifier requires the cost
+                                             of rejection to be defined explicitly. An alternative bounded-improvement model, avoiding
+                                             the notion of the reject cost, seeks for a classifier with a guaranteed selective risk and
+                                             maximal cover. We coin a symmetric definition, the bounded-coverage model, which seeks
+                                             for a classifier with minimal selective risk and guaranteed coverage. We prove that despite
+                                             their different formulations the three rejection models lead to the same prediction strategy:
+                                             a Bayes classifier endowed with a randomized Bayes selection function. We define a notion
+                                             of a proper uncertainty score as a scalar summary of prediction uncertainty sufficient to
+                                             construct the randomized Bayes selection function. We propose two algorithms to learn the
+                                             proper uncertainty score from examples for an arbitrary black-box classifier. We prove that
+                                             both algorithms provide Fisher consistent estimates of the proper uncertainty score and
+                                             we demonstrate their efficiency on different prediction problems including classification,
+                                             ordinal regression and structured output classification.
+                                             Keywords: Reject option classification, prediction uncertainty, selective classifiers
+
+
+                                         1. Introduction
+
+                                         In safety critical applications of classification models, prediction errors may lead to serious
+                                         losses. In such cases estimating when the model makes an error can be as important as its
+                                         average performance. These two objectives are taken into account in classification with a
+                                         reject option when the classifier is allowed in uncertain cases to abstain from prediction.
+                                             The cost-based model of a classification strategy with the reject option was proposed by
+                                         Chow in his pioneering work Chow (1970). The goal is to minimize the expected loss equal
+                                         to the cost of misclassification, when the classifier predicts, and to the reject cost, when
+                                         the classifier abstains from prediction. An optimal strategy leads to the Bayes classifier
+                                         abstaining from prediction when the conditional expected risk exceeds the reject cost. The
+                                         known form of the optimal strategy allows to construct the classifier by plugging in an
+                                         estimate of the class posterior probabilities to the formula for the conditional risk. Besides
+                                         the plug-in rule, the reject option classifiers can be learned by empirical risk minimization
+                                         based approaches like e.g. modifications of Support Vector Machines (Grandvalet et al.,
+
+                                         ©B G.
+                                         License: CC-BY 4.0, see https://creativecommons.org/licenses/by/4.0/. Attribution requirements are provided
+                                         at http://jmlr.org/papers/vA/F.html.
+                                   Franc, Prusa and Voracek
+
+
+
+
+2008), Boosting (Cortes et al., 2016), or Prototype-based classifiers (Villman et al., 2016)
+to name a few.
+    The cost-based model requires the reject cost to be defined explicitly which is difficult
+in some applications e.g. when the misclassifiation costs have different physical units than
+the reject cost. An alternative bounded-improvement model coined in Pietraszek (2005)
+avoids explicit definition of the reject cost. The rejection strategy is evaluated by two
+antagonistic quantities: i) a selective risk defined as the expected misclassification cost
+on accepted predictions and ii) a coverage which corresponds to the probability that the
+prediction is accepted. An optimal strategy for the bounded-improvement model is the one
+which maximizes the coverage under the condition that the selective risk does not exceed a
+target value. In contrast to the cost-based model, it has not been formally shown what is
+the optimal prediction strategies when the underlying model is known. A solution has been
+proposed only for special instances of the task. Pietraszek (2005) coined a method based
+on ROC analysis applicable when a score proportional to posterior probabilities is known
+and the task is to find only the optimal thresholds. El-Yaniv and Wiener (2010) proposed
+an algorithm learning the optimal strategy in the noise-free setting, i.e. when a perfect
+strategy with zero selective risk exists. Geifman and El-Yaniv (2017) shows how to equip
+a trained classifier with a reject option provided an uncertainty measure is known and the
+task is to find only a rejection threshold optimal under the bounded-improvement model.
+    A large number of other works address the problem of uncertainty prediction, including
+recent papers related to deep learning like e.g. Lakshminarayanan et al. (2017); Jiang et al.
+(2018); Corbiere et al. (2019). They seek for an uncertainty score 1 defined informally
+as a real valued summary of an input observation that is predictive of the classification
+error. These works do not formulate the problem to be solved explicitly as a rejection
+model. However, most of these works asses performance of their uncertainty scores using
+evaluation metrics for the rejection models, namely, using the Risk-Coverage (RC) curve
+and the Area under the RC curve (AuRC).
+    This article unifies and extends existing formulations of an optimal reject option classifier
+and proposes theoretically grounded algorithms to learn the classifiers from examples. The
+main contributions are as follows:
+
+  1. We provide necessary and sufficient conditions for an optimal prediction strategy of the
+     bounded-improvement model when the underlying distribution is known. We show
+     that an optimal solution is the Bayes classifier endowed with a rejection strategy,
+     which we call randomized Bayes selection function. The randomized Bayes selection
+     function is constructed from the conditional expected risk and two parameters: a
+     decision threshold and an acceptance probability. The strategy rejects prediction
+     when the conditional risk is above the threshold, accepts prediction when it is below
+     the threshold and randomizes with the acceptance probability otherwise. We provide
+     an explicit relation between the decision threshold, the acceptance probability and
+     the target risk.
+
+  2. We formulate a bounded-coverage model whose definition is symmetric to the bounded-
+     improvement model. The optimal prediction strategy of the bounded-coverage model
+1. Some works use term confidence score which is inverse to the uncertainty score utilized in this paper.
+
+
+                                                    2
+                   Optimal strategies for reject option classifiers
+
+
+
+
+     minimizes the selective risk under the condition that the coverage is not below a tar-
+     get value. We provide necessary and sufficient conditions for an optimal strategy and
+     we show that the conditions are satisfied by the Bayes classifier endowed with the
+     randomized Bayes selection function. We provide an explicit relation between the
+     decision threshold, the acceptance probability and the target coverage.
+
+  3. We define a notion of a proper uncertainty score as a function which preserves ordering
+     of the inputs induced by the conditional expected risk. A proper uncertainty score
+     is sufficient for construction of the randomized Bayes selection function. We propose
+     two generic algorithms to learn the proper uncertainty score from examples for an
+     arbitrary black-box classifier. The first is based on regression of the classifier loss.
+     The second is based on minimization of a newly proposed loss function which we call
+     SELEctive classifier learning (SELE) loss. We show that SELE loss is a tight ap-
+     proximation of the AuRC and at the same time amenable to optimization. We prove
+     that both proposed algorithms provide Fisher consistent estimate of the proper uncer-
+     tainty score. As a proof of concept we apply the proposed algorithms to learn proper
+     uncertainty scores for different prediction problems including classification, ordinal
+     regression and structured output classification. We demonstrate that the algorithm
+     based on the SELE loss minimization learns uncertainty scores which consistently out-
+     perform common baselines and work on par with the state-of-the-art methods that
+     are, unlike our algorithm, applicable only to particular prediction models.
+
+    Besides the proposed algorithms applicable to learning uncertainty score for an arbitrary
+classification model, our contributions may have the following uses. Firstly, our analysis
+shows that despite their different objectives the cost-based, the bounded-improvement and
+the bounded-coverage rejection models are equivalent in the sense that they lead to the same
+prediction strategy. Secondly, the explicit characterization of optimal strategies provides a
+recipe how to construct plug-in rules which has been so far possible only for the cost-based
+model. That is, any method estimating the class posterior distribution can be turned into
+an algorithm learning the reject option classifier that solves the bounded-improvement and
+the bounded-coverage model, respectively. Thirdly, there is a tight connection between the
+proposed bounded-coverage model and the RC curve. The RC curve represents quality
+of all solutions of the bounded-coverage model that can be constructed from a pair of a
+classifier and an uncertainty score. The AuRC is then an expected quality of the reject
+option classifier constructed from the pair when the target coverage is selected uniformly at
+random. This connection sheds light on many published methods which do not explicitly
+define the target objective but use the RC curve and the AuRC as evaluation metrics.
+    This article is an extension of our previous work published in Franc and Prusa (2019).
+The major extensions involve introduction of the bounded-coverage model and its analysis,
+analysis of the learning algorithms including the proof of Fisher consistency, and most of
+the experiments.
+    The paper is organized as follows. Section 2 introduces the three rejection models and
+provides characterization of their optimal solutions. Algorithms to learn a proper uncer-
+tainty score from examples are discussed in Section 3. Survey of related literature is given
+in Section 4. Experimental evaluation of the proposed learning algorithms is provided in
+Section 5. Section 6 concludes the paper. Proofs of all theorems are deferred to Appendix.
+
+                                             3
+                                    Franc, Prusa and Voracek
+
+
+
+
+2. Reject Option Models and Their Optimal Strategies
+Let X be a set of input observations and Y a finite set of labels. Let us assume that inputs
+and labels are generated by a random process with p.d.f. p(x, y) defined over X × Y. A
+goal in the non-reject setting is to find a classifier h : X → Y with a small expected risk
+                                       Z X
+                             R(h) =           p(x, y)ℓ(y, h(x)) dx ,
+                                            X y∈Y
+
+
+where ℓ : Y × Y → R+ is a loss penalizing the predictions.
+    The expected risk can be reduced by abstaining from prediction in uncertain cases. To
+this end, we use a selective classifier 2 (h, c) composed of a classifier h : X → Y and a
+selection function c : X → [0, 1]. When applying the selective classifier to input x ∈ X it
+outputs                           
+                                     h(x) with probability c(x) ,
+                      (h, c)(x) =
+                                    reject with probability 1 − c(x) .
+In the sequel we introduce three models of an optimal selective classifier: the cost-based, the
+bounded-improvement and the bounded-coverage model. We characterize optimal strategies
+of the three models provided the underlying distribution p(x, y) is known.
+
+2.1 Cost-based model
+Besides the label loss ℓ : Y × Y → R+ , let us define a reject loss ε ∈ R+ incurred when
+a classifiers rejects to predict. The selective classifier (h, c) is evaluated in terms of the
+expected risk
+                              Z X
+                                                                         
+                   RB (h, c) =     p(x, y) ℓ(y, h(x))c(x) + (1 − c(x))ε dx .
+                                  X y∈Y
+
+
+
+Problem 1 (Cost-based model) The optimal selective classifier (hB , cB ) is a solution
+to the minimization problem
+                              min RB (h, c) ,                                      (1)
+                                               h,c
+
+where we assume that both minimizers exist.
+
+The well-known optimal strategy (hB , cB ) solving Problem 1 reads
+                                          X
+                        hB (x) ∈ argmin       p(y | x) ℓ(y, ŷ) ,                                          (2)
+                                           ŷ∈Y      y∈Y
+
+                                             1 if r ∗ (x) < ε ,
+                                            
+
+                                   cB (x) =   τ if r ∗ (x) = ε ,                                           (3)
+                                              0 if r ∗ (x) > ε ,
+                                            
+
+2. The classifier with a reject option is usually represented by a single function h′ : X → Y ∪{reject}. We use
+   the decomposition h′ (x) = (h, c)(x), and the terminology selective classifier from El-Yaniv and Wiener
+   (2010) because we analyze h and c separately.
+
+
+                                                       4
+                     Optimal strategies for reject option classifiers
+
+
+
+
+where                                                X
+                                   r ∗ (x) = min               p(y | x) ℓ(y, ŷ)
+                                              ŷ∈Y
+                                                     y∈Y
+
+is the minimal conditional expected risk associated to input x, and τ is any real number
+from the interval [0, 1]. In the boundary cases when r ∗ (x) = ε one can arbitrarily reject or
+return the best label hB (x) without affecting the value of the risk RB (h, c). In turn there
+always exist a deterministic optimal strategy solving the cost-based model. In the sequel
+we denote the classifier hB alone as the Bayes classifier.
+
+2.2 Bounded-improvement model
+One can characterize the selective classifier by two antagonistic quantities: i) the coverage
+                                           Z
+                                   φ(c) =      p(x) c(x) dx
+                                                     X
+
+corresponding to the probability that the prediction is accepted 3 and ii) the selective risk
+                                   R P
+                                         p(x, y) ℓ(y, h(x)) c(x) dx
+                                            X y∈Y
+                            RS (h, c) =                                            ,
+                                                                 φ(c)
+defined for non-zero φ(c) as the expected classification loss on the accepted predictions.
+Problem 2 (Bounded-improvement model) Given a target risk λ > 0, the optimal
+selective classifier (hI , cI ) is a solution to the problem
+
+                                   max φ(c)         s.t.       RS (h, c) ≤ λ ,                          (4)
+                                    h,c
+
+where we assume that both maximizers exist.
+
+Theorem 1 Let (h, c) be an optimal solution to (4). Then, (hB , c), where hB is the Bayes
+classifier (2), is also optimal to (4).
+
+    According to Theorem 1 the Bayes classifier hB is also optimal for the task (4) defining
+the bounded-improvement model which is not surprising. Note however that the Bayes
+classifier is not a unique solution to (4) because the predictions on the reject region Xc(x)=0
+do not count to the selective risk and hence they can be arbitrary.
+    Theorem 1 allows to solve the bounded-improvement task (4) in two consecutive steps:
+First, set hI to be the Bayes classifier hB . Second, when hI is fixed, the optimal selection
+function cI is obtained by solving the task (4) only with respect to c which boils down to
+Problem 3 (Bounded-improvement model for known h(x)) Given a classifier h(x),
+the optimal selection function c∗ (x) is a solution to
+
+                                   max φ(c)          s.t.        RS (h, c) ≤ λ .                        (5)
+                                 c∈[0,1]X
+3. For a function f : X → R and a ∈ R ∪ {∞}, we define Xf (x)≤a = {x ∈ X | f (x) ≤ a}, Xf (x)<a = {x ∈ X |
+   f (x) < a}, Xf (x)=a= {x ∈ X | f (x) = a}, Xf (x)>a = {x ∈ X | f (x) > a}, Xf (x)≥a= {x ∈ X | f (x) ≥ a}.
+
+
+                                                           5
+                                      Franc, Prusa and Voracek
+
+
+
+
+Note that Problem 3 is meaningful even if h is not the Bayes classifier hB . In practice
+we can seek for an optimal selection function c∗ for any fixed h which is usually our best
+approximation of hB learned from data. We will show that the key concept to characterize
+an optimal selection function of Problem 3 is the conditional expected risk of h defined as
+                                      X
+                               r(x) =    p(y | x) ℓ(y, h(x)) .                          (6)
+                                              y∈Y
+
+
+
+Theorem 2 A selection function c∗ : X → [0, 1] is an optimal solution to Problem 3 if and
+only if it holds
+                 Z                    Z
+                       p(x)c∗ (x)dx =          p(x)dx,                                 (7)
+                        Xr(x)<b                       Xr(x)<b
+                                                               ρ(Xr(x)<b )
+                    Z                                (
+                                  p(x)c∗ (x)dx =         R−        b        if b > 0 ,
+                                                                                          (8)
+                        Xr(x)=b                            Xr(x)=0   p(x)dx if b = 0 ,
+                    Z
+                                  p(x)c∗ (x)dx = 0 ,                                      (9)
+                        Xr(x)>b
+
+where r(x) = r(x) − λ measures how much the conditional risk r(x) of the classifier h(x)
+exceeds the target λ,                 Z
+                                         ρ(X ′ ) =           p(x)r(x) dx                 (10)
+                                                      X′
+
+is the expectation of r(x) restricted to inputs in X ′ , and
+
+                                    b = sup {a | ρ(Xr(x)≤a ) ≤ 0} ≥ 0 .                  (11)
+
+   Theorem 2 defines behaviour of an optimal selection function c∗ (x) on a partition of
+the input space X into three regions Xr(x)<b , Xr(x)=b and Xr(x)>b . In each region the
+expected value of c∗ (x) is constrained to a particular constant the value of which depends
+on parameters of the problem. A particular selection function satisfying the optimality
+condition is given by the following theorem.
+
+Theorem 3 Let r : X → R be the conditional risk (6) of a classifier h : X → Y, γ = b + λ
+the rejection threshold given by the target risk λ and a constant b computed by (11). Then
+the selection function                   
+                                          1 if r(x) < γ ,
+                                c∗ (x) =    τ if r(x) = γ ,                            (12)
+                                            0 if r(x) < γ ,
+                                         
+
+where τ is the acceptance probability given by
+                             (
+                                      1        if ρ(Xr(x)=γ ) = 0 ,
+                        τ=        ρ(Xr(x)<γ) )                                           (13)
+                               − ρ(X         ) if ρ(Xr(x)=γ ) > 0 ,
+                                            r(x)=γ)
+
+
+satisfies the optimality condition of Theorem 2, and hence it is a solution to Problem 3.
+
+                                                         6
+                   Optimal strategies for reject option classifiers
+
+
+
+
+    The selection function (12) is defined by the conditional risk r(x), the decision threshold
+γ and the acceptance probability τ . The prediction is always accepted when r(x) < γ and
+always rejected when r(x) > γ. In the boundary cases, when r(x) = γ, the strategy
+randomizes and the prediction is accepted with probability τ . The decision threshold is
+given by γ = b + λ where λ is the target risk in the definition of Problem 3 and b is given
+by (11). Solving (11) is hard and it requires knowledge of p(x, y). When the probability mass
+of the set of boundary cases Xr(x)=γ is zero, which usually happens in case of continuous
+p(x), the acceptance probability is τ = 1 and the boundary cases are always accepted, i.e.
+no randomization is needed.
+
+2.3 Bounded-coverage model
+In this section we introduce bounded-coverage model the definition of which is symmetric
+to the definition of the bounded-improvement model. Although the problem seems equally
+useful in practice we are unaware of its formal definition in literature.
+
+Problem 4 (Bounded-coverage model) Given a target coverage ω > 0, the optimal
+selective classifier (hC , cC ) is a solution to the problem
+                                  min RS (h, c)     s.t.       φ(c) ≥ ω ,                 (14)
+                                   h,c
+
+where we assume that both minimizers exist.
+
+Theorem 4 Let (h, c) be an optimal solution to (14). Then, (hB , c), where hB is the
+optimal Bayes classifier (2), is also optimal to (14).
+
+    Theorem 4 ensures that the Bayes classifier hB is an optimal solution to (14) defining
+the bounded-coverage model. Note that the solution is not unique as the predictions on
+Xc(x)=0 do not count to the selective risk hence they can be arbitrary. After fixing the
+classifier h = hB the search for an optimal selection function leads to:
+
+Problem 5 (Bounded-coverage model for known h(x)) Given a classifier h(x) and a
+target coverage 0 < ω ≤ 1, the optimal selection function c∗ (x) is a solution to the problem
+                                  min RS (h, c)         s.t.    φ(c) ≥ ω ,                (15)
+                                 c∈[0,1]X
+
+where we assume that the minimizer exists.
+
+Theorem 5 A selection function c∗ : X → [0, 1] is an optimal solution to Problem 5 if and
+only if it holds
+                     Z                      Z
+                                   ∗
+                             p(x)c (x)dx =           p(x)dx,                         (16)
+                             Xr(x)<β                     Xr(x)<β
+                         Z                                     Z
+                                            ∗
+                                       p(x)c (x)dx = ω −                     p(x)dx,      (17)
+                             Xr(x)=β                               Xr(x)<β
+                         Z
+                                       p(x)c∗ (x)dx = 0 ,                                 (18)
+                             Xr(x)>β
+
+
+
+                                                    7
+                               Franc, Prusa and Voracek
+
+
+
+
+where                                 (       Z                      )
+                            β = inf      a|             p(x)dx ≥ ω       .                (19)
+                                              Xr(x)<a
+
+    Theorem 5 defines necessary and sufficient conditions on an optimal solution to Prob-
+lem 5. A particular selection function satisfying the optimality conditions is given by the
+following theorem.
+
+Theorem 6 Let r : X → R be the conditional risk (6) of a classifier h : X → Y, 1 ≥ ω > 0
+be a target coverage and β be the constant computed by (19). Then the selection function
+                                       
+                                        1 if r(x) < β ,
+                                ∗
+                               c (x) =    κ if r(x) = β ,                             (20)
+                                          0 if r(x) > β ,
+                                       
+
+where κ is the acceptance probability given by
+                                                  R
+                                    0          if X        p(x)dx = 0 ,
+                               R                     r(x)=β
+                         
+                     κ=     ω−  Xr(x)<β  p(x)dx                                           (21)
+                          R
+                         
+                               Xr(x)=β
+                                       p(x)dx
+                                                otherwise ,
+
+satisfies the optimality condition of Theorem 6, and hence it is a solution of Problem 5.
+
+    The selection function (20) is determined by the conditional risk r(x), the decision
+threshold β and the acceptance probability κ. Both computations of the decision threshold
+β, defined by (19), and the acceptance probability κ, defined by (21), involve integration of
+p(x). When the probability mass of the set of boundary cases Xr(x)=β is zero, the acceptance
+probability is κ = 0 and the boundary cases are always rejected without any randomization.
+
+2.4 Summary
+We have shown that the three rejection models, namely, the cost-based model (c.f. Prob-
+lem 1), the bounded-improvement model (c.f. Problem 2) and the bounded-coverage model
+(c.f. Problem 4), share the same class of optimal prediction strategies. An optimal selective
+classifier (h, c) can be always constructed from the Bayes classifier h = hB given by (3) and
+a selection function                      
+                                           1 if r(x) < α ,
+                                 cR (x) =    ν if r(x) = α ,                             (22)
+                                             0 if r(x) > α ,
+                                          
+
+where r(x) is the conditional expected risk of h(x) given by (6), α ∈ R is a decision threshold
+and ν ∈ [0, 1] is an acceptance probability. We denote cR defined by (22) as the randomized
+Bayes selection function. Note that the randomized Bayes selection function cR is also an
+optimal solution of the rejection models defined for an arbitrary (i.e. non-Bayes) classifier
+h, that is, an optimal solution of Problem 3 and Problem 5.
+    The constants (ν, α) are defined for each rejection model differently and their value
+depends on parameters of the model (i.e. reject cost ε, target risk λ or target cover-
+age ω), the conditional risk r(x) and the underlying distribution p(x, y). For example, in
+
+                                                  8
+                    Optimal strategies for reject option classifiers
+
+
+
+
+case of the cost-based model the acceptance threshold α equals to the reject cost ε and
+the acceptance probability τ can be arbitrary. In case of the bounded-improvement and
+the bounded-coverage model the constants (ν, α) are defined implicitly via optimization
+problems and integral equations. In practice (ν, α) can be tuned on data. For example,
+Geifman and El-Yaniv (2017) show how to find α from a finite sample such that it is optimal
+for the bounded-improvement model in PAC sense.
+    The key component of randomized Bayes selection function cR is ranking of the inputs
+X according to r(x). We introduce notion of a proper uncertainty score which is less
+informative than the conditional risk r(x), yet it is sufficient to construct cR .
+                                                        P
+Definition 1 Let h : X → Y be a classifier and r(x) = y∈Y p(y | x) ℓ(y, h(x)) its condi-
+tional expected risk. We say that function s : X → R is a proper uncertainty score of h iff
+∀(x, x′ ) ∈ X × X : r(x) < r(x′ ) ⇒ s(x) < s(x′ ).
+
+By definition the proper uncertainty score s(x) preserves ordering of the inputs X induced
+by the conditional risk r(x). Therefore replacing r(x) by s(x) in function (22), and changing
+the decision threshold α appropriately, leads to the same optimal selection function.
+
+3. Learning the uncertainty function
+Assume we want to construct a selective classifier (h, c) solving any of the three rejection
+models described in Section 2. We have shown that regardless the rejection model, an
+optimal h is the Bayes classifier hB given by (2) and an optimal c is the randomized Bayes
+selection function cR given by (22). In this section we consider the scenario when h : X → Y
+has been already trained and we want to endow it with cR . The key component of cR is
+a proper uncertainty score s : X → R satisfying Definition 1. In this section we address
+problem of learning a proper uncertainty score from examples Tn = {(xi , yi ) ∈ X × Y | i =
+1, . . . , n} assumed to be generated from n i.i.d. random variables with distribution p(x, y).
+Before describing the algorithms, in Section 3.1 we introduce the notion of Risk-Coverage
+(RC) curve and Area under Risk-Coverage curve (AuRC). In line with the literature we use
+the AuRC as a metric to evaluate performance of the learned uncertainty scores. We also
+show a connection between the RC curve, the AuRC and the bounded-coverage model. In
+Section 3.2 we describe a plug-in condition risk rule and point out that a frequently used
+Maximum Class Probability rule (MCP) is its special instance. In Section 3.3 we outline
+a learning approach based on a loss regression. In Section 3.4 we introduce a proxy of the
+AuRC which we call a loss for SELEctive classifier learning (SELE). We prove that both
+proposed methods learn the Fisher consistent estimator of the proper uncertainty score.
+
+3.1 Area under Risk Coverage curve
+Majority of existing methods that learn selective classifiers output a classifier h : X → Y
+and a deterministic selection function c : X → [0, 1] defined as 4
+
+                                         c(x) = [[s(x) ≤ θ]] ,                                      (23)
+4. Note that the deterministic (23) and the randomized Bayes selection function cR coincide if the accep-
+   tance probability is ν = 1, which is a usual case when p(x) is continuous.
+
+
+                                                   9
+                                   Franc, Prusa and Voracek
+
+
+
+
+where s : X → R is an uncertainty score and θ ∈ R a decision threshold. Performance of the
+pair (h, s) is evaluated by the RC curve obtained after computing the empirical selective risk
+and the coverage for all settings of the threshold θ. Namely, the computation is as follows.
+Let us order the examples Tn = {(xi , yi ) ∈ X × Y | i = 1, . . . , n} according to s(x) so that
+s(xπ(1) ) ≤ s(xπ(2) ) ≤ · · · ≤ s(xπ(n) ), where π : {1, . . . , n} → {1, . . . , n} is a permutation
+defining the order 5 . Let L(i, s) = ij=1 ℓ(yπj , h(xπj )) be a sum of losses incurred by the
+                                       P
+classifier h(x) on the examples with uncertainty not higher than the i-th highest uncertainty
+on the examples Tn . The Risk-Coverage curve C = {( 1i L(i, s), ni ) | i = 1, . . . , n} is a set
+of 2-dimensional points, where the pair ( 1i L(i, s), ni ) corresponds to the empirical estimate
+of the selective risk RS (h, c) and the coverage φ(c) of a selective classifier (h, c) with the
+deterministic selective function (23) and decision threshold θ = s(xπi ). The area under the
+RC curve C is then
+                                           n                  n      i
+                                 1X1           1X1X
+                  AuRC(s, Tn ) =     L(i, s) =      ℓ(yπj , h(xπj )) .                          (24)
+                                 n i           n i
+                                          i=1                i=1    j=1
+
+The value of AuRC(s, Tn ) can be interpreted as an arithmetic mean of the empirical selective
+risks corresponding to coverage equidistantly spread over the interval [0, 1] with step n1 .
+    There is a tight connection between RC curve, AuRC and the bounded-coverage model.
+The RC curve C represents quality of all admissible solutions of the bounded-coverage model
+that can be constructed from the pair (h, s) when using the sample Tn for evaluation.
+The value of AuRC(s, Tn ) is an estimate of the expected quality of the selective classifier
+constructed from the pair (h, s) when the target coverage is selected uniformly at random.
+
+3.2 Plug-in conditional risk rule
+Prediction models, like e.g. Logistic Regression or Neural Networks learned by cross-
+entropy loss, use the training set Tn to learn an estimate p̂(y | x) of the class posterior
+distribution p(y | Px). The estimate is then used to construct a plug-in Bayes classifier
+ĥ(x) ∈ argminŷ∈Y y∈Y p̂(y | x)ℓ(y, ŷ). Similarly, using p̂(y | x) instead of p(y | x) in (6)
+yields the plug-in rule for the conditional risk of classifier h defined as
+                                         X
+                                 r̂(x) =    p̂(y | x) ℓ(y, h(x)) .
+                                                y∈Y
+
+Provided p(y | x) = p̂(y | x),∀x ∈ X , ∀y ∈ Y, the plug-in conditional risk r̂(x) is by definition
+a proper uncertainty score and it can be used to construct the randomized Bayes selection
+function cR which is an optimal rejection strategy for all the three rejection models.
+
+Example 1 (Maximum Class Probability rule) In case of 0/1-loss ℓ(y, y ′ ) = [[y 6= y ′ ]]
+the plug-in Bayes classifier decides based on the maximum posterior probability ĥ(x) ∈
+argmaxy∈Y p̂(y | x) and the plug-in conditional risk rule is
+                                  X
+                        r̂(x) =         p̂(y | x) ℓ(y, ĥ(x)) = 1 − max p̂(y | x) .
+                                                                    y∈Y
+                                  y∈Y
+5. To break ties we use the index of the input in case the scores are the same.
+
+
+                                                      10
+                     Optimal strategies for reject option classifiers
+
+
+
+
+3.3 Loss regression
+A straightforward approach to learn the uncertainty score is to pose it as a regression
+problem. The regression function gets an input x ∈ X and outputs an estimate of the
+classification loss ℓ(y, h(x)). Formally, given a hypothesis space F ⊂ {s : X → R}, classifier
+h(x) and training set Tn , the loss regression score s : X → R is a solution to mins∈F Freg (s)
+where
+                                          n
+                                        1 X                         2
+                             Freg (s) =       ℓ(yi , h(xi )) − s(xi ) .
+                                        n
+                                               i=1
+
+It is easy to show that the loss regression score is Fisher consistent estimate of the proper
+uncertainty score. This amounts to defining the expectation Freg (x) with respect to i.i.d.
+generated training set Tn , i.e.,
+
+          Ereg (s) = ETn ∼p(x,y) Freg (s)
+                                 n              X n                         2 
+                                                1
+                     Z     X Y
+                   =                p(xi , yi )        ℓ(yi , h(xi )) − s(xi )     dx1 · · · dxn   (25)
+                      X n y∈Y n i=1             n
+                                                  i=1
+                     Z X                                2
+                   =        p(x, y) ℓ(y, h(x)) − s(x) dx ,
+                     X y∈Y
+
+and showing that its minimizer is the conditional risk r(x) which is by definition a proper
+uncertainty score. This is ensured by the following theorem.
+
+Theorem 7 The conditional risk r(x) defined by (6) is an optimal solution to min Ereg (s).
+                                                                                          s:X →R
+
+
+3.4 Minimization of SELE loss
+In this section we define a computationally manageable proxy of AuRC which we call
+SElective classifier LEarning (SELE) loss. The SELE loss ∆sele : Rn × X n × Y n → R+ is
+defined as 6
+                                        n n
+                                      1 XX
+                     ∆sele (s, Tn ) = 2     ℓ(yi , h(xi ))[[s(xi ) ≤ s(xj )]] .    (26)
+                                     n
+                                            i=1 j=1
+
+In contrast to AuRC the computation of ∆sele does not require sorting the examples, i.e.
+we got rid of the permutations that make the evaluation hard. ∆sele is still hard to optimize
+directly due to the step function in its definition. After replacing the step function [[·]] by a
+logistic function we obtain its proxy ψsele : Rn × X n × Y n → R+ defined as
+                                      n n
+                                  1 XX                                              
+               ψsele (s, Tn ) =     2
+                                          ℓ(yi , h(xi )) log 1 + exp(s(xj ) − s(xi ) .             (27)
+                                  n
+                                     i=1 j=1
+
+The function ψsele (s, Tn ) is smooth and convex w.r.t. the argument s and hence it is
+amenable to optimization. Minimization of ψsele is in the core of the proposed learning
+algorithm which works as follows.
+6. We assume that the training set Tn has at least two examples, i.e. n ≥ 2.
+
+
+                                                      11
+                                               Franc, Prusa and Voracek
+
+
+
+
+    Given a hypothesis space F ⊂ {s : X → R}, a classifier h(x) and training set Tn , the
+SELE score s : X → R is a solution to the problem mins∈F ψsele (s, Tn ). We justify the
+proposed algorithm empirically in Section 5. The theoretical justification is based on the
+following three arguments:
+     1. The value of ∆sele is a tight approximation of AuRC. In case when value of s(x) is
+        different for each input in Tn , i.e. s(xi ) 6= s(xj ), ∀i 6= j, then it holds that
+
+                                        ∆sele (s, Tn ) ≤ AuRC(s, Tn ) ≤ 2 · ∆sele (s, T ) .
+
+          The first inequality follows from
+                                                   n                        n
+                                                1X1            1X1
+                           ∆sele (s, Tn ) =         L̂(i, s) ≤     L̂(i, s) = AuRC(s, Tn ) .
+                                                n n            n i
+                                                  i=1                      i=1
+
+          The second inequality is ensured by Theorem 8.
+
+     2. The uncertainty score estimator defined as ŝ ∈ argmins∈[0,1]X ∆sele (s, Tn ) is Fisher
+        consistent. Namely, Theorem 9 ensures that a population minimizer of ∆sele is a
+        proper uncertainty score.
+     3. The Fisher consistency is preserved even for the smooth proxy ψsele the minimization
+        of which is in the core of the proposed algorithm. Namely, Theorem 11 ensures the
+        population minimizer of ψsele is a proper uncertainty score.
+
+Theorem 8 The inequality AuRC(s, Tn ) ≤ 2 · ∆sele (s, Tn ) holds true for any s : X → R and
+Tn = {(xi , yi ) ∈ X × Y | i = 1, . . . , n}.
+
+   To show the Fisher consistency of ∆sele we define its expectation with respect to i.i.d.
+generated examples Tn , i.e.,
+              Z X Y  n
+  Esele (s) =            p(xi , yi )∆sele (s, Tn )dx1 · · · dxn
+                    X n y∈Y n i=1
+                             n                 n
+                                             n X
+                 1
+                      Z      Y               X
+               = 2                  p(xi )             r(xi ) [[s(xi ) ≤ s(xj )]] dx1 · · · dxn
+                n         X n i=1            i=1 j=1
+                   1 X
+                             Z Z
+               =                        p(xi )p(xj )r(xi )[[s(xi ) ≤ s(xj )]]dxi dxj
+                   n2         X     X
+                      i6=j
+                        n Z Z
+                    1 X
+                 + 2             p(xi )p(xi )r(xi )[[s(xi ) ≤ s(xi )]]dxi dxi
+                    n
+                       i=1 X X
+                 n2 − n
+                                     Z                             
+                                                                              1
+                        Z                                                       Z Z
+               =           p(x) r(x)       p(z) [[s(x) ≤ s(z)]]dz dx +               p2 (x)r(x)dx dx .
+                   n2    X               X                                   n   X X
+                                                                                                   (28)
+
+Minimizers of Esele are characterized by the following theorem 7 .
+     R R                                          R R
+7.    X         z6=x   f (x,z)dz dx stands for     X X′
+                                                           f (x,z)dz dx where X ′ = {z ∈ X | z 6= x ∧ s∗ (z) = s∗(x)}, etc.
+           s∗ (z)=s∗ (x)
+
+
+
+                                                                  12
+                    Optimal strategies for reject option classifiers
+
+
+
+
+Theorem 9 A function s∗ : X → R is an optimal solution to mins:X →R Esele (s) iff
+                     Z Z
+                                   z6=x
+                                         max{r(x), r(z)}p(x)p(z)dz dx = 0 , and                    (29)
+                        X
+                              s∗ (z)=s∗ (x)
+                     Z Z
+                               r(z)<r(x)
+                                            (r(x) − r(z)) p(x)p(z)dz dx = 0 .                      (30)
+                        X
+                              s∗ (z)>s∗ (x)
+
+
+The conditions (29) and (30) imply that the conditional expectations Ex,z∼p(x)[max{r(x), r(z)} |
+z 6= x ∧ s∗ (x) = s∗ (z)] and Ex,z∼p(x)[r(x) − r(z) | r(z) < r(x) ∧ s∗ (z) > s∗ (x)] are both zero.
+If combined it further implies that a subset of input space X ′ = {(x, z) ∈ X × X | r(z) <
+r(x) ∧ s∗ (z) > s∗ (x)}, on which the order is violated, has probability measure zero. In other
+words the optimal s∗ (x) preserves the ordering induced by r(x) almost surely 8 .
+
+Corollary 10 Any function s : X → R fulfilling
+
+                            ∀(x, x′ ) ∈ X × X : x 6= x′ ⇒ s(x) 6= s(x′ ), and                      (31)
+                                   ′                                ′                  ′
+                            ∀(x, x ) ∈ X × X : r(x) < r(x ) ⇒ s(x) < s(x )                         (32)
+
+satisfies the optimality conditions of Theorem 9.
+
+Note that (31) requires the minimizer of ∆sele to assign a unique value to each input x ∈ X
+which is not necessary for the score to be proper. Hence the minimizers of ∆sele form a
+subset of all proper uncertainty scores.
+    To show the Fisher consistency of the smooth proxy ψsele we define its expectation with
+respect to i.i.d. generated examples Tn , i.e.,
+                        Z         n
+                                X Y
+         Eproxy (s) =                       p(xi , yi ) ψsele (s, Tn ) dx1 · · · dxn
+                            X n y∈Y n i=1
+
+                      n2 − n
+                             Z             Z                                   
+                                                                             
+                    =            p(x) r(x)      p(z) log 1 + exp(s(z) − s(x)) dz dx
+                        n2     X              X
+                         log(2)
+                                Z
+                      +            p(x) r(x)dx .                                                   (33)
+                           n     X
+
+We omitted the derivation as it is similar to (28). The key property of the minimizers of
+Eproxy is stated in the following theorem.
+
+Theorem 11 Let s∗ : X → R be an optimal solution to mins : X →R Eproxy (s). Then, the
+condition
+                 ∀(x, x′ ) ∈ X × X : r(x) < r(x′ ) ⇒ s∗ (x) < s∗ (x′ )
+
+is satisfied almost surely.
+8. This means that the condition can be violated at most on a subset of X with probability measure zero.
+
+
+                                                           13
+                               Franc, Prusa and Voracek
+
+
+
+
+4. Related Works
+The cost-based rejection model was proposed in Chow (1970) who also provides the optimal
+strategy in case the distribution p(x, y) is known, analyzes the error-reject trade-off, and
+proves basic properties of the error-rate and the reject-rate, e.g. that both functions are
+monotone with respect to the reject cost. The original paper considers the risk with 0/1-loss
+only. The model with arbitrary classification costs was analyzed e.g. in Tortorella (2000);
+Schlesinger and Hlaváč (2002).
+    The bounded-improvement model was coined in Pietraszek (2005). He assumes that
+a classifier score proportional to the posterior probabilities is known and the task is to
+find only an optimal decision threshold, which is done numerically based on ROC analysis.
+The original formulation assumes two classes and 0/1-loss. In this article we consider a
+straightforward generalization of the bounded-improvement model, see Problem 2, which
+allows arbitrary number of classes, arbitrary loss and puts no constraint on the class of
+optimal strategies. We have proved necessary and sufficient conditions on an optimal strat-
+egy in case p(x, y) is known. We showed that a particular optimal solution is composed of
+the Bayes classifier and the randomized Bayes selection function. In addition, we coined
+the bounded-coverage model, see Problem 4, the definition of which is symmetric to the
+bounded-improvement model. Although the bounded-coverage model seems equally useful
+in practice we are unaware of its formal definition in a literature.
+    There exist another formulations of rejection models for two-class classifiers. For exam-
+ple, in Hanczar and Dougherty (2008) the objective is to maximize the coverage under the
+constraints that each class has an error rate below a specific threshold. Hence it can be
+seen as a generalization of the bounded-improvement model. The objective of a rejection
+model proposed in Lei (2014) is to maximize the total coverage under the constraint that
+each class has coverage above a specific threshold. None of the two papers analyzes optimal
+strategies of the corresponding models.
+    A common approach to construct the selective classifiers for the cost-based model is
+based on the plug-in rule, which involves learning the class posterior distribution from ex-
+amples and plugging the distribution to the formula defining the Bayes-optimal strategy (2).
+In the case of 0/1-loss the plug-in rule rejects based on the maximal class posterior which is
+denoted as Maximal Class Probability (MCP) rule (see Example 1). The MCP rule is proba-
+bly most frequently used uncertainty score in the literature. The statistically consistency of
+the plug-in rejection rule is discussed in Herbei and Wegkamp (2006). Fumera et al. (2000)
+investigate how errors in estimation of the posterior distribution affect effectiveness of the
+plug-in rule and they also try to improve its performance by using class-specific thresh-
+olds. Other methods trying to improve the plug-in rule by tuning multiple thresholds were
+proposed in Kummert et al. (2016); Fischer et al. (2016). In our work we have derived the
+optimal strategies for the bounded-improvement model and the newly proposed bounded-
+coverage model. Our results thus provides a recipe to construct the plug-in rules also for
+these two rejection models.
+    There exist many modifications of standard prediction models to learn reject option
+classifiers for the cost-based model. For example, extensions of the Support Vector Ma-
+chines to learn a reject option classifier have been studied extensively in Grandvalet et al.
+(2008); Bartlett and Wegkamp (2008); Yuan and Wegkamp (2010). These works are limited
+
+                                             14
+                  Optimal strategies for reject option classifiers
+
+
+
+
+to two-class problems and 0/1-loss. Learning leads to minimization of a convex surrogate
+of the cost-based model’s objective function. Under some conditions the algorithms are
+statistically consistent. A boosting algorithm for learning a two-class classifier with reject
+option is proposed in Cortes et al. (2016). The algorithm minimizes a convex surrogate for
+the cost-based model and show that the surrogate is calibrated with Bayes solution. Learn-
+ing prototype-based classifier with rejection option has been addressed in Villman et al.
+(2016). All these methods require the reject cost to be fixed at the time of learning, and
+hence changing the cost requires re-training. In contrast, we propose algorithms to learn the
+proper uncertainty score on top of a pre-trained classifier so that the risk-coverage trade-off
+can be set by tuning the reject threshold without re-training.
+    For many prediction models it is easy to devise an ordinal uncertainty score from out-
+puts of the learned (non-reject) classifier. Such strategies are often heuristically based but
+work reasonably in practice. For example, LeCun et al. (1990) proposed a reject strat-
+egy for a Neural Network classifier based on thresholding either the output of the max-
+imally activated unit of the last layer or a difference between the maximal and runner
+upper output units. Other heuristically based strategies for neural networks were eval-
+uated in Zaragoza and d’Alche Buc (1998); Fisher et al. (2015). In case of Support Vec-
+tor Machine classifiers (Vapnik, 1998) the trained linear score, proportional to the dis-
+tance between the input and the decision hyper-plane, is directly used as the uncertainty
+score (Fumera and Roli, 2002). We denote this approach as the margin score and use it as
+a baseline in our experiments.
+    Learning of a selective classifier optimal for the bounded-improvement model was dis-
+cussed in El-Yaniv and Wiener (2010). Their method requires a noisy-free scenario, i.e.
+they maximize the coverage under the constraint that the selective risk is zero. They pro-
+vide a characterization of the lower and upper bound of the risk-coverage curves in PAC
+setting. Geifman and El-Yaniv (2017) assume a selective classifier based on thresholding an
+uncertainty score and show how to find a decision threshold for the bounded-coverage model
+which is optimal in PAC sense. They do not address the problem of learning the uncertainty
+score. We complement their work by showing that the thresholding based selective classifier
+is an optimal solution when the uncertainty function is proper, and we propose algorithms
+to learn the proper uncertainty score from examples.
+    Recent works address uncertainty prediction in context of deep learning (Lakshminarayanan et al.,
+2017; Jiang et al., 2018; Corbiere et al., 2019). These works do not formulate the problem
+to be solved explicitly as a rejection model. However, they evaluate their uncertainty
+scores empirically in terms of the Risk-Coverage curve and the Area under the RC curve
+which we have shown to be connected with the bounded-coverage model (see Section 3.1).
+Lakshminarayanan et al. (2017) construct the MCP rule from a posterior distribution mod-
+eled as an ensemble of neural networks trained from multiple random initialization. They
+use adversarial examples to smooth the posterior estimate. Jiang et al. (2018) propose a
+Trust Score as the ratio between the distance from the test sample to the samples of the
+nearest class with a different label and the distance to the samples with the same labels as
+the predicted class. Corbiere et al. (2019) propose a True Class Probability (TCP) score as
+a measure of prediction confidence. The TCP predicts the value of p(y ∗ | x) where y ∗ is the
+ground truth label. They learn a NN, so called ConfNet, by minimizing L2-loss between
+the ConfNet output and p̂(yi | x) on training examples, where p̂(y | x) is the soft-max
+
+                                            15
+                                Franc, Prusa and Voracek
+
+
+
+
+distribution trained by standard cross-entropy loss. They show that the TCP empirically
+outperforms the MCP score and the Trust Score (Jiang et al., 2018) in terms of the AuRC
+metric. Both Jiang et al. (2018); Corbiere et al. (2019) consider the two-stage approach
+to learn the uncertainty score similarly to our paper. We show empirically that our pro-
+posed SELE score, besides having a theoretical backing and being applicable for a generic
+classification problem, outperforms the the state-of-the-art TCP score.
+
+
+5. Experiments
+In Section 3, we outlined two risk minimization based methods to learn the uncertainty
+score s(x) for a pre-trained predictor h(x), namely, the algorithm based on i) loss regres-
+sion (Section 3.3) and ii) minimization of SELE loss (Section 3.4). We have shown that
+both methods are Fisher consistent, i.e. they are guaranteed to find the proper score in
+the idealized setting when the distribution p(x, y) is known (estimation error is zero), the
+hypothesis space F contains the proper score (approximation error is zero) and the loss
+minimizer can be found exactly (optimization error is zero). In this section we evaluate
+these methods experimentally on real data when all assumptions are presumably violated.
+We design the experiments so that the optimization and the estimation error are small by
+using a large number of training examples and linear rules making the loss minimization a
+convex problem. We compare against the recently proposed True Class Probability (TCP)
+score (Corbiere et al., 2019) which is learned from examples like the proposed methods.
+Unlike the proposed methods, the TCP requires the prediction model h(x) to provide an
+estimate of the posterior p(y | x), hence it is not applicable to fully discriminative models
+like e.g. SVMs. We emphasize that the experiments are meant to be a proof of concept
+rather than an exhaustive comparison to all existing methods. On the other hand, we are
+not aware of any other generic method (i.e. being not connected to a particular prediction
+model) we could compare against.
+     To demonstrate that the proposed methods are generic we consider three different cate-
+gories of prediction problems: classification, ordinal regression and structured output clas-
+sification. For each prediction problem we use several benchmark datasets and frequently
+used prediction models like the Logistic Regression (LR), three variants of Support Vector
+Machines (SVMs) and Gradient Boosted Trees. For each prediction model there exists an
+uncertainty score that is commonly used in practice, like e.g. Maximal Class Probability
+(MCP) for logistic regression or distance to the decision hyper-plane (a.k.a. margin score)
+for SVMs. We use these uncertainty scores as additional baselines in our experiments.
+
+5.1 Compared methods for uncertainty score learning
+
+In this section we describe three algorithms that use a training set Tn = {(xi , yi ) ∈ X × Y |
+i = 1, . . . , n} to learn an uncertainty score s(x) for a pre-trained classifier h(x). We con-
+sider linear scores sθ (x) = hθ, ψ(x)i, where θ ∈ Rm are parameters to be learned and
+ψ : X → Rm is a fixed mapping that will be defined for each prediction model separately in
+the following sections. All evaluated methods are instances of regularized risk minimization
+framework. In all cases learning leads to an unconstrained minimization of a convex objec-
+tive F (θ) = C2 kθk2 + R̂(θ, Tn ), where C > 0 is a regularization constant and R̂(θ, Tn ) is an
+
+                                              16
+                    Optimal strategies for reject option classifiers
+
+
+
+
+empirical risk defined by each method differently. The optimal value of C is selected from
+{0, 1, 10, 100, 1000} based on the minimal value of the AuRC evaluated on a validation set.
+
+5.1.1 Regression score
+The parameters θ ∈ Rm are learned by minimizing a convex function
+                                         n
+                                C   2  1X                           2
+                      FREG (θ) = kθk +     ℓ(yi , h(xi )) − sθ (xi ) .
+                                2      n
+                                                 i=1
+
+Minimization of FREG (θ) is an instance of the ridge regression that can be solved efficiently
+e.g. by Singular Value Decomposition (SVD).
+
+5.1.2 SELE score
+Evaluation of the proposed SELE loss ψsele (s, Tn ) as defined by (27) requires O(n2 ) opera-
+tions. To decrease the complexity we approximate its value by splitting the examples into
+chunks and computing the average loss over the chunks. Namely, the parameters θ ∈ Rm
+are learned by minimizing a convex function
+
+                                                         P
+                                       C       1 X
+                            FSELE (θ) = kθk2 +     ψsele (s, Tnk ) ,
+                                       2       P
+                                                         i=1
+
+
+where C > 0 is a regularization constant and Tn1 ∪Tn2 ∪· · ·∪TnP is a randomly generated par-
+tition of the training set Tn into P approximately equally sized batches. In all experiments
+we used P = round(n/500), i.e. the chunks contain around 500 examples. We minimize
+FSELE (θ) by the Bundle Method for Risk Minimization (BMRM) algorithm (Teo et al.,
+2010) which is set to find a solution whose objective is at most 1% off the optimum 9 .
+The total computation time of the BMRM algorithm is in order of units of minutes for all
+dataset using a contemporary PC.
+
+5.1.3 True Class Probability score
+The TCP (Corbiere et al., 2019) was originally designed for getting uncertainty score on
+top of a Convolution Neural Network (CNN) trained with cross-entropy loss. The setting
+we consider here can be seen as the original method applied to a single layer CNN. Namely,
+let p̂(y | x) be an estimate of the posterior distribution, in our experiments provided by
+the Logistic Regression (a.k.a. single layer NN). The parameters θ ∈ Rm are learned by
+minimizing a convex function
+                                                    n
+                                     C        1X
+                       FTCP (θ) =      kθk2 +    (p̂(yi | xi ) − sθ (xi ))2 .
+                                     2        n
+                                                   i=1
+
+Minimization of FREG (θ) is an instance of the ridge regression which we solve by SVD.
+
+9. We use (Fprimal − Fdual )/Fprimal ≤ 0.01 as the stopping condition of the BMRM algorithm.
+
+
+                                                  17
+                                    Franc, Prusa and Voracek
+
+
+
+
+5.2 Benchmark problems
+5.2.1 Classification
+Given real valued features x ∈ X ⊆ Rd , the task is to predict a hidden state y ∈ Y =
+{1, . . . , Y } so that the expectation of 0/1-loss ℓ(y, y ′ ) = 100 [[y 6= y ′ ]] is as small as possi-
+ble 10 . We selected 11 classification problems from the UCI repository (Dua and Taniskidou,
+2017) and libSVM datasets (Chang and C.J.Lin, 2011). The datasets are summarized in
+Table 1. We chose the datasets with sufficiently large number of examples relative to the
+number of features, as we need to learn both the classifier and the uncertainty score and
+simultaneously keep the estimation error low. Each dataset was randomly split 5 times
+into 5 subsets, Trn1/Val1/Trn2/Val2/Tst, in ratio 30/10/30/10/20 (up to CODRNA with
+ratio 25/5/20/20/30 and COVTYPE with ratio 28/20/2/20/30). The subsets Trn1/Val1
+were used for learning and tuning the best regularization constant of the classifier h(x).
+The subsets Trn2/Val2 were used for learning and tuning the regularization constant of the
+uncertainty score s(x) as described in Section 5.1. All features were normalized to have
+zero mean and unit variance. The normalization coefficients were estimated using only the
+Trn1 and Trn2 subsets, respectively. The Tst subset was used solely to evaluate the test
+performance.
+    We used two prediction models: Logistic Regression (LR) (Hastie et al., 2009) and Sup-
+port Vector Machines (SVM) (Vapnik, 1998).
+Logistic Regression learns parameters θ LR = ((w y , by ) ∈ Rd × R | y ∈ Y) of the
+posterior probabilities p̂θ (y | x) P
+                                    ≈ exp(hw y , xi + by ) by maximizing the regularized log-
+likelihood FLR (θ) = 2 kθk + m m
+                       C      2   1
+                                      i=1 log p̂θ (yi | xi ) . The optimal C was selected from
+{1, 10, 100, 1000} based on the validation classification error. After learning θ LR we used
+the plug-in Bayes classifier h(x) = argmaxy∈Y p̂θLR (y | x). As a baseline uncertainty score
+we use the plug-in class conditional risk r̂(x) = 1 − p̂θLR (h(x) | x). In accordance with the
+literature we refer to this baseline as the Maximal Class Probability (MCP) rule. As shown
+in Section 3.2, the MCP score is the proper uncertainty score provided the estimate p̂(y | x)
+matches the true posterior p(y | x).
+Support Vector Machines learn parameters θ SVM = ((w y , by ) ∈ Rd × R | y ∈ Y) of
+the linear classifier h(x) = argmaxy∈Y (hw y , xi + by ) by minimizing FSVM (θ) = C2 kθk2 +
+ 1 Pm
+                                                 
+m    i=1 maxy∈Y [[y 6= yi ]] + hw y − w yi , xi i . The optimal C was selected in the same way as
+in case of the LR. As the baseline uncertainty measure we use s(x) = maxy∈Y hwy , xi+by . In
+the binary case
+             Pm|Y| = 2, the setting was θ SVM = (w, b), h(x) = sgn(hw, xi + b), FSVM (θ) =
+C
+   kθk2 + 1
+ 2         m    i=1 max{0, 1 − yi (hw, xi i + b)} and s(x) = |hw, xi + b|. In both cases, the
+value of s(x) is proportional to a distance between the input x and the decision boundary.
+We denote this baseline as the margin score.
+    Given the pre-trained LR or SVM classifier h(x), we apply the methods from Section 5.1
+to learn the uncertainty score
+                                       sθ (x) = hwh(x) , xi + by ,                                      (34)
+where θ = ((wy , by ) ∈ Rd × R | y ∈ Y) are the parameters to be learned. It is seen that
+the rule (34) can be re-written as sθ (x) = hθ, ψ(x)i, where ψ : X → Rd is an appropriately
+10. Due to the factor 100 the reported errors correspond to the percentage of misclassified examples.
+
+
+                                                    18
+                     Optimal strategies for reject option classifiers
+
+
+
+
+defined feature map. The form of the score (34) can be justified by noting that its special
+instance is the margin score which is obtained after substituting θ SVM for θ.
+
+5.2.2 Ordinal regression
+The task is to predict a hidden state from Y = {1, . . . , Y } based on real valued features
+X ⊆ Rd . Unlike the classification problem, the hidden states Y are assumed to be ordered
+and the goal is to minimize the expectation of the Mean Absolute Error ℓ(y, y ′ ) = |y − y ′ |.
+We selected 11 regression problems from UCI repository (Dua and Taniskidou, 2017). The
+datasets are summarized in Table 1. The real-valued hidden states were discretized into
+Y bins which are constructed to get uniform class prior. Each dataset was randomly split
+5 times into 5 subsets, Trn1/Val1/Trn2/Val2/Tst, in ratio 30/10/30/10/20. We used the
+same normalization and evaluation protocol as described for the classification benchmarks.
+    As a prediction model we used a variant of the Support Vector Machine algorithm
+developed for ordinal regression (Chu and Keerthi, 2005) 11 .
+
+Support Vector Ordinal Regression (SVOR) learns parameters                      PY −1θ SVOR = (w ∈
+  d
+R , (b1 , . . . , bY −1 ) ∈ R Y −1 ) of the ordinal linear classifier h(x) = 1 + y=1 [[hx, wi > by ]] by
+                                            1 Pm      Pyi −1                        PY −1
+minimizing FSVOR (θ) = 2 kθk2 + mC
+                                                i=1     y=1 max(0, 1−hw, xi i+by )+     y=yi max(0, 1+
+                   
+hxi , wi − by ) . The optimal C was selected from {1, 10, 100, 1000} based on the valida-
+tion MAE. The ordinal classifier can be thought of as a standard linear classifier com-
+posed of parallel decision hyper-planes. Similarly to the standard SVM, we use s(x) =
+miny∈{1,...,Y −1} |hx, wi − by | as a baseline uncertainty score. The value of s(x) is propor-
+tional to the distance of x to the closest hyper-plane hence we also denote it as the margin
+score. When learning the uncertainty from examples we use the parametrization (34).
+
+5.2.3 Structured Output Classification
+Given an RGB image x ∈ X = {0, . . . , 255}W ×H×3 capturing a human face, the task
+is to predict a pixel positions of 68 landmarks y = (l1 , . . . , l68 ) ∈ Y = ({1, . . . , W } ×
+{1, . . . , H})68 corresponding to contours of eyes, mouth, nose, etc. We use the 300-W
+dataset and the associated evaluation protocol which was created by organizers of landmark
+detection challenge (Sagonas et al., 2016). The 300-W dataset contains 5,807 faces each
+annotated with 68 landmarks. The faces are split into 3,484 training, 1,161 validation and
+1,162 test examples. The prediction    accuracy is measured in terms of normalized average
+                                100 P68
+localization error ℓ(y, ŷ) = iod(y) i=1 kli − l̂i k, where iod(y) is the inter-ocular distance
+computed from the ground-truth landmark positions y.
+    As the structured classifier h(x) we use the landmark detector from DLIB package (King,
+2009). The detector predicts the landmark positions based on HOG descriptors (Dalal and Triggs,
+2005) of the input image using an ensemble of regression trees that are trained by gradient
+boosting (Kazemi and Sullivan, 2014). The DLIB landmark detector has been widely used
+by developers due to its robustness and exceptional speed even on a low-end hardware.
+The detector does not provide any measure of prediction uncertainty and it is unclear how
+to derive it from outputs of the regression trees. A commonly used uncertainty score for
+
+11. (Chu and Keerthi, 2005) introduced two variants of SVOR algorithm. We use so called SVOR with
+    implicit constraints which is designed for minimization of the MAE loss.
+
+
+                                                  19
+                               Franc, Prusa and Voracek
+
+
+
+
+face recognition related prediction problems is a score function of a face detector. The face
+detector score is an output of a binary classifier trained to distinguish face from non-face
+images. The value of the score is high for well looking prototypical faces and low for cor-
+rupted or “difficult” faces. As a baseline we use the score of the DLIB face detector which
+is a linear SVM classifier on top of HOG descriptors extracted from the image.
+    When learning the uncertainty score from examples the score is a linear regressor
+sθ (x) = hθ, ψ(x)i on top of a feature vector ψ(x) ∈ R2,448 which is a concatenation of
+HOG descriptors extracted from the input facial image x along landmark positions pre-
+dicted by the landmark detector h(x). The DLIB detector uses the same features to predict
+the landmark positions hence the extra computational time required to evaluate the uncer-
+tainty score is neglectable.
+
+           Classification problems                     Ordinal regression problems
+   dataset            examples feat    cls         dataset         examples feat cls
+   AVILA                20,867   10    12          ABALONE            4,177     10 19
+   CODRNA              331,152    8     2          BANK               8,192     32 10
+   COVTYPE             581,012   54     7          BIKESHARE         17,379     11 10
+   IJCNN                49,990   22     2          CALIFORNIA        20,640     8  10
+   LETTER               20,000   16    26          CCPP               9568      4  10
+   MARKETING            45,211   51     2          CPU                8192      21 10
+   PENDIGIT             10,992   16    10          FACEBOOK          50,993     53 10
+   PHISHING             11,055   68     2          GPU              24,1600     14 10
+   SATTELITE            6,435    36     6          METRO             48,204     30 10
+   SENSORLESS           58,509   48    11          MSD              499,671     90 41
+   SHUTTLE              58,000    9     7          SUPERCOND         21,263     81 10
+
+Table 1: Summary of 11 classification problems (left) and 11 ordinal regression problems
+         (right) selected from UCI repository (Dua and Taniskidou, 2017) and libSVM
+         datasets (Chang and C.J.Lin, 2011). The table shows the total number of ex-
+         amples, the number of features and the number of classes.
+
+
+
+
+5.3 Results
+
+5.3.1 Classification problems
+
+For both classification models, LR and SVM, we recorded the test risk of the classifier h(x)
+and the AuRC computed from h(x) and uncertainty score s(x) produced by the correspond-
+ing method under evaluation. In case of LR, we compare the baseline MCP score (sec 5.2.1)
+and scores learned from examples including the state-of-the-art TCP score (sec 5.1.3) and
+the two proposed SELE score (sec 5.1.2) and Regression (REG) score (sec 5.1.1). In case
+of SVM, we compare the baseline Margin score (sec 5.2.1) against the proposed SELE and
+REG scores. Note that TCP score is not applicable for SVM classifier as it does not provide
+an estimate of the posterior probability p(y | x). The results are summarized in Table 2.
+
+                                             20
+                        Optimal strategies for reject option classifiers
+
+
+
+
+    For each dataset we rank the compared methods according to the AuRC 12 . Following
+the methodology of Demšar (2006) we summarize performance of each method by its average
+rank and use the Friedman test and the post-hoc Nemenyi test to analyze significance of
+the results.
+    • We used the Friedman test to check whether the measured average ranks are signif-
+      icantly different from the mean rank. The null hypothesis states that the compared
+      scores are equivalent so that their average ranks should be equal. In both cases the
+      null hypothesis is rejected for p-value 0.05, i.e., the performance of compared methods
+      is significantly different.
+    • We used post-hoc Nemenyi test for pair-wise comparison. For each pair of methods
+      it checks whether their average ranks are significantly different. In case of LR, when
+      we compare K = 4 methods using N = 11 datasets, the critical difference for p-value
+      0.10 is CD = 1.26. By comparing the average ranks we conclude that SELE score
+      performs significantly better than MCP score and REG score. In case of SVM, when
+      we compare K = 3 methods using N = 11 dataset, the critical difference for p-value
+      0.10 is CD = 0.98. We conclude that SELE performs significantly better than REG
+      score and Margin score. The data is not sufficient to reach any conclusion about other
+      pairwise comparisons. The result of the Nemenyi test is visualized in Figure 1.
+     We further computed relative improvement gained by using the scores SELE, TCP and
+REG, that are all learned from examples, with respect to the baseline scores derived from the
+classifier output, i.e. MCP in case of LR and Margin score in case of SVM. The results are
+summarized in Figure 2. It is seen that the MCP uncertainty computed from the estimated
+p(y | x) constitutes much stronger baseline than the Margin score of fully discriminative
+SVM model. The relative improvement of scores learned on top the LR is only moderate in
+contrast to the SVM classifier where the improvements are more significant and consistent.
+It is also seen that on majority of datasest the performance of the learned scores is similar
+taking into account the statistical error of the AuRC estimate. It is also worth mentioning
+that results of SELE score have the lowest variance of the AuRC estimates as seen from
+error bars in Figure 2.
+                  CD                                                   CD
+              4     3      2    1                                  3        2    1
+
+  LR+REG                            LR+SELE         SVM+Margin                       SVM+SELE
+  LR+MCP                            LR+TCP          SVM+REG
+ a) Average ranks for scores on top LR.          b) Average ranks for scores on top of SVM.
+
+Figure 1: Comparison of all uncertainty scores against each other with the Nemenyi test.
+          The test is computed separately for the LR classifier (4 scores compared) and the
+          SVM classifier (3 scores compared). The figures show the average ranks for each
+          score and the critical distance (CD). Groups of scores that are not significantly
+          different at p-value 0.10 are connected.
+
+
+12. The score with smallest AuRC is ranked 1, the second smallest 2 and so on.
+
+
+                                                   21
+                               Franc, Prusa and Voracek
+
+
+
+
+                    LR+MCP         LR+SELE       LR+REG        LR+TCP             LR
+                      AuRC           AuRC          AuRC          AuRC            R@100
+         AVILA 27.18±0.55 25.79±0.44 26.62±0.74 26.85±0.78                    43.71±0.42
+       CODRNA       0.88±0.05      0.65±0.03     0.82±0.06     0.78±0.04       4.81±0.08
+     COVTYPE 16.49±0.06 17.58±0.07 17.62±0.09 17.19±0.07                      27.56±0.17
+         IJCNN      1.26±0.04      1.00±0.03     1.16±0.08     1.14±0.06       7.54±0.15
+       LETTER       7.43±0.40      6.42±0.34     7.44±0.59     6.71±0.42      23.32±0.60
+  MARKETING         2.60±0.31      1.88±0.11     1.97±0.12     1.90±0.11       9.88±0.29
+     PENDIGIT 0.69±0.04            1.55±0.19     1.97±0.55     1.47±0.39       5.29±0.40
+     PHISHING       0.76±0.10      0.75±0.10     0.91±0.31     0.85±0.25       6.29±0.44
+   SATTELITE        3.83±0.26      3.68±0.27     4.93±1.07     4.52±0.85      15.06±0.46
+  SENSORLESS        2.03±0.11      1.82±0.08     2.69±0.09     2.37±0.22       8.23±0.45
+      SHUTTLE       0.59±0.09      0.26±0.07     1.24±0.51     0.58±0.13       3.36±0.25
+    average rank       2.73           1.36          3.55          2.36
+               (a) Uncertainty scores on top of LR classifier.
+
+                       SVM+MARGIN SVM+SELE SVM+REG                             SVM
+                             AuRC            AuRC          AuRC               R@100
+             AVILA        31.65±0.83      25.26±0.67 25.95±0.75            43.34±0.70
+           CODRNA          0.89±0.05       0.65±0.03     0.82±0.05          4.78±0.08
+         COVTYPE          25.71±0.81       17.79±0.21 17.77±0.14           27.41±0.11
+             IJCNN         1.40±0.04       1.01±0.04     1.18±0.08          7.56±0.16
+           LETTER         10.20±0.22       6.05±0.65     7.15±0.65         22.06±0.69
+      MARKETING            2.24±0.20       1.97±0.10     2.04±0.20         10.48±0.39
+         PENDIGIT          2.79±0.40       1.57±0.21     2.16±0.43          4.88±0.57
+         PHISHING          0.84±0.12       0.72±0.12     0.90±0.30          6.37±0.44
+       SATTELITE           4.75±0.60       3.82±0.27     5.44±0.68         15.36±0.37
+      SENSORLESS           3.68±0.20       1.56±0.08     2.46±0.29          6.92±0.17
+          SHUTTLE          1.31±0.47       0.24±0.07     0.55±0.15          2.02±0.15
+        average rank          2.82             1.09         2.09
+                     (b) Uncertainty scores on top of SVM classifier.
+
+Table 2: Performance of the uncertainty scores on 11 classification problems. The scores
+         are constructed on top of the LR classifier and the SVM classifier measured in
+         terms of AuRC. For each score we show the mean and the standard deviation of
+         the test AuRC computed over 5 random splits. We compare the performance of
+         scores learned from examples (SEL, REG, TCP) and the baseline scores derived
+         from the classifiers output (MCP and Margin score). The last column shows the
+         risk of the base (non-selective) classifier. All the values correspond to percentage
+         of misclassification. The best results for each dataset are shown in bold. The last
+         row shows the average rank.
+
+
+
+
+                                             22
+                                                       Optimal strategies for reject option classifiers
+
+
+
+
+        (a) Improvement over LR+MCP score.                                                                                                 (b) Improvement over SVM+Margin score.
+                   100                                                                                                                                        100
+                                                                                                                                                                      SVM+SELE
+                                                                                                                                                                      SVM+REG
+                      0
+
+
+
+
+                                                                                                                                            improvement [%]
+ improvement [%]
+
+
+
+
+                                                                                                                                                               50
+
+                   -100
+
+                                                                                                                                                                0
+                   -200     LR+SELE
+                            LR+REG
+                            LR+TCP
+                   -300                                                                                                                                       -50
+
+
+
+
+                                                                                                                                                                                                                                                              SENSORLESS
+                                                                                                                                                                                               IJCNN
+                                                                                                                                                                                     COVTYPE
+                                                                                                                    SENSORLESS
+
+
+
+
+                                                                                                                                                                                                       LETTER
+                                                     IJCNN
+                                           COVTYPE
+
+
+
+
+                                                                                                                                                                                                                                                  SATTELITE
+
+
+
+                                                                                                                                                                                                                                                                           SHUTTLE
+                                                             LETTER
+
+
+
+
+                                                                                                                                                                                                                MARKETING
+                                                                                                        SATTELITE
+
+
+
+
+                                                                                                                                                                                                                            PENDIGIT
+
+                                                                                                                                                                                                                                       PHISHING
+                                                                                                                                                                            CODRNA
+                                                                                                                                 SHUTTLE
+
+
+
+
+                                                                                                                                                                    AVILA
+                                                                      MARKETING
+
+                                                                                  PENDIGIT
+
+                                                                                             PHISHING
+                                  CODRNA
+                          AVILA
+
+
+
+
+Figure 2: Relative improvement gained by using the uncertainty scores (SELE, REG and
+          TCP) that are learned from examples over the baseline scores (MCP for LR
+          and Margin score for SVM) constructed from the classifier output. The relative
+          improvement is computed as 100×(AuRCbaseline −AuRCmethod )/AuRCbaseline . We
+          show the mean and the standard deviation (error bar) of the relative improvement
+          computed over the random 5 splits.
+
+
+
+5.3.2 Ordinal regression
+In case of SVOR classifier we compared the baseline Margin score (sec 5.2.2) and the scores
+learned from examples including SELE (sec 5.1.2) and REG score (sec 5.1.1). We used
+exactly the same evaluation protocol as for the classification task, however, instead of 0/1-
+loss the errors were evaluated by the MAE loss. The results are summarized in Table 3.
+    We again ranked the methods according to the AuRC and summarized their performance
+by the average rank:
+
+                   • We applied the Friedman test checking whether the measured average ranks are signif-
+                     icantly different from the mean rank. The null hypothesis, stating that the compared
+                     scores are equivalent, is rejected for p-value 0.05, i.e., the performance of compared
+                     methods is significantly different.
+
+                   • We used post-hoc Nemenyi test to check for each pair whether their average ranks are
+                     significantly different. Considering K = 3 compared methods using N = 11 dataset
+                     yields the critical difference for p-value 0.10 is CD = 0.98. We conclude that both
+                     SELE and REG scores are significantly better than the baseline Margin score. The
+                     data is not sufficient to reach any conclusion about comparisons of SELE and REG.
+                     The result of the Nemenyi test is visualized in Figure 3(a).
+
+    The relative improvement gained by using SELE and REG scores learned from examples
+w.r.t. the baseline Margin score is shown in Figure 3(b). It is seen that the performance
+of the learned scores is similar and that they consistently outperform the baseline by a
+significant margin.
+
+                                                                                                                                           23
+                              Franc, Prusa and Voracek
+
+
+
+
+                         SVOR+MARGIN          SVOR+SELE       SVOR+REG          SVOR
+                              AuRC               AuRC            AuRC           R@100
+     CALIFORNIA             0.98±0.03          0.82±0.02       0.84±0.02      1.18±0.01
+        ABALONE             1.48±0.10          1.19±0.09       1.21±0.05      1.54±0.02
+             BANK           1.07±0.04          0.99±0.04       0.98±0.03      1.50±0.03
+               CPU          0.41±0.01          0.36±0.02       0.36±0.02      0.64±0.03
+      BIKESHARE             1.60±0.07          1.25±0.01       1.27±0.01      1.70±0.03
+             CCPP           0.46±0.02          0.41±0.02       0.42±0.02      0.58±0.02
+      FACEBOOK              0.51±0.01          0.37±0.01       0.36±0.01      1.11±0.01
+              GPU           1.43±0.02          0.85±0.03       0.86±0.03      1.49±0.02
+           METRO            2.20±0.07          1.97±0.01       1.98±0.03      2.37±0.03
+              MSD           6.23±0.07          4.26±0.03       4.25±0.03      6.22±0.03
+  SUPERCONDUCT              0.98±0.02          0.75±0.01       0.77±0.01      1.07±0.01
+       average rank            3.00               1.27            1.73
+
+Table 3: Performance of the uncertainty scores on 11 ordinal regression problems. The
+         scores are constructed on top of the SVOR classifier. For each score we show the
+         mean and the standard deviation of the test AuRC computed over 5 random splits.
+         We compare the performance of scores learned from examples (SEL, REG) and the
+         baseline Margin score derived from the SVOR classifier output. The last column
+         shows the risk of the base (non-selective) classifier. All the values correspond to
+         the Mean Absolute Error (MAE). The best results for each dataset are shown in
+         bold. The last row shows the average rank.
+
+
+
+
+5.3.3 Structured Output Classification
+
+We trained SELE score (sec 5.1.2) and REG score (sec 5.1.1) on top of the DLIB detector
+and compared them with the baseline which uses the DLIB face detector score (sec 5.2.3)
+as an uncertainty measure. The Risk-Coverage curves of the three methods and their
+corresponding AuRC are shown in Figure 4(a). Both the learned scores, SELE and REG,
+are significantly better than the baseline face detector score. The SELE is slightly better
+than REG score. The largest difference between the three scores are seen for low values of
+coverage where SELE most outperforms the other two methods. High selective risk for low
+values of coverage means that faces with very bad landmark predictions are assigned the
+lowest uncertainty scores. SELE score does not suffer from this problem. This can be seen
+in Figure 5 where we show examples of 10 test faces with the lowest uncertainty and the
+highest uncertainty predicted by SELE.
+    Unlike the experiments in the previous section, the number of parameters to be learned
+(m = 2, 448) relative to the number of training examples (n = 3, 484) is much higher. To
+see whether the number of examples is sufficient we trained SELE and REG scores from
+increasingly bigger training set. Figure 4(b) shows the test AuRC as a function of the the
+number of training examples. It is seen that AuRC of the SELE is not yet saturated and
+
+                                            24
+                      Optimal strategies for reject option classifiers
+
+
+
+
+ a) Average rank for scores on top of SVOR.                                b) Relative improvement over
+                                                                               SVOR+Margin score.
+                      CD                                              50
+                                                                                 SVOR+SELE
+                                                                      40         SVOR+REG
+                  3        2   1
+
+
+
+
+                                                    improvement [%]
+                                                                      30
+   SVOR+Margin                     SVOR+SELE
+                                   SVOR+REG                           20
+
+                                                                      10
+
+                                                                       0
+
+
+
+
+                                                                                                                            CCPP
+
+
+
+
+                                                                                                                                                    SUPERCONDUCT
+                                                                                                          CPU
+
+
+
+
+                                                                                                                                   FACEBOOK
+
+                                                                                                                                              GPU
+                                                                                                                BIKESHARE
+
+
+
+
+                                                                                                                                                                   METRO
+                                                                            CALIFORNIA
+
+
+
+                                                                                                   BANK
+
+
+
+
+                                                                                                                                                                           MSD
+                                                                                         ABALONE
+Figure 3: Statistics derived from results obtained on 11 ordinal regression problems. Fig-
+          ure (a) shows pair-wise comparison of uncertainty scores with the Nemenyi test.
+          The figure shows the average ranks for each score and the critical distance (CD).
+          Groups of scores that are not significantly different at p-value 0.10 are connected.
+          Figure (b) shows relative improvement gained by using the SELE and REG un-
+          certainty scores learned from examples over the baseline Margin score.
+
+
+
+would most likely converge to a significantly lower value relative to the REG score provided
+300-W dataset had more training examples.
+
+
+6. Conclusions
+The standard cost-based rejection model introduced by Chow (1970) requires explicit def-
+inition of the rejection cost which is difficult in applications when the reject cost and the
+label loss have different nature or physical units. Pietraszek (2005) proposed the bounded-
+improvement model which avoids the problem by defining an optimal prediction strategy
+in terms of the coverage and the selective risk. We have coined a symmetric definition, the
+bounded-coverage model, which is useful when defining the target coverage is easier than
+defining the target selective risk. Our main result is a formal proof that despite their differ-
+ent objectives the three rejection models are equivalent in the sense that they lead to the
+same prediction strategy: the Bayes classifier and the randomized Bayes selection function.
+Thanks to the common optimal solution it is possible to convert between parameters of dif-
+ferent rejection models. For example, for any target risk defining the bounded-improvement
+model there exists a corresponding reject cost so that both models have the same optimal
+strategy.
+    The explicit characterization of the optimal strategies provides a recipe to construct
+plug-in rules solving the bounded-improvement and the bounded-coverage models. Any
+method estimating the class posterior probabilities can be thus turned into an algorithm
+for learning the selective classifier that solves the bounded-improvement and the bounded-
+coverage model.
+
+                                               25
+                                                Franc, Prusa and Voracek
+
+
+
+
+                             (a) Risk-Coverage curve                               (b) Learning curve
+                  0.06                                                 0.029
+                               DLIB+SELE, AuRC=2.6                                                  DLIB+SELE
+                               DLIB+REG, AuRC=2.8                                                   DLIB+REG
+                  0.05
+                               DLIB+FACE-SCORE, AuRC=3.5
+                                                                       0.028
+ selective risk
+
+
+
+
+                  0.04
+
+
+
+
+                                                                AuRC
+                  0.03
+                                                                       0.027
+                  0.02
+
+                  0.01                                                 0.026
+                         0                0.5              1                10 2                   10 3
+                                       coverage                                      #training examples
+
+Figure 4: Evaluation of uncertainty scores on top of DLIB landmark detector using the
+          300-W benchmark. Figure (a) shows the RC curve and AuRC of computed from
+          the predictions of DLIB detector endowed with the three compared uncertainty
+          scores: the proposed SELE and REG scores and the DLIB face detector score
+          used as a baseline. Figure (b) shows the test AuRC for SELE and REG scores
+          as a function of the number of training examples.
+
+
+
+    We have defined a notion of a proper uncertainty score which is sufficient to construct
+the randomized Bayes selection function. We proposed two algorithms to learn a proper
+uncertainty score from examples for a given classifier. We have shown that both algorithms
+provide a Fisher consistent estimate of the proper uncertainty score. As a proof of concept
+we evaluated the proposed algorithms on different types of prediction problems. We have
+shown that the proposed algorithm based on minimization of the SELE loss outperforms
+existing approaches tailored for a particular prediction model and it works on par with
+the recently published state-of-the-art TCP score (Corbiere et al., 2019). Unlike the TCP
+score which requires the classifier to output the class posterior probabilities the proposed
+algorithms are applicable for an arbitrary black-box classifier.
+   We have drawn a connection between the proposed bounded-coverage model and the RC
+curve. Namely, the RC curve represents quality of all admissible solutions of the bounded-
+coverage model that can be constructed from a pair of classifier and uncertainty score. The
+AuRC is then the expected quality of the selective classifier constructed from the pair when
+the target coverage is selected uniformly at random. This connection sheds light on many
+published methods which do not explicitly define the target objective but use the RC curve
+and the AuRC as evaluation metrics.
+    Finally let us mentioned some topics for future work. Firstly, the proposed algorithms
+consider two-stage scenario when the classifier and the uncertainty score are learned sep-
+arately from independent training sets. Although the scenario is useful in practice, an
+algorithm learning the classifier and the uncertainty score simultaneously from a single
+training set constitute an interesting topic to be solved. Secondly, we have shown how
+
+                                                           26
+                  Optimal strategies for reject option classifiers
+
+
+
+
+to learn the proper uncertainty score but have not discussed how to set up the decision
+threshold and the acceptance probability that are also needed to construct the selective
+classifier. It is straightforward to tune these parameters on empirical data using the RC
+curve. Analysis of the generalization error of this empirical approach is an open issue
+which has been solved only for the decision threshold of the bounded-improvement model
+by Geifman and El-Yaniv (2017). Thirdly, the empirical evaluation is limited to uncertainty
+scores linear in the parameters to be learned. Efficient implementations of the algorithms
+applicable to non-linear models, like e.g. the neural networks, is an another topic left for
+future.
+
+
+Acknowledgments
+
+We would like to acknowledge support for this work from Czech Science Foundation project
+GACR GA19-21198S.
+
+
+
+
+                                            27
+                              Franc, Prusa and Voracek
+
+
+
+       1: loss=0.02          6: loss=0.03         1153: loss=0.53       1158: loss=0.25
+
+
+
+
+       2: loss=0.02          7: loss=0.02         1154: loss=0.71       1159: loss=0.82
+
+
+
+
+       3: loss=0.02          8: loss=0.03         1155: loss=0.32       1160: loss=0.30
+
+
+
+
+       4: loss=0.02          9: loss=0.02         1156: loss=0.49       1161: loss=0.46
+
+
+
+
+       5: loss=0.03          10: loss=0.02        1157: loss=0.43       1162: loss=0.37
+
+
+
+
+Figure 5: Figure shows examples of 10 test faces from 300-W database with the lowest and
+          10 faces with the highest value of the SELE uncertainty score. The ground-truth
+          landmark positions (red) and the landmark positions predicted by DLIB detector
+          (blue) are superimposed into the image. The image title shows the rank induced
+          by the SELE score and the normalized localization error which is used as the
+          classification loss in this application.
+
+                                             28
+                      Optimal strategies for reject option classifiers
+
+
+
+
+Appendix A. Proofs of theorems from Section 2
+A.1 Proof of Theorem 1
+The Bayes classifier reads
+                                                     X
+                                 hB (x) ∈ argmin           p(y | x) ℓ(y, ŷ)                           (2)
+                                              ŷ∈Y   y∈Y
+
+
+
+Problem 2 (Bounded-improvement model) Given a target risk λ > 0, the optimal
+selective classifier (hI , cI ) is a solution to the problem
+
+                                   max φ(c)       s.t.    RS (h, c) ≤ λ ,                              (4)
+                                    h,c
+
+where we assume that both maximizers exist.
+
+Theorem 1 Let (h, c) be an optimal solution to (4). Then, (hB , c), where hB is the Bayes
+classifier (2), is also optimal to (4).
+
+Proof It is sufficient to show that (hB , c) is feasible to (4), i.e., that RS (hB , c) ≤ λ. Then
+(hB , c) attains the same maximum objective value φ(c) as (h, c). Derive
+                                   1
+                                      Z X
+                  RS (hB , c) =              p(x, y) ℓ(y, hB (x)) c(x) dx
+                                 φ(c)
+                                      X y∈Y
+                                                                              
+                                   1
+                                      Z              X
+                              =          p(x)c(x)        p(y | x) ℓ(y, hB (x)) dx
+                                 φ(c)
+                                      X              y∈Y
+                                                                             
+                              (2) 1
+                                       Z              X
+                               ≤          p(x)c(x)        p(y | x) ℓ(y, h(x)) dx
+                                  φ(c)
+                                                      y∈Y
+                                      ZX X
+                                   1
+                              =              p(x, y) ℓ(y, h(x)) c(x) dx
+                                 φ(c)
+                                          X y∈Y
+                               = RS (h, c) ≤ λ.
+
+
+
+
+A.2 Proof of Theorem 2
+The presented proof of the theorem uses Lemmas 13 and 14, both derived based on Lemma 12
+bellow.
+
+Lemma
+    R    12 For a set X , let f : X → R+ 13 and g : X → R be R measurable functions such
+that X f (x)dx > 0 and g(x) > 0 for all x ∈ X . Then it holds X g(x)f (x)dx > 0.
+13. We use R, R+ and N+ to denote the set of real numbers, non-negative real numbers and positive integers,
+    respectively.
+
+
+                                                     29
+                                        Franc, Prusa and Voracek
+
+
+
+
+Proof For n ∈ N+ , define functions
+
+                                                        f (x) if g(x) ≥ n1 ,
+                                                    
+                                        fn (x) =
+                                                          0   otherwise.
+
+The sequence {fn }∞
+                  n=1 is monotone and converges to f . Using the monotone convergence
+theorem (Stein and Shakarchi, 2009), derive
+                      Z           Z                      Z
+                  0 < f (x)dx =       lim fn (x)dx = lim   fn (x)dx .
+                                                    n→∞                n→∞
+                                 X              X                              X
+                                                            R
+This means that there is a k ∈ N+ such that X fk (x)dx > 0, hence we conclude
+
+                                                       1
+                  Z                Z                Z
+                     g(x)f (x)dx ≥ g(x)fk (x)dx ≥        fk (x)dx > 0.
+                                                       k
+                             X                  X                      X
+
+
+
+
+Lemma
+R         13 For a set X , let f : X → R+ and g : X → R be measurable functions
+                                                                        R       such that
+  R f (x)dx > 0 and g(x) > b for all x ∈ X and some b ∈ R. Then it holds X g(x)f (x)dx >
+  X
+b X f (x)dx.
+
+Proof By Lemma 12, we have
+                                            Z
+                                                (g(x) − b)f (x)dx > 0,
+                                            X
+
+thus              Z                     Z                          Z                  Z
+                      g(x)f (x)dx =         (g(x) − b)f (x)dx +        bf (x)dx > b       f (x)dx.
+                  X                     X                          X                  X
+
+
+
+
+Lemma
+R          14 For a set X , let f : X → R+ and g : X → R be measurable
+                                                                  R          functions
+                                                                                R      such that
+  X g(x)f (x)dx > 0  and g(x)  <  1 for all x ∈ X . Then it holds   X f (x)dx >   X g(x)f (x)dx.
+        R                             R
+Proof X g(x)f (x)dx > 0 implies X f (x)dx > 0. Since it holds ∀x ∈ X : (1 − g(x)) > 0,
+Lemma 12 yields
+                        Z                        Z           Z
+                    0 < (1 − g(x))f (x)dx = f (x)dx − g(x)f (x)dx,
+                                 X                          X              X
+       R                 R
+and        X f (x)dx >       X g(x)f (x)dx is obtained as a direct consequence.
+
+
+
+
+                                                           30
+                     Optimal strategies for reject option classifiers
+
+
+
+
+Problem 3 (Bounded-improvement model for known h(x)) Given a classifier h(x),
+the optimal selection function c∗ (x) is a solution to
+
+                                         max φ(c)         s.t.     RS (h, c) ≤ λ .                              (5)
+                                     c∈[0,1]X
+
+Theorem 2 A selection function c∗ : X → [0, 1] is an optimal solution to Problem 3 if and
+only if it holds
+                 Z                    Z
+                             ∗
+                       p(x)c (x)dx =           p(x)dx,                                 (7)
+                         Xr(x)<b                          Xr(x)<b
+                                                                   ρ(Xr(x)<b )
+                     Z                                    (
+                                          ∗
+                                   p(x)c (x)dx =              R−       b        if b > 0 ,
+                                                                                                                (8)
+                         Xr(x)=b                               Xr(x)=0   p(x)dx if b = 0 ,
+                     Z
+                                   p(x)c∗ (x)dx = 0 ,                                                           (9)
+                         Xr(x)>b
+
+where r(x) = r(x) − λ measures how much the conditional risk r(x) of the classifier h(x)
+exceeds the target λ,                 Z
+                                              ρ(X ′ ) =          p(x)r(x) dx                                   (10)
+                                                          X′
+is the expectation of r(x) restricted to inputs in X ′ , and
+
+                                     b = sup {a | ρ(Xr(x)≤a ) ≤ 0} ≥ 0 .                                       (11)
+
+Proof Observe that b ≥ 0, because ρ(Xr(x)≤0 ) ≤ 0. Next, observe that Problem 3 can be
+rewritten into the form
+                          Z                   Z
+                      max   p(x)c(x)dx s.t.     p(x)c(x)r(x)dx ≤ 0                (35)
+                         c∈[0,1]X    X                             X
+
+since
+                                   R P
+                                          p(x, y) ℓ(y, h(x)) c(x) dx − λφ(c)
+                                X y∈Y
+           RS (h, c) − λ =                                                                                     (36)
+                                                    φ(c)
+                                   R                     R                           R
+                                     p(x)c(x)r(x) dx − λ p(x)c(x)                        p(x)c(x)r(x) dx
+                                X                                  X                 X
+                            =                                                    =                         .   (37)
+                                                     φ(c)                                    φ(c)
+                     R
+Let F (c) = φ(c) =       X p(x)c(x)dx denote the objective function of (35).
+
+Case 1 b > 0.
+Claim I Each c∗ : X → [0, 1] which fulfils (7), (8) and (9) is feasible to (35) and
+                                                    1
+                                    Z
+                        F (c∗ ) =         p(x)dx − ρ(Xr(x)<b ).                                                (38)
+                                                    b
+                                               Xr(x)<b
+
+Proof of Claim I.
+
+                                                              31
+                                         Franc, Prusa and Voracek
+
+
+
+
+    Equality (38) is simply obtained by summing LHS and RHS of (7), (8) and (9). To
+verify the constraint of (35), observe that, since r is a bounded function and
+                               Z
+                                                           (7)
+                                       p(x)(c∗ (x) − 1)dx = 0 ,                 (39)
+                                          Xr(x)<b
+
+it holds that                      Z
+                                                  p(x)(c∗ (x) − 1)r(x)dx = 0 ,                                (40)
+                                        Xr(x)<b
+
+which implies
+                      Z                                      Z
+                                   ∗                                           (10)
+                              p(x)c (x)r(x)dx =                      p(x)r(x)dx = ρ(Xr(x)<b ).                (41)
+                    Xr(x)<b                                Xr(x)<b
+
+If b < ∞, then
+          Z                                     Z                                    Z
+                              (9)
+             p(x)c∗ (x)r(x)dx =                               ∗
+                                                          p(x)c (x)r(x)dx +                p(x)c∗ (x)r(x)dx
+          X                                Xr(x)<b                               Xr(x)=b
+                                                  Z                              Z
+                                        (41)
+                                         =                 p(x)r(x)dx + b                p(x)c∗ (x)dx         (42)
+                                               Xr(x)<b                         Xr(x)=b
+
+                                        (8),(10),(41)
+                                               =           ρ(Xr(x)<b ) − ρ(Xr(x)<b ) = 0.                     (43)
+
+If b = ∞, then
+                                                                            (41)
+             Z                                        Z
+                    p(x)c∗ (x)r(x)dx =                      p(x)c∗ (x)r(x)dx = ρ(Xr(x)<b ) ≤ 0.
+                X                               Xr(x)<b
+
+Claim II Let c : X → [0, 1] be a feasible solution to (35) that violates at least one of the
+constraints (7), (8) and (9). Then, F (c) < F (c∗ ), where c∗ : X → [0, 1] is a confidence
+function satisfying (7), (8), (9), and, without loss of generality,
+
+                                             ∀x ∈ Xr(x)<b : c∗ (x) = 1 .                                      (44)
+
+Proof of Claim II.
+   Distinguish three cases.
+Case 1.1 Condition (9) is violated (note that this is possible only if b < ∞), i.e.
+                                  Z
+                                       p(x)c(x)dx > 0.                                                        (45)
+                                               Xr(x)>b
+
+Inequality (45) and Lemma 13 (applied to f (x) = p(x)c(x) and g(x) = r(x)) yield
+                        Z                         Z
+                            p(x)c(x)r(x)dx > b        p(x)c(x)dx.
+                              Xr(x)>b                                Xr(x)>b
+
+
+                                                              32
+                             Optimal strategies for reject option classifiers
+
+
+
+
+Therefore, we can write
+                                       Z                                             Z
+                                                   p(x)c(x)r(x)dx = b′                      p(x)c(x)dx                             (46)
+                                 Xr(x)>b                                          Xr(x)>b
+
+for a suitable b′ ∈ R+ such that
+                                                                   b′ > b > 0.                                                     (47)
+     Based on the constraint of (35), derive
+ Z                         Z                                                        Z                                 Z
+                    (46)                                                                                      ′
+     p(x)c(x)r(x)dx =           p(x)c(x)r(x)dx + b                                          p(x)c(x)dx + b                 p(x)c(x)dx
+ X                                   Xr(x)<b                                      Xr(x)=b                      Xr(x)>b
+
+                              (35)
+                                                        Z                                      Z
+                                   (43)
+                                ≤ 0 =                        p(x)c∗ (x)r(x)dx + b                      p(x)c∗ (x)dx.               (48)
+                                                   Xr(x)<b                                  Xr(x)=b
+
+Let σ(x) = 1b r(x). Inequality (48) can be rearranged and upper bounded as
+                                              b′
+     Z                    Z                       Z
+                                    ∗
+         p(x)c(x)dx −          p(x)c (x)dx +          p(x)c(x)dx                                                                   (49)
+                                              b
+     Xr(x)=b                     Xr(x)=b                                  Xr(x)>b
+
+               (48)
+                        Z                                                          Z                              Z
+                                           ∗                                                       ∗
+                ≤               p(x)(c (x) − c(x))σ(x)dx ≤                                  p(x)c (x)dx −                 p(x)c(x)dx
+                      Xr(x)<b                                                    Xr(x)<b                     Xr(x)<b
+
+where the second inequality follows from ∀x ∈ Xr(x)<b : σ(x) ≤ 1. From this we get
+                                                    (49)                            b′
+                       Z                                      Z                                    Z
+                                                                             ∗
+                              p(x)c(x)dx ≤                            p(x)c (x)dx −                      p(x)c(x)dx .              (50)
+                                                                                    b
+                 Xr(x)≤b                                    Xr(x)≤b                           Xr(x)>b
+
+Now, derive
+                                        Z                                    Z
+                           F (c) =                  p(x)c(x)dx +                    p(x)c(x)dx
+                                     Xr (x)≤b                           Xr (x)>b
+                                (50)
+                                                                       ′   
+                                                                       b
+                                               Z                                               Z
+                                                               ∗
+                                 ≤                      p(x)c (x)dx −     −1                           p(x)c(x)dx
+                                                                       b
+                                       Xr(x)≤b                                              Xr(x)>b
+
+                                (45),(47)
+                                                        Z
+                                      <                      p(x)c∗ (x)dx = F (c∗ ).
+                                                   Xr(x)≤b
+
+Case 1.2 Condition (9) holds, condition (8) is violated.
+                           ρ(X     )
+                                     , then obviously F (c) < F (c∗ ). Hence, assume
+    R
+  If X     p(x)c(x)dx < − r(x)<b
+                               b
+           r(x)=b
+
+
+                                                                                    ρ(Xr(x)<b )
+                                                    Z
+                                                            p(x)c(x)dx > −                      .                                  (51)
+                                                                                        b
+                                               Xr(x)=b
+
+
+                                                                        33
+                                          Franc, Prusa and Voracek
+
+
+
+
+Analogically to (48), derive
+                                                                            (35)
+                   Z                                       Z
+                        p(x)c(x)r(x)dx + b                        p(x)c(x)dx ≤ 0                                  (52)
+                     Xr(x)<b                            Xr(x)=b
+
+                               (43)
+                                          Z                                   Z
+                                =                p(x)c∗ (x)r(x)dx + b                 p(x)c∗ (x)dx,               (53)
+                                      Xr(x)<b                               Xr(x)=b
+
+and
+  Z                                   Z                          Z                                Z
+                                                                               ∗
+          p(x)c(x)σ(x)dx +                    p(x)c(x)dx ≤               p(x)c (x)σ(x)dx +                p(x)c∗ (x)dx
+Xr(x)<b                          Xr(x)=b                     Xr(x)<b                            Xr(x)=b
+                                                                                                                  (54)
+where σ(x) = 1b r(x) < 1 for all x ∈ Xr(x)<b .
+   Denote and derive
+                                                                                             ρ(Xr(x)<b ) (51)
+       Z                     Z                                       Z
+                                               (8)
+ ∆=         p(x)c(x)dx −          p(x)c∗ (x)dx =                            p(x)c(x)dx +                  > 0. (55)
+                                                                                                 b
+      Xr(x)=b                    Xr(x)=b                         Xr(x)=b
+
+Then, (54) can be rewritten as
+                                                           (55)
+                         Z
+                              p(x)(c∗ (x) − c(x))σ(x)dx ≥ ∆ > 0.                                                  (56)
+                               Xr(x)<b
+
+                                                                                      (44)
+Inequality (56) and Lemma 14 (applied to g(x) = σ(x) < 1 and f (x) = p(x)(c∗ (x)−c(x)) ≥
+0 over Xr(x)<b ) yield        Z
+                                                 p(x)(c∗ (x) − c(x))dx > ∆.                                       (57)
+                                       Xr(x)<b
+
+Now, combine and rearrange (55) and (57) to obtain
+                                                               (57)
+                         Z                    Z
+                   ∗               ∗
+               F (c ) =       p(x)c (x)dx +        p(x)c∗ (x)dx > ∆                                               (58)
+                                 Xr(x)<b                        Xr(x)=b
+                                          Z                          Z
+                               (55)
+                                =               p(x)c(x)dx +                p(x)c(x)dx = F (c).                   (59)
+                                      Xr(x)<b                    Xr(x)=b
+
+Case 1.3 Conditions (8) and (9) hold, condition (7) is violated, i.e.
+                           Z                    Z
+                                p(x)c(x)dx <         p(x)dx.                                                      (60)
+                                      Xr(x)<b                     Xr(x)<b
+
+Then,
+                                               ρ(Xr(x)<b ) (60)                               ρ(Xr(x)<b )
+                 Z                                                   Z
+   F (c∗ ) =             p(x)c∗ (x)dx −                     >               p(x)c(x)dx −                  = F (c).
+                                                   b                                              b
+               Xr(x)<b                                            Xr(x)<b
+
+
+                                                           34
+                   Optimal strategies for reject option classifiers
+
+
+
+
+Case 2 b = 0.        R
+  This occurs only if X            p(x)r(x)dx = 0. The constraint of (35) implies
+                          r(x)<0
+
+                                       Z
+                                               p(x)c(x)r(x)dx = 0 ,
+                                   Xr(x)>0
+
+thus                                       Z
+                                                 p(x)c(x)dx = 0 ,
+                                       Xr(x)>0
+
+which confirms condition (9).
+   Finally, the obvious equations
+                               Z                            Z
+                       max                 p(x)c(x)dx =             p(x)dx , and
+                      c:X →[0,1]
+                                Xr(x)<0                   Xr(x)<0
+                                   Z                        Z
+                        max                p(x)c(x)dx =             p(x)dx
+                      c:X →[0,1]
+                                Xr(x)=0                   Xr(x)=0
+
+
+confirm condition (7) and (8), respectively.
+
+
+
+
+A.3 Proof of Theorem 3
+Theorem 3 Let r : X → R be the conditional risk (6) of a classifier h : X → Y, γ = b + λ
+the rejection threshold given by the target risk λ and a constant b computed by (11). Then
+the selection function                   
+                                          1 if r(x) < γ ,
+                                c∗ (x) =    τ if r(x) = γ ,                            (12)
+                                            0 if r(x) < γ ,
+                                         
+
+where τ is the acceptance probability given by
+                             (
+                                      1        if ρ(Xr(x)=γ ) = 0 ,
+                        τ=        ρ(Xr(x)<γ) )                                            (13)
+                               − ρ(X         ) if ρ(Xr(x)=γ ) > 0 ,
+                                           r(x)=γ)
+
+
+satisfies the optimality condition of Theorem 2, and hence it is a solution to Problem 3.
+
+Proof The optimality conditions (7) and (9) given in Theorem 2 are equivalent to a prob-
+abilistic statement Px∼p(x)[c∗ (x) = 0 ∧ r(x) < b] = 0 and Px∼p(x) [c∗ (x) = 1 ∧ r(x) > b] = 0,
+respectively. Hence the two conditions are satisfied by a selection function which predicts,
+c∗ (x) = 1, whenever r(x) < b and rejects, c∗ (x) = 0, whenever r(x) > b. Or equivalently,
+using the identity r(x) = r(x) − λ and a threshold γ = b + λ, by c∗ (x) = 1 when r(x) < γ
+and c∗ (x) = 0 when r(x) > γ. Finally, if we opt for a selection function that is constant
+
+                                                     35
+                                  Franc, Prusa and Voracek
+
+
+
+                                                                                      ρ(X      )
+c∗ (x) = τ inside the boundary region Xr(x)=b , then the condition (8) implies τ = − b·ρ
+                                                                                     r(x)<γ
+                                                                                        0
+                        R
+if b > 0, where ρ0 = X           p(x) dx, and τ = 1 if b = 0. Using Xr(x)<b = Xr(x)<γ and
+                          r(x)=b
+b · ρ0 = ρ(Xr(x)=b ) = ρ(Xr(x)=γ ), we derive (13).
+
+
+
+A.4 Proof of Theorem 4
+Theorem 4 Let (h, c) be an optimal solution to (14). Then, (hB , c), where hB is the
+optimal Bayes classifier (2), is also optimal to (14).
+Proof The theorem follows from the fact that RS (hB , c) ≤ RS (h, c) for any (h, c) feasible
+to (14), which is derived as follows:
+                                 1
+                                     Z X
+                 RS (hB , c) =             p(x, y) ℓ(y, hB (x)) c(x) dx
+                               φ(c)
+                                    X y∈Y
+                                                                            
+                                 1
+                                     Z             X
+                             =         p(x)c(x)        p(y | x) ℓ(y, hB (x)) dx
+                               φ(c)
+                                    X              y∈Y
+                                                                          
+                            (2) 1
+                                    Z             X
+                             ≤         p(x)c(x)       p(y | x) ℓ(y, h(x)) dx
+                               φ(c)
+                                    X             y∈Y
+                                 1
+                                     Z X
+                             =             p(x, y) ℓ(y, h(x)) c(x) dx
+                               φ(c)
+                                       X y∈Y
+                             = RS (h, c).
+
+
+
+
+A.5 Proof of Theorem 5
+Problem 5 (Bounded-coverage model for known h(x)) Given a classifier h(x) and a
+target coverage 0 < ω ≤ 1, the optimal selection function c∗ (x) is a solution to the problem
+                                 min RS (h, c)         s.t.   φ(c) ≥ ω ,                    (15)
+                                c∈[0,1]X
+
+where we assume that the minimizer exists.
+Theorem 5 A selection function c∗ : X → [0, 1] is an optimal solution to Problem 5 if and
+only if it holds
+                     Z                      Z
+                                   ∗
+                             p(x)c (x)dx =           p(x)dx,                         (16)
+                            Xr(x)<β                     Xr(x)<β
+                        Z                                     Z
+                                           ∗
+                                      p(x)c (x)dx = ω −                     p(x)dx,         (17)
+                            Xr(x)=β                               Xr(x)<β
+                        Z
+                                      p(x)c∗ (x)dx = 0 ,                                    (18)
+                            Xr(x)>β
+
+
+
+                                                  36
+                       Optimal strategies for reject option classifiers
+
+
+
+
+where
+                                                   (        Z                           )
+                                  β = inf              a|              p(x)dx ≥ ω           .              (19)
+                                                             Xr(x)<a
+
+
+
+Proof By substituting the definitions of RS (h, c) and φ(c) to (15), we rewrite the problem
+into the form
+                           R
+                             p(x)c(x)r(x)dx          Z
+                           X
+                    min      R                s.t.     p(x)c(x)dx ≥ ω .                 (61)
+                  c∈[0,1]X     p(x)c(x)dx
+                                      X                                      X
+
+                 R
+                     XR p(x)c(x)r(x)dx
+   Let F (c) =                            denote the objective function of (61). Whenever c∗ : X →
+                       X p(x)c(x)dx
+[0, 1] fulfils (16), (17) and (18), it is feasible to (61) and
+
+                                              1                                  β
+                                                    Z                                  Z
+                       F (c∗ ) = β +                         p(x)r(x)dx −                       p(x)dx ,   (62)
+                                              ω                                  ω
+                                                  Xr(x)<β                            Xr(x)=β
+
+
+which is a value independent of c∗ .
+    We will prove the theorem by showing that any c : X → [0, 1] feasible to (61) that
+violates at least one of conditions (16), (17), (18) is not an optimal solution. Three cases
+will be examined.
+Case 1 Condition (16) is violated, i.e.,
+                                          Z                              Z
+                                                   p(x)c(x)dx <                  p(x)dx.                   (63)
+                                  Xr(x)<β                              Xr(x)<β
+
+
+This means that there is a subset X ⊆ X such that
+
+                                                    ∀x ∈ X : r(x) ≥ β                                      (64)
+
+and
+                                                                                           (63)
+                  Z                                Z                      Z
+                        p(x)c(x)dx =                        p(x)dx −             p(x)c(x)dx > 0 .          (65)
+                  X                           Xr(x)<β                  Xr(x)<β
+
+
+Define c′ : X → [0, 1] as follows.
+
+                                              
+                                                 1      if      r(x) < β ,
+                               c′ (x) =           0      if      x∈X,                                      (66)
+                                                c(x) otherwise .
+                                              
+
+
+                                                                37
+                                      Franc, Prusa and Voracek
+
+
+
+
+c′ is feasible to (61) as φ(c′ ) = φ(c). Derive
+                            Z                                     Z                                 Z
+                      ′
+                        
+    φ(c) F (c) − F (c ) = p(x)c(x)r(x)dx −                              p(x)r(x)dx +                        p(x)c(x)r(x)dx
+                              X                               Xr(x)<β                             Xr(x)<β
+                                                                                                                        (67)
+                          (64),(65)
+                                          Z                                               Z
+                               ≥                   β · p(x)(1 − c(x))dx −                          p(x)(1 − c(x))r(x)dx
+                                      Xr(x)<β                                         Xr(x)<β
+                                                                                                                        (68)
+                                  Z
+                          =             p(x)(1 − c(x))(β − r(x))dx > 0                                                  (69)
+                              Xr(x)<β
+
+where the inequality in (69) is obtained from Lemma 12 applied to f (x) = p(x)(1 − c(x)),
+g(x) = β − r(x), and the set Xr(x)<β . This shows that c is not an optimal solution.
+Case 2 Condition (16) is satisfied, condition (17) is violated and
+                      Z                          Z
+                               p(x)c(x)dx < ω −           p(x)dx > 0 .               (70)
+                           Xr(x)=β                                    Xr(x)<β
+
+   In this case, there is a c′ : X → [0, 1] such that
+
+                                        c′ (x) = c(x)          if r(x) < β ,                                            (71)
+                                          ′
+                                        c (x) = 0              if r(x) > β ,                                            (72)
+
+and          Z                                 Z                                 Z
+                         p(x)c′ (x)dx =                      p(x)c(x)dx +                         p(x)c(x)dx .          (73)
+               Xr(x)=β                             Xr(x)=β                           Xr(x)>β
+
+   If Lemma 13 is applied to f (x) = p(x)c(x), g(x) = r(x), and the set Xr(x)>β , we get
+                    Z                            Z
+                            p(x)c(x)r(x)dx > β           p(x)c(x)dx .                  (74)
+                          Xr(x)>β                                      Xr(x)>β
+
+   It also holds that φ(c′ ) = φ(c). Now, deriving
+                                       Z                                                      Z
+                                 (73)
+            φ(c) F (c) − F (c′ ) =         p(x)c(x)r(x)dx − β                                        p(x)c(x)dx         (75)
+                                               Xr(x)>β                                   Xr(x)>β
+
+                                        (74)
+                                                     Z                               Z
+                                         > β                 p(x)c(x) − β                     p(x)x(x)dx = 0            (76)
+                                                 Xr(x)>β                        Xr(x)>β
+
+shows that c is not an optimal solution.
+Case 3 φ(c) > ω, which occurs if
+                       Z                       Z
+                              p(x)c(x)dx > ω −                                   p(x)dx > 0                             (77)
+                           Xr(x)=β                                    Xr(x)<β
+
+
+                                                             38
+                   Optimal strategies for reject option classifiers
+
+
+
+
+(implying that condition (17) is violated), or if condition (18) is violated.
+    Observe that F (c) = F (α · c) for any a ∈ R+ . Let c′ = φ(c)ω
+                                                                     · c. Since φ(c′ ) = ω, the
+selection function c′ is feasible to (61). Because
+
+                                        ω
+             Z                             Z                     Z
+                            ′
+                      p(x)c (x)dx =                 p(x)c(x)dx <          p(x)dx ,         (78)
+              Xr(x)<β                  φ(c) Xr(x)<β               Xr(x)<β
+
+c′ violates condition (16) and is therefore not an optimal solution (see Case 1). This implies
+that c is not an optimal solution too.
+
+
+
+A.6 Proof of Theorem 6
+Theorem 6 Let r : X → R be the conditional risk (6) of a classifier h : X → Y, 1 ≥ ω > 0
+be a target coverage and β be the constant computed by (19). Then the selection function
+                                       
+                                        1 if r(x) < β ,
+                                ∗
+                               c (x) =    κ if r(x) = β ,                             (20)
+                                          0 if r(x) > β ,
+                                       
+
+where κ is the acceptance probability given by
+                                                  R
+                                    0          if X        p(x)dx = 0 ,
+                               R                     r(x)=β
+                         
+                     κ=     ω− X         p(x)dx                                           (21)
+                          RX
+                                 r(x)<β
+                         
+                                       p(x)dx
+                                                otherwise ,
+                                 r(x)=β
+
+
+satisfies the optimality condition of Theorem 6, and hence it is a solution of Problem 5.
+
+Proof It is easy to see that c∗ satisfies
+                                     R     conditions (16) and (18).
+                                                                R      The validity of con-
+dition (17) is proved as follows. If X         p(x)dx = 0, then X         p(x)dx = ω, and
+                         R              r(x)=β                     r(x)=β
+condition (17) is met. If X      p(x)dx > 0, we derive
+                            r(x)=β
+
+                             R
+  Z                      ω− X          p(x)dx Z                      Z
+                 ∗              r(x)<β
+            p(x)c (x)dx = R                             p(x)dx = ω −          p(x)dx .    (79)
+    Xr(x)=β                 Xr(x)=β p(x)dx      Xr(x)=β               Xr(x)<β
+
+
+
+
+Appendix B. Proofs of theorems from Section 3
+B.1 Proof of Theorem 7
+The expectation of the squared loss deviation reads
+                                Z X                           2
+                     Ereg (s) =       p(x, y) ℓ(y, h(x)) − s(x) dx .                      (80)
+                                 X y∈Y
+
+
+                                              39
+                                       Franc, Prusa and Voracek
+
+
+
+
+Theorem 7 The conditional risk r(x) defined by (6) is an optimal solution to min Ereg (s).
+                                                                                                s:X →R
+
+
+
+Proof We can rewrite Ereg (s) as
+             Z           X                                                    Z
+                                                  2                       2
+Ereg (s) =        p(x)         p(y | x) ℓ(y, h(x)) −2 ℓ(y, h(x)) s(x)+s(x) dx =   p(x)f (s(x))dx.
+             X           y∈Y                                                                X
+
+
+
+Due to additivity we can solve mins : X →R Ereg (s) for each x ∈ X separately by setting
+derivative of f (s) to zero and solving for s which yields
+                 X                              X                                   X
+f ′ (s) = −2           p(y | x)ℓ(y, h(x)) + 2         p(y | x)s(x) = 0 ⇒ s∗ (x) =         p(y | x)ℓ(y, h(x)) .
+                 y∈Y                            y∈Y                                 y∈Y
+
+
+
+
+B.2 Proof of Theorem 8
+Lemma 15 For an integer n ≥ 1, let {ai }ni=1 and {bi }ni=1 be sequences of positive real
+numbers such that { abii }ni=1 is a non-increasing sequence. For each non-decreasing sequence
+{ℓi }ni=1 of non-negative real numbers with a positive sum it holds that
+                                           Pn            Pn
+                                            i=1 ai ℓ i        ai
+                                           Pn          ≤ Pi=1
+                                                          n      .
+                                            i=1 bi ℓi     i=1 bi
+
+
+
+Proof By induction on n. Base case: If n = 1, then ab11ℓℓ11 = ab11 .
+    Induction step: Let n > 1. The fact that { abii }ni=1 is non-increasing implies ai ≤ ab11 · bi
+for all i = 1, . . . , n, hence
+                                Pn       Pn a1
+                                     ai    i=2       · bi    a1
+                                 i=2
+                                Pn      ≤ Pn b1           =     .                            (81)
+                                 i=2 bi      i=2 bi          b1
+
+   The lemma is obviously satisfied if 0 < ℓ1 = ℓ2 = . . . = ℓn . Assume that ℓn > ℓ1 .
+Then, the sequence {ℓi − ℓn }ni=2 is non-decreasing with positive sum, hence the induction
+hypothesis yields that
+                            Pn                      Pn
+                                i=2 ai (ℓi − ℓ1 )        ai   a1
+                            Pn                    ≤ Pi=2
+                                                     n      ≤    .                    (82)
+                                i=2 bi (ℓi − ℓ1 )    i=2 bi   b1
+
+The induction hypotheses also ensures that
+                                           Pn            Pn
+                                            i=2 ai ℓ i        ai
+                                           Pn          ≤ Pi=2
+                                                          n      .                                        (83)
+                                            i=2 bi ℓi     i=2 bi
+
+
+                                                         40
+                           Optimal strategies for reject option classifiers
+
+
+
+
+We can thus derive the following sequence of equivalent inequalities:
+                                               n
+                                               X                        (82)         n
+                                                                                     X
+                                          b1         ai (ℓi − ℓ1 ) ≤ a1                    bi (ℓi − ℓ1 )
+                                               i=2                               i=2
+                                    n
+                                    X                         n
+                                                              X                 n
+                                                                                X                         n
+                                                                                                          X
+                               b1         ai ℓ i + a1 ℓ 1           bi ≤ a 1             bi ℓi + b1 ℓ1          ai
+                                    i=2                      i=2                i=2                       i=2
+               n
+               X                    Xn           n
+                                                 X          n
+                                                            X                                n
+                                                                                             X                        n
+                                                                                                                      X            n
+                                                                                                                                   X    n
+                                                                                                                                        X
+a1 ℓ1 b1 +b1         ai ℓi +a1 ℓ1         bi +         bi         ai ℓi ≤ a1 ℓ1 b1 +a1              bi ℓi +b1 ℓ1              ai +   bi   ai ℓ i
+               i=2                  i=2          i=2        i=2                               i=2                     i=2         i=2 i=2
+               Xn                   Xn           Xn         Xn         (83)                    Xn                      Xn          Xn  Xn
+a1 ℓ1 b1 +b1         ai ℓi +a1 ℓ1         bi +         bi         ai ℓi ≤ a1 ℓ1 b1 +a1             bi ℓi +b1 ℓ1     ai +     ai     bi ℓ i
+               i=2                 i=2          i=2         i=2                                i=2              i=2      i=2    i=2
+                                   n
+                                   X            Xn          Xn                       n
+                                                                                     X           Xn      Xn
+                          a1 ℓ 1         bi +         bi          a i ℓ i ≤ b1 ℓ 1         ai +           ai         bi ℓ i
+                                   i=1          i=1         i=2                      i=1            i=1        i=2
+                                                Xn            Xn             n
+                                                                             X             n
+                                                                                           X
+                                                      ai ℓi         bi ≤         bi ℓ i        ai
+                                                i=1           i=1   i=1      i=1
+                                                      Pn            Pn
+                                                           ai ℓ i          ai
+                                                      Pi=1
+                                                       n          ≤ Pi=1
+                                                                       n      .
+                                                       i=1 bi ℓi       i=1 bi
+
+
+
+
+                                                                                                           Pn       n
+  For i = 1, . . . , n and a permutation π on {1, . . . , n}, let aπi =                                         j=i j and bπi = n − i + 1.
+We can write
+                                                         n
+                                                   1 X
+                                  ∆sele (s, Tn ) = 2        bπ i ℓ π i
+                                                  n
+                                                                                i=1
+and
+                                                                                     n
+                                                                             1 X
+                                                AuRC(s, Tn ) =                   aπi ℓπi ,
+                                                                             n2
+                                                                                i=1
+
+where ℓπi = ℓ(yπi , h(xπi )).
+   Without loss
+             P of generality, assume that ℓ1 ≤ ℓ2 ≤ . . . ≤ ℓn and πi = i for all i = 1, . . . , n.
+   Let Hk = ki=1 1i denote the k-th harmonic number. It fulfils
+                                                        1                         1
+                                   ln(k) + γ +               ≤ Hk ≤ ln(k) + γ +                                                             (84)
+                                                      2k + 1                    2k − 1
+where γ ≈ 0.5772156649 is the Euler–Mascheroni constant. Moreover, let us define H0 = 0.
+                                                                       Pn n
+Lemma 16 Let n ≥ 2 be an integer. For each i = 1, . . . , n, let ai =    j=i j and bi =
+                 ai   ai+1
+n − i + 1. Then, bi ≥ bi+1 holds for all i = 1, . . . , n − 1.
+
+Proof Since
+                                   ai ai+1     n · (Hn − Hi−1 ) n · (Hn − Hi )
+                                      −      =                 −
+                                   bi   bi+1       n−i+1             n−i
+
+                                                                        41
+                                 Franc, Prusa and Voracek
+
+
+
+
+it suffices to show that
+
+                           (n − i)(Hn − Hi−1 ) ≥ (n − i + 1)(Hn − Hi )
+
+and this is equivalent to showing that
+
+                               (n − i + 1)Hi − (n − i)Hi−1 ≥ Hn .
+
+If we substitute Hi−1 = Hi − 1i , the inequality further reduces to
+
+                                               n−i  n
+                                   Hn − Hi ≤       = − 1.                             (85)
+                                                i   i
+Now we derive
+                                (84)  n     1       1    n
+                         Hn − Hi ≤ ln     +       −       < −1
+                                       i    2n − 1 2i + 1  i
+where the second inequality follows from the fact that ln(x) < x − 1 for all x > 1. This
+confirms inequality (85).
+
+
+
+             Pn
+Lemma 17        i=1 (Hn − Hi−1 ) = n.
+
+Proof By induction on n. The lemma trivially holds for n = 1. Let n > 1. Then, using
+the induction hypothesis, we derive
+                 n                                   n−1
+                                                     X                          
+                 X                                          1
+                        (Hn − Hi−1 ) = Hn − Hn−1 +            + Hn−1 − Hi−1
+                                                            n
+                  i=1                                i=1
+                                                    n−1
+                                        1 n−1       X
+                                    =     +   +           (Hn−1 − Hi−1 ) = n .
+                                        n   n
+                                                    i=1
+
+
+
+
+Theorem 8 The inequality AuRC(s, Tn ) ≤ 2 · ∆sele (s, Tn ) holds true for any s : X → R and
+Tn = {(xi , yi ) ∈ X × Y | i = 1, . . . , n}.
+
+Proof The theorem trivially holds if ni=1 ℓi = 0. If ni=1 ℓi > 0, we apply Lemmas 16, 15
+                                    P               P
+and 17 to derive
+                         Pn       Pn
+       AuRC(s, Tn )       i=1 ai       n · (Hn − Hi−1 )         n2       2n
+                       ≤ Pn      = i=1
+                                    Pn                  = n           =      <2.
+        ∆sele (s, Tn )    i=1 bi      i=1 (n − i + 1)       2 (n + 1)   n+1
+
+
+
+
+                                               42
+                      Optimal strategies for reject option classifiers
+
+
+
+
+B.3 Proof of Theorem 9
+Remark 18 For the sake of simplicity, for predicates ϕ1 (x, z), . . . , ϕk (x, z) and a function
+f : X × X → R, we write        Z Z
+                                                                 f (x, z)dz dx
+                                                  X ϕ1 (x,z)
+                                                        ..
+                                                         .
+                                                    ϕk (x,z)
+
+to represent                  Z Z
+                                    f (x, z)[[ϕ1 (x, z) ∧ . . . ∧ ϕk (x, z)]]dz dx .
+                              X X
+
+Theorem 9 A function s∗ : X → R is an optimal solution to mins:X →R Esele (s) iff
+               Z Z
+                       z6=x
+                            max{r(x), r(z)}p(x)p(z)dz dx = 0 , and                                             (29)
+                          X
+                              s∗ (z)=s∗ (x)
+                          Z Z
+                                r(z)<r(x)
+                                            (r(x) − r(z)) p(x)p(z)dz dx = 0 .                                  (30)
+                          X
+                              s∗ (z)>s∗ (x)
+
+Proof We first present four equalities to be used later. We assume that s : X → R is any
+measurable function. The validity of the equalities can be easily verified.
+Z            Z                Z          Z                    Z           Z
+  r(x)p(x)        p(z)dz dx = p(z)           r(x)p(x)dx dz = p(x)           r(z)p(z)dz dx ,
+X             r(z)>r(x)                X             r(x)<r(z)                      X      r(z)<r(x)
+              s(z)<s(x)                              s(x)>s(z)                             s(z)>s(x)
+
+                                                                                                               (86)
+                                         1
+Z     Z                                       Z         Z
+              r(x)p(x)p(z)dz dx =                                max{r(x), r(z)}p(x)p(z)dz dx
+                                         2
+X r(z)<r(x)                                   X       z6=x
+  s(z)=s(x)                                        s(z)=s(x)
+                                             1
+                                                    Z        Z
+                                           −                          max{r(x), r(z)}p(x)p(z)dz dx ,           (87)
+                                             2
+                                                    X      z6=x
+                                                        r(z)=r(x)
+                                                        s(z)=s(x)
+                              1                                                 1
+Z     Z                                 Z           Z                               Z      Z
+          r(x)p(x)p(z)dz dx =                               r(x)p(x)p(z)dz dx −                 r(x)p(x)p(z)dz dx ,
+                              2                                                 2
+X r(z)=r(x)                             X r(z)=r(x)                                 X r(z)=r(x)
+  s(z)<s(x)                                                                           s(z)=s(x)
+                                                                                                               (88)
+Z     Z                                       Z         Z                               Z Z
+              r(x)p(x)p(z)dz dx = 2                              r(x)p(x)p(z)dz dx +            r(x)p(x)p(z)dz dx .
+X r(z)=r(x)                                 X         z>x                               X z=x
+  s(z)=s(x)                                        r(z)=r(x)
+                                                   s(z)=s(x)
+                                                                                                               (89)
+
+                                                                 43
+                                                 Franc, Prusa and Voracek
+
+
+
+
+Since argmins:X →R E(s) = argmins:X →R (E(s) − E(r)), it suffices to analyze minimizers of
+E(s) − E(r) instead of E(s). Derive
+                      Z    Z                        Z     Z
+        E(s) − E(r) =           r(x)p(x)p(z)dz dx −              r(x)p(x)p(z)dz dx
+                                 X s(z)≥s(x)                                      X r(z)≥r(x)
+                                 Z           Z                                    Z           Z
+                            =                        r(x)p(x)p(z)dz dx −                              r(x)p(x)p(z)dz dx
+                                 X r(z)<r(x)                                      X r(z)≥r(x)
+                                   s(z)≥s(x)                                        s(z)<s(x)
+                                 Z           Z                                    Z           Z
+                            =                        r(x)p(x)p(z)dz dx −                              r(x)p(x)p(z)dz dx
+                                 X r(z)<r(x)                                      X r(z)>r(x)
+                                   s(z)>s(x)                                        s(z)<s(x)
+                                 Z           Z                                    Z           Z
+                            +                        r(x)p(x)p(z)dz dx −                             r(x)p(x)p(z)dz dx
+                                 X r(z)<r(x)                                      X r(z)=r(x)
+                                   s(z)=s(x)                                        s(z)<s(x)
+
+                            = F1 (s) + F2 (s)
+
+where
+                        Z            Z                                    Z           Z
+            F1 (s) =                             r(x)p(x)p(z)dz dx −                              r(x)p(x)p(z)dz dx
+                        X r(z)<r(x)                                       X r(z)>r(x)
+                          s(z)>s(x)                                         s(z)<s(x)
+                            Z            Z                                    Z           Z
+                    (86)
+                        =                         r(x)p(x)p(z)dz dx −                              r(z)p(x)p(z)dz dx
+                            X r(z)<r(x)                                       X r(z)<r(x)
+                              s(z)>s(x)                                         s(z)>s(x)
+                        Z            Z
+                    =                            (r(x) − r(z)) p(x)p(z)dz dx
+                        X r(z)<r(x)
+                          s(z)>s(x)
+
+and
+            Z       Z                                        Z        Z
+ F2 (s) =                       r(x)p(x)p(z)dz dx −                           r(x)p(x)p(z)dz dx
+            X r(z)<r(x)                                      X r(z)=r(x)
+              s(z)=s(x)                                        s(z)<s(x)
+        (87,88,89) 1                                                            1
+                            Z        Z                                                               Z Z
+                =                                max{r(x), r(z)}p(x)p(z)dz dx +                              r(x)p(x)p(z)dz dx
+                        2                                                       2
+                            X      z6=x                                                              X z=x
+                                s(z)=s(x)
+          1
+                Z       Z
+        −                        r(x)p(x)p(z)dz dx .
+          2
+                X r(z)=r(x)
+
+Observe that
+                                                         min F1 (s) = 0,
+                                                        s:X →R
+
+
+                                                                 44
+                    Optimal strategies for reject option classifiers
+
+
+
+
+                      1                               1
+                          Z Z                             Z     Z
+         min F2 (s) =             r(x)p(x)p(z)dz dx −                   r(x)p(x)p(z)dz dx ,
+        s:X →R        2                               2
+                          X z=x                           X r(z)=r(x)
+
+and both minima are attained by a scoring function s∗ : X → R if and only if conditions
+(29) and (30) hold for s∗ . Also note that the conditions can be fulfilled, e.g. by any s∗ such
+that
+
+         (∀x, z ∈ X ) (x 6= z ⇒ s∗ (x) 6= s∗ (z) ∧ r(x) < r(z) ⇒ s∗ (x) < s∗ (z)) .
+
+
+
+
+B.4 Proof of Theorem 11
+The expectation of ψsele reads
+
+             n2 − n
+                             Z                              
+                                                                  log(2)
+                   Z                                                    Z
+                                                          
+Eproxy (s) =         p(x)r(x)    p(z) log 1+exp(s(z)−s(x)) dz dx+         p(x)r(x)dx.
+               n2 X            X                                    n X
+
+Theorem 11 Let s∗ : X → R be an optimal solution to mins : X →R Eproxy (s). Then, the
+condition
+                 ∀(x, x′ ) ∈ X × X : r(x) < r(x′ ) ⇒ s∗ (x) < s∗ (x′ )
+is satisfied almost surely.
+
+Proof For every a ∈ X , Eproxy (s) can be seen as a function of one variable s(a), where the
+others s(b), b ∈ X \ {a} are fixed. Hence if s is a minimizer of Eproxy (s), then for every
+s(a), a ∈ X , the partial derivative w.r.t. s(a) must be zero, i.e.,
+                             Z                                     
+          ∂
+               Z
+   0=              p(x) r(x)      p(z) log (1 + exp(s(z) − s(x))) dz dx
+        ∂s(a) X                 X
+                            − exp(s(z) − s(a))                           exp(s(a) − s(x))
+                  Z                                       Z
+     = p(a)r(a)       p(z)                      dz + p(a)     p(x)r(x)                      dx
+                    X      1 + exp(s(z) − s(a))             X          1 + exp(s(a) − s(x))
+                 r(a) p(x) + r(x) p(x)
+            Z                                     Z
+     = p(a)                             dx − p(a)     p(x) r(x) dx
+              X 1 + exp(s(a) − s(x))                X
+     = f (r(a), s(a)) − C .
+
+It shows that f (r(a), s(a)) = C for any a ∈ X in order to guarantee that s is a minimizer
+of Eproxy (s). We prove by contradiction that the condition r(a) < r(b) ⇒ s(a) < s(b) is
+satisfied up to a set {(a, b)|(a, b) ∈ X 2 } of zero measure. Assume s is optimal and the
+condition is violated, i.e. r(a) < r(b) ∧ s(a) ≥ s(b) holds for a pair (a, b) ∈ X 2 . Since s
+is optimal then f (r(a), s(a)) = C. Since r(b) > r(a) and s(b) ≤ s(a) then f (r(b), s(b)) >
+f (r(a), s(b)) because the function f (u, v) is strictly increasing in u and strictly decreasing
+in v. Combined it implies that f (r(b), s(b)) > 0 which leads to a contradiction because an
+optimal s requires f (r(b), s(b)) = C.
+
+
+
+
+                                               45
+                               Franc, Prusa and Voracek
+
+
+
+
+References
+P. L. Bartlett and M. H. Wegkamp. Classification with a reject option using a hinge loss.
+  Journal of Machine Learning Research, 9(59):1823–1840, 2008.
+
+C.C. Chang and C.J.Lin. LIBSVM: A library for support vector machines.                  ACM
+  Transactions on Intelligent Systems and Technology, 2:27:1–27:27, 2011.               URL
+  http://www.csie.ntu.edu.tw/~cjlin/libsvm.
+
+C. Chow. On optimum recognition error and reject tradeoff. IEEE Transactions on Infor-
+  mation Theory, 16(1):41–46, 1970.
+
+W. Chu and S. S. Keerthi. New approaches to support vector ordinal regression. In Pro-
+ ceedings of the International Conference on Machine Learning, pages 145–152, 2005.
+
+C. Corbiere, N. Thome, A. Bar-Hen, M. Cord, and P. Perez. Addressing failure prediction
+  by learning model confidence. In Advances in Neural Information Processing Systems,
+  volume 32, pages 2902–2913, 2019.
+
+C. Cortes, G. DeSalvo, and M. Mohri. Boosting with abstention. In Advances in Neural
+  Information Processing Systems, volume 29, pages 1660–1668, 2016.
+
+N. Dalal and B. Triggs. Histograms of oriented gradients for human detection. In Proceedings
+  of Conference on Computer Vision and Patter Recognition, volume 1, pages 886–893,
+  2005.
+
+J. Demšar. Statistical comparisons of classifiers over multiple data sets. Journal of Machine
+   Learning Research, 7(1):1–30, 2006.
+
+D. Dua and E. Karra Taniskidou.          UCI machine learning repository, 2017.         URL
+  http://archive.ics.uci.edu/ml.
+
+R. El-Yaniv and Y. Wiener. On the foundations of noise-free selective classification. Journal
+  of Machine Learning Research, 11(53):1605–1641, 2010.
+
+L. Fischer, B. Hammer, and H. Wersing. Optimal local rejection for classifiers. Neurocom-
+  puting, 214:445–457, 2016.
+
+L. Fisher, B. Hammer, and H. Wersing. Efficient rejection strategies for prototype-based
+  classification. Neurocomputing, 169:334 – 342, 2015.
+
+V. Franc and D. Prusa. On discriminative learning of prediction uncertainty. In Proceedings
+  of the 36th International Conference on Machine Learning, volume 97, pages 1963–1971,
+  2019.
+
+G. Fumera and F. Roli. Support vector machines with embedded reject option. In Pattern
+  Recognition with Support Vector Machines, Lecture Notes in Computer Science, volume
+  2388. Springer, 2002.
+
+G. Fumera, F. Roli, and G. Giacinto. Multiple reject thresholds for improving classification
+  reliability. In Advances in Pattern Recognition, pages 863–871, 2000.
+
+                                             46
+                   Optimal strategies for reject option classifiers
+
+
+
+
+Y. Geifman and R. El-Yaniv. Selective classification for deep neural networks. In Advances
+  in Neural Information Processing Systems 30, pages 4878–4887, 2017.
+
+Y. Grandvalet, A. Rakotomamonjy, J. Keshet, and S. Canu. Support vector machines with
+  a reject option. In Advances in Neural Information Processing Systems, volume 21, pages
+  537–544, 2008.
+
+B. Hanczar and E. R. Dougherty. Classification with reject option in gene expression data.
+  Bioinformatics, 24:1889–1895, 2008.
+
+T. Hastie, R. Tibshirani, and J. Friedman. The elements of statistical learning: data mining,
+  inference and prediction. Springer, 2009.
+
+R. Herbei and M.H. Wegkamp. Classification with reject option. The Canadian Journal of
+  Statistics / La Revue Canadienne de Statistique, 34(4):709–721, 2006.
+
+H. Jiang, B. Kim, M. Y. Guan, and M. Gupta. To trust or not to trust a classifier.
+  In Proceedings of the 32nd International Conference on Neural Information Processing
+  Systems, page 5546–5557, 2018.
+
+V. Kazemi and J. Sullivan. One millisecond face alignment with an ensemble of regression
+  trees. In IEEE Conference on Computer Vision and Pattern Recognition, pages 1867–
+  1874, 2014.
+
+D. E. King. Dlib-ml: A machine learning toolkit. Journal of Machine Learning Research,
+  10:1755–1758, 2009.
+
+J. Kummert, B. Paassen, J. Jensen, C. Göpfert, and B. Hammer. Local reject option for
+   deterministic multi-class SVM. In Artificial Neural Networks and Machine Learning –
+   ICANN, Lecture Notes in Computer Science, volume 9887. Springer, 2016.
+
+B. Lakshminarayanan, A. Pritzel, and C. Blundell. Simple and scalable predictive uncer-
+  tainty estimation using deep ensembles. In Advances in Neural Information Processing
+  Systems, volume 30, pages 6402–6413, 2017.
+
+Y. LeCun, B. Boser, J.S. Denker, D. Henderson, R.E. Howard, W. Hubbard, and L.D. Jakel.
+  Handwritten digit recognition with a back-propagation networks. In Advances in Neural
+  Information Processing Systems, volume 2, pages 396–404, 1990.
+
+J. Lei. Classification with confidence. Bimetrika, 101:755–769, 2014.
+
+T. Pietraszek. Optimizing abstaining classifiers using ROC analysis. In Proceedings of the
+  22nd International Conference on Machine Learning, page 665–672, 2005.
+
+C. Sagonas, E. Antonakos, G. Tzimiropoulos, S. Zafeiriou, and M. Pantic. 300 faces in-the-
+  wild challenge: database and results. Image and Vision Computing, 47:3 – 18, 2016.
+
+M.I. Schlesinger and V. Hlaváč. Ten lectures on statistical and structural pattern recognition.
+ Kluwer Academic Publishers, 2002.
+
+                                               47
+                               Franc, Prusa and Voracek
+
+
+
+
+E.M. Stein and R. Shakarchi. Real Analysis: Measure Theory, Integration, and Hilbert
+  Spaces. Princeton University Press, 2009.
+
+C. H. Teo, S.V.N. Vishwanthan, A. J. Smola, and Q. V. Le. Bundle methods for regularized
+  risk minimization. Journal of Machine Learning Research, 11(10):311–365, 2010.
+
+F. Tortorella. An optimal reject rule for binary classifiers. In Advances in Pattern Recogni-
+  tion, Lecture Notes in Computer Science, volume 1876. Springer, 2000.
+
+V.N. Vapnik. Statistical Learning Theory. John Wiley & Sons, Inc., 1998.
+
+T. Villman, M. Kaden, A. Bohnsack, J. M. Villman, T. Drogies, S. Saralajew, and B. Ham-
+  mer. Self-adjusting reject options in prototype based classification. In Advances in Intel-
+  ligent Systems and Computing, volume 428. Springer, 2016.
+
+M. Yuan and M. Wegkamp. Classification methods with reject option based on convex risk
+ minimization. Journal of Machine Learning Research, 11(5):111–130, 2010.
+
+H. Zaragoza and F. d’Alche Buc. Confidence measures for neural network classifiers. In 7th
+  Conference on Information Processing and Management of Uncertainty in Knowledge-
+  Based Systems, 1998.
+
+
+
+
+                                             48
+
