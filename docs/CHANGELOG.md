@@ -3,6 +3,24 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — O-017 ratification + preregistration promoted (operator)
+
+- **O-017 resolved by operator ratification** (2026-08-01):
+  `execution_share` floor = **0.25** (60% of the dev-window 0.4156) and
+  population-divergence threshold = **two-sample KS on `net_R` ≤ 0.20**
+  (~2.7× the dev-window 0.073). Both were derived pre-holdout from the
+  session-2 baseline (`v8-dev-2026q2-btcusdt`) and are fixed forever — never
+  revisable after a verdict. Moved from the open list to a Resolved section
+  in `OPEN_DECISIONS.md`; D-027 register entry updated.
+- **`PREREGISTRATION_V8_SLICE_001.md` status RATIFIED** (was "frozen content
+  for operator approval"); §16(a) marked DONE. The document is now registered
+  in `tools/build_monograph.py` NAMES and appears in the monograph (section
+  count 31 -> 32).
+- The experiment is still **not run**: the frozen holdout does not exist
+  until experiment time, no authority receipt exists, and every run's verdict
+  stays `NO_ECONOMIC_CLAIM` (rules 8-9, 12).
+- Rebuilt `site/index.html` (new probe baseline for the next session).
+
 ## 2026-08-01 — Session-2 closure: Phase 1 real data + preregistration (operator pass)
 
 Session 2 (commits `3436248`..`91396fe`) executed Phase 1 on real data and

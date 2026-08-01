@@ -54,6 +54,7 @@ NAMES = [
     'CLAIMS_REGISTRY.yaml',
     'EXPERIMENT_REGISTRY.yaml',
     'EXPERTS_REGISTRY.yaml',
+    'PREREGISTRATION_V8_SLICE_001.md',
 ]
 
 

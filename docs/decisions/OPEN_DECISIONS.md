@@ -18,7 +18,12 @@
 | O-014 | Do executed and portfolio-rejected populations differ systematically? | two-sample KS + Mann-Whitney on executed vs portfolio-rejected counterfactual net_R | Divergence does **not** license an OPE correction layer: deterministic admission gives rejected Candidates propensity 0 (deficient support), and no admissible finance OPE application was found. Divergence beyond the declared threshold blocks the economic verdict instead (D-027). What stays open is whether divergence is stable enough to characterise, not whether to correct for it. |
 | O-015 | Does a learned regime veto beat mechanical masks? | learned regime label vs mechanical mask, same signal family | Learnable filters enter through the router gate (EXPERT_PROTOCOL §3); mechanical masks are baseline. |
 | O-016 | Does drawdown-conditioned sizing beat fixed fractional risk? | drawdown ladder vs fixed 1R, costed OOS | Literature is empty for crypto perps; the program must produce its own evidence (Novy-Marx cautions on added degrees of freedom). |
-| O-017 | Where are the attribution-validity thresholds set? | sweep `execution_share` floor and divergence threshold on the locked baseline; record the conflict/heat rejection rate they imply | The **gate** is decided (D-027); only its two numbers are open. Set them from the observed rejection rate before the frozen slice is opened, never after seeing a verdict. A floor so low that no run ever trips it fails the gate's purpose as surely as one that blocks every run. |
 
-All are `OPEN_QUESTION`. No field may be silently resolved by a dashboard result,
-unregistered parameter sweep, or synthetic data.
+## Resolved
+
+| ID | Resolution | Evidence / condition |
+|---|---|---|
+| O-017 | Attribution-validity thresholds ratified by the operator on 2026-08-01: `execution_share` floor = **0.25**; population-divergence threshold = two-sample KS on `net_R` (executed vs portfolio-rejected) **≤ 0.20** | Derived pre-holdout from the session-2 development baseline (execution_share 0.4156, KS 0.073; `v8-dev-2026q2-btcusdt`), bound into `PREREGISTRATION_V8_SLICE_001` §15. The gate itself is D-027; the numbers are fixed before the frozen slice and never revisable after a verdict. |
+
+All remaining rows are `OPEN_QUESTION`. No field may be silently resolved by a
+dashboard result, unregistered parameter sweep, or synthetic data.

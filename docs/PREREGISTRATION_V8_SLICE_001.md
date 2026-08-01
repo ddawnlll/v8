@@ -1,6 +1,7 @@
 # Preregistration — Experiment `v8_slice_001`
 
-**Status:** PROVISIONAL_DECISION — frozen content for operator approval.
+**Status:** RATIFIED — operator-approved 2026-08-01; frozen until the
+holdout is opened.
 **Written:** 2026-08-01 (session 2 of the autonomous build), before the frozen
 holdout exists.
 **Rule of this document:** it specifies a test that will or will not be run;
@@ -10,9 +11,10 @@ frozen holdout has **not been opened or downloaded** as of this writing.
 
 This record follows the hypothesis-record field list of
 `HYPOTHESIS_LAB_PROTOCOL` (H1–H8 records) and the attribution-validity gate
-D-027. Thresholds in section 15 are proposed from the session-2 development
-baseline (O-017) and are fixed here, before the holdout — they are never
-re-set after seeing a verdict.
+D-027. Thresholds in section 15 were proposed from the session-2 development
+baseline (O-017) and **ratified by the operator on 2026-08-01**; they are
+fixed here, before the holdout — they are never re-set after seeing a
+verdict.
 
 ---
 
@@ -247,7 +249,7 @@ Per family `f`, on the frozen OOS window:
 - Any `ATTRIBUTION_UNSAFE_*` verdict is **not** a failed hypothesis and is
   never reported as one.
 
-## 15. Attribution-validity thresholds (O-017 proposal, set pre-holdout)
+## 15. Attribution-validity thresholds (O-017, operator-ratified 2026-08-01, set pre-holdout)
 
 Derived from the session-2 development baseline (never from a holdout
 verdict), per D-027 and O-017. On the dev window (2026-04..06, BTCUSDT 1h,
@@ -282,11 +284,12 @@ std `0.8906/0.9415`, and a **two-sample Kolmogorov-Smirnov statistic of
 
 ## 16. Governance
 
-- This record is **frozen content for operator approval**. No field may be
+- This record is **operator-approved** (ratified 2026-08-01). No field may be
   changed after the frozen holdout is opened. Any material change requires a
   new preregistration and a fresh untouched holdout.
-- Operator approval actions: (a) ratify the O-017 thresholds of section 15;
-  (b) at experiment time, record the frozen-holdout tape hash before any
+- Operator actions at experiment time: (a) ~~ratify the O-017 thresholds of
+  section 15~~ **DONE 2026-08-01** — `execution_share` floor 0.25, KS
+  threshold 0.20 approved; (b) record the frozen-holdout tape hash before any
   evaluation; (c) provide an authority receipt before any economic verdict.
 - The experiment itself (`tools/`-driven run of `v8_slice_001`) is **not**
   executed by this session and the frozen holdout is not opened.
