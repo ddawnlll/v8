@@ -82,12 +82,12 @@ admission (Phase 3).
 
 | Divergence | Location | Status |
 |---|---|---|
-| `episode_key` still hashes `birth_time` (clock-anchored form); D-026 requires `setup_anchor_event_id`. The key-stability cheap test in CANDIDATE_LIFECYCLE_SPEC §5 cannot pass until this lands. | `lifecycle.py:36-40` | OPEN — CHANGELOG follow-up |
-| Funding settlement absent from the simulator; SIMULATION_TRUTH_SPEC §5/§7 mandate `SETTLEMENT_BEFORE_ORDERS` and boundary golden tests | `simulator.py` | OPEN |
-| D-024 mechanical tradability mask is spec-only | — | OPEN (spec-only) |
+| `episode_key` clock-anchored form (D-026) | `lifecycle.py` | **CLOSED** — `4f34abe` (build Step 1): anchor = first bar of the setup run via the `history` group; key drops the birth timestamp; `is_duplicate` = anchor-key equality |
+| Funding settlement absent (SIMULATION_TRUTH_SPEC §5/§7) | `simulator.py` | **CLOSED** — `760e6cc` (build Step 2): `funding_rate_r`/`funding_hours` manifest fields, `SETTLEMENT_BEFORE_ORDERS`, boundary goldens, `canonical-sim-v4` |
+| D-024 mechanical tradability mask spec-only | `risk.py` + `lab.py` | **CLOSED** — `778ceb1` (build Step 3): declared constants, `TRADABILITY_MASK_VETO`, `NOT_EXECUTED` counterfactual |
 
-Divergences are recorded in CHANGELOG entries and are closed by code change
-or explicitly rejected — never by editing this table alone.
+Divergences are closed by code change; closure is recorded here with the
+closing commit and in the CHANGELOG — never by editing this table alone.
 
 ## 5. Cheap executable tests
 
@@ -97,5 +97,5 @@ or explicitly rejected — never by editing this table alone.
 3. Two identical `lab.run()` invocations from a fresh store reproduce every
    hash (already in `tests/test_vertical_slice.py`).
 4. A D-026 key-stability test (one unchanged setup on two consecutive
-   decision clocks yields the same `episode_key`) stays pending and red until
-   the anchor form lands, so the divergence cannot go quiet.
+   decision clocks yields the same `episode_key`) is part of the suite
+   (`tests/test_vertical_slice.py`, build Step 1).

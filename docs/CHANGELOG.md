@@ -3,6 +3,31 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Autonomous build session closure (operator pass)
+
+The Phase 0-3 autonomous build (commits `4f34abe`..`f2f8bf2`) completed all
+7 runbook steps: the vertical-slice suite grew 15 -> 42 tests, the monograph
+probe rebuild was byte-identical to the baseline hash at every step, and the
+`docs/` corpus was untouched by the agent (verified independently on
+re-review). This operator pass closes the artifacts the agent was not
+authorized to write.
+
+- **IMPLEMENTATION_LAYOUT §4 divergence rows closed** with their commits:
+  episode_key anchor (D-026, `4f34abe`), funding settlement
+  (SIMULATION_TRUTH_SPEC §5/§7, `760e6cc`), D-024 mask (`778ceb1`). The D-026
+  key-stability cheap test is now part of the suite (§5 item 4 updated).
+- **D-037 registered** — resolves the Step-4 OPEN_PIN: the stdlib mirror of
+  `tools/data.py` contracts in `tools/vision_backfill.py` is accepted;
+  literal reuse deferred until Phase-1 parquet materialization admits the
+  heavy deps. `pyyaml>=6` dev-extra noted (environment, not decision path).
+- **`docs/EXPERTS_REGISTRY.yaml` registered in the monograph build** (section
+  count 30 -> 31): the Phase-3 expert registry now has a visible home next to
+  CLAIMS/EXPERIMENT registries; the agent could not add it to NAMES (docs
+  freeze).
+- Rebuilt `site/index.html`; runbook Step 3's funding-window interpretation
+  and the seed-7 epoch artifact remain recorded in `RUNLOG.md` and
+  `docs/STATUS_REPORT.md` (session artifacts, not corpus).
+
 ## 2026-08-01 — Autonomous build handoff (design + tooling line)
 
 Design line only; no runtime code changed in this pass.

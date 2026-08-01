@@ -53,6 +53,7 @@ NAMES = [
     'AGENT_RUNBOOK.md',
     'CLAIMS_REGISTRY.yaml',
     'EXPERIMENT_REGISTRY.yaml',
+    'EXPERTS_REGISTRY.yaml',
 ]
 
 
