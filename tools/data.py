@@ -1408,16 +1408,33 @@ def build(config: DatasetConfig) -> dict[str, Any]:
 
         metadata: dict[str, Any] = {}
         if config.fetch_exchange_info:
-            exchange_info = _fetch_exchange_info()
-            metadata = _select_symbol_metadata(exchange_info, config.symbols)
+            # exchangeInfo is enrichment, not the universe source (the symbol
+            # list is config.symbols). A geo-blocked or flaky endpoint must
+            # not abort the whole build: degrade to a warning snapshot and
+            # continue (the canonical tape + hashes are unaffected).
+            try:
+                exchange_info = _fetch_exchange_info()
+                metadata = _select_symbol_metadata(exchange_info, config.symbols)
+                warning = (
+                    "This is a current metadata snapshot, not point-in-time history. "
+                    "Historical parameter changes require a separate metadata tape."
+                )
+            except Exception as exc:  # noqa: BLE001 - degrade, never abort
+                print(
+                    f"[WARN] exchangeInfo unavailable ({exc}); build continues "
+                    f"without the metadata snapshot",
+                    flush=True,
+                )
+                metadata = {}
+                warning = (
+                    "exchangeInfo fetch failed; metadata snapshot absent. "
+                    "The canonical tape and hashes are unaffected."
+                )
             _write_json(
                 staging_dir / "metadata" / "exchange_info_snapshot.json",
                 {
                     "fetched_at_utc": datetime.now(timezone.utc).isoformat(),
-                    "warning": (
-                        "This is a current metadata snapshot, not point-in-time history. "
-                        "Historical parameter changes require a separate metadata tape."
-                    ),
+                    "warning": warning,
                     "symbols": metadata,
                 },
             )

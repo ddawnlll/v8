@@ -15,10 +15,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # repo root for t
 import pytest
 
 from tools.monitor_tape import main, read_rows, staleness_report, validate_schema
+from tools.vision_backfill import sha256_file, write_source_meta
 from v8.schema import sha1_hex
 
 HOUR_NS = 3_600_000_000_000
 DAY_NS = 24 * HOUR_NS
+
+
+def _add_provenance(tmp_path: Path) -> None:
+    """The reused audit (OPERATIONS_SPEC fail-closed) requires source.json and
+    the recorded archive zip to be present; give the fixture tape a dummy
+    provenance so --schema can evaluate instead of failing on it."""
+    zip_path = tmp_path / 'BTCUSDT-1h-2025-01.zip'
+    zip_path.write_bytes(b'dummy archive bytes for the monitor fixture')
+    write_source_meta(tmp_path, 'BTCUSDT', '1h', '2025-01',
+                      sha256_file(zip_path))
 
 
 def _tape(tmp_path: Path, n: int = 5, base_time: int = 1_770_000_000_000_000_000,
@@ -46,6 +57,7 @@ def _tape(tmp_path: Path, n: int = 5, base_time: int = 1_770_000_000_000_000_000
     tape.parent.mkdir(parents=True, exist_ok=True)
     tape.write_text('\n'.join(json.dumps(r, sort_keys=True) for r in rows) + '\n',
                     encoding='utf-8')
+    _add_provenance(tmp_path)
     return tape
 
 

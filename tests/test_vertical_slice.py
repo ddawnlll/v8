@@ -73,7 +73,9 @@ def test_episode_key_deterministic_and_dedup_window(tmp_path):
     reg = CandidateRegistry(AppendOnlyLog(tmp_path / 'c.jsonl'))
     reg.apply(key, None, 'DETECTED', 'setup_detected', 1_000)
     assert reg.is_duplicate(key) is True            # repeat is a duplicate
-    # A repeat 100 hours later is still a duplicate: no time window remains.
+    # The registry has no time concept: is_duplicate is pure key membership,
+    # so a repeat is a duplicate at ANY later clock — the time-window
+    # parameter was removed because anchor equality subsumes it (D-026).
     assert reg.is_duplicate(key) is True
     fresh = episode_key('e', 'v1', 'SOLUSDT', 'LONG', 'anchor-2', 'geo-v1')
     assert reg.is_duplicate(fresh) is False
@@ -415,16 +417,67 @@ def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
         ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))
 
 
-def test_trend_expert_thesis_dies_when_trend_dies(tmp_path):
+def test_trend_expert_thesis_dies_when_trend_dies():
+    """The thesis ('pullback inside an uptrend') dies when the uptrend dies:
+    inside run A still_valid is True; after the recovery kills ema_fast >
+    ema_slow it is False. Pinned against the crafted tape (not re-derived
+    from the implementation's own formula)."""
     ex = TrendPullbackExpert()
-    lab = _fresh_lab(tmp_path)
-    tape = lab.tape_log.replay_tape()
-    state = build_state(tape, tape[-1].available_time, UNIVERSE)
-    draft = _pos().draft
-    f = state.features
-    if f'SOLUSDT.ema_fast' in f and f['SOLUSDT.ema_fast'].value is not None:
-        expected = float(f['SOLUSDT.ema_fast'].value) > float(f['SOLUSDT.ema_slow'].value)
-        assert ex.still_valid(state, draft) is expected
+    rows = _craft_pullback_tape()
+    draft = _draft_at(rows, ex, 61)                    # inside pullback run A
+    alive = build_state([r for r in rows if r.available_time <= rows[61].available_time],
+                        rows[61].available_time, UNIVERSE)
+    # Bar 62 (close 106) is where ema_fast falls below ema_slow (verified in
+    # the crafted-tape comments): the uptrend is dead there, whatever the
+    # later recovery bars do.
+    dead = build_state([r for r in rows if r.available_time <= rows[62].available_time],
+                       rows[62].available_time, UNIVERSE)
+    assert ex.still_valid(alive, draft) is True
+    assert ex.still_valid(dead, draft) is False
+
+
+def _funding_cross_tape() -> list[TapeRow]:
+    """A tape engineered so failed_breakout enters at bar 32 (32h, exactly on
+    an 8h boundary — NOT mask-vetoed by the open-interval rule) and is held
+    quietly to expiry at bar 40, whose decision clock crosses the 40h
+    boundary. Bars 0-29 rise 100..129 (no setup); bar 30 drops to 100 (close
+    < prior_high 129.5 -> setup, anchor 30); bars 31-45 are quiet at 100."""
+    closes = [100.0 + i for i in range(30)]            # 100..129 rising
+    closes += [100.0] * 16                              # drop + quiet hold
+    rows: list[TapeRow] = []
+    for i, c in enumerate(closes):
+        rows.append(TapeRow(
+            source='binance-um', channel='kline', instrument='SOLUSDT',
+            event_time=HOUR_NS * i, available_time=HOUR_NS * i,
+            ingested_time=HOUR_NS * i, venue_sequence=i + 1,
+            event_id=f'SOLUSDT:{i + 1}',
+            payload={'open': c, 'high': c + 0.5, 'low': c - 0.5,
+                     'close': c, 'volume': 1.0, 'closed': True}))
+    return rows
+
+
+def test_funding_integration_through_lab_run(tmp_path):
+    """Funding settlement actually reaches lab.run outcomes end-to-end: a SHORT
+    held across the 40h boundary books exactly one settlement and its net_r is
+    +0.01 higher (receives on a positive rate) than the zero-rate run
+    (bugfix: this path was previously untested; only simulator goldens)."""
+    rows = _funding_cross_tape()
+    lab0 = Lab(tmp_path / 'f0')
+    lab0.ingest(rows)
+    r0 = lab0.run(_manifest(funding_rate_r=0.0), [FailedBreakoutExpert()])
+    lab1 = Lab(tmp_path / 'f1')
+    lab1.ingest(rows)
+    r1 = lab1.run(_manifest(funding_rate_r=0.01), [FailedBreakoutExpert()])
+    assert r0.candidate_count == r1.candidate_count == 1
+    assert r0.ledger_hash != r1.ledger_hash           # funding changed the ledger
+    outs0 = {o['candidate_id']: o for o in lab0.outcomes.read()}
+    outs1 = {o['candidate_id']: o for o in lab1.outcomes.read()}
+    differing = [cid for cid in outs0
+                 if outs0[cid].get('net_r') != outs1[cid].get('net_r')]
+    assert differing, 'the held SHORT must book funding across the 40h boundary'
+    # One settlement at +0.01 (SHORT receives on a positive rate).
+    for cid in differing:
+        assert outs1[cid]['net_r'] - outs0[cid]['net_r'] == pytest.approx(0.01)
 
 
 # --- D-024 mechanical tradability mask (CANDIDATE_LIFECYCLE_SPEC 6.3) -------
@@ -520,6 +573,17 @@ def test_mask_degraded_state_vetoes():
     assert tradability_mask_veto(ok_bar, 'COMPLETE', 3 * HOUR_NS,
                                  max_spread_frac=0.05, funding_window_bars=1,
                                  funding_hours=8, interval_ns=HOUR_NS) == (False, None)
+    # A bar ending EXACTLY on a boundary enters after that settlement
+    # (open-interval start) and is NOT vetoed — the documented non-veto must
+    # be pinned, not just the veto side.
+    boundary = 8 * HOUR_NS
+    assert tradability_mask_veto(ok_bar, 'COMPLETE', boundary,
+                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 funding_hours=8, interval_ns=HOUR_NS) == (False, None)
+    # One bar before the boundary is vetoed (imminent settlement).
+    assert tradability_mask_veto(ok_bar, 'COMPLETE', boundary - HOUR_NS,
+                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 funding_hours=8, interval_ns=HOUR_NS) == (True, 'FUNDING_WINDOW')
 
 
 def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
@@ -658,3 +722,18 @@ def test_unsupported_fill_policy_fails_closed(tmp_path):
     # The implemented policy is exactly the locked baseline.
     assert SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE',)
     assert CanonicalSimulator().fill_policy == 'FILL_AT_BAR_CLOSE'
+
+
+def test_double_run_on_same_store_fails_closed(tmp_path):
+    """One store = one immutable run: a second lab.run() on the same store
+    must fail closed. It is not idempotent — the registry replays the prior
+    run's DETECTED keys and would append NEW suppressed_duplicate rows,
+    silently changing the ledger hash for identical inputs (bugfix)."""
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=160)
+    experts = [TrendPullbackExpert(), FailedBreakoutExpert()]
+    r1 = lab.run(_manifest(), experts)
+    with pytest.raises(ValueError, match='already contains a run'):
+        lab.run(_manifest(), experts)
+    # The evidence is untouched by the refused run.
+    assert r1.ledger_hash == _fresh_lab(tmp_path / 'fresh', seed=7, n_bars=160).run(
+        _manifest(), experts).ledger_hash

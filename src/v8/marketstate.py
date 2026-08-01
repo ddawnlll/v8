@@ -93,6 +93,12 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 f'{sym}.history', hist, 'history', 'v2',
                 closed[-1].available_time, quality='COMPLETE', group='history')
     validate_feature_groups(features)
+    # State quality is DEGRADED when any emitted feature is (MARKET_STATE_CONTRACT
+    # section 4). This is what makes the D-024 DEGRADED data-integrity veto
+    # reachable at admission; quality is metadata and does not enter the
+    # lineage/state hashes, so it cannot leak into identities.
+    quality = 'DEGRADED' if any(v.quality == 'DEGRADED' for v in features.values()) \
+        else 'COMPLETE'
     # Lineage binds every feature's value, availability, group tag and version,
     # so a re-tag or re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).
     lineage = sha1_hex({k: [v.value, v.max_input_available_time, v.group,
@@ -101,4 +107,4 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
     return MarketState(
         state_id=sha1_hex((as_of, universe, lineage)),
         as_of=as_of, universe=universe, features=features,
-        lineage_hash=lineage)
+        lineage_hash=lineage, quality=quality)

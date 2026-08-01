@@ -590,3 +590,74 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-5: status report`
 - gate: pytest=80 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes wall-clock=clean?yes
+
+## Session 4 — Bugfix pass: critical/high confirmed bugs — DONE
+- started: 2026-08-01T05:45:00Z finished: 2026-08-01T06:03:00Z
+- process: multi-modal bug-hunt workflow (4 finders + per-finding adversarial
+  verification; 31 agents, 2.75M tokens) over the decision path, tools,
+  data plane and tests -> 27 findings, 22 CONFIRMED (1 critical, 5 high,
+  9 medium, 7 low), 5 refuted. All critical/high/medium CODE bugs fixed;
+  two design-level items recorded as OPEN_PINs; low test-coverage gaps closed.
+- FIXED (code):
+  (1) CRITICAL — vision_backfill silently dropped corrected/re-downloaded
+      archives: the (source,event_id=open-time) dedup kept superseded bars
+      while provenance recorded the NEW zip sha. Now source.json is per-month
+      provenance (archives: [{month, zip_sha256}]) and check_archive_revision
+      FAILS CLOSED before any write when a recorded month is re-run with a
+      different zip (a corrected archive must be rebuilt in a fresh dir).
+  (2) HIGH — Phase 1a rejection counterfactual entered one bar after the
+      would-be fill (sim.run(bars[i+1:]) instead of bars[i:]), simulating a
+      DIFFERENT trade for every vetoed/risk-rejected candidate and biasing
+      the D-027/O-014 rejected population. Both Phase 1a sites now pass
+      from_idx=i (entry at bars[i].close, inspected bars[i+1:]), mirroring
+      the executed path. (Phase-2 excess-cost site left at i+1 — correct.)
+  (3) HIGH — audit_tape provenance checks failed OPEN without source.json;
+      now source.json is REQUIRED and every recorded archive's zip must exist
+      and match its recorded sha (fail-closed per OPERATIONS_SPEC 5). Also
+      detects duplicated (source,event_id) rows.
+  (4) LOW-but-wiring — D-024 DEGRADED veto was unreachable: build_state
+      hardcoded MarketState.quality='COMPLETE'. Now quality=DEGRADED when any
+      feature is DEGRADED (MARKET_STATE_CONTRACT 4); quality is metadata and
+      does not enter lineage/state hashes, but the bar-0 state records change
+      (they carry the quality field) -> states/golden hashes bumped.
+  (5) MEDIUM — data.py historical builds aborted when the exchangeInfo
+      endpoint is geo-blocked (HTTP 451 on this machine). The fetch now
+      degrades to a warning snapshot and the build continues (symbol universe
+      comes from --symbols; the tape/hashes are unaffected).
+- FIXED (tests): materializer tests now assert view CONTENT (features_json
+  contains real features, birth rows carry expert/instrument/anchor, outcomes
+  carry hashes, trajectories are legal transitions); funding integration
+  through lab.run is now tested end-to-end (crafted tape: SHORT held across
+  the 40h boundary books +0.01 with a positive rate); D-024 exact-boundary
+  non-veto pinned; thesis test no longer self-referential; purity tests fail
+  (not vacuous) on an empty decision path; plan_archives pins 17 daily
+  archives; corrupt-zip tested through main(); double-run fail-closed guard
+  (previous fix) retained.
+- OPEN_PIN (operator/registry decision): D-026 episode key drifts for setups
+  lasting >32 bars — with no false bar in the sliding 32-bar window the
+  anchor is the window's oldest bar, so the key changes every bar and dedup
+  silently never fires (confirmed: 21 distinct episodes from one continuous
+  setup). Documented in D-034 as a bound, but it violates the
+  CANDIDATE_LIFECYCLE_SPEC 1 absolute key-stability invariant. NOT fixed
+  mechanically: a correct fix needs a registry decision on the history-window
+  or anchor semantics; a wrong quick fix would be worse. Until then the
+  behavior is known and the lab output stays deterministic.
+- OPEN_PIN (contract ambiguity): trigger/invalidation is never evaluated on
+  the detection bar itself (lab Phase 2 checks birth_idx == i-1 only), so a
+  candidate whose invalidation predicate held AT BIRTH can still trigger and
+  execute. No contract pins the invalidation window; a fix must be
+  expert-aware (failed_breakout's detection-bar high > prior_high is
+  inherent to the setup). Recorded, not silently changed.
+- NOTED (no code change): prior_high/prior_low stamp the last bar's
+  availability (conservative upper bound, no leakage — hash churn not
+  justified); marketstate revision-replay mixing (unreachable through the
+  real pipeline: store dedup + vision_backfill revision guard prevent
+  coexisting revisions); AppendOnlyLog dedup conflating fact identity (same
+  root as (1), handled at the ingestion layer).
+- GOLDEN: consciously bumped (ledger 0d37dd96…, states 6cc0e25c…) because
+  (2) changes rejected-candidate outcomes and (4) changes bar-0 state
+  records; data_hash (tape hash) unchanged. Documented in
+  tests/test_golden_backtest.py.
+- commit: (below) `v8-bugfix: critical/high confirmed fixes — vision_backfill archive-revision fail-closed + per-month provenance + strict audit, Phase-1a counterfactual entry fix, DEGRADED state quality, data.py geo-block degrade, 22-finding bug hunt verified`
+- gate: pytest=86 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes wall-clock=clean?yes

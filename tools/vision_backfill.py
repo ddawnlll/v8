@@ -183,13 +183,43 @@ def write_tape(out_dir: Path, rows: list[dict]) -> tuple[int, int]:
     return appended, skipped
 
 
+def _load_provenance(out_dir: Path) -> dict:
+    path = out_dir / 'source.json'
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding='utf-8'))
+    return data
+
+
+def check_archive_revision(out_dir: Path, month: str, zip_sha256: str) -> None:
+    """Fail closed if a recorded month is re-run with a DIFFERENT zip: a
+    venue-corrected archive has the same kline open times (same event_ids),
+    so the store's dedup would silently keep the superseded bars while the
+    provenance records the new checksum — a silent data corruption. A revised
+    archive invalidates the existing tape; it must be rebuilt in a fresh dir."""
+    prov = _load_provenance(out_dir)
+    recorded = {a['month']: a['zip_sha256'] for a in prov.get('archives', [])}
+    if month in recorded and recorded[month] != zip_sha256:
+        raise ValueError(
+            f'refusing to ingest revised archive: {month} was recorded with '
+            f'sha256 {recorded[month]}, the current zip is {zip_sha256}. A '
+            'corrected archive invalidates the existing tape — rebuild it in a '
+            'fresh out dir.')
+
+
 def write_source_meta(out_dir: Path, symbol: str, interval: str, month: str,
                       zip_sha256: str) -> dict:
-    """Provenance record for the audit: what the tape was built from and the
-    row count / tape hash actually stored (post-dedup)."""
+    """Per-month provenance: every ingested archive (month + zip sha256) is
+    recorded, with the full-tape row count and tape hash. Re-running a month
+    with the SAME zip is idempotent (the entry is kept); a different zip was
+    already rejected by check_archive_revision."""
+    prov = _load_provenance(out_dir)
+    archives = {a['month']: a for a in prov.get('archives', [])}
+    archives[month] = {'month': month, 'zip_sha256': zip_sha256}
     stored = AppendOnlyLog(out_dir / 'tape.jsonl').read()
-    meta = {'symbol': symbol, 'interval': interval, 'month': month,
-            'zip_sha256': zip_sha256, 'row_count': len(stored),
+    meta = {'symbol': symbol, 'interval': interval,
+            'archives': [archives[m] for m in sorted(archives)],
+            'row_count': len(stored),
             'tape_hash': sha1_hex(stored), 'schema_version': SCHEMA_VERSION}
     (out_dir / 'source.json').write_text(
         json.dumps(meta, sort_keys=True, indent=2) + '\n', encoding='utf-8')
@@ -201,16 +231,24 @@ class TapeAuditError(ValueError):
 
 
 def audit_tape(out_dir: Path) -> dict:
-    """Monotonicity, gap, row-count and payload-hash checks
+    """Monotonicity, gap, payload-hash, duplicate-row and provenance checks
     (FEED_INGESTION_SPEC section 4). Raises TapeAuditError on the first
-    violation; the CLI exits non-zero."""
+    violation; the CLI exits non-zero. Fails closed when provenance
+    (source.json) is missing or its recorded archives cannot be verified —
+    a check that cannot evaluate must reject, not pass (OPERATIONS_SPEC
+    section 5)."""
     log = AppendOnlyLog(out_dir / 'tape.jsonl')
     rows = log.read()
     problems: list[str] = []
     prev: dict | None = None
+    seen_ids: set[tuple[str, str]] = set()
     for rec in rows:
         if 'channel' not in rec:
             continue
+        key = (rec.get('source', ''), rec.get('event_id', ''))
+        if key in seen_ids:
+            problems.append(f'duplicate row (source, event_id) = {key}')
+        seen_ids.add(key)
         payload = rec['payload']
         content = {k: v for k, v in payload.items()
                    if k not in ('payload_hash', 'schema_version')}
@@ -229,19 +267,29 @@ def audit_tape(out_dir: Path) -> dict:
         prev = rec
 
     meta_path = out_dir / 'source.json'
-    if meta_path.exists():
+    if not meta_path.exists():
+        problems.append('source.json missing — provenance cannot be verified')
+    else:
         meta = json.loads(meta_path.read_text(encoding='utf-8'))
-        if meta['row_count'] != len(rows):
-            problems.append(f'row count {len(rows)} != recorded {meta["row_count"]}')
-        if meta['tape_hash'] != sha1_hex(rows):
+        if meta.get('row_count') != len(rows):
+            problems.append(f'row count {len(rows)} != recorded {meta.get("row_count")}')
+        if meta.get('tape_hash') != sha1_hex(rows):
             problems.append('tape hash differs from recorded source.json')
-        zip_path = out_dir / f'{meta["symbol"]}-{meta["interval"]}-{meta["month"]}.zip'
-        if zip_path.exists() and sha256_file(zip_path) != meta['zip_sha256']:
-            problems.append('zip sha256 differs from recorded source.json')
+        for archive in meta.get('archives', []):
+            zip_path = out_dir / (
+                f'{meta["symbol"]}-{meta["interval"]}-{archive["month"]}.zip')
+            if not zip_path.exists():
+                problems.append(
+                    f'recorded archive zip missing: {zip_path.name} — '
+                    'provenance cannot be verified')
+            elif sha256_file(zip_path) != archive['zip_sha256']:
+                problems.append(
+                    f'zip sha256 differs from recorded source.json for '
+                    f'{archive["month"]}')
     if problems:
         raise TapeAuditError('; '.join(problems))
     return {'row_count': len(rows), 'payload_hashes_ok': True,
-            'monotonic': True, 'venue_gaps': 0}
+            'monotonic': True, 'venue_gaps': 0, 'duplicate_rows': 0}
 
 
 def _http_download(url: str, dest: Path) -> None:
@@ -292,6 +340,7 @@ def main(argv: list[str] | None = None) -> int:
 
     rows = build_tape_from_zip(zip_path, args.symbol, args.interval,
                                args.latency_ns)
+    check_archive_revision(out, args.month, actual)
     appended, skipped = write_tape(out, rows)
     meta = write_source_meta(out, args.symbol, args.interval, args.month, actual)
     print(f'wrote {appended} rows (skipped {skipped} duplicates); '

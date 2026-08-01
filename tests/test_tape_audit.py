@@ -18,8 +18,9 @@ import pytest
 
 from tools.vision_backfill import (
     DEFAULT_LATENCY_NS, SCHEMA_VERSION,
-    audit_tape, build_tape_from_zip, kline_csv_to_rows, parse_checksum_file,
-    sha256_file, write_tape, TapeAuditError, sha1_hex,
+    audit_tape, build_tape_from_zip, check_archive_revision, kline_csv_to_rows,
+    main as backfill_main, parse_checksum_file, sha256_file, write_source_meta,
+    write_tape, TapeAuditError, sha1_hex,
 )
 
 HOUR_MS = 3_600_000
@@ -104,42 +105,123 @@ def test_corrupt_checksum_and_zip_fail_closed(tmp_path):
     # zip corruption -> hash mismatch
     zip_path.write_bytes(zip_path.read_bytes() + b'corrupt')
     assert sha256_file(zip_path) != good
+    # and the CLI's fail-closed path (main) must reject the corrupt zip, not
+    # just SHA-256's different-bytes property.
+    out = tmp_path / 'out'
+    out.mkdir()
+    (out / zip_path.name).write_bytes(zip_path.read_bytes())
+    (out / f'{zip_path.name}.CHECKSUM').write_text(
+        good + f' *{zip_path.name}\n', encoding='utf-8')
+    with pytest.raises(SystemExit, match='SHA-256 mismatch'):
+        backfill_main(['--symbol', 'BTCUSDT', '--interval', '1h',
+                       '--month', '2025-01', '--out', str(out)])
 
 
 def test_double_run_is_idempotent(tmp_path):
     """A second backfill over the same output dir must not duplicate rows; the
-    tape file is byte-identical (FEED_INGESTION_SPEC 5 idempotency)."""
+    tape file and provenance are byte-identical (FEED_INGESTION_SPEC 5
+    idempotency)."""
     zip_path = _fixture_zip(tmp_path)
-    out = tmp_path / 'out'
-    out.mkdir()
+    out = tmp_path
     rows = build_tape_from_zip(zip_path, 'BTCUSDT', '1h')
     appended1, skipped1 = write_tape(out, rows)
     assert (appended1, skipped1) == (6, 0)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01',
+                      sha256_file(zip_path))
     before = (out / 'tape.jsonl').read_bytes()
+    prov_before = (out / 'source.json').read_bytes()
+    check_archive_revision(out, '2025-01', sha256_file(zip_path))   # same zip ok
     appended2, skipped2 = write_tape(out, rows)
     assert (appended2, skipped2) == (0, 6)             # all deduped
     assert (out / 'tape.jsonl').read_bytes() == before
+    assert (out / 'source.json').read_bytes() == prov_before
+    assert audit_tape(out)['row_count'] == 6
 
 
 def test_audit_passes_clean_tape(tmp_path):
-    """A clean tape audits without violations."""
+    """A clean tape with provenance audits without violations."""
     zip_path = _fixture_zip(tmp_path)
-    out = tmp_path / 'out'
-    out.mkdir()
+    out = tmp_path
     rows = build_tape_from_zip(zip_path, 'BTCUSDT', '1h')
     write_tape(out, rows)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', sha256_file(zip_path))
     report = audit_tape(out)
     assert report['row_count'] == 6 and report['payload_hashes_ok']
+    assert report['duplicate_rows'] == 0
+
+
+def test_audit_fails_closed_without_provenance(tmp_path):
+    """A tape without source.json cannot be provenance-verified and must
+    fail closed, not pass green (OPERATIONS_SPEC section 5)."""
+    zip_path = _fixture_zip(tmp_path)
+    out = tmp_path
+    write_tape(out, build_tape_from_zip(zip_path, 'BTCUSDT', '1h'))
+    with pytest.raises(TapeAuditError, match='source.json missing'):
+        audit_tape(out)
+
+
+def test_archive_revision_fails_closed(tmp_path):
+    """A corrected archive (same open times, revised close, different zip
+    sha256) must be REFUSED — the store dedup would silently keep the
+    superseded bars otherwise (bugfix, critical)."""
+    out = tmp_path / 'out'
+    out.mkdir()
+    zip_a = _fixture_zip(tmp_path)                     # close[3] = 103.0
+    rows_a = build_tape_from_zip(zip_a, 'BTCUSDT', '1h')
+    write_tape(out, rows_a)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', sha256_file(zip_a))
+    # A revised archive with the same open times but a different close:
+    import zipfile
+    revised_rows = list(rows_a)
+    p = dict(revised_rows[3]['payload'])
+    p['close'] = 203.0
+    content = {k: v for k, v in p.items() if k not in ('payload_hash', 'schema_version')}
+    p['payload_hash'] = sha1_hex(content)
+    revised_rows[3]['payload'] = p
+    zip_b = tmp_path / 'BTCUSDT-1h-2025-01-revised.zip'
+    csv = '\n'.join(
+        f"{r['payload']['open_time_ms']},{r['payload']['open']},{r['payload']['high']},"
+        f"{r['payload']['low']},{r['payload']['close']},{r['payload']['volume']},"
+        f"{r['payload']['close_time_ms']},1000,5,5,500,0"
+        for r in revised_rows) + '\n'
+    with zipfile.ZipFile(zip_b, 'w', zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr('BTCUSDT-1h-2025-01.csv', csv)
+    # The revision check must refuse before any write.
+    with pytest.raises(ValueError, match='refusing to ingest revised archive'):
+        check_archive_revision(out, '2025-01', sha256_file(zip_b))
+    # And through the CLI (main) the same month with a different zip fails.
+    (out / 'BTCUSDT-1h-2025-01.zip').write_bytes(zip_b.read_bytes())
+    (out / 'BTCUSDT-1h-2025-01.zip.CHECKSUM').write_text(
+        sha256_file(zip_b) + ' *BTCUSDT-1h-2025-01.zip\n', encoding='utf-8')
+    with pytest.raises((SystemExit, ValueError), match='refusing to ingest revised archive'):
+        backfill_main(['--symbol', 'BTCUSDT', '--interval', '1h',
+                       '--month', '2025-01', '--out', str(out)])
+
+
+def test_audit_flags_duplicate_rows(tmp_path):
+    """A hand-edited tape with a duplicated (source, event_id) row is an audit
+    violation (bugfix)."""
+    zip_path = _fixture_zip(tmp_path)
+    out = tmp_path
+    rows = build_tape_from_zip(zip_path, 'BTCUSDT', '1h')
+    write_tape(out, rows)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', sha256_file(zip_path))
+    tape = out / 'tape.jsonl'
+    lines = tape.read_text(encoding='utf-8').splitlines()
+    tape.write_text('\n'.join(lines + [lines[0]]) + '\n', encoding='utf-8')
+    with pytest.raises(TapeAuditError) as excinfo:
+        audit_tape(out)
+    assert 'duplicate row' in str(excinfo.value)
 
 
 def test_audit_flags_venue_gap(tmp_path):
     """A missing bar (venue-sequence gap) is an audit violation, not a
     curiosity (FEED_INGESTION_SPEC 4)."""
     zip_path = _fixture_zip(tmp_path)
-    out = tmp_path / 'out'
-    out.mkdir()
+    out = tmp_path
     rows = build_tape_from_zip(zip_path, 'BTCUSDT', '1h')
     write_tape(out, rows)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', sha256_file(zip_path))
     tape = out / 'tape.jsonl'
     lines = tape.read_text(encoding='utf-8').splitlines()
     del lines[3]                                       # remove the 4th bar
@@ -153,10 +235,10 @@ def test_audit_flags_payload_corruption(tmp_path):
     """A tampered payload (hash mismatch) is an audit violation
     (FEED_INGESTION_SPEC 5 reconciliation)."""
     zip_path = _fixture_zip(tmp_path)
-    out = tmp_path / 'out'
-    out.mkdir()
+    out = tmp_path
     rows = build_tape_from_zip(zip_path, 'BTCUSDT', '1h')
     write_tape(out, rows)
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', sha256_file(zip_path))
     tape = out / 'tape.jsonl'
     first = tape.read_text(encoding='utf-8').splitlines()[0]
     tape.write_text(first.replace('"close": 100.0', '"close": 999.0') + '\n',

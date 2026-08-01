@@ -79,6 +79,17 @@ class Lab:
 
     def run(self, manifest: ExperimentManifest, experts: list,
             risk_gate: RiskGate | None = None) -> LabReport:
+        # One store directory = one immutable run's evidence. A second run on
+        # the same store is NOT idempotent: the registry replays the prior
+        # run's DETECTED keys, so every first detection becomes a NEW
+        # suppressed_duplicate row and the ledger hash silently changes for
+        # identical (tape, manifest, code). Fail closed instead of polluting
+        # the evidence.
+        if self.states.read() or self.candidates.read() \
+                or self.outcomes.read() or self.evaluations.read():
+            raise ValueError(
+                'store already contains a run; one store directory = one '
+                "immutable run's evidence (use a fresh store dir)")
         sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r,
                                  funding_rate_r=manifest.funding_rate_r,
                                  funding_hours=manifest.funding_hours,
@@ -127,7 +138,12 @@ class Lab:
                                             'candidate_id': cid, 'detail': veto_reason,
                                             'source': 'risk',
                                             'event_id': f'{cid}:veto:{as_of}'})
-                    out = counterfactual(cid, draft, i + 1)
+                    # The would-be fill is at this bar's close (Phase 1a); the
+                    # counterfactual enters at bars[i] and inspects bars[i+1:],
+                    # exactly mirroring the executed path. Entering one bar
+                    # later (i+1) would simulate a DIFFERENT trade for every
+                    # rejected candidate and bias the D-027/O-014 population.
+                    out = counterfactual(cid, draft, i)
                     self._record_outcome(cid, out.endpoint, out.net_r,
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
@@ -140,7 +156,7 @@ class Lab:
                         conflicts += 1
                     self.registry.apply(cid, 'TRIGGERED', 'REJECTED',
                                         verdict.reason_code or 'risk_rejected', as_of)
-                    out = counterfactual(cid, draft, i + 1)
+                    out = counterfactual(cid, draft, i)
                     self._record_outcome(cid, out.endpoint, out.net_r,
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,

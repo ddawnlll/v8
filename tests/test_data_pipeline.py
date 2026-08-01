@@ -49,10 +49,14 @@ def test_plan_archives_partial_boundary_uses_daily(tmp_path):
     """Partial boundary months plan daily archives (data.py cadence rule),
     which is the documented Vision layout for incomplete months."""
     specs = plan_archives(_config(tmp_path, start='2026-06-15', end='2026-07-02'))
-    assert specs
+    # [start, end) -> 2026-06-15..06-30 (16 days) + 2026-07-01 (1 day) = 17
+    # daily archives, each named by its exact day.
+    assert len(specs) == 17, [s.relative_path for s in specs]
     assert all(s.cadence == 'daily' for s in specs)
-    assert all('-2026-06-' in s.relative_path or '-2026-07-' in s.relative_path
-               for s in specs)
+    expected_days = {f'2026-06-{d:02d}' for d in range(15, 31)} | {'2026-07-01'}
+    got = {'-'.join(Path(s.relative_path).stem.split('-')[-3:])
+           for s in specs}            # date segment, e.g. 2026-06-15
+    assert got == expected_days
 
 
 def test_parse_checksum_file_contract(tmp_path):

@@ -46,7 +46,9 @@ def _make_pinned_manifest(tmp_path: Path, seed: int = 3, n_bars: int = 60) -> Pa
 def test_materialize_writes_all_five_views(tmp_path):
     """All five section-5 views exist as parquet, with the row counts implied
     by the ledger: one market_state per bar, one birth + one outcome per
-    candidate, and a transition-fidelity execution trajectory."""
+    candidate, and a transition-fidelity execution trajectory. The assertions
+    check view CONTENT, not just file existence or row counts: a view whose
+    payload was replaced by a constant must fail."""
     manifest = _make_pinned_manifest(tmp_path)
     summary = materialize(manifest, tmp_path / 'store')
     assert summary['verdict'] == 'NO_ECONOMIC_CLAIM'
@@ -56,10 +58,40 @@ def test_materialize_writes_all_five_views(tmp_path):
         p = views_dir / f'{view}.parquet'
         assert p.exists(), f'{view} missing'
         assert summary['rows'][view] == pq.read_table(p).num_rows
+
+    states = pq.read_table(views_dir / 'market_states.parquet')
     assert summary['rows']['market_states'] == 60
+    # CONTENT: the features_json column carries real per-bar features for the
+    # decision ledger, and the state_id column is a real 40-hex sha1.
+    assert 'features_json' in states.column_names and 'state_id' in states.column_names
+    first = states.slice(0, 1).to_pylist()[0]
+    import json as _json
+    feats = _json.loads(first['features_json'])
+    assert 'SOLUSDT.close' in feats and 'SOLUSDT.history' in feats
+    assert len(first['state_id']) == 40
+
+    births = pq.read_table(views_dir / 'candidate_birth.parquet').to_pylist()
     assert summary['rows']['candidate_birth'] == summary['candidate_count']
-    assert summary['rows']['candidate_outcomes'] == summary['candidate_count']
+    # CONTENT: every birth carries a real expert, instrument and anchor.
+    for b in births:
+        assert b['expert_id'] in ('trend_pullback', 'failed_breakout')
+        assert b['instrument'] == 'SOLUSDT'
+        assert b['setup_anchor_event_id']
+        assert b['direction'] in ('LONG', 'SHORT')
+
+    outcomes = pq.read_table(views_dir / 'candidate_outcomes.parquet').to_pylist()
+    assert len(outcomes) == summary['candidate_count']
+    # CONTENT: outcomes carry the simulator hash and R-multiples, never
+    # placeholder values.
+    assert all(o['simulator_hash'] for o in outcomes)
+    assert all(isinstance(o['net_r'], float) for o in outcomes)
+
+    trajectories = pq.read_table(views_dir / 'execution_trajectories.parquet')
     assert summary['rows']['execution_trajectories'] >= summary['candidate_count']
+    # CONTENT: every trajectory row is a legal transition (from/to present),
+    # not an unfiltered dump of suppressed/veto rows.
+    traj = trajectories.to_pylist()
+    assert all(t['from_state'] is not None and t['to_state'] is not None for t in traj)
     assert (views_dir / 'views_manifest.json').exists()
 
 
@@ -72,3 +104,14 @@ def test_materialize_fails_closed_on_data_hash_mismatch(tmp_path):
     manifest.write_text(json.dumps(data), encoding='utf-8')
     with pytest.raises(ValueError, match='data hash mismatch'):
         materialize(manifest, tmp_path / 'store2')
+
+
+def test_materialize_reused_store_fails_closed(tmp_path):
+    """Materialization is compile-once: a second run against a store that
+    already holds a run fails closed instead of silently rebuilding views on
+    a polluted ledger (bugfix)."""
+    manifest = _make_pinned_manifest(tmp_path)
+    store = tmp_path / 'store'
+    materialize(manifest, store)
+    with pytest.raises(ValueError, match='already contains run evidence'):
+        materialize(manifest, store)

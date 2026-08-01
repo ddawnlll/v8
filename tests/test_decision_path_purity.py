@@ -28,7 +28,11 @@ COMPONENT_DEF = re.compile(r'\b(?:class|def)\s+[A-Za-z_0-9]*(?:router|scorer|'
 
 
 def _decision_files():
-    return [p for p in SRC.rglob('*.py') if 'simtruth' not in str(p)]
+    files = [p for p in SRC.rglob('*.py') if 'simtruth' not in str(p)]
+    # Guard against vacuous passes: if the decision path is ever emptied, the
+    # loop-based purity tests must FAIL, not pass with zero assertions.
+    assert files, f'no decision-path files found under {SRC}'
+    return files
 
 
 def test_decision_path_is_stdlib_only():

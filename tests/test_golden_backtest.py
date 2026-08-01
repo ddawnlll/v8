@@ -15,12 +15,13 @@ from v8.synth import make_synthetic_tape
 
 UNIVERSE = ('SOLUSDT',)
 
-# Pinned from the code as of session 3 (2026-08-01): D-026 anchored keys,
+# Pinned from the code as of 2026-08-01 (bugfix pass): D-026 anchored keys,
 # funding settlement v4, D-024 mask defaults, decision-ledger states, birth
-# snapshots. Do not update silently.
-GOLDEN_LEDGER_HASH = 'eb3c62dea02f3b952dea1c589a36c36dff25d38d'
+# snapshots, the Phase-1a counterfactual entry fix, and DEGRADED state quality
+# for incomplete states. Do not update silently.
+GOLDEN_LEDGER_HASH = '0d37dd964d3306df244d50a5bf9c21e7aab153b2'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = 'c2e4255b24d7d77b9d452b9df32c21cc826a6de8'
+GOLDEN_STATES_HASH = '6cc0e25c70dcacc34e80e649f2384b0cb4ebf680'
 GOLDEN_CANDIDATE_COUNT = 24
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 13, 'INVALIDATED': 1, 'REJECTED': 10}
 
