@@ -363,3 +363,48 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-3: session-2 materializations — decision-ledger states + birth snapshot, tools/materialize_views.py (DuckDB parquet views from pinned manifest), real-tape run 2184 states/713 candidates, determinism + O-017 baseline (execution_share 0.416, KS 0.073)`
 - gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
   forbidden-scan=clean?yes wall-clock=clean?yes
+
+## Session 2 — Step 4 — v8_slice_001 preregistration document — DONE
+- started: 2026-08-01T03:42:30Z finished: 2026-08-01T03:49:00Z
+- files touched: docs/PREREGISTRATION_V8_SLICE_001.md (new, runbook-owned
+  artifact), RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `50 passed` (unchanged;
+  no code touched); monograph probe byte-identical (ea5b7705…, uniq -c = 2)
+  with the new docs file present (PREREGISTRATION_V8_SLICE_001.md is not in
+  build_monograph.py's NAMES list); forbidden-scan: no code changed this step.
+- process: document written with ALL HYPOTHESIS_LAB_PROTOCOL hypothesis-record
+  fields (formal null/alternative; economic mechanism; behavior + detection
+  rule; universe as-of; data/source manifest; clocks; geometry + costs;
+  dependence unit; primary metric; test; minimum coverage; dev/frozen
+  partitions; rejection consequence) + O-017 proposal. Then an adversarial
+  verification workflow (4 read-only critics, 273k tokens) returned
+  verdict=AMEND: 1 blocker + 7 warnings, all precision/consistency, no
+  factual error. ALL incorporated:
+  (1) BLOCKER fixed — section 13 now declares the frozen OOS as the first TWO
+  published months strictly after 2026-07-01 (>=1,400 bars), satisfying
+  section 12's 2-month minimum; single-month definition removed.
+  (2) Label-horizon at the OOS end pinned: 9-bar extension (8 expiry + 1
+  entry) fetched with the holdout, part of the frozen tape, hashed before any
+  evaluation; unobservable episodes RIGHT_CENSORED, never silently excluded.
+  (3) Test procedure pinned: Bonferroni-only (alpha_f=0.025), percentile
+  one-sided CI (2.5th percentile lower bound); FDR alternative removed.
+  (4) EMA periods (5/20), prior-high window 32, ATR 14 stated; parameter
+  provenance declared (frozen pre-dev, no search performed, no undisclosed
+  variants).
+  (5) round_trip_cost_r locked for this experiment (not revisable
+  post-verdict).
+  (6) Block size operationalized (24h default; 168h if |lag-1 autocorr| > 0.10
+  on the OOS sample; mechanical rule, fixed here).
+  (7) ledger_hash reclassified as a derived run output (views_manifest.json),
+  not an input-manifest field; candidate_trigger 706 added to view counts.
+  (8) TRADABILITY_MASK_VETO exclusion cited to D-027's principle.
+- O-017 proposal (set pre-holdout from the Step-3 baseline, never after a
+  verdict): execution_share floor = 0.25 (60% of observed 0.4156);
+  population-divergence threshold = two-sample KS on net_R <= 0.20 (~2.7x the
+  observed dev-window KS 0.073). Verdict rules per D-027.
+- fixes / deviations: none beyond the review-driven amendments above. The
+  experiment was NOT run and the frozen holdout was NOT downloaded/opened;
+  the doc states this explicitly in three places.
+- commit: (below) `v8-step-4: session-2 v8_slice_001 preregistration — all HYPOTHESIS_LAB_PROTOCOL fields, O-017 thresholds (share 0.25 / KS 0.20) from dev baseline, adversarial review incorporated, holdout declared never opened`
+- gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
+  forbidden-scan=clean?yes (no code change) wall-clock=clean?yes
