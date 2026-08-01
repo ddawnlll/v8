@@ -15,6 +15,10 @@ class AppendOnlyLog:
     def __init__(self, path: str | Path):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        # Open the append handle ONCE (per-record open/close dominated append
+        # cost — ~half the profiled run time). flush() per append keeps the
+        # crash-loss policy bounded to the current record.
+        self._fh = self.path.open('a', encoding='utf-8')
         self._inbox: dict[tuple[str, str], None] = {}
         if self.path.exists():
             for line in self.path.read_text(encoding='utf-8').splitlines():
@@ -26,8 +30,8 @@ class AppendOnlyLog:
         key = (record['source'], record['event_id'])
         if key in self._inbox:
             return False
-        with self.path.open('a', encoding='utf-8') as f:
-            f.write(json.dumps(record, sort_keys=True) + '\n')
+        self._fh.write(json.dumps(record, sort_keys=True) + '\n')
+        self._fh.flush()
         self._inbox[key] = None
         return True
 

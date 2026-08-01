@@ -186,9 +186,59 @@ def test_m12_unsupported_interval_fails_closed():
 
 
 def test_m9_archived_transition_is_legal():
-    """CANDIDATE_LIFECYCLE_SPEC: any terminal -> ARCHIVED must be legal."""
-    for term in TERMINAL:
+    """CANDIDATE_LIFECYCLE_SPEC: any terminal -> ARCHIVED must be legal
+    (ARCHIVED itself excluded: a self-archival self-loop is not a transition)."""
+    for term in TERMINAL - {'ARCHIVED'}:
         assert (term, 'ARCHIVED') in LEGAL, f'{term} -> ARCHIVED missing'
+
+
+def test_s2_every_legal_transition_forced_and_replayed():
+    """State-coverage audit: every (from,to) in LEGAL must be executable,
+    its illegal re-application must raise, and a re-instantiated registry
+    must project the same current state (replay identity)."""
+    from v8.lifecycle import CandidateRegistry
+    from v8.store import AppendOnlyLog
+    from collections import deque
+
+    # BFS reachability inside LEGAL to reach each 'from' state from None.
+    rev = {to: [] for _f, to in LEGAL}
+    for (f, t) in LEGAL:
+        rev.setdefault(t, []).append(f)
+    path: dict[str, list] = {'DETECTED': [(None, 'DETECTED')]}
+
+    def reach(state) -> list | None:
+        if state in path:
+            return path[state]
+        seen = set()
+        q = deque([('DETECTED', [(None, 'DETECTED')])])
+        while q:
+            cur, steps = q.popleft()
+            if cur == state:
+                path[state] = steps
+                return steps
+            if cur in seen:
+                continue
+            seen.add(cur)
+            for (f, t) in LEGAL:
+                if f == cur:
+                    q.append((t, steps + [(f, t)]))
+        return None
+
+    for (f, t) in sorted(LEGAL, key=lambda k: (str(k[0]), str(k[1]))):
+        steps = reach(f) if f is not None else []
+        assert steps is not None, f'{f}->{t} unreachable from None'
+        log = AppendOnlyLog(Path(tempfile.mkdtemp()) / 'cand.jsonl')
+        reg = CandidateRegistry(log)
+        cid = f'force-{f}-{t}'
+        for (pf, pt) in steps:
+            reg.apply(cid, pf, pt, LEGAL[(pf, pt)], 0)
+        reg.apply(cid, f, t, LEGAL[(f, t)], 0)
+        # Illegal re-application: already at t, repeating raises.
+        with pytest.raises(Exception):
+            reg.apply(cid, f, t, LEGAL[(f, t)], 0)
+        # Replay identity: re-instantiate from the same log -> same state.
+        reg2 = CandidateRegistry(log)
+        assert reg2.current(cid) == t
 
 
 def test_m8_legacy_revision_guard_fails_closed():
@@ -214,6 +264,197 @@ def test_m4_outcomes_carry_label_available_time():
         if o['label_status'] in ('MATURE', 'NOT_EXECUTED'):
             assert o['label_available_time'] > 0, \
                 f'{o["endpoint"]} outcome has no label clock'
+
+
+def test_s2_lab_rejects_nan_tape_at_ingest_and_run_boundary():
+    """Mutation campaign: a NaN close reaching the lab directly must fail
+    closed (the monitoring tools are not in the decision path)."""
+    rows = make_synthetic_tape(seed=7, n_bars=40)
+    p = dict(rows[5].payload, close=float('nan'))
+    rows[5] = rows[5].__class__(**{**rows[5].__dict__, 'payload': p})
+    lab = Lab(Path(tempfile.mkdtemp()))
+    with pytest.raises(ValueError, match='non-finite'):
+        lab.ingest(rows)
+
+
+def test_s2_expert_order_shuffle_identical():
+    """RUNTIME_SCHEDULER_SPEC section 5: shuffling the evaluation order of
+    independent experts produces identical stored events (ledger hashes)."""
+    from v8.schema import sha1_hex as _sh
+    rows = make_synthetic_tape(seed=7, n_bars=160)
+
+    def run_store(exps) -> tuple:
+        lab = Lab(Path(tempfile.mkdtemp()))
+        lab.ingest(rows)
+        lab.run(_manifest(), exps)
+        return (lab.candidates.hash, lab.evaluations.hash, lab.outcomes.hash,
+                lab.states.hash)
+
+    a = run_store([TrendPullbackExpert(), FailedBreakoutExpert()])
+    b = run_store([FailedBreakoutExpert(), TrendPullbackExpert()])
+    assert a == b, 'expert-order shuffle must not change the ledger hashes'
+
+
+def test_s2_build_state_rejects_unsorted_rows():
+    """PIT ordering: unsorted rows silently select the wrong 'latest' bar;
+    build_state must fail closed."""
+    rows = make_synthetic_tape(seed=7, n_bars=30)
+    as_of = rows[-1].available_time
+    with pytest.raises(ValueError, match='sorted by available_time'):
+        build_state(list(reversed(rows)), as_of, ('SOLUSDT',))
+
+
+def test_s2_sim_hash_binds_module_source():
+    """Hash canary 4: the simulator hash must change when the simulator's
+    semantics change, not only when the version tag is bumped."""
+    from v8.simulator import CanonicalSimulator, _SIMULATOR_SRC_HASH
+    from v8.schema import sha1_hex as _sh
+    sim = CanonicalSimulator(round_trip_cost_r=0.07)
+    assert sim.hash() == _sh(('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07,
+                              0.0, 8, _SIMULATOR_SRC_HASH))
+    assert sim.hash() != _sh(('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07,
+                              0.0, 8, 'tampered-source'))
+
+
+def test_s2_report_carries_zero_trade_provenance():
+    """LabReport must distinguish no-setup from invalidated from degenerate
+    instead of collapsing every zero-candidate cause into count=0."""
+    lab = Lab(Path(tempfile.mkdtemp()))
+    lab.ingest(make_synthetic_tape(seed=7, n_bars=160))
+    rep = lab.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    assert rep.evaluation_distribution is not None
+    assert 'CANDIDATE' in rep.evaluation_distribution
+    assert rep.data_invalid is False
+
+
+def test_s2_lab_rejects_forged_manifest_hash():
+    """Hash canary: a non-empty manifest pin that does not match the live
+    code/tape must fail closed at the composition root, never be reported."""
+    lab = Lab(Path(tempfile.mkdtemp()))
+    lab.ingest(make_synthetic_tape(seed=7, n_bars=40))
+    with pytest.raises(ValueError, match='code_hash'):
+        lab.run(_manifest(code_hash='deadbeef' * 5), [TrendPullbackExpert()])
+    lab2 = Lab(Path(tempfile.mkdtemp()))
+    lab2.ingest(make_synthetic_tape(seed=7, n_bars=40))
+    with pytest.raises(ValueError, match='data_hash'):
+        lab2.run(_manifest(data_hash='cafebabe' * 5), [TrendPullbackExpert()])
+
+
+def test_s2_failed_breakout_uses_frozen_prior_high_ref():
+    """The SHORT thesis reference is frozen at detection: a live max drifts
+    with the adverse move and the documented invalidation never fires."""
+    from v8.experts import FailedBreakoutExpert
+    from v8.marketstate import build_state
+    from v8.schema import sha1_hex as _sh
+
+    rows = make_synthetic_tape(seed=7, n_bars=45)
+    ex = FailedBreakoutExpert()
+    st = build_state([r for r in rows if r.available_time <= rows[40].available_time],
+                     rows[40].available_time, ('SOLUSDT',))
+    ev = ex.evaluate(st)
+    if ev.draft is not None:
+        assert 'prior_high_ref' in ev.draft.risk_geometry
+        # episode identity must not depend on the market-moving reference
+        from v8.lab import _geometry_version
+        ref = ev.draft.risk_geometry['prior_high_ref']
+        g1 = _geometry_version(ev.draft)
+        ev.draft.risk_geometry['prior_high_ref'] = ref * 2
+        assert _geometry_version(ev.draft) == g1, \
+            'prior_high_ref must not join episode identity'
+
+
+def test_s2_funding_window_veto_fires_when_window_ge_period():
+    """window >= period must VETO (a boundary always books funding on the first
+    post-entry step), not silently disable the check (1d bars + fh=8 settled 3x
+    on the first step while never being vetoed)."""
+    from v8.risk import tradability_mask_veto
+    HOUR_NS = 3_600_000_000_000
+    bar = {'high': 101.0, 'low': 99.0, 'close': 100.0}
+    # 1d interval, funding_hours=8: window = 24h >= period = 8h -> always veto
+    vetoed, reason = tradability_mask_veto(bar, 'COMPLETE', 0,
+                                           max_spread_frac=0.05,
+                                           funding_window_bars=1,
+                                           funding_hours=8,
+                                           interval_ns=24 * HOUR_NS)
+    assert vetoed and reason == 'FUNDING_WINDOW'
+
+
+def test_s2_report_surfaces_rejection_reasons():
+    """Zero-trade provenance: rejections must not all collapse into one
+    REJECTED bucket — D-024 vs risk vs cost are distinguishable."""
+    lab = Lab(Path(tempfile.mkdtemp()))
+    lab.ingest(make_synthetic_tape(seed=7, n_bars=160))
+    rep = lab.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    assert rep.rejection_distribution is not None
+    assert rep.terminal_distribution.get('REJECTED') == \
+        sum(rep.rejection_distribution.values())
+
+
+def test_b1_never_entered_candidate_not_fabricated_outcome():
+    """A TRIGGERED candidate with no entry bar before tape end must be a
+    NOT_EXECUTED non-trade, not a fabricated RIGHT_CENSORED 0.0 with a fake
+    simulator hash (DATASET_SPEC: absence is never interpreted as zero)."""
+    rows = _pullback_tape()[:59]          # trigger at 58, entry 59 beyond tape
+    lab = Lab(Path(tempfile.mkdtemp()))
+    lab.ingest(rows)
+    lab.run(_manifest(), [TrendPullbackExpert()])
+    outs = lab.outcomes.read()
+    assert outs, 'TRIGGERED-no-entry must record an outcome'
+    o = outs[0]
+    assert o['label_status'] == 'NOT_EXECUTED'
+    assert o['endpoint'] == 'INVALIDATED_BEFORE_TRIGGER'
+    assert o['net_r'] == 0.0
+    assert o['label_available_time'] > 0
+
+
+def test_b2_config_bound_into_ledger_hash():
+    """SIMULATION_TRUTH_SPEC configuration hash: two runs with DIFFERENT
+    manifests must not produce byte-identical ledgers, and the manifest must be
+    persisted in the store."""
+    flat = make_synthetic_tape(seed=7, n_bars=40)
+
+    def run(mk) -> tuple:
+        lab = Lab(Path(tempfile.mkdtemp()))
+        lab.ingest(flat)
+        rep = lab.run(_manifest(**mk), [TrendPullbackExpert()])
+        return (rep.ledger_hash, (lab.dir / 'manifest.json').exists())
+
+    a = run(dict(round_trip_cost_r=0.07))
+    b = run(dict(round_trip_cost_r=0.50, funding_rate_r=0.05))
+    assert a[0] != b[0], 'different configs must differ in the ledger hash'
+    assert a[1] and b[1], 'manifest must be persisted in the store'
+
+
+def test_b3_authority_receipt_bound_into_ledger_hash():
+    """Adding an authority receipt later must move the ledger hash — a report
+    cannot be silently re-labelled CERTIFIED_AVAILABLE under the same hash."""
+    flat = make_synthetic_tape(seed=7, n_bars=40)
+
+    def run(receipt) -> tuple:
+        lab = Lab(Path(tempfile.mkdtemp()))
+        lab.ingest(flat)
+        rep = lab.run(_manifest(authority_receipt=receipt),
+                      [TrendPullbackExpert()])
+        return (rep.ledger_hash, rep.verdict)
+
+    no = run(None)
+    yes = run('some-authority-sha')
+    assert no[1] == 'NO_ECONOMIC_CLAIM' and yes[1] == 'CERTIFIED_AVAILABLE'
+    assert no[0] != yes[0], 'receipt must be bound into the ledger hash'
+
+
+def test_b4_replay_rejects_illegal_transition():
+    """Mutation campaign: a corrupt candidates log with an illegal transition
+    must fail loudly on replay, not silently project an unreachable state."""
+    from v8.lifecycle import CandidateRegistry
+    from v8.store import AppendOnlyLog
+    log = AppendOnlyLog(Path(tempfile.mkdtemp()) / 'c.jsonl')
+    log.append({'candidate_id': 'c1', 'sequence': 1,
+                'from_state': 'DETECTED', 'to_state': 'EXECUTED',
+                'reason_code': 'illegal', 'knowledge_time': 0,
+                'event_hash': 'x', 'source': 'lifecycle', 'event_id': 'c1:1'})
+    with pytest.raises(Exception, match='not legal'):
+        CandidateRegistry(log)
 
 
 def test_m7_monitor_rejects_bool_nan_and_ohlc_violations():

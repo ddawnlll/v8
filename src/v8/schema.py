@@ -204,3 +204,17 @@ class LabReport:
     ledger_hash: str
     verdict: str
     exposure_conflicts: int = 0
+    # Zero-trade provenance: candidate_count=0 collapses NO_SETUP vs
+    # NO_TRIGGER vs ALL_INVALIDATED vs ALL_REJECTED vs DEGENERATE tape.
+    # These fields surface the causes so a consumer never misreads 'no trades'
+    # as 'no setups' (or vice versa). Not part of any hash (report-only).
+    evaluation_distribution: dict | None = None  # decision -> count (NO_SETUP/...)
+    data_invalid: bool = False                   # True when no usable bar drove a state
+    # Rejection provenance: terminal_distribution collapses every rejection
+    # into one REJECTED bucket; this breaks it down by reason code
+    # (TRADABILITY_MASK_VETO vs PORTFOLIO_HEAT_EXCEEDED vs excess_cost ...).
+    rejection_distribution: dict | None = None
+    # Tooling identity: the tape-building/audit code (tools/*.py) is outside
+    # the decision-path code hash; its source hash is surfaced here so a
+    # semantic change in the tape builder is at least visible in the report.
+    tooling_hash: str = ''

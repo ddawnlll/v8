@@ -411,8 +411,12 @@ def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
     assert r_zero.terminal_distribution == r_default.terminal_distribution
     assert r_zero.verdict == r_default.verdict == 'NO_ECONOMIC_CLAIM'
     from v8.schema import sha1_hex as _sh
+    from v8.simulator import _SIMULATOR_SRC_HASH
+    # Hash-canary contract: the simulator hash binds the module source, so a
+    # step()/run() semantics change moves every outcome's simulator_hash.
     assert CanonicalSimulator().hash() == _sh(
-        ('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8))
+        ('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
+         _SIMULATOR_SRC_HASH))
     assert CanonicalSimulator().hash() != _sh(
         ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))
 

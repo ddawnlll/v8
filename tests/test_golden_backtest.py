@@ -23,14 +23,21 @@ UNIVERSE = ('SOLUSDT',)
 # relabelled NOT_EXECUTED, counterfactual thesis (still_valid) applied in
 # sim.run, funding-window veto on absolute-hour boundaries, closed-only bars in
 # the decision loop, and the DATASET_SPEC section 4.5 label_available_time on
-# every outcome. Candidate counts and terminal distribution are unchanged; the
-# outcome-label and label-availability fields moved the ledger hash. Do not
-# update silently.
-GOLDEN_LEDGER_HASH = '2b15e735bdc177e1e5bcfafd8373195bb9a9cf42'
+# every outcome. Re-pinned after the session-6 second-level pass: failed_breakout
+# uses a windowed prior-high reference for gate AND anchor (fewer spurious
+# detections from old spikes -> candidate_count 24->21), terminal_distribution is
+# candidate-counted, and Lab.run fails closed on a non-empty manifest pin that
+# does not match the live code/tape. Re-pinned after the session-6 provenance
+# fixes: the ledger hash now binds the run configuration (config_hash = sha1 of
+# the manifest incl. the authority receipt), the never-entered TRIGGERED-no-entry
+# epilogue records NOT_EXECUTED/INVALIDATED_BEFORE_TRIGGER instead of a
+# fabricated RIGHT_CENSORED 0.0, and the state build is O(N) incremental.
+# Do not update silently.
+GOLDEN_LEDGER_HASH = '96728c1e8c109d137b4150dab0cbef5b04528202'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = '6cc0e25c70dcacc34e80e649f2384b0cb4ebf680'
-GOLDEN_CANDIDATE_COUNT = 24
-GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 13, 'INVALIDATED': 1, 'REJECTED': 10}
+GOLDEN_CANDIDATE_COUNT = 21
+GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 13, 'INVALIDATED': 1, 'REJECTED': 7}
 
 
 def _manifest() -> ExperimentManifest:

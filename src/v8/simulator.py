@@ -30,10 +30,17 @@ can decide whether post-entry management is worth adding (O-013).
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+from pathlib import Path
 
 from .schema import CandidateDraft, CounterfactualOutcome, sha1_hex
 
 HOUR_NS = 3_600_000_000_000
+
+# Hash-canary binding: sim.hash() must change when the simulator's SEMANTICS
+# change, not only when the version tag is bumped by hand. Binding the module
+# source makes any step/run/funding edit move every outcome's simulator_hash
+# (the version tag still names the policy era for human readers).
+_SIMULATOR_SRC_HASH = sha1_hex(Path(__file__).read_bytes())
 
 
 def risk_unit(draft: CandidateDraft, entry_price: float) -> float:
@@ -44,8 +51,16 @@ def risk_unit(draft: CandidateDraft, entry_price: float) -> float:
     and fails closed rather than silently producing percent-shaped numbers.
     """
     atr = draft.risk_geometry.get('atr_ref')
-    unit = float(atr) if atr is not None else \
-        entry_price * float(draft.risk_geometry.get('risk_frac', 0.01))
+    if atr is not None:
+        unit = float(atr)
+    elif 'risk_frac' in draft.risk_geometry:
+        unit = entry_price * float(draft.risk_geometry['risk_frac'])
+    else:
+        # No default: a silently assumed 1% risk unit would make every trade
+        # with missing geometry look risk-normalised (wrong-but-plausible).
+        raise ValueError(
+            f'risk_unit: geometry declares neither atr_ref nor risk_frac '
+            f'({draft.risk_geometry!r})')
     if not unit > 0:
         raise ValueError(
             f'risk_unit must be > 0 (got {unit!r}); geometry declares neither a '
@@ -109,14 +124,16 @@ class CanonicalSimulator:
         not double-settled) and closed at the end (a hold ending exactly on a
         boundary settles exactly once) — the V7 terminal-boundary defect was a
         missed settlement at exactly the end boundary.
+
+        O(1) closed form: boundaries are integer hours divisible by
+        funding_hours, counted in (entry_hour, t_hour]; the per-hour loop was
+        O(period) per step (~195us for a 1-year hold).
         """
         if t_ns <= entry_ns or self.funding_hours <= 0:
             return 0
-        n = 0
-        for hour in range(entry_ns // HOUR_NS + 1, t_ns // HOUR_NS + 1):
-            if hour % self.funding_hours == 0:
-                n += 1
-        return n
+        a = entry_ns // HOUR_NS
+        b = t_ns // HOUR_NS
+        return b // self.funding_hours - a // self.funding_hours
 
     def _apply_funding(self, pos: OpenPosition, t_ns: int
                        ) -> tuple[OpenPosition, int]:
@@ -264,4 +281,4 @@ class CanonicalSimulator:
         # the policy changed.
         return sha1_hex(('canonical-sim-v4', self.fill_policy,
                          self.round_trip_cost_r, self.funding_rate_r,
-                         self.funding_hours))
+                         self.funding_hours, _SIMULATOR_SRC_HASH))

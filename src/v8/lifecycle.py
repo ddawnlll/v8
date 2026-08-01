@@ -29,7 +29,9 @@ LEGAL: dict[tuple[str | None, str], str] = {
     # CANDIDATE_LIFECYCLE_SPEC: "any terminal | retain | ARCHIVED". Previously
     # TERMINAL declared ARCHIVED but LEGAL had no edge to it, so the state was
     # paper-only and any archive attempt raised IllegalTransitionError.
-    **{(_t, 'ARCHIVED'): 'retain' for _t in TERMINAL},
+    # ARCHIVED itself is excluded (it is already terminal — a self-archival
+    # self-loop must not be a legal transition).
+    **{(_t, 'ARCHIVED'): 'retain' for _t in TERMINAL if _t != 'ARCHIVED'},
 }
 
 
@@ -58,6 +60,13 @@ class CandidateRegistry:
         self._detected: set[str] = set()
         for rec in self.log.read():
             if 'from_state' in rec:
+                # Replay must validate legality like apply(): a corrupt log with
+                # an illegal transition (mutation-campaign requirement) must
+                # fail loudly, not silently project a state no run could reach.
+                if (rec.get('from_state'), rec['to_state']) not in LEGAL:
+                    raise IllegalTransitionError(
+                        f'{rec.get("candidate_id")}: replay '
+                        f'{rec.get("from_state")} -> {rec["to_state"]} not legal')
                 self._apply_projection(rec)
 
     def _apply_projection(self, rec: dict) -> None:

@@ -49,6 +49,71 @@ suite 86 → 97.
   a recompile with a changed pin fails closed instead of silently replacing
   the "pinned" views (M11).
 
+## 2026-08-01 — Session-6 second-level audit fixes (post-fix classes)
+
+Second adversarial pass on the POST-FIX codebase (8 class-scoped finders:
+alternative paths, boundary matrix, fail-open, hash canary, state coverage,
+feature contamination, zero-trade provenance, reconciliation; 29 agents).
+Confirmed 13 findings; this entry fixes them. Suite 104 → 108 (new regression
+tests in `tests/test_bugfix_pass.py`); golden re-pinned (candidate_count
+24 → 21: failed_breakout now gates on a windowed prior-high reference).
+
+- **`src/v8/experts/failed_breakout.py`** — gate and anchor now share ONE
+  prior-high reference (the history-window max excluding the newest bar). The
+  old gate used the state's ALL-BARS prior_high, which an old spike outside the
+  window pinned forever: the draft fired every bar, the anchor slid, and
+  episode-key dedup silently produced a new DETECTED episode per bar. The
+  post-entry thesis (`still_valid`) now uses a FROZEN `prior_high_ref`
+  (excluded from episode identity like `atr_ref`), so a reversal that re-crosses
+  the entry-time breakout level invalidates instead of drifting with the
+  adverse move.
+- **`src/v8/lab.py`** — `Lab.run` fails closed on a non-empty manifest
+  `code_hash`/`data_hash` that does not match the live code/tape (the
+  composition root no longer reports a stale or forged pin; materialize_views
+  already checked, Lab.run is the authority). `terminal_distribution` is now
+  candidate-counted (a `CLOSED -> ARCHIVED` candidate appears once) and the
+  report adds `rejection_distribution` (D-024 vs risk vs excess-cost), `tooling_hash`
+  (tools/*.py, outside the decision-path hash), and the excess-cost/tape-end
+  `label_available_time` fallback to `last_as_of` (the 0-sentinel leak).
+- **`src/v8/risk.py`** — the D-024 FUNDING_WINDOW veto fires whenever
+  `window >= period` (a boundary always books funding on the first post-entry
+  step; the old `window < period` guard silently disabled the check, so e.g.
+  1d bars with funding_hours=8 admitted entries that settled 3x). The veto
+  clock basis is the entry FILL time (available), matching simulator settlement.
+- **`src/v8/schema.py`** — `LabReport.rejection_distribution`, `tooling_hash`.
+- **`src/v8/experts/`** — no other changes; the trend_pullback thesis remains
+  a live trend reference (correct by design).
+
+## 2026-08-01 — Session-6 provenance + performance fixes (B1-B4, P1-P3)
+
+Follow-up audit (parallel session) confirmed 4 ledger/provenance bugs + 3
+structural performance items; this entry fixes them. The ledger hash now binds
+the run configuration, so the golden re-pins. Suite 108 → 112.
+
+- **`src/v8/lab.py`** — B1: a TRIGGERED candidate with no entry bar before tape
+  end records `INVALIDATED_BEFORE_TRIGGER`/`NOT_EXECUTED`/0.0 (label knowable at
+  tape end) instead of the fabricated empty-tail counterfactual
+  (`EXPIRY`/`RIGHT_CENSORED`/0.0 with a fake simulator hash) — a non-trade no
+  longer merges into the censored population (B5 naming aligned with the
+  INVALIDATED terminal). B2/B3: the manifest is persisted to
+  `<store>/manifest.json` and the ledger hash binds `config_hash =
+  sha1_hex(asdict(manifest))` — different economics AND an authority receipt
+  added later both move the ledger hash (no silent re-labelling). P1: the
+  per-bar state build is O(N) incremental (moving pointer over the replay-sorted
+  tape) instead of the O(N²) rescan that dominated run time.
+- **`src/v8/lifecycle.py`** — B4: `CandidateRegistry` replay validates every
+  `(from_state, to_state)` against LEGAL and raises on an illegal transition in
+  a corrupt log (mutation-campaign fail-closed).
+- **`src/v8/store.py`** — P2: `AppendOnlyLog` opens the append handle once and
+  flushes per record (per-record open/close was ~half the profiled append cost);
+  crash-loss policy stays bounded to the current record.
+- **`src/v8/simulator.py`** — P3: `_boundaries_crossed` is O(1)
+  (`floor(t/P) - floor(entry/P)`), byte-identical over the 144-case boundary
+  matrix vs the per-hour loop.
+- **`src/v8/marketstate.py`** — P1: the 5/20 EMA series are computed once and
+  shared by the trend features and the history tuples (was computed twice per
+  state).
+
 ## 2026-08-01 — Declared dataset v0.1 (operator)
 
 - **D-039 — `DATASET_SPEC` §6 "Declared dataset v0.1" added.** The corpus had

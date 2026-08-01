@@ -12,7 +12,9 @@ decision clocks and are closed bar by bar through the canonical simulator.
 """
 from __future__ import annotations
 
-from dataclasses import replace
+import json
+import math
+from dataclasses import asdict, replace
 from pathlib import Path
 
 from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
@@ -43,11 +45,55 @@ def _code_hash() -> str:
     return sha1_hex(files)
 
 
+def _tooling_hash() -> str:
+    """Hash of the tape-building/audit tooling (tools/*.py), which sits OUTSIDE
+    the decision-path code hash. Surfaced in the LabReport so a semantic change
+    in the tape builder is visible even when the tape content is unchanged."""
+    tools = Path(__file__).resolve().parents[2] / 'tools'
+    files = {str(p.relative_to(tools)): p.read_bytes().hex()
+             for p in sorted(tools.rglob('*.py'))}
+    return sha1_hex(files)
+
+
+def _validate_tape_rows(rows) -> None:
+    """Fail closed on a tape the decision path cannot trust.
+
+    The monitoring tools (monitor_tape/audit_tape) audit the tape, but a
+    corrupted tape reaching the lab directly must not silently change results:
+    a NaN close flows into every EMA/ATR/state hash and quality stays COMPLETE
+    (mutation-campaign requirement). OHLC invariant violations currently fail
+    downstream with a misleading risk_unit error; this gives the real reason.
+    """
+    for r in rows:
+        if r.channel != 'kline':
+            continue
+        p = r.payload
+        try:
+            o, h, l, c = (float(p[f]) for f in ('open', 'high', 'low', 'close'))
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(f'kline {r.event_id}: missing or non-numeric OHLC') from exc
+        if not all(math.isfinite(x) for x in (o, h, l, c)):
+            raise ValueError(f'kline {r.event_id}: non-finite OHLC')
+        if min(o, h, l, c) <= 0:
+            raise ValueError(f'kline {r.event_id}: non-positive OHLC '
+                             f'({o}, {h}, {l}, {c})')
+        if h < max(o, c) or l > min(o, c) or h < l:
+            raise ValueError(f'kline {r.event_id}: OHLC invariant violation '
+                             f'(high={h} low={l} open={o} close={c})')
+        vol = p.get('volume')
+        if vol is not None:
+            v = float(vol)
+            if not math.isfinite(v) or v < 0:
+                raise ValueError(f'kline {r.event_id}: negative or non-finite volume')
+
+
 def _geometry_version(draft) -> str:
-    """Structural risk geometry only: `atr_ref` is data-dependent (it moves with
-    the market) and must not be part of episode identity — a stable setup would
-    otherwise change key across decision clocks and disable deduplication."""
-    structural = {k: v for k, v in draft.risk_geometry.items() if k != 'atr_ref'}
+    """Structural risk geometry only: `atr_ref` and `prior_high_ref` are
+    data-dependent (they move with the market) and must not be part of episode
+    identity — a stable setup would otherwise change key across decision clocks
+    and disable deduplication."""
+    structural = {k: v for k, v in draft.risk_geometry.items()
+                  if k not in ('atr_ref', 'prior_high_ref')}
     return sha1_hex(structural)
 
 
@@ -68,6 +114,7 @@ class Lab:
         self.registry = CandidateRegistry(self.candidates)
 
     def ingest(self, rows: list[TapeRow]) -> None:
+        _validate_tape_rows(rows)
         for r in rows:
             self.tape_log.append(record_dict(r, source=r.source))
 
@@ -105,6 +152,9 @@ class Lab:
         gate = risk_gate or RiskGate()
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
+        # Validate at the run boundary too: a tape written directly to the
+        # store (bypassing ingest) must still fail closed on bad OHLC/volume.
+        _validate_tape_rows(tape)
         # Only CLOSED klines drive the decision loop; an open (not-yet-closed)
         # kline must never feed entries, stops/targets, or invalidation with its
         # partial OHLC (FEED_INGESTION_SPEC section 3 — marketstate already
@@ -128,6 +178,9 @@ class Lab:
         avail_clocks = [b.available_time for b in bars]
         if len(avail_clocks) != len(set(avail_clocks)):
             raise ValueError('duplicate decision clocks (available_time) in tape')
+        # Last tape clock, needed by in-loop label_available_time fallbacks for
+        # tape-end candidates (a candidate whose entry never happened).
+        last_as_of = bars[-1].available_time if bars else 0
         pending: dict[str, dict] = {}            # cid -> draft/birth/entry info
         open_positions: dict[str, OpenPosition] = {}
         # available_time -> MarketState for this run, so the batch counterfactual
@@ -168,10 +221,19 @@ class Lab:
         # counterfactual evaluate the owning Expert's still_valid on FUTURE bars
         # too (an inline build only has states up to the current bar, which made
         # thesis_ok silently return True for every future clock).
+        # INCREMENTAL: tape is replay-sorted (available_time non-decreasing), so
+        # a moving pointer accumulates rows once — O(N) instead of the O(N^2)
+        # per-bar tape rescan that dominated run time at N>1000.
+        acc_rows: list = []
+        tape_it = iter(tape)
+        next_row = next(tape_it, None)
         for bar in bars:
+            while next_row is not None \
+                    and next_row.available_time <= bar.available_time:
+                acc_rows.append(next_row)
+                next_row = next(tape_it, None)
             states_by_time[bar.available_time] = build_state(
-                [r for r in tape if r.available_time <= bar.available_time],
-                bar.available_time, self.universe)
+                acc_rows, bar.available_time, self.universe)
 
         for i, bar in enumerate(bars):
             as_of = bar.available_time
@@ -207,7 +269,7 @@ class Lab:
                 # admission: data-plane integrity veto, kept counterfactual
                 # (NOT_EXECUTED) like the other rejections below.
                 vetoed, veto_reason = tradability_mask_veto(
-                    bar.payload, state.quality, bar.event_time,
+                    bar.payload, state.quality, bar.available_time,
                     max_spread_frac=manifest.max_spread_frac,
                     funding_window_bars=manifest.funding_window_bars,
                     funding_hours=manifest.funding_hours,
@@ -298,18 +360,42 @@ class Lab:
                 self.registry.apply(cid, 'PENDING', 'TRIGGERED', 'trigger_observed', as_of)
                 if manifest.round_trip_cost_r >= EXCESS_COST_THRESHOLD_R:
                     self.registry.apply(cid, 'TRIGGERED', 'REJECTED', 'excess_cost', as_of)
-                    out = counterfactual(cid, draft, i + 1)
-                    self._record_outcome(cid, out.endpoint, out.net_r,
-                                         'NOT_EXECUTED', sim.hash(), out.horizon_bars,
-                                         label_available_time=out.label_available_time,
-                                         mae_r=out.mae_r, mfe_r=out.mfe_r,
-                                         ambiguous_bars=out.ambiguous_bars)
+                    # Mirror the executed path's pre-entry invalidation (H3):
+                    # if the would-be entry bar breaks the trigger predicate,
+                    # the candidate would never have entered — record
+                    # INVALIDATED_BEFORE_TRIGGER, not a trading counterfactual
+                    # (a silent population inconsistency otherwise).
+                    entry_bar = bars[i + 1] if i + 1 < len(bars) else None
+                    if entry_bar is not None and (
+                            (draft.direction == 'LONG'
+                             and float(entry_bar.payload['low']) < info['prior_low'])
+                            or (draft.direction == 'SHORT'
+                                and float(entry_bar.payload['high'])
+                                > info['prior_high'])):
+                        self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
+                                             'NOT_EXECUTED', sim.hash(),
+                                             label_available_time=entry_bar.available_time)
+                    else:
+                        out = counterfactual(cid, draft, i + 1)
+                        # Empty-tail counterfactual (trigger on the final bar)
+                        # has no exit clock (label_available_time=0 sentinel);
+                        # its label is knowable at tape end.
+                        self._record_outcome(
+                            cid, out.endpoint, out.net_r,
+                            'NOT_EXECUTED', sim.hash(), out.horizon_bars,
+                            label_available_time=out.label_available_time or last_as_of,
+                            mae_r=out.mae_r, mfe_r=out.mfe_r,
+                            ambiguous_bars=out.ambiguous_bars)
                     del pending[cid]
                     continue
                 info['entry_bar'] = i + 1
 
             # PHASE 3: full self-gating — every cheap expert evaluates the bar.
-            for ex in experts:
+            # Evaluate in canonical expert_id order: RUNTIME_SCHEDULER_SPEC
+            # section 5 requires shuffling the evaluation order of independent
+            # experts to produce identical stored events — the evaluation and
+            # DETECTED record order is part of the ledger hash.
+            for ex in sorted(experts, key=lambda e: e.expert_id):
                 ev = ex.evaluate(state)
                 self.evaluations.append(record_dict(ev, source='expert'))
                 if ev.draft is None:
@@ -356,7 +442,6 @@ class Lab:
                                 'prior_high': float(ph.value)}
 
         # Epilogue: close whatever the tape end leaves dangling, deterministically.
-        last_as_of = bars[-1].available_time if bars else 0
         for cid, pos in list(open_positions.items()):
             sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
             final_close = float(bars[-1].payload['close']) if bars else pos.entry_price
@@ -374,34 +459,89 @@ class Lab:
             if self.registry.current(cid) == 'TRIGGERED':
                 self.registry.apply(cid, 'TRIGGERED', 'INVALIDATED',
                                     'no_entry_before_tape_end', last_as_of)
-                out = counterfactual(cid, info['draft'], len(bars))
-                self._record_outcome(cid, out.endpoint, out.net_r,
-                                     'RIGHT_CENSORED', sim.hash(), out.horizon_bars,
-                                     label_available_time=out.label_available_time,
-                                     mae_r=out.mae_r, mfe_r=out.mfe_r,
-                                     ambiguous_bars=out.ambiguous_bars)
+                # The candidate NEVER entered (no entry bar before tape end):
+                # a fabricated empty-tail counterfactual (sim.run([]) returns
+                # EXPIRY/0.0/RIGHT_CENSORED) would merge a non-trade into the
+                # censored population with a fake simulator hash. Record the
+                # never-entered convention instead — NOT_EXECUTED, endpoint
+                # consistent with the INVALIDATED terminal (B5), label knowable
+                # at tape end.
+                self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
+                                     'NOT_EXECUTED', sim.hash(),
+                                     label_available_time=last_as_of)
             elif self.registry.current(cid) == 'PENDING':
                 self.registry.apply(cid, 'PENDING', 'EXPIRED', 'expiry_reached', last_as_of)
-                self._record_outcome(cid, 'EXPIRY', 0.0, 'RIGHT_CENSORED', sim.hash(),
+                # Never entered: a PENDING candidate that expires before trigger
+                # is a non-trade, NOT a censored executed position — merging it
+                # into RIGHT_CENSORED pollutes the executed-and-censored
+                # population (same class as the INVALIDATED_BEFORE_TRIGGER fix).
+                self._record_outcome(cid, 'EXPIRY', 0.0, 'NOT_EXECUTED', sim.hash(),
                                      label_available_time=last_as_of)
 
+        # terminal_distribution counts each candidate's FINAL terminal state
+        # (a candidate that goes CLOSED -> ARCHIVED must appear once, in
+        # ARCHIVED, not in both buckets) and breaks REJECTED down by reason.
         dist: dict[str, int] = {}
+        rejection_dist: dict[str, int] = {}
+        final_terminal: dict[str, str] = {}
         candidate_ids: set[str] = set()
         for rec in self.candidates.read():
             if 'to_state' not in rec:
                 continue
             candidate_ids.add(rec['candidate_id'])
             if rec['to_state'] in TERMINAL:
-                dist[rec['to_state']] = dist.get(rec['to_state'], 0) + 1
+                final_terminal[rec['candidate_id']] = rec['to_state']
+                if rec['to_state'] == 'REJECTED':
+                    rc = rec.get('reason_code', 'unknown')
+                    rejection_dist[rc] = rejection_dist.get(rc, 0) + 1
+        for terminal_state in final_terminal.values():
+            dist[terminal_state] = dist.get(terminal_state, 0) + 1
+        # Persist the run definition alongside the ledgers: a store directory
+        # must be self-describing (a zero-candidate run would otherwise be
+        # byte-identical across DIFFERENT manifests — SIMULATION_TRUTH_SPEC
+        # requires the configuration hash).
+        (self.dir / 'manifest.json').write_text(
+            json.dumps(record_dict(manifest, source='manifest'),
+                       sort_keys=True, indent=2) + '\n', encoding='utf-8')
         # The decision ledger (DATASET_SPEC section 1) binds candidates,
-        # evaluations, outcomes AND the persisted MarketState ledger.
+        # evaluations, outcomes, the persisted MarketState ledger AND the run
+        # configuration (economics + the authority receipt: a receipt added
+        # later must move the ledger hash, never silently re-label a report).
+        config_hash = sha1_hex(asdict(manifest))
         ledger_hash = sha1_hex((self.candidates.hash, self.evaluations.hash,
-                                self.outcomes.hash, self.states.hash))
+                                self.outcomes.hash, self.states.hash,
+                                config_hash))
         data_hash = self.tape_log.hash
+        # The report must bind what actually ran: a non-empty manifest pin that
+        # does not match the live code/tape is a stale or forged identity.
+        # Fail closed at the composition root — a direct Lab.run caller must
+        # never get a report claiming code/data that did not run (materialize_
+        # views re-checks, but Lab.run is the authority).
+        live_code_hash = _code_hash()
+        if manifest.code_hash and manifest.code_hash != live_code_hash:
+            raise ValueError(
+                f'manifest code_hash {manifest.code_hash} != live {live_code_hash}')
+        if manifest.data_hash and manifest.data_hash != data_hash:
+            raise ValueError(
+                f'manifest data_hash {manifest.data_hash} != live tape {data_hash}')
         verdict = 'NO_ECONOMIC_CLAIM' if manifest.authority_receipt is None else 'CERTIFIED_AVAILABLE'
+        # Zero-trade provenance: surface WHY (evaluations never found a setup,
+        # all candidates invalidated, the tape degenerate) instead of letting
+        # candidate_count=0 collapse every cause.
+        eval_dist: dict[str, int] = {}
+        for rec in self.evaluations.read():
+            decision = rec.get('decision', '?')
+            eval_dist[decision] = eval_dist.get(decision, 0) + 1
+        states_all = self.states.read()
+        data_invalid = (not states_all) or all(
+            s.get('quality') == 'DEGRADED' for s in states_all)
         return LabReport(experiment_id=manifest.experiment_id,
                          code_hash=manifest.code_hash or _code_hash(),
                          data_hash=manifest.data_hash or data_hash,
                          candidate_count=len(candidate_ids),
                          terminal_distribution=dist, ledger_hash=ledger_hash,
-                         verdict=verdict, exposure_conflicts=conflicts)
+                         verdict=verdict, exposure_conflicts=conflicts,
+                         evaluation_distribution=eval_dist,
+                         data_invalid=data_invalid,
+                         rejection_distribution=rejection_dist,
+                         tooling_hash=_tooling_hash())

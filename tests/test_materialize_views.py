@@ -102,7 +102,10 @@ def test_materialize_fails_closed_on_data_hash_mismatch(tmp_path):
     data = json.loads(manifest.read_text(encoding='utf-8'))
     data['data_hash'] = 'f' * 40
     manifest.write_text(json.dumps(data), encoding='utf-8')
-    with pytest.raises(ValueError, match='data hash mismatch'):
+    # Lab.run now fails closed at the composition root on a non-empty pin
+    # mismatch ("manifest data_hash ... != live tape ...") before materialize's
+    # own check; either message proves the fail-closed contract.
+    with pytest.raises(ValueError, match=r'data_?hash'):
         materialize(manifest, tmp_path / 'store2')
 
 

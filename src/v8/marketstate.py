@@ -42,10 +42,21 @@ def _ema(values: list[float], period: int) -> list[float]:
 
 def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 feature_version: str = 'v1') -> MarketState:
+    prev_t = -1
     for r in rows:
         if r.available_time > as_of:
             raise FutureRowError(
                 f'row {r.event_id} available at {r.available_time} > decision clock {as_of}')
+        # PIT ordering: closed[-1] is the latest bar ONLY if rows are in
+        # chronological order. Unsorted input silently selects the wrong bar
+        # (reversed rows changed close and prior_high empirically); fail closed
+        # rather than emit wrong features (MARKET_STATE_CONTRACT section 1).
+        if r.available_time < prev_t:
+            raise ValueError(
+                f'rows must be sorted by available_time (got {r.available_time} '
+                f'after {prev_t} at {r.event_id}); unsorted input silently '
+                'selects the wrong bar')
+        prev_t = r.available_time
     features: dict[str, FeatureValue] = {}
     for sym in universe:
         bars = [r for r in rows if r.instrument == sym and r.channel == 'kline']
@@ -69,19 +80,19 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         add('close', closes[-1])
         add('prior_high', max(highs[:-1]) if len(highs) > 1 else None)
         add('prior_low', min(lows[:-1]) if len(lows) > 1 else None)
+        # The EMA series are computed ONCE and shared by the trend features and
+        # the per-bar history tuples (previously computed twice per state).
+        fast_series = _ema(closes, 5)
+        slow_series = _ema(closes, 20)
         if len(closes) >= 20:
-            fast = _ema(closes, 5)[-1]
-            slow = _ema(closes, 20)[-1]
-            add('ema_fast', fast)
-            add('ema_slow', slow)
+            add('ema_fast', fast_series[-1])
+            add('ema_slow', slow_series[-1])
             add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14)
         # D-026 history feature group: last 32 closed bars as a tuple of
         # (event_id, open, high, low, close, ema_fast, ema_slow), oldest first,
         # per-bar EMAs over the full close series. This is the anchor scan the
         # pilots use to find setup_anchor_event_id (CANDIDATE_LIFECYCLE_SPEC 1).
         if closed:
-            fast_series = _ema(closes, 5)
-            slow_series = _ema(closes, 20)
             window = closed[-32:]
             hist = tuple(
                 (b.event_id, float(b.payload['open']), float(b.payload['high']),

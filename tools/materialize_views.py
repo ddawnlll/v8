@@ -123,7 +123,7 @@ def materialize(manifest_path: Path, store_dir: Path) -> dict:
                           manifest.round_trip_cost_r, manifest.funding_rate_r,
                           manifest.funding_hours, manifest.fill_policy,
                           manifest.max_spread_frac, manifest.funding_window_bars,
-                          str(views_dir)))
+                          str(views_dir), report.data_hash, report.ledger_hash))
     manifest_path = views_dir / 'views_manifest.json'
     if manifest_path.exists():
         prior = json.loads(manifest_path.read_text(encoding='utf-8'))

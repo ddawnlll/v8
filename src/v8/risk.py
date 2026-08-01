@@ -35,7 +35,7 @@ DEFAULT_CLUSTERS = {
 TRADABILITY_MASK_VETO = 'TRADABILITY_MASK_VETO'
 
 
-def tradability_mask_veto(bar: dict, state_quality: str, close_time_ns: int, *,
+def tradability_mask_veto(bar: dict, state_quality: str, entry_fill_time_ns: int, *,
                           max_spread_frac: float, funding_window_bars: int,
                           funding_hours: int, interval_ns: int,
                           ) -> tuple[bool, str | None]:
@@ -46,11 +46,13 @@ def tradability_mask_veto(bar: dict, state_quality: str, close_time_ns: int, *,
     (vetoed, reason) with reason one of 'SPREAD' | 'DEGRADED' |
     'FUNDING_WINDOW' | None.
 
-    Funding window: a boundary B with 0 < B - close <= window means the first
+    Funding window: a boundary B with 0 < B - fill <= window means the first
     post-entry step crosses B and books funding immediately, so the entry is
-    vetoed. The bar ending EXACTLY on B is not vetoed: its fill happens after
-    B settled (open-interval start, Step 2 boundary golden), so it enters with
-    the next settlement `funding_hours` away.
+    vetoed. `entry_fill_time_ns` is the AVAILABLE time of the entry bar (the
+    fill clock, close + latency), NOT the close time: the bar ending exactly on
+    B is not vetoed because its fill happens after B settled, and a bar closing
+    at B-latency has its fill after B too. Measuring from event_time (close)
+    would falsely veto entries whose fill already cleared the boundary.
     """
     high, low, close = float(bar['high']), float(bar['low']), float(bar['close'])
     if close <= 0 or (high - low) / close > max_spread_frac:
@@ -64,10 +66,14 @@ def tradability_mask_veto(bar: dict, state_quality: str, close_time_ns: int, *,
         # 4 imminent-boundary closes the simulator would settle one bar later.
         period = funding_hours * HOUR_NS
         window = funding_window_bars * interval_ns
-        if window < period:
-            remainder = close_time_ns % period
-            if remainder >= period - window:
-                return True, 'FUNDING_WINDOW'
+        # When window >= period there is ALWAYS a boundary B with
+        # 0 < B - fill <= window, so every entry books funding on its first
+        # post-entry step — the veto must fire, not silently disable itself
+        # (the old `window < period` guard skipped the whole check, so e.g. 1d
+        # bars with funding_hours=8 admitted every entry that settled 3x).
+        remainder = entry_fill_time_ns % period
+        if remainder >= period - window:
+            return True, 'FUNDING_WINDOW'
     return False, None
 
 
