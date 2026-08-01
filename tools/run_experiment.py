@@ -83,7 +83,11 @@ def block_bootstrap_lower_bound(net_rs: list[float], *, block: int = BLOCK_SIZE,
         sample = [net_rs[i] for i in idxs[:n]]
         means.append(sum(sample) / len(sample))
     means.sort()
-    return means[int(n_resamples * (1 - ALPHA_F)) - 1]
+    # The 2.5th-percentile LOWER bound: int(n_resamples * alpha_f) of the
+    # sorted resample means sits below alpha_f of the distribution. (The
+    # 97.5th percentile would be the UPPER bound — the wrong side for a
+    # one-sided H0: mu_f <= 0 test; caught by the dev-tape smoke run.)
+    return means[int(n_resamples * ALPHA_F)]
 
 
 def _family_net_rs(store_dir: Path) -> dict[str, list[float]]:

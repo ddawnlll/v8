@@ -102,3 +102,14 @@ def test_block_bootstrap_deterministic_and_one_sided():
     assert a > 0.0                                       # positive mean rejects H0
     assert block_bootstrap_lower_bound([0.0] * 100) <= 0.0
     assert block_bootstrap_lower_bound([]) == 0.0
+
+
+def test_block_bootstrap_lower_bound_is_the_LOWER_percentile():
+    """The bound must sit BELOW the sample mean — the 2.5th-percentile lower
+    bound, never the upper (a regression for the inverted-index bug caught by
+    the dev-tape smoke run). A negative-mean family must NOT reject H0."""
+    net_rs = [-0.1] * 40 + [-0.05] * 60
+    mu = sum(net_rs) / len(net_rs)
+    lower = block_bootstrap_lower_bound(net_rs)
+    assert lower <= mu                                  # lower bound <= mean
+    assert lower <= 0.0                                 # negative mean -> no signal
