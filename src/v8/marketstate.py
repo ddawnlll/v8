@@ -93,11 +93,19 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 f'{sym}.history', hist, 'history', 'v2',
                 closed[-1].available_time, quality='COMPLETE', group='history')
     validate_feature_groups(features)
-    # State quality is DEGRADED when any emitted feature is (MARKET_STATE_CONTRACT
-    # section 4). This is what makes the D-024 DEGRADED data-integrity veto
-    # reachable at admission; quality is metadata and does not enter the
-    # lineage/state hashes, so it cannot leak into identities.
-    quality = 'DEGRADED' if any(v.quality == 'DEGRADED' for v in features.values()) \
+    # A universe symbol with no emitted features (zero kline rows or zero CLOSED
+    # bars) degrades the state: an entirely absent symbol is a data-integrity
+    # failure, and quality=COMPLETE would make the D-024 DEGRADED veto silently
+    # unreachable for it (the per-feature None path already degrades).
+    emitted_symbols = {k.split('.', 1)[0] for k in features}
+    missing_symbols = [s for s in universe if s not in emitted_symbols]
+    # State quality is DEGRADED when any emitted feature is, or any universe
+    # symbol is absent (MARKET_STATE_CONTRACT section 4). This is what makes the
+    # D-024 DEGRADED data-integrity veto reachable at admission; quality is
+    # metadata and does not enter the lineage/state hashes, so it cannot leak
+    # into identities.
+    quality = 'DEGRADED' if missing_symbols \
+        or any(v.quality == 'DEGRADED' for v in features.values()) \
         else 'COMPLETE'
     # Lineage binds every feature's value, availability, group tag and version,
     # so a re-tag or re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).

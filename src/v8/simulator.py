@@ -200,12 +200,21 @@ class CanonicalSimulator:
                           funding_settled=new_settlements)
 
     def run(self, draft: CandidateDraft, bars: list[dict],
-            times: list[int] | None = None) -> CounterfactualOutcome:
+            times: list[int] | None = None,
+            thesis_valid=None) -> CounterfactualOutcome:
         """Batch counterfactual: entry at first bar close, entry bar not inspected.
 
         The caller re-binds `candidate_id`; this path never sees the real id.
         `times` are the bars' decision clocks (parallel to `bars`) and drive
         funding settlement; None = no venue time -> no funding.
+
+        `thesis_valid(bar_time, bar_payload) -> bool` mirrors the owning Expert's
+        post-entry thesis check on the executed path: a thesis that dies before
+        price does closes at that bar's close (THESIS_INVALIDATED) instead of
+        being held to STOP/TARGET/EXPIRY. Without it the counterfactual and
+        executed populations are computed under different exit policies (the
+        O-014/D-027 attribution bias). Default None = thesis always valid, which
+        keeps time-less/time-free callers byte-identical to prior behavior.
         """
         placeholder = f'cf:{draft.birth_time}'
         if not bars:
@@ -219,11 +228,16 @@ class CanonicalSimulator:
         horizon = 0
         for i, b in enumerate(bars[1:], start=1):
             horizon += 1
-            res = self.step(pos, b, bar_time=times[i] if times else None)
+            tv = True
+            if thesis_valid is not None and times is not None:
+                tv = bool(thesis_valid(times[i], b))
+            res = self.step(pos, b, thesis_valid=tv,
+                            bar_time=times[i] if times else None)
             if res.closed and res.endpoint and res.net_r is not None:
                 return CounterfactualOutcome(
                     placeholder, horizon, res.endpoint, res.net_r,
                     res.label_status or 'MATURE', self.hash(),
+                    label_available_time=times[i] if times else 0,
                     mae_r=res.next_pos.mae_r if res.next_pos else 0.0,
                     mfe_r=res.next_pos.mfe_r if res.next_pos else 0.0,
                     ambiguous_bars=res.next_pos.ambiguous_bars if res.next_pos else 0)
@@ -237,6 +251,7 @@ class CanonicalSimulator:
             - self.round_trip_cost_r - pos.funding_paid_r
         return CounterfactualOutcome(placeholder, horizon, 'EXPIRY', net,
                                      'RIGHT_CENSORED', self.hash(),
+                                     label_available_time=times[-1] if times else 0,
                                      mae_r=pos.mae_r, mfe_r=pos.mfe_r,
                                      ambiguous_bars=pos.ambiguous_bars)
 

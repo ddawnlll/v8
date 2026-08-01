@@ -3,6 +3,52 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Session-6 bugfix pass (adversarial audit fixes)
+
+Adversarial bug hunt (11 class-scoped finders + per-finding verification) on
+`src/v8/` + `tools/` confirmed 26 findings; this pass fixes them. Decision-path
+changes move the golden ledger hash (outcome-label change) and are re-pinned in
+`tests/test_golden_backtest.py`; candidate counts and terminal distribution are
+unchanged. New regression tests: `tests/test_bugfix_pass.py` (11 tests). Full
+suite 86 → 97.
+
+- **`src/v8/lab.py`** — closed-only bars in the decision loop (open klines no
+  longer drive entries/stops); multi-instrument tapes fail closed (H1/M5);
+  duplicate decision clocks fail closed (M6); pre-entry invalidation re-checked
+  on the entry bar (H3); `INVALIDATED_BEFORE_TRIGGER` relabelled `NOT_EXECUTED`
+  (H5); counterfactual now applies the owning Expert's `still_valid` via a
+  per-clock state map (H2); `prior_low/prior_high` fail closed instead of
+  defaulting to 0/inf (M10); `_INTERVAL_NS` fails closed on unknown intervals
+  (M12); `excess_cost` threshold promoted to named `EXCESS_COST_THRESHOLD_R`.
+- **`src/v8/simulator.py`** — `run()` gains `thesis_valid(bar_time, payload)`
+  so the batch counterfactual exits `THESIS_INVALIDATED` like the executed path;
+  every returned outcome carries `label_available_time` (exit clock), the
+  DATASET_SPEC section 4.5 embargo primitive.
+- **`src/v8/schema.py` / `tools/materialize_views.py`** — `CounterfactualOutcome`
+  and the `candidate_outcomes` view now expose `label_available_time`, so a
+  training consumer can refuse labels whose availability overlaps its
+  validation window (M4).
+- **`src/v8/risk.py`** — D-024 funding-window veto measures boundaries on
+  absolute wall-clock hours (`funding_hours * HOUR_NS`), matching
+  `simulator._boundaries_crossed`; on non-1h tapes the old period missed
+  imminent-boundary entries (H4).
+- **`src/v8/marketstate.py`** — a universe symbol with zero emitted features
+  degrades the state (DEGRADED), closing the missing-symbol quality gap (M2).
+- **`src/v8/lifecycle.py`** — `any terminal -> ARCHIVED` added to `LEGAL`
+  (CANDIDATE_LIFECYCLE_SPEC), making ARCHIVED reachable (M9).
+- **`tools/monitor_tape.py`** — OHLC type/finiteness/invariant + volume checks
+  (booleans, NaN/±inf, high<low, negative volume all fail); staleness measures
+  kline rows only (M1/M7/L3).
+- **`tools/vision_backfill.py`** — `audit_tape` gains OHLC/volume/finiteness
+  invariants; `check_archive_revision` also guards legacy single-month
+  `source.json` (M1/M8).
+- **`tools/data.py`** — `_validate_price_rows` fails closed on NaN/±inf prices
+  (M1).
+- **`tools/materialize_views.py`** — `views_manifest.json` now carries a
+  `views_pin` binding view SQL + manifest economics + code hash + views_dir;
+  a recompile with a changed pin fails closed instead of silently replacing
+  the "pinned" views (M11).
+
 ## 2026-08-01 — Declared dataset v0.1 (operator)
 
 - **D-039 — `DATASET_SPEC` §6 "Declared dataset v0.1" added.** The corpus had

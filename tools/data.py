@@ -1027,11 +1027,23 @@ def _validate_price_rows(tape: str, df: pl.DataFrame) -> dict[str, Any]:
     )
     invalid_time = _count_true(df, pl.col("close_ts") <= pl.col("open_ts"))
     synthetic = _count_true(df, pl.col("is_synthetic"))
+    # NaN/±inf prices pass the ordering and positivity checks (comparisons are
+    # False against NaN); a NaN close silently poisons every downstream EMA/ATR
+    # and the state lineage hash, so finiteness is a hard invariant here.
+    non_finite = _count_true(
+        df,
+        pl.col("open").is_nan() | pl.col("open").is_infinite()
+        | pl.col("high").is_nan() | pl.col("high").is_infinite()
+        | pl.col("low").is_nan() | pl.col("low").is_infinite()
+        | pl.col("close").is_nan() | pl.col("close").is_infinite(),
+    )
 
-    if (tape != "premium" and non_positive) or bad_ohlc or invalid_time or synthetic:
+    if ((tape != "premium" and non_positive) or bad_ohlc or invalid_time
+            or synthetic or non_finite):
         raise ValueError(
             f"tape={tape} failed price invariants: non_positive={non_positive}, "
-            f"bad_ohlc={bad_ohlc}, invalid_time={invalid_time}, synthetic={synthetic}"
+            f"bad_ohlc={bad_ohlc}, invalid_time={invalid_time}, "
+            f"synthetic={synthetic}, non_finite={non_finite}"
         )
 
     report.update(
@@ -1040,6 +1052,7 @@ def _validate_price_rows(tape: str, df: pl.DataFrame) -> dict[str, Any]:
             "invalid_ohlc_rows": bad_ohlc,
             "invalid_close_time_rows": invalid_time,
             "synthetic_rows": synthetic,
+            "non_finite_price_rows": non_finite,
         }
     )
     return report

@@ -20,6 +20,11 @@ from dataclasses import dataclass
 from .schema import CandidateDraft
 from .lifecycle import ExposureBook
 
+# Funding boundaries are integer-hour UTC divisible by funding_hours
+# (SIMULATION_TRUTH_SPEC: the simulator settles at absolute hour marks,
+# independent of bar interval). The veto must measure the SAME schedule.
+HOUR_NS = 3_600_000_000_000
+
 DEFAULT_CLUSTERS = {
     'BTCUSDT': 'btc', 'ETHUSDT': 'btc',
     'SOLUSDT': 'major', 'BNBUSDT': 'major', 'XRPUSDT': 'major', 'DOGEUSDT': 'major',
@@ -53,7 +58,11 @@ def tradability_mask_veto(bar: dict, state_quality: str, close_time_ns: int, *,
     if state_quality == 'DEGRADED':
         return True, 'DEGRADED'
     if funding_hours > 0 and funding_window_bars > 0 and interval_ns > 0:
-        period = funding_hours * interval_ns
+        # Boundary spacing is WALL-CLOCK hours (funding_hours * 1h), matching
+        # simulator._boundaries_crossed (absolute hour marks), NOT funding_hours
+        # times the bar interval. On a 4h tape the old period (32h) missed 3 of
+        # 4 imminent-boundary closes the simulator would settle one bar later.
+        period = funding_hours * HOUR_NS
         window = funding_window_bars * interval_ns
         if window < period:
             remainder = close_time_ns % period

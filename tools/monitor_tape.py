@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import time
 from pathlib import Path
@@ -68,9 +69,31 @@ def validate_schema(rows: list[dict]) -> list[str]:
             if payload.get('closed') is not True:
                 problems.append(f'row {i}: kline payload.closed is not True '
                                 '(open klines must never reach the tape)')
+            # OHLC must be real numbers — `type(v) is` (not isinstance) so JSON
+            # booleans (True subclasses int) are rejected like timestamps are,
+            # and non-finite floats (NaN/±inf) never reach the decision path.
+            ohlc: dict[str, float] = {}
             for f in OHLC_FIELDS:
-                if not isinstance(payload.get(f), (int, float)):
-                    problems.append(f'row {i}: payload.{f} missing or not numeric')
+                v = payload.get(f)
+                if v is None or type(v) not in (int, float) \
+                        or not math.isfinite(float(v)):
+                    problems.append(
+                        f'row {i}: payload.{f} missing, boolean, or non-finite')
+                    continue
+                ohlc[f] = float(v)
+            if len(ohlc) == len(OHLC_FIELDS):
+                o, h, l, c = (ohlc[f] for f in OHLC_FIELDS)
+                if min(o, h, l, c) <= 0:
+                    problems.append(f'row {i}: non-positive OHLC '
+                                    f'({o}, {h}, {l}, {c})')
+                if h < max(o, c) or l > min(o, c) or h < l:
+                    problems.append(f'row {i}: OHLC invariant violation '
+                                    f'(high={h} low={l} open={o} close={c})')
+            vol = payload.get('volume')
+            if vol is not None and (type(vol) not in (int, float)
+                                    or not math.isfinite(float(vol))
+                                    or float(vol) < 0):
+                problems.append(f'row {i}: payload.volume invalid or negative')
     return problems
 
 
@@ -79,7 +102,10 @@ def staleness_report(rows: list[dict], now_ns: int, budget_ns: int,
     """Age of the newest bar vs the budget; alert when it exceeds it. A tape
     with no bar rows cannot be evaluated and alerts (fail closed), with
     age_ns/budget_ns still populated so the JSON report is well-formed."""
-    times = [r['event_time'] for r in rows if type(r.get('event_time')) is int]
+    # Staleness measures the newest KLINE bar (the docstring's contract), not a
+    # funding/mark row whose event_time could be newer and mask a stale tape.
+    times = [r['event_time'] for r in rows
+             if r.get('channel') == 'kline' and type(r.get('event_time')) is int]
     if not times:
         return {'alert': True, 'detail': 'no bar rows on tape', 'rows': len(rows),
                 'newest_event_time': None, 'age_ns': None, 'budget_ns': budget_ns,

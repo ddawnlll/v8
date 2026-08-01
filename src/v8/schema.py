@@ -151,6 +151,13 @@ class CounterfactualOutcome:
     net_r: float
     label_status: str           # MATURE | RIGHT_CENSORED | NOT_EXECUTED
     simulator_hash: str
+    # DATASET_SPEC section 4.5: the decision clock at which this outcome became
+    # knowable (exit bar's available_time; the last tape bar for RIGHT_CENSORED;
+    # the invalidation clock for INVALIDATED_BEFORE_TRIGGER). Training must
+    # refuse a label whose label_available_time overlaps its validation window;
+    # a consumer reading the materialized view without this field cannot detect
+    # dev/OOS overlap. 0 = time-less path (no venue clock).
+    label_available_time: int = 0
     mae_r: float = 0.0          # max adverse excursion, R (>= 0)
     mfe_r: float = 0.0          # max favourable excursion, R (>= 0)
     ambiguous_bars: int = 0     # bars touching both barriers (STOP_FIRST applied)

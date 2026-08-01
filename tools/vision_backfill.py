@@ -28,6 +28,7 @@ import csv
 import hashlib
 import io
 import json
+import math
 import sys
 import urllib.request
 import zipfile
@@ -199,6 +200,11 @@ def check_archive_revision(out_dir: Path, month: str, zip_sha256: str) -> None:
     archive invalidates the existing tape; it must be rebuilt in a fresh dir."""
     prov = _load_provenance(out_dir)
     recorded = {a['month']: a['zip_sha256'] for a in prov.get('archives', [])}
+    # Legacy single-month source.json (top-level month/zip_sha256, written by
+    # the pre-per-month fix) must still guard the revision: otherwise a revised
+    # archive silently passes and the store keeps superseded bars.
+    if not prov.get('archives') and 'month' in prov and 'zip_sha256' in prov:
+        recorded[prov['month']] = prov['zip_sha256']
     if month in recorded and recorded[month] != zip_sha256:
         raise ValueError(
             f'refusing to ingest revised archive: {month} was recorded with '
@@ -254,6 +260,24 @@ def audit_tape(out_dir: Path) -> dict:
                    if k not in ('payload_hash', 'schema_version')}
         if payload.get('payload_hash') != sha1_hex(content):
             problems.append(f'payload hash mismatch for {rec["event_id"]}')
+        if rec.get('channel') == 'kline':
+            # Data invariants the payload hash cannot see (a hash is
+            # self-consistent by construction): a NaN/±inf close, an
+            # OHLC-ordering violation, or negative volume must fail the audit.
+            o, h, l, c = (payload.get(f) for f in ('open', 'high', 'low', 'close'))
+            if not all(type(x) in (int, float) and math.isfinite(float(x))
+                       for x in (o, h, l, c)):
+                problems.append(f'non-finite or non-numeric OHLC at {rec["event_id"]}')
+            elif min(float(o), float(h), float(l), float(c)) <= 0:
+                problems.append(f'non-positive OHLC at {rec["event_id"]}')
+            elif float(h) < max(float(o), float(c)) \
+                    or float(l) > min(float(o), float(c)) or float(h) < float(l):
+                problems.append(f'OHLC invariant violation at {rec["event_id"]}')
+            vol = payload.get('volume')
+            if vol is not None and (type(vol) not in (int, float)
+                                    or not math.isfinite(float(vol))
+                                    or float(vol) < 0):
+                problems.append(f'negative or non-finite volume at {rec["event_id"]}')
         if prev is not None:
             for field in ('event_time', 'available_time', 'venue_sequence'):
                 if rec[field] < prev[field]:

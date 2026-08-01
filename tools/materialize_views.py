@@ -30,7 +30,7 @@ import duckdb
 
 from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
 from v8.lab import Lab, _code_hash
-from v8.schema import ExperimentManifest
+from v8.schema import ExperimentManifest, sha1_hex
 from v8.store import AppendOnlyLog
 
 PILOTS = (TrendPullbackExpert, FailedBreakoutExpert)
@@ -56,7 +56,7 @@ VIEWS: dict[str, tuple[str, str]] = {
     'candidate_outcomes': (
         'outcomes.jsonl',
         "SELECT candidate_id, horizon_bars, endpoint, net_r, label_status, "
-        "simulator_hash, mae_r, mfe_r, ambiguous_bars "
+        "simulator_hash, label_available_time, mae_r, mfe_r, ambiguous_bars "
         "FROM read_json_auto('{src}')"),
     'execution_trajectories': (
         'candidates.jsonl',
@@ -115,6 +115,23 @@ def materialize(manifest_path: Path, store_dir: Path) -> dict:
     finally:
         con.close()
 
+    # The pin must bind what the views actually depend on: the src/v8 code hash
+    # alone misses the view SQL in THIS module and the manifest's economic
+    # parameters (a recompile with changed economics or view definitions would
+    # silently replace the "pinned" views under the same code_hash/data_hash).
+    views_pin = sha1_hex((_code_hash(), json.dumps(VIEWS, sort_keys=True),
+                          manifest.round_trip_cost_r, manifest.funding_rate_r,
+                          manifest.funding_hours, manifest.fill_policy,
+                          manifest.max_spread_frac, manifest.funding_window_bars,
+                          str(views_dir)))
+    manifest_path = views_dir / 'views_manifest.json'
+    if manifest_path.exists():
+        prior = json.loads(manifest_path.read_text(encoding='utf-8'))
+        if prior.get('views_pin') not in (None, views_pin):
+            raise ValueError(
+                'views pin mismatch: existing views_manifest.json was built '
+                'with different view definitions/economics/code — rebuild in a '
+                'fresh views_dir rather than silently replacing the pin')
     summary = {
         'experiment_id': report.experiment_id,
         'code_hash': report.code_hash,
@@ -124,8 +141,9 @@ def materialize(manifest_path: Path, store_dir: Path) -> dict:
         'candidate_count': report.candidate_count,
         'rows': rows,
         'views_dir': str(views_dir),
+        'views_pin': views_pin,
     }
-    (views_dir / 'views_manifest.json').write_text(
+    manifest_path.write_text(
         json.dumps(summary, sort_keys=True, indent=2) + '\n', encoding='utf-8')
     return summary
 

@@ -18,8 +18,15 @@ UNIVERSE = ('SOLUSDT',)
 # Pinned from the code as of 2026-08-01 (bugfix pass): D-026 anchored keys,
 # funding settlement v4, D-024 mask defaults, decision-ledger states, birth
 # snapshots, the Phase-1a counterfactual entry fix, and DEGRADED state quality
-# for incomplete states. Do not update silently.
-GOLDEN_LEDGER_HASH = '0d37dd964d3306df244d50a5bf9c21e7aab153b2'
+# for incomplete states. Re-pinned after the 2026-08-01 session-6 bugfix pass:
+# pre-entry invalidation re-checked on the entry bar, INVALIDATED_BEFORE_TRIGGER
+# relabelled NOT_EXECUTED, counterfactual thesis (still_valid) applied in
+# sim.run, funding-window veto on absolute-hour boundaries, closed-only bars in
+# the decision loop, and the DATASET_SPEC section 4.5 label_available_time on
+# every outcome. Candidate counts and terminal distribution are unchanged; the
+# outcome-label and label-availability fields moved the ledger hash. Do not
+# update silently.
+GOLDEN_LEDGER_HASH = '2b15e735bdc177e1e5bcfafd8373195bb9a9cf42'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = '6cc0e25c70dcacc34e80e649f2384b0cb4ebf680'
 GOLDEN_CANDIDATE_COUNT = 24

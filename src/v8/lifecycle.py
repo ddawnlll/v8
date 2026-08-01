@@ -26,6 +26,10 @@ LEGAL: dict[tuple[str | None, str], str] = {
     ('ORDER_SUBMITTED', 'EXECUTED'): 'fill_observed',
     ('ORDER_SUBMITTED', 'CANCELLED'): 'cancel_confirmed',
     ('EXECUTED', 'CLOSED'): 'position_flat',
+    # CANDIDATE_LIFECYCLE_SPEC: "any terminal | retain | ARCHIVED". Previously
+    # TERMINAL declared ARCHIVED but LEGAL had no edge to it, so the state was
+    # paper-only and any archive attempt raised IllegalTransitionError.
+    **{(_t, 'ARCHIVED'): 'retain' for _t in TERMINAL},
 }
 
 

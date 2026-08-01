@@ -15,7 +15,7 @@ from __future__ import annotations
 from dataclasses import replace
 from pathlib import Path
 
-from .schema import (TapeRow, ExperimentManifest, LabReport,
+from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
                      CounterfactualOutcome, record_dict, sha1_hex)
 from .store import AppendOnlyLog
 from .marketstate import build_state
@@ -28,6 +28,12 @@ from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
 # funding_hours (in hours) times this interval is the boundary period.
 _INTERVAL_NS = {'1m': 60_000_000_000, '1h': 3_600_000_000_000,
                 '4h': 14_400_000_000_000, '1d': 86_400_000_000_000}
+
+# Named source for the Phase-2 excess-cost gate (was an undocumented 0.10
+# literal): a manifest cost at/above this rejects every triggered candidate as
+# NOT_EXECUTED. This is the hypothesis-lab protocol's cost gate, not a
+# per-candidate economic rule; kept here so the constant is auditable.
+EXCESS_COST_THRESHOLD_R = 0.10
 
 
 def _code_hash() -> str:
@@ -67,12 +73,14 @@ class Lab:
 
     def _record_outcome(self, candidate_id: str, endpoint: str, net_r: float,
                         label_status: str, simulator_hash: str,
-                        horizon_bars: int = 0, mae_r: float = 0.0,
-                        mfe_r: float = 0.0, ambiguous_bars: int = 0) -> None:
+                        horizon_bars: int = 0, label_available_time: int = 0,
+                        mae_r: float = 0.0, mfe_r: float = 0.0,
+                        ambiguous_bars: int = 0) -> None:
         out = CounterfactualOutcome(candidate_id=candidate_id, horizon_bars=horizon_bars,
                                     endpoint=endpoint, net_r=net_r,
                                     label_status=label_status,
                                     simulator_hash=simulator_hash,
+                                    label_available_time=label_available_time,
                                     mae_r=mae_r, mfe_r=mfe_r,
                                     ambiguous_bars=ambiguous_bars)
         self.outcomes.append(record_dict(out, source='simulator'))
@@ -97,21 +105,77 @@ class Lab:
         gate = risk_gate or RiskGate()
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
-        bars = [r for r in tape if r.channel == 'kline']
+        # Only CLOSED klines drive the decision loop; an open (not-yet-closed)
+        # kline must never feed entries, stops/targets, or invalidation with its
+        # partial OHLC (FEED_INGESTION_SPEC section 3 — marketstate already
+        # filters closed bars for features; the decision loop must too).
+        bars = [r for r in tape if r.channel == 'kline'
+                and r.payload.get('closed') is True]
+        # The bar-driven loop indexes a single per-clock bar sequence and steps
+        # positions on the current bar; a multi-instrument tape would silently
+        # step a position on another instrument's OHLC. Fail closed until the
+        # O-011 universe-extension gate is passed (state building handles
+        # multi-symbol; the execution loop does not).
+        instruments = {r.instrument for r in bars}
+        if len(instruments) > 1:
+            raise ValueError(
+                'bar-driven loop does not yet support multi-instrument tapes '
+                f'({sorted(instruments)}); run one symbol per store until the '
+                'O-011 universe-extension gate is passed')
+        # One decision clock per bar: two kline rows sharing available_time
+        # would silently truncate the state/evaluation ledger via the store's
+        # (source, event_id) dedup (DATASET_SPEC section 1: one state per clock).
+        avail_clocks = [b.available_time for b in bars]
+        if len(avail_clocks) != len(set(avail_clocks)):
+            raise ValueError('duplicate decision clocks (available_time) in tape')
         pending: dict[str, dict] = {}            # cid -> draft/birth/entry info
         open_positions: dict[str, OpenPosition] = {}
+        # available_time -> MarketState for this run, so the batch counterfactual
+        # can evaluate the owning Expert's still_valid at each stepped clock.
+        states_by_time: dict[int, MarketState] = {}
         conflicts = 0
 
         def counterfactual(cid: str, draft, from_idx: int) -> CounterfactualOutcome:
             tail = bars[from_idx:]
+            owner = by_expert.get(draft.expert_id)
+
+            def thesis_ok(t_ns: int | None, _payload: dict) -> bool:
+                # The counterfactual applies the owning Expert's post-entry
+                # thesis exactly like the executed path (PHASE 1b): a thesis
+                # that dies before price does closes at that bar's close
+                # (THESIS_INVALIDATED), never held by price alone. This keeps
+                # the executed and NOT_EXECUTED populations under one exit
+                # policy for the O-014/D-027 attribution comparison.
+                if owner is None or t_ns is None:
+                    return True
+                st = states_by_time.get(t_ns)
+                return owner.still_valid(st, draft) if st is not None else True
+
             out = sim.run(draft, [b.payload for b in tail],
-                          times=[b.available_time for b in tail])
+                          times=[b.available_time for b in tail],
+                          thesis_valid=thesis_ok)
             return replace(out, candidate_id=cid)
+
+        if manifest.interval not in _INTERVAL_NS:
+            raise ValueError(
+                f'unsupported interval {manifest.interval!r}; supported: '
+                f'{sorted(_INTERVAL_NS)}')
+        interval_ns = _INTERVAL_NS[manifest.interval]
+
+        # Pre-build EVERY bar's decision state once. build_state is a pure
+        # function of (rows, as_of, universe), so pre-building is deterministic
+        # and identical to incremental building — but it lets the batch
+        # counterfactual evaluate the owning Expert's still_valid on FUTURE bars
+        # too (an inline build only has states up to the current bar, which made
+        # thesis_ok silently return True for every future clock).
+        for bar in bars:
+            states_by_time[bar.available_time] = build_state(
+                [r for r in tape if r.available_time <= bar.available_time],
+                bar.available_time, self.universe)
 
         for i, bar in enumerate(bars):
             as_of = bar.available_time
-            state = build_state(
-                [r for r in tape if r.available_time <= as_of], as_of, self.universe)
+            state = states_by_time[as_of]
             state_rec = record_dict(state, source='marketstate')
             state_rec['event_id'] = state.state_id
             self.states.append(state_rec)
@@ -121,6 +185,23 @@ class Lab:
                 if info.get('entry_bar') != i:
                     continue
                 draft = info['draft']
+                # Pre-entry invalidation, re-checked on the entry bar itself
+                # (CANDIDATE_LIFECYCLE_SPEC: a PENDING/TRIGGERED candidate ends on
+                # invalidation_observed). Phase 2 evaluated the trigger bar only;
+                # if the trigger condition breaks again on the entry bar, the
+                # candidate must NOT execute (it would silently pollute the
+                # executed population).
+                if (draft.direction == 'LONG'
+                        and float(bar.payload['low']) < info['prior_low']) \
+                        or (draft.direction == 'SHORT'
+                            and float(bar.payload['high']) > info['prior_high']):
+                    self.registry.apply(cid, 'TRIGGERED', 'INVALIDATED',
+                                        'invalidation_observed', as_of)
+                    self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
+                                         'NOT_EXECUTED', sim.hash(),
+                                         label_available_time=as_of)
+                    del pending[cid]
+                    continue
                 entry = float(bar.payload['close'])
                 # D-024 mechanical tradability mask, applied before any risk
                 # admission: data-plane integrity veto, kept counterfactual
@@ -130,7 +211,7 @@ class Lab:
                     max_spread_frac=manifest.max_spread_frac,
                     funding_window_bars=manifest.funding_window_bars,
                     funding_hours=manifest.funding_hours,
-                    interval_ns=_INTERVAL_NS.get(manifest.interval, 3_600_000_000_000))
+                    interval_ns=interval_ns)
                 if vetoed:
                     self.registry.apply(cid, 'TRIGGERED', 'REJECTED',
                                         TRADABILITY_MASK_VETO, as_of)
@@ -146,6 +227,7 @@ class Lab:
                     out = counterfactual(cid, draft, i)
                     self._record_outcome(cid, out.endpoint, out.net_r,
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
+                                         label_available_time=out.label_available_time,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
                                          ambiguous_bars=out.ambiguous_bars)
                     del pending[cid]
@@ -159,6 +241,7 @@ class Lab:
                     out = counterfactual(cid, draft, i)
                     self._record_outcome(cid, out.endpoint, out.net_r,
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
+                                         label_available_time=out.label_available_time,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
                                          ambiguous_bars=out.ambiguous_bars)
                     del pending[cid]
@@ -185,6 +268,7 @@ class Lab:
                     self._record_outcome(cid, res.endpoint, res.net_r,
                                          res.label_status or 'MATURE', sim.hash(),
                                          pos.bars_held + 1,
+                                         label_available_time=bar.available_time,
                                          mae_r=closed_pos.mae_r, mfe_r=closed_pos.mfe_r,
                                          ambiguous_bars=closed_pos.ambiguous_bars)
                     reason = {'TARGET': 'position_flat', 'STOP': 'position_flat',
@@ -207,15 +291,17 @@ class Lab:
                     self.registry.apply(cid, 'PENDING', 'INVALIDATED',
                                         'invalidation_observed', as_of)
                     self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
-                                         'MATURE', sim.hash())
+                                         'NOT_EXECUTED', sim.hash(),
+                                         label_available_time=as_of)
                     del pending[cid]
                     continue
                 self.registry.apply(cid, 'PENDING', 'TRIGGERED', 'trigger_observed', as_of)
-                if manifest.round_trip_cost_r >= 0.10:
+                if manifest.round_trip_cost_r >= EXCESS_COST_THRESHOLD_R:
                     self.registry.apply(cid, 'TRIGGERED', 'REJECTED', 'excess_cost', as_of)
                     out = counterfactual(cid, draft, i + 1)
                     self._record_outcome(cid, out.endpoint, out.net_r,
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
+                                         label_available_time=out.label_available_time,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
                                          ambiguous_bars=out.ambiguous_bars)
                     del pending[cid]
@@ -257,9 +343,17 @@ class Lab:
                 self.registry.apply(cid, 'DETECTED', 'PENDING', 'hypothesis_completed', as_of)
                 pl = state.features.get(f'{sym}.prior_low')
                 ph = state.features.get(f'{sym}.prior_high')
+                # Trigger geometry must exist: defaulting to 0.0/inf would make
+                # the Phase-2/entry-bar invalidation silently permissive (a LONG
+                # would almost never be invalidated). Fail closed instead.
+                if pl is None or pl.value is None or ph is None or ph.value is None:
+                    raise ValueError(
+                        f'{sym} prior_low/prior_high unavailable at birth {as_of}: '
+                        f'Expert {ev.draft.expert_id} emitted a draft without '
+                        'trigger geometry — refuse, never default to 0/inf')
                 pending[cid] = {'draft': ev.draft, 'birth_idx': i, 'entry_bar': None,
-                                'prior_low': float(pl.value) if pl and pl.value is not None else 0.0,
-                                'prior_high': float(ph.value) if ph and ph.value is not None else float('inf')}
+                                'prior_low': float(pl.value),
+                                'prior_high': float(ph.value)}
 
         # Epilogue: close whatever the tape end leaves dangling, deterministically.
         last_as_of = bars[-1].available_time if bars else 0
@@ -270,8 +364,10 @@ class Lab:
             net = sign * (final_close - pos.entry_price) / unit \
                 - manifest.round_trip_cost_r - pos.funding_paid_r
             self._record_outcome(cid, 'EXPIRY', net, 'RIGHT_CENSORED',
-                                 sim.hash(), pos.bars_held, mae_r=pos.mae_r,
-                                 mfe_r=pos.mfe_r, ambiguous_bars=pos.ambiguous_bars)
+                                 sim.hash(), pos.bars_held,
+                                 label_available_time=last_as_of,
+                                 mae_r=pos.mae_r, mfe_r=pos.mfe_r,
+                                 ambiguous_bars=pos.ambiguous_bars)
             self.registry.apply(cid, 'EXECUTED', 'CLOSED', 'expiry_reached', last_as_of)
             gate.release(pos.draft)
         for cid, info in list(pending.items()):
@@ -281,11 +377,13 @@ class Lab:
                 out = counterfactual(cid, info['draft'], len(bars))
                 self._record_outcome(cid, out.endpoint, out.net_r,
                                      'RIGHT_CENSORED', sim.hash(), out.horizon_bars,
+                                     label_available_time=out.label_available_time,
                                      mae_r=out.mae_r, mfe_r=out.mfe_r,
                                      ambiguous_bars=out.ambiguous_bars)
             elif self.registry.current(cid) == 'PENDING':
                 self.registry.apply(cid, 'PENDING', 'EXPIRED', 'expiry_reached', last_as_of)
-                self._record_outcome(cid, 'EXPIRY', 0.0, 'RIGHT_CENSORED', sim.hash())
+                self._record_outcome(cid, 'EXPIRY', 0.0, 'RIGHT_CENSORED', sim.hash(),
+                                     label_available_time=last_as_of)
 
         dist: dict[str, int] = {}
         candidate_ids: set[str] = set()
