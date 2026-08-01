@@ -22,7 +22,7 @@ from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
 from .store import AppendOnlyLog
 from .marketstate import build_state
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
-from .simulator import CanonicalSimulator, OpenPosition, risk_unit
+from .simulator import CanonicalSimulator, OpenPosition
 from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
 
 # D-024 funding-window veto measures bars from the entry bar's close time to
@@ -82,9 +82,14 @@ def _two_sample_ks(xs: list[float], ys: list[float]) -> float:
 
 
 def _code_hash() -> str:
+    # The decision path is src/v8/ MINUS simtruth/ (vendored V7, engineering
+    # only — nothing imports it, so its bytes can never change decision-path
+    # output; binding them would invalidate every pinned manifest on a
+    # vendored edit for a byte-identical decision path).
     base = Path(__file__).resolve().parent
     files = {str(p.relative_to(base)): p.read_bytes().hex()
-             for p in sorted(base.rglob('*.py'))}
+             for p in sorted(base.rglob('*.py'))
+             if 'simtruth' not in p.parts}
     return sha1_hex(files)
 
 
@@ -198,6 +203,15 @@ class Lab:
                 'store already contains a run; one store directory = one '
                 "immutable run's evidence (use a fresh store dir)")
         gate = risk_gate or RiskGate()
+        # Risk admission is a run-configuration input, not a code constant: a
+        # custom gate (heat caps, clusters) must be bound into the ledger and
+        # surfaced, or two runs with different admission policies would be
+        # byte-identical in every hash whenever no cap is actually breached.
+        risk_config = (type(gate).__module__, type(gate).__name__,
+                       getattr(gate, 'max_heat', None),
+                       getattr(gate, 'max_cluster_heat', None),
+                       tuple(sorted((getattr(gate, 'clusters', {}) or {}).items())))
+        risk_config_hash = sha1_hex(risk_config)
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
         # Tape-driven funding schedule (D-041): every funding TapeRow is a
@@ -216,11 +230,22 @@ class Lab:
         # Validate at the run boundary too: a tape written directly to the
         # store (bypassing ingest) must still fail closed on bad OHLC/volume.
         _validate_tape_rows(tape)
+        # PIT consumption order: replay_tape's canonical order is
+        # (event_time, available_time, venue_sequence), which is NOT guaranteed
+        # available-monotonic when latencies are heterogeneous (a row with a
+        # later event can become available earlier). Consuming in event order
+        # would either silently SKIP a row that IS admissible at the decision
+        # clock or feed build_state an unsorted batch (a wrong-state or a
+        # misleading crash). Sort a stable copy by available_time for the bar
+        # loop and the state accumulator; this is identical to replay order
+        # whenever the two agree, and build_state validates that the batch it
+        # receives is available-sorted.
+        pit = sorted(tape, key=lambda r: r.available_time)
         # Only CLOSED klines drive the decision loop; an open (not-yet-closed)
         # kline must never feed entries, stops/targets, or invalidation with its
         # partial OHLC (FEED_INGESTION_SPEC section 3 — marketstate already
         # filters closed bars for features; the decision loop must too).
-        bars = [r for r in tape if r.channel == 'kline'
+        bars = [r for r in pit if r.channel == 'kline'
                 and r.payload.get('closed') is True]
         # The bar-driven loop indexes a single per-clock bar sequence and steps
         # positions on the current bar; a multi-instrument tape would silently
@@ -282,17 +307,19 @@ class Lab:
         # counterfactual evaluate the owning Expert's still_valid on FUTURE bars
         # too (an inline build only has states up to the current bar, which made
         # thesis_ok silently return True for every future clock).
-        # INCREMENTAL: tape is replay-sorted (available_time non-decreasing), so
-        # a moving pointer accumulates rows once — O(N) instead of the O(N^2)
-        # per-bar tape rescan that dominated run time at N>1000.
+        # INCREMENTAL: consume rows in the SAME available_time order as `bars`
+        # (pit), so the moving pointer accumulates every admissible row once —
+        # O(N) instead of the O(N^2) per-bar tape rescan that dominated run
+        # time at N>1000. Consuming in event-sorted replay order here would
+        # silently skip a row that is admissible at the current clock.
         acc_rows: list = []
-        tape_it = iter(tape)
-        next_row = next(tape_it, None)
+        pit_it = iter(pit)
+        next_row = next(pit_it, None)
         for bar in bars:
             while next_row is not None \
                     and next_row.available_time <= bar.available_time:
                 acc_rows.append(next_row)
-                next_row = next(tape_it, None)
+                next_row = next(pit_it, None)
             states_by_time[bar.available_time] = build_state(
                 acc_rows, bar.available_time, self.universe)
 
@@ -427,20 +454,30 @@ class Lab:
                     # INVALIDATED_BEFORE_TRIGGER, not a trading counterfactual
                     # (a silent population inconsistency otherwise).
                     entry_bar = bars[i + 1] if i + 1 < len(bars) else None
-                    if entry_bar is not None and (
-                            (draft.direction == 'LONG'
-                             and float(entry_bar.payload['low']) < info['prior_low'])
+                    if entry_bar is None:
+                        # Triggered on the final bar: no entry bar before tape
+                        # end — the candidate never entered. Record the
+                        # never-entered convention (INVALIDATED_BEFORE_TRIGGER,
+                        # NOT_EXECUTED, label knowable at tape end), exactly
+                        # like the epilogue does below the cost gate; a
+                        # fabricated empty-tail counterfactual (sim.run([])
+                        # -> EXPIRY/0.0/RIGHT_CENSORED) would merge a
+                        # non-trade into the outcomes ledger with a fake
+                        # simulator hash and give the same fact two different
+                        # endpoints (ledger-consistency defect).
+                        self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
+                                             'NOT_EXECUTED', sim.hash(),
+                                             label_available_time=last_as_of)
+                    elif (draft.direction == 'LONG'
+                          and float(entry_bar.payload['low']) < info['prior_low']) \
                             or (draft.direction == 'SHORT'
                                 and float(entry_bar.payload['high'])
-                                > info['prior_high'])):
+                                > info['prior_high']):
                         self._record_outcome(cid, 'INVALIDATED_BEFORE_TRIGGER', 0.0,
                                              'NOT_EXECUTED', sim.hash(),
                                              label_available_time=entry_bar.available_time)
                     else:
                         out = counterfactual(cid, draft, i + 1)
-                        # Empty-tail counterfactual (trigger on the final bar)
-                        # has no exit clock (label_available_time=0 sentinel);
-                        # its label is knowable at tape end.
                         self._record_outcome(
                             cid, out.endpoint, out.net_r,
                             'NOT_EXECUTED', sim.hash(), out.horizon_bars,
@@ -528,11 +565,11 @@ class Lab:
 
         # Epilogue: close whatever the tape end leaves dangling, deterministically.
         for cid, pos in list(open_positions.items()):
-            sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
             final_close = float(bars[-1].payload['close']) if bars else pos.entry_price
-            unit = risk_unit(pos.draft, pos.entry_price)     # R, never percent
-            net = sign * (final_close - pos.entry_price) / unit \
-                - manifest.round_trip_cost_r - pos.funding_paid_r
+            # The tape-end close formula belongs to the simulator alone
+            # (simulator.close_out); re-deriving it here would silently diverge
+            # the moment the cost/funding policy changes.
+            net = sim.close_out(pos, final_close)
             self._record_outcome(cid, 'EXPIRY', net, 'RIGHT_CENSORED',
                                  sim.hash(), pos.bars_held,
                                  label_available_time=last_as_of,
@@ -624,7 +661,7 @@ class Lab:
         config_hash = sha1_hex(asdict(manifest))
         ledger_hash = sha1_hex((self.candidates.hash, self.evaluations.hash,
                                 self.outcomes.hash, self.states.hash,
-                                config_hash))
+                                config_hash, risk_config_hash))
         data_hash = self.tape_log.hash
         # The report must bind what actually ran: a non-empty manifest pin that
         # does not match the live code/tape is a stale or forged identity.
@@ -663,4 +700,5 @@ class Lab:
                          n_portfolio_rejected=n_portfolio_rejected,
                          execution_share=execution_share,
                          divergence_ks=divergence_ks,
-                         tooling_hash=_tooling_hash())
+                         tooling_hash=_tooling_hash(),
+                         risk_gate_hash=risk_config_hash)

@@ -255,6 +255,20 @@ class CanonicalSimulator:
         return StepResult(True, endpoint, net_r, label, next_pos,
                           funding_settled=new_settlements)
 
+    def close_out(self, pos: OpenPosition, final_close: float) -> float:
+        """Net R of closing an open position at `final_close` (tape-end close).
+
+        The single authority for the net formula: the lab's tape-end epilogue
+        and any future force-close must call this instead of re-deriving
+        `sign*(close-entry)/unit - cost - funding_paid` — a second copy of the
+        formula in another module would silently diverge the moment the cost
+        or funding policy changes (parallel-truth rule).
+        """
+        sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
+        unit = risk_unit(pos.draft, pos.entry_price)
+        return sign * (final_close - pos.entry_price) / unit \
+            - self.round_trip_cost_r - pos.funding_paid_r
+
     def run(self, draft: CandidateDraft, bars: list[dict],
             times: list[int] | None = None,
             thesis_valid=None) -> CounterfactualOutcome:

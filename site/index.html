@@ -4967,6 +4967,61 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-02-second-level-provenance-pit-bugfix-pass-7-fixed">2026-08-02 — Second-level provenance + PIT bugfix pass (7 fixed)</h2>
+<p>An adversarial re-audit against the <code>V8_CONSTITUTION</code> bug-class catalogue
+(implementation substitution / parallel economic truth / temporal leakage /
+silent data corruption / boundary bugs / provenance scope) confirmed several
+second-level defects; all were fixed with regression tests and a deliberate
+golden re-pin (candidate_count 21 and terminal_distribution UNCHANGED).</p>
+<ul>
+<li><strong><code>src/v8/lab.py</code> (medium) — PIT consumption order.</strong> The state accumulator
+  consumed the tape in canonical replay order <code>(event_time, available_time,
+  venue_sequence)</code>, which is NOT guaranteed available-monotonic when latencies
+  are heterogeneous — a row with a later event can become available earlier,
+  and the moving pointer silently SKIPPED it (a state built without a bar that
+  WAS admissible at the decision clock). The lab now consumes a stable
+  available_time-sorted copy (<code>pit</code>) for the bar loop AND the accumulator;
+  byte-identical for co-monotonic tapes (golden unchanged).</li>
+<li><strong><code>src/v8/lab.py</code> (medium) — parallel economic truth.</strong> The tape-end close
+  of an open position re-derived the net formula <code>sign*(close-entry)/unit -
+  cost - funding_paid</code> in the epilogue instead of delegating to the simulator.
+  Added <code>CanonicalSimulator.close_out(pos, final_close)</code> as the single
+  authority; the epilogue calls it (a second copy would silently diverge the
+  moment cost/funding policy changes).</li>
+<li><strong><code>src/v8/lab.py</code> + <code>src/v8/schema.py</code> (medium) — unpinned risk gate.</strong> The
+  effective <code>RiskGate</code> (max_heat / max_cluster_heat / clusters) is a
+  run-configuration input, but was invisible in every hash when no cap was
+  breached. The ledger hash now binds <code>risk_config_hash</code> and the <code>LabReport</code>
+  surfaces <code>risk_gate_hash</code> (report-only). Golden ledger hash re-pinned.</li>
+<li><strong><code>src/v8/lab.py</code> (low) — <code>_code_hash</code> over-binds vendored <code>simtruth/</code>.</strong>
+  The decision-path code hash covered <code>src/v8/simtruth/**</code> (vendored V7,
+  engineering only, nothing imports it), so a vendored edit invalidated every
+  pinned manifest for a byte-identical decision path. <code>simtruth/</code> is now
+  excluded from <code>_code_hash</code>.</li>
+<li><strong><code>src/v8/lab.py</code> (low) — fabricated empty-tail counterfactual.</strong> A
+  TRIGGERED candidate rejected for excess cost on the FINAL tape bar (no entry
+  bar) got a fabricated <code>EXPIRY/0.0/NOT_EXECUTED</code> outcome from <code>sim.run([])</code>,
+  while the identical never-entered candidate below the cost gate is recorded
+  <code>INVALIDATED_BEFORE_TRIGGER</code>. Same fact, two endpoints. The never-entered
+  convention now applies in both branches.</li>
+<li><strong><code>src/v8/marketstate.py</code> (low) — null is not zero.</strong> An absent feature
+  (<code>prior_high</code>/<code>prior_low</code> on the first bar) was labelled <code>COMPLETE</code> with
+  <code>null_reason=None</code> and its <code>max_input_available_time</code> borrowed the newest
+  bar it never consumed — both contradict the <code>MARKET_STATE_CONTRACT</code>
+  (§2 consumed-derived clock; §4 "null is not zero"). None-valued features are
+  now auto-<code>DEGRADED</code> with <code>null_reason=NOT_YET_AVAILABLE</code> and a consumed-only
+  calculation clock (0 when nothing was consumed). Golden state/ledger hashes
+  re-pinned; candidate decisions unchanged.</li>
+<li><strong><code>tools/run_experiment.py</code> (medium) — holdout window never reconciled.</strong>
+  <code>data_hash</code> binds the tape bytes, not the window: a dev-period tape (or a
+  dev+OOS merge) authored with <code>start_ns &gt;= anchor</code> was evaluated as the
+  frozen OOS. The runner now fails closed when the tape's kline event range
+  falls outside <code>[start_ns, end_ns]</code> (prereg §13).</li>
+</ul>
+<p>Artifacts: <code>src/v8/lab.py</code>, <code>src/v8/simulator.py</code>, <code>src/v8/marketstate.py</code>,
+<code>src/v8/schema.py</code>, <code>tools/run_experiment.py</code>, <code>tests/test_golden_backtest.py</code>
+(deliberate golden re-pin), <code>tests/test_bugfix_pass.py</code>,
+<code>tests/test_run_experiment.py</code>.</p>
 <h2 id="2026-08-01-adversarial-audit-fixes-on-phase-2-4-code-14-findings-6-fixed">2026-08-01 — Adversarial-audit fixes on Phase 2-4 code (14 findings, 6 fixed)</h2>
 <p>A four-dimension adversarial review (correctness / contract / determinism /
 runner) confirmed 14 findings; the real ones are fixed here.</p>

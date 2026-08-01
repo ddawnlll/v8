@@ -25,10 +25,24 @@ HOLDOUT_ANCHOR_NS = 1782864000000000000      # 2026-07-01 00:00 UTC
 
 
 def _write_tape(path: Path, seed: int = 7, n_bars: int = 160) -> str:
+    """Write a synthetic holdout stand-in whose kline event range sits inside
+    the frozen OOS window [HOLDOUT_ANCHOR_NS, +n_bars): the runner now fails
+    closed when the declared window does not match the tape's actual content
+    (prereg §13), so the stand-in must satisfy the real constraint."""
     rows = make_synthetic_tape(seed=seed, n_bars=n_bars, symbol='BTCUSDT')
+    shift = HOLDOUT_ANCHOR_NS - rows[0].event_time
+    if shift < 0:
+        raise AssertionError('synthetic tape starts after the anchor')
+    shifted = []
+    for r in rows:
+        d = asdict(r)
+        d['event_time'] += shift
+        d['available_time'] += shift
+        d['ingested_time'] += shift
+        shifted.append(d)
     with path.open('w', encoding='utf-8') as fh:
-        for r in rows:
-            fh.write(json.dumps(asdict(r)) + '\n')
+        for d in shifted:
+            fh.write(json.dumps(d) + '\n')
     lines = path.read_text(encoding='utf-8').splitlines()
     return sha1_hex([json.loads(l) for l in lines])
 
@@ -152,4 +166,19 @@ def test_missing_recorded_hash_fails_closed(tmp_path):
     _write_tape(tape)
     m = _manifest(tmp_path, tape, '')
     with pytest.raises(ValueError, match='data_hash is empty'):
+        run_experiment(m)
+
+
+def test_holdout_tape_content_must_match_declared_window(tmp_path):
+    """data_hash binds the file bytes, not the window: a tape whose kline
+    event range lies before the declared holdout window (a dev-period tape)
+    must fail closed even when start_ns >= anchor (prereg §13)."""
+    tape = tmp_path / 'dev_period.jsonl'
+    rows = make_synthetic_tape(seed=7, n_bars=160, symbol='BTCUSDT')
+    with tape.open('w', encoding='utf-8') as fh:
+        for r in rows:
+            fh.write(json.dumps(asdict(r)) + '\n')
+    h = sha1_hex([json.loads(l) for l in tape.read_text(encoding='utf-8').splitlines()])
+    m = _manifest(tmp_path, tape, h)
+    with pytest.raises(ValueError, match='before the declared window start'):
         run_experiment(m)

@@ -477,3 +477,126 @@ def test_m7_monitor_rejects_bool_nan_and_ohlc_violations():
                validate_schema([row(dict(base, high=90, low=110))]))
     assert any('negative' in p for p in
                validate_schema([row(dict(base, volume=-1.0))]))
+
+
+# --- 2026-08-02 bugfix pass: provenance binding + PIT + null hygiene ---------
+
+def test_pit_tape_consumes_all_admissible_rows(tmp_path):
+    """The state accumulator must include EVERY row admissible at the decision
+    clock. replay_tape sorts by (event_time, available_time, venue_sequence);
+    consuming in that order on a tape whose availability predates its event
+    order (heterogeneous latencies) skips an admissible row or feeds build_state
+    an unsorted batch. The lab consumes in available_time order (the PIT
+    clock)."""
+    HOUR_NS = 3_600_000_000_000
+    MIN_NS = 60_000_000_000
+    SEC_NS = 1_000_000_000
+
+    def bar(event_ns: int, avail_ns: int, close: float, seq: int) -> TapeRow:
+        return TapeRow(source='binance-um', channel='kline', instrument='SOLUSDT',
+                       event_time=event_ns, available_time=avail_ns,
+                       ingested_time=avail_ns, venue_sequence=seq,
+                       event_id=f'S{seq}',
+                       payload={'open': close, 'high': close + 1,
+                                'low': close - 1, 'close': close,
+                                'volume': 1.0, 'closed': True})
+
+    # A: event 10:00, available 10:05 (5-min latency) — sorts FIRST in replay
+    # order and would block an event-ordered pointer past D=10:01:30.
+    a = bar(10 * HOUR_NS, 10 * HOUR_NS + 5 * MIN_NS, 100.0, 1)
+    # B: event 10:01, available 10:01:30 (30-sec latency) — admissible at its
+    # own decision clock but AFTER A in replay order (event/available diverge).
+    b = bar(10 * HOUR_NS + MIN_NS, 10 * HOUR_NS + 90 * SEC_NS, 101.0, 2)
+    lab = Lab(tmp_path)
+    lab.ingest([a, b])
+    lab.run(_manifest(), [TrendPullbackExpert()])
+    states = lab.states.read()
+    state_at_b = [s for s in states if s['as_of'] == 10 * HOUR_NS + 90 * SEC_NS]
+    assert state_at_b, "a state must be recorded at bar B's decision clock"
+    close = state_at_b[0]['features']['SOLUSDT.close']['value']
+    assert float(close) == 101.0, \
+        f'state at bar B must include the admissible bar (close 101.0), got {close}'
+
+
+def test_risk_gate_config_bound_into_ledger_hash():
+    """Risk admission parameters are a run-configuration input, not a code
+    constant: two runs with DIFFERENT gates must never share a ledger hash,
+    even when no cap is breached on a light tape."""
+    from v8.risk import RiskGate
+    flat = make_synthetic_tape(seed=3, n_bars=40)
+
+    def run(gate) -> tuple:
+        lab = Lab(Path(tempfile.mkdtemp()))
+        lab.ingest(flat)
+        rep = lab.run(_manifest(), [TrendPullbackExpert()], risk_gate=gate)
+        return rep.ledger_hash, rep.risk_gate_hash
+
+    a = run(RiskGate())
+    b = run(RiskGate(max_heat=1.0))
+    assert a[0] != b[0], 'different risk gates must differ in the ledger hash'
+    assert a[1] != b[1], 'the report must surface the gate identity'
+
+
+def test_tape_end_close_uses_simulator_authority():
+    """The tape-end close of an open position is a simulator formula
+    (close_out): the net derivation must live in ONE authority so the lab can
+    never silently diverge from step()'s EXPIRY economics."""
+    from v8.simulator import CanonicalSimulator, OpenPosition
+    draft = CandidateDraft(expert_id='t', expert_version='v1',
+                           instrument='SOLUSDT', direction='LONG',
+                           setup_fingerprint='f',
+                           risk_geometry={'target_r': 1.0, 'stop_r': 1.0,
+                                          'expiry_bars': 50, 'atr_ref': 1.0},
+                           birth_time=0)
+    sim = CanonicalSimulator(round_trip_cost_r=0.07)
+    pos = OpenPosition(candidate_id='c', draft=draft, entry_price=100.0,
+                       entry_bar_index=0, entry_time_ns=0)
+    assert sim.close_out(pos, 103.0) == (103.0 - 100.0) - 0.07
+
+
+def test_code_hash_excludes_vendored_simtruth():
+    """src/v8/simtruth/ is vendored engineering code, not the decision path:
+    its bytes must not move the decision-path code hash (a vendored edit would
+    otherwise invalidate every pinned manifest for a byte-identical decision
+    path)."""
+    from v8.lab import _code_hash
+    from v8.schema import sha1_hex as _sh
+    base = Path(__file__).resolve().parents[1] / 'src' / 'v8'
+    all_py = {str(p.relative_to(base)): p.read_bytes().hex()
+              for p in sorted(base.rglob('*.py'))}
+    # Mirror _code_hash's path-parts exclusion exactly (a file like
+    # simtruth_foo.py at the top level is decision path and must stay bound).
+    decision_only = {k: v for k, v in all_py.items() if 'simtruth' not in k.split('/')}
+    assert _code_hash() == _sh(decision_only)
+
+
+def test_excess_cost_never_entered_records_invalidated_before_trigger():
+    """A TRIGGERED candidate rejected for excess cost on the FINAL tape bar has
+    no entry bar: it must be recorded INVALIDATED_BEFORE_TRIGGER (NOT_EXECUTED),
+    never a fabricated empty-tail counterfactual (EXPIRY/0.0) — the same
+    never-entered convention the epilogue uses below the cost gate."""
+    rows = _pullback_tape()[:59]          # trigger at 58, entry 59 beyond tape
+    lab = Lab(Path(tempfile.mkdtemp()))
+    lab.ingest(rows)
+    lab.run(_manifest(round_trip_cost_r=0.11), [TrendPullbackExpert()])
+    outs = lab.outcomes.read()
+    assert outs, 'excess-cost never-entered must record an outcome'
+    o = outs[0]
+    assert o['endpoint'] == 'INVALIDATED_BEFORE_TRIGGER'
+    assert o['label_status'] == 'NOT_EXECUTED'
+    assert o['net_r'] == 0.0
+
+
+def test_absent_feature_is_degraded_not_complete():
+    """A feature with no input (prior_high on the first bar) is absent data,
+    not a zero: it must be DEGRADED with an explicit null_reason and a
+    calculation clock derived from the rows actually consumed (0), never
+    COMPLETE (MARKET_STATE_CONTRACT section 4)."""
+    rows = make_synthetic_tape(seed=7, n_bars=3)
+    st = build_state([rows[0]], rows[0].available_time, ('SOLUSDT',))
+    ph = st.features['SOLUSDT.prior_high']
+    assert ph.value is None
+    assert ph.quality == 'DEGRADED'
+    assert ph.null_reason == 'NOT_YET_AVAILABLE'
+    assert ph.max_input_available_time == 0
+    assert st.quality == 'DEGRADED'

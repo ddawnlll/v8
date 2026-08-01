@@ -78,15 +78,24 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
 
         def add(name: str, value: float | None, consumed: list,
                 quality: str = 'COMPLETE', null_reason: str | None = None) -> None:
+            # A None value is absent data, never a zero (MARKET_STATE_CONTRACT
+            # section 4: "Null is not zero"). Auto-degrade it with an explicit
+            # null reason instead of labelling it COMPLETE — the D-024 DEGRADED
+            # veto is what makes a missing feature reachable at admission.
+            if value is None and quality == 'COMPLETE':
+                quality = 'DEGRADED'
+                null_reason = null_reason or 'NOT_YET_AVAILABLE'
             # Per-feature input lineage + calculation clock (MARKET_STATE_
             # CONTRACT 2): the identity of the raw rows that produced this
             # feature and the latest such row's availability. max_input_
             # available_time is the SAME consumed-derived clock (never the
             # newest bar for a feature that does not consume it — prior_high/
             # prior_low exclude the newest bar), so the field never claims an
-            # input newer than the feature's own calculation time.
-            calc = max((b.available_time for b in consumed), default=0) or \
-                (closed[-1].available_time if closed else 0)
+            # input newer than the feature's own calculation time. A feature
+            # that consumed nothing (prior_high on the first bar) has clock 0:
+            # it is not computable yet, and borrowing the newest bar would
+            # claim an input the feature never used.
+            calc = max((b.available_time for b in consumed), default=0)
             # Bind the raw row identity: payload_hash when the tape computes it
             # (vision_backfill real tapes — compact), else the payload itself
             # (synthetic tapes without payload_hash — small, still detects any

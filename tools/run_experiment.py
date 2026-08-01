@@ -185,6 +185,25 @@ def run_experiment(manifest_path: Path) -> dict:
                 f'{manifest.data_hash}: the holdout was recorded at download '
                 'time before any evaluation (prereg §16) — a mismatch means '
                 'the tape changed after recording; fail closed')
+        # The declared holdout window must match the tape's actual content
+        # (prereg §13): data_hash binds the file bytes, not the window — a dev
+        # tape (or a dev+OOS merge) authored with start_ns >= anchor would
+        # otherwise be evaluated as the frozen OOS. Verify the kline event
+        # range sits inside [start_ns, end_ns].
+        kline_events = [r['event_time'] for r in rows
+                        if r.get('channel') == 'kline']
+        if not kline_events:
+            raise ValueError('holdout tape has no kline rows — nothing to evaluate')
+        min_ev, max_ev = min(kline_events), max(kline_events)
+        if min_ev < manifest.start_ns:
+            raise ValueError(
+                f'holdout tape first kline event {min_ev} is before the '
+                f'declared window start {manifest.start_ns}: the recorded '
+                'tape must match the prereg §13 OOS window — fail closed')
+        if manifest.end_ns and max_ev > manifest.end_ns:
+            raise ValueError(
+                f'holdout tape last kline event {max_ev} is after the declared '
+                f'window end {manifest.end_ns}: fail closed')
 
     # Authority blocks first (HYPOTHESIS_LAB_PROTOCOL): the lab computes the
     # D-027 attribution statistics always, but the verdict stays

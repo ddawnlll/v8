@@ -257,3 +257,11 @@ class LabReport:
     # the decision-path code hash; its source hash is surfaced here so a
     # semantic change in the tape builder is at least visible in the report.
     tooling_hash: str = ''
+    # D-018/D-023 risk-admission identity: the effective RiskGate
+    # configuration (type + heat caps + clusters) that actually admitted /
+    # rejected candidates. A custom gate must be distinguishable from the
+    # ratified default — two runs with different admission policies must never
+    # be byte-identical in every hash. The same value is bound into
+    # ledger_hash (risk_config_hash); this field is the report-side copy, so a
+    # consumer can see which gate ran without re-deriving it from the ledger.
+    risk_gate_hash: str = ''

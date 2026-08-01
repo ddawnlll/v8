@@ -32,10 +32,18 @@ UNIVERSE = ('SOLUSDT',)
 # the manifest incl. the authority receipt), the never-entered TRIGGERED-no-entry
 # epilogue records NOT_EXECUTED/INVALIDATED_BEFORE_TRIGGER instead of a
 # fabricated RIGHT_CENSORED 0.0, and the state build is O(N) incremental.
+# Re-pinned after the 2026-08-02 bugfix pass (provenance + null hygiene):
+# the ledger hash now binds the effective RiskGate configuration
+# (max_heat/max_cluster_heat/clusters — previously an unpinned run-config
+# input, invisible in every hash when no cap was breached), the tape-end close
+# goes through the simulator's canonical close_out(), and build_state marks
+# absent (None) features DEGRADED with a null_reason instead of COMPLETE and
+# derives their calculation clock from the rows actually consumed. candidate_count
+# (21) and terminal_distribution are UNCHANGED — only the hash bindings moved.
 # Do not update silently.
-GOLDEN_LEDGER_HASH = '766a60172a7e6d5a64b7f34ed6cb5176247416ff'
+GOLDEN_LEDGER_HASH = '218ea7a3a881e3757eb9b8f813df6ef9e3cc55c5'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = 'bfb451bc85daaf050a02e73fee8f34b4a70eea76'
+GOLDEN_STATES_HASH = 'c79654725f2186683816cb7dc002afa1dffd11d4'
 GOLDEN_CANDIDATE_COUNT = 21
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 3, 'REJECTED': 6}
 

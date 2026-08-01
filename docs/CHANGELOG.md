@@ -3,6 +3,63 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-02 — Second-level provenance + PIT bugfix pass (7 fixed)
+
+An adversarial re-audit against the `V8_CONSTITUTION` bug-class catalogue
+(implementation substitution / parallel economic truth / temporal leakage /
+silent data corruption / boundary bugs / provenance scope) confirmed several
+second-level defects; all were fixed with regression tests and a deliberate
+golden re-pin (candidate_count 21 and terminal_distribution UNCHANGED).
+
+- **`src/v8/lab.py` (medium) — PIT consumption order.** The state accumulator
+  consumed the tape in canonical replay order `(event_time, available_time,
+  venue_sequence)`, which is NOT guaranteed available-monotonic when latencies
+  are heterogeneous — a row with a later event can become available earlier,
+  and the moving pointer silently SKIPPED it (a state built without a bar that
+  WAS admissible at the decision clock). The lab now consumes a stable
+  available_time-sorted copy (`pit`) for the bar loop AND the accumulator;
+  byte-identical for co-monotonic tapes (golden unchanged).
+- **`src/v8/lab.py` (medium) — parallel economic truth.** The tape-end close
+  of an open position re-derived the net formula `sign*(close-entry)/unit -
+  cost - funding_paid` in the epilogue instead of delegating to the simulator.
+  Added `CanonicalSimulator.close_out(pos, final_close)` as the single
+  authority; the epilogue calls it (a second copy would silently diverge the
+  moment cost/funding policy changes).
+- **`src/v8/lab.py` + `src/v8/schema.py` (medium) — unpinned risk gate.** The
+  effective `RiskGate` (max_heat / max_cluster_heat / clusters) is a
+  run-configuration input, but was invisible in every hash when no cap was
+  breached. The ledger hash now binds `risk_config_hash` and the `LabReport`
+  surfaces `risk_gate_hash` (report-only). Golden ledger hash re-pinned.
+- **`src/v8/lab.py` (low) — `_code_hash` over-binds vendored `simtruth/`.**
+  The decision-path code hash covered `src/v8/simtruth/**` (vendored V7,
+  engineering only, nothing imports it), so a vendored edit invalidated every
+  pinned manifest for a byte-identical decision path. `simtruth/` is now
+  excluded from `_code_hash`.
+- **`src/v8/lab.py` (low) — fabricated empty-tail counterfactual.** A
+  TRIGGERED candidate rejected for excess cost on the FINAL tape bar (no entry
+  bar) got a fabricated `EXPIRY/0.0/NOT_EXECUTED` outcome from `sim.run([])`,
+  while the identical never-entered candidate below the cost gate is recorded
+  `INVALIDATED_BEFORE_TRIGGER`. Same fact, two endpoints. The never-entered
+  convention now applies in both branches.
+- **`src/v8/marketstate.py` (low) — null is not zero.** An absent feature
+  (`prior_high`/`prior_low` on the first bar) was labelled `COMPLETE` with
+  `null_reason=None` and its `max_input_available_time` borrowed the newest
+  bar it never consumed — both contradict the `MARKET_STATE_CONTRACT`
+  (§2 consumed-derived clock; §4 "null is not zero"). None-valued features are
+  now auto-`DEGRADED` with `null_reason=NOT_YET_AVAILABLE` and a consumed-only
+  calculation clock (0 when nothing was consumed). Golden state/ledger hashes
+  re-pinned; candidate decisions unchanged.
+- **`tools/run_experiment.py` (medium) — holdout window never reconciled.**
+  `data_hash` binds the tape bytes, not the window: a dev-period tape (or a
+  dev+OOS merge) authored with `start_ns >= anchor` was evaluated as the
+  frozen OOS. The runner now fails closed when the tape's kline event range
+  falls outside `[start_ns, end_ns]` (prereg §13).
+
+Artifacts: `src/v8/lab.py`, `src/v8/simulator.py`, `src/v8/marketstate.py`,
+`src/v8/schema.py`, `tools/run_experiment.py`, `tests/test_golden_backtest.py`
+(deliberate golden re-pin), `tests/test_bugfix_pass.py`,
+`tests/test_run_experiment.py`.
+
 ## 2026-08-01 — Adversarial-audit fixes on Phase 2-4 code (14 findings, 6 fixed)
 
 A four-dimension adversarial review (correctness / contract / determinism /
