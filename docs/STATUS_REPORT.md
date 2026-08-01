@@ -1,150 +1,112 @@
-# V8 Autonomous Build — Status Report (Session 2)
+# V8 Autonomous Build — Status Report (Session 3)
 
-**Session:** runbook steps 0-5, Phase 1 on real data + `v8_slice_001`
-preregistration
+**Session:** complete all phases except Phase 4 (operator-owned)
 **Date (UTC):** 2026-08-01
-**Prepared by:** V8-build-agent (autonomous session 2)
+**Prepared by:** V8-build-agent (autonomous session 3)
 **Read this first** (runbook step 7): this report is the operator's only
 required reading. RUNLOG.md holds the full per-step evidence. This file is a
-session artifact (overwritten from session 1); it is not corpus and does not
-perturb the monograph probe.
+session artifact; it is not corpus and does not perturb the monograph probe.
 
 ---
 
 ## Summary
 
-All 5 session-2 steps are **DONE**. Phase 1 was executed on real data
-(BTCUSDT 1h, 2026-04..06), the decision-ledger + DATASET_SPEC §5
-materializations were built and run, and the `v8_slice_001` preregistration
-was written, adversarially reviewed, and amended. No contract under `docs/`
-was edited; the monograph probe is byte-identical to the session-2 baseline
-(`ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def`) at every
-step. The suite grew 42 -> 50 tests.
+All phases except **Phase 4** are complete or explicitly blocked-by-design:
 
-**Gates held at every step:** pytest green, non-decreasing count;
-monograph probe byte-identical; no forbidden component names in new code; no
-wall clock in `src/v8/`; one explicit-file-list commit per step.
+| Phase | Status | Where |
+|---|---|---|
+| 0 — Foundation | **DONE** | session 1 (corpus, contracts, slice) |
+| 1 — Data plane | **DONE** (dev window) | session 2 (data.py + vision_backfill + tape + audit + materializations) |
+| 2 — State engine | **DONE** | session 1-2 (feature groups, lineage, PIT) |
+| 3 — Pilot experts | **DONE** | session 1 (registry, metadata, EXPERTS_REGISTRY.yaml) |
+| 4 — First program gate | **OPERATOR-OWNED** | preregistration `v8_slice_001` RATIFIED 2026-08-01; experiment NOT run, frozen holdout NOT opened |
+| 5 — Gated components | **BLOCKED BY DESIGN** | rule 12: never built without a surviving family from Phase 4; absence enforced as contract probes |
+| 6 — Ops and hardening | **DONE** | this session (monitoring, observability, CI + golden regression, certification, status automation) |
+| 7 — Learning plane | **BLOCKED BY DESIGN** | rule 12: only after certified edge; absence enforced as contract probes |
 
-**Forbidden scope respected:** no router, learned scorer, ranker, learned/RL
-execution, online learning, or event-driven clock mode was created. The
-experiment `v8_slice_001` was **not** run, the frozen holdout was **not**
-downloaded or opened, and no profitability language or economic claim appears
-anywhere (verdict stays `NO_ECONOMIC_CLAIM`; rules 8-9, 12).
+Session-3 gates held at every step: pytest green, non-decreasing count (50 →
+80); monograph probe byte-identical to the session-3 baseline
+`bc207925d828280de4b7b8d02d359b2f79da70ba58144cc9360b3ed059ba4c45`; no
+forbidden component names in new `src/v8/`/`tools/` code; no wall clock in
+`src/v8/`; one explicit-file-list commit per step.
 
-## Steps
+## Session-3 steps
 
-### Step 0 — Pre-flight (new baseline) — DONE
-- Evidence: pytest `42 passed`; probe rebuild -> **new baseline**
-  `ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def` (31
-  sections — the session-1 hash `65eef39f…` is stale after operator closure
-  `76ef874`); TR probe `2c5b973a…`; clean tree; Session-2 header opened in
-  RUNLOG.
-- Commit: `3436248` `v8-step-0: session-2 preflight …`.
+### Step 0 — Re-baseline — DONE
+- Probe re-based to `bc207925…` (32 sections; operator closure commits
+  `v8-step-10/11/12` promoted the ratified preregistration into the
+  monograph); 50 tests; clean tree.
+- Commit: `6e20a54`.
 
-### Step 1 — Tooling deps + data.py path — DONE
-- Evidence: `uv pip install -e ".[tooling]"` -> polars 1.43.1, pyarrow
-  25.0.0, pandera[polars], duckdb 1.5.5; pytest `46 passed` (+4 offline
-  tooling-path tests); `tools/data.py build/verify/audit` on BTCUSDT 1h
-  2026-06 -> VERIFIED / PASS / PASS (720 rows, duplicate PKs 0).
-- OPEN_PIN (operator): register the D-037 tooling admission decision
-  (heavy deps admitted for Phase-1 parquet materialization; decision path
-  stays stdlib-only, O-009).
-- Commit: `a9bd373` `v8-step-1: …`.
+### Step 1 — Data-quality monitoring + structured observability — DONE
+- `tools/monitor_tape.py`: FEED_INGESTION_SPEC §2 schema validation,
+  integrity audit **reused** from `vision_backfill.audit_tape` (not forked),
+  staleness alerting with injectable `--now`, structured JSON with
+  `experiment_id`, fail-closed exits. Real-tape smoke: 2184 rows, verdict OK.
+- Commit: `467bfcd`.
 
-### Step 2 — Real tape: download + PIT tape + audit — DONE
-- Evidence: `data.py build` (2026-04-01..2026-07-01, BTCUSDT 1h, klines,
-  `--keep-raw`) -> VERIFIED, 3 archives, 2184 rows, verify/audit PASS;
-  `vision_backfill` (no `--download`, consuming data.py's verified archives)
-  -> JSONL PIT tape, 2184 rows, audit
-  `{"monotonic": true, "payload_hashes_ok": true, "row_count": 2184,
-  "venue_gaps": 0}`; re-run idempotent (0 appended), tape hash stable
-  `8b12707e0d89f2a955d2badccf9f278267c0e086`; lab PIT replay + build_state on
-  real data OK. Universe NOT extended (O-011).
-- Commit: `5304289` `v8-step-2: …`.
+### Step 2 — Golden-backtest regression + CI — DONE
+- `tests/test_golden_backtest.py`: pins ledger/data/states hashes, candidate
+  count, terminal distribution (any decision-path refactor fails loudly,
+  PERSISTENCE_REPLAY_SPEC §4). `.github/workflows/ci.yml`: pytest (incl.
+  golden) + monograph byte-identity probe; injection-safe.
+- Commit: `c0a72fa`.
 
-### Step 3 — Materializations + lab on real tape — DONE
-- Evidence: pytest `50 passed` (+4: decision-ledger states, birth snapshot,
-  materializer roundtrip, fail-closed hash mismatch). Code: lab persists the
-  MarketState decision ledger (`states.jsonl`, bound into ledger_hash);
-  DETECTED transitions carry the immutable birth snapshot
-  (`CandidateRegistry.apply(extra=…)`); new `tools/materialize_views.py`
-  writes the five DATASET_SPEC §5 parquet views with DuckDB from a pinned
-  manifest, failing closed on live code/data hash mismatch. Real-tape run
-  (pinned manifest `manifest_dev.json`, code_hash `6a2b024e…`, data_hash
-  `8b12707e…`): views {market_states 2184, candidate_birth 713,
-  candidate_trigger 706, candidate_outcomes 713, execution_trajectories
-  2900}, ledger_hash `2c1e0fd8…`, verdict `NO_ECONOMIC_CLAIM`. Determinism:
-  two fresh runs -> equal ledger + states hashes. O-017 baseline:
-  n_executed 256, n_portfolio_rejected 360 (all EXISTING_EXPOSURE_CONFLICT),
-  mask vetoes 90 (all FUNDING_WINDOW), execution_share = 0.4156; executed vs
-  portfolio-rejected net_R KS = 0.073.
-- OPEN_PIN (carry-forward): D-027 verdict gating (execution_share +
-  divergence stat + ATTRIBUTION_UNSAFE_* verdicts in LabReport) is
-  unimplemented in code; thresholds are preregistered (§15 of the
-  preregistration); the code gate lands with the Phase-4 experiment runner.
-- Commit: `8c10730` `v8-step-3: …`.
+### Step 3 — Certification record + artifact status + purity probes — DONE
+- `research/certification/simulation_authority_certification_v1.json`:
+  FAIL / BLOCKED / live unreachable (D-022). `tools/artifact_status.py`:
+  research→shadow→paper→live with adjacent gates and required evidence.
+  `tests/test_decision_path_purity.py`: the decision path is stdlib-only,
+  clock-free, and contains no gated component (Phase 5/7 absence enforced as
+  a property, not a convention).
+- Commit: `6cc05d1`.
 
-### Step 4 — v8_slice_001 preregistration document — DONE
-- Evidence: `docs/PREREGISTRATION_V8_SLICE_001.md` written with all
-  HYPOTHESIS_LAB_PROTOCOL hypothesis-record fields; O-017 thresholds proposed
-  pre-holdout from the Step-3 baseline (execution_share floor 0.25 = 60% of
-  observed 0.4156; KS divergence threshold 0.20 ≈ 2.7× observed 0.073).
-  Adversarial verification workflow (4 read-only critics) -> AMEND; 1 blocker
-  + 7 warnings incorporated: two-month frozen OOS (≥1,400 bars) now satisfies
-  the §12 minimum; 9-bar label-horizon extension pinned (unobservable
-  episodes RIGHT_CENSORED); Bonferroni-only α_f=0.025 with percentile one-sided
-  CI; EMA periods + parameter provenance declared; cost locked; block-size
-  rule operationalized; ledger_hash reclassified as derived output;
-  candidate_trigger 706 added; mask-veto exclusion cited by principle.
-  Experiment not run; holdout not opened.
-- Commit: `c2e64fd` `v8-step-4: …`.
+### Step 4 — Hardening from adversarial Phase-6 review — DONE
+- Review workflow (3 read-only reviewers): 0 blockers, 20 warnings, all
+  actionable ones fixed: monitor fail-closed on empty/missing tapes, bool
+  timestamps rejected, CI `sha256sum`, and the **latent divergence** where
+  `ExperimentManifest.fill_policy` was declared but ignored — the simulator
+  now validates it (unsupported policies fail closed; single-code-path
+  property of OPERATIONS_SPEC §1). 13 new tests (80 total).
+- Commit: `5a4aa28`.
 
 ### Step 5 — Status report — DONE
-- This file; summary appended to RUNLOG.md; commit `v8-step-5: status report`.
+- This file; commit `v8-step-5: status report`.
 
-## Deviations and fixes (complete list)
+## Deviations and fixes (session 3)
 
-| Step | What | Resolution |
-|---|---|---|
-| 1 | Heavy deps absent; `data.py` hard-exited at import | D-037 admission: `uv pip install -e ".[tooling]"`; `tooling` extra added to pyproject (decision path stays stdlib-only) |
-| 3 | DATASET_SPEC §1 layer 2: MarketState not persisted | Lab writes `states.jsonl` (one record per bar); bound into ledger_hash |
-| 3 | CANDIDATE_LIFECYCLE_SPEC §1: no immutable birth record | DETECTED transition carries expert/geometry/state birth fields via `apply(extra=…)`, merged before append |
-| 3 | Materializations could silently go stale | `materialize_views.py` fails closed on live code/data hash mismatch |
-| 4 | Preregistration §12 vs §13 OOS-window contradiction (review blocker) | OOS re-declared as the first two published months after 2026-07-01 (≥1,400 bars) |
-| 4 | Label-horizon at holdout end unaddressed (review warning) | 9-bar extension pinned; RIGHT_CENSORED rule declared |
-| 4 | Unpinned FDR/CI procedure (review warning) | Bonferroni-only; percentile one-sided CI (2.5th percentile) |
-| 4 | Missing EMA periods / provenance; provisional cost label; block-size rule; ledger_hash classification; candidate_trigger count; mask-veto citation (review warnings) | All incorporated into the frozen document |
+| Item | Resolution |
+|---|---|
+| Monitor staleness crashed on empty tapes | Structured violation, fail-closed JSON |
+| Monitor `--schema` failed open on empty tapes | Rejects with "cannot evaluate" |
+| Bool passed the int-timestamp check | `type(x) is int` |
+| Missing tape → bare traceback | Structured FileNotFoundError report |
+| CI `shasum` (BSD) | `sha256sum` (portable) |
+| `fill_policy` declared but ignored by the simulator | Wired through the manifest; unsupported → ValueError (fail closed); default byte-identical (golden unchanged) |
+| OPERATIONS_SPEC items with no deliverable (conscious deviations) | Feed reconciliation N/A (single locked feed); CI lint/typecheck not configured (pytest + golden + probe at research scale); store-unreachable mid-run not simulated (local disk store); rollback/kill-switch N/A until shadow/paper exist (gated); counters/gauges minimal (JSON report, "do not over-invest") |
 
-## Open pins (unresolved, operator action)
+## Open pins / operator actions
 
-1. **Register the D-037 tooling admission** (Step 1): polars/pyarrow/
-   pandera[polars]/duckdb installed and declared in the `tooling` extra for
-   Phase-1 parquet materialization; decision path unchanged.
-2. **D-027 verdict gating in code** (carry-forward): `LabReport` does not yet
-   compute `execution_share`/divergence or emit `ATTRIBUTION_UNSAFE_*`
-   verdicts; thresholds are preregistered for `v8_slice_001` (§15) and the
-   gate lands with the Phase-4 experiment runner.
-3. **Operator approval of `v8_slice_001`** (preregistration §16): (a) ratify
-   the O-017 thresholds (share 0.25, KS 0.20); (b) at experiment time record
-   the frozen-holdout tape hash before any evaluation; (c) provide an
-   authority receipt before any economic verdict.
-4. **Session-1 OPEN_PIN (data.py reuse) — RESOLVED** by operator closure
-   `76ef874` (D-037) and this session's admission.
+1. **Phase 4 (operator):** run `v8_slice_001` per the RATIFIED preregistration
+   when the frozen holdout (first two published months after 2026-07-01) is
+   available; record the holdout tape hash before any evaluation; provide an
+   authority receipt before any economic verdict. Do not open the holdout
+   before then.
+2. **Phase 5 / 7 (blocked by design, rule 12):** the gated components
+   (router, learned scorer, ranker, learned/RL execution, online learning)
+   and the learning plane are never built without Phase-4 surviving-family
+   evidence / certified edge; their absence is enforced by
+   `tests/test_decision_path_purity.py`. Nothing was built for them.
+3. **D-027 verdict gating in code** (carry-forward): `execution_share` +
+   divergence + `ATTRIBUTION_UNSAFE_*` verdicts in `LabReport` land with the
+   Phase-4 experiment runner; thresholds are preregistered (share 0.25,
+   KS 0.20) and ratified.
+4. **Golden maintenance:** updating `test_golden_backtest.py` goldens is a
+   deliberate, reviewed act (PERSISTENCE_REPLAY_SPEC §4).
 
 ## Unfinished steps
 
-**None.** All session-2 steps 0-5 are DONE within the 2-hour wall clock.
-Phase-1 DoD is met for the dev window (tape loads, audit passes, tape hash
-reproducible, materializations built); Phase 4 is *preregistered*, not run —
-the frozen holdout is declared and untouched.
-
-## Session artifact
-
-- `RUNLOG.md` (repo root): full per-step entries with commands, output tails,
-  fixes, commits, gates (Session 1 + Session 2 sections).
-- Session-2 commits: `3436248` (0), `a9bd373` (1), `5304289` (2),
-  `8c10730` (3), `c2e64fd` (4), and `v8-step-5: status report`.
-- Derived artifacts (gitignored, reproducible): `research/tape/btcusdt-1h-
-  2026-q2/` — dataset/ (verified parquet + manifest/audit), raw/ (archives +
-  checksums), tape/ (JSONL PIT tape + source.json), views/ (five §5 parquet
-  views + views_manifest.json), manifest_dev.json.
+None within the "all phases except Phase 4" scope. Phase 6 DoD is met
+(operator tests green — 80 passed; certification record FAIL/BLOCKED
+updated). Phase 5 and 7 are not unfinished work but gated, by design, on
+evidence only Phase 4 can produce.

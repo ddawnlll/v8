@@ -577,3 +577,16 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-4: session-3 hardening — review-driven fixes (monitor fail-closed paths, bool-dtype, missing-tape JSON, CI sha256sum), fill_policy enforcement (manifest input, fail-closed), artifact-status positive-half tests, 13 new tests`
 - gate: pytest=80 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes (src/v8+tools+.github) wall-clock=clean?yes
+
+## Session 3 — Step 5 — Status report — DONE
+- started: 2026-08-01T05:20:30Z finished: 2026-08-01T05:22:30Z
+- files touched: docs/STATUS_REPORT.md (overwritten for session 3 — session
+  artifact, not corpus), RUNLOG.md
+- evidence: final gate sweep `.venv/bin/python -m pytest tests -q` -> `80
+  passed`; monograph probe byte-identical (bc207925…, uniq -c = 2) with the
+  session-3 status report present; forbidden-scan over changed files -> clean;
+  wall-clock scan -> clean.
+- fixes / deviations: none. All session-3 steps 0-5 DONE.
+- commit: (below) `v8-step-5: status report`
+- gate: pytest=80 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes wall-clock=clean?yes
