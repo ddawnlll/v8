@@ -6,11 +6,28 @@ available_time <= D; a future row must fail, never silently pass
 """
 from __future__ import annotations
 
-from .schema import TapeRow, MarketState, FeatureValue, sha1_hex
+from .schema import TapeRow, MarketState, FeatureValue, sha1_hex, FEATURE_GROUPS, FEATURE_TO_GROUP
 
 
 class FutureRowError(ValueError):
     pass
+
+
+def validate_feature_groups(features: dict[str, FeatureValue]) -> None:
+    """Every emitted feature carries a declared group; the group table's
+    `requires` are consistent. Fails closed on an undeclared feature name or
+    an undeclared required group (MARKET_STATE_CONTRACT section 2)."""
+    for name, fv in features.items():
+        bare = name.rsplit('.', 1)[-1]
+        if fv.group not in FEATURE_GROUPS:
+            raise ValueError(f'feature {name} has undeclared group {fv.group!r}')
+        if bare in FEATURE_TO_GROUP and FEATURE_TO_GROUP[bare] != fv.group:
+            raise ValueError(
+                f'feature {name} tagged {fv.group!r}, expected {FEATURE_TO_GROUP[bare]!r}')
+    for group, spec in FEATURE_GROUPS.items():
+        for req in spec['requires']:
+            if req not in FEATURE_GROUPS:
+                raise ValueError(f'group {group} requires undeclared group {req!r}')
 
 
 def _ema(values: list[float], period: int) -> list[float]:
@@ -46,7 +63,8 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 f'{sym}.{name}', value, 'float', feature_version,
                 avail if value is not None else closed[-1].available_time,
                 quality='COMPLETE' if value is not None else 'DEGRADED',
-                null_reason=None if value is not None else 'NOT_YET_AVAILABLE')
+                null_reason=None if value is not None else 'NOT_YET_AVAILABLE',
+                group=FEATURE_TO_GROUP.get(name, 'raw'))
 
         add('close', closes[-1])
         add('prior_high', max(highs[:-1]) if len(highs) > 1 else None)
@@ -73,8 +91,12 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 for i, b in enumerate(window))
             features[f'{sym}.history'] = FeatureValue(
                 f'{sym}.history', hist, 'history', 'v2',
-                closed[-1].available_time, quality='COMPLETE')
-    lineage = sha1_hex({k: [v.value, v.max_input_available_time]
+                closed[-1].available_time, quality='COMPLETE', group='history')
+    validate_feature_groups(features)
+    # Lineage binds every feature's value, availability, group tag and version,
+    # so a re-tag or re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).
+    lineage = sha1_hex({k: [v.value, v.max_input_available_time, v.group,
+                            v.feature_version]
                         for k, v in sorted(features.items())})
     return MarketState(
         state_id=sha1_hex((as_of, universe, lineage)),

@@ -5,9 +5,9 @@ from dataclasses import replace
 
 import pytest
 
-from v8.schema import ExperimentManifest, TapeRow
+from v8.schema import ExperimentManifest, TapeRow, FeatureValue, FEATURE_GROUPS
 from v8.store import AppendOnlyLog
-from v8.marketstate import build_state, FutureRowError
+from v8.marketstate import build_state, FutureRowError, validate_feature_groups
 from v8.lifecycle import CandidateRegistry, episode_key, IllegalTransitionError, ExposureBook
 from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
 from v8.schema import CandidateDraft
@@ -514,10 +514,12 @@ def test_mask_vetoes_in_funding_window(tmp_path):
 def test_mask_degraded_state_vetoes():
     """StateQuality == DEGRADED at decision time vetoes, whatever the bar."""
     ok_bar = {'open': 100.0, 'high': 101.0, 'low': 99.0, 'close': 100.0}
-    kw = dict(max_spread_frac=0.05, funding_window_bars=1,
-              funding_hours=8, interval_ns=HOUR_NS)
-    assert tradability_mask_veto(ok_bar, 'DEGRADED', 3 * HOUR_NS, **kw) == (True, 'DEGRADED')
-    assert tradability_mask_veto(ok_bar, 'COMPLETE', 3 * HOUR_NS, **kw) == (False, None)
+    assert tradability_mask_veto(ok_bar, 'DEGRADED', 3 * HOUR_NS,
+                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 funding_hours=8, interval_ns=HOUR_NS) == (True, 'DEGRADED')
+    assert tradability_mask_veto(ok_bar, 'COMPLETE', 3 * HOUR_NS,
+                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 funding_hours=8, interval_ns=HOUR_NS) == (False, None)
 
 
 def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
@@ -532,3 +534,74 @@ def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
     details = [rec.get('detail') for rec in lab.candidates.read()
                if rec.get('kind') == 'tradability_veto']
     assert not any(d in ('SPREAD', 'DEGRADED') for d in details), details
+
+
+# --- Phase 2: feature groups + lineage (MARKET_STATE_CONTRACT 2, 5) ---------
+# Every emitted feature carries feature_version and a declared group tag; the
+# lineage hash binds value + availability + group + version so a re-tag or
+# re-version changes every dependent hash. PIT tests (synthetic tape; the
+# Phase-1 tape is not present in this session): future rejection and
+# bar-not-closed are covered above; revision replay is added here.
+
+def test_feature_groups_declared_and_tagged():
+    """Every emitted feature carries a declared group; the group table is
+    consistent; two builds reproduce the identical state hash."""
+    rows = make_synthetic_tape(seed=5, n_bars=40)
+    as_of = rows[-1].available_time
+    st = build_state(rows, as_of, UNIVERSE)
+    groups = {v.group for v in st.features.values()}
+    assert groups <= set(FEATURE_GROUPS), groups
+    assert st.features['SOLUSDT.close'].group == 'raw'
+    assert st.features['SOLUSDT.ema_fast'].group == 'trend'
+    assert st.features['SOLUSDT.atr'].group == 'volatility'
+    assert st.features['SOLUSDT.prior_high'].group == 'location'
+    assert st.features['SOLUSDT.history'].group == 'history'
+    assert all(v.feature_version for v in st.features.values())
+    # Reproducibility: identical inputs -> identical state hash.
+    st2 = build_state(rows, as_of, UNIVERSE)
+    assert st2.state_id == st.state_id and st2.lineage_hash == st.lineage_hash
+
+
+def test_lineage_hash_binds_feature_version():
+    """Two states with identical values but different feature versions must
+    hash differently: the lineage binds version, so a re-version invalidates
+    every dependent hash instead of silently persisting."""
+    rows = make_synthetic_tape(seed=5, n_bars=40)
+    as_of = rows[-1].available_time
+    v1 = build_state(rows, as_of, UNIVERSE, feature_version='v1')
+    v2 = build_state(rows, as_of, UNIVERSE, feature_version='v2')
+    assert v1.lineage_hash != v2.lineage_hash
+    assert v1.state_id != v2.state_id
+    assert [f.value for f in v1.features.values()] == [f.value for f in v2.features.values()]
+
+
+def test_validate_feature_groups_fails_closed():
+    """An undeclared group tag is a contract breach, not a silent state."""
+    with pytest.raises(ValueError):
+        validate_feature_groups({'SOLUSDT.close': FeatureValue(
+            'SOLUSDT.close', 100.0, 'float', 'v1', 0, group='bogus')})
+
+
+def test_revision_replay_reproduces_prior_state_hash():
+    """A late revision available only after D must be excluded from an as-of
+    rebuild at D (prior hash reproduced); a later rebuild may differ
+    (MARKET_STATE_CONTRACT 6 revision replay)."""
+    rows = make_synthetic_tape(seed=3, n_bars=30)
+    D = rows[-1].available_time
+    st1 = build_state([r for r in rows if r.available_time <= D], D, UNIVERSE)
+    last = rows[-1]
+    revised = TapeRow(source=last.source, channel=last.channel,
+                      instrument=last.instrument, event_time=last.event_time,
+                      available_time=D + 1, ingested_time=D + 1,
+                      venue_sequence=last.venue_sequence, event_id=last.event_id,
+                      payload=dict(last.payload, close=float(last.payload['close']) + 50.0))
+    # As-of rebuild at D: the revision is not yet available -> same hash.
+    st2 = build_state([r for r in rows + [revised] if r.available_time <= D],
+                      D, UNIVERSE)
+    assert st2.state_id == st1.state_id
+    assert st2.lineage_hash == st1.lineage_hash
+    # Rebuild at D' (revision available): the state must differ.
+    D2 = revised.available_time
+    st3 = build_state([r for r in rows + [revised] if r.available_time <= D2],
+                      D2, UNIVERSE)
+    assert st3.state_id != st1.state_id

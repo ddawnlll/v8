@@ -146,3 +146,29 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-4: Phase 1 data plane — vision_backfill.py (Vision monthly klines -> PIT tape JSONL, checksum-verified, idempotent) + offline tape audit`
 - gate: pytest=33 monograph=byte-identical?yes forbidden-scan=clean?yes
   wall-clock=clean?yes
+
+## Step 5 — Phase 2 state engine: feature groups + lineage — DONE
+- started: 2026-08-01T03:09:30Z finished: 2026-08-01T03:13:00Z
+- files touched: src/v8/schema.py, src/v8/marketstate.py,
+  tests/test_vertical_slice.py, RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `37 passed in 0.46s`
+  (33 -> 37; +4 tests: feature-group declaration+tagging+reproducible state
+  hash, lineage binds feature_version, validate_feature_groups fails closed on
+  an undeclared group, revision replay reproduces the prior state hash);
+  monograph probe byte-identical (65eef39..., uniq -c = 2);
+  forbidden-scan over changed files -> no matches;
+  wall-clock scan over changed src/v8/ files -> no matches.
+- fixes / deviations: none beyond the pinned interpretation. FEATURE_GROUPS
+  declares the five Phase-2 ontology groups plus a `raw` base layer (close —
+  the five ontology groups need a data-plane root to require) and the D-026
+  `history` group; `requires:` is a frozen declaration, not a per-state
+  guarantee (a short tape emits history before the 20-bar EMA warmup has
+  produced trend; that is allowed). Lineage formula extended to
+  (value, max_input_available_time, group, feature_version) — every dependent
+  hash (state_id, evaluation records, ledger) changes with a re-tag or
+  re-version, by design. Materialization (parquet views, DATASET_SPEC 5)
+  deferred per O-009; PIT tests run on synthetic tape because no Phase-1 tape
+  exists in the session (offline-only).
+- commit: (below) `v8-step-5: Phase 2 state engine — feature groups (trend/volatility/location/participation/response/history) with requires declarations, group+version in lineage hash, revision-replay PIT test`
+- gate: pytest=37 monograph=byte-identical?yes forbidden-scan=clean?yes
+  wall-clock=clean?yes

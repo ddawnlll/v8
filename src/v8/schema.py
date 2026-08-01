@@ -43,6 +43,29 @@ class TapeRow:
     payload: dict = field(default_factory=dict)
 
 
+# Feature-group ontology (MARKET_STATE_CONTRACT section 2; EXPERT_PROTOCOL
+# section 1). The frozen vocabulary is the five Phase-2 ontology groups plus
+# the base bar-data layer (`raw`) and the D-026 `history` group. `requires`
+# declares which other groups must be present for this group's features to be
+# meaningful; it is a frozen declaration, not a per-state guarantee (a short
+# tape can emit `history` before the 20-bar EMA warmup has produced `trend`,
+# which is allowed).
+FEATURE_GROUPS: dict[str, dict] = {
+    'raw': {'requires': (), 'features': ('close',)},
+    'trend': {'requires': ('raw',), 'features': ('ema_fast', 'ema_slow')},
+    'volatility': {'requires': ('raw',), 'features': ('atr',)},
+    'location': {'requires': ('raw',), 'features': ('prior_high', 'prior_low')},
+    'participation': {'requires': ('raw',), 'features': ()},
+    'response': {'requires': ('trend', 'volatility', 'location', 'participation'),
+                 'features': ()},
+    'history': {'requires': ('trend', 'volatility'), 'features': ('history',)},
+}
+
+FEATURE_TO_GROUP: dict[str, str] = {
+    name: group for group, spec in FEATURE_GROUPS.items() for name in spec['features']
+}
+
+
 @dataclass(frozen=True)
 class FeatureValue:
     name: str
@@ -54,6 +77,10 @@ class FeatureValue:
     max_input_available_time: int
     quality: str = 'COMPLETE'
     null_reason: str | None = None
+    # Phase-2: the feature-group tag (FEATURE_GROUPS above). Every emitted
+    # feature carries it and it joins the lineage hash, so a re-tag or
+    # re-version changes every dependent hash (MARKET_STATE_CONTRACT 2).
+    group: str = ''
 
 
 @dataclass(frozen=True)
