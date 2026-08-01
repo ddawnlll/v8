@@ -422,3 +422,31 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-5: status report`
 - gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
   forbidden-scan=clean?yes wall-clock=clean?yes
+
+# ══════════════════════════════════════════════════════════════════════════
+# SESSION 3 — complete all phases except Phase 4 (operator takes Phase 4)
+# Directive: "complete all other phases, ignore phase 4". Phase 4 (first
+# program gate) is operator-owned; preregistration v8_slice_001 is RATIFIED.
+# Phases 5 (gated components) and 7 (learning plane) are gated on Phase-4
+# evidence / certified edge (rule 12) and are BLOCKED BY DESIGN — their
+# absence is enforced as contract probes, nothing is built for them.
+# Phase 6 (ops and hardening) is the build scope of this session.
+# ══════════════════════════════════════════════════════════════════════════
+
+## Session 3 — Step 0 — Re-baseline — DONE
+- started: 2026-08-01T03:55:00Z finished: 2026-08-01T03:56:30Z
+- files touched: RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `50 passed in 1.73s`
+  (unchanged); probe rebuild — NEW BASELINE (operator closure commits
+  v8-step-10/11/12 promoted the ratified preregistration into the monograph):
+  `wrote /tmp/v8_index_probe.html: sections=32 papers=60 words=50374`;
+  `shasum -a 256 /tmp/v8_index_probe.html site/index.html` ->
+  `bc207925d828280de4b7b8d02d359b2f79da70ba58144cc9360b3ed059ba4c45` (both —
+  site is current; the session-2 hash ea5b7705… is stale by design, 32
+  sections now); `git log --oneline -3` -> 16563c1 (v8-step-12: dataset v0.1,
+  D-039), a7eb4ef (v8-step-11: ratify O-017, promote preregistration), 91aea06
+  (v8-step-10: session-2 closure, D-038); `git status --short` -> clean tree.
+- fixes / deviations: none. Baseline for all session-3 byte-identity gates =
+  bc207925d828280de4b7b8d02d359b2f79da70ba58144cc9360b3ed059ba4c45.
+- commit: (below) `v8-step-0: session-3 re-baseline — probe bc207925…, 50 tests, clean tree`
+- gate: pytest=50 monograph=baseline-reset?yes (bc207925…) tree-clean?yes
