@@ -296,6 +296,122 @@ def test_thesis_invalidation_is_a_distinct_exit():
     assert dead.label_status == 'MATURE'       # a fact, not a censored label
 
 
+# --- Funding settlement (SIMULATION_TRUTH_SPEC 3-5, SETTLEMENT_BEFORE_ORDERS) -
+# Boundaries are integer-hour UTC divisible by funding_hours (default 8 ->
+# 00/08/16 UTC). Open at the start boundary, closed at the end: a hold starting
+# exactly on a boundary is not double-settled; a hold ending exactly on one is
+# never missed (the V7 terminal-boundary defect).
+
+QUIET_BAR = {'open': 100.0, 'high': 100.5, 'low': 99.5, 'close': 100.0}
+
+
+def _fund_pos(cid='c1', entry_time=2 * HOUR_NS, **kw) -> OpenPosition:
+    return OpenPosition(candidate_id=cid, draft=_pos(**kw).draft,
+                        entry_price=100.0, entry_bar_index=0,
+                        entry_time_ns=entry_time)
+
+
+def _fund_step(sim, pos, hours):
+    """Step `pos` over integer-hour decision clocks; returns (pos, settled)."""
+    settled = []
+    for h in hours:
+        r = sim.step(pos, QUIET_BAR, bar_time=h * HOUR_NS)
+        pos = r.next_pos or pos
+        if r.funding_settled:
+            settled.append(h)
+    return pos, settled
+
+
+def test_funding_spanning_one_boundary_books_one_settlement():
+    """A hold spanning exactly one boundary books exactly one funding_settled
+    and net_r is reduced by exactly funding_rate_r (LONG pays on a positive
+    rate)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_rate_r=0.01,
+                             funding_hours=8)
+    pos = _fund_pos(entry_time=2 * HOUR_NS, expiry=20)
+    pos, settled = _fund_step(sim, pos, [3, 4, 5, 6, 7, 8])
+    assert settled == [8]                       # booked on the crossing bar
+    assert pos.settlements == 1
+    assert pos.funding_paid_r == pytest.approx(0.01)
+    # Next bar hits the target: net_r = target_r - cost - funding.
+    r = sim.step(pos, {'open': 100.0, 'high': 104.5, 'low': 99.5, 'close': 104.0},
+                 bar_time=9 * HOUR_NS)
+    assert r.endpoint == 'TARGET'
+    assert r.net_r == pytest.approx(2.0 - 0.01, abs=1e-12)
+
+
+def test_funding_boundary_edges_settle_exactly_once():
+    """A hold starting exactly on a boundary is not double-settled; a hold
+    ending exactly on a boundary settles exactly once (V7 defect: missed
+    terminal settlement)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_rate_r=0.01,
+                             funding_hours=8)
+    # (i) starts exactly on boundary hour 8, held to hour 16: one settlement.
+    pos = _fund_pos(entry_time=8 * HOUR_NS, expiry=20)
+    pos, settled = _fund_step(sim, pos, [9, 10, 11, 12, 13, 14, 15, 16])
+    assert settled == [16]                      # not [8, 16] — no double-settle
+    assert pos.settlements == 1
+    # (ii) ends exactly on boundary hour 16: the terminal settlement is booked.
+    pos2 = _fund_pos(cid='c2', entry_time=10 * HOUR_NS, expiry=20)
+    pos2, settled2 = _fund_step(sim, pos2, [11, 12, 13, 14, 15, 16])
+    assert settled2 == [16]
+    assert pos2.settlements == 1
+    # SHORT receives on a positive rate: funding_paid_r is negative.
+    sim_s = CanonicalSimulator(round_trip_cost_r=0.0, funding_rate_r=0.01,
+                               funding_hours=8)
+    pos3 = _fund_pos(cid='c3', entry_time=2 * HOUR_NS,
+                     direction='SHORT', expiry=20)
+    pos3, _ = _fund_step(sim_s, pos3, [3, 4, 5, 6, 7, 8])
+    assert pos3.funding_paid_r == pytest.approx(-0.01)
+
+
+def test_window_replay_matches_full_tape_for_shared_hold():
+    """Full-tape and window replay of the same hold book identical settlements
+    on the shared prefix; a window ending exactly on a boundary books it once
+    (the junction settlement is neither missed nor double-counted)."""
+    sim = CanonicalSimulator(round_trip_cost_r=0.0, funding_rate_r=0.001,
+                             funding_hours=8)
+    draft = _pos(expiry=99).draft
+    entry = 2 * HOUR_NS
+
+    def run_over(hours):
+        pos = OpenPosition(candidate_id='c', draft=draft, entry_price=100.0,
+                           entry_bar_index=0, entry_time_ns=entry)
+        for h in hours:
+            r = sim.step(pos, QUIET_BAR, bar_time=h * HOUR_NS)
+            pos = r.next_pos or pos
+        return pos
+
+    full = run_over(list(range(3, 19)))      # crosses boundaries 8 and 16
+    window = run_over(list(range(3, 10)))    # crosses boundary 8 only
+    terminal = run_over(list(range(3, 9)))   # ends exactly on boundary 8
+    assert full.settlements == 2
+    assert window.settlements == 1
+    assert terminal.settlements == 1             # terminal boundary booked once
+    assert window.funding_paid_r == pytest.approx(0.001)
+    assert full.funding_paid_r == pytest.approx(0.002)
+
+
+def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
+    """funding_rate_r=0.0 keeps today's numbers byte-identical, and the
+    simulator hash bumps to canonical-sim-v4 regardless (policy changed)."""
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=160)
+    experts = [TrendPullbackExpert(), FailedBreakoutExpert()]
+    r_default = lab.run(_manifest(), experts)
+    lab2 = _fresh_lab(tmp_path / 'zero', seed=7, n_bars=160)
+    r_zero = lab2.run(_manifest(funding_rate_r=0.0), experts)
+    assert r_zero.ledger_hash == r_default.ledger_hash
+    assert r_zero.data_hash == r_default.data_hash
+    assert r_zero.candidate_count == r_default.candidate_count
+    assert r_zero.terminal_distribution == r_default.terminal_distribution
+    assert r_zero.verdict == r_default.verdict == 'NO_ECONOMIC_CLAIM'
+    from v8.schema import sha1_hex as _sh
+    assert CanonicalSimulator().hash() == _sh(
+        ('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8))
+    assert CanonicalSimulator().hash() != _sh(
+        ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))
+
+
 def test_trend_expert_thesis_dies_when_trend_dies(tmp_path):
     ex = TrendPullbackExpert()
     lab = _fresh_lab(tmp_path)

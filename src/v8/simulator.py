@@ -33,6 +33,8 @@ from dataclasses import dataclass, replace
 
 from .schema import CandidateDraft, CounterfactualOutcome, sha1_hex
 
+HOUR_NS = 3_600_000_000_000
+
 
 def risk_unit(draft: CandidateDraft, entry_price: float) -> float:
     """Price distance of one R. Explicit and positive; never implied by price level.
@@ -61,6 +63,12 @@ class OpenPosition:
     mae_r: float = 0.0           # running max adverse excursion, R (>= 0)
     mfe_r: float = 0.0           # running max favourable excursion, R (>= 0)
     ambiguous_bars: int = 0      # bars that touched both barriers (STOP_FIRST applied)
+    # Funding (SIMULATION_TRUTH_SPEC 3-5): entry decision clock, count of
+    # settled funding boundaries, and cumulative funding cost in R (positive
+    # reduces net_r; a LONG pays when the rate is positive, sign-adjusted).
+    entry_time_ns: int | None = None
+    settlements: int = 0
+    funding_paid_r: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -70,16 +78,60 @@ class StepResult:
     net_r: float | None = None
     label_status: str | None = None  # MATURE | RIGHT_CENSORED
     next_pos: OpenPosition | None = None
+    funding_settled: int = 0         # funding_settled events booked this step
 
 
 class CanonicalSimulator:
     fill_policy = 'FILL_AT_BAR_CLOSE'
 
-    def __init__(self, round_trip_cost_r: float = 0.07):
+    def __init__(self, round_trip_cost_r: float = 0.07,
+                 funding_rate_r: float = 0.0, funding_hours: int = 8):
         self.round_trip_cost_r = round_trip_cost_r
+        self.funding_rate_r = funding_rate_r
+        self.funding_hours = funding_hours
+
+    def _boundaries_crossed(self, entry_ns: int, t_ns: int) -> int:
+        """Funding boundaries B with entry_ns < B <= t_ns.
+
+        Open at the start boundary (a hold starting exactly on a boundary is
+        not double-settled) and closed at the end (a hold ending exactly on a
+        boundary settles exactly once) — the V7 terminal-boundary defect was a
+        missed settlement at exactly the end boundary.
+        """
+        if t_ns <= entry_ns or self.funding_hours <= 0:
+            return 0
+        n = 0
+        for hour in range(entry_ns // HOUR_NS + 1, t_ns // HOUR_NS + 1):
+            if hour % self.funding_hours == 0:
+                n += 1
+        return n
+
+    def _apply_funding(self, pos: OpenPosition, t_ns: int
+                       ) -> tuple[OpenPosition, int]:
+        """Settle every boundary crossed since the position was last stepped;
+        returns (position, number of funding_settled events this step)."""
+        if pos.entry_time_ns is None:
+            return pos, 0
+        total = self._boundaries_crossed(pos.entry_time_ns, t_ns)
+        new = total - pos.settlements
+        if new <= 0:
+            return pos, 0
+        sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
+        cost = sign * self.funding_rate_r * new      # LONG pays when rate > 0
+        return replace(pos, settlements=total,
+                       funding_paid_r=pos.funding_paid_r + cost), new
 
     def step(self, pos: OpenPosition, bar: dict,
-             thesis_valid: bool = True) -> StepResult:
+             thesis_valid: bool = True, bar_time: int | None = None) -> StepResult:
+        # Funding settles BEFORE any order/exit event of a bar whose decision
+        # clock crosses a boundary while the position is held (event order 5,
+        # SETTLEMENT_BEFORE_ORDERS). bar_time None = no venue time -> no funding
+        # (backward-compatible with time-less callers).
+        if bar_time is not None:
+            pos, new_settlements = self._apply_funding(pos, bar_time)
+        else:
+            new_settlements = 0
+
         geom = pos.draft.risk_geometry
         long = pos.draft.direction == 'LONG'
         target_r = float(geom['target_r'])
@@ -117,7 +169,8 @@ class CanonicalSimulator:
         next_pos = replace(pos, bars_held=bars_held, mae_r=mae_r, mfe_r=mfe_r,
                            ambiguous_bars=ambiguous_bars)
         if endpoint is None:
-            return StepResult(False, next_pos=next_pos)
+            return StepResult(False, next_pos=next_pos,
+                              funding_settled=new_settlements)
 
         if endpoint in ('EXPIRY', 'THESIS_INVALIDATED'):
             exit_price = float(bar['close'])
@@ -127,27 +180,34 @@ class CanonicalSimulator:
             open_ = float(bar['open'])
             exit_price = min(stop, open_) if long else max(stop, open_)
 
-        net_r = sign * (exit_price - entry) / unit - self.round_trip_cost_r
+        net_r = sign * (exit_price - entry) / unit - self.round_trip_cost_r \
+            - pos.funding_paid_r
         label = 'MATURE' if endpoint in ('TARGET', 'STOP', 'THESIS_INVALIDATED') \
             else 'RIGHT_CENSORED'
-        return StepResult(True, endpoint, net_r, label, next_pos)
+        return StepResult(True, endpoint, net_r, label, next_pos,
+                          funding_settled=new_settlements)
 
-    def run(self, draft: CandidateDraft, bars: list[dict]) -> CounterfactualOutcome:
+    def run(self, draft: CandidateDraft, bars: list[dict],
+            times: list[int] | None = None) -> CounterfactualOutcome:
         """Batch counterfactual: entry at first bar close, entry bar not inspected.
 
         The caller re-binds `candidate_id`; this path never sees the real id.
+        `times` are the bars' decision clocks (parallel to `bars`) and drive
+        funding settlement; None = no venue time -> no funding.
         """
         placeholder = f'cf:{draft.birth_time}'
         if not bars:
             return CounterfactualOutcome(placeholder, 0, 'EXPIRY', 0.0,
                                          'RIGHT_CENSORED', self.hash())
         entry = float(bars[0]['close'])
+        entry_time = times[0] if times else None
         pos = OpenPosition(candidate_id=placeholder, draft=draft,
-                           entry_price=entry, entry_bar_index=0)
+                           entry_price=entry, entry_bar_index=0,
+                           entry_time_ns=entry_time)
         horizon = 0
-        for b in bars[1:]:
+        for i, b in enumerate(bars[1:], start=1):
             horizon += 1
-            res = self.step(pos, b)
+            res = self.step(pos, b, bar_time=times[i] if times else None)
             if res.closed and res.endpoint and res.net_r is not None:
                 return CounterfactualOutcome(
                     placeholder, horizon, res.endpoint, res.net_r,
@@ -161,14 +221,20 @@ class CanonicalSimulator:
         # Never closed within the tape: expire at the final close, in R.
         sign = 1.0 if draft.direction == 'LONG' else -1.0
         unit = risk_unit(draft, entry)
-        net = sign * (float(bars[-1]['close']) - entry) / unit - self.round_trip_cost_r
+        net = sign * (float(bars[-1]['close']) - entry) / unit \
+            - self.round_trip_cost_r - pos.funding_paid_r
         return CounterfactualOutcome(placeholder, horizon, 'EXPIRY', net,
                                      'RIGHT_CENSORED', self.hash(),
                                      mae_r=pos.mae_r, mfe_r=pos.mfe_r,
                                      ambiguous_bars=pos.ambiguous_bars)
 
     def hash(self) -> str:
-        # v3: R-unit semantics + excursions + ambiguity counting. The version
-        # tag is part of the hash so pre-fix ledgers can never compare equal
-        # to post-fix ones (SIMULATION_TRUTH_SPEC: outputs bind simulator hash).
-        return sha1_hex(('canonical-sim-v3', self.fill_policy, self.round_trip_cost_r))
+        # v4: R-unit semantics + excursions + ambiguity counting + funding
+        # settlement policy. The version tag is part of the hash so pre-fix
+        # ledgers can never compare equal to post-fix ones; funding parameters
+        # bind the schedule into the hash (SIMULATION_TRUTH_SPEC: outputs bind
+        # simulator hash). v4 bumps regardless of funding_rate_r=0.0 because
+        # the policy changed.
+        return sha1_hex(('canonical-sim-v4', self.fill_policy,
+                         self.round_trip_cost_r, self.funding_rate_r,
+                         self.funding_hours))

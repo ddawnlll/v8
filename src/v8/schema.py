@@ -141,6 +141,12 @@ class ExperimentManifest:
     interval: str = '1h'
     round_trip_cost_r: float = 0.07
     fill_policy: str = 'FILL_AT_BAR_CLOSE'
+    # Versioned venue inputs (SIMULATION_TRUTH_SPEC 3-5): funding settles at
+    # integer-hour UTC boundaries divisible by funding_hours, before any order
+    # event of a bar whose decision clock crosses a boundary while a position
+    # is held. 0.0 = no funding cost (numbers byte-identical to no-funding).
+    funding_rate_r: float = 0.0
+    funding_hours: int = 8
     authority_receipt: str | None = None
 
 

@@ -69,7 +69,9 @@ class Lab:
 
     def run(self, manifest: ExperimentManifest, experts: list,
             risk_gate: RiskGate | None = None) -> LabReport:
-        sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r)
+        sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r,
+                                 funding_rate_r=manifest.funding_rate_r,
+                                 funding_hours=manifest.funding_hours)
         gate = risk_gate or RiskGate()
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
@@ -79,7 +81,9 @@ class Lab:
         conflicts = 0
 
         def counterfactual(cid: str, draft, from_idx: int) -> CounterfactualOutcome:
-            out = sim.run(draft, [b.payload for b in bars[from_idx:]])
+            tail = bars[from_idx:]
+            out = sim.run(draft, [b.payload for b in tail],
+                          times=[b.available_time for b in tail])
             return replace(out, candidate_id=cid)
 
         for i, bar in enumerate(bars):
@@ -110,7 +114,8 @@ class Lab:
                 self.registry.apply(cid, 'ACCEPTED', 'ORDER_SUBMITTED', 'submit_order', as_of)
                 self.registry.apply(cid, 'ORDER_SUBMITTED', 'EXECUTED', 'fill_observed', as_of)
                 open_positions[cid] = OpenPosition(candidate_id=cid, draft=draft,
-                                                   entry_price=entry, entry_bar_index=i)
+                                                   entry_price=entry, entry_bar_index=i,
+                                                   entry_time_ns=bar.available_time)
 
             # PHASE 1b: step open positions on this bar (never on the entry bar).
             # The owning Expert re-checks its thesis first: a dead thesis is a
@@ -120,7 +125,8 @@ class Lab:
                     continue
                 owner = by_expert.get(pos.draft.expert_id)
                 thesis_ok = owner.still_valid(state, pos.draft) if owner else True
-                res = sim.step(pos, bar.payload, thesis_valid=thesis_ok)
+                res = sim.step(pos, bar.payload, thesis_valid=thesis_ok,
+                               bar_time=bar.available_time)
                 if res.closed and res.endpoint and res.net_r is not None:
                     closed_pos = res.next_pos or pos
                     self._record_outcome(cid, res.endpoint, res.net_r,
@@ -196,7 +202,7 @@ class Lab:
             final_close = float(bars[-1].payload['close']) if bars else pos.entry_price
             unit = risk_unit(pos.draft, pos.entry_price)     # R, never percent
             net = sign * (final_close - pos.entry_price) / unit \
-                - manifest.round_trip_cost_r
+                - manifest.round_trip_cost_r - pos.funding_paid_r
             self._record_outcome(cid, 'EXPIRY', net, 'RIGHT_CENSORED',
                                  sim.hash(), pos.bars_held, mae_r=pos.mae_r,
                                  mfe_r=pos.mfe_r, ambiguous_bars=pos.ambiguous_bars)
