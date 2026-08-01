@@ -503,3 +503,29 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-2: session-3 ops — golden-backtest regression (pinned ledger/state hashes, candidate counts) + GitHub Actions CI (pytest, golden, monograph byte-identity)`
 - gate: pytest=56 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes wall-clock=clean?yes
+
+## Session 3 — Step 3 — Certification record + artifact status + purity probes — DONE
+- started: 2026-08-01T05:12:30Z finished: 2026-08-01T05:16:00Z
+- files touched: research/certification/simulation_authority_certification_v1.json
+  (new record), tools/artifact_status.py (new), tests/test_artifact_status.py
+  (new), tests/test_decision_path_purity.py (new), RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `67 passed in 2.14s`
+  (56 -> 67; +6 artifact-status tests, +5 decision-path-purity tests);
+  monograph probe byte-identical (bc207925…, uniq -c = 2);
+  forbidden-scan: src/v8/ + tools/ completely CLEAN; the only hits in new code
+  are tests/test_decision_path_purity.py's own assertion regexes (lines 3,
+  25-26, 60) which NAME the forbidden components precisely to assert their
+  absence — the enforcement probe, not a component (documented exception);
+  certification CLI: `tools/artifact_status.py` -> exit 0 with
+  {certification FAIL, autopilot_permission BLOCKED, live_reachable false}.
+- fixes / deviations: none. Phase-5/7 positioning: the gated components
+  (router, learned scorer, ranker, learned/RL execution, online learning) and
+  the learning plane are BLOCKED BY DESIGN on Phase-4 evidence / certified
+  edge (rule 12) — nothing was built for them; instead their ABSENCE is now a
+  contract probe (test_decision_path_purity.py) so they cannot be half-built
+  by accident. The certification record (FAIL/BLOCKED) matches OPERATIONS_SPEC
+  section 1 and D-022.
+- commit: (below) `v8-step-3: session-3 ops — simulation authority certification record (FAIL/BLOCKED), artifact status lifecycle (research->shadow->paper->live gates), decision-path purity probes (stdlib-only, clock-free, no gated components)`
+- gate: pytest=67 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes (src/v8+tools; purity test names terms to forbid them)
+  wall-clock=clean?yes

@@ -1,0 +1,11 @@
+{
+  "artifact": "simulation_authority_certification",
+  "version": "v1",
+  "certification": "FAIL",
+  "autopilot_permission": "BLOCKED",
+  "authority_source": "vendored V7 lab (src/v8/simtruth/) — engineering only; authority NOT renewed (D-022)",
+  "renewed_by": null,
+  "renewal_path": "independent renewal per OPERATIONS_SPEC section 1; live status may not be claimed until the authority is renewed (V8_CONSTITUTION rule 12)",
+  "live_reachable": false,
+  "recorded": "2026-08-01"
+}
