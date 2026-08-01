@@ -23,35 +23,38 @@ monograph build symmetric.
 
 ## Build order
 
-### Decision record (done in this pass)
+### Decision record (done)
 
 - `D-040` registered in `docs/decisions/DECISION_REGISTER.md`.
 - `docs/CHANGELOG.md` entry; `docs/ROADMAP.md` versioning line updated.
 - `docs/PLAN_V8_FULL.md` created (this file).
 
-### Sprint A — Phase 4 critical path (buildable now)
+### Sprint A — Phase 4 critical path (DONE 2026-08-01)
 
-1. `tools/run_experiment.py` — `v8_slice_001` runner: reads and validates the
-   preregistration fields, loads the frozen holdout tape, fails closed if the
-   holdout does not exist, runs both pilot experts against the no-trade
-   baseline on frozen chronological OOS, applies family-level multiplicity
-   control.
-2. D-027 verdict gating — `LabReport` gains `execution_share` floor 0.25,
-   population-divergence KS ≤ 0.20, `ATTRIBUTION_UNSAFE_*` flags and the
-   automated verdict (thresholds ratified O-017).
+1. `tools/run_experiment.py` — `v8_slice_001` runner: validates the frozen
+   manifest, verifies the pre-recorded holdout tape hash before any
+   evaluation, fails closed if the holdout does not exist, runs both pilot
+   families against the no-trade baseline on frozen chronological OOS, applies
+   family-level Bonferroni multiplicity control (alpha_f = 0.025) with a
+   deterministic block bootstrap. **DONE.**
+2. D-027 verdict gating — `LabReport` carries `execution_share` floor 0.25,
+   population-divergence KS ≤ 0.20, `ATTRIBUTION_UNSAFE_*` verdicts
+   (thresholds ratified O-017); stdlib-pure two-sample KS. **DONE.**
 3. Holdout tape hash recorded at download time + authority-receipt guard; a
-   run without both never produces an economic verdict.
-4. Tests: runner determinism, gate fail-closed, golden re-pin.
+   run without both never produces an economic verdict. **DONE** (the runner
+   verifies the manifest-pinned hash before evaluation and fails closed).
+4. Tests: runner determinism, gate fail-closed, bootstrap one-sidedness,
+   golden re-pin. **DONE** (suite 148).
 
-### Sprint B — Phase 2/3 completion
+### Sprint B — Phase 2/3 completion (DONE 2026-08-01)
 
-5. Full feature graph — five feature groups (trend, volatility, location,
-   participation, response) with `requires:` declarations; per-feature
-   lineage hashes; PIT tests (future rejection, bar-not-closed, revision
-   replay).
-6. `liquidity_sweep_reclaim_v1` + end-to-end lifecycle state machine;
-   backlog experts (`breakout_retest`, `capitulation`) enter the registry as
-   `DATA_BLOCKED` until derivatives tape.
+5. Per-feature input lineage (`input_lineage_hash` + `calculation_time`) on
+   every emitted feature; `FEATURE_GRAPH_VERSION`; state `provenance` block.
+   The five groups remain declared with `requires:`; PIT tests already in
+   place. **DONE.**
+6. `liquidity_sweep_reclaim_v1` third pilot (D-042) + the end-to-end
+   lifecycle (already complete); `breakout_retest` / `capitulation` registered
+   `DATA_BLOCKED` until derivatives tape. **DONE.**
 
 ### Sprint C — Phase 6 ops and hardening
 

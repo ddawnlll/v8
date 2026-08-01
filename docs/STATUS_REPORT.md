@@ -8,6 +8,27 @@ required reading. RUNLOG.md holds the full per-step evidence. This file is a
 session artifact; it is not corpus and does not perturb the monograph probe.
 
 ---
+**Follow-up (2026-08-01, full-program push D-040/D-042): Phases 1-4 CODE is
+now 100% written.** The remaining Phase-4 work is the experiment RUN, which is
+gated on the frozen holdout existing (prereg §13) — not on code.
+
+- **Phase 2 (complete):** per-feature `input_lineage_hash` + `calculation_time`
+  on every emitted feature; `FEATURE_GRAPH_VERSION`; `MarketState.provenance`
+  {raw_manifest_hash, feature_graph_version, code_version}. Five groups remain
+  declared with `requires:`. Suite goldens re-pinned (deliberate).
+- **Phase 3 (complete):** `liquidity_sweep_reclaim_v1` third pilot (D-042);
+  `breakout_retest`/`capitulation` registered DATA_BLOCKED until derivatives
+  tape. Dev materialization re-pinned with 3 pilots (ledger `40d4f23a…`).
+- **Phase 4 (code complete, run gated):** D-027 attribution-validity gating in
+  `LabReport` (`execution_share` 0.25 / KS ≤ 0.20, stdlib-pure KS, verified
+  against §15 diagnostics); `tools/run_experiment.py` (`v8_slice_001` runner:
+  frozen-manifest validation, holdout hash recorded-before-evaluation, block
+  bootstrap + Bonferroni, authority-first). The runner fails closed on an
+  absent holdout — the experiment will be run when the first two published
+  months after 2026-07-01 exist.
+- Suite: 148 tests green; monograph rebuilt (32 sections).
+
+---
 
 ## Summary
 
