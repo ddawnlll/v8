@@ -244,3 +244,34 @@ this file and `docs/STATUS_REPORT.md`.
   stale session-1 65eef39f… for all byte-identity gates this session.
 - commit: (below) `v8-step-0: session-2 preflight — new probe baseline ea5b7705…, 42 tests green, clean tree`
 - gate: pytest=42 monograph=baseline-reset?yes (ea5b7705…) tree-clean?yes
+
+## Session 2 — Step 1 — Tooling deps + data.py path — DONE
+- started: 2026-08-01T03:24:20Z finished: 2026-08-01T03:29:00Z
+- files touched: pyproject.toml, tests/test_data_pipeline.py (new), RUNLOG.md
+- evidence: `uv pip install --python .venv/bin/python -e ".[tooling]"` ->
+  installed polars 1.43.1, pyarrow 25.0.0, pandera[polars], duckdb 1.5.5
+  (import check PASS); `.venv/bin/python -m pytest tests -q` -> `46 passed in
+  0.96s` (42 -> 46; +4 offline tooling-path tests: plan_archives monthly URL,
+  partial-boundary daily cadence, checksum-file contract, sha256);
+  monograph probe byte-identical to the session-2 baseline
+  (ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def,
+  uniq -c = 2);
+  data.py exercise on one small month (BTCUSDT 1h, 2026-06-01..2026-07-01):
+  `tools/data.py build --symbols BTCUSDT --start 2026-06-01 --end 2026-07-01
+  --out /tmp/v8_dp_build --interval 1h --data-types klines --no-exchange-info`
+  -> `status VERIFIED`, 1 archive (37239 B), 720 rows, 1 parquet (50596 B);
+  `verify --dataset-dir` -> `verdict PASS`; `audit --dataset-dir` ->
+  `verdict PASS` (duckdb-1.5.5, 720 rows, duplicate_primary_keys 0).
+- fixes / deviations: none. `--keep-raw` on the Step-2 build retains the zips
+  AND their `.CHECKSUM` siblings in the raw cache (confirmed on the 3-month
+  window build), so vision_backfill can consume them without `--download`
+  (no new download code).
+- OPEN_PIN (operator action): register the D-037 admission decision — heavy
+  tooling deps (polars/pyarrow/pandera[polars]/duckdb) are now installed in
+  the venv and declared as the `tooling` extra in pyproject.toml for Phase-1
+  parquet materialization (DATASET_SPEC section 5). The decision path
+  (`src/v8/` minus `simtruth/`) remains stdlib-only (O-009); no test or
+  contract depends on the new deps except the pure planning/checksum helpers.
+- commit: (below) `v8-step-1: session-2 tooling admission — polars/pyarrow/pandera/duckdb via uv + pyproject tooling extra, data.py build/verify/audit PASS on BTCUSDT 1h 2026-06, 4 offline pipeline tests`
+- gate: pytest=46 monograph=byte-identical?yes (ea5b7705…)
+  forbidden-scan=clean?yes wall-clock=clean?yes (no src/v8/ change)
