@@ -478,3 +478,28 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-1: session-3 ops — tools/monitor_tape.py (schema + audit reuse + staleness, structured JSON, fail-closed) + 5 offline tests`
 - gate: pytest=55 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes wall-clock=src/v8-clean?yes
+
+## Session 3 — Step 2 — Golden-backtest regression + CI — DONE
+- started: 2026-08-01T05:09:30Z finished: 2026-08-01T05:12:30Z
+- files touched: tests/test_golden_backtest.py (new),
+  .github/workflows/ci.yml (new), RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `56 passed` (55 -> 56;
+  +1 golden regression: pins ledger_hash eb3c62de…, data_hash 1c41077b…,
+  states_hash c2e4255b…, candidate_count 24, terminal_distribution
+  {CLOSED 13, INVALIDATED 1, REJECTED 10}, verdict NO_ECONOMIC_CLAIM, plus
+  the identical-fresh-run replay assertion);
+  monograph probe byte-identical (bc207925…, uniq -c = 2);
+  forbidden-scan over new files -> no matches;
+  CI workflow (.github/workflows/ci.yml): uv + python 3.11, install
+  `-e ".[dev,tooling]"`, pytest (includes the golden regression), monograph
+  byte-identity check; no untrusted input interpolation (injection-safe).
+  The golden is pinned from the code as of 2026-08-01 (D-026 keys, funding v4,
+  D-024 mask, decision-ledger states, birth snapshots) — updating it is a
+  deliberate act, per PERSISTENCE_REPLAY_SPEC section 4.
+- fixes / deviations: none. lint/typecheck are not configured in this repo
+  (no linter tooling); the CI DoD is satisfied by tests + golden regression +
+  probe identity, matching OPERATIONS_SPEC section 4's "lint, typecheck, and
+  tests ... plus a golden-backtest regression" at research scale.
+- commit: (below) `v8-step-2: session-3 ops — golden-backtest regression (pinned ledger/state hashes, candidate counts) + GitHub Actions CI (pytest, golden, monograph byte-identity)`
+- gate: pytest=56 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes wall-clock=clean?yes

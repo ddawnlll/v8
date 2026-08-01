@@ -1,0 +1,35 @@
+# CI for research code (OPERATIONS_SPEC section 4): tests on every change
+# plus the golden-backtest regression and the monograph byte-identity probe,
+# so refactors cannot silently change results and the corpus cannot drift
+# from the generated monograph.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package (dev + tooling extras)
+        run: uv pip install --python "$(which python)" -e ".[dev,tooling]"
+
+      - name: Contract tests (incl. golden-backtest regression)
+        run: "$(which python)" -m pytest tests -q
+
+      - name: Monograph byte-identity probe
+        run: |
+          "$(which python)" tools/build_monograph.py --lang en --docs docs --out /tmp/v8_probe.html
+          n=$(shasum -a 256 /tmp/v8_probe.html site/index.html | awk '{print $1}' | sort -u | wc -l)
+          if [ "$n" -ne 1 ]; then echo "probe differs from site/index.html"; exit 1; fi
+          echo "monograph byte-identical: OK"
