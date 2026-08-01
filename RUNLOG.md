@@ -314,3 +314,52 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-2: session-2 real tape — BTCUSDT 1h 2026-04..06 via data.py (verified) + vision_backfill JSONL PIT tape, audit clean, idempotent, tape hash 8b12707e…`
 - gate: pytest=46 monograph=byte-identical?yes (ea5b7705…)
   forbidden-scan=clean?yes wall-clock=clean?yes (no src/v8/ change)
+
+## Session 2 — Step 3 — Materializations + lab on real tape — DONE
+- started: 2026-08-01T03:35:00Z finished: 2026-08-01T03:42:00Z
+- files touched: src/v8/lab.py (states decision ledger + birth snapshot +
+  ledger-hash composition), src/v8/lifecycle.py (CandidateRegistry.apply gains
+  `extra` merged into the append-only record before write),
+  tools/materialize_views.py (new, DATASET_SPEC 5 DuckDB views),
+  tests/test_vertical_slice.py (+2), tests/test_materialize_views.py (new, +2),
+  RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `50 passed in 1.78s`
+  (46 -> 50; +4: decision-ledger states persisted + reproducible hashes, birth
+  snapshot on DETECTED, materializer writes all five views with correct row
+  counts, fail-closed on data-hash mismatch);
+  monograph probe byte-identical (ea5b7705…, uniq -c = 2);
+  forbidden-scan over changed files -> no matches; wall-clock scan -> none.
+  REAL-TAPE RUN (pinned manifest research/tape/btcusdt-1h-2026-q2/manifest_dev.json:
+  experiment_id=v8-dev-2026q2-btcusdt, code_hash=6a2b024e…, data_hash=
+  8b12707e…, universe=BTCUSDT, 1h, round_trip_cost_r=0.07, funding_rate_r=0.0,
+  funding_hours=8, mask defaults, no authority receipt):
+  `tools/materialize_views.py --manifest … --store /tmp/v8_real_store` ->
+  rows {market_states: 2184, candidate_birth: 713, candidate_trigger: 706,
+  candidate_outcomes: 713, execution_trajectories: 2900}, ledger_hash
+  2c1e0fd8…, verdict NO_ECONOMIC_CLAIM, code/data hashes matched live.
+  Determinism: two fresh lab runs -> ledger_hash equal, states.hash equal.
+  O-017 accounting (D-027 portfolio-state rejections only): n_executed=256,
+  n_portfolio_rejected=360 (all EXISTING_EXPOSURE_CONFLICT; PORTFOLIO_HEAT
+  0), other rejections: TRADABILITY_MASK_VETO=90 (all detail FUNDING_WINDOW —
+  spread/DEGRADED never fired on real BTCUSDT 1h), excess_cost=0.
+  execution_share = 256/(256+360) = 0.4156. Outcomes: MATURE 234,
+  NOT_EXECUTED 450, RIGHT_CENSORED 29. Population divergence (two-sample KS,
+  executed vs portfolio-rejected net_R, numpy): n=256/360, means +0.0519/
+  +0.0184, std 0.891/0.942, KS = 0.073.
+- fixes / deviations: (1) DATASET_SPEC 1 layer 2 requires MarketState in the
+  decision ledger — the lab did not persist states; added states.jsonl (one
+  record per bar) and bound it into ledger_hash. (2) CANDIDATE_LIFECYCLE_SPEC
+  1 requires an immutable BirthSnapshot — the lab recorded none; the DETECTED
+  transition now carries expert_id/version, instrument, direction,
+  setup_anchor_event_id, geometry_version, state_id via
+  CandidateRegistry.apply(extra=…), merged before append so it is immutable.
+  (3) Materializer fails closed on live code/data hash mismatch (compile-once
+  discipline). Scope not extended beyond the locked baseline: same two pilots,
+  same geometry/costs, universe unchanged (O-011).
+- OPEN_PIN (carry-forward): D-027 verdict GATING (LabReport.execution_share +
+  divergence stat + ATTRIBUTION_UNSAFE_* verdicts) remains unimplemented in
+  code; this session measured and preregisters the thresholds (Step 4) but the
+  code gate lands with the Phase-4 experiment runner.
+- commit: (below) `v8-step-3: session-2 materializations — decision-ledger states + birth snapshot, tools/materialize_views.py (DuckDB parquet views from pinned manifest), real-tape run 2184 states/713 candidates, determinism + O-017 baseline (execution_share 0.416, KS 0.073)`
+- gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
+  forbidden-scan=clean?yes wall-clock=clean?yes

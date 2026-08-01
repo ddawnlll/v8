@@ -67,7 +67,12 @@ class CandidateRegistry:
         return self._state.get(candidate_id)
 
     def apply(self, candidate_id: str, from_state: str | None, to_state: str,
-              reason_code: str, knowledge_time: int, source: str = 'lifecycle') -> dict:
+              reason_code: str, knowledge_time: int, source: str = 'lifecycle',
+              extra: dict | None = None) -> dict:
+        """Record one legal transition. `extra` fields are merged into the
+        stored record BEFORE append, so they become part of the immutable
+        append-only event (e.g. the birth snapshot on DETECTED,
+        CANDIDATE_LIFECYCLE_SPEC section 1) — they can never be added later."""
         cur = self._state.get(candidate_id)
         if cur != from_state:
             raise IllegalTransitionError(
@@ -83,6 +88,8 @@ class CandidateRegistry:
                                                       knowledge_time)))
         rec = record_dict(ev, source=source)
         rec['event_id'] = f'{candidate_id}:{seq}'
+        if extra:
+            rec.update(extra)
         self.log.append(rec)
         self._apply_projection(rec)
         return rec

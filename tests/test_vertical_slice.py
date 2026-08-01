@@ -605,3 +605,37 @@ def test_revision_replay_reproduces_prior_state_hash():
     st3 = build_state([r for r in rows + [revised] if r.available_time <= D2],
                       D2, UNIVERSE)
     assert st3.state_id != st1.state_id
+
+
+# --- Session 2: decision ledger + birth snapshot (DATASET_SPEC 1;            ---
+# CANDIDATE_LIFECYCLE_SPEC 1) — the inputs to the section-5 materializations.
+
+def test_lab_persists_decision_ledger_states(tmp_path):
+    """The decision ledger persists every MarketState built at a decision
+    clock; two fresh runs reproduce identical state hashes."""
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=80)
+    lab.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    states = lab.states.read()
+    assert len(states) == 80                       # one state per bar
+    assert all(s['source'] == 'marketstate' and s['event_id'] == s['state_id']
+               for s in states)
+    lab2 = _fresh_lab(tmp_path / 'run2', seed=7, n_bars=80)
+    lab2.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    assert lab2.states.hash == lab.states.hash
+
+
+def test_birth_snapshot_recorded_on_detected(tmp_path):
+    """The DETECTED transition carries the immutable birth snapshot
+    (CANDIDATE_LIFECYCLE_SPEC section 1): expert identity, setup evidence,
+    geometry version and the birth state_id."""
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=160)
+    lab.run(_manifest(), [TrendPullbackExpert(), FailedBreakoutExpert()])
+    births = [r for r in lab.candidates.read() if r.get('to_state') == 'DETECTED']
+    assert births
+    for b in births:
+        for key in ('expert_id', 'expert_version', 'instrument', 'direction',
+                    'setup_anchor_event_id', 'geometry_version', 'state_id'):
+            assert key in b, f'birth snapshot missing {key}'
+        assert b['instrument'] in UNIVERSE
+        assert b['setup_anchor_event_id']
+        assert b['direction'] in ('LONG', 'SHORT')

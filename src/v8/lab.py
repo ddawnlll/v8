@@ -54,6 +54,10 @@ class Lab:
         self.candidates = AppendOnlyLog(self.dir / 'candidates.jsonl')
         self.evaluations = AppendOnlyLog(self.dir / 'evaluations.jsonl')
         self.outcomes = AppendOnlyLog(self.dir / 'outcomes.jsonl')
+        # Decision ledger: every MarketState built at a decision clock, one
+        # record per bar (DATASET_SPEC section 1 layer 2; the input to the
+        # DATASET_SPEC section 5 market_states materialization).
+        self.states = AppendOnlyLog(self.dir / 'states.jsonl')
         self.universe = universe
         self.registry = CandidateRegistry(self.candidates)
 
@@ -96,6 +100,9 @@ class Lab:
             as_of = bar.available_time
             state = build_state(
                 [r for r in tape if r.available_time <= as_of], as_of, self.universe)
+            state_rec = record_dict(state, source='marketstate')
+            state_rec['event_id'] = state.state_id
+            self.states.append(state_rec)
 
             # PHASE 1a: enter candidates whose entry bar is this bar (fill at close).
             for cid, info in list(pending.items()):
@@ -216,7 +223,20 @@ class Lab:
                                             'source': 'expert',
                                             'event_id': f'{cid}:suppressed:{as_of}'})
                     continue
-                self.registry.apply(cid, None, 'DETECTED', 'setup_detected', as_of)
+                # Immutable birth snapshot on the DETECTED transition
+                # (CANDIDATE_LIFECYCLE_SPEC section 1): expert identity, setup
+                # evidence, geometry version and the birth state. It is part
+                # of the append-only event and can never be rewritten.
+                self.registry.apply(cid, None, 'DETECTED', 'setup_detected', as_of,
+                                    extra={'expert_id': ev.draft.expert_id,
+                                           'expert_version': ev.draft.expert_version,
+                                           'instrument': ev.draft.instrument,
+                                           'direction': ev.draft.direction,
+                                           'setup_anchor_event_id':
+                                               ev.draft.setup_anchor_event_id,
+                                           'geometry_version':
+                                               _geometry_version(ev.draft),
+                                           'state_id': state.state_id})
                 self.registry.apply(cid, 'DETECTED', 'PENDING', 'hypothesis_completed', as_of)
                 pl = state.features.get(f'{sym}.prior_low')
                 ph = state.features.get(f'{sym}.prior_high')
@@ -258,8 +278,10 @@ class Lab:
             candidate_ids.add(rec['candidate_id'])
             if rec['to_state'] in TERMINAL:
                 dist[rec['to_state']] = dist.get(rec['to_state'], 0) + 1
+        # The decision ledger (DATASET_SPEC section 1) binds candidates,
+        # evaluations, outcomes AND the persisted MarketState ledger.
         ledger_hash = sha1_hex((self.candidates.hash, self.evaluations.hash,
-                                self.outcomes.hash))
+                                self.outcomes.hash, self.states.hash))
         data_hash = self.tape_log.hash
         verdict = 'NO_ECONOMIC_CLAIM' if manifest.authority_receipt is None else 'CERTIFIED_AVAILABLE'
         return LabReport(experiment_id=manifest.experiment_id,
