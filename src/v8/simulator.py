@@ -81,14 +81,26 @@ class StepResult:
     funding_settled: int = 0         # funding_settled events booked this step
 
 
-class CanonicalSimulator:
-    fill_policy = 'FILL_AT_BAR_CLOSE'
+# Only this fill policy is implemented. A manifest-declared policy outside
+# this set must fail closed — a hash that claims a fill semantics the stepper
+# does not implement is a lie (OPERATIONS_SPEC sections 1, 5: shadow/paper
+# share one code path and the fill source is a manifest input, never a silent
+# divergence).
+SUPPORTED_FILL_POLICIES = ('FILL_AT_BAR_CLOSE',)
 
+
+class CanonicalSimulator:
     def __init__(self, round_trip_cost_r: float = 0.07,
-                 funding_rate_r: float = 0.0, funding_hours: int = 8):
+                 funding_rate_r: float = 0.0, funding_hours: int = 8,
+                 fill_policy: str = 'FILL_AT_BAR_CLOSE'):
+        if fill_policy not in SUPPORTED_FILL_POLICIES:
+            raise ValueError(
+                f'unsupported fill_policy {fill_policy!r}; implemented: '
+                f'{SUPPORTED_FILL_POLICIES}')
         self.round_trip_cost_r = round_trip_cost_r
         self.funding_rate_r = funding_rate_r
         self.funding_hours = funding_hours
+        self.fill_policy = fill_policy
 
     def _boundaries_crossed(self, entry_ns: int, t_ns: int) -> int:
         """Funding boundaries B with entry_ns < B <= t_ns.

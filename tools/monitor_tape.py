@@ -44,7 +44,9 @@ def read_rows(tape: Path) -> list[dict]:
 
 def validate_schema(rows: list[dict]) -> list[str]:
     """Schema contract per ingest (OPERATIONS_SPEC section 2). Returns the
-    list of problems; empty means the schema holds."""
+    list of problems; empty means the schema holds. `type(x) is int` (not
+    isinstance) so booleans — which subclass int in Python — are rejected as
+    timestamps."""
     problems: list[str] = []
     for i, r in enumerate(rows):
         if 'channel' not in r:
@@ -53,7 +55,7 @@ def validate_schema(rows: list[dict]) -> list[str]:
             if f not in r or r[f] is None:
                 problems.append(f'row {i}: missing or null {f}')
         for f in INT_FIELDS:
-            if f in r and r[f] is not None and not isinstance(r[f], int):
+            if f in r and r[f] is not None and type(r[f]) is not int:
                 problems.append(f'row {i}: {f} is {type(r[f]).__name__}, expected int')
         for f in ('source', 'channel', 'instrument', 'event_id'):
             if f in r and not isinstance(r.get(f), str):
@@ -74,10 +76,14 @@ def validate_schema(rows: list[dict]) -> list[str]:
 
 def staleness_report(rows: list[dict], now_ns: int, budget_ns: int,
                      experiment_id: str = '') -> dict:
-    """Age of the newest bar vs the budget; alert when it exceeds it."""
-    times = [r['event_time'] for r in rows if isinstance(r.get('event_time'), int)]
+    """Age of the newest bar vs the budget; alert when it exceeds it. A tape
+    with no bar rows cannot be evaluated and alerts (fail closed), with
+    age_ns/budget_ns still populated so the JSON report is well-formed."""
+    times = [r['event_time'] for r in rows if type(r.get('event_time')) is int]
     if not times:
-        return {'alert': True, 'detail': 'no bar rows on tape', 'rows': len(rows)}
+        return {'alert': True, 'detail': 'no bar rows on tape', 'rows': len(rows),
+                'newest_event_time': None, 'age_ns': None, 'budget_ns': budget_ns,
+                'experiment_id': experiment_id}
     newest = max(times)
     age_ns = now_ns - newest
     return {'alert': age_ns > budget_ns, 'newest_event_time': newest,
@@ -103,13 +109,27 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     tape = args.tape if args.tape.suffix == '.jsonl' else args.tape / 'tape.jsonl'
-    rows = read_rows(tape)
     report: dict = {'tape': str(tape), 'experiment_id': args.experiment_id,
-                    'rows': len(rows), 'violations': []}
+                    'violations': []}
+    try:
+        rows = read_rows(tape)
+    except FileNotFoundError as exc:
+        # Fail closed with a structured report, never a bare traceback
+        # (OPERATIONS_SPEC sections 3, 5).
+        report['rows'] = 0
+        report['violations'].append(str(exc))
+        report['verdict'] = 'VIOLATION'
+        print(json.dumps(report, sort_keys=True))
+        return 1
+    report['rows'] = len(rows)
 
     if args.schema:
         report['schema_problems'] = validate_schema(rows)
         report['violations'].extend(report['schema_problems'])
+        # A tape with no channel-bearing rows cannot be evaluated: reject
+        # rather than pass (OPERATIONS_SPEC section 5).
+        if not any('channel' in r for r in rows):
+            report['violations'].append('no tape rows with a channel key — cannot evaluate')
         try:
             report['audit'] = audit_tape(tape.parent)
         except TapeAuditError as exc:
@@ -122,8 +142,9 @@ def main(argv: list[str] | None = None) -> int:
         st = staleness_report(rows, now, args.budget_ns, args.experiment_id)
         report['staleness'] = st
         if st['alert']:
-            report['violations'].append(
-                f'staleness: newest bar age {st["age_ns"]}ns > budget {st["budget_ns"]}ns')
+            report['violations'].append(st.get('detail') or
+                                        f'staleness: newest bar age {st["age_ns"]}ns '
+                                        f'> budget {st["budget_ns"]}ns')
 
     report['verdict'] = 'OK' if not report['violations'] else 'VIOLATION'
     print(json.dumps(report, sort_keys=True))

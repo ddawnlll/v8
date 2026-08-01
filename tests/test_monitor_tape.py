@@ -102,3 +102,95 @@ def test_staleness_main_exit_codes(tmp_path, capsys):
                  '--budget-ns', str(DAY_NS)]) == 1
     report = json.loads(capsys.readouterr().out)
     assert report['staleness']['alert'] is True
+
+
+def test_clean_tape_audit_key_present(tmp_path, capsys):
+    """--schema emits the reused audit result; a regression that silently
+    drops the audit from the report must fail this test."""
+    tape = _tape(tmp_path)
+    assert main(['--tape', str(tape), '--schema']) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert 'audit' in report and report['audit']['monotonic'] is True
+
+
+def test_empty_tape_fails_closed_schema(tmp_path, capsys):
+    """A zero-row tape cannot be evaluated and must reject, not pass
+    (OPERATIONS_SPEC section 5)."""
+    tape = tmp_path / 'tape.jsonl'
+    tape.write_text('', encoding='utf-8')
+    assert main(['--tape', str(tape), '--schema']) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report['verdict'] == 'VIOLATION'
+    assert any('cannot evaluate' in v for v in report['violations'])
+
+
+def test_empty_tape_fails_closed_staleness_structured(tmp_path, capsys):
+    """The empty-tape staleness path alerts with a well-formed JSON report
+    (no KeyError traceback) and a non-zero exit."""
+    tape = tmp_path / 'tape.jsonl'
+    tape.write_text('', encoding='utf-8')
+    assert main(['--tape', str(tape), '--staleness', '--now', str(1_770_000_000_000_000_000)]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report['verdict'] == 'VIOLATION'
+    assert report['staleness']['detail'] == 'no bar rows on tape'
+
+
+def test_missing_tape_structured_error(tmp_path, capsys):
+    """A missing tape fails closed with a structured report, not a traceback."""
+    assert main(['--tape', str(tmp_path / 'nope.jsonl'), '--schema']) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report['verdict'] == 'VIOLATION'
+    assert any('tape not found' in v for v in report['violations'])
+
+
+def test_audit_violation_end_to_end(tmp_path, capsys):
+    """A venue-sequence gap in the tape surfaces through main as a violation
+    with exit 1 (the TapeAuditError branch)."""
+    base = 1_770_000_000_000_000_000
+    rows = []
+    for i in range(5):
+        c = 100.0 + i
+        content = {'open': c, 'high': c + 0.5, 'low': c - 0.5, 'close': c,
+                   'volume': 1.0, 'closed': True}
+        rows.append({
+            'source': 'binance-um', 'channel': 'kline', 'instrument': 'BTCUSDT',
+            'event_time': base + (i + 1) * HOUR_NS - 1,
+            'available_time': base + (i + 1) * HOUR_NS,
+            'ingested_time': base + (i + 1) * HOUR_NS,
+            'venue_sequence': 1000 + i + (1 if i >= 2 else 0),   # gap at i=2
+            'event_id': f'BTCUSDT:1h:{base + i * HOUR_NS}',
+            'payload': dict(content, payload_hash=sha1_hex(content),
+                            schema_version='binance-um-v1-ms'),
+        })
+    tape = tmp_path / 'tape.jsonl'
+    tape.write_text('\n'.join(json.dumps(r, sort_keys=True) for r in rows) + '\n',
+                    encoding='utf-8')
+    assert main(['--tape', str(tape), '--schema']) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert any('venue sequence gap' in v for v in report['violations'])
+
+
+def test_directory_tape_path(tmp_path, capsys):
+    """--tape <outdir> resolves to <outdir>/tape.jsonl (documented form)."""
+    _tape(tmp_path)
+    assert main(['--tape', str(tmp_path), '--schema']) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report['tape'].endswith('tape.jsonl')
+
+
+def test_bool_timestamp_rejected(tmp_path, capsys):
+    """Booleans are not valid integer-nanosecond timestamps
+    (FEED_INGESTION_SPEC section 2); `true` must not pass the int check."""
+    tape = _tape(tmp_path, bad={'event_time': True})
+    assert main(['--tape', str(tape), '--schema']) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert any('event_time is bool' in p for p in report['schema_problems'])
+
+
+def test_staleness_experiment_id_propagates(tmp_path, capsys):
+    """experiment_id reaches the staleness report (OPERATIONS_SPEC section 3)."""
+    tape = _tape(tmp_path)
+    assert main(['--tape', str(tape), '--staleness', '--now', str(1_770_000_000_000_000_000),
+                 '--experiment-id', 'exp-mon']) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report['staleness']['experiment_id'] == 'exp-mon'

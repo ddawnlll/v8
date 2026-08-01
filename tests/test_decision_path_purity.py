@@ -37,7 +37,6 @@ def test_decision_path_is_stdlib_only():
         for mod in LEARNER_IMPORTS:
             assert f'import {mod}' not in text and f'from {mod}' not in text, \
                 f'{p} imports {mod}'
-            assert f'import {mod} as' not in text, f'{p} imports {mod}'
 
 
 def test_decision_path_has_no_wall_clock():

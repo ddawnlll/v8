@@ -639,3 +639,22 @@ def test_birth_snapshot_recorded_on_detected(tmp_path):
         assert b['instrument'] in UNIVERSE
         assert b['setup_anchor_event_id']
         assert b['direction'] in ('LONG', 'SHORT')
+
+
+# --- Session 3: fill_policy is a manifest input, enforced fail-closed --------
+# OPERATIONS_SPEC section 1: shadow and paper share one code path; the fill
+# source is a manifest input. A declared policy the stepper does not
+# implement must fail closed — a hash claiming a fill semantics the code does
+# not execute is a lie.
+
+def test_unsupported_fill_policy_fails_closed(tmp_path):
+    from v8.simulator import CanonicalSimulator, SUPPORTED_FILL_POLICIES
+    with pytest.raises(ValueError, match='unsupported fill_policy'):
+        CanonicalSimulator(fill_policy='FILL_AT_BAR_OPEN')
+    lab = _fresh_lab(tmp_path, seed=7, n_bars=60)
+    with pytest.raises(ValueError, match='unsupported fill_policy'):
+        lab.run(_manifest(fill_policy='FILL_AT_BAR_OPEN'),
+                [TrendPullbackExpert(), FailedBreakoutExpert()])
+    # The implemented policy is exactly the locked baseline.
+    assert SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE',)
+    assert CanonicalSimulator().fill_policy == 'FILL_AT_BAR_CLOSE'

@@ -529,3 +529,51 @@ this file and `docs/STATUS_REPORT.md`.
 - gate: pytest=67 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes (src/v8+tools; purity test names terms to forbid them)
   wall-clock=clean?yes
+
+## Session 3 — Step 4 — Hardening fixes from adversarial Phase-6 review — DONE
+- started: 2026-08-01T05:16:30Z finished: 2026-08-01T05:20:00Z
+- files touched: tools/monitor_tape.py, src/v8/simulator.py, src/v8/lab.py,
+  tools/artifact_status.py, .github/workflows/ci.yml, tests/test_monitor_tape.py,
+  tests/test_artifact_status.py, tests/test_decision_path_purity.py,
+  tests/test_vertical_slice.py, RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `80 passed in 2.17s`
+  (67 -> 80; +13 review-driven tests); monograph probe byte-identical
+  (bc207925…, uniq -c = 2); golden regression STILL PASSES (the
+  fill_policy default is byte-identical: sim hash unchanged);
+  forbidden-scan over src/v8 + tools + .github -> no matches;
+  wall-clock scan over src/v8 -> no matches.
+- process: adversarial Phase-6 review workflow (3 read-only reviewers, 236k
+  tokens) -> 0 blockers, 20 warnings. ALL actionable warnings fixed:
+  (1) monitor staleness crashed (KeyError) on empty tapes — now a structured
+      violation (fail closed, JSON well-formed);
+  (2) monitor --schema failed OPEN on empty/channel-less tapes — now rejects
+      ('cannot evaluate');
+  (3) bool passed the int-timestamp dtype check (isinstance) — now
+      type(x) is int;
+  (4) missing tape died with a traceback — now a structured FileNotFoundError
+      report;
+  (5) CI shasum -> sha256sum (portability);
+  (6) LATENT DIVERGENCE FIXED: ExperimentManifest.fill_policy was declared
+      but the simulator ignored it silently — CanonicalSimulator now
+      validates fill_policy (SUPPORTED_FILL_POLICIES = FILL_AT_BAR_CLOSE) and
+      the lab wires manifest.fill_policy through; an unsupported policy fails
+      closed instead of a hash claiming fill semantics the stepper does not
+      implement (OPERATIONS_SPEC section 1 single-code-path property);
+  (7) artifact_status.main(cert_path) injectable — the PASS+GRANTED fail-open
+      side is now tested; full no-op/unknown-current/demotion matrix and the
+      renewed-authority positive half covered;
+  (8) dead purity assertion removed; audit-key + audit-fail-closed +
+      dir-as-tape + experiment_id-propagation monitor tests added.
+  OPERATIONS_SPEC items with no deliverable, recorded as conscious
+  deviations (NOT buildable at this stage): feed reconciliation (single
+  locked feed binance-um, O-011); CI lint/typecheck (no linter configured —
+  pytest + golden + probe per research scale); store-unreachable mid-run
+  abort (local disk store, not simulated); rollback/kill-switch mechanism
+  (no live/shadow system exists yet — gated); counters/gauges layer (JSON
+  report carries gauge-like fields; 'do not over-invest' caveat).
+- fixes / deviations: the fill_policy wiring is a src/v8 change made under
+  Phase-6 hardening; it is contract-aligned (the manifest field existed,
+  unused — a tracked divergence), default byte-identical (golden unchanged).
+- commit: (below) `v8-step-4: session-3 hardening — review-driven fixes (monitor fail-closed paths, bool-dtype, missing-tape JSON, CI sha256sum), fill_policy enforcement (manifest input, fail-closed), artifact-status positive-half tests, 13 new tests`
+- gate: pytest=80 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes (src/v8+tools+.github) wall-clock=clean?yes

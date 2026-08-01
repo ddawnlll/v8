@@ -73,3 +73,36 @@ def test_certification_cli_fails_closed():
     assert proc.returncode == 0            # exits 0 while live is unreachable
     out = json.loads(proc.stdout)
     assert out['live_reachable'] is False and out['autopilot_permission'] == 'BLOCKED'
+
+
+def test_noop_transition_allowed():
+    assert legal_status_transition('research', 'research') == (True, 'no-op')
+    assert legal_status_transition('live', 'live') == (True, 'no-op')
+
+
+def test_live_positive_half_with_renewed_authority():
+    """With a PASS + GRANTED certification, live becomes reachable and
+    paper -> live is an allowed promotion with the renewed-authority
+    evidence (OPERATIONS_SPEC section 1)."""
+    renewed = {'certification': 'PASS', 'autopilot_permission': 'GRANTED',
+               'live_reachable': True}
+    assert certification_allows_live(renewed) is True
+    ok, evidence = legal_status_transition('paper', 'live', cert=renewed)
+    assert ok is True
+    assert 'independently renewed simulation authority' in evidence
+
+
+def test_unknown_current_and_full_demotion_matrix_rejected():
+    assert legal_status_transition('nope', 'research')[0] is False
+    assert legal_status_transition('shadow', 'research')[0] is False
+    assert legal_status_transition('paper', 'shadow')[0] is False
+
+
+def test_main_exit_code_with_renewed_cert(tmp_path):
+    """main() returns 1 when live is reachable (fail-open side of the CLI)."""
+    from tools.artifact_status import main
+    renewed = tmp_path / 'cert.json'
+    renewed.write_text(json.dumps({'certification': 'PASS',
+                                   'autopilot_permission': 'GRANTED',
+                                   'live_reachable': True}), encoding='utf-8')
+    assert main(cert_path=renewed) == 1

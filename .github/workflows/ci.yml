@@ -30,6 +30,6 @@ jobs:
       - name: Monograph byte-identity probe
         run: |
           "$(which python)" tools/build_monograph.py --lang en --docs docs --out /tmp/v8_probe.html
-          n=$(shasum -a 256 /tmp/v8_probe.html site/index.html | awk '{print $1}' | sort -u | wc -l)
+          n=$(sha256sum /tmp/v8_probe.html site/index.html | awk '{print $1}' | sort -u | wc -l)
           if [ "$n" -ne 1 ]; then echo "probe differs from site/index.html"; exit 1; fi
           echo "monograph byte-identical: OK"

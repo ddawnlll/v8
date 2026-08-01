@@ -55,12 +55,12 @@ def legal_status_transition(current: str, target: str,
     return True, PROMOTION_EVIDENCE[target]
 
 
-def main() -> int:
-    cert = load_certification()
+def main(cert_path: Path = CERTIFICATION_PATH) -> int:
+    cert = load_certification(cert_path)
     print(json.dumps({'certification': cert.get('certification'),
                       'autopilot_permission': cert.get('autopilot_permission'),
                       'live_reachable': certification_allows_live(cert),
-                      'path': str(CERTIFICATION_PATH)}, sort_keys=True))
+                      'path': str(cert_path)}, sort_keys=True))
     return 0 if not certification_allows_live(cert) else 1
 
 

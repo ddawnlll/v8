@@ -81,7 +81,8 @@ class Lab:
             risk_gate: RiskGate | None = None) -> LabReport:
         sim = CanonicalSimulator(round_trip_cost_r=manifest.round_trip_cost_r,
                                  funding_rate_r=manifest.funding_rate_r,
-                                 funding_hours=manifest.funding_hours)
+                                 funding_hours=manifest.funding_hours,
+                                 fill_policy=manifest.fill_policy)
         gate = risk_gate or RiskGate()
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
