@@ -3,6 +3,25 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — 12-month dev materialization + pinned rebuild (D-041)
+
+- **12-month dev tape built and audited clean** — BTCUSDT 1h 2025-07-01..
+  2026-07-01: 8,760 klines + 1,188 funding rows (incl. the `2026-07` coverage
+  horizon) = 9,948 rows, tape hash `4c8e5888…`, 25 SHA-256-verified Vision
+  archives. Audit: 0 gaps, 0 duplicates, payload hashes OK; the old 3-month
+  tape still audits clean.
+- **`research/tape/btcusdt-1h-12m/manifest_dev.json`** — `experiment_id
+  v8-dev-12m-btcusdt`, code_hash `ea8db9e2…`, data_hash `4c8e5888…`.
+  Materialized in a fresh store/views dir (compile-once): market_states 8760,
+  candidate_birth/outcomes 2786, candidate_trigger 2779,
+  execution_trajectories 11684; ledger `c78bf43a…`, verdict
+  `NO_ECONOMIC_CLAIM` (no authority receipt).
+- **Prereg pins updated** — §6 manifest + derived outputs, §13 dev hash, §15
+  12-month diagnostics appended (execution_share 0.4596, KS 0.1067) **as
+  diagnostics only**; O-017 thresholds 0.25/0.20 unchanged. DATASET_SPEC
+  §6.1/§6.2/§6.4 measured rows updated.
+- Monograph rebuilt; suite untouched (127 tests).
+
 ## 2026-08-01 — Tape-driven funding wiring (D-041) + golden re-pin (sim v5)
 
 - **`src/v8/simulator.py`** — `CanonicalSimulator` gains `funding_schedule`

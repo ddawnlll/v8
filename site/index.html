@@ -1288,12 +1288,12 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 </tr>
 <tr>
 <td>Channels</td>
-<td><code>kline</code> (ingested; dev window 12 months — count/hash pinned after the D-041 rebuild); <code>funding</code> (ingested under D-041, coverage horizon <code>2026-07</code> — 6.4)</td>
+<td><code>kline</code> (ingested, 8,760 rows dev); <code>funding</code> (ingested, 1,188 rows dev incl. coverage horizon <code>2026-07</code> — 6.4)</td>
 <td>aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice)</td>
 </tr>
 <tr>
 <td>Development window (D-041)</td>
-<td><code>2025-07-01 00:00</code> .. <code>2026-07-01 00:00</code> UTC — 12 months (tape hash pinned after rebuild)</td>
+<td><code>2025-07-01 00:00</code> .. <code>2026-07-01 00:00</code> UTC — 12 months, tape hash <code>4c8e5888…</code></td>
 <td>Pipeline correctness + O-017 calibration only; never a test window; O-017 thresholds unchanged</td>
 </tr>
 <tr>
@@ -1320,8 +1320,8 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 <tbody>
 <tr>
 <td>BTCUSDT 1h, 12 months (current dev, D-041)</td>
-<td>~8,760 bars; ~5.6 MB JSONL</td>
-<td>Measured after the D-041 rebuild (extrapolated from the 1-year row below)</td>
+<td>8,760 bars + 1,188 funding rows; ~5.7 MB JSONL</td>
+<td>Measured, D-041 rebuild</td>
 </tr>
 <tr>
 <td>BTCUSDT 1h, 1 year</td>
@@ -1345,7 +1345,7 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 </tr>
 <tr>
 <td>Funding history (BTCUSDT)</td>
-<td>~3 rows/day (~1,230 over the 12-month dev + <code>2026-07</code> coverage horizon)</td>
+<td>~3 rows/day (1,188 over the 12-month dev + <code>2026-07</code> coverage horizon)</td>
 <td>Ingested from Vision monthly fundingRate archives (D-041); <code>GET /fapi/v1/fundingRate</code> is the REST equivalent</td>
 </tr>
 </tbody>
@@ -1367,15 +1367,16 @@ fail-closed on hash mismatch. Physical engines per <code>PERSISTENCE_REPLAY_SPEC
   <code>GET /fapi/v1/fundingRate</code>, FEED_INGESTION_SPEC §3; schedule from
   <code>fundingInfo</code> for dynamic-interval symbols, versioned venue input — never
   assumed 8h).</li>
-<li><strong>Status (D-041):</strong> ingestion authorized and in progress — Vision monthly
-  fundingRate archives are SHA-256-verified and converted to
-  <code>funding</code>-channel TapeRows (one per settlement boundary, three clocks,
-  <code>funding_time</code>, <code>funding_rate</code>); the dev tape carries a <strong>coverage horizon</strong>
-  of <code>2026-07</code> so end-of-dev positions settle across the 2026-07-01 boundary.
-  Wiring: <code>funding_settled_r = entry_price × rate / risk_unit</code> (below)
-  replaces the zeroed scalar at settlement boundaries; the scalar
-  <code>funding_rate_r</code> remains as a no-funding-tape fallback. Measured row counts
-  and hashes are pinned after the rebuild.</li>
+<li><strong>Status (D-041):</strong> <strong>ingested and wired</strong> — Vision monthly fundingRate
+  archives are SHA-256-verified and converted to <code>funding</code>-channel TapeRows
+  (one per settlement boundary, three clocks, <code>funding_time</code>, <code>funding_rate</code>);
+  the dev tape carries a <strong>coverage horizon</strong> of <code>2026-07</code> so end-of-dev
+  positions settle across the 2026-07-01 boundary. Wiring:
+  <code>funding_settled_r = entry_price × rate / risk_unit</code> (below) replaces the
+  zeroed scalar at settlement boundaries (sim <code>canonical-sim-v5</code>); the scalar
+  <code>funding_rate_r</code> remains as a no-funding-tape fallback. Measured: 1,188
+  funding rows over the 12-month dev + horizon; dev tape hash <code>4c8e5888…</code>
+  (§6.1).</li>
 <li><strong>Mask:</strong> D-024's funding-window veto is independent of the rate and stays
   as declared.</li>
 </ul>
@@ -4952,6 +4953,44 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-12-month-dev-materialization-pinned-rebuild-d-041">2026-08-01 — 12-month dev materialization + pinned rebuild (D-041)</h2>
+<ul>
+<li><strong>12-month dev tape built and audited clean</strong> — BTCUSDT 1h 2025-07-01..
+  2026-07-01: 8,760 klines + 1,188 funding rows (incl. the <code>2026-07</code> coverage
+  horizon) = 9,948 rows, tape hash <code>4c8e5888…</code>, 25 SHA-256-verified Vision
+  archives. Audit: 0 gaps, 0 duplicates, payload hashes OK; the old 3-month
+  tape still audits clean.</li>
+<li><strong><code>research/tape/btcusdt-1h-12m/manifest_dev.json</code></strong> — <code>experiment_id
+  v8-dev-12m-btcusdt</code>, code_hash <code>ea8db9e2…</code>, data_hash <code>4c8e5888…</code>.
+  Materialized in a fresh store/views dir (compile-once): market_states 8760,
+  candidate_birth/outcomes 2786, candidate_trigger 2779,
+  execution_trajectories 11684; ledger <code>c78bf43a…</code>, verdict
+  <code>NO_ECONOMIC_CLAIM</code> (no authority receipt).</li>
+<li><strong>Prereg pins updated</strong> — §6 manifest + derived outputs, §13 dev hash, §15
+  12-month diagnostics appended (execution_share 0.4596, KS 0.1067) <strong>as
+  diagnostics only</strong>; O-017 thresholds 0.25/0.20 unchanged. DATASET_SPEC
+  §6.1/§6.2/§6.4 measured rows updated.</li>
+<li>Monograph rebuilt; suite untouched (127 tests).</li>
+</ul>
+<h2 id="2026-08-01-tape-driven-funding-wiring-d-041-golden-re-pin-sim-v5">2026-08-01 — Tape-driven funding wiring (D-041) + golden re-pin (sim v5)</h2>
+<ul>
+<li><strong><code>src/v8/simulator.py</code></strong> — <code>CanonicalSimulator</code> gains <code>funding_schedule</code>
+  ((boundary_time_ns, rate) pairs); a non-empty schedule settles each crossed
+  boundary at <code>entry_price × rate / risk_unit</code> (DATASET_SPEC 6.4) and fails
+  closed on a missing boundary; the empty schedule keeps the legacy scalar
+  path byte-identical. Sim hash bumps to <code>canonical-sim-v5</code>; schedule values
+  are tape data bound by <code>data_hash</code>, never by <code>sim.hash()</code>.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — <code>Lab.run</code> builds the schedule from the tape's
+  <code>funding</code> rows and passes it to the simulator; <code>_validate_tape_rows</code> gains
+  the funding branch (non-finite / |rate| &gt; 0.10 fail closed).</li>
+<li><strong>Golden re-pin (PERSISTENCE_REPLAY_SPEC 4, deliberate):</strong> the only moved
+  pin is <code>GOLDEN_LEDGER_HASH</code> (outcomes' <code>simulator_hash</code> changed via the sim
+  source hash + v5); <code>GOLDEN_DATA_HASH</code>, <code>GOLDEN_STATES_HASH</code>, candidate
+  count 21 and the terminal distribution are unchanged — the synthetic tape
+  carries no funding rows, so the event stream is byte-identical.</li>
+<li>Tests: 4 schedule-driven funding tests + 1 lab-level schedule wiring test;
+  sim-hash canaries re-pinned to v5. Full suite 122 -&gt; 127.</li>
+</ul>
 <h2 id="2026-08-01-d-041-12-month-dev-window-tape-driven-funding-owner">2026-08-01 — D-041: 12-month dev window + tape-driven funding (owner)</h2>
 <ul>
 <li><strong>D-041 registered</strong> — the declared dev dataset expands from 3 to 12 months
@@ -6014,19 +6053,20 @@ simulator:</p>
   <code>binance-um-v1-ms</code>, <code>event_id</code> = kline open time).</li>
 <li>Development tape hash: the session-2 3-month tape was
   <code>8b12707e0d89f2a955d2badccf9f278267c0e086</code> (2,184 rows, 2026-04-01..
-  2026-07-01); the D-041 12-month dev tape hash (incl. the funding channel and
-  the <code>2026-07</code> coverage horizon) is pinned <strong>after the rebuild</strong> (§13). The
-  frozen-holdout tape hash is recorded <strong>at download time, before any
-  evaluation</strong>, and appended to this record's operator approval (never
-  silently).</li>
-<li>Development manifest (pinned input): <code>experiment_id v8-dev-2026q2-btcusdt</code>,
-  <code>code_hash 6a2b024e08b6734e9390deb6c08640c3adb5e023</code>, <code>data_hash</code>
-  <code>8b12707e…</code> (session 2, step 3). Derived run outputs (not input fields) are
-  recorded in <code>research/tape/btcusdt-1h-2026-q2/views/views_manifest.json</code>:
-  ledger_hash <code>2c1e0fd8dc9b0c70df50a5b34bd9c6bb6223c3bc</code>, verdict
-  <code>NO_ECONOMIC_CLAIM</code>, and materialized view row counts: market_states 2184,
-  candidate_birth 713, candidate_trigger 706, candidate_outcomes 713,
-  execution_trajectories 2900.</li>
+  2026-07-01); the D-041 12-month dev tape is <code>4c8e58885b88b903b54bcdffa093af336cef8d1c</code>
+  (8,760 klines + 1,188 funding rows = 9,948 rows, 2025-07-01..2026-07-01,
+  incl. the <code>2026-07</code> funding coverage horizon). The frozen-holdout tape hash
+  is recorded <strong>at download time, before any evaluation</strong>, and appended to
+  this record's operator approval (never silently).</li>
+<li>Development manifest (pinned input, D-041): <code>experiment_id
+  v8-dev-12m-btcusdt</code>, <code>code_hash ea8db9e2a7d3204f215bab48893fba0556e427ca</code>,
+  <code>data_hash 4c8e58885b88b903b54bcdffa093af336cef8d1c</code>. Derived run outputs
+  (not input fields) are recorded in
+  <code>research/tape/btcusdt-1h-12m/views/views_manifest.json</code>: ledger_hash
+  <code>c78bf43a8c600520808690309f9385f5a290f4f3</code>, verdict <code>NO_ECONOMIC_CLAIM</code>,
+  and materialized view row counts: market_states 8760, candidate_birth 2786,
+  candidate_trigger 2779, candidate_outcomes 2786, execution_trajectories
+  11684.</li>
 <li><code>tools/data.py</code> / <code>tools/vision_backfill.py</code> / <code>tools/materialize_views.py</code>
   versions are bound by the recursive <code>src/v8/</code> code hash at run time;
   materializations fail closed on any pinned-hash mismatch (compile-once).</li>
@@ -6125,7 +6165,7 @@ simulator:</p>
 <h2 id="13-development-frozen-partitions-chronological">13. Development / frozen partitions (chronological)</h2>
 <ul>
 <li><strong>Development window (D-041):</strong> <code>2025-07-01 00:00 UTC</code> .. <code>2026-07-01 00:00
-  UTC</code> — 12 months (BTCUSDT 1h; tape hash pinned after the D-041 rebuild).
+  UTC</code> — 12 months (BTCUSDT 1h; tape hash <code>4c8e5888…</code>).
   Used only for pipeline correctness and for the section-15 diagnostics (the
   O-017 thresholds were ratified pre-holdout and are <strong>fixed forever</strong> — an
   updated dev baseline never re-sets them). It is <strong>not</strong> the test window and
@@ -6183,6 +6223,14 @@ thresholds were derived). After the D-041 12-month rebuild, the updated
 dev-window diagnostics are recorded in this section <strong>as diagnostics only</strong> —
 they never re-set the ratified thresholds, which are fixed pre-holdout
 (O-017).</p>
+<p>On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, both
+pilots, locked baseline): <code>n_executed = 1,120</code>, <code>n_portfolio_rejected =
+1,317</code> (all <code>EXISTING_EXPOSURE_CONFLICT</code>; <code>PORTFOLIO_HEAT_EXCEEDED = 0</code>), so
+<code>execution_share = 1120/(1120+1317) = 0.4596</code>. The executed vs
+portfolio-rejected <code>net_R</code> samples (n=1120/1317) had means <code>−0.0510/+0.0477</code>,
+std <code>0.8798/0.9135</code>, and a <strong>two-sample KS statistic of 0.1067</strong>. Both sit
+inside the ratified bounds (share 0.4596 ≥ 0.25; KS 0.1067 ≤ 0.20) —
+informational only; never a verdict and never a threshold re-set.</p>
 <ul>
 <li><strong><code>execution_share</code> floor:</strong> <strong>0.25</strong> — 60% of the observed dev-window
   share. A frozen-OOS run with <code>execution_share &lt; 0.25</code> returns

@@ -108,19 +108,20 @@ Fixed, frozen definitions (they already exist in code; they are the
   `binance-um-v1-ms`, `event_id` = kline open time).
 - Development tape hash: the session-2 3-month tape was
   `8b12707e0d89f2a955d2badccf9f278267c0e086` (2,184 rows, 2026-04-01..
-  2026-07-01); the D-041 12-month dev tape hash (incl. the funding channel and
-  the `2026-07` coverage horizon) is pinned **after the rebuild** (§13). The
-  frozen-holdout tape hash is recorded **at download time, before any
-  evaluation**, and appended to this record's operator approval (never
-  silently).
-- Development manifest (pinned input): `experiment_id v8-dev-2026q2-btcusdt`,
-  `code_hash 6a2b024e08b6734e9390deb6c08640c3adb5e023`, `data_hash`
-  `8b12707e…` (session 2, step 3). Derived run outputs (not input fields) are
-  recorded in `research/tape/btcusdt-1h-2026-q2/views/views_manifest.json`:
-  ledger_hash `2c1e0fd8dc9b0c70df50a5b34bd9c6bb6223c3bc`, verdict
-  `NO_ECONOMIC_CLAIM`, and materialized view row counts: market_states 2184,
-  candidate_birth 713, candidate_trigger 706, candidate_outcomes 713,
-  execution_trajectories 2900.
+  2026-07-01); the D-041 12-month dev tape is `4c8e58885b88b903b54bcdffa093af336cef8d1c`
+  (8,760 klines + 1,188 funding rows = 9,948 rows, 2025-07-01..2026-07-01,
+  incl. the `2026-07` funding coverage horizon). The frozen-holdout tape hash
+  is recorded **at download time, before any evaluation**, and appended to
+  this record's operator approval (never silently).
+- Development manifest (pinned input, D-041): `experiment_id
+  v8-dev-12m-btcusdt`, `code_hash ea8db9e2a7d3204f215bab48893fba0556e427ca`,
+  `data_hash 4c8e58885b88b903b54bcdffa093af336cef8d1c`. Derived run outputs
+  (not input fields) are recorded in
+  `research/tape/btcusdt-1h-12m/views/views_manifest.json`: ledger_hash
+  `c78bf43a8c600520808690309f9385f5a290f4f3`, verdict `NO_ECONOMIC_CLAIM`,
+  and materialized view row counts: market_states 8760, candidate_birth 2786,
+  candidate_trigger 2779, candidate_outcomes 2786, execution_trajectories
+  11684.
 - `tools/data.py` / `tools/vision_backfill.py` / `tools/materialize_views.py`
   versions are bound by the recursive `src/v8/` code hash at run time;
   materializations fail closed on any pinned-hash mismatch (compile-once).
@@ -220,7 +221,7 @@ Per family `f`, on the frozen OOS window:
 ## 13. Development / frozen partitions (chronological)
 
 - **Development window (D-041):** `2025-07-01 00:00 UTC` .. `2026-07-01 00:00
-  UTC` — 12 months (BTCUSDT 1h; tape hash pinned after the D-041 rebuild).
+  UTC` — 12 months (BTCUSDT 1h; tape hash `4c8e5888…`).
   Used only for pipeline correctness and for the section-15 diagnostics (the
   O-017 thresholds were ratified pre-holdout and are **fixed forever** — an
   updated dev baseline never re-sets them). It is **not** the test window and
@@ -280,6 +281,15 @@ thresholds were derived). After the D-041 12-month rebuild, the updated
 dev-window diagnostics are recorded in this section **as diagnostics only** —
 they never re-set the ratified thresholds, which are fixed pre-holdout
 (O-017).
+
+On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, both
+pilots, locked baseline): `n_executed = 1,120`, `n_portfolio_rejected =
+1,317` (all `EXISTING_EXPOSURE_CONFLICT`; `PORTFOLIO_HEAT_EXCEEDED = 0`), so
+`execution_share = 1120/(1120+1317) = 0.4596`. The executed vs
+portfolio-rejected `net_R` samples (n=1120/1317) had means `−0.0510/+0.0477`,
+std `0.8798/0.9135`, and a **two-sample KS statistic of 0.1067**. Both sit
+inside the ratified bounds (share 0.4596 ≥ 0.25; KS 0.1067 ≤ 0.20) —
+informational only; never a verdict and never a threshold re-set.
 
 - **`execution_share` floor:** **0.25** — 60% of the observed dev-window
   share. A frozen-OOS run with `execution_share < 0.25` returns
