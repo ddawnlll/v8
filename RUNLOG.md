@@ -275,3 +275,42 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-1: session-2 tooling admission — polars/pyarrow/pandera/duckdb via uv + pyproject tooling extra, data.py build/verify/audit PASS on BTCUSDT 1h 2026-06, 4 offline pipeline tests`
 - gate: pytest=46 monograph=byte-identical?yes (ea5b7705…)
   forbidden-scan=clean?yes wall-clock=clean?yes (no src/v8/ change)
+
+## Session 2 — Step 2 — Real tape: download + PIT tape + audit — DONE
+- started: 2026-08-01T03:29:20Z finished: 2026-08-01T03:34:00Z
+- files touched: research/tape/btcusdt-1h-2026-q2/ (gitignored derived
+  artifacts — dataset/, raw/, tape/), RUNLOG.md
+- evidence (mapping recorded — lab store stays JSONL, IMPLEMENTATION_LAYOUT):
+  1) `tools/data.py build --symbols BTCUSDT --start 2026-04-01 --end
+     2026-07-01 --out research/tape/btcusdt-1h-2026-q2/dataset --raw-cache
+     research/tape/btcusdt-1h-2026-q2/raw --interval 1h --data-types klines
+     --no-exchange-info --keep-raw` -> VERIFIED, 3 archives (112172 B), 2184
+     rows, 1 parquet (139543 B); `verify` -> PASS; `audit` (duckdb-1.5.5) ->
+     PASS, duplicate_primary_keys 0. data.py does the download + SHA-256
+     checksum verification; --keep-raw retains the zips AND .CHECKSUM.
+  2) `tools/vision_backfill.py --symbol BTCUSDT --interval 1h --month
+     {2026-04,2026-05,2026-06} --out research/tape/btcusdt-1h-2026-q2/tape`
+     (no --download; consumes data.py's verified archives) -> tape.jsonl.
+     Exact row mapping: source=binance-um, channel=kline,
+     event_time=close_time_ms*1e6, available_time=event_time+1s,
+     ingested_time=available_time, venue_sequence=open_time_ms//interval_ms,
+     event_id=BTCUSDT:1h:{open_time_ms}, payload {open,high,low,close,volume,
+     open_time_ms,close_time_ms,quote_asset_volume,number_of_trades,
+     closed:True,payload_hash,schema_version=binance-um-v1-ms}.
+  3) `--audit` -> {"monotonic": true, "payload_hashes_ok": true,
+     "row_count": 2184, "venue_gaps": 0}.
+  4) Idempotency/reproducibility: re-run of all three months -> `wrote 0 rows
+     (skipped 720/744/720 duplicates)`; tape hash stable:
+     run1 = run2 = `8b12707e0d89f2a955d2badccf9f278267c0e086`.
+  5) Lab PIT sanity: `AppendOnlyLog.replay_tape()` -> 2184 rows, venue_sequence
+     contiguous across the month boundary; `build_state(rows, last_available,
+     ('BTCUSDT',))` -> all 7 features (close, ema_fast, ema_slow, atr,
+     prior_high, prior_low, history), lineage c30637ffbb4f28850cf9d7a7a9a15863de1219a6.
+  Universe NOT extended (O-011 gate): single locked symbol BTCUSDT.
+  Scope: dev window 2026-04-01..2026-07-01 (3 recent months; 2026-07 not yet
+  published on Vision as of 2026-08-01).
+- fixes / deviations: none. Tests never touched the network; all the above is
+  operator/agent data production from verified public archives.
+- commit: (below) `v8-step-2: session-2 real tape — BTCUSDT 1h 2026-04..06 via data.py (verified) + vision_backfill JSONL PIT tape, audit clean, idempotent, tape hash 8b12707e…`
+- gate: pytest=46 monograph=byte-identical?yes (ea5b7705…)
+  forbidden-scan=clean?yes wall-clock=clean?yes (no src/v8/ change)
