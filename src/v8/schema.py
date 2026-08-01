@@ -195,7 +195,10 @@ class ExperimentManifest:
 
 @dataclass(frozen=True)
 class LabReport:
-    """Hash-bound run report; verdict stays blocked without an authority receipt."""
+    """Hash-bound run report; the economic verdict stays blocked without an
+    authority receipt (NO_ECONOMIC_CLAIM), and D-027 attribution-validity
+    failures surface as ATTRIBUTION_UNSAFE_* verdicts when a receipt is
+    present."""
     experiment_id: str
     code_hash: str
     data_hash: str
@@ -214,6 +217,20 @@ class LabReport:
     # into one REJECTED bucket; this breaks it down by reason code
     # (TRADABILITY_MASK_VETO vs PORTFOLIO_HEAT_EXCEEDED vs excess_cost ...).
     rejection_distribution: dict | None = None
+    # D-027 attribution-validity gating (prereg §15; thresholds ratified
+    # pre-holdout O-017, fixed forever): the executed population vs the
+    # portfolio-state-rejected (EXISTING_EXPOSURE_CONFLICT /
+    # PORTFOLIO_HEAT_EXCEEDED) counterfactual population. Both statistics are
+    # computed and reported even when the verdict is NO_ECONOMIC_CLAIM (no
+    # authority receipt — authority blocks first); they gate the economic
+    # verdict only when a receipt is present. execution_share/divergence_ks
+    # are None when no candidate exists; divergence_ks is 0.0 when the
+    # rejected sample is empty (no divergence evidence). Not part of any hash
+    # (report-only, derived from ledgers already inside ledger_hash).
+    n_executed: int = 0
+    n_portfolio_rejected: int = 0
+    execution_share: float | None = None
+    divergence_ks: float | None = None
     # Tooling identity: the tape-building/audit code (tools/*.py) is outside
     # the decision-path code hash; its source hash is surfaced here so a
     # semantic change in the tape builder is at least visible in the report.

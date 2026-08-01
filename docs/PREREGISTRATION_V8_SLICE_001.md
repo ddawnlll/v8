@@ -283,13 +283,16 @@ they never re-set the ratified thresholds, which are fixed pre-holdout
 (O-017).
 
 On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, both
-pilots, locked baseline): `n_executed = 1,120`, `n_portfolio_rejected =
-1,317` (all `EXISTING_EXPOSURE_CONFLICT`; `PORTFOLIO_HEAT_EXCEEDED = 0`), so
-`execution_share = 1120/(1120+1317) = 0.4596`. The executed vs
-portfolio-rejected `net_R` samples (n=1120/1317) had means `−0.0510/+0.0477`,
-std `0.8798/0.9135`, and a **two-sample KS statistic of 0.1067**. Both sit
-inside the ratified bounds (share 0.4596 ≥ 0.25; KS 0.1067 ≤ 0.20) —
-informational only; never a verdict and never a threshold re-set.
+pilots, locked baseline): `n_executed = 1,111` (outcome `label_status` !=
+`NOT_EXECUTED`), `n_portfolio_rejected = 1,317` (all
+`EXISTING_EXPOSURE_CONFLICT`; `PORTFOLIO_HEAT_EXCEEDED = 0`), so
+`execution_share = 1111/(1111+1317) = 0.4576`. The executed vs
+portfolio-rejected `net_R` samples (n=1111/1317) had means `−0.0514/+0.0477`,
+std `0.8834/0.9135`, and a **two-sample KS statistic of 0.1044**. Both sit
+inside the ratified bounds (share 0.4576 ≥ 0.25; KS 0.1044 ≤ 0.20) —
+informational only; never a verdict and never a threshold re-set. These
+numbers are produced by the lab's own D-027 computation
+(`LabReport.execution_share` / `divergence_ks`, `src/v8/lab.py`).
 
 - **`execution_share` floor:** **0.25** — 60% of the observed dev-window
   share. A frozen-OOS run with `execution_share < 0.25` returns

@@ -37,6 +37,49 @@ _INTERVAL_NS = {'1m': 60_000_000_000, '1h': 3_600_000_000_000,
 # per-candidate economic rule; kept here so the constant is auditable.
 EXCESS_COST_THRESHOLD_R = 0.10
 
+# D-027 attribution-validity thresholds (prereg §15): ratified pre-holdout
+# (O-017, 2026-08-01) and fixed forever — never re-set after a verdict.
+# execution_share floor 0.25; population-divergence two-sample KS <= 0.20.
+EXECUTION_SHARE_FLOOR = 0.25
+POPULATION_DIVERGENCE_KS_MAX = 0.20
+
+
+def _d027_verdict(authority_receipt: str | None,
+                  execution_share: float | None,
+                  divergence_ks: float | None) -> str:
+    """D-027 verdict: authority blocks first (HYPOTHESIS_LAB_PROTOCOL);
+    with a receipt the ratified attribution-validity gates decide (prereg
+    §15; thresholds O-017, never re-set after a verdict)."""
+    if authority_receipt is None:
+        return 'NO_ECONOMIC_CLAIM'
+    if execution_share is not None and execution_share < EXECUTION_SHARE_FLOOR:
+        return 'ATTRIBUTION_UNSAFE_LOW_COVERAGE'
+    if divergence_ks is not None and divergence_ks > POPULATION_DIVERGENCE_KS_MAX:
+        return 'ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE'
+    return 'CERTIFIED_AVAILABLE'
+
+
+def _two_sample_ks(xs: list[float], ys: list[float]) -> float:
+    """Two-sample Kolmogorov-Smirnov D = max_x |F1(x) - F2(x)| (stdlib-pure;
+    scipy/numpy are banned in the decision path, D-031). The O-017 calibration
+    used numpy; this implementation must reproduce those numbers within
+    tolerance — verified against the prereg §15 12-month diagnostics
+    (execution_share 0.4576, KS 0.1044). An empty sample returns 1.0
+    (maximal divergence — a population with no evidence cannot pass)."""
+    if not xs or not ys:
+        return 1.0
+    xs, ys = sorted(xs), sorted(ys)
+    nx, ny = len(xs), len(ys)
+    i = j = 0
+    d = 0.0
+    for v in sorted(set(xs + ys)):
+        while i < nx and xs[i] <= v:
+            i += 1
+        while j < ny and ys[j] <= v:
+            j += 1
+        d = max(d, abs(i / nx - j / ny))
+    return d
+
 
 def _code_hash() -> str:
     base = Path(__file__).resolve().parent
@@ -514,6 +557,35 @@ class Lab:
                     rejection_dist[rc] = rejection_dist.get(rc, 0) + 1
         for terminal_state in final_terminal.values():
             dist[terminal_state] = dist.get(terminal_state, 0) + 1
+        # D-027 attribution-validity populations (prereg §15): executed =
+        # outcome label_status != NOT_EXECUTED; portfolio-rejected = the
+        # NOT_EXECUTED counterfactual of a candidate REJECTED for a
+        # portfolio-state reason (EXISTING_EXPOSURE_CONFLICT /
+        # PORTFOLIO_HEAT_EXCEEDED). Cost gates, invalidation, expiry and the
+        # D-024 mask veto express the strategy itself (D-027 principle) and
+        # are excluded from the denominator. Both statistics are computed and
+        # reported even without a receipt; they gate only when one exists.
+        outcomes_all = self.outcomes.read()
+        outcome_by_cid = {o['candidate_id']: o for o in outcomes_all}
+        executed_net_r = [o['net_r'] for o in outcomes_all
+                          if o['label_status'] != 'NOT_EXECUTED']
+        portfolio_rejected_net_r: list[float] = []
+        for rec in self.candidates.read():
+            if rec.get('to_state') == 'REJECTED' and rec.get('reason_code') in (
+                    'EXISTING_EXPOSURE_CONFLICT', 'PORTFOLIO_HEAT_EXCEEDED'):
+                o = outcome_by_cid.get(rec['candidate_id'])
+                if o is not None and o['label_status'] == 'NOT_EXECUTED':
+                    portfolio_rejected_net_r.append(o['net_r'])
+        n_executed = len(executed_net_r)
+        n_portfolio_rejected = len(portfolio_rejected_net_r)
+        if n_executed + n_portfolio_rejected > 0:
+            execution_share = n_executed / (n_executed + n_portfolio_rejected)
+            divergence_ks = _two_sample_ks(executed_net_r,
+                                           portfolio_rejected_net_r) \
+                if portfolio_rejected_net_r else 0.0
+        else:
+            execution_share = None
+            divergence_ks = None
         # Persist the run definition alongside the ledgers: a store directory
         # must be self-describing (a zero-candidate run would otherwise be
         # byte-identical across DIFFERENT manifests — SIMULATION_TRUTH_SPEC
@@ -542,7 +614,8 @@ class Lab:
         if manifest.data_hash and manifest.data_hash != data_hash:
             raise ValueError(
                 f'manifest data_hash {manifest.data_hash} != live tape {data_hash}')
-        verdict = 'NO_ECONOMIC_CLAIM' if manifest.authority_receipt is None else 'CERTIFIED_AVAILABLE'
+        verdict = _d027_verdict(manifest.authority_receipt,
+                                execution_share, divergence_ks)
         # Zero-trade provenance: surface WHY (evaluations never found a setup,
         # all candidates invalidated, the tape degenerate) instead of letting
         # candidate_count=0 collapse every cause.
@@ -562,4 +635,8 @@ class Lab:
                          evaluation_distribution=eval_dist,
                          data_invalid=data_invalid,
                          rejection_distribution=rejection_dist,
+                         n_executed=n_executed,
+                         n_portfolio_rejected=n_portfolio_rejected,
+                         execution_share=execution_share,
+                         divergence_ks=divergence_ks,
                          tooling_hash=_tooling_hash())
