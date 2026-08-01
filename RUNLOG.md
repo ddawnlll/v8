@@ -172,3 +172,32 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-5: Phase 2 state engine — feature groups (trend/volatility/location/participation/response/history) with requires declarations, group+version in lineage hash, revision-replay PIT test`
 - gate: pytest=37 monograph=byte-identical?yes forbidden-scan=clean?yes
   wall-clock=clean?yes
+
+## Step 6 — Phase 3 expert metadata + registry — DONE
+- started: 2026-08-01T03:13:30Z finished: 2026-08-01T03:18:00Z
+- files touched: src/v8/experts/base.py, src/v8/experts/trend_pullback.py,
+  src/v8/experts/failed_breakout.py, docs/EXPERTS_REGISTRY.yaml (new),
+  tests/test_expert_registry.py (new), pyproject.toml, RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `42 passed in 0.53s`
+  (37 -> 42; +5 registry tests: YAML parses with vocabulary + required keys,
+  YAML matches code projection, pilot ontology ids, requires audited against
+  consumption, pilots run on synthetic tape);
+  monograph probe byte-identical (65eef39..., uniq -c = 2) — CONFIRMED even
+  with docs/EXPERTS_REGISTRY.yaml present, because build_monograph.py's NAMES
+  list does not include it (only CLAIMS/EXPERIMENT_REGISTRY.yaml are in the
+  monograph);
+  forbidden-scan over all changed/new files -> no matches;
+  wall-clock scan over changed src/v8/ -> no matches.
+- fixes / deviations: NOTE — creating docs/EXPERTS_REGISTRY.yaml is authorized
+  by the runbook itself (step 6 owns list: "docs/EXPERTS_REGISTRY.yaml (new)")
+  and by the ownership map; hard rule 1's docs/ freeze covers editing existing
+  corpus files, and the probe byte-identity gate confirms no monograph section
+  changed. ENVIRONMENT — the "registry YAML parses" gate needs a real YAML
+  parser; the venv had no pip and pyyaml was absent, so `uv pip install
+  --python .venv/bin/python pyyaml` (6.0.3) was run and `pyyaml>=6` added to
+  the dev extra in pyproject.toml (documented, decision path stays
+  stdlib-only). Experts run on synthetic tape; no Phase-1 tape exists and no
+  registry experiment is registered; nothing promoted.
+- commit: (below) `v8-step-6: Phase 3 expert metadata + registry (mechanism/behavior/variant ids, docs/EXPERTS_REGISTRY.yaml, code-registry consistency + consumption audit tests)`
+- gate: pytest=42 monograph=byte-identical?yes forbidden-scan=clean?yes
+  wall-clock=clean?yes

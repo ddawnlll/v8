@@ -1,0 +1,37 @@
+# V8 Pilot Expert Registry (EXPERT_PROTOCOL section 4; ROADMAP Phase 3).
+#
+# Status lifecycle: PROPOSED -> FORMALIZED -> SCREENING -> REPLICATION ->
+# SHADOW -> PROMOTED; REJECTED / MERGED / QUARANTINED / DATA_BLOCKED.
+# No registry experiment is registered and nothing is promoted
+# (V8_CONSTITUTION rule 13). The code-side projection must match this file
+# exactly (tests/test_expert_registry.py), so the ontology cannot drift.
+
+expert_status_vocabulary:
+  - PROPOSED
+  - FORMALIZED
+  - SCREENING
+  - REPLICATION
+  - SHADOW
+  - PROMOTED
+  - REJECTED
+  - MERGED
+  - QUARANTINED
+  - DATA_BLOCKED
+
+experts:
+  - expert_id: trend_pullback
+    expert_version: v1
+    mechanism_family_id: trend_continuation
+    behavior_family_id: pullback_in_trend
+    variant_id: 'a'
+    requires: [trend, volatility, history]
+    status: FORMALIZED
+    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: failed_breakout
+    expert_version: v1
+    mechanism_family_id: liquidity_vacuum_reentry
+    behavior_family_id: failed_breakout_reentry
+    variant_id: 'a'
+    requires: [location, volatility, history]
+    status: FORMALIZED
+    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3

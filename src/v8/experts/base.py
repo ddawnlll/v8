@@ -14,6 +14,28 @@ from ..schema import MarketState, CandidateDraft, ExpertEvaluation
 class Expert:
     expert_id = 'base'
     version = 'v1'
+    # Phase 3 ontology (EXPERT_PROTOCOL sections 1, 4; ROADMAP Phase 3). A
+    # hypothesis family is identified by mechanism + behavior + variant;
+    # parameter/threshold/geometry changes are VARIANTS of one family, never
+    # separate Experts, and all variants count as one multiplicity unit in the
+    # family-level multiple-testing correction (V8_CONSTITUTION rule 13).
+    mechanism_family_id = ''
+    behavior_family_id = ''
+    variant_id = ''
+    # Feature groups this Expert consumes (EXPERT_PROTOCOL section 1). The
+    # declared set is part of the frozen specification and is audited against
+    # actual consumption (tests/test_expert_registry.py).
+    requires: tuple[str, ...] = ()
+
+    def registry_entry(self) -> dict:
+        """The code-side registry projection. docs/EXPERTS_REGISTRY.yaml must
+        match it exactly; tests/test_expert_registry.py enforces that, so the
+        ontology cannot drift from the registry."""
+        return {'expert_id': self.expert_id, 'expert_version': self.version,
+                'mechanism_family_id': self.mechanism_family_id,
+                'behavior_family_id': self.behavior_family_id,
+                'variant_id': self.variant_id, 'requires': list(self.requires),
+                'status': 'FORMALIZED'}
 
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
         raise NotImplementedError

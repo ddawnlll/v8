@@ -14,6 +14,10 @@ class FailedBreakoutExpert(Expert):
     """Close exceeds prior_high, then closes back below it (failed breakout)."""
     expert_id = 'failed_breakout'
     version = 'v1'
+    mechanism_family_id = 'liquidity_vacuum_reentry'
+    behavior_family_id = 'failed_breakout_reentry'
+    variant_id = 'a'
+    requires = ('location', 'volatility', 'history')
 
     def _setup_pred(self, i: int, bar: tuple) -> bool:
         """Per-history-bar predicate (pinned D-026 interpretation): a close

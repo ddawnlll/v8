@@ -10,7 +10,9 @@ requires-python = ">=3.11"
 dependencies = ["numpy>=1.26"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "markdown>=3.5"]
+# pyyaml added at runbook step 6: the expert-registry gate requires
+# docs/EXPERTS_REGISTRY.yaml to actually parse (tests/test_expert_registry.py).
+dev = ["pytest>=8", "markdown>=3.5", "pyyaml>=6"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

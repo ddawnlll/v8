@@ -13,6 +13,10 @@ class TrendPullbackExpert(Expert):
     """Uptrend (ema_fast > ema_slow) with a pullback (close < ema_slow)."""
     expert_id = 'trend_pullback'
     version = 'v1'
+    mechanism_family_id = 'trend_continuation'
+    behavior_family_id = 'pullback_in_trend'
+    variant_id = 'a'
+    requires = ('trend', 'volatility', 'history')
 
     @staticmethod
     def _setup_pred(i: int, bar: tuple) -> bool:
