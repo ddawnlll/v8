@@ -10,7 +10,8 @@ from v8.schema import (ExperimentManifest, TapeRow, FeatureValue, FEATURE_GROUPS
 from v8.store import AppendOnlyLog
 from v8.marketstate import build_state, FutureRowError, validate_feature_groups
 from v8.lifecycle import CandidateRegistry, episode_key, IllegalTransitionError, ExposureBook
-from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
+from v8.experts import (TrendPullbackExpert, FailedBreakoutExpert,
+                        LiquiditySweepReclaimExpert)
 from v8.schema import CandidateDraft
 from v8.simulator import CanonicalSimulator, OpenPosition, risk_unit
 from v8.synth import make_synthetic_tape, HOUR_NS
@@ -526,6 +527,72 @@ def test_funding_integration_through_lab_run(tmp_path):
     # One settlement at +0.01 (SHORT receives on a positive rate).
     for cid in differing:
         assert outs1[cid]['net_r'] - outs0[cid]['net_r'] == pytest.approx(0.01)
+
+
+# --- Phase 3: liquidity_sweep_reclaim pilot (ROADMAP Phase 3; EXPERT_ ------
+# PROTOCOL 1 — distinct mechanism/setup/invalidation from the other pilots).
+
+def _craft_sweep_tape() -> list[TapeRow]:
+    """25 rising bars (prior low 99.5) then one bar that sweeps it (low 99.0
+    below) and closes back above it (100.5) — a LONG sweep-reclaim."""
+    rows = []
+    for i in range(25):
+        c = 100.0 + i
+        rows.append(TapeRow(
+            source='binance-um', channel='kline', instrument='SOLUSDT',
+            event_time=HOUR_NS * i, available_time=HOUR_NS * i,
+            ingested_time=HOUR_NS * i, venue_sequence=i + 1,
+            event_id=f'SOLUSDT:{i + 1}',
+            payload={'open': c, 'high': c + 0.5, 'low': c - 0.5,
+                     'close': c, 'volume': 1.0, 'closed': True}))
+    rows.append(TapeRow(
+        source='binance-um', channel='kline', instrument='SOLUSDT',
+        event_time=HOUR_NS * 25, available_time=HOUR_NS * 25,
+        ingested_time=HOUR_NS * 25, venue_sequence=26,
+        event_id='SOLUSDT:26',
+        payload={'open': 100.0, 'high': 101.0, 'low': 99.0,
+                 'close': 100.5, 'volume': 1.0, 'closed': True}))
+    return rows
+
+
+def test_liquidity_sweep_reclaim_detects_long_sweep():
+    rows = _craft_sweep_tape()
+    as_of = rows[-1].available_time
+    st = build_state([r for r in rows if r.available_time <= as_of], as_of, UNIVERSE)
+    ex = LiquiditySweepReclaimExpert()
+    ev = ex.evaluate(st)
+    assert ev.decision == 'CANDIDATE'
+    assert ev.draft.direction == 'LONG'
+    assert ev.draft.risk_geometry['prior_low_ref'] == pytest.approx(99.5)
+    assert ev.draft.risk_geometry['atr_ref'] > 0
+
+
+def test_liquidity_sweep_reclaim_still_valid_tracks_reclaimed_level():
+    rows = _craft_sweep_tape()
+    D = rows[-1].available_time
+    st = build_state([r for r in rows if r.available_time <= D], D, UNIVERSE)
+    ex = LiquiditySweepReclaimExpert()
+    ev = ex.evaluate(st)
+    assert ev.draft is not None and ev.decision == 'CANDIDATE'
+    assert ex.still_valid(st, ev.draft) is True      # close 100.5 > ref 99.5
+    # A later bar closing back below the swept level kills the thesis.
+    drop = TapeRow(source='binance-um', channel='kline', instrument='SOLUSDT',
+                   event_time=HOUR_NS * 26, available_time=HOUR_NS * 26,
+                   ingested_time=HOUR_NS * 26, venue_sequence=27,
+                   event_id='SOLUSDT:27',
+                   payload={'open': 100.0, 'high': 100.5, 'low': 98.0,
+                            'close': 98.5, 'volume': 1.0, 'closed': True})
+    st2 = build_state([r for r in rows + [drop] if r.available_time <= HOUR_NS * 26],
+                      HOUR_NS * 26, UNIVERSE)
+    assert ex.still_valid(st2, ev.draft) is False
+
+
+def test_liquidity_sweep_reclaim_runs_in_lab(tmp_path):
+    lab = _fresh_lab(tmp_path, seed=11, n_bars=160)
+    m = _manifest()
+    r = lab.run(m, [LiquiditySweepReclaimExpert()])
+    assert r.verdict == 'NO_ECONOMIC_CLAIM'          # no authority receipt
+    assert r.evaluation_distribution                     # expert ran (NO_SETUP or CANDIDATE)
 
 
 def test_funding_schedule_wired_through_lab_run(tmp_path):

@@ -3,6 +3,24 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Phase 3: third pilot + DATA_BLOCKED backlog (D-042)
+
+- **`src/v8/experts/liquidity_sweep_reclaim.py`** — `LiquiditySweepReclaimExpert`
+  (`liquidity_sweep_reclaim` / `sweep_reclaim`, variant `a`): LONG after a
+  sweep of the windowed prior low that closes back above it, SHORT after a
+  prior-high sweep reclaimed by the close; `prior_low_ref`/`prior_high_ref`
+  frozen at detection (failed_breakout pattern) and excluded from
+  `geometry_version` (`src/v8/lab.py`). Re-exported; added to
+  `tools/materialize_views.py` PILOTS.
+- **`docs/EXPERTS_REGISTRY.yaml`** — third pilot at FORMALIZED; `breakout_retest`
+  and `capitulation` backlog families registered DATA_BLOCKED until
+  derivatives tape (no code module — ROADMAP Phase 3 backlog).
+- **`docs/contracts/IMPLEMENTATION_LAYOUT.md`** — tree + file table + planned
+  note updated; **`D-042`** registered (D-032 file-family rule).
+- Registry/artifact tests amended for the third pilot + DATA_BLOCKED entries.
+  4 new expert tests; suite 139 -> 142. The dev materialization is re-pinned
+  (see the materialization entry below).
+
 ## 2026-08-01 — D-027 attribution-validity gating in LabReport (Phase 4a)
 
 - **`src/v8/schema.py`** — LabReport gains `n_executed` / `n_portfolio_rejected`

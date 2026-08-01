@@ -74,7 +74,8 @@ def test_materialize_writes_all_five_views(tmp_path):
     assert summary['rows']['candidate_birth'] == summary['candidate_count']
     # CONTENT: every birth carries a real expert, instrument and anchor.
     for b in births:
-        assert b['expert_id'] in ('trend_pullback', 'failed_breakout')
+        assert b['expert_id'] in ('trend_pullback', 'failed_breakout',
+                                  'liquidity_sweep_reclaim')
         assert b['instrument'] == 'SOLUSDT'
         assert b['setup_anchor_event_id']
         assert b['direction'] in ('LONG', 'SHORT')

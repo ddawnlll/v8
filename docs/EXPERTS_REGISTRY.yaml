@@ -35,3 +35,27 @@ experts:
     requires: [location, volatility, history]
     status: FORMALIZED
     owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: liquidity_sweep_reclaim
+    expert_version: v1
+    mechanism_family_id: liquidity_sweep_reclaim
+    behavior_family_id: sweep_reclaim
+    variant_id: 'a'
+    requires: [location, volatility, history]
+    status: FORMALIZED
+    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: breakout_retest
+    expert_version: v1
+    mechanism_family_id: breakout_retest
+    behavior_family_id: breakout_retest
+    variant_id: 'a'
+    requires: [location, volatility, history]
+    status: DATA_BLOCKED
+    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
+  - expert_id: capitulation
+    expert_version: v1
+    mechanism_family_id: capitulation_exhaustion
+    behavior_family_id: capitulation
+    variant_id: 'a'
+    requires: [trend, volatility, history]
+    status: DATA_BLOCKED
+    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module

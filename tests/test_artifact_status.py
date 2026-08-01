@@ -56,11 +56,12 @@ def test_non_adjacent_and_unknown_rejected():
 def test_registry_nothing_promoted():
     """No pilot sits at or beyond the ops lifecycle statuses — the expert
     registry vocabulary is a separate axis (EXPERT_PROTOCOL 4) and nothing is
-    promoted (rule 13)."""
+    promoted (rule 13). Pilots are FORMALIZED; DATA_BLOCKED backlog entries
+    are blocked by design until derivatives tape."""
     data = yaml.safe_load((REPO / 'docs' / 'EXPERTS_REGISTRY.yaml').read_text())
     for entry in data['experts']:
         assert entry['status'] in EXPERT_PROTOCOL_STATUS
-        assert entry['status'] == 'FORMALIZED'
+        assert entry['status'] in ('FORMALIZED', 'DATA_BLOCKED')
     # The ops vocabulary is exactly the OPERATIONS_SPEC four-status ladder.
     assert list(STATUS_VOCABULARY) == ['research', 'shadow', 'paper', 'live']
 

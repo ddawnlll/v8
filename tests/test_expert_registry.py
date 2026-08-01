@@ -12,20 +12,25 @@ from pathlib import Path
 
 import yaml
 
-from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
+from v8.experts import (TrendPullbackExpert, FailedBreakoutExpert,
+                        LiquiditySweepReclaimExpert)
 from v8.schema import FEATURE_GROUPS, FEATURE_TO_GROUP
 from v8.synth import make_synthetic_tape
 
 REPO = Path(__file__).resolve().parents[1]
 REGISTRY = REPO / 'docs' / 'EXPERTS_REGISTRY.yaml'
 
-PILOTS = (TrendPullbackExpert, FailedBreakoutExpert)
+PILOTS = (TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert)
+
+# Backlog experts declared DATA_BLOCKED until derivatives tape (no code).
+DATA_BLOCKED = ('breakout_retest', 'capitulation')
 
 # The frozen feature consumption of each pilot (what its evaluate() actually
 # reads via _need); audited against the declared requires (EXPERT_PROTOCOL 1).
 CONSUMPTION = {
     'trend_pullback': {'close', 'ema_fast', 'ema_slow', 'atr', 'history'},
     'failed_breakout': {'close', 'prior_high', 'atr', 'history'},
+    'liquidity_sweep_reclaim': {'close', 'atr', 'history'},
 }
 
 
@@ -37,10 +42,12 @@ def _registry() -> tuple[dict, list]:
 
 
 def test_registry_yaml_parses():
-    """The registry is valid YAML with both pilots, all required keys, the
-    full status vocabulary, and FORMALIZED status (runbook step 6 gate)."""
+    """The registry is valid YAML with the three pilots + the DATA_BLOCKED
+    backlog, all required keys, and the full status vocabulary (runbook step 6
+    gate). Pilots sit at FORMALIZED; backlog entries at DATA_BLOCKED."""
     entries, vocab = _registry()
-    assert set(entries) == {'trend_pullback', 'failed_breakout'}
+    assert set(entries) == {'trend_pullback', 'failed_breakout',
+                            'liquidity_sweep_reclaim'} | set(DATA_BLOCKED)
     for expected in ('PROPOSED', 'FORMALIZED', 'SCREENING', 'REPLICATION',
                      'SHADOW', 'PROMOTED', 'REJECTED', 'MERGED', 'QUARANTINED',
                      'DATA_BLOCKED'):
@@ -50,8 +57,12 @@ def test_registry_yaml_parses():
                     'behavior_family_id', 'variant_id', 'requires', 'status',
                     'owning_spec'):
             assert key in entry, f'{entry["expert_id"]} missing {key}'
-        assert entry['status'] in vocab and entry['status'] == 'FORMALIZED'
+        assert entry['status'] in vocab
         assert isinstance(entry['requires'], list) and entry['requires']
+        if entry['expert_id'] in DATA_BLOCKED:
+            assert entry['status'] == 'DATA_BLOCKED'
+        else:
+            assert entry['status'] == 'FORMALIZED'
 
 
 def test_registry_matches_code():
@@ -68,13 +79,19 @@ def test_registry_matches_code():
 
 
 def test_pilot_ontology_declared():
-    """Both pilots carry mechanism/behavior/variant ids and variant 'a'
-    (pinned runbook step 6 interpretation)."""
+    """All pilots carry mechanism/behavior/variant ids and variant 'a'
+    (pinned runbook step 6 interpretation); the sweep expert is a distinct
+    mechanism from failed_breakout (EXPERT_PROTOCOL 1 separate-Expert test)."""
     ids = {cls.expert_id: (cls.mechanism_family_id, cls.behavior_family_id,
                            cls.variant_id) for cls in PILOTS}
     assert ids['trend_pullback'] == ('trend_continuation', 'pullback_in_trend', 'a')
     assert ids['failed_breakout'] == ('liquidity_vacuum_reentry',
                                       'failed_breakout_reentry', 'a')
+    assert ids['liquidity_sweep_reclaim'] == ('liquidity_sweep_reclaim',
+                                              'sweep_reclaim', 'a')
+    # Distinct mechanism + setup + invalidation -> a separate Expert, not a
+    # variant of the failed-breakout family (EXPERT_PROTOCOL section 1).
+    assert ids['liquidity_sweep_reclaim'][0] != ids['failed_breakout'][0]
 
 
 def test_expert_requires_audited_against_consumption():

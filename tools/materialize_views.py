@@ -28,12 +28,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
 import duckdb
 
-from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
+from v8.experts import (TrendPullbackExpert, FailedBreakoutExpert,
+                        LiquiditySweepReclaimExpert)
 from v8.lab import Lab, _code_hash
 from v8.schema import ExperimentManifest, sha1_hex
 from v8.store import AppendOnlyLog
 
-PILOTS = (TrendPullbackExpert, FailedBreakoutExpert)
+PILOTS = (TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert)
 
 # view name -> (jsonl ledger, SELECT body). read_json_auto infers the
 # heterogeneous candidate ledger (transitions vs suppressed vs veto rows);

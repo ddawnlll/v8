@@ -19,6 +19,7 @@ src/v8/
     base.py              Expert base + _need + still_valid contract
     trend_pullback.py    TrendPullbackExpert
     failed_breakout.py   FailedBreakoutExpert
+    liquidity_sweep_reclaim.py  LiquiditySweepReclaimExpert
   lifecycle.py       transition legality, CandidateRegistry, episode_key,
                      ExposureBook
   risk.py            RiskGate (deterministic admission)
@@ -43,10 +44,11 @@ tests/
   test_materialize_views.py     materialization roundtrip + fail-closed tests
 ```
 
-Planned, not yet present: additional Expert modules land under
-`src/v8/experts/` only after registry admission (Phase 3); the Phase-4
-experiment runner (D-027 gating in `LabReport`, runbook-owned preregistration
-execution) is the next build target.
+Planned, not yet present: further Expert modules land under
+`src/v8/experts/` only after registry admission (the `breakout_retest` and
+`capitulation` backlog families are registered DATA_BLOCKED until derivatives
+tape — no code module until then); `tools/run_experiment.py` (the
+`v8_slice_001` preregistration runner) is the Phase-4 build target.
 
 ## 2. File-by-file contract
 
@@ -56,10 +58,11 @@ execution) is the next build target.
 | `schema.py` | canonical frozen dataclasses; `sha1_hex`, `record_dict` | `sha1_hex(obj)`; dataclasses `TapeRow` .. `LabReport` | DATASET_SPEC §1 |
 | `store.py` | append-only JSONL log; inbox dedup; canonical replay order | `AppendOnlyLog.append/read/replay_tape/hash` | PERSISTENCE_REPLAY_SPEC §3-4 |
 | `marketstate.py` | availability-gated state for decision clock D | `build_state(rows, as_of, universe)`; `FutureRowError` | MARKET_STATE_CONTRACT §1, §6 |
-| `experts/__init__.py` | pilot expert registry; stable re-export surface | `from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert` | EXPERT_PROTOCOL §3 |
+| `experts/__init__.py` | pilot expert registry; stable re-export surface | `from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL §3 |
 | `experts/base.py` | Expert base contract; post-entry thesis predicate | `Expert.evaluate`, `Expert.still_valid`, `Expert._need` | EXPERT_PROTOCOL §2; D-029 |
 | `experts/trend_pullback.py` | trend-pullback-continuation family | `TrendPullbackExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/failed_breakout.py` | failed-breakout-reentry family | `FailedBreakoutExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
+| `experts/liquidity_sweep_reclaim.py` | liquidity-sweep-reclaim family (third pilot, D-042) | `LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `lifecycle.py` | legal transitions; registry projection; episode identity; exposure book | `CandidateRegistry.apply/is_duplicate`, `episode_key`, `ExposureBook` | CANDIDATE_LIFECYCLE_SPEC §2; D-018, D-026 |
 | `risk.py` | deterministic admission; heat cap | `RiskGate.admit/release`; `RiskVerdict` | CANDIDATE_LIFECYCLE_SPEC §6; D-023 |
 | `simulator.py` | canonical Level-1 simulator; R units; excursions; two execution modes | `CanonicalSimulator.step/run/hash`, `risk_unit`, `OpenPosition` | SIMULATION_TRUTH_SPEC; D-028, D-030 |

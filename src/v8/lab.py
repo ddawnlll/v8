@@ -145,7 +145,7 @@ def _geometry_version(draft) -> str:
     identity — a stable setup would otherwise change key across decision clocks
     and disable deduplication."""
     structural = {k: v for k, v in draft.risk_geometry.items()
-                  if k not in ('atr_ref', 'prior_high_ref')}
+                  if k not in ('atr_ref', 'prior_high_ref', 'prior_low_ref')}
     return sha1_hex(structural)
 
 
