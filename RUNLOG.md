@@ -450,3 +450,31 @@ this file and `docs/STATUS_REPORT.md`.
   bc207925d828280de4b7b8d02d359b2f79da70ba58144cc9360b3ed059ba4c45.
 - commit: (below) `v8-step-0: session-3 re-baseline — probe bc207925…, 50 tests, clean tree`
 - gate: pytest=50 monograph=baseline-reset?yes (bc207925…) tree-clean?yes
+
+## Session 3 — Step 1 — Data-quality monitoring + structured observability — DONE
+- started: 2026-08-01T05:05:00Z finished: 2026-08-01T05:09:00Z
+- files touched: tools/monitor_tape.py (new), tests/test_monitor_tape.py (new),
+  RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `55 passed in 1.63s`
+  (50 -> 55; +5 monitor tests: clean-tape schema+structured JSON, schema
+  violations detected, staleness with injected now, exit codes, audit reuse);
+  monograph probe byte-identical (bc207925…, uniq -c = 2);
+  forbidden-scan over changed files -> no matches;
+  wall-clock scan -> no matches in src/v8/ (the monitor's `time.time_ns()` is
+  an ops tool in tools/, not the decision path — OPERATIONS_SPEC staleness
+  alerting requires a reference clock; tests inject --now and never touch it);
+  real-tape smoke: `tools/monitor_tape.py --tape
+  research/tape/btcusdt-1h-2026-q2/tape --schema --experiment-id
+  v8-dev-2026q2-btcusdt` ->
+  {"audit": {"monotonic": true, "payload_hashes_ok": true, "row_count": 2184,
+  "venue_gaps": 0}, "rows": 2184, "schema_problems": [], "verdict": "OK"},
+  exit 0.
+- fixes / deviations: (1) test fixture initially lacked payload_hash, so the
+  REUSED audit correctly flagged it — fixture made contract-compliant (audit
+  reuse is the point; no fork). (2) monitor needed repo-root on sys.path for
+  the `tools.` package import under CLI runs. (3) tools/ time.time_ns() is a
+  documented ops-tool clock (staleness needs "now"); the no-wall-clock rule
+  covers src/v8/ only, and tests inject --now.
+- commit: (below) `v8-step-1: session-3 ops — tools/monitor_tape.py (schema + audit reuse + staleness, structured JSON, fail-closed) + 5 offline tests`
+- gate: pytest=55 monograph=byte-identical?yes (bc207925…)
+  forbidden-scan=clean?yes wall-clock=src/v8-clean?yes
