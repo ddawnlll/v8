@@ -111,3 +111,38 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-3: D-024 mechanical tradability mask (manifest constants, RiskGate-adjacent veto, NOT_EXECUTED counterfactuals)`
 - gate: pytest=26 monograph=byte-identical?yes forbidden-scan=clean?yes
   wall-clock=clean?yes
+
+## Step 4 — Phase 1 data plane: vision_backfill.py + tape audit — DONE
+- started: 2026-08-01T03:03:30Z finished: 2026-08-01T03:08:30Z
+- files touched: tools/vision_backfill.py (new), tests/test_tape_audit.py (new),
+  RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> `33 passed in 0.44s`
+  (26 -> 33; +7 offline tape-audit tests: checksum+three-clocks,
+  header-tolerated, corrupt checksum/zip fail-closed, double-run idempotency,
+  clean audit, venue-gap audit, payload-corruption audit);
+  CLI smoke (offline, fixture zip in --out): run1 `wrote 6 rows (skipped 0
+  duplicates); tape_hash=9f122b90...`, run2 `wrote 0 rows (skipped 6
+  duplicates)` + identical tape_hash (idempotent), `--audit`
+  `{"monotonic": true, "payload_hashes_ok": true, "row_count": 6,
+  "venue_gaps": 0}`;
+  lab compatibility: `AppendOnlyLog.replay_tape()` over the produced
+  tape.jsonl -> 6 rows, tape hash unchanged (TapeRow(**r) replay safe);
+  monograph probe byte-identical (65eef39..., uniq -c = 2);
+  forbidden-scan over the two new files -> no matches;
+  wall-clock scan -> only a docstring false-positive (`open time.`), no clock
+  reads (rule scopes to src/v8/ anyway; this is tools/).
+- fixes / deviations: OPEN_PIN + DEVIATION: the runbook pins "reuse
+  tools/data.py's row-building logic (import it; do not fork it)", but
+  tools/data.py raises SystemExit at import time without
+  polars/pandera/pyarrow/duckdb (none installed), and O-009 + runbook step 5
+  forbid adding those dependencies this session. vision_backfill.py therefore
+  mirrors data.py's DOCUMENTED contracts as stdlib code — kline column order
+  + ms->ns conversion (from _normalize_kline_archive) and the checksum file
+  contract (from _parse_checksum_file/_sha256_file) — cited in the module
+  docstring and inline; the mapping is the same contract, not a new format.
+  JSONL rows carry exactly the TapeRow fields (store.replay_tape does
+  TapeRow(**r)); payload_hash + schema_version live inside payload.
+  Real download is operator-only (--download); never required by tests.
+- commit: (below) `v8-step-4: Phase 1 data plane — vision_backfill.py (Vision monthly klines -> PIT tape JSONL, checksum-verified, idempotent) + offline tape audit`
+- gate: pytest=33 monograph=byte-identical?yes forbidden-scan=clean?yes
+  wall-clock=clean?yes
