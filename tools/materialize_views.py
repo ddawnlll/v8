@@ -78,6 +78,16 @@ def materialize(manifest_path: Path, store_dir: Path) -> dict:
     views_dir = Path(data.pop('views_dir'))
     manifest = ExperimentManifest(**data)
 
+    # Compile-once discipline: a store dir that already holds a run would be
+    # polluted by a second run (the lab fails closed too, but fail here with
+    # a clear message before any work).
+    store = Path(store_dir)
+    if any((store / f'{name}.jsonl').exists()
+           for name in ('states', 'candidates', 'outcomes', 'evaluations')):
+        raise ValueError(
+            f'store dir {store} already contains run evidence; '
+            'materialization is compile-once — use a fresh store dir')
+
     lab = Lab(store_dir, universe=manifest.universe)
     lab.ingest(AppendOnlyLog(tape_path).replay_tape())
     report = lab.run(manifest, [cls() for cls in PILOTS])
