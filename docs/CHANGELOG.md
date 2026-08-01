@@ -3,6 +3,26 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — D-041: 12-month dev window + tape-driven funding (owner)
+
+- **D-041 registered** — the declared dev dataset expands from 3 to 12 months
+  (BTCUSDT 1h, `2025-07-01`..`2026-07-01`, ~8,760 bars) and the `funding`
+  channel is ingested into the PIT tape with tape-driven settlement
+  (`funding_settled_r = entry_price × rate / risk_unit`), per DATASET_SPEC
+  §6.4. O-017 thresholds 0.25/0.20 are **not** touched; the 12-month baseline
+  updates prereg §15 diagnostics only. Funding coverage horizon `2026-07`
+  declared so end-of-dev positions settle across the 2026-07-01 boundary.
+  Dev end stays strictly before the holdout anchor.
+- **`docs/PREREGISTRATION_V8_SLICE_001.md`** — §8 funding baseline becomes
+  tape-schedule-driven (scalar retained as no-funding-tape fallback); §13 dev
+  window 12 months + coverage horizon; §15 diagnostics note (thresholds
+  fixed); §6 dev-tape hash marked pending the rebuild.
+- **`docs/contracts/DATASET_SPEC.md`** — §6.1 channels/dev-window rows, §6.2
+  scale expectations, §6.4 funding status, §6.5 declared list updated.
+- **`docs/decisions/DECISION_REGISTER.md`** — D-041 row.
+- No code or test changed in this pass. Monograph rebuilt; suite untouched
+  (112 tests).
+
 ## 2026-08-01 — Full-program target (D-040, owner)
 
 - **D-040 registered** — the v0.1-only framing is retired; the program target

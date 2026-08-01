@@ -106,10 +106,13 @@ Fixed, frozen definitions (they already exist in code; they are the
   downloaded and SHA-256-verified by `tools/data.py`; converted to the JSONL
   PIT tape by `tools/vision_backfill.py` (three clocks, `schema_version`
   `binance-um-v1-ms`, `event_id` = kline open time).
-- Development tape hash (pinned): `8b12707e0d89f2a955d2badccf9f278267c0e086`
-  (2184 rows, 2026-04-01..2026-07-01). The frozen-holdout tape hash is
-  recorded **at download time, before any evaluation**, and appended to this
-  record's operator approval (never silently).
+- Development tape hash: the session-2 3-month tape was
+  `8b12707e0d89f2a955d2badccf9f278267c0e086` (2,184 rows, 2026-04-01..
+  2026-07-01); the D-041 12-month dev tape hash (incl. the funding channel and
+  the `2026-07` coverage horizon) is pinned **after the rebuild** (§13). The
+  frozen-holdout tape hash is recorded **at download time, before any
+  evaluation**, and appended to this record's operator approval (never
+  silently).
 - Development manifest (pinned input): `experiment_id v8-dev-2026q2-btcusdt`,
   `code_hash 6a2b024e08b6734e9390deb6c08640c3adb5e023`, `data_hash`
   `8b12707e…` (session 2, step 3). Derived run outputs (not input fields) are
@@ -145,9 +148,14 @@ Fixed, frozen definitions (they already exist in code; they are the
 - Costs: `round_trip_cost_r = 0.07`, **locked for this experiment** (the
   provisional `binance_usdm_costs_v1` figure is frozen here; it is not
   revisable after a verdict — any revision is a new preregistration).
-- Funding: schedule `funding_hours = 8`, `funding_rate_r = 0.0` baseline
-  (the D-024 mask vetoes entries within 1 bar of a funding boundary
-  regardless of rate, per the locked baseline).
+- Funding: **tape-driven settlement (D-041)** — the schedule is read from the
+  tape's `funding` channel (Vision monthly fundingRate archives, SHA-256
+  verified); every crossed boundary settles
+  `funding_settled_r = entry_price × rate / risk_unit` (DATASET_SPEC §6.4).
+  `funding_hours = 8` retained as the schedule grid; the `funding_rate_r`
+  scalar remains only as a no-funding-tape fallback. The D-024 mask vetoes
+  entries within 1 bar of a funding boundary regardless of rate, per the
+  locked baseline.
 - D-024 mechanical tradability mask (data-plane, frozen): `max_spread_frac =
   0.05`, `funding_window_bars = 1`; vetoed candidates are kept
   counterfactual (`NOT_EXECUTED`) with reason `TRADABILITY_MASK_VETO`.
@@ -211,10 +219,16 @@ Per family `f`, on the frozen OOS window:
 
 ## 13. Development / frozen partitions (chronological)
 
-- **Development window:** `2026-04-01 00:00 UTC` .. `2026-07-01 00:00 UTC`
-  (BTCUSDT 1h; tape hash `8b12707e…`). Used only for pipeline correctness and
-  for setting the section-15 thresholds (O-017). It is **not** the test
-  window and contributes nothing to the primary metric.
+- **Development window (D-041):** `2025-07-01 00:00 UTC` .. `2026-07-01 00:00
+  UTC` — 12 months (BTCUSDT 1h; tape hash pinned after the D-041 rebuild).
+  Used only for pipeline correctness and for the section-15 diagnostics (the
+  O-017 thresholds were ratified pre-holdout and are **fixed forever** — an
+  updated dev baseline never re-sets them). It is **not** the test window and
+  contributes nothing to the primary metric. The dev tape also carries a
+  declared **funding coverage horizon**: funding rows for `2026-07` so
+  positions entered in the final dev bars settle across the 2026-07-01
+  boundary (mirrors the 9-bar label extension; funding rows never enter
+  features or the decision loop).
 - **Frozen out-of-sample window (declared, never touched):** the **first two
   published months strictly after** `2026-07-01 00:00 UTC` (≥ 1,400 1h bars,
   satisfying section 12; `2026-07` was not yet published on 2026-08-01, so at
@@ -260,6 +274,12 @@ both pilots, locked baseline): `n_executed = 256`,
 portfolio-rejected `net_R` samples (n=256/360) had means `+0.0519/+0.0184`,
 std `0.8906/0.9415`, and a **two-sample Kolmogorov-Smirnov statistic of
 0.073**.
+
+The session-2 stats above are the O-017 calibration record (how the ratified
+thresholds were derived). After the D-041 12-month rebuild, the updated
+dev-window diagnostics are recorded in this section **as diagnostics only** —
+they never re-set the ratified thresholds, which are fixed pre-holdout
+(O-017).
 
 - **`execution_share` floor:** **0.25** — 60% of the observed dev-window
   share. A frozen-OOS run with `execution_share < 0.25` returns

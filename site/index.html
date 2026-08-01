@@ -1288,13 +1288,13 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 </tr>
 <tr>
 <td>Channels</td>
-<td><code>kline</code> (ingested, 2,184 rows dev); <code>funding</code> (declared, <strong>ingestion pending</strong> — 6.4)</td>
+<td><code>kline</code> (ingested; dev window 12 months — count/hash pinned after the D-041 rebuild); <code>funding</code> (ingested under D-041, coverage horizon <code>2026-07</code> — 6.4)</td>
 <td>aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice)</td>
 </tr>
 <tr>
-<td>Development window</td>
-<td><code>2026-04-01 00:00</code> .. <code>2026-07-01 00:00</code> UTC, tape hash <code>8b12707e…</code></td>
-<td>Pipeline correctness + O-017 calibration only; never a test window</td>
+<td>Development window (D-041)</td>
+<td><code>2025-07-01 00:00</code> .. <code>2026-07-01 00:00</code> UTC — 12 months (tape hash pinned after rebuild)</td>
+<td>Pipeline correctness + O-017 calibration only; never a test window; O-017 thresholds unchanged</td>
 </tr>
 <tr>
 <td>Frozen out-of-sample</td>
@@ -1319,9 +1319,9 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 </thead>
 <tbody>
 <tr>
-<td>BTCUSDT 1h, 3 months (current dev)</td>
-<td>2,184 bars; ~1.4 MB JSONL; ~132 KB raw zip; ~140 KB parquet</td>
-<td>Measured, session 2</td>
+<td>BTCUSDT 1h, 12 months (current dev, D-041)</td>
+<td>~8,760 bars; ~5.6 MB JSONL</td>
+<td>Measured after the D-041 rebuild (extrapolated from the 1-year row below)</td>
 </tr>
 <tr>
 <td>BTCUSDT 1h, 1 year</td>
@@ -1345,8 +1345,8 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.</p>
 </tr>
 <tr>
 <td>Funding history (BTCUSDT)</td>
-<td>~3 rows/day (~1,095/yr, ~200 B/row)</td>
-<td>Source: <code>GET /fapi/v1/fundingRate</code>, paginated</td>
+<td>~3 rows/day (~1,230 over the 12-month dev + <code>2026-07</code> coverage horizon)</td>
+<td>Ingested from Vision monthly fundingRate archives (D-041); <code>GET /fapi/v1/fundingRate</code> is the REST equivalent</td>
 </tr>
 </tbody>
 </table>
@@ -1367,19 +1367,22 @@ fail-closed on hash mismatch. Physical engines per <code>PERSISTENCE_REPLAY_SPEC
   <code>GET /fapi/v1/fundingRate</code>, FEED_INGESTION_SPEC §3; schedule from
   <code>fundingInfo</code> for dynamic-interval symbols, versioned venue input — never
   assumed 8h).</li>
-<li><strong>Status:</strong> declared but <strong>not yet ingested</strong> — the simulator settles at
-  boundaries with <code>funding_rate_r</code> today (<code>funding_rate_r = 0.0</code> in
-  <code>manifest_dev.json</code> and <code>PREREGISTRATION_V8_SLICE_001</code> §8), i.e. funding
-  economics are currently zeroed. Closing this gap (ingest → wire
-  <code>funding_settled_r = entry_price × rate / risk_unit</code> → revise
-  preregistration §8 <strong>before</strong> the holdout is opened) is the immediate next
-  data-plane step.</li>
+<li><strong>Status (D-041):</strong> ingestion authorized and in progress — Vision monthly
+  fundingRate archives are SHA-256-verified and converted to
+  <code>funding</code>-channel TapeRows (one per settlement boundary, three clocks,
+  <code>funding_time</code>, <code>funding_rate</code>); the dev tape carries a <strong>coverage horizon</strong>
+  of <code>2026-07</code> so end-of-dev positions settle across the 2026-07-01 boundary.
+  Wiring: <code>funding_settled_r = entry_price × rate / risk_unit</code> (below)
+  replaces the zeroed scalar at settlement boundaries; the scalar
+  <code>funding_rate_r</code> remains as a no-funding-tape fallback. Measured row counts
+  and hashes are pinned after the rebuild.</li>
 <li><strong>Mask:</strong> D-024's funding-window veto is independent of the rate and stays
   as declared.</li>
 </ul>
 <h3 id="65-declared-not-declared-boundary">6.5 Declared-not-declared boundary</h3>
 <ul>
-<li>Declared: universe, interval, channels, windows, hashes, storage mapping,
+<li>Declared: universe, interval, channels (incl. the <code>funding</code> channel and its
+  <code>2026-07</code> coverage horizon, D-041), windows, hashes, storage mapping,
   scale expectations, funding channel contract.</li>
 <li><strong>Not</strong> declared: any economic claim (rules 8-9, 12); Level-2+ fidelity
   (O-010); universe extension (O-011); any learned component (rules 6, 14);
@@ -2698,6 +2701,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>Retire the v0.1-only framing; the program target is the full 8-phase roadmap with the evidence gates unchanged (rules 5-6, 12, 14). Build priority completes Phases 0-4 first — the Phase-4 <code>v8_slice_001</code> experiment runner + D-027 verdict gating are the critical path — and Phases 5/7 are built only when their gate passes</td>
 <td>PROVISIONAL_DECISION</td>
 <td>Owner decision 2026-08-01. <code>docs/PLAN_V8_FULL.md</code> holds the sprint breakdown (planning artifact, not a monograph section); <code>tests/test_decision_path_purity.py</code> keeps enforcing gated-component absence. No economic claim is made or implied.</td>
+</tr>
+<tr>
+<td>D-041</td>
+<td>Expand the declared dev dataset to 12 months (BTCUSDT 1h, <code>2025-07-01</code>..<code>2026-07-01</code>, ~8,760 bars) and ingest the <code>funding</code> channel into the PIT tape with tape-driven settlement wiring (<code>funding_settled_r = entry_price × rate / risk_unit</code>), including a declared funding coverage horizon of <code>2026-07</code> so end-of-dev positions settle across the 2026-07-01 boundary; holdout anchor unchanged</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-01 (full-program D-040 series). O-017 thresholds 0.25/0.20 stay fixed — the 12-month baseline updates prereg §15 diagnostics only, never the ratified numbers. Legal pre-holdout per prereg §16 and D-039's scope note; prereg §8/§13/§15 revised; dev end stays strictly before the 2026-07-01 holdout. Funding rows never enter features or the decision loop.</td>
 </tr>
 </tbody>
 </table>
@@ -4943,6 +4952,26 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-d-041-12-month-dev-window-tape-driven-funding-owner">2026-08-01 — D-041: 12-month dev window + tape-driven funding (owner)</h2>
+<ul>
+<li><strong>D-041 registered</strong> — the declared dev dataset expands from 3 to 12 months
+  (BTCUSDT 1h, <code>2025-07-01</code>..<code>2026-07-01</code>, ~8,760 bars) and the <code>funding</code>
+  channel is ingested into the PIT tape with tape-driven settlement
+  (<code>funding_settled_r = entry_price × rate / risk_unit</code>), per DATASET_SPEC
+  §6.4. O-017 thresholds 0.25/0.20 are <strong>not</strong> touched; the 12-month baseline
+  updates prereg §15 diagnostics only. Funding coverage horizon <code>2026-07</code>
+  declared so end-of-dev positions settle across the 2026-07-01 boundary.
+  Dev end stays strictly before the holdout anchor.</li>
+<li><strong><code>docs/PREREGISTRATION_V8_SLICE_001.md</code></strong> — §8 funding baseline becomes
+  tape-schedule-driven (scalar retained as no-funding-tape fallback); §13 dev
+  window 12 months + coverage horizon; §15 diagnostics note (thresholds
+  fixed); §6 dev-tape hash marked pending the rebuild.</li>
+<li><strong><code>docs/contracts/DATASET_SPEC.md</code></strong> — §6.1 channels/dev-window rows, §6.2
+  scale expectations, §6.4 funding status, §6.5 declared list updated.</li>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-041 row.</li>
+<li>No code or test changed in this pass. Monograph rebuilt; suite untouched
+  (112 tests).</li>
+</ul>
 <h2 id="2026-08-01-full-program-target-d-040-owner">2026-08-01 — Full-program target (D-040, owner)</h2>
 <ul>
 <li><strong>D-040 registered</strong> — the v0.1-only framing is retired; the program target
@@ -5983,10 +6012,13 @@ simulator:</p>
   downloaded and SHA-256-verified by <code>tools/data.py</code>; converted to the JSONL
   PIT tape by <code>tools/vision_backfill.py</code> (three clocks, <code>schema_version</code>
   <code>binance-um-v1-ms</code>, <code>event_id</code> = kline open time).</li>
-<li>Development tape hash (pinned): <code>8b12707e0d89f2a955d2badccf9f278267c0e086</code>
-  (2184 rows, 2026-04-01..2026-07-01). The frozen-holdout tape hash is
-  recorded <strong>at download time, before any evaluation</strong>, and appended to this
-  record's operator approval (never silently).</li>
+<li>Development tape hash: the session-2 3-month tape was
+  <code>8b12707e0d89f2a955d2badccf9f278267c0e086</code> (2,184 rows, 2026-04-01..
+  2026-07-01); the D-041 12-month dev tape hash (incl. the funding channel and
+  the <code>2026-07</code> coverage horizon) is pinned <strong>after the rebuild</strong> (§13). The
+  frozen-holdout tape hash is recorded <strong>at download time, before any
+  evaluation</strong>, and appended to this record's operator approval (never
+  silently).</li>
 <li>Development manifest (pinned input): <code>experiment_id v8-dev-2026q2-btcusdt</code>,
   <code>code_hash 6a2b024e08b6734e9390deb6c08640c3adb5e023</code>, <code>data_hash</code>
   <code>8b12707e…</code> (session 2, step 3). Derived run outputs (not input fields) are
@@ -6022,9 +6054,14 @@ simulator:</p>
 <li>Costs: <code>round_trip_cost_r = 0.07</code>, <strong>locked for this experiment</strong> (the
   provisional <code>binance_usdm_costs_v1</code> figure is frozen here; it is not
   revisable after a verdict — any revision is a new preregistration).</li>
-<li>Funding: schedule <code>funding_hours = 8</code>, <code>funding_rate_r = 0.0</code> baseline
-  (the D-024 mask vetoes entries within 1 bar of a funding boundary
-  regardless of rate, per the locked baseline).</li>
+<li>Funding: <strong>tape-driven settlement (D-041)</strong> — the schedule is read from the
+  tape's <code>funding</code> channel (Vision monthly fundingRate archives, SHA-256
+  verified); every crossed boundary settles
+  <code>funding_settled_r = entry_price × rate / risk_unit</code> (DATASET_SPEC §6.4).
+  <code>funding_hours = 8</code> retained as the schedule grid; the <code>funding_rate_r</code>
+  scalar remains only as a no-funding-tape fallback. The D-024 mask vetoes
+  entries within 1 bar of a funding boundary regardless of rate, per the
+  locked baseline.</li>
 <li>D-024 mechanical tradability mask (data-plane, frozen): <code>max_spread_frac =
   0.05</code>, <code>funding_window_bars = 1</code>; vetoed candidates are kept
   counterfactual (<code>NOT_EXECUTED</code>) with reason <code>TRADABILITY_MASK_VETO</code>.</li>
@@ -6087,10 +6124,16 @@ simulator:</p>
 </ul>
 <h2 id="13-development-frozen-partitions-chronological">13. Development / frozen partitions (chronological)</h2>
 <ul>
-<li><strong>Development window:</strong> <code>2026-04-01 00:00 UTC</code> .. <code>2026-07-01 00:00 UTC</code>
-  (BTCUSDT 1h; tape hash <code>8b12707e…</code>). Used only for pipeline correctness and
-  for setting the section-15 thresholds (O-017). It is <strong>not</strong> the test
-  window and contributes nothing to the primary metric.</li>
+<li><strong>Development window (D-041):</strong> <code>2025-07-01 00:00 UTC</code> .. <code>2026-07-01 00:00
+  UTC</code> — 12 months (BTCUSDT 1h; tape hash pinned after the D-041 rebuild).
+  Used only for pipeline correctness and for the section-15 diagnostics (the
+  O-017 thresholds were ratified pre-holdout and are <strong>fixed forever</strong> — an
+  updated dev baseline never re-sets them). It is <strong>not</strong> the test window and
+  contributes nothing to the primary metric. The dev tape also carries a
+  declared <strong>funding coverage horizon</strong>: funding rows for <code>2026-07</code> so
+  positions entered in the final dev bars settle across the 2026-07-01
+  boundary (mirrors the 9-bar label extension; funding rows never enter
+  features or the decision loop).</li>
 <li><strong>Frozen out-of-sample window (declared, never touched):</strong> the <strong>first two
   published months strictly after</strong> <code>2026-07-01 00:00 UTC</code> (≥ 1,400 1h bars,
   satisfying section 12; <code>2026-07</code> was not yet published on 2026-08-01, so at
@@ -6135,6 +6178,11 @@ both pilots, locked baseline): <code>n_executed = 256</code>,
 portfolio-rejected <code>net_R</code> samples (n=256/360) had means <code>+0.0519/+0.0184</code>,
 std <code>0.8906/0.9415</code>, and a <strong>two-sample Kolmogorov-Smirnov statistic of
 0.073</strong>.</p>
+<p>The session-2 stats above are the O-017 calibration record (how the ratified
+thresholds were derived). After the D-041 12-month rebuild, the updated
+dev-window diagnostics are recorded in this section <strong>as diagnostics only</strong> —
+they never re-set the ratified thresholds, which are fixed pre-holdout
+(O-017).</p>
 <ul>
 <li><strong><code>execution_share</code> floor:</strong> <strong>0.25</strong> — 60% of the observed dev-window
   share. A frozen-OOS run with <code>execution_share &lt; 0.25</code> returns

@@ -128,8 +128,8 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.
 |---|---|---|
 | Universe | `BTCUSDT` (USDT-M perpetual) | Single symbol; extension only on a binding coverage failure (O-011) |
 | Interval | 1h bars, UTC | Frozen for `v8_slice_001` |
-| Channels | `kline` (ingested, 2,184 rows dev); `funding` (declared, **ingestion pending** — 6.4) | aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice) |
-| Development window | `2026-04-01 00:00` .. `2026-07-01 00:00` UTC, tape hash `8b12707e…` | Pipeline correctness + O-017 calibration only; never a test window |
+| Channels | `kline` (ingested; dev window 12 months — count/hash pinned after the D-041 rebuild); `funding` (ingested under D-041, coverage horizon `2026-07` — 6.4) | aggTrade/book/markPrice/forceOrder deferred (FEED_INGESTION_SPEC §3 defines them; not declared for the slice) |
+| Development window (D-041) | `2025-07-01 00:00` .. `2026-07-01 00:00` UTC — 12 months (tape hash pinned after rebuild) | Pipeline correctness + O-017 calibration only; never a test window; O-017 thresholds unchanged |
 | Frozen out-of-sample | First **two published months strictly after** `2026-07-01`, + 9-bar label-horizon extension | Downloaded only at experiment time; hash recorded before any evaluation (`PREREGISTRATION_V8_SLICE_001` §13) |
 | Full history | BTCUSDT 1h from Vision availability (~2020-09) — **not declared**, a future option | Requires a register decision + preregistration revision |
 
@@ -137,12 +137,12 @@ with a CHANGELOG entry. It is a data contract, not an economic claim.
 
 | Dataset | Approximate size | Basis |
 |---|---|---|
-| BTCUSDT 1h, 3 months (current dev) | 2,184 bars; ~1.4 MB JSONL; ~132 KB raw zip; ~140 KB parquet | Measured, session 2 |
+| BTCUSDT 1h, 12 months (current dev, D-041) | ~8,760 bars; ~5.6 MB JSONL | Measured after the D-041 rebuild (extrapolated from the 1-year row below) |
 | BTCUSDT 1h, 1 year | ~8,760 bars; ~5.6 MB JSONL | 640 B/row measured |
 | BTCUSDT 1h, full history (~6 y) | ~52,000 bars; ~33 MB JSONL; ~2.7 MB zips | Linear extrapolation from monthly archives (~37 KB/month) |
 | ~30 major symbols, full history | ~1 GB tape | Universe extension is gated (O-011); shown for scale literacy only |
 | Tick/depth (Tier-A/S) | GB–TB | **Not declared** — Level-2+ fidelity is gated (O-010; SIMULATION_TRUTH_SPEC fidelity ladder) |
-| Funding history (BTCUSDT) | ~3 rows/day (~1,095/yr, ~200 B/row) | Source: `GET /fapi/v1/fundingRate`, paginated |
+| Funding history (BTCUSDT) | ~3 rows/day (~1,230 over the 12-month dev + `2026-07` coverage horizon) | Ingested from Vision monthly fundingRate archives (D-041); `GET /fapi/v1/fundingRate` is the REST equivalent |
 
 A 1h kline tape is small by construction. "More data" at this fidelity level
 means more history or more symbols, both of which are register decisions —
@@ -164,19 +164,22 @@ fail-closed on hash mismatch. Physical engines per `PERSISTENCE_REPLAY_SPEC`
   `GET /fapi/v1/fundingRate`, FEED_INGESTION_SPEC §3; schedule from
   `fundingInfo` for dynamic-interval symbols, versioned venue input — never
   assumed 8h).
-- **Status:** declared but **not yet ingested** — the simulator settles at
-  boundaries with `funding_rate_r` today (`funding_rate_r = 0.0` in
-  `manifest_dev.json` and `PREREGISTRATION_V8_SLICE_001` §8), i.e. funding
-  economics are currently zeroed. Closing this gap (ingest → wire
-  `funding_settled_r = entry_price × rate / risk_unit` → revise
-  preregistration §8 **before** the holdout is opened) is the immediate next
-  data-plane step.
+- **Status (D-041):** ingestion authorized and in progress — Vision monthly
+  fundingRate archives are SHA-256-verified and converted to
+  `funding`-channel TapeRows (one per settlement boundary, three clocks,
+  `funding_time`, `funding_rate`); the dev tape carries a **coverage horizon**
+  of `2026-07` so end-of-dev positions settle across the 2026-07-01 boundary.
+  Wiring: `funding_settled_r = entry_price × rate / risk_unit` (below)
+  replaces the zeroed scalar at settlement boundaries; the scalar
+  `funding_rate_r` remains as a no-funding-tape fallback. Measured row counts
+  and hashes are pinned after the rebuild.
 - **Mask:** D-024's funding-window veto is independent of the rate and stays
   as declared.
 
 ### 6.5 Declared-not-declared boundary
 
-- Declared: universe, interval, channels, windows, hashes, storage mapping,
+- Declared: universe, interval, channels (incl. the `funding` channel and its
+  `2026-07` coverage horizon, D-041), windows, hashes, storage mapping,
   scale expectations, funding channel contract.
 - **Not** declared: any economic claim (rules 8-9, 12); Level-2+ fidelity
   (O-010); universe extension (O-011); any learned component (rules 6, 14);
