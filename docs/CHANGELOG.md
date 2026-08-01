@@ -3,6 +3,22 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Phase 4b: v8_slice_001 experiment runner
+
+- **`tools/run_experiment.py`** — the preregistered `v8_slice_001` runner:
+  validates the frozen manifest (experiment_id, universe BTCUSDT, interval
+  1h), verifies the pre-recorded holdout tape hash before any evaluation
+  (fail closed on mismatch or absent holdout — never fabricates a verdict),
+  runs the two pilot families on the frozen OOS, computes family-level
+  one-sided tests with a deterministic block bootstrap (block 24, fixed seed)
+  and Bonferroni multiplicity control (alpha_f = 0.025), and surfaces the
+  D-027 attribution statistics. Authority blocks first (no receipt ->
+  NO_ECONOMIC_CLAIM). The RUN is gated on the frozen holdout existing (first
+  two published months after 2026-07-01 + 9-bar extension, prereg §13).
+- 5 tests (fail-closed absent holdout, frozen-constant validation, holdout
+  hash recorded-before-evaluation, hash mismatch fail-closed, bootstrap
+  determinism/one-sidedness). Suite 142 -> 147.
+
 ## 2026-08-01 — Phase 3: third pilot + DATA_BLOCKED backlog (D-042)
 
 - **`src/v8/experts/liquidity_sweep_reclaim.py`** — `LiquiditySweepReclaimExpert`
