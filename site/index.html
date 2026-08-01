@@ -2693,6 +2693,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>PROVISIONAL_DECISION</td>
 <td>Closes the corpus gap: no contract previously declared what the dataset is or at what scale; "more data" is now a register decision, never a silent download. The funding channel is declared with ingestion pending — the preregistration §8 revision (0.0 -&gt; tape-driven) is the next data-plane step, legal until the holdout is opened (§16).</td>
 </tr>
+<tr>
+<td>D-040</td>
+<td>Retire the v0.1-only framing; the program target is the full 8-phase roadmap with the evidence gates unchanged (rules 5-6, 12, 14). Build priority completes Phases 0-4 first — the Phase-4 <code>v8_slice_001</code> experiment runner + D-027 verdict gating are the critical path — and Phases 5/7 are built only when their gate passes</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-01. <code>docs/PLAN_V8_FULL.md</code> holds the sprint breakdown (planning artifact, not a monograph section); <code>tests/test_decision_path_purity.py</code> keeps enforcing gated-component absence. No economic claim is made or implied.</td>
+</tr>
 </tbody>
 </table>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
@@ -4937,6 +4943,130 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-full-program-target-d-040-owner">2026-08-01 — Full-program target (D-040, owner)</h2>
+<ul>
+<li><strong>D-040 registered</strong> — the v0.1-only framing is retired; the program target
+  is the full 8-phase roadmap with the evidence gates unchanged (rules 5-6,
+  12, 14). Build priority completes Phases 0-4 first; the critical path is the
+  Phase-4 <code>v8_slice_001</code> experiment runner + D-027 verdict gating. Phases 5/7
+  are built only when their gate passes — never on a calendar date.</li>
+<li><strong><code>docs/PLAN_V8_FULL.md</code> added</strong> — sprint breakdown (Sprint A: Phase-4
+  runner; Sprint B: Phase 2/3 completion; Sprint C: Phase 6 ops;
+  data-blocked: derivatives tape, holdout window). Planning artifact, not
+  registered in the monograph NAMES list (no TR mirror).</li>
+<li><strong><code>docs/ROADMAP.md</code> updated</strong> — the versioning line no longer frames the
+  program as "v0.1 = Phase 0-4 foundation"; the full roadmap is the target.</li>
+<li>No code, contract, or test changed in this pass. Monograph rebuilt; suite
+  untouched (112 tests).</li>
+</ul>
+<h2 id="2026-08-01-session-6-bugfix-pass-adversarial-audit-fixes">2026-08-01 — Session-6 bugfix pass (adversarial audit fixes)</h2>
+<p>Adversarial bug hunt (11 class-scoped finders + per-finding verification) on
+<code>src/v8/</code> + <code>tools/</code> confirmed 26 findings; this pass fixes them. Decision-path
+changes move the golden ledger hash (outcome-label change) and are re-pinned in
+<code>tests/test_golden_backtest.py</code>; candidate counts and terminal distribution are
+unchanged. New regression tests: <code>tests/test_bugfix_pass.py</code> (11 tests). Full
+suite 86 → 97.</p>
+<ul>
+<li><strong><code>src/v8/lab.py</code></strong> — closed-only bars in the decision loop (open klines no
+  longer drive entries/stops); multi-instrument tapes fail closed (H1/M5);
+  duplicate decision clocks fail closed (M6); pre-entry invalidation re-checked
+  on the entry bar (H3); <code>INVALIDATED_BEFORE_TRIGGER</code> relabelled <code>NOT_EXECUTED</code>
+  (H5); counterfactual now applies the owning Expert's <code>still_valid</code> via a
+  per-clock state map (H2); <code>prior_low/prior_high</code> fail closed instead of
+  defaulting to 0/inf (M10); <code>_INTERVAL_NS</code> fails closed on unknown intervals
+  (M12); <code>excess_cost</code> threshold promoted to named <code>EXCESS_COST_THRESHOLD_R</code>.</li>
+<li><strong><code>src/v8/simulator.py</code></strong> — <code>run()</code> gains <code>thesis_valid(bar_time, payload)</code>
+  so the batch counterfactual exits <code>THESIS_INVALIDATED</code> like the executed path;
+  every returned outcome carries <code>label_available_time</code> (exit clock), the
+  DATASET_SPEC section 4.5 embargo primitive.</li>
+<li><strong><code>src/v8/schema.py</code> / <code>tools/materialize_views.py</code></strong> — <code>CounterfactualOutcome</code>
+  and the <code>candidate_outcomes</code> view now expose <code>label_available_time</code>, so a
+  training consumer can refuse labels whose availability overlaps its
+  validation window (M4).</li>
+<li><strong><code>src/v8/risk.py</code></strong> — D-024 funding-window veto measures boundaries on
+  absolute wall-clock hours (<code>funding_hours * HOUR_NS</code>), matching
+  <code>simulator._boundaries_crossed</code>; on non-1h tapes the old period missed
+  imminent-boundary entries (H4).</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — a universe symbol with zero emitted features
+  degrades the state (DEGRADED), closing the missing-symbol quality gap (M2).</li>
+<li><strong><code>src/v8/lifecycle.py</code></strong> — <code>any terminal -&gt; ARCHIVED</code> added to <code>LEGAL</code>
+  (CANDIDATE_LIFECYCLE_SPEC), making ARCHIVED reachable (M9).</li>
+<li><strong><code>tools/monitor_tape.py</code></strong> — OHLC type/finiteness/invariant + volume checks
+  (booleans, NaN/±inf, high&lt;low, negative volume all fail); staleness measures
+  kline rows only (M1/M7/L3).</li>
+<li><strong><code>tools/vision_backfill.py</code></strong> — <code>audit_tape</code> gains OHLC/volume/finiteness
+  invariants; <code>check_archive_revision</code> also guards legacy single-month
+  <code>source.json</code> (M1/M8).</li>
+<li><strong><code>tools/data.py</code></strong> — <code>_validate_price_rows</code> fails closed on NaN/±inf prices
+  (M1).</li>
+<li><strong><code>tools/materialize_views.py</code></strong> — <code>views_manifest.json</code> now carries a
+  <code>views_pin</code> binding view SQL + manifest economics + code hash + views_dir;
+  a recompile with a changed pin fails closed instead of silently replacing
+  the "pinned" views (M11).</li>
+</ul>
+<h2 id="2026-08-01-session-6-second-level-audit-fixes-post-fix-classes">2026-08-01 — Session-6 second-level audit fixes (post-fix classes)</h2>
+<p>Second adversarial pass on the POST-FIX codebase (8 class-scoped finders:
+alternative paths, boundary matrix, fail-open, hash canary, state coverage,
+feature contamination, zero-trade provenance, reconciliation; 29 agents).
+Confirmed 13 findings; this entry fixes them. Suite 104 → 108 (new regression
+tests in <code>tests/test_bugfix_pass.py</code>); golden re-pinned (candidate_count
+24 → 21: failed_breakout now gates on a windowed prior-high reference).</p>
+<ul>
+<li><strong><code>src/v8/experts/failed_breakout.py</code></strong> — gate and anchor now share ONE
+  prior-high reference (the history-window max excluding the newest bar). The
+  old gate used the state's ALL-BARS prior_high, which an old spike outside the
+  window pinned forever: the draft fired every bar, the anchor slid, and
+  episode-key dedup silently produced a new DETECTED episode per bar. The
+  post-entry thesis (<code>still_valid</code>) now uses a FROZEN <code>prior_high_ref</code>
+  (excluded from episode identity like <code>atr_ref</code>), so a reversal that re-crosses
+  the entry-time breakout level invalidates instead of drifting with the
+  adverse move.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — <code>Lab.run</code> fails closed on a non-empty manifest
+  <code>code_hash</code>/<code>data_hash</code> that does not match the live code/tape (the
+  composition root no longer reports a stale or forged pin; materialize_views
+  already checked, Lab.run is the authority). <code>terminal_distribution</code> is now
+  candidate-counted (a <code>CLOSED -&gt; ARCHIVED</code> candidate appears once) and the
+  report adds <code>rejection_distribution</code> (D-024 vs risk vs excess-cost), <code>tooling_hash</code>
+  (tools/*.py, outside the decision-path hash), and the excess-cost/tape-end
+  <code>label_available_time</code> fallback to <code>last_as_of</code> (the 0-sentinel leak).</li>
+<li><strong><code>src/v8/risk.py</code></strong> — the D-024 FUNDING_WINDOW veto fires whenever
+  <code>window &gt;= period</code> (a boundary always books funding on the first post-entry
+  step; the old <code>window &lt; period</code> guard silently disabled the check, so e.g.
+  1d bars with funding_hours=8 admitted entries that settled 3x). The veto
+  clock basis is the entry FILL time (available), matching simulator settlement.</li>
+<li><strong><code>src/v8/schema.py</code></strong> — <code>LabReport.rejection_distribution</code>, <code>tooling_hash</code>.</li>
+<li><strong><code>src/v8/experts/</code></strong> — no other changes; the trend_pullback thesis remains
+  a live trend reference (correct by design).</li>
+</ul>
+<h2 id="2026-08-01-session-6-provenance-performance-fixes-b1-b4-p1-p3">2026-08-01 — Session-6 provenance + performance fixes (B1-B4, P1-P3)</h2>
+<p>Follow-up audit (parallel session) confirmed 4 ledger/provenance bugs + 3
+structural performance items; this entry fixes them. The ledger hash now binds
+the run configuration, so the golden re-pins. Suite 108 → 112.</p>
+<ul>
+<li><strong><code>src/v8/lab.py</code></strong> — B1: a TRIGGERED candidate with no entry bar before tape
+  end records <code>INVALIDATED_BEFORE_TRIGGER</code>/<code>NOT_EXECUTED</code>/0.0 (label knowable at
+  tape end) instead of the fabricated empty-tail counterfactual
+  (<code>EXPIRY</code>/<code>RIGHT_CENSORED</code>/0.0 with a fake simulator hash) — a non-trade no
+  longer merges into the censored population (B5 naming aligned with the
+  INVALIDATED terminal). B2/B3: the manifest is persisted to
+  <code>&lt;store&gt;/manifest.json</code> and the ledger hash binds <code>config_hash =
+  sha1_hex(asdict(manifest))</code> — different economics AND an authority receipt
+  added later both move the ledger hash (no silent re-labelling). P1: the
+  per-bar state build is O(N) incremental (moving pointer over the replay-sorted
+  tape) instead of the O(N²) rescan that dominated run time.</li>
+<li><strong><code>src/v8/lifecycle.py</code></strong> — B4: <code>CandidateRegistry</code> replay validates every
+  <code>(from_state, to_state)</code> against LEGAL and raises on an illegal transition in
+  a corrupt log (mutation-campaign fail-closed).</li>
+<li><strong><code>src/v8/store.py</code></strong> — P2: <code>AppendOnlyLog</code> opens the append handle once and
+  flushes per record (per-record open/close was ~half the profiled append cost);
+  crash-loss policy stays bounded to the current record.</li>
+<li><strong><code>src/v8/simulator.py</code></strong> — P3: <code>_boundaries_crossed</code> is O(1)
+  (<code>floor(t/P) - floor(entry/P)</code>), byte-identical over the 144-case boundary
+  matrix vs the per-hour loop.</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — P1: the 5/20 EMA series are computed once and
+  shared by the trend features and the history tuples (was computed twice per
+  state).</li>
+</ul>
 <h2 id="2026-08-01-declared-dataset-v01-operator">2026-08-01 — Declared dataset v0.1 (operator)</h2>
 <ul>
 <li><strong>D-039 — <code>DATASET_SPEC</code> §6 "Declared dataset v0.1" added.</strong> The corpus had
@@ -5234,8 +5364,10 @@ gated components (router, scorer, ranker, learned execution) are on the
 roadmap but are built <strong>only when their evidence gate passes</strong> — a gate is a
 preregistered, costed, frozen-OOS comparison, never a calendar date
 (<code>V8_CONSTITUTION</code> rules 5-6, 14).</p>
-<p>System versions map to phases: v0.1 = Phase 0-4 foundation; each later phase
-that admits a component bumps the version.</p>
+<p>The v0.1-only framing is retired (D-040): the program target is the full
+roadmap, gates unchanged. System versions map to phases: each phase that
+admits a component bumps the version. The sprint breakdown lives in
+<code>docs/PLAN_V8_FULL.md</code> (planning artifact, not a monograph section).</p>
 <h2 id="phase-0-foundation-done-2026-08-01">Phase 0 — Foundation (DONE 2026-08-01)</h2>
 <ul>
 <li>Corpus restored and restructured (<code>docs/</code>, <code>site/</code>, <code>research/</code>, <code>tools/</code>,

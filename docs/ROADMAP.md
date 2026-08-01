@@ -7,8 +7,10 @@ roadmap but are built **only when their evidence gate passes** — a gate is a
 preregistered, costed, frozen-OOS comparison, never a calendar date
 (`V8_CONSTITUTION` rules 5-6, 14).
 
-System versions map to phases: v0.1 = Phase 0-4 foundation; each later phase
-that admits a component bumps the version.
+The v0.1-only framing is retired (D-040): the program target is the full
+roadmap, gates unchanged. System versions map to phases: each phase that
+admits a component bumps the version. The sprint breakdown lives in
+`docs/PLAN_V8_FULL.md` (planning artifact, not a monograph section).
 
 ## Phase 0 — Foundation (DONE 2026-08-01)
 

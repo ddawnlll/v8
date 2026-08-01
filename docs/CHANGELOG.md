@@ -3,6 +3,22 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Full-program target (D-040, owner)
+
+- **D-040 registered** — the v0.1-only framing is retired; the program target
+  is the full 8-phase roadmap with the evidence gates unchanged (rules 5-6,
+  12, 14). Build priority completes Phases 0-4 first; the critical path is the
+  Phase-4 `v8_slice_001` experiment runner + D-027 verdict gating. Phases 5/7
+  are built only when their gate passes — never on a calendar date.
+- **`docs/PLAN_V8_FULL.md` added** — sprint breakdown (Sprint A: Phase-4
+  runner; Sprint B: Phase 2/3 completion; Sprint C: Phase 6 ops;
+  data-blocked: derivatives tape, holdout window). Planning artifact, not
+  registered in the monograph NAMES list (no TR mirror).
+- **`docs/ROADMAP.md` updated** — the versioning line no longer frames the
+  program as "v0.1 = Phase 0-4 foundation"; the full roadmap is the target.
+- No code, contract, or test changed in this pass. Monograph rebuilt; suite
+  untouched (112 tests).
+
 ## 2026-08-01 — Session-6 bugfix pass (adversarial audit fixes)
 
 Adversarial bug hunt (11 class-scoped finders + per-finding verification) on
