@@ -2242,6 +2242,7 @@ evolves by challenger, never in place (D-032).</p>
     base.py              Expert base + _need + still_valid contract
     trend_pullback.py    TrendPullbackExpert
     failed_breakout.py   FailedBreakoutExpert
+    liquidity_sweep_reclaim.py  LiquiditySweepReclaimExpert
   lifecycle.py       transition legality, CandidateRegistry, episode_key,
                      ExposureBook
   risk.py            RiskGate (deterministic admission)
@@ -2265,10 +2266,11 @@ tests/
   test_data_pipeline.py         offline data.py planning/checksum tests
   test_materialize_views.py     materialization roundtrip + fail-closed tests
 </code></pre>
-<p>Planned, not yet present: additional Expert modules land under
-<code>src/v8/experts/</code> only after registry admission (Phase 3); the Phase-4
-experiment runner (D-027 gating in <code>LabReport</code>, runbook-owned preregistration
-execution) is the next build target.</p>
+<p>Planned, not yet present: further Expert modules land under
+<code>src/v8/experts/</code> only after registry admission (the <code>breakout_retest</code> and
+<code>capitulation</code> backlog families are registered DATA_BLOCKED until derivatives
+tape — no code module until then); <code>tools/run_experiment.py</code> (the
+<code>v8_slice_001</code> preregistration runner) is the Phase-4 build target.</p>
 <h2 id="2-file-by-file-contract">2. File-by-file contract</h2>
 <table>
 <thead>
@@ -2307,7 +2309,7 @@ execution) is the next build target.</p>
 <tr>
 <td><code>experts/__init__.py</code></td>
 <td>pilot expert registry; stable re-export surface</td>
-<td><code>from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert</code></td>
+<td><code>from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert</code></td>
 <td>EXPERT_PROTOCOL §3</td>
 </tr>
 <tr>
@@ -2326,6 +2328,12 @@ execution) is the next build target.</p>
 <td><code>experts/failed_breakout.py</code></td>
 <td>failed-breakout-reentry family</td>
 <td><code>FailedBreakoutExpert</code></td>
+<td>EXPERT_PROTOCOL; ROADMAP Phase 3</td>
+</tr>
+<tr>
+<td><code>experts/liquidity_sweep_reclaim.py</code></td>
+<td>liquidity-sweep-reclaim family (third pilot, D-042)</td>
+<td><code>LiquiditySweepReclaimExpert</code></td>
 <td>EXPERT_PROTOCOL; ROADMAP Phase 3</td>
 </tr>
 <tr>
@@ -2708,6 +2716,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>Expand the declared dev dataset to 12 months (BTCUSDT 1h, <code>2025-07-01</code>..<code>2026-07-01</code>, ~8,760 bars) and ingest the <code>funding</code> channel into the PIT tape with tape-driven settlement wiring (<code>funding_settled_r = entry_price × rate / risk_unit</code>), including a declared funding coverage horizon of <code>2026-07</code> so end-of-dev positions settle across the 2026-07-01 boundary; holdout anchor unchanged</td>
 <td>PROVISIONAL_DECISION</td>
 <td>Owner decision 2026-08-01 (full-program D-040 series). O-017 thresholds 0.25/0.20 stay fixed — the 12-month baseline updates prereg §15 diagnostics only, never the ratified numbers. Legal pre-holdout per prereg §16 and D-039's scope note; prereg §8/§13/§15 revised; dev end stays strictly before the 2026-07-01 holdout. Funding rows never enter features or the decision loop.</td>
+</tr>
+<tr>
+<td>D-042</td>
+<td>Admit <code>src/v8/experts/liquidity_sweep_reclaim.py</code> as the third pilot (<code>liquidity_sweep_reclaim</code> / <code>sweep_reclaim</code>, variant <code>a</code>; LONG after a windowed prior-low sweep reclaimed by the close, SHORT after a prior-high sweep reclaimed; <code>prior_low_ref</code> frozen at detection and excluded from <code>geometry_version</code>) and register the <code>breakout_retest</code> + <code>capitulation</code> backlog families as DATA_BLOCKED until derivatives tape</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-01 (full-program D-040 series). D-032 file-family rule: a new <code>src/v8/experts/</code> module requires a register decision + CHANGELOG entry. Distinct mechanism/setup/invalidation from <code>failed_breakout</code> (EXPERT_PROTOCOL §1 separate-Expert test). Registry YAML + PILOTS + tests updated together; the dev materialization is re-pinned.</td>
 </tr>
 </tbody>
 </table>
@@ -4953,6 +4967,92 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-01-dev-materialization-re-pin-three-pilots-d-042">2026-08-01 — Dev materialization re-pin (three pilots, D-042)</h2>
+<ul>
+<li>Dev tape re-materialized with the third pilot (<code>liquidity_sweep_reclaim</code>)
+  and the Phase-2/Phase-4a code: candidate_count 2,786 -&gt; 3,323, ledger_hash
+  <code>40d4f23a…</code> (fresh <code>views3</code> dir, compile-once; code_hash <code>fec878c5…</code>).</li>
+<li>Prereg §6 derived outputs and §15 12-month diagnostics updated: with three
+  pilots the D-027 populations are <code>n_executed</code> 1,415 / <code>n_portfolio_rejected</code>
+  1,476, execution_share 0.4895, KS 0.0932 — <strong>diagnostics only</strong>, the
+  ratified thresholds 0.25/0.20 are unchanged (O-017).</li>
+<li>Monograph rebuilt; suite 147 tests green.</li>
+</ul>
+<h2 id="2026-08-01-phase-4b-v8_slice_001-experiment-runner">2026-08-01 — Phase 4b: v8_slice_001 experiment runner</h2>
+<ul>
+<li><strong><code>tools/run_experiment.py</code></strong> — the preregistered <code>v8_slice_001</code> runner:
+  validates the frozen manifest (experiment_id, universe BTCUSDT, interval
+  1h), verifies the pre-recorded holdout tape hash before any evaluation
+  (fail closed on mismatch or absent holdout — never fabricates a verdict),
+  runs the two pilot families on the frozen OOS, computes family-level
+  one-sided tests with a deterministic block bootstrap (block 24, fixed seed)
+  and Bonferroni multiplicity control (alpha_f = 0.025), and surfaces the
+  D-027 attribution statistics. Authority blocks first (no receipt -&gt;
+  NO_ECONOMIC_CLAIM). The RUN is gated on the frozen holdout existing (first
+  two published months after 2026-07-01 + 9-bar extension, prereg §13).</li>
+<li>5 tests (fail-closed absent holdout, frozen-constant validation, holdout
+  hash recorded-before-evaluation, hash mismatch fail-closed, bootstrap
+  determinism/one-sidedness). Suite 142 -&gt; 147.</li>
+</ul>
+<h2 id="2026-08-01-phase-3-third-pilot-data_blocked-backlog-d-042">2026-08-01 — Phase 3: third pilot + DATA_BLOCKED backlog (D-042)</h2>
+<ul>
+<li><strong><code>src/v8/experts/liquidity_sweep_reclaim.py</code></strong> — <code>LiquiditySweepReclaimExpert</code>
+  (<code>liquidity_sweep_reclaim</code> / <code>sweep_reclaim</code>, variant <code>a</code>): LONG after a
+  sweep of the windowed prior low that closes back above it, SHORT after a
+  prior-high sweep reclaimed by the close; <code>prior_low_ref</code>/<code>prior_high_ref</code>
+  frozen at detection (failed_breakout pattern) and excluded from
+  <code>geometry_version</code> (<code>src/v8/lab.py</code>). Re-exported; added to
+  <code>tools/materialize_views.py</code> PILOTS.</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — third pilot at FORMALIZED; <code>breakout_retest</code>
+  and <code>capitulation</code> backlog families registered DATA_BLOCKED until
+  derivatives tape (no code module — ROADMAP Phase 3 backlog).</li>
+<li><strong><code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code></strong> — tree + file table + planned
+  note updated; <strong><code>D-042</code></strong> registered (D-032 file-family rule).</li>
+<li>Registry/artifact tests amended for the third pilot + DATA_BLOCKED entries.
+  4 new expert tests; suite 139 -&gt; 142. The dev materialization is re-pinned
+  (see the materialization entry below).</li>
+</ul>
+<h2 id="2026-08-01-d-027-attribution-validity-gating-in-labreport-phase-4a">2026-08-01 — D-027 attribution-validity gating in LabReport (Phase 4a)</h2>
+<ul>
+<li><strong><code>src/v8/schema.py</code></strong> — LabReport gains <code>n_executed</code> / <code>n_portfolio_rejected</code>
+  / <code>execution_share</code> / <code>divergence_ks</code> (two-sample KS on executed vs
+  portfolio-state-rejected net_R) and the verdict vocabulary
+  NO_ECONOMIC_CLAIM | CERTIFIED_AVAILABLE | ATTRIBUTION_UNSAFE_LOW_COVERAGE |
+  ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE. Authority blocks first (receipt
+  None -&gt; NO_ECONOMIC_CLAIM regardless); thresholds are the ratified O-017
+  numbers (0.25 / 0.20), fixed forever.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — stdlib-pure <code>_two_sample_ks</code> (scipy/numpy banned in the
+  decision path, D-031), <code>_d027_verdict</code>, and the epilogue computation of both
+  populations. Verified to reproduce the prereg §15 12-month diagnostics
+  exactly (execution_share 0.4576, KS 0.1044, n=1111/1317) on the dev tape.
+  Hash-neutral (statistics derive from ledgers already inside ledger_hash) —
+  no golden re-pin.</li>
+<li><strong>Prereg §15</strong> — the 12-month diagnostics corrected to the
+  label_status-based population definition (n_executed 1,111 — the earlier
+  draft counted INVALIDATED_BEFORE_TRIGGER as executed); the lab's own
+  D-027 computation is now the source of these numbers.</li>
+<li>9 new tests; suite 127 -&gt; 136.</li>
+</ul>
+<h2 id="2026-08-01-phase-2-completion-per-feature-input-lineage-state-provenance">2026-08-01 — Phase 2 completion: per-feature input lineage + state provenance</h2>
+<ul>
+<li><strong><code>src/v8/schema.py</code></strong> — <code>FeatureValue</code> gains <code>input_lineage_hash</code> (identity
+  of the raw rows that produced the feature) and <code>calculation_time</code>;
+  <code>FEATURE_GRAPH_VERSION</code> (hash of the FEATURE_GROUPS declaration);
+  <code>MarketState</code> gains a <code>provenance</code> block
+  {raw_manifest_hash, feature_graph_version, code_version}.</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — build_state binds each feature's input lineage
+  (payload_hash when the tape computes it, else the payload — synthetic tapes
+  carry no payload_hash) and fills the provenance block. These are audit
+  metadata: they do NOT join the identity hashes (a raw revision that does not
+  change a value must not fabricate a new state identity).</li>
+<li><strong>Golden re-pin (deliberate, PERSISTENCE_REPLAY_SPEC 4):</strong> the persisted
+  state records gain the new fields, so <code>GOLDEN_STATES_HASH</code> and
+  <code>GOLDEN_LEDGER_HASH</code> move; <code>GOLDEN_DATA_HASH</code>, candidate count 21 and the
+  terminal distribution are unchanged (feature values are identical — expert
+  behavior is byte-identical).</li>
+<li>3 new tests (per-feature lineage + calculation clock, revision-without-
+  value-change lineage, provenance determinism). Suite 136 -&gt; 139.</li>
+</ul>
 <h2 id="2026-08-01-12-month-dev-materialization-pinned-rebuild-d-041">2026-08-01 — 12-month dev materialization + pinned rebuild (D-041)</h2>
 <ul>
 <li><strong>12-month dev tape built and audited clean</strong> — BTCUSDT 1h 2025-07-01..
@@ -5948,6 +6048,30 @@ experts:
     requires: [location, volatility, history]
     status: FORMALIZED
     owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: liquidity_sweep_reclaim
+    expert_version: v1
+    mechanism_family_id: liquidity_sweep_reclaim
+    behavior_family_id: sweep_reclaim
+    variant_id: &#x27;a&#x27;
+    requires: [location, volatility, history]
+    status: FORMALIZED
+    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: breakout_retest
+    expert_version: v1
+    mechanism_family_id: breakout_retest
+    behavior_family_id: breakout_retest
+    variant_id: &#x27;a&#x27;
+    requires: [location, volatility, history]
+    status: DATA_BLOCKED
+    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
+  - expert_id: capitulation
+    expert_version: v1
+    mechanism_family_id: capitulation_exhaustion
+    behavior_family_id: capitulation
+    variant_id: &#x27;a&#x27;
+    requires: [trend, volatility, history]
+    status: DATA_BLOCKED
+    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
 </pre></section>
 <section id="sec-preregistration-v8-slice-001"><h1>PREREGISTRATION V8 SLICE 001</h1><h1 id="preregistration-experiment-v8_slice_001">Preregistration — Experiment <code>v8_slice_001</code></h1>
 <p><strong>Status:</strong> RATIFIED — operator-approved 2026-08-01; frozen until the
@@ -6059,14 +6183,14 @@ simulator:</p>
   is recorded <strong>at download time, before any evaluation</strong>, and appended to
   this record's operator approval (never silently).</li>
 <li>Development manifest (pinned input, D-041): <code>experiment_id
-  v8-dev-12m-btcusdt</code>, <code>code_hash ea8db9e2a7d3204f215bab48893fba0556e427ca</code>,
+  v8-dev-12m-btcusdt</code>, <code>code_hash fec878c53bc5b3c93c67c1d2891494ebbdcb0ed7</code>,
   <code>data_hash 4c8e58885b88b903b54bcdffa093af336cef8d1c</code>. Derived run outputs
   (not input fields) are recorded in
-  <code>research/tape/btcusdt-1h-12m/views/views_manifest.json</code>: ledger_hash
-  <code>c78bf43a8c600520808690309f9385f5a290f4f3</code>, verdict <code>NO_ECONOMIC_CLAIM</code>,
-  and materialized view row counts: market_states 8760, candidate_birth 2786,
-  candidate_trigger 2779, candidate_outcomes 2786, execution_trajectories
-  11684.</li>
+  <code>research/tape/btcusdt-1h-12m/views3/views_manifest.json</code>: ledger_hash
+  <code>40d4f23a056e096cfee69f7965816d7ebef6e2ba</code>, verdict <code>NO_ECONOMIC_CLAIM</code>,
+  and materialized view row counts (three pilots, D-042): market_states 8760,
+  candidate_birth 3323, candidate_trigger 3295, candidate_outcomes 3323,
+  execution_trajectories 14186.</li>
 <li><code>tools/data.py</code> / <code>tools/vision_backfill.py</code> / <code>tools/materialize_views.py</code>
   versions are bound by the recursive <code>src/v8/</code> code hash at run time;
   materializations fail closed on any pinned-hash mismatch (compile-once).</li>
@@ -6223,14 +6347,17 @@ thresholds were derived). After the D-041 12-month rebuild, the updated
 dev-window diagnostics are recorded in this section <strong>as diagnostics only</strong> —
 they never re-set the ratified thresholds, which are fixed pre-holdout
 (O-017).</p>
-<p>On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, both
-pilots, locked baseline): <code>n_executed = 1,120</code>, <code>n_portfolio_rejected =
-1,317</code> (all <code>EXISTING_EXPOSURE_CONFLICT</code>; <code>PORTFOLIO_HEAT_EXCEEDED = 0</code>), so
-<code>execution_share = 1120/(1120+1317) = 0.4596</code>. The executed vs
-portfolio-rejected <code>net_R</code> samples (n=1120/1317) had means <code>−0.0510/+0.0477</code>,
-std <code>0.8798/0.9135</code>, and a <strong>two-sample KS statistic of 0.1067</strong>. Both sit
-inside the ratified bounds (share 0.4596 ≥ 0.25; KS 0.1067 ≤ 0.20) —
-informational only; never a verdict and never a threshold re-set.</p>
+<p>On the D-041 12-month dev window (2025-07-01..2026-07-01, BTCUSDT 1h, three
+pilots incl. <code>liquidity_sweep_reclaim</code>, D-042): <code>n_executed = 1,415</code> (outcome
+<code>label_status</code> != <code>NOT_EXECUTED</code>), <code>n_portfolio_rejected = 1,476</code> (all
+<code>EXISTING_EXPOSURE_CONFLICT</code>; <code>PORTFOLIO_HEAT_EXCEEDED = 0</code>), so
+<code>execution_share = 1415/(1415+1476) = 0.4895</code>. The executed vs
+portfolio-rejected <code>net_R</code> samples (n=1415/1476) had means <code>−0.0591/+0.0354</code>,
+std <code>0.8846/0.9067</code>, and a <strong>two-sample KS statistic of 0.0932</strong>. Both sit
+inside the ratified bounds (share 0.4895 ≥ 0.25; KS 0.0932 ≤ 0.20) —
+informational only; never a verdict and never a threshold re-set. These
+numbers are produced by the lab's own D-027 computation
+(<code>LabReport.execution_share</code> / <code>divergence_ks</code>, <code>src/v8/lab.py</code>).</p>
 <ul>
 <li><strong><code>execution_share</code> floor:</strong> <strong>0.25</strong> — 60% of the observed dev-window
   share. A frozen-OOS run with <code>execution_share &lt; 0.25</code> returns

@@ -3,6 +3,17 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-01 — Dev materialization re-pin (three pilots, D-042)
+
+- Dev tape re-materialized with the third pilot (`liquidity_sweep_reclaim`)
+  and the Phase-2/Phase-4a code: candidate_count 2,786 -> 3,323, ledger_hash
+  `40d4f23a…` (fresh `views3` dir, compile-once; code_hash `fec878c5…`).
+- Prereg §6 derived outputs and §15 12-month diagnostics updated: with three
+  pilots the D-027 populations are `n_executed` 1,415 / `n_portfolio_rejected`
+  1,476, execution_share 0.4895, KS 0.0932 — **diagnostics only**, the
+  ratified thresholds 0.25/0.20 are unchanged (O-017).
+- Monograph rebuilt; suite 147 tests green.
+
 ## 2026-08-01 — Phase 4b: v8_slice_001 experiment runner
 
 - **`tools/run_experiment.py`** — the preregistered `v8_slice_001` runner:
