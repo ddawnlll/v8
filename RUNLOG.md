@@ -408,3 +408,17 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-step-4: session-2 v8_slice_001 preregistration — all HYPOTHESIS_LAB_PROTOCOL fields, O-017 thresholds (share 0.25 / KS 0.20) from dev baseline, adversarial review incorporated, holdout declared never opened`
 - gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
   forbidden-scan=clean?yes (no code change) wall-clock=clean?yes
+
+## Session 2 — Step 5 — Status report — DONE
+- started: 2026-08-01T03:50:00Z finished: 2026-08-01T03:52:30Z
+- files touched: docs/STATUS_REPORT.md (overwritten for session 2 — session
+  artifact, not corpus), RUNLOG.md
+- evidence: final gate sweep `.venv/bin/python -m pytest tests -q` -> `50
+  passed`; monograph probe byte-identical (ea5b7705…, uniq -c = 2) with both
+  runbook-owned docs artifacts present (STATUS_REPORT + PREREGISTRATION are
+  not in build_monograph.py's NAMES list); forbidden-scan over changed files
+  -> no matches; wall-clock scan -> no matches.
+- fixes / deviations: none. All session-2 steps 0-5 DONE; no BLOCKED/SKIPPED.
+- commit: (below) `v8-step-5: status report`
+- gate: pytest=50 monograph=byte-identical?yes (ea5b7705…)
+  forbidden-scan=clean?yes wall-clock=clean?yes

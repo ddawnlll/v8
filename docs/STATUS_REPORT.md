@@ -1,152 +1,150 @@
-# V8 Autonomous Build — Status Report
+# V8 Autonomous Build — Status Report (Session 2)
 
-**Session:** runbook steps 0-7, Phase 0-3 scope only
+**Session:** runbook steps 0-5, Phase 1 on real data + `v8_slice_001`
+preregistration
 **Date (UTC):** 2026-08-01
-**Prepared by:** V8-build-agent (autonomous session)
+**Prepared by:** V8-build-agent (autonomous session 2)
 **Read this first** (runbook step 7): this report is the operator's only
-required reading. RUNLOG.md holds the full per-step evidence.
+required reading. RUNLOG.md holds the full per-step evidence. This file is a
+session artifact (overwritten from session 1); it is not corpus and does not
+perturb the monograph probe.
 
 ---
 
 ## Summary
 
-All 7 steps are **DONE**. The Phase 0-3 build is complete on the frozen
-contract: no contract under `docs/` was modified (monograph probe rebuild is
-byte-identical to the baseline hash at every step), the vertical-slice suite
-grew monotonically 15 -> 42 tests, and one commit per step exists with the
-`v8-step-N` message protocol.
+All 5 session-2 steps are **DONE**. Phase 1 was executed on real data
+(BTCUSDT 1h, 2026-04..06), the decision-ledger + DATASET_SPEC §5
+materializations were built and run, and the `v8_slice_001` preregistration
+was written, adversarially reviewed, and amended. No contract under `docs/`
+was edited; the monograph probe is byte-identical to the session-2 baseline
+(`ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def`) at every
+step. The suite grew 42 -> 50 tests.
 
-**Gates held at every step:** pytest green with non-decreasing count;
-monograph probe byte-identical (`65eef39ff65595be4c50676a41618e56a167d081c2d28f8129f6be93b52cce2a`);
-no forbidden component names (`router|scorer|ranker|RL`) in new code; no wall
-clock in `src/v8/`; one explicit-file-list commit per step.
+**Gates held at every step:** pytest green, non-decreasing count;
+monograph probe byte-identical; no forbidden component names in new code; no
+wall clock in `src/v8/`; one explicit-file-list commit per step.
 
 **Forbidden scope respected:** no router, learned scorer, ranker, learned/RL
-execution, online learning, or event-driven clock mode was created (rules
-6/14). No frozen OOS was opened, `v8_slice_001` was not run, and no
-profitability claim appears anywhere (rule 12; `NO_ECONOMIC_CLAIM` verdict
-blocked by absent authority receipt).
+execution, online learning, or event-driven clock mode was created. The
+experiment `v8_slice_001` was **not** run, the frozen holdout was **not**
+downloaded or opened, and no profitability language or economic claim appears
+anywhere (verdict stays `NO_ECONOMIC_CLAIM`; rules 8-9, 12).
 
 ## Steps
 
-### Step 0 — Baseline — DONE
-- Evidence: `.venv/bin/python -m pytest tests -q` -> `15 passed`; probe
-  rebuild byte-identical; baseline commit `5962982` (operator-taken);
-  clean tree.
-- Commit: `5962982` `v8-step-0: initial commit` (operator-taken).
+### Step 0 — Pre-flight (new baseline) — DONE
+- Evidence: pytest `42 passed`; probe rebuild -> **new baseline**
+  `ea5b770528fb07931ff08801e4704a4fefca3586d88da1277a75311ccb075def` (31
+  sections — the session-1 hash `65eef39f…` is stale after operator closure
+  `76ef874`); TR probe `2c5b973a…`; clean tree; Session-2 header opened in
+  RUNLOG.
+- Commit: `3436248` `v8-step-0: session-2 preflight …`.
 
-### Step 1 — D-026 episode_key anchored to setup_anchor_event_id — DONE
-- Evidence: pytest `18 passed`; probe byte-identical; +3 key-stability/dedup
-  tests.
-- Fixes: lab.py suppressed-duplicate append missing `source`/`event_id`
-  (store inbox crash) — code fix, not a test change; `_geometry_version`
-  excludes data-dependent `atr_ref`.
-- Commit: `4f34abe` `v8-step-1: ...`.
+### Step 1 — Tooling deps + data.py path — DONE
+- Evidence: `uv pip install -e ".[tooling]"` -> polars 1.43.1, pyarrow
+  25.0.0, pandera[polars], duckdb 1.5.5; pytest `46 passed` (+4 offline
+  tooling-path tests); `tools/data.py build/verify/audit` on BTCUSDT 1h
+  2026-06 -> VERIFIED / PASS / PASS (720 rows, duplicate PKs 0).
+- OPEN_PIN (operator): register the D-037 tooling admission decision
+  (heavy deps admitted for Phase-1 parquet materialization; decision path
+  stays stdlib-only, O-009).
+- Commit: `a9bd373` `v8-step-1: …`.
 
-### Step 2 — Funding settlement in canonical simulator — DONE
-- Evidence: pytest `22 passed`; probe byte-identical; +4 funding goldens
-  (`SETTLEMENT_BEFORE_ORDERS`, boundary edges, window-vs-full replay,
-  zero-rate byte-identity).
-- Fixes: a bogus `startswith(v4 tag)` hash assertion replaced with the exact
-  expected v4 hash; open-interval start / closed end boundary semantics
-  pinned in code.
-- Commit: `760e6cc` `v8-step-2: ...`.
+### Step 2 — Real tape: download + PIT tape + audit — DONE
+- Evidence: `data.py build` (2026-04-01..2026-07-01, BTCUSDT 1h, klines,
+  `--keep-raw`) -> VERIFIED, 3 archives, 2184 rows, verify/audit PASS;
+  `vision_backfill` (no `--download`, consuming data.py's verified archives)
+  -> JSONL PIT tape, 2184 rows, audit
+  `{"monotonic": true, "payload_hashes_ok": true, "row_count": 2184,
+  "venue_gaps": 0}`; re-run idempotent (0 appended), tape hash stable
+  `8b12707e0d89f2a955d2badccf9f278267c0e086`; lab PIT replay + build_state on
+  real data OK. Universe NOT extended (O-011).
+- Commit: `5304289` `v8-step-2: …`.
 
-### Step 3 — D-024 mechanical tradability mask — DONE
-- Evidence: pytest `26 passed` (22 -> 26, +4); probe byte-identical.
-- Interpretation pinned: (a) funding-window veto fires for entry bars with
-  `0 < B - close <= funding_window_bars*interval`; the bar ending exactly ON
-  a boundary enters after that settlement (Step-2 open-interval golden) and
-  is NOT vetoed; (b) "defaults do not veto the synthetic baseline" is tested
-  as no SPREAD/DEGRADED vetoes on the seed-7 run — with 1h bars some bar of
-  any hourly tape is always within 1h of an 8h boundary, so funding-window
-  vetoes on that tape are a deterministic epoch-alignment artifact, not a
-  threshold overreach.
-- Commit: `778ceb1` `v8-step-3: ...`.
+### Step 3 — Materializations + lab on real tape — DONE
+- Evidence: pytest `50 passed` (+4: decision-ledger states, birth snapshot,
+  materializer roundtrip, fail-closed hash mismatch). Code: lab persists the
+  MarketState decision ledger (`states.jsonl`, bound into ledger_hash);
+  DETECTED transitions carry the immutable birth snapshot
+  (`CandidateRegistry.apply(extra=…)`); new `tools/materialize_views.py`
+  writes the five DATASET_SPEC §5 parquet views with DuckDB from a pinned
+  manifest, failing closed on live code/data hash mismatch. Real-tape run
+  (pinned manifest `manifest_dev.json`, code_hash `6a2b024e…`, data_hash
+  `8b12707e…`): views {market_states 2184, candidate_birth 713,
+  candidate_trigger 706, candidate_outcomes 713, execution_trajectories
+  2900}, ledger_hash `2c1e0fd8…`, verdict `NO_ECONOMIC_CLAIM`. Determinism:
+  two fresh runs -> equal ledger + states hashes. O-017 baseline:
+  n_executed 256, n_portfolio_rejected 360 (all EXISTING_EXPOSURE_CONFLICT),
+  mask vetoes 90 (all FUNDING_WINDOW), execution_share = 0.4156; executed vs
+  portfolio-rejected net_R KS = 0.073.
+- OPEN_PIN (carry-forward): D-027 verdict gating (execution_share +
+  divergence stat + ATTRIBUTION_UNSAFE_* verdicts in LabReport) is
+  unimplemented in code; thresholds are preregistered (§15 of the
+  preregistration); the code gate lands with the Phase-4 experiment runner.
+- Commit: `8c10730` `v8-step-3: …`.
 
-### Step 4 — Phase 1 data plane: vision_backfill.py + tape audit — DONE
-- Evidence: pytest `33 passed` (26 -> 33, +7 offline audit tests); CLI smoke
-  offline: build `6 rows`, re-run `0 rows (skipped 6)` idempotent, `--audit`
-  clean; lab replay of the produced tape verified.
-- OPEN_PIN + DEVIATION: runbook pins "reuse tools/data.py's row-building
-  logic (import it; do not fork it)", but `tools/data.py` raises SystemExit
-  at import without polars/pandera/pyarrow/duckdb (none installed), and
-  O-009 / runbook step 5 forbid adding those deps this session.
-  `tools/vision_backfill.py` therefore mirrors data.py's *documented*
-  contracts as stdlib code (kline column order + ms->ns conversion from
-  `_normalize_kline_archive`; checksum-file contract from
-  `_parse_checksum_file`/`_sha256_file`), cited inline. Real download is
-  operator-only (`--download`); tests never touch the network.
-- Commit: `b1e3c83` `v8-step-4: ...`.
+### Step 4 — v8_slice_001 preregistration document — DONE
+- Evidence: `docs/PREREGISTRATION_V8_SLICE_001.md` written with all
+  HYPOTHESIS_LAB_PROTOCOL hypothesis-record fields; O-017 thresholds proposed
+  pre-holdout from the Step-3 baseline (execution_share floor 0.25 = 60% of
+  observed 0.4156; KS divergence threshold 0.20 ≈ 2.7× observed 0.073).
+  Adversarial verification workflow (4 read-only critics) -> AMEND; 1 blocker
+  + 7 warnings incorporated: two-month frozen OOS (≥1,400 bars) now satisfies
+  the §12 minimum; 9-bar label-horizon extension pinned (unobservable
+  episodes RIGHT_CENSORED); Bonferroni-only α_f=0.025 with percentile one-sided
+  CI; EMA periods + parameter provenance declared; cost locked; block-size
+  rule operationalized; ledger_hash reclassified as derived output;
+  candidate_trigger 706 added; mask-veto exclusion cited by principle.
+  Experiment not run; holdout not opened.
+- Commit: `c2e64fd` `v8-step-4: …`.
 
-### Step 5 — Phase 2 state engine: feature groups + lineage — DONE
-- Evidence: pytest `37 passed` (33 -> 37, +4); probe byte-identical.
-- Design notes: `FEATURE_GROUPS` declares the five pinned ontology groups
-  plus a `raw` base layer (close) and the `history` group (D-026);
-  `requires:` is a frozen declaration, not a per-state guarantee (short tapes
-  can emit history before the 20-bar EMA warmup). Lineage hash extended to
-  (value, max_input_available_time, group, feature_version) so a re-tag or
-  re-version changes every dependent hash. Parquet materializations deferred
-  (O-009). PIT tests run on synthetic tape (no Phase-1 tape in session).
-- Commit: `64582ce` `v8-step-5: ...`.
-
-### Step 6 — Phase 3 expert metadata + registry — DONE
-- Evidence: pytest `42 passed` (37 -> 42, +5); probe byte-identical even with
-  `docs/EXPERTS_REGISTRY.yaml` present (it is not in the monograph NAMES
-  list). Registry YAML parses (pyyaml installed into the venv via uv —
-  documented environment addition, `pyyaml>=6` added to the dev extra).
-- Design notes: mechanism/behavior/variant ids per the pinned interpretation
-  (`trend_continuation`/`pullback_in_trend`/`a`,
-  `liquidity_vacuum_reentry`/`failed_breakout_reentry`/`a`); YAML-vs-code
-  consistency test prevents ontology drift; `requires` audited against actual
-  feature consumption. No registry experiment registered; nothing promoted.
-- Commit: `00295a8` `v8-step-6: ...`.
-
-### Step 7 — Status report — DONE
-- This file; summary appended to RUNLOG.md; commit `v8-step-7: status report`.
+### Step 5 — Status report — DONE
+- This file; summary appended to RUNLOG.md; commit `v8-step-5: status report`.
 
 ## Deviations and fixes (complete list)
 
 | Step | What | Resolution |
 |---|---|---|
-| 1 | `suppressed_duplicate` append crashed the store inbox (`KeyError: 'source'`) | Added `source`/`event_id` keys, event_id unique per clock — code fix, test unchanged |
-| 1 | episode key varied with `atr_ref` (data-dependent) | `_geometry_version` hashes structural geometry only |
-| 2 | `startswith(v4 tag)` hash assertion was bogus | Replaced with exact expected v4 hash + `!= v3` |
-| 3 | Funding-window semantics vs Step-2 open-interval golden | Pinned: only `0 < B - close <= window` vetoes; exactly-on-boundary entries are clean |
-| 3 | Pinned test (d) "defaults don't veto baseline" impossible literally (1h bars, 8h period) | Tested as no SPREAD/DEGRADED vetoes on seed-7; artifact documented |
-| 4 | `tools/data.py` unimportable without forbidden deps (O-009) | OPEN_PIN + stdlib mirror of its documented contracts, cited inline |
-| 4 | JSONL rows must round-trip `TapeRow(**r)` | `payload_hash`/`schema_version` nested inside `payload`, not top-level |
-| 5 | Pinned group set lacks a home for `close` | Added `raw` base layer to the ontology table |
-| 6 | Registry gate needs a YAML parser | `uv pip install pyyaml`; dev extra updated (environment, not contract) |
-| 6 | Creating a file under `docs/` | Authorized by the runbook's own owns-list (`docs/EXPERTS_REGISTRY.yaml (new)`); probe byte-identity confirms no monograph section changed |
+| 1 | Heavy deps absent; `data.py` hard-exited at import | D-037 admission: `uv pip install -e ".[tooling]"`; `tooling` extra added to pyproject (decision path stays stdlib-only) |
+| 3 | DATASET_SPEC §1 layer 2: MarketState not persisted | Lab writes `states.jsonl` (one record per bar); bound into ledger_hash |
+| 3 | CANDIDATE_LIFECYCLE_SPEC §1: no immutable birth record | DETECTED transition carries expert/geometry/state birth fields via `apply(extra=…)`, merged before append |
+| 3 | Materializations could silently go stale | `materialize_views.py` fails closed on live code/data hash mismatch |
+| 4 | Preregistration §12 vs §13 OOS-window contradiction (review blocker) | OOS re-declared as the first two published months after 2026-07-01 (≥1,400 bars) |
+| 4 | Label-horizon at holdout end unaddressed (review warning) | 9-bar extension pinned; RIGHT_CENSORED rule declared |
+| 4 | Unpinned FDR/CI procedure (review warning) | Bonferroni-only; percentile one-sided CI (2.5th percentile) |
+| 4 | Missing EMA periods / provenance; provisional cost label; block-size rule; ledger_hash classification; candidate_trigger count; mask-veto citation (review warnings) | All incorporated into the frozen document |
 
-## Open pins (unresolved, operator decision)
+## Open pins (unresolved, operator action)
 
-1. **OPEN_PIN — data.py reuse (Step 4).** Literal `import tools.data` reuse is
-   impossible in the slice venv (SystemExit on missing polars/pandera/
-   pyarrow/duckdb) and O-009 forbids adding those deps this session. The
-   stdlib mirror in `tools/vision_backfill.py` implements the same documented
-   contracts. Resolve later via register decision: either accept the mirror,
-   or install the heavy deps when Phase-1 parquet materialization lands
-   (DATASET_SPEC section 5).
-2. **Tracked corpus note (not a build defect):** IMPLEMENTATION_LAYOUT
-   section 4 divergence rows 1-2 (episode_key anchor form; funding
-   settlement) are closed in code by steps 1-2 but the frozen table still
-   shows OPEN — updating the table is a docs/ change outside this session's
-   writable set; operator should close those rows via a CHANGELOG entry.
-3. **Interpretation record (Step 3):** the funding-window mask fires on the
-   schedule regardless of `funding_rate_r` (pinned text is unconditional),
-   and the seed-7 synthetic epoch produces funding-window vetoes on bars
-   `i % 8 == 0` — a synthetic-tape artifact, not a threshold overreach.
+1. **Register the D-037 tooling admission** (Step 1): polars/pyarrow/
+   pandera[polars]/duckdb installed and declared in the `tooling` extra for
+   Phase-1 parquet materialization; decision path unchanged.
+2. **D-027 verdict gating in code** (carry-forward): `LabReport` does not yet
+   compute `execution_share`/divergence or emit `ATTRIBUTION_UNSAFE_*`
+   verdicts; thresholds are preregistered for `v8_slice_001` (§15) and the
+   gate lands with the Phase-4 experiment runner.
+3. **Operator approval of `v8_slice_001`** (preregistration §16): (a) ratify
+   the O-017 thresholds (share 0.25, KS 0.20); (b) at experiment time record
+   the frozen-holdout tape hash before any evaluation; (c) provide an
+   authority receipt before any economic verdict.
+4. **Session-1 OPEN_PIN (data.py reuse) — RESOLVED** by operator closure
+   `76ef874` (D-037) and this session's admission.
 
 ## Unfinished steps
 
-**None.** All runbook steps 0-7 are DONE within the 2-hour wall clock.
+**None.** All session-2 steps 0-5 are DONE within the 2-hour wall clock.
+Phase-1 DoD is met for the dev window (tape loads, audit passes, tape hash
+reproducible, materializations built); Phase 4 is *preregistered*, not run —
+the frozen holdout is declared and untouched.
 
 ## Session artifact
 
 - `RUNLOG.md` (repo root): full per-step entries with commands, output tails,
-  fixes, commits, gates. Steps 0-2 rows were written by the prior session
-  after the step-2 commit and rode in the step-3 commit (content unchanged).
-- Commits (oldest -> newest): `5962982`, `4f34abe`, `760e6cc`, `778ceb1`,
-  `b1e3c83`, `64582ce`, `00295a8`, and the `v8-step-7: status report` commit.
+  fixes, commits, gates (Session 1 + Session 2 sections).
+- Session-2 commits: `3436248` (0), `a9bd373` (1), `5304289` (2),
+  `8c10730` (3), `c2e64fd` (4), and `v8-step-5: status report`.
+- Derived artifacts (gitignored, reproducible): `research/tape/btcusdt-1h-
+  2026-q2/` — dataset/ (verified parquet + manifest/audit), raw/ (archives +
+  checksums), tape/ (JSONL PIT tape + source.json), views/ (five §5 parquet
+  views + views_manifest.json), manifest_dev.json.
