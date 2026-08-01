@@ -85,6 +85,39 @@ forbidden component names in new `src/v8/`/`tools/` code; no wall clock in
 | `fill_policy` declared but ignored by the simulator | Wired through the manifest; unsupported → ValueError (fail closed); default byte-identical (golden unchanged) |
 | OPERATIONS_SPEC items with no deliverable (conscious deviations) | Feed reconciliation N/A (single locked feed); CI lint/typecheck not configured (pytest + golden + probe at research scale); store-unreachable mid-run not simulated (local disk store); rollback/kill-switch N/A until shadow/paper exist (gated); counters/gauges minimal (JSON report, "do not over-invest") |
 
+## Session 4 — Bugfix pass (2026-08-01)
+
+A multi-modal bug hunt (4 finders + per-finding adversarial verification; 31
+agents) returned 27 findings, 22 confirmed (1 critical, 5 high, 9 medium,
+7 low), 5 refuted. All critical/high/medium code bugs were fixed in
+`v8-bugfix` commits `a104652` + `3f9eae9`:
+
+- **CRITICAL** — `vision_backfill` silently dropped corrected archives: a
+  re-downloaded zip with revised bars (same open times) was deduped away
+  while provenance recorded the new checksum. Now per-month provenance +
+  fail-closed revision detection (`check_archive_revision`).
+- **HIGH** — Phase-1a rejection counterfactual entered one bar late, biasing
+  the D-027 rejected population; now mirrors the executed path (entry at the
+  would-be fill bar).
+- **HIGH** — `audit_tape` provenance checks failed open; source.json is now
+  required and recorded archives must exist and match their sha.
+- **LOW-wiring** — the D-024 DEGRADED veto was dead code; `build_state` now
+  emits DEGRADED state quality when any feature is DEGRADED.
+- **MEDIUM** — `data.py` no longer aborts on a geo-blocked exchangeInfo
+  endpoint (degrades with a warning).
+- Test gaps closed: materializer content assertions, funding end-to-end
+  through `lab.run`, D-024 exact-boundary non-veto, non-vacuous purity tests,
+  main-path corrupt-zip, plan_archives count. Golden bumped consciously
+  (ledger `0d37dd96…`; data/tape hash unchanged).
+
+**New open pins (operator/registry decision):**
+- **D-026 anchor drift for >32-bar setups** — the key changes every bar and
+  dedup silently never fires (documented in D-034 but violates the
+  CANDIDATE_LIFECYCLE_SPEC §1 key-stability invariant). Not mechanically
+  fixed; needs a registry decision on window/anchor semantics.
+- **Detection-bar invalidation gap** — invalidation is never evaluated on the
+  detection bar; no contract pins the window; a fix must be expert-aware.
+
 ## Open pins / operator actions
 
 1. **Phase 4 (operator):** run `v8_slice_001` per the RATIFIED preregistration
