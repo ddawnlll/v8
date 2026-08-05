@@ -1,0 +1,520 @@
+
+Trade Setup #1: AB=CD Sell Pattern
+Market: S&P 500 E-mini
+Contracts: 2
+In the trade shown in Figure 4.13, the S&P E-mini market completes
+a picture-perfect AB=CD sell pattern. A limit order would be used on this
+entry at approximately 1286 to go short, just below the completion point at
+D. Once the order is filled, a stop-loss buy order is placed 5 points above
+the entry. In this case the stop-loss buy order would be placed at 1291.
+The first exit is at the .618 retracement of the AD swing. We shade
+the exit order, meaning we place orders just above or below the actual
+exit, just as we do the entry orders, about .50 to 1 point away to try to
+ensure a fill. The exit order would be placed at 1279.50, just above the .618
+retracement. Occasionally the market may trade just at but not through the
+price, and it will be up to the individual trader’s discretion how to handle
+these situations. We prefer to exit if the price is traded at, even if it means
+slightly less profit. We don’t want a winning trade to turn into a losing trade.
+Risk-Free Trade Once a profit is realized on the first part, the stop-loss
+order is then moved to the breakeven point. This accomplishes two very
+important things:
+1. Reduces the risk in the trade.
+2. Books a profit.
+
+At this point in the trade we have a 6.5-point profit and our stop has
+been moved to the breakeven point. Our second profit objective is at the
+.786 retracement level from the A–D swing. We place a limit order to exit
+the second contract at 1277.25, just above the .786 retracement level. Once
+
+c04
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+52
+
+13:3
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Figure 4.13 This is a picture-perfect S&P E-mini day trade of the AB=CD sell pattern. The market turns down almost exactly at the completion of D (15-minute chart).
+
+the second profit objective is filled, we then remove our stop-loss order.
+The second contract profit nets 8.75 points for a total profit of 15.25 points.
+Alternate Trade Management As mentioned earlier, there are many
+ways to manage trades. In this particular example, a trader could choose to
+exit both contracts at the initial .618 profit objective. In this case the trader
+would have netted +13 points. In terms of 5 points being risked initially for
+a total of 10 points of risk, this is perfectly acceptable trade management. If
+the trade had been stopped out after the first profit objective was reached,
+then the trader would have netted +6.5 points on the trade. We have found
+that it is best to take profits when available and not worry about what the
+market does after you have reached your profit objectives. Always keep in
+mind that you are trading to make profits. In our trading we use both methods to exit our trades. Which method we use depends on current market
+conditions.
+
+Trade Setup #2: AB=CD Buy Pattern
+Market: S&P 500 E-mini
+Contracts: 2
+
+c04
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:3
+
+The AB=CD Pattern
+
+Char Count=
+
+53
+
+Figure 4.14 S&P E-mini 15-minute chart showing an AB=CD buy pattern trade
+where shading the order just above the actual completion point deﬁnitely helped us
+to get into the trade.
+
+The S&P E-mini buy pattern setup shown in Figure 4.14 is a very good
+example of why we want to shade the orders to try to ensure a fill. This
+trade has an entry at 1232. Once the order is filled, an initial 5-point sell
+stop is placed. The first objective is easily reached within two time bars.
+On the chart you can see the long bar up from the entry point; this gives
+an indication that the price will make it to the .618 retracement. Once the
+first profit objective is reached, the stop is moved to breakeven to protect
+profits and to put us in a risk-free trade. The second profit objective is at
+the .786 retracement. Once the second profit objective is reached, the stoploss order is canceled and that trade is over. This particular trade would
+have netted the trader +19 points.
+Alternate Trade Management A full exit at the .618 level would have
+been a perfectly acceptable way to manage this trade. That would have
+given the trader a net profit of 16 points.
+
+Trade Setup #3: 60-Minute Failed AB=CD
+Buy Pattern
+Market: Wal-Mart (WMT) Stock
+Shares: 200
+
+c04
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+54
+
+August 14, 2007
+
+13:3
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Figure 4.15 This AB=CD buy pattern trade (60-minute chart) of Wal-Mart (WMT)
+stock illustrates a very important point: Always use stop-loss orders.
+
+An example of a failed AB=CD buy pattern is shown in Figure 4.15. As
+noted on the chart, there are gaps and a steep CD leg down to the completion point. Sooner or later traders will find themselves in a gap-open
+situation against their position. Usually the first loss is the best loss, and a
+trader must always use stop-loss orders. This is a lucky exit with the stop
+placement. Had the position been open with the gap down, then a stop can
+be placed just below the immediate low of the day to ensure no additional
+loss is incurred and then the trade can be exited on the first rally. (Refer to
+Figure 4.15 for stop-loss placement on this trade.) A $2.00 stop-loss would
+have been used, and the trader would have been stopped out for a loss of
+$400 on 200 shares.
+The use of stop-loss orders is essential in good trading and money management. We never know which trades will win or lose, and controlling the
+risk allows us to move on to the next trade.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+CHAPTER 5
+
+The Gartley
+“222” Pattern
+
+T
+
+he Gartley “222” pattern is certainly one of the classic retracement
+patterns. It offers the trader early entry with minimum risk into a
+potential longer-term trend reversal. For short-term day traders, the
+pattern can be used effectively to buy and sell tests of highs and lows
+on an intraday basis. Gartley said to buy or sell the first AB=CD pattern
+in a new bear or bull market, and that is what this pattern can achieve
+along with entries into an already established trend. A major reversal may
+not always follow with this pattern, but even so the trader can still gain
+profits using good trade management skills (assuming the pattern is not a
+failure pattern).
+
+HISTORY OF THE GARTLEY “222” PATTERN
+The Gartley “222” pattern is named for the page number it is found on
+in H.M. Gartley’s book, Profits in the Stock Market. Since then, multiple
+books have been written describing the Gartley “222” pattern and charting
+software that applies it. Ensign Software was the first to mathematically
+55
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+56
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+provide the pattern in its charting software to be used on any actively
+traded stock, commodity, or futures market.
+Of the almost 500 pages in H.M. Gartley’s book, none are more important than pages 221 and 222. This is where the author described this particular pattern in greater detail than any of the other patterns in his book.
+Gartley referred to it as one of the best trading opportunities. The most revealing part of the Gartley pattern is somewhat hidden on page 222 under
+Figure 27, which is reproduced here as Figure 5.1.
+The greatest challenge with these two pages was trying to interpret
+the description of this pattern, as it is not as clear as one might expect.
+Gartley did not give an explanation of this pattern as we use it today. The
+biggest question that comes to mind is the discrepancy between the two
+patterns in Figure 27 in Gartley’s book. The diagram labeled A shows a
+simple retracement in a downtrend, but if you look closely at the diagram
+labeled B, this shows a more complex correction in an uptrend. Diagrams
+A and B both use the addition of A, B, and C labels that were shown in
+
+Figure 5.1 Reproduction of Figure 27 in Proﬁts in the Stock Market by H.M.
+Gartley. Source: H.M. Gartley, Proﬁts in the Stock Market (Pomeroy, WA: LambertGann Publishing, 1935).
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+The Gartley “222” Pattern
+
+Char Count=
+
+57
+
+Gartley’s Parallel Trend Lines chart (refer back to Figure 4.1). These
+distinct differences between the simple and complex corrections led to the
+Gartley “222” pattern that we know today. This provided a clearer picture
+of what the pattern was all about; realizing the differences of the corrections led to a breakthrough after many attempts to understand the concept.
+The next step in the development of this pattern was the addition of
+the mathematical relationships of sacred geometry (which includes the
+Fibonacci summation series). Adding the Fibonacci ratios to this pattern
+gave the pattern recognition swing trader the tools to determine price entry, exit points, and stop levels for risk control. The final step was empirically and statistically testing the validity of these patterns. Gartley had
+emphasized that the pattern was correct approximately 70 percent of the
+time. Testing weekly, daily, and intraday patterns over the past 40 years
+has proven that Gartley’s original premise was indeed accurate.
+
+GARTLEY “222” PATTERN DESCRIPTION
+While Gartley described both buy and sell patterns identically, he had different diagrams for each. It was the AB=CD pattern within the Gartley sell
+pattern that led to the nickname Gartley “222.” Gartley applied this particular pattern to all the market indexes, and he also published it in his weekly
+newsletter.
+The difference between Figure 5.1 (Figure 27 in Profits in the Stock
+Market by H.M. Gartley) and the Gartley “222” pattern that we use today is
+in the combination of two of Gartley’s patterns:
+1. The practical use of trend lines diagram from page 249 of Gartley’s
+
+book (Figure 4.1).
+2. Gartley’s retracement pattern coupled with the AB=CD pattern
+
+(Figure 5.1).
+Combining both of these elements creates a buy pattern and a sell pattern.
+Larry Pesavento found about 20 years ago that by further adding the ratios from the Fibonacci summation series, he could develop a solid trading
+pattern. Gartley also used ratios of one-third and two-thirds with this pattern but did not use ratios from the Fibonacci summation series. The main
+Fibonacci retracement ratios that we apply to the Gartley pattern include:
+.382 (used with strong trends), .50, .618, and .786. As mentioned in the following section on pattern structure, the 1.00 can be used for a double top
+or bottom.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+58
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Gartley stated in his 1935 masterpiece that over a 30-year period he
+found these patterns to be profitable in 7 out of 10 cases. The statistics
+validating this are still the same as Gartley suggested over 70 years ago.
+
+GARTLEY “222” PATTERN STRUCTURE
+The structure of the Gartley “222” pattern is almost identical to the AB=CD
+pattern, with one main difference: It has one added leg that anchors the
+AB=CD. Whereas the AB=CD pattern is formed with three legs, the Gartley pattern is formed with four legs. The Gartley pattern must contain an
+AB=CD in order for it to be a valid Gartley pattern. The pattern is labeled
+from its initiation with an “X.” Once this leg is complete, the high or low
+from “X” begins the AB=CD formation. (See Figure 5.2.)
+As with the AB=CD pattern (Chapter 4), the Gartley pattern is also
+found in all time frames and in all markets. The pattern is a retest of a high
+or low price and offers the trader an entry into a trade in the direction of
+the trend. The same rules apply to the AB=CD within the Gartley pattern.
+It is important to know what invalidates the Gartley “222” pattern. Here
+are three items that invalidate the pattern (refer to Figure 5.3).
+1. The D completion point cannot exceed X.
+2. The C point cannot exceed A. C can be a 1.00 or double top or double
+
+bottom of X, though; this is a rare pattern but it is valid.
+3. The B point cannot exceed X.
+
+Figure 5.2 Examples of the shapes of both buy and sell Gartley “222” patterns
+with the AB=CD within the Gartley pattern.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+59
+
+The Gartley “222” Pattern
+
+C cannot exceed A.
+
+B and / or D cannot exceed X.
+
+Figure 5.3 Soybeans daily chart illustrating the conditions that would invalidate
+a Gartley buy pattern.
+
+The same warning signs apply to the Gartley pattern as to the AB=CD
+pattern: gaps in the CD leg near the completion point, wide range bars, and
+tail closes. (See Chapter 11.)
+
+IMPORTANT CHARACTERISTICS OF THE
+GARTLEY “222” PATTERN
+The Gartley pattern can be broken down into four segments that relate to
+the labeling of the swings. Point X is the high or low point of the swing
+and is the starting point of the pattern. The X can be found on longer time
+frames at major highs or lows. However, the X can also sometimes be found
+as a top or bottom within a larger trend; in other words, the pattern can
+form within a larger swing or leg without the X being a major top or bottom.
+(Refer to Figure 5.4.) It is important to remember that most traders will not
+be initiating trades at exact tops and bottoms the majority of the time, but
+the Gartley pattern offers the trader a retracement entry into the trend at
+low-risk trading points and with quantified risk levels.
+The X point becomes the fulcrum or anchor price that all technical
+traders watch daily. After point X is formed and the market begins to move
+in one direction, the XA leg starts to form; at this stage it is impossible to
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+60
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Figure 5.4 Daily chart of 30-year bonds showing a good example of a downtrend
+and the Gartley sell patterns that formed with the X point being within the trend.
+
+determine where the completion of the XA leg may be. There are certain
+characteristics of how this first swing embarks that give clues to the length
+and thrust of the XA leg: If there are gaps, wide range bars, and tail closes
+in the direction of the trend, it may be some time before a correction takes
+place. (Refer back to Figure 4.7.)
+As this first leg accelerates, it will take out old support or resistance
+levels from past chart data. The only way to visually know that the XA
+leg is complete is by the formation of the second leg, labeled AB. Near the
+completion of A, many times a doji bar and/or tweezer bar will form, telling
+us that the momentum may be slowing at this point. A doji bar is a type of
+Japanese candlestick in which the close is at or near the open of the bar;
+it is considered a neutral bar. A tweezer top or bottom is also a Japanese
+candlestick pattern; it forms when two bars have the same high or low.
+(See Figure 5.5.)
+Once it has been determined that the XA leg is complete, then the next
+step is to watch the formation of the AB leg. This leg is the first reaction up
+or down from the initial impulse wave from X. The key items to watch in
+this formation are:
+Ĺ The Fibonacci retracement ratio to which the market corrects.
+Ĺ The number of bars that form the leg.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+The Gartley “222” Pattern
+
+13:4
+
+Char Count=
+
+61
+
+Figure 5.5 S&P 5-minute chart showing examples of a tweezer top and tweezer
+bottom pattern. The tweezer top pattern and the lower tweezer bottom pattern also
+show a doji bar or a neutral close marked with an arrow.
+
+Ĺ The similarities in slope and thrust. (See Chapter 4, section titled
+“Slope and Time Frames.”)
+For example, if the AB leg takes a considerable amount of time (more
+than 8 to 10 bars) to form, then we would assume that the market is heading
+for a larger correction, potentially to .618, .786, or further.
+As the price begins to turn down or up from B, it is important to note
+that the pattern would be invalid if the BC leg exceeded X. (Refer to Figure
+5.3.) It is possible for the completion point of this leg at C to be an exact
+double bottom or top of the X point, and that is still a valid pattern. But if
+the price at C exceeds X, the pattern is then invalid; it would potentially
+be forming a Butterfly Extension pattern. (See Chapter 6 for more on the
+Butterfly pattern.)
+
+PSYCHOLOGY OF THE GARTLEY
+“222” PATTERN
+In Chapter 4 we described the crowd psychology of the AB=CD pattern.
+The same elements apply to the Gartley “222” pattern. It is formed by fear
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+62
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+and greed levels of the market participants. When the Gartley pattern forms
+at a major top, the initial move from the top finds support at the A point.
+(We use a sell pattern as an example here to describe the crowd psychology; refer to Figure 5.4.) Markets rarely go straight up or down without
+any correction. This point in the pattern is formed when enough market
+participants view this area as a buying opportunity and the price can rally
+from there. This is also true from the C point of the pattern. Since there
+are always buyers and sellers in a market, as the price forms the B and D
+points, sellers step in, seeing these as areas either to exit the market or to
+initiate short positions. The D point of the pattern is the moment of truth
+to determine if the buyers or the sellers will be the winners. A price decline
+will reward the sellers, and price above the X point will deem the pattern a
+failure.
+If the pattern is successful, the price can accelerate to the downside
+if it exceeds the A point. At this point many previous support areas are
+being broken and all traders or market participants who bought above the
+A point are now at a loss on the positions. It is true to human nature that
+a few are quick to get out with minimum losses while many others are
+waiting for the price to come back up to their entry price—which may or
+may not occur. As the price continues to decline, more market participants
+who are experiencing larger losses are forced to liquidate at undesirable
+price levels. There is usually some type of selling climax that signals the
+bottom, and support is found as new buyers step in.
+
+TRADING THE GARTLEY “222” PATTERN
+As mentioned earlier, the Gartley pattern can be found and traded in any
+time frame. This particular pattern eliminates the need to pick tops and
+bottoms, as it is a retest of the recent high or low. By definition, it is buying
+a higher low or selling a lower high, which is ideal for trading with the
+trend. The trend is defined by higher highs and higher lows in an uptrend
+and lower highs and lower lows in a downtrend.
+The following three trade examples using the Gartley “222” pattern
+illustrate entry, exit, and stop placements. Refer to Chapter 13, “Building a Trading Plan,” to help you develop a personal trading plan for this
+pattern.
+We use two contracts in the futures or commodities trade examples
+and 200 shares of stock to illustrate scaling out in two parts. We also
+present a couple of examples under the heading “Alternate Trade Management” to provide an assortment of options for managing these pattern
+setups.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+The Gartley “222” Pattern
+
+Char Count=
+
+63
+
+Trade Setup #1: Gartley “222” Buy Pattern
+Market: Soybeans
+Contracts: 2
+The entry point in this trade is at the .786 completion at point D. See
+Figure 5.6 for several repetitions of the .786 in this pattern. Notice the second AB=CD pattern that forms within the CD leg, marked in parentheses;
+this gives us an indication of where the pattern may complete.
+A limit order just above the .786 at 586.00 would be used on this trade
+with an initial stop-loss order of 8 cents or $400 per contract. When trading the Gartley pattern it is ideal to be able to place a stop just below the
+1.00 (X) level, but this will sometimes be too large for the amount of dollars risked and a dollar amount will be calculated for the stop-loss order
+instead. Always look at the amount of risk and where the stop must be
+placed in any trade. If the trader cannot find an acceptable stop level according to the trader’s money management plan, then the trade should be
+dropped and another trade with acceptable risk should be found. We can
+
+Figure 5.6 Soybeans daily chart showing a Gartley “222” buy pattern setup that
+has three repetitions of the .786 ratio. This may give the trader a clue as to the proﬁt
+objective.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+64
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+always reenter a trade that is stopped out if the pattern is still intact. These
+are the types of decisions that traders must make continually.
+Risk-Free Trade The first exit in this trade at 594.00 will be at a profit
+of 8 cents or $400. The reason for this is if we risked 8 cents and we can
+take a partial profit at 8 cents, we can then move our stop up to breakeven
+and thereby either reduce the risk in the trade or put ourselves in a risk-free
+trade.
+The second exit in this trade is at the .618 at 622.00. This particular
+trade would have netted +8 cents on the first contract and +36 cents on
+the second contract for a total of +44 cents per contract, which equals
+$2,200.
+As the price moves in the trader’s favor and in the anticipated direction, the trader can trail the stop to lock in profits. There is no exact way
+to do this, and there is no 100 percent method that will work all of the
+time. If the trader is stopped out on a trailing stop prematurely before the
+price reaches the final profit objective, the trader can reenter the trade on
+a retracement type pattern (refer to Chapter 8 for more information on retracement entries). A trailing stop may be used by implementing a specific
+dollar amount or a percentage of price, or by using Fibonacci retracement
+levels. Place the stop above or below key levels or other visual support or
+resistance chart levels.
+In Figure 5.7 you can see that once the price makes the .382 retracement from the AD swing of the Gartley buy pattern, a new retracement
+projection can then be done from the most recent swing low price to the
+high or the swing price at the .382 retracement of the AD leg, and a trailing
+stop can be placed below the .786 of that retracement. The assumption is
+that if the price goes below the .786 on that retracement the pattern may
+be failing. In this case this would have been the third stop placement for
+this trade:
+1. Initial stop at 578.00.

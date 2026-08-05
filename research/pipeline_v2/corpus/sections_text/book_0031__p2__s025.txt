@@ -1,0 +1,305 @@
+
+The key here is to avoid being seduced by leverage. Just because you’re able to get 100:1
+leverage doesn’t mean you have to use it all. Trading a larger position may seem sexy, but no
+one ever said prudent, risk-aware trading was supposed to be sexy. Use leverage as a tool to
+facilitate your trading strategies, not as an ego booster.
+
+Knowing your margin requirements
+Online forex brokers require margin posted as collateral to cover any losses on your trading
+account. To protect themselves from client losses eating up the entire margin (or going negative) in
+adverse market movements, online brokers typically require you to have 100 percent of available
+margin for any open positions.
+For example, at 50:1 leverage, if you’re holding a $100,000 position in USD/CHF, you’ll need to
+have at least $2,000 of available margin to hold the position ([$100,000 ÷ 100] × 0.50 = $500). If
+your available margin balance falls below $2,000 at any time, even for a second or just by pip,
+your broker has the right to liquidate your position, which is a fancy way of saying it closes out
+your position for you. Your losses are locked in, and your available margin balance is reduced.
+
+Margin balances are typically monitored by computer programs based on current market
+prices. If a price move causes your available margin to fall below the required level, the
+position will be closed — no margin call, no notification to you, just a liquidated position.
+You may think that’s unfair, but the reality is that brokers need to liquidate losing positions at
+some point, or your loss will become theirs.
+As a trader, it’s your responsibility to read the fine print and to know the minimum margin
+requirements and liquidation policies before you start trading. Regulated forex brokers must
+disclose their policies in your customer account agreement.
+Liquidation policies can vary among brokers with some closing all open positions at once (in the
+case of multiple open positions) and others closing the largest losing position first until the
+minimum requirement is met to close remaining open positions.
+
+From a trader’s perspective, you never want to be in the situation where your positions are
+liquidated due to insufficient margin. It means you’re trading too large a position for your
+available margin or you’ve let the losses run for too long relative to your available margin.
+Each trade plan needs to factor in the minimum margin requirement, and it should never even
+come close, or you’re better off with a smaller position size. I look at the critical relationship
+between position size and margin later in this section.
+
+Market liquidity, volatility, and gap risk
+The forex market is routinely described as the most liquid financial market in the world, and that’s
+true. But it doesn’t mean that currencies are not subject to varying liquidity conditions.
+Liquidity refers to the amount of market interest (the number of active traders and the overall
+
+volume of trading) present in a particular market at any given time. From an individual trader’s
+perspective, liquidity is usually experienced in terms of the volatility of price movements. A
+highly liquid market will tend to see prices move very gradually and in smaller increments. A less
+liquid market will tend to see prices move more abruptly and in larger price increments.
+
+Shifting liquidity conditions can increase volatility
+Forex market liquidity will vary throughout each trading day as global financial centers
+open and close in their respective time zones. Reduced liquidity is first evident during the
+Asia-Pacific trading session, which accounts for only about 21 percent of global daily trading
+volume. Japanese, Chinese, or Australian data or comments from regional finance officials
+may provoke a larger-than-expected or more-persistent reaction simply because there is less
+trading interest to counteract the directional move suggested by the news.
+Peak liquidity conditions are in effect when European and London markets are open, overlapping
+with Asian sessions in their morning and North American markets in the European afternoon.
+Following the close of European trading, liquidity drops off sharply in what is commonly referred
+to as the New York afternoon market.
+During these periods of reduced liquidity and interest, currency rates are prone to drift in narrow
+ranges, but are also subject to more sudden and volatile price movements. The catalyst could be a
+news event or a rumor, and the reduced liquidity sees prices react more abruptly than would be the
+case during more liquid periods.
+Another common source of erratic price moves during less liquid periods is short-term market
+positioning. A classic example is a strong rally in a currency pair during the North American
+morning/European afternoon. As Europe heads home, the currency pair typically settles into a
+consolidation range near the upper end of the day’s rally. If sufficient short positions have been
+established on the rally, further price gains may force some shorts to buy and cover. With reduced
+liquidity, prices may jump abruptly, provoking a flood of similar buying from other shorts,
+resulting in a short squeeze higher.
+The same phenomenon can occur following market declines, where market longs are forced to exit
+in a rush on further price declines. Still another variation on this theme is sharp price reversals of
+an earlier rally, where longs take profit in thin conditions and the resulting price dip brings out
+selling by other longs rushing to preserve profits. After a sell-off, profit-taking on short positions
+can provoke a sharp short-covering reversal.
+
+There’s no way to predict with any certainty how price movements will develop in such
+relatively illiquid periods, and that’s the ultimate point in terms of risk. The bottom line is
+that if you maintain a position in the market during these periods of thin liquidity, you’re
+
+exposed to an increased risk of more volatile price action.
+Liquidity is also reduced by market holidays in various countries and seasonal periods of reduced
+market interest, such as the late summer and around the Easter and Christmas/New Year holidays.
+Typically, holiday sessions result in reduced volatility as markets succumb to inertia and remain
+confined to ranges. The risks also increase for sudden breakouts and major trend reversals.
+Aggressive speculators, such as hedge funds, exploit reduced liquidity to push markets past key
+technical points, which forces other market participants to respond belatedly, propelling the
+breakout or reversal even further. By the time the holiday is over, the market may have moved
+several hundred points and established an entirely new direction.
+
+Just because you’re enjoying an extended holiday weekend doesn’t mean you’re not
+exposed to risk from higher volatility in holiday markets. You are — and you need to factor
+liquidity conditions into your overall trading plan.
+
+Getting a handle on volatility
+Volatility is a statistical term referring to average price fluctuations (standard deviation) relative
+to the average price over a specified period of time. Volatility is what makes the trading world go
+’round, and without it, speculators would have a lot of time on their hands.
+But not all volatility is created equal, and you need to be aware of two main types of volatility that
+can alter the currency playing field:
+Market volatility: Market volatility is the overall level of price volatility in various
+financial markets at any given time. The VIX S&P 500 volatility index is a good overall
+barometer of market volatility. Market volatility typically increases during periods of
+uncertainty or unexpected economic data or monetary policy developments. If you’re
+trading on a short-term basis or using a model that relies on relatively low volatility (for
+example, mean reverting systems, moving averages, or regression channels), you need to
+be aware that increased volatility can quickly swamp such strategies. Better to stay on the
+sidelines and sit out the upheavals than jump in with a strategy unsuited to higher
+volatility.
+Currency-pair volatility: Different currency pairs trade with different volatility
+characteristics, both in the short and long term. Before you go with a trade setup in a
+currency pair you’ve spotted on a chart, make sure you’re aware of the pair’s relative
+volatility. (I discuss individual currency-pair volatility and other trading characteristics in
+greater detail in Chapters 8 and 9.)
+
+Minding the gap
+
+Gap risk refers to the potential for prices to gap, or jump from one price level to another with no
+tradeable prices in between. Gap risk typically is associated with events such as economic data
+reports, central bank rate decisions, and other major news events. In that sense, most gap risk is
+identifiable in advance by looking at data and event calendars. Unexpected news or official
+comments can also trigger price gaps. Breaks of key technical levels are another source of price
+gaps.
+Gaps vary in size depending on the nature of the news, but price gaps of 20 to 80 pips or more are
+not uncommon in currencies after major news and data events. Gaps occur because the interbank
+market reduces its bids and offers in the minutes or so immediately before and after major
+announcements, leaving online currency trading platforms with no prices to show individual
+traders.
+After the news is out, interbank traders adjust their prices to reflect the news, resulting in a price
+gap higher or lower. It may be up to 30 seconds (or more depending on the news or event) before
+normal pricing returns.
+
+If you’re holding open positions at the time of major data releases or events, you’re subject
+to gap risk. The same goes for stop-loss orders left with online brokers — stop-loss
+executions are subject to gap risk. Depending on market circumstances, stop-loss order
+executions will see slippage (meaning, your stop-loss order may not be filled at the rate you
+specified). In the case of price gaps, brokers are obligated only to fill your order on a “best
+efforts” basis.
+
+Don’t expect to be able to leave a stop-loss order nearby on either side of the market before
+a major news or data event and have it filled at your order rate. Occasionally, the market will
+take out both sides of the stop-loss orders before the release ever hits the market, locking in
+your loss. If that doesn’t happen, and the market gaps through one side of your order, you’re
+subject to slippage, and you’ll be filled where the market resumes trading, which could be
+substantially different from where you left your order.
+If you’re thinking that this is some trick that online brokers cooked up to sock it to individual
+traders, keep this in mind: The big players in the interbank market are subject to the same gap risk
+as individuals trading online. Even if you were a prop trader (see Chapter 3) at some big bank,
+with one of your own bank’s traders watching your order, you’re going to get filled where your
+trader is able to execute the order in the market. The same applies to online brokerages. Bottom
+line: No market-maker will survive very long if he fills his customers at rates even he can’t
+access.
+
+The other type of gap risk stems from events that occur over weekends, potentially resulting
+
+in a substantial gap between Friday’s closing level and the Sunday/Monday opening price.
+Weekend gap risk is typically also identifiable in advance because it most often occurs
+around scheduled events like a G20 meeting or a Chinese data release.
+That said, there’s still plenty of potential for unexpected events (earthquakes, terrorism, and
+currency revaluations or devaluations, to name just a few) to happen over weekends. To judge the
+risks of a weekend gap, you need to have a good sense of what’s going on in the major currency
+nations and a healthy sense of expecting the unexpected. The safest approach is simply not to hold
+positions over a weekend.
+
+We have a winner here! Protecting your profits
+It’s one thing to speculate in the market and get the direction wrong. That’s good old-fashioned
+risk-taking, and it’s just part of the business of trading. But it’s another result entirely to get the
+direction right and still lose money, or not make as much as you could have, or not keep as much
+as you’d already made.
+Most traders can readily accept the idea of getting the direction wrong. They shrug it off and get
+back to work in short order. But take a trader with a winning position in the morning that goes
+south in the afternoon, and you’re suddenly looking at a case study of negative trader emotions.
+With a wrong-way trade, it’s a simple case of not missing what you never had. With a good trade
+gone bad, it’s hard not to feel regret or think the market is out to get you.
+
+Experienced traders know that keeping what you’ve made is often as hard as making it in
+the first place, so they guard their profits aggressively. The best way to do that is by adjusting
+your stop loss in the direction of the trade once it’s in the money. You can do this by using
+either a trailing stop loss or manually changing your original stop loss based on specific
+price levels being surpassed.
+A trailing stop loss is a stop-loss order that automatically trails the market at a user-defined
+distance (say, 40 pips). For example, if you’re short at 55, and you have a 40-pip trailing stop
+loss, the stop starts out at 95. As the market moves lower, the trailing stop will adjust so that it is
+always 40 pips from the low. If the market trades down to 10, your trailing stop is now at 50,
+guaranteeing you at least a 5-pip profit. Trailing stops are great for catching longer-term
+movements, because they rely on a market reversal of x pips before being triggered.
+If you’re more inclined to trade according to technical levels, you may want to consider manually
+adjusting your stop loss after specific levels are broken. For example, if you’re long, you may
+raise your stop loss from its original level after technical resistance has been broken.
+
+Above all, if the market reverses and your profit starts to decline, don’t worry about getting
+
+back what you’ve just lost — worry about keeping what you’ve still got.
+
+Placing your orders effectively
+Currency traders rely on orders to take advantage of price movements when they’re not able to
+personally monitor the market and also to protect themselves from adverse price movements. If
+you’re going to be trading currencies, odds are that you’ll be relying on orders as part of your
+overall trade strategy. I cover the various types of orders in greater detail in Chapter 4.
+The two main types of orders are limit orders, used to buy or sell at rates more favorable than
+current market prices, and stop-loss orders, which are used to buy or sell at worse rates than
+prevailing levels. The key difference between the two types is that you generally want your limit
+orders to get filled, but you don’t want your stop-loss orders to be triggered. That’s because limit
+orders are used to take profit and enter positions (which you want), and stop-loss orders are used
+mainly to exit losing positions (which nobody likes). (The exception is stop-loss entry orders, in
+which you use a stop-loss order to enter a position — on a breakout, for example [see Chapter
+14].)
+The risk with using orders is that you miss having your take-profit limit or entry orders filled or
+that your stop-loss orders are triggered at extreme price points. The catch here is that markets have
+a penchant for going after stop-loss orders and shying away from limit orders in the routine noise
+of daily fluctuations.
+That makes where you place your orders a critical factor in your overall trading strategy. Deciding
+where to place orders is definitely more art than science, and even the most experienced currency
+traders continually grapple with the question of where to place their orders.
+
+Factoring in the dealing spread with orders
+Online currency traders face two other complicating factors: the dealing spread of the currency
+pairs and the order execution policies of online currency trading platforms.
+
+Most online platforms execute on the basis that a limit order to sell is filled when the bid
+price reaches the order rate and a limit order to buy is filled when the offer price reaches the
+order rate. In the case of stop losses, a stop-loss order to sell is triggered if the bid price
+reaches the order rate, and a stop order to buy is executed if the offer price reaches the order
+rate. In both cases, the dealing spread works against the order, and traders need to take that
+into account.
+For example, you may be long USD/CHF at 1.0250 with a limit, take-profit order, to sell at 1.0330
+and a stop-loss order to sell at 1.0200. For your take profit to be executed, the dealing price must
+print 1.0330/33. If the highest price quoted is 1.2329/32, no cigar. Your stop loss would be
+
+triggered if the dealing price ever trades at 1.0200/03; if the lowest quoted price is 1.0201/04,
+your order is still alive. As you can see, it’s frequently a game of inches played out in
+milliseconds.
+
+Factoring in technical levels when placing orders
+Many traders focus on technical levels to decide where to place their orders. Continuing the order
+example from the last section, if there is resistance from a trend line or hourly highs at the 1.0330
+level, many other sell orders could be grouped there. If the selling interest is strong enough, the
+market may never get that high because sellers step in front of the resistance level, start selling,
+and stop prices from rising.
+In the case of the stop-loss level, it may be placed on Fibonacci retracement support or recent
+daily lows, which may also attract other technically minded traders to place their stops at the same
+level. If the market starts to move lower, sellers will frequently try to test key technical-support
+levels to see if they hold, in the process triggering stop-loss orders left at those levels. The stops
+may be triggered and the level exceeded briefly, only to see prices rebound and the support
+ultimately hold.
+Getting stopped out at a market top or bottom is a very frustrating experience, but it’s happened to
+everyone at one point or another. Remember: Someone has to sell at the low and buy at the high.
+
+Margins of error and market extremes
+One way to prevent getting stopped out by market extremes is to factor in a margin of error
+when placing your orders. Using a margin of error is a fairly sophisticated practice, but the
+idea is to err on the side of getting your limit order filled — leaving a sell order a few points
+below key resistance levels or a buy order a few points above support levels. At a minimum,
+the margin of error should account for the dealing spread of the currency pair you’re trading.
+For stop losses, the concept is to err on the side of not allowing your stop to be triggered —
+leaving a stop-loss sell order several points below key support levels and a stop-loss buy order
+above technical resistance levels.
+In both cases, the margin of error will depend on the relative volatility of the currency pair you’re
+trading as well as overall market volatility at the time. Generally speaking, the greater the
+volatility, the greater the margin of error, and vice versa. (I look at individual currency pair
+volatility and trading behavior in greater detail in Chapters 8 and 9.). My own preference for limit
+orders is for a small margin of error of around 5 to10 pips. For stop losses, I like to use a wider
+margin of error of around 20 to 40 pips, allowing for a greater cushion in case others’ stops get
+triggered and the technical level is briefly broken.
+
+Using a margin of error in placing orders will also require you to rethink the overall trade
+strategy, especially in terms of position size. If you’re going to place stops with a margin of
+error, and the stop ends up getting triggered anyway, your losses will be greater. So you may
+need to reduce the position size to mitigate the impact on your margin.
+
+Placing stop-loss orders based on technical or financial levels
+There are generally two schools of thought when it comes to the basis for deciding where to place
+stop-loss orders:
+Technical stops: Placing a stop-loss order according to price levels identified through
+technical analysis. Whatever technical approach you choose to follow, you’ll be looking
+to identify key technical points that, if exceeded, will invalidate the trade setup and signal
+that it’s time to get out of the trade.
+Financial stops: Based on the amount of money you’re prepared to risk on a given trade.
+You may base the trade on a fundamental view of future developments, but you’re willing
+or able to risk only a certain amount of money on the trade.
+Financial stops may be appealing to highly conservative traders who don’t want to risk more than
+a fixed amount on any single trade. If that’s your way of maintaining trading discipline, by all
+means go with it. But I think it’s important to note that financial stops are essentially arbitrary and
+have no relation to the market. They’re much more a function of position size and entry price —
+elements you control — than any objective market measure.
+Technical stops, on the other hand, are based on past price action, which is about the only concrete
+way traders have of gauging future price movements. If GBP/USD has repeatedly failed to trade
+above 1.6215 in recent weeks, to pick a random price as an example, a move above that level
+suggests that something has changed. And the market, in its infinite wisdom, has decided that
+GBP/USD should move higher. We have no way of knowing for sure whether the break will be
+sustained; we can only go with our best analysis.
+
+My own preference is to base orders on technical levels rather than financial
+considerations, but the ultimate limiting factor is the amount of money at risk. That may sound
+like I’m trying to have it both ways — I explain this idea further in the next section.
+
+Applying Risk Management to the Trade
+When it comes to trading, risk management is frequently an afterthought —that is, until you take a
+loss that you weren’t expecting. Suddenly, the wisdom of the ages is upon you, and you vow never
+
+to let it happen again.
+By the way, who in her right mind would ever put on a trade expecting to take a loss, anyway?
+Sounds crazy, right? But all the experienced traders I know calculate the risk they’re facing in
+every trade before they ever enter it. It’s part of their decision-making DNA and goes a long way
+to determining which trade opportunities they pursue and which ones they skip.
+I strongly recommend that traders approach the forex market with risk management as the first
+thought. It’s how you’ll be able to get some trades wrong and still survive to get other trades right.

@@ -1,0 +1,611 @@
+
+Table 4-1
+
+Monthly Professional versus Nonprofessional Fees
+
+Exchange
+
+Professional
+
+Nonprofessional
+
+Difference
+
+American Stock Exchange
+
+$30.20
+
+$1.00
+
+$29.20
+
+NASDAQ (Level II)
+
+$56.00
+
+$10.00
+
+$46.00
+
+New York Stock Exchange
+
+$127.25
+
+$1.00
+
+$126.25
+
+Option Price Authority
+
+$32.25
+
+$3.00
+
+$29.25
+
+Factoring in what you’ll be trading
+Another consideration for your choice of charting software is what you’ll be
+trading. Some packages are better equipped for handling stocks, and others
+are more compatible with futures or commodities. There’s an 80-percent rule
+that you can use here. Get the software that’s appropriate for 80 percent of
+the trading you’ll actually be doing, not the trading that you hope to get into
+in the future.
+
+08_178089 ch04.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 69
+
+Chapter 4: Using Electronic Resources to Create Full Charts
+You may want to see if international markets are available if you think you
+may expand in that direction in the future. Also, if you’re considering trading
+options, the differences can be pretty dramatic. Make sure your focus is on
+how the software works with your markets of choice.
+
+Considering a few charting
+package options
+To give you an idea of the charting packages available for individual traders
+and investors, in this section, I highlight three of the most popular package
+options. By no means are these the only options available, but they’ve been
+around for quite some time, enjoy a wide user base, and offer conferences or
+classes where you can discover more about using the packages.
+Each of the charting packages discussed in this section offer some sort of
+free trial. Take advantage of these risk-free test runs and don’t limit yourself
+to just these three.
+
+eSignal
+I’m not sure if it’s a positive or a negative, but the variety of offerings from
+eSignal can be a bit overwhelming. The company has several products that
+run the gamut of sophistication from programs for amateurs to intricate software made for the pros. The best way to illustrate the breadth of its product
+line is to examine its products’ price range: Basic eSignal is as low as $95 a
+month, while the most expensive product — Advanced GET — can run more
+than $1,500 a month.
+For novice purposes, focus on eSignal, the flagship product. It’s more than
+adequate if you’re just getting started with charting and trading. It also covers
+all domestic markets and allows you the choice of real-time or delayed data.
+And eSignal also offers free seminars all over the country where you can find
+out more about the product and charting in general, even if you don’t use
+eSignal.
+As a positive, the eSignal brand offers a full suite of very professional products, and as you work your way up to being a very successful full-time trader,
+you can also move your way up its product line. More information on eSignal’s
+products can be found at www.esignal.com.
+
+MetaStock
+MetaStock is actually a product of Reuters, which I discussed earlier in this
+chapter. MetaStock offers what it calls real-time or end-of-day data, but it
+
+69
+
+08_178089 ch04.qxp
+
+70
+
+2/27/08
+
+9:41 PM
+
+Page 70
+
+Part I: Getting Familiar with Candlestick Charting and Technical Analysis
+actually charges for its software platform, which starts at around $499. It also
+adds a monthly fee starting at $59.
+The software is very expensive but very powerful and may be the most professional offering out there for individuals. MetaStock certainly has versatility
+going for it — the program covers virtually every market you would even
+consider trading in the world.
+Check out MetaStock at www.equis.com.
+
+TradeStation
+One of the nice features that TradeStation has is the ability to back test trading strategies. One of the best methods for determining a trading plan is to
+back test your trading ideas. This process involves taking historical data and
+seeing what would’ve happened if you had applied and traded a set of rules
+to this data — sort of an “If I would’ve known then what I know now” approach.
+TradeStation’s back testing feature uses a programming language called
+EasyLanguage. It takes some time to master, but it has a wide user base, and
+classes are frequently offered online and at various sites across the country
+to teach this programming language.
+After you find the strategies that allow you to retire young, you can use
+TradeStation’s automated trading feature to implement these strategies. This
+function allows you to set up some trading systems in advance of when you
+want them to become active, and TradeStation takes care of the rest. It’s a
+great option if you work during the day but still want to get in on some short
+term trading.
+Go online to www.tradestation.com for info on TradeStation’s charting
+package.
+In addition to offering a very solid, easy-to-use charting software package,
+TradeStation is also a brokerage firm. It’s actually a publicly traded brokerage
+firm, so you can trade with it or trade its stock, which has the symbol TRAD.
+You may be thinking, “Why do I care if it’s also a brokerage firm?” Well, this is
+useful to know because if you use its brokerage arm for trading, you actually
+get to use their charting package free of charge (as long as you conduct a
+minimum number of trades each month; otherwise, the base price is $249
+per month).
+
+09_178089 pp02.qxp
+
+2/27/08
+
+9:48 PM
+
+Page 71
+
+Part II
+
+Working with
+Simple Candlestick
+Patterns
+
+09_178089 pp02.qxp
+
+2/27/08
+
+9:48 PM
+
+M
+
+Page 72
+
+In this part . . .
+
+any traders get interested in candlestick charting
+because of the usefulness of candlestick patterns
+for figuring out what a market or security is going to do
+next. In fact, there’s a good chance that you picked up this
+book with hopes of tapping into the potential of candlestick
+patterns. If that’s the case, you’re going to love Part II.
+This part is loaded with explanations of simple — one- or
+two-stick — candlestick patterns. I explain how to identify
+the patterns on a candlestick chart and how you can use
+them to make wiser trading decisions. All the discussions
+center on real world examples, so you can quickly see
+how these patterns play out in a variety of markets.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 73
+
+Chapter 5
+
+Working with Straightforward
+Single-Stick Patterns
+In This Chapter
+ Taking advantage of purely bullish single-stick patterns
+ Understanding bearish single-stick patterns and their uses
+
+I
+
+t’s time to begin diving into individual- and multi-period candlestick patterns. Many patterns give buy and sell signals, and some serve as a headsup that a big move is on the horizon (although it’s not always clear just what
+that big move will be!)
+Most candlestick patterns are valid based only on the market activity of the
+previous few days. For instance, some patterns indicate a change in trend.
+Using one of these without knowing about the previous trend wouldn’t be
+very useful. Usually, the context in which you find a pattern tells you a great
+deal about what you should do based on that pattern. There are, however,
+some single-stick patterns that are considered either bullish or bearish regardless of the context, and those patterns are what I focus on in this chapter.
+This chapter explores the signals that may be given off from single-stick candlestick patterns, some bearish and some bullish. (The constructions of these patterns are covered back in Chapter 3 if you need to have a quick look at what’s
+behind these patterns.) I demonstrate what may have happened during a particular day trading-wise to result in the formation of a significant single candlestick on your chart. (I say significant, because candlestick patterns are often
+used to forecast future price action.) I give examples of a candlestick signal
+working well and also cases where the pattern may not give such a positive
+signal. If you know how to recognize and trade on these examples, they should
+provide some reliable tools that you can add to your trading toolbox.
+
+10_178089 ch05.qxp
+
+74
+
+2/27/08
+
+9:41 PM
+
+Page 74
+
+Part II: Working with Simple Candlestick Patterns
+
+The Bullish White Marubozu
+The most bullish of patterns is the long white candle. It represents a day
+during which the bulls controll trading and push prices higher from the opening to the closing. As the price moves up, sellers come in, but not enough to
+keep the price from continuing its rise. Any time sellers show up during this
+day, the buyers buy from them, and prices move higher. With the long white
+candle closing near the high, odds are the bulls aren’t done with their buying
+and will be back for more on the following day. There just wasn’t enough
+supply of stock by sellers to keep the buyers from pushing the price up.
+The Japanese term for a long white candle is the white marubozu. There’s a
+slight difference between a marubozu and a long white candle: The long white
+candle may have some wick exposed on both ends. A true white marubozu
+has either the opening price equal to the low for the day, the closing price
+equal to the high, or both. A long white candle may not have the open equal
+to the low or the close equal to the high, but its open should be near the low
+and the close near the high. A true white marubozu has either the opening
+price equal to the low for the day, the closing price equal to the high, or both
+leaving no wick.
+The Japanese names given to certain candlestick patterns or individual
+candlesticks can reveal important characteristics. Loosely translated, marubozu means bald or little hair. These single-stick patterns earned their name
+because they don’t have much of a wick on either end of the candlestick. The
+sticks are bald!
+Due to the baldness, the marubozu is a unique type of white candle. There
+are several specific types of long white candles. Although they all depict bullishness during the day, there are some unique characteristics to keep an eye
+out for, which are covered in this section.
+
+Understanding long white candles
+One common feature of the long white candle (see Figure 5-1) is an open near
+the low of the day and a close near the high of the day. This indicates that
+buying has taken place throughout the day.
+Figure 5-2 is an instraday chart of the price action that results in a long white
+candle on a daily chart. An instraday chart is a chart that depicts the price
+action during a time period that is less than a day, such as on a 5-minute or
+30-minute basis. Each candlestick represents the price action for this subperiod of a day. The day that corresponds to Figure 5-2, which is the price
+action of a single day made up of 30-minute pricing periods, features an opening price near the low of the day and a closing price near the high of the day.
+A textbook long white candlestick has a long candle with no wick, but that
+doesn’t happen very often, and long candles that have a little wick on either
+or both ends are still considered long white candles.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 75
+
+Chapter 5: Working with Straightforward Single-Stick Patterns
+
+Figure 5-1:
+A long
+white candle.
+
+Figure 5-2:
+A 30-minute
+chart that
+produces a
+long white
+candle on a
+daily chart.
+
+75
+
+10_178089 ch05.qxp
+
+76
+
+2/27/08
+
+9:41 PM
+
+Page 76
+
+Part II: Working with Simple Candlestick Patterns
+To figure out if you’re looking at a long white candle, determine the area covered by the difference between the close and the open. If it’s at least 90 percent
+of the area covered by the difference between the high and low, you have a
+long white candle.
+For the day in Figure 5-2, the bulls were in charge from the beginning of the day
+to the end. There’s just no disputing this, because the price does nothing but
+go higher over the course of the day, and the close is near the high of the day;
+the bulls will probably stay in charge for the near future. It’s just that bullish.
+You usually have the chance to act on such a case because there may be some
+trading below the closing price of the long white candle in the next couple of
+days, and you can place a buy order lower than the closing price but within the
+range of the long white candle to try to get an attractive entry point.
+On a long white candle day, a lot of price action is covered in a very short
+amount of time. Stocks — and markets for that matter — don’t move in one
+direction without some sort of move in the opposite direction. This normal
+retracing of prices gives you a chance to act on this bullish signal.
+
+The long white candle signaling an uptrend
+Check out Figure 5-3, where you can see a few days where the price action is
+lower than the high of the long white candle. After seeing this bullish signal,
+you have several days to buy.
+Sometimes signals don’t work, and it’s critical that you recognize this. With
+long white candlesticks, the low price on the candlestick is a good support
+level.
+Support is a level where if market conditions are consistent, buyers are
+expected to support the price of a security. If this support doesn’t hold, whatever buy signal you’re dealing with has changed, and the signal shouldn’t be
+acted on. In that case, you should exit your position fairly quickly. You may
+take a small loss, but getting out before prices fall even lower prevents you
+from taking a much larger loss later on.
+Look again at Figure 5-3, where I point out the low of the day on the long white
+candle and also note that the price doesn’t trade below that support level over
+the next few days. If you watch that stock and see that the support level is
+broken, you should consider that the bullish signal failed and no longer valid.
+I can’t stress enough that when a signal is no longer valid, any trades based
+on that signal should be exited, and no new positions based on it should be
+undertaken. Many small losers turn into big losers when the small loss isn’t
+quickly realized and corrected.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 77
+
+Chapter 5: Working with Straightforward Single-Stick Patterns
+The long white candle failing as a long signal
+What happens when the support level revealed by a long white candle is
+broken? Take a look at Figure 5-4. This chart shows a nice long white candle
+and then a quick violation of its support level. The failure of this stock to
+hold support means that the long white candle on the chart doesn’t mean
+bullish action is going to continue!
+
+Figure 5-3:
+A long
+white candle
+followed
+by a nice
+buying
+opportunity.
+
+Figure 5-4:
+A chart
+showing the
+failure of a
+long white
+candle to
+hold support
+and the
+resulting
+price action.
+
+77
+
+10_178089 ch05.qxp
+
+78
+
+2/27/08
+
+9:41 PM
+
+Page 78
+
+Part II: Working with Simple Candlestick Patterns
+How do you cope with a failed signal? Take preemptive action. Place an order
+that triggers when a signal fails. This process is known as a stop order. When
+you’re trading long, stop orders are known as sell stop orders or sell stops. A
+sell stop is placed below the current market price of a stock and triggered
+when the price reaches this level. For example, if a stock is trading at 51, you
+can place your sell stop order at 50. As long as trading stays over 50, nothing
+will happen. However, once the price hits 50, a sell order is executed, protecting you against further drops in price. Use stops when initiating positions to
+minimize the damage caused when a signal turns bad.
+
+Identifying the three variations
+of the long white candle
+There are three versions of the long white candle. Although slightly different
+in appearance, the three variations of the long white candle or marubozu
+single-day pattern all represent a day during which the bulls were in control
+from the open to the close.
+
+The white marubozu
+The first is the most bullish of them all: a long white candle with no wick.
+The day begins on the low and finishes on the high. This results in a white
+marubozu, or as my three-year-old would call it, a white rectangle. Check
+out Figure 5-5 for the result.
+
+Figure 5-5:
+A white
+marubozu.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 79
+
+Chapter 5: Working with Straightforward Single-Stick Patterns
+The closing white marubozu
+The second version of the long white candle is another white marubozu, which
+is known as the closing white marubozu. On this single-stick pattern, the
+close is equal to the high, so there is no wick on top of the stick. Figure 5-6
+is a closing white marubozu.
+
+The opening white marubozu
+The third variation of the long white candle is the opening white marubozu.
+This pattern’s opening price is equal to the low of the day, and as a result,
+there’s no wick on the bottom. Figure 5-7 is an opening white marubozu.
+
+Figure 5-6:
+A closing
+white
+marubozu.
+
+Figure 5-7:
+An opening
+white
+marubozu.
+
+79
+
+10_178089 ch05.qxp
+
+80
+
+2/27/08
+
+9:41 PM
+
+Page 80
+
+Part II: Working with Simple Candlestick Patterns
+
+The Bullish Dragonfly Doji
+The doji is a type of candlestick pattern with variations and is created when
+the open and close are equal, so there’s essentially no stick on the candlestick. Dojis are almost all wick. Take a look at Figure 5-8, which includes a
+few different types of dojis. As you can see, a doji looks more like a cross or
+a t than a pattern on a candlestick chart.
+
+Figure 5-8:
+A variety
+of dojis.
+
+Loosely translated, doji means blunder or mistake. It’s said that the pattern
+got its name because a whole day’s worth of trading just to end up back at
+the starting point seems like a goof, but price action isn’t ever a mistake, so
+I’m not crazy about that explanation.
+Although there are several varieties of dojis, you can count on them all to be
+fairly frustrating for traders. For a doji to be created, a day must begin and
+end with the same price, so a whole lot of trading takes place, but when it’s
+all said and done, the price is right back where it started. Dojis are differentiated by the location of the open and close on the wick — where trading
+begins and ends on a given day.
+At first glance, dojis may not seem very exciting, but don’t be fooled. Doji patterns are usually associated with a market turn, even though they depict a
+day where the battle between bulls and bears is fairly equal. Even though the
+battle for the day is a draw, one side soon overpowers the other. It’s like a
+prolonged tug of war that ends when one team is violently yanked into the
+mud. For the tug of war that’s a doji pattern, that yank in price action usually
+occurs sometime in the next few days or even on the following day.
+Although dojis do indicate some indecision, in some instances, a doji may be
+more bullish or bearish depending on the price action. A dragonfly doji is one
+of those cases. It is fairly bullish in nature due to the price action that is behind
+this pattern.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 81
+
+Chapter 5: Working with Straightforward Single-Stick Patterns
+
+Recognizing a dragonfly doji
+The dragonfly doji is unique in that three of the four candlestick components —
+the open, high, and close — are equal. A dragonfly doji comes from a day
+when a stock opens, trades down during the first part the day, and then at
+some point starts to trade back up, eventually closing on the high (which is
+also the open). In terms of bears and bulls, on a dragonfly doji day, the bears
+initially decide they’re going to rule the day, and the resulting lower prices
+lead the bulls to decide it’s time to buy. The bulls then take over and push
+the price up as they dominate the rest of the day, until the price is right back
+where it started. Refer to Figure 5-9 for a classic example of a dragonfly doji.
+For an illustration of the inner workings of a day that results in a dragonfly
+doji, check out Figure 5-10. This figure features a 30-minute chart of the price
+action that occurs over the course of a day to cause a dragonfly doji. The
+bears dominate the first half of the day, but the bulls take over in the afternoon, and the result is a close equal to the open — all that struggling during
+the day for nothing.
+
+Figure 5-9:
+The
+dragonfly
+doji.
+
+Figure 5-10:
+The bullish
+significance
+of the
+dragonfly
+doji.
+Bullishness
+
+81
+
+10_178089 ch05.qxp
+
+82
+
+2/27/08
+
+9:41 PM
+
+Page 82
+
+Part II: Working with Simple Candlestick Patterns
+The price action behind a dragonfly doji bodes very well for those hoping
+that prices go higher, because a price at which people buy aggressively has
+been set at the low end of the wick. The low of a dragonfly doji day is considered a near-term support level, because it’s clear that buyers came in at that
+level and turned the trend from down to up.
+The length of a wick from the high to low doesn’t have to be any specific distance to qualify as a dragonfly. However, the wick length can signify the amount
+of bullish significance a dragonfly doji has for future price action. Put simply,
+the longer the wick, the more bullish the pattern. Figure 5-11 illustrates this
+point.
+Figure 5-11 displays price action that creates a dragonfly doji on a daily chart.
+Dragonfly dojis appear when the open and close are very near or equal to the
+high, so the beginning and ending of this chart are equal. The price action
+during this day is very interesting. The bears take over from the open and
+push the price down. Eventually, though, lower prices entice buyers and they
+get aggressive, pushing the price back up to the open and settling on the high
+of the day.
+
+Figure 5-11:
+Intraday
+action that
+results in a
+dragonfly
+doji on a
+daily chart.
+
+10_178089 ch05.qxp
+
+2/27/08
+
+9:41 PM
+
+Page 83
+
+Chapter 5: Working with Straightforward Single-Stick Patterns
+
+Trading based on a dragonfly doji
+You can make smart trades based on the dragonfly dojis you see in your
+charts. Two charts can help:
+ One in which a dragonfly doji indicates a nice buying opportunity
+ One in which a dragonfly doji fails pretty badly
+First the good one. Much like the long white candle I discuss earlier in this
+chapter, the dragonfly doji helps you establish a solid support level to buy
+with confidence. In Figure 5-12, notice how the bottom end of the dragonfly
+doji wick works as a support level, which is held as the security remains bullish for several days. The dragonfly doji appears after some range trading, and
+it’s followed by a quick breakout of prices that reach new highs. Although the
+first day following the dragonfly doji shows an opening price lower than the
+previous close, the dragonfly’s low price isn’t violated, and the signal remains
+valid. Sticking with this valid signal leads to some nice profits!
+
+Figure 5-12:
+A dragonfly
+doji that
+pays off.
+
+83
+
+10_178089 ch05.qxp
+
+84
+
+2/27/08
+
+9:41 PM
+
+Page 84
+
+Part II: Working with Simple Candlestick Patterns
+Now for a dragonfly doji that doesn’t work out too well. The dragonfly that
+appears in Figure 5-13 looks promising, but it’s followed the next day with a
+low that’s lower than the bottom of the dragonfly’s wick. And as you can see,
+the next moves are even lower.
+The low of the dragonfly doji is a significant support level, but when that
+level is violated, it negates the dragonfly’s buy signal. When a level is violated, get out as soon as possible.

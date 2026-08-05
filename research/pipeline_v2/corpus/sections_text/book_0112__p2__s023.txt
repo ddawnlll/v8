@@ -1,0 +1,355 @@
+
+231
+
+232 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Because we are omniscient (or maybe it’s because we are writing this after
+the fact), we can tell you that this trade did not work out. During the following
+week, SH fell back into the trading range and hit your stop price, giving you a
+4.2 percent loss on this trade.
+
+Selling Stocks Short
+When you sell a stock short, you sell something you don’t have first and buy
+it later with a goal of profiting from a falling stock price. To sell a stock short,
+you borrow shares of a stock from your broker so that you can sell them in
+the open market. Your broker gets those shares either from its own inventory,
+or more likely, from other clients. The proceeds of that sale go into your
+account. To close that position, you must buy the shares on the open market
+and return them to the broker. If the price you pay for the stock, or the buy-tocover price, is less than your selling price, you’ve earned a profit on the short
+sale. Conversely, if the buy-to-cover price is higher, you’ve suffered a loss.
+Let’s say you borrow 100 shares of Company X and sell the shares short for
+$100 per share. When the price drops to $80 per share, you buy the shares
+back (you might also say you covered the shorted shares) and return them to
+your broker. You sold the stock for $100 per share, and bought them back for
+$80, netting a profit of $20 per share. It’s exactly the same profit as if you had
+purchased the stock for $80 first and sold it for $100 later. Conversely, say
+you borrow 100 shares of Company Y and sell them for $100 per share. The
+stock price rises to $120 per share, and you decide to cover your loss. You
+buy back the shares and pay $120 per share, but you sold them for $100 per
+share. You have lost $20 per share on this trade.
+Some of the quirks that are unique to selling stocks short include
+✓ Paying dividends to the lender. If the stocks pay a dividend during the
+time a short seller holds a position, short sellers pay the dividends on
+the ex-dividend date to the people who loaned them the stocks. Short
+sellers need to keep the ex-dividend date in mind whenever shorting
+stocks.
+✓ Being forced to close a position. Whenever the original owner sells the
+stocks you borrowed, your broker can call away the shorted shares,
+which means your broker can force you to return the borrowed shares
+by buying them on the open market at the current price. This happens
+rarely, and occurs only when no shares are available for shorting.
+
+Chapter 14: Executing Your Trades
+✓ Mandating the execution of short sales from only a margin account.
+Short sales must be executed in a margin account, because your broker
+loans you the stock to sell short, and charges you interest on any margin
+balance in the account.
+✓ Paying margin maintenance requirements. Your broker can force you
+to close a short position if you’re unable to satisfy maintenance margin
+requirements.
+✓ Having no or only minimal access to selling some stocks short. Lightly
+traded stocks may be unavailable for selling short, and when they can
+be sold short, they may be more likely to be called away (which happens
+when the original owner sells the stock you borrowed and your broker
+is unable to borrow additional shares).
+✓ Restricting short sales on certain stocks. You can’t short a stock that’s
+less than $5 per share, and you can’t short initial public offerings (IPOs),
+usually for 30 days following the IPO. And, as we learned during the
+credit crisis, regulators can prohibit short selling on whole categories of
+stocks.
+✓ Limiting short selling to only stocks on an uptick. This uptick rule was
+eliminated in July 2007, but we would not be surprised to see it implemented again, so we’ll review it here. The essence of the rule says that you
+can’t sell a stock short in a falling market. Although implemented a bit
+differently on various exchanges, the result is the same. Short sellers
+cannot easily pile into a falling stock. ETFs had been exempt from the uptick
+rule, and we expect the exception to remain if the rule is imposed again.
+One unusual aspect of shorting is that it creates future buying pressure. Every
+shorted sale must eventually be covered, and that means that every share of
+stock that’s been shorted has to be repurchased. Future buying pressure can
+cause the price of a heavily shorted stock to jump dramatically if all the short
+sellers simultaneously clamor to get out of their positions as the price rises, a
+situation called a short squeeze. You can find out how many others are shorting the stock by looking at short-interest statistics published in Barron’s and
+Investor’s Business Daily near the end of each month. From those statistics,
+you get some idea whether your short position is likely to be squeezed.
+
+Avoiding Regulatory Pitfalls
+Several regulatory pitfalls may cause you problems as you trade. You want to
+avoid running afoul of these regulations. Otherwise, you risk having severe
+restrictions placed on your account.
+
+233
+
+234 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Understanding trade settlement dates
+In the United States, the Securities and Exchange Commission (SEC) regulates
+when traders must settle their securities transactions. Stock trades, for example, settle three business days after a trade is executed, meaning the buyer
+must pay for stock trades and the seller must deliver the stock within three
+business days after the trade is executed. For example, if your trade date is
+Monday, the trade settles Thursday, three business days after the trade date.
+Short sellers are subject to the same settlement regulations as everybody
+else. That means the short seller must deliver the borrowed shares to the
+buyer three business days following the trade.
+Most securities, including broker-traded mutual funds and bonds, settle in
+this three-day cycle. The shorthand for this settlement period is known as
+T+3, which means trade date plus three days. Stock options and government
+securities, on the other hand, settle the day following the trade date, or T+1.
+Your broker may insist that the money for all trades be available in your
+account before allowing you to execute any trades. Brokers can exercise this
+restriction because they’re permitted to set more stringent restrictions than
+regulations require. They can’t, however, set more lenient terms. Regardless
+of your broker’s restrictions, the trade settles during the period specified
+by SEC regulations. One consequence of this settlement cycle is that your
+broker is unlikely to allow you to withdraw funds that are part of the trade
+until the trade settles. However, brokers typically do allow you to trade with
+those funds as if they are available, as long as other trading regulations are
+not violated.
+
+Avoiding free riding
+Whenever you choose to trade in a cash account, you must take care to avoid
+free riding. Free riding occurs whenever you buy and sell a stock without
+depositing sufficient funds before settlement to pay for the transaction. For
+example, if you have $5,000 in your cash account and you buy 1,000 shares of
+a $10 stock, for a total transaction cost of $10,000, you receive a money call to
+deposit $5,000 to settle the trade. Of course, we ignored commission costs in
+this example.
+One way that a trader may mistakenly violate the free-riding rules is trying to
+use the same capital on two transactions in a single day. Here’s the scenario:
+Say you have $10,000 of equity in your account, and you buy 1,000 shares
+of a $10 stock. Later that same day, you’re stopped out of the position. So
+far there is no problem. But if you try to reenter the position on the same
+day, then you receive a money call for the full price of the second trade.
+The bottom line: You can’t use the same capital to open two positions on
+
+Chapter 14: Executing Your Trades
+the same day in a cash account. That’s free riding. Note, however, that these
+trades are permitted in a margin account. Trading in a margin account means
+you’re not at risk of violating free-riding regulations.
+If you fail to satisfy the money call within the specified time, your broker
+either issues a warning or places your account on restricted status. When
+you’re restricted, you have to have enough funds in your account to cover
+your trade before the broker executes your order. Restrictions usually are
+imposed for 90 days.
+
+Avoiding margin calls and forced sales
+Although trading on margin is very powerful, it also is potentially very risky.
+You may recall from our discussion about differing types of accounts in
+Chapter 2 that a margin account enables you to borrow money from your
+broker, which, in turn, permits you to leverage your trading capital. This
+leverage can improve your total return when things go well, but it can also
+amplify any losses when a trade goes against you. A margin account is
+required if you plan to sell stock short.
+Before using your margin, you must become familiar with the rules governing its use. The Federal Reserve determines the maximum amount that your
+broker can loan you. Currently, the Fed permits your broker to loan you up
+to 50 percent of the value of each trade. The Fed hasn’t changed the margin
+requirement values since 1974. Prior to 1974, however, the Fed had adjusted
+margin requirements 22 times to limit stock market speculation and inflationary pressures.
+
+Understanding margin fees
+Your broker charges interest on the average daily margin balance, regardless of whether it’s cash or stocks. The margin balance is an adjustable
+rate loan for which the interest rate is based on the current broker call rate,
+which sometimes is known as the money call rate. Brokers usually quote their
+respective margin rates as the broker call rate plus a percentage, where the
+added amount is dependent upon the size of your loan. You can find the current broker call rate in the Tuesday edition of The Wall Street Journal.
+
+Understanding margin collateral
+Your trading positions represent the collateral used to secure your margin
+loan. Brokers require the value of your collateral to be sufficient to cover any
+outstanding loan. The amount required by your broker, called the minimum
+maintenance margin, can range from 25 percent upward. In other words, your
+broker requires the equity in your account to be at least 25 percent of the
+market value of your margined stocks.
+
+235
+
+236 Part IV: Developing Strategies for When to Buy and Sell Stocks
+If the equity value of your account falls below the minimum maintenance
+margin, you receive a margin call, a demand from your broker to deposit more
+money in your account. If you fail to satisfy your broker’s demand for additional funds, your broker liquidates some or all of your trading positions. In
+fact, your broker may even liquidate your positions before you satisfy the
+margin call, if the value of the equity in your account continues to fall. Falling
+stock prices mean falling equity values.
+As an example, say that you have $10,000 in your account, and you buy 1,000
+shares of a $20 stock, which is $20,000 worth of stock. Current margin regulations require that you maintain a deposit of at least 50 percent of the value
+of that trade in your account to open that trade, and 25 percent of the total
+value of the position to maintain it. After purchasing the stock, your account
+has $10,000 of equity and $10,000 in a margin loan. A margin call occurs in
+our example when the price of the stock falls dramatically the next day from
+$20 to $12, representing a loss of 40 percent. At this point, you still owe the
+$10,000 margin loan to your broker, but the total equity in your account now
+is only $2,000. The 25 percent minimum maintenance requirement is $3,000
+(that’s 25 percent of $12,000, or 1,000 shares at $12 each), so you’d receive
+a maintenance margin call to deposit $1,000 to bring your account up to the
+$3,000 minimum equity amount.
+Notice in the example that you’re also dangerously close to owing more to
+your broker than the stock is worth. If the stock’s price falls much further, the
+broker likely will liquidate your position to satisfy your outstanding loan.
+Brokers are allowed to liquidate your position at any time, without your
+explicit approval. In fact, they’re allowed to liquidate any position in your
+account to satisfy your loan.
+This example illustrates the risks of using margin. The value of the stock fell
+40 percent in the example, but you lost 80 percent of your equity. Leverage
+cuts both ways. Earning double profits may be nice, but doubling your losses
+is very painful. Our recommendation is to never satisfy a margin call — close
+the offending position instead. In our example, you should have set stops so
+you’d be able to get out of the losing position long before you got the margin
+call. But after that margin call is generated, you need to liquidate the losing
+position(s) immediately to pay off the margin loan.
+When you open a margin account, you must sign a hypothecation agreement, a
+binding agreement that explicitly entitles your broker to liquidate positions to
+satisfy outstanding margin loans. The hypothecation agreement also permits
+your broker to loan any stock in your margin account to another client to provide shares for that client to short the stock. When you short a stock, the
+shares of the stock that you sell must come from somewhere, and that somewhere is from other clients who own the stock. If you’re the one shorting
+stock, one “gotcha” can accompany this scenario. If the stock you borrowed is
+sold to someone else, then your broker can call away your short position in a
+forced sale. Although forced sales like this don’t happen very often, they nevertheless are a risk that you must assume if you short stock.
+
+Chapter 14: Executing Your Trades
+
+Avoiding pattern day trader restrictions
+Another risk you run when using a margin account is being classified as a
+pattern day trader. A day trade is defined as entering and exiting a single position in the same day. You can buy a stock and sell it, or you can short a stock
+and cover the position. Either way, if both transactions occur on the same
+day, it is considered a day trade.
+If you day trade four or more times within a five business-day period, you’re
+classified as a pattern day trader, unless your day trades represent fewer than
+6 percent of the total number of trades executed during the same period,
+which is a huge threshold. After you’re classified as a pattern day trader,
+your account must have at least $25,000 of equity before you’re permitted
+to execute additional day trades. Day trading margin rules are discussed in
+Chapter 17.
+
+The Tax Man Cometh
+Trading profits are taxable and are usually taxed as income at the trader’s marginal income tax rate. Check out Taxes For Dummies by Eric Tyson, Margaret
+Munro, and David Silverman (Wiley) for more info than most of us will ever
+need on the subject of taxes. Traders rarely hold positions long enough to
+qualify for the special capital gains treatment that is available to long-term
+investors. Still, paying taxes is better than losing profits or principal.
+One tax trap that snares traders is the wash sale rule. Normally, you can
+deduct trading losses from trading gains before calculating your income tax
+burden. However, if you sell a stock for a loss and then repurchase the stock
+within 30 days, the trading loss cannot be deducted. Fortunately, the loss
+isn’t lost forever. You can use it to adjust the cost basis on the trade by the
+amount of the loss, which ultimately reduces the amount of tax owed when
+the position is finally closed. This adjustment effectively raises the cost of a
+stock purchase, for tax purposes, so you owe less tax. A similar adjustment is
+available when selling short.
+Day traders receive special tax treatment, but you must be a bona fide day
+trader to qualify. The details are reviewed in Chapter 17.
+
+237
+
+238 Part IV: Developing Strategies for When to Buy and Sell Stocks
+
+Chapter 15
+
+Developing Your Own Powerful
+Trading System
+In This Chapter
+▶ Understanding mechanical and discretionary trading systems
+▶ Identifying the tools and data required for system development and testing
+▶ Understanding the pitfalls of system optimization
+▶ Evaluating trading systems that you can buy
+▶ Maintaining a trading log
+
+A
+
+trading system is a collection of technical and fundamental analyses
+tools woven together to generate buy and sell signals. Trading systems
+often are built using common indicators, oscillators, and moving averages
+(see Chapter 11). You can combine these various technical-analysis tools to
+create a virtually unlimited number of trading systems. For the new trader,
+the advantage to this approach is that you don’t need to invent something
+new to create and personalize a workable system.
+The downside, however, is equally obvious. Many traders use these common
+tools and end up with a system that offers little competitive advantage and
+only modest (if any) profits. In addition, these systems can be difficult to use,
+because the signals of one trading system mirror the signals of many others,
+which makes entering and exiting positions troublesome.
+Ultimately, you want to develop or adapt a trading system that closely fits
+your personality and trading objectives. This chapter helps you methodically
+develop and add to a trading approach that utilizes your own personalized
+repertoire of trading systems. It also helps you recognize and avoid destructive and costly habits that can sabotage your trading efforts. In addition, we
+discuss ways for you to evaluate some of the claims being made by trading
+systems that are for sale and whether buying someone else’s trading system
+makes sense.
+
+240 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Understanding Trading Systems
+Although individual trading systems differ in many ways, thinking about
+them on the basis of a couple of broad characteristics is helpful. The first
+characteristic has to do with the two ways a trader interacts with the system.
+In this case, trading systems are one or the other of the following:
+✓ Discretionary trading systems: A system that presents trading
+candidates for your consideration, but leaves the final trade execution
+decision to you.
+✓ Mechanical trading systems: A computer-based system that automatically
+generates buy and sell signals that will always be traded.
+The other way to categorize a trading system is by how it treats trends in the
+markets. In this case, trading systems are one or the other of the following:
+✓ Trend-following trading systems: A system that tries to identify trade
+entry and exit points for new or existing trends.
+✓ Countertrend trading systems: A system that tries to identify trade
+entry and exit points by finding tops and bottoms.
+Although these categorizations are not mutually exclusive of each other —
+mechanical and discretionary systems, for example, can both be trendfollowing systems — each approach has adherents and detractors, so we
+discuss the strengths and weaknesses of each type of system in the sections
+that follow.
+As you read through our descriptions of the trading systems, understand that
+no system generates profits without any losing trades. Put another way, no
+system works in every situation. Keep that firmly in mind when you’re developing ideas for and designing your personal trading system. Your goal needs
+to be designing a trading system that is useful to you across a large number
+stocks and a large number of situations. Believe us when we say that you will
+run into trouble whenever you try to tailor a trading system to a specific
+stock. Additionally, try making your system work across long periods of time
+and across many different market conditions.
+
+Discretionary systems
+A discretionary trading system makes you an active participant in all phases
+of the trades you make and provides you with a great deal of leeway when
+making trading decisions. With this approach, evaluating the economic data,
+analyzing the broad market indexes, determining which sectors are showing
+
+Chapter 15: Developing Your Own Powerful Trading System
+strength, and identifying high relative-strength stocks that are breaking out
+of long trading ranges and hoping to catch a new trend all are up to you.
+You make decisions based on what you see in charts and in fundamental
+economic data, and you enter and exit (buy and sell) positions based on that
+information.
+A discretionary system requires a great deal of discipline, which can be a
+source of problems for some traders. This type of system works well for traders who are capable of making good decisions quickly under pressure. But discretionary systems may prove troublesome if you allow your emotions to
+wreck havoc with your ability to think clearly, act rationally, and make
+thoughtful trading decisions.
+When emotions cloud your trading decisions, you may end up
+✓ Overtrading
+✓ Prematurely liquidating your positions
+✓ Holding positions too long
+✓ Anticipating trading signals in attempts to get better entry and exit
+prices
+Another problem with discretionary systems is that they’re difficult to test,
+which probably is their greatest drawback. System testing is useful, because
+it helps you understand situations in which an indicator works well and in
+which it fails. With a discretionary system, you can test the indicators, but
+you cannot reliably test your discretion.
+
+Mechanical systems
+A mechanical system addresses some of the problems that arise when using
+discretionary systems. Mechanical systems usually are computer-based
+programs that automatically generate buy and sell signals based on technical and/or fundamental data. You’re expected to blindly follow the resulting
+trading signals. Some mechanical systems actually enter buy and sell orders
+directly with your broker without your intervention.
+If your greedy impulses or your fear of losing routinely cause you to make
+poor trading decisions, a mechanical system may be a better choice for you.
+An automated approach tends to reduce the stress and anxiety that arise
+when you have to make difficult decisions quickly. As such, you can make and
+execute trading decisions in a consistent, methodical way. A mechanical trading system also enables you to automatically include rigorous money management in your trading methodology.
+
+241
+
+242 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Another benefit of the mechanical approach is having the ability to
+thoroughly test the system. Through testing you can confirm whether
+your trading system performs the way you expect it to and explore ways
+to improve your system before actually committing your trading capital.
+You can adjust and fine-tune your system after seeing the test results.
+Unfortunately, fine-tuning your system may lead to other problems. We
+discuss ways to avoid them in the “Identifying system optimization pitfalls”
+section, later in this chapter.

@@ -1,0 +1,195 @@
+
+Why Should Traders Learn About the Futures Markets?
+Think of this as a quick blurb designed to help a trader better understand the futures markets. This account is by no means comprehensive—there are entire books
+written on the subject. However, to an individual who has traded only stocks, the futures markets are probably a mystery, and maybe even a little menacing. Yet
+traders who have already learned the importance of strict money management will appreciate what futures trading has to offer. Typically, once people try trading
+futures, they simply stop trading stocks. The ease of entry on both the long and the short sides, the ability to focus on a few markets instead of hundreds of stocks,
+and the lack of market-maker games make them a refreshing change from the world of stocks. Let’s begin.
+First off, there are many types of futures contracts. A person can trade anything from copper to coffee, from stock indexes to silver, or from pork bellies to
+palladium. It’s not important to worry about most of these contracts in the beginning, but it is important to understand a core group of them and how they work. I
+know many traders who focus on only one of these contracts and are doing quite well. However, it took them time to find the right market and the right setup within
+that market that was best suited to their personality. This can often be a long and perilous journey, but once they found the right fit, they never looked back. These are
+the main futures markets that I follow and trade outside of stocks:
+• E-mini S&P (ES)
+• E-mini Nasdaq (NQ)
+• M ini-sized Dow (YM )
+• E-mini Russell (TF)
+• Full-sized 100-oz. electronic gold (GC), 5,000-oz silver (SI)
+• M ini-sized gold (YG), mini-sized silver (YI)
+• Full-sized 30-year bond (US—pit, ZB—electronic)
+• Ten-year notes (TY—pit, ZN—electronic)
+• Soybeans (S)
+• Corn (C)
+• Wheat (W)
+• Currencies (EC, BP, AD, CD, SF, and JY)
+• Crude oil (CL) and natural gas (NG)
+• M ini-crude oil (QM )
+• Various single-stock futures (referred to later in the book as SSFs)
+Note that some of these are mini and some are full-sized, although that can be a misnomer. For example, trading the E-mini S&P ES contract has about the same
+specs as trading the full-sized corn contract. This is why, as a trader, the most important thing is to get an idea of the daily range of these markets, and what that means
+for your P&L. In other words, what is a tick worth in each contract? What about a full point?
+Figure 4.2 shows a move in the full-sized 100-ounce gold contract (GC). As it states, this contract represents 100 ounces of gold. The trading dome shows a
+purchase price at $1,650.20 per ounce. The contract is currently trading at $1,651.70 per ounce, a gain of 15 “ticks” (ticks are the smallest price increment in which a
+futures market moves). A move from $1,650.20 to $1,650.30 (1 tick, which in this case is 10 cents) is worth $10.00 on 100 ounces of gold. This move of 15 ticks
+($1.50) on 1 contract shows a gain of $150.00. If I’d had 10 contracts, then the gain would be $1,500.00, and so on. There are two things to be gained from this. First,
+the move on 1 contract isn’t actually that scary—$10.00 per tick is manageable. Second, buying and selling a futures contract is just like buying and selling a stock.
+
+58
+
+Figure 4.2
+The minis on these stock indexes have huge volume and great liquidity. I very rarely trade any of the pit-traded contracts. Nearly everything is available today in
+electronic format, right on your computer screen.
+To get charts on these, traders will have to instruct their quote vendor that they want to add quotes from the CBOT (Chicago Board of Trade) (for the mini-sized
+Dow, bonds, 10-year notes, and grains), the CM E (Chicago M ercantile Exchange) (for the E-mini S&P, E-mini Nasdaq, and currencies), and the NYM EX (New York
+M ercantile Exchange) if they want quotes on oil and gold. There is an “E-mini only” quote feed that is cheaper, but a trader will want the full version to get quotes on
+the full-sized contracts. It will cost around $80 a month for full versions of both the CM E and the CBOT. And it should be noted here that all of this is available for
+free on the thinkorswim trading platform, as well as a few other platforms
+One thing that throws newer traders off is that futures trade in contracts months. The stock index and currency futures trade quarterly: M arch, June, September, and
+December. If it’s M ay 7, then you’ll be trading the closest month out, which in this case is the June contract (letter code M ), also called the “front month.” In June,
+59
+
+this contract will stop trading, and the new “front month” will be September (letter code U). Figure 4.3 shows the letter code for each of the contract months. The
+stock index and currency futures months have been highlighted. Other contracts, such as soybeans, oil, and gold, trade a little differently with regard to contract
+months. If you are ever unsure, just go to www.cmegroup.com and look up the contract specifications, or, better yet, just ask your broker.
+
+In a Nutshell, What Do Traders Really Need to Know?
+When traders buy a futures contract, they are not physically buying anything. This is simply a way of participating in the price movement of the market of their
+choice. If they think a market is going to move 10 points, they can buy a futures contract, long or short, and make money on the move if it goes in their direction.
+Obviously, they can also lose money on the move if it goes against them. Also, if they own a stock index futures contract that expires, they are not going to get a bunch
+of stock certificates dumped on their doorstep. The expired contract will be converted to cash, and they will see the cash deposited in their account. Other contracts,
+like soybeans, are “deliverables,” meaning that a person can be the proud owner of 5,000 bushels of soybeans per contract upon expiration. Is this really a worry?
+Brokers never like it when a contract expires in a trader’s account. They will call and badger a trader to get him to close it out, so there is little danger of his forgetting.
+And if they can’t get you on the phone, they typically will simply close it out for you. They just don’t want to have to deal with an actual delivery. If for some reason
+it still happens, you won’t have a truckload of soybeans dumped on your doorstep. It’s all handled on the brokerage end, and people there can get the account back to
+normal.
+
+Figure 4.3
+
+For price movement, if a trader has one contract in the E-mini S&P futures, for example, and it moves 1 point (for example, from 1,032.75 to 1,033.75), that
+translates into $50 on her P&L. For the Nasdaq, a 1-point move equates to $20. For the mini-sized Dow, a 1-point move is $5. Therefore, if a trader buys three E-mini
+S&Ps and catches a 2-point move, that is $50 times 2 points times 3 contracts, or $300. There is leverage here, indeed, but it is more manageable than most people
+think. Where traders get in trouble is when they trade too many contracts in relation to their account size, something I talk more about later. By the way, when the
+S&P moves a point, the Dow moves roughly 10 points, so these two contracts are nearly identical to trade. If traders say that they just made 50 points in the YM
+(mini-sized Dow), that is just like making 5 points in the ES (E-mini S&Ps).
+Figure 4.4 shows a mini-sized Dow trade with 10 contracts. The chart reflects a 27-point move, which is worth $1,350 to a trader’s P&L. I summarize all these
+contract specifications for bonds, euros, soybeans, and so on, at the end of this chapter. Of course, these price fluctuations go both ways, so money management is the
+absolute key to trading futures. It is imperative that traders know their stop before they enter a trade, and that they stick to it and not play any psychological games.
+In futures, as in stocks, hoping and praying can, and do, lead to ruin. However, the nice thing about futures is that they are so quick and the fills so clean that a trader
+can get stopped out, and then a few moments later get right back in. A trader can’t be afraid to take small losses, period. Reentry is only a commission away.
+
+60
+
+61
+
+Figure 4.4
+
+In addition, electronic contracts were set up specifically for traders: they are super liquid, and fills are instantaneous. There are no market-maker games such as those
+that happen daily with individual stocks. And with electronic contracts, a trader is out of the pit, where outsiders can sometimes be treated little better than a
+cockroach. Here are a few other things I like about futures:
+• If traders think the market is going to break out, they can buy a stock like INTC (Intel Corp.) and watch it sit there while the market roars on without them. They
+were right about the market—but their stock pick didn’t move with the market. With the stock index futures, a person is trading the market instead of watching the
+market. It is what it is.
+• A trader can short on a downtick—this makes a huge difference in trying to get filled during a breakdown. If traders try to short the stock KLAC (KLAT-encor
+Corp.) “at the market” on a breakdown, they may not get filled for 20 cents until it has an uptick. If they short the futures “at the market” on a breakdown, they
+get a quick fill at the current market price. Recently this is becoming less of an issue, as the exchanges continue to see the wisdom of allowing more and more
+stocks to be shorted on downticks.
+• I used to be a big trader of OEX (S&P 100 Index) options for day trades. After trading futures, I stopped trading OEX options. The spreads and premium of OEX
+options now look ridiculous. Where else can a person be dead right on an intraday move and still lose money? The OEX options market! Although I do use OEX
+options (or, more likely, SPY options) for swing trading, I wouldn’t day-trade them with my mother-in-law’s trading account. Not when the mini-sized Dow and
+the E-mini S&P futures are so clean and efficient.
+• A person can do most of his trades “at the market” and get good fills, unlike stocks and especially unlike options.
+• For stocks, a person needs $25,000 to day-trade. For futures, a trader can open an account with $5,000 (or less) and day-trade. There are no day-trading rules or
+classifications. That said, I recommend that people start with a larger-sized trading account, but I also realize that everyone has to start somewhere. M y first
+trading account was $2,000. Can people quit their job, open up a futures account with $5,000, and trade for a living? Absolutely … not. I talk more about this
+later.
+To buy one of the futures contracts discussed in this book as a day trade, under day-trading margin, traders generally need about $2,000 in their account. This varies
+by broker and can be lower, but this is an average. This money is called margin, and a trader can think of it as making a 4 percent down payment on a $50,000 house.
+By making the down payment, the trader controls the house, so to speak, and she benefits from any price increase and loses on any price decrease on the house itself.
+So if a trader has a $10,000 account, she can buy five mini-sized Dow contracts (five $50,000 houses) and sometimes more by utilizing lower intraday margin rates.
+However, for money management purposes, I heartily recommend that you give some thought to how many contracts you are trading in an account. This is a critical
+part of your trading plan, and it is something that I discuss in more detail at the end of the book. You can certainly choose to trade five contracts in a $10,000 account.
+You can also choose to visit India without getting any shots in advance— but that doesn’t mean it’s a good idea. (M y Internet guru, Priyanka, is from India, and she
+keeps daring me to eat at a roadside food stand next time I visit.)
+I typically trade one contract for every $10,000 to $15,000 that is in my account. This way, the account swings will not be as severe, and I can trade with a level
+head. One trader friend of mine trades one contract for every $50,000 in his account. He makes money and is never stressed out. Conversely, I’ve seen programs that
+say that a trader should take a $5,000 account and trade five contracts, and by doing this, she can make six figures a year. This is insane; the trader would be better off
+donating that $5,000 to charity, because she will lose it all if she trades that way. There are few guarantees in the futures industry, but losing all of your money if you
+trade with this much “maxed out” margin is the one sure bet available today. Here are some other key points about futures:
+• There are also now futures available on stocks. Called single-stock futures, they are great to use as swing trades in combination with index futures. Although some of
+the symbols have low actual volume, the “real volume” is based on that of the underlying stock. (I talk more about single-stock futures in the chapter on
+propulsion plays.)
+• With futures, at the end of the year, traders don’t have to list each individual futures trade for their tax return the way they would have to do with stocks. They get a
+1099 form from their broker with their total profit or loss for the year. All they have to put on their tax return is the number that’s on the 1099. That is much
+easier and much less time-consuming than listing every trade. Tax treatment is also favorable. For stocks, a trader has to hold them for more than a year to get
+classified at the cheaper “long-term gain” rate. For futures, a trader gets a 1099 that says, for example, that he had $20,000 in gains for the year. Of this, 60 percent
+of the money is treated as long-term gains (lower tax rate), and 40 percent is taxed at the short-term rate. This is the 60/40 rule. This rule holds true even if you go
+flat at the end of every trading day. This applies to all futures contracts except single-stock futures, which are treated as stocks in this regard.
+• It is possible to trade futures in an IRA or retirement account through a trust company. I don’t recommend this unless traders have already developed a proven track
+record in their own speculative accounts. And if this is the case, I recommend that they then allocate no more than 15 percent of any retirement funds to these
+vehicles. Traders have no business starting out in futures using their retirement funds. This is like deliberately choosing to go into battle without a bulletproof vest,
+or, for that matter, a weapon.
+As already discussed, each stock index futures vehicle has four contracts that are traded each year: M arch (H), June (M ), September (U), and December (Z). A
+trader will want to trade the closest month, because that is where the volume is concentrated. For example, if today is February 15, 2012, then the closest month is the
+M arch 2012 contract. To get a quote for the M arch 2012 contract on the E-mini S&P (ES), a trader would enter the symbol, month, and year. In this case, that would
+be ES (symbol), H (month = M arch), 12 (year = 2012). The full symbol would be ESH12. This is for TradeStation. For eSignal, it would be ES H2. For thinkorswim,
+it’s/ESH2. Each quote service is a little different. When one contract expires, just start trading the next contract out. The four times a year that the contracts expire are
+always a little choppy as traders make the transition from one contract to the next.
+Just remember that although the E-mini futures expire the same day as options expiration, on the third Friday of the month they are being traded in, the volume
+actually jumps into the next contract month on Thursday of the preceding week. For example, in M arch 2011, options and futures expiration was on the third Friday,
+which was M arch 18. The volume jumped into the June stock index futures contracts on Thursday, M arch 10. Bonds actually switch three weeks early. Each contract
+is a little different. If traders aren’t sure, they just need to ask their broker, write it down, and put it next to their PC. Also, because these are futures contracts, there is
+62
+
+always a price difference between two contracts. When the M arch 2011 contract says 11,686 for the mini-sized Dow, the June contract may say something like
+11,698. A trader shouldn’t be confused by this too much. Futures contracts really are based on “future prices,” which accounts for the difference. Just remember that
+each contract is its own entity. It’s possible to wake up on rollover day and see that the S&P futures are up +8.00 points, when in actuality they haven’t moved. It’s
+just that the new contract month is being quoted, since the new June contract was trading higher than the old M arch contract. M ost quote systems get a little confused
+by this. They end the day with the closing price of the old contract, then start the next day with the opening price of the new contract, and voilà, a price gap is created
+on the charts.
+Also note that there is usually a 10- to 20-point difference between the mini-sized Dow futures price and the Dow Jones Industrials cash price on any given day.
+There is a very complicated explanation for this, involving “basis,” “future price projections,” and so on, that is not really important to the short-term trader. It’s just
+something to be aware of so that traders don’t think something is wrong with their quote systems.
+That sums up the basics with regard to the mechanics of trading futures. The key is just to get comfortable with a futures execution platform and how it works.
+Buying a mini-sized Dow contract is just like buying IBM (International Business M achines) or GOOG (Google) in terms of mechanics. I also recommend starting off
+trading one lot at a time. A new futures trader will make mistakes, and a mistake on one lot is much cheaper than a mistake on ten lots or more. A trader who has never
+used a futures broker before should talk with other traders to check out rates, levels of service, and so forth. And you can always e-mail us at support@
+tradethemarkets.com with any questions.
+
+The Mini-Sized Dow Versus the E-Mini S&P 500: Does It Matter?
+Now that we have covered Futures 101, I’d like to review some of the basic differences between the mini-sized Dow and the E-mini S&P. I’m focusing on these two
+contracts because, in my experience, these are going to be the contracts that most of the people who are reading this either currently trade or will consider trading. I
+trade both contracts actively, but the mini-sized Dow has a few advantages over the E-mini S&P that I want to point out. This applies even more for newer traders.
+
+Why Is It Important to Understand the Difference Between the Various Stock Index Futures Contracts?
+The mini-sized Dow (YM ) has the same specifications as the popular E-mini S&P (ES) contract:
+• One point in the E-mini S&P equals about ten points in the mini-sized Dow.
+• One point in the E-mini S&P equals $50; ten points in the mini-sized Dow equals $50.
+Figure 4.5 shows movement on the Dow and the S&P over exactly the same time frame. The Dow has moved 13 points lower (from the high at point 1 to the low at
+point 2), and during this same time, the S&P has moved 1.5 points lower. The Dow moved lower in 13 one-point increments. However, the S&P made a similar move
+in six quarter-point increments. To break this down more simply, when the Dow moves 10 points, it does so in 10 one-point increments. When the S&P moves an
+equivalent one point, it does so in four quarter-point increments. This is a 60 percent difference in the spread. People who are trading the YM over the ES are putting
+that spread differential right into their pocket. Commissions and spreads are a cost of doing business, and anything that can be done to reduce costs will improve a
+trader’s bottom line.
+
+63
+
+Figure 4.5
+Another interesting phenomenon is that nearly all setups on the ES also can be executed identically on the YM . In fact, I often watch the ES for trade setups, and
+then take them on the YM . However, by using the YM instead of the ES on these setups, a trader will get picked off on stop runs less frequently. Why is this? It goes
+back to the spread. A 2-point stop on the ES is the same as a 20-point stop on the YM . There are many times when the ES will run 2 points on a stop run, and this
+64
+
+moves the YM 18 or 19 points, missing the stop. The YM has 12 extra places to place a stop or target over the ES in a 20-point move. Because of this, I prefer to do
+my pivot trades almost exclusively in the YM .
+
+When Is Liquidity King?
+When the mini-sized Dow first came out, it was trading very little volume. However, the contract caught on fast, and today it trades volume in six figures nearly every
+day. The ES is still the big boy when it comes to volume, trading millions of contracts per day. This is something that some traders need to consider. If you are trading
+1 lot at a time, or even up to 10 lots, then the YM is fine. But if you are trading a larger account and are using 40 or 50 contracts, then you’ll want to trade in the ES,
+where there is greater liquidity. The reality for me is, though I would love to do more trades in the YM , I am mostly limited to the ES when trading stock index futures
+because of liquidity. That said, I will typically “spread the love” across multiple contracts. If I see a solid setup taking shape as a day trade, where I plan to allocate a
+total of 50 contracts, I might buy 40 ES and 10 YM . Finally, if you do become an active stock index futures trader, seriously consider getting a seat lease through the
+CM E Group. There is one for the YM called an “IDEM ” and one for the ES called an “IOM .” These will reduce your exchange fees by about 80 percent, thus reducing
+your costs. For the YM , a seat lease is currently around $75 per month, and for the ES, it’s around $550 a month as of September 2011. These prices can fluctuate
+based on the amount of volume being traded. There is a healthy application fee of around $1,500.00 for each of these. If you trade around 2 YM contracts per day or
+20 ES contracts per day, then the lease is a “breakeven” venture. If you make any more trades than that, you start saving money. If you are interested in this program

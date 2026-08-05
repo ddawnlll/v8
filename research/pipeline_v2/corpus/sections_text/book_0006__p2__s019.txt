@@ -1,0 +1,529 @@
+
+FIGURE 7.1 Price Mostly on One Side of a Moving Average Suggests a Trend in That Direction
+
+P1: OTA
+JWBT634-c07
+
+192
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+FIGURE 7.2 The Three Moving Averages Indicate Three Diﬀerent Trends at This Spot
+
+shows, this tool is very dependent on the length of the moving average chosen; in this
+diagram, the three averages each suggest different trends at the same spot. This is not a
+problem, for the market can actually be in an uptrend, downtrend, and trading range at
+the same time—it depends on what time frame is being considered—but the trader must
+understand these issues. Again, it is not necessary to use this as a mechanical tool—for
+instance, by executing only at the precise points where the line shifts slopes. A trader
+making decisions based off price structure will almost always find entries before they
+are confirmed by a moving average.
+Avoid Markets in Equilibrium Markets are usually in equilibrium, and at those
+times markets are efficient in the academic sense—random walks prevail. There is no
+consistent edge possible in such an environment; it is not an exaggeration to say that the
+essence of technical analysis is to identify markets that have a temporary imbalance of
+buying and selling pressure, and to limit our trading to those environments. One way
+to identify markets in equilibrium is that they tend to stay close to an average price
+(moving average), which represents a rough area of consensus. If the market continues to
+trade around that average, chopping back and forth on both sides of it, it is probably best
+to move on and to look for better trading opportunities. This might seem like common
+sense, but a rule like this can keep traders from making multiple attempts at trading a
+flat market.
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+Tools for Conﬁrmation
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+193
+
+FIGURE 7.3 Avoid Trading Markets That Chop Back and Forth on Both Sides of an IntermediateTerm Moving Average
+
+To be sure, nothing works all the time. Even random walk markets will show significant departures from moving averages; a significant move away from a moving average is
+not, in itself, sufficient evidence to declare that a tradable buying and selling imbalance
+exists. However, the absence of that condition virtually guarantees that an imbalance
+does not exist, and markets that remain close to intermediate-term moving averages
+almost always present challenging trading environments with no significant edge. Figure 7.3 shows a period where Consolidated Edison, Inc. (NYSE: ED) traded back and
+forth around a moving average with no clear trades to either direction. For most traders,
+simply avoiding this type of price action can add to the bottom line, as many small losing
+trades will be eliminated.
+As a Reference for Trading Pullbacks Expecting a moving average to truly provide support and resistance is probably misguided, but there is a valid way to use moving
+averages as a crutch for trading pullbacks. Markets typically move by an alternation of
+momentum moves and consolidations, and it is usually a bad idea to initiate a trade when
+the market is overextended either to the upside or the downside in a momentum move.
+In almost all cases, it is better to wait for the market to work off this condition and to
+return to a short-term state of balance before entering in the pullback. It might seem to
+be a joke, but using a moving average like this “keeps you from doing something stupid”
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+194
+
+TRADING STRATEGIES
+
+FIGURE 7.4 Using a Moving Average as a Reference for Buying Pullbacks
+Do not buy when price is far away from the average.
+
+(i.e., buying or shorting an overextended market). A simple but effective trading rule
+could be instituted that simply prevents you from buying or selling pullbacks that are far
+away from a moving average, assuming that far away has been precisely defined. It is
+also worth considering that a moving average is a good reference in a normal trend; very
+strong trends may not pull back as much. In general, it makes sense to build a trading
+plan that first addresses the most common situations that will be encountered, dealing
+with more extraordinary trending environments later. Figure 7.4 shows an example of
+some possible pullback entries at a moving average. Trade management and context are
+important, as there is no inherent edge to simply executing a trade at the moving average.
+Slope of a Moving Average as a Trend Indicator The slope of a moving average
+is another subjective application that does not test out well in quantitative testing, but
+it can be useful as a scanning tool or as a cue for the developing discretionary trader.
+The concept is that the moving average’s slope can give confirmation of trend direction,
+with the time frame of the trend roughly corresponding to the time frame of the moving
+average. Longer-term (100-period or more) moving averages will address longer-term
+trends, while very short-term (less than 10-period) moving averages will give indications
+for the shortest intervals on the chart. An important point is that an attentive trader will
+almost always be able to identify inflection points based on price structure long before
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+Tools for Conﬁrmation
+
+195
+
+FIGURE 7.5 Though the Slope of the Moving Average Does Capture the Trend, the Trend Change
+Is Visible in Price Structure First
+
+the moving average changes slope, as in Figure 7.5. It is probably a bad idea to filter trades
+based on this criterion—for instance, taking long trades only when the average slopes
+up—because the lag effect will cause you to miss many good trades at the beginning, but
+you will be green-lighted to take all the losers at the end of a trend. Focus on learning to
+read the price structure, but the slope of a moving average can be a useful aid, especially
+when scanning many charts rapidly.
+
+CHANNELS: EMOTIONAL EXTREMES
+A moving average may give some idea of consensus, value, and relative rest. Properly
+drawn channels define excursions from that area of consensus and may give some insight
+into where the crowd’s emotional extremes lie. In most applications, this is the one and
+only purpose of channels: to define meaningful extensions. In order to do this well and
+consistently, the channels must be able to flex and to adapt to the changing volatility
+conditions of the underlying market. It should be obvious, but channels do not provide
+any kind of actual barrier to prices. The idea of buying at a band or selling at a band, with
+a few exceptions in highly mean-reverting instruments, is conceptually flawed. A better
+way for discretionary traders to use bands is to look for touches of or excursions outside
+
+P1: OTA
+JWBT634-c07
+
+196
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+the bands, and then to carefully monitor price action following those events, treating the
+band as an alert level.
+Probably the most commonly used channels are Bollinger bands, which are set at a
+multiple of the standard deviation of price around an average of price. (Default settings
+are usually two standard deviations around a 20-period SMA). As the market becomes
+more volatile (as measured by standard deviation of price), the bands automatically
+widen to accommodate the larger swings. Most books on Bollinger bands (for instance,
+Kirkpatrick, 2006) claim that 68 percent of the values should fall within one standard
+deviation of the average, about 96 percent within two standard deviations, and that virtually all prices should fall within three standard deviations. Though this claim has been
+repeated in book after book, simple empirical observation shows that this is not true.
+First, prices are nowhere near normally distributed, so the rule of thumb for standard
+deviations does not apply; over a large sample of markets, approximately 88 percent
+(not 96 percent) of closes are within two Bollinger standard deviations of a 20-period
+average. Second, standard deviation of price is not a meaningful measure, so the width
+of the Bollinger bands does not track most accepted measures of volatility well.
+Keltner channels were created by Chester Keltner, a grain trader in Chicago, but
+most traders today use a modification that is actually much closer to the Stoller Average
+Range Channels (STARC). Regardless of terminology, the advantage of these channels
+is that they respond to a simpler and more consistent measure of volatility: the range
+of each bar. Also, since these channels use true range rather than simple range, they
+can also be applied to data that are close-only (e.g., economic data, funds, or some calculated indexes). They are simple, robust, and consistent: big bars = more volatility =
+wider bands, avoiding many of the potential issues with Bollinger bands. Figures 7.6
+and 7.7 show Bollinger bands and Keltner channels applied to the same weekly chart of
+Wheat futures. Notice the typical “Bollinger balloon” effect of a large price change on the
+Bollinger bands; the Keltner channels also respond to the increasing volatility, but they
+do it in a much more measured and controlled way. As volatility contracts, Bollinger
+bands tend to tighten very aggressively, and so they will give alerts on small price movements out of these environments. This may or may not be desirable behavior, and traders
+who use these bands must know how to adjust for these quirks.
+Whichever type of channel is used, the critical behavior occurs when the price
+bars engage the bands. It is important, then, that the bands be set at a level that is
+meaningful—too close and they will give insignificant signals, but too far and they are
+never touched. The Keltner channels that I use are set at a level that contains between
+85 and 90 percent of all trading activity (the range of the bar, not just the close) across a
+wide range of markets. Table 7.1 verifies this claim empirically with an analysis of every
+bar from a large test universe. For each of the 2,403,774 bars in that universe, two statistics were recorded: “Inside” measures the percentage of the total range of all bars that
+was inside the bands. “Free bars” are bars that are pushed to such a dramatic extreme
+that the low of the bar is above the upper band, or the high of the bar is below the bottom
+channel—the entire bar is outside the channel. These are rare, but potentially significant,
+events that can indicate a condition of extreme imbalance in the market.
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+Tools for Conﬁrmation
+
+197
+
+FIGURE 7.6 Bollinger Bands on Weekly Wheat: Notice How Bands Expand and Contract Very
+Quickly
+
+FIGURE 7.7 By Comparison, Keltner Channels on Wheat Futures Are Much More Stable
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+198
+
+TRADING STRATEGIES
+
+TABLE 7.1 Excursion Stats for 2.25 ATR Modiﬁed Keltner Channels
+Mean
+
+Min
+
+Max
+
+Inside
+Free bars
+
+Large-Cap Stocks (496 stocks)
+87.7%
+3.4%
+
+67.0%
+0.0%
+
+100.0%
+11.7%
+
+Inside
+Free bars
+
+Small-Cap Stocks (500 stocks)
+85.4%
+4.3%
+
+36.0%
+0.2%
+
+96.2%
+21.2%
+
+Inside
+Free bars
+
+Futures (16 contracts)
+85.9%
+3.8%
+
+77.8%
+0.7%
+
+92.5%
+6.4%
+
+Inside
+Free bars
+
+Forex (9 pairs)
+89.8%
+2.3%
+
+87.8%
+1.5%
+
+92.0%
+3.7%
+
+Inside
+Free bars
+
+Randomly Generated Data (7 series)
+86.8%
+3.8%
+
+85.8%
+3.3%
+
+87.7%
+4.4%
+
+“Inside” records the percentage of the total trading range that is inside the bands.
+“Free bars” are the percentage of all bars that are completely outside the bands.
+Min and Max show the lowest and highest stat for individual instruments (i.e., individual stocks,
+futures markets, etc.) in the sample classes.
+
+Ideas for Using Channels
+As with most technical tools, traders have developed many nuances and techniques for
+using bands or channels. Some traders use points where price engages the bands as decision points, either in a quasi or a purely systematic form with other supporting factors. In
+some markets and time frames, some bands do show a strong enough statistical tendency
+to support such a plan, but other traders use them as inputs into a broad, discretionary
+process. Regardless, it is always helpful to know that you have a head start and are placing trades aligned with an underlying tendency in the market.
+Fade Move Outside the Channels Some traders love to fade markets, specializing
+in buying weakness or shorting into strength. Bands or channels can be a vital criterion in such a plan. In many markets, there actually is a slight statistical edge to fading
+moves to the upper or lower Keltner channel, and it is possible to replicate this tendency with Bollinger bands if some adjustments are made. Fading makes sense only if
+the market is truly extended, if the rubber band is stretched and could be ready to snap
+back. Traders who fade markets that are in relative equilibrium will accumulate a steady
+stream of losses. A good rule of thumb is to not consider any fade trade unless the market
+is extended beyond the bands on whichever time frame you are trading. Remember, risk
+management is essential in this kind of trade, as the band does not present any kind of
+actual barrier. There is always the psychological tendency to attach too much meaning
+to any line on a chart; this is why traders focus on moving averages, bands, or even whole
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+Tools for Conﬁrmation
+
+199
+
+numbers (e.g., where grid lines fall on charts). The market can do anything, however, and
+there are no lines on charts that provide any firm barriers to price. Blindly fading bands
+with no risk management plan could easily result in staggering losses.
+Enter on a Pullback from the Bands A market overextended outside the band
+will, eventually, reverse back inside the bands. At this point, it is often possible to initiate
+a trade in the direction of the original band touch. Buying somewhere near the middle
+of the bands after the market touches the upper bands or shorting after it touches the
+bottom is often a good trade. This trade could potentially be executed mechanically, but
+many traders will find best results using this condition to identify markets primed to
+move and then executing those trades with discretion. For a discretionary trader, this
+is a useful illustration of quantifying a fundamental principle of price behavior through
+the structure of an indicator. Figure 7.8 shows examples of both fading moves to the
+band (marked A) and entering pullbacks on the moving average after the band has been
+touched (B). (In this case, the entry condition for pullbacks required a close outside the
+band, rather than a simple touch.)
+
+FIGURE 7.8 Fading Closes Outside the Keltner Channel (Marked A) or Entering at the Moving
+Average (Marked B)
+Both of these are reliable trades that capitalize on basic elements of price behavior.
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+200
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+Slide Outside the Bands Markets normally move in alternating patterns of impulse
+and consolidation; the opposing trades of fading at the band and reentering in the middle
+of the bands capture this principle well. This is the pattern when the market machinery
+is operating normally. Strong buying (demand) eventually raises prices to a level where
+supply is adequate to overcome that buying pressure and the market drifts down. After a period of rest, buyers reassert themselves and push the market into another leg.
+However, this cycle can and does short-circuit, and it is also important to be aware of
+the patterns that occur in the distortions: normal strength results in a buyable pullback,
+or normal weakness results in a shortable pullback, but extreme strength or weakness
+usually indicates exhaustion. This is something to be aware of because amateurs often
+see the strongest moves and want to enter into the next pullbacks. Professionals realize
+that a very strong move often means the party is over and it is time to take profits and
+stand aside.
+One pattern that indicates an exceptionally weak or strong market is shown in
+Figure 7.9. When a market presses into the upper or lower band and stays there, this
+is indicative of a one-sided market with extreme pressure. The absence of any real
+
+FIGURE 7.9 A Market Pressing into One of the Channels Is Indicative of a very Strong Imbalance
+This is also usually a diﬃcult trading environment.
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+Tools for Conﬁrmation
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+201
+
+pattern makes it very difficult to trade this type of market. There are no pullbacks, and
+this structure is often a potential climax pattern on the higher time frame, so there is
+the ever-present possibility of a severe snapback. Many traders will be inclined to continually fade such a move because it is very difficult to find with-trend entries, but this is
+usually the wrong plan. The best course of action is almost always to have no position
+unless you are managing risk and profits in preexisting positions.
+Spike through Both Bands Well-trending markets tend to be controlled, with more
+or less proportional actions and reactions. Another way this standard pattern can break
+down is for a market to make an extremely sharp move through one side of the band
+that is immediately reversed and then spikes clear through the other band. (See Figure
+7.10.) As a general rule of thumb, whenever a market makes a sharp move in one direction immediately followed by an equally sharp move in the other direction, the normal
+expectation should be for that market to spend some time consolidating and oscillating
+in a series of smaller swings around a central price. This will usually result in a chart
+pattern that looks something like the classic triangle pattern. Remember that a big move
+
+FIGURE 7.10 A Spike through the Upper Band Immediately Followed by a Spike through the
+Lower Band Usually Leads to a Triangle-Type Consolidation—Avoid This Environment
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+May 10, 2012
+
+202
+
+7:44
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+up followed by a big move down usually leads to a triangle, and this is a difficult trading
+environment that is best avoided.
+
+INDICATORS: MACD
+One of the recurring themes of this book is that traders must have a complete understanding of any tool they use. It is not constructive to use a tool that is simply a mysterious wiggly line without really understanding what it is saying about price action. With
+this in mind, Appendix B takes a deep look at how the modified MACD indicator is
+constructed, and how it reacts to specific price patterns. If you have background and
+experience with this or a similar tool, this material may offer a new perspective on the
+use of this indicator.
+Though I have found this tool useful, many traders will have other favorite indicators that they will prefer to use. This is fine, and many of the applications of the modified MACD I discuss can be applied to other momentum indicators. However, be sure
+you understand what your indicator is really measuring. In general, most indicators fall
+into two broad categories: momentum indicators such as MACD, rate of change (ROC),
+and Momentum, or overbought/oversold indicators such as the Stochastic oscillator and
+the Relative Strength Index (RSI). The MACD is a momentum indicator and these techniques can be adapted for other momentum indicators, but do not try to apply them to
+overbought/oversold indicators. Many people do not think beyond the fact that their indicator has two moving lines. As always, think deeply and understand the nuances of the
+tools you are using.
+
+Basic Interpretation of the MACD
+Let’s turn our attention to some practical applications of the MACD, and how it might
+be used in actual trading. Formally and precisely, the MACD measures the changes in
+momentum of prices, but there tends to be some persistence in momentum, so it is acceptable to treat the MACD as a proxy measure of momentum. (That is to say, an increase
+in the rate of change of momentum will likely lead to higher momentum and vice versa.)
+Most of the benefit from using this tool comes from its ability to pick out inflections that
+might not be clearly visible on price charts, to identify swings that are more or less likely
+to have continuation after consolidation, and to mark overextended points where the
+momentum is potentially exhausted. There are a few specific applications and patterns
+that can be applied to this tool or most other momentum indicators.
+Fast Line Pop One of the core ideas of technical analysis, and indeed of fundamental analysis, is that markets move to new prices in response to new information. This
+movement usually takes the form of a series of alternating waves and retracements.
+Simply put, a strong momentum move will usually result in another move in the same
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+Tools for Conﬁrmation
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+203
+
+direction following a period of consolidation. This pattern is the foundation of market
+structure, but it is also possible to use a momentum indicator to define these conditions
+precisely. The most important concept here is that momentum precedes price, meaning
+that a sharp momentum move in a market pressing to new highs will usually be followed
+by higher prices after a consolidation, and the reverse is true to the downside. Be clear
+on this point: a momentum indicator will not somehow lead prices—this is not possible because the indicators are calculated from past prices. There are no true leading
+indicators in technical analysis; what does lead price is a strong move in the market itself, not the reading on an indicator.
+One of the simplest ways to use a momentum indicator is to look for it to make
+a significant new high or low, and then to enter the pullback following that new momentum extreme. One complication is that the MACD is an unbounded indicator, so it
+is not possible to set fixed reference levels. In practice, it is enough to use rough intuitive guidelines created by comparing the indicator to its own recent history. A more
+systematic approach could, for instance, express the indicator’s value as a percentile of
+a look-back window, and perhaps enter retracements following an excursion into either
+the top or the bottom decile. If you are just starting to look at this indicator, use the
+40-bar history as a starting point, but you should be able to read the indicator without
+precise reference to this history very quickly. Again, the momentum pop on the MACD is
+just a visual representation of information that is already in the price bars, but it can be
+a useful confirmation in some situations.
+Figure 7.11 shows the MACD applied to weekly bars of the Financial Sector SPDR
+(NYSE: XLF). At point A the market had made a strong down move, which also pushed
+the MACD line to a significant new low relative to its recent history. (Do not focus too
+much attention on the fact that it is a new low on this particular chart. The chart boundaries are arbitrary.) After an extended consolidation, the market made new lows into
+the point marked B, at which time the MACD again made a lower low. Following more
+consolidation, the market traded lower until the sharp reversal pushed the MACD to significant new highs (C). This upside momentum should have been a warning to shorts to
+not look to add short exposure into the next pullback. In this case, the market staged a
+substantial multiyear rally from this point.
+This is an important concept, so let’s review a more complex example, this time using
+a 5-minute chart of the E-mini S&P 500 futures. At the point marked A in Figure 7.12, the
+MACD confirmed the price weakness by making a significant new low, and prices slid
+lower with scarcely any consolidation. The action into 11:00 AM was perhaps slightly
+suggestive of a selling climax, so very short-term shorts would have been well advised
+to take profits into the small flush. Point B raises an important issue: is this a significant
+new high on the MACD? Perhaps so, as this is the highest reading that has been seen
+so far in this trading day, but there were other considerations (on the higher time frame)
+that suggested continued weakness. What if a trader has misread this MACD line and had
+entered a long trade? A losing trade would have been the result, but losing trades are a
+normal part of any trading plan. If the risk on this trade had been managed appropriately,
+the loss would have been small. Points C and D both show new price lows on the day,

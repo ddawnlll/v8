@@ -1,0 +1,502 @@
+
+c04.indd 80
+
+11/2/07 12:17:44 PM
+
+The Trader’s Toolbox
+
+81
+
+where a stock has rallied for a long time and finally breaks down
+below short-term support. The fall is fast and furious, yet the price
+will inexplicably stop as if it were a ball hitting a concrete floor. When
+the 200-day SMA is overlaid onto the chart, the price stops almost
+to the penny at the 200-day moving average.
+Another common application of the moving averages is to select
+two different time periods and use both moving averages as crossover
+indicators. A simple example would be to use the 20-day SMA and
+the 50-day SMA. The 20-day SMA is called the fast moving average,
+and the 50-day SMA is the slow moving average. They are referred to
+as fast and slow due to their speed in responding to changes in price.
+If the 20-day SMA is below the 50-day SMA and the stock is trading
+below both, the stock is in a short- intermediate-term downtrend.
+For a buying signal, we would look for the price to first break above
+the moving average resistance lines. Next, we would look for the
+20-day SMA to cross above the 50-day SMA. This is referred to as a
+bullish moving average crossover. At the point that the fast moving
+average is above the slow moving average, we would enter a long
+position and place our sell stop below the slow moving average. As the
+price establishes the uptrend, we could tighten the stop by bringing
+it up to just below the fast moving average.
+A word of caution is in order when using moving averages.
+Because the moving average is specifically intended to identify trends
+and reversals, they become much less reliable when the price is moving sideways. Even if the price has a wide range, the moving average
+will go flat for a sideways stock. When this happens, there will be
+numerous buy and sell signals, but they won’t have much validity.
+Be sure that the chart you’re looking at has a trend in either direction before applying the moving average as a technical indicator. In
+Figure 4.6, the stock has been in a sideways trading range and the
+200-day SMA flattens out. While there are a couple of points where
+the moving average appears to be holding as support or resistance,
+there are many more where the price simply ignores the line and
+bounces to either side.
+
+Example
+
+Figure 4.7 shows an example of a stock that was trading above the
+50-day SMA for the latter part of 2006 and into January 2007. We can
+
+c04.indd 81
+
+11/2/07 12:17:44 PM
+
+82
+
+The Market Guys’ Five Points for Trading Success
+
+Figure 4.6 200-Day Moving Average in a Sideways Stock
+
+Figure 4.7 50-Day Simple Moving Average as Support
+
+clearly see the price bounce off the 50-day SMA with little to no dip
+below that support level. The first part of February shows a decisive
+break below the support, and the price remains below for the rest of
+the chart. In this example, any long position would have been exited
+based on a sell stop below the 50-day SMA.
+As the stock is trading above the 50-day SMA level, there are several points where the price dips to the moving average and starts
+to rally. These would all be good entry points for a new long position
+
+c04.indd 82
+
+11/2/07 12:17:45 PM
+
+The Trader’s Toolbox
+
+83
+
+because the price is above support and the buyers are regaining
+control as they push the price back up from the moving average.
+Short-term profits would be recognized by using a trailing stop on
+each of the minor cycles. Longer-term profits would require placing
+your stop below the moving average and raising the stop price as the
+moving average rises.
+Figure 4.8 includes both the 20-day SMA (thin gray line) and the
+50-day SMA (bold black line). Notice how the 20-day SMA is much
+more volatile due to the fact that it is faster than the 50-day SMA.
+In this chart, we observe the moving average crossover. At point A,
+we can see where the price has started to trade above both moving
+averages and the 20-day SMA crosses above the 50-day SMA. A long
+trade would be entered at point A, based on the bullish crossover.
+We would manage this trade by placing a sell stop below the 50-day
+moving average if we’re looking to capture the intermediate-term
+profit. As an alternative, some traders will wait until they see a bearish moving average crossover before exiting a trade that was entered
+on a bullish crossover. Notice that the bearish crossover, where the
+20-day SMA drops back below the 50-day SMA, occurs at point B.
+This is just a few trading days past the drop below the 50-day SMA
+support. Either exit from the long position would have generated
+a handsome profit from the extended rally that followed the initial
+moving average crossover.
+
+Figure 4.8 Moving Average Crossover
+
+c04.indd 83
+
+11/2/07 12:17:45 PM
+
+84
+
+The Market Guys’ Five Points for Trading Success
+
+Fibonacci Retracement Lines
+Overview
+
+Fibonacci retracement lines are perhaps the most elegant of the
+technical indicators, if not the most reliable, because of their origin and ubiquity in nature. Named after the famous twelfth-century
+mathematician, the Fibonacci retracement lines are based on the
+Fibonacci number sequence. The sequence is as follows:
+1, 2, 3, 5, 8, 13, 21, 34, 55, 89, etc.
+Notice that each number is the sum of the previous two numbers. Every two successive numbers in the sequence approaches the
+Golden Ratio when their quotient is calculated. As the sequence gets
+higher, the ratio is more closely followed. The Golden Ratio is 1.618
+and is observed as follows:
+3/2  1.5
+5/3  1.67
+8/5  1.6
+13/8  1.625
+21/13  1.615
+34/21  1.619
+55/34  1.618
+89/55  1.618
+An interesting characteristic of the Golden Ratio is that its inverse
+is equal to the Golden Ratio minus one. This is shown as
+(1/1.618)  (1.618  1)  .618
+Finally, as if all this weren’t enough to entertain the puzzle
+fanatic within us, the Fibonacci sequence is evident throughout all of
+nature. The Golden Ratio has been observed in such diverse natural
+phenomena as the spiral of a nautilus shell, the petals on a flower,
+the formation of a pine cone, and the height of your belly button
+(your total height  .618!).
+Calculation
+
+The standard Fibonacci retracement lines used in most trading
+software packages are 23.6 percent, 38.2 percent, 50 percent and
+
+c04.indd 84
+
+11/2/07 12:17:45 PM
+
+The Trader’s Toolbox
+
+85
+
+61.8 percent. We see from the overview that 61.8 percent is derived
+directly from the Golden Ratio of .618. 100 percent less 61.8 percent yields 38.2 percent and 61.8 percent less 38.2 percent yields
+23.6 percent. We see that 50 percent is not a standard number in the
+Fibonacci sequence, but it is generally included because 50 percent
+is considered a common retracement for stock prices.
+Trading software packages will draw these common retracement
+levels after you have identified the low and high points along a trading range. For example, if a stock has moved from a low price of $20
+to a high price of $30, you would select these two price extremes
+and the software would draw the appropriate retracement levels at
+$27.64, $26.18, $25.00, and $23.82.
+Application
+
+The objective of using Fibonacci retracement lines is to identify levels of support when a stock pulls back following a rally or, alternately,
+to identify levels of resistance when a stock rallies following a drop.
+Care must be taken to not enter a trade based solely on the
+Fibonacci retracement level. As with any support or resistance line,
+whether drawn such as the trend line or calculated such as the moving
+average, it is best to confirm the level. An illustration of how you might
+confirm the level is with the example in the previous calculation paragraph. Let’s assume that over the last few weeks the stock has moved
+from $20 to $30 and is now starting to pull back. You want to enter
+a long position at some point in the pullback. What would you look
+for as an entry opportunity? You watch as the stock drops to the first
+retracement level at $27.64, but you don’t see any signs of the price
+drop slowing. However, as the price approaches $26.18, you notice
+two things occurring. First, the trading volume, which started strong,
+has tapered off significantly. Second, the price dipped to $26.00 for
+a brief time during the day but has since closed above $26.18. Upon
+examining the daily candlestick chart, you see that today’s candle pattern is a hammer reversal. In this instance, you have the Fibonacci
+retracement level confirmed by both volume and the chart pattern. If
+the buyers start to step in tomorrow, you may enter a long trade and
+protect yourself with a sell stop just below the $26.18 level.
+Example
+
+When we look at the range of trading for the uptrend in Figure 4.9,
+we see the low and high ends of the range identified. Since we’re
+
+c04.indd 85
+
+11/2/07 12:17:45 PM
+
+86
+
+The Market Guys’ Five Points for Trading Success
+
+Figure 4.9 Fibonacci Retracement Levels in an Uptrend
+
+starting with an uptrend, we’re interested in which price levels will
+act as support based on the Fibonacci retracements. As we can see
+at the far right side of the chart, the long black candle indicates a
+sharp price drop on heavy volume. The following day showed that
+the selling had halted, at least temporarily, and the volume was much
+lighter than the initial sell-off. Notice how closely the price reached
+to the first support line at 38.2 percent. The lower shadow on the
+long black candle came very close to this level, which was identified
+by the Fibonacci retracement of the overall trend range.
+In this example, we would watch to see if the candle patterns
+give us any more confirmation of a pending reversal. Simply taking a
+breather, as is the case here, is not sufficient for a new long position.
+However, if the price trades close to this support level over the coming
+few days without falling below, we could buy into a new position and
+place our sell stop slightly below the 38.2 percent retracement line.
+
+Stochastic Oscillator
+Overview
+
+The stochastic oscillator, also referred to simply as the stochastic,
+is an indicator that measures a stock’s buying and selling strength
+relative to its own past performance. By this, we mean that we’re
+not comparing the stock to any market or sector benchmark to
+determine when it may be time to buy or sell. The Stochastic is
+
+c04.indd 86
+
+11/2/07 12:17:46 PM
+
+The Trader’s Toolbox
+
+87
+
+generally comprised of two lines: the fast line (called %K) and the
+slow line (called %D).
+As we’ll observe in the calculations, the stochastic indicator
+ranges in value between 0 and 1 (or 0 to 100 percent). As a rule,
+any value below about 25 percent is considered oversold. The thinking is that the stock is too weak relative to its own past performance
+and, therefore, should correct with rising prices. Any value above
+about 75 percent is considered overbought and should correct with
+falling prices. As an oscillator, the stochastic tends to work better in
+channels. When a stock moves into a strong uptrend, for example,
+the stochastic will reach overbought levels without the price correcting downward. Conversely, in a strong downtrend the stochastic will
+reach the oversold levels without a correction upward.
+Calculation
+
+The first stochastic line is called the fast line because it is calculated
+directly from the price data. The indicator is based on the current
+closing price as measured against the highest high and the lowest
+low in the period over which the stochastic is calculated. The equation is as follows:
+%K  (Today’s close  Lowest low)/(Highest high  Lowest low)
+If we’re using a period of 10 days, then we would identify the
+highest trade price over the 10-day period and the lowest trade price
+over the 10-day period for our calculation.
+The second stochastic line is referred to as the slow line since it
+is smoothed through a moving average calculation. As we saw in the
+section on moving averages, a moving average smooths the volatility
+of the price data. With the slow stochastic, or %D, the volatility of
+the %K is smoothed in the same manner. The equation for the slow
+stochastic is as follows:
+%D  N-period moving average of %K
+where N is the number of periods over which the %K is smoothed.
+%D often uses three periods as a common smoothing factor. As with
+the moving average on price, the %D may use either a simple, exponential, or weighted moving average calculation. The SMA and EMA
+are the most common moving averages used in the %D calculation.
+
+c04.indd 87
+
+11/2/07 12:17:46 PM
+
+88
+
+The Market Guys’ Five Points for Trading Success
+
+Application
+
+There are three primary ways in which the stochastic is used to identify trading opportunities. The first is as a threshold indicator. As we
+previously mentioned, the stochastic helps to identify when a stock is
+overbought or oversold as compared to its own recent past performance. The overbought region is around 70 to 80 percent, while the
+oversold region is around 20 to 30 percent. There isn’t a right or
+wrong threshold to use with the stochastic. Rather, you need to decide
+how sensitive you want the indicator to be in generating signals. As
+you widen the range, the number of signals will decrease. However,
+the signals that are generated should be stronger. For example, if
+you decide to use 10 percent and 90 percent as your thresholds, it
+is apparent that the stochastic will hit these levels fewer times than
+if you use 30 percent and 70 percent. As a threshold indicator, most
+traders look for the stochastic to pass the threshold, and then they’ll
+enter a trade when the indicator crosses the threshold in the other
+direction. Looking at Figure 4.10, we see at point A where the stochastic initially crossed below the 20 percent line, telling us that the
+stock was oversold. A few days later at point B, the stock crossed back
+up above the 20 percent line. It is here that we would enter into a
+new long position based on the stochastic as a threshold indicator.
+The second application of the stochastic is to use both the %K
+and %D together as crossover indicators. Figure 4.11 is the same
+chart we see in Figure 4.10, except we’re using both the %K (black
+
+Figure 4.10
+
+c04.indd 88
+
+Using the Stochastic Oscillator as a Threshold Indicator
+
+11/2/07 12:17:46 PM
+
+The Trader’s Toolbox
+
+Figure 4.11
+
+89
+
+Using the Stochastic Oscillator as a Crossover Indicator
+
+line) and the %D (gray line). At point A, %K initially crosses up
+above %D near the 20 percent threshold. We would consider this a
+bullish crossover and we’d buy the stock. We would hold the position open until %K crosses back below %D near the upper threshold. This occurs at point B in Figure 4.11. As we can see, while this
+doesn’t let us buy the low and sell the high, it does allow us to take a
+nice bite out of the uptrend.
+The third application of the stochastic is to look for a divergence
+between the price trend and the stochastic trend. Figure 4.12 shows
+
+Figure 4.12
+
+c04.indd 89
+
+Using the Stochastic Oscillator as a Divergence Indicator
+
+11/2/07 12:17:46 PM
+
+90
+
+The Market Guys’ Five Points for Trading Success
+
+a daily candlestick chart with %K in the middle window and volume
+in the lower window. As we can see in the chart, the price highs are
+getting lower while the highs on the %K are getting higher. This is a
+divergence between the price and the stochastic, and it is expected
+that price will correct to follow the stochastic indication. As we can
+see, the price did rally toward the end of the divergence. Notice how
+the rally began when the price was approaching a support level and
+ended as it reached the resistance level. This is an important point:
+Stochastic divergences tend to be highly subjective and should be
+used as a confirming indicator, rather than as a stand-alone signal.
+Example
+
+We’ll use the stochastic as a crossover indicator for our example
+in Figure 4.13. We’ve drawn the %K (black) with a 14-day period
+and the %D (gray) with a three-day simple smoothing. In this
+example, we see a region prior to point A where both stochastic
+lines are below the 20 percent threshold, indicating an oversold
+condition. In order to enter the long trade, we want to see the %K
+cross above both the %D line and the 20 percent threshold line.
+We also want both %K and %D to be rising, which will be further
+confirmation of the expected price rally. These conditions occur
+at point A, which is where we would enter the long position. The
+reverse conditions are the reason for exiting the trade. After moving into the overbought territory above 80 percent, we look for
+
+Figure 4.13
+
+c04.indd 90
+
+Stochastic Oscillator Crossover Example
+
+11/2/07 12:17:47 PM
+
+The Trader’s Toolbox
+
+91
+
+%K to cross below %D and the 80 percent mark. We’ll further
+confirm this by waiting until both stochastics are trending downward. These conditions are met at point B, and it is here that the
+position is sold.
+
+Moving Average Convergence Divergence (MACD)
+Overview
+
+The moving average convergence divergence (MACD) indicator is
+a trend-following indicator that combines two exponential moving
+averages into an MACD line. It is used with a second line, the signal
+line, which is an exponential moving average of the MACD line. The
+MACD tends to work best when the stock price has long, wide swings.
+Buy and sell signals are generated based on the relationship of the
+MACD line to the signal line.
+It is also common to use an MACD histogram, which is a graphical representation of the difference between the MACD line and the
+signal line. Many traders find it easier to identify crossovers and
+trends with the histogram than with the crisscrossing nature of the
+MACD and signal lines.
+Calculation
+
+The MACD line is a combination of two EMAs. The most common
+EMAs used in constructing the MACD line are the 12-period EMA
+and the 26-period EMA. Recall from the calculation of the EMA that
+a 12-period EMA has an exponential smoothing factor of 15 percent
+(ESF  2/(12  1)  0.154) and the 26-period EMA has an exponential smoothing factor of 7 percent (ESF  2/(26  1)  0.074). For
+this reason, the 12-day EMA and the 26-day EMA are also referred to
+as the 15 percent EMA and the 7 percent EMA. The equation for the
+MACD line is as follows:
+MACD  12-period EMA  26-period EMA
+The second line used in the MACD indicator is the signal line.
+The signal line is an exponential moving average of the MACD. As
+we’ve seen from previous discussions, when we smooth data through
+a moving average calculation, the new line is slower to respond than
+the original line. For that reason, the MACD is considered the fast
+line and the signal line is considered the slow line. Notice how this
+
+c04.indd 91
+
+11/2/07 12:17:47 PM
+
+92
+
+The Market Guys’ Five Points for Trading Success
+
+mirrors the fast and slow lines in the moving average and stochastic
+sections of this chapter. The equation for the signal line is:
+Signal line  9-period EMA of the MACD
+Bear in mind that we’re using the common values for the MACD
+calculation (12, 26, and 9); however, these values may be adjusted to
+create more or less sensitivity in the indicator. Don’t get caught up
+in the minutia of tweaking these values, thinking that if you use the
+10 and 33 MACD line, for example, you’ll unlock the secret door
+to the market. It’s fine to increase or decrease the sensitivity of the
+MACD, but you still want to confirm your trading against the price
+and volume, as we discuss through this book.
+The MACD histogram is plotted as the difference between the
+MACD line and the signal line or
+Histogram value  MACD  signal
+The histogram can assume a positive or negative value, depending on whether the MACD is above or below the signal line.
+Application
+
+There are two primary applications of the MACD indicator. The
+first is as a crossover indicator. Once again, we look for the crossing between the fast and slow lines. When the MACD line has been
+trending below the signal line and then crosses up above the signal
+line, we would consider this to be a bullish sign. This signal would
+be especially strong if the bullish crossover occurred when the price
+started to rally off a strong support level. The opposite holds true for
+a bearish crossover. Here we would look for the MACD line to drop
+below the signal line, preferably as the price is falling off a strong
+resistance level.
+Figure 4.14 shows an example of a bullish and bearish MACD
+crossover. At point A, we see that the MACD line has crossed above
+the signal line. Notice that the histogram is positive, however slightly.
+Based on the crossover, you would buy the stock at point A. The bearish crossover occurs at point B, where the histogram first drops into
+negative territory. This tells us that the MACD line has crossed below
+the signal line, and it is here that you would exit the trade. If we look
+
+c04.indd 92
+
+11/2/07 12:17:47 PM
+
+The Trader’s Toolbox
+
+Figure 4.14
+
+93
+
+MACD as a Crossover Indicator
+
+more closely at the price, it’s apparent that the stock had dropped
+around $3 from its high before the MACD crossover generated a sell
+signal. While we didn’t sell at the peak, we see that the MACD still
+got us out of the trade before the stock fell another $3 the next day.
+The second application of the MACD is to use the histogram
+as an overbought and oversold indicator. Since the MACD may
+assume any range of values, as opposed to the stochastic, which
+ranges from 0 to 1, we cannot assign an absolute threshold for
+overbought and oversold. With the MACD, we’re interested in
+looking at extreme levels of the histogram as compared to recent
+past performance. If we observe that the histogram suddenly rises
+significantly higher than it has at any other time in our chart
+range, then that tells us that the MACD line is rapidly accelerating past the signal line. The interpretation is that the price is too
+strong relative to its own past performance and, therefore, should
+correct to the downside.
+In Figure 4.15, the histogram peak identified is much more
+extreme than the previous peaks in the chart. This indicates that
+the MACD is separating from the signal line more than usual. As
+such, we would expect the price to correct downward. In order to
+profit from this, we could enter a short trade when the histogram
+first begins to descend and then manage the trade with a trailing
+stop or when the next bullish crossover occurs. It is instructive to see
+how the histogram generated the sell signal almost two weeks earlier
+than the bearish crossover signal.
+
+c04.indd 93
+
+11/2/07 12:17:48 PM
+
+94
+
+The Market Guys’ Five Points for Trading Success
+
+Figure 4.15
+
+MACD as an Overbought/Oversold Indicator
+
+Example
+
+We can see our first sell signal in Figure 4.16 at point A. The stock
+had been trading at a resistance level for two to three weeks when
+the MACD line dropped below the signal line and the histogram
+went negative. You could enter a short trade at point A and place
+your buy stop above the resistance level shown. At point B, we get the
+bullish crossover when the histogram turns positive, indicating that
+the MACD line has crossed above the signal line. Since the recent
+price lows were very close to the lows we see on the left side of the
+chart, we would consider this to be our support level. It wouldn’t be

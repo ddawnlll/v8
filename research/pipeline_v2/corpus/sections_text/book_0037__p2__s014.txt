@@ -1,0 +1,134 @@
+ FOREWORD 
+ E UGENE F AMA, THE 2014 CORECIPIENT of the Nobel Prize in Economics and father of the efficient market hypothesis, has three words to describe momentum: “momentum is pervasive.” This is no small admission from Dr. Fama. Yet, despite momentum being pervasive, it remains largely, and perhaps curiously, misunderstood by investors. Thankfully, we have Gary Antonacci to fill this void. Gary’s Dual Momentum Investing is a true “pracademic” masterpiece, bridging the gap between academics, who have explored the nuanced theoretical mechanics of the momentum anomaly in dense academic journals, and practitioners who have used their vague knowledge of momentum in an ad-hoc way to generate excess returns. Gary brings to bear his expertise in both spheres, creating a momentum-based asset allocation strategy that is robust, simple, implementable, and has historically earned an outsized risk-adjusted return. 
+ You could be forgiven for being skeptical, as I once was, about the merits of Gary’s Dual Momentum Investment philosophy. After all, there are many second-rate or even wholly ineffectual efforts to capture momentum. And as any empirical researcher can tell you, “trust, but verify.” Notwithstanding our extensive and rigorous examination, the evidence clearly suggests that Gary’s simple, intuitive, and comprehensive model is worth the effort it takes to understand it. 
+ One of my best friends, who happens to be a former market maker for the largest emerging debt players in the world and who, not coincidently, has already retired to Miami at the ripe old age of 40, often tells me, “Rising prices attract buyers; falling prices attract sellers.” In as many words, my friend is describing the momentum effect. Gary takes the momentum phenomenon—that every trader intuitively understands and uses—to a higher level, and one that is accessible to investors of all stripes. 
+ Why did it take so long for a book like Dual Momentum Investing to hit the market? The answer is straightforward: it took a unique author, and there is only one Gary. He is a singular figure in the world of momentum. My relationship with Gary was born via the same mechanism through which I meet many fascinating folks: a blog romance. I was thinking about a momentum-related content piece for TurnkeyAnalyst.com , a blog dedicated to democratizing quantitative investing, and Gary’s paper “Absolute Momentum: A Simple Rule-Based Strategy and Universal Trend-Following Overlay” came across my desk. I immediately thought, “This won’t do. Here we go again—another practitioner posing as a serious academic researcher.” But then I read Gary’s paper. The further I read, the more impressed I became. The paper was well written, clear, scientific in its construction, and read like an academic journal article. I couldn’t understand why the author wasn’t employed at a university. I had to learn more. 
+ After multiple conversations via e-mail and phone, I decided I had to meet Gary in person. Consistent with how these blog romances evolve, we scheduled a “geek date” at the 2013 Western Finance Association Annual Meeting in Lake Tahoe. As I waited in the lobby of the Hyatt Regency watching herds of famous (and infamous) academics scurry along to the various sessions, a curly haired, low-profile man confidently strolled through the fancy double doors in a pair of jeans and a short-sleeved collared sheet. This was no tweed-clad academic with Coke bottle glasses. I pointed in his direction and asked, “Gary, is that you?” Gary responded with a wide smile, “Wes? Hey man, let’s hurry up and catch the session on inferring arbitrage capital from return correlations!” And so it was that our curious blog relationship began to blossom into a full romance. 
+ We were running late, so we ran out the door toward the lake where the finance sessions were under way. We arrived, sweaty and winded—probably not in a condition to open the door on an ongoing paper presentation and get the death stare from 50+ finance professors. I suggested, “Gary, let’s just chill out, grab some coffee, and we can hit the next paper presentations.” Little did I know, I was about to get a presentation far superior to anything that was going on behind the many closed doors. 
+ Gary and I strolled outside with our coffee, and he started shedding some light on his background. “So there I was, in the Army and on my way to combat as a medic …” I interrupted, “Wait, you are a Vietnam vet? I was a captain in the United States Marine Corps and an Iraq vet!” We both looked at each other, amused at this unanticipated congruity. I knew that a military background often drives certain character traits that are useful in the investing world. Next, Gary continued describing his unique background, “Yeah, I’ve done some cool things. I lived in India for a few years, went on tour as a comedy magician for a while, was an award-winning artist, and I have an MBA from the Harvard Business School.” Perplexed, I had to stop him, “Say again?” 
+ After about an hour went by and my head stopped spinning from listening to the various exploits Gary had engaged in over the years, I had to ask him the question: “Gary, sounds like you’re a guy that never wanted to get a real job—why didn’t you become an academic? You’d be perfect!” And of course, as I should have anticipated, he replied, “Wes, funny you ask. I almost followed your same path when I was your age. I applied to the Chicago Finance PhD program and was accepted. I really wanted to be an academic researcher.” It all began to make sense. I questioned, “Well, what happened?” Gary, always ready with the right answer, replied, “Well, I almost pursued that opportunity, but I was making a ton of money trading options. Plus, I didn’t believe in the efficient market hypothesis, and I worried that if I entered the program I would have to give up making money because they were saying the markets couldn’t be beat!” I pondered Gary’s response and thought that had I been faced with the same opportunity, I would probably have done the same thing. 
+ So what is the moral of the story here, and why have I spent so much time describing my relationship and experience with Gary? My hope is that you can identify, as I did, that Gary is a unique person with unique talents. Gary has a way of compiling massive amounts of research from diverse areas and synthesizing it in such a way that even a struggling momentum half-wit like me can actually comprehend what is going on. And make no mistake. What Gary has done is extremely challenging. It requires broad-ranging knowledge and an ability to connect the dots across many domains. I know, because I have tried. My own research on value investing and behavioral finance led to my coauthored book on value investing, Quantitative Value . My takeaways were similar to Gary’s. My book serves as a reminder that (1) I will never be Buffett, and (2) combining a systematic decision process with a sound investment philosophy has historically been a successful way to compound wealth over time. Gary’s book also provided some reminders: (1) I will never be able to write as clearly as Gary, and (2) momentum investing is a top-shelf anomaly, similar to, if not better than, the value anomaly. I was feeling a bit jealous. 
+ I’m excited to find out what people think of Gary’s great book about momentum investing. Unlike the value-investing space, where investment offices are plastered with “classics,” there really isn’t a classic text on momentum investing. In Gary’s work, we may have an instant classic. I think Gary’s Dual Momentum Investing should be the first book on everyone’s momentum shelf. I hope everyone enjoys the read as much as I did, and most importantly, I hope you learn something that makes you a better investor in the future. 
+ Wesley R. Gray, PhD Executive Managing Member, Empiritrage Coauthor of Quantitative Value
+
+Dual Momentum Investing: An Innovative Strategy for Higher Returns with Lower Risk 
+
+ GLOSSARY 
+ T HIS GLOSSARY PROVIDES A STARTING point for better understanding the terms used in this book. I suggest doing Internet searches for more detailed information, as well as consulting the books on the Recommended Reading list. 
+ Absolute momentum The tendency for an asset to persist in its performance based on its own price history. 
+ Active investment management Portfolio strategy where a manager makes continuing investment choices with the goal of outperforming an investment benchmark. 
+ Adjustment effect See Anchoring . 
+ Alpha Measure of performance on a risk-adjusted basis; excess return relative to the excess return of a benchmark. 
+ Anchoring Relying too heavily on one piece of information and only partially updating one’s views when faced with new information; slowness in accepting the full impact of information retards the price adjustment mechanism and leads to price continuation. 
+ Animal spirits Behavior that is motivated by emotive factors rather than by economic rationality. 
+ Anomaly Something that deviates from the norm, such as investment strategies that outperform expectations based on their systematic risks; situation in which performance is contrary to the idea of efficient markets. 
+ Asymmetric loss aversion Taking large risks in attempting to avoid loss, but risk averse in the face of potential gains; see also Disposition effect . 
+ Autocorrelation The cross-correlation of returns with themselves, also known as auto-covariance; correlation between values of a process at different times. 
+ Backfill bias When results are added to an index only after a few months or years of good performance; a form of self-selection bias. 
+ Bandwagon effect See Herding . 
+ Basis points A unit of measure in finance equal to one-hundredth of one percentage point. 
+ Behavioral finance Study of social, cognitive, and emotional factors on the behavior of investors and the effect this has on markets; explains why investors make irrational decisions that lead to market anomalies. 
+ Beta Measure of the risk arising from exposure to general market movements; risk that cannot be diversified away. 
+ Bias An inclination of temperament or outlook. 
+ Bootstrap Resampling technique to obtain estimates of sample statistics; used when the statistical distribution is complicated or unknown, or when the sample size is too small for standard statistical inferences. 
+ Capital asset pricing model (CAPM) Describes the relationship between risk and expected return that is used in the pricing of securities; the return on any security is proportional to the risk of that security as measured by its market beta. 
+ Capitalization weighted Weighting each stock by the total value of its outstanding stock; larger companies therefore account for a greater portion of a capitalization-weighted portfolio or index. 
+ Capital market line Straight line drawn from the point of the risk-free rate to the feasible region of risky assets. 
+ Cognitive dissonance Mental conflict and discomfort experienced when presented with evidence that our beliefs or assumptions are wrong. 
+ Confirmation bias Tendency to search for and accept information that supports our beliefs while rejecting information that contradicts them. 
+ Conservatism To revise one’s beliefs insufficiently when presented with new evidence; tendency to find information that agrees with one’s existing views while ignoring anything that contradicts them. 
+ Correlation Measure of the linear relationship between two variables indicating how things move in relation to each other; values can range from +1 (perfect correlation) to –1 (perfect negative correlation). 
+ Cross-sectional Comparing differences between groups at one point in time. 
+ Curve fitting Coincidental patterning in historical data that is unlikely to reappear going forward; see also Overfitting bias . 
+ Data mining Technique for building predictive models by discerning patterns in past data. 
+ Data snooping Also known as data dredging or data torturing, the inappropriate use of data mining to uncover misleading relationships; see also Overfitting bias . 
+ Deciles Splitting data into 10 equal segments. 
+ Derivative Financial contract that derives its value from the performance of another asset and that specifies conditions under which payments are to be made by the parties involved; includes futures, options, forwards, and swaps. 
+ Disposition effect Tendency to sell winners prematurely to lock in gains and to hold onto losers too long in the hope of breaking even; see also Asymmetric loss aversion . 
+ Double sort Sorting data into categories based on one factor, then sorting these categories into new categories based on an additional factor. 
+ Drawdown Difference between a portfolio’s highest valuation and its lowest subsequent valuation; the percentage that price moves down after making a new high. 
+ Dual momentum A combination of absolute and relative momentum. 
+ Efficient market hypothesis (EMH) Idea that security prices fully reflect all publicly available information and that after adjusting for risks one cannot easily achieve long-run returns in excess of the market. 
+ Egodicity Where every sequence or sizeable sample is equally representative of the whole; implies that statistical properties can be deduced from a single sample of the process. 
+ Equal weighted Where each stock has the same weighting or importance in a portfolio or index. 
+ Excess return Rate of return from a security or portfolio that exceeds the return of a benchmark or index. 
+ Expected return How much you can expect to earn on average on an investment. 
+ False discovery rate Statistical method used in hypothesis testing to account for multiple comparisons by indicating the expected percent of false predictions. 
+ Fat-tailed Where the probability of an extreme move is greater than the probability under a normal distribution; see also Leptokurtosis . 
+ Formation period See Look-back period . 
+ Hedge funds Pooled investment vehicles administered by professional managers and not offered to the general public, which allows them to charge higher fees and operate with greater flexibility than publically available funds. 
+ Herding Irrational group behavior to do or believe primarily because others do or believe the same; leads to overreaction. 
+ Heuristic Simple, efficient rules or mental shortcuts to explain how people make decisions under uncertainty; examples include trial and error, rule of thumb, and educated guess. 
+ Hindsight bias The inclination after an event has occurred to see it as having been predictable, despite having little or no objective basis for predicting it prior to its occurrence; also known as the knew-it-all-along effect. 
+ Idiosyncratic volatility Diversifiable risk due to the unique characteristics of a specific security; has little or no correlation with market risk. 
+ Index fund A passively managed investment fund that aims to replicate or track the movements of a market index; noted for relatively low operating expenses and low portfolio turnover. 
+ Information ratio Difference between the return of an asset or portfolio and a selected benchmark divided by the tracking error. 
+ In sample Data that was used to build a model or strategy. 
+ Interquartile range Measure of statistical dispersion equal to the difference between the first and fourth quartiles of the data. 
+ Joint hypothesis problem Means that market efficiency can never be fully determined on its own and any model that rejects market efficiency might itself be wrong. 
+ Kurtosis Describes the flatness of a distribution and the fatness of the tails; higher kurtosis implies a greater probability of extreme returns. 
+ Leptokurtosis Peaked mean with fat tails, indicating a high likelihood of extreme events. 
+ Leverage To increase the potential return and volatility of an investment; often done through borrowing. 
+ Linear regression An approach to model the linear relationship between a dependent variable and one or more explanatory variables; see also Regression . 
+ Lognormal distribution Continuous probability distribution of a random variable whose logarithm is normally distributed; often used for modeling financial time-series data where the variable is the multiplicative product of returns over time. 
+ Longitudinal momentum See Absolute momentum . 
+ Look-back period Number of prior months used for evaluating comparative past performance and determining momentum signals. See Formation period . 
+ Loss aversion Tendency to prefer avoiding losses rather than achieving gains; see also Risk aversion . 
+ Market efficiency The degree to which stock prices reflect all publically available, relevant information; see also Efficient market hypothesis (EMH) . 
+ Maximum drawdown Largest single drop from peak to valley in the value of an asset or portfolio over its entire history. 
+ Mean reversion Prices or returns moving back toward their average over time; regression toward the mean. 
+ Mean-variance optimization (MVO) Quantitative approach aimed at maximizing expected portfolio return at a given level of portfolio risk, or minimizing portfolio risk at a given level of expected return; uses past returns, correlations, and volatility. 
+ Minimum variance portfolio Collection of risky assets optimized to give the least amount of volatility. 
+ Modern portfolio theory (MPT) Theory that attempts to maximize expected portfolio return with respect to portfolio risk; a mathematical approach to optimal investment diversification. 
+ Momentum Persistence in performance; assets that have trended higher or lower in the recent past tend to continue trending in the same direction in the near future. 
+ Moving average Calculation used to create a series of averages from different data subsets then shifting each subset forward over time; commonly used to smooth out short-term fluctuations and identify longer-term trends. 
+ Noise Unpredictable and nonrepeatable patterns representing arbitrariness and uncertainty; noise is in contrast to information and is often mistaken as such. 
+ Nominal return Stated rate of return not adjusted for inflation. 
+ Nonparametric Having no characteristic structure; distributions whose form is unspecified. 
+ Normal distribution A symmetric continuous probability distribution that adheres to the familiar bell-shaped curve; has many convenient properties and is useful for drawing statistical inferences. 
+ Out-of-sample All new data set that is completely different from the one over which one optimizes a strategy or builds a model. 
+ Overconfidence Subjective belief that one’s own judgment is better than it really is; the majority believe they are superior to the average; this can cause investors to underreact to new information. 
+ Overfitting bias When a statistical model is excessively complex and the model describes random error or noise more than an underlying relationship; characterized by poor predictive performance. 
+ Overreaction To react disproportionately to new information; leads to past winners being overpriced and past losers being underpriced. 
+ Overspecification See Overfitting bias . 
+ Passive investment management A predetermined strategy that attempts to mirror a benchmark index; also known as a buy-and-hold approach. 
+ Private equity Capital for investment directly into private companies not quoted on a public exchange. 
+ Prospect theory Explains why individuals make decisions that deviate from rational decision making by observing how they perceive expected outcomes: people value gains differently than they do losses and prefer to base decisions on perceived gains rather than perceived losses. 
+ Quartiles Splitting data into four equal parts. 
+ Quintiles Splitting data into five equal parts. 
+ Random walk In finance, the theory stating stock prices are independent and unpredictable; it is consistent with the efficient market hypothesis. 
+ Rational expectations When people make choices based on available information and experience; where expectations equal expected values and errors are random rather than systematic. 
+ Real return Rate of return on an investment adjusted for changes due to inflation. 
+ Regression An equation describing the nature of the relationship between two or more variables, including measures to assess the accuracy of that relationship. 
+ Relative momentum When an asset’s past performance relative to that of other assets is used to predict its future performance. 
+ Relative strength Measure of how strong an asset’s performance has been in relation to something else. 
+ Representativeness Subjective probability of an event determined by the degree to which it is similar to the features of its parent population; the tendency to see too many parallels between events that are not the same by inferring too quickly on the basis of too few data points. 
+ Residual The difference between a regression equation’s fitted value and what is actually observed. 
+ Reward-to-variability ratio See Sharpe ratio . 
+ Risk-adjusted return Profitability adjusted to account for the risk involved in producing that return; Sharpe ratio, information ratio, and alpha are examples of risk-adjusted returns. 
+ Risk aversion Reluctance to accept an uncertain payoff rather than a more certain one with a lower payoff; measure of the additional reward an investor requires for accepting more risk. 
+ Risk-free rate Rate of return on an investment with zero risk; usually represented by the return on short-term Treasury bills. 
+ Risk parity Portfolio management approach where allocations are adjusted to the same volatility; often used with leverage to compensate for lower expected returns from large allocations to fixed income. 
+ Risk premium Return in excess of the risk-free rate that is compensation for bearing additional risk. 
+ Robust Continuing good performance despite changes in market conditions. 
+ Roll yield Return generated in rolling short-term futures contracts into longer-term ones. 
+ Selection bias Data selected on a nonrandom or nonuniform basis; may also apply to the selection of the data’s starting date. 
+ Self-attribution bias The tendency to reject negative feedback and overlook our own faults and failures; to attribute successful outcomes to our own skills, often when credit is not due, and to attribute unsuccessful outcomes to bad luck. 
+ Separation theorem Separates the investment portfolio decision from the decision about the acceptable level of risk; the idea that there is a single optimal portfolio, then borrowing or lending, depending on one’s attitude toward risk. 
+ Serial correlation See Autocorrelation . 
+ Sharpe ratio Excess return divided by the standard deviation of that return to determine reward per unit of risk; Sharpe ratio = (Return – Risk-free return)/Standard deviation of return. 
+ Skewness Measure of the symmetry of a distribution; if the left tail is more pronounced, there is negative skewness, and if the reverse is true, there is positive skewness. 
+ Standard deviation Measurement of dispersion about an average showing how widely returns vary over time; when the standard deviation is high, the predicted range of performance is wide, with greater volatility. 
+ Stationary distribution Probability distribution that does not change over time. 
+ Stochastic Nondeterministic or randomly determined. 
+ Stochastic dominance In second order stochastic dominance, risk averse investors prefer one investment over another if it has at least as a high a mean return and it is more predictable. 
+ Survivorship bias Concentrating on things that survived and overlooking those that did not; tendency to exclude failed companies from performance studies. 
+ Systematic risk Risk inherent to the entire market; also known as undiversifiable risk. 
+ Tail risk Risk of moving more than three standard deviations from its current price. 
+ Technical analysis Forecasting of market action by analyzing market data itself. 
+ Time-series momentum See Absolute momentum . 
+ Tracking error Measure of how much a portfolio deviates from its benchmark. 
+ Trend following Strategy based on calculations or techniques using past prices to determine the general direction of a market. 
+ t-Statistic Value that allows one to determine if two data sets are significantly different from one another; used when doing hypothesis testing or computing confidence intervals. 
+ Value investing Strategy that attempts to buy stocks at prices that are below their intrinsic value; common measures to determine this are price-to-book and price-to-earnings ratios. 
+ Volatility Measure of the movement of a data series; see also Standard deviation .

@@ -1,0 +1,299 @@
+
+559
+
+Download at www.wowebook.com
+
+560
+
+Part VIII System Testing and Management
+
+reward is a personal decision based on one’s tolerance for risk. Everyone is happy with reward,
+but different investors have different thoughts on what they can accept as risk. Unfortunately,
+reward is not guaranteed, but risk is. A system might not return profits, but a system will always
+have losses. Just how much risk is acceptable, how to measure it, and how to control it is the subject of this chapter.
+
+RISK AND MONEY MANAGEMENT
+“Risk is the amount and probability of an adverse or series of adverse events occurring” (Rotella,
+1992). Substituting “losses” for “adverse events” results in the following: Risk is the amount and
+probability of a loss or series of losses occurring. Note that the probability of occurrence is as
+important as the total amount.
+There has never been a system that was 100% profitable, that never took a loss on any trade
+or investment. Although such a system is the ideal, it has never been achieved despite the brilliant
+minds, sophisticated mathematics and theories, and superfast computer abilities that have
+addressed methods of investment. It likely never will be achieved. The search for such a perfect
+strategy can become an obsession but is genuinely futile, and losses are, therefore, inevitable in
+investing and trading.
+Ruin is also very likely. Every day some traders and investors are wiped out, largely
+because they did not utilize a portfolio method that included an assessment and control of risk.
+The area between perfection and ruin is a compromise between the gains and losses, known more
+commonly as “rewards and risks,” of a system or portfolio strategy. As can be imagined, the possibilities between perfection and ruin are limitless and have much to do with personal preference
+for risk. The reward side of a strategy we can fairly well quantify, as was shown in the previous
+chapter on systems, but the risk side is not so easily understood. The trade-off between the two
+will affect the ultimate success or failure of a portfolio strategy. That is the essence of money
+management—to maximize return at minimum risk. No home runs, no Holy Grails, no perpetual
+money machines—just plain and simple, consistent profits with minimum chance of losing all of
+one’s capital. The extremes, of course, range between highly leveraged options or futures contracts in a seat-of-the-pants, untested, untried system, and on the opposite side, strictly cash. The
+cash investment theoretically has no risk, whereas hotshot investments and systems are likely
+doomed. (A cash position does not have the risk of losing capital. Economists, however, will
+consider the inflation risk—the risk of the cash position losing purchasing power during inflationary periods.)
+Ironically, a good system can lose money if it is not applied with concern for risk. Money
+management can turn it into a profitable, reliable system, but money management cannot help a
+system that does not work. Thus, as we covered in the last chapter, the first step in creating a
+portfolio strategy is to find a workable system, preferably more than one. It need not be a supersystem, just one that consistently shows higher profits than losses. It can be based on fundamentals, technicals, or both. If you read interviews with successful traders and investors, you will
+find every one of them has a different method or system of entering the markets, but they all have
+in common a money-management system to protect against loss. Indeed, most will admit that
+
+Download at www.wowebook.com
+
+Chapter 23 Money and Risk Management
+
+561
+
+money management is more important than any system. The second step is to decide on what
+markets and in which issues the system will trade or invest. The third step is to combine these
+systems and issues into a portfolio strategy. At this point, the subject of money management
+arises.
+Because the theories of money management largely concern price and size, the evaluation
+and control of risk are technical. Fundamental investors cannot assess risk in the marketplace
+with fundamentals alone. What should be the initial capital? What should be the trade size in
+contracts, shares, or dollars? What should be the risk strategies applied to these positions? What
+should be the execution style? Should the strategies be combined into one portfolio system, or
+should each system be treated separately? All these questions must be answered to manage the
+portfolio successfully, and all of them rely on technical studies and use of price action and signals. Generally, the systems will take care of themselves if properly tested and will give adequate
+entry signals, leaving the investor with the problem of how to best position from those signals
+and what exit strategies to use. The object of money management is to maximize the best situations and avoid or minimize those situations that can cause capital loss.
+Because money management has much to do with determining the size of positions, it has
+also been called “position sizing.” However, there is more to it than just sizing. The parameters
+for risk avoidance, such as stops and exit strategies, are also important, as are diversification and
+execution methods. We cover some of the principal money-management strategies you should
+know and demonstrate methods of testing for and reducing the risk of ruin.
+
+TESTING MONEY-MANAGEMENT STRATEGIES
+We covered the standard method of testing a system in Chapter 22, “System Design and Testing,”
+but now we are looking at complete portfolio systems that include, hopefully, many subsystems
+and many issues traded using each subsystem with different objectives that satisfy the requirement for diversification. Of course, we should already have tested each subsystem by itself with
+a diversified number of issues and have confidence in its results alone. By merging it into a portfolio system, however, we now need a method to test the entire model. We will see that the model
+often will produce better results than any of the separate subsystems do individually. To test the
+model, we can use the same methodology as used in Chapter 22, or we can use what is called a
+Monte Carlo simulation.
+Because the testing system in Chapter 22 is plagued with the risk of curve-fitting and the
+inability to determine the success or failure of the system under varying circumstances, we need
+a testing method that looks at a multiple set of possibilities and tells us how well the rule, variables, and parameters in the combined subsystems handle change. The Monte Carlo simulation
+is one of the better and more often used testing methods of portfolio risk.
+Without discussing the mathematics behind a simulation (because it can become very complicated), we instead just outline what it does. A simple simulation can be performed on a spreadsheet, with considerable work, and a more sophisticated software program called Equity Monaco
+is available from www.tickquest.com for free. More sophisticated software is available elsewhere for a fee. More information on the mathematics of Monte Carlo simulations can be seen at
+www.montecarlosimulations.org.
+
+Download at www.wowebook.com
+
+562
+
+Part VIII System Testing and Management
+
+As we will see later in this chapter, with the martingale betting system, a system may be
+profitable but the bettor must be able to withstand a long series of losses (a large drawdown).
+This means that the trading system results, even if spectacular from the optimization tests, could
+be just the result of chance or luck.
+In the martingale betting system, the system is profitable only as long as the bettor is able
+to withstand a long series of losses, a large drawdown. To measure whether the system is valuable in all circumstances and what the odds of failure from a series of losses might be, especially
+because the trader usually has limited capital, the trader (or investor) needs to test for as many
+different circumstances as possible. The Monte Carlo simulation does not use the rule, variables,
+or parameters in the original trading system. It uses only the actual trades, entry and exit, and the
+profit or loss from each. It looks at the sequence of these trades from various angles to see what
+the probability of a series of losses leading to ruin exists in the system. It, thus, is a money-management test rather than a system test, though obviously the system determines the trades. If the
+money-management test fails by showing a high probability of ruin, the original system must be
+discarded, adjusted to improve these results, or other safeguards installed to prevent such a possible disaster.
+The simulation takes the original trade data, profits, and losses and scrambles them in a
+random manner. This is done many times, usually at least 100 times and better if 1,000 or 2,000
+times. An equity curve is then created for each scrambled sequence of trades. The results from
+each equity curve are then assembled to give the results and related to a normal distribution
+curve. The simulation is testing to see if the system is random and by how much. The less the
+system is random, the more likely it will be profitable with minimum risk of failure.
+
+MONEY-MANAGEMENT RISKS
+We have defined risk in many ways in earlier chapters. Variability of returns, amount of loss per
+trade, beta, maximum amount of loss per trade, drawdown, maximum drawdown, and volatility
+of prices have all been used. In Appendix A, “Basic Statistics,” we cover some of the statistical
+principles associated with risk measurement in Modern Portfolio Theory. One of the principal
+difficulties in the use of standard linear statistics in evaluating markets is that it assumes that each
+price, each trade, and each profit or loss is independent. In other words, it stands by itself and is
+not related to any other price, trade, or trade return. When using such statistics, one must, therefore, be careful not to believe absolutely in what the statistical tests might show.
+
+Concepts
+For our purposes, the important risk consideration is loss of capital. This comes from losses on
+trades, realized or unrealized, and, thus, we will use drawdowns as the best definition of risk.
+Because drawdowns, if not controlled, can lead to ruin, our intention in this chapter is to develop
+means that will keep us from losing all our capital.
+
+Download at www.wowebook.com
+
+Chapter 23 Money and Risk Management
+
+563
+
+Drawdown and Maximum Drawdown
+When we discussed drawdowns in the previous chapter, we found that more than one drawdown
+can occur, and it may result from one trade or many trades. If we look at all the drawdowns over
+a period, the one that has the highest intrapeak equity percentage loss is called the maximum
+drawdown (MDD). The MDD is the worst case that occurred in the system and often is used as
+an estimate of the worst case that can occur in the future. Of course, it could have been a fluke
+and exaggerate potential drawdowns in real trading, or it could underestimate and make drawdowns appear less damaging than they would be in real trading. We will find that we can reduce
+risk of loss on single trades with stops, but we cannot reduce the risk from a series of losses. All
+we can do is find a realistic estimate of the odds of a long run of losses against us and then take
+our chances or change the system. Even assuming a large MDD, we must design the moneymanagement strategy such that enough capital is always available to withstand a loss in the magnitude of the known MDD. Otherwise, the system goes broke.
+Drawdowns, for statistical purposes, are not independent, especially if the loss occurs in
+multiple systems at one time based on some adverse news. Uncontrollable loss, called “an act of
+God” in the insurance industry, or a “Black Swan” after the subject of the book by that name by
+Nassim Taleb (2010), cannot be anticipated and thus is never included in any estimate of risk.
+These events, however, usually only affect a single trade rather than a series of trades.
+Theory of Runs
+A drawdown is usually the result of a series of losses. We can estimate the chances of a series of
+losses using the theory of runs. This theory states that the probability of a series of independent
+events is the product of the probability of each event occurring. Thus, if a system has a losing
+percentage of 40%, the odds of a run of five losses in a row are (0.40 × 0.40 × 0.40 × 0.40 × 0.40)
+= .01 or 1%. If a system has a losing percentage of 60%, the odds of a run of five losses in a row
+are 8%. Although this calculation does not account for money lost in each transaction, it does
+suggest that to avoid a series of losses, the lower the losing percentage of the system, the better.
+Even so, a large number of losses together may not be harmful to a system specifically—many
+trend-following systems have long runs of losses—but create an additional risk of loss of confidence in the system and the potential premature abandonment just before it becomes profitable.
+Psychology is a major component in trading, and confidence is usually fragile when trades are
+going against the trader.
+Martingale Betting System
+A martingale betting system often is used in a situation where the bet size can be changed but the
+odds are relatively even, such as gambling at a roulette wheel. The basis for the method is the
+theory of runs and the odds against a long series of losses when probability is about even. The
+method is to double up on the next bet after a loss, and return to the standard bet after a win.
+Eventually, a winning bet will cover all the previous losses and return a profit on the original bet.
+Unfortunately, the system requires substantial capital to withstand an unexpectedly long series of
+losses in a row.
+For example, assume you make a $100 standard bet that takes the $100 bet and either
+returns the bet plus $100 on a win or pays nothing on a loss with even odds of winning or losing
+
+Download at www.wowebook.com
+
+564
+
+Part VIII System Testing and Management
+
+(50% win percentage). After a run of five successive losses occurs, using a martingale system,
+the next bet will require $3,200 above the $3,100 that has already been lost ($100 + $200 + $400
++ $800 + $1,600 = $3,100). Thus, to bet the sixth time after five successive losses would require
+$6,300, hoping for a win that would net $100 above our previous commitment. It is a tough way
+to make $100. Nevertheless, as long as the bettor can ante up the funds for the next bet in a losing series of bets, he or she will profit eventually by the amount of the original bet ($100) when
+the final winning bet occurs.
+If the payoff ratio is greater than one-for-one and the win percentage is greater than 50%,
+the martingale approach may be profitable in the trading markets, but that long series of losses is
+always hanging out in space somewhere waiting to occur. Furthermore, in the trading markets,
+the profit from each bet is not constant. It could, for example, be larger for losses than for gains.
+Of course, a maximum loss or stop can be used to get out of the game, but by then so much capital has been lost that the chances of recovery are slim. Needless to say, the martingale approach
+rarely is used in trading markets.
+
+Reward to Risk
+The objective in all investment is to have a high reward to risk. Return on investment, or ROI, is
+the standard calculation of reward. ROI is calculated as net profit divided by initial capital at the
+beginning of the measured period. We have gone into more detail in Appendix A on statistics.
+The standard method for analyzing portfolios and systems for reward and risk is to calculate the ratio of ROI to the MDD. This is called the Sterling ratio and is how we initially evaluated the system design parameters in Chapter 22. Some analysts use other ratios. The profit/loss
+ratio, also called the profit factor, is commonly used, and the payoff ratio, which is the average
+gain per profitable trade to the average loss per unprofitable trade, is often used. Other methods
+of measuring specific aspects of a system or portfolio reward-to-risk are the Sharpe ratio, mentioned in Chapter 22 and Appendix A, and percent of winning trades.
+A recent myth about MDD, derived from the risk-reward relationship in Modern Portfolio
+Theory, is that a higher MDD suggests a higher return. This is not true. Capital risk and reward
+are not proportional. MDD cannot be greater than 100%, but return can theoretically be infinite.
+
+Normal Risks
+The most important aspect of money management, beyond establishing where and what kind of
+stops to use to protect capital, is the determination of position size for each trade. Too much in a
+position can incur unwarranted risks in case of failure, including complete ruin, and too little can
+reduce profit potential beyond the risk-free rate. Position size is directly related to capital risk,
+the amount of money that can be lost, and it is the aspect of money management that most traders
+and investors overlook.
+Position Size
+By “position size,” we mean the amount of capital committed to a system or investment that incurs
+a specific risk. This is usually based on the difference between the entry price and exit price multiplied by the number of shares or contracts. As an example, let us assume we can only risk $500
+in a trade. We have a breakout system that will buy a stock at $50. We place a protective sell stop
+
+Download at www.wowebook.com
+
+Chapter 23 Money and Risk Management
+
+565
+
+at $45. This $5 difference in price is the capital risk we are taking per share. The entire position is
+not at risk because it will be liquidated on the stop. Without a stop, of course, we have no idea
+what risk we are taking. This is one reason fundamental analysis has trouble controlling capital
+risk. It has no means of determining when to exit a position. Knowing we have a $5 dollar per
+share risk, however, we know we can buy 100 shares for a total capital risk of our limit of $500.
+In systems, position size has two levels of importance. The first is the determination of the
+minimum size of account required to trade a system with a minimum level of potential risk of
+ruin. The second is the determination of the optimal size of each position taken in a system that
+meets the predetermined risk level of the system owner. Generally, the position size in either
+determination is based on the maximum drawdown of the system and the margin required for a
+futures contract or price of a stock.
+Number of Shares or Contracts
+In the stock market, the question of how many shares to use in a system is relatively easy because
+margin requirements are comparatively small and the number of shares flexible. In the futures
+markets, however, the number of contracts to use can become a problem. Margin requirements
+frequently change. The two standard methods of determining the number of contracts are either
+to use the system on a fixed number of contracts or to determine the risk as a percentage of the
+trading account and divide that by the margin required for each contract. After a successful series
+of trades, if the account capital has increased, a decision must be made as to whether to continue
+with a set number of contracts or continue with the percentage risk proportion on a continuous
+capital adjustment. Some traders use a capital step process whereby the number of contracts is
+only adjusted when the account capital reaches certain thresholds.
+Evstigneev and Schenk-Hoppe (2001) argue that constant proportion strategies produce
+wealth more rapidly than other proportional methods. This is an outgrowth of the Kelly formula
+discussed next and implies that keeping a portfolio equally proportionally invested is the best
+method of accumulating profits. This concept goes against the grain of some analysts. They
+maintain that while the system is working, the accumulation of profits is favorable, but at some
+time, a significant series of losses will occur, when the capital is larger than its initial size, and
+the losses will be proportionately larger because they depend on the proportion of the capital in
+the account. For now, we will go with the statistical evidence from Evstigneev and SchenkHoppe. They are not alone in their conclusions. As such, we will look for the optimal proportion
+of capital to invest in a system that will avoid the risk of total loss of capital. This sometimes is
+referred to as the “fixed fractional” method.
+Determining Optimal Position Size
+There are three methods of determining the position size: (1) Risk of Ruin formula, (2) Theory of
+Runs formula, and (3) Optimal f or Kelly formula. To calculate the best position size, all three
+formulas should be used, and that formula with the smallest percentage of capital to be risked
+should be the one used in the system or model.
+Risk of Ruin Formula
+The Risk of Ruin (ROR) formula uses three pieces of data from the historical or testing data: (1)
+the probability of success or the percentage of wins; (2) the payoff ratio, or average win trade
+amount divided by the average loss trade amount; and (3) the fraction exposed to trading.
+
+Download at www.wowebook.com
+
+566
+
+Part VIII System Testing and Management
+
+The risk of ruin formula (Kaufman, 1998) is
+ROR = ((1–ta)÷(1+ta))cu
+Where: ROR is the risk of ruin
+ta is the trading advantage (percent wins minus percent losses)
+cu is the number of trading units, shares, or contracts
+Because the ratio is always less than one, the greater “cu” is, the less chance of ruin using
+a fixed dollar amount. In addition, the greater the “ta,” the less chance of ruin. The risk of ruin,
+therefore, is proportional to the percentage wins. The formula demonstrates that trend-following
+systems with a high percentage of losses often should end in ruin. This formula, however, fails to
+account for the amount of each win and loss.
+To determine the optimal percentage of capital to use in any system with win and loss
+amounts, use this formula:
+PCT = ([(A + 1) × p] – 1) / A
+Where: PCT is the percentage of capital to use
+A is the average payoff ratio
+p is the percentage of wins
+
+BOX 23.1 OPTIMAL PERCENTAGE OF CAPITAL TO AVOID RISK OF RUIN
+Using the figures from the example in Chapter 22, let us calculate the percentage of
+capital to use from the risk of ruin formula.
+Data
+(p) Percent profitable trades (profitable trades) = 82.33%
+Average win trade amount = $231.85
+Average loss trade amount = $170.84
+(A) Average payoff ratio (average win/average loss) = 1.357
+Formula
+Optimal percentage of capital = {[(A + 1) × p] – 1}÷A
+Substituting
+Optimal percentage of capital = {[(1.357 + 1) × .8233] – 1}÷1.357 = 69.3%
+That is, any amount over 69.3% of capital in this system has a high chance of ending in ruin. The
+high percentage suggests that the risk of ruin is low for normal commitments of 2%.

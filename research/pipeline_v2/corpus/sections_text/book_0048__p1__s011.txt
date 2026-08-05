@@ -1,0 +1,596 @@
+the flagpole (1.8300), not from the entry point (1.8320).
+In this case, the exchange rate barely makes it to our second target
+before sliding back. Even if the second exit had not been achieved, we still
+managed to protect ourselves by locking in a gain with a partial profit, and
+eliminated any further risk by raising the stop. This leaves a worst-case
+scenario of a profitable trade, which is exactly the type of situation that we
+want.
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+Flags and Pennants
+
+161
+
+FIGURE 12.10 The stop is raised as the ﬁrst exit is achieved. A partial proﬁt is
+taken.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+FIGURE 12.11 The exchange rate rallies to the second exit.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+162
+
+19:31
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+FLAGS
+Flag formations are very similar to pennants, in that both begin with a
+sharp move (called a flagpole) followed by a period of consolidation.
+Both are also continuation patterns, meaning that the most likely resolution of the consolidation will be a breakout in the same direction as the
+flagpole.
+Here is the main difference between a pennant and a flag: a pennant consists of two lines that slope toward each other (similar to a
+symmetrical triangle), while a flag consists of two parallel lines that slope
+away from the direction of the flagpole. Figure 12.12 shows the flag formation.
+Think of it this way: First, there is a sharp directional move—in this
+case, a move higher. We could interpret this sharp move to mean that the
+bulls are very committed to the trade, because they are pushing the exchange rate higher in an aggressive manner. They are likely buying in quantity, without much regard for the price they are paying.
+Next, the bears get their chance to fight back. We can see that the bears
+are only able to bring the exchange rate down moderately and slowly—in
+fact, they are not as aggressive as the bulls, and are not exerting nearly
+as much selling pressure on the currency pair. The bulls clearly have the
+
+pips
+
+FIGURE 12.12 A ﬂag consists of two parallel lines that slope away from the ﬂagpole.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+163
+
+Flags and Pennants
+
+pips
+
+FIGURE 12.13 The ﬂagpole is measured to calculate the entry point.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+upper hand and are acting on their conviction that the exchange rate
+should rise, while the bears are much less certain of their position in the
+market.
+Since the bulls are more aggressive and have greater conviction in this
+case, they are more likely to keep on buying. The bears are more likely
+to be the “weak hands” and are liable to bail out of their positions more
+quickly, since they have less at stake.
+Flags are traded in a manner that is very similar to the method used
+to trade pennants. First, we measure the flagpole, which has a height of
+about 150 pips, beginning at 1.3100 and topping out at about 1.3250 (see Figure 12.13). Our entry will be at a point above the flagpole, by an amount
+equal to 10 percent of the flagpole. Since 10 percent of 150 pips = 15 pips,
+we will place our entry order at 1.3265, which is 15 pips above the top of
+the flagpole.
+Next, the stop must be calculated; the stop will be placed a number of
+pips equal to 25 percent of the height of the flagpole. Since the height of
+the flagpole in this case is 150 pips, and 25 percent of 150 = 37.5 (we can
+round it up to 38 pips), our stop will be located at 1.3227 (1.3265 minus
+38 pips = 1.3227). See Figure 12.14. Note that the stop is 38 pips below
+the entry point, not 38 pips below the top of the flagpole. By using this
+method to create our stop, our account is protected in the event of a false
+breakout.
+Several candles later, our entry is triggered and the exchange rate is
+rushing higher. Just as we did with the pennant formation, our first exit
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+164
+
+19:31
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+pips
+
+FIGURE 12.14 The stop is calculated in a manner similar to the pennant formation.
+Source: FXtrek IntelliChartTM . Copyright 
+c 2001–2006 FXtrek.com, Inc.
+
+will be equal to the amount of risk we are taking on a “per lot” basis. Since
+we are risking 38 pips per lot, our first exit will be located 38 pips above
+our entry point. Let’s add 38 pips to our entry point of 1.3265, giving us our
+first exit at 1.3303 (see Figure 12.15).
+When the first exit of 1.3303 is reached, we will take a partial profit of
+38 pips, and at the same time we will raise the stop to eliminate any further
+risk from the trade (see Figure 12.16). Our worst-case scenario is now a
+38-pip profit on the first part of the trade, and a break-even trade on the
+second portion.
+Now that we have locked in a profit and eliminated any additional risk,
+let’s set up our second exit. We know that the flagpole had a height of
+150 pips, and it peaked at 1.3250. This means that our second exit will be
+located 150 pips above 1.3250, at 1.3400 (see Figure 12.17).
+We can see that in this case, the EUR/USD exchange rate easily reaches
+our first target, and then gradually climbs to achieve the second target.
+Trading in this manner on a consistent basis keeps risk in check and losses
+within reason, and creates large winning trades in comparison to the size
+of the losing trades.
+
+FILTERING ENTRIES
+Like any pattern, strategy, or technique, flags and pennants are not foolproof. Here is a flag pattern that occurs on the EUR/USD 10-minute
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+Flags and Pennants
+
+165
+
+FIGURE 12.15 The ﬁrst exit equals the amount of risk taken on a “per lot” basis.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+FIGURE 12.16 First exit is reached; partial proﬁt is taken and the stop is raised.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+166
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+FIGURE 12.17 The exchange rate reaches the second exit.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chart. We can see that the exchange rate is drifting sideways, when
+suddenly a sharp move higher occurs, creating a flagpole (see Figure
+12.18). The flagpole extends from about 1.2820 to 1.2940, for a height of
+120 pips.
+After the flagpole is formed, the currency pair begins to consolidate
+into a flag pattern. The exchange rate begins to drift lower, and as we draw
+the lines into place, the borders of the flag pattern are apparent (see Figure 12.19).
+Since the flagpole has a height of 120 pips, our point of entry will be
+12 pips (10 percent of 120 pips = 12 pips) above the top of the flagpole, at
+1.2952 (peak of the flagpole at 1.2940 plus 12 pips = 1.2952). Note that the
+high of the flag pattern must be exceeded in order to create an entry signal.
+In this case, the high of the flagpole (1.2940) is never cleared, so the entry
+point of 1.2952 is never reached, and there is no entry signal (see Figure
+12.20).
+Some impatient traders will enter when the price clears the upper line
+of the flag, instead of waiting for the price to reach the correct entry point.
+This would be a mistake; if the exchange rate escapes from the flag formation but fails to clear the top of the flagpole, there is no reason to believe
+that the trade should be successful. By waiting for the exchange rate to
+clear the top of the pattern by an amount equal to 10 percent of the flag, we
+have filtered out an inferior entry that would have failed.
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+167
+
+Flags and Pennants
+
+pips
+
+FIGURE 12.18 A ﬂagpole forms as the exchange rate rockets higher.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+pips
+
+FIGURE 12.19 The ﬂagpole is measured and the entry point is calculated.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap12
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+168
+
+May 31, 2007
+
+19:31
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+Pattern high 1.2940
+
+FIGURE 12.20 The exchange rate fails to reach the entry point. No trade is entered.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+SUMMARY
+Remember, the idea behind this technique (or any technique) is not to place
+the most trades; it is to place the best trades. Many traders become impatient and enter trades even though the proper criteria have not been met.
+In this case, and in many others, their eagerness to “pull the trigger” will
+work against them. Patience and discipline, and the ability to follow a trading plan, will help us to avoid falling into this trap, and keep us on course
+for trading success.
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+C H A P T E R 13
+
+The Squeeze Play
+
+A
+
+s we noted earlier, most good trading strategies begin with a market
+tendency; traders notice that the market tends to behave in a certain way, and then they create a strategy that seeks to capitalize on
+this tendency. Let’s look at a strategy that is designed to take advantage of
+volatility in the forex market.
+
+THE CYCLE OF VOLATILITY
+Volatility tends to run in cycles. In other words, periods of high volatility tend to be followed by periods of low volatility. There is a simple explanation for this; when a market is trending, as the forex market often
+does, the participants have a definite opinion as to the direction of the
+trade.
+This cycle can be observed in almost any trading market, but it’s most
+closely identified with options trading. Options traders write put and call
+contracts during periods of high volatility, to collect the “premium”—the
+cost of the contract. The premiums attached to these contracts tend to be
+fatter when markets are volatile.
+The option writer assumes volatility will return to normal levels in the
+future, allowing him to buy back the contracts at a reduced premium. In
+the world of options, this concept is referred to as selling volatility. This
+cycle of volatility can also be observed in the forex market.
+169
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+170
+
+19:35
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+PERCEPTION MOVES THE MARKET
+When a currency pair begins to trend, traders are showing a strong preference for one currency over another. During strong trends, the market
+is volatile because the price is on the move. The perception of value has
+changed, and the price must move to reflect this change of opinion.
+After the trend has continued for a while, the currency pair will
+reach a point where the participants feel that the exchange rate is fairly
+valued. There will come a point when the bulls and the bears reach
+an agreement—at least temporarily—that a currency pair is reasonably
+priced.
+At this point, the trend pauses and the pair enters a period of consolidation. The price settles into a narrow range, as there is no real reason
+for the exchange rate to break out one way or the other. The period of
+consolidation may be brief or lengthy.
+Eventually, this period of consolidation must end. The bulls and bears
+may have reached a temporary truce, but eventually new information will
+be introduced into the market, and the perception of the value of the currency pair will change as this news is digested.
+Economic indicators are often the catalyst for this change of opinion.
+Unexpected news events can cause the exchange rate to break out of its
+narrow consolidation, and run until the price reaches a new area where the
+bulls and bears are once again able to reach a temporary truce.
+
+Fundamentals Influence Volatility
+For example, during the spring and early summer of 2005, many issues led
+to a negative perception of the euro. These included the European Union’s
+failure to pass a constitution and failure to reach a budget agreement.
+Additionally, European nations were hobbled by slow economic
+growth and high unemployment. European interest rates appeared poised
+to move lower, in order to stimulate these economies.
+As many experienced currency traders are well aware, lower interest rates tend to cause the underlying currency to weaken, because fixedincome investors want the best possible yields for their investments. These
+investors will often pull their funds out of a country to find more attractive
+yields in another part of the world.
+This creates a flow of funds out of the nations that are lowering interest rates (or are perceived to be lowering rates in the future), causing the
+underlying currency (in this case the euro) to weaken. Investors sold the
+euro in anticipation of this potential decrease in interest rates.
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+The Squeeze Play
+
+19:35
+
+Char Count=
+
+171
+
+Euro and U.S. Dollar Fundamentals
+At the same time that European nations were experiencing these difficulties, the United States was enjoying relatively strong growth and an improving employment picture.
+The U.S. Federal Reserve was in the midst of a campaign of rate hikes,
+which have the effect of strengthening the U.S. dollar by making U.S.denominated bonds and other fixed-income instruments more attractive
+to overseas investors. This creates a flow of capital into a country that offers high-yielding investments, which strengthens the underlying currency
+(in this case the U.S. dollar).
+Because U.S. interest rates at that time were higher than European
+rates, traders who were long the U.S. dollar and short the euro were able
+to earn interest on the trade, in addition to any capital appreciation.
+Conversely, traders who were long the euro versus the U.S. dollar
+would have to pay interest. At the time, it seemed that there were plenty of
+good reasons to buy the greenback, but few compelling reasons to own the
+euro.
+These events gave traders a strong opinion as to the relative value of
+these two currencies, and traders mercilessly dumped the euro in favor
+of the U.S. dollar. The euro/U.S. dollar exchange rate fell sharply, from
+nearly 1.35 on March 11 to below 1.19 on July 5, a plunge of nearly 1,600
+pips.
+By mid-July, traders apparently felt that the euro had been punished
+enough, and by late summer the pair settled into a period of relatively directionless and narrow trading. It was time to start looking for a volatility
+breakout setup.
+
+Moving Averages and Volatility
+Many traders use moving averages as an indication of volatility. In
+Figure 13.1, we see that the 20-day exponential moving average (EMA) is
+sloping sharply downward during the trending phase.
+As the pair consolidates in late summer, the 20-day EMA is moving in
+a relatively flat and sideways manner. The flat 20-day exponential moving
+average is one indication that the trend has paused, at least temporarily,
+and the price has entered the consolidation phase.
+
+Additional Indicators for Confirmation
+In order to confirm that this consolidation represents a trade setup, we’ll
+refer to two additional indicators (see Figure 13.2). Simply put, these two
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+172
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+20 EMA
+
+FIGURE 13.1 The 20-period EMA turns sharply downward during the trending
+phase.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+20 EMA
+
+Falling Bollinger
+band width
+
+FIGURE 13.2 ATR and Bollinger band width conﬁrming that volatility is falling.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+The Squeeze Play
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+173
+
+indicators are specifically designed to measure volatility. If the indicators
+are falling, volatility is falling. Once volatility contracts, the currency pair
+has settled in for a period of consolidation, which could lead to a powerful
+breakout.
+The first of these indicators is average true range (ATR), which is a
+measurement of the average trading range of a currency pair over a given
+period of time. In this case, we are measuring the range based on the daily
+chart, using the default parameter of 14 periods. As we can see, the ATR
+indicator is falling, meaning that the average daily range is shrinking, and
+volatility is decreasing.
+Bollinger bands also measure volatility. Bollinger bands split open
+when volatility is high and converge when volatility falls. Instead of using the bands themselves, we can use the Bollinger band width indicator,
+which is simply a measure of the space between the Bollinger bands. We
+can see that the Bollinger band width indicator is dropping, again confirming that we are in a period of consolidation and that volatility is falling.
+
+Prepare for the Breakout
+We have confirmed that volatility is falling, but this doesn’t give us an indication as to the direction of any potential breakout. This is because volatility has no directional bias; we don’t know the direction of the next move,
+we know only that a move is imminent. Because of this, we need to prepare
+for a breakout in either direction.
+We can do this by adding trend lines to the chart and targeting a break
+above or below a trend line as an entry point for a directional trade. If the
+upper trend line breaks, we will go long, and if the lower trend line breaks,
+we will sell short.
+To guard against a false breakout, we will place a stop below the upper
+trend line in the case of a long trade, and above the lower trend line if
+we enter a short trade. Note that the two trend lines form a symmetrical
+triangle, a common formation during times of low volatility (see Figure
+ure 13.3).
+
+Getting Out
+Now that we have our entry points, we need to determine our exit points.
+When doing this, we want to consider price areas that have previously
+acted as support or resistance, as well as major Fibonacci retracements
+and round numbers.
+For example, if the price breaks down past the lower trend line, initiating a short sale, the level of 1.2000 is an obvious choice for an exit. Although
+this area was briefly violated in early July, it had acted as strong support
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+174
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+20 EMA
+
+FIGURE 13.3 Trend lines form a symmetrical triangle, common during times of
+low volatility.
+Source: FXtrek IntelliChartTM . Copyright 
+c 2001–2006 FXtrek.com, Inc.
+
+on numerous occasions going back to the summer of 2004, and held firm
+on several occasions after its violation in late July 2005. It is also a round
+number, which can often create psychological support or resistance (see
+Figure 13.4).
+A further level of possible support would be 1.1865, which at the time
+represented the lowest point reached by the pair since May 2004.
+This second support level may prove useful if the trader decides to exit
+the position in increments; when the first exit is reached, the trader can exit
+half of the position and move the stop down to the breakeven point. This
+way, the trader can lock in a profit, eliminate any remaining risk by moving
+the stop to breakeven and give the remaining portion of the trade a chance
+to become a significant winner.
+What if the price breaks the upper trend line, indicating that we should
+enter a long position? For resistance levels, we can draw a Fibonacci retracement of the major downward move from 1.3485 to 1.1865. The 38.2
+percent retracement of this downtrend, located near 1.2485, made for a
+particularly compelling exit point because it had already held firm when it
+was tested August 11–12, 2005.
+It is also in the vicinity of another large round number, 1.2500. Really,
+there are three good reasons to exit the trade when the price reaches the
+1.2485/1.2500 area: a prior successful test of resistance, the 38.2-percent
+Fibonacci retracement level, and the large round number of 1.2500.
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+The Squeeze Play
+
+175
+
+FIGURE 13.4 Exits are prepared for a breakout in either direction.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+A subsequent area of resistance would be 1.2675, the 50 percent Fibonacci retracement level of the same downtrend. Again, if we reach the
+first exit point, we can exit half of the position and raise the stop to the
+breakeven point on the remaining portion of the trade.
+
+Longer Consolidation Equals Stronger Breakout
+The longer the amount of time spent in the consolidation phase, the
+stronger the breakout tends to be. Why would this be true? Consider that
+during the time that the price is trading in a narrow range, there are buyers
+and sellers taking positions.
+Because the price is not moving very much, these traders have little reason to exit their trades. But if the price breaks out in either direction, there are likely to be a large number of traders who are caught
+on the “wrong side” of the market, regardless of the direction of the
+breakout. As these traders cover their positions, they provide fuel for the
+breakout, helping to push the price further away from the consolidation
+area.
+On Thursday, September 1, 2005, a weak U.S. economic report served
+as the catalyst as the euro/U.S. dollar (EUR/USD) pair blasted out of the
+area of consolidation and raced to the first target for long trades (see Figure 13.5). The currency pair reached a high of 1.2525 on the day of the
+breakout, as volatility returned with a vengeance—the 200-pip move was
+nearly double the average daily range.
+
+chap13
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+176
+
+May 31, 2007
+
+19:35
+
+Char Count=
+
+NONTRENDING TRADING TECHNIQUES
+
+FIGURE 13.5 Volatility returns with a vengeance, as EUR/USD reaches its ﬁrst
+target.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Although this particular example occurs on the daily chart, similar setups also occur in other time frames. The logic behind the setup, and the
+forex market’s tendency to break out after a period of consolidation, holds
+true in both long and short time frames.
+
+VOLATILITY BREAKOUT STRATEGY
+In this example, the Great Britain pound/U.S. dollar (GBP/USD) currency
+pair is in a strong downtrend in late 2005. By the spring of 2006, the pair
+had settled into a tight consolidation (see Figure 13.6).
+As the pair transitions from high to low volatility, the 20-period EMA
+begins moving sideways. The flat 20-period EMA is one indication that the
+trend has paused, at least temporarily, and the price has entered the consolidation phase.
+In order to confirm that a trade is setting up, the trader adds the ATR
+and Bollinger band width indicators to measure volatility. The ATR indicator is falling, meaning that the average daily range is shrinking. The
+Bollinger band width indicator has fallen to near its lows, again confirming
+that we are in a period of consolidation (see Figure 13.7).

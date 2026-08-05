@@ -1,0 +1,623 @@
+2. Calculate a 26-day EMA of closing prices.
+3. Subtract the 26-day EMA from the 12-day EMA, and plot their difference as a solid line. This is the fast MACD line.
+
+4. Calculate a 9-day EMA of the fast line, and plot the result as a dashed
+line. This is the slow Signal line (see the worksheet, Figure 26-1).
+
+Market Psychology
+
+Each price reflects the consensus of value among the mass of market participants at the moment of the trade. A moving average represents an average
+consensus of value in a selected period -a composite photo of mass consensus. A long moving average tracks long-term consensus, and a short moving
+average tracks short-term consensus.
+Crossovers of the MACD and Signal lines identify shifts in the balance of
+power of bulls and bears. The fast MACD line reflects mass consensus over
+a shorter period. The slow Signal line reflects mass consensus over a longer
+period. When the fast MACD line rises above the slow Signal line, it shows
+
+26. MOVING AVERAGE CONVERGENCE-DIVERGENCE
+
+129
+
+Crude Oil
+DAY 1
+
+CLOSE
+
+I
+
+i 12-EMA i 26-EMA i
+
+20.70
+
+i
+
+20.39
+
+1 20.46 i
+
+MACD
+4.07
+
+i SIGNAL
+MACD-HIST
+i -0.16 i
+0.09 -
+
+...a9 ....1
+
+21.23
+
+1
+
+20.95
+
+i
+
+0.19
+
+i
+
+1
+
+Figure 26-1,
+
+20.76
+
+i
+
+0.07
+
+i
+
+0.12
+
+MACD and MACD-Histogram Worksheet
+
+To obtain MACD lines and an MACD-Histogram take these steps:
+1. Calculate the 12-day and 26-day exponential moving averages of
+
+closing prices.
+2. Subtract the 26-day EMA from the 12-day EMA to obtain the fast
+MACD line.
+3. Calculate a %day EMA of the. fast MACD line to obtain the slow
+Signal line. Plot both lines to obtain the classic MACD indicator.
+4. Subtract the Signal line from the MACD line to obtain an MACDHistogram.
+
+that bulls dominate the market, and it is better to trade from the long side.
+When the fast line falls below the slow line, it shows that bears dominate the
+market and it pays to trade from the short side.
+
+Trading Rules
+
+Crossovers between the MACD and Signal lines identify changing market
+tides. Trading in the direction of a crossover means going with the flow of
+the market. This system generates fewer trades and whipsaws than a
+mechanical system based on a single moving average.
+
+1. When the fast MACD line crosses above the slow Signal line, it gives
+a buy signal. Go long, and place a protective stop below the latest
+minor low.
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+130
+
+Jiul
+Figure 26-2.
+
+MACD Lines
+
+When the fast MACD line crosses above the slow Signal line, it
+gives a buy signal. Sell signals are given when the fast line crosses
+below the slow line. These rules help catch all the major trends
+and generate fewer whipsaws than crossovers of prices and a single moving average.
+
+2. When the fast line crosses below the slow line, it gives a sell signal.
+Go short, and place a protective stop above the latest minor high
+(Figure 26-2).
+
+More on MACD
+
+Many traders try to optimize MACD by using other moving averages than
+the standard 12-, 26-, and 9-bar EMAs; 5-34-7 is another popular choice.
+Some traders try to link MACD to market cycles. The trouble is cycles are
+not present in the markets most of the time (see Section 36). If you use
+cycles, the first EMA should be one quarter the length of the dominant cycle
+and the second EMA half the cycle length. The third EMA is a smoothing
+device whose length does not have to be tied to a cycle. Beware of optimiz-
+
+26. MOVING AVERAGE CONVERGENCE-DIVERGENCE
+
+131
+
+ing MACD too often. If you fiddle with MACD long enough, you can make
+it give you any signal you want using the same data.
+A "quick-and-dirty" way to plot MACD is used by traders whose software does not include this indicator. Some packages allow you to draw only
+two EMAs. In that case, you can use crossovers between two EMAs, such as
+11-day and 26-day EMAs as a proxy for MACD and Signal lines.
+
+MACD-Histogram offers a deeper insight into the balance of power between
+bulls and bears than the original MACD. It shows not only whether bulls or
+bears are in control but also whether they are growing stronger or weaker. It
+is one of the best tools available to a market technician.
+MACD-Histogram = MACD line - Signal line
+MACD-Histogram measures the difference between the MACD line and
+the Signal line (see worksheet, Figure 26-1). It plots that difference as a histogram - a series of vertical bars. That distance may appear puny, but a cornputer rescales it to fill the screen.
+If the fast line is above the slow line, MACD-Histogram is positive and
+plotted above the zero line. If the fast line is below the slow line, MACDHistogram is negative and plotted below the zero line. When the two lines
+touch, MACD-Histogram equals zero.
+When the spread between the MACD and Signal lines increases, MACDHistogram becomes taller or deeper, depending on its direction. When the
+two lines draw closer, MACD-Histogram becomes shorter.
+The slope of MACD-Histogram is defined by the relationship between
+any two neighboring bars. If the last bar is higher (like the height of letters
+m-M), the slope of MACD-Histogram is up. If the last bar is lower (like the
+depth of letters P-p), then the slope of MACD-Histogram is down.
+
+Market Psychology
+
+MACD-Histogram shows the difference between long-term and short-term
+consensus of value. The fast MACD line reflects market consensus over a
+shorter period. The slow Signal line reflects market consensus over a longer
+period. MACD-Histogram tracks the difference between these two lines.
+
+132
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+The slope of MACD-Histogram identifies the dominant market group. A
+rising MACD-Histogram shows that bulls are becoming stronger. A falling
+MACD-Histogram shows that bears are becoming stronger.
+When the fast MACD line rallies faster than the slow Signal line, MACDHistogram rises. It shows that bulls are becoming stronger than they have
+been - it is a good time to trade from the long side. When the fast MACD
+line drops faster than the slow line, MACD-Histogram falls. It shows that
+bears are becoming stronger - it is a good time to trade from the short side.
+When the slope of MACD-Histogram moves in the same direction as
+prices, the trend is safe. When the slope of MACD-Histogram moves in a
+direction opposite to that of prices, the health of the trend is questioned. It is
+best to trade in the direction of the slope of MACD-Histogram because it
+shows whether bulls or bears dominate the market.
+The slope of MACD-Histogram is more important than its position above
+or below the centerline. The best sell signals are given when MACDHistogram is above its centerline but its slope turns down, showing that bulls
+have become exhausted. The best buy signals occur when MACD-Histogram
+is below its centerline but its slope turns up, showing that bears have become
+exhausted.
+
+Trading Rules
+
+MACD-Histogram gives two types of trading signals. One is common and
+occurs at every price bar. The other is rare and occurs only a few times a
+year in any market - but it is extremely strong.
+The common signal is given by the slope of MACD-Histogram (Figure
+26-3). When the current bar is higher than the preceding bar, the slope is up.
+It shows that bulls are in control and it is time to buy. When the current bar is
+lower than the preceding bar, the slope is down. It shows that bears are in
+control and it is time to be short. When prices go one way but MACDHistogram moves the other way, it shows that the dominant crowd is losing
+its enthusiasm and the trend is weaker than it appears.
+1. Buy when MACD-Histogram stops falling and ticks up. Place a protective stop below the latest minor low.
+2. Sell short when MACD-Histogram stops rising and ticks down. Place
+a protective stop above the latest minor high.
+MACD-Histogram ticks up and down on the daily charts so often that is
+
+26. MOVING AVERAGE CONVERGENCE-DIVERGENCE
+
+Figure 26-3.
+
+133
+
+MACD-Histogram Divergences
+
+MACD-Histogram confirms trends when it reaches new highs or lows
+together with prices. The new lows in MACD-Histogram at points A and
+F confirm downtrends. New lows in the indicator tell traders that the
+downtrend is likely to retest or exceed bottoms A and F. New highs C
+and D in MACD-Histogram confirm uptrends. They show that the
+uptrend is likely to retest or exceed peaks C and D.
+Divergences between MACD-Histogram and prices identify major
+turning points. These signals rarely occur, but when .they do, they often
+let you catch major reversals and the beginnings of new trends. The
+bullish divergence A-B flags a major buying opportunity. Prices are at a
+new low, but the indicator is tracing a higher bottom. It shows that bears
+are exhausted and bulls are ready to gain the upper hand.
+The bearish divergence D-E identifies a major selling opportunity. At
+the right edge of the chart, there is a bullish divergence, F-G. The best
+time to buy is when MACD-Histogram ticks up from its second bottom,
+G.Once you go long, place a protective stop below the price bottom G.
+Move the stop up as the trend progresses.
+
+not practical to buy and sell every time i t turns. The changes of slope of
+MACD-Histograms are much more meaningful on the weekly charts, which
+is why i t is included i n the Triple Screen trading system (see Section 43).
+
+134
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+When to Expect a New Peak or Valley
+
+MACD-Histogram works like headlights on a car - it gives traders a glimpse
+of the road ahead. New highs and lows in this indicator are usually followed
+by new high or low prices.
+A record peak for the past three months in daily MACD-Histogram shows
+that bulls are very strong and prices are likely to rise even higher. A record
+new low for MACD-Histogram for the past three months shows that lower
+prices are likely ahead.
+When MACD-Histogram reaches a new high during a rally, the uptrend is
+healthy and you can expect the next rally to retest or exceed its previous
+peak. If MACD-Histogram falls to a new low during a downtrend, it shows
+that bears are strong and prices are likely to retest or exceed their latest low.
+
+The Strongest Signal in Technical Analysis
+
+Divergences between MACD-Histogram and prices occur only a few times a
+year in any given market, but they give some of the most powerful messages
+in technical analysis. These divergences identify major turning points and
+give "extra-strength" buy or sell signals. They do not occur at every important top and bottom, but when you see one, you know that a major reversal is
+probably at hand.
+When prices rally to a new high, but MACD-Histogram traces a lower
+top, it creates a bearish divergence (Figure 26-3). A lower top in MACDHistogram shows that bulls are internally weak even though prices are
+higher. When bulls are running out of steam, bears are ready to grab control.
+Bearish divergences between MACD-Histogram and prices identify weakness at market tops. They give sell signals when most traders feel excited
+about a breakout to a new high!
+
+3. Sell short when MACD-Histogram ticks down from its second, lower
+top, while prices are at a new high. Place a protective stop above the
+latest high.
+As long as prices keep falling to new lows and MACD-Histogram keeps
+going lower, it confirms the downtrend. If prices fall to a new low but
+MACD-Histogram traces a more shallow low, it creates a bullish divergence.
+It shows that prices are falling out of inertia, bears are weaker than they
+seem, and bulls are ready to gain control. Bullish divergences between
+
+27. THE DIRECTIONAL SYSTEM
+
+135
+
+MACD-Histogram and prices identify strength at market bottoms. They give
+buy signals when most traders feel fearful about a breakdown to a new low!
+4. Buy when MACD-Histogram ticks up from its second, more shallow
+bottom while prices are at a new low. Place a protective stop below the
+latest low.
+If a bullish divergence between MACD-Histogram and price is aborted
+and prices fall to a new low, you will be stopped out. Continue to watch
+MACD-Histogram. If it traces a more shallow third bottom while prices
+decline to a new low, you are dealing with a "triple bullish divergence '-an
+especially strong buy signal. Buy again as soon as MACD-Histogram ticks
+up from its shallow third bottom. The reverse applies to shorting triple bearish divergences.
+9
+
+More on MACD-Histogram
+MACD-Histogram works in any timeframe: weekly, daily, and intraday. The
+signals of weekly MACD-Histogram lead to greater price moves than the
+daily or intraday indicators. This principle applies to all indicators - signals
+in longer timeframes lead to greater price moves.
+When you use MACD and MACD-Histogram on the weekly charts, you
+do not have to wait until Friday to get your signals. A major trend can
+change in the middle of the week - the market does not watch the calendar.
+Because of this, weekly studies have to be performed each day.
+
+27. THE DIRECTIONAL SYSTEM
+The Directional system is a trend-following method. It was developed by J.
+Welles Wilder, Jr., in the mid-1970s and modified by several analysts. The
+Directional system identifies trends and shows when a trend is moving fast
+enough to make it worth following. It helps traders take chunks of profit out
+of the middle of important trends.
+
+How to Construct the Directional System
+Directional Movement is defined as the portion of today's range that is outside of the previous day's range. The Directional system checks whether
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+136
+
+Japanese Yen
+Date : H ! ~ ~ . . ~ ~ ~ ~ L P . W ~ ~ ~ ~ ~ ~ F : ! ? . S S ~
+.............
+711 : 72.24 >----------;-.--:---; 71.87 ' 71 92
+....................
+712 : 71.83 i 71.63 : 71.69
+713 i 71.65 : 71.33 i 71.36 1 27 1 27
+715 ;'.....
+1
+7
+2 ..---;
+83
+.........
+----:
+..-.;--??..!?sss\--.BJ--718 ...........
+7194 ' 7178
+7190
+30
+..........
+....+....................
+8
+
+719 J:.....
+7202
+7177
+.........
+:....';..
+..:... 7179
+7/10 j 71.95 : 71.87 i 71.90
+7/11 i 72.13 i 71.82 i 71.85 j
+7/12 : 73.20 :-.....
+71 --.--:
+94 ' ----:
+73 1....
+1
+.....--............-;
+. . . . . . . . . . . . . .9. . . . .
+
+J
+
+30
+29
+30
+
+1
+
+20
+
+1
+
+20
+
+1
+
+18
+
+7/15 : 72.94 : 72.65 : 72.80
+----------.-----------------.--.-.--.---7/16 : 72.75 : 72 55 ' 72 58
+
+....................
+7/17 ;
+' ..
+72
+'......
+72 --.--;
+62 ----:
+72 7-...
+1
+..........
+..:91
+....;
+7/18 : 73.07 i 72.29 : 72.42
+J-----.--.--:----:----
+
+Figure 27-1.
+
+Directional System Worksheet
+
++Dl13 and -Dl1 3 are based on positive and negative directional movements
+and the true ranges of the past 13 days. DX is derived from +Dl13 and
+-Dl1 3, and ADX is made by smoothing DX. See formulas in the chapter.
+
+today's range extends above or below the previous day's range and averages
+that data over a period of time. These complex calculations (see worksheet,
+Figure 27-1) are best performed on a computer. The Directional system is
+included in most software programs for technical analysis.
+
+27. THE DIRECTIONAL SYSTEM
+
+137
+
+1. Identify "Directional Movement" (DM) by comparing today's highto-low range with yesterday's high-to-low range. Directional
+Movement is the largest part of today's range outside of yesterday's
+range. There are four types of DM (Figure 27-2). DM is always a positive number (+DM and -DM refer simply to movement above or
+below yesterday's range).
+2. Identify the "True Range" (TR) of the market you analyze. It is
+always a positive number, the largest of three:
+A. The distance from today's high to today's low
+B. The distance from today's high to yesterday's close
+C. The distance from today's low to yesterday's close
+3. Calculate daily Directional Indicators (+DI and -DI). They allow
+you to compare different markets by expressing their directional
+movement as a percentage of each market's true range. Each DI is a
+positive number: +DI equals zero on a day that has no directional
+movement up; -DI equals zero on a day that has no directional movement down.
+
+4. Calculate smoothed Directional Lines (+DI13 and -DI13). Smooth
++DI and -DI are created with moving averages. Most software packages allow you to pick any period for smoothing, such as a 13-day
+moving average. You get two indicator lines: smoothed Positive and
+Negative Directional lines, +DI13 and -DI13. Both numbers are positive. They are usually plotted in different colors, or as a solid and a
+dashed line.
+The relationship between Positive and Negative lines identifies trends.
+When +DI13 is on top, it shows that the trend is up, and when -DI13
+is on top, it shows that the trend is down. The crossovers of +DI13 and
+-DII3 give buy and sell signals.
+
+5. Calculate the Average Directional Indicator (ADX). This unique
+component of Directional system shows when a trend is worth following. ADX measures the spread between Directional Lines +D113 and
+-DI13. It is calculated in two steps:
+
+138
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+C
+
+D
+
+DIRECTIONAL
+MOVEMENT
+0
+
+A
+
++DM
+
+f B1l-l For
+L
+- DM
+
+Figure 27-2.
+
+Directional Movement
+
+Directional Movement is the largest part of today's range that is outside of
+yesterday's range.
+A. If today's range extends above yesterday's range, Directional
+Movement is positive (+DM).
+B. If today's range extends below yesterday's range, Directional
+Movement is negative (-DM).
+C. If today's range is inside of yesterday's range or extends above and
+below it by equal amounts, there is no Directional Movement (DM =
+0).If today's range extends both above and below yesterday's range,
+D M is positive or negative, depending on which part of the "outside
+range" is larger.
+D. On a limit up day, +DM equals the distance from today's close to yesterday's high. On a limit down day, -DM equals the distance from
+today's close to yesterday's low.
+
+A. Calculate the daily Directional Indicator DX:
+
+27. THE DIRECTIONAL SYSTEM
+
+139
+
+For example, +DI13 = 34; -DI13 = 18. Then,
+DX =
+
+34- 1 8
+34 + 18
+
+100 =
+
+16
+
+52
+
+100 = 30.77, rounded off = 31
+
+B. Calculate the Average Directional Indicator ADX by smoothing
+DX with a moving average, such as a 13-day EMA.
+When a trend proceeds in a healthy manner, the spread between two
+smoothed Directional lines increases and ADX rises. ADX declines when a
+trend reverses or when a market enters a trading range. It pays to use a trendfollowing method when ADX rises and not when ADX declines.
+
+Crowd Behavior
+The Directional system tracks changes in mass bullishness and bearishness
+by measuring the capacity of bulls and bears to move prices outside of the
+previous day's range. If today's high is above yesterday's high, it shows that
+the market crowd is becoming more bullish. If today's low is below yesterday's low, it shows that the market crowd is becoming more bearish.
+The relative position of Directional lines identifies trends. When the
+Positive Directional line is above the Negative Directional line, it shows that
+bullish traders dominate the market. When the Negative Directional line
+rises above the Positive Directional line, it shows that bearish traders are
+stronger. It pays to trade in the direction of the upper Directional line.
+The Average Directional Indicator ADX rises when the spread between
+Directional lines increases. This shows that market leaders are becoming
+stronger, losers are getting weaker, and the trend is likely to continue. When
+the ADX rises, it pays to trade in the direction of the upper Directional line,
+using a trend-following method.
+ADX declines when the spread between +DI13 and -DI13 narrows down.
+This shows that the dominant market group is losing its strength, while the
+underdogs are gaining. Then the market is in turmoil, and it is better not to
+use trend-following methods.
+
+Trading Rules
+1. Trade only from the long side when +DI13 is above -DI13. Trade only
+from the short side when -Dll3 is above +DII3. The best time to be
+long is when both +DI13 and ADX are above -DI13 and ADX rises.
+This shows that the uptrend is getting stronger. Go long and place a
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+140
+
+-
+
+I
+
+Japanese Yen
+
+/I+,,','
+
+,~+,'"
+
+ll"ft~
+
+,10,,1\)
+
+1tt1t1811
+
+*'
+
+,1+l~l
+
+I
+
+,...
+
+76,91
+
+"
+
+..
+..
+..
+
+75,56
+74,15
+72,74
+71,33
+68
+
+Directional System
+
+47
+21
+T
+
+Odt
+
+8
+
+Figure 27-3. Signals of the Directional System
+Directional lines identify trends. When +Dl is on top, the trend is up,
+and it pays to trade the market from the long side. When -Dl is on top, it
+shows that the trend is down and it pays to trade the market from the
+short side. The best time to use a trend-following method is when ADX is
+rising and is above the lower Directional line. Those are two signs of
+dynamic trends.
+The Directional system gives its best signals after ADX spends several
+weeks below both Directional lines. That happens in quiet, dull markets.
+Once ADX "wakes up" and rises by four steps (for example, from 10 to
+14), i t gives a strong signal to trade i n the direction of the upper
+Directional line. It often flashes this signal at the beginning of major market moves. On this chart, ADX rallied from 9 to 13 in September, just
+prior to a dynamic rally in the Japanese Yen. Since the +Dl was on top
+when the signal occurred, it signalled to go long.
+
+protective stop below the latest minor low. The best time to be short i s
+when -DI13 and ADX are above +Dll3 and ADX rises. This shows
+that bears are becoming stronger. Go short and place a protective stop
+above the latest minor high.
+
+2. When ADX declines, it shows that the market is becoming less direc-
+
+27. THE DIRECTIONAL SYSTEM
+
+141
+
+tional. There are usually many whipsaws, just as there are turbulences
+in the water during the change of tide. When ADX points down, it is
+better not to use a trend-following method.
+
+3. When ADX falls below both Directional lines, it identifies a flat,
+sleepy market. Do not use a trend-following system but start getting
+ready, because major trends emerge from such lulls.
+4. The single best signal of the Directional system comes after ADX falls
+below both Directional lines. The longer it stays there, the stronger the
+base for the next move. When ADX rallies from below both Directional
+lines, it shows that the market is waking up from a lull. When ADX
+rises by four steps (i.e., from 9 to 13) from its lowest point below both
+Directional lines, it "rings a bell" on a new trend. It shows that a new
+bull market or bear market is being born (Figure 27-3). Buy if +DI13 is
+on top and place a stop below the latest minor low. Sell short if -DII3 is
+on top and place a stop above the latest minor high.
+For example, if ADX rises from 8 to 1 2 while both lines are above 12
+and +DIZ3 is on top, it indicates that a new uptrend is beginning. If
+ADX rises from 9 to 13 while both lines are above 1 3 and -DI13 is on
+top, it shows that a new downtrend is starting.
+The Directional System is unique in telling you when a major new trend is
+likely to begin. It rings a bell once or twice a year in any given market. It
+signals when a new baby bull or baby bear is being born. Monetary risk is
+usually low at that time, due to low volatility while the trend is still young.

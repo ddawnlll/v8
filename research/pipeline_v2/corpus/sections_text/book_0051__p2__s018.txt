@@ -1,0 +1,457 @@
+
+9/24/09 10:33:50 PM
+
+Chapter 10: Looking for Fundamental Reasons to Buy or Sell
+
+dividends. If you flip ahead to Chapter 17 you’ll
+learn about computer-screening tools, which
+will help you pinpoint companies that have
+been paying dividends for a long time and have
+the financial strength to keep it up.
+But if building a computer screen to find solid
+dividend payers sounds like too much effort,
+don’t worry. I have a very valuable shortcut that
+will handle much of the heavy lifting for you.
+A great place to identify the predictable dividend
+payers is S&P’s Dividend Aristocrats list. To
+make this prestigious list, a company must have
+boosted its dividends every year for at least 25
+consecutive years and be a member of the S&P
+500 index. The S&P 500 is a much-followed list
+of 500 of the largest U.S. companies. You can
+download an Excel spreadsheet containing
+all the stocks on the S&P Dividend Aristocrat
+list here: http://www2.standard
+andpoors.com/portal/site/sp/en/
+us/page.topic/indices_dai/2,
+3,2,2,0,0,0,0,0,2,3,0,0,0,0,0.
+html.
+
+Table 10-4
+
+175
+
+Yes, I know. I can already hear you poking
+a potential hole in this list. Yes, it’s true that
+during the financial crisis even some companies that increased dividends for decades cut
+their dividends. To help protect you further, you
+might want to find companies that not only have
+a long track record of dividend increases, but
+also have solid earnings so they can afford the
+payments. S&P has a list for this, too, called the
+Dividend Starting Place list. To make this list,
+companies must increase their dividend payments for 10 or more years and earn at least
+twice what they pay in dividends.
+That list is harder to find. But I can tell you that
+in mid-2009, the stocks that made the list and
+had the highest dividend yields appear in Table
+10-4. Remember, though, these aren’t necessarily stocks to buy. Be sure to do your own
+homework, applying all the lessons in this book
+before deciding to buy a stock or not.
+
+Big Time Yields
+
+Company
+
+Ticker symbol
+
+Dividend yield in mid-2009
+
+Universal
+
+UVV
+
+4.8%
+
+VF
+
+VFC
+
+3.7%
+
+Abbott
+
+ABT
+
+3.5%
+
+FPL Group
+
+FPL
+
+3.3%
+
+Johnson & Johnson
+
+JNJ
+
+3.2%
+
+Source: S&P
+
+16 506455-ch10.indd 175
+
+9/24/09 10:33:50 PM
+
+176 Part III: Making Money from Fundamental Analysis
+
+16 506455-ch10.indd 176
+
+9/24/09 10:33:50 PM
+
+Chapter 11
+
+Finding a Right Price for a Stock
+Using Discounted Cash Flow
+In This Chapter
+▶ Delving into what a discounted cash-flow analysis is and what it can tell you
+
+about a stock price
+▶ Finding out how to measure a company’s expected future cash flow
+▶ Digging into how to use the results of a discounted cash-flow analysis
+
+to size up a stock
+▶ Comparing doing a discounted cash-flow analysis by hand with online tools that do it
+
+for you
+
+“I
+
+s this stock cheap?” Those might be the four most commonly uttered
+words by the typical investor. Perhaps you even picked up this book
+hoping to find out ways to answer that burning question.
+Certainly, fundamental analysis can help a great deal when putting a price tag
+on a stock. By evaluating everything from a company’s profitability and debt
+load to its cash flow, you can get a pretty good window into a company and
+help form an educated opinion on its future. Looking into a company’s valuation using common ratios like the price-to-earnings ratio, can help you figure
+out how much investors are paying for a stock.
+But while all these tricks of fundamental analysis can help you find stocks to
+buy or even sell, one of the favorite tools of all might be the discounted cash
+flow analysis, or DCF. The DCF analysis brings an almost scientific approach
+to putting a price tag on a company. If you can perform a DCF, you’ll be miles
+ahead of investors who simply buy an individual company’s stock and hope it
+goes up.
+
+17 506455-ch11.indd 177
+
+9/24/09 10:34:59 PM
+
+178 Part III: Making Money from Fundamental Analysis
+How to Stop Guessing How
+Much a Company Is Worth
+If you’ve ever watched a group of kids playing, you’ll quickly learn some
+slightly unpleasant traits of human nature. The room could be filled with
+thousands of toys of all kinds. But, almost inevitably, if one child picks up a
+toy to play with, it’s not long before the others notice and decide they must
+have that same toy. A chorus of “mine” quickly breaks out.
+That same playground mentality often reaches Wall Street too. There are thousands of stocks available. But, quite often, just a few hundred stocks will get all
+the attention while the rest will get ignored. It’s not unheard of for just a handful of stocks, for whatever reason, to become must-own stocks or story stocks.
+These are shares of companies that seem to do everything right. Investors buy
+into the company’s promises and push the stock price to lofty valuations, only
+for the company to disappoint and the stock to fall back to earth.
+It’s very difficult, if not virtually impossible, to know when a stock is over or
+undervalued until after the fact. Complicating things further, even if you’re
+able to determine a stock is undervalued, other investors probably will too.
+And if they do, and buy the stock before you, they will push the price higher,
+and the stock will no longer be undervalued.
+But don’t let the fact that trying to find undervalued stocks is difficult discourage you completely. If you’re going to try to outsmart other investors
+and traders, you’ll need to know how to do a DCF analysis.
+Before getting to that, though, it’s helpful to first consider how the value of
+a stock can be measured. There are two main ways to look at what a stock is
+worth, including the:
+✓ Market value: An investment’s market value is what most investors
+primarily pay attention to. A stock’s market value is the price investors
+have attached to a company. Market value is measured by multiplying
+a stock’s price per share by its number of shares outstanding. You can
+review Chapter 3 to learn more about how market value is calculated.
+The constant tug of war between buyers and sellers pushes a stock up
+and down to settle at a price where the demand for the stock equals the
+supply of share.
+When you sell a stock, remember there’s another investor who has just
+bought it from you. That other investor thinks the stock you’re dumping
+is selling for a good price. Does this other investor know something you
+don’t? Before selling a stock, it’s not a bad idea to remind yourself that
+someone else finds it attractive.
+
+17 506455-ch11.indd 178
+
+9/24/09 10:34:59 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+179
+
+✓ Intrinsic value: A stock’s intrinsic value, sometimes called its fundamental
+value, isn’t based on what other investors think it’s worth as is market
+value. Instead, a stock’s intrinsic value is based on all the fundamental
+data you’re been reading about so far in the book, namely earnings, cash
+flow and dividends. A stock’s intrinsic value is based on how much money
+the company is expected to earn over its lifetime.
+The difference between an investment’s market value and intrinsic value is
+best understood with an example. Imagine an inventor is auctioning off a
+machine that spits out a gold bar worth $1,000 every year for 10 years. As
+you might imagine, some bidders might be so enamored with the machine
+they might offer hundreds of thousands of dollars for it. Perhaps the bidders
+think they can tinker with the machine to make it spit out two gold bars a year
+instead of one. But in its current form, the machine’s intrinsic value is $10,000,
+not adjusting for inflation, since that’s the value of its output of 10 gold bars
+worth $1,000 apiece.
+
+How minding intrinsic value can help you
+One of the best ways to be successful in an auction is knowing what price
+you’re willing to pay before even entering a bid. If you ever find yourself in a
+heated bidding war over a Pez dispenser on eBay, for instance, you’d better
+know how much that dispenser is really worth by consulting a price guide.
+Not knowing the value of a collectible can be perilous if you wind up losing
+your head and overpaying for it.
+The same caution applies to stocks. You might pick up a newspaper and
+keep reading about how great a company’s goods or services are. You might
+chat with your barber or cousin about a promising company. All these things
+might tempt you to be that person bidding up a stock’s price and overpaying.
+“Buying dollar bills for $1.10 is not good business,” wrote Warren Buffett in
+his 1999 letter to shareholders.
+Knowing a stock’s intrinsic value, though, keeps you honest. If you know how
+to determine how much cash a company is expected to generate over its
+lifetime, you know roughly what its stock is worth and can bid only when it’s
+priced right. Going back to the gold-bar machine example, you want to buy
+the machine when you can get it for less than $10,000.
+Warren Buffett is famous for paying close attention to a stock’s intrinsic
+value before buying it. He’s constantly searching for stocks that, for whatever
+reason, are trading at or below their intrinsic values. By buying a stock well
+below its intrinsic value, he gets a bit of a margin of safety, or a bit of protection if the stock price were to fall further.
+
+17 506455-ch11.indd 179
+
+9/24/09 10:34:59 PM
+
+180 Part III: Making Money from Fundamental Analysis
+Getting up to speed for the
+discounted cash flow
+Now that you know what intrinsic value is, the question is how do you measure it? There are several methods of calculating intrinsic value, but the DCF
+analysis is one of the top methods used by fundamental analysts.
+In the next section, I’ll show you how to do a discounted cash flow analysis.
+But first, it’s important to understand some of the most basic parts of how it
+works, including:
+
+A company’s cash flow
+Companies brag about their earnings, but it’s cash flow that really matters.
+Unlike earnings, which are a measure of profits based on accounting rules,
+a company’s cash flow is the amount of cold hard cash it generates. You can
+remind yourself of the importance of cash flow in fundamental analysis in
+Chapter 7.
+But to save you from having to flip back in this book, just know that there are
+many ways to define a company’s cash flow. Still, fundamental analysts often
+focus on what’s called free cash flow. Generally speaking, a company’s free
+cash flow is the amount of cash it throws off from its daily business, minus
+any cash it needs to spend on self-improvement, or capital expenditures.
+All the information you need to calculate a company’s free cash flow is available
+on the statement of cash flows. The formula for free cash flow looks like this:
+Free cash flow = Cash from operations – capital expenditures
+Being able to calculate a company’s free cash flow is the first step in building
+a DCF analysis. The entire analysis is based on the company’s free cash flow.
+
+Understanding the time value of money
+The term discounted cash flow analysis might sound strange. When you think
+of a discount, you probably think of that sweater that just went on sale at the
+mall. But in finance, discount means something different.
+A discount in fundamental-analysis-speak is a way to describe the phenomenon that a dollar received in the future isn’t worth as much as a dollar
+received today. If someone offered to give you $100, you wouldn’t want to
+wait around 100 years for it. You’d want it now.
+There are a number of reasons why a future dollar is worth less than a dollar
+now, including inflation and risk. Since prices generally rise every year, a dollar
+won’t buy as much in the future as it would today, known as its present value.
+
+17 506455-ch11.indd 180
+
+9/24/09 10:35:00 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+181
+
+Most years, inflation eats into the purchasing power of currency. In addition,
+there’s a risk you won’t actually get the dollar in the future. A dollar bill in your
+possession now is more valuable than the vague promise you’ll get one in the
+future.
+This matter of the present value of a dollar is critical to the DCF analysis. For
+instance, let’s say you correctly forecasted how much cash a company will generate in its lifetime. Here’s the problem: You don’t actually get all that cash now.
+You need to wait many years to collect cash as it’s generated by the company.
+Unless you have a time machine and can collect the future dollars, you’ll
+have to rely on some good old-fashioned fundamental analysis to tell you
+what those dollars in the future are worth today. Sounds pretty Twilight Zone,
+I know. But measuring the present value of a company’s future cash flows is
+exactly what a DCF analysis does.
+There are many ways to measure present value, but we’ll start with the basic
+formula to show you how all this works. Trust me; it looks scarier than it is:
+Present value = Future value / (1+interest rate) ^ time
+The ^ is the way to designate an exponent. Must calculators have a key, yx,
+which will allow you to take a number to a power.
+It’s easiest to get your head around this whole present-value concept with a
+simple example. Imagine you win $1 million in the lottery. Now, imagine the
+state makes you an offer. You can either get the whole $1 million in five years,
+or the state will pay you $950,000 right now. What’s a better deal?
+At first, you might feel like it’s a no-brainer. Why accept just $950,000? You
+wouldn’t even be able to call yourself a millionaire.
+But guess what? Using the concept of present value, you quickly find out
+you’re actually better off taking the $950,000 now. Let’s say interest rates are
+3% and expected to remain there for the next five years. Using the presentvalue formula, you calculate that $1 million received in five years is only
+worth $862,608 in present value. Here’s what I mean:
+Present value ($862,608) = $1,000,000 / (1 + 0.03) ^ 5
+In the example above, the future value of the problem is $1 million. That’s
+what you’re receiving in the future.
+I’ve only subjected you to the torture of the present-value formula to show
+you how it can be calculated by hand. Most fundamental analysts, though,
+aren’t so masochistic and tend to use financial calculators or spreadsheets to
+
+17 506455-ch11.indd 181
+
+9/24/09 10:35:00 PM
+
+182 Part III: Making Money from Fundamental Analysis
+calculate present value. It’s a very good idea, if you plan on doing DCF analyses,
+to invest in either a financial calculator or a copy of Microsoft’s Excel.
+Using a financial calculator, such as Hewlett-Packard’s HP 12c, the problem
+above is a snap. Simply enter 5, then press the n key for the number of years.
+Enter 3, then hit the i key, for the interest rate. Lastly, enter 1,000,000 and
+the FV key for future value. When you press the PV key, you’ll get the answer
+instantly.
+Microsoft’s Excel spreadsheet software can also handle the problem pretty
+easily. You would just enter a function that looks like this:
+=PV(interest rate, number of periods, number of interim payments,
+future value)
+Or, in this example:
+=PV(0.03,5,0,1000000)
+
+Performing a Discounted
+Cash Flow Analysis
+Now that you understand what a discounted cash flow analysis is and why it’s
+critical to fundamental analysis, it’s time to do one yourself. To perform a discounted cash flow analysis, you’ll need a few pieces of information, including
+the company’s:
+✓ Current free cash flow: This is how much cash the company generated
+during the most recent year.
+✓ Number of shares outstanding: This is the number of shares a company
+has put into shareholders’ hands. A company’s number of shares outstanding is available from the annual report.
+✓ Expected growth rate in the intermediate term: You will need to estimate how rapidly a company’s cash flow is likely to grow over the next
+five to 10 years. You can either estimate this yourself or get it from financial Web sites.
+✓ Expected perpetual growth rate: Over time, most companies mature
+and start to grow at the pace of the economy. Over a company’s very
+long term, this more moderate growth rate is assumed to continue into
+the future.
+✓ Discount rate: This is how much return investors, in exchange for
+providing their cash to the company, expect to receive.
+
+17 506455-ch11.indd 182
+
+9/24/09 10:35:00 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+183
+
+Financial analysts love the ’80s
+Ah. The 1980s. You might think of legwarmers
+and New Wave music when you think of the
+decade of Flashdance and Duran Duran. But
+for fundamental analysts, the decade wasn’t all
+lost. In 1982, Hewlett-Packard introduced the
+HP 12C financial calculator, which revolutionized fundamental analysis. Even to this day, in
+the age of laptops, an HP 12C is almost required
+equipment for any self-respecting fundamental
+analyst. You’ve probably seen the calculators,
+which have a retro look to them, kind of resembling something used to launch the Apollo
+spacecraft. The 12C is hard to miss with its
+
+industrial style and gold metal band at the top.
+Lore has it that fundamental analysts snapped
+up the HP 12C, in part, because it’s used horizontally, unlike most calculators that are used
+vertically, making it look like a miniature computer. HP still sells the calculator today, making
+it the company’s longest-selling calculator. If
+you’re curious, you can download and read the
+HP 12C’s owner’s manual, which is actually an
+excellent primer in business math. It’s available for free at http://h10032.www1.
+hp.com/ctg/Manual/c00363319.
+pdf.
+
+You’re about to start one of the most math-intensive chapters in this entire book.
+Calculating a stock’s intrinsic value using the DCF analysis requires several
+formulas and steps. Don’t get frustrated if it seems confusing at first. Just
+reread the Chapter and practice, and soon, it’ll make sense. It can also be
+helpful to build a spreadsheet, so you can see how all the calculations fit
+together. This chapter will calculate the intrinsic value of a well-known consumer products company, Procter & Gamble.
+
+Starting out with free cash flow
+Before you can measure all the cash a company is expected to generate in its
+lifetime, you need to know how much cash it generated in the just-completed
+period. This is the base of the DCF analysis.
+Take P&G’s 2008 results, for instance. During fiscal 2008 ended June 30, P&G
+generated cash from operations of $15.8 billion and spent $3.0 billion on capital expenditures. Subtract the $3 billion cap ex from the $15.8 billion in cash
+from operations and you determine the company had free cash flow of $12.8
+billion in 2008.
+
+17 506455-ch11.indd 183
+
+9/24/09 10:35:00 PM
+
+184 Part III: Making Money from Fundamental Analysis
+Getting the company’s shares outstanding
+A company’s number of shares outstanding tells you how many pieces a
+company’s ownership is cut into. The number of shares outstanding is readily available in a company’s annual report, or closely related 10-K, and the
+quarterly reports, or the related 10-Qs. At the end of fiscal 2008, P&G had 3.03
+billion shares outstanding. You can review what data are in the 10-K and 10-Q
+in Chapter 4.
+
+Estimating the company’s
+intermediate-term growth
+Up to this point, the data you need to do a discounted cash flow analysis
+are based in fact. A company’s free cash flow last year, for instance, is in the
+financial statements in black and white. The number of shares outstanding is
+also a matter of fact.
+But in this step, you’ll need to start making some guesses. Clearly, there’s no
+way to know for sure how rapidly a company’s cash flow will grow in the next
+five years, much less 10. You’ll need to estimate this future growth rate.
+There are two main ways to estimate a company’s future growth, including:
+✓ Historical trend analysis: A company’s historical growth rate is a good
+place to start when trying to see how fast it will grow in the future. If the
+company is in a pretty stable business, looking at its historical growth
+trends can be a good way to forecast the future. After all, consumers will
+generally buy P&G’s toilet paper, detergent and soap in the bad times,
+and they probably won’t stock up during the good times. Using a historical trend analysis, explored in more detail in Chapter 17, you can get an
+idea of how quickly a company’s cash flow has grown over the years.
+✓ Listening to the analysts’ forecasts: The second method of estimating
+a growth rate is by considering what analysts say. Most stock analysts’
+reports will provide an expected long-term growth rate. Many financial
+Web sites also provide an average of the analysts’ earnings growth forecasts, which can be a good proxy for guesses at the company’s future
+cash flow growth. P&G was expected to grow by 10% a year over the
+next five years, according to MSN Money as of early 2009. I will use 10%
+for this example.
+The difficulty in estimating expected future growth rates is a big reason
+why, as a fundamental analyst, you might stick with companies that sell
+products that have stable and steady growth. They are much easier to
+forecast growth for.
+
+17 506455-ch11.indd 184
+
+9/24/09 10:35:00 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+185
+
+Going way out: Forecasting
+long-term growth
+Companies are like rock stars. Even the great ones slow down over time. Even
+outstanding companies eventually succumb to the gravitational pull of capitalism when competitors crowd into their markets and drive down profits
+and eat into market share.
+It’s unrealistic to expect even a good company to keep growing at a doubledigit pace forever. Generally, fundamental analysts assume a company’s
+growth over its lifetime will moderate to the economy’s growth. Over time,
+that super-long-term-growth rate is about 3%.
+
+Measuring the discount rate
+If you thought estimating a company’s intermediate growth rate was tough,
+just wait until you try to estimate the discount rate, sometimes called a company’s cost of capital. The discount rate is what you’ll use to measure the
+present value of the company’s future cash flows.
+Measuring a company’s discount rate can be an extremely complex calculation that could keep a supercomputer busy for a couple of days or weeks.
+I’m going to assume you don’t really want to get into the gory details. If you
+do, “Valuation: Measuring and Managing the Value of Companies” (Wiley) will
+delight you and your pet supercomputer.
+For our purposes, though, it’s important to get in the ballpark for the discount rate calculation. There are two primary ways to do this, including:

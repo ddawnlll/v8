@@ -1,0 +1,771 @@
+
+Buy Strength, Sell Weakness
+If the signals came all at once, we always bought the strongest markets and sold short the weakest markets in a group.
+We also would enter only one unit in a single contract month
+at the same time. For instance, instead of buying February, March,
+and April heating oil at the same time, we would pick only the
+contract month that was the strongest and that had sufﬁcient volume and liquidity.
+This is very important. Within a correlated group, the best long
+positions are the strongest markets (which almost always outperform the weaker markets in the same group). Conversely, the
+biggest winning trades to the short side come from the weakest markets within a correlated group.
+
+272 • Way of the Turtle
+
+The Turtles used various measures to determine strength and
+weakness. The simplest and most common way to do that was simply to look at the charts and ﬁgure out which one “looked” stronger
+(or weaker) by visual examination.
+Some Turtles would determine how many N the price had
+advanced since the breakout and buy the market that had moved
+the most in terms of N. Others would subtract the price three
+months earlier from the current price and then divide by the current N to normalize across markets. The strongest markets had the
+highest values; the weakest markets had the lowest.
+Any of these approaches will work well. The important thing is
+to have long positions in the strongest markets and short positions
+in the weakest markets.
+
+Rolling Over Expiring Contracts
+When futures contracts expire, there are two major factors that
+need to be considered before rolling over into a new contract.
+First, there are many instances when the near months trend well
+but the more distant contracts fail to display the same level of price
+movement. Do not roll into a new contract unless its price action
+would have resulted in an existing position.
+Second, contracts should be rolled before the volume and
+open interest in the expiring contract decline too much. How
+much is too much depends on the unit size. As a general rule, the
+Turtles rolled existing positions into the new contract month a
+few weeks before expiration unless the (currently held) near
+month was performing signiﬁcantly better than contract months
+that were farther out.
+
+Original Turtle Trading Rules • 273
+
+Finally
+That concludes the Complete Turtle Trading System rules. As you
+probably are thinking, they are not very complicated.
+However, knowing these rules is not enough to make you rich.
+You have to be able to follow them.
+Remember what Richard Dennis said: “I always say that you
+could publish my trading rules in the newspaper and no one would
+follow them. The key is consistency and discipline. Almost anybody
+can make up a list of rules that are 80% as good as what we taught
+our people. What they couldn’t do is give them the conﬁdence to
+stick to those rules even when things are going bad.”
+Perhaps the best evidence that this is true is the performance of
+the Turtles: Many of them did not make money. This was the case
+not because the rules did not work; it happened because they could
+not and did not follow the rules.
+The Turtle rules are very difﬁcult to follow because they depend
+on capturing relatively infrequent large trends. As a result, many
+months can pass between winning periods, at times even a year or
+two. During those periods it is easy to come up with reasons to
+doubt the system and to stop following the rules: What if the rules
+don’t work anymore? What if the markets have changed? What if
+there is something important missing from the rules? How can I be
+really sure that this works?
+One member of the ﬁrst Turtle class, who was ﬁred from the
+program before the end of the ﬁrst year, suspected early on that
+information had been withheld intentionally from the group and
+eventually became convinced that there were hidden secrets
+that Rich would not reveal. That trader could not face up to the
+
+274 • Way of the Turtle
+
+simple fact that his poor performance was due to his own doubts
+and insecurities, which resulted in his inability to follow the rules.
+Another problem is the tendency to want to change the rules.
+Many of the Turtles, in an effort to reduce the risk of trading the
+system, changed the rules in subtle ways that sometimes had the
+opposite of the desired effect. Here is an example.
+Sometimes a trader fails to enter positions as quickly as the rules
+specify (1 unit every 1⁄2N). Although this may seem like a more conservative approach, the reality could be that for the type of entry
+system the Turtles used, adding to positions slowly might increase
+the chance that a retracement would hit the exit stops, resulting in
+losses, whereas a faster approach might allow the position to
+weather the retracement without the stops being hit. This subtle
+change could have a major impact on the proﬁtability of the system during certain market conditions.
+It is important to build the level of conﬁdence you will need to
+follow a trading system’s rules. Whether it is the Turtle System,
+something similar, or a completely different system, it is imperative
+that you personally conduct research by using historical trading
+data. It is not enough to hear from others that a system works; it is
+not enough to read the summary results from research conducted
+by others. You must do it yourself.
+Get your hands dirty and get directly involved in the research. Dig
+into the trades, look at the daily equity logs, and get very familiar with
+the way the system trades and the extent and frequency of the losses.
+It is much easier to weather an eight-month losing period if you
+know that there have been many periods of equivalent length in the
+last 20 years. It will be much easier to add to positions quickly if you
+know that adding quickly is a key part of the proﬁtability of the system.
+
+BIBLIOGRAPHY
+
+Online Sources
+he following sources are available to anyone who wants to learn
+more about trading and trading system development:
+
+T
+
+www.wayoftheturtle.com: my personal online blog and
+discussion site.
+www.tradingblox.com/forum: a trading forum that I moderate
+and manage at my software company.
+www.modustrading.com/turtle: a trading education site run by
+my friend David Bromley, who offers courses for those who
+want to learn about trading and system development. I
+helped him develop part of the initial curriculum and keep
+hearing good things about it from those who have taken his
+course.
+
+Suggested Reading
+In the course of writing this book, I wanted to make sure that I had
+a good sense of what had been written about trading and trading
+system development, and so I tried to read or reread most of the
+
+• 275 •
+Copyright © 2007 by Curtis M. Faith. Click here for terms of use.
+
+276 • Way of the Turtle
+
+books written on trading over the last 10 or 15 years that were on
+the recommendation lists of people I respected. I found the following books especially useful:
+Conway, Mark R., and Aaron N. Behle. Professional Stock
+Trading. Waltham, MA: Acme Trader, 2003.
+Elder, Alexander. Trading for a Living: Psychology, Trading
+Tactics, Money Management. New York: Wiley, 1993.
+LeBeau, Charles, and David W. Lucas. Technical Traders
+Guide to Computer Analysis of the Futures Market. New
+York: McGraw-Hill, 1992.
+Tharp, Van K. Trade Your Way to Financial Freedom. New
+York: McGraw-Hill, 2006.
+Weissman, Richard L. Mechanical Trading Systems: Pairing
+Trader Psychology with Technical Analysis. Hoboken, NJ:
+Wiley, 2004.
+
+Trading War Stories
+If you like reading about real traders, you will ﬁnd the following
+books interesting:
+Lefèvre, Edwin. Reminiscences of a Stock Operator. New York:
+Wiley, 1994.
+Schwager, Jack D. Market Wizards: Interviews with Top
+Traders. New York: HarperCollins, 1993.
+Schwager, Jack D. The New Market Wizards: Interviews with
+Top Traders. New York: HarperCollins, 1993.
+
+Bibliography • 277
+
+Additional Readings
+Baron, J., and J. C. Hershey. “Outcome Bias in Decision
+Evaluation.” Journal of Personality and Social Psychology, 1988.
+Bernstein, Peter L. Against the Gods: The Remarkable Story of
+Risk. New York: Wiley, 1996.
+Black, Keith. Managing a Hedge Fund: A Complete Guide to
+Trading, Business Strategies, Operations, and Regulations.
+New York: McGraw-Hill, 2004.
+Crabel, Toby. Day Trading with Short Term Price Patterns and
+Opening Range Breakout. Greenwood, SC: Traders Press,
+1990.
+Feynman, Richard. Surely You’re Joking Mr. Feynman! New
+York, W. W. Norton & Company, 1997.
+Gilovich, Thomas. How We Know What Isn’t So. New York:
+Free Press, 1993.
+Kaufman, Perry J. New Trading Systems and Methods. New
+York: Wiley, 2005.
+Keirsey, David, and Marilyn Bates. Please Understand Me:
+Character and Temperament Types. Delmar, CA:
+Prometheus Nemesis Book Company, 1984.
+Kiev, Ari. Trading to Win: The Psychology of Mastering the
+Market. New York: Wiley, 1998.
+Pardo, Robert. Design, Testing, and Optimization of Trading
+Systems. New York: Wiley, 1992.
+Pllana, Sabi. “History of Monte Carlo Method. ” Available at
+http://www.geocities.com/CollegePark/Quad/2435/
+history.html.
+
+278 • Way of the Turtle
+
+Plous, Scott. The Psychology of Judgment and Decision
+Making. New York: McGraw-Hill, 1993.
+Rabin, Matthew. “Inference by Believers in the Law of Small
+Numbers. ” Economics Department, University of
+California, Berkeley, Working Paper E00-282. Available at
+http://www.repositories.cdlib.org/iber/econ/E00-282, 2000.
+Roston, Eric. “Hedging Their Costs.” Time, 2005.
+Stridsman, Thomas. Trading Systems That Work: Building and
+Evaluating Effective Trading Systems. New York: McGrawHill, 2000.
+Wilder, J. Welles. New Concepts in Technical Trading Systems.
+Greensboro, NC: Trend Research, 1978.
+Wright, Robert. The Moral Animal: The New Science of
+Evolutionary Psychology. New York: Pantheon, 1994.
+
+INDEX
+
+Against the Gods (Peter Bernstein), 2
+Aggregated derivative markets, 217–218
+Amaranth, 103
+Anchoring, 16, 20, 76–79
+Arbitrage, 4, 25, 105, 158
+Arndt, George, xxiii–xxiv
+Arnold, Tim, xxiii
+Assets, liquid, 3
+ATR (see Average true range)
+ATR Channel Breakout, 131, 136–137
+Average maximum drawdown, 188
+Average monthly return, 98
+Average one-year trailing return, 98
+Average true range (ATR), 33, 66–67 (See
+also N factor)
+Backtesting, 179–206
+actual system performance vs.,
+196–199
+with computer simulation, 133
+for long-term trendfollowing,
+132–133, 135–136, 143–145,
+147–149
+market variable in, 135
+money management algorithm in, 136
+Monte Carlo simulation with, 199–205
+overoptimization in, 133
+pitfalls of, 152
+predictive errors from (see Discrepancies
+between testing and trading results)
+R-cubed measure for, 188–189
+regressed annual return measure for,
+186–188
+representativeness of samples in,
+192–194
+
+robust Sharpe ratio for, 189–192
+robustness of existing measures of,
+182–184
+size of samples in, 194–195
+start and stop dates used in, 184–186
+statistical basis for, 180–182
+test dates in, 136
+with Trading Blox Builder, 143–144
+Bandwagon effect, 16, 20
+Behavioral ﬁnance, 13, 14
+Bernstein, Peter, 2
+Best ﬁt line, 186
+Beyond Greed and Fear (Hersh Shefrin),
+13
+Biases (see Psychological biases in trading)
+Blame, 61–62
+Blowups, 116
+Bluffs, 157
+Bollinger bands, 138
+Bollinger Breakout, 131, 137–138
+Branscomb, Chuck, 59
+Breakouts, 124
+as building blocks, 125
+cause of, 82
+Donchian channel, 68–70
+psychological difﬁculty in trading, 69
+trader effects in, 153–155
+in Turtle Way, 38–39
+Buffett, Warren, 1
+Building blocks, 123–129
+breakouts, 124, 125
+deﬁned, 123
+moving averages, 124–127
+simple lookbacks, 125, 128
+time-based exits, 125, 127–128
+
+• 279 •
+Copyright © 2007 by Curtis M. Faith. Click here for terms of use.
+
+280 • Index
+
+Building blocks (continued)
+types of, 124–125
+volatility channels, 125, 127, 128
+Business risk, 2
+CAGR% (see Compound annual growth
+rate)
+Career tracks, 238
+Cars (contracts), 6
+Chicago Board of Trade (CBOT), xix
+Chicago Mercantile Exchange (CME),
+5, 6
+Cliffs, 174, 176
+CME (see Chicago Mercantile Exchange)
+Cognitive biases, 15–21
+anchoring, 16, 20, 76–79
+bandwagon effect, 16, 20
+disposition effect, 15, 19, 78–79
+edges from differences in, 75
+law of small numbers, 16, 20–21
+loss aversion, 15, 16
+outcome bias, 15, 19–20
+recency bias, 16, 20, 77–78
+sunk costs, 15, 16–19
+Collective perception, 8
+Commodities Perspective, 41
+Commodities trading, 249
+Complex systems, 195
+Compound annual growth rate
+(CAGR%), 92, 97–98
+RAR% vs., 186–187, 190–192
+robustness of, 184–186
+Consistency, 230–231
+in following rules, 38
+as rule for Turtles, 39
+in taking entry signals, 261–262
+in Turtle Trading System, 273–274
+Contract speciﬁcations, 5–6
+Contracts, 2, 6, 113 (See also Futures
+contracts)
+Countertrend trading, 23, 26
+Cumulative probability curve, 54
+Curve ﬁtting, 153, 172–177
+Dalai Lama, 239
+Day trading, 24–25
+Decision making, 13, 14
+Degree of roughness, 179
+Deluttri, Dale, xxi
+
+Dennis, Richard (Rich), xvii, xix–xxvi
+classes taught by, 30–31, 33, 35, 37
+and coffee trading, 214–215
+on consistency and discipline, 273
+drawdown views of, 91
+on entries, 269
+evaluation of Turtle class by, 44–45
+and initial trades of Turtle class, 42–43
+N factor used by, 117–119
+personality of, 29
+principles taught by, 223–224
+“secrets” by, xv, 61, 224, 273
+as teacher, 231
+and trades made by Turtles, 86
+trading by, 249
+on trading rules, 245
+Discipline, 273–274
+Discrepancies between testing and trading results, 151–177
+from optimization paradox, 163–172
+from overﬁtting or curve ﬁtting,
+172–177
+from random effects, 158–162
+sources of, 152–153
+from trader effects, 153–158
+Discretionary trading, 132–133, 224–229
+Disposition effect, 15, 19, 78–79
+Diversiﬁcation, 247
+across markets, 213–219
+in robust trading, 210
+of systems, 219–221
+Dollar volatility adjustment, 252–253
+Donchian, Richard, 38, 258
+Donchian channel breakout, 68–70
+Donchian channels, 38
+Donchian Trend system, 131, 139–140
+deﬁned, 131
+E-ratio for, 68–70
+measures of return for, 98, 99
+results of aggressive trading with,
+111, 112
+stops with, 144–145
+Donchian Trend with Time Exit, 131,
+140, 144–145
+Douglas, Mark, 232
+Drawdowns, 87
+deﬁned, 23
+longest, 97
+maximum, 97, 111, 112
+
+Index • 281
+
+measures of risk/reward with, 87–91
+tolerance for, 116
+in trend following, 23
+Dual Moving Average, 131, 141–142,
+144–145
+Eckhardt, William (Bill), xvii, xx–xxv
+classes taught by, 30–31, 33, 35, 37
+on entries, 269
+evaluation of Turtle class by, 44
+N factor used by, 117–119
+on robust estimators, 183–184
+and trades made by Turtles, 86
+Edge ratio (E-ratio), 65–70
+Edges, 63–73
+deﬁned, 34, 63
+elements of, 64–65
+E-ratio, 65–70
+exit edge, 71, 73
+in gambling, 34–35, 63
+as points of price instability, 82–84
+random effects with, 158–159
+reason for existence of, 75
+of support and resistance, 75–82
+in trading, 63–64
+for trend followers, 81
+trend portfolio ﬁlter edge, 69, 71,
+72
+in Turtle Way, 34
+Ego, 224–229
+Electronic exchanges, 9–10
+Electronic markets, 9, 10
+Emotional strength, 44
+Emotions in trading (see Psychological
+biases in trading)
+Entries:
+as edges, 64
+simultaneous signals for, 270–271
+strategies for, 64
+tactics for, 269
+in Turtle Classes, 33–35
+in Turtle Trading System, 258–262
+Equity curve scrambling, 201, 203
+Exchanges, 6, 9
+Exit threshold, 168, 169
+Exits:
+edges for, 64, 71, 73
+strategies for, 64
+time-based, 125, 127, 128
+
+from trend-following systems, 39
+in Turtle Trading System, 266–268
+Expectations:
+for reward, 106
+taught in Turtle Classes, 35–37
+unrealistic, 114, 115
+Experts, myth of, 134
+Exponential moving averages, 126–127
+Failure:
+blame for, 61–62
+factors leading to, 114
+and intelligence, xxv
+learning from, 239–240
+and making of money, 48
+as part of trading, 49
+Fast market conditions, 269–270
+Fat tails, 56
+Feynman, Richard, 200–201
+Foreign markets, 213
+Forward contracts, 2
+Frost, Robert, 235
+Fundamentals-driven markets, 217
+Futures contracts:
+contract speciﬁcations of, 5–6
+criteria deﬁning, 5–6
+in electronic markets, 10
+hedging with, 2–4
+interest-rate, 120
+rolling over, 272
+and trading pits, 9
+Gaming theory and strategy, xxv
+edges in, 34–35, 63
+expectation in, 36
+money management in, 109
+in Turtle Classes, 31
+Geometric average return, 97 (See also
+Compound annual growth rate)
+Going short, 4
+Harvard Investment Service, xxiii–xxiii
+Hedgers, goal of, 6
+Hedging, 2–4
+Herd effect, 20
+Histograms, 55–60
+Historical results, actual results vs. (see
+Discrepancies between testing and
+trading results)
+
+282 • Index
+
+Historical testing (see Backtesting)
+Humility, 229–230
+Illiquid markets, 216
+Interest-rate futures, 120
+Investors, 1–2
+Irrational Exuberance (Robert Shiller),
+13
+Irrationality, 14 (See also Psychological
+biases in trading)
+Johnson, Mark, 136, 137
+Kiev, Ari, 232
+Law of small numbers, 16, 20–21
+LeBeau, Chuck, 137–138
+Lefèvre, Edwin, xxiii, 223
+Limit orders, 34
+Linear regression, 186
+Liquid assets, 3
+Liquidity risk, 3–4
+Livermore, Jesse, xxiii, 223
+Long positions:
+exit threshold for, 168
+and price movement, 9
+Longest drawdown, 97
+Long-Term Capital Management
+(LTCM), 86, 102–103
+Long-term trend-following systems,
+131–149
+ATR Channel Breakout, 136–137
+Bollinger Breakout, 137–138
+Donchian Trend, 139–140
+Donchian Trend with Time Exit,
+140
+Dual Moving Average, 141–142
+stops added to, 145–147
+testing, 132–133, 135–136, 143–145,
+147–149
+Triple Moving Average, 142–143
+types of, 131–132
+Loss aversion, 15, 16
+Losses:
+approach to, 37
+cutting, 262
+with trend following, 96
+Low returns, 87, 92
+Lowenstein, Roger, 103
+
+LTCM (see Long-Term Capital
+Management)
+Lucas, David, 137–138
+Luck, 161, 162, 196
+MAE (see Maximum adverse excursion)
+Managed Accounts Reports, LLC, 104
+Manhattan Project, 199–201
+MAR ratio, 104–105
+drawdown component of, 186–187
+R-cubed vs., 191–192
+robustness of, 184–185
+Margin of error, 179
+Margin requirements, 33
+Market makers, 4
+Market states, 25–27, 123
+Market Wizards (Jack D. Schwager), 245
+Markets, 4
+adapting to conditions of, 211–213
+in backtesting, 135
+choice of, 213–216
+comparing between, 59
+complexity of, 201
+diversiﬁcation across, 213
+electronic, 10
+emotional/mental bases of patterns in
+(see Psychological biases in trading)
+equating price movement across,
+66–67
+predicting, 48, 52
+strongest vs. weakest, 271–272
+and trader memory, 218–219
+transfer of risk in, 2
+trends in, 38
+in Turtle Trading System, 249–250
+types of, 216–218
+volatility of, 25–27
+Maximum adverse excursion (MAE),
+65–67
+Maximum drawdown, 97, 188
+Maximum favorable excursion (MFE),
+65–67
+Measures of risk/reward, 85–107
+average monthly return, 98
+average one-year trailing return, 98
+compound annual growth rate, 97–98
+with drawdowns, 23, 87–91
+longest drawdown, 97
+with low returns, 92
+
+Index • 283
+
+MAR ratio, 104–105
+maximum drawdown, 97
+with price shocks, 92–95
+R-cubed, 188–189
+R-squared, 97
+Sharpe ratio, 100–104
+standard deviation of returns, 97
+with system death, 94, 96, 105–106
+and tolerance for pain/expectations for
+reward, 106
+in Turtle Way, 37
+and types of risk, 86–87
+uniﬁed, 98
+Mechanical trading systems, 16,
+245–246
+MFE (see Maximum favorable excursion)
+Mies van der Rohe, 268
+Mindset for trading, 36, 47–62
+being right vs. making money, 48–49,
+61
+and blame for failures, 61–62
+and focus on future, 48–50, 53
+and focus on past, 49–51
+probabilities thinking in, 53–60
+and taking responsibility for outcomes,
+61–62
+Minimum tick, 6
+Money:
+happiness and, 241–244
+making, being right vs., 48–49, 61
+Money management, 109–121
+as art, 110
+backtesting algorithm for, 136
+deﬁned, 32, 109
+estimating risk in, 120–121
+level of risk in, 110–113
+N factor in, 117–120
+and risk of ruin, 113–116
+in Turtle Classes, 32–33
+uncertainty in, 116–117
+in the Way of the Turtle, 117
+Monte Carlo simulation, 199–205
+Moving averages, 124
+as building blocks, 125–127
+dual, 131, 141–142
+exponential, 126–127
+simple, 126
+triple, 132, 142–143
+with volatility channels, 127, 128
+
+N factor, 33, 117–120, 251–252
+New Concepts in Technical Trading
+Systems (J. Welles Wilder), 33
+Normal distribution, 53–54
+Observer effect, 153
+Optimization, 163
+and myth of the expert, 134
+need for, 164–166
+rolling optimization windows,
+197–199
+single-market, 195
+Optimization paradox, 153, 164–172
+and basis of predictive value, 168,
+170–172
+deception associated with, 172
+moving average days parameter,
+166–169
+and need for optimization, 164–166
+overﬁtting vs., 172–173
+Or better orders, 34
+Outcome bias, 15, 19–20
+expectation and avoidance of, 35–36
+in Turtle System, 48–49
+Outcomes, taking responsibility for,
+61–62
+Overﬁtting, 172–177
+deﬁned, 153, 163
+optimization paradox vs., 172–173
+and sample size, 176–177
+Parameter scrambling, 196–197
+Parameters, 163, 166–172
+Perception:
+edges from differences in, 75, 84
+price movement and, 8
+of support and resistance, 78
+Performance measures, robustness of,
+182–186
+Pits, 9–10
+Points of price instability, 82–84
+Portfolio ﬁlters, 68, 69, 71, 72, 212
+Position sizing, 118, 251–258
+Position traders, 4 (See also Speculators)
+Position trading, 24
+Predictive value, 168, 170–172, 180
+Price(s):
+ﬂuctuation in, 6
+as foundation for traders, 2
+
+284 • Index
+
+Price(s): (continued)
+points of price instability, 82–84
+spread of, 4
+support and resistance for, 77–81
+Price movement, 7–9
+cause of, 8
+good and bad parts of, 65–67
+psychological factors in (see
+Psychological biases in trading)
+in trend following, 22
+Price risk, 4
+Price shocks, 87, 92–95
+in illiquid markets, 216
+volatility-based position sizing to avoid,
+118
+Probabilities thinking, 52–60
+histograms, 55–60
+normal distributions, 53–54
+Probability density graph, 54
+Probability mathematics, xxv, 31
+Pseudo-experts, 134–135
+Psychological biases in trading, 13–21
+anchoring, 20
+bandwagon effect, 20
+as basis of Way of the Turtle, 14–15
+disposition effect, 19
+law of small numbers, 20–21
+loss aversion, 16
+outcome bias, 19–20
+rational actor theory and, 14
+recency bias, 20
+sunk costs, 16–19
+(See also Mindset for trading)
+Psychological strength, 44, 232
+Random effects, 152, 158–162
+RAR% (see Regressed annual return)
+Rational actor theory, 14
+R-cubed, 188–192
+Recency bias, 15, 20
+and support/resistance levels, 77–78
+in Turtle System, 49–50
+Regressed annual return (RAR%),
+186–188, 190–192
+Regression effect, 160
+Reminiscences of a Stock Operator
+(Edwin Lefèvre), xxiii, 223
+Resistance (see Support and resistance)
+Responsibility, taking, 61–62
+
+Results, historical vs. actual (see
+Discrepancies between testing and
+trading results)
+Reversion to the mean, 160–161
+Rewards:
+expectations for, 106
+measures of (see Measures of risk/
+reward)
+Risk(s), 2
+with alternative investment funds,
+101–102
+business, 2
+deﬁnitions of, 85
+drawdowns, 87
+estimating, 120–121
+excessive, 110
+expectation of, 37
+hedging, 2–4
+liquidity, 3–4
+low returns, 87
+managing, 39
+measures of (see Measures of risk/
+reward)
+price, 4
+price shocks, 87
+probabilities of, 52
+proper levels of, 110–113
+rules for estimating, 120–121
+system death, 87
+trading, 3–4
+transfer of, 2
+types of, 86–87
+units as measure of, 255–257
+Risk of ruin, 113–116
+in gambling, 31–32
+managing (see Money management)
+and money management, 113–116
+taught in Turtle Classes, 31–32
+Risk/reward ratio, 85
+R-multiples, 59–60
+Robust performance measures, 184–186
+Robust Sharpe ratio, 189–192
+Robust statistics, 183
+Robust trading, 209–221
+adaptation to market conditions in,
+211–213
+diversity in, 210
+market diversiﬁcation for, 213–219
+simplicity in, 210–211

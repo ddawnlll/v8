@@ -1,0 +1,425 @@
+
+We have previously seen that when the returns of the candidate rules are
+correlated, it reduces the data-mining bias. Correlation shrinks the bias
+because correlation reduces the effective number of rules being examined. In the extreme case, where all rules have perfectly correlated returns, there is really only one rule being tested. In this situation, no data
+mining takes place, and so the data-mining bias shrivels to zero. These results were for a universe of rules of equal merit; all had expected returns
+of zero. Now results for a variable-merit universe are presented.
+Figure 6.55 plots the expected return (vertical axis) of the universe's best-performing ATR as the number of ATRs examined (horizontal axis) is varied from 1 to 256. There are four curves, each
+
+4.8
+Expected
+Return
+% / Year
+
+3.6
+
+2.4
+
+......
+
+1.2
+
+1
+
+4
+
+16
+
+6
+
+4
+
+256
+
+Number of ATRs Tested To Find Best (log scale)
+
+FIGURE 6.55
+
+Expected return of best ATR versus number of ATRs. Tested at
+four levels of correlation: 0, 0.3, 0.6, 0.9. Number of observations= 100.
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+3.9
+
+representing a different level of correlation in returns amongst the
+ATRs from which the best is selected. The correlation levels are: 0.0,
+0.3, 0.6, and 0.9. The number of monthly observations used to compute
+ATR mean return is set at 100 months.
+The first thing to note about Figure 6.55 is that the higher the level of
+correlation, the less the expected return of the best-performing one. This is
+consistent with the previous finding that when fewer ATRs are back tested,
+there is less opportunity to discover better ones (see Figure 6.43). Higher
+correlation means we are effectively searching through a smaller universe
+than the actual number of ATRs tested would suggest. As pointed out earlier,
+in the extreme case in which correlation is 1.0, there is no data mining at all.
+When the correlation among the ATR returns is nearly perfect, 0.9, the expected return of the best of 256 ATRs is only + 1.4 percent. This is the same as
+an ATR picked at random. In other words, at a correlation of 0.9 the effective
+number of ATRs being tested is quite small (little data mining). Less data
+mining means less opportunity to find good rules. Conversely, when correlation among rule returns is zero, the effective size of the universe is maximized-we really are searching among 256 different ATRs. Consequently, the
+expected return of the best ATR out of 256 is nearly 4 percent, considerably
+above the universe average of + 1.4 percent (data mining works!).
+
+Summary of Findings Regarding the
+Data-Mining Bias
+This section has presented the results of numerous experiments. It is
+worthwhile, at this point, to summarize our findings_ They make clear the
+nature of the problem that must be solved by the methods presented in
+the next section.
+1. The observed performance of a rule discovered by data mining-that
+is, the best performer in a set of back-tested rules-is positively biased. Its expected future return is less than its observed historical
+performance. Its likely performance in any sample of data from the future will be lower than the back-tested performance that allowed it to
+win the performance competition.
+2. The magnitude of the data-mining bias is profoundly affected by the
+number of observations used to compute the performance statistic
+used to select the best rule. The number of observations affects both
+the width and tail thickness of the performance statistic's sampling
+distribution.
+a. The larger the number of observations, the narrower the sampling
+distribution and the smaller the data-mining bias.
+
+320 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+b. The larger the number of observations, the lighter the tails of the
+sampling distribution and the smaller the data-mining bias.
+3. The larger the number of rules searched, the larger the data-mining
+bias.
+4. The smaller the variability in true quality (expected return) among the
+rules tested, the larger will be the data-mining bias. In other words,
+the more equivalent the predictive power of the rules back tested, the
+greater will be the bias. This point was not explored experimentally.
+5. Data mining works when the sample size is large. The more rules
+tested, the higher the expected performance of the rule ultimately selected. Data mining does not work when the sample size is too small.
+
+SOLUTIONS: DMLING WITH THE DATA-MINING BIAS
+Data mining works but its results are positively biased. Hence, if the set of
+candidate rules examined by the data miner contains any rules with superior expected returns, data mining can be an effective way to find them.
+However, their future performance will, in all probability, be less than
+their back-tested performance. This out-of-sample performance deterioration is simply a fact of life in the data-mining business.
+A worse problem occurs when all candidate rules are worthless-all
+have expected returns of zero or less. In this instance, the data miner runs
+the risk of being fooled by the data-mining bias and choosing a rule whose
+expected return is zero. This is the fool's gold of the objective technician.
+This section discusses some ways to reduce this risk.
+Three approaches have been proposed: out-of-sample testing, a datamining correction factor proposed by Markowitz and Xu, and randomization methods. Out-of-sample testing involves excluding one or more
+subsets of the historical data from the data mining (out-of-sample). This
+data is then used to evaluate the best rule discovered in the mined data
+(in-sample). The selected rule's performance on the data that was insulated from mining operations provides an unbiased estimate of its expected return in future data. A number of schemes for partitioning the
+historical data into in-sample and out-of-sample segments have been proposed. I summarize several of them later.
+A second approach, one that has not been widely discussed outside
+the academic literature, is based on randomization methods like bootstrapping and Monte Carlo. This approach offers a number of advantages.
+First, it allows the data miner to test as many rules as desired. Testing a
+greater number of rules increases the chance of finding superior rules.
+
+321
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+Second, it does not require holding data aside, as is done in out-of-sample
+testing, thereby allowing all available historical data to be used for data
+mining. Third, it permits significance testing, and, sometimes, approximate confidence intervals can be produced.
+A third approach, the data-mining correction factor developed by
+Markowitz and Xu, deflates the observed performance of the rule that did
+the best. The reader is directed to source material for this approach. As a
+point of interest, limited experiments conducted with this method suggest
+it can work surprisingly well, but it can also fail miserably, depending on
+the conditions.
+Out-of-Sample Testing
+
+Out-of-sample testing is based on the valid notion that the performance of
+a data-mined rule,33 in out-of-sample data, provides an unbiased estimate
+of the rule's future performance. Of course, due to sampling variation, the
+rule may perform differently in the future than it does in its out-of-sample
+test, but there is no reason to presume it will do worse. Because out-ofsample performance is unbiased, it makes sense to reserve data for out-ofsample testing.
+This raises the issue of how to best segment the historical data into insample and out-of-sample subsets. Various schemes have been proposed.
+The simplest is to create two subsets; the early portion of the historical
+data is used for data mining while the later portion is reserved for out-ofsample testing. See diagram A in Figure 6.56. 34 A more sophisticated segmentation scheme breaks the historical data up in a checkerboard pattern
+such that both in-sample and out-of-sample data come from all parts of
+the history. See diagrams B and C in Figure 6.56.
+
+c.
+B.
+
+A.
+
+____
+I n-:-S-=a-:m.:.!.p_le_ _ 1 Out-of-Sam pie
+
+In-Sample
+
+1_ _I_n_-S_a_m.:.!.p_le
+__
+
+Out-of-Sample
+
+---------Time ----------+
+
+FIGURE 6.56 In-sample and out-of-sample segmentation of historical data.
+
+322 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Another data segmentation approach specific to financial market trading applications is walk-forward testing. It is
+described in Pardo,35 De La Maza,36 Katz and McCormick,37 and Kaufman. 38
+It employs a moving data window, which itself is divided into an in-sample
+and out-of-sample segment. The terminology used for the in-sample and
+out-of-sample segments is somewhat different, however. Because walkforward testing has a dynamic aspect, in which the rule is being modified
+over time as the market evolves, the terminology alludes to a rule that is
+learning from its experience. Thus the in-sample segment is referred to as
+the training data set because the best parameter values for the rule are
+learned in this portion of the data. The out-of-sample segment is referred
+to as the testing data set, because the parameter values that were learned
+in the training test are tested for performance in this data segment.
+The notion of a moving data window is well known in time series
+analysis and technical analysis. Moving averages, moving max-min price
+channels, and rate-of-change indicators, to name a few, employ a data
+window that slides along the time axis. Mathematical operations, such as
+determining the maximum value or the average value, are confined to the
+data in the window.
+In the context of rule testing, the data window (training set + testing
+set) that is walked forward is sometimes referred to as afold (see Figure
+6.57). An out-of-sample performance estimate is computed for each fold.
+Because there are typically numerous folds and hence numerous out-ofsample estimates, it becomes possible to determine the variance of the
+performance statistic. This allows a confidence interval to be computed.
+Moreover, the moving data window adds a dynamic adaptive aspect to
+rule testing. A new rule can be formulated in each new realization of the
+data window. This makes walk-forward testing especially attractive for
+nonstationary phenomena such as financial markets. Hsu and Kuan found
+adaptive trading rules (they referred to them as learning strategies) effective in their test of over 36,000 objective rules. 39
+Walk-Forwal'd Testing.
+
+In a walk-forward scheme, the training segment is used for data mining, and then the best rule found there is tested on the testing segment.
+This yields an unbiased estimate of its out-of-sample performance. Then,
+the entire window is moved forward and the process is repeated.
+The walk-forward process is illustrated in Figure 6.57. Note, the window is moved forward by a sufficient amount so that testing data segments in separate folds do not to overlap. In this way, the of out-of-sample
+performance estimates are independent of each other.
+Limitations of Data Out-of-Sample 'resting Methods. As an antidote to the data-mining bias, out-of-sample testing suffers from several
+deficiencies. First and foremost, the virginal status of the data reserved
+
+323
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+1-----------1
+
+Train
+
+Test
+
+t-
+
+Time----+
+
+Fold 3
+
+I---------l
+
+A
+
+Train
+
+Test
+
+-----'------
+
+f - - - - - Time ----+
+
+Fold 2
+
+1----1
+K__
+
+A
+
+Train
+
+Test
+
+f - - - - - - - - Time----+
+
+Fold 1
+A
+
+li_ra_in_ _
+
+Test
+
+- - - - - - - - - - - Time----+
+
+FIGURE 6.57 Walk-forward data testing two data segments.
+
+for out-of-sample testing has a short life span. It is lost as soon as it is used
+one time. From that point forward, it is no longer able to provide unbiased
+estimates of rule performance.
+A second deficiency is that it eliminates certain portions of the data
+from mining operations. Thus it reduces the amount of data available to
+find patterns. When noise is high and information is low, more observations are extremely valuable.
+Third, the decision about how to apportion the data between the insample and out-of-sample subsets is arbitrary. There is no theory that
+suggests what fraction of the data should be assigned to training and
+testing. Results can be very sensitive to these choices. Often it's a seatof-the-pants call.
+
+Markowitz/Xu Data Mining Correction Factor
+A formula for estimating the data-mining bias has been proposed by
+Markowitz and Xu40 (MX) and described for practical implementation in
+an Excel spreadsheet by De La MazaY Markowitz is well known for his pioneering work in modem portfolio theory, for which he shared the 1990
+Nobel prize in economics.
+The MX method does not require data segmentation. What is required, though, is the complete set of interval returns (e.g., daily, weekly,
+monthly, and such) for all rules examined by the data miner en route to
+selecting a best-performing rule. The method corrects for the data-mining
+bias by shrinking the observed performance of the best rule back toward
+the average performance of all rules tested. The degree of shrinkage is
+determined by several factors including: (1) the degree of variation in
+each rule's daily returns around the grand mean daily return for all rules
+
+324 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+tested, (2) the degree of variation in each rule's mean return around the
+mean return for all rules tested, (3) the number of rules examined, and
+(4) the number of time intervals (e.g., days) of returns.
+The article by De La Maza, which was referred to earlier, lays out the
+details for constructing a spreadsheet that computes the value of a shrinkage factor, B, which is a number between zero and one. This value is then
+plugged into the formula
+H' = R+ B(H- R)
+
+Where
+H' is the expected return for the best-performing rule after adjust-
+
+ment for the data-mining bias.
+R is the average return of all the tested rules.
+H is the observed performance of the best rule.
+B is the shrinkage factor.
+The corrected or shrunken performance estimate for the best rule, H,
+will lie somewhere between its observed performance and the average for
+all rules tested. When B equals zero, then the expected return for the best
+rule is simply equal to the average return of all rules (R). As B approaches
+a value of 1, the expected return of the best rule approaches its backtested return. This occurs in a case where no data-mining bias was detected and thus no need to shrink the observed return of the best rule.
+The result given by MX is very approximate. Under some conditions,
+the shrunken performance estimate can be quite good. However, under
+other conditions easily encountered in practice, its results can be seriously in error. MX is best used as a rough guideline.
+
+Randomization Methods
+Chapter 5 introduced two randomization methods that can be used to test
+the statistical significance of a rule's observed performance in a back test.
+They were bootstrapping and Monte Carlo permutation. As pointed out in
+Chapter 5, these significance tests were only valid for a single rule back test,
+that is, where there was no data mining used to discover the rule. However,
+with modifications described in this section, these procedures can also be
+used to test the statistical significance of a rule discovered with data mining.
+Both randomization methods allow the data miner to use all historical
+data for rule discovery. This circumvents the arbitrary decisions required
+with out-of-sample testing: how to partition the data into in-sample and
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+325
+
+out-of-sample, how much to use for training versus testing, and so on.
+However, the randomization methods require that certain information
+about each rule tested during data mining be retained. Because the specific information that must be retained depends on whether Monte Carlo
+or bootstrapping is used, the information requirements of each method
+will be discussed separately.
+A brief review is in order to explain how randomization methods can
+be used for significance testing. The sampling distribution of a test-statistic
+is the foundation of statistical inference. It describes the degree of random variation in a statistic. This distribution is vital in judging the statistical significance of a rule's observed performance. Chapter 5 pointed out
+that the sampling distribution can be derived by bootstrapping or the
+Monte Carlo permutation.
+Bootstrapping the Sampling Distribution: White's Reality
+Check. White's Reality Check (WRC) was invented and patented by
+
+economist Halbert White, a professor at the University of California at San
+Diego. It uses the bootstrap42 method to derive a sampling distribution
+that is appropriate to test the statistical significance of the best rule found
+by data mining. The software can be acquired from Quantmetrics,43 a firm
+owned by Dr. White.
+Prior to WRC, bootstrapping could be used to generate the sampling
+distribution to test the significance of a single rule. White's innovation, for
+which he was granted a patent, allows the bootstrap to be applied to the
+best rule found by data mining. Specifically, WRC permits the data miner
+to develop the sampling distribution for the best of N-rules, where N is the
+number of rules tested, under the assumption that all of the rules have expected returns of zero. In other words, WRC generates the sampling distribution to test the null hypothesis that all the rules examined during data
+mining have expected returns of zero.
+Let's take a highly simplified example to explain the procedure WRC
+uses. Suppose the data miner has back tested only two rules (N = 2) over
+10 days. I will refer to the rules as R] and R 2• Over the lO-day period R j
+earned a mean daily return of 1 percent, whereas R 2 earned a mean daily
+return of 2 percent. The data miner picks rule 2 as the best performer, but
+then wonders, as one should, if the 2 percent was the result of data-mining
+bias and if its true expected return is actually zero. To generate the sampling distribution that would be appropriate for this data-mining venture,
+the following steps are taken:
+1. The rules are tested over 10 trading days. Thus 10 slips of paper are
+
+used to represent each date of trading. They are numbered from 1
+through 10 and placed in a bucket for sampling.
+
+326 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+2. The slips of paper are then sampled with replacement 10 times. Each
+time a date is withdrawn from the bucket, the date number is noted.
+The number of samplings is 10 because that was the length of each
+rule's performance history. This is a requirement of the Bootstrap
+Theorem. Suppose the following dates were selected: 5, 3, 5, 5, 7, 2,
+5,8,1,2.
+3. Using the dates obtained in step 2, a pseudo-track record based on
+the actual daily returns associated with these dates is created for R I •
+This procedure is also carried out for R 2 . We now have a randomly
+generated performance history of length 10 for each rule.
+4. Recall that our goal is to generate the sampling distribution for the
+best-performing rule in a universe of rules which have expected returns equal to zero. Because it is possible, in fact it is our hope, that
+at least one of the rules tested has an expected return greater than
+zero, the raw historical returns of R) and R 2 must be adjusted to have
+mean returns of zero. To accomplish this, WRC determines the mean
+daily return for each rule tested and subtracts this amount from each
+individual daily return. 44 In this example, R)'s mean daily return is 1
+percent and R 2's is 2 percent. Thus 1 percent is deducted from each
+of R/s daily returns whereas 2 percent is deducted from each of R 2's
+daily returns. This has the effect of shifting the distribution of daily
+returns for each rule so that it is centered over zero. These adjusted
+daily returns are now used.
+5. The adjusted returns of R J for days 5, 3, 5, 5, 7, 2, 5, 8, 1, 2 are averaged. The adjusted returns for R 2 are also averaged.
+6. The larger of these two mean values is held aside as the first value
+used to form the sampling distribution of the maximum mean return
+of N rules. In this case N = 2.
+7. Steps 2 through 6 are repeated many times (e.g., 500 or more times).
+8. The sampling distribution of the statistic, maximum mean return
+in a universe of N (2) rules whose expected returns are zero is
+formed from these 500 values.
+
+9. With the sampling distribution now in hand, the p-value can be
+computed.
+10. The p-value would simply be the fraction of the 500 values obtained
+at step 7 that exceed the average return of the tested rule. (See Chapter 5 for the procedure.)
+The example described above was intentionally highly simplified. In a
+more realistic case the data miner would examine a much larger number
+of rules over a much longer time period. But the procedure for generating
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+327
+
+the sampling distribution would be the same. All this is done automatically by the WRC software, once it has been provided with the interval returns, (e.g., daily) of all rules tested. This set of data contains all the
+information WRC needs to derive the sampling distribution that is appropriate for a particular data-mining venture. When many rules are tested
+this can be a considerable amount of data. Currently, few data miners or
+data-mining systems save this valuable information.
+In Part Two of this book I will perform a case study of 6,402 rules for
+trading the S&P 500 index. A version of WRC that incorporates some recent enhancements, which are described later, will serve as one method to
+test the statistical significance of the rules' observed performances.
+'fhe Monte Ca"'o Permutation Method. The Monte Carlo permutation method (MC) can also be used to generate the sampling distribution
+required to evaluate the statistical significance of rules found by data mining. As noted in Chapter 5, it uses different data than the bootstrap and it
+tests a different formulation of the null hypothesis, or Ho'
+In terms ofthe data, MC uses the historical times series of a rule's output values (i.e., +1, -1) as well as the market's raw returns. In contrast, the
+bootstrap uses the rule's interval (e.g., daily) returns. In terms of the Ho'
+both WRC and MC test the notion that all rules examined during data mining have no predictive power. However, MC formulates Ho somewhat differently. To simulate the performance of a rule devoid of predictive power,
+MC randomly pairs rule output values with daily market price changes. In
+contrast to WRC, MC's random coupling of output values and market
+changes is done without replacement. Presumably, if rule output values
+are randomly assigned to market changes, the performance would be consistent with the null hypothesis that the rule is worthless. The return
+earned by the random pairings becomes the benchmark against which the
+actual rule returns are compared. If a rule has genuine predictive power,
+then its informed pairing of output values and market changes should generate significantly better performance.
+The performance of the random pairing is simply the rule's value
+(+ 1 or -1) multiplied by the market change randomly assigned to that day.
+Thus, if a rule output of + 1 gets paired with a day when the market rose,
+the rule earns the market's price change. Likewise, if a -1 rule output gets
+randomly paired with a day on which the market fell, it earns that positive
+amount that day. Losses occur on days when the sign of the rule's output
+value is opposite to that of the market's price change.
+After the full history of a rule's output values have been paired with a
+market price change, the mean return is computed. This is done for each
+rule in the universe of N rules giving N mean returns. The maximum mean
+return is selected, and this becomes the first value used to construct the

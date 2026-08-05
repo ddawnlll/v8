@@ -1,0 +1,652 @@
+
+Investment Objectives
+
+Figure 7.22 Put Ratio Spread Theta vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+
+INVESTMENT OBJECTIVES
+Because of their asymmetrical risk-reward properties—limited risk in
+one direction and unlimited risk in another—and their short vega/positive
+theta characteristics, ratio spreads can be especially suited to situations
+that favor limited movement in the direction of the short strike with declining volatility and the passage of time. Both declining volatility and
+the time decay work to expand the value of a ratio spread. In addition, the
+passage of time and/or declining implied volatility cause the delta of the
+ratio spread to “grow” in favor of the trader—the delta of the call ratio
+spread becomes more positive; the delta of the put ratio spread becomes
+more negative.
+When considering a ratio spread, traders should look for situations
+that favor the above scenario. Some typical market conditions conducive
+to slow, limited, directional movement with the possibility of declining
+implied volatility are the following:
+• Contratrend moves
+— The oversold bounce
+— The overbought correction
+• Trend decelerations
+— Rally into congestion and resistance
+— Decline into congestion and support
+
+207
+
+208
+
+Chapter 7
+
+Ratio Spreads
+
+• Special situations
+— Postmeltdown
+— Postmeltup
+• Volatility skew plays
+— Implied volatility differential
+
+Contratrend Moves
+When the market is trending, it will occasionally pause and pull back as
+it corrects from temporary overbought or oversold conditions. These contratrend moves tend to be muted because they usually are accompanied by
+lower volumes as they trade back into support or resistance levels that
+contain the magnitude of the move. As the market retraces, time will pass
+and implied volatility may decline as movement in the underlying price
+contracts; these factors play into the strengths of the ratio spread. If the
+trend suddenly resumes, the risk is limited to the amount, if any, invested
+in the spread. Figures 7.23 and 7.24 are examples of contratrend moves.
+
+Downtrend
+
+Resistance
+Contratrend Bounce
+
+Support
+Trend Resumption
+
+Figure 7.23 Oversold Bounce
+Resistance
+
+Uptrend
+
+Support
+
+Figure 7.24 Overbought Correction
+
+Contratrend Correction
+
+Investment Objectives
+
+Figure 7.23 is an example of a bullish contratrend move known as an oversold bounce; Figure 7.24 is an example of a bearish contratrend move known
+as an overbought correction.
+
+Trend Deceleration
+When the market is trending, occasionally it will enter areas of previous price congestion. Price movement usually slows when this occurs because past inventory levels are approached and momentum traders look to
+take profits. Once again, slowing price movement, the passage of time, and
+declining implied volatility can occur in these zones, making them attractive for ratio spread strategies. Figures 7.25 and 7.26 below are examples of
+reentry into previous areas of price congestion. Figure 7.25 is an example
+of a bullish rally into a previous congestion zone; Figure 7.26 is an example
+of a bearish decline into a previous congestion zone.
+
+Reentry
+
+Previous Congestion Zone
+
+Figure 7.25 Rally into Congestion Zone
+
+Reentry
+
+Previous Congestion Zone
+
+Figure 7.26 Decline into Congestion Zone
+
+Special Situations
+Meltdowns and meltups usually are news driven—either bad news or
+good news—and the underlying stock explodes to the downside or the upside
+with implied volatility increasing sharply. Bottom picking in meltdowns or
+top picking in meltups can be a dangerous business; these types of contrarian
+plays are risky because traders are going against a very powerful trend. But
+
+209
+
+210
+
+Chapter 7
+
+Ratio Spreads
+
+if they get it right, it can be a very lucrative trade. If a correction does occur, it
+usually is muted because price moves contratrend. Implied volatility usually
+backs off when this occurs and, again, this plays into the strengths of the ratio
+spread. In addition, if the trend resumes, risk is limited to initial investment.
+
+Volatility Skew Plays
+Occasionally market forces will create large implied volatility differentials between strike prices, which make “buy-low-volatility-strike, sell-highvolatility-strike” ratio spread strategies attractive. One could purchase an
+option at the lower implied volatility and sell a ratioed amount of options
+at the higher volatility. If the volatility normalizes, the trade may become
+profitable.
+Warning: Implied volatility differentials in and of themselves usually are not
+sufficient reason to initiate a ratio spread. These trades should be incorporated into
+market views that are optimal for ratio spreads—limited underlying movement,
+passage of time, and declining implied volatility.
+
+STRATEGY SELECTION
+Once a trader determines that conditions favorable to a ratio spread
+exist, she needs to evaluate the following factors:
+• Direction of the trend
+• Support and resistance levels
+• Congestion areas or zones
+• Projected time of slow movement and/or declining volatility
+
+Direction of Trend
+Obviously, direction is important because ratio spreads do have a directional bias. Call ratio spreads are used to trade a market with a bullish
+bias, and put ratio spreads are used to trade a market with a bearish bias.
+The market’s trend bias must be incorporated into strike selection.
+
+Support and Resistance Levels
+Support and resistance levels need to be defined for two reasons. They
+identify areas where price movement is likely to decelerate; this is important for strike selection. Support and resistance levels are also important
+because they are used to identify breakout levels for risk management, as
+will be seen in the following section, “Trade Management.”
+
+Congestion Areas or Zones
+As with support and resistance levels, congestion areas or zones identify price levels at which the market is likely to decelerate and mark time
+
+Strategy Selection
+
+as the market works its way through previously important price levels.
+When the market leaves these zones, it is likely that price movement will
+accelerate, which is an important factor in risk management.
+
+Projected Time of Slow Movement
+and/or Declining Volatility
+It is important for the trader to have a forecast of how long the slowed
+price movement and/or declining volatility phase will last, to select the
+expiration cycle of his ratio spread.
+• Strike Selection
+A forecast/knowledge of support and resistance levels and congestion
+zones is needed for strike selection. Selecting strikes for a ratio spread is
+similar to selecting strikes for a one-winged butterfly position. The difference is that, unlike the long at-the-money butterfly, the ratio spread usually
+has a directional bias. As with the long butterfly, the point of maximum
+profitability for the position is at the short strike of the structure, which
+should be located at one’s price target. It is important that this level be
+backstopped by a support or resistance level or congestion zone to slow
+or stop the price movement of the underlying as it approaches the short
+strike. If the underlying moves through the short strike—upward in the
+case of the call ratio spread and downward in the case of the put ratio
+spread—there is open-ended risk.
+For example, in Figure 7.27 the underlying is moving sideways in a
+range between 97.50 (support) and 102.50 (resistance). In this case, establishing a 97.50/102.50 1-to-2 call ratio spread when the underlying is near
+support would seem to be an appropriate strike selection. In Figure 7.28
+the underlying is declining from 105.00 toward strong 95.00 support. In
+this case, establishing a 95.00/105.00 1-to-2 put ratio spread when the
+underlying is near resistance would seem to be an appropriate strike
+selection.
+
+102.50
+
+–2
+
+100.00
+
+97.50
+
+Figure 7.27 Call Ratio Spread Strike Selection
+
++1
+
+211
+
+212
+
+Chapter 7
+
+Ratio Spreads
+
+110.00
+
+105.00
+
++1
+
+100.00
+
+95.00
+
+–2
+
+Figure 7.28 Put Ratio Spread Strike Selection
+
+• Expiry Selection
+To select the expiration month, a forecast of projected time of slow price
+movement and/or declining implied volatility is necessary. If a trader estimates that this behavior will persist for one month, then she would want
+to use options with an expiration cycle that mirrors the forecast. When in
+doubt, the trader should use the expiration cycle that expires before the
+projected end of the slow period.
+
+TRADE MANAGEMENT
+Ratio spreads have a high-risk profile. Again, like the one-winged
+butterfly, there is not an outside “wing option” that kicks in to limit risk if
+the short strikes are penetrated. Risk is open-ended, and for that reason,
+ratio spreads must be managed with an iron fist. Important questions to
+consider:
+• Should the trader even consider ratio spreads?
+• What is the most efficient way to take profits?
+• What if the short strikes are threatened?
+• What if the market moves down or up through the long strike?
+• How should the trader manage risk or take losses?
+
+Should the Trader Even Consider Ratio Spreads?
+Ratio spreads have open-ended risk. Not only is there risk that the market will move through the short strikes and leave the trader long in a falling market or short in a rising market, there is also the danger of event risk.
+
+Trade Management
+
+Event risk occurs when a large, market-moving event causes the underlying
+in which the trader has a ratio spread to gap through her short strikes, leaving no chance to exit the trade or manage risk and exposing the trader to
+large losses. If her capital base is modest, or she can’t live with the idea of
+overnight risk, then this spread is not for her. The trader needs to retreat to
+the long butterfly or condor strategy to trade decelerating price movement
+and/or declining implied volatility situations.
+
+What Is the Most Efficient Way to Take Profits?
+Ratio spreads will punish the greedy and undisciplined trader. As
+with the long butterfly and condor, the properly positioned ratio spread
+has positive time decay and the value of the position theoretically will
+increase in value every day. The temptation to try to get “one more day”
+of time decay out of this position can be a trader’s undoing. This type
+of greedy behavior with a long butterfly or condor is not the end of the
+world, because they are limited-risk positions. The ratio spread, however,
+is not a limited-risk position, and getting greedy when red flags are flying
+can lead to disaster. It is vitally important to have an ironclad risk management plan in place—and to stick to it. “He who fights and runs away,
+will live to fight another day” is the proper mindset for ratio spreaders.
+Here are some important tips:
+• Take Partial Profits
+Take partial profits occasionally by scaling out of the trade. For example, if an investor’s position consists of ten call ratio spreads (say, long
+10 at-the-money calls and short 20 out-of-the-money calls), he should not
+be afraid to take some money off the table from time to time. He can slowly
+scale out of the position as it goes in his favor. This action takes profits and
+limits remaining risk.
+• Watch Market Action
+Remember the reason the investor got into this trade in the first place:
+He had a market forecast of weak directional price action over a period of
+time and/or declining implied volatility. If the underlying stock or index in
+which he has his position starts to behave as though this trend may end,
+he should get out.
+
+What If the Short Strikes Are Threatened?
+When the underlying price moves toward the short strike of a ratio
+spread it is a two-edged sword. It is moving toward the area of maximum
+profitability, but it is also moving toward the area of maximum—and
+unlimited—risk. This can be unnerving for the trader as the stakes begin
+to rise. When this occurs, there are some evasive maneuvers that can be
+employed. The spread can be “capped” and turned into a limited-risk
+butterfly—at additional cost of course—or the short strike can be “rolled”
+away from the underlying price to give the trader more breathing room.
+
+213
+
+214
+
+Chapter 7
+
+Ratio Spreads
+
+These rolls can be on a one-to-one basis, which again will add additional
+cost, or on a ratioed basis, which may add additional costs and will add
+additional ultimate risk.
+
+Example 1
+An investor has on a 100/105 1-to-2 call ratio spread, and the underlying has moved up near 105.00, which is also an important resistance level.
+This movement is what he had forecast, and he expects the underlying
+price to continue to hover around the 105.00 area, but the risk is making
+him nervous. He decides to purchase an additional call at the 110 strike and
+convert his call ratio spread into a long butterfly that will still profit from
+the underlying hovering around 105.00, but will limit risk to the upside if
+the underlying price continues higher. Figures 7.29 and 7.30 illustrate this
+procedure.
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ2
+
+105
+
+Puts
+
+Figure 7.29 Existing 1-to-2 100/105 Call Ratio Spread
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ2
+
+105
+
+ⴙ1
+
+110
+
+Puts
+
+Figure 7.30 Purchase of an Additional 110 Call to Convert to a Long
+Butterfly
+
+The result in Figure 7.30 is a long 100/105/110 call butterfly. The long
+call butterfly will still profit from the underlying price hovering around
+the 105.00 level, but upside risk is now capped—at the additional cost of
+the 100 call.
+
+Example 2
+The investor has on a 95/100 1-to-2 put ratio spread, and the underlying has moved down near 95.00, which is also an important support level.
+This movement is what he had forecast, but it happened a little faster than
+
+Trade Management
+
+he expected. He still believes that the 95.00 support level will hold, but the
+risk is making him nervous. He decides to “roll” his short 95 puts down to
+the 90 strike to give himself a little extra breathing room. Figures 7.31, 7.32,
+and 7.33 illustrate this procedure.
+
+Calls
+
+Strike
+
+Puts
+
+95
+
+ⴚ2
+
+100
+
+ⴙ1
+
+Figure 7.31 Existing 95/100 1-to-2 Put Ratio Spread
+
+Calls
+
+Strike
+
+Puts
+
+90
+
+ⴚ2
+
+95
+100
+
+ⴚ2
+
+ⴙ2
+
+ⴙ1
+
+Figure 7.32 Rolling Short 95 Puts Down to the 90 Strike
+
+Calls
+
+Strike
+
+Puts
+
+90
+
+ⴚ2
+
+95
+100
+
+ⴙ1
+
+Figure 7.33 Resulting 90/100 1-to-2 Put Ratio Spread
+
+The result in Figure 7.33 is a 90/100 1-to-2 put ratio spread. Purchasing
+the 90/95 put spread rolls the position into a 90/100 1-to-2 put ratio spread.
+This rolls the area of risk down below the 90.00 area, giving the position
+extra breathing room and profit potential. Of course, this adds to the cost of
+the position, which raises the upside risk if the underlying were to rally.
+
+Example 3
+An investor has on a 100/105 1-to-2 call ratio spread, and the underlying has moved up near 105.00, which is also an important resistance level.
+
+215
+
+216
+
+Chapter 7
+
+Ratio Spreads
+
+This movement is what he had forecast, but the risk is making him nervous. He decides to roll his short options to a higher strike, but he doesn’t
+want to invest any additional money, so he decides to use another ratio
+spread. Figures 7.34, 7.35, and 7.36 illustrate this procedure.
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ2
+
+105
+
+Puts
+
+Figure 7.34 Existing 100/105 1-to-2 Call Ratio Spread
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴙ2 ⴚ2
+
+105
+
+ⴚ4
+
+110
+
+Puts
+
+Figure 7.35 Rolling Short 105 Calls Up to the 110 Strike
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+Puts
+
+105
+ⴚ4
+
+110
+
+Figure 7.36 Resulting 100/110 1-to-4 Call Ratio Spread
+
+The result in Figure 7.36 is a 100/110 1-to-4 call ratio spread. By executing two 105/110 1-to-2 call ratio spreads, the trader has rolled the
+short 105 calls up to the 110 level, giving the position breathing room and
+additional profit potential and moving the area of risk higher. Because
+the roll was executed with a ratio spread, the additional cost is minimal.
+However, the ratio has now increased from 1 to 2 to 1 to 4, so the ultimate
+risk to the upside has been doubled.
+
+Trade Management
+
+What If the Market Moves Down or Up Through
+the Long Strike?
+If the underlying price moves against the forecast direction, risk is limited to the initial cost of the ratio spread, if any. The trader will need to
+evaluate whether the amount of the initial investment is significant enough
+to warrant using a stop-loss. If the ratio spread was executed for a credit,
+there actually will be profit potential in an adverse market movement.
+Because time generally works in favor of a ratio spread, there may be a
+case for keeping the position even if the market moves opposite the forecast direction.
+For example, suppose the trader had forecast a slow, upward directional move into a strong resistance level with declining implied volatility, and had executed a 1-to-2 call ratio spread for “even money” (neither
+a debit nor credit). Then, opposite of his forecast, the underlying starts
+to decline. Because there is no risk in the position to the downside, he
+can continue to hold for a possible rebound and fulfillment of his original
+forecast at a later date. If this occurs, some time will have passed, and all
+else being equal, the spread will perform even better. See Figure 7.37 for
+an illustration.
+
+Resistance
+
+Forecast Movement
+
+Reentry
+
+Actual Movement
+
+Figure 7.37 Incorrect Forecast Reinitiated
+
+How Should the Trader Manage Risk or Take Losses?
+His forecast was for a slow, directional move toward a target area.
+Hopefully, the target area is capped by a resistance level or a congestion
+zone above the current underlying price (in the case of an upward move)
+or floored by a support or congestion zone below the current underlying
+price (in the case of a downward move). As mentioned in “Investment
+Objectives,” these boundaries are very important not only for structuring
+the ratio spread, but for risk management purposes as well. If they are
+penetrated, or if the underlying price begins to move with a greater velocity and in greater magnitudes than the trader had forecast, it is time for him
+to look for the exit because his forecast is incorrect.
+
+217
+
+218
+
+Chapter 7
+
+Ratio Spreads
+
+Support and resistance levels are wonderful tools for risk management because they provide “lines in the sand” that, if crossed, are a call to
+action. The position will either need to be modified, as in the section above
+about short strikes, or exited completely. The investor cannot play mind
+games with this type of position and must act immediately, as shown in
+Figure 7.38.
+
+Actual Movement
+Resistance
+Action Required!!
+
+Forecast Movement
+
+Incorrect Forecast, Upside Breakout
+Threatens Call Ratio Spread
+
+Figure 7.38 Breakout of Trading Range to the Upside
+
+Figure 7.38 shows that the underlying price has moved sharply through
+the resistance level the trader was counting on to cap upward movement.
+Obviously, his forecast is incorrect, resistance has been breached, and he
+must take action. The position must be modified or exited.
+In Figure 7.39, the underlying price has moved sharply through the
+support level the trader was counting on to act as a floor for downward
+movement. Obviously, his forecast is incorrect, support has been broken,
+and he must take action. The position must be modified or exited.
+
+Incorrect Forecast, Downside Breakout
+Threatens Put Ratio Spread
+
+Forecast Movement
+
+Action Required!!
+Actual Movement
+Support
+
+Figure 7.39 Breakout of Trading Range to the Downside
+
+Chapter 7 Exercise
+
+CHAPTER 7 EXERCISE
+1. Because ratio spreads are net short of options, will they generally be
+long or short vega and positive or negative theta?
+2. If one is projecting a mild correction where the underlying stock
+will trade lower for a time, which would be used: a call ratio
+spread or a put ratio spread?
+3. A call ratio spread can be viewed as a ________ _________ _______
+with an extra short call(s) at the upper strike or a ______ _______
+_______ with a short call at the upper strike.
+4. A put ratio spread can be viewed as a _______ ______ ______ with an
+extra short put(s) at the lower strike or a _____ ______ ______ with a
+short put at the lower strike.
+5. Calculate the delta of the 95/100 1-to-2 call ratio spread with the
+options having the following deltas:
+95 strike call delta ⫽ 0.50
+100 strike call delta ⫽ 0.35
+6. With a ratio spread, the gamma quickly becomes (positive)
+(negative) as the underlying price moves to the short strike, or
+as implied volatility rises.
+7. Declining volatility and time decay work to expand the value of a
+ratio spread. True or false?
+8. Does a call ratio spread have limited or unlimited risk on the
+upside?
+9. What is the formula to determine the maximum profit of a ratio put
+spread?
+10. Is it a call or a put ratio spread that can be used to take advantage
+of a contratrend recovery or a bounce, where the market has been
+declining with rising implied volatility?
+
+Chapter 7 Exercise Answer Key
+1. Short, positive
+2. Put ratio spread
+3. Bull call spread, long call butterfly
+4. Bear put spread, long put butterfly
+5. (0.50 ⫻ 1) ⫹ (0.35 ⫻ ⫺2) ⫽ ⫺0.20
+6. Negative
+7. True
+
+219
+
+220
+
+Chapter 7
+
+Ratio Spreads
+
+8. Unlimited
+9. K2 ⫺ K1 ⫹ credit received or ⫺ debit incurred when initiating
+the position
+10. Call
+
+CHAPTER 7 QUIZ
+1. When the underlying price moves toward the short strike of a
+ratio spread, one can choose to either roll the position away from
+the strike or turn it into a _________ spread to limit or eliminate
+risk.
+2. If an investor increases his call ratio spread from a 1 to 2 to a 1 to 4,
+the risk to the upside will _____________ .
+3. An investor has on the 85/90 ratio put spread. He purchases the
+80/85 put spread. This rolls the position into a __________________ .
+4. The passage of time and declining implied volatility results in
+the delta of the put ratio spread becoming (more positive) (more
+negative).
+5. If a trader anticipates a slow, upward directional move into a strong
+resistance level with declining implied volatility, he might choose to
+put on a 1-to-2 ______ ______ spread.
+6. Support and resistance levels and ___________ _________ are needed
+for strike selection.
+7. Support and resistance levels need to be determined because they
+identify areas where price movement is likely to decelerate; they are
+used to identify ________ levels for risk management.
+8. When initiating ratio spreads, in the case of large implied
+volatility differentials between strike prices, would one purchase
+an option with the lower or the higher implied volatility and
+would one sell a greater number of options with the lower or the
+higher volatility?
+9. If one initiated a call ratio spread for a debit, what is one’s maximum

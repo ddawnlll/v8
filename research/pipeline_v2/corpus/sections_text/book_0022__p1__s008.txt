@@ -1,0 +1,517 @@
+
+INVESTOR SENTIMENT AND RETURN PREDICTABILITY
+IN AGRICULTURAL FUTURES MARKETS
+In the first of four studies, Changyun Wang (Investor Sentiment and Return Predictability in Agricultural Futures Markets 2001) examines the usefulness of the COT Index for
+each of the five trader groups, in forecasting future prices in six major agricultural futures
+markets. Wang’s index is constructed using a 36-month look-back period, using weekly
+COT data for corn, soybeans, soybean meal, wheat, cotton, and world sugar futures.
+He finds that COT indexes for large speculators and large hedgers are both valuable
+timing indicators, but provide opposite forecasts. Large speculator sentiment is found
+to be a price-continuation indicator and large hedger sentiment, a contrarian indicator.
+(No surprise here.) Wang employs various trading strategies to test forecasting ability.
+Of all the trading strategies tests, simultaneously buying extremely bullish speculator
+sentiment (above 80 percent) and selling extremely bearish hedger sentiment (below
+20 percent) provides the most reliable forecasts, when compared to other alternatives.
+Wang tests these signals over various fixed holding periods, between January 1993 and
+March 2000, yielding the results listed in Figure 8.2.
+His findings indicate that small trader sentiment has no value for forecasting. Further, the evidence that large commercial sentiment effectively forecasts price reversals is consistent with the hedging-pressure theory that hedgers are willing to pay risk
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+19:50
+
+Char Count=
+
+90
+
+COT THEORY
+
+TABLE 8.2 Annualized Returns for Six Commodity Markets
+for Various Holding Periods (Wang 2001)
+Holding Period (Weeks)
+
+Annualized Return
+
+2
+4
+6
+8
+
+18.9%
+43.8%
+31.9%
+24.6%
+
+premiums to speculators in order to transfer nonmarketable risks. Thus, hedgingpressure effects explain the return predictability in these agricultural futures markets.
+Moreover, the hedging-pressure effects tend to last for up to eight weeks following the
+commercial extreme.
+Further examination is conducted to see whether large speculators consistently
+earned more than what hedgers paid. Wang concludes that large speculators do not possess any superior forecasting skills. (This does not, however, diminish their usefulness
+in forecasting price trend changes.)
+
+THE BEHAVIOR AND PERFORMANCE OF MAJOR TYPES
+OF FUTURES TRADERS
+In The Behavior and Performance of Major Types of Futures Traders (2003), the followup to his 2001 study, Wang examines 15 futures markets. Instead of using the COT Index in this study, he constructs a signal generator more akin to the COT Movement
+Index. (He also attempts to correlate trader actions to various other information including other sentiment and fundamental indicators. These are both irrelevant to our
+interests and show negligible results.) Wang’s new trading rule is this: One futures contract is bought (sold) and held for one month if changes in net positions in the market are positive (negative) and large. He defines “large” as one standard deviation away
+from the average change in net positions for a trader type, over a three-year moving
+window prior to the current month. The results of this trading rule test are shown
+in Table 8.3.
+TABLE 8.3 Annualized Returns for 15 Markets (Wang
+2003)
+Sector
+
+Speculator
+
+Hedger
+
+Financial
+Agricultural
+Commodity
+Currency
+
+14.64%
+90.57%
+−82.08%
+69.18%
+
+−9.35%
+−71.59%
+141.28%
+57.80%
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+View from the Gallery
+
+19:50
+
+Char Count=
+
+91
+
+Despite looking for buying or selling surges, instead of climaxes, Wang’s conclusions
+are similar to his earlier study:
+We also find that speculators generally outperform hedgers. A trading strategy following large changes in speculator positions and/or contrary to large changes
+in hedger positions is significantly profitable in most agricultural, commodity,
+and currency futures markets. However, the superior performance seems to result
+from hedging pressure effects rather than superior timing ability possessed by
+speculators. The prevalence of hedging pressure effects in U.S. futures markets is
+consistent.
+A couple of interesting observations are made. One, Wang finds that both large trader
+groups are more predictive of selling than buying opportunities. And secondly, that combining the signals of the two larger trader groups (looking for joint signals) provides
+more reliable forecasts than either group does on its own. Average annualized holding
+period returns were positive for the agricultural portfolio for holding periods of up to
+eight weeks following signal generation (Table 8.3).
+Figure 8.1 illustrates that this methodology creates buy and sell signals very similar to our Movement Index ±40 point surge signals. (Movement Indexes are gray background, and the black histogram bars indicate signals.) The two methods generate a high
+percentage of simultaneous signals, but Wang’s algorithm is generally more active. This
+difference may be attributable in part to his shorter look-back period—four weeks, versus six weeks for the Movement Index.
+I have to take exception with one conclusion that is contrary to every other study
+listed, including Wang 2001. In Wang’s introduction to the 2003 study, he states in part:
+“Speculators are contrarians, but respond positively to market sentiment. In contrast,
+hedgers engage in positive feedback [momentum] trading and trade against market
+sentiment.”
+If you think the statement itself seems contradictory, we are on the same track. Momentum trading is the dominant strategy of large speculators, which is self-evident on
+any futures net position chart. Figure 8.2 illustrates negative feedback (counter-trend)
+trading that is typical of commercial net position patterns.
+This may seem a small discrepancy, but it leads Wang down the wrong track. Buying
+when commercials begin to buy and selling when they begin to sell generates negative
+results. Wang’s trading rule testing (Table 8.2) confirms this inverse relationship. For
+positive trading results, you must generally do just the opposite of commercials: Buy
+when they begin to sell, and sell when they begin to buy. While Wang admits this, his
+earlier error leads to a logical but unsubstantiated assertion:
+The positive feedback trading by hedgers [false] together with their negative performance [true] suggests that hedgers have a destabilizing impact on futures prices
+[probably false].
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+92
+
+19:50
+
+Char Count=
+
+COT THEORY
+
+FIGURE 8.1 Wang’s 1 Standard Deviation Net Position Breakouts Are Similar to the COT Movement Index Signals
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+19:50
+
+Char Count=
+
+View from the Gallery
+
+93
+
+FIGURE 8.2 The Commercial Net Position Is a Mirror Image of Price Movement
+
+It seems likely that Wang’s demonstrably backward representation of large traders’
+approaches is the result of sampling the data at four-week intervals, instead of the oneweek intervals available. (He does use weekly signals in testing his trading rule.) Feedback is extremely sensitive to frequency.1 I just have to believe Wang is on the wrong
+frequency here. In fact, he noted as much in his conclusion:
+Analyses of intramonth [sic] trading behavior, however, reveal that speculators
+buy (sell) when the returns in the same month are higher (lower), whereas the
+opposite is true for hedgers. This suggests that speculators tend to herd and their
+herding likely impacts futures prices.
+
+EXCHANGE RATE CHANGES AND NET POSITIONS OF
+SPECULATORS IN THE FUTURES MARKET
+In Exchange Rate Changes and Net Positions of Speculators in the Futures Market (2004), Klitgaard and Weir are interested in the relationship of large speculator
+1
+“[A]s soon as one starts aggregating the data, possibly even at the one minute frequency, the
+problem of ‘contemporaneous feedback trading’ may appear, with serious repercussions when
+trying to infer the informativeness of trades. Feedback trading, whereby traders react to previous
+asset price returns, will appear contemporaneous when aggregated at lower, although also possibly
+high, frequencies” (Danielsson and Love 2004, 36).
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+19:50
+
+Char Count=
+
+94
+
+COT THEORY
+
+transactions in futures markets compared to the respective short-term exchange rate
+movements. Although they observe no obvious pattern when comparing net positions
+against exchange rate levels, “a fairly clear relationship emerges when looking at changes
+in the two variables.” Their approach is to perform correlation and regression analysis
+on week-to-week movement in large speculator net positions against the weekly change
+in the respective exchange rate for the period 1993 to 2003 (study periods for the peso,
+euro, and mark are as available).
+The correlation study finds that large speculator movements track exchange
+rate direction in about 75 percent of weeks, and regression analysis detects that
+changes in net positions capture 30 to 45 percent of contemporaneous exchange rate
+movements.
+Notably, however, they find that net positions are not useful in predicting exchange
+rates for the following week, which is unfortunate given the remarkable consistency
+shown by the correlations. But perhaps they are not looking hard enough. Their test
+is based on a one-week holding period, which confirms the findings of Wang (2003) that
+holding periods of less than four weeks show no profits (a study that Klitgaard and Weir
+list among their references and note in their report). When Wang tests longer holding
+periods, the results are positive out to eight weeks. The failure to test longer holding
+periods is a strange omission for Klitgaard and Weir.
+We will revisit this study in the currency chapter in Part II of this book, because
+Klitgaard and Weir make some keen observations on the relationship of IMM speculators
+to the general population of FOREX traders that bear on the uncanny ability of IMM
+currency traders, through the COT report, to forecast exchange rate moves.
+
+THE PROFITABILITY OF SPECULATORS IN CURRENCY
+FUTURES MARKETS
+In The Profitability of Speculators in Currency Futures Markets (2004), Kearns and
+Manners use much the same data as Klitgaard and Weir (above), substituting the
+Australian dollar for the Mexican peso. Unlike the former study, Kearns and Manners
+set out directly to determine the profitability of large traders in these seven futures
+markets.
+They find evidence that large speculators earn positive returns in an impressive 60
+percent of weeks, and that profits are significant even after accounting for transactions
+costs. For commercial traders, they find negative returns.
+Profitability is calculated for each currency and is estimated as the change in the
+value of the group’s futures portfolio plus or minus the amount of money that the group
+withdraws from or injects into their holdings of that futures contract. That is, weekly
+profits equal the value of the contracts held by that group at the end of the week, less
+the value of the contracts they held at the end of the prior week, plus or minus the
+value of the contracts closed out during the current week. Their estimates assume that
+
+c08
+
+JWBK143-Briese
+
+February 27, 2008
+
+19:50
+
+Char Count=
+
+95
+
+View from the Gallery
+
+TABLE 8.4 Large Speculator Weekly Proﬁt Statistics (US$ Millions)
+Currency
+
+Australian dollar
+British pound
+Canadian dollar
+Euro
+German mark
+Japanese yen
+Swiss franc
+Total
+
+Average Proﬁt
+
+Standard Deviation
+
+No. of Weeks
+
+% of Weeks Proﬁtable
+
+$0.45
+$0.05
+$0.62
+$4.97
+$3.63
+$5.42
+$1.85
+$12.72
+
+$4.64
+$12.17
+$7.18
+$25.26
+$23.43
+$38.17
+$19.20
+$63.68
+
+492
+528
+528
+215
+340
+528
+528
+528
+
+52
+50
+52
+57
+57
+59
+53
+60
+
+transactions are made in proportion to daily volume and at the average daily price. One
+reassuring note from this study:
+What we can conclude is that relative to the market as a whole, speculators are
+positive feedback traders. We take this as evidence that speculators most probably
+use trend-following trading rules.
+During this period Kearns and Manners estimate that speculative gross profits (approximately $12.7 million per week across all markets) are substantially larger than commercial profits (approximately negative $20.84 million). Incorporating transaction costs
+produces a net average weekly profit, across all six currencies, of $7.8 to $10.4 million
+dependent on the transaction cost assumption used. Gross profits are detailed in Table
+8.4. The standard deviations (a measure of how much profits varied around the average) show a huge week-to-week variability in returns. Although the number of individual
+weeks that are profitable average well below 60 percent in individual markets, when the
+weekly returns for all currencies were combined, 60 percent of weeks are estimated to be
+profitable for this 10-year period. This suggests the potential of a smoother equity curve
+through trading a portfolio of currencies.
+
+SUMMARY
+We have looked at 11 studies spanning 50 years. While this list is not exhaustive, it is,
+I think, comprehensive in its representation of the literature (and probably exhausting to some casual readers of this book). The weight of the academic evidence seems
+fairly conclusive that large speculators are positive-feedback (momentum) traders, while
+commercials are negative-feedback. This supports the general conclusion that hedgers
+tend to lose money, while large speculators show net profits from futures trading. Most
+of these profits are attributed to simple insurance premiums transferred from commercial hedgers to speculators. It is assumed that for commercials, hedging is a cost
+
+c08
+
+JWBK143-Briese
+
+96
+
+February 27, 2008
+
+19:50
+
+Char Count=
+
+COT THEORY
+
+of doing business, for which they compensate through profits in their corresponding
+cash business.
+Most interesting to us, Wang finds that trading rules based on both extreme trader
+positions (COT Index) and trading surges (similar to the Movement Index) produce profitable and substantial returns for holding periods out to eight weeks. The results are
+promising enough to devote the next chapter to attempting to create a profitable rule set
+using more accurate data than was available to Wang.
+
+c09
+
+JWBK143-Briese
+
+February 19, 2008
+
+13:27
+
+Char Count=
+
+CHAPTER 9
+
+View from
+the Pits
+
+In theory, there is no difference between theory and practice. But in
+practice, there is.
+—Attributed to Yogi Berra
+
+T
+
+he last chapter contained persuasive evidence that commercials lose money in futures trading in order to transfer risk to large speculators, who, in turn, show positive futures trading returns. There also was evidence that riding the coattails of
+large traders can be profitable. The majority of the studies summarized in Chapter 8 are
+based on less than optimal data, particularly the Commitments data. Appendix B details the potential data problems. For this chapter, I conduct a test on a very simplified
+set of trading rules, with signals generated solely from the Commitments of Traders
+report. The data for this test is the Options and Futures Combined series, which I collected from the CFTC website (www.cftc.gov) on a contemporaneous basis, recording
+the actual release date in the data base. The data as distributed is nominally composed
+of weekly data points, dated to the day the report was tabulated (usually, but not always,
+Tuesday). While this data may be appropriate for the academic studies described in the
+last chapter, it is not quite so suitable for our purposes.
+The authors of studies highlighted in Chapter 8 were concerned almost exclusively
+with the profitability of a reported trader group. As long as they used Tuesday prices (or
+an average weekly price), they could determine the weekly change in net positions and
+then correspond these to an appropriate price basis. In creating trading rules under realistic real-world trading conditions, we cannot consider the COT data signals until after
+the data release, which is not until 3 to 10 or more days following the actual compilation.
+In the real world, you cannot peek ahead to tomorrow’s newspaper in making today’s
+trades.
+
+97
+
+c09
+
+JWBK143-Briese
+
+February 19, 2008
+
+98
+
+13:27
+
+Char Count=
+
+COT THEORY
+
+THE STUDY DATA
+The study in this chapter covers a period of approximately seven years, beginning in
+2000. Until October 2000, the CFTC released two weekly reports on alternating weeks
+(unless a holiday interfered with either the previous week’s compilation or the current
+week’s release). Since the Options and Futures report was posted on Monday, it was
+unavailable until either one or two weeks after the compilation date. From October 2000
+to January 2002, weekly reports were released each Monday (again with exceptions due
+to holidays as well as occasional CFTC technical problems). From January 2002, the
+reports were nominally released on Friday afternoon at 3:30 prevailing Eastern Time,
+concurrent with the Futures Only report.
+Fortunately for this study, I have the advantage of not needing to estimate the data
+lag because I personally collected every Commitments report issued in the past 20 years,
+and made note of the actual release date in the data base. For this study, I convert the
+weekly COT data to daily frequency, aligning the Commitments data to the closing price
+on the day of the actual COT release. All entries and exits are based on the open price on
+the first trading day following the COT data release. No allowance is made for slippage
+and commission, but the number of trades is shown, so that you may draw your own
+conclusions.
+Futures contracts have limited life spans, and usually spend no more than one to
+three months as the most active or “front-month” contract. For our purposes, I assume
+trading in the most active contract. Daily price files are constructed using the backadjusted method, whereby each contract is succeeded when its activity (volume and
+open interest) recedes below that of a more distant delivery. At the time of rollover, an
+adjustment is made for the difference in price between the new and old deliveries. The
+entire back history of prices is adjusted to this difference so that the day-to-day price
+movement always reflects the range of the most active contract, with no gaps between
+contracts.
+This is the preferred method of constructing continuous data series for most types
+of system tests. It eliminates the effects of roll profit or loss, which should be considered separately based on the holding period. For this study, my interest was purely price
+movement relative to COT signal generation, and no cost or benefit of roll was considered. Historical price levels will be shown relative to the current front-month contract,
+not the actual price level that traded at the time, so you need to ensure that trading signal
+components used are not price-level sensitive. This backward adjusting can sometimes
+result in creating negative historical prices. In this case, the entire data base is raised by
+the amount necessary to ensure a data series of positive numbers.
+
+THE TRADING RULES
+There have been a number of COT trading rules proposed in magazine articles, books,
+and on the Internet over the years. (You will find several sources listed in the Reference
+
+c09
+
+JWBK143-Briese
+
+February 19, 2008
+
+13:27
+
+Char Count=
+
+View from the Pits
+
+99
+
+section at the back of this book.) Most of these systems rely on a number of inputs,
+and therefore are only partially derived from the Commitments data. (Not that there is
+anything wrong with this.) Many of these systems appear to be highly optimized, using
+different rules for different markets. They also appear to suffer from erroneous assumptions about the COT data availability (see Appendix B). For my narrow purpose of investigating the Commitments report, I want to see if a simple set of trading rules, derived
+exclusively from the COT, can generate profitable historical results (hypothetically).
+From the academic studies it is pretty clear that profitable trading rules may result either from following large speculators, or fading (trading opposite of) large commercials.
+Charts in earlier chapters show that the large speculator net positions typically mirror
+the commercials’. While either could be used, the most intuitive approach is to buy and
+sell with the funds. This trading model is intentionally bare-bones in order to make the
+concepts easy to follow, and to demonstrate that you do not need to be a statistician or
+mathematician to derive timing signals from the Commitments data.
+The earliest computer trading systems, introduced by Richard Donchian, employed
+two moving averages, so I start there (Commodities 1974). The simple two moving average crossover signal is about as basic as you can get. Instead of using prices, however, I
+create two moving averages of the large speculator COT Index. For precision, I am using
+daily data points, although the COT data changes only on a weekly basis. The moving
+average does a nice job of smoothing out the stair-step form that the net position line
+traces out when it is “stretched” onto a daily bar chart (Figure 9.1).
+
+FIGURE 9.1 A Two–Moving Average Crossover System Applied to the Fund COT Index
+
+c09
+
+JWBK143-Briese
+
+February 19, 2008
+
+13:27
+
+Char Count=
+
+100
+
+COT THEORY
+
+Fund buying is indicated by the faster (shorter look-back) moving average rising
+through the slower (longer look-back) average from below. These are marked as Buy
+signals on Figure 9.1. To signal fund selling, the faster-moving average falls through the
+slower average from above (marked “Sell”). The lengths of the moving averages used are
+shown in Table 9.1. These are the only system variables.
+The trading rules:
+1. Cover short and buy long on the open of the day following the faster COT moving
+
+average rising above the slower moving average from below.
+2. Cover long and sell short on the open of the day following the faster-moving average
+
+dropping beneath the slower-moving average from above.
+3. The model is always in the market, with no stop loss.
+
+TRADING RULES TEST RESULTS
+Although such a simple set of trading rules might not be very effective if applied to price,
+hypothetical performance is quite impressive when applied to the Commitments data.
+This is in accord with the predictive nature of the COT data found in several studies summarized in the previous chapter. I tested 35 markets; all show positive returns (before
+trading costs). The results for the best-performing pair of moving averages are shown for
+each market in Table 9.1 (nothing but the best for my readers). The results are based
+on trading a single contract of each future. No provision is included for trading costs or
+slippage. This testing procedure is not intended to be exhaustive. These rules are not intended for actual trading. No provision for a stop loss has been made, nor have the results
+been subjected to statistical verification. I suspect, although I did not test for this, that
+draw-downs from such a simplified rule set would be excessive. This system would need
+considerable additional work before it would be suitable for actual trading. You should
+carefully read the CFTC required warning about hypothetical trading in the footnote.

@@ -1,0 +1,498 @@
+
+46
+
+c02.indd 46
+
+1/13/09 9:56:22 AM
+
+Chapter Summary
+
+time.When implemented, this creates a situation where any exchange
+rate movement will not affect the profit/loss picture, since one side
+of the hedge profits as the other side loses by an equal amount.
+After this discussion on basic foreign exchange trading mechanics, the next logical step is to explore the features and functionalities of a currency trading platform. This can be accomplished at no
+cost simply by signing up for a free demo practice account with any
+reputable online forex broker. The best part about this is that a forex
+trader can test-drive a trading platform in an extremely thorough
+manner, secure in the knowledge that all losses in a practice account
+are not only free-of-charge, but also highly educational.
+
+47
+
+c02.indd 47
+
+1/13/09 9:56:22 AM
+
+c02.indd 48
+
+1/13/09 9:56:22 AM
+
+CHAPTER 3
+
+Technical Analysis—
+Tools for Trading
+Foreign Exchange
+
+After reading this chapter, you will be
+able to:
+●
+
+Apply the primary tools used by technical traders to
+analyze the foreign exchange markets.
+
+●
+
+Understand the purposes and mechanics of the most
+important functional elements of currency charts.
+
+●
+
+Delve into the most practical aspects of technical analysis, including pattern recognition, drawing trendlines,
+and identifying support and resistance.
+
+49
+
+c03.indd 49
+
+1/13/09 9:59:02 AM
+
+Te c h n i c a l A n a l y s i s
+
+I ntroduction to Technical Analysis —
+Interpreting Price Action
+Technical analysis is the most popular discipline, or school of financial analysis, for trading the foreign exchange markets. Simply put,
+technical analysis is often defined as the systematic study of price
+action, which is ultimately derived from the effects of mass market
+behavior.
+While fundamental analysis may concern itself with the myriad reasons why price moves, technical analysis is single-mindedly
+focused on how price moves, and the ways in which that might affect
+future price movement. Technical analysis consists of a broad methodology through which traders can make all of their most important
+trading decisions. This includes entries, exits, stop-loss placement,
+profit target placement, trade-sizing, risk management, and more.
+The primary toolbox used by foreign exchange technical analysts in analyzing and interpreting price action is the versatile currency chart. As we shall soon see, there are several styles of these
+toolboxes, including bar charts, candlestick charts, and point & figure charts.
+Furthermore, within each of these toolboxes is quite a diverse set
+of tools. These tools can range anywhere from a simple trendline to
+an elaborate chart pattern to a mathematically derived oscillator to a
+complex algorithmic trading system. For the purposes of this book,
+however, we will stick to the essentials.
+When a beginner is first introduced to using technical analysis for analyzing and trading the foreign exchange markets, there
+are invariably several buzzwords and phrases that are heard most
+
+50
+
+c03.indd 50
+
+1/13/09 9:59:02 AM
+
+I n t r o d u c t i o n t o Te c h n i c a l A n a l y s i s
+
+frequently. These include such common terms as trend, support/
+resistance, moving averages, head-and-shoulders pattern, Fibonacci,
+Elliott Wave, and so on. All of these terms, and much more, will be
+addressed further on in this chapter.
+In the actual practice of technical analysis, however, generally it
+is better to keep all of these countless chart elements to a manageable minimum in order to avoid the very common beginner’s epidemic of “paralysis by analysis.” This is where traders clutter their
+charts with so many lines and indicators that they become utterly
+unable to conduct any useful analysis or to act on any bonafide signals from their charts. In the world of technical analysis, too much
+of a good thing is just as bad as the opposite extreme of not enough.
+To avoid paralysis by analysis, traders should ideally master
+a handful of chart elements and become an expert on how price
+reacts to these elements. For example, a trader may study in-depth
+how a certain currency pair reacts over time in relation to the outer
+bands of the popular Bollinger Bands indicator. Or another trader
+may wish to become an expert on price behavior around the key
+Fibonacci retracement levels.Yet another trader may choose to work
+exclusively with trendlines, trading bounces and breakouts of these
+dynamic support/resistance levels. There is virtually no end to how
+a technical analyst may specialize to become a master of one (or a
+few), rather than an unfocused Jack of all Trades.
+The primary advantages of technical analysis for the foreign
+exchange trader are manifold. This includes the exceptionally precise trade entries and exits afforded by chart analysis, sensible risk
+management through the use of technically derived stop levels, the
+ability to backtest technical strategies using past price action, and
+
+51
+
+c03.indd 51
+
+1/13/09 9:59:03 AM
+
+Te c h n i c a l A n a l y s i s
+
+the unambiguous, rule-based nature of many technical trading
+systems. These concepts will all be covered in this chapter and in
+Chapter 5, which covers trading methods and strategies.
+While technical analysis can be a powerful method for analyzing foreign exchange price movement, it can also be both timeconsuming and incredibly frustrating. This is often the case when
+indicators or lines that traders rely upon to provide them with profitable trading signals give false signals, conflicting signals, or just
+plain don’t work. But this should not be a valid reason to abandon
+the entire discipline of technical analysis altogether. As alluded to
+previously, there is no lack of foreign exchange traders who, through
+untiring study and experience, have managed to build successful
+trading careers from specializing in just a handful of technical methods that work well for them.
+Therefore, patience and the careful study of technical tools and
+methods clearly comprise the path to mastery of technical analysis.
+In turn, the mastery of technical analysis may well provide the road
+to consistent profitability in the foreign exchange markets.
+
+B asics of Bars and Candlesticks
+Bars and candlesticks are the primary building blocks of technical analysis charting. There are several other methods of depicting
+price action visually in the foreign exchange markets, including
+older techniques that enjoy significant followings like point & figure
+charts (which will be touched on later in this chapter), but bars and
+candlesticks have assumed their vital roles as the main workhorses of
+present-day technical analysis.
+
+52
+
+c03.indd 52
+
+1/13/09 9:59:03 AM
+
+Basics of Bars and Candlesticks
+
+Bar charts and candlestick charts share close similarities in that
+they both represent the most salient data points available in price
+action analysis. Within a given time period, this includes the open
+price, the high price, the low price, and the close price. For example, a daily chart, where each bar or candlestick represents one full
+trading day, will depict the price levels at which a given day opened
+and closed, as well as the high and low that were reached during
+that day. In the foreign exchange markets, incidentally, a trading day
+would consist of a full 24 hours. Exhibit 3.1 shows an example of
+both a bar and a candlestick.
+As shown in Exhibit 3.1, a bar opens at the level of the left horizontal arm and closes at the level of the right horizontal arm. The
+top of the vertical bar represents that period’s high, while the bottom represents the low.
+In contrast, a candlestick places much heavier emphasis on the
+open and close of a particular period by making the space between
+EXHIBIT 3.1
+
+Bar and Candlestick Diagram
+Highest price during time period
+Period close price (on bar right)
+Bar
+Period open price (on bar left)
+Lowest price during time period
+
+Candlestick
+
+Highest price during time period
+Period open or close price
+Real body is white (or green) if
+currency closed higher and black
+(or red) if it closed lower
+Period open or close price
+Lowest price during time period
+
+53
+
+c03.indd 53
+
+1/13/09 9:59:03 AM
+
+Te c h n i c a l A n a l y s i s
+
+the open and close exceptionally prominent. This space is called the
+“real body.” The vertical lines above and below are called “shadows”
+or “wicks.” If the real body is white (or green), it means that it was a
+bullish candle, and that price opened at the bottom of the real body
+and closed at the top of the real body. If, on the other hand, the real
+EXECUTIVE INSIGHT
+
+Steve Nison
+The most authoritative voice on the subject of candlesticks would
+certainly be Steve Nison, CMT. But besides having introduced the
+entire concept of Japanese candlesticks to the English-speaking
+world, Nison has also been a renowned expert on Western-style
+technical analysis for over three decades. Therefore, he brings
+a unique perspective that straddles both Eastern and Western
+methods of charting. Widely quoted in the major financial press
+as one of the world’s foremost technical analysts, Nison authored
+the definitive book on the subject of candlesticks, Japanese
+Candlestick Charting Techniques, and is the founder and President
+of CandleCharts.com.
+Nison states:
+“Warren Buffett said he would be a bum in the street with
+a tin cup if the markets were always efficient. And why
+aren’t the markets efficient? It’s because of human emotions such as fear, greed, and hope. And the only way to
+gauge the emotional and psychological aspects of market
+participants is technical analysis. Bernard Baruch, one
+of most famous economists of the 20th century stated,
+‘It’s not the news itself, but it is the market’s reaction to
+the news that’s important.’ And for those who watch the
+forex market we know that many times an ounce of emotion can be worth a pound of facts.
+
+54
+
+c03.indd 54
+
+1/13/09 9:59:03 AM
+
+Basics of Bars and Candlesticks
+
+EXECUTIVE INSIGHT (CONTINUED)
+The reason I’m spending time on the importance of
+market psychology is that the candlesticks—which I refer
+to as candles—is one of the best methods to get a quick
+visual grasp of who’s winning in the ongoing battle of the
+bulls versus the bears. While very easy to construct,
+the candles provide an x-ray into the supply/demand
+situation. As the Japanese proverb states, ‘Look at the
+outside and know the inside.’ Think about the candle
+line. A tall white real body means the bulls are in charge
+during that session—whether it’s an intraday, daily,
+or weekly. A long black real body hints the bears are in
+force. A doji (where the open and close are the same)
+clearly reflects a market in balance between the bulls and
+bears. And if a doji emerges during a rally, it increases
+the chances of a turn. A hammer, with its extended long
+lower shadow, is visually proving the market is rejecting lower levels. So on this one session it means that
+the bears are getting less confident because the market
+can’t hold the lows into the close, while the bulls are getting more optimistic. In essence, the candlestick line is
+drawn based on the psychological underpinning of current
+market activity. And by reading the candles correctly you
+are reading the market’s message.
+As the author mentions in this chapter, I recommend using candles as just one of the tools in a trading
+arsenal. However, after you gain the knowledge of how
+to correctly and fully harness the insight of the candles
+you’ll find that they will become one of your most important tools. At my live seminars, where I have taught thousands of retail and institutional traders, I often ask at the
+conclusion, ‘Who would ever go back to a bar chart?’ No
+one has ever raised a hand.”
+
+55
+
+c03.indd 55
+
+1/13/09 9:59:04 AM
+
+Te c h n i c a l A n a l y s i s
+
+body is black (or red), it means that it was a bearish candle, and that
+price opened at the top of the real body and closed at the bottom of
+the real body.
+In both the U.S. equities and futures markets, bar charts have
+traditionally been the primary mode of representing price action
+for technical analysis purposes. Only in the past decade or so have
+candlestick charts come into popular usage in the Western world,
+largely through the efforts of Steve Nison, who introduced this
+ancient charting method to America from its humble rice-trading
+roots in Japan.
+The main difference between bars and candlesticks lies in their
+differing visual portrayals of identical price data points. Therefore,
+although both charting methodologies utilize the same data, which
+includes the open, high, low, and close price of a given time period,
+the manner in which this information is represented differs significantly between the two.While bars may reveal all of the usual support/
+resistance indications and chart patterns that Western technical analysts
+normally look for, candlesticks go a step further by including all of this
+relevant information plus providing a unique visual interpretation of
+the struggle between bulls (buyers) and bears (sellers).
+Furthermore, while there are numerous popular chart patterns
+that are commonly associated with bar charts (e.g., head-and-shoulder,
+double tops, triangles, flags, and pennants, among many others), candlestick charts include all of these formations, plus incorporate an
+additional library of imaginatively named chart patterns like “morning star,” “hammer,” and “hanging man,” among many others. All of
+these patterns for both bar and candlestick charts will be explained
+later in this chapter.
+
+56
+
+c03.indd 56
+
+1/13/09 9:59:04 AM
+
+Keeping Time with Char t Timeframes
+
+K eeping Time with Chart Timeframes
+While the structures of bars and candlesticks are relatively straightforward, these stick shapes would mean very little from an analytical
+perspective without the vital element of time. On both bar and candlestick charts, the vertical y-axis represents the price of one currency
+in a pair against the other, while the horizontal x-axis represents time
+moving forward from left to right. This is illustrated in Exhibit 3.2.
+Point & figure (p&f ) charts are the notable exception to this prevailing axis structure, as they do not include the time element. But
+these unique p&f charts will be touched upon in more detail later
+on in this chapter.
+EXHIBIT 3.2
+
+Chart with Labeled x-axis and y-axis
+
+Source: FX Solutions – FX AccuCharts
+
+57
+
+c03.indd 57
+
+1/13/09 9:59:04 AM
+
+Te c h n i c a l A n a l y s i s
+
+Most charting software allows traders to choose from a wide
+variety of timeframes for bar and candlestick charts. This choice
+is critical for numerous reasons. Most importantly, it dictates how
+much time is contained in each bar or candlestick. For example,
+in a daily chart, each bar has a duration of exactly one day, or 24
+hours. A five-minute candlestick, on the other hand, has a duration
+of exactly five minutes. It is crucial for traders to know exactly what
+timeframe is being viewed at all times, as there are differing strategies for long-term, medium-term, and short-term trading.
+Another reason that the timeframe holds so much importance is
+that it determines how much price action can practically be viewed
+at one time. Longer-term charts like daily, weekly, and monthly
+timeframes can comfortably include price action visuals going back
+many years or decades. Displaying price action spanning more than
+a few days for one- or five-minute charts, on the other hand, would
+quickly become unwieldy.
+Yet another reason timeframes are so critical lies in the very
+nature of technical analysis itself. It is certainly true that chart patterns are generally fractal, which means that these patterns can be
+found on all chart timeframes. But from a practical trading perspective, trends and patterns are usually much more reliable on longerterm charts like daily and higher, rather than shorter-term charts
+like the intraday hourly and minute charts. This is partly due to the
+fact that directionless volatility, or noise, that usually defies all technical analysis efforts, is much more prevalent on shorter-term charts.
+Chart timeframes should therefore be chosen with a great deal
+of care. Of course, many traders choose to view and analyze multiple
+
+58
+
+c03.indd 58
+
+1/13/09 9:59:05 AM
+
+Support for Resistance (and Support)
+
+timeframes simultaneously in order to identify trend confirmations
+and/or conflicts. This type of trading approach will be discussed in
+Chapter 5, which covers trading methods and strategies.
+Popular timeframes used by foreign exchange traders include
+(in ascending order of duration): 1-minute, 5-minute, 10-minute,
+15-minute, 30-minute, 1-hour, 2-hour, 3-hour, 4-hour, 12-hour, daily,
+weekly, and monthly. There are also multitick timeframes, where
+each bar or candlestick contains a certain number of ticks (minimum incremental movements in price), but these are not nearly as
+popular as the abovementioned standard duration timeframes.
+
+S uppor t for Resistance (and Support)
+Now that basic chart structure has been established, the real “meat
+and potatoes” of technical analysis can be discussed, and there is no
+better place to begin than with support and resistance. Besides the
+notion of trend, which will be discussed in the next section,
+the twin concepts of support and resistance are at the core of technical analysis. Their explanation is rather simple, yet their significance is far-reaching.
+Support and resistance are two parts of one whole. They can
+also be considered polar opposites. Support is simply defined as the
+recurring upward price “pressure” found at relatively lower prices,
+while resistance is the recurring downward price “pressure” found at
+relatively higher prices. These upward and downward pressures have
+a number of hypothetical causes, many of which are purported to
+relate closely with mass trader psychology.
+
+59
+
+c03.indd 59
+
+1/13/09 9:59:05 AM
+
+Te c h n i c a l A n a l y s i s
+
+Without delving into the theoretical underpinnings of the collective trader psyche, however, the concepts of support and resistance are often considered simply to stem from market participants’
+price memory, among other factors. This idea will be explored
+briefly here.
+From a price memory perspective, sustainable support and resistance levels will occur because traders remember specific price levels, and will base their trading decisions on whether they consider
+these levels as relatively high or relatively low. The most basic tendency is for traders to buy at price levels they consider relatively
+low (support) and to sell at price levels they consider relatively high
+(resistance).
+When a majority of traders collectively believe that a certain
+price level or region is relatively low, buying pressure will often result
+and the price should generally go up, thereby creating a “bounce up
+off support.” Conversely, when a majority of traders believe that a
+certain price level or region is relatively high, selling pressure will
+often result and the price should generally go down, thereby creating
+a “bounce down off resistance.”
+For an example of resistance, if the price region surrounding
+1.6000 on the EUR/USD is considered collectively by traders to
+be relatively high (which, as of this writing, is the case), traders
+without positions in the market may wish to sell short the pair if
+this level is reached, with the intention to profit by buying back
+(or covering) later at a lower price. By the same token, traders with
+existing long positions in the pair may also wish to sell at this level,
+effectively closing their positions and taking their profits. All of
+this selling activity places downward pressure at this 1.6000 level,
+
+60
+
+c03.indd 60
+
+1/13/09 9:59:05 AM
+
+Support for Resistance (and Support)
+
+thereby creating significant resistance in the form of a “ceiling” on
+price action. The expectation, then, is that when price reaches a
+significant resistance level, it will turn and go back down at that
+level.
+If, on the other hand, the price region surrounding 95.00 on the
+USD/JPY is considered collectively by traders to be relatively low,
+traders without positions in the market may wish to buy the pair
+if this level is reached, with the intention to profit by selling their
+positions later at a higher price. And traders with existing short positions in the pair may also wish to buy back (or cover) at this level,
+effectively closing their positions and taking their profits. All of this
+buying activity places upward pressure at this 95.00 level, thereby
+creating significant support in the form of a “floor” on price action.
+The expectation, then, is that when price reaches a significant support level, it will turn and go back up at that level.
+Sideways price action between both a support floor and a resistance ceiling is called a trading range, as displayed in Exhibit 3.3.
+These occur quite often in the foreign exchange markets. Many
+currency traders exploit breakouts or breakdowns of low volatility
+trading ranges as one of their primary trade entry tactics. This will
+be discussed further in Chapter 5, which covers trading methods
+and strategies.
+The simple fact that support and resistance levels are often
+respected by price numerous times before ultimately being broken
+is, in itself, a remarkable phenomenon that can contribute a great
+deal to any foreign exchange trader’s strategy. Therefore, whenever
+price nears historically significant support or resistance levels, traders and analysts will invariably begin paying close attention to the
+
+61
+
+c03.indd 61
+
+1/13/09 9:59:05 AM
+
+Te c h n i c a l A n a l y s i s
+
+EXHIBIT 3.3
+
+Trading Range Support and Resistance
+
+Source: FX Solutions – FX AccuCharts
+
+action, waiting for the level in question either to be respected or
+broken. These traders and analysts will then act accordingly.
+Another important aspect of traders’ collective price memory as
+it relates to the concept of support and resistance lies in the extraordinary tendency for a support/resistance level to transform into the
+opposite, once broken. For example, when price breaks out above a
+previous resistance level, technical analysts and traders would then
+consider that broken resistance level as a new support level. By the
+same token, when price breaks down below a previous support level,
+technical analysts and traders would then consider that broken support level as a new resistance level.
+
+62
+
+c03.indd 62
+
+1/13/09 9:59:05 AM
+
+Support for Resistance (and Support)
+
+The most plausible reason for this phenomenon, from a technical analysis perspective, is that once a currency pair breaks a
+support/resistance level in a convincing manner, traders begin to
+believe that the pair has reached a whole new plateau of price activity. Therefore, mass trader momentum will move away from the previous price level, towards equilibrium at this new norm. The border
+between the old plateau and the new one is the broken support/
+resistance zone, and it will therefore be expected to act as a future
+price barrier.
+For example, if the GBP/USD breaks out and remains above a
+highly significant resistance level that represents a multidecade high,
+say at 2.1160 (as of this writing), traders will begin to believe that
+the pair will continue to move within this new, higher plateau. This is
+because it would be such a technically rare feat to break this lofty level
+that price must be trending up with extremely strong momentum. So
+when the level is finally broken, if price ever subsequently went back
+down to revisit that broken resistance line around 2.1160, it would
+signal a relatively low price, and therefore a good place to buy at support. And when a lot of major market participants all decide to buy at
+support, it can be manifested in price action as a bounce up off support. This phenomenon can be seen in Exhibit 3.4.
+Of course, as with every aspect of technical analysis (or any other
+analysis, for that matter), this tendency does not always work out
+as expected. But the phenomenon is realized frequently enough in
+the foreign exchange markets to warrant serious consideration. The
+expectation that support becomes resistance, and resistance becomes
+support, is one of the central themes of the support/resistance concept, as well as of technical analysis as a whole.

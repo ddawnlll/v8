@@ -1,0 +1,1050 @@
+
+573
+
+Table 37.6
+Size Statistics
+
+Description
+
+Bull
+Market,
+Up
+Breakout
+
+Bear
+Market,
+Up
+Breakout
+
+Bull
+Market,
+Down
+Breakout
+
+Bear
+Market,
+Down
+Breakout
+
+Tall pattern performance
+
+66%
+
+35%a
+
+–14%
+
+–26%
+
+Short pattern performance
+
+34%
+
+19%a
+
+–14%
+
+–25%
+
+Median height as a percentage
+of breakout price
+
+10.89%
+
+11.76%
+
+11.53%
+
+13.88%
+
+Narrow pattern performance
+
+41%
+
+25%a
+
+–14%
+
+–25%
+
+Wide pattern performance
+
+51%
+
+a
+
+24%
+
+–15%
+
+–26%
+
+Median length
+
+65 days
+
+60 days
+
+64 days
+
+43 days
+
+Average formation length
+
+75 days
+
+77 days
+
+79 days
+
+58 days
+
+Short and narrow performance
+
+30%
+
+21%a
+
+–14%
+
+–25%
+
+Short and wide performance
+
+42%
+
+a
+
+16%a
+
+–14%a
+
+–25%a
+
+Tall and wide performance
+
+58%
+
+33%a
+
+–15%
+
+–27%
+
+a
+
+41%a
+
+–12%a
+
+–24%a
+
+Tall and narrow performance
+
+85%
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+Table 37.7
+Volume Statistics
+
+Description
+
+Bull
+Market,
+Up
+Breakout
+
+Bear
+Market,
+Up
+Breakout
+
+Bull
+Market,
+Down
+Breakout
+
+Bear
+Market,
+Down
+Breakout
+
+Rising volume trend performance
+
+64%
+
+38%a
+
+–19%a
+
+–23%a
+
+Falling volume trend performance
+
+38%
+
+21%
+
+–12%
+
+–26%
+
+U-shaped volume pattern
+performance
+
+43%
+
+28%a
+
+–13%
+
+–29%
+
+Dome-shaped volume pattern
+performance
+
+48%
+
+21%a
+
+–13%
+
+–18%
+
+52%a
+
+28%a
+
+–24%a
+
+–20%a
+
+Heavy breakout volume
+performance
+
+49%
+
+23%
+
+–14%
+
+–26%
+
+Light breakout volume
+performance
+
+36%a
+
+27%a
+
+–13%a
+
+–23%a
+
+Neither U-shaped nor domeshaped volume pattern
+performance
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+4366_37.qxd
+
+2/23/05
+
+574
+
+12:16 PM
+
+Page 574
+
+Rectangle Bottoms
+
+Volume trend. Most of the time, rectangles with a rising volume trend
+perform better than do those with a falling volume trend. The only exception
+comes from rectangles in a bear market with a downward breakout.
+Volume shapes. Rectangles with a random—neither U nor dome—volume shape performed best most of the time. The sample counts are very low
+so it might be best to ignore the results. If you do that, then the best performance comes from patterns having U-shaped volume. The exception is rectangles in bull markets with upward breakouts: They do best with dome-shaped
+volume.
+Breakout volume. Heavy breakout volume works best when the breakout is in the direction of the prevailing price trend—bull market, upward
+breakouts and bear market, downward breakouts. They perform better or substantially better than rectangles with breakout volume below the 30-day average. Countertrend RBs showed mixed results.
+Table 37.8 shows miscellaneous statistics for RBs.
+Partial rise or decline. If you are not familiar with a partial rise or
+decline, consult the figures and associated text in the Glossary and Methodology chapter. Partial rises and declines are reliable predictors of breakout direction. For example, an upward breakout follows a partial decline 81% of the
+Table 37.8
+Miscellaneous Statistics
+
+Description
+
+Bull
+Market,
+Up
+Breakout
+
+Partial decline correctly
+predicts upward breakout
+
+Bear
+Market,
+Up
+Breakout
+
+56/69 or 81%
+
+Bull
+Market,
+Down
+Breakout
+
+Bear
+Market,
+Down
+Breakout
+
+N/A
+
+N/A
+
+Partial rise correctly
+predicts downward breakout
+
+N/A
+
+N/A
+
+59/71 or 83%
+
+Partial decline, performance
+
+51%
+
+21%a
+
+N/A
+
+No partial decline, performance
+
+44%
+
+27%
+
+N/A
+
+N/A
+N/A
+a
+
+Partial rise, performance
+
+N/A
+
+N/A
+
+–16%
+
+–25%
+
+No partial rise, performance
+
+N/A
+
+N/A
+
+–14%
+
+–25%
+
+Pre-formation rise, performance
+
+35%a
+
+15%a
+
+–14%
+
+–24%
+
+No pre-formation rise,
+performance
+
+50%
+
+30%
+
+–15%
+
+–26%
+
+Pre-formation drop, performance
+
+62%
+
+20%a
+
+–16%a
+
+–30%a
+
+No pre-formation drop,
+performance
+
+38%
+
+25%
+
+–14%
+
+–24%
+
+Note: Minus sign means decline. N/A means not applicable.
+a
+
+Fewer than 30 samples.
+
+4366_37.qxd
+
+2/23/05
+
+12:16 PM
+
+Page 575
+
+575
+
+Statistics
+
+time. A downward breakout follows a partial rise 83% of the time. I did not
+split the numbers into bull or bear markets.
+When a partial decline occurs, does performance suffer? Yes and no.
+Using the top of the rectangle as the breakout price, the average rise in a bull
+market from rectangles showing partial declines is 51% compared to 44% for
+rectangles without partial declines. The results flip for rectangles in a bear
+market, perhaps due to the low sample count.
+Partial rises had the same effect on rectangles with downward breakouts,
+but the results were not as dramatic.
+Pre-formation rise or drop. Figure 37.4 shows a pre-formation rise, a
+brief spike or overshoot before the start of the rectangle. In all market conditions and breakout directions, rectangles performed better when a preformation rise was absent.
+Figure 37.1 shows a pre-formation drop, a brief dip before the rectangle.
+In most cases, rectangles with a pre-formation drop tended to perform better
+than did those without a pre-formation drop. The only exception was for rectangles in a bear market with an upward breakout.
+Do I think these results are meaningful? No. I cannot see the connection
+between a brief spike or decline before a rectangle begins to the postbreakout
+performance. While the results in Table 37.8 are interesting, they may have little trading application.
+
+Shelby Williams Industries, Inc. (Furn/Home Furnishings, NYSE, SY)
+– 16
+
+– 15
+
+Upward
+Breakout
+Target
+
+– 14
+
+Stock Bought
+
+Pre-Formation
+Rise
+
+– 13
+
+– 12
+Support
+Zone
+
+Sold
+– 11
+
+– 10
+Apr 98
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+Jan 99
+
+Feb
+
+Figure 37.4 Rectangle bottom followed by upward breakout. The measure rule
+applied to this rectangle bottom computes the formation height as the difference
+between the trend lines. Adding the difference to the value of the top trend line
+gives an upward breakout target of 13.88.
+
+4366_37.qxd
+
+2/23/05
+
+576
+
+12:16 PM
+
+Page 576
+
+Rectangle Bottoms
+
+Trading Tactics
+Table 37.9 lists trading tactics for rectangle bottoms.
+Measure rule. The first tactic is to determine the predicted price target
+using the measure rule. The rule first finds the height of the formation by subtracting the lowest low from the highest high. In essence, just subtract the
+value of the two trend lines from each other. Figure 37.4 shows an example of
+this. The top trend line is at 12.44 and the bottom one is at 11. The difference,
+1.44, is the formation height. Add the height to the value of the top trend line
+to get the upward breakout target (13.88) and subtract it from the value of the
+lower trend line to get the downward breakout target (9.56). Some analysts
+suggest measuring the length (not the height) of the rectangle, flipping it vertically, and adding or subtracting it from the top or bottom trend line to get the
+maximum price move (for upward and downward breakouts, respectively).
+This approach sounds a bit far-fetched, but it is a handy guideline. Use it with
+caution as I have not verified how well it works.
+The measure rule (vertical measure) works between 50% and 66% of the
+time for downward breakouts and between 64% and 85% of the time for
+upward breakouts.
+
+Table 37.9
+Trading Tactics
+Trading Tactic
+
+Explanation
+
+Measure rule
+
+Measure the height of the rectangle by subtracting the value of
+the trend lines from each other. For upward breakouts, add the
+height to the top trend line; for downward breakouts, subtract the
+value from the bottom trend line. The result is the expected minimum price move. For a maximum price target, measure the length
+of the rectangle and extend it vertically above the top trend line
+(for upward breakouts) or below the bottom one (downward
+breakouts). The price then becomes the maximum expected move.
+
+Wait for breakout
+
+Since you cannot be sure in which direction a rectangle will break
+out, wait for price to close outside the trend line before trading in
+the direction of the breakout.
+
+Tall rectangle scalp
+
+If the rectangle is tall enough, sell or sell short near the top trend
+line and buy or cover near the bottom trend line.
+
+Throwbacks,
+pullbacks
+
+If you have a downward breakout, watch for a pullback and short
+the stock or add to your short position once prices begin descending again. Use the same technique for an upward breakout: Wait
+for the throwback then initiate or add to your position when
+prices rise.
+
+Other
+
+Watch for rectangles forming as the corrective phase of a
+measured move formation and adjust the target price accordingly.
+Rectangle reversals sometimes appear as flat bottom formations.
+
+4366_37.qxd
+
+2/23/05
+
+12:16 PM
+
+Page 577
+
+Sample Trade
+
+577
+
+Wait for breakout. Since you cannot predict the breakout direction with
+complete accuracy, wait for the breakout before investing. Place the trade after
+price closes outside the rectangle trendline, and then trade with the trend.
+Tall rectangle scalp. If the formation is tall enough, consider placing an
+intraformation trade near the two trend lines. Short at the top when prices
+begin descending, and cover when they rebound off the bottom trend line (do
+not cover too soon as prices may continue moving down). Go long at the bottom and sell at the top trend line when prices begin falling. Again, wait for a
+direction change as prices may stage an upward breakout.
+Throwbacks, pullbacks. Throwbacks and pullbacks allow investors
+another opportunity to place a trade, add to their position, or get out with a
+smaller loss. Take advantage of it but wait for prices to complete their throwback or pullback before placing a trade or adding to a position. The reason for
+waiting is that prices may continue in the adverse direction instead of returning to the trend line and rebounding.
+Other. Sometimes, rectangle bottoms form as the corrective phase of a
+measured move formation. See the Measured Move Down chapter for information on how to take advantage of the situation. Occasionally a rectangle will mark
+the end of a substantial decline and appear like a flat bottom before prices rise.
+
+Sample Trade
+Figure 37.4 shows a paper trade I made. The rectangle bottom appeared after
+prices dropped from a high of 20.63 in October 1997. The drop was a painful
+one but it did not occur all at once. Prices dropped quite rapidly to 15 where
+they moved horizontally for 8 months. Then the second half of the decline
+took over and prices reached a low of about 11.
+Prices bounced off the low several times, like a boy taking his first steps
+on a trampoline. They were tentative, shaky, with not much enthusiasm. Then
+in mid-October 1998, prices touched the bottom trend line and moved quickly
+across the formation to tie the September high at 12.38. A few more oscillations and the two trend-line boundaries became apparent.
+If you look at the overall picture, you might think that prices would continue down—a downward breakout (following the downward trend). I could
+not tell which direction prices would go, so I decided to wait for the breakout.
+If the formation acted as a consolidation, then the breakout would be downward. However, with a two-step downtrend from the high at 20.63, this
+reminded me of a measured move down with a long corrective phase. I thought
+it might break out upward. If the rectangle were taller, I would try an intraformation trade (buy at 11.13, sell at 12.38, and then reverse).
+In early December, prices pierced the top trend line and closed above it;
+staging an upward breakout. I noticed the breakout the day after it happened
+and bought the stock 13, midrange for the day.
+
+4366_37.qxd
+
+2/23/05
+
+578
+
+12:16 PM
+
+Page 578
+
+Rectangle Bottoms
+
+I estimated that a support zone had formed at 11.75, so I placed a stop at
+11.63. Prices had stopped at this level just before the chart pattern formed and
+again just before the December breakout. A better stop would have been just
+below the lower rectangle trend line because both trend lines act as support or
+resistance zones. However, I did not want to take such a large loss (15%+).
+Even paper trades go wrong and that is what happened here. A day after
+buying the stock, prices returned to the rectangle formation to do more work.
+Prices slowly, agonizingly, moved lower until hitting my stop in late December. I took a paper loss of 11%. After a second upward breakout, price continued rounding over, then dropped, and finally hit bottom at 8.88 in March 1999
+before recovering to 16 and change.
+
+For Best Performance
+The following list includes tips and observations to help select RBs that perform
+better after the breakout. Consult the associated table for more information.
+• Review the identification guidelines for correct selection—Table 37.1.
+• Trade with the prevailing market trend: go long in a bull market and
+short a bear market. Avoid countertrend trades—Table 37.2.
+• Rectangles in bear markets with downward breakouts have the lowest
+failure rates for declines up to 10%. After that, rectangles in bull markets with upward breakouts do better—Table 37.3.
+• Select rectangles with upward breakouts in the middle of the yearly
+trading range; downward breakouts near the yearly low—Table 37.4.
+• Throwbacks and pullbacks hurt performance, so look for overhead
+resistance or underlying support before trading—Table 37.4.
+• About half the rectangles with downward breakouts reach the ultimate
+low within 3 weeks. Watch your short trade carefully. Upward breakouts take longer to top out, so be patient—Table 37.5.
+• Select tall and wide patterns—Table 37.6.
+• Choose most rectangles with a rising volume trend and heavy breakout
+volume—Table 37.7.
+• Use a partial rise or decline to predict the breakout direction—Table
+37.8.
+
+4366_38.qxd
+
+2/23/05
+
+12:16 PM
+
+Page 579
+
+38
+Rectangle Tops
+
+RESULTS SNAPSHOT
+Upward Breakouts
+Appearance
+
+Prices trend up to the formation and then
+oscillate between two horizontal trend lines
+before breaking out upward.
+
+Reversal or continuation
+
+Short-term bullish continuation
+Bull Market
+
+Bear Market
+
+Performance rank
+
+12 out of 23
+
+19 out of 19
+
+Break-even failure rate
+
+9%
+
+16%
+
+Average rise
+
+39%
+
+20%
+
+Change after trend ends
+
+–30%
+
+–38%
+
+Volume trend
+
+Downward
+
+Downward
+
+Throwbacks
+
+64%
+
+71%
+
+Percentage meeting price target
+
+80%
+
+60%
+
+Surprising findings
+
+Throwbacks and gaps hurt performance. Tall
+or wide patterns perform better than short or
+narrow ones. Patterns with a falling volume
+trend do well, and heavy breakout volume
+propels prices farther. A partial decline
+predicts the upward breakout direction but
+performance suffers.
+
+See also
+
+Flags; Measured Move Up; Rectangle
+Bottoms
+
+579
+
+4366_38.qxd
+
+2/23/05
+
+580
+
+12:16 PM
+
+Page 580
+
+Rectangle Tops
+
+Downward Breakouts
+Appearance
+
+Same, but breakout is downward.
+
+Reversal or continuation
+
+Short-term bearish reversal
+Bull Market
+
+Bear Market
+
+Performance rank
+
+6 out of 21
+
+16 out of 21
+
+Break-even failure rate
+
+11%
+
+9%
+
+Average decline
+
+17%
+
+21%
+
+Change after trend ends
+
+57%
+
+45%
+
+Volume trend
+
+Downward
+
+Downward
+
+Pullbacks
+
+58%
+
+65%
+
+Percentage meeting price target
+
+63%
+
+63%
+
+Surprising findings
+
+Pullbacks hurt performance. Tall patterns
+perform better than short ones. Performance
+improves after a partial rise. Rectangles with
+a pre-formation drop outperform.
+
+See also
+
+Same as for upward breakouts
+
+If you think of a rectangle as a horizontal consolidation region or a flat base
+from which prices make a large move, then rectangles are easier to identify and
+the statistics more meaningful. Rectangle tops (RTs) are solid performers in
+bull markets as the Results Snapshot shows. The failure rates are lowest and
+performance is best when prices move in the direction of the prevailing market trend: upward in a bull market and downward in a bear market. Countertrend moves suffer.
+The surprising findings are not surprising at all, as other chart pattern
+types share many of the same ones. However, rectangles have features unique
+to few other patterns: pre-formation rises and declines, and partial rises and
+declines. A pre-formation rise or decline is when price bumps up or down just
+before the rectangle starts. A partial rise or decline comes at the end of the rectangle and it reliably signals the breakout direction. More about these features
+in the Statistics section of this chapter.
+
+Tour
+Figure 38.1 shows an example of a rectangle top. Prices begin their upward
+trek in June 1992 at 14 and reach the rectangle in May of the following year.
+Then prices consolidate for over a month, bouncing between overhead resistance at 24.63 and support at 23.63. A trend line drawn across the minor highs
+
+4366_38.qxd
+
+2/23/05
+
+12:16 PM
+
+Page 581
+
+581
+
+Tour
+Williams Companies Inc. (Natural Gas (Diversified), NYSE, WMB)
+
+– 32
+– 31
+– 30
+– 29
+– 28
+– 27
+– 26
+– 25
+– 24
+– 23
+
+Partial
+Decline
+
+– 22
+– 21
+– 20
+– 19
+– 18
+– 17
+– 16
+– 15
+
+Jan 93
+
+Feb
+
+Figure 38.1
+uptrend.
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Rectangle top with an upward breakout performs well in this
+
+is horizontal as is the one connecting the minor lows. There are a number of
+touches of both trend lines suggesting a reliable formation. At the start, prices
+overshoot both up and down by peeking outside the two trend lines. This
+movement is not a problem because it occurs too early in the chart pattern
+before it can be recognized as a rectangle.
+The volume pattern begins in the typical manner—receding. However,
+about two-thirds of the way to the breakout, the pattern changes. Volume gets
+heavier as if building pressure for the upcoming release. Then, mysteriously,
+volume subsides as prices move horizontally just below the top trend line for
+over a week. When prices pierce the top trend line, volume picks up but not
+remarkably so. Volume just builds on the expanding trend that is developing
+since prices began sliding along the trend line top.
+Prices climb away cleanly. There is a slight, 3-day dip in late June when
+it looks as if prices are trying to throw back to the formation top, but the buying pressure is just too strong. The retrace stops and prices turn around and
+continue moving up.
+Why do rectangles form? A rectangle chart pattern is a struggle between
+the haves and the have-nots. Those that own the stock but want to sell have
+identified a price at which they are willing to part with their shares. When the
+price reaches that level, they sell, forcing the price down. When prices fall,
+they quit dumping the stock. On the other side is another group of investors
+who want to acquire the stock. They place buy orders at what they perceive to
+be the fair value. When price falls to their target, the buy orders overwhelm
+
+4366_38.qxd
+
+2/23/05
+
+582
+
+12:16 PM
+
+Page 582
+
+Rectangle Tops
+
+supply and the price rises. If this up–down struggle goes on long enough, price
+bounces between one extreme and the other. Over time, you can draw a horizontal trend line along the peaks and another along the valleys as a rectangle
+formation takes shape. Eventually, one of the sides runs out of ammunition. If
+the people selling their shares run out first, buying demand overwhelms supply and the price pierces the top trend line. If the buyers spend all their money
+and back away from the table, prices drop through the bottom of the rectangle.
+In either case, the shares continue in the breakout direction because of growing demand (the price moves upward) or increasing supply (the price tumbles).
+
+Identification Guidelines
+Table 38.1 shows identification guidelines for rectangle tops.
+Rising price trend. Over the short to intermediate term, the price trend
+should be leading up to the formation. This upward trend is what distinguishes
+the formation from rectangle bottoms. The distinction is arbitrary; I wanted to
+see if there is any difference in the way the two perform.
+Horizontal trend lines. As a rectangle forms, prices rise to a resistance
+level and fall back to a support area for another try. If this pattern continues,
+the minor highs can be joined with a trend line drawn along the top of the formation, and another trend line can be drawn below the minor lows. The two
+trend lines are horizontal or nearly so. If there is a slight tilt to the trend line,
+do not worry as long as it does not disturb the overall appearance of a congestion region.
+Touches. To qualify as a rectangle, prices must touch each trend line at
+least twice. The touches need not alternate from one trend line to the other,
+but the minor highs and lows must be distinct. You do not want to see two
+touches along the top as part of the same minor high. Instead, look for two distinct hills and two valleys at a minimum.
+Volume. The volume trend varies from formation to formation but usually recedes. Many of the charts accompanying this chapter show such a trend.
+Table 38.1
+Identification Characteristics
+Characteristic
+
+Discussion
+
+Rising price trend
+
+The short- to intermediate-term price trend leading to the
+formation should be up.
+
+Horizontal trend lines
+
+Two horizontal (or nearly so) trend lines outline the price action,
+one above the minor highs and one below the minor lows.
+
+Touches
+
+There should be at least two touches of each trend line (at
+least four touches total).
+
+Volume
+
+Volume usually recedes until the breakout.
+
+4366_38.qxd
+
+2/23/05
+
+12:16 PM
+
+Page 583
+
+Focus on Failures
+
+583
+
+Fluor Corp. (Building Materials, NYSE, FLR)
+
+2
+
+– 68
+– 67
+– 66
+– 65
+– 64
+– 63
+– 62
+– 61
+– 60
+– 59
+– 58
+– 57
+– 56
+– 55
+– 54
+– 53
+– 52
+– 51
+– 50
+– 49
+– 48
+– 47
+– 46
+– 45
+
+3
+
+1
+
+May 95
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+Jan 96
+
+Feb
+
+Figure 38.2 A rectangle top with receding volume trend. Although most rectangles exhibit receding volume, do not automatically exclude those with rising volume. Three profitable trading opportunities are marked where prices cross from
+one side to the other.
+
+Figure 38.2 shows what a rectangle top looks like. Prices are trending up leading to the rectangle. Then they bounce between support at 54 and overhead
+resistance at 59.50. The wide, tall rectangle has plenty of trend-line touches. If
+you are lucky, you might be able to get three or four trades from this formation (as marked by the numbers on the figure). Each side-to-side pass represents a price change of about $5, plenty of profit opportunity to be of interest
+to swing traders.
+The volume pattern trends downward over the formation. Near the end,
+the volume spurts upward propelling prices higher until they break out and
+zoom to new highs. Statistics suggest that the majority of rectangles have
+receding volume trends. I would not exclude a rectangle formation simply
+because the volume trend is rising.

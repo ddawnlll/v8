@@ -1,0 +1,435 @@
+
+142
+
+■
+
+Short USO and long XLE whenever CL is in contango.
+
+■
+
+Long USO and short XLE whenever CL is in backwardation.
+
+The APR is a very respectable 16 percent from April 26, 2006, to April 9,
+2012, with a Sharpe ratio of about 1. I have plotted the cumulative returns
+curve in Figure 6.3.
+
+FIGURE 6.3 Cumulative Returns of XLE-USO Arbitrage
+
+What about a future whose underlying is not a traded commodity? VX
+is an example of such a future: It is very expensive to maintain a basket of
+options that replicate the underlying VIX index, and no ETF sponsors have
+been foolish enough to do that. But, again, we do not need to find an instrument that tracks the spot price exactly—we just need to find one that has
+a high correlation (or anti-correlation) with the spot return. In the case of
+VIX, the familiar ETF SPY fits the bill. Because the S&P E-mini future ES has
+insignificant roll return (about 1 percent annualized), it has almost the same
+returns as the underlying asset. Because it is certainly easier to trade futures
+than an ETF, we will investigate the performance of our earlier arbitrage
+strategy using ES instead.
+
+Volatility Futures versus Equity Index Futures:
+Redux
+
+1. If the price of the front contract of VX is higher than that of VIX by 0.1
+point (contango) times the number of trading days untill settlement,
+short 0.3906 front contracts of VX and short 1 front contract of ES.
+Hold for one day.
+2. If the price of the front contract of VX is lower than that of VIX by 0.1
+point (backwardation) times the number of trading days untill settlement, buy 0.3906 front contracts of VX and buy 1 front contract of ES.
+Hold for one day.
+Recall that if the front contract price is higher than the spot price, the roll
+return is negative (see Figure 5.3). So the difference in price between VIX and
+VX divided by the time to maturity is the roll return, and we buy VX if the
+roll return is positive.Why didn’t we use the procedure in Example 5.3 where
+we use the slope of the futures log forward curve to compute the roll return
+here? That is because Equation 5.7 doesn’t work for VX, and therefore the VX
+forward prices do not fall on a straight line, as explained in Chapter 5.
+
+143
+INTERDAY MOMENTUM STRATEGIES
+
+VX is a natural choice if we want to extract roll returns: its roll returns
+can be as low as –50 percent annualized. At the same time, it is highly anticorrelated with ES, with a correlation coefficient of daily returns reaching
+–75 percent. In Chapter 5, we used the cointegration between VX and ES
+to develop a profitable mean-reverting strategy. Here, we will make use of
+the large roll return magnitude of VX, the small roll return magnitude of
+ES, and the anticorrelation of VX and ES to develop a momentum strategy.
+This strategy was proposed by Simon and Campasano (2012):
+
+FIGURE 6.4 Cumulative Returns of VX-ES Roll Returns Strategy
+
+ALGORITHMIC TRADING
+
+144
+
+Notice that the hedge ratio of this strategy is slightly different from that
+reported by Simon and Campasano: It is based on the regression fit between
+the VX versus ES prices in Equation 5.11, not between their returns as in
+the original paper. The settlement is the day after the contracts expire. The
+APR for July 29, 2010, to May 7, 2012 (this period was not used for hedge
+ratio determination) is 6.9 percent, with a Sharpe ratio of 1. The cumulative
+return chart is displayed in Figure 6.4. You can find the MATLAB code for
+this strategy in VX_ES_rollreturn.m on my website.
+■ Cross-Sectional Strategies
+There is a third way to extract the often large roll returns in futures besides
+buying and holding or arbitraging against the underlying asset (or against an
+instrument correlated with the underlying asset). This third way is a crosssectional strategy: We can just buy a portfolio of futures in backwardation,
+and simultaneously short a portfolio of futures in contango. The hope is that
+the returns of the spot prices cancel each other out (a not unreasonable
+expectation if we believe commodities’ spot prices are positively correlated
+with economic growth or some other macroeconomic indices), and we are
+left with the favorable roll returns. Daniel and Moskowitz described just
+such a simple “cross-sectional” momentum strategy that is almost a mirror image of the linear long-short mean-reverting stock model proposed
+by Khandani and Lo described in Chapter 3, albeit one with a much longer
+look-back and holding period (Daniel and Moskowitz, 2011).
+
+FIGURE 6.5 Cumulative Returns of Cross-Sectional
+
+Futures Momentum Strategy
+
+145
+INTERDAY MOMENTUM STRATEGIES
+
+A simplified version of the strategy is to rank the 12-month return (or 252
+trading days in our program below) of a group of 52 physical commodities
+every day, and buy and hold the future with the highest return for 1 month (or
+25 trading days) while short and hold the future with the lowest return for the
+same period. I tested this strategy from June 1, 2005, to December 31, 2007,
+and the APR is an excellent 18 percent with a Sharpe ratio of 1.37.The cumulative returns are plotted in Figure 6.5. Unfortunately, this model performed
+very negatively from January 2, 2008, to December 31, 2009, with an APR of
+–33 percent, though its performance recovered afterwards.The financial crisis
+of 2008–2009 ruined this momentum strategy, just like it did many others,
+including the S&P DTI indicator mentioned before.
+Daniel and Moskowitz have also found that this same strategy worked for
+the universe of world stock indices, currencies, international stocks, and
+U.S. stocks—in other words, practically everything under the sun. Obviously, cross-sectional momentum in currencies and stocks can no longer be
+explained by the persistence of the sign of roll returns. We might attribute
+that to the serial correlation in world economic or interest rate growth in
+the currency case, and the slow diffusion, analysis, and acceptance of new
+information in the stock case.
+Applying this strategy to U.S. stocks, we can buy and hold stocks within
+the top decile of 12-month lagged returns for a month, and vice versa for
+the bottom decile. I illustrate the strategy in Example 6.2.
+
+Example 6.2: Cross-Sectional Momentum
+Strategy for Stocks
+This code assumes the close prices are contained in T × N array cl,
+where T is the number of trading days, and N is the number of the
+stocks in S&P 500. It makes use of utilities functions smartsum and
+backshift, available from http://epchan.com/book2. The code itself
+can be downloaded as kentdaniel.m.
+lookback=252;
+holddays=25;
+topN=50;
+ret=(cl- backshift(lookback,cl))./backshift(lookback,cl);
+% daily returns
+longs=false(size(ret));
+shorts=false(size(ret));
+positions=zeros(size(ret));
+for t=lookback+1:length(tday)
+[foo idx]=sort(ret(t, :), ‘ascend’);
+idx=setdiff(idx, nodata, ‘stable’);
+
+ALGORITHMIC TRADING
+
+nodata=find(isnan(ret(t, :)));
+
+146
+
+longs(t, idx(end-topN+1:end))=true;
+shorts(t, idx(1:topN))=true;
+end
+for h=0:holddays-1
+long_lag=backshift(h, longs);
+long_lag(isnan(long_lag))=false;
+long_lag=logical(long_lag);
+short_lag=backshift(h, shorts);
+short_lag(isnan(short_lag))=false;
+short_lag=logical(short_lag);
+positions(long_lag)=positions(long_lag)+1;
+positions(short_lag)=positions(short_lag)-1;
+end
+dailyret=smartsum(backshift(1, positions).*(cl-lag(cl)) ...
+./ lag(cl), 2)/(2*topN)/holddays;
+dailyret(isnan(dailyret))=0;
+
+Example 6.2 (Continued)
+The APR from May 15, 2007, to December 31, 2007, is 37
+percent with a Sharpe ratio of 4.1. The cumulative returns are shown
+in Figure 6.6. (Daniel and Moskowitz found an annualized average
+return of 16.7 percent and a Sharpe ratio of 0.83 from 1947 to
+2007.) However, the APR from January 2, 2008, to December 31,
+2009, is a miserable –30 percent. The financial crisis of 2008–2009
+also ruined this momentum strategy. The return after 2009 did
+stabilize, though it hasn’t returned to its former high level yet.
+
+FIGURE 6.6 Cumulative Returns of Cross-Sectional
+
+Stock Momentum Strategy
+
+147
+INTERDAY MOMENTUM STRATEGIES
+
+Just as in the case of the cross-sectional mean reversion strategy discussed
+in Chapter 4, instead of ranking stocks by their lagged returns, we can rank
+them by many other variables, or “factors,” as they are usually called. While
+we wrote total return = spot return + roll return for futures, we can write
+total return = market return + factor returns for stocks. A cross-sectional portfolio of stocks, whether mean reverting or momentum based, will eliminate
+the market return component, and its returns will be driven solely by the
+factors.These factors may be fundamental, such as earnings growth or bookto-price ratio, or some linear combination thereof. Or they may be statistical factors that are derived from, for example, Principal Component Analysis (PCA) as described in Quantitative Trading (Chan, 2009). All these factors
+
+with the possible exception of PCA tend to change slowly, so using them
+to rank stocks will result in as long holding periods as the cross-sectional
+models I discussed in this section.
+While we are on the subject of factors, it bears mentioning that a factor
+model can be applied to a cross-sectional portfolio of futures as well. In this
+case, we can find macroeconomic factors such as gross domestic product
+(GDP) growth or inflation rate and correlate them with the returns of each
+futures instrument, or we can again employ PCA.
+In recent years, with the advance of computer natural language processing and understanding capability, there is one other factor that has come into
+use. This is the so-called news sentiment score, our next topic.
+
+News Sentiment as a Fundamental Factor
+
+ALGORITHMIC TRADING
+
+148
+
+With the advent of machine-readable, or “elementized,” newsfeeds, it is now
+possible to programmatically capture all the news items on a company, not
+just those that fit neatly into one of the narrow categories such as earnings
+announcements or merger and acquisition (M&A) activities. Furthermore,
+natural language processing algorithms are now advanced enough to analyze
+the textual information contained in these news items, and assign a “sentiment score” to each news article that is indicative of its price impact on a
+stock, and an aggregation of these sentiment scores from multiple news articles from a certain period was found to be predictive of its future return.
+For example, Hafez and Xie, using RavenPack’s Sentiment Index, found that
+buying a portfolio of stocks with positive sentiment change and shorting
+one with negative sentiment change results in an APR from 52 percent to
+156 percent and Sharpe ratios from 3.9 to 5.3 before transaction costs, depending on how many stocks are included in the portfolios (Hafez and Xie,
+2012). The success of these cross-sectional strategies also demonstrates very
+neatly that the slow diffusion of news is the cause of stock momentum.
+There are other vendors besides RavenPack that provide news sentiments on stocks. Examples include Recorded Future, thestocksonar.com,
+and Thomson Reuters News Analytics. They differ on the scope of their
+news coverage and also on the algorithm they use to generate the sentiment score. If you believe your own sentiment algorithm is better than
+theirs, you can subscribe directly to an elementized news feed instead
+and apply your algorithm to it. I mentioned before that Newsware offers
+a low-cost version of this type of news feeds, but offerings with lower
+latency and better coverage are provided by Bloomberg Event-Driven
+
+Trading, Dow Jones Elementized News Feeds, and Thomson Reuters Machine Readable News.
+Beyond such very reasonable use of news sentiment as a factor for crosssectional momentum trading, there has also been research that suggested
+the general “mood” of society as revealed in the content of Twitter feeds is
+predictive of the market index itself (Bollen, Mao, and Zeng, 2010). In fact,
+a multimillion-dollar hedge fund was launched to implement this outlandish idea (Bryant, 2010), though the validity of the research itself was under
+attack (Buy the Hype, 2012).
+
+Mutual Funds Asset Fire Sale and
+Forced Purchases
+
+PRESSURE (i, t)
+=
+
+∑j
+
+∑ j(Sell ( j i,t)| flow( j,t) < −5%)
+
+∑ jOwn( j,i,t −1)
+
+(6.1)
+
+149
+INTERDAY MOMENTUM STRATEGIES
+
+Researchers Coval and Stafford (2007) found that mutual funds experiencing large redemptions are likely to reduce or eliminate their existing stock
+positions. This is no surprise since mutual funds are typically close to fully
+invested, with very little cash reserves. More interestingly, funds experiencing large capital inflows tend to increase their existing stock positions rather
+than using the additional capital to invest in other stocks, perhaps because
+new investment ideas do not come by easily. Stocks disproportionately held
+by poorly performing mutual funds facing redemptions therefore experience negative returns. Furthermore, this asset “fire sale” by poorly performing mutual funds is contagious. Since the fire sale depresses the stock prices,
+they suppress the performance of other funds holding those stocks, too,
+causing further redemptions at those funds. The same situation occurs in
+reverse for stocks disproportionately held by superbly performing mutual
+funds with large capital inflows. Hence, momentum in both directions for
+the commonly held stocks can be ignited.
+(This ignition of price momentum due to order flow is actually a rather
+general phenomenon, and it happens at even the shortest time scale.We find
+more details on that in the context of high-frequency trading in Chapter 7.)
+A factor can be constructed to measure the selling (buying) pressure on
+a stock based on the net percentage of funds holding them that experienced
+redemptions (inflows). More precisely,
+
+ALGORITHMIC TRADING
+
+150
+
+where PRESSURE(i, t) is the factor for stock i at the end of quarter t,
+Buy( j, i, t) = 1 if fund j increased its holding in stock i during the quarter t
+and if the fund experienced inflows greater than 5 percent of its net asset
+value (NAV) (“flow( j, t) > 5%”), and zero otherwise. Sell( j, i, t) is similarly
+defined for decreases in holdings, and ∑jOwn( j, i, t − 1) is the total number
+of mutual funds holding stock i the beginning of quarter t.
+Note that the PRESSURE variable does not take into account the size
+(NAV) of the fund, as Buy is a binary variable. One wonders whether weighing Buy by NAV will give better results.
+Coval and Stafford found that a market-neutral portfolio formed based
+on shorting stocks with highest selling pressure (bottom decile of PRESSURE
+ranking) and buying stocks with the highest (top decile of PRESSURE ranking) buying pressure generates annualized returns of about 17 percent before transaction costs. (Since data on stock holdings are available generally
+on a quarterly basis only, our portfolio is updated quarterly as well.)
+Furthermore, capital flows into and out of mutual funds can be predicted
+with good accuracy based on their past performance and capital flows, a
+reflection of the herdlike behavior of retail investors. Based on this prediction, we can also predict the future value of the pressure factor noted above.
+In other words, we can front-run the mutual funds in our selling (buying)
+of the stocks they currently own. This front-running strategy generates another 17 percent annualized return before transaction costs.
+Finally, since these stocks experience such selling and buying pressures due
+to liquidity-driven reasons, and suffer suppression or elevation of their prices
+through no fault or merit on their own, their stock prices often mean-revert
+after the mutual fund selling or buying pressure is over. Indeed, buying stocks
+that experienced the most selling pressure in the t − 4 up to the t − 1 quarters,
+and vice versa, generates another 7 percent annualized returns.
+Combining all three strategies (momentum, front running, and mean
+reverting) generates a total return of about 41 percent before transaction
+costs. However, the slippage component of the transaction costs is likely
+to be significant because we may experience delays in getting mutual fund
+holdings information at the end of a quarter. In addition, the implementation of this strategy is not for the faint-of-heart: clean and accurate mutual holdings and returns data have to be purchased from the Center for
+Research in Security Prices (CRSP) at a cost of about $10,000 per year
+of data.
+Mutual funds are not the only type of funds that can induce momentum
+in stocks due to forced asset sales and purchases. In Chapter 7, we will
+
+discover that index funds and levered ETFs ignite similar momentum as
+well. In fact, forced asset sales and purchases by hedge funds can also lead
+to momentum in stocks, and that caused the August 2007 quant funds meltdown, as I explain in Chapter 8.
+■ Pros and Cons of Momentum Strategies
+
+151
+INTERDAY MOMENTUM STRATEGIES
+
+Momentum strategies, especially interday momentum strategies, often have
+diametrically opposite reward and risk characteristics in comparison to mean
+reverting strategies. We will compare their pros and cons in this section.
+Let’s start with the cons. In my own trading experience, I have often
+found that it is harder to create profitable momentum strategies, and those
+that are profitable tend to have lower Sharpe ratios than mean-reversal strategies. There are two reasons for this.
+First, as we have seen so far, many established momentum strategies have
+long look-back and holding periods. So clearly the number of independent
+trading signals is few and far in between. (We may rebalance a momentum portfolio every day, but that doesn’t make the trading signals more
+independent.) Fewer trading signals naturally lead to lower Sharpe ratio.
+Example: The linear mean reversion model for S&P 500 stocks described in
+Chapter 4 relies on the short-term cross-sectional mean reversion properties of stocks, and the holding period is less than a day. It has a high Sharpe
+ratio of 4.7. For the same universe of stocks, the opposite cross-sectional
+momentum strategy described earlier in this chapter has a holding period of
+25 days, and though it performed similarly well pre-2008, the performance
+collapsed during the financial crisis years.
+Secondly, research by Daniel and Moskowitz on “momentum crashes”
+indicates that momentum strategies for futures or stocks tend to perform
+miserably for several years after a financial crisis (Daniel and Moskowitz,
+2011). We can see that easily from a plot of the S&P DTI index (Figure 6.7).
+As of this writing, it has suffered a drawdown of –25.9 percent since
+December 5, 2008. Similarly, cross-sectional momentum in stocks also vanished during the aftermath of the stock market crash in 2008–2009, and is
+replaced by strong mean reversion. We still don’t know how long this mean
+reversion regime will last: After the stock market crash of 1929, a representative momentum strategy did not return to its high watermark for more
+than 30 years! The cause of this crash is mainly due to the strong rebound of
+short positions following a market crisis.
+
+03
+
+/
+12
+
+04
+20
+
+/
+31
+/
+12
+
+05
+
+20
+
+/
+31
+
+FIGURE 6.7 The S&P DTI Index
+
+12
+
+1/
+/3
+
+20
+
+0
+
+200
+
+400
+
+600
+
+800
+
+1000
+
+1200
+
+1400
+
+1600
+
+1800
+
+/
+12
+
+06
+
+20
+
+/
+31
+
+07
+
+20
+
+/
+31
+
+/
+12
+
+ALGORITHMIC TRADING
+
+152
+/
+12
+
+08
+20
+/
+31
+
+09
+0
+/2
+31
+/
+12
+
+0
+01
+/2
+1
+/3
+12
+
+1
+01
+/2
+1
+/3
+12
+
+153
+INTERDAY MOMENTUM STRATEGIES
+

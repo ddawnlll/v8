@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Adjudicated Claim",
+  "description": "research_pipeline_v2.0 adjudicator output. Resolves extractor A/B differences against the source; UNRESOLVED is a valid terminal state.",
+  "type": "object",
+  "required": ["raw_claim_id", "extractor_a_id", "extractor_b_id", "field_decisions"],
+  "properties": {
+    "raw_claim_id": { "type": "string" },
+    "extractor_a_id": { "type": "string" },
+    "extractor_b_id": { "type": "string" },
+    "field_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "extractor_a", "extractor_b", "decision"],
+        "properties": {
+          "field": { "type": "string" },
+          "extractor_a": { "type": ["string", "null"] },
+          "extractor_b": { "type": ["string", "null"] },
+          "decision": { "type": ["string", "null"], "description": "UNRESOLVED is allowed" },
+          "decision_type": { "enum": ["SOURCE_EXPLICIT","SOURCE_DERIVED","UNRESOLVED"] },
+          "support": { "type": "object", "properties": { "page": { "type": ["integer", "null"] }, "exact_text": { "type": "string" }, "reason": { "type": "string" } } },
+          "confidence": { "enum": ["high", "medium", "low"] }
+        }
+      }
+    },
+    "disagreement_count": { "type": "integer" },
+    "resolved_count": { "type": "integer" },
+    "unresolved_count": { "type": "integer" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,529 @@
+Yet each nation releases its own LIBOR to accommodate interest rates
+for their own interbank market. For example, Japan releases it’s TIBOR
+at 11:00 a.m. Tokyo time, 11:00 p.m. eastern standard time. This rate is
+released one hour after the Japanese stock market opens. It is a common convention for nations to release rates just after market openings. So the swap
+point basis will change from nation to nation due to the rise and fall daily of
+LIBOR within the various nations. Swap-point basis can be derived directly
+from bid/ask spreads in the interbank market, LIBOR, or LIBID. What is
+credited or debited to a rollover account can range from broker to broker
+around the world. Some brokers list their swap points. Others factor the swap
+rates and list to view on their trading screens.
+Currency Fixing
+
+When LIBOR is released by the BBA and when nations, through their top
+bankers, release their own rates, this is called ﬁxing. Fixing times occur many
+
+24
+
+Inside the Currency Market
+
+times throughout any trading day and represent at times trading opportunities. BBA ﬁxings represent one time and one ﬁx, the external unsecured
+borrowing rate for a nation’s bank doing business in London, while each
+nation must set its own ﬁx to represent its internal unsecured borrowing rate.
+All times for the internal ﬁx of nations are different due to the various time
+frames in which nations trade. Because these rates are the shortest and most
+sensitive of all interest rates, trading opportunities may occur based on new
+bids and offers.
+For example, the fact that Tokyo releases its ﬁxing rates one hour after the
+Japanese stock market opens is constructive for short-term gains. Markets will
+reﬂect LIBOR immediately. Central banks that experience an interest-rate
+change are another trading opportunity, because all interest rates short and
+long must be reﬂected in the market through ﬁnancial instruments because
+the cost to borrow, lend and liquidity needs changed. What is important is
+that LIBOR must be priced to the currency. See Exhibit 2.2.
+BBA LIBOR and internal nations’ LIBORs must be viewed as an offshore and onshore interest rate. The offshore rate allows business and trading
+to be conducted overseas in a nation’s currency at a particular BBA rate while
+the onshore rate is the rate priced to the currency in the home market. To
+factor an interest rate for the home market, take BBA LIBOR and divide it
+by the internal rate to obtain an effective interest rate. That rate will be the
+basis to trade a currency pair in the home market while the market is open.
+If a nation has two internal interest rates, as is the scenario among the major
+pairs, divide the two internal rates to obtain an effective rate.
+Factor Swap Points
+
+In our Australian dollar/U.S. dollar example, factor closing price by the difference of interest between pairs divided by 360 multiplied by the number
+of lots.
+1.9336  0.04/360 days  100,000  $2.1484
+Brokers may charge a fee, 10 percent for some, to handle this and any
+rollover transaction. Why? Because brokers must employ a Tom/Next trade.
+Tom/Next is the short-term terminology to mean Tomorrow Next. Tom/
+Next rates are found in the interbank market and don’t widely vary from day
+to day. Spot/next or spot/starts are further terms. In order for the account
+to be debited or credited, the trade must be closed then reopened for the
+
+25
+
+11:00 a.m. Tokyo/
+9:00 p.m. EDT
+
+2:00 p.m. Wellington/
+10:00 p.m. EDT
+
+10:00 a.m. Toronto/
+10:00 a.m. EDT
+
+11:00 a.m./
+11:00 p.m. EDT
+
+11:00 a.m./
+11:00 p.m. EDT
+
+11:00 a.m. Frankfurt/
+5:00 a.m. EDT
+
+8:30 a.m. Zurich/
+1:30 a.m. EDT
+Noon Zurich/
+5:00 a.m. EDT
+
+11:00 a.m. London/
+5:00 a.m. EDT
+
+11:00 a.m. London/
+5:00 a.m. New York
+
+Japan
+
+New Zealand
+
+Canada
+
+Hong Kong
+
+Singapore
+
+Europe
+
+Switzerland
+
+Great Britain
+
+United States
+
+TIBOR
+
+Bank Bill Reference Rate
+
+Rate Term
+
+Overnight Money Market Financing Rate
+also referred as CDOR, Canadian Dealers
+Overnight Rate
+
+4:00 p.m.
+
+6:00 p.m. London,
+11:00 a.m. EDT
+
+6:00 p.m. Zurich/
+11:00 a.m. EDT
+
+6:00 p.m. Frankfurt/
+11:00 a.m. EDT
+
+5:00 p.m./
+5:00 a.m. EDT
+
+BBA LIBOR
+
+BBA LIBOR
+
+Swiss Average overnight Rate
+
+Euro Interbank Offered Rate, called EURIBOR.
+Euro Overnight Index Average
+
+Singapore Interbank Offered Rate/Swap Offer
+Rate
+
+5:00 p.m. Hong Kong, Hang Seng Interbank Offered Rate
+5:00 a.m. EDT
+
+4:00 p.m. EDT
+
+4:00 p.m. Wellington/ Bank Bill Reference Rate
+10:00 p.m. EDT EDT
+
+6:00 p.m. Tokyo/
+6:00 a.m. EDT
+
+10:00 a.m. Sydney time/ 4:45 p.m. Sydney
+8:00 p.m. EDT
+time, 6:45 a.m. EDT
+
+Australia
+
+Closing Time
+
+Opening Fix
+
+Country
+
+EXHIBIT 2. 2 Internal LIBOR Currency Fixing Times by Nation
+
+BBA LIBOR
+
+BBA LIBOR
+
+SIX Swiss Exchange
+
+European Banking
+Federation
+
+Association of Banks in
+Singapore
+
+Hong Kong
+Association of Banks
+
+Bank of Canada never
+releases survey
+
+New Zealand Financial
+Markets Association
+
+Japanese Bankers
+Association
+
+Australia Financial
+Markets Association
+
+Market that Releases
+Information
+
+16
+
+16
+
+Unknown
+
+42
+
+17 (close estimate)
+
+20 Banks
+(close estimate)
+
+Never released by the
+BOC
+
+8
+
+16
+
+8
+
+Number of Banks
+Involved in the Process
+
+26
+
+Inside the Currency Market
+
+next day’s trade. If Tom/Next is not employed, a trader would have to take
+delivery of the currencies in the account.
+Day-Count Convention
+
+The original example factored interest payments based on 365 days a
+year. After the BBA administers LIBOR, the International Swap and
+Derivatives Association (ISDA) sets the benchmark—since 1998—for ﬁxed
+rates on interest-rate swaps and other instruments through its ISDAFIX.
+They set rates for the euro, Hong Kong dollar, Japanese yen, Swiss franc,
+British pound, and the U.S. dollar. For the U.S. dollar, they also provide
+swap spreads. Day-count convention asks how to factor accrued interest
+for traded instruments. The United States, Switzerland, and the euro
+zone administer an actual/360 basis, Great Britain and commonwealth
+nations administer an actual/365 basis. To factor leap years, actual/actual
+is used. Other instruments such as bonds are factored on a 30/360 basis.
+The formula is BBA LIBOR is equal to Interest equal to the principal sum
+multiplied by the BBA LIBOR divided by 100 multiplied by the number
+of days in the interest period divided by 360.
+Accrued interest asks the question how are bond coupons factored? Japan,
+Great Britain, Australia, New Zealand, and Canada factor coupon payments
+based on 365 days while the United States, Switzerland, and Europe employ
+360 days. Financial instruments may trade based on different day-count
+conventions.
+For example, Japan factors TIBOR based on 365 days while Euroyen factors based on 360 days. It is the difference between an offshore and onshore
+rate. Eurodollars trade based on a 360-day convention. Effective interest
+must be factored.
+Financial instruments quoted 360 converts to effective interest by 360
+divided by 365 and 365 converts by multiplying 360 by 365.
+
+Triple Rollover
+
+Wednesdays are triple rollover days when accounts are debited or credited
+with triple interest to account for the weekend and holidays. Rates are published on any trading station as they are released and when closing prices are
+issued for the trading day so any trader can determine early and exactly how
+much rollover rates pay for the day. Our rollover strategy is called the carry
+
+Currency Trading Beyond the Basics
+
+27
+
+trade and is popular to earn rollover on a daily or longer-term basis. Yet this
+is only one aspect to the carry trade that will be addressed in later chapters.
+
+Trade Strategy
+
+Fix ﬂows are released by banks and research companies so market professionals
+can gauge direction of interest rates. View the three-month LIBOR. Look for
+crosses to determine where one nation’s rates trade above or below another.
+For example, suppose U.S. dollar LIBOR traded above Japanese yen. This is a
+sell U.S. dollar/Japanese yen trend trade because U.S. dollar rates are not only
+higher, but they may be higher for purposes of expectations of future higher
+benchmark interest rates or an economic boom to follow. Suppose three-month
+U.S. dollar rates crossed above British pound rates. Buy British pound/U.S.
+dollar. If U.S. dollar rates crossed below British pound, sell British pound/
+U.S. dollar. View correlations from overnight rates to three month and
+determine trends to ﬁnd good rollover rates plus capital appreciation. If rates
+held steady for both overnight and three-month LIBOR for a particular pair,
+chances are good that the trade is a range trade. So sell the range tops and buy
+the range bottoms and always allow LIBOR to be the overall guide.
+
+Swap Points versus Rollovers for World Wide Traders
+
+Not all nations employ LIBOR or benchmark interest to credit rollover
+accounts. It is important to understand how brokers factor rollover, what
+instruments are employed, and how much is debited or credited.
+
+Market Orders
+Market orders are deﬁned as an entry order, an exit order, a limit order, an
+order to hedge a trade, and a stop order to exit a position at a predetermined time. All historic market orders were changed by the National Futures
+Association in 2009 due to Rule 2-43. Markets orders to enter and exit a
+position were changed as well as rules to manage lot and lot rotation. Lot
+rotation is managed by a system of ﬁrst in, ﬁrst out, which says that if 10
+lots were bought to go long the British pound/U.S. dollar, the ﬁrst lot must
+be addressed before the second lot, then third lot, up to the tenth lot. If a
+proﬁt is earned on the tenth lot, a trader must rotate through the prior nine
+lots before the tenth lot’s proﬁt is allowed to be taken from the market. Rules
+
+28
+
+Inside the Currency Market
+
+to exit a position are done by a one-cancels-the-other order (OCO). This
+means an order above or below the market must be entered in order to exit a
+position. All rules apply to only U.S. traders in their own market. What was
+once a standard and easily applied system to trade has now radically changed.
+This convoluted system applies only to U.S. residents in U.S. markets. All
+nations highlighted in this text are not subject to such convoluted rules in
+their own nations of trade. The main polemic is that markets may run fast at
+times, so proﬁts may be realized for ﬂeeting instances. This system can slow
+down proﬁts in fast markets. Examples of each type of order are provided.
+
+United States
+• National Futures Association (NFA)—Regulates currency and other markets in the United States in conjunction with the Commodity Futures
+Trading Commission. In April 2009 with issuance of Rule 2-43, order
+rules were changed, hedging rules were changed, and rules were changed
+for lot rotation.
+• One cancels the other—Once a lot is bought or sold for any pair, an OCO
+order must be entered to exit the trade. If the Australian dollar/U.S. dollar
+was bought at 1.9336 and exited at 1.9376, a limit order must be placed
+above the market at, say, 1.9386. If a short was entered at 1.9376 and
+exited at 1.9336, a stop loss order must be entered at, say, 1.9326 to formally exit the trade.
+• First in, ﬁrst out (FIFO)—If a trader bought 10 lots of any currency pair,
+the ﬁrst lot must be addressed and settled before the second, then third,
+and onward.
+• Hedging—Traders can’t enter a buy or sell at the same time in the same
+pair in the same account. To hedge, traders can hedge with two separate
+accounts or hedge in another market. For example, the euro/U.S. dollar
+can be hedged in the oil market, the currency option market, or the gold
+market to name just a few examples.
+
+National Futures Association and Currencies
+
+The adverse decisions to traders and currency markets in particular may be
+based on a number of factors. The NFA, as a regulator, has pondered the
+question of what is a currency without asking what are currency pairs. Can
+one currency be classiﬁed as a security or as a derivative, and how should it be
+treated in relation to other traded instruments?
+
+Currency Trading Beyond the Basics
+
+29
+
+NFA regulators haven’t objectively answered these questions, so they treat
+a currency as a security—a stock—and place limits on its trading ability just
+as a stock would trade. To treat one currency as a derivative is just not objectionable either, due to the lack of an underlying instrument, so that concept
+doesn’t exist unless the decisions were rendered based solely on the views of
+the U.S. dollar Index, the only single-currency index.
+A currency pair’s value is based on the corresponding pair it aligns to
+in relation to the nation that it trades. Only the economic situation of a
+nation can determine that value through the free markets. In economic terms,
+this is called international parity conditions where interest rates, prices, and
+exchange rates are linked to form the market-price model. Therefore, a currency cannot be viewed as a single entity in isolation because it detracts from
+the concept of currency pairs as trading vehicles, funding mechanisms, and
+a measured value of a nation’s economic conditions and worth. Further, a
+currency pair is a money-market instrument and priced against other instruments in the money market. To hinder a currency-pair trade ability can only
+hinder other priced instruments in the same money market.
+
+Orders: Europe, Australia, New Zealand, Hong Kong,
+Japan, Switzerland, Canada, and England
+
+Several nations are governed by their own NFA that sets policies and regulations according to the nation’s desires.
+Japan has the Financial Services Authority; the United Kingdom has
+the Financial Services Authority; Hong Kong has the Securities and Futures
+Commission; New Zealand has the Securities Commission of New Zealand;
+Switzerland is home to the Swiss Financial Markets Supervisory Authority;
+and Canada has the Investment Industry Regulatory Organization of
+Canada.
+The United States is the only nation that placed restrictions on currency trading. In other nations, hedging is allowed, straight limit orders are
+allowed, stop orders are allowed, trailing stops are allowed, and there are no
+restrictions to lot rotations and FIFO.
+The recently passed 2010 Dodd-Frank Wall Street Reform and Consumer
+Protection Act section 743 and 744 prevents account openings in the countries
+listed previously for U.S. citizens. Any accounts held in these locations at the
+time of passage were closed and funds repatriated. This says that traders anywhere in the world can trade U.S. markets as they desire but U.S. traders can’t
+trade their own markets as they desire due to adverse restrictions.
+
+30
+
+Inside the Currency Market
+
+Brokers: Yesterday and Today
+
+Since 1998, the Securities and Exchange Commission (SEC) has allowed the
+implementation of Electronic Communication Networks under Rule 600 b
+23 of Regulation NMS and found in the Securities and Exchange Act of
+1934, 11A (SEC 2010).
+The National Market System (NMS) was formed to promote fair-market
+competition and efﬁcient markets and is regulated by Congress and enforced
+by the CFTC. The focus of NMS in its infancy addressed trade of stocks
+when, for example, the 1975 rules facilitated linkages of systems that traded
+stocks. All U.S. stock markets connected to one system. Time passed and
+NMS was again the focus to ensure fair market access, order protection, intermarket price competition, fair price protection, and access rules, as was the
+case with the 2005 updates (SEC 2006).
+As new ﬁnancial instruments developed, retail brokers, traders, and
+hedge funds developed with fast computers. NMS was again the subject of
+debate and hearings in Congress. Congress, the SEC, and CFTC are currently
+addressing the May 6, 2010 Flash Crash when Greece announced horrendous
+economic news and the New York Stock Exchange dropped 1000 points on
+the day. What will occur to further enhance efﬁcient markets or slow the
+speed through the NMS system is a guess at this stage. The questions are
+speed of computers and fair access.
+Originally, networks facilitated trade through a network of buy and sell
+orders routed through NASDAQ. All electronic communication networks
+(ECNs) had to register with the SEC as a broker dealer and became subject
+to regulation as an Alternative Trading System. Early debates included questions of access to the network and whether fees should be charged for access.
+Questions of trading commissions came next, as well as fees for dormant
+accounts.
+As time progressed and old issues settled, the personal computer and
+increased access to the networks allowed retail and professional traders access
+to the markets. Today retail traders can trade many types of ﬁnancial instruments from futures to options to currencies to stocks on any exchange around
+the world and even at the same time.
+Currency brokers found their purpose as middlemen to support the trade
+of currencies from retail traders to the interbank network. In the beginning,
+they charged a ﬁxed price on a per-lot basis. With better and faster computers, the ﬁxed-lot price was reduced to a spread price as trading outside the
+interbank market exploded.
+
+Currency Trading Beyond the Basics
+
+31
+
+Today the majority of currency brokers earn their revenue from the
+spread. Traders must be aware of brokers that make markets in certain currencies. Their role changed from facilitator to dealer. Unsuspecting retail traders
+in these instances trade against their own broker. As retail traders buy and
+sell lots from these brokers, dealers facilitate separate trades for proﬁt in the
+interbank market and may earn the same revenue twice.
+Exchange Rates: The Impact of Keynes
+and Mundell-Fleming
+
+When one ponders the question of what is or what should be the price of one
+currency in relation to another, the modern day and accepted answer is the
+nominal or real exchange rate, the purchasing power parity, or balance of payment models. How these models were derived should be the question, as well
+as their validity. A brief walk through history will help to explain.
+Classical theorists focused their attention on monetary policy as it relates
+to the level of prices in an economy in terms of the money supply. They
+believed that as the money supply increased, price levels would increase along
+with the exchange rate without any dramatic effects to an economy in terms
+of growth and output. If growth in the money supply increases inﬂation,
+interest rates and the currency price would reﬂect these economic variables
+but still not affect an economy’s growth rates. Then John Maynard Keynes
+turned this theory upside down.
+No discussion of macroeconomics can neglect John Maynard Keynes.
+Keynes believed that economies always move toward equilibrium. How equilibrium ﬁnds its place in an economy was the source of contested debate for
+classical economists and Keynesians in the 1930s. This debate is continuous;
+it is argued today on a higher order.
+Building on this premise, 1972 Economic Nobel Laureate John Hicks in
+1937 introduced the Investment Savings and Liquidity Preference for Money
+Supply (IS/LM) Model. It is actually two equilibrium models linked together,
+income to interest rates and expenditures to income. Equilibrium is the intersection of nominal interest rates to gross domestic product (GDP) or income.
+The measure is not only economic equilibrium and interest rates, but the
+proper output of goods and services. Aligned properly, one can determine
+how an economy fully functions to its perfect capacity.
+The IS curve measures interest rates on the vertical axis and income on
+the horizontal axis. Income in 1937 was a measure of GDP, beyond 1937 it
+
+32
+
+Inside the Currency Market
+
+measured, for example, exports, savings, and government spending. The IS
+curve is a quantity of equilibrium as it relates to total spending to total output. It is measured by the equation:
+YCI
+The premise is that interest rates ebb and ﬂow with investment along the
+curve. Higher interest rates equate to a higher return on investments. But if
+investment in terms of proﬁtability is uncertain due to high interest rates, the
+investment is scrapped. For these reasons, the IS curve is downward sloping.
+The Liquidity Preference and Money Supply (LM) curve measures
+demand for money on the vertical axis and the supply of money held by
+banks on the horizontal axis. The measure is the demand for money and
+investment. Equilibrium occurs when demand equals the supply on the
+money markets. The positive is if money demand is uncertain, consumers
+will be cautious. If money is cheap in terms of a low interest rate, consumers will buy assets. With high interest rates, they will sell assets. Two types of
+money were identiﬁed by Keynes—speculative and uncertain.
+Uncertain money is used for basic living, and speculative money is used
+for investment. This equation is represented by M/P where M  the money
+supply and P  the ﬁxed price level or interest rate. So
+M/P  L(Y)  L2 (I)
+L2 (I)  M/P  L1 (Y)
+This curve points upwards.
+Equilibrium occurs when IS is equal to LM and answers the question
+where does supply equal demand in terms of money and interest rates? The
+method of determination is to plot points to further specify the balance of
+monetary policy. To accommodate for ﬁscal policy, Income is equal to consumer spending (Income minus Taxes) plus Investment multiplied by the
+interest rate as a function of real interest rates plus government spending.
+While this equilibrium model was presented in its basic form, inputs can
+be mixed and matched, as the case has been since 1937, to determine equilibrium of an economy. The glue that held this model together and the method
+employed to fully understand an amply functional economy is interest rates.
+If this economy would have been fully functional today, a nation’s
+economy would have been reﬂected in its currency price since interest rates,
+above all, are what drive spot prices. Although this model and the classical
+model may have an inward bias that determines a look at an economy at one
+
+Currency Trading Beyond the Basics
+
+33
+
+moment in time, it led to the understanding of the level of bond prices, asset
+prices, and construction of yield curves. It was the beginning of understanding exchange rates but it wasn’t enough since only one side of a currency pair
+was understood.
+Robert Mundell and Marcus Fleming revolutionized the IS/LM Model in
+1962 with an introduction of a balance of payments component that would
+change not only the GDP income element of the model, but the money
+supply, domestic versus global interest rate, government expenditures, and
+exchange rates would all become important factors to determine an economy
+in equilibrium. It completely altered what was understood for 25 years as an
+economy in equilibrium and shifted the IS and LM curves exponentially to
+form a new model.
+The balance of payments net-export function would change the curves
+due to the purchase and sale of foreign securities to complete transactions.
+Income would change due to the factors of net exports and the cost of transactions in terms of interest-rate differentials. Both would affect the domestic
+and global interest rate and all would affect government expenditures. For the
+ﬁrst time in history, exchange rates and the proper balance of rates were tied
+to a macroeconomic view of the world due to capital ﬂows across borders. No
+longer would economies be viewed from an inward perspective without the
+consideration of Mundell-Fleming. Robert Mundell would receive the Nobel
+Prize in Economics in 1999 for this model, and would later become instrumental in the development of the forward market.
+While these models were presented in their basic form to understand
+the historical aspects of the development of exchange rates and all have their
+critics because the gold standard was still in effect in 1962, Mundell-Fleming
+set the world on a new course of study for governments, researchers, traders,
+professionals, and academics to understand exchange rates in terms of the
+balance-of-payment model. Nearly 50 years after this valuation model was
+introduced, world governments and international organizations adopted a
+reasonably uniform standard of a balance-of-payment model employed not
+only to determine trade but to gauge the proper balance of exchange rates.
+The effects of Mundell-Fleming are still a crucial element of the international
+system today.
+U.S. Current and Capital Account

@@ -1,0 +1,305 @@
+
+Finding S/R Is Key to Identifying and Executing Low-Risk High-Yield
+Trades
+Identifying s/r is arguably the most important goal of TA. Here's why. If you can find situations that
+allow you to enter at strong support zones and plan exits near strong resistance that is a much greater
+distance away from your entry point than your stop loss, then you will have a low-risk, high-yield
+setup that even a beginner can turn into a profitable trade.
+Some would argue that identifying trends, momentum, or cycles of price movements (all discussed
+later) are equally or more important. However, trends are sequences of s/r levels, and trend lines are
+mostly used as a type of s/r. Momentum is the speed at which trend lines change, and cycle analysis
+like the Elliott Wave Theory is the timing of when these change. Granted, momentum and timing
+indicators can have important predictive value beyond their relationship to s/r.
+In other words, by using TA to find likely s/r at which to enter and exit, we can hunt for trades that
+offer both the lowest probability of loss and highest probability of gain:
+1. The lowest probability of loss: For example, we open long positions near what our TA tools
+tell us is the likely support or low price for a given period we set an entry limit order to open a
+long position near support. We also enter a stop loss order to close the position a short distance
+(in pips) below this estimated low price because if the price breaks below this level, that's our
+signal that we were wrong about support and that in fact the pair could fall much lower. With the
+stop loss order, our trading platform automatically closes the position for us with only a small
+loss. Similarly, we want to open short positions by entering a sell limit order near what our TA
+
+tools indicate is support. With short positions, support is the high price for a given period. As
+part of good risk management, we enter a stop loss order a short distance (in pips) above this
+level, so that if we were wrong and the price breaks higher, that stop loss automatically executes
+and closes our position with an affordable small loss.
+How we choose where to place our stop losses will depend on a number of factors that we'll
+discuss in more detail later. For now, know that we'd consider these factors:
+Money management criteria: What size loss can we take and not lose more than 1 to 3
+percent of our trading capital.
+Risk management criteria: Aim for a 1:3 risk-to-reward ratio. In other words, the distance in
+pips from our entry point to stop loss should be no more than about a third of the distance
+from our entry point to our profit-taking point (near the high in the case of long positions,
+near the low in the case of short positions). That way our winning trades produce gains that
+make up for multiple losses.
+Normal or average price fluctuation or candle length is for the given time frame so we don't
+get “stopped out” of our position by random market noise.
+Market conditions: For example, if we have a lot of confidence in the prevailing trend, we
+might compromise on certain RAMM criteria because we believe the chance of a loss from
+the trend stalling or reversing is exceptionally low.
+2. The highest probabability of gain: Using our TA tools to identify s/r, we hunt for and trade
+situations where the distance from our entry point to the likely resistance or high price is triple
+(or more) the distance (in pips) from our entry point to our stop loss point.
+
+Good Risk Management Requires Good TA
+Do you see why technical analysis is so, well, fundamental to good risk management? You need good
+TA to determine likely s/r to identify situations that offer low-risk, high-yield entry and exit points. In
+short, TA tells you when you're buying low and have a good chance of selling at a much higher price
+(or the opposite in the case of short positions).
+
+Think of S/R as Zones or Areas
+As we mentioned earlier, support and resistance are not precise prices but rather price ranges. For
+example, in Figure 3.10, our labels assume a long position on the EURJPY. If we were short the pair,
+the labels would be reversed. For example, SUPPORT 1 would be labeled RESISTANCE 1.
+FIGURE 3.10 EURUSD Daily Chart, January 16 to July 3, 2011
+Source: MetaQuotes Software Corp.
+
+Support and resistance are not precise points but rather areas. Depending on circumstances, some
+may determine s/r points based only on opening or closing prices, while others will consider the
+wicks as well.
+There are many reasons for why s/r should be viewed as zones rather than precise points, including:
+Differences in perception of s/r: The application and use of many s/r indicators depends on
+human judgment and is to varying degrees subjective. For example, different traders will draw
+the same trend line a bit differently. These differences will cause some variance in where traders
+chose to buy or sell.
+Trader temperament: Buy and sell orders tend to cluster around popular s/r levels, so the effects
+of these are felt above and below them. For example, as a currency pair rises toward resistance,
+more conservative traders will have exit orders to take profits set somewhat before resistance
+(or what they think it is) is hit in order to beat the crowd and exit before price might start to
+reverse. More aggressive traders will place profit-taking sell limit orders closer to or above
+resistance in hope of getting a few extra pips of profit.
+Large institutions and brokers are aware of key s/r levels and will often use their ability to place
+huge orders to move prices so less savvy individual traders get fooled into making premature buy
+or sell decisions from which these players reap profits. The mechanics of this are beyond the
+scope of this book, but the point here is that there are those who can and will try to influence very
+short-term perceptions of s/r, thus further blurring where an objective s/r point lies. These
+attempts at short-term price manipulation are part of the reason why so many seemingly random,
+unpredictable intraday price movements are seen on the short time frames (1 to 60 minutes, oneto four-hour charts, etc.). More on how to deal with these attempts to fool you later when we
+discuss topics for further study.
+
+So Stick to Trading Longer Time Frames—They're Safer
+This is another reason we urge less experienced or profitable traders to avoid day trading forex until
+
+they're consistently profitable on a monthly basis with multiday/week/month positions. They avoid
+becoming victims of random price movements or attempts at short-term price manipulation. That
+happens in any kind of short-term trading and not just forex. As noted earlier, stock markets are ruled
+by market makers for a given stock, who, ahem, have been known to succumb to similar temptations,
+all for the sake of maintaining an “orderly market, of course” Your Honor.
+Few beyond the central banks of sovereign nations have the ability to exercise longer-term
+influence on prices, so longer-term trends are far less subject to manipulation by even the most
+powerful players.
+
+Reasons to Consider Using Multiple Entry and Exit Points
+When you enter a position, support might not appear exactly where you think it should be, and you
+could find your trade moving against you. Similarly, resistance might appear earlier or later, causing
+you to miss a profit-taking opportunity or to exit too soon (if you're not using a trailing stop).
+So, consider entering positions and taking profits in stages. For example, consider closing half of
+your position when your profit equals the size of your stop loss (plus a few pips extra to cover
+transaction costs). Then move up your stop loss order to this first exit or break-even point so even if
+the trade reverses, you break even. If it continues to move in your favor, switch to a trailing stop loss
+to ride the move for whatever gains you can get.
+More on this in Chapter 5, when we discuss the value entering and exiting positions in stages rather
+than all at once. Staged entries and exits are another aspect of trade planning, risk management, and
+trader psychology because if you've taken some profits or will at least break even, this relieves some
+of the stress of trading.
+
+Once Broken, Resistance Becomes Support and Vice Versa
+Markets are comprised of human traders who study past support and resistance levels. Look again at
+Figure 3.10 for reference.
+Note how often former resistance becomes support and vice versa. For example, compare:
+Resistance area 1 and support area 3 both center around 113.55.
+Resistance area 2 and s/r area A both center around 115.05.
+
+Why Resistance Becomes Support and Vice Versa
+The short answer is that traders remember recent highs and lows and are watching charts like the one
+in Figure 3.10. They tend to perceive breaks above resistance as a sign the asset has hit a new
+plateau, and they treat former resistance as support until proven otherwise. At least part of the reason
+for this is that those who sold near resistance and regret having sold too soon see a return to that price
+as a chance to reverse their mistake.
+The same holds true when support is broken. If prices rise back toward that former support area,
+traders who are still holding the asset, who had expected price to move higher and are sitting with
+losing positions, see this level as a chance to get out and break even.
+
+Don't “OD” on TA
+It's easy to get carried away with TA in your early years of trading and to clutter your charts
+indicators in the hope that more is better.
+It isn't, so don't. Here are two reasons:
+1. While I'm oversimplifying a bit, most indicators measure s/r, trend, trend strength (aka
+momentum), or the cyclical movements of prices, so the marginal benefit of additional indicators
+drops after you have one or two of each kind because they're tracking the same thing in different
+ways. So, stick to around five (plus or minus 2) of them as a rough guide. By all means
+experiment with various tools for various asset classes or pairs, but limit the number you're using
+at any one time.
+2. You risk the common beginner's malady of paralysis from analysis, as you struggle to reconcile
+conflicting or ambiguous signals. For example, though a group of trend or momentum indicators
+may be attempting to track the same thing, the difference in how they do it could be enough to
+send conflicting signals.
+It's far better to focus on mastering a limited number of technical tools (four to seven as a rough
+maximum), mixing trend, momentum, and timing indicators, as discussed in Chapter 9. Together these
+give you enough information about likely s/r points and where to enter and exit for best results.
+Therefore, know that you'll put the odds more in your favor by first focusing on building expertise
+with the tools we'll be covering and applying them to a limited number of currency pairs and time
+frames. For example, some traders will gravitate toward how a given currency pair responds to
+moving averages or other kinds of trend lines. Others will focus more on Double Bollinger bands or
+Fibonacci retracement and extension levels. In Chapter 9 we'll show you how to test the forecasting
+power of different combinations of indicators through a process called back testing. Over time you
+can then expand your repertoire of tools used as well as pairs and time frames traded.
+
+Why Specialize in a Few Currency Pairs and Time Frames?
+When starting out with forex, you'll progress faster by becoming familiar with the price behavior and
+fundamentals of a few pairs in a few time frames, preferably longer ones for reasons cited above. As
+each economy and currency has its unique characteristics, so too do individual currency pairs. For
+example, different kinds of events impact some more than others. Correlations can be different. The
+EUR and USD tend to move in opposite directions because the EURUSD comprises 25 to 33 percent
+of all forex trade, so every time three to four EUR are bought, a USD is sold, and vice versa. That
+means the pair can be subject to wild swings depending on which currency is in favor at a given
+moment. However, the USDCAD tends to be less volatile because the Canadian economy is more
+closely linked to the fortunes of the USD, a destination for about 75 percent of Canadian exports.
+We'll go deeper into intermarket correlations and how to use them in Chapter 9.
+By specializing, you'll develop expertise faster, and you won't be sacrificing much in terms of
+trading opportunities because, as we'll see, there are only two kinds of currency pairs: risk currencies
+and safe haven or safety currencies. Members of each group behave similarly relative to the overall
+market movements, so you can ride bullish or bearish market trends with only a few currency pairs.
+
+What Determines Whether a Currency Is a Risk or a Safe Haven?
+In Chapter 2 we said that there are 2 kinds of currencies, risk and safe haven, which respond in
+opposite ways to market sentiment.
+The higher the risk ranking (think AUD, NZD, CAD, EUR and GBP in that order), the more the
+currency tends to appreciate versus those lower on the risk spectrum in times of optimism, when
+markets seek risk assets like stocks or industrial commodities. In times of fear, the opposite
+happens.
+The higher the safety ranking (think JPY, USD and CHF in that order) the better the currency
+performs versus those lower on the safety spectrum (or higher on the risk spectrum) in times of
+fear, when risk assets sell off and safety assets, like quality bonds, rally.
+Once again, here's the general ranking.
+
+What causes a given currency's risk ranking?
+The main reason is interest rates. The higher the currency's benchmark short term yields, the more
+closely it moves with other risk assets, and so the higher it tends to rank as a risk currency. That's
+because in times of optimism, high-yielding currencies are in greater demand due to carry trading. In
+other words, carry traders buy higher-yielding currencies and sell lower-yielding ones to fund these
+purchases, with a view to profiting on the interest rate differences. In times of fear, carry traders
+close these positions, causing a sell-off in risk currencies and a rally in their safe haven counterparts.
+If you're confused, don't worry; all this is explained in Chapter 6.
+For now, just know that a currency's short term benchmark interest rate, set by its central bank, is
+the most important reason behind a given currency's ranking.
+There are other factors that can affect risk ranking, but their influence can vary with multiple
+factors. Interest rates provide most of the explanation for whether a currency behaves like a risk or
+safety asset, that is, like a growth stock or like a quality bond.
+
+Understanding the Risk/Safety Asset Distinction Is Lucrative
+Whether the base currency (the one on the left) of a forex pair has a higher risk or safety ranking than
+its counter currency determines whether the pair is a risk or safety currency pair, and thus determines
+how it correlates with other kinds of assets. When we see a divergence in that correlation (that is, the
+pair isn't behaving like other risk or safety assets), that's usually a warning of a possible change in
+market direction or in the currency pair.
+For example, forex and bond markets tend to pick up changing conditions before stock markets, so
+those who watch forex or bond markets can often see advanced warnings of what may happen with
+stocks or other markets. That advanced knowledge can be very profitable.
+The opportunities to spot these divergences from the normal correlations between currency pairs
+and other asset types is one of the best reasons why everyone needs some awareness of forex markets.
+With experience, you'll become increasingly sensitive to any divergences from normal correlations
+
+between asset types. The study of these relationships is called intermarket analysis, and we'll explore
+this critical topic in Chapter 9.
+Note however, that because currencies trade in pairs, the significance of currency's risk ranking is
+in how it affects the behavior of one of its pairings. The farther apart a given pair's component
+currencies are on the above risk spectrum, the more sensitive the pair will be to market movements.
+We'll explain that in much greater depth later on.
+
+Note
+1. Steve Nison, Japanese Candlestick Charting Techniques (New York: New York Institute of
+Finance, 2001).
+
+CHAPTER 4
+Technical Analysis
+Types of Support and Resistance (S/R)
+Now you understand some basics about charts, support and resistance (s/r), and risk and money
+management (RAMM). You're ready to get to the meat of TA and learn the tools to identify the likely
+support area at which to enter or open a position and the likely resistance zone at which to exit or
+close it.
+This chapter will cover:
+Price levels
+Trends and trend lines
+Fibonacci retracements
+Bollinger Bands (BBs) in range-bound markets
+Introduction to Japanese candle chart patterns
+Introduction to Western chart patterns
+The importance of having multiple s/r indicators
+I have selected the following tools and indicators of s/r based on importance and ease of use. The
+idea is to give you a powerful toolkit you can learn quickly and easily.
+Though opinions about the value of TA vary, most would agree it's necessary to know if you're
+buying low or selling high. And though many disparage TA, I've yet to meet a serious trader or
+investor who doesn't use it. The main reasons include:
+Much of it makes intuitive sense. Some of it doesn't, but works anyway. For example, the
+Fibonacci retracements we will discuss further on are based on a common ratio found in nature,
+music, and other fields of study. Why it applies to price behavior is unclear, but it does, so look
+at it like electricity. You use it even though you don't understand how it works.
+Used properly, it improves your performance.
+It is so widely used that you need to watch the popular indicators to know what the rest of the
+market is thinking. That self-fulfilling prophecy factor alone makes it worthwhile.
+Let's focus on that last point. Successful trading or investing depends on anticipating what the
+crowd will do, and doing it first, or even better, early, just as they've already started to bid up the
+price but before most of the gains are realized. In other words, the key to success isn't knowing
+what's necessarily true, but rather correctly anticipating what the rest of the market will soon
+believe is true.
+Savvy traders ignore their personal opinions and focus on what they think the crowd will do. These
+traders buy when price is low before the herd rushes in and bids it up, and they sell before the masses
+sell and drive price lower, regardless of whether they think the move is justified. Ironically, many
+
+with great academic credentials and analytical skills often struggle because they can't anticipate what
+they see as an irrational behavior of markets, while others of more average credentials who have a
+better feel for the emotions of market participants prosper.
+While fundamental analysis (see Chapter 6) is valuable, it tells us little about the likely best entry
+and exit prices in a given time frame and, except for news trades, it tells us nothing about short-term
+price action. Fundamental analysis is also notoriously bad for timing entries and exits. In contrast,
+technical indicators can tell you when the crowd has begun buying or selling.
+Regardless of whether you believe in TA, you need to understand and use it because the crowd uses
+it. That makes TA invaluable in anticipating what they see as s/r, and thus when they are likely to be
+buying or selling. The more popular the indicator, the more it creates a self-fulfilling prophecy of how
+markets may react.
+Though some theorize that TA works solely because of this self-fulfilling prophecy phenomena, that
+line of reasoning fails to explain why markets originally accepted TA. It had to produce some results
+before it could gain acceptance. Moreover, as we'll see next, most of the commonly used s/r
+indicators have a clear logic to them.
+
+PRICE LEVELS
+Simple price levels, like those in Figure 4.1, are the most basic building blocks of most s/r indicators.
+As noted earlier, think of them more as areas or zones rather than precise price points.
+FIGURE 4.1 EURUSD Daily Chart, January 16 to July 3, 2011
+Source: MetaQuotes Software Corp.
+
+They don't appear out of nowhere. As experienced food shoppers remember a low price (support)
+or a high price (resistance) for apples, price levels are the product of collective trader memory over
+a given period and time frame. That perception of what is a low or high price can change with news
+about the fundamentals (see Chapter 6) that affect supply and demand, be it for apples or a currency.
+
+For example, reports that apples cure impotence would raise demand and price for apples. Similarly,
+rising interest or growth rates increase demand for a given currency.
+
+For Lowest Risk, Enter Near Strong Support
+If you enter near strong support, and that support doesn't hold, then you will immediately know you
+were wrong about how low price should go and you can exit the trade with only a small loss. For
+example, if you open a long position, the farther that entry is above solid support, the bigger your loss
+before price tests that support level, and the greater your risk of loss if support is breached.
+Similarly, when you enter a short position, the further that entry is below the next major support
+level, the larger your risk of loss before discovering that support isn't holding and it's time to exit with
+a small loss before it becomes too large. Remember, with short positions, support is the likely high
+price.
+Therefore, correctly identifying strong support is essential to choosing low-risk entry points.
+
+What Makes Some S/R Points Stronger Than Others?
+We'll discuss these criteria for strong s/r as they apply to price zones, but these characteristics apply
+to any kind of s/r points and not just price levels.
+Four factors that make s/r points stronger are:
+1. Round numbers: They're easier to remember and use. The bigger the round number, the more
+psychologically important it tends to be. For example, in stock markets, it's significant when the
+Standard & Poor's 500 Index (S&P 500) breaks above or below some multiple of 50 or 100, or
+when the Dow Jones Industrial Average (DJIA) breaks through a multiple of 100 or 1,000. The
+same holds true for currency pairs. For example, using the long-term monthly charts, the
+EURUSD's most significant levels have been 1.2000, 1.3000, 1.4000, and 1.5000, with lesser but
+still significant s/r roughly every 200 pips (1.4800, 1.4600, etc.) and more minor s/r every 100
+pips, and so on. Traders are human and humans are wired to attach significance to round
+numbers. Note the charts shown in Figures 4.1 and 4.2.
+2. Age: The longer a given price level has held, the stronger the support or resistance and the

@@ -1,0 +1,351 @@
+
+Litecoin’s network is often used as a testing ground for Bitcoin software
+updates, given that Litecoin is nimbler than Bitcoin because it stores a fraction
+of the monetary value. It has also been used as the basis for other cryptoassets.
+At the start of 2017, litecoin was the fourth largest cryptoasset in terms of
+network value.20
+
+Ripple
+Ripple is a cryptocurrency created in 2004 by Ryan Fugger, a web developer
+from Vancouver, British Columbia. Work on the project actually began before
+Satoshi and Bitcoin,21 when Fugger was searching for a way to allow communities to create a system of money out of chains of trust. For example, if Alice
+trusts Bob, and Bob trusts Candace, and Candace trusts Dave, then Alice can
+send money to Dave (whom she doesn’t know) by first transferring value to
+Bob, who transfers that same value to Candace, who takes that value and deposits it in Dave’s account. Using this concept, payments can “ripple” through the
+network via these chains of trust. Fugger called this concept RipplePay.com.
+While Fugger’s RipplePay did grow to 4,000 users,22 it did not catch fire the
+way bitcoin did. In August 2012, Fugger was approached by the notable financial innovators Chris Larsen and Jed McCaleb. Larsen had founded E-Loan—
+one of the first companies to provide access to mortgage loans online—and
+Prosper, a leader in the peer-to-peer lending space.23 McCaleb was the founder
+of Mt. Gox, the biggest bitcoin and cryptocurrency exchange in the world at
+that time.
+Fugger announced the partnership: “I believe if anyone can develop the
+Ripple concept on a global scale, they can. Their system is based on a Bitcoinstyle blockchain, much as we have discussed here over the last few years as an
+interesting possibility, but with a novel miner-less consensus mechanism that
+allows transactions to be confirmed near instantaneously.”
+Interestingly, in November 2012, this statement from Fugger appeared on
+Bitcoin’s dedicated communication channel, a Reddit-style site called bitcointalk, under the heading, “Is Ripple a Bitcoin Killer or Complementer? Founder
+of Mt. Gox will launch Ripple.”24 This would not be the last time someone
+asked if a new upstart would be a Bitcoin-killer.
+Not long after, in the spring of 2013, it was announced that Larsen and
+McCaleb’s company that developed the Ripple protocol, then called OpenCoin,
+had secured funding from prestigious venture capitalists, including Andreessen
+Horowitz.25 This was a notable development—a sign of approval of the viability
+
+Burniske 01.indd 41
+
+9/9/17 1:12 PM
+
+42 CRYPTOASSETS
+
+of cryptocurrency from one of the most revered venture capital firms in the
+world. OpenCoin would later rebrand as Ripple Labs.
+Ripple’s technology did several new things. It didn’t have miners. Instead
+it utilized a consensus algorithm that relied on trusted subnetworks to keep a
+broader decentralized network of validators in sync. That’s enough to confuse
+any innovative investor. What’s important to recognize is that Ripple’s consensus algorithm relied on trust of some sort, which was vastly different from
+Bitcoin’s proof-of-work design that assumed anyone could be a bad actor.
+Ripple also used trusted gateways as endpoints for users, and these gateways could take deposits and redeem debts in all kinds of asset pairs, including
+traditional fiat currency. This built off Fugger’s original chains of trust but on
+a global multi-asset scale. Routing a transaction through Ripple’s network was
+like sending a packet of information through the Internet, pinging amid connected servers.
+If users didn’t want to rely on these gateways, Ripple also had its own native
+cryptocurrency, called ripples, and commonly referred to as XRP. XRP could
+be used to connect two endpoints in the Ripple network that didn’t have a
+connection of trust.
+But this is where the Ripple team ran into contentious territory, even if the
+concept was born of good intentions. Since there was no mining process, there
+was no means to distribute XRP. Instead, 100 billion units of XRP were created
+and initially held by Ripple Labs (at that time, OpenCoin). While there was,
+and still is, intent to distribute all this XRP to seed use, as of writing the majority of XRP is still under the control of Ripple Labs.
+This has led to mistrust of the Ripple protocol from much of the cryptocurrency community. Vitalik Buterin, who would later go on to create Ethereum,
+wrote in February 2013 for Bitcoin Magazine: “Because of the monetary distribution, OpenCoin may well face an uphill battle convincing the community
+that they can be trusted.”26
+Pricing services like CoinCap don’t list XRP’s total available supply as the
+100 billion that Ripple lists27 but only include the ripple that has thus far been
+distributed to the public, which is just north of 37 billion units.28 A word to the
+wise for the innovative investor: with a new cryptocurrency, it’s always important to understand how it’s being distributed and to whom (we’ll discuss this
+further in Chapter 12). If the core community feels the distribution is unfair,
+that may forever plague the growth of the cryptocurrency.
+Ripple has since pivoted away from being a transaction mechanism for the
+common person and instead now “enables banks to send real-time interna-
+
+Burniske 01.indd 42
+
+9/9/17 1:12 PM
+
+The Taxonomy of Cryptoassets
+
+43
+
+tional payments across networks.”29 This focus plays to Ripple’s strengths, as it
+aims to be a speedy payment system that rethinks correspondent banking but
+still requires some trust, for which banks are well suited.
+
+Dogecoin
+A somewhat comic cryptocurrency addition arrived on December 8, 2013
+(less than two weeks after bitcoin hit a notable high of $1,242) in the form of
+dogecoin.30 Dogecoin was launched as a riff off Doge the dog, which Wired
+magazine had pegged as 2013’s meme31 of the year.32 Doge was a Shiba Inu dog
+whose image with captions of an internal monologue went viral.
+Dogecoin was initially floated as a joke. Jackson Palmer, who worked in
+the marketing department of Adobe’s Sydney offices and was a cryptocurrency enthusiast, sent the tweet: “Investing in Dogecoin, pretty sure it’s the
+next big thing.”33 After a positive reception to what was intended as a joke, he
+bought the domain, Dogecoin.com. Jackson’s activity caught the attention of
+Billy Markus, a Portland, Oregon-based developer who aspired to launch a
+new cryptoasset. In Markus’s own words: “The first thing I said was, ‘This is so
+funny.’ Then I said, ‘I should just make this coin.’”34
+Markus used Litecoin’s code to derive Dogecoin, thereby making it one
+more degree of separation removed from Bitcoin. If Litecoin was a child of
+Bitcoin, then Dogecoin was a grandchild of Bitcoin. A notable variation was
+that Dogecoin planned to issue a much larger amount of dogecoin than bitcoin
+or even litecoin. The plan was to have 100 billion dogecoin in circulation after
+1.5 years.35 That would equal nearly 5,000 times more coins than bitcoin when
+it reaches its maximum supply.
+Markus’s team later chose to issue roughly 5 billion coins each year, and this
+created a vastly different supply schedule from those of the deflationary bitcoin
+and litecoin. Dogecoin mostly gained traction amongst Internet tippers. The
+supply schedule has kept the value of a single dogecoin to a fraction of a cent,
+which is suited to its intended use case. As Palmer stated in an early interview:
+It’s not taking itself as seriously, it’s not being used by people
+worrying about whether they’ll become rich . . . It’s something to
+share for thanks or kudos.36
+
+Palmer’s marketing expertise was another feature that differentiated
+Dogecoin from other cryptocurrencies at the time. The Dogecoin commu-
+
+Burniske 01.indd 43
+
+9/9/17 1:12 PM
+
+44 CRYPTOASSETS
+
+nity raised $50,000 via Dogecoin to send the Jamaican bobsled team to the
+Olympics; raised another $55,000 via Dogecoin to sponsor a NASCAR driver
+who raced with the Dogecoin logo at the Talladega Speedway; and raised
+money to support clean water projects in Kenya via Doge4Water, making the
+donation via a Twitter-based tip service.37
+While Dogecoin may have been launched as a joke, its association with a
+wildly popular Internet meme, its lighthearted origins, and its savvy focus on
+slick marketing led to a quick rise, and its network value grew to $70 million
+only seven weeks after launch.38 But that did not last long. As of March 2017,
+its network value had dipped to slightly above $20 million.
+This bizarre merger of a cryptoasset and pop culture is not surprising considering 2013 was the year that the price of bitcoin ranged from $13 in January
+to over $1,000 in early December.39 The power and enthusiasm of Dogecoin’s
+user community shouldn’t be dismissed, even if we encourage the innovative
+investor to do ample due diligence on it as an investment. While Dogecoin had
+its flaws, it continues to exist and has taught the cryptocurrency space valuable
+lessons about gathering community support in an Internet era.
+AURORACOIN: ICELAND’S NATIONAL CRYPTOCURRENCY?
+Much like the anonymous Satoshi, Auroracoin’s creator also had a fictitious name: Baldur Friggjar Óðinsson. Baldur created Auroracoin based on
+Litecoin’s code and decided to “air-drop” the cryptocurrency to Icelanders
+with the intent of providing 50 percent of all auroracoin in existence to residents. The hope was that such a distribution would jump-start national use
+of the cryptocurrency.
+A key to Baldur’s plan was his access to the government’s national identification system, which led speculators to believe mistakenly that Auroracoin
+was sponsored by the Icelandic government. In anticipation of the airdrop,
+speculators bid Auroracoin’s network value over $1 billion.40
+By the time the airdrop began on March 25, 2014, speculators had sobered
+somewhat, and Auroracoin was hovering just over a $100 million network
+value. By the end of the month, it would be below $20 million, as citizens
+receiving Auroracoin moved to sell it on exchanges to turn a profit.41 Along
+with the drop in price was a loss of confidence and enthusiasm for the new
+cryptocurrency. Few, if any, retailers were willing to accept auroracoin, and
+it was soon considered a “failed experiment.”42 Some also saw it as a scam
+
+Burniske 01.indd 44
+
+9/9/17 1:12 PM
+
+The Taxonomy of Cryptoassets
+
+45
+
+perpetrated by its creator. To this day, auroracoin takes the cake as the cryptocurrency with the grandest plan for widespread usage throughout one country.
+It continues to exist, with a handful of Icelandic developers working to
+revive the concept and the technology. In 2016, ads began to appear throughout Iceland’s capital city of Reykjavik heralding the return of Auroracoin. As a
+result, beers in Iceland were being purchased for auroracoin,43 and many other
+retail establishments began to utilize the cryptocurrency. Then a scandal hit
+and the prime minister was forced to resign because of his involvement with
+the Panama Papers.44 This led to the growth in popularity of a political party
+known as the Pirate Party, which had a favorable view on cryptocurrencies.45
+Suddenly there was speculation46 that Iceland could revisit the potential for
+Auroracoin and its role as a national cryptocurrency.47 As acceptance grows
+and politics change, it will be interesting to watch what happens next for the
+Icelandic cryptocurrency.
+Auroracoin is a cautionary tale for both investors and developers. What
+began as a seemingly powerful and compelling use case for a cryptoasset suffered from its inability to provide value to the audience it sought to impact.
+Icelanders were given a cryptocurrency with little education and means to
+use it. Unsurprisingly, the value of the asset collapsed and most considered
+it dead. Nevertheless, cryptocurrencies rarely die entirely, and Auroracoin
+may have interesting times ahead if its developer team can figure out a way
+forward.
+
+THE RACE FOR PRIVACY: DASH, MONERO, AND ZCASH
+While Litecoin, Ripple, and Dogecoin all added elements to the mix of what it
+meant to be a cryptocurrency, they did not provide the privacy that many early
+Bitcoin advocates yearned for. It is a common misconception, even for Bitcoin,
+that it is an anonymous payment network. Bitcoin transactions are pseudonymous, and since every transaction can be seen by any third party, there is a
+wealth of information for anyone who would like to pinpoint who the participants are. Inarguably, someone who wants to use a currency for illegal activity
+is better off using cash than bitcoin. With every transaction, bitcoin leaves an
+indelible digital mark in Bitcoin’s blockchain.
+Currently, three notable cryptocurrencies put privacy and anonymity first.
+In order of launch, they are Dash, Monero, and Zcash. All three pursue this
+value proposition differently. Monero is likely the most relevant to the inno-
+
+Burniske 01.indd 45
+
+9/9/17 1:12 PM
+
+46 CRYPTOASSETS
+
+vative investor, with a sustained record of operations, solid cryptography,
+and a sound issuance model. While Dash has merits, it has contested origins.
+Meanwhile, Zcash uses some of the most bleeding-edge cryptography in the
+world, but it is one of the youngest cryptoassets in the book and suitable only
+for the most experienced cryptoasset investors.
+
+Monero and Its Predecessor, Bytecoin
+Monero is a descendent of a lesser-known cryptocurrency called Bytecoin.
+Bytecoin was crafted quite differently from Bitcoin, using technology known
+as CryptoNote. Similar to Litecoin’s scrypt, CryptoNote’s block hashing algorithm aims to avoid the specialization and therefore centralization of the miners supporting the network by requiring an order of operations that favors
+general purpose chips like the CPUs found in PCs.48 Beyond a focus on more
+egalitarian proof-of-work, CryptoNote provided untraceable payments,
+unlinkable transactions, and blockchain analysis resistance.49 Adam Back is
+considered the inspiration for Satoshi’s proof-of-work algorithm and is president of Blockstream, one of the most important companies in the Bitcoin
+space. In March 2014, he tweeted about CryptoNote, saying it was one of the
+few ideas in the cryptocurrency space outside of Bitcoin that held a “defensible
+rationale for existence.”50
+Some may ask why Monero stole the show from Bytecoin. Bytecoin’s blockchain and the issuance of its currency, bytecoin, started on July 4, 2012, but it
+did not become widely known until almost two years later when an announcement for it appeared on bitcointalk.org on March 12, 2014.51 People were
+intrigued but confused about why the Bytecoin team had taken two years
+to make it public. Some argued that it was because the developers wanted to
+make sure the technology was soundly running before drawing more attention. Others argued that something more insidious was at play, called a
+premine (pronounced “pre-mine”).
+Bytecoin planned to issue 184.46 billion bytecoin via the mining process,
+but by the time it was made publicly known, 150 billion bytecoin were already
+in existence, more than 80 percent of the total supply.52 A classic premine,
+Bytecoin had quietly released a large amount of the coins in a manner that
+disadvantaged the broader community. Bitcoin and the permissionless blockchain movement was founded on principles of egalitarian transparency, so
+premines are widely frowned upon. While they still occur, many are scams
+that the innovative investor should be wary of. A key differentiator between
+
+Burniske 01.indd 46
+
+9/9/17 1:12 PM
+
+The Taxonomy of Cryptoassets
+
+47
+
+a scam and good intent is the communication and rationale of the developer
+team behind the issuance model.
+On April 8, 2014, the bitcointalk.org user named “eizh,” who would later
+become a Monero developer, made the comment, “I’m surprised someone
+hasn’t started a clone for a fairer distribution and active development.”53 On
+April 9, 2014, only a month after the public announcement of Bytecoin, an
+involved user known as “thankful_for_today,” made a post to bitcointalk.org
+titled “Bitmonero—a new coin based on CryptoNote technology—launched,”
+with the intent to launch mining in nine days.54 BitMonero was quickly
+renamed Monero and often referred to as XMR.
+The most defining feature of Monero is its use of ring signatures, a cryptographic technology that had been evolving since 1991.55 Monero’s ring signatures are best explained in the context of Bitcoin. In Bitcoin, to create a transaction, a known individual signs off on the balance of bitcoin he or she is
+trying to send. In Monero, a group of individuals signs off on a transaction
+creating a ring signature, but only one in the group owns that monero. The
+CryptoNote website puts it succinctly:
+In the case of ring signatures, we have a group of individuals,
+each with their own secret and public key. The statement proved
+by ring signatures is that the signer of a given message is a member of the group. The main distinction with the ordinary digital
+signature schemes is that the signer needs a single secret key,
+but a verifier cannot establish the exact identity of the signer.
+Therefore, if you encounter a ring signature with the public keys
+of Alice, Bob and Carol, you can only claim that one of these
+individuals was the signer but you will not be able to pinpoint
+him or her.56
+
+While many are suspicious of such privacy, it should be noted that it has
+tremendous benefits for fungibility. Fungibility refers to the fact that any unit
+of currency is as valuable as another unit of equal denomination. A danger for
+bitcoin, especially for balances known to have been used for illegal activity, is
+that if an exchange or other service blacklists that balance, then that balance
+becomes illiquid and arguably less valuable than other balances of bitcoin.
+While subtle, losing fungibility could be the demise of a digital and distributed
+currency, hurting the value of all units, not just the ones used for illegal activity. Fortunately, this is one problem that Monero does not have to deal with.
+
+Burniske 01.indd 47
+
+9/9/17 1:12 PM
+
+48 CRYPTOASSETS
+
+Monero’s supply schedule is a hybrid of Litecoin and Dogecoin. For monero,
+a new block is appended to its blockchain every 2 minutes, similar to Litecoin’s
+2.5 minutes. Like Dogecoin, however, it will have a small degree of inflation for
+its entire life beginning in May 2022, when 0.3 monero will be released every
+minute, totaling 157,680 monero every year. At that time, there will be 18.1
+million units of monero outstanding, so inflation in that first year will be only
+0.87 percent.57 As we head further into the future, that inflation decreases as
+the base of monero outstanding increases. Interestingly, in 2040 there will be
+nearly equivalent units of bitcoin and monero outstanding, and in the period
+of 2019 to 2027, Monero’s rate of supply inflation will be lower than Bitcoin’s,
+but in all other periods the opposite is true.58
+Expectedly, Monero’s ability to create privacy in transactions was a technological breakthrough that was recognized within the cryptoasset community
+and the markets. By the end of 2016, Monero had the fifth largest network
+value of any cryptocurrency and was the top performing digital currency in
+2016, with a price increase over the year of 2,760 percent. This clearly demonstrates the level of interest in privacy protecting cryptocurrency. Some of that
+interest, no doubt, comes from less than savory sources.
+
+Dash
+Another cryptocurrency targeting privacy and fungibility is Dash. It launched
+its blockchain a few months before Monero, on January 19, 2014. Its lead
+developer, Evan Duffield, created Dash by forking the Bitcoin protocol and
+implementing a coin focused on privacy and speedy settlement of transactions. The Dash white paper that Duffield coauthored outlined his intent:
+A crypto-currency based on Bitcoin, the work of Satoshi
+Nakamoto, with various improvements such as a two-tier incentivized network, known as the Masternode network. Included are
+other improvements such as Darksend, for increasing fungibility
+and InstantX which allows instant transaction confirmation without a centralized authority.59
+
+Dash, however, got off to a rocky start. Instead of a premine, it had what is
+called an instamine, where 1.9 million coins were created in the first 24 hours.
+Considering that three years later, in January 2017, there were just north of 7
+million coins, this was a significant error that drastically benefited the com-
+
+Burniske 01.indd 48
+
+9/9/17 1:12 PM
+
+The Taxonomy of Cryptoassets
+
+49
+
+puters that supported the Dash network in the first 24 hours, notably Duffield
+himself.
+Duffield reasonably pleaded best intentions, arguing that, “I was working a
+very challenging day job while working on Dash in the first couple weeks. So I
+was putting out fires every night, keeping tabs on Dash during the day (while
+getting yelled at by my boss when he caught me a couple times).”60
+From our perspective, if there is a major disruption or error in the launch
+of a cryptocurrency that significantly skews its distribution, then that cryptocurrency should be relaunched. In fact, Duffield easily could have relaunched
+Dash, especially considering the network was only days old when the instamine began to be widely talked about, but he chose not to. It wouldn’t have
+been unusual to relaunch, given that other cryptocurrencies have done so via
+the forking of original code. The creators of Monero, for example, specifically
+chose not to continue building off Bytecoin because the premine distribution
+had been perceived as unfair.
+
+Zcash
+The most interest in a cryptocurrency in 2016 was generated by a new crypto­
+asset called Zcash. The Bitcoin and blockchain community has always been
+excited by new developments in anonymity and privacy, but Zcash took that
+excitement to a new level, which upon issuance drove the price through the
+roof. Like bitcoin’s, zcash’s issuance model was ethical. However, when bitcoin
+launched from zero units outstanding, next to no one knew about it. When
+zcash launched from zero units outstanding, it seemed like the entire cryptouniverse knew about it, and everyone wanted some.
+The scarcity in initial supply combined with the hype pushed the price of
+zcash to astronomical levels. It quickly reached $1,000 per coin, which at the
+time was even higher than the price of bitcoin. At one point on Poloniex, a
+popular cryptoasset exchange, the price reached 1 zcash for 3,299 bitcoin, or
+almost $2 million at the time.61 However, by the end of 2016, the hysteria had
+dissipated and zcash was trading in a stable range of $45 to $50.
+The Zcash team is led by Zooko Wilcox, whom we have mentioned prior as
+an early employee at David Chaum’s DigiCash. Through his time at DigiCash
+and longstanding involvement in cryptography and cryptoassets, Zooko has
+become one of the most respected members in the community. A key innovation of Zcash is the use of a type of zero-knowledge proof, referred to as
+zk-SNARKs, which allow transactions to be sent between parties without any

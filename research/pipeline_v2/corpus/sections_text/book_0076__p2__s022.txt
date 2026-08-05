@@ -1,0 +1,222 @@
+
+Why Aren’t All Pivots Created Equal?
+So what exactly are the pivots? There is no big mystery or secret to them, and many readers will have heard about them and have used them in their own trading on a
+regular basis. For the uninitiated, I explain how I set them up and why they work, and then we can jump into the setups that I use with them.
+Pivots are readily available and have been around for a long time. They are support and resistance levels calculated by floor traders using a simple mathematical
+formula. These levels became widely known and have moved off the floor. Today many traders are aware of them and try to use them, but in my experience, they are
+using them incorrectly. To add to the confusion, there are different formula versions and different time frames that are used when calculating pivots. So, to get started,
+let’s look at what I use, which is one of the standard pivot formulas:
+
+145
+
+Once a trader has this formula, then the key data needed are the high, low, and close of the previous session. For my own trading, I like to utilize 24 hours’ worth of
+data to capture the highs and lows. However, it is absolutely imperative to use the settlement price for the close, as this is the only closing price that matters. Often a
+24-hour setting on a chart means “midnight to midnight,” and that will destroy the validity of the data. We will go over this in more detail shortly.
+Once I get this high, low, and close, I plug them into an Excel spreadsheet with the formulas listed previously. This information generates seven important levels for
+the next trading day: a central pivot, then three levels above (R1, R2, and R3) and three levels below (S1, S2, and S3). The central pivot has the most weight of the
+seven levels. In addition to these daily levels, I also utilize the midpoints between these levels. Finally, I like to know where the weekly and monthly levels are located.
+These are calculated by taking the high, low, and close of the previous weekly or monthly bar. While the daily pivots change each day, the weekly pivots change only
+once a week, and the monthly pivots only once a month. As a side note, indicators can also be programmed with these formulas so that the pivots are set up
+automatically on your charts without the need for you to do it all manually each morning—though doing it all manually does make you remember where those pivots
+are located.
+It is important to note that it is rare for a stock index to hit its daily R3 or S3 level. This is important to know because if a market rallies to R2 or sells off to S2, that
+usually ends up being the dead high or the dead low for the day. This knowledge will help temper a trader’s emotions and keep him on track to follow this system.
+This is, of course, under normal market conditions. As I’m updating this in September 2011, the $VIX is at 40.00 and the markets are incredibly volatile, regularly
+testing the R3 and S3 levels. The lower the $VIX, the tighter the ranges.
+
+How Exactly Should I Set Up the Pivots on My Charts?
+I’m going to go through the process of how I update the pivots on my charts each day. This is based on updated exchange trading hours as of September 29, 2011. To
+calculate the daily pivot numbers, I use the following data to generate my high, low, and close numbers:
+• YM : Start Wednesday at 4:30 p.m. eastern; end 4:15 p.m. on Thursday
+• ES: Start Wednesday at 4:30 p.m. eastern; end 4:15 p.m. on Thursday
+• NQ: Start Wednesday at 4:30 p.m. eastern; end 4:15 p.m. on Thursday
+• TF: Start Wednesday at 8:00 p.m. eastern; 6:00 p.m. on Thursday
+This range of data gives me all the price action for when these markets are trading, allowing both pre- and postmarket price action to be factored into the next trading
+day’s numbers. The times are slightly different on the different contracts because of the times they are traded on the exchange. The settlement price is the key. If
+traders are ever unsure about the settlement price, they can check it for the YM , ES, and NQ at www.cmegroup.com. For the TF, go to www.theice.com.
+The easiest way to get an accurate high, low, and close is to just set up a daily chart with the time frames listed for each contract. In TradeStation, this is very easy
+to do. Just enter the continuous symbol, such as @YM or @ES, and set it on a daily chart. The data will default to the “regular session,” which refers to the times
+listed earlier. With many other charting programs, a trader has to go in and set this up manually, as many of them default to the regular stock market session from 9:30
+a.m. to 4:00 p.m. eastern. Once the chart is set up, just wait for the 4:15 p.m. eastern close on the ES, NQ, and YM and wait until after 6:00 p.m. eastern on the TF.
+After these times, the markets will then reopen shortly with a new daily bar. Just take the high, low, and close reading on the daily bar generated for that trading day to
+get the correct numbers. This closing price will almost always match the settlement price, although I like to check to make sure. For M onday, then, I want the high,
+low, and close for Friday. Let’s take a look (see Figure 8.1).
+
+146
+
+Figure 8.1
+On Friday, M arch 18, 2005, we have a daily bar on the YM that started after the 4:15 p.m. eastern close (it starts again when the market reopens at 4:30 p.m.
+eastern) on Thursday, M arch 17, and ended at 4:15 p.m. eastern on Friday, M arch 18. This range gives us the following numbers:
+• High: 10,679
+• Low: 10,579
+• Close: 10,635
+By changing the chart to a weekly time frame, I can also take the high, low, and close of the completed weekly bar and get the numbers I will use for the weekly
+pivots.
+• High: 10,870
+• Low: 10,579
+• Close: 10,635
+On M onday, the daily and weekly close will be identical, since they are both based on Friday’s close. In this instance, the lows are also identical because the lows on
+Friday were also the lows of the week. The process can be repeated with the monthly levels, but I won’t need new monthly inputs until the first trading day in April.
+Now that I have my key levels, I want to figure out the key pivot points that I’ll be using for M onday, M arch 21, 2005. The first thing I do is take these high, low,
+and close figures and plug them into the formula. To figure out the daily pivot, I take the high + low + close and divide by 3:
+. We now have our pivot point for the day. To figure out R1, which is the next level above
+147
+
+the pivot, I multiply the pivot by 2, and then subtract the low. So we take
+We continue this process until we are done, and we come up with the following levels:
+
+– the low at
+
+.
+
+• R3: 10,783
+• R2: 10,731
+• R1: 10,683
+• Pivot: 10,631
+• S1: 10,583
+• S2: 10,531
+• S3: 10,483
+Once I have these levels, I place them on my chart. I also like to note the midpoints between the daily pivot levels. These are calculated very simply, as they are
+literally the midpoint. The pivot is 10,631, and R1 is 10,683, 52 points away. Half of 52 is 26. I add that to the pivot, and I get a midpoint of 10,657. These are all
+formulas that can be set up in Excel, making this a very quick and easy process. I don’t calculate the midpoints for the weekly and monthly levels.
+Once I have created the chart and added the appropriate pivot levels, the first thing I will note is where the daily pivot is in relation to where the market closed. The
+daily pivot is at 10,631, and the market closed at 10,635. The second thing I will be watching for is where the markets are trading at 9:30 a.m. eastern on M onday.
+How far away are they from the daily pivot? This will work in relation to the gap play. The markets test their daily pivot level at some point during the day 90
+percent of the time. I will always fade the first move to the daily pivot. For example, if the markets are trading above the central daily pivot, and they sell off to this
+level, I will fade the move by buying it when it reaches the pivot. I will talk about specific entry methods in a moment.
+By setting up these formulas in an Excel template, I can quickly obtain all the key levels for the YM , ES, NQ, and TF. I did that, and all I do today is just enter the
+high, low, and close. Once this is done, the spreadsheet fills in the rest of the numbers for me automatically. It takes me just a few minutes to look up the high, low,
+and close and then plug them into this spreadsheet. I then instantly have my levels for the next trading day. Of course, I have to update the weekly pivots only once a
+week, and the monthly pivots once a month. The spreadsheet for the chart we are working on is shown in Figure 8.2.
+
+148
+
+149
+
+Figure 8.2
+I also like to note where the extreme levels are, because it is very rare for the stock indexes to hit their R3 or S3 level. This is important to know because if the
+markets rally to R2 or sell off to S2, that usually ends up being the dead high or the dead low of the day. This knowledge will help temper a trader’s emotions. When a
+market is going up, it is easy to think that it will go up forever. On this same note, when the market is heading down quickly, it is easy to assume that it’s the end of
+the world. The emotion of greed is, of course, a disaster for anyone who succumbs to it because of the surge of adrenaline that runs through the body. By
+understanding the odds of a move above and beyond these outer levels, a trader will be able to stay more objective and take the money away from the people who are
+panicking.
+The pivots help to keep a trader grounded. Instead of getting overexcited and hoping for a market crash, the pivot trader knows that there is a 90 percent chance that
+the markets will not close above R2 or below S2 on any given day. A move to that level signals a time for the trader to take profits instead of pyramiding into a bigger
+position that will lead to disaster.
+Let’s take a look at the pivot levels that we calculated for M onday, M arch 21, 2005, on a five-minute chart (see Figure 8.3).
+This chart looks very busy, with the daily pivot levels labeled on the left, the midpoints of the daily levels in the middle, and the weekly pivot levels on the right.
+For the sake of space, I left the monthly levels off. I like to take a look at this wide view first in order to see where the extreme levels are located for M onday’s trading.
+Once I’ve done that, I will then reduce the chart to a more manageable level (see Figure 8.4).
+In this chart, I’ve zoomed in so that I can see where the key close levels are for M onday’s trading.
+
+The Psychology Behind the Pivots—Who Is Getting Burned?
+Before I jump into the rules and specific setups that I use to trade the pivots, I want to cover briefly why they work. The first, and most obvious, reason is that a lot
+of traders watch these daily levels, so there is a self-fulfilling prophecy involved. However, the same can be said for Fibonacci levels, but they do not hold nearly as
+well as the pivots. Why? I elaborate on this in the next two points.
+
+150
+
+151
+
+Figure 8.3
+
+152
+
+153
+
+Figure 8.4
+On the floor, it is generally a trader’s goal to grab smaller moves, typically 2 points in the S&P 500, which is about 20 points in the Dow, or smaller depending on
+what is going on in the pit. The floor traders all operate in a big circle, with the brokers standing on the first step that surrounds the pit. This gives them the best view
+of all the locals so that they can get the best price for their customers. Since it is easier to trade with someone who is right in front of you, the prime space for locals to
+stand is just inside the top rail that separates the top-step brokers from the locals. Experience, politics (whom you know), and the ability to take orders of all sizes
+(not just single lots) can get a local a prime position near the top-step brokers. Usually this space is determined by how long the local has “held the spot” and his
+ability to continue to make markets. New traders must find space where available. This is usually at the farthest point from the brokers, which is the center of the pit.
+Because of this layout, there are several different scenarios being traded at one time. The locals on one side of the pit are making markets based on order flow coming
+from the brokers on their side of the pit. If a broker in one corner is selling size (a very large position) while a broker on the other side of the pit is buying, the two
+brokers don’t always hear each other or even know what the other side is doing. It would be very easy for them to do their trade together if they knew that they could
+meet each other’s needs. Instead, locals near the broker who is buying start “racing” the broker by buying from other nearby brokers and then turning around and
+selling their contracts to him. This causes many price fluctuations throughout the day and often results in the public’s getting stopped out before the action settles
+down again. In its purest form, the traders on the outside will get in on a trade, let’s say it’s a long, and then sell their position to the guys on the inside of the circle
+who can’t really see what is happening way out on the top steps. What happens is that the traders on the inside, by the time they see the market moving, are the last
+ones in the pit to get in on the move. If they are lucky, they will then be able to turn around and sell it to the public. As the guys on the inside are selling to the public
+and closing their positions, the guys on the outside are also selling to the public, but they are opening new short positions, essentially fading a public that is chasing the
+up move. And the cycle renews itself like this throughout the day. This causes a specific dynamic in the markets, generating specific cycles of speed and rest on an
+intraday basis. The traders focus on the pivot levels to base their entries and to also gauge market action. The pivots play on this in that they are spaced out to catch
+these “patches of momentum.” Dow pivots are usually 30 to 50 points apart, and this is the type of movement that perpetuates the cycle I just described. The floor
+traders in the center of the circle are catching half this move, dumping it, and waiting for the next level to be hit. The key is to get in when the market is quiet and get
+positioned for the next round of activity.
+One of the main reasons that these pivots work has to do with the inexperience of the vast majority of traders out there. The floor traders start a trade, and the
+inexperience of most traders causes the momentum that finishes a trade. How? Because average traders rely on a lot of different “indicators.” They are getting into and
+out of their positions far too late, which causes losing trades and leads to a specific cycle of market movement as their stop placement slowly and steadily increases the
+velocity of market movement in the direction of their stops. Indicators are just that, an “indication.” This is like your significant other slapping you across the face, and
+you taking it as an “indication” that this person might be angry with you. If it takes a slap across the face for you to realize this, then you are following the wrong
+indicators. By the way, all market indicators are the wrong indicators, because they are all lagging. Price action is pure. This overreliance on indicators by the majority
+of traders is what helps this system to work. By the time the average trader gets a buy signal, the pivot play is almost over, and users of this system will be selling
+their position to the indicator-based traders. Then the subsequent reversal that takes place results from all the stop losses sitting out there, like trout sunning
+themselves at the top of a lake—easy targets for the hawks who come swooping down from overhead. The market pauses, drifts down, then picks up steam and rips
+through all the stop losses, pausing when the run is over. This pause generally happens at a pivot level. It’s where the floor traders are beginning to accumulate their
+next position for the next cycle of play.
+Let’s jump into the trading rules and look at some setups.
+
+What Are the Trading Rules for Pivot Buys on Trending Days?
+Sells, of course, are reversed.
+1. Unlike with the gap charts, I want to see 24 hours’ worth of data, so that I can view any overnight highs and lows. Each day I update the appropriate pivot levels on
+the charts to reflect the previous day’s action. On M ondays, I also update the weekly pivots, and on the first trading day of a new month, I update the monthly
+pivots.
+2. The first pivot play is done in conjunction with the gap, if there is one. If there is a gap down, then I buy a decline into the closest pivot level. If there isn’t a
+playable gap (more than 10 YM points or 1 ES point), then I will wait until 9:45 a.m. eastern to initiate the first play.
+3. If the volume on the five-minute ES chart is more than 25,000 contracts, then I’ll wait for the markets to penetrate a pivot level and move up at least a quarter of the
+way to the next pivot level. Once this happens, I will then set up a bid to buy the first retracement back to the violated pivot level.
+4. I enter my trades with limit orders only. I place orders “just in front of” the pivot. For the YM , I use 3 points; for the ES, 0.25 point; for the NQ, 0.50 point; for the
+TF, 0.20 point; and for individual stocks, 5 cents. For example, if I’m trading the YM and the pivot level is 10,000, then I would buy a decline to 10,003 and short
+a rally to 9997. Sometimes the pivot will be an odd number, such as 1117.38 on the ES. In this case, I always round in the direction of the trade. So, if I’m bidding
+for a long, I will round 1117.38 to 1117.50, and my bid will be 1117.75. If I’m offering a short, I will round 1117.38 down to 1117.25 and place my offer at
+1117.00. M y stops and targets, then, would be “just in front of” these appropriate long and short levels.
+5. Once filled, I place an order to close the first half at the next pivot level and the second half at the pivot level after that, using the same “just in front of” parameters.
+6. I place a stop at 20 points for the YM , 2 points for the ES, 4 points for the NQ, and 1.50 points for the Russell. For stocks, I will use a stop based roughly on the
+price of the stock. If the stock is under $10 a share, I will use a stop of 20 cents. If it is between $10 and $20, I will use a stop of 30 cents; if it is between $20 and
+$30, I will use a stop of 40 cents, and so on, adding another 10 cents for each $10 increment in price. (A $75 stock would have an 80-cent stop, for example.)
+7. If the first target is hit, I will then move up the stop to my entry-level pivot, minus the “just in front of” fractions discussed in rule 3. For example, if I get in a YM
+long at 10,003 and the pivot is at 10,000, then my new stop would be 9997 once the first target is hit.
+154
+
+8. If I am in a trade at the market close and neither my stop nor my target has been hit, I will close out my position “at the market” at 4:10 p.m. eastern for futures, and
+at 3:58 p.m. eastern for stocks.
+9. I don’t initiate any new positions after 3:30 p.m. eastern, but I will manage existing positions into the close.
+10. The markets rarely have a sustained move above R3 or below S3. If I trade to those levels, I will always fade the move.
+11. After two losers in a row, I’m done with pivots for the day.
+
+What Are the Trading Rules for Pivot Buys on Choppy Days?
+Once again, sells are the same, just reversed. The rules for choppy days are identical except for the targets. On choppy days, I just focus on the YM and the ES. M y
+first target is mechanical: 10 points for the YM and 1 point for the ES on half of my position. Once this is hit, I will trail up my stop in the same way I would for a
+trending trade. The second target becomes the “just in front of” level for the actual next pivot level. In working with other traders, I’ve found that they grasp the
+concept of the “choppy day” setup easily, but they struggle with the “trending day” setup. Therefore, I focus most of the examples on the trending day setups, and
+we go through those first.
+
+What Are Some Specific Examples of Trading the Pivots?
+E-mini S&P—September 2004 Contract, September 10, 2004
+1. The S&Ps gap down into daily S1 (see Figure 8.5). I have a limit order to buy placed at 1114.00, just above daily S1. The market comes very close to this level, but
+not close enough. I am not filled, and the market rallies away without me. Once the market pushes up through the midpoint, I move my bid to buy the next
+pullback to the midpoint. The midpoint is at 1115.88, so I get a little in front by placing an order to buy at 1116.25. I am filled quickly at this level. I place an
+initial 2-point stop at 1114.25, and my first target is just in front of the next pivot. The pivot is 1118.00, so my first target is 1117.75.
+
+155
+
+Figure 8.5
+
+2. M y first target is hit, and I move my stop up to 1115.50 (just below the midpoint where I entered the trade). Shortly thereafter, my second target is hit at 1119.75,
+and I am out of the trade.
+3. I place an order to buy a pullback to the pivot at 1118.25. I am filled, and I place a 2-point stop at 1116.25. M y stop is hit. The market rallies back through the
+pivot, and I place another order to buy a pullback to 1118.25. I am filled, and I place the same 2-point stop at 1116.25.
+4. M y first target is hit just in front of the next pivot level, at 1119.75.
+5. I move my stop on the second half of my position up to 1117.75, which is just below the pivot where I entered my trade.
+6. I exit the second half of my position at 1122.00, just in front of the next pivot level. Once the market pushes decisively through this pivot level, I place a bid to buy
+156
+
+at 1122.50, just above R1. I am not filled, and the market goes on to make new highs. At this point it is past 3:30 p.m. eastern, and I am done with my pivot plays
+for the day.
+
+E-mini S&P—September 2004 Contract, September 9, 2004
+1. The S&Ps gap open, and I place an order to short just below the midpoint at 1121.00 (see Figure 8.6). I am filled, and I place a 2-point stop at 1123.00. M y first
+target is just in front of the next pivot level at 1120.00. This target is hit, and I move my stop down to 1121.75, which is just above the pivot level I used for my
+entry. M y second target is just in front of the next pivot level at 1118.00.

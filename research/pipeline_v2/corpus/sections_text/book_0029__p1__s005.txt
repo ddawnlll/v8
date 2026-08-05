@@ -1,0 +1,352 @@
+
+r A ﬁxed exchange rate regime
+r Monetary policy independence
+r High capital mobility
+The ﬁrst assumes the targeting of the exchange rate, while the second assumes the targeting of
+inﬂation and interest rates. The discovery of this rule was the stuff of brilliance, the monetary
+equivalent of the discovery of penicillin, yet history is littered with examples of policymakers
+who ignored it to their cost. While the example of Asia and the subsequent Asian currency
+crisis may spring to mind, there are also examples within the developed world, notably that
+of the ERM crises of 1992–1993. Here, there was indeed a commitment to a type of ﬁxed
+exchange rate regime under conditions of high capital mobility. At the same time however,
+ERM members were allowed monetary independence. In practice, some, notably the Benelux
+countries, appeared to all but abandon monetary independence in favour of adopting the harsh
+benchmark of Bundesbank monetary policy. Others, such as the UK, Italy and Spain, sought a
+greater degree of monetary independence. Is it any coincidence that these were either forced out
+of the ERM altogether or forced to devalue within it? While the argument is frequently made
+that the UK pound sterling went into the ERM at an overvalued level to the Deutschmark, a
+contrary argument could be made that sterling would have been forced out of the ERM no matter
+what its entry level because the UK authorities refused to relinquish monetary independence
+to the Bundesbank.
+1.2.5 Implications for EU Accession Candidates
+This simple rule of being able to maintain two policy focuses but not three has potentially
+important implications for the EU accession candidate countries such as Poland, Hungary, the
+Czech Republic and Slovakia, particularly during their transition phase between membership
+of the EU and entry into the Euro. During that period, it is assumed that these countries will be
+part of an “ERM II” grid, featuring a narrow exchange rate band, whose limits are defended
+by the commitment of the central bank to intervene.
+For example, if in January 2005 Poland becomes a member of the EU and as a result the
+Polish zloty enters the ERM II grid, Poland must renounce its monetary independence at the
+same time. If Poland does not, it must either put limits on capital, which would be against
+both the spirit and the letter of the treaties of Maastricht and Nice, or eventually be forced to
+relinquish its ﬁxed exchange rate peg. The only way to avoid this is for ERM II to have a very
+wide band, otherwise at the very least EU accession candidate currencies are (once again) in
+for an extremely wild — and potentially unpleasant — ride.
+
+1.3 THE INTEREST RATE APPROACH
+A further approach to trying to determine or predict exchange rates is that involving the analysis
+of interest rate differentials (the Interest Rate Approach). This involves a number of different
+principles and we shall go through them brieﬂy and in turn. The ﬁrst principle involves the
+basic interest rate parity theory, which is that:
+An exchange rate’s forward % premium/discount = its interest rate differential
+
+32
+
+Currency Strategy
+
+Thus, for instance, the traditional forward discount on the dollar–yen exchange rate should
+equal the interest rate differential between the two currencies. This is seen as the equilibrium
+reﬂecting the relationship between the exchange rate and interest rates. Because forwards are a
+traded instrument and thus subject to supply and demand, the forward premium or discount can
+vary brieﬂy from this equilibrium, but should always revert to norm. After all, if for argument’s
+sake the forward premium/discount for some reason did not equal the interest rate differential
+between the two currencies an arbitrageur could in theory make risk-free proﬁts by borrowing
+in one currency, investing in the securities of the other currency and simultaneously opening
+a forward contract in the exchange rate for the same period as the initial loan. This is called
+covered interest rate arbitrage.
+The theory of interest rate parity is a guiding principle for several economic and ﬁnancial
+models. Under this theory, it is assumed that the expected (interest rate) returns of a currency
+should be equalized through speculation in another country once converted back to the ﬁrst
+currency. This may sound like gibberish, but basically this is an interest rate version of PPP —
+and like PPP its results are decidedly mixed. Indeed, there can be signiﬁcant violations of the
+interest rate parity theory for substantial periods of time without the immediate reversal that
+covered interest rate arbitrage might suggest. Not too surprisingly, this is a dismal predictor of
+exchange rates.
+Indeed, before we go further into the theory, it is important to point out a practical ﬂaw
+in the theory involving incentive, which is undoubtedly a key contributing factor to its poor
+predictive track record — the theory supposes an automatically causal relationship between
+interest rates and the exchange rate, yet in practice most currency market practitioners trade
+currencies with directional rather than interest rate considerations in mind. Even this statement
+is a generalization. On a simple numerical basis, the majority of currency market practitioners
+are made up of interbank dealers, thus it is important and necessary to look at their motivation
+for trading. Spot traders for the most part care not one whit about a currency’s interest rate, in
+part because they hold positions for too short a time for it to matter, in part because they are
+seeking to predict direction — and thus make capital gains on their position, not primarily to
+make interest income. Forward traders are a different breed entirely and more akin to money
+market or interest rate traders. Indeed, the way they hedge out their forward exposure frequently
+involves an array of interest rate-related instruments. Eventually, interest rate parity violations
+will be reversed, but there is little incentive to do so in the immediate term if you don’t care
+about the interest rate in the ﬁrst place.
+Returning to the theory for now, interest rate parity theory states that the difference between
+a spot and forward exchange rate expressed as a percentage should equal the interest rate
+differential between the two currencies. Yet, we know from the PPP principle that exchange
+rates and inﬂation rates are linked. Can we not link these also with interest rates? Indeed we
+can, thanks to the seminal work of the economist Irving Fisher. Thus, according to what has
+become known as the “Fisher effect:”
+The difference in interest rates = the difference in expected inﬂation rates
+Thus, we have gone from the difference between the spot and the forward exchange rate
+equating to the interest rate differential through the interest rate parity theory, which in turn
+equates to the difference in expected inﬂation rates through the Fisher effect. Yet, PPP tells
+us that absolute or relative price growth levels can be used to forecast future exchange rates.
+
+Fundamental Analysis
+
+33
+
+Thus, through PPP we can extrapolate this one stage further to suggest that:
+The difference in expected inﬂation rates = the expected exchange rate change
+Bringing all these together, we get:
+(1) The difference in spot and forward rates = the difference in interest rates
+(Interest rate parity theory)
+(2) The difference in interest rates = the difference in expected inﬂation rates
+(Fisher effect)
+(3) The difference in expected inﬂation rates = the expected change in spot exchange rate
+(Purchasing Power Parity)
+Logically from this, one may conclude that the difference between the spot and forward rates
+expressed as a percentage should equal the expected change in the spot exchange rate. This is
+known as the expectations theory of exchange rates.
+Finally, there is the theory that:
+(4) The difference in interest rates = the expected change in the spot exchange rate
+(International Fisher effect)
+On the face of it, the ideas presented above seem logical and follow a clear and persuasive
+train of thought. There is only one small problem — this clear train of thought rarely works
+in practice. More speciﬁcally, the difference in interest rates or expected inﬂation rates may
+be equal to the theoretical construct of the “expected change in the spot exchange rate”, but
+in practice it is of the future exchange rate. In line with this, the forward rate is also a very
+poor predictor of the future exchange rate, a fact that economists have labelled “forward rate
+bias” or the “forward premium puzzle”. As Bansal and Dahlquist (2000)2 conﬁrmed in their
+exhaustive study, in contrast to the theory, empirical evidence suggests that in fact current
+interest rate differentials and future spot exchange rates are frequently negatively correlated.
+This is particularly the case within the developed economies, though the picture is somewhat
+more mixed within emerging market economies.
+Over the long term, the interest rate parity theory is seen to work as enough market participants can be found to “discover” the opportunities available for covered interest rate arbitrage
+between currencies and interest rates, thus in the process eliminating such disparities. However,
+there are much longer lags than the theory might suggest is possible. Here again, the issue
+of incentive must be a focus. As noted earlier, it should behove the theorists to know that the
+majority of currency market practitioners are currency interbank dealers and moreover that
+the main incentive for these to trade is directional gain rather than interest income. Currency
+markets do focus on interest rate differentials for extended periods of time, but equally they
+focus on other factors, in many cases completely disregarding interest rates.
+1.3.1 Real Interest Rate Differentials and Exchange Rates
+Currency strategists do however use models comparing the real interest rate differential with
+either the nominal or the real exchange rate between two countries. The logic behind this relates
+2
+Ravi Bansal and Magnus Dahlquist, The forward premium puzzle: different tales from developed and emerging economies,
+Journal of International Economics 51 (2000) 115–144.
+
+34
+
+Currency Strategy
+2.50
+
+1.35
+
+1.50
+
+1.25
+
+0.50
+
+1.15
+
+−0.50
+
+1.05
+
+−1.50
+
+0.95
+Real Gov’t Bond Yield Differential
+(EU-US)
+
+−2.50
+
+0.85
+
+EUR/USD (RHS)
+Source: Bloomberg
+
+−3.50
+Jan-96
+
+0.75
+Jan-97
+
+Jan-98
+
+Jan-99
+
+Jan-00
+
+Jan-01
+
+Jan-02
+
+Figure 1.1 Euro–dollar exchange rate vs. 10-year bond yield differential
+
+to both the international Fisher effect and to PPP, where on the one hand the difference in interest
+rates should, if not be exactly equal to an expected change in the spot exchange rate, at least
+be an important driver of it, and on the other hand where nominal interest rate differentials are
+adjusted for inﬂation (i.e. domestic price growth) and thus relate to the exchange rate through
+the law of one price.
+The link or correlation between real interest rate differentials and the exchange rate appears
+to have grown exactly in line with the gradual move since the end of the Bretton Woods
+exchange rate system to liberalize capital ﬂows globally. As barriers to capital movement have
+fallen, so the overall importance of capital ﬂow has grown exponentially relative to that of
+trade ﬂow. Exchange rate models that focused solely on the current account no longer seemed
+appropriate in such a world, those that focused on capital ﬂows seemed increasingly so. As
+capital ﬂows have gained in importance, so their importance within overall currency market
+ﬂows has grown and thus the correlation between the two increased. Thus, currency strategists
+across the market continue to track this relationship between real interest rate differentials and
+nominal exchange rates as one of many useful and important indicators of currency over- or
+undervaluation. Figure 1.1 compares the Euro–dollar exchange rate against the 10–year bond
+yield differential from 1996 through to the end of January 2002.
+
+1.4 THE BALANCE OF PAYMENTS APPROACH
+The core idea behind the Balance of Payments Approach is that changes in national income
+affect both the current and the capital account and through this cause a predictable reaction in
+the exchange rate in order to restore balance of payments equilibrium. The best way of looking
+
+Fundamental Analysis
+
+35
+
+at this is to examine the transmission mechanism from the change in national income through to
+the exchange rate reaction. When considering the Balance of Payments Approach to exchange
+rates, it is good to keep in mind the classic accounting identity for economic adjustment:
+S−I =Y −E = X−M
+where:
+S = Savings
+I = Investment
+Y = Income
+E = Expenditure
+X = Exports
+M = Imports
+Within economics, this is an unequivocal law which governs how economies adjust to changes
+in economic dynamics.
+1.4.1 A Fixed Exchange Rate Regime
+Under a ﬁxed exchange rate regime where capital mobility is extremely limited, the focus is on
+the current account rather than the capital account. Assume for the purpose of this exercise that
+national income is rising. As national income rises, so stronger demand sucks in an increasing
+amount of imports, which in turn causes current account balance deterioration. The exchange
+rate cannot be the transmission mechanism for restoring balance of payments equilibrium since
+the exchange rate is ﬁxed. Hence, the monetary authority has the choice of either selling its
+foreign exchange reserves in the market to alleviate pressure on the exchange rate or more
+practically tightening monetary policy in order to dampen domestic demand, thus reducing
+import demand and restoring the balance of payments equilibrium.
+Equally, within that same ﬁxed exchange rate regime, say national income was falling. This
+would imply that weaker domestic demand would cause a decline in import demand, which
+would paradoxically cause an improvement in the current account balance. Because the capital
+account would not be a consideration given our premise that capital mobility is highly restricted
+and the exchange rate is ﬁxed, equilibrium in the balance of payments can only be restored
+through a reversal of that current account balance improvement. Such an improvement would
+pressure the ﬁxed exchange rate to appreciate. The monetary authority could either absorb
+this pressure by increasing its foreign exchange reserves and selling the domestic currency in
+the market to do so, or by loosening monetary policy. Either way, this would cause market
+interest rates to fall, spurring domestic demand and thus import demand, which in turn would
+cause the current account balance to move back to a position such that the balance of payments
+equilibrium would be restored.
+The dynamic whereby a change in national income is transmitted within a ﬁxed exchange
+rate regime through the current account balance is expressed in the following diagram:
+Change in national income → Change in current account balance → Monetary reaction →
+Reversal of current account balance change → Balance of payments equilibrium restored
+In theory, a ﬁxed exchange rate regime should automatically be in balance as left to its own
+devices it should be self-correcting through changes in capital ﬂows and interest rates. An
+@Team-FLY
+
+36
+
+Currency Strategy
+
+imbalance of one kind or the other should automatically be corrected, albeit after a lag. Yet, in
+reality, ﬁxed or pegged exchange rate regimes have faced an increasingly turbulent time during
+the 1990s to the extent that many of them have collapsed in the face of seemingly irresistible
+speculative pressure. Why has this been the case? Many of the reasons for this are case-speciﬁc.
+However, the underlying theme is that frequently countries simply have not been prepared to
+maintain the degree of economic discipline that is required to maintain the ﬁxed exchange
+rate regime. In addition, many appeared to forget the core rule established by the Mundell–
+Fleming example that you can have only two but not all three outcomes with a ﬁxed exchange
+rate regime, high capital mobility and an independent monetary policy. Under the misguided
+inﬂuence of the ofﬁcial community in Washington, many emerging market countries, which
+had ﬁxed or pegged exchange rate regimes, opened up their economies to high capital mobility
+at the same time they sought to maintain some degree of monetary independence. Looked at
+from this perspective, the result was inevitable.
+Maintaining a ﬁxed or pegged exchange rate regime within a world of high capital mobility
+requires a considerable degree of economic discipline given that the transmission mechanism
+for restoring imbalances to the equilibrium of the balance of payments cannot be the exchange
+rate but instead must be the real economy. Furthermore, global ﬁnancial markets must be
+convinced that the monetary authority of this ﬁxed exchange rate regime will hold the line come
+what may. In the case of Asia, countries like Thailand, Indonesia and Korea were ultimately
+either unwilling or unable to maintain that discipline. Interestingly, China, Hong Kong and
+Taiwan were all able to weather the storm, not least because they upheld the principles of the
+Mundell–Fleming rule. In the case of China and Taiwan, both had monetary independence and
+a ﬁxed or pegged exchange rate regime (Taiwan’s cannot be called a freely ﬂoating exchange
+rate regime by any stretch of the imagination), but maintained signiﬁcant restrictions on capital
+mobility. In the case of Hong Kong, on the other hand, it had very high capital mobility and
+a ﬁxed exchange rate regime in the form of a self-balancing currency board, but its monetary
+authority, at least in theory, abandoned monetary independence in favour of following the
+monetary policy of its peg currency, namely that of the Federal Reserve. Granted, Hong Kong,
+China and Taiwan perhaps had both greater resolve and ability to resist speculative pressures,
+but the structure of their exchange rate regimes was crucially more secure. As the example
+of Argentina shows in 2002, following this two-but-not-three model is not a guarantee of
+success. However, one could well say that not following it is more or less a guarantee of
+failure.
+1.4.2 A Floating Exchange Rate Regime
+Under a ﬂoating exchange rate regime, we have to consider the capital account as well as the
+current account. Here, as national income rises, so import demand rises, in turn causing the
+current account balance to deteriorate. So far, this is just like the ﬁxed exchange rate regime.
+However, in the case of the ﬂoating exchange rate regime, the exchange rate is able to be the
+transmission mechanism for restoring the balance of payments to equilibrium. On the capital
+account side, a rise in national income, causing the current account balance to deteriorate,
+must be accompanied by a rise in real interest rates. The higher real interest rate will dampen
+import demand, which will in turn cause the current account balance deterioration to reverse.
+As that happens, national income will fall back, causing real interest rates also to fall back.
+If we start off with national income falling, we achieve the same transmission mechanism,
+only in reverse, with real interest rates falling, causing capital account outﬂows and current
+
+Fundamental Analysis
+
+37
+
+account balance improvement to the extent that these developments cause on the one hand
+a revival in domestic demand and on the other a loss in export competitiveness. Thus, the
+current account improvement reverses and real interest rates rebound. We can express this
+transmission mechanism from a change in national income through the balance of payments
+within a ﬂoating exchange rate regime with the following diagram:
+Change in national income → Change in current account balance → Change in real
+interest rates → Change in capital ﬂows → National income change reversed → Current
+account reversed → Capital ﬂows reversed → Real interest rates reversed → Balance of
+payments equilibrium restored
+
+1.4.3 The External Balance and the Real Exchange Rate
+Similar to the Balance of Payments Approach to exchange rates is that which focuses on
+the relationship between a long-term equilibrium value for the real exchange rate and the
+external balance. Under this, the long-term equilibrium exchange rate is that which generates
+both internal and external balance, where internal balance is deﬁned as full employment and
+external balance as the current account. Since the creation of this model, the emphasis has
+shifted away from focusing on full employment to concentrating on achieving a sustainable
+current account balance — not necessarily zero — which will achieve a perceived economic
+and exchange rate equilibrium.
+As with the Balance of Payments Approach, the current account is seen as the transmission
+mechanism for the exchange rate, albeit this time under both ﬁxed and ﬂoating exchange rate
+regimes. If the current account balance is showing an unsustainably high deﬁcit relative to
+historic deﬁcit levels, this will require a real exchange rate depreciation to restore equilibrium.
+Conversely, if it is showing a very high current account surplus, this will require a real exchange
+rate appreciation to restore equilibrium.
+The example that is often used with regard to this is Japan, which has had a structurally high
+current account surplus. Using the external balance approach, if that current account surplus
+is seen as unsustainably high relative to historical norms, it requires a rise in the yen’s real
+exchange rate to restore equilibrium. Barring periodic reversals, this is what we saw from 1971
+to 1995. Since then, the yen has reversed course, not least because the strengthening of the
+nominal yen exchange rate to a record dollar–yen low of 79.85 caused such a real shock to the
+current account balance that it in turn required a signiﬁcant real exchange rate depreciation to
+restore equilibrium once more.
+Within the emerging markets, another good example is that of Russia. Before the Russian
+rouble crisis of August 1998, Russia continued to record signiﬁcant current account deﬁcits.
+The external balance approach suggested that at some point a real exchange depreciation would
+be required to restore equilibrium. However, the Russian rouble was pegged to the US dollar
+and in order to maintain that peg real interest rates were kept high. Eventually, the costs of
+defending the Russian rouble peg — yet another case of trying to have all three of monetary
+independence, reasonably high capital mobility and a ﬁxed exchange rate regime — proved
+too much and the rouble was de-pegged and devalued, and for good value Russia defaulted on
+its domestic debt.

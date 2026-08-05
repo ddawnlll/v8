@@ -1,0 +1,540 @@
+
+INDEX
+
+286
+
+Open-trade equity curve. See Donchian system;
+Full-size portfolio; Mid-size portfolio
+commodity strategy, 228f
+correspondence, 185
+starter portfolio, 202f
+Open-trade equity growth, 184f
+Open-trade performance metrics, closed-trade
+performance metrics
+(comparison), 213t
+Open-trade risk, limitation, 197, 227. See also
+Max open trade risk percentage
+Open-trade risk, percentage. See Total portfolio
+max open-trade risk percentage; Total
+portfolio open-trade risk
+Open trades, total number (limitation), 198,
+226, 234–235
+ranking, 198t, 226t, 234t–235t
+Optimal F, 178–180
+brute force results, 178t
+fixed risk solutions, comparison, 181t
+strategy, steps, 178
+trade perspective, 178–179
+value, 178
+Out-of-sample BRAC test results, curve-fit
+results (contrast), 131t
+Out-of-sample methodology, 24
+Out-of-sample testing
+contrast. See Build, Rebuild, and Compare;
+Curve-fitting.
+value, 23
+Overtrading, impact, 166
+
+P
+Pairs. See Foreign Exchange pairs
+trading, trend-following tendencies, 39t
+Parabolic stop, example, 81t
+Parabolic Time/Price System, 80
+Parabolic trailing stop, commodities, 81t
+Pearson Correlation Coefficient, 247–248
+Performance metrics. See Full-size portfolio;
+Large-account performance metrics;
+Mid-size portfolio; Small-account
+performance metrics
+Portfolio. See Full-size portfolio; Mid-size
+portfolio
+commodities. See Full-size portfolio
+commodities; Mid-size portfolio
+commodities.
+
+open-trade performance metrics
+/closed-trade performance metrics
+(comparison), 213t
+open-trade risk, limitation, 197–198
+ranking, 198t
+performance. See Full-size portfolio; Midsize portfolio.
+selection, 223–224
+small-account money management. See Fullsize portfolio; Mid-size portfolio.
+trading, equity (ranges), 212
+Position hedging, 217–220, 235
+Position sizing, 216–217
+money management literature, 175
+summary, 182
+techniques, 175–182
+Precious metal members, 257
+Price divergence short setup, 134
+Price sell setup, 137
+Profitability
+decrease, 230
+impact, 165–166
+probabilities, 206
+Profitability, commodity categories, 86t–87t
+Profit factor, 167
+Profit-per-trade
+average, 14
+decrease, 68
+improvement, pullback filter (impact), 113
+increase, 75
+absence, stop loss (impact), 71
+time-based exit, impact, 109
+peak, 113–114
+usage, 275–276
+values, standard deviation, 13–14
+Profit-per-trade metric development
+commodities
+equity curve, 114f
+longer-term trend filter, 113t
+pullback filter, 112t
+equity curve, 110f
+profit stops, 109t
+Profit stops
+commodity example, 83–87
+exit strategy, 73
+profit-per-trade metric development, 109t
+stock example, 73–75
+Profit targets
+basis, standard deviation counts (usage), 84t
+
+exits, scalping strategies, 73–74
+results, stock strategy, 73t
+Pruitt, George, 54
+Pullback filter
+impact, 113
+usage, 98t, 112t
+
+R
+
+S
+Sample size
+increase, impact. See Infinite sample results.
+standard error, contrast. See Commodities;
+Gold trades.
+Scalping strategies, 73–74
+Schwager, Jack, 133, 167
+Seasonal filters, 89
+Second-tier commodities, addition, 196
+Sell stop, placement, 25
+Semi-precious metal members, 257
+Sequential data, serial relationship, 162
+Sharpe ratio, 167
+Short entry, 75, 137
+best parameter, 66
+Shorter-term traders, strategy, 19
+Short exit, 137
+Short SPY positions, hedging, 236
+ranking, 217t, 235t
+Short-trade breakout, 998t
+Single moving average
+counter-trend-following stock entry, 57
+entry power, 57f
+Sizing. See Fixed-risk sizing
+approaches. See Non-compounding sizing
+approaches.
+summary, 183
+techniques. See Position sizing.
+form, 177
+Slippage, problem, 74
+Small-account metrics
+closed-trade draw-down, 184–185
+draw-down example, 186–188
+open-trade draw-down, 184–185
+start-trade draw-down, 185–186
+Small-account money management. See Full-size
+portfolio; Mid-size portfolio; Starter
+portfolio
+stock strategy, open-trade equity curve
+/closed-trade equity curve, 219t
+strategy, 228
+technique, 197–198
+
+287
+INDEX
+
+Random exit, 154
+Rate of change (ROC), 51–52
+counter-trend-following stock entry, 60
+entry power, 52f, 60f
+usage, 60
+Real-time trading, open trades (variation), 198
+Relative contract risk, 252–255
+Relative Strength Index (RSI), 134
+counter-trend-following stock entry, 58–59
+80-day entry signals, 61
+entry power, 50f, 59f
+Retracement, 45
+levels, stock trading long, 148t
+Return
+expectations, 208
+high draw-down, relationship. See High
+return.
+max draw-down, contrast. See Average
+annual return.
+measure. See Normal return.
+metrics, 130
+Return-per-trade, 128
+Return/risk expectations, 1–3
+Reversal exit signals
+commodity example, 75–76
+stock example, 66–69
+Reversal trading commodities, Donchian lookbacks (usage), 75t
+Reverse splits, behavior, 151
+Reverse split-trade statistics, 150t
+Risk
+control, addition, 9
+increase, 229
+levels, large-account stock performance, 237t
+metrics, 130
+usage, 186–187
+minimization, 193
+performance. See Fixed-risk performance.
+sizing. See Fixed-risk sizing.
+worst-case scenario, 4
+
+Risk per trade, performance/percent
+(contrast). See Equity
+Risk-reward goals, meeting, 4
+ROC. See Rate of change
+RSI. See Relative Strength Index
+
+INDEX
+
+288
+
+Small-account performance metrics, 183–184
+Small accounts
+money management approach,
+customization, 200
+money management techniques
+commodities, 191
+stock strategy, 215
+Small-account stock trading solutions, 219t
+Small-account trader, diversification
+(impact), 197
+Small account trader portfolios, open-trade
+performance metrics/closed-trade
+performance metrics
+(comparison), 213t
+Small-account traders, large-account traders
+(contrast), 184
+Smoothed values, example, 51
+Soft commodities, correlation, 257t
+Split-adjusted data, usage, 269
+Split-adjusted file, problems, 267–268
+Split dates, analysis, 149
+Split trades, performance, 150
+Split-trade statistics, 150t. See also Reverse splittrade statistics
+SPY ETF, performance, 235
+SPY positions, hedging. See Short SPY positions
+Standard deviation. See Profit-per-trade
+accounts, difference. See Directional
+volatility.
+basis, low-volatility filter, 93t
+breakouts, 52–53
+entry power, 52f
+catastrophic stop, commodities, 78t
+profit-per-trade metric
+development, 112t
+counter-trend-following stock entry, 61
+counts, profit targets (basis), 84t
+entry
+entry power, 61f
+percentage profit, 127t
+formula, 245–246
+significance, 245
+t-tests/z-tests, usage, 167
+Standard error
+computation, 17
+function, explanation, 14
+sample size, contrast. See Commodities; Gold
+trades.
+strategies, impact, 19
+
+Starter portfolio
+annual return, 202t–203t
+closed-trade equity curve, 202f
+commodities, 199
+max-draw-down, 202t–203t
+open-trade equity curve, 202f
+performance, 200
+small-account money management, 199
+start-trade statistics, 200f
+trading, 202
+Start-trade draw-down, 185–186
+comparison, 187f
+Start-trade profit distributions, 187f
+Start-trades, comparison, 213t
+Start-trade statistics. See Full-size portfolio;
+Mid-size portfolio; Starter portfolio
+Stochastics
+counter-trend-following stock entry, 59–60
+entry power, 51f, 60f
+Stock index commodities, correlation, 262t
+Stocks
+average range, low-volatility filter, 92t
+bar gaps, 140–142
+bar-scoring, example, 123t
+baseline entry signal, 65
+basket, performance, 33
+buying strategy results, average percentage
+profit-per-month, 33t
+data, problem, 258
+database, upward bias, 40–41
+day of the week filters, 90t
+divergences, trading, 136t
+high-volatility filter, basis, 92t
+longer-term trend filter, 90–91
+addition, 91t
+low-volatility filter, standard deviation
+basis, 93t
+opening gaps, 138–139
+pairs, trading, 273–274
+performance. See Large-account stock
+performance.
+positions, performance (max number),
+216t–217t
+profit-per-trade metric development, 108t
+time-based exit, 109t
+purchase, dividends (production), 152–153
+range, serial correlation, 163t
+solution, open-trade equity curve/closedtrade equity curve, 237f
+
+inactivity. See Illiquidity.
+placement, 10
+stock example. See Profit stops.
+Strategies. See Commodity strategy; Stock
+strategy
+combination, trading mechanics, 241
+performance, comparison, 242t, 243t
+Survivorship basis, 33
+Swiss Franc
+risk control, addition, 9
+trending, 9
+Swiss Franc, moving average system
+catastrophic stop, usage, 10t, 11t
+look-back filter, usage, 10t, 11t
+N-day average, variation, 9t
+N-day look-back trend filter, usage, 10t
+Synthetic data, creation, 161–162
+System development, money management
+feedback (inclusion), 107
+System statistics, example, 168
+
+T
+Tendency analysis, usage, 40
+Terminal wealth relative (TWR), 178
+Tharp, Van K., 153
+Time-based exits
+commodity example, 82–83, 82t
+impact, 109
+profit-per-trade metric development, 109t
+stock example, 72–73
+Top tier commodities, one-lot/two-lot
+(contrast), 196t
+Total portfolio max open-trade risk percentage,
+limitation, 228t
+Total portfolio open-trade risk
+limitation, 197–198
+percentage, limitation, 227–230
+Total profit (increase), stop loss (impact), 71
+Total profit-per-trade metric
+commodity system, 111–116
+stock system, 108–111
+Trade
+data, usage, 16–19
+development samples, 160
+distributions, tightness, 15
+entry, bypass/delay, 166
+gambling analogies, 156
+
+289
+INDEX
+
+split-trade statistics, 150t
+standard deviation, high volatility filter, 93t
+strategy, 215
+performance metrics, 216
+strategy equity curve, 74f
+development, 94f
+streams, serial correlation, 162t
+three-step process, 32–33
+trade, look-back, 66t
+transaction costs, accounting, 26–27
+volatility-based filters, 91–97
+weakness, 128
+Stock splits
+accounting, 265–272
+purchase, 149–151
+Stock strategy
+annual return, draw-down
+(comparison), 111t
+annual return/max draw-down, 74t
+performance, 242
+profit targets results, 73t
+short-coming, 217
+trading, 241–243
+Stock strategy, performance, 95t–97t
+Stock system
+annual return/max draw-down, 94t
+development, total profit-per-trade metric
+(usage), 108–111
+equity curve, position limitation, 218f
+example, bar-scoring/defined criteria,
+126–131
+tradeable solutions, 236–238
+Stock trading
+day of the week filter, 90
+difficulty, 57
+Fibonacci levels, impact, 147
+intra-day bars, usage, 40–41
+long
+Fibonacci retracements, 146t, 147t
+retracement levels, 148t
+short, Fibonacci retracements, 147t
+solutions. See Small-account stock trading
+solutions.
+trend-following/counter-trend-following
+strategies, one-day return, 41t
+Stop loss
+usage. See Good until canceled stop loss.
+variation, 11
+Stops. See Trailing stops
+
+INDEX
+
+290
+
+infinite distribution, trade samples (random
+selection), 13f
+infinite number
+generation, 13
+impact, 12
+number
+sufficiency, 166–169
+number, proportion. See Curve-fitting.
+percentage, 168
+point, assumption, 25
+samples, selection, 13f
+sequence, usage, 178
+yield, back-test (usage), 15–16
+Tradeable strategy
+back-testing, 7
+curve-fit, examination, 5
+defining, 1
+design process, initiation (ease), 4–5
+development, 7
+steps, 7
+example, 16–19
+reality shock, 3
+Tradeable system performance (gauging),
+metrics (usage), 4
+Trade risk
+distance, 235–236
+increase, 182, 198
+limitation, 196. See also Open-trade risk.
+ranking, 196t
+Trade risk on entry, limitation, 225–226,
+235–236
+ranking, 236t
+Traders, money management, 158t
+TradeYourWay to Financial Freedom (Tharp), 153
+Trading. See Stock trading
+confidence, 19–20
+days, exit, 72t
+ideas, historical data (comparison), 8
+information, 153
+mistakes, 166
+Monte Carlo packaging, absence, 160
+results, diversified/non-diversified portfolios
+(contrast), 192t
+solution, improvement, 228
+statistics, determination, 159–161
+strategy, development, 8
+system
+curve-fitting effects, minimization, 19–20
+success, measurement, 184–185
+
+Trading day of the week filter
+commodities, 97–99
+long-trade breakout, 98t
+short-trade breakout, 98t
+stocks, 90
+trend filter, usage, 98t
+Trading Game,The (Jones), 182
+Trading range systems, usage, 25–26
+Trading system elements
+entries, 65
+exits, 65
+filters, 89
+Trailing stops, 79–82
+basis, moving averages (usage), 82t
+development, 81
+example, 80f
+Transaction costs, accounting, 26–27
+realism, 25
+Trend filter, usage, 98t
+Trend-following entry
+entry power, 49f
+power, commodities, 54–56
+rules, 47
+techniques, comparison, 49–56
+Trend-following long signals, occurrence,
+97
+Trend-following pairs, 38
+Trend-following strategies, 41t, 156
+commodities, trading, 42t
+FX pairs, trading, 42t
+one-day return. See Commodity trading.
+performance, determination, 32
+stocks, trading, 41t
+Trending tendencies
+analysis, 66
+difference, reasons, 43
+Trend tendencies, results, 38t
+t-tests, usage, 167
+Two moving averages
+counter-trend-following stock entry, 58
+entry power, 58f
+TWR. See Terminal wealth relative
+
+U
+Ulcer index, 167
+Ultimate Trading Advantage,The (Hill, et al.), 54
+U.S. financials, correlation, 259
+
+V
+Volatility
+filters, 89
+level, examination, 5
+measures/comparison, formula, 246–247
+range, 253t–254t
+standard deviation accounts, difference. See
+Directional volatility.
+Volatility-based catastrophic stops, testing, 112
+Volatility-based deviation stop, 225
+Volatility-based filters
+commodities, 99–105
+stocks, 91–97
+Volatility-based profit target, 83
+
+Volume, standard deviations (bar-scoring),
+125
+results, 126t
+
+W
+Wilder Jr., J. Welles, 50, 80
+Williams, Larry, 140
+Winners, addition, 165
+Winning position, averaging down, 165
+
+Z
+z-tests, usage, 167
+
+291
+INDEX
+
+

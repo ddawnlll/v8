@@ -1,0 +1,967 @@
+ADX comes from 15 to 23, a trend could be developing. If the ADX goes
+from 32 to 25, the trend may be coming to an end.
+Figure 1.16 displays the DMI and ADX indicator together. The solid
+line is the +DMI, the dashed line is the –DMI line, and the thick dotted
+line is the ADX. Prior to zone 1 there is a range-bound market as price was
+not making consistently higher highs or lower lows and the ADX line was
+below 25.
+In zone 1, price declined below the range-bound lows and a downwardsloping trend line began. The –DMI continued to rise while the +DMI
+continued to fall. Then at the end of zone 1, the ADX conﬁrmed a downtrend
+in progress when it rose from 16 to above 25.
+In zone 2, price tested the downward-sloping resistance line and failed.
+At the same time, the ADX line went below 25, suggesting that the prior
+downtrend was ending (this does not necessarily mean reversing).
+In zone 3, price broke above the trend line and the +DMI began rising
+while the –DMI line was falling. Shortly thereafter, the ADX line crossed
+above 25, conﬁrming the trend had turned to up.
+
+Ichimoku
+The sixth-most-preferred technical study, and the one that is most often used
+in Asia, is ichimoku. This study can be classiﬁed as a trending study because
+its calculations are primarily averages. It is comprised of three parts. The ﬁrst
+part is the conversion line and base line. The second part is the cloud, which
+is made up of two lines named leading span 1 and leading span 2. The third
+part is the lagging line. Note also that candle pattern analysis is essential in
+ichimoku charting.
+The ﬁrst four lines mentioned are averages of price, but not moving
+averages. The conversion line is typically the midpoint of the highest high and
+lowest low over the past nine periods. The baseline is typically the midpoint
+of the highest high and lowest low over the past 26 periods. The calculation
+
+32
+
+EUR BGN
+
+Mar 31
+
+DMI(14) 27.5113
+
+EURO SPOT... 1.2754 –.0126
+
+ADX 30.1542
+-DMI 14.2961
+Apr 15
+Apr 30
+May 14
+2010
+
+1
+
+Directional Movement Indicator Applied to the Euro
+
+Range
+
+FIGURE 1.16
+
+May 31
+
+Jun 15
+
+2
+
+Jun 30
+
+3
+
+Jul 15
+
+45
+40
+35
+30
+25
+20
+15
+10
+5
+
+1.2000
+
+1.2500
+
+1.3000
+
+1.3500
+
+Evidence of the Most Popular Technical Indicators
+
+33
+
+will roll in the same way that a moving average does but will only consider
+those deﬁned points.
+Leading span 1 is the midpoint of the base line and the conversion line
+plotted 26 periods forward on the chart. Leading span 2 takes the midpoint
+of the highest high and lowest low of twice the period of leading span 1 and
+plots it 26 periods forward. These two lines form the cloud on the chart.
+The cloud is an integral part of the indicator. The direction of the cloud
+into the future suggests the overall direction of trend. When it is thick and
+sloping down, it indicates a bearish trend. When it is thick and sloping up, it
+indicates a bullish trend. The thickness of the cloud suggests the amount of
+support or resistance present when price is trying to break through it. When
+it is thin, price stands a better chance of breaking through it. The inversion of
+the cloud is important to conﬁrming a change in direction of the prior trend.
+When leading span 1 crosses above leading span 2, it is bullish, and when it
+crosses below, it is bearish.
+The intersection of the conversion line and base line is important for
+trend change signals. A bullish signal occurs when the conversion line crosses
+above the base line. A bearish signal occurs when the conversion line crosses
+below the base line. These lines are subject to support and resistance of the
+cloud. A good conﬁrmation of a change in trend is when these lines follow
+price through the cloud.
+Last to examine is the lagging line. This line is the current price plotted
+26 periods prior. It allows us to quickly and easily see if today’s price is greater
+than or less than it was 26 periods ago. If the lagging line is above price, it
+means price today is greater than price then, so it is bullish. If the lagging line
+is below price, it means price today is less than price then, so it is bearish.
+The candle pattern formations of today versus the patterns where the lagging
+line falls can be taken into consideration. The lagging line is also subject to
+support and resistance at the cloud.
+Figure 1.17 displays a ﬁve-year period during which the Japanese yen was
+strengthening against the U.S. dollar and shows the power of the resistance
+from the cloud at points 3, 4, 5, and, in theory, 6. Point 1 presents multiple
+indications that signaled the start of this trend. I’ve annotated where 26 bars
+prior to and after the point exist so that we can orient ourselves with the
+information we were seeing during that time. Remember, the cloud is pushed
+forward 26 periods and the lagging line is pushed back 26 periods. Let’s look
+at Figure 1.18, which gives a more detailed image of the trend change that
+occurred in 2007.
+At point A, price made a strong move lower, breaking below the conversion and baselines, and found support at the top of the cloud. At this point,
+
+34
+
+2007
+
+Span 26
+
+1
+
+2
+
+2008
+
+Base
+
+3
+
+Ichimoku Indicator on the Japanese Yen
+
+Span 26
+
+FIGURE 1.17
+
+2009
+
+4
+
+Lagging Line
+
+5
+
+2010
+
+Conv
+
+Lead-2
+
+JPY Curncy - Last Price
+Conv(9)
+Base(26)
+Lag(26)
+Lead1(26)
+Lead2(26)
+
+2011
+
+Lead-1
+
+6
+
+81.12–1.76
+82.37
+84.69
+81.12
+83.53
+87.60
+
+80
+
+90
+
+100
+
+110
+
+120
+
+35
+
+Jan
+
+B
+
+Feb
+
+FIGURE 1.18
+
+Mar
+
+Span –26
+Apr
+May
+Jun
+
+Jul
+2007
+
+Aug
+
+A
+
+Sep
+
+Nov
+
+Span 26
+Oct
+
+D
+
+Dec
+
+Jan
+
+C
+
+Feb
+
+Mar
+2008
+
+The Strengthening Yen and the Weakening US$ Lead to a Trend Change of the Popular Cross in 2007
+
+Apr
+
+Lead1
+
+Lead2
+
+May
+
+JPY BGN
+Conv
+Base
+Lag
+Lead1
+Lead2
+
+112.63
+112.00
+
+114.00
+
+116.58
+116.00
+115.28
+
+117.88
+
+120.00
+
+122.00
+
+124.00
+
+36
+
+New Frontiers in Technical Analysis
+
+we can look forward and backward on the chart to see what the leading and
+lagging lines are doing. At point B, the lagging line crossed below price, indicating that current price was less than it was 26 periods prior. Some would
+consider the two candles at point B, a hanging man and a long-legged doji, as
+additional bearish signs because price stalled at these higher lagged levels. At
+point C, the leading spans (cloud) were narrowing and very close to a bearish
+cross. These components were not encouraging signs for the currently wide
+or supportive cloud at point A.
+A couple of periods to the right of point A, price made a fast move down,
+breaking through the bottom of the cloud, or breaking support. Two more
+bearish indications happened at this point. The ﬁrst was the bearish cross of
+the conversion line and baseline. The second (Point C) was leading span 1
+crossing below leading span 2.
+At point D, the top of the cloud provided resistance while price attempted
+to break back above it. In that attempt, the baseline was adding to the strength
+of resistance and the conversion line bearishly exited down through the cloud.
+When price closed below the cloud just to the right of point D, the trend was
+conﬁdently down.
+
+Volume at Time
+The last of the seven most popular studies is not applied to a price series of
+a security, as the rest of the studies are. Volume at time (VAT), as the name
+implies, is applied to the volume of a security that has been traded. Unlike a
+moving average, VAT is sensitive to the historical volume for that time period.
+It works differently on a daily chart than an intraday chart, so we will discuss
+both. But ﬁrst we will discuss the generally accepted rules for analyzing price
+and volume together.
+Volume is most prevalent in the equity, options, futures, and commodity
+markets. It represents the number of shares, the number of contracts, the
+number of barrels, the number of anything that has changed hands on a given
+day, or week, or even hour or minute. It can be described as a measure of market
+liquidity, the level of demand for a security, or a measure of momentum. It
+represents the amount of interest market participants have in a security. High
+levels of volume suggest an increased interest, while low levels of volume
+suggest a decrease or lack of interest.
+As a measurement, volume alone is not as useful as it can be when
+compared to, for example, an average. If you’re looking at a daily chart of price
+and volume, you might consider applying a 5-day, 20-day, and/or a 60-day
+average, giving you the rolling one-week, one-month, and three-month
+
+Evidence of the Most Popular Technical Indicators
+
+37
+
+comparison. When looking to conﬁrm a change in trend, you can then
+compare the actual volume data to an average or one average to another.
+The generally accepted rules for price and volume are as follows.
+r Price is rising and volume is rising and/or above average = bullish market;
+
+the uptrend is being supported by market participants.
+
+r Price is rising and volume is falling or below average = a warning sign that
+
+a top or consolidation of trend is near.
+
+r Price is falling and volume is rising or above average = bearish market; the
+
+downtrend is being supported by market participants.
+
+r Price is falling and volume is falling or below average = a warning of a
+
+bottom or a consolidation of the trend is near.
+For more detailed scenarios to consider when comparing price and volume
+moves, see Table 1.7 and the corresponding visuals in Figures 1.19–1.21.
+
+Historical Volume at Time
+The previous theory of volume can be applied to all timeframes. On a daily
+chart, a moving average of volume can become unjustly skewed higher or
+lower due to the volume that occurred over the duration of that average.
+The older that volume becomes, the less inﬂuence it has on estimating trend
+direction. From a historical perspective, VAT considers the volume that has
+occurred on that day over the past X years to create the average for that day.
+Therefore, it can be considered a seasonal approach to volume analysis. From
+an intraday perspective, VAT creates an average of volume from the actual
+volume that occurred during that time-slice for the past X days. In both
+applications VAT can be projected into the future to get an idea of expected
+volume.
+Figure 1.22 displays a daily chart of price and volume with a moving
+average and VAT on the volume histogram. There are four zones that highlight
+the beneﬁts of using a time-sensitive study like VAT instead of a moving
+average. In zone 1, price was declining. Volume, when compared to the
+moving average, was equal to it, suggesting the market was equally interested
+in the down move. When compared to VAT, the actual volume was at least
+50 percent greater and in some instances more than 100 percent greater.
+VAT was suggesting the market was more bearish in the down move than
+the moving average. More speciﬁcally, the ﬁrst and second candle in zone 1
+formed a bearish engulﬁng pattern on volume that was twice the VAT, but
+only equal to the moving average. This is very important information for
+those applying candle-pattern theories.
+
+38
+
+Up
+
+Up
+
+Up
+
+Up
+
+Down
+
+Down
+
+Down
+
+Down
+
+Overall Trend Price
+
+Up
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+#
+
+9
+
+Volume
+
+Signal
+
+No move higher
+
+Gapping down
+
+No move lower
+
+10 Up
+
+11 Down
+
+12 Down
+
+Gapping up
+
+Drifting higher
+
+Sideways
+
+Setting new lows
+
+Setting new lows
+
+Drifting lower
+
+Sideways
+
+Testing highs
+
+Some distribution,
+consolidation
+
+Distribution, potential top
+
+Topping point,
+consolidation near
+
+Shorts taking proﬁt, some
+accumulation
+
+Accumulation, bullish
+
+Potential bottom,
+consolidation near
+
+Look for a continuation or reversal price pattern
+
+Look for a sequence of higher highs/lows breaking resistance
+
+Consolidation of prior trend
+
+Lower lows/highs, price continues to break support
+
+Look for a continuation or reversal price pattern
+
+Look for support to hold; if it fails, a change in trend is likely
+
+Consolidation of prior trend
+
+Price setting higher highs/lows and breaking resistance
+
+Expectation
+
+Spiking higher
+
+Spiking higher
+
+Spiking higher
+
+Beginning of accumulation
+
+Early capitulation
+
+Beginning of distribution
+
+Overall bullish
+
+Signal
+
+Potential bottom price pattern forming
+
+Major downtrend occuring, eventual bounce
+
+Smart money getting out, late money getting in
+
+Be careful, too far too fast?
+
+Expectation
+
+Interpretation of Volume Spikes During Price Trends
+
+Spiking higher
+
+Volume
+
+Light
+
+Above average
+
+Light/declining
+
+At or above average Bearish
+
+Light
+
+Above average
+
+Light/declining
+
+Setting new highs At or above average Bullish
+
+Overall Trend Price
+
+Interpretation of Price and Volume Trends
+
+Deeper Interpretation of Price and Volume Scenarios
+
+#
+
+TABLE 1.7
+
+39
+
+Evidence of the Most Popular Technical Indicators
+FIGURE 1.19
+
+Overall Trend Is Up
+
+1
+
+2
+
+3
+
+4
+
+FIGURE 1.20
+
+Overall Trend Is Down
+
+5
+
+6
+
+7
+
+8
+
+40
+FIGURE 1.21
+
+New Frontiers in Technical Analysis
+Interpreting Volume Spikes
+
+9
+
+10
+
+11
+
+12
+
+In zone 2, the moving average was skewed slightly higher so that it
+looked as if volume was light in the sideways move at support of $33.25. VAT
+suggested volume was greater than average. Table 1.7 suggests this can mean
+accumulation in a downtrend, particularly when a support level becomes
+evident ($33.26).
+In zone 3, volume was less than average and about equal to the VAT
+levels while price rallied from support and retraced part of the down move in
+zone 1. The highest high formed another bearish engulﬁng pattern. The ﬁrst
+candle of the pattern had volume that was less than average, but equal to VAT.
+The second candle had volume that was less than average, but greater than
+VAT. From the VAT perspective, price on the ﬁrst candle went up on average
+volume and the second candle went down on greater-than-average volume.
+The market was more interested in the selling of the security than the buying
+of it. This is something we could not see by using the moving average.
+Zone 4 highlights the impact of a spike in volume on a moving average versus VAT. The candle that broke support (see arrow on chart) did so
+on volume slightly greater than VAT, while being half the moving average.
+Clearly, the skewing of the moving average lessens the impact of its use, when
+
+41
+
+1 4 5 6
+
+FIGURE 1.22
+
+5/8
+
+1
+
+12 13
+
+5/15
+
+19 20
+
+5/22
+
+2
+
+27
+
+5/29
+
+2 3 4
+2009
+
+Historical Chart Comparing a Volume Average and VAT
+
+6/8
+
+3
+
+10 11
+
+6/15
+
+17 18
+
+6/22
+
+4
+
+24 25 26
+
+6/30
+
+2
+
+0
+
+5m
+
+10m
+
+15m
+
+20m
+
+30m
+25m
+
+32.00
+
+34.00
+
+36.00
+
+38.00
+
+40.00
+
+42
+
+New Frontiers in Technical Analysis
+
+comparing to actual volume. Price then attempted to reverse higher with
+volume less than VAT and failed at resistance. The ﬁnal bar had volume
+greater than VAT, but price still didn’t break resistance and it was a down day,
+suggesting that market participants were still bearish.
+It is also worth knowing that VAT can anticipate future volume levels
+because it can look historically to calculate those averages and plot them
+into the future. In zone 4, VAT is showing the next two average volume
+levels.
+
+Intraday Volume at Time
+Intraday volume on a chart tends to look like a smile. It is typically heavy at the
+open, light in the middle of the day, and heavy approaching the close. When
+you’re trading the open, a moving average is calculated from the prior day’s
+closing volume. This is not an apples-to-apples comparison. It makes more
+sense to compare the volume from the prior morning’s open to this morning’s
+open, the prior midday’s trading to today’s, and the prior end-of-day’s trading
+to today’s.
+VAT applied to an intraday chart is a time-sensitive average. It shows
+you the average volume for a speciﬁc time-slice over the past X days. For
+example, if you’re looking at a stock on a 10-minute chart with VAT set to
+consider the past ﬁve periods, it will show you the volume for each 10-minute
+period and the average volume for that 10-minute period from the prior
+X days. If you are looking at the 10:00–10:10 A.M. volume, the VAT level
+is the sum of the volume for that same time period from the past X days,
+divided by X .
+The indicator will display a dashed line on the volume histogram that
+represents the average volume level for that time-slice. It will also show a
+second panel that totals the sum of the accumulated volume (AV, solid line)
+and the accumulated average volume (AAV, dashed line) on the day.
+Figure 1.23 shows a three-day, 10-minute chart. During the ﬁrst two
+days when price gained 2.36 percent, it did so while AV was less than AAV.
+Volume was not supporting this two-day rally. During the second day of
+diverging price and volume, AAV was projected to be lower than the ﬁrst
+day. The AV was still less than AAV. In the middle panel, at the end of day
+2, the last 70 minutes of trading, or seven bars, had about equal volume
+but little to no price gains. The next morning, volume was greater than
+VAT and price declined, kicking off the retracement, with AV slightly greater
+than AAV.
+
+43
+
+10:00
+
+10:00
+
+Less than average volume
+
+0.570m
+0.135m
+0.104m
+
+12:00
+14:00
+03 Feb 2011
+
+Daily Accum Vol
+2.622m
+Daily Accum Avg Vol 1.421m
+
+Volume
+SMAvg Volume Histogram
+- VAT
+
+Rising Price
+
+12:00
+14:00
+04 Feb 2011
+
+Intraday Chart Comparing a Volume, Average Volume and Volume at Time
+
++2.36% Span 77
+
+FIGURE 1.23
+
+10:00
+
+12:00
+07 Feb 2011
+
+14:00
+
+Slightly above average volume
+
+KFT US Equity
+10 Minutes 3 Days
+Last
+01.10
+High on 02/05 15:10 01.25
+Average
+31.16T
+Low on 02/03 10:40 31.45
+
+31.20
+
+0.5m
+
+1m
+
+1.533m
+
+2.035m
+
+0
+
+0.104m
+
+0.2m
+
+30.50
+
+30.60
+
+30.70
+
+30.80
+
+30.88
+
+31.00
+
+31.10
+
+44
+
+New Frontiers in Technical Analysis
+
+Generally Accepted Rules for Popular Indicators
+To help you get to know the indictors discussed in this chapter and to be used
+as a reference later, I’ve prepared a cheatsheet of generally accepted rules for each
+indicator.
+Relative Strength Index (RSI)
+r Bullish = when RSI crosses above 30. Also when price makes lower lows and
+RSI makes higher lows while exiting oversold territory.
+r Bearish = when RSI crosses below 70. Also when price makes higher highs
+and RSI makes lower highs while exiting overbought territory.
+r In uptrends, RSI levels have a bias to the upside.
+r In downtrends, RSI levels have a bias to the downside.
+Moving Average Convergence-Divergence (MACD)
+r Bullish = when MACD1 crosses above the signal line. Also when MACD1/
+signal turns positive.
+r Bearish = when MACD1 crosses below the signal line. Also when MACD1/
+signal turns negative.
+Bollinger Bands (BOLL)
+r Wide Bandwidth: Bullish/bearish when price closes below/above the lower/
+upper band.
+r Narrow Bandwidth: Bullish/bearish when price closes above/below the upper/
+lower band.
+Stochastics (STO)
+r Bullish = when %D and %DS lines cross above 20. Also when price makes
+lower lows and % lines makes higher lows while exiting oversold territory.
+r Bearish = when %D and %DS lines cross below 80. Also when price makes
+higher highs and % lines make lower highs while exiting overbought territory.
+Directional Movement Indicator
+r Bullish = +DMI is > –DMI and ADX crosses above 25.
+r Bearish = –-DMI is > +DMI and ADX crosses above 25.
+r Market is considered range-bound when the ADX is under 25.
+General Overview Chart, Ichimoku: Bullish (Bearish)
+r Conversion line crossing above (below) baseline.
+r If these lines cross while price is above (below) the cloud with little downward
+(upward) ﬂuctuation = bullish (bearish).
+
+Evidence of the Most Popular Technical Indicators
+
+45
+
+r If these lines cross while the closing price is beneath (above) or within the
+cloud and has shown upward (downward) movement over the past few
+days = bullish (bearish).
+r Closing price is within the cloud with little ﬂuctuation = neutral.
+r Lagging span is greater (less) than the lagged closing price = buy (sell).
+r Cloud composition: When leading span 1 is above (below) leading span 2,
+this is a sign of a rising (falling) market. The thicker the cloud, the greater the
+support or resistance.
+Volume Conﬁrmation
+r Bullish = price is rising and volume is rising.
+r Weakening uptrend = price rising and volume declining.
+r Bearish = price is declining and volume is rising.
+r Weakening downtrend = price declining and volume declining.
+r Accumulation = spiking volume at market lows.
+r Distribution = spiking volume at market highs.
+The power of these traditional and preferred indicators is still alive and well
+today. If you’d like to learn more about them, consider learning directly from
+the creators. They have certainly been leaders in the evolution of technical analysis and their work should be recognized and reviewed. See the Recommended
+Reading section at the back of this book.
+
+Conclusion
+
+I encourage you to start looking at the indicators presented in this chapter
+individually and then together. One suggestion for getting started is to apply
+two studies to a chart and look at different securities and timeframes to
+become familiar with the movement of the indicators in response to price.
+The following two ﬁgures are examples of combining one trending and one
+momentum study.
+Figure 1.24 shows the range-bound market that the price of IBM was
+in from April to September 2010. During that time, RSI oscillated between
+62 and 33 and MACD frequently whipsawed around the baseline. Realizing
+this allows us to see a change in trend when price breaks support or resistance
+while RSI breaks out of the 62–33 zone and the MACD lines make a new
+high or new low.
+In the shaded zone, a new trend emerged. First, we can see from the
+horizontal dashed lines that price was setting higher lows and higher highs.
+
+46
+
+FIGURE 1.24
+
+Determining Trend with RSI and MACD Combined
+
+47
+
+1
+
+09:50
+
+10:00
+
+10:10
+
+10:20
+
+2
+
+10:30
+
+10:40
+17 Mar 2011
+
+3
+
+Determining Trend with DMI, STO, and VAT Combined
+
+09:40
+
+FIGURE 1.25
+
+10:50
+
+11:00
+
+4
+
+11:10
+
+4
+
+11:20
+
+11:30
+
+11:40
+
+50
+16.76
+0
+
+100
+
+10
+
+19.01
+
+2m
+1.520m
+0
+40
+39.93
+
+4m
+
+19.65
+19.60
+19.55
+19.50
+19.45
+19.40
+19.35
+19.30
+19.2401
+
+48
+
+New Frontiers in Technical Analysis
+
+Then, in the shaded zone, price broke above resistance (prior high), RSI
+touched 70, and almost immediately the MACD1 and signal lines broke
+above their prior highs. A new trend was emerging, and in this case it was up,
+as deﬁned by two indicators instead of one.
+Figure 1.25 combines the DMI, STO, and VAT on a ﬁve-minute intraday
+chart. In zone 1, price opened higher and for the ﬁrst six bars, or 30 minutes
+of trading, volume was less than the VAT, yet price was moving higher. In zone
+2, volume was 90 percent greater than VAT while price made a new high but
+closed the period down. Greater-than-average volume with no up movement,
+and in this case some down movement, is a sign of weakness for the existing
+trend. In zone 3, price was drifting lower and the stochastic crossed down
+below 80, exiting the overbought zone. In zone 4, price broke below the
+upward-sloping trend line and the +DMI crossed below the –DMI. All of
+this suggested that the strength at the open was not going to hold for the rest
+of the day. From the point of the trend-line break to the end of the day, price
+declined 1.44 percent.

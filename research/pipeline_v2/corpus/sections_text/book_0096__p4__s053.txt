@@ -1,0 +1,479 @@
+
+Created using TradeStation
+
+FIGURE 19.17 Prices and the FLD line (X daily: November 30, 2009–July 22, 2010)
+
+Because the FLD line follows price action exactly, it can give an erratic appearance and
+make crossovers somewhat arbitrary, based on only one or two days action. To combat this, analysts will project forward the half-cycle SMA in the same manner as the FLD. This gives a
+smoothed line, called the forward line that is easier to work with. The same rules for the FLD
+apply to the forward line.
+The Tillman Method
+Jim Tillman (1990) of Cycletrend, Inc., developed a number of methods for cycle projections.
+He used centered moving averages of half-cycles after having determined the dominant cycle
+periods.
+
+Download at www.wowebook.com
+
+473
+
+Chapter 19 Cycles
+
+Tillman’s analysis concentrates on what he calls focal points. Focal points occur when
+three or more half-cycle, centered, moving averages cross at roughly the same location. In Figure
+19.18, only crossovers of two half-cycle moving averages (9-day and 18-day) are shown, but
+Tillman’s observations can still be made.
+70.0
+
+X - U.S. Steel Corporation
+65.0
+
+Tilman method
+60.0
+T – target from focal point
+(distance from reversal to
+focal point added to focal point)
+= Tilman focal point
+
+55.0
+
+50.0
+
+45.0
+
+40.0
+
+10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Created using TradeStation
+
+FIGURE 19.18 Tillman SMA crossovers and focal points (X daily: November 30, 2009–July 22,
+2010)
+
+One observation is that focal points occur at roughly the halfway point of cycle advances
+or declines. Notice the diagonal lines at the 18-day cycle peaks, troughs, and crossovers in Figure 19.18. The crossovers occur roughly halfway between the peak and trough in points. The
+practical problem from this observation is that by the time the lagging half-cycle moving averages have crossed, prices have usually already reached their projection. The crossover, thus,
+occurs when the cycle is ending its run up or down. When you see a crossover in an upward leg
+of a cycle, you know that the upward leg is about to peak or already has.
+In Figure 19.19, at (A), lines are drawn through the high or low of a cycle through the focal
+point. The upward sloping lines will continue through to the high of the cycle, and the downward
+sloping lines will continue through to the low of the cycle. The time from the low (high) to the
+focal point will equal, approximately, the time to that high (low). In our example in Figure 19.19,
+in January, the time from the cycle high to the focal point was 9 days, and 9 days later, the low
+was reached. In February–March, the rally through the focal point took 12 days. The price
+reached its high for the cycle 14 days. The crossover is the center of the cosine wave. It is the
+center in time as well as distance.
+
+Download at www.wowebook.com
+
+474
+
+Part VI Other Technical Methods and Rules
+
+A
+
+line extended from pivot
+through focal point
+(time from high to
+focal point = time
+from focal point
+to low)
+
+X - U.S. Steel Corporation
+bound parallel to focal line
+
+Tilman method
+
+= focal point
+
+B
+focal line
+(line extended through
+successive focal
+points)
+
+bound parallel to focal line
+
+’10
+
+’Feb
+
+’Mar
+
+’Apr
+
+’May
+
+’Jun
+
+’Jul
+
+Aug
+
+Created using TradeStation
+
+FIGURE 19.19 Lines through focal point bisecting time from low to high or high to low showing parallel
+boundaries (X daily: June 10, 2005–November 4, 2005)
+
+If we then draw a trend line between two successive focal points (B), we have an estimate
+of the direction of the next higher-order cycle. Lines drawn parallel to that trend line to the
+immediate highs and lows will show that the trend is roughly midway between the parallel lines
+and that they represent the boundaries of the cycle (see Figure 19.19). The advantage of using
+these parallel lines formed from the trend between focal points is that they can be projected into
+the future, whereas the moving average parallel lines had to be drawn freehand as a guess.
+When the parallel lines are decisively broken, we know that the next higher-order cycle has
+changed direction. This makes sense because the parallel lines define the boundaries of the
+lower-order cycle. If they are broken, it must be due to the change in direction of the next higherorder cycle.
+Concept of Commonality
+Another of Hurst’s principles, that of “commonality,” suggested that issues of the same nature
+tend to have the same cycles but with different amplitudes. In the stock market, this principle
+implies that individual stocks will have generally the same cycles as the stock market averages.
+The study of cycles requires the analyst’s close attention and analysis. Few analysts pursue it
+because the conversion of the analysis to computers is difficult and requires some knowledge of
+
+Download at www.wowebook.com
+
+Chapter 19 Cycles
+
+475
+
+applied mathematics and trigonometry. Much of the analysis must be done by hand. Because
+cycle analysis is intensive and very subjective, the analyst must select stocks with sufficient
+volatility such that the cycles of interest will have enough amplitude to become profitable if correctly timed. The same can be said of commodities in that innate volatility is a factor that should
+be considered when selecting an issue to trade using cycle analysis.
+
+CONCLUSION
+The possible existence of cycles or waves in financial time series data is a controversial subject
+that remains unresolved. The results of standard spectral methods have been unsuccessful, so far,
+in isolating reliable waveforms in this data. This has led many skeptics to argue that the pursuit
+of cycles in financial data is futile. On the other hand, cycle analysts argue that the reason cycles
+have not been definitively isolated is that they change their characteristics too frequently and that
+standard mathematics cannot adjust quickly enough. However, a simple observation of price data
+shows that prices oscillate. If prices oscillate in a regular manner, the preceding analysis should
+be sufficient to identify this regularity and to make it useful for the projection of price action in
+the future. The concepts of Hurst, Ehlers, Tillman, and others—mostly professional engineers—
+are intriguing, and even if the ideas are difficult to apply, they provide interesting insights into
+the workings of the financial markets.
+
+REVIEW QUESTIONS
+1. A great deal of controversy surrounds cycle theory. What are the reasons why some oppose
+cycle theory? How do the supporters of cycle theory respond to these criticisms?
+2. Explain what each of the following terms means as it refers to cycles:
+a. Amplitude
+b. Period
+c. Phase
+d. Summation
+e. Inversion
+f. Harmonics
+3. What do left translation and right translation mean? When would you expect to see each
+of these occurring in a cycle?
+4. What is the argument for plotting a centered moving average centered over the time period
+in the calculation rather than plotting it at the end of the time period?
+
+Download at www.wowebook.com
+
+476
+
+Part VI Other Technical Methods and Rules
+
+5. Download daily data for the S&P 500 for the period July 1, 2009 through July 1, 2010.
+(This historical data is available at http://finance.yahoo.com.)
+a. Plot this data in a chart. Are any cycles apparent in your chart?
+b. Detrend the data by creating an oscillator that is constructed using a ratio of the current close to the 11-day SMA.
+c. Does the plot of this oscillator reveal any cycle in your data?
+6. Using the S&P 500 data you collected in Question 5, plot a 41-day centered SMA and a
+21-day centered SMA. Explain ways in which this information might be used to determine
+and project cycles.
+7. What is a focal point? How is it used to project cycles?
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+2 0
+
+ELLIOTT, FIBONACCI, AND GANN
+
+CHAPTER OBJECTIVES
+By the end of this chapter, you should be familiar with
+
+• The basic tenets of and vocabulary used with the Elliott Wave Theory
+• The rules and guidelines of the Elliott Wave Theory
+• The construction of the Fibonacci sequence
+• The derivation and characteristics of the golden ratio
+• The reasons why Elliott Wave Theory can be difficult for the average analyst to apply
+Perhaps there is a natural structure in markets. Structure is seen in many phenomena in nature.
+Although markets appear to be completely man-made, perhaps their existence, flowing from
+human emotion and reason, is a product of evolution and follows a natural order. After all, nature
+includes humans among its species. Humans like structure. Unfortunately, however, we have
+seen that humans tend to presume structure when perhaps it is not present. This chapter discusses
+those theories of market structure that assume some sort of natural order. Many technical analysts have come to accept these theories at some level, but they are not necessarily practiced.
+The most widely followed theory of market structure today is the Elliott Wave Theory. We
+look at this theory and some of its interpretations. We also look at the mathematical basis for this
+theory derived from a sequence of whole numbers called the Fibonacci sequence. In addition, we
+consider briefly another theory of market structure by W. D. Gann.
+
+ELLIOTT WAVE THEORY (EWT)
+Devised by Ralph Nelson Elliott, the Elliott Wave Theory (EWT) is an attempt to define a structure to the stock market, and by implication, other trading markets. EWT is based upon the
+
+477
+
+Download at www.wowebook.com
+
+478
+
+Part VI Other Technical Methods and Rules
+
+notion that the market behaves in an irregular cyclic manner. Proponents of EWT believe that
+this cyclic structure is classifiable and predictable. Defining the market structure allows the analyst to recognize where the market is within the structure and, from that, where it is proceeding
+next.
+Because Elliott’s theory defies any strict, mathematical description, except through anecdotal evidence, its existence is difficult to prove conclusively. Thus, even among practitioners of
+the Elliott Wave Theory, there is much disagreement about the “where are we” aspect of the theory. The basic rules are generally agreed upon, but because of the vagaries of interpretation, no
+agreement or consensus seems to arise as to present conditions.
+In this chapter, we outline the basics of the theory, as espoused by Robert Prechter (1990),
+the principal proponent of the EWT. We also provide some alternate rules, when known, from
+some of the other leaders in the field and include some results from computer screening. However, we leave the interpretation and much detail to further study by the student. EWT is a complex subject and deserves some thought, even if a practical application can be elusive.
+
+Ralph Nelson Elliott
+Born in 1871, Ralph Nelson Elliott spent most of his business career as a railroad accountant and
+reorganizer in Central America. After 25 years in the railroad business, he contracted a severe illness and was forced into retirement to recover. During his recovery, Elliott decided to study the
+stock market, having earlier subscribed to several market letters, one by Charles Collins and the
+other by Robert Rhea of Dow Theory fame. At the age of 63, he began his career as a stock market technical analyst, studying the Dow Jones Averages over periods from half-hours to months.
+His initial discovery of the wave principle took place in early 1934. Becoming destitute,
+Elliott wrote to Collins asking for an arrangement by which he could be paid for market forecasts. Collins allowed him to write to him of his opinions on the market at that time, and Elliott
+was amazingly correct, calling several major market turns within the hour. In 1938, Collins published the first book on the Elliott wave called The Wave Principle.
+In the late 1930s, Elliott moved to New York and with Collins’ financial assistance and
+investor referrals, began his business of newsletters, consulting, and money management. By
+now, Elliott was familiar with the Fibonacci sequence and had integrated it into his wave theory.
+Later in life, he wrote about all his discoveries in Nature’s Law—The Secret of the Universe, but
+his advancing age affected his writing, and the book became disjointed and rambling. Elliott died
+in New York in 1948. Richard Martin, a former student of Collins, Hamilton Bolton, the publisher of the Bank Credit Analyst, and Bolton’s business associate A. J. Frost were well-known
+for applying Elliott’s theory after his death. Robert Prechter, a notable scholar of Elliott’s theory,
+has published all his works, including magazine articles, in The Major Works of R. N. Elliott
+(1980).
+
+Basic Elliott Wave Theory
+Elliott’s theory describes the market structure as a nested series of waves of various length and
+size. A wave is a sustained price move in one direction as determined by the reversal points that
+initiated and terminated the move. A wave cycle is composed of two waves—an impulse wave
+
+Download at www.wowebook.com
+
+Chapter 20 Elliott, Fibonacci, and Gann
+
+479
+
+and a corrective wave. The impulse wave is in the direction of the current trend; the corrective
+wave moves against the trend’s direction. During a bull market, the overall trend is called a
+motive impulse wave (upward price movement) and ends when a downtrend begins, signaling a
+major change in market direction.
+The wave concept that a market has positive price movement followed by a correction is
+simple. The benefit of EWT is that it provides the analyst with more detail about these waves.
+Both the impulse wave and corrective waves include special subwaves. The impulse wave is
+always made up of five subwaves and determines the strength and trend of the wave cycle. Analysts traditionally label these waves with numbers (1, 2, 3, or I, II, III, or i, ii, iii, etc.) based on
+their degree relative to longer and shorter wave cycles. See waves 1 through 5, for example, in
+Figure 20.1. Waves 1, 3, and 5 are smaller waves that contribute to the larger wave’s upward
+trend. Waves 2 and 4 are corrective subwaves; these corrective waves break the sustained upward
+movement.
+The corrective wave is broken into three subwaves, rather than five. These subwaves are
+labeled with letters, such as A, B, and C, as shown in Figure 20.1. Waves A and C are associated
+with downward price movement. Wave B breaks this downward movement with an uptrend.
+In describing the specific subwaves, analysts assume an upward underlying trend at the
+next higher degree and, thus, a rising five-wave impulse wave and a declining three-wave corrective wave. We use the same convention, but the student must be aware that in an underlying
+downward trend, the same relationship between impulse wave and corrective wave holds, just in
+the opposite direction. In other words, the downward impulse wave would include five subwaves
+and three subwaves in its corrective wave upward.
+Look at Figure 20.1. See how the upward motive impulse wave consists of three rising
+impulse subwaves, coinciding with the primary trend, and the corrective wave consists of two
+corrective subwaves, contrary to the primary trend. This pattern can be thought of as three steps
+forward and two steps backward, with each step followed by a small correction.
+Figure 20.1 demonstrates how the two waves of the cycle, the impulse and corrective
+waves, can be broken down into smaller subwaves. Each of these subwaves can be broken into
+separate patterns. Interestingly, the patterns of each subwave will form the same general impulse
+and corrective Elliott pattern with and against their trend. In other words, the patterns generated
+from the waves are fractal, a term we used earlier in describing how chart patterns of a specific
+type can exist in identical shapes in very short- as well as long-term charts. The patterns remain
+the same regardless of time or scale. Each series of waves will define a pattern within a pattern
+both up and down the scale.
+Unfortunately, the patterns do not have definitive time limits. One of the major problems of
+the interpretation of Elliott waves is in deciding at what degree level a particular pattern exists.
+Often the shape of the wave can be interpreted as being part of one degree of magnitude of
+waves, when it really is part of a larger or smaller degree of waves. These different interpretations might have different implied consequences, making projections even more difficult.
+To establish the order of the waves being analyzed, analysts generally begin with a longterm interpretation and reduce the inspection of waves through lower and lower degrees until the
+trading horizon is reached. Misinterpreting any of the waves between the long-term pattern and
+the trading horizon pattern, of course, can alter the interpretation of future prospects as well.
+
+Download at www.wowebook.com
+
+480
+
+Part VI Other Technical Methods and Rules
+
+W
+av
+e
+
+e
+4
+
+e
+ot
+iv
+
+Wa
+ve
+
+3
+
+M
+e
+
+1
+
+eC
+
+v
+Wa
+
+A
+
+B
+ve
+Wa
+
+Co
+
+rre
+
+av
+W
+2
+
+Wa
+ve
+
+e
+av
+W
+
+av
+W
+
+Wa
+ve
+5
+
+Elliot Wave
+
+cti
+
+ve
+
+Wa
+v
+
+e
+
+1 Corrective Wave
+1 Motive Wave
+2 Total Waves
+3 Subwaves Down (A-B-C)
+5 Subwaves Up (1-2-3-4-5)
+8 Subwaves Total
+
+FIGURE 20.1 The structure of ideal Elliott waves within an upward motive impulse wave
+
+Each of the subwaves within either the impulse or the corrective waves can have its own
+peculiarities and alternative patterns. First, let us look a little more closely at the characteristics
+of impulse waves. Then we turn our attention to corrective waves.
+
+Impulse Waves
+Each impulse wave is composed of five subwaves. This impulse wave defines both the trend
+direction and the trend strength. Let’s consider the basic, inviolate rules of these of these waves
+and some of the patterns that can develop.
+Basic Rules
+There are several rules regarding the characteristics of waves. These rules are inviolate. To violate a rule is to disregard the Elliott Wave Theory and, almost certainly, to arrive at an incorrect
+conclusion and projection. Although there are not many rules, it is important to remember that
+they are strict rules that cannot be violated.
+The six rules for impulse waves are as follows:
+• Impulse waves move in the same direction as the trend of the next higher degree wave.
+• Impulse waves divide into five subwaves.
+
+Download at www.wowebook.com
+
+481
+
+Chapter 20 Elliott, Fibonacci, and Gann
+
+• Within an impulse wave, subwaves 1, 3, and 5 are themselves impulse waves of a
+lesser degree, and subwaves 2 and 4 are corrective waves.
+• Within an impulse wave, subwave 1 and 5 might be either an impulse or diagonal pattern.
+• Within an impulse wave, subwave 3 is always an impulse pattern.
+• In cash markets, within an impulse pattern, subwave 4 never overlaps any portion of
+subwave 1. This is not always true for futures markets.
+In addition to the inviolate rules, Elliott observed other wave characteristics that routinely
+occurred. Elliott’s observations were made without the advantage of computer power to sift
+through large amounts of data, and he used only the Dow Jones Industrial Average. The observations we include in this chapter are observations from computer screens of price action in many
+different trading markets and over many different periods (Swannell, 2003). Most of these observations agree with Elliott’s assessments, but some differ slightly. Nevertheless, the computer
+screens display that his observations were mostly accurate.
+Impulse
+Impulse patterns define the trend direction and strength. They include five subwaves, three of
+which move in the direction of the trend and two of which move in the direction opposite to the
+trend. A rising market generally has two strong subwaves: 3 and 5. In a declining market, subwave 3 is generally the strongest, and subwaves 1 and 5 are approximately equal.
+Elliott Wave Theory describes the character of each subwave in more detail. The details of
+these subwaves are as follows:
+• Wave 1 is an impulse or a leading diagonal.
+• Wave 2 can be any corrective pattern but a triangle.
+• Wave 2 does not retrace more than 100% of wave 1.
+• Wave 3 is always an impulse.
+• Wave 3 is larger than wave 2.
+• Wave 3 is never shorter than waves 1 and 5.
+• Wave 4 can be any corrective pattern.
+• Waves 2 and 4 do not overlap in price.
+• Wave 5 is an impulse or ending diagonal.
+• Wave 5 retraces at least 70% of wave 4.
+• In wave 5, a diagonal, extension, or truncation indicates that a major reversal is to
+occur soon.
+
+Download at www.wowebook.com
+
+482
+
+Part VI Other Technical Methods and Rules
+
+Diagonals
+A diagonal (see Figure 20.2) is the same as the classic wedge pattern seen in classic technical
+patterns. It is simply a triangle formation with both bounds headed in the same direction but at
+different angles so that they will meet at some point in the future.
+Diagonal patterns can appear in wave 1 or wave 5. If a diagonal appears in wave 1, it is
+called a leading diagonal. A diagonal appearing in wave 5 is called an ending diagonal. A diagonal never occurs in wave 3. The direction of the diagonal bounds is the same direction as the
+trend of the higher-degree impulse wave.
+A leading diagonal usually consists of five subwaves of three wavelets, each a 3-3-3-3-3
+configuration converging toward an apex. Occasionally, however, the configuration is 5-3-5-3-5,
+just as in an impulse but with the overlapping of waves 2 and 4 (Frost and Prechter, 2000).
+An ending diagonal also includes five subwaves, each of which is in turn subdivided into
+three smaller waves. Often, the fifth subwave will break out of the diagonal’s bounds for a short
+period before reversing. This is called a throw-over (Frost and Prechter, 2000).
+A throw-over is an “elongated impulse with exaggerated subdivisions” (Frost and Prechter,
+2000, p. 31). Usually an extension will occur in only one of the subwaves in an impulse pattern.
+Thus, if waves 1 and 5 are approximately the same length, wave 3 likely will be extended. In fact,
+the third wave extension is the most common extended wave pattern in the stock market. In commodities, however, the extended wave is usually the fifth wave. When extended, a wave often
+appears to have nine subwaves rather than the usual five. This is because the extended wavelets
+are large enough to appear the same size as the subwaves themselves.
+
+5
+
+3

@@ -1,0 +1,418 @@
+
+app-B
+
+JWBK143-Briese
+
+Appendix B
+
+February 26, 2008
+
+21:9
+
+Char Count=
+
+245
+
+readers will have noted in the paragraph above, that actual bimonthly reporting did not
+begin until 1990. The historical data release was not the same data that the CFTC had
+originally reported for the period. If your data base contains mid-month figures for the
+period 1986 to 1990, it originated from this historical data release tape, and not the actual published COT reports. Thus, the mid-month data from 1986 to 1990 was not actually
+available for signal generation at the time of compilation. Also, the mid-month figures are
+unaudited, causing the CFTC to issue the cautionary note that is quoted at the top of this
+appendix. The futures-only database currently distributed at the CFTC website contains
+the same error–ridden data.
+The bimonthly schedule that actually existed from November 1990 was changed to
+every other week beginning on October 13, 1992. This is when the current practice of
+tabulating trader positions on each Tuesday’s close began. It is important to note, however, that in the beginning, the figures were not released weekly. Two weekly reports
+were released every other Friday. For example, on October 16, 1992, two reports were
+released: one as of October 13, and the other for positions as of October 6. This created
+a nominal lag of 3 days for publication weeks, but a 10-day lag for nonpublication (skip)
+weeks. (You can work ahead from the initial report dates given here to establish which
+lag to use for which data point. Or you can use my data, which conveniently carries a 1 or
+2 designation representing the approximate week’s lag.) The current weekly publication
+schedule, where trader positions are reported each Friday for the prior Tuesday’s close,
+began on October 9, 2000.
+Options positions were first accounted for in the Options and Futures Combined
+report, beginning March 21, 1995. Although the “as of” dates for this report were the
+same as the Futures report (normally Tuesday), the public release was delayed to the
+next business day following the futures report posting. This meant that the Options and
+Futures Combined report was usually posted to the CFTC’s website on Monday afternoon. As with the Futures Only report, two weekly Combined reports were released on
+alternate weeks, until weekly publication began in October 2000. The options report did
+not reach publishing parity with the Futures report until January 18, 2002. So the next
+time you see system testing that took a position on the next weekly open after a COT
+signal was generated, you will know that the testing prior to 2002 is invalid. (Those kinds
+of results are not just hypothetical, they are imaginary.)
+This concludes the scheduled lag times. There were numerous disruptions to the
+normal schedule for holidays. Then there were the unanticipated events that introduced
+ongoing variability into the actual lag time before the data was made available for trader
+action. The CFTC was not consistent in its handling of holidays. Sometimes they delayed the compilation, sometimes the release, and sometimes both (and sometimes not).
+Some holidays are not shown on the calendar. For instance, the National Day of Mourning for President Ford delayed compilation of all Commitments reports by one day—to
+Wednesday—and the release of the reports from Friday until Monday, January 8, 2007.
+If you are keeping score, this means the very first release of the COT-Supplemental report was unexpectedly delayed. Another example: Since the CFTC’s New York regional
+office was housed in the World Trade Center, the New York COT report was impacted by
+
+app-B
+
+JWBK143-Briese
+
+February 26, 2008
+
+21:9
+
+Char Count=
+
+246
+
+APPENDIX B
+
+both the 1993 bombing and 9/11/2001. The tabulation, but not the release, of the Chicago
+markets was also impacted by 9/11.
+The point is that if you were not actively collecting each report and noting schedule
+discrepancies as they occurred over the past 20+ years, you cannot now establish the
+actual historical release dates. I don’t know of anyone (other than me) who maintained
+such a contemporaneous accounting, recording actual release dates together with the
+report compilation date provided in the CFTC data. I am quite sure that no publicly available data base contains actual release dates, let alone accurate ones. In all cases that I
+am aware of, the dates carried in available COT data files are the compilation date, so
+you need to build in conservative lag times in order to estimate—and it will be just an
+estimate—the signal generation date. Accuracy in applying future signals in accordance
+with your historical testing would dictate that you apply the same lag time in implementing new COT signals.
+
+CONTRACT SPECIFICATION CHANGES
+In most cases, the CFTC acknowledges a change in contract specifications by issuing
+a new contract market code, effectively terminating the old data series. This practice
+ensures that the recorded Commitments figures will match their original (or corrected)
+posting, at least after 1990. But it is not helpful to the analyst who must now wait two or
+three years to accumulate enough historical data for comparison. My solution is to backadjust the historical data to the new specification, where possible, so that a continuous
+data base can be maintained.
+
+Grain Futures Adjustments
+Historically, COT reports listed open interest for grains in thousands of bushels. Beginning in 1998, the open interest and COT trader positions figures for Chicago Board of
+Trade soybeans, corn, oats, wheat, and the Kansas City and Minneapolis grain futures
+were switched to contracts of 5,000 bushels. There was no change in the actual contract
+specification (nor delivery, nor quality, nor anything else), but the post-1997 COT data appears to be 1/5th the magnitude of earlier reports. The obvious fix in this case is simply to
+multiply the pre-1998 grain open interest and reported trader positions by 0.20 (or divide
+by 5). This does not introduce any new hazards in using the grain data as a homogeneous
+database. The only caveat is that if your algorithms mix open interest and volume figures
+from price data files with any of the figures from the COT reports, you should ensure that
+the price file’s volume and open interest have also been so adjusted.
+
+CME S&P 500 Futures
+A slightly different condition affects the S&P 500 futures data. The size of the Chicago
+Mercantile Exchange (CME) futures contract was changed from $500 times the index
+
+app-B
+
+JWBK143-Briese
+
+February 26, 2008
+
+Appendix B
+
+21:9
+
+Char Count=
+
+247
+
+to $250 times, effective with the November 4, 1997, COT report. This contract has by
+far the longest history among the stock index futures, and it would be a shame to
+lose the first 10 years of data. The remedy is apparent in the two reports that span
+the contract change. Total open interest as of October 28, 1997, is 253,531, approximately half that shown in the next report, 497,048 on November 4. The fix is to multiply all positions prior to November 1997 by 2. This creates an apple-to-apples data
+base and—as long as you consistently use the $250 multiplier—should not materially
+affect any calculations you might wish to make on the data series. By the way, the
+CFTC is not consistent in handling these changes (other than to leave the historical
+record as is). In this case, they did not bother to change the market code identifier
+to indicate a specification change. The only hint in the data is the sudden doubling
+of the totals.
+
+NYBOT Dollar Index
+A similar contract size adjustment must be made to the New York Board of Trade Dollar Index, which introduced a $1,000 times the index contract on May 29, 1992. The old
+$500 times continued to be reported until July 15, 1992. Since the new contract is twice
+the size of the old, the adjustment is just the opposite of the S&P 500. Multiply the old
+contract data by 0.5 to match the new contract. After conversion, I combine trader positions for the two contracts during the transition period in which they appeared together
+in the COT report. This seems to me to provide the most accurate picture of trader activity during the transition. Be careful to convert the old data before combining it with the
+new series. This change affects the futures data only, as it predates the inaugural Options
+and Futures Combined report.
+
+Live to Lean Hogs
+The third type of adjustment becomes necessary when the principal hedging contract
+changes. The primary hog contract traded on the CME changed from live hogs to lean
+hogs in 1996. Because both contracts were 40,000 pounds (and since the pig’s ass presumably was still pork), my solution was to simply add the new lean hog data to the
+historical live hog series. In this case, the new contract was phased in, and both contracts were reported for much of 1996. Once again, I combined the two totals where both
+contracts appeared in the same report.
+
+COMEX Copper
+The New York Commodity Exchange copper contract was upgraded to #1 grade in
+1989. Since both contracts were sized at 25,000 pounds, I added the new contract to
+the existing history and combined trader positions for the two contracts during the sixmonth transition.
+
+app-B
+
+JWBK143-Briese
+
+February 26, 2008
+
+21:9
+
+Char Count=
+
+248
+
+APPENDIX B
+
+CME Pork Bellies
+The Pork Bellies contract was changed from 36,000 to 38,000 pounds effective with
+the February 1979 contract, and then to 40,000 pounds effective with the February
+1987 delivery. (The CFTC data files inexplicably list the entire history as 40,000 pounds
+contracts—but that don’t make it so. Again, it helped to be there at the time.)
+
+CME Feeder Cattle
+The Feeder contract size changed from 44,000 to 50,000 pounds starting with the June
+15, 1992, COT report. This predates the Options and Futures Combined report, but the
+futures-only data prior to June 1992 should be adjusted.
+
+CME Lumber
+The lumber contract has changed four times since 1982, but with only one period of
+overlap reporting for two different size contracts. What ratio to use depends on the sequence you use. Using the CFTC’s present data base requires adjusting the entire history
+based on the current 110,000 board foot contract. The periods, ratios, and approximate
+multipliers are listed in Table B.1.
+TABLE B.1 Lumber Contract Changes
+Beginning Date
+
+Ending Date
+
+30 December 1982
+31 January 1986
+15 April 1992
+26 September 1995
+30 March 1999
+
+30 December 1985
+31 March 1992
+5 March 1996
+23 March 1999
+Present
+
+Size
+
+Ratio
+
+Multiplier
+
+130,000
+150,000
+160,000
+80,000
+110,000
+
+130/110
+150/110
+160/110
+80/110
+—
+
+1.18
+1.36
+1.45
+0.73
+—
+
+After adjusting all totals, combine the reports for the 80,000 and 160,000 board foot
+contracts, which overlapped in the COT report from September 1995 to March 1996.
+
+NYMEX Gasoline
+The leaded regular gasoline contract was replaced by unleaded in 1986 and was the primary New York Mercantile Exchange contract until December 5, 2006. The switch from
+leaded to unleaded predates the Options and Futures report and the Futures Only data
+base provided by the CFTC. If you are using pre-1986 data that you did not get from me,
+you will need to ask your data vendor where he got his data from and whether he made
+the adjustment. The RBOB Gasoline contract hit the COT report beginning February 14,
+2006, creating about a nine-month overlap. Since these contracts are both 42,000 gallons, and open interest gradually moved from one into the other, combining the trader
+
+app-B
+
+JWBK143-Briese
+
+February 26, 2008
+
+21:9
+
+Appendix B
+
+Char Count=
+
+249
+
+positions during the 2006 overlap will create a reasonable bridge, while providing a substantially longer comparison period for the current RBOB contract. Whenever a contract
+specification change is involved, a cautious approach is recommended until it is established that trading patterns were not radically altered between one contract and the next.
+
+When Not to Adjust Historical Data
+When confronted with new markets in a report, my practice is to wait and see if the
+situation resolves itself. For instance, the COT report carried both the New York Cotton Exchange (NYCE) 5-Year T-Note contract and a similar CBOT product between 1987
+and 1990. Depending on your view, you might consider combining trader positions for
+contracts from different exchanges that share substantially similar specifications. In this
+case, open interest in the New York contract never reached more than a fraction of its
+Chicago counterpart and eventually petered out. In this situation, the NYCE contract
+was easy to ignore—on two counts. First, it did not endure long enough to accumulate a sufficient history for comparison. Secondly, open interest totals were negligible
+compared with the CBOT contract. The problem resolved itself without ever needing
+to fuss with the New York numbers. Similarly, several New York Sugar and Cocoa Exchange variations on milk futures were easily ignored until they disappeared from the
+Commitments report.
+The eruption of mini contracts in recent years created a new conundrum, particularly when open interest levels rose to levels too large to ignore. The puzzle was not the
+differing contract sizes—this could easily be adjusted out—but the disparity in the large
+trader reporting levels between full-sized and mini contracts. Because the CFTC likes to
+see upward of 70 percent of open interest reported, they make large traders out of mini
+traders who would not make a dent in the regular pit. But (and there is usually a but) in
+some cases the net changes made it obvious that legitimate large traders were moving
+positions between related mini and full-sized contracts. In these cases, it may seem obvious that you need to combine the open interest for the mini and its full-sized counterpart,
+and ignore the disparity in notional reporting levels. See Chapter 13, “Taking Stock,” to
+see how I handled this.
+
+Reliable Data Sources
+I suspect that most readers will not use this appendix as a cookbook to prepare their
+own data from the raw data available from the CFTC, but you could do so, and maybe
+produce a more reliable data base than you already purchased. You might want to tackle
+such a project if you wish to procure clean data for resale or other commercial purposes,
+or if you do not want to use my data because the modifications presented here do not
+meet your requirements. There may be those who believe they can gain a feel for the
+data, or more confidence in it, by cooking their own. (And there are probably some data
+vendors out there who may wish to use this appendix to clean up their own data base.)
+Readers of this book are entitled to download my data base—for personal use only—and
+
+app-B
+
+JWBK143-Briese
+
+250
+
+February 26, 2008
+
+21:9
+
+Char Count=
+
+APPENDIX B
+
+to collect weekly updates on the same terms, at a website created in conjunction with
+publishing this book (see below).
+If you plan to redistribute data, you do not want to download my data, which is copyrighted and identifiably seeded. This is a data base that I purchased with complete and
+exclusive rights from its creator Curtis Arnold, who assembled it from published COT
+reports. It does not originate from the flawed 1986 CFTC historical data tape. The starting date is 19821230 (December 30, 1982). This is in no way a reflection on Curtis, but
+I painstakingly checked the acquired data against the original paper reports and added
+further history where available. Over the succeeding 20 years, I have maintained the data
+base personally from contemporary reports, making all corrections and the adjustments
+listed in this appendix myself. Neither clerks, programmers, secretaries, data entry services, nor anyone else has touched this data. (Not that there would be anything wrong
+with that.) I believe it to be accurate.
+How do you know if the data you have been using is accurate? If your data base for
+corn, soybeans, and other long-traded commodities begins with 19830101, be suspicious.
+There was no report issued on or as of this date. It is a fictitious date that I used to
+identify my data base in case it was subsequently resold or distributed in violation of my
+copyright.
+If your data base contains bimonthly data points prior to November 1990, it could
+only have originated from the CFTC’s 1990 historical data release, and the warning at the
+top of this appendix applies to it. If your data base contains both bimonthly data prior
+to 1990 and any data prior to 1986, it was obviously spliced together from the above two
+sources and you have a real mishmash.
+This appendix arms you with the detailed knowledge necessary to ascertain how
+the data you are now using was obtained and maintained. In this case, forearmed is
+forewarned. For a list of authorized data distributors who have licensed my data base,
+and which I maintain for them—or to download my historical data for free, go to
+this website, which is available to all purchasers of this book (for personal use only):
+http://www.CommitmentsOfTraders.ORG.
+
+refs
+
+JWBK143-Briese
+
+February 19, 2008
+
+21:14
+
+Char Count=
+
+References
+
+Andersen, J. 2002. “The Commitment of Traders report.” Stocks & Commodities 20 (4): 24–30.
+Arnold, C.M. 1985. “Tracking ‘big money’ may tip off trend changes.” Futures (February): 58–59.
+Bange, M.M. 2000. “Do the Portfolios of Small Investors Reflect Positive Feedback Trading?”
+Journal of Financial and Quantitative Analysis 35: 239–255.
+Barrie, S. 1996. “The COT index.” Stocks & Commodities 14 (9): 380–386.
+Barrie, S.W. 1996. “Pork bellies and the COT index.” Stocks & Commodities 14 (10): 450–454.
+Belveal, L.D. 1985. Charting commodity market price behavior. Illinois: Dow Jones-Irwin.
+Bessembinder, H. 1992. “Systematic Risk, Hedging Pressure, and Risk Premiums in Futures
+Markets.” Review of Financial Studies 5: 637–667.
+Bessembinder, H., and K. Chan. 1992. “Time-Varying Risk Premia and Forecastable Returns in
+Futures Markets.” Journal of Financial Economics 32 (2): 169–193.
+Bhugaloo, S., 2006. “Watch the commercials.” Stocks & Commodities 24 (10): 24–32.
+Bjornson, B., and C.A. Carter. 1997. “New Evidence on Agricultural Commodity Return Performance Under Time-Varying Risk.” American Journal of Agricultural Economics 79: 918–930.
+Blackman, M. 2003. “Playing the gold game.” Stocks & Commodities 21 (5): 64–68.
+Bodie, Z., and V.J. Rosansky. 1980. “Risk and Return in Commodity Futures.” Financial Analysts
+Journal 36: 27–39.
+Born, B. 2003. “Interview with Brooksley Born.” Washington Lawyer (October).
+Braswell, J. 2005. “Commitment of Traders report: Demystified.” Stocks & Commodities
+23 (8): 22–23, 28–31.
+Briese, S. 1990. “Commitments of Traders as a sentiment indicator.” Stocks & Commodities (May):
+70–77.
+Briese, S. 1994a. “Illuminating Data: Commitments of Traders report can disclose promise, perils
+in the markets.” Barron’s (May 2): 20.
+Briese, S. 1994b. “Tracking the big foot.” Futures (March).
+Briese, S. 1995. “Analyzing the Commitments of Traders report.” In The CRB Commodity
+Yearbook, ed. Anne K. Ingles et al., 17T–42T. New York: John Wiley & Sons, Inc.
+Briese, S. 1995. “Commitments of Traders: Tracking the Big Ones” In The Handbook of
+Technical Analysis, ed. Darrell R. Jobman, 263–270. Chicago: Probus Publishing.
+Briese, S. 1999. Guide to Technical Analysis. Chicago: Futures Magazine Group.
+
+251
+
+refs
+
+JWBK143-Briese
+
+February 19, 2008
+
+21:14
+
+Char Count=
+
+252
+
+REFERENCES
+
+Briese, S., and L. Williams. 2006. “Wake up! The COT report is under attack!” Futures
+(August): 64–65.
+Brorsen, B.W., and S.H. Irwin. 1987. “Futures Funds and Price Volatility.” Review of Futures Market
+61: 19–135.
+Brown, S. 1999. “Smart money.” Stocks & Commodities 17 (5): 209–214.
+Brown-Hruska, S. 2004. Keynote address. Paper presented at the Securities Industry Association
+Hedge Funds Conference, November 30, in New York.
+Burke, G. 1995. “Commitment to the net.” Futures (December).
+Cavaletti, C. 1996. “Large-trader information: Justified or just data?” Futures (October).
+Chang, E.C. 1985. “Returns to Speculators and the Theory of Normal Backwardation.” Journal of
+Finance 40 (1): 193–208.
+Chang, E.C., J.M. Pinegar, and B. Schatchter. 1997. “Interday Variations in Volume, Variance and
+Participation of Large Speculators.” Journal of Banking and Finance 21: 797–810.
+Coleman, Senator Norm, and Senator Carl Levin. 2006. “The role of market speculation in rising oil
+and gas prices: A need to put the cop back on the beat.” Staff Report, Permanent Subcommittee on
+Investigations, June 27, United States Senate.
+Commodity Futures Trading Commission. 1992. “Historical data release note.” November, http://
+www.cftc.gov/dea/history/deahist-cot-ftp.htm (accessed July 4, 2007).
+Commodity Futures Trading Commission. 2006. “Comprehensive review of the Commitments
+of Traders reporting program.” Federal Register 71,119: 35627, June 21, http://www.cftc.gov/
+foia/fedreg06/foi060621a.htm.
+Commodity Futures Trading Commission. 2006. “Backgrounder: Speculative Limits, Hedging,
+and Aggregation in Commodity Futures and Options.” November, http://www.cftc.gov/opa/
+backgrounder/opaspeclmts.htm.
+Commodity Futures Trading Commission. 2007. “Backgrounder: The Commitments of Traders report.” January 8, http://www.cftc.gov/opa/backgrounder/opacot596.htm (accessed July 4, 2007).
+Cowing, C.B. 1965. Populists, Plungers, and Progressives. Princeton., NJ: Princeton
+University Press.
+Cutten, A.W., and B. Sparkes. 1932. “The story of a speculator.” The Saturday Evening Post
+(November 17): 2.
+Danielsson, J., and R. Love. “Feedback Trading.” International Journal of Finance and
+Economics 11 (1): 36.
+De Long, J.B., A. Shleifer, L.H. Summers, and R.J. Waldmann. 1990. “Positive Feedback Investment
+Strategies and Destabilizing Rational Expectations.” Journal of Finance 45: 379–395.
+De Long, J.B., A. Shleifer, L.H. Summers, and R.J. Waldmann. 1991. “The Survival of Noise Traders
+in Financial Markets.” Journal of Business 64: 1–19.
+De Roon, F., T. Nijman, and C. Veld. 2000. “Hedging Pressure Effects in Futures Markets.” Journal
+of Finance 55: 1437–1456.
+Drakoln, N. 2004. “Tech talk: Matching Bollinger bands with the COT report.” Futures (October).
+Ederington, L., and J.H. Lee. 2002. “Who Trades Futures and How: Evidence from the Heating Oil
+Futures Markets.” Journal of Business 75: 353–373.

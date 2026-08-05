@@ -1,0 +1,413 @@
+
+Forex for Beginners
+Fed’s policy to ignore money supply. In 2006, it caused quite a stir when the
+Fed ceased collecting data on M3 (M2 plus large and long-term deposits)
+which is perhaps the broadest measure of US money supply. Fundamental
+analysts that disagree with the Fed’s interpretation can still access M1
+(physical money such as coins and currency plus demand deposits) and M2
+(M1 plus time-related deposits and savings deposits). Other central banks
+publish comparable data. Given the link between a continuously growing
+money supply and a declining US dollar (Figure 5-7), these data series might
+be worth paying attention to!
+
+Figure 5-7. Correlation between rising M2 and declining (trade-weighted) US dollar
+
+For guidance on where the markets think US inflation is headed, analysts
+should look at US Treasury Inflation Protected Securities (TIPS). TIPS are
+similar to US Treasury bonds, except that principal and interest payments are
+tied to the CPI. By calculating the breakeven point between TIPS and normal
+Treasury securities, it’s possible to determine inflation expectations for the
+next 5, 10, 20, and 30 years. For example, if the current 10-year US Treasury
+yield is 4.5%, and the yield on an equivalent TIPS bond is 7.5%, then the
+“breakeven” inflation rate is 3% per year. (This calculation ignores the
+liquidity/uncertainty premium built into TIPS, which is generally
+insubstantial.) If inflation expectations rise, this premium will also rise, even
+controlling for changing perceptions of US creditworthiness. Ignoring the
+2008 volatility—which was an anomaly caused by the credit crisis—the
+expected inflation rate for the next 5 years has hovered around 2.5%–3%.
+3 Ben S. Bernanke, “What the Fed Did and Why: Supporting the Recovery and Sustaining
+
+Price Stability,” Washington Post, November 4, 2010, www.washingtonpost
+.com/wp-dyn/content/article/2010/11/03/AR2010110307372.html.
+
+107
+
+108
+
+Chapter 5 | Fundamental Analysis
+(See Figure 5-8.) If you perform this calculation on the equivalent Japanese
+securities, in contrast, you will see that expectations there are for negative
+price inflation (also known as deflation).
+
+Figure 5-8. Market expectations for 5-Year CPI inflation based on “breakeven” rates (Source:
+Bloomberg L.P.)
+
+Economic Indicators
+After inflation, gross domestic product (GDP) is the most important
+economic indicator, at least as far as the forex markets are concerned. The
+GDP growth rate—or rather, the real GDP growth rate, which controls for
+inflation—is a comprehensive barometer of the health of an economy. If the
+number is positive, it means that economic output is expanding, while a
+negative number implies a contraction. Real GDP is especially useful for
+comparative purposes. In a nutshell, the currencies of high-growth emerging
+economies should outperform major currencies, whose economies tend to
+exhibit slower growth.
+Unfortunately, that’s probably the most profound generality that can be
+made. For example, there is only a slight connection between real GDP
+growth differentials and long-term exchange rate movements between
+Canada and the United States, as seen in Figure 5-9. Generally speaking, the
+US dollar has risen against the Loonie when the US/Canada differential was
+positive, and fared less well when the differential turned negative. At the
+
+Forex for Beginners
+same time, the Loonie has appreciated by more than 40% since 2002, even
+though the economies of the US and Canada have grown at roughly the same
+rate (the real GDP growth differential has hovered around 0) for the same
+period. In short, it might be difficult to establish an actionable trading
+strategy based on GDP alone.
+
+Figure 5-9. USD / CAD exchange rate and real GDP growth differential
+
+That’s not to say that the currency markets don’t take GDP seriously. On the
+contrary, GDP figures are probably secondary only to inflation indicators in
+their ability to create a stir and drive instantaneous reactions. This can be
+seen especially in the frantic trading that takes place in the minutes leading
+up to and immediately following their official release.
+The same can be said about most of the various other economic indicators,
+which are absorbed into the currency markets either right away, not at all, or
+indirectly through other indicators. As for which indicators are important
+(those that have the power to move the market), that depends on the market
+narrative at any given time. In the wake of the 2008 housing market collapse,
+for example, housing indicators suddenly acquired tremendous influence as
+the financial markets looked to the housing sector to lead the economic
+recovery. There are indicators that measure supply, by way of housing starts
+and construction permits and inventory, as well as those that measure
+demand, by way of mortgage applications, residential sales, and vacancy
+rates. And of course, there are dozens of indexes that measure nothing but
+price, segmented by type of dwelling, price-range, region, and so forth. The
+
+109
+
+110
+
+Chapter 5 | Fundamental Analysis
+most famous index is probably the Case-Shiller Home Price Index, though it
+is not necessarily the most comprehensive.
+There are some commentators who would insist that there are certain
+indicators that are always important, but my experience suggests that this is
+not actually the case. That’s probably due to the fact that there are thousands
+of indicators covering every facet of every economy. To try to monitor more
+than a handful with any level of dedication would be futile at best and
+counterproductive at worst. That’s not just because most indicators are
+irrelevant, but also because many are contradictory. For trading purposes, it’s
+best to stick to a few of the most prominent leading indicators. These
+indicators precede changes in the economy and must be distinguished from
+lagging indicators, which follow changes in the economy.
+Most forex news websites (and most financial news websites, for that matter)
+compile a calendar of all economic indicators, along with a description of
+each, scheduled release/date time, previous value, and consensus forecast
+(like the one in Figure 5-10). Some editors will go one step further and
+attempt to gauge the relative importance of each indicator. From monitoring
+these lists, forex forums, and media coverage, it’s usually fairly easy to
+determine which indicators are worth paying attention to at any given time.
+
+Figure 5-10. Sample Economic Calendar (Source: ForexPros.com)
+
+A good rule of thumb is that if CNBC and Bloomberg News are not featuring
+live coverage of the indicator’s release, it probably won’t sway the markets
+much. As with inflation, interest rates, and GDP figures, the number that is
+reported is not significant in and of itself, but only relative to market
+expectations. It’s not uncommon for a speculative buildup in advance of the
+release to drive a 50 PIP move in one direction, only to reverse completely
+when the indicator fails to conform to expectations. It should also be noted
+
+Forex for Beginners
+that all initial data releases are preliminary and are always accompanied by
+modified final numbers for the previous period.
+As for why indicators’ relative significance varies over time, the answer is
+that the markets are capricious and that significance is self-fulfilling.
+Sometimes the rationale is indirect. Employment indicators, for example,
+would seem to have very little direct bearing on currencies. Because they can
+influence monetary policy (such as when a high unemployment rate
+prevented the Fed from hiking interest rates despite the onset of economic
+recovery in 2010) one must still pay attention to them.
+Practitioners of technical analysis should also be aware of economic
+indicators’ scheduled release times. The spikes in volatility that they tend to
+produce can confound technical strategies and trigger massive losses among
+those caught unaware.
+
+Balance of Payments Analysis
+As I explained in Chapter 3, the impact of payments imbalances on exchange
+rates is anything but straightforward. In theory, a perennial trade deficit
+(when imports exceed exports) should cause currency depreciation so that
+long-term equilibrium can be restored. You can see from Figure 5-11, for
+example, that the release of UK trade figures in November 2011 touched off
+an immediate 150 PIP decline in the pound and seemed to catalyze an even
+bigger correction in the weeks that followed.
+
+111
+
+112
+
+Chapter 5 | Fundamental Analysis
+
+Figure 5-11. Impact of trade deficit on British pound
+
+That’s because the figures showed a growing trade deficit and a goods deficit
+that was at the highest level since 1998. In other words, the markets
+concluded that at its current level, the pound was hindering both the recovery
+of the export sector (still languishing after the 2008 economic downturn) and
+the broader economy. To add fuel to the fire, the trade figures were even
+worse than the most pessimistic forecasts.
+Naturally, the opposite should be true for any currency that boasts a trade
+surplus. South Korea and the rest of the so-called Asian Tigers, for example,
+have long experienced currency appreciation as a (undesirable) byproduct of
+their perennial trade surpluses.
+Most countries release trade data broken down into goods and services,
+imports and exports, and on a monthly basis. Current account data,
+meanwhile, is typically released on a quarterly basis. In addition, there are an
+
+Forex for Beginners
+inexhaustible number of data streams for cross-border capital flows
+(classified by region, financial security, type of transaction, and so forth)
+which make excellent fodder for fundamental analysis!
+In practice, it is tremendously difficult to derive the equilibrium exchange
+rate from a trade imbalance alone because the exchange rate is necessarily
+already at equilibrium. Recall that the difference between exports and
+imports should approximate the difference between savings and investment
+as well as the net change in ownership of domestic assets. This is basically
+another way of saying that trade deficits must be offset by net investment
+inflows, and vice versa. From this perspective, the relevant question is not
+whether net exporters are willing to subsidize net importers, but whether
+investors from net exporting countries are able and willing to deploy this
+difference into investment opportunities in the net importing economy at
+current exchange rates. In the words of one economic columnist, “When it
+comes to the U.S. trade gap, how many refrigerators the U.S. sells overseas is
+far less important than how many dollars the rest of the world wants.”4
+Figure 5-12, for example, shows that foreign entities purchase trillions of
+dollars of US securities (on a gross basis) every quarter, which provides a
+strong counterbalance to the trade deficit.
+
+Figure 5-12. Gross quarterly purchases of US financial securities by foreign residents
+(Source: Bureau of Economic Analysis)
+
+6 Frank Ahrens, “U.S. Trade Imbalance Widens Slightly: So What?” Washington Post,
+
+May 13, 2009, http://voices.washingtonpost.com/economy-watch/2009/05/us_trade
+_imbalance_widens_slig.html.
+
+113
+
+114
+
+Chapter 5 | Fundamental Analysis
+As an aside, current account deficits sometimes lead to bubbles in net
+importing countries, while other times it leads to currency depreciation. In
+the case of the US dollar, the perennial US current account deficit has caused
+both outcomes.
+Another problem with analyzing the impact of trade data on exchange rates is
+that, by definition, they describe the past. As trade and investment flows
+reflect fundamental (non-speculative) shifts in demand for particular
+currencies, these shifts must necessarily have already happened prior to the
+release of the data. In other words, the fact that the United Kingdom
+experienced a large trade deficit last month doesn’t necessarily offer any
+clues into what will happen in the future.
+Fortunately, this is almost irrelevant as far as you and I are concerned. Since
+forex trading is dominated by speculators, the fact that the markets adjust to
+trade and investment flows only after they have taken place (when they are
+reported) is not really a problem. In this way, these movements of money can
+be said to affect exchange rates twice: first, when they actually take place
+and, secondly, when the markets become aware of them. The first adjustment
+takes place gradually and often imperceptibly, while the second happens in
+large thuds.
+Moreover, trade and investment flows typically follow easily identifiable
+trends. While deficits may spike from time to time, they typically move up,
+down, or sideways, and they do so for sustained periods of time. A structural
+shift from surplus to deficit (or vice versa) might signify that a currency is
+undervalued (overvalued), especially if it isn’t offset by a comparable shift in
+investment flows. In 2011, the Japanese yen rose to a record high against the
+US dollar, and its trade surplus steadily narrowed. The budding fundamental
+analysts out there might want to look for further clues that the yen might
+soon
+follow
+the
+dollar
+downward.
+(See
+Figure 5-13.)
+
+Forex for Beginners
+
+Figure 5-13. (Potential) impact of changing trade patterns on USD/JPY (Source: Japan
+Ministry of Finance, Bank of Japan)
+
+Sentiment Analysis
+The theme of risk aversion was thrust to the forefront of investor
+consciousness in 2008 with the collapse of Bear Stearns and Lehman
+Brothers. As the banking crisis morphed first into a credit crisis and then into
+a full-blown financial crisis, the markets became transfixed by credit risk and
+moved to shed any assets for which there was even a slight possibility of
+default. This phenomenon manifested itself with especial intensity in the
+forex markets, where investors fled all emerging and peripheral currencies
+and migrated en masse into the US dollar. (Note Figure 5-14.) That’s because
+the United States is perceived as one of the safest places in the world to
+invest, due to the size of the US economy and depth of US capital markets.
+With this, the notion of the safe haven currency—one that is seen as
+preferable during times of crisis—was born.
+
+115
+
+116
+
+Chapter 5 | Fundamental Analysis
+
+Figure 5-14. USD, CHF, JPY: 2008 financial crisis and aftermath
+
+Even after the markets recovered in 2009 and 2010, risk aversion was never
+far away. The sudden ignition of the European sovereign debt crisis, the
+earthquake in Japan, the downgrading of the US sovereign credit rating, and
+more all fueled investors’ fears. With each negative development, the
+markets responded in kind. The Japanese yen and the Swiss franc, which had
+also developed reputations as safe haven currencies, both rose to record
+highs. Simply, their capital markets are not deep enough to absorb sudden
+influxes of money without putting strong downward pressure on their
+exchange rates. The US dollar held up well, too. Throughout this period,
+there were plenty of developments that generated optimism. Each caused the
+flight of capital into safe havens to reverse. This manifestation of bipolar
+disorder was dubbed by one commentator as “risk-on, risk-off.”5
+In fact, risk aversion has long been a driver of currency markets, though
+previously it was risk appetite that hogged the spotlight. During most of the
+2000s, record-high risk tolerance (some would call it complacency) led
+droves of investors into growth currencies. They came in search of higher
+yields, and the potential for currency appreciation was merely an added
+9 Matthew Brown, “‘Risk On-Risk Off’ to Remain Key to Currency Markets for Months,
+
+HSBC Says,” Bloomberg News, August 17, 2010, www.bloomberg.com/news/2010-0817/-risk-on-risk-off-to-remain-key-to-currency-markets-for-months-hsbc-says.html.
+
+Forex for Beginners
+bonus. In 2011, the carry trade began to make a comeback, as investors were
+lulled back into a sense of security by rising interest rate differentials and
+economic recovery.
+From the standpoint of fundamental analysis, there are a few good
+quantitative indicators that are useful for forecasting risk. The first is simply
+forex volatility, which measures the extent of fluctuations in exchange rates
+and is used interchangeably with risk. Most forex portals offer volatility data
+on specific forex pairs, in absolute and percentage terms. In Figure 5-15, you
+can see how volatility in the EUR/USD has ebbed and flowed over time.
+
+Figure 5-15. Average daily fluctuation in EUR/USD, number of PIPs (Source:
+Forexticket.co.uk)
+
+The JP Morgan G7 Currency Volatility Index (shown in Figure 5-16)
+meanwhile offers the most comprehensive snapshot of overall forex
+volatility. A spike in volatility will typically precede a spike in risk aversion.
+That’s because an increase in volatility implies more variable (and therefore
+less dependable) returns.
+
+117
+
+118
+
+Chapter 5 | Fundamental Analysis
+
+Figure 5-16. JP Morgan G7 Currency Volatility Index, 2007–2011 (Source: Bloomberg L.P.)
+
+Implied volatility in options contracts represents market expectations of
+volatility going forward. One can look at specific contracts in order to
+determine how volatility expectations differ across different currency pairs,
+time periods, and so on. With the Black-Scholes options pricing model, it’s
+possible to plug in all of the known variables and deduce the volatility that is
+implied by the price of the option. Most integrated quote/trading platforms
+(or a subscription to OptionVue) can perform this calculation automatically
+based on the other known parameters and display the implied volatility for
+any security/currency that has a corresponding option. Additionally, the New
+York Federal Reserve Bank regularly publishes data on implied volatility for
+major currencies, as shown in Figure 5-17. For example, the implied
+volatility of the JPY/USD in February 2012 was 10.1% (annualized) on a
+weekly basis and 13.5% on an annualized basis. When statistical theory is
+applied to these numbers, they imply a 68% chance that one year from now,
+the USD/JPY will be within 13.5% of the current exchange rate, and there is
+a 95% chance that it will fall within 27% (2 times implied volatility).
+
+Forex for Beginners
+
+Figure 5-17. Implied volatility (%) for major currencies in February 2012 (Source: The New
+York Fed)
+
+As for measuring the markets’ appetite for risk, the best proxy is probably
+the S&P 500 Index. When risk appetite is high, equities tend to outperform
+bonds, and growth currencies tend to outperform the majors. Similarly, the
+shift of capital from bonds into stocks (which is measured and released
+periodically by the mutual fund industry) also reflects an increased risk
+appetite. In fact, 2010–2011 witnessed a strong inverse correlation between
+the EUR/USD and the S&P 500. Each new revelation that the European debt
+crisis was deepening led investors to sell both US stocks and the euro. (See
+Figure 5-18.) As this correlation tightened, investors actually began to see the
+S&P 500 as a proxy for risk. As a result, big moves in the S&P 500 often
+preceded—not mirrored—changes in the EUR/USD.
+
+Figure 5-18. Correlation between the EUR/USD and S&P 500
+
+119
+
+120
+
+Chapter 5 | Fundamental Analysis
+
+Market Correlations
+Speaking of correlations, the currency markets are full of them. There are
+correlations between currencies and commodities, between currencies and
+financial securities, and between multiple currencies. Correlation can be
+discerned both through visual comparison and quantitative analysis.
+Sometimes, it’s enough to look at a chart of two different indicators (as with
+Figure 5-18) and immediately determine whether there is a relationship.
+Other times, it’s helpful to know the exact correlation coefficient, which, for
+statistics junkies, is the covariance of two data streams divided by the
+product of their standard deviations. A coefficient of 1 (or 100%) implies a
+perfect direct correlation, and a coefficient of -1 (-100%) implies a perfect
+inverse correlation. If the coefficient measures 0, then there isn’t any
+relationship between the two variables. While there is certainly disagreement
+over what the threshold is for significance, most would agree that a figure
+over 80% demonstrates a reasonably strong correlation and over 90%
+demonstrates a very strong correlation.
+Of course, correlation does not imply causation. Just because two variables
+track each other very closely doesn’t mean that one necessarily causes the
+other. As with the observable relationship between the S&P 500 and
+EUR/USD, it could merely be that an external factor (risk appetite, in this
+case) is driving both to behave identically rather than implying that
+fluctuations in one are actually causing fluctuations in the other. This is a
+very important distinction because only instances of causation are actionable.
+Correlations can help us to understand the markets but are not entirely useful
+for plotting strategy. On the other hand, if I can determine that a rising S&P
+500 Index is directly causing a rising EUR/USD, then I can buy the
+EUR/USD when the S&P rises and sell when it falls.
+
+With that in mind, let’s look at some specific examples of correlation.
+Commodity prices tend to manifest themselves in currency markets in
+several different respects. Commodity currencies may take their cues
+directly from commodity prices, especially during periods of economic
+expansion. Canada, for example, is dependent on the United States for
+energy exports while China’s demand for coal and iron ore drives the
+Australian economy. As a result, the Canadian Loonie and the
+Australian Aussie are buttressed during commodity price booms. In
+the past, the South African rand has exhibited a correlation with gold
+
+Forex for Beginners
+
+prices, and the New Zealand dollar has always benefited from rising
+agricultural prices.
+The role of oil prices in forex is slightly more complex. While there are a
+handful of economies around the world (namely, members of OPEC) that are
+completely dependent on oil, most are plagued by political instability and
+their currencies are not actively traded in the forex markets. The main
+exceptions are Norway and Mexico, whose respective krone and peso are
+both tied closely to the price of oil.
+Much has been written about the relationship between oil prices and the US
+dollar. For most of the modern financial era, there was very little correlation
+between the two, probably because the price of oil didn’t fluctuate much.
+That changed around 2003 when oil prices began a 5-year, 400% climb, and
+the downtrend of the US dollar simultaneously accelerated (Figure 5-19). It
+was originally hypothesized that the latter caused the former. Since oil was
+priced in USD and the dollar was depreciating, oil producers had to raise
+their prices in order to offset the foreign exchange losses. Economists later
+determined that it was actually the other way around.

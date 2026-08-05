@@ -1,0 +1,330 @@
+
+Induction by Enumeration
+The most common form of inductive argument is based on enumeration.
+It proceeds from a premise that enumerates the evidence contained in a
+
+set of observations, and then draws a general conclusion that pertains to
+all similar observations outside the enumerated set.
+
+The Scientific Method and Technical Analysis
+
+123
+
+Premise: Over the past 20 years there have been 1,000 instances in
+which TA rule X gave a buy signal and in 700 oj those instances the
+market moved higher over the next 10 days.
+Conclusion: In the future, when rule X gives a buy signal, there is a 0.7
+probability that the market will be higher at the end of 10 days.
+This conclusion or any conclusion reached by induction is inherently uncertain because it extends to observations that have not yet
+been made. However, some inductive arguments are stronger than others, and hence, arrive at conclusions that are more certain. The strength
+of an inductive argument and the certainty of its conclusion depend
+upon the quantity and quality of the evidence enumerated in its
+premise. The more numerous the instances cited and the higher their
+quality, the more likely the conclusion will generalize accurately to future observations.
+Suppose that the conclusion about TA rule X had been based on only
+10 instances with a 70 percent success rate instead of 1,000. In such a
+case, the conclusion would have been at least 10 times more uncertain. 16
+This means we should be less surprised if the signal's future accuracy differs greatly from its historic success rate. In science, the evidence offered
+in support of a conclusion is typically evaluated with statistical methods.
+This allows one to make quantitative statements about the conclusion's
+uncertainty. This topic is discussed in Chapters 5 and 6.
+The strength of an inductive argument also depends upon the quality
+of the evidence. Evidence quality is an entire subject unto itself, but suffice it to say that some observational methods produce higher quality evidence than others. The gold standard in science is the controlled
+experiment, where all factors but the one under study are held constant.
+TA does not permit controlled experiments, but there are better and
+worse ways to make observations. One issue that is relevant to TA is the
+matter of systematic error or bias. As will be discussed in Chapter 6, objective TA research is prone to a particular type of systematic error called
+data mining bias if careful steps are not taken.
+Also relevant to the strength of an inductive argument is the degree
+to which the evidence cited is representative of the kinds of observations
+that are likely to be encountered in the future. An inference about a rule
+that generates long/neutral (+1,0) signals that was back-tested only during rising markets is unlikely to be accurate about the rule's performance
+in a declining market environment. Even if the rule had no predictive
+power, its restriction to long or neutral positions makes it likely that it
+would have generated a profit because it was tested during a rising marketperiod.
+
+124 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+The most common fallacy of induction is the hasty generalizationan induction based on too little evidence or evidence of poor quality.
+Rule studies that cite a small number of successful signals as a basis
+for concluding that the rule has predictive power are likely to be hasty
+generalizations.
+
+1'00 .-HILOSOPIW OF SCIENCE
+The philosophy of science seeks to understand how and why science
+works. It explains such things as: the nature of scientific propositions
+and how they differ from nonscientific and pseudoscientific propositions; the way scientific knowledge is produced; how science explains,
+predicts, and, through technology, harnesses nature; the means for determining the validity of scientific knowledge; the formulation and use
+of the scientific method; and the types of reasoning used to arrive at
+conclusions. 17
+That the scientific method is one of man's greatest inventions and is
+by far the most effective method for acquiring objective knowledge about
+the natural world is beyond question. "The part of the world known as the
+Industrial West could, in its entirety, be seen as a monument to the Scientific Revolution.... "18 Humankind's ability to predict and control the natural world has improved more in the last 400 years, since the scientific
+revolution began, than it had in the prior 150,000 years that modern humans, homo sapiens, walked the face of the Earth.
+Strange as it may seem, the invention of the scientific method and its
+first fruits came before it was understood why the method worked as well
+as it did. That insight came gradually, over the course of several centuries,
+as practicing scientists and their erstwhile critics, the philosophers of science, wrestled with perfecting the method and, in parallel, developed an
+understanding of how and why it worked.
+The mere fact that the scientific method did work was not enough. It
+was seen as necessary to understand why. What philosophers found so
+vexing was the following apparent contradiction. On the one hand were
+the great victories of science, such as Newton's laws of motion and gravity
+and humanity's expanding technological control over nature. On the other
+was the fact that scientific knowledge was inherently uncertain, because
+conclusions arrived at by logical induction were inherently uncertain.
+How could so much useful knowledge result from such a flawed method
+of inference?
+This section discusses the keys steps in the method's development
+and the milestones in our deepening understanding of how and why it
+
+The Scientific Method and Technical Analvsis
+
+125
+
+works. The reader may wish to skip this historical development and go directly to the summary of the key aspects of the scientific method.
+Bacon's Enthusiasm
+
+Without invitation, philosophers poke their noses into all sorts of matters.
+It's their nature. They tell us how to act (ethics), how governments should
+rule (political philosophy), what is beautiful (aesthetics), and of greatest
+concern to us, what constitutes valid knowledge (epistemology) and how
+we should go about getting it (philosophy of science).
+The scientific revolution was, in part, a revolt against Aristotelian science. The Greeks regarded the physical world as an unreliable source of
+truth. According to Plato, mentor of Aristotle, the world was merely a
+flawed copy of the truth and perfection that existed in the world of Forms,
+a metaphysical nonmaterial realm, where archetypes of the perfect dog,
+the perfect tree, and every other imaginable thing could be found.
+When the revolt against this view of reality finally arrived, it was harsh
+and unremitting. 19 The new school of thought, empiricism, resoundingly
+rejected the Greek paradigm. It contended that, not only was the natural
+world worthy of study, but that careful observation could lay bare its
+truths. A pioneer of empiricism and perhaps the first philosopher of science was Francis Bacon (1561-1626). "Nature, for Bacon was an open
+book that could not possibly be misread by an unprejudiced mind."20 In
+his famous work the Novem Organum (the new tool) Bacon extolled the
+power of observation and induction. He held science to be a completely
+objective rational practice that could conclusively confirm or falsify
+knowledge simply by observing without bias or prejudice and then generalizing from those observations. In many situations, this approach seemed
+to work.
+However, empiricism was not the perfect tool Bacon and his disciples
+claimed, and philosophers made it their business to say why. First, they
+pointed out that empiricism, an observation-based enterprise, rested on a
+crucial assumption that could not be confirmed by observation, the assumption that nature was uniform over all time and space. That assumption was
+critical in justifying the empiricists' position that if a scientific law was observed to hold true here and now it would also hold true everywhere and
+forever. Because the uniformity of nature assumption could not be confirmed by observation, it had to be taken on faith. Second, science often
+deals with phenomena and concepts that defy direct observation: atomic
+structure, the force of gravity, and electric fields. Though their effects are
+observable, these constructs could not be arrived at exclusively by observation and induction. They are better understood as human inventions that
+explain and predict rather than observable physical realities.
+
+.26 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Nevertheless, Bacon's contributions to the development of the scientific method were important. He promoted the idea of experiment and
+made room for doubt by taking special note of discordant observations.
+Both ideas eluded the Greeks.
+
+Descartes's Doubt
+If philosophers are good for anything it's raising doubt, and no one was
+
+better than Rene Descartes (1596-1650). Regarded as the father of modem philosophy and a key figure in the birth of science, Descartes shared
+Bacon's skepticism for the authoritarian knowledge of the Greeks and the
+dogma of the Roman Church. However, Descartes was just as skeptical of
+the claims made by the empiricists about the power of observation and inductive generalization. His famous expression, "I think, therefore I am,"
+expressed the position that science must start by doubting everything except the existence of the person who experiences doubt. From that point
+of solidity, knowledge must be built purely by deductive reasoning without being contaminated by error-prone observations made with the imperfect five senses.
+As a consequence of Descartes' anti-empirical stance and penchant
+for theorizing in a factual vacuum, his scientific findings were almost
+meaningless. 21 However, his contributions to science were lasting. Skepticism is central to the scientific attitude. In addition, Descartes' invention
+of analytic geometry paved the way for Newton's invention of the calculus
+which, in tum, allowed him to specify his famous equations of motion and
+gravity.
+
+"ume's Critique of Induction
+Another dose of doubt was administered by Scottish empiricist and
+philosopher David Hume (1711-1776). His seminal work, the Treatise on
+Human Nature, published in 1739, grappled with a central problem of
+epistemology: how to distinguish knowledge from lesser forms of knowing, such as opinions that happen to be true. Prior to Hume's publication,
+philosophers generally agreed that the distinction was related to the quality of the method used to acquire the knowledge. What justified calling
+one bit of wisdom knowledge but not another was the pedigree of the
+method of inquiry. 22
+Philosophers could not, however, agree on the best method of knowledge acquisition. Empiricists argued that objective observation followed
+by inductive generalization was the route to wisdom. Rationalists, on the
+other hand, contended that pure deductive reasoning from self-evident
+truths was the correct method.
+
+The Scientific Method and Technical Analysis
+
+127
+
+Hume took issue with both schools of thought and ultimately even
+with himself. As an empiricist, Hume disparaged the rationalists' purely
+deductive approach because it was disconnected from observed facts.
+Also, in the spirit of empiricism, Hume said that it was wise to adjust the
+strength of one's beliefs in proportion to the evidence and that theories
+should be evaluated by the degree to which they matched observation.
+But then Hume went on to contradict himself by attacking the logical basis of empiricism. He denied the validity of inductive generalization and
+disparaged the ability of science to establish causal laws. His searing critique of induction has come to be known as Hume's problem.
+Hume's attack on induction was on both psychological and logical
+grounds. First, he said the belief that induction could establish correlative or causal connections between events was a nothing more than a
+by-product of human psychology. Hume asserted that the perception
+of cause and effect was merely an artifact of the mind. The belief that
+A causes B or is even correlated to B, simply because A has always
+been followed by B was nothing more than a habit of mind, and a bad
+habit at that.
+From a logical perspective, Hume claimed that induction was flawed
+because no amount of observed evidence, no matter how objectively collected, can compel a conclusion with the force of a valid deduction. Moreover, he said that there was no rule of induction that tells us when we
+have evidence of sufficient quantity or quality to justify the leap from a finite set of observations to a conclusion about an infinite number of similar
+but not yet observed instances. A rule of induction would, itself, have had
+to be the result of a prior valid induction made on the basis of an even earlier rule of induction, and so forth and so on, ad infinitum. In other words,
+an attempt to justify induction inevitably rests on an infinite regress-a
+logically impossible absurdity.
+In light of Hume's attack, supporters of induction retreated to a narrower claim saying inductive generalizations were merely correct in a
+probabilistic sense. So as evidence accumulates in favor of a relationship
+between A and B, the probability that the relationship is authentic also increases. However, philosophers were quick to point out that a probabilistic justification of induction was also flawed. As will be pointed out in
+Chapter 4, the probability that A predicts B is equal to the number of times
+that A was followed by B divided by the total number of instances of A regardless of whether it was followed by B. 23 Because the future holds an infinite number of instances, the probability will always be zero, no matter
+how numerous the past observations (any number divided by an infinitely
+large number is still zero).
+Thus, Hume and his allies created a paradox. On one hand were their
+seemingly valid concerns about the flaws of induction. On the other hand was
+
+128 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+the accumulation of stunning scientific discoveries. If science was based on
+such a flawed logic, how could it have managed to be so successful?
+William Whewell: The Role of Hypothesis
+It took philosophers and scientists two hundred years of watching the scientific method succeed to understand how it worked and why it had been
+so triumphant. By the middle of the nineteenth century, it was becoming
+clear that science employs a synergistic combination of inductive and deductive logic. In 1840, William Whewell (1794-1866) published The History and Philosophy of Inductive Sciences.
+Whewell was the first to understand the crucial role of induction in
+the formulation of a hypothesis. Whewell called it a happy guess, He said
+that scientific discovery starts with a bold inductive leap to a new hypothesis, but it is followed by deduction. That is to say, after a hypothesis has
+been induced, a prediction is deduced from said hypothesis. This prediction takes the form of a conditional statement:
+
+If the hypothesis is true, then specific future observations are predicted to occur.
+When the observations are made, they will either be consistent with
+the prediction, thus confirming the hypothesis, or conflict with the prediction, thus contradicting the hypothesis.
+What is a scientific hypothesis? It is a conjecture of a suspected pattern, for example:
+
+X predicts Y.
+or
+
+X brings about Y.
+This conjecture is spawned by a scientist's prior experience-noticing
+repeated pairings of X and Y. Once the XY hypothesis has been put forward, a testable prediction is deduced from it. This takes the form of a
+conditional proposition, which is composed of two clauses: an antecedent
+and a consequent. The hypothesis serves as the antecedent clause, and the
+prediction serves as the consequent clause. In situations where it is
+merely asserted that X is correlated (predicts) with Y the following conditional proposition would apply:
+
+IF X predicts Y, then future instances of X wiU be foUowed by instances of Y.
+
+The Scientific Method and Technical Analysis
+
+129
+
+In cases where the hypothesis asserts that X causes Y, the following
+conditional proposition would apply:
+
+IF X causes Y, then ifX is removed, Y should not occur.
+The predictions embodied in the consequent clause of the conditional
+proposition are then compared with new observations. These must be observations whose outcome is not yet known. This is crucial! This does not
+necessarily mean that the observations concern some future event. It simply means that when the prediction is made, the outcome of the observations is not yet known. In historical sciences like geology, archeology, and
+so forth, the observations are about events that have already taken place.
+However, the outcomes have not yet been observed.
+If it turns out that future observations of X are not followed by Y or if
+removal of X does prevent the occurrence of Y, then the hypothesis (antecedent) is proven to be false by the valid deductive form falsification of
+the consequent.
+
+If X, then Y.
+Not Y.
+Valid Deduction: Therefore, not X.
+If, however, future instances of X are indeed followed by Y, or if the
+removal of X does cause the disappearance of Y, the hypothesis is not
+proven! Recall that affirming the consequent is not a valid deductive form.
+
+If X, then Y.
+Y.
+Invalid: Therefore, X.
+That the prediction has been confirmed merely offers tentative confirmation of the hypothesis. The hypothesis survives for the moment, but
+more stringent tests of it are sure to follow.
+Whewell agreed with Hume that inductive conjecture was a habit of
+human thought, but the habit that Hume so disparaged Whewell regarded
+as fruitful though mysterious. He was unable to explain the mental
+processes that gave rise to such creative thoughts though he believed inductive generalization was part of it. He called the ability to conjure a hypothesis an unteachable inventive talent but a crucial one, because,
+without a hypothesis, a set of observations remain nothing more than a
+disconnected collection of facts that could neither predict nor explain.
+However, with one came the breakthroughs of science.
+
+.30 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Whewell's description of this crucial creative aspect of science reminds
+me of a conversation I had many years ago with Charles Strauss, a prolific
+composer of some of Broadway's most successful musicals. In my early
+twenties at the time, short on tact and long on audacity, I asked him to explain how he managed to be so productive. With more forbearance than I
+deserved, Charles described a daily discipline of religiously sitting at the piano from 8 until 11 each morning and from 2 until 5 each afternoon,
+whether he felt inspired or not. He told me he treated composing music like
+ajob. During this time he would test tentative melodies-musical hypotheses. He modestly attributed his high productivity to 99 percent discipline
+and 1 percent creative talent. However, as I thought about this conversation
+years later, it seemed otherwise. With an almost infinite number of note
+combinations, his success at creating infectious tunes had to be a creative
+talent-some special ability to see which of those musical col'\iectures had
+the potential to be melodies and which did not. This was what Whewell
+called the happy guess-that unteachable talent of seeing a theme that
+meaningfully relates a disparate set of observations or notes that eludes the
+average person. A few folks have it. The vast majority do not.
+Whewell's realization that proposing a hypothesis was an act of invention no less than the creation of the steam engine or the light bulb represented a profoundly important advance in thinking about science. 24
+Induction could not produce truths on its own, but it was a necessary first
+step. This was a profound departure from the prior notion of science as a
+systematic objective investigation followed by inductive generalization.
+Whewell saw the scientist as a creator as much as an investigator.
+Karl Popper: Falsification and Bringing Deduction
+Back into Science
+In two landmark works, The Logic of Scienti.f'U; Discovery25 and Conjec-
+
+tures and Refutations,26 Karl Popper (1902-1994) extended the insight of
+Whewell and redefined the logic of scientific discovery by clarifying the
+role of deduction. Popper's central contention was that a scientific inquiry
+was unable to prove hypotheses to be true. Rather, science was limited to
+identifying which hypotheses were false. This was accomplished by using
+observed evidence in combination with the valid deductive form of falsification of the consequent.
+If hypothesis H is true, then evidence E is predicted to occur under
+
+specified conditions (e.g., back test of a TA rule).
+Evidence E did not occur under the specified conditions.
+Therefore, hypothesis H is false.
+
+The Scientific Method and Technical Analysis
+
+131
+
+In taking this stance, Popper challenged the prevailing view advocated by a school of philosophy called logical positivism. Just as Francis
+Bacon had revolted against the strictures of the Greek tradition, Popper
+was in revolt against the Vienna Circle, the home of logical positivism.
+Logical positivists believed that observations could be used to prove hypotheses to be true. Popper demurred, saying that observed evidence
+could only be used to prove a hypothesis false. Science was a baloney detector, not a truth detector.
+Popper justified his method, called falsificationism, as follows. A
+given set of observations can be explained by or is consistent with numerous hypotheses. Therefore, the observed data, by itself, cannot help us decide which of these hypotheses is most likely correct. 27 Suppose the data
+is that one of my shoes is missing. One hypothesis that might explain this
+observation is that I'm a disorganized housekeeper who is always misplacing things. Another hypothesis, which is equally consistent with the observation of a missing shoe, would be that my house was burglarized by a
+one-legged thief who only had use for one shoe. In fact, an infinite number
+of hypotheses could be proposed that are consistent with (explain) the
+missing shoe.
+We have already seen that data cannot be used logically to deduce the
+truth of a hypothesis. Attempts to do so commit the fallacy of affirming
+the consequent. 28 However, and this is the key to Popper's method of falsificationism, data can be used to validly deduce the falsehood of a hypothesis by denial of the consequent. In other words, disconfirming evidence
+can be used to reveal a false explanation. For example, finding the other
+shoe would be evidence that would falsify the one-legged thief hypothesis.
+The logical argument is as follows:
+Premise 1: If a one-legged thief is responsible for my missing shoe,
+then I will notfind the shoe in my home.
+Premise 2: Missing shoe isfound (consequent denied).
+Conclusion: Therefore, the one-legged thief hypothesis is false.
+Popper's method of falsification runs against the grain of common
+sense, which is biased in favor of confirmatory evidence. As pointed out in
+Chapter 2, intuition often tells us to test the truth of a hypothesis by seeing if confirmatory evidence can be found. We do so under the mistaken
+impression that confirmatory evidence is sufficient to establish truth.
+However, using evidence in this way commits the fallacy of affirming the
+consequent. We are not wrong to suspect that confirmatory evidence
+should be found if the hypothesis is true, but we are wrong to think that
+confirmatory evidence is sufficient to establish its truth. Said differently,

@@ -1,0 +1,931 @@
+Let’s take a look at the calculation.
+Fast Stochastics
+%K = (current close – lowest low[n]) ÷ (highest high[n] – lowest low[n])
+%D = a simple moving average of %K
+n = number of periods specified
+%K is the stochastic calculation and %D is just a moving average of
+%K. This version of the indicator is known as fast stochastics. Applying
+another moving average to %D yields slow stochastics. This is why the slow
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+134
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+stochastic oscillator requires three inputs: one to specify the number of
+periods that determine the high-low range, one to determine the length of
+the first moving average, and one to determine the length of the second
+moving average.
+Slow Stochastics
+Fast %D becomes Slow %K
+Slow %D = a simple moving average of Slow %K
+As Figure 6.24 illustrates, slow stochastics is smooth and pleasing to
+the eye. Slow stochastics is more widely used, so from here on in this book,
+stochastic oscillator refers to slow stochastics.
+Signals can be generated using crossovers. If %K crosses above %D,
+then a buy signal is generated. If %K crosses below %D, then a sell signal is generated. The most powerful of these signals occurs when %K
+and %D are above 80 and below 20. For the stochastic oscillator, 80 and
+
+FIGURE 6.24 Slow stochastics looked at in the same way that RSI was before.
+Again, overbought and oversold often signal a continuation of the trend
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+135
+
+20 designate overbought and oversold. One reason the stochastic oscillator is more sensitive an indicator than RSI, which is why the overbought
+and oversold levels are more extreme (80 and 20 for stochastic as opposed
+to 70 and 30 for RSI). Similar to RSI, the real reversal signal does not occur
+until the oscillator crosses back below 80 (for sell signals) and back above
+20 (for buy signals).
+Lane himself advocated using his indicator primarily to spot divergences in order to anticipate reversals (in conjunction with Elliott). As
+was mentioned previously, divergence does warn that the probability of
+the trend continuing is not as high as previous, but divergence can remain
+in place for a long time. The result is that traders try to sell the top or buy
+the bottom too early in almost all instances. When an oscillator is in extreme territory, take advantage of the trend by remaining with it instead of
+attempting to sell the top, which is what the majority of losing traders do.
+The idea of maintaining a bullish bias as long as RSI has crossed above
+60 and not yet crossed below 40 and maintaining a bearish bias as long as
+RSI has crossed below 40 but not yet crossed above 60 was a good one; the
+charts indicate that. Let’s do the same thing with the stochastic oscillator.
+First, we will examine the EURUSD weekly chart with a 13, 3, 3 stochastic
+oscillator. We’ll maintain a bullish bias as long as price has crossed above
+80 without crossing below 20. We’ll maintain a bearish bias as long as price
+has crossed below 20 without first crossing above 80.
+The results are promising. If you compare Figure 6.24 to Figure 6.19,
+you’ll notice that the stochastic oscillator signals the change in trend
+quicker than the RSI. The drawback though is that there are more false
+signals. RSI signals the first downtrend in the EURUSD in March 1999. The
+stochastic oscillator signals the downtrend two months earlier in January
+1999. The RSI does not switch to a bullish bias until June 2002 but the
+stochastic oscillator gives a false buy signal in October 1999 before reverting back to a bearish bias the next month. From October 2000 until
+February 2002, the EURUSD traded in a range. With RSI, your bias would
+have remained bearish during this range bound period. With the stochastic
+oscillator, your bias would have changed multiple times. This is not necessarily a bad thing. The stochastic oscillator is more sensitive than RSI
+and therefore changes bias more often. This leads to earlier and timelier
+signals but also more false signals. Finding the correct balance between
+timeliness and reliability is essential to success in technical analysis. As is
+the case with any technical study of market action, this method of indentifying trend can be applied to any time frame, as the charts in Figures 6.25
+to 6.27 demonstrate.
+If you wish to make the stochastic oscillator trend signal even timelier,
+then change the point at which you adopt a bullish bias from 80 to 70 and
+a bearish bias from 20 to 30, as shown in Figure 6.28.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+136
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.25 The method works well with the weekly AUDUSD chart. Even false
+signals end up as ﬂat trades at worst
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FIGURE 6.26 Using this method with GBPJPY on this 240-minute chart helps
+catch the big swings that the pair is infamous for
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+137
+
+FIGURE 6.27 Interpreting slow stochastics this way on the CHFJPY daily chart
+helps in catching both up and down moves
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FIGURE 6.28 Changing the parameters from 80, 20 to 70, 30 results in timelier
+but more false signals. The stochastic oscillator is more volatile than RSI
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+138
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+Bollinger Bands
+John Bollinger developed Bollinger bands in the early 1980s. The following
+is an excerpt from bollingerbands.com:
+The purpose of Bollinger Bands is to provide a relative definition of
+high and low. By definition prices are high at the upper band and
+low at the lower band.
+Middle Bollinger Band = 20-period simple moving average
+Upper Bollinger Band = Middle Bollinger Band + 2 * 20-period
+standard deviation
+Lower Bollinger Band = Middle Bollinger Band – 2 * 20-period
+standard deviation
+The first few sentences can be misleading to a new trader. “By definition prices are high at the upper band and low at the lower band.” Although
+success in trading depends on buying at a lower price than you sell, selling
+when price is at the upper band based on the assumption that price is high
+can be ruinous. Likewise, buying when price is at the lower band based on
+the idea that price is low usually results in fading a downtrend. In range
+bound markets, Bollinger bands work like a charm at identifying the top
+and bottom of the range as illustrated in Figure 6.29.
+
+FIGURE 6.29 Bollinger band gauge support and resistance well in range bound
+markets
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+139
+
+FIGURE 6.30 The bold bars indicate when price closes above the 2 standard deviation upper Bollinger band or below the 2 standard deviation lower Bollinger band
+R
+, the ﬂagship product of TradeStation TechSource: Chart created on TradeStation
+nologies, Inc.
+
+I still contend that the big money is to be made in trending markets.
+Continually buying near the bottom of the band and selling near the top of
+the band will cause you to miss out on the best money-making opportunities that the market presents. You can probably guess by now where I am
+going with this. It is more profitable to adopt a bullish bias when price exceeds the upper band and a bearish bias when price drops below the lower
+band, as illustrated in Figure 6.30.
+Buying strength and selling weakness based on price exceeding the upper band and dropping below the lower band is the same as buying when
+RSI or the stochastic oscillator indicate that price is overbought or oversold. If you prefer a timelier signal from the Bollinger bands, then change
+the standard deviation setting from 2 to 1, as illustrated in Figure 6.31.
+Using these indicators in the way that I have presented them is much
+more useful than the traditional approach. To prove that point, I ran very
+basic tests on the EURUSD weekly chart. The following rules apply:
+
+r Once the bias changes from short to long, a stop buy order is placed to
+buy at the high.
+
+r Once the bias changes from long to short, a stop sell order is placed to
+sell short at the low.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+140
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.31 The bold bars indicate when price closes above the 1 standard deviation upper Bollinger band or below the 1 standard deviation lower Bollinger band
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+The bias is determined as presented in this chapter. The tests were
+for RSI(70, 30), RSI(60, 40), stochastic oscillator(80, 20), stochastic oscillator(70, 30), Bollinger band(2 stdev), and Bollinger band(1 stdev). I ran
+three more tests: one each for RSI, the stochastic oscillator, and Bollinger
+bands, to illustrate that using them to trade reversals does not work so
+well. For RSI and the stochastic oscillator, the rules are to sell at the low of
+the bar once the indicator crosses below the overbought level (70 for RSI
+and 80 for the stochastic oscillator). Similarly, a buy order is placed at the
+high of the bar once the indicator crosses above the oversold level (30 and
+20). I used 13 as the length for both oscillators. The Bollinger band reversal
+strategy sells at the low of the bar once the price crosses and closes below
+the upper band. A buy order is placed at the high of the bar when the price
+crosses and closes above the lower band. I used a 21-week lookback period and bands of 1 and 2 standard deviations. There are equity curves for
+nine strategies (2 each for the RSI, stochastics, and Bollinger band trend
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+141
+
+The Power of Technical Indicators
+
+40000
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+10/5/07
+
+FIGURE 6.32 RSI (70, 30) trending strategy
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+strategies and 1 each for the RSI, stochastics, and Bollinger band reversal
+strategies). See Figures 6.32 to 6.40.
+The results speak for themselves. Does this mean that you recklessly
+buy and sell when an indicator crosses a certain threshold? Of course not;
+other variables such as the market’s pattern and overall structure (see
+Chapter 7) must be considered. This is not a strategy in itself, but the objective of the tests is to show that determining a bullish or bearish bias in
+the way that I have presented can serve as the foundation for a successful
+trading strategy.
+
+WHEN TO GET OUT
+This chapter concentrated on determining a bias, but what about exiting
+the position? Waiting for the bias to change from bullish to bearish to exit
+our bullish position will result in too large a loss of paper profits. Even
+though determining a bias can be approached systematically, determining
+when you are no longer justified in holding the position requires more skill,
+in my opinion. In this sense, determining when to exit is more art than
+science.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+142
+
+SENTIMENT IN THE FOREX MARKET
+
+50000
+
+40000
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+10/5/07
+
+FIGURE 6.33 Slow stochastics (80, 20) trending strategy
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+20000
+
+10000
+
+0
+
+–10000
+
+–20000
+
+–30000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+FIGURE 6.34 Bollinger band 2 standard deviation trending strategy
+
+10/5/07
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+143
+
+The Power of Technical Indicators
+
+50000
+
+40000
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+–20000
+
+–30000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+10/5/07
+
+FIGURE 6.35 RSI (60, 40) trending strategy
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+50000
+
+40000
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+–20000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+FIGURE 6.36 Slow stochastics (70, 30) trending strategy
+
+2/17/06
+
+10/5/07
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+144
+
+SENTIMENT IN THE FOREX MARKET
+
+50000
+
+40000
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+10/5/07
+
+FIGURE 6.37 Bollinger band 1 standard deviation trending strategy
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+10000
+
+0
+
+–10000
+
+–20000
+
+–30000
+
+–40000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+FIGURE 6.38 RSI (70, 30) reversal strategy
+
+2/17/06
+
+10/5/07
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+145
+
+The Power of Technical Indicators
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+–20000
+
+–30000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+10/5/07
+
+FIGURE 6.39 Slow stochastics (80, 20) reversal strategy
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+30000
+
+20000
+
+10000
+
+0
+
+–10000
+
+–20000
+
+4/6/01
+
+11/22/02
+
+7/9/04
+
+2/17/06
+
+FIGURE 6.40 Bollinger band 2 standard deviation reversal strategy
+
+10/5/07
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+146
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+Consecutive Up and Down Periods
+Much like a rate of change extreme announces the start of a new trend, a
+consecutive number of closes in the same direction often announces that
+the trend is reaching a point of exhaustion. A currency pair that closes up
+or down for x number of periods in a row indicates near complete agreement among market participants as to the direction of the market. The market could be crowded with too many bulls (in the case of consecutive up
+periods) or too many bears (in the case of consecutive down periods). An
+analogy that accurately describes the state of the market during this time
+is that of a boat with too many people sitting on one side. What happens?
+The boat tips over. The same thing happens in financial markets and in the
+FX market in particular.
+Fear is the dominant emotion in the FX market. Currencies are traded
+in pairs. Therefore, if a trader is long one currency, then he or she is also
+short a different currency. What I am getting at is that a currency is often bought since it is viewed as being the lesser of two evils. For example, the EURUSD rate has not skyrocketed to record levels recently (this
+is late 2007) based on an overly optimistic outlook for the Eurozone but
+rather because of fear of the U.S. dollar. Fear is an extremely powerful
+emotion, much more so than hope or greed. Fear leads to panic, and panic
+is reflected through price as strings of consecutive up and down days (or
+weeks, etc.). When fear is the greatest, the currency in question will find a
+bottom and begin to rally. In the case of the EURUSD, fear toward the U.S.
+dollar registers a peak at the top of the chart. Fear toward the euro would
+register its extreme at the bottom of the chart. Figures 6.41 to 6.44 are examples of tops and bottoms that formed following a number of consecutive
+closes in the same direction.
+I have showed weekly charts in order to show major tops and bottoms
+that can occur following a string of consecutive closes in the same direction. However, this dynamic can be applied to daily charts and even smaller
+time frames, even though the turns will not be as significant.
+By no means should you wait for a consecutive number of up or down
+closes to close your position. Rather, if you are fortunate enough to exit
+your position following one of these instances, then take advantage of the
+situation and do so. The best time to exit the trend is at the sentiment extreme (a bullish sentiment extreme if you are long and a bearish sentiment
+extreme if you are short), and consecutive closes in one direction represent a sentiment extreme. Use 8 as a starting point. For example, once a
+pair has rallied for 8 weeks (or days), place a stop just below the low of the
+last week (week 8 if this is week 9). If week 9 ends up, then move the stop
+to the low of week 9 for week 10. Repeat this process until you are stopped
+out.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+147
+
+FIGURE 6.41 Dollar Index weekly bars: The USD formed a bottom after declining
+for 11 consecutive weeks in December 2004
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FIGURE 6.42 EURUSD weekly bars: The EURUSD formed tops in January and December 2004 after rallying for 9 and 8 consecutive weeks
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+148
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.43 USDJPY weekly bars: The USDJPY all-time low occurred after the pair
+declined for 11 consecutive weeks in 1995
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FIGURE 6.44 USDCAD weekly bars: Major turns in the USDCAD tend to occur after moves of nine consecutive weeks
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+149
+
+Theoretically, if the best exit is at a sentiment extreme, then the best
+entry should also be at the sentiment extreme. Of course, this often results
+in trying to be too perfect. To combat trying to be too perfect, determine
+the bias systematically in the way that I described in this chapter. You may
+not actually get into the trend until just before the midpoint, but you will
+catch the bulk of the move and the blow-off top that occurs so often in FX.
+I believe that this is a strong methodology.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+150
+
+Printer: Yet to come
+
+P1: PIC/b
+c07
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+
+June 5, 2008
+
+19:52
+
+Printer: Yet to come
+
+CHAPTER 7
+
+Explanation of
+Elliott Wave and
+Fibonacci
+
+n this chapter, I will cover the basic rules, of which there are just a few,
+of wave formation and introduce setups for timing your trade. “A rule is
+so called because it governs all waves to which it applies. Characteristics of waves are called guidelines.”1 Many guidelines of impulse formation
+and many details pertaining to corrective patterns are not covered here.
+Also covered briefly in this chapter is Fibonacci analysis. Many traders are
+familiar with Fibonacci retracements but do not realize that Fibonacci was
+first introduced as a method of technical analysis by R. N. Elliott. In fact,
+Fibonacci is the mathematical basis for the wave principle.
+If you long for a fuller understanding of Elliott (which includes
+Fibonacci), then I urge you to read the books listed in the Notes section
+at the back of the book. An experienced Elliottician has at his or her disposal what I believe to be one of the most powerful market timing tools in
+existence.
+
+I
+
+WHO WAS ELLIOTT?
+Ralph Nelson Elliott was a successful accountant early in the twentieth
+century and “held executive positions primarily with railroad companies
+in Mexico and Central America.” His success in turning around troubled
+rail companies attracted the attention of the U.S. State Department, and
+in 1924 the department “chose him to become the Chief Accountant for
+Nicaragua, which was under the control of the U.S. marines at the time.”
+
+151
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+
+June 5, 2008
+
+19:52
+
+Printer: Yet to come
+
+152
+
+SENTIMENT IN THE FOREX MARKET
+
+Elliott moved to Guatemala City after the United States extricated itself
+from Nicaragua to take on the position of general auditor of the International Railway of Central America. While in Central America in the late
+1920s, Elliott contracted an “alimentary tract illness caused by the organism amoeba histolytica.”2
+At 58 years of age, the former accountant was very sick and confined
+to his home. His mind always at work (he had written two books), Elliott
+dedicated his time to studying the price behavior of the Dow Jones Averages. Elliott studied many time frames, from 30 minute to yearly. This must
+have been quite an arduous task given that charts were plotted by hand on
+graph paper then.
+Elliott discovered that price action displayed on different time frames
+formed the same basic patterns. In other words, there is a market form
+at all degrees of trend. The basic pattern that Elliott discovered was that
+a market cycle consists of eight waves, five waves with the trend and
+three waves against the trend. Within the five waves, waves 1, 3, and 5
+are in the direction of the trend while waves 2 and 4 are against the
+trend, or corrections of the trend. Wave 2 corrects wave 1 and wave 4 corrects wave 3. Following the completion of five waves in one direction, a
+larger correction takes place in three waves. The basic 5–3 pattern forms
+the foundation from which everything else is a part. Figure 7.1 shows
+the basic pattern of five waves with the trend and three waves against
+the trend.
+(1)
+5

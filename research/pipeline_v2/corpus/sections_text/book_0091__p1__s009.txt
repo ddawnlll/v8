@@ -1,0 +1,343 @@
+
+FIGURE 4.11 USDCAD Daily Chart, September 5, 2010, to August 4, 2011
+Source: MetaQuotes Software Corp.
+
+This is a EURUSD weekly chart, meaning each candlestick shows a week's price movement for the
+Euro-USD currency pair. Thus, the 10-period EMA line is a 10-week EMA, the 50-period EMA is a
+50-week EMA, and the 200-period EMA is a 200-week EMA.
+Notice how:
+Shorter-term MAs show price changes faster than longer-term MAs: The shortest duration 10period MA follows price more closely than the others, whereas the longer-duration 50- and 200period MAs are progressively more smoothed, with the 200-period MA almost flat, reflecting
+how minimal the net price was over the period shown despite the volatility. That's a potentially
+important point that you might have missed by looking at only the candles.
+Longer-term MAs provide better s/r: The shorter-duration 10-week MA is breached seven times,
+far more often than the 50-week (two times) or 200-week. Shorter-duration MAs are less
+reliable s/r than longer ones.
+Again, note the tradeoffs: See how the shorter-duration MAs are more responsive, and how the
+longer-term MAs are better at showing the overall trend because they don't jump with every
+short-term move. The longer-term MAs are breached much less frequently. Indeed, if the 200-day
+EMA is breached, we will have to consider whether this longer-term downtrend is reversing.
+Because this is a daily chart, these are 200-, 100-, 50-, 20-, and 10-day EMAs.
+
+Additional Points about MAs: Watch and Respect the Most Popular
+Ones
+Most Popular Durations: Trading has nothing to do with discerning what logically should happen.
+Instead, it's all about anticipating what the crowd will do and doing it first in your chosen time frame
+before they bid up your entry price or bid down your selling price.
+Don't Think: What logically should happen?
+Think: What will the crowd think the other investors will do?
+This kind of thinking is important for short-term trades meant to be concluded within a few days at
+
+most, or intraday trades and trades based on short-term reactions to news events. For example, during
+2010–2011, despite the worsening situation in the Euro-zone (EZ), the EUR would repeatedly rally
+on flimsy excuses like:
+Rumors of rescue plans.
+Rescue plans that were badly flawed and failed to address the real problems in the EZ.
+Bank stress tests that were so lenient that banks which passed the tests were nationalized or
+dependent on government or European Central Bank (ECB) support within a matter of months
+after the tests.
+So why did the EUR rally? Enough traders believed that expectations had sunk low enough that
+anything resembling good news would spark at least a short-term rally, and they were right.
+Applying this lesson to technical indicators, it pays to keep the most widely followed indicators
+like the 10, 20, 50, (100?), and 200 MAs on your charts so you know where everyone else is seeing
+these widely followed forms of potential s/r.
+For example, if you want to buy low, you need to have identified what everyone else believes is the
+likely support so you're ready to buy if the crowd buys and proves the support level is valid. In
+planning your profit-taking exit, you need to know where the masses are likely to begin selling and be
+ready to take profits before price hits real resistance and a wave of selling.
+This principle of watching the popular indicators holds true for all kinds of technical indicators.
+You don't have to keep them all on your chart at the same time if you find your chart getting
+cluttered. You can keep multiple charts of the same currency pair and time frame with different
+templates (groups of technical indicators), so that you can watch everything yet still keep uncluttered
+charts. That's one reason that traders love to use computers with multiple screens.
+
+For Further Study, Experiment
+Though you should watch the most popular MAs, traders can and do experiment with less or more
+radical variations on these. Some will use slightly shorter-duration MAs when seeking more
+responsive trend lines in order to catch trend changes before the rest of the crowd, but at a cost of
+catching more false signals. Others will opt for slightly longer durations in order to filter out all but
+the most proven trends. That may reduce the number of losing trades at a cost of missing some moves
+or accepting reduced profits on winning trades due to later entries and exits. The MAs that work best
+for you will depend greatly on your risk tolerance, skill level, ability to monitor trades in real time,
+and thus your chosen time frame and trading style. When we cover MA crossovers in Chapter 5, we'll
+see that this kind of tinkering can be useful for developing entry and exit signals.
+Before you start tinkering with MA durations or any of the most popular TA tools, get comfortable
+with those covered in this book. Only then will you have the background needed to start customizing
+your tools.
+
+FIBONACCI RETRACEMENTS (FIBs): THESE FIBs
+DON'T LIE
+Fibonacci retracements (Fibs) provide a valuable kind of s/r information that the previous s/r
+
+indicators don't.
+As in any financial market, forex price trends don't move in a straight line. Instead, trends move in a
+zigzagging pattern as they periodically retrace parts of their primary move and continue it, steadily
+testing progressive levels of s/r as they move higher or lower.
+For example, in the period covered in the EURUSD daily chart shown in Figure 4.12, note not only
+the retracements within the overall uptrend (like October to November 2010 on the right side of the
+chart, or May to early August 2011 on the left), but also the smaller reversals within these
+countermoves.
+FIGURE 4.12 EURUSD Daily Chart, September 2, 2010, to August 4, 2011
+Source: MetaQuotes Software Corp.
+
+Fibs help us determine where prices are likely to either:
+Make these repeated short-term reversals as they zigzag within their longer-term trend.
+Make a longer-term reversal within an even longer-term trend or begin a longer-term reversal.
+Fibs are based on certain mathematical relationships, expressed as ratios, between numbers in a
+series, that were identified (at least for the Western world) by thirteenth-century mathematician
+Leonardo Fibonacci. They have application in fields as diverse as biology, music, and art. You can
+search online for the details of how these are derived, but we'll stick to what's relevant to trading.
+Traders found that trends tend to retrace prior moves according to these same ratios, which in
+percentages come to 23.6 percent, 38.2 percent, 50 percent, 61.8 percent, and 100 percent of a given
+trend. By drawing these percent retracements of a trend on their charts, they could better predict
+where future price moves might stall or reverse.
+That is, they found that when trends retrace they tend to retrace 23.6 percent, 38.2 percent, 50
+percent, 61.8 percent, or 100 percent of their prior move.
+It's unclear why these ratios work, but they do, so they became widely accepted, thus strengthening
+their influence as markets accept them as likely s/r points.
+For example, Figure 4.13 is the same chart as we saw in Figure 4.12, with Fib levels (horizontal
+
+lines) drawn for the range of the downtrend of December 2009 to June 2010. Note how well the Fibs
+predict s/r as the EURUSD retraces that downtrend.
+FIGURE 4.13 EURUSD Daily Chart, November 25, 2009, to August 5, 2011
+Source: MetaQuotes Software Corp.
+
+Applying Fibs to Your Charts
+Because the application of technical indicators varies with charting packages, we usually don't cover
+how you insert a given indicator. With Fibs, however, it's worth reviewing the general mechanics of
+how you get them on your chart.
+So, where did these lines come from? How do you draw them?
+To create Fib levels, you select a major high and low for the period in question. Your charting
+software divides that price range by the key Fibonacci ratios of 23.6 percent, 38.2 percent, 50
+percent, 61.8 percent, and 100 percent, and it draws horizontal lines at the prices that correspond to
+these percentages of that range. These price levels are where s/r levels are more likely to occur.
+Your charting software will describe the mechanics of this, which typically involve nothing more
+than the following procedure steps:
+Identify the price range to study. For example, in Figure 4.13, we wanted to see the Fib s/r points
+as the EURUSD rallied and retraced the downtrend of December 2009 to June 2010, highlighted
+by the dotted line on the left side of the chart.
+Select the Fibonacci retracements option.
+To plot the fib retracements for an uptrend that occurs after a downtrend, you first need to
+define the range of the prior downtrend so that the charting software can calculate the percent
+retracement points that the new uptrend will hit as it retraces through the range of the prior
+downtrend. To do that:
+Place your mouse cursor at the high point where the downtrend began, left click and hold the
+left mouse button down in order to drag the mouse cursor to the low point where the
+
+downtrend ends, then release the left mouse button.
+The fib retracements will appear. These serve as s/r points for the uptrend that follows. As
+price rises, each level it approaches is resistance until decisively breached, and then that
+level becomes support unless price falls back below it.
+To plot the fib retracements for a downtrend that follows an uptrend, you do the same thing.
+The only difference is that you first need to define the range of the prior uptrend so that the
+charting software can calculate the percent retracement points that the new downtrend will hit as
+it retraces through the range of the prior uptrend. To do that:
+After selecting the Fibonacci Retracements option from you menu of technical indicators,
+place your mouse cursor at the low point where the uptrend began, left click and hold the left
+mouse button down in order to drag the mouse cursor to the high point where the uptrend ends,
+then release the left mouse button.
+The fib retracements will appear. These serve as s/r points for the downtrend that follows. As
+price falls, each level it approaches is support until decisively breached, and then that level
+becomes resistance unless price falls back below it.
+The software fills in the price levels that correspond to 23.6 percent, 38.2 percent, 50 percent,
+61.8 percent, and 100 percent of the price range you selected.
+
+Fibs Within Fibs
+Traders must choose the period to which they apply Fibs, so there is a degree of human judgment as to
+the range to which a given set of Fibs will be applied. At any one time, millions of traders will be
+looking at different Fib levels for different periods and time frames. So, it's helpful to draw Fibs for a
+time frame above and below the one from which you trade so that you can see both:
+The longer-term s/r from longer-term Fibs that cover a wider price range and possibly a different
+trend altogether.
+The shorter-term s/r from Fibs nested within your time frame that covers a narrower price range
+and possibly a different kind of trend.
+For example, let's say we wanted more information about likely s/r for the EURUSD downtrend
+from April to August 2011, as shown in Figure 4.13. We could draw another set of Fibs for the
+uptrend of February to May 2011 that occurred within the broader overall downtrend that began in
+late 2009 to early 2010, which would provide possible support points as the EURUSD retraced this
+uptrend lower.
+The resulting Fibs, in Figure 4.14, served as useful predictors of s/r during this downtrend. Like any
+s/r points, see them as center lines for bands or zones of s/r within which the candles cluster, rather
+than as precise points of s/r. Some retracement levels are stronger than others. The 23.6, 38.2, and
+61.8 percent retracement levels tend to be stronger than the others.
+FIGURE 4.14 EURUSD with Fibonacci Retracements from January 11, 2011, to August 4, 2011
+Source: MetaQuotes Software Corp.
+
+For perspective, examine the chart in Figure 4.15. This uptrend and its Fibs nest are within the
+broader overall downtrend and its Fibs.
+FIGURE 4.15 EURUSD Daily Chart, November 25, 2009, to August 4, 2011
+Source: MetaQuotes Software Corp.
+
+You can use different sets of Fibs to gauge possible s/r points for the overall trend and various
+moves higher or lower within it. In this case, we plotted Fibs for the longer-term overall downtrend
+
+from November 25, 2009, to June 2, 2010, and also plotted the Fibs for the shorter-term uptrend from
+January 12, 2011, to May 4, 2011, within this overall downtrend.
+
+BOLLINGER BANDS (BBs): USE AS S/R IN RANGEBOUND MARKETS
+Bollinger Bands (BBs) are a simple yet powerful combination of channels and MAs. BBs consist of
+an SMA surrounded by an upper and lower band plotted by a certain number of standard deviations
+above and below the SMA. Think of them as flexible channels whose width varies with price
+volatility. The wider the price swings over the period of the SMA, the wider the channel; the
+narrower the price range over this period, the narrower the channel.
+The default settings on most charting software will be a 20-period SMA with the bands at a
+distance of two standard deviations (discussed next) from this SMA. Figure 4.16 shows what they
+look like using these “20, 2” default settings.
+FIGURE 4.16 USDCAD Daily Chart, February 23 to August 8, 2011
+Source: MetaQuotes Software Corp.
+
+You can change these settings to suit your needs, and later we'll look at one useful variation:
+Double Bollinger Bands (DBBs). However, the standard settings are popular and are worth watching
+for the sake of knowing what the herd is seeing as potential s/r from the lower and upper bands.
+
+Support/Resistance (S/R) for Flat or Gently Sloping Trends: The
+Bollinger Bounce
+The two standard deviation width of the channel means that the statistical probability of price hitting
+the bands given the price range of the past 20 periods is only about 5 percent. However like any
+statistical measure, it assumes that all elements of the sample, in this case the 20 periods, are
+the same.
+
+That assumption works for flat, range-bound markets or gently trending markets, which by definition
+are times when no change occurs in the markets' perception of a currency pair's value. Under those
+conditions, the upper and lower bands provide reliable s/r points. In flat or mild trends, the price
+tends to fluctuate between the upper and lower bands, as price bounces off the upper and lower bands
+like a ball bouncing off the floor and ceiling. Even if price swings widen or narrow, Bollinger bands
+adjust for those conditions and widen or narrow with the price swings, providing s/r points that adjust
+with volatility (a uniquely valuable feature of BBs). In Figure 4.16, price usually bounces off these
+bands back toward the middle, particularly when price makes a sudden sharp move up or down.
+Using the standard default settings of a 20-period SMA middle band with each band two standard
+deviations distance from the middle band, there is only a 5 percent chance that the price will ever
+touch the outer bands. Again, this calculation assumes (as with any statistical measure) that all sample
+elements (the past 20 periods) were the same and all prices equally probable. When there's no strong
+trend or no trend at all, that assumption applies. Flat price action suggests that market perceptions
+about the value of a currency pair haven't materially changed.
+However, that assumption doesn't apply in a strong trend, which by definition indicates market
+perceptions about value are changing.
+
+Bollinger Bands Don't Provide Meaningful S/R with Strong Trends
+BBs are useful s/r points only when the pair (or any other asset) is in a flat trading range, as in Figure
+4.16, where you can see how price tended to bounce off the upper and lower bands. However, if a
+currency pair or any other asset is in a clear trend, you won't see that tendency for price to bounce off
+these bands. If the trend is strong, as in Figure 4.17, the bands provide no useful s/r at all as price can
+climb up or down the BBs for long periods repeatedly. The price continued to climb the upper band
+from April to mid-June 2010, September to October 2010, February to April 2011, and July 2011 (all
+periods highlighted).
+FIGURE 4.17 Gold Weekly Chart, April 17 to August 8, 2011
+Source: MetaQuotes Software Corp.
+
+You don't need to know why this is true, but just in case you're interested, here's a basic layman's
+explanation.
+Assuming the two standard settings mentioned previously, then statistically speaking, 95 percent of
+the 20 closing prices were supposed to fall within two standard deviations from the middle band.
+However, as noted, statistics assume that all data or elements of the sample (in this case, the past 20
+closing prices for the each candle) are equally probable. That's not the case for strongly trending
+markets, which by their nature indicate that perceptions of value are changing. So, the 20 (or other)
+past 20 data points or closing prices were not equally probable. For example, during a rising trend,
+higher prices are more likely than lower ones. Changing perceptions of value mean that the latest
+prices have a higher probability of hitting the upper band in an uptrend or lower band in a downtrend.
+In sum, strongly trending markets reflect a change in how the asset's value is perceived, so the BBs
+don't work as meaningful support or resistance in strongly trending markets.
+However, BBs have additional uses besides gauging s/r in flat or gently trending markets. We'll
+cover that in Chapter 8.
+
+INTRODUCTION TO JAPANESE CANDLE CHART
+PATTERNS
+Chart patterns are another technical indicator and form of s/r. The two styles most widely followed
+are Japanese candle and Western style chart patterns.
+A few key differences exist between them:
+Scope: Though Western chart patterns can serve as the centerpiece of certain trading strategies,
+Japanese candle patterns are not intended to comprise a stand-alone trading system; instead, they
+confirm or are confirmed by other technical indicators. Japanese candle patterns typically
+forecast what happens over the next few candles, whereas Western patterns can suggest longerterm movements covering a longer period and can suggest specific price targets.
+Pattern types: Japanese candle charts mostly indicate reversal or indecision (i.e., possible
+reversal), whereas Western charting patterns tend to indicate continuation (trend pausing before
+resuming) or reversal.
+What both kinds of chart patterns share in common is that both are useful because:
+They help us understand market sentiment and are easy to interpret because they make sense. For
+example, it's intuitively clear that candles comprised solely of long bodies with no wick,
+meaning that price went straight up or down, suggest strong, decisive bullish or bearish sentiment
+with buyers or sellers in control. Candles comprised almost solely of upper and lower wicks,
+with only a line for a body, show price moved back and forth but ended almost unchanged. They
+suggest indecisiveness or a balance of power between buyers and sellers.
+Both kinds of chart patterns present graphic images of mass trader psychology, which doesn't
+change over time, hence these patterns do tend to repeat and are valid indicators of s/r points and
+how price may behave in the future.
+Candle patterns are a vast topic. Our goal here is to introduce you to the most important among
+them. You can search for more information, a great deal of which is available online free. Some are
+
+so good that I admit I couldn't do a better job, so use these and print the parts you want as hard
+copies:
+BabyPips.com
+investopedia.com
+stockcharts.com
+Table 4.1 is a brief summary of the candle patterns with which you should become familiar. It will
+be easier to remember what price movements these patterns suggest if you see the logic behind them
+even if you don't remember their names.
+Table 4.1 Summary of Basic Japanese Candle Patterns
+
+Note that the table classifies candles and patterns as bullish, bearish, or neutral. The adjective
+“bullish” refers to candles that show price rising or patterns that suggest price will rise, because a
+bull gores its adversary in an upward motion. “Bearish” is used to refer to candles that show price
+falling or patterns that suggest price will drop, because a bear swipes at its adversary in a downward
+motion.
+Notes on Single Candle Patterns
+Spinning Top
+Depends on whether higher or lower close. Significance increases if occurs after an
+extended move in the opposite direction of the close. In this example, the most recent candle
+showed a black, lower close. If these spinning tops occurred at the top of an extended
+uptrend, it would suggest a coming reversal. If they occurred at the bottom of a downtrend,
+they'd merely suggest continued downtrend, already the default assumption in an ongoing
+downtrend.
+Doji
+Neutral: The more wick relative to body, the more indecision because buyers and sellers are
+more evenly matched. The lack of a body means that dojis suggest indecision and possible
+end or reversal of trend. Thus they're more meaningful when found after a long move up or
+down, because they suggest the move may end and perhaps reverse.
+White Marubozu – Bullish/Black Marubozu – Bearish
+Conversely, the more body relative to wick, the more decisive the move and the clearer the
+dominance of buyers or sellers. White suggests buyers dominant, so usually suggests more
+upside. The black version suggests the opposite.
+Hammer – Bullish/ Hanging Man - Bearish
+Hammer and Hanging Man have same shape:
+Long lower wick, little or no upper wick two to three times the length of the body
+
+Opposite meaning depending on the following:
+a. Occurs after extended move lower = Hammer, bullish, suggests market probing and
+hitting a bottom.
+b. Occurs after extended move higher = Hanging Man, bearish, suggests market hitting a
+top.
+In either case, higher or lower close unimportant.
+Inverted Hammer - Bullish/Shooting Star - Bearish
+Inverted Hammer and Shooting Star share same shape and are the inverted forms of the
+Hammer and Hanging Man shown above
+It has a long upper wick, little or no lower wick two to three times the length of the body. As
+usual, needs to occur after a move higher or lower, needs start of reversal to confirm the
+pattern.
+Opposite meaning depending on the following:
+a. Occurs after extended move lower = Inverted Hammer, bullish, suggests markets hitting
+bottom, confirmed by a bounce higher
+b. Occurs after extended move higher = Shooting Star, bearish, suggests markets hitting a
+top, confirmed by bounce lower
+In either case, higher or lower close unimportant though if it's in the opposite direction of the
+prior candles, it's a bit more suggestive of a halt or reversal of prior candles' trend.
+Notes on Double Candle Patterns
+Bullish Engulfing
+Occurs when a bearish candle (lower close) is followed by a noticeably longer bullish
+candle (higher close), which “engulfs” the range of the prior bearish candle. The longer the
+bullish candle, the more it “engulfs” or exceeds the range of the prior bearish candle, the
+more bullish the pattern. Obviously, as always, context and timing matter. The pattern is
+more bullish if this pair appears after an extended downtrend, at strong support, or both,
+because these other signs confirm that the odds are higher that the downtrend is exhausted.
+Bearish Engulfing
+Occurs when a bullish candle (higher close) is followed by a noticeably longer bearish
+candle (lower close), which “engulfs” the range of the prior bullish candle The longer the
+bearish candle, the more it “engulfs” or exceeds the range of the prior bullish candle, the
+more bearish the pattern. Obviously, as always, context and timing matter. The pattern is
+more bearish if this pair appears after an extended uptrend, at strong resistance, or both,
+because the odds are higher that the uptrend has become exhausted.
+Tweezer Tops – Bearish
+Looks like a pair of tweezers at the top of an uptrend. Ideally:
+First candle closes in the direction of the uptrend, the second closes down.
+Upper wicks are longer than the bodies, and should be about the same length and
+terminate around the same resistance (confirms resistance to further upward progress),
+hence the tweezers shape.
+Think of these wicks as knocking against a ceiling of resistance, or the market rejecting a

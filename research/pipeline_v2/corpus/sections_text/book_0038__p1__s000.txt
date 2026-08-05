@@ -1,0 +1,798 @@
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page iii
+
+Encyclopedia
+of
+Chart Patterns
+SECOND EDITION
+
+Thomas N. Bulkowski
+
+John Wiley & Sons, Inc.
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page vi
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page i
+
+Encyclopedia
+of
+Chart Patterns
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page ii
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing
+company in the United States. With offices in North America, Europe, Australia, and Asia, Wiley is globally committed to developing and marketing print
+and electronic products and services for our customers’ professional and personal knowledge and understanding.
+The Wiley Trading series features books by traders who have survived
+the market’s ever-changing temperament and have prospered—some by reinventing systems, others by getting back to basics. Whether a novice trader,
+professional, or somewhere in-between, these books will provide the advice
+and strategies needed to prosper today and well into the future.
+For a list of available titles, visit our Web site at www.WileyFinance.com.
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page iii
+
+Encyclopedia
+of
+Chart Patterns
+SECOND EDITION
+
+Thomas N. Bulkowski
+
+John Wiley & Sons, Inc.
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page iv
+
+This book is printed on acid-free paper
+Copyright © 2005 by Thomas N. Bulkowski. All rights reserved.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in
+any form or by any means, electronic, mechanical, photocopying, recording, scanning, or
+otherwise, except as permitted under Section 107 or 108 of the 1976 United States
+Copyright Act, without either the prior written permission of the Publisher, or authorization
+through payment of the appropriate per-copy fee to the Copyright Clearance Center, 222
+Rosewood Drive, Danvers, MA 01923, 978-750-8400, fax 978-646-8600, or on the Web at
+www.copyright.com. Requests to the Publisher for permission should be addressed to the
+Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030,
+201-748-6011, fax 201-748-6008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and the author have used their
+best efforts in preparing this book, they make no representations or warranties with respect to
+the accuracy or completeness of the contents of this book and specifically disclaim any implied
+warranties of merchantability or fitness for a particular purpose. No warranty may be created or
+extended by sales representatives or written sales materials. The advice and strategies contained
+herein may not be suitable for your situation. You should consult with a professional where
+appropriate. Neither the publisher nor the author shall be liable for any loss of profit or any
+other commercial damages, including but not limited to special, incidental, consequential, or
+other damages.
+For general information about our other products and services, please contact our Customer
+Care Department within the United States 800-762-2974, outside the United States at 317572-3993 or fax 317-572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in
+print may not be available in electronic books. For more information about Wiley products,
+visit our Web site at www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Bulkowski, Thomas N., 1957–
+Encyclopedia of chart patterns / Thomas N. Bulkowski.—2nd ed.
+p. cm. — (Wiley trading series)
+Includes index.
+ISBN-13 978-0-471-66826-8
+ISBN-10 0-471-66826-5 (cloth)
+1. Stocks—Charts, diagrams, etc. 2. Commodity futures—Charts, diagrams, etc.
+3. Investment analysis. I. Title: Chart patterns. II. Title. III. Series.
+HG4638.B85 2005
+332.63′222—dc22
+2004059094
+Printed in the United States of America.
+10 9 8 7 6 5 4 3 2 1
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page v
+
+To my parents, who continued to love me even after my homemade
+rocket set the lawn on fire, and to my four-legged best friend,
+Rusty, who saved my life; it grieves me that I couldn’t save yours.
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page vi
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page vii
+
+Preface to the
+Second Edition
+On March 24, 2000, the financial world changed. No, that was not the date this
+book first hit the store shelves, but the beginning of a bear market that lasted
+1
+2 ⁄2 years. Finally, I had bear market data to use for finding chart patterns!
+After spending nearly 5 years recovering from the work needed to complete the first edition, I decided to undertake an update. I changed the editorial content of the book in small ways, but made substantial improvements in
+others. Here is the list of the important changes:
+• Bull and bear market statistics for complete coverage.
+• Expanded statistics, all in a similar format:
+Results Snapshot, at the start of each chapter shows the most
+important numbers and surprises.
+General statistics, including the average rise or decline, busted
+pattern performance, and benchmark performance.
+Failure rates, a list of ten breakpoints to show how often a pattern
+fails.
+Breakout and postbreakout statistics, showing performance
+over the yearly price range, pullback rates, and performance after a
+gap.
+Frequency distribution of days to the ultimate high or low,
+showing when the trend is likely to end.
+Size statistics, describing how performance varies for pattern
+height, width, and combinations of both.
+Volume statistics, including volume trend, a new concept I call
+volume shapes, and breakout day volume.
+For best performance, a list of trading tips and where to find
+them in each chapter.
+vii
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page viii
+
+viii
+
+Preface to the Second Edition
+
+• More chart patterns. I added 14 new chart patterns.
+• Event patterns. I added 9 new types of patterns, which I call event patterns. These include earnings surprises, drug approvals, store sales, and
+stock upgrades and downgrades.
+• More samples. I found over 38,500 chart pattern samples, more than
+double the 15,000 used in the first edition, making many of the statistics rock solid.
+• Keyed table entries. Each table entry appears in bold at the start of its
+corresponding text discussion for easy locating.
+• Glossary and methodology. Instead of peppering the text with repeated
+explanations, a new chapter explains how I arrived at each table entry.
+Thanks to the thousands who purchased the first edition. I am confident
+that this second edition will help you become a more knowledgeable and successful trader.
+THOMAS N. BULKOWSKI
+January 2005
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page ix
+
+Preface to the
+First Edition
+
+When I was a little tyke I decided the easiest way to riches was to play the stock
+market. It was, after all, a level playing field, a negative-sum game with somebody winning and somebody losing. (Hint: The winner is always the broker.)
+All one had to do to win was pick stocks that went up and avoid stocks that
+went down. Easy.
+I kept this in mind when I graduated from Syracuse University with an
+engineering degree and showed up early for my first professional job. Each
+morning I cracked open the newspaper and plotted my stock picks on a piece
+of graph paper taped to the wall. Bob, my office mate, used the same newspaper to select his stocks. I chose my selections after exhausting fundamental
+research, but Bob simply closed his eyes, twirled his hand around, and plunged
+his finger into the newspaper. When he opened his eyes and removed his finger, he announced another pick.
+After several months of tracking both our selections, I made a startling
+discovery: I was getting creamed. Bob’s random selections were beating the tar
+out of my carefully researched choices. I also discovered something else: I was
+learning a lot by paper trading.
+With the hesitancy and distrust inherited from my parents, I studied two
+dozen firms before making my final selection and first purchase: I opened a
+money market account. The timing was excellent; I was earning over 17% on
+my cash. At first glance, the return might imply a very risky investment but it
+was not. The prime rate was, after all, at 21%.
+Flush with success, I gathered my courage and opened a brokerage
+account and began investing the few pennies I saved. Again, the timing was
+excellent as I caught the beginning of a major bull market. I bought a stock at
+a split-adjusted price of 88 cents and watched it go to $30 and change.
+Lest you think that everything was easy, consider what happened. My
+stock portfolio was growing by leaps and bounds, but my professional career
+was about to take a turn for the worse. After switching careers more often than
+ix
+
+4366_FM.qxd
+
+4/6/05
+
+x
+
+12:46 PM
+
+Page x
+
+Preface to the First Edition
+
+I sometimes like to admit, I landed a job with a company I could finally call
+home—a job that would last a lifetime, or so I hoped. Almost 6 months after
+my 10-year anniversary with the company, I received a letter from the chairman. He congratulated me on my decade with the company and looked forward to even more success for me in the coming years.
+Six weeks later I was laid off.
+I took stock of the situation and decided that, at the age of 36, I had
+enough. Newspapers term guys like me The Missing Million. We are the ones
+who, for whatever reason, leave their jobs and decide not to go back into the
+workforce. We retire. Everyone, and I mean everyone (with the notable exception of my cousin Mary Ann—bless her heart), thinks we are nuts. They are
+right, of course!
+For the longest time, I have been fascinated with technical analysis of
+stocks. In the early years, I considered the little squiggles to be nothing short
+of voodoo. Still, I was curious as to why the major brokerage houses were hiring technical analysts in droves. But I did not dare take my eye off the fundamentals simply because I did not know anything about the technicals. Then I
+discovered Technical Analysis of Stocks and Commodities magazine. During my
+lunch hour, I would take the elevator down to the library and read back issues.
+Although I saw chart patterns in the stocks I bought, I never really attached
+much significance to them. As some of my selections went sour, I began to view
+chart patterns with more respect. The fundamentals always looked good, but
+the technicals were signaling a trend change just as I was about to pull the trigger. The stocks I bought either lost money outright or I sold them too soon
+and cut my profits short.
+Perhaps this has happened to you. You do fundamental research on a stock
+and then buy it, only to watch it go nowhere for a year or more. Even worse,
+once you get in, the stock tumbles. Had you looked at the chart the answer was
+always there. Prices pierced a trend line, a head-and-shoulders top appeared
+out of nowhere, the relative strength index signaled an overbought situation. In
+short, any number of technical indicators were screaming that a buy now
+would cost you your shirt. But you never saw the signs.
+You are not alone; I did the same thing for years. I eventually got so frustrated with the performance of my stock selections that I decided to do my own
+research on technical analysis. I went to the library and read the same thing in
+many books: A head-and-shoulders formation works most of the time. What
+does that mean? Does it mean they are successful 51% of the time or 90% of
+the time? No one had the answer. I was not willing to risk my hard-earned dollars on simple bromides. As an engineer I wanted hard, cold facts, not fuzzy
+platitudes. So, I wrote this book.
+At the back of the book is an Index of Chart Patterns. If you suspect your
+stock is making a chart pattern but do not know what to call it, the Index of
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xi
+
+Preface to the First Edition
+
+xi
+
+Chart Patterns is the first place to look. Page numbers beside each pattern
+direct you to the associated chapter.
+The chapters are arranged alphabetically in two sections; chart patterns
+and event patterns. Within each chapter, you are first greeted with a “Results
+Snapshot” of the major findings followed by a short discussion. Then, a
+“Tour” invites you to explore the chart pattern. “Identification Guidelines,” in
+both table form and in-depth discussion, make selecting and verifying your
+choices easier.
+No work would be complete without an exploration of the mistakes, and
+the “Focus on Failures” section dissects the cause of failures. The all-important
+“Statistics” section follows. How do you trade a chart pattern? That is what the
+“Trading Tactics” and “Sample Trade” sections explore. The “For Best Performance” section includes a list of tips and observations on how to select better performing patterns.
+If you have ever worked on a car or done some woodworking, then you
+will recognize the importance of selecting the right tool for the job. You would
+not want to use a flat-head screwdriver when a Phillips works better. Both do
+the job but they are hardly interchangeable. Sometimes it is not a screwdriver
+you should be using, but a chisel. Selecting the proper tools and knowing how
+to use them is half the battle. This book is a lot like that, helping to sort the
+wheat from the chaff. Sometimes a chart pattern is frightening enough that you
+will want to take profits. At other times, the best trade that you can make is
+none at all.
+I cannot give you the experience needed to make money in the stock market using chart patterns. I can only give you the tools and say, “Go to work on
+paper first.” That is the first step in developing a trading style that works for
+you, one you are comfortable with, one that improves as you do. If you review
+your paper trades, you will understand why a stop-loss order is more than a
+tool for the professionals. You will improve your ability to predict support and
+resistance levels that will, in turn, allow you to tighten your stops and get out
+near the top, cut your losses short, and let your profits run. You will understand why the statistics in this book are useful for comparison purposes, but
+your trading results may fall short. You may discover that your girlfriend loves
+diamonds, but as a chart pattern, they are a lousy investment. One word says it
+all. Experience.
+Good luck.
+THOMAS N. BULKOWSKI
+December 1999
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xii
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xiii
+
+Acknowledgments
+Perhaps several times in your life, something occurs that alters its direction.
+That happened to me several years ago when I brashly submitted my first article to Technical Analysis of Stocks and Commodities. Much to my surprise and
+delight, the editor at the time, Thom Hartle, published the work. That single
+event sent me spinning off in a new direction, another career.
+Nearly a dozen articles later, I called Thom and chatted with him about
+an idea for a book. He steered me to Pamela van Giessen, now editorial director for John Wiley & Sons, Inc., publisher of this book. A single e-mail of my
+idea to her put a new set of wheels in motion. Simple words cannot express my
+thanks to these two outstanding individuals.
+This is a great book made better by the tireless efforts of Bernice Pettinato
+of Beehive Production Services. She did more than shepherd a 2,000 page manuscript through production. She read it and edited it without dying of boredom
+while making astute suggestions. Simply, she’s the best. Thanks, Bernice.
+T. N. B.
+
+xiii
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xiv
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xv
+
+Contents
+
+Introduction
+
+1
+
+PART ONE Chart Patterns
+
+9
+
+1 Broadening Bottoms
+
+11
+
+2 Broadening Formations, Right-Angled and Ascending
+
+28
+
+3 Broadening Formations, Right-Angled and Descending
+
+45
+
+4 Broadening Tops
+
+63
+
+5 Broadening Wedges, Ascending
+
+81
+
+6 Broadening Wedges, Descending
+
+98
+
+7 Bump-and-Run Reversal Bottoms
+
+115
+
+8 Bump-and-Run Reversal Tops
+
+132
+
+9 Cup with Handle
+
+149
+
+10 Cup with Handle, Inverted
+
+164
+
+11 Diamond Bottoms
+
+179
+
+12 Diamond Tops
+
+196
+
+13 Double Bottoms, Adam & Adam
+
+213
+
+14 Double Bottoms, Adam & Eve
+
+229
+
+15 Double Bottoms, Eve & Adam
+
+244
+
+16 Double Bottoms, Eve & Eve
+
+259
+
+17 Double Tops, Adam & Adam
+
+275
+
+18 Double Tops, Adam & Eve
+
+291
+
+xv
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+xvi
+
+Contents
+
+Page xvi
+
+19 Double Tops, Eve & Adam
+
+307
+
+20 Double Tops, Eve & Eve
+
+321
+
+21 Flags
+
+335
+
+22 Flags, High and Tight
+
+350
+
+23 Gaps
+
+362
+
+24 Head-and-Shoulders Bottoms
+
+374
+
+25 Head-and-Shoulders Bottoms, Complex
+
+390
+
+26 Head-and-Shoulders Tops
+
+405
+
+27 Head-and-Shoulders Tops, Complex
+
+421
+
+28 Horn Bottoms
+
+438
+
+29 Horn Tops
+
+451
+
+30 Island Reversals
+
+464
+
+31 Islands, Long
+
+480
+
+32 Measured Move Down
+
+496
+
+33 Measured Move Up
+
+510
+
+34 Pennants
+
+522
+
+35 Pipe Bottoms
+
+536
+
+36 Pipe Tops
+
+550
+
+37 Rectangle Bottoms
+
+563
+
+38 Rectangle Tops
+
+579
+
+39 Rounding Bottoms
+
+595
+
+40 Rounding Tops
+
+608
+
+41 Scallops, Ascending
+
+624
+
+42 Scallops, Ascending and Inverted
+
+639
+
+43 Scallops, Descending
+
+654
+
+44 Scallops, Descending and Inverted
+
+670
+
+45 Three Falling Peaks
+
+684
+
+46 Three Rising Valleys
+
+698
+
+47 Triangles, Ascending
+
+711
+
+48 Triangles, Descending
+
+730
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xvii
+
+Contents
+
+xvii
+
+49 Triangles, Symmetrical
+
+748
+
+50 Triple Bottoms
+
+765
+
+51 Triple Tops
+
+779
+
+52 Wedges, Falling
+
+795
+
+53 Wedges, Rising
+
+811
+
+PART TWO Event Patterns
+
+827
+
+54 Dead-Cat Bounce
+
+829
+
+55 Dead-Cat Bounce, Inverted
+
+844
+
+56 Earnings Surprise, Bad
+
+855
+
+57 Earnings Surprise, Good
+
+868
+
+58 FDA Drug Approvals
+
+880
+
+59 Flag, Earnings
+
+893
+
+60 Same-Store Sales, Bad
+
+908
+
+61 Same-Store Sales, Good
+
+921
+
+62 Stock Downgrades
+
+934
+
+63 Stock Upgrades
+
+950
+
+Statistics Summary
+
+965
+
+Glossary and Methodology
+
+982
+
+Index of Chart and Event Patterns
+
+993
+
+Index
+
+1001
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xviii
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xix
+
+Encyclopedia
+of
+Chart Patterns
+
+4366_FM.qxd
+
+4/6/05
+
+12:46 PM
+
+Page xx
+
+4366_00.qxd
+
+2/23/05
+
+11:28 AM
+
+Page 1
+
+Introduction
+
+Jim is struggling.
+He is the owner of JCB Superstores and his competitor across town is
+beating him up; there is blood all over Jim’s ledger. He decides it is time to take
+off the gloves: JCB goes public. He uses the money from the initial public
+offering to buy his competitor and add a few more stores around town.
+With a growing sales base, Jim’s clout allows him to negotiate lower
+prices for the office supplies he is retailing. He passes on part of the savings to
+his customers, while watching his margins widen, and plows the profits back
+into building more stores.
+Jim calls his friend, Tom, and tells him of his plans to expand the operation statewide. They chat for a while and exchange business tactics on how best
+to manage the expansion. When Tom gets off the phone, he decides to conduct his own research on JCB. He visits several stores and sees the same thing:
+packed parking lots, people bustling around with full shopping carts, and lines
+at the checkout counters. He questions a few customers to get a sense of the
+demographics. At a few stores, he even chats with suppliers as they unload their
+wares. Back at the office, he does a thorough analysis of the financials and
+looks at the competition. Everything checks out so he orders his trading partners to buy the stock at no higher than 10.
+When news of the expansion plan hits the wires, the Street panics. It is,
+after all, a soft economy and expanding willy-nilly when a recession looms is
+daft, maybe even criminal, according to the pundits. The stock drops below 10
+and Tom’s crew makes its move. They buy as much as they can without raising suspicion. The stock rises anyway. It goes back up to 11, then 12, and
+rounds over at 13 before heading back down.
+1
+
+4366_00.qxd
+
+2/23/05
+
+2
+
+11:28 AM
+
+Page 2
+
+Introduction
+
+Several months go by and the economic outlook is as bleak as ever. The
+stock eases down to 9. After Tom checks in with Jim for the latest public news,
+Tom’s team buys more. It is an easy score because investors are willing to
+dump the stock, especially as year-end tax selling approaches.
+Six weeks later the company releases the sales numbers for JCB; they are
+better than expected. The stock rises 15% in minutes and closes at 10.75. And that
+is just for starters. Six months later, it’s clear the economy was never in danger of
+entering a recession and everyone sees boom times ahead. The stock hits 20.
+Years go by, the stock splits a few times, and the holiday season looms.
+Tom interviews a handful of customers leaving JCB Superstores and discovers
+that they are all complaining about the same thing: The advertised goods are
+not on the shelves. Tom investigates further and discovers a massive distribution problem, right at the height of the selling season. JCB has overextended
+itself; the infrastructure is simply not there to support the addition of one new
+store each week.
+Tom realizes it is time to sell. He tells his trading department to dump
+the stock immediately but for no less than 28.25. They liquidate about a third
+of their large holdings before driving the stock down below the minimum.
+Since it is the holidays, everyone seems to be in a buying mood. Novice
+investors jump in at what they consider a bargain price. The major brokerage
+houses climb aboard and tout the stock, but Tom knows better. When the
+stock recovers to its old high, his trading partners sell the remainder of their
+holdings. The stock tops out and rounds over. During the next month and a
+half, the stock drifts down, slowly, casually. There does not appear to be a rush
+for the exits—just a slow trickle as the smart money quietly folds up shop.
+Then news of poor holiday sales leaks out. There is a rumor about distribution problems, merchandising mistakes, and cash flow problems. Brokerage
+firms that only weeks before were touting the stock now advise their clients to
+sell. The stock plummets 39% overnight.
+One or two analysts say the stock is oversold; it is a bargain and investors
+should add to their positions. Many bottom fishers follow their brokers’ recommendation and buy the stock. Big mistake. The buying enthusiasm pushes
+the price up briefly before a new round of selling takes hold. Each day the stock
+drops a bit lower, nibbling away like waves washing against a castle of sand. In
+2 months’ time, the stock is down another 30%.

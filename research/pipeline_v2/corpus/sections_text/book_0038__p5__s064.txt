@@ -1,0 +1,1057 @@
+
+Focus on Failures
+Why do scallops fail to perform as expected? Most problems occur with
+identification. Figure 44.3 shows an identification failure. The ends should
+
+4366_44.qxd
+
+2/23/05
+
+674
+
+12:18 PM
+
+Page 674
+
+Scallops, Descending and Inverted
+Merrill Lynch and Company (Securities Brokerage, NYSE, MER)
+58
+56
+54
+52
+50
+
+D
+
+48
+
+A
+
+46
+
+B
+C
+
+44
+42
+40
+
+01
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+Jan 02
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+38
+37
+36
+35
+34
+33
+32
+31
+30
+29
+28
+27
+26
+
+Figure 44.3 A pattern failure: Prices at A should be well above B.
+
+make the pattern look like an inverted J. Does the scallop shown in the figure
+portray this feature? Point A is too close to the price of B, making it look like
+an inverted U, not a J.
+This illustration also brings up the question of where the pattern starts. If
+you chose C as the starting point, then the pattern is clearly wrong, as C is
+below B. Choosing A as the first price turning point puts the start slightly
+above B, but still not far enough.
+Suppose that A and B are fine. Look at the width compared to the height.
+The decline from D to B is not proportional to the width. In other words, a
+pattern this wide would probably have a longer decline. In the patterns I
+looked at, the usual decline from D to B was almost twice the distance from D
+to A. That is an average, but it is a guideline to keep in mind.
+
+Statistics
+Table 44.2 shows general of statistics for descending and inverted scallops.
+Number of formations. I used two databases for this pattern. The first
+includes 500 stocks from mid-1991 to mid-1996. The second uses about 200
+stocks from 1996 to mid-2003. During that time, I found 733 patterns split
+into bull and bear markets.
+Reversal or continuation. I found few reversals: Only 15% of the patterns acted as reversals of the upward trend in a bull market and even fewer
+(11%) in a bear market. The vast majority acted as continuations of the pre-
+
+4366_44.qxd
+
+2/23/05
+
+12:18 PM
+
+Page 675
+
+Statistics
+
+675
+
+Table 44.2
+General Statistics
+Description
+
+Bull Market
+
+Bear Market
+
+Number of formations
+Reversal (R), continuation (C)
+R/C performance
+Average decline
+Declines over 45%
+Change after trend ends
+Busted pattern performance
+Standard & Poor’s 500 change
+Days to ultimate low
+
+556
+81 R, 475 C
+19% R, 18% C
+18%
+15 or 3%
+55%
+45%
+–1%
+61
+
+177
+19 R, 158 C
+25% R, 23% C
+23%
+20 or 11%
+55%
+39%a
+–13%
+28
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+vailing downward price trend. I did find several patterns that looked like scallops at the end of a declining price trend, but since they did not confirm, they
+were not included in the study. However, the reversals performed marginally
+better than did those acting as continuations.
+Average decline. The average decline after a scallop was 18% and 23%
+in bull and bear markets, respectively. This finding suggests that you should
+trade with the market trend. Trading a bearish pattern in a bull market may set
+you up for a meager profit or even a loss.
+Declines over 45%. Like most bearish chart patterns, few scallops show
+declines over 45%. As you might expect, more bear market scallops drop over
+45% than do bull market ones.
+Change after trend ends. Once price reaches the ultimate low, what
+happens? It rebounds 55%. Even if you wait for a 20% climb, signaling a trend
+change and then buy, there is still plenty of upside. The bad new is that the
+55% gain is an average, so expect less.
+Busted pattern performance. The rise after a busted pattern I consider
+weak. Other chart patterns rebound more strongly, so it may be better to look
+elsewhere.
+Standard & Poor’s 500 change. The 13% market drop helped bear
+market scallops decline.
+Days to ultimate low. How long did it take to reach the ultimate low?
+About 2 months in a bull market but less than a month in a bear market. Thus,
+trade this pattern in a bear market. You stand to make more money in a shorter
+time, on average. Note that the slope of the decline in a bear market must be
+steeper than the rise in a bull market, a condition we see with other chart patterns, too.
+
+4366_44.qxd
+
+2/23/05
+
+676
+
+12:18 PM
+
+Page 676
+
+Scallops, Descending and Inverted
+Table 44.3
+Failure Rates
+Maximum Price
+Decline (%)
+
+Bull Market
+
+Bear Market
+
+5 (breakeven)
+
+53 or 10%
+
+9 or 5%
+
+10
+
+143 or 26%
+
+36 or 20%
+
+15
+
+260 or 47%
+
+67 or 38%
+
+20
+
+352 or 63%
+
+90 or 51%
+
+25
+
+419 or 75%
+
+107 or 60%
+
+30
+
+475 or 85%
+
+125 or 71%
+
+35
+
+509 or 92%
+
+135 or 76%
+
+50
+
+547 or 98%
+
+165 or 93%
+
+75
+
+556 or 100%
+
+177 or 100%
+
+Over 75
+
+556 or 100%
+
+177 or 100%
+
+Table 44.3 shows failure rates for descending and inverted scallops. The
+failure rate in a bear market, at 5%, is quite good and is half the bull market rate.
+The bear market rate quadruples to 20% and nearly doubles again, to 38%, for
+moves of 10% and 15%, respectively. Half the patterns (51%) will fail to drop
+more than 20% in a bear market. Those numbers are not encouraging. Bull markets do even worse. Three out of four scallops will fail to drop more than 25%.
+What do all the numbers mean? If you trade a scallop and hope for a large
+decline, say 50%, just 2% of scallops in bull markets and 7% in bear markets
+actually decline that far. Thus, you are either being too optimistic or trading
+on inside information. Hope has never filled my bank account, and the authorities frown on insider trading.
+Table 44.4 shows breakout- and postbreakout-related statistics.
+Formation end to breakout. Investors trading this pattern sometimes
+have to wait more than a month for the breakout. The bear market decline at
+a steeper slope explains the breakout happening a week sooner than in a bull
+market.
+Yearly position. Most of the scallops have breakouts within a third of the
+yearly low. Few occur near the yearly high. That fact should not be a complete
+surprise because the breakout is at the bottom of the pattern, placing it away
+from the high.
+Yearly position, performance. Mapping the performance according to
+where the breakout occurred in the yearly price range showed that the best
+performers in a bull market tumbled from the middle of the range. In bear
+markets, those with breakouts near the yearly low performed best.
+Pullbacks. A pullback occurs about half the time and takes 9 to 10 days,
+on average, to return to the breakout price. When a pullback occurs, perfor-
+
+4366_44.qxd
+
+2/23/05
+
+12:18 PM
+
+Page 677
+
+Statistics
+
+677
+
+Table 44.4
+Breakout and Postbreakout Statistics
+Description
+
+Bull Market
+
+Bear Market
+
+Formation end to breakout
+
+31 days
+
+23 days
+
+Percentage of breakouts occurring near the
+12-month low (L), center (C), or high (H)
+
+L65%, C31%,
+H4%
+
+L70%, C29%,
+H1%
+
+Percentage decline for each 12-month
+lookback period
+
+L17%, C19%,
+H16%a
+
+L24%, C22%,
+H21%a
+
+Pullbacks
+
+58%
+
+50%
+
+Average time to pullback ends
+
+10 days
+
+9 days
+
+Average decline for patterns with pullback
+
+17%
+
+19%
+
+Average decline for patterns without pullback
+
+19%
+
+27%
+
+Performance with breakout gap
+
+–20%
+
+–23%a
+
+Performance without breakout gap
+
+–18%
+
+–23%
+
+Average gap size
+
+$0.43
+
+$1.14
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+mance suffers. For example, in a bear market, scallops having a pullback
+dropped 19% after the breakout. Those without a pullback had declines averaging 27%.
+To prevent a pullback, avoid scallops with nearby underlying support.
+Gaps. Scallops show mixed results as far as breakout day gaps are concerned. In a bull market, scallops with gaps perform better. In a bear market,
+there is no performance difference. Notice how the average gap size in a bear
+market is nearly triple the bull market size ($1.14 versus 43 cents). I have seen
+this characteristic in other chart patterns. In some cases, bad news powers a
+stock lower more easily than good news pushes it higher.
+Table 44.5 shows a frequency distribution of time to the ultimate low.
+Almost half the inverted scallops in a bear market reach the ultimate low in the
+first 2 weeks. That is wonderful news for traders because they can maximize the
+number of annual trades by going short.
+
+Table 44.5
+Frequency Distribution of Days to Ultimate Low
+Days:
+
+7
+
+14
+
+21
+
+28
+
+35
+
+42
+
+49
+
+56
+
+63
+
+70
+
+>70
+
+Bear market
+
+38%
+
+11%
+
+9%
+
+12%
+
+3%
+
+5%
+
+3%
+
+5%
+
+3%
+
+2%
+
+8%
+
+Bull market
+
+22%
+
+9%
+
+8%
+
+7%
+
+5%
+
+3%
+
+4%
+
+4%
+
+4%
+
+3%
+
+30%
+
+4366_44.qxd
+
+2/23/05
+
+678
+
+12:18 PM
+
+Page 678
+
+Scallops, Descending and Inverted
+
+At the other end of the table, we find that 30% of the scallops in a bull
+market are still searching for the ultimate low like a spelunker whose flashlight
+has died.
+Notice the slight rise in patterns bottoming out a month into the trade (day
+28 in a bear market). If you short a stock showing a descending and inverted scallop, be prepared to close out your position a month after the breakout.
+Table 44.6 shows size statistics for scallops.
+Height. Tall scallops perform better than short ones in both markets.
+Height is one of the most reliable predictors of performance, so measure the
+pattern height (and divide it by the breakout price) and compare it to the
+median. Those taller than the median stand a better chance of outperforming,
+especially in a bear market.
+Width. Performance improves for wide scallops in a bear market, but the
+difference is slim, 24% versus 22%. In a bull market, scallop width shows no
+performance difference. I used the median length, not the average, to determine scallop width.
+Average formation length. Scallops are about a month long, but since
+this figure is an average, your results may vary.
+Table 44.6
+Size Statistics
+Description
+
+Bull Market
+
+Bear Market
+
+Tall pattern performance
+
+–19%
+
+–26%
+
+Short pattern performance
+
+–17%
+
+–21%
+
+Median height as a percentage of breakout price
+
+20.46%
+
+31.63%
+
+Narrow pattern performance
+
+–18%
+
+–22%
+
+Wide pattern performance
+
+–18%
+
+–24%
+
+Median length
+
+25 days
+
+26 days
+
+Average formation length
+
+30 days
+
+31 days
+
+Short and narrow performance
+
+–19%
+
+–23%
+
+Short and wide performance
+
+–14%
+
+–19%
+
+Tall and wide performance
+
+–20%
+
+–27%
+
+Tall and narrow performance
+
+–17%
+
+–22%
+
+Average width (days) of first through third scallop
+in a series
+
+31, 29, 30a
+
+31, 28, 41a
+
+Average height of first through third scallop in
+series as percentage of breakout price
+
+22%, 20%,
+19%a
+
+34%, 45%,
+73%a
+
+Narrow scallops: days to ultimate low
+
+66
+
+30
+
+Wide scallops: days to ultimate low
+
+56
+
+26
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+4366_44.qxd
+
+2/23/05
+
+12:18 PM
+
+Page 679
+
+Trading Tactics
+
+679
+
+Table 44.7
+Volume Statistics
+Description
+
+Bull Market
+
+Bear Market
+
+Rising volume trend performance
+
+–17%
+
+–23%
+
+Falling volume trend performance
+
+–19%
+
+–24%
+
+U-shaped volume pattern performance
+
+–18%
+
+–25%
+
+Dome-shaped volume pattern performance
+
+–18%
+
+–22%
+
+Neither U-shaped nor dome-shaped volume pattern
+performance
+
+–18%
+
+–20%a
+
+Heavy breakout volume performance
+
+–18%
+
+–24%
+
+Light breakout volume performance
+
+–18%
+
+–22%
+
+Note: Minus sign means decline.
+a
+
+Fewer than 30 samples.
+
+Height and width combinations. In both bull and bear markets, scallops that are both tall and wide outperform. In a bear market, the difference is
+substantial, 27% versus 19% for the worst performer.
+Series width and height. I show the average width and height of up to
+three scallops in a single downward price trend. In a bull market, scallops tend
+to get narrower and shorter as they appear lower in the price trend. In a bear
+market, scallops get wider and taller. In all cases, the sample counts are low, so
+the results may change.
+Scallop width and time. Narrow scallops take longer to reach the ultimate low than wider ones, for some reason. I used the median length (shown a
+few rows above in the table) as the benchmark for width.
+What can we learn about scallops by observing volume? Table 44.7 shows
+some answers.
+Volume trend. Scallops with a falling volume trend performed better
+than did those with a rising volume trend, but the results were close.
+Volume shapes. Volume shape influences performance only in a bear
+market. Those with U-shaped volume dropped 25% after the breakout. Those
+with dome-shaped volume dropped 22%. Select scallops with U-shaped volume for the best average performance.
+Breakout volume. Breakout day volume heavier than the prior 30-day
+average helped bear market scallops outperform, but the results were close:
+24% to 22%.
+
+Trading Tactics
+Table 44.8 shows trading tactics for descending and inverted scallops.
+
+4366_44.qxd
+
+2/23/05
+
+680
+
+12:18 PM
+
+Page 680
+
+Scallops, Descending and Inverted
+Table 44.8
+Trading Tactics
+
+Trading Tactic
+
+Explanation
+
+Measure rule
+
+Used to predict a target price. Compute the difference
+between the formation’s high and low. Subtract the
+difference from the breakout price (the lowest low). The
+result is the target price.
+
+Buy signal
+
+Occurs when price closes below the lowest low in the
+pattern without first rising above the high. That is the time
+to open a short position or sell a long holding.
+
+Sell signal
+
+If price rises to the price level of the start of the pattern,
+consider closing out your short position. If it rises above
+the pattern high, get out of the trade. Now!
+
+Search for nearby
+support and resistance
+
+Avoid nearby underlying support. Look for minor highs
+and lows, solid blocks of horizontal price movement,
+round numbers, trend lines, and chart pattern support
+and resistance.
+
+Wait for confirmation
+
+Wait for price to close below the formation low.
+
+Measure rule. Use the measure rule as a guide to finding a price target
+after the breakout. To use it, compute the scallop height and project it downward from the breakout price. For example, the height of the scallop shown in
+Figure 44.4 is the price difference between B and C. The high is at 11.55 and
+the low is at 8.21, giving a difference of 3.34. Subtract this difference from the
+low, 8.21, giving a target of 4.87. Price reaches the target less than a month
+after the breakout.
+Warning: This method works between 27% (bear markets) and 38% (bull
+markets) of the time. I consider values over 80% to be reliable, so this method
+falls well short. Be conservative in your estimates. Is a support zone near the
+target? If so, price is more likely to stop there.
+Another check of the target is to turn it into a percentage decline. In this
+example, the predicted decline measures 41% (or 3.34/8.21). Since the scallop
+pattern in Figure 44.4 is in a bear market, Table 44.3 shows that fewer than
+76% decline by at least 35% (the closest decline to 41%). That suggests the
+target is too far away and price is unlikely to decline that far.
+Buy signal. Sell short when price closes below the formation low. In Figure 44.4, that is a close below point B. If you own a stock, consider selling, as
+prices are likely to continue dropping.
+Sell signal. Consider covering your short if price retraces to the price
+level of point A in Figure 44.4, the start of the pattern. Always close out your
+short position if price rises to C, the highest high in the pattern. If that happens, the stock is saying you have made a mistake. Get out.
+Search for nearby support and resistance. This step is important. If
+you know where support and resistance are, you can gauge how far prices will
+fall or rise, respectively. Trade or not trade accordingly.
+
+4366_44.qxd
+
+2/23/05
+
+12:18 PM
+
+Page 681
+
+Sample Trade
+
+681
+
+Gateway Inc. (Computers & Peripherals, NYSE, GTW)
+23
+21
+
+D
+
+19
+Double Top
+
+Sold Short
+
+Measured
+Move Down
+
+17
+15
+14
+13
+12
+11
+
+C
+
+10
+A
+
+9
+8
+
+B
+E
+
+7
+Stop
+6
+5
+4
+
+01
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+3
+
+Figure 44.4 As described in the Sample Trade, Rich shorted this stock and a stop
+closed out his position.
+
+When the stock hits nearby underlying support, that often causes a pullback. From Table 44.4, we know that when a pullback occurs, it interrupts
+downward momentum and hurts performance, so avoid trades with underlying
+support unless you have a compelling situation.
+Wait for confirmation. Before you short a stock, do your homework and
+make sure it is worth shorting. Do not short a descending and inverted scallop
+until it confirms, meaning that price must close below the formation low. Only
+after confirmation does a scallop become a valid chart pattern.
+
+Sample Trade
+Figure 44.4 shows this chapter’s sample trade. I base this one on a fictional
+trade because this is a new pattern and because shorting scares the dickens out
+of me. If you do not know what you are doing, stick to the long side. Here is
+how Rich used the pattern.
+Rich is an experienced trader that dares to short a stock when the fundamentals warrant. In the bear market of 2001, when the tech stocks were being
+slaughtered wholesale, he started looking for stocks to short and found a candidate in Gateway. He did his fundamental research by checking out the company and others in the same industry. When he was comfortable with his
+choice, he waited for the right opportunity and found it when the descending
+and inverted scallop appeared in May.
+
+4366_44.qxd
+
+2/23/05
+
+682
+
+12:18 PM
+
+Page 682
+
+Scallops, Descending and Inverted
+
+He reviewed the identification characteristics and some of what he saw
+worried him. The overall price trend from January was downward except for
+the recent run-up in April (D). The May scallop looked good, like an inverted
+J with a smooth top. The bowl height as a percentage of the formation height
+turned out to be 65%, close to the 61.8% Fibonacci number. The ends of the
+formation were clean (meaning a sharp, visible turn) and the pattern looked
+proportional. Most knowledgeable traders would have no trouble spotting this
+scallop. Combined with the April peak (D), it also looked like a double top.
+The day after price closed below the lowest low in the pattern, he shorted
+it and received a fill at 16. Immediately, he placed a stop just above the pattern
+high at 20.05, figuring that it was just above a round number (a common resistance zone) and just above two minor highs (the scallop top and the earlier peak
+in April).
+Prices slid in a straight-line run, following the slope of the earlier downturn ( January to March), a measured move down pattern that predicted a low
+of about 10. That decline gave him confidence to ride out the small double top
+in June.
+Then earnings came out and the stock gapped downward in mid-July,
+forming another scallop in August. He calculated the price target for this lower
+scallop and saw that it was 4.87. He did not think prices would drop that far,
+but he monitored it closely, lowering his stop price along the way to capture his
+profits, just in case.
+Price reached a low of 4.24 in early October then started rebounding. His
+stop was at 6.35, a few pennies above the minor high in September (E) and just
+above the early October peak. When price touched his stop, his broker closed
+out the position.
+From the buy price of 16 to the stop price of 6.35, he made 60% in about
+5 months of worrying.
+
+For Best Performance
+The following list includes tips and observations to help select descending scallops that perform better after the break out. Refer to the associated table for
+more information.
+• Review the identification guidelines for correct selection—Table 44.1.
+• Select scallops in a bear market. The average decline is better and it
+occurs in half the time—Table 44.2.
+• Scallops in bear markets have lower failure rates—Table 44.3.
+• Avoid pullbacks as they hurt performance—Table 44.4.
+• Gaps help performance in a bull market—Table 44.4.
+
+4366_44.qxd
+
+2/23/05
+
+12:18 PM
+
+Page 683
+
+For Best Performance
+
+683
+
+• Half the bear market scallops reach the ultimate low in the first 2
+weeks—Table 44.5.
+• Stocks in a bear market tend to bottom a month into the trade—Table
+44.5.
+• Select scallops both tall and wide—Table 44.6.
+• Bull market scallops get narrower and shorter the lower they appear in
+a price trend. Bear market scallops get wider and taller—Table 44.6.
+• Trade wide scallops. They reach the ultimate low quicker—Table
+44.6.
+• Select scallops with a falling volume trend—Table 44.7.
+• In a bear market, pick scallops with U-shaped volume—Table 44.7.
+• Trade bear market scallops with above average breakout volume—
+Table 44.7.
+
+4366_45.qxd
+
+2/23/05
+
+12:20 PM
+
+Page 684
+
+45
+Three Falling Peaks
+1
+
+2
+
+3
+
+RESULTS SNAPSHOT
+Downward Breakouts
+Appearance
+
+Three peaks, each with a price lower than
+the previous and proportional to one another
+
+Reversal or continuation
+
+Short-term bearish reversal
+Bull Market
+
+Bear Market
+
+Performance rank
+
+8 out of 21
+
+6 out of 21
+
+Break-even failure rate
+
+12%
+
+4%
+
+Average decline
+
+17%
+
+24%
+
+Change after trend ends
+
+56%
+
+52%
+
+Volume trend
+
+Downward
+
+Downward
+
+Pullbacks
+
+59%
+
+62%
+
+Percentage meeting price target
+
+33%
+
+32%
+
+Surprising findings
+
+Pullbacks hurt performance. Narrow
+patterns perform better than wide ones.
+Patterns with U-shaped volume do well.
+
+See also
+
+Triple Tops
+
+I first learned about this chart pattern when Robert Fischer asked me to
+endorse his book, coauthored with Jens Fischer, Candlesticks, Fibonacci, and
+Chart Pattern Trading Tools (Wiley, 2003). He wrote that the three falling peaks
+chart pattern is a reliable performer. I agree, but it is especially effective in a
+bear market. There, the breakeven failure rate is 4% and the stock tumbles
+684
+
+4366_45.qxd
+
+2/23/05
+
+12:20 PM
+
+Page 685
+
+Tour
+
+685
+
+24%, on average. That 24% measures from the lowest low in the pattern. If
+you were to measure from the top of the pattern, the decline would average
+34% in a bull market and 44% in a bear market. Those losses are as frightening as riding a toboggan down a tree-studded hill.
+If I own shares in a stock showing a three falling peaks chart pattern, I pay
+attention. If the pattern confirms, the stock is going down. The chart pattern
+reliably signals a trend change by acting as a reversal of the prior uptrend.
+One disappointment with this chart pattern is how infrequently the measure rule works. About a third of the time, price reaches the target (which is the
+pattern height subtracted from the lowest low price).
+
+Tour
+What does a three falling peaks (3FP) chart pattern look like? I am sure you can
+conjure up an image of one, but Figure 45.1 shows two examples. The pattern
+consists of three peaks of equal size and shape, with each peak lower than the last.
+Many times, you will find this pattern at the end of an uptrend (peak A1
+marks the end), so it acts as a reversal. At other times, it will continue the
+downtrend like the B1 to B3 peaks show. Notice the U-shaped volume in the
+A1–A3 pattern. The U shape is rarer than the dome shape, but three falling
+peaks with U-shaped volume outperform their dome-shaped siblings.
+Air Products and Chemicals, Inc. (Chemical (Diversified), NYSE, APD)
+56
+55
+54

@@ -1,0 +1,802 @@
+The Handbook of
+Technical Analysis
+
+The Wiley Trading series features books by traders who have survived the market’s ever changing temperament and have prospered—some by reinventing systems, others by getting back to basics. Whether a novice trader, professional or
+somewhere in-between, these books will provide the advice and strategies needed
+to prosper today and well into the future. For more on this series, visit our Web
+site at www.WileyTrading.com.
+Founded in 1807, John Wiley & Sons is the oldest independent publishing
+company in the United States. With offices in North America, Europe, Australia
+and Asia, Wiley is globally committed to developing and marketing print and electronic products and services for our customers’ professional and personal knowledge and understanding.
+
+The Handbook of
+Technical Analysis
+The Practitioner’s Comprehensive Guide
+to Technical Analysis
+
+Mark Andrew Lim
+
+Cover Design: Wiley
+Cover Image: ©Krystian Nawrocki / iStockphoto.com
+Copyright © 2016 by John Wiley & Sons Singapore Pte. Ltd.
+Published by John Wiley & Sons Singapore Pte. Ltd.
+1 Fusionopolis Walk, #07-01, Solaris South Tower, Singapore 138628
+All rights reserved.
+No part of this publication may be reproduced, stored in a retrieval system, or
+transmitted in any form or by any means, electronic, mechanical, photocopying,
+recording, scanning, or otherwise, except as expressly permitted by law, without either
+the prior written permission of the Publisher, or authorization through payment of the
+appropriate per-copy fee to the Copyright Clearance Center. Requests for permission
+should be addressed to the Publisher, John Wiley & Sons Singapore Pte. Ltd., 1
+Fusionopolis Walk, #07-01, Solaris South Tower, Singapore 138628, tel: 65-6643-8000,
+fax: 65-6643-8008, e-mail: enquiry@wiley.com.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used
+their best efforts in preparing this book, they make no representations or warranties
+with respect to the accuracy or completeness of the contents of this book and specifically
+disclaim any implied warranties of merchantability or fitness for a particular purpose.
+No warranty may be created or extended by sales representatives or written sales
+materials. The advice and strategies contained herein may not be suitable for your
+situation. You should consult with a professional where appropriate. Neither the
+publisher nor the author shall be liable for any damages arising herefrom.
+Other Wiley Editorial Offices
+John Wiley & Sons, 111 River Street, Hoboken, NJ 07030, USA
+John Wiley & Sons, The Atrium, Southern Gate, Chichester, West Sussex, P019 8SQ,
+United Kingdom
+John Wiley & Sons (Canada) Ltd., 5353 Dundas Street West, Suite 400, Toronto,
+Ontario, M9B 6HB, Canada
+John Wiley & Sons Australia Ltd., 42 McDougall Street, Milton, Queensland 4064,
+Australia
+Wiley-VCH, Boschstrasse 12, D-69469 Weinheim, Germany
+ISBN 978-1-118-49891-0 (Paperback)
+ISBN 978-1-118-49893-4 (ePDF)
+ISBN 978-1-118-49892-7 (ePub)
+Typeset in 11/14 pt. Sabon LT Std Roman by Aptara Inc., New Delhi, India
+Printed in Singapore by Markono Print Media Pte. Ltd.
+10 9 8 7 6 5 4 3 2 1
+
+I dedicate this work to my family, for their unconditional
+support and encouragement through thick and thin.
+
+Contents
+Foreword
+
+xiii
+
+Preface
+
+xv
+
+Acknowledgments
+
+xxi
+
+About the Author
+
+xxiii
+
+Chapter 1 Introduction to the Art and Science of Technical Analysis
+1.1 Main Objective of Technical Analysis
+1.2 Dual Function of Technical Analysis
+1.3 Forecasting Price and Market Action
+1.4 Classifying Technical Analysis 
+1.5 Subjectivity in Technical Analysis
+1.6 Basic Assumptions of Technical Analysis
+1.7 Four Basic Assumptions in the Application of Technical Analysis
+1.8 Market Participants
+1.9 Chapter Summary
+Chapter 1 Review Questions
+
+1
+
+1
+3
+3
+11
+16
+30
+39
+40
+42
+43
+
+CHAPTER 2 Introduction to Dow Theory
+
+45
+
+CHAPTER 3 Mechanics and Dynamics of Charting
+
+65
+
+CHAPTER 4 Market Phase Analysis
+
+99
+
+2.1 Origins and Proponents of Dow Theory
+2.2 Basic Assumptions of Dow Theory
+2.3 Challenges to Dow Theory
+2.4 Chapter Summary
+Chapter 2 Review Questions
+3.1 The Mechanics and Dynamics of Charting
+3.2 Gap Action: Four Types of Gaps
+3.3 Constant Chart Measures
+3.4 Futures Contracts
+3.5 Chapter Summary
+Chapter 3 Review Questions
+
+4.1 Dow Theory of Market Phase
+4.2	Chart Pattern Interpretation of Market Phase
+4.3 Volume and Open Interest Interpretation of Market Phase
+4.4	Moving Average Interpretation of Market Phase
+4.5 Divergence and Momentum Interpretation of Market Phase
+4.6 Sentiment Interpretation of Market Phase
+4.7 Sakata’s Interpretation of Market Phase
+4.8 Elliott’s Interpretation of Market Phase
+4.9 Cycle Analysis Interpretation of Market Phase
+
+45
+46
+62
+64
+64
+65
+72
+73
+89
+97
+98
+
+99
+104
+112
+115
+116
+118
+119
+120
+122
+
+vii
+
+Contents
+
+4.10 Chapter Summary
+Chapter 4 Review Questions
+
+124
+124
+
+CHAPTER 5 Trend Analysis
+
+125
+
+5.1 Definitions of a Trend
+5.2	Quality of Trend: 16 Price Characteristics Impacting Future Price
+Action and Trend Strength
+5.3 Price and Trend Filters
+5.4 Trend Participation
+5.5 Price Inflection Points
+5.6 Trendlines, Channels, and Fan Lines
+5.7 Trend Retracements
+5.8 Gaps and Trends
+5.9 Trend Directionality
+5.10 Drummond Geometry
+5.11 Forecasting Trend Reversals
+5.12 Chapter Summary
+Chapter 5 Review Questions
+
+125
+132
+144
+145
+148
+155
+166
+166
+168
+169
+170
+171
+171
+
+CHAPTER 6 Volume and Open Interest
+
+173
+
+CHAPTER 7 Bar Chart Analysis
+
+209
+
+CHAPTER 8 Window Oscillators and Overlay Indicators
+
+235
+
+CHAPTER 9 Divergence Analysis
+
+267
+
+6.1 The Mechanics of Volume Action
+6.2 Volume Oscillators
+6.3 Chapter Summary
+Chapter 6 Review Questions
+
+7.1 Price Bar Pattern Characteristics
+7.2 Price Bar Pattern Characteristics
+7.3 Popular Bar Reversal Patterns
+7.4 Volatility‐Based Breakout Patterns
+7.5 Chapter Summary
+Chapter 7 Review Questions
+8.1 Defining Indicators and Oscillators
+8.2 Eight Ways to Analyze an Oscillator
+8.3 Cycle Period, Multiple Timeframes, and Lagging Indicators
+8.4 Input Data
+8.5 Trend Trading Using Oscillators
+8.6 Window Oscillators
+8.7 Overlay Indicators
+8.8 Chapter Summary
+Chapter 8 Review Questions
+9.1 Definition of Divergence
+9.2 General Concept of Divergence
+9.3 Standard and Reverse Divergence
+9.4 Price Confirmation in Divergence Analysis
+9.5 Signal Alternation between Standard and Reverse Divergence
+9.6 More Examples of Divergence
+9.7 Chapter Summary
+Chapter 9 Review Questions
+
+viii
+
+173
+203
+208
+208
+209
+211
+218
+230
+233
+233
+235
+240
+252
+253
+255
+255
+262
+266
+266
+268
+272
+291
+323
+337
+338
+354
+355
+
+Contents
+
+CHAPTER 10 Fibonacci Number and Ratio Analysis
+
+357
+
+CHAPTER 11 Moving Averages
+
+433
+
+CHAPTER 12 Envelopes and Methods of Price Containment
+
+465
+
+CHAPTER 13 Chart Pattern Analysis
+
+495
+
+CHAPTER 14 Japanese Candlestick Analysis
+
+541
+
+10.1 The Fibonacci Number Series
+357
+359
+10.2 Fibonacci Ratios
+363
+10.3 Fibonacci Retracements, Extensions, Projections, and Expansions
+10.4 Fibonacci (Φ‐Based) Percentage Retracement Levels within an Observed Price Range 368
+10.5 Fibonacci (Φ‐Based) Percentage Extension Levels beyond an Observed Price Range 375
+10.6 Fibonacci (Φ‐Based) Percentage Expansion Levels beyond an Observed Price Range 379
+10.7 Fibonacci (Φ‐Based) Percentage Projection Levels from a Significant Peak or Trough 384
+388
+10.8 Why Should Fibonacci Ratios or Numbers Work at All?
+389
+10.9 Geometrically versus Numerically Based Fibonacci Operations
+392
+10.10 The Fibonacci Trader’s Technical Toolbox
+394
+10.11 Area of Application
+396
+10.12 Selecting Effective Inflection Points for Fibonacci Operations
+397
+10.13 Fibonacci, Dow, Gann, and Floor Trader’s Pivot Point Levels
+10.14 Probability of Continuation and Reversal in Fibonacci Retracements and Extensions 400
+400
+10.15 Fibonacci‐Based Entries, Stoplosses, and Minimum Price Objectives
+402
+10.16 Fibonacci Two‐ and Three‐Leg Retracements
+409
+10.17 Fibonacci Fan Lines
+412
+10.18 Fibonacci Channel Expansions
+414
+10.19 Fibonacci Arcs
+415
+10.20 Supportive and Resistive Fibonacci Clusters
+417
+10.21 Potential Barriers in Fibonacci Projections
+417
+10.22 Fibonacci Time and Ratio Projection Analysis on Elliott Waves
+431
+10.23 Chapter Summery
+431
+Chapter 10 Review Questions
+
+11.1 Seven Main Components of Moving Averages
+11.2 Nine Main Applications of Moving Averages
+11.3 Chapter Summary
+Chapter 11 Review Questions
+12.1 Containing Price Action and Volatility about a Central Value
+12.2 Adjusting Bands for Effective Price Containment
+12.3 Methods of Price Containment
+12.4 Chapter Summery
+Chapter 12 Review Questions
+13.1 Elements of Chart Pattern Analysis
+13.2 Preconditions for Reliable Chart Pattern Reversals
+13.3 Popular Chart Patterns
+13.4 Chapter Summery
+Chapter 13 Review Questions
+14.1 Elements of Candlestick Analysis
+14.2 Popular Candlestick Patterns and Their Psychology
+14.3 Integrating Candlestick Analysis
+14.4 Filtered Candlesticks
+14.5 Trading with Candlesticks
+14.6 Chapter Summary
+Chapter 14 Review Questions
+
+433
+451
+462
+463
+465
+475
+477
+492
+492
+495
+499
+502
+540
+540
+541
+555
+578
+583
+584
+588
+588
+
+ix
+
+Contents
+
+CHAPTER 15 Point‐and‐Figure Charting
+
+589
+
+CHAPTER 16 Ichimoku Charting and Analysis
+
+627
+
+CHAPTER 17 Market Profile
+
+651
+
+CHAPTER 18 Basic Elliott Wave Analysis
+
+673
+
+CHAPTER 19 Basics of Gann Analysis
+
+687
+
+CHAPTER 20 Cycle Analysis
+
+713
+
+CHAPTER 21 Volatility Analysis
+
+733
+
+15.1 Basic Elements of Point‐and‐Figure Charts
+15.2 Basic Point‐and‐Figure Chart Patterns
+15.3 Point‐and‐Figure Minimum Price Objectives
+15.4 Bullish Percent Index and Relative Strength
+15.5 Chapter Summary
+Chapter 15 Review Questions
+
+16.1 Constructing the Five Ichimoku Overlays
+16.2 Functional Aspect of Ichimoku Overlays
+16.3 Advantages and Disadvantages of Using Ichimoku Charting
+16.4 Time and Price Domain Characteristics of Ichimoku Overlays
+16.5 Basic Ichimoku Price‐Projection Techniques
+16.6 Chapter Summary
+Chapter 16 Review Questions
+
+17.1 The Search for Fair Price or Value
+17.2 The Daily Profile Formations
+17.3 Chapter Summary
+Chapter 17 Review Questions
+
+18.1 Elements of Elliott Wave Analysis
+18.2 Rules and Guidelines
+18.3 Motive Waves
+18.4 Corrective Waves
+18.5 Wave Extensions and Truncation
+18.6 Alternation
+18.7 Wave Equality
+18.8 Fibonacci Ratio and Number Analysis of Elliott Waves
+18.9 Chapter Summary
+Chapter 18 Review Questions
+
+19.1 Techniques of W. D. Gann
+19.4 Chapter Summary
+Chapter 19 Review Questions
+
+20.1 Elements of Cycle Analysis
+20.2 Principles of Cycle Analysis
+20.3 Additional Cyclic Characteristics
+20.4 Tuning Oscillator and Overlay Indicators to the Dominant Cycle Period
+20.5 Identifying Price Cycles
+20.6 Chapter Summary 
+Chapter 20 Review Questions
+21.1 The Concept of Change and Volatility
+21.2 Some Statistical Measures of Price Volatility
+
+x
+
+589
+600
+619
+623
+624
+624
+
+627
+633
+643
+644
+649
+649
+650
+
+651
+665
+671
+671
+
+673
+676
+676
+678
+682
+683
+683
+684
+684
+684
+
+687
+710
+711
+
+713
+720
+724
+725
+726
+731
+731
+733
+743
+
+Contents
+
+21.3 Other Measures of Market Volatility
+21.4 Chapter Summary
+Chapter 21 Review Questions
+
+754
+757
+757
+
+CHAPTER 22 Market Breadth
+
+759
+
+CHAPTER 23 Sentiment Indicators and Contrary Opinion
+
+779
+
+CHAPTER 24 Relative Strength Analysis
+
+793
+
+CHAPTER 25 Investor Psychology
+
+813
+
+CHAPTER 26 Trader Risk Profiling and Position Analysis
+
+825
+
+CHAPTER 27 Integrated Technical Analysis
+
+849
+
+22.1 Elements of Broad Market Action
+22.2 Components of Market Breadth
+22.3 Market‐Breadth Indicators in Action
+22.4 Chapter Summary
+Chapter 22 Review Questions
+23.1 Assessing the Emotion and Psychology of Market Participants
+23.2 Price‐Based Indicators versus Sentiment Indicators
+23.3 Assessing Participant Actions
+23.4 Assessing Participants’ Opinions
+23.5 Chapter Summary
+Chapter 23 Review Questions
+
+24.1 Measuring Relative Performance
+24.2 Chapter Summary
+Chapter 24 Review Questions
+
+25.1 General Behavioral Aspects
+25.2 Behavioral Elements Associated with Chart Patterns
+25.3 Behavioral Elements Associated with Market Trends
+25.4 Behavioral Aspects of Market Consolidations
+25.5 Behavioral Aspects of Market Reversals
+25.6 Chapter Summary
+Chapter 25 Review Questions
+26.1 Fulfilling Client Objectives and Risk Capacity
+26.2 Aggressive and Conservative Market Participation
+26.3 Categorizing Clients according to Term Outlook and Sentiment
+26.4 The Seven Participatory Options
+26.5 Triggers, Signals, Price Targets, and Stoplosses
+26.6 Confirming and Non‐Confirming Price Action and Filters
+26.7 Collecting, Categorizing, and Organizing Technical Data
+26.8 Multi‐Timeframe Confirmation
+26.9 Reconciling Technical Outlook with Client Interest
+26.10 Hedging Positions with Derivatives
+26.11 Chapter Summary
+Chapter 26 Review Questions
+
+27.1 The Integrated Components of Technical Analysis
+27.2 Classification of Clusters and Confluences
+27.3 Chapter Summary
+Chapter 27 Review Questions
+
+759
+762
+765
+777
+777
+779
+783
+784
+788
+791
+791
+
+793
+811
+811
+
+813
+815
+817
+820
+821
+823
+823
+
+826
+827
+835
+838
+838
+841
+843
+845
+846
+847
+847
+847
+
+849
+854
+877
+877
+
+xi
+
+Contents
+
+CHAPTER 28 Money Management
+
+879
+
+CHAPTER 29 Technical Trading Systems
+
+913
+
+Appendix A Basic Investment Decision Making Based on
+Chart Analysis
+
+923
+
+Appendix B Official IFTA CFTe, STA Diploma (UK), and MTA CMT
+Exam Reading Lists
+
+933
+
+About the Test Bank and Website
+
+937
+
+Index
+
+939
+
+28.1 Elements of Money Management
+Chapter 28 Review Questions
+29.1 Conceptualizing a Trading System
+29.2 Basic Components of a Trading System
+29.3 System Testing and Optimization
+29.4 Performance Measurement
+29.5 Chapter Summary
+Chapter 29 Review Questions
+
+xii
+
+879
+912
+913
+915
+915
+919
+920
+920
+
+Foreword
+
+I well as for hardcore technical analysis practitioners. This handbook is especially
+
+sincerely believe that this handbook is a feast for serious technical traders as
+
+meant for beginner professionals looking to improve their trading performance,
+and in the process, trying to avoid some of the more painful collisions with complex charting theories. I wish I had this book years ago. That said, I enjoy reading
+it today, finding Mark’s pearls of wisdom an aid to improve my technical trading.
+Mark is one of Malaysia’s distinguished technical analysis gurus whose
+dazzling mind produces more fresh ideas in a book than most other experts in an
+entire lifetime. Since knowing him back in 2002, he has been an influential mentor and a respectable trader, becoming well known from 2002 to 2007 as being
+one of Malaysia’s finest traders. Most of his trading techniques and theories in the
+handbook are now included in most of my trading programs.
+There are a lot of books on technical analysis. Most of them concentrate on
+very specific items, exploring a particular concept in great depth. A long and detailed handbook covering a broad range of topics with practical value such as this
+is much more difficult to find. Mark gives his readers diverse market indicators
+to identify positive investment climates, backing them up with in‐depth theoretical explanations and real‐world chart examples. He exposes powerful technical
+signals and uncovers some of the most obscure concepts in technical analysis,
+reducing them to a set of very clear and lucid rules.
+I believe that this handbook provides an excellent starting point, as well as a
+comprehensive reference text for technically orientated practitioners. It outlines
+the primary principles of technical analysis and provides a solid foundation for
+moving forward into more advanced and cutting‐edge concepts. For the experienced trader, this book will also serve as a reliable refresher, reinforcing good
+technical trading practices that are both enduring and effective. It explains technical trading in a clear and easily understandable format, examining entire concepts,
+from start to finish. All techniques discussed are succinctly illustrated with clear
+chart examples.
+Mark’s handbook points the way for readers interested in the master chartist approach. He distils his vast market expertise into a simple set of technical
+guidelines and rules. As an example, Mark explains why he believes the markets
+respond in specific behavioral manner to phenomena such as volume divergence
+and breakaway gaps. His chapter on volume and volatility also makes it clear why
+market tops react in a certain manner before the ‘storm’ and why market bottoms
+tend to ‘storm’ before the rebound. These simple but yet profound concepts will
+change the way many readers approach trading and investing in the markets.
+I congratulate Mark on his hard work in producing this profound handbook.
+It is a big achievement for the technical analysis community and we are proud
+
+xiii
+
+Foreword
+
+of his contribution. Finally, I believe that the only thing readers need to do after
+reading this handbook is to make a commitment to apply his work, with the
+appropriate mind‐set to become successful traders and investors.
+I wish all readers and technical analysis fans lots of success, happy learning,
+and trading with technical analysis!
+–Dr. Nazri Khan,
+MSTA, CFTe, President, Malaysian Association of Technical Analyst
+(MATA); Vice President, Affin Investment Bank Malaysia
+
+xiv
+
+Preface
+Handbook of Technical Analysis provides a unique and comprehensive
+T hereference
+for serious traders, analysts, and practitioners of technical analysis.
+
+This book explains the definitions, concepts, applications, integration, and execution of many technical‐based trading tools and approaches, with detailed coverage of various technical and advanced money management issues. It also exposes
+the many strengths and weaknesses of various popular technical approaches and
+offers effective solutions wherever possible. Innovative techniques for pinpointing and handling potential market breakouts and reversals are also discussed
+throughout the handbook. A dedicated chapter on advanced money management
+helps complete the trader’s education.
+This handbook will prove indispensable to foreign exchange, bond, stock,
+commodity futures, CFD, and option traders, especially if they are looking for a
+fast and comprehensive route to mastering some of the most powerful tools and
+techniques available for analyzing price and market behavior. It is replete with
+hundreds of illustrations, tables, and charts, giving the trader and investor an
+instant visual understanding of the underlying principles and concepts discussed.
+Markets analyzed include bonds, commodity, equities, and foreign exchange.
+With extensive content and coverage, The Handbook of Technical Analysis also
+provides the perfect self‐contained, self‐study exam preparatory guide for students intending to sit for examinations in financial technical analysis. This book helps prepare
+students to sit for various professional examinations in financial technical analysis,
+such as the International Federation of Technical Analysts CFTe Levels I and II (USA),
+STA Diploma (UK), Dip TA (AUS), as well as the Market Technicians Association
+CMT Levels I, II, and III (USA) examinations in financial technical analysis. This handbook is organized in an accessible manner that allows the students to readily identify
+the topics and concepts that they will need to know for the exam. It covers the most
+important topics, as well as incorporating the latest technical developments in the
+markets so as to give the students a real‐world appreciation of the topics learned. The
+student will find important learning outcomes at the beginning of each chapter.
+The Handbook of Technical Analysis aims to be as visual as possible. Most of
+the charts and illustrations in this handbook were created with the objective that
+they would provide a rapid and efficient review of all the concepts and applications upon the second or third reading. This makes it the perfect tool for students
+reviewing for an examination.
+
+Overview of the Book Contents
+Chapter 1 (Introduction to the Art and Science of Technical Analysis) introduces the
+reader to the general assumptions, approaches, and classifications associated with
+the application of technical analysis. It introduces the concept of the self‐fulfilling
+xv
+
+Preface
+
+prophecy and information discounting and deals with the issue of subjectivity in
+technical analysis.
+Chapter 2 (Introduction to Dow Theory) introduces the basic concept of Dow
+Theory and its various tenets. It also deals with the current challenges and applicability of Dow Theory. Much of modern classical technical analysis is derived
+on the original assumptions of Dow Theory, and as such represents an important
+chapter.
+Chapter 3 (Mechanics and Dynamics of Charting) describes the mechanics of
+chart construction and how price is quantized and filtered into OHLC data. The
+significance of OHLC data is dealt with in detail, including four different definitions of gaps. Charts are classified in terms of five different constant measures
+and how they are affected by the type of chart scaling employed. There is also a
+detailed discussion about how trade performance and reward to risk ratios are affected by the bid‐ask spread, with respect to long and short entry and exit orders.
+Finally, various types of futures contracts are covered, focusing on rollover premiums and discounts, backwardation, contango, and back‐adjusted and unadjusted
+futures charts.
+Chapter 4 (Market Phase Analysis) deals specifically with market phase, describing the various phases via numerous technical approaches. It analyzes and interprets market phase in terms of volume and open interest action, chart patterns,
+moving averages, divergence, price momentum, sentiment, cyclic action, ­Elliott
+waves, and Sakata’s method. This helps the practitioner better anticipate and forecast potential phases in the market with more consistency.
+Chapter 5 (Trend Analysis) deals with the various definitional issues associated
+with trend action. It also introduces the reader to the concept of wave degrees or
+cycles. It points out that the inability to identify wave degrees may very well result
+in ineffective technical analysis and trade ­performance. The chapter then covers
+the 16 important price action characteristics that will greatly improve the forecastibility of potential reversal and continuation in the markets. The bar stochastic
+ratio oscillator is also introduced. Price filters are discussed in detail and classified
+into three main categories. This is followed by the description of the various types
+of trade orders and their functions. The chapter also covers stoplosses and their
+relationship with proportional sizing. Trendlines, channel construction, fan lines,
+trend retracements, price gaps, trend reversal forecasts, and continuations are also
+covered in detail.
+Chapter 6 (Volume and Open Interest) deals with volume and open interest action and defines volume divergence with respect to price-based and nonprice-based volume indicators. VWAP, volume filters, volume cycles, and various
+­volume oscillators are also discussed, pinpointing some of their weaknesses and
+possible solutions.
+Chapter 7 (Bar Chart Analysis) covers bar chart analysis. It presents the reader
+various generic reversal and continuation setups with respect to single, double,
+triple, and multiple price bar formations. It also describes the significance of the
+16 price action characteristics and how they can be employed to forecast potential

@@ -1,0 +1,531 @@
+average rollover interest would amount to almost 5 percent.
+
+Futures contracts with different expiration dates (or “maturities”) have different prices, and they have slightly different returns. Pairing up futures contracts with different maturities creates what are known as calendar spreads.
+Since both legs of a calendar spread track the price of the underlying asset,
+one would think that calendar spreads potentially offer good opportunities
+for mean reversion trading. But in reality they do not generally mean-revert.
+To understand why, we need to understand more about what drives the returns of futures in general.
+
+Roll Returns, Backwardation, and Contango
+The fact that futures contracts with different maturities have different
+prices implies that a futures position will have nonzero return even if the
+underlying spot price remains unchanged, since eventually all their prices
+have to converge toward that constant spot price. This return is called the
+roll return or roll yield. Despite its name, a futures position suffers this return
+whether we actually “roll forward” to the next contract. It is an intrinsic
+
+115
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+■ Trading Futures Calendar Spread
+
+First nearby
+contract expires
+
+Third nearby
+contract expires
+t
+
+log(P1)
+
+log(P2)
+
+log(P3)
+
+FIGURE 5.2 Log Prices of Futures with
+
+Different Maturities in Backwardation as a
+Function of Time
+
+ALGORITHMIC TRADING
+
+116
+
+part of its total return, which can be decomposed into a spot return and a
+roll return.
+If the contracts are in backwardation, meaning the near (close to expiring) contracts have higher prices than the far contracts, then the roll returns
+will be positive; otherwise if the contracts are in contango, then the roll
+returns will be negative.To see this, imagine that the spot price is unchanged
+throughout time, represented by the horizontal line in Figure 5.2.
+We can also pretend that the log futures prices with different maturities
+conform to the same linear function of time with the same slope but with
+different offsets, intersecting the spot price at expirations. The question is:
+Should the slope be positive or negative? Graphically, if the nearer futures
+have a higher price than the farther futures and have to intersect the horizontal line earlier, they must be upward sloping and have positive roll return, as shown in Figure 5.2. At any given time, the price of the first nearby
+contract P1 is higher than that of the second nearby contract P2, and so on.
+The opposite is true if they are in contango, as illustrated in Figure 5.3. (We
+display log prices instead of raw prices so that a contract with a constant
+compounded total return will appear as a straight line.)
+Note that this graphical argument merely serves as a mnemonic, not a
+proof, as, of course, real log futures prices are not linear functions of time,
+they may even intersect (two contracts of different maturities having the
+
+log(P3)
+
+log(P2)
+
+log(P1)
+
+t
+First nearby
+contract expires
+
+Third nearby
+contract expires
+
+FIGURE 5.3 Log Prices of Futures with Different
+
+Maturities in Contango as a Function of Time
+
+BOX 5.1
+
+Mnemonic for Backwardation versus Contango
+I can never remember whether backwardation means near contracts have
+higher or lower price. If you are like me, you can employ the mnemonic below.
+This mnemonic originated with John Maynard Keynes (Hull, 1997). He and
+John Hicks argued that for normal commodities, those who actually own
+the physical commodities (the “hedgers,” such as farmers or oil producers)
+tend to hedge their positions by shorting futures, expecting to lose money
+on their hedges. Meanwhile, the speculators are the ones who have a net
+long position, and need to be compensated for taking this risk. So they will
+buy only futures with positive roll return, or equivalently futures that have
+lower prices than the expected future spot price; that is, the ones in “normal
+backwardation.” So we should remember that “backwardation” is always
+associated with “normal,” and “normal” means the futures price is always
+lower than the spot price.
+Of course, this argument is not completely correct, since we will see that
+crude oil, a perfectly “normal” commodity, is in contango over various periods.
+But this story gives us a good mnemonic.
+
+117
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+same price) before they expire, and finally the spot price at expiration is
+unlikely to be constant throughout time. Nevertheless, Figures 5.2 and 5.3
+illustrate the typical situation. A mnemonic to help us remember whether
+backwardation means near contracts have higher prices than far contracts is
+presented in Box 5.1.
+
+To calculate the spot and roll returns for a set of futures contracts, it is
+helpful to have a simple model of futures prices. For many commodities, we
+can write
+F(t, T ) = S(t)exp(γ(t − T ))
+
+(5.7)
+
+where t is the current time, T is the expiration time, and S(t) is the spot
+price (Hull, 1997). This model implies that the (compounded) roll return
+γ is constant over time. But we can take a step further, and assume that the
+(compounded) spot return α is also constant:
+S(t) = c eαt
+
+(5.8)
+
+Essentially, we want to mathematically describe those lines in Figures 5.2
+and 5.3, with the slight modification that they terminate not on a horizontal
+line, but one that has a nonzero slope. So the model we adopt for the price
+of a future that matures at time T is
+F(t, T ) = c eαtexp(γ(t − T ))
+
+ALGORITHMIC TRADING
+
+118
+
+(5.9)
+
+where c, α, and γ are constants. The total return of a contract is given by
+∂(log F(t, T ))/∂t = α + γ
+
+(5.10)
+
+since T is fixed for a specific contract. Finally, the roll return of the futures
+is given by
+−∂(log F(t, T ))/∂T = γ
+
+(5.11)
+
+Hence, we have mathematically captured the notion that total return = spot
+return + roll return.
+Based on this model, we can use linear regression to estimate the spot and
+roll returns of a futures series, as is demonstrated in Example 5.3.
+Roll returns can be a curse on many seemingly attractive strategies
+based on knowledge or intuition informed by the underlying spot price.
+For example, an ETF of commodity producers (such as XLE) usually cointegrates with the spot price of that commodity. But because of the presence
+of roll return, this ETF may not cointegrate with the futures price of that
+commodity. Not understanding this subtlety cost me more than $100,000
+in trading loss, and ruined my first year (2006) as an independent trader.
+
+Example 5.3: Estimating Spot and Roll Returns
+Using the Constant Returns Model
+
+T=[1:length(spot)]’;
+T(isBadData)=[];
+res=ols(log(spot), [T ones(size(T, 1), 1)]);
+fprintf(1, ‘Average annualized spot return=%f\n’, ...
+252*smartmean(res.beta(1)));
+
+Next, we will fit the forward curve (the future price as a function
+of maturity date) in order to obtain the values for the roll return γ;
+that is, we will pick one day at a time and fit the prices of futures
+of five nearest maturities to their time-to-maturity T (measured
+in months), as long as there are five consecutive contracts for the
+fitting. (The forward curve might well change from contango to
+(Continued )
+
+119
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+If we assume that spot and roll returns are truly constant throughout
+time, as we did in Equation 5.9, we can use linear regression to
+estimate their values. It is easy to find the spot return this way, as we
+just need to regress the log of the spot prices against time. But to find
+the roll return requires us to pick a fixed point in time, and regress
+the prices of the various contracts against their time to maturity. In
+practice, the regression coefficient will depend on that fixed time,
+and also on the exact set of contracts available at that time. So despite
+the assumption of constant roll returns, we will still end up with a
+slowly varying estimated γ.
+We will apply this procedure to a few different futures in different
+categories: the Brazilian Real future BR, the corn future C, the WTI
+crude oil future CL, the copper future HG, and the two-year U.S.
+Treasury Note future TU.
+In the following program, we assume that the spot price is
+contained in an τ × 1 array spot, and the futures closing price data
+are stored in a τ × M array cl, where τ is the number of trading days,
+and M is the number of contracts. Certainly not all contracts exist
+at all times, so we will denote the prices for those days when some
+contracts are nonexistent as NaN.
+We will first find the average annualized (compounded) spot
+return with a simple regression below. (The program can be
+downloaded as estimateFuturesReturns.m.)
+
+Example 5.3 (Continued)
+backwardation or vice versa beyond the nearest five contracts.) We
+store the values of γ in a τ × 1 array gamma.
+Gamma=NaN(size(tday));
+for t=1:length(tday)
+FT=cl(t, :)’;
+idx=find(isfinite(FT));
+idxDiff=fwdshift(1, idx)-idx; % ensure consecutive months
+% futures
+if (length(idx) >= 5 && all(idxDiff(1:4)==1))
+FT=FT(idx(1:5));
+T=[1:length(FT)]’;
+res=ols(log(FT), [T ones(size(T, 1), 1)]);
+gamma(t)=-12*res.beta(1);
+end
+end
+
+ALGORITHMIC TRADING
+
+120
+
+To verify that Equation 5.7 is sensible, we scatter-plot the log futures
+values of CL against the time to maturity at one fixed point in time in
+Figure 5.4 and check that they do fall on a straight line quite neatly.
+(We restrict ourselves to only five nearest contracts in this scatter plot.
+Prices of contracts farther out in maturities may not fall onto the same
+straight line so neatly, indicating a breakdown in Equation 5.7)
+
+FIGURE 5.4 Scatter Plot of Log Futures Values against
+
+Time-to-Maturity for CL 2007 January to May Contracts.
+The log prices fall neatly on a straight line.
+
+Example 5.3 (Continued)
+The annualized values for γ over the period November 22, 2004,
+to August 13, 2012, for CL are plotted in Figure 5.5.
+
+121
+
+backwardation and negative values indicate contango.
+
+I listed the average annualized values for the spot returns α and the
+roll returns γ for the five futures in Table 5.1.You can see that for BR,
+C, and TU, the magnitude of the roll returns is much larger than that
+of the spot returns!
+TABLE 5.1 Annualized Average Spot and Roll Returns for Various Futures
+Symbol
+
+α
+
+γ
+
+BR (CME)
+
+–2.7%
+
+10.8%
+
+C (CBOT)
+
+2.8%
+
+–12.8%
+
+CL (NYMEX)
+
+7.3%
+
+–7.1%
+
+HG (CME)
+
+5.0%
+
+7.7%
+
+TU (CBOT)
+
+–0.0%
+
+3.2%
+
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+FIGURE 5.5 Values of the Roll Return γ for CL. Positive values indicate
+
+ALGORITHMIC TRADING
+
+122
+
+Another example: Every student of finance knows that volatility is mean
+reverting; more precisely, we know that the VIX index is mean reverting.
+In fact, an augmented Dickey-Fuller (ADF) test will show that it is stationary with 99 percent certainty. You might think, then, that trading VX
+futures would be a great mean-reverting strategy. (VX is the future that
+tracks the VIX volatility index trading on the CBOE’s Futures Exchange
+[CFE].) However, a look at the back-adjusted front-month futures prices
+over time indicates that the mean reversion in VX only happens after volatility peaked around November 20, 2008 (the credit crisis), May 20, 2010
+(aftermath of flash crash), and then again on October 3, 2011. At other
+times, it just inexorably declines. Indeed, the ADF test shows that the
+back-adjusted front contract prices definitively do not mean-revert. You
+can see the difference between VIX and the front-month VX in Figure 5.6,
+a difference that is entirely due to roll return. The VX future has been in
+contango around three fourths of the time, and the average roll return is a
+very negative annualized –50 percent (Simon and Campasano, 2012). This
+persistent contango is why we find in Chapter 6 that a momentum strategy
+works pretty well with VX.
+Average roll returns can be quite large compared to their average spot
+returns for other futures besides VX as well. Table 5.1 shows that the annualized roll return for corn is –12.8 percent compared to a spot return
+of 2.8 percent, and Erb and Harvey calculated that the annualized roll
+return for heating oil is 4.6 percent, compared to a spot return of 0.93
+percent, over the period December 1982 to May 2004 (Erb and Harvey,
+2006).
+
+FIGURE 5.6 VIX Index versus Back-Adjusted VX Front
+
+Contract Prices
+
+Do Calendar Spreads Mean-Revert?
+
+Example 5.4: Mean Reversion Trading of
+Calendar Spreads
+As we discussed in the main text, the log market value of a
+calendar spread portfolio with a long far contract and a short near
+contract is simply γ(T1 − T2), with T2 > T1. Since T1 and T2 are
+fixed for a particular calendar spread, we can use the (hopefully)
+mean- reverting γ to generate trading signals. In the program
+(Continued )
+
+123
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+A calendar spread is a portfolio that consists of a long position in one futures
+contract, and a short position in another futures contract with the same underlying but a different expiration month. Based on our previous experience
+with spreads in general, calendar spreads would seem to be great candidates
+for mean reversion: Aren’t both legs tracking the exact same underlying asset? But here again, roll returns derail our intuition.The futures price model
+expressed in Equation 5.7 will make this clear.
+As with any spread trading, we can choose to define the spread as the
+differences of log prices of the two legs in order to generate trading signals
+(see Chapter 3), assuming that we maintain the market value of the two legs
+to be the same at every period. The log market value of a spread portfolio
+with a long far contract and a short near contract is simply γ(T1 − T2) with
+T2 > T1, according to Equation 5.7. (Again, this simple formula may not
+hold if T2 − T1 is large.) The important point is that the calendar spread trading signal does not depend at all on the spot price, only on the roll return!
+As we learned in Chapter 2, return series (as opposed to price series)
+almost always mean-revert. Here we are considering not the total return
+of a future, but the roll return component only, so things may be different.
+(Though the model expressed in Equation 5.7 presupposes that the spot
+and roll returns are both constant, we may nevertheless attempt to apply it
+to situations where the roll return varies slowly.) We run the ADF test for
+12-month log calendar spread of CL, and discovered that it is indeed stationary with 99 percent probability, and a half-life of 36 days. Furthermore, if
+we apply our usual linear mean-reverting strategy to the log calendar spread
+for CL, we do get an APR of 8.3 percent and a Sharpe ratio of 1.3 from
+January 2, 2008, to August 13, 2012. The details of the backtest are described in Example 5.4.
+
+Example 5.4 (Continued)
+calendarSpdsMeanReversion.m below, we assume that the price of the
+CL contracts is stored in a τ × M array cl, where τ is the number
+of trading days, and M is the number of contracts. We compute γ in
+the same way as in Example 5.3, and store the resulting values γ in a
+τ × 1 array gamma. As a first step, we find the half-life of γ.
+isGoodData=find(isfinite(gamma));
+gammalag=lag(gamma(isGoodData), 1);
+deltaGamma=gamma(isGoodData)-gammalag;
+deltaGamma(1)=[];
+gammalag(1)=[];
+regress_results=ols(deltaGamma, [gammalag ...
+ones(size(gammalag))]);
+halflife=-log(2)/regress_results.beta(1);
+
+The half-life is found to be about 36 days. To apply our linear mean
+reversion strategy, we need to compute the Z-Score, with the lookback set equal to the half-life, as demonstrated in Example 2.5.
+ALGORITHMIC TRADING
+
+124
+
+lookback=round(halflife);
+ma=movingAvg(gamma, lookback);
+mstd=movingStd(gamma, lookback);
+zScore=(gamma-ma)./mstd;
+
+Here comes the most difficult part. We need to pick a pair of
+contracts, far and near, on each historical day, based on three criteria:
+1. The holding period for a pair of contracts is 3 months (61 trading
+days).
+2. We roll forward to the next pair of contracts 10 days before the
+current near contract’s expiration.
+3. The expiration dates of the near and far contracts are 1 year apart.
+Once we have picked those contracts, we assume initially that we
+will hold a long position in the far contract, and a short position in
+the near one, subject to revisions later.
+isExpireDate=false(size(cl));
+positions=zeros(size(cl));
+
+Example 5.4 (Continued)
+isExpireDate=isfinite(cl) & ~isfinite(fwdshift(1, cl));
+holddays=3*21;
+numDaysStart=holddays+10;
+numDaysEnd=10;
+spreadMonth=12; % No. months between far and near contracts.
+for c=1:length(contracts)-spreadMonth
+expireIdx=find(isExpireDate(:, c));
+expireIdx=expireIdx(end); % There may be some missing
+% data earlier on
+if (c==1)
+startIdx=max(1, expireIdx-numDaysStart);
+endIdx=expireIdx-numDaysEnd;
+else % ensure next front month contract doesn’t start
+until current one ends
+myStartIdx=endIdx+1;
+myEndIdx=expireIdx-numDaysEnd;
+if (myEndIdx-myStartIdx >= holddays)
+startIdx=myStartIdx;
+endIdx=myEndIdx;
+
+125
+
+else
+end
+end
+if (~isempty(expireIdx) & endIdx > startIdx)
+positions(startIdx:endIdx, c)=-1;
+positions(startIdx:endIdx, c+spreadMonth)=1;
+end
+end
+
+Finally, we apply the linear mean reversion strategy to determine
+the true positions and calculate the unlevered daily returns of the
+portfolio. (The daily return is the daily P&L divided by 2 because we
+have two contracts.)
+positions(isnan(zScore), :)=0;
+positions(zScore > 0, :)=-positions(zScore > 0, :);
+ret=smartsum(lag(positions).*(cl-lag(cl, 1))./lag(cl, 1), ...
+2)/2;
+ret(isnan(ret))=0;
+
+(Continued )
+
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+startIdx=NaN;
+
+Example 5.4 (Continued)
+This results in an attractive unlevered APR of 8.3 percent and a
+Sharpe ratio of 1.3 from January 2, 2008, to August 13, 2012. The
+cumulative returns curve is shown in Figure 5.7.
+
+ALGORITHMIC TRADING
+
+126
+
+FIGURE 5.7 Cumulative Returns of the Linear Mean Reversion Strategy
+
+Applied on CL 12-Month Calendar Spread
+
+Students of commodities markets know that seasonality is often a prominent feature. So you may find that for a particular market, only calendar
+spreads of certain months (and certain months apart) mean-revert. However, we won’t pursue these market-dependent details here.
+We can try this same linear mean reversion strategy on the VX calendar
+spreads. It turns out that Equation 5.7 works only for a future whose underlying is a traded asset, and VIX is not one. (If you scatter-plot the log VX
+futures prices as a function of time-to-maturity as we did in Figure 5.4 for
+CL, you will find that they do not fall on a straight line.) Various researchers have suggested alternative formulae suitable for the VX future (see, for
+example, Dupoyet, Daigler, and Chen, 2011), but I have found that none
+can explain the mean-reverting property of VX calendar spreads in the face
+
+FIGURE 5.8 Cumulative Returns of Linear Mean
+
+Reversion Strategy on VX Calendar Spread
+
+■ Futures Intermarket Spreads
+As I stated in the introduction of this chapter, it is not easy to find futures
+intermarket spreads (i.e., pairs of futures from different underlyings) that
+are mean reverting. Nevertheless, let’s systematically round up some of the
+usual suspects.
+The most obvious candidate for pair trading futures is intermarket spreads
+between markets that are closely related. For example, the energy complexes (WTI crude oil CL, Brent crude oil BZ, unleaded gasoline RB, and
+heating oil HO, all traded on the NewYork Mercantile Exchange [NYMEX])
+should offer rich potential opportunities.
+
+127
+MEAN REVERSION OF CURRENCIES AND FUTURES
+
+of the non-mean reversion of the VX future itself. So we can rely on only
+our empirical observation that an ADF test on the ratio back/front of VX also
+shows that it is stationary with a 99 percent probability. If we apply our usual
+linear mean-reverting strategy using ratio as the signal (and with a 15-day
+look-back for the moving average and standard deviations), VX yields an
+APR of 17.7 percent and a Sharpe ratio of 1.5 from October 27, 2008, to
+April 23, 2012 (see Figure 5.8 for a plot of its cumulative returns), though
+it performed much more poorly prior to October 2008. In the next section,
+I will present graphic evidence that there is a regime change in the behavior
+of VIX and its futures around the time of the financial crisis of 2008, so perhaps this abrupt change in the strategy performance is related to that as well.
+
+ALGORITHMIC TRADING
+
+128
+
+Before we run a Johansen test on these four contracts, we can first examine a well-known portfolio called the crack spread consisting of long three
+contracts of CL, short two contracts of RB, and short one contract of HO.
+This is called the crack spread because we can obtain gasoline and heating
+oil by cracking the long hydrocarbon chains of crude oil molecules, and
+the 3:2:1 hedge ratios come about because three barrels of CL produces
+approximately two barrels of RB and one barrel of heating oil, though this
+is not universally true for all refiners. One advantage of trading the crack
+spread is that NYMEX offers a ready-made basket for it, with a much lower
+margin requirement than if we trade them separately.
+However, running an ADF test on the crack spread from May 20, 2002,
+to May 4, 2012, shows that this spread is not mean reverting. The chart of
+this spread (Figure 5.9) reveals a dramatic increase in value around March 9,
+2007, to July 3, 2008, and then a sharp drop after that, and running the
+linear mean reversion strategy on it shows negative returns for that period.
+(Note that we must back-adjust the continuous contracts using prices rather
+than returns in this test; otherwise, this price spread will show a discontinuous jump at rollovers, as explained in Chapter 1.)
+Another spread that would seem to be a good candidate is CL and BZ in a
+1:1 ratio. After all, their underlyings are both crude oils. But another quick
+ADF test will show that it is far from stationary. BZ has relentlessly outperformed CL due to a variety of factors. The likely culprits include the increasing oil production in the United States (Friedman, 2012), the pipeline
+bottleneck at Cushing, Oklahoma (Philips, 2012), and geopolitical concerns
+
+FIGURE 5.9 The Crack Spread
+
+such as the embargo against Iranian oil in 2012, which affected Europe and
+therefore BZ more than the United States.
+If you want to backtest intermarket spreads yourself, don’t forget to
+make sure that their prices are synchronous, as I cautioned in Chapter 1. In
+particular, before BZ started trading at the NYMEX on September 5, 2001,
+it was traded at the Intercontinental Petroleum Exchange in London, which
+obviously has a different closing time than NYMEX on which CL has always
+been traded. So backtesting the BZ-CL spread before September 5, 2001,
+using closing prices would be wrong. Also, we often need to multiply the
+futures prices by a factor to convert points into USD.
+Our search for mean-reverting intermarket futures spreads has not been
+fruitful so far. But I will now discuss one unusual spread that will change that.

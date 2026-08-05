@@ -1,0 +1,628 @@
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+The Power of Technical Indicators
+
+119
+
+represents a shift in power: Bulls are in control. The trend strengthens and
+the momentum line strays further from the zero line until the trend reaches
+a point of exhaustion. At this point, a momentum extreme is registered as
+the indicator has reached a peak (or trough) and turns down (or up). Once
+again, the model of optimism and pessimism oscillating back and forth is
+exhibited.
+Momentum is often used interchangeably with rate of change. On intraday charts, there is no difference visually between the two, but there is an
+important difference on long-term charts. Rate of change is the geometric
+change in price over a specified period of time.
+Rate of change = price(current) ÷ price(x periods ago)
+Longer-term charts should always be looked at on a logarithmic scale.
+On a log scale, price change is plotted as a percentage rather than an absolute number. On an arithmetic scale, a movement of 1 to 2 is the same
+as a movement of 10 to 11. Going from 1 to 2 is a 100 percent change, or
+doubling in price. Going from 10 to 11 is just a 10 percent change. On a
+logarithmic scale, a movement of 10 to 11 would be displayed as 1/10th the
+change of a movement of 1 to 2. This makes sense. Figures 6.11 and 6.12
+
+FIGURE 6.11 On the arithmetic scale, the 1929 crash looks inconsequential but
+the burst of the tech bubble looks catastrophic
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+120
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.12 The log scale puts things in perspective
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+are of the Dow Jones Industrial Average (DJIA) monthly chart plotted on
+arithmetic and log scales. On the arithmetic scale, a move from 100 to 200
+appears the same as a move from 10,000 to 10,100. Obviously, the former
+move is much more significant and the logarithmic scale captures that.
+What does this have to do with an indicator? If you are measuring
+momentum in absolute terms, then you would conclude that a EURUSD
+rally from 1.0000 to 1.1000 is the same as a EURUSD rally from 1.3000
+to 1.4000. The former move was 10 percent and the latter move was
+7.7 percent. A momentum indicator displays these two moves as being
+equal (1,000 pips) when in reality they are not. On the other hand, a rate
+of change indicator displays the two moves in percentage terms. At market
+tops, the momentum indicator overstates momentum. At market bottoms,
+the momentum indicator understates momentum. The result is a failure to
+identify divergence at market tops and false signals of divergence at market
+bottoms.
+The EURUSD chart shown in Figure 6.13 illustrates this point perfectly. At the December 2004 high, the rate of change indicator accurately
+identifies bearish divergence but the momentum indicator does not. If you
+were following the momentum indicator (arithmetic) rather than the rate
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+121
+
+FIGURE 6.13 Momentum (arithmetic) fails to identify divergence at the December 2004 top, but rate of change (log or geometric) does identify the divergence
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+of change indicator (geometric), you would have missed this important signal. As mentioned, you will not be able to tell a difference between the momentum and rate of change indicators on short time frames because the absolute change and percentage change in price are roughly the same when
+viewing, for example, 15-minute or hourly price changes. The difference is
+magnified as you begin to look at longer time intervals. For this reason, I
+make a habit of always using the rate of change indicator rather than the
+momentum indicator. In this book, from now on, I will use momentum in
+a general sense although the indicator on the chart will always be rate of
+change.
+
+Divergence
+As tempting as it is to fade a momentum extreme, the outcome is usually
+costly. Price extremes rarely coincide with momentum extremes. Price can
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+122
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+and often does continue in the direction of the underlying trend, although
+at a slower rate of change. In other words, momentum slows but direction does not. In an uptrend, the result is a series of higher highs in price
+but lower highs in momentum. In a downtrend, the result is a series of
+lower lows in price but higher lows in momentum. What I have just described is divergence (price and indicator diverge). Bearish divergence
+occurs at market tops, and bullish divergence occurs at market bottoms.
+Divergence is present at every turn, but divergence does not always lead
+to a turn. Think about that for a moment. Divergence warns that the trend
+is reaching a point of exhaustion and that probability of a market turn has
+increased.
+In Figure 6.14, a 13-week rate of change is plotted below the EURUSD
+weekly chart. A momentum extreme is reached in July 2002 when the
+EURUSD traded to 1.0206. As it turned out, the momentum extreme was
+reached in the middle of a trend that saw the EURUSD rally from .8227 to
+
+FIGURE 6.14 A momentum extreme announces that a bull trend is at its beginning or middle, not its end
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+123
+
+1.3666 in four years and two months. There were numerous pauses and corrections along the way, all of which were preceded by bearish divergence.
+However, a top of significant proportion was not reached until December
+2004. This is a perfect example of how divergence is present at every turn,
+but divergence does not always lead to a turn.
+Divergence warns of trend reversal but does not always result in trend
+reversal. Understanding why divergence occurs is key to understanding
+market behavior in general. The strongest momentum reading usually occurs either at the beginning or the middle of the trend, not the end. The
+DJIA monthly chart with 12-month rate of change in Figure 6.15 best exemplifies this dynamic. The greatest rate of change (12 months) occurred
+during the 12 months that followed the July 1932 bottom. From July 1932 to
+June 1933, the Dow gained 129 percent. No 12-month period since has seen
+a gain of that magnitude (in percentage terms). Selling at the momentum
+extreme in June 1933 would not have been a very good idea. The next decent selling opportunity for the Dow would have been March 1937. Bearish
+divergence warned of this turn (see Figure 6.15).
+
+FIGURE 6.15 The momentum extreme in the Dow that was registered in the mid1930s gave way to the biggest equity bull market of all time
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+124
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+Using Momentum Extremes to Trade a Reversal
+Let’s expand on how to use momentum extremes in trading. Again, momentum extremes almost always occur at the beginning or middle of a move.
+If this is the case, then the correct decision is to trade in the direction of
+the momentum extreme. Most retail traders fade these extremes and lose
+money in the process. Figure 6.16 is of the EURUSD daily chart with 13-day
+rate of change plotted below. Following the December 2004 top at 1.3666,
+the pair plummeted and by January 18, 2005, the 13-day rate of change
+was at –4.50, the lowest reading since August 2002. The EURUSD closed at
+1.3020 on January 18th. Many traders probably tried to fade this momentum extreme and by February 7th the pair had slid to 1.2730. A corrective
+rally followed and ended at 1.3480 on March 11th. With the understanding
+that the momentum extreme in January was bearish for EURUSD, a savvy
+trader was looking for opportunities to sell rallies such as the one into the
+March high. The rest of 2005 saw the pair fall nearly 2,000 pips.
+
+FIGURE 6.16 A momentum extreme in the EURUSD in May 2006 conﬁrms that
+the decline from the 2004 high is complete
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+The Power of Technical Indicators
+
+125
+
+The next example (see Figure 6.16 again) is also of the EURUSD but
+from the bullish side. The decline that began at 1.3666 ended at 1.1640
+in November 2005. On May 3, 2006, the 13-day EURUSD rate of change
+stood at 4.30. This was the highest reading since December 2003. The
+May 3rd closing price was 1.2630. Much like the previous example, many
+traders probably tried to fade the momentum extreme only to see the rally
+extend to 1.2970 by May 15th. As it turned out, the momentum extreme
+in May 2006 was the kickoff for the EURUSD rally that would eventually
+challenge 1.5000.
+I have used the term momentum extreme a lot, so a definition is
+in order. A momentum extreme occurs when rate of change is greatest
+(plus or minus) over a specified amount of time. The amount of time
+specified and the power of the signal are directly correlated. In other
+words, a three-year momentum extreme is more powerful than a one-year
+momentum extreme. Of course, this technique can be applied to any
+time frame. For example, a 120-hour rate of change covers five days.
+In this instance, you are looking for a five-day momentum extreme in
+order to determine a bias. If using momentum to trade reversals, then the
+momentum extreme must be made in the direction opposite the preceding
+trend. For example, Figure 6.17 is of the USDCAD daily chart with 13-day
+rate of change. The pair had clearly been in a downtrend for some time,
+but a momentum extreme was made on November 6, 2007. This is not a
+signal to get bearish USDCAD, because the USDCAD had been declining
+for some time. However, notice that a bullish momentum extreme was
+made on November 23rd. This is a valid reversal signal since the extreme
+occurs in the direction opposite the previous trend.
+
+FANCY MOMENTUM INDICATORS AND
+OVERBOUGHT/OVERSOLD
+Simpler indicators such as moving averages or rate of change are very useful, but most traders feel the need to use fancier indicators such as RSI
+and/or stochastics. These indicators have the ability to label a market overbought or oversold. I urge caution in using these indicators.
+
+Relative Strength Index
+J. Welles Wilder, Jr., developed the Relative Strength Index (RSI) and introduced the indicator to the trading community in New Concepts in Technical Trading Systems in 1978. RSI is probably the most popular oscillator among traders, and for good reason in my opinion. RSI is basically an
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+126
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.17 The USDCAD trend had been down for some time so the bearish
+momentum extreme indicates a bottom, not the middle of the trend. On the contrary,
+the bullish momentum extreme that occurred in November 2007 is a valid reversal
+signal
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+improved version of momentum (see Figure 6.18 for a comparison of the
+two indicators). There are two obvious benefits to using RSI rather than or
+in addition to rate of change. An RSI line is less erratic than a simple rate
+of change (momentum) line, and an RSI line provides limits of 0 and 100 so
+that the trader can gauge overbought and oversold levels.
+Wilder expanded on the simple momentum calculation in formulating
+RSI. Details of the calculation are below.
+RSI = 100 − (100 ÷ [1 + RS])
+Initial RS = average gain ÷ average loss
+Subsequent RS = ([previous average gain × (n − 1])
++ current gain) ÷ n/([previous average loss
+× (n − 1]) + current loss) ÷ n
+Average gain = total gains ÷ n
+Average loss = total losses ÷ n
+n = number of periods
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+127
+
+FIGURE 6.18 More or less the same indicator, RSI provides limits that label a
+market overbought or oversold
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+As you can see, the calculation is far more complex than simply rate
+of change or momentum. Instead of simply dropping the last data point
+(n + 1) in the calculation, Wilder developed RS (relative strength). Think
+back to the exponential moving average equation and the family analogy.
+The current RS uses the previous average gain and average loss in its calculation. Each previous RS uses the average gain and average loss previous
+to it. You get the picture. RS is a rolling, continuous calculation. In theory, all of the data in the history of the instrument has an effect on the
+current RS reading. In reality, the effect of price changes from far back
+diminishes as time progresses to the point that the price changes are not
+noticeable. In any case, the result is a smoother line than if the calculation
+simply dropped off the last data point (n + 1).
+The other significant improvement is the presence of limits: 0 and 100.
+If the average gain is 0, then RSI would be 0. If the average loss is 0, then
+RSI would be 100. This does not happen because the continuous calculation of RS ensures that there will always be some average gain or average
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+128
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+loss present. For example, find any chart where the currency pair has advanced for five consecutive bars and plot a five-period RSI. The RSI is not
+100 although there is no average loss in the last five periods. The average
+gain ÷ average loss ratio (basic RS) is the basis for RSI. If RS is above 1,
+then RSI will be above 50 after RS is plugged into the calculation:
+RSI = 100 − 100 ÷ (1 + RS)
+If RS is below 1, then RSI will be below 50.
+Many do not pay attention to the 50 line, but I find it useful. Much like
+rate of change above 0 or below 0 indicates a bullish or bearish bias, RSI
+above 50 or below 50 indicates a bullish or bearish bias. Wilder recommended labeling a market as overbought when RSI advanced above 70 and
+oversold when RSI fell below 30. When RSI is above 70, the idea is that the
+market in question has advanced too far too fast and that price is likely
+to at least pull back. While a traditional sell signal does not actually occur
+until RSI drops back below 70 (a traditional buy signal when RSI crosses
+above 30), I think that the indicator can be used more effectively.
+
+Overbought and Oversold Is Erroneous
+The concept of overbought and oversold in the traditional sense is flawed.
+Overbought and oversold could just as easily be termed strong uptrend
+and strong downtrend. Sure, price eventually reaches a peak or trough and
+turns, but not after remaining overbought or oversold for an extended period of time. The strongest trends (the ones that we as traders want to
+ride for as long as possible) can remain overbought or oversold, as the
+terms are defined in the traditional sense, for weeks or longer on daily
+charts.
+Most novice traders will note that the RSI indicator is above 70; therefore, price is overbought and the correct decision is to sell. Oftentimes,
+the correct and therefore profitable decision is to do the exact opposite.
+The chart in Figure 6.19 is a weekly plot of the EURUSD. The bold bars
+indicate that 13-week RSI is below 30 or above 70. In nearly all of the instances, RSI moving above 70 was much closer to the beginning of a bull
+trend than to the end. Similarly, RSI moving below 30 was much closer to
+the beginning of a bear trend than to the end. Since the euro began trading
+in January 1999, there have been four instances when 13-week RSI crossed
+either above 70 or below 30. A change in the bias occurs only when RSI
+crosses into extreme territory in the opposite direction. For example, RSI
+crossed above 70 in May 2006 and since then has yet to cross below 30.
+Therefore, all the subsequent crosses above 70 are not counted as a cross
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+129
+
+FIGURE 6.19 Overbought and oversold signal continuation of a trend more often than not. Using the indicator in this way would have helped you stay with much
+of the EURUSD bull market that began in 2000.
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+since the bias never changed from a long bias in the first place. The details
+are below.
+
+r 13-week RSI crossed below 30 during the week that ended March 5,
+1999. The EURUSD closed that week at 1.0818. The maximum drawdown would have been two weeks later at 1.1070. The maximum profit
+potential would have been in October 2000 when the EURUSD found
+bottom at .8227.
+r 13-week RSI crossed above 70 during the week that ended June 7,
+2002. The EURUSD closed that week at .9439. The maximum drawdown would have been the next week at .9387. The maximum profit
+potential would have been in December 2004 at 1.3666.
+r 13-week RSI crossed below 30 during the week that ended June 10,
+2005. The EURUSD closed that week at 1.2115. The maximum drawdown would have been in September 2006 at 1.2588. The maximum
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+130
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+profit potential would have been in November 2005 at 1.1638. This is
+the least profitable example.
+r 13-week RSI crossed above 70 during the week that ended May 12,
+2006. The EURUSD closed that week at 1.2920. The maximum drawdown would have been in July 2006 at 1.2458. The maximum profit
+potential would be 1.4967 to this point (this is December 2007). The
+bullish bias is still in place.
+Figures 6.20 to 6.22 are examples of other currency pairs and time
+frames. As these charts indicate, RSI crossing 70 actually indicates with
+a high degree of probability that the bullish trend will extend. When the
+indicator crosses below 30, probability is high that the bearish trend will
+extend. If you prefer more timely signals, then change the RSI bullish barrier to 60 and the bearish barrier to 40 (see Figure 6.23). In this case, you
+
+FIGURE 6.20 While the USDJPY results are not nearly as good as the EURUSD results, interpreting RSI in this manner would still have presented proﬁtable
+opportunities
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+131
+
+FIGURE 6.21 Interpreting RSI in this way can be applied on any time frame, as
+this example of the GBPUSD illustrates
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+would maintain a bullish bias following an RSI cross above 60 and a bearish
+bias following an RSI cross below 40.
+As with any technical tool, RSI crosses above or below a specific
+level are not to be taken as blind signals. Rather, use the cross to determine a bias. For example, once RSI is above 60 on the weekly chart, buy
+intra-week weakness by placing orders near the calculated weekly pivot
+supports.
+
+Stochastic Oscillator
+The stochastic oscillator was developed by George Lane in 1959. At the
+time, the development of this indicator was revolutionary. Technical study
+of market action then was mostly confined to point and figure charting
+and Dow Theory, which is still applied to this day. Elliott wave theory was
+gaining publicity as well, thanks to Hamilton Bolton of the Bank Credit
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+132
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.22 During very strong directional periods, interpreting RSI in this way
+keeps you from fading the trend as the USDCAD example shows
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+Analyst. Needless to say, Lane was a pioneer in the realm of oscillator
+analysis.
+Lane actually studied Elliott wave theory himself and advocated using
+his stochastic indicator in conjunction with Elliott. What is interesting is
+the name that Lane chose for his indicator: stochastic. Stochastic means
+“randomness” and “unpredictability.” Any practitioner of Elliott knows that
+markets are not random, but follow a basic form (which we will get to
+later). Probabilities can be predicted but are not certainties; in this way,
+one can make an argument that there is a certain degree of randomness
+but one cannot argue that markets are completely random. In any case, the
+name that Lane chose was stochastic.
+The stochastic oscillator measures where the current closing price is,
+relative to the entire range over a specified amount of time. Like RSI, the
+oscillator is a limit oscillator with barriers of 100 and 0. The centerline
+would be 50. The logic behind the indicator is that the closing price in an
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+133
+
+FIGURE 6.23 More timely signals can be achieved by using 60 and 40 instead of
+70 and 30 for RSI. Of course, with more timely signals comes more false signals
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+uptrend will be closer to the top of the range over x number of periods
+and that the closing price will be closer to the low of the range over x
+number of periods. A reading of 100 indicates that the current closing price
+is the highest point of the range over x number of periods. A reading of
+0 indicates that the current closing price is the lowest point of the range.

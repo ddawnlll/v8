@@ -1,0 +1,589 @@
+Short
+CAC:=Security(“C:\Metastock Data\REUTERSINDEX\.FCHI”,C);
+XOI:=Security(“C:\Metastock Data\ REUTERSINDEX \.XOI”,C);
+BIX:=Security(“C:\Metastock Data\ REUTERSINDEX \.BIX”,C);
+RG:=-.11+.551∗ ROC(CAC,10,%)+.097∗ ROC(BIX,10,%)+.116∗ ROC(XOI,
+10,%);
+PRED:=Ref(C,-10)∗ (1+RG/100);
+DIVERG:=(PRED-C)/C∗ 100;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+(ALERT(CROSS(IM,30),4) AND ALERT(CROSS(80,STOCH(10,3)),3) AND
+ALERT(CROSS(MOV(C,10,E),C),2) AND STOCH(10,3)<MOV(STOCH
+(10,3),4,S))
+Cover
+CAC:=Security(“C:\Metastock Data\REUTERSINDEX\.FCHI”,C);
+XOI:=Security(“C:\Metastock Data\ REUTERSINDEX \.XOI”,C);
+BIX:=Security(“C:\Metastock Data\ REUTERSINDEX \.BIX”,C);
+RG:=-.11+.551∗ ROC(CAC,10,%)+.097∗ ROC(BIX,10,%)+.116∗ ROC(XOI,
+10,%);
+PRED:=Ref(C,-10)∗ (1+RG/100);
+DIVERG:=(PRED-C)/C∗ 100;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(CROSS(50,IM),4) AND STOCH(10,3)>MOV(STOCH(10,3),4,E) AND
+C>MOV(C,10,E)
+Note
+As I have stressed in the book, the correlation between related markets is not static
+but changes over time.
+Although the regression coefficients used in the current FTSE multiple regression
+system above were the best at the time of writing (December 2007), by the time this
+book is published, correlations might have changed and the regression coefficients
+might need adjustment.
+Therefore, if you wish to use the multiple regression system you should first
+check the correlations between the FTSE and the independent variables used in the
+regression equation (CAC 40, BIX and XOI) and if any of the correlations have
+changed (from the ones depicted in Table 14.1), you will have to make the necessary
+adjustments in the regression coefficients.
+
+Appendix A
+
+335
+
+A.6 METASTOCK CODE FOR THE OIL AND GOLD STOCK SYSTEMS
+DESCRIBED IN CHAPTER 15
+Oil Stocks
+MetaStock exploration code
+To create the Oil Stock exploration, go to The Explorer and choose the New button.
+Enter in the following code in the filter column. To explore for possible hits, open the
+Explorer (click on binocular icon), click on Options and load 900 records, then click
+explore and select the folder in your hard drive with oil stocks. Be sure to change
+the first three lines of the code to point to the appropriate folders on your hard drive
+where the crude oil, S&P 500 and XOI data are located.
+SEC1:=Security(“C:\Metastock Data\REUTERSFUTURES\@:CLc1”,C);
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+SEC3:=Security(“C:\Metastock Data\REUTERSINDEX\.XOI”,C);
+VFI:=Fml(“VFI”);
+RS:=Mov((C/SEC3),3,E);
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(ROC(SEC1,10,%),ROC(C,10,%),300,0);
+rY2:=Correl(ROC(SEC2,10,%),ROC(C,10,%),300,0);
+r12:=Correl(ROC(SEC1,10,%),ROC(SEC2,10,%),300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,25)/Abs(Ref(SEC1,-24))∗ 100;
+LRS2:=LinRegSlope(SEC2,25)/Abs(Ref(SEC2,-24))∗ 100;
+LRS:=LinRegSlope(C,20)/Abs(Ref(C,-19))∗ 100;
+DIVERG:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+Mov(RS,50,S)>Mov(RS,200,S) AND Mov(VFI,50,S)>Mov(VFI,200,S) AND
+DIVERG>0 AND Alert(Cross(70,IM),5) AND Stoch(5,3)>Mov(Stoch(5,3),4,S)
+AND Correl(SEC3,C,200,0)>0.5
+If you don’t have the VFI and FVE custom (money flow) indicators you must first
+create them because they are being called by the oil exploration system.
+
+336
+
+Intermarket Trading Strategies
+
+To create the VFI Indicator in MetaStock, click on the indicator builder (fx), click
+on New. . ., type VFI in the Name box and the following code in the formula box.
+Use the same procedure to create the FVE indicator.
+VFI formula
+PERIOD:= Input(“PERIOD FOR VFI”,5,1300,130);
+COEF:=.2;
+VCOEF:=Input(“MAX VOLUME CUTOFF”,0,50,2.5);
+INTER:=Log(Typical())-Log(Ref(Typical(),-1));
+VINTER:=Stdev(INTER,30);
+CUTOFF:=COEF∗ VINTER∗ C;
+VAVE:=Ref(Mov(V,PERIOD,S),-1);
+VMAX:=VAVE∗ VCOEF;
+VC:=If(V<VMAX,V,VMAX);
+MF:=Typical()-Ref(Typical(),-1);
+VFI:=Sum(If(MF>CUTOFF, +VC, If(MF <-CUTOFF, -VC,0)),PERIOD)/
+VAVE;
+Mov(VFI,3,E);
+FVE formula
+PERIOD:= Input(“PERIOD FOR FVE”,5,80,22);
+COEF:=Input(“COEF FOR CUTOFF”,0,2,.1);
+H1:=If(H>0,H,Mov(H,5,S));
+L1:=If(L>0,L,Mov(L,5,S));
+INTRA:=Log(H1)-Log(L1);
+VINTRA:=Stdev(INTRA,PERIOD);
+INTER:=Log(Typical())-Log(Ref(Typical(),-1));
+VINTER:=Stdev(INTER,PERIOD);
+CUTOFF:=COEF∗ (VINTER+VINTRA)∗ C;
+MF:=C-(H+L)/2+Typical()-Ref(Typical(),-1);
+FVE:= Sum(If(MF>CUTOFF, +V, If(MF <-CUTOFF, -V,0)),PERIOD)/
+(Mov(V,PERIOD,S)+1)/PERIOD∗ 100;
+FVE
+MetaStock Expert Advisor
+Oil stock system
+MetaStock explorations only provide entry signals. To get exit signals you should
+create another expert advisor and attach it to the oil stocks that you bought.
+To create the oil stock (bullish) expert advisor click on the binocular icon then
+click on new. . . , and fill in an appropriate name (e.g. oil stocks) in the name field
+and fill in the following in the Notes field: Oil stock system (see Chapter 15 of
+Intermarket Trading Strategies by Markos Katsanos). Then click on symbols, then
+
+Appendix A
+
+337
+
+fill in the appropriate action (BUY) and fill in the same code that you used for the
+oil stock exploration above. Then click on Graphic and select an appropriate graphic
+(e.g. green arrow below price plot).
+Then click again on the new symbol, name it EXIT and fill in the following code:
+SEC1:=Security(“C:\Metastock Data\REUTERSFUTURES\@:CLc1”,C);
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300)/Mov(SEC2,300,S);
+rY1:=Correl(ROC(SEC1,10,%),ROC(C,10,%),300,0);
+rY2:=Correl(ROC(SEC2,10,%),ROC(C,10,%),300,0);
+r12:=Correl(ROC(SEC1,10,%),ROC(SEC2,10,%),300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,25)/Abs(Ref(SEC1,-24))∗ 100;
+LRS2:=LinRegSlope(SEC2,25)/Abs(Ref(SEC2,-24))∗ 100;
+LRS:=LinRegSlope(C,20)/Abs(Ref(C,-19))∗ 100;
+DIVERG:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+(Stoch(15,3)<Mov(Stoch(15,3),5,S) AND HHV(Stoch(15,3),3)>80 AND
+LLV(IM,4)<7)
+Don’t forget to change the first two lines of the code to point to the folder in your
+hard drive where data for crude oil futures and the S&P 500 are located. Then click
+on Graphic and select an appropriate graphic (e.g. red EXIT sign above the price
+plot). All you have to do now is attach this expert to the stocks that you bought using
+the oil exploration.
+MetaStock Code for Tradesim Simulation
+Oil stocks
+This test can only be run with Tradesim v. 4.2 2 (a MetaStock plug-in) which can be
+obtained from http://www.compuvision.com.au/.
+After running the MetaStock exploration open Tradesim and load the OIL STOCKS
+file and fill in the following trade parameters:
+Initial trading capital: $100 000
+Maximum open positions: 20
+Transaction cost: $10
+Minimum trade size: $3000
+
+338
+
+Intermarket Trading Strategies
+
+Volume filter: Limit position to a maximum of 15 % of the traded volume.
+Check the Pyramid profits and Equal percent dollar units boxes and fill in the
+following 10 % for the percentage.
+The code for the Tradesim test is the same code used for the MetaStock exploration
+plus the additional Tradesim commands (beginning with ENTRYTRIGGER) which
+should be added at the end. The complete code should be copied in column A of the
+explorer.
+SEC1:=Security(“C:\Metastock Data\REUTERSFUTURES\@:CLc1”,C);
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+SEC3:=Security(“C:\Metastock Data\REUTERSINDEX\.XOI”,C);
+VFI:=Fml(“VFI”);
+RS:=Mov((C/SEC3),3,E);
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(ROC(SEC1,10,%),ROC(C,10,%),300,0);
+rY2:=Correl(ROC(SEC2,10,%),ROC(C,10,%),300,0);
+r12:=Correl(ROC(SEC1,10,%),ROC(SEC2,10,%),300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,25)/Abs(Ref(SEC1,-24))∗ 100;
+LRS2:=LinRegSlope(SEC2,25)/Abs(Ref(SEC2,-24))∗ 100;
+LRS:=LinRegSlope(C,20)/Abs(Ref(C,-19))∗ 100;
+DIVERG:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+ENTRYTRIGGER:=Mov(RS,50,S)>Mov(RS,200,S) AND Mov(VFI,50,S)>
+Mov(VFI,200,S) AND
+DIVERG>0 AND Alert(Cross(70,IM),5) AND Stoch(5,3)>Mov(Stoch(5,3),4,S)
+AND Correl(SEC3,C,200,0)>0.5;
+EXITTRIGGER:=(Stoch(15,3)<Mov(Stoch(15,3),5,S) AND HHV(Stoch
+(15,3),3)>80
+AND LLV(IM,4)<7)
+(Alert(Cross(0,Fml(“FVE”)),7) AND Fml(“FVE”)<-5 AND
+Cross(Mov(VFI,100,E),VFI));
+ExtFml(“TradeSim.Initialize”);
+ExtFml(“TradeSim.SetVolumeMultiplier”,100);
+
+Appendix A
+
+339
+
+ExtFml(“TradeSim.SetTimeStop”,100);ExtFml(“TradeSim.EnableDelayOfEntry
+ByOneBar”);ExtFml(“TradeSim.EnableDelayOfAllExitsByOneBar”);
+ExtFml(“TradeSim.RecordTrades”,“OIL STOCKS”,LONG,EntryTrigger,OPEN,
+0, EXITTRIGGER,OPEN,START);
+Gold Stocks
+MetaStock code for Tradesim simulation
+SEC1:=Security(“C:\Metastock Data\METAS\XGLD”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\XAU”,C);
+VFI:=Fml(“VFI”);
+RS:=Mov((C/SEC3),3,E);
+D1:=500; {REGRESSION DAYS}
+D2:=11; {ROC DAYS}
+RS1:=ROC(C,D2,%);
+RS2:=ROC(SEC1,D2,%);
+b:=Correl(RS1,RS2,D1,0)∗ Stdev(RS1,D1)/Stdev(RS2,D1);
+a:=Mov(RS1,D1,S)-b∗ Mov(RS2,D1,S);
+pred:=b∗ RS2+a;
+DIVERG:=(PRED-RS)∗ 10;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+ENTRYTRIGGER:= Mov(RS,50,S)>Mov(RS,200,S) AND Mov(VFI,50,S)>
+Mov(VFI,200,S) AND
+DIVERG>0 AND Alert(Cross(70,IM),5) AND Stoch(5,3)>Mov(Stoch(5,3),4,S)
+AND Correl(ROC(SEC1,10,%),ROC(C,10,%),200,0)>0.1;
+EXITTRIGGER:=(Stoch(15,3)<Mov(Stoch(15,3),5,S) AND HHV(Stoch
+(15,3),3)>80 AND LLV(IM,4)<7)
+ExtFml(“TradeSim.Initialize”);
+ExtFml(“TradeSim.SetVolumeMultiplier”,100);
+ExtFml(“TradeSim.SetTimeStop”,80);ExtFml(“TradeSim.EnableDelayOfEntry
+ByOneBar”);ExtFml(“TradeSim.EnableDelayOfAllExitsByOneBar”);
+ExtFml(“TradeSim.RecordTrades”,“GOLD STOCKS”,LONG,EntryTrigger,
+OPEN,0, EXITTRIGGER,OPEN,START);
+MetaStock exploration code
+To create the Gold Stock exploration, go to The Explorer and choose the New button.
+Enter in the following code in the filter column. To explore for possible hits, open the
+Explorer (click on binocular icon), click on Options and load 900 records, then click
+
+340
+
+Intermarket Trading Strategies
+
+explore and select the folder in your hard drive with gold stocks. Be sure to change
+the first two lines of the code to point to the appropriate folders on your hard drive
+where gold bullion or GLD, and XAU data are located.
+SEC1:=Security(“C:\Metastock Data\METAS\XGLD”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\XAU”,C);
+VFI:=Fml(“VFI”);
+RS:=Mov((C/SEC3),3,E);
+D1:=500; {REGRESSION DAYS}
+D2:=11; {ROC DAYS}
+RS1:=ROC(C,D2,%);
+RS2:=ROC(SEC1,D2,%);
+b:=Correl(RS1,RS2,D1,0)∗ Stdev(RS1,D1)/Stdev(RS2,D1);
+a:=Mov(RS1,D1,S)-b∗ Mov(RS2,D1,S);
+pred:=b∗ RS2+a;
+DIVERG:=(PRED-RS)∗ 10;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+Mov(RS,50,S)>Mov(RS,200,S) AND Mov(VFI,50,S)>Mov(VFI,200,S) AND
+DIVERG>0 AND Alert(Cross(70,IM),5) AND Stoch(5,3)>Mov(Stoch(5,3),4,S)
+AND Correl(ROC(SEC1,10,%),ROC(C,10,%),200,0)>0.1
+
+MetaStock Expert Advisor
+Gold stock system
+MetaStock explorations only provide entry signals. To get both entry and exit signals
+you should create an expert advisor and attach it to the gold stocks that you bought.
+To create the gold stock expert advisor click on the appropriate icon then click
+on new.., and fill in a suitable name (e.g. Gold stocks) in the name field and fill in
+the following in the Notes field: Gold stock system (see Chapter 15 of Intermarket
+Trading Strategies by Markos Katsanos). Then click on symbols, then fill in the
+appropriate action (BUY) and fill in the same code that you used for the exploration
+above. Then click on Graphic and select an appropriate graphic (e.g. green arrow
+below price plot).
+Then click again on new symbol, name it EXIT and fill in the following code :
+SEC1:=Security(“C:\Metastock Data\METAS\XGLD”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\XAU”,C);
+VFI:=Fml(“VFI”);
+RS:=Mov((C/SEC3),3,E);
+
+Appendix A
+
+341
+
+D1:=500; {REGRESSION DAYS}
+D2:=11; {ROC DAYS}
+RS1:=ROC(C,D2,%);
+RS2:=ROC(SEC1,D2,%);
+b:=Correl(RS1,RS2,D1,0)∗ Stdev(RS1,D1)/Stdev(RS2,D1);
+a:=Mov(RS1,D1,S)-b∗ Mov(RS2,D1,S);
+pred:=b∗ RS2+a;
+DIVERG:=(PRED-RS)∗ 10;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200)-LLV(DIVERG,200),3,S));
+(Stoch(15,3)<Mov(Stoch(15,3),5,S) AND HHV(Stoch(15,3),3)>80 AND LLV
+(IM,4)<7)
+Don’t forget to change the first two lines of the code to point to the folder in your
+hard drive where data for gold spot prices (or the World Gold Index) and the XAU
+are located. Then click on Graphic and select an appropriate graphic (e.g. red EXIT
+sign above the price plot). All you have to do now is attach this expert to the stocks
+that you bought using the gold exploration.
+A.7 METASTOCK CODE FOR THE FUTURES AND ETF SYSTEMS
+IN CHAPTER 16
+1 Test II Relative Strength System (FUTURES)
+MetaStock code for Tradesim simulation
+This test can only be run with Tradesim v. 4.2 2 (a MetaStock plug-in) which can be
+obtained from http://www.compuvision.com.au/.
+To run this test you should change the first line of the code to point to the appropriate
+folder on your hard drive where the S&P 500 data are located. Copy and paste the
+following code into column A of MetaStock’s explorer and then click on options and
+load 2100 records.
+After running the MetaStock exploration, open Tradesim and load the FUTURES
+file and fill in the following trade parameters:
+Initial trading capital: $500 000
+Maximum open positions: 30
+Capital per trade: $30 000
+Transaction cost: $10
+Minimum trade size: $5000
+Ignore volume filter
+
+342
+
+Intermarket Trading Strategies
+
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+entrytrigger:= RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND
+LinRegSlope(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80
+AND RS>Ref(HHV(RS,250),-20);
+EXITTRIGGER:=Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5;
+ExtFml(“TradeSim.Initialize”);
+ExtFml(“TradeSim.EnableDelayOfEntryByOneBar”);ExtFml(“TradeSim.Enable
+DelayOfAllExitsByOneBar”);
+ExtFml(“TradeSim.RecordTrades”,“FUTURES”,LONG,EntryTrigger,OPEN,0,
+EXITTRIGGER,OPEN,START);
+
+MetaStock Exploration Code for the Relative Strength FUTURES System
+To create the FUTURES exploration, go to The Explorer and choose the New button.
+Enter in the following code in the appropriate column. To explore for possible hits,
+open the Explorer (click on binocular icon), click on Options and load 500 records,
+then click explore and select the folders in your hard drive with Commodity, Index
+FUTURES and International Indices. Be sure to change the first line of the code
+to point to the appropriate folder on your hard drive where the S&P 500 data are
+located.
+Column A:
+Col. Name: Price
+Code: C
+Column B:
+Col. Name: RS
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);RS
+Column C:
+Col. Name: HHV RS
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);Ref(HHV(RS,250),-20)
+
+Appendix A
+
+343
+
+Column D:
+Col. Name: RS-MA%
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);(RS-Mov(RS,120,E))/Mov(RS,120,E)∗ 100
+Column E:
+Col. Name: LRS(RS)
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);LinRegSlope(RS,20)
+Column F:
+Col. Name: CORREL
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+Correl(C,SEC2,130,0)
+Filter
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND LinRegSlope
+(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80
+AND RS>Ref(HHV(RS,250),-20)
+To close long positions you can either create another exploration and enter the
+following code in the filter column or create an expert and drop it on each security.
+Sell exploration
+To create the FUTURES sell exploration, go to The Explorer and choose the New
+button and name it: Sell Relative Strength (Futures). Then enter the following code
+in the filter column. To explore for sell signals, open the Explorer (click on binocular
+icon), click on Options and load 500 records, then click explore and select the folders
+in your hard drive with Commodity, Index FUTURES and International Indices. Be
+sure to change the first line of the code to point to the appropriate folder on your hard
+drive where the S&P 500 data are located.
+Name: Sell Relative Strength (Futures)
+
+344
+
+Intermarket Trading Strategies
+
+Filter
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5
+Futures expert advisor
+To create the Futures expert, go to the Expert advisor and choose the New expert.
+Click on symbols, and choose New and enter the following code and appropriate
+graphic symbols:
+Name: Buy Futures (Relative Strength)
+Graphic: Green Up arrow
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND LinRegSlope
+(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80
+AND RS>Ref(HHV(RS,250),-20)
+Name: Sell Futures (RS)
+Graphic: Red exit sign
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5
+2 Test II ETF Relative Strength
+MetaStock Code for Tradesim Simulation
+This test can only be run with Tradesim v. 4.2 2 (a MetaStock plug-in) which can be
+obtained from http://www.compuvision.com.au/.
+Change the first line of the code to point to the appropriate folder on your hard
+drive where the S&P 500 data are located. Copy and paste the following code into
+column A of MetaStock’s explorer and then click on options and load 2100 records.
+After running the MetaStock exploration open Tradesim and load the ETF file and
+fill in the following trade parameters:
+Initial trading capital: $500 000
+Maximum open positions: 30
+
+Appendix A
+
+345
+
+Capital per trade: $30 000
+Transaction cost: $10
+Minimum trade size: $5000
+Volume filter: Limit position to a maximum of 20 % of the traded volume.
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+VFI:=Fml(“VFI”);
+entrytrigger:=RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND
+LinRegSlope(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80 AND Mov(VFI,25,E)>0;
+EXITTRIGGER:=Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5 OR Mov
+(VFI,25,E)<0;
+ExtFml(“TradeSim.Initialize”);
+ExtFml(“TradeSim.EnableDelayOfEntryByOneBar”);ExtFml(“TradeSim.Enable
+DelayOfAllExitsByOneBar”);
+ExtFml(“TradeSim.RecordTrades”,“ETF”,LONG,EntryTrigger,OPEN,0,
+EXITTRIGGER,OPEN,START);
+
+MetaStock Exploration Code for the Relative Strength ETF System
+To create the ETF exploration, go to The Explorer and choose the New button. Enter
+in the following code in the filter column. To explore for possible hits, open the
+Explorer (click on binocular icon), click on Options and load 500 records, then click
+explore and select the folder in your hard drive with the ETF data. Be sure to change
+the first line of the code to point to the appropriate folder on your hard drive where
+the S&P 500 data are located.
+Note: Before running the exploration you should first create the VFI indicator.
+The code for this indicator is included in A6 above.
+Name: Buy ETF
+Notes: Displays ETF where the comparative relative strength (i.e. between the ETF
+and the S&P 500) crosses above its signal line. This was discussed in Mr Katsanos’
+book Intermarket Trading Strategies. Column A displays the close of each security,
+Column B the Relative Strength between the security and index, Column C the
+VFI, Column D the % difference between the Relative Strength and its moving
+average, Column E the value of the 20-day linear regression slope of the relative
+strength and Column F the correlation between the security and the S&P 500. The
+filter does not rely on any of the column formulas so feel free to change the column
+formula to calculate any of your favorite indicators.
+
+346
+
+Intermarket Trading Strategies
+
+Filter
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+VFI:=Fml(“VFI”);
+RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND LinRegSlope
+(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80 AND Mov(VFI,25,E)>0
+Column A:
+Col. Name: Price
+Code: C
+Column B:
+Col. Name: RS
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);RS
+Column C:
+Col. Name: VFI
+Code:
+Fml(“VFI”)
+Column D:
+Col. Name: RS-MA%
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);(RS-Mov(RS,120,E))/Mov(RS,120,E)∗ 100
+Column E:
+Col. Name: LRS(RS)
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);LinRegSlope(RS,20)
+Column F:
+Col. Name: CORREL
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+Correl(C,SEC2,130,0)
+To close long positions you can either create the following exploration or create an
+expert and drop it on each security.
+
+Appendix A
+
+347
+
+Sell exploration
+To create the ETF sell exploration, go to The Explorer and choose the New button
+and name it: Sell Relative Strength (ETF). Then enter the following code in the filter
+column. To explore for sell signals, open the Explorer (click on binocular icon),
+click on Options and load 500 records, then click explore and select the folders
+in your hard drive with the ETF data. Be sure to change the first line of the code
+to point to the appropriate folder on your hard drive where the S&P 500 data are
+located.
+Name: Sell ETF
+Filter
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+VFI:=Fml(“VFI”);
+Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5 OR Mov(VFI,25,E)<0
+
+ETF Expert Advisor
+To create the ETF expert, go to the Expert advisor and choose the New expert. Click
+on symbols, and choose New and enter the following code and appropriate graphic
+symbols:
+Name: Buy ETF
+Graphic: Green Up arrow
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+VFI:=Fml(“VFI”);
+RS>Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)>0 AND LinRegSlope
+(RS,20)>0
+AND Correl(C,SEC2,130,0)<.5 AND Stoch(100,3)<80 AND Mov(VFI,25,E)>0
+Name: Sell ETF
+Graphic: Red exit sign
+Code:
+SEC2:=Security(“C:\Metastock Data\REUTERSINDEX\.SPX”,C);
+D3:=150;{DAYS FOR SMOOTH RS}
+RS:=Mov((C/SEC2),D3,E);
+VFI:=Fml(“VFI”);
+Cross(Mov(RS,90,E),RS) OR ROC(RS,3,%)<-.5 OR Mov(VFI,25,E)<0

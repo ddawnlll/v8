@@ -1,0 +1,362 @@
+[
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_000",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 1,
+    "exact_text": "This pullback created a great opportunity for getting into the stock\nat a relatively low-risk price.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_001",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 1,
+    "exact_text": "pullbacks represent a possible entry point for\nnewcomers to a stock",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_010",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_011",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 17,
+    "exact_text": "the break beneath support, and the subsequent recovery up to the former support level",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_012",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_008",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 1,
+    "exact_text": "buyers overcame\nsellers, pushing prices above resistance",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_009",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 1,
+    "exact_text": "a new high happens three times,\nbut the price can’t get above it",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_013",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_010",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 18,
+    "exact_text": "When it broke above this pattern,\nthe stock just about tripled in price.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_014",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 17,
+    "exact_text": "If a stock in this kind of pattern can muster\nthe kind of strength to shake off a pattern of this size, the stock buyers are\nfar too strong for the sellers",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_015",
+    "verdict": "corroboration",
+    "behavior_id": "trend_exhaustion_reversal",
+    "page": 17,
+    "exact_text": "rounded tops (which show the exhaustion of a stock’s upward movement and provide an opportunity to sell the\nstock short)",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_016",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_012",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 18,
+    "exact_text": "The descending trend line here changed from resistance to support\nafter prices pushed past it",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_014",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 34,
+    "exact_text": "when a stock starts to\nfall, it may retrace some of the fall to test the pattern from which it had\nfallen",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_020",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 35,
+    "exact_text": "Once it broke out of this pattern to the\nupside, it quickly climbed to the mid 30s.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_024",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_025",
+    "verdict": "corroboration",
+    "behavior_id": "trend_following_channel",
+    "page": 57,
+    "exact_text": "series of higher highs and higher lows",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_026",
+    "verdict": "corroboration",
+    "behavior_id": "trend_following_channel",
+    "page": 57,
+    "exact_text": "a series of lower highs and lower lows, it will probably continue moving\ndownward until that series is broken",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_028",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_031",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 57,
+    "exact_text": "a double bottom was plainly in\nplace, followed by a seven-fold increase in price",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_037",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 76,
+    "exact_text": "the price retraces back\nup to the neckline before falling hard once again",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_038",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 76,
+    "exact_text": "the price strengthens and makes its way back to just pennies\nbeneath the $19 level",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_039",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_040",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_041",
+    "verdict": "corroboration",
+    "behavior_id": "trend_following_channel",
+    "page": 76,
+    "exact_text": "a series of lower highs and lower lows, which is the most reliable trend you want to monitor when judging when it is time to take profits\nand close the position",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_042",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 76,
+    "exact_text": "The neckline, at $31, is broken,\nand the stock falls to about $26. The stock then takes a few weeks to execute a nearly perfect retracement to the neckline, creating a great opportunity to enter into a short position",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_043",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_045",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 96,
+    "exact_text": "The stock broke down, falling rapidly for five days, then it spent the next\nseveral weeks fighting its way back to the neckline",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_048",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 120,
+    "exact_text": "The next surge is during an attempted (but failed) breakout above the\nneckline",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_049",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 120,
+    "exact_text": "The importance of a volume surge during a price breakout is difficult\nto overstate. A volume surge confirms that there is a strong interest in the\nstock",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_050",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_051",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_060",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_051",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 121,
+    "exact_text": "After Home Depot crossed\nbeneath its moving average, it fell for many months afterward. The price ﬁrmed up\nand crossed above the moving average again, preceding a handsome move higher.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_052",
+    "verdict": "corroboration",
+    "behavior_id": "mean_reversion_band",
+    "page": 121,
+    "exact_text": "eventually, the price will return to the range-bound domain",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_065",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 169,
+    "exact_text": "A stock will not necessarily follow a retracement path all the way\nback down, but it may still pause at certain levels before reversing direction",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_056",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 138,
+    "exact_text": "A signal takes place when the black line crosses above the dashed\nline (bullish) or below the dashed line (bearish)",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_067",
+    "verdict": "corroboration",
+    "behavior_id": "contrarian_extreme_reversal",
+    "page": 169,
+    "exact_text": "Suppose you believed the selling was overdone and you took a\nmajor long position in this security",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_2_068",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 169,
+    "exact_text": "the price breaks above\nthe 100 percent level. There are three times when the stock paused and consolidated",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0019::lead_book_0019_1_058",
+    "verdict": "corroboration",
+    "behavior_id": "mean_reversion_band",
+    "page": 138,
+    "exact_text": "if it drops below 70\n(which is marked with a horizontal dashed line), there is a sell signal; if it\ngoes above 30 (also marked with a dashed horizontal line), there is a buy\nsignal",
+    "added_conditions": [],
+    "added_parameters": []
+  }
+]

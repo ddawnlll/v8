@@ -1,0 +1,389 @@
+
+A less accurate method, but one which might be practical for many traders, is to
+assume a constant dividend payout. A trader can attempt to determine the average
+percent dividend paid by each stock, deduct this from the interest rate component, and
+use the result as the interest rate input. For example, if the average dividend payout is
+4%, and interest rates are 6%, the trader can ignore the dividend input and simply use
+an interest rate of 2%. Some models allow the user to enter the interest rate and the
+dividend payout (as a percent) individually, and from these inputs the model calculates
+the value of an American option. In both cases, however, the value of early exercise will
+be distorted since stock option calls are often exercised just prior to a dividend payout,
+and puts are often exercised just after a dividend payout. When no exact dividend date
+has been entered into the model, optimum early exercise cannot be calculated. The
+distortion can sometimes be quite large if many stocks in the index happen to pay a large
+
+3. Because of the order imbalances which can occur in individual stocks when a large number of stock
+index arbitrages are liquidated at the same time, some exchanges have chosen to settle stock Index
+options and futures on expiration day based on the opening index price. This opening price {fs
+determined by the opening prices of each stock in the index on that day. Since stocks can open at
+different times, the index value may not represent simultaneous stock trades.
+
+4. There is usually a cut-off time after which an index option may not be exercised on a given day. In the
+United States this is usually within an hour after the index has been fixed at the end of the trading day.
+
+
+316 Chapter 15
+
+dividend on the same date, or pay no dividend for an extended period. Figure 15-1
+shows that this is often the case for the S&P 500.
+
+A Phantom Variable
+
+In some markets, stocks or their derivative products continue to trade after the closing
+index price has been fixed for the day. In the United States, most stock indices are fixed
+at 4:00 PM Eastern Time when trading ceases on the New York Stock Exchange.
+However, many of the stocks in the index continue to trade on regional stock
+exchanges, and futures and options on the indices may also continue to trade for some
+period after the close. The fact that the underlying index may be fixed while options
+and futures on the index continue to trade results in an anomaly concerning early
+exercise.
+
+Suppose a trader owns a stock which settles at a price of $50 when trading ceases
+at 4:00 PM on the primary stock exchange. Suppose also that the trader has the right to
+sell that stock to someone at the settlement price of $50 until 12:00 midnight the same
+day. If the trader’s intention is to hold onto the stock, their is no reason for him to
+exercise this right. But suppose some negative news on the stock comes out at 4:30 PM,
+and he finds that the stock is now trading on other exchanges at $48. What will he do?
+If he decided that he wanted to sell the stock because of the bad news, the trader would
+certainly exercise his right to sell at $50 rather than selling it at $48 on some other
+exchange. Even if he wanted to retain ownership of the stock, he would immediately
+realize that he could show an extra $2 profit by exercising his right to sell at $50, and
+buying the stock back at $48. Indeed, he would be foolish not to do so since if he did
+not, he would be throwing away $2.
+
+A similar situation occurs in stock index options where early exercise is a possibil-
+ity, and where alternative instruments are available on the index after the index has
+been fixed at the close of the trading day. To see what can happen, consider an option
+market on a very simple, non-dividend paying index which has been fixed at 400.00
+when the stock exchange ceases trading at 4:00 PM. If there are 30 days remaining to
+expiration, with implied volatility at 14%, interest rates at 6%, and no dividend
+expected, option prices and implied deltas might be the following:
+
+Index = 400.00
+Time to June expiration = 30 days —_— Implied volatility = 14%
+Interest rates = 6% Dividend = 0
+
+Exercise Call Call Put Put
+Price Price Delta Price Delta
+380 22.44 92 59 -8
+390 13.98 78 2.12 -23
+400 7.42 56 5.62 —46
+410 3.24 32 11.71 -72
+
+420 1.14 14 20.12 -94
+
+
+Stock Index Futures and Options 317
+
+Suppose that at 4:05 PM some very negative economic news comes out. Stocks start
+to fall on other exchanges which are still open, and traders in the index futures and
+option markets, which continue to trade after 4:00 PM, react as if the index will open
+10 points lower the next morning. If the option market does open the next day at
+390.00, option prices and deltas might then look like the following:
+
+Index = 390.00
+Time to June expiration = 29 days —_ Implied volatility = 14%
+Interest rates=6% Dividend =0
+
+Exercise Cali Call Put Put
+Price Price Delta Price Deita
+380 13.70 79 1.95 -22
+390 7.10 55 5.40 -46
+400 2.98 31 11.55 ~-73
+410 98 13 20.08 —95
+420 22 4 30.00 -100
+
+Suppose a trader originally owned ten 380 calls. What should he do when the
+negative news hits the market? If he holds his calls, and the market does open at 390.00
+the next morning, his calls will be trading at 13.70, He will show a loss of 22.44 —
+13.70, or 8.74 per call. But if he exercises his calls today, he will receive 20.00 points,
+the difference between the exercise price of 380 and that day’s index settlement price
+of 400.00. If he exercises, his loss will only be 22.44 — 20.00, or 2.44 per option. If he
+fails to exercise, he will automatically show an additional loss of 6.30.
+
+Anytime after the index value has been fixed for the day, a trader who finds that
+the next day’s presumed theoretical value is less than parity will be better off exercising
+an index option early rather than holding it. In this scenario the 390 calls will also
+become early exercise candidates, although the savings will not be as great as with the
+380 calls. Prior to the news, the 390 calls might be trading for 13.98. But if the market
+drops to 390.00 the next morning, the 390 calls will only be trading for 7.10. If the
+trader owns 390 calls and doesn’t exercise, he will lose 13.98 - 7.10, or 6.88 per call.
+{f he does exercise, he will lose only 13.98 — 10.00, or 3.98. He will save 2.90 per call
+through early exercise.
+
+Of course, implied volatility might increase following such a violent drop in the
+Market. But even if implied volatility jumps to 18%, the prices of the 380 and 390 calls
+the next morning will only be 15.06 and 8.84, respectively. This is still less than parity,
+So a trader holding these calls would still want to exercise them early.
+
+Although it does seem that stock index markets are more susceptible to bad news
+than good, puts might also become early exercise candidates if the market were to jump
+following unusually bullish news. If, in our example, there was a perception that the
+Market would open the next morning 10 points higher, at 410.00, the option prices
+Might look like this:
+
+
+318 Chapter 15
+
+Index = 410.00
+Time to June expiration = 29 days —_— Implied volatility = 14%
+Interest rates=6% Dividend =0
+
+Exercise Call Call Put Put
+Price Price Delta Price Delta
+380 31.92 98 12 ~2
+390 22.45 92 61 -8
+400 14.01 78 2.16 23
+410 7.46 35 5.67 -46
+420 3.28 32 11.75 -72
+
+Now the 410 and 420 puts have become early exercise candidates. Based on the
+closing index price of 400.00, their parity values are 10.00 and 20.00. But with the
+index perceived to be at 410.00 their prices are only 5.67 and 11.75. Even if implied
+volatility were to rise to 18%, their prices would only be 7.49 and 13.37, respectively.
+This is still well below parity, so a trader would want to exercise the puts rather than
+hold them.
+
+In a market where early exercise is a possibility, options should never trade for less
+than parity. If a stock index option market remains open after the index has been fixed
+for the day (as it does for 15 minutes in the United States), even if traders begin to trade
+the options as if the market will open the next morning at a price significantly different
+than that day’s closing index price, all options must trade at a price of at least parity. If
+this were not true, there would be an immediate arbitrage opportunity. If the 390 call
+were really trading at 7.04 as a result of the negative news, a trader would buy as many
+calls as possible and immediately submit exercise notices, in the process collecting 10
+points per option. He would realize an immediate profit of 2.96 per option.
+
+What would happen if the marketplace were wrong about where the index would
+open the next morning? Suppose that traders believe the market will open the next
+morning 10 points lower, but in fact the market opens unchanged, or even several
+points higher. Wouldn’t a trader who exercised the 380 or 390 calls regret his actions?
+Regardless of what happens the following morning, a trader will always be better off
+exercising as long as he takes action to offset the effects of the exercise.
+
+For example, suppose the trader initiated the following delta neutral ratio spread
+before the negative news reached the market:
+
+long 10 June 390 calls at 13.98 delta = 78
+short 25 June 410 calls at 3.24 delta = 32
+
+If the trader holds the position, including his 390 calls, and the market opens the next
+morning at 390, he will show a loss of 12.75, since:
+
+-10 x (13.98 — 7.10) +25 x (3.24 - .98) = -12.30
+
+But suppose the trader decides to exercise his 390 calls. He still needs to balance his
+delta position by taking in the 780 deltas which disappeared when he exercised his calls.
+
+
+Stock Index Futures and Options 319
+
+One way to do this is to simply close out the spread by buying back the 410 calls at their
+new price of .98. If he does this, he will show a profit of 16.85, since:
+
+-10 x (13.98 - 10.00) +25 x (3.24 — .98) = +16.70
+
+If the trader does not want to liquidate his short position in the 410 calls, he can look
+for another way of taking in 780 deltas. If other stock exchanges are still open and the
+trader can purchase the stocks making up the index at the new, lower prices and in the
+correct proportion, he might consider buying stock equivalent to eight index contracts
+(800 deltas) to make up his loss of 780 deltas. Or, if a futures contract is available on
+the index, and the futures market, in reaction to the negative news, is now trading 10
+points lower, he might buy eight futures contracts since each contract will have
+approximately 100 index deltas.
+
+It may seem odd, but in fact it doesn’t matter whether the index opens the next
+morning at a higher price, lower price, or unchanged. What matters is that the
+marketplace believes that the market will change, and that all contracts are priced
+accordingly. In such a case, the trader must exercise those options which, given the
+perceived change in the underlying price, now have a value less than parity, and replace
+them with other contracts which are not limited by parity constraints.
+
+There is clearly an additional early exercise value associated with cash index
+options, a value which does not result from the usual early exercise considerations of
+dividends or interest. This value arises because under some circumstances a trader can
+exercise index options and replace them with other instruments at more favorable
+prices. How much is this replacement value worth? The answer depends on the
+probability of some significant event occurring between the time the index is fixed and
+the close of trading in other instruments linked to the index: stocks, futures, and options.
+Itis doubtful that anyone really knows how to quantify that probability, and traders tend
+to regard the possibility of a significant event occurring as a phantom variable. No one
+knows how to evaluate it, but everyone agrees that it exists.
+
+The extra early exercise value resulting from this phantom variable is most evident
+in the trading of boxes in an index option market. Suppose we are interested in buying
+a 420/430 box (buy the 420 call and 430 put, sell the 420 put and 430 call). If the box
+is made up of European options where early exercise is not a possibility, the value of the
+box is simply the 10-point difference between exercise prices less the carrying cost on
+10 points to expiration. If there are four weeks to expiration and interest rates are 6%,
+the value of the box is approximately:
+
+10.00 — (28/365 x 6% x 10.00) = 9.95
+
+If these are American options there will be some early exercise value attached to them
+because of dividend and interest considerations. The extra value will be greatest for the
+420 call and 430 put, so the value of the box will be slightly greater than 9.95. Using a
+binomial model, and given a normal dividend payout, we might find that a 10-point box
+in the S&P 100 (OEX) market has a value of approximately 10.05. Yet such boxes in the
+
+5. For simplicity, we ignore the likelihood that the trader who continues to hold a spread position will
+make adjustments to his delta position as a result of the movement in the underlying Index.
+
+
+
+320 Chapter 15
+
+S&P 100 market often trade for as much as 1014 to 1034. The additional amount over
+expected theoretical value is the value the marketplace places on the possibility of early
+exercise after the index has been fixed at the end of the day.
+
+If the right of early exercise can represent an additional reward to the holder of a
+stock index option, then the possibility of early assignment must represent an additional
+risk to the seller of such an option. Indeed, the risk to the seller of an index option may
+seem even greater than the reward to the buyer. The seller is not only at the mercy of
+the buyer in terms of when the option will be exercised; he may not even find out that
+he has been assigned until it is too late to take protective action.
+
+The problem for the seller is that index options are settied in cash, and cash does
+not carry a delta value. When a trader is assigned in a normal stock option market, the
+assignment may result in a loss to the trader in terms of dividends or interest costs, but
+at least it does not upset his delta position. If the stock option is deeply enough
+in-the-money to be exercised, it probably has a delta very close to 100. When the option
+is exercised, the 100 deltas associated with the option disappear, but they are immedi-
+ately replaced with the 100 deltas associated with the stock contract. But when a trader
+is assigned on an in-the-money stock index option, not only does assignment cause a
+negative cash flow, but the deltas associated with the assigned options completely
+disappear. If the trader knows immediately that he has been assigned, he might be able
+to do something to rebalance his delta position. Unfortunately, exercise notices are
+processed overnight, so the trader will not find out that he has been assigned until the
+next trading day. If he is short deeply in-the-money index options and is assigned, the
+following day he may find himself with a big positive or negative delta position, perhaps
+much bigger than he would like. If the market moves substantially on the opening, the
+trader could find himself with severe losses before he ever has a chance to take any
+defensive action.
+
+Synthetic Relationships
+
+Suppose a stock is trading at 100. With two months to expiration, interest rates at 6%,
+and no dividend expected prior to expiration, what should be the relationship between
+the 100 call and the 100 put? If we ignore the possibility of early exercise, we know
+from the synthetic relationship in Chapter 11 that the call price should exceed the put
+price by approximately the carrying costs on the exercise price of 100:
+
+call price — put price = exercise price — stock price + carrying costs
+Since the carrying costs on the exercise price are
+
+100 x 6% x 2/12 = 1.00
+
+we know that the call should be 1.00 more expensive than the put. If the put is trading
+for 4.00, the call should be trading for 5.00.
+
+Suppose that the stock is trading for 100 and the put 4.00, but the call is actually
+trading for 4.25. What should a trader do? Regardless of the trader’s opinion about
+volatility, it’s clear that the call is .75 too cheap with respect to the put. A trader familiar
+with synthetic relationships will attempt to take advantage of this relative mispricing by
+
+
+Stock Index Futures and Options 321
+
+executing a reverse conversion: buy the call for 4.25, sell the put for 4.00, sell the stock
+for 100. The result will be a profit at expiration of .75 when the trader closes out the
+position by either exercising the put or being assigned on the call.
+
+True arbitrage relationships are unlikely to be violated in an option market where
+there is a well defined and freely traded underlying contract. If such a relationship is
+violated, a trader can always trade the underlying instrument against the mispriced
+arbitrage relationship and essentially lock in a profit equal to the mispricing. The
+cumulative effect of all traders attempting to profit from a mispriced relationship is that
+the mispricing quickly disappears.
+
+Now consider a trader who encounters a similar mispricing ina stock index option
+market where the options are settled in cash. Suppose that the index is at 400 and that,
+according to the synthetic relationship, the 400 call should be 3.00 greater than the 400
+put. With the 400 put trading at 6.00, the trader would expect to see the 400 call
+trading at 9.00. What should he do if he finds that the 400 call is actually trading at
+7.50?
+
+The trader would like to take the same action in the index that he would take if he
+were dealing with options in an individual stock: buy the call for 7.50, sell the put for
+6.00, and sell the index for 400.00. This ought to result in a profit of 1.50, the amount
+by which the call and put are mispriced relative to each other. Is this a practical strategy
+in the index option market?
+
+Certainly the trader can buy the 400 call and sell the 400 put. But when the trader
+goes to sell the index he may find that it is not as easy as he originally thought.
+Depending on how broadly based the index is, the trader may have to sell several
+hundred stocks in various proportions. It might be possible to do so, but it will certainly
+not be as easy as selling one stock.
+
+Even if he is able to sell all the stocks in the index in the right proportion, has he
+executed a true reverse conversion? A true reverse conversion consists of being long a
+call and short a put, and short the underlying instrument, where the underlying
+instrument is the instrument to be delivered when an option is exercised. If the basket
+of stocks were the true underlying instrument, the trader would make delivery of, or
+take delivery of, the basket if the 400 call or 400 put were exercised. But this is not
+what happens in an index market. If the trader exercises the call, or is assigned on the
+put, there is a cash transfer. But the trader is still left holding the basket of stocks.
+
+The fact that the index is settled in cash can make a conversion or reverse
+conversion a much riskier strategy in an index option market than in an individual stock
+option market, especially if the options are American. Moreover, arbitrage strategies are
+typically done in large size because of their narrow profit margin. If a trader executes
+such a strategy and finds himself assigned overnight, his position might become horribly
+unbalanced. The next day even a small adverse move in the index could prove
+disastrous.
+
+If a trader could execute all the stocks in the index, and could be certain of holding
+the position to expiration, he would still have to physically liquidate his stock position.
+Since the option values at expiration are determined by the closing index value, and
+since the index value is determined by the closing trades in each individual stock, the
+
+
+322 Chapter 15
+
+trader must ensure that he closes each of his individual stock positions at the closing
+price on the exchange from which the index is calculated. In many cases, he can
+accomplish this by placing market-on-close (MOC) orders for each individual stock. But
+he must be very careful. If he fails to close out each stock position at the appropriate
+Price, his arbitrage may not produce the profit originally expected.
+
+Because it can be difficult to trade a complete and correctly proportioned basket of
+stocks, and because there is the additional risk of early exercise after an index arbitrage
+has been executed, mispriced synthetic relationships are not as easy to exploit in index
+option markets as in other option markets. Not only do such mispricings occur more
+frequently in index option markets, they can persist for long periods of time.
+
+Finding a Substitute for the Index
+
+Regardless of the difficulty in executing arbitrage strategies, if a synthetic relationship
+appears to be sufficiently mispriced a trader will look for some way to exploit the
+situation, even with the additional risks that go with such a strategy. This means either
+trying to execute the basket of stocks underlying the index, or looking for an acceptable
+substitute for the basket.
+
+If the index is narrowly based, with only 20 or 30 stocks, it may not be unreason-
+able to try and execute a complete basket of stocks. If the index is more broadly based,
+with several hundred stocks, the difficulties of executing every stock in the right
+quantity may make it impractical to execute a complete basket. In such a case, a trader
+may question whether a complete basket is really necessary for his purposes. In most
+indices not every stock has the same weighting. If an index is very broadly based, price
+changes in the smallest companies may have very little impact on the index. It may be
+possible to eliminate these companies and still have a basket which is almost identical
+to the index.
+
+In the search for an acceptable tradeoff between ease of execution and correlation
+with the index, traders are always experimenting with different pseudo-baskets, a
+selection of stocks in the index which can be easily bought or sold, and which will react
+to changing market conditions in a way which is almost identical to the actual index.
+The primary question for most traders is one of correlation. What degree of correlation
+is sufficient for the trader’s purposes? 100 percent? 99%? 95%? A correlation of 99%
+between a pseudo-basket and the index may sound good. But if the index is at 400.00
+and a trader executes a conversion with the synthetic market mispriced by 1.00, the
+99% correlation means he could be wrong by as much as 1% of 400.00, or 4.00. Under
+some conditions, his presumed profit of 1.00 might turn into a loss of 3.00. Of course,
+the laws of probability are still in the trader’s favor. The pseudo-basket’s deviation from
+the true index could also work in the trader’s favor, occasionally giving him a profit
+greater than 1.00. Arbitrages tend to be done in large size because they are supposed to
+be very low-risk strategies. If the trader executes a large number of conversions or
+reverse conversions using a pseudo-basket in place of the actual index, he may find that
+the correlation risk has a greater impact than he expected.

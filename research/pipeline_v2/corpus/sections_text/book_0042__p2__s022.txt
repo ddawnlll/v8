@@ -1,0 +1,441 @@
+
+IIWOTHESIS TESTING: THE MECIIANICS
+"Three ingredients are usually necessary for a hypothesis test: (1) a hypothesis, (2) a test statistic, and (3) some means of generating the probability distribution (sampling distribution) of the test statistic under the
+assumption that the hypothesis is true."6 The term test statistic refers to
+the sample statistic that is being used to test a hypothesis. Thus, the terms
+are interchangeable.
+
+228 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+To recap these items as they pertain to rule testing: (1) the hypothesis
+R o is that the rule has an expected return of zero or less, (2) the test statistic is the rule's mean return obtained by back testing it in a historical sample of data, and (3) the sampling distribution represents the random
+variation in the rule's mean return if it were to be tested in many independent samples. The sampling distribution is centered at a mean return of
+zero, reflecting the assumption asserted by R o'
+As discussed in Chapter 4, the sampling distribution can be derived in
+two ways: the analytical approach of classical statistics and via computer
+simulation. There are two computer-based approaches: Monte-Carlo permutation and the bootstrap. Both will be used in the case study presented
+in Part Two.
+
+The Question: Is the Test Statistic Improbable?
+The basic idea of a hypothesis test is simple: an outcome (observation)
+that would rarely happen under the condition that the hypothesis were
+true is good evidence that the hypothesis is not true."7 If my hypothesis
+that I am a good tennis player were true, then it would be rare (improbable) for me to lose 20 games in a row. To my surprise and embarrassment I
+did lose 20 games in a row. That evidence implies my hypothesis is false.
+Suppose a TA rule called MA50 is back tested. The MA50 rule is defined as follows: If S&P 500 close is greater than a 50-day moving average,
+hold a long position in the S&P 500, otherwise hold a short position. The
+alternative hypothesis (R A ) asserts that the rule has predictive power and
+is, therefore, expected to earn a rate of return greater than zero on detrended data. s Zero is the rate of return expected for a rule with no predictive power. The null hypothesis (Ro) asserts that the MA50's expected
+return is equal to zero or less. Ro's assertion is depicted in Figure 5.5.
+
+Value of the Population Parameter
+Asserted by Ho
+
+Negative Returns
+
+o
+
+Positive Returns
+
+FIGURE 5.5 Value of population parameter asserted by Ho'
+
+229
+
+Hvpothesis Tests and Confidence Intervals
+
+The horizontal axis represents expected return over the immediate practical future.
+MA50's mean return is obtained by back testing the rule in a sample of
+historical data. When this value is plotted on the same axis as the hypothesized value for population parameter, we get Figure 5.6.
+ote that in Figure 5.6 there is a positive deviation between the value
+predicted by Ho and the performance of the rule obtained in the back test.
+This raises the question: Is the positive deviation so surprising that Ho
+should be rejected as an implausible hypothesis?
+There are two possible explanations for the positive deviation. It
+could simply be due to sampling error-the rule got lucky in the particular
+sample of data used for back-testing-or, it could be because the hypothesized value of zero is wrong-the rule does have predictive power and its
+expected return is indeed greater than zero. The objective of the hypothesis test is to determine if the evidence, specifically the size of positive deviation, is sufficiently rare, surprising, or improbable that it would warrant
+a rejection of Ho.
+To assess the improbability of the evidence, the observed average
+return, in particular its deviation from the hypothesized value, is evaluated in light of the sampling distribution. Recall, the sampling gives the
+probability for various sized deviations between the observed value of
+the sample statistic and its expected value due to sampling error. If the
+observed value's deviation is greater than what could reasonably be attributed to sampling error, then Ho is rejected and the alternative hypothesis, HAl is adopted. In other words, we conclude that the rule has
+predictive power.
+Figure 5.7 gives us an intuitive sense of the values of the sample statistic
+
+Value of the Population Parameter
+Asserted by Ho
+Sample Statistic
+Back-Tested
+Performance
+of the rule
+
+Deviation
+
+Negative Returns
+
+o
+
+~
+
+Positive Returns
+
+FIGURE 5.6 Hypothesized value of population parameter compared to backtested performance.
+
+230 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Value of the Population Parameter
+Asserted by Ho
+Sample Statistic
+Sampling Distribution
+for
+Mean Return
+
+Negative Returns
+
+Deviation
+
+o
+
+Positive Returns
+
+FIGURE 5.7 Unsurprising evidence lies well within the range of sampling variation; Ho not rejected.
+
+that could occur due to sampling variability. Note that the sampling distribution is positioned so that the most likely value of the return is zero. This
+merely reflects the value of the population parameter asserted by Ho' Also
+note that the observed (back tested) value of the rule's average return falls
+well within the range of random variation allowed by the sampling distribution. This is an unsurprising result. In other words, the deviation between the observed value of the test statistic and the hypothesized
+(predicted) value could easily be due to sampling error. Hence the evidence is not strong enough to warrant a rejection of Ho'
+Figure 5.7 makes it clear that the width of the sampling distribution is
+critical in deciding if the deviation between the observed return and the
+hypothesized return is large enough to warrant a rejection of HO' We saw
+in Chapter 4 that the width of a statistic's sampling distribution is determined by two factors: (1) the amount of variation within the parent population which gave rise to the sample, and (2) the number of observations
+comprising the sample. With respect to the first factor, the greater the
+variability of the data comprising the population, in this case daily rule returns, the larger the width of the sampling distribution. With respect to the
+second factor, the larger the number of observations comprising the sample, the smaller the width of the sampling distribution.
+In Figure 5.8 the sampling distribution is relatively narrow. The observed value of the sample statistic lies in the outer right tail of the sampling distribution. This would be considered an improbable or surprising
+observation and one that would be incompatible with the hypothesized
+value. Such evidence would warrant a rejection of Ho'
+
+231
+
+Hypothesis Tests and Confidence Intervals
+
+Value of the Population Parameter
+Asserted by Ho
+Sample Statistic
+Sampling Distribution
+for
+Mean Return
+Deviation
+
+Negative Returns
+
+o
+
+Positive Returns
+
+FIGURE 5.8 Surprising (improbable) evidence at the outer edge of the range of
+sampling variation; Ho rejected.
+
+These diagrams convey an intuitive sense of how the size of the deviation between an observed value and a hypothesized value (the value predicted by the hypothesis) is used to falsify a hypothesis. To be rigorous,
+this intuition must be quantified. This is done by translating the observed
+value's deviation into a probability- specifically the probability of observing a deviation that large under the condition that the hypothesized value
+is true. A probability that is contingent on the existence of a specified
+condition, in this case that the hypothesized value is true, is called a conditional probability. Said differently, a conditional probability is a probability that is conditional upon some other fact being true.
+In a hypothesis test, this conditional probability is given the special
+name p-value. Specifically, it is the probability that the observed value of
+the test statistic could have occurred conditioned upon (given that) the
+hypothesis being tested (Ho) is true. The smaller the p-value, the greater is
+our justification for calling into question the truth of Ho' If the p-value is
+less than a threshold, which must be defined before the test is carried out,
+Ho is rejected and HA accepted. The p-value can also be interpreted as the
+probability Ho will be erroneously rejected when Ho is in fact true. P-value
+also has a graphical interpretation. It is equal to the fraction of the sampling distribution's total area that lies at values equal to and greater than
+the observed value of the test statistic.
+Let's consider how all of this pertains to the test of a rule. For example, if a rule's return in a back test was +3.5 percent, we mark the value
++3.5 percent on the horizontal axis upon which the sampling distribution
+sits. We then determine the fraction of the sampling distribution's area
+
+232 METHODOLOGICAL. PSYCHOLOGICAL, PHILOSOPHICAL. STATISTICAL FOUNDATIONS
+
+occupying values equal to or greater than +3.5 percent. Suppose that this
+area equals 0.10 of the sampling distribution's total area. The value 0.10 is
+the sample statistic's p-value. This fact is equivalent to saying that if the
+rule's true return were zero, there is a 0.10 probability that its return in a
+back test would attain a value as high as +3.5 percent or higher due to
+sampling variability (chance). This is illustrated in Figure 5.9.
+p-value, Statistical Significance, and
+Rejecting the Null Hypothesis
+A second name for the p-value of the test statistic is the statistical significance of the test. The smaller the p-value, the more statistically significant the test result. A statistically significant result is one for which the
+p-value is low enough to warrant a rejection of Hw
+The smaller the p-value of a test statistic, the more confident we can
+be that a rejection of the null hypothesis is a correct decision. The p-value
+can be looked upon as the degree to which the observed value of the test
+statistic conforms to the null hypothesis (Ho)' Larger p-values mean
+greater conformity, and smaller values mean less conformity. This is simply another way of saying that the more surprising (improbable) an observation is in relation to a given view of the world (the hypothesis), the
+more likely it is that world view is false.
+How small does the p-value need to be to justify a rejection of the
+Ho? This is problem specific and relates to the cost that would be incurred by an erroneous rejection. We will deal with the matter of errors
+and their costs in a moment. However, there are some standards that
+
+Null Hypothesis
+&
+Sampling Distribution
+Mean Return
+
+Test Statistic: +3.5%
+p-value = 0.10
+
+o
+FIGURE 5.9
+
+Area = 0.10 of total~sampllng distribution
+
+P-Value: fractional area of sampling distribution greater than +3.5%.
+conditional probability of +3.5% or more given that Ho is true.
+
+233
+
+Hypothesis Tests and Confidence Intervals
+
+are commonly used. A p-value of 0.10 is often called possibly significant. A p-value of 0.05 or less is typically termed statistically significant
+and is usually considered to be the largest p-value that would give a scientist license to reject Ho' When the p-value is 0.01 or less it is called
+called very significant and values of 0.001 or less are termed highly
+significant.
+
+Test Conclusions and Errors
+A hypothesis test leads to one of two possible conclusions: (1) reject Ho'
+or (2) accept Ho' What is actually true also has two possibilities: (l) Ho is
+true, that is, the expected return of the rule is zero or less); or (2) Ho is in
+fact false, that is, the rule's expected return is greater than zero because it
+possesses some degree of predictive power. Given that the test has two
+possible conclusions, and the truth has two possible states, there are four
+possible outcomes. They can be illustrated by a table with four cells
+shown in Figure 5.10.
+The hypothesis test can err in two ways. A type I error is said to occur when a low p-value leads us to reject Ho' but in reality Ho is true. This
+would be the case when a rule is truly devoid of predictive power, but by
+luck it generates a sufficiently profitable back test that its p-value is low
+enough to justify rejecting Ho' This is a case of the rule researcher being
+fooled by randomness. The second type of error, called a type II error,
+occurs when a high p-value leads us to retain Ho' when it is in fact false.
+In other words, the back test fooled us into concluding the rule has no
+predictive power, but it actually does and its expected return is greater
+than zero.
+
+Truth
+(The Reality Only Known to God)
+H o True
+
+High
+P·value
+
+Test
+Result
+&
+Conclusion
+
+Ho
+
+Ho
+
+Rejected
+
+FIGURE 5.10
+
+Rule Return> 0
+
+Correct Decision
+TA Rule Useless
+We Discard It
+
+Type II Error
+TA Rule Good
+We Don't Use It
+Opportunity Loss
+
+Type I Error
+TA Rule Useless
+We Use it
+Earn Zero Return
+& Take Risk
+
+Correct Decision
+TA Rule Good
+We Use Rule &
+Make Profits
+
+Not
+Rejected
+low
+P-value
+
+H o False
+
+Rule Return < = 0
+
+Possible outcomes of a hypothesis test.
+
+234 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+At the time the hypothesis test is conducted, only God knows for certain if an error has occurred and of which type. Mere mortals relying on
+statistical inference must accept the reality that the test's conclusion may
+be in error.
+From the standpoint of an objective technician, the two types of errors have different consequences. A type I error, where Ho is mistakenly
+rejected, leads to the use of a worthless rule. This exposes trading capital
+to risk without the prospect of compensation. A type II error causes a useful rule to be ignored, resulting in lost trading opportunities. Of the two
+kinds of error, type I is more serious. Lost trading capital is worse than
+lost opportunities. When capital is exhausted one is out of the game,
+whereas there will always be other trading opportunities.
+The hypothesis test can also be right in two ways: a correct rejection
+of Ho' when the rule does have merit, and a correct acceptance of the Ho'
+when the TA rule is useless.
+
+COMPUTER-INTENSIVE METHODS FOR GENERATING
+THE SAMPLING DISTRIBUTION
+As previously mentioned, hypothesis testing requires a method for estimating the shape of the sampling distribution of the test statistic. There
+are two ways to do this: the traditional approach of mathematical statistics, and the more recently developed computer-intensive randomization
+methods. This section discusses two computer-based methods: bootstrapping and the Monte Carlo permutation.
+Both the traditional and computer-intensive approaches solve the
+problem of estimating the degree of random variation in a test statistic
+when there is only a single sample of data and, therefore, only a single
+value of the test statistic. As previously stated, a single value of a statistic
+cannot convey a sense of its variability.
+Computer-intensive methods estimate the sampling distribution's
+shape by randomly resampling (reusing) the original sample of observation so as to produce new computer- generated samples. A test statistic is
+then computed for each resample. This procedure can be repeated as
+many times as desired, perhaps thousands of times, thus producing a large
+set of values for the sample statistic. The sampling distribution is developed from this large set of computer-generated values. It might seem
+strange that reusing the original sample of observations over and over
+again would allow one to approximate the variability of a sample statistic,
+yet it does! Not only does this work quite well in practice, the approach is
+grounded in sound mathematical theory.
+
+Hypothesis Tests and Confidence Intervals
+
+235
+
+The two computer-intensive methods, the bootstrap and Monte
+Carlo permutation, are similar in that they both rely on randomization.
+That is, they randomly resample the original sample. However, the two
+methods are different in several important respects. First, they test
+slightly different versions of Ho' Although, in both, Ho asserts that the
+rule being tested has no predictive power, they do so in slightly different ways. The Ho tested by the bootstrap asserts that the population distribution of rule returns has an expected value of zero or less. In
+contrast, the Ho tested by the Monte Carlo permutation method asserts
+that the rule's output values (+1 and -1) are randomly paired9 with future market price changes. In other words, it asserts that the rule's output is uninformative noise that could have just as easily been generated
+by a roulette wheel.
+Because the bootstrap and the Monte Carlo methods test somewhat
+different versions of the null hypothesis, they require different data. The
+bootstrap utilizes a daily history of rule returns. The Monte Carlo uses a
+daily history of the rule's output values (Le., a sequence of +1 and -l's)
+and a daily history of price changes for the market being traded.
+The two methods also use different random sampling methods. The
+bootstrap uses a randomization method called resampling with replacement, whereas the Monte Carlo randomly pairs rule output values with
+market returns without replacement. This distinction will be clarified in
+the description of each method's algorithm.
+Because of these differences, the methods generate somewhat different sampling distributions. Therefore, it is possible that the conclusion to
+reject or not to reject Ho may not always be the same. However, extensive
+simulations conducted by Dr. Timothy Masters, developer of the Monte
+Carlo permutation method, show that both methods generally do agree
+when they are applied to detrended market data. For this reason, the hypothesis tests conducted in this book use detrended market data for both
+the bootstrap and Monte Carlo methods.
+The final distinction of the Monte Carlo permutation method is that it
+is in the public domain, whereas the bootstrap method that is suitable for
+rule testing is a patented product that is available only from its developer,
+Quantmetrics. 1O
+The Bootstrap
+
+The bootstrap method was first described by Efron ll in 1979 and then refined in several later publications cited in Eric Noreen's Computer Intensive Methods for Testing Hypotheses. 12 The bootstrap derives a sampling
+distribution of the test statistic by resampling with replacement from an
+original sample.
+
+236 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+The bootstrap is based on a truly amazing mathematical fact, the
+bootstrap theorem. A mathematical theorem deduces a previously unrecognized truth from the established theorems and foundational assumptions (axioms) of a mathematical system. Assuming that certain
+reasonable conditions are satisfied, the bootstrap theorem assures us that
+it will converge to a correct sampling distribution as the sample size goes
+to infinity. From a practical standpoint, this means that given a single sample of observations bootstrapping can produce the sampling distribution
+needed to test the significance of a TA rule.
+In its basic form, the bootstrap is not suitable for evaluating the statistical significance of rules discovered by data mining. However, a modification invented and patented by Dr. Halbert White, professor of economics
+at the University of California, San Diego, extended the application of the
+bootstrap to rules discovered by data mining. This modification to the
+bootstrap, which is incorporated in software called "Forecaster's Reality
+Check," is discussed in Chapter 6 and utilized in Chapter 9 to evaluate the
+statistical significance of over 6,000 rules for trading the S&P 500.
+Bootstrap Procedure: White's Reality Check. The description
+that follows pertains to the use of bootstrapping in the context of testing
+the statistical significance test of a single TA rule. Thus, the following description does not address the issue of data mining. Figure 5.11 illustrates
+
+Resample 2
+
+1,231 Observations
+BS Mean = -1 .8
+
+Resample S,000
+
+1,231 Observations
+BS Mean
+
+=-2.6
+
+5000
+Resampled Means
+
+1------
+
+0.8
+
+2------
+
+-1.8
+
+3------
+
+1.9
+
+•
+•
+•
+SOOO---
+
+-2.6
+
+Bootstrapped Sampling Distribution
+Of The Mean
+
+FIGURE 5. II How bootstrapping produces the sampling distribution for the
+sample mean return.
+
+Hypothesis Tests and Confidence Intervals
+
+237
+
+the bootstrap procedure. The double arrows between each resample and
+the original sample indicate that the sampling is being done with replacement (explained below).
+There are several things worthy of note in Figure 5.11. First, the original sample, represented by the large oval, is comprised of the daily returns
+earned by the rule on detrended data. As discussed in Chapter 1, the detrended market data has an average daily change of zero.
+Second, before the resampling operation begins, the daily returns of
+the rule are adjusted by a procedure called zero-centering, not to be confused with the detrending. The zero-centering adjustment makes the mean
+daily return of the rule equal to zero. In other words, if the rule was able to
+earn a nonzero return on detrended data, its returns must be zero centered. This serves the purpose of bringing the daily returns into conformity with the Ho' which asserts that their average value is equal to zero.
+This step is accomplished by first computing the mean daily return of the
+rule and then subtracting that mean value from each daily rule return.
+Once the rule's daily returns have been zero centered in this fashion we
+are in a position to generate a sampling distribution that conforms to Ho's
+assumption.
+Third, the number of daily observations comprising each resample
+must be exactly equal to the number of observations in the original sample.
+The bootstrap theorem only holds true if the number of observations in
+each resample is equal to the number of observations in the original sample. In the figure, the original sample is composed of 1,231 observations.
+Thus, each bootstrapped resample is also comprised of 1,231 observations.
+Fourth, each resample is produced by sampling with replacement.
+This means that after a daily rule return has been selected at random from
+the original sample and its value has been noted, it is then replaced back
+into the original sample before another daily return is selected at random.
+This makes it possible for an individual daily return to be selected more
+than once or for it never to be selected at all for a given resample. It is this
+element of randomness that enables the bootstrap procedure to model the
+variability in the sample statistic.
+Fifth, the diagram shows 5,000 resanlples being taken. A mean is computed for each resample. These 5,000 means are used to construct the
+sampling distribution of the mean.
+The sequence of steps involved in bootstrapping the sampling distribution of the mean is:
+t. Calculate the mean daily return for the rule over the observations in
+the original sample (1,231 in Figure 5.11).

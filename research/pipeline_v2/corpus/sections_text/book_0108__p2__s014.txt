@@ -1,0 +1,504 @@
+effect of position sizing. Table 6-8 shows a summary of Ethel’s
+stock trading.
+The system made $7,175 over 18 trades during the year. This
+amounts to an average gain of $398.61 per trade. Remember that
+Fred’s system only made $90 per trade. In addition, Ethel’s system
+makes money 55.6 percent of the time, while Fred’s system only
+makes money 45 percent of the time. Ethel obviously has a better
+system. Or does she?
+Let’s look at the expectancy per dollar risked of Ethel’s system
+and the opportunity factor. When these factors are considered, does
+Ethel have the better system? Table 6-9 shows the various dollar
+groupings of Ethel’s system. Ethel had three minimum losses that
+were about $500 each--one of $477, one of $501, and one of $589.
+Thus, we’ll assume that Ethel’s minimum risk was about $500. We
+can develop a probability matrix for Ethel’s trades as shown in
+Table 6-10.
+Once again, let’s apply Formula 62 to the matrix in Table 6-10
+to determine an approximate expectancy per dollar risked. First,
+let’s calculate the positive expectancy of the winning trades. The
+
+TABLE69
+
+168 + 0.333 + 0.444 + 0.448 = $1.393
+
+Dollar Grouping of Ethel’s Trades
+
+I
+
+GShlS
+
+LOSSeS
+Number
+
+Range
+
+Number
+
+6
+1
+
+$300-$600
+$1,200-$1,600
+
+3
+
+51,200-$1,600
+$1,750-$2,250
+
+0
+
+$1,750-52,250
+
+2
+
+53,50&$4,000
+57,300-$7,500
+
+2
+1
+
+53,500-54,000
+
+1
+
+Range
+
+530&5600
+
+2
+
+TABLE E-10
+
+Ethel’s Trades as a Probability Matrix
+
+G&L?
+
+When we subtract the total negative expectancy from the total positive expectancy, we end up with 2.229 less $1.393 = $0.836.
+Ethel’s expectancy of 84 cents per dollar risked is bigger than
+Fred’s expectancy of 78 cents per dollar risked. In terms of
+expectancy, Ethel has a slightly better system.
+Remember that Fred’s profit was mostly a function of one
+good trade. Well, the same is also true of Ethel’s profit. Her one
+profit of $7,358 was bigger than her entire l-year net profit of
+$7,175. Thus, one trade made her entire profit over the l-year
+period. This is quite often true of good long-term systems.
+But what about the opportunity factor? Fred produced 18
+trades in 4 months-actually more than 18, but some of them were
+excluded because they were scratch trades amounting to a gain or
+loss of less than $100. In 2 years, Fred might produce three times as
+many trades. Let’s compare the expectancy times the number of
+opportunities for a l-year period to really evaluate the systems.
+
+LOSSW
+Probability
+
+Payoff
+
+Probability
+
+6118 = 0.333
+
+1 to 1
+
+3118 = 0 . 1 6 8
+
+l/18 = 0 . 0 5 6
+
+310 1
+
+208 = 0.111
+
+0
+
+4to 1
+
+2118 = 0.111
+
+z/l8 = 0.111
+
+ato 1
+
+l/18 = 0.056
+
+Ethel’s System
+
+Fred’s Sysiem
+
+EXPecmlCY
+
+Opportunities
+
+TOtal
+
+Expectancy
+
+78 cents
+
+54
+
+542.12
+
+64 cents
+
+Opportunities
+
+Total
+
+18
+
+$15.12
+
+l/18 = 0 . 0 5 6
+
+positive expectancy is equal to (0.333 * 1) + (0.056 * 3) + (0.111 * 8)
++ (0.056 * 15). If we perform the multiplication, we end up with a
+total positive expectancy of the following:
+0.333 + 0.168 + 0.888 + 0.840 = $2.229
+Now we need to find the total negative expectancy of the losing trades. That negative expectancy is equal to (0.168 * 1) +
+(0.111 * 3) + (0.111 * 4) + (0.056 * 8). If we perform the multiplication,
+we end up with a total negative expectancy of the following:
+
+When you look at the two systems in terms of expectancy times
+opportunities, then Fred has a much better system. However, this
+assumes that both investors made the maximum use of their
+opportunities.
+The comparison of the two systems brings up an interesting
+variable with respect to opportunity. Ethel only made 18 trades in
+a l-year period. But this did not necessarily mean that she only had
+18 opportunities to trade. An investor only makes the maximum
+use of his or her opportunities under the following conditions: (1)
+He or she is fully invested (i.e., makes full use of the position-sizing algorithm) when there are opportunities to trade; (2) he or she
+has an exit strategy and exits the market when that strategy is trig-
+
+158
+
+PART 2
+
+Conceptualization of Your System
+
+gered; and (3) he or she makes full use of other opportunities when
+cash is available to do so. If any of these three criteria is not met,
+then the comparison of systems by expectancy and opportunity is
+not necessarily a valid one.
+A REVIEW OF HOW TO USE EXPECTANCY
+Just as a review, once you have a system, or at least a rudimentary
+system, you need to calculate its expectancy and look at a number
+of issues involving expectancy. Here are the steps involved.
+1. Calculate the overall expectancy of your system. If you
+already have a system that you have been using or have
+tested, you can calculate the expectancy of the system by
+simply dividing the total profit by the number of trades.
+Note that you do not yet have the expectancy per dollar
+risked at this point.
+2. Eliminate the effects of position sizing by only
+considering single units or loo-share blocks.
+3. Divide your trades into groups of profits and losses,
+using $100 or $500 ranges depending upon the size of
+the typical smallest loss. Your smallest loss relates to
+where you typically put your disaster stops. This is your
+system’s 1-R level. In this step, you are simply assessing
+the expectancy of your system, not trying to improve it.
+4. Convert your groupings of trades into a probability
+matrix by using your “smallest loss” as a single unit.
+This will help you find your expectancy per dollar risked
+5. Calculate the expectancy of your system from the
+probability table using Formula 6-2.
+6. If your system includes at least 100 trades and has an
+expectancy above 50 cents per dollar risked, then it is a
+good system. These aie just general guidelines for a good
+long-term system. You can be happier with a much lower
+expectancy if you get enough opportunity.
+7. Determine the opportunity you will have to obtain your
+expectancy.
+Look at the size of the “marbles” determined in your proba-
+
+bility matrix. What do your marbles tell you about your system?
+How can you change your system to include more high-payoff
+winning trades? How can you change your system to include fewer
+high-cost losing trades?
+Remember the following:
+1. Expectnncy and probability of winning are not the same thing.
+People have n bias to want to be right on every trade or
+inzestment. As a result, they tend to gravitate toward highprobability entry systems. Yet quite often these systems
+are also associated with large losses and lead to negative
+expectancy. As a result, always take your risk in the
+direction of the expectancy of the system.
+2. Even with a high positive expectancy system you can still lose
+money. If you risk too much on a trade and you lose, you
+can (and probably will) have trouble recovering.
+NOTES
+1. $100 times 100 times 0.2 = $2,000. This assumes that your 100 trades
+actually net 20 cents per dollar risked.
+2. Adapted from Market Mastery, January, 1998.
+3 . One share of stock or one futures contract would be a single unit.
+4. This would seem to imply that if the cost of trading is factored in, it’s
+better to trade more frequently than less frequently. While this
+assumption is true, it doesn’t take into account the psychological
+wear and tear that comes from frequent trading.
+5. This section was written by Chuck Branscomb and originally
+appeared in our Market Mastery newsletter (November 1996, pp. 3-5,
+and December 1996, pp. 24). It has been adapted for this chapter.
+6. This section was written by Chuck Branscomb and originally
+appeared in our Market Mastery newsletter (November 1996, pp, 3-5,
+and December 1996, pp. 24). It has been adapted for this chapter.
+7. Figure 6-1 was generated using TradeStation@. TradeStation is a
+registered trademark of Omega Research.
+8. This value does not count scratch trades in which you either quickly
+get out for some reason or raise your stop to break even and then get
+out. What we are looking at is the typical minimum risk you have on
+a trade.
+
+PART THREE
+
+-
+
+Understanding the Key Parts
+of Your System
+
+This section is designed to help you construct your system
+However, before you begin this section, you should thoroughly
+understand Parts I and II of the book. They form the necessary
+groundwork that you must have before you begin the actual construction.
+Chapter 7 talks about setups. Setups are conditions that are
+necessary in order for something else to occur. I’ve put the setups
+chapter first, because most entry and exit systems usually consist of
+a setup plus a trigger for action. In Chapter 7, you’ll learn about the
+most common entry setups-both for the stock market and for the
+futures market. These are all setups used by master traders and
+investors. Quite often they are promoted as systems all by themselves, and people tend to accept that because of the lotto bias.
+However, you’ll be able to combine these setups with other critical
+parts of a system to create something that really is worthwhile.
+Chapter 8 discusses entry techniques. Your entry technique
+essentially controls the reliability of your system-how often it
+makes money. However, you should know by now that reliability
+is not nearly as important as your expectancy in evaluating a system. In addition, reliability can be high, while expectancy can be
+negative-as illustrated in one of the problems in the last chapter.
+You’ll also learn that entry becomes less and less significant to your
+trading as your time frame becomes longer. Chapter 8 will show
+
+that most entry techniques are not much better than random entry,
+but it will also give you the few entry systems that seem to produce
+system reliability that is higher than you might expect from just
+random entry.
+The topic of Chapter 9 is taking losses with your system.
+Every system should have a method of getting out of the market to
+preserve capital. This is the “disaster stop” part of your system. It’s
+one of the most important criterion of any system. We’ll be discussing the purpose behind such disaster stops and the advantages
+and disadvantages of wide stops and narrow stops.
+One of the most important topics of this volume is how to
+take profits. Profit-taking exits are the topic of Chapter 10. We’ll be
+discussing the purpose of various exits, the advantages of multiple exits, and the importance of simplicity in your exits. You’ll
+learn how to develop exits to meet the objectives you developed
+earlier.
+Chapter 11 is about opportunity and cost factors-topics that
+are seldom discussed elsewhere. You’ll learn that you don’t need to
+be anywhere near perfect if you have enough trading opportunities. However, cost becomes a very important factor as you trade
+more.
+The discussion in Chapters 7 through 11 is not exhaustive. Our
+goal is simply to give you techniques that work and to avoid discussing, except in a general way, techniques that do not work. Mv
+intention is not to give you a complete system. If I did that, it
+wouldn’t be right for you. My intention is to give you the tools and
+help you overcome your psychological biases so that you can
+develop a system that is right for you.
+We’ll also be illustrating the parts of a system by showing you
+what is commonly known about some well-known trading systems. You can see what parts everyone focuses on and how you
+can improve them by emphasizing what everyone neglects. My
+goal is in no way to criticize these systems, since most of them are
+well known and they all have some excellent qualities. In fact, if
+you like one or more of them, I’d encourage you to go to the original source to learn more information. My goal in these chapters is
+to review them in enough detail so that you can find out what their
+strengths and weaknesses are and perhaps even improve upon
+them.
+One of the more important topics of the whole book is discussed in Chapter 12--position sizing. Position sizing is the key
+topic behind any Holy Grail trading system. It’s the difference
+
+between the ho-hum trading methodology and the world’s best
+methodologies. It’s a topic that few people think about, yet much
+more effort should be put into position-sizing strategies than into
+any other part of your system. Chapter 12 is designed to start you
+heading in the right direction.
+Coverage of the topic of position sizing has been very inadequate in the past. In fact, most books on system development don’t
+even cover it. You’ll learn why in Chapter 12, and we’ll give you a
+lot of ideas to get you started in the right direction. You’ll also learn
+some ideas with respect to position sizing that are seldom, if ever,
+applied to the stock market, but that will give exceptional returns
+when they are used.
+Finally, Chapter 13 concludes the book by addressing many of
+the issues that are important, such as data, software, testing procedures, portfolio design, and the management of other people’s
+money.
+
+CHAPTER 7
+
+Using Setups
+
+Speculation, in its truest sense, calls for anticipation.
+Richard D. Wyckoff
+
+Setups refer to conditions that must occur before other action is
+taken. They are an essential aspect of most entry and exit portions
+of any system. I’ve chosen to discuss them first, because they form
+a foundation for the subsequent discussions on entry and exit techniques
+Many of the ideas presented in the “concepts” chapter
+(Chapter 5), for example, simply have to do with setups for entry.
+For instance, the concept having to do with “there being an order
+to the market” in most cases simply gives you a window of opportunity during which you can expect a substantial move in the market-that window is nothing more than a time setup. It certainly is
+not an entry signal, nor a trading system.
+For example, I recently consulted with an expert in Elliott
+Wave--one of the “there’s an-order-to-the-universe” concepts. He
+claimed that he was right on about 70 percent of his ideas, but only
+30 percent of his trades made money He typically had a very tight
+stop below his exit to preserve his capital. Quite frequently, the
+market would take him right out of a position. Thus, he would
+have to enter three or four times in order to capitalize on the idea.
+In addition, by the time the market went against him three or four
+
+times, he was often too nervous to reenter the market and would
+subsequently miss the move. Other times, he would be right about
+the idea, but the market would start to move so violently that he
+felt there was too much risk to take the move. Essentially, this
+trader’s problem was confusing what is essentially a setup (i.e., the
+right conditions with respect to Elliott Wave analysis) with an
+entire trading system. He had no real entry criteria (as defined in
+the next chapter), and he had no way of capitalizing on the great
+reliability of his idea because he got stopped out too often.
+We corrected both problems with ideas that you’ll learn about
+in Chapters 8 and 9. However, the critical issue is a problem that
+most investors and traders have-they confuse their setups with a
+complete trading system. Most investors and traders buy books on
+their craft that consist of nothing but such setups. If the setups are
+accompanied by enough best-case examples, then the author can
+usually convince his or her readers that the book contains the Holy
+Grail.
+If you learn one critical thing from this book, it should be
+that a setup is about 10 percent (or less) of your trading system.
+Most people will place 90 percent of their emphasis on finding
+the right setups, but setups are actually one of the least important
+parts of the system.
+Let’s look at another concept-fundamental analysis-to help
+you understand how setups come out of various concepts.
+Fundamental analysis simply gives you a number of conditions
+which, when favorable, suggest that the market is ripe for entry on
+the long or the short side.’ Those conditions might mean that the
+market is overvalued or undervalued because of supply-anddemand conditions. However, fundamentals do not give you anything about timing--they simply indicate that conditions are ripe
+(i.e., set up) for an entry at some time in the future. The actual market move might not occur for months after the signal is “ripe” for a
+move.
+To better understand what a setup condition means, let’s talk
+about the four phases of entry into the market. Generally, every
+trader or investor should give some thought to each of these four
+phases.
+
+THE FOUR PHASES OF ENTRY
+Market Selection
+The first consideration you should give to entering the market is
+your selection of what markets you will trade. What qualities must
+a market have before you want to be a part of it?
+Give some thought to using one or more of the following criteria:
+1. Liquidity. How active is the market (or security) you are
+planning on investing in the future? Basically, the issue is one of liquidity, which has to do with the ease of getting into or out of the
+market at the bid or ask price-or even in the spread between the
+bid and ask price. If the market is fairly illiquid, then that spread
+could be huge and you would have to pay a large price (beyond
+commissions) just to get in and out of that market.
+Liquidity is a major factor in entry. Why? If you have substantial size, then the price might move a significant amount in an illiquid market simply because of your presence. On the other hand, if
+you are a small trader-who could enter into an illiquid market
+quite easily-you might want to avoid such markets because a
+“foolish” large trader might enter into those markets, causing a significant move just because of his or her presence.
+Stock market traders, for example, might want to avoid stocks
+that trade less than 10,000 shares per day This means that a simple
+round lot would be 1 percent of the daily activity. That could be a
+problem for you when you want to get into or out of that market.
+2. Newness of the market. Generally it’s best to avoid a new
+market-whether it’s newly created futures contracts or stocks that
+have just been introduced onto the exchange. A lot of mistakes are
+made in such new issues because you have little idea of what the
+underlying product is going to be. On the other hand, if a market
+has been around at least a year, you’ll have a much better idea of
+what to expect.
+Some people specialize in new issues. Certainly, in strong bull
+markets, new stock issues often tend to go up rapidly. They also col@se rapidly. Perhaps your “edge” might be that you keep on top of
+enough information about new companies that you feel safe invest-
+
+168
+
+PART 3
+
+Understanding the Key Parts of Your System
+
+ing in new issues. However, just remember that this is a dangerous
+area for amateurs.
+3. Market makers and trading rules. What exchange makes a
+market for the underlying investment, and do you know its rules of
+trading? In essence, who is behind the market you are trading?
+Who are the market makers? What is their reputation? What can
+you expect when you deal with these people? Who regulates these
+market makers? What’s likely to happen if you put a stop order on
+at one of these exchanges? Is that order something that is executed
+easily for your benefit, or is it a license to steal?
+For example, certain stock and commodity exchanges are
+much more difficult to trade than other exchanges. It’s much more
+difficult to get good fills. If you have experience trading markets on
+these exchanges, and know what to expect, then it’s probably okay
+to trade them. On the other hand, if you are new to the market, then
+it’s probably best to trade only the most well-established
+exchanges-such as the New York Stock Exchange, the Chicago
+Board of Trade, or the Chicago Mercantile Exchange.
+Overseas markets can also be great opportunities or disasters
+waiting for the uninitiated trader to step in. Find people who
+have traded the markets you want to trade. Ask them what to
+expect. What are worst case scenarios? Make sure that you can
+tolerate such worst-case scenarios before you trade in those types
+of markets.
+4. Volatility. Volatility essentially means how much price
+movement has occurred within a specific time frame. Day traders,
+for example, need to trade highly volatile markets. Since they are
+typically out of a position at the end of the day, they need to trade
+markets that normally have enough volatility to allow for large
+profits even though they will still be out at the end of the day.
+Typically, only certain currency markets, the stock indexes, and the
+bond markets qualify as good markets for day traders.
+If you happen to be trading a system that trades turning
+points in consolidating markets, then you probably need to select
+markets that have enough volatility to make that sort of trading
+worthwhile. Again, volatility of the markets would be an important
+consideration.
+For both day trading and consolidation market trading, you
+need enough volatility to still make a profit that is two to three
+
+CHAPTER 7 Using Setups
+
+169
+
+times the size of your initial risk. This should be your most important criterion in selecting your markets.
+5. Capitalization. Stock traders often select stocks on the basis
+of capitalization. Some investors only want highly capitalized
+stocks, while other investors only want low-capitalization stocks.
+Let’s look at the possible reasons for each criterion.
+Typically, speculative investors who are looking for sharp
+moves in the market want low-capitalization stocks (under $25 million). Research has proved that low-cap stocks account for the
+majority of stocks that go up by 10 times or more. Generally, as
+demand for the stock goes up, the price will rise dramatically if
+there is little supply, because there are only a few million shares
+outstanding.
+On the other hand, conservative investors don’t want a lot of
+price fluctuation. They don’t want to see the price rising a point on
+a 1,000.share order and then falling a point again on another l,OOOshare order. Instead, they want slow, smooth changes in price. You
+are much more likely to see this kind of behavior in highly capitalized stocks with several hundred million shares or more outstanding.
+6. Markets and trading criteria. How well does that market
+follow your trading criteria-be it trendiness or seasonality?
+Generally, no matter what your trading criteria are, you need to
+find markets that fit those criteria well. And the less capital you
+have, the more important this selection process is to you.
+Thus, if you are a trend follower, you need to find markets that
+trend well-be they stocks that show good relative strength or
+futures markets that typically show good trends several times each
+year. When the market typically has met your trading criteria in the
+past, it probably will do so again.
+The same goes for any other criteria you may be trading. If
+you follow seasonal patterns, then you must trade markets that
+show strong seasonal tendencies-agriculture products or energy
+products. If you follow Elliott Wave, then you must follow those
+markets for which Elliott Wave seems to work best. Whatever your
+trading criteria seem to be, you must find the markets that best
+meet those criteria.
+7. Selection of a portfolio of independen? markets. This topic

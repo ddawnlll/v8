@@ -1,0 +1,478 @@
+spike
+
+50.00
+island
+reversal
+
+Dead Cat Bounce
+
+45.00
+40.00
+
+gap
+
+37.30
+35.00
+
+200,000,000
+150,000,000
+100,000,000
+
+BP - British Petroleum
+47,353,428
+
+Mar
+
+Apr
+
+May
+
+Jun
+Created using TradeStation
+
+FIGURE 17.6 Dead Cat Bounce (British Petroleum daily: February 19, 2010–June 23, 2010)
+
+To trade the DCB, the event decline must first be recognized. This is usually easy because
+almost every day, somewhere, some bad news comes out about a company or commodity. Wait
+for the initial sell-off volume to decline and then look for a rally on lesser volume, sometimes
+back as far as the lower edge of the breakaway gap, and lasting only a few days. If the downward
+rush occurred as a spike rather than a gap (as did BP in Figure 17.6), look into the intraday trading to see where the news event gap occurred, and use that gap just as if it had occurred between
+
+Download at www.wowebook.com
+
+Chapter 17 Short-Term Patterns
+
+373
+
+the daily bars. In the British Petroleum chart (Figure 17.6), the rally did not fill the gap in all
+DCBs. The short-selling trading requirement then is for a topping of the bounce or a short-term
+top pattern, close protective stops above the entry, and a longer time horizon. For those wanting
+to purchase the stock, the odds are against profiting from a purchase for at least six months. Most
+bullish chart patterns fail during this period.
+
+Island Reversal
+An island reversal can occur at either a top or a bottom and only occurs after a relatively lengthy
+trend. It can occur in a congestion area, but only infrequently. It requires two gaps at roughly the
+same price: the first in the direction of the trend, an exhaustion gap, and the second in the reverse
+direction, a breakaway gap. The British Petroleum chart shown in Figure 17.6 shows an island
+reversal top within the context of a downward trend. The larger the gap, the more important is the
+formation. Between the gaps, low volatility trading can occur for a number of days or even
+weeks. Volume usually increases on the second gap from an island top but not necessarily from a
+bottom. The extreme price in the island must be either higher than previous highs at a top or
+lower than previous lows at a bottom. Pullbacks and throwbacks are frequent (65%–70%), and
+failures are low, around 13%–17%. This pattern is not very common and has terrible performance results (Bulkowski, 2010).
+
+One- and Two-Bar Reversal Patterns
+The following one- and two-bar reversal patterns are very common. Therefore, each of these patterns needs confirmation before use.
+One-Bar Reversal (Also Reversal Bar, Climax, Top or Bottom Reversal Bar, Key
+Reversal Bar)
+When a trading bar high is greater than the previous bar high and the close is down from the previous bar close, it is called a one-bar reversal. It is sometimes preceded by a gap, at least an
+opening gap, and its bar length is not as extreme or intensive as in a spike. It is not a spike, because
+a spike is not necessarily a reversal, but a combination of spike and reversal can elevate its meaning. This pattern will occur in reverse at a bottom. It is very common, but unfortunately, its top and
+bottom version will also occur within a trend, making it practically useless as a signal by itself. To
+be useful, but also cutting down on the number of profitable signals, it needs more stringent
+requirements. For example, rather than just closing down, the close may be required to exceed the
+previous bar low or even the low of the two previous bars. Kamich (2003) argues that a close is
+more reliable after a sustained advance than after a short rally. This may require that it be the highest high or lowest low over a specified period or that a series of higher highs or lower lows precede
+it. When combined with a cluster of other evidence, a close’s significance improves. Whatever signal it gives is completely negated once prices exceed its reversal peak or trough.
+Two-Bar Reversal (Also Pipe Formation)
+The two-bar reversal pattern, like the one-bar reversal, occurs at the end of a trend, upward or
+downward, but extends the reversal over two bars. Bulkowski calls it a pipe formation. A twobar reversal formation is pictured in Figure 17.7. In the bottom pattern, the first bar usually
+
+Download at www.wowebook.com
+
+374
+
+Part IV Chart Pattern Analysis
+
+closes in the lower half of the bar, and the second bar close ends near its high. Usually high volume is seen on both bars. In its extreme and more reliable version, it consists of two side-by-side
+spikes, but it can also be above-average length side-by-side bars of roughly equivalent length,
+peaking or bottoming at close to the same price, and occurring after a lengthy trend. Following
+and prior to the two-bar reversal, low bar prices should be in the vicinity of the top of the bars (in
+a bottom, the opposite for a top). It, thus, stands out quite easily in retrospect. It is preferable for
+the second bar to be slightly longer than the first bar, and volume is preferably higher on the left
+bar than on the right. Rarely this pattern acts as a consolidation area within a trend. Many pipes
+occur at the end of the retracement of a longer-term move. The directional clue is the direction of
+the breakout from it.
+
+FIGURE 17.7 Two-bar reversal bottom (or pipe bottom)
+
+Failure rates are in the 5% range, which is very low for a pattern (Bulkowski, 2010). Usually the failure occurs when the previous trend has been less than 5%. If the earlier trend is
+lengthy, the pattern rarely fails. Once the pattern has formed and prices have reversed direction, it
+is common for a test of the bars to occur soon thereafter. In most cases, the bars hold their extreme
+within a small percentage during the test, and this presents a good spot to place an initial protec-
+
+Download at www.wowebook.com
+
+375
+
+Chapter 17 Short-Term Patterns
+
+tive stop. Both Kamich and Bulkowski maintain that the formation in weekly bars is more reliable
+than in daily bars. Bulkowski ranks it 2 out of 23 for performance in a bull market.
+Horn Pattern
+Bulkowski describes the horn pattern as being almost identical in behavior to the pipe except a
+smaller bar separates the two lengthy bars. The two long bars become the “horns” of the formation (see Figure 17.8). As in the two-bar reversal, the formation is more reliable with weekly bars
+and otherwise has the same characteristics as the pipe. It is not as effective as the pipe at bottoms
+and tops, and its failure rate increases when the trend preceding the pattern is short.
+
+Horns
+
+FIGURE 17.8 The horn pattern
+
+Two-Bar Breakout
+The two-bar breakout is an extremely simple pattern. Indeed, it is so simple it is hard to believe
+that it will work, but the testing column in Active Trader Magazine (November 2003) tested it
+and found it to be successful for stocks and commodities (more so with commodities). The rules
+they used and that could easily be experimented with are for longs: the next day buy on a stop
+
+Download at www.wowebook.com
+
+376
+
+Part IV Chart Pattern Analysis
+
+one tick above today’s high if (1) today’s low is less than yesterday’s low; (2) today’s high is less
+than yesterday’s high, and (3) today’s close is less than today’s open. Exit on a stop at the thencurrent day’s low. The sell side is just the opposite. Results should be tested against a better exit
+strategy, but as it is, the pattern produced reasonable profits in commodities and an extremely
+low drawdown. In stocks, the results were not as favorable but likely could be improved upon
+with money management and a better exit strategy.
+Inside Bar
+An inside bar is a bar with a range that is smaller than and within the previous bar’s range, as
+shown in Figure 17.9. It reflects a decline in momentum in a trend, a bar where a short-term congestion area is formed. As in most congestion areas, it reflects a pause, a period of directionless
+equilibrium waiting for something to happen that will signal the next trend direction. During a
+larger congestion pattern, such as a triangle or rectangle, an inside bar has little meaning because
+it is just reflecting the lack of motion in the larger pattern. Some analysts plotting larger patterns
+delete inside bars, especially when determining pivots, because these bars fail to represent any
+important price action, similar to how the point-and-figure chart eliminates dull periods. Within
+a trend, however, the inside bar provides some useful information and can generate profitable
+very short-term signals. As in the gap pattern, the context of the pattern’s location is more important than the pattern configuration.
+
+Buy Next Bar
+At Opening
+Above Inside
+Bar Close
+
+Sell Next Bar
+At Opening
+Below Inside
+Bar Close
+
+1
+
+2
+
+3
+
+4
+
+FIGURE 17.9 Inside bar
+
+Download at www.wowebook.com
+
+377
+
+Chapter 17 Short-Term Patterns
+
+Tony Crabel (1989) found that without a cluster of other information, a number of inside
+bar combinations during the 1982–1986 period in the S&P futures achieved a better-than-average winning percentage. Crabel tested buying at the next opening, if it occurred above the inside
+bar close and selling at the next opening, if it occurred below the inside bar close (see Figure
+17.10). This strategy produced a 68% winning percentage. This winning percentage could then
+be improved by adding even other requirements, mostly having to do with characteristics of the
+bars preceding the inside bar and with the preceding trend. One strategy, for example, is to buy if
+the inside bar close was higher than the previous day close and there is a higher open on the current bar and to sell when the inside bar close was below the previous day close and the opening
+on the current bar is below the inside close. For this slightly more complex strategy, a 74% winning percentage occurred.
+
+Buy Next Bar
+at Opening
+Above Inside
+Bar Close
+
+1
+
+2
+
+3
+
+4
+
+FIGURE 17.10 Inside bar with higher close
+
+Crabel took his inside tests a little further, looking for a four-day pattern. If Day 2 had a
+higher low than Day 1, Day 3 was an inside day, and if Day 4 opened lower than the midrange
+and close of the inside day, a sell signal was generated. This strategy is pictured in Figure 17.11.
+
+Download at www.wowebook.com
+
+378
+
+Part IV Chart Pattern Analysis
+
+During Crabel’s test period, this strategy had an 80% winning percentage. The opposite strategy
+would occur when Day 2 had a lower high than Day 1, Day 3 was an inside day, and Day 4
+opened above the inside day close, triggering a buy signal. This strategy produced a 90% winning percentage. Although these strategies had extremely high winning percentages, they only
+occurred on average twice a year.
+
+Sell on Open
+Below MidRange and
+Close of
+Inside Bar
+Higher Low
+
+1
+
+2
+
+3
+
+4
+
+FIGURE 17.11 A four-bar sell pattern with an inside bar
+
+What Crabel was demonstrating, regardless of the percentages, was that the opening of a
+bar after an inside bar shows a strong bias toward the new price direction. Granted, his testing
+was done during a bull market in the late 1980s and is somewhat dated today, but nevertheless,
+the tests showed some correlation to the inside day breakouts and future performance. His exit
+criterion was to close the position on the close of the day the trade was entered. This limits such
+trades to day traders. However, an inside bar can also occur on weekly bar charts and usually signifies a larger congestion area similar to a pennant or flag on a daily chart. In these cases, the
+inside week can be useful for longer-term trading.
+Several other common patterns use the inside bar concept.
+
+Download at www.wowebook.com
+
+Chapter 17 Short-Term Patterns
+
+379
+
+Hook Reversal Day
+Hook is a common term for a quick loss when a profit was expected. It comes from the fishhook
+that the fish bites thinking that the bait is a free meal. As outlined by Kamich (2003) and Crabel
+(1989), a hook reversal occurs after a series of upward thrust bars, called run bars when they
+occur right after each other (Schwager, 1996). Then suddenly, a narrow-range bar occurs with
+specific characteristics. The narrow-range bar must open at above the previous high and close
+below the previous close. Kamich’s variation is for an inside bar that opens at its high and closes
+at its low. This signals that the momentum built up during the run has reached a climax. A downward break would be an action signal.
+Another hook formation occurs when traders are “hooked” into believing that the trend has
+reversed. This occurs when an open is above the previous high, but prices reverse direction and
+close down on the bar. This is the hook. It must have a narrower range than the previous bar, but
+it often fools traders into believing that a top has occurred. The action signal is when the price
+breaks back above the close of the first. It also works in reverse.
+Naked Bar Upward Reversal
+A variation of the hook, a naked bar is one that closes below a previous low (suggested by Joe
+Stowell and Larry Williams) and is a down bar (close less than open). It is the most bearish close
+possible. If an inside bar follows a naked bar with open greater than naked bar close, it is a sign
+that the downtrend is reversing. An upward break from the inside bar would suggest the bears are
+caught.
+Hikkake
+The hikkake is an inside bar signal that fails and become a signal itself (see Figure 17.12). As
+described by Daniel Chesler (2004), in Japanese, “hikkake” is a term meaning to trap, trick, or
+ensnare. It is a pattern that starts with an inside bar. When prices break one way or the other from
+an inside bar, the conventional belief is that they will continue in the same direction. The hikkake
+pattern occurs when the breakout fails to continue and prices in the following bars return to break
+in the opposite direction through the previous inside bar extreme. The reversal and opposite
+breakout must occur within three bars after the first breakout, and the open and close of each bar
+seems to be unimportant.
+Outside Bar
+An outside bar occurs when the high is higher than the high of the previous bar and the low is
+lower than the low of the previous bar. It is a specific kind of wide-range bar that “covers” all the
+previous bar’s price action. In other words, the outside bar is longer than the previous bar and
+contains the entire price range of the previous bar. Traditionally, an outside bar is thought of as a
+bar of increased volatility, and, depending on the close, perhaps the beginning of a trend. Larry
+Williams (1988, 1995, 1999, 2000, 2003) has done considerable study of outside bars, and the
+results are available in his various books.
+
+Download at www.wowebook.com
+
+380
+
+Part IV Chart Pattern Analysis
+
+Buy (Conventional)
+
+Inside Bar
+Failure (Hikkake Sell)
+
+FIGURE 17.12 Hikkake buy failure
+
+When an outside bar closes near an extreme—that is, a high or low—and above or below
+the previous close and its current opening, it suggests further action in the direction of the close
+into the following bar. Bulkowski, using daily lows observes that the close, if located within the
+upper or lower 25% of the range, tends to predict the future breakout upward about 66% of the
+time and downward 62% of the time. However, it often is a false signal. For example, one of the
+more reliable, though less frequently seen, setup patterns with an outside day is when the outside
+day closes at below the previous day’s low and the next day opens lower than the outside day
+close. Buy the following day opening (Williams, 2000). Standard opinion would suggest that the
+series of lower closes was bearish, yet the setup is bullish.
+
+Multiple Bar Patterns
+Trend Correction
+Many studies have shown that acting in the direction of the trend is more advantageous after
+waiting for a correction to that trend. The reward of catching the trend at a cheaper price as well
+as having a closer stop level outweigh the potential opportunity loss of missing the trend.
+
+Download at www.wowebook.com
+
+381
+
+Chapter 17 Short-Term Patterns
+
+There are at least two different types of trend correction patterns. One is to recognize a
+trend and act on a percentage pullback from that trend. Active Trader Magazine (March, 2003)
+tested on 18 stocks a long-only 6% pullback system. It demonstrated during the period 1992
+through 2002, a generally rising period, entering a buy at 6% below the previous bar close and
+exiting on the next open would produce an excellent equity curve when triggered. The gain over
+the period was the same as the buy-and-hold, but the market exposure was only 17% due to the
+limited number of trades and the quick exits.
+Knockout Pattern
+The knockout (or KO) pattern is another trend correction method, used by David Landry (2003).
+(See Figure 17.13). The first requirement for this pattern is that an extremely strong and persistent trend must be present. In an upward trend, Landry’s criteria for a strong uptrend is that the
+stock must have risen at least ten points in the past 20 trading days and a trend line drawn
+through the prices touch almost all bars. Thus, if we think about a linear regression line, the bars
+should have a small deviation from that line, not wide swings back and forth. At some time, the
+stock will develop a throwback of two to five days in which two prior lows will be exceeded.
+Place a buy entry stop at the high of the bar with the second low. If the next bar is lower, move
+the buy stop to its high until the position is executed. Place a protective stop below the last low,
+or use any reasonable stop method. According to Landry, the reverse is equally as successful in a
+downtrend using the criteria in reverse. Figure 17.13 shows a steady downward trend in lumber
+futures with occasional two-day rallies that fulfill the requirements of the KO pattern.
+
+Sep 2010 Random Length Lumber
+
+320.00
+
+300.00
+
+KO pattern
+sell point after two days of rally
+
+280.00
+
+260.00
+
+240.00
+
+220.00
+
+protective stop
+shortsell entry stop
+
+200.00
+
+19
+
+26
+
+May 10
+
+17
+
+24
+
+Jun 7
+
+14
+
+21
+
+28 Jul
+
+Created using TradeStation
+
+FIGURE 17.13 Landry KO pattern (Lumber daily: April 16, 2010–July 2, 2010)
+
+Download at www.wowebook.com
+
+382
+
+Part IV Chart Pattern Analysis
+
+Oops!
+Larry Williams (1979) coined the expression “Oops!” (see Figure 17.14). The setup for this pattern occurs when the opening price on today’s bar is outside the previous day’s range. Assume,
+for example, that a stock opens today at a price below yesterday’s range. A buy stop is then
+placed just inside yesterday’s range in case the market closes the gap, indicating a reversal. This
+pattern depends on traders acting in the direction of an opening gap and being caught when
+prices reverse.
+
+Place Buy
+Stop
+
+Opening Gap
+
+Place Sell Stop if Buy
+Has Previously Been
+Triggered
+
+FIGURE 17.14 Oops! buy pattern
+
+Larry Connors (1998) uses a 10% qualification variation of the Larry Williams Oops! pattern. The pattern is for the first day to have a close within 10% of the low. The second day must
+open on a downward gap. If these conditions are met, place a buy stop at the first day’s low with
+a sell stop near the second day’s opening. A sell pattern is just the reverse on a day when the
+close is within 10% of its high.
+
+Download at www.wowebook.com
+
+383
+
+Chapter 17 Short-Term Patterns
+
+Shark
+The shark pattern is a three-bar pattern. The most recent bar high must be lower than the previous high and the recent low above the previous low. In other words, the recent bar is an inside
+bar. The previous bar must also be an inside bar. The progression in bars, therefore, is one base
+bar and two successive inside bars, as shown in Figure 17.15. In effect, it is a small triangle or
+pennant. The name “shark” comes from the pattern’s finlike shape.
+
+Buy
+
+Wide Base
+Apex
+
+Symmetry
+
+FIGURE 17.15 Shark pattern with break to the upside
+
+In a Stocks and Commodities article, Walter Downs (1998) demonstrated that the shortterm pattern called the Shark-32 has implications for the longer-term as well as the immediate
+future. This study was an interesting approach to determining the success or failure of the pattern
+in that Downs questioned whether the symmetry of the pattern added to or detracted from its performance. Symmetry was measured by determining the amount by which the center of the final
+inside day range, called the apex, deviated from the center of the base day range. Although there
+
+Download at www.wowebook.com
+
+384
+
+Part IV Chart Pattern Analysis
+
+can be many shark patterns, Downs limited his study to those patterns that fit a specified symmetry. The test was run on Harley Davidson stock from July 1986 to April 1998, a period of generally rising stock prices. The entry was to buy on the close of the first day after a day in which the
+close exceeded the widest point in the pattern, usually the base day. The exit was a trailing stop
+or a reversal on the opposite signal.
+The results of Downs’ study were useful in that they suggested that the more symmetrical
+the shark formation, the more likely prices would continue in the same direction and improve
+performance at least out to 30 days thereafter. As the symmetry became very tight, the results did
+not change, but the number of patterns that fit into the requirements declined. One example was
+that if the symmetrical variance of the apex midrange was within 12% either side of the center of
+the base day range, the trend continued in the same direction as the prepattern direction 91% of
+the time, strengthened in 36% of the instances, and increased in momentum 34% of the time
+within 30 days.
+
+Volatility Patterns
+Most short-term patterns rely on an expansion in volatility. The inside bar strategies, for example, are based on the notion that inside bars represent low volatility and that when prices break
+one way or another, volatility expands. To take this concept of volatility further, many patterns
+look directly at volatility itself—either historical volatility as defined in the option markets,
+changes in trading ranges, or indicators such as the ADX. An expansion in volatility is used as a
+signal for action in most patterns, but sometimes a contrary action is suggested when volatility
+becomes extreme. Following are examples of some of these patterns.
+Wide-Range Bar
+A wide-range bar is a bar in which the range is “considerably” wider than the normal bar. The
+bars are relatively long compared with the previous bar. How large does the range have to be to
+be considered “wide,” and how far back must the comparison be made? There are no definitive
+answers to these questions and, therefore, there is no specific definition of a wide-range bar other
+than its range is “considerably” wider than the normal bar. In any case, a wide-range bar is usually a bar with increased volatility. Increased volatility can imply the beginning of a new trend as
+in a breakout bar, or if the trend has been in existence for a long time and is accelerating, the
+wide-range bar may act like an exhaustion gap and warn of the trend’s end. As a sign of impending trend reversal, it is more often seen at panic lows, as the emotions of fear accelerate prices
+downward. Emotional spikes and two-bar reversals are often wide-range bars. Otherwise, it is
+usually found on a breakout from a pattern, small or large, or as the base for a pennant or flag,
+indicating that the trend reached a very short-term peak and is about to consolidate. On the other
+hand, not all wide-range bars are meaningful. Consideration of trend, as always, areas of support
+and resistance, patterns, and the relative location of opens and closes are necessary before a judgment of the significance of the wide-range bar can be determined.
+Larry Connors (1998) gives an example of a wide-range pattern. Connors first looks for a
+wide-range day in which a stock experiences a two-standard deviation decline. On the following
+day, if the opening is a downward gap, place a buy entry stop at the first day’s close with a

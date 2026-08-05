@@ -1,0 +1,489 @@
+
+1. Several exchanges have recently introduced flex options, which permit the buyer and seller to negotiate
+both the exercise price and expiration date. These are still considered exchange traded options since
+the contracts are guaranteed by the exchange.
+
+
+The Language of Options 3
+
+Figure 1-1: Contract Specifications
+
+Crude Oil* October 2i1 Call
+| Expiration Exercise |
+
+Underlying Date Price Type
+GE March 80 Put
+
+*If this is a futures option, the underlying is a futures contract rather than the physical commodity.
+
+Figure 1-2: An Option Buy Order
+
+BUY |c fo) GTC
+
+JAN APR
+
+10 |GE "eal “| 40 3
+
+Con JUL OCT
+AUG NOV
+ext SEP DEC
+FALLS
+OPEN CusT EX TIME
+CLOSE FIRM Fa/BB
+
+TAKEN BY RNR FIRM
+M/M ACCT #
+
+
+
+4 Chapter I
+
+Figure 1-3: An Option Sell Order
+
+SELL|©] late
+Q5 JOEX Pe Powe [25] 4
+
+MAR JUN | EXPX PREM
+con JUL oct
+ns
+om. SEP DEC
+FILLS
+OPEN cUST EX. TIME
+CLOSE FIRM F/B
+
+TAKEN BY RNR FIRM
+M/M ACCT#
+
+EXERCISE AND ASSIGNMENT
+
+A trader who owns a call or a put option has the right to exercise that option prior to
+its expiration date, thereby converting the option into a long underlying position, in the
+case of a call, or a short underlying position, in the case of a put. A trader who exercises
+a crude oil October 21 call has chosen to take a long position in one October crude oil
+futures contract at $21 per barrel. A trader who exercises a GE March 80 put has chosen
+to take a short position in 100 shares of GE stock at $80 per share. Once an option is
+exercised it ceases to exist, just as if it had been allowed to expire unexercised.
+
+A trader who intends to exercise an option must submit an exercise notice to either
+the seller of the option, if purchased from a dealer, or to the guarantor of the option, if
+purchased on an exchange. When a valid exercise notice is submitted, the seller of the
+option is assigned. Depending on the type of option, he will pe required to take a long
+or short position in the underlying contract at the specified exercise price.
+
+In addition to its underlying contract, exercise price, expiration date, and type, an
+option is further identified by the conditions of exercise. An option is either American,
+
+
+The Language of Options
+
+Figure 1-4: The Exercise and Assignment Process
+
+[
+Clearing firm notifies the
+
+clearing house that the
+buyer wishes to exercise
+
+_
+Buyer's Clearing Firm
+
+Buyer notifies his clearing firm
+
+that he wishes to exercise his
+option thereby taking @ long
+(call) or short (put) position
+in the underlying instrument
+
+at the exercise price
+
+'
+
+Holder of a Long
+Option Position
+
+Clearing House |) —————
+
+Clearing house chooses a
+
+seller at random and notifies
+the seller's clearing firm that
+the seller has been assigned
+
+| Seller's Clearing Firm
+
+Seller is notified by his clearing
+firm that he has been assigned,
+and that he now has a short
+(call) or long (put) position
+
+in the underlying instrument
+
+at the exercise price
+
+Y
+
+Holder of a Short
+Option Position
+
+(Buyer) (Seller)
+Figure 1-5: An Exercise Notice
+DATE EXERCISE TIME STAMP
+NOTICE
+PUT CALL
+STRIKE (CALL)
+QTy STK/COMM MONTH PRICE TODAY
+YE! NO
+| 10. DM Mor Se ° x Initials: —SHN
+Account #
+Firm #
+Broker #
+Per
+
+
+
+6 Chapter I
+
+Figure 1-6: An Assignment Notice
+
+DATE ASSIGNMENT
+NOTICE
+ary STK/COMM MONTH ORICE PUT CALL
+15 [Gude Ort} Oct te) x
+Initials: RIN
+5 |7-Bonds | Dec 1 |X Account #
+Firm #
+
+whereby the holder can exercise the option at any time prior to expiration, or European,
+whereby the holder can exercise the option only on expiration day.2 The great majority
+of exchange traded options throughout the world are American options, carrying with
+them the right of early exercise. Indeed, all U.S. exchange traded stock and futures
+options are American?
+
+As in any competitive market, an option’s price, or premium, is determined by
+supply and demand. Buyers and sellers make competitive bids and offers in the
+marketplace. When a bid and offer coincide, a trade is made. The premium paid for an
+option can be separated into two components, the intrinsic value and the time value.
+An option’s intrinsic value is the amount which would be credited to the option holder’s
+account if he were to exercise the option and close out the position against the
+underlying contract at the current market price. For example, with gold trading at $435
+per ounce, the intrinsic value of a $400 call is $35. By exercising his option, the holder
+of the $400 call can buy gold at $400 per ounce. If he sells gold at the market price of
+
+2. Since exchanges need time to process exercise and assignment notices, the holder of an exchange
+traded option must usually submit an exercise notice no later than the close of business on the day prior
+to expiration.
+
+3. Certain index options, such as the S&P 500 traded on the Chicago Board Options Exchange, and the
+Major Market traded on the American Stock Exchange, are European. Some foreign currency options
+traded on the Philadelphia Stock Exchange are also European.
+
+
+
+the Language of Options 7
+
+$435 per ounce, $35 per ounce will be credited to his account. With a certain stock
+
+trading at $62, the intrinsic value ofa $70 put is $8. By exercising his option, the holder
+
+of the put can sell the stock at $70 per share. If he then buys the stock back at the market
+rice of $62, he will show a total credit of $8.
+
+A call will only have intrinsic value if its exercise price is less than the current
+market price of the underlying contract. A put will only have intrinsic value if its exercise
+price is greater than the current market price of the underlying contract. The amount
+of intrinsic value is the amount by which the call’s exercise price is less than the current
+underlying price, or the amount by which the put’s exercise price is greater than the
+current underlying price. No option can have an intrinsic value less than zero.
+
+Usually an option’s price in the marketplace will be greater than its intrinsic value.
+The additional amount of premium beyond the intrinsic value which traders are willing
+to pay for an option is the time value, sometimes also referred to as the option’s time
+premium or extrinsic value. As we shall see, market participants are willing to pay this
+additional amount because of the protective characteristics afforded by an option over
+an outright long or short position in the underlying contract.
+
+An option’s premium is always composed of precisely its intrinsic value and its time
+value. If a $400 gold call is trading at $50 with gold at $435 per ounce, the time value
+of the call must be $15, since the intrinsic value is $35. The two components must add
+up to the option’s total premium of $50. If a $70 put ona stock is trading for $9 with
+the stock at $62, the time value of the put must be $1, since the intrinsic value is $8.
+The intrinsic value and the time value must add up to the option’s premium of $9.
+
+Even though an option’s premium is always composed of its intrinsic value and its
+time value, it is possible for one or both of these components to be zero. If the option
+has no intrinsic value, its price in the marketplace will consist solely of time value. If the
+option has no time value, its price will consist solely of intrinsic value. In the latter case,
+We say that the option is trading at parity.
+
+While an cption’s intrinsic value can never be less than zero, it is possible for an
+option, if it is European, to have a negative time value. (More about this when we look
+at early exercise in Chapter 12.) When this happens the option can trade for less than
+parity. Usually, however, an option’s premium will reflect some non-negative amount
+of intrinsic and time value.
+
+Any option which has a positive intrinsic value is said to be in-the-money by the
+amount of the intrinsic value. With a stock at $44, a $40 call is $4 in-the-money. With
+Deutschemarks at 57.75, a 59 put is 1.25 in-the-money. An option which has no
+intrinsic value is said to be out-of-the-money. The price of an out-of-the-money option
+Consists solely of time value. In order to be in-the-money, a call (put) must have an
+exercise price lower (higher) than the current price of the underlying contract. Note
+that if a call is in-the-money, a put with the same exercise price and underlying contract
+Must be out-of the-money. Conversely, if the put is in-the-money, a call with the same
+exercise price must be out-of-the-money.
+
+Finally, an option whose exercise price is identical to the current price of the
+Underlying contract is said to be at-the-money. Technically, such an option is also
+OUt-of the-money since it has no intrinsic value. We make the distinction between an
+
+
+8 Chapter |
+
+Figure 1-7: In- and Out-of-the-Money Options
+
+Current
+Underlying
+Price
+
+Lower Exercise Prices Higher Exercise Prices
+
+~~? >
+In-the-Money Calls Out-of-the-Money Calls
+
+Out-of-the-Money Puts In-the-Money Puts
+
+~—_? _
+
+at-the-money and out-of-the-money option because an at-the-money option has the
+greatest amount of time premium and is usually traded very actively.
+
+If we want to be very precise, the exercise price of an option must be identical to
+the current price of the underlying contract for the option to be at-the-money. However,
+for exchange-traded options, the term is commonly applied to the call and put whose
+exercise price is closest to the current price of the underlying contract. With a stock at
+$74 and $5 between exercise prices ($65, $70, $75, $80, etc.), the $75 call and the
+$75 put would be considered the at-the-money options. These are the call and put
+options with exercise prices closest to the current price of the underlying contract.
+
+MARKET INTEGRITY
+
+An important consideration for every market participant is the integrity of the market.
+No trader will want to trade in a market where there is a chance that the opposing trader
+will default on a contract. If a trader purchases an option, he wants to be certain that
+the seller will fulfill the terms of the contract if the option is exercised.
+
+In order to guarantee that the integrity of the market will be maintained, each
+options exchange has established a progression of responsibility for the fulfillment of the
+terms of an option. The primary responsibility falls to the individual trader. If the seller
+of an option is assigned, he must be prepared to take the required long or short position
+in the underlying contract at the specified exercise price. In practical terms, this means
+a trader must have access to capital at least equal to the option’s intrinsic value.
+
+If an individual trader is unable to fulfill the terms of the contract, the responsibility
+falls to the trader’s clearing firm. A clearing firm isa member firm of the exchange which
+processes trades made by an individual, and which agrees to fulfill any financial
+obligation arising from those trades. No individual may trade on an exchange without
+first becoming associated with a clearing firm.
+
+If the clearing firm cannot fulfill the terms of the contract, the final responsibility
+rests with the clearing house. Each exchange has established, or has become a member
+of, a clearing house which guarantees the integrity of all trades. Once an option trade
+has been made, the connection between the buyer and seller is severed, with the
+
+
+The Language of Options 9
+
+clearing house assuming the role of buyer from every seller, and seller to every buyer.
+jf there were no central clearing house, the buyer of an option would be totally
+dependent on the good faith of the seller or the seller’s clearing firm to fulfill the terms
+of the option in the event of exercise, Because the clearing house guarantees every trade,
+all buyers can be certain there will be an opposing party prepared to make or take
+delivery if an option is exercised. The clearing process is shown in Figure 1-8.
+
+This system of guarantees has proven effective in ensuring the integrity of options
+exchanges. While individual traders and clearing firms occasionally fail, a clearing house
+has never failed in the United States.
+
+MARGIN REQUIREMENTS
+
+When a trader makes an opening trade on an exchange, the exchange may require the
+trader to deposit with the clearing house some amount of margin, or good faith capital.4
+Such deposits ensure that if the market moves adversely, the trader will still be able to
+fulfill any future financial obligations resulting from the trade.
+
+In lieu of cash, margin requirements may often be met by depositing government
+treasury instruments or, less commonly, commercial securities. Clearing firms collect
+these margin requirements from their traders and forward the funds to the clearing
+
+Figure 1-8: The Clearing Process
+
+If reports from both clearing
+firms match, the trade
+becomes official.
+
+| = | Clearing House +7
+
+If the reports do not match,
+they are returned to each
+clearing firm, and from there
+to the individual traders
+
+Buyer's clearing firm Seller's clearing firm
+teports trade to aan reports trade to
+clearing house. for rectification. clearing house.
+
+t | t
+
+Buyer's Clearing Firm Seller's Clearing Firm
+
+Buyer reports trade Seller reports trade
+to his clearing firm. to his clearing firm.
+
+t ~~" Trading Floor | ———_—_}fj 4
+
+Buyer and seller agree
+on acontract, quantity,
+and price.
+
+Margin requirements for a professional trader in an equity option market are referred to as a Aaircut
+
+
+10 Chapter 1
+
+house. In theory, margin deposits at the clearing house still belong to the individual
+trader and, as such, any interest or dividends accruing to the margin deposit also belongs
+to the trader. Some clearing firms, however, do not return this interest to the trader,
+claiming that it is part of the fee paid by the trader for the clearing services of the member
+firm. This can occasionally become a sensitive point between trader and clearing firm,
+and should be settled before an individual begins to trade.
+
+Margin requirements for both options and underlying contracts are set by the
+clearing house, using as guidelines the current value of the position as well as the
+potential risk. While an underlying position, particularly ifit is a futures contract, usually
+has a fixed margin requirement, the margin for an option position can change over time
+since the margin for an option often depends on the amount by which it is in- or
+out-of-the-money. Positions consisting of a combination of options, or options and
+underlying instruments, may have reduced margin requirements because the risk to one
+contract may be partially offset by the value of another contract. Additionally, traders
+who are exchange members may receive professional consideration in the form of
+reduced margin requirements. Every trader should become familiar with the margin
+requirements for the market in which he is trading. Doing so will ensure that he has
+sufficient capital to initiate and hold positions as long as he deems necessary.
+
+SETTLEMENT PROCEDURES
+
+New option traders are often confused because settlement procedures may vary from
+one exchange to another. Indeed, settlement procedures for an option and its underlying
+contract may differ. Two methods are commonly used to settle exchange-traded
+contracts—stock-type settlement and futures-type settlement.
+
+Suppose a trader buys 100 shares of a $50 stock. The value of the stock is $5,000,
+and the buyer is required to pay the seller the full amount. If the stock rises to $60 per
+share, the owner of the stock will show a profit of $10 per share, or a total profit of
+$1,000. Even so, he won't be able to actually spend this $1,000 profit until he formally
+liquidates the position by selling his 100 shares at $60 per share. This type of settlement
+procedure, where purchase requires full and immediate payment, and where profits or
+losses are unrealized until the position is liquidated, is known as stock-type settlement.
+
+In contrast to stock-type settlement, futures-type settlement requires no initial cash
+payment from the buyer to the seller. Moreover, all profits or losses are immediately
+realized, even if the position is not liquidated. If a trader buys a gold futures contract
+covering 100 ounces of gold for $450 per ounce, the full value of the contract is
+$45,000. The buyer, however, is not required to pay the seller the full $45,000 value
+of the contract. The buyer does not have to pay any money at all. He is only required to
+deposit with the clearing house some amount of good-faith margin. At the end of each
+trading day both the buyer and the seller will immediately realize any profits or losses
+resulting from movement in the price of the gold futures contract. If gold rises from $450
+to $470 per ounce, $2,000 ($20 x 100) will be credited to the buyer’s account, and he
+will have immediate use of these funds even if he does not liquidate the position. Of
+course, if the price of gold drops to $430 per ounce, he will realize an immediate loss
+
+
+The Language of Options I]
+
+of $2,000. If he does not have sufficient funds in his account to cover this loss, the
+clearing house will issue a variation call.
+
+There is an important distinction between a margin call and a variation call. A
+margin Call is issued by the clearing house to ensure that a trader can fulfill future
+financial obligations should the market move against him. Margin calls can be met with
+funds which, even though deposited at the clearing house, still belong to the trader and
+consequently can earn interest for the trader. A variation call is issued in order to fulfill
+current financial obligations in the form of realized losses. A variation call must be met
+with a cash payment which is immediately deducted from a trader’s account. If a trader
+has deposited securities with the clearing house as margin and receives a variation call,
+he must either deposit the additional variation amount in cash, or the clearing house
+will sell the securities in his account to generate enough cash to meet the variation call.
+If the remaining securities and cash in the account is not sufficient to meet the current
+margin requirements, the trader may be forced to liquidate his position.
+
+We make this very important distinction between stock- and futures-type settle-
+ment because some options are settled like stock and some options are settled like
+futures. It is important for a trader to know which he is trading. Currently all
+exchange-traded options in the United States, whether options on stock, futures,
+indices, or foreign currencies, are settled like stock. Options must be paid for immedi-
+ately and in full, and profits or losses are unrealized until the position is liquidated. In
+stock option markets this is both logical and consistent, since both the underlying
+contract and options on that contract are settled using identical procedures, However,
+on U.S. futures options markets, the underlying contract is settled one way (futures-type
+settlement} while the options are settled in a different way (stock-type settlement). This
+can sometimes cause problems when a trader has bought or sold an option to hedge a
+futures position. Even if the profits from the option position exactly offset the losses from
+the futures position, the profits from the option position, because the options are settled
+like stock, are only paper profits. On the other hand, the losses from the futures position
+will require an immediate cash outlay to cover a variation call. If a trader is unaware of
+the different settlement procedures, he can occasionally find himself with unexpected
+cash flow problems.
+
+The settlement situation on many exchanges outside the U.S. has been simplified
+by making option and underlying settlement procedures identical. If the underlying is
+Subject to stock-type settlement, then so are the options on the underlying. If the
+Underlying is subject to futures-type settlement, then so are the options. Under this
+Method a trader is unlikely to get a surprise variation call on a position which he thinks
+1S well hedged.
+
+Before concluding this chapter, it will be useful to define the terms long and short
+a8 they are used in option trading versus their use in trading an underlying contract. In
+4 long underlying position a trader will profit if prices rise and lose if prices fall. In a short
+Underlying position a trader will profit if prices fall and lose if prices rise. There is a
+tendency to carry this terminology over into the option market by referring to any
+Position which will profit from a tise in the price of the underlying contract as a long
+Position, and any position which will profit from a fall in price as a short position.
+
+
+12 Chapter |
+
+More generally, however, the terms long and short refer to the purchase or sale of
+a contract, and this is the sense in which we apply these terms to option trading. A trader
+who has purchased an option is long the option, and a trader who has sold the option
+is short. There is no confusion when we refer to a long call position because the trader
+who is longa call also has a long market position. Calls will, in theory, rise in value if
+the underlying market rises. But a long put position is a short market position. A trader
+who has purchased a put wants the underlying market to decline because a put will
+theoretically increase in value as the market declines. Throughout the text, whenever
+there is the possibility of confusion, an attempt will be made to distinguish between a
+long or short market position versus a long or short option position.
+
+
+wo 2 &
+
+Elementary Strategies
+
+The trader who enters an option market for the first time may find himself subjected to
+a form of “contract shock.” Unlike a trader in equities or futures, whose choices are
+limited to a small number of instruments, an option trader must often deal with a
+pewildering assortment of contracts. With at least three different expiration months,
+with each month having several different exercise prices, and with both calls and puts
+available at each exercise price, it is not unusual for an option trader to be faced with
+as many as 40 different contracts.
+
+Even if we eliminate the inactively traded options, a new trader may still have to
+deal with 15 or 20 different options. With so many choices available, a trader needs
+some logical method of deciding which options actually represent profit opportunities.
+Which should he buy? Which should he sell? Which should he avoid altogether? The
+choices are so numerous that many prospective option traders give up in frustration.
+
+For the trader who does persevere, a certain logic in the pricing of options begins
+to emerge. As he becomes familiar with this logic, he can begin to formulate potentially
+profitable strategies. Initially he will concentrate on the purchase or sale of individual
+options. From there he will go on to combination strategies. Eventually he will become
+comfortable with complex strategies involving several different contracts.

@@ -1,0 +1,486 @@
+
+FOREX TRADING SECRETS
+
+26
+
+Currency Pairs with USD as the Quote Currency
+EUR/USD, GBP/USD, AUD/USD, NZD/USD
+Example:
+EUR/USD
+Currency value ⫽ 1.2658
+Pip value in euros ⫽ 0.0001/1.2658 ⫽ 0.000079
+Additional formula rate to USD:
+Pip value ⫽ 0.000079 ⫻ 1.2658 ⫽ 0.0001
+On one standard lot, the pip value would be
+0.0001 ⫻ 100,000 ⫽ $10
+The same calculations apply to any other currency pairs with USD as
+the quote currency: pound sterling, Australian dollar, New Zealand dollar—
+where the final pip value will consistently be $10.
+Crosses (Currency Pairs Where USD Is Not Present as Either the Base
+or the Quote Currency)
+EUR/GBP
+Currency value ⫽ 0.8913
+Pip value in euros ⫽ 0.0001/1.2658 ⫽ 0.000112196
+Additional formula rate to USD:
+Pip value ⫽ 0.000079 ⫻ 1.4194 (GBP/USD rate) ⫽ 0.000159251
+On one standard lot, the pip value would be
+0.000159251 ⫻ 100,000 ⫽ $15.93
+The same calculations will apply to any of the other cross-currency
+pairs: GBP/JPY, EUR/JPY, EUR/CHF, etc.
+The pip values in these examples are calculated to show a result in
+U.S. dollars because this is the main currency used in most trading
+accounts. However, many brokers permit traders to open and retain their
+accounts in local and foreign principal currencies, such as euros, pounds
+sterling, Japanese yen, Swiss francs, etc. In these cases, the calculations
+must be made taking the different rates into account with respect to the
+deposit currency.
+
+CHAPTER 3
+
+ANYONE CAN LEARN THE FOREX
+
+27
+
+The following table of equivalences illustrates the pip value for each
+type of contract, from standard lot to nanolot, based on the preceding
+examples and rates.
+Currency Pair
+
+Standard
+
+Mini
+
+Micro
+
+Nano
+
+Units
+EUR/USD
+USD/CHF
+USD/JPY
+EUR/GBP
+
+100,000
+$10.00
+$8.53
+$10.83
+$15.93
+
+10,000
+$1.00
+$0.85
+$1.083
+$1.59
+
+1000
+$0.10
+$0.085
+$0.108
+$0.159
+
+100
+$0.01
+$0.0085
+$0.0108
+$0.0159
+
+THE LOT
+The contract amount that a bank or brokerage firm allows a currency to be
+traded in is called a lot. Usually, brokerages recommend two different kinds
+of accounts: standard and mini. A standard lot size is $100,000, and a mini
+account lot size is $10,000. There are also smaller retail institutions than
+offer micro account and nano account lots, equivalent to $1000 and $100,
+respectively.
+
+ORDER TYPES
+BUY/SELL MARKET ORDERS
+A market order is an order to buy or sell at the current market price and can
+be used to enter or exit a trade. Market orders should be used carefully
+because in fast-moving markets there may be a difference between the price
+seen at the time a market order is given and the actual price of the transaction. This is due to slippage—the amount the market moves in the few seconds between issuing an order and having it executed. Slippage potentially
+could result in the loss or gain of several pips.
+Online trading platforms may differ a little in the manner in which they
+initiate a trade, but a trade normally is accomplished through a form that
+shows the current bid and ask prices. Some platforms ask for a confirmation of the order; others have a direct one-click order capability. Usually
+execution of the order is instantaneous or, at the very most, it takes just a
+few seconds to appear as executed.
+
+28
+
+FOREX TRADING SECRETS
+
+Sometimes market orders also can be placed over the telephone at the
+broker’s dealing desk. The etiquette to follow this procedure should be
+verified with your broker.
+
+BUY/SELL LIMIT ORDERS
+A limit order is an order to buy or sell at a certain limit. It can be used to
+buy a currency below the market price or sell a currency above the market
+price. When buying, your order is executed when the market falls to your
+set limit-order price. When selling, your order is executed when the market
+rises to your set limit-order price. Normally, there is no slippage with limit
+orders. The order essentially contains two variables, price and duration. The
+trader identifies the price to buy/sell a certain currency pair and also specifies the amount of time the order should remain active.
+A common use of limit orders is when a trader anticipates the price to
+bounce back from a given resistance or support area after a rally or fall.
+This is especially true when the currency pair has been trending.
+
+BUY/SELL STOP-LOSS ORDERS
+A stop-loss order is an order to buy above the market value or to sell below
+the market value. This type order is used most commonly as stop-loss
+orders to limit losses if the market moves opposite that which the trader
+expected. A stop-loss order will sell the currency if the market falls below
+the point set by the trader. The order contains the same two variables, price
+and duration. The main difference between a limit order and a stop-loss
+order is that stop-loss orders are used frequently to limit loss potential on a
+transaction, whereas limit orders are used to enter the market, add to a preexisting position, and/or engage in profit taking.
+A trader uses a stop-loss order when he or she expects a price breakout
+to happen and wants to seize the opportunity to “ride” the breakout on any
+side if it develops.
+
+OCO (ONE CANCELS THE OTHER) ORDERS
+This type of order is used when placing a limit order and a stop-loss order
+simultaneously. If either order is executed, the other is canceled, which
+allows the trader to make a transaction without monitoring the market. If
+the market falls, the stop-loss order will be executed, but if the market
+increases to the level of the limit order, the currency is sold at a profit. This
+is used in a straddle when trading news, a type of trading strategy used. An
+OCO order is a mixture of two limit and/or stop-loss orders. Two orders
+
+CHAPTER 3
+
+ANYONE CAN LEARN THE FOREX
+
+29
+
+with price and duration variables are placed above and below the current
+price. When one of the orders is executed, the other order is canceled.
+
+IFD (IF DONE) ORDERS
+Using an IFD order allows a trader to program particular strategies in
+which there can be a sequence of trades. These trades will not be executed
+until the first one is accomplished.
+
+TIMED ORDERS
+GTC (Good Till Canceled) Orders
+A GTC order will remain active in the market until the trader decides to
+cancel it. It will not be terminated by the dealer. For this reason, it is very
+important to remember open pending orders after a strategy is executed
+because any of them can become a market order at any moment when the
+market price matches the order price.
+GFD (Good for the Day) Orders
+A GFD order remains active in the market until the end of the trading
+day. This will have some deviations depending on the server time of your
+broker.
+Good until Date/Time Orders
+This is another timed order in which the trader can specify the exact time of
+the day and the date on which he or she desires to keep the order active.
+
+WHERE IS THE MARKET GOING?
+This depends on a number of factors. The market is always in a perfect
+equilibrium, which it succeeds in holding thanks to the periodic variations related to interactions between the elements of which it is composed
+(currencies, people, events, traders, etc.).
+If you monitor using a very big time frame, you will notice something
+very interesting: In almost all cases, the currency pairs move upwards or, at
+least, relatively sideways.
+Many long-term operators, namely, hedge funds and large capital
+investors, don’t constantly open and close positions, but they use a strategy
+with several elements that allows them to achieve a constant growth, slow
+but safe, and almost as important, with nominal risk. However, if you look
+at intraday or intraweek trading, a very diverse and opposing scenario is
+
+FOREX TRADING SECRETS
+
+30
+
+seen. If you fail to match them up and understand them from their individual perspectives, they will bring you to a tremendous amount of confusion
+because it will seem to you that the market isn’t going up or down. When
+you see the market rising and you decide to open a position, that could be
+the precise moment the market goes against you, and you end up dazed and
+frustrated.
+It has been said that it is appropriate to use at least two time frames.
+However, to combine them is not the same as mixing them. You should use
+one longer time frame and one shorter time frame. This is the safest way to
+work because you will find more precise entry and exit points for every
+trade you make. In this way, you can better assure yourself of entering a
+trade on time and exiting it without leaving too much on the table.
+You might object that this method of combining two or more time
+frames. Many people believe that this can distract the trader’s focus on what
+is being done because at a certain point during the trade the shorter period
+will go in an opposite direction from the longer time frame. However, when
+applying this approach in real time, you may observe that the shorter period
+doesn’t impede the longer one when the trade is in progress; instead, the
+smaller time frame allows you to better pinpoint a suitable exit. You should
+use a combination with which you feel comfortable, but there are particular combinations that I find more harmonic:
+Two time frames (the longer one for watching the trend and following
+the position, the smaller one for entries and exits):
+●
+●
+●
+●
+
+5 minutes and 1 hour
+15 minutes and 4 hours
+1 hour and daily
+4 hours and weekly
+Three time frames (trading the intermediate time frame and using the
+longer one for the trend and the smaller for entries and exits)
+
+●
+
+●
+●
+●
+
+1 minute, 5 minutes, and 30 minutes (for extreme scalping; not
+recommended for starters)
+15 minutes, 1 hour, and 4 hours (intraday operation)
+1 hour, 4 hours, and daily (intraweek or swing trading)
+4 hours, daily, and weekly (longer term or position trading)
+
+Something that increases the confusion when you are analyzing and
+observing market movements is the overcrowding of charts with trendlines
+
+CHAPTER 3
+
+ANYONE CAN LEARN THE FOREX
+
+31
+
+and indicators that later overlap each other if you change the time frame. It
+would be more efficient to use a single chart for each time frame and then
+choose one that will be used only to perform the actual analysis.
+Another confusion arises when you try to trade in a shorter time frame
+(5 or 15 minutes) but you pretend with this to make a 100- or even 200-piplong run (and in a few hours, too). This is not impossible, but this is what
+usually happens: The risk management is proportional. Let’s say that, on
+average, the relationship is 2:1 (reward to risk) or, ideally, 3:1. More often
+than not, it is 1:1 (or less) if the entries haven’t been studied with precision.
+There is an average time/trade relationship that is about four or five
+times greater than the time frame incrementally. For example, a position
+opened on a five-minute chart, if it has potential, shouldn’t last much more
+than half an hour or up to an hour if there is not much volatility. For a position opened on the 15-minute chart, one or two hours is a maximum. If,
+after the time has elapsed, there are no results, it would be better to close the
+position and wait for the next breakout. On the other hand, a position
+opened on a four-hour chart can last for the entire day or even two days, and
+a position opened on a daily chart can last up to a week.
+Another very important issue to take into account when switching time
+frames is the size of the stops. You can use a fairly dependable tool, the
+average true range (ATR), to measure the actual volatility and potential
+scope in that time frame. Features of the ATR will be discussed in detail
+under “Technical versus Fundamental” below.
+You can’t afford to open a medium-term position with targets that call
+for the trade to “breathe,” that is, perform its logical wave fluctuation inside
+the particular range of each pair, with a 7- or 10-pip stop loss that will close
+the position much earlier than desired; maybe after half an hour or a few
+hours later, unless you get extremely lucky and are able to pick the top or
+bottom of the price.
+The ATR offers the exact measure for an adequate stop loss (you
+should add the spread and, if your risk level allows it, some additional pips
+to achieve increased safety). Based on this, you could expect double or
+triple the ATR value as a target profit if the position is successful and more
+so if it happens to be the bottom or top of a longer run and is followed up
+with trailing stops, especially if you are trading in the same direction as the
+higher-time-frame trend.
+For a 15-pip stop loss, a target profit of 45 pips is fine (risk-reward
+ratio 1:3). It’s not wise to place a stop loss much higher than the target you
+expect unless your strategy will give you a 90 percent record of winning
+trades, which is possible but probably won’t last for very long because the
+
+32
+
+FOREX TRADING SECRETS
+
+markets change and change quite a bit. The best option is not to go lower
+than 1:2 or at a minimum 1:1.5 (stop loss: 15 pips; target profit: 22 pips, or
+30/45, etc.). A 1:1 ratio also works if the performance of the strategy is
+above 50 percent.
+
+STOPS AND TARGETS
+HOW TO SET A STOP LOSS
+I have already mentioned ATR-based stop-loss sizing. There are other ways
+to define the level at which keeping a specific position open is no longer
+useful.
+Support/Resistance-Based Stops
+These are stops that are usually set at the most recent swing high or low or
+at a specific price that the market has bounced off of repeatedly. It is recommended to set the stops a couple of pips higher or lower than the area to
+allow for more safety.
+The parabolic stop and reverse (SAR) is another technical indicator
+that can help you set and trail a relatively safe stop loss, especially when the
+currency pair is trending. Be advised that this is not recommended in
+choppy or sideways markets.
+Trailing Stops
+There are two kinds of trailing stops. One is set automatically at a given distance from the price and is initiated at a set level, increasing thereafter
+every time the price advances in the direction set. The other way of using a
+trailing stop loss is manually, changing its price level as the trade develops.
+Automatic trailing stops can be set on the server side of the platform, which
+is the better option in case of a connection failure, or on the client side.
+A stop loss order is always used to exit a trade while at the same time
+limiting the eventual amount of loss. Some traders use them all the time as
+a regular exit strategy, whereas others will have “emergency stops” only, to
+be used in the event that something unpredictable occurs. A normal or regular stop usually is close to the price, depending on the time frame, and represents the maximum amount of loss the trader will allow himself or herself
+to lose on a single trade just in case it goes the wrong way.
+Backup and emergency stops are set up much farther out because the
+trader doesn’t expect them to be filled. They are set only to mitigate that
+unplanned power outage or connection issue that could harm the account
+financially and are seen as a last resort.
+
+CHAPTER 3
+
+ANYONE CAN LEARN THE FOREX
+
+33
+
+A stop-loss order always should be used because it allows a quick and
+automatic exit on bad trades, even if it the trader is not actively watching
+the trade. Some traders do not use stops because they fear that if their
+orders are visible in the market, they are more prone to be swept away by
+“stop hunting” or that they might get caught by unusual price spikes in
+moments of high volatility before the trade continues in the appropriate
+direction.
+Scalpers often trade without stop-loss orders because trades might be
+held for only a few seconds. However, there is still potential for trouble,
+and at least an emergency stop should be set up to avoid ending up with a
+margin call.
+
+TARGETS
+Targets (or take-profit levels) are represented by the number of points or
+pips a trader believes a currency pair will rise or fall depending on his or
+her strategy and time frame. Calculations can be made using several tools,
+supports and resistance, or the ATR and depend heavily on the time frame
+being traded. A higher time frame will allow the setting of wider targets,
+but this also will require a wider stop loss.
+
+SPREADS AND SWAPS
+SPREAD
+The spread is the difference between the bid and ask prices and typically
+constitutes the broker’s or financial institution’s profit on a transaction. The
+size of the spread is normally a measure of the volatility of a given market,
+but some brokers also offer fixed spreads. Most often spreads are widened
+at the moment of a news release, when higher volatility is expected.
+For example, if you want to exchange euros into dollars (selling euros
+and buying dollars), you will receive $1.2825 for each euro sold. Inversely,
+when you buy euros, you will have to pay $1.2827 each, assuming that the
+value of the spread at that moment is 2 points.
+
+SWAP
+The swap, also called the overnight or rollover interest, is the fee that is
+charged by the banks at the end of a 24-hour trading day on open positions
+and is calculated according to the respective interest rates of the currencies
+involved. In the FOREX, banks have determined that all trades must be settled within two business days. Traders who desire to keep their positions
+
+34
+
+FOREX TRADING SECRETS
+
+open must “close” the positions before 5 p.m. Eastern Time (ET) on the
+settlement day and reopen them at the start of the next trading day. This
+rolls over the settlement by another two trading days. This strategy is
+created through a swap agreement, and depending on the position’s direction and the interest rates of the currencies; it will generate a positive or
+negative amount.
+The trader is in fact borrowing money to sell one currency and purchasing the other, so the trader pays interest on the borrowed currency and
+earns on the purchased currency, the rollover interest being the net result of
+the different rate calculations.
+Although the interest rate for each currency is identical, swap rates
+may vary from broker to broker. Some have fixed rates on long and short
+positions until a rate change issued by the central banks, whereas others
+may vary the rates every day depending on the liquidity and volume of
+transactions.
+To be able to calculate a swap for a given currency pair, you need the
+short-term interest rates of both currencies, the actual price or exchange rate
+of the currency pair, and the amount of lots purchased. For example, let’s
+assume that a trader has an open position of 10,000 units long of EUR/USD.
+This is the number of euro units that he or she owns. The actual exchange rate
+is 1.2825 bid/1.2827 ask, the short-term interest rate paid on the euro purchase (base currency) is 2.35 percent, and the interest rate on the U.S. dollar
+short (the quoted currency) is 0.15 percent. In this case, the rollover interest
+earned would be [10,000 ⫻ (2.35% ⫺ 0.15%)]/(365 ⫻ 1.2825) ⫽ $0.47.
+On an inverse position (i.e., short EUR/USD), the interest paid with a
+short-term interest rate on short EUR of 1.85 percent and a short-term
+interest rate on long USD of 1.25 percent would be [10,000 ⫻ (1.25% ⫺
+1.85%)]/(365 ⫻ 1.2827) ⫽ ⫺$0.13.
+The interest is earned on the currency that is owned (long side) and
+paid on the currency that is being borrowed (short side).
+
+TECHNICAL VERSUS FUNDAMENTAL
+There are two types of analysis that can be applied to FOREX trading—
+fundamental and technical—and traditionally they are thought of as
+“opposed” views. There has always been a controversy about which one is
+better or which one is the “truest” one. The truth is that both are an important gauge and a reflection of the markets. Each one has its own methodology and rules.
+
+CHAPTER 3
+
+ANYONE CAN LEARN THE FOREX
+
+35
+
+I will be discussing each one in detail in Parts 4 and 5 of this book, but
+I want to give you a summary here that will help you to integrate both views
+into your basic trading skills.
+
+FUNDAMENTAL ANALYSIS
+Fundamental analysis helps you to understand the macroeconomic indicators and political decisions of every government. It provides you with
+an indication of the economic situation in a given country that results
+from political decisions that quite possibly have an effect on currency
+value. When a trader studies the global economic environment and the
+political situation of the day, he or she will be able to develop a perception of the world situation and its influence on the various markets
+involved. Unlike technical analysis, fundamental analysis focuses on the
+cause and not the effect.
+
+TECHNICAL ANALYSIS
+Technical analysis is used to interpret price charts. You can see what is happening in real time and react instantly. You also can study past prices and
+volumes and, based on that information, make projections of the probable
+levels to be attained.
+With several technical analysis tools, you can identify trends and patterns that reflect the buy and sell operations being made by all market
+participants at any given moment. Those trends and patterns can be seen
+on short, medium, and longer time frames, allowing the study of recurring patterns or particular conditions that are related to specific economic
+situations.
+You must be able to understand and apply both types of analysis because
+the best-studied technical strategy based on past action can go horribly
+wrong if fundamental events are not part of the equation.
+
+This page intentionally left blank
+
+C
+
+H
+
+4
+
+A
+
+P
+
+T
+
+E
+
+R
+
+PREPARING YOURSELF
+ADEQUATELY BEFORE
+JUMPING INTO
+THE MARKET
+FOREX TRADING ACCOUNTS
+Most brokers offer a wide array of trading accounts and different platforms.
+In almost every one of them, you will find a demo or practice account that
+will allow you to get acquainted with their platform’s particular characteristics and implement your strategies in a safe environment without the risk
+of losing any of your funds until you are totally confident about the
+mechanics involved.
+Real-money accounts are diversified to allow traders of any skill level
+and capitalization to start their trading career in the measure of their capabilities. The smallest trading accounts you can find are the micro- or mini
+accounts, where the starting capital required is usually very small (ranging
+from $25 to $500) and where there are certain limitations as to the number
+of lots traded. Almost all brokers offer a very high leverage on those starter
+accounts, which ranges from 100:1 to as much as 500:1.
+
+37
+
+38
+
+FOREX TRADING SECRETS
+
+In mini- or micro accounts, you can trade mini lots, which represent as
+little as 1/10 of a standard lot ($10,000) or 0.1 lot, with a small margin
+requirement, yielding $1 per pip. Some brokers even allow trading of
+microlots, which are 1/100 of a standard lot or 0.01 lot, at a value of 10
+cents per pip or nanolots ($100), which represent a value of approximately
+1 cent per pip.

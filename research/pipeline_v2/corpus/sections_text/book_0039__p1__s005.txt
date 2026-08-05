@@ -1,0 +1,283 @@
+
+42
+
+the development sample, however, may turn out to be a dreadful solution for the
+later sample on which genuine trades will be taken. Failure ensues, not because
+optimization has found a bad solution, but because it has found a good solution to
+the wrong problem!
+Optimization on inadequate samples is also good at spawning solutions that
+represent only mathematical artifact. As the number of data points declines to the
+number of free (adjustable) parameters, most models (trading, regression, or otherwise) will attain a perfect tit to even random data. The principle involved is the
+same one responsible for the fact that a line, which is a two-parameter model, can
+always be drawn through any two distinct points, but cannot always be made to
+intersect three arbitrary points. In statistics, this is known as the degrees-of-freedom
+issue; there are as many degrees of freedom as there are data points beyond that
+which can be fitted perfectly for purely mathematical reasons. Even when there are
+enough data points to avoid a totally artifact-determined solution, some part of the
+model fitness obtained through optimization will be of an artifact-determined
+nature, a by-product of the process.
+For multiple regression models, a formula is available that can be used to
+estimate how much “shrinkage” would occur in the multiple correlation coefficient (a measure of model fitness) if the artifact-determined component were
+removed. The shrinkage correction formula, which shows the relationship
+between the number of parameters (regression coefficients) being optimized, sample size, and decreased levels of apparent fitness (correlation) in tests on new samples, is shown below in FORTRAN-style notation:
+
+In this equation, N represents the number of data points, P the number of model
+parameters, R the multiple correlation coefficient determined for the sample by the
+regression (optimization) procedure, and RC the shrinkage-corrected multiple correlation coefficient. The inverse formula, one that estimates the optimizationinflated correlation (R) given the true correlation (RfJ existing in the population
+from which the data were sampled, appears below:
+
+These formulas, although legitimate only for linear regression, are not bad
+for estimating how well a fully trained neural network model-which is nothing
+more than a particular kind of nonhnezu regression-will generalize. When working with neural networks, let P represent the total number of connection weights
+in the model. In addition, make sure that simple correlations are used when working with these formulas; if a neural network or regression package reports the
+squared multiple correlation, take the square root.
+
+43
+
+Large Parameter Sets
+An excessive number of free parameters or rules will impact an optimization effort
+in a manner similar to an insufficient number of data points. As the number of elements undergoing optimization rises, a model’s ability to capitalize on idiosyncrasies in the development sample increases along with the proportion of the
+model’s fitness that can be attributed to mathematical artifact. The result of optimizing a large number of variables-whether rules, parameters, or both-will be
+a model that performs well on the development data, but poorly on out-of-sample
+test data and in actual trading.
+It is not the absolute number of free parameters that should be of concern,
+but the number of parameters relative to the number of data points. The shrinkage
+formula discussed in the context of small samples is also heuristically relevant
+here: It illustrates how the relationship between the number of data points and the
+number of parameters affects the outcome. When there are too many parameters,
+given the number of data points, mathematical artifacts and capitalization on
+chance (curve-fitting, in the bad sense) become reasons for failure.
+No Verification
+One of the better ways to get into trouble is by failing to verify model performance
+using out-of-sample tests or inferential statistics. Without such tests, the spurious
+solutions resulting from small samples and large parameter sets, not to mention
+other less obvious causes, will go undetected. The trading system that appears to
+be ideal on the development sample will be put “on-line,” and devastating losses
+will follow. Developing systems without subjecting them to out-of-sample and statistical tests is like flying blind, without a safety belt, in an uninspected aircraft.
+HOW TO SUCCEED WITH OPTIMIZATION
+Four steps can be taken to avoid failure and increase the odds of achieving successful optimization. As a first step, optimize on the largest possible representative
+sample and make sure many simulated trades are available for analysis. The second step is to keep the number of free parameters or rules small, especially in relation to sample size. A third step involves running tests on out-of-sample data, that
+is, data not used or even seen during the optimization process. As a fourth and final
+step, it may be worthwhile to statistically assess the results.
+Large, Representative Samples
+As suggested earlier, failure is often a consequence of presenting an optimizer with
+the wrong problem to solve. Conversely, success is likely when the optimizer is
+
+44
+
+presented with the right problem. The conclusion is that trading models should be
+optimized on data from the near future, the data that will actually be traded; do that
+and watch the profits roll in. The catch is where to find tomorrow’s data today.
+Since the future has not yet happened, it is impossible to present the optimizer with precisely the problem that needs to be solved. Consequently, it is necessary to attempt the next-best alternative: to present the optimizer with a broader
+problem, the solution to which should be as applicable as possible to the actual,
+but impossible-to-solve, problem. One way to accomplish this is with a data sample that, even though not drawn from the future, embodies many characteristics
+that might appear in future samples. Such a data sample should include bull and
+bear markets, trending and nontrending periods, and even crashes. In addition, the
+data in the sample should be as recent as possible so that it will reflect current patterns of market behavior. This is what is meant by a representative sample.
+As well as representative, the sample should be large. Large samples make it
+harder for optimizers to uncover spurious or artifact-determined solutions.
+Shrinkage, the expected decline in performance on unoptimized data, is reduced
+when large samples are employed in the optimization process.
+Sometimes, however, a trade-off must be made between the sample’s size
+and the extent to which it is representative. As one goes farther back in history to
+bolster a sample, the data may become less representative of current market conditions. In some instances, there is a clear transition point beyond which the data
+become much less representative: For example, the S&P 500 futures began trading in 1983, effecting a structural change in the general market. Trade-offs become
+much less of an issue when working with intraday data on short time frames,
+where tens of thousands or even hundreds of thousands of bars of data can be gathered without going back beyond the recent past.
+Finally, when running simulations and optimizations, pay attention to the
+number of trades a system takes. Like large data samples, it is highly desirable that
+simulations and tests involve numerous trades. Chance or artifact can easily be
+responsible for any profits produced by a system that takes only a few trades,
+regardless of the number of data points used in the test!
+Few Rules and Parameters
+To achieve success, limit the number of free rules and parameters, especially when
+working with small data samples. For a given sample size, the fewer the rules or
+parameters to optimize, the greater the likelihood that a trading system will maintain its performance in out-of-sample tests and real-time trading. Although several dozen parameters may be acceptable when working with several thousand
+trades taken on 100,000 l-minute bars (about 1 year for the S&P 500 futures),
+even two or three parameters may be excessive when developing a system using a
+few years of end-of-day data. If a particular model requires many parameters, then
+
+significant effort should be put into assembling a mammoth sample (the legendary
+Gann supposedly went back over 1,000 years in his study of wheat prices). An
+alternative that sometimes works is optimizing a trading model on a whole portfolio, using the same rules and parameters across all markets-a technique used
+extensively in this book.
+Verification
+
+of
+
+Results
+
+After optimizing the rules and parameters of a trading system to obtain good
+behavior on the development or in-sample data, but before risking any real money,
+it is essential to verify the system’s performance in some manner. Verification of
+system performance is important because it gives the trader a chance to veto faime and embrace success: Systems that fail the test of verification can be discarded, ones that pass can be traded with confidence. Verification is the single most
+critical step on the road to success with optimization or, in fact, with any other
+method of discovering a trading model that really works.
+To ensure success, verify any trading solution using out-of-sample tests or
+inferential statistics, preferably both. Discard any solution that fails to be profitable
+in an out-of-sample test: It is likely to fail again when the rubber hits the road.
+Compute inferential statistics on all tests, both in-sample and out-of-sample. These
+statistics reveal the probability that the performance observed in a sample reflects
+something real that will hold up in other samples and in real-time trading. Inferential
+statistics work by making probability inferences based on the distribution of profitability in a system’s trades or returns. Be sure to use statistics that are corrected for
+multiple tests when analyzing in-sample optimization results. Out-of-sample tests
+should be analyzed with standard, uncorrected statistics. Such statistics appear in
+some of the performance reports that are displayed in the chapter on simulators. The
+use of statistics to evaluate trading systems is covered in depth in the following chapter. Develop a working knowledge of statistics; it will make you a better trader.
+Some suggest checking a model for sensitivity to small changes in parameter values. A model highly tolerant of such changes is more “robust” than a model
+not as tolerant, it is said. Do not pay too much attention to these claims. In truth,
+parameter tolerance cannot be relied upon as a gauge of model robustness. Many
+extremely robust models are highly sensitive to the values of certain parameters.
+The only true arbiters of system robustness are statistical and, especially, out-ofsample tests.
+ALTERNATIVES
+
+TO
+
+TRADITIONAL
+
+OPTIMIZATION
+
+There are two major alternatives to traditional optimization: walk-forward optimization and self-adaptive systems. Both of these techniques have the advantage
+that any tests carried out are, from start to finish, effectively out-of-sample.
+
+46
+
+Examine the performance data, run some inferential statistics, plot the equity
+curve, and the system is ready to be traded. Everything is clean and mathematically unimpeachable. Corrections for shrinkage or multiple tests, worries over
+excessive curve-fitting, and many of the other concerns that plague traditional
+optimization methodologies can be forgotten. Moreover, with today’s modem
+computer technology, walk-forward and self-adaptive models are practical and not
+even difficult to implement.
+The principle behind walk-forward optimization (also known as walk-forward testing) is to emulate the steps involved in actually trading a system that
+requires periodic optimization. It works like this: Optimize the system on the data
+points 1 through M. Then simulate trading on data points M + I through M + K.
+Reoptimize the system on data points K + 1 through K + M. Then simulate trading on points (K + M) + 1 through (K + M) + K. Advance through the data series
+in this fashion until no more data points are left to analyze. As should be evident,
+the system is optimized on a sample of historical data and then traded. After some
+period of time, the system is reoptimized and trading is resumed. The sequence of
+events guarantees that the data on which trades take place is always in the future
+relative to the optimization process; all trades occur on what is, essentially, out-ofsample data. In walk-forward testing, M is the look-back or optimization window
+and K the reoptimization interval.
+Self-adaptive systems work in a similar manner, except that the optimization
+or adaptive process is part of the system, rather than the test environment. As each
+bar or data point comes along, a self-adaptive system updates its internal state (its
+parameters or rules) and then makes decisions concerning actions required on the
+next bar or data point. When the next bar arrives, the decided-upon actions are carried out and the process repeats. Internal updates, which are how the system learns
+about or adapts to the market, need not occur on every single bar. They can be performed at fixed intervals or whenever deemed necessary by the model.
+The trader planning to work with self-adapting systems will need a powerful, component-based development platform that employs a strong language, such
+as Cf f, Object Pascal, or Visual Basic, and that provides good access to thirdparty libraries and software components. Components are designed to be incorporated into user-written software, including the special-purpose software that
+constitutes an adaptive system. The more components that are available, the less
+work there is to do. At the very least, a trader venturing into self-adaptive systems
+should have at hand genetic optimizer and trading simulator components that can
+be easily embedded within a trading model. Adaptive systems will be demonstrated in later chapters, showing how this technique works in practice.
+There is no doubt that walk-forward optimization and adaptive systems will
+become more popular over time as the markets become more efficient and difficult to trade, and as commercial software packages become available that place
+these techniques within reach of the average trader.
+
+CHAPTER 3
+
+optimizers and OQtimizatio”
+
+47
+
+OPTIMIZER TOOLS AND INFORMATION
+Aerodynamics, electronics, chemistry, biochemistry, planning, and business are
+just a few of the fields in which optimization plays a role. Because optimization is
+of interest to so many problem-solving areas, research goes on everywhere, information is abundant, and optimization tools proliferate. Where can this information
+be found? What tools and products are available?
+Brute force optimizers are usually buried in software packages aimed primarily at tasks other than optimization; they are usually not available on their own.
+In the world of trading, products like TradeStation and SuperCharts from Omega
+Research (800-292.3453),
+Excalibur from Futures Truth (828-697-0273), and
+MetaStock from Equis International (800-882-3040) have built-in brute force optimizers. If you write your own software, brute force optimization is so trivial to
+implement using in-line progranuning code that the use of special libraries or
+components is superfluous. Products and code able to carry out brute force optimization may also serve well for user-guided optimization.
+Although sometimes appearing as built-in tools in specialized programs,
+genetic optimizers are more often distributed in the form of class libraries or software components, add-ons to various application packages, or stand-alone research
+instruments. As an example of a class library written with the component paradigm
+in mind, consider OptEvolve, the C+ + genetic optimizer from Scientific Consultant
+Services (516-696-3333): This general-purpose genetic optimizer implements several algorithms, including differential evolution, and is sold in the form of highly
+portable C+ + code that can be used in UNIXiLINUX, DOS, and Windows environments. TS-Evolve, available from Ruggiero Associates (800-21 l-9785) gives
+users of TradeStation the ability to perform full-blown genetic optimizations. The
+Evolver, which can be purchased from Palisade Corporation (800.432.7475) is a
+general-purpose genetic optimizer for Microsoft’s Excel spreadsheet; it comes with
+a dynamic link library (DLL) that can provide genetic optimization services to user
+programs written in any language able to call DLL functions. GENESIS, a standalone instrument aimed at the research community, was written by John Grefenstette
+of the Naval Research Laboratory; the product is available in the form of generic C
+source code. While genetic optimizers can occasionally be found in modeling tools
+for chemists and in other specialized products, they do not yet form a native part of
+popular software packages designed for traders.
+Information about genetic optimization is readily available. Genetic algorithms are discussed in many books, magazines, and journals and on Internet
+newsgroups. A good overview of the field of genetic optimization can be found in
+the Handbook of Generic Algorithms (Davis, 1991). Price and Storm (1997)
+described an algorithm for “differential evolution,” which has been shown to be an
+exceptionally powerful technique for optimization problems involving real-valued
+parameters. Genetic algorithms are currently the focus of many academic journals
+
+and conference proceedings. Lively discussions on all aspects of genetic optimization take place in several Internet newsgroups of which compaigenetic is the
+most noteworthy.
+A basic exposition of simulated annealing can be found in Numericnl
+Recipes in C (Press et al., 1992), as can C functions implementing optimizers for
+both combinatorial and real-valued problems. Neural, Novel & Hybrid Algorithms
+for Time Series Prediction (Masters, 1995) also discusses annealing-based optimization and contains relevant C+ + code on the included CD-ROM. Like genetic optimization, simulated annealing is the focus of many research studies,
+conference presentations, journal articles, and Internet newsgroup discussions.
+Algorithms and code for conjugate gradient and variable metric optimization, two fairly sophisticated analytic methods, can be found in Numerical Recipes
+in C (Press et al., 1992) and Numerical Recipes (Press et al., 1986). Masters (1995)
+provides an assortment of analytic optimization procedures in C+ + (on the CDROM that comes with his book), as well as a good discussion of the subject.
+Additional procedures for analytic optimization are available in the IMSL and the
+NAG library (from Visual Numerics, Inc., and Numerical Algorithms Group,
+respectively) and in the optimization toolbox for MATLAB (a general-purpose
+mathematical package from The MathWorks, 508-647-7000, that has gamed popularity in the financial engineering community). Finally, Microsoft’s Excel spreadsheet contains a built-in analytic optimizer-the Solver-that employs conjugate
+gradient or Newtonian methods.
+As a source of general information about optimization applied to trading system development, consult Design, Testing and Optimization qf Trading Systems by
+Robert Pardo (1992). Among other things, this book shows the reader how to optimize profitably, how to avoid undesirable curve-fitting, and how to carry out walkforward tests.
+
+WHICH OPTIMIZER IS FOR YOU?
+At the very least, you should have available an optimizer that is designed to make
+both brute force and user-guided optimization easy to carry out. Such an optimizer is already at hand if you use either TradeStation or Excalibur for system development tasks. On the other hand, if you develop your systems in Excel, Visual
+Basic, C+ +, or Delphi, you will have to create your own brute force optimizer.
+As demonstrated earlier, a brute force optimizer is simple to implement. For many
+problems, brute force or user-guided optimization is the best approach.
+If your system development efforts require something beyond brute force, a
+genetic optimizer is a great second choice. Armed with both brute force and genetic optimizers, you will be able to solve virtually any problem imaginable. In our
+own efforts, we hardly ever reach for any other kind of optimization tool!
+TradeStation users will probably want TS-Evolve from Ruggiero Associates. The
+
+Evolver product from Palisade Corporation is a good choice for Excel and Visual
+Basic users. If you develop systems in C+ + or Delphi, select the C+ + Genetic
+Optimizer from Scientific Consultant Services, Inc. A genetic optimizer is the
+Swiss Army knife of the optimizer world: Even problems more efficiently solved
+using such other techniques as analytic optimization will yield, albeit more slowly,
+to a good genetic optimizer.
+Finally, if you want to explore analytic optimization or simulated annealing,
+we suggest Numerical Recipes in C (Press et al., 1992) and Masters (1995) as
+good sources of both information and code. Excel users can try out the built-in
+Solver tool.
+
+C H A P T E R
+
+4
+
+Statistics
+
+M any trading system developers have little familiarity with inferential statistics.
+This is a rather perplexing state of affairs since statistics are essential to assessing
+the behavior of trading systems. How, for example, can one judge whether an
+apparent edge in the trades produced by a system is real or an artifact of sampling
+or chance? Think of it-the next sample may not merely be another test, but an
+actual trading exercise. If the system’s “edge” was due to chance, trading capital
+could quickly be depleted. Consider optimization: Has the system been tweaked
+into great profitability, or has the developer only succeeded in the nasty art of
+curve-fitting? We have encountered many system developers who refuse to use
+any optimization strategy whatsoever because of their irrational fear of curve-fitting, not knowing that the right statistics can help detect such phenomena. In short,
+inferential statistics can help a trader evaluate the likelihood that a system is capturing a real inefficiency and will perform as profitably in the future as it has in
+the past. In this book, we have presented the results of statistical analyses whenever doing so seemed useful and appropriate.
+Among the kinds of inferential statistics that are most useful to traders are
+t-tests, correlational statistics, and such nonparametric statistics as the runs test.
+T-rests are useful for determining the probability that the mean or sum of any
+series of independent values (derived from a sampling process) is greater or less
+than some other such mean, is a fixed number, or falls within a certain band. For
+example, t-tests can reveal the probability that the total profits from a series of
+trades, each with its individual profitAoss figure, could be greater than some threshold as a result of chance or sampling. These tests are also useful for evaluating sanpies of returns, e.g., the daily or monthly returns of a portfolio over a period of
+years. Finally, t-tests can help to set the boundaries of likely future performance
+51

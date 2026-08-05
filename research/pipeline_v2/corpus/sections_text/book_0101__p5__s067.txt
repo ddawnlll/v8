@@ -1,0 +1,1001 @@
+
+AU3772_book.fm Page 701 Saturday, November 18, 2006 5:29 PM
+
+Appendix E
+
+701
+
+Chapter 8
+Further Study
+Where do you go from here? There is no substitute for experience.
+The humorist Barry Le Platner said: “Good judgment comes from experience,
+and experience comes from bad judgment.” If you want to become a trader,
+you must start to trade. There is no substitute. You must also make mistakes.
+Making mistakes is part of trading. If you don’t start trading using actual
+money — and enough money that it affects you when you win or lose —
+you won’t learn all the lessons of trading. Paper trading is not a substitute
+for trading with real money. If you aren’t using real money, you won’t learn
+how hope, fear, and greed affect you personally.
+At the same time, it is important to get a thorough understanding of the
+fundamentals of trading. Armed with this knowledge you will make fewer
+mistakes, and you will learn much more quickly from the mistakes that you
+do make.
+Here are some suggested areas for further study:
+
+Trading Psychology
+Trading psychology is the most important aspect of trading, and understanding yourself and your own personality as it relates to your trading is critical.
+This journey is much more about making a sincere and open-minded attempt
+to understand your own personal psychology than it is about finding the
+magic psychology book with all the answers.
+
+Money Management
+Money management is the most important aspect of a mechanical trading
+system. Controlling risk in a manner that will allow you to continue trading
+through the inevitable bad periods, and survive to realize the profit potential
+of good systems, is absolutely fundamental. Yet, the interplay between entry
+signals, exits and money management is often non-intuitive. Study and
+research into the state-of-the-art in money management will pay enormous
+dividends.
+
+Trading Research
+There is no substitute for statistically valid historical research when developing mechanical trading systems. In practice, this means learning how to
+program a computer to run simulations of trading system performance.
+There is a lot of good information on curve-fitting, over-optimization,
+trading statistics and testing methodologies on the web and in books, but
+the information is a bit hard to find amongst the hype and bull. Be skeptical,
+but keep an open mind, and your research will pay off.
+
+AU3772_book.fm Page 702 Saturday, November 18, 2006 5:29 PM
+
+702
+
+Technical Analysis of Stock Trends
+
+Final Warning
+There are a lot of individuals who try to sell themselves and their advice as
+“expert.” Don’t blindly accept the advice of these self-proclaimed experts.
+The best advice comes from those who aren’t selling it, and who make their
+money trading. There are many books and biographies that give insights
+into the habits of those who have been — or who are — successful traders.
+Learning how to become a good trader — or even an excellent trader —
+is possible, but it requires a lot of hard work and a healthy dose of skepticism.
+For those of us who have chosen this path, the journey never ends. Those
+who continue to be successful will never reach their destination, but will
+learn to find joy in the journey itself.
+
+AU3772_A006.fm Page 703 Sunday, November 19, 2006 2:42 PM
+
+List of Illustrations and Text Diagrams
+Regarding the illustrations in this book, except for those which are marked
+as adapted from other sources, the charts listed as Figures below have been
+reproduced from the authors’ own “working” charts. As such, they were
+made up originally for private use only and without a thought to their
+eventual reproduction, much less their publication. They are not and do not
+pretend to be works of art, but it is hoped that they will, despite their
+“homemade” appearance, serve the purpose of illustrating the various formations, patterns, market phenomena, and trading principles discussed in
+the text. That they do not show the clean line and expert lettering of a
+professional draftsman’s work is regretted. The reader will, we trust, make
+allowances.
+As for their selection, it should be stated most emphatically that it was
+not necessary to search through thousands of charts in order to find good
+examples of all these various technical formations. Many dozens, even hundreds, were available for practically every type of pattern. Anyone who has
+learned to recognize them can find for himself plenty of good technical
+pictures in a quick examination of even as small a portfolio as 50 or 100
+charts. In other words, the illustrations in this book are in no sense unique.
+In selecting them, we have tried only to show as much variety as possible
+and samples from previous as well as more recent (EN: up to the year 2005)
+market history.
+Perhaps it is not necessary, but it is at least in accord with custom, to
+add that the information as to specific market prices, volume of transactions,
+etc., used in preparing our illustrations (or cited in the text of this book) has
+been derived from sources believed to be reliable, but is not guaranteed.
+EN: All graphics (except those after Figure 274) added by the editor for the
+eighth (and ninth) editions are identified by a “x.1” number; thus, DIAGRAM
+10.1 or FIGURE 10.1 is new and chosen by same.
+
+703
+
+AU3772_A006.fm Page 704 Sunday, November 19, 2006 2:42 PM
+
+704
+
+Technical Analysis of Stock Trends
+
+Part One
+Figure
+
+1
+2
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+9.1
+9.2
+10
+11
+
+12
+13
+14
+15
+16
+17
+
+Page
+
+UNITED STATES STEEL. Monthly price ranges from
+January 1929 to December 1946.
+Important swings of the DOW–JONES INDUSTRIAL AND
+RAIL AVERAGES, 1941 through 1946.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, February 1
+to August 31, 1941.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, March 2 to
+October 31, 1942.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, November 2,
+1942, to June 30, 1943.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, July 1, 1943,
+to January 31, 1944.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, May 1 to
+November 30, 1945.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, December 1,
+1945, to May 31, 1946.
+The DOW–JONES INDUSTRIAL AND RAIL AVERAGES.
+Daily closing prices and total market volume, May 4 to
+October 19, 1946.
+The DOW–JONES INDUSTRIAL AVERAGE marked with
+Dow Theory Signals 1
+The DOW–JONES INDUSTRIAL AVERAGE marked with
+Dow Theory Signals 2
+HUMANA, INC. Daily, 1988. Head-and-Shoulders Top.
+CHICAGO, MILWAUKEE, ST. PAUL & PACIFIC. The
+Head- and-Shoulders Top Formation which ended its Bull
+Market in February 1946.
+WESTINGHOUSE ELECTRIC. The Head-and-Shoulders
+Top of January through February 1946.
+TELEDYNE, INC. 1984. Large Head-and-Shoulders Top.
+IC INDUSTRIES. 1986. Head-and-Shoulders Top.
+DUPONT. Its Major Top in 1936, with an unusual Pullback.
+CONSOLIDATED EDISON COMPANY of New York. The
+Head-and-Shoulders Reversal of 1937.
+REPUBLIC AVIATION. Its 1946 Bull Market Top. The Headand-Shoulders measuring formula.
+
+5
+26
+27
+
+29
+
+31
+
+33
+
+35
+
+37
+
+39
+
+51
+52
+61
+63
+
+64
+65
+66
+67
+68
+69
+
+AU3772_A006.fm Page 705 Sunday, November 19, 2006 2:42 PM
+
+List of Illustrations/Diagrams
+
+705
+
+Figure
+
+Page
+
+18
+19
+
+20
+
+20.1
+21
+22
+23
+23.1
+23.2
+24
+25
+26
+27
+
+28
+29
+30
+31
+32
+33
+34
+35
+
+36
+
+WALT DISNEY PRODUCTIONS. 1986.
+Head-and-Shoulders Top.
+NEW YORK CENTRAL. Head-and-Shoulders Top in June
+through July 1945, followed by a Multiple
+Head-and-Shoulders Bottom.
+UNION CARBIDE & CARBON. The Head-and-Shoulders
+within a Head-and-Shoulders Top Formation which capped
+its 1929 Bull Market.
+S&P 500. A Massive 10 year Head-and-Shoulders , ca 2005?
+LOCKHEED AIRCRAFT. A Head-and-Shoulders Bottom
+Reversal in December 1943.
+DOME MINES. Weekly chart showing the Major Head-andShoulders Bottom of 1942.
+FEDERAL NATIONAL MORTGAGE ASSOCIATION. 1984.
+Head-and-Shoulders Bottom.
+ILLUSTRATION OF KILROY BOTTOM
+DOW INDUSTRIALS. 2003 Kilroy (H&S) Bottom.
+MCA, INC. 1986. Complex Head-and-Shoulders Top.
+BUDD MANUFACTURING (now The Budd Company).
+Multiple Head-and-Shoulders Top of 1946.
+AMERICAN LOCOMOTIVE. Extended top of Multiple
+type, 1946.
+DIGITAL EQUIPMENT CORPORATION. 1985. From a
+Head- and-Shoulders Top to Complex Head-and-Shoulders
+Bottom.
+ARCHER DANIELS MIDLAND COMPANY. 1984.
+Complex Head-and-Shoulders Bottom.
+GENERAL BRONZE. Multiple type Bottom formed
+July–September 1945.
+AMDAHL CORPORATION. 1984. Complex Head-andShoulders Bottom.
+PUBLIC SERVICE CORP. OF NJ. Weekly chart showing
+Multiple Bottom pattern of 1941 to 1942.
+NATIONAL SUPPLY. The “two-headed” Top Formation of
+1946.
+PHILLIPS PETROLEUM. The 1946 Top — a Multiple
+Pattern merging into a Rounding Turn.
+AMERICAN & FOREIGN POWER 2ND PFD. A. A Rounding
+Bottom formed in 1945.
+AMERICAN SAFETY RAZOR. Monthly chart. Two Major
+Bottoms — a Head-and-Shoulders in 1932 and “Bowl” in
+1942.
+THE BUDD COMPANY. Monthly chart showing Major
+Rounding Bottom of 1942.
+
+70
+71
+
+72
+
+73
+76
+77
+78
+79
+80
+81
+82
+83
+84
+
+85
+86
+86
+87
+88
+89
+89
+90
+
+91
+
+AU3772_A006.fm Page 706 Sunday, November 19, 2006 2:42 PM
+
+706
+
+Technical Analysis of Stock Trends
+
+Figure
+
+37
+38
+39
+40
+41
+42
+43
+44
+
+45
+46
+47
+
+48
+49
+50
+51
+52
+53
+
+54
+55
+56
+57
+
+Page
+
+CERTAINTEED PRODUCTS. Monthly chart. Major
+Rounding Bottom of 1942.
+J.I. CASE. The Rounding Bottom of 1932 showing a
+temporary rally out of pattern.
+GAMEWELL COMPANY. A “dormant” type of Rounding
+Bottom in 1944.
+INLAND STEEL. Semi-dormant Rounding Bottom of 1935.
+APPLIED MAGNETIC CORPORATION. 1988. Saucer-like
+Pattern.
+CRAY RESEARCH. 1987. Gap and Rounding Top.
+NORTHERN INDIANA PUBLIC SERVICE. A magnificent
+Scalloping tendency.
+HUDSON BAY MINING AND SMELTING. Major Bottom
+of 1941 to 1942, a perfect Symmetrical Triangle. Weekly
+chart.
+SEARS, ROEBUCK. Symmetrical Triangle Top of 1946, and
+subsequent step-down pattern of same form.
+JOHNS–MANVILLE. Triangular Bottom development of
+1941 to 1942. Weekly chart.
+DELAWARE & HUDSON. Weekly chart. Wide-swinging
+Symmetrical Triangle Bottom of 1941 to 1942 with
+Throwback to apex Support.
+CUBAN-AMERICAN SUGAR. A Rounding Bottom in 1945
+which merged into a Symmetrical Triangle.
+NATIONAL GYPSUM. A false move out of the extreme
+apex of a Symmetrical Triangle.
+NORTH AMERICAN COMPANY. Symmetrical Triangle
+topping a recovery from a Panic Low in 1937.
+VERTIENTES — CAMAGUEY SUGAR of Cuba.
+Triangular- like development at 1946 Top.
+EASTERN AIRLINES. A Symmetrical Triangle in 1947 that
+did not carry through.
+NATIONAL GYPSUM. A typical Symmetrical Triangle
+leading to continuation of the preceding trend in 1944 to
+1945. Weekly chart.
+U.S. INDUSTRIAL CHEMICALS. Triangular Pattern
+completing an extended reaccumulation period.
+AMERICAN BANKNOTE. The Major Bottom Reversal of
+1941 to 1942.
+CELANESE CORPORATION. Ascending Triangle of
+consolidation type in 1946.
+BRIGGS MANUFACTURING. Weekly chart of 1941 to 1943
+showing Triangular Bottom of ascending type.
+
+91
+92
+93
+94
+95
+96
+97
+101
+
+102
+104
+105
+
+106
+107
+108
+109
+110
+111
+
+112
+113
+114
+115
+
+AU3772_A006.fm Page 707 Sunday, November 19, 2006 2:42 PM
+
+List of Illustrations/Diagrams
+
+707
+
+Figure
+
+Page
+
+58
+
+59
+60
+
+61
+62
+63
+64
+65
+66
+67
+
+67.1
+68
+69
+70
+71
+72
+73
+74
+
+75
+76
+
+SEARS, ROEBUCK. The Symmetrical Descending Triangle
+Top of 1936 and subsequent Intermediate Recovery Bottom
+of ascending form.
+SOUTHERN RAILWAY PREFERRED. A perfect Ascending
+Triangle in 1936.
+ARMOUR & COMPANY. Long Ascending Triangle in 1946
+to 1947 in which distribution eventually overcame upward
+trend.
+SOCONY–VACUUM OIL. Ascending Triangle forming
+head of Head-and-Shoulders Bottom in 1942. Weekly chart.
+BATH IRON WORKS. Descending Triangle Top of 1946,
+showing adjustment of pattern lines for Ex-Dividend Gap.
+REVERE COPPER & BRASS. Large Descending Triangle
+Top of 1946.
+WESTINGHOUSE ELECTRIC. The Descending Triangle
+which topped out “WX” ahead of the general market.
+HUDSON MOTOR CAR. Series of Triangles in the 1929–32
+Bear Market. Weekly chart.
+AMERICAN ROLLING MILL. The “hybrid” pattern of
+ascending type which formed in 1941 to 1943. Weekly chart.
+GOODRICH (B.F) COMPANY. The remarkably small but
+perfect Ascending Triangle which reversed its Major Trend
+in 1942. Weekly chart.
+EBAY. 2004 Descending Triangle Surprise.
+NASH–KELVINATOR. Rectangular distribution area of
+1945 to 1946.
+LIMA LOCOMOTIVE WORKS. Rectangular pattern of
+“conflict” in 1944 to 1945.
+LOEW’S, INC. Perfect Rectangle of the “pool operation”
+type, 1936.
+SOCONY–VACUUM OIL. Rectangle Top Formation of
+1946.
+YOUNGSTOWN SHEET & TUBE. Major Top of Rectangle
+formed in 1946.
+EASTERN AIRLINES. Long Consolidation ending in
+Rectangle in early 1945.
+AMERICAN ZINC, LEAD & SMELTING. The
+Consolidation Rectangle which followed a
+Head-and-Shoulders Top in 1946.
+SEARS, ROEBUCK. A “hybrid” Major Bottom Formation
+in 1941 to 1942.
+BELL AIRCRAFT. Ex-dividend drop causing apparent false
+move out of Rectangle in 1945.
+
+116
+
+117
+118
+
+120
+121
+122
+123
+124
+125
+126
+
+127
+130
+131
+133
+134
+135
+136
+137
+
+138
+139
+
+AU3772_A006.fm Page 708 Sunday, November 19, 2006 2:42 PM
+
+708
+
+Technical Analysis of Stock Trends
+
+Figure
+
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+
+89
+90
+
+91
+92
+93
+94
+95
+96
+96.1
+97
+98
+
+Page
+
+KENNECOTT COPPER. Series of Consolidation
+Formations in 1937 Bear Trend.
+UNITED AIRCRAFT. The Double Bottom of 1942. Weekly
+chart.
+INCO COMPANY, LTD. Subsequent to the October crash,
+developed a large Head-and-Shoulders Top.
+REPUBLIC STEEL. Major Double Top of 1946 with
+subsidiary patterns.
+AMERICAN AIRLINES. Weekly Chart. Bull Market Top of
+1945 to 1946, a form of Double Top.
+CONTAINER CORPORATION. The Major Double Bottom
+of 1941 to 1943. Weekly chart.
+TRINITY INDUSTRIES. 1985. Triple Bottom.
+PUBLICKER INDUSTRIES. Triple Top of 1946.
+NATIONAL GYPSUM. Triple Bottom of 1941 to 1942.
+Weekly chart.
+CRANE COMPANY. Broadening Formation of 1945 to 1946,
+a warning of final top.
+AIR REDUCTION. The classic Broadening Top of 1929.
+AMERICAN ROLLING MILLS. Small Broadening Top of
+1946 at the end of a generally broadening (and Bearish)
+Formation.
+CONSOLIDATED EDISON. Major Broadening Top on
+weekly chart of 1935 to 1938.
+INTERNATIONAL PAPER. Showing a form of
+“broadening” which is of doubtful technical significance.
+Weekly chart, 1945 to 1947.
+ASSOCIATED DRYGOODS. Right-Angled Broadening
+Formation with horizontal Top, 1945.
+PARAMOUNT PICTURES. The 1946 top, a Right-Angled
+Broadening Pattern with horizontal bottom line.
+ALLIED STORES. Flat-topped Broadening Pattern of 1945,
+and Breakout Gaps.
+U.S. STEEL. The three-month Diamond which formed the
+1946 Bull Market Top.
+AMERICAN BOSCH CORPORATION. A Diamond Pattern
+in 1945 which functioned as a Consolidation.
+SHELL UNION OIL. 1946 Major Diamond Top and
+Descending Triangle.
+DOW INDUSTRIALS. 1999-2000 Diamond.
+HUDSON MOTORS. The 1946 Major Top, a Diamond or
+Complex Head-and-Shoulders.
+U.S. STEEL. The Wedge as part of a Rounding Top on the
+August 1937 recovery.
+
+140
+141
+142
+143
+145
+146
+147
+148
+149
+152
+156
+157
+
+158
+159
+
+160
+162
+163
+164
+164
+165
+166
+167
+168
+
+AU3772_A006.fm Page 709 Sunday, November 19, 2006 2:42 PM
+
+List of Illustrations/Diagrams
+
+709
+
+Figure
+
+Page
+
+99
+100
+101
+102
+102.1
+103
+103.1
+104
+104.1
+104.2
+104.3
+104.3.1
+104.4
+104.4.1
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+114.1
+115
+
+LOEW’S, INC. Falling Wedge of classic form in 1936; Flag
+and Rectangle.
+SCHENLEY DISTILLERS. A large Wedge which signaled a
+Primary Top in 1946. Weekly chart.
+TRANSCONTINENTAL & WESTERN AIRLINES. Major
+One-Day Reversal and long downtrend. 1945 to 1946.
+GREYHOUND CORPORATION. A conspicuous One-Day
+Reversal at the 1946 Bull high.
+APPLE. Panic selling and climax in Apple, 1987 Crash.
+NEW YORK CENTRAL. A typical Panic Selling Climax in 1937.
+DOW INDUSTRIALS. 1987 Reagan Crash.
+NATIONAL CASH REGISTER. An example of “One-Week
+Reversal” in 1941. Weekly chart.
+QUALCOMM. A church spire top in Qualcomm.
+MICROSOFT. A key reversal day in March.
+EBAY. As Ebay broke its trendline and drifted sideways it
+became a good subject for reversal day trading.
+EBAY. 2004-5 Astonishing Ebay breaks away on wings of
+great business.
+LUCENT. Late 20th, early 21st century schizophrenia.
+LUCENT. Fortune telling (or loss of fortune telling) by the
+chart.
+MARTIN–PARRY. Ideal Flag in rapid advance of 1945.
+NATIONAL GYPSUM. An up Flag and another false move
+from apex of Triangle. 1945.
+NASH–KELVINATOR. Flag of “Half-Mast” type preceding
+1937 Bull Market Top.
+VANADIUM CORPORATION. Rapid sequence of small
+Consolidation Formations in 1936 to 1937.
+BRIGGS. Bull and Bear Flags and Symmetrical Triangle Top
+in 1936. Support–Resistance phenomena.
+ANACONDA COPPER. Wedge or Pennant, Flag and
+Runaway Caps in 1936–37.
+PACIFIC TIN. Flag, following and succeeded by Triangles,
+in 1944.
+MULLINS MANUFACTURING. B. An overlong Flag which
+worked nevertheless. 1936.
+WYANDOTTE WORSTED. Application of measuring
+formula to Flag. 1946.
+AMERICAN WOOLEN. Perfect “Half-Mast” Pattern in
+1946, with gaps and Ascending Triangle.
+MO. 2005 gaps and flags galore.
+AMERICAN LOCOMOTIVE. A Flag in 1935 which
+appeared to fail but finally came through.
+
+169
+170
+171
+173
+174
+175
+176
+178
+182
+183
+184
+185
+186
+187
+190
+191
+192
+193
+194
+195
+196
+197
+199
+200
+201
+202
+
+AU3772_A006.fm Page 710 Sunday, November 19, 2006 2:42 PM
+
+710
+
+Technical Analysis of Stock Trends
+
+Figure
+
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+
+Page
+
+ANACONDA COPPER. Head-and-Shoulders
+Consolidations in 1936, and measuring Flag.
+AMERICAN & FOREIGN POWER 2D PFD. A. Head-andShoulders Consolidation Pattern of 1945.
+MIAMI COPPER. A genuine Scallop uptrend in 1945.
+COMMONWEALTH EDISON. Scalloping trend of an
+investment stock, 1945.
+INTERNATIONAL TELEPHONE & TELEGRAPH. Saucerlike Consolidation in 1944.
+FLINTKOTE. Consolidation Formation — a Symmetrical
+Triangle — providing signal of Primary Reversal.
+AMERICAN WATER WORKS & ELECTRIC. Common or
+Pattern Gaps in a Rectangle; Runaway Gap and Flag. 1945.
+BETHLEHEM STEEL. Three types of Breakaway Gap. 1937.
+ZENITH RADIO. Strong Breakaway Gap on weekly chart
+of 1942 Major Bottom.
+ZENITH RADIO. Monthly chart of 1936 to 1946 for
+comparison with Figure 124.
+BLAW–KNOX. Gaps following long Rectangle in early
+1946, and Major Double Top.
+BALTIMORE & OHIO. The measuring formula applied to
+a Runaway Gap in early 1937.
+SOUTHERN PACIFIC. A large Measuring Gap in the Panic
+Decline of late 1937.
+WILLYS–OVERLAND. Various types of gaps in 1944, and
+Head-and-Shoulders Reversal.
+A.O. SMITH CORPORATION. A technically significant
+(Runaway) Gap in 1946 decline. Weekly chart.
+BALTIMORE & OHIO PFD. Small Island in right shoulder
+of Major Head-and-Shoulders Top. 1946.
+LION OIL COMPANY. An Island “shakeout” in a thin stock.
+1947.
+BETHLEHEM STEEL. Unusual Island Reversal at the 1937
+Bull Top.
+PENNSYLVANIA RAILROAD. Changes in technical lines
+required by ex-dividend decline.
+JONES & LAUGHLIN. Normal trend action illustrating
+Support and Resistance. Weekly chart, 1944 to 1947.
+BENDIX AVIATION. Support–Resistance Levels in an
+Intermediate Uptrend. 1944 to 1945.
+NATIONAL DISTILLERS. 1926 to 1947 monthly chart
+showing Major Support–Resistance Levels.
+KRESGE (S.S.) COMPANY. 1936 to 1946 monthly chart
+showing important Support–Resistance Levels.
+
+203
+204
+205
+206
+208
+209
+213
+216
+217
+218
+220
+221
+222
+224
+225
+226
+226
+228
+229
+234
+237
+238
+240
+
+AU3772_A006.fm Page 711 Sunday, November 19, 2006 2:42 PM
+
+List of Illustrations/Diagrams
+
+711
+
+Figure
+
+Page
+
+139
+140
+141
+142
+
+143
+144
+145
+146
+
+147
+148
+149
+150
+151
+
+152
+153
+154
+155
+156
+157
+158
+159
+160
+
+JEWEL TEA. Major Support–Resistance Levels on 1936 to
+1946 monthly chart.
+REMINGTON RAND. Descending Triangle Top and
+significant failure of Support. Weekly chart, 1945 to 1947.
+YORK CORPORATION. Measuring Gap and long
+Rectangle. 1945 to 1946.
+YORK CORPORATION. Sequel to Figure 141. Rectangle
+Support, false move from apex of Triangle, and Double Top.
+1946.
+GOODYEAR TIRE. Four Pullbacks to neckline of
+Head-and- Shoulders Top. Weekly chart, 1945 to 1947.
+INTERNATIONAL TELEPHONE & TELEGRAPH. Support
+“field” of Symmetrical Triangle. 1945.
+INTERLAKE IRON. “End run” following a late breakout
+from Symmetrical Triangle. 1944.
+SOUTHERN RAILWAY. Typical Pullbacks to Head-andShoulders Neckline, and increase of volume as Support is
+violated. 1946.
+ATLANTIC REFINING. Basic Intermediate Trendlines on
+weekly chart, 1944 to 1947.
+ATCHISON, TOPEKA & SANTA FE. Acceleration of
+Intermediate Uptrend in 1936. Support Levels.
+CRANE COMPANY. Short-term trendlines in 1945, and
+examples of channel “failure” and Pullback.
+COMMERCIAL SOLVENTS. Intermediate Downtrend and
+Uptrend in 1946.
+PHILLIPS PETROLEUM. An exception to the normal
+consequences of valid trendline penetration. Weekly chart,
+1935 to 1938.
+PARAMOUNT PICTURES. Double trendlines in
+accelerated Intermediate Advance. 1945 to 1946.
+BETHLEHEM STEEL. Trend Channels and Rectangle. 1945.
+PAN AMERICAN AIRWAYS. Descending Triangle Top and
+long, Double Downtrend Channel. 1945 to 1946.
+SOUTHERN PACIFIC. Intermediate Basic and Return Lines
+and Flags within Trend Channel. 1945.
+HUDSON MOTORS. Measuring implications of “failure”
+in Trend Channel. 1945.
+CONSOLIDATED VULTEE. Part of a two-year Uptrend
+Channel. 1945.
+NASH–KELVINATOR. Downtrend Channel in 1946.
+R.H. MACY. Complex Top in 1946 and penetration of
+Intermediate Up Trendline. Tentative Fan Lines.
+ARKANSAS BEST. 1987. Fan and Head-and-Shoulders
+Bottom.
+
+242
+243
+244
+245
+
+248
+249
+250
+251
+
+255
+257
+259
+261
+263
+
+265
+266
+267
+269
+269
+271
+272
+273
+274
+
+AU3772_A006.fm Page 712 Sunday, November 19, 2006 2:42 PM
+
+712
+
+Technical Analysis of Stock Trends
+
+Figure
+
+161
+162
+163
+164
+165
+166
+167
+
+168
+169
+
+170
+171
+172
+173
+174
+175
+
+176
+177
+178
+179
+
+179.1
+179.2
+179.3
+
+Page
+
+BARBER ASPHALT. Application of three-fan principle to
+Bull Market Reaction. 1946.
+DELAWARE & HUDSON. Application of three-fan
+principle to Bull Market Reaction. 1944.
+BACYRUS ERIE. 1984. Excellent Fan Pattern.
+GENERAL MOTORS. Straight-line Bull Trend. Monthly
+chart, 1938 to 1946.
+HUDSON MOTORS. Up-curving Bull Trend. Monthly
+chart, 1938 to 1946.
+CURTIS PUBLISHING $7 PFD. Typical decurving Bull
+Trend of preferred stocks. Monthly chart, 1938 to 1946.
+CURTIS PUBLISHING COMMON. Accelerating Bull Trend
+of low-priced, speculative common stocks. Monthly chart,
+1938 to 1946.
+COMMONWEALTH EDISON. Straight-line Bull Trend of
+investment type utility. Monthly chart, 1938 to 1946.
+INTERNATIONAL HYDRO-ELECTRIC. Up-curving Bull
+Trend of a high leverage junior utility stock. Monthly chart,
+1938 to 1946.

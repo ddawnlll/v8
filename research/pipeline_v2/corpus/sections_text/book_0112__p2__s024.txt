@@ -1,0 +1,464 @@
+
+Trend-following systems
+Trend following is favored by many technicians for one simple reason:
+Trends offer excellent opportunities for profit. Unfortunately, the popularity
+of the trend-following approach is one of its weaknesses. Too many of these
+systems generate many similar buy and sell signals, which, in turn, makes
+outperforming the average trader difficult for any individual trend-following
+trader.
+Even the best trend-following systems have a relatively large percentage of
+failed trades, primarily because they depend on several extremely profitable
+trades to make up for the large percentage of losing trades. If your trendfollowing system also is a discretionary system, your discretion (or lack of
+it) can cause you to miss a few of these profitable trades, and your overall
+results will suffer.
+Trend-following systems typically are based on either moving averages or
+breakout patterns (see Chapters 9 and 11). Moving average–based trading systems are the most popular and can be quite profitable; however, they work
+only when a stock is trending. These trading systems depend on long-lasting
+trends to generate enough profit to outweigh a relatively large number of
+losing trades. In fact, the number of losing trades can easily outnumber winning trades with this trading system. When a stock is range bound (stuck in a
+specific price range), a moving-average system generates a large number of
+losing trades. Because of the large overall number of trades, this system often
+is accompanied by relatively high transaction and slippage costs (see the section “Accounting for slippage”). Money management is critical when using a
+trend-following trading system.
+You can make some adjustments to a trend-following system that may
+improve its performance. For example, you can insist that its trading signals
+be confirmed by another condition before actually entering any positions. If
+your system triggers a buy signal, for example, you may want to see whether
+the signal remains in effect for at least a day or two before entering a position. We show some examples of moving-average and breakout systems,
+along with some ideas to improve the performance of these systems, in the
+section “Developing and Testing Trading Systems.”
+
+Chapter 15: Developing Your Own Powerful Trading System
+
+Countertrend systems
+For many traders, the quest to find a profitable countertrend trading system is
+all-consuming. Countertrend systems appear desirable because their goal is to
+buy low and sell high. These systems try to identify inflection points, or the
+moments when stocks change direction, so traders can take positions close to
+when they occur. This approach may work in a few narrowly defined situations, such as in a trading range (Chapter 9) or a trend channel (Chapter 10),
+but it is likely to fail in a spectacular and expensive way if attempted on a
+broader scale.
+The vast majority of trading systems follow market trends. Trend-following
+systems tend to outperform countertrend systems, especially for position
+traders. Swing traders and some day traders sometimes use a countertrend
+approach, but even then, they usually do so in conjunction with a trendfollowing component.
+Countertrend systems usually depend on oscillating indicators, reversal patterns, and channeling strategies to find turning points. Some countertrend
+systems also are based on cycle theory, and others are based on volatility,
+expansion, and contraction. We briefly review some of these techniques in
+Chapter 16.
+We discourage you from spending too much time evaluating countertrend systems, at least until you’re confident in your ability to use trend-following systems to successfully make your trades. Countertrend systems generate a large
+volume of trades, and the more you trade, the more you spend on transaction
+and slippage costs. These costs alone often swamp potentially profitable systems. Although a countertrend strategy can sometimes work profitably in a
+trading range or trend channel (Chapters 9 and 10), it is still risky, especially
+for a new trader.
+
+Selecting System-Development Tools
+Conceptually, you can use the back of an envelope to develop your tradingsystem ideas. However, most traders want some way of confirming that their
+newly designed systems can perform profitably before they commit real trading capital. That means you need a way to test your system, which further
+means using computer software to precisely define the system and evaluate
+its performance. Typically, this requires simulating trades by using historical
+data.
+
+243
+
+244 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Regardless of whether you decide on a mechanical or a discretionary
+approach to trading, your system will benefit from testing. Although thoroughly testing a discretionary system is difficult, you can still test the component indicators to learn when they do and don’t provide effective trading
+signals. To begin, you need a computer, development and testing software,
+and historical data.
+
+Choosing system-development hardware
+Doing the math that’s required when testing your system can really slow
+down your computer, and it can generate a lot of data. Almost any computer
+will do the job when you’re getting started, but if you end up testing many
+system ideas, you definitely need a large amount of disk storage and a fast
+computer. The computer equipment required to run a proprietary trading
+platform, including products such as TradeStation or MetaStock, is usually
+enough for system development and testing. (See Chapter 4 for more information about the hardware requirements for a typical proprietary trading
+platform.)
+
+Selecting system-development software
+Many trading system–development and testing products are on the market.
+Some proprietary trading platforms, such as TradeStation or MetaStock,
+include system-testing capabilities. Spreadsheet software, like Microsoft’s
+Excel, also is useful for analyzing simple trading systems and for analyzing
+the results generated by specialized-development and testing software.
+
+Trading system–development and testing software
+You need to consider several of the following criteria when evaluating your
+system-development and testing software:
+✓ All trading system–development and testing programs use some type
+of computer language to describe and test your system. Some are terse
+and difficult to use, others are more intuitive. Traders with strong computer or programming skills have little problem mastering any of these
+languages, but others may struggle. Pay careful attention to this development language before selecting a system. Be certain that you’re actually able to use the system you choose.
+✓ You need to integrate your trading system with your stock charts. Some
+system-development software requires you to actually write computer
+code that enables you to display your trading system and stock charts
+simultaneously. Avoid these systems if you’re uncomfortable writing
+computer code.
+
+Chapter 15: Developing Your Own Powerful Trading System
+✓ The manner and effectiveness by which your system-development and
+testing software reports on how your trading system is performing is
+critical. Some systems provide extremely detailed statistics about the
+performance of your trading systems. Others, however, list little more
+than the buy or sell signals. In general, more information is better.
+✓ Make sure your system-development and testing programs are capable
+of exporting the data they generate, historical price data included, into a
+spreadsheet program for further analysis.
+TradeStation is the gold-plated system-development platform. It has many
+built-in tools that make your development and testing job relatively easy.
+For those of you on tight budgets, one of the less expensive alternatives
+you may want to consider is a charting and system-development program
+like AmiBroker (www.amibroker.com). Although flexible and powerful,
+AmiBroker isn’t as feature-rich or polished as TradeStation, and it requires
+significantly more effort on your part. For example, AmiBroker includes
+well-known technical-analysis indicators like moving averages and MACD
+(see Chapter 11), but the number of indicators included is a tiny subset compared with what TradeStation offers. Similarly, you have to use AmiBroker’s
+formula language to create and enter any other indicators that you may be
+using.
+
+Spreadsheet software
+A spreadsheet program is another invaluable testing and analysis tool.
+Although a spreadsheet program can’t do everything that a specialized system-development and testing program can do, it can add quite a bit of analysis
+horsepower to your system-development tool kit. You can actually code and
+test simple trading systems directly into the spreadsheet. You can also evaluate the results of your trading-system tests more thoroughly using the spreadsheet’s built-in statistical and analysis functions.
+You can, for example, copy the price data for a stock into your spreadsheet,
+calculate moving averages and other indicators, and then configure buy, sell,
+or sell-short signals. You can also export trading signals from your systemdevelopment program and import the results into your spreadsheet for further analysis.
+One of our favorite spreadsheet projects is calculating the maximum favorable and unfavorable moves after our system has triggered a buy or sell
+signal. Simple to do, it helps you understand the strengths and weaknesses of
+your trading system in great detail. You can see whether problems with your
+trading system might be solved by using different exit procedures or tighter
+(or looser) stop-loss points.
+
+245
+
+246 Part IV: Developing Strategies for When to Buy and Sell Stocks
+For example, although your entry signals may show promise, your exit signals
+may be causing you to leave a lot of money on the table. These situations are
+hard to see when you’re working only with charts; however, they sometimes
+jump out when you’re working with raw data during your spreadsheet analysis. You can find an example using this testing technique in the “Working
+with breakout trading systems” section, later in this chapter.
+Some system-development programs provide a great deal of statistical analysis, so choosing between spreadsheet tools and system-development tools is
+a trade-off between thoroughness and expediency. After you’ve been through
+the testing exercises a few times, you get a feel for the strength of each
+approach. So it’s likely that you’ll decide to use both a system-development
+program and a spreadsheet program when creating and testing your new
+trading systems.
+
+Finding historical data for system testing
+When you need to test your system, you can, of course, test it in real time,
+with real money, and in the real markets. But getting some idea of how your
+system will perform before risking your hard-earned capital is usually better.
+Typically, that means testing your system by evaluating how it performs
+when simulating trading using historical price data. Ten to twenty years of
+historical end-of-day data for the indexes and stocks in which you plan to
+trade is usually more than enough to properly simulate trades for testing
+your system.
+Many sources can provide the data. You can download historical data from
+the Internet, and some online data is available free of charge. Some proprietary
+trading platforms likewise include access to historical data. You may want to
+get data from more than once source to confirm its accuracy.
+Yahoo Finance provides free historical data and permits you to download the
+data into a spreadsheet. To access the Yahoo data feed, get a quote for the
+stock and select “Historical Data” under the Quotes menu item. Then click
+“Download to Spreadsheet.”
+Many online services offer data in a more convenient format, but for a price.
+Some sell historical data recorded on CDs. Sources for intraday price data
+also are available. Here are the URLs for a few of the many sites offering
+various forms of historical data:
+✓ Historical data:
+• Yahoo Finance: finance.yahoo.com
+• QP3 Quotes Plus: www.quotes-plus.com
+
+Chapter 15: Developing Your Own Powerful Trading System
+✓ Intraday data:
+• eSignal: www.esignal.com
+• IQ Feed: www.iqfeed.net
+• Price Data: www.price-data.com
+• Quote Tracker: www.quotetracker.com
+✓ Historical data on CD:
+• Prophet: www.prophet.net/satellites/marketData/home/
+index.jsp
+• CSI: www.csidata.com
+
+Developing and Testing Trading Systems
+The ideas that you may want to include in your system development and
+testing are virtually limitless. Many new traders begin system testing by
+combining a few off-the-shelf indicators in an effort to obtain better trading
+results. Doing so is as good a place as any to begin.
+However, we want to caution you to keep your systems simple enough that
+you can understand not only the system but also the result. Simplicity usually
+is better when trading, especially when you’re first becoming familiar with the
+processes of system development and testing. We describe the process by
+looking at a couple of examples in the sections that follow.
+
+Working with trend-following systems
+Many trend-following systems use a moving average for their starting points.
+In this trend-following example, the system is designed for position trading,
+which means we use a relatively long moving average. Short-selling won’t be
+permitted with this simple system.
+The first step is defining buy and sell rules for your initial testing. The actual
+code for defining these rules depends on your specific system-development
+package. Therefore, trading rules are described as generally as possible. The
+rules for an initial test may look like this:
+✓ Buy at tomorrow’s opening price when today’s price crosses and closes
+above the 50-day exponential moving average (EMA).
+✓ Sell at tomorrow’s opening price when today’s price crosses and closes
+below the 50-day EMA.
+
+247
+
+248 Part IV: Developing Strategies for When to Buy and Sell Stocks
+To test whether using a moving average as a starting point is a good idea
+in a trend-following system, apply these two rules to ten years of historical
+data for the stock or stocks of your choice. After testing this idea, you find
+that this simple system works fairly well when stock prices are trending, but
+it’s likely to trigger many losing trades when the prices of stocks are range
+bound. You can try to avoid these losing trades, and possibly improve your
+overall trading results, by filtering out trading-range situations. One way to
+accomplish that goal is by changing the buy rule to read: Buy at tomorrow’s
+open when the following conditions are true:
+✓ Today’s closing price is above the 50-day EMA.
+✓ The stock crossed above the 50-day EMA sometime during the last
+5 days.
+✓ Today’s 50-day EMA is greater than the 50-day EMA from 5 days ago.
+These added conditions serve as signal confirmation. When you test these
+rules, you find they reduce the number of whipsaw trades for most stocks,
+but they’re also likely to delay buy and sell signals on profitable trades, and
+thus usually result in smaller profits on those trades. Yet this adjustment
+makes the overall system more profitable, because the number of losses is
+reduced.
+You can find out whether other changes that you can make in your simple
+system actually can improve profitability. You may, for example, test different types of moving averages. Try, for example, a simple moving average
+instead of an exponential moving average (see Chapter 11 for the types of
+moving averages). Or, you may want to try using different time frames for
+your moving average, such as 9-day, 25-day, or 100-day moving averages.
+
+Identifying system optimization pitfalls
+Most system-development and testing software comes equipped with a provision for system optimization, which allows you to fine-tune the technical
+analysis tools used in your trading system. You can, for example, tell the
+system to find the time frame of the moving average that produces the highest profit for one stock, and then ask it to do the same thing for a different
+stock. Some systems enable you to test this factor simultaneously for many
+stocks.
+Although something is alluring about using this approach, doing so is likely to
+cause you trouble. If you find, for example, that a 22-day moving average
+works best for one stock, a 37-day moving average works best for the next
+stock, and another stock performs best using a 74-day moving average, you’re
+going to run into problems. The set of circumstances leading to these optimized results won’t likely repeat in precisely the same way again. We can
+almost guarantee that whatever optimized parameters you may find for these
+moving averages won’t be the optimal choices when trading real capital.
+
+Chapter 15: Developing Your Own Powerful Trading System
+This is a simple example of a problem that is well-known to scientists and
+economists who build mathematic models to forecast future events. It is
+called curve fitting, because you are molding your model to fit the historical
+data. You can expend quite a bit of effort fine-tuning a system to identify all
+the major trends and turning points in historical data for a particular stock,
+but that effort is not likely to result in future trading profits. In that case, your
+optimized system is more likely to cause a long string of losses rather than
+profits.
+Testing a long moving average and comparing the results to a short moving
+average is fine, and so is testing a few points in between a long moving average and a short moving average. As long as you use this exercise to understand why short moving averages work best for short-term trades and why
+longer moving averages work better for traders with longer trading horizons,
+you’ll be fine. Otherwise, you’re probably moving into the realm of curve fitting and becoming frustrated with your actual trading results.
+
+Testing with blind simulation
+Blind simulation is a method for setting aside enough historical data so that
+you can test your system optimization results and avoid the problem of curve
+fitting. For example, you may test data from 1990 through 1999, and thus
+exclude data from 2000 through the present. After you’ve developed a system
+that looks good enough for you to base your trades on, you can then test your
+system against the data that was excluded. If the system performs as well with
+the excluded data as it did with the original test data, you may have a system
+worth trading. If it fails, you obviously need to rethink your system.
+Another approach is choosing your historical data with extreme care. You
+can expect trend-following systems like a moving-average system to perform
+well during long, powerful trends. If your stock had a strong run-up during
+the long-lasting 1990s bull market, that kind of price data can skew your
+results, magically making any trend-following system appear profitable.
+Whether that success actually can be duplicated during a subsequent bull
+market, however, must first be thoroughly tested.
+If the majority of your profits come from a single trade, or only a small number
+of trades, the system probably won’t perform well when you begin trading real
+money. You may want to address this problem by excluding periods from
+your test data when your stock was doing exceptionally well or when the
+results of any trades were significantly more profitable than the average trade.
+This technique is a valid approach to eliminating the extraordinary results
+arising from extraordinary situations in your historical data. Using it should
+give you a better idea of your system’s potential for generating real profits in
+the future.
+
+249
+
+250 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Working with breakout trading systems
+Similar to moving average–based systems, a breakout system can take many
+forms. You may already be familiar with the trading-range breakout system
+we describe in Chapter 10. To test a different approach, you can define a
+breakout system as follows:
+✓ Buying at tomorrow’s opening price when today’s closing price is above
+the highest high price that occurred during the last 20 days.
+✓ Selling at tomorrow’s opening price when today’s closing price is below
+the lowest low that occurred over the last 20 days.
+These trading rules are loosely based on the rules for Donchian Channels
+(sometimes called Price Channels), which comprise a breakout system developed by Richard Donchian in the 1950s. Donchian was one of the early developers of trend-following trading systems.
+A spreadsheet may be helpful for evaluating this system. You can, in fact,
+configure this system into a spreadsheet, include buy and sell signals, and
+perform analyses to determine how well the system performs. You also can
+use the spreadsheet to dig into the system’s results to find out what works
+and what doesn’t. Figure 15-1 shows an example.
+Re-creating the spreadsheet in Figure 15-1 is straightforward. After downloading the historical price data into a spreadsheet format, all you have to do is
+encode the formulas into the correct columns. The formulas are described in
+the nearby sidebar “Creating the Donchian Channel spreadsheet.”
+If you’re like most traders, the first thing you’ll do is calculate some statistics
+about the system. For example, you can use spreadsheet functions to calculate the following:
+✓ Total gain or loss for the system
+✓ Average gain (the numerical average)
+✓ Median gain (the middle result)
+✓ Maximum gain for any single trade
+✓ Maximum loss for any single trade
+✓ Standard deviation
+Then you can look at aggregate results to find out whether the system
+actually made money. In the case of the Donchian Channel breakout system,
+initial results don’t look promising. The system lost money during the entire
+test period.
+
+Chapter 15: Developing Your Own Powerful Trading System
+A
+
+Figure 15-1:
+Spreadsheet
+analysis for
+Donchian
+Channels.
+
+Date
+9/4/07
+9/5/07
+9/6/07
+9/7/07
+9/10/07
+9/11/07
+9/12/07
+9/13/07
+9/14/07
+9/17/07
+9/18/07
+9/19/07
+9/20/07
+9/21/07
+9/24/07
+9/25/07
+9/26/07
+9/27/07
+9/28/07
+10/1/07
+10/2/07
+10/3/07
+10/4/07
+10/5/07
+10/8/07
+10/9/07
+10/10/07
+10/11/07
+10/12/07
+10/15/07
+10/16/07
+10/17/07
+10/18/07
+10/19/07
+10/22/07
+10/23/07
+10/24/07
+10/25/07
+10/26/07
+10/29/07
+10/30/07
+10/31/07
+11/1/07
+11/2/07
+11/5/07
+11/6/07
+11/7/07
+11/8/07
+11/9/07
+
+B
+Open
+48.93
+49.56
+49.23
+48.53
+48.62
+48.51
+48.84
+49.29
+48.80
+49.00
+49.09
+50.29
+50.06
+50.28
+50.49
+50.42
+51.36
+51.62
+51.54
+51.45
+52.04
+51.84
+51.75
+52.17
+52.80
+53.27
+53.39
+53.79
+52.90
+53.61
+52.79
+53.62
+53.33
+53.77
+52.16
+53.61
+53.74
+53.89
+54.08
+54.19
+53.94
+54.47
+54.68
+54.42
+53.86
+54.33
+54.22
+53.14
+50.73
+
+C
+High
+50.00
+49.65
+49.36
+48.60
+48.75
+48.99
+49.37
+49.35
+49.31
+49.10
+50.08
+50.59
+50.26
+50.52
+50.96
+51.07
+51.51
+51.65
+51.68
+52.16
+52.06
+52.07
+51.83

@@ -1,0 +1,1047 @@
+
+Download at www.wowebook.com
+
+114
+
+Part II Markets and Market Indicators
+
+Ned Davis Research, Inc., (see Figure 7.15) found that the ratio of the 3-month simple
+moving average to the 45-month simple moving average of short interest was a useful indicator
+market performance during the 1945–2010 period. When the ratio rose above 1.5 and investors
+were generally pessimistic, the market advanced 15.2% per annum, and when the spread
+declined to and below 1.04, the market only declined 4.4% per annum. Interestingly, these results
+occurred during the recent periods of derivative use when short selling was an active part of the
+hedging process.
+Monthly Data 12//31/1944 - 6/30/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index vs NYSE Short Interest
+1422
+
+1422
+
+1001
+
+495
+349
+
+1001
+
+S&P 500 Gain/Annum
+When:
+12/31-1944 - 8/30/2010
+
+704
+
+Definition
+From Trend
+Above
+
+245
+
+1.5
+
+Between
+
+173
+
+Isc
+
+704
+
+Gain/
+Annum
+
+%
+of Time
+
+15.2
+
+22.0
+
+7.7
+
+59.5
+
+-4.8
+
+18.5
+
+1.04 & 1.5
+
+1.04 and Below
+
+495
+349
+245
+173
+
+121
+
+121
+
+85
+
+85
+
+60
+
+60
+
+42
+
+42
+
+30
+
+30
+
+21
+
+21
+
+15
+
+15
+
+6/30/2010 = 1030.71
+
+11925
+
+11925
+
+5103
+
+NYSE Short Interest
+
+5103
+
+2184
+
+6/30/2020 = 14082.34
+
+2184
+
+935
+
+935
+
+400
+
+400
+
+171
+
+171
+
+73
+
+73
+
+Excessive Shorting
+
+31
+
+31
+
+13
+
+13
+
+High Optimism
+
+6
+
+6
+
+2
+
+2
+
+1
+
+1
+
+1.9
+
+1.9
+
+Extreme Pessimism
+
+1.8
+
+1.8
+
+1.7
+
+1.7
+
+1.6
+
+1.6
+
+1.5
+
+1.5
+
+1.4
+
+1.4
+
+1.3
+
+1.3
+
+1.2
+
+1.2
+
+1.1
+
+1.1
+
+1.0
+
+1.0
+
+0.9
+
+0.9
+
+0.8
+0.7
+
+[S0405]
+
+0.8
+
+NYSE Short Interest – Deviation From Trend
+Low Shorts – Unfavorable
+
+1945
+
+1950
+
+1955
+
+1960
+
+1965
+
+0.7
+
+Three–Month / 45–Month Simple Moving Averages
+
+1970
+
+1975
+
+1980
+
+1985
+
+1990
+
+1995
+
+2000
+
+2005
+
+2010
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.15 Short interest ratio and the S&P 500 (December 1945–June 2010)
+
+As for the usefulness of short selling data on individual stocks and determining the potential for a “short squeeze,” which is the rapid rise in a stock’s price as short sellers scramble to
+cover, data on individual stocks is available but is often clouded by many variables. To get at
+information that is more useful on a company basis, considerable digging and filtering must be
+done to eliminate the influence of derivative transactions that may have little to do with the
+prospects for the firms. Phil Erlanger (www.erlanger.com) accomplishes a considerable amount
+of work in this area and publishes results periodically on his Web site. He has found several filters that must be applied to individual stock short sale data: (1) The data must be adjusted for
+splits—not only price adjustments, but also volume and short interest; (2) it must be normalized
+to adjust for short-term volume fluctuations; and (3) it must be normalized to adjust for historic
+volatility. A ranking is established, placing the stock within its smoothed, historical context over
+a five-year period. This ratio establishes the potential attractiveness of the stock. This number
+
+Download at www.wowebook.com
+
+115
+
+Chapter 7 Sentiment
+
+should not be used as a mechanical buy signal, however, because the short sellers may be correct
+in anticipating the stock to decline.
+Odd-Lot Short-Selling
+Earlier in this chapter, we discussed how odd-lot statistics have generally fallen out of favor as a
+measure of uninformed sentiment because the option markets have now replaced small stock
+orders as a means of speculation. The only odd-lot statistic to have some validity today is the
+odd-lot short sale data. Traditionally, short selling is considered a speculative endeavor. Most
+trading in the stock markets, but the commodity markets, is done on the long side, either initiating an invested position or selling that position. A short sale is a trade that anticipates a downward price swing, requires margin, and has infinite risk of loss. It is, thus, used mostly by
+speculators. Odd-lot short sellers are, therefore, speculators and their position sizes suggest a
+lack of sophistication. It turns out that, indeed, they are an excellent indicator of uninformed sentiment and, thus, an excellent contrary indicator of market direction.
+Ned Davis Research, Inc., found that odd-lot statistics still have some predictive ability.
+Figure 7.16 shows the results from combining two odd-lot ratios with a put/call ratio into a contrary indicator of market direction. For the period January 2002 through mid-July 2010, the indicator when showing a preponderance of optimism, resulted in a 6.2% decline per annum, and
+when showing a preponderance of pessimism, resulted in a 27.3% advance. These are impressive
+results and show that the odd-lot trader is still with us and still acts in an uninformed manner.
+Daily Data 1//07/2002 - 7/16/2010
+
+Dow Jones Industrial Average vs Signs of Public Activity
+14299
+
+Dow Jones Industrial Average
+
+13172
+12134
+11177
+10296
+9485
+Dow Industrials
+(7/25/1980 - 7/18/2010)
+
+8737
+8048
+
+When Combined
+Readings Show:
+Optimism
+
+180
+
+Indicator
+
+Gain/
+Annum
+
+%
+Of Time
+
+-6.2
+
+30.2
+
+7.7
+
+40.0
+
+26.7
+
+29.2
+
+(-3 to -1)
+
+Neutral (0 to +1)
+
+10-Day Odd Lot Sales/Purchase Ratio (1)
+(Scale Left)
+
+160
+
+* Pessimism
+
+(+2
+
+or +3)
+
+7414
+6830
+6291
+
+Pessimism
+
+140
+120
+100
+80
+
+Optimism
+
+63
+
+Pessimism
+
+49
+38
+
+10-Day Ratio: Odd Lot Shorts[(Purchases + Sales)/2] (1) (Log Scale Right)
+
+30
+23
+
+Optimism
+
+18
+14
+11
+
+Pessimism
+
+9
+7
+
+117
+108
+
+5
+
+10-Day Total Put/Call Ratio (1)
+Log Scale Left
+
+100
+92
+85
+79
+73
+67
+
+Optimism
+
+62
+57
+53
+
+M
+[S589]
+
+J
+
+S
+
+D M
+2003
+
+J
+
+S
+
+D M
+2004
+
+J
+
+S
+
+D
+
+M
+2005
+
+J
+
+S
+
+D
+
+M
+2006
+
+J
+
+S
+
+D
+
+M
+2007
+
+J
+
+S
+
+D
+
+M
+2008
+
+J
+
+S
+
+D
+
+M
+2009
+
+J
+
+S
+
+D
+
+M
+2010
+
+J
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.16 Odd-lot statistics (January 2002–July 2010)
+
+Download at www.wowebook.com
+
+116
+
+Part II Markets and Market Indicators
+
+Unquantifiable Contrary Indicators
+Over the years, analysts have watched a number of developments in the society around them in
+an attempt to gauge the overall mood, emotion, and sentiment of market participants. Many of
+these indicators are qualitative and not quantitative. Although these indicators are not easily
+quantifiable and do not lend themselves to traditional statistical testing, they still provide important information to the technical analyst.
+One of these unquantifiable indicators is the magazine covers theory. The media covers the
+news but with a strong bias. It is selling news to those who are interested. If the stock market is
+high and ready to decline, the media would be unlikely to report the danger even if they know it.
+Instead, they will emphasize the fact that the market has risen and is strong. They want people to
+listen, to subscribe, and to read their output, and they will not get business if they report contrary
+to the popular beliefs of the day. Their business is providing their subscribers with what they
+want. Thus, when major news magazines such as Time, Newsweek, U.S. News and World Report,
+Barron’s, the Economist, or BusinessWeek include on their cover an article on the stock market,
+up or down, they are emphasizing what the public believes and already knows—and as has been
+shown previously, the public is generally wrong, at least at extremes. For this reason, these stories usually occur at or before major turning points in the stock market.
+Paul Macrae Montgomery, currently with Universal Economics, has studied magazine
+covers back at least to 1923. He has observed that after a positive major magazine cover story on
+the stock market, 60% to 65% of the time the market has gained about 30% per annum over the
+first one to eight weeks. Eighty percent of the time, however, the market has then reversed within
+a year and sustained significant losses (Baum, 2000).
+In 2007, University of Richmond Professors Arnold, Earl, and North (2007) published in
+the Journal of Finance a study on the market action of the stock of companies featured as cover
+stories in BusinessWeek, Fortune, and Forbes between 1983 and 2002. They found that the cover
+feature article usually followed the stock performance rather than the reverse. A negative story,
+for example, tended to occur after the decline in the company’s stock, and a positive story
+occurred after a stock rise. They did not find any statistically significant results in postarticle performance, either momentum or contrary (with or against the previous trend). They concluded
+that if one has a position in a stock that had a good run up or down and a cover story appeared in
+one of those magazines explaining the reason for the price move, it was probably time to close
+the position.
+Not only does the media report about the market (which provides some idea about the sentiment of the market players), but the reports of the media also impact the mood and emotions of
+investors. A study commissioned by the Wall Street Journal (Klein and Prestbo, 1974, as
+reported in Kaufman, 1998), found that 99% of financial analysts read a newspaper regularly.
+Ninety-two percent of these analysts considered the newspaper the “most valuable” publication
+they read. Obviously, the news is important. However, rapid and correct interpretation of facts is
+difficult. Sometimes factual news is immediately interpreted by the market incorrectly. For
+example, when Saddam Hussein was captured, the stock market opened up with a large gap just
+from the joy of the news. When investors thought about the consequences of that news, they realized it did not change anything, and the stock market closed down that day. Informed traders in a
+method called “event trading” likely sold into this emotional opening. It is a method of rapidly
+gauging the sentiment produced by a news announcement, determining whether the market is
+
+Download at www.wowebook.com
+
+117
+
+Chapter 7 Sentiment
+
+overacting, and if it is, acting contrarily. Another aspect of event trading is gauging whether the
+market or a stock is acting as it should on particular news, and if it is not, perhaps the news was
+already discounted in the price and a change in direction is due. Event trading or news trading is
+a very short-term use of contrary opinion.
+
+BOX 7.4 ECCENTRIC SENTIMENT INDICATORS
+Over the years, stock market followers have developed a number of “eccentric indicators” to predict stock market movements. Not based on economic or financial data,
+these indicators are “feel-good” or “hype” indicators that attempt to measure the
+overall morale of the investing population. One of the oldest feel-good indicators,
+first suggested by either the late Ralph Rotnem of Harris, Upham & Company (now,
+after a long string of mergers, Citibank) or Ira Cobleigh & DeAngelis (1983), followed women’s hemlines: As hemlines rose, so did the stock market, and as hemlines fell, so did the stock market. Consider the Roaring 20s, when women wore
+short flapper skirts and a stock market rise followed. When the stock market crashed
+during the great depression, long, modest skirts followed. The hemline index implies
+that as people become more exuberant, stock prices rise and clothing becomes more
+daring, and as society becomes more pessimistic, people become more conservative
+with their clothing and investment choices. Market and economy watchers have also
+considered beer versus wine sales (people drink more beer when the market is down
+and approaching a low), sedans versus coupes (people buy more sedans and fewer
+coupes when the market is down), lipstick sales (when the market is down, women
+buy cheaper brands), aspirin (a rise in sales correlates with distress about the market), and the number of golf balls left at the driving range (people don’t leave balls
+when the market is declining).
+It must be emphasized that none of these indicators has an effect on stock prices.
+If a direct relationship exists, it exists only as correlation without a direct link to the
+markets. Indicators, to be truly useful, must have a rationale for their existence. Correlations may be purely accidental and, thus, meaningless. For a discussion of how
+some of these offbeat indicators have performed, go to www.Forbes.com/2001/06/
+28/exotics.html.
+
+Historical Indicators
+There are several indicators that technical analysts have used historically that you may see discussed in the literature. Although these indicators have little relevance today, at one time they
+played a prominent historical role in the measurement of market sentiment.
+The first is NYSE member and nonmember statistics. The advent of off-board trading and
+of electronic trading, complicated by the use of derivatives for hedging, marginalized the usefulness of this data. At one time, the various ratios (nonmember short sale ratio, public to specialist
+
+Download at www.wowebook.com
+
+118
+
+Part II Markets and Market Indicators
+
+short sale ratio, and specialist short sale ratio) had some useful, predictive meaning in the stock
+market. No longer, however, do these figures mean anything. Because the marketplace itself has
+changed so drastically, the member figures have gone out of use and are considered unreliable.
+The second historically important sentiment indicator to have fallen from favor is the Barron’s Confidence Index. This index, developed in 1932, measures the ratio of yields on highgrade bonds versus yields on speculative bonds. Although it is still published today, it seems no
+longer to have relevance for measuring stock market sentiment.
+
+HOW IS THE SENTIMENT OF INFORMED PLAYERS MEASURED?
+Thus far, we have focused mainly on the sentiment of the uninformed market players. Remember
+that these market participants often make incorrect market decisions, especially at market
+extremes. Therefore, the sentiment of the uninformed players is used in a contrarian strategy.
+Now, we center our attention on the sentiment of informed players—those most likely to make
+correct market decisions.
+
+Insiders
+The ultimate informed player, at least in individual stocks or commodities, is the insider. An
+insider is anyone who is a knowledgeable member of a firm that either trades in the commodity
+underlying the future most important to the firm’s business, such as oil to an oil company or
+cocoa to a candy company, or who has knowledge of a company’s internal business prospects
+and results and is a stockholder. Naturally, these people will act for their own benefit, hopefully
+within the law, and buy and sell based on their knowledge. Under SEC regulations, corporate
+insiders must report any stock transactions they make within a month, and in turn the SEC
+reports these transactions weekly. Because insiders are not allowed to profit from transactions in
+their company’s stock for six months, their actions are a long-term indicator of prospects for the
+company beyond six months. Investors Intelligence and Vickers Stock Research have found that
+the compilation of all insider transactions is useful for forecasting the stock market a year out
+from the reports.
+Sell/Buy Ratio
+The Sell/Buy ratio is compiled by Vickers Stock Research Corporation, a subsidiary of Argus
+Research Group (www.argusgroup.com). It takes into account the total number of insider buy
+and sell transactions for each company, the percentage of change in insider holdings, the unanimity of the transactions within each company, reversals in transaction patterns, and very large
+transactions. A plot of the Sell/Buy ratio for 2006 is shown in Figure 7.17.
+Vickers considers a ratio under 2.25 a portent of a higher stock market, and a ratio greater
+than 2.25 as a sign of impending market problems. Colby (2003) found that between 1971 and
+2000, the ratio averaged over five weeks produced for longs only when the smoothed ratio
+declined below 2.25, a 29.2% profit over buy-and-hold. Bjorgen and Leuthold (2002), using only
+large insider block transactions, found that from 1983 to 1999, only a small percentage of the
+
+Download at www.wowebook.com
+
+119
+
+Chapter 7 Sentiment
+
+time do insiders transact their shares in a one-sided direction, but the three times that they
+showed excessive buying, the stock market bottomed within several weeks. On the sell side,
+when excessive selling occurred, the market peaked, and it either declined or consolidated
+approximately a year later, thus confirming the observations of Investors Intelligence outlined
+next.
+TOTAL & WEEK SELL/BUY RATIO VS. DOW INDUSTRIALS
+12000
+
+0.00
+
+11500
+
+0.50
+1.00
+1.50
+
+11000
+
+2.00
+2.50
+0.00
+0.50
+
+10500
+10000
+
+4.00
+4.50
+
+9500
+
+5.00
+5.50
+6.00
+6.50
+
+9000
+8500
+
+7.00
+8000
+
+7.50
+
+O
+
+N
+
+D
+
+J
+
+F
+
+M
+
+Dow Jones Industrial Average (left scale)
+
+A
+
+M
+
+J
+
+J
+
+A
+
+S
+
+O
+
+9-Week Sell-Buy Ratio (right scale)
+
+© Vickers Stock Research Corporation
+FIGURE 7.17 Insider Sell/Buy ratio (October 2005–October 2006)
+
+Investors Intelligence Method
+Investors Intelligence (www.investorsintelligence.com) follows insider activity in two ways.
+First, for over 1,600 stocks they calculate the total insider buy and sell transactions over the previous nine months. This figure is then compared with the same figure three months prior. This
+gives them an estimate of the recent direction that insiders are taking with their stock. Second,
+they break down insider activity into industry groups and compile group rankings that they find
+often precede the directional movement of stocks within each group. An example of this analysis
+is shown in Figure 17.18.
+Secondary Offerings
+As the stock market rises and long-term interest rates increase, companies tend to offer secondary offerings of stock. Sometimes insiders wanting to sell stock cause this, and sometimes it is
+caused by a desire to raise cheap capital for expansion. Whatever the reason, increased secondary offerings of stock should increase as the market rises and give warning of a peak. Conversely,
+when insiders are staying away from the secondary market, the stock market is likely at or close
+to a bottom. Ned Davis Research, Inc., looked into this phenomena and found a weak correlation
+that confirmed the previous thesis. By calculating a ratio of the 5-month simple moving average
+of secondary offerings to the 45-month moving average, they found that when the ratio rose
+above 1.47, the percentage gain per year following was 0.7, whereas when the ratio declined to
+109 and below, the gain per year increased to 12.9% (see Figure 7.19).
+
+Download at www.wowebook.com
+
+120
+
+Part II Markets and Market Indicators
+Sinclair Broadcast Group Inc (SBGI) 5.77 +0.26
+17 Feb 2010
+
+The Entertainment Industry showed a modest
+ranking retreat. There was a much larger
+percentage increase for the total sells compared
+with the increase for the total buys. Only one of
+the twelve stocks shows favorable insider buying.
+Last quarter
+
+This quarter
+
+9
+
+12
+
++3
+
+26
+-17
+
+49
+-37
+
++23
+-20
+
+Buying decisions
+Selling decisions
+Surplus buying
+
+13
+12
+11
+10
+9
+8
+7
+6
+5
+
+Change
+
+4
+
+That positive stock was Sinclair Broadcasting
+SBGI (4 buys, 1 sell). They own 58 television
+stations in 35, mostly, medium sized markets.
+Revenues have begun to rebound but poor recent
+results forced them to increase their debt load to a
+very risky level. The chart shows Feb and Jul 09
+lows below $1 and then a great percentage move
+up to $5 in Oct-09 and $5.50 this month. That is
+the area of the long-term down trend line,
+extended from the April 2007 peak at $17.50. We
+suggested longs three months ago on the upturn to
+$4, after the pullback on the first test of resistance.
+
+3
+2
+1
+
+Chartcraft semi-log scale, H/L Prices
+www.investorsintelligence.com 2010 Stockcube R
+
+FIGURE 17.18 Example of Investors Intelligence industry insider analysis, February 16, 2010
+Monthly Data 11//30/1974 - 6/30/2010 (Log Scale)
+
+Standard & Poor’s 500 Index
+
+1423
+1198
+1008
+849
+714
+601
+506
+426
+358
+302
+254
+214
+180
+151
+127
+107
+90
+76
+2010
+
+2009
+
+2008
+
+2007
+
+2006
+
+2005
+
+2004
+
+2003
+
+2002
+
+2001
+
+2000
+
+1999
+
+1998
+
+1997
+
+1996
+
+1995
+
+1994
+
+1993
+
+1992
+
+57.5
+
+1991
+
+20.9
+
+1990
+
+21.6
+
+1.7
+
+1989
+
+1.0
+
+12.9
+
+1988
+
+of Time
+
+1977
+
+1981
+
+1980
+
+1979
+
+1978
+
+1977
+
+1976
+
+1.09 and 147
+Below
+
+%
+
+Annum
+
+1976
+
+147
+
+Gain/
+
+1985
+
+Above
+
+109 and
+
+Isc
+
+1984
+
+Clip
+
+* Between
+
+1975
+320
+
+Bottom
+
+Where:
+
+1983
+
+S&P500 Gain/Annum
+
+1982
+
+1423
+1198
+1008
+849
+714
+601
+506
+426
+358
+302
+254
+214
+180
+151
+127
+107
+90
+76
+
+320
+
+5-Month/45-Month Smoothing
+
+300
+
+300
+“Smart Money” Heavy Supply
+
+280
+
+280
+
+Bearish
+
+260
+
+260
+
+240
+
+240
+
+220
+
+220
+
+200
+
+200
+
+180
+
+180
+
+160
+
+160
+
+140
+
+140
+
+120
+
+120
+
+100
+
+100
+
+80
+
+80
+
+60
+
+60
+
+40
+20
+
+[S468]
+
+40
+Supply Very Low
+
+Bullish
+
+20
+6/30/2010 = 133.2
+
+Number of Secondary Offerings (Deviation From Trend)
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.19 Secondary offerings (November 1974–June 2010)
+
+Download at www.wowebook.com
+
+121
+
+Chapter 7 Sentiment
+
+Large Blocks
+Large blocks tend to be transacted on behalf of professionals. There are several ways that large
+block data is used. The first is the use of the total number of large block volume relative to the
+total volume traded. This figure gives an indication of when the large block trader is transacting
+the most number of shares relative to the market as a whole. Colby (2003) found that when the
+large block ratio crossed above its 104-week exponential moving average, a buy signal was generated that was profitable 70% of the time with a net profit of 511% over the period from 1983 to
+2001. This strategy was only successful on the long side. The short side, which was triggered by

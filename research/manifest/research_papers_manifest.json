@@ -889,5 +889,20 @@
     "file": "research_papers/60_2507.07107_machine-learning-enhanced-multi-factor-quantitative-asset-pricing-exec.pdf",
     "duplicate_of": 34,
     "download_status": "DUPLICATE_REFERENCE"
+  },
+  {
+    "list_number": 61,
+    "title": "Trading and Exchanges: Market Microstructure for Practitioners (Practitioners' Draft Copy, Mar 2002)",
+    "urls": [
+      "https://www.acsu.buffalo.edu/~keechung/MGF743/Readings/Trading-Exchanges-Market-Microstructure-Practitioners%20Draft%20Copy.pdf",
+      "https://academic.oup.com/book/52292"
+    ],
+    "arxiv_id": null,
+    "canonical_url": "https://www.acsu.buffalo.edu/~keechung/MGF743/Readings/Trading-Exchanges-Market-Microstructure-Practitioners%20Draft%20Copy.pdf",
+    "file": "research_papers/61_external_trading-and-exchanges-market-microstructure-for-practitioners-draft.pdf",
+    "duplicate_of": null,
+    "download_status": "DOWNLOADED_AUTHOR_DRAFT",
+    "error": "Commercial book (Oxford UP 2003). Author-circulated draft, freely distributed for course use.",
+    "sha256": "030f6dbdf334f365d4aa24d6773053bc858f0b6f494631492a7fd70bfe8702ac"
   }
 ]

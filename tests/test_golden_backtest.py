@@ -40,8 +40,16 @@ UNIVERSE = ('SOLUSDT',)
 # absent (None) features DEGRADED with a null_reason instead of COMPLETE and
 # derives their calculation clock from the rows actually consumed. candidate_count
 # (21) and terminal_distribution are UNCHANGED — only the hash bindings moved.
+# Re-pinned 2026-08-04 (D-043 follow-up, PURE RENAME): the D-024 manifest
+# constant max_spread_frac became max_bar_range_frac and its veto reason
+# 'SPREAD' became 'BAR_RANGE', because (high-low)/close is the entry bar's
+# intrabar range and never a bid-ask spread (the tape carries no depth). The
+# ledger hash moved only because config_hash = sha1(asdict(manifest)) keys on
+# FIELD NAMES; no threshold, predicate, or decision changed. data_hash,
+# states_hash, candidate_count (21) and terminal_distribution are all UNCHANGED
+# — that invariance is the proof this was a rename and not a behavior change.
 # Do not update silently.
-GOLDEN_LEDGER_HASH = '218ea7a3a881e3757eb9b8f813df6ef9e3cc55c5'
+GOLDEN_LEDGER_HASH = '76f2a44efcbbd274f60c4c8a640cd59a9ae7fa10'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = 'c79654725f2186683816cb7dc002afa1dffd11d4'
 GOLDEN_CANDIDATE_COUNT = 21

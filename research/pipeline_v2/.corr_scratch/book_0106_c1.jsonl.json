@@ -1,0 +1,11 @@
+[
+{"claim_ref": "book_0106::lead_book_0106_1_102", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_104", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_105", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_106", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_107", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_109", "verdict": "corroboration", "behavior_id": "support_resistance_bounce", "page": 139, "exact_text": "market as it finds support around $85 per barrel", "added_conditions": ["crude oil market finding support around $85 per barrel", "this is the third time the level is being tested"], "added_parameters": [{"name": "support level", "value": "$85 per barrel", "page": 139}]},
+{"claim_ref": "book_0106::lead_book_0106_1_110", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_111", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0106::lead_book_0106_1_112", "verdict": "corroboration", "behavior_id": "pattern_breakout_projection", "page": 150, "exact_text": "The S&P 500 in Figure 8.7 is coming off of a triple top.", "added_conditions": ["market coming off a triple top", "RSI turning down, indicating a collapse from the market being overbought", "50-day MA fast approaching the price"], "added_parameters": [{"name": "profit target (support)", "value": "1526", "page": 150}]}
+]

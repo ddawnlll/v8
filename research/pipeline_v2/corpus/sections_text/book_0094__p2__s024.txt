@@ -1,0 +1,337 @@
+
+DAVID SHAW
+
+as important to know what doesn't work as what does. For that reason,
+once we've gone to the considerable expense that's often involved in
+determining that an anomaly described in the open literature no
+longer exists, the last thing we want to do is to enable one of our competitors to take advantage of this information for free by drawing
+attention to the fact that the published results no longer hold and the
+approach in question thus represents a dead end.
+Are the people who publish studies of market inefficiencies in
+the financial and economic journals strictly academics or are
+some of them involved in trading the markets?
+Some of the researchers who actually trade the markets publish certain aspects of their work, especially in periodicals like the Journal of
+Portfolio Management, but overall, there's a tendency for academics to
+be more open about their results than practitioners.
+Why would anyone who trades the markets publish something
+that works?
+That's a very good question. For various reasons, the vast majority of the
+high-quality work that appears in the open literature can't be used in
+practice to actually beat the market. Conversely, the vast majority of the
+research that really does work will probably never be published. But
+there are a few successful quantitative traders who from time to time
+publish useful information, even when it may not be in their own selfinterest to do so. My favorite example is Ed Thorpe, who was a real pioneer in the field. He was doing this stuff well before almost anyone else.
+Ed has been remarkably open about some of the money-making strategies he's discovered over the years, both within and outside of the field
+of finance. After he figured out how to beat the casinos at blackjack, he
+published Beat the Dealer. Then when he figured out how to beat the
+market, he published Beat the Market, which explained with his usual
+professorial clarity exactly how to take advantage of certain demonstrable market inefficiencies that existed at the time. Of course, the publication of his book helped to eliminate those very inefficiencies.
+In the case of blackjack, does eliminating the inefficiencies
+mean that the casinos went to the use of multiple decks?
+I'm not an expert on blackjack, but it's my understanding that the
+casinos not only adopted specific game-related countermeasures of
+
+SHE Q U A N T I T A T I V E ED6E
+
+this sort, but they also became more aware of "card counters" and
+became more effective at expelling them from the casinos.
+I know that classic arbitrage opportunities are long gone. Did
+such sitting-duck trades, however, exist when you first started?
+Even then, those sorts of true arbitrage opportunities were few and
+far between. Every once in a while, we were able to engage in a
+small set of transactions in closely related instruments that, taken
+together, locked in a risk-free or nearly risk-free profit. Occasionally,
+we'd even find it possible to execute each component of a given arbitrage trade with a different department of the same major financial
+institution—something that would have been impossible if the institution had been using technology to effectively manage all of its
+positions on an integrated firm wide basis. But those sorts of opportunities were very rare even in those days, and now you basically don't
+see them at all.
+Have the tremendous advances in computer technology, which
+greatly facilitate searching for market inefficiencies that provide
+a probabilistic edge, caused some previous inefficiencies to disappear and made new ones harder to find?
+The game is largely over for most of the "easy" effects. Maybe someday, someone will discover a simple effect that has eluded all of us,
+but it's been our experience that the most obvious and mathematically straightforward ideas you might think of have largely disappeared as potential trading opportunities. What you are left with is a
+number of relatively small inefficiencies that are often fairly complex
+and which you're not likely to find by using a standard mathematical
+software package or the conventional analytical techniques you might
+learn in graduate school. Even if you were somehow able to find one
+of the remaining inefficiencies without going through an extremely
+expensive, long-term research effort of the sort we've conducted over
+the past eleven years, you'd probably find that one such inefficiency
+wouldn't be enough to cover your transaction costs.
+As a result, the current barriers to entry in this field are very high.
+A firm like ours that has identified a couple dozen market inefficiencies in a given set of financial instruments may be able to make
+money even in the presence of transaction costs. In contrast, a new
+
+DAVID SHAW
+
+entrant into the field who has identified only one or two market inefficiencies would typically have a much harder time doing so.
+What gives you that edge?
+
+It's a subtle effect. A single inefficiency may not be sufficient to overcome transaction costs. When multiple inefficiencies happen to coincide, however, they may provide an opportunity to trade with a
+statistically expected profit that exceeds the associated transaction
+costs. Other things being equal, the more inefficiencies you can identify, the more trading opportunities you're likely to have.
+How could the use of multiple strategies, none of which independently
+yields a profit, be profitable? As a simple illustration, imagine that there
+are two strategies, each of which has an expected gain of $100 and a
+transaction cost of $110. Neither of these strategies could be applied
+profitably on its own. Further assume that the subset of trades in which
+both strategies provide signals in the same direction has an average profit
+of $180 and the same $110 transaction cost. Trading the subset could be
+highly profitable, even though each individual strategy is ineffective by
+itself. Of course, for Shaw's company, which trades scores of strategies in
+many related markets, the effect of strategy interdependencies is tremendously more complex.
+As the field matures, you need to be aware of more and more inefficiencies to identify trades, and it becomes increasingly harder for
+new entrants. When we started trading eleven years ago, you could
+have identified one or two inefficiencies and still beat transaction
+costs. That meant you could do a limited amount of research and
+begin trading profitably, which gave you a way to fund future
+research. Nowadays, things are a lot tougher. If we hadn't gotten
+started when we did, I think it would have been prohibitively expensive for us to get where we are today.
+Do you use only price data in your model, or do you also employ
+fundamental data?
+It's definitely not just price data. We look at balance sheets, income
+statements, volume information, and almost any other sort of data
+
+THE QUANTITATIVE
+
+we can get our hands on in digital form. I can't say much about the
+sorts of variables we find most useful in practice, but I can say that
+we use an extraordinary amount of, data, and spend a lot of money
+not just acquiring it but also putting it into a form in which it's useful
+to us.
+Would it be fair to summarize the philosophy of your firm as follows? Markets can be predicted only to a very limited extent, and
+any single strategy cannot provide an attractive return-to-risk
+ratio. If you combine enough strategies, however, you can create
+a trading model that has a meaningful edge.
+That's a really good description. The one thing that I would add is that
+we try to hedge as many systematic risk factors as possible.
+I assume you mean that you balance all long positions with correlated short positions, thereby removing directional moves in
+the market as a risk factor.
+Hedging against overall market moves within the various markets
+we trade is one important element of our approach to risk management, but there are also a number of other risk factors with respect
+to which we try to control our exposure whenever we're not specifically betting on them. For example, if you invest in IBM, you're
+placing an implicit bet not only on the direction of the stock market
+as a whole and on the performance of the computer industry relative to the overall stock market, but also on a number of other risk
+factors.
+Such as?
+Examples would include the overall level of activity within the economy, any unhedged exchange rate exposure attributable to IBM's
+export activities, the net effective interest rate exposure associated
+with the firm's assets, liabilities, and commercial activities, and a
+number of other mathematically derived risk factors that would be
+more difficult to describe in intuitively meaningful terms. Although
+it's neither possible nor cost-effective to hedge all forms of risk, we try
+to minimize our net exposure to those sources of risk that we aren't
+able to predict while maintaining our exposure to those variables for
+which we do have some predictive ability, at least on a statistical basis.
+
+SHAW
+
+Some of the strategies you were using in your early years are now
+completely obsolete. Could you talk about one of these just to
+provide an illustration of the type of market inefficiency that at
+least at one time offered a trading opportunity.
+In general, I try not to say much about historical inefficiencies that
+have disappeared from the markets, since even that type of information could help competitors decide how to more effectively allocate
+scarce research resources, allowing them a "free ride" on our own negative findings, which would give them an unfair competitive advantage. One example I can give you, though, is undervalued options
+[options trading at prices below the levels implied by theoretical models]. Nowadays, if you find an option that appears to be mispriced,
+there is usually a reason. Years ago, that wasn't necessarily the case.
+When you find an apparent anomaly or pattern in the historical
+data, how do you know it represents something real as opposed
+to a chance occurrence?
+The more variables you have, the greater the number of statistical
+artifacts that you're likely to find, and the more difficult it will generally be to tell whether a pattern you uncover actually has any predictive value. We take great care to avoid the methodological pitfalls
+associated with "overfitting the data."
+Although we use a number of different mathematical techniques
+to establish the robustness and predictive value of our strategies, one
+of our most powerful tools is the straightforward application of the
+scientific method. Rather than blindly searching through the data for
+patterns—an approach whose methodological dangers are widely
+appreciated within, for example, the natural science and medical
+research communities—we typically start by formulating a hypothesis
+based on some sort of structural theory or qualitative understanding
+of the market, and then test that hypothesis to see whether it is supported by the data.
+Unfortunately, the most common outcome is that the actual data
+fail to provide evidence that would allow us to reject the "null hypothesis" of market efficiency. Every once in a while, though, we do find a
+new market anomaly that passes all our tests, and which we wind up
+incorporating in an actual trading strategy.
+
+f«E Q U A N T I T A T I V E l l i E
+
+I heard that your firm ran into major problems last year [1998],
+but when I look at your performance numbers, I see that your
+worst equity decline ever was only 11 percent—and even that
+loss was recovered in only a few months. I don't understand how
+
+there could have been much of a problem. What happened?
+The performance results you're referring to are for our equity and
+equity-linked trading strategies, which have formed the core of our
+proprietary trading activities since our start over eleven years ago. For
+a few years, though, we also traded a fixed income strategy. That
+strategy was qualitatively different from the equity-related strategies
+we'd historically employed and exposed us to fundamentally different
+sorts of risks. Although we initially made a lot of money on our fixed
+income trading, we experienced significant losses during the global
+liquidity crisis in late 1998, as was the case for most fixed income
+arbitrage traders during that period. While our losses were much
+smaller, in both percentage and absolute dollar terms, than those suffered by, for example, Long Term Capital Management, they were
+significant enough that we're no longer engaged in this sort of trading
+at all.
+LTCM—a hedge fund headed by renowned former-Salomon bond
+trader John Meriwether and whose principals included economics
+Nobel laureates Robert Merton and Myron Scholes—was on the
+brink of extinction during the second half of 1998. After registering
+an average annual gain of 34 percent in its first three years and
+expanding its assets under management to near $5 billion, LTCM
+lost a staggering 44 percent (roughly $2 billion) in August 1998 alone.
+These losses were due to a variety of factors, but their magnitude was
+primarily attributable to excessive leverage: the firm used borrowing
+to leverage its holdings by an estimated factor of over 40 to 1. The
+combination of large losses and large debt would have resulted in
+
+LTCM's collapse. The firm, however, was saved by a Federal Reserve
+coordinated $3.5 billion bailout (financed by private financial institutions, not government money).
+
+IHE Q:UANTITATIV£;I1BI
+
+With all the ventures you have going, do you manage to take any
+time off?
+I just took a week off—the first one in a long time.
+
+So you don't take much vacation?
+Not much. When I take a vacation, I find I need a few hours of work
+each day just to keep myself sane.
+
+You have a reputation for recruiting brilliant Ph.D.'s in math and
+sciences. Do you hire people just for their raw intellectual capability, even if there is no specific job slot to fill?
+Compared with most organizations, we tend to hire more on the
+basis of raw ability and less on the basis of experience. If we run
+across someone truly gifted, we try to make them an offer, even if we
+don't have an immediate position in mind for that person. The most
+famous example is probably Jeff Bezos. One of my partners
+approached me and said, "I've just interviewed this terrific candidate
+named Jeff Bezos. We don't really have a slot for him, but I think he's
+going to make someone a lot of money someday, and I think you
+should at least spend some time with him." I met with Jeff and was
+really impressed by his intellect, creativity, and entrepreneurial
+instincts. I told my partner that he was right and that even though we
+didn't have a position for him, we should hire him anyway and figure
+something out.
+Did Bezos leave your firm to start Amazon?
+Yes. Jeff did a number of things during the course of his tenure at D. E.
+Shaw, but his last assignment was to work with me on the formulation
+of ideas for various technology-related new ventures. One of those
+ideas was to create what amounted to a universal electronic bookstore. When we discovered that there was an electronic catalog with
+millions of titles that could be ordered through Ingram's [a major
+book distributor], Jeff and I did a few back-of-the-envelope calculations and realized that it ought to be possible to start such a venture
+without a prohibitively large initial investment. Although I don't think
+either of us had any idea at the time how successful such a business
+could be, we both thought it had possibilities. One day, before things
+had progressed much further, Jeff asked to speak with me. We took a
+
+walk through Central Park, during which he tolcl me that he'd "gotten
+the entrepreneurial bug" and asked how I'd feel about it if he decided
+he wanted to pursue this idea on his own.
+
+What was your reaction?
+I told him I'd be genuinely sorry to lose him, and made sure he knew
+how highly I thought of his work at D. E. Shaw, and how promising I
+thought his prospects were within the firm. But I also told him that,
+having made a similar decision myself at one point, I'd understand
+completely if he decided the time had come to strike out on his own
+and would not try to talk him out of it. I assured him that given the
+relatively short period of time we'd been talking about the electronic
+bookstore concept, I'd have no objections whatsoever if he decided
+that he wanted to pursue this idea on his own. I told him that we
+might or might not decide to compete with him at some point, and he
+said that seemed perfectly fair to him.
+Jeff's departure was completely amicable, and when he finished
+the alpha version of the first Amazon system, he invited me and others at D. E. Shaw to test it. It wasn't until I used this alpha version to
+order my first book that I realized how powerful this concept could
+really be. Although we'd talked about the idea of an electronic bookstore while Jeff was still at D. E. Shaw, it's the things Jeff did since
+leaving that made Amazon what it is today.
+
+Shaw's trading approach, which requires highly complex mathematical models, vast computer power, constant monitoring of worldwide markets by a staff of traders, and near instantaneous, extreme
+low-cost trade executions, is clearly out of the reach of the ordinary
+investor. One concept that came up in this interview, however, that
+could have applicability to the individual investor is the idea that
+market patterns ("inefficiencies" in Shaw's terminology) that are not
+profitable on their own might still provide the basis for a profitable
+strategy when combined with other patterns. Although Shaw disdains chart patterns and traditional technical indicators, an analogous idea would apply: It is theoretically possible that a combination
+
+of patterns (or indicators) could yield a useful trading model, even if
+the individual elements are worthless when used alone.
+This synergistic effect would apply to fundamental inputs as well.
+For example, a researcher might test ten different fundamental factors and find that none are worthwhile as price indicators. Does this
+imply that these fundamental inputs should be dismissed as useless?
+Absolutely not. Even though no single factor provides a meaningful
+predictor, it is entirely possible that some combination of these
+inputs could yield a useful price indicator.
+Another important principle that came up in this interview concerns the appropriate methodology in testing trading ideas. A trader
+trying to develop a systematic approach, or any approach that incorporates computer patterns as signals, should caution against data mining—letting the computer cycle through the data, testing thousands
+or millions of input combinations in search of profitable patterns.
+Although the expense of computer time is usually no longer an issue,
+such computational profligacy has a more critical cost: it will tend to
+generate trading models (systems) that look great, but have no predictive power—a combination that could lead to large trading losses.
+Why? Because patterns can be found even in random data. For
+example, if you flipped one million coins ten times apiece, on average, about 977 of those coins would land on heads all ten times.
+Obviously, it would be foolish to assume that these coins are more
+likely to land on heads in the future. But this type of naive reasoning
+is precisely what some system developers do when they test huge
+numbers of input combinations on price data and then trade the
+combination that is most profitable. If you test enough variations of
+any trading system, some of them will be profitable by chance—just
+as some coins will land on heads on every toss if you flip enough
+coins. Shaw avoids this problem of data mining by requiring that a
+theoretical hypothesis precede each computer test and by using rigorous statistical measures to evaluate the significance of the results.
+
+STEVE COHEN
+The Trading Room
+
+"He's the best," said an industry contact, referring to Steve Cohen, when I
+asked him to recommend possible interview candidates. I would hear virtually the same assessment repeated several more times whenever
+Cohen's name was mentioned by industry acquaintances. When I looked
+at Cohen's numbers, I understood the reason for their ebullient praise. In
+the seven years he has managed money, Cohen has averaged a compounded annual return of 45 percent, with only three losing months in
+the entire period—the worst a tiny 2 percent decline.
+These numbers, however, dramatically understate Cohen's trading
+talent. Cohen is so good that he is able to charge a 50 percent profit
+incentive fee, which means that his actual trading profits have averaged
+approximately 90 percent per year. Despite stratospheric fees—approximately two and a half times the hedge fund industry average—Cohen
+has not had a problem attracting investors. In fact, his flagship fund is
+closed to new investment.
+Cohen's firm, S.A.C., which derives its name from his initials, is
+located in an office building whose architectural style can best be
+described as "Connecticut Corporate"—a low-rise, rectangular facade of
+glass squares. I expected to find Cohen sitting in a window-encased
+office with a glass and steel desk. Instead, the receptionist led me into a
+huge, windowless room with six long rows of desks, seating approximately sixty traders, each trader with an array of six to twelve computer
+screens. Despite its size, the room was so filled with people and equipment that it felt more cavelike than cavernous. The absence of windows
+created a bunkerlike atmosphere.
+275
+
+STEVE COHEN
+
+The traders were all dressed casually, with attire ranging from T-shirts
+and shorts, which was appropriate for the weather, to jeans or slacks and
+polar fleeces for those who found the air conditioning too cold. Cohen
+was seated near the middle of one row of desks, totally indistinguishable
+from any of the other traders in the room. (He was one of the polar fleece
+contingent.) Cohen has used his trading success to lure traders specializing in a whole range of market sectors. He has chosen to surround himself with traders, figuratively and literally.
+When I arrived, Cohen was in the midst of a lengthy phone conversation—ironically, he was being interviewed by The Wall Street Journal.
+("This is media day down here!" Cohen would later exclaim to a caller,
+referring to the dual interviews.) I squeezed a chair in alongside Cohen's
+slot within the room-length desk while I waited for him to get off the
+phone. Throughout his phone conversation, Cohen kept his eyes glued
+on the quote screens in front of him. At one point, he interrupted his
+conversation to call out an order. "Sell 20 [20,000] Pokemon." As an
+aside to the rest of the room, he said, "My kids love it, but what the
+hell." He reminded me of Jason Alexander from Seinfeld—a combination of a slight physical resemblance, speech patterns, and sense of
+humor.
+The room was surprisingly quiet, considering the number of traders. I
+realized what was missing—ringing phones; the order clerks had open
+lines to the exchange floors. Every now and then there would be a flurry
+of activity and an accompanying wave of increased noise. Traders continually shouted out buy and sell orders, news items, and queries to others
+in the room. Sample: "Anyone know—Is Martha Stewart going to be a
+hot offering?" Every couple of minutes, Cohen called out a buy or sell
+order to be executed, in a tone so casual that you might have thought he
+was placing an order for a tuna fish on rye, instead of buying or selling

@@ -1,0 +1,376 @@
+
+STOCHASTICS
+Stochastics, a range-based oscillator, is also considered a momentum oscillator. George C. Lane is credited with creating the formula. I had the
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+95
+
+privilege of working for George back in 1980. His indicator is a popular
+technical tool used to help determine whether a market is overbought,
+meaning that prices have advanced too far too soon and are due for a
+downside correction, or oversold, meaning that prices have declined too far
+too soon and are due for an upside correction. Stochastics is based on a
+mathematical formula that is used to compare the settlement price of a
+specific time period to the price range of a specific number of past periods.
+The method works based on the premise that in a bull, or up-trending,
+market, prices will tend to make higher highs and that the settlement price,
+or close, will usually tend to be in the upper end of that time period’s trading range, or at least closer to the high. When the momentum starts to fade,
+the settlement prices will start to push away from the upper boundaries of
+the range; and the stochastics indicator will show that the bullish momentum is starting to change. The exact opposite is true for bearish, or downtrending, markets.
+There are two lines that are referred to as %K and %D. These are plotted on a horizontal axis for a given time period, and the vertical axis is plotted on a scale from 0 percent to 100 percent. As you will see from the
+formula, %K will be the faster of the two lines and will change direction because the %D line is a moving average of %K. The unique feature of the stochastics reading is the moving average crossover feature.
+Stochastics is a range-based oscillator with readings between 0 percent and 100 percent. The main guidelines reflect the thought that readings
+over 80 percent indicate that a market condition is overbought and ripe for
+a downside correction and that readings under 20 percent signal the market
+is oversold and ripe for a bounce. While that certainly is the case, generally
+speaking, I look for more clues within the indicator to trigger a trade signal.
+The formula to calculate the first component for fast stochastics using
+a 14-period look back setting for %K is:
+%K = c – Ln/Hn – Ln * 100
+where c = closing price of current period
+Ln = lowest low during n period of time
+Hn = highest high during n period of time
+n = number of periods
+The second calculation is the %D (3-period). It is the moving average
+of %K.
+%D = 100(Hn/Ln)
+where HN = the n period sum of (c – Ln)
+
+96
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+RULES TO TRADE BY
+When using stochastics as a confirming tool, I see the indicator corroborate
+the timing of a market turn associated with a higher closing high, especially when it is in proximity of a targeted support level based off a pivot
+point level. These rules will help to make better trading triggers for buy and
+sell signals.
+• When the readings are above 80 percent and %K crosses below the %D
+line and both lines close back down below the 80 percent line, then a
+“hook” sell signal is generated.
+• When the readings are below 20, percent, once %K crosses above %D,
+and once both lines close back up above the 20 percent level, then a
+“hook” buy signal is generated.
+The market in Figure 3.1 is a 15-minute candle chart on the Chicago
+Board of Trade (CBOT) mini-Dow contract. The buy signal or trigger is generated once %K and %D both cross over and back above the 20 percent line.
+It also confirms the first time after the downtrend that the market makes a
+
+FIGURE 3.1
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+97
+
+higher closing high. We have not yet discussed candle patterns; but for
+those already familiar with that charting method, you will notice that it is a
+higher close above the doji high. The trigger to go long is on the close or the
+next open, once the market makes a higher closing high, which in Figure 3.1
+would be at 10810.
+When the market trades near the daily projected resistance, as determined by using pivot point analysis, once prices start to make lower closing lows, which is a clue that helps us identify that the uptrend has
+concluded. That is what generates a sell signal at 10838. That would be a
+profitable scalp of 28 points at $5 per point, which is $140 on a day trading
+margin of $500, which is what most futures brokerage firms charge.
+
+STOCHASTICS CONFIRMS THE TURN
+Now looking at the sell signal, we would have an opportunity to go short at
+10838 as the market pivots and turns, as I say, off the resistance level as the
+stochastics confirms with a %K and %D hook sell signal once both lines
+cross and close below the 80 percent line. Follow the flow of the market
+after that point: lower highs, lower lows, and, more important, lower closing lows all the way down to a low of 10739. That is a 99-point decline or
+$495 per contract—almost a 100 percent return on your day trading margin.
+As the market declines, we see the stochastics crossing above and back
+below its respective values; but never does it cross back and close above
+the 20 percent line. I am asked at what level do you take profits. I will go
+over specific target exit levels later; but for right now, the most simplistic
+answer is at the last trading price near 10758. The reason is that this would
+have been a day trade; and as you can see from the bottom of the chart, the
+day is running short on time. Profit objectives can be based not only on
+price targets but also on time limits.
+Figure 3.2 shows a pattern similar to that in Figure 3.1: a higher close
+above a doji high. Candle chart aficionados may see a variation of a morning doji star pattern. I keep it very simple; I call it an HCD pattern, which
+stands for a high close doji. This pattern has specific rules on entry and
+exits and will be disclosed in just a bit. For now, please focus your attention
+on the fast stochastics, as %K and %D both confirm the trigger to go long
+once both lines cross and close above the 20 percent line. That trigger corresponds on the close of the candle, which was 10756. As the market moves
+higher, follow the flow again as the momentum builds. The stochastics does
+not generate a sell signal, as the high was made at 10805. We see a
+crossover of %K and %D above the 80 percent line, but the stochastics does
+not close back under that line.
+The 20 percent and 80 percent levels in relationship with the %K and
+
+98
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 3.2
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+%D values will help confirm your entries and exits in the markets, especially when you follow the trend or market flow as shown by the candle
+charts. There is a reason why I have focused on the high close doji signal,
+as we shall soon discover from a back-test study on percentile perspective.
+But once again, this chapter is to help you better understand the confirming power that stochastics offers.
+Markets need volatility in order to move, and we need markets to move
+in order to trade. We also need to base our trading plans on reliable signals.
+Not all times do the setups that trigger an entry work as perfectly as in
+these examples, which is why I have other confirming signals to corroborate timing a trade signal. I also like to see if the methodology works in a diverse group, or noncorrelated markets. Testing for robustness, or how well
+a system or signal responds in different markets, helps validate the reliability of that signal. The chart in Figure 3.3 is a spot forex euro currency
+that demonstrates the same setup and trigger that would enter a long position with %K and %D crossing over above the 20 percent line with a con-
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+99
+
+FIGURE 3.3
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+firming higher closing high candle pattern. The sell signal also works well
+as confirmed when %K and %D both cross over and close back below the 80
+percent line.
+
+TIPS AND TRICKS TO HELP
+There are other tips and tricks associated when using stochastics. There
+are fast stochastics and slow stochastics. The difference is in how the parameters are set to measure the change in price. This is referred to as a
+gauge in sensitivity. A higher rate of sensitivity will require the number of
+periods in the calculation to be decreased. This is what “fast” stochastics
+does. It enables one to generate a faster and a higher frequency of trading
+signals in a short time period. The previous two examples used the default
+fast stochastics settings, which help you discover the cycles of tops and
+bottoms faster than the slow stochastics setting will.
+
+100
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+Stochastics Patterns
+One other method in which to use the stochastics indicator is trading off a
+pattern called bullish convergence. It is used in identifying market bottoms—where the market price itself makes a lower low from a previous
+low, but the underlying stochastics pattern makes a higher low. This indicates that the low is a “false bottom” and can resort to a turnaround for a
+price reversal. Figure 3.4 shows how prices make a secondary low significantly lower from a primary low, which is posted by a low in the stochastics indicator.
+The reverse of this signal is a trading pattern called bearish divergence.
+It is used in identifying market tops—where the market price itself makes
+a higher high from a previous high, but the underlying stochastic pattern
+makes a lower high. This indicates that the second high is a “weak” high
+and can resort to a turnaround for a lower price reversal. Figure 3.5 shows
+
+FIGURE 3.4
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+101
+
+FIGURE 3.5
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+how the market makes a secondary high, but the corresponding high in the
+stochastics is at a lower level than the price charts’ primary high point.
+This stochastic pattern can alert you to a false breakout. Notice the low
+close doji (LCD) off the secondary peak; and then as %K and %D both cross
+over and close back beneath the 80 percent line, a sell trigger is generated.
+That signal warns of an impending, prolonged downtrend of substantial
+proportion. Therefore, it is important to monitor for divergence patterns.
+
+Rules to Trade By
+The bearish divergence pattern signals that there is an impending price reversal ready to occur in a market. As I mentioned previously, you can anticipate and get ready to place an order to act on the signal; but you should
+not act until the confirmation of a lower closing low triggers the entry,
+which would be to act on the close or the next open. Here are four rules to
+guide you to trading a stochastics divergence pattern:
+
+102
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+1. The first peak in prices should correspond with a peak in the %K and
+
+%D reading above the 80 percent level.
+2. The second peak must correspond to a significant higher secondary
+
+price high point.
+3. If the secondary stochastics peak is less than or under the 80 percent
+level, this signals a stronger sell signal.
+4. Prices should make a lower closing lower to confirm a trigger to enter
+a short position. Enter on the close of the first lower closing low or the
+next open. The protective stop should initially be placed above the high
+of the secondary high.
+Figure 3.6 demonstrates a bearish divergence setup with the rules described. This is a 15-minute candle chart on the CBOT mini-Dow. The secondary high is established at 10940. Both %K and %D make a primary high
+above the 80 percent line, and the secondary high in price corresponds with
+%K and %D below the 80 percent level. Once the long dark candle closes
+below the prior low (in fact, it closes below five prior candles lows), a sell
+signal is triggered. The initial entry is made on that time period close or on
+
+FIGURE 3.6
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+103
+
+the next open, which in this case is 10897. The stop is placed at 10945,
+above the high of the secondary peak high. As you can see, the market continues to decline into the close down to 10836, for a 61-point gain had you
+exited on the close. That equates to a gain of $305 on a day trade margin of
+$500 per contract. Notice that as the market declines, the stochastics indicator remains below the 20 percent line as the %K and %D cross multiple
+times but never back above the 20 percent level to trigger a buy signal until
+after the electronic day session close, which is 4 P.M. (CT).
+
+MACD
+In simplest terms, moving average convergence/divergence is an indicator
+that shows when a short-term moving average crosses over a longer-term
+moving average. Gerald Appel developed this indicator as we know it
+today, and he developed it for the purpose of stock trading. It is now widely
+used for short-term trading signals in stocks, futures, and forex markets, as
+well as for swing and position traders. It is composed of using three exponential moving averages. The initial inputs for the calculations were a 9-period, a 12-period, and a 26-period. The concept behind this indicator is to
+calculate a value, which is the difference between the two exponential moving averages, which then compares that to the 9-period exponential moving
+average. What we get is a moving average crossover feature and a zero-line
+oscillator, and that helps us to identify overbought and oversold market
+conditions.
+I might add that because traders are now more computer savvy than
+ever before and because many charting software packages such as
+RealTick allow traders to change or optimize the settings or parameters, it
+is easy to change, or “tweak,” the variables in Appel’s original calculations.
+Traders can increase the time periods in the moving average calculations to
+generate fewer trade signals and can shorten the time periods to generate
+more trade signals. Just as is the case for most indicators, the higher the
+time periods used, the less sensitive the indicator will be to changes in
+price movements. MACD signals react quickly to changes in the market—
+that is why a lot of analysts, including myself, use it. It helps clear the picture when moving average crossovers occur. It measures the relative
+strength between where current prices are as compared to past time frames
+from a short-term perspective to a longer-term perspective.
+The MACD indicator is constructed with two lines: One is the 9-period
+exponential average (slow line), and the other is the difference between the
+12- and 26-period exponential moving averages (fast line). In general, when
+the fast line crosses above the slow line, a buy signal is generated; the opposite is true for sell signals.
+
+104
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+The MACD also has a zero baseline component, called the histogram,
+that is created by subtracting the slower signal line from the MACD line. If
+the MACD line is above the zero line, prices are usually trending higher. The
+opposite is true if the MACD is declining below the zero line. The MACD is
+a lagging indicator; that is, it is based off moving averages. We want to look
+for the zero-line crossovers to identify market changes and to help confirm
+trade entries or trigger action to exit a position. As you can see in the emini–Standard & Poor’s (S&P) chart in Figure 3.7, the MACD readings cross
+back above the zero line, indicating a confirmed shift in momentum. That
+zero-line cross helped filter out the bottoming process. A long position
+would have been initiated at the close of the candle or at the next time period’s open at 1267.25, which resulted in an immediate price gain, carrying
+prices up over 1270.
+Clues that identify shifts in momentum as the market moves from one
+extreme to another or from overbought to oversold to trigger a trading opportunity can be identified with the aid of MACD readings in both the moving average and the histogram component. While profits are higher when
+
+FIGURE 3.7
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+105
+
+buying the absolute bottom, that is a haphazard guessing game to play.
+Trading based on a set of rules and using a confirming indicator to identify
+a change in price direction and then following that price movement are the
+keys to making money in the markets. Figure 3.8 shows an e-mini–S&P example; the intraday trend is established to be higher by 10 A.M., as the symmetry of higher highs and higher lows exists. The MACD confirms an HCD
+trigger as the histogram bar crosses above the zero line, initiating a long at
+1234.75. Notice that the histogram bars continue to expand higher, confirming that the bullish momentum is accelerating. Identifying a zero-line
+cross is a powerful tool in confirming entries, and watching the progression
+of the histogram bars may help you maintain a winning position.
+It is not in every single instance that we see the MACD signals work exactly the same as Figure 3.9 demonstrates. The histogram was not under
+the zero line; therefore, a zero-line cross did not trigger. However, observing that the histogram bars move higher as prices start to advance would
+certainly help confirm the strength of the uptrend.
+
+FIGURE 3.8
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+106
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 3.9
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+RELY ON THE PATTERNS
+Another method useful with the MACD indicator, and one that is more reliable for determining a trend reversal, is to identify the pattern called bullish convergence. This is where the market price itself makes a lower low
+from a previous low, but the underlying MACD pattern makes a higher low,
+as shown in Figure 3.10. This indicates that the second low is a weak, or
+“false,” bottom and can resort in a turnaround for a sharp price reversal.
+This is similar to stochastics; however, since it is developed from moving
+averages, the timing of the shorter-term versus the longer-term moving averages can delay such a signal. There is a high probability that MACD and
+stochastics work more so than other indicators with this pattern.
+As you can see in Figure 3.10, which is a five-minute chart on Intel, the
+market made a lower low in the next trading session where the MACD histogram makes a higher low. Notice the HCD signal. Then as the price starts
+to appreciate, the MACD histogram triggers or confirms a long position
+with a zero-line crossover, and the progressively higher histogram bars con-
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+107
+
+FIGURE 3.10
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+firm the positive momentum right into the close of the day. The MACD is a
+very useful tool as a confirming indicator once you have entered in a position, especially by following the histogram readings.
+The MACD has the same principles as far as a sell signal with what is
+known as bearish divergence. This is where the market price itself makes a
+higher high from a previous high, but the underlying MACD crossover lines
+make a lower high. This indicates that the second high is a “weak” high and
+can resort to a turnaround for a lower price reversal. In Figure 3.11, a daily
+chart in the FX spot euro currency, the MACD histogram helps identify
+both bearish and bullish divergence patterns.
+One other useful method in using MACD is to follow as stated the direction of the histogram bars to help confirm a turn or a change in trend.
+Figure 3.12 shows the price advance in the e-mini–S&P as the market closes
+in on a pivot point resistance level, and the market moves from a bullish
+condition as prices move higher or in an overbought state and the histogram readings start to expand over 300. As the market price conditions
+change, as the close is below the open, and as the market makes the first
+lower closing low, especially near the pivot resistance line, the histogram
+
+FIGURE 3.11
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+FIGURE 3.12
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+108
+
+How to Read Oscillators to Spot Overbought or Oversold Conditions
+
+109
+
+bars start rolling down or making lower highs as well. In a weak or downtrending market, the bars should also be making lower highs; and in this
+case, they are confirming a sell signal from the change in market condition
+as well as the moving average crossover as prices trade under the moving
+average lines. This last example is what we will be going over in later chapters as we combine pivot point analysis with candle patterns.
+
+SUMMARY
+In conclusion, all oscillators, indicators, and most moving average studies
+will give confirmation when a market shifts direction; and knowing these
+signals will help you identify a trading opportunity. They also will help give
+you a clue when a market is in an extreme price condition, described as
+being overbought and oversold. Therefore, as a trader, you need something
+that gives you a better idea of entering a trade. The next few chapters will
+reveal ways by which you will learn how to identify shifts in momentum before looking at an indicator as confirmation. Impossible, you say? Well,
+there are certain patterns such as the high close doji, the jackhammer candle pattern, a low close doji, or the shooting star formation that, when up
+against a projected pivot support or resistance line, will alert you to a trade
+entry faster than using these traditional indicators. When I introduce you to
+the concept of using a pivot point moving average component as was used
+in Figure 3.12, then you will see how it is possible.
+
+CHAPTER 4
+
+Momentum
+Changes
+How to Spot Divergence
+or Convergence
+
+he battle to identify when a trend ends or when a trend will start is
+one of the key elements on which traders make their bread and
+butter. When a market reaches an unsustainable price extreme either
+up or down, we want to be able to be prewarned so we can set up our trading account with the right contract sizes and preset the buy or sell order
+and then wait for the trigger to act. We have the traditional indicators that
+we went over in Chapter 3 with stochastics and MACD (moving average
+convergence/divergence), but there is one more measure of data we have
+that stock traders and longer-term futures traders have been using for over
+a hundred years. That one bit of data is called volume. The one disadvantage that foreign exchange (forex) traders have is that there is no way to
+measure volume data unless you “borrow” it from the futures markets, as I
+shared in Chapter 1.

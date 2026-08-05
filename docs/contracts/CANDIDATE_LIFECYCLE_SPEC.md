@@ -167,7 +167,14 @@ preferences are hard constraints, never reward penalties):
 1. **One active exposure per (instrument, direction).** A conflicting
    Candidate is rejected with `reason_code = CAPACITY_REJECTED`,
    `sub_reason = EXISTING_EXPOSURE_CONFLICT`, and keeps its counterfactual
-   outcome.
+   outcome. The purpose is **attribution** — one position, one owning Expert,
+   so realized PnL is never split across hypotheses — not a risk ceiling.
+   Since rule 14 stopped capping the Expert count (D-043), this rule and the
+   heat cap below are what actually bound portfolio scale: adding Experts
+   without revisiting them changes which hypotheses are *measured*, not which
+   positions are *held*. The contested slot goes to the lexicographically
+   first `expert_id` (`RUNTIME_SCHEDULER_SPEC` §5); replacing that with a
+   ranking is gated by O-006 / O-012.
 2. **Portfolio heat cap (D-023).** Heat is the sum of per-position stop risk
    in R (with fixed 1R geometry this equals the number of open positions).
    Correlated clusters are a **fixed instrument list** — no rolling
@@ -178,8 +185,10 @@ preferences are hard constraints, never reward penalties):
    would silently enter the deferred ranker gate
    (`OPEN_DECISIONS` O-006/O-012).
 3. **Mechanical tradability mask (D-024).** Deterministic data-integrity
-   vetoes — funding settlement windows, spread beyond the declared
-   percentile, `StateQuality = DEGRADED` — are a data-plane concern
+   vetoes — funding settlement windows, entry-bar intrabar range beyond the
+   declared `max_bar_range_frac` (detail `BAR_RANGE`; this is `(high-low)/close`
+   and never a bid-ask spread, which the depth-free tape cannot express),
+   `StateQuality = DEGRADED` — are a data-plane concern
    (`FEED_INGESTION_SPEC`), not a regime filter. They add no degrees of
    freedom and are a deterministic-baseline candidate; learned regime labels
    are a separate, router-gated question (`O-015`).

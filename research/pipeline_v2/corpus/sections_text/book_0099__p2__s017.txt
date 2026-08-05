@@ -1,0 +1,548 @@
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 9: Seeing Chart Patterns Through a Technical Lens
+As with every trend that is losing steam, volume falls after the head, although
+about half the time the highest volume is at the left shoulder and about half the
+time at the head. Volume is low at the second shoulder. Volume on the breakout day and the next few days after the breakout day, however, tends to be
+very high. This is not surprising, because by now a great number of chartoriented traders have identified the pattern and its neckline. Some traders may
+see only the break of support without having seen the head-and-shoulders
+pattern, adding to the number of traders who now want to sell.
+The head-and-shoulders patterns shown in Figure 9-6 are easy enough to see,
+but many head-and-shoulders patterns are more complex and contain other
+patterns within them. The second head-and-shoulders pattern in Figure 9-6,
+for example, contains a little double top and a gap (see Chapter 7). You may
+also see what appears to be two heads or two shoulders, although one is
+always higher, which makes it the head.
+
+Evaluating the Measured Move
+The term measured move is used in a number of contexts in technical analysis, so it can become confusing. In essence, a measured move is a forecast of
+the upcoming price move after a chart event, including completion of a pattern. Unfortunately, these forecasts are seldom correct, or rather, they vary
+by too much from actual outcomes to serve as reliable trading guides. Below,
+I outline three types of measured moves. (Point-and-figure charting also features its own version of the measured move — see Chapter 15.)
+
+Taking dictation from the pattern
+One definition of measured move is the price change expected to result from
+a particular pattern. For example, in the ascending triangle pictured at the
+top of Figure 9-7, the gray lines denote the height of the pattern. Imagine that
+the distance between the high and low within the pattern is $5. After the
+price breaks out above the top of the triangle, you expect the subsequent
+rise to be the same amount, $5.
+One useful (if general) observation is that the size of a move after a pattern
+is proportional to the size of the pattern. When a pattern takes a long time to
+form (three months or more) and when it is very deep (30 to 50 percent of the
+annual high-low range), the bigger the eventual reaction to the pattern.
+As I mention in Chapter 11, you often get a sideways movement that results
+in a horizontal channel (a Darvas box), also called a rectangle. You project
+
+www.pdfdummies.com
+
+165
+
+166 Part IV: Finding Patterns
+the height of the existing box into the future to gauge the extent of the breakout move. A measured move of this type has a certain amount of logic. The
+traders in a particular security may become accustomed to rises or falls of a
+certain amount before pausing or retracing.
+Tom Bulkowski, in his books and articles, provides measurement guidelines
+for the range, average, and mode (most often seen) price change upon the
+completion of a pattern. Seldom are they exactly 100 percent of the height of
+a pattern. Every pattern is measured in its own way. The expected move after
+a head-and-shoulders pattern (described in the section “The ultimate triple
+top: Head-and-shoulders” earlier in this chapter), for example, is measured
+from the top of the head to the neckline. You then subtract that number from
+the neckline at the breakout point to derive the expected stopping point of
+the down move. This target is met only 63 percent of the time in Bulkowski’s
+study, which falls short of a convincing forecasting technique.
+
+MEASURED MOVE
+PRICE TARGET
+
+MEASURED MOVE
+PRICE TARGET
+
+D
+
+B
+
+C
+A
+
+MEASURED MOVE
+PRICE TARGET
+
+MIDDLE OF GAP
+Figure 9-7:
+Measured
+moves.
+
+www.pdfdummies.com
+
+Chapter 9: Seeing Chart Patterns Through a Technical Lens
+Knowing that the down move on confirmation of a head-and-shoulders is equal
+to the expected move only 63 percent of the time doesn’t mean that you
+shouldn’t heed a head-and-shoulders pattern when you see it. This reversal
+pattern is still valid, and if you own the security, you should exit at the pattern
+confirmation neckline, because so many other traders are going to identify the
+pattern and do precisely that, causing a self-fulfilling prophecy.
+
+Resuming the trend after retracement
+Another type of measured move is when a price repeats the extent of a first
+move after a retracement. The retracement takes back 30 percent of the gain
+from the low to the high, or some other percentage. The point is that after
+the retracement, you often see the price resume the trend at the same slope
+and to the same extent as in the first move.
+This type of measured move is illustrated in the second chart in Figure 9-7.
+Here you see an already established channel consisting of support and resistance lines. (See Chapter 10 for more information on support and resistance.)
+The price is oscillating between the two channel lines. After you see the price
+stop at Price C, you simply copy and paste the A-to-B move to C to arrive at
+price target D.
+Bulkowski found that in a measured move up, the first A-B leg averages 43
+percent over 87 days while the second leg, C-D, averages 37 percent in 65
+days. You have to decide for yourself whether these numbers confirm or
+repudiate the idea of the measured move. In a measured move down, the first
+leg averages 25 percent and the second leg averages 27 percent, and that
+seems to affirm the idea of proportionality. Note that the retracement in measured moves up averages 14 percent over 45 days while in measured moves
+down, the corrective retracement averages 16 percent over 39 days.
+
+Measuring from the gap
+A third type of measured move is when you have a gap. (See Chapter 7 for a
+discussion of gaps.) A gap is a price bar whose high or low is separated from
+the preceding bar by open space, meaning that no trades took place at those
+intervening prices. A gap is important because it shows, graphically, that
+something happened to alter perception of the security. In Figure 9-7, you
+measure the distance from the lowest low in the up move to the middle of the
+gap, and then project that height from the middle of the gap to the upside (in
+an uptrend). You do the opposite in a downtrend.
+
+www.pdfdummies.com
+
+167
+
+168 Part IV: Finding Patterns
+
+www.pdfdummies.com
+
+Chapter 10
+
+Drawing Trendlines
+In This Chapter
+▶ Getting to know the price chart
+▶ Figuring out trends
+▶ Knowing about rule-based trendlines
+▶ Acquainting yourself with internal trendlines
+
+O
+
+ften you can see a trend with the naked eye, but to impose order on
+your visual impression, you can connect the dots, so to speak, by
+actually drawing a line along the price bars. A trendline is a straight line that
+starts at the beginning of the trend and stops at the end of the trend. You can
+do this the low-tech way by using a piece of paper, a ruler, and a Number 2
+pencil, or go high tech with software like Excel or special charting software.
+Figuring out where trends start and stop can be complicated, but in this
+chapter, I explain how to spot them, plot them, and figure out what they’re
+telling you.
+
+Looking Closely at a Price Chart
+Sometimes a trendline pops out when you look at a chart. The price is
+moving in a consistent fashion, either up or down. Usually your eye directs
+your hand to draw a trendline — but then you see another one that may be
+more representative. You may find yourself frustrated at this situation and be
+tempted to give up. Persevere for two reasons:
+✓ You can feel a higher level of confidence that your trade is the right one
+when prices are following your trendline.
+✓ A break of a trendline is a high-probability indication that the trend has
+ended and you need to take action.
+
+www.pdfdummies.com
+
+170 Part IV: Finding Patterns
+You never know in advance when a trendline should start or stop. You know
+only after the fact. So a trendline is a work in progress that needs constant
+reevaluation. Yes, this means that you need to check the price after the close
+to see where it stands in relation to the trendline. You probably know people
+who check their prices every day. It’s a mystery why they do that if they don’t
+have an analytical framework on which to judge the day’s outcome, even just
+a rough hand-drawn trendline. To help in the process, you may extend a trendline artificially out into the future in the hope and expectation that new prices
+will be near it, but remember that the extended line is only a hope and expectation, and not real.
+The time frame of the chart you’re looking at influences what you see. A
+trader with a long-term time frame may see one trend on a weekly chart,
+whereas a swing trader with a shorter time frame in mind sees multiple
+trends on the same chart. In order to see the single long-term trendline, you
+have to accept that charting is a dynamic process. Your work is never done.
+Every day (or hour or week) provides new data. You need to be ready, willing, and able to discard a trendline when it stops representing the trend — or
+to restore an old trendline with some minor modifications if your original
+drawing turns out to be right, after all. In this case, the move is a big-picture
+uptrend, but you don’t know it for sure until late in the move.
+You may not be able to see or place a trendline on certain charts. No security
+is in a trending mode all the time. On other occasions, you draw one trendline
+only to realize later that you can draw a better one. Some trends are orderly,
+making it easy to spot them, while other trends are disorderly and hard to see.
+
+Following the Rules with
+Rule-Based Trendlines
+You are welcome to draw any old line that your eye dictates, but rule-based
+lines have a long history of actually working to improve trading results, in
+part because everyone knows the rules and draws the same lines. This gives
+some practical meaning to the phrase “reading the mind of the market.”
+A rule-based trendline is one that starts and stops according to well-defined
+conditions, such as a line starting at the lowest low of the last three days and
+ending at the highest high of the last three days. A rule-based trendline is
+better than an impressionistic trendline for three reasons:
+✓ It doesn’t let you impose your personal view of what the trend should be.
+✓ It improves your ability (and self confidence) to buy a security when its
+price is rising or sell it when the price is falling.
+✓ It helps prevent loss by showing you the exit at the right time.
+
+www.pdfdummies.com
+
+Chapter 10: Drawing Trendlines
+
+Drawing rule-based trendlines
+Here’s how you draw a rule-based trendline for an uptrend:
+1. Start at the lowest low and connect the line to the next low that precedes a new high.
+2. As long as new highs are being made, redraw the line to connect to
+the lowest low before the last high.
+3. When prices stop making new highs, stop drawing. Extend the line out
+into the future at the same slope.
+Here’s how you draw a rule-based trendline for a downtrend:
+1. Start at the highest high and connect the line to the next high that precedes a new low.
+2. As long as new lows are being made, redraw the line to connect to the
+highest high before the last low.
+3. When prices stop making new lows, stop drawing. Extend the line out
+into the future at the same slope.
+Notice that this is a dynamic process. You often have to erase one line and
+draw another one as conditions change.
+
+Using the support line to enter and exit
+In Figure 10-1, the trendline illustrates the rule-based trendline named a
+support line. It’s named support because you expect the line to support the
+price — traders won’t let the price fall below it. You start at the lowest low
+and draw a line to the next low. This generates a line that can be extended at
+the same slope, but it becomes a trendline only when another daily price low
+touches the line and bounces off it. This touch-bounce is confirmation that
+the line is more than just a line and is a true trendline. When you use the support trendline as a trading guide, you initiate a new position on the confirmation, right after the third touch.
+Some technical traders say that to require a third touch is to be overly cautious and to miss out on some perfectly good trends that fail to meet the
+third-touch qualification. This is true — many valid trends do have only two
+touches before they end. If you’re waiting for the third touch, you may miss
+the entire move. You may even say that two touches is better than three
+or more because that means this security doesn’t have a crew of wiseguys
+always testing support. But, experience shows that your trust is better
+placed in a trendline with three or more touches. You’re taking more risk if
+you accept two touches.
+
+www.pdfdummies.com
+
+171
+
+172 Part IV: Finding Patterns
+125
+
+SELL ON BREAK
+OF SUPPORT LINE
+
+120
+115
+110
+105
+100
+
+BUY ON THIRD
+TOUCH OF SUPPORT
+
+95
+90
+85
+15000
+
+Figure 10-1:
+Drawing a
+support line.
+
+10000
+5000
+
+x10
+
+1 6
+
+13
+
+20
+
+27
+
+4
+10
+24
+September
+
+1
+8
+October
+
+15
+
+22
+
+29
+
+5
+12
+November
+
+19
+
+26
+
+3
+10
+17
+December
+
+24
+
+The support line entry rule says: Buy on the third touch of the support line
+by the low of a price bar. On the flip side, the support line exit rule says: Sell
+when the low of the price bar falls below the support line. In some securities,
+including foreign exchange (FX), traders like to play games and push the price
+to break the support line but then buy it back so that the close remains over
+the support line. You need to watch your security to see whether it’s the low
+breaking the line that matters, or if it must be the close.
+You use the support line to identify an uptrend. The price is rising, and rising
+consistently. This provides comfort that the purchase of this security is
+returning a profit and may continue to return a profit. Notice that on many
+days in Figure 10-1, the low price touched the line but didn’t cross it.
+The more times that a low-of-the-day touches the support line without crossing it, the more confidence you should have that it is a valid description of the
+trend. This is called a test of support and encourages buyers of the security to
+buy more after the price passes the test. Fresh buying constitutes demand for
+the security and is called accumulation. Those who already own the security
+are reluctant to sell it after support has passed the test, and now require a
+higher price to put their inventory of the security on offer.
+Here’s a trader’s trick: Sometimes traders engineer a test of support by selling
+the security down to the support line to see whether support will hold. If you
+put on a new long position above the support line, you’re sweating bullets when
+
+www.pdfdummies.com
+
+Chapter 10: Drawing Trendlines
+traders test support. Will holders of the security rush in to buy more of the
+security to defend their positions? When the support line does hold, the traders who were selling become big buyers. They’ve just been given proof that the
+bulls put their money where their mouth is. If you had bought and survived a
+test of support, you are likely to get a fat gain after support was respected.
+When any part of the price bar penetrates the line on the downside, support
+has been broken, and you may deduce that the trend is over. However, this
+trend end may or may not be true. In Figure 10-1, the move continues after
+the line was broken — but experience teaches that the trendline is no longer
+reliable. This analysis is logical because every market participant can draw
+the same support line. A break of support is literally just that — some holders of the stock were willing to break ranks with the other holders and to sell
+at progressively lower prices.
+A breakout is any part of the price bar penetrating a line that you drew on the
+chart. Some traders require that to qualify as a breakout, the bar component
+that breaks the line has to be the close. The word breakout is used in a dozen
+contexts in technical analysis, but it always refers to a significant violation of
+the trend. Sometimes the offending breakout is quickly roped back into the
+herd, but usually a breakout means that the trend has changed its nature —
+and usually that is an impending change of direction. In some cases, though,
+a downside breakout of support that is immediately followed by a series of
+higher highs indicates that bulls got a second wind and are violently repudiating the breakout. A continuation move after a downside breakout tends to be
+uncommon, so don’t count on it.
+Sometimes the low extends beyond the support line for just one day, and
+then prices obediently fall back into line. Subsequent prices respect the support function of the line. A one-day break of the line is called a false breakout.
+The word false is misleading because the price really does break the line;
+what’s false is the conclusion you draw from it.
+To estimate whether a breakout might be false, master trader Larry Williams
+recommends that you consider the position of the close on the day before
+the breakout. In an uptrend, if the close is at or near the high, chances are
+good that it’s a false breakout. The breakout was due to profit-taking that
+got carried away, it was triggered by a false rumor, or it was a random move.
+If the close on the day before is at or near the low, though, chances are the
+breakout is real.
+Discard the support line as a trading tool after it has been broken. However,
+you may want to leave it on the chart for a while. Sometimes old support
+becomes new resistance and vice versa.
+
+www.pdfdummies.com
+
+173
+
+174 Part IV: Finding Patterns
+The other side of the coin: Using
+resistance to enter and exit
+Resistance is the mirror image of support: A line drawn along a series of highs
+marks where buyers resist buying more — the price is too high for them.
+Traders expect sellers to emerge at the resistance line (taking profit). You
+may be wondering why you should care about resistance lines if all you ever
+do is buy securities. As a buyer, the only trendline you care about is the support line. But you should care about identifying a downtrend using the resistance line for two reasons:
+✓ When a downtrend ends, the next move may be an uptrend. You want
+to get in on the action as early as possible, so you care when a downtrend is broken to the upside. The breakout is an important clue that an
+uptrend may be starting and you should start paying attention.
+✓ You may someday do the unimaginable — sell short. If you have been
+trading exclusively in the U.S. stock market, chances are you’re not
+familiar with initiating a short position, or selling a security first and
+buying it back later after its price has fallen. Commodity traders, on the
+other hand, are familiar with the practice. After all, we’re striving to be
+emotionally neutral about whether prices are rising or falling. Why not
+profit symmetrically? To make a profit only when a price is rising is to
+lose 50 percent of the opportunity presented by trend-following.
+Figure 10-2 shows two resistance lines drawn according to the rule. The
+uppermost line correctly advised shorting this security at the third touch of
+the line. The price falls off the cliff. But the price never returns to this first
+resistance line. Instead you get the opportunity to draw a new resistance line
+a few months later.
+An experienced trader would probably see the new line as an opportunity to
+increase his short position. A long-only trader would be watching this second
+resistance line for the opportunity to buy the security — with a holding period
+that lasts only until the price nears the topmost resistance line, where it will
+face (you guessed it) resistance. Note that selling this security on the third
+touch of resistance and covering the short position when the price breaks the
+second resistance line would have given you a return of 20 percent.
+The logic for trading using resistance lines is the same as for the support line
+(see the preceding section), but in reverse. The more times the high-of-theday touches the resistance line and doesn’t cross it, the more confidence
+you have that it is a valid description of the trend. This is called a test of
+resistance and encourages sellers of the security to sell more after the price
+passes the test. Fresh selling constitutes supply of the security and is called
+distribution. Those who own the security are reluctant to hold it after resistance was proved to resist an effort to break above it. They’re willing to sell
+their inventory at increasingly lower prices.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 10: Drawing Trendlines
+11600
+11500
+
+SELL ON THIRD TOUCH
+OF RESISTANCE
+
+11400
+11300
+11200
+11100
+11000
+10900
+10800
+10700
+10600
+10500
+10400
+
+SELL ON THIRD TOUCH
+OF RESISTANCE
+
+10300
+10200
+10100
+10000
+9900
+9800
+9700
+9600
+9500
+9400
+9300
+9200
+9100
+
+Figure 10-2:
+Drawing
+resistance
+lines.
+
+CLOSE SHORT POSITION
+WHEN RESISTANCE IS
+BROKEN TO THE UPSIDE
+
+9000
+8900
+8800
+8700
+8600
+
+23
+
+29
+
+5
+April
+
+12
+
+19
+
+26
+
+6
+May
+
+17
+
+24
+
+31
+7
+June
+
+14
+
+21
+
+28
+
+5
+July
+
+12
+
+20
+
+26
+
+2
+9
+August
+
+16
+
+23
+
+30
+
+6
+13
+September
+
+20
+
+27
+
+4
+11
+October
+
+16
+
+To trade using support and resistance exemplifies the ruling principle of
+trend-following trading: You never enter at the absolute high and never exit at
+the absolute low. The goal is to capture a portion of the trend. Famous trader
+Bernard Baruch said he was willing to let others have the first third of a move
+and the last third of a move — he just wanted the middle third.
+
+Fine tuning support and resistance
+You need patience and persistence to work with trendlines, because you
+need to adjust the lines often, sometimes daily. You will hardly ever be lucky
+enough to get a clear uptrend along a support line and then a breakout of the
+support line that turns into a downtrend with a tidy resistance line. Instead
+the price will wander around and perhaps test the last high, which can be
+very annoying if you sold at the break of support.
+See Figure 10-3. This chart is an adaptation of one shown by Victor
+Sperandeo in Trader Vic: Methods of a Wall Street Master. First is the break
+of the support line. But instead of an inverted V-shaped down move coming
+right afterward, the price tests both the highest high and a significant low
+along the up move. It is only when it crosses under this previous significant
+low that you are 100 percent certain that the move is over. Sperandeo calls
+it the 1-2-3 method for identifying a change in trend. Not every break of support looks like this, of course, but it’s an excellent model, not least because it
+reminds us that trends hardly ever end and reverse in one fell swoop.

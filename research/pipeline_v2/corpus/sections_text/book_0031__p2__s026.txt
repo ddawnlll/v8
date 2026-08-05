@@ -1,0 +1,321 @@
+
+Analyzing the trade setup to determine position size
+The starting point for any successful trade is developing a well-conceived trading plan. And the
+most important element of a trading plan is the size of the position that will be traded. Position
+size will determine how much money is ultimately at risk, as well as the overall viability of the
+trade.
+But position size is only one half of the equation that determines how much money is at risk. The
+second half of the equation is the pip distance between the entry price and the stop-loss level.
+Wait a minute, you may be thinking. Why didn’t I mention the upside potential or the pip distance
+between the entry price and the take profit? Why aren’t I looking at how much money I can make
+on the trade?
+Save the rose-colored glasses for buying lottery tickets. When you’re plunking down a dollar or
+two, it’s okay to focus only on the upside and dream about winning millions. But when you’re
+trading in any financial market, you have to remember the market is not there to give you money.
+
+I know you’re not drawn to currency trading for the chance to lose money. You’re interested
+in making money, and you’re prepared to take some risks to do that. The question is how
+much risk are you prepared to accept. Because you’re dealing with finite resources in your
+trading — the amount of risk capital you’ve devoted to your trading — you have a definite
+limiting factor to your trading. If you eat through your trading capital, you’re done. So the
+starting point of a risk-aware trading plan has to focus on the downside risks.
+That brings us to the trade setup, which I cover in greater detail in Chapter 12. A trade setup is a
+trade opportunity that you’ve identified through either fundamental or technical analysis, or a
+combination of both.
+In every trade setup, you need to identify the price point where the setup is invalidated — where
+the trade is wrong. For example, if you’re looking to sell a currency pair based on trend-line
+resistance above, price gains beyond the trend line would invalidate your rationale for wanting to
+be short. So the price level of the trend line is the line in the sand for the overall strategy.
+
+Now comes the entry point for the trade. Let’s say that current market prices are 50 pips below the
+trend-line resistance you’ve identified. That means the market could move higher by 50 pips and
+your trade setup would still be valid, but you’d be out of the money by 50 pips. You now have a
+clear delineation of how much risk your trade setup would require you to assume. If you get in
+now, you’re risking at least 50 pips.
+Alternatively, you could reduce that risk by waiting and using an order to try selling at better
+levels — say, 25 pips higher. If the market cooperates and your limit-entry order is filled, you’re
+now risking only 25 pips before your trade setup is negated.
+So how large a position should you commit to the trade? From a risk standpoint, it all depends
+where you’re able to enter the trade relative to your stop-out level (see the following section).
+
+Doing the math to put the risk in cash terms
+After you’ve identified where your stop-loss point is — where the trade setup is negated — and
+where you’re able to enter, you’re able to calculate the amount of risk posed by the trade. Let’s
+say you’re inclined to enter the position at current market levels, and your stop is 50 pips away.
+For example, if you’re trading a standard-size account (100,000 lot size), and the trade is in
+NZD/USD (where profit and loss accrues in USD), each lot would translate into risking $500
+(100,000 × 0.0050 NZD/USD pips = $500).
+If your margin balance is $10,000, you’re risking 5 percent of your trading capital per lot in this
+trade, which is frequently cited as the maximum risk in any one trade.
+
+There are no hard and fast rules as to how much you should risk in any single trade, but I
+recommend limiting your risk to no more than 10 percent of your account balance.
+If you’re able to enter the position at a better level (say, using the order to sell 25 pips higher),
+you’re now risking only 25 pips on the trade. You could double the position size and still be
+risking the same amount of trading capital. Or you could stick with the single lot and cut your risk
+in half.
+
+Devising the trading plan in terms of risk
+Risk in the trading plan is not confined simply to losing money on the trade. There are also
+opportunity risks from trade setups that you’re not able to enter. Another old market saying is that
+some of the best trades are the hardest to get into. You may be eyeing a trade setup that involves
+buying a dip toward rumored buying orders or significant technical support. But what happens if
+the dip never comes?
+
+Identifying the trade entry points
+Winning or losing on a trade is difficult if you never get into the position in the first place, which
+makes identifying where to get into the trade one of the most important steps in any trading plan.
+I like to use technical analysis as the primary means of identifying entry levels. When looking to
+identify entry points, I focus on the following technical levels:
+Trend lines in various time frames (daily, four-hour, and hourly)
+Hourly highs and lows for short-term intraday position entries
+Daily highs and lows for medium- to longer-term positions
+Congestion zones
+Fibonacci retracements of prior price movements (38.2 percent, 50 percent, 61.8 percent,
+and 76.4 percent)
+Spike highs and lows
+After you’ve identified a price point to enter into the trade, double-check the level. Is the entry
+level realistic? If you’re looking to enter a short-term trade, is your entry point likely to be
+reached in the short-term time frame (minutes to hours)? You can use momentum readings to help
+gauge the likelihood of an order level being reached. For example, if hourly momentum readings
+are moving lower, a buy entry to the downside probably stands a better chance of being reached
+than a sell entry above.
+What happens if your entry level is never reached? Do you have a backup plan? If you were
+planning on selling on further rallies, for example, but the market moves directly lower, is there a
+price level below that you would consider selling at on a stop-entry basis? What does that backup
+plan mean for your overall trade stop level? Should you reduce the position size to compensate for
+the worse entry rate?
+
+Establishing stop losses with foresight
+The stop-loss level is the starting point in any trade plan from an overall risk perspective. It’s the
+point where the trade setup is negated and the strategy fails.
+
+When considering where to place the stop level, be aware that the currency market, like
+most financial markets, has a tendency to try to take out levels where stop losses are likely to
+be located. Nothing is worse than having the right strategy but being taken out by a short-term,
+stop-loss-driven price move that eventually reverses and goes in the direction of your
+outlook.
+
+To guard against the risk of being unnecessarily whipsawed out of a position, you need to
+approach selecting your stop-loss level from a defensive point of view. Anticipate that the market
+will test the level where the trade setup is invalidated, such as trend-line support or hourly lows.
+Then consider if the market tests that level, how far must it go through before it’s really considered
+a break?
+No set formula exists for this calculation, but allowing for a margin of error can sometimes
+prevent a stop loss from being triggered unnecessarily. The margin of error you apply will depend
+on the general volatility of the currency pair you’re trading, as well as on the overall market
+volatility at the time of the trade.
+
+Above all, you need to balance the risk of being taken out on a false move with the larger
+risk that your overall strategy is wrong. You can be flexible up to a point, but you still need to
+set your ultimate stop loss and then stick to it.
+
+Setting take-profit objectives dynamically
+When it comes to establishing the take-profit objective, a lot of trading books recommend using
+some sort of risk/reward ratio, like 2:1 (meaning, if you’re prepared to risk 50 points on a trade,
+you should be aiming to make 100 points). That approach is all well and good in theory, but it fails
+to account for the realities of the market. Just because you’ve identified a trade opportunity that
+risks x amount, why would the market necessarily “reward” you with twice that amount in profit?
+
+Instead, I suggest using a much more dynamic market-based approach, one that considers
+where the market is likely to go based on where it’s been (technical analysis) and overall
+market conditions. The idea is to be realistic about how much you can take out of the market,
+not idealistic about how much the market will reward you.
+I focus on technical support and resistance levels as the primary guideposts in the progress of
+market movements. If you’re looking to buy based on a Fibonacci retracement level as support, for
+example, you’re going to be looking at technical resistance levels above for your take-profit
+targets. Chart formations, such as channels and flags, also suggest relatively predictable and
+attainable price targets.
+I look to momentum indicators like Moving Average Convergence/Divergence (MACD) and
+stochastics as gauges of the underlying speed of the price movement. If short-term momentum is
+accelerating in the direction of the trade, stay with it, and consider revising your take-profit
+objectives to capture a larger move. But if short-term momentum in the direction of the trade is
+slowing or stalling, consider scaling back your profit targets and adopting a more defensive,
+profit-protecting stance, like raising your stop loss or taking partial profit.
+
+Time is another important consideration in dynamically managing your profit objectives. You need
+to be aware of and anticipate upcoming events and market conditions. If you’ve been long for a
+rally during the North American morning, what’s likely to happen when European markets begin to
+close up for the day? If you’re positioned in USD/JPY in the New York afternoon, and Japanese
+industrial production is slated to be released in a few hours, what can you expect in the interim?
+Stay flexible and dynamic, just like the market.
+
+Choosing Your Trading Broker
+With the explosion in online currency trading over the past several years, dozens of forex
+brokerage firms now operate all over the world. Competition among various brokerages is fierce,
+and there’s no shortage of advertising seeking to win you as a client. In this section I look at some
+of the differences between forex brokerages from a risk perspective, because where you trade can
+sometimes influence your trading outcomes.
+In case you skipped the introduction to this book, I think it’s important in the interest of full
+disclosure to note that I am affiliated with FOREX.com. Before you choose a broker, I recommend
+you take a look at the Cheat Sheet, where I provide a list of questions to ask.
+
+Different business models of brokers
+Most online forex brokers function as the market-maker for your trading, meaning that the broker is
+on the other side of every trade — when you buy, you’re buying from the broker; when you sell,
+you’re selling to the broker. Brokerage firms that are market-makers typically provide both
+consistent liquidity and execution, which allows you to trade your desired amount at all times.
+Market-makers typically offer either fixed spreads or variable spreads:
+Fixed spreads remain constant all the time, regardless of what’s happening in the market.
+Because the broker must assume the additional market risk of quoting a fixed spread all
+day long (including in thinly traded or volatile markets, when interbank spreads tend to
+widen), fixed spreads tend to be slightly wider than variable spreads.
+Variable spreads fluctuate depending on market interest. In highly liquid periods — such
+as the overlap between the London and New York sessions — variable spreads will be
+the tightest (as low as 1 or 2 pips in EUR/USD and the other heavily traded currency
+pairs). In slower periods (such as 6 p.m. eastern time [ET], when New York is closed and
+Asia is not yet fully online), spreads will tend to be wider.
+
+Whether you should choose fixed spreads or variable spreads largely depends on your
+
+trading style. If you’re a short-term trader looking to make just a few pips on each trade,
+you’re probably better off with variable spreads, which are tightest in liquid markets. If you
+trade around news, fixed spreads will allow you to avoid the inevitable widening of spreads
+(sometimes by a significant amount) that typically happens around fundamental
+announcements.
+Another model being promoted by a few brokers is the nondealing desk model. The term is meant
+to differentiate these brokers from market-making brokers — who have trading, or dealing, desks
+— that manage the firm’s market exposure. Nondealing desk brokers will tell you that the price
+you’re trading on is coming directly from the interbank market and that they route all your trades
+directly to the banks. But if that’s the case, why is the nondealing desk broker even needed? Online
+forex brokers have emerged precisely because the large institutional players did not have the
+capacity to process tens of thousands of individual trades.
+More important, if the nondealing desk is commission free and routing every trade to a bank, how
+does it make any money? A legitimate nondealing desk firm will offer very tight bid/offer spreads
+and charge commissions for each trade.
+
+Commission-free forex brokers are compensated by the spread between the bid and the
+offer. If you buy from a broker at 15, for example, and another trader at the same time sells to
+the broker at 14, 13, or 12, the broker realizes a profit from the spread.
+
+The reality with the nondealing-desk approach is that such trading platforms may display
+wider prices and sharper price gaps during periods of volatility, all the while claiming no
+control over the prices being shown. Be careful about promises of dealing in the interbank
+market —if it sounds too good to be true, it usually is.
+
+Financial risks of brokers
+The main financial risk posed by forex brokerages involves the brokerage firm’s failing due to
+mismanagement or fraud, as happened in the case of Refco in early 2006. If a brokerage collapses,
+your trading account could be frozen and your funds tied up in bankruptcy proceedings for months
+or lost forever.
+
+To reduce that prospect, you need to make sure your broker is registered with the
+appropriate financial authorities in the jurisdiction where it operates. In the United States,
+forex brokers are required to be registered as a Futures Commission Merchant/Retail Foreign
+Exchange Dealer (FCM/RFED) with the Commodity Futures Trading Commission (CFTC)
+and are ultimately subject to CFTC rules and regulations. The National Futures Association
+
+(NFA) is the self-regulating body for forex brokers, similar to FINRA (formerly known as
+NASD, or the National Association of Securities Dealers), which oversees stock brokers
+regulated by the Securities and Exchange Commission (SEC).
+
+You can visit the NFA’s website at www.nfa.futures.org to check on the regulatory status of
+a prospective broker. You should also review the brokerage firm’s regulatory history and its
+overall financial condition. Go with firms that have solid histories and strong financials.
+
+Technology Issues and Contingency Planning
+Online currency trading presents its own host of potential technological problems that you need to
+be prepared for. We cover the primary technology risks originating from the broker’s side in the
+previous section, but plenty of things can go wrong on your side of the connection.
+Unfortunately, it’s the Catch-22 of today’s technology: Without it, you couldn’t access the forex
+market in the first place — but when there’s a problem, it’s just another example of modern
+technology making your life more difficult. The trick is to anticipate what can happen and be
+prepared for when it does.
+Contingency planning is the name of that game, and redundancy is the solution. By redundancy,
+we mean having a backup plan for your backup plan, with a backup plan in case the other backup
+plan fails. Now try saying that three times fast.
+
+In particular, have backup plans in place for the following contingencies:
+If your Internet connection is disrupted: Make sure you’re able to call your brokerage’s
+trading desk; memorize its phone number and any account numbers or passwords you need
+to verify your identity, in case you need to trade or place orders over the phone.
+If the power goes out: You may not be able to log on via computer, and your landline
+phone may be disabled, so make sure your cellphone is reliably charged. (Note: Cordless
+phones are the only landline phones that require electricity to run. That’s all the more
+reason to have access to at least one corded phone.)
+If your cellphone fails: Know where you can access a landline phone, and make sure you
+have your brokerage’s phone number memorized. Saving the number in your cellphone is
+no good if the phone’s battery is dead or the phone isn’t working.
+
+Above all, make sure to do the following:
+
+Always have a stop-loss order in place for any open positions. This is your first and
+ultimate backup plan for any and all contingencies. Also, make sure your stop-loss order
+is good until canceled, so it’ll never expire while the position is open.
+Write down your open positions and orders. Keep a hard copy of all your trades and
+orders in a notebook or trading journal so you can refer to it in the event of an emergency.
+If you can’t access your brokerage’s trading platform, you won’t be able to see your
+exposure.
+
+Part IV
+
+Executing a Plan
+
+In this part . . .
+This is what it all comes down to. You’ve done the research, you’ve looked at the charts, you’ve
+developed your strategic trade plan, and now it’s time to put it to work. If you thought economic
+data mining and chart analysis were the hard part, wait until your adrenaline starts pumping after
+you’ve entered the trade. Here, I take you through the concrete steps of opening a position,
+monitoring the trade while it’s active, closing it out, and doing a post-trade analysis to refine your
+trading going forward.
+
+Chapter 14
+
+Pulling the Trigger
+In This Chapter
+Opening up trading positions
+Averaging into trade setups
+Trading on breakouts
+Dealing online and placing orders
+“You gotta be in it to win it” is a favorite saying that currency traders like to throw around. The
+“in it” part refers to being “in” the market, having the right directional view expressed with an
+open position (long/short) in a currency pair.
+But there’s always a trade-off between having the right position and getting into that position at the
+most advantageous price. For example, being short AUD/USD may be the correct position to have,
+but if you enter at the wrong price, you may have to endure some pain before the trade moves your
+way.
+In this chapter, I walk you through some of the different ways of entering trades and establishing
+the position to fit your overall strategy.
+
+Getting into the Position
+You can make trades in the forex market one of two ways: You can trade at the market, or the
+current price, using the click-and-deal feature of your broker’s platform; or you can employ
+orders, such as limit orders and if/then contingent orders. (I discuss order types in Chapter 4.) But
+there’s a lot more to it than that. Certain trade setups suggest a combination of both methods for
+entering a position, while others rely strictly on orders to capture rapid or unexpected price
+movements. Then there’s the fine art of timing the market to get in at the best price at the moment.
+
+Buying and selling at the current market
+Many traders like the idea of opening a position by trading at the market as opposed to leaving an
+order that may or may not be executed. They prefer the certainty of knowing that they’re in the
+market. Actively buying and selling is also what makes trading as fun and exhilarating as it is hard
+work.
+
+Deciding whether to enter now (at the market) or wait for better price levels (using orders)
+depends greatly on the nature of your strategy. If you’re aiming to trade short term
+(minutes/hours) on news or economic data reports, for instance, you’re going to be trading
+mostly at the market. If you’re looking to position for a larger price adjustment over the next
+day(s), you’re better off using orders to execute your market entry.
+For short-term trade entry at the market, you want a good handle on the recent price action, which
+means knowing where prices have been over the past several hours. Just because you’ve settled on
+a strategy to buy USD/CAD doesn’t mean you have to close your chart window, open your trading
+platform, and pay the offer.
+Take a step back and look at shorter-term charts, such as 5 or 15 minutes, to get an idea of where
+prices have been trading recently. Chances are you’ll observe a relatively narrow range of price
+action, typically between 20 and 30 pips. Unless the situation is urgent, a little patience can go a
+long way toward improving your entry level. Why buy at 1.0550 when you have a viable chance to
+buy at 1.0535?
+
+Let the routine price fluctuations work to your advantage by trying to buy on down-ticks and
+sell on up-ticks in line with your overall strategy. Selecting your trade size in advance helps
+— so when the price gets to your desired level, you need to click only once to execute the
+trade. You can also use limit orders to buy or sell just a few pips from the current market,
+letting the broker’s platform execute automatically in case the price moves are too quick to
+click and deal manually.
+
+As you watch the price action, keep a disciplined entry price in mind, both in your favor
+and in case prices start to move away from your desired entry level. If the market cooperates
+and moves to your desired trade entry price, stay with your plan and make the trade. If prices
+move away from you, have a worst-case entry level in mind and be prepared to pull the
+trigger so you can still execute your overall strategy. You may not be able to enter at better
+prices every time, but I think you’ll be surprised how often you can.

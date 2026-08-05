@@ -1,0 +1,561 @@
+
+SHORT BUTTERFLY: Long two options at the same exercise price, and short one option with
+an immediately higher exercise price and one option with an immediately lower exercise price;
+all options are of the same type and expire at the same time.
+
+Delta Gamma Theta Vega
+Position Position Position Position
+Short 20 March 100 puts -20 x -48 20x58  -20x~.0313 -20%x.134
+Long 40 March 105 puts +40 x ~75 +40 x 4.6 +40 x-.0240 +40 x.107
+Short 20 March 110 puts —20 x~91 —20 x 2.3 -20 x-.0103 ~20x,055
+~220* +22.0 —.1280 +.500
+Short 25 June 95 calls 25 x 67 -268x2.9  -25x-.0140 ~25 x .209
+Long 50 June 100 calls +50 x 51 +50 x 3.2 +50 x-.0166 +50 x .234
+Short 25 June 105 calls —25 x 36 —25 x 3.0 ~25 x~.0160 ~-25x.221
+-25 +125 —.0800 +.950
+
+* Note that because the ratio of a butterfly is always 1 x 2 x 1, the butterfly can become
+unbalanced if the exercise prices are far away from the current underlying price.
+
+LONG TIME SPREAD: Long a long-term option and short a short-term option where all op-
+tions have the same exercise price and are of the same type.
+
+Delta Gamma Theta Vega
+Position Position Position Position
+Long 20 June 100 calls 420 x51 +20 x 3.2 420-0166 +20 x .234
+Short 20 March 100 calls =20 x 51 ~20 x 5.8 —20 x-.0313 ~20x.134
+0 $2.0 +.2940 +2.000
+Long 10 June 95 puts +10 x-31 +10x 2.9 +10 x -.0151 +10 x .209
+Short 10 March 95 puts -10 x -21 ~10x 43 -10 x-.0232 -10x.100
+
+—100 14.0 +.0810 +1.090
+
+
+
+166 Chapter 8
+
+Figure 8-20: Examples of Volatility Spreads (continued)
+
+SHORT TIME SPREAD: Short a long-term option and long a short-term option where all op-
+tions have the same exercise price and are of the same type.
+
+Delta Gamma Theta Vega
+Position Position Position Position
+Long 25 March 100 puts +25 x-48 +25 x 6.8 +25 x ~,0313 +25 x 134
+Short 25 June 100 puts -25 x47 -25x3.2  -25x-0166 -25~x.234
+—25 +65.0 ~.3675 —2.500
+“Long 10 March 1085 calls +10 x 24 410x 4.6 +10x-.0250 +10x.107
+Short 10 June 110 calls -10 x 23 -10x25 -10x-.0132 —10x.182
++10 +21.0 —.1180 ~.750
+
+* Although this is technically a diagonal spread, it will tend to act like a time spread because the
+options have deltas which are approximately equal.
+
+buy underpriced and sell overpriced options, Such a market can be easily identified by
+comparing our volatility estimate to the implied volatility in the option marketplace. If
+implied volatility is generally lower than our volatility estimate, all options will appear
+underpriced. {f implied volatility is generally higher than our estimate, all options will
+appear overpriced.
+
+If options generally appear underpriced (low implied volatility), look for spreads
+with a positive vega. This includes strategies in the backspread or long time spread
+category. Jf options generally appear overpriced (high implied volatility), look for
+spreads with a negative vega. This includes strategies in the ratio vertical or short time
+spread category.
+
+It may seem at first glance that if one encounters a market where all options are
+either underpriced or overpriced, the sensible strategies are either long straddles and
+strangles, or short straddles and strangles. Such strategies will enable a trader to take a
+position with a positive theoretical edge on both sides of the spread. Straddles and
+strangles are certainly possible strategies when all options are too cheap or too expen-
+sive. We will see in Chapter 9 that straddles and strangles, while often having a large,
+positive theoretical edge, can also be among the riskiest of all strategies. For this reason,
+a trader will often want to consider other spreads in the backspread or ratio vertical
+spread category, even if such spreads entail buying some overvalued options or selling
+some underpriced options.
+
+The theoretical values and deltas in Figure 8-20 have been reproduced in Figures
+8-21 and 8-22, but now prices have been included which reflect implied volatilities
+different from the volatility input of 20%. The prices in Figure 8-21 reflect an implied
+volatility of 17%. In this case the reader will find that only those spreads with a positive
+vega will have a positive theoretical value:
+
+call and put backspreads
+long straddles and strangles
+
+
+Volatility Spreads 167
+
+Figure 8-21
+IMPLIED VOLATILITY = 17%
+
+March Futures= 100.00 Time to Expiration =6 weeks _Volatiliy= 20% Interest = 6.00%
+
+CALLS PUTS
+Exercise Theoretical Theoretical
+Price Price Value Delta Price Value Delta
+90 10,00 10.10 93 07 A7 6
+95 5.54 §.82 78 57 85 21
+100 2.28 2.69 $1 2.28 2.68 ~48
+105 65 95 24 §.62 §.92 -7§
+110 12 26 8 10.05 10.16 91
+
+June Futures = 100.00 Time to Expiration =13 weeks  Volalifity= 20% Interest = 6.00%
+
+CALLS PUTS
+Exercise Theoretical Theoretical
+Price Price Value Delta Price Value Delta
+90 10.54 10,97 81 75 1.18 -17
+95 6.83 745 67 1 94 2.55 31
+100 4.00 4.71 51 4.00 4.71 47
+105 2.11 2.77 36 7.01 7.66 -€2
+110 1.00 1.52 23 10.79 11.30 -75
+
+Figure 8-22
+IMPLIED VOLATILITY = 23%
+March Futures = 100.00 ‘Time to Expiration =6 weeks Volatility =20% _— Interest = 6.00%
+
+CALLS PUTS
+Exerclse Theoretical Theoretical
+Price Price Value Delta Price Value Delta
+
+90 10.23 10.10 93 30 A7 -6
+95 6.12 §.82 78 1.16 85 21
+100 3.09 2.69 §1 3.09 2.68 48
+105 1.28 95 24 6.25 §.92 75
+110 44 26 8 10.37 10,16 91
+
+June Futures = 100.00 Time to Expiration =13 weeks Volatility= 20% — Interest = 6.00%
+
+CALLS PUTS
+Exerclse Theoretical Theoretical
+Price Price Value Delta Price Value Delta
+90 11.45 10.97 81 1.66 1.18 -17
+95 8.08 7.45 67 3.19 2.55 1
+100 §.42 4.71 51 §.42 471 47
+105 3.44 2.77 36 8.34 7.66 62
+
+110 2.08 1.62 23 11.87 11,30 75
+
+
+
+168 . Chapter 8
+
+short butterflies
+long time spreads
+
+The prices in Figures 8-22 reflect an implied volatility of 23%. Now the reader will
+find that only those spreads with a negative vega will have a positive theoretical value:
+
+call and put ratio vertical spreads
+short straddles and strangles
+long butterflies
+
+short time spreads
+
+An important assumption in most theoretical pricing models is that volatility is
+constant over the life of an option. The volatility input into the model is assumed to be
+the one volatility which best describes price fluctuations in the underlying instrument
+over the life of the option. When all options expire at the same time, it is this one
+volatility which will, in theory, determine the desirability of a spread. In real life,
+however, a trader may believe that volatility is likely to rise or fall over some period of
+time. Very often implied volatility will also rise or fall. Since time spreads are particularly
+sensitive to changes in implied volatility, whether volatility is rising or falling can affect
+the desirability of time spreads. Consequently, we can add this corollary to our spread
+guidelines: Long time spreads are likely to be profitable when implied volatility is low
+but is expected to rise; short time spreads are likely to be profitable when implied
+volatility is high but is expected to fall.
+
+These are only general guidelines, and an experienced trader may decide to violate
+them if he has reason to believe that the implied volatility will not correlate with the
+volatility of the underlying contract. A long time spread might still be desirable in a high
+implied volatility market, but the trader must make a prediction of how implied volatility
+might change under certain conditions. If the market were to stagnate, with no
+movement in the underlying contract, but the trader felt that implied volatility would
+remain high, a long time spread would be a sensible strategy. The short-term option
+would decay, while the long-term option would retain its value. In the same way, a short
+time spread might still be desirable in a low implied volatility market if the trader felt
+that the underlying instrument were likely to make a large move with no commensurate
+increase in implied volatility.
+
+ADJUSTMENTS
+
+A volatility spread may initially be delta neutral, but the delta of the position is likely to
+change as the price of the underlying contract rises or falls. Moreover, changes in
+volatility and time to expiration can also affect the delta of spread. A spread which is
+delta neutral today may not be delta neutral tomorrow, even if all other conditions
+remain the same. The optimum use of a theoretical pricing model requires a trader to
+continuously maintain a delta neutral position throughout the life of the spread.
+Continuous adjustments are impossible in real life, so a trader ought to give some
+
+thought to when he will adjust a position. Essentially, we can consider three possibili-
+ties:
+
+
+Volatility Spreads 169
+
+1. Adjust at regular intervals—In theory, the adjustment process is assumed to
+be continuous because volatility is assumed to be a continuous measure of the
+speed of the market. In practice, however, volatility is measured over regular time
+intervals, so a reasonable approach is to adjust a position at similar regular intervals.
+If a trader’s volatility estimate is based on daily price changes, the trader might
+adjust daily. If the estimate is based on weekly price changes, he might adjust
+weekly. This is a trader’s best attempt to emulate the assumptions built into the
+theoretical pricing model.
+
+2. Adjust when the position becomes a predetermined number of deltas long
+or short-—Very few traders insist on being delta neutral all the time. Most traders
+realize that this is not a realistic approach, both because a continuous adjustment
+process is physically impossible, and because no one can be certain that all the
+assumptions and inputs in a theoretical pricing model, from which the delta is
+calculated, are correct. Even if one could be certain that all delta calculations were
+accurate, a trader might still be willing to take on some directional risk. Buta trader
+ought to know just how much directional risk he is willing to accept. If he wants
+to pursue delta neutral strategies, but believes that he can comfortably live with a
+position which is up to 500 deltas long or short, then he can adjust the position any
+time his delta position reaches this limit. Unlike the trader who adjusts at regular
+intervals, a trader who adjusts based on a fixed number of deltas cannot be sure
+how often he will need to adjust his position. In some cases he may have to adjust
+very frequently; in other cases he may go for long periods of time without adjusting.
+
+The number of deltas long or short a trader chooses for his adjustment points
+depends on the size of his positions and his capitalization. A small, independent
+trader may find that he is uncomfortable with a position which is even 200 deltas
+long or short, while a large trading firm may consider a position which is several
+thousand deltas long or short as being approximately delta neutral.
+
+3. Adjust by fee-—This suggestion is not made facetiously. Some traders have
+good market feel. They can sense when the market is about to move in one
+direction or another. If a trader has this ability, there is no reason why he shouldn’t
+make use of it. For example, suppose that the underlying market is at 50.00 anda
+trader is delta neutral with a gamma of ~200. If the market falls to 48.00, the trader
+can estimate that he is approximately 400 deltas long. If 400 deltas is the limit of
+risk he is willing to accept, he might decide to adjust at this point. If, however, he
+is also aware that 48.00 represents strong support for the market, he might choose
+not to adjust under the assumption that the market is likely to rebound from the
+support level. If he is right, he will have avoided an unprofitable adjustment. Of
+course, if he is wrong and the market continues downward through the support
+level, he will regret not having adjusted. If the trader is right more often than not,
+there is no reason why he shouldn’t take advantage of this skill.
+
+
+170 Chapter 8
+
+ENTERING A SPREAD ORDER
+
+In sophisticated option markets, spreads are traded as if they are one, single contract,
+This means that a spread is quoted with a single bid price and a single offer price. For
+example, suppose a trader is interested in buying a certain straddle and receives a quote
+from a market-maker of 3.45/3,55. If the trader wants to sell the straddle, he will have
+to do so at a price of 3.45 (the bid price}; if he wants to buy the straddle, he will have
+to pay 3.55 (the ask price}. If the trader decides he is willing to pay 3.55, neither he nor
+the market-maker care whether the trader pays 1.75 for the call and 1.80 for the put,
+or 1.55 for the call and 2.00 for the put, or some other combination of call and put
+prices. The only consideration is that the prices of the call and put taken together add
+up to 3.55.
+
+A market-maker will always endeavor to give one bid price and one ask price for
+an entire spread. If the spread is a common type, such as a straddle, strangle, butterfly,
+or time spread, a bid and ask can usually be given very quickly. Of course, marKet-mak-
+ers are only human. If a spread is very complex, involving several different options in
+unusual ratios, it may take a market-maker several minutes to calculate the value of the
+spread. But regardless of the complexity of a spread, the market-maker will make an
+effort to give his best two-sided (bid and ask} market.
+
+Spread orders, like individual option orders, can be submitted with qualifying
+instructions. The most common types are market orders (orders to be filled at the
+current market price) and limit orders (orders to be filled at a specified price}, Other
+contingency orders may also include instructions specifying how the order is to be
+executed in the marketplace. The following contingency orders, all of which are defined
+in Appendix A, are often used in option markets:
+
+All Or None
+
+Fill Or Kill
+
+Immediate Or Cancel
+Market If Touched
+Market On Close
+
+Not Held
+
+One Cancels The Other
+Stop Limit Order
+
+Stop Loss Order
+
+Two typical spread orders, submitted with their contingency instructions, are
+shown in Figures 8-23a and 8-23b.
+
+A broker executing a spread order is responsible for adhering to any special
+instructions which accompany the order. Unless a trader knows exactly what current
+market conditions are, or has a great deal of confidence in the broker who will be
+handling the order, it is always a good practice to submit specific instructions with the
+order as to how it is to be filled. Additionally, when one considers all the information
+that must be communicated with a spread order (the expiration months, the exercise
+prices, the type of options, whether the order is a buy or sell, the ratio), it is easy to see
+
+
+Volatility Spreads
+
+171
+
+Figure 8-23a
+
+FUTURES ORDER
+
+Account Number Broker Memo.
+$ABCDEFGHIJKLMNOPQRSTUVWXYZ23456789%S
+BUY SELL
+75 Crude O11 Jant9C 125 Gude Oil Feb. 19 ©
+- 24 «<<— an indication of the —» “44
+: prices the broker
+should look at
+Ix | 20 Credit A\\ of None
+
+spread ratio spread price
+
+how incorrect information might inadverten
+reason, it is also a good practice to reche
+
+tly be transmitted with the order. For this
+ck all orders before submitting them for
+
+execution. Option trading can be difficult enough without the additional problems of
+
+miscommunication.
+
+
+172 Chapter 8
+Figure 8-23b
+BY/SL | C (>) GTC
+— | ANT APR
+FEB | MAY
+IO JOEX R&RYH25 | 42
+AUG | NOV
+VOL STOCK SEP EC)  EXPX PREM
+BY(SL)| ¢ (Patan
+‘ JAN | APR
+[ie 1
+20 EX By lO | 314
+vol. STOCK neeP Coc EX PX PREM.
+
+OEX
+U24-Y26
+
+order to be executed
+with OEX between
+these prices
+
+FILLS
+
+} x2
+
+spread ratio
+
+\ Poin Debit
+
+spread price for
+each 1 by 2 ratio
+
+FILLS.
+
+OPEN
+
+CLOSE
+
+OPEN
+
+CUST
+
+FIRM
+
+FB/BB
+
+TAKEN BY
+
+RNR FIRM
+
+M/M
+
+ACCT#
+
+EX TIME
+
+
+
+gy OD
+
+Risk Considerations
+
+Consider the prices and theoretical values shown in Figure 9-1. What categories of
+volatility spreads might be profitable under these conditions? By comparing prices to
+theoretical values, or by comparing the implied volatilities of the various options to the
+volatility input of 15%, we can see that all options are overpriced. Recalling the general
+guidelines in the last chapter, under the given conditions a trader will want to consider
+spreads with a negative vega:
+
+Call and Put Ratio Vertical Spreads
+Short Straddles and Strangies
+
+Long Butterflies
+
+Short Time Spreads
+
+Which of these categories is likely to represent the best spreading opportunity? And
+within each category, which specific spread might be best?
+
+CHOOSING THE BEST SPREAD
+
+For the moment, let’s focus on May options only. Having eliminated the possibility of
+time spreads, we will have to look for spreads in the ratio vertical category (negative
+gamma, negative vega}. With ten different May options (five calls and five puts), it is
+possible to construct a wide variety of spreads which fall into this category. How can
+we make an intelligent decision about which spread might be best?
+
+Suppose we choose three possible strategies and try to analyze them. The three
+strategies which have been chosen are spreads 1, 2, and 3, shown in Figure 9-2.
+
+These are certainly not the only possible spreads, nor can we be certain that they
+are the best possible spreads. But in theory each spread ought to be profitable under the
+given market conditions, since each fits into the ratio vertical spread category: spread 1
+is a short straddle, spread 2 is a call ratio vertical spread, and spread 3 is a long put
+butterfly. How can we evaluate the relative merits of each spread?
+
+Initially it may appear that spread 1 is best since it has the greatest theoretical edge.
+If the volatility estimate of 15% turns out to be correct, spread | will show a profit of
+2.86, while spread 2 will show a profit of 1.00, and spread 3 will show a profit of only
+40.
+
+But is theoretical edge our only concern? If that were true we could simply do each
+spread in bigger and bigger size to make the theoretical edge as large as we want. Instead
+of doing spread 2 at 10 x 15, we might increase the size fivefold to 50 x 75. This will
+
+173
+
+
+Chapter 9
+
+174
+
+eg
+IS
+os
+6b
+8p
+
+80\d
+agja1exq
+
+‘LV Og :seurgng Aine
+
+bell ool tg00- 9'8 9- ELS 86% ezZb ook s900- 98 ye 68° Ala
+LL'él = =90L' Z900°- 26 9s- Lhe ces 60'Z1 901 6900- 26 op vel Oph
+8691 g0l' 6900- e&6 op- 2g) eZ ze9l = BOL’ B9CO- —S ss GS zs 29'1 88h
+pled €0l' 9900- 68 Ze- ZL'h vel zegl = £0l’ «p90O- = «BB 19 Ard ors
+osZt 260’ og00- o8 ez- 9L' ool ozZt 260° gso0~- o8 OL ee'z e0'e
+Alea eben eyoy, ewwey eyeq snjeA = sdud AUIReIOA eBeA BOUL eUWeED eYyeq snjeA 30nd
+patiduyy feonesoayL perdu leapjesoeuL
+sind slivo
+%00'S seyey Jsesazu| %S) ‘AUIPEIOA ‘SAEP J} ‘UONesGX O}F OU) L
+p2'e8l  §s0° eg900- 86 BL- oe'2 66% 6e'Bl sso’ eZ00- 286 le ee es
+prdl 990° Ze00- lel eo 902 ee 682 890° O600- 12l le “gy LL
+Og 940° e600- vel sg ep’ 6st 96°91 920° 6600- vel yp co Zo'}
+Zvgt SZo0 g600- cel Ze 16" Sol eo'4l S40’ 4600- Eel ZS ork 9c'}
+OLZL «6990 Z800- OIL 6a es aL’ eSZl 990° E800- g'Il OL Z0'% 6l~2
+AUIBEIOA eBeA eyou, ewwey eyEq enjeA adud AuNeIoA eHaA eyUL eWWeD eYyeaq seneA 39d
+payday] leopasooyl penduy feopez0oyL
+sind s11v9o
+
+%00'S -eyey ISele}U]
+
+S%SL AUEIOA
+
+‘SAPP 9g :uoHerdXy 0} oul)
+
+og
+ig
+os
+6b
+8p
+89ld
+esjsiex"
+
+‘os’ 6p ‘seaming Aew
+
+}-6 eunBl4
+
+
+
+Risk Considerations 175
+
+Figure 9-2
+Delta Position Theoretical Edge
+Spread 1: Short 10 May 50 calls @ 1.07 ~10 x +44 10x +15
+Short 8 May 50 puts @ 1.59 -8 x -55 8 x4+.17
+0 +2.86
+Spread 2: Long 10 May 51 calls @ .77 +10 x +44 10x +15
+Short 15 May 52 calls @ 53 -15 x +21 15x .20
+- +1.00
+Spread 3: Long 10 May 48 puts @ 1.05 +10 x-42 10x—14
+Short 20 May 50 puts @ 1.59 20 x -65 20 x+.17
+Long 10 May §1 puts @ 2.22 +10 x-68 10 x-.16
+ie) +.40
+
+increase the theoretical edge fivefold to 5.00, and ostensibly makes spread 2 a better
+strategy than spreads 1 and 3. Clearly, theoretical edge can’t be the only consideration.
+
+Theoretical edge is only an indication of what we expect to earn if we are right
+about market conditions. Since there is no guarantee that we will be right, we must give
+at least as much consideration to the question of risk. If we are wrong about market
+conditions, how badly might we be hurt?
+
+In order to focus on the risk considerations, let’s change the size of spreads 2 and
+3 so that their theoretical edge is approximately equal to that of spread 1. We can
+achieve this by tripling the size of spread 2 to 30 x 45, and increasing the size of spread
+3 sevenfold to 70 x 140 x 70. The spreads in their new sizes with their total theoretical
+edge and risk sensitivities are shown in Figure 9-3.
+
+With all three spreads having approximately the same theoretical edge, we can now
+focus on the risks associated with each spread,
+
+As with all volatility spreads, one of the risk considerations is the possibility of an
+incorrect volatility estimate. Since each spread has a negative vega, there will be no
+problem if volatility turns out to be lower than 15%. In that case, the value of each
+spread will increase and we will show a greater profit than originally expected. On the
+other hand, if volatility turns out to be greater than 15%, this could present a problem.
+What will happen if volatility turns out to be 17%, or 20%, or some higher number?
+Each spread will be hurt due to the negative vega, but each spread may not be hurt to
+the same degree.
+
+One way to analyze the volatility risk associated with each spread is to use a
+theoretical pricing model to simulate the value of each spread at increasingly greater
+volatilities. From these values we can construct graphs reflecting each spread’s theoreti-
+cal edge versus volatility. Such a graph is shown in Figure 9-4.
+
+With our size adjustments each spread now has approximately the same initial
+theoretical edge, enabling us to focus on the volatility risk associated with each spread.
+Looking at Figure 9-4 we can see that each spread, 1, 2, and 3, loses its theoretical edge
+
+
+Chapter 9
+
+176
+
+oEg—
+
+OLL0°+ o-86- 0 og2e+
+890 XOZF Z800 — X OZ+ Ferx OZ 89- XOZF 9F-XOZ sind jg Aew 02+
+920° x OFI- 8600— x OP I-— VELX OPI- SS- x OFI- ZV+XO¢b sind og Aew oL—-
+SLO" x OL+ 8600 x OZ+ SEX OL+ abp- x OL+ PL-XOL sind 6p Ae OZL+ r¢ peauds
+Ser— sego'+ oeZ- sI- o0'e+
+S50 x Sp— €200— x Sb— 86 xSP bet x Sp— Ost xX Sb syeo 2g Aew Sp—
+890° x Os+ 0600"- x 06+ keLxoe+ Le+ x Of+ 0z- x 0€ seo 1g ABW oe+ :z peadg
+age" I- pdt a bee— 0 9e'zt
+9l0 xe— 8600-xe— Ver x e— gg- x 8- ZV+X8 sind og Aeyy g—-
+920° x OL- 6600°- x O1- PEL XOl- bp+XOl- Si+xOb seo og ABW O[- cE peaids
+UOIISOd UOILISOd UOIUSOd uolsod obpy
+eboa eeUuL ewuwer eyed jeoyesoouL
+€-6 aunbBi4
+
+

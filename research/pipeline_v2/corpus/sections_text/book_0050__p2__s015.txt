@@ -1,0 +1,641 @@
+
+●
+
+●
+
+●
+
+●
+
+Hollow candles with no lower shadows indicate a strong uptrend; they
+signal to keep on the long side and gather more profits.
+Hollow candles signify an uptrend; you might want to add to your
+long position and exit short positions.
+One candle with a small body surrounded by upper and lower
+shadows indicates a trend change; risk-loving traders might buy or
+sell here, whereas others will wait for confirmation before going short
+or long.
+Filled candles indicate a downtrend; you might want to add to your
+short position and exit long positions.
+Filled candles with no higher shadows identify a strong downtrend;
+stay short until there’s a change in trend.
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+159
+
+RENKO CHARTS
+
+EUR/USD-RENKO chart - 40 pips range
+
+Renko charts also were invented by the Japanese. In this type of chart, the
+time and volumes are not taken into account. The chart is concerned only
+with price movement.
+Renko candles look like small boxes or bricks (renga in Japanese)
+with no upper or lower shadows. The size of the box can be changed based
+on a chosen set price value. The smaller the size, the higher will be the
+number of boxes needed, so more details of the price changes will be
+shown on the charts.
+The chart is built by placing a box in the next column as soon as the
+price surpasses the top or bottom price of the preceding box by a given
+amount. In the chart above, the range established is 40 pips. White or hollow boxes are used when the direction of the trend is up, whereas black or
+filled boxes are used when the trend is down.
+This type of chart helps traders to identify very efficiently the main
+support and resistance levels. The signals to buy or sell appear when the
+direction of the trend changes, and the boxes alternate colors.
+For example, a trader will sell when a black box is placed at the end
+of a series of rising white boxes. Some caution should be exercised,
+though. Since this type of chart was designed as a means to follow the
+general price trend of a particular asset, you often can get false signals
+when the color of the boxes changes too early, thus producing a whipsaw
+effect.
+
+FOREX TRADING SECRETS
+
+160
+
+POINT AND FIGURE CHARTS
+This is a chart that records period-to-period price movements but doesn’t
+take time into consideration. Point and figure charts are composed of a
+series of columns with Xs or Os. An X is used to state a rising price, and an
+O represents a falling price. This helps in filtering out price movements that
+are not significant and also in determining what the main support and resistance levels are. When the price moves beyond those levels, traders will
+place their orders.
+30
+29
+28
+27
+26
+25
+24
+23
+22
+21
+20
+19
+18
+17
+16
+15
+14
+13
+12
+11
+10
+
+X
+X
+X
+X
+X
+X
+X
+X
+X
+X
+
+X
+X
+O X
+O X
+O X
+O
+
+O
+O
+O
+
+X
+X O
+X O
+X O
+X O
+O
+
+X
+X
+X
+X
+X
+
+O
+O
+O
+O
+O
+O
+
+X
+X
+X
+X
+X
+
+O
+O
+O
+O
+
+X
+X
+X
+X
+X
+X
+X
+X
+X
+
+O
+O
+O
+O
+
+X
+X
+X
+
+O
+O
+O
+O
+O
+O
+
+X
+X
+X
+X
+X
+X
+
+O
+O
+O
+O
+O
+O
+O
+O
+
+X
+X
+X
+X
+X
+X
+X O X
+X O X
+X O X
+O
+
+X
+X
+X
+X
+
+The first thing defined here is the box size, or the number of points that
+the currency pair will have to move to justify the drawing of a new box.
+Every time the price changes more than that amount, another X or O is
+added. For example, in the chart above, the box size is 1, and every time the
+price goes up an additional point, another X is drawn. Xs and Os are not
+mixed in the same column. If the price goes down after a previous rise, a
+new column will be drawn to the right.
+
+PIP RANGE BAR OR CANDLESTICK CHARTS
+Pip range bar charts were designed by Vicente Nicolellis, a Brazilian broker and trader, in 1995. He wanted to solve the problem of handling the
+extreme volatility of local markets and finally decided that the best way to
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+161
+
+achieve this was to take time out of the equation, focusing solely on price.
+This is similar to a point and figure charts approach, where only price
+changes are recorded.
+
+Pip Range
+
+Pip Range Bar Chart
+
+8
+
+15 20
+
+Constant ranges are used to define the bars or candles. Usually, you can
+find ranges of 8, 10, 15, 20, and 30 pips. A new bar is opened as soon as
+that range has been covered and the price opens higher or lower, starting a
+new range with the same pip value. You can apply to these charts the same
+indicators you would on normal bar or candlestick charts.
+These charts are particularly interesting when you are facing a stalling
+market, where there is a long congestion of prices, which in a normal chart
+would be reflected in several short-bodied bars or candles. In this way,
+attention can be focused on the essential changes in price itself, taking out
+the usual noise of sideways markets. When a range is complete, a new bar
+opens independent of the time. You could have a single bar for a whole day
+of trading if you are using a 30-pip range and the price hasn’t gone over or
+under that range for the duration of the day. As soon as the market goes over
+the 30-pip range, a new bar will open, starting at the closing level of the
+preceding bar, and the 30-pip range will have to be completed again to
+allow a new bar to open later on. Conversely, if the range is covered in a few
+minutes and the price keeps going in a fast move, you will have several 30pip range bars or candles showing those changes.
+
+FOREX TRADING SECRETS
+
+162
+
+TREND INDICATORS
+MOVING AVERAGES
+The moving average (MA) is an indicator that shows the average value of
+the price of a currency pair over a set period. It is generally used to measure
+momentum and define areas of possible support and resistance, as well as
+for checking the direction of a trend. The most commonly used detection of
+upward or downward momentum is through the cross of two moving averages, one short term and the other longer term. When the fast MA crosses
+above or below the slow MA, it indicates a possible change in trend.
+There are several variations in the calculation for this indicator. An MA
+can be simple, exponential, smoothed, or linearly weighted.
+AUD/USD - 1 Hour Chart
+
+Simple
+Exponential
+Smoothed
+Moving Averages (50 periods) applied to Close Price
+
+Linear Weighted
+
+Simple Moving Average (SMA)
+This is a simple, or arithmetic, MA calculated by adding the closing price
+of the given instrument for a number of time periods and then dividing this
+total by the number of time periods.
+Exponential Moving Average (EMA)
+An EMA is similar to an SMA, with the difference that more weight is
+given to the latest data. An EMA is also known as an exponentially
+weighted moving average. This type of MA shows a faster reaction to most
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+163
+
+recent price changes in comparison with an SMA. EMAs are used, for
+example, in the moving average convergence-divergence (MACD) indicator and in other oscillators. The most commonly used values to gauge longterm trends are the 50- and 200-day EMAs.
+Linearly Weighted Moving Average (LWMA)
+This type of moving average, like the EMA, also assigns a higher weighting to the most recent price data in a proportional regression. Each price of
+a given set of periods is multiplied by its relative position in the data series,
+and then they are all added and divided by the total number of time periods.
+For example, in a 25-period LWMA, the price of the last period is multiplied by 25, the preceding one by 24, and so on and then divided by the sum
+of all the multipliers.
+
+AVERAGE DIRECTIONAL MOVEMENT INDEX (ADX)
+This indicator was developed by J. Welles Wilder to identify the presence of
+a trend in a given financial instrument. The ADX is composed of three lines:
+the index itself and two lines known as the directional movement indicators
+(DMIs) in the index’s positive and negative directions (⫹DI and ⫺DI).
+This indicator provides an objective value for the strength of a trend. It
+is nondirectional and related to the respective directional indicator, so it
+AUD/USD - 1 Hour Chart
+
+ADX - Average Directional Movement Index
+
+ADX
+Dl+
+25
+Dl–
+
+164
+
+FOREX TRADING SECRETS
+
+will provide a measure of the strength of the particular direction. When it
+rises, the trend signaled by the directional indicator that has crossed above
+the other one will be stronger; when it falls, the trend will be weaker.
+Directional Movement Index (DMI)
+The DMI indicates the potential trending of a currency pair. The scale for
+the DMI goes from 0 to 100. It is composed of two lines, the ⫹DI and the
+⫺DI (positive and negative directions). The ADX is a moving average of
+the DMI. Its value should be above 25 for a trend to have the needed
+strength for its definition.
+Positive Directional Indicator (⫹DI)
+The ⫹DI is a component of the ADX that is used to measure an uptrend.
+When the ⫹DI slopes upward, it indicates that the uptrend is getting
+stronger. The beginning of the uptrend will be signaled by this line crossing
+above the negative directional indicator (⫺DI).
+Negative Directional Indicator (⫺DI)
+The ⫺DI is another component of the ADX that is used to signal a downtrend. When the slope of the ⫺DI starts rising, it indicates that the downtrend is getting stronger. When it crosses above the ⫹DI, this signals the
+beginning of a new downtrend.
+
+BOLLINGER BANDS
+Bollinger bands are an indicator developed by John Bollinger that allow
+users to compare the volatility and relative price levels over a time period.
+This indicator consists of three bands that follow the price action of a given
+currency pair.
+The middle line is an SMA of the set periods (the chart above is set to
+the standard of 20 periods). The upper band is commonly set to 2 standard
+deviations plus the given SMA value, and the lower band is set to the SMA
+minus 2 standard deviations. The standard deviation is a statistical unit of
+measure that offers an assessment of the volatility of a certain price. In this
+way, the bands can react quickly to price movements and reflect periods of
+high and low volatility. Bands will widen when there is a greater volatility
+and will stretch when the volatility is very low.
+The number of periods of the moving average, as well as the number
+of deviations, would have to be adjusted to the usual behavior of the specific currency pair as well as the time frame that is being used. The default
+setting is 20 periods and 2 standard deviations. Properly set Bollinger
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+165
+
+upper band
+
+mean line
+(SMA 20)
+
+lower band
+
+Bollinger Bands (20 periods)
+2 standard deviations
+
+AUD/USD - 1 Hour Chart
+
+bands should hold both support and resistance of the price reversal swings,
+that is, the higher low in a downward move turning to the upside and the
+lower high in an upward move turning to the downside. The price of this
+second low or high should not penetrate the bands. Those higher lows or
+lower highs are formed as a reaction after a strong fall or rise. The price
+has corrected, and it rallies again in the former direction, failing to reach
+the previous bottom or top.
+Bollinger bands allow traders to identify periods of high volatility and
+extremely low volatility. In particular, they help in gauging when prices are
+reaching unsustainable extremes and are near a reversal to the mean. Periods of lower volatility, when the bands are very narrow, lead to a breakout.
+However, the bands will not give any indication of the future direction of
+prices. This should be determined with the help of other indicators and general technical analysis.
+A signal that can be taken from the configuration of the bands is the
+double bottom or double top. When prices penetrate below the lower band
+and remain there, resting above the band, this is a signal for a long position,
+which will be confirmed when the price rises above the middle band. When
+prices penetrate above the upper band and a second attempt fails to break
+through, and the price remains below the band, this is a signal for a short
+
+FOREX TRADING SECRETS
+
+166
+
+position, which will be confirmed when the price falls down and reaches
+the middle band.
+It is important to note that the second low or the second high has to
+remain above the bands, although the remaining lows can be higher or
+lower than the others.
+This indicator can be used for trend following because the price will
+tend to remain near one of the bands, for straddling breakouts when there is
+a very tight zone, and also for counter-trending by profiting from trend
+exhaustion, as in the preceding example of double bottoms and double tops.
+Note that just touching the bands is not a signal in itself; this will only
+indicate that prices are reaching an extreme with respect to their mean,
+becoming overbought or oversold. However, when trending, prices can
+continue the path of one of the bands and fluctuate between the band and
+the middle line without crossing to the other side.
+
+COMMODITY CHANNEL INDEX (CCI)
+This oscillator was developed by Donald Lambert, and it is used to help
+determine overbought and oversold conditions of a particular currency
+pair. It is also often used to identify cycles in trends because it allows a
+trader to see the potential peaks or troughs in the price line and to estimate
+possible changes in the direction of the trend. Usually crosses of the zero
+AUD/USD - 1 hour chart
+
+CCI (14 periods) applied to Typical Price (HLC/3)
++100
+0
+–100
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+167
+
+line indicate a buy or sell opportunity, and values above 100 show a possible overbought condition. Meanwhile, values below 100 will alert of a
+possible oversold situation.
+The formula for its calculation is as follows:
+CCI ⫽ price – MA/0.015 ⫻ D
+where MA is a moving average of the price and D the normal deviations
+from that average.
+
+PARABOLIC STOP AND REVERSE (SAR)
+This indicator is part of a strategy that uses a trailing stop point level in
+which the position has to be reversed when the level is broken and the
+trailing stop has been hit. It is used to evaluate the best entry and exit
+points. This method was developed by J. Welles Wilder. If the currency pair
+is trading below the parabolic SAR (PSAR), the market is bearish, and you
+should sell or stay in your short positions. If it trades above the PSAR, you
+should buy or stay long.
+This indicator determines not only the direction of a particular currency pair but also its momentum and the location of the points at which
+
+AUD/USD - 1 Hour Chart
+
+Parabolic SAR
+
+FOREX TRADING SECRETS
+
+168
+
+it is higher and thus has a greater probability of changing direction. It is
+shown on the charts with a series of dots placed at a relative distance
+from the prices depending on the settings. Common standard settings are
+step 0.02 – maximum 0.2, but I have been having much better results
+with a step 0.03 – maximum 0.6 setting for scalping and in smaller time
+frames.
+When the most recent high price has been broken, the PSAR changes
+its side, and thus the direction is usually reversed, placing itself at the most
+recent low price. The SAR then starts rising or falling faster as the trend
+develops, and at a certain point, the dots catch up with the price action. This
+is when a turning point is near. It is better to use the PSAR in trending conditions because it will not work as well in a choppy or sideways market.
+
+MARKET AND VOLATILITY INDICATORS
+AVERAGE TRUE RANGE (ATR)
+This indicator measures the volatility. It was introduced by Welles Wilder
+in his book, New Concepts in Technical Trading Systems.
+AUD/USD - 1 hour chart
+
+ATR - Average True Range
+
+0.00300
+
+0.00250
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+169
+
+The true range indicator is the greatest result of the following
+calculations:
+●
+●
+●
+
+The current high less the current low, or
+The absolute value of the current high less the previous close, or
+The absolute value of the current low less the previous close
+
+The average true range is a moving average (20 days is the most commonly used time period) of the true ranges of every individual period considered. Higher volatility will show a higher value of ATR; lower volatility
+will show a lower value of ATR.
+
+BULLS AND BEARS POWER
+This indicator was designed by Dr. Alexander Elder. It consists of two different oscillators, and it is used to evaluate the relative strength of bullish
+and bearish sentiment. Extreme conditions of optimism or pessimism are
+detected in the markets, which show the states of mind of most of its participants, and the trader thus can profit by trading against them. When the
+market is rising, the trader will go short; when the market is reaching its
+lowest point, the trader enters and buys.
+Calculation of this indicator includes an exponential moving average
+that is subtracted from the high prices in the case of bull power and from
+
+AUD/USD - 1 hour chart
+
+Bulls Power
+
+Bears Power
+
+170
+
+FOREX TRADING SECRETS
+
+the low prices for bear power. Both are usually shown as histograms, as you
+can see in the figure below.
+Interpretation of the moving average is relative to its slope: When the
+average rises, there is a bigger bullish sentiment in the market. When it
+falls, the sentiment is more bearish. The turning point is when prices can’t
+be pushed any higher, which shows as the high value in the indicator;
+the low shows the turning point for a reversal up, when sellers can’t drive
+the price any lower. Both turning points show the maximum power of
+each group.
+When bulls power is positive and rising, bulls are stronger; the values
+become negative when they are particularly weaker. Bears power is usually
+negative and shows a positive value when the market is under complete
+control of the bullish sentiment.
+How to Use This Indicator
+For entering a long position, the trend should be up, bears power rising and
+bulls power making a higher peak. The strongest signal comes when bears
+power is rising from a bullish divergence.
+When prices reach a new high but the bulls power reaches a lower
+peak, it is time to place a short position. The trend must be down, bulls
+power falling, and bears power can be showing its lowest values or be
+decreasing from a bearish divergence. The best trading opportunities can
+be found when there are divergences between the bulls or bears power
+indicator and prices.
+
+MOMENTUM
+The momentum indicator measures the rate at which the price or volume
+of transactions of a certain currency pair accelerates. As soon as this
+acceleration is seen in price, most traders will enter the market because it
+is very probable that the momentum will continue in the same direction.
+This is used mostly in short-term strategies and not recommended for
+beginners.
+Calculation of momentum is based on the change in price multiplied by
+the trading volume for a given period. The volume is an important element
+of this indicator because it determines the strength and potential durability
+over time of a certain change in prices. If the volume is low, the move will
+have little momentum.
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+171
+
+AUD/USD - 1 Hour Chart
+
+Momentum
++2
+0
+
+–2
+
+VOLUME
+The volume indicator shows the number of contracts that are being traded
+for a particular currency pair during a specific period, depending on each
+time frame. Each bar indicates the number of transactions realized, and as
+AUD/USD - 1 Hour Chart
+
+Volumes
+
+172
+
+FOREX TRADING SECRETS
+
+long as the current period is active, the value will go up with every additional trade that is made.
+Volume is commonly used to gauge the strength or importance of a
+market move. The higher the volume during a particular price move, the
+more significant the move will be.
+However, what does your broker’s platform volume indicator really
+measure? Unless you are trading directly with a major liquidity provider,
+it will show the volume of transactions performed at any given point on
+a time scale (thus depending on it), not only the open effective orders
+(buy or sell) but also the positions that are closed in both directions. But
+only for that brokerage!
+It is not a reflection of the whole FOREX market, but the proportional part of transactions that occurred on the specific platform on which
+you are trading. This explains why in certain situations (e.g., during the
+Christmas holidays or on other special dates) there might be a huge discrepancy between prices and volumes among several different platforms
+because the “population” of traders on each of them can have its own
+behavior that is different from that of others at key moments, while they
+behave under a general average in normal situations (e.g., although every
+broker has customers from every corner of the world, I am convinced that
+many of them concentrate a higher number of traders from one or another
+nationality depending on the broker’s origin, and this has a special incidence on certain holidays).
+For example, the volume of a 5-minute candle that shows 18 transactions at 13:55 can contain
+●
+
+●
+
+One buy and six sell trades (including the eventual counterpart that
+brokers usually place on the market)
+Eleven trades closed, of which
+●
+Two because of a sell: target reached or manual close
+●
+Three because of a buy: target reached or manual close
+●
+Six stopped out with stop losses or trailing stops (three sells and
+three buys)
+
+In my opinion, this illustrates the number of different reasons why
+volume on the indicator fluctuates and makes it difficult to get a true
+appreciation of what is really happening because the indicator lacks the
+necessary details, especially when it includes counterpart transactions as
+well as stopped-out trades.
+
+CHAPTER 10
+
+TECHNICAL INDICATORS
+
+173
+
+It is not the same to see a decrease in prices because of a bearish
+sentiment as it is because a retracement (very well measured, in the
+case of stop hunting) has closed all the long positions in play. This
+can lead to confusion and would be what is usually called a bear trap or
+a bull trap.
+Therefore, because what is measured by this indicator is not
+absolute in terms of the totality of the market but instead reflects every
+broker’s own particularities, it will not provide a trustable view of
+actual price behavior and cannot be an accurate gauge of the actual
+market climate.
+
+UNDERSTANDING OSCILLATORS
+OSCILLATOR
+An oscillator is a technical analysis tool that fluctuates inside a band of two
+extreme values based on the results of a trend indicator that allows discovery of short-term overbought or oversold conditions. When the value
+approaches the upper extreme, the currency pair is considered to be in an
+overbought condition, and conversely, when it approaches the lower
+extreme, the pair is considered to be in an oversold condition. Such points
+would be probable points of swing reversal or correction. They are very
+useful when the market is ranging in a sideways motion in periods of consolidation. The most common oscillators are the moving average convergence-divergence (MACD), the stochastic oscillator, and the relative
+strength index (RSI).

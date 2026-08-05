@@ -1,0 +1,42 @@
+[
+  {
+    "id": "P0-01",
+    "area": "Research status",
+    "change": "Expose pending rereads; do not equate generated findings with deep-read completion."
+  },
+  {
+    "id": "P0-02",
+    "area": "Evidence",
+    "change": "Keep exact text/visual spans and counterevidence immutable."
+  },
+  {
+    "id": "P1-01",
+    "area": "Visual registry",
+    "change": "Add VisualRegion, Caption and VisualEvidence records."
+  },
+  {
+    "id": "P1-02",
+    "area": "Experiment contract",
+    "change": "Bind dataset, simulator, search count, OOS and cost model."
+  },
+  {
+    "id": "P2-01",
+    "area": "MarketState",
+    "change": "Add declared volatility, participation/liquidity, event-tempo and transition observables."
+  },
+  {
+    "id": "P2-02",
+    "area": "Position management",
+    "change": "Add non-response, thesis deterioration, time stop, scaling and re-entry events."
+  },
+  {
+    "id": "P3-01",
+    "area": "Portfolio risk",
+    "change": "Separate cluster heat, cost uncertainty and state uncertainty."
+  },
+  {
+    "id": "P4-01",
+    "area": "Blind discovery",
+    "change": "Keep BLIND_DISCOVERY_QUOTA and V8_AWARE_QUOTA receipts separate."
+  }
+]

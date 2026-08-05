@@ -1,0 +1,570 @@
+
+Stop orders
+A stop order is an order to buy or sell a security as soon as a security moves
+beyond the current market price. A stop buy order is set above the current
+market price, and it is used to manage a short position. A stop sell order is set
+at a price below where the market is now, and it is used to protect a profit or
+limit a loss on a security that you already own. If you want to make sure you
+sell a block of stock when it falls below $30 per share, for example, you can
+enter a stop order at $30 (telling your broker “Sell Stop 30”). As soon as the
+stock hits or goes below $30, the broker sells it, even if the price goes to $29
+or $31 before all the stock is sold. This is often known as a stop loss order.
+A version of a stop, known as a trailing stop, is used to help protect a profit.
+You can enter a trailing stop order at the current market with a stop loss
+price below the current market price. It would be set to trail, or automatically
+increase, as the stock price does. If you bought a block of stock at $30 with a
+trailing stop of $5, for example, the stop would kick in at $25. But if your trade
+was a good one and the stock went from $30 to $35, the stop would trail with
+it and rise to $30, a price $5 below the current market value.
+
+Limit orders
+A limit order is an order to buy or sell a security at a specific price or better:
+lower than the current price for the buy order (because you want to buy low,
+naturally), higher than the specific price for a sell order (because you want to
+sell high).
+If you want to make sure you sell a block of stock when it’s at $30 per share,
+for example, you can enter a limit order at $30 (telling your broker, “Sell Limit
+30”). As soon as the stock hits $30, the broker sells it, continuing to place
+the order as long as the price stays at $30 or higher. If the price goes even a
+
+Chapter 2: Planning to Succeed As a Day Trader
+penny below $30, the limit is no longer enforced, and the broker stops selling
+your position. After all, no buyers are going to want to pay an above-market
+price just so you can get your order completed!
+
+Stop-limit orders
+A stop-limit order is a combination of a stop order and a limit order. It tells
+the broker to buy or sell at a specific price or better but only after the price
+passes a given stop price. If, for example, you want to make sure you sell a
+block of stock when it falls below $30 per share but you also want to make
+sure you sell it only when you’d have a loss, you can enter a stop order at
+$30 with a limit of $29 (telling your broker, “Sell 30 Limit 29”). As soon as the
+stock hits $30, the broker sells it as long as the price stays above $29. If it
+goes below $29, the broker stops selling. Stop-limit orders help you get out
+without maximizing your losses; the danger, of course, is that the stock goes
+to $6 and you could have gotten out at $28 without the stop-limit order.
+Are you confused? Well, the differences may be confusing, but understanding them is important to helping you manage your risks. That’s why Table 2-2
+gives you a handy breakout of the different types of orders.
+
+Table 2-2
+
+Different Types of Orders
+
+Buy Orders
+Stop Order
+
+Limit Order
+
+Stop-Limit Order
+
+Order instructions
+
+Buy Stop 30
+
+Buy Limit 30
+
+Buy Stop 30
+Limit 31
+
+Market Price ($)
+
+Action after the stock hits $30
+
+28.50
+
+Nothing
+
+Buy
+
+Buy
+
+29.00
+
+Nothing
+
+Buy
+
+Buy
+
+29.50
+
+Nothing
+
+Buy
+
+Buy
+
+30.00
+
+Buy
+
+Buy
+
+Buy
+
+30.50
+
+Buy
+
+Nothing
+
+Buy
+
+31.00
+
+Buy
+
+Nothing
+
+Nothing
+
+31.50
+
+Buy
+
+Nothing
+
+Nothing
+
+Sell Orders
+Stop Order
+
+Limit Order
+
+Stop-Limit Order
+
+Order Instructions
+
+Sell Stop 30
+
+Sell Limit 30
+
+Sell Stop 30 Limit 29
+
+Market Price ($)
+
+Action after the stock hits $30
+
+28.50
+
+Sell
+
+Nothing
+
+Nothing
+
+29.00
+
+Sell
+
+Nothing
+
+Sell
+(continued)
+
+35
+
+36
+
+Part I: Getting Started with Day Trading
+Table 2-2 (continued)
+Market Price ($)
+
+Action after the stock hits $30
+
+29.50
+
+Sell
+
+Nothing
+
+Sell
+
+30.00
+
+Sell
+
+Sell
+
+Sell
+
+30.50
+
+Nothing
+
+Sell
+
+Nothing
+
+31.00
+
+Nothing
+
+Sell
+
+Nothing
+
+31.50
+
+Nothing
+
+Sell
+
+Nothing
+
+Order cancels other
+Also known as one cancels other or OCO, an order cancels other order is used
+with a limit and a stop-loss to set a trading bracket in a volatile market. The
+limit sets an automatic exit point when your position hits your price target,
+and the stop-loss kicks in if your trade moves against you in order to limit
+your losses. The broker will execute only the relevant order, cancelling the
+other order when that happens. If not, the other half of the order will be
+hanging out, waiting to be executed, causing you headaches.
+
+Order sends other
+Depending on who you talk to, OSO stands for order sends order, order sends
+other, or one sends other. They all mean the same thing: When one order is
+executed, another order is automatically entered into the system — and not
+a moment before. You use an OSO to enter a limit order or a stop-loss order
+as soon as your order to open a long or short position is executed.
+
+What if the trade goes wrong?
+No matter how in tune you feel with the market, no matter how good your
+track record, and no matter how disciplined you are with setting stops, stuff
+is going to happen. Just as you can make more money than you plan to, you
+can also lose a lot more. If you day trade, you have to accept that you’re
+going to have some really bad days.
+So what do you do? You suck it up, take the loss, and get on with your life.
+Yes, the market may have blown past your stops. That happens sometimes,
+and it’s hard to watch real dollars disappear into someone else’s account,
+someone you will never know. Still, close your position and just remember
+that tomorrow is another day with another chance to do better.
+
+Chapter 2: Planning to Succeed As a Day Trader
+
+A sample trading plan
+A trading plan may only be good for a short
+time, but having an idea of what to expect in
+the market and how you’ll react goes a long
+way toward keeping trading discipline, which
+improves your likelihood of long-run profits.
+What does such a plan look like? Well, here’s a
+sample to get you started.
+What I’m Trading Today
+Today I’ll be trading the E-Mini S&P 500 futures.
+They closed down yesterday, but I’m expecting an uptick in the market today as companies report good earnings, so I am going to
+trade on the long side. My plan is to start the
+day buying two contracts with stop orders to
+sell if they decline more than three ticks each.
+These contracts will remain open until the end
+of the day unless the stop is reached. I will add
+a third contract if the market shows momentum
+in the morning and a fourth contract if it shows
+momentum in the afternoon. These two additional contracts can be long or short, depending
+on the market direction, although it is unlikely
+that the purchasing manager or home sales
+surveys will have a large effect on the market’s
+direction. I will close all positions at the end of
+the day, if not sooner.
+Because the margin on each contract is $3,500,
+my maximum exposure today will be approximately 28 percent of my total account, with no
+contract accounting for more than 7 percent of
+my account.
+Today’s Expected News Announcements
+Before the open: Earnings announcements from
+ADM (expect $0.62), PG (expect $0.74)
+
+10:00 a.m.: Pending Home Sales — market
+expects up 0.5 percent
+After the close: Earnings announcements from
+AAPL (expect $8.27), MET (expect $1.29)
+5:00 p.m.: Auto Sales — market expects 5.1m
+5:00 p.m.: Truck Sales — market expects 7.2m
+My Profit and Loss Goals for the Day
+My profit goal is five ticks or $62.50 per contract traded for a target of $250 if I acquire my
+planned maximum of four contracts, but I plan
+to ride my profits until the end of the day. If all
+four contracts decline in value, I will close when
+they fall three ticks apiece, for a maximum loss
+of $37.50 per contract or $150 for the day.
+Tip: Set up a basic form or spreadsheet with all
+this information so that it’s easy to fill out each
+morning. It might look like this:
+What I’m trading today:
+Assets: ____________________
+Leverage: __________________
+Limits: _____________________
+Expected news announcements:
+Time: ________ Item: ________
+Time: ________ Item: ________
+Time: ________ Item: ________
+Time: ________ Item: ________
+Profit and Loss Goals: ____________________
+_____________________________________
+
+10:00 a.m.: ISM Index — survey of purchasing
+managers — market expects 51.0
+
+Don’t hold in hopes of making up a loss. The market doesn’t know what you
+own and will not reward your loyalty and best hopes.
+
+37
+
+38
+
+Part I: Getting Started with Day Trading
+After you take the loss and clear your head, see whether you can learn something for next time. Sometimes a loss can teach you valuable lessons that
+make you a smarter, more disciplined trader in the long run.
+
+Closing Out Your Position
+By definition, day traders only hold their investment positions for a single
+day. Closing out at the end of the day is important for a few reasons:
+✓ Closing out daily reduces your risk of something happening overnight.
+✓ Margin rates — the interest rates paid on money borrowed for trading —
+are low and in some cases zero for day traders, but the rates go up
+on overnight balances.
+✓ Good trade discipline is what can keep you from making expensive
+mistakes.
+But like all rules, the single-day rule can be broken and probably should
+be broken sometimes. In this section, I cover a few longer-term trading
+strategies that you may want to add to your trading business on occasion.
+
+Swing trading: Holding for days
+Swing trading involves holding a position for several days. Some swing traders hold overnight, while others hold for days or even months. The longer
+time period gives more time for a position to work out, which is especially
+important if the position is based on news events or if it requires taking a
+position contrary to the current market sentiment. Although swing trading
+gives traders more options for making a profit, it carries some risks because
+the position can turn against you while you are away from the markets.
+A tradeoff always exists between risk and return. When you take more risk,
+you do so in the hopes of getting a greater return. But when you look for a way
+to increase return, remember that you have to take on more risk to do it.
+Swing trading requires paying attention to some basic fundamentals and
+news flow. (Fundamental research is discussed in Chapter 7.) It’s also a good
+choice for people who have the discipline to go to bed at night instead of
+waiting up and watching their position in hopes that nothing goes wrong.
+
+Chapter 2: Planning to Succeed As a Day Trader
+
+Position trading: Holding for weeks
+A position trader holds a stake in a stock or a commodity for several weeks
+and possibly even for months. This person is attracted to the short-term
+price opportunities, but he also believes that he can make more money
+holding the stake for a long enough period of time to see business fundamentals play out. Position trading increases the risk and the potential return
+because a lot more can happen over months than minutes.
+
+Investing: Holding for months or years
+An investor is not a trader. Investors do careful research and buy a stake in an
+asset in the hopes of building a profit over the long term. It’s not unusual for
+investors to hold assets for decades, although good ones sell quickly if they
+realize that they’ve made a mistake or if the story changes. (They want to cut
+their losses early, just as any good trader should.)
+Investors are concerned about the prospects of the underlying business.
+Will it make money? Will it pay off its debts? Will it hold its value? They view
+short-term price fluctuations as noise rather than as profit opportunities.
+Many traders pull out some of their profits to invest for the long term (or
+to give to someone else, such as a mutual-fund manager or hedge fund, to
+invest). Doing so is a way of building financial security in the pursuit of
+longer goals. This money is usually kept separate from the trading account.
+
+Maxims and Clichés That Guide and
+Mislead Traders
+In this chapter, I cover a few of the many maxims traders use to think about
+their trading, such as
+✓ The stock doesn’t know you own it.
+✓ Failing to plan is planning to fail.
+✓ Your first loss is your best loss.
+A lot more are out there.
+
+39
+
+40
+
+Part I: Getting Started with Day Trading
+Clichés are useful shorthand for important rules that can help you plan your
+trading. But they can also mislead you because some are really obvious —
+too obvious to act on effectively. Yes, everyone knows that you make money
+by buying low and selling high, but how do you tell what low is and high is?
+Here’s a run-through of some clichés that you’ll come across in your trading
+career, along with my take on what they mean.
+
+Pigs get fat, hogs get slaughtered
+Trading is pure capitalism, and people do it for one primary reason: to make
+money. Sure, a ton of economic benefits come from having well-functioning
+capital markets, such as better price prediction, risk management, and
+capital formation. But a day trader just wants to make money.
+Get too greedy, however, and you’re likely to get stupid. You start taking too
+much risk, deviating too much from your strategy, and getting careless about
+dealing with your losses. Good traders know when it’s time to take a profit
+and move on to the next trade.
+This maxim is one of those obvious but tough-to-follow ones. After all, when
+do you cross the line from being a happy little piggy to a big fat greedy hog
+that’s about to be turned into a pork belly? Just know that if you’re deviating
+from your trading plan because things are going so great, you may be headed
+for some trouble.
+Here’s a cliché that’s related to “Pigs get fat, hogs get slaughtered”: “Bears
+get fat, bulls get fat, and hogs get slaughtered.” In other words, a savvy trader
+can make money whether the market is up or down, but a greedy trader runs
+into trouble.
+
+In a bear market, the money returns to its
+rightful owners
+A bull market is one that charges ahead; a bear market is one that does
+poorly. Many people erroneously think of themselves as trading geniuses
+because they make money when the entire market is going up. Making money
+by day trading was easy with Internet stocks in 1999, but it wasn’t so easy
+in 2000 when the bubble burst. And when the markets turn negative, those
+people who really understand trading and who know how to manage risk are
+able to stay in until things get better, possibly even making nice profits along
+the way.
+
+Chapter 2: Planning to Succeed As a Day Trader
+The corollary cliché for “In a bear market, the money returns to its rightful
+owners,” is “Don’t confuse brains with a bull market.” When things are going
+well, watch out for overconfidence. It may be time to update your business
+and trading plans, but it’s not to time cast them aside.
+
+The trend is your friend
+When you day trade, you need to make money fast. You do not have the
+luxury of waiting for your unique, contrary theory to play out. An investor
+may be buying a stock in the hopes of holding it for decades, but a trader
+needs things to work now.
+Given the short-term nature of the market, short-term sentiment is going to
+trump long-term fundamentals. People trading today may be wrong about the
+direction of foreign exchange, interest rates, or stock prices, but if you are
+closing out your positions tonight, you need to work with the information in
+the market today. In the short run, traders who fight the market lose money.
+There are two problems with the maxim “The trend is your friend.” The first
+is that by the time you identify a trend, it may be over. Second, sometimes,
+going against the herd makes sense because you can collect when everyone
+else realizes their mistake. In such a situation, the psychology of trading
+comes into play. Are you a good enough judge of human behavior to know
+when the trend is right and when it’s not?
+
+Buy the rumor, sell the news
+Markets react to information. That’s ultimately what drives supply and
+demand. Although the market tends to react quickly to information, it can
+overreact, too. Lots of gossip gets traded in the markets as everyone looks to
+get the information they need to gain an advantage. And despite such things
+as confidentiality agreements and insider-trading laws, many rumors turn out
+to be true.
+These rumors are often attached to such news events as corporate earnings.
+For whatever reason — good news, analyst research, a popular product —
+traders may believe, for example, that the company will report good quarterly earnings per share. That’s the rumor. If you buy on the rumor, you can
+take advantage of the price appreciation as the story gets more play. When
+the earnings are actually announced, one of two things will happen:
+
+41
+
+42
+
+Part I: Getting Started with Day Trading
+✓ The earnings will be as good as or better than rumored, and the price
+will go up. The trader can sell into that and make a profit.
+✓ The earnings will be worse than rumored, everyone will sell on the bad
+news, and the trader will want to sell to get out of the loss.
+Of course, if the rumor is bad, you want to do the opposite: sell on the
+rumor and buy on the news. For more information on short selling —
+selling securities in hopes that they fall in price — turn to Chapter 9.
+The problem with “Buy the rumor, sell the news” is that rumors are often
+wrong, and there may be more opportunities to buy on bad news when
+other traders are panicking, thus driving prices down for a few minutes
+before sanity sets in. But this rule is one of those that everyone talks about,
+whether or not they actually follow it.
+
+Cut your losses and ride your winners
+I mention earlier in this chapter that you need to cut your losses before they
+drag you down. No matter how much it hurts and no matter how much you
+believe that you’re right, you need to close out a losing position and move on.
+But the opposite — that you should ride your winners — is not necessarily
+true. Although good traders tend to be disciplined about selling winning
+positions, they don’t use stops and limits as rigorously on the upside as they
+may on the downside. They’re likely to stick with a profit and see how high it
+goes before closing out a position.
+Note that this conflicts a little with the “Pigs get fat, hogs get slaughtered”
+maxim. (Trading maxims can be so contradictory!) To prevent overconfidence and sloppiness from greed, ride your winners within reason. If your
+general discipline is to risk three ticks on a futures contract to make five, and
+a contract goes up six ticks before you can close it out, you may want to stick
+with it. But if you also close out at the end of every day, don’t give in to the
+temptation of keeping that position open just because it’s still going up. Keep
+to your overall discipline.
+
+You’re only as good as your last trade
+The markets churn on every day with little regard for why everyone
+trading right now is there. Prices go up and down to match the supply
+
+Chapter 2: Planning to Succeed As a Day Trader
+and the demand at any given moment, which may have nothing to do with
+the actual long-term worth of an item being traded. And it certainly has
+nothing to do with how much you really, really want the trade to work out.
+One of the biggest enemies of good traders is overconfidence. Especially
+after a nice run of winning trades, a trader can get caught up in the euphoria
+and believe that he finally has the secret to successful trading under control.
+While he’s checking the real estate listings for that beachfront estate in Maui,
+BAM! The next trade is a disaster. Does that mean that the trader is a disaster,
+too? No, it just means that the markets won this time around.
+Most day traders work in zero-sum markets, where for every winner, there’s
+a loser. Hence, not everyone can make money every day. The challenge is to
+maintain an even keel so as not to be distracted by confidence when the
+trading is going well or by fear when the trading is going poorly. The next
+trade is a new trade.
+
+If you don’t know who you are, Wall Street
+is an expensive place to find out
+The best traders know their limits. They know what gets them excited, what
+gets them angry, and what they need to watch out for. They haven’t necessarily
+figured it out in front of a screen, either. Instead, they’ve looked back on their
+lives and realized how to apply their strengths and weaknesses to trading.
+If you are new to trading, consider your own capabilities when designing a
+trading plan and think carefully about the things that are likely to trip you up.
+By thinking about those things, you can pay attention and act accordingly.
+If you wait to trade with real money to find out your tolerances for risk and
+stress, you’re going to lose a lot of real money first.
+
+43
+
+44
+
+Part I: Getting Started with Day Trading
+
+Chapter 3
+
+Deciding What to Trade and
+How to Trade It
+In This Chapter
+▶ Finding good assets for day trading
+▶ Seeking securities to trade
+▶ Counting cash and currency
+▶ Making money from commodities
+▶ Deriving profits from derivatives
+
+S
+
+o what are you going to trade? Stocks, corn, or bitcoins? You have myriad
+choices, but you have to choose so that you can learn the market, know
+what changes to expect, and make your trades accordingly. And to avoid the
+devilment of the wash-sale rule, which can limit the tax deductibility of shortterm losses (and which you can read about in Chapter 15), you probably want
+to make your universe of trading assets to be as broad as possible.
+Still, you can’t trade everything. A day has only so many hours, and your
+head can hold only so many ideas at any one time. Furthermore, some trading strategies lend themselves better to certain types of assets than others
+(see Chapter 8). By finding out more about all the various investment assets
+available to a day trader, you can make better decisions about what you want
+to trade and how you want to trade it.
+
+Defining a Good Day-Trading Asset
+In academic terms, the universe of investable assets includes just about
+anything you can buy at one price and sell at another, potentially higher
+price. Artwork and collectibles, real estate, and private companies, for
+example, are all considered to be investable assets.
+
+46
+
+Part I: Getting Started with Day Trading
+Day traders have a much smaller group of assets to work with. Expecting a
+quick, one-day profit on price changes in real estate isn’t realistic. Online auctions for collectible items take place over days, not minutes. If you’re going
+to day trade, you want to find assets that trade easily, several times a day, in
+recognized markets. In other words, you want liquidity. As an individual trading your own account, you want assets that you can purchase with relatively
+low capital commitments. And finally, you may want to use leverage —
+borrowed money — to improve your return, so you want to look for assets
+that can be purchased using other people’s money. The following sections
+outline the characteristics of good assets for day trading.

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "SRC-LOCAL-P4",
+    "title": "P4 full-run registry v2.3",
+    "kind": "project artifact",
+    "uri": "research/pipeline_v2/registry/p4_full_run.json",
+    "supports": "101 books; 1,819 corroborations; 3,809 generic; 128 dropped; 115 problems",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-LOCAL-V8",
+    "title": "V8 contracts and decision register",
+    "kind": "project artifact",
+    "uri": "docs/contracts/ARCHITECTURE_SPEC.md; docs/decisions/DECISION_REGISTER.md",
+    "supports": "current-system contracts and open decisions",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-HARVEY-LIU",
+    "title": "Evaluating Trading Strategies — Harvey & Liu",
+    "kind": "academic",
+    "uri": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2474755",
+    "supports": "multiple testing and adjusted evaluation",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-HARVEY-BACKTEST",
+    "title": "Backtesting — Harvey & Liu",
+    "kind": "academic",
+    "uri": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2345489",
+    "supports": "data mining and profit hurdles",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-FRAZZINI",
+    "title": "Trading Costs — Frazzini, Israel & Moskowitz",
+    "kind": "academic",
+    "uri": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3229719",
+    "supports": "real execution costs and price impact",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-CHART",
+    "title": "Chart comprehension limits in LVLMs",
+    "kind": "academic",
+    "uri": "https://arxiv.org/abs/2406.00257",
+    "supports": "hallucination, factual error and chart bias",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-CHARTHAL",
+    "title": "ChartHal chart hallucination benchmark",
+    "kind": "academic",
+    "uri": "https://arxiv.org/abs/2509.17481",
+    "supports": "risk from absent or contradictory chart information",
+    "status": "verified external/local source"
+  },
+  {
+    "id": "SRC-BOOK_0005",
+    "title": "Algorithmic Trading - Winning Strategies and Their Rationale 2013",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/algorithmic-trading-winning-strategies-and-their-rationale-2013__p1.txt",
+    "supports": "algorithmic validation",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0006",
+    "title": "The Art and Science of Technical Analysis - Market Structure, Price Action, and Trading Strategies 2012",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/the-art-and-science-of-technical-analysis-market-structure-price-action-and-trading-strategies-2012__p1.txt",
+    "supports": "market structure and transitions",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0014",
+    "title": "Building Reliable Trading Systems - Tradable Strategies That Perform As They Backtest and Meet Your Risk-Reward Goals 2013",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/building-reliable-trading-systems-tradable-strategies-that-perform-as-they-backtest-and-meet-your-risk-reward-goals-2013__p1.txt",
+    "supports": "backtest/live reliability",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0025",
+    "title": "A Complete Guide To Volume Price Analysis 2013",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/a-complete-guide-to-volume-price-analysis-2013__p1.txt",
+    "supports": "volume-price relationships",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0039",
+    "title": "The Encyclopedia of Trading Strategies 2000",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/the-encyclopedia-of-trading-strategies-2000__p1.txt",
+    "supports": "rule-based strategy tests",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0042",
+    "title": "Evidence-Based Technical Analysis - Applying the Scientific Method and Statistical Inference to Trading Signals 2007",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/evidence-based-technical-analysis-applying-the-scientific-method-and-statistical-inference-to-trading-signals-2007__p1.txt",
+    "supports": "scientific method and inference",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0053",
+    "title": "The Handbook of Technical Analysis - The Practitioner's Comprehensive Guide to Technical Analysis 2016",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/the-handbook-of-technical-analysis-the-practitioner-s-comprehensive-guide-to-technical-analysis-2016__p1.txt",
+    "supports": "taxonomy and navigation",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0056",
+    "title": "High Probability Trading Strategies - Entry to Exit Tactics for the Forex, Futures, and Stock Markets 2008",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/high-probability-trading-strategies-entry-to-exit-tactics-for-the-forex-futures-and-stock-markets-2008__p1.txt",
+    "supports": "entry-to-exit vocabulary",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0073",
+    "title": "Market Wizards - Interviews With Top Traders 2012",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/market-wizards-interviews-with-top-traders-2012__p1.txt",
+    "supports": "practitioner observations",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0103",
+    "title": "Technical Analysis of the Financial Markets - A Comprehensive Guide to Trading Methods and Applications 1999",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/technical-analysis-of-the-financial-markets-a-comprehensive-guide-to-trading-methods-and-applications-1999__p1.txt",
+    "supports": "second terminology map",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0108",
+    "title": "Trade Your Way to Financial Freedom 2 edition 2006",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/trade-your-way-to-financial-freedom-2-edition-2006__p1.txt",
+    "supports": "expectancy and sizing",
+    "status": "local extraction; depth varies"
+  },
+  {
+    "id": "SRC-BOOK_0114",
+    "title": "Trading Price Action Trends - Technical Analysis of Price Charts Bar by Bar for the Serious Trader 2011",
+    "kind": "book",
+    "uri": "books/_extracted/_parts/trading-price-action-trends-technical-analysis-of-price-charts-bar-by-bar-for-the-serious-trader-2011__p1.txt",
+    "supports": "bar-by-bar price action",
+    "status": "local extraction; depth varies"
+  }
+]

@@ -1,0 +1,456 @@
+
+Connecting to the Internet
+Depending on where you live, you may have several good high-speed
+alternatives for reliably connecting to the Internet. Cable and DSL connections
+usually work well.
+
+63
+
+64
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+Because of security concerns, avoid wireless networks unless you’re
+absolutely certain that you know how to configure the network to keep
+prying eyes from seeing your private trading and account information.
+
+Picking a browser
+Any modern browser probably will do. Although stumbling across a site that
+uses some browser-specific functions is a possibility, that scenario is becoming
+increasingly rare. Microsoft’s Internet Explorer is bundled with the Windows
+operating system at no additional charge. It will serve your needs well enough.
+Mozilla Firefox (www.mozilla.org) is another excellent — and free — choice.
+
+Securing your computer
+The Internet is a dangerous place. You must protect your computer system
+and its data against attacks by vandals, hackers, and thieves. Make sure that
+you have modern virus-scanning software, and keep your virus definitions up
+to date.
+Norton’s AntiVirus program gets good reviews and seems to do the job just
+fine. It can automatically update its virus definitions. You can get more information about Norton’s program at www.symantec.com. McAfee Security’s
+VirusScan also gets high marks from those in the know. Additional information is available on the Web at www.mcafee.com.
+We also recommend that you use a firewall. The Windows Vista firewall is
+sufficient. Third-party firewalls like the free Zone Alarm firewall from Check
+Point Software Technologies (www.zonealarm.com) also work well. Zone
+Alarm monitors your connection to the Internet and is able to detect trojans
+and worms that are trying to call home. This is an increasingly critical
+requirement. In addition, you should consider installing a hardware firewall to
+provide an additional layer of security. Most routers include a hardware firewall,
+and allow you to share your Internet connection with multiple computers.
+Finally, keeping up to date with your operating system’s security patches,
+especially when you’re running Windows, is important. More viruses are
+written for Windows than for any other operating system.
+You can configure Windows to automatically check for system updates. To
+do so, go to Security in the Vista Control Panel, or System Properties, under
+Performance and Maintenance, in the Windows XP Control Panel. Select
+the Automatic Updates tab and check the appropriate settings to keep your
+Windows system up to date. You can also go to the Windows Update site
+(windowsupdate.microsoft.com) to make sure all your system patches
+have been applied.
+
+Part II
+
+Reading the
+Fundamentals:
+Fundamental Analysis
+
+W
+
+In this part . . .
+
+e show you what you need to know to analyze the
+fundamental health of stocks and the markets.
+You’ll need that information, because this part is where
+you discover how the economy and the business cycle
+affect your trading activities and how you can dig into the
+financial statements of a company to unearth good trading
+candidates. We also explain the roles played by stock
+analysts and how you can leverage their efforts as you
+trade.
+
+Chapter 5
+
+Fundamentals 101: Observing
+Market Behavior
+In This Chapter
+▶ Exploring business cycle basics
+▶ Rotating through sectors
+▶ Deciphering economic indicators
+
+Y
+
+ou hear plenty about recession and inflation. You know both can
+mean bad economic news, but do you really understand what they
+mean and why they happen? Regardless of what the economic gurus do,
+the economy cycles between periods of economic growth and recession. If
+growth becomes overheated, periods of inflation are likely. Inflation can also
+be caused when the value of the currency falls. For example, when the value
+of the U.S. dollar falls, that causes an increase in the price of imports and
+commodities like oil for U.S. residents. That, in turn, impacts the price of just
+about every other good sold in the United States.
+The Board of Governors of the Federal Reserve (Fed) oversees moves that
+are made in monetary policy in the United States, and the legislative and
+executive branches of government are responsible for tax changes and other
+fiscal policy moves. The actions of the Fed and the government can minimize
+the impact of inflation or recession and spur economic growth, but nothing
+can be done to erase economic cycles. Markets and traders try to anticipate
+these cyclical moves with an eye toward recording gains. This chapter will
+help you understand which economic indicators tend to lead these cycles
+and how you can use them to understand the current state of the markets
+and the economy.
+
+68
+
+Part II: Reading the Fundamentals: Fundamental Analysis
+
+The Basics of the Business Cycle
+The old adage, “What goes up must come down,” is as true for the economy
+as it is for any physical object. When a business cycle reaches its peak,
+nothing is wrong in the economic world; businesses and investors are making
+plenty of money and everyone is happy. Unfortunately, the economy can’t
+exist at its peak forever. In the same way that gravity eventually makes a
+rising object fall, a revved up economy eventually reaches its high and begins
+to tumble.
+The peak is only one of the four distinct parts of every business cycle —
+peak, recession, trough, and expansion/recovery (see Figure 5-1). Although
+none of these parts is designated as the beginning of a business cycle, here
+are the portions of the business cycle that each represents:
+✓ Peak: During a peak, the economy is humming along at full speed,
+with the Gross Domestic Product (GDP — more about that later in the
+chapter) near its maximum output and employment levels near their
+all-time highs. Income and prices are increasing, and the risk of inflation
+is great, if it hasn’t already set in. Businesses and investors are
+prospering and very happy.
+✓ Recession: As the old adage goes, “All good things must come to an
+end.” As the economy falls from its peak, employment levels begin to
+decline, production and output eventually decline, and wages and prices
+level off, but more than likely won’t actually fall unless the recession is a
+long one.
+✓ Trough: When a recession bottoms out, the economy levels out into a
+period called the trough. If this period is a prolonged one, it can become
+a depression, which is a severe and prolonged recession. The most
+recent depression in the United States was in the late 1920s and early
+1930s. Output and employment stagnate, waiting for the next expansion.
+✓ Expansion/Recovery: After the economy starts growing again, employment
+and output pick up. This period of expansion and recovery pulls the
+economy off the floor of the trough and points it back toward its next
+peak. During this period, employment, production, and output all see
+increases, and the economic situation again looks promising.
+
+GDP
+
+Figure 5-1:
+The basic
+business
+cycle.
+
+Peak
+
+Trough
+
+Peak
+
+One Business Cycle
+0
+Contraction Expansion
+
+Time
+
+Chapter 5: Fundamentals 101: Observing Market Behavior
+How do you know which part of the business cycle the economy is in?
+Officially, you don’t usually find out until months after that part of the cycle
+has either started or ended. The National Bureau of Economic Research
+(NBER) officially declares the peaks and troughs. The NBER is responsible
+for formally announcing the ends of peaks and troughs and signaling when
+a recession (end of a peak) or expansion (end of a trough) starts. You can
+see a table explaining the peaks and troughs since 1857 at www.nber.org/
+cycles/cyclesmain.html. The NBER identified December 2007 as the
+peak of the most recent economic expansion, but did not make that pronouncement until December 2008. By the time the peak was declared, the
+market had been in a downtrend for 15 months, including the sharp selloff in
+September 2008.
+As you can see, the time lag between events and when the NBER makes its
+announcements can be lengthy. But it can get worse. For example, the NBER
+declared on November 26, 2001, that the peak of the current business cycle
+was reached March 21, 2001. That was eight months later. But then, in January
+2004, the NBER revised its position by announcing that the peak may have
+actually occurred as early as November 2000. The end of the trough for this
+cycle, November 2001, wasn’t announced until July 17, 2003. In other words,
+the economy was in a period of expansion/recovery for 20 months before the
+NBER made it official.
+Unfortunately for all concerned, information that the NBER needs to make
+its official announcements isn’t always immediately available. The process
+of collecting economic data and revised preliminary estimates of economic
+activity takes time. Estimates and data don’t become available immediately
+after a particular part of any business cycle ends. As a result, before drawing
+any conclusions, the NBER must wait until it sees a clear picture of what’s
+happening with the economy. Although many economists identify recessions
+and expansions based on at least two quarters (six months) of economic
+data, NBER uses its own models. Still, a growth spurt that lasts one full
+quarter won’t indicate the start of an expansion nor will a decline that lasts a
+quarter indicate the start of a recession. Bearing that in mind, a time lag of
+at least six months is typically required before the NBER even considers
+declaring a recession or a recovery, which effectively renders the official
+announcement useless for traders.
+The peak of a business cycle occurs during the last month before some key
+economic indicators begin to fall. These indicators include employment,
+output, and new housing starts. We talk more about economic indicators
+and which of them are critical for traders to watch in the “Understanding
+Economic Indicators” section, later in the chapter. However, because neither
+a recession nor a recovery can be declared until enough data is accumulated,
+finding a way around the time lag in official information is impossible.
+
+69
+
+70
+
+Part II: Reading the Fundamentals: Fundamental Analysis
+Signals that the economy was weakening became clear to the markets as
+early as October 2007, when the major indexes hit their peaks. Looking at
+an earlier business cycle, you can see the whole process. Just as in October
+2007, clear signs that the economy was headed toward a recession were seen
+as early as the spring of 2000, which is when the NASDAQ index hit its peak
+and began its downward spiral. The effects of the recession took a bit longer
+to hit the other major exchanges, but they started a downward trend by the
+summer of 2000. Just like in 2008, job losses had started mounting by mid2000, and many economists already were sending alarms that the economy
+was headed into a recession.
+Even though the NBER announced the official beginning of that recession
+as March 21, 2001, and the official end of the trough and beginning of the
+recovery as November 2001, no significant recovery was seen in the markets
+until October 2002. Job growth remained anemic as of early 2004. The first
+sign of job growth was seen during the fourth quarter of 2003, after nearly
+three years of job losses. That economic expansion finally picked up steam,
+and ultimately lasted through 2007.
+
+Identifying periods of economic
+growth and recession
+Considering the type of lag time between events and official pronouncements,
+we’re sure you’re wondering how you can determine which part of the
+cycle the economy is in and how you can use this information as a trader.
+Most economists attribute changing business cycles to disturbances in
+the economy. Growth spurts, for example, result from surges in private or
+public spending. One way public spending can surge is during a war, when
+government spending increases and companies in industries related to the
+war effort prosper. They often need to increase hiring to fulfill government
+orders. Employees at these companies usually receive increases in their
+take-home pay and start spending that extra money. As consumer optimism
+increases, other companies must fulfill consumers’ wants and needs, so
+production and output also increase in companies that are unrelated to
+national defense.
+When these same factors work in reverse, the start of a recession is sure to
+follow. For example, a cut in government spending will likely result in layoffs
+at related industrial plants, reduced take-home pay, and finally declines in
+output and production to cope with reduced spending.
+In addition to government spending, a decision by the Fed to either raise
+or lower interest rates is another major disturbance to the economy. When
+interest rates rise, spending slows, and that can lead to a recession. When
+interest rates are cut, spending usually goes up, and that can aid in spurring
+an economic recovery.
+
+Chapter 5: Fundamentals 101: Observing Market Behavior
+Another school of economic thought disagrees with the notion that
+government policy or spending is responsible for changes in the business
+cycle. This second group of theorists believes that differences in productivity
+levels and consumer tastes are the primary forces driving the business cycle.
+From this point of view, only businesses and consumers can drive changes
+in the economic cycle. These economists don’t believe that governmentally
+driven monetary or policy changes impact the cycle.
+Which camp you believe is not critical; the key is picking up the signs of
+when the economy is in a recession and when it’s in an expansion. Peaks
+and troughs are flat periods (periods where the high or low stays primarily
+even before moving in the opposite direction) and are impossible to identify
+until months after they end. As a trader, you can identify shifts in buying and
+spending behavior by watching various economic indicators. By doing so,
+you can discover when the economy is in the early stages of a recovery or
+recession or if it’s fully into a recession or recovery.
+
+Relating bull markets and bear
+markets to the economy
+You’ve probably heard the terms bull market and bear market. To find out
+what they mean, you first need to understand how economic cycles affect
+the stock market. Bulls are people who believe that all is right with the world
+and the stock market is heading for an increase. They definitely think the
+economy is expanding. Bears are people who believe the economy is heading
+for a downturn, and stocks will either stagnate or go down. A bull market is
+a market in which a majority of stocks are increasing in value, and a bear
+market is a market in which a majority of stocks are decreasing. Bears
+definitely believe the economy is either in a recession or headed that way.
+Regardless of whether the bulls or the bears are right, you can make money
+as a trader. The key: Identify the way the market is headed and then buy or
+sell into that trend. During a bear market, traders make their money by
+selling short, or taking advantage of falling prices (more about that in
+Chapter 14). Traders sell short by borrowing stock from their broker and
+then selling it with the hope of making a profit when the price falls.
+Even during a bear market, some stocks offer opportunities for traders to
+make money, including oil and gas stocks and real estate investment trusts
+(REITs). Petroleum stocks and REITs pay higher dividends and, therefore, are
+most attractive when the rest of the market is falling or showing no growth
+potential. During a bull market, riding a stock through recovery but getting
+out before a fall is key. We talk more about trends and what they mean in
+Chapter 10.
+
+71
+
+72
+
+Part II: Reading the Fundamentals: Fundamental Analysis
+
+Sector Rotation
+In general, the markets are divided into sectors, and at any given time some
+of those sectors will be expanding, even during a bear market. Some traders
+are adept at rotating their investments from one sector to another that is
+more likely to benefit from the part of the business cycle that is driving the
+economy. This basic trading strategy is called sector rotation.
+The guru of traders who want to take advantage of sector rotation is Sam
+Stovall, chief investment strategist for Standard & Poor’s, who wrote the
+classic on sector rotation, Sector Investing, in 1996. Although the book is out of
+print, you can still follow his advice about sectors on the BusinessWeek Web
+site at www.businessweek.com/investor.
+Stovall developed the Sector Rotation Model shown in Figure 5-2. As you can
+see, he found that market cycles tend to lead business cycles. Markets tend
+to bottom out just before the rest of the economy is in a full recession. The
+start of a bull market, on the other hand, can be seen just before the rest of
+the economy starts its climb toward recovery. Markets reach their tops first
+and enter a bear market before the general economic indicators show a peak.
+
+Technology • Basic Industry • Staples • Utilities
+Cyclicals • Industrial • Energy
+• Services • Finance
+
+Figure 5-2:
+The Sector
+Rotation
+Model.
+
+Full Recession
+Market Bottom
+
+Early Recovery
+Bull Market
+
+Full Recovery
+Market Top
+
+Early Recession
+Bear Market
+
+As a trader, you can take advantage of this knowledge by knowing which sectors are more likely to rise during the various parts of a market cycle. You
+need to buy into the sectors with stock prices that are likely to rise, or you
+can sell short the sectors in which prices are expected to fall. We discuss
+short selling in Chapter 14.
+
+Chapter 5: Fundamentals 101: Observing Market Behavior
+
+Early recovery
+You can spot an early recovery when consumer expectations and industrial
+production are beginning to rise while interest rates are bottoming out. That
+scenario was evident during a recent economic cycle discovered during the
+fall and early winter months of 2003. During the early stages of recovery,
+Stovall found that industrial, basic industry, and energy sectors tend to take
+the lead.
+
+Full recovery
+When the economy has fully recovered, you start seeing signs that consumer
+expectations are falling and productivity levels and interest rates are flattening
+out. These factors were seen during the economy’s recent period of full
+recovery leading up to the economic peak in December 2007. During that
+period, companies in the consumer staples and services sectors exhibited a
+tendency to take the lead, and interest rates had actually started to fall. As
+knowledgeable investors know, when that happens, it’s only a matter of time
+before a recession follows. Investors know that the staples of life are needed
+even in times of recession, so the stocks of those companies tend to benefit.
+
+Early recession
+When the economy reaches the earliest part of a recession, consumer
+expectations fall more sharply and productivity levels start to drop. Interest
+rates also begin to drop. Most of the 2.5 million job losses during the 2001
+economic downturn occurred during late 2001 and early 2002. During 2001,
+the Federal Reserve cut interest rates 11 times to try to ease the concerns
+about the upcoming recession. The Fed started to raise rates in 2004, but
+then lowered them again in 2007 during the mortgage crisis. At the time of
+this writing, the Fed’s discount rate (the interest rate the Fed charges to
+member banks) was 0 percent. Another key recession sign was the mounting
+loss of jobs in 2008 and early 2009.
+Utilities and finance sector stocks are the most likely to see rising prices
+during the first part of a recession, because under those circumstances,
+investors seek stocks that provide some safety (because owning them
+involves less risk) and pay higher dividends. Gold and other valuable mineral
+stocks also look good to investors seeking safety. Though the financial sector
+did not follow this pattern in the 2008 recession, it is still typical to see
+banks, insurance companies, and investment firms perform well during the
+early parts of a recession.
+
+73
+
+74
+
+Part II: Reading the Fundamentals: Fundamental Analysis
+
+Dissecting sector rotation
+Some wag once said that the stock market
+predicted 15 of the last 8 recessions. And
+although it’s true that the market isn’t a terribly
+precise economic prognosticator, that’s sort of
+beside the point. Economic indicators can help
+you understand the big picture, which, in turn,
+can help you make better trading decisions.
+
+begin outperforming and which are likely to
+fade. Using those projections, you can start
+monitoring stocks in those up-and-coming
+sectors. For a sector to outperform, the stocks
+within it must also outperform. You need to be
+monitoring those stocks before they begin their
+runs.
+
+Of all the economic tools available, sector
+rotation analysis is probably the most valuable.
+Even if the Sector Rotation Model can’t help
+you identify an economic cycle, it can identify
+sectors and stocks that are ripe for further
+study.
+
+Plenty of data is available to help you separate
+the strongest sectors from the ones that are
+underperforming. Investor’s Business Daily, for
+example, ranks nearly 200 industry groups by
+price performance. Stockcharts.com provides
+a similar capability with its Performance
+Charts (stockcharts.com/charts/
+performance). You can also monitor sectors by
+following exchange-traded funds (ETFs),
+such as the Select Sector SPDRs (Standard
+and Poor’s Depository Receipts) at www.
+spdrindex.com.
+
+When we trade, we want the strongest stocks
+in the strongest sectors, which is why we
+monitor sector performance carefully. Knowing
+the sectors that are performing best enables
+you to anticipate which sectors are likely to
+
+Full recession
+Although it may not make much sense intuitively, during a full recession
+is when you first start seeing indications that consumer expectations are
+improving, which is seen by increased spending. However, industrial
+productivity remains flat, and businesses won’t increase their production
+levels until they believe consumers actually are ready to spend again.
+Additionally, interest rates continue to drop, because both business and
+consumer spending are slow, so demand for the money weakens while
+competition for new credit customers grows between banks and other
+financial institutions. During a full recession, cyclical and technology stocks
+tend to lead the way. Investors look to safety during a recession, so companies
+that satisfy that need tend to do best.
+
+Understanding Economic Indicators
+The key to knowing where, as a trader, you are during the business cycle is
+watching the economic indicators. Every day that you open your newspaper,
+you see at least one story about how the economy is doing based on various
+
+Chapter 5: Fundamentals 101: Observing Market Behavior
+economic indicators. Popular indicators track employment, money supply,
+interest rates, housing starts, housing sales, production levels, purchasing
+statistics, consumer confidence, and many other factors that indicate how
+the economy is doing.
+Economic indicators are useful to your trading. Some are definitely more
+useful than others. We don’t have the space here to describe each of the
+indicators; so instead, we focus on the ones that can provide you with the
+most help in making your trading decisions.

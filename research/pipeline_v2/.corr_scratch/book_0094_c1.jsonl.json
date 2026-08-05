@@ -1,0 +1,9 @@
+[
+{"claim_ref": "book_0094::lead_book_0094_1_067", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_1_068", "verdict": "corroboration", "behavior_id": "relative_strength_ranking", "page": 61, "exact_text": "If I get a buy signal on one of my other indicators, I will buy the index that is relatively stronger that day. And if I get\na sell signal, I will sell the index that is relatively weaker.", "added_conditions": ["relative strength between the S&P and Nasdaq determines which index to trade when a buy or sell signal occurs"], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_1_073", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_1_078", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_1_081", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_2_083", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0094::lead_book_0094_1_083", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

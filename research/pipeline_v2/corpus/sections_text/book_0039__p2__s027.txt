@@ -1,0 +1,266 @@
+
+TESTS OF THE ORIGINAL SES
+To test the original SE& the random entry method is used (described in the
+“Introduction” to Part III). The exits are the usual standard exits (with exit restricted
+
+on the close) that were used throughout the study of entries. The rules for the SES
+are as follows: If, at the close, the market is more than some multiple (the money
+management stop parameter) of the 50-bar average true range below the entry price,
+then exit; this is the money management stop. If the price at the close is greater than
+some other multiple (the profit tzuget limit parameter) of the same average true range
+above the entry price, then exit; this is the profit target limit. These rules are for long
+positions, and the exit is restricted to the close. For short positions, the placement of
+the thresholds are reversed, with the money management exit placed above the entry
+price and the profit target exit placed below. If, after 10 days, neither the money
+management stop nor profit target limit has been hit, close out the trade with a market-at-close order. The code that follows implements these rules, as well as the random entry. There are three tests, one for each type of entry order (at open, on limit,
+and on stop). The standard software test platform and portfolio are used.
+s t a t i c void Model (float *parms, float ‘dt, float *op. float *hi,
+float *lo. float *cls. float *vol. float *oi, float *dlrv, int nb,
+TRDSIM 6rts. float *eqclsl {
+,, Implements the random encry model with the Standard exit
+I/ File = xl9modOl.c
+vector [I. .MAxPRMl Of parameters
+// pa=ms
+vector ,l..rlb, Of dates i n
+YYMMDD form
+/I dt
+vector
+Cl.
+.nbl
+of
+opening
+prices
+// oPn
+vector [I. .nbl of high prices
+// hi
+vector [I. .“bl Of low prices
+// 10
+vector [I. .nbl of closing prices
+// ClS
+YeCtor L1. .nbl O f “Ol”mes
+// vo1
+vector Il..nbl Of open interest numbers
+// oi
+,, dlrv
+vector Ll..nbl of average dollar volatilities
+number Of bars in data series or vectors
+I/ nb
+Erading siln”latOl class i n s t a n c e
+// ts
+vector [I..*1 of closing equity levels
+// eqc1s
+// declare local scratch variables
+static int rc, c b , ncontracts, maxhold. ordertype, signal;
+s t a t i c f l o a t mmstp, ptlim, stpprice, limprice, tmp;
+s t a t i c float eritatrbmxBAR+1,, mum;
+static int ranseed;
+static long iseed;
+// copy parameters to local variables for clearer reference
+ranseed
+= parms~81; ,, used t o select random seed
+ordertype = parmsL91; // e n t r y : kopen, 2dimit. 3=stop
+maxhold = 10;
+,, maximum holding period
+
+2%
+
+// perform whole-series calculations
+A”gTr”eRangeS(exitatr,hi,lo,cls,50,nb);
+
+,, ATR for exit
+
+case 2: tS.buylimitc’2’, limprice, *contracts,; break;
+case 3: ts.buystop~~3’.
+stpprice, ncontractsl; break;
+default: nrerrOr~‘I*“alid buy order selected”);
+I
+I
+e l s e if~ts.positionO >= 0 && s i g n a l = = -1) (
+switch(ordertype) ( I/ select desired order type
+case 1: ts.sellopen~~4’,
+ncontractsl; break;
+case 2 : ts.selllimitl‘S’,
+limprice, ncontracts); b r e a k ;
+case 3: t?..6e11*tOp~‘6’, stpprice, ncontracts~; break;
+default: nrerror~“lnvalid
+sell order selected”);
+)
+I
+// instruct simulator to employ standard exit strategy
+tmp = exitatrLcb1 ;
+ts. Sb3exitC1s
+C‘X’ , ptlim*tmp,
+mmstp*tmp. maxholdh
+) ,, process next bar
+1
+
+The code is similar to that presented in earlier chapters. Only the generation
+of the entry signals has changed. Entry signals are now issued using a pseudo-random number generator (RNG). Before entering the loop that steps through bars to
+simulate the process of trading, the RNG is initialized with a unique seed. The initialization seed is determined by the market number and by a parameter (ranseed).
+By changing the parameter, a totally different sequence of random entries is generated. The exact seed values are irrelevant in that, for every seed, a unique series
+will be generated because the period of the RNG is extremely large.
+The RNG used is the one described as ran2 in Numen’cal Recipes in C (Press
+et al., 1992). The period of this RNG is greater than 2 multiplied by 10’“. This
+RNG is by far better than those that normally come as part of a programming language library. Inside the loop, where trading actually takes place, signals are generated based on random numbers. The steps are very simple. On each bar, a
+uniformly distributed random number between 0 and 1 is obtained from the RNG.
+If the random number is less than 0.025, a short signal is generated. The probability of a short being generated on any bar is 0.025; i.e., a short signal should
+occur every 40 bars, on average. If the random number is greater than 0.975, a long
+signal is issued, these signals should also occur, on average, every 40 bars. In other
+words, on average, a long or a short trading signal should occur every 20 bars. The
+limit and stop prices are calculated in the usual way. Orders are placed and exits
+specified in the usual manner.
+The steps that are used to conduct each of the three tests are as follows: On
+the in-sample data and for each entry order type, 10 distinct series of random
+
+entries are generated and traded. The best of those sequences are then examined
+on the verification or out-of-sample data. The process mimics that of optimizing a
+parameter in a real system by stepping it from, e.g., 1 to 10; here the parameter
+simply selects a totally different series of random entries for each value.
+
+Test Results
+Tables 13-1, 13-2, and 13-3 present the portfolio performance that resulted from
+trading random entries with the standard exit strategy. Each of the numbers in the
+column RAND represents a seed modifier (ranseed) that causes the RNG to generate a different sequence of random entries. NET = the total net profit, in thousands of dollars. NETL = the total net profit for the longs. NETS = the total net
+profit for the shorts, PFAC = the profit factor. ROA% = the annualized return on
+account. ARRR = the annualized risk-reward ratio. PROB = the statistical significance or probability, DRAW = the drawdown, in thousands of dollars. TRDS =
+the number of trades. WIN% = the percentage of wins. AVTR = the average trade,
+in dollars. TRDB = the average bars per trade, rounded to the nearest integer. VER
+zz the performance for the random sequence that provided the best in-sample performance when this sequence is continued and then tested on the verification sample. AVG = the average in-sample value of the numbers in rows 1 through 10.
+STDEV = the standard deviation for the in-sample performance data shown in
+rows 1 through 10.
+Test I: SES with Random Entries at the Open. This system did not perform very
+well in-sample. The average trade, over all 10 randomizations, lost $2,243, with a
+TABLE
+
+13-I
+
+Results for the Standard Exit with Random Entries at the Open
+
+T A B L E
+
+13-2
+
+Results for the Standard Exit with Random Entries on a Limit
+
+T A B L E
+
+13-3
+
+Results for the Standard Exit with Random Entries on a Stop
+
+standard deviation of $304. In terms of average dollars-per-trade. the less attractive
+systems that were tested when studying entries were on par with the results for the
+current system. In fact, some of them performed significantly worse than chance.
+The percentage of wins was very stable, with the average at 36.91% and a standard
+deviation of only 0.7%. The total number of trades taken per commodity, over the
+lo-year in-sample period, was 3,703, about the number it should be, given the probability of taking a random entry on any bar.
+
+3w
+
+Out-of-sample, performance was within the expected range, consistent with
+in-sample performance. The percentage of wins was 37%, very close to that for insample results. The average loss per trade was $1,883, which is within 1 standard
+deviation of the in-sample estimate. Obviously, the standard exit was unable to
+pull a profit out of trades entered randomly.
+Test 2: SES with Random Entries on Limit. Table 13-Z is identical to Table 131, except that it shows portfolio behavior for the standard exit with random entries
+taken on a limit order. In-sample, the average loss per trade of $1,930 was somewhat less, demonstrating the effect of the limit order in reducing transaction costs.
+The standard deviation was somewhat higher: $477. The percentage of winning
+trades (38.73%) was just under 2% better, due to the better prices achieved with a
+limit entry. As was anticipated, other than such small changes as those described,
+nothing else in Table 13-Z is of any great interest.
+Out-of-sample, the system lost $3,056 per trade, just over 2 standard deviations
+worse than in-sample behavior. For whatever reason, the limit order may have had
+some real effect with random entries, making the system perform more poorly in
+recent yearn. The percentage of wins was also slightly worse, i.e., 37%, just under 2
+standard deviations below in-sample behavior, but on par with entty at the open.
+Test 3: SES with Random Enhies on Stop. Table 13-3 contains information
+about the portfolio behavior for the standard exit when trades were entered randomly on a stop. In terms of dollars-per-trade, in-sample performance was
+between that of the other two orders, with a loss per trade of $2,039. The standard
+deviation was $391. The percentage of wins was lower, 36.36%, with a standard
+deviation of 1.12%. The lower percentage of wins probably reflects the poorer
+entry prices achieved using the stop.
+Out-of-sample, the average trade and percentage of wins were within 2 Standard deviations plus or minus the in-sample figures, demonstrating that out-ofsample performance was within the statistically expected range and fundamentally
+no different from in-sample performance.
+The performance figures in Tables 13-l through 13-3 provide a baseline (in
+the form of means and standard deviations) that can serve as a yardstick when
+evaluating ,the entries studied in Part Il of this book. For this purpose the $TRD
+and WIN% figures are the best ones to use since they are not influenced by the
+number of trades taken by a system.
+Market-by-Market Performance for SES with Random Entries at Open, In
+Table 13-4, the behavior of the standard exit with random entries taken at the open
+is broken down by market and by sample. The particular randomization used was
+the one that produced the best in-sample performance (in terms of annualized riskto-reward ratio) in Test 1. The leftmost column (SYM) contains the commodity
+
+301
+
+TABLE
+
+13-4
+
+Market-by-Market Results for the Standard Exit with Random Entries
+at the Open
+
+symbol. The remaining columns contain information about various aspects of performance, both in-sample and out-of-sample. NETL and NETS are the net profits
+for long and short positions (respectively), in thousands of dollars. ROA% = the
+annualized return-on-account. AVTR = the average dollars profit or loss per trade.
+WIN% = the percentage of winning trades. TRDS = the number of trades taken.
+The last two rows (AVG and STDEV) show the averages and standard deviations
+
+302
+
+(respectively) across all markets for the various performance figures.
+In-sample, the British Pound, the Japanese Yen, Feeder Cattle, Live Hogs,
+and Lumber were the only markets that bad positive returns. Only the
+Deutschemark had a strong return on account at 25.9% annualized. Out-of-sam
+ple, the NYFE, the Japanese Yen, Light Crude, COMEX Gold, Palladium, Live
+Hogs, Soybeans, Soybean Meal, Coffee, and Orange Juice had positive returns.
+Only the Japanese Yen and Live Hogs were profitable in both samples. The random entry system was among the least consistent systems of those examined in the
+study of entries.
+The average trade, across all markets, lost $1,731 in-sample and $1,734 outof-sample. Long trades lost less than shorts, a finding observed many times. Insample, all the currencies, except the Canadian Dollar and Eurodollars, were
+profitable on the long side. These are trendy markets, and therefore, such profitability is likely due to the behavior of the standard exit, not to chance factors
+involved in the random entries.
+The analysis of the standard exit with random entries taken using various
+entry orders should serve well as a baseline of comparison for both the real, nonrandom entries (studied in earlier chapters) and the more sophisticated exits (to be
+studied in subsequent chapters).
+
+TESTS OF THE MODIFIED SES
+The next test involves changing the SES a bit, thus producing the modifkd standard exit strategy (MSES). The SES is made more realistic by allowing the money
+management stop and profit target limit to function inside the bar, not merely at
+the close. To avoid ambiguities in the simulation when using end-of-day data, all
+entries are now restricted to the open. This allows complete freedom to explore a
+wide range of exit strategies. Other than lifting the restriction to the close, the
+MSES is identical to the original SES used when testing entries. The rules for the
+MSES are as follows: Upon entry, set up an exit stop below (long positions) or
+above (short positions) the entry price and an exit limit above (long) or below
+(short) the entry price. Place the exit stop some multiple (the money management
+stop parameter) of the average true range away from the entry price. Place the exit
+limit some other multiple (the profit target parameter) of the average true range
+away from the entry price. Exit on the close after 10 days have elapsed if neither
+the money management stop nor the profit target limit has yet closed out the trade.
+A 50.bar average true range is used in these rules. The code below implements
+random entries at the open together with the modified standard exit strategy.
+
+CHAPTER 13
+
+The Standard Exit strategy
+
+The code used to run the current test is identical to the code used for the earlier test, except for changes required by the modified exit strategy. A trade is
+entered on a random signal that is generated as discussed earlier. However, buying
+and selling occur only on the open. In addition, information is recorded about
+entry activity, i.e., whether an entry (long, short, or none) was posted on the current bar (entryposted), the price (entryprice) at which the entry took place (if one
+was posted), and the bar on which it took place (entrybar). This data is required in
+computing the exits. The exits are then generated. If an entry is posted for the next
+bar (i.e., if the market is entered long or short at the open of the next bar), a profit target and a stop loss are also posted for that bar. For the longs, the stop loss, or
+money management stop, is set at the entry price minus a parameter that is multiphed by the average true range. The limit price for the profit target is set as the
+entry price plus another parameter that is multiplied by the average true range. If,
+on the current bar, a short entry is posted for the next open, then orders are also
+posted to exit the resulting short position on a limit or a stop. The limit and stop
+are calculated in a manner similar to that for the longs, except the directions are
+flipped around. If a given bar is not an entry bar, a check is made to determine
+whether there is an existing position after the close of the bar. If there is, two
+orders (possibly three) are posted: the money management stop and profit target
+limit orders, using the stop and limit prices calculated on the bar the entry was initially posted; and if the trade has been held for more than maxhold bars, an order
+to exit on the close is also posted.
+TEST RESULTS
+Test 4: MSES with Random Entries at Open. Table 13-5, which has the same
+format as Tables 13-l through 13-3, provides data on the portfolio performance of
+

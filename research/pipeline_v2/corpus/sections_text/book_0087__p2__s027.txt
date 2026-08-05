@@ -1,0 +1,412 @@
+
+The importance of early exercise is greatest when the underlying contract is a stock
+or physical commodity.3 In such a case there is a significant difference between the
+carrying cost on an option and the carrying cost on an underlying position. This
+difference will especially affect the difference between European and American put
+values, since early exercise will allow the trader to earn interest on the proceeds from
+the sale at the exercise price. An option trader in either the stock or physical commodity
+market will find that the additional accuracy offered by an American model, such as the
+Cox-Ross-Rubenstein or Whaley models, will indeed be worthwhile. The significance of
+this difference is shown in Figure 12-1.
+
+THE EFFECT OF EARLY EXERCISE
+ON TRADING STRATEGIES
+
+The delta of an American option will always be greater than the delta of an equivalent
+European option. The extent to which it is greater will depend on how deeply
+in-the-money the option is, as well as the interest considerations resulting from early
+exercise. In most cases the delta of an American option will differ only slightly from a
+European option, and the possibility of early exercise is therefore unlikely to have a
+significant impact on volatility or directional strategies, In the former case, a trader may
+have to adjust the ratio of a strategy slightly if he wants to remain close to delta neutral.
+In the latter case, a trader may find that he is a few deltas longer or shorter than he
+would be if employing the same strategy with European options.
+
+Because early exercise of an option is not automatic, there are strategies which
+depend on someone making an error and not exercising an option early when he ought
+to do so. For example, a stock option trader might try to execute a dividend play. This
+strategy consists of buying stock and selling deeply in-the-money calls as the ex-dividend
+
+3. Early exercise can also be an important consideration in the foreign exchange market if the interest
+rates associated with the domestic currency (the currency in which the option is settled) and foreign
+currency (the currency to be delivered in the event of exercise) are significantly different.
+
+
+Early Exercise of American Options 251
+
+Figure 12-1
+European vs. American Put Values
+Stock price = 100.00 Volatility = 25%; interest rate = 8.00%; Dividend = 0
+
+4 weeks to expiration:
+
+Black-Scholes Black-Scholes Cox-Ross Cox-Ross
+Value Delta Value Delta
+80 put 00 ie) .00 (0)
+90 put 15 -5.0 15 -6.1
+100 put 2.46 45.1 2.51 ~46.4
+110 put 9.67 ~89,5 10.03 95.3
+120 put 19.28 -99.4 20.00 —100.0
+
+13 weeks to expiration:
+
+Black-Scholes Black-Scholes Cox-Ross Cox-Ross
+Value Delta Value Delta
+80 put | 2.2 mail -2.3
+90 put 97 -14.3 1.00 -14.9
+100 put 4.00 ~41.2 4.20 44.0
+110 put 10.00 -70.6 10.74 ~78.2
+120 put 18.25 -89,2 20.00 -100,0
+26 weeks to expiration: 4
+Black-Scholes Black-Scholes Cox-Ross Cox-Ross
+Value Delta Value Delta
+80 put AG 5.7 50 ~6.1
+90 put 1.89 -18.1 2.02 ~19.6
+100 put 5.11 37,7 5.55 ~42.1
+110 put 10.43 58.9 11.58 ~68.8
+120 put 17.56 -76.4 20.04 -94.8
+
+date for the stock approaches. If the trader is not assigned on the calls, he will break
+even on the stock (the stock price will fall, but he will collect the dividend). At the same
+time he will profit when the deeply in-the money calls which he has sold fall by the
+amount of the dividend. Of course, if he is assigned on the calls, as he ought to be, he
+will only break even. But for each call which goes unexercised the trader will profit by
+the amount of the dividend. Dividend plays were much more common in the early days
+of option trading when the market was less sophisticated and many options which
+should have been exercised were not. As markets have become more efficient, only a
+professional trader, with very low transaction costs, can afford to take advantage of such
+a possibility. Even then, he may find that he is assigned on the great majority of the calls
+he has sold.
+
+
+252 Chapter 12
+
+A trader can execute a similar type of interest play by selling stock and simultane-
+ously selling deeply in-the-money puts. Now, instead of profiting by the amount of the
+dividend, the trader will profit by the amount of the interest he can earn on the exercise
+price (the proceeds of the stock sale and the put sale combined). This profit will continue
+to accrue as long as the puts remain unexercised. If the puts are exercised, the trader
+does no worse than break even. Again, only a professional trader, with his low
+transaction costs, is likely to employ such a strategy.
+
+If options are subject to stock-type settlement, an interest play can also be done in
+the futures option market by either purchasing a futures contract and simultaneously
+selling a deeply in-the money call, or selling a futures contract and simultaneously selling
+a deeply in-the-money put. If the option is deeply enough in-the-money, it ought to be
+exercised early. If, however, the option remains unexercised, the trader will continue
+to earn interest on the proceeds from the option sale. Since the amount on which the
+trader will earn interest is the difference between the exercise price and futures price,
+this will not be as profitable as a similar strategy in the stock option market, where the
+trader will earn interest on the exercise price. Still, if the transaction costs are low
+enough, it may be worth doing.
+
+A variation on dividend and interest plays can also be executed using deeply
+in-the-money vertical spreads. For example, suppose a stock is trading at 100 with the
+ex-dividend date approaching If both the 80 and 85 calls are deeply enough in-the-
+money to be early exercise candidates, a trader might try to purchase the 80/85 call
+vertical spread for five points. If he does so, he will exercise his 80 call in order to collect
+the dividend, and at the same time hope not to be assigned on the 85 call. Oddly, if both
+the 80 and 85 calls are early exercise candidates, the trader should also be willing to
+sell the 80/85 call vertical for five points. If he does so, he will exercise his 85 call in
+order to collect the dividend, and at the same time hope not to be assigned on the 80
+call. In other words, a professional trader might logically make a market under these
+circumstances of 5 bid/5 ask. He is willing to buy or sell the 80/85 call vertical at five
+points. He intends to immediately exercise whichever call he buys, while hoping not be
+assigned on the call which he sells.
+
+The possibility of early exercise can also have an impact on arbitrage strategies. For
+example, suppose a stock option trader executes a reverse conversion:
+
+buy a call
+sell a put
+sell stock
+
+If he executes this strategy at what he believes to be profitable prices, part of his profit
+will come from the interest he expects to earn on the sale of the stock. But what will
+happen if the stock price begins to fall, and in fact falls so far that the trader is assigned
+on the put? This will eliminate the interest earnings, since he will be required to buy
+back the stock. Of course, he can still sell the call and take in some cash. But if the value
+of the call is insufficient to offset the interest loss, the trader may find that his profitable
+reversal has in fact become unprofitable.
+
+
+Early Exercise of American Options 253
+
+The trader in our example is worried about being assigned on his put. If the market
+drops there will be a greater likelihood of assignment; if the market rises there will be
+a lesser likelihood of assignment. Since the trader prefers the market to rise, he must be
+delta long. This is confirmed by the following delta values:
+
+Stock price = 100; Time to expiration = 3 months; Volatility = 25%
+Interest rate = 8.00%; Dividend = 0
+
+European European American American
+Option Value Delta Value Deita
+100 call 5.97 58.8 5.97 58.8
+100 put 4.00 41.2 4.20 ~44.0
+
+If these are European options, the total delta of the reversal is:
++58.8 +41.2 -100 =0
+If, however, the options are American, the total delta is:
++58.8 +44.0 ~100 = +2.8
+
+The positive delta of 2.8 reflects a slight preference for the market to rise so that the
+trader will avoid being assigned on the put.
+
+For a similar reason, if the trader executes a conversion (sell call, buy put, buy
+stock), he is 2.8 deltas short. He wants the stock to fall so that he can exercise his put
+early and thereby avoid the interest costs of carrying a long stock position.
+
+Because the desirability of early exercise, and therefore the likelihood of early
+exercise, can increase or decrease as the underlying market rises or falls, conversions
+and reversals using American options are not delta neutral. While these strategies may
+be unbalanced by only two or three deltas, the fact that they are often done in large size
+can result in an additional risk that the trader cannot afford to ignore. This also applies
+to boxes and jelly rolls, which are simply combinations of conversions and reversals.
+Consider these option values:
+
+Stock price = 100; Volatility = 25%; Interest rate = 8.00%; Dividend = 0
+Time to expiration: March = 3 months, June = 6 months
+
+European European American American
+Option Value Deita Value Delta
+March 95 call 9.00 73.7 9.00 73.7
+March 95 put 2.13 -26.3 2.24 27.8
+March 100 call 5.97 58.8 5.97 58.8
+March 100 put 4.00 -41.2 4.20 —44.0
+June 95 call 11.96 72.7 11.96 72.7
+June 95 put 3.24 27.3 3.49 -29.9
+June 100 call 9.03 62.3 9.03 62.3
+
+June 100 put 5.11 -37.7 5.55 -42.1
+
+
+254 Chapter 12
+
+We can see how the possibility of early exercise affects the values and deltas of various
+arbitrages:
+
+European European American American
+
+Strategy Value Delta Value Delta
+March 95/100 box 4.90 0 4.99 -1.3
+June 95/100 box 4.80 0 4.99 -1.8
+March/June 95 jelly roll 1.85 0 1.71 +14
+March/June 100 jelly roll 1.95 0 L71 +1.6
+
+Boxes become more valuable using American options because a trader who is long
+the box owns a put with a higher exercise price. If a trader buys the 95/100 box, he is
+longa 95 calland a 100 put, and short a 95 put and 100 call. The 100 put will become
+an early exercise candidate before the 95 put, making the American box more valuable
+than the same European box. The delta of the box is negative with American options
+because a trader who owns the box would like the market to decline so that he will be
+able to exercise the 100 put as quickly as possible.
+
+Jelly rolls become less valuable using American options because a trader who owns
+the jelly roll has sold a long-term put. If a trader buys the March/June 00 jelly roll, he
+is longa March 100 put and June 100 call, and is short a March 100 call and June 100
+put. The June 100 put, being a longer term option, has more potential for early exercise
+than the March 100 put. The delta of the jelly roll is therefore positive because there is
+a greater danger of being assigned on the June 100 put. Hence, the trader who owns
+the jelly roll would like the market to rise so that he is less likely to be assigned on the
+June 100 put.
+
+A unique, early exercise situation affecting the value of boxes can also arise in a
+stock option market if there is a tender offer to buy a portion of the stock in a company.
+For example, with a stock trading at 100, one would expect to see the 100/105 box
+trading at close to five points. But suppose that a tender offer is made to buy half the
+outstanding shares at a price of 110. A trader who owns the 100/105 box will exercise
+his 100 calls in order to be able to tender stock. If he tenders 1000 shares, he might
+expect half, or 500 shares, to be accepted at the tender price of 110. But after the tender
+is completed, because it was for only half the outstanding shares, the stock price will
+return to its pre-tender price of 100. The trader’s remaining 500 shares will still be
+trading at 100. In other words, prior to the tender offer the 100 calls are worth 10, but
+after the tender the 105 puts are worth a minimum of five. Of course, one cannot say
+that the box is worth 15, because only half the outstanding shares are worth 110. The
+other half are worth 100. Still, the 100/105 box is likely to trade for significantly more
+than its usual price of five.
+
+The possibility of early exercise can also affect arbitrage strategies in the futures
+option market, but the difference between American versus European values is much
+less than in the stock option market because there is less interest consideration
+associated with futures options. For practical purposes, unless the options are very
+deeply in-the-money or are very long-term, the difference between American and
+
+
+Early Exercise of American Options 255
+
+European vaiues for futures options is negligible. Some sample option and arbitrage
+values are shown below (we assume that all options are subject to stock-type settle-
+ment):
+
+Futures price = 100; Volatility = 25%; Interest rate = 8.00%;
+Time to expiration: March = 3 months, June = 6 months
+
+European European American American
+
+Option Value Delta Value Delta
+March 95 call 7,60 66.9 7.67 67.5
+March 95 put 2.70 ~31.2 2.73 -31.3
+March 100 call 4,88 51.5 4.88 51.8
+March 100 put 4.88 —46.6 4.88 46.9
+June 95 call 9,27 62.2 9.34 63.5
+June 95 put 4.46 -33.9 4,48 -34,2
+June 100 call 6.76 51.4 6.80 52.2
+June 100 put 6.76 -44.7 6.80 ~45.4
+European European American American
+
+Strategy Value Delta Value Delta
+March 95 conversion 4.90 +1.9 4.94 +1.2
+June 95 conversion 4.81 4+3.9 4.86 +23
+March 100 conversion 0 +19 0 +13
+
+June 100 conversion 0 +3.9 0 +2.4
+March 95/100 box 4.90 0 4.94 +.1
+
+June 95/100 box 4.81 0 4.86 +.1
+
+March/June 95 jelly roll 1.85 0 1.71 +11
+
+March/June 100 jelly roll 1.95 0 171 +1.6
+
+Many new traders seem to worry unduly about the possibility of early exercise: “If
+Isell an option, what happens if] am suddenly assigned?” It is true that sometimes early
+assignment can cause a loss. But there are many factors which can cause a trader to lose
+money; early exercise is only one such factor. A trader should be prepared to deal with
+the possibility of early exercise just as he should be prepared to deal with the possibility
+of movement in the price of the underlying contract, or the possibility of changes in
+volatility. Margin requirements established by the clearing houses usually require a
+trader to keep sufficient funds in his account to cover the possibility of early assignment.
+But this is not always true. If he is short deeply inthe-money options, an early
+assignment notice may cause a cash squeeze. If this happens, he will need sufficient
+Capital to cover the situation. Otherwise, he may be forced to liquidate some or all of
+the remaining position. And forced liquidations are invariably losing propositions.
+
+
+256 Chapter 12
+
+An experienced trader should be able to foresee the likelihood of early exercise. He
+need only ask himself: “If ] owned this option, would I logically exercise it now?” If the
+answer is “yes,” then the trader ought to be prepared for assignment. Early exercise
+rarely comes as a surprise. If it does, it is probably good for the trader who was assigned.
+If an option is exercised too early, someone has erroneously abandoned the time value
+or protective characteristics associated with the option. When that happens, the trader
+who is assigned will find that he has just received an unexpected gift.
+
+
+a 13 %
+
+Hedging with Options
+
+The original justification for introducing options and futures was to enable market
+participants to transfer part or all of the risk associated with holding a position in the
+underlying instrument from one party to another. Options and futures act as insurance
+contracts. Unlike a futures contract, an option transfers only part of the risk from one
+party to another. In this respect an option acts much more like a traditional insurance
+policy than a futures contract.
+
+Even though options were originally intended to function as insurance policies,
+option markets have evolved to the point where, in most markets, hedgers (those
+wanting to protect an existing position), make up only a small portion of market
+participants. Other traders, including arbitrageurs, speculators, and spreaders, typically
+outnumber true hedgers. Nevertheless, hedgers still represent an important force in the
+marketplace, and any sophisticated market participant must be aware of the strategies
+hedgers use to protect their positions.
+
+Many hedgers come to the marketplace as either natural longs or natural shorts.
+Through the course of normal business activities they will profit from either a rise or fall
+in the price of some underlying instrument. The producer of a commodity (grain, oil,
+precious metals) is a natural long; if the price of the commodity rises, he will receive
+more when he goes to sell it in the marketplace. The user of a commodity is a natural
+short; if the price of the commodity falls, he will have to pay less for it when he goes to
+buy it in the marketplace. In the same way, lenders and borrowers in the financial
+markets are natural longs and shorts in terms of interest rates. A rise in interest rates
+will help lenders and hurt borrowers. A decline in interest rates will have the opposite
+effect.
+
+Other potential hedgers come to the marketplace because they have voluntarily
+chosen to take long or short positions, and now wish to lay off part or all of the risk of
+that position. A speculator may have taken a long or short position in a certain contract,
+but wishes to temporarily reduce the risk associated with an outright long or short
+position. For example, a portfolio manager is usually paid to choose which stocks to buy
+for a portfolio. He is a voluntary long. If he wants to continue to hold certain stocks, but
+believes that the stocks might decline in the short term, he may find it cheaper to
+temporarily hedge the stocks with options or futures than to sell the stocks and buy them
+back ata later date.
+
+As with insurance, there is a cost to hedging. The cost may be immediately apparent
+because it requires an immediate cash outlay. But the cost may also be more subtle,
+either in terms of lost profit opportunity, or in terms of additional risk under some
+
+257
+
+
+258 Chapter 13
+
+circumstances. Every hedging decision is a tradeoff: what is the hedger willing to give
+up under one set of market conditions in order to protect himself under another set? A
+hedger with a long position who wants to protect his downside will almost certainly
+have to give up something on the upside; a hedger with a short position trying to protect
+his upside will have to give up something on the downside.
+
+PROTECTIVE CALLS AND PUTS
+
+The simplest way to hedge an underlying position using options is to purchase either a
+call to protect a short position, or a put to protect a long position. In each case, if the
+market moves adversely, the hedger is insulated from any loss beyond the exercise price.
+The difference between the exercise price and the current price of the underlying is
+analogous to the deductible portion of an insurance policy. And the price of the option
+is analogous to the premium which one has to pay for the insurance policy.
+
+For example, suppose an American firm expects to take delivery of DM 1,000,000
+worth of German goods in six months. If the contract requires payment in Deutsche-
+marks at the time of delivery, the American firm has automatically acquired a short
+position in Deutschemarks against U.S. dollars. If the Deutschemark rises against the
+dollar, the goods will cost more in dollars; if the Deutschemark falls against the dollar,
+the goods will cost less. If the Deutschemark is currently trading at .60 (60¢ per DM)
+and remains there for the next six months, the cost to the American firm will be
+$600,000. If, however, at delivery the Deutschemark has risen to .70 (70¢ per dollar),
+the cost to the American firm will be $700,000.
+
+The American firm can offset the risk it has acquired by purchasing a call option on
+Deutschemarks, for example a .64 call. If the firm wants an exact hedge, the underlying
+contract will be DM 1,000,000, and the option will have an expiration date correspond-
+ing to the date of delivery of the goods. If the value of the Deutschemark begins to rise
+against the U.S. dollar, the firm will have to pay a higher price than expected when it
+takes delivery of the goods in six months. But the price it will have to pay for
+Deutschemarks can never be greater than .64. If the price of Deutschemarks is greater
+than .64 at expiration, the firm will simply exercise its call, effectively purchasing
+Deutschemarks at .64. If the price of Deutschemarks is less than .64 at expiration, the
+firm will let the option expire worthless since it will be cheaper to purchase Deutsche-
+marks in the open market.
+
+A hedger who chooses to purchase a call to protect a short position, or a put to
+protect a long position, has risk limited by the exercise price of the option. At the same
+time, the hedger still maintains open-ended profit potential. If the underlying market
+moves in the hedger’s favor, he can let the option expire and take advantage of the
+enhanced value of his position in the open market. If, inour example, the Deutschemark
+were to fall to .55 at the time of delivery, the firm would simply let the .64 call expire
+unexercised. At the same time, the firm would purchase DM 1,000,000 for $550,000,
+resulting in an unexpected windfall of $150,000.
+
+There is a cost involved in buying insurance in the form of a protective call or put,
+namely the price of the option. The cost of the insurance is commensurate with the
+
+
+Hedging with Options 259
+
+amount of protection afforded by the option. If the price of a six-month .64 call is .0075
+(Yc), the firm will pay an extra $7,500 (.0075 x 1,000,000) no matter what happens.
+A call option with a higher exercise price will cost less, but it also offers less protection
+in the form of an additional deductible amount. If the firm chooses to purchase a .66
+call trading at .0025 (ae), the cost for this insurance will only be $2,500 {.0025 x
+1,000,000). But the firm will have to bear any loss up to a Deutschemark price of .66.
+Only above .66 is the firm fully protected. In the same way, a lower exercise price call
+will offer additional protection, but at a higher price. A .62 call will protect the firm
+against any rise above .62, but if the price of the call is .015 (1 2¢), the purchase of this
+protection will add an additional $15,000 (.015 x 1,000,000) to the final costs.
+
+The cost of purchasing a protective option and the insurance afforded by the
+strategy is shown in Figures 13-1 (protective call] and 13-2 (protective put}. Since each
+strategy combines an underlying position with an option position, it follows from
+Chapter 11 that the resulting protected position is a synthetic option:

@@ -1,0 +1,494 @@
+
+Table 19-1
+
+26 506455-ch19.indd 302
+
+Putting Volume and Price Together
+
+If a stock . . .
+
+. . . and trading
+volume is . . .
+
+Technical analysts are . . .
+
+Rises
+
+Higher
+
+Bullish
+
+Rises
+
+Lower
+
+Cautiously bullish
+
+Falls
+
+Higher
+
+Bearish
+
+Falls
+
+Lower
+
+Cautiously bearish
+
+9/24/09 10:41:57 PM
+
+Chapter 19: Marrying Fundamental Analysis with Technical Analysis
+
+303
+
+Your next question, though, might be how you can determine whether trading volume is higher or lower. The major stock market exchanges, including
+the Nasdaq and New York Stock Exchange, provide trading volume for the
+day and the average daily volume to most of the financial Web sites. Technical
+analysts compare a stock’s trading volume for the day with its average daily
+volume to determine whether buying and selling is active or not.
+Using MSN Money’s site, you can obtain a stock’s daily and average daily
+volume following these steps:
+1. Log into MSN Money at money.msn.com.
+2. Enter the stock’s symbol in the blank and click the Get Quote button.
+3. Read and interpret the volume.
+You’ll find the stock’s volume, as well as its average daily volume over
+the past 13 weeks, listed on the page. When the day’s volume is considerably higher than average, then you can use that insight to analyze the
+significance of the stock price’s move.
+
+The ABC’s of Beta
+Beta, or the beta coefficient, is one of those rare market indicators that both
+fundamental and technical analysts can agree has value. Beta is a statistical
+measure of how volatile a stock is relative to the stock market at large. You
+might recall, from Chapter 11, how beta is used in the capital asset pricing
+model used to build a discounted cash flow model.
+While beta is based on a somewhat complex statistical technique, as an investor, most of what you need is pretty simple. If an individual stock has a beta of
+1, that means it is equally volatile as the general stock market. If beta is less
+than 1, then the stock tends to swing up and down less than the market. And if
+a stock’s beta is greater than 1, it is less volatile than the market.
+A technical analyst might look at beta to provide clues on how wild to expect a
+stock’s ups and downs to be. Beta is available from nearly all financial Web sites.
+
+The long and short of short interest
+It might seem strange, but there may be other investors who are hoping, and
+betting, that a stock you own will go down. These investors, called short sellers, use a series of maneuvers to position themselves to profit if a stock falls.
+
+26 506455-ch19.indd 303
+
+9/24/09 10:41:57 PM
+
+304 Part IV: Getting Advanced with Fundamental Analysis
+Investors short a stock by first borrowing shares from another investor who
+owns them. The short seller, then, turns around and sells the shares immediately, pockets the proceeds and waits. The short seller then must buy the
+shares, hopefully at a lower price, and return them to the investor they borrowed from. If the stock falls, the investor makes money by buying the shares
+back at a lower cost than they sold them for.
+You might never decide to bet against a stock yourself. But it may be useful
+for a fundamental analyst to know just how many people are shorting a stock
+they do own. There are three things to pay attention to when it comes to
+short interest:
+✓ Short interest: A stock’s short interest is a measurement of how many
+shares of a company’s stock have been sold short.
+Just looking at short interest doesn’t tell you a whole lot. A company
+with more shares outstanding, or shares in investors’ hands, would naturally have more short interest than a company with fewer shares outstanding. You’ll want to compare short interest with another measure to
+get proper perspective, as I describe below.
+✓ Average daily share volume: Remember volume, mentioned above?
+This data will be helpful again in interpreting how significant short interest is by putting short interest into perspective.
+✓ Days to cover: Days to cover tells you how large a company’s short interest really is. Days to cover is calculated by dividing a stock’s short interest by its average daily volume. This statistic indicates how many days
+of typical trading it would take for the number of shares being shorted
+to trade hands.
+The higher a stock’s days to cover is, the more heavily shorted it is. Fortunately,
+all three types of shorting data described above are available at Nasdaq.com.
+Just enter a stock’s symbol into the site and a window will pop open. Click on
+the Short Interest option listed below where it says “Fundamentals.”
+Determining what short interest means to a fundamental analyst is bit tricky.
+Some fundamental analysts actually like to see a stock that’s heavily shorted.
+If you’re completely confident in your fundamental analysis and know what a
+company is worth, and believe the stock is undervalued, heavy short interest
+can actually be a good thing. When stocks are heavily shorted, if the company delivers solid earnings, investors who shorted the stock may scurry to
+buy back the stock.
+A rush by nervous short sellers to buy back a stock they wrongly bet against
+is called a short squeeze. Short squeezes can cause powerful stock rallies.
+
+26 506455-ch19.indd 304
+
+9/24/09 10:41:57 PM
+
+Chapter 19: Marrying Fundamental Analysis with Technical Analysis
+
+305
+
+But fundamental analysts tend to view a heavily shorted stock as a warning
+sign. After all, an investor who shorts a stock is exposed to a theoretically
+infinite loss, since there’s no real limit to how high a stock can rise. If investors are that confident a stock is going to fall, you want to make absolutely
+sure you’ve done a complete job with your fundamental analysis.
+
+Keeping a Close Eye on Options
+To be sure, fundamental analysis is all about knowing how to study a company from top to bottom and understand what it’s really worth. A classic
+fundamental analyst only pays attention to a market price for a stock when
+deciding whether it’s undervalued and should be bought, or overvalued and
+should be sold.
+And for the most part, looking at the stock’s current price is enough to tell
+you what the market measures a stock’s value to be. A stock price is the
+result of a vigorous back-and-forth between buyers and sellers. Through an
+auction, conducted largely over vast and rapid electronic trading networks,
+a stock’s price rises and falls until buyers are satisfied with the price they’re
+paying, and sellers are OK with the price they’re getting.
+But there’s an entirely separate layer of trading that takes place beyond the
+buying and selling of the stock itself in the options market. Options are financial contracts that give investors the right, but not the obligation, to buy or
+sell stocks at a prearranged price at a set time in the future.
+Watching the prices of stock options can give you a better idea of not only
+what investors are willing to pay for stocks now, but their belief of where a
+stock might be in the future. You might want to factor in the prices of options
+in your fundamental analysis.
+
+Understanding the types of options
+Options come in two most basic forms, put options and call options. Put
+options give investors the right, but not the obligation, to sell a stock at a
+predetermined price at a set time in the future. Call options, on the other
+hand, give investors the right, but not the obligation, to buy a stock at a predetermined price at a set time in the future.
+Investors may buy and sell both put and call options, driving their prices up
+and down, just as they would trade stocks. Table 19-2 shows you the four
+most basic options strategies, which you’ll want to understand in order to
+know how to interpret prices on options.
+
+26 506455-ch19.indd 305
+
+9/24/09 10:41:57 PM
+
+306 Part IV: Getting Advanced with Fundamental Analysis
+Table 19-2
+
+The Four Basic Options Strategies
+Calls
+
+Puts
+
+Buy
+
+A bet the stock
+price will rise.
+
+A bet the stock price will fall
+
+Sell
+
+A bet the stock
+price will fall.
+
+A bet the stock will rise
+
+Paying attention to put
+and call price levels
+If you want to get an idea of what investors are expecting from a stock, you’ll
+want to take a look at its option chain. An option chain tells you how much
+investors are paying for both put and call options that expire, or come due, at
+different times in the future.
+Option chains are usually sorted by strike price, or the price at which the
+option kicks in. For instance, imagine you bought a call option for stock ABC
+at a strike price of $25 that expires in December. That means you have the
+right, but not the obligation, to buy the stock at $25 a share in December.
+Fast-forward to November. Imagine the stock is now trading at $100 a share.
+Suddenly, having the right to buy a $100-a-share stock for just $25 a share
+is valuable, or in the money. However, if instead of trading for $100 a share,
+what if the stock is trading for $2.50? Not many people would want the right
+to buy a $2.50 stock for $25. At that point, your option is considered to be out
+of the money.
+If you start noticing the price of call options with strike prices above the current market price going up, that’s an indication investors are expecting good
+things from the stock in the future.
+Some technical analysts also pay attention to the volume, or level of trading
+activity, in options, too. In fact, the amount of trading in put and call options
+is the basis of another thing technical analysts watch, the put-to-call ratio, discussed below.
+
+Watching the put-to-call ratio
+Now that you understand what puts and calls are, you might wonder how
+you might put the information to use. Again, as a fundamental analyst, you’re
+much more concerned about a company’s revenue and earnings rather than
+
+26 506455-ch19.indd 306
+
+9/24/09 10:41:57 PM
+
+Chapter 19: Marrying Fundamental Analysis with Technical Analysis
+
+307
+
+short-term trading noise. But, monitoring the level of puts and calls can tell
+you how many other investors either agree, or disagree, with your assessment of a company’s value.
+The put-to-call ratio gives investors a quick look at how bullish or bearish
+investors are on a stock’s prospects. The ratio is simply the number of puts
+(which are bearish) divided by the number of calls (which are bullish).
+The higher a stock’s put-to-call ratio, the more pessimistic investors are
+about a stock’s future.
+You could calculate a stock’s put-to-call ratio yourself, but it’s easier to use
+online resources that do it for you. You can get the put-to-call ratio from
+Schaeffer’s Investment Research at www.schaeffersresearch.com. Enter
+the stock’s symbol in the upper right-hand corner and click the ‘get quote’
+button. Scroll down and click on the Put/Call Open Interest Ratio option, and
+you’ll see the put-call ratio plotted for you.
+
+Using the market’s fear gauge: The Vix
+One of the great strengths of fundamental analysis is that it gives you a framework to assess how much a business is worth. That way you can make an
+intelligent decision on whether the stock’s price is higher or lower than the
+business’ value. Fundamental analysts, in fact, often get their best deals when
+other investors are afraid to buy stocks and push stock prices down. Warren
+Buffett, in his 1986 letter to shareholders, put it this way: “We simply attempt
+to be fearful when others are greedy and to be greedy only when others are
+fearful.”
+One of the biggest reasons why fundamental analysts might choose to pay
+attention to technical analysis and options is that they may help you see when
+other investors are feeling greedy and when they’re feeling nervous. And when
+they’re nervous, you can be greedy.
+There are many ways to get an idea of when other investors are fearful, which
+is valuable information for fundamental analysts. One popular indictor of
+investors’ fear is based on options trading. This indictor, called the Chicago
+Board of Options Exchange Volatility Index or Vix, is often looked at as a pretty
+valuable measure of investors’ fear. When the Vix is rising, that means investors are getting increasingly nervous. And when the Vix is falling, that means
+investors are getting complacent.
+You can obtain current values of the Vix from the CBOE at http://www.
+cboe.com/data/mktstat.aspx. Historical values of the Vix are available
+at http://www.cboe.com/micro/vix/historical.aspx. Most financial
+Web sites will also let you plot the Vix, if you enter the symbol. For instance,
+if you enter $vix.x in MSN Money, you can view its value over time.
+
+26 506455-ch19.indd 307
+
+9/24/09 10:41:57 PM
+
+308 Part IV: Getting Advanced with Fundamental Analysis
+Applying Technical Analysis Techniques
+to Fundamental Analysis
+As you’ve probably picked up from earlier in the chapter, fundamental analysts and technical analysts take very different approaches when checking
+out stocks. If you put technical analysts and fundamental analysts in a room,
+while a fight not break out, there certainly would be some dirty looks being
+exchanged.
+Perhaps you’re reading this book because you disagree with technical analysis for the reasons highlighted above. Maybe you’ve tried technical analysis
+before and gotten burned. Still, even if you’re primarily interested in a company’s fundamentals, don’t assume this chapter doesn’t apply to you. While
+technical analysis is often a dirty word among fundamental analysts, there
+are some techniques used by technical analysts that can easily be carried
+over to fundamental analysis.
+In the sections above, you find out how to add technical analysis to your
+investment style. You may have skipped that section, figuring you want nothing to do with technical analysis.
+But in this section, I attempt to show you ways to some tricks and techniques
+used by technical analysts directly to fundamental analysis. This isn’t as
+strange as it might seem. After all, realize one of the most valuable things
+technical analysts do is turn mountains of complex numerical data into
+charts and graphs. Numbers that are indecipherable in huge spreadsheets
+can suddenly become enlightening when turned into a chart. Suddenly,
+charts can help investors quickly spot trends in data they might have otherwise of missed.
+Even if you’re a die-hard fundamental analyst, there is something to be said
+about placing investment data on charts that can be closely studied. In fact,
+the technical analysts are onto something when it comes to a few of their
+techniques, which can be applied to fundamental analysis.
+One of the great drawbacks of fundamental analysis is timing. A cheap stock,
+based on fundamental analysis, can get even cheaper if it has technical trends
+working against it. By applying some of the tricks of the technical analysis
+trade to fundamental analysis, you might spot trends you might have overlooked if you were just focusing on the income statement and balance sheet.
+
+26 506455-ch19.indd 308
+
+9/24/09 10:41:57 PM
+
+Chapter 19: Marrying Fundamental Analysis with Technical Analysis
+
+309
+
+Giving fundamental data the technical
+analysis treatment
+Some technical analysts love charts so much, they might even plot out some
+data that are traditionally considered to be for fundamental analysts. Even
+if you’re not onboard with technical analysis, there’s no question that sometimes, seeing fundamental data presented graphically may help you spot
+trends.
+Plotting fundamental information, rather than just looking at table stuffed
+with data, may give you a unique perspective and help you to spot trends you
+didn’t notice before.
+Price-to-earnings ratios, or P-Es, and dividend yields are two of the fundamental pieces of data that technical analysts most often will place on a chart.
+Looking at how P-E ratios are rising, or falling, over time can help you determine whether or not investors are getting overly giddy or cautious about a
+stock. You can read about the P-E ratio in more detail in Chapter 8 and the
+dividend yield in Chapter 10.
+Slapping fundamental information on a chart may bring to light trends your
+eyes glanced over. And there are online tools that make this pretty easy to
+do. Nasdaq.com, for instance, provides a free charting service that allows
+you to plot both P-E ratios and dividend yields. You can do this by following
+these steps.
+1. Log onto Nasdaq’s site at www.nasdaq.com.
+2. Enter the symbol of the stock you’re interested in.
+After you enter the stock symbol into the blank, click on the Company
+Charts button.
+3. Select the fundamental data you would like to see plotted.
+Hover your mouse pointer over the Technical Indicators button, then
+choose Lower Indicators, and then P/E ratio. If you want to plot dividend
+yield instead, choose dividend yield.
+4. View the data.
+The data are then plotted for you in a rectangle below the stock’s price
+chart.
+
+26 506455-ch19.indd 309
+
+9/24/09 10:41:58 PM
+
+310 Part IV: Getting Advanced with Fundamental Analysis
+Following the momentum of fundamentals
+Technical analysts are often interested in following the momentum of stock
+prices, meaning the prevalent trend either upward or downward. Just as college basketball teams often get momentum during big games and start going
+on a hot streak, technical analysts believe stocks can turn hot and have the
+gust of investor enthusiasm at their backs. Momentum investors hope to pile
+into a stock while it’s still soaring, grab a quick gain and get out.
+Classic momentum investing is contrary in most ways to fundamental analysis. But fundamental analysts might consider borrowing a bit from this concept, as strange as it sounds, when examining fundamental data.
+By watching for momentum in a company’s fundamentals, you might get a tipoff that something meaningful is taking place at a company.
+One way to apply the concept of momentum to fundamental analysis is by
+studying earnings acceleration. Here, you’re not just looking for companies
+that are increasing their profitability every quarter or year. You’re being even
+pickier. You want to find companies that are increasing the rate at which
+earnings are growing.
+Fundamental analysts generally use quarterly earnings as their gauge for a
+company with momentum. Momentum, by its nature, is short-term focused so
+it makes sense to use short-term data.
+To perform an earnings-acceleration analysis, you just need to have a company’s earnings growth rate for the last few periods. While it’s usually done
+using quarterly results, the analysis can be done using quarters or years.
+Below is an example of how you might do this analysis using Oracle’s net
+income for four past years, shown in Table 19-3.
+
+Table 19-3
+
+Oracle’s Annual Net Income
+
+Fiscal year
+
+Net income ($ millions)
+
+2008
+
+$5,521
+
+2007
+
+$4,274
+
+2006
+
+$3,381
+
+2005
+
+$2,885
+
+Source: Standard & Poor’s Capital IQ
+
+26 506455-ch19.indd 310
+
+9/24/09 10:41:58 PM
+
+Chapter 19: Marrying Fundamental Analysis with Technical Analysis
+
+311
+
+Your first step is calculating the growth rate between each period. A growth
+rate is the difference between the most recently reported quarter and the
+same period in the previous year’s quarter. You can review how to calculate
+growth rates in Chapter 4. Once you measure each year’s growth, you get a
+chart that looks like what you see in Table 19-4.
+
+Table 19-4
+
+Oracle’s Annual Net Income Growth
+
+Fiscal year
+
+Annual Growth
+
+2008
+
+29.2%
+
+2007
+
+26.4%
+
+2006
+
+17.3%
+
+As you can see from Table 19-4, what’s interesting is that Oracle’s annual
+growth rate is accelerating. In other words, the growth of the most recent
+period is greater than the one before it. This is the kind of trend that a fundamental analyst, looking for momentum, would be on the search for.
+Fundamental analysts often look for quarterly earnings momentum, for instance,
+when trying to figure out how successful a new product is. New products can be
+critical to a company’s sustained earnings growth. And if something a company
+introduces is catching on with customers, an earnings-acceleration analysis
+might show something exciting is going on at the company.
+
+26 506455-ch19.indd 311
+
+9/24/09 10:41:58 PM
+
+312 Part IV: Getting Advanced with Fundamental Analysis
+
+26 506455-ch19.indd 312
+
+9/24/09 10:41:58 PM
+
+Part V
+
+The Part of Tens
+
+27 506455-pp05.indd 313
+
+9/24/09 10:42:30 PM
+
+N
+
+In this part . . .
+
+o For Dummies book would be complete without a
+Part of Tens. In this part, I’ve saved a few of my favorite real-life examples of how fundamental analysis might
+have alerted you to potential concerns as an investor
+(Chapter 20). You can also read a list of the ten things you
+should always do when analyzing the fundamentals of a
+potential investment (Chapter 21). And as important as
+fundamental analysis is, there are weaknesses that you
+should be aware of, and I point those out in this part, too
+(Chapter 22).
+
+27 506455-pp05.indd 314
+
+9/24/09 10:42:31 PM
+
+Chapter 20
+
+Ten Examples of Fundamental
+Analysis Unearthing
+Financial Secrets
+In This Chapter
+▶ Seeing how fundamental analysis can help pinpoint troubles at a company
+▶ Applying the techniques common in fundamental analysis to actual examples
+▶ Discovering some of the research required to carefully examine a company’s financials
+▶ Using the Altman’s Z-score measure to spot a company that might not make it
+
+L
+
+et’s face it. Curling up with a warm cup of coffee and a stack of financial
+statements just isn’t quite as appealing as cracking open a great book.
+Sure, you might find some salacious details in some company reports -- some
+are even famous, including one financial statement discussed in this chapter.
+Overall, though, a company’s annual report filed with regulators, called the
+10-K, probably isn’t going to be something you pass around in your next book
+club meeting.
+But, with that said, reading financial statements is still worthwhile. I’ve found
+that investors appreciate the importance of reading financial reports when
+they see real-life examples of how they could have pinpointed major issues at
+companies well before they were known to the public.
+This chapter highlights several actual examples of how investors could have
+been tipped off to important developments at a company by reading the
+financial statements. A couple of the examples in the chapter are fraud. And
+certainly, knowing when a company is cooking its books is important, since
+that means you cannot rely on the financials.
+
+28 506455-ch20.indd 315
+
+9/24/09 10:43:04 PM
+
+316 Part V: The Part of Tens
+But a vast majority of the time, fundamental analysts aren’t looking for executives that are lying. Rather, fundamentals analyst are looking for numbers
+that are lying. Sometimes, the numbers might be completely accurate but
+don’t paint a true picture of the condition a company is in. This chapter
+shows you how to closely analyze a company’s fundamentals by using easyto-follow examples.

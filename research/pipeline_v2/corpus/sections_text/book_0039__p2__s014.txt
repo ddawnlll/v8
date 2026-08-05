@@ -1,0 +1,366 @@
+There are two main forms of oscillators. Linear band-pass filters are one form of
+oscillator. They may be analyzed for frequency (periodicity) and phase response.
+The MACD and MACD-H are of this class. Another form of oscillator places
+some aspect of price behavior into a normalized scale (the RX, Stochastics, and
+CC1 belong to this class); unlike the first category, these oscillators are not linear
+filters with clearly defined phase and frequency behavior. Both types of oscillators
+highlight momentum and cyclical movement, while downplaying trends and eliminating long-term offsets: i.e., they both produce plots that tend to oscillate.
+The Moving Average Convergence Divergence Oscillator, or MACD (and
+MACD-Histogram), operates as a crude band-pass filter, removing both slow
+trends and offsets, as well as high-frequency jitter or noise. It does this while passing through cyclic activity or waves that fall near the center of the pass-band. The
+MACD smooths data, as does a moving average; but it also removes some of the
+trend, highlighting cycles and sometimes moving in coincidence with the market,
+i.e., without lag. Ehlers (1989) is a good source of information on this oscillator.
+The MACD is computed by subtracting a longer moving average from a
+shorter moving average. It may be implemented using any kind of averages or lowpass filters (the classic MACD uses exponential moving averages). A number of
+variations on the MACD use more advanced moving averages, such as the VIDYA
+(discussed in the chapter on moving averages). Triangular moving averages have
+also been used to implement the MACD oscillaror. Along with the raw MACD, the
+so-called MACD Histogram (MACD-H) is also used by many traders. This is
+computed by subtracting from the MACD a moving average of the MACD. In
+many cases, the moving average of the MACD is referred to as a signul line.
+The Stochastic oscillator is frequently referred to as an overbought/oversold
+indicator. According to Lupo (1994), “The stochastic measures the location of the
+most recent market action in relation to the highest and lowest prices within the
+last ” n bars. In this sense, the Stochastic is a momentum indicator: It answers
+the question of whether the market is moving to new highs or new lows or is just
+meandering in the middle.
+The Stochastic is actually several related indicators: Fast %K, Slow %K
+(also known as Fast %D), and Slow %D. Fast %K measures, as a percentage, the
+location of the most recent closing price relative to the highest high and lowest low
+of the last II bars, where n is the length or period set for the indicator. Slow %K,
+which is identical to Fast %D, applies a 3-bar (or 3-day) moving average to both
+the numerator and denominator when computing the %K value. Slow %%J is simply a 3-bar simple moving average of Slow %K; it is occasionally treated as a signal line in the same way that the moving average of the MACD is used as a signal
+line for the MACD.
+There have been many variations on the Stochastic reported over the years;
+e.g., Blau (1993) discussed a double-smoothing variation. The equations for the
+
+classical Lane’s Stochastic are described in an article by Meibahr (1992). A version of those equations appears below:
+A(i) = Highest of H(i), H(i - l), H(i - n + 1)
+B(i) = Lowest of .5(i), L(i - l), L(i - n + 1)
+D(i) = [A(i) + A(i - 1) + A(i - 2)] / 3
+E(i) = [B(i) + B(i - 1) + B(i -2)] / 3
+F(i) = [C(i) + C(i - 1) + C(i - 2)] ! 3
+Fast %K for ith bar = 100 * [C(i) - B(i)] / [A(i) - B(i)]
+Slow %K = Fast %D = 100 * [F(i) - E(i)] I [D(i) - E(i)]
+Slow %D = 3.bar simple moving average of Slow %K
+In these equations, i represents the bar index, H(i) the high of the ith bar, L(i) the
+low of the ith bar, and C(i) the close of the ith bar. All other letters refer to derived
+data series needed to compute the various Stochastic oscillators. As can be seen
+from the equations, the Stochastic oscillators highlight the relative position of the
+close in a range set by recent market highs and lows: High numbers (a maximum
+of 100) result when the close is near the top of the range of recent price activity
+and low numbers (a minimum of 0) when the close is near the bottom of the range.
+The Relative Strength Index, or RX is another well-known oscillator that
+assesses relative movement up or down, and scales its output to a fixed range, 0 to
+100. The classic RSI makes use of what is essentially an exponential moving average, separately computed for both up movement and down movement, with the
+result being up movement as a percentage of total movement. One variation is to
+use simple moving averages when computing the up and down movement components. The equations for the classic RSI appear below:
+C/(i) = Highest of 0, C(i) - C(i - 1)
+D(i) = Highest of 0, C(i - 1) - C(i)
+AU(i) = [(n - 1) * AU(i - 1) + U(i)] / n
+AD(i) = [(n - 1) * AD(i - I) + D(i)] / n
+RSl(i) = 100 *AU(i) / [AU(i) + AD(i)]
+The indicator’s period is represented by n, upward movement by U, downward
+movement by D, average upward movement by AU, and average downward movement by AD. The bars are indexed by i. Traditionally, a 1Cbar RSI (n = 14) would
+be calculated. A good discussion of the RSI can be found in Star (1993).
+Finally, there is the Commodities Channel Index, or Ccl, which is discussed in
+an article by Davies (1993). This oscillator is like a more statistically aware
+Stochastic: Instead of placing the closing price within bands defined by recent highs
+and lows, the CC1 evaluates the closing price in relation to bands delined by the mean
+and mean deviation of recent price activity. Although not discussed further in this
+chapter, the equations for this oscillator are presented below for interested readers:
+
+136
+
+X(i) = H(i) + L(i) + C(i)
+A(i) = Simple n-bar moving average of X(i)
+D(i) = Average of 1X(i - k) - A(i) 1
+fork = 0 to n - 1
+XI(v) = [X(i) - A(i)] / [0.015 * D(i)]
+In the equations for the Commodities Channel Index, X represents the so-called
+median price, A the moving average of X, D the mean absolute deviations, II the
+period for the indicator, and i the bar index.
+Figure 7-l shows a bar chart for the S&P 500. Appearing on the chart are the
+three most popular oscillators, along with items normally associated with them,
+e.g., signal lines or slower versions of the oscillator. Also drawn on the subgraph
+containing the Stochastic are the fixed thresholds of 80 and 20 often used as reference points. For the RSI, similar thresholds of 70 and 30, traditional numbers for
+that oscillator, are shown. This figure illustrates how these three oscillators appear,
+how they respond to prices, and what divergence (a concept discussed below)
+looks like.
+GENERATING ENTRIES WITH OSCILLATORS
+There are many ways to generate entry signals using oscillators. In this chapter,
+three are discussed.
+One popular means of generating entry signals is to treat the oscillator as an
+overbought/oversold indicator. A buy is signaled when the oscillator moves below
+some threshold, into oversold territory, and then crosses back above that threshold.
+A sell is signaled when the oscillator moves above another threshold, into overbought territory, and then crosses below that threshold. There are traditional
+thresholds that can used for the various oscillators.
+A second way oscillators are sometimes used to generate signals is with a
+so-called signal line, which is usually a moving average of the oscillator.
+Signals to take long or short positions are issued when the oscillator crosses
+above or below (respectively) the signal line. The trader can use these signals
+on their own in a reversal system or make use of additional, independent exit
+rules.
+Another common approach is to look for price/oscillator divergences, as
+described by McWhorter (1994). Divergence is when prices form a lower low
+while the oscillator forms a higher low (suggesting a buy), or when prices form a
+higher high while the oscillator forms a lower high (suggesting a loss of momentum and a possible sell). Divergence is sometimes easy to see subjectively, but
+almost always difficult to detect accurately using simple roles in a program.
+Generating signals mechanically for a divergence model requires algorithmic pattern recognition, making the correct implementation of such models rather complex and, therefore, difficult to test. Generating such signals can be done, however;
+
+F I G U R E
+
+7-1
+
+Examples
+
+Oscillators
+
+of
+
+and
+
+Price-Oscillator
+
+Divergence
+
+a good example is the “Divergengine” software distributed by Ruggiero
+Associates. An example of divergence appears in Figure 7- 1.
+There are a number of issues to consider when using oscillators to generate
+entries, e.g., smoothing of data and timeliness of entry. The MACD, for example,
+can sometimes provide the smoothing of a moving average with the timeliness of
+raw prices. The combination of timeliness and good smoothing may yield entries
+that are more profitable than those obtained when using moving average entry models. The peaks and valleys in a moving average come significantly after the corresponding peaks and valleys in prices. Consequently, entries generated by looking for
+these peaks and valleys, or ‘Yarning points,” are excruciatingly late. Conversely,
+when cyclic activity in the market has a periodicity that matches the particular
+MACD used, the peaks and valleys in the output from the MACD come at roughly
+the same time as the peaks and valleys in the prices; the smoothing of a moving average is achieved without the lag of a moving average, Because the MACD smooths
+the data, numerous noise-induced trades will be eliminated, as happens with moving
+averages. Because the MACD can be timely, trades generated may be profitable.
+In addition to the MACD, many other oscillators tend to move concurrently
+with prices or even lead them. For reasons to be discussed later, leading or coincident
+
+indicators do not necessarily generate more profitable entries than such lagging indicators as moving averages. Having coincident indicators does not necessarily mean
+highly profitable signals. The problem is that even though some signals will occur
+with precise timing, many spurious signals can result, especially in the context of
+developing trends. When strong trends are present, the anticipated or coincident
+reversals may simply never take place, leading to entries in the wrong direction.
+Timeliness may be gained, but reliability may be lost. The question of which tradeoff provides a more profitable model-getting in reliably but late, or on time but unreliably-is a matter for empirical study. Such issues are present with any entry method
+or pattern detection or forecasting model: The greater the delay, the more accurate
+(but less useful) the detection or indication; the lesser the delay, or the further ahead
+a’forecast must be made, the less accurate (but more useful) the detection or indication, The logic is not unlike that of the Heisenbetg Uncertainty Principle.
+As an example of how oscillators may be used to generate entries, consider the
+Stochastic: A simple entry model might buy when this indicator drops below the traditional oversold threshold of 20 and then rises above that threshold. It might sell
+when the indicator goes beyond the traditional overbought threshold of 80 and then
+drops back under. The trader must not wait for another signal to close out the current
+position, as one might do when using a moving average crossover; such a signal
+might not occur for a long time, so an independent exit is essential. Traders also look
+for the so-called Stochastic hook, a pattern in which the Stochastic reaches a tirst low,
+moves up a little, and then reaches a second low at a higher level than the first. A buy
+signal is generated as soon as the second low becomes detined. A sell is generated
+with the exact same pattern flipped over; i.e., a lower high follows a higher high.
+As in the case of breakouts and moving averages, oscillator-generated entries
+can be effected using any of several orders, such as a market at open, limit, or stop.
+The advantages and disadvantages of these orders have been discussed thoroughly in the previous two chapters.
+CHARACTERISTICS
+
+OF
+
+OSCILLATOR
+
+ENTRIES
+
+Oscillator-based entries have the positive characteristic of leading or being coincident with price activity; therefore, they lend themselves to countertrend entries
+and have the potential to provide a high percentage of winning trades. Oscillators
+tend to do best in cycling or nontrending (trading range) markets. When they work,
+oscillators have the appeal of getting the trader in the market close to the bottom
+or top, before a move has really begun. For trades that work out this way, slippage
+is low or even negative, good fills are easily obtained, and the trade turns profitable
+with very little adverse excursion. In such cases it becomes easy to capture a good
+chunk of the move, even with a suboptimal exit strategy. It is said that the markets
+trend only about 30% of the time. Our experience suggests that many markets
+trend even less frequently. With appropriate filtering to prevent taking oscillator-
+
+based signals during strong trends, a great entry model could probably be developed. The kind of filtering is exactly the opposite of what was sought when testing breakout systems, where it was necessary to detect the presence, rather than
+the absence, of trends.
+The primary weakness of simple oscillator-based entries is that they perform
+poorly in sustained trends, often giving many false reversal signals. Some oscillators can easily become stuck at one of their extremes; it is not uncommon to see
+the Stochastic, for instance, pegged near 100 for a long period of time in the course
+of a significant market movement. Finally, most oscillator entry models do not
+capture trends, unlike moving averages or breakouts, which are virtually guaranteed to capture any meaningful trend that comes along. Many traders say that “the
+trend is your friend,” that most money is made going after the “big wave,” and that
+the profits earned on such trends can make up for the frequent smaller losses of
+trend-following systems. Because oscillator entries go after smaller, countertrend
+moves, it is essential to have a good exit strategy to minimize the damage that will
+occur when a trend goes against the trades.
+
+TEST
+
+METHODOLOGY
+
+All the tests that follow were performed using oscillator entries to trade a diversified portfolio of commodities, Can oscillator entry models result in profitable
+trades? How have they fared over time-have they become more or less profitable
+in recent years? These questions will be addressed below.
+The exits are the standard ones, used throughout this book in the study of
+entry models. Entry rules are discussed along with the model code and under the
+individual tests. Trades were closed out either when an entry in the opposing direction took place or when the standard exit closed the trade, whichever came first.
+The test platform is also standard.
+Over the years, we have coded into C+ + the various oscillators described in
+articles from Technical Analysis of Stocks and Commodities and from other sources.
+When writing this chapter, we compared the output from our C+ + implementations
+of the classic MACD, Stochastic, and RSI oscillators with (when available) equivalent oscillators in TradeStation. In most cases, there was perfect agreement of the
+results. However, for one of the Stochastics, the results were extremely different,
+specifically for Slow %K. Examining the code revealed that TradeStation was computing Slow %K by taking an exponential moving average of Fast %K. Our code,
+however, computes the 3-bar simple moving averages of both the numerator and the
+denominator (from which Fast %K would have been computed) to obtain Slow %K.
+According to the equations in Meibahr’s (1992) article, and in other sources we have
+encountered over the years, our C+ + implementation is the correct one. If the reader attempts to replicate some of our work in TradeStation and finds discrepancies,
+we strongly suggest checking the indicator functions of TradeStation. In addition,
+
+when attempting to code a correct implementation for Slow %K in TradeStation’s
+Easy Language, we ran into problems: It appears that TradeStation can give inaccurate results, without any warning, when one user function calls another. When we
+modified our code so intermediate variables were computed (thus avoiding the need
+to have nested calls), correct results were obtained. The version of TradeStation used
+for those tests was 4.02, dating from July 29, 1996.
+The following code implements most of the oscillator-based entry models
+that underlie the tests. The actual computation of the oscillators is handled by calls
+to external functions.
+static “Oid MD&l (float *parms. float l dt, float *opn, float ‘hi,
+float *lo, float ‘~1s. float *vol, float *oi, float +dlrv, int nb,
+TRDSIM
+&tS. float *q&31 {
+//
+,,
+/I
+/I
+/I
+I/
+//
+//
+/I
+/I
+/I
+//
+//
+I/
+
+Implements the oscillator-based entry models to be tested
+File = XllmodOl.c
+vector II. .MAxPRM, Of parameters
+wrm=
+vector L1. .nbl of dates in WMMDD form
+dt
+“ector [I. .nbl Of opening prices
+opn
+vector
+II. .rlbl Of high pricea
+hi
+- vector Ll. .*I Of low prices
+10
+vector [I. .nbl Of closing prices
+ClS
+vector 11. .nhl Of volumes
+vol
+vector [I. .x-lb1 Of open interest numbers
+oi
+arv
+vector Cl. .nhl of average dollar volatilities
+number Of bars in data series or vectors
+nb
+trading
+simulator
+class instance
+C6
+vector Cl. .*I of closing equity levels
+eqc1s
+
+,, declare local GCracCh variables
+static int rc, cb, ncontract.9,
+maxhold,
+lenl, len2, len3;
+static int modeltype,
+ordertype,
+osctype.
+signal, i, j, k;
+static float mmatp, ptlim. stpprice, limprice, tmp;
+static float exitatr [MAxBAR+ ;
+static float sigline mAxBAR+ , oscline wAxBAR+ i
+static float upperbandMAXBAR+ll
+, lowerbandWhXBAR+11
+;
+
+CHAPTER 7 Oscillator-Based Entries
+
+The logic of the code is very similar to the code used to test moving averages. First, a number of parameters are copied to local variables to make them easier to understand and refer to in the code that follows. A check is then made for
+invalid combinations of parameters; e.g., for the MACD (o&ype = 4), the length
+of the shorter moving average must be less than the longer moving average; otherwise the test is skipped. In the next large block of code, osctype selects the type
+of oscillator that will be computed (1 = fast Stochastics, 2 = slow Stochastics, 3
+= classic RSI, 4 = classic MACD). The oscillator (oscline) is then computed as a
+data series or vector; any additional curves associated with it, such as a signal line
+(s&dine) or slower version of the oscillator, are generated; and upper (upperband)
+
+144
+
+and lower (lowerband) thresholds are either set or computed. For the Stochastics,
+the standard thresholds of 80 and 20 are used. For the RX, 70 and 30 are specitied (also standard). Although the MACD normally has no thresholds, thresholds
+placed 1.5 mean deviations above and below zero. Finally, the process of stepping
+through the data, bar by bar, is begun.
+Two main blocks of code are of interest in the loop for stepping through the
+data. The first block generates a buy or sell signal, as well as limit and stop prices
+for the specified, oscillator-based entry model. The mod&p parameter selects
+the model to use: I = overbought/oversold model, 2 = signal line model, and 3 =
+divergence model. The oscillator used by the model to generate the buy and sell
+signals is the one computed earlier, as selected by osctype. The final block of code
+enters trades using the specified order type. The parameter ordertype determines
+the order used: 1 = entry at open, 2 = entry on limit, and 3 = entry on stop.
+Finally, the simulator is instructed to use the standard exit model to close out any
+open trades.
+The exact logic used for entering the market is discussed in the context of the
+individual tests below without requiring the reader to refer to or understand the code.
+TESTS RESULTS
+Tests were performed on three oscillator entry models: Overbought/oversold
+(Stochastic and RSI used), signal line (Stochastic and MACD used), and divergence (Stochastic, RX, and MACD used). All individual model-oscillator comhinations were examined with entry at the open, on a limit, and on a stop. The results
+for all three orders are discussed together.
+Tables 7-l and 7-2 contain, for each of the 21 tests, the specific commodities
+the model traded profitably and those that lost in-sample (Table 7-1) and out-ofsample (Table 7-2). The SYM column represents the market being studied, the first
+row identifies the test number. The tables show which markets were, and were not,
+profitable when traded by each model: One dash (-) indicates a $2,000 to $4,000
+loss per trade: two dashes (- -), a $4,000 or more loss; one plus sign (+) means a
+$1,000 to $2,000 profit; two pluses (+ +), a $2,000 or more profit; a blank cell
+means a $0 to $1,999 loss or a $0 to $1,000 profit.
+TESTS OF OVERBOUGHT/OVERSOLD MODELS
+The entries were generated when the oscillator crossed below an upper threshold
+or above a lower one. These are countertrend models: The trader buys when the
+oscillator shows downward momentum in prices and sells when the oscillator
+depicts recent positive momentum. In Tests 1 through 6, the Stochastic and the
+RSI were considered since these indicators have traditional thresholds associated
+with them and are often used as described above.
+
+T A B L E
+
+7 - 1
+
+In-Sample Performance Broken Down by Test and Market
+
+Tests I through 3: Stochastic Overbought/Oversold Models. These tests
+evaluate the model with entry at the open (Test l), on a limit (Test 2), and on a
+stop (Test 3). Lane’s original Fast %K was used. The length was stepped from
+5 to 25 in increments of 1. The best values for this parameter in-sample were
+25, 20, and 16 (Tests 1 through 3, respectively). For the Stochastic, the traditional thresholds are 20 (lower) and 80 (upper). As a whole, these models lost
+heavily in- and out-of-sample (see Table 7-3). As in previous tests, the limit
+
+TABLE
+
+7 - 2
+
+Out-of-Sample Performance Broken Down by Test and Market
+
+order was the best in both samples, having the least loss per trade; the percent
+of winning trades (37% in-sample, 36% out-of-sample) was also highest with
+this order. The stop order was intermediate in performance, with the entry at
+open being the worst. No markets traded well in either sample. Out-of-sample,
+the British Pound and Orange Juice were profitable across all orders, and
+Lumber, Soybeans, and Live Hogs made profits with a stop; other small profits
+were occasionally noted, hut had no consistency. This model is among the
+worst tested.

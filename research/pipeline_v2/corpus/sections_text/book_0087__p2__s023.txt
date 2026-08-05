@@ -1,0 +1,508 @@
+
+As long as the price of the June 100 call is exactly two points greater than the price
+of the June 100 put, the profit or loss resulting from a synthetic position will be identical
+
+Figure 11-1
+20:
+
+buy a 100 call at 5.00 and sell a 100 put at 3.00
+184 or
+buy an underlying contract at 102.00
+
+ye ao
+107 a
+
+seil a 100 put at 3.00 ae en ee ee nen me e
+
+Profit & Loss
+9°
+
+=105
+
+-20 T T T t T
+80 85 90 95 100 105 110 415 120
+
+Underlying Price
+
+
+
+216 Chapter 11
+
+to an actual position taken in the underlying contract at a price of 102.00. The difference
+between the call and put price is often referred to as the synthetic market. In the absence
+of any interest or dividend considerations, the value of the synthetic market can be
+expressed as:
+
+call price — put price = underlying price — exercise price
+
+If this equality holds, there is no difference between taking a position in the underlying
+market, or taking an equivalent synthetic position in the option market. With the June
+100 call at 5.00 and the June 100 put at 3.00, we can write:
+
+5.00 — 3.00 = 102.00 —- 100.00
+2.00 = 2.00
+
+There is no difference between the synthetic and its real equivalent.
+With the June 100 call at 4.90 and the June 100 put at 3.05, we can write:
+
+4.95 — 3.05 # 102.00 — 100.00
+1.90 ¥ 2.00
+
+Here the synthetic side is cheaper, and we therefore prefer to take a long underlying
+position synthetically by purchasing the call and selling the put.
+
+Now suppose the price of the June 100 call is 5.15 and the price of the June 100
+put is 2.90, with the underlying contract still trading at 102.00. We have:
+
+5.15 = 2.90 102.00 — 100.00
+2.25 # 2.00
+
+Now the real side is cheaper, so we prefer to take a long position by purchasing the
+actual underlying contract. On the other hand, if we want to take a short underlying
+position, we will prefer to sell the underlying contract synthetically by selling the call
+and purchasing the put. If we do this, we are selling a contract which is only worth 2.00
+for 2.25.
+
+The reader may have noted that the synthetic and real markets will he the same
+when the time value of the call and the time value of the put are identical. In our
+example, the synthetic and real markets are identical when the June 100 call and the
+June 100 put both have the same amount of time value. If this is not true, there is always
+a synthetic position which is either too cheap or too expensive with respect to its real
+equivalent.
+
+The three-sided relationship between a call, a put, and its underlying contract
+means that we can always express the value of any one of these contracts in terms of
+the other two:
+
+underlying price = call price — put price + exercise price
+call price = underlying price + put price — exercise price
+put price = call price — underlying price + exercise price
+
+This three-sided relationship is sometimes referred to as put-call parity.
+
+
+Option Arbitrage 217
+
+CONVERSIONS AND REVERSALS
+
+If we take a synthetic long or short underlying position, our primary concern, as with
+an actual underlying position, is the direction of the market. If the market moves in our
+favor, we expect to show a profit; if it moves against us, we expect to show a loss. If we
+execute the synthetic at favorable prices we may gain more or lose less, but it is still
+primarily the direction of the market in which we are interested.
+
+Suppose, as before, the underlying contract is trading at 102.00, the June 100 call
+is trading at 5.10, and the June 100 put is trading at 2.85. The synthetic market should
+be 2.00 (underlying price less the exercise price}, but is actually 2.25. If we wanted to
+take a short position in the underlying market, we would certainly prefer to do so
+synthetically (sell the call, buy the put}. Suppose we are not interested in taking a
+directional position. Is there any way we can profit from the difference in price between
+the real and synthetic markets?
+
+When a trader identifies two contracts which are essentially the same but which
+are trading at different prices, the natural course is to execute an arbitrage by purchasing
+the cheaper contract and selling the more expensive. Since the synthetic position and
+its real equivalent are essentially the same, and since they are trading at different prices
+(2.25 vs. 2.00), an option trader might try to purchase the cheaper contract (the
+underlying contract} and sell the more expensive (the synthetic equivalent). That is, he
+might try to purchase the underlying contract for 102.00, and simultaneously sell the
+call for 5.10 and buy the put for 2.85. The cash flows from these transactions are:
+
+Transaction Cash flow
+underlying purchase ~102.00
+call sale +5.10
+put purchase -2.85
+exercise or assignment (at 100) at expiration +100.00
+total 4.25
+
+No matter what happens in the underlying market, the underlying position will do
+exactly .25 better than the synthetic position, The entire position will therefore show a
+profit of .25, regardless of movement in the underlying market. This is shown in Figure
+11-2.
+
+The foregoing position, where the purchase of an underlying contract is offset by
+the sale of a synthetic position, is known as a conversion. The opposite position, where
+the sale of an underlying contract is offset by the purchase of a synthetic position, is
+known as a reverse conversion or, more commonly, a reversal. A reversal would be
+profitable if the underlying contract were trading at 102.00, and the difference between
+the prices of the June 100 call and June 100 put were less than 2.00. For example, with
+the June 100 call at 4.90 and the June 100 put at 3.05, the synthetic price is 1.85. By
+purchasing the synthetic at 1.85 (buy the call at 4.90, sell the put at 3.05}, and selling
+the underlying contract at 102.00, the reverse conversion would lock in a profit of .15.
+This is shown in Figure 11-3.
+
+
+218 Chapter I 1
+
+Figure 11-2
+3
+
+short a 100 call at5.10 ow
+long a 100 put at 2.85
+
+~ ~~“ (synthetic short) a
+~ va
+
+s a
+
+combined positions
+
+(conversion) a a
+
+Q
+a
+fo) ~" _
+a
+& of ———— os -
+° ~
+a ws
+14 od ~ w
+. “a ~N long an underlying NN
+-2 “ contract at 102.00 —
+SS .
+»
++3 T T T T T
+99 100 101 102 103 104 105
+Underlying Price
+Summarizing:
+conversion = long underlying + synthetic short underlying
+
+= long underlying + short call + long put
+reversal = short underlying + synthetic long underlying
+= short underlying + long call + short put
+
+As before, we assume that the call and the put have the same exercise price and
+expiration date.
+
+Conversions and reversals are classified as arbitrage strategies because of their
+similarity to traditional arbitrage. Typically, an arbitrageur will attempt to simultane-
+ously buy and sell the same items in different markets to take advantage of price
+discrepancies between the two markets. He might, for example, buy gold in New York
+for $389 per ounce, and sell it in London for $392 per ounce. The profit margin of $3,
+while small, is secure since the risk of a trade in one market is almost immediately offset
+by an identical but opposing trade in another market. Unlike a speculator, who usually
+hopes to make a large profit on a smal! number of trades, an arbitrageur hopes to make
+a small profit on a large number of trades. An arbitrageur is willing to do much greater
+size than the speculator because the risk is much smaller.
+
+Like traditional arbitrages, conversions and reversals involve buying and selling the
+same thing in different markets. A conversion involves buying the underlying instru-
+
+
+Option Arbitrage 219
+
+Figure 11-3
+
+3
+
+4 — short an underlying a
+
+SS contract at 102.00 “
+— “
+14 combined position me “
+(reversal) NO
+a) an ao
+= “ ~
+o SY
+sy
+A
+17 . ON
+. \
+“ SN
+“ ~~ long a 100 call at 4.90 ‘
+4 short a 100 put at 3.05 ~,
+-2-4 Y (synthetic long) NN
+-3 T T T T T
+99 100 101 102 103 104 105
+
+Underlying Price
+
+ment, whether a stock or commodity, in the underlying market, and selling the
+underlying instrument, synthetically, in the option market. A reversal involves selling
+the underlying instrument in the underlying market, and buying the underlying instru-
+ment, synthetically, in the option market. The profitability of these strategies is deter-
+mined by the relationship between the synthetic price and the actual underlying price.
+Synthetic positions are often used to execute conversions and reversals, so traders
+sometimes refer to the synthetic market (the difference between the call price and put
+price) as the conversion/reversal market.
+
+All experienced traders are familiar with the price relationship between a synthetic
+position and its underlying contract, so that any imbalance in the conversion/reversal
+market is likely to be short-lived. If the synthetic is overpriced, all traders will want to
+execute a conversion (buy the underlying, sell the call, buy the put). If the synthetic is
+underpriced, all traders will want to execute a reversal (sell the underlying, buy the call,
+sell the put). Such activity, where everyone is attempting to do the same thing, will
+quickly force the synthetic market back to equilibrium. Indeed, imbalances in the
+conversion/teversal market are usually small and rarely last for more than a few
+seconds. When imbalances do exist, an option trader is usually willing to execute
+conversions and reversals in very large size because of the low risk associated with such
+strategies.
+
+
+220 Chapter 11
+
+We initially broke down a synthetic position into its component cash flows,
+enabling us to identify the basic relationship between a synthetic and its underlying
+instrument:
+
+call price — put price = underlying price — exercise price
+
+However, when and how the component cash flows occur can alter this relationship.
+Since there can be different settlement procedures associated with different underlying
+instruments as well as with options, in order to calculate the exact value of a synthetic
+position we need to consider how these settlement procedures affect the basic synthetic
+relationship.
+
+Futures Option Markets
+
+If the cash flow resulting from an option trade and a trade in the underlying instrument
+is identical, the synthetic relationship is simply:
+
+call price — put price = underlying price — exercise price
+
+This will be true if interest rates are zero, or in futures markets where both the
+underlying contract and options on that contract are subject to futures-type settlement.
+In the latter case there is no interest component because no cash changes hands when
+either the futures contract or the options on that contract are traded. This is currently
+the procedure on many non-U.S. exchanges.
+
+In futures markets, where options are subject to stock-type (cash) settlement, while
+no cash will change hands when the futures contract is traded, there will be an
+exchange of cash when options are traded. The interest considerations on the credit or
+debit will therefore have to be taken into consideration when calculating the value of a
+synthetic position.
+
+Using our earlier example, with the June futures contract at 102.00, the June 100
+call at 5.00, and the June 100 put at 3.00, we have:
+
+call price — put price = underlying price — exercise price
+5.00 -3.00 = 102.00 - 100.00
+2.00 = 2.00
+
+At these prices there does not appear to be any profit opportunity from either a
+conversion or reversal. If we do either of these strategies, the credit and debits from the
+two sides of the equation exactly offset each other.
+
+Suppose, however, that we decide to do a reversal by selling the underlying futures
+contract for two points (underlying price minus exercise price) and buying the synthetic
+for two points (call price minus put price). Suppose also that the options are subject to
+stock-type (cash) settlement, as is generally true in U.S. futures markets. We will lay out
+2.00 on the option trades, and we will not get this money back until expiration when
+we will buy the underlying futures contract, which we originally sold at 102, for 100.
+If interest rates are currently 8% per annum, and there are three months remaining to
+expiration, there will be a 2% carrying cost on the two-point debit resulting from the
+option trades. Based on the simple synthetic relationship, we expected to break even on
+
+
+Option Arbitrage 221
+
+the conversion. In fact we will end up losing 2% x 2.00, or .04, because of the cost of
+carrying the debit to expiration. If we really want to break even, we will have to find
+some way to offset this interest cost of .04. We might, for example, purchase the call
+for .04 less (4.96), or sell the put for .04 more (3.04), or sell the futures contract for .04
+more {102.04}. Or we might use a combination of these three transactions, for example
+by purchasing the call for 4.98, selling the put for 3.01, and selling the futures contract
+for 102.01. The result is a savings of .04, an amount equal to the carrying cost on the
+debit resulting from the option trades.
+
+Assuming that all options are European (no early exercise permitted), we can now
+express the synthetic relationship in futures markets where the options are settle in cash
+as follows:
+
+call price — put price = futures price — exercise price — carrying costs
+
+where the carrying costs are calculated on either the difference between the futures
+price and the exercise price, or the difference between the call price and put price, both
+of which will be approximately the same. In our example, if the call is trading for 4.98,
+the put for 3.01, and the futures contract for 102.01, the synthetic market is exactly
+balanced since:
+
+4.98 - 3.01 = 102.01 - 100.00 - .04
+1.97 = 1.97
+Using put-call parity, we can always calculate a call, put, or underlying futures price
+when we know the prices of any two of the other contracts. For example, with a June
+futures contract at 102.00, and the June 100 put at 2.75, we have:
+
+call price = futures price — exercise price + put price — carrying costs
+102.00 — 100.00 + 2.75 — .04
+= 471
+
+With the June 100 call at 5.35 and the June futures contract at 101.90, we have:
+
+iH
+
+call price + exercise price — futures price + carrying costs
+5.35 + 100.00 — 101.90 + .04
+= 3,49
+
+Finally, with the June 100 call at 3.25 and the June 100 put at 1.25, we have:
+
+futures price = call price— putprice + exercise price + carrying costs
+3.25 — 1.25 + 100.00 + .04
+102.04
+
+Stock Option Markets
+
+Consider a stock trading at 103, with aJune 100 call trading at six and a June 100 put
+trading at three. If there are no interest or dividend considerations, the synthetic market
+seems to be balanced since:
+
+put price
+
+tt
+
+
+222 Chapter 11
+
+call price — put price = stock price — exercise price
+6-3= 103-100
+3=3
+
+Suppose we decide to do a conversion by purchasing the stock for 103 and selling
+the synthetic for three points (call price minus put price). We will lay out 103 for the
+stock, take in six for the call, and lay out three for the put. These trades will create a
+total debit of 100, a debit which we will have to carry to expiration, at which time we
+will sell the stock for 100, either through exercise of the put or assignment of the call.
+Since interest rates in the real world are not zero, there will be a cost associated with
+carrying this debit. If interest rates are currently 8% per annum, and there are three
+months remaining to expiration, there will be a 2% carrying cost on the 100-point debit
+resulting from the trades. Based on the simple synthetic relationship, we expected to
+break even on the conversion. But in fact we will end up losing 2% x 100, or two points,
+because of the cost of carrying the debit to expiration. If we really want to break even,
+we will have to find some way to offset this two-point interest cost. We might do this
+by selling the call for two points more (8), or by purchasing the put for two points less
+(1), or by purchasing the stock for two points less (101). Or we might use a combination
+of these three transactions, for example by selling the call for 7, purchasing the put for
+24, and purchasing the stock for 10214. The result is a savings of two points, an
+amount equal to the carrying cost on the debit resulting from the trades.
+
+Taking into consideration the interest rate component, we can express the syn-
+thetic relationship as:
+
+call price — put price = stock price — exercise price + carrying costs
+
+where the carrying costs are calculated on the exercise price.! In our example, if the
+call is trading for 7, the put for 21, and the stock for 10214, the synthetic market is
+exactly balanced since:
+
+7 -214=102'4-100+2
+4,=44
+
+Now suppose that prior to expiration the stock will pay a dividend of 114. When we
+did our conversion we purchased stock, so we will receive an extra 114 points when
+the dividend is paid. Given this, we can afford to pay up to 11% points more for the
+conversion and still do no worse than break even. We could, for example, sell the call
+for 51%, or buy the put for four, or buy the stock for 104. Or, as before, we might
+combine these three trades by selling the call for six, buying the put for 314, and buying
+the stock for 10314.
+
+Assuming that all options are European (no early exercise permitted), and taking
+into consideration both interest rates and dividends, we can now express the full value
+of the synthetic relationship in the stock option market as:
+
+1. The exact value depends on the discounted price, or present value, of the exercise price. For a more
+detailed explanation, see Appendix B.
+
+
+Option Arbitrage 223
+
+call price - put price = stock price — exercise price + carrying costs — dividends
+
+where the carrying costs are calculated on the exercise price and the dividends are those
+expected prior to expiration.
+
+Using put-call parity, we can always calculate a call, put, or underlying stock price
+when we know the prices of any two of the other contracts. For example, with the stock
+at 102 and the June 100 put at 314, we have:
+
+call price = stock price — exercise price + put price + carrying costs — dividends
+102 - 100+ 3%4+2-1%
+
+= 5%
+
+Ul
+
+With the June 100 call at 61% and the stock at 10114, we have:
+
+put price = call price + exercise price — stock price — carrying costs + dividends
+= 614+100-101%4-2+11%
+= 4%
+
+Finally, with the June 100 call at 7 and the June 100 put at 144, we have:
+
+stock price
+
+call price — put price + exercise price — carrying costs + dividends
+7~1%4+100-24+1%
+= 104%
+
+ll
+
+ARBITRAGE RISK
+
+New option traders are often instructed to go into the market and concentrate on
+executing conversions and reversals because these strategies are riskless. Beware: There
+are no riskless strategies. There are only strategies with greater or lesser risk. The risks
+of doing conversions or reversals may not be immediately apparent, but they exist
+nonetheless.
+
+Interest Rate Risk
+
+Whenever there is a cash flow associated with a trade, the value of the trade depends
+on the interest which can be earned on a credit or which must be paid to carry a debit
+over the life of the trade. This is a function of interest rates, and since interest rates may
+not be constant, the interest considerations can change over time. If part of the expected
+profit from a trade depends on our earning 8% ona credit balance, a reduction in interest
+rates to 6% will certainly reduce our profit, and might even result in a loss. If part of the
+expected profit from a trade depends on our paying 7% on a debit balance, an increase
+in interest rates to 10% will likewise reduce our profit. In practice, large changes in
+interest rates over the limited life of most options? are the exception rather than the
+
+2. Weare referring here primarily to exchange traded options with expirations up to approximately nine
+months. Long-term options with expirations of up to several years will obviously be much more
+sensitive to changes in interest rates.
+
+
+224 Chapter 11
+
+tule. For this reason the interest rate risk associated with conversions and reversals is
+relatively small.
+
+Note also that synthetic strategies in the stock option market are much more
+sensitive to interest rates than the same strategies in the futures option market. A stock
+option conversion or reversal includes the cash flow from the underlying stock, while a
+similar trade in the futures option market includes no such cash flow. The cash flow
+from a stock trade is always greater than the cash flow from an option trade since the
+price of stock is always greater than the price of the options.
+
+Execution Risk
+
+Since no market participant wants to give away money, a trader is unlikely to be offered
+a profitable conversion or reversal all at one time. Consequently, he will have to execute
+one or two legs of the strategy, and hope to be able to execute the final leg(s) at a later
+time. He may, for example, initially purchase the underlying contract and puts, and later
+hope to complete the conversion by selling calls. However, if call prices begin to fall, he
+may never be able to profitably complete the conversion. Even a professional trader on
+an exchange, who would seem to be ina good position to know the prices of all three
+contracts, can be fooled. He may purchase a call and sell a put (synthetic long
+underlying) at what he thinks are good prices. However, when he tries to sell the
+underlying contract to complete the reversal, he may find that the price is much lower
+than what he thought it was. Anytime a strategy is executed one leg at a time, there is
+always the risk of an adverse change in prices before the strategy can be completed.
+
+Pin Risk
+
+When we introduced the concept of a synthetic position, we assumed that at expiration
+either the underlying market would be above the exercise price, in which case any call
+would be exercised, or below the exercise price, in which case any put would be
+exercised. But what will happen if the underlying market is exactly equal, or pinned,
+to the exercise price at the moment of expiration?
+
+Suppose a trader has executed a June 100 conversion: he is short a June 100 call,
+longa June 100 put, and long the underlying contract. If the underlying market is above
+or below 100 at expiration, there is no problem. He wiil either be assigned on the call
+or will exercise the put. In either case he will offset his tong underlying position so that
+he will have no market position on the day following expiration.
+
+Now suppose that at the moment of expiration the underlying market is right at
+100. The trader would like to be rid of his underlying position. If he doesn’t get assigned

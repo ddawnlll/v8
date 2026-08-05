@@ -1,0 +1,373 @@
+[
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_000",
+  "verdict": "corroboration",
+  "behavior_id": "capitulation_exhaustion",
+  "page": 1,
+  "exact_text": "parabolic range expansion that culminates in a buying (or\nselling)",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_4_000",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_001",
+  "verdict": "corroboration",
+  "behavior_id": "capitulation_exhaustion",
+  "page": 1,
+  "exact_text": "Parabolic Expansion and Subsequent Reversal",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_002",
+  "verdict": "corroboration",
+  "behavior_id": "capitulation_exhaustion",
+  "page": 1,
+  "exact_text": "parabolic exhaustion on a lower time frame",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_003",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_004",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 1,
+  "exact_text": "upthrust at the highs",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_005",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 1,
+  "exact_text": "fresh information causes market participants to immediately and dramatically reassess",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_006",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_4_007",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_009",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 1,
+  "exact_text": "Trend terminations are usually set up by momentum divergences",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_4_011",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 1,
+  "exact_text": "momentum divergence on the MACD",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_011",
+  "verdict": "corroboration",
+  "behavior_id": "liquidity_sweep_reclaim",
+  "page": 12,
+  "exact_text": "Markets probe for stop orders and activity beyond significant price levels",
+  "added_conditions": [
+   "market overextended or primed for reversal"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_013",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_014",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_015",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 12,
+  "exact_text": "Pullbacks are probably the most important structural feature of trends",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_016",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_017",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 12,
+  "exact_text": "the line is\npenetrated, but prices recover back above the trend line within a few bars",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_1_009",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_021",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_022",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_024",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_1_014",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_026",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 23,
+  "exact_text": "paying a breakout through\nthose highs is often a good entry",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_027",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_022",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_1_016",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_029",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_030",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 23,
+  "exact_text": "entering at support or on a breakout—are valid for complex consolidations",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_026",
+  "verdict": "corroboration",
+  "behavior_id": "capitulation_exhaustion",
+  "page": 17,
+  "exact_text": "a small climax on the daily time frame (left pane) caps a multiyear\nuptrend",
+  "added_conditions": [
+   "weekly chart extremely overextended with many bars pressing above the upper band"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_033",
+  "verdict": "corroboration",
+  "behavior_id": "trend_exhaustion_reversal",
+  "page": 23,
+  "exact_text": "attempts to enter the first\npullback after a potential trend change",
+  "added_conditions": [
+   "pattern suggesting current trend could be terminating",
+   "move showing a distinct change of character"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_027",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_034",
+  "verdict": "corroboration",
+  "behavior_id": "trend_exhaustion_reversal",
+  "page": 23,
+  "exact_text": "The Anti pullback may be entered via either of the two pullback entries",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_028",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 17,
+  "exact_text": "The actual entry was on the close of the bar that broke above the previous day’s\nhigh",
+  "added_conditions": [
+   "divergence after at least the fifth leg in an uptrend",
+   "momentum divergence on the MACD",
+   "stock slightly overextended in a potential buying climax"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_037",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_031",
+  "verdict": "corroboration",
+  "behavior_id": "capitulation_exhaustion",
+  "page": 17,
+  "exact_text": "a strong selling climax on the 60-minute\ntime frame brings the market to the bottom of the daily consolidation",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_038",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_033",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 17,
+  "exact_text": "The high and tight flag at the end of this chart is such\na setup",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_2_040",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_034",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 30,
+  "exact_text": "generates a glaring sell\ndivergence on the MACD",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0006::lead_book_0006_3_035",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 30,
+  "exact_text": "this sets up a good continuation play on a breakout of the pattern",
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

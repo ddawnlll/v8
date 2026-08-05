@@ -1,0 +1,194 @@
+the world. Funds were forced to sell everything that counted as an asset, and that included gold. It didn’t matter what the asset was or whether or not it had intrinsic
+value. All of the assets that they had bought with borrowed money had to be sold so that they could pay back their loans. And this is also why the U.S. dollar rallied
+during this time. The U.S. dollar is also used in the carry trade, along with the yen, because it is such a low-interest currency (at least it has been over the past few
+years). As the carry trade was “taken off” and yen and U.S. dollars got “paid back,” guess what happened? The U.S. dollar rallied. Why? Borrowing money is the
+equivalent of selling it; paying it back is the equivalent of buying it. That is, paying back U.S. dollars applies upward pressure on the U.S. dollar chart. This is why the
+U.S. dollar did not collapse as many pundits predicted. It may collapse some day, but not while it is a low-interest currency and hedge funds are taking risk off.
+
+Figure 6.21
+
+Where does the left-over cash go once all the assets are sold? Into U.S. Treasury bonds, which is why the 10-year note futures and other bond futures rocket higher
+123
+
+during these times.
+
+The carry trade is on? Great, buy everything.
+
+The carry trade is off? Get out of the way.
+
+Summing Up
+It is important to realize that the markets spend the majority of the day, even the majority of most weeks, consolidating and resting and backing and filling and pretty
+much doing nothing. Traders who wait for a move and then have to chase it will always be at a disadvantage to traders who get in before the move takes place. The way
+to do this is to watch these internals and look for clues concerning the path of least resistance. When the markets are quiet, get positioned for the next move in this
+direction. Once the move takes place, the amateurs will chase it, and you can sell your position to them.
+
+Figure 6.22
+
+Finally, it is critical to understand that all of the stock index intraday setups described in this book are based on using all of these intraday readings as a filter. For
+example, Chapter 11 discusses squeeze plays. If I get a two-minute squeeze short play, but the trin is trading at 0.53 and is near its lows on the day, guess what? I’m
+not going to take it because the internals are so bullish. Rather, I will sit back and wait for the next long setup. Because of this factor, it is very difficult to back-test
+124
+
+these setups, as I would never take all of them as they come up—it’s all based on what the internals are telling me. I’ve set up www.tradethemarkets.com/internals
+with a series of free videos that show live trading and how the internals work in real time. These videos also show updated internals I’m using that aren’t included in
+the book—sometimes it is easier to “show how I use it live” than to paste a chart in a book. For anyone interested in managed accounts utilizing these techniques, we
+have set up www.razortrading.com with more information on how the process works and how to get started.
+Congratulations, you’ve made it through the first part of this book. Now let’s dive into Part 2 and start looking at actual trading setups.
+
+125
+
+PART II
+
+WHAT ARE THE
+BEST INTRADAY AND
+SWING-TRADING
+SETUPS FOR FUTURES,
+STOCKS, OPTIONS,
+AND FOREX?
+Be not afraid of going slowly; be afraid only of standing still.
+CHINESE PROVERB
+
+Some long for the glories of this world; and some sigh for the Prophet’s Paradise to come. Ah, take the cash and let the promise go….
+OMAR KHAYYÁM: The Rubaiyat
+
+126
+
+7
+The Opening Gap:
+Why Is This the First
+and Highest-Probability
+Play of the Day?
+How Is Trading Without a Specific Setup in Mind Like Hiking in the Amazon Without a Compass?
+If I had a dollar for every time someone asked me, “Of all the setups you have, what’s the one setup that works best all of the time?” I’d have my kids’ college already
+paid for, as well as their graduate school and their weddings. And I’d probably be able to take care of my in-laws, too, and their numbers are considerable. There is no
+easy way around it: different setups work better in different market conditions. Another question I get asked a lot is, “What’s the win ratio on that setup?” I’ve never
+been asked that question by an experienced trader. It’s always a newbie. Win/loss ratios have very little to do with the setup and everything to do with the parameters
+that are being applied to that setup. Are you interested in a setup that has a win ratio of 99 percent? Great. Every time the $TICK goes to –1,000, buy one ES contract
+and use a 1-point target and a 100-point stop. This setup will win 99 percent of the time. “Fantastic,” you might think. But, alas, when it is stopped, you’ll wipe out
+all of the profit of the previous incredible string of winning trades. To put it in perspective, I know many traders who have a 50 percent win ratio and make a lot of
+money trading. How? Their winners are, on average, three times bigger than their losers. Yes, it all comes back to trading psychology and letting your winners run and
+cutting your losers off at the knees.
+Before we jump into the first of the setups, the opening gap play, I want to quickly review one absolute truth about this business. That truth is as follows— when
+it comes to trading for a living, all investors fall into one of three categories:
+1. Those who have a system that they follow each and every day
+2. Those who are developing a system and are on the lookout for the Holy Grail
+3. Those who have never believed in utilizing a specific system and just trade on instinct—and are still explaining to their spouse how they lost all their trading capital.
+The point of this, of course, is to emphasize the importance of facing each trading day with a game plan and of establishing a trade setup with a three-pronged
+approach. In addition to the actual setup, there also needs to be a foundation from which to operate the setup. This foundation consists of the following: the trading
+methodology, the money management technique, and the knowledge of the best markets to trade for that particular setup. In other words, it’s a lot more than just
+“What’s the entry?” Do traders scale into a trade or go all in? Do they scale out or go all out? Is it better to use a tight stop and bigger size, or a wider stop and smaller
+size? Does this trade work better on the mini-sized Dow or the euro currency? Each market is unique. Each setup is unique. Each time frame is unique. Without these
+additional data, traders are destined to fail, and they are only kidding themselves if they think they can do this for a living. They may have a lot of fun for a few months
+or a year, and they may get an incredible high out of a great trade, but it won’t last over the long haul. These are the traders that act quickly when trying to make
+money and that act too slowly when trying to protect what they have. The idea is to create a situation that allows a person to do this for a living—each and every day.
+This section focuses on a series of setups for the active trader and provides a collection of strategies that I currently use in my own trading. Specific markets are
+highlighted, with exact entry, exit, and stop loss levels, focusing mostly on intraday setups. Swing-trading setups are also discussed, and these are noted as such. In
+general, any setup that is used on the stock index futures can also be used on individual stocks. Exceptions to this guideline are noted. I like to use day-trading
+strategies in one account and swing-trading strategies in another account. This keeps everything separate and easy to track. I chose to show setups that had a
+successful resolution in order to demonstrate how to manage the exits on these setups. In instances where these setups get stopped out, and that does of course
+happen, sometimes frequently, that is an easy exit to manage—the stop was hit. As a trader, it is important that you realize that not every trade will work out. It is
+quite possible to get stopped out two or three times in a row before you catch a successful move. This is a normal part of trading, and it is important that a trader not
+get frustrated. This is why it’s important to “keep losses small and let winners run.”
+A typical scenario I’ve witnessed with traders is that they get stopped out of a setup and then hesitate to take the next one, which of course turns out to be a
+winner. Or they get stopped out of a setup, so the next time that setup occurs, they take profits too fast. Or if the last one was a winner (or a loser), then they double
+up on the next one. The point of this is that a trader needs to become like a machine and just do the setups, not operate based on “how he feels about the last trade.”
+On any given day, I will take five intraday setups. One of these will get stopped out, two will be scratched, and two will be winners. On days where my first three
+trades are winners, I will usually stop for the rest of the day and book my gains. If I hit a day where my first three trades are stopped out, I take the hint and go hit
+golf balls.
+I utilize a variety of specific setups in my daily trading routine. I started off trading stocks and stock options, so most of the setups focus on some aspect of the
+stock market, whether it’s through individual stocks or through the mini-stock index futures. There are also setups in other markets that I discuss, particularly in gold,
+silver, and some of the currencies. Some of these I developed myself, and some of them were developed by other people whom I trade with. The purpose of this
+section is to give you specific setups that you can utilize on the next trading day. It should also give you a blueprint for developing and tweaking your own setups. For
+me, the biggest difference in my trading occurred when I learned to ignore my brain and just focus on a handful of good setups. Once I learned the setups, the next
+challenge was to have the discipline to follow them the same way, each and every time. I did this by recording my trading activity for more than a year and focusing on
+the results for each setup. If I deviated from the setup, if I tried to outthink it and got out too early or in too late, I noted this in my data and marked it as an “impulse
+play.” After a while, I noticed that these impulse plays didn’t make me any money. I saw the light, so to speak, and suddenly my trading focus took a dramatic shift.
+Instead of focusing on the potential gains of a trade or worrying about missing a move, I focused on executing a flawless setup. That is the key difference between a
+trader who can do this for a living and a trader who lives a life of quiet frustration. I’m not going to beat around the bush on this: following setups without letting the
+day’s or week’s or month’s P&L affect your thinking is very, very hard to do. But it’s the difference between life and death.
+127
+
+It’s like quitting smoking. Either people choose to light up another cigarette or they do not. They take it one day at a time. For each day they don’t light up, the
+better the odds that they will never smoke again. It is no different in trading. For each day traders can actually be totally disciplined and follow their setups exactly as
+planned—even if it means standing aside when the market is racing away without them—the better the odds that they will make it in this business. If you want thrills,
+go to Disneyland.
+Although I can’t stand over your shoulder and help you with your discipline, I can show you the setups that I use to trade for a living. I have loosely organized
+these in the order in which I look at them throughout the trading day. As you try these out on your own, you will find that you naturally gravitate toward some rather
+than others. Key in on this, as a trader will tend to move toward setups and markets that seem to fit her personality. Let’s jump right in with the first setup and one of
+my favorites—the opening gap play.
+
+Why Aren’t All Gaps Created Equal?
+With regard to gaps, very little has changed since this book first came out. I still find gap plays to be the best way to start off my trading day. Not only are they the
+first trades of the stock market session, but, more important, they can also tell a person a lot about the upcoming market action for the day. Because of this, I spend
+more time talking about this setup than the others.
+Gaps are contrarian plays, or “fade plays,” as I like to call them. Opening gaps create a lot of excitement and emotion in the market participants, and I like to step in
+and take the opposite side of this emotion. The play is completely against the crowd, which I like, and it is one of the lowest-risk trades available. What exactly is a
+gap? A gap occurs when the opening price of the next day’s regular cash session is greater or lower than the closing price of the previous day’s regular cash session,
+creating a “gap” in price levels on the charts, similar to that space we see each night between David Letterman’s two front teeth. It is important to note that traders will
+not see this gap on their charts unless they specifically set up a “gap” chart. With a 24-hour chart, traders will not see the gaps. This is discussed in more detail
+shortly.
+When it comes to gaps, not all markets are created equal. Gaps in “single-item” markets do not act the same way as gaps in “multi-item” markets. Examples of
+single-item markets include bonds, currencies, grains, and individual stocks. These gaps typically fill at some point, but not necessarily on the same day. For this play,
+I’m specifically interested in gaps that have a high probability of filling on the same day they are created. For single-item markets, a news item controls the entire order
+flow for that day, instead of affecting just a small portion of an entire index.
+This is especially true of individual stocks. Individual stocks are like politicians, in that each day they can produce a fresh skeleton from the proverbial closet.
+Earnings announcements, corporate scandals, and insider deals can create gaps in price that never get filled. Ken Lay and Bernie Ebbers certainly wished that their
+Enron and WorldCom stock would fill their overhead gaps. Unfortunately, the odds of this happening are about the same as that of Republican and Democratic
+senators working together for the good of the country. In other words, it’s never going to happen. Because of the unpredictable nature of individual stocks, they make
+poor candidates for gap fills. The exception to this is gaps on individual stocks that are gapping with the market and not on any particular news. How does a person
+tell this? If a stock is gapping about the same percentage as the overall market, and there isn’t any news on that stock, then that stock can be played as a gap play. For
+example, if AAPL gaps up 1.00 percent, the overall S&P 500 is also gapping up 1.00 percent, and there isn’t any specific news on AAPL, then it can be played as a
+gap play. It’s just moving with the overall market.
+As compared with single-item markets, multi-item markets such as the E-mini S&Ps and the mini-sized Dow futures, as well as their equivalent ETFs (exchangetraded funds) via the Spiders (SPY) and Diamonds (DIA), make great candidates for gap plays. This is because there are individual components of these indexes that
+will respond differently to various news items. Good news for oil companies is bad news for transportation companies. Good news for defense stocks can be bad news
+for travel-related stocks, and so on. This means that, although the market may gap up on a news item, there will be individual stocks within the index that will either
+ignore the news or sell off on the news. This, coupled with an initial pullback in the strong issues that are gapping up, weighs down the entire index, creating an
+opportunity for the market to fill its gap. In addition, many fund managers watch the open gaps. They’ve been doing this for a long time, and they know that the
+markets hate to leave “messy charts” in the form of open gaps. If the markets gap up, they will generally wait to start committing to the long side until the market has
+pulled back and filled its gap. In this way, it is also like a self-fulfilling prophecy.
+What about the Nasdaq and the Russell? I’ve watched these markets as well, and although they do fill their gaps a large percentage of the time, that percentage is
+lower than those for the Dow and the S&Ps. In the end, my favorite gap plays are in the mini-futures and ETFs representing the Dow and the S&P 500.
+
+What Is So Magical About Premarket Volume?
+The great thing about gaps is that they are like an open window, and, like all windows, at some point they are going to be closed. The key, then, is to be able to
+accurately predict when the day’s gap (window) is going to be filled (closed). What is as important as analyzing the gap itself is analyzing the market conditions that
+produce the gap. The reason for the gap is immaterial. Upside earnings surprises, terrorist threats, takeover announcements, economic reports—each morning the
+markets are bombarded with news. It’s not the actual news, but how the markets respond to that news that is important. To understand how the markets are really
+reacting to the news, all a person has to do is look at the premarket volume. In addition to news gaps, which are more or less fishing expeditions, there are also
+professional gaps. Professional gaps are designed to keep the retail investor out of the market. These occur when the Dow gaps up 100 points and then trades in a tight
+range for the rest of the day. The move essentially happened before the market opened. The professionals who were positioned for the move benefit, while the average
+retail investor is left with nothing and no opportunity to participate in the move. Again, premarket volume can tell a trader if the gap is going to be a professional
+breakaway event or is going to lead to price action that has a high probability of filling the gap on the very same day it was created. A professional gap with high
+premarket volume can take weeks to get filled. M uch more common are gaps that are news reactions or fishing expeditions. These are smaller in nature, are highlighted
+with low to moderate pre-market volume, fill quickly, and can be faded regularly.
+The question, then, is, if I ignore the reason for the gap, what is it that I’m looking for that determines whether or not I will take the setup? Premarket volume in
+what, exactly? The key action I am watching is the premarket volume in a specific set of cash stocks, typically the big names of the day. When I first wrote this in
+2005, I liked to watch KLAC (KLA-Tencor Corp.), M XIM (M axim Integrated Products Inc.), NVLS (Novellus Systems Inc.), and AM AT (Applied M aterials Inc.). I
+liked these stocks because they were traded actively in the premarket session and were traded aggressively by both individual traders and fund managers. Today, I’ve
+replaced these stocks with AAPL (Apple), GOOG (Google), PCLN (Priceline), BIDU (Baidu), and AM ZN (Amazon). These are the movers and shakers today. Ten
+years from today, the set of stocks may be different, though it’s hard to imagine AAPL and AM ZN leaving this list.
+
+128
+
+Even though these stocks are not part of the Dow, they still provide a clear map as to how the market is handling any particular news that is out on the day. If the
+volume on these stocks is heavy, then it is obvious that the market is taking this news very seriously. If the volume on these stocks is light, which is more common,
+then the market either is not interested in the news or, more likely, has already priced it in. It is on these days that the gaps have a very high probability of filling on
+the same day in which they were created.
+What I’m looking for is the premarket volume in these stocks as of 9:20 a.m. eastern, 10 minutes before the regular cash session opens. The premarket session opens
+at 8:00 a.m. eastern, so these are data on 1 hour and 20 minutes’ worth of trading. If these stocks are trading less than 30,000 shares each at this time, the gap (up or
+down) has an approximately 85 percent chance of filling that same day. However, if the volume jumps up to 50,000 shares each, the gap has only about a 60 percent
+chance of filling that same day. On these particular days, however, the midpoint of the gap has an 85 percent chance of being hit, so I do take this into account and
+adjust my target accordingly. For example, if the gap is 50 points on the Dow and the premarket volume is moderate, then my target is going to be 25 points from my
+entry instead of the full 50 points, which would constitute a gap fill. Finally, if the premarket volume jumps to more than 70,000 shares each, the chances of the gap
+filling that same day drop to 30 percent. These are typically the days that involve a professional breakaway gap. On these days, I don’t fade it. I typically stand aside
+and wait for one of my other setups to unfold.
+These figures are for “normal” market conditions. As I write this in September 2011, the markets have been extremely volatile, and I’ve had to double these numbers,
+especially for AAPL. One way to get an idea of these levels is to look at the $VIX. A few months ago, the $VIX was trading at around 20.00, which is essentially
+“normal” and is what the volume numbers given here are based upon. It’s currently trading at 40.00, which indicates much higher volatility—double, in fact. Hence the
+volume levels have also had to be doubled. Take a look at where the $VIX is trading and you’ll be able to get the approximate volume numbers you’ll need. If it’s
+trading at 60.00, you’ll need to triple the numbers given here; if it’s trading at 10.00, you’ll need to cut them in half; and so forth.
+Why does this premarket volume indicator work? Think about it as driving a car uphill on an empty tank of gas versus a full tank of gas. If the market is really set
+up to move, then there will be real volume coming into the cash market to propel that car “up and over” the hill. If the market is just setting up a head fake, then the
+volume in the cash market will be low, as there won’t be any real conviction in the move. Ignore the news and follow the money. Table 7.1 shows how I use this
+information to manage my trades.
+Table 7.1

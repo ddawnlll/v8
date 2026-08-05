@@ -1,0 +1,414 @@
+
+r “Speculative” ﬂow (without an underlying attached asset)
+r Equity ﬂow
+r Fixed income ﬂow
+r Direct investment ﬂow
+r Trade ﬂow
+By far, speculative ﬂow is the main driver of exchange rates over the short term. It is not
+sufﬁcient to suggest that speculative ﬂows follow a “random walk” for the simple reason that
+both technical and ﬂow analysis have discovered consistent patterns in short-term exchange
+rates which should not exist under random walk theory. Within asset market ﬂow, equity
+and ﬁxed income ﬂows continue to do battle for pre-eminence. For instance, from 1998 to
+
+Fundamental Analysis
+
+45
+
+mid-2000, net inﬂows to the US equity markets were a key driver of dollar strength. Equally,
+as the US equity market began to falter, the resulting equity outﬂows from the US market
+weighed on the US dollar. Eventually, however, these ﬂows were more than made up for by
+ﬁxed income inﬂows to the US ﬁxed income markets as the Federal Reserve continued to cut
+interest rates to support the economy. Direct investment is also an increasingly important driver
+of exchange rates, both in the developed economies and in the emerging markets, as barriers
+to inward investment have also fallen away. In 2001, the top ﬁve performing currencies in the
+world against the USD were the Mexican peso, Polish zloty, Czech koruna, Hungarian forint
+and Peruvian sol, all of which beneﬁted from substantial direct investment inﬂows which had
+a signiﬁcant impact on their exchange rates.
+The importance of all of these ﬂow types continues to ﬂuctuate in line with market trends.
+What is clear however, is that until there is a speciﬁc exchange rate model which focuses on
+the main ﬂow dynamic of the currency market, namely speculative ﬂow, it is unlikely that
+exchange rate models in general will be able to improve upon their current accuracy to any
+signiﬁcant degree. In the next chapter, this is in fact what we will try and do — to build a simple
+exchange rate model which focuses on speculative ﬂow. In addition, we also examine how to
+use “currency economics”, or the bits of economic theory that are relevant to the currency
+market, in a practical manner for currency forecasting, trading and investing.
+
+@Team-FLY
+
+2
+Currency Economics:
+A More Focused Framework
+In the previous chapter, we had a pretty detailed look at traditional exchange rate models.
+Signiﬁcant research went into these models and indeed they are valuable in trying to predict long-term exchange trends. Where they fall down is their ability to predict short-term
+moves.
+The reaction of economists to this realization in truth has been mixed. Of late, however,
+there seems to have been a gradual recognition that a greater focus is needed in applying the
+general rules of economics to the speciﬁc dynamics of the currency market. For want of a
+better term, I have called this greater focus “currency economics”. I should say at the outset
+this is not an attempt to create an entirely new ﬁeld of currency analysis. Rather, it is to
+create a more focused framework, using those existing economic principles that are relevant to
+the currency market and when necessary adding on other analytical disciplines to provide an
+integrated approach to currency analysis. After all, analysis is the means to an end. It should
+not be viewed as the end in itself. A certain degree of ﬂexibility is needed to modify the
+theory to ﬁt better the practice. As John Maynard Keynes himself is reputed to have said,
+“when things change, we change”. To a trader, this is only common sense. However, to the
+modern economic community, such ﬂexibility appears frequently elusive. Further, while the
+more ﬂexible economists have pondered how to make the traditional exchange rate models
+more accurate in predicting exchange rate moves, other disciplines appear to have got there
+before them. To a considerable degree, technical and ﬂow analysis have succeeded where
+classical economics has yet to. We will look at these in detail in Chapters 3 and 4, but for now
+the point has to be acknowledged that these disciplines have had success precisely because
+they have focused on solving the problem of predicting short-term exchange rate moves.
+Yet, if exchange rates are only subject to random walk theory over short-term periods, how
+can this be so? The answer is obvious and it is this — they are not subject to random walk
+theory, but instead can over short time periods demonstrate clear and identiﬁable patterns,
+patterns that can be used to predict their movements. This is not to say they will be predicted
+every time, but it is to say trying to forecast short-term exchange rate moves need not be the
+equivalent of a blind monkey throwing a dart at a dartboard, as random walk theory might
+suggest.
+Suggesting that other types of analysis have succeeded to a degree in predicting short-term
+exchange rate moves does not mean we abandon the attempt to improve economic analysis to
+make it better able to do the same thing. To do this however, we have to get past the stage of
+relying solely on the traditional exchange rate models and focus more on the speciﬁc dynamics
+of the currency market. Only when we understand these can we hope to get measurably better
+results in applying economic analysis to the prediction of short-term exchange rates. Before
+that, we need to have a much better idea of the speciﬁc dynamics that are at work in the currency
+market itself.
+
+48
+
+Currency Strategy
+
+2.1 CURRENCIES ARE DIFFERENT
+The ﬁrst thing to say about the currency market is that it possesses and obeys a different set of
+dynamics to other ﬁnancial markets. Unlike in the case of equity or ﬁxed income markets, the
+vast majority of currency market practitioners are speculators of one sort or another. Global
+merchandise trade going through the currency market makes up around 1–2% of total volume.
+Let’s say we more than double that to allow for foreign direct investment, making a volume
+contribution of around 5%. Asset market volumes have risen sharply over the past 20 years
+as barriers to capital have fallen. Having made up only a small proportion of currency market
+volume before the end of the Bretton Woods exchange rate system, they probably now make up
+as much as 35% of total currency market volume on a daily basis. That still leaves 60% of daily
+currency market volume, which has to ascribe to “speculation”. Granted, these are very rough,
+back-of-the-envelope ﬁgures, but they give a good idea of the proportions that are involved.
+Given this, is it any wonder that many of the traditional exchange rate models that are based
+on the current account and therefore on trade ﬂows are poor predictors of exchange rates over
+the short term?! Equally, this gives some clue as to why the portfolio balance approach to
+exchange rates also achieves unsatisfactory results.
+2.1.1 (In)Efﬁcient Markets
+As we know from Chapter 1, economic theory approaches the issue of exchange rates by trying
+to ﬁnd a theoretical equilibrium level, against which one can measure over- or undervaluation
+relative to the actual exchange rate. Such theory relies on a number of important premises with
+regard to the information that might affect exchange rates:
+
+r Exchange rates reﬂect all available knowledge at any one time
+r There is perfect knowledge dispersal (such that no-one has an advantage)
+While it is debatable whether or not these exist in other ﬁnancial markets, we do know that these
+are not the reality in the currency market. Many people think of the currency or FX market as
+the “perfect market”, being that in which knowledge dispersal is optimum and which responds
+with perfect efﬁciency to stimulus. This simply isn’t the case. Information is not perfect and
+some market participants can indeed gain a knowledge advantage over their counterparts. Why
+is this so?
+
+r The sheer weight of information affecting exchange rates at any one time is so huge that all
+currency market practitioners cannot possibly absorb all of it all of the time.
+
+r Knowledge dispersal is not perfect and some do have an advantage over others. Such advantages may include knowledge about speciﬁc ﬂows that may occur, a bank’s own “order
+book” and ﬁnally the ability to do larger currency market transactions than other market
+participants.
+If knowledge is power, then such power in the currency market is not distributed equally. This
+is no accident. Indeed, it is the very intention of normal and healthy competition to try to gain
+advantage over other market participants. While news information has never been as freely
+available as now, at some point that very availability swamps the ability of the users of such
+information to absorb it all. To some, we appear closer to a state of perfect knowledge than we
+have ever been, yet I would liken this to the speed of transportation. In 1900, the average speed
+of the leading mode of transportation in the city of London (the horse) was 11 miles an hour.
+
+Currency Economics
+
+49
+
+In 2000, the average speed of the now leading mode of transportation (the turbo fuel-injected
+car) was . . . 11 miles an hour. Progress begets more progress until you progress so far that you
+go nowhere. The more information that is available to us, the less we actually have the time
+(or the willingness) to read. If the good news is that we are closer to perfect knowledge than
+we have ever been, then the bad news is that we are never likely to get there!
+Information costs money to deliver and therefore there is not “perfect” information delivery
+because not everyone gets it, either at all or at the same time. Even if it were free, “information
+overload” still means that not everyone reads and uses it at the same time. If you don’t believe
+me, just think of your e-mail inbox! In sum, there is neither perfect information nor perfect
+information dispersal — and there never will be. In response, an economist might argue that
+we have “good” information, if not perfect information. It would be tough to argue with this,
+but then “good” is not “perfect” and “perfect” is a necessary aspect of the equilibrium concept.
+Furthermore, this supposed equilibrium level is rarely ever reached. Real life is surely a
+constant state of ﬂux and imbalance, so why should ﬁnancial markets be any different? In turn,
+if one assumes that the economic fundamentals that can affect exchange rates are themselves
+in a constant state of ﬂux, one must equally assume that the equilibrium itself is in a constant
+state of ﬂux — which to an extent calls into question the idea of it being an “equilibrium” in
+the ﬁrst place. In truth, it is a signpost on a road. It points you in the right direction, but it gives
+you no idea of when you will get there or where you might have to turn off along the way.
+2.1.2 Speculation and Exchange Rates: Cause, Effect and the Cycle
+As with the supposed efﬁciency of markets, which does not actually work in practice, so there
+is the idea that supply and demand are completely independent of one another. If this were so,
+price trends could not exist because markets would instantly work to eliminate any supply or
+demand imbalances. The fact that this does not happen and that price trends do occur suggests
+that there are lags, sometimes substantial lags, before such imbalances can be eliminated. In
+addition, supply and demand are not completely objective concepts. Rather, at least in part,
+they reﬂect the views expressed by those market participants that make up that supply and
+demand. In other words, supply and demand are both cause and effect.
+So much for the theory, what does this mean in practice? Actually, to a market practitioner,
+these ideas are relatively obvious. Currency interbank dealers know full well that particular
+ﬂows will have more effect than others and thus will materially affect the supply/demand
+dynamics. Say a large multinational corporation transacts an end-of-quarter hedge in the Euro–
+dollar exchange rate. Granted, this is the most liquid currency pair in the world, but if the ﬂow
+is large enough it may affect both current market pricing and future market thinking. Of course
+the term “future” means different things to different people. To the multinational, it means
+months at least if not years. To the interbank dealer transacting the ﬂow in the market place it
+means minutes or hours at most. Currency markets are essentially ﬂow-driven over short time
+frames, and therefore it is vital to understand the relationship between supply and demand
+dynamics.
+Just as supply and demand are not independent of one another and are both cause and
+effect, so the relationship between “speculation” and economic fundamentals is also not just
+one-way. Economic theory requires that markets eliminate “speculative excess”, thus restoring
+equilibrium. However, we have already established that “equilibrium” is actually a moving
+target. If the “speculative excess” is the extent to which markets diverge from equilibrium,
+then that “speculative excess” is also a moving target. Finally, the presumption of economists
+
+50
+
+Currency Strategy
+
+is that economic fundamentals drive market pricing and thus to an extent speculative excess.
+Even if we accept this, it has also to be acknowledged that speculative excess can in turn affect
+economic fundamentals. This is best proven by example.
+Example
+Let’s use an example from the emerging markets. From October 2000 through June 2001, the
+Polish zloty was one of the top three strongest currencies in the world, powering ahead on the
+back of the irresistible combination of portfolio and direct investment inﬂows. It is probably
+safe to assume that on the back of this trend — said trend proving that supply and demand are
+not independent — speculative ﬂows also bought the Polish zloty to proﬁt from anticipated
+capital and carry gains. Here, we deﬁne “speculative” ﬂow as that which has no underlying
+commercial or ﬁnancial market transaction behind it but instead is purely a currency market
+transaction for the purpose of a directional bet. For our example, we have used the Polish
+zloty’s “basket” value, which is made up of 55% Euro and 45% US dollar against the zloty.
+In Figure 2.1, the apparent “downtrend” in the Polish zloty against its basket actually represents currency appreciation rather than depreciation. It should be immediately obvious from
+this chart that the Polish zloty has been a highly volatile currency over the last few years.
+Equally clear should be the idea that as the Polish zloty has gradually “fallen” on a trend basis
+towards the right-hand side of the chart, so this reﬂects trend appreciation. As the price trend
+lasted for so long — October 2000 to June 2001 — then we should assume that this trend is
+fundamentally based. If this were not so, one must presume it would have ended a lot more
+quickly as an increasing number of market participants would have viewed it as unjustiﬁable.
+Yet, this trend of Polish zloty appreciation took place over a period of some nine months,
+apparently conﬁrming that the sum of currency market participants viewed it as fundamentally
+justiﬁed.
+To return to the theory, this states that exchange rates may diverge from their equilibrium
+levels, that speculative excess is responsible for this and that resulting extreme (under- or over-)
+valuation relative to the equilibrium will be corrected over time due to economic fundamentals.
+In our Polish zloty example, we see a rather different picture. In 2000, the Polish economy was
+still relatively strong, growing by 4.0%. In addition, Polish interest rates were still extremely
+high at around 20%. Investment ﬂow seeks out the highest returns available and thus we must
+assume that strong growth and high interest rates were powerful incentives for both fundamental
+and speculative inﬂows into Poland at the time. For this purpose, we deﬁne “fundamental” ﬂow
+as that related to underlying ﬁnancial or commercial transactions — stocks, bonds, trade and
+direct investment.
+Yet, those same high growth and interest rate levels which were attracting large capital
+inﬂows also reﬂected a signiﬁcant tightening of monetary conditions by the National Bank of
+Poland to temper inﬂationary pressure. There are two aspects to overall monetary conditions.
+There is the cost of money — the interest rate — and the price of money — the exchange rate.
+As a currency appreciates, this also reﬂects a tightening of overall monetary conditions. Thus,
+in the last quarter of 2000, we had a situation whereby interest rates were extremely high and
+the Polish zloty also appreciated signiﬁcantly. In effect, monetary conditions were tightened
+twice! The combination of interest rate- and exchange rate-related tightening of monetary
+conditions hurt Poland’s economic growth, triggering a recession the following year in 2001.
+However, to accept this fact is also to accept the suggestion that currency moves and this
+“speculative excess” can actually affect economic fundamentals, that they can both be cause
+@Team-FLY
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec Jan99 Feb
+
+Mar
+Apr
+
+May
+Jun
+Jul
+Aug
+
+Sep
+Oct
+Nov
+
+Dec Jan00 Feb
+
+Mar
+
+Apr
+
+PLNbasket [Line] Daily
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Figure 2.1 Polish zloty basket chart (up-moves reﬂect depreciation, down-moves appreciation)
+Source: Reuters.
+
+May 98 Jun
+
+PLNbasket , Line
+15Oct01 -9.46928
+
+Sep
+
+Oct
+
+Nov
+
+Dec Jan01 Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+06Apr98 - 09Nov01
+
+−17
+
+−16
+
+−15
+
+−14
+
+−13
+
+−12
+
+−11
+
+−10
+
+−9
+
+−8
+
+−7
+
+−6
+
+−5
+
+−4
+
+−3
+
+−2
+
+−1
+
+0
+
+1
+
+2
+
+3
+
+Pr
+
+Currency Economics
+51
+
+52
+
+Currency Strategy
+
+and effect, as is the case with supply and demand. Looking at this example, we can also see that
+the way “speculative excess” affects economic fundamentals follows a clear and discernible
+pattern. Indeed, if we compare how Poland’s economy performed relative to the trend in
+currency appreciation of the Polish zloty, we see the following pattern or “cycle” at work:
+
+r Fundamental market participants (e.g. corporations and asset managers) apparently deemed
+Polish zloty ﬁxed income securities as good value around October 2000 and started buying
+them on a sustained basis, creating a trend in the Polish zloty itself.
+r As the zloty continued to appreciate, this tightened overall monetary conditions even further,
+in addition to already high interest rates. Meanwhile, the longer the zloty trend continued the
+more self-perpetuating it became, with speculators joining their fundamental counterparts,
+anticipating more or less guaranteed returns.
+r However, the longer the Polish zloty’s trend appreciation continued, the more monetary
+conditions were tightened and the more this hurt Poland’s economy. Exporters were hurt
+by the increasingly uncompetitive currency, while the domestic economy was hurt by high
+borrowing costs and cheap imports resulting from the currency’s strength.
+r As the currency trend extended and continued therefore, fundamental market participants
+became increasingly concerned about economic fundamental deterioration in the form of
+fading economic growth and widening current account deﬁcits, and thus increasingly started
+to take proﬁt on their positions.
+r For a time, this fundamental selling was more than offset by speculative buying. Eventually,
+however, the combination of increasing selling pressure and clear and increasing evidence of
+major fundamental deterioration in the Polish economy proved too much and the speculative
+ﬂow capitulated (as reﬂected by the sudden and dramatic spike higher in the Polish zloty
+basket chart in June–July 2001, reﬂecting a collapse in the zloty’s value).
+
+This cycle or pattern is not just reﬂective of one single example, but instead of a broader
+relationship between speculative ﬂows and economic fundamentals within freely ﬂoating exchange rates. To some extent, this reﬂects the reaction of the current account to changes in
+national income, as shown in the external balance and balance of payments models, however,
+the advantage of this is that it speciﬁcally focuses on how speculative ﬂows, which make up
+the majority of overall currency market ﬂows, affect economic fundamentals. As a result, an
+appropriate title for this model would appear to be the “speculative cycle of exchange rates”,
+which we can break down into four key phases:
+
+r Phase I — Fundamental market participants deem a currency good (poor) value and start
+buying (selling) it on a sustained basis, thus creating a currency trend.
+
+r Phase II — The longer the trend continues, the more speculative it becomes in nature, as
+more and more speculative market participants (i.e. no underlying asset in the transaction)
+buy (sell) the currency trend.
+r Phase III — However, as the trend of currency appreciation (depreciation) continues it creates
+increasing economic deterioration (improvement), encouraging an increasing number of
+fundamental market participants to sell (buy) their positions.
+r Phase IV — For a time, speculative inﬂows (outﬂows) more than offset those fundamentals
+outﬂows (inﬂows), but eventually in the face of increasing economic deterioration (improvement) they capitulate and the currency collapses (rallies).
+Economists may note that this model is not that dissimilar in essence from the belief that
+speculative excess will be corrected by fundamentals, back towards an equilibrium level. The
+
+Currency Economics
+
+53
+
+crucial difference however is that the relationship between speculation and fundamentals is
+not one-way but two-way. What the two ideas have in common however is that they believe in
+a cycle. The cycle of foreign exchange activity may or may not be the same as the economic
+cycle, depending on a number of factors such as positional risk and investor asset allocation.
+In addition, there is no telling how long it will last. It could take weeks, months or even years.
+However, it is a discernible pattern, reﬂecting the key dynamics of the currency market and
+focusing speciﬁcally on speculative ﬂows. In addition, it can be used as a framework for the
+analysis and prediction of exchange rates over the short to medium term.
+2.1.3 Risk Appetite Indicators and Exchange Rates

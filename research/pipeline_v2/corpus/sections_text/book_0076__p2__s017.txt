@@ -1,0 +1,215 @@
+example, an SEC investigation) and drops $20.00 a share quickly, this trade can get very ugly very fast.
+3. Initiated a vertical bull put credit spread. Once the squeeze signaled a long trade, I could have sold an at-the-money put and then bought an out-of-the-money put.
+This is similar to strategy 2, except that now I have downside protection in the event of a disaster.
+This list could go on and on. The more a person knows about option strategies, the more she can do with this, but I want to emphasize that it’s not necessary to
+make this that complicated.
+With the advent of weekly options on some of the highly liquid stocks such as AAPL and AM ZN, a unique opportunity has been created. I personally like to buy
+an in-the-money monthly option, and then each week initiate a vertical spread by selling an out-of-the-money weekly option against it. There are times when a trader
+can sell a weekly option each week for three or four weeks and have it expire worthless each week. During this entire time, the trader can still hold on to the monthly
+option, and end up closing it out for a gain as well. It’s the best of both worlds. Holding a deep-in-the-money option is like owning a piece of real estate. Selling the
+weekly options against it is like collecting rent on your property each and every week. It beats working for a living.
+85
+
+A final note for those of you who are interested in commodity options: these take a while to get your arms wrapped around if you aren’t used to them. Whereas one
+stock option represents 100 shares of stock, one commodity option represents just one futures contract. For pricing, just take the current price and multiply it by the
+multiplier of the underlying futures contract. For example, if you see that an at-the-money call option on the E-mini S&P 500 is trading at 52.25, then multiply 52.25 ×
+$50.00 (the per point price), and you get a price of $2,612.50. This means it would cost you that much to buy the call option, which represents one futures contract.
+Of course, you could buy the actual futures contract for about the same price. This is why I’m not crazy about futures options. You might as well just buy the actual
+futures contract. Commodity options do have their place. They are good for hedging a futures position, and also for anticipated bigger moves (like a weekly squeeze, as
+discussed in Chapter 11), where it makes sense to buy an out-of-the-money option. Otherwise I’ll tend to stick to the actual futures contract.
+Now that we understand how all these different futures and options markets work and the trading opportunities that they represent, it’s time to move on to market
+internals. Let’s jump in and review what I start looking at with the opening bell of the regular stock market session.
+For more information on options, we have set up a website called www.Simpler Options.com. Here we initiate trades every day, explain strategies, and discuss
+what’s going on in the market. Updates to this chapter can be found at www.simpleroptions.com/updates, where we have posted free videos discussing the latest
+option strategies we are using in our trading. You can also download a free report at www.simpleroptions.com/report that digs deeper into options trading and teaches
+more about how they work, along with additional strategies that can be used to trade them for a living.
+
+86
+
+6
+The Stock Market
+Is Now Open—
+What Is the Best Way to
+Predict Market Direction
+Throughout the Trading Day?
+Unless you enter the tiger’s den, you cannot take the cubs.
+JAPANESE PROVERB
+
+Musicians Know How to Read Music; Can Traders Learn How to Read the Markets?
+For anyone who day-trades the E-mini S&P 500 futures (or any of the stock index futures), or anything having to do with stocks such as SPY (Standard & Poor’s
+Depositary Receipts for the S&P 500), options on SPY, or even individual stocks, this is the most important chapter in the book. Not understanding the material in
+this chapter and then going on to trade these instruments intraday is like not knowing how to swim and then trying to qualify for the 100-meter backstroke. Although I
+will swing-trade almost anything, a large percentage of my intraday trading is confined to instruments that reflect the movement of the stock indexes. There is a good
+reason for this—there is a ton of data available during the trading day that will show a trader what is happening behind the scenes in the stock markets. By
+understanding how to read and interpret these data, a trader will have a better feel of whether the predominant pressure in the markets is on the buy side or the sell side
+and can make trading decisions accordingly. There are plenty of traders out there who have only the vaguest idea of how to interpret these tools, and an even larger
+group of newbies that has no clue that they even exist. This represents a large pool of cash that is ripe for the plucking, and knowledge of this information gets traders
+closer to the front of the handout line.
+There is another critical reason for thoroughly understanding this material. Every single trading day is going to present both setups on the long side and setups on the
+short side. By understanding how to interpret these internals accurately, a trader will know the following:
+• Which days to ignore all short setups
+• Which days to ignore all long setups
+• Which days to focus on setups that do best in choppy markets
+• Which days to focus on setups that do best in trending markets
+This knowledge is critical and has a big impact on whether a trader is going to have a winning day or a losing day, and, as the weeks and months progress, an
+upward-trending equity curve or something that’s, well, less amusing to your spouse. Let’s get started.
+
+How Do You Track Institutional Trading?
+The NYSE (New York Stock Exchange) ticks (TradeStation symbol $TICK) summarize the number of stocks on the NYSE that are increasing in price versus the
+number that are decreasing in price from the previous price quote. M any times this is not purely buying and selling, as an uptick may indicate only that the ask was
+hit, while a downtick may indicate only that a bid was hit. This type of information is like learning that James LeBron is holding another press conference. In other
+words—who cares? Yet I’ve watched traders stare at the ticks, mesmerized by a move from –300 ticks to +200 ticks, and think this was a positive thing for the
+markets. In reality, this type of move is not positive—it’s immaterial, and the information is useless. This brings us to the first rule I follow when watching the ticks:
+
+Any tick reading that is below +400 or above –400 is noise and should be ignored.
+I start paying attention to the ticks whenever readings are over +600 or under –600. These types of moves tell me that there is sustained buying or selling pressure
+hitting the markets. This doesn’t signal any actions on my part, but it does give me a heads-up. If the ticks continue to move and hit +800 or –800, this does trigger
+specific action on my part, because only a sustained buying or selling program can move the ticks to this level. This brings us to my next rule in using the ticks for day
+trading:
+
+If I’m long intraday and my stop hasn’t been hit and the markets generate a –800 tick reading, I will close out my position at the market. Similarly, if I’m short
+and the markets generate a tick reading of +800 and my stop hasn’t been hit, I will close out my position at the market.
+Readings this high are telling the traders loud and clear that, on an intraday basis, they are either right or wrong, depending on their position. If I’m short, and the
+market is telling me that I’m wrong through a +800 tick reading, I take the hint and close out my trade. This also has the nice benefit of increasing a trader’s risk/reward
+ratio, as it is possible in many instances to get out of trades early that would otherwise have been stopped out for the maximum loss. This technique applies to
+shorter-term trading on 5-minute charts or less.
+I want to make one thing perfectly clear before I move on: I never exit a trade early just because “I think I’m wrong.” I have learned the hard way over many years
+of trading to stick to my original parameters—unless I have designated a specific, measurable event that alerts me to get out of the trade early. A reading of +800 or –
+800 ticks is one of these specific events. M y deciding to get out of a trade early has nothing to do with gut feel or interpretation—I’ve already discussed in Chapter 2
+how woefully inadequate human beings are at making objective decisions while they’re in a trade. Luckily, there is no way around a tick reading of +800 or –800. Either
+the markets hit that level or they don’t. There is no emotion involved.
+
+87
+
+I’m emphasizing this point because I’ve had the opportunity to sit next to many traders who come to visit me at my trading office. We trade next to each other, side
+by side, for one week. For the first two days, it’s straightforward and low key. I do my trades; they do their trades. It may seem relaxed and laid back, but there is a
+very specific reason I do this—I can learn more about people in one day by watching them trade live, with their own money, than I can learn about them through
+normal conversations over the course of five years. In mere talking, people put their best face forward—the image that they think they are or should be. However,
+when their money is on the line, this façade lasts about 12 minutes, and then the underlying, dominant personality springs forth. Sometimes this ain’t pretty.
+In working with this many other traders, I’ve seen firsthand the reason that most people never make it in this business. In the final analysis, most traders are
+atrocious at managing their exits. This is indisputably the one thing that prevents most people from making a living as a trader. To put it simply, many traders manage
+their exits based on how they feel about the trade. Worse, if they are down on the day, they will manage trades differently from the way they do when they are up on
+the day (because, of course, they want to be “right” and make money on the day), and they don’t even realize this. To illustrate this point, there are many times when
+I will take a trade, and they will take it with me. We will get into the same trade at exactly the same time, and five minutes later, I will see them selling out half their
+position. Of course, I’m perplexed by this because they said, “JC, I’m going with you on this next trade.” The ensuing conversation goes something like this.
+
+Me: Steve, I thought you said you were going to follow me on this one. Did you just sell some of your position?
+S teve: Uh, well, no, I …
+Me: I heard the software execution platform say “sell.”
+S teve: Oh, that, yeah, well, I’m selling some here to book gains.
+Me: Why?
+S teve: Didn’t you say it was a good idea to scale out of your position as it goes your way?
+Me: Yes, but I said only if you had a specific exit strategy. You can’t exit a trade based on your gut feelings. So why did you sell?
+S teve: Uh, the ticks were going higher, and I wanted to sell into strength.
+Me: The ticks are only at +200.
+S teve: But they were at +284.
+This goes on for some time. As a matter of faith, I let these traders try to convince me that they are justified in their actions, but my eventual goal is to get them to
+admit to what they are doing—selling because they are nervous or scared or excited or whatever, and that surge of emotion is what made them push the button. In other
+words, there was absolutely no rational reason for them to take the action that they did.
+Trading is an extremely private world for most people, with friends and spouses kept totally in the dark about the emotional ups and downs that traders feel and
+experience each and every trading day. Getting a trader to admit to what’s really going on internally is like trying to pry open a walnut with your fingers. It’s
+challenging because most traders are masters at masking what they are really feeling. Whether a trader is up $25,000 or down $25,000, many times the outside world
+will never know. I’ve been there, and I know the feeling. Armed with this knowledge, I go on the “friendly attack” and eventually get most of them to fess up. I don’t
+pull any punches. I tell them that no one is ever going to understand their trading journey like another trader. Speak now or be stuck in your rut forever. Usually this
+works, and it gets traders to open up and confront their trading demons—trading therapy 101. Let’s look at the rest of the tick reading rules that I follow.
+The next thing I’m looking for in the ticks is if they hit +1,000 or –1,000. This is the most important reading of the day for two reasons. First, it usually represents
+the maximum amount of sustained buying or selling pressure that the market can handle. It’s like a sprinter getting to the end of a 100-yard dash and having to stop and
+gasp for breath. Second, it represents a specific new trading opportunity. These extreme readings set up a “fade” play that I follow. If we get a reading of +1,000 ticks,
+I will set up a short. If we get a reading of –1,000 ticks, I will set up a long. I discuss this play in detail in Chapter 9.
+This brings me to the next rule I use with the ticks:
+
+If I am long and the markets hit +1,000 ticks, I will use that as a signal to exit the remainder of my position. If I am short and the markets hit –1,000 ticks, I will
+use that as a signal to exit the remainder of my position.
+Figure 6.1 is a snapshot of the ticks from M arch 29, 2005. This is how I have them set up on my TradeStation charts. I use a five-minute chart, but the interval is
+not important—the key for me is that I want to be able to see a full trading day’s worth of data. (Side note—all the charts you see in this book have a white
+background. This is for printing purposes. When I’m watching these on the screen, I set the background to black, and the chart colors are usually blue or green for up
+moves and red for down moves.)
+
+88
+
+89
+
+Figure 6.1
+
+In this chart, we can see at points 1 and 2 that there are horizontal lines placed at +1,200, +1,000, +800, and +600 ticks, and also at –1,200, –1,000, –800, and –600
+ticks. These horizontal lines serve a very specific purpose, which brings me to my fourth rule in using ticks:
+
+I set up audio alerts at all the key tick levels. This way I don’t have to stare at the chart, and I never miss a move.
+These audio alerts are a key part of my trading plan. I can be on the phone, down the hall, or in the bathroom, and I will hear if the ticks make a move. Remember
+that at the 800 and 1,000 levels, I take action, so I don’t want to miss them, no matter what I’m doing. Yes, there have been times when I’ve had to initiate a new trade
+with my pants around my ankles, as I’m stumbling out of the bathroom. I spend a lot of time staring at computers, so I like to make these alerts halfway entertaining.
+When the ticks hit +1,000, I hear Daffy Duck screaming, “I’m rich! I’m rich!” and when the ticks hit –1,000, I hear the Wicked Witch from the Wizard of Oz crying,
+“I’m melting! I’m melting!” Visiting traders raise their eyebrows when these alerts first start to hit, but they get their attention—which is the whole idea.
+I want to point out that I specifically use a bar chart or a candlestick chart for anything having to do with audio alerts. Another popular chart, the “line on close,” is
+also good when watching the ticks, because it helps to show a trader when they are rolling over or “hooking.” However, these types of charts can, and do, miss many
+audio alerts because the line is literally created on the close of the bar and misses the high and low fluctuations—which is what sets off the audio alerts.
+
+90
+
+91
+
+Figure 6.2
+In this chart, we can see that at point 3, the ticks hit +800. On this day, I had a short in the mini-sized Dow with a 20-point stop. When the ticks hit +800, I
+covered my short for a 9-point loss. When the ticks hit +1,000 ticks 25 minutes later, I heard the audio alert for this level, and I set up a new short in the YM . (This is
+a trade setup that is covered in Chapter 9.)
+Between about 10:30 a.m. EST and 12:30 p.m. EST, nothing happened. The ticks were twitching back and forth like a freshly caught tuna on a boat deck. At around
+1:30 p.m., the action picked up enough to the point where the ticks registered a reading of –800, and they even hit –1,000 later in the day. Let’s take a look at this same
+chart with the actual market action overlaid on top of it (see Figure 6.2).
+1. The ticks are usually quiet at the open, and at point 1 we can see that the ticks just flopped back and forth for the better part of an hour. The markets did a whole
+lot of nothing during this time.
+2. By 10:25 a.m., we get the first notable tick reading at +600, and this drives the markets higher, with the ticks eventually hitting +1,000. (Remember, this is a shorting
+opportunity that is discussed later in the book.)
+3. The mini-sized Dow futures hit 10,542 when the ticks move over +1,000, and this ends up being their dead highs of the day.
+4. I like to watch how the markets react when the ticks start stair-stepping and making higher highs or higher lows. The ticks shot up to +600 at around 12:00 noon
+EST, but the markets did not move higher. Yet when the ticks started making lower lows, so did the market. This is key information. If high ticks of over +600
+can’t move the markets higher, then that is a tip-off that the selling pressure is predominant.
+5. This series of lower lows in the ticks leads to an eventual steep sell-off. The market generally works up to “abrupt” rallies or sell-offs—the ticks can clue a trader as
+to which way the “out of the blue” move is likely to be.
+6. Here we see the ticks make higher highs, forming an uptrend.
+7. Yet when the ticks made higher highs, the YM made lower highs. This is a bearish divergence and a signal that the rally can be sold because there isn’t enough “juice”
+to get things rolling.
+There are rare days when the markets rocket higher and keep on going, or gap down and keep on selling. On these days, consistent extreme tick readings are
+generated, usually in the neighborhood of 1,200 to 1,400. These consistent high readings are rare, but when they happen, I don’t fight them. This brings me to my last
+rule regarding the ticks—this is something that I take into account after 10:30 a.m. EST and watch throughout the day:
+
+When the ticks spend 90 percent of their time above zero with repeated extreme high tick readings, I ignore trading short setups all day and focus on longs. When
+the ticks spend 90 percent of their time below zero with repeated extreme low tick readings, I ignore trading long setups all day and focus on shorts.
+The ticks are a great way to see what is going on “underneath” the price action. The charts can tell you if prices are going higher or lower, but they can’t tell you if
+the buying or selling pressure is merely fleeting or unrelenting. Leave that job to the ticks. As an update to this chapter, I’ve found that I’ve increasingly been using this
+indicator in more and more of my day trading. On days when the ticks are repeatedly hitting +1,000, I will use any pullbacks to the 0.00 line as buy entry
+opportunities. The opposite is also true. On any days when the selling is brisk and we are getting repeated –1,000 tick readings, I will use any rallies in the ticks back
+to the 0.00 line as shorting opportunities. Even better, these tick readings help a trader to stay in a trend. For example, if I’m short, and each time the ticks rally back to
+0.00, they get pushed back down, I’ll just stay short until we get a +600 reading. The opposite, of course, is also true. This is imperative on those occasional runaway
+days where the S&Ps are up or down 30 or more points, as has been the case for much of August and September 2011.
+
+What Is the Fastest Heads-Up That Stocks Are About to Make a Move?
+The tiki (TradeStation symbol $TIKI) is similar to the ticks, but it measures the net upticks versus downticks on the 30 Dow stocks instead of the entire NYSE.
+Because this reading follows only 30 stocks, it is the first thing that fires off when a buy or sell program hits the markets. (See Figure 6.3.)
+
+92
+
+93
+
+Figure 6.3
+
+Tiki charts are filled with noise, and at first glance they look useless to watch. The key with them, however, is to set up alerts in the same fashion as for the ticks.
+On the tiki, I set up alerts to fire off at +26, +28, and +30 on the upside, and –26, –28, and –30 on the downside. When buy or sell programs hit the markets, these
+alerts fire off instantly. In general, small programs generate the 26 level, medium programs hit the 28 level, and massive programs hit the 30 level—meaning that all 30
+Dow stocks are moving in the same direction. These readings are rare and highlight significant and sustained periods of buying or selling.
+Surprisingly, I don’t use these signals for any actionable exit strategies. If I’m short, and a +28 tiki level is generated, I’m probably wrong on the move, but I will
+wait until the ticks get to +800 before I exit. This is because a buy or sell program can be swift and over in a blink, causing the tiki movement to be erratic. This brings
+me to my first rule with the tiki:
+
+For exits, tiki readings are only the heads-up; ticks are the confirmation.
+Figure 6.4 shows the tikis on M arch 29, 2005. When comparing this to the ticks, the first thing that is evident is that the tiki looks like it’s all over the place and
+hard to read. However, upon closer inspection, immense value can be found.
+1. I always like to see what type of program hits the market first—a buy or a sell program. This represents the first real “try” of the day, and I want to see how it
+pans out. In this chart, the first program of the day is a buy program that hits at 10:25 a.m. EST.
+2. This sends the Dow to new highs.
+3. The next program is also a buy, and it hits at 11:30 a.m.
+
+94
+
+95
+
+Figure 6.4

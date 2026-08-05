@@ -1,0 +1,7 @@
+[
+  {"claim_ref": "book_0081::lead_book_0081_3_071", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0081::lead_book_0081_1_055", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0081::lead_book_0081_1_065", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0081::lead_book_0081_1_066", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0081::lead_book_0081_1_067", "verdict": "corroboration", "behavior_id": "contrarian_extreme_reversal", "page": 64, "exact_text": "go in the opposite direction. The\nreasoning is that the locals are going to want to cover their position before the end of the day, which is going\nto bring the market back from whence it came.", "added_conditions": ["price move caused primarily by locals"], "added_parameters": []}
+]

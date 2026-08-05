@@ -1,0 +1,355 @@
+
+209
+
+210
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+We can dig a bit deeper in the results and say that certain markets respond better than others with the psychological elements that dojis, hammers, and stars represent. Each market has its own character. The
+Canadian dollar, for example, is a currency that highly correlates to commodities, which would be a good reason why it has a strong percentage of
+occurrences versus the British pound. The Canadian dollar tracks closer to
+the moves in gold. In addition, the volume of trading is lower as compared
+to the British pound, the euro, or the yen, according to the Triennial Central Bank Survey 2004. While most currencies are tradable, the five currencies, including the U.S. dollar (four currency pairs), that represent the
+majority of foreign exchange trading volume are the euro (EUR/USD), with
+the majority of volume of 28 percent; the yen (USD/JPY), with estimated 17
+percent of market share; the British pound (GBP/USD), with 14 percent;
+and the Swiss franc (USD/CHF), with an estimated 5 percent share of overall volume activity. The Canadian dollar volume trades comparatively
+speaking about less than 4 percent.
+There are those who will take these statistics and show that there is no
+evidence that it is reliable information or that there was not enough backtest studies completed. In fact, statisticians and those who understand
+Bayesian calculations will most likely dispute these findings. Well that’s alright, as I see these patterns form over and over and over; and the computer
+findings substantiate that. In case you wanted to know what Bayesian theory is, it is from the famous mathematician Thomas Bayes. He was born in
+London in 1702 and died in 1761. One of the few works Bayes published
+during his lifetime was a defense of Issac Newton against a bishop who had
+attacked the logic of his calculus, according to the Encyclopedia Britannica. Bayes was successful enough as a mathematician to win election to
+the Royal Society of London. He would have been long forgotten had it not
+been for his friend Richard Price, who inherited Bayes’s papers. Price, himself famous for devising one of the first actuarial tables, came across the
+“Essay towards Solving a Problem in the Doctrine of Chances” and helped
+develop the Bayes rule. Statisticians have long recognized the rule’s importance, and some high school classes use it to solve straightforward
+probability problems. But once both data and beliefs enter the picture, the
+math can become unbelievably complex. Over the past 10 or 15 years, however, computers have become powerful enough to handle Bayesian calculations with relative ease; and the method has won a following. Bayes’s
+formula allows scientists to combine new data with their prior beliefs
+about how the world works. It is an idea that amounts to heresy in much of
+the statistical world. After all, the method requires individuals to make subjective decisions about how strongly to weigh prior beliefs. The essence of
+the Bayesian approach is to provide a mathematical rule explaining how
+
+Candle Charts and Top Reversal Patterns
+
+211
+
+you should change your existing beliefs in the light of new evidence. In
+other words, it allows scientists to combine new data with their existing
+knowledge or expertise.
+This rule applies to the statistics provided on hammers and dojis
+forming bottoms, as in the case of the Canadian dollar, saying “40 percent
+of bottoms are hammers” is not equivalent to saying “40 percent of hammers are bottoms.” The Bayes rule can be used to connect these two statements. Therefore, you must be aware that what happened in the past might
+not repeat with the same frequency or that this data is even reliable. However, the facts are the facts. During this time period, the results speak for
+themselves.
+Now that you are armed with enough information to be dangerous in
+your trading, let’s go over how to find certain setups and explain what triggers a call to initiate a trade based on these findings combined with what
+we have learned so far with pivot point analysis. In the following chapters,
+we will also cover the type of risk parameters to use and when and where
+to exit positions.
+
+CHAPTER 8
+
+Setups and
+Triggers
+Combining Candles and Pivots
+
+here are many methods you can employ to actively trade, including
+various mechanical trading systems and manual trading tactics. The
+constant changing of market conditions can require system traders
+to adapt and update the parameters for their trading decisions. I often prefer the hands-on visual approach, which is more of a manual method, while
+employing a mechanical trigger to both enter and exit a position with a
+specific risk management technique. The visual approach is aided by the
+use of candle charts.
+The triggers discussed in this chapter are based on the methodology developed from my 26 years as a trader. I have continually strived to find
+clearer signals and triggers for short- and even longer-term trade opportunities. I have been doing extensive research regarding the combination of
+candlestick formations and pivot points; some of the proprietary signals
+that I have taught traders at seminars and in my course, I am sharing in this
+book. This chapter details the triggers designed by me, based on my research joining both specific candle patterns and pivot point analysis.
+I am going to cover three setups: (1) the high close doji (HCD), (2) the
+low close doji (LCD), and (3) the jackhammer. Each one has a special set
+of rules by which to initiate a trade and to exit a trade. These strategies
+have done well in periods of both bullishness and bearishness, as well as in
+times of heightened volatility and periods of low volatility.
+This is just a small sample of what is taught in my three-month intensive trading school. I have been asked why I would share such highprobability trading signals with the public. Well, I have taught these methods
+to many people, including my own father and son. Just as they have differ-
+
+T
+
+213
+
+214
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+ent results with the same signals, you will, too, due to the very nature of
+trading. Once my trading concepts are taught by the masses, I do not believe the signals will be diluted or absorbed in the marketplace.
+I believe not every trader will implement my methods in exactly the
+same way as I do. For example, Larry Williams has his OOPS method, Mark
+Fishers has his method, and Tom Demark had his method let out to the public. And all these systems, to my knowledge, are still highly effective strategies. So I do not believe letting you into my “black box” will hurt or dilute
+the signals.
+There are various markets and various time periods in which to enter a
+trade, such as a 60-minute, a 15-minute, and a 5-minute time period for
+swing and day traders. These signals work for futures and stocks, and they
+work amazingly well in the foreign exchange (forex) markets, as you will
+see in the coming examples. The premise is to help keep the trader focused
+on the now, to watch and study the current price action. The candle patterns give a visual confirmation of price momentum, and the pivot points
+forewarn you of what the potential turning points are. When you combine
+the two methods, you have a solid trading program. This setup may help
+you improve your trading performance and allow you to develop a consistently winning trading strategy. This could be your personal trading system
+that is based off proven and powerful techniques. For a moment, I want you
+to envision the concept of epoxy glue: It requires two compounds. Separately, they are not very reliable or, in fact, a very strong bonding substance.
+However, when combined, a chemical reaction occurs and forms an amazingly strong and powerful bond. Using the methods of candlesticks with
+pivot points can give you that same result if you know what to look for. The
+implementation of longer-term analysis using pivot points will give a trader
+a fantastic means by which to anticipate a point where a trend change
+could occur, thus helping a trader not only to prepare but also to act on a
+trade opportunity. One can implement this setup using different time
+frames besides daily analysis. You can include weekly and even monthly
+pivot point calculations. This method of analysis will alert you well in advance of a potential support and/or resistance level. In the setup process,
+you will heighten your awareness to enter in a long or a short position
+against predefined levels and will wait for the trigger or market signal at
+those levels. It can not only help you define or identify the target area to
+enter but also establish your risk objective. Another event that occurs with
+this setup process is that you now can set up your orders to buy on your
+trading platform with the selected contract amounts—in other words, prearrange the commands on the electronic order ticket. Now all you need is
+confirmation so you can pull the trigger or click the mouse to establish an
+entry in the market and establish a position.
+In Chapter 7, we covered the importance of dojis and the statistical rel-
+
+215
+
+Setups and Triggers
+
+FIGURE 8.1
+
+evance of why I look for them at pivot point support targets. The primary
+importance in the study of the doji at a pivot is to understand that the doji
+indicates indecision and is a significant sign that changes are coming. In
+candle patterns, the morning doji star is one of the most reliable reversal
+formations that a trader can identify. The problem is that there are about 12
+variations, making it hard to write code to program in a trading software
+package. However, the main component about the doji is the trigger indicating when the next time period’s close is higher than the doji’s high. This
+can be a subtle change by just two PIPs in forex or ticks in futures. It cannot be at the exact high of the doji; rather, it needs to close above the doji
+high. This is a very important point, so make sure you are crystal clear on
+it. Figure 8.1 demonstrates the definition of a close above the doji high.
+
+HIGH CLOSE DOJI
+The most reliable and most common method used to determine support
+and resistance levels is the mathematical-based calculations from pivot
+point analysis. Through the years, I have noticed that doji formations form
+more often than not at these predefined levels. In Chapter 7, we have statistical information that backs up that observation. That is the focus on
+which we want to concentrate—the market’s behavior at support and resistance levels, especially when dojis appear. The key is to watch for confirmation for a transition to take place and to act when there is a shift in
+momentum. We are looking for a specific conditional change to take place
+in the market, namely a higher closing high above a doji’s high at the pivot
+point support level. This is the pattern I call the high close doji (HCD)
+
+216
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+method. It has dimensions of specific criteria that need to fall in place,
+helping to eliminate and to filter out false signals. It is a simple and basic
+approach to candlestick chart patterns that is a high-probability winning
+strategy.
+
+Characteristics
+When the market is in an extended trend to the downside and the market
+condition is oversold, a doji appears, indicating indecision and weakness of
+sellers to maintain the downward trend. In addition, prices are near a projected pivot point support target level (Figure 8.1).
+When a doji appears, you should:
+• Buy on the close or on the next open after a new closing high is made
+from the previous doji candle high, especially when the market is
+against a key pivot point support target number.
+• Place stops below the lowest low point of the doji. Stops should be initially placed as a stop-close-only, meaning you do not exit the trade unless the market closes back below the doji’s low.
+• Sell or exit the trade on the close or on the next open of a candle that
+makes a lower closing low near a key pivot point resistance number.
+You can use a “filter” or backup process to confirm the buy signal, such
+as a bullish convergence stochastic pattern or a bullish convergence on
+moving average convergence/divergence (MACD).
+
+Spot Forex Triggers
+Now let’s put these rules into practice by examining active trading markets,
+such as in foreign currency markets. Figure 8.2 shows a 15-minute time period candle chart on the spot British pound. Taking the data from September 29 and using the close from the 5 P.M. (ET) New York Bank settlement,
+we have a high of 177.04, a low of 175.92, and a close of 176.13. Once we calculate the pivot points, we have the first support (S-1) figured as 175.68.
+The first resistance (R-1) is 176.80.
+As you can see, the market trades for almost two hours at the pivot support; but at 4:30, a doji forms. Three time periods later, a close above the
+doji’s high occurs. Note that the market closes above both moving average
+values. In addition, the COMAS (Conditional Optimized Moving Average
+System™) method shows the shorter-term moving average cross above the
+longer-term average, confirming a trigger to go long. The trigger to enter a
+long position would be on the time period’s close or the very next session’s
+
+Setups and Triggers
+
+217
+
+FIGURE 8.2
+Used with permission of esignal.com.
+
+open; the entry price would be 175.95. As the market blasts off into trend
+mode, the money-making sequence of events transpires—higher highs,
+higher lows, and higher closing highs.
+As the trade matures, watch the reaction at the pivot resistance R-1 of
+176.80. Observe the bullish momentum dry up; for the first time, there is a
+lower closing low, and prices close below both moving average values. The
+moving averages also form a negative cross, confirming a trigger to exit
+the long position. As a day trader, you have completed your mission to capture money from the market. This example would have had you exit the
+position at 176.57. For each full-lot-size contract, that would be a 62-PIP
+profit or $620 gain. Granted, you did not buy the low or sell the high; but
+you certainly did what you always want to do—capture a nice chunk of the
+middle of a price move. If you understand that markets move from trend
+mode to consolidation (or congestion) phase, then you will realize that at
+this time it is best to walk away and wait for the next setup because you
+are now vulnerable to getting whipsawed in the market during the consolidation phase. That is why most successful traders make their money and
+walk away. Other less fortunate traders tend to make money early in the
+day and lose it by trading it away late in the trading session during the consolidation period.
+
+218
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+Let’s examine another trading setup in a spot forex market and see
+how the HCD signal responds. Figure 8.3 is another 15-minute chart on the
+euro currency with the two indicators stochastics and MACD. So far in this
+book, you have learned how to spot triggers and how to properly read the
+indicators. The HCD trigger signals to enter in a position earlier than the
+MACD does and is confirmed by the stochastics as the %K and %D both
+close above the 20 percent line. What helps keep you in the trade is the sequence of trading events, such as higher highs, higher lows, and higher closing highs. Note that the %K and %D stochastic readings do not close
+beneath the 80 percent level until the end of the trend run. Also note that
+once the market closes below a prior time period’s low and a doji forms at
+the top of the price peak, the stochastics does cross beneath and closes
+below the 80 percent line. The MACD also signals a zero-line cross. All the
+indicators lined up with an exit point.
+This signal generated a buy at 119.06. If you applied the combined technical tools covered in this book, it would have allowed you to stay with the
+trade and to capture the bulk of the move as the exit triggered at 120.15. Per
+100,000 lot contract in the spot forex market, that would have generated a
+handsome profit over $1,000 per position. All it takes is a few of those per
+month to generate a tidy income.
+
+FIGURE 8.3
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+Setups and Triggers
+
+219
+
+Triggers on Futures Markets
+Let’s tune our focus to the futures markets. Figure 8.4 shows a 15-minute
+chart on the Chicago Board of Trade (CBOT) mini-gold contract. Notice the
+HCD trigger and the small hammerlike pattern that forms on the pivot point
+support. The trigger to go long is on the close of that time period or the next
+time frame’s open. If the market is to go into trend mode, which in this example it did, we should see the sequence of events unfold, such as higher
+highs, higher lows, and higher closing highs. As a day trader, your exit is at
+the least to be calculated by the end of the day; but until the market makes
+the first lower closing low near a key resistance level, you stay with the position or at least scale out of partial positions at the first sign of a pause in
+the trending condition.
+The long would be entered at 530.50, and the offset was triggered at
+538. That would be a $7.50 move per contract and would equate to $250 per
+contract.
+The example in Figure 8.5 is on a five-minute chart. We see confirmation of an HCD trigger with the fast stochastics closing back above the 20
+percent line. Here we have the same feature with higher highs, higher lows,
+and higher closing highs. The trigger to go long here is 11315⁄32, and the trade
+was still going strong until we see a series of dojis at the top. In this case,
+
+FIGURE 8.4
+RealTick graphics used with permission of Townsend Analytics, LTD.
+
+220
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 8.5
+Used with permission of esignal.com.
+
+especially as a day trader, you may do several things: Liquidate your longs
+at the last price, 11330⁄32, which equates to a juicy profit per contract of
+$468.75 (each tick in bonds is $31.25). You would look to get out because
+you know, based on the research covered in Chapter 7, that dojis form the
+day’s highs or lows in bonds a fair amount of the time; and that is what occurred in this example. Then when you see a doji form after a nice trend run
+or near a pivot, getting flat is good common sense. If you had multiple positions on, the scaling out of half to two-thirds of them would be another alternative (Figure 8.6).
+The trade example in Figure 8.7 shows a 5-minute chart on the CBOT
+mini-Dow contract. The daily pivot point support lines up at 10836. A doji
+forms; and the cofirming HCD trigger, which was initiated at 10846, develops. I have three identical studies under the chart: (1) the fast stochastics,
+(2) the MACD study, and (3) a commodity channel index (CCI) using a 14period parameter setting. The stochastics closes above the 20 percent line
+at the same time as the entry on the HCD trigger; the MACD has not yet triggered a signal to go long, even as the market soars to 10861. The CCI makes
+a zero-line cross signal, triggering to buy or at least confirming that your
+long position is valid, but also late.
+What is important is studying how the indicators work and understanding that if most traders follow lagging indicators, by the time they see
+
+Setups and Triggers
+
+FIGURE 8.6
+Used with permission of esignal.com.
+
+FIGURE 8.7
+Used with permission of esignal.com.
+
+221
+
+222
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+a bona fide buy signal, you are already well on your way to profits. This signal gets you 15 points ahead of the crowd, or $75 per contract. That might
+be not much money; but on a day trade margin of $500, that is a 15 percent
+return and gives you a leading edge over the competition.
+Besides the mini-Dow, Standard & Poor’s (S&P), and the Nasdaq, there
+is the Russell 2000 contract, which had a tremendous run in 2005 and early
+2006. This stock index contract responds well with the high close doji triggers combined with the COMAS method. Remember that we do not see a
+bona fide doji appear all the time; for example, when the close is not at the
+exact same price as the open. A doji can assume the shape of a spinning top
+pattern as well, which is why I use my judgment to determine if the close is
+less than 8 percent or so of the overall range. I do consider the psychological aspect of the creation of the doji candle pattern. After all, even a spinning top after a downtrend indicates indecision; so a higher assigned value
+or a higher closing high takes on the same meaning as a high close doji.
+Also confirming a trigger to go long, as the example in Figure 8.8 shows, is
+seeing the HCD form at or come near to the pivot point support level and
+then look for a close above both moving average components. In addition,
+the shorter-term moving average crosses above the pivot point average,
+
+FIGURE 8.8
+Used with permission of esignal.com.
+
+Setups and Triggers
+
+223
+
+confirming a conditional bullish change in the market. A trigger to enter a
+long was established on the close above the spinning top pattern or the
+open of the next period, which was at 658.00; and as you can see, higher
+highs, higher lows, and higher closing highs developed. Examine the market’s behavior at the R-1 target resistance level: The market simply paused,
+but yet still closed above the R-1 price resistance level. After it penetrated
+the R-1 level, the market consolidated but still maintained a bullish bias because the market did not confirm an exit signal by simultaneously establishing three criteria:
+1. A close below a prior low.
+2. The moving averages that did not cross and close below each other.
+3. A price that did not close below both moving average values.
+
+Fractal Relationships
+In Figure 8.9, I want to dissect a daily chart to see what the intraday pattern
+looked like, as the daily chart formed a textbook high close doji trigger. The
+trigger to go long was at 208.25, on the close of business on January 24 or
+on the open on January 25. This example really highlights a fractal relationship as one time period interacts with another.
+
+FIGURE 8.9
+Used with permission of esignal.com.
+
+224
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+My favorite time period for intraday trading is the 15-minute time period because it is divisible by 3, a relatively important number in the field
+of technical analysis. More important, it is an extremely relevant time period to the grain complex: Since the market opens at 9:30 A.M. (CT) and
+closes at 1:15 P.M. (CT) there are 15 complete 15-minute time periods to
+trade.
+Coincidentally, the day the doji formed on an end-of-day chart as
+shown in Figure 8.9, we see that a high close doji pattern formed on the intraday chart on a 15-minute time period as well. Therefore, we sometimes
+see this pattern develop on smaller time periods, such as the 15-minute period for end-of-day patterns for added confirmation. Figure 8.10 shows the
+15-minute chart for corn on January 24, the day the doji formed. This is a
+great example of what a fractal relationship is with trading signals.
+As you look at the 15-minute chart, we see a nice bullish run, complete
+with the sequence of events we like when in a long position: higher highs,
+higher lows, and higher closing highs. Quite a sweet setup—no pressure—
+no hassle—the way trading should be all the time!

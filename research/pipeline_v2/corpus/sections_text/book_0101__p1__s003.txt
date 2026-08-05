@@ -1,0 +1,494 @@
+
+AU3772_C000.fm Page 41 Tuesday, November 21, 2006 1:50 PM
+
+Chapter 21
+
+Selection of Stocks to Chart..................................................391
+Character and Habits — Number — Advantages of
+Listed Issues
+
+Chapter 22
+
+Selection of Stocks to Chart — Continued ........................395
+Diversification — Price Range — Swing Power within
+Groups — Slow-Moving Groups
+
+Chapter 23
+
+Choosing and Managing High-Risk Stocks: Tulip
+Stocks, Internet Sector, and Speculative Frenzies............401
+Managing Speculative Frenzies and Runaways
+
+Chapter 24
+
+The Probable Moves of Your Stocks...................................419
+Choosing Stocks which Have the Potential to Move —
+Volatility
+
+Chapter 25
+
+Two Touchy Questions...........................................................425
+Use of Margin — Short Selling
+
+Chapter 26
+
+Round Lots or Odd Lots? ......................................................433
+Extra Cost of Odd Lots — Occasional Advantages —
+Determining Trade Size and Risk
+
+Chapter 27
+
+Stop Orders...............................................................................435
+Protective Stops — Computing Stop Levels — Table of
+Stop Distances — Progressive Stops
+
+Chapter 28
+
+What Is a Bottom — What Is a Top?...................................441
+The Three Days Away Rule — Basing Points — Volume
+Signals
+
+Chapter 28.1 Basing Point Case Analyzed, Illustrated............................446
+Chapter 29
+
+Trendlines in Action ...............................................................451
+Buying Stock — Selling Long Stock — Selling Stock
+Short — Covering Short Sales — Additional Suggestions
+
+Chapter 30
+
+Use of Support and Resistance ............................................461
+Formulating a Rule for Buying — When a Support Fails
+— Placing Stop Orders — Software for Determining
+Support-Resistance
+
+Chapter 31
+
+Not All in One Basket............................................................467
+Diversification — Its Cost and Benefits — Trading Index
+Shares
+
+AU3772_C000.fm Page 42 Tuesday, November 21, 2006 1:50 PM
+
+Chapter 32
+
+Measuring Implications in Technical Chart Patterns......469
+Reactions vs. Primary Moves
+
+Chapter 33
+
+Tactical Review of Chart Action ..........................................473
+Dow Theory — Head-and-Shoulders — Multiple Headand-Shoulders — Rounding Tops and Bottoms —
+Triangles — Broadening Tops — Rectangles — Double
+Tops and Bottoms — Diamonds — Wedges — One-Day
+Reversals — Flags and Pennants — Gaps — Support
+and Resistance — Trendlines
+
+Chapter 34
+
+A Quick Summation of Tactical Methods .........................501
+When to Get Out — When to Get In
+
+Chapter 35
+
+Effect of Technical Trading on Market Action .................505
+Many Types of Investors — Technicians a Minority
+Group — Persistence of Ingrained Evaluative Habits
+
+Chapter 36
+
+Automated Trendline: The Moving Average ....................507
+Sensitizing Moving Averages — Crossovers and
+Penetrations
+
+Chapter 37
+
+“The Same Old Patterns” ......................................................513
+Repetitive Character of Market Behavior Over the
+Years — Additional Chart Examples Covering Market
+Action up through 2005
+
+Chapter 38
+
+Balanced and Diversified.......................................................577
+The “Not All” Principle — The Evaluative Index —
+Reducing Risk and Anxiety — Identifying Bull and Bear
+Market Tops and Bottoms with the Magee Evaluative
+Index
+
+Chapter 39
+
+Trial and Error ..........................................................................585
+Putting Experience to Work
+
+Chapter 40
+
+How Much Capital to Use in Trading ................................587
+
+Chapter 41
+
+Application of Capital in Practice .......................................591
+Using Composite Leverage According to the Market’s
+Condition — Overall Strategy
+
+Chapter 42
+
+Portfolio Risk Management ..................................................597
+Finding the Sensible Risk Posture — Overtrading and
+Undertrading — Controlling Risk per Trade — Risk of
+a Single Stock — Risk of a Portfolio — Pragmatic
+
+AU3772_C000.fm Page 43 Tuesday, November 21, 2006 1:50 PM
+
+Portfolio Theory — Pragmatic Portfolio Risk
+Measurement — Pragmatic Portfolio Analysis — The
+Magee Method of Controlling the Risk
+Chapter 43
+
+Stick to Your Guns..................................................................609
+
+APPENDIX A Chapters A–D
+Chapter A
+
+The Probable Moves of Your Stocks
+(Chapter 24 from the Seventh Edition) .............................. 611
+Relative Sensitivity — The Market Reciprocal — Normal
+Range-for-Price-Volatility
+
+Chapter B
+
+A Discussion of Composite Leverage
+(Chapter 42 from the Seventh Edition) ..............................613
+Overtrading and a Paradox — The Composite Leverage
+Index of a Single Stock — Composite Leverage of a
+Portfolio — Investment Account Policy — Negative
+Composite Leverage
+
+Chapter C
+
+Normal Range-for-Price Indexes
+(Appendix B, Fifth Edition) ..................................................619
+
+Chapter D
+
+Sensitivity Indexes of Stocks
+(Appendix C, Fifth Edition) ..................................................621
+
+Appendix B .........................................................................................................629
+Section 1: The Mechanics of Building a Chart
+(Chapter 23 from the Fifth and Seventh Editions)
+Section 2: TEKNIPLAT Chart Paper
+Appendix C
+
+Technical Analysis of Futures Charts
+(Chapter 16 from the Seventh Edition
+by Richard McDermott) .........................................................639
+Applications for the Use of Chart Patterns and Other
+Indicators in the Trading of Futures/Derivatives —
+Moving Averages, Bollinger Bands, Stochastics, and
+Others
+
+Appendix D Resources...................................................................................669
+Important Internet Sites — References for Further Study
+— Investment Oriented Sites — The Sharpe Ratio —
+Calculating Volatility — Gambler’s Ruin — Essence of
+Fundamental Analysis — Useful Software and Specific
+Internet Technical Analysis Sites
+
+AU3772_C000.fm Page 44 Tuesday, November 21, 2006 1:50 PM
+
+Appendix E
+
+Example of Trading Manual: Original Turtle
+Trading Systems and Procedures .........................................681
+
+List of Illustrations and Text Diagrams ........................................................703
+Index of Charts by Stock Name .....................................................................722
+Glossary ...............................................................................................................743
+Bibliography .......................................................................................................769
+Index .....................................................................................................................773
+
+AU3772_book.fm Page 1 Saturday, November 18, 2006 5:29 PM
+
+part one
+
+Technical Theory
+
+1
+
+AU3772_book.fm Page 2 Saturday, November 18, 2006 5:29 PM
+
+AU3772_book.fm Page 3 Saturday, November 18, 2006 5:29 PM
+
+chapter one
+
+The Technical Approach
+to Trading and Investing
+Few human activities have been so exhaustively studied during the past
+century, from so many angles and by so many different sorts of people, as
+has the buying and selling of corporate securities. The rewards which the
+stock market holds out to those who read it right are enormous; the penalties
+it exacts from careless, dozing, or “unlucky” investors are calamitous. No
+wonder it has attracted some of the world’s most astute accountants, analysts, and researchers, along with a motley crew of eccentrics, mystics, and
+“hunch players,” and a multitude of just ordinary hopeful citizens.
+Able brains have sought, and continue constantly to seek, for safe and
+sure methods of appraising the state and trend of the market, of discovering
+the right stock to buy and the right time to buy it. This intensive research
+has not been fruitless — far from it. There are a great many successful
+investors and speculators (using the word in its true sense, which is without
+opprobrium) who, by one road or another, have acquired the necessary
+insight into the forces with which they deal and the judgment, the forethought, and the all important self-discipline to deal with them profitably.
+In the course of years of stock market study, two quite distinct schools
+of thought have arisen, two radically different methods of arriving at the
+answers to the trader’s problem of what and when. In the parlance of “the
+Street,” one of these is commonly referred to as the fundamental or statistical,
+and the other as the technical. (In recent years a third approach, the cyclical,
+has made rapid progress and, although still beset by a “lunatic fringe,” it
+promises to contribute a great deal to our understanding of economic trends.)
+The stock market fundamentalist depends on statistics. He examines the
+auditors’ reports, the profit-and-loss statements, the quarterly balance sheets,
+the dividend records, and policies of the companies whose shares he has
+under observation. He analyzes sales data, managerial ability, plant capacity,
+the competition. He turns to bank and treasury reports, production indexes,
+price statistics, and crop forecasts to gauge the state of business in general,
+and reads the daily news carefully to arrive at an estimate of future business
+conditions. Taking all these into account, he evaluates his stock; if it is selling
+currently below his appraisal, he regards it as a buy. (EN9: And, no surprise,
+the buyer’s name is Warren Buffet, and he buys the company, not the stock, for
+while this is an excellent way to buy companies it is not a very good way to buy
+stocks.) EN: Read Robert Prechter’s summation of the fundamental methodology as
+an amusing endnote at the end of this chapter.
+3
+
+AU3772_book.fm Page 4 Saturday, November 18, 2006 5:29 PM
+
+4
+
+Technical Analysis of Stock Trends
+
+As a matter of fact, aside from the greenest of newcomers when they
+first tackle the investment problem, and to whom, in their inexperience, any
+other point of view is not only irrational but incomprehensible, your pure
+fundamentalist is a very rare bird. Even those market authorities who pretend to scorn charts and “chartists” utterly are not oblivious to the “action”
+chronicled by the ticker tape, nor do they conceal their respect for the Dow
+Theory which, whether they realize it or not, is, in its very essence, purely
+technical.
+
+Definition of Technical Analysis
+The term “technical,” in its application to the stock market, has come to have
+a very special meaning, quite different from its ordinary dictionary definition. It refers to the study of the action of the market itself as opposed to the
+study of the goods in which the market deals. Technical Analysis is the science
+of recording, usually in graphic form, the actual history of trading (price
+changes, volume of transactions, etc.) in a certain stock or in “the Averages”
+and then deducing from that pictured history the probable future trend.
+EN: With the advent of the computer, many schools of technical analysis have arisen.
+Number-driven technical analysis, e.g., moving average studies oscillators, etc.,
+attempts to completely objectify the analysis of the markets. The work of Edwards
+and Magee is the embodiment and definition of “classical technical analysis.” See
+Appendix C.
+The technical student argues thus: it is futile to assign an intrinsic value
+to a stock certificate. One share of United States Steel, for example, was worth
+$261 in the early fall of 1929, but you could buy it for only $22 in June of
+1932! By March 1937, it was selling for $126 and just 1 year later for $38. In
+May of 1946, it had climbed back up to $97, and 10 months later, in 1947,
+had dropped below $70, although the company’s earnings on this last date
+were reputed to be nearing an all-time high and interest rates in general
+were still near an all-time low. The book value of this share of U.S. Steel,
+according to the corporation’s balance sheet, was about $204 in 1929 (end of
+the year); $187 in 1932; $151 in 1937; $117 in 1938, and $142 in 1946. This
+sort of thing, this wide divergence between presumed value and actual price,
+is not the exception; it is the rule. It is going on all the time. The fact is that
+the real value of a share of U.S. Steel common is determined at any given
+time solely, definitely, and inexorably by supply and demand, which are
+accurately reflected in the transactions consummated on the floor of the New
+York Stock Exchange.
+Of course, the statistics which the fundamentalists study play a part in
+the supply–demand equation — that is freely admitted. But there are many
+other factors affecting it. The market price reflects not only the differing
+value opinions of many orthodox security appraisers, but also all the hopes
+and fears and guesses and moods, rational and irrational, of hundreds of
+potential buyers and sellers, as well as their needs and their resources — in
+total, factors which defy analysis and for which no statistics are obtainable,
+
+AU3772_book.fm Page 5 Saturday, November 18, 2006 5:29 PM
+
+Chapter one:
+
+The Technical Approach to Trading and Investing
+
+5
+
+240
+U. S. STEEL
+
+X
+
+220
+
+200
+
+180
+160
+
+140
+
+120
+
+100
+
+80
+
+60
+
+40
+
+20
+
+1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946
+
+FIGURE 1. Monthly price ranges of U.S. Steel common from January 1929 to
+December 1946. Compare the great swings in the market price for this stock — from
+1929 (extreme high, 261¾) to 1932 (extreme low, 21¼), from 1932 to 1937, from 1937
+to 1938, from 1942 to 1946 — with its book values for those years as cited on the
+previous page.
+
+but which are nevertheless all synthesized, weighed, and finally expressed
+in the one precise figure at which a buyer and a seller get together and make
+a deal (through their agents, their respective stock brokers). This is the only
+figure that counts.
+Moreover, the technician claims, with complete justification, that the
+bulk of the statistics which the fundamentalists study are past history,
+already out of date and sterile, because the market is not interested in the
+
+AU3772_book.fm Page 6 Saturday, November 18, 2006 5:29 PM
+
+6
+
+Technical Analysis of Stock Trends
+
+past or even in the present! It is constantly looking ahead, attempting to
+discount future developments, weighing and balancing all the estimates and
+guesses of hundreds of investors who look into the future from different
+points of view and through glasses of many different hues. In brief, the going
+price, as established by the market itself, comprehends all the fundamental
+information which the statistical analyst can hope to learn (plus some that
+is perhaps secret from him, known only to a few insiders) and much else
+besides of equal or even greater importance.
+All of which, admitting its truth, would be of little significance were it
+not for the fact, which no one of experience doubts, that prices move in
+trends and trends tend to continue until something happens to change the
+supply–demand balance. Such changes are usually detectable in the action
+of the market itself. Certain patterns or formations, levels or areas, appear
+on the charts which have a meaning, and can be interpreted in terms of
+probable future trend development. They are not infallible, it must be noted,
+but the odds are definitely in their favor. Time after time, as experience has
+amply proved, they are far more prescient than the best-informed and most
+shrewd of statisticians.
+The technical analyst may go even further in his claims. He may offer
+to interpret the chart of a stock whose name he does not know, so long as
+the record of trading is accurate and covers a long enough term to enable
+him to study its market background and habits. He may suggest that he
+could trade with profit in a stock knowing only its ticker symbol, completely
+ignorant of the company, the industry, what it manufactures or sells, or how
+it is capitalized. Needless to say, such practice is not recommended, but if
+your market technician is really experienced at his business, he could, in
+theory, do exactly what he claims.
+Should the reader, at this point, find the technical approach to trading
+or investing, as explained in the foregoing, completely abhorrent, perhaps
+he had better close the book now. For it is primarily the technical approach,
+the science of technical analysis, with which the remainder of the book deals.
+
+EN: The Elliott Wave Theory: Perspective and Comments*
+This week we had the pleasure of attending the December meeting of the Market
+Technicians Association of New York.
+Long-term subscribers will remember the MTANY as the organization which
+honored John Magee with its “Man of the Year” award in 1978. The speaker was
+Robert Prechter, publisher of “The Elliott Wave Theorist,” an investment advisory
+which bases its forecasts on interpretations of R.N. Elliott’s work on the stock
+market.…
+Of primary interest to SAS subscribers are Prechter’s comments on technical
+analysis itself. The Elliott Wave Theory, it must be remembered, is really no more
+than a “catalog” of stock market price movements, laid one on top of the other, so
+* From the John Magee Market Letters, December 15, 1984.
+
+AU3772_book.fm Page 7 Saturday, November 18, 2006 5:29 PM
+
+Chapter one:
+
+The Technical Approach to Trading and Investing
+
+7
+
+to speak, until a grand, underlying, and enduring pattern is observed; in short, pure
+technical analysis. Among Prechter’s definitions and observations regarding fundamental analysis are the following:
+1. “First let’s define ‘technical’ versus ‘fundamental’ data…technical data is
+that which is generated by the action of the market under study.”
+2. “The main problem with fundamental analysis is that its indicators are
+removed from the market itself. The analyst assumes causality between
+external events and market movements, a concept which is almost certainly
+false. But, just as important, and less recognized, is that fundamental
+analysis almost always requires a forecast of the fundamental data itself
+before conclusions about the market are drawn. The analyst is then forced
+to take a second step in coming to a conclusion about how those forecasted
+events will affect the markets! Technicians only have one step to take, which
+gives them an edge right off the bat. Their main advantage is that they don’t
+have to forecast their indicators.”
+3. “What’s worse, even the fundamentalists’ second step is probably a process
+built on quicksand.… The most common application of fundamental analysis is estimating companies’ earnings for both the current year and next
+year, and recommending stocks on that basis.… And the record on that basis
+alone is very poor, as Barron’s pointed out in a June 4 article, which showed
+that earnings estimates averaged 18% error in the 30 DJIA stocks for any
+year already completed and 54% error for the year ahead. The weakest link,
+however, is the assumption that correct earnings estimates are a basis for
+choosing stock market winners. According to a table in the same Barron’s
+article, a purchase of the 10 DJIA stocks with the best earnings estimates
+would have produced a 10-year cumulative gain of 40.5%, while choosing
+the 10 DJIA with the worst earnings estimates would have produced a
+whopping 142.5% gain.”
+We enjoyed Prechter’s polished exposition of a technical approach different from
+our own. As for his observations about fundamental analysis, we simply couldn’t
+agree more.
+
+AU3772_book.fm Page 8 Saturday, November 18, 2006 5:29 PM
+
+AU3772_book.fm Page 9 Saturday, November 18, 2006 5:29 PM
+
+chapter two
+
+Charts
+Charts are the working tools of the technical analyst. They have been developed in a multitude of forms and styles to represent graphically almost
+anything and everything that takes place in the market, or to plot an “index”
+derived therefrom. They may be monthly charts on which an entire month’s
+trading record is condensed into a single entry, or weekly, daily, hourly,
+transaction, “point-and-figure,” candlestick, etc. They may be constructed
+on arithmetic, logarithmic, or square-root scale, or projected as “oscillators.”
+They may delineate moving averages, proportion of trading volume to price
+movement, average price of “most active” issues, odd-lot transactions, the
+short interest, and an infinitude of other relations, ratios, and indexes — all
+technical in the sense that they are derived, directly or indirectly, from what
+has actually been transacted on the exchanges.
+With most of these, fortunately, we shall not need to concern ourselves
+at all; they are of interest only to the full-time economic analyst. Many of
+them have derived from a completely futile (so far, at least) endeavor to
+discover some one “mechanical” index or combination of indexes which will
+always, automatically, without ever failing or going wrong, give warning of
+a change in trend; such, in our experience, are often confusing and sometimes
+downright deceptive at a most critical juncture. This book, however, is
+designed for the layman, the business or professional man who cannot spend
+all his hours on his investing or trading operations, but to whom these
+operations are, nevertheless, of sufficient importance or interest to warrant
+his devoting at least a few minutes a day to their study and management.
+(EN9: In retropsect an underestimation of the importance of the work. In the 21st
+century the best professionals are acutely aware of the importance of trend analysis
+and use this work as their text book.) The theories and methods outlined herein
+will require only the simplest form of stock chart — a record of the price
+range (high and low), closing price, and volume of shares traded each day.
+These daily graphs will be supplemented, for certain purposes which will
+be discussed farther on, by weekly or monthly charts, which for most stocks
+can be purchased ready-made and which are easily generated by almost all
+commercially available investment software.
+Nearly all the illustrations throughout the following pages are examples
+of such daily charts. They are easy to make and maintain manually, requiring
+only a supply of graph or cross-section paper (almost any kind can serve),
+a daily newspaper which gives full and accurate reports on stock exchange
+9

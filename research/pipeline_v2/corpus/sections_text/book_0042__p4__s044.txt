@@ -1,0 +1,441 @@
+and weather forecasting are exceptions in that a larger number of
+inputs is typically used. The ability to use a larger set of information can be explained by the fact that immediate and precise feedback is available, which enables the experts in these two domains
+to learn. In other areas, like medical diagnosis, school admissions,
+and financial forecasting, feedback is often delayed or never available. Hastie and Dawes's conclusion suggests why subjective technicians do not learn from their mistakes-precise feedback is not
+
+Case Study Results and the Future of TA
+
+469
+
+available because of the lack of objective pattern definitions and
+evaluation criteria.
+2. For a wide range of judgment tasks, experts' judgments can be explained by an additive (linear) model of the inputs.
+3. Few judges use nonlinearlconfigural thinking to combine inputs even
+though they are under the impression that they are doing so. However, when they do use configural reasoning, they tend to do it
+poorly.45
+4. Experts do not understand how they arrive at their own judgments.
+
+This problem is most pronounced among highly experienced experts.
+As a result, their judgments are inconsistent when given the same set
+of inputs on different occasions.
+5. In many domains, judges do not agree with each other when given the
+same set of information. The low level of interjudge agreement says
+that someone is wrong.
+H. When irrelevant information is added to the set of inputs, judges become more confident although accuracy does not improve. Clearly,
+they are tillable to distinguish relevant from irrelevant variables.
+7. There are very few judges who are demonstrably superior.
+Hastie and Dawes's conclusions have received additional support
+from Tetiock,4G who evaluated predictions from experts in different fields
+and compares them to relatively simple statistical models that extrapolate recent trends. Tetlock's work, which appears to be the most rigorous
+long-term study ever conducted of expert judgment in the political and
+economic domains, does suggest that certain subjective cognitive styles
+of decision making are superior. He calls this style the fox. However, he
+shows that all human-based predictions, whatever their style, pale in
+comparison to formal model-based predictions. Using a two-dimensional
+framework for evaluating forecast accuracy, discrimination, and calibration, the accuracy of formal models, based on a method called generalized autoregressive distributed lags, far exceeds the performance of
+human experts. 47
+
+Why Are Experts' Subjective Predictions So Poor?
+Although there is general agreement among those who study expert judgment, that it is rarely superior to objective forecasts, there is less agreement about why. A number of explanations have been proposed: the
+intrusion of emotional factors, the lack of consistency in how factors are
+weighted, excessive weight given to vivid concrete features that have little
+
+470
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+predictive power, inadequate weight given to abstract statistics that possess predictive power, the failure to use configural rules properly, falling
+prey to illusory correlations, failing to notice valid correlations, and being affected by the actions and statements of others. Many of these were
+covered in Chapter 2, with respect to the birth and maintenance of erroneous beliefs, and in Chapter 7, with respect to information cascades
+and herd behavior, and I will not repeat them here. Here, I will consider
+the intrusion of emotional factors on the subjective forecaster, which
+has not been discussed in prior chapters.
+A number of investigators have considered the effect of emotions on
+subjective judgments made under conditions of uncertainty. One model,
+proposed by Loewenstein et al.,48 suggests that a subjective forecast is
+impacted by the decision maker's anticipated emotional reaction to the
+prediction's outcome. Even though the expert's anxieties about the
+chance of being wrong have no valid role in a forecast, they appear to
+playa role. Nofsinger4 9 presents Lowenstein's model in a diagram that I
+have reproduced in Figure 9.10. Note that when a person is making a
+prediction they are impacted by anticipating their emotions in response
+to the possible outcomes. This affects both the cognitive evaluation of
+information and the current emotional state of the decision maker. 5o
+Slovic, Finucane, Peters, and MacGregor5 1 explain the intrusion of
+emotions on the subjective decision maker in terms of affect. Affect refers
+to the good or bad feelings associated with a stimulus. These feelings often operate unconsciously and produce rapid reflex-like behaviors that
+
+Anticipated
+Outcomes
+Including
+Anticipated
+Emotions
+
+~
+
+,--------,
+Cognition
+'---_Ev_a_lu_a_t_io_n-----' ~
+
+I
+
+Subjective
+Probability
+Assessments
+
+I
+
+I B,h,v;o<
+
+1/
+
+1--
+
+Outcomes
+(Including
+Emotions)
+
+Feelings
+/L------J
+
+Other Factors;
+Vividness
+/'
+Immediacy
+Background
+Mood
+
+17 1G HE 9.10
+
+~
+
+Lowenstein's model of judgment impacted by affect.
+
+Case Study Results and the Future of TA
+
+471
+
+are not under the decision maker's conscious control. Slovic points out
+that feelings and images can weigh heavily in judgments that would be
+better handled by a purely analytical and rational consideration of evidence. For example, a market analyst who has negative feelings associated with a declining market is likely to remain more bullish than the
+evidence would warrant. However, not all judgments based on affect are
+bad. Some situations are accurately represented by the feelings they provoke and do demand the fast reflex-like decisions produced by this mode
+of thinking. Affective decision making was probably the dominant mode
+of judgment during the evolution of the human species. In other words,
+the speed of affective decision making had survival value. Fear of heights
+or of large predators demanded faster choices than those that a conscious
+weighing of pros and cons would have been able to produce. "However,
+like other heuristics that provide generally adaptive responses but occasionally lead us astray, reliance on affect can also deceive US."52 This occurs when the relevant features of a situation are not well represented by
+the feelings they stimulate. Financial market prediction is such a situation, yet the subjective forecaster remains vulnerable to the automatic
+and subconscious judgments of a heuristic based on affect.
+The model offered by Joseph Forgas further illuminates the futility of
+subjective forecasting. 53 It explains that "the greater the complexity and
+uncertainty in a situation, the more emotions will influence a decision."54
+This characterizes the task faced by the subjective TA analyst who operates against insurmountable obstacles when trying to evaluate a multitude
+of indicators in a rational manner. I contend that subjective forecasting is
+no longer the analyst's proper role.
+
+The Expert's Proper and Crucial Role
+in Human-Machine Partnership
+The proper role of the TA practitioner in the envisioned human-computer
+partnership is twofold: (1) proposing an information-rich set of candidate inputs suitable for presentation to the data-mining software, (2)
+specifying the problem to be solved by data-mining software (i.e., the
+target variable. In other words, the TA expert's proper role is to supply
+what the computer lacks, namely, expertise in the domain of TA and inventive talent.
+It is somewhat ironic that in this high-tech era, the analyst's role has
+now taken center stage. This is a result of the changed economics of data
+mining. Within the last decade, the price of computing power and powerful data-mining software has declined sharply. Whereas these resources
+had been the exclusive domain of well-financed research organizations as
+recently as a decade or two ago, today they are commodities accessible to
+
+472
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+almost all market participants. These trends have democratized data mining. Most investors now have access to the same tools that once gave a
+huge competitive advantage to the largest institutional investors. That advantaged has been greatly diminished. Consequently, the competitive advantage-the source of added value-has now shifted back to the human
+analyst. The competitive advantage now lies with those TA experts possessing the best insights with regard to proposing indicators and specifying target variables. The TA practitioner who embraces the EBTA
+philosophy is well positioned to play this role.
+Indicator design and target specification is a huge topic suitable for
+entire books. There are many books that cover indicators that are specific
+to TA. 55 There is no need to duplicate that here. There are other books that
+treat the more general problem of designing inputs (predictive variables)
+that are suitable for specific types of data-mining algorithms. 56 Different
+algorithms have different requirements. For example, although it is crucial that inputs to a neural net be properly scaled, inputs to decision-tree
+algorithms need not be. Masters,57 Pyle,58 and Weiss and Indurkhya59 cover
+these issues nicely.
+Indicator design refers to the specification of transformations applied
+to raw market data before it is presented to the data-mining tool. Data
+miners often refer to this as preprocessing. The task of proposing a list of
+information-rich and properly designed candidate indicators for a datamining problem requires the domain expertise and inventive talents of the
+human analyst.
+Anyone who has gotten their hands dirty in the data-mining trenches
+knows the following truth: a necessary condition for success in data mining is a good set of candidate indicators. Good does not mean that all inputs have to be informative. However, some of the proposed variables
+must contain useful information about the target variable. According to
+Dorian Pyle, a noted authority on data mining, "after finding the right
+problem to solve, data preparation is often the key to solving the problem.
+It can easily be the difference between success and failure, between useable insights and incomprehensible murk, between worthwhile predictions and useless guesses."60 Dr. Timothy Masters, another data-mining
+authority, says, "Preprocessing is the is the key to success ... even a primitive prediction model can perform well if the variables have been preprocessed in such as way as to clearly reveal the important information. "61
+The message is amplified by Weiss and Indurkhya, in their book Predictive Data Mining. "The greatest gains in performance are often made by
+describing more predictive features (indicators). It is the human who
+specifies the set of features ... and who investigates how to transform the
+original features into better features." "The computer is smart about deleting weak features, but relatively dumb in the more demanding task of
+
+Case Study Results and the Future of TA
+
+473
+
+composing new features or transforming raw data into more predictive
+forms ... the composition of features is a greater determining factor in
+the quality of results than the specific prediction methods used to produce
+those results. In most instances, feature composition is dependent on
+knowledge of the application."62
+The TA practitioner who understands data-mining methods and the
+inlportant issues in indicator design will be well positioned to play this
+crucial role in the human-machine partnership of twenty-first-century
+technical analysis. With the computer as an intelligence amplifier and a
+scientific orientation as the mindset, the EBTA practitioner is uniquely
+well positioned to push the frontiers of market knowledge forward at an
+accelerated pace. Given that human intelligence is essentially unchanging,
+but computer intelligence is increasing at an exponential rate,63 no other
+approach to TA makes sense.
+
+Proof That
+Detrending Is
+Equivalent to
+Benchmarking Based
+on Position Bias
+
+n order to compensate for market bias interacting with long-short bias,
+one should compute the expected return of a random system with the
+same long-short bias, and subtract this bias-related return from the return of the candidate system.
+The expected value of a single raw return drawn from the population
+of historical raw returns is, by definition, the mean of these returns.
+
+I
+
+(AI)
+
+Let Pi signify the position of a trading system at opportunity i. This
+will be long, short, or neutral. The expected return of a trading system in
+which positions are random is:
+
+L
+
+ERandam =
+
+E Raw -
+
+P;=Long
+
+L
+
+E Raw
+
+(A2)
+
+P;=Shorf
+
+The total return of the candidate system is the sum of the raw returns
+at those times when the candidate system is long, minus the sum of the
+raw returns when the system is short:
+Total =
+
+L R; - L R;
+P,=Long
+
+(A3)
+
+P;:::.ShoYt
+
+475
+
+476
+
+DETRENDING IS EQUIVALENT TO BENCHMARKING BASED ON POSITION BIAS
+
+The total return of the candidate system (Equation (A.3)) is corrected
+for long/short prejudice by subtracting the expectation of a similarly prejudiced random system (Equation (A.2)). Subtraction distributes over the
+summation, giving:
+Corrected =
+
+L (R E
+j -
+
+Pj=Long
+
+Raw) -
+
+L (R E
+j -
+
+Raw)
+
+(A.4)
+
+Pi=Short
+
+Notice that the corrected return of Equation (A.4) is identical to the
+uncorrected return of Equation (A.3) except that the mean of the raw returns is subtracted from each individual raw return. In other words, to remove the effect of long/short imbalance in a biased market, all you need
+to do is center the raw returns.
+
+Notes
+
+INTRODUCTION
+1. Data typically considered by TA includes prices of financial instruments;
+trading volume; open interest, in the case of options and futures; as well as
+other measures that reflect the attitudes and behavior of market participants.
+2. J. Hall, Practically Profound: Putting Philosophy to Work in Everyday Life
+(Lanham, MD: Rowman & Littlefield Publishers, 2005).
+3. Ibid., 4.
+4. Ibid., 4.
+5. Ibid.,5.
+6. Ibid.,5.
+7. Ibid.,5.
+8. Ibid.,6.
+9. Ibid., 5.
+10. Ibid., 81.
+11. RD. Edwards and J. Magee, Technical Analysis of Stock Trends, 4th ed.
+(Springfield, MA: John Magee, 1958).
+12. For a complete description of Elliott wave theory see RR Prechter and A.J.
+Frost, Elliott Wave Principle (New York: New Classics Library, 1998).
+13. Any version of these methods that has been made objective to the point
+where it is back testable would negate this criticism.
+14. The professional association of technical analysts, the Market Technicians
+Association (MTA), requires compliance with the National Association of
+Securities Dealers and the New York Stock Exchange. These self-regulating
+bodies require" that research reports have a reasonable basis and no unwarranted claims." Going even further, the MTA requires of its members
+that they "shall not publish or make statements concerning the technical
+
+position of a security, a market or any of its components or aspects unless such statements are reasonable and consistent in light of the available evidence and the accumulated knowledge in the field of technical
+analysis."
+15. Some peer-reviewed academic journals include Journal of Finance,
+Financial Management Journal, Journal of Financial Economics, JOUTnal of Financial and Quantitative Analysis, and Review of Financial
+Studies.
+477
+
+478
+
+NOTES
+
+16. Outside of academia, there has been a move to greater emphasis on objective methods of TA, but often the results are not evaluated in a statistically
+rigorous manner.
+17. F.D. Arditti, "Can Analysts Distinguish Between Real and Randomly Generated Stock Prices?," Financial Analysts Journal 34, no. 6 (November/
+December 1978), 70.
+18. J.J. Siegel, Stocks for the Long Run, 2nd ed. (New York: McGraw-Hill, 1998),
+243.
+19. G.R Jensen, RR Johnson, and J.M. Mercer, "Tactical Asset Allocation and
+Commodity Futures: Ways to Improve Performance," Journal of Portfolio
+Management 28, no. 4 (Summer 2002).
+20. C.R Lightner, "A Rationale for Managed Futures," Technical Analysis ofStocks
+& Commodities (2003). Note that this publication is not a peer-reviewed journal but the article appeared to be well supported and its findings were consistent with the peer-reviewed article cited in the prior note.
+21. P.-H. Hsu and C.-M. Kuan, "Reexamining the Profitability of Technical Analysis with Data Snooping Checks," Journal of Financial Economics 3, no. 4
+(2005), 606-628.
+22. R Gency, "The Predictability of Security Returns with Simple Technical
+Trading Rules," Journal of Empirical Finance 5 (1998), 347-349.
+23. N. Jegadeesh, "Evidence of Predictable Behavior of Security Returns," Journal of Finance 45 (1990), 881-898.
+24. N. Jegadeesh and S. Titman, "Returns to Buying Winners and Selling Losers:
+Implications for Stock Market Efficiency," Journal of Finance 48 (1993),
+65-91.
+25. T.J. George and C.-Y. Hwang, "The 52-Week High and Momentum Investing,"
+Journal of Finance 59, no. 5 (October 2004),2145-2184.
+26. B.R Marshall and R Hodges, "Is the 52-Week High Momentum Strategy
+Profitable Outside the U.S.?" awaiting publication in Applied Financial
+Economics.
+27. C.L. Osler, "Identifying Noise Traders: The Head and Shoulders Pattern in
+U.S. Equities," Staff Reports, Federal Reserve Bank of New York 42 (July
+1998), 39 pages.
+28. 1. Blume and D. Easley, "Market Statistics and Technical Analysis: The Role
+of Volume," Journal of Finance 49, no. 1 (March 1994), 153-182.
+29. V. Singal, Beyond the Random Walk: A Guide of Stock Market Anomalies
+and Low-Risk Investing (New York: Oxford University Press, 2004). These
+results are discussed in Chapter 4, "Short Term Price Drift." The chapter also
+contains an excellent list of references of other research relating to this
+topic.
+30. A.M. Safer, "A Comparison of Two Data Mining Techniques to Predict Abnormal Stock Market Returns," Intelligent Data Analysis 7, no. I (2003),3-14;
+G. Armano, A. MuITU, and F. Roli, "Stock Market Prediction by a Mixture of
+Genetic-Neural Experts," International Journal of Pattern Recognition &
+Artificial Intelligence 16, no. 5 (August 2002), 501-528; G. Armano, M.
+Marchesi, and A. Murru, "A Hybrid Genetic-Neural Architecture for Stock In-
+
+479
+
+Notes
+
+dexes Forecasting," Information Sciences 170, no. 1 (February 2005), 3-33;
+T. Chenoweth, Z.O. Sauchi, and S. Lee, "Embedding Technical Analysis into
+Neural Network Based Trading Systems," Applied Artijicial Intelligence 10,
+no. 6 (December 1996), 523-542; S. Thawornwong, D. Enke, and C. Dagli,
+"Neural Networks as a Decision Maker for Stock Trading: A Technical Analysis Approach," International Journal of Smart Engineering System Design
+5, no. 4 (OctoberlDecember 2003), 313-325; A.M. Safer, "The Application of
+Neural-Networks to Predict Abnormal Stock Returns Using Insider Trading
+Data," Applied Stochastic Models in Business & Industry 18, no. 4 (October
+2002), 380-390; J. Yao, C.L. Tan, and H.-L. Pho, "Neural Networks for Technical Analysis: A Study on KLCI," International Journal of Theoretical & Applied Finance 2, no. 2 (April 1999), 221-242; J. Korczak and P. Rogers, "Stock
+Timing Using Genetic Algorithms," Applied Stochastic Models in Business
+& Industry 18, no. 2 (April 2002), 121-135; Z. Xu-Shen and M. Dong, "Can
+Fuzzy Logic Make Technical Analysis 20/20?," Financial Analysts Journal
+60, no. 4 (July/August 2004),54-75; J.M. Gorriz, C.G. Puntonet, M. Salmeron,
+and J.J. De la Rosa, "A New Model for Time-Series Forecasting Using Radial
+Basis Functions and Exogenous Data," Neural Computing & Applications
+13, no. 2 (2004), 100-111.
+31. This firm was acquired by Goldman Sachs in September 2000.
+
+CHAPTER t
+
+Objective Rules and
+Their Evaluation
+
+1. A long position in a security means the investor owns the security and hopes
+
+to benefit by selling it in the future at a higher price.
+2. A short position in a security means the investor has sold the security with-
+
+out owning it but is obligated to buy it back at a later point in time. The
+holder of a short position therefore benefits from a subsequent price decline,
+thereby permitting the repurchase at a lower level than the selling price,
+earning a profit.
+3. Neutral refers to the case where the investor holds no position in the market.
+4. It is assumed that all market information required by the method is known
+and publicly available at the time the method produces the recommendation.
+5. The possibility of the time series being equal to the moving average is eliminated by computing the value of the moving average to a greater degree of
+precision than the price level.
+6. J. Bollinger, Bollinger on Bollinger Bands (New York: McGraw-Hill, 2002).
+7. T. Hayes, The Research Driven Investor: How to Use Information, Data and
+Analysis for Investment Success (New York: McGraw-Hill, 2001), 63.
+8. A diffusion indicator is based on an analysis of numerous market time series
+within a defined universe (e.g., all NYSE stocks). The same rule, such as a
+moving average cross, is applied to all the series comprising the universe.
+Each series is rated as in an uptrend or downtrend, depending on its position
+
+480
+
+NOTES
+
+relative to its moving average. The value of the diffusion indicator is the percentage of time series that are in an upward trend. The indicator is confined
+to the range 0 to 100.
+9. This analysis does not make clear how many rule variations were explored
+to attain this level of discrimination. As will be pointed out in Chapter 6, it is
+impossible to evaluate the significance of these findings without information
+on the amount of searching that led to the discovery of a rule.
+10. Many of the rules tested in this book use data series other than the S&P 500
+to generate signals on the S&P 500.
+11. This law of statistics is discussed in detail in Chapter 4.
+12. (0.9) X 0.035% - (0.1) X 0.035% = 0.028% per day or 7.31% annualized.
+13. (0.60) X 0.035% - (0040) X 0.035% = 0.007% per day or 1.78% annualized.
+14. The look-ahead bias is discussed by Robert A. Haugen, The Inejficient Stock
+MaTket: What Pays Off and Why (Upper Saddle River, NJ: Prentice-Hall,
+1999),66.
+15. The percentage of fund portfolios invested in interest-bearing cash instruments such as T-bills, commercial paper, and so forth.
+
+CHAPTER 2
+
+The Illusory Validity of Subjective
+Technical Analysis
+
+1. J. Baron, Thinking and Deciding, 3rd ed., (Canlbridge, UK: Canlbridge University Press, 2000), 12.
+2. This figure, redrawn by the author, is similar to and inspired by one found in
+G. Gigerenzer, Calculated Risks: How to Know When NumbeTs Deceive You
+(New York: Simon & Schuster, 2002). That book cites as the original source
+of the illustration R.N. Shepard, Mind Sights: Onginal Visual Illusions
+(New York: W.H. Freeman & Company, 1990).
+3. T. Gilovich, How We Know What Isn't So: The Fallibility of Human Reason

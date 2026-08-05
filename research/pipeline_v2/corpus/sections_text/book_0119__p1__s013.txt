@@ -1,0 +1,368 @@
+
+145
+
+Understanding Price Action
+reports are generally released at 08:00 and 1 1 :00. But do take into
+account that not all of these releases need to be feared, otherwise no
+trading ever gets done.
+It is easy to avoid the news when still on the sidelines, but what if we
+are already positioned in the market-should we just get out no mat­
+ter what, or will the current status of the open position have a say in
+things? Let's delve into this more deeply by comparing two hypothetical
+open positions: prior to the release one trade is running, say, 1 5 pip
+in the plus and the other currently 5 pip in the red. Assuming further
+(wrongly) that a very fat news spike would either take out the target or
+the stop based on the original bracket order settings (20/ 1 0), we can
+quickly establish that the prospects on both ventures are not exactly
+equal. The profitable trade could make an additional 5 pip in a favor­
+able spike, but could lose 25 pip the other way around (measured from
+its current profitable position) . On the non-profitable trade, the situa­
+tion is reversed. Now the venture could lose an extra 5 pip at the most,
+whereas it stands to rake in 25 pip should prices spike favorably.
+The above is just one example of comparison. Should we tweak these
+numbers a little, it isn't hard to find the theoretical tipping point be­
+tween bailing out and staying in, which would reside at a current profit
+of 5 pip: either win an extra 1 5 pip in a favorable spike, or lose 1 5 pip
+when shaken out.
+Unfortunately, in practice none of this holds up. The main reason is
+that we can trust neither the market nor the platform to honor our stop
+should prices spike adversely. Remember, the stop side of the bracket is
+a market order, meaning it will be triggered as soon as prices hit upon
+it, but the platform will not necessarily fill the order at the requested
+price . If not, this is referred to as slippage.
+In relatively normal conditions, slippage on a stop will seldom exceed
+a few pipettes (tenths of a pip) . Yet on a news spike exit, slippage can
+be huge. Of course, the true extent of the damage will be a function of
+the actual spike and the liquidity in it, but the speed with which the
+trading platform can fill the order may have an effect on the outcome
+as well. Another element of concern is that the bid/ ask spread may be
+raised artificially during the release, further crippling a trader's odds to
+
+146
+
+Chapter 6
+
+-
+
+Manual Exits News Report Exit
+
+come out unscathed. Incurring slippage of more than 10 pip (on top of
+the stop) is certainly not unheard of. To measure to possibility of truly
+unsavory slippage, here's a handy rule of thumb: if you repeatedly find
+your platform responding rather sluggishly in a calm environment, you
+are going to get smacked for sure when caught disadvantageously in a
+news spike event. And even more so with the spread cranked up.
+Fortunately, throughout the years things have improved consider­
+ably and many brokers now can handle spikes without causing their
+customers excessive slippage, but there is still no guarantee not to be
+hurt even on the best of trading platforms.
+In all fairness it should be noted that instead of fearing the news,
+plenty of traders have come up with strategies solely designed to exploit
+the spike potential, but little is known as to their rate of success. My
+definite advice would be to shun the news rather than try to trade it,
+and to get out of the way, rather than stay in. But since there are quite
+a few variables at work, all news report situations stand by themselves
+and are best judged accordingly.
+A final warning: at the end of the US session (basically at the close of
+the US stock markets), prices very often trail sideways in a hibernating
+,
+
+mode until the Asian markets open up for the day several hours later.
+If still in position on an otherwise valid trade, it is up to personal dis­
+cretion whether to stay in or close up shop. The same basically holds
+up for any trade that lies dead in the water for many bars on end (like
+in the notorious lunch-hour doldrums). But under no circumstances
+should an intraday position be left open when the markets close up for
+the weekend. That can make for a rude awakening on the next Monday
+seSSlOn.
+
+147
+
+Understanding Price Action
+Resistance Exit
+Since the 20 pip target is essentially a nontechnical objective, it isn't
+hard to imagine an open position to run into serious resistance before
+the full target is met. If so, rather than religiously abiding by the bracket
+at the risk of the trade turning sour, an option could be to scratch the
+trade right in the level of anticipated obstruction and be done. This
+seems a fair approach, but it harbors an aspect of possible concern: if
+manual intervention is allowed, this could open the door to on-the-fly
+decision making and all sorts of fear-based exits that may ultimately
+do more harm than good. Therefore, when adopting discretionary man­
+agement techniques as part of the plan, it is absolutely vital to learn
+to suppress the instinct of flight and to solely exit on chart technical
+grounds.
+
+A great way to mitigate the likelihood of an unintended scratch is
+to always determine the resistance exit level prior to taking position. In
+other words, a reduced target objective should be part of the plan from
+the outset and not stem from a sudden urge to bail out.
+Should we have put on a trade with the standard exit in mind, of
+course at some point the position may run into fi wall of resistance not
+
+present at the time of entry; when such a sideways cluster gets broken
+adversely, this may call for intervention, too, but it is a different situ­
+ation altogether. We will have a look at this in the following section on
+the reversal exit.
+Before delving into the technical specifics of the resistance exit, let
+us first agree on a reasonable threshold beyond which this technique
+
+becomes applicable. It makes sense to employ a minimum objective in
+order to at least make the wager worth our while. When the 20 pip tar­
+get is standard, how about, say, 1 4 pip. Of course, any trader can lower
+this threshold at his own discretion, but I would advice not to go below
+
+1 0 pip, so as to at least maintain an acceptable risk/ reward ratio of 1 : 1
+(when trading with a 1 0 pip stop) .
+Thus for now, if the perceived level of obstruction resides at a dis­
+tance that would yield a profit of less than 1 4 pip-but let's not split
+hairs-we simply skip the trade.
+
+148
+
+Chapter 6
+
+Manual Exits - Resistance Exit
+
+At all costs, do avoid entering into the habit of spontaneously low­
+ering the bar on the target side of the bracket. Once this practice is
+granted permission, chances are that premature scratching will soon
+become the new standard, possibly depriving countless trades of their
+full potential.
+Notwithstanding the psychological challenges involved, judging the
+validity of a resistance exit is a pretty straightforward practice. Prior
+to taking position, typical levels to examine are a well-defined range
+barrier, a nasty round number, a double top or bottom, a pattern line
+extension, a technical test, or even a former high or Iow a little to the
+left.
+Before bailing out too quickly, though, it is important to assess the
+nature of the market first: is it ranging or trending. An idea could be
+not to, apply this technique in a very trending market, based on the
+premise that a trend will sooner take out resistance than be obstructed
+by it. Conversely, it does make sense to be more cautious in a ranging
+market, especially near the highs and lows. Not only will there be more
+contrarians on the prowl, bulls are likely to exit in the highs of a range,
+and bears may do so in the lows. And these exits are likely to obstruct
+the open trade as well.
+All good intentions aside, the line between a valid resistance exit and
+a fear-based scratch is still easily crossed in a live-market environment
+with ego and emotions always ready to cloud one's vision and thoughts.
+In the end, the only way to find out whether this technique pays off in
+your game at all is not through the theoretical drawing board, but to
+simply compare the assembled result of all your actual scratches with
+the market's verdict had the trades been left untouched.
+Following are some examples to give an impression of when a resis­
+tance exit could become applicable from a technical perspective.
+
+149
+
+Understanding Price Action
+1Fi g 6.11
+
+www.ProRe.ITime.com
+
+09:00
+
+. , .34
+
+eurlusd 5-minute
+
+10:00
+
+11:00
+
+12:00
+
+'3:00
+
+14:00
+
+15:00
+
+Figure 6.1 A great benefit of having the resistance exit in the toolbox of
+
+operating tactics is the possibility to engage in wagers that do not set
+up for a full 20 pip target. This is never an excuse to enter all over the
+place, but it may allow for a little more aggression into the plan. Some
+of the entries in the session above could strike the reader as somewhat
+unconventional, but they are quite doable when not too greedy on the
+target part. For now, just ignore whatever entry seems too opportunis­
+tic, but do try to grasp the rationale behind the various resistance exit
+calls.
+In strict technical terms, there are only two levels in which to deploy
+a resistance exit: on a bull-side trade, the position is either exited in
+the low of a former high (or lows of a cluster) , or in the high of a former
+high-whatever level comes first or is preferred in the situation at hand.
+Vice versa on the bear side. But let us be mindful not to embrace the
+resistance exit option too eagerly. Even in a ranging market our first
+priority should be to check if we can still trade for a full target.
+On the first trade above bar 2 , the breakout bar was sucked straight
+into the vacuum of the 50-level magnet (3). Despite the fact that we lack
+a bit of information on the left, it looks like an early exit may have been
+uncalled for. All we have in the way of possible obstruction is the former
+high of 1 and the round number a few pip higher up. In a very slow
+moving chart, it could at times be an option to just cash in the profits in
+such meager resistance, but there is usually little call for intervention
+when we still have pressure, conditions and volume on our side (UK
+opening hour here) .
+
+150
+
+Chapter 6
+
+Manual Exits - Resistance Exit
+
+Note: The decision to stay in initially stood corrected, only to work
+out favorably in the end; although merely an outcome by itself, this
+provides a fine example of why the break-even exit on a first pullback
+reaction is such poor practice on balance (low of 4 hit upon a triple, a
+strong bounce candidate) . Why do traders indulge in such destructive
+behavior? Could it be that their egos are forcing them to do so. For egos
+do not think in probabilities, they have an agenda fully of their own: to
+protect the mind from the pain and shame of seeing a once profitable
+trade turn red. So they bang the exit button. Before caving in, though,
+perhaps these traders should reflect on the following: missing out on
+20 pip profit by scratching a valid trade at break-even is essentially
+synonymous to being shaken out twice on a 10 pip stop. Surely the
+ego should not like that one either. The point here: when considering
+intervention tactics, the aim should be to exit in strength rather than
+weakness. Hence the resistance exit.
+The second long of this session, taken from the break of a three-bar
+combi (6-7) , is a range variant of a pullback reversal. On this trade, the
+first resistance in sight was the ceiling test with the low of bar 5. If not
+yet fully on target there, closing out the trade in bar 8 is a valid call
+(avoids also the pull of the adverse 50-level magnet) .
+The pullback reversal trade above bar 9 (pretty aggressive entry con­
+sidering the 5-8 double top to the left) is a classic intervention candidate .
+Bulls may have shown themselves a little more dominant in this ses­
+sion, the market was far from trending yet (note the rather flat 2 5ema),
+and that always makes it a fair call to anticipate resistance in the highs.
+As to the exit, the ceiling test with the low of bar 5 was no longer
+a "usable" option because the touch of bar 8 in that level had already
+mitigated its earlier significance. That basically left either the high of
+bar 8 or the high of bar 5 to serve as an exit trigger. Since the former
+may not yet have yielded the minimum profit of about 1 4 pip, the dotted
+line was the level to gun for (scratch the trade in bar 1 0) .
+The trade below bar 1 1 (pattern break combi short) i s another resis­
+tance exit candidate. The market had only just begun to defy the earlier
+bullish pressure, and so it could be rightfully questioned whether this
+short set up bearishly enough to shoot for a full 20 pip target. Since the
+
+151
+
+Understanding Price Action
+low of bar 9 resided too close to entry, the ceiling test with the high of
+bar 7 was the first level to meet the requirements of a reduced target
+(scratch the trade in bar 1 2 on the dotted line for perhaps a little under
+14 pip) .
+Not much later, bar 1 3 set up a pattern break pullback short in a
+bearish triple. This bar's message clearly defied the intentions of the
+higher low at 1 2 , but the chart itself still wasn't overly bearish. Should
+we decide to take another shot on the sell side here, best to do so with
+a resistance exit in mind.
+When in position on the break below bar 1 3 , there is little point in
+fretting over the low of bar 1 2 as potential obstruction; if that level was
+already reason for concern, about 10 pip out, then we shouldn't have
+risked capital on this offer in first place. Therefore, the first level to
+qualify as a valid resistance exit was the former low of bar 6 (exit in bar
+14). Considering the mean features of bar 14, the low of bar 2 may have
+been an exit level to shoot for as well (low of the range).
+
+IFig 6.21
+
+_.ProReamme.com
+
+eur/usd 5-minute
+
+6
+
+2
+� ProReafTime.com
+09.00
+
+1 .315
+
+1.315
+
+Figure 6.2 Before we address the exit on the long a�ve bar 9 , let us
+10:00
+
+11:00
+
+12:00
+
+I�OO
+
+14:00
+
+15:00
+
+16:00
+
+consider the price action up to that point. Clearly, this market was in
+ranging mode. Should we have wrapped a box around it, the top barrier
+may have been plotted across the high of bar 1 (ignoring the false high
+at 3), and the bottom barrier beneath the low of bar 2 . Take specific note
+of the failed bull break above bar 5. Not only was this a continuation at­
+tempt in the highs of a range, progression 3-5 was an awfully small flag
+compared to the pole from which it hung (2-3) ; and the trade suffered
+
+152
+
+Chapter 6
+
+Manual Exits - Resistance Exit
+
+strong risk of the adverse magnet to boot. A poor break indeed.
+More interesting was the 6-9 buildup in the middle of the range.
+Bulls again had been working their way up from the lows, but this time
+faced more opposition. These type of cluster progressions always call
+for attention. In fact, they harbor within them the very principle that
+lies at the base of our operating policy: to see solid buildup-attack and
+defense-prior to taking position.
+An interesting variant of the flag formation is the ascending or de­
+
+scending triangle. In the ascending version, the pattern is capped by a
+horizontal line across the highs, with ascending lows at the other end.
+Progression 7-8-9 , hanging from the pole 6-7, is a good example.
+With prices thus capped on one side while pushing up at the other,
+the pressure can only build up. This implies that the ascending triangle
+might pop on the bull side, as with a regular bull-flag pattern. Should
+we aim to participate along this line of thought, the first task is to find
+a valid signal bar to trade off (9).
+Always preferable is to see a signal bar close strongly against a bar­
+rier of interest, or perhaps a little through, but this is not a mandatory
+element of setup validity: at times, we could act on the break of a bar
+before the pattern barrier itself is broken. In such cases, very important
+is to assess whether the situation is truly ripe for a break, meaning
+the buildup has to be substantial. Of course, conservative traders can
+always skip; should they miss the initial breakout, there is still a rea­
+sonable chance to be offered an entry in second instance (pattern break
+pullback long above bar 1 0) .
+Note: An optional technique here, but best applied sparingly, i s not
+
+to trade the break of bar 9 straightaway, but to fire long on the break of
+the pattern line itself, a few pip higher up. A decent marker with which
+to measure this alternative is to check whether a standard stop would
+still survive a quick retest of the 25ema. If not, ad hoc adjustments at
+the stop side are always an option, too.
+Let us examine the exit options on the trades above bar 9 and 10.
+The first obstructive element to have taken into account was a ceiling
+test with the low of bar 4, about 1 3 pip out when measured from the
+break of bar 9 . In regard to the break of bar 10, however, this level re-
+
+153
+
+Understanding Price Action
+sided too close to meet the minimum target; this left the high of bar 3
+as the first exit candidate in line. (An alternative tactic here, savvy but
+not without risk, is to deploy a resistance exit a little above bar 3, in
+anticipation of a false high turnaround. )
+A s stated, even i n a ranging market i t may not always b e necessary
+to exit a trade in resistance. When the buildup prior to entry is of very
+fine quality, prices may very well pop beyond whatever obstruction lies
+on the way. As to the buildup within the ascending triangle, this was
+quite fat indeed, and so it may have been decided to simply let the
+bracket handle the trade above bar 9 . On the higher entry above bar 10,
+however, there was a greater risk for opposition because the high o f bar
+

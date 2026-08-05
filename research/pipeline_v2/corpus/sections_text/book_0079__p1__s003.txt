@@ -1,0 +1,431 @@
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+Back-Testing Your System
+
+21:18
+
+Printer: Courier Westford
+
+31
+
+expertise is to back-test. Although it may seem like hard work, the fact
+is you can simply accumulate years of experience over hours when you decide to manually back-test. It is, quite simply, the best shortcut to trading
+success. The very successful traders, who are consistently finding profits
+in the market, who are trading for a living, all of them share one characteristic: They back-test their systems and earn their pips on their back-testing
+software. Why not join this successful group of traders today?
+
+MANUAL BACK-TESTING
+Manual back-testing is the most readily available form of back-testing available. Most traders understand it is possible to manually back-test their
+trading systems, but most traders choose not to manually back-test. Many
+charting packages make it easy to back-test. The vast majority of charts
+will allow the historical price, so that you may advance price slowly and
+“trade” the chart as it unfolds. For example, in Meta TraderTM you simply
+hit the F12 key on your keyboard to advance the charts one price bar at a
+time. This is all that is needed for manual back-testing.
+
+CANDLESTICK
+The candlestick is a popular chart that displays the opening price, the closing
+price, the high price and the low price for a market during a given time period.
+Each candlestick clearly represents the important market activity for the given
+time period.
+
+To manually back-test, you simply scroll back in time and record your
+trades, the trades you would have taken had you been trading the chart
+in live market conditions. You can advance the candlesticks slowly, one at
+a time, record your entry price, the number of lots traded, your stop loss,
+and your profit target. You may be concerned that manual back-testing involves a lot of notes, spreadsheets, and recordkeeping. It is a meticulous,
+involved, and laborious method of back-testing. It is also extremely powerful. If you aspire to trade by looking at a chart and making a trading
+decision, you are nearly duplicating the trading process with this form of
+back-testing.
+Most traders employ discretionary trading systems, so it follows that
+manual back-testing is the most appropriate form of back-testing for most
+traders.
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+32
+
+21:18
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+Obviously manual back-testing will take some time, and it is sometimes
+difficult to avoid “cheating” with this type of back-testing. However, you
+must take care to avoid going forward on the chart and then reversing back
+in time to take a trade you would have taken. The key is to trade as if
+you are in that moment in time, with no information of the future. The
+experience gained with manual back-testing is priceless. You can quickly
+accumulate experience with your trading system if you back-test correctly.
+Manual back-testing will yield statistics to help you understand the nature
+of your trading system. These statistics, as we will see later in this book,
+will become invaluable for determining how you should trade as they may
+be utilized to project your results into the future.
+A note about manual back-testing—it may seem tedious, it will take
+some time, you may want to give up when it progresses slowly, particularly
+when you are looking to accumulate hundreds of trades. Resist the temptation to avoid manual back-testing. Make progress in small chunks, an hour
+of testing per day can give you a huge advantage. The payoff is great and
+your experience testing your system will allow you to gain “experience”
+trading the system through different market conditions. Each trade during
+manual back-testing will march you closer to expertise. This expertise may
+be the difference between you abandoning your trading system during the
+inevitable drawdown, and maintaining confidence in your trading system
+through a drawdown. However, there are pitfalls associated with manual
+back-testing.
+The most common pitfall traders fall into with this testing is engaging
+in future trading by advancing the chart, either by accident or intention,
+and then deciding that a trade would have been taken. Traders at times
+have difficulty discerning when future price data creeps into manual backtesting. Traders who are strict about not allowing trades after future data
+is viewed will avoid contaminating back-testing data. By trading only from
+the current candlestick on the chart, serious back-testers avoid going forward in time.
+Hindsight bias is a critical killer that may creep into your manual backtesting if you allow it to happen. A good rule of thumb is to advance the
+charts slowly during your testing, and if you accidentally advance the chart
+too quickly, you must keep your trades to the right-hand edge of the chart.
+If you advance the chart and then go back to take a trade, you are leaving
+yourself open to the hindsight bias.
+HINDSIGHT BIAS
+The tendency to overestimate the predictability of the market after the future
+outcome is known.
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:18
+
+Back-Testing Your System
+
+Printer: Courier Westford
+
+33
+
+Even if you only take trades during testing by advancing the chart one
+candlestick at a time, hindsight bias may still sneak into your testing. If you
+are testing historical data on the EUR/USD in 2008, and you had experience
+trading in 2008, you may have a problem. Your subconscious may be pulling
+up the 2008 EUR/USD chart and you are obviously not even aware of it. To
+fight hindsight bias, take trades on the right-hand edge of the chart, do not
+go forward on the chart and then reverse back, and if you do accidentally
+go forward, resign yourself to skipping over any signals that pop up and
+stick to trading on the right-hand edge of the chart.
+
+USING BACK-TESTING SOFTWARE
+Back-testing software is a step up from manual back-testing. Most forex
+traders are not even aware of the fact that manually back-testing your
+trading system is possible. Back-testing software is an underappreciated
+tool, one that will allow you to manually back-test your trading system at
+an aggressive pace. Manual back-testing software records your trades for
+you and enables you to quickly take trades as you advance the historical
+charts. In many ways, manual back-testing with software is not much different from manual back-testing. The advantages to using software are as
+follows: Software will allow faster testing, so you may accumulate experience quicker; the software will do the recordkeeping for you and allow you
+to concentrate on the trade signals; you may easily export your data for
+analysis; and software discourages cheating— manual back-testing software is a hindsight bias killer.
+Of the many manual back-testing software packages available, my favorite is Forex Tester. Forex Tester is a manual back-testing software
+package that will allow you to import any data. You may decide to import
+forex data, futures data, stock data—any data will work. Forex tester will
+record your trades and allow you to export your trading data into a spreadsheet, after you have completed your testing, for analysis. The beauty of
+software-based testing is that it allows you to concentrate on trading your
+system. In many ways, it mirrors live trading with an account platform. If
+you would like to see a video demonstration of Forex Tester please go to
+www.fxjake.com/book.
+There are many traders, myself included, who will spend more time
+back-testing with software because it is much easier than manual backtesting. Back-testing with software helps traders gain years of trading experience in a few hours. However, the real work in back-testing is examining
+the results. Exporting and analyzing the data from back-testing is where
+serious traders validate trading systems, find behavioral patterns, and
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+34
+
+21:18
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+develop strategies to augment profitable trading strategies. These data are
+gold for the serious trader.
+Your back-testing data will help you determine your trading patterns
+(Do you find profits more easily on the daily charts? Are most of your winning trades initiated during the European session? Do you trade particularly well with your system on the CAD/JPY?), and this can lead to more
+fruitful back-testing sessions. You will also know, after back-testing your
+system over several hundred trades, if the system makes money for you.
+In fact, before you ever risk one cent, you should make hundreds of trades
+while back-testing to verify that your trading system will capture profits
+and also to gain expertise with your system.
+Manual back-testing with software is not without problems. You must
+look out for the same pitfalls that creep up with manual back-testing,
+namely hindsight bias. Manual back-testing software makes it easier to
+avoid hindsight bias, but you still must be careful to only take trades if
+you have not advanced forward on the chart. Cheating is not allowed when
+back-testing; your goal is to generate realistic trade results during your
+back-testing. Also, because it is very easy to quickly execute trades with
+the testing software, you must watch out for subpar trades. Trades you
+would not take on a live trading account should be bypassed no matter
+how tempting it may be to take them during back-testing. Try to back-test
+as if you have real money at risk. This is the only way to ensure that your
+statistics and experience in back-testing will closely match your live trading. If you remain vigilant and conscientious during testing, your results
+will be more meaningful.
+
+AUTOMATED BACK-TESTING
+Automated back-testing is the most well-known method for testing a trading system. Most forex traders are aware of the fact that it is possible to do
+some automated testing on a trading system. However, most forex traders
+use discretionary, or manual, trading systems, so automated back-testing
+is not the ideal method for back-testing; it does not closely duplicate the
+discretionary trading most traders engage in. There are many reasons for
+discouraging automated back-testing for discretionary traders:
+
+r There may be too much human interpretation in the trading system.
+Automated back-testing does not allow for the human interpretation
+of trade signals.
+r The trading system may involve variables that are not available on the
+price chart (news releases, economic data records, interpretation of
+world events, etc.).
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+Back-Testing Your System
+
+21:18
+
+Printer: Courier Westford
+
+35
+
+r It is impossible to automate the trading system (fuzzy logic, parameters
+difficult to define, etc.).
+
+r You may not be able to articulate your trading system. Automated
+back-testing is only possible for trading systems with clearly defined
+rules.
+Most forex traders should not use automated back-testing. Automated
+back-testing is appropriate for those traders who use automated trading
+systems. Automated trading systems, known as trading robots, or expert
+advisors, are popular with forex traders. However, most traders are more
+comfortable with discretionary trading systems. So, while it may be possible to use automated back-testing, it may not be appropriate for most
+traders.
+Here is a test to help you decide whether automated back-testing is
+for you. If you turn on your automated trading system and can allow it to
+trade without any of your intervention for a month, then automated backtesting may be for you. If your system needs your input for any reason, then
+you are a discretionary trader, and you should use manual back-testing or
+manual back-testing with software.
+There are other disadvantages to automated back-testing. It does not
+allow you to gain experience with the trading system. You will not gain
+the expertise that you would if you manually tested the system because
+the computer takes all of the trades over the course of the back-testing.
+Automated back-testing will not give you experience trading your system
+through many market conditions. Automated back-testing will probably
+not highlight the weaknesses of your trading system; these weaknesses will
+be readily apparent when manual back-testing is done. However, with automated back-testing, the weaknesses are a bit more difficult to identify.
+In short, automated back-testing is really only an option for those traders
+who are not using a discretionary trading system.
+There are unique pitfalls associated with automated back-testing. For
+example, it is quite easy to use too many variables in an automated trading system. Using too many variables often implies that there are too many
+indicators in the trading system. Seasoned traders understand how simple trading systems are robust, and may be applied to many markets over
+varying timeframes. (All of the naked-trading systems in this book are incredibly simple and robust.) It is difficult for some automated-system developers to keep their trading systems simple and robust; the temptation
+to add more indicators and rules is great.
+It is exceptionally easy for automated traders to use too many indicators when developing and testing a system. Adding too many variables to
+any trading system increases the chances that the trading system will work
+quite well on one data set but will not work well on another. With too many
+
+P1: OTA
+JWBT642-c03
+
+36
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:18
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+variables the system is likely to do exceptionally well during some market
+conditions and then break down and perform poorly when market conditions change. This is a very real risk with automated back-testing. It is almost too easy for a trader to decide to add more conditions and indicators
+to the trading system, which will increase the profitability of the trading
+system over the course of the historical data in the back-test, often making the system look very good. However, these results often completely
+fall apart after you apply this very same trading system to a different data
+set or to future market conditions. In a very real sense, the Achilles heel
+of automated back-testing is that it is too easy. Because the automated
+back-tests can be generated so quickly, the automated back-tester will go
+overboard tweaking and testing the system. The end result is often a system that works exceptionally well on the historical data in the back-test
+but falls apart completely in live market conditions.
+There is another issue that often comes up with automated backtesting. This is the postdictive error, a fancy way of saying that a trading
+system uses future information to make a decision in the present time. This
+is actually something that is related to the hindsight bias. Traders backtesting automated trading systems must be extremely careful. It is possible
+for the back-tester to pull data from the future without knowing about it.
+This is obviously a very big problem, because as a rule, future data is not
+generally available, despite any claims to the contrary by technical indicator salespeople (psychics and palm readers are the obvious exceptions).
+When future data is used in an automated back-test, the system looks incredible, but once the trading system is applied to real market conditions,
+without the critical (future) data, the system falls apart.
+There is one advantage to automated back-testing, that is, it allows
+you to quickly determine whether an automated trading strategy is viable.
+The back-test may be done in seconds, which is a true advantage for the
+automated trader. Remember, the automated trader will not gain the same
+expertise and comfort level as the trader who uses manual back-testing.
+This is the biggest weakness of automated back-testing, the back-tests are
+cheap. There is no experience gained each time a back-test is run. The
+manual back-testing trader accumulates experience every time a trade setup is executed. This experience should not be discounted. An automated
+back-test may clarify the worthiness of an automated trading system, often
+involving hundreds, or thousands of trades, but remember the trades are
+all taken by computer and will not lead to trader expertise. In this sense
+the trades are wasted, the trader does not accumulate experience during
+the back-testing, this is only possible with manual back-testing.
+If you use automated trading systems, then, perhaps, automated backtesting is appropriate, but if you use manual trading systems, it may be best
+to avoid automated back-testing.
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:18
+
+Back-Testing Your System
+
+Printer: Courier Westford
+
+37
+
+TOP THREE BACK-TESTING TIPS
+There is one distinguishing characteristic between those traders who continually struggle to find consistent profits and those traders who consistently pull profits from the market. The traders who are still looking for
+consistency, who are still looking for profits, are traders who usually do
+not back-test trading systems. These traders fall in love with a system before establishing the veracity of the system. These traders often move from
+trading system to trading system, hoping that the new system will yield
+better results than the previous system. The consistently profitable traders
+take a different approach. These traders know that they have a profitable
+system because they back-test their system extensively. These traders have
+seen their system work over years of market data and know precisely the
+type of drawdown they are likely to come up against in the future.
+The choice is yours; you may decide to join the group of struggling
+traders who jump from system to system, never really finding comfort with
+any trading system, or you may decide to join the successful traders, the
+profitable group who spend time back-testing their systems. If you decide
+to join the latter group, I have three back-testing tips for you. These tips
+were developed by working with traders just like you, around the world.
+The key is to approach your back-testing as you would any skill you are
+working toward. If you were looking to learn the bass guitar, you would
+probably want to take lessons and spend time playing your guitar to hone
+your skills. However, it is important that you play the bass guitar in your
+own style. Back-testing is much the same. You must approach it seriously,
+but you must also keep this in mind: You will consistently find profits only
+if you stay true to your trading style.
+
+Consider Your Style
+Use a back-testing method that fits your trading style. If you are an automated trader, then use automated back-testing; if you are a discretionary
+trader, use manual back-testing. The most important thing in back-testing
+is to duplicate your trading style. Back-test in a way that will be meaningful
+and bring you closer to expertise with your system.
+
+Take Time to Test
+There is a real temptation, particularly when engaging in manual backtesting with software, to do it much too quickly. Back-testing is a learning
+process. Just as you would not expect to complete a 16-week course in
+a day, you will need to break up your back-testing sessions, particularly if
+
+P1: OTA
+JWBT642-c03
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+38
+
+21:18
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+you are doing manual back-testing. Try to keep your sessions short—under
+two hours—so that you approach each session with a fresh mind and you
+are unlikely to get sloppy. Back-testing for six or more hours will usually
+lead to poor results simply because you were not as sharp for your last
+trades as you were for your first trades.
+
+Mistakes Are Part of Back-Testing
+Making mistakes is also part of the learning process. We have a natural
+tendency to avoid mistakes. So when a trading mistake pops up several
+times, it is tempting to modify the trading system so that it accounts for
+this mistake. However, this is the road that leads to too many variables in
+a trading system. Avoid too many variables. Try to keep your system rules
+simple. It may be tempting to add a new rule to avoid some losing trades,
+but this may blunt the effectiveness of your system.
+If you are interested in naked trading, trading without indicators, then
+you are likely to avoid the “too many rules” mistake. This is another reason
+why naked trading allows traders to realize their full potential.
+Naked trading also involves using the history of the market. If you ask
+any psychologist how to best learn about someone, you will hear that it is
+best to follow that person around. Psychologists do not have the time to
+follow people around, so questionnaires are used to determine what somebody is like—their personality, their habits, and their history. Likewise, the
+naked trader may use the history of the market to determine what is likely
+to happen in the future. Everyone has done something and said, “Why do I
+do that?” People like to believe in free choice, but most humans are creatures of habit. Likewise, the market is a huge amalgamation of habitual
+traders. The market is nothing more than a community of creatures of
+habit. People make up the market. The naked trader uses this to his advantage, by closely following historical turning points in the market. We
+will get into this issue in detail later in the book, but for now it is important
+to remember that the naked trader equates the market to a herd. Herds will
+often follow one another for safety. Members of a herd will also fall on one
+another as they run off a cliff. The naked trader uses specific tools to tune
+into and take advantage of the herd behavior that we call the market.
+
+P1: OTA
+JWBT642-c04
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:20
+
+Printer: Courier Westford
+
+CHAPTER 4
+
+Identifying
+Support and
+Resistance
+Zones
+There’s an old saying about those who forget history.
+I don’t remember it, but it’s good.
+—Stephen Colbert
+
+ou have to pay close attention to one thing on the chart if you trade
+naked: price. Price is king. Price will tell you all you need to know.
+The wonderful thing that all markets have is this: a history. The market will tell you where the sweet spot is on the chart. These sweet spots
+will be the foundation for everything you do as a naked trader.
+A sweet spot on the chart is a support and resistance zone. You may
+be familiar with the concept of support and resistance, however, support
+and resistance zones are different from what many traders characterize
+as support and resistance. I will call these support and resistance zones
+by one word— zones. The eight important characteristics of zones are as
+follows:

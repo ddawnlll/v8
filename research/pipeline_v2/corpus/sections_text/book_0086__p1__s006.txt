@@ -1,0 +1,554 @@
+
+75
+
+76
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+Figure 3.13 Reverse-Collar Delta vs. Underlying Price and Time
+to Expiration Source: LiquidPoint, LLC
+delta is ⫹100 anywhere outside the two strikes where both options are inthe-money and on the verge of either being exercised or assigned, resulting
+in a ⫹100-share stock position. The sensitivity is less severe with greater
+amounts of time until expiration.
+• Gamma
+Figure 3.14 clearly shows how the gamma of the reverse-collar depends
+on the location of the underlying and the time until expiration. With the
+option positioning now reversed, the position has a negative gamma when
+the underlying is near the lower strike short put and a positive gamma
+when the underlying price is near the upper strike long call.
+When expiration is near and the underlying price is close to the strike
+price of the long call, the position will have a large positive gamma; when
+expiration is near and the underlying price is close to the strike price of the
+short put, the position will have a large negative gamma; and when the
+underlying is exactly between the two strikes, the gamma will approach
+zero. Once again notice that moving further away from expiration (back in
+time) decreases the sensitivity of the gamma of the position.
+• Vega
+Figure 3.15 shows how the vega of the collar depends on the location
+of the underlying price and the time until expiration. The vega is positive
+when the underlying price is near the upper strike long call, and it is negative
+when the underlying is near the lower strike short put. As with the collar,
+the vega of a reverse-collar, whether positive or negative, is greater in absolute terms when there is a larger amount of time left until expiration. When
+the underlying is between the two strikes, the vega will approach zero.
+
+The Greeks of Collar and Reverse-Collar Spreads
+
+Figure 3.14 Reverse-Collar Gamma vs. Underlying Price and Time
+to Expiration Source: LiquidPoint, LLC
+
+Figure 3.15 Reverse-Collar Vega vs. Underlying Price and Time
+to Expiration Source: LiquidPoint, LLC
+• Theta
+As can be seen in Figure 3.16, the theta of the reverse-collar, as with the
+other Greeks, is dependent on the location of the underlying price and time
+until expiration. Notice that the theta of the position is positive when the
+underlying is near the lower strike short put, negative when the underlying
+price is near the upper strike long call, and neutral when the underlying
+
+77
+
+78
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+Figure 3.16 Reverse-Collar Theta vs. Underlying Price and Time
+to Expiration Source: LiquidPoint, LLC
+
+price is more or less between the strikes, or on the extremes. As with the collar, the theta of the reverse-collar, in absolute terms, reaches its peak when
+the underlying is at the upper or lower strike price at expiration, and the
+relationship softens as the time to expiration increases.
+
+COLLARS AND REVERSE-COLLARS (HEDGED
+AGAINST UNDERLYING POSITIONS)
+Collar-Hedged Stock
+With the exception of delta, the Greek exposure of a hedged collar position—long stock with a collar wrap—will amount to exactly the
+same strategy as the collar (Figure 3.17). The stock position only contributes to the delta portion of the Greeks, so the gamma, theta, and
+vega of the positions will be identical to their positions in a traditional
+collar.
+Note that this is the same profile as the delta of the bull spread from
+Chapter 2 because a long stock position hedged with a collar on a 1-to-1
+basis is synthetically equivalent to a bull spread.
+
+Reverse-Collar-Hedged Stock
+Once again, note (Figure 3.18) that this is the exact same profile as the
+delta of the bear spread from Chapter 2 because a short stock position
+hedged with a reverse-collar on a 1-to-1 basis is synthetically equivalent to
+a bear spread.
+
+Investment Objectives
+
+Figure 3.17 Delta of Collar-Hedged Stock vs. Underlying Price and Time
+to Expiration Source: LiquidPoint, LLC
+
+Figure 3.18 Delta of Reverse-Collar-Hedged Short Stock vs. Underlying
+Price and Time to Expiration Source: LiquidPoint, LLC
+
+INVESTMENT OBJECTIVES
+Collars and reverse-collars (without stock) are directional strategies, with
+the “long” option component positioned in the direction of the forecast move
+and the “short” option component positioned in the opposite direction. The
+usual reason traders choose a collar or reverse-collar, instead of another option
+strategy, to trade a directional forecast is that they are unsure of their timing.
+
+79
+
+80
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+If a trader is simply buying calls or puts, inaccurrate timing can be a very
+expensive proposition. An outright long call or long put position is subject to
+negative time decay, and if a trader is off on his or her timing forecast, each
+day that passes costs money. In addition, long calls and puts have a positive vega, and if the market slips into an unexpected holding pattern before
+the move, implied volatility may decline, lowering the value of purchased
+options. This scenario is the dreaded “double whammy” of poor timing.
+Because the structure of the collar and reverse-collar is one long option
+and one short option, the timing issue is softened, so that time decay and
+implied volatility risks largely offset one another, allowing the trader to stay
+with the position longer while he waits for the forecast directional move to
+occur.
+
+Market Outlook
+• Sharp Directional Underlying Movement
+The trader of a collar or reverse-collar should be forecasting a sharp
+directional move, beyond the strike of the long option of the position. The
+owner of a collar should be expecting the underlying price to move sharply
+below the strike of the long put component of the collar; the owner of a
+reverse-collar should be expecting the underlying price to move sharply
+above the strike of the long call component of the reverse-collar. As mentioned, the timing does not need to be precise with this type of position.
+Figures 3.19 and 3.20 are good general examples of the type of movement
+the collar and reverse-collar trader should be expecting.
+
+Short Call
+
+Long Put
+
+Figure 3.19 Market Forecast Suitable for the Collar
+• Mind the Risk!
+As with many option positions, the collar and reverse-collar positions are double-edged swords. They allow for the luxury of waiting for
+a sharp directional move without having to pay for time decay or risking
+
+Strategy Component Selection
+
+Long Call
+
+Short Put
+
+Figure 3.20 Market Forecast Suitable for the Reverse-Collar
+a markdown in implied volatility levels, but this comes at a price: the
+severe risk of a naked short option position in the opposite direction of
+the forecast.
+So, in addition to the forecast of a sharp directional move, the trader
+of the collar also should be prepared both financially and psychologically
+for the prospect of the underlying price moving in the opposite direction.
+Ultimately, this type of movement would give the trader the same position,
+but with momentum moving the wrong way.
+The trader of a collar, with a bearish view of the underlying, should be
+prepared to become delta short if the underlying rises through the strike
+of the short call portion of his or her position, or have a stop-loss in place
+to close the short call. The trader of a reverse-collar, with a bullish view of
+the underlying, should be prepared to become delta long if the underlying
+drops below the strike of the short put portion of his or her position, or
+have a stop-loss in place to close the short put.
+
+STRATEGY COMPONENT SELECTION
+In addition to a large-magnitude bullish or bearish forecast, choosing
+the structure of a collar or reverse-collar requires an analysis of several
+market parameters:
+• What is the current market forecast?
+— Bullish
+— Bearish
+• What is the trigger price for the forecast move?
+• Where is significant resistance (in the case of a collar)?
+• Where is significant support (in the case of a reverse-collar)?
+
+81
+
+82
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+• What is the time horizon of the forecast move?
+• What are current implied volatility conditions?
+— What is the base level of implied volatility?
+— Is there a significant implied volatility skew?
+• What is the trader’s risk appetite?
+— Large, able to accept open-ended risk
+— Moderate to small; must use a stop-loss
+
+What Is One’s Current Market Forecast?
+This one is pretty simple. As we have stated, the collar is best suited
+to a forecast of a bearish move of large magnitude. A reverse-collar is best
+suited to a forecast of a bullish move of large magnitude. If one’s forecast does not fall into one of these two categories, then a different strategy
+should be used.
+
+What Is the Trigger Price of the Forecast Move?
+For structuring purposes, it is important to have an idea of the trigger
+price—that is, the price that will be the “launch pad” of the forecast bullish
+or bearish move. This is important information because, ideally, the long
+put (in the case of a collar) or the long call (in the case of the reverse-collar)
+portion of the position should be located as close to the trigger price as
+possible to capture the majority of the forecast move.
+
+Example
+ABC is trapped in a range between 100.00 and 105.00. The trader
+believes that the next time it trades through 105.00 ABC is going to
+break out for a large upside move. In this case 105.00 is the trigger
+price. (In technical analysis lingo, this is sometimes referred to as the
+pivot price.)
+
+Where Is the Significant Resistance (Collar)?
+Again, for structuring purposes, it is important for the trader of a collar
+to have an idea of where significant overhead resistance lies. Ideally, this is
+where the short call portion of the position is located.
+
+Example
+The investor believes that GHF will collapse if it trades below 95.00.
+Currently GHF is trading at 100.00, and there is large overhead resistance
+at 105.00. The trader believes this is the ideal situation for a 95.00/105.00
+collar. He decides to buy the 95.00 put at the trigger price and to sell the
+105.00 call at resistance.
+
+Strategy Component Selection
+
+Where Is the Significant Support (Reverse-Collar)?
+The trader of a reverse-collar will need to have an idea of where significant underlying support lies. Ideally, this is where the short put portion of
+the position should be located.
+
+Example
+The investor believes that ZYX will explode if it trades above 89.75.
+Currently ZYX is trading at 87.50, and there is significant support below
+the market at 85.00. The trader believes this is the ideal situation for an
+85.00/90.00 reverse-collar. He decides to buy the 90.00 call at (approximately) the trigger price and sell the 85.00 put at support.
+
+What Is the Time Horizon of the Forecast Move?
+Even though the collar and reverse-collar are deliberately structured to
+allow for some sloppiness in timing, it is still important to have an idea—
+however it is arrived at—regarding when the underlying is going to make
+its move. The expiration chosen for construction of the collar or reverse-collar should comfortably cover this time horizon, with a couple extra weeks
+thrown in for good measure. There is nothing worse than being “right”
+about direction and not being “in” the marketplace.
+
+Example
+HIJ has been consolidating and the trader believes that if HIJ trades
+through 120.00 it will explode to the upside. Previous consolidation periods in HIJ have lasted between ten and fifteen business days (two and
+three weeks). Some of the available options expire in twenty-eight calendar
+days, and others expire in sixty calendar days. The trader believes that he
+needs the additional margin of error of the sixty-day option and constructs
+his reverse-collar using options of that expiry.
+
+What Are the Current Implied Volatility Conditions?
+Implied volatility structure sometimes can be the deciding factor
+when a trader is considering several different strategies to address a market view. When the possibilities include the collar or reverse-collar, the
+following implied volatility information should be a part of the decisionmaking process.
+• Base Level of Implied Volatility
+The base level of implied volatility is the general level of at-the-money
+implied volatility. Base level volatility should be evaluated in a historical
+context when approaching any trade, including a collar or reverse-collar.
+As mentioned, the structure of the collar or reverse-collar of one long option and one short option softens the exposure of the overall position to
+implied volatility. The positive vega of the long option and the negative
+
+83
+
+84
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+vega of the short option act to cancel out the overall vega exposure of the
+position (when the underlying is between the strikes). This means that the
+collar and reverse-collar are good choices when one is looking to play a
+large-magnitude directional move and base levels of implied volatility are
+moderate to high.
+However, if the base level of implied volatility happens to be low, it
+might be better to choose a long put over a collar or a long call over a
+reverse-collar, especially from a risk/reward standpoint. One would still
+have the right position for a large-magnitude move, but without the risk
+aspect of the collar or reverse-collar in the opposite direction.
+• Implied Volatility Skew
+Generally, in the case of equity and index options, the implied volatilities of the lower strike option rise as the strike prices fall, and vice versa.
+This often is referred to as the implied volatility skew. Trying to explain the
+implied volatility skew and the reason it exists could open a can of worms,
+and it probably deserves its own chapter, if not its own book.
+It suffices to say, for our purposes, that different strikes of the same expiration often trade at different implied volatilities, depending on market
+conditions. In addition, implied volatilities of lower strike options tend to
+be higher than those of higher strike options.
+When the implied volatilities are plotted against strike prices on a
+graph, they often exhibit a “smirk” or “smile.” Figure 3.21 is a good example of the implied volatility skew smirk.
+If the market demonstrates a large implied volatility skew, sometimes a
+reverse-collar trade becomes more appetizing to the bullish trader because
+the implied volatility of the put option being sold could be much higher
+than the implied volatility of the call option being bought, giving the trader
+
+Figure 3.21 Implied Volatility Skew, January 2008
+
+Trade Management
+
+an additional “edge” to work with. Conversely, if the implied volatility
+skew is unusually flat, it can make a collar trade more appetizing to the
+bearish trader because the implied volatility of the call option being sold
+could be equal to or higher than that of the put option being bought, giving
+the trader a potential “skew” edge.
+
+Example
+The trader believes XYZ is about to make a substantial upside move, and
+is considering several bullish option strategies. The trader notices that, due
+to recent weakness, XYZ options have a steep implied volatility skew, meaning the out-of-the-money puts trade at much higher implied volatilities than
+the out-of-the-money calls. The trader decides he can address this implied
+volatility skew by using a reverse-collar for his bullish strategy.
+
+What Is the Trader’s Risk Appetite?
+Risk breaks two ways. If the trader has plenty of capital to work with
+and is comfortable with the possibility that she might end up with a position if the underlying moves in the opposite direction—getting long delta
+with the market moving lower or getting short delta with the market moving higher—then there is no problem. The trader is simply getting long on
+weakness or short on strength instead of the other way around.
+If the trader has a moderate-to-low risk appetite, though, an exit strategy
+will have to be put in place. In addition, stop-loss orders to close the openended risk of the short call component will need to be in place when trading
+collars, and stop-loss orders to close the semi-open-ended risk of the short
+put component will need to be in place when trading reverse-collars.
+All traders should keep in mind that stop-loss orders do not provide any
+guarantees for how and when they will be executed, and they provide no
+coverage when the market is closed. If a trader loses sleep over the idea of a
+stock gapping up through his short call or down through his short put, then
+the collar and reverse-collar are not strategies that should be considered.
+
+TRADE MANAGEMENT
+There are several important issues to consider when contemplating
+using a collar or reverse-collar:
+• What is the most efficient way to take any profits?
+• How should one deal with adverse market movement?
+• Where should the stop-loss orders be placed?
+• What does one do if the underlying move fails to be triggered and
+expiry is approaching?
+Collar and reverse-collar trade management must be broken into two
+categories: directional strategy and hedge. Both must be examined separately because the motivation for them is different.
+
+85
+
+86
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+Managing Speculative Directional Strategy
+Managing collars and reverse-collars falls into the following categories:
+• Managing the successful position (directional move in the forecast
+direction)
+• Managing the unsuccessful position (directional move opposite the
+forecast direction)
+• Managing the position that fails to trigger
+
+Managing the Successful Position
+When the trade goes along as hoped, it is important to actively manage
+the long put or long call component of the trade to squeeze the maximum
+profitability out of that portion of the position, while either closing out or
+deciding what to do about the residual and risky short option component
+of the trade that is now far out-of-the-money. This is usually accomplished
+by “rolling” the long option position along with the underlying by selling
+vertical spreads.
+Rolling a long option position is an excellent way to manage a position
+that is “going your way.” Rolling accomplishes three important things:
+• It maintains the exposure in the direction of the breakout.
+• It reduces risk and takes “money off the table.”
+• By accomplishing the above, it puts the trader in a strong psychological position and increases his “staying power.”
+
+Examples of Rolling
+• Scenario 1
+The trader, expecting a breakout to the downside after a period of consolidation, executes a 100/105 collar position. The market does indeed
+break down, and the trader aggressively manages the position by executing a series of rolling trades, accomplished by selling vertical put spreads,
+as shown in Figures 3.22 and 3.23.
+In this scenario, the trader is rolling the long put portion of the collar
+down with the market. Every time the underlying appears to lose downward momentum, the trader sells a put vertical in order to reduce risk
+and take money off the table, all while maintaining exposure. The trader
+would continue to do this as long as he or she felt the down move would
+continue.
+• Scenario 2
+The trader, expecting a breakout to the upside after a period of consolidation, executes a 90/95 reverse-collar position. The market does indeed
+break out, and the trader aggressively manages the position by executing
+
+Trade Management
+
+105.00
+
+Short Call
+
+100.00
+
+Long Put
+
+95.00
+
+Roll Point 1
+
+90.00
+Roll Point 2
+
+Figure 3.22 Collar Rolling Points in a Breakdown Situation
+
+Calls
+
+Strike
+
+Calls
+
+Strike
+
+Puts
+
+90
+
+90
+
+95
+
+95
+
++1
+
+100
+
++1
+
+100
+–1
+
+Puts
+
++1
+
+105
+
+Original Position
+
+–1
+
+–1
+
+105
+
+Rolled Position
+
+The long 100 put position is rolled down to the 95 strike. This is accomplished by
+selling the 95/100 put vertical spread. The act of rolling the trade reduces
+risk and takes profit while maintaining exposure.
+
+Figure 3.23 Put Roll Diagrammed
+a series of rolling trades, accomplished by selling vertical call spreads, as
+shown in Figures 3.24 and 3.25.
+The long positions in scenarios 1 and 2 can be rolled as long as the trader
+feels the directional move is likely to continue. As soon as the trader feels
+the move is over, the position should be closed. It is also very important that
+the trader not forget the trailing short call of the successful collar or short
+put of the successful reverse-collar. Even though these options are out-ofthe-money, it is never a good idea to leave short option positions open, no
+matter how far out-of-the-money they might be. Once the breakout has been
+confirmed in a particular direction and the short option side of a collar or
+reverse-collar loses most of its value, it should be closed. The trader should
+
+87
+
+88
+
+Chapter 3
+
+Collars and Reverse-Collars
+
+105.00
+Roll Point 2
+
+100.00
+Roll Point 1
+
+95.00
+
+Long Call
+
+90.00
+
+Short Put
+
+Figure 3.24 Reverse-Collar Rolling Points in a Breakout Situation
+Calls
+
+Strike
+
+90
++1
+
+Puts
+
+Calls
+
+–1
+
+95
+
+Strike
+
+90
+–1
+
+100
+
++1
+
+95
+
++1
+
+100
+
+105
+
+105
+
+Original Position
+
+Rolled Position
+
+Puts
+
+–1
+
+The long 95 call position is rolled up to the 100 strike. This is accomplished by
+selling the 95/100 call vertical spread. The act of rolling the trade reduces
+risk and takes profit while maintaining exposure.
+
+Figure 3.25 Call Roll Diagrammed
+be looking to profit from the opposing long position instead. Also note that
+additional execution costs associated with each spread used to roll the position will reduce profits.
+
+Managing the Unsuccessful Position
+When the trade is going against the trader, he will have to actively
+manage the short call or short put component of the trade while deciding
+what to do with the residual long put or long call component that is now
+far out-of-the-money.
+Whenever one considers entering a trade, it always is important to have
+a risk-management strategy in place ahead of time. If, in fact, it becomes
+clear that one’s forecast is incorrect, then it is time to get out the position,
+hopefully in an orderly fashion. This usually is accomplished through the
+
+Trade Management
+
+use of stop-loss orders. As mentioned, stop-loss orders are buy or sell orders placed in the market that trigger if certain price conditions are met, at
+which point they are turned into market orders. Traders usually will use
+stop-loss orders to close losing positions if key price levels are violated,
+indicating an incorrect price forecast.
+
+Example
+The trader, expecting a breakout to the upside after a period of consolidation, executes a 90/95 reverse-collar position. Support is strong at
+the 90.00 level, and if this level is violated it will indicate that the trader’s
+forecast is incorrect. The trader places a stop-loss order to buy back the 90
+put with an 89.99 stop. Unfortunately, the market does break down and the
+stop-loss order is triggered, closing out the short put portion of the position
+at a loss, as shown in Figure 3.26.
+100.00

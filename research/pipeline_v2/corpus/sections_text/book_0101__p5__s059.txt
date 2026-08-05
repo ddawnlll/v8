@@ -1,0 +1,1258 @@
+
+AU3772_book.fm Page 616 Saturday, November 18, 2006 5:29 PM
+
+616
+
+Technical Analysis of Stock Trends
+
+he may have, he stands to lose everything on his first failure. EN: This is, of
+course, the problem of “gambler’s ruin,” which has been admirably analyzed by a
+number of writers, including Niederhoffer with the most delightful illustration. See
+Resources (Appendix D) for the formula.
+In a lesser degree, this is the situation we are speaking of. You would
+not risk all of your capital on a basis of doubling your money or losing all.
+But suppose you were extended, continually, to a point where you were
+taking the risk of a 40% net loss on each transaction, with the hope of a 40%
+net gain. Should you start with $1000 and have a succession of 10 losses,
+you would wind up with about $6. Now suppose the very next 10 transactions were all successful. You would finally come out, after 10 losses and
+10 gains, each of 40%, with capital of less than $100. It would not be necessary
+either that these 10 losses and 10 gains come in the order given. You might
+have the 10 gains first, or three gains, four losses, seven gains, and then six
+losses. The result would be the same. After 10 gains and losses, in any order,
+you would have lost more than 90% of your capital.
+On the other hand, if you risked your entire capital each time on
+20 ventures, in 10 of which you took an 8% net gain and in 10 an 8% net
+loss, your $1000 after the 10 gains and losses would be reduced only to $937.
+You would still have about 94% of your original capital. Therefore, in this
+case (and 8% is a fair average figure for short-term transactions resulting in
+a loss, in fact, a rather liberal figure according to extensive tabulations of
+actual transactions), you would have a handicap due to this paradox of only
+about ⅓ of 1% on each trade.
+Now it is conceivable that 10 successive trades might go wrong, though
+that would be an unusual (EN: but perfectly predictable) condition. There was
+one period of 10 months between the actual turn of the market and the Dow
+Signal for a Reversal of the Primary Trend. True, the resulting new trend,
+once established, ran far and long, and would have made up all losses and
+produced fine profits. But during the 10 hard months, allowing the fair
+average time of 30 days per transaction, it is possible that 10 successive
+wrong-way trades might have been stopped out for losses, reducing the
+original $1000 to $434.
+The important thing here is that the next 10 successful trades would
+have brought this $434 back to $937; in other words, you could have righted
+the boat and sailed right on if you were working on the 8% basis, whereas
+if you had been following the 40% basis we gave previously as an example,
+you would have been sunk without a trace, a victim of overtrading.
+Therefore, by maintaining a sane Composite Leverage Index and letting
+the law of averages work for you and with you, you will be on solid mathematical ground. Your technical studies will have every opportunity to make
+you a profit. Otherwise you can, simply by unwise overextension of your
+trading, prevent even the best technical analysis from producing a net profit.
+
+AU3772_book.fm Page 617 Saturday, November 18, 2006 5:29 PM
+
+Appendix A
+
+617
+
+Composite Leverage Index of a Single Stock
+If you keep a record of sensitivity as outlined in (EN: original Chapter 24,
+Chapter A of this Appendix) and have computed the Sensitivity Indexes for
+your stocks, then you can set down the Composite Leverage of any purchase
+or short sale as follows:
+• Let S represent the Sensitivity Index of the stock.
+• Let N represent the Normal Range-for-Price, based on the price at
+the time of the original commitment.
+• Let T represent the Total Net Paid or received on the original transaction.
+• Let C represent the Capital reserved to finance this commitment. In
+the case of outright cash purchases or 100% margin short transactions, this figure cancels out against T in the numerator.
+Then
+Composite Leverage =
+
+SNT
+15.5 × C
+
+(15.5 is the Normal Range for a stock selling at a price of 25, and is simply
+an arbitrary selection to serve as a fixed point of reference in determining
+ratios.)
+
+Composite Leverage on an Entire Portfolio
+The Composite Leverage on the entire account is a summation of the risks
+of the component stocks, and can be figured in this way:
+Total Composite Leverage =
+
+Sum of SNT*
+*
+15.5 × Total Capital or Net Worth
+
+Let us add one more striking example of the importance of Composite
+Leverage. At a time when stocks could be bought on a 30% margin, it would
+have been possible to buy, with $1000, $3300 worth of a highly speculative
+stock, Standard Gas and Electric $4 Preferred, then listed on the New York
+Stock Exchange. Let us assume that the price at that time was $25 a share.
+The Composite Leverage, then, on your $1000 capital would be 693% using
+* Sum of SNT means that you figure S × N × T for each stock in the portfolio separately, and
+add all these figures together.
+
+AU3772_book.fm Page 618 Saturday, November 18, 2006 5:29 PM
+
+618
+
+Technical Analysis of Stock Trends
+
+the methods we have just outlined in determining this Composite Leverage.
+At this same time, using the same methods of figuring, an outright purchase
+of $1000 worth of Celanese 4¾% 1st Preferred at 106 would give a Composite
+Leverage of only 11.8%. Comparing these two transactions, your purchase
+of “SG Pr” provided a leverage of 693 to 11.8 as compared to the purchase
+of “CZ 1st Pr” or approximately 60 to 1 (58.7 to 1). Presumably, and based
+on the past history of the stocks, your chances of capital gain or loss were
+about 60 times as great in the “SG Pr” as in the “CZ 1st Pr.”
+The method proposed here gives you a means of knowing at least
+approximately how much risk you are assuming in a stock or in a group of
+stocks. It can help you to avoid exposing yourself unwittingly to an inordinate degree of risk or, on the other hand, restricting unduly your opportunities for gain.
+
+Investment Account Policy
+Ordinarily, investment account management is based largely on considerations of the “fundamentals,” and not to any great extent on technical indications. Furthermore, such accounts would normally be set up on a more
+conservative basis, and would not try to use Bear Markets for short sales.
+EN: Magee refers here to what he considered “the long-term investor” or, one who
+moved only when major fault lines shook — i.e., major changes in the Dow or some
+such. As strikingly illustrated by the long-term record of the Dow in Chapter 5 and
+5.1, this can be a successful strategy but this editor feels strongly that short sales
+and Bear strategies fit well with even the most conservative of investment portfolios.
+MPT (implicitly) encourages it and any investor who had some shorts in his portfolio
+on October 19, 1987 (or September 11, 2001), felt a lot better on following mornings.
+Nevertheless, the matter of Composite Leverage figured on the entire
+account is a help in determining the overall nature of the investment. It
+would be a help in determining whether the account should be placed in a
+more conservative position, or whether it could stand a change in the direction of somewhat more speculative holdings. These decisions would, naturally, depend on the size of the account, the condition and requirements of
+the owner, and on the general condition of business and the market itself.
+However the Composite Leverage Index will provide a useful gauge for
+appraising the character of the account as a whole at any particular time.
+(EN9: Cf. Portfolio Operating Risk computations in Chapter 42.)
+
+Negative Composite Leverage
+From what we have said about the “insurance” function of short sales in a
+Bull Market (and purchases in a Bear Market), where these “contrary” transactions are used to achieve balance by means of the Evaluative Index, it must
+be clear that such short sales or protective purchases must tend to reduce
+
+AU3772_book.fm Page 619 Saturday, November 18, 2006 5:29 PM
+
+Appendix A
+
+619
+
+the Composite Leverage or total risk of the account, which is exactly why
+they would be used.
+It might seem that by considering the contrary transactions as negative,
+and those in line with the presumed Major Trend as positive, this sum could
+be reduced to zero, or at least to a point where there was no substantial total
+risk at all. This is not quite possible, since we are dealing, at best, with rough
+approximations, and also because we are dealing with more or less independent variables which may, and will, at times, make erratic moves.
+EN: In fact, after the development of the Black–Scholes formula for calculating
+options values, some very astute traders developed the “Delta Neutral” method of
+arbitraging options. Among the most sophisticated of these was Blair Hull, the
+editor’s boss at Options Research, Inc. Delta Neutral means that over very short
+time periods market price movement, up or down, should not, theoretically, affect
+the value of options arbitrage portfolios. Large fortunes have been made by marketmakers practicing this method. See Schwager’s books on the Market Wizards.
+However, it is true that we can greatly reduce the total risk and that the
+contrary moves do, in a real sense, “subtract” risk from the total account.
+This “subtraction” of risk appears in commodity accounts, where it is
+customary for brokers to reduce the margin required on total commitments
+if some of these commitments are “contrary,” that is, if there are some shorts
+along with a majority of long positions, or vice versa.
+EN: Modern Portfolio Theorists have sagaciously adopted some of these concepts, probably like the Russians, discovering them for themselves or at least not
+crediting Magee if they learned of the concepts from his work. Chapter 42 explores
+the idea which Magee is concerned with here — that of measuring portfolio risk
+and profit opportunity. He is concerned not just with risk but also with opportunity,
+and maintaining a balance between them. He also wants to maintain a consistent
+stance to the market, exposing his capital to most risk and opportunity when he
+analyzes the market to present most promise, and keeping a lower profile at times
+of uncertainty and at turning points.
+The procedures presented here are still workable by the dedicated manual technician and, if I am not mistaken, are still effective, if cumbersome in the age of
+computers. All of the data, tables, and Indexes necessary are included in this Appendix. Computer-oriented analysts will probably find the procedures outlined in the
+main sections of the book to be somewhat more convenient and also sufficient.
+
+Chapter C
+Normal Range-for-Price Indexes
+The figures in this table represent that particular component of the Composite
+Leverage of a stock which is a function of its price level. They are based on
+actual tabulations from 3800 stock charts. They state the relative proportion or
+percentage range of movement of a stock in each price range through an
+average 6-month period.
+
+AU3772_book.fm Page 620 Saturday, November 18, 2006 5:29 PM
+
+620
+
+Price
+1¼
+1½
+1¾
+2
+2¼
+2½
+3
+3½
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+
+Technical Analysis of Stock Trends
+
+Normal Range
+
+Price
+
+Normal Range
+
+Price
+
+Normal Range
+
+38.0
+35.0
+33.0
+31.5
+30.0
+29.2
+27.6
+26.5
+25.3
+24.0
+22.8
+22.0
+21.2
+20.4
+19.8
+19.2
+18.7
+18.4
+18.0
+17.6
+17.3
+17.0
+16.8
+16.6
+16.5
+16.3
+16.1
+15.9
+15.7
+15.5
+15.3
+15.2
+15.1
+14.9
+14.7
+14.6
+
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+
+14.5
+14.4
+14.3
+14.2
+14.1
+14.0
+13.9
+13.8
+13.7
+13.6
+13.5
+13.4
+13.3
+13.2
+13.1
+13.0
+12.9
+12.8
+12.7
+12.7
+12.6
+12.6
+12.5
+12.5
+12.4
+12.4
+12.3
+12.2
+12.1
+12.0
+12.0
+11.9
+11.9
+11.8
+11.8
+11.7
+
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+150
+200
+250
+
+11.7
+11.6
+11.6
+11.5
+11.5
+11.4
+11.4
+11.3
+11.3
+11.2
+11.2
+11.1
+11.1
+11.1
+11.0
+11.0
+11.0
+10.9
+10.9
+10.9
+10.8
+10.8
+10.8
+10.7
+10.7
+10.7
+10.6
+10.6
+10.6
+10.5
+10.5
+10.5
+10.4
+9.0
+8.0
+7.0
+
+AU3772_book.fm Page 621 Saturday, November 18, 2006 5:29 PM
+
+Appendix A
+
+621
+
+Chapter D
+Sensitivity Indexes of Stocks*
+Although it is not possible to predict the advance or decline of a stock over
+the years in the future, it is possible to make a reasonable estimate of the
+most likely “degree” of advance or decline, based on its long-term market
+history. Barring major changes in corporate structure or in the nature of the
+company’s product, we can assume that the relatively conservative stock
+will usually continue to move conservatively, and that the relatively speculative stock will continue to be subject to wide swings of advance or decline.
+This new table of Sensitivity Indexes shows the approximate relative
+sensitivity of stocks, based on the percentage price range of each stock for
+each year over the period from 1964 to 1973 inclusive, and the median price
+of each stock in each year. The values are adjusted for major split-ups and
+price level, and also for the overall range of the market in each year. For this
+correction, we have used a Market Reciprocal which is inversely proportional
+to the total price range of all the stocks considered, and this makes it possible
+to set up the annual Sensitivity Indexes from which the 10-year figures used
+in the table are obtained.
+Since some students may want to work out their own relative sensitivity
+figures or use this data in other ways, we are giving here the Market Reciprocals used for each of the years in these computations:
+
+1964
+1965
+1966
+1967
+1968
+
+Abbott Laboratories
+ACF Industries, Inc.
+Adams Express Co.
+Addressograph-Multigraph
+Aetna Life & Casualty Co.
+Air Producers & Chemicals
+Airco, Inc.
+Akzona, Inc.
+Alcan Aluminum Ltd.
+Allegheny Corp.
+
+1.544
+1.320
+1.089
+1.027
+1.122
+
+.948
+1.095
+.535
+1.593
+.967
+.844
+.842
+1.031
+.889
+1.084
+
+1969
+1970
+1971
+1972
+1973
+
+0.953
+0.861
+1.075
+1.238
+0.786
+
+Allegheny Ludlum Industries
+Allied Chemical Corp.
+Allied Stores Corp.
+Allis-Chalmers Corp.
+Alpha Portland Industries
+Aluminum Co. of America
+AMAX Inc.
+AMBAC Industries
+Amerada Hess Corp.
+American Air Filter
+
+1.192
+.916
+1.045
+1.195
+.922
+1.069
+.830
+1.184
+1.332
+1.365
+
+* Prepared by Cynthia Magee and Paul B. Coombs of the Technical Staff of John Magee Inc.
+
+AU3772_book.fm Page 622 Saturday, November 18, 2006 5:29 PM
+
+622
+American Airlines Inc.
+American Brands Inc.
+American Broadcasting Cos.
+American Can Company
+American Chain & Cable
+American Cyanamid Company
+American District Telegraph
+American Home Products
+American Hospital Supply
+American Motors Corp.
+American Standard Inc.
+American Sterilizer Co.
+American Stores Co.
+Ametek, Inc.
+AMF, Inc.
+AMP Inc.
+Amstar Corp.
+Amsted Industries
+Anaconda Company
+Anchor Hocking Corp.
+Anderson Clayton & Co.
+ARA Services, Inc.
+Archer-Daniels-Midland
+Armco Steel Corp.
+Armstrong Cork Co.
+ASA Ltd.
+ASARCO Inc.
+Ashland Oil Inc.
+Associated Dry Goods
+Atlantic Richfield Co.
+Automatic Data Processing
+Avco Corporation
+Avery Products Corp.
+Avnet Inc.
+Avon Products, Inc.
+Babcock & Wilcox Co.
+Baker Oil Tools, Inc.
+Barber Oil Corp.
+Bath Industries, Inc.
+Bausch & Lomb, Inc.
+Baxter Laboratories
+Beatrice Foods Co.
+Beckman Instruments Inc.
+Becton Dickinson & Co.
+Bell & Howell Co.
+Bendix Corporation
+Beneficial Corp.
+Bethlehem Steel Corp.
+Black & Decker Mfg.
+Boeing Company
+Boise Cascade Corp.
+Bond Industries
+Borden, Inc.
+Borg Warner
+Braniff Int’l
+
+Technical Analysis of Stock Trends
+1.440
+.724
+1.401
+.834
+.746
+.874
+1.238
+.888
+1.050
+.972
+1.112
+1.056
+.956
+1.087
+1.429
+1.011
+.958
+.886
+1.260
+1.078
+.860
+1.418
+.928
+.736
+.939
+1.509
+1.090
+1.022
+1.094
+1.399
+1.473
+1.154
+1.087
+1.409
+1.278
+1.172
+1.192
+1.299
+1.538
+2.287
+1.197
+.788
+1.362
+1.148
+1.501
+1.143
+1.092
+.768
+1.145
+1.705
+1.563
+1.006
+.766
+.833
+1.649
+
+Briggs & Stratton Corp.
+Bristol-Myers Company
+British Petroleum
+Brunswick Corp.
+Bucyrus-Erie Co.
+Budd Company
+Bulova Watch Co., Inc.
+Burlington Industries
+Burlington Northern, Inc.
+Burroughs Corporation
+Campbell Soup Co.
+Canadian Pacific Limited
+Capital Cities Commun. Inc.
+Carborundum Company
+Carnation Company
+Carpenter Technology
+Carrier Corporation
+Caterpillar Tractor Co.
+CBS Inc.
+Celanese Corporation
+Cenco Instruments
+Central Soya Co.
+Cerro Corporation
+Champion International
+Champion Spark Plug Co.
+Chase Manhattan Corp.
+Chemetron Corporation
+Chesebrough-Ponds, Inc.
+Chessie System Inc.
+Chicago Milwaukee Corp.
+Chicago Pneumatic Tool Co.
+Chicago Rock Island & Pacific RR
+Chrysler Corporation
+Cincinnati Milacron Inc.
+CIT Financial Corp.
+CITICORP
+Cities Service Company
+Clark Equipment Company
+Clorox Company
+Cluett, Peabody & Co., Inc.
+Coastal States Gas Corp.
+Coca-Cola Bot. Co. of N.Y.
+Coca-Cola Co.
+Colgate-Palmolive Co.
+Colt Industries, Inc.
+Combustion Engineering Inc.
+Commonwealth Oil
+Communications Satellite
+Conrac Corp.
+Consolidated Foods Corp.
+Consolidated Freightways, Inc.
+Continental Air Lines, Inc.
+Continental Can Company
+Continental Corp.
+Continental Oil Co.
+
+.975
+.961
+.878
+1.315
+1.170
+1.047
+1.172
+1.076
+1.033
+1.683
+.677
+.502
+1.195
+1.044
+1.090
+.916
+1.284
+1.078
+1.724
+1.20]
+1.221
+.710
+1.221
+1.062
+.789
+.735
+1.034
+.986
+.869
+1.938
+1.047
+1.406
+1.393
+1.195
+.819
+.856
+.947
+.961
+1.530
+1.069
+1.312
+1.253
+.983
+.867
+1.724
+1.218
+1.140
+1.577
+1.633
+.952
+1.198
+1.557
+.880
+.727
+.787
+
+AU3772_book.fm Page 623 Saturday, November 18, 2006 5:29 PM
+
+Appendix A
+Control Data Corp.
+Cooper Industries
+Corning Glass Works
+CPC International, Inc.
+Crane Company
+Creole Petroleum
+Crown Cork & Seal Co. Inc.
+Crown Zellerbach Corp.
+CTS Corporation
+Cummins Engine Company
+Curtiss Wright Corp.
+Cutler Hammer Inc.
+Cyprus Mines Corp.
+Damon Corporation
+Dana Corporation
+Dayco Corporation
+Deere & Company
+Delta Air Lines, Inc.
+Diamond International
+Diamond Shamrock Corp.
+Digital Equipment Corp.
+Disney (Walt) Productions
+Distillers Corp.-Seagrams Ltd.
+Dome Mines Ltd.
+Dow Chemical Company
+Dow–Jones Rail Averages
+Dr. Pepper Company
+Dresser Industries, Inc.
+du Pond (E.I.) Inc.
+Eastern Air Lines, Inc.
+Eastern Gas & Fuel Associates
+Eastman Kodak Company
+Echlin Manufacturing
+Eckerd (Jack) Corp.
+Eltra Corporation
+Emerson Electric Company
+Emery Air Freight Corp.
+Englehard Minerals & Chem.
+Esmark Inc.
+Ex-Cell-O Corp.
+Exxon Corp.
+Faberge, Inc.
+Fairchild Camera & Instruments
+Fansteel Inc.
+Federal National Mortgage
+Federated Department Stores
+Fibreboard Corp.
+Firestone Tire & Rubber Co.
+First Charter Financial
+Flintkote Co.
+Fluor Corporation
+FMC Corporation
+Ford Motor Company
+Foremost-McKesson, Inc.
+Foster Wheeler Corp.
+
+623
+1.847
+1.451
+1.353
+.956
+1.037
+.841
+.931
+1.050
+1.022
+.911
+1.373
+1.245
+1.000
+1.644
+.796
+.905
+1.056
+1.373
+.783
+.860
+1.566
+1.867
+.753
+1.376
+1.012
+1.434
+.919
+1.072
+1.050
+1.669
+1.396
+1.098
+1.353
+1.170
+1.209
+.872
+.989
+1.253
+1.014
+1.019
+.772
+1.303
+2.640
+1.453
+1.055
+.961
+1.187
+.830
+1.103
+.956
+1.276
+.835
+.903
+1.067
+1.236
+
+Freeport Minerals Co.
+Fruehauf Corporation
+Gamble-Skogmo, Inc.
+Gardner-Denver Co.
+Gen. Am. Investors Co., Inc.
+Gen. Am. Transportation Corp.
+General Cable Corp.
+General Dynamics Corp.
+General Electric Co.
+General Foods Corp.
+General Instrument Corp.
+General Mills, Inc.
+General Motors Corp.
+General Portland Inc.
+General Signal Corp.
+General Tire & Rubber Co.
+Genesco Inc.
+Genuine Parts Co.
+Georgia-Pacific Corp.
+Getty Oil Co.
+Gillette Company, (The)
+Goodrich (B.F.) Company
+Goodyear Tire & Rubber Co.
+Gould, Inc.
+Grace (W.R.) & Co.
+Graniteville Co.
+Grant (W.T.) Co.
+Great A & P Tea Co., Inc.
+Great Northern Iron Ore
+Great Northern Nekoosa Corp.
+Great Western Financial Corp.
+Greyhound Corp.
+Grumman Corp.
+Gulf & Western Industries Inc.
+Gulf Oil Corporation
+Halliburton Co.
+Hammermill Paper Co.
+Harris Corporation
+Helca Mining Co.
+Helmerich & Payne, Inc.
+Hercules Inc.
+Hershey Foods Corp.
+Hewlett-Packard Co.
+High Voltage Engineering
+Hilton Hotels Corp.
+Holiday Inns, Inc.
+Homestake Mining Co.
+Honeywell Inc.
+Houdaille Industries, Inc.
+Household Finance Corp.
+Howard Johnson Co.
+Howmet Corp.
+Hudson Bay Min. & Smelt. Co.
+Ideal Basic Industries, Inc.
+Illinois Central Industries, Inc.
+
+1.388
+.872
+1.143
+.908
+.919
+.878
+1.195
+1.362
+.914
+.757
+1.393
+.874
+1.020
+.939
+1.106
+.994
+1.270
+1.050
+1.086
+1.427
+1.127
+.948
+.810
+1.147
+.955
+.931
+1.343
+.875
+.566
+.867
+1.253
+.777
+1.376
+1.523
+.774
+1.379
+.942
+1.176
+1.104
+1.267
+.927
+.735
+1.420
+1.488
+1.613
+1.610
+1.349
+1.532
+.903
+.872
+1.399
+1.315
+.875
+.718
+1.271
+
+AU3772_book.fm Page 624 Saturday, November 18, 2006 5:29 PM
+
+624
+Imperial Oil Ltd.
+INA Corporation
+Ingersoll-Rand Co.
+Inland Steel Company
+Inspiration Consol. Copper
+Interco Inc.
+Internat. Flavors & Frag. Inc.
+Internat. Minerals & Chem.
+International Bus. Machines
+International Harvester Co.
+International Nickel Co. of Canada
+International Paper Company
+International Tel & Tel. Corp.
+Jefferson-Pilot Corp.
+Jewel Companies, Inc.
+Johns-Manville Corporation
+Johnson & Johnson
+Jones & Laughlin Steel Corp.
+Joy Manufacturing Co.
+Kaiser Aluminum & Chemical
+Kansas City Southern Ind.
+Kaufman & Broad, Inc.
+Kawecki Berylco Inc.
+Kellogg Company
+Kennecott Copper Corp.
+Kerr McGee Corp.
+Kimberly-Clark Corporation
+KLM Royal Dutch Airlines
+Koppers Co., Inc.
+Kraftco Corp.
+Kresge (S.S.) Co.
+Kroger Company
+Lehigh Portland Cement Co.
+Libbey-Owens-Ford Co.
+Libby McNeil & Libby
+Liggett & Myers Inc.
+Lilly (Eli) & Co.
+Litton Industries
+Lockheed Aircraft Corp.
+Loews Corp.
+Lone Star Industries
+Louisiana Land & Exploration Co.
+LTV Corporation
+Lubrizol Corp.
+Lukens Steel Co.
+Macmillan Inc.
+Macy (R.H.) & Co., Inc.
+Madison Fund, Inc.
+Magnavox Co.
+Mallory, (P. R.) & Co., Inc.
+Marathon Oil Co.
+Marcor, Inc.
+Maremont Corp.
+Marine Midland Banks, Inc.
+Marion Laboratories, Inc.
+
+Technical Analysis of Stock Trends
+.866
+1.268
+.947
+.677
+.869
+1.062
+.864
+.900
+1.811
+.903
+.813
+.846
+1.033
+.934
+.931
+.919
+1.299
+1.070
+1.321
+1.154
+1.002
+1.688
+1.097
+.613
+1.065
+1.287
+.908
+1.906
+.963
+.672
+1.315
+1.017
+.888
+.897
+.816
+.894
+.799
+1.512
+1.320
+1.909
+.807
+.986
+2.109
+1.045
+1.468
+1.268
+.987
+.719
+1.226
+1.058
+1.329
+1.150
+1.858
+.675
+1.251
+
+Marriott Corp.
+Marshall Field & Co.
+Martin-Marietta Corp.
+Masco Corp.
+Masonite Corp.
+Massey-Ferguson Ltd.
+Matsushita Electric ADR
+May Department Stores Co.
+McDermott (J.R.) & Co., Inc.
+McDonald’s Corp.
+McDonnell-Douglas Corp.
+McGraw-Edison Co.
+McGraw-Hill Inc.
+McIntyre Mines Ltd.
+Mead Corp.
+Melville Shoe Corp.
+Merck & Co., Inc.
+Mesta Machine Co.
+Metro-Goldwyn-Mayer, Inc.
+Metromedia, Inc.
+MGIC Investment Corp.
+Microdot Inc.
+Microwave Associates, Inc.
+Midland-Ross Corp.
+Minnesota Mining & Mfg.
+Missouri Pacific R.R. Co.
+Mobil Oil Corp.
+Molycorp Inc.
+Monroe Auto Equipment Co.
+Monsanto Co.
+Morgan (J.P.) & Co.
+Morton-Norwich Products, Inc.
+Motorola Inc.
+Murphy Oil Corp.
+N.L. Industries, Inc.
+Nabisco, Inc.
+Nalco Chemical Co.
+National Airlines, Inc.
+National Aviation Corp.
+National Can Corp.
+National Chemsearch Corp.
+National Distillers & Chem.
+National Gypsum Company
+National Semiconductor Corp.
+National Steel Corp.
+National Tea Company
+Natomas Co.
+NCR Corp.
+Neptune International Corp.
+Newmont Mining Corp.
+Norfolk & Western Ry. Co.
+Northrop Corp.
+Northwest Airlines, Inc.
+Northwest Industries
+Norton Simon Inc.
+
+1.221
+.942
+.835
+1.151
+1.041
+.917
+1.098
+1.229
+1.697
+1.533
+1.374
+.981
+1.165
+1.407
+.880
+1.108
+.944
+1.160
+1.279
+1.580
+1.984
+1.435
+1.668
+1.025
+.914
+.846
+.991
+1.538
+1.363
+1.131
+.891
+1.037
+1.889
+1.056
+.792
+.629
+.914
+1.649
+.736
+1.170
+.972
+.601
+.864
+1.591
+.852
+.641
+2.368
+1.359
+.924
+1.006
+.951
+1.139
+1.599
+1.285
+1.256
+
+AU3772_book.fm Page 625 Saturday, November 18, 2006 5:29 PM
+
+Appendix A
+Occidental Petroleum Corp.
+Olin Corp.
+Otis Elevator Co.
+Outboard Marine Corp.
+Owens-Corning Fiberglass Corp.
+Owens-Illinois Inc.
+Pacific Petroleums Ltd.
+Pan American World Airways
+Papercraft Corp.
+Pasco Int.
+Peabody Galion Corp.
+Penn-Dixie Industries
+Penney (J.C.) Co.
+Pennwalt Corp.
+Pennzoil Co.
+PepsiCo, Inc.
+Perkin-Elmer Corp.
+Pfizer, Inc.
+Phelps Dodge Corp.
+Philip Morris, Inc.
+Phillips Petroleum Co.
+Pillsbury Company
+Pitney-Bowes, Inc.
+Pittston Co.
+Polaroid Corp.
+Ponderosa Systems, Inc.
+PPG Industries, Inc.
+Prentice-Hall Int.
+Procter & Gamble Co.
+Pullman Inc.
+Quaker Oats Co.
+Quaker State Oil
+Ralston Purina Co.
+Rapid American Corp.
+Raytheon Co.
+RCA Corp.
+Reed Tool Co.
+Republic Steel Corp.
+Research-Cottrell
+Revco D.S., Inc.
+Revlon Inc.
+Reynolds (R.J.) Industries Inc.
+Reynolds Metals Co.
+Richardson-Merrell Inc.
+Rio Grande Industries Inc.
+Rite Aid Corp.
+Robertshaw Controls Co.
+Robins (A.H.) Co.
+Rockwell International Corp.
+Rohm & Haas Co.
+Rosario Resources Corp.
+Royal Crown Cola Co.
+Royal Dutch Petroleum Co.
+Ryder Systems Inc.
+Safeway Stores, Inc.

@@ -1,0 +1,409 @@
+
+Wilder, who first promoted the concept, suggests that it should be
+a number somewhere between 2.7 and 3.4 times the average true
+range of the last 10 days. We used 3.0 in the random entry system.
+The point of the volatility stop is keep your stop out of the noise of
+the market, and 3 times the daily volatility certainly does that.
+Others have looked at the weekly volatility. If you use the weekly
+volatility, then you probably can get by with a stop somewhere
+between 0.7 to 2 times the weekly volatility.
+The dollar trailing stop is another possibility Here you would
+decide some number such as $1,500, and keep a trailing stop at that
+amount behind yesterday’s close. Dollar stops are excellent if they
+have some rational basis. However, using a $1,500 stop in an S&P
+contracf, a corn contract, a $150 stock, and a $10 stock is madness.
+The amount of your dollar stop should be adjusted for what is reasonable for each market. The best way to determine what is reasonable for each market is to check the volatility of that market. As
+a result, you might as well use a volatility-based stop instead.
+A channel breakout trailing stop is also quite useful. You
+might decide that you will get out at the extreme price of the last X
+days (you fill in the number). Thus, in a long position, you might
+decide to sell if the price hits the low of the last 20 days, whereas in
+a short position you might decide to sell
+if the price hits the high of the last 20
+days. As the price moves in your favor,
+this number is always adjusted in your
+A moving-average trailing stop is
+er common trailing stop. If price
+is moving in any particular direction,
+en a slow moving average will trail
+behind that price and could be used as
+a stop. However, you will have to determine the number of periods involved in
+that moving average. For example, a
+200.day moving average would have kept you actively involved in
+the stock market over the last 3 years (1995-1997) and allowed YOU
+to make significant profits.
+There are many different types of moving averages--simple,
+
+exponential, displaced, adaptive, etc.-and all these could be used
+as trailing stops. Your job is simply to fiid the one or several that
+best help you meet your objectives. Different types of moving averages were discussed extensively in the entry chapter, Chapter 8, of
+this book.
+There are also other kinds of trailing stops based upon consolidations or chart patterns. For example, every time the market
+moves beyond a consolidation pattern, that old consolidation pattern could become the basis of a new stop. This amounts to a discretionary trailing stop, and it will give back a lot of profits,
+Nevertheless, it may have some merits in combination with other
+types of exits.
+The Profit Retracement Stop
+This kind of stop makes an assumption that you must give back a
+percentage of your profits in order to allow them to grow. As a
+result, it just assigns a number to the amount of retracement
+allowed and makes it part of your system. However, in order to use
+a profit retracement stop, you must reach a certain level of profitability such as a 2-R profit.
+Here’s how this kind of stop might work. Suppose you purchase 100 shares of Micron at $52 You initially assume a 1-R risk of
+$6, by assuming that you will get out if the stock drops to $46. Once
+you obtain a 2-R profit of $12 by having the stock move up in price
+to $64, you decide to begin a profit retracement stop. Let’s say that
+you decide to put on a 30 percent profit retracement stop. Since you
+now have $12, you are willing to give up 30 percent of that, or $3.60.
+When the profit moves up to $13, a 30 percent retracement
+now becomes $3.90. And at $14, a 30 percent retracement becomes
+$4.20. Since the actual dollar amount as a fixed percent continues to
+grow as the profit grows, you may want to change the percentage
+as the profit gets bigger. For example, you might start out at a 30
+percent retracement, but move the amount down to 25 percent at a
+3-R profit and to 20 percent at a 4-R profit. You could continue to
+decrease the amount until you only allowed a 5 percent retracement at 7-R, or you might allow it to remain at 20 percent once you
+reach 4-R. This would depend entirely upon your objectives in
+designing your system.
+
+CHAPTER 10
+
+260
+
+Exits That Keep You from Giving Back Too Much Profit
+If vou are managing other people’s money, it is more important to
+minimize drawdowns than it is to produce large returns. As a
+result, you might want to consider exits that keep you from giving
+back too much profit. For example, if you have open positions on
+March 31 that put your client’s account up 15 percent in his March
+statement, then that client is going to be upset when you give back
+much of that profit. Your client will consider that open profit to be
+his money. As a result, you need some sort of exit that will lock in
+most of that profit once you reach a particular objective or after a
+reporting period to the client.
+As I mentioned earlier, many of the exits presented overlap
+categories. For example, the percent retracement exits combined
+with an objective is an excellent exit to keep you from giving back
+too much profit. However, there are others that also work well.
+The Profit Objective
+Some people use trading systems that tend to predict profit targets
+(e.g., Elliott Wave). If you use such a system, then you probably can
+target specific objectives.
+However, there is a second way to target objectives. You might
+determine, based upon historical testing, that your method produces the kind of reward-to-risk ratio you desire if you take a profit
+at some specific multiple of your initial risk. For example, you
+might find that four times your initial risk (4-R) is a great objective.
+If you can achieve that, then you might want to take your profit or
+institute a much closer stop. All the methods discussed below can
+be tightened in some way once a profit objective is reached.
+The Profit Retracement Exit
+One excellent idea for an exit that was mentioned previously is to
+only be willing to give back a certain percentage of your profit and
+to tighten that percentage after some important milestone (such as
+a report to clients or a profit objective) is reached. For example,
+after you have a 2-R profit, you might be willing to give back 30
+percent of that profit in order to~allow it to grow. When you have a
+much greater profit, say 4-R, you might only be willing to give
+back 5 to 10 percent of it before you exit.
+
+How to Take Profits
+
+261
+
+For example, let’s say you bought gold at $400 with a stop at
+$390. Thus, your initial risk is 10 points, or $1,000. Gold moves to
+$420 so that you have a 20-point profit (2-R). That might be a trigger to only allow a 30 percent retracement of your profit, or $600. If
+gold moves down to $414, you’ll take your profit.
+Gold continues to move up and reaches $440, so that you now
+have a 4-R profit of $4,000. Un@ you reached the 4-R profit, you
+were willing to give up 30 percent of your profit, which was $1,200
+at the $4,000 level. However, the 4-R level is now your signal to risk
+only 10 percent of your profit. Your stop is now moved to $436allowing just over a $400 decline.
+My intention is not to suggest specific levels (such as a 10 percent retracement at 4-X), but merely to suggest a methodology for
+you to attain your objectives. It is up to you to determine what levels will help you best attain your objectives.
+A Large Volatility Move against You
+One of the best exits you can have is a large volatility move against
+you. In fact, this type of move is also a very good entry for a system-commonly known as a volatility breakout system.
+What you need to do is keep track of the average true range.
+When the market makes an abnormally large move (let’s say two
+times the average daily volatility) against you, you would exit the
+market. Let’s say you have 200 shares of IBM trading at $145. The
+average daily volatility is $1.50, and you decide that you will get
+out if the market moves twice that volatility against you in a single
+day. In other words, since the market closed at $145 and twice the
+daily volatility is $3, you’ll exit the market if it moves to $142
+tomorrow. This would be a tremendous move against you, and you
+don’t want to stay in if this sort of move occurs.1
+It should be obvious why this cannot be your only exit.
+Suppose you continue to keep this two-times-volatility stop. The
+market is at 145 today, so your volatility exit is 142. The market
+closes down 1 point to 144. Your new volatility exit is now 141. The
+next day the market closes down 1 point to 143. Your new volatility exit is now 140. This could keep on going until the price goes to
+zero. Thus, you need some other type of exit-such as your protective stop and some sort of trailing stop-to get you out to preserve
+your capital.
+
+262
+
+l?4RT 3
+
+Understanding the Key Parts of Your System
+
+Parabolic Stops
+Parabolic exits were first described by J. Wells Wilder, and they are
+very useful. The parabolic curve starts out at a previous low point
+and has an accelerating factor in upward-moving markets. As the
+market trends, it gets closer and closer to the price. Thus, it does a
+great job of locking in profits. Unfortunately, it is quite far from the
+actual price at the beginning of your trade. Also, the parabolic stop
+may sometimes come a little too close to the prices, and you can get
+stopped out while the market continues to trend.
+There are a few ways of working around these setbacks. One
+possibility is adjusting the acceleration factor of the parabolic stop
+to rise faster or slower compared with the true prices of the market.
+In this way, parabolic stops can be well customized to your particular system and to the market you’re trading.
+To better control your risk at the start of a trade, you could set
+a separate dollar stop. For example, if the parabolic stop offers a
+$3,000 risk at the purchase of the position, you could set a simple
+$1,500 stop until the parabolic comes within $1,500 of the true contract price; a $3,000 risk might be too much for your particular
+objectives.
+Furthermore, if you are using a parabolic exit, you should consider designing a reentry technique. If the parabolic stop gets too
+close to the actual price, you might stop out before the end of a certain trend that you are following. You don’t want to miss out on the
+rest of the trend, so you may want to get back into a trade. While
+parabolic stops may not be as exceptional as other exit techniques
+for risk control, they are excellent for protecting profits.
+Psychological Exits
+One of the smartest exits anyone can have is a psychological exit.
+These depend more upon you than upon what the markets do.
+Since you are the most significant factor in your trading, psychological exits are important.
+There are certain times in which your probability of losing
+money in the market goes up greatly-no matter what the markets
+do. These include periods when you just don’t feel well because of
+health or mental problems, when your stress is high, when you are
+going through a divorce, when you’ve just had a new child, or
+
+CHAPTER 10
+
+How to Take Profits
+
+263
+
+when you are moving. Your chances of doing something that will
+cause market losses are greatly increased during these periods. As
+a result, I strongly recommend that you use a psychological exit
+and pull yourself out of the market.
+Another good time for a psychological exit is when you must
+be away from the market due to business or a vacation. Those also
+are not good times to remain in the market. Again, I recommend
+the psychological exit during these periods.
+Some people would argue that one trade might make your
+entire year and you don’t want to miss that trade. I agree with that
+philosophy if you are disciplimd andfairly m&mated in your trading.
+Horoeveu,
+most people are not. During any of the periods I mentioned,
+the average person would lose money despite being in a good
+trade. Consequently, it is important to know yourself. If it is likely
+that you will blow out even on a good trade, then you must employ
+psychological exits.
+JUST USlNG YOUR STOP AND
+A PROFlT OBJECTlVE
+One of your objectives in designing a trading system might be to
+maximize the probability of high-R-multiple trades. You might
+decide, for example, to use tight stops with the objective of getting
+a 20-R multiple trade. To do so, you might decide to use the breakout-retracement strategy described in Chapter 8 to develop a tight
+stop. Let’s say that your stop is only $1 on a high-priced stock, so
+you’ll only lose $100 on 100 shares. This would be a very tight stop,
+for example, in a $100 stock undergoing a sharp breakout. You could
+be stopped out five times in a row with just a $100 loss each timefor a total loss of $500. One $20 move in the underlying stock would
+give you a $2,000 profit, or a $1,500 net profit. You are “right” one
+time out of six, but you make a $1,500 net profit,’ less commissions.
+In order for this strategy to work, you must avoid trailing
+stops, or those stops must be very large. Your only exits will be
+your initial 1-R stop and your profit objectives. This will give you
+the maximum opportunity for a 20-R profit. You may have to tolerate drops of $1,000 or more in your profit, but never more3 than a lR loss or $100 to your starting equity Remember, your goal is a 20.
+X profit which you might achieve regularly.
+
+CHAPTER 10
+
+SlMPLlClTVAND MULTIPLEEXITS
+What works best in system design are simple concepts. Simplicity
+works because it tends to be based upon understanding rather than
+optimization. It works because one can generalize simple concepts
+across a number of markets and trading instruments.
+However, you can still have multiple exits and make them
+simple. Don’t confuse the two concepts. Simplicity is necessary so
+that your system will work, while multiple exits are usually necessary to meet your objectives. Each of your multiple exits can be simple, of course.
+Let’s look at an example. Suppose you have a goal of simply
+using a trend-following system and you’d like to be in the market
+a long time. You believe that there is nothing magical about your
+entry signal, so you want to give your position plenty of room. You
+believe that a large move against you might be a trigger for potential disaster, so you want to get out when it occurs. Lastly, you
+decide that since your initial risk will be quite wide, you will have
+to capture as much as possible once you get a 4-R profit.
+Consequently, let’s design some simple exits based upon these
+beliefs.
+First, you want a wide initial stop to give the position plenty
+of room without whipsawing you out of the market and causing
+you to have to get in several times with resulting transaction costs.
+Consequently, you decide to use the three-times-volatility stop that
+you read about earlier. That will be your worst-case stop, and it will
+also be your trailing stop because you will trail it from the close
+each day-always moving it in favor of your position.
+Second, you believe that a strong move against you is a good
+warning sign. Consequently, you decide that whenever the market
+moves twice the daily volatility from yesterday’s close against you
+in a single day, you will get out. This stop will float on top of the
+other one.
+Lastly, a 4-R profit will trigger a much tighter stop so that you
+will not give back much profit and can be assured of capturing
+what you already have. As a result, after a 4-R profit is triggered,
+your trailing volatility stop moves up to 1.6 times the average true
+range (i.e., instead of 3 times).
+
+How to Take Profits
+
+265
+
+Notice that all these stops are simple. They all came out of my
+head from thinking about what kind of stops would meet the objectives. No testing was involved, so they are not overoptimized. No
+rocket science is involved-they are simple. You do have three distinct exits which help meet your trading system goals, but only one
+of these will be in the market at one time-the one closest to the
+current price.
+
+WHAT TO AVOID
+There is one kind of exit that is designed to get rid of losses, but it
+totally goes against the golden rule of trading of cut your losses
+short and let your profit run. Instead, it produces large losses and
+small profits. This type of exit is one in which you enter the market
+with multiple contracts and then scale out with various exits. For
+example, you might start with 300 shares and sell 100 of them when
+you can break even on all 300 shares. You might then sell another
+100 shares at a $500 profit and keep the last 100 shares for a huge
+profit. Short-term traders use this type of strategy frequently On a
+gut level, this sort of trading makes sense because you seem to be
+“insuring” your profits. But if you step back from this sort of exit
+and really study it, you’ll see how dangerous this type of trading is.
+What you are actually doing with this sort of exit is practicing
+reverse position sizing. You are making sure that you will have
+multiple positions when you take your largest losses. In our example, you’d lose on all 300 shares. You are also making sure that you
+only have a minimal-sized position when you make your largest
+gain-100 shares in our example. It’s the perfect method for people with a strong bias to be right, but it doesn’t optimize profits or
+even guarantee profits. Does it make sense now?
+If it doesn’t make sense to you why you should avoid this sort
+of trading, work out the numbers. Imagine that you only take either
+a full loss or a full profit. Look at your past trades and determine
+how much of a difference this sort of trading would have made. In
+almost every instance when I’ve asked clients to do this, they
+become totally amazed at how much money they would have
+made holding on to a full position.
+
+266
+
+CHAPTER 10
+
+SUMMARY
+
+Warren Buffett’s Business Approach
+Warren Buffett generally does not sell for two reasons. First, when
+you sell, you must pay capital gains tax. As a result, if you determine that the company has good returns for the amount you have
+invested, why sell it? You would automatically be turning over
+some of your profits to the U.S. government.
+Second, why should one sell a company that is fundamentally
+sound and bringing in excellent returns? If a company has invested
+its capital in such a way that it is bringing in excellent returns, then
+you should get an excellent return on your money.
+Third, when you do sell, you will also incur transaction costs.
+Thus, if the market is just going through psychological ups and
+down, why sell a good investment?
+In my opinion, however, it is more myth than fact that Buffett
+doesn’t sell. That myth is probably created by the fact that Buffett
+himself has not written about his own investment strategy, Instead,
+other people, who probably have the typical bias toward emphasizing entry, have tried to decipher what Buffett really does do.
+If the business situation in a stock Buffett owned changed dramatically, then he would have to sell. Let me give you an example:
+Buffett announced in early 1998 that he owned about 20 percent of
+the world’s silver supply. Silver does not pay dividends. If you own
+as much as Buffett does, you actually have costs involved with storing the commodity and protecting it. If Warren Buffett does not
+have a planned exit strategy for that silver, then, in my opinion, he
+is making one of the biggest mistakes of his investing career. On the
+other hand, if he does have a planned exit strategy, then I would
+guess that he has a planned exit strategy for most of his stock purchases as well. When other people have written about him, they
+have simply reflected their own biases and focused on his entry
+and setup strategies, while ignoring his exit strategies.
+
+People avoid looking for good exits because exits do not give
+them control over the market. However, exits do control something. They control whether you make a profit or a loss, and they
+control just how big that profit or loss will be. Since they do so
+much, perhaps they are worthy of a lot more study on the part of
+most people.
+We reviewed four general categories of exits+xits that make
+your initial loss smaller, exits that maximize your profits, exits that
+minimize how much profit you give back, and psychological exits.
+Various exit strategies were presented for each category with a
+great deal of overlap.
+The reader would do best to consider simple multiple exits.
+Simple exits are easy to conceptualize and don’t require extensive
+optimization (if any). Multiple exits are recommended because
+they will help you most fully meet the objectives that you have
+stated for your trading system.
+We have examined how to set up a high-expectancy system by
+itself that can return good profits. The next chapter will discuss
+how the opportunity factor interacts with expectancy
+
+EXITSUSEDBYCOMMONSYSTEMS
+Stock Market Systems
+William O’Neil’s CANSLIM System
+William O’Neil’s fundamental profit-taking rule is to take a 20 percent profit whenever you achieve it. Since his stop loss is about 8%
+this means a 2.5-R profit. As a result, his fundamental profit-taking
+exit is an objective.
+However, O’Neil then tempers his basic profit-taking rule
+with 36 other selling rules. Some of these rules are exceptions to the
+basic selling rule, while others are reasons to sell early In addition,
+he also adds eight more rules concerning when to hold onto a stock.
+I’ll refer the reader to O’Neil’s wonderful book for the specific
+details since my intention is explain how various systems fit into
+the framework outlined in the chapter. It is not my intention to give
+you every detail of the system.
+
+How to Take l’mfit~
+
+267
+
+Motley Fool Foolish-Four Method
+The Motley Fool Foolish-Four method involves a once-a-year
+adjustment to one’s portfolio. You readjust your positions so that
+you are now taking positions in the second, third, fourth, and fifth
+best dividend-paying stocks in the Dow Jones Industrials Average.
+If those stocks are the same as the prior year’s, there is no exit.
+
+However, if any of the stocks no longer qualify, then you would exit
+out of those and enter into the stocks that do qualify.
+If the second highest-paying dividend stock from the prior
+year is no longer in that position, then you would also make an
+adjustment of either cutting the position in half (if it were still in the
+top five) or exiting it entirely (if it no longer was part of the foolish
+four stocks). You would also exit some stocks in order to do an
+equal-size adjustment of stocks. However, that is a topic for the
+position sizing chapter.
+Futures Market Systems
+Kaufman’s Adaptive Methods
+Kaufman cautions that his basic trend-fo!lowing system should not
+be confused with a complete strategy. He simply presents it as a
+sample method with no subtleties in the selection of either entry or
+exit.
+The adaptive moving average was presented in Chapter 8 as a
+basic entry technique. You simply enter a long position when the
+moving average turns up by more than the amount of a predetermined filter. You enter a short position when the moving average
+turns down by more than the amount of a predetermined filter.
+Kaufman comments that one should take profits whenever
+the efficiency exceeds some predetermined level. For example, he
+states that a high efficiency ratio cannot be sustained, so that it usually drops quickly once a high value is obtained. Thus, Kaufman
+has two basic exit signals: (1) when there is a change in the adaptive moving average in the opposite direction (perhaps when it
+exceeds some threshold in the opposite direction) and (2) when the
+efficiency average hits a very high value such as 0.8.
+I think adaptive exits have more potential than any other form
+of exits. Some of my clients have developed exit strategies that
+move up with the market, giving the position plenty of room while
+it moves, However, as soon as the market starts to turn, these exits
+take you right out. They are incredibly creative and yet simple. And
+if the market resumes a trend, their basic trend-following system
+would be able to enter them right back into the market. I would
+strongly suggest that you spends a lot of time in this area in your
+system development.

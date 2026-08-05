@@ -1,0 +1,633 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V8 Kitap Strateji Analizi — research_pipeline_v2.1</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;max-width:1100px;margin:0 auto;padding:24px;color:#1a1a1a;line-height:1.5}
+h1,h2,h3{border-bottom:1px solid #ddd;padding-bottom:6px}
+.stat{display:inline-block;background:#f0f4ff;border:1px solid #c9d6f5;border-radius:8px;padding:10px 16px;margin:4px;min-width:120px}
+.stat b{font-size:22px;display:block}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #ddd;padding:6px 10px;text-align:left;font-size:14px;vertical-align:top}
+th{background:#f5f5f5}
+.tag{display:inline-block;background:#eef;border-radius:4px;padding:1px 6px;font-size:12px;margin:1px}
+.route-M{background:#e6f4e6}.route-G{background:#fff3d6}.route-X{background:#e6f0f9}.route-F{background:#f3e6f9}
+details{margin:6px 0}summary{cursor:pointer;font-weight:600}
+.warn{background:#fff8e6;border:1px solid #e6d9a8;padding:8px 12px;border-radius:6px}
+.pass{color:#1a7a1a}.reject{color:#c0392b}.incomplete{color:#b9770e}
+</style></head><body>
+<h1>📚 V8 Kitap Strateji Analizi</h1>
+<p><b>research_pipeline_v2.1</b> · schema v2.0 · 125 kitap · üretim tarihi: 2026-08-02</p>
+<p class="warn"><b>⚠️ ARAŞTIRMA GİRDİSİ — KENAR (EDGE) KANITI DEĞİL.</b> Bu rapor kitaplardaki strateji iddialarını kaynak-sadakatıyla derler; hiçbir bulgu V8'de kârlılık veya doğrulanmış execution iddiası değildir (V8_CONSTITUTION kural 12). Ham kaynak katmanında crypto/V8 uyarlaması YOKTUR; uyarlama yalnızca çeviri katmanında provenance etiketleriyle yapılır.</p>
+<h2>Özet</h2>
+<div>
+<div class="stat"><b>125</b>kitap</div>
+<div class="stat"><b>9643</b>triage edilmiş claim</div>
+<div class="stat"><b>7211</b>M mekanizma</div>
+<div class="stat"><b>1062</b>G risk</div>
+<div class="stat"><b>880</b>F metodoloji</div>
+<div class="stat"><b>490</b>X execution</div>
+<div class="stat"><b>6478</b>counterevidence kaydı</div>
+</div>
+<h2>Araştırma kararları</h2><table><tr><th>Karar</th><th>İçerik</th></tr>
+<tr><td>HITL-1</td><td>scout_recall → section_level_llm_triage_for_M_track; ab_framing → keep_different_framings; execution_mode → full_section_triage_8to10h</td></tr>
+<tr><td>P2_SCOPE_REDUCTION</td><td>full_section_triage → dropped_for_now; deep_search → deferred</td></tr>
+<tr><td>FINAL_SCOPE</td><td>coverage → full_100_percent</td></tr>
+<tr><td>A1_DEFERRED</td><td>full_section_triage → deferred_to_deep_search</td></tr>
+<tr><td>MULTI_TIMEFRAME_TARGET</td><td>target_market_timeframe → multi_timeframe_1h_4h_1d</td></tr>
+</table>
+<h2>Kitap başına bulgular</h2>
+<table><tr><th>Kitap</th><th>Track</th><th>Claim</th><th>Örnek claim'ler</th></tr>
+<tr><td><b>The 10 Essentials of Forex Trading - The Rules for Turning Trading Patterns Into Profit 2007</b></td><td>M,G</td><td>226</td><td><span class="tag route-G">G</span> if you promise never to trade without a protective stop-loss order, which is an order that protects you from losing all <br><span class="tag route-M">M</span> Because history repeats itself, where the market has been begins to predict where it is going.</td></tr>
+<tr><td><b>17 Proven Currency Trading Strategies - How to Profit in the Forex Market 2013</b></td><td>M</td><td>193</td><td><span class="tag route-M">M</span> it&#x27;s very easy for you and me to get sucked into recognizing that 80% of people lose money in the forex market<br><span class="tag route-M">M</span> the cardinal rule that I broke in my first live trading experience was to trade against the trend</td></tr>
+<tr><td><b>Adventures of a Currency Trader - A Fable about Trading, Courage, and Doing the Right Thing 2007</b></td><td>-</td><td>24</td><td><span class="tag route-G">G</span> Even bank traders can fall into this. Every trade you take is simply an
+opportunity to bid for pips! You make a bid—
+ME:<br><span class="tag route-M">M</span> ADVENTURES OF A CURRENCY TRADER
+candle passed through the number, it wasn’t as if all the traders had forgotten about th</td></tr>
+<tr><td><b>The Alchemy of Finance - Reading the Mind of the Market 2nd edition 1994</b></td><td>-</td><td>30</td><td><span class="tag route-M">M</span> being created faster than foreigners are willing to absorb them,
+the exchange rate ought to resume its decline-unless th<br><span class="tag route-M">M</span> present behavior-which is the case in financial markets. But even
+there, some mechanism must be triggered for the partic</td></tr>
+<tr><td><b>Algorithmic Trading - Winning Strategies and Their Rationale 2013</b></td><td>F,M,G</td><td>79</td><td><span class="tag route-M">M</span> Third, and this relates mostly to the shorter-term news-driven momentum
+that we will talk about in the next chapter, the<br><span class="tag route-M">M</span> The equity curve is depicted in Figure 7.1.
+FIGURE 7.1 Equity Curve of FSTX Opening Gap Strategy
+■ News-Driven Momentum</td></tr>
+<tr><td><b>The Art and Science of Technical Analysis - Market Structure, Price Action, and Trading Strategies 2012</b></td><td>M,G,F</td><td>247</td><td><span class="tag route-M">M</span> eventually finds balance at a new price level. This type of trend ending is more likely
+to be followed by an extended tr<br><span class="tag route-M">M</span> your own use. These examples show both 20-period simple moving averages (SMAs)
+and exponential moving averages (EMAs) to</td></tr>
+<tr><td><b>Attacking Currency Trends - How to Anticipate and Trade Big Moves in the Forex Market 2011</b></td><td>M,G</td><td>153</td><td><span class="tag route-M">M</span> The net supply and demand from the traders causes the price to move
+either up or down. That price movement is moved by a<br><span class="tag route-M">M</span> other way. It does not define risk. It runs counter to my mission statement
+of keeping risk to a minimum, because I cann</td></tr>
+<tr><td><b>Beyond Candlesticks - New Japanese Charting Techniques Revealed 1994 (1) - annotated</b></td><td>M,G</td><td>96</td><td><span class="tag route-M">M</span> Multi-Level Breaks
+In Chapter 6, I discussedhow Japanesetraders may wait for extra confirmation in the three-line break <br><span class="tag route-M">M</span> Metastock
+EXHIBIT 8.7. Two-Level Break, McDonald&#x27;s-37o Kagi, Daily
+individuat kagi line and comparing the yin (thin) and</td></tr>
+<tr><td><b>The Big Short - Inside the Doomsday Machine 2011</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>The Blind Side - Evolution of a Game 2007</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>Boomerang - Travels in the New Third World 2012</b></td><td>-</td><td>1</td><td><span class="tag route-M">M</span> quickly, as he squeezes himself into a small
+booth. Then he explains.
+The idea for the offshore bank had been
+his. The G</td></tr>
+<tr><td><b>The Broker 2005</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>Buffett - The Making of an American Capitalist 2008</b></td><td>-</td><td>6</td><td><span class="tag route-M">M</span>  The people selling—professional fund managers—would not have disputed those numbers. Why, then, were they selling? Quit<br><span class="tag route-M">M</span>  “Don’t ask,” Susie advised. “Just get the farm.” 
+ But that was not so easy. Warren announced a ceiling to what he woul</td></tr>
+<tr><td><b>Building Reliable Trading Systems - Tradable Strategies That Perform As They Backtest and Meet Your Risk-Reward Goals 2013</b></td><td>M,G,F</td><td>153</td><td><span class="tag route-G">G</span> your equity would be $100,000. Note that in the first year, your return was
+20 percent ($10,000/$50,000), but in the las<br><span class="tag route-G">G</span> as a fraction of the largest loss when traded at a size of the fraction f. An
+example will clarify. Suppose your strateg</td></tr>
+<tr><td><b>Candlestick and Pivot Point Trading Triggers - Setups for Stock, Forex, and Futures Markets CDR edition 2006</b></td><td>M,G</td><td>106</td><td><span class="tag route-M">M</span> to look and wait for the reversal trigger, which came when the market made
+a high close doji pattern.
+The next few chapt<br><span class="tag route-M">M</span> weekly numbers, I use the data beginning from the open on Sunday night to
+the close on Friday afternoon. Monthly numbers</td></tr>
+<tr><td><b>Candlestick Charting Explained 3rd edition 2006</b></td><td>M,F</td><td>155</td><td><span class="tag route-M">M</span> charting is no different, except that the information is so much more
+easily interpreted.
+There is much information prov<br><span class="tag route-M">M</span> White Marubozu
+A White Marubozu (Figure 2-4) is a long white body with no shadow
+on either end. This is an extremely str</td></tr>
+<tr><td><b>Candlestick Charting For Dummies 2008</b></td><td>M</td><td>126</td><td><span class="tag route-M">M</span> lines can fail. Refer to Figure 8-30.
+Figure 8-30 is a chart of the stock representing ownership in U.S. Steel (symbol
+X<br><span class="tag route-M">M</span> Page 188
+188 Part III: Making the Most of Complex Patterns
+When working with three-day patterns, be prepared by closely </td></tr>
+<tr><td><b>The Candlestick Course 2003</b></td><td>M</td><td>44</td><td><span class="tag route-M">M</span> other financial instrument.
+Though the fundamentals are important, the shorter the time frame, the
+more important the ps<br><span class="tag route-M">M</span> into the candlestick methodology used by Japanese technical analysts with
+the start of the Japanese stock market in the </td></tr>
+<tr><td><b>Chart Your Way To Profits - The Online Trader&#x27;s Guide to Technical Analysis with ProphetCharts 2nd edition 2010</b></td><td>M</td><td>76</td><td><span class="tag route-M">M</span> value. This pullback created a great opportunity for getting into the stock
+at a relatively low-risk price. After the br<br><span class="tag route-G">G</span> the point as you have done.
+So, here’s my first question—how do you set your stops?
+Tim Knight: A lot of people ask me t</td></tr>
+<tr><td><b>Come Into My Trading Room (Study Guide) 2002</b></td><td>M,G</td><td>40</td><td><span class="tag route-M">M</span> L
+Figure 4.6
+Match the following Stochastic signals with the letters in Figure 4.6:
+1. Buy signal
+2. Sell signal
+3. Bull<br><span class="tag route-M">M</span> 3. B
+4. C
+5. A
+Give yourself a point for each correct answer, with a bonus point if you
+got #4 right.
+Any fool can enter</td></tr>
+<tr><td><b>Come Into My Trading Room - A Complete Guide to Trading 2002</b></td><td>M,G</td><td>116</td><td><span class="tag route-M">M</span> stocks go in and of out of favor with day-traders. Human Genome
+Sciences (HGSI) is popular today, with strong, healthy t<br><span class="tag route-M">M</span> half-hourly charts, but only a tiny minority uses 25-minute charts and
+gets its signals a little faster.
+Apply a trend-f</td></tr>
+<tr><td><b>The Commitments of Traders Bible - How To Profit from Insider Market Intelligence 2008</b></td><td>M,F</td><td>52</td><td><span class="tag route-M">M</span> mean that you must miss the turning point, but sometimes you need to interpret. OJ was
+such a case. Here is how I laid i<br><span class="tag route-M">M</span> COT IN PRACTICE
+FIGURE 19.1 Orange Juice Chart as of July 12, 2004
+Figure 19.1 is the actual chart printed with this wri</td></tr>
+<tr><td><b>Common Stocks and Uncommon Profits and Other Writings 2nd edition 2003</b></td><td>G</td><td>16</td><td><span class="tag route-M">M</span> make good sense to step out of a position where you have a 90 percent
+probability of being right because of an influence<br><span class="tag route-M">M</span> assumption that five years from now XYZ will be selling on the same
+price-earnings ratio as will the average Dow Jones s</td></tr>
+<tr><td><b>A Complete Guide to Technical Trading Tactics - How to Profit Using Pivot Points, Candlesticks &amp; Other Indicators 2004</b></td><td>M,X,G</td><td>86</td><td><span class="tag route-M">M</span> MEDIA ATTENTION
+What we see on television or in the newspaper is a good indicator for me,
+especially if the media is pub<br><span class="tag route-M">M</span> The put-to-call ratio theory is another method of measuring the market’s
+sentiment. When trading options, it is importan</td></tr>
+<tr><td><b>A Complete Guide To Volume Price Analysis 2013</b></td><td>M</td><td>50</td><td><span class="tag route-M">M</span> area, where we can see one extreme volume bar. What can we deduce from this analysis?
+First we can see immediately which<br><span class="tag route-M">M</span> it is in comparing one with another that the anomalies are revealed giving us the validation we are always
+searching for</td></tr>
+<tr><td><b>The Complete Trading Course - Price Patterns, Strategies, Setups, and Execution Tactics 2011</b></td><td>M,G</td><td>57</td><td><span class="tag route-M">M</span> their risk-seeking profiles, and so it&#x27;s best to think of trade setups as having multiple entries
+depending on your ris<br><span class="tag route-M">M</span> but we return to the price alternation principle to note that after an expansion phase, price alternates
+back into a ran</td></tr>
+<tr><td><b>The Complete Turtle Trader - The Legend, the Lessons, the Results 2007</b></td><td>M,G</td><td>24</td><td><span class="tag route-M">M</span> is not trading.12
+Craven learned that philosophy of diversity while under Parker’s
+tutelage. The number of markets they <br><span class="tag route-M">M</span> based on impulsive “feelings,” letting an assortment of emotional biases rule their lives. In the end, to their detrimen</td></tr>
+<tr><td><b>Cryptoassets - The Innovative Investor&#x27;s Guide to Bitcoin and Beyond 2017</b></td><td>G</td><td>13</td><td><span class="tag route-M">M</span> December 2013 were particularly devastating, with losses of 93 percent and 85
+percent respectively.
+More insidious than <br><span class="tag route-M">M</span> The Same Patterns Persist
+The idea of valuation, which we will tackle in the next chapters, is a particularly challengin</td></tr>
+<tr><td><b>Currency Strategy - The Practitioners Guide to Currency Investing, Hedging and Forecasting 2002</b></td><td>M,G</td><td>34</td><td><span class="tag route-M">M</span> to unhedged benchmarks. Thus, they also help to boost signiﬁcantly the portfolio’s Sharpe ratio.
+10.10.5 Differential Fo<br><span class="tag route-M">M</span> 100
+Currency Strategy
+making gains, the MACD reading has clearly failed well ahead of its previous high and is
+heading </td></tr>
+<tr><td><b>Currency Trading and Intermarket Analysis - How to Profit from the Shifting Currents in Global Markets 2008</b></td><td>M</td><td>10</td><td><span class="tag route-M">M</span> curve preceded an economic slowdown. On the long end of the curve, bond
+traders are no longer pricing the chance of risi<br><span class="tag route-M">M</span> interest rates paid out to depositors and the longer-term interest rates
+earned on loans. But interest income has become</td></tr>
+<tr><td><b>Currency Trading For Dummies 2nd edition 2011</b></td><td>M,G,X</td><td>126</td><td><span class="tag route-M">M</span> Guarding against false breaks
+Breakouts are relatively common events in currency trading, especially in the very short-t<br><span class="tag route-M">M</span> the Bank of Japan (BOJ). The survey produces four readings — current conditions and
+future outlook from both large manuf</td></tr>
+<tr><td><b>Dave Landry on Swing Trading 2001</b></td><td>M,G</td><td>97</td><td><span class="tag route-G">G</span> 4. The Trend Is Your Friend—Market moves often last much longer and
+go much further than most are willing to admit. Tryi<br><span class="tag route-M">M</span> Resistance
+6. No Tickie, No Tradie—Swing trading involves identifying short-term
+support and resistance and where a mark</td></tr>
+<tr><td><b>Day Trading and Swing Trading the Currency Market - Technical and Fundamental Strategies to Profit from Market Moves 2nd edition 2008</b></td><td>M,G</td><td>95</td><td><span class="tag route-M">M</span> 0
+0
+0
+0
+odds become even more compounded if the move lasts for an eighth day.
+This provides traders with a high-probabil<br><span class="tag route-M">M</span> Technical Trading Strategies
+159
+2. Buy at 5 p.m. New York time, which is when the next trading candle
+begins.
+3. Place </td></tr>
+<tr><td><b>Day Trading For Dummies 3rd edition 2014</b></td><td>M,G,F</td><td>63</td><td><span class="tag route-M">M</span> where the trend changes so that they can find new profit opportunities. In
+general, day traders are going to follow tren<br><span class="tag route-M">M</span> usually indicates falling
+volume.
+Pennants and flags are usually found in the middle of the main phase of a
+trend, and t</td></tr>
+<tr><td><b>Day Trading the Currency Market - Technical and Fundamental Strategies To Profit from Market Swings 2005</b></td><td>M,G</td><td>38</td><td><span class="tag route-M">M</span> the stock markets. Rather, the margin is a performance bond, or good faith deposit, to
+ensure against trading losses. Th<br><span class="tag route-M">M</span> the trade balance reflect the general health of an economy and are therefore
+responsible for the underlying shifts in su</td></tr>
+<tr><td><b>The Disciplined Trader - Developing Winning Attitudes 1990 - annotated</b></td><td>-</td><td>29</td><td><span class="tag route-M">M</span> 98-16
+The bid, buyers attempting to buy low.
+Since the only object to trading is to make money we can assume that a
+trad<br><span class="tag route-M">M</span> 153
+Third, he is aggressively taking the initiative and is making losers out of
+everyone who sold at the last price and</td></tr>
+<tr><td><b>Dual Momentum Investing - An Innovative Strategy for Higher Returns with Lower Risk 2015</b></td><td>M,F,G</td><td>6</td><td><span class="tag route-M">M</span>  Figure B.11 S&amp;P GSCI, 1974–2012 
+ Figure B.12 London Gold, 1974–2012 
+ 60/40 BALANCED PORTFOLIO 
+ Given the ability of <br><span class="tag route-M">M</span>  The biggest problem with the BS model is its inaccuracy when dealing with extreme price movement. The lognormal distrib</td></tr>
+<tr><td><b>Encyclopedia of Chart Patterns 2nd edition 2005</b></td><td>M</td><td>611</td><td><span class="tag route-M">M</span> 105 or 100%
+Busted pattern performance. An easier way to trade this pattern is to
+look for busted patterns. Price declin<br><span class="tag route-M">M</span> Change after trend ends. Once price reaches the ultimate high or low,
+the rebound is not spectacular, especially for sca</td></tr>
+<tr><td><b>The Encyclopedia of Trading Strategies 2000</b></td><td>M,F,G</td><td>92</td><td><span class="tag route-M">M</span> There are two main forms of oscillators. Linear band-pass filters are one form of
+oscillator. They may be analyzed for f<br><span class="tag route-M">M</span> the modified standard exit strategy with trades entered randomly at the open, Insample, the average trade. lost $1,702,</td></tr>
+<tr><td><b>The Essays of Warren Buffett - Lessons for Corporate America 1998</b></td><td>-</td><td>13</td><td><span class="tag route-M">M</span> record to entice naive small investors and would have charged
+these innocents high fees and commissions.
+I think it woul<br><span class="tag route-M">M</span> [Vol. 19:1
+a fine business is selling in the market place for far less than intrinsic value, what more certain or more p</td></tr>
+<tr><td><b>Essentials of Foreign Exchange Trading 2009</b></td><td>M,G,X</td><td>71</td><td><span class="tag route-G">G</span> E l e m e n t s o f S u c c e s s f u l F o r e i g n E x c h a n g e Tr a d i n g
+The exact amount of money that is co<br><span class="tag route-M">M</span> 1/13/09 10:11:32 AM
+Risk and Reward
+terms, this means that if a trade is entered with a 30 pip stop loss, for
+example, </td></tr>
+<tr><td><b>Evidence-Based Technical Analysis - Applying the Scientific Method and Statistical Inference to Trading Signals 2007</b></td><td>F</td><td>204</td><td><span class="tag route-M">M</span> One challenge that faces the real-world chartist is the fact that actual
+price oscillations do not trace out clearly ide<br><span class="tag route-M">M</span> in Filtered Waves. 46 It is an objective method for identifying peaks and
+troughs as prices evolve. Troughs are identifi</td></tr>
+<tr><td><b>Extraordinary Popular Delusions and The Madness of Crowds 2001</b></td><td>-</td><td>2</td><td><span class="tag route-M">M</span> hold out a dangerous lure to decoy the unwary to their ruin, by making them part with the
+earnings of their labour for a</td></tr>
+<tr><td><b>The Five Rules for Successful Stock Investing - Morningstar&#x27;s Guide to Building Wealth and Winning in the Market 2004</b></td><td>-</td><td>33</td><td><span class="tag route-M">M</span> and 2002.
+However, watch out for firms that cut corners by consistently putting
+their brands on sale. Although this may <br><span class="tag route-M">M</span> The Problem with Cyclicality
+The general idea of the business cycle is that economic growth is followed by
+an eventual s</td></tr>
+<tr><td><b>Flash Boys - A Wall Street Revolt 2015</b></td><td>X</td><td>2</td><td></td></tr>
+<tr><td><b>Fooled by Randomness - The Hidden Role of Chance in Life and in the Markets 2005</b></td><td>F</td><td>34</td><td><span class="tag route-M">M</span> I will clarify next with a simplified (but sufficient) explanation of
+what an option means. Say a stock trades at $100 a<br><span class="tag route-M">M</span> There is another type of satisfaction provided by the option seller. It
+is the steady return and the steady feeling of r</td></tr>
+<tr><td><b>Forex for Beginners - A Comprehensive Guide to Profiting from the Global Currency Markets 2012</b></td><td>M,X</td><td>41</td><td><span class="tag route-G">G</span> Chapter 9 | Account Management
+course, this collateral can also be leveraged, such that my platform will
+automatically l<br><span class="tag route-G">G</span> Of course, you may have noticed that there are a handful of other types of
+orders. Buy and sell stops are probably the m</td></tr>
+<tr><td><b>Forex Patterns and Probabilities - Trading Strategies for Trending and Range-Bound Markets 2007</b></td><td>M,G</td><td>93</td><td><span class="tag route-M">M</span> a sense, we would be making the wheel—which is in this case the “playing
+field”—bigger.
+Of course, we can’t add pockets <br><span class="tag route-M">M</span> Char Count=
+229
+examples of major trading disasters that begin with the failure to take a
+strategic loss.
+THE “95 PERCEN</td></tr>
+<tr><td><b>Forex Trading Basics &amp; Secrets Volume 3.0</b></td><td>G,M</td><td>10</td><td><span class="tag route-G">G</span> 2000 EUR x 1.41=$2,820
+Margin=$2,820
+This is the amount that will be used to cover
+your potential losses. In other words<br><span class="tag route-M">M</span> Key indicators
+A closer look at some economical indicators
+Central bank Policy
+divergence
+Trade deficits or
+surpluses
+Th</td></tr>
+<tr><td><b>Forex Trading Secrets - Trading Strategies for the Forex Market 2010</b></td><td>M,G</td><td>82</td><td><span class="tag route-M">M</span> There is a saying, “Buy the rumor; sell the fact.” You have to keep up
+with what is getting the focus of the market at a<br><span class="tag route-M">M</span> WHAT ARE CONTRARIAN INDICATORS?
+You may have heard the saying, “Buy the rumor; sell the fact.” Contrarian
+indicators are</td></tr>
+<tr><td><b>Fundamental Analysis For Dummies 2009</b></td><td>-</td><td>34</td><td><span class="tag route-M">M</span> shares sank to $6.53 at the end of 2008 for a
+crushing 81% loss for investors.
+Avoiding bubbles and manias
+From time to <br><span class="tag route-M">M</span> Source: Standard &amp; Poor’s Capital IQ
+Here’s one of the biggest problems with using fundamental analysis to avoid big
+sto</td></tr>
+<tr><td><b>Getting Started in Candlestick Charting 2008</b></td><td>M</td><td>111</td><td><span class="tag route-M">M</span> Candlesticks at Support and Resistance
+You may be surprised to discover how often candlestick reversal patterns form
+at <br><span class="tag route-G">G</span> Trader B has a larger account of $250,000. Putting 20 percent, or
+$50,000, into one stock would mean lot more exposure i</td></tr>
+<tr><td><b>The Handbook of Technical Analysis - The Practitioner&#x27;s Comprehensive Guide to Technical Analysis 2016</b></td><td>M,F,G</td><td>0</td><td></td></tr>
+<tr><td><b>Harmonic Trading, Volume One - Profiting from the Natural Order of the Financial Markets 2010</b></td><td>M,G</td><td>39</td><td><span class="tag route-M">M</span> After completely violating the prior bearish setup, the SMH retraced some of the rally, finding
+support in an area of pr<br><span class="tag route-M">M</span> What Is Harmonic Trading?
+Harmonic Trading is a methodology that utilizes the recognition of specific structures that
+po</td></tr>
+<tr><td><b>Harmonic Trading, Volume Two - Advanced Strategies for Profiting from the Natural Order of the Financial Markets 2010</b></td><td>M</td><td>61</td><td><span class="tag route-M">M</span> British Pound/USD (GBP_A0-FX): Weekly
+Reaction of RSI and Price
+After breaking out of the short-term downtrend line, the<br><span class="tag route-M">M</span> 30
+28
+26
+24
+RSI BAMM
+Trigger Bar
+RSI BAMM
+Confirmation Point
+A
+22
+20
+Relative Strength (RSI)
+Overbought (70)
+-----------</td></tr>
+<tr><td><b>High Probability Trading Strategies - Entry to Exit Tactics for the Forex, Futures, and Stock Markets 2008</b></td><td>M,G</td><td>156</td><td><span class="tag route-G">G</span> The 1BH as of August 17 is 132.33 and the swing low is at 120.41 for an almost 12point capital exposure. The proper posi<br><span class="tag route-M">M</span> August 12, 2008
+13:9
+Exit Strategies and Trade Management
+Printer: Yet to come
+173
+FIGURE 7.3 Exit Strategy for One Unit</td></tr>
+<tr><td><b>How to Day Trade for a Living - Tools, Tactics, Money Management, Discipline and Trading Psychology 3rd edition</b></td><td>M,X,G</td><td>25</td><td><span class="tag route-M">M</span>  Candlestick:   a very common way to chart the price of stocks, it allows you to easily see the opening price, the highe<br><span class="tag route-M">M</span>  Micro-cap stock:   a stock with a low supply of shares which means that a large demand for shares will easily move the </td></tr>
+<tr><td><b>How to Make a Living Trading Foreign Exchange - A Guaranteed Income for Life 2010</b></td><td>M,G</td><td>72</td><td><span class="tag route-M">M</span> The Psychology of Successful Trading
+153
+problem if you go back and do the whole analysis from scratch if you read
+a ne<br><span class="tag route-G">G</span> your risk. And, in fact, the more stocks you have in your portfolio, the less
+volatility of returns you will have.
+Howev</td></tr>
+<tr><td><b>How to Make Money in Stocks - A Winning System in Good Times and Bad 4th edition 2009</b></td><td>M,G</td><td>78</td><td><span class="tag route-M">M</span> days. Relying on these primary indexes is a more direct, practical, and effective method for analyzing the market’s beha<br><span class="tag route-M">M</span> recommended. Focus on your ability to get into or out of a stock when you
+need to. Quibbling over an eighth- or quarter-</td></tr>
+<tr><td><b>Inside the Currency Market - Mechanics, Valuation and Strategies 2011</b></td><td>X,M</td><td>40</td><td><span class="tag route-M">M</span> Inside the Currency Market
+A yield curve is called the term structure of interest rates because it forecasts interest ra<br><span class="tag route-M">M</span> New Zealand dollar/U.S. dollar will follow its own bond price up or down
+rather than New Zealand bond yields. Stated dif</td></tr>
+<tr><td><b>The Intelligent Investor - A Book of Practical Counsel 2003</b></td><td>G</td><td>62</td><td><span class="tag route-M">M</span> nature and origin of these operations, with one or two illustrative
+examples.
+The typical “special situation” has grown <br><span class="tag route-M">M</span> too high and subject ultimately to a serious decline; but we did not
+consider specifically the possibility that the same</td></tr>
+<tr><td><b>Intermarket Trading Strategies 2009</b></td><td>M,F,G</td><td>109</td><td><span class="tag route-M">M</span> DIVERG&gt;0 AND Alert(Cross(70,IM),5) AND Stoch(5,3)&gt;Mov(Stoch(5,3),4,S)
+AND Correl(ROC(SEC1,10,%),ROC(C,10,%),200,0)&gt;0.1
+M<br><span class="tag route-M">M</span> RS:=Mov((C/SEC2),D3,E);
+RS&gt;Mov(RS,120,E) AND ROC(Mov(C,25,E),2,%)&gt;0 AND LinRegSlope
+(RS,20)&gt;0
+AND Correl(C,SEC2,130,0)&lt;.</td></tr>
+<tr><td><b>Irrational Exuberance (Revised and Expanded) 3rd edition 2016</b></td><td>F</td><td>43</td><td><span class="tag route-M">M</span> 106
+C ULT UR AL FAC T OR S
+Note that there were only eleven such weeks of “crisis” in the whole seven­
+teen years of Ni<br><span class="tag route-M">M</span> The problem is that words like show and scheme suggest a deliberate creation,
+rather than a widespread social phenomenon</td></tr>
+<tr><td><b>Japanese Candlestick Charting Techniques 2nd edition 2001 (1)</b></td><td>M</td><td>98</td><td><span class="tag route-M">M</span> Chapter 11 • Candles with Trend Lines
+January, some of these old longs who were stopped out would
+say to themselves tha<br><span class="tag route-M">M</span> market . People become strongly, keenly, and emotionally attached to
+the price at which they bought or sold . These long</td></tr>
+<tr><td><b>Japanese Candlestick Charting Techniques - A Contemporary Guide to the Ancient Investment Techniques of the Far East 1991</b></td><td>M</td><td>87</td><td><span class="tag route-M">M</span> The term &quot;moving&quot; in moving average is applicable because, as the
+newest data is added to the moving average, the oldest<br><span class="tag route-M">M</span> 15
+I
+112
+EXHIBIT 13.3. Sugar-May 1990, Daily (Simple Moving Average with Candlesticks)
+DUAL MOVING AVERAGES
+There are ma</td></tr>
+<tr><td><b>Jesse Livermore - World&#x27;s Greatest Stock Trader 2001</b></td><td>M,G</td><td>35</td><td><span class="tag route-M">M</span> This left Livermore with another good lesson: Stick to what you
+know, which in his case was the stock market. He set bac<br><span class="tag route-M">M</span> won in a big way in the commodities market in Chicago, years
+ago.”
+“All right, I’ll try to answer you, J.L.” Bradley pau</td></tr>
+<tr><td><b>Liar&#x27;s Poker - Rising Through the Wreckage on Wall Street</b></td><td>-</td><td>5</td><td><span class="tag route-M">M</span> actively seek to do the opposite. The word stockbrokers use for this
+approach is contrarian. Everyone wants to be one, b<br><span class="tag route-M">M</span> bolster their stock. What would that mean?
+Well, to Alexander, it would suggest buying yen. The Japanese would buy
+yen, </td></tr>
+<tr><td><b>The Little Book of Common Sense Investing - The Only Way to Guarantee Your Fair Share of Stock Market Returns 2007</b></td><td>F</td><td>10</td><td><span class="tag route-M">M</span> expenses, but the message in this chapter about getting
+emotions out of the equation. The beauty of the index
+fund, then<br><span class="tag route-M">M</span> The Merrill Lynch funds were 18 percentage points
+below the fund industry average; the Goldman Sachs and
+Morgan Stanley </td></tr>
+<tr><td><b>The Little Book of Currency Trading - How to Make Big Profits in the World of Forex 2010</b></td><td>M,X,G</td><td>20</td><td><span class="tag route-M">M</span> The two most recent crises have focused attention on the foreign exchange market. In many ways, currencies are one of th<br><span class="tag route-M">M</span> Falls to 1.44
+$2.88
+Similarly, technology firms with a big dependence on international sales such as Google, Priceline, </td></tr>
+<tr><td><b>The Little Book That Beats the Market 2006</b></td><td>F</td><td>4</td><td><span class="tag route-M">M</span> doesn’t automatically buy stocks that his computer-based
+formula spits out, he does follow a disciplined strategy of
+cho<br><span class="tag route-M">M</span> longer, if their analysis is correct, two to three years is
+usually all the time they’ll have to wait for Mr. Market to
+</td></tr>
+<tr><td><b>Long-Term Secrets to Short-Term Trading 1999</b></td><td>M,G</td><td>51</td><td><span class="tag route-G">G</span> demand the market is trending higher. The next step was to know when to throw them away ... so I placed a
+stop of $850. <br><span class="tag route-G">G</span> Volume 28, Issue 3
+Secrets of System Developing and Trading
+Over 20 years ago I uncovered an amazing little secret that </td></tr>
+<tr><td><b>The Market Guys&#x27; Five Points for Trading Success - Identify, Pinpoint, Strike, Protect, and Act! 2007</b></td><td>M,G</td><td>83</td><td><span class="tag route-M">M</span> Suddenly, the stock fizzled as the trading range dropped to a mere
+$0.08 on triple the volume! Imagine—trading activity <br><span class="tag route-M">M</span> volume as a screening tool. The first is to set a minimum threshold
+for the average daily volume. A common measure is th</td></tr>
+<tr><td><b>Market Wizards - Interviews With Top Traders 2012</b></td><td>-</td><td>52</td><td><span class="tag route-G">G</span> then?&quot; he asked. I told him, &quot; I just look at the risk.&quot; Well this great meal lasted for several hours.
+Five times he as<br><span class="tag route-G">G</span> order just below the recent low. I reasoned that if I was right, the market should not fall to new
+lows. Several days la</td></tr>
+<tr><td><b>The Master Swing Trader - Tools and Techniques to Profit from Outstanding Short-Term Trading Opportunities 2001</b></td><td>M,G</td><td>115</td><td><span class="tag route-M">M</span> FINGER STRATEGIES
+Finger finder often predicts a reversal within the signal time frame as well as the trend below the
+ca<br><span class="tag route-M">M</span> in a more rational manner as it moves in and out of positions. The smaller doses of greed and fear
+look alike through th</td></tr>
+<tr><td><b>The Master Swing Trader Toolkit - The Market Survival Guide 2010</b></td><td>M,G</td><td>137</td><td><span class="tag route-M">M</span> First Hour Range Breaks
+The opening bell brings fresh conflict, with buyers and sellers brawling
+for control of daily pr<br><span class="tag route-M">M</span> 149
+6.11
+The first hour breakout strategy works especially well when opening volatility is higher than normal. Yum!
+Bran</td></tr>
+<tr><td><b>Mastering the Trade - Proven Techniques for Profiting from Intraday and Swing Trading Setups 2nd edition 2012 (1) - annotated</b></td><td>M,G</td><td>126</td><td><span class="tag route-M">M</span> What Execution Methods Will I Be Using? What Parameters?
+This is where I decide my primary execution method. Am I scalin<br><span class="tag route-M">M</span> quickly thereafter and closes on its lows.
+for a gain of 5 ticks. The market rolls over again
+30-Year Bond—June 2003 Con</td></tr>
+<tr><td><b>Millionaire Traders - How Everyday People Are Beating Wall Street at Its Own Game 2007</b></td><td>G</td><td>43</td><td><span class="tag route-G">G</span> your capital is gone, you will have no opportunity to recover. Most
+of our traders will risk no more than 5 percent of t<br><span class="tag route-M">M</span> preservation is always the foremost concern of every trader we
+interview.
+7. AVERAGING DOWN IS FOR LOSERS, BUT
+AVERAGING</td></tr>
+<tr><td><b>Naked Forex - High-Probability Techniques for Trading Without Indicators 2012</b></td><td>M,G,F</td><td>105</td><td><span class="tag route-M">M</span> The next day, the market takes another fall (see Figure 11.20). The stop
+loss remains the same, above the third most rec<br><span class="tag route-M">M</span> 17 May 2006
+81.890
+29 May 2006
+FIGURE 11.24 The most recent candlestick trades through the stop loss. The
+bearish big-sh</td></tr>
+<tr><td><b>New Frontiers in Technical Analysis - Effective Tools and Strategies for Trading and Investing 2011</b></td><td>M,G,F</td><td>108</td><td><span class="tag route-M">M</span> The Kase Easy Entry System, or KEES, enters long trades when the market is
+rising and short trades when the market is fa<br><span class="tag route-M">M</span> 203
+2. Conservative Entries
+There are two basic indications that Kase uses to ensure that the
+momentum signals are valid</td></tr>
+<tr><td><b>The New Market Wizards - Conversations with America&#x27;s Top Traders 1992</b></td><td>M</td><td>99</td><td><span class="tag route-G">G</span> 67
+positions and wait until the start of the next month to begin trading again. Thankfully, that has never
+happened.
+We<br><span class="tag route-G">G</span> I held for over four years.
+==== What trade was that? ====
+I was long soybean meal and short soybean oil and just kept r</td></tr>
+<tr><td><b>The New New Thing - A Silicon Valley Story 2014</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>The New Trading for a Living (Study Guide) 2014</b></td><td>M,G</td><td>55</td><td><span class="tag route-M">M</span> C. I, II, and III
+D. I, II, III, and IV
+Question 3-7
+Prices spend several weeks in a congestion area and then drop below<br><span class="tag route-M">M</span> A Congestion Zone
+Match the letters underneath the last four bars in the chart in Figure 3.8 to the following statements</td></tr>
+<tr><td><b>The New Trading for a Living - Psychology, Discipline, Trading Tools and Systems, Risk Control, Trade Management 2014</b></td><td>M,G</td><td>113</td><td><span class="tag route-M">M</span> test is generally done at one and five minutes after birth. Total scores of seven and
+above are considered normal, 4 to <br><span class="tag route-M">M</span> Open Interest
+Open interest (OI) reflects the number of all short or long positions in any futures or options market. Si</td></tr>
+<tr><td><b>One Up On Wall Street 2000</b></td><td>-</td><td>26</td><td><span class="tag route-M">M</span>  Sometimes you’ll find an oil company or a refiner that’s kept inventory in the ground for forty years, and at the origi<br><span class="tag route-M">M</span>  I could go on about this, but I think we’d quickly reach a point of diminishing returns, if we haven’t already. Two oth</td></tr>
+<tr><td><b>Option Spread Strategies - Trading Up, Down, and Sideways Markets 2009</b></td><td>M</td><td>97</td><td><span class="tag route-M">M</span> Underlying Price
+Figure 7.1 Call Ratio Spread P&amp;L Diagram
+Maximum Profit:
+(K2 ⫺ K1) ⫹ credit or ⫺ debit (to initiate spr<br><span class="tag route-M">M</span> Time
+Figure 1.2 Extrinsic Value Diagram
+offset a decline in the stock price. However, this protection is only equal
+to t</td></tr>
+<tr><td><b>Option Volatility &amp; Pricing - Advanced Trading Strategies and Techniques 1994</b></td><td>M,X</td><td>176</td><td><span class="tag route-M">M</span> 8 99.98 50 50% buy 15%
+9 103,78 93 93% buy 43%
+10 102.54 100 100% buy 7%
+model’s correctness, anyone wishing to use this<br><span class="tag route-M">M</span> movement will occur. If no movement occurs, a backspread is likely to be a losing
+strategy.
+Typically, a backspread is d</td></tr>
+<tr><td><b>Principles - Life and Work 2017</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>A Random Walk Down Wall Street - The Time-Tested Strategy for Successful Investing 11th edition 2015</b></td><td>F,G</td><td>17</td><td><span class="tag route-G">G</span>  It turns out that about fifty is also the golden number for global-minded investors. Such investors, however, get more <br><span class="tag route-M">M</span>  I also tested a strategy of purchasing the “best” funds as ranked by the leading financial magazines. The clear implica</td></tr>
+<tr><td><b>Reminiscences of a Stock Operator 2008</b></td><td>M</td><td>29</td><td><span class="tag route-M">M</span> along the line of least resistance on which I base my
+position in the market. Another thing to bear in mind is
+this: Nev<br><span class="tag route-M">M</span> XV
+affected exclusively by the appalling destruction of the
+world&#x27;s ships by the German submarines. The committee
+did n</td></tr>
+<tr><td><b>The Sensible Guide to Forex - Safer, Smarter Ways to Survive and Prosper from the Start 2012</b></td><td>M,G</td><td>89</td><td><span class="tag route-M">M</span> Entries
+If you&#x27;re playing trading ranges (bounces off lower and upper channel lines that form resistance or
+support), on<br><span class="tag route-M">M</span> This makes binary options a particularly lucrative way to play small percentage moves
+without the added RAMM planning n</td></tr>
+<tr><td><b>Sentiment in the Forex Market - Indicators and Strategies To Profit from Crowd Behavior and Market Extremes 2008</b></td><td>M</td><td>50</td><td><span class="tag route-M">M</span> bearishness (bottoms) as English economist Arthur C. Pigou explained:
+“An error of optimism tends to create a certain me<br><span class="tag route-M">M</span> The Argument for a Sentiment-Based Approach
+3
+A popular (if not the most popular) model used to trade foreign exchange (</td></tr>
+<tr><td><b>The Snowball - Warren Buffett and the Business of Life 2009</b></td><td>-</td><td>10</td><td><span class="tag route-M">M</span> Knowing every stock’s volatility allowed investment managers to shape and carve portfolios using stocks of
+greater and l<br><span class="tag route-G">G</span> another fifty cents for the next bet. That way you only have to make fifty percent (plus the interest you owe
+on the loa</td></tr>
+<tr><td><b>Stock Market Wizards - Interviews with America&#x27;s Top Stock Traders 2001</b></td><td>M,G</td><td>67</td><td><span class="tag route-M">M</span> 20. Most Novice Traders Focus on When to Get in and Forget About When
+to Get Out
+When to get out of a position is as imp<br><span class="tag route-M">M</span> Traders also need to monitor their performance to make sure they are on
+track toward reaching their goals and to diagnos</td></tr>
+<tr><td><b>Swing Trading For Dummies 2008</b></td><td>M,G</td><td>99</td><td><span class="tag route-M">M</span> report robust earnings with an unimpressive outlook that sends shares spiraling downward. (Don’t forget that stocks tend<br><span class="tag route-M">M</span>  Compare current assets to current liabilities. A ratio of 1.5 or higher is
+usually a sign that the company isn’t going</td></tr>
+<tr><td><b>Technical Analysis - The Complete Resource for Financial Market Technicians 2nd edition 2011</b></td><td>M,F,G</td><td>241</td><td><span class="tag route-M">M</span> today for these players, we find that the situation has not changed. By understanding what these
+capital pools were doin<br><span class="tag route-M">M</span> in upward trends and weak in downward trends. He believed that it was futile to act against
+the trend. His calculation o</td></tr>
+<tr><td><b>Technical Analysis and Stock Market Profits 2005</b></td><td>M,G</td><td>105</td><td><span class="tag route-M">M</span> any movement of prices through it from either direction. Such very artificial support
+and resistance levels, however, ar<br><span class="tag route-M">M</span> of digging out the back history every time the stock moves.
+Trend Lines as Measuring Indications
+In Study VIII we studie</td></tr>
+<tr><td><b>Technical Analysis Explained - The Successful Investor&#x27;s Guide to Spotting Investment Trends and Turning Points 4th edition 2002</b></td><td>M</td><td>219</td><td><span class="tag route-M">M</span> We should remember that longer time spans in the RSI calculation result
+in shallower swings and vice versa. Consequently<br><span class="tag route-M">M</span> end of each Friday, or taking an average of Friday readings for a monthly
+plot. The appropriate MA can then be construct</td></tr>
+<tr><td><b>Technical Analysis For Dummies 2nd edition 2011</b></td><td>M,F</td><td>131</td><td><span class="tag route-M">M</span> gap.
+BREAKAWAY GAP
+To qualify as a breakaway gap, the gap has to
+✓ Be proportionately big to the usual trading range: If<br><span class="tag route-M">M</span> to the cleaners — in the form of the gap. When he turns around and tries to
+unload his recent purchase, he finds no buye</td></tr>
+<tr><td><b>Technical Analysis for the Trading Professional - Strategies and Techniques for Today’s Turbulent Global Financial Markets 2nd edition 2012</b></td><td>M</td><td>89</td><td><span class="tag route-M">M</span> methods that will get you started and give you enough information
+to know when you are being duped.
+Gann was a master of<br><span class="tag route-M">M</span> Chapter j 5
+185
+RSI can be used to calculate price objectives from
+specific indicator patterns called Positive and Negat</td></tr>
+<tr><td><b>Technical Analysis of Stock Trends 9th edition 2007</b></td><td>M,G</td><td>226</td><td><span class="tag route-M">M</span> Descending Triangles
+Descending Triangles have a horizontal lower boundary or Demand Line
+and a down-sloping upper bound<br><span class="tag route-G">G</span> is greatly overextended is intensifying this problem (which exists in any case,
+but which does not need to cause him too</td></tr>
+<tr><td><b>Technical Analysis of Stock Trends Explained - An Easy-to-Understand System for Successful Trading 2013</b></td><td>M</td><td>0</td><td></td></tr>
+<tr><td><b>Technical Analysis of the Financial Markets - A Comprehensive Guide to Trading Methods and Applications 1999</b></td><td>M,G,F</td><td>129</td><td><span class="tag route-M">M</span> The fact that they do not work that well for significant
+periods of time, however, is one very compelling reason why it
+<br><span class="tag route-M">M</span> The system, as it is presented here, is continuous in nature,
+which means that the trader always has a position, either </td></tr>
+<tr><td><b>Timing Solutions for Swing Traders - Successful Trading Using Technical Analysis and Financial Astrology 2012</b></td><td>M,G</td><td>44</td><td><span class="tag route-M">M</span> minus the Sun’s degree position. For night births (p.m.), the Moon and Sun’s position are
+reversed.
+POF is interpreted a<br><span class="tag route-M">M</span> the first quarter of 2010.
+FIGURE 9.34
+Planet aspects as well as the ingresses of the Sun (dark green), Mercury (dark r</td></tr>
+<tr><td><b>Top Binary Options Trading Strategies - Strategies of Pros Explained for Dummies</b></td><td>M</td><td>5</td><td><span class="tag route-M">M</span> the technical side of things. Looking at both of these
+things will give you a much more complete picture
+of how an asset<br><span class="tag route-M">M</span> Description
+Key elements
+The double red strategy is a short-term reversal system
+based on price action and resistance. T</td></tr>
+<tr><td><b>Trade Like a Pro - 15 High-Profit Trading Strategies 2009</b></td><td>G,M</td><td>81</td><td><span class="tag route-M">M</span> When supply tightens or demand increases significantly the spot price
+or the earlier futures contracts increase in value<br><span class="tag route-G">G</span> stock market you are forced to be a trend specialist, but in futures or spot
+forex you can be either a trend or a counte</td></tr>
+<tr><td><b>Trade What You See - How To Profit from Pattern Recognition 2007</b></td><td>M,G</td><td>88</td><td><span class="tag route-M">M</span> havoc on a trader’s mental well-being and can be the cause of impulsive trades. Set audio alerts when possible.
+ Note a<br><span class="tag route-M">M</span> APPLYING THE FIBONACCI RATIOS
+There are many Fibonacci ratios as you can imagine from looking at the
+Fibonacci sequence.</td></tr>
+<tr><td><b>Trade Your Way to Financial Freedom 2 edition 2006</b></td><td>G,F</td><td>143</td><td><span class="tag route-G">G</span> effect of position sizing. Table 6-8 shows a summary of Ethel’s
+stock trading.
+The system made $7,175 over 18 trades dur<br><span class="tag route-M">M</span> Elliott Wave A theory developed by R. N. Elliott which holds that the market
+moves in a series of five up-waves followed</td></tr>
+<tr><td><b>Trading Binary Options - Strategies and Tactics 2nd edition 2016</b></td><td>M,X</td><td>60</td><td><span class="tag route-M">M</span> Develop the Rules
+There are four basic rules for every trading system:
+1. Buy Entry: Where you want to open a new long p<br><span class="tag route-M">M</span> One of the most salient relationships to thoroughly understand is where the
+binary strike price is in relationship to th</td></tr>
+<tr><td><b>Trading ETFs - Gaining an Edge with Technical Analysis 2nd edition 2012</b></td><td>M,G</td><td>99</td><td><span class="tag route-M">M</span> With the break of a four-year uptrend providing the main impetus for the short
+trade, I then turned to the shorter-term <br><span class="tag route-M">M</span> Jul
+142
+Timing Your Entries and Exits
+I made a judgment call to lock in a 5 percent gain of 8 points (C) just one week </td></tr>
+<tr><td><b>Trading for a Living - Psychology, Trading Tactics, Money Management 1993</b></td><td>M,G</td><td>108</td><td><span class="tag route-M">M</span> Seven-Day Williams %R (Wm%R:7)
+When Wm%R rises above its upper reference line, it shows that the market is overbought. W<br><span class="tag route-M">M</span> 63*96
+62,43
+.. 128,88
+Five-Day Slow Stochastic
+Stochastic lines help identify top and bottom areas when they move
+above </td></tr>
+<tr><td><b>Trading For Dummies 2nd edition 2009</b></td><td>M,G</td><td>81</td><td><span class="tag route-M">M</span> 2. XYZ pulling back on low volume
+3. High-volume buying of XYZ resuming as the price falls near $19
+This type of market <br><span class="tag route-G">G</span> gains, and as such, are exempt from any self-employment taxes that other
+sole proprietors must pay on their business pro</td></tr>
+<tr><td><b>Trading in the Zone - Master the Market with Confidence, Discipline and a Winning Attitude 2000</b></td><td>G</td><td>13</td><td><span class="tag route-M">M</span> genuine attempt to do this on your own but are still having problems picking a system, you can contact
+me at markdouglas<br><span class="tag route-M">M</span> When we trade without well-defined plans and with an unlimited set of variables, it&#x27;s very easy to take
+credit for the </td></tr>
+<tr><td><b>Trading Price Action Trends - Technical Analysis of Price Charts Bar by Bar for the Serious Trader 2011</b></td><td>M</td><td>301</td><td><span class="tag route-M">M</span> the trend, and for reversal trades in trading ranges. For example, if there is a strong
+bull trend and at least 20 conse<br><span class="tag route-M">M</span> TRENDS
+moving average or at some other support level (these are discussed in the section
+on support and resistance in bo</td></tr>
+<tr><td><b>Trading with Ichimoku Clouds - The Essential Guide to Ichimoku Kinko Hyo Technical Analysis 2010</b></td><td>M,F,G</td><td>61</td><td><span class="tag route-M">M</span> Unlike technical analysis, which is graphical, the second analytical
+model-fundamental analysis-is based on numbers. Let<br><span class="tag route-G">G</span> Fundamental: PEG, PE, Cash flow, and so forth
+b. Technical Analysis:
+Ichimoku, Moving Average, Average True
+Range, Fibon</td></tr>
+<tr><td><b>Trend Following - Learn to Make Millions in Up or Down Markets 2009</b></td><td>M,G</td><td>89</td><td><span class="tag route-M">M</span> soon found myself point person for trend following. With each
+forecast of trend following doom and gloom, usually in the<br><span class="tag route-M">M</span> technical analysis, practiced by trend followers, is based on reacting
+to market movements whenever they occur. Although</td></tr>
+<tr><td><b>The Trend Following Bible - How Professional Traders Compound Wealth and Manage Risk 2012</b></td><td>M,G</td><td>52</td><td><span class="tag route-G">G</span> Successful trend followers are in the “Just Do It” mode in which there is no fear
+or stress. When you get in your car an<br><span class="tag route-G">G</span> The $150,000 Global Diversified model takes on slightly more risk. It risks 1.25
+percent maximum on any trade. However, </td></tr>
+<tr><td><b>Trend Trading for a Living - Learn the Skills and Gain the Confidence to Trade for a Living 2007</b></td><td>M,G</td><td>65</td><td><span class="tag route-M">M</span> the nearest ITM strike price.
+Upside potential: The proﬁt potential is unlimited
+and rises as the stock price rises.
+Bre<br><span class="tag route-M">M</span> spread.
+Downside risk: Loss is almost unlimited (“almost,”
+since the underlying price cannot fall below
+zero). This is a</td></tr>
+<tr><td><b>Understanding Price Action - Practical Analysis of the 5-Minute Time Frame 2014</b></td><td>M,X,G</td><td>137</td><td><span class="tag route-M">M</span> 1 2 - 1 3 progression got formed in the first place. If we throw in some pat­
+tern lines here, we can see that the latte<br><span class="tag route-M">M</span> it is basically an optical illusion brought about by the tick frame setting.
+It is interesting to see, though, that even</td></tr>
+<tr><td><b>University of Berkshire Hathaway - 30 Years of Lessons Learned from Warren Buffett &amp; Charlie Munger at the Annual Shareholders Meeting 2017</b></td><td>-</td><td>0</td><td></td></tr>
+<tr><td><b>Visual Guide to Chart Patterns 2012</b></td><td>M</td><td>124</td><td><span class="tag route-M">M</span> C. Look for underlying support to see where the
+drop might stop.
+D. All of the above, but only if B and C show large
+dec<br><span class="tag route-M">M</span> line. That line represents overhead resistance.
+DEFINITION:
+Overhead resistance
+Overhead resistance, or just
+resistance,</td></tr>
+<tr><td><b>The Visual Investor - How to Spot Market Trends 2nd edition 2009</b></td><td>M</td><td>68</td><td><span class="tag route-M">M</span> anything you wish to trade in the bond and stock markets. Most mutual
+funds are also indexed to some market benchmark. A<br><span class="tag route-M">M</span> that when demand increases relative to supply, prices rise. When supply
+exceeds demand, prices fall. The same principle </td></tr>
+<tr><td><b>The Warren Buffett Way 2nd edition 2005</b></td><td>-</td><td>9</td><td><span class="tag route-M">M</span> percent compared with the 14.2 percent returns of investment-grade
+bonds. By the end of 1989, junk bonds were deeply out<br><span class="tag route-M">M</span> very small chance of outperforming the index. For one thing, it is
+grounded in a very shaky premise: Buy today whatever </td></tr>
+<tr><td><b>Way of the Turtle - The Secret Methods that Turned Ordinary People into Legendary Traders 2007</b></td><td>M,X,G,F</td><td>80</td><td><span class="tag route-M">M</span> different environments.
+Any system will perform better under certain market conditions.
+Trend-following systems do bette<br><span class="tag route-M">M</span> started trading, it was impossible to make any money in gold
+because the memory of the enormous 1978 trend (when gold we</td></tr>
+<tr><td><b>When Genius Failed - The Rise and Fall of Long-Term Capital Management 2001</b></td><td>-</td><td>4</td><td><span class="tag route-M">M</span> would
+become
+the central idea in modern
+finance: the Efficient
+Market
+Hypothesis.
+The premise of the hypothesis is that <br><span class="tag route-M">M</span> in the
+world,\&quot; Fisher thought.
+Gensler
+had a related thought: During
+a crisis, the correlations always
+go to one. When </td></tr>
+</table>
+<h2>P4 Canonical Behavior Family'ları (novelty-gated keşif)</h2>
+<p>Tur 1 tamamlandı; tur 2-7 kesinti nedeniyle eksik (aşağıdaki sınırlamalar). Registry: 21 behavior (9 yeni keşif + tohum).</p>
+<table><tr><th>Family</th><th>Behavior</th><th>Mekanizma taslağı</th><th>Kaynak claim</th></tr>
+<tr><td><b>trend_following</b></td><td>trend_continuation_pullback</td><td>established_trend → pullback_to_support → trend_resumes → new_extreme</td><td>0</td></tr>
+<tr><td><b>boundary_interaction</b></td><td>breakout_retest</td><td>established_range → range_breach → retest_holds → reversal_or_resume</td><td>0</td></tr>
+<tr><td><b>boundary_interaction</b></td><td>failed_breakout_reentry</td><td>established_range → false_breakout → return_inside → reversal</td><td>0</td></tr>
+<tr><td><b>liquidity</b></td><td>liquidity_sweep_reclaim</td><td>prior_extreme → wick_through → reclaim_close → reversal</td><td>0</td></tr>
+<tr><td><b>volatility_expansion</b></td><td>volatility_breakout</td><td>compression → range_expansion → directional_move → trend_or_fade</td><td>0</td></tr>
+<tr><td><b>mean_reversion</b></td><td>mean_reversion_band</td><td>overextension → band_touch → reversion → return_to_mean</td><td>0</td></tr>
+<tr><td><b>boundary_interaction</b></td><td>support_resistance_bounce</td><td>established_level → level_test → bounce → continuation_or_break</td><td>0</td></tr>
+<tr><td><b>momentum</b></td><td>momentum_divergence_reversal</td><td>extended_move → price_divergence → momentum_failure → reversal</td><td>0</td></tr>
+<tr><td><b>trend_following</b></td><td>trend_following_channel</td><td>established_channel → channel_test → channel_holds → channel_break</td><td>0</td></tr>
+<tr><td><b>capitulation_exhaustion</b></td><td>capitulation_exhaustion</td><td>panic_selloff → volume_climax → exhaustion → reversal</td><td>0</td></tr>
+<tr><td><b>volume</b></td><td>volume_confirmed_breakout</td><td>consolidation → breakout → volume_confirm → continuation</td><td>0</td></tr>
+<tr><td><b>mean_reversion</b></td><td>gap_reversion</td><td>price_gap → gap_open → gap_fill → fill_or_continue</td><td>0</td></tr>
+<tr><td><b>news_reaction</b></td><td>news_discounting_reaction</td><td>news_event → price_reaction_opposite_news → discounting_confirmed → directional_move</td><td>2</td></tr>
+<tr><td><b>trend_reversal</b></td><td>trend_exhaustion_reversal</td><td>established_trend → failed_new_extreme → break_of_prior_reaction_extreme → reversal</td><td>2</td></tr>
+<tr><td><b>momentum</b></td><td>line_crossover_momentum</td><td>trend_or_range → signal_line_crossover → momentum_shift → directional_move</td><td>3</td></tr>
+<tr><td><b>candlestick_patterns</b></td><td>candlestick_reversal_pattern</td><td>trend_extreme → candle_pattern_formation → pattern_confirmation → reversal</td><td>3</td></tr>
+<tr><td><b>sentiment_contrarian</b></td><td>contrarian_extreme_reversal</td><td>crowd_at_extreme → sentiment_indicator_extreme → contrary_position → reversion_to_norm</td><td>2</td></tr>
+<tr><td><b>relative_strength</b></td><td>relative_strength_ranking</td><td>two_series_relationship → relative_strength_ratio_trend → relative_ranking → intermarket_signal</td><td>1</td></tr>
+<tr><td><b>chart_patterns</b></td><td>pattern_breakout_projection</td><td>completed_pattern → breakout → projected_move → magnitude_reached</td><td>2</td></tr>
+<tr><td><b>dow_theory</b></td><td>dow_theory_average_confirmation</td><td>two_average_structure → signal_from_one_average → confirmation_awaited → both_averages_confirm</td><td>2</td></tr>
+<tr><td><b>monetary_policy</b></td><td>monetary_policy_cycle_signal</td><td>bull_market_top → monetary_policy_action → overvaluation → bear_market</td><td>1</td></tr>
+</table>
+<p>Doyum: tur1: 9 yeni / 21 toplam · tur2: 0 yeni / 21 toplam · tur3: 0 yeni / 21 toplam · tur4: 0 yeni / 21 toplam · tur5: 0 yeni / 21 toplam · tur6: 0 yeni / 21 toplam · tur7: 0 yeni / 21 toplam</p>
+<h2>Counterevidence (yanlışlama girdileri)</h2>
+<p>6478 kayıt; 1 kitap için NOT_FOUND_IN_SOURCE (kaynakta karşı kanıt bulunamadı — "güçlü kitap" anlamına gelmez).</p>
+<p>Tür dağılımı: CAVEAT=3221 · CONTRADICTION=137 · FAILURE_EXAMPLE=1278 · NOTE=1 · REFUTATION=911 · SCOPE_LIMIT=930</p>
+<details><summary>Örnek counterevidence kayıtları</summary><table><tr><th>Kitap</th><th>Tür</th><th>Anlam</th></tr>
+<tr><td>book_0001</td><td>REFUTATION</td><td>The author refutes the idea that any purchasable indicator or trading system works 100 percent of the time.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>Traders who bought commercial Forex programs report the systems failed and they kept losing money.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>A trading system tuned to one time frame usually does not transfer to another time frame without adjusting its settings.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>Indicator buy/sell signals fired by a trading system were wrong nearly every time during a sideways/consolidating market.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>Systems designed to trade trends lose all their capital when the market enters sideways consolidation.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>A single trading system cannot handle both trending and consolidating conditions; two separate systems are required.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Using too many or overly complicated indicators leads to confusion and financial loss; simplicity is required.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>Candlestick buy/sell patterns are unreliable and should be ignored when the market moves sideways in a 20- to 40-pip range.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Candlestick patterns should not be traded on their own signal alone; other confirmation is needed.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>The market may not react immediately to a candlestick formation; you must wait for the candle to close before entering.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>The pullback after a new high occurs only most of the time, not always, so the retracement rule is probabilistic.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Buying exactly at the U-turn low and selling exactly at the U-turn high rarely works; trading mid-swing is more realistic.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Trend-line drawing errors flip a trade from profitable to losing, so the method&#x27;s value depends entirely on correct execution.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>A trading firm where every trader drew trend lines incorrectly was losing money, tying the losses to the drawing errors.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>The trend-continuation rule holds only probabilistically: 80 percent chance, not certainty.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>Trading a single smaller time frame while ignoring the larger time frame leads to entering at the end of the smaller-frame trend and losing money.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>Not every trend-line break is a tradeable opportunity, so the buy/sell-zone method has a bounded hit rate.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>A sell-zone entry is invalidated if a bullish candle appears at or shortly after the trend-line break; the market may still be bullish.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>A buy-zone entry is invalidated if a bearish candle appears immediately at the trend-line break; the market may still be bearish.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>Breaking the outer trend line only reduces continuation odds from 80 to 60 percent; the reversal is not decisive.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Even with the Fibonacci method, you cannot win 100 percent of the time; the author explicitly bounds the method&#x27;s reliability.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>A fundamental indicator&#x27;s market impact depends on economic context; the same report may have no price effect in a good economy.</td></tr>
+<tr><td>book_0001</td><td>REFUTATION</td><td>The author refutes the rule that an unchanged fundamental report leaves the market unmoved; markets can move arbitrarily.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>The straddle strategy only works if your broker permits it, and many brokers do not.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>The straddle practice has been largely eliminated by brokers, so the previously described straddle method is no longer generally available.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Trading right after a fundamental announcement risks 30-100 pip slippage and 200-pip moves in 20 seconds, causing heavy losses.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>The book&#x27;s methods assume a calm market; unexpected events (assassination, unscheduled announcements, 9/11-type shocks) can make any calm environment volatile.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>A student trading a straddle lost $1,200 because the market reversed into consolidation and he skipped checking for announcements and placing a stop-loss.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Candlestick confirmations typically do not appear at the true breakout, so the consolidation-entry method provides no signal at the decisive moment.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Do not trade a consolidation whose range exceeds the loss you are willing to take; the setup must be skipped when risk is too large.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Using indicator reversals as your protective stop is not recommended because it substitutes emotional decision-making for a predefined exit.</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>Equity-management survival requires capping any single trade&#x27;s risk at 5 percent of equity.</td></tr>
+<tr><td>book_0001</td><td>REFUTATION</td><td>The author refutes win-rate as a measure of trading skill; profitability comes from asymmetric loss/gain sizes, not from percentage of winning trades.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>No single trade is a guaranteed winner, so the book warns against treating any setup as a sure thing.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>An account can be fully liquidated by the market in under five hours, based on the author&#x27;s personal experience.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Trading with only a mental stop-loss guarantees eventual loss; a pre-executed stop at entry is mandatory.</td></tr>
+<tr><td>book_0001</td><td>FAILURE_EXAMPLE</td><td>Averaging down into losing positions and abandoning rules produced multi-million-dollar losses at the National Australia Bank.</td></tr>
+<tr><td>book_0001</td><td>REFUTATION</td><td>The author states over 90 percent of traders fail, refuting any implication that following this book&#x27;s methods guarantees success.</td></tr>
+<tr><td>book_0001</td><td>CAVEAT</td><td>Although a balance of technicals and fundamentals is advised, the most successful traders rely predominantly on technicals, limiting the weight fundamentals sho</td></tr>
+<tr><td>book_0001</td><td>SCOPE_LIMIT</td><td>Future price direction is fundamentally unknowable; the best a trader can do is pre-plan the trade, not predict the market.</td></tr>
+</table></details>
+<h2>Sınırlamalar (dürüst)</h2><ul>
+<li>Deterministik regex scout recall'ü ölçüldü: <b>~%9</b> (sözlük dar). Triage, regex lead'lerini temel alır; regex'in kaçırdığı stratejiler korpusta görünmez. Tam section okuma (A1) sonraki deep-search fazına ertelendi (research_decisions kaydı).</li>
+<li>Sayfa anchor'ları: UNMAPPED kitaplarda sayfa yerine part+satır kullanılır; sayfa uydurulmaz.</li>
+<li>OCR kitaplarında gürültü olabilir (is_ocr etiketli).</li>
+<li>Kitapların çoğu hisse/forex/vadeli odaklı, kripto öncesi; çeviri katmanı aktarım risklerini etiketler.</li>
+<li>Hedef piyasa multi-timeframe (1h/4h/1d) — kaynak doğal ufku korunur.</li>
+</ul>
+</body></html>

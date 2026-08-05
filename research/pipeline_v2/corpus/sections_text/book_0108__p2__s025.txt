@@ -1,0 +1,849 @@
+per contract) translates into a risk of $250 per contract. If you divide
+$250 into $1,250, you get 5 contracts. Thus, you can sell short 5 corn
+contracts within your percent risk position-sizing paradigm.
+How does the percent risk position sizing compare with the
+other position-sizing models? Table 124 shows the same 55-/21day breakout system with a position-sizing algorithm based upon
+risk as a percentage of equity. The starting equity is again $1 million.
+
+TABLE
+
+12-4
+
+%X-Day Breakout System with Risk Position Sizing
+
+% Risk
+
+Net
+
+Profits
+
+Rejected
+Trades
+
+% Gain
+per Year
+__~
+
+Margin
+C&
+
+Maximum
+Drawdown /
+
+Ratio
+
+0.10%
+
+5327
+
+410
+
+0.00%
+
+0.25%
+
+0
+
+0.36%
+
+$80,685
+
+219
+
+0.70%
+
+0.50%
+
+0
+
+2.47%
+
+i.28
+
+$400,262
+
+42
+
+3.20%
+
+0
+
+0.49
+0.54
+
+0.75%
+
+$672,717
+
+10
+
+4.90%
+
+1 .OO%
+
+0
+
+6.50%
+10.20%
+
+$1,107,906
+
+4
+
+7.20%
+
+1.75%
+
+0
+
+13.20%
+
+$2,776,044
+
+1
+
+13.10%
+
+2.50%
+
+0
+
+22.00%
+
+55.621,132
+
+0.6
+
+0
+
+19.20%
+
+5.00%
+
+0
+
+29.10%
+
+0.66
+
+@ls620,657
+
+0
+
+38.30%
+
+7.50%
+
+0
+
+46.70%
+
+5116,500,000
+
+0.82
+
+0
+
+55.70%
+
+10.00%
+
+0
+
+62.20%
+
+5304,300,000
+
+0.91
+
+0
+
+70.20%
+
+15.00%
+
+f
+
+72.70%
+
+$894,100,000
+
+0.97
+
+0
+
+88.10%
+
+20.00%
+
+2
+
+67.30%
+
+51.119.000,000
+§1,212,000,000
+
+0
+
+92.10%
+
+21
+
+64.40%
+
+1.01
+1 . 0 9
+
+25%
+
+0.48
+
+0
+
+93.50%
+
+47
+
+63.36%
+
+1.12
+
+0
+
+93.10%
+
+58
+
+95.00%
+
+0 . 9 8
+
+206
+
+0.00%
+
+70
+
+104.40%
+
+!
+
+294
+
+PART 3
+
+Understanding the Key Parts of Your System
+
+Notice that then best reward-to-risk ratio occurs at about 25
+percent risk per position, but you would have to tolerate an 84 percent drawdown in order to achieve it. In addition, margin calls
+(which are set at current rates and are not historically accurate) start
+entering the picture at 10 percent risk.
+If you traded this system with $1 million and used a 1 percent risk criterion, your bet sizes would be equivalent to trading
+the $100,000 account with 10 percent risk. Thus, Table 12-3 suggests that you probably should not trade this system unless you
+had at least $100,000 and then you probably should not risk more
+than about s/, percent per trade. And at ?h percent, your returns
+with the system would be very poor. Essentially, you should now
+understand why you need at least a million dollars to trade this
+system.
+Just how much risk should you accept per position with risk
+position sizing? Your overall risk using risk position sizing
+depends upon the size of the stops you’ve set to preserve your
+capital and the expectancy of the system you are trading. For
+example, most long-term trend followers use trailing stops that are
+fairly large, several times the average daily range of prices. In addition, most trend followers are usually using a model that makes
+money 40 to 50 percent of the time and has a reward-to-risk ratio of
+2.0 to 2.5. If your system does not fall into these ranges, then you
+need to determine your own position-sizing percentages.
+With the above criteria (and precautions) in mind, if you are
+trading other people’s money, you probably should risk less than 1
+percent per position. If you are trading your own money, your risk
+depends upon your own comfort level. Anything under 3 percent
+is probably fine, If you are risking over 3 percent, you are a “gunslinger” and had better understand the risk you are taking for the
+reward you seek.
+If you trade a system that sets very small stops, then you need
+to adopt much smaller risk levels. For example, if your stops are
+less than the daily range of prices, then you probably need guidelines that are about half (or less) ~of what we present here. On the
+other hand, if you have high expectancies in your system (i.e., your
+reliability is above 50 percent and your reward-to-risk ratio is 3 or
+better), then you can probably risk a higher percentage of your
+
+CHAPTER 12
+
+What Do YOU Mean I’osition Sizing!
+
+295
+
+equity fairly safely. People who use very tight stops might want to
+consider using a volatility model (see below) to size their positions.
+Most stock market traders don’t consider this sort of model at
+all. Instead, they tend to think more in terms of the equal units
+model. But let’s look at how risk position sizing would work with
+equities.
+Let’s say you want to purchase IBM and you have a $50,000
+account. Suppose IBM’s price is about $141 per share. You decide
+that you would get out of this position at $137, or a drop of $4 per
+share. Your position-sizing strategy tells you to limit your risk to 2.5
+percent, or $1,250. Dividing 4 into 1,250 results in 312.5 shares.
+If you bought 312 shares at $141, it would cost you $X3,392over 80 percent of the value in your account. You could only do that
+two times without exceeding the marginable value of your account.
+This gives you a better notion of what a 2.5 percent risk really
+means. In fact, if your stop was only a $1 drop to $140, you could
+purchase 1,250 shares based upon the model. But that 1,250 shares
+would cost you $176,250-which you couldn’t do even by fully
+margining your account. Nevertheless, you are still limiting your
+risk to 2.5 percent. The risk calculations, of course, were all based
+upon the starting risk-the difference between your purchase price
+and your initial stop loss.
+The percent risk model is the first model that gives you a legitimate way to make sure that a 1-R risk means the same for each
+item you are trading. Let’s say that you are trading a million dollar
+portfolio in the stock market and are willing to use full margin. You
+are using a 1 percent risk model, and thus risking $10,000 for each
+position.
+Table 12-5 shows how this is done. The stop shown is arbitrary and represents a I-R risk. You might think that the stops are
+tight for such high-priced stocks. However, they might not be if
+you were going for big-R-multiple trades. Table 12-5 shows that we
+can only buy five stocks, because the dollar value of the stocks
+comes close to our 52 million margin limit-it may even exceed it
+with transaction costs. Nevertheless, our risk is only $10,000 per
+position if we are able to rigidly follow our predetermined stops.
+Thus, our total portfolio risk, on a million dollar portfolio, is only
+$50,000 plus slippage and costs. If you are an equity trader, study
+
+C H A P T E R 12
+
+TABLE 12-5
+
+Using a 1 Percent Risk in a Stock Portfolio
+-Stock
+
+Price
+
+Stop (1-R Risk)
+
+Number Shares
+with $10,000 Risk
+
+Equity Value
+
+ATT
+
+6, ,625
+
+2 points
+
+5,000
+
+$308,125
+
+Lucent
+
+106.250
+
+3 point*
+
+3.300
+
+$350,625
+
+K-Mart
+
+14.750
+
+0.5 point
+
+20,000
+
+s295,ooo
+
+Dell
+Merck Computer
+Total
+
+139.0
+124.675
+
+32.5points
+points
+
+43,300
+000
+
+$$ 44 95 98 .. 57 00 00
+
+I
+
+Table 12-5. It might change the way you think about trading a portfolio of stocks.
+MODEL 4: THE PERCENT VOLATILITY MODEL
+Volatility refers to the amount of daily price movement of the
+underlying instrument over an arbitrary period of time. It’s a direct
+measurement of the price change that you are likely to be exposed
+to-for or against you-in any given position. If you equate the
+volatility of each position that you take, by making it a fixed percentage of your equity, then you are basically equalizing the possible market fluctuations of each portfolio element to which you are
+exposing yourself in the immediate future.
+Volatility, in most cases, simply is the difference between the
+high and the low of the day. If IBM varies between 141 and 143%
+then its volatility is 2.5 points, However, using an average true
+range takes into account any gap openings. Thus, if IBM closed at
+139 yesterday, but varied between 141 and 143% today, you’d need
+to add in the 2 points in the gap opening to determine the true
+range. Thus, today’s true ranges is between 139 and 143’&or 4%
+points. This is basically Wells Wilder’s average true range calculation as shown in the definitions~at the end of the book.
+Here’s how a percent volatility calculation might~work for
+
+What Do YOU Mean Positiion Sizing?
+
+29,
+
+position sizing. Suppose that you have $50,000 in your account and
+you want to buy gold. Let’s say that gold is at $400 per ounce and
+during the last 10 days the daily range is $3. We will use a IO-day
+simple moving average of the average true range as our measure of
+volatility. How many gold contracts can we buy?
+Since the daily range is $3 and a point is worth $100 (i.e., the
+contract is for 100 ounces), that gives the daily volatility a value of
+$300 per gold contract. Let’s say that we are going to allow volatility to be a maximum of 2 percent of our equity. Two percent of
+$50,000 is $1,000. If we divide our $300 per contract fluctuation into
+our allowable limit of $1,000, we get 3.3 contracts. Thus, our position-sizing model, based on volatility, would allow us to purchase
+3 contracts.
+Table 12-6 illustrates what happens with our 55/21 system in
+our portfolio of 10 commodities over 11 years when you size positions based upon the volatility of the markets as a percentage of
+your equity. Here volatility was defined as the 20-day moving average of the average true range. This is the same system and the same
+data described with the other models. The only difference among
+Tables 12-2, 124, and 12-6 is the position-sizing algorithm.
+
+T A B L E 12-6
+
+55/21 Breakout System with Volatility-Based Position Sizing
+
+% Volatility
+
+NM
+Profits
+
+Rejected
+
+Trades
+
+% Gain
+per Year
+
+M a r g i n Maximum/
+CdS
+Dawdown
+
+0.1
+
+$411,785
+
+34
+
+3.30%
+
+0
+
+6.10%
+
+0.25
+
+$1,659,613
+
+0
+
+9.50%
+
+0
+
+17.10%
+
+0.5
+
+$6,33X704
+
+0
+
+20.30%
+
+0
+
+3 0 . 6 0 %
+
+0.75
+
+$16,240,855
+
+0
+
+30.30%
+
+0
+
+40.90%
+
+I
+1.75
+
+536,266,106
+$236,100,000
+
+0
+
+40.00%
+
+0
+
+49.50%
+
+0
+
+67.90%
+
+0
+
+69.70%
+
+2.50
+
+$796,900,000
+
+0
+
+86.10%
+
+1
+
+85.50%
+
+5.00
+
+$1,034.000,000
+
+0
+
+90.70%
+
+75
+
+92.50%
+
+(5Z622.159)
+
+402
+
+0.00%
+
+1
+
+119.80%
+
+7.5
+
+298
+
+Notice in Table 12-6 that a 2 percent volatility position-sizing
+allocation would produce a gain between 67 and 86 percent per
+year and drawdowns of 69 to 86 percent per year. The table suggests that if you used a volatility position-sizing algorithm with the
+system, you probably would want to use a number somewhere
+between 0.5 and 1.0 percent per position, depending upon your
+objectives. The best reward-to-risk ratio in this system occurs at a
+2.5 percent allocation, but few people could tolerate the drawdown
+of 86 percent.
+If you compare Table 12-4 with Table 12-6, you’ll notice the
+striking difference in the percentages at which the system breaks
+down. These differences are the result of the size of the number that
+you must take into consideration before using the equity percentages to size positions (i.e., the current 21-day extreme against you
+versus the 20.day volatility). Thus, a 5 percent risk based upon a
+stop of the 21-day extreme appears to be equivalent to about 1 percent of equity with the 20-day average true range. These numbers,
+upon which the percentages are based, are critical. They must be
+considered before you determine the percentages you plan to use
+to size your positions.
+Volatility position sizing has some excellent features for controlling exposure. Few traders use it. Yet it is one of the more
+sophisticated models available.
+
+CHAPTER 12
+
+What Do You Mean Position Siring?
+
+TABLE 12-7
+
+Four Position-Sizing Models Compared
+Model
+Units-per-fixed-amount
+of-money model
+
+Advantages
+You don’t reject a trade be.
+cause it’s loo risky. It might
+also be a disadvantage.
+
+It treats unequal investments alike.
+
+YOUcano~enanacca”“t
+with limited funds and use
+this model.
+
+It cannot increase
+exposure rapidly
+for small units.
+
+It does give you
+risk pertrade.
+
+Small accounts
+Could be over-exPosed.
+
+minimum
+
+It give?. each investment an
+equal weighting in your
+potiolio.
+
+Small investor
+would only be able
+lo increase size
+SIOWIY.
+
+Exposure is not
+necessarily alike for
+each unit.
+Investments frequently do not divide
+well into equal units.
+Percent risk model
+
+THE MODELS SUMMARIZED
+Table 12-7 gives a summary of the four models presented in this
+chapter, along with their respective advantages and disadvantages.
+Notice that the model with the most disadvantages is the one that
+most people us-the units-per-fixed-amount-of-money model. Let’s
+reemphasize those disadvantages because they are so important.
+First, assume that you are opening an account with $30,000.
+That’s probably not enough to trade futures with unless you just
+trade a few agricultural markets. However, many people will do it.
+In that account, you could probably trade 3 corn contract, an S&P
+contract, and a bond contract-although the margin requirements
+might prevent you from doing them simultaneously.~ However, the
+model has some flaws because it does allow you to trade all of
+
+299
+
+It allows both large and sma,,
+accounts lo grow steadily.
+It equalizes performance
+in the podfolio by the
+actual risk.
+
+You will have to reject SO”E trades because they’re too
+risky. May be a disadvantage.
+The amount risked
+iS not the actual risk,
+and Gallacher
+would
+say exposure is
+““equal.
+
+Percent volatility model
+grow steadily.
+It equalizes pelformance
+in the podfolio by volatili~.
+It can equalize trades when
+using light stops without
+putting on large positions.
+The amOunt risked is notthe
+actual ask, and Gallacher
+would say that the exposure
+IS ““equal.
+
+they are too risky.
+The daily volatility is
+not the actual risk.
+May be a
+disadvantage.
+
+300
+
+them. A percent risk model or a percent volatility model, in contrast, might reject both the S&l’ and the bond trades because they
+were too risky.
+Second, this model would allow you to buy one of each of the
+contracts. That’s ridiculous because you would be giving all your
+attention to the S&P contract because of its volatility and risk. All
+investment units are not alike, and one should probably reject any
+sort of position-sizing algorithm that does treat them alike. This
+model does because you have one unit of each.
+Third, if your position-sizing model is to take one contract per
+$30,000, then you would have two problems. If your account
+dropped by $1, you couldn’t take any positions. Most people
+wouldn’t follow this because they would assume that they could
+take one contract per “however much money was in their account.”
+In addition, if you were lucky enough for your account to go up,
+the account would almost have to double in size before you could
+take another contract. That’s basically no position sizing!
+Notice that the last three models do a much better job of balancing your portfolio. Why not select one of them?
+
+FXAMPLESOFTHEIMPACT
+OFPOSlTIONSIZING
+I’m currently consulting for a company that is producing positionsizing software that will do all the models we recommend and
+much more. The software, called Athena,4 has millions of possibilities for position sizing, so you can test almost anything. It works
+with Trade Stations signals, and it has a few built-in systems.
+Let’s use Athena to see how several position-sizing paradigms
+perform in a complex trading environment. In addition, since stock
+traders are the least likely people to consider the role of position
+sizing, we will use a portfolio consisting of the current 30 Dow
+Jones Industrial Average stocks.
+All stocks will be traded with the same system on the same
+data (i.e., from January 1992 through June 1997). We’ll use a very
+simple system-a channel breakout, long-only system that enters a
+position on the high of the last 45 days Andy uses a three-timesvolatility trailing stop to exit (either as a stop ‘or asp a profit-taking
+exit). Thus, the system is quite simple.
+
+CHAFER
+
+12
+
+What Da You Mean Position Sizing?
+
+301
+
+We used a million dollar portfolio with a 0.5 percent cost of
+trading. The system took 595 trades during the 5.5-year period. The
+system had 273 winning trades and 322 losing trades, meaning that
+45.9 percent of the trades made money
+We ran one version of each of the position-sizing models presented in this chapter, plus a comparison model that only took 100
+shares of stock on each trade. Once again, in each case, the same
+trades were used. The only difference in the results, therefore, was
+a function of the position-sizing model that was selected.
+The first model used was the baseline, which just takes 100
+shares of stock whenever the system signaled a trade. This model
+made a total of $32,567 over the 5.5 years, which translates to a
+compounded annual return of only 0.58 percent. It had a maximum
+drawdown during the 5.5 years of 0.75 percent,
+Figure 12-2 shows the equity curve, plus the drawdowns,
+over the 5.5 years of trading. Nothing is very spectacular about
+Figure 12-2. You might as well leave your money in a savings
+
+CHAI’TER 12
+
+What Do Y OU Mean l’osition
+
+Suing?
+
+303
+
+Figure 12-3 Dow Jones stocks traded with fixed-amount model,
+100 shares/$lOO,OOO
+
+Figure 124 Position sizing using the equal leverage model with Dow stocks
+at 3 percent
+
+account. However, remember it was included just as a baseline
+comparison.
+The next model to look at was the fixed-amount model. This
+is a model typically used by futures traders in which you buy one
+unit per so much equity. In this case, we elected to purchase 100
+shares per $100,000 in equity. Essentially, this means that when our
+equity is at a million, we would buy 1,000 shares of each position.
+When it reaches 2 million, we would have positions of 2,000
+shares.
+Figure 12-3 illustrates the equity curve with the fixed-amount
+model. It makes $237,457 over the 5.5 years. That translates into a
+compounded annual rate of return of 5175 percent, However, it also
+produced a maximum drawdown of 7.13 percent-hardly spectacular performance, but better than our baseline.
+Our next model is the equal leverage model that is typically
+
+used by equity traders. Here we will devote 3 percent of our equity
+to each position. Since we are trading a million dollars, no position
+will be larger than $30,000. Thus, you would buy 1,000 shares of a
+$30 stock, but only 300 shares of a $100 stock.
+Obviously, the results of this model are not great at the leverage levels used. However, I simply picked an arbitrary level to
+show you the effect of position sizing. There are very large numbers of levels that could be selected with each model. All of them
+would produce different results.
+Figure 12-4 shows the results of the equal leverage model. It
+produces 5.5-year profits of 5231,121. That translates into an annual
+return of 3.86 percent with a maximum drawdown of 3.72 percent.
+The next model gets a little more interesting. We’ll use the
+percent risk model and size our positions at 1 percent risk. Since 1
+percent of a million dollars is $10,000, this model simply means
+
+PART 3 Understanding the Key Parts of Your System
+
+CHAPTER 12 What Do You Mean Position Sizing?
+
+305
+
+Figure 12-5 Dow stocks with a 1 percent risk position-sizing model
+
+Figure 124 Position-sizing the Dow 30 stocks with a 0.5 percent volatility
+model
+
+that our initial risk exposure will be no more than $10,000 on each
+stock. It says nothing about the value of the stocks, only the risk
+exposure.
+Figure 12-5 shows that the 1 percent risk model made a profit
+of $1,840,493 over the 5.5 years. This translates into a 20.92 compounded annual rate of return. Its maximum drawdown during
+the 5.5 years was 14.14 percent. Clearly, this performance is beginning to be more interesting.
+The last model we’ll use is the percent volatility model. Here
+we are using the average true range of the stock over the last 10
+days to determine the stock’s volatility We are sizing our positions
+at 0.5 percent volatility. This means that we are limiting our exposure to current market volatility to $5,000 for each position. Thus, if
+a stock’s average true range has~been $5 (or $500 for 100 shares), it
+
+means that we initially can purchase 1,000 shares. Again, this has
+nothing to do with the value of the underlying security.
+Figure 12-6 shows the equity curve for this last model. The
+model has a compounded annual return of 22.93 percent over the
+5.5 years. The total return is $2,109,266. During the 5.5 year period,
+the maximum drawdown was 16.61 percent.
+Lastly, Figure 12-7 shows a comparison of the five models presented. Remember that each model used the same trading signals. The
+only dzfererence was position sizing. Look at the tremendous difference
+that the question of “how much” makes on the return! The baseline
+model made $32,567, while the 0.5 percent volatility model made
+over $2 million. If you are beginning to understand how important
+position sizing is, then you are beginning to understand one of the
+great secrets of trading.
+
+ous money managers. In essence, expectancy and opportunity
+foorm a solid that determines your volume of profits. Position sizing
+determines how many solids contribute to your profits at one time.
+Position sizing also points out how important your underlying equity is. With large amounts of equity, you can do a lot with
+position sizing. With small amounts of equity it is very easy to get
+wiped out.
+Anti-martingale systems in which you increase your bet size
+as your equity increases are the primary models that work. Several
+anti-martingale position-sizing models were given, including:
+
+Figure 12-7 Comparing the equity curves of the five models
+
+One could invent as many position-sizing algorithms as people have entry algorithms. There are millions of possibilities, and
+we have only touched the surface of the topic in this chapter.’
+Nevertheless, if you are beginning to understand the impact of
+position sizing, then 1 have accomplished my objective.
+
+SUMMARY
+In my opinion, the most significant part of trading system design is
+the part that has to do with money management. However, the
+term “money management” has been so misused over the years,
+that no one can agree upon a common meaning. As a result, I’ve
+elected to use the term “position sizing” in this chapter.
+Position sizing basically adds a fourth dimension to the
+dimensions of reliability, reward-to-risk ratio, and opportunity. lt
+dramatically adds to the potential profits or losses that can occur
+throughout the course oft trading. In fact, position sizing, in my
+opinion, accounts for most of the variation in performance of vari-
+
+Units per fixed amount of money. This model allows you to
+take one position per so much money. It basically treats all
+investments alike and always allows you to take one
+position.
+Equal units model. This model gives an equal weighting to
+all investments in your portfolio according to their
+underlying value. It’s commonly used by investors and
+equity traders.
+The percent risk model. This model is recommended as the
+best model for long-term trend followers. It gives all trades
+an equal risk and allows a steady portfolio growth.
+The percent volatility model. This model is best for traders
+who use tight stops. It can provide a reasonable balance
+between risk and opportunity (expectancy).
+Several examples of money management were shown using
+new professional software that allows for quick, reasonable position
+sizing. These models, despite using the same system signals for entry
+and exit, showed returns that varied from $32,567 to $2,109,266. The
+difference in returns was due entirely to position sizing.

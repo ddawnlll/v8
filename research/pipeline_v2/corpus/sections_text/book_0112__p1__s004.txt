@@ -1,0 +1,422 @@
+
+23
+
+24
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+
+Options markets
+An option is a contract that gives the buyer the right, but not the obligation,
+either to buy or to sell the underlying asset upon which the option is based
+at a specified price on or before a specified date. Sometime before the option
+period expires, a purchaser of an option must decide whether to exercise
+the option and buy (or sell) the asset (most commonly stocks) at the target
+price. Options also are called derivatives. We talk more about this investment
+alternative in Chapter 18.
+
+Reviewing Stock Exchanges
+Most of this book covers stock trading, so we obviously concentrate on how
+the key exchanges — NYSE, NASDAQ, and Amex — operate and how these
+operations impact your trading activity.
+
+New York Stock Exchange (NYSE)
+The U.S. stock market actually dates back to May 17, 1792, when 24 brokers
+signed an agreement under a buttonwood tree at what today is 58 Wall Street.
+The 24 brokers specifically agreed to sell shares of companies among themselves, charging a commission or fee to buy and sell shares for others who
+wanted to invest in a company. Yup, the first American stockbrokers were
+born that day.
+A formalized exchange didn’t come into existence until March 8, 1817, when
+the brokers adopted a formal constitution and named their new entity the
+New York Stock & Exchange Board. Brokers actually operated outdoors until
+1860, when the operations finally were moved inside. The first stock ticker
+was introduced in 1867, but it wasn’t until 1869 that the NYSE started requiring
+the registration of securities for companies that wanted to have their stock
+traded on the exchange. Registration began as a means of preventing the
+over-issuance (selling too many shares) of a company’s stock.
+From these meager beginnings, the NYSE built itself into the largest stock
+exchange in the world with many of the largest companies listed on the
+exchange. Trading occurs on the floor of the exchange, with specialists and
+floor traders running the show. Today these specialists and floor traders work
+electronically, which first became possible when the exchange introduced
+electronic capabilities for trading in 2004. For traders, the new electronic
+
+Chapter 2: Exploring the Markets and the Stock Exchanges
+trading capabilities are a more popular tool than working with specialists and
+floor traders. Electronic trading capabilities were enhanced when the NYSE
+merged with Archipelago Holdings in 2006. The exchange expanded its global
+trading capabilities after a merger with Euronext in 2007, which made trading
+in European stocks much easier.
+You may not realize just how much the concept of supply and demand
+influences the trading price of a stock. Price swings of a stock frequently are
+caused by shifts in the supply of shares available for sale and the demand
+created by the number of buyers wanting to purchase available shares.
+
+The specialist
+Specialists — whose title may change to designated market makers soon —
+buffer dramatic swings when news about a company breaks. If news that
+has a major impact on a stock’s price breaks, specialists buy shares or sell
+the ones they hold in a company to make the trend toward a higher or lower
+stock price more orderly. For example, if good news breaks, creating more
+demand for the stock and overwhelming existing supply, the specialist becomes
+a seller of the stock to minimize the impact of a major price increase by
+increasing supply. The same is true when bad news strikes, creating a
+situation in which having more sellers than buyers drives the stock price
+down. In that situation, the specialist becomes a buyer of the stock, easing
+the impact of the drop in price.
+
+The floor trader
+The guys you see on the floor of the stock exchange, waving their hands
+wildly to make trades, are the floor traders. They’re actually members of the
+NYSE who trade exclusively for their own accounts. Floor traders also can act
+as a floor broker for others and sell their services.
+
+The specialist’s book
+You may wonder how a specialist keeps track of all this information. That
+one’s easy: The specialist records all trades and quotation changes in the
+specialist’s order book. Any questions that arise about trading activities can
+be researched using this book.
+
+Open outcry
+The NYSE still uses what is becoming an outdated method of trading called
+open outcry, in which stocks are sold like a public auction with verbal bids
+and offers shouted at the trading post. These trading posts are centered on
+the specialist’s location for particular stocks. Other exchanges exclusively
+use computer-based network systems for trading.
+
+25
+
+26
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+The NYSE is the last big stock exchange to use open outcry, but even here it
+is taking a backseat to automated execution. Only a tiny fraction of trades are
+handled through open outcry. Except for a small group of very high-priced
+stocks, almost everything can be handled immediately by electronic execution.
+
+NYSE Hybrid Market
+The New York Stock Exchange uses the Hybrid Market program to integrate
+the best aspects of the open outcry or auction market with electronic trading.
+Most NYSE trades are now handled electronically, but brokers can still
+choose to route customer orders to the floor for open-outcry trading.
+
+NASDAQ
+NASDAQ, which stands for the National Association of Securities Dealers
+Automated Quotations, is the fastest-growing stock market today. The market
+was formed after an SEC study in the early 1960s concluded that the sale
+of over-the-counter (OTC) securities, in other words securities that aren’t
+traded on the existing stock exchanges, was fragmented and obscure. The
+report called for the automation of the OTC market and gave the responsibility
+for implementing that system to the National Association of Securities
+Dealers (NASD).
+The NASD began construction of the NASDAQ system in 1968, and its first
+trades were made beginning February 8, 1971, when NASDAQ became the
+world’s first electronic stock market.
+
+Market makers
+Unlike the specialist structure of the NYSE, in which one specialist represents
+a particular stock, NASDAQ market makers compete with each other to buy
+and sell the stocks they choose to represent. More than 500 member firms
+act as market makers for NASDAQ. All market makers are members of the
+NASD. Each uses its own capital, research, and system resources to represent
+a stock and compete with other market makers.
+Market makers compete for customers’ orders by displaying buy and sell
+quotations on an electronic exchange for a guaranteed number of shares
+at a specific price. After market makers receive orders, they immediately
+purchase or sell stock from their own inventories or seek out the other side
+of the trades so they can be executed, usually in a matter of seconds. The
+four types of market makers are
+
+Chapter 2: Exploring the Markets and the Stock Exchanges
+✓ Retail market makers: They serve institutional and individual investors
+through brokerage networks that provide a continuous flow of orders
+and sales opportunities.
+✓ Wholesale market makers: They serve primarily institutional clients
+and other brokers or dealers who aren’t registered market makers in
+a particular company’s stock but who need to execute orders for their
+customers.
+✓ Institutional market makers: They execute large block orders for
+institutional investors, such as pension funds, mutual funds, insurance
+companies, and asset management companies.
+✓ Regional market makers: They serve companies and individuals of a
+particular region. By focusing regionally, these market makers offer their
+customers more extensive coverage of the stocks and investors in a
+particular area of the country.
+NASDAQ continues to be the leader in electronic trading. Its system, called
+the NASDAQ Crossing Network, enables fully anonymous trade execution to
+minimize the market impact of trading.
+
+Over-the-counter and bulletin-board stocks
+Stocks that do not meet the minimum requirements to be listed on NASDAQ
+are traded as over-the-counter or bulletin-board stocks (OTCBB). The OTCBB is
+a regulated quotation service that displays real-time quotes, last-sale prices,
+and volume information for the stocks traded OTCBB. These stocks generally
+don’t meet the listing qualifications for NASDAQ or other national securities
+exchanges, and fewer than two (and sometimes zero) market makers trade in
+these stocks, making buying and selling them more difficult.
+
+Amex
+When the NYSE moved indoors, some stocks still weren’t good enough to be
+sold on the exchange. Those stocks were called curb traders and ultimately
+made up what became known as the American Stock Exchange (Amex),
+which moved indoors in 1921. Amex lists stocks that are smaller in size than
+those on the NYSE yet still have a national following. Many firms that first list
+on Amex work to meet the listing requirements of the NYSE and then switch
+over.
+The Amex trading system was integrated into the NYSE trading system after
+the merger with the NYSE was completed in 2008. It is now called the NYSE
+Alternext US, and trades small-company stocks.
+
+27
+
+28
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+
+Listing requirements
+NASDAQ has the easiest minimum listing requirements of all the broad-market
+exchanges, followed by the NYSE Alternext US
+(formerly Amex). The New York Stock Exchange
+(NYSE) has the toughest requirements to meet
+for companies to be listed. In addition to listing
+
+requirements, companies on the exchanges
+must conform to certain rules, including publishing quarterly reports, soliciting proxies, and
+publicly announcing developments that may
+affect the value of the securities.
+
+Electronic communications
+networks (ECNs)
+Many traders look for ways to get around dealing with a traditional broker.
+Instead they access trades using a direct-access broker. We talk more about
+the differences in Chapter 3. A new system of electronic trading that is developing is called the electronic communications network (ECN).
+ECNs enable buyers and sellers to meet electronically to execute trades.
+The trades are entered into the ECN systems by market makers at one of the
+exchanges or by an OTC market maker. Transactions are completed without
+a broker-dealer, saving users the cost of commissions normally charged for
+more traditional forms of trading.
+Subscribers to ECNs include retail investors, institutional investors, market
+makers, and broker-dealers. ECNs are accessed through a custom terminal
+or by direct Internet dial-up. Orders are posted by the ECN for subscribers to
+view. The ECN then matches orders for execution. In most cases, buyers and
+sellers maintain their anonymity and do not list identifiable information in
+their buy or sell orders.
+In the last few years ECNs have gone through consolidation, and there are
+only two independent ECNs left. The two independent ECNs, Instinet and
+Bloomberg Tradebook, primarily service the institutional marketplace. If you
+want to trade through Instinet, you can do so as part of its partnership with
+E*Trade. Archipelago now operates under the HYSE umbrella as HYSE Arca
+Options.
+
+Chapter 2: Exploring the Markets and the Stock Exchanges
+
+Understanding Order Types
+Buying a share of stock can be as easy as calling a broker and saying that you
+want to buy such and such a stock — but you can place an order in a number
+of other ways that give you better protections. Most orders are placed as day
+orders, but you can choose to place them as good ’til canceled orders. The
+four basic types of orders you can place are market orders, limit orders, stop
+orders, and stop-limit orders.
+Understanding the language and using it to protect your assets and the way
+you trade are critical to your success as a trader. The next few sections
+explain the nuances of placing orders so you don’t make a potentially costly
+mistake by placing a market order when you intended to place a limit order.
+Putting a stop-limit order in place may sound like the safest way to go;
+however, doing so may not help you in a rapidly changing market.
+
+Market order
+When you place a market order, you’re essentially telling a broker to buy
+or sell a stock at the current market price. A market order is the way your
+broker normally places an order unless you give him or her different
+instructions. The advantage of a market order is that you’re almost always
+guaranteed that your order is executed as long as willing buyers and sellers
+are in the marketplace. Generally speaking, buy orders are filled at the ask
+price and sell orders are filled at the bid price. If, however, you’re working
+with a broker who has a smart-order routing system, which looks for the best
+bid/ask prices, you sometimes can get a better price on the NASDAQ or Amex
+exchanges. Whenever the order involves the NYSE, you need a good floor
+broker. In most brokerage houses, market orders are the cheapest to place
+with the lowest commission level.
+The disadvantage of a market order is that you’re stuck paying the price when
+the order is executed — possibly not at the price you expected when you
+placed the order. Brokers and real-time quote services quote you prices, but
+because the markets move fast, with deals taking place in seconds, you’ll
+probably find that the price you’re quoted rarely is the same as the execution
+price. Whenever you place a market order, especially if you’re seeking a large
+number of shares, the probability is even greater that you’ll receive different
+prices for parts of the order — 100 shares at $25 and 100 shares at $25.05, for
+example.
+
+29
+
+30
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+
+Limit order
+If you want to avoid buying or selling stock at a price higher or lower than
+you intend, you must place a limit order instead of a market order. When
+placing a limit order, you specify the price at which you’ll buy or sell. You
+can place either a buy limit order or a sell limit order. Buy limit orders can
+be executed only when a seller is willing to sell the stock you’re buying at the
+limit price or lower. A sell limit order can be executed only when a buyer is
+willing to pay your limit price or higher. In other words, you set the parameters
+for the price that you’ll accept. You can’t do that with a market order.
+The risk that you take when placing a limit order is that the order may never
+be filled. For example, a hot stock piques your interest when it is selling for
+$10, so you decide to place a limit order to buy the stock at $10.50. By the
+time you call your broker or input the order into your trading system, the
+price already has moved above $10.50 and never drops back to that level,
+thus your order won’t be filled. On the good side, if the stock is so hot that
+its price skyrockets to $75, you also won’t be stuck as the owner of the stock
+after purchasing near the $75 high. That high will likely be a temporary top
+that quickly drops back to reality, forcing you to sell the stock at a significant
+loss at some point in the future.
+Most firms charge more for executing a limit order than they do for a market
+order. Be sure that you understand the fee and commission structures if you
+intend to use limit orders.
+
+Stop order
+You may also consider placing your order as a stop order, which means
+that whenever the stock reaches a price that you specify, it automatically
+becomes a market order. Investors who buy using a stop order usually do
+so to limit potential losses or protect a profit. Buy stop orders are always
+entered at a stop price that is above the current market price.
+When placing a sell stop order, you do so to avoid further losses or to
+protect a profit that exists in case the stock continues on a downward trend.
+The stop price is always placed below the current market price. For example,
+when you have a stock that you bought for $10 that now is selling for $25,
+you can decide to protect most of that profit by placing a sell stop order that
+specifies that stock be sold when the market price falls to $20, thus cementing
+a $10 gain.
+You don’t have to watch the stock market every second; instead, when
+the market price drops to $20, your stop order automatically switches to a
+market order and is executed.
+
+Chapter 2: Exploring the Markets and the Stock Exchanges
+The big disadvantage of a stop order is that if for some reason the stock
+market gets a shock during the news day that affects all stocks, it can
+temporarily send prices lower, activating your stop price. If it turns out that
+the downturn is actually merely a short-term fluctuation and not an indication
+that the stock you hold is a bad choice or that you risk losing your profit,
+your stock may sell before you ever have time to react.
+The bottom can fall out of your stock’s pricing. After your stop price is
+reached, a stop order automatically becomes a market order and the price
+that you actually receive can differ greatly from your stop price, especially in a
+rapidly fluctuating market. You can avoid this problem by placing a stop-limit
+order, which we discuss in the next section.
+Stop orders are not officially supported on the NASDAQ. However, most brokers
+offer a service to simulate a stop order. If you want to enter a stop order for a
+NASDAQ stock, your broker must watch the market and enter the market or
+limit order you designate as a stop when the stock reaches your specified sale
+price. Some broker-dealers won’t accept a stop order on some securities and
+almost never accept a stop order for OTC stocks. If you intend to use stop
+orders, make sure that you
+✓ Check with the brokers you’re planning to use to ensure that they
+accept stop orders.
+✓ Find out what your brokers charge for stop orders.
+✓ Review how your brokers’ stop orders work, so you don’t run into
+surprises.
+After all, you don’t want to execute a stop order and end up selling a stock
+that you didn’t intend to sell or at a price you find unacceptable.
+
+Stop-limit order
+You can protect yourself from any buying or selling surprises by placing a
+stop-limit order. This type of order combines the features of both a stop order
+and a limit order. When your stop price is reached, the stop order becomes a
+limit order rather than a market order.
+A stop-limit order gives you the most control over the price at which you will
+trade your stock. You can avoid a purchase or sale of your stock at a price
+that differs significantly from what you intend. But you do risk the possibility
+that the stop-limit order may never be executed, which can happen in fastmoving markets where prices fluctuate wildly.
+For example, you may find that deploying stop-limit orders is particularly
+dangerous to your portfolio, especially when bad news breaks about a stock
+you’re holding and its price drops rapidly. Although you have a stop-limit
+
+31
+
+32
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+order in place, and the stop price is met, the movement in the market may
+happen so rapidly that the price limit you set can be missed. In this case, the
+limit side of the order actually prevents the sale of the stock and you risk
+riding it all the way down until you change your order. For example, say you
+purchased a stock at $8 near its peak. On the day the company’s CEO and
+CFO were fired, the stock dropped to $4.05. You may have had a stop-limit
+order in place to sell at $5, but on the day of the firing, the price dropped so
+rapidly after the company announced the firing that your stop-limit order
+could not be filled at your limit price.
+Stop-limit orders, like stop orders, are more commonly used when trading on
+an exchange than in an OTC market. Broker-dealers likewise can limit the
+securities on which stop-limit orders can be placed. If you want to use stoplimit orders, be sure to review the rules with your broker before trying to
+execute them.
+
+Good ’til canceled orders
+You can avoid having to replace an order time and again by using a good ’til
+canceled (GTC) order. GTC orders are placed at a limit price and last until
+the order actually is executed or you decide to cancel it. A GTC order won’t
+be executed until the limit price is reached, regardless of how many days or
+weeks it takes.
+You can choose to use this type of order whenever you want to set a limit
+price that differs significantly from the current market price. Many brokerage
+firms limit how much time a GTC can remain in place, and most of them
+charge more for executing this type of order.
+
+Other order types
+Less commonly used order methods include contingent, all-or-none, and
+fill-or-kill orders. Contingent orders are placed on the contingency that
+another one of your stock holdings is sold before the order is placed. An
+all-or-none order specifies that all the shares of a stock be bought according
+to the terms indicated or none of the stock should be purchased. A fill-or-kill
+order must be filled immediately upon placement or killed.
+
+Chapter 3
+
+Going for Broke(r): Discovering
+Your Brokerage Options
+In This Chapter
+▶ Discovering broker types and services
+▶ Finding out about broker service options
+▶ Sorting through different types of brokerage accounts
+▶ Deciphering trading rules
+
+A
+
+s an individual, you can’t trade stocks — or bonds, or options, or
+futures — unless you have a broker or are a broker yourself. That
+doesn’t mean, however, that you have to work with a human being to trade
+stocks. Online brokers and direct-access brokers enable you to make trades
+electronically, so you never have to speak with a human being unless you’re
+having a technical problem.
+The differences between brokers are based on prices, services, and special
+capabilities. High-volume swing traders and day traders typically require the
+services of a direct-access broker, while position traders can and do trade
+successfully with more traditional discount, online, and full-service brokers.
+In this chapter, we help you understand the brokerage options that are
+available, the types of accounts you can establish, and the basic trading rules
+you must follow.
+
+Why You Need a Broker
+Unless you plan to get your brokerage license from the National Association
+of Securities Dealers (NASD) and set up shop yourself (which is hard — and
+expensive — to do), you need to work with a broker to be able to buy and sell
+stocks. How you choose a broker is based on the level of individual services
+you want. The more services you want, the more you pay for your ability to
+trade.
+
+34
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+As an individual, you open your account with a brokerage house, but if you
+work with a human being, that person is considered a broker. Brokerage
+houses or brokerage services are also usually referred to as brokers for
+short. Actually there are many levels of brokers, which we cover in greater
+detail in Chapter 20 when we talk about licensing.
+On one side of the spectrum is the full-service broker who does a lot of
+hand-holding and offers stock research and advice and other human-based
+services. When using a full-service broker, you pay a significant commission
+for each stock trade. In the middle are discount brokers that offer fewer
+services, but charge less per trade. On the opposite side of the equation
+are direct-access brokers, who offer few human-based services and instead
+provide extensive trading platforms so you can trade electronically and
+access the stock exchange systems directly on a real-time basis.

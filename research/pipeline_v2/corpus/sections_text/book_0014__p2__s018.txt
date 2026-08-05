@@ -1,0 +1,1088 @@
+
+Average Annual
+Profit ($)
+
+Average Annual Max
+Draw‐Down ($)
+
+Max Draw‐Down
+($)
+
+Gain‐to‐Pain
+Ratio
+
+1
+
+462
+
+1,720
+
+4,140
+
+0.27
+
+2
+
+2,823
+
+2,507
+
+4,990
+
+1.13
+
+3
+4
+5*
+6
+7
+8
+
+4,558
+4,972
+7,656
+8,115
+9,527
+10,555
+
+3,292
+3,737
+4,301
+5,317
+6,069
+6,069
+
+5,498
+5,916
+7,520
+9,416
+10,786
+11,504
+
+1.38
+1.33
+1.78
+1.53
+1.56
+1.74
+
+*Baseline
+
+The gain‐to‐pain ratio, formed by dividing average annual profit by average annual max draw‐down, shows that carrying a max of five positions
+offers the best trading solution. On the practical side, the average and max
+draw‐down figures for that solution are too large for a $20,000 account; the
+average max draw‐down per year exceeds 21 percent, and the max draw‐
+down is over 37 percent. Let’s see if we can use other money management
+techniques to reduce the risk.
+■ Position Hedging
+
+TABLE 13.2 Hedging with Short SPY Positions
+Number of Long/
+Short Positions
+
+Average Annual
+Profit ($)
+
+Average Annual Max
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+5/0*
+5/1
+5/2**
+5/3
+
+7,656
+7,428
+7,202
+6,974
+
+4,301
+3,933
+3,792
+3,823
+
+7,520
+6,931
+6,589
+7,271
+
+1.78
+1.89
+1.90
+1.82
+
+*Baseline
+** New baseline
+
+The hedging strategy significantly helps in the draw‐down department.
+With five longs and two shorts, profitability is reduced by about $450 per
+year, but average max draw‐down and max draw‐down are reduced even
+more. Since risk is what we’re trying to minimize in the small account, we’ll
+keep the 5/2 solution as the new baseline.
+
+217
+STOCK STRATEGY
+
+A shortcoming of our stock strategy is the fact that we only trade from the
+long side. When the market turns down as it did in 2000–2001 and 2008,
+most of the long trades will lose. Let’s try adding a downside hedge to the
+baseline strategy. An easy way to do that is to sell short one or more $5,000
+positions of a market surrogate like the exchange-traded fund (ETF) for
+S&P 500 (stock symbol SPY). Since eight positions is the most we can trade
+with a $20,000 account, we can carry up to three hedged positions with
+our max of five long positions before we have to reduce the number of long
+positions by one. Another note is that some accounts (usually retirement
+accounts) are prohibited from short‐selling, so they can’t hedge in this manner. There are other hedging techniques available to these accounts, such as
+buying inverse ETFs or put options, so this is not a limitation of the money
+management technique.
+Table 13.2 shows the results when we hedge with one to three SPY positions.
+
+It might surprise some that this hedging strategy has such a large
+impact on performance. It would seem that you’re just neutralizing two
+of the longs with the two shorts. The reality is that the average long
+trade makes about 1 percent in two days, a compounded rate of over
+250 percent a year. The SPY, on average, loses just a small fraction of
+that amount.
+As one last refinement, there may be times when the market is in a
+severe down‐turn and the 70‐day trend filter reduces the number of
+stocks that can trade to a small fraction of the total 100. Maybe the SPY
+hedge shouldn’t be on when the number of trades falls below a certain
+threshold? This concept was tested, and it turns out that the hedge of
+two SPY positions should only be on when there are two or more active
+Nasdaq 100 trades. Table 13.3 compares this new baseline solution with
+the old.
+TABLE 13.3 Limiting the Hedge by Number of Ongoing Trades
+Average Annual
+Profit ($)
+
+Average Annual Max
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+5/2*
+5/2 if at least 2 trades**
+
+7,202
+6,786
+
+3,792
+3,242
+
+6,589
+6,099
+
+1.90
+2.09
+
+*Baseline
+** New baseline
+
+Figure 13.1 shows the equity curve for the baseline stock strategy.
+
+120,000
+100,000
+
+80,000
+60,000
+40,000
+20,000
+0
+
+1/1/2000
+12/6/2000
+22/11/2000
+4/5/2001
+14/10/2001
+26/3/2002
+5/9/2002
+15/2/2003
+28/7/2003
+7/1/2004
+18/6/2004
+28/11/2004
+10/5/2005
+20/10/2005
+1/4/2006
+11/9/2006
+21/2/2007
+3/8/2007
+13/1/2008
+24/6/2008
+4/12/2008
+16/5/2009
+26/10/2009
+7/4/2010
+17/9/2010
+27/2/2011
+9/8/2011
+
+STOCK STRATEGY
+
+218
+
+Number of Long/Short
+Positions
+
+Equity Curve for Stock System when Positions Are Limited
+to Five Longs and Two Short Hedges
+
+FIGURE 13.1
+
+Table 13.4 shows the year‐by‐year return and max draw‐down.
+TABLE 13.4 Small‐Account Money Management Stock Strategy: Open‐ and
+Closed‐Trade Equity Curve, Year‐by‐Year Performance
+Year
+
+Yearly Profit ($)
+
+Annual Max Draw‐Down ($)
+
+2000
+
+8,933
+
+4,341
+
+2001
+
+14,601
+
+3,763
+
+2002
+
+15,175
+
+3,360
+
+2003
+
+9,228
+
+2,423
+
+2004
+
+5,028
+
+2,777
+
+2005
+
+7,345
+
+1,728
+
+2006
+
+255
+
+3,242
+
+2007
+
+5,877
+
+1,820
+
+2008
+
+165
+
+4,650
+
+2009
+
+9,593
+
+2,545
+
+2010
+
+6,900
+
+2,150
+
+2011
+
+–1,665
+
+6,099
+
+This trading solution could be used for accounts ranging from $20,000 to
+$40,000. For the small‐account trader with a high pain threshold a willingness
+to trade it with $20,000, the following is the type of ride he or she can expect:
+
+A more conservative trader choosing to trade with $40,000 of account
+equity would see half the pain and half the reward.
+As the account grows, the trader can shift to better solutions. Table 13.5
+shows mixes of longs and short hedges that maximize the gain‐to‐pain ratio
+for a given number of long positions.
+TABLE 13.5 Small‐Account Stock Trading Solutions
+Minimum Account Size
+to Cover Margin for
+$5,000 Positions ($)
+
+Number of
+Long/Short
+Positions
+
+Average
+Annual Profit
+($)
+
+Average Annual
+Max Draw‐
+Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐
+Pain Ratio
+
+5/2
+
+6,786
+
+3,242
+
+6,099
+
+2.09
+
+17,500
+
+9/3
+
+10,414
+
+4,857
+
+10,277
+
+2.14
+
+30,000
+
+11/4
+
+11,771
+
+5,461
+
+10,854
+
+2.16
+
+37,500
+
+12/5
+
+12,631
+
+5,812
+
+11,176
+
+2.17
+
+42,500
+
+13/6
+
+13,137
+
+6,057
+
+11,147
+
+2.17
+
+47,500
+
+18/7
+
+15,598
+
+7,085
+
+13,191
+
+2.20
+
+62,500
+
+219
+STOCK STRATEGY
+
+Average annual return: 34 percent
+Average max draw‐down per year: 16 percent
+Max draw‐down: 30 percent
+
+For each long/short solution, the number of indicted hedge positions
+was placed only if there were that many Nasdaq long positions, or greater.
+Table 13.5 indicates that as the account equity grows, better trading solutions, as measured by the gain‐to‐pain ratio, are available. There is a point
+(seven $5,000 SPY positions) where the number of hedge positions can’t be
+increased because there aren’t enough average Nasdaq trades to increase the
+gain‐to‐pain ratio.
+There is a way to take advantage of the gaps between minimum account
+sizes for each solution: to increase trade size from $5,000 upward for both
+the long and hedge trades to maintain exposure near the max dollar commitment the brokerage will allow to be traded for the account size. If you’re
+trading the 5/2 solution, and account equity has grown to $25,000, and the
+brokerage allows two‐to‐one leverage, you can put on $50,000 of trades
+across your five longs and two shorts. Your trade size can then be just over
+$7,000 a position instead of $5,000. The trader should take advantage of
+these solutions as his or her account grows with the ultimate goal of building
+the account to large account status.
+
+STOCK STRATEGY
+
+220
+
+■ Conclusion
+In this chapter, we developed small‐account trading solutions for the
+Donchian stock strategy. Because of the lack of a group structure, and the
+high correlation among the 100 stock components, most of the small‐
+account money management techniques we used with the commodity
+strategy weren’t effective with the stock strategy. But hedging with short
+positions in the S&P 500 SPY ETF allowed our stock strategy to have an
+average annual profit greater than the max draw‐down and over twice as
+large as the average annual max draw‐down.
+
+CHAPTER 14
+
+Traditional Money
+Management
+Techniques for
+Large Accounts:
+Commodities
+T
+
+he previous two chapters detailed the problems faced by the small‐
+account trader. With a small account, he or she is forced to take more
+relative risk than a large‐account trader. Taking a $2,000‐risk trade with
+$20,000 account equity means the small‐account trader is risking 10 percent
+of capital; he or she is always a small number of adverse trades away from a
+margin call. A large‐account trader can employ money management techniques that result in a far lower relative risk. Employing these strategies
+ensures that the large‐account trader is many, many adverse trades away
+from a margin call. His or her smaller relative risk can be managed to yield
+a solid return.
+There is also a key difference in the development of a finalized money
+management overlay for the large account. In our small‐account development, we were most concerned with limiting risk, so in some cases we
+accepted a tactic that didn’t improve the quality of the trading solution as
+   +    (  +     ,( 
+  #  & - #.   & + "
+& + "#$ %    !"
+
+221
+
+measured by the gain‐to‐pain ratio. With large accounts, we want the best
+trading solution available, so all decisions will be based on the gain‐to‐pain
+ratio. At the end of development, leverage in the form of the amount risked
+per trade will bring that solution to a risk level acceptable to the trader.
+The large‐account trader will use some of the same money management
+strategies as the small‐account trader: limit risk, diversify, and limit group
+exposure. An additional technique that the large‐account trader can use is
+a buy strategy that allows n‐lot trades with a small, constant risk exposure.
+Before these strategies are detailed, the fixed‐risk sizing technique we will
+use will be reviewed.
+■ Fixed-Risk Sizing
+
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+222
+
+In this money management approach, a fixed percentage of equity is risked
+on each trade. It is implemented by multiplying the fixed percentage by account equity on the day of the trade to determine the dollar amount to be
+risked. Then, the strategy’s trade risk is used to determine the number of
+contracts that should be traded to risk the desired amount. For example, if
+account size is $150,000 and the fixed percentage the trader has decided to
+risk is 3 percent, $4,500 could be risked on a trade signal (0.03 multiplied
+by $150,000). If the trade risk for a signal is $600 (distance to initial stop,
+converted to dollars), seven contracts would be bought or sold on the signal
+(a fractional number of contracts is rounded down). This example illustrates
+that a sizeable account is required to implement this conservative money
+management strategy; otherwise the fixed percentage of equity will be too
+small to support even a one‐contract trade.
+This strategy was tested on the Donchian trend‐following strategy across
+the 56‐commodity database (1980–2011). A starting account equity of
+$1,000,000 was used.Table 14.1 highlights performance metrics for various
+fixed‐risk percentages.
+
+TABLE 14.1
+Percent Risked
+per Trade
+
+1
+2
+3
+4
+
+Fixed‐Risk Performance
+Average Annual
+Return (%)
+
+Average Annual Max
+Draw‐Down (%)
+
+90.6
+207.9
+347.1
+503.4
+
+17.5
+29.0
+37.8
+44.9
+
+Max Draw‐Down (%) Gain‐to‐Pain Ratio
+
+39.8
+61.6
+75.4
+84.5
+
+5.17
+7.17
+9.18
+11.21
+
+Table 14.1 highlights a number of points regarding the fixed‐risk sizing
+strategy:
+■
+■
+
+■
+
+Excellent returns can be achieved with a small fixed‐risk percentage.
+As fixed‐risk percentage increases, so do the annual return and draw‐
+down. Though not shown, this trend continues until a fixed‐risk percentage is reached that causes a draw‐down to exceed account equity so
+trading stops.
+The ratio of return to risk is continually increasing, though at a decreasing rate, as the gain‐to‐pain ratio shows. This means that the more risk a
+trader can take, the greater the relative reward.
+
+■ Portfolio Selection
+As we saw during development of the small‐account portfolios in Chapter 12,
+not all the commodities are worth trading. There are three losing commodities: live cattle, lean hogs, and cocoa. Those will be left out of the large‐
+account portfolio. Table 14.2 shows the commodities that will form the
+basis for development.
+TABLE 14.2 Commodity Portfolio for Large Account
+Group
+
+Commodities
+
+Grains
+Meats
+Softs
+Metals
+
+Rough Rice, Bean Oil, Bean Meal, Soybeans, Corn, KC Wheat, Wheat
+Feeder Cattle
+Cotton, Sugar, Lumber, Coffee, Orange Juice
+Copper, Silver, Gold, Palladium, Platinum, London Aluminum, London
+Aluminum Alloy, London Copper, London Nickel
+(continued )
+
+223
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+The recommended way to trade this approach is to mentally determine
+the largest percentage draw‐down you could trade through and select a
+fixed‐risk percentage that yields a max draw‐down number less than that
+amount. If the return is satisfactory for that draw‐down, trading can commence with the strategy. Many will overestimate the draw‐down they can
+sustain because of the lure of potentially larger returns. They will rationalize the ease of sustaining a 39 percent draw‐down to achieve a 208 percent
+return, but when the draw‐down occurs in real trading, reality may set in.
+Only a small percentage of traders can watch an account diminish by 40
+or 50 percent and remain with the approach, even if that was the expected
+eventuality going into trading.
+
+TABLE 14.2 (Continued )
+Group
+
+Commodities
+
+Currencies
+
+Mexican Peso, Dollar Index, British Pound, Japanese Yen, Swiss Franc,
+Canadian Dollar, Australian Dollar, Euro‐Currency
+Heating Oil, Reformulated Gas, Brent Crude, Crude Oil, Mini
+Natural Gas
+Euro Bund, Eurodollar, 2‐Year Note, 10‐Year Note, 30‐Year Bond, 5‐Year
+Note, Australian Bond, Canadian Government Bond, Long Gilt, Spanish Bond,
+Simex JGB Bond
+Nikkei, Mini Nasdaq, Hang Seng, DAX, Mini Russell, Mini Midcap,
+Mini S&P
+
+Energies
+Financials
+
+Stock Indices
+
+Table 14.3 shows performance for various fixed‐risk percentage values
+on the new portfolio.
+
+TABLE 14.3 Fixed-Risk Performance on Large Portfolio
+Percent Risked
+Average Annual Max
+per Trade
+Average Annual Return (%)
+Draw‐Down (%)
+
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+224
+
+1
+2
+3
+4
+
+89.9
+208.8
+353.5
+519.5
+
+16.9
+28.2
+37.0
+44.2
+
+Max Draw‐Down (%) Gain‐to‐Pain Ratio
+
+39.0
+60.6
+74.5
+83.8
+
+5.32
+7.40
+9.55
+11.75
+
+The draw‐downs are still too large for the strategy to be tradeable.
+Our portfolio contains some groups with a lot of commodities: The financial group has 11, the metals have 9, and the currencies have 8. Let’s
+limit group exposure and see if the draw‐downs can be reduced.
+■ First-N-in-a-Group
+In this money management approach, group exposure is limited to N commodities. If a group, like the grains, is in N commodity trades and a new
+grain trade is signaled, that trade is bypassed. Table 14.4 shows performance
+when group exposure is capped at N commodities and 1 percent of equity
+is risked per trade.
+The gain‐to‐pain ratio shows there’s a modest performance enhancement
+when group exposure is limited to a max of seven. There is also a small drop
+
+TABLE 14.4 Limiting Exposure to Max N in a Group
+Max Number in
+Group
+
+Average Annual
+Return (%)
+
+Average Annual Max
+Draw‐Down (%)
+
+Max Draw‐Down (%)
+
+Gain‐to‐Pain Ratio
+
+All Trades*
+4
+5
+6
+7**
+8
+
+89.9
+67.4
+78.4
+84.6
+87.9
+89.1
+
+16.9
+14.3
+15.1
+16.2
+16.4
+16.7
+
+39.0
+30.3
+32.8
+35.8
+37.4
+39.0
+
+5.32
+4.71
+5.19
+5.22
+5.36
+5.34
+
+*Baseline
+**New baseline
+
+in average max draw‐down and max draw‐down. That money management
+rule will be added to form the new baseline.
+■ Limit Trade Risk on Entry
+
+TABLE 14.5 Limit Trade Risk on Entry
+Trade Risk Limit
+
+Average Annual
+Return (%)
+
+Average Annual Max
+Draw‐Down (%)
+
+Max Draw‐Down (%)
+
+Gain‐to‐Pain Ratio
+
+All Trades*
+
+87.9
+
+16.4
+
+37.4
+
+5.36
+
+$6,000
+
+87.8
+
+16.4
+
+37.4
+
+5.35
+
+$5,000
+
+87.1
+
+16.4
+
+37.4
+
+5.31
+
+$4,000
+
+86.7
+
+16.3
+
+36.8
+
+5.32
+
+$3,000
+
+83.5
+
+16.3
+
+37.2
+
+5.06
+
+$2,000
+
+77.4
+
+15.8
+
+34.3
+
+4.90
+
+*Baseline
+
+You might be surprised that this tactic didn’t improve our trading solution: The $2,000 trade risk limit worked very well in our small‐account
+development. The reason is the normalization that takes place with our
+
+225
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+This technique is the same as we explored in Chapter 12. When a trade is
+originated, the trade risk is the distance, converted to dollars, from the
+entry point to the catastrophic stop loss point. Because our three standard
+deviation stop is volatility‐based, some trades will have a relatively small
+risk, and some a relatively large risk. Using this money management strategy, trades with a high trade risk are bypassed. Table 14.5 shows results for
+a range of entry‐risk thresholds.
+
+sizing approach. If, for a given equity level, our large‐account sizing approach were to take a 10‐lot of a trade with a $2,000 entry trade risk,
+it would take a 5‐lot of a trade with a $4,000 entry trade risk. The total
+risk for the position is the same. In the small account where we’re trading
+one‐lots of everything, the $4,000 position has twice the risk of the $2,000
+position. This normalization in large‐account trading makes no one trade
+riskier than any other; hence they all should be used. Let’s look at the next
+large‐account money management tactic.
+■ Limit the Total Number of Open Trades
+Again, this is the same strategy used for the small‐account money management analysis in Chapter 12. If the number of ongoing open trades reaches
+a limit, signaled trades are bypassed. Table 14.6 shows the pertinent trade
+statistics when the number of open trades is capped.
+TABLE 14.6 Limit the Total Number of Open Trades
+
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+226
+
+Max Number of
+Open Trades
+
+Average Annual
+Return (%)
+
+All Trades*
+35
+30**
+25
+
+87.9
+87.7
+87.5
+81.3
+
+Average Annual Max
+Draw‐Down (%)
+
+16.4
+16.4
+16.3
+15.3
+
+Max Draw‐Down (%)
+
+37.4
+37.4
+37.4
+36.6
+
+Gain‐to‐Pain Ratio
+
+5.36
+5.35
+5.37
+5.31
+
+*Baseline
+**New baseline
+
+The results show that this money management technique only marginally
+improves results. Limiting open trades to a max of 30 will be added as the
+new baseline. That this tactic did not significantly improve results is more
+surprising than the fact that eliminating risky trades did not improve performance. There definitely is an ebb and flow in the number of open trades—
+sometimes many, sometimes few. It would seem to make sense that both
+risk and reward increase when there are a relatively high number of trades,
+so limiting trades should reduce the draw‐downs, but for this strategy it
+barely makes a difference. It’s my experience that this money management
+tactic works best with longer‐term trend‐following strategies; those that
+hold trades longer and consequentially have a higher profit‐per‐trade as well
+as a larger open‐equity give‐back.
+
+■ Limit the Percentage of Open-Trade Risk
+This technique is similar to the small‐account money management strategy of limiting the open‐trade dollar risk of a trade to a max amount.
+The difference is that instead of a fixed dollar cap, a percentage value is
+formed by dividing the dollar value of the open‐trade risk by total account
+equity. Open trades that exceed a percentage value limit of equity are
+exited. Note that this is a form of profit‐taking; trades that reach the limit
+are deeply in profit, and the exit is done at the peak profit of the trade to
+that point. Table 14.7 shows results when this technique is added to the
+baseline.
+
+TABLE 14.7 Limit the Max Open-Trade Risk Percentage
+Trades Limited to a Max
+Open-Trade Percent of Equity
+
+All*
+8
+7
+6
+5
+
+Average Annual
+Return (%)
+
+87.5
+80.7
+78.1
+76.2
+72.2
+
+Average Annual Max
+Draw‐Down (%) Max Draw‐Down (%)
+
+16.3
+16.1
+16.1
+15.7
+15.4
+
+37.4
+37.3
+37.4
+34.7
+36.5
+
+Gain‐to‐Pain
+Ratio
+
+5.37
+5.01
+4.85
+4.85
+4.68
+
+This technique does not improve the trading solution and will not be
+added.
+■ Limit the Percentage of Total Portfolio
+
+Open-Trade Risk
+
+This technique is similar to the small‐account money management strategy
+of limiting the total portfolio open‐trade dollar risk to a max amount. The
+difference is that instead of a fixed dollar cap, a percentage value is formed
+by dividing the total portfolio dollar value of open‐trade risk by total account equity. If the limit is exceeded, the trade with the largest open‐trade
+risk is exited. Note that this is a form of profit‐taking; the trade that is exceeded will be deeply in profit, and the exit is done at the peak profit of the
+trade to that point. Table 14.8 shows results when this technique is added
+to the baseline.
+
+227
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+* Baseline
+
+TABLE 14.8 Limit the Total Portfolio Max Open‐Trade Risk Percentage
+Trades Limited to a Max
+Average Annual
+Open‐Trade Percent of Equity
+Return (%)
+
+All*
+
+87.5
+
+Average Annual Max
+Draw‐Down (%)
+Max Draw‐Down (%)
+
+16.3
+
+37.4
+
+Gain‐to‐Pain
+Ratio
+
+5.37
+
+50
+
+84.4
+
+16.1
+
+36.7
+
+5.24
+
+40
+
+77.9
+
+15.3
+
+35.1
+
+5.09
+
+30
+
+62.6
+
+14.8
+
+29.0
+
+4.23
+
+* Baseline
+
+1E+14
+1E+13
+1E+12
+1E+11
+1E+10
+1E+09
+100,000,000
+10,000,000
+1,000,000
+100,000
+
+1/1/1980
+27/2/1981
+26/4/1982
+23/6/1983
+19/8/1984
+16/10/1985
+13/12/1986
+9/2/1988
+7/4/1989
+4/6/1990
+1/8/1991
+27/9/1992
+24/11/1993
+21/1/1995
+19/3/1996
+16/5/1997
+13/7/1998
+9/9/1999
+5/11/2000
+2/1/2002
+1/3/2003
+27/4/2004
+24/6/2005
+21/8/2006
+18/10/2007
+14/12/2008
+10/2/2010
+9/4/2011
+
+TECHINQUES FOR LARGE ACCOUNTS: COMMODITIES
+
+228
+
+This technique does not improve the trading solution and will not be
+added. The fact that there is a change from the baseline when trades are
+exited if the total percentage of open‐trade risk is 50 percent of the portfolio signifies that there is a large variation in the percentage of portfolio
+open‐trade risk; 50 percent of account equity is a lot, especially when we’re
+only risking 1 percent of equity at trade origination. It would seem that
+curtailing trades when portfolio risk is at the large extremes would be the
+prudent thing to do, but Table 14.8 clearly shows otherwise (with this strategy). In my experience this money management technique is effective with
+strategies that have a relatively large open‐trade equity give‐back.
+Figure 14.1 shows open‐ and closed‐trade equity buildup for the baseline
+large‐account money management solution on our commodity strategy. The
+equity is plotted on a logarithmic scale.
+
+FIGURE 14.1 Open‐ and Closed‐Trade Equity Curve for Commodity Strategy
+
+Table 14.9 shows the year‐by‐year returns and draw‐downs.
+
+TABLE 14.9 Annual Return and Max Draw‐Down for Large‐Account Trading of
+the Commodity Strategy
+Year

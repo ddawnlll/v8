@@ -1,0 +1,395 @@
+
+Getting to know types of derivatives
+Day traders are likely to come across three types of derivatives: options,
+futures, and warrants. Options and futures trade on dedicated derivatives
+exchanges, whereas warrants trade on stock exchanges.
+
+Chapter 3: Deciding What to Trade and How to Trade It
+
+What about bitcoins?
+Bitcoins are a virtual currency that is created
+through a computer-programming mining
+process. They can then be exchanged for
+goods or traded for dollars, yen, or euros.
+Bitcoins have a novelty factor (some tech
+conferences accept bitcoins as payment
+for registration or t-shirts), and some people
+think that they will be the global currency of
+
+the future. Who knows? There is a market
+for trading them, some people have made
+money, and if you’re game, it could be the
+market for you. Just be sure to trade them the
+same way you would trade anything. Have a
+plan, stick to the plan, and manage your risk.
+You can get more information at https://
+bitcoinfoundation.org.
+
+Options
+An option is a contract that gives the holder the right, but not the obligation,
+to buy or sell the underlying asset at an agreed-upon price at an agreed-upon
+date in the future. An option that gives you the right to buy is a call, and one
+that gives you the right to sell is a put. A call is most valuable if the stock price
+is going up, whereas a put has more value if the stock price is going down.
+Here’s one way to remember the difference: You call up your friend to put
+down your enemy.
+For example, a MSFT 2013 Aug 26.00 call gives you the right to buy Microsoft
+at $26.00 per share at the expiration date on the third Friday in August 2013.
+(Did you know that traders refer to Microsoft as “Mr. Softy”? Clever, huh?) If
+Microsoft is trading above $26.00, you can exercise the option and make a
+quick profit. If it is selling below $26.00, you could by the stock cheaper in
+the open market, so the option would be worthless.
+You can find great information on options, including online tutorials, at the
+Chicago Board Options Exchange website, www.cboe.com.
+
+Futures
+A futures contract gives you the obligation to buy a set quantity of the underlying asset at a set price and a set future date. Futures started in the agricultural industry because they allowed farmers and food processors to lock in
+their prices early in the growing season, reducing the amount of uncertainty
+in their businesses. Futures have now been applied to many different assets,
+ranging from pork bellies (which really do trade — they are used to make
+bacon) to currency values. A simple example is a lock in a home mortgage
+rate; the borrower knows the rate that will be applied before the sale is
+closed and the loan is finalized. Day traders use futures to trade commodities
+without having to handle the actual assets.
+
+65
+
+66
+
+Part I: Getting Started with Day Trading
+Most futures contracts are closed out with cash before the settlement
+date. Financial contracts — futures on currencies, interest rates, or market
+index values — can only be closed out with cash. Commodity contracts
+may be settled with the physical items, but almost all are settled with
+cash. No one hauls a side of beef onto the floor of the Chicago Board of
+Trade!
+
+Warrants
+A warrant is similar to an option, but it’s issued by the company rather than
+sold on an organized exchange. (After they are issued, warrants trade similarly to stocks.) A warrant gives the holder the right to buy more stock in the
+company at an agreed-upon price in the future.
+A cousin of the warrant is the convertible bond, which is debt issued by the
+company. The company pays interest on the bond, and the bondholder has
+the right to exchange it for stock, depending on where interest rates and the
+stock price are. Convertibles trade on the stock exchanges.
+
+Buying and selling derivatives
+Derivatives trade a little differently than other types of securities because
+they are based on promises. When someone buys an option on a stock,
+they aren’t trading the stock with someone right now; they’re buying the
+right to buy or sell it in the future. That means that the option buyer needs
+to know that the person on the other side is going to pay up. Because of
+that, the derivatives exchanges have systems in place to make sure that
+those who buy and sell the contracts will be able to perform when they
+have to. Requirements for trading derivatives are different than in other
+markets.
+
+How derivatives trade
+I talk about marginability earlier in this chapter, but the word margin is used
+differently when discussing derivatives, in part because derivatives are
+already leveraged. You aren’t buying the asset, just exposure to the price
+change, so you can get a lot of bang for your buck. (The risks and rewards of
+leverage are covered in detail in Chapter 9.)
+Margin in the derivatives market is the money you have to put up to ensure
+that you’ll perform on the contract when it comes time to execute it. In the
+stock market, margin is collateral against a loan from the brokerage firm. In
+the derivatives markets, margin is collateral against the amount you may
+have to pay up on the contract. The more likely it is that you will have to pay
+
+Chapter 3: Deciding What to Trade and How to Trade It
+the party who bought or sold the contract, the more margin money you have
+to put up. Some exchanges prefer to use the term performance bond instead
+of margin.
+To buy a derivative, you put up the margin with the exchange’s clearing
+house. That way, the exchange knows that you have the money to make good
+on your side of the deal — if, say, a call option that you sell is executed or
+you lose money on a currency forward that you buy. Your brokerage firm
+arranges for the deposit.
+At the end of each day, derivatives contracts are marked-to-market, meaning
+that they are revalued. Profits are credited to the trader’s margin account,
+and losses are deducted. If the margin falls below the necessary amount, the
+trader gets a call and has to deposit more money.
+By definition, day traders close out at the end of every day, so their options
+are not marked-to-market. The contracts are someone else’s problem, and the
+profits or losses on the trade go straight to the margin account, ready for the
+next day’s trading.
+
+Where derivatives trade
+In the olden days, derivative trading involved open outcry on physical
+exchanges. Traders on the floor received orders and executed them among
+themselves, shouting and using hand signals to indicate what they wanted
+to do. As I write this, vestiges of floor trading remain on some derivatives
+exchanges, but there are fewer and fewer of them.
+Almost all traders work “upstairs,” as they say on the exchanges, trading
+electronically. Some are employees of large commodities brokerage firms,
+and others are independent. Employed and independent traders alike may
+work by executing someone else’s orders for a fee, or they may work for
+proprietary accounts.
+All the derivatives exchanges offer electronic trading services, even if they
+still have trading floors. As electronic trading has become more popular, it
+has chased many experienced floor traders into retirement because they
+can’t all make the transition, and it has caused much restructuring and
+consolidation among the exchanges.
+
+Chicago Board Options Exchange (CBOE)
+The Chicago Board Options Exchange, often known by the acronym CBOE
+(pronounced see-bo), is the largest options market in the United States.
+This is where orders for stock options are traded. Brokerage firms use floor
+brokers in the trading pits or the CBOE’s electronic trading system to handle
+customer orders. You can find out more at its website, www.cboe.com.
+
+67
+
+68
+
+Part I: Getting Started with Day Trading
+The CME Group
+The CME Group (www.cmegroup.com) is made up of the Chicago Board of
+Trade (CBOT), the Chicago Mercantile Exchange (CME, also called the Merc),
+and the New York Mercantile Exchange (NYMEX). The three exchanges
+merged in 2008, although people often refer to each by its former name.
+Historically, the Board of Trade specialized in such agricultural commodities
+as corn, wheat, rice, oats, and soybeans, while the Merc offered contracts
+in non-grain agricultural products (like milk, butter, cattle, pork bellies, and
+fertilizer) and in foreign exchange, interest rates, and Standard & Poor’s
+and NASDAQ indexes. Fuels and metals traded at the New York Mercantile
+Exchange.
+The combined CME Group offers a suite of products, known as their E-mini
+contracts, for smaller traders. These products allow day traders to play in
+different agricultural and financial markets without as much margin as would
+be required for full-sized CME contracts. The E-minis are all traded electronically, too. Currently, E-minis are available on wheat, corn, and soybeans, as
+well as on stock market indexes in the United States and overseas.
+
+Intercontinental Exchange (ICE)
+The Intercontinental Exchange (www.theice.com) is a relatively new company that has acquired commodity and futures exchanges in North America
+and Europe. In 2008, it acquired the New York Board of Trade, which offers a
+range of agricultural and financial contracts, especially on coffee, cotton, and
+currency exchange rates. Orders are filled in the trading pits or through an
+electronic trading system. Although the ICE doesn’t have contracts designed
+specifically for smaller traders, many day traders who like commodities and
+who have enough capital to manage the margin trade there.
+
+International Securities Exchange (ISE)
+The International Securities Exchange (www.ise.com) is the U.S. subsidiary
+of Eurex, a German derivatives trading firm. It handles trades in equity and
+foreign-exchange options, including a series of mini options for small traders.
+These minis are options on only 10 shares of the underlying, as opposed to a
+standard option, which is on 100 shares.
+
+Chapter 4
+
+Defining Trading: Risk, Reward,
+and Timing
+In This Chapter
+▶ Taking on risk and getting a return
+▶ Investing for the long haul versus trading for the day
+▶ Keeping the risks in mind
+
+D
+
+ay trading isn’t investing, nor is it gambling — at least not if done right.
+But the lines between the three can be thin. By knowing where the lines
+are, you’ll be in a better position to follow your trading strategy and make
+more money. And if you can avoid the trap of gambling, you’ll be better able
+to preserve your trading capital.
+
+The difference between investing and gambling is the risk and return tradeoff. In investing, the odds are generally in your favor, but that doesn’t mean
+you’re going to make money. In gambling, the odds are against you. And
+unlike in the finer establishments in Las Vegas, if you end up gambling as a
+day trader, no one is going to bring you free drinks or tickets to some extravagant show to help ease the pain of failing. A lot comes down to personality; if
+you’re on a casino’s “do not admit” list, you probably aren’t a great candidate
+for day trading.
+Day trading is starting to look more like gambling than it has in years past,
+because high-frequency traders are taking more of the arbitrage and scalping
+opportunities. Be sure you’re comfortable with the risk before you start to
+trade.
+This chapter starts off with a lot of gory details about risk and return. My
+goal is to help you understand how the securities markets price risk and
+reward those who are willing to take it. Then I explain the differences in risk
+and reward for investors, traders, and gamblers to give you better information to help you plan your day trading.
+
+70
+
+Part I: Getting Started with Day Trading
+
+Understanding Risk and Return
+Investors, traders, and gamblers have this in common: They put their money
+at risk, and they expect to get a return. Ideally, that return comes in the form
+of cold, hard cash, but if they’re not careful, they could get nothing — or
+worse, end up owing money. Traders should risk no more than they can
+afford to lose.
+Trading is a business: The more you know about the potential risks and the
+sources of your potential return, the better off you’ll be. Your risk is that you
+won’t get the return you expect, and your reward is that you get fair compensation for the risk you take.
+
+What is risk, anyway?
+Risk is the measurable likelihood of loss. The riskier something is, the more
+frequently a loss will occur, and the larger that loss is likely to be. Playing in
+traffic is riskier than driving in traffic, and skydiving is riskier than gardening.
+This doesn’t mean that you can’t have losses in a low-risk activity or big
+gains in a high-risk one. It just means that with the low-risk game, losses are
+less likely to happen, and when they do, they’re likely to be small.
+What’s the difference between risk and uncertainty? Risk involves the known
+likelihood of something good or bad happening so that it can be priced.
+What’s the likelihood of your living to be 100? Or of getting into a car accident
+tonight? Your insurance company knows, and it figures your rates accordingly.
+What’s the likelihood of aliens from outer space arriving and taking over the
+Earth? Who knows! It could happen, but that event is uncertain, not risky — at
+least until it happens.
+The ability to measure risk makes modern business possible. Until mathematicians were able to use statistics to quantify human activities, people
+assumed that bad things were simply the result of bad luck or the wrath of
+the gods. But when people understand probability, they can apply and use
+that to assess the likelihood of an event happening and determine the commensurate compensation for taking the risk. If a sailor agreed to join a voyage
+of exploration, what was the probability that he would return home alive?
+And what would be fair compensation to him for that risk? What was the
+probability of a silo of grain going up in flames? And how much should the
+farmer charge the grain buyers for the risk that he was taking, and how much
+should someone else charge to insure the farmer against that fire?
+
+Chapter 4: Defining Trading: Risk, Reward, and Timing
+Considering the probability of a loss
+Whenever you take risk, you take on the probability of loss. If you know what
+that probability is, you can determine whether the terms you’re being offered
+are fair and whether you have a reasonable expectation for the size of the loss.
+Say that you’re presented with this opportunity: You put up $10. You have
+an 80 percent chance of getting back $11 and a 20 percent chance of losing
+everything. Should you take it? To find out, you multiply the expected return
+by the likelihood and add them together: (80% × $11) + (20% × $0) = $8.80.
+Your expected return of $8.80 is less than the $10 cost of this contract, so you
+should pass on it.
+Now suppose you’re offered this opportunity: You put up $10. You have a 90
+percent chance of getting back $11 and a 10 percent chance of getting back
+$6. Your expected return is (90% × $11) + (10% × $6) = $10.50. This contract
+would be in your favor, so you should take it.
+Here’s a third proposition: You put up $10. You have a 90 percent chance of
+getting back $13.89 and a 10 percent chance of losing $20 — even more than
+you put up. Your expected return is (90% × 13.89) + (10% × –$20) = $10.50. You
+end up with the same expected return as the preceding proposition, but do
+you like it as much? Many people would not like that deal because they are
+looking at the dollar value of the loss rather than the risk. People who overreact to the risk of loss without considering the facts on hand are probably not
+going to be good traders.
+When thinking about loss, most people tend to put too much weight on the
+absolute dollar amount that they can lose, rather than thinking about the likelihood of losing it. The problem is that the markets don’t trade on your personal preferences. This is one of the psychological hurdles of trading that
+those who are successful can overcome. Can you? (You can find some tips on
+this in Chapter 8.)
+
+Working with limited liability (usually)
+Securities markets rely on the concept of limited liability. That is, you cannot
+lose any more money than you invested in the first place. If you buy a stock,
+that stock can go down to zero, but it can’t go any lower. If the company
+goes bankrupt, no one can come to you and ask you to cover the bills. On
+the other hand, the stock price can go up infinitely, so the possible return
+for your risk is huge. (Microsoft has grown more than 500 fold since it came
+public, which isn’t quite infinity, but I sure wish I had taken that proposition.)
+
+71
+
+72
+
+Part I: Getting Started with Day Trading
+Although most day-trading strategies have the same limited liability — that is,
+you can lose what you trade and no more — some strategies have unlimited
+liability. If you sell a stock short (borrow shares and then sell them in hopes
+that the stock goes down in price, allowing you to repay the loan with cheaper
+shares, a strategy discussed in Chapter 9), and if the stock goes up drastically,
+you have to repay the loan with those highly valued shares! Most likely, you’re
+going to close out your position before that happens, but even if you close out
+your positions every night like a good day trader should, some strategies have
+the potential to cost you more money than you have in your trading account.
+To protect themselves and to protect you against losing more money than you
+have, brokerage firms and options exchanges require you to keep enough
+funds in your account to cover shortfalls (known as margin, discussed in
+Chapter 3). You have to be approved before you can trade in certain securities. For example, anyone trading options has to fill out an agreement that the
+brokerage firm must first approve and then keep on file.
+
+Playing the zero-sum game
+Many day trading strategies are zero-sum games, meaning that for every
+winner on a trade, there is a loser. It’s especially true in options markets.
+Of course, the person on the other side of the trade may not mind being a
+loser; she may have entered into a trade to hedge (protect against a decline
+in) another investment and is happy to have a small loss instead of a much
+larger one.
+The problem for you as a day trader is that a zero-sum game has little
+wiggle room. Every trade you make is going to win or lose, and your losses
+may exactly offset your winners. Beating the odds is even tougher when so
+many traders are using computer algorithms. Backtesting and tracking (see
+Chapter 16) are important for assessing your changing risk.
+
+Finding the probability of not getting the return you expect
+In addition to absolute measures of risk and liability, you also need to consider volatility. That’s how much a security’s price may go up or down in a
+given time period.
+The math for measuring volatility is based on standard deviation (discussed
+in Chapters 3 and 16). A standard deviation calculation starts with the average return over a given time period. That average is the expected return —
+the return that, on average, you’ll get if you stick with your trading strategy.
+But any given week, month, or year, the return may be very different from
+what you expect. The more likely you are to get what you expect, the less risk
+you take in the form of volatility.
+
+Chapter 4: Defining Trading: Risk, Reward, and Timing
+Standard deviation shows up many times in trading, and you can find a
+detailed explanation of it in Chapter 16. The key thing to know is this: The
+higher the standard deviation of the underlying securities, the more risk you
+take with your trade. However, the same volatility creates trading opportunities for day traders to exploit. A security with a low standard deviation isn’t
+going to offer you many chances to make money over the course of a day.
+Standard deviation is used to calculate another statistic: beta. Beta tells you
+how risky a security is relative to the risk of the market itself. If you buy a
+stock with a beta of more than 1, that stock is expected to go up in price by a
+larger percentage than the market when the market is up, and it’s expected to
+go down by a larger percentage than the market when the market is down.
+High-beta stocks and options on high-beta stocks are riskier than low-beta
+stocks, but they offer a greater potential for return.
+The word beta comes from the capital assets pricing model, an academic
+theory that says that the return on an investment is a function of the risk-free
+rate of return (discussed in the next section), the extra risk of investing in the
+market as a whole, and then the volatility — beta — of the security relative to
+the market. Under the capital assets pricing model, no other sources of risk
+and return exist. Any other sources would be called alpha, but in theory, alpha
+doesn’t exist. Not everyone agrees with that, but the terms alpha and beta
+have stuck.
+
+Getting rewarded for the risk you take
+When you take risk, you expect to get a return. That’s fair enough, right? That
+return comes in a few different forms related to the risk taken. Although you
+may not really care how you get your return as long as you get it, thinking
+about the breakdown of returns can help you think about your trading strategy and how it works for you.
+
+Opportunity cost
+The opportunity cost of your money is the return you could get doing something else. Is your choice day trading or staying at your current job? Your
+opportunity cost is your current salary and benefits. You’d give up that
+money if you quit to day trade. Is the opportunity cost low enough that it’s
+worth your while? It may be. Just because taking advantage of an opportunity
+carries a cost doesn’t mean that the opportunity isn’t worth it.
+When you trade, you want to cover your opportunity cost. Your cost will be
+different than someone else’s, but if you know what that cost is up front, you’ll
+have a better idea of whether your return is worth your risk.
+
+73
+
+74
+
+Part I: Getting Started with Day Trading
+Here’s another way to think about opportunity cost. When you make one
+trade, you give up the opportunity to use that money for another trade. That
+means you only want to trade if you know that the trade is going to work
+out, more likely than not. That’s why you need to plan your trades (see
+Chapter 2) and backtest (run a simulation using your strategy and historic
+securities prices) and evaluate your performance (see Chapter 16). By doing
+these things, you know that you are trading for the right reasons and not just
+out of boredom.
+
+Risk-free rate of return and the time value of money
+The value of money changes over time. In most cases, this change is the
+result of inflation, which is the general increase in price levels in an economy.
+But the value of money also changes because you give up the use of money
+for some period of time. That’s why any investment or trading opportunity
+should include compensation for the time value of your money.
+In day trading, your returns from the time value of money are small, because
+you only hold positions for a short period of time and close them out overnight. Still, there’s some time component to the money you make. That smallest return is known as the risk-free rate of return. That’s what you demand
+for giving up the use of your money, even if you know with certainty that
+you’ll get your money back. In practice, investors think of the risk-free rate
+of return as the rate on U.S. government treasury bills, which are bonds that
+mature in less than one year. This rate is widely quoted in The Wall Street
+Journal and electronic price-quote systems.
+If you cannot generate a return that’s at least equal to the risk-free rate of
+return, you shouldn’t be trading because your return wouldn’t be appropriate
+to the risk you’re taking.

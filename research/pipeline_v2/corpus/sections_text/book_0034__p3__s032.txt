@@ -1,0 +1,406 @@
+
+316 Part IV: The Part of Tens
+Taking Money off the Table
+Here’s the simplest form of money management: When you’re up, take the
+profit rather than waiting to make even more money. Fight the greed, take the
+cash, and call it a day.
+If you have a week, month, or year with particularly strong profits, take a
+little money out of your trading account and put it in a retirement fund, use it
+to pay off a debt, or move it into a low-risk investment to help diversify your
+high-risk trading activities.
+Even if you do nothing else, taking profits when you have them can help keep
+you in the game longer.
+
+Using Stops
+Unless you’re a machine, staying disciplined all the time can be difficult.
+Humans do goofy things. That’s why there’s a simple way to force discipline
+on your trading to keep your losses from destroying your trading account: a
+stop order.
+A stop order, also called a stop-loss order, is an order to buy or sell a security
+as soon as it hits a given price, known as a stop price. The order sits dormant in
+the broker’s computer until the market price hits the stop, and then the order
+is executed. This automated action helps you lock in a profit or cut a loss. Some
+traders don’t like stops because on occasion one will be executed on a one-time
+down trade or while a stock is shooting up at price, causing them to leave some
+money on the table. However, stops are an easy way to force discipline into
+trading. They can help you manage your money with very little extra effort.
+Yes, some brokers charge an extra commission for a stop order. But it may be
+worth it.
+
+Applying Gann’s 10 Percent Rule
+The Gann money-management system is part of a complicated system of
+technical analysis used to identify good securities trades. The chart system
+is complex, but the money-management system is simple. The core of it is
+a limit on the money placed on any one trade to 10 percent of the account
+
+Chapter 21: Ten Tested Money-Management Techniques
+value, never more. The dollar value of that 10 percent goes up or down as the
+account value changes, but the 10 percent limit ensures that you always have
+some powder dry to stay in the market.
+Most traders who follow Gann’s 10 percent rule combine it with stops to limit
+losses.
+You can’t take advantage of a profitable opportunity if you have no money to
+trade. You can lose everything in your account if you let your losses run.
+
+Limiting Your Losses with the Fixed
+Fractional System
+The fixed fractional system is misnamed; it’s actually a range of fractions that
+determine how much of your trade capital to risk on any one trade. A larger
+fraction is allocated to less risky trades; a smaller fraction to more risky ones.
+The calculation can be found in Chapter 6.
+To do the calculation, you need to know how much money you can lose on
+any one trade. The study needed to determine that amount can go a long way
+toward improving your trading without getting into the math. Fixed fractional
+takes the stop a step further; it helps you limit your losses and pick up more
+from your wins by considering how much to trade along with the potential
+value of losses and gains.
+
+Increasing Returns with the
+Fixed-Ratio System
+The fixed-ratio system of money management is related to fixed fractional
+trade sizing. The key difference is that it looks at accumulated profit rather
+than total account size. (Accumulated profit is the value of the account less
+the capital that you put into it when you started trading.)
+This system was specifically designed for options and futures trading by
+Ryan Jones, a trader himself. The goal is to increase returns from winning
+trades and protect profits from losing ones. The basic calculation is in
+Chapter 6.
+
+317
+
+318 Part IV: The Part of Tens
+Following the Kelly Criterion Formula
+The Kelly Criterion is based on some statistical work by mathematicians
+working at Bell Labs in the 1950s. They realized that it had applications to
+gambling, so they went to Las Vegas and made a lot of money at blackjack.
+I kid you not. The casinos changed the rules so that it no longer works at
+Vegas, but it does work in securities markets.
+What this formula does is ensure that you will never run out of money, so you
+will always be able to place yet one more trade. In the real world, of course,
+you can reach a point where you still have money but don’t have enough to
+place a trade.
+
+Kelly % = W −
+
+(
+
+1−W
+R
+
+)
+
+The equation looks at the percentage of trades that are expected to make
+money (W), the return from a winning trade, and the ratio of the average gain
+from a winning trade relative to the average loss of a losing trade (R). You
+may not be able to use the Kelly criterion until you have been trading long
+enough to amass data to use in the equation, but that’s okay — you have
+other choices here!
+The Kelly criterion often generates a trade size larger than many traders are
+willing to use. One alternative is a half Kelly trade, using half of the amount
+recommended by the equation.
+
+Figuring the Amount to Trade
+with Optimal F
+Optimal F is another money-management system that needs performance
+figures to generate an ideal trade size. It was developed by Ralph Vince, a
+trader, and it comes up with the ideal fraction of your account to trade based
+on your past performance. The calculation changes with every trade, so it’s
+usually done through a spreadsheet or an app.
+
+Chapter 21: Ten Tested Money-Management Techniques
+
+Measuring Risk and Sizing Trades with
+Monte Carlo Simulation
+The Monte Carlo simulation is another money-management system drawn
+from gambling. It’s used for risk management in many different businesses,
+including trading. You enter risk and return parameters into a computer program, and it tells you the likelihood of total loss and the optimal trade size.
+The system can’t account for every possible thing that can go wrong, and it
+requires a lot of computer power — even nowadays. That being said, many
+trading and brokerage platforms have Monte Carlo applications that can be
+used to help you measure risk and size trades.
+
+Taking a Risk with the
+Martingale System
+Martingale is another simple money-management system, no calculator
+required. It’s popular with gamblers and traders alike. You start with a small
+amount per trade — you get to pick it yourself, but it should probably be
+less than 5 percent of your account value. If the trade works, your next trade
+should be the same amount. If the trade does not work, then you close it out
+and place double the amount (double down, as they say) on the next trade so
+that you win back the loss. That doesn’t work? Double again. After you have a
+winning trade, go back to the initial amount for your next trade.
+If you have to double down for a long series of trades, the money involved
+quickly grows: from $2,000, for example, to $4,000, $8,000, $16,000, $32,000,
+$64,000, and even $128,000 if you have six losing trades in a row. This is the
+problem. If you have an infinite amount of money, you will come out ahead
+using martingale. Of course, if you had an infinite amount of money, you
+probably wouldn’t be reading this book.
+With martingale, you can run out of money before you have a trade that
+works. The method works best for aggressive traders with large accounts
+who start with small initial trades. It’s a risky money-management strategy,
+but it’s also far preferable to having no strategy at all.
+
+319
+
+320 Part IV: The Part of Tens
+Throwing It to the Fates
+Many traders have a logical problem with money management. If you have a
+sure thing, why shouldn’t you put all your money on it? If you know the next
+trade is going to be great, why should you close out the day with a balance
+decline? Ah, but your logic is colored green with greed.
+Few sure things are as sure as they seem. Lose on the sure thing, and you
+won’t be around for the next trade. Exceed your daily loss limit, and you’ll
+have even greater losses.
+The wise sage Bart Simpson once said that years of watching television
+taught him that miracles always happen to poor children on Christmas Eve.
+Knowledge of money management is more of a sure thing than believing that
+you will be the beneficiary of a miracle today.
+
+Appendix
+
+Additional Resources for
+Day Traders
+
+A
+
+s much as I hate to admit it, Day Trading For Dummies, 3rd Edition,
+doesn’t tell you absolutely everything there is to know to get started
+in day trading. This appendix lists books, websites, periodicals, and other
+resources offering trading strategies and techniques and ideas on managing
+risk, taxes, and stress.
+
+Great Books for Great Trading
+Have a shelf that looks a little bare? Fill it up with a few of these beauties.
+
+Basic trading guides
+The following books offer nuts-and-bolts information on day trading:
+✓ Algorithmic Trading and DMA: An Introduction to Direct Access
+Trading Strategies, by Barry Johnson (4Myeloma Press): This is the
+textbook on algorithmic and program trading. If you want to trade this
+way, you’ll need the book; if you want to learn more about what other
+traders are doing, you’ll probably want it. The downside is that this
+volume is as much doorstop as book.
+✓ The Bible of Options Strategies: The Definitive Guide for Practical
+Trading Strategies, by Gary Cohen (FT Press): Many traders prefer
+options to stocks, and this book covers the main strategies as well as
+some of the more esoteric ones that may work for you.
+✓ Day Trading the Currency Market: Technical and Fundamental
+Strategies to Profit from Market Swings, by Kathy Lien (Wiley): The
+foreign exchange (forex) market is popular with day traders, but it’s a
+
+322 Day Trading For Dummies, 3rd Edition
+little different from the stock and futures markets. Trading in currency
+relies heavily on leverage, and market participants have more motivations than simply hedging or speculating. If you are interested in trading
+currencies, this book can help you get started.
+✓ Mastering the Trade, 2nd Edition, by John F. Carter (McGraw-Hill):
+The author, an experienced trader, walks day traders and swing traders
+through the ins and outs of the markets, offering specific advice on different trading opportunities. He includes charts and data that explain
+when to place a trade and when to close it out. This book is practical,
+useful, and detailed.
+✓ The New Money Management: A Framework for Asset Allocation, by
+Ralph Vince (Wiley): Money management can keep traders in the game
+longer while maximizing potential returns. It’s a key discipline that can
+mean the difference between long-run success and failure. Unfortunately,
+many day traders completely overlook money management. This book
+reviews Vince’s money-management system in great detail.
+✓ Trading Rules that Work: The 28 Lessons Every Trader Must
+Master, by Jason Jankovsky (Wiley): If it were possible to get rich
+from knowing just a handful of specific trading indicators, every
+trader would retire and run huge charitable foundations. But it’s not
+that easy. Instead, a disciplined, professional approach to the market
+makes a difference over the long run. This book is a useful overview
+of different trading rules, why they work, and how traders should
+apply them.
+✓ Trading Systems and Methods, 5th Edition, by Perry J. Kaufman
+(Wiley): This textbook on trading systems provides a detailed analysis
+of the popular and the obscure alike. What makes it especially nice is
+the book has a companion website with actual trading programs on it.
+You can use them as a starting point for developing your own trading
+systems.
+
+Technical analysis guides
+Technical analysis is a system of looking at price and volume trends to determine supply and demand levels in the market. Supply and demand, of course,
+drive price changes, so understanding the dynamics is pretty darn useful.
+Here are a few books that cover technical analysis in detail:
+✓ Candlestick Charting For Dummies, by Russell Rhoads (Wiley):
+Candlestick charts were developed in Japan and are the basis of a
+system of technical analysis that’s popular with short-term traders,
+including day traders. This book explains how to identify and use
+candlestick patterns.
+
+Appendix: Additional Resources for Day Traders
+✓ Mind Over Markets: Power Trading with Market Generated
+Information, by James Dalton, Eric Jones, and Robert Bevan Dalton
+(Traders Press): Don’t let the title fool you. This book is not about trading psychology. Instead, it covers a price-charting and technical-analysis
+system in great depth, especially the relationships between price
+changes and volume changes. The system, called market profile, is
+especially useful for day traders working in futures markets.
+✓ Tape Reading and Market Tactics, by Humphrey B. Neill
+(Marketplace Books): In the early part of the 20th century, traders
+looked at price and volume information that came across ticker tapes.
+Traders still rely on an analysis of price and volume information, just
+with different tools. This book was originally written in 1931, but many
+day traders find that Neill’s advice on what to look for and what to avoid
+when looking at price data still holds true.
+✓ Technical Analysis For Dummies, by Barbara Rockefeller (Wiley): Day
+traders use technical analysis to help gauge market activity, and this book is
+a detailed guide on reading charts and applying the information to trading
+in an intelligent way. What else would a For Dummies book offer?
+
+Schools of price theory
+Most day traders take an eclectic approach to the markets. They find a few
+indicators that help them and then apply those indicators to the situation in
+the market. Over time, they refine their systems. Some traders, however, rely
+on specific theories for how prices should move. Here are some basic texts
+on the different theories.
+✓ Dow Theory Unplugged, by Charles Dow, Richard Russell, et al.
+(W&A Publishing): The Dow Theory, developed by Charles Dow, publisher of The Wall Street Journal, predicts overall market performance
+based on the performance of different industry sectors. It doesn’t work
+quite the same way it once did, given how much less industrial the U.S.
+economy is than in Dow’s time. This book includes Dow’s essays as well
+as commentary and analysis from different experts.
+✓ Elliott Wave Principle: Key to Market Behavior, by A.J. Frost and
+Robert R. Prechter, Jr. (Wiley): The Elliott Wave theory is a strange
+animal. It looks for really long-term patterns in the markets — over
+decades and even centuries — based on the Fibonacci series, a number
+series found in nature. It’s not widely used, but some traders swear by it.
+✓ How to Make Profits in Commodities, by W.D. Gann (Lambert Gann):
+This book isn’t exactly an easy read, but many analysts believe that
+Gann’s system can help them figure out how prices change over time.
+The original text dates from the 1940s. Some people find it dated; others
+think it’s timeless.
+
+323
+
+324 Day Trading For Dummies, 3rd Edition
+✓ How to Make Money in Stocks: A Winning System in Good Times or
+Bad, by William J. O’Neill (McGraw-Hill): William O’Neill’s system is of
+most interest to people who are swing trading or investing in common
+stock, but it may help day traders understand what other participants
+in the market are looking at when they place orders. The book explains
+momentum investing, which looks for stocks of companies with
+improving business trends and performance.
+
+Trading psychology
+Good traders are mentally tough. They need the confidence to face the
+market, the decisiveness to place orders, and the fortitude to take losses —
+and do it against a faceless mix of everyone else trading that day. Several
+books address trading psychology specifically; others on mental strength are
+also popular with traders because their lessons can be applied to the markets:
+✓ The Art of War, by Sun Tzu: It seems like every trader I’ve ever met has
+a copy of The Art of War. It’s a Chinese text describing military strategy,
+including the importance of mental toughness and strict discipline. First
+translated into a European language in 1782, several different versions
+and translations are in print.
+✓ Awaken the Giant Within, by Anthony Robbins (Pocket Books): This
+basic self-help book is popular with all sorts of folks. Many traders find
+that Robbins’s methods give them confidence and help them control
+their minds when they’re trading.
+✓ The Crowd: A Study of the Popular Mind, by Gustave LeBon (Dover
+Books): In the 19th century, Gustave LeBon wrote this treatise on crowd
+psychology. He didn’t think much of his fellow human beings, but many
+traders have found that his insights explain some short-term irrational
+behavior in the markets. Understanding why traders make mistakes can
+help you make profits.
+✓ The Disciplined Trader: Developing Winning Attitudes, by Mark
+Douglas (Prentice Hall): Mark Douglas is a trader who lost a lot of
+money and tried to figure out why. As he did that, he developed a great
+deal of insight into the psychological aspects of trading. Namely, the
+market doesn’t care about who is trading in it, so every trader is responsible for his or her own results. Many experienced day traders swear by
+the information in this book.
+✓ Trading in the Zone, by Mark Douglas (Prentice Hall): This book
+covers the mental discipline of trading, emphasizing the practices and
+routines that take the emotion out of it. A trader has a short time to
+make a profit, and some panic at the idea. This book has helped many
+traders focus on the key elements of trading rather than the fear, doubt,
+and greed that can undo the best of them.
+
+Appendix: Additional Resources for Day Traders
+
+History and memoir
+I’m not willing to accept the Elliott Wave and say that all market movements
+are part of overarching trends, but market history — like all history — tends
+to repeat. Why? Because people are people, and no matter how commerce
+and the economy changes, people do the same things over and over again:
+✓ Double Down: Reflections on Gambling and Loss, by Frederick
+and Stephen Barthelme (Harvest Books): Want to see what a gambling addiction looks like? The Barthelme brothers are writers and
+English professors who inherited $250,000 from their father’s estate
+and then lost it all playing casino blackjack. It’s a story of how complicated relationships with money cause people to make bad decisions.
+For a day trader, this book tells what happens when people cannot
+place limits for emotional reasons, a route to ruin in the casino or
+during the trading day.
+✓ Fortune’s Formula: The Untold Story of the Scientific Betting System
+that Beat the Casinos and Wall Street, by William Poundstone (Hill
+and Wang): Claude Shannon and John Kelly were Bell Labs scientists
+working on queuing theories for long-distance calls when they stumbled
+on what is known as the Kelly Criterion: The ideal proportion of money
+to bet can be found by the ratio of your edge in the market divided by
+the odds of winning. Day traders can use this edge/odds formula to figure
+out how much money to allocate to a trade. This book explains how the
+system works, though it never quite proves that it works when applied
+to legitimate casinos or to trading.
+✓ Reminiscences of a Stock Operator, by Edwin LeFevre (Wiley): This
+classic, written before the 1929 market crash, tells of the adventures of
+Jesse Livermore, one of the most successful traders of his time. It’s a disguised memoir of speculation, with a character named Larry Livingston
+standing in for Livermore. Some traders like it for the lessons they can
+learn from Livermore; others are just amused by how unchanged the art
+of day trading is despite dramatic changes in technology.
+
+The Trader’s Internet
+Day trading was made possible by the Internet. When high-speed connectivity to market data became affordable, almost anyone could trade with
+the same speed as folks working on the exchange floor or a brokerage
+trading desk. And yet the Internet can be a terrible distraction to a day
+trader or to anyone else working alone. Here are some good websites for
+day traders, but you may want to limit your use of them to before and after
+trading hours.
+
+325
+
+326 Day Trading For Dummies, 3rd Edition
+✓ Cara Community: Bill Cara isn’t a day trader, but he is a full-time investor
+who pays careful attention to the markets. Each day, he records his observations about what’s happening on his blog, www.caracommunity.com.
+It’s good reading.
+✓ Elite Trader: Elite Trader, www.elitetrader.com, is one of the big
+trader communities online, with forums, book and software reviews, and
+broker ratings. The participants can be passionate, but the information
+is often great.
+✓ IndexArb.com: Interested in trading futures on the market indexes?
+This site, http://indexarb.com, has useful information. It lists the
+premiums on different contracts, offers strategies for different market
+conditions, and gives you some good background information to help
+you make your own decisions.
+✓ TraderInterviews.com: Looking for something educational and
+inspirational for your MP3 player? TraderInterviews.com
+(www.traderinterviews.com) features discussions with different
+traders.
+✓ Trader Mike: Every day, Michael Seneadza, a day trader, updates his
+blog at www.tradermike.net. It includes his trading journal, thoughts
+on the markets, and advice on day trading, which he admits is not definitive. This blog is often thought-provoking.
+✓ Trade2Win: Are you looking for forums about trading? Want to find out
+what other traders think about a service or a strategy? Looking to learn
+more? Check out Trade2Win, www.trade2win.com, one of the most
+comprehensive trader sites in cyberspace.
+✓ Traders Laboratory: If you are interested in meeting other day traders
+online, finding web-based seminars, reading traders’ blogs, or checking out economic release calendars, then Traders Laboratory,
+www.traderslaboratory.com, is the site for you.
+
+Other Mainstream Media
+Even though traders are hooked to real-time market data through the
+Internet, they still look to some old-style sources for information. Believe it
+or not!
+✓ Barron’s: Barron’s (www.barrons.com) is a weekly financial newspaper
+published by Dow Jones & Company. The primary emphasis is on
+long-term investing, but it carries in-depth market analysis and often
+interviews outstanding traders. In addition, the regular “Electronic
+Trader” column carries news and ratings of online brokerage firms, many
+of which specialize in services for day traders.
+
+Appendix: Additional Resources for Day Traders
+✓ Bloomberg TV: Bloomberg TV (www.bloomberg.com/tv) is a cable
+channel that carries news and information about the markets. Some
+traders keep it running in the background while they trade. Others
+watch the shows before and after market hours.
+✓ Investor’s Business Daily: This newspaper, www.investors.com, is
+published by the William O’Neill Company, which also publishes charts
+and technical analysis systems used by stock investors. Every morning, IBD has new trade ideas and market analysis for active traders,
+especially those in the stock market.

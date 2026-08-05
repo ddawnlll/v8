@@ -76,9 +76,11 @@ population stays measurable (D-009, D-027).
 Router, learned scorer, ranker, learned execution, and online learning are
 absent from this architecture. Each enters only through its registry
 experiment and must beat its immediately simpler baseline on frozen OOS
-(rules 5-6, 14; O-004 / O-005 / O-006 / O-008). Complexity budget: at most 3
-active Experts and at most one learned component, never both at once
-(rule 14).
+(rules 5-6, 14; O-004 / O-005 / O-006 / O-008). Complexity budget: the runtime
+Expert count is unbounded — determinism and the compute budget are the only
+limits — while the preregistered cap applies to the behavior families
+simultaneously carrying a claim on one frozen-OOS evaluation, with at most one
+learned component per pipeline position (rule 14).
 
 ## 5. File mapping
 

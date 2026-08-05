@@ -1,0 +1,531 @@
+2. Stop moved to breakeven after exit #1.
+3. Trailing stop moved to below the .786 retracement.
+
+Alternate Trade Management In this example we show you exiting in three parts versus two parts. On longer time frames and with larger
+targets, using a trading strategy that employs a three-part scaling-out exit
+can produce more profits. The downside, of course, is that if the trade is
+stopped out at a loss, then additional losses will be incurred. The correct
+money management for the trader’s portfolio should always be used and
+never exceeded to implement this strategy. Another downside to this strategy is that if the third objective is not reached and the price reverses, the
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+The Gartley “222” Pattern
+
+Char Count=
+
+65
+
+Figure 5.7 Soybeans daily chart showing an example of using Fibonacci retracement levels to trail a stop.
+
+trader may end up giving back some of the profits if the third contract is
+stopped out below the second profit objective area.
+In Figure 5.6 we have marked the .786 level as the third and final profit
+objective exit. The trader in this particular trade would most likely have
+been able to gain an additional 11 cents per contract or $550.
+
+Trade Setup #2: Gartley “222” Sell Pattern
+Market: Google (GOOG) Stock
+Shares: 200
+A limit order to sell (refer to Figure 5.8) would be placed just below the
+.786 at $384.25 per share to sell short. Once the order is filled, immediately
+place a protective buy stop order above the 1.00 or X level for a risk of
+$5.50 per share at $389.75. The first profit objective (exit #1) is equal to the
+amount of risk in the trade at $378.75. Once this is filled, move the stop
+down to breakeven. Exit #2 is at the .618 at $371.50. We would want to
+shade the exit order to ensure a fill and would place the order at $371.75.
+Once the second profit objective (exit #2) is reached, the protective buy
+stop order is canceled.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+66
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Figure 5.8 Google (GOOG) 60-minute chart of Gartley “222” sell pattern. The risk
+in this pattern is acceptable to place the stop above the X point; the risk is $5.50 per
+share, very low risk on a $384 stock.
+
+Because of the high price of this stock and larger dollar movement,
+the trader would certainly want to trail a stop to protect profits after the
+price moves in the trader’s favor following moving the stop to breakeven.
+It can be helpful to use a smaller time frame to see the most recent swings
+to trail a stop if using visual chart points or Fibonacci retracement levels
+(see Figure 5.9). In this case, using a 30-minute or 15-minute chart would
+be sufficient.
+This trade would have netted +$5.50 per share on the first exit and
++$12.50 per share on the second exit for a total of +$18.00 on the trade.
+
+Alternate Trade Management An alternate and acceptable way to
+manage this trade is to take a full exit at the .618 retracement. This would
+give the trader close to a 3:1 risk/reward trade-off. Why don’t we do that
+on each trade? The answer is simple: We have found over time that taking
+partial profits around or close to the amount risked gives us a high win/loss
+ratio on trades and quickly reduces the risk in the trade to close to a riskfree trade. Whenever we can put ourselves in the position of a risk-free
+trade we do so.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+The Gartley “222” Pattern
+
+August 14, 2007
+
+13:4
+
+Char Count=
+
+67
+
+Figure 5.9 Google (GOOG) 15-minute chart showing example of dropping down
+a time frame to help the trader trail stops using most recent swings.
+
+Figure 5.10 S&P E-mini 5-minute chart of failed Gartley “222” pattern. A wide
+range bar, one of the warning signs, is present at the completion point, but it is not
+likely that it would have been seen in full prior to being ﬁlled on the trade.
+
+c05
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 14, 2007
+
+13:4
+
+68
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+Trade Setup #3: Failed Gartley “222” Pattern
+Market: S&P 500 E-Mini
+Contracts: 2
+In Figure 5.10, a limit order of 1270.00 to sell short is placed for this
+trade. A protective buy stop-loss order above the 1.00 (X) point at 1273.50
+is immediately placed upon being filled. We would have been filled on this
+trade before the long bar was complete near the D completion point, which
+is one of the warning signs. This just happens occasionally and is part of
+trading. The protective buy stop-loss order keeps this loss small and enables us to move on to the next trade.
+Accept the responsibility for the trade regardless of the outcome; this
+is learning to think in probabilities. The Gartley “222” pattern places a positive expectation in the trader’s favor. It is the trader’s responsibility to accept the risk, use sound money management, and develop good execution
+skills.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+CHAPTER 6
+
+The Butterfly
+Pattern
+
+T
+
+he Butterfly pattern is certainly one of our favorite extension patterns. This particular setup is one that attempts to trade highs and
+lows at market reversal points. The formations and completions tend
+to occur at major tops and bottoms, and they can also be seen on all time
+frames. It is not uncommon to see more than one Butterfly pattern on multiple time frames completing at the same price area.
+The risk/reward profile is very favorable with this pattern. The best
+patterns tend to turn immediately at or near the completion point. It is one
+of the few patterns that can truly find tops and bottoms. This pattern is not
+100 percent, though, and stop-loss orders must be used; as you will see in
+the last trade setup in this chapter, when this one fails it usually fails in a
+big way.
+
+HISTORY OF THE BUTTERFLY PATTERN
+In order to explain the history of the Butterfly pattern, we have to introduce the Australian trader and developer of the Wave Trader Program,
+Bryce Gilmore. Bryce has spent a lifetime studying the works of the great
+69
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 31, 2007
+
+70
+
+12:42
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+masters—R.N. Elliott, W.D. Gann, and many others. He developed the
+Wave Trader Program in 1988; it was the first computer program to use
+all the numbers of sacred geometry, including the Fibonacci summation
+series. This pioneering led to the discovery of the Butterfly pattern.
+The Wave Trader Program calculated each swing and ratio and went
+through a sequence of analyzing that labeled the patterns from 1 to 10, 10
+being the level at which 10 swings and ratios came together at the same
+time and price. This was the level when multiple patterns had completed
+with the ratios from sacred geometry. Bryce included all the numbers from
+sacred geometry so that no stone was left unturned. As with many patterns,
+when the Wave 10 level trades failed it was usually an indication that the
+market would continue in the direction of the original trend.
+Bryce was a perfectionist in everything he attempted. On one occasion he had done extensive analysis on the Treasury bond market and
+had concluded that T-bonds would not exceed 101.00. He sold T-bonds at
+101.00 and used a stop-loss order at 101.02, which is exactly $62.50 per contract. When Larry suggested that the stop might be a bit too close, Bryce
+shouted, “If those bonds trade above 101.02, everything I’ve researched,
+read, and believe in will be a total loss!” He went on to say that if bonds
+were to trade above 101.03, he would burn all of his books and materials and return to race-car driving and playing golf in his home country of
+Australia. The bonds made a swing high at 101.00 that lasted more than
+two months.
+The Butterfly pattern came into existence in 1992 on a trading day
+when Larry was sitting with Bryce watching a Wave 10 pattern form. It
+appeared in many different colors, and as two colorful right triangles came
+together Larry commented that it looked like a butterfly. Bryce replied that
+it was as good a name for the pattern as any, and that is how the name was
+coined for this pattern. (See Figure 6.1.)
+Almost two decades and thousands of Butterfly patterns later, it can be
+said that it is one of the most profitable trading patterns with the proper use
+of stop-loss orders. As you go through this chapter and learn this pattern,
+pay special attention to risk.
+
+BUTTERFLY PATTERN DESCRIPTION
+The Butterfly pattern is best described as an extension pattern. It is also a
+failed Gartley pattern where the D completion point completes above the
+X. Remember that a Gartley pattern is considered a failed pattern if this
+occurs, but with this failure a Butterfly pattern may be forming. (Refer to
+Figure 6.2.) The extension of the AD swing and the CD leg can be thought
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+The Butterﬂy Pattern
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+71
+
+Figure 6.1 Line drawings of the Butterﬂy buy and sell patterns showing two connecting triangles.
+
+of as a stretched rubber band. It is at these points that the market becomes
+overbought or oversold and a reversal can occur.
+Even if a full reversal does not take place, the trader can still profit on
+this pattern by exiting on retracements of the CD leg or the AD swing. You
+will see an example of this in the “Trading the Butterfly Pattern” section
+
+Figure 6.2 Google (GOOG) 60-minute chart showing a failed Gartley “222” pattern forming a Butterﬂy pattern.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 31, 2007
+
+72
+
+12:42
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+of this chapter under “Trade Setup #2.” The pattern is formed by two right
+triangles coming together at one point. It is this formation that gives the
+pattern its appearance as a Butterfly. The completion points can be calculated by using Fibonacci ratios above 1.00, such as 1.272, 1.618, 2.00, and
+2.618. Beyond 2.618 the pattern is considered negated and the trend most
+likely will continue. In most cases the maximum risk is at the 1.618 level.
+Because of the chance that any pattern can be a failed pattern and even
+the Butterfly pattern can fail, we will note again here that this particular
+pattern when failed can move very quickly against the trader’s position; if
+the trader does not have the trading skills or discipline to use stops, it is
+best to not trade this pattern until both of those elements are part of the
+trader’s tool kit.
+
+BUTTERFLY PATTERN STRUCTURE
+The Butterfly pattern should be a very symmetrical pattern in its formation
+and structure. As with the Gartley “222” pattern, the Butterfly pattern is
+formed with four legs. The difference is that the last leg (the CD leg) of the
+Butterfly pattern will extend beyond the X point and will move toward the
+1.272 or 1.618 expansion of XA. (See Figure 6.3 for an example.) The BC leg
+will also be an extension, but the completion point is generally determined
+by the XA swing.
+The AB leg of the pattern will usually be at the .618 or the .786 retracement levels. The pattern also is valid if this retracement is at the .382 or
+.50. This retracement of the AB leg can go further than the .786, as is seen
+in Figure 6.3, but the pattern will be negated if it goes beyond X. One clue
+that a Butterfly pattern may be forming is if the first retracement, the AB,
+goes to the .786 retracement level or further.
+It is important to know what invalidates this pattern; here are five items
+that would negate this pattern:
+1. Absence of an AB=CD within the AD swing. This pattern must contain
+
+an AB=CD.
+2. An extension move beyond the 2.618 of XA. The 1.618 expansion is
+
+generally the maximum risk.
+3. B point above (for a sell pattern) or below the X point (for a buy pat-
+
+tern).
+4. C above or below the A point.
+5. Failure of D to extend beyond X: D must extend beyond X to be a But-
+
+terfly pattern.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 31, 2007
+
+12:42
+
+The Butterﬂy Pattern
+
+Char Count=
+
+73
+
+Figure 6.3 Soybeans daily chart showing an example of the structure of the Butterﬂy pattern.
+
+It is not unusual to see smaller “ab=cd” patterns within one of the main
+legs; for example, a small ab=cd may be seen within the larger AB=CD
+formation of the AD swing in Figure 6.3.
+Some of our favorite setups are those that contain multiple patterns in
+several time frames completing in one price area. For more information,
+see Chapter 8, “Retracement Entries and Multiple Time Frames.”
+
+IMPORTANT CHARACTERISTICS OF THE
+BUTTERFLY PATTERN
+This pattern, of all the patterns in this book, can be the most rewarding
+one if it is indeed a major turning point in a market. It is the ultimate contrarian’s trading pattern. The risk, however, can be great if the trader does
+not take the time to study and learn how to properly assess and manage
+this pattern. There are several characteristics that should be studied when
+learning this pattern that will help the trader to identify acceptable risk-toreward setups and valid patterns. Refer back to Chapter 4, “The AB=CD
+Pattern,” and review the “CD Leg Variations” and “Slope and Time Frames”
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+74
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+sections. That information also pertains to the AB=CD within the Butterfly
+pattern.
+Here are three points that are important characteristics of the Butterfly
+pattern:
+1. Thrust. How the move from the C point starts is important to watch
+
+as it will give the trader information on whether the pattern may form
+a Butterfly pattern rather than a Gartley pattern—that is, long bars or
+gaps through the .618 or .786. Gaps should be watched closely by the
+trader. They indicate an unknown or a change in sentiment and potentially signal changing market conditions. The thrust coming out of the
+CD leg strongly suggest that the extension has a higher probability of
+making a 1.618 new high versus a 1.272 new high.
+2. Symmetry. Study the symmetry of the AB=CD; note the slope and angle of the AB leg and then the CD leg. If the CD leg is exhibiting a
+steeper angle, that may be a clue that the CD leg will extend beyond
+X and form a Butterfly pattern. The symmetry or slope of the AB leg
+should be very close to that of the CD leg in order to keep the ideal
+symmetry in the pattern. Note also the time bar relationship in these
+legs; for instance, if the AB leg has taken eight bars to form, then the
+CD leg should also take approximately eight bars to form, thus forming
+an ideal Butterfly pattern.
+3. Failure signs. Beware of price beyond the 1.618 expansion of XA.
+Generally a move beyond the 1.618 will indicate a continuation of the
+trend. If the technician will keep focused on these characteristics, it
+will greatly reduce the potential for getting into trouble with the Butterfly pattern. Butterfly trades are not for the faint of heart, as they enter counter to the trend in markets when they appear the most bullish
+and the most bearish.
+
+PSYCHOLOGY OF THE BUTTERFLY PATTERN
+We have discussed previously in Chapter 4, “The AB=CD Pattern,” and
+Chapter 5, “The Gartley ‘222’ Pattern,” how these patterns are formed by
+basic fear and greed. When there are more buyers, the price rises; when
+there are more sellers, the price declines. Since the Butterfly pattern is an
+extension pattern, is found for the most part at major tops and bottoms,
+and often signals a major reversal point, then we can apply basic mass
+crowd psychology and witness it at extremes. When this pattern is a major reversal turning point in a market, what you will witness is a market
+turn and masses heading for the door at the same time. It is an extreme in
+market emotions of fear and greed.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+August 31, 2007
+
+The Butterﬂy Pattern
+
+12:42
+
+Char Count=
+
+75
+
+At the tops, market participants start heading for the door trying to
+sell. There is fear of losing money on wrong or early short positions, fear
+of losing profits, profit taking on longs, or initiating new short positions.
+At the bottoms, market participants start buying perceived bargain prices;
+others are still heading for the door selling out losing long positions (this
+has been called the puke point, the point at which traders or investors can
+not hang on to a losing position one more cent); still others are taking profits on short positions. At this point, any new shorts will be forced to cover
+losses as prices rise against them, adding more momentum. This point is
+an extreme of fear of losing or missing out.
+At these major turning points, one might notice an unusual amount of
+press coverage on television and in magazines and newspapers, as well as
+talk at social gatherings and even randomly on the street or in other public
+places. All of this coverage or talk will be either very bullish at the top with
+the Butterfly sell pattern or very bearish at the bottom with the Butterfly
+buy pattern. The news at this point will be so overwhelmingly skewed in the
+direction of the trend that it would be difficult to find anyone who would
+admit to taking the other side of the public viewpoint and opinions. Anyone
+using long-term moving averages would be nowhere near a decision on
+taking a countertrend position as the Butterfly pattern nears completion.
+Traders should remember that very few traders ever buy the exact high
+or low of a stock or market and that the Butterfly pattern turns as the last
+bull buys at the top or the last bear sells at the bottom.
+
+TRADING THE BUTTERFLY PATTERN
+The Butterfly pattern can provide instant gratification when the market
+turns quickly at or near the completion point. However, it can also be one
+of the fastest loss trades, because the trader is attempting to pick a high or
+low spot in the market, and if it fails and the trend continues, the trade is
+usually stopped out quickly. We have stressed several times the necessity
+of using protective stop-loss orders, and it is especially important with this
+pattern; this is not a pattern that traders would ever want to let go against
+them beyond their trading plan and money management plan.
+We give three trade examples here and several variations on managing
+the trades with this pattern.
+
+Trade Setup #1: Butterfly Buy Pattern
+Market: Pfizer (PFE) Stock
+Shares: 200
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+76
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+(See “Alternate Trade Management” for using a three-part scale-out
+with the Butterfly pattern.)
+This Butterfly buy pattern completes at the 1.272 and has a strong reversal from this point (see Figure 6.4). It is important to note that the gaps
+and wide range bars are to the advantage of the trader going long on the
+completion of this Butterfly pattern. This should be a signal that higher
+prices are likely to come.
+The entry point into this trade is at 20.30, with a stop placed below the
+estimated 1.618 range of XA at 19.50. The stop-loss placement would be at
+19.10 for a risk of $1.20 per share or $240 on 200 shares.
+When trading any pattern, the risk in the trade must always be acceptable. If it is not, the trader must pass on the trade and find a setup that
+is acceptable in terms of risk. When trading the Butterfly pattern, it is important to calculate where the 1.618 level is below the 1.272 and to determine whether placing the protective stop-loss order just above or below
+this level will be an acceptable risk. If it is, then this is the logical place to
+put the stop-loss order. If it is not, then the trader must make a decision to
+either pass on the trade or possibly enter at or near the 1.618 completion if
+the price gets there.
+
+Figure 6.4 Pﬁzer (PFE) daily chart showing a Butterﬂy buy pattern completing
+almost to the penny at the 1.272 retracement level. The gaps and wide range bars
+in this case work to the trader’s advantage and should be a signal that higher prices
+are coming.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+The Butterﬂy Pattern
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+77
+
+Another alternative is to use a dollar amount or percentage of capital
+for the stop-loss with the knowledge that there may be another entry point
+at or near that level and to be ready to reenter the trade if stopped out. Still
+another alternative is to wait for a retracement entry or Gartley pattern to
+enter the trade. Refer to Chapter 8 on retracement entries and Chapter 5
+on the Gartley “222” pattern.
+Risk-Free Trade The first exit on this trade is at the .618 level of the AD
+swing at 21.70. (See Figure 6.5.) This initial risk in the trade was $1.20 per
+share, and this exit reduces the risk to just above breakeven. After taking
+the first exit, the stop-loss order is moved up to breakeven. The stop can
+be trailed using either a dollar amount, percent of profit the trader feels is
+the maximum amount to give back, or visual chart points such as the most
+recent lows or gap areas. The method the trader chooses to trail the stop
+should be known before entering the trade and should be part of the trade
+plan.
+The second exit in this trade is at the 1.272 extension of the AD swing at
+23.25. Sometimes in trading you get lucky, and in this case the market gaps
+up on the open, exceeding the second target, and would be filled around
+the opening price at 25.15. This trade would have netted +$625 with an
+
+Figure 6.5 Pﬁzer (PFE) daily chart showing Butterﬂy pattern proﬁt target exits
+using the .618 retracement level and 1.272 extension.
+
+c06
+
+JWPR033-Pesavento (Wiley Trading Series)
+
+78
+
+August 31, 2007
+
+12:42
+
+Char Count=
+
+TRADE WHAT YOU SEE
+
+initial risk of $240. Figure 6.5 shows the retracement levels from the AD
+swing and the first and second exits.
+Alternate Trade Management The Butterfly pattern can be managed
+several ways. The trader’s overall market knowledge and experience trading this pattern will determine what method can be used, or traders can
+develop their own trade management style for this or any other pattern.
+We know that when the Butterfly pattern is in full force on a reversal it
+can be a very powerful move. Because of that, the trader may want to consider devising a trading plan to use a three-part scale-out rather than two
+when trading the Butterfly pattern. Figure 6.6 shows a retracement from
+the most recent swing high on the daily chart. An alternate trade management would allow for a first exit at an amount equal to the amount risked
+on the trade, in this case $1.20. The entry is $20.30 and the first exit would
+be planned at $21.50 with the initial stop-loss order moved to breakeven
+at that exit. The initial stop remains the same; it does not change with a
+three-part scale-out. Traders do, however, need to determine whether their
+money management allows for trading an additional one-third shares. If it
+does not, then they could divide the number of shares they would trade
+into three or could stay with a two-part exit plan.

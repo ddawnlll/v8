@@ -1,0 +1,608 @@
+how China cut the banks’ reserve requirement ratio for the ﬁrst time in
+three years. This frees up more cash, which encourages banks to lend.
+The effect is seen as positive because it spurs economic growth in China.
+2. Go long on AUD/USD immediately. (See Figure 9.23.)
+3. Set the stop loss below the previous low.
+4. The trade will have two proﬁt targets with a risk to reward ratio of 1:1
+and 1:2 respectively. (See Figure 9.24.)
+From the long example in Figure 9.25:
+Entry price = 1.0000
+Stop loss = 0.9600
+Proﬁt target 1 = 1.0400
+Proﬁt target 2 = 1.0800
+
+China cuts bank reserve requirement ratio for the 1st time
+in 3 years (30 Nov 2011)
+
+FIGURE 9.23 News Release
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c09.indd 212
+
+06/12/12 2:26 PM
+
+Strategies for Position Traders
+
+213
+
+FIGURE 9.24 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 9.25 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 400 pips, and the reward is 800 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a 6% return if
+we take a 3% risk.
+
+c09.indd 213
+
+06/12/12 2:26 PM
+
+214
+
+STRATEGIES TO WIN THE GAME
+
+Short Trade Setup
+Here are the steps to execute the Siamese twins strategy for short:
+1. Look out for any major news from China. In this example, we see how
+
+the actual number of China’s HSBC ﬂash manufacturing PMI is worse
+than expected. The effect is seen as negative because it is viewed as a
+contraction in China’s economy.
+2. Go short on AUD/USD immediately. (See Figure 9.26.)
+3. Set the stop loss above the previous high.
+4. The trade has two proﬁt targets with risk to reward ratios of 1:1 and 1:2
+respectively. (See Figure 9.27.)
+From the long example in Figure 9.28:
+Entry price = 1.0458
+Stop loss = 1.0638
+Proﬁt target 1 = 1.0278
+Proﬁt target 2 = 1.0098
+
+Worse than expected numbers for China’s HSBC
+Flash Manufacturing PMI (22 Mar 2012)
+
+FIGURE 9.26 News Release
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c09.indd 214
+
+06/12/12 2:26 PM
+
+Strategies for Position Traders
+
+215
+
+FIGURE 9.27 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 9.28 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 180 pips, and the reward is 360 pips respectively if both targets are hit. The risk to reward ratio is 1:2, which yields a
+6% return if we take a 3% risk.
+
+c09.indd 215
+
+06/12/12 2:26 PM
+
+216
+
+STRATEGIES TO WIN THE GAME
+
+Strategy Roundup
+The Siamese twins strategy is perfect for position traders because
+of the long time frame employed. When China announces news—either
+good or bad—the subsequent effect on the Australian economy may take
+weeks or even months to play out.
+As we learned in the swap and ﬂy strategy, a long AUD/USD trade can
+give you additional swap as well. This amount can be very signiﬁcant if the
+trade is held for several months before it is exited.
+
+c09.indd 216
+
+06/12/12 2:26 PM
+
+CHAPTER 10
+
+Strategies for
+Mechanical Traders
+
+A
+
+s a mechanical trader, your main focus in trading the markets is not
+time driven but system driven. Your trades are based on a ﬁxed routine, regardless of time frame and regardless of market activity.
+This style of trading is especially suited to newbies because strategy
+execution is based purely on a set of ﬁxed steps or rules. Due to its nondependence on speciﬁc time frames, the three strategies discussed here
+employ time frames that span three different categories: scalping, day trading, and position trading.
+The ﬁrst strategy, the guppy burst, is based on the 5-minute (M5) chart.
+The second strategy, English breakfast tea, is based on the 15-minute
+(M15) chart. The third strategy, good morning Asia, is based on the daily
+(D1) chart.
+Many newbies love the ﬁxed routine by which mechanical trades are
+set up. It is also the reason why many go on to develop automated trading
+systems by coding the trading rules into software.
+Let’s have a look at all three strategies.
+
+STRATEGY 15: GUPPY BURST
+The ﬁrst step in developing a mechanical trading system is to understand
+and describe market behavior. The next step is to ﬁgure out the rules for
+entries and exits. The guppy burst seeks to exploit trading proﬁts when the
+market is quiet.
+There is a window of around three hours between the close of the
+U.S. market and the opening of the Asian market. The forex market is
+relatively quiet during this time and tends to move in a gentle yet predictable manner.
+217
+
+c10.indd 217
+
+03/12/12 9:57 AM
+
+218
+
+STRATEGIES TO WIN THE GAME
+
+The market then springs to life again when the Asian market opens.
+The guppy burst seeks to identify the trading range during this 3-hour window and anticipate a potential breakout of the trading range.
+To take full advantage of this potential breakout, I have selected one
+of the most volatile crosses, the GBP/JPY, commonly known as the guppy
+among forex traders.
+
+Time Frame
+The guppy burst method works with the 5-minute candle (M5). This means
+that each candle represents 5 minutes of price movement.
+
+Indicators
+We use only pure price action; no indicators are used for this strategy.
+
+Currency Pairs
+The guppy burst method applies only to the GBP/JPY.
+
+Strategy Concept
+After the trading range is identiﬁed, we place pending long and pending short
+orders. The entry price for the pending long is at the resistance level while
+the stop loss is located at the support level. The entry price for the pending
+short is at the support level while the stop loss is at the resistance level.
+The proﬁt target is set at twice the amount of the stop loss. As an example, if the stop loss is 50 pips from the entry price, the proﬁt target will be
+100 pips. This is a risk to reward ratio of 1:2.
+
+Long Trade Setup
+The reference candle for this strategy is the one that corresponds to 5 P.M.
+New York time, which is the closing time of the U.S. market. This is the
+00:00-hour candle on the FXPRIMUS platform.
+Here are the steps to execute the guppy burst strategy for long:
+1. Identify the trading range in the ﬁrst three hours after the U.S. market
+
+closes by referencing the highest high (resistance) and the lowest low
+(support) in these three hours. (See Figure 10.1.)
+2. Place a pending buy stop order with entry price at the highest high
+(resistance).
+
+c10.indd 218
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+219
+
+FIGURE 10.1 Identify Trading Range by Referencing Highest High and Lowest Low
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.2 Set Entry Price and Stop Loss
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+3. Set the stop loss at the lowest low (support). (See Figure 10.2.)
+4. Measure the number of pips between the EP and SL. The proﬁt tar-
+
+get is double that number of pips. In this example, the number of pips
+between EP (128.16) and SL (127.86) is 30, so the TP will be 60 pips
+above the EP at 128.76. (See Figure 10.3.)
+
+c10.indd 219
+
+03/12/12 9:57 AM
+
+220
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.3 Engage Pending Buy Stop
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.4 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 10.4:
+Entry price 5 128.16
+Stop loss 5 127.86
+Proﬁt target 5 128.76
+The risk for this trade is 30 pips, and the reward is 60 pips. The risk to
+reward ratio is 1:2, which yields a tidy 6% return if we take a 3% risk.
+
+c10.indd 220
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+221
+
+Short Trade Setup
+The reference candle for this strategy is the one that corresponds to 5 P.M.
+New York time, which is the closing time of the U.S. market. This is the
+00:00-hour candle on the FXPRIMUS platform.
+Here are the steps to execute the guppy burst strategy for short:
+1. Identify the trading range in the ﬁrst three hours after the U.S. market
+
+closes by referencing the highest high (resistance) and the lowest low
+(support) in these three hours. (See Figure 10.5.)
+2. Place a pending sell stop order with entry price at the lowest low
+
+(support).
+3. Set the stop loss at the highest high (resistance). (See Figure 10.6.)
+4. Measure the number of pips between the EP and SL. The proﬁt target is double that number of pips. In this example, the number of
+pips between EP (128.12) and SL (128.33) is 21, so the TP will be
+42 pips below the EP at 127.70. (See Figure 10.7.)
+From the short example in Figure 10.8:
+Entry price 5 128.12
+Stop loss 5 128.33
+Proﬁt target 5 127.70
+The risk for this trade is 21 pips, and the reward is 42 pips. The risk to
+reward ratio is 1:2, which yields a tidy 6% return if we take a 3% risk.
+
+FIGURE 10.5 Identify Trading Range by Referencing Highest High and Lowest Low
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c10.indd 221
+
+03/12/12 9:57 AM
+
+222
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.6 Set Entry Price and Stop Loss
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.7 Engage Pending Sell Stop
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+As there is no way to anticipate when the market will reach the entry price,
+the best option is to create one pending long order and one pending short
+order after you have identiﬁed the trading range of the three-hour window.
+Once either of the pending orders is triggered, delete the other pending order immediately. As an example, if the pending long order gets
+
+c10.indd 222
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+223
+
+FIGURE 10.8 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+triggered ﬁrst, delete the pending short order. If the pending short order
+gets triggered ﬁrst, delete the pending long order.
+This strategy is suitable for traders who are available during a speciﬁc
+time of the day to execute the trade during the three-hour gap.
+
+STRATEGY 16: ENGLISH BREAKFAST TEA
+When traders trade a particular currency pair for a long period of time,
+they may start to observe certain characteristics or behaviors of that currency pair. These characteristics or behaviors could happen during market
+opening hours, market closing hours, major news releases, Christmas and
+New Year holidays, ﬁnancial year closings, and so on.
+In my years of trading, I have noticed peculiar behaviors in various currency pairs. In this strategy, I share one of my observations about the GBP/
+USD during the London opening hours.
+
+Time Frame
+The English breakfast tea method works with the 15-minute candle (M15).
+This means that each candle represents 15 minutes of price movement.
+
+Indicators
+We use pure price action, and no indicators are used for this strategy.
+
+c10.indd 223
+
+03/12/12 9:57 AM
+
+224
+
+STRATEGIES TO WIN THE GAME
+
+Currency Pair
+This strategy is applied to the GBP/USD only.
+
+Strategy Concept
+The English breakfast tea strategy is based on an observation I’ve had on
+the GBP/USD for a while now. This occurs before and after the London
+market opens in the morning.
+Here’s what I discovered: When the GBP/USD trends in one direction
+from 04:15 hours to 08:30 hours London time, it has a tendency to move in
+the other direction after 08:30 hours.
+Hence, we ﬁrst compare the closing price of the 15-minute (M15) candle that corresponds to 04:15 hours and 08:15 hours London time to determine the direction of the GBP/USD. We then enter a trade in the opposite
+direction at 08:30 hours London time.
+As an example, if the closing price of the M15 candle at 08:15 hours is
+lower than the closing price at 04:15 hours, we go long at 08:30 hours. If
+the closing price of the M15 candle at 08:15 hours is higher than the closing
+price at 04:15 hours, we go short at 08:30 hours.
+The stop loss is ﬁxed at 30 pips, and there are three proﬁt targets for
+this strategy with risk to reward ratios of 1:1, 1:2, and 1:3. In other words,
+the proﬁt targets are 30 pips, 60 pips, and 90 pips respectively.
+
+Long Trade Setup
+The 10:30-hour candle of the charts on FXPRIMUS platform is used to illustrate this strategy because it corresponds to London time 08:30 hours.
+Here are the steps to execute the English breakfast tea for long:
+1. The closing price of the M15 candle at 10:15 hours must be lower than
+
+the closing price at 06:15. (See Figure 10.9.)
+2. Enter at the opening of the candle at 10:30 hours. This is the entry
+price.
+3. Set the stop loss at 30 pips below the entry price.
+4. There are three proﬁt targets at 30 pips, 60 pips, and 90 pips above the
+EP respectively. (See Figure 10.10.)
+From the long example in Figure 10.11:
+Entry price 5 1.5900
+Stop loss 5 1.5870
+Proﬁt target 1 5 1.5930
+
+c10.indd 224
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+225
+
+Proﬁt target 2 5 1.5960
+Proﬁt target 3 5 1.5990
+The risk for this trade is 30 pips, and the reward is 90 pips if all three
+targets are hit. The risk to reward ratio is 1:3, which yields a tidy 9% return
+if we take a 3% risk.
+
+FIGURE 10.9 Closing Price at 10:15 Hours Must Be Lower than Closing Price at
+
+06:15 Hours
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.10 Three Profit Targets at 30 Pips, 60 Pips, and 90 Pips Above Entry
+
+Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c10.indd 225
+
+03/12/12 9:57 AM
+
+226
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.11 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Short Trade Setup
+The 10:30-hour candle of the charts on FXPRIMUS platform is used to
+illustrate this strategy because it corresponds to London time 08:30 hours.
+Here are the steps to execute the English breakfast tea for short:
+1. The closing price of the M15 candle at 10:15 hours must be higher than
+
+the closing price at 06:15 hours. (See Figure 10.12.)
+2. Enter at the opening of the candle at 10:30 hours. This is the entry price.
+3. Set the stop loss at 30 pips above the entry price.
+4. There will be three proﬁt targets at 30 pips, 60 pips, and 90 pips below
+the EP respectively. (See Figure 10.13.)
+From the short example in Figure 10.14:
+Entry price 5 1.5819
+Stop loss 5 1.5849
+Proﬁt target 1 5 1.5789
+Proﬁt target 2 5 1.5759
+Proﬁt target 3 5 1.5729
+The risk for this trade is 30 pips, and the reward is 90 pips if all three
+targets are hit. The risk to reward ratio is 1:3, which yields a tidy 9% return
+if we take a 3% risk.
+
+c10.indd 226
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+227
+
+FIGURE 10.12 Closing Price at 10:15 Hours Must Be Higher than Closing Price
+
+at 06:15 Hours
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.13 Three Profit Targets at 30 Pips, 60 Pips, and 90 Pips Below the
+
+Entry Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+This strategy is based on a ﬁxed time period every day, speciﬁcally geared
+towards the opening of the London market. The rules are simple and speciﬁc because there is no confusion as to the direction of the trade. Going
+
+c10.indd 227
+
+03/12/12 9:57 AM
+
+228
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.14 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+long or short is the ﬁrst step that new traders normally get confused on
+when they begin discretionary trading.
+With its clear-cut rules and mechanical execution, the English breakfast
+tea method eliminates the guesswork in terms of strategy direction.
+
+STRATEGY 17: GOOD MORNING ASIA
+A fair number of traders prefer to trade the U.S. and Europe sessions of the
+forex market because they feel that the market tends to be more exciting
+at those times. These traders consider the Asian session boring and quiet
+most of the time.
+However, many part-time retail traders who are based in the
+United States and Europe miss out trading opportunities in the U.S.
+and Europe sessions because of work or business commitments. The
+only time they can trade happens to fall within the perceived boring
+and quiet Asia session.
+Thankfully, now we all know that the forex market is open 24 hours a
+day. When there are trade-related activities, there are opportunities.
+My last strategy of this book is traded on the early-morning Asian
+hours. This time period can provide numerous opportunities for traders
+located in different time zones across the world, whether they are part time
+or full time. I hope that it will greet you like the bright morning sun.
+
+c10.indd 228
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+229
+
+Time Frame
+The good morning Asia strategy works with the daily candle (D1). This
+means that each candle represents 1 day of price movement.
+
+Indicators
+We use only pure price action, and no indicators are used for this strategy.
+
+Currency Pairs
+This strategy applies only to the USD/JPY.
+
+Strategy Concept
+Opening hours of the Asian market begin after the U.S. market closes. The
+direction of the Asian market tends to take its cue from the previous day’s
+performance on the U.S. market because the U.S. market is the largest
+economy in the world.
+If the U.S. market closes with a bullish sentiment, the Asian market
+usually starts the day bullish. If the U.S. market closes with a bearish sentiment, the Asian market usually starts off bearish.
+During the early-morning Asian hours, the best currency pair to take
+advantage of this phenomenon is none other than the USD/JPY, as the
+Japanese yen is the only Asian major currency.
+This strategy allows you to position yourself just before the opening of
+the Asian market—hence the name good morning Asia.
+The entry time of this strategy is right after the U.S. market closes
+at 5 P.M. If the previous daily candle is a bull candle, we ride along the
+momentum to go long on Asia opening. If the previous daily candle is a
+bear candle, we follow the bearish ﬂow with a short on Asia opening.
+We take the low or high of the previous candle as the stop loss. The
+risk to reward for this strategy is 2:1. If the stop loss is 80 pips, the proﬁt
+target is 40 pips.
+
+Long Trade Setup
+For this strategy, the opening and closing of the daily candle corresponds
+to 5 P.M. New York time, which is the closing time of the U.S. market.
+Here are the steps to execute the good morning Asia strategy for long:
+1. Ensure that the previous day’s candle is a bull candle (i.e., the closing
+
+price of the candle is higher than the opening price). (See Figure 10.15.)
+
+c10.indd 229
+
+03/12/12 9:57 AM
+
+230
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.15 Previous Day’s Candle Must Be a Bull Candle
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.16 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+2. Enter at the opening of the next candle. This is the entry price.
+3. Set the stop loss at the low of the previous day’s candle.
+4. Measure the number of pips between the entry price and stop loss. If
+
+the number of pips is less than 30, shift the stop loss lower to make
+sure it is at least 30 pips from the entry price. The proﬁt target is half
+that number of pips. In this example, the number of pips between entry
+
+c10.indd 230
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+231
+
+FIGURE 10.17 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+price (78.42) and stop loss (77.36) is 106, so the proﬁt target is 53 pips
+above the entry price at 78.95. (See Figure 10.16.)
+From the long example in Figure 10.17:
+Entry price 5 78.42
+Stop loss 5 77.36
+Proﬁt target 5 78.95
+The risk for this trade is 106 pips, and the reward is 53 pips. The risk to
+reward ratio is 2:1, which yields a 1.5% return if we take a 3% risk.
+
+Short Trade Setup
+Here are the steps to execute the good morning Asia strategy for short:
+1. Ensure that the previous day’s candle is a bear candle (i.e., the closing
+
+price of the candle is lower than the opening price). (See Figure 10.18.)
+2. Enter at the opening of the next candle. This is the entry price.
+3. Set the stop loss at the high of the previous day’s candle.
+4. Measure the number of pips between the entry price and stop loss. If
+the number of pips is less than 30, shift the stop loss higher to make
+sure it is at least 30 pips from the entry price. The proﬁt target is half
+of that number of pips. In this example, the number of pips between
+
+c10.indd 231
+
+03/12/12 9:57 AM
+
+232
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 10.18 Previous Day’s Candle Must Be a Bear Candle
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 10.19 Set Stop Loss and Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+entry price (76.68) and stop loss (77.48) is 80 pips, so the proﬁt target
+is 40 pips below the entry price at 76.28. (See Figure 10.19.)
+From the short example in Figure 10.20:
+Entry price 5 76.68
+Stop loss 5 77.48
+Proﬁt target 5 76.28
+
+c10.indd 232
+
+03/12/12 9:57 AM
+
+Strategies for Mechanical Traders
+
+233
+
+FIGURE 10.20 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 80 pips, and the reward is 40 pips. The risk to
+reward ratio is 2:1, which yields a 1.5% return if we take a 3% risk.
+
+Strategy Roundup
+This strategy is suitable for traders with very little time to monitor the market. Furthermore, it does not require any complex market analysis. The
+entry time is predictable because the market is entered at a ﬁxed time of
+the day, every single day.
+Good morning Asia centers on the USD/JPY for three reasons:
+1. The United States and Japan are the largest and third largest econo-

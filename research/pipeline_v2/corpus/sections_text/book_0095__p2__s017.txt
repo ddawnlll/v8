@@ -1,0 +1,482 @@
+
+Chapter 8: Finding Companies Based on Their Fundamentals
+You may notice that valuation metrics aren’t used in this screen. That’s
+because growth stocks appear overvalued using traditional metrics like P/E or
+price to sales ratio (P/S). These metrics can be incorporated, if you want, to
+identify supposedly cheap growth stocks. For example, the previous screen
+can be amended to add a criterion that the P/E of a screened security is less
+than or equal to the P/E of the overall market.
+
+Applying a growth screen when you want to short
+If you’re looking for high-priced stocks that exhibit poor price performance,
+consider using this type of screen. Many of the same criteria used in the preceding screen are the same. This one differs in that it looks for securities
+exhibiting strong negative earnings growth rates rather than positive ones. It
+also looks for companies with poor price performance (via the relative
+strength rating). Finally, this screen introduces a new field called “Earnings
+Surprise” to help you find companies that are disappointing Wall Street.
+Companies often release poor news slowly, which creates a “drip drop”
+effect. This is often found in companies with negative earnings surprises.
+Following are the figures to use in a growth screen when you want to short:
+ Last closing share price ≥ $5
+ Average daily volume (last 50 days) ≥ 100,000 shares
+ EPS growth (most recent quarter versus year-ago quarter) ≤ –25 percent
+ P/E ≥ industry average
+ Last quarter earnings surprise ≤ –10%
+ Relative strength rating ≤ 20
+The first two fields identify “tradable” securities trading above $5 per share
+with average daily volume of 100,000 shares or higher. The third criterion
+focuses on companies that have stubbed their feet — earnings growth was
+negative in the recent quarter, potentially signaling a worsening profit picture
+for coming quarters. But you want to short overvalued companies — and
+that’s why the fourth criterion restricts your search to companies with P/E
+ratios above their industry average. The earnings surprise criterion helps
+you identify companies that aren’t managing Wall Street expectations well.
+The final criterion indicates companies with poor price performance —
+a prerequisite for identifying shares of companies that are likely to fall.
+
+When value is in vogue
+Value stocks are characterized by low valuations, first and foremost. Value
+screens must home in on the valuation metric via popular statistics like P/E,
+PEG ratio, or the price to sales ratio (P/S). You don’t emphasize earnings
+growth rates or sales growth in value stocks. Although finding a company
+
+177
+
+178 Part III: Digging Deeper into the Market: Fundamental Analysis
+with strong earnings growth rates makes a value stock that much more
+attractive, don’t exclude a company for consideration (on the long side of
+the market) just because earnings may not be growing rapidly and, in fact,
+may be declining.
+
+Using a value screen to find leading value stocks
+A value screen is most helpful when value stocks are outperforming the
+market. Value stocks are characterized by their industries and their valuations relative to the overall market.
+Here’s a value screen you may use to focus on promising candidates by
+using the P/S valuation metric (remember, this is just one example, and one
+I recommend — you should experiment and develop your own screen for
+selecting securities):
+ Last closing share price ≥ $5
+ Average daily volume (last 50 days) ≥ 100,000 shares
+ P/S ≤ 1.25
+ Dividend yield ≥ 1.0%
+ Return on equity ≥ 18%
+ Relative strength rating ≥ 80
+The first two fields restrict you to an investment universe that trades often
+and above $5 per share. The next ranking restricts you to so-called cheap
+securities, as measured by P/S. Value stocks often pay dividends, so I like to
+see some dividend payout. But beware of companies that pay dividends of 10
+percent or more. These companies are often distressed and about to cut
+their dividend payments. Finally, the relative strength ranking helps ensure
+you concern yourself only with securities performing in the top 20 percent of
+the market. These securities tend to outperform the market in the near term.
+
+Applying a value screen when you want to short
+If you want to short value stocks, you can make some tweaks to the preceding screen. Now, you’re looking for poor price performance rather than
+strong price performance. You’re also searching for negative earnings
+surprises — a sign that the company is disappointing Wall Street and may
+continue to do so.
+Following is the value screen to use when you want to short:
+ Last closing share price ≥ $5
+ Average daily volume (last 50 days) ≥ 100,000 shares
+ P/S ≤ 1.25
+
+Chapter 8: Finding Companies Based on Their Fundamentals
+ Dividend yield ≥ 1.0%
+ Relative strength rating ≤ 20
+ Last quarter earnings surprise ≤ –10%
+The first four fields are unchanged from the value screen on the long side.
+These criteria narrow the universe of securities to actively traded value
+stocks. The final two criteria, however, identify value stocks that have
+faltered. A stock that sports a weak price rank (in the bottom 20 percent
+of the market) is a sign that the firm has fallen on hard times or that the
+valuation has gotten too extreme. A negative earnings surprise is another
+sign that the company is no longer able to meet Wall Street’s expectations.
+
+Assessing your screening results
+After completing your screen, you need to have some kind of ranking system
+so you can focus on the most promising candidates first and work your way
+down. You can rank securities by their P/E ratios, for example, from lowest to
+highest if you’re looking for swing trading candidates on the long side of the
+market. Or you can rank securities by their return on equity or price to free
+cash flow ratios. Ranking helps you push the cream to the top.
+HGS Investor allows users to create “combo rankings,” which allow ranking
+based on two or more measures (like 30 percent weight on EPS rank and 70
+percent weight on P/E).
+When identifying a promising swing trading candidate using a fundamental
+screen, the right security should jump out at you. You shouldn’t have to do a
+lot of equivocating or questioning. Here’s how to analyze your results:
+ If the security is one you want to go long in, verify that it exhibits strong
+earnings, has a low valuation, and is in a well-performing industry.
+ If you’d rather short the security, make sure it shows declining earnings
+growth, has a high valuation, and is in a poor-performing industry.
+
+Deciding Which Approach to Use
+Which approach should you use? As much as you may hate to hear it, this
+question doesn’t have a right answer. The approach you choose is solely
+dependent on your style of trading. Do you prefer to identify the ripe
+industries that are poised to take off? If so, use the top-down approach.
+Do you enjoy developing screens and then examining the filtered results
+for promising candidates? In that case, use the bottom-up approach.
+
+179
+
+180 Part III: Digging Deeper into the Market: Fundamental Analysis
+Fundamentals-based investors are usually bottom-up oriented. Swing traders
+and technical traders are often top-down oriented. However, a fundamentalsbased trader can be top-down, and a technical swing trader can be bottomup. Remember: There’s no right or wrong way. The promising candidates
+are the ones that you find regardless of whether you begin with a top-down
+or bottom-up approach.
+Ideally, a security you find by using the bottom-up approach can also be
+found by using a top-down approach. But employing both approaches simultaneously is complex and time consuming. Choose one and stick to it so that
+you perfect identifying promising industries (if you’re a top-down type) or
+securities that are under- or overvalued on the grassroots level (if you’re a
+bottom-up type).
+
+Chapter 9
+
+Six Tried-and-True Steps for
+Analyzing a Company’s Stock
+In This Chapter
+ Getting familiar with the company you want to swing trade
+ Examining its financial stability and earnings and sales data for clues to
+
+the bigger picture
+ Seeing how the competition’s share price measures up — relatively speaking
+
+A
+
+nalyzing a company is kind of like going grocery shopping without a
+shopping list. You can go to the store and look around for what you
+want, but without having something in mind, you spend a great deal of time
+walking through aisles trying to think whether you need more of this or more
+of that. Taking a list along is much more efficient. You know what you need to
+get and are less likely to be swayed by impulse buys scattered throughout
+the store. (Why exactly are grocery stores selling DVDs en masse, anyway?
+Are Americans now buying their favorite movies and their deli meats at the
+same time?)
+In this chapter, I clue you in to the Six Step Dance. Consider it your grocery
+list of what to look for when analyzing a stock you want to buy or sell. These
+six efficient, reliable steps aren’t set in stone. I didn’t pick them up from some
+secret society that holds the keys to the “right” way to evaluate companies.
+Instead, I offer you the process I use when looking at a potential investment
+and how to tell whether this method of analysis is right for you.
+
+The Six Step Dance: Analyzing
+a Company
+Forget the salsa or polka. The Six Step Dance isn’t a real dance. It’s actually
+a way to look at a company’s fundamentals to quickly determine whether
+shares are over- or undervalued. Table 9-1 shows you how the Six Step
+Dance compares to three other analysis methods — forgoing fundamental
+
+182 Part III: Digging Deeper into the Market: Fundamental Analysis
+analysis, analyzing stocks via EPS ranking, and using extensive modeling in
+Microsoft Excel — in terms of time efficiency, accuracy, and appropriateness
+for swing trading.
+Note: Time isn’t a luxury for a swing trader. Hence, the list in Table 9-1
+isn’t exhaustive. You’re not going to have to call a company’s suppliers or
+customers and inquire about their business operations. (I’m not even
+sure how much outperformance such an exercise would really add to an
+investment portfolio in the long run!)
+
+Table 9-1
+
+Comparing Fundamental Analysis Tactics
+
+Analysis Method
+
+Time Efficiency
+
+Accuracy
+Level
+
+Appropriate for
+
+No fundamental
+analysis
+
+Very time-efficient
+
+No accuracy
+
+Day traders
+
+EPS ranking
+
+Very time-efficient
+
+Average
+
+Day and swing
+traders
+
+Six Step Dance
+
+Time-efficient
+
+Above average
+
+Swing traders
+
+Extensive
+modeling
+
+Not time-efficient
+
+Most accurate
+
+Long-term
+investors
+
+If fundamental analysis isn’t your cup of tea, you can forgo it at your own
+peril. Forgoing fundamental analysis entirely is time-efficient because it
+requires no time on your part with regard to studying what makes a company
+tick. But because you have no yardstick to measure with, you’ve no idea
+whether the shares of a company you buy are expensive or cheap. This
+approach is most appropriate for day traders. Day traders trade on news,
+volume, and momentum. They pay little attention to a company’s earnings,
+balance sheet, or competitive position in the industry.
+Earnings per share (EPS) ranking is also time-efficient but with the added
+benefit of being somewhat accurate when it comes to selecting securities.
+Day and swing traders can benefit from incorporating EPS ranks into their
+trading.
+Extensive modeling is what Wall Street analysts do. They spend hours
+poring over 10Ks, 10Qs, and other SEC filings and use Microsoft Excel to
+forecast financial statements three to five years into the future. They call
+competitors, suppliers, and end customers to understand how a company’s
+products are selling in the marketplace. They even visit the company and
+speak with management. The accuracy level’s high here. But as I show you
+in Chapter 7, that doesn’t mean analysts draw the right conclusions in their
+recommendations.
+The Six Step Dance falls somewhere in the middle of the bunch shown in
+Table 9-1. It’s time-efficient after you get up to speed on how to do it. The
+
+Chapter 9: Six Tried-and-True Steps for Analyzing a Company’s Stock
+analysis of your first few companies using this method is a slow process, but
+you should be able to quickly review a company by using the Six Step Dance
+before too long.
+You don’t need to run through all six steps for every company that crosses
+your desk. Many companies will fail one or two of the steps and be thrown out
+of your trading idea box. You’re not an analyst with a deadline to meet for
+your portfolio manager; you are the portfolio manager. Use your time wisely
+and address all the key points before you enter a trade, and you’ll be able to
+quickly go through a list of companies and exclude those that just don’t have
+promising fundamentals.
+
+Taking a Company’s Industry
+into Account
+A company’s potential profits depend on the nature of its industry. For
+example, some companies require significant start-up costs to launch. Think
+about how expensive it’d be to enter the commercial airline market. Today,
+Boeing and Airbus make nearly all commercial aircraft. To launch your
+own commercial airline business, you’d have to have billions of dollars to
+research, design, produce, and market planes. The costs of entering the food
+service business, on the other hand, are much lower. That’s why Tommy
+from down the street can have a lemonade stand. These cost considerations
+play into the economics of a sector, which determine how much profit
+potential companies within that sector have.
+The first step in your stock analysis is to understand the nature of the industry in which a company operates. Peter Lynch, the legendary Fidelity fund
+manager, quips in his book that he’d never invest in a company that can’t be
+explained by a child with crayons. Similarly, Warren Buffett never invests in a
+company he can’t understand, which is one reason he didn’t participate in
+the technology boom of the 1990s. (Then again, he didn’t participate in the
+crash of 2000, either. In fact, Buffett’s company, Berkshire Hathaway, actually
+bottomed the same month the Nasdaq peaked in March of 2000.)
+Swing traders don’t have to be so strict. I’m not asking you to buy crayon kits
+or swear off technology investments. But understanding or having insight into
+an industry can help you better trade stocks in that market.
+The bottom line in analyzing the nature of a company’s industry is to follow
+four steps:
+1. Understand how the company makes profits.
+Does it profit by selling a commodity or by selling business services?
+The former is tied to the economy, whereas the latter may be
+growth-oriented.
+
+183
+
+184 Part III: Digging Deeper into the Market: Fundamental Analysis
+2. Determine whether the industry is growth- or value-oriented.
+This way, you have an idea of whether valuations are average, above
+average, or below average.
+3. Find out what rate of earnings growth is expected for the industry
+as a whole in the coming three to five years.
+4. Determine which stage the economy is in.
+Economic cycles affect sector performance, so recognizing the relative
+strength or weakness of the economy at any given time is essential.
+
+Scoping out markets you’re familiar with
+Swing trading companies in industries you know can pay off handsomely. For
+example, if you’re an avid gamer or have a child who plays video games, then
+you probably know that the Nintendo Wii is scoring massive success and outselling its rivals. Shares of Nintendo rose 500 percent between 2006 and 2007
+on the success of that console.
+Not convinced? Consider the portable music player industry and then look
+at Apple’s iPod. These puppies flew off the shelves from 2003 through 2007.
+As a result, shares of Apple rose 1,700 percent between 2004 and 2007.
+Don’t think that just because your time horizon’s measured in days or weeks
+that you can’t benefit from trends that last years. A savvy swing trader buys
+the dips of shares of super-successful companies like Nintendo or Apple and
+sells the mania.
+
+Identifying what type of
+sector a company is in
+Every company caters to a specific market sector. As part of the Six Step
+Dance, you want to first identify whether the company you’re looking at falls
+into the growth sector (characterized by above-average valuations and growth
+rates relative to the overall market) or the value sector (characterized by
+below-average valuations and growth rates relative to the overall market).
+Following are the industries I classify as growth industries:
+ Consumer cyclical: This sector includes retailers, homebuilders, auto
+and clothing manufacturers, cable companies, and other businesses that
+cater to the general consumer.
+ Healthcare: Pharmaceutical and biotech companies, HMOs, and medical
+instrument manufacturers are just some of the businesses that fall
+within this niche sector.
+
+Chapter 9: Six Tried-and-True Steps for Analyzing a Company’s Stock
+ Information technology: This market area is composed of software
+developers and computer and semiconductor manufacturers, among
+others.
+ Telecommunications: Cellular service providers, fiber optic wire/cable
+manufacturers, and cellphone manufacturers are just some of the telecom companies you may encounter.
+And here are the industries that I group into the value sector:
+ Consumer staples: This category is made up of businesses such as
+grocery stores, food producers, beverage manufacturers, and cosmetic
+companies.
+ Energy: Drilling companies, integrated energy firms, explorers and
+producers, and equipment manufacturers all work within the energy
+industry.
+ Financials: This market area includes banking companies, Real Estate
+Investment Trusts (REITs), investment banks, insurance companies,
+mortgage lenders, and so on.
+ Capital goods: Aerospace and defense companies, railroad businesses,
+farming product and heavy equipment manufacturers, and others meet
+the needs of this category.
+ Basic materials: This industry involves chemical specialty companies,
+paper and steel manufacturers, and related businesses.
+ Utilities: The electric and gas utilities you use daily belong in this group.
+
+Recession
+
+Figure 9-1:
+Market sectors perform
+differently
+depending on the
+stage of the
+economic
+cycle.
+
+Economic Growth
+
+Sectors perform differently depending on the economic cycle. Figure 9-1
+shows the sectors that tend to perform best depending on the stage the
+economy is in.
+
+Capital Goods
+Basic Materials
+Services
+Technology
+Early
+Expansion
+
+Mid
+Expansion
+
+Energy
+
+Late
+Expansion
+
+Consumer Staples
+Utilities
+
+Transportation
+Consumer Cyclicals
+Financials
+
+Early
+Mid
+Late
+Contraction Contraction Contraction
+
+185
+
+186 Part III: Digging Deeper into the Market: Fundamental Analysis
+Companies in growth sectors usually earn higher P/E ratios than companies in
+value sectors. Value sectors often feature companies that pay higher dividend
+yields than companies in growth sectors. There’s no right sector to be in. If
+anything, different sectors are right to be in at different times.
+Be aware that market sectors determine firms’ valuations. For example, electric utilities aren’t known for their earnings growth potential. So don’t exclude
+an electric utility from consideration simply because it doesn’t meet some
+absolute level of earnings growth you specify. Analyze companies on a curve
+based on their industry. Otherwise, you may be comparing apples and
+oranges. A 15 percent growth rate for a technology firm can look amazing
+when compared to a grocery store chain, but such a comparison isn’t fair.
+Just because a sector is a value sector doesn’t necessarily mean that sector
+can’t grow earnings at eye-popping rates. Consider the energy sector. For
+much of the ’90s, the energy sector was a classic value sector with companies priced at below-average P/E ratios when compared to the market index.
+But when energy prices began a magnificent climb early in the 21st century,
+the energy sector transformed — temporarily — into a growth sector. So
+seeing energy companies trading at 25 times earnings (a P/E ratio usually
+reserved for high-growth technology companies) isn’t unreasonable, because
+earnings growth rates are up significantly. But in the long term, the energy
+sector is a value sector.
+Just because a sector is marked as value doesn’t mean profits in that sector
+will be less than profits in a growth sector. When growth is out of favor, value
+sectors shine.
+
+Quick and dirty analysis for
+fundamental-analysis-phobes
+Don’t like the idea of fundamental analysis? Are
+you a chart reader at heart? If you answer yes
+to either question, then get excited because
+this sidebar’s going to brighten your day.
+Some swing traders care about just one factor:
+the ticker tape. They don’t care about what a
+company does, what it sells, how it makes its
+money, and the like. That knowledge, they may
+argue, isn’t going to make them more money
+when their time horizon’s measured in days.
+Such an argument is half-right. The shorter your
+time horizon, the more noise inherent in the
+movement of a security’s price. So a company
+
+with amazing fundamentals may still see stockprice depreciation in the short term. The returns
+of such companies may be realized only by
+holding for months or — gulp — years.
+However, this argument ignores the fact that
+strong, sustained moves in security prices are
+fundamentally driven. And having a working
+knowledge of the fundamentals means you’re
+more likely to catch these strong moves with
+legs. If you only focus on the ticker tape, you
+aren’t able to distinguish short-term blips from
+a strong trend that’s likely to take prices higher
+quickly.
+
+Chapter 9: Six Tried-and-True Steps for Analyzing a Company’s Stock
+
+The solution to this quandary is the earnings per
+share (EPS) rank, which tells you how a particular company’s earnings compare to the rest of
+the market’s earnings. The ranking appears
+each day for all stocks that trade on the Nasdaq
+and both the New York and American Stock
+Exchanges. It can be found in a second (so it’s
+not time consuming to incorporate into your
+analysis), but still provides a yardstick to measure a firm’s fundamentals relative to the overall market.
+Created by Investor’s Business Daily founder
+William J. O’Neil, EPS rank compares a company’s earnings per share growth in the last
+two quarters and over the last three to five
+years with all publicly traded companies in the
+William O’Neil database. Another company that
+publishes an EPS ranking is High Growth Stock
+Investor (HGS Investor), a top-down software
+product that provides quantitative and fundamental data on publicly traded stocks. Like
+Investor’s Business Daily, the EPS ranking of
+HGS Investor compares a firm’s earnings to all
+other publicly traded companies in the market.
+HGS Investor computes its EPS ranking by analyzing improvement in a firm’s earnings (by looking at the slope or rate of change of earnings)
+over the past three years.
+The EPS ranking system isn’t perfect, but it provides a quick snapshot of a company’s financial
+health. Earnings ultimately drive stock prices,
+and the stronger a company’s earnings growth,
+the faster its shares will appreciate. EPS rank is
+standardized on a 99-point scale, so the higher,
+the better. A ranking of 99 means that the security’s earnings per share growth outperformed

@@ -1,0 +1,979 @@
+
+FILTERED CANDLE PATTERNS
+
+A revolutionary concept developed by Greg Morris in 1991, called
+candle pattern filtering, provides a simple method to improve the
+overall reliability of candle patterns. While the short term trend
+of the market must be identified before a candle pattern can exist,
+determination of overbought and oversold markets using tradi-
+tional technical analysis will enhance a candle pattern’s predictive
+ability. Concurrently, this technique helps eliminate bad or pre-
+mature candle patterns.
+
+One must first grasp how a traditional technical indicator
+responds to price data. In this example, Stochastics %D will be
+used. The stochastic indicator oscillates between 0 and 100, with
+20 being oversold and 80 being overbought. The primary inter-
+pretation for this indicator is when %D rises above 80 and then
+falls below 80, a sell signal has been generated. Similarly, when it
+drops below 20 and then rises above 20, a buy signal is given. (See
+Chapter 10 for more on Stochastics.)
+
+
+Japanese Candlesticks 307
+
+Here is what we know about stochastics %D: When it
+enters the area above 80 or below 20, it will eventually generate a
+signal. In other words, it is just a matter of time until a signal is
+given. The area above 80 and below 20 is called the presignal area
+and represents the area that %D must get to before it can give a
+trading signal of its own. (See Figure 12.12.)
+
+06/13/96 {COMS) 3 Com Corp 08/28/96
+
+r i a an
+i oe
+ts
+
+i Piercing Line a6
+q . pre-signal 400
+Stochastic %D - tell > 20
+
+8s 8
+
+pre-signal buy area (below 20)
+fr 24 98 a 15 2 20 ave 5 morale 10 28
+_Ealin Paeed ag Votan © Origa Rossa 157
+
+Figure 12.12
+
+The filtered candle pattern concept uses this presignal area.
+Candle patterns are considered only when %D is in its presignal
+area. If a candle pattern occurs when stochastics %D is at, say 65,
+the pattern is ignored. Also, only reversal candle patterns are con-
+sidered using this concept.
+
+Candle pattern filtering is not limited to using stochastics
+%D. Any technical oscillator that you might normally use for
+analysis can be used to filter candle patterns. Wilder’s RSI,
+Lambert’s CCI, and Williams’ %R are a few that will work equally
+as well. (These oscillators are explained in Chapter 10.)
+
+
+308 Chapter 12
+
+CONCLUSION
+
+Japanese candlestick charting and candle pattern analysis are
+essential tools for making market timing decisions. One should
+use Japanese candle patterns in the same manner as any other
+technical tool or technique; that is, to study the psychology of
+market participants. Once you become used to seeing your price
+charts using candlesticks, you may not want to use bar charts
+again. Japanese candle patterns, used in conjunction with other
+technical indicators in the filtering concept, will almost always
+offer a trading signal prior to using other price-based indicators.
+
+
+CANDLE PATTERNS
+
+The candle patterns listed below comprise the library that is used to
+identify candlestick signals. The number in parentheses at the end of
+each name represents the number of candles that are used to define
+that particular pattern. The bullish and bearish patterns are divided
+into two groups signifying either reversal or continuation patterns.
+
+Bullish Reversals
+
+Long White Body (1)
+Hammer (1)
+
+inverted Hammer (1)
+Belt Hold (1)
+
+Engulfing Pattern (2)
+Harami (2)
+
+Harami Cross (2)
+Piercing Line (2)
+
+Doji Star (2)
+
+Meeting Lines (2)
+Three White Soldiers (3)
+Morning Star (3)
+Morning Doji Star (3)
+Abandoned Baby (3)
+Tri-Star (3)
+
+Breakaway (5)
+
+Three Inside Up (3)
+Three Outside Up (3)
+Kicking (2)
+
+Unique Three Rivers Bottom (3)
+Three Stars in the South (3)
+Concealing Swallow (4)
+Stick Sandwich (3)
+Homing Pigeon (2)
+Ladder Bottom (5)
+Matching Low (2)
+
+Bullish Continuation
+Separating Lines (2)
+
+Rising Three Methods (5)
+Upside Tasuki Gap (3)
+
+Side by Side White Lines (3)
+Three Line Strike (4)
+
+Upside Gap Three Methods (3)
+On Neck Line (2)
+
+In Neck Line (2)
+
+Bearish Reversals
+
+Long Black Body (1)
+Hanging Man (1)
+Shooting Star (1)
+
+Belt Hold (1)
+
+Engulfing Pattern (2)
+Harami (2)
+
+Harami Cross (2)
+
+Dark Cloud Cover (2)
+Doji Star (2)
+
+Meeting Lines (2)
+
+Three Black Crows (3)
+Evening Star (3)
+Evening Doji Star (3)
+Abandoned Baby (3)
+Tri-Star (3)
+
+Breakaway (5)
+
+Three Inside Down (3)
+Three Outside Down (3)
+Kicking (2)
+
+Latter Top (5)
+
+Matching High (2)
+Upside Gap Two Crows (3)
+Identical Three Crows (3)
+Deliberation (3)
+Advance Block (3)
+
+Two Crows (3)
+
+Bearish Continuation
+
+Separating Lines (2)
+
+Falling Three Methods (5)
+Downside Tasuki Gap (3)
+
+Side by Side White Lines (3)
+Three Line Strike (4)
+
+Downside Gap Three Methods (3)
+On Neck Line (2)
+
+in Neck Line (2)
+
+
+
+310
+
+Chapter 12
+
+|
+'
+
+it
+
+|
+M
+
+Hammer + Hanging Man - Inverted Hammer +
+Shooting Star -— Belt Hold + Belt Hold -
+Engulfing + Engulfing - Harami +
+
+
+
+Japanese Candlesticks
+
+311
+
+i"
+
+Harami -
+
+|
+
+|
+i
+
+Harami Cross +
+
+it
+
+Harami Cross -—
+
+I
+
+Piercing Line +
+
+Dark Cloud Cover —
+
++
+
+Doji Star +
+
++
+i
+
+Doji Star -
+
+Meeting Line +
+
+Meeting Line -
+
+
+
+312
+
+Chapter 12
+
+i 4
+
+Three White Soldier +
+
+Three Black Crows —
+
+Morning Star +
+
+ta
+i
+
+Evening Star —
+
+i
+
+io
+
+Morning Doji Star +
+
+i
+
+Evening Doji Star -
+
+a
+
+Abandoned Baby +
+
+Abandoned Baby -—
+
+Tri-Star +
+
+
+
+312
+
+Chapter 12
+
+fr 04
+
+Three White Soldier +
+
+Three Black Crows —
+
+Morning Star +
+
+Evening Star -
+
+if
+
+Morning Doji Star +
+
+1
+
++f
+i
+
+Evening Doji Star —
+
+i
+
+4
+
+Abandoned Baby +
+
+Abandoned Baby ~
+
+Tri-Star +
+
+
+
+312
+
+Chapter 12
+
+Fr i
+
+Three White Soldier +
+
+i
+
+Three Black Crows —
+
+Morning Star +
+
+fs
+i
+
+Evening Star -
+
+|
+
+0
+
+Morning Doji Star +
+
+i
+
+Evening Doji Star -
+
+,o
+
+Abandoned Baby +
+
+Abandoned Baby —
+
+Tri-Star +
+
+
+
+Japanese Candlesticks 313
+. | omy
+sya l
+| |
+| Hay! I
+Tri-Star - Breakaway + Breakaway —
+
+|
+‘pt
+
+Three Inside Up +
+
+i Jmy
+
+Three Inside Down —
+
+eat
+
+Three Outside Up +
+
+i My
+
+Three Outside Down
+
+Kicking +
+
+Kicking -
+
+
+
+314
+
+Chapter 12
+
+he
+
+Unique Three River
+
+Three Stars in the
+
+le
+
+Concealing Baby
+
+South + Swallow +
+Stick Sandwich + Identical Three Deliberation —
+
+Crows —-
+
+Matching Low +
+
+i:
+i
+
+Matching High -
+
+a
+
+Upside Gap
+Two Crows—
+
+
+
+Japanese Candlesticks
+
+315
+
+I"
+
+Homing Pigeon +
+
+Ti
+
+Ladder Bottom +
+
+00
+
+Ladder Top —
+
+q°"
+
+i
+
+i.
+
+i
+
+y
+
+i
+
+Advance Block — Two Crows — Separating Lines +
+f : Rising Three i
+Separating Lines — Metho ds + Falling Three
+
+
+
+316
+
+Chapter 12
+
+Ny
+
+i
+
+Upside Tasuki Gap +
+
+a
+
+Downside Tasuki
+Gap -
+
+ud
+
+y
+Side by Side White
+Lines +
+
+i
+
+U0
+
+Side by Side White
+Lines -
+
+i
+oy
+
+Three Line Strike +
+
+Three Line Strike —
+
+tl
+l
+
+Upside Gap Three
+Methods +
+
+Downside Gap Three
+Methods +
+
+a
+
+1
+
+On Neck Line +
+
+
+
+Japanese Candlesticks
+
+317
+
+i
+
+tu
+
+On Neck Line -
+
+i
+
+In Neck Line +
+
++
+
+In Neck Line -
+
+
+
+
+
+HISTORICAL BACKGROUND
+
+In 1938, a monograph entitled The Wave Principle was the first
+published reference to what has come to be known as the Elliott
+Wave Principle. The monograph was published by Charles J.
+Collins and was based on the original work presented to him by
+the founder of the Wave Principle, Ralph Nelson (R.N.) Elliott.
+
+Elliott was very much influenced by the Dow Theory,
+which has much in common with the Wave Principle. In a 1934
+letter to Collins, Elliott mentioned that he had been a subscriber
+to Robert Rhea’s stock market service and was familiar with Rhea’s
+book on Dow Theory. Elliott goes on to say that the Wave
+Principle was “a much needed complement to the Dow Theory.” .
+
+In 1946, just two years before his death, Elliott wrote his
+definitive work on the Wave Principle, Nature’s Law—The Secret of
+the Universe.
+
+Elliott’s ideas might have faded from memory if A.
+Hamilton Bolton hadn’t decided in 1953 to publish the Elliott
+Wave Supplement to the Bank Credit Analyst, which he did annual-
+
+319
+
+
+320 Chapter 13
+
+ly for 14 years, until his death in 1967. AJ. Frost took over the
+Elliott Supplements and collaborated with Robert Prechter in
+1978 on the Elliott Wave Principle. Most of the diagrams in this
+chapter are taken from Frost and Prechter’s book. Prechter went a
+step further and in 1980 published The Major Works of R.N. Elliott,
+making available the original Elliott writings that had long been
+out of print.
+
+BASIC TENETS OF THE ELLIOTT
+WAVE PRINCIPLE
+
+There are three important aspects of wave theory—pattern, ratio,
+and time—in that order of importance. Pattern refers to the wave
+patterns or formations that comprise the most important element
+of the theory. Ratio analysis is useful in determining retracement
+points and price objectives by measuring the relationships between
+the different waves. Finally, time relationships also exist and can be
+used to confirm the wave patterns and ratios, but are considered by
+some Elliotticians to be less reliable in market forecasting.
+
+Elliott Wave Theory was originally applied to the major
+stock market averages, particularly the Dow Jones Industrial
+Average. In its most basic form, the theory says that the stock
+market follows a repetitive rhythm of a five wave advance fol-
+lowed by a three wave decline. Figure 13.1 shows one complete
+cycle. If you count the waves, you will find that one complete
+cycle has eight waves—five up and three down. In the advancing
+portion of the cycle, notice that each of the five waves are num-
+bered. Waves 1, 3, and 5—called impulse waves—are rising waves,
+while waves 2 and 4 move against the uptrend. Waves 2 and 4 are
+called corrective waves because they correct waves 1 and 3. After
+the five wave numbered advance has been completed, a three
+wave correction begins. The three corrective waves are identified
+by the letters a, b, c.
+
+Along with the constant form of the various waves, there
+is the important consideration of degree. There are many differ-
+ent degrees of trend. Elliott, in fact, categorized nine different
+degrees of trend (or magnitude) ranging from a Grand Supercycle
+
+
+Elliott Wave Theory 321
+
+THE BASIC PATTERN
+
+Figure 13.1 The Basic Pattern. (A.J. Frost and Robert Prechter, Elliott
+Wave Principle {Gainesville, GA: New Classics Library, 1978], p. 20.
+Copyright © 1978 by Frost and Prechter.)
+
+spanning two hundred years to a subminuette degree covering
+only a few hours. The point to remember is that the basic eight
+wave cycle remains constant no matter what degree of trend is
+being studied.
+
+Each wave subdivides into waves of one lesser degree that,
+in turn, can also be subdivided into waves of even lesser degree. It
+also follows then that each wave is itself part of the wave of the
+next higher degree. Figure 13.2 demonstrates these relationships.
+The largest two waves—i and 2—can be subdivided into eight
+lesser waves that, in turn, can be subdivided into 34 even lesser
+waves. The two largest waves—1 and 2—are only the first two
+waves in an even larger five wave advance. Wave 3 of that next
+higher degree is about to begin. The 34 waves in Figure 13.2 are
+subdivided further to the next smaller degree in Figure 13.3,
+resulting in 144 waves.
+
+
+322 Chapter 13
+
+V @eond@= 2 Waves
+(2) (1(21(3)(4)(5\oi(b}ic)= 8 Woves
+12,3450 bc,etc. =34 Woves
+
+Figure 13.2 (Frost and Prechter, p. 21. Copyright © 1978 by Frost and
+Prechter.)
+
+The numbers shown so far 1,2,3,5,8,13,21,34,55,89,144—
+are not just random numbers. They are part of the Fibonacci num-
+ber sequence, which forms the mathematical basis for the Elliott
+Wave Theory. We’ll come back to them a little later. For now, look
+at Figures 13.1-13.3 and notice a very significant characteristic of
+the waves. Whether a given wave divides into five waves or three
+waves is determined by the direction of the next larger wave. For
+example, in Figure 13.2, waves (1), (3), and (5) subdivide into five
+waves because the next larger wave of which they are part—wave
+1—is an advancing wave. Because waves (2) and (4) are moving
+against the trend, they subdivide into only three waves. Look
+more closely at corrective waves (a), (b), and (c), which comprise
+the larger corrective wave 2. Notice that the two declining
+waves—(a) and (c)—each break down into five waves. This is
+
+
+Elliott Wave Theory 323
+
+4 1
+n passed eg 3
+8 2 55
+34 7
+144
+
+COMPLETE MARKET = CYCLE
+
+Figure 13.3 (Frost and Prechter, p. 22. Copyright © 1978 by Frost and
+Prechter.)
+
+because they are moving in the same direction as the next larger
+wave 2. Wave (b) by contrast only has three waves, because it is
+moving against the next larger wave 2.
+
+Being able to determine between threes and fives is obvious-
+ly of tremendous importance in the application of this approach.
+That information tells the analyst what to expect next. A completed
+five wave move, for example, usually means that only part of a larg-
+er wave has been completed and that there’s more to come (unless
+it’s a fifth of a fifth). One of the most important rules to remember is that
+a correction can never take place in five waves. In a bull market, for
+example, if a five wave decline is seen, this means that it is probably
+only the first wave of a three wave (a-b-c) decline and that there’s
+more to come on the downside. In a bear market, a three wave
+advance should be followed by resumption of the downtrend. A five
+wave rally would warn of a more substantial move to the upside and
+might possibly even be the first wave of a new bull trend.
+
+
+324 Chapter 13
+
+CONNECTION BETWEEN ELLIOTT
+WAVE AND DOW THEORY
+
+Let’s take a moment here to point out the obvious connection
+between Elliott’s idea of five advancing waves and Dow’s three
+advancing phases of a bull market. It seems clear that Elliott’s idea
+of three up waves, with two intervening corrections, fits nicely
+with the Dow Theory. While Elliott was no doubt influenced by
+Dow’s analysis, it also seems clear that Elliott believed he had
+gone well beyond Dow’s theory and had in fact improved on it.
+It’s also interesting to note the influence of the sea on both men
+in the formulation of their theories. Dow compared the major,
+intermediate, and minor trends in the market with the tides,
+waves, and ripples on the ocean. Elliott referred to “ebbs and
+flows” in his writing and named his theory the “wave” principle.
+
+CORRECTIVE WAVES
+
+So far, we’ve talked mainly about the impulse waves in the direc-
+tion of the major trend. Let’s turn our attention now to the correc-
+tive waves. In general, corrective waves are less clearly defined and,
+as a result, tend to be more difficult to identify and predict. One
+point that is clearly defined, however, is that corrective waves can
+never take place in five waves. Corrective waves are threes, never
+fives (with the exception of triangles). We’re going to look at three
+classifications of corrective waves—zig-zags, flats, and triangles.
+
+Zig-Zags
+
+A zig-zag is a three wave corrective pattern, against the major
+trend, which breaks down into a 5-3-5 sequence. Figures 13.4 and
+13.5 show a bull market zig-zag correction, while a bear market
+rally is shown in Figures 13.6 and 13.7. Notice that the middle
+wave B falls short of the beginning of wave A and that wave C
+moves well beyond the end of wave A.
+
+A less common variation of the zig-zag is the double zig-
+zag shown in Figure 13.8. This variation sometimes occurs in larg-
+er corrective patterns. It is in effect two different 5-3-5 zig-zag pat-
+terns connected by an intervening a-b-c pattern.
+
+
+Elliott Wave Theory
+
+325
+
+¢
+
+¢
+
+Figure 13.4 Bull Market Zig-Zag
+(5-3-5). (Frost and Prechter, p. 36.
+Copyright © 1978 by Frost and
+Prechter.)
+
+Figure 13.5 Bull Market Zig-Zag
+(5-3-5). (Frost and Prechter, p. 36.
+Copyright © 1978 by Frost and
+Prechter.)
+
+Figure 13.6 Bear Market Zig-Zag
+(5-3 5). (Frost and Prechter, p. 36.
+Copyright © 1978 by Frost and
+Prechter.)
+
+Figure 13.7 Bear Market Zig-
+Zag (5-3-5). (Frost and Prechter, p.
+36 Copyright © 1978 by Frost and
+Prechter.)
+
+
+326 Chapter 13
+
+©
+
+Figure 13.8 Double Zig-Zag. (Frost and Prechter, p. 37. Copyright ©
+1978 by Frost and Prechter.)
+
+Flats
+
+What distinguishes the flat correction from the zig-zag correction
+is that the flat follows a 3-3-5 pattern. Notice in Figures 13.10 and
+13.12 that the A wave is a 3 instead of a 5. In general, the flat is
+more of a consolidation than a correction and is considered a sign
+of strength in a bull market. Figures 13.9-13.12 show examples of
+normal flats. In a bull market, for example, wave B rallies all the
+way to the top of wave A, showing greater market strength. The
+final wave C terminates at or just below the bottom of wave A in
+contrast to a zig-zag, which moves well under that point.
+
+There are two “irregular” variations of the normal flat cor-
+rection. Figures 13.13-13.16 show the first type of variation.
+Notice in the bull market example (Figures 13.13 and 13.14) that
+the top of wave B exceeds the top of A and that wave C violates
+the bottom of A.
+
+Another variation occurs when wave B reaches the top of A,
+but wave C fails to reach the bottom of A. Naturally, this last pat-
+tern denotes greater market strength in a bull market. This varia-
+tion is shown in Figures 13.17-13.20 for bull and bear markets.
+
+
+Elliott Wave Theory
+
+327
+
+A Cc
+
+A c
+
+Figure 13.9 Bull Market Flat (3-
+3-5), Normal Correction. (Frost and
+Prechter, p. 38. Copyright © 1978 by
+Frost and Prechter.)
+
+Figure 13.10 Bull Market Flat (3-
+3-5), Normal Correction. (Frost and
+Prechter, p. 38. Copyright © 1978 by
+Frost and Prechter.)
+
+fa)
+
+Figure 13.11 Bear Market Flat
+(3-3-5), Normal Correction. (Frost
+and Prechter, p. 38. Copyright ©
+1978 by Frost and Prechter.)
+
+Figure 13.12 Bear Market Flat (3-
+3-5), Normal Correction. (Frost and
+Prechter, p. 38. Copyright © 1978 by
+Frost and Prechter.)
+
+
+328
+
+Chapter 13
+
+¢c
+
+¢
+
+Figure 13.13 Bull Market Flat (3-
+3-5), Irregular Correction. (Frost and
+Prechter,p. 39. Copyright © 1978 by
+Frost and Prechter.)
+
+Figure 13.14 Bull Market Flat (3-
+3-5), Irregular Correction. (Frost and
+Prechter, p. 39. Copyright © 1918 by
+Frost and Prechter.)
+
+oO
+
+Figure 13.15 Bear Market Flat
+(3-3-5), Irregular Correction. (Frost
+and Prechter, p. 39. Copyright ©
+1978 by Frost and Prechter.)
+
+Figure 13.16 Bear Market Flat (3-
+3-5), Irregular Correction. (Frost and
+Prechter, p. 39. Copyright © 1978 by
+Frost and Prechter.)
+
+
+
+Elliott Wave Theory
+
+329
+
+n
+
+A
+
+A
+
+Figure 13.17 Bull Market Flat (3-
+3-5), Inverted Irregular Correction.
+(Frost and Prechter, p. 40. Copyright
+© 1978 by Frost and Prechter.)
+
+Figure 13.18 Bull Market Flat
+(3-3-5), Inverted Irregular Correction.
+(Frost and Prechter, p. 40. Copyright
+© 1978 by Frost and Prechter.)
+
+Oy
+
+fe}
+
+Figure 13.19 Bear Market Flat
+(3-3-5), Inverted Irregular Correction.
+(Frost and Prechter, p. 40. Copyright
+© 1978 by Frost and Prechter.)
+
+Triangles
+
+Figure 13.20 Bear Market Flat
+(3-3-5), Inverted Irregular Correction.
+(Frost and Prechter, p. 40. Copyright
+© 1978 by Frost and Prechter.)
+
+Triangles usually occur in the fourth wave and precede the final
+move in the direction of the major trend. (They can also appear
+in the b wave of an a-b-c correction.) In an uptrend, therefore, it
+can be said that triangles are both bullish and bearish. They’re
+bullish in the sense that they indicate resumption of the uptrend.
+They’re bearish because they also indicate that after one more
+wave up, prices will probably peak. (See Figure 13.21.)
+
+
+330 Chapter 13
+
+BULL MARKET BEAR MARKET
+ASCENDING (Top flat, bottom rising)
+
+‘
+‘ \
+
+, \
+/ , \ \
+M \
+, \ \
+‘ \ \
+Ul \ ‘
+a ‘
+
+Figure 13.21 Corrective Wave (Horizontal) Triangles. (Frost and
+Prechter, p. 43. Copyright © 1978 by Frost and Prechter.)
+
+
+Elliott Wave Theory 331
+
+Elliott’s interpretation of the triangle parallels the classical
+use of the pattern, but with his usual added precision. Remember
+from Chapter 6 that the triangle is usually a continuation pattern,
+which is exactly what Elliott said. Elliott’s triangle is a sideways
+consolidation pattern that breaks down into five waves, each
+wave in turn having three waves of its own. Elliott also classifies
+four different kinds of triangles—ascending, descending, symmetri-
+cal, and expanding—all of which were seen in Chapter 6. Figure
+13.21 shows the four varieties in both uptrends and downtrends.
+
+Because chart patterns in commodity futures contracts
+sometimes don’t form as fully as they do in the stock market, it is
+not unusual for triangles in the futures markets to have only three
+waves instead of five. (Remember, however, that the minimum
+requirement for a triangle is still four points—two upper and two
+lower—to allow the drawing of two converging trendlines.) Elliott
+
+-Wave Theory also holds that the fifth and last wave within the tri-
+angle sometimes breaks its trendline, giving a false signal, before
+beginning its “thrust” in the original direction.
+
+Elliott's measurement for the fifth and final wave after
+completion of the triangle is essentially the same as in classical
+charting—that is, the market is expected to move the distance
+that matches the widest part of the triangle (its height). There is
+another point worth noting here concerning the timing of the
+final top or bottom. According to Prechter, the apex of the trian-
+gle (the point where the two converging trendlines meet) often
+marks the timing for the completion of the final fifth wave.
+
+THE RULE OF ALTERNATION
+
+In its more general application, this rule or principle holds that
+the market usually doesn’t act the same way two times in a row.
+If a certain type of top or bottom occurred the last time around,
+it will probably not do so again this time. The rule of alternation
+doesn’t tell us exactly what will happen, but tells us what proba-
+bly won't. In its more specific application, it is most generally
+used to tell us what type of corrective pattern to expect.
+Corrective patterns tend to alternate. In other words, if corrective
+
+
+332 Chapter 13
+
+wave 2 was a simple a-b-c pattern, wave 4 will probably be a com-
+plex pattern, such as a triangle. Conversely, if wave 2 is complex,
+wave 4 will probably be simple. Figure 13.22 gives some examples.
+
+Bull Bear
+
+Complex Simple Simple Complex
+
+Simple Complex Complex Simple
+
+Figure 13.22 The Rule of Alternation. (Frost and Prechter, p. 50.
+Copyright © 1978 by Frost and Prechter.)
+
+CHANNELING

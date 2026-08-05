@@ -1,0 +1,529 @@
+
+www.pdfdummies.com
+
+175
+
+176 Part IV: Finding Patterns
+1. SUPPORT LINE BROKEN
+2. TEST OF
+HIGHEST HIGH
+
+Figure 10-3:
+Classic
+break of
+support.
+
+PREVIOUS SIGNIFICANT LOW
+3. PREVIOUS LOW BROKEN
+
+If you grasp the 1-2-3 concept, congratulations! You have just met the most
+irksome, vexatious phenomenon in technical analysis — the pullback. It is
+also called a retracement or correction. This usage can get confusing because
+retracement and correction have specific meanings in other contexts, so you
+stick to the word pullback to be safe.
+The pullback is usually characterized by a roughly sideways movement that
+occurs after a trendline breakout and very often, just before it, too. The pullback is a symptom of congestion, aptly describing the market participants milling around like people on a crowded sidewalk trying to dodge one another and
+impeding progress in both directions as a result. Another term for a sideways
+price movement is consolidation, referring to market participants consolidating their ideas about the security being traded. Consolidation often — but not
+always — precedes a breakout of the trendline.
+Congestion and consolidation describe the same thing — trendless prices
+trading in a range. Often the range is defined by a previous high or low.
+Consolidations often precede and follow a breakout. If you see a period
+of sideways price movement and can’t find the trend, widen your chart
+to include more data and switch to a longer time frame (such as weekly).
+Chances are you are about to get or have just gotten a breakout.
+
+Playing games with support
+and resistance lines
+The chief issue with support and resistance is that the line itself becomes the
+focus of attention, rather than the trend. People make decisions about buying
+and selling because of what happens to the line — without anything real actually happening within the underlying trend.
+
+www.pdfdummies.com
+
+Chapter 10: Drawing Trendlines
+Support and resistance lines occur so often on charts, and nowadays so many
+people are aware of them, that to some extent they become self-fulfilling
+prophecies. A large number of people draw and respect the same lines. Some
+people want to defend the price because they own the security and want to see
+it survive a test of support so that more buyers are encouraged and it can rise
+some more.
+Others want the price to fall so they can buy the security more cheaply, or to
+cover a short position. In some instances, the big players in a market know
+where the small players have placed their buy or sell orders, because as
+amateurs, they select the obvious support or resistance levels. The professionals can then pick off the amateurs for a quick buck. As I note above, the
+pros may push the price under a support line just to spook the amateurs into
+selling. You end up going through a tricky and complicated train of thought
+whereby you don’t place your order at an obvious level because that’s
+exactly where the big guys expect you to — and then you miss an entry or
+exit at the best level.
+Drawing good and valid trendlines isn’t enough. You also want to study how
+often the crowd that trades your specific security chickens out at a resistance
+level or breaks support by a hair only to take the price up afterward. It’s not the
+line that counts — what counts is the crowd psychology that created the line.
+
+Drawing Internal Trendlines
+Wouldn’t it be nice to know the “true” trendline? This line would reveal the
+hidden trendedness of the prices without at the same time alerting everybody and his brother to attack or defend specific levels.
+Such a line does exist. It’s a line that goes through the center of the price
+series rather than along its edges, like support and resistance (see the section “Following the Rules with Rule-Based Trendlines” earlier in this chapter). How do you draw a straight line through the center of each price bar?
+Technically, you can’t, as least not on any chart where the prices jump
+around at all.
+But scientists have a solution to jumpiness: To “fit” a line that minimizes
+the distance from itself to each price close along the line. The best-fit line is
+named the linear regression line, linear referring to line and regression referring to the mathematical calculation. You don’t need to know how the line is
+calculated to be able to use it. You probably can’t explain an auto transmission, either, but you can still drive your car.
+
+www.pdfdummies.com
+
+177
+
+178 Part IV: Finding Patterns
+You can’t draw an accurate linear regression without first performing a complex statistical calculation. Spreadsheet software and all charting packages
+come with the linear regression already built in. Don’t shoot yourself in the
+foot trying to do the calculations yourself when you could just as easily be sipping a latté while a program does it for you.
+
+Rules for drawing a linear regression
+This section is a short one — you have no rules. Figuring out where to start
+and where to end a linear regression line is the first big obstacle in using the
+line in a practical way to help you make trading decisions. The simple answer
+is to start it at an obvious high or low, meaning that you need to look backward at the historical data on the chart to see where the current move began.
+This history check can be trickier than it sounds. You can get very different
+slopes, depending on how tightly you want the data to fit to the line. Seeing a
+welter of slopes covering up your chart can get very frustrating. Stick with it —
+pare back the surplus lines until you get one that looks the best to your eye.
+Where do you end a linear regression? This takes some practice with other
+indicators, such as a gap, a giant outside day, a moving average crossover, a
+change in momentum, or even a nontechnical development.
+You may see charts by self-appointed gurus that show a linear regression and
+advice that prices are “mean reverting” and exhibit a “central tendency,” meaning that a big variation away from the linear regression line will automatically
+correct back to the linear regression. This is nonsense. I am not aware of any
+reputable trading system that features the linear regression as a trading tool.
+
+Identifying trendedness
+In Figure 10-4, the linear regression line doesn’t actually go through the
+center of each price bar. In fact, some price bars are quite far away from the
+line. But if you look more closely, you can see that no other line gets you as
+close to Point A and to Point B at the same time. Only one linear regression
+exists for any set of prices on the chart. Despite its somewhat intimidating
+name, the linear regression should have you breathing a sigh of relief right
+now because nothing is subjective or judgmental about it. It’s “science.”
+Everybody gets the identical line if they are given the same chart and the
+same starting and ending points.
+
+www.pdfdummies.com
+
+Chapter 10: Drawing Trendlines
+
+A
+
+B
+Figure 10-4:
+Simple
+linear
+regression.
+
+A linear regression is the true, pure trendline. This is wonderful news. If you
+accept the core concept of technical analysis, that a trend will continue in the
+same direction, at least for a while, then you can extend the true trendline and
+obtain a forecast. In some software packages, a linear regression extension is
+called exactly that — a time-series forecast. This tool is tremendously useful.
+You have created a high-probability forecast for the upcoming period that
+gives you perspective on what to expect.
+If someone says, for example, that the price of Blue Widget stock is going
+from $5 to $10 in one month, you can take the current linear regression line
+and extend it out one month to evaluate whether that forecast has any relationship to reality, or is silly hype. That’s the good news.
+The bad news is that the linear regression line can slope this way or that
+way or no way (horizontal), depending on where you start and stop drawing. If you take a V-shaped price series like the one in Figure 10-5 and draw
+a single linear regression line, you get . . . garbage. Unless you have a very
+long holding period in mind, this chart shows two trends, and you need two
+linear regressions to reflect that. This conundrum leads to the common-sense
+observation that the less daylight between the line and the price points on
+the chart, the better the fit and the more likely it is that extending the line is
+a valid technique.
+
+www.pdfdummies.com
+
+179
+
+180 Part IV: Finding Patterns
+You can draw linear regression lines that are totally useless. They’ll still be
+scientifically accurate in that they depict the best fit possible to the data,
+and everyone else will get the same result. However, they won’t advance the
+cause of making a profit in the market or preventing a loss.
+
+Figure 10-5:
+Invalid
+linear
+regression.
+
+How to use the linear regression
+The linear regression does not take the place of support and resistance lines.
+It should be viewed as a supplement and confirming indicator to identify the
+trend. If you select a good starting point, the linear regression delivers pure
+trend. Unlike support and resistance lines (see the section “Following the
+Rules with Rule-Based Trendlines” in this chapter), the linear regression line
+doesn’t have any trading rules associated directly with it, but visually, the
+linear regression line is the most informative.
+If you draw a support or resistance line whose slope varies dramatically from
+your linear regression line, one of them is wrong. In a similar vein, if the line
+has a very steep slope and no other linear regression line on charts of the
+same security has such a steep slope, you can deduce that the price movement is statistically abnormal. It is unsustainably fast and likely to come to a
+sad end when traders start taking profit.
+This crash and burn is exactly what happened in the NASDAQ in March 2000,
+the “tech wreck.” Look at Figure 10-6.
+
+www.pdfdummies.com
+
+Chapter 10: Drawing Trendlines
+NASDAQ (2,200.96, 2,202.40, 2,179.51, 2,190.31, -0.55005)
+
+5500
+5400
+5300
+5200
+5100
+5000
+4900
+4800
+4700
+4600
+4500
+4400
+4300
+4200
+4100
+4000
+3900
+3800
+3700
+3600
+3500
+3400
+3300
+3200
+3100
+3000
+2900
+2800
+2700
+2600
+2500
+2400
+2300
+2200
+2100
+2000
+1900
+1800
+1700
+1600
+1500
+1400
+1300
+1200
+1100
+1000
+900
+800
+700
+600
+500
+400
+300
+200
+100
+0
+-100
+-200
+-300
+
+TRUE LINEAR REGRESSION TRENDLINE ENDED AT START OF BUBBLE
+
+TRUE LINEAR REGRESSION TRENDLINE EXTENDED BY HAND INTO THE
+FUTURE
+
+Figure 10-6:
+Anatomy of
+a bubble.
+1980 1981
+
+1982
+
+1983
+
+1984
+
+1985
+
+1986
+
+1987
+
+1988
+
+1989
+
+1990
+
+1991
+
+1992
+
+1993
+
+1994
+
+1995
+
+1996
+
+1997
+
+1998
+
+1999
+
+2000
+
+2001
+
+2002
+
+2003
+
+2004
+
+2005
+
+2006
+
+2007
+
+2008
+
+2009
+
+2010
+
+The linear regression line from the low in October 1998 to the peak in March
+2000 is so steep (and unprecedented) that anyone with an ounce of technical
+savvy could tell it was going to blow out and come crashing down — exactly
+as gurus were predicting. That doesn’t mean people shouldn’t take advantage
+of rising prices. It does mean that they shouldn’t have expected high and
+rising prices forever and should’ve placed trailing stops every day to lock in
+the extraordinary gains. See Chapter 5 for a discussion of stops.
+Here’s an interesting way to draw a linear regression:
+1. When you suspect that the price is accelerating (in either direction)
+at an abnormally high speed, first you draw a true linear regression.
+from the beginning of the data series but stop it at the point where
+the abnormality — the bubble — begins. You can see this only in hindsight, but it doesn’t take a lot of hindsight.
+2. Extend the line by hand, cutting off the bubble. The extension of the
+trendline becomes a more realistic forecast, because we know that bubbles always burst.
+Anyone drawing this linear regression trendline extension before March 2000
+(the market high) had a pretty good idea of where the market would land
+after the bubble burst. Yes, this is a highly subjective process, and it doesn’t
+always work. But it gets you thinking about the overall trend of the security
+or the market index.
+
+www.pdfdummies.com
+
+181
+
+182 Part IV: Finding Patterns
+You can do some really dumb things when using the linear regression line. For
+example, a linear regression line that is very far away from some of the prices
+on the chart is probably not valid. Also, if you extend a line out into the indefinite future, you get a fantasy, not a forecast. The market is a collection of
+human beings, not a science project. Prices simply don’t move in a straight
+line indefinitely.
+The linear regression could save your bacon someday, like it saved many
+technical traders in the Nasdaq crash of 2000 and the S&P crash in 2007. See
+Figure 10-6, showing the linear regression line from the lowest low in 2002 to
+the highest high of 2007. I also put the 200-day moving average on this chart
+(see Chapter 12). Anyone who didn’t buy in 2003 when the price diverged
+from the downsloping linear regression, and then sell everything at the beginning of 2008, was not paying attention.
+
+www.pdfdummies.com
+
+Chapter 11
+
+Transforming Channels
+into Forecasts
+In This Chapter
+▶ Getting to know channel drawing
+▶ Letting channels help you make money
+▶ Discovering breakouts
+▶ Finding out about the regression channel
+▶ Distrusting the channel — pivot point support and resistance
+
+D
+
+rawing a straight-line trendline and extending it out into the future
+suggests what the price may be in days to come. Actually, a trendline
+suggests only the general neighborhood of future prices. If the trendline is a
+support line, you expect the price not to fall below it, but that doesn’t tell you
+anything about how high it may go. With a linear regression line, you expect
+future prices to cluster around the line, but some outliers are always possible. In short, common sense tells you that you can’t forecast future prices
+to the penny.
+While nobody can create a pinpoint forecast, we can forecast the range of
+probable future prices. Range refers to the same high-low range of the price
+bar described in Chapters 6 through 8, only encompassing a larger number of
+price bars in a series — weeks and months rather than only a few days.
+In this chapter, I describe the straight-line channel and its forecasting capabilities. I show you two ways to build a straight-line channel forecast and outline how to interpret the information you see on the chart. I also talk about
+using pivot point analysis to draw horizontal support and resistance, for use
+either in nondirectional situations or with trend channels.
+
+www.pdfdummies.com
+
+184 Part IV: Finding Patterns
+Diving into Channel-Drawing Basics
+A channel is a pair of straight-line trendlines (see Chapter 10) encasing a
+price series. It consists of one line drawn along the top of a price series and
+another line, parallel to the first, along the bottom of the price series.
+The purpose of the channel is to train your eye to accept prices within its
+borders as on the trend and to detect prices outside its borders as off the trend
+(and perhaps ending the trend). In other words, the channel is a wider measure of trending behavior than a single line. As long as prices remain within
+the channel, you deduce that the trend is still in place.
+Depending on the raw material of your price bars, you can either
+✓ Start with a top line connecting at least two highs, and draw the bottom
+line parallel to it.
+✓ Start with the bottom line connecting at least two lows, and draw the
+top line parallel to that.
+✓ Draw a linear regression line, and draw the top and bottom of the channel at equal distances on either side of it.
+How do you know when a high or low is obvious and the right place to start a
+trendline? An obvious high or low is named a swing point, because it’s the last
+highest high or lowest low in a series of higher highs or lower lows. The trend
+may seem to continue for a few more bars after the highest high or lowest
+low. You don’t always get a sharp, clear-cut reversal exactly at the swing bar.
+But a few days after a swing bar, the reversal or swing point becomes visually
+obvious. Can you mistakenly identify a swing point? You bet. When drawing
+trendlines, you have to resign yourself to erasing a lot.
+You can draw channels to enclose every part of every price bar in the series,
+or you can draw the channels to allow some minor breaking of the lines. (In
+the section “Neatness counts” later in the chapter, I describe the pros and
+cons of allowing minor breakage.) Whatever your starting point (top, bottom,
+or linear regression) and whether you encase some or all the price series,
+consider the top line of the channel to be resistance and the bottom line of
+the channel to be support (see Chapter 10 for definitions of these terms).
+Constructing a channel by drawing parallel support and resistance lines organizes your vision. You expect future price highs not to exceed the top of the
+channel (resistance) and upcoming price lows not to exceed the bottom of the
+channel (support). The parallel lines tell you the maximum probable future
+price range. Note that word probable. Channels are visually compelling and
+can seduce you into thinking that the forecast range must occur. It’s all too
+easy to start drawing channels and forget that they’re only a forecast. A zillion
+factors can come out of the blue and knock your trend off the rails.
+
+www.pdfdummies.com
+
+Chapter 11: Transforming Channels into Forecasts
+Channels, whether hand drawn or software drawn, aren’t always as neat and
+tidy as the examples I use in the following sections. Some securities never
+offer the opportunity to draw a tidy channel, and some securities offer a tidy
+channel only some of the time. But the longer a tidy channel lasts, the more
+confident you can feel that you have correctly identified a trend.
+
+Drawing channels by hand
+Figure 11-1 is a model-perfect channel, but you may be astonished at how
+often you can draw a channel like this on a real security. Here’s how you do it:
+1. Start by connecting the two lows at the lower left. This is the support line.
+Notice that they’re the two relative lows because a bar with a higher low
+comes in between.
+2. With your ruler or through the magic of software, extend that line into
+the future.
+3. To form the top of the channel, you have to wait for the next relative high.
+A relative high can be seen only after you get an intervening lower high
+(got that?). On the chart, the highest high is the last of three higher
+highs. You go back to the highest high and start a line parallel to the
+support line from it. This is the resistance line.
+4. Extend the resistance line into the future.
+
+RESISTANCE LINE
+EXTENSION STARTS HERE
+
+SUPPORT LINE
+Figure 11-1:
+A model
+channel.
+
+TWO LOWS CONNECTED
+
+www.pdfdummies.com
+
+185
+
+186 Part IV: Finding Patterns
+Why are the lines parallel?
+When you draw a support line connecting a
+series of lows, you often see a parallel resistance
+line that mysteriously connects the highest highs.
+This is so common that most charting software
+programs have a standard command — “create
+parallel line.” No one knows why support and
+resistance lines are so often parallel. Here are
+a few explanations:
+✓ This kind of orderliness appears when the
+high-low trading range is stable. Volume is
+steady, too. An orderly crowd promotes an
+orderly channel. Market participants know
+where the price is relatively high — at the top
+of the channel. They expect no more gains at
+this point and are prepared to sell at the top
+to put their money to better use in some other
+security. Die-hard buyers, in turn, see when
+the price is relatively cheap — down around
+the support line. They add to their position,
+propelling the price upward.
+
+channel. They rely on the security alternating between support and resistance, and
+the perceived cycle is the basis of their trading plan. This often works, at least for short
+periods, as long as you don’t project the
+price bouncing off the support or resistance
+line several cycles into the future. In other
+words, don’t get cocky. You never know
+when fresh news is going to come along and
+cause prices to break the channel.
+✓ Humans have an innate need to impose
+order on a chaotic universe — or market.
+Parallel lines don’t always appear, of
+course, but they appear often enough that
+observers speak of trading ranges with a
+certain air of authority. When you hear of
+a trading range, this kind of parallel support
+and resistance channel is usually what the
+commentator has in mind.
+
+✓ Many technical analysts perceive a cyclical
+quality to the ebb and flow of prices within a
+
+Note that sometimes you later get a higher high and have to shift the entire
+resistance line up, keeping it parallel. Oddly, a high proportion of new highs
+stop at the old resistance line, even though some stop at the new resistance
+line, too. It’s like having two equally valid resistance lines. To be on the safe
+side, consider the farther-away channel line as the more-important one. The
+same thing is true of a second, farther-away support line.
+On the chart in Figure 11-1, the extension lines are gray. At the time they’re
+first drawn, the extended lines are hypothetical support and hypothetical
+resistance. Hypothetical means not proven.
+The lines stop being hypothetical and become actual support and resistance
+when the next high or low touches the extended line but doesn’t break it,
+validating the extension process. The circles in Figure 11-1 mark where the
+next high and low occur in this price series — and they occur at the hypothetical support and resistance lines. You know that you’ve drawn your channel
+line correctly when a third relative high or low makes a touch of the line but
+doesn’t cross it, making that touch a confirmation point.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 11: Transforming Channels into Forecasts
+
+Letting software do the drawing
+Another way to capture the collective habit of market participants is to draw
+the linear regression line, as I describe in Chapter 10, and then to build a
+channel on either side of it. Instead of drawing the support and resistance
+lines by hand and extending them out, you let the software do the drawing.
+See the later section “Riding the regression range,” for information on how
+the channel is calculated mathematically.
+Whichever way you draw the channel, apply the same expectations about the
+collective behavior of the market participants, and assume that future relative highs and relative lows are going to fall within the same range. The principle of extending support and resistance lines is the same whether you draw
+them by hand or use the linear regression as an anchor.

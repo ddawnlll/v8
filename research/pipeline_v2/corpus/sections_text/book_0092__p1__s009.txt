@@ -1,0 +1,922 @@
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+106
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.3 An example of round number resistance for the GBPUSD at 2.0000
+
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+moving averages, and sometimes round psychological levels such as
+USDJPY 100.00 or GBPUSD 2.0000.
+Properly identifying support and resistance is critical to becoming a
+successful trader because a big part of market timing depends on buying
+close to support and selling close to resistance. Also, support and resistance should be viewed as a zone, not a point. For example, 101.00/102.00
+was a long-term support zone for the USDJPY. The 1993 low was at 101.10,
+the 1999 low was at 101.26, and the 2005 low was at 101.67. Similarly, the
+zone surrounding 2.0000 was resistance for the GBPUSD as the 1991 high
+was at 1.9990, the 1992 high was at 2.0035, and the January 2007 was at
+1.9914. The pair eventually broke through resistance in the summer of 2007,
+which brings up another point about support and resistance. Once support
+or resistance is broken, the level in question becomes its opposite. In other
+words, former support becomes resistance and former resistance becomes
+support. See Figures 6.4 and 6.5 for examples of this.
+Understanding not just where but also why specific price levels
+act as support or resistance breeds the confidence required to trade
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+107
+
+FIGURE 6.4 The 1.2500 level was resistance in July 2004, August 2005, and
+September 2005. That same level became support in July and October 2006
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+successfully. Successful traders are confident in their approach because
+they understand it.
+Support and resistance are so for a reason. These are not just arbitrary
+points on a chart. There is a psychology behind why support and resistance
+are where they are. Consider the USDCAD chart in Figure 6.5. In November
+2004, many traders bought and sold near 1.1700. Those who bought were
+delighted with themselves as the USDCAD traded higher over the next several months. Those who sold were feeling pain as their losses mounted.
+When the price came back to the 1.1700 level in October 2005, the traders
+who were long protected their positions by buying more, and the traders
+who were short were ecstatic to get out of the trade at breakeven by covering their shorts. Both groups bought in this instance, and 1.1700 was support again. However, bearish sentiment ensured that the buying was not
+sufficient enough to hold 1.1700. As price, now below 1.1700, trades back
+to 1.1700, those long now decide to get out at breakeven and bears returned
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+108
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.5 The 1.1700 level in the USDCAD was support in November 2004 and
+served as resistance in January and March of 2006 as well as January and March of
+2007
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+to sell at the same level that they themselves had sold at before. Now, both
+groups are sellers and the price plummets.
+
+DETERMINING A BIAS
+Patterns and market form are covered in Chapter 7. At this time, we’ll move
+to technical indicators. The most important function that technical indicators serve is presenting a point of reference from which to trade against.
+Whether a moving average or a pivot point, both tools make a division between bullish and bearish. Even oscillators such as RSI provide a reference point from which to trade against. Oscillators are different because
+they do not provide actual price points, but they do describe the current
+market condition. Does the indicator support a bullish or bearish bias? Are
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+The Power of Technical Indicators
+
+109
+
+conditions overbought or oversold? These are the questions that indicators
+help answer.
+
+Moving Averages
+Moving averages are the most widely used technical indicators and probably the simplest to understand. There are different kinds of moving averages but the most common are the simple moving average (SMA) and
+the exponential moving average (EMA). An SMA is just the average of a
+specified body of data. For example, a 10-period SMA is the sum of the last
+10 prices (usually closing prices) divided by 10.
+The calculation for an EMA is much more complicated. Some technicians prefer the EMA to the SMA, arguing that it decreases lag time because
+it assigns more weight to the most recent price. Although the SMA uses just
+the number of periods specified in its calculation, the EMA uses all of the
+data on the chart (if you are using a 10-day EMA and looking at a three-year
+chart, all three years of data will be in that EMA). How does this work? As
+mentioned, the EMA calculation is more complicated than that of the SMA.
+EMA(current) = EMA(previous) + SmoothingFactor
+× (Price − EMA[previous])
+SmoothingFactor = 2 ÷ (1 + n)
+n = periods
+If n = 10, then the multiplier = 2 ÷ 11 = .181818.
+Since the current EMA is calculated from the previous EMA, which is
+calculated from the previous EMA, which is calculated from the previous
+EMA, and so on, every price on the chart is included in the current EMA.
+Older prices have less of an effect on the current EMA than newer prices
+do, but they do have an effect, nonetheless. The calculation is similar to
+the passing down of genes in a family. My genes are very similar to my
+parents, less similar to my grandparents, and even less similar to my great
+grandparents (but there is a similarity nonetheless), and so on.
+Is an EMA really better than an SMA? The calculation is more complicated, but that doesn’t mean anything. In fact, simplicity is often rewarded
+in trading. A 13-day SMA and 13-day EMA are plotted on the EURUSD chart
+in Figure 6.6. The EMA is usually closer to price than the SMA since more
+weight is given to the most recent prices. As a result, the EMA provides
+quicker signals, but this can also lead to more false signals. Is the payoff
+worth it? Let’s find out by running some basic optimization tests.
+The tests are of single moving average crossovers using EURUSD data
+from January 1998 until October 2007. Figure 6.6 shows the chart with
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+110
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.6 Buy when price crosses above the moving average and sell when
+price crosses below the moving average. There is no simpler trending strategy and
+it works well
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+examples of actual buy and sell signals, and Table 6.1 details the test results. The rules are as follows:
+1. If the close is greater than the MA, then buy at 1 pip above the high.
+2. If the close is less than the MA, then sell at 1 pip below the low. (Buying
+1 pip above the high and selling 1 pip below the low acts as a filter for
+false signals.)
+For the daily tests, I ran crossovers for periods 10 to 21 (2 weeks to
+about a month). See Table 6.1.
+Interestingly, the SMA results are better than the EMA results. The
+SMA is better when considering percent profitable and net profit. Win/loss
+ratio and max drawdown are about the same. For both types of moving
+average, 13 days was the best input when only considering profit.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+111
+
+The Power of Technical Indicators
+
+TABLE 6.1 The best parameter for both the SMA and EMA daily tests is 13.
+Overall, the SMA results are better
+
+SMA
+
+Total
+Trades
+
+Percent
+Proﬁtable
+
+Win/Loss
+Ratio
+
+Net Proﬁt
+
+Max Intraday
+Drawdown
+
+13
+14
+11
+12
+17
+16
+15
+18
+19
+10
+21
+20
+
+250
+242
+274
+264
+230
+236
+240
+226
+226
+300
+214
+226
+
+33.20
+31.40
+34.31
+33.71
+26.52
+26.69
+29.17
+26.11
+26.55
+33.33
+25.70
+24.78
+
+2.39
+2.57
+2.17
+2.20
+3.03
+2.94
+2.59
+2.96
+2.82
+1.99
+2.88
+2.82
+
+$ 32,305.50
+$ 29,858.50
+$ 26,292.50
+$ 22,467.50
+$ 15,532.50
+$ 12,576.50
+$ 11,954.50
+$ 8,168.50
+$ 3,810.50
+$ 1,352.50
+$ 337.50
+$ (10,974.50)
+
+$ (20,970.00)
+$ (17,447.50)
+$ (23,433.50)
+$ (23,913.50)
+$ (16,310.00)
+$ (16,783.50)
+$ (17,770.00)
+$ (21,930.00)
+$ (22,370.00)
+$ (25,393.50)
+$ (25,810.00)
+$ (25,810.00)
+
+EMA
+
+Total
+Trades
+
+Percent
+Proﬁtable
+
+Win/Loss
+Ratio
+
+Net Proﬁt
+
+Max Intraday
+Drawdown
+
+13
+11
+14
+21
+20
+12
+15
+18
+10
+19
+16
+17
+
+259
+289
+255
+217
+227
+281
+255
+245
+311
+239
+255
+249
+
+28.19
+30.10
+27.06
+26.73
+26.43
+28.47
+27.06
+25.71
+30.23
+25.52
+25.88
+25.70
+
+2.77
+2.40
+2.75
+2.82
+2.82
+2.51
+2.67
+2.78
+2.21
+2.79
+2.71
+2.70
+
+$ 16,620.50
+$ 8,245.50
+$ 4,577.50
+$ 4,488.50
+$ 2,141.50
+$ 1,707.50
+$ (546.50)
+$ (6,350.50)
+$ (7,056.50)
+$ (7,552.50)
+$ (8,510.50)
+$ (11,470.50)
+
+$ (17,650.00)
+$ (20,750.00)
+$ (19,150.00)
+$ (23,330.00)
+$ (23,330.00)
+$ (21,340.00)
+$ (19,150.00)
+$ (21,570.00)
+$ (22,540.00)
+$ (23,330.00)
+$ (20,550.00)
+$ (23,290.00)
+
+For the weekly tests, I ran crossovers for periods 4 to 12 (roughly 1 to
+3 months). See Table 6.2.
+The weekly results are very close. The SMA results are more consistent
+as the difference in performance for the EMA tests varies.
+Much more thorough testing would be required in order to confidently
+conclude whether one type of moving average is better than the other. Still,
+these basic tests suggest one possible conclusion: There is no better moving average. One might work better in some situations than the other and
+vice versa. That is the nature of markets; no one single indicator is going to
+offer the holy grail all the time.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+112
+
+SENTIMENT IN THE FOREX MARKET
+
+The best parameter for the SMA and EMA weekly tests is probably 4.
+
+TABLE 6.2 There is not much of a diﬀerence between the EMA and SMA weekly
+tests, although the SMA tests are more consistent
+
+SMA
+
+All: Total
+Trades
+
+All: Percent
+Proﬁtable
+
+All:
+Win/Loss
+Ratio
+
+All:
+Net Proﬁt
+
+All: Max
+Intraday
+Drawdown
+
+4
+5
+10
+7
+11
+12
+9
+8
+6
+
+83
+79
+51
+69
+51
+47
+59
+65
+75
+
+36.14
+39.24
+41.18
+42.03
+41.18
+40.43
+40.68
+40.00
+40.00
+
+2.62
+2.27
+2.26
+1.98
+2.12
+2.19
+2.03
+2.02
+1.90
+
+$ 41,350.00
+$ 38,695.50
+$ 36,741.00
+$ 32,596.50
+$ 31,054.00
+$ 30,324.50
+$ 27,747.50
+$ 27,352.50
+$ 23,042.50
+
+$ (17,470.00)
+$ (14,270.00)
+$ (16,050.00)
+$ (15,590.00)
+$ (16,050.00)
+$ (20,082.50)
+$ (14,730.00)
+$ (15,590.00)
+$ (15,590.00)
+
+EMA
+
+All: Total
+Trades
+
+All: Percent
+Proﬁtable
+
+All:
+Win/Loss
+Ratio
+
+All:
+Net Proﬁt
+
+All: Max
+Intraday
+Drawdown
+
+9
+4
+10
+11
+12
+8
+6
+5
+7
+
+52
+82
+46
+44
+46
+60
+70
+78
+70
+
+44.23
+36.59
+36.96
+38.64
+36.96
+41.67
+41.43
+37.18
+38.57
+
+2.18
+2.58
+2.95
+2.74
+2.80
+1.99
+1.85
+2.10
+1.84
+
+$ 41,114.00
+$ 40,722.50
+$ 39,636.00
+$ 39,243.00
+$ 36,763.00
+$ 28,697.00
+$ 24,389.50
+$ 21,892.50
+$ 12,875.50
+
+$ (16,050.00)
+$ (14,270.00)
+$ (17,250.00)
+$ (17,250.00)
+$ (17,250.00)
+$ (16,050.00)
+$ (14,270.00)
+$ (14,270.00)
+$ (18,850.00)
+
+Pivot Points
+As previously mentioned in this chapter, trading requires reference points
+(support and resistance) from which to enter the market, place stops, and
+take profits. One tool that actually provides potential support and resistance and therefore helps minimize risk is the pivot point and its derivatives. Originally employed by floor traders on equity and futures exchanges,
+pivot points have proved exceptionally useful in the FX market. Pivot
+points can be calculated for any time frame. The previous period’s prices
+are used to calculate the pivot point for the next period, as follows:
+Pivot point for current = high(previous) + low(previous)
++ close(previous) ÷ 3
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+The Power of Technical Indicators
+
+113
+
+The pivot point is then used to calculate estimated support and resistance for the current trading period, as shown here:
+Resistance 1 = (2 × pivot point) – low(previous period)
+Support 1 = (2 × pivot point) – high(previous period)
+Resistance 2 = (pivot point – support 1) + resistance 1
+Support 2 = pivot point – (resistance 1 – support 1)
+Resistance 3 = (pivot point – support 2) + resistance 2
+Support 3 = pivot point – (resistance 2 – support 2)
+In order to fully understand how well pivot points can work, I compiled
+statistics for the EUR/USD on how distant each high and low has been from
+each calculated resistance (R1, R2, R3) and support level (S1, S2, S3). To
+do the calculations yourself,
+1. Calculate the pivot points, support levels, and resistance levels for x
+number of days.
+2. Subtract the support pivot points from the actual low of the day (low –
+S1, low – S2, low – S3).
+3. Subtract the resistance pivot points from the actual high of the day
+(high – R1, high – R2, high – R3).
+4. Calculate the average for each difference.
+I conducted this study in October 2006; data used in the study is
+EURUSD daily high, low, and close from January 1999 until October 2006.
+
+r The actual low is, on average, 1 pip below Support 1.
+r The actual high is, on average, 1 pip below Resistance 1.
+r The actual low is, on average, 53 pips above Support 2.
+r The actual high is, on average, 53 pips below Resistance 2.
+r The actual low is, on average, 158 pips above Support 3.
+r The actual high is, on average, 159 pips below Resistance 3.
+The statistics indicate that the calculated pivot points of S1 and R1 are
+a decent gauge for the actual high and low of the trading day. Going a step
+further, I calculated the number of days that the low was lower than each
+S1, S2, and S3 and the number of days that the high was higher than each
+R1, R2, and R3.
+
+r The actual low has been lower than S1 892 times, or 44 percent of the
+time.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+114
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+r The actual high has been higher than R1 853 times, or 42 percent of the
+time.
+
+r The actual low has been lower than S2 342 times, or 17 percent of the
+time.
+
+r The actual high has been higher than R2 354 times, or 17 percent of the
+time.
+
+r The actual low has been lower than S3 63 times, or 3 percent of the
+time.
+
+r The actual high has been higher than R3 52 times, or 3 percent of the
+time.
+This information is obviously useful to any trader. If you know that the
+pair slips below S1 44 percent of the time, then you can place a stop below
+S1 with confidence, knowing that probability is on your side. In addition,
+you may want to take profits just below R1 because you know that the high
+for the day exceeds R1 only 42 percent of the time. Again the probabilities
+are with you. It is important to understand that these are probabilities and
+not certainties. On average, the high is 1 pip below R1 and exceeds R1 42
+percent of the time. This does not mean that the high will exceed R1 4
+days out of the next 10 nor does it mean that the high is always going to
+be 1 pip below R1. The power in this information lies in the fact that you
+can confidently gauge potential support and resistance ahead of time, have
+reference points to place stops and limits, and, most importantly, limit risk
+while putting yourself in a position to profit.
+Remember, the pivot point concept can be applied to any period. A day
+trader can use daily data to calculate the pivot points each day, a swing
+trader can use weekly data to calculate the pivot points for each week
+(Figure 6.7), and a position trader can use monthly data to calculate the
+pivot points at the beginning of each month (Figure 6.8). Even an investor
+can use yearly data to approximate significant levels for the coming year.
+The trading philosophy remains the same regardless of the time frame. That
+is, the calculated pivot points give the trader an idea of where support and
+resistance are for the coming period.
+
+Pivot Zones
+In The Logical Trader, Mark Fisher introduces the pivot zone. Rather than
+using just one point (high + low + close) ÷ 3 to determine a period’s pivot,
+Fisher calculates two points.
+1. Calculate the regular pivot (high + low + close) ÷ 3.
+2. Calculate a second number (high + low) ÷ 2.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+115
+
+FIGURE 6.7 The pivot point, R2, and S2 pinpoint turns in the EURUSD quite often,
+as the example in this chart illustrates
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+3. Find the difference between the two numbers.
+4. Add the absolute value of the difference in order to find the PivotHigh
+(PH).
+5. Add the absolute value of the difference in order to find the PivotLow
+(PL).
+The result is a rolling pivot zone rather than just a pivot point. See
+Figure 6.9 for an illustration of weekly pivot zones.
+The pivot zone provides an area of reference from which to be bullish
+or bearish. If price is above the pivot zone, then a bullish bias is warranted
+with a stop below the pivot zone. If price is below the pivot zone, then
+a bearish bias is warranted with a stop above the pivot zone. Price often
+ranges within the pivot zone. By only playing breakouts from the pivot
+zone, buying above PH and selling below PL, you have a method to avoid
+frustrating whipsaw market action.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+116
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.8 Larger scale turns often occur at monthly pivot levels for the GBPUSD
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FIGURE 6.9 Not just where the pivot zone is, but also how wide the zone is, can
+aid in your trading
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+The Power of Technical Indicators
+
+19:35
+
+Printer: Yet to come
+
+117
+
+The width of the pivot zone offers clues as to what type of market to expect. A tight pivot zone warns of a breakout period and a wide pivot zone indicates a higher probability of a range bound period. If you think about the
+calculation of the pivot zone, it makes sense that tight and wide zones warn
+of breakouts or ranges. The width of the zone depends on where the close
+of the previous period is in relationship to that period’s high and low. If the
+close is exactly equidistant to the high and the low, then the PH and the PL
+will be equal and the pivot zone will be just 1 pip. The nearer that the close
+is to the high or the low, the wider the zone will be. For example, a strong
+bull move results in a closing price near the high of the period. The pivot
+zone for the next period will be wide, indicating increased potential for a
+range bound market that period. In markets, periods of trend are followed
+by periods of consolidation and the width of the pivot zone reflects that.
+
+Rolling Pivot Zone
+Another one of Fisher’s trading tools is the rolling pivot zone. In a way, it
+is a combination of a moving average and a pivot zone. The only difference
+between a regular pivot zone and a rolling pivot zone is that the rolling
+pivot zone uses more than one period’s data in its calculation. Instead of
+using the high, low, and close from the previous period, the rolling pivot
+zone uses the highest high of the last x number of periods, the lowest low
+of the last x number of periods, and the close (same as the regular pivot
+zone). Fisher mentions that he will use a three-day rolling pivot zone. For a
+three-day rolling pivot zone, use the highest high of the last three days, the
+lowest low of the last three days, and the close from the last day. The rolling
+pivot zone is great for trailing stops, as Figure 6.10 illustrates. If you choose
+to use a rolling pivot, then experiment with different parameters, such as a
+three-, four-, or five-day rolling pivot. Similar to a moving average, a longer
+lookback period is less timely but more reliable. If you are a scalper, then
+experiment with 12- or 24-hour rolling pivots.
+
+Oscillators
+Whereas moving averages and pivot points (including rolling pivots) are
+plotted with price, oscillators are plotted below (or above) price. There
+are two types of oscillators: those with limits that indicate whether price is
+overbought or oversold and those without limits. Those with limits are referred to as banded because of the bands that denote overbought and oversold. Those without limits are referred to as centered because the oscillator
+fluctuates above and below a center line. However, banded oscillators also
+fluctuate around a center line so differentiating between the two types of
+oscillators with these names is misleading. As such, we’ll refer to the two
+types as limit and no-limit.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+118
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.10 A ﬁve-day rolling pivot zone can be used as a trailing stop in order
+to lock in proﬁts
+R
+, the ﬂagship product of TradeStation TechSource: Chart created on TradeStation
+nologies, Inc.
+
+There is very little difference visually between price oscillators. All
+move up at the same time and all move down at the same time. All price
+oscillators are calculated from the same thing: price. This sounds painfully
+obvious. However, many new traders feel the need to use a multitude of oscillators. The result is dedicating too much attention to the indicators and
+not enough to price action itself. Still, oscillators are valuable tools and
+should be implemented as part of a successful trading strategy.
+Momentum and Rate of Change Momentum, the most basic oscillator, is the arithmetic change in price over a specified period of time. If you
+were calculating a 13-day momentum, then just subtract the closing price
+of 13 days ago from today’s closing price.
+Momentum = price(current) − price(x periods ago)
+The most important feature of momentum is the relation of the indicator to the zero line. A reading above 0 indicates positive price change,
+and a reading below 0 indicates negative price change. For example, 13 period momentum crossing above the 0 line indicates that the closing price of
+the current period is now greater than the closing price 13 days ago. This

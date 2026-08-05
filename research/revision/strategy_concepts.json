@@ -1,0 +1,38 @@
+[
+  {
+    "id": "SC-01",
+    "name": "Trend continuation after qualified pullback",
+    "family": "trend_following",
+    "status": "DISCOVERY_CONCEPT"
+  },
+  {
+    "id": "SC-02",
+    "name": "Failed breakout re-entry",
+    "family": "failed_breakout_reentry",
+    "status": "PILOT_FAMILY"
+  },
+  {
+    "id": "SC-03",
+    "name": "Liquidity sweep and reclaim",
+    "family": "liquidity_sweep_reclaim",
+    "status": "PILOT_FAMILY"
+  },
+  {
+    "id": "SC-04",
+    "name": "Volatility compression to expansion",
+    "family": "volatility_breakout",
+    "status": "DISCOVERY_CONCEPT"
+  },
+  {
+    "id": "SC-05",
+    "name": "Range boundary fade",
+    "family": "mean_reversion_band",
+    "status": "DISCOVERY_CONCEPT"
+  },
+  {
+    "id": "SC-06",
+    "name": "Non-response / opportunity transition",
+    "family": "position_lifecycle",
+    "status": "ARCHITECTURE_CONCEPT"
+  }
+]

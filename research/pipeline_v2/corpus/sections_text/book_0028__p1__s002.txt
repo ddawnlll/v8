@@ -1,0 +1,419 @@
+
+Burniske 00.indd 22
+
+9/11/17 11:29 AM
+
+xxiii
+
+Introduction
+
+stages of leveraging the potential of the Internet and building meta-applications atop it.
+The Internet was first conceptualized in the early 1960s to create resilient
+communication systems that would survive a nuclear attack on the United States.
+According to one of the Internet’s progenitors, Paul Baran, the key to accomplishing such resilience was decentralization.2 J. C. R. Licklider proselytized the
+concept of an “Intergalactic Computer Network,” convincing his colleagues at
+DARPA—which is responsible for investigating and developing new technologies for the U.S. military—of its importance.3 Leonard Kleinrock, an MIT professor, was doing work on packet switching—the technology underpinning the
+Internet—that would lead to the first book on the subject: Communication Nets.
+Ironically, though they were all working on a means to connecting the world,
+many of the early researchers in this period were unaware of one another.
+But their dream has been realized. Every day more than 3.5 billion Google
+search queries are made,4 18.7 billion text messages are sent (that doesn’t even
+include WhatsApp and Facebook Messenger, which combine for more than 60
+billion messages per day),5 and 269 billion emails are sent.6 Interestingly, however, the Internet has become increasingly centralized over time, potentially
+endangering its original conception as a “highly survivable system.”
+Human ingenuity often surfaces when it’s most needed, and now, a new
+technology is emerging that returns to the decentralized ethos of the original
+Internet with the potential to revolutionize our computational and transactional infrastructure: blockchain technology. Every second, millions of packets of information are transacted between humans and machines using the
+Internet, and blockchain technology is forcing us to rethink the costs, security,
+and ownership of these transactions.
+Blockchain technology came from Bitcoin. In other words, Bitcoin is the
+mother of blockchain technology. Bitcoin, with a capital B, is a platform that
+carries upon it programmable money, known as bitcoin with a lowercase
+b. The technological foundation to this platform is a distributed and digital
+ledger referred to as a blockchain. In January 2009, when Bitcoin was first
+released, it embodied the first working implementation of a blockchain the
+world had seen.
+Since then, people have downloaded the open-source software that is
+Bitcoin, studied its blockchain, and released different blockchains that go far
+beyond Bitcoin. Blockchain technology can now be thought of as a general
+purpose technology, on par with that of the steam engine, electricity, and
+machine learning.
+
+Burniske 00.indd 23
+
+9/11/17 11:29 AM
+
+xxiv Introduction
+
+To quote a May 2016 article in Harvard Business Review by Don and Alex
+Tapscott: “The technology most likely to change the next decade of business is
+not the social web, big data, the cloud, robotics, or even artificial intelligence.
+It’s the blockchain, the technology behind digital currencies like bitcoin.”7
+Incumbents are sensing the inherent creative destruction, especially within
+the financial services sector, understanding that winners will grow new markets and feast off the disintermediated. Many startups are eyeing these middlemen with the oft-flickering thought that has been credited to Amazon’s Jeff
+Bezos: “Your fat margins are my opportunity.”8
+If financial incumbents don’t embrace the technology themselves, Bitcoin
+and blockchain technology could do to banks what cell phones did to telephone poles. Nearly every global bank, exchange, custodian, and financial services provider is part of some blockchain consortium, investing in
+the potential disruptors or internally building its own team. These players
+include JP Morgan, Goldman Sachs, Citibank, the New York Stock Exchange,
+NASDAQ, Banco Santander, Barclays, UBS, South African Reserve Bank,
+Bank of Tokyo Mitsubishi, Mizuho, China Merchants Bank, Australian Stock
+Exchange, and more.
+Financial incumbents are aware blockchain technology puts on the horizon
+a world without cash—no need for loose bills, brick-and-mortar banks, or,
+potentially, centralized monetary policies. Instead, value is handled virtually,
+through a system that has no central authority figure and is governed in a
+decentralized and democratic manner. Mathematics force order in the operations. Our life savings, and that of our heirs, could be entirely intangible, floating in a soup of secure 1s and 0s, the entire system accessed through computers and smartphones.
+Technology providers smell the disruption as well, with Microsoft and IBM
+most vocally leading the charge. Microsoft provides Blockchain as a Service
+(BaaS) for developers within its Azure cloud platform. Marley Gray, its director of technology strategy, has said, “We want, and frankly our customers want,
+access to every blockchain. It could be two guys in a garage that forked bitcoin
+and had this genius idea and people want to try that out. We don’t want to have
+any barriers. We’re open to all. We help even the smallest players onboard.”9
+Just as the Internet and World Wide Web changed how we live our lives and
+interact with others, it also made millionaires out of the innovators who began
+companies based on these technologies—and the investors who invested in
+them. Those with the foresight to have bought Google during its “Initial Public
+
+Burniske 00.indd 24
+
+9/11/17 11:29 AM
+
+Introduction
+
+xxv
+
+Offering” (IPO) would have seen a 1,800 percent appreciation by August 2016,
+and those who bought Amazon’s IPO would have seen a 1,827 percent appreciation.10
+Blockchain architectures and their native assets are well on their way to
+becoming the next great meta-application to leverage Internet infrastructure.
+They already provide services that include global currencies, world computers,
+and decentralized social networks, among hundreds of others.
+The native assets historically have been called cryptocurrencies or altcoins,
+but we prefer the term cryptoassets, which is the term we will use throughout the book. The terms cryptocurrencies and altcoins convey only a fraction of
+the innovation that is occurring in the cryptoasset economy. Not all of the 800
+existing cryptoassets are currencies. We are not just witnessing the decentralized creation of currencies but also of commodities and polished digital goods
+and services, as blockchains meld technology and the markets to build Web 3.0.
+It’s early enough in the life of blockchain technology that no books yet have
+focused solely on public blockchains and their native cryptoassets from the
+investing perspective. We are changing that because investors need to be aware
+of the opportunity and armed both to take advantage and protect themselves
+in the fray.
+Inevitably, innovations of such magnitude, fueled by the mania of making money, can lead to overly optimistic investors. Investors who early on saw
+potential in Internet stocks encountered the devastating dot-com bubble. Stock
+in Books-A-Million saw its price soar by over 1,000 percent in one week simply
+by announcing it had an updated website. Subsequently, the price crashed and
+the company has since delisted and gone private. Other Internet-based high flyers that ended up crashing include Pets.com, Worldcom, and WebVan.11 Today,
+none of those stocks exist.
+Whether specific cryptoassets will survive or go the way of Books-A-Million
+remains to be seen. What’s clear, however, is that some will be big winners.
+Altogether, between the assets native to blockchains and the companies that
+stand to capitalize on this creative destruction, there needs to be a game plan
+that investors use to analyze and ultimately profit from this new investment
+theme of cryptoassets. The goal of this book is not to predict the future—it’s
+changing too fast for all but the lucky to be right—but rather to prepare investors for a variety of futures.
+Bitcoin, the most widely known cryptoasset, has been riding a roller coaster.
+If one had invested $100 in bitcoin in October 2009—the first time an exchange
+
+Burniske 00.indd 25
+
+9/11/17 11:29 AM
+
+xxvi Introduction
+
+rate was established for the nascent digital currency—one would now have
+over $100 million. In November 2013, if one had invested that same $100 in
+bitcoin, one would have endured an 86 percent drop by January 2015. There
+are nearly 800 other stories to tell, considering there are over 800 crypto­assets
+floating on globally connected and ever-on markets. At the end of 2016, a list
+of the top 50 included:12
+Bitcoin, Ethereum, Ripple, Litecoin, Monero, Ethereum
+Classic, Dash, MaidSafeCoin, NEM, Augur, Steem, Iconomi,
+Dogecoin, Factom, Waves, Stellar Lumens, DigixDAO, Zcash,
+Lisk, Xenixcoin, E-Dinar Coin, Swiscoin, GameCredits, Ardor,
+BitShares, LoMoCoin, Bytecoin, Emercoin, AntShares, Gulden,
+Golem, Tether, ShadowCash, Xaurum, Storjcoin, Stratis,
+Nxt, Peercoin, I/O Coin, Rubycoin, Bitcrystals, SingularDTV,
+Counterparty, Agoras Tokens, Siacoin, YbCoin, BitcoinDark,
+SysCoin, PotCoin, and Global Currency Reserve.
+
+This book will be the first of its kind to dive deep into a number of these.
+While many have slipped under the mainstream radar, the opportunities they
+present may be just as great as bitcoin.
+We hope to transform today’s intelligent investor into an innovative investor by providing a guide that explains what cryptoassets are, why they should
+be considered, and how to invest in them. Written by Benjamin Graham, The
+Intelligent Investor is a seminal work on value investing that Warren Buffet
+crowned as “the best book about investing ever written.”13 While we can only
+hope to achieve a fraction of the success Graham had in educating investors,
+our goals are very similar. We have chosen to focus on an asset class that didn’t
+exist in Graham’s day, and one that serves as a nice hedge against the exponential change that increasingly will disrupt existing portfolios over time.
+One of the keys to Graham’s book was always reminding the investor to
+focus on the inherent value of an investment without getting caught in the
+irrational behavior of the markets. Just as he aimed to arm the intelligent
+investor with the tools to make an investment decision based on fundamental
+analysis, we hope to do the same for the innovative investor who is considering
+adding cryptoassets to his or her portfolio.
+This is not a get-rich-quick book with the latest hot tips. Rather it’s a book
+that grounds this new asset class in the context of its own history, common
+investment strategies, the history of financial speculation, and more. Investors
+
+Burniske 00.indd 26
+
+9/11/17 11:29 AM
+
+xxvii
+
+Introduction
+
+who follow through on their interest in cryptoassets and examine them in the
+context of their overall financial goals and portfolio strategies will become
+innovative investors.
+We’ve written this book for the novice and the expert. We’ve divided it into
+three parts: What, Why, and How. The What lays the foundation for this new
+asset class, providing a concise explanation of the technology and history of
+cryptoassets. The Why dives into why portfolio management matters, as well
+as why we think this is a whole new asset class that offers great opportunity—
+as well as great risk. The How details how to approach adding a crypto­asset to
+a portfolio, including a framework for investigating the merits of a new asset,
+and the logistical grit of acquisition, storage, taxes, and regulation. Each chapter effectively can stand alone.
+The world of cryptoassets may at times feel like science fiction; we imagine
+that when the Internet was first explained and discussed, people felt the same
+way. For many, change sparks fear. We understand that. But it also kindles
+opportunity, and we hope to prepare the reader to recognize, understand, and
+act on the opportunities available in the world of cryptoassets.
+Tomorrow inevitably becomes today. Exponential change isn’t going away.
+This book will help the innovative investor not only survive but thrive. Let’s
+dive in.
+
+Burniske 00.indd 27
+
+9/11/17 11:29 AM
+
+This page intentionally left blank
+
+Burniske 00.indd 28
+
+9/11/17 11:29 AM
+
+CRYPTOASSETS
+
+Burniske 00.indd 29
+
+9/11/17 11:29 AM
+
+This page intentionally left blank
+
+Burniske 00.indd 30
+
+9/11/17 11:29 AM
+
+Part I
+
+WHAT
+
+Burniske 01.indd 1
+
+9/9/17 1:12 PM
+
+This page intentionally left blank
+
+Burniske 01.indd 2
+
+9/9/17 1:12 PM
+
+Chapter 1
+Bitcoin and the
+Financial Crisis of 2008
+
+I
+
+n 2008, Bitcoin rose like a phoenix from the ashes of near Wall Street collapse. In the four months of August to October 2008, an unprecedented
+series of changes occurred: Bitcoin.org was registered, Lehman Brothers
+filed for the largest bankruptcy in American history, Bank of America bought
+Merrill Lynch for $50 billion, the U.S. government established the $700 billion
+Troubled Asset Relief Program (TARP), and Satoshi Nakamoto published a
+paper that founded Bitcoin and the basis of blockchain technology.1
+The entwinement of the financial collapse on the one hand and the rise
+of Bitcoin on the other is hard to ignore. The financial crisis cost the global
+economy trillions of dollars and burned bridges of trust between financial
+titans and the public.2 Meanwhile, Bitcoin provided a system of decentralized
+trust for value transfer, relying not on the ethics of humankind but on the cold
+calculation of computers and laying the foundation potentially to obviate the
+need for much of Wall Street.
+
+WHO IS SATOSHI NAKAMOTO?
+Referring to Satoshi as “he” is simply a matter of convenience because to this
+day no one knows exactly who or even what Satoshi is. He, she, they, or it
+remains totally anonymous. On a profile page Satoshi created for the P2P
+Foundation—which he used to communicate with others as he spun up
+Bitcoin—he wrote that he was a 37-year-old male living in Japan.3
+3
+
+Burniske 01.indd 3
+
+9/9/17 1:12 PM
+
+4 CRYPTOASSETS
+
+Yet outside of Japan, fact digging has led people to believe Satoshi resided
+in the United Kingdom, North America, Central America, South America, or
+even the Caribbean. People point to his impeccable written English or occasionally British phrases as proof of U.K. residence,4 while others cite his posting patterns as being indicative of living in geographies in Eastern or Central
+time zones.5 A number of phony Satoshis have appeared, too, as the media
+is all too eager to present a solution to such a juicy puzzle. An Australian,
+Craig Wright, claimed to be Satoshi in May 2016 and momentarily grabbed
+the attention of publications such as The Economist 6 and Wired 7 before being
+debunked.8
+Claims of Satoshi’s origin now cover five continents, leading us back to the
+possibility that maybe Satoshi isn’t even a single person but rather a group
+of people. The mastery Satoshi showcased across a wide scope of topics—
+including cryptography, computer science, economics, and psychology—and
+the ability to communicate it all fluidly seems to support the hypothesis that
+Satoshi is more than one person. But who would they be? While the mystery
+may never be solved, Satoshi most certainly was aware of Wall Street’s growing
+instability.
+
+THE FINANCIAL CRISIS OF 2008
+For financial titans, 2008 proved a slowly unfolding nightmare. In March of
+that year, the first major Wall Street institution—Bear Stearns—acquiesced to
+its demons. After weathering every type of market for 85 years, Bear Stearns
+was finally dragged under by a slumping housing market. On March 16,
+JPMorgan Chase & Co. bought it for $2 a share, about 1 percent of the value
+of its $170 per share price from a year prior.9 To catalyze the deal, the Federal
+Reserve agreed to facilitate the purchase of $29 billion in distressed assets
+from Bear Stearns.10 Yet disturbingly, a month after the buyout, John Mack and
+Lloyd Blankfein, CEOs of Morgan Stanley and Goldman Sachs Group Inc.,
+respectively, told shareholders the housing market crisis was going to be shortlived and nearing a close.11
+Much of this crisis was born of irresponsible lending, known as subprime
+loans, to Americans who couldn’t repay their debts. Historically, when a bank
+issued a loan, the bank was on the hook for ensuring that the borrower repaid
+the funds. However, in the case of many subprime loans, once these loans were
+issued to borrowers, they were then packaged, or securitized, into complex
+instruments known as collateralized mortgage obligations (CMOs). These
+
+Burniske 01.indd 4
+
+9/9/17 1:12 PM
+
+Bitcoin and the Financial Crisis of 2008
+
+5
+
+CMOs were then sold to other investors, effectively passing on the risk like a
+hot potato through the financial markets, with purchasers lured by the promise of high returns combined with low risk, due to purported diversification.
+What people didn’t realize, including Wall Street executives, was how deep
+and interrelated the risks CMOs posed were. Part of the problem was that
+CMOs were complex financial instruments supported by outdated financial
+architecture that blended analog and digital systems. The lack of seamless digital documentation made quantifying the risk and understanding exactly what
+CMOs were composed of difficult, if not impossible. Furthermore, as these
+CMOs were spread around the world, global investors were suddenly interconnected in a web of American mortgages.12 In the summer of 2008, despite
+the lack of financial transparency but emboldened by access to funds from
+the Federal Reserve in case of further distress, Richard Fuld Jr., the CEO of
+Lehman Brothers, eerily claimed, “We can’t fail now.”13
+As a storm brewed around unknowing Wall Street executives, Satoshi
+Nakamoto was busy fleshing out the concept of Bitcoin. On August 18, 2008,
+Bitcoin.org, the home website for information on Bitcoin, was registered.14
+Whether as an individual or an entity, what’s now clear is that Satoshi was
+designing a technology that if existent would have likely ameliorated the toxic
+opacity of CMOs. Due to the distributed transparency and immutable audit
+log of a blockchain, each loan issued and packaged into different CMOs could
+have been documented on a single blockchain. This would have allowed any
+purchaser to view a coherent record of CMO ownership and the status of each
+mortgage within. Unfortunately, in 2008 multiple disparate systems—which
+were expensive and therefore poorly reconciled—held the system together by
+digital strings.
+On the morning of Wednesday, September 10, 2008, Fuld and other senior
+management faced a different reality from Fuld’s confident summer proclamation. Management struggled to explain to a group of critical analysts $5.3
+billion worth of write-downs on “toxic assets” and a quarterly loss of $3.9 billion.15 The call ended abruptly, and analysts signed off unconvinced of the
+measures Lehman was taking. The markets had already punished Lehman the
+day before, dropping its stock price 45 percent, and on Wednesday it dropped
+another 7 percent.16
+Two days later, on Friday afternoon, the CEOs of Merrill Lynch, Morgan
+Stanley, and Goldman Sachs met at the New York Federal Reserve, along with
+the Federal Reserve Chairman, the U.S. Treasury Secretary, and the president
+of the New York Federal Reserve. The afternoon’s topic was what to do about
+
+Burniske 01.indd 5
+
+9/9/17 1:12 PM
+
+6 CRYPTOASSETS
+
+Lehman Brothers. It was clear the situation had become critical. Initially it
+appeared either Barclays or Bank of America would come to the rescue of
+Lehman Brothers, but that likelihood quickly evaporated.
+On Saturday, as the same group met again at the New York Fed, John
+Thain, Merrill Lynch’s CEO, had an unsettling thought. During the briefing on
+Lehman’s situation, he realized his company might only be a few steps from the
+same catastrophe. “This could be me sitting here next Friday,”17 he said. Thain
+quickly moved to find suitors for Merrill, the most promising option being
+Bank of America, which had already been in talks to buy Lehman. With talks
+secretly progressing between Merrill Lynch and Bank of America, Lehman
+Brothers held Barclays as its only suitor hope.
+By Sunday, September 14, Barclays was ready to approve a deal to buy
+Lehman Brothers. Lehman only needed the U.S. or British government to back
+its trading balances for a couple of days, enough time for Barclays to conduct
+a shareholder vote for final approval. Neither government was willing to step
+in, and the likelihood of a deal began to melt. With only a few hours left until
+Asian markets opened for trading, the U.S. government questioned Lehman
+on its only remaining option: bankruptcy.
+Harvey Miller, a well-regarded bankruptcy lawyer at Weil, Gotshal &
+Manges, had been working quietly since Thursday night to lay the groundwork
+for this worst-case bankruptcy scenario. When asked by a senior Fed official if
+Mr. Miller felt Lehman was ready to file for bankruptcy, he responded: “This
+will cause financial Armageddon.”
+If Lehman filed for bankruptcy, financial firms that did business with
+Lehman would also lose billions, potentially triggering a domino effect of
+bankruptcy.
+Later that evening, Bank of America inked a deal to buy Merrill Lynch for
+$50 billion, and a couple of hours later, in the early hours of Monday morning,
+Lehman Brothers filed for Chapter 11 bankruptcy protection, making it the
+biggest bankruptcy in U.S. history. So came to an end a 164-year-old firm born
+from a dry-goods store that had evolved into the fourth largest U.S. investment
+bank. It signaled the end of an era.18
+Lehman’s bankruptcy and Merrill’s buyout proved to be only the beginning.
+On Tuesday, the Federal Reserve Bank of New York was authorized to lend up
+to $85 billion to the American International Group (AIG), the biggest insurer
+in America, as the behemoth organization began to teeter.19 It was midSeptember and darker clouds loomed on the horizon for Wall Street and global
+financial markets.
+
+Burniske 01.indd 6
+
+9/9/17 1:12 PM
+
+Bitcoin and the Financial Crisis of 2008
+
+7
+
+THE BIRTH OF BITCOIN
+Six and a half weeks later, on October 31, 2008, Satoshi released the Bitcoin
+white paper, which serves as the genesis for every single blockchain implementation deployed today and forevermore. In the concluding paragraph of
+his foundational paper, Satoshi wrote: “We have proposed a system for electronic transactions without relying on trust.”20
+By the time he released the paper, he had already coded the entire system.
+In his own words, “I had to write all the code before I could convince myself
+that I could solve every problem, then I wrote the paper.”21 Based on historical
+estimates, Satoshi likely started formalizing the Bitcoin concept sometime in
+late 2006 and started coding it around May 2007. In this same time span, many
+regulators began to believe that the U.S. housing market was overextended and
+likely in for a rough ride.22 It’s hard to believe someone with such breadth of
+knowledge as Satoshi would be working in isolation from what he was witnessing in global financial markets.
+The day after publishing his white paper, Satoshi sent an email to “The
+Cryptography Mailing List” with a link to his paper.23 The list was composed
+of subscribers focused on cryptography and its potential applications. Satoshi’s
+email sparked a chain of responses.
+On Friday, November 7, 2008, in reply to his increasingly passionate group
+of followers, he wrote: “You will not find a solution to political problems in
+cryptography . . . but we can win a major battle in the arms race and gain a new
+territory of freedom for several years. Governments are good at cutting off the
+heads of centrally controlled networks like Napster, but pure P2P networks
+like Gnutella and Tor seem to be holding their own.”24 It’s clear from this quote
+that Satoshi was not creating Bitcoin to slip seamlessly into the existing governmental and financial system, but instead to be an alternative system free of
+top-down control, governed by the decentralized masses. Such decentralized
+autonomy was foundational to the early days of the Internet as well, where
+each node on the network was an autonomous agent that corresponded with
+other agents through shared protocols.
+On November 9, the Bitcoin project was registered on SourceForge.net,
+a website geared toward facilitating open-source software development. In
+response to a growing number of inquiries and interest on The Cryptography
+Mailing List, Satoshi wrote on November 17: “I’ll try and hurry up and release
+the source code as soon as possible to serve as a reference to help clear up all
+these implementation questions.”25

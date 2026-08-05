@@ -1,0 +1,841 @@
+
+New Frontiers in Technical Analysis: Effective Tools
+and Strategies for Trading and Investing
+by Paul Ciana
+Copyright © 2011 Paul Ciana
+
+CHAPTER 4
+
+Kase StatWareTM
+and Studies
+Adding Precision to Trading
+and Investing
+Cynthia A. Kase, CMT, MFTA
+Kase and Company, Inc.
+
+When I was studying to become an engineer in 1969, I often used the
+computer room, which contained the equivalent of large calculators hooked
+up to a Wang computer. We students thought these computers were light-years
+ahead of the slide rules that were used in class and to take exams. In 1974, when
+I was working as an engineer, the company distributed portable calculators and
+soon after that, I was impressed to see a colleague’s “programmable” calculator,
+which could perform multiple-term calculations. It was innovations like this
+that led to the evolution in technical analysis from chart interpretation and a
+pattern-based focus to a more algorithmic approach, leading to Wells Wilder’s
+1978 New Concepts in Technical Analysis.
+A decade later, live charting packages had made these algorithmic approaches, or technical indicators such as moving averages, Wilder’s techniques
+such as DMI/ADX, and Appel’s MACD, commonly available. At this point,
+the canon of technical indicators seemed to be completed. This was due to
+two factors: the ﬁrst was that computer language architecture was primitive,
+so adding a new indicator at the time involved more or less tearing apart and
+155
+
+156
+
+New Frontiers in Technical Analysis
+
+rebuilding the structure, and the second had to do with a “chicken and the egg”
+syndrome. Before computerization, indicators became popular through being
+published and traders plotted them by hand or on primitive spreadsheets. My
+experience was that live charting packages were able to program only popular
+indicators, and the only indicators that were candidates for popularity were
+those that had become available on charting packages.
+As computing power and bandwidth made increasingly demanding calculations possible, the industry appeared to go down the road of handling
+more data in a clearer fashion by using more color and more intensive displays.
+The industry also became more sophisticated, with backtesting capabilities,
+portfolio management, screening functionality, and automated system development. What seemed to not improve was the calculation of indicators. There
+was a gap in providing traders with indicators based on rigorous mathematics
+and statistics and the coding of complex patterns previously identiﬁed only
+by eye, such as momentum divergence, or formerly calculated and drawn by
+hand, such as swings.
+I transferred from engineering to trading in 1983 and became interested
+in technical analysis. I studied all the formulas behind the indicators so that
+I would understand how they worked. It became clear to me over time, especially after being exposed to options mathematics and statistics when I
+worked on a derivatives desk, that a traditional approach to trading could be
+improved by changing the very simple math in standard indicators. It was
+from that point on that the development of Kase StatWare, a set of proprietary
+trade entry, exit, and risk management studies, began. The indicators in Kase
+StatWare use multiple cycle lengths, multiple bar lengths, statistics and probability, complex pattern analysis, and similar approaches that make trading
+easier, more accurate, and simply better at identifying entries and exits, when
+to let proﬁts run, and how to cut losses.
+Kase indicators apply to many different trading styles or types. First, while
+composed of mathematically rigorous, semiautomated indicators, Kase uses a
+traditional approach to trading with technical indicators. This is as opposed to,
+for example, trading based on geometric patterns such as ﬂags and pennants
+or on wave counts. What I would consider a traditional approach would
+be using trend identiﬁcation indicators for entries (e.g., a moving average
+or DMI), employing momentum divergence or ovebought/oversold signals
+on indicators (e.g., the relative strength index, or RSI), and depending on
+stochastic methods combined with trailing stops for exits.
+Kase StatWare uses the familiar trade cycle of entering, placing stops,
+then exiting on either momentum or stop hits, but has replaced the outdated
+indicators. So Kase’s indicators and general approach to trading appeal to
+traders who have typically used this type of methodology.
+
+Kase StatWareTM and Studies
+
+157
+
+Next, some traders want to use traditional indicators but have found
+them too difﬁcult to interpret or too cumbersome to combine in an integrated
+systematic manner. Kase’s semiautomation includes identifying buy and sell
+signals with “L” and “S” for long and short, and displaying the divergence lines
+on the screen for momentum indicators. Kase’s simpliﬁed indicator displays
+eliminate much of the manual interpretation and simplify reading and trading
+with charts.
+For engineers and for other traders who are intrigued by mathematics
+and who wish to be conﬁdent about how an indicator works and what its
+algorithms are doing, the appeal of Kase StatWare indicators is that they are
+based on statistical and ﬁnancial engineering principles. For example, rather
+than basing momentum indicators on the rate of change between closes, or
+where the close might lie relative to a high–low range, as do RSI and stochastic
+methods, the “guts” of Kase’s momentum indicators are based on the same
+probability mathematics as option theory.
+Whenever I recall the old days, when I used traditional indicators to
+trade, I remember constantly tweaking my indicator parameters to better ﬁt
+market conditions—for example, using a short periodicity, such as a length of
+nine, stochastic in sideways or oscillating markets, and longer periodicities in
+trending markets, like 21 or 34. At the same time I had to watch out for false
+signals. For instance, if the market had been quiet and trading in a shallow
+corrective pattern, and then experienced a volatile breakout, the stochastic
+could display a drastic excursion into overbought or oversold territory that
+was a result of a change in volatility and not a trend exhaustion. Kase’s
+indicators are self-adjusting, optimizing each bar for volatility, cycle length,
+and in some cases, the variation of volatility, similar to options’ gamma.
+Introduction to KaseSwing
+
+By Kase’s deﬁnition, a swing is identical to what a scientist would call a wave,
+deﬁned from peak to peak or valley to valley. Therefore, a wave would be
+characterized by the three points of valley-peak-valley or peak-valley-peak. In
+the markets the word swing is ordinarily used to differentiate scientiﬁc waves
+from Elliott waves. Here a swing is deﬁned by three prices, x, y, and z, where
+x and z are swing lows, with y representing a swing high between x and z, or
+vice versa. This differs from Ralph Nelson Elliott’s deﬁnition of wave, which
+is described as half and not full cycles or swings. Therefore the term swing is
+helpful in differentiating a full cycle from a half cycle, or Elliott wave.
+All that is required to identify swings is to choose the peaks and valley
+points, the swing highs and swing lows. At face value, this appears relatively
+
+158
+FIGURE 4.1
+
+New Frontiers in Technical Analysis
+KaseSwing One
+2U
+1U
+
+1U
+
+4U
+3U
+2U
+
+1D
+
+1D
+
+2D
+
+1U
+Swing = 1
+
+Initial Swing Low
+
+straightforward, and simply requires choosing the swing size or the number
+of bars up or down that are needed to deﬁne the swing.
+With a swing setting of one, only one down bar or one up bar is required
+to draw a swing. With a swing setting of two, two up or down bars are required
+to draw a swing. The following ﬁgures show four up bars rising from a swing
+low, followed by one down bar, one more up bar, and so forth.
+Figure 4.1, with a swing of one, counts the down bar (1D for one down)
+and then restarts the up count with the ﬁfth up bar. Figure 4.2, with a swing
+FIGURE 4.2
+
+KaseSwing Two
+2U
+5U
+
+1U
+
+4U
+3U
+2U
+
+1D
+
+1D 2D
+
+1U
+Swing = 2
+
+Initial Swing Low
+
+159
+
+Kase StatWareTM and Studies
+
+of two, skips over the “1D” bar because the count of two was not achieved,
+continuing instead with “5U” for the ﬁfth up bar.
+Figure 4.3 shows how KaseSwing, with swing settings of 1, 2, and 3, may
+be plotted on the same chart. Such charts can easily highlight the signiﬁcance
+of a given pullback. Here, the ﬁrst pullback to 83.82 showed up only with a
+swing of 1, the second to 88.20 with a swing of up to 2, and the third was
+signiﬁcant enough to show up with a swing of 3. This example of about six
+weeks’ time on a daily chart generated three complete swings for swing = 1,
+two for swing = 2, and one for swing = 3, a relatively small number of swings
+given the trending nature of the price activity, yet it would have taken time
+not only to draw in the lines but also to determine and label the actual prices
+on the highs and lows.
+
+Using Phi and Fibonacci Sequence (Fib) for Forecasting
+Phi (φ) is a transcendental number, like pi or the natural log e. If the Universe is
+mathematics realized, then phi is one of the words that is uttered to bring it into
+existence. Phi is the only number that, when diminished by 1, becomes its own
+reciprocal; for example, φ − 1 = 1/φ.
+Phi (φ, or 1.62) and phi prime (φ  , or −0.62) are the sole solutions to the
+equation x2 − x − 1 = 0.
+There are many books devoted to the subject of phi, which has many other
+interesting mathematical properties and is found in many proportions in nature,
+including human behavior relative to price information, that is, market data. Phi,
+the number x, and other numbers related to it, are used to project market prices.
+One way that φ, and φ  can be found is by taking any two integers and
+adding them together, then adding the sum with the second number and so
+forth, as in Xn = Xn − 1 + Xn − 2. In this way a number sequence is formed.
+For example, the seed numbers could be 216 and 7. X is divided by
+Xn − 1, such as 216/7, and the resultant value converges to phi, or 1.618.
+Using 216 and 7, you will ﬁnd that the 10th and 11th cells down the column
+are 4774 and 7729, with 7729/4774, the 10th ratio, converging to 1.618. The
+inverse ratio is 0.618.
+Many technicians refer to φ, φ  and other numbers relating to φ (such as
+038, which is phi prime squared) as Fibonacci extensions, because they can be
+derived from the Fibonacci sequence. The Fibonacci sequence is one that can be
+derived the same way as the one described above, but the sequence begins with
+0 and 1. So, 0 + 1 = 1, 1 + 1 = 2, 2 + 1 = 3, and so forth, for integers of 1, 1,
+2, 3, 5, 8, 13, and so forth.
+
+(continued)
+
+160
+
+9
+
+10
+
+77.09
+
+FIGURE 4.3
+
+11
+
+12 10/15 16
+
+17 18 19 10/22 23 24
+
+88.20
+B alt
+b/c
+
+29
+
+30 10/31 1
+
+2
+
+5
+
+6
+
+Shows with Swing 1 and 2
+
+25 26
+
+Shows with Swing 1
+
+93.82
+B
+
+A
+87.23
+
+A alt
+a/c
+92.80
+
+7 11/8 9
+
+12
+
+13 14 11/15 16
+
+19
+
+Kase Swing
+
+20
+
+98.62
+
+89.13
+Shows with Swing 1, 2, and 3
+
+C alt (0.62)
+c (E) / C (1.38)
+97.63
+
+Crude Oil, CLF08 Daily, KaseSwing 1, 2, and 3 and Superﬁcial Wave Count
+
+80
+
+85
+
+90
+
+95
+
+98.03
+
+100
+
+Kase StatWareTM and Studies
+
+161
+
+If any two integers are used to seed a sequence, such as a and b, the sequence
+breaks down to 1 a, 1 b, 1 a + 1 b, a + 2 b, 2 a + 3 b, 3 a + 5 b, 5 a + 13 b . . .
+610 a + 987 b, and so forth. So in the sequence used earlier, the actual values of
+a and b are irrelevant, and the formula reduces down to the Fibonacci sequence.
+The ratios of 0.62, 1.0, 1.38, and 1.62 used in the examples all relate to phi
+(see Figures 4.3 and 4.4).
+
+Using KaseSwing in Forecasting
+Applications for KaseSwing that might be immediately obvious include using
+the swings for wave analysis and forecasting. For example, the KaseSwing with
+labeled points, 77.09 − 87.23 − 83.82, projected to $97.83 as the “1.38”
+extension, and the wave, 83.82 − 92.80 (9.48 in length) are about equal to
+the wave 88.20 − 97.85 (9.43). This is one reason why the chart might be
+labeled as an ABC where A∗ 1.38 = C and a/C = c/C . This implies that the
+portion wave structure might be complete.
+In addition to this superﬁcial wave count, an alternative interpretation
+would have to be taken into consideration. During the move up, the corrective
+wave down to 88.20 is larger than the corrective wave to 83.82. This means
+that the case can be made for it to be labeled B instead. Here the major swing is
+77.09 − 92.80 − 88.20. This wave projects to 97.90 as the “0.62” extension.
+These factors (the large correction and the fact that a key wave projection was
+met) along with the fact that the swing 3 held above $88.20 supersede the
+ﬁrst count.
+In addition to helping analyze existing market activity, the labeled swings
+can facilitate estimating future prices. To continue the simpliﬁed example,
+the two swings noted above from 77.09 project to a price just above $100,
+the ﬁrst as the “1.62” extension, and the second as the “1.38.” So the next
+move up might be expected to test $100, and if such a move up stalled short
+of that target, it might be considered a failure.
+Prices actually reached $99.29, failed at $99.11 on a second attempt to
+move up, then dropped quickly by approximately $14 to $85.82. Therefore,
+when prices dropped below the $96.16 swing low, a sell signal would have
+been generated.
+This is the type of analysis done in actual forecasting. However, in that
+context, instead of identifying three or four swings, identifying 50 to 100
+swings on many charts from monthly down to maybe 15-minute is common.
+KaseSwing helps to identify all the appropriate swings as well as the pricing
+points that deﬁne them.
+
+162
+
+77.09
+
+18
+
+83.82
+
+Oct 22
+
+97.63
+
+Oct 31
+
+Oct 8
+
+project to about $100 as 1.38
+
+88.20
+
+92.80
+
+project to about $100 as 1.62
+
+Oct 15
+
+Proportion = 1.38
+
+87.23
+
+Proportion = 1.00
+
+Oct 15
+
+89.13
+
+Crude Oil, CLF08 Daily, KaseSwing with Fibonacci Price Projections
+
+Proportion = 0.62
+
+FIGURE 4.4
+
+Nov 23
+
+96.16
+
+99.29 99.11
+
+85.82
+
+Nov 30
+
+Dec 7
+
+Kase Swing
+
+87.14
+
+90.39
+
+80
+
+85
+
+90
+
+95
+94.39
+
+100
+
+Kase StatWareTM and Studies
+
+163
+
+Even though deﬁning swings might seem straightforward, it’s clear that
+drawing in the swings and labeling all of them can be tedious. In addition,
+in real-life situations it’s even more complex. In reality, special situations exist
+that relate to inside and outside bars and major new highs and lows that must
+be accounted for.
+In the examples above, inside bars, that is, bars with a lower high and
+higher low than the previous bar, were treated as if they did not exist. For some
+applications it might be best to include them, such as when small looking at
+minor wave patterns, and when waiting for pullbacks so that second signals
+are allowable.
+If so, there are eight combinations of conditions that have to be
+considered:
+1. Inside Up Bar, After Swing High, Previous Bar Up
+2. Inside Up Bar, After Swing High, Previous Bar Down
+3. Inside Up Bar, After Swing Low, Previous Bar Up
+4. Inside Up Bar, After Swing Low, Previous Bar Down
+5. Inside Down Bar, After Swing High, Previous Bar Up
+6. Inside Down Bar, After Swing High, Previous Bar Down
+7. Inside Down Bar, After Swing Low, Previous Bar Up
+8. Inside Down Bar, After Swing Low, Previous Bar Down
+KaseSwing has a variable that allows the user to choose whether to consider
+inside bars, and if so, has rules coded to deal with all the cases mentioned.
+Figure 4.5 shows the same CLF08 chart as above with swing 1 with and
+without inside bars. In the ﬁrst instance, the swing low of 83.82 is followed
+by an inside bar that closed down. Here the convention is to draw up to the
+high, then down to the low of the inside bar. To the right, the inside bar
+following the swing low of 93.88 has a close that is less than the open. If it
+were to be treated as a down bar, it would be ignored since it did not make a
+new low relative to the 93.88, so the convention is to treat it as a down bar
+and draw in the swings accordingly.
+Figure 4.6 shows how extremes must be dealt with, assuming a swing size
+of 3. Following the swing low marked 3D there is a one bar upmove that
+makes a new high at 1U. Thus an “extreme” was reached at 1U, so that even
+though only a one-bar-up count was made, it is still drawn.
+
+Using KaseSwing for Market Timing
+Swings can also be used to enter and exit trades. In simple terms, if there are
+two swing lows where the second swing low is equal to or higher than the
+
+164
+
+8
+
+9
+
+10
+
+11
+
+12 10/15 16
+
+17
+
+18
+
+19 10/22 23
+
+24
+
+83.91
+
+85.89
+
+83.82
+
+87.23
+
+26
+
+2007
+
+25
+
+29
+
+92.80
+
+30 10/31 1
+
+88.20
+
+Crude Oil, CLF08 Daily, KaseSwing 1 with and without Inside Bar Logic
+
+77.09
+
+FIGURE 4.5
+
+2
+
+5
+
+6
+
+7 11/8 9
+
+93.88
+
+97.63
+96.88
+
+12
+
+13
+
+89.13
+
+14
+
+80
+
+85
+
+90
+
+92.83
+
+95
+
+165
+
+FIGURE 4.6
+
+08:00
+
+08:30
+
+09:00
+
+09:30
+
+85.10
+
+10:30
+
+2D
+
+01 Apr 2010
+
+10:00
+
+1D
+
+Crude Oil, CLK10 30-Min, KaseSwing 3 with “Extreme” Rule
+
+11:00
+
+84.53
+3D
+
+11:30
+
+10
+85.22
+
+12:00
+
+12:30
+
+13:00
+
+84.40
+
+84.60
+
+84.90
+84.78
+
+85.00
+
+85.20
+
+166
+
+New Frontiers in Technical Analysis
+
+ﬁrst, then when prices exceed the middle swing high, a long trade may be
+taken, and vice versa. The swing low that preceded the buy can be used as a
+stop until a new higher swing low is made. If the swing low were broken, the
+trade would be exited.
+Figure 4.7 shows CLK10 (May 2010 Crude Oil Contract) on a 30-minute
+chart. The second swing low, 83.14, is higher than the preceding one, 82.36,
+and the middle swing high between the two swing lows is 83.49. When the
+bar following 83.14 closed above 83.49, a long trade may have been taken
+per the up arrow (1), and a stop placed at 83.14. When the market hit 83.14,
+the trade would have been exited per the down arrow (2).
+Following this a new, lower swing low was made at 83.12. So the move
+up from that lower swing low would then have been counted as a new, ﬁrst
+swing. A second swing and outside bar formed up from 83.22 (arrow 3), so
+when there was a close over 83.40, a long trade may have been taken with
+a stop placed at 83.22. Once a new higher swing low of 83.30 was made,
+the stop would have been moved up to that level and then, following the
+83.35, moved again, this time to 83.35. Finally, when the 83.35 swing low
+was broken, the trade would have been exited (arrow 4).
+In the next example, shown on a daily cotton continuation chart,
+Figure 4.8, a swing low at 73.06 followed an earlier swing low at 67.37,
+so a long trade might have been taken on the bar following, which closed over
+the 74.16 midpoint as shown by the arrow. At that point the stop would have
+been placed at 73.06 and would remain there until the 78.47 swing low was
+made, at which point it would have been raised to that level. The stop would
+have remained at 78.47 until the 80.66 swing low was made, and then again
+raised, with the process repeated at 81.53.
+So the stop that might have begun as approximately 1.5 cents magnitude
+grew to be more than a 6-cent stop. This is a shortcoming of using swings for
+exits: They are logical but not predictable. Swing lows and highs make logical
+exit points but they don’t have predictable magnitudes, and may be either too
+close or too far away.
+Given the variability of the swing stops, another stop method might be
+used to augment it. For instance, if the swing stop is very large, an estimated
+average of the last three or so swing stop magnitudes might be used as a proxy.
+This is shown in Figure 4.8, where the previous magnitudes, estimated from
+the swing high back to the prior swing low, for example, $84.60 less $78.47,
+is roughly $6.00. The swings shown were very roughly $6.00, $3.00, and
+$2.00. So, going forward, the stop might be set not to exceed about $4.00.
+However, the need to adjust for large swings is one reason why the Kase
+DevStops, which are both logical and predictable, were developed.
+
+167
+
+11:00
+
+12:00
+
+13:00
+
+83.14
+
+83.49
+
+14:00
+
+31 Mar 2010
+
+1
+
+83.85
+
+15:00
+
+83.76
+
+17:00
+
+3
+
+83.29
+83.22
+
+83.40
+
+16:00
+
+83.12
+
+2
+
+Crude Oil, CLK10 30-Min, Using KaseSwing to Enter and Exit Trades
+
+82.36
+
+FIGURE 4.7
+
+19:00
+
+83.48
+
+21:00
+01 Apr 2010
+
+20:00
+
+83.35
+
+83.56
+
+4
+
+22:00
+
+83.21
+
+83.38
+
+82.20
+
+82.40
+
+82.60
+
+82.80
+
+83.00
+
+83.20
+
+83.40
+83.33
+
+83.60
+
+83.80
+
+168
+
+4
+
+2/5
+
+8
+
+9
+
+10
+
+11 2/12 16
+
+73.06
+
+74.16
+
+17
+
+18
+
+2010
+
+19 2/22 23
+
+80.10
+
+24
+
+25 2/26 1
+
+78.47
+
+2
+
+3
+
+83.40
+
+80.66
+
+84.60
+
+Cotton Daily Continuation, Using KaseSwing Entries with Swings as Stops
+
+67.37
+
+FIGURE 4.8
+
+4
+
+81.53
+
+5
+
+3/8
+
+9
+
+Kase Swing
+
+83.12
+
+10
+
+68.00
+
+70.00
+
+72.00
+
+74.00
+
+76.00
+
+78.00
+
+80.21
+
+82.00
+
+84.00
+
+Kase StatWareTM and Studies
+
+169
+
+Kase DevStops
+
+The Kase DevStops are based on volatility, using TrueRange as a proxy, and
+have a number of features not available with a swing system.
+
+Trailing Stops
+Figure 4.9 shows Kase DevStops based on the same data as in Figure 4.8, which
+uses swing stops. The ﬁrst difference that can be seen is that the DevStop is
+a trailing stop. This means that with long trades, the stop trails below the
+market and follows the highest high that takes place during the trade. With
+short trades, the stop trails above the market and follows the lowest low.
+
+Defaults Long or Short
+Next, Kase DevStops have front-end logic, using moving average crossovers to
+default the stops to consider the market status to be long or short automatically.
+When the fast moving average is greater than the slow moving average, the
+long stops (that trail below the market) are plotted, and vice versa. Thus the
+stops are able to trail below highs or above lows without input from the user.
+Inputs allow the user to override the default logic. Figure 4.9 shows the stops
+ﬂipping from short to long following the $73.06 swing low.
+
+Considers Volatility
+The major shortcoming of ﬁxed-value trailing stops is in determining what
+value to use. Many new traders are advised to risk what they can afford. This
+is like a Gloucester ﬁsherman standing on a bluff overlooking a raging windtossed ocean and shouting out to the six-foot swells, “Here I come, but my
+dinghy can only take 18-inch waves!” Like the ocean, the market doesn’t care
+what an individual user can afford. It is we who have to tailor our approach
+to the market; we cannot make demands of it.
+The challenge is not only in determining a reversal value or stop amount,
+but also in that the level of a reversal that would constitute a reasonable stop
+in a quiet, low-priced market is different from one that would make sense in
+a volatile high-priced market. For example, at 40 percent volatility and with
+prices around $20, prices change about 50 cents per day, while at 80 percent
+volatility and with prices around $80, the change is about $4.00 per day.
+So a ﬁxed-value stop that is used under all conditions doesn’t work. A proxy
+for volatility is TrueRange, which is directly proportional to volatility. Even

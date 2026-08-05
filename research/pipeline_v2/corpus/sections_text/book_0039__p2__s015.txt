@@ -1,0 +1,311 @@
+
+Tests 4 through 6: RSI Overbought/Oversold Models. The model was tested
+with entry at the open (Test 4) on a limit (Test 5), and on a stop (Test 6). The
+RSI was computed as suggested by its originator, Larry Williams. The length
+was stepped from 5 to 2.5 in increments of 1. Across all tests, 25 was the best
+value for this parameter in-sample. The traditional thresholds were used: 30
+(lower) and 70 (upper). The model performed more poorly than the Stochastic
+overbought/oversold one. The percentage of winning trades was extremely low,
+ranging from 26% to 37%, depending on sample and test. The average loss per
+trade reached over $7,000. Net profits were better than for the Stochastic
+because there were fewer trades; even though the loss per trade was greater, the
+total loss was smaller. This model did not capture any market inefficiency. The
+limit order was best, while the stop and open were about equal. Significantly
+more markets showed positive returns, especially in Test 5 when the limit was
+used: Profits occurred in-sample for Bonds, COMEX Gold, Silver, Platinum,
+Feeder Cattle, Oats, and Coffee; out-of-sample, Gold, Silver, Platinum, Feeder
+Cattle, and Oats still traded profitably. Also profitable out-of-sample were the
+NYFE, British Pound, Heating Oil, Corn, Sugar, Orange Juice, and Lumber.
+Tests of Signal Line Models
+These are essentially moving average crossover models, except that an oscillator
+is substituted for prices when searching for crossovers. In this case, the moving
+average is called the signal line. A short entry is signalled when the oscillator
+crosses from above to below the signal line; when the oscillator does the reverse,
+a long entry is generated. Since oscillators show less lag than moving averages and
+less noise than raw prices, perhaps more timely and reliable signals can be generated. In Tests 7 through 12, the Stochastic and MACD are considered. The Slow
+%K usually exhibits strong cyclic behavior, appropriate for use with a signal line
+entry. The MACD is traditionally plotted with the signal line, even if crossovers
+are not a traditional entry criteria.
+Tests 7 through 9: Stochastic Signal Line Models. The model was tested with
+entry at the open, on a limit, and on a stop (Tests 7 through 9, respectively).
+Lane’s original Slow %K Stochastic was used because, in preliminary testing,
+Fast %K produced an incredible excess of trades, resulting from very high noise
+levels and the indicator pegging near its extremes. The signal line consisted of a
+3-bar simple moving average of Slow %K. The length of the Stochastic was
+stepped from 5 to 25, in increments of 1. The best values for this parameter insample were 15, 14, and 11 (Tests 7 through 9). Overall, these models lost heavily on a per trade basis. Due to the large number of trades, the losses were
+astronomical. The limit order was best, showing the least loss per trade and the
+highest percent of winning trades across samples. Entry at the open was worst.
+
+This model likes stops, perhaps because they act as trend filters: After countertrend activity is detected (triggering an entry signal), before entry can occur,
+the market must demonstrate reversal by moving in the direction of the trade.
+Stops also performed better in countertrend moving average models, Only two
+markets had positive returns in-sample, but not out-of-sample. Out-of-sample, the
+stop produced a few small profits; Coffee made more than $2,000 per trade.
+Tests 10 through 12: MACD Signal Line Models. Entry at the open (Test lo), on
+a limit (Test ll), and on a stop (Test 12) were examined. The classic MACD,
+employing exponential moving averages, was used. The shorter moving average was
+stepped from a length of 3 to a length of 15 in increments of 2; the longer moving
+average was stepped from lengths of 10 through 40 in increments of 5. The moving
+average serving as the signal line had a fixed traditional period of 9. This was the
+best performing oscillator model thus far. In-sample, the limit order was best and
+entry at open was worst. Out-of-sample, the stop was best and the limit order worst.
+Out-of-sample, the stop produced the highest percentage of wins (40%) seen so far,
+and the smallest loss per trade. In-sample, only Lumber was substantially profitable
+with a limit. Live Hogs, Pork Bellies, Coffee, and Sugar were profitable in-sample
+with a stop. Lumber, Live Hogs, Pork Bellies, and Coffee held up out-of-sample.
+Many markets unprofitable in-sample, were profitable out-of-sample. The highest
+number of markets traded profitably with a stop.
+
+TESTS OF DIVERGENCE MODELS
+Tests 13 through 21 examine divergences with the Stochastic oscillator, the RSI,
+and the MACD. Divergence is a concept used by technical traders to describe
+something easily perceived on a chart but hard to precisely define and detect algorithmically. Figure 7-l shows examples of divergence. Divergence occurs when,
+e.g., the market forms a lower valley, while the oscillator forms a higher valley of
+a pair of valleys, indicating a buy condition; selling is the converse. Because wave
+forms may be irregular, quantifying divergence is tricky. Although our detection
+algorithm is elementary and imperfect, when examining charts it appears to work
+well enough to objectively evaluate the usefulness of divergence.
+Only buy signals will be discussed; the sells are the exact opposite. The algorithm’s logic is as follows: Over a look-back (in the code, len3), the lowest bar in
+the price series and the lowest bar produced by the oscillator are located. Several
+conditions are then checked. First, the lowest bar of the price series must have
+occurred at least one bar ago (there has to be a definable valley), but within the
+past six bars (this valley should be close to the current bar). The lowest bar in the
+price series has to occur at least four bars after the lowest bar in the look-back period for the oscillator line (the deepest valley produced by the oscillator must occur
+before the deepest valley produced by the price). Another condition is that the lowest bar produced by the oscillator line is not the first bar in the look-back period
+
+(again, there has to be a definable bottom). Finally, the oscillator must have just
+turned upward (defining the second valley as the signal about to be issued). If all
+conditions are met, there is ostensibly a divergence and a buy is posted. If a buy
+has not been posted, a similar set of conditions looks for peaks (instead of valleys);
+the conditions are adjusted and a sell is posted if the market formed a higher high,
+while the oscillator formed a lower high. This logic does a reasonable job of
+detecting divergences seen on charts. Other than the entry orders, the only difference between Tests 13 through 21 is the oscillator being analyzed (in relation to
+prices) for the presence of divergence.
+Tests 13 through 15: Stochastic Divergence Mode&. Fast %K was used with the
+standard entries. Optimization involved stepping the Stochastic length from 5 to 25
+in increments of 1 and the divergence look-back from 15 to 25 by 5. The best parameters were length and look-back, respectively, 20 and 15 for open, 24 and 15 for
+limit, 25 and 15 for stop. This model was among the worst for all orders and in both
+samples. In-sample, the limit was marginally best; out-of-sample, the stop. In-Sample, across all orders, Unleaded Gasoline, Soybeans, and Soybean Meal were profitable; Gold and Pork Bellies were moderately profitable with a limit. Unleaded
+Gasoline held up out-of-sample across all orders. Soybeans were profitable out-ofsample for the open and stop. More markets were profitable out-of-sample than insample, with the stop yielding the most markets with profits. The pattern of more
+profitable trading out-of-sample than in-sample is prima facie evidence that optimization played no role in the outcome; instead, in recent years, some markets have
+become more tradeable using such models. This may be due to fewer trends and
+increased choppiness in many markets.
+Tests 16 through 18: RSI Divergence Models. Optimization stepped the RSI period
+from 5 to 25 in increments of 1, and the divergence look-back from 15 to 25 by 5.
+Overall, the results were poor. h-sample, the stop was lest bad, with the limit close
+behind. Out-of-sample, the stop was also best, closely followed by the open. Given that
+the RSI has been one of the indicators traditionally favored by traders using divergence, its poor showing in these tests is noteworthy. Heating Oil was profitable for all
+orders, Unleaded Gasoline WZY significantly profitable for the open and stop, Light
+Crude for the limit and stop. In-sample, Soybeans traded very profitably across orders;
+Orange Juice, Corn, Soybean Oil, and Pork Bellies traded well with the stop. Out-ofsample, the oils were not consistently profitable, while Soybeans remained profitable
+across orders; Orange Juice and Soybean Oil still traded profitably with the stop.
+Tests 19 through 21: MACD Divergence Mode&. The length of the shorter
+moving average was stepped from 3 to 15 in increments of 2; the length of the
+longer moving average from 10 to 40 by 5; and the divergence look-back from 15
+to 25, also by 5. Only parameter sets where the longer moving average was actaally longer than the shorter one were examined.
+
+PART II The Study of Enwics
+
+Finally, models that appear to work, producing positive returns in both samples! With entry at open, trades were profitable across samples. In-sample, the
+
+average trade made $1,393; 45% of the trades were winners; and there was only
+an 8.7% (uncorrected; 99.9% corrected) probability that the results were due to
+chance; both longs and shorts were profitable. Despite poor statistical significance
+in-sample, there was profitability out-of-sample: The model pulled $140 per trade
+(after commissions and slippage), with 38% winning trades; only shorts were
+profitable.
+The limit performed slightly worse in-sample, but much better out-of-sample. Figure 7-2 depicts the equity curve for entry on a limit. In-sample, the average profit per trade was $1,250 with 47% winning trades (the highest so far); longs
+and shorts were profitable; and the probability was 13.1% (uncorrected; 99.9%
+corrected) that the results were due to chance. Out-of-sample, the model made
+$985 per trade; won 44% of the time: was profitable in long and short positions;
+and was only 27.7% likely due to chance.
+It-sample, the stop had the greatest dollars-per-trade return, but the smallest
+number of trades; only the shorts were profitable. Out-of-sample, the system lost
+$589 per trade; only short positions were profitable. Regardless of the order used,
+this model had relatively few trades.
+The market-by-market analysis (see Tables 7-1 and 7-2) confirms the potential of these models to make money. The largest number of markets were profitable
+in-sample. Across samples, all three orders yielded profits for Light Crude and
+Coffee; many other markets had profitability that held up for two of the orders, but
+not for the third, e.g., Heating Oil, Live Cattle, Soybeans, Soybean Meal, and
+Lumber.
+SUMMARY
+
+ANALYSES
+
+Table 7-3 provides the results broken down by the model, order, and sample. The
+last two colunms on the right, and the last two rows on the bottom, are averages.
+The numbers at the right are averaged over order type. The numbers at the bottom
+have been averaged over all models.
+The best results across samples were for the MACD divergence model. The
+limit produced the best combined results in both samples: a 12.5% return (annualized) and $1,250 per trade in-sample, and a 19.5% return (annualized) and $985
+per trade out-of-sample. This model is dramatically different from all others.
+When considered across all order types and averaged, the overbought/oversold models using the RSI were worst (especially in terms of dollars-per-trade).
+Also among the worst were the Stochastic divergence, Stochastic overboughtioversold, and RSI divergence models.
+When all models were averaged and broken down by order type, the limit
+order was best and the entry at open worst.
+
+F I G U R E
+
+7 - 2
+
+.~-
+
+Equity for MACD Divergence Model with Entry on a Limit
+
+CONCLUSION
+With breakouts and moving averages, a limit usually was the best overall performer,
+perhaps because it minimizes transaction costs; a stop sometimes improved performance, depending on its interaction with the entry model. For some oscillator
+entries, including the profitable MACD divergence, a limit was again best. Other
+oscillator models preferred the stop, perhaps due to its trend filtering quality.
+There was an interaction between specific oscillators and models. The divergence model, for example, worked well with the MACD, but terribly with the RSI.
+Such results demonstrate that, when studying a model with an indicator component that may be varied without altering the model’s essence, it is important to test
+all model-indicator combinations as certain ones may perform dramatically better.
+WHAT HAVE WE LEARNED?
+n
+
+In general, for best results, use a limit order. However, test a stop as it
+sometimes works better.
+
+Performance of
+and Sample
+
+Oscillator Models Broken Down by Model, Order,
+
+. When testing a model that can be used with multiple indicators, try several to see whether any yield distinct improvements.
+n Attempt to algorithmically implement concepts normally employed in a
+highly variable and subjective manner. Sometimes this can be exceptionally difficult, requiring fuzzy logic or neural network technology, along
+with other specialized methods.
+
+C H A P T E R
+
+8
+
+Seasonality
+
+I magmc that tomorrow is June 7, 1997. You need to decide whether or not to
+trade. If you do trade, you will enter at the open and exit at the close. You also need
+to decide how to enter the market: Should you go long or short? As part of the
+decision process, you examine the behavior of the market on all June 7s that
+occurred within a look-back window of some number of years (e.g., 10). You tabulate the number of June 7s on which trading occurred, the average open-to-close
+change in price, and the percentage of time the market rallied or collapsed.
+Perhaps, in the past 10 years, there were eight instances when the market was open
+and June 7 was a trading day: of those instances. perhaps the market closed higher than it opened six times (75%) and the average change in price was 2.50 (a reasonable figure for the S&P 500). On the basis of this information, you place a
+trading order to enter long tomorrow at the open and to exit at the close. Tomorrow
+evening you repeat the procedure for June 8, the evening after that for June 9, and
+so on. This is one form of seasonal trading. Will you make a profit trading this
+way? Will your trading at least be better than chance? These are the questions that
+arise when discussing seasonal trading and that this chapter attempts to answer.
+WHAT
+
+IS
+
+SEASONALITY?
+
+The term seasondity is used in many different ways by traders. Some construe
+seasonality as events that are strictly related the four seasons, e.g., the increased
+demand for heating oil in the winter or gasoline in the summer. Others have a more
+liberal interpretation that includes weather patterns and election cycles.
+Over the years, a number of articles in academic journals have demonstrated
+that stocks show larger returns around the first of each month. There has been some
+
+discussion of the so-called January Effect, in which stocks tend to rise in January.
+Hannula (1991) used seasonal cycles in his own trading, providing as an example
+a chart for EXABYTE stock with strong seasonal patterns marked. He also discussed another phenomenon, sometimes observed with seasonal patterns, in which
+the highs and lows occasionally invert, a pattern that we also have witnessed and
+that may be worth exploring. Other factors that influence various markets have definite dates of occurrence and so should induce seasonal effects; e.g., the dates for
+filing taxes occur at the same time every year. The legendary trader, Gann, apparently made heavy use of recurrent yearly behavior in his trading. Bernstein’s (1995)
+home-study course on seasonality suggests trading off significant tops and bottoms,
+and when there has been consistent movement in a tradable over a number of years;
+this approach, as well as Hannula’s, may tend to involve trades lasting several
+weeks to several months.
+In 1990, we first published the Calendar Effects Chart, a set of tables and a
+chart that show date-specific behavior in the S&P 500 cash index. The chart illustrates a general up-trend from January through September, and then an up and
+down decline until October 24. The market then, on average, bottoms, after which
+time it steeply rises until the end of the year. On a more detailed level, rapid gains
+seem to occur throughout most of January, the first half of April, and the first half
+of June. A peak can be seen on October 8, and a very steep decline that leads to a
+bottom on October 24. When the tables and chart for this publication were generated, extreme movements were clipped at +2 percent to prevent them from having
+undue influence on the results. Consequently, the steep decline in October, and the
+other patterns mentioned, cannot be attributed to events in specific years, for
+instance, the crash in 1987. For some dates, there were incredibly consistent patterns; e.g., if an entry occurred on the close of April 14 and the trade was exited
+one day later, over 90% of the time a small profit would have been made. Entry on
+May 6, with exit one day later, resulted in a profit 100% of the time, as did entry
+on July 13. The market declined 90% of the time from October 18 to 19, and 89%
+of the time from October 16 to 17. Although the crash may have involved a much
+greater than normal amount of movement, the presence of a decline at the time
+when the crash occurred was not at all unexpected. In an attempt to capture highprobability, short-term movements, the Calendar Effects Chart could have been
+used to enter trades that last one or two days. For example, such a methodology
+would have caused a trader to go short at the close on October 16 and exit on
+October 19, thus capturing the crash. The data contained in this publication could
+also have been used to help maintain positions during periods of steep ascent or
+decline.
+There have been other studies indicating the presence of strong seasonal effects
+in the market that can be exploited for profitable trading. An investigation we conducted (Katz and McCormick, April 1997) found that short-term seasonal behavior
+could be used to trade the S&P 500: The system used fairly fast moving average
+
+crossovers that were computed on seasonally anticipated prices. Because the anticipated prices could be computed at least one year ahead, lag in the moving average
+crossover was easily compensated for with a displacement that enabled the system
+to take trades at crossovers occurring several days after the fact. The trades taken by
+the system typically lasted between 7 and 8 days, a fairly short-term seasonal trading model. The system was profitable: It pulled an astonishing $329,900 from the
+S&P 500 between January 3.1986, and November 8, 1996. The test did not include
+transaction costs, but even with $15 round-turn commissions and $75 per trade slippage, a profit of $298,310 (about a 10% reduction) resulted. The return on account
+was 732%, not annualized; assuming fixed contract trading, this amounted to over
+70% per year, annualized, on a constant one-contract, no-reinvestment basis. There
+were 351 trades taken, of which 60% were winners. Both the longs and shorts were
+profitable. The average trade pulled $939 from the market-not bad for a simple,
+seasonality-based trading model, Findings like these suggest there are strong seasonal patterns in the markets producing inefficiencies that can be exploited by
+traders, and that are worthy of investigation.
+For our current purposes, seasonaliry is defined as cyclic or recurrent phenomena that are consistently linked to the calendar. The term is being used in a
+broad sense to mean market behavior related to the time of the year or to particular
+dates, including anniversaries of critical events (e.g., the October 16, 1987, crash).
+In short, seasonality is being construed as calendar-related cyclic phenomena. It
+should be made clear, however, that while all seasonality is cyclic, not all cycles are
+seasonal.
+GENERATING SEASONAL ENTRIES
+There are many ways to time entries using seasonal rhythms. Two basic approaches
+will be examined: momentum and crossover. To calculate momentum, a series of
+price changes is computed and centered smoothing (a smoothing that induces no
+delays or phase shifts, in this case, a centered triangular moving average) is applied.
+Each price change (or difference) in the series of price changes is then normalized:
+It is divided by the 50.day average true range. For every bar, the date is determined.
+Instances of the same date are then found in the past (or perhaps future). For each
+such instance, the momentum is examined. The average of the momentums becomes
+the value placed in the seasonal momentum series for the current bar. The seasonal
+momentum series measures the expected rate of change (or momentum) in prices at
+a given time. It is based on the historical movement of prices on the specified date
+in different years. The number in the seasonal momentum series for the current bar
+is determined only by events about 1 year or more ago. This is why it is possible to
+use the centered moving average and other techniques that look ahead in time, relative to the bar bei~ng considered. Entries are taken as follows: When the seasonal
+momentum crosses above some positive threshold, a buy is posted. When the
+
+156
+
+momentum crosses below some negative threshold, a sell is posted. Buying or selling can happen on any of the standard three orders: at open, on limit, or on stop.
+Entries may also be generated by computing the price differences, normalizing
+them, applying an integration or summing procedure to the series (to obtain a kind
+of pseudo-price series, based on previous instances of each date), and then applying
+a moving average crossover model to the series. Because the value at any bar in the
+series is determined only by bars that are about 1 year old or older, the delay in the
+crossovers can be compensated for by simply looking ahead a small number of bars.
+Both of the methods described above arc somewhat adaprive in nature; i.e.,
+they do not require specific information about which dates a buy or sell order
+should be placed. The adaptive quality of the aforementioned methods is important since different markets respond to seasonal influences in different ways, a fact
+that logic, as well as our earlier research, supports.
+In the current study, several rules for handling confirmations and inversions
+are also tested to determine whether better results can be obtained over the basic
+models. Confirmarion means additional data is available that supports the signals
+produced by the model. For example, suppose a model generated a buy signal
+for a given bar. If everything is behaving as it should, the market should be forming a bottom around the time of the buy. If, however, the market is forming a top,
+the buy signal might be suspect, in that the market may not be adhering to its typical seasonal timing. When such apparently contradictory circumstances exist, it
+would be helpful to have additional criteria to use in deciding whether to act upon
+the signal, in determining if it is correct. The crossover-with-con~rmation model
+implements the crossover model with an additional rule that must be satisfied
+before the signal to buy or sell can be acted upon: If a buy signal is issued, the
+Slow %K on the signal bar must be less than 25%, meaning the market is at or near
+the bottom of its recent range. If a sell signal is issued, Slow %K must be greater
+than 75%, indicating that the market is at or near the top of its range, as would be
+expected if following its characteristic seasonal behavior. The conjinnation-undinversion model adds yet another element: If a buy signal is issued by the basic
+model, and the market is near the top of its range (Slow %K greater than 75%),
+then it is assumed that an inversion has occurred and, instead of issuing a buy signal, a sell signal is posted. If a sell signal is generated, but the market is near the
+bottom of its range (Slow %K less than 25%), a buy signal is issued.
+CHARACTERISTICS OF SEASONAL ENTRIES

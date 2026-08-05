@@ -1,0 +1,457 @@
+Chatter Box—Rick
+I’ve been known to frequent coffee shops on occasion to work on my
+laptop while enjoying a fresh cup of brew. AJ believes that I actually
+have a dark roast dependency. He supports this hypothesis by taking long call positions in Starbucks (ticker symbol: SBUX) when I have
+a lot of computer work ahead of me. In any event, I never cease to
+be amazed at the level of choices that one faces at the coffee shop
+counter. It reminds me of Tom Hanks’s line from You’ve Got Mail: “The
+whole purpose of places like Starbucks is for people with no decisionmaking ability whatsoever to make six decisions just to buy one cup
+of coffee.”
+Starbucks acknowledges their myriad menu choices on their own
+web site with an interactive tutorial on how to order a cup of coffee!
+First, you can customize your drink with an add shot. Before you think
+you’re facing a simple binary decision, consider that the shots are
+single, double, triple, quad, decaf, half decaf, or ristretto. According
+to the tutorial, the last option is a short pull of espresso, capturing only
+the sweetest part—as if to imply that the gallon of bitterness residing in
+a shot glass is only the result of the last few drops from the press. Next,
+you select your syrup additive. Here, you pick from two sugar-free
+varieties and nine straight blasts of flavored high-fructose corn syrup.
+The third step requires that you make your milk selection. There are
+six options in the milk category, including one that has been through
+the entire production process without ever even having seen a
+cow. Finally, you walk through a menu known as “Custom Options”
+
+c08.indd 150
+
+11/2/07 12:25:07 PM
+
+E Pluribus Unum
+
+151
+
+where you can specify everything from the temperature to “wet” or
+“dry.” I suppose the baristas receive some type of training on how to
+resuscitate a first-time customer who is reduced to a catatonic stare
+when she’s faced with such a complex decision as the queue builds
+behind her.
+
+Social psychologists Sheena Iyengar, PhD, a management professor at Columbia University Business School, and Mark Lepper,
+PhD, a psychology professor at Stanford University, were the first
+to empirically demonstrate the downside of too many choices. In a
+paper in the Journal of Personality and Social Psychology (Vol. 79, No. 6,
+2000), the team showed that when shoppers are given the option of
+choosing among smaller and larger assortments of jam, they show
+more interest in the larger assortment. But when it comes time to
+pick just one, they’re 10 times more likely to make a purchase if they
+choose among 6 rather than among 24 flavors of jam. The shoppers
+ostensibly wanted the larger assortment but responded more often
+to the smaller assortment. The fact that there were more choices
+in the latter situation actually proved to be demotivating when it
+came time to take action.
+It goes against our intuition to think we could have more difficulty making a selection when there are four times as many options
+from which to pick. This very issue is addressed in The Functions of
+the Executive (Cambridge, MA: Harvard University Press), one of the
+few true and enduring management classics. Written by Chester I.
+Barnard in 1938, the book holds this observation: “Free will is limited
+also, it appears, because the power of choice is paralyzed in human
+beings if the number of equal opportunities is large. This is an
+induction from experience. For example, a man set adrift in a boat,
+awaking in a fog in the open sea, free to go in any direction, would
+be unable at once to choose a direction. Limitation of possibilities is
+necessary to choice.”
+The markets are sometimes the worst offenders when it comes
+to complicating our choices. At one time, we simply had to choose
+from many thousands of stocks. Now we have derivatives to add to
+the mix. As the world opens up, we can also choose from market
+exchanges from around the world. We need a process to sort through
+the choices and find the trade that works for us.
+
+c08.indd 151
+
+11/2/07 12:25:08 PM
+
+152
+
+The Market Guys’ Five Points for Trading Success
+
+It May Be a Small World but It’s a Big Market
+The New York Stock Exchange (NYSE) has around 3,000 listed securities. The Nasdaq has approximately the same. Within North America
+we can also add the American Stock Exchange (around 1,000) and
+the Toronto Stock Exchange (around 1,800). On the international
+scene there are numerous major exchanges, including the London
+Stock Exchange, the Frankfurt Stock Exchange, and the Hong Kong
+Exchange.
+Each exchange has a major index that tracks the representative
+performance of that exchange. In the United States, traders will readily recognize the Dow Jones Industrial Average, or the Dow 30. This
+is represented by the tradable exchange-traded fund (ETF) called
+the Diamonds, named after the ticker symbol “DIA.” Table 8.1 shows
+a small list of some other major indices and the exchanges that they
+represent.
+Up to this time, we’ve talked only about equity issues. The next
+level beyond the equity is the option. The option has three additional parameters that must be considered before you decide what
+you want to trade: the strike price, the expiration, and which contract (call or put). Just to give you an idea of how the multiplying
+factor comes into play, let’s look at the Nasdaq 100 tracking stock,
+the QQQQ. If we decide to trade the ETF directly, we can buy or
+sell the QQQQ. However, if we choose to trade the QQQQ option,
+we must first decide between a call and a put. Next, we choose
+the expiration month. At the time of this writing, the QQQQ has
+seven different expiration months, including the long-term equity
+anticipation security (LEAPS). As far as the strike price goes, we have
+
+c08.indd 152
+
+Table 8.1
+
+Major Exchanges and Indices
+
+Location
+
+Exchange
+
+Index
+
+United States
+United States
+United Kingdom
+Germany
+Hong Kong
+Singapore
+France
+South Korea
+Japan
+
+New York
+Nasdaq
+London
+Frankfurt
+Hong Kong
+Singapore
+Paris
+South Korea
+Tokyo
+
+Dow Jones Industrial Average (DIA)
+Nasdaq 100 (QQQQ)
+Financial Times 100 (FTSE)
+DAX 30
+Hang Seng 33
+Straits Times 55
+CAC 40
+KOSPI 200
+Nikkei 225
+
+11/2/07 12:25:08 PM
+
+E Pluribus Unum
+
+153
+
+seven different price levels to pick from, in one-dollar increments
+above and below the current trade price. Taken altogether, we have a
+total of 98 (2 ⫻ 7 ⫻ 7) separate options from which to choose based
+on a single equity issue. When you look at all of the stocks that trade
+options (not all stocks have options traded), you can see that the
+pool of trading possibilities increases exponentially.
+By the way, we haven’t even started talking about futures, which
+may be traded on single stocks, indices, commodities, and more. Add
+to that the various ETFs, mutual funds, currencies, CFDs (contracts
+for difference), and multileg option spreads, and the task of deciding what to trade starts looking like too many jars of jam.
+
+Viva Simplicity!
+
+Chatter Box—AJ
+I will admit that my strategy for going long Starbucks calls, just before
+joining Rick at his favorite coffee shop for a cup of hot java, has been
+profitable. However, there is nothing that beats the simplicity of ordering a double espresso (no sugar) and a bottle of San Pellegrino while
+sitting in the lounge of the Steigenberger Belvedere Hotel in Davos,
+Switzerland. The added bonus is that even at the top of one of the
+most beautiful mountain ranges in the world, I’m still able to place a
+trade through my computer via a wireless connection. Viva la Internet! Viva simplicity!
+
+Our objective in screening stocks is to reduce the total population down to a reasonable pool from which we can select one or more
+trade setups. Simplicity is the name of the game here. The screening
+process, like the technical analysis process, will let you run down to
+the most arcane detail without so much as a whimper of a protest.
+You can create screens that, when applied to the total market, may
+yield only two or three candidates that match your criteria. The fact
+that you’ve narrowed the pool down to a handful of survivors does
+not in any fashion ensure that you’ve identified the perfect stock to
+trade. It simply means you’re too picky.
+In the same way that we advocate using the more robust and
+simple tools for technical analysis, we also suggest that the simple
+approach be applied to your screening methods. By nature, we tend
+
+c08.indd 153
+
+11/2/07 12:25:09 PM
+
+154
+
+The Market Guys’ Five Points for Trading Success
+
+to lend credibility to a decision in the same proportion as the degree
+of difficulty by which that decision was reached. When we don’t
+fully understand something and we’re having it explained to us by
+someone who, by all outward appearances, does understand it, we
+abrogate our judgment for theirs. Similarly, many traders will stroll
+through the carnival-like halls of a trading show and absorb the various technical screens, analysis packages, and cycle analyzers. Even
+though they may not fully understand what they’re using, by virtue
+of the fact that many other traders seemingly profit from these tools,
+they put them to work in their own trading room.
+We’ll take a walk through the four most common screens and,
+hopefully, give you some ideas you’ve not considered. The following paragraphs are not meant to be the complete and final word,
+though. We’re not sure it’s possible to create a complete screening
+list. For that matter, we’re not sure why anyone would attempt such
+a task. We’re looking to separate the wheat from the chaff; we’re not
+in search of the perfect grain of wheat.
+
+Back to the Basics
+The first set of screening criteria that we’ll examine is the basics.
+These are simple measures of the stock or the company that don’t
+really fall into a technical or fundamental category, although some
+might choose to categorize them a bit differently. Here’s where it’s
+nice to be able to say, “It doesn’t really make any difference.” The categories that we’re using are for the purpose of organizing the criteria and don’t impact the final outcome.
+• Price
+• Exchange
+• Sector or industry
+• Market capitalization
+• Options traded
+• Recent initial public offering (IPO) versus established
+• Included in a major index
+We’ll walk through them in short detail so as to explain our reason for including them in the list. As we provide the explanation,
+our goal is to stimulate your thinking about what other criteria you
+might use and, more importantly, why you would use it.
+
+c08.indd 154
+
+11/2/07 12:25:10 PM
+
+E Pluribus Unum
+
+155
+
+Price
+
+The first in the list is price. There’s a reason that our lead-off batter
+is price; it’s the only criterion whose change will directly and immediately impact your profits. With price, most traders will establish a
+minimum price and sometimes a maximum as well. For example, the
+price screen may specify that the stock price be at least $10 or $20
+per share. The idea here is to eliminate the very low priced stocks.
+The so-called penny stocks tend to attract speculators who may be
+moving many thousands of shares. This often drives volatility, and
+hard swings may occur out of the blue for no apparent reason. Also,
+most institutions will avoid the very low priced stocks. Many of these
+stocks are trading at very low levels after having fallen from much
+higher prices, often due to news such as poor earnings.
+It’s easy to look at a very low priced stock and start dreaming
+about the day that your $1 stock is trading at $50. We can almost
+picture the profits that we’ll rake in when the grand rally is staged.
+However, don’t ever forget that the market tends to price a stock
+according to all of the information that is floating around. If a
+stock was trading at $40 last summer and is now at $1, it’s most likely
+because the fundamentals have deteriorated so badly that the stock
+should be that low. Unfortunately, we’ve all met someone who claims
+to have purchased the stock that multiplied by a factor of 5, 10, 20,
+or more. You may have even experienced that situation. We’re not
+saying that it can’t happen. We’re just pointing out that this is a
+flimsy foundation upon which to build your trading strategy. If you
+want to carve out a few dollars for a speculative play, that’s fine. But
+please don’t try to convince us that you have the regular insight into
+the stocks that will serve as your surrogate lottery ticket.
+Screening for the higher-priced stocks is usually done because of
+a limitation in buying power rather than any indication of perceived
+value. If a trader has $50,000 buying power, she can choose between
+1,000 shares of a $50 stock or 400 shares of a $125 stock. Since most
+traders think in terms of absolute dollar moves rather than percentage moves, a $1 advance in both stocks yields a 2 percent increase for
+the former but only a 0.8 percent increase for the latter. Looking at it
+another way, a $1 move for the 1,000 shares of a $50 stock will generate a $1,000 profit. But since the $50,000 buys only 400 shares of the
+$125 stock, the profit drops to $400. Of course, it would be expected
+that the absolute swings would be greater in the higher-priced stock.
+
+c08.indd 155
+
+11/2/07 12:25:10 PM
+
+156
+
+The Market Guys’ Five Points for Trading Success
+
+Nevertheless, this is the reasoning behind an upper limit on the
+stock price.
+Exchange
+
+The next criterion in our sample list for basic screens is the
+exchange. Here, we’re talking about choosing a stock based on where
+it is traded. Older traders have a tendency to want to trade stocks
+that are listed on the NYSE. We suspect that this is due to the fact that
+the NYSE has an actual trading floor. It is possible to hop a flight to
+New York, take a taxi to Wall Street, and walk into the NYSE building.
+With a pass, you could actually look down onto the trading floor. The
+Nasdaq, on the other hand, exists only in the realm of computer servers. There is no physical Nasdaq trading floor; the exchange is strictly
+electronic. The NYSE is referred to as an auction market where two
+traders will execute transactions between themselves after matching one trader’s bid to another trader’s offer. The Nasdaq is a dealer
+market where trades must run through a dealer, known as a market maker. The specialists trading on the floor of the NYSE and the
+Nasdaq market maker are both charged with maintaining a smooth
+and orderly market, although their specific functions differ.
+Speed of execution and spreads are two more considerations
+when screening for a specific exchange. In the early days of electronic trading, most traders expected to get faster fills through the
+fully electronic trading systems that the Nasdaq offered. The need
+to run NYSE trades through the specialist created a latent delay that
+day traders found unacceptable. At the time of this writing in 2007,
+the Nasdaq still posted its order execution speed as approximately
+twice as fast as the NYSE. The Nasdaq also posts the average effective
+spread as a third lower than the NYSE. The effective spread measures
+the difference in price between what investors and traders actually
+pay or receive for a stock versus the average buy or sell price. The
+lower the effective spread, the better for the trader.
+Also, there are differences in the listing requirements between
+the two exchanges. Historically, the Nasdaq has been considered
+more of a technology and growth market. Part of the reason for this
+is the lower listing fees and listing requirements. Companies with
+limited capital have been able to obtain and maintain a listing more
+readily on the Nasdaq than on the NYSE. A company’s ability to maintain an exchange listing is dependent upon such factors as minimum
+
+c08.indd 156
+
+11/2/07 12:25:10 PM
+
+E Pluribus Unum
+
+157
+
+bid price, market capitalization, and liquidity. The liquidity is based
+on the float—the number of shares that are available for trading by
+the public as opposed to officers, directors, or controlling-interest
+investors. The NYSE has more stringent requirements and has been
+considered the home for the more mature, blue-chip firms and
+industrials. These are the companies that were around before most
+of today’s traders were born. As such, there is a perception of safety
+that comes from trading companies with such a well-established
+pedigree.
+
+Sector or Industry
+
+Screening for a specific market sector or industry is a common
+practice for many traders. Very few traders actually raised their hand
+as a child in primary school and proclaimed to the class that they were
+going to grow up to trade the equity and option markets. Wide-eyed
+blinks by fellow classmates and a mandatory trip down the hall to the
+guidance counselor would surely follow such a pronouncement.
+The reality is that most of us enter the world of trading after a stint
+in one or more nontrading fields. These past career fields provide
+an arena within which we’re quite comfortable. As we mentioned in
+Chapter 5, many of our friends in Canada tend to gravitate toward the
+mining and energy sector. Those are strong industries in Canada, and
+many traders have spent years working with the mining and energy
+companies. As long as you don’t fall prey to Mistake 1 (Marrying Your
+Stock and Finding Trades that Aren’t There), covered in Chapter 5,
+there’s nothing wrong with screening stocks for sectors and industries with which you are familiar.
+Besides personal familiarity with a sector or industry, the fact
+is that sectors and industries often move as a group. For example,
+when crude oil prices are rising along with consumer and industrial
+demand, it should follow that the companies within the energy sector should benefit. Rising prices and rising demand can be expected
+to translate into rising earnings. It’s natural to expect that the stock
+prices should rise to follow suit. A very profitable strategy in this scenario is to screen for stocks within the energy sector and open long
+positions in one or more. Alternatively, you could buy the energy
+ETF and capture the move of the sector or industry as a whole with
+a single trade. We can see two examples of key sector stocks moving
+
+c08.indd 157
+
+11/2/07 12:25:10 PM
+
+158
+
+The Market Guys’ Five Points for Trading Success
+
+Figure 8.1 Comparison of OIH Against RIG
+
+Figure 8.2 Comparison of BBH Against AMGN
+
+in tandem with their respective sector ETF. The first, in Figure 8.1,
+is a comparison of the Oil HOLDR (ticker symbol: OIH) with one of
+the leading oil services stocks, Transocean Inc. (ticker symbol: RIG).
+In Figure 8.2, we see an overlay comparison of the Biotech HOLDR
+(ticker symbol: BBH) with a key biotech stock, Amgen (ticker symbol: AMGN). In each case, the leading stocks move quite closely with
+the overall sector. It becomes apparent why we want to screen for the
+sector or industry when we’re trading a stock within that sector.
+Market Capitalization
+
+Next up on our basic list is the market capitalization, also referred
+to simply as the market cap. Market cap is determined by multiplying the total outstanding shares by the share price. It’s easy to think
+that the higher the share price, the larger the company. However,
+
+c08.indd 158
+
+11/2/07 12:25:10 PM
+
+E Pluribus Unum
+
+159
+
+market cap is actually the better measure by which company size
+is determined. To illustrate this, consider two companies. Company
+A has 50 million shares outstanding with a per-share price of $25.
+Company B has 30 million shares outstanding with a per-share price
+of $40. It’s tempting to look at Company B and conclude that it is
+the stronger company, based on stock price. However, Company A
+has a market cap of $1.25 billion, while Company B has a market cap
+of $1.2 billion. Comparing market caps, Company A is the stronger
+company, even though the Company B stock is 60 percent higher
+than the Company A stock.
+Companies are generally grouped in size by market cap. Mega-cap
+or giant-cap companies have market caps over $200 billion. These are
+typically the bellwether companies or conglomerates that lead their
+industry. Below that are the large-cap companies with market caps
+from $10 billion to $200 billion. Many of the well-known blue-chip
+companies fall into this category. Next in the list are the mid-caps with
+market caps ranging from $2 billion to $10 billion. The mid-caps are
+typically growth stocks that may not be industry leaders yet, but may
+very well reach that stage as they grow. Below the mid-caps are the
+small-caps with market caps between $300 million and $2 billion.
+The small-caps are often young or emerging companies. They contain
+many companies with strong growth and appreciation potential but
+also carry a higher risk due to their lack of a corporate track record.
+Reaching even lower in valuation chain are the micro-caps with market
+caps from $50 million to $300 million. Micro-caps represent the balance between risk and reward; the downside is often as likely as the
+upside. What about the companies with market caps below $50 million?
+They’re too small to trade on an exchange, so their prices are posted
+on a daily publication called the pink sheets. If you want to trade the
+pink sheet stocks then just remember: caveat emptor.
+Options Traded
+
+Screening stocks based on whether the stock has options is another
+approach. The primary reason that a trader would want to eliminate
+stocks that don’t have an associated option chain is that there is less
+flexibility in managing risk. The first risk management step that most
+traders learn to take is to place a sell stop order after buying a stock.
+However, managing risk by purchasing a protective put is becoming much more popular among traders. The reason is quite simple:
+A sell stop order is subject to gaps or fast moves during periods of
+
+c08.indd 159
+
+11/2/07 12:25:11 PM
+
+160
+
+The Market Guys’ Five Points for Trading Success
+
+high volatility. You can place a sell stop order at $48 for a stock that
+you bought for $50 and find that you sold it at $20 when the stock
+collapsed overnight on bad news. However, if you were the proud
+owner of a shiny new $45 put on that same stock, you could sell
+the stock for $45 even if it dropped to a penny. For that reason,
+many traders will screen for stocks that will allow them to manage
+risk through the use of options.
+Besides managing risk, finding stocks that trade options will
+provide the opportunity to use a stock replacement strategy. A stock
+replacement strategy using options entails identifying a stock-trading
+candidate first. Let’s assume you find a stock that is in a strong uptrend.
+Everything you see tells you that this is a stock you want to own. Of
+course, you could buy the stock. The alternative is to purchase the
+call option and effectively own the stock for a short time but with a
+smaller cash outlay. This is referred to as a stock replacement strategy
+and could multiply your returns since you pay less for the option than
+you would for the underlying stock.
+Recent IPO versus Established

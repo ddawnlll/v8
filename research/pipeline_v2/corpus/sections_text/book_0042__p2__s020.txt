@@ -1,0 +1,556 @@
+
+205
+
+Statistical Analysis
+R
+E
+L
+A
+T
+I
+V
+E
+
+F
+
+R
+E
+
+Q
+
+u
+E
+
+N
+C
+
+0.2 - 1 1 - - - - - - - - - 0.1 8 - 1 1 - - - - - - - - 0.1 6 - 1 1 - - - - - - - 0.14
+0.12
+0.1
+0.08
+0.06
+0.04
+0.02
+
+o
+
+y
+
+o
+
+0.1
+
+0.2
+
+0.3
+
+0.4
+
+0.5
+
+0.6
+
+0.7
+
+0.8
+
+0.9
+
+f-g
+FIGURE 4.27
+
+Relative frequency distribution: fog. (sample size = 20, number of
+
+samples=50).
+
+R
+E
+L
+
+A
+T
+I
+V
+E
+
+F
+R
+E
+Q
+
+u
+E
+N
+
+C
+
+0.2 - R - - - - - - - - - - - - - - 0.18
+0.16 - - - l l - - - - - - - - - - - - - - - - - - - - 0.14 - 1 1 - - - - - - - - - - - - - - - - - - 0.12
+0.1
+0.08 - - - l l - - - - - - - - - 0.06 - f t - - - - - 0.04 - 1 1 - - - - 0.02
+
+y
+
+o -+--.-----1'o
+
+0.1
+
+0.2
+
+0.3
+
+0.4
+
+0.5
+
+0.6
+
+0.7
+
+0.8
+
+0.9
+
+f-g
+FIGURE 4.28
+samples=50).
+
+Relative frequency distribution: fog. (sample size = 20, number of
+
+206 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+decision to reject or not to reject the hypothesis will be treated in Chapter 5. The important point for now is that the width of the sampling distribution is critically important in answering this question.
+
+Sampling Distribution of Trading Performance
+A sampling distribution can be formed for any statistic: the average
+(mean), the median, the standard deviation, and many other statistics
+used in statistical inference. 29 Each has its own sampling distribution.
+This discussion here is confined to the sampling distribution of the
+mean because the performance statistic used to evaluate TA rules in this
+book is a rule's mean rate of return. However, there are many other performance measures that might be used: the Sharpe ratio,30 the profit factor,31
+the mean return divided by the Ulcer Index,32 and so forth. It should be
+pointed out that the sampling distributions of these alternative performance
+statistics would be different from the sampling distribution of the mean.
+It should also be pointed out that the methods used in this book to
+generate the sampling distribution of the mean may be of limited value in
+generating sampling distributions for performance statistics with elongated right tails. This can occur with performance statistics that involve
+ratios such as the Sharpe ratio, the mean-return-to-Ulcer-Index ratio, and
+the profit factor. However, this problem can be mitigated by taking the log
+of the ratio to shorten the right tail.
+
+The Three Distributions of Statistical Inference
+Statistical inference actually involves three different distributions, one of
+which is the sampling distribution. They are easy to confuse. This section
+is intended to clarify their differences. In the context of rule testing the
+three distributions are:
+
+1. Data distribution of the population: an infinite sized distribution
+comprised of all possible daily rule returns, which we assume extends
+into the immediate practical future.
+2. Data distribution of the sample: a distribution comprised of a finite
+number (N) of daily rule returns from the past.
+3. Sampling distribution: an infinite-sized distribution of the sample
+statistic-in this case it is the rule's mean return. It represents the
+mean returns of the rule, if it were to be tested in an infinite number
+of random samples of size N extracted from the population.
+There are two points to emphasize. First, the observations comprising
+the data distribution of the population and the data distribution of the
+
+207
+
+Statistical Analysis
+
+sample (1 and 2 in the preceding list) are comprised of single-day rule returns. In contrast, the observations comprising the sampling distribution
+are sample statistics in which each observation represents the mean return of the rule computed over a sample of days. Second, both the population distribution and the sampling distribution are theoretical in the sense
+that they refer to an infinite number of possible observations. In contrast,
+the data distribution of the sample is composed of a finite number of observations from a historical back test.
+The relationship between these three distributions can be visualized
+by imagining an experiment similar to the box-of-beads experiment. In
+this case, however, you are to imagine a population distribution of daily
+rule returns that is infinite in size. Imagine taking 50 independent samples
+from the population, where each sample is comprised of a substantial
+number of daily rule returns. Next, determine the mean return for each
+sample and then plot the sampling distribution of the 50 means. This is illustrated in Figure 4.29. 33
+The Real World: The Problem of One Sample
+
+The preceding discussion was theoretical in the sense that we imagined
+what it would be like if we could observe 50 independent samples from a
+
+Data
+Distribution
+in the
+Population
+(daily returns)
+
+1
+Data
+Distribution
+in the
+Sample
+of Size n
+(daily returns)
+
+• • • • • Sample # SO of n
+
+Daily Returns
+
+.l
+Sampling
+Distribution
+
+50
+Sample Means
+
+Distribution of the Means
+of Sample Size n
+
+FIG HE 4.29 The three distributions of statistical inference.
+
+208 METHODOLOGICAL. PSYCHOLOGICAL. PHILOSOPHICAL. STATISTICAL FOUNDATIONS
+Population
+Mean
+(not known)
+
+Distribution of Daily Returns
+Comprising the Population
+
+Daily Returns
+One Value for Sample
+Mean
+(known)
+
+Distribution of Daily Returns
+Comprising the Sample
+
+Daily Returns
+
+FIGURE 4.30 The real world: one sample and one value of the test statistic.
+
+parent population. In most real-world statistical problems, there is only
+one sample of observations and thus one value for the sample mean. The
+problem is that with only one sample mean available we have no notion of
+the sample statistic's variability. The problem of one sample and one mean
+is illustrated in Figure 4.30.
+Fortunately, we can learn a lot about a sample statistic's variability
+and its sampling distribution by looking at the single available sample.
+The discovery of how to do this, early in the twentieth century, is what
+made the field of statistical inference possible. In fact, statisticians have
+developed two distinct approaches for estimating the sampling distribution of a statistic from a single san1ple of observations: classical and computer intensive. Although both will be discussed, the computer-intensive
+approach will be used for the rule tests performed in Part Two.
+
+DERIVING THE SAMPLING DISTRIBUTION:
+THE CIASSICt\L APPROACH
+This classical approach is the one most often taught in basic statistics
+courses. It is attributed to the two fathers of mathematical statistics, Sir
+Ronald Fisher (1890-1962) and Jerzy Neyman (1894-1981). It utilizes
+probability theory and integral calculus to derive the sampling distribution on the basis of a single observed sample. It provides estimates of the
+sampling distribution's dispersion, its mean, and its basic shape (normal).
+
+Statistical Analysis
+
+209
+
+In other words, it provides everything needed to quantify the reliability of
+
+an inference based on a single sample of observations.
+
+The Sampling Distribution of the Sample Mean
+Every statistic has its own sampling distribution. This discussion will focus on the sampling distribution of the mean (average), because it is the
+statistic used in Part Two to evaluate TA rules.
+Classical statistical theory tells us several things about the sampling
+distribution of the mean.
+1. The mean of a large sample is a good estimate of the mean of the population distribution from which the sample was obtained. The larger
+the sample, the more closely the sample mean conforms to the population mean.
+2. The dispersion of the sampling distribution depends on the size of the
+sample. For a given population, the larger the sample, the narrower
+the sampling distribution.
+3. The dispersion of the sanlpling distribution also depends on the
+amount of variation within the parent population data. The bigger the
+variation in the parent population, the wider the sanlpling distribution.
+4. Under the conditions that apply to the evaluation of TA rules, the
+shape of the sampling distribution of the mean will tend towards the
+so-called normal or bell shape, with the conformity to the normal
+shape increasing as the sample size increases. Other sample statistics,
+such as ratios, can be profoundly nonnormal.
+Each of these concepts is now explained.
+The Mean of a Large Sample Is a Good Estimate of the ropulation Mean. This is a manifestation of The Law of Large Numbers,
+
+which we met previously in the context of a coin-flipping experiment. To
+recap, The Law of Large Numbers tells us that the larger the nunlber of
+observations comprising the sanlple, the more closely the sample mean
+will approximate the population mean. There are some qualifying conditions 34 attached to this promise, but they need not concern us here.
+The graph of the coin-flipping experiment illustrated the action of the
+Law of Large Numbers (Figure 4.18). As the number of coin tosses increased, the proportion of heads gradually converged to its theoretically
+correct value of 0.50. In the early stages of the experiment, when the sample size was small, there were large departures from 0.50. These departures illustrate the large role that chance plays in small sanlples. In four
+
+210 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+tosses, though values of 0.75 or 0.25 are not the most probable, they are
+quite common. However, when the number of coin tosses reaches 60, the
+probability of 0.75 or 0.25 is less than 1 in 1,000. The important lesson: Increased sample size diminishes the role of chance.
+The Dispersion of the Sampling Distribution Depends on the
+Size of the Sample: the Larger the Sample the Less the Dispersion. Imagine a very large population of observations on some vari-
+
+able whose standard deviation is 100. Usually, we do not lmow the
+population standard deviation, but in this case we will assume that we do.
+In Figure 4.31, I show the parent population distribution at the bottom. Above it are two sampling distributions for the variable's mean for
+sample sizes of 10 and 100. Notice that the width of the sampling distribution is cut by approximately one-third each time the sample size is increased by a factor of 10. One of the lessons from classical statistics is
+that the standard deviation of the sampling distribution of the mean is inversely proportional to the square root of the sample size. 35 Thus, if the
+sample size is increased by a factor of 10, the width of the sampling distribution is reduced a factor of 3.16, the square root of 10. The parent distrib-
+
+Sampling Distribution
+of the Mean
+Sample Size = 100
+Standard Error = 10
+
+10
+
+Sampling Distribution
+of The Mean
+Sample Size = 10
+St. Error = 31 .62
+
+-4k31.62
+
+Distribution of Data
+in the Population
+St. Deviation = 100
+
+100
+FIGURE 4.31
+pie size.
+
+The narrowing of the sampling distribution with increased sam·
+
+Statistical Analysis
+
+211
+
+ution can be thought of as a sampling distribution with a sample size of
+one (one mean-the population mean). The sampling distribution for a
+sample size of 100 is one-tenth the width of the parent population. The essential message is the larger the sample size, the less the uncertainty
+about the value of a sample statistic. Incidentally, the standard deviation
+of the sampling distribution of the mean is given a special name in statistics, the standard error of the mean (see later explanation).
+With some qualifications,36 the Law of Large Numbers tells us that the
+larger the sample size, the more accurate our lmowledge of the population's average. With some caveats,37 therefore, we would like to work with
+samples that are as large as possible so as to minimize the width of the
+sampling distribution as much as possible.
+l'he Dispersion of the Sampling Distribution of the Mean Also
+Depends On the Amount of Variation within the Data Comprising the Parent Population. There is another factor that impacts the
+
+width of the sampling distribution-the amount of variation within the
+parent population from which the sample was taken. The greater the variation within the population data, the greater will be the variation (dispersion) of the sampling distribution.
+You can visualize this by thinking about a population that has no variation at all. For example, if all people in the population weighed 150 lbs,
+every sample is going to have an average weight of 150 lbs. Therefore,
+zero variation among the members of the population would lead to zero
+variation in the sample average, and consequently a sampling distribution
+that has no dispersion whatsoever. Conversely, if there is great variation
+among the individuals comprising the population, there is going to be
+greater variation in the san1ple averages, which translates to a fat sampling distribution.
+Shape of' the Sampling Distribution Tends Toward
+
+ormal.
+
+The Central Limit Theorem, a foundational principle of classical statistics,
+states that as the size of a sample gets larger, the sampling distribution of
+the mean, with some qualifications,38 converges toward a specific shape irrespective of the shape of the population distribution, In other words, no
+matter how weirdly shaped the distribution of the data in the parent population, the shape of the sampling distribution approaches a specific shape
+that statisticians refer to as the normal distribution, also lmown as the
+Gaussian distribution.
+The normal distribution is the shape of the most common probability distribution. Often referred to as the bell curve because it has the silhouette of the Liberty Bell, the normal distribution characterizes
+continuous variables that describe many real-world phenomena.
+
+212 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+There are a few points about the normal distribution that should be
+understood:
+• It is completely described by its mean and its standard deviation. If
+these two facts are mown, you mow every thing that there is to mow
+about the distribution.
+• About 68 percent of the observations lie within one standard deviation of the mean, and about 95 percent lie within two standard deviations of the mean.
+• The tails of the distribution become quite thin beyond two standard
+deviations. Thus values beyond three standard deviations are rare and
+beyond four are extremely rare.
+
+The normal distribution, which is illustrated in Figure 4.32, is so common that it has been called a fundamental feature of the natural world. Its
+shape is caused by the additive effects of many independent factors acting
+on the same situation. For example, systolic blood pressure is affected by
+genetic factors, diet, weight, lifestyle, aerobic conditioning, and a multitude of other factors. When they interact, the probability distribution of
+blood pressures in a large group of randomly selected people will have the
+bell-shaped distribution.
+Figure 4.3339 shows several very nonnormal population distributions
+along with the shape of the sampling distribution of the mean. Note how
+the sampling distribution converges to a normal shape as a sample size is
+increased irrespective of the shape of the distribution of the data in the
+
+2 0"
+
+10"
+
++10"
+
++20"
+
+\"c"
+
+I 68% of the Area I
+
+r
+95% of the Area
+
+FIGURE 4.32 The normal distribution.
+
+213
+
+Statistical Analysis
+
+Parent
+Population
+
+Sampling
+Distribution: n=2
+
+Sampling
+Distribution: n=5
+
+... ...
+
+Sampling
+Distribution: n=30
+
+...
+f'IGURE 4.33
+
+Given sufficient sample size the sampling distribution of the
+mean approaches normal shape irrespective of the variable's distributional shape.
+
+parent population. There is nothing magical about the number 30. The rate
+at which the sampling distribution converges to a normal shape as a function of sample size depends on the shape of the parent distribution. Note
+that for three of the cases in the figure, a sample size of five produces a
+nearly normally shaped sampling distribution of the mean. However, for
+the bottom case in the figure, the sampling distribution of the mean does
+not become normal-like until a sample size of 30.
+The Standard Error of the Mean
+We are now in a position to take the final step toward defining the sampling distribution of the mean as it is done in classical statistics. So far, it
+has been established that:
+1. The sampling distribution of the mean converges to the shape of a
+normal distribution as the sample size is increased.
+2. A normal distribution is fully described by its mean and its standard
+deviation.
+
+214 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+3. The standard deviation of the sampling distribution of the mean, also
+known as the standard error of the mean, is directly related to the
+standard deviation of the population from which the samples were
+taken.
+4. The standard error of the mean is inversely related to the square root
+of the sample size.
+The standard error of the mean is equal to the standard deviation of
+the population divided by the square root of the sample size. This is a true
+statement but not of practical use because the standard deviation of the
+population is not known. This is simply a consequence of the fact that the
+full population is not observable. However, the standard deviation of the
+population can be estimated from the sample. This estimate, which is designated by sigma-hat, is shown in equation in Figure 4.34. The little roof or
+hat over the sigma is statistical symbolism for a quantity that has been estimated. You will note that the divisor within the radical sign is n - 1,
+rather than n. This modification compensates for the fact that the sample
+standard deviation understates the standard deviation of the population.
+This expression is used to estimate the standard deviation of the parent population, which is then used in the equation in Figure 4.35 to estimate the standard error of the mean.
+With the standard error of the mean in hand, and the assumption that
+the sampling distribution is normal, it is now possible to form a good esti-
+
+Estimate of Population Standard Deviation
+Based on a Sample of Observations
+
+a- J
+Where:
+
+X·I
+
+Is an individual observation on variable X in the population
+
+X
+
+Is the sample mean on variable X
+
+n
+
+Is number of observations in the sample
+
+FIGURE 4.34
+observations.
+
+Estimate of population standard deviation based on a sample of
+
+215
+
+Statistical Analysis
+
+Standard
+Error
+of
+the Mean
+FIGURE 4.35 The standard error of the mean.
+
+mate of the sampling distribution of the mean. And recall all this was on
+the basis of a single sample.
+There is one problem with the traditional approach. It assumes that
+the sampling distribution is normally shaped (bell curve). If this proves
+not to be so, the conclusions reached will be inaccurate. For this reason, I
+have chosen to use an alternative method for estimating the sampling distribution of the mean, based on computer simulation.
+
+DERIVING THE SAMPLING DISTRIBUTION WITH
+THE COMPUTER·llVfENSIVE APPROACH
+Until about 30 years ago there was no alternative to the classical approach
+for deriving the sampling distribution from a single sample. Now there isthe computer-intensive approach. By systematically resampling the single
+available sample many times, it is possible to approximate the shape of the
+sampling distribution. This procedure is described in this section.
+The next chapter will present two computer-based methods: bootstrap resampling and Monte Carlo permutation. Although each method
+has its limitations, as is true for any statistical method, they are useful alternatives to the classic approach.
+The bootstrap is so named because it seemingly lifts itself up, as if by
+its own bootstraps, to approximate the shape of the sampling distribution. In this book, it will be used to approximate the shape of the sampling distribution of the average return for rules that have no predictive
+power. The Monte Carlo permutation method is named after the famed
+European gambling casino because it uses the computer as if it were a
+roulette wheel.
+By whatever means it is generated, the sampling distribution serves
+the same purpose. It tells us how much the back-tested return of a nonpredictive rule can vary above or below zero due to the random effects of
+sampling. Thus, it serves as the benchmark for evaluating rule performance. If the rule's mean return is too high to be due to sampling variability, the rule is judged to have predictive power.
+
+216 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+PREVIEW OF NEXT CIIAPTER
+We have already made a number of references to using statistical inference
+to test claims. The official title for this activity is hypothesis testing. The
+next chapter discusses the rationale and mechanics of hypothesis testing.
+It will also consider another use of statistical inference, estimating
+confidence intervals. A confidence interval is a range that contains the
+true value of the population parameter with a specified level of confidence. For example, if the observed mean return of a rule is 15 percent
+the 95 percent confidence interval might indicate that the rule's true return lies between 5 percent return and 25 percent return. The width of the
+confidence interval, in this case 20 percentage points, is derived from the
+same sampling distribution that is used for hypothesis testing.
+
+Hypothesis Tests
+and Confidence
+Intervals
+
+TWO TYPES OF STATISTICt\L INFERENCE
+Statistical inference encompasses two procedures: hypothesis testing and
+parameter estimation. Both are concerned with the unknown value of a
+population parameter. A hypothesis test determines if a sample of data is
+consistent with or contradicts a hypothesis about the value of a population parameter, for example, the hypothesis that its value is less than or
+equal to zero. The other inference procedure, parameter estimation, uses
+the information in a sample to detern1ine the approximate value of a population parameter. 1 Thus, a hypothesis test tells us if an effect is present or
+not, whereas an estimate tells us about the size of an effect.
+In some ways both forms of inference are similar. Both attempt to
+draw a conclusion about an entire population based only on what has
+been observed in a sample drawn from the population. In going beyond
+what is known, both hypothesis testing and parameter estimation take the
+inductive leap from the certain value of a sample statistic to the uncertain
+value of a population parameter. As such, both are subject to error.
+However, important differences distinguish parameter estimation
+from hypothesis testing. Their goals are different. The hypothesis test
+evaluates the veracity of a conjecture about a population parameter
+leading to an acceptance or rejection of that conjecture. In contrast, estimation is aimed at providing a plausible value or range of values for
+the population parameter. In this sense, estimation is a bolder endeavor
+and offers potentially more useful information. Rather than merely
+telling us whether we should accept or reject a specific claim such as a
+217

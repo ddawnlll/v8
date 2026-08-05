@@ -1,0 +1,349 @@
+
+218 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+rule's average return is less than or equal to zero, estimation approximates the average return and provides a range of values within which
+the rule's true rate of return should lie at a specified level of probability.
+For example, it may tell us that the rule's estimated return is 10 percent
+and there is a 95 percent probability that it falls within the range of 5
+percent to 15 percent. This statement contains two kinds of estimates; a
+point estimate, that the rule's return is 10 percent, and an interval estimate, that the return lies in the range 5 percent to 15 percent. The rule
+studies discussed in Part Two use estimation as an adjunct to the hypothesis tests.
+
+IIYPOTHESIS TESTS VERSUS INFORMAL INFERENCE
+If a rule has been profitable in a sample of historical data, this sample sta-
+
+tistic is an indisputable fact. However, from this fact, what can be inferred
+about the rule's future performance? Is it likely to be profitable because it
+possesses genuine predictive power or are profits unlikely because its
+past profits were due to chance? The hypothesis test is a fonnal and rigorous inference procedure for deciding which of these alternatives is more
+likely to be correct, and so can help us decide if it would be rational to use
+the rule for actual trading in the future.
+
+Confirmatory Evidence: It's
+but It Ain't Sufficient
+
+ice, It's Necessary,
+
+Chapter 2 pointed out that informal inference is biased in favor of confirmatory evidence. That is to say, when we use common sense to test the
+validity of an idea, we tend to look for confirma~ory evidence-facts consistent with the idea's truth. At the same time, we tend to ignore or give
+too little weight to contradictory evidence. Common sense tells us, and
+rightly so, that if the idea is true, instances where the idea worked (confirmatory evidence) should exist. However, informal inference makes the
+mistake of assuming that confirmatory evidence is sufficient to establish
+its truth. This is a logical error. Confirmatory evidence does not compel
+the conclusion that the idea is true. Because it is consistent with the idea's
+truth, it merely allows for the possibility that the idea is true.
+The crucial distinction between necessary evidence and sufficient evidence was illustrated in Chapter 4 with in the following example. Suppose
+we wish to test the truth of the assertion: The creature I observe is a dog. We
+observe that the creature has four legs (the evidence). This evidence is consistent with (i.e., confirmatory ot) the creature being a dog. In other words, if
+
+Hypothesis Tests and Confidence Intervals
+
+219
+
+the creature is a dog, then it will necessarily have four legs. However, four
+legs are not sufficient evidence to establish that the creature is a dog. It may
+very well be another four-legged creature (cat, rhino, and so forth).
+Popular articles on TA will often try to argue that a pattern has predictive power by presenting instances where the pattern made successful
+predictions. It is true that, if the pattern has predictive power, then there
+will be historical cases where the pattern gave successful predictions.
+However, such confirmatory evidence, while necessary, is not sufficient to
+logically establish that the pattern has predictive power. It is no more able
+to compel the conclusion that the pattern has predictive power than the
+presence of four legs is able to compel the conclusion that the creature
+is a dog.
+To argue that confirmatory instances are sufficient commits the fallacy of affirming the consequent.
+
+If p is true, then q is true.
+q is true.
+Invalid Conclusion: Therefore, p is true.
+If the pattern has predictive power, then past examples of success
+should exist.
+Past examples of success exist, and here they are.
+Therefore, the pattern has predictive power.
+Chapter 3 showed that although confirmatory evidence is not sufficient to prove the truth of an assertion, contradictory evidence-evidence
+that is incompatible with an assertion's truth-is sufficient to establish
+that the assertion is false. The fact that a creature lacks four legs is sufficient to falsify the assertion that the creature is a dog. This is the valid
+form of argument called denial of the consequent.
+
+If p is true, then q is true.
+q is not true.
+Therefore, p is not true (i.e., p isfalse).
+If the creature is a dog, then the creature has four legs.
+Creature does not have for legs.
+Therefore, creature is not a dog.
+The logical basis of the hypothesis test is falsification of the consequent. As such, it is a potent antidote to the confirmation bias of informal
+inference and an effective preventative of erroneous belief.
+
+220 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+What Is a Statistical Hypothesis?
+A statistical hypothesis is a conjecture about the value of a population parameter. Often this is a numerical characteristic, such as the average return of a rule. The population parameter's value is unknown because it is
+unobservable. For reasons previously discussed, it is assumed to have
+value equal to or less than zero.
+What an observer does know is the value of a sample statistic for a
+sample that has been drawn from the population. Thus, the observer is
+faced with a question: Is the observed value of the sample statistic consistent with the hypothesized value of the population parameter? If the observed value is close to the hypothesized value, the reasonable inference
+would be that the hypothesis is correct. If, on the other hand, the value of
+the sample value is far away from the hypothesized value, the truth of the
+hypothesis is called into question.
+Close and far are ambiguous terms. The hypothesis test quantifies
+these terms making it possible to a draw a conclusion about the veracity
+of the hypothesis. The test's conclusion is typically given as a number between 0 and 1.0. This number indicates the probability that the observed
+value of the sample statistic could have occurred by chance under the
+condition that (given that or assuming that) the hypothesized value is
+true. For example, suppose it is hypothesized that a rule's expected return
+is equal to zero, but the back test produced a return of +20 percent. The
+conclusion of the hypothesis test may say something like the following: If
+the rule's expected rate of return were truly equal to zero, there is a 0.03
+probability that the back-tested return could be equal to or greater than
++20 percent due to chance. Because there is only a 3 percent probability
+that a 20 percent return could have occurred by chance if the rule were
+truly devoid of predictive power, then we can be quite confident that the
+rule was not simply lucky in the back test.
+
+Falsifying a Hypothesis with Improbable Evidence
+A hypothesis test begins by assuming that the hypothesis being tested is
+true. Based on this assumption, predictions are deduced from the hypothesis about the likelihood of various new observations. In other words, if
+the hypothesis is true, then certain outcomes would be probable to occur
+whereas other outcomes would be improbable. Armed with this set of expectations an observer is in a position to compare the predictions with
+subsequent observations. If predictions and observations agree, there is
+no reason to question the hypothesis. However, if low probability outcomes are observed-outcomes that would be inconsistent with the truth
+of the hypothesis-the hypothesis is deemed falsified. Thus, it is the oc-
+
+Hypothesis Tests and Confidence Intervals
+
+221
+
+currence of unexpected evidence that is the basis for refuting a hypothesis. Though this line of reasoning is counterintuitive, it is logically correct
+(denial of the consequent) and extremely powerful. It is the logical basis
+of scientific discovery.
+To give a concrete example, suppose I view myself as an excellent social tennis player. My hypothesis is David Aronson is an exceUent social
+tennis player. I join a tennis club with members whose age and years of
+play are similar to mine. On the basis of my hypothesis, I confidently predict to other club members that I will win at least three-quarters of my
+games (predicted win rate = 0.75). This prediction is merely a deductive
+consequence of my hypothesis. I test the hypothesis by keeping track of
+my first 20 games. After 20 games I am shocked and disappointed. Not only
+have I not scored a single victory (observed win rate = 0), but most losses
+have been by wide margins. This outcome is clearly inconsistent with the
+prediction deduced from my hypothesis. Said differently, my hypothesis
+implied that this evidence had a very low probability of occurrence. Such
+surprising evidence forcefully calls for a revision (falsification) of my hypothesis. Unless I prefer feel-good delusions to observed evidence, it is
+time to abandon my delusions of tennis grandeur. 2
+In the preceding situation, the evidence was overwhelmingly clear. I
+lost every one of 20 games. However, what if the evidence had been ambiguous? Suppose I had won two-thirds of my games. An observed win
+rate of 0.66 is below the predicted win rate of 0.75 but not dramatically so.
+Was this merely a random negative deviation from the predicted win rate
+or was the deviation of sufficient magnitude to indicate the hypothesis
+about my tennis ability was faulty? This is where statistical analysis becomes necessary. It attempts to answer the question: Was the difference
+between the observed win rate (0.66) and the win rate predicted by my hypothesis (0.75) large enough to raise doubts about the veracity of the hypothesis? Or, alternatively: Was the difference between 0.66 and 0.75
+merely random variation in that particular sample of tennis matches? The
+hypothesis test attempts to distinguish prediction errors that are small
+enough to be the result of random sanlpling from errors so large that they
+indicate a faulty hypothesis.
+Dueling Hypotheses: The Null Hypothesis versus
+the Alternative Hypothesis
+
+A hypothesis test relies on the method of indirect proof. That is, it establishes the truth of something by showing that something else is false. Therefore, to prove the hypothesis that we would like to demonstrate as correct,
+we show that an opposing hypothesis is incorrect. To establish that hypothesis A is true, we show that the opposing hypothesis Not-A is false.
+
+222 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+A hypothesis test, therefore, involves two hypotheses. One is called
+the null hypothesis and the other the alternative hypothesis. The names
+are strange, but they are so well entrenched that they will be used here.
+The alternative hypothesis, the one the scientist would like to prove, asserts the discovery of important new knowledge. The opposing or null hypothesis simply asserts that nothing new has been discovered. For
+example, Jonas Salk, inventor of the polio vaccine, put forward the alternative hypothesis that his new vaccine would prevent polio more effectively than a placebo. The null hypothesis asserted that the Salk vaccine
+would not prevent polio more effectively than a placebo. For the TA rules
+tested in this book, the alternative hypothesis asserts the rule has an expected return greater than zero. The null hypothesis asserts that the rule
+does not have an expected return greater than zero.
+For purposes of brevity, I will adopt the conventional notation: HA for
+the alternative hypothesis, and Ho for the null hypothesis. A way to remember this is the null hypothesis asserts that zero new knowledge has
+been discovered, thus the symbol Ho'
+lt is crucial to the logic of a hypothesis test that HA and Ho be defined
+as mutually exclusive and exhaustive propositions. What does this mean?
+Two propositions are said to be exhaustive if, when taken together, they
+cover all possibilities. HA and Ho cover all possibilities. Either the polio
+vaccine has a preventive effect or it does not. There is no other possibility.
+Either a TA rule generates returns greater than zero or it does not.
+The two hypotheses must also be defined as mutually exclusive. Mutually exclusive propositions cannot both be true at the same time, so if Ho
+is shown to be false, then HA must be true and vice versa. By defining the
+hypotheses as exhaustive and mutually exclusive statements, if it can be
+shown that one hypothesis is false, then we are left with the inescapable
+
+I~IGURE 5.1
+
+Null
+Hypothesis
+
+Alternative
+Hypothesis
+
+Rule Return
+Less Than
+Or Equal to
+Zero
+
+Rule Return
+Greater Than
+Zero
+
+Mutually exclusive and exhaustive hypotheses.
+
+Hypothesis Tests and Confidence Intervals
+
+223
+
+conclusion that the other hypothesis must be true. Proving truth in this
+fashion is called the method of indirect proof. These concepts are illustrated in the Figure 5.1.
+
+RATIONALE OF 'rUE HWOTUESIS TEST
+Two aspects of the hypothesis test warrant explanation. First, why the
+test is focused on the null hypothesis. Second, why the null hypothesis is
+assumed to be true rather than the alternative hypothesis. This section explains the reasoning behind both aspects.
+
+Why Is the ull Hypothesis the Target
+of the Test?
+As discussed in Chapter 3, evidence can be used to logically deduce that
+
+a hypothesis is false, but it cannot be used to deduce that it is true. 3
+Therefore, hypothesis testing must be about trying to falsify something.
+The question is: Which of the hypotheses, Ho or HAl should be the target
+of this effort?
+Of the two competing claims, Ho presents a better target for falsification because it can be reduced to a single claim about the value of the parameter. This means that only one test must be performed. If that single
+value can be successfully challenged with evidence, Ho will have been falsified. In contrast, the alternative hypothesis represents an infinite number of claims about the parameter's value. With no unique value to shoot
+at, an infinite number of tests would have to be performed to falsify the alternative hypothesis.
+In fact, both Ho and HA represent an infinite number of claims about
+the rule's expected return, but Ho can be reduced to a single claim. First,
+let's consider why HA represents an infinite number of claims. In asserting that the rule's return is greater than zero, HA effectively says that the
+rule's expected return, over the immediate practical future, might be any
+one of an infinite set of values greater than zero: + 0.1 percent, or +2 percent or +6 percent or any other positive value. This is illustrated in Figure
+5.2. Given that HA makes an infinite number of claims, an infinite number
+of tests would have to be conducted to conclusively refute it. Clearly this
+is impractical.
+Ho also makes an infinite number of claims about the value of
+the population parameter. It asserts that the rule's average return is
+equal to zero or some value less than zero. However, only one of these
+claims really matters-that the rule's average return is equal to zero.
+
+224 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+• ••
+
+Etc.
+
+Negative Returns
+
+HI Asserts:
+Rule's Expected Return> 0%.
+FIGURE 5.2 The alternative hypothesis makes an infinite number of claims
+about the rule's expected rate of return.
+
+The attempt to falsify a single claim is a practical goal. If the most positive of these claims (return = 0) can be called into question by the rule's
+back-test profitability, then all lesser claims (e.g., the rule's return = -1.3
+percent) are contradicted but to an even greater degree. This is how Ho
+reduces to the single claim that the rule's return is zero. This is illustrated in Figure 5.3.
+
+Etc.
+
+•••
+
+Positive Returns
+
+Ho Asserts:
+Rule's Return < or = 0%.
+FIGURE 5.3 The null hypothesis makes an infinite number of claims about the
+population mean, but only one matters.
+
+Hypothesis Tests and Confidence Intervals
+
+Why Is the
+
+225
+
+ull Hypothesis Assumed to Be True?
+
+The hypothesis test assumes Ho is true on two grounds: scientific skepticism and the principle of simplicity (parsimony).
+
+Skepticism. The assumption that Ho is true is consistent with science's
+skeptical attitude toward all new claims of knowledge. As explained in
+Chapter 3, this conservative stance is justified because making claims is
+easy but making genuine discoveries is hard. The burden of proof should
+be on the claimant.
+Science has a legitimate concern with protecting the storehouse of
+knowledge from contan1ination with falsehoods and weird beliefs. A useful analogy can be made to the criminal justice system. Free societies
+have a legitimate concern with protecting the lone citizen from the vast
+prosecutorial power of the state. For this reason the defendant in a criminal prosecution starts off with a presumption of innocence. This places
+the burden of proving guilt-falsifying the assumption of innocence-on
+the state, and it is indeed a substantial burden. To gain a conviction, the
+state must provide evidence of guilt beyond a reasonable doubt, a very
+high threshold. The initial assumption of innocence and the high threshold of proof can be seen as the legal system's way of preventing the jails
+and gallows from being contaminated with innocent citizens.
+Following the scientific tradition, the hypothesis test places the burden of proof on those asserting new knowledge. In fact, whenever the
+back-tested performance of a rule is greater than zero, the sample evidence actually favors HA-that the rule's expected return is greater than
+zero. However, the hypothesis test demands more than merely reasonable
+evidence. It demands compelling evidence before abandoning the assumed truth of Hoo Those asserting that a TA rule has predictive power
+(H A) must meet a large burden of proof before they can reasonably expect
+their claim to be accepted by scientific practitioners of TA.
+Simplicity. An additional reason to grant priority to Ho is the principle
+of simplicity. This fundamental precept of science says that simpler theories are more likely to capture the true patterns of nature than more elaborate ones. This principle, known as Occam:S Razor, says that if a
+phenomenon can be explained by more than one hypothesis, then the simplest hypothesis is more likely to be correct. Ho' which explains a rule's
+past success as luck, is simpler than HA, which asserts that profits stem
+from a recurring market pattern with predictive power.
+Simpler explanations (theories, rules, hypotheses, models, and so
+forth) are more likely to be correct because they are less likely to fit data
+by chance. The more complex an explanation-that is, the more numerous
+
+226 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+its assumptions, its conditions, and constraints-the more likely it is to fit
+a set of observations by chance. This is illustrated when fitting a mathematical function to a set of data. A function can be thought of as a mathematical hypothesis that explains a given set of observations. In Figure 5.4,
+two mathematical functions have been fitted to the same set of data. One
+function is linear. It is relatively simple in that it is defined by only two coefficients or degrees of freedom: its slope and where it cuts the vertical
+axis (Y-intercept). In other words, the line's fit to the data can be improved by manipulating only these two factors.
+The other function is a complex polynomial with 10 coefficients.
+Each coefficient allows the curve to make an additional bend. With this
+degree of flexibility, the curve can weave and bend so that it touches
+every data point. In fact, when a function is fit to data using a method
+called least-squares regression, a perfect fit is guaranteed if the function
+is allowed to contain as many degrees of freedom (coefficients) as there
+are data points. Although the linear function does not manage to touch
+every observed point, it does describe the general tendency of the data;
+increasing values of X are associated with increasing values of Y. In other
+words, the simple function captures the essential feature of the data,
+making it more likely that it represents the real relationship between X
+and Y. In contrast, the complex function is most likely a detailed description of the data's random fluctuations in addition to the positive correlation between X and Y.
+
+...•...
+y
+
+'.
+x
+FIGURE 5.4 The superiority of simplicity-all else being equal.
+
+Hypothesis Tests and Confidence Intervals
+
+227
+
+This is not to suggest that complex curves are never justified. If there
+is enough data and it was generated by a complex process, an elaborate
+model may very well be justified. However, all else being equal, the simpler explanation is more likely to be correct.
+Strong and Weak Decisions
+
+A hypothesis test leads to one of two decisions; reject Ho or retain Ho' The
+decisions are qualitatively different: the first is a strong decision while the
+second is a weak one. 4 Rejection is a strong decision because it is compelled by improbable, infomlative evidence that forcefully contradicts Ho'
+In contrast, the decision to retain Ho is a relatively weaker choice because
+the evidence is nothing more than consistent with what we had already
+expected and assumed to be so, that Ho is true. In others words, the observed value of the test statistic is unsurprising and hence uninformative.
+Had tests of Salk's polio vaccine shown that recipients of the real vaccine had the same risk of getting the disease as recipients of the placebo,
+Ho would be left intact, and no one would have been surprised by the vaccine's failure. Nothing had worked up to that point, so it would have been
+just another frustrating day at the lab. Of course this is not what actually
+happened, and the course of medical history was changed. Salk's decision
+to reject Ho was compelled by a rate of infection in the treated group that
+was surprisingly less than the placebo group.
+It is in this way that a decision to reject Ho is fundamentally a stronger
+decision than one to retain Ho' It is a decision forced by evidence that is
+strong enough to rebut an initial and entirely reasonable doubt that new
+knowledge has been discovered. In contrast, the decision to retain Ho is
+due to an absence of compelling evidence. The absence of compelling evidence does not mean the null is necessarily true or even probably true. 5 It
+simply means that it could be true. Because science takes a conservative
+stance toward new knowledge, in the absence of compelling evidence, the
+more reasonable conclusion is that nothing new has been discovered.

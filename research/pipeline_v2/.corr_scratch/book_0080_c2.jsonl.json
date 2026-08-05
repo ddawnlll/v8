@@ -1,0 +1,144 @@
+[
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_116",
+  "verdict": "corroboration",
+  "behavior_id": "relative_strength_ranking",
+  "page": 147,
+  "exact_text": "have moved above their resistance level (colored in green, symbols CAT, KO,",
+  "added_conditions": [
+   "market itself is having a quiet/flat day when the screen is applied; a stock rising above its resistance level while the market is flat indicates something extraordinarily positive is boosting it, and a stock falling below its support level while the market is flat indicates something extraordinarily negative is weighing on it"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_118",
+  "verdict": "corroboration",
+  "behavior_id": "line_crossover_momentum",
+  "page": 147,
+  "exact_text": "A buy trigger is initiated when the daily EROC rises\nabove both the EROC zero level and its signal line",
+  "added_conditions": [
+   "buy trigger requires the weekly EROC to be in the same condition (above both the EROC zero level and its signal line)",
+   "sell short trigger initiated when the daily EROC falls below both the EROC zero level and its signal line while the weekly EROC is in the same condition"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_122",
+  "verdict": "corroboration",
+  "behavior_id": "pattern_breakout_projection",
+  "page": 165,
+  "exact_text": "the two swings noted above from 77.09 project to a price just above $100",
+  "added_conditions": [
+   "if a move up stalls short of the projected target it might be considered a failure",
+   "when prices dropped below the $96.16 swing low, a sell signal would have been generated"
+  ],
+  "added_parameters": [
+   {"name": "first extension ratio", "value": "1.62", "page": 165},
+   {"name": "second extension ratio", "value": "1.38", "page": 165},
+   {"name": "swing low (sell trigger)", "value": "$96.16", "page": 165}
+  ]
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_123",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_124",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_134",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_137",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 180,
+  "exact_text": "a higher high (however slight) matches",
+  "added_conditions": [
+   "correct divergence: a higher high in price (however slight) matches a lower high in momentum",
+   "correct divergence: a lower low in price matched by a higher low in momentum; incorrect signals compare falling highs or rising lows"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_139",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 180,
+  "exact_text": "for divergence to have occurred, a high or low\nmust have been made, or, more precisely, a swing high or low.",
+  "added_conditions": [
+   "to be identified as a low, the price bar had to be preceded and followed by bars with higher lows",
+   "divergence remains only a setup/danger sign, not an exit signal, until a higher low confirms the prior bar as a low (completed divergence)"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_141",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 194,
+  "exact_text": "The Kase momentum divergence method allows\nfor a slope ﬁlter based on this logic.",
+  "added_conditions": [],
+  "added_parameters": [
+   {"name": "low slope peak rate of change", "value": "less than 0.5 percent per bar", "page": 194},
+   {"name": "normal peak slope", "value": "6 percent per bar", "page": 194}
+  ]
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_142",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_145",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 194,
+  "exact_text": "use techniques to match price peaks with momentum peaks",
+  "added_conditions": [
+   "overbought/oversold signals (PeakOuts on the KPO, KCDpeaks on the KCD) are pinpointed by matching price peaks with momentum peaks"
+  ],
+  "added_parameters": [
+   {"name": "overbought PeakOut fixed value", "value": "100", "page": 194}
+  ]
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_153",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0080::lead_book_0080_1_155",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

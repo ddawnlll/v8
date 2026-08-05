@@ -1,0 +1,363 @@
+
+TRADING
+
+201
+
+that zone. Write an option with a strike price the market is unlikely to
+reach before the expiration. Suppose a stock is at 80, having risen from
+50 in the past year and is now rising half a point per week, with 8
+weeks left to option expiration. The trend is up, and selling a 70 put
+under those circumstances means selling an option that is likely to
+expire worthless.
+The temptation to sell naked options close to the money and get
+fatter premiums is dangerous, because a slight countertrend move can
+push your position underwater. Look at the number of weeks remaining to the expiration, calculate the distance the market is likely to travel
+based on its recent behavior, and write an option outside that range.
+Write options with no more than two months to the expiration. The
+shorter the time, the fewer surprises. The erosion of time value accelerates in the last few weeks of option life. When you write options
+close to the expiration, you benefit from faster time decay. You can get
+more money for options with longer life, but do not get greedy. The
+goal of a writer is not to make a killing on any single trade but to grind
+out a steady income.
+LIMITING RISK A trader can keep writing naked calls or puts, but do it
+
+long enough, and some day he will get caught on the wrong side of a
+powerful move. Profits of several years can be wiped out in a single day.
+For example, whenever there is a great bull market, the pros look
+at selling puts like a license to print money. The contrarians, the
+alarmists, and “the end is nigh” crowd keep buying puts for years and
+losing money, but suddenly there is a crash and buyers have their day
+in the sun. The pros who have been feeding off them for years face
+their day of reckoning—the quick ones survive, while the slow ones
+are carried out feet first.
+A trader can grow fat and greedy writing naked options, selling
+useless contracts created out of thin air and pocketing profits. A
+smug feeling of self-satisfaction blinds people to reality. Naked positions in options need to be protected by stops and money management rules.
+Use a mental stop-loss on the underlying security. Set a stop on the
+underlying stock, future, or index and not on the price of your option.
+Buy back that option if the underlying security reaches your stop level.
+For example, if you sell a naked 80 call on a stock trading at 70, place
+your stop at 77. Get out of your naked option position before it gets
+into the money by crossing its exercise price.
+
+202
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+Your stop is like an ejection seat on an aircraft. If you write an outof-the-money option and the market starts moving into the money,
+there is no point in sticking around, waiting to see what happens next.
+You are wrong, and you’re losing—push the eject button before the
+damage turns deadly. If you sold an option for 1.50, by the time it hits
+your at-the-money stop level it may double in price to 3. If you use
+stops, you’ll be nowhere near the “unlimited loss” that makes people
+afraid to write options.
+Set your profit-taking zone—consider buying back your naked
+option. When you write a call or a put, you sell a wasting asset. When
+the underlying security moves far from the exercise price but there is
+still time left to the expiration, the price of that option may reach its
+rock bottom. It loses value only in tiny dribs and drabs. The loser who
+bought that option still has a bit of a chance that the market may
+reverse in his favor. He continues to hold that call or put like a lottery
+ticket, and once in a rare while his ticket may win.
+Why hold an open position in an option that has already given you
+most of its value? You have little to gain, while remaining exposed to
+the risk of an adverse move. Consider buying back that option to close
+out your profitable trade.
+Open an insurance account. A naked seller needs insurance against
+a catastrophic reversal. You may write a put and the market crashes
+the next day, or you write a call and suddenly there is a takeover. You
+hope this never happens, but trade long enough and eventually everything will happen! That’s why you need insurance. Nobody will write
+it for you, so you’ll have to self-insure.
+Open a money market account, and every time you close out a
+naked writing position, throw a percentage of your profit, 10 percent
+or more, into that account. Do not use it for trading. Have it sit there,
+in a money market fund, for as long as you write options. Your insurance account grows with each new profit, ready to cover a catastrophic
+loss or to be taken out in cash when you stop writing options!
+Option writers get hurt in one of three ways. Beginners overtrade and
+write too many options, breaking money management rules. Intermediatelevel traders get hurt when they fail to run fast enough when their
+options move against them. Experienced traders can get blown out if
+they do not have a reserve against a major adverse move. The longer
+you trade, the greater your risk of a catastrophic event. Having an insurance account confirms your position as a professional option writer.
+
+TRADING
+
+203
+
+WHERE DO I GO FROM HERE?
+
+Every options trader should own Lawrence
+McMillan’s Options as a Strategic Investment and use it as a handbook.
+Most professional traders read Sheldon Natenberg’s Option Volatility
+and Pricing Strategies. Harvey Friedentag’s Options: Investing without
+Fear has a nice angle on covered writing.
+
+Futures
+Futures used to have such a bad reputation that several states tried to
+outlaw them a century ago. They used to have Sunday sermons against
+futures in parts of the agricultural belt. None of that prevented futures
+from evolving into a potent economic force.
+Futures markets have prospered because they serve two groups that
+have a great deal of money. On the one hand, futures permit major
+commercial producers and consumers to hedge price risks, giving them
+a fantastic competitive advantage. On the other hand, futures offer speculators a gambling palace with more choices than all the casinos in
+Nevada. Between the hedgers and the speculators, on a ground richly
+soaked with blood and money, are professional futures traders. They
+help move the wheels of commerce and take a fee for their services. A sign
+of their profitability is the fact that many of those public servants pass
+their craft to their sons and now occasionally even to their daughters.
+Hedging means opening a futures position that is the opposite of
+one’s position in the actual commodity. It removes the price risk from
+holding a cash commodity or planning to buy such a commodity in the
+future. Hedgers transfer price risks to commodity speculators. This
+allows them to concentrate on their core businesses, offer better consumer pricing, and obtain a long-term competitive advantage over their
+unhedged competitors.
+For example, I have two friends, brokers in Moscow, who teach
+sugar importers how to hedge (Russia has become the world’s biggest
+importer of sugar since the breakup of the Soviet Union). Their clients
+are big players in the food industry, who know up to a year in advance
+how much sugar they’re going to need. Now they can buy sugar futures
+in London or New York when prices are low enough. They are going
+to need their trainloads of sugar many months from now, but meanwhile they hold sugar futures, which they plan to sell when they buy
+their cash position. In effect, they are short cash, long futures. If sugar
+prices go up and they have to pay more than expected, they will offset
+
+204
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+that loss by making roughly the same profit on their futures positions.
+Their unhedged competitors are in effect flipping a coin. If sugar prices
+fall, they’ll buy on the cheap and reap a windfall, but if they rise, they’ll
+be hung out to dry. The importers who are hedged can concentrate on
+running their core business instead of watching the price ticker.
+Producers of commodities also benefit from hedging. An agribusiness can presell its wheat, coffee, or cotton when prices are high
+enough to guarantee profits. They sell short as many futures contracts
+as it takes to cover their prospective crop. From that point on, they
+have no price risk. If prices go down, they’ll make up their losses on
+cash commodities by profits on futures. If prices go up, they’ll lose
+money on their short positions in futures but make it back selling
+the actual commodities. Producers give up a chance of a windfall but
+insulate themselves from the risk of lower prices. Survivors thrive on
+stability. That why the Exxons, the Coca-Colas, and the Nabiscos are
+among the major players in the commodity markets. Hedgers are the
+ultimate insiders, and a good hedging department not only buys price
+insurance, but serves as a profit center.
+Speculators step in to assume market risks, lured by the glitter of
+profits. Hedgers, with their inside information, are not fully confident
+about future prices, while crowds of cheerful outsiders plunk down
+money to bet on price direction. It reminds me how, years ago, I
+walked into a liquor store with a scientist friend to buy some wine for
+dinner. This was soon after the state of New Jersey introduced a lottery to pay for education. There was a huge line at the counter, as lottery tickets in those days were sold only in liquor stores. When my
+friend, who owned a house in New Jersey, saw what was happening,
+he doubled up laughing, “You mean these people are lining up to
+keep my taxes down?!” That’s pretty much what most speculators do
+in futures.
+The two largest groups of speculators are farmers and engineers.
+Farmers produce commodities, while engineers love to apply scientific
+methods to the market game. Many small farmers enter futures markets
+as hedgers but catch the bug and start speculating. There’s nothing
+wrong with that, as long as they know what they are doing. It never
+ceases to amaze me how many farmers end up trading stock index
+futures. As long as they trade corn, cattle, or soybeans, their feel for
+the fundamentals gives them an edge over city slickers. But what’s their
+edge in the S&P 500? Faster reflexes than the rest of us? Gimme a break!
+
+TRADING
+
+205
+
+There is one profound difference between futures and stocks, making the futures game extremely fast, furious, exciting, and deadly. The
+futures markets are turbocharged by a simple but potent device of low
+margin requirements.
+United States securities law demands that in the stock market you pay
+at least half the cash value of your position. Your broker can give you
+a margin loan for the other half. If you have $30,000 in your account,
+you may buy $60,000 worth of stocks, and no more. The law was
+passed after the Crash of 1929 when people realized that low margins
+led to excessive speculation, which contributed to the viciousness of
+declines. Prior to 1929, speculators could buy stocks on a 10% margin,
+which worked great in bull markets but wiped them out in bear markets.
+Margins of only three to five percent are common in the futures markets. Here you can bet big with little money. If you have $30,000, you
+can control $1,000,000 worth of merchandise, be it pork bellies or gold.
+If you catch a 1% move in your market, you’ll make $10,000, or over
+30% profit on your account. A few trades like that, and you’ve made
+it. A small trader looks at these numbers and thinks he’s found the
+secret to getting rich quick. There is only one problem. Before that
+market rises 1% it may dip 2%. It may be a meaningless blip, but at the
+bottom the amateur’s equity will be nearly wiped out, and his broker will
+sell him out on a margin call. He’ll go bust even though his price forecast was correct.
+The mortality rate among futures traders is over 90 percent, even
+though brokerage houses try to hide statistics. Easy margins attract
+gamblers and adrenaline addicts who quickly go up in smoke. There
+is nothing wrong with trading futures that money management won’t
+cure. Futures are very tradable, as long as you observe money management rules and do not go crazy with an easy margin. You have to
+be more than disciplined—to trade commodities you must be colder
+than a freezer. If you cannot follow money management rules, better go
+to Las Vegas. The entertainment value is just as high and the outcome
+is the same, but the drinks are free and the floor show more glitzy.
+Precisely because they require a high degree of discipline and excellent money management skills, futures markets are hard for beginners.
+A new trader is better off learning to trade slower-moving stocks, but
+later on, futures definitely deserve a look.
+If you know how to trade and want to make a quick fortune, futures
+are the place to be. You may put on small initial positions, fenced in
+
+206
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+by strict money management rules, but then you can pyramid them to
+the hilt as a trade moves in your favor and you keep moving stops
+beyond breakeven and adding new contracts.
+There are only a few dozen futures, making the choice of which to
+trade much easier than among the thousands of stocks. Be sure to
+focus on markets in your own time zone. It is shocking how many
+beginners, especially outside the United States, want to trade currencies. Few of them stop to think that this is a 24-hour market, operating
+around the clock, in which an individual trader has many disadvantages. You may brilliantly analyze a currency and forecast a move, but
+that move is just as likely to take place in another time zone while you
+are sleeping. Try to select markets that trade in your time zone that are
+open when you are awake and closed when you’re asleep.
+It is a good idea to make your first steps in those markets where you
+know something about the fundamentals. If you are a cattle rancher, a
+house builder, or a loan officer, then cattle, lumber, or interest rate
+futures are logical starting points, if you can afford to trade them. If you
+have no particular interests, your choice is limited only by your
+account size. It is important to make your first steps in relatively inexpensive markets. All markets have a certain amount of random noise,
+or quick countertrend moves. The high dollar value of random moves
+in expensive markets can be deadly.
+Take yourself through a simple exercise. Create a spreadsheet on
+your computer and write down the names of several futures markets
+that interest you in column A. Write the value of their price units in column B. Corn trades in cents, and the value of a cent is $50; S&P trades
+in points, and the value of a point is $250, so those values go into column B. Write the latest closing price in column C. Now complete the
+exercise by creating column D which multiplies B by C and shows how
+much each contract is worth. How much more expensive is the richest
+contract compared to the cheapest contract? Five times? Ten? Twenty?
+Thirty? Do the exercise and find out.
+Beginners are drawn to the S&P 500 futures, but few have accounts
+large enough for proper money management in this expensive market. In North America, corn, sugar, and, in a slow year, copper are
+good markets for beginners, allowing you to learn in your own time
+zone. They are liquid, reasonably volatile, and not too expensive.
+Some very good books, listed on page 213, have been written about
+futures. Most technical analysis tools were originally developed for
+
+TRADING
+
+207
+
+futures and only later migrated to the stock market. Let us review a few
+aspects of futures that make them different from stocks.
+CONTANGO AND INVERSION All futures markets offer contracts for several
+
+delivery months at the same time. For example, you can buy or sell
+wheat for delivery in September or December of this year, March of
+next year, and so on. Normally, the nearby months are less expensive
+than the faraway months, and that relationship is called a contango
+market.
+Higher prices for longer-term contracts reflect the so-called cost of
+carry, that is, the cost of financing, storing, and insuring a commodity.
+A futures buyer plunks down his 3% margin and controls a contract
+without having to bring the rest of the money until the settlement date.
+Meanwhile the seller has to store, finance, and insure the merchandise.
+The differences between delivery months are called premiums.
+Hedgers and floor traders closely watch premiums because they reflect
+the degree of tightness in the market. When the supply shrinks or the
+demand rises, people start paying up for the nearby months. The premium for the faraway months begins to shrink. As the demand grows,
+the front months become pricier than faraway months—the market
+becomes inverted! This is one of the strongest fundamental signs of a
+bull market. There is a real shortage out there, and people are paying
+extra to get their stuff sooner rather than later.
+Whenever you look at the commodity page of a financial newspaper, move your finger down the column of closing prices and look for
+inversions. They signal bull markets, and that’s when you want to use
+technical analysis to look for buying opportunities.
+Serious hedgers do not wait for inversions. They monitor premiums
+and get their signals from their narrowing or widening. A good speculator can rattle off the latest prices, but a good hedger will quote you
+the latest premiums of faraway contracts over the nearby ones.
+As you scan futures markets for inversions, keep in mind that there
+is one area in which inversion is the norm. Interest rate futures are
+always inverted because those who hold cash positions keep collecting interest instead of paying finance and storage charges.
+SPREADS Hedgers tend to dominate the short side of the markets and
+most speculators are perpetual bulls, but floor traders love to trade
+spreads. Spreading means buying one delivery month and selling
+
+208
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+another in the same market, or going long one market and short a
+related one.
+Futures are the basic building blocks of the economy, essential for
+society’s daily functioning. Economic necessities tightly link commodity
+markets and delivery months. If the price of corn, a major animal feed,
+starts to rise faster than the price of wheat, at some point ranchers will
+start using wheat rather than corn. They’ll reduce their purchases of
+corn while buying more wheat, pushing their spread back towards the
+norm. A savvy commodity trader knows his normal spreads by heart.
+Spread traders bet against deviations and for a return to normalcy. In
+this situation, a spreader will short corn and buy wheat, instead of taking a directional trade in either market.
+Spread trades are much safer than directional trades, with even
+lower margin requirements. Amateurs do not understand spreads and
+have little interest in these reliable but slow-moving trades. There are
+several books on spreads but not a single good one at the time of this
+writing, a sign of how well professionals have sewn up this area of
+knowledge and kept the amateurs out. There is a handful of niches in
+the markets where professionals are making fortunes without the benefit of a single good how-to book. It looks almost as if the insiders have
+posted a sign for the outsiders to keep out.
+COMMITMENTS OF TRADERS The Commodity Futures Trading Commission
+
+collects reports from brokers on the positions of traders and releases
+their summaries to the public. Those COT (commitments of traders)
+reports are among the best sources of information on what the smart
+money is doing in the futures markets. COT reports reveal positions of
+three groups: hedgers, big traders, and small traders. How do they
+know who is who? Hedgers identify themselves to brokers because
+that entitles them to several advantages, such as lower margin rates.
+Big traders are identified by holding the number of contracts above
+“reporting requirements,” set by the government. Whoever is not a
+hedger or a big trader is a small trader.
+In the old days, big traders used to be the smart money. Today, the
+markets are bigger, the reporting requirements much higher, and big
+traders are likely to be commodity funds, most of them not much
+smarter than the run-of-the-mill trader. Hedgers are today’s smart
+money but understanding their positions isn’t as easy as it seems.
+For example, a COT report may show that in a certain market,
+hedgers hold 70% of shorts. A beginner who thinks this is bearish may
+
+TRADING
+
+209
+
+be completely off the mark without knowing that normally hedgers
+hold 90% of shorts in that market, making the 70% stance wildly bullish. Savvy COT analysts compare current positions to historical norms
+and look for situations where hedgers, or the smart money, and small
+traders, many of whom are gamblers and losers, are dead set against
+each other. If one group is heavily short while the other is just as heavily long, which one would you like to join? If you find that in a certain
+market the smart money is overwhelmingly on one side, while the
+small specs are mobbing the other, it is time to use technical analysis
+to look for entries on the side of hedgers.
+SUPPLY AND DEMAND MARKETS In futures, there are two types of bull
+
+and bear markets: supply-driven and demand-driven. Supply-driven
+markets tend to be fast and furious, whereas demand-driven markets
+tend to be quiet and slow. Why? Think of any commodity, say coffee,
+which grows in Africa and South America.
+Changes in demand come slowly, thanks to the conservatism of
+human nature. The demand for coffee can go up only if drinking
+becomes more popular, with a second espresso machine in every little
+bar. The demand can fall only if coffee drinking becomes less popular,
+which may happen in a deteriorating economy or in response to a
+health fad. Demand-driven markets move at a leisurely pace.
+Now imagine that a major coffee growing area is hit by a hurricane
+or a freeze. Suddenly the world supply of coffee is rumored to be
+reduced by 10% and prices shoot through the roof, cutting off marginal
+consumers and rising to the point where supply and demand are in
+balance. Supply-driven markets are very volatile. Imagine torrential
+rains in the cocoa-producing areas of Africa, or a new OPEC policy
+sharply curtailing oil supply, or a general strike in a leading coppermining country. When the supply of a commodity is reduced and
+rumors of further damage swirl, the trend shoots up, reallocating tight
+supplies to those best able to afford them.
+Every futures trader must be aware of key supply factors in his market and keep an eye on them, such as the weather during the critical
+growing and harvesting months in agricultural commodities. Trend
+traders in the futures markets tend to look for supply-driven markets,
+while swing traders do better in demand-driven markets.
+The United States grain markets often have price spikes during the
+spring and summer planting and growing seasons as dry spells, floods,
+and pests threaten supplies. Traders say that a farmer loses his crop three

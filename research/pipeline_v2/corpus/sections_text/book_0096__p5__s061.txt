@@ -1,0 +1,478 @@
+
+Download at www.wowebook.com
+
+Chapter 22 System Design and Testing
+
+549
+
+amount of risk involved. Remember the law of percentages. Risk of capital loss is the most
+important determinant in profiting. The net profit percentage of maximum drawdown describes
+quickly the bottom-line performance of the system. Unfortunately, the optimizing software of
+some commercial systems fails to include this factor and it must be calculated from other
+reported statistics.
+
+Measuring System Results for Robustness
+When analyzing a system, we look at the system components, the profit, the risk, and the
+smoothness of the equity curve. We want to know how robust our results are. Robustness simply
+means how strong and healthy our results are; it refers to how well our results will hold up to
+changing market conditions. It is important that our system continues to perform well when the
+market changes because although markets trend and patterns tend to repeat, the future market
+conditions will not exactly match the past market conditions that were the basis for our system
+design.
+Components
+The most important aspect of the optimization and testing process is to be sure that all calculations are correct. This sounds simple, but it is surprising how often this is overlooked and computer program errors have led to improper calculations. The next aspect is to be sure that the
+number of trades is large enough to make the results significant. The rule of thumb is between 30
+and 50 trades, with 50 or more being the ideal. We have mentioned previously that the comparisons between in-sample and out-of-sample results should differ in performance but should not
+materially differ in average duration of trades, maximum consecutive winners and losers, the
+worst losing trade, and the average losing trade. We should also be aware of the average trade
+result in dollars and the parameter stability. We could apply a student t test to the parameters and
+their results to see if their differences are statistically significant, and we should test for brittleness, the phenomenon when one or more of the rules are never triggered. Once we are satisfied
+that the preceding inspection shows no material problems, we can look at the performance statistics more closely.
+Profit Measures
+Remember that the point of practicing technical analysis is to make money—or profit. On the
+surface, it seems as if this is a simple concept: If I end up with more money than I began with,
+then the system is profitable. Actually, measuring and comparing the profitability of various
+potential systems is not quite so straightforward. There are several ways in which analysts will
+measure the profitability of systems. The major ways are as follows:
+• Total profit to total loss, called the profit factor, is the most commonly used statistic
+to screen for systems from optimization. It must be above 1.0, or the system is losing.
+Although a high number suggests greater profits, we must be wary of overly high
+numbers; generally, a profit factor greater than ten is a warning that the system has
+been curve-fitted. As a measure of general performance, the profit factor only includes
+profits and losses, not drawdowns. It, therefore, does not represent statistics on risk.
+
+Download at www.wowebook.com
+
+550
+
+Part VIII System Testing and Management
+
+• Outlier-adjusted profit to loss is a profit factor that has been adjusted for the largest
+profit. Sometimes a system will generate a very large profit or loss that is an anomaly.
+If the profit factor is reduced by this anomaly and ends up below 1.0, the system is a
+bust because it depended solely on the one large profit. The largest winning trade
+should not exceed 40% to 50% of total profit.
+• Percentage winning trades is a number we use in the next chapter on the makeup of
+risk of ruin. Obviously, the more winning trades there are, the less chance of a run of
+losses against a position. In trend-following systems, this percentage is often only 30%
+to 50%. Most systems should look for a winning trade percentage greater than 60%.
+Any percentage greater than 70% is suspect.
+• Annualized rate of return is used for relating the results of a system against a market
+benchmark.
+• The payoff ratio is a calculation that is also used in the risk of ruin estimate. It is a
+ratio of the average winning trade to average losing trade. For trend-following systems, it should be greater than 2.0.
+• The length of the average winning trade to average losing trade should be greater
+than 1. Otherwise, the system is holding losers too long and not maximizing the use of
+capital. Greater than 5 is preferable for trend-following systems.
+• The efficiency factor is the net profit divided by the gross profit (Sepiashvili, 2005). It
+is a combination of win/loss ratio and wins probability. Successful systems usually are
+in the range of 38% to 69%—the higher the better. This factor is mostly influenced by
+the win percentage. It suggests that reducing the number of losing trades is more effective for overall performance than reducing the size of the losses, as through stop-loss
+orders.
+For a system to be robust, we should not see a sudden dip in profit measures when parameters are changed slightly. Stability of results is more important than total profits.
+Risk Measures
+What happens if you find a system that has extraordinarily high profit measures? Chances are
+you have a system with a lot of risk. Remember, high profits are good, but we must balance them
+against any increased risk. Some of the major ways that analysts will measure the risk within
+their system are as follows:
+• The maximum cumulative drawdown of consecutive losing trades from peak equity
+can also be thought of as the largest single trade paper loss in a trade. The maximum
+loss from an equity peak is the most common usage. The rule of thumb is that a maximum drawdown of two times that found in optimizing should be expected and used in
+anticipated risk calculations.
+
+Download at www.wowebook.com
+
+551
+
+Chapter 22 System Design and Testing
+
+• The net profit to drawdown ratio is the same as net profit as a percentage of maximum drawdown. It is also called the recovery ratio, and it is the best method of initially screening results from optimization. In any system, it should be above 2.0.
+• Maximum consecutive losses often affect the maximum drawdown. When this number is large, it suggests multiple losses in the future. It is imperative to find out what
+occurred in the price history to produce this number if it is large.
+• Large losses due to price shocks show how the system reacts to price shocks.
+• The long est flat time demonstrates when money is not in use. It is favorable in that it
+frees capital for other purposes.
+• The time to recovery from large drawdowns is a measure of how long it takes to recuperate losses. Ideally, this time should be short and losses recuperated quickly.
+• Maximum favorable and adverse excursions from list of trades informs the system’s
+designer of how much dispersion exists in trades. It can be used to measure the
+smoothness of the equity curve but also give hints as to where and how often losing
+trades occur. Its primary use is to give hints as to where trailing stops should be placed
+to take advantage of favorable excursions and reduce adverse excursions.
+• The popular Sharpe ratio has severe problems when applied to trading systems. First,
+it does not include the actual annual return but only the average monthly return. Thus,
+irregularities in the return are not recognized. Second, it does not distinguish between
+upside and downside fluctuations. As a result, it penalizes upside fluctuations as much
+as downside fluctuations. Finally, it does not distinguish between intermittent and consecutive losses. A system with a dangerous tendency toward high drawdowns from
+consecutive losses would not be awarded as high a risk profile as others with intermittent losses of little consequence.
+Individual analysts will choose, and even create, the measure of risk that is most important
+to their trading objectives. Some of the other measures of risk mentioned in the literature are as
+follows:
+• Return Retracement ratio—This is the average annualized compounded return
+divided by MR (maximum of either decline from prior equity peak [i.e., worst loss
+from buying at peak] or worst loss at low point from any time prior).
+• Sterling ratio (over three years)—This is the arithmetic average of annual net profit
+divided by average annual maximum drawdown; it is similar to the gain-to-pain ratio.
+• Maximum loss—This is the worst possible loss from the highest point; using this
+measure by itself is not recommended because it represents a singular event.
+• Sortino ratio—This is similar to the Sharpe ratio, but considers only downside volatility. It is calculated as the ratio of the monthly expected return minus the risk-free rate
+to the standard deviation of negative returns.
+
+Download at www.wowebook.com
+
+552
+
+Part VIII System Testing and Management
+
+Smoothness and the Equity Curve
+Some analysts prefer to analyze risk in a graphic, visual manner. Two graphs commonly are used
+as a visual analysis of a system’s performance: the equity curve and the underwater curve.
+An equity curve chart is shown in Figure 22.2. It shows the level of equity profit in an
+account over time. Ideally, the line of the equity profits should be straight and run from a low
+level at the lower-left corner to a high level at the upper-right corner. Dips in the line are losses
+either taken or created by drawdowns.
+The common measure of smoothness is the standard error of equity values about the linear
+regression trend drawn through those equity values. Smoothness of a system usually is affected
+more by changes in the entry parameters or adjustments, such as filters. Because the majority of
+price action has occurred by the exit, the exit parameters and stops have little effect on smoothness.
+The second type of graph used to look at system performance is the underwater curve
+chart. An example of this type of chart is shown in Figure 22.3. This displays the drawdown from
+each successively higher peak in equity. It is calculated in percentages and gives a representation
+not only of how much drawdown occurred, but also of how much time passed until equity recovered from that drawdown. As Figure 22.3 shows, the maximum percentage drawdown in the initial Nerves-of-Steel system was a little over 7%. This chart helps us to see that a major problem
+with the system is not the size of the drawdowns but the time it takes for the system to recover. In
+Box 22.2, we outline a method for improving the system.
+Equity Curve Underwater(weekly) - X Weekly(01/07/00 16:00-07/30/10 16:00)
+1
+0
+-1
+
+DrawDown(%)
+
+-2
+-3
+-4
+-5
+-6
+-7
+-8
+11/10/02
+
+10/10/04
+
+9/10/06
+
+8/10/08
+
+7/11/10
+
+FIGURE 22.3 Weekly underwater curve for Nerves-of-Steel in Box 22.1 example (weekly: January 7,
+2000–July 30, 2010)
+
+Download at www.wowebook.com
+
+553
+
+Chapter 22 System Design and Testing
+
+BOX 22.2 UPGRADE IN THE NERVES-OF-STEEL SYSTEM
+Now it is time to upgrade our system, based upon the results of our initial testing. To
+show the power of stop orders, at least in this instance, we institute several kinds of
+stops to limit losses. This will not necessarily reduce drawdown, however. Sometimes it will increase drawdown because while the individual losses will be smaller,
+the number of losing trades will increase. To see how the results can change by introducing new factors, a two-point protective stop and a 3.4% trailing stop once the
+stock had gained 0.2 percent are added.
+Some tabulated data from the second test is as follows:
+Trades
+
+All
+
+Long
+
+Short
+
+Net profit
+Gross profit
+Gross loss
+Profit factor
+Number of trades
+Percent profitable
+Average trade net profit
+Largest winner as a % of gross profit
+Largest loser as a % of gross loss
+Maximum consecutive losing trades
+Average weeks in winning position
+Average weeks in losing position
+Buy-and-hold return
+Return on account
+Monthly average return
+Standard deviation of monthly return
+Sharpe ratio
+Maximum drawdown (intraday)
+Maximum trade drawdown
+Net profit as a % of drawdown
+
+$48,553
+$57,266
+($8,713)
+6.57
+300
+82.33%
+$161.84
+3.46%
+2.55%
+3
+1.15
+1.39
+154.27%
+6,023.95%
+$833.43
+$721.39
+0.62
+($924)
+($210)
+6,023.92%
+
+$28.944
+$33,374
+($4,430)
+7.53
+182
+87.62%
+$159.03
+4.49%
+5.01%
+2
+1.19
+1.48
+
+$19,609
+$23,892
+($4,283)
+5.58
+118
+78.81%
+$166.18
+8.28%
+5.18%
+5
+1.09
+1.29
+
+($570)
+($210)
+5,077.89%
+
+($1587)
+($200)
+1,766.58%
+
+Source: TradeStation
+
+Look at how the system improves with the addition of the stops. The improvement is
+so large that it is likely untrustworthy, especially because we have no idea as to whether
+this performance will continue into the future. In reality, we would change each variable
+and rule one by one to see the effect on results. Rather than go through each change individually, we show the results after all changes, for demonstration purposes.
+continues
+
+Download at www.wowebook.com
+
+554
+
+Part VIII System Testing and Management
+
+continued
+
+Figure 22.4 shows the new equity curve for the system. Notice how smooth the
+curve is now and how it never was in the loss column. Because stop orders increase
+the number of trades that are exited and then entered again, the turnover increased
+from 74 to 300 trades and were not evenly divided between short and long positions
+as in a pure reversal system. This gives us plenty of sample trades. Notice also that
+the percentage of profitable trades increased significantly even with the higher
+turnover. The profit per trade declined, of course, but was still reasonable enough to
+cover any unforeseen expenses, and the profit factor, the total profit to loss increased
+substantially. There were no extraordinary winners or losers, meaning that the system was not influenced by only one or two large trades, but the trades were only held
+for a little more than a week, making the profits all short-term for tax purposes. The
+largest improvement came in the return—a whopping 6,023.95% over the buy-andhold 154.27%. This gain came from reducing losses with the stops and shows how
+the law of percentages can be fought successfully with capital risk management. The
+higher turnover with less capital risk produced a higher average monthly return and
+a standard deviation of less than the return, well below the standard of 5.0 times.
+This accounts for the smoothed equity curve.
+Equity Curve Detailed - X Weekly(01/07/00 16:00-07/30/10 16:00)
+50000
+
+40000
+
+Equity($)
+
+30000
+
+20000
+
+10000
+
+0
+
+12/7/01
+
+11/7/03
+
+10/7/05
+
+9/14/07
+
+8/14/09
+
+12/22/2000-7/30/2010
+
+FIGURE 22.4 Equity curve of Nerves-of-Steel with stops (weekly: January 7, 2000–July
+30, 2010)
+
+Download at www.wowebook.com
+
+555
+
+Chapter 22 System Design and Testing
+
+The underwater curve in Figure 22.5 shows the drawdown for the improved
+Nerves-of-Steel system in percentage terms. This too improved except for one outlier in the late spring of 2002 when the percentage drawdown reached as low as 13%.
+Otherwise, the drawdowns remained in the 2% to 6% range, a level that most traders
+can live with.
+Equity Curve Underwater(weekly) - X Weekly(01/07/00 16:00-07/30/10 16:00)
+1
+0
+-1
+-2
+-3
+DrawDown(%)
+
+-4
+-5
+-6
+-7
+-8
+-9
+-10
+-11
+-12
+-13
+-14
+2/23/03 10/31/04
+
+10/1/06
+
+8/31/08
+
+7/18/10
+
+FIGURE 22.5 Underwater curve for trailing stops (weekly: January 7, 2000–July 30,
+2010)
+
+Do not use this system as it stands in any stock. It is presented only as an example of the process of looking for parameters, variables, and rules in a system development.
+However, we hope that you can see the process of developing a reliable and profitable system and some of the types of adjustments that can be applied to systems,
+especially the use of stops, to improve performance and reduce risk. System development is a very difficult and time-consuming task.
+
+Download at www.wowebook.com
+
+556
+
+Part VIII System Testing and Management
+
+BOX 22.3 WHAT IS A GOOD TRADING SYSTEM?
+In his book, Beyond Technical Analysis, Tushar Chande discusses the characteristics
+of a good trading system. Chande’s Cardinal Rules for a good trading system are the
+following:
+
+• Positive expectation—Greater than 13% annually
+• Small number of robust trading rules—Less than ten each is best for entry
+and exit rules
+
+• Able to trade multiple markets—Can use baskets for determining parameters, but rules should work across similar markets, different stocks, different
+commodities futures, and so on
+
+• Incorporates good risk control—Minimum risk as defined by drawdown
+should not be more than 20% and should not last more than nine months
+
+• Fully mechanical—No second-guessing during operation of the system
+
+CONCLUSION
+Throughout this book, we have looked at a number of technical indicators to guide our buying
+and selling of securities in reaction to particular market conditions. In this chapter, we turned our
+attention to mechanizing these reactions. A system is simply a plan or set of rules of when to buy
+and sell securities. A system lets us determine a priori how we will react to particular market situations. Having a system in place helps us to follow a well-thought-out plan and prevents us
+from haphazardly trading based on emotion.
+Of course, our basic objective in creating a system is to make a profit. Although this sounds
+like a straightforward goal, the goal of making a profit is not as simplistic as it sounds. Of course,
+we test our system to see how well it performs. But—and this is an important but—just because
+a system performs well using past, historical data in a trial situation does not guarantee that we
+will have the same stellar results in future, real-time trading. The most basic reason for this performance differential is that the market never repeats itself exactly; the system is operating in a
+different market environment than the one in which it was tested. There are also some system
+design and testing issues of concern. The system designer must be careful about data choice and
+not to overfit the data in the sample period. As we have seen in this chapter, even a system that
+has a high net profit in a test period is not necessarily a system that will perform well in the
+future. The system designer must consider a host of statistics about the system performance to
+
+Download at www.wowebook.com
+
+Chapter 22 System Design and Testing
+
+557
+
+determine whether the system is suitable for future trading. By following the guidelines laid out
+in this chapter, you should be ready to design systems and test them to determine their appropriateness for your trading situation.
+
+REVIEW QUESTIONS
+1. Explain the difference between a discretionary and nondiscretionary system.
+2. What are the advantages and disadvantages of a nondiscretionary system?
+3. How would you describe the discipline and mind-set necessary to develop and follow a
+trading or investing system?
+4. Your brother is a physician who does not have the time to manage his own money. Knowing that you have an interest in investments and have taken a class in technical analysis, he
+asks you to develop a trading system for him. Before you agree to take on this job, you
+want to make sure that he understands the concept of risk. How would you explain risk to
+him, especially as it is related to using a system for investing?
+5. After you explain the concept of risk to your brother, he still wants you to develop a trading system. In fact, he has done some reading and is convinced that a trend-following moving-average crossover system is the way to go. He even knows what stock he wants to trade
+using the system—his favorite pharmaceutical company, High Profit Pharmaceuticals
+(HPP). You do some initial investigation, and you think that HPP is currently in a trading
+range. Explain to your brother why you think it would be unwise to attempt to trade HPP
+using a moving-average crossover system at this point. (Be sure to explain the concept of a
+whipsaw in your explanation.)
+6. Your brother, eager to develop the “perfect” system to trade HPP, has developed a system,
+tested it, and optimized it. His results show that he would have quadrupled his money last
+year trading his system! He is ready to put the system in place to trade HPP this year,
+expecting to quadruple his money. What questions would you have about his testing and
+optimization procedures, and what warnings would you want to give him?
+7. Two of your friends, Jennifer and Michael, have developed systems to trade IBM. During
+the test period, Jennifer’s system had a net profit of $9,578, while Michael’s system had a
+net profit of only $8,993. Explain why this information alone is not enough to determine
+that Jennifer’s system is superior to Michael’s.
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+2 3
+
+MONEY AND RISK MANAGEMENT
+
+CHAPTER OBJECTIVES
+After reading this chapter, you should be familiar with
+
+• Definitions and measurements of risk as it relates to money management
+• The martingale betting strategy
+• Diversifiable versus correlated risk
+• Methods for testing money-management strategies
+• The use of various types of stops to manage risk
+• Methods for determining the minimum capital needed for a system
+• Methods for determining the percentage of capital to allocate toward one system
+They [great traders] have all been humbled by the market early on in their careers.
+This creates a definite respect for Mr. Market. Until one has this respect indelibly
+engraved in their (sic) makeup, the concept of money management and discipline
+will never be treated seriously. (Cooper, 2004)
+Money management is the next and final step in portfolio design after having established a reliable system or systems. We have concentrated on the reward side of investment because that is
+the more interesting and the part that most investors or traders find enjoyable. Unfortunately, the
+reward side is only half of the portfolio equation. The other half is money management, a muchneglected aspect of portfolio management that should receive as much attention as the reward
+side. We can refer to money management as the risk side of investment, the means of preventing
+financial ruin. It is principally concerned with how to measure and manage risk of loss and,
+therefore, how to utilize one’s capital most efficiently. In most aspects of investing, there is a
+trade-off between reward and risk. Neither can be measured precisely, and the amount of risk to

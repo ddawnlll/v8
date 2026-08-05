@@ -1,0 +1,635 @@
+Otherwise, the pressure will simply screw up your mind-set.
+How long a person trades before getting really serious about it depends on the person’s innate ability, and I do think that varies widely.
+Just as some people are born to be musicians, I think some people
+
+Appendix A: The Kirk Report Interview
+
+505
+
+were born to be traders. I was not a “born” trader, so it’s taken me
+many, many years. But there are surely 21-year-olds out there who are
+ready to trade for a living, and I’m sure there are 70-year-old people
+with 50 years of trading experience that still should just keep it as an
+amusing hobby and nothing more.
+Kirk: Because of your web site I’m sure you are privileged to know a lot of
+different kinds of traders. Where do you see traders missing the boat?
+Tim Knight: I think the biggest boat missed is underestimating just how
+far a market or an individual security can go. There seems to be nothing more common than someone buying a stock at $5, selling it at $7,
+congratulating themselves on a terrific profit, and then seeing the stock
+go up to $30 (or, for a bear, similar figures in the opposite direction). I
+am quite guilty of this myself—I bought the stock Avis Budget Group
+(CAR) on March 2 for 42 cents, got stopped out the next day for a tiny
+loss, and then watched the stock move up to over $10 in just a few
+months. Now that was a big boat to miss!
+Kirk: Likewise, what are some qualities you frequently find among the most
+successful traders you know?
+Tim Knight: I’d say “evenhandedness.” There’s a regular reader on my site,
+Brinkley, who has a knack for having a very impartial view of the market, no matter what it’s doing. I really admire that, and I think a lot of
+my readers look up to her for the same quality which is pretty difficult
+to find among traders.
+Kirk: Thinking back, what was most instrumental in your development into
+becoming a successful trader?
+Tim Knight: There’s no doubt that writing Slope of Hope has been the
+biggest development for me, simply because I have to not only answer
+to myself but also to the several tens of thousands of people who read
+my work. It has made me a much more careful, thoughtful, and logical
+trader.
+Kirk: When all is said and done, in your experience what is the best way to
+learn how to trade?
+Tim Knight: I have long been a “learning by doing” sort of person. The
+tricky thing about doing this with trading is that you’re dealing with
+actual money. Some people are big believers in paper trading, but
+I’m afraid that’s just not the same. I suppose it helps a person acquaint themselves with the actual mechanics of placing orders, watching charts, and placing stops—all of which are healthy—but I don’t
+think one really starts learning how to be a trader until they are actually trading with their own dollars and cents.
+
+506
+
+CHART YOUR WAY TO PROFITS
+
+Kirk: I suspect like all good traders you are working on improving your
+performance in some manner. Can you share what you’re specifically
+working on right now?
+Tim Knight: At the risk of sounding repetitious, my personal challenge is
+to balance the bear in with me with some bull. I’m afraid I enjoy bear
+markets way too much for my own good, particularly since they move
+so quickly, which tends to agree with my impatient nature. But the fact
+is that bull markets are more common and longer-lasting than bear
+markets, and I won’t be a consistently successful trader unless I can
+be as good a bull as I am a bear. That’s my ongoing goal.
+Kirk: At this point of your career, who do you look up to for inspiration and
+guidance?
+Tim Knight: I don’t have a particular mentor or role model, so books about
+traders and trading are my stand-in. I enjoy books about trading psychology, successful traders, and interesting charting techniques. I’m in
+the final throes of getting my Chartered Market Technician certification, so that is exposing me to a lot of required reading that I normally
+might not have discovered.
+Kirk: Although I know both of us share love for the markets and trading,
+what are your long-term career plans and future for your web site?
+Tim Knight: My overriding principle in anything I do is that work should
+never actually seem like work. Doing what you love seems like a common truism these days, but I have lived that credo for my entire life.
+The popularity of my blog has opened up some new opportunities that
+I’m going to be exploring very soon, but one thing I’m pretty certain
+about is that I’m going to keep writing Slope of Hope as long as my
+readers will continue to put up with me.
+Kirk: Finally, if you had one piece of advice to share with all investors and
+traders, what would it be?
+Tim Knight: Be patient! Learning how to trade profitably and consistently
+isn’t something you do after attending a weekend seminar. It can be a
+lifelong journey of self-discovery and self-improvement. Give yourself
+time, and keep your risk capital sensible so that you don’t hurt yourself
+in the process. Good luck!
+Kirk: Thank you for all of the perspectives about how you trade. We look
+forward to reading your blog updates. Trade well!
+
+APPENDIX
+
+B
+
+MarketMatrix
+
+he MarketMatrix applet is a streaming quote and portfolio system that is made available on the Investools Investor Toolbox
+(www.investools.com). The purpose of this section is not to teach
+you how to use MarketMatrix but to illustrate how the portfolio management system is tied to the charting systems.
+Each line in MarketMatrix displays a symbol as well as a quote for that
+symbol (in the case of a watch list) or a profit/loss for your position in
+that symbol (in the case of a portfolio). When you right-click on a symbol,
+a pop-up menu appears, and one of the choices offered is ProphetCharts
+(Figure B.1). You can select this or, for the same result, double-click that
+line to make a chart appear.
+You are not limited to displaying just one chart on your screen. You
+can have multiple charts displayed, each of which can have its own properties. There does not need to be any correlation between the charts at all:
+they can have different symbols, different time periods, some streaming
+and some not streaming, and so forth. The goal is for you to get a view into
+the market that is helpful without being overwhelming.
+You can create multiple chart instances by repeatedly invoking
+ProphetCharts from MarketMatrix, or you can use the clone feature (discussed in Chapter 2) to create new charts using any existing chart style.
+Figure B.2 illustrates how all the available chart styles appear when the
+down-arrow next to Clone is clicked. Choosing any of these styles will produce another chart instance using the specified style.
+
+T
+
+507
+
+508
+
+FIGURE B.1 This is the pop-up menu
+that appears when you right-click an item
+in a portfolio within MarketMatrix.
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE B.2 When you clone a chart,
+you can select any of the chart styles you
+have made as the basis for the clone.
+
+As a simple example, Figure B.3 shows two charts simultaneously displayed. The top one is a streaming five-day minute-bar chart of the S&P 500
+index, which also includes streaming real-time quotes. The lower one is a
+five-year daily chart of the S&P 500 ETFs (symbol SPY). This kind of conjoint short-term/long-term view is popular among swing traders who need
+two perspectives at once.
+No matter how many charts you have, you will find it time-consuming
+to create, resize, and position each and every chart day after day. This is
+particularly true if you use multiple video screens, since arranging the various elements that are available with MarketMatrix (such as multiple Watch
+Lists, multiple Portfolios, Options Chains, Time & Sales, Level 2, and multiple ProphetCharts) takes a lot of time and care.
+For this reason, there is a time-saving feature called Desktop in
+MarketMatrix that allows you to preserve all the elements you have laid out
+on the screen into a custom-named desktop. Therefore, when you call up
+this desktop again, everything you’ve laid out—particularly including the
+
+Appendix B: MarketMatrix
+
+509
+
+FIGURE B.3 These two charts appear on the same screen, the top showing an
+intraday streaming graph and the bottom showing a daily multiyear graph.
+
+charts—will be put back in the same place using the same size, symbols,
+and other parameters. All you need to do is click the Desktop dropdown
+menu and choose the Save option to get the dialog box as shown in
+Figure B.4.
+Once your layout is saved, you can access it from the same popup menu in MarketMatrix. Just click on Desktop and choose Layouts
+(Figure B.5). Any desktops you have saved already will be shown in a submenu, and all you need to do to create it is click on the desktop name you
+want to invoke.
+
+510
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE B.4 You should save a desktop with a name describing the purpose or
+layout of the desktop.
+
+PORTFOLIO INTEGRATION
+On the Investor Toolbox, there is another level of integration that makes
+ProphetCharts more helpful as a trading tool, and that is the integration
+of portfolio data directly within the applet. You may recall that one of the
+modules available on the left panel is My Portfolios (located between My
+Watch Lists and My Study Sets). If you choose to display this module, it will
+show you the name and contents of every portfolio you have created on
+the Investor Toolbox, along with the size and entry price of each position
+(Figure B.6).
+
+FIGURE B.5 Any layouts you have created already will be presented in the pop-up
+so you can bring up that layout with one click.
+
+Appendix B: MarketMatrix
+
+511
+
+FIGURE B.6 The quantity and purchase price of any holdings in a portfolio are
+displayed in the module.
+
+FIGURE B.7 At the top of the MarketMatrix display is a count of all Long, Short,
+and Options positions in the currently-displayed portfolio.
+
+512
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE B.8 ProphetCharts can display the sum total of items following the name
+of each watch list or portfolio.
+
+Appendix B: MarketMatrix
+
+513
+
+FIGURE B.9 The watch lists show just the company names of the watch list contents, whereas the portfolio lists display the basic information about the positions
+being held.
+
+514
+
+CHART YOUR WAY TO PROFITS
+
+You will see the same portfolio reflected in MarketMatrix. For example, Figure B.7 shows a portfolio called “Trust.” The number of positions is
+displayed, showing 10 short equity positions and 24 option positions. These
+same positions, under the name “Trust,” will be available in ProphetCharts,
+since all the data are shared between the applets and the web site.
+One helpful thing about Watch Lists and Portfolios both being available
+as modules is that you can make sure you have an accurate representation
+of your holdings. One feature ProphetCharts provides is the ability to show
+a quantity count for each watch list and portfolio. Under the Preferences
+dialog box, check the Show Item Counts checkbox to turn on this feature.
+When you do, a parenthetical sum will follow each watch list and portfolio name (Figure B.8, with arrows added for emphasis) so you can confirm that your portfolio’s contents in a given watch list are in synch with
+the actual holdings you have entered into MarketMatrix. In this instance,
+there are 34 items in the Current Trust watch list and 34 items in the Trust
+portfolio, so they appear to be in synch.
+Keep in mind that the information in My Watch Lists and the information in My Portfolios are intended to provide different kinds of information. The watch list shows simply the company name (or symbol, if you
+have elected that style of display) contained within each list. The portfolio
+shows the raw symbol followed by the quantity owned as well as the entry
+price (Figure B.9). Watch lists are typically created and managed within
+ProphetCharts, whereas portfolios are typically created and managed either in MarketMatrix or on the Portfolio page of the Investor Toolbox.
+
+Index
+
+A
+Ambiguity, 219–224
+Arcs, 438–440
+Arithmetic charts, 26–28
+Avg. imp. Volatility, 104–110
+B
+Bear markets, 4
+Bid-ask overlay, 104–110
+Bollinger bands, 119–121
+Breakout Studies module, 57–58
+Bulls and bears, 2
+Buy-ins, 468–470
+C
+Candle Patterns module, 49
+Candlestick patterns, 403–407
+Channel lines, 229–233
+Chart comparison, 154–163
+Chart examples (by symbol):
+$COMPQ, 427
+$CZH, 433
+$INDU, 3, 4, 182, 432, 441
+$MID, 217
+$MSH, 209
+$NDX, 222
+$OEX, 216
+$RUT, 212, 384
+$SPX, 444
+$UTIL, 214
+$TRAN, 210
+AAPL, 435
+
+ADSK, 195
+AEP, 434
+AFL, 202
+AIG, 200, 223
+AKAM, 189
+ALD, 199
+ALVR, 249
+ALXN, 305, 306
+ALU, 381
+AMR, 316
+ANF, 203
+ANR, 289
+APL, 186
+ARBA, 12
+ARBX, 267
+ASYS, 371
+AVB, 269, 301
+AYE, 385
+AYI, 202
+BHI, 134
+BKHM, 266
+BMHC, 250
+BRCM, 13, 325
+CHK, 9
+CHTR, 313
+CLF, 171, 196, 197
+CME, 132
+CNP, 279, 280
+CVGI, 188
+CVH, 263
+DIOD, 213
+DOVP, 312
+515
+
+516
+Chart examples (by symbol)
+(Continued )
+DTG, 464
+DTV, 288
+DYN, 201
+EMC, 20, 280, 281
+EMR, 434
+ESRX, 117, 344
+EUR/USD, 94, 436
+FRED, 373
+GE, 346
+HANS, 21, 166, 250, 251, 428, 429
+HBAN, 307, 309
+HD, 118
+HON, 187
+HOV, 385
+HPNN, 247
+HSY, 362
+HTCH, 384
+ISLE, 383
+JJZ, 257
+JNPR, 24, 350
+JWN, 426
+KKD, 169
+KMG, 375
+KMI, 218
+LNET, 290
+LU, 261
+LVLT, 377
+MMM, 22, 245, 275
+MON, 247
+MPEL, 382
+MSTR, 216
+MTW, 282
+NDAQ, 264
+NEWP, 242
+NTRI, 124, 207
+NUE, 113
+NZD/USD, 425
+OI, 241, 268
+OIH, 115
+OMG, 259
+PIR, 291
+
+INDEX
+
+PLAB, 211
+PLD, 385
+POT, 244
+PTR, 283, 284
+Q, 377
+QQQQ, 287
+RBAK, 380
+RHAT, 272, 273, 274
+SLR, 260
+SPY, 168
+STSA, 198
+SVNX, 267
+TASR, 302
+TRA, 257
+USD/CAD, 189
+WFMI, 255
+WMT, 256
+X, 135
+XLU, 185
+YHOO, 119, 124, 167, 168
+Chart examples (by type):
+Bollinger bands, 120–122
+channels, 235–238
+cup with handle, 272–276,
+279–288
+descending channel, 16
+diamond pattern, 288–289
+dome top, 25
+Fibonacci fan lines, 3, 4
+head & shoulders, 12, 13,
+320–362
+horizontal line, 185–188
+inverted head & shoulders,
+363–380
+left-scale axis, 162
+linear regression channel, 126
+MACD, 129–132
+moving average crossover, 116,
+118
+multiple bottoms, 312–316
+multiple tops, 303–311
+parallel trendlines, 207–209
+price failure, 247, 264–269
+
+517
+
+Index
+
+PSAR, 127–128
+ribbon study, 122–124
+rounded top, 257–264
+RSI, 134–135
+saucer, 7, 22, 241–246, 248–255
+trendline violation, 165–171
+Chart patterns:
+combining, 18
+importance of completion, 14
+repetition, 9–11
+Chart styles:
+creating and saving, 79–81
+introduction to, 78–79
+Chart Toppers module, 53–56
+Cloning, 42–43
+Comparing charts, 154–163
+Continuous futures contracts,
+98–100
+Crossovers, 148–151
+Cup with handle pattern, 271–276
+Currency Pairs module, 49
+D
+Data line, 32–34
+Data types
+e-mini futures, 94–97
+equities, 84–90
+forex, 93–94
+futures, 97–100
+indexes, 83–84
+mutual funds, 90–93
+options, 100–104
+Dead cat bounce, 290–291
+Detach button, 30
+Diamond pattern, 288–289
+Dividend icons, 88
+Dow Jones industrial average, 3–4
+Dragging and dropping, 65–66
+Drawing tools:
+channels, 229–233
+expansion, 225–229
+functions 177–178
+highlighting, 293–296
+
+horizontal line, 276–277
+text notes, 296–299
+trendline, 171–175
+Duration of chart, 39–42
+E
+Editing technical studies, 141–144
+E-mini futures, 94–97
+Event icons, 86–90
+Exchange-traded funds (ETFs),
+470–472
+F
+False breakouts, 208–213
+Fans, 425–438
+Fibonacci patterns:
+arcs, 438–440
+combining, 443–445
+fans, 425–438
+historical background, 408–409
+retracement, 409–425
+time zones, 440–443
+Financial instruments, 29
+Frequency of chart data, 39–42
+Futures charts, 97–100
+Futures module, 56
+Futures symbol search, 36–38
+G
+Grid charts, 400–403, 453–456
+H
+Head and shoulders pattern:
+examples, 322–324, 334–362
+introduction, 11–13, 318–321
+inverse pattern, 362–385
+neckline, 324–329
+retracement, 329–334
+Hiding elements, 460–463
+Higher highs and higher lows,
+299–303
+Highlighting charts, 293–296
+Horizontal line tool, 276–277
+
+518
+I
+Implied volatility, 104–110
+Indexes, 83–84
+Indicators:
+Bollinger band, 119–121
+introduction to, 111–112
+linear regression channel,
+125–127
+MACD, 128–133
+moving averages, 112–119
+parabolic stop and reversal,
+127–128
+relative strength index, 133–136
+ribbon study, 121–125
+Indices module, 56–57
+Inverted charts, 463–465
+Inverted head and shoulders,
+362–388
+K
+Keyboard shortcuts, 59
+L
+Labels, 446–453
+Left-scale axis, 159–163
+Linear regression channel, 125–127
+Logarithmic charts, 26–28
+Long position, 4
+Long-term chart examples, 2–3
+M
+MACD, 128–133
+Magnifying glass tool, 31
+MarketMatrix, 507–514
+Modules:
+basic behavior, 45–46
+resizing, 45
+using arrows within, 51
+Moving averages, 112–119
+Multiple bottoms, 311–316
+Multiple tops, 303–311
+Mutual funds, 90–93
+
+INDEX
+
+My Chart Styles module, 53
+My Portfolios module, 52, 512–516
+My Study Sets module, 52, 151–154
+My Watch Lists module, 49–51,
+73–74
+O
+Open interest, 29–30
+Option Controls module, 59–60,
+104–110
+Options symbol search, 34–36,
+100–104
+Options trading, 472–474
+Options, 100–104
+P
+Panes, 144–148
+Parabolic stop and reversal,
+127–128
+Pattern failures, 264–269, 400–402
+Pattern recognition:
+candlesticks, 403–407
+introduction, 387–394
+using the results, 394–398
+Patterns module, 48–49
+Phase 1 and 2 Scores module, 49
+Preferences, 60–65
+Price equilibrium, 6
+Price failure, 246–248
+Price pullbacks, 243–246
+ProphetCharts
+data types supported, 29
+panes, 144–148
+preferences, 60–65
+requirements, 26
+Q
+Quick Toggles module, 58–59
+Quote module, 48
+R
+Ratio charts, 49, 456–460
+Relative strength index, 133–136
+
+519
+
+Index
+
+Resistance:
+alternation, 7, 196–206
+defined, 5–6
+examples, 184–193
+failure, 6
+overhead, 7
+Resizing charts, 225–229
+Retracement, 409–425
+Ribbon study, 121–125
+Rounded top patterns, 255–264
+S
+Saucer bottoms, 248–255
+Selling stocks short, 4, 466–468
+Short position defined, 4
+Slope of Hope blog, 478–480
+Stock split icon, 87, 89
+Stop-loss prices, 484–485, 486–487
+Streaming charts, 38–39
+Study sets, 151–154
+Support:
+alternation, 7, 196–206
+defined, 5–6
+failure, 6
+Symbol search, 34–38
+T
+Technical crossovers, 148–151
+Technical studies editor, 57,
+138–141
+Text notes, 296–299
+Time zones, 440–443
+Trading psychology, 6
+
+Trading rules, 481–486
+Trading style, 81–82
+Trendline:
+changes, 15–18
+color and style, 175–179
+introduction to, 164–171
+multiple, 213–219
+parallel, 206–208
+tool, 171–175
+U
+Upside-down charts, 463–465
+Uptick rule, 468
+V
+Volume:
+with bullish breakouts, 14, 23
+with cup and handle formation,
+272
+with saucers, 250–251
+W
+Watch lists:
+adding, 72
+deleting, 72–73
+dragging and dropping, 65–66,
+74–76
+introduction to, 70–73
+right-clicking within, 66–69,
+76–78
+Z
+Zooming in and out, 31–32
+
+Praise for the First Edition of
+
+Chart Your Way to Profits
+“As a former pit trader and a technical ‘newbie,’ I have found Tim’s new book to
+be the best resource I’ve seen for the everyday trader. With its fun and informative style, it has allowed me to understand and appreciate the professional world
+of technical analysis.”
+—Tom Sosnoff, cofounder and CEO, thinkorswim, Inc.
+
+“Tim Knight is a chartist’s chartist—I can’t recommend his work highly enough.
+Few people have done as much as he has in providing the sort of quality online
+resources technical traders need in order to make money in the financial markets.
+Chart Your Way to Profits is a twenty-first-century blueprint on how to use
+technical tools to achieve trading and investing success.”
+—David Penn, Editor, Technical Analysis of Stocks and Commodities magazine
+
+“Tim has written the best guide to leveraging ProphetCharts and technical analysis in the market today. This is a complex subject and can leave new and old investors buried in too much data or impossible learning curves. Tim breaks these
+complex ideas down into actionable ideas and strategies. I would recommend this
+book to anyone that wants an education in the latest and best tools and methods
+professional technicians are using today.”
+—John Jagerson,Vice President of Content, Investools
+author of Profiting with Forex
+
+

@@ -1,0 +1,444 @@
+
+10,.400.00
+
+$INDU - 60- min L=10193.71 -165.60 Hi=10356.20 Lo=10168.36 Strategy (2,580.210, 1,210,0,0,false)
+
+target
+
+10,.300.00
+
+10,.200.00
+
+pennant
+breakout
+
+10,.100.00
+
+mid point
+
+10,.000.00
+
+pennant pattern
+
+9,.900.00
+
+initial
+breakout
+
+9,.800.00
+
+9,.700.00
+
+Jul
+
+7/2
+
+7/6
+
+7/7
+
+7/6
+
+7/9
+
+7/12
+
+7/13
+
+7/14
+
+7/15
+
+7/16
+
+7/19
+
+Created using TradeStation
+
+FIGURE 15.17 The measured rule (Dow Jones Industrial Average hourly: July 1–July 16, 2010)
+
+Download at www.wowebook.com
+
+332
+
+Part IV Chart Pattern Analysis
+
+LONG-TERM BAR CHART PATTERNS WITH THE BEST PERFORMANCE
+AND THE LOWEST RISK OF FAILURE
+We have selected several patterns to highlight based upon their combination of high gains and
+minimum failure rates. Other patterns can also be successful if monitored closely, but the “edge”
+appears to be in these patterns.
+According to Bulkowski (2010), the best-performing patterns, considering gain and risk,
+are the high-and-tight upward breaking flag, the head-and-shoulders top, top islands breaking
+down (to be covered in Chapter 17), and upward breaking descending triangles. A summary of
+these patterns is shown in Table 15.2.
+TABLE 15.2
+
+Comparative Results in Most Favorable Classic Bar Chart Patterns
+
+Flag, rising trend, break up
+Head-and-shoulders top, break down
+Long island, break down
+Descending triangle, break up
+
+Overall
+Performance
+
+Failure to
+Reach 5%
+
+Average
+Performance
+
+Tendency
+to Retrace
+
+Reaches
+Target Price
+
+1/23
+1/21
+6/21
+5/23
+
+0%
+4%
+5%
+7%
+
+69%
+22%
+22%
+47%
+
+54%
+50%
+54%
+34%
+
+90%
+55%
+78%
+84%
+
+Source: Bulkowski (2010)
+
+CONCLUSION
+In summary, the profitable use of chart patterns is not easy. The potential problems with recognizing and acting upon chart patterns that we have discussed in this chapter highlight the need to
+know thoroughly what we are doing. There are many variables in price behavior, mostly human,
+and being human ourselves and subject to the same biases, we must be adaptable and recognize
+that chart patterns are flexible.
+It is unlikely that researchers will ever be able to prove definitively that patterns exist
+because the mathematics are so complicated and because the marketplace is always changing. In
+addition, many different patterns have been recognized, and right or wrong, they have been
+described in the literature with nothing more than anecdotal evidence as to their reliability. If you
+see a pattern described with no background statistical evidence as to its usefulness, it is best not
+to bother with it. Today, most writers describing patterns will give some realistic evidence.
+Although this evidence might be flawed, it at least shows that it has been the subject of some
+serious study and, thus, is not merely a superstition.
+The most reasonable approach for any chart reader is to take the classic patterns described
+in this chapter and become experienced in their use. Although the performance of these patterns
+will differ with different securities and with different trends in the general market, the behaviors of
+these patterns have remained relatively consistent for over 100 years. We have discussed general
+
+Download at www.wowebook.com
+
+Chapter 15 Bar Chart Patterns
+
+333
+
+attributes of patterns that in several studies show promise, but the analyst must always adjust
+parameters to fit the peculiarities of the security being analyzed. Profitable chart pattern analysis
+is the result of determined study.
+
+REVIEW QUESTIONS
+1. A pattern is a configuration of price movement that is bounded by lines and/or curves.
+Explain what is meant by this definition.
+2. Define each of the following terms as they relate to the characteristics and formation of
+patterns:
+a. Pullback
+b. Throwback
+c. Failure
+3. Explain the differences among an ascending triangle, a descending triangle, and a symmetrical triangle.
+4. Describe both a rising wedge and a falling wedge. What trading strategy might you follow
+in each of these instances?
+5. Explain the difference between a flag and a pennant.
+6. Flags and pennants are often said to be “half-mast” formations. Explain what is meant by
+this and how you would use this information to set a price target.
+7. Explain the formation and characteristics of a head-and-shoulders top.
+8. Explain the formation and characteristics of a head-and-shoulders bottom.
+9. Select three companies, and look at the price charts for those companies over the past three
+months. Can you recognize any of the formations discussed in this chapter in those charts?
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+1 6
+
+POINT-AND-FIGURE CHART PATTERNS
+
+CHAPTER OBJECTIVES
+After studying this chapter, you should be familiar with
+
+• The difference between one-point reversal and three-point reversal point-and-figure
+charts
+
+• How to construct trend lines, recognize areas of consolidation, and determine the
+count using one-point reversal point-and-figure charts
+
+• How to construct trend lines, recognize basic patterns, and determine the count using
+three-point reversal point-and-figure charts
+In the previous chapter, we studied patterns that can occur when price information is displayed
+on a bar chart. We continue our study of patterns, but now we focus on formations that are related
+to point-and-figure charts. As we do this, we will notice that many of the patterns that the pointand-figure analysts use are the same as those found on bar charts. For example, we will see the
+head-and-shoulders pattern that we discussed in Chapter 15, “Bar Chart Patterns,” appear in this
+chapter.
+Before we delve deeply into point-and-figure chart patterns, let us take some time to
+review point-and-figure chart construction. We learned about basic point-and-figure chart construction in Chapter 11, “History and Construction of Charts.” Because these charts are not
+familiar to most people, we will begin this chapter by exploring their construction in a bit more
+depth.
+You will often see “box” and “point” used interchangeably in discussing point-and-figure
+charts. Although box is the proper word to use because it refers directly to the chart pattern, point
+also is used to represent a box. A point in point-and-figure charts is not necessarily a one-dollar
+price move, as in “the stock was up a point today” but represents one box on the chart. Obviously, the box size can be any consistent price difference, such as one dollar, two yen, twenty
+cents, and so on. We will also interchange the terms point and box.
+
+335
+
+Download at www.wowebook.com
+
+336
+
+Part IV Chart Pattern Analysis
+
+WHAT IS DIFFERENT ABOUT A POINT-AND-FIGURE CHART?
+I should say that if anybody has a good enough memory to recall thousands of
+changing figures, in hundreds of stocks, in a dozen averages, over a period of years,
+he can absolve himself from the labor of keeping charts. (de Villiers, 1933, p 16)
+
+Time and Volume Omitted
+Point-and-figure charts appear odd at first because we are accustomed to having charts with time
+along the horizontal axis. Those familiar with bar charts are also used to having volume plotted
+along the horizontal axis. Point-and-figure charts, of course, have neither time nor volume portrayed. Both are considered irrelevant to the point-and-figure advocate. Price action is all that
+such an analyst is interested in. Price is the focus. In this sense, a point-and-figure technical analyst is a purist. In the beginning of this book, we pointed out how price, not time nor volume, is
+the single result of all information. Time and volume are ancillary factors that might or might not
+have an effect on price. The analyst must concentrate on what a price change alone might suggest
+for the future.
+Of course, price change is the result of changes in supply and demand. Time is but one factor, and it is not important to those utilizing point-and-figure analysis. Similarly, volume might
+be important but not by itself. An increase or decrease in volume is meaningless if the price
+remains unchanged. Only when the volume affects price change does it become important. The
+point-and-figure chart only plots price change, and volume and time then become unimportant.
+As we saw in Chapter 15, volume is also suspect as a predictive factor for performance.
+Increased volume can appear or not appear, for example, on breakouts, and the results are
+roughly the same. Thus, the concept of volume has some weaknesses, all of which are avoided in
+point-and-figure charts.
+
+Continuous Price Flow Necessary
+Point-and-figure charts require a continuous price flow to be accurate. Other methods of charting
+prices divide price action into arbitrary periods and analyze the price action from period to
+period. This creates the arbitrary time of open, close, high, and low, and although depictions of
+these price points can be used, as we saw in the previous chapter, we must remember that they
+are arbitrary, human divisions of time that may be unrelated to price action. Conversely, pointand-figure analyzes all price action. In some periods, price action may be relatively dormant and
+meaningless, while in other periods price action may be active and meaningful. Point-and-figure
+relates only to that active period and disregards the inactive period. It, thus, screens out price
+action that has little predictive ability and concentrates on that which does.
+Often, price action outside of the local normal trading day is lost when using time period
+charts. Requiring a continuous flow of price information, point-and-figure analysis is ideal for
+interpreting the 24-hour markets that do not have a beginning or end in time and can flair up into
+
+Download at www.wowebook.com
+
+Chapter 16 Point-and-Figure Chart Patterns
+
+337
+
+activity, especially in foreign exchange, at any time during the 24-hour period. Point-and-figure
+analysis disregards those periods when trading is dormant and only concentrates on those in
+which important activity occurs. After all, the point-and-figure method of charting developed as
+a result of the invention of the ticker tape, the first means by which prices were reported in a continuous flow. Until then, prices were only recorded on a daily basis, an arbitrary cutoff that could
+easily mask important price change information intraday or overnight. Point-and-figure is also
+useful in futures markets where volume is unknown and not a consideration in trading. In short,
+although seeming to be archaic, point-and-figure still has many uses and, as we shall see later in
+this chapter, has been tested and found to have statistically positive results.
+
+“Old” and “New” Methods
+Only two variables, determined by the analyst, describe a point-and-figure chart: box or point
+size and the number of boxes or points required for a reversal, called the reversal amount or
+reversal size. This is important to understand because the early point-and-figure charts were
+strictly one by one. In other words, the box size was one price interval such as a dollar in a stock
+price, and the reversal amount was one box. The patterns that evolved using this method are more
+complicated, are subject to analyst interpretation, and, thus, are more difficult to test statistically.
+They are accurate portrayals of price action, however, because they include every price transaction in the particular security. Later, the one by three point-and-figure, called a three-box reversal
+point-and-figure chart, became popular because it did not require as much data flow. It should be
+plotted, as the one-box chart, using a continuous flow of price data, but it can be estimated from
+daily prices in the newspaper. When estimated from daily prices alone, it loses its accuracy
+because intraday price action that might have been meaningful is eliminated. The three-box
+reversal chart does simplify analysis, however, because its method still screens out some unimportant price changes and produces an extremely simple, well-defined picture that can be tested,
+as we shall see later.
+When discussing point-and-figure, many people confuse the two types—the old and the
+new—and assume that the rules and patterns for one are the same as for the other. As we will see,
+however, the rules and patterns are quite different. Thus, the usage of the term point-and-figure
+should always be qualified as to whether one-box reversal or three-box reversal is being discussed.
+
+HISTORY OF POINT-AND-FIGURE CHARTING
+We briefly discussed the history of the point-and-figure method in Chapter 3, “History of Technical Analysis.” Unfortunately, there are only a few written references to the method, mostly
+books or pamphlets. Academic references are very few and generally unfavorably disposed,
+being still caught in the old finance theory cult and not understanding how point-and-figure is
+used by professionals.
+Charles Dow, in 1901, mentioned a “book method” of plotting stock prices as they are
+printed on the ticker tape. This method and a “method of keeping records of the fluctuations in
+
+Download at www.wowebook.com
+
+338
+
+Part IV Chart Pattern Analysis
+
+the price of stocks” (Hoyle from du Plessis, 2005) both describe a system very similar to presentday one-box point-and-figure charts. At first, these charts plotted numbers (“figures”) on a graph
+and later a vertical scale of prices was used with the trade prices represented by checks, ticks, or
+crosses (Xs). The use of figures was then limited to 0 and 5 for clarity over long horizontal charts
+and was still described by Wheelan’s textbook in 1954. Xs eventually became the standard for
+marking prices until Blumenthal’s invention of the three-box reversal chart, when Xs were used
+for advancing price columns and O’s for declining price columns.
+The term figure likely came from the recording of prices. Later, in 1933, Victor De Villiers
+in his booklet The Point and Figure Method of Anticipating Stock Price Movements described
+both the figure method with prices in each box and the point method with Xs in each box and figures (5 or 0) in the prices rows that were multiples of 5 and 10. He mentions that figure charting
+was old-fashioned and preferred the point method. His later book with Owen Taylor, also in
+1933, used only point charts. He summed up the advantages of using charts: They “dispense with
+statistics, fundamentals, values—real, absent, or presumed, news—past, present, and future, the
+necessity for impulsive action, decisions based on conjecture, compulsion to interpret or determine the effect before the cause, and the confusion of mental processes in the task of prematurely
+anticipating or discounting coming events.” De Villiers sounds like a true technician. Indeed,
+some analysts refer to the old method of one-box reversal as the de Villiers method.
+Wyckoff’s Stock Market Techniques No.2 written in 1934 also describes the one-box
+method. It is certain, then, that by the mid-1930s the figure method had been completely
+replaced by the point method.
+The next published pamphlet, which is extremely useful in the description and use of onepoint reversal charts, was by Wheelan (1954). It is still in print, and for anyone interested in the
+original method of analysis, it is a gem. Wheelan’s instructional pamphlet takes the form of a lesson plan and includes many practice exercises, chart paper, and subsequent commentary. It provides the best summary of the chart patterns used in the original one-box method. Wheelan
+suggests that the student of point-and-figure keep an active chart on some commodity future
+because futures trading is so fast acting that chart patterns unfold rapidly and give rapid feedback
+of pattern analysis. He also suggests that two students work alongside each other because “points
+that are obscure to one may be clear to the other, and the opportunity to exchange ideas will
+greatly hasten the mastery of this analytical technique” (p. 4). His advice is still valid today.
+In the 1960s, Dines, Andrews, Granville, and several others each published one-box reversal chart services. The advent of the easier three-box reversal and the beginning of computer
+plotting gradually put these services out of business. Until recently, several brokerage firms still
+kept one-box reversal charts by hand, but these firms are getting fewer and fewer because the
+computer has taken the job of plotting continuous data very well. Some specialists, market makers, and short-term floor traders keep a card for recording intraday price changes, which at one
+time the exchanges provided, that are used for short-term trading and gauging price strength and
+weakness. This method is also dying out, however, because these trading professions gradually
+are being phased out as electronic trading takes over their functions on the trading floors.
+“Upstairs” traders can rely on software that is designed to plot one-box charts, but they must be
+careful that the data flow is continuous and not just the high and low of a time bar.
+The newer method of point-and-figure, the three-point reversal method, is not a true pointand-figure method because it does not rely on a continuous data stream. In some cases, only the
+
+Download at www.wowebook.com
+
+Chapter 16 Point-and-Figure Chart Patterns
+
+339
+
+closing prices are used, but more often the high and low are interpreted as representing price flow
+during the trading day.
+Earl Blumenthal, the originator of the Chartcraft Service, devised and marketed the threebox reversal method starting in 1947. Blumenthal introduced the three-point reversal method in
+a privately published book titled Stock Market Trading. Updated revisions of the book were published under similar names by Abe Cohen and later, Michael Burke, subsequent owners of the
+Chartcraft service. In 1948, Blumenthal began the Chartcraft Weekly Service, which used threebox reversal charts to keep subscribers up to date on the most active stocks traded at that time.
+The service has since been sold to StockCube Ltd of Great Britain and is on the Web under the
+address www.investorsintelligence.com.
+In 1965, Professor Robert Earl Davis of Purdue University compiled a widely quoted performance study on the eight basic three-point patterns. He examined the eight basic three-box
+reversal patterns for 1,100 equities between 1954 and 1964. We refer to his study later in looking
+at the effectiveness of this method. More recently, Dr. Carroll Aby (1996) and Thomas Dorsey
+(2001) have written more complete books that bring the three-box method up to date. The influence of these pioneers in the three-point method has been so successful that many analysts are
+unaware of the original more accurate but less definite one-point method.
+Excellent compilations and descriptions of the point-and-figure method are available in
+Zieg and Kaufman (1975) and Murphy (1999). The performance statistics in Zieg and Kaufman
+are from Davis (1965). Academic literature is limited to German publications (Hauschild and
+Winkelman, 1985; Stottner, 1990). Also, a working paper by Professor John Anderson of
+Queensland University of Technology presents a study of three-point patterns on the S&P 500
+futures market from 1990 to 1998. More recently, Jeremy du Plessis (2005) has written a comprehensive book on point-and-figure that has become the primary source of information about
+the method.
+
+ONE-BOX REVERSAL POINT-AND-FIGURE CHARTS
+Like bar chart patterns, patterns in one-box point-and-figure charts are not precise and require an
+experienced analyst to interpret. This is likely another reason why they have lost their popularity
+to the three-box version. Being imprecise also means that performance figures for patterns are
+almost impossible to determine. No one has done the research into interpreting one-box pointand-figure patterns as Bulkowski has in bar charts, so we are left with much conjecture and a difficult methodology.
+One-box chart analysis focuses on consolidation areas, as do most chart methods, and
+attempts to determine the next directional move and by how much that move will likely carry.
+The one advantage of the one-box method is called the count, a means of anticipating the
+expected price move by measuring the width of an observed price base. We cover the count later
+in this chapter. In point-and-figure analysis, as in bar chart analysis, observation and analysis of
+patterns is largely subjective and based on the experience of the analyst. Like fundamental analysis, the experience of the analyst is the key to success.
+
+Download at www.wowebook.com
+
+340
+
+Part IV Chart Pattern Analysis
+
+Consolidation Area on the One-Box Chart (Also “Congestion Area”)
+As we know from bar chart analysis, a consolidation area is a sideways movement in prices that
+interrupts or reverses a trend. It is during this period of nontrending action that patterns develop
+that signal the new direction once a breakout occurs and potentially the extent or target price for
+the new directional price move. In point-and-figure, a consolidation area serves the same purpose. Various patterns have been recognized over the past that inform the analyst what is likely to
+occur in the future.
+One observation, for example, is that when price changes occur more frequently at the
+lower level of a consolidation area, the odds favor a breakout to the upside. The converse is true
+when price changes occur frequently at the upper level of consolidation. Because one-box charts
+plot so much information, the consolidation areas are often very wide, being made up of many
+smaller price oscillations, just as in a bar chart. The important point in analyzing point-and-figure charts is to consider the consolidation area as a whole and ignore the smaller separate parts.
+The analyst must determine where the price change work has been done, either in the lower or
+upper level of the area, and place more emphasis on recent work than on past price changes. Figure 16.1 is an example of a one-box reversal chart with price action predominately in the lower
+level of the consolidation and a subsequent breakout upward.
+
+X
+X
+X
+X
+X
+X
+X
+X X X
+X
+X X
+X X
+X
+X
+X
+X
+X X X X X X
+X
+X X X
+X
+X X
+X X X X X X
+X
+X X X X
+X X
+X
+X X X X X X X X X X X X X
+X X X X
+X X
+X X X X X X X
+X
+X X X X
+X
+X
+X
+X
+X
+X
+X
+
+FIGURE 16.1 Consolidation area with majority of price action at lower level of area, suggesting
+breakout will be to the upside
+
+Trend Lines in One-Box Charts
+Trend lines are drawn on a one-box reversal chart just as they are on a bar chart, connecting
+highs to highs and lows to lows. These lines frequently outline standard patterns that we have
+seen in bar chart analysis, such as triangles, rectangles, broadening formations, wedges, and
+even flags and pennants. The same type of analysis used with bar charts can be applied to onebox reversal charts. Figure 16.2, for example, shows a one-box reversal chart with a triangle
+formed by two trend lines.

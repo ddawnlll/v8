@@ -1,0 +1,440 @@
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+12
+
+7:17
+
+Printer: Hamilton Printing
+
+THE FOUNDATION OF TECHNICAL ANALYSIS
+
+root of the ratio of the time frames. This has implications for risk management, profit
+targets, stops, and volatility on each time frame. For instance, if a trader has been trading a system on 5-minute charts with $0.25 stops and wishes to transfer that 
+to 30-minute
+charts, the stops will probably need to be adjusted to about $0.61 ($0.25 × 30/5). This
+relationship does not hold exactly in all markets and all time frames, but it is a good rule
+of thumb and can give some insight into the risks and rewards of other time frames.
+The rule of consistency also applies to choice of time frames. Once you have settled
+on a trading style and time frame, be slow to modify it unless you have evidence that it is
+not working. This story will be told with the most clarity and power in a consistent time
+frame. In addition, if you catch yourself wanting to look at a time frame you never look
+at while you are in a losing trade, be very careful. This is often a warning of an impending
+break of discipline.
+
+Bars, Candles, or Other Choices
+Most traders today seem to be focused on using candlestick charts, but the more oldfashioned bar charts should not be overlooked. Both chart types display the same data
+points but in a slightly different format; they have the same information on them, so one
+is not better than the other. The main advantage of bar charts is that they can be cleaner
+visually and it is usually possible to fit more data in the same space because bars are
+thinner than candles. For many traders, the colors of candlestick charts make it easier
+to see the buying and selling pressure in the market, providing another important visual
+cue that helps the trader process the data faster.
+Another issue to consider, particularly with intraday charts, is how much importance
+should be attached to the closing print of each period. Historically, this was the price in
+many markets, and it still has significance in some contexts. Profits and losses (P&Ls),
+margins, and various spreads are calculated off daily settlement prices; exchanges have
+complex procedures for calculating these prices, which are rarely simply the last print of
+the session. However, times are changing. In currencies, most domestic platforms report
+a closing price sometime in the New York afternoon, and we have to wonder just how
+important that price is for the Australian dollar or the yen, whose primary sessions ended
+many hours earlier. As more and more markets go to 24-hour sessions, the importance of
+this daily settlement price will continue to decline. The problem is even more significant
+on intraday bars, bar as closing prices on intraday bars are essentially random samples
+and may differ from platform to platform. If you are trading candlestick patterns, which
+attach great significance to the close, you are trading the patterns you see on your screen.
+If you switched to a different data provider, the data might be time-stamped differently,
+and you would see different patterns. How important can those patterns really be?
+
+INDICATORS
+Indicators are calculated measures that are plotted on price charts, either on top of the
+price bars or in panels above or below the bars. There are many different indicators in
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+The Trader’s Edge
+
+13
+
+common usage, and traders have a wide range of approaches and applications for these
+tools. Some traders are minimalists, using few or no indicators at all, while others will use
+multiple indicators in complex relationships. In addition, some indicators are extremely
+simple calculations, while others are very complex, perhaps even using complex calculations borrowed from other applications such as radar or digital signal processing. There
+is certainly no one right way to set up or use indicators, but, here again, consistency is
+paramount. Few traders find success by constantly switching between indicators. There
+is no holy grail or combination of tools that will lead to easy trading profits.
+One other important point is that you must intimately understand the tools you use.
+Know how they will react to all market conditions, and know what they are saying about
+the market structure and price action at any time. Focus on tools that highlight and emphasize important elements of market structure, because your main focus should be on
+the price bars themselves. Intuition comes from repeated exposure to structured data in
+well-planned and consistent contexts; make your chart setups serve this purpose. Much
+of this book—and Chapter 7 and Appendix B in particular—focuses on these ideas and
+reinforces the importance of fully understanding every tool you use.
+
+THE TWO FORCES: TOWARD A NEW
+UNDERSTANDING OF MARKET ACTION
+Price action is a complex and imperfectly defined subject. There are many traders who
+believe that price action is something nebulous that cannot be quantified. To other
+traders, trading price action means trading the patterns of price bars on charts, without the addition of indicators or other lines. In this book, price action simply means
+how markets usually move, which, frankly, is, usually randomly. Be clear on this point:
+markets are usually random and most of the patterns markets create are also random.
+However, we can sometimes identify spots where price movement is something less than
+random and is somewhat more predictable, and these less-than-random spots may offer
+profitable trading opportunities.
+Price action is the term used to describe the market’s movements in a dynamic state.
+Price action creates market structure, which is the static record of how prices moved
+in the past. Think about a finger tracing a line in the sand. Market structure is the line
+left in the sand; price action describes the actual movements of the finger as it drew the
+line. In the case of a finger, we would talk about smooth or jerky, fast or slow, and lightly
+or with deep pressure into the sand. In the case of actual price action, we would look
+at elements such as: How does the market react after a large movement in one direction? If aggressive sellers are pressing the market lower, what happens when they relax
+their selling pressure? Does the market bounce back quickly, indicating that buyers are
+potentially interested in these depressed prices, or does it sit quietly, resting at lower
+levels? How rapidly are new orders coming into the market? Is trading one-directional,
+or is there more two-way, back-and-forth trading? Are price levels reached through continuous motion, or do very large orders cause large jerks in prices? All of these elements,
+
+P1: OTA
+JWBT634-c01
+
+14
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+THE FOUNDATION OF TECHNICAL ANALYSIS
+
+and many more, combine to describe how the market moves in response to order flow
+and a myriad of competing influences.
+In the past, many authors have used a wide range of analogies to describe financial markets. Ideas and models have been borrowed from the physical and mathematical
+sciences, so terms like momentum, inertia, vectors, and trajectories have crept into the
+vocabulary. More recently, some thinkers have applied the tools of digital signal processing to market data, so we have a new vocabulary that includes cycles, transforms, and
+waves. Markets are confusing enough in their natural state; some of the analytical frameworks traders use add to the confusion. I propose a simpler model: that market action
+appears to be the result of two interacting forces: a motive force that attempts to move
+price from one level to another and a resistive force that opposes the motive force. These
+forces represent the sum of all analysis and decision making at any one time.
+The normal state of existence in most markets most of the time is equilibrium. The
+two forces are in balance. Buyers and sellers have no sharp disagreement over price; the
+market may drift around a central value, but there are no large trends or price changes.
+Market action in this environment is highly random; if we were to analyze this type of
+action statistically, we would find that it conforms very closely to a random walk model.
+This is also precisely the type of environment that technically motivated traders must
+strive to avoid, as there can be no enduring statistical edge in a randomly driven market.
+Markets in this state of equilibrium will have varying degrees of liquidity and ability
+to absorb large orders. Eventually, there is a failure of liquidity on one side, and the
+market makes a sudden, large movement in one direction. Perhaps this movement is
+in response to new information coming into the market, or it can simply be a result
+of a random price movement setting off further movement in the same direction. No
+matter the reason behind the movement, in theoretical terms, the motive force has, at
+least temporarily, overcome the resistive force. In the parlance of technical analysis, this
+type of sharp movement is called an impulse move or a momentum move.
+From this point, there are basically two options. In many cases, the resistive force
+is quickly able to overcome the motive force, and the market finds balance again. This
+may be at a new level, or prices may immediately retrace their course and return to
+the preshock levels. Psychologically, market participants have chosen to view this large
+price movement as a temporary aberration, and new liquidity comes into the market that
+will dampen any future distortion. However, it is possible that the large price spike will
+lead to continued movement in the same direction. In this scenario, a feedback loop
+develops where the market makes a large movement, which, in turn, provokes another
+large price movement, and the market trends.
+In most cases, the market structure of this trending movement will be a series
+of directional moves alternating with nondirectional periods in which the market
+essentially rests and absorbs the previous move. In the bigger picture, the motive force
+has overcome the resistive force, but there is still a subtle interplay of balance and
+imbalance on shorter time frames. Prices trend because of an imbalance of buying and
+selling pressure. (This is often, but not always, indicative of nonrandom action, as trends
+exist in completely random data.) Once prices are trending, at some point they will have
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+The Trader’s Edge
+
+15
+
+moved far enough that the resistive force is once again able to balance the motive force,
+and the market again finds a new balance.
+This interplay of motive and resistive forces, from a very high-level perspective, is
+the essence of price action and the root of technical analysis. The patterns we see in
+the market are only reflections of the convictions of buyers and sellers. They are useful
+because we can see them, trade them, and use them to define risk, but always remember
+that they are manifestations of deeper forces in the marketplace.
+
+PRICE ACTION AND MARKET STRUCTURE
+ON CHARTS
+Charts are a way to organize and to structure the flood of information the market generates and can reveal clues about the strength of the underlying forces. There is no one
+right way to read a chart, but I will share the basic elements of an approach that has been
+very useful to me over the years. These tools and this framework have shown themselves
+to be reliable time and time again, but these are my tools and my method. You must make
+them your own tools. Use everything here as a collection of ideas from which you can
+begin to build your own approach to the markets.
+Market structure refers to the static structure visible on charts, made up of previous
+movements in the market and places where those movements stopped. The key elements
+of market structure are pivot points and the swings connecting them, both of which may
+be evaluated either in price (the vertical axis on a chart), in time (the horizontal axis), or
+in a combination of the two.
+Price action is the dynamic process that creates market structure. Price action is
+also more subjective; in most cases, market structure is concrete. Market structure is
+static and is clearly visible on a chart, but price action usually must be inferred from
+market structure. Also, both are specific to time frames, though price action is often visible as the market structure of lower time frames. These definitions and their implications
+will become clear over the next chapters.
+
+Pivot Points
+The basic units of market structure on any time frame are pivot highs and lows (also
+called swing highs or lows). A pivot high is a bar that has a higher high than the bar that
+came before it and the bar that comes after it. At least in the very short term, the bar’s
+high represents the high-water mark past which buyers were not able to push price, and
+can be considered a very minor source of potential resistance. A pivot low is the same
+concept inverted: a bar with a lower low relative to both the preceding and the following
+bars. Figure 1.3 shows a chart with every pivot high and pivot low marked. Note that it is
+possible for a bar to be both a pivot high and a pivot low at the same time, and that pivot
+highs and pivot lows are very common.
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+16
+
+7:17
+
+Printer: Hamilton Printing
+
+THE FOUNDATION OF TECHNICAL ANALYSIS
+
+FIGURE 1.3 Every Pivot High and Low
+
+Another name for the type of pivot in Figure 1.3 is a first-order pivot. Though these
+first-order pivots do sometimes coincide with major turning points in the market, they
+are so common that they cannot be extremely significant. Every major turning point, by
+definition, comes at a pivot, so it is easy to overstate their importance; once you see
+a chart with every possible pivot marked, it becomes obvious that this structure is so
+common that it is nearly insignificant. It is also interesting to consider that most pivots
+on one time frame mark significant market structures on lower time frames, but this is a
+complication that we will save for later. As a stand-alone concept, first-order pivot highs
+and lows have limited utility; their power comes from their relationship to other pivots
+and their ability to define market structure. They are like a single brick in a building—not
+that interesting or useful by itself.
+Second-order pivot highs (also called intermediate-term pivots) are first-order pivot
+highs that are preceded and followed by lower first-order pivot highs; again, this structure
+is inverted for second-order pivot lows. In Figure 1.4, notice that these second-order
+pivots begin to define some more significant structural points. It is much more likely that
+second-order pivots will come at important turning points, but remember that there is no
+predictive power because this is a pattern that is defined post hoc. They always look far
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+The Trader’s Edge
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+17
+
+FIGURE 1.4 Second-Order Pivots (Marked with Arrows) Deﬁne More Important Market Structure
+
+more significant in the middle of a chart than they do on the right edge. It is also worth
+noting that there is no law that says second-order pivot highs and lows have to alternate;
+it is possible to have three second-order pivot highs or lows in a row. If you are going to
+use this concept systematically, make sure your rules plan for this situation.
+Predictably, this concept can be extended on many levels, but in actual practice,
+most of our focus is on third-order pivots, which usually mark major inflections (see
+Figure 1.5). Almost without exception, a trader who could identify these third-order
+pivots in advance would have nearly perfect entries on both sides of the market. This
+cannot be done, but it does point out that these third-order pivots delineate the market structure very clearly. It is worth your time to train your eye to see these pivots
+quickly; the value in this structure is in providing context for the market’s movements.
+Once you understand the basic ideas behind this concept, it is probably a good idea
+to not be too rigid with these structures and definitions. If you see something on a
+chart that is fulfilling the basic role of one of these structures but for one reason or
+another does not exactly fit the criteria, it often makes sense to bend the rules for
+that case. The goal is to define meaningful market structure, not to blindly follow a set
+of rules.
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+18
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+THE FOUNDATION OF TECHNICAL ANALYSIS
+
+FIGURE 1.5 Third-Order Pivots Usually Deﬁne the Most Important Market Structure on Any
+Time Frame
+
+It also should be obvious that this is a backward-looking analytical method. This is a
+problem with all swing or wave methods: they offer fantastic explanations of past market action, but have little or no predictive power at the right edge. This pivot structure is
+not intended to be a trading methodology; it is context. For instance, a sharp down move
+might be interpreted differently if it comes at a point where the market had been making consistently higher second-order pivot highs and lows compared to an environment
+where they were more randomly distributed. As another example, a movement that penetrates a significant third-order pivot high or low can sometimes significantly change the
+market environment. The purpose of this tool is to provide that structure and context,
+not actual trade entries.
+
+Length of Swing
+Once we have defined the second- or third-order pivot structure of the market, we can
+connect the pivot highs and lows with lines to outline the swing structure of the market.
+(In the spots where highs and lows do not alternate, take the lowest low of the series
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+The Trader’s Edge
+
+19
+
+or the highest high of the series as the anchor point.) If this type of analysis is new to
+you, it is probably a good idea to draw the structure on a few hundred charts until it
+becomes somewhat intuitive; eventually you want to be able to glance at a chart and
+see this structure immediately. Like everything else, it gets easier only with continued
+practice and familiarity. It is impossible to overstate the importance of this skill.
+Once the individual swings are delineated, we can start to consider what the market
+structure actually tells us about the balance of buying and selling pressure in the market.
+The core concepts are simple:
+
+r When buyers are stronger than sellers, upswings will be longer, both in price and in
+time, than downswings.
+
+r When sellers are in control, downswings will be longer than upswings.
+r Significant support and resistance levels are visible as rough areas (not precise lines)
+beyond which pivots have been unable to penetrate.
+
+r When there is relative equilibrium, there is no clear pattern to the swings.
+There is nothing mysterious about market structure and price action. They grow
+from these simple patterns, which then combine in a nearly infinite number of variations.
+Focusing on the variations is difficult because they are legion—it is an exercise in futility
+to try to catalog all of the complexities and variations of patterns, though this attempt
+has been repeated many times throughout history. Understand the root. Understand the
+market structure. There are a handful of common patterns and templates that provide
+the foundation for most of the significant patterns in the market. We will spend much
+of the rest of this book refining these templates, looking at specific ways to trade around
+them, and considering how to manage the risk of those trades. Here is a brief introduction
+to a few of the most important of these patterns. Commit them to memory; you will be
+seeing them again.
+Figure 1.6 shows the basic uptrend template: upswings are longer than the downswings, creating a consistent pattern of higher pivot lows and higher pivot highs. This
+pattern, inverted, would become a downtrend.
+Figure 1.7 shows a market in a trading range. This is a random environment in which
+the conviction of buyers and sellers is relatively equal and there is no clear pattern to
+
+FIGURE 1.6 An Uptrend
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+20
+
+Printer: Hamilton Printing
+
+THE FOUNDATION OF TECHNICAL ANALYSIS
+
+FIGURE 1.7 A Trading Range
+
+???
+
+FIGURE 1.8 A Break in the Uptrend Pattern
+
+prices. There can be sudden, sharp moves within trading ranges, but they are often more
+or less unpredictable.
+Figure 1.8 shows a pattern that gives a warning of a break in an uptrend’s established
+pattern. This is often the first step of a trend change, but you cannot trade based only on
+this pattern; this is a warning sign to pay careful attention to what comes next. There is
+great value in knowing when patterns have broken, as this suggests a potential change in
+the balance of buyers and sellers in the market.
+Figure 1.9 shows an example of a classic breakout above resistance. This suggests
+one of two things: On one hand, markets in trading ranges (see Figure 1.7) are highly
+random and this type of move may be nothing more than a random (and temporary)
+move beyond previous levels. On the other hand, it could be an early warning that buying
+
+FIGURE 1.9 A Breakout of the Trading Range
+
+P1: OTA
+JWBT634-c01
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:17
+
+Printer: Hamilton Printing
+
+21
+
+The Trader’s Edge
+
+FIGURE 1.10 A Breakout Preceded by Higher Lows into Resistance
+
+pressure is now stronger than selling pressure in this market, and it is possible that prices
+could trend significantly higher from this point.
+Figure 1.10 shows a particular pattern that often precedes the best breakouts. If buyers are able to hold the market higher on successive declines, a pattern of higher pivot
+lows pressing against the resistance area will result. This suggests real buying conviction
+supporting the move and the potential breakout.
+This is certainly not a complete encyclopedia of swing patterns, but it does highlight
+the basic concept: the length of swings and the relative position of pivot points can give
+insight into the character of the market.
+Market Structure versus Traditional Chart Patterns
+There are two broad schools of thought in technical analysis. One approach is to catalog
+every possible chart pattern and variation of those patterns. A trader using this approach
+might look for wedges, pennants, ﬂags, boxes, ledges, head and shoulders patterns, and
+double tops and bottoms—these are only a few of the traditional patterns, and many more
+have worked their way into modern practice. These traders spend a lot of time studying
+these patterns and variations, and they usually have speciﬁc trading plans for each pattern.
+Richard Schabacker was the ﬁrst writer to codify this approach, in the late 1920s, and it
+was crystallized in his landmark 1932 Technical Analysis and Stock Market Proﬁts.
+Upon his early death in 1935, his brother-in-law, Robert Edwards, took over the company he had founded and continued his work of market analysis. Later, Edwards teamed
+up with John Magee, and the two wrote Technical Analysis of Stock Trends (1948; 4th ed.,
+1964), which is now considered to be the ultimate, authoritative source on chart patterns.

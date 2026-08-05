@@ -1,0 +1,476 @@
+
+Moneyness
+
+Relationship to Spot
+
+In-the-money
+
+Underlying market < strike price
+
+At-the-money
+
+Underlying market = strike price
+
+Out-of-the-money
+
+Underlying market > strike price
+
+Key Features of Binary Option Types
+
+13
+
+Table 1.4 Moneyness and Spot when Selling Binaries
+
+Moneyness
+
+Relationship to Spot
+
+In-the-money
+
+Underlying market > strike price
+
+At-the-money
+
+Underlying market = strike price
+
+Out-of-the-money
+
+Underlying market < strike price
+
+When buying a binary option, remember these relationships between
+moneyness and the underlying market price.
+In-the-money status for the seller is different (Table 1.4). Being ITM for
+sellers means they are betting that the underlying spot price is less than the
+binary option strike price. The binary contract should be seen as a floor that the
+spot falls through. That is what the seller wants to see happen. Therefore
+the premium for that strike price increases for those who want to trade with
+the downward momentum. Remember, at Nadex the premium for selling is
+$100 – bid.
+The trader receives the bid price and keeps it if the settlement price stays
+below the strike price.
+For example, if the bid price is $85 for a binary option strike price,
+it means that the binary option strike price is deep-in-the-money for
+­buyers, but deep-out-of-the-money for sellers. The market thinks there is
+an 85 percent probability of the spot price staying above the binary, but
+only a 15 percent probability of the spot price falling below the binary. If
+the market becomes bearish, the bid would decline. For example, the bid
+may be at $85 and then bearish news causes the bid to go down to $50.
+The trader betting on a fall of the spot would pay $100 – bid or $50, much
+higher than the $15 before.
+Generally, a trader who is bearish and looking to an ITM binary option
+strike price would be looking at the bids being lower than $50. Following this
+logic, a very optimistic bearish market would have a very low price for the
+bid and asks. Ask prices of $10 for a binary option strike price is a very cheap
+option because the market is giving a low probability to the binary option
+settling in-the-money at expiration and paying $100. For traders looking at
+OTM strategies, they are betting that the opinion pool represented by the
+bid/ask range is wrong, and this kind of OTM trade provides a huge reward
+of 10:1 for being on the side of surprise.
+We can affirm an extremely interesting relationship in the bid and ask
+price ranges between the bid and ask prices and market sentiment. Since
+the binary options pay only, at maximum, $100 when the binary option
+
+14
+
+Trading Binary Options
+
+trade settles in-the-money, we can interpret the bid and ask prices as a sentiment probability. In effect, if the ask price is $80, the “crowd” is assigning an
+80 percent probability that the option will work out.
+If the bid price is $20, the market is, in effect, assigning an 80 percent
+probability that the binary option for a seller will work out. This is the exact
+inverse of the buying probability. Think about this a bit further. Binary option
+bid/ask pricing becomes a trader scorecard of the battle between buyers and
+sellers. It’s the best real-time measure of bullish or bearish sentiment.
+The challenge for the trader becomes one of knowing when to go with the
+crowd or against the crowd. Expected probabilities that the underlying market
+will reach or not reach a strike price are derived from bid and ask pricing. It is
+definitely predictive in value, but it is certainly only a conditional probability.
+This is because markets can and do change and react to new information. Ultimately, the status that is important is the value at settlement time. In the case of
+binary options, we have only one of two outcomes: $100 per unit or $0 per unit.
+The Role of a Market Maker
+
+The binary option trading is not an automatic match between buyers and
+sellers. There is another component to the process: the market maker. A market
+maker provides the liquidity. The essential role of the market maker is in fact
+to make the market. As familiarity with the binary option product increases,
+more market makers will be attracted to the opportunity. But let’s get a deeper
+look at how the market maker fulfills his duty. Nadex has an agreement with
+Market Risk Management (MRM), which is an entity of IG Group, to price
+all markets on the Nadex exchange. But there should be no doubt that Nadex
+and IG are, in fact, taking the opposite position of the trader. In contrast,
+Cantor, NYSE, and CBOE are true exchanges and do not take the other
+side. This is a great advantage to the trader. However, the disadvantage is the
+potential lack of liquidity, if market makers are few or not providing pricing
+for the different binary options.
+Let’s understand further the role of market making with the binary
+options. John Austin, a former market maker and one of the originators of
+the binary option product, describes market making from his vantage point.
+He provided the following point of view:
+We need to begin with the traders. One trader looks at a price and
+wants to buy, while another trader looks at the same contract and
+wants to sell.
+
+Key Features of Binary Option Types
+
+For example, the market maker makes a price at 48–51.
+In a perfect world, two individual traders see the price and trade
+at the same time. One thinks the price is too high and goes short in
+one lot at a price of 48. The other thinks the price is too low and goes
+long in one lot at a price of 51. Both traders wait until expiration,
+and do not trade again, and neither does anyone else.
+In this perfect world, the market maker has fulfilled his duty
+(that is, he has put liquidity onto the exchange and provided a tradable price for traders who don’t want to work an order but would
+rather trade right away), but has left himself with absolutely no
+­exposure to the final expiration level. He has bought one lot from the
+selling trader at 48 and sold one lot to the buying trader at 51, making a three-point profit for himself, regardless of where the ­market
+settles. This three-point profit is his reward for posting prices and
+taking risk.
+In the real world, individual traders rarely choose to trade in
+­opposite directions in identical sizes at the same time (if they did,
+there would be no need for market makers). In the real world, the
+market maker posts a price that may start at 48–51 before moving
+smoothly to, say, 78–81 and then dropping suddenly to, say, 19–22
+and so on. Buyers and sellers come along more or less at random,
+buying or selling on the market maker’s price in different sizes at different times. When the market maker sees a whole bunch of people
+buying a certain price he may tweak his price upward by a point or
+two to encourage some sellers to enter the market and balance his
+risk. ­Alternatively, a whole bunch of people selling a certain price
+may cause the market maker to tweak his price downward by a point
+or two to encourage some balancing buyers.
+In practice, market makers are rarely able to balance their book
+perfectly, and end up wearing a position until expiration. So on any
+one expiration on any one contract, the market maker may make a
+large loss or a large profit.
+But averaged over many contracts, over the course of a year, the
+effect of the market maker’s spread should be to make the average
+price at which he buys from traders slightly lower than the average
+price at which he sells to traders. That is his reward for providing
+liquidity, and it is paid for by the fact that losing traders lose, over
+the course of a year, slightly more than winning traders win (because
+binary trading, like spot FX and all other derivatives trading, is a
+zero-sum game).
+
+15
+
+16
+
+Trading Binary Options
+
+Understanding the role of market makers provides a better understanding
+of the real dynamics of binary option trading and why it is possible with honed
+trading skills to gain an edge in binary option trading and have ­winning bets.
+The actual bid and ask prices are not just the expected probabilities of bearish and bullish traders. It would be wrong and naive to interpret the bid and
+ask prices as a simple reflection of expected probabilities. The fact is that they
+also reflect adjustments the market makers make to encourage participation.
+The market maker wants more volume, because, over time, he will gain a
+fraction of the spread.
+Market makers try to be quants and use option analytics to help determine
+adjustments in the bid and ask. But market making is not pure calculation.
+Matt Brief, the current market maker for IG Markets on the binaries, provided the following answer to a question on the use of some advanced analysis
+in regard to binary option pricing:
+Question: Do you actually consider the presence of volatility smiles in
+the case of currencies, and if so, do you calculate them? Related to
+this, do you look at risk reversals in your model as well?
+Answer: We try to keep our vols in line with the market. On the euro,
+for example, the market currently has a high implied vol on the
+downside (lower strikes), but on the upside (higher strikes), the
+implied vol is the same, or lower, than the ATM vol. So there is no
+volatility smile on the E/$ at present. We will tend to replicate this
+in our prices.
+We can conclude that the actual bid and asks are not pure participant
+probabilities. Nor are they simply a function of some advanced formula or
+calculation engine, such as Black-Scholes, and so on. They reflect, instead,
+a combination of traders as well as market maker judgments and misjudgments! The fact is that market makers cannot estimate accurately the expected
+value of all strike prices, particularly those at the extremes, furthest away from
+the spot price. When this happens, they have to make a best guess and usually increase the ask price to protect against uncertainty. This suggests that
+traders should pay closer attention to strike prices or ladders that are deepout-of-the-money, where there is lighter volume. In this out-of-the-money
+price zone, the bid and asks are not always directly reflective of the crowd, nor
+subject to the same quantitative rigor of trading prices associated with ATM
+and ITM binary options.
+
+Key Features of Binary Option Types
+
+17
+
+Are Premiums Fairly Priced?
+
+Many traders will wonder whether the premiums (bid/asks) are fairly priced.
+They do not want to pay more than they have to. Markets, when working
+efficiently, should result in option premiums that are fairly valued. So let’s look
+at a comparison of the bid and ask pricing at Nadex with an advanced option
+calculator. Do we get similar premiums? If not, why are there differences? By
+entering the key pricing information in the calculator supplied by Superderivatives, a world-class professional derivative option calculator, the result was
+different from the real-time Nadex premium pricing of the AUD/USD weekly
+1.065 binary contract (Table 1.4), which shows a bid of 16 and an ask of 21.5.
+In contrast to the Nadex real-time pricing, the Superderivatives engine using
+the same expiration date (April 15, 2011) and binary strike price for the AUD/
+USD (1.6025) showed a bid/ask range of 7.75/19.75. At that same moment,
+the same binary strike price on the Nadex platform showed a bid/ask of 16/21.5.
+Why might there be a difference between the Nadex pricing and the
+calculations of advanced option-pricing engines such as Superderivatives or
+Bloomberg? The difference between what the option calculator shows and
+what is traded is attributed to volume and judgments of the market makers.
+The main point here is that there is no true trade price. It is, rather, a combination of supply and demand as well as the perceptions and misperceptions of
+the market maker who participates in providing liquidity.
+Another example verifying mispricing in the bid and ask of Nadex is an
+analysis provided by the use of Mathematica’s powerful option analysis engine.
+The bid/ask prices of the EUR/USD weekly binaries for a sample moment
+in time (June 28 at 9:25 a.m.) was processed using Mathematica software.
+According to Michael Kelly, Mathematica trainer and consultant, the results
+reported that: “Considering that the first two are overpriced, the third at
+1.4375 is correctly priced and that from the fourth to the last are underpriced.”
+The main conclusion is that there is significant mispricing in these binary
+options. The implication for the average trader is that human judgment still
+dominates the binary option pricing. The bid/ask prices are simply reflections
+of error-prone opinions and the expectations of traders (see Table 1.5). The
+trader has the opportunity to profit from these conditions.
+Table 1.5 Bid/Ask Comparative Pricing
+
+Contract
+
+Expiration
+
+Bid
+
+AUD/USD > 1.065 (3 p.m.)
+
+15-APR-11
+
+16
+
+18
+
+Trading Binary Options
+
+Binary Option Non-Laddered Trading
+
+In contrast to Nadex, IG, Cantor, and NYSE, most binary option trading is
+done in non-laddered platforms. The trading is simpler and the choice traders make is whether the underlying market will be above or below, higher or
+lower at expiration time, than the price when the trader puts on the trade.
+Buying a call or put is also often the names of the trading actions. The
+payoff is usually around 80 percent profit. The risk is the amount put on
+the trade. A key feature of these non-laddered binaries is the inability to exit a
+position. Once the position is put on, one cannot close the positions. This is
+in contrast to the laddered binaries. The trader of these platforms also has
+risk of receiving inaccurate prices. The fact is that binary option firms offering non-laddered options do not have price transparency. The settlement
+prices for binary expirations will differ among different firms.
+The challenge to the trader in these non-laddered binaries is to first reach
+a breakeven performance result. Traders around the world favor the very
+short-term expirations such as one minute. This is because they offer nearly
+instant results and satisfaction, thereby appealing to the gambling tendencies
+of those traders. Longer-term expirations above 15 minutes allow the trade to
+apply technical and fundamental analysis to the position and reduce or gain
+an edge as a result.
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 2
+
+Identifying Profit Return
+Potential in Binary
+Option Trading
+
+There are many reasons to participate in binary option trading. First, it is
+challenging. It doesn’t matter what background or profession you may have,
+binary option trading levels the playing field to all who seek to master it. This
+may be disappointing to some traders who have had great success in their
+own fields, only to find that the market doesn’t care at all. Whether you are a
+doctor, lawyer, engineer, homemaker, truck driver, pilot, soldier, and so on,
+binary option trading will demand all of your skills, as well as your emotional
+intelligence. It is also exciting, as it provides quick feedback on whether your
+trades are right or wrong. Yet, the dominant reason is that binary option
+trading offers profitable trading opportunities at frequencies and magnitudes
+rarely seen in other markets. This chapter provides a review of what the profit
+potential can be in the laddered binary option trading.
+Expected Probabilities
+
+We can start from a basic description of the unique property of the laddered
+binary option. It is a fixed payoff of $100 per unit. This means that at any
+point in time, the value of the ask price would never be more than $100.
+As a result, we can derive the important outcome that is referred to as an
+expected probability. The easiest way to derive at an expected probability is
+19
+
+20
+
+Trading Binary Options
+
+to look at the ask price. The ask price can be seen as an approximate measure
+of what the market believes is the probability of success. A $50 USD ask
+price translates into an expected probability of 50 percent that the binary
+will settle above the strike price associated with the binary. An $80 USD
+ask price can be interpreted as an 80 percent expected probability. Whether
+one is trading a weekly binary option or an intraday option, at any given
+moment, the bid/ask range signals can be considered expectations of the
+market. The bid and ask prices represent a kind of crowd-mind that expresses
+the emotions of the market. It becomes a probability barometer measuring
+market opinion. These emotions become translated into the premiums paid
+for different strike prices. This aspect of the binary option market is perhaps
+its most profound feature.
+Whether trading the Nadex, IG, Cantor, or NYSE binaries, the trader
+has a choice to follow or fade the crowd opinion. If the trader is bullish on
+the market and agrees with the emotions expressed in the ladder ask prices,
+he would buy a binary with an ask price of greater than 50. The larger the
+ask price, the greater the opinion of the trading community is that the
+price of the underlying market will be above the strike price. So, an ask
+price of 80 translates into 80 percent expected probability that the price
+will be above the binary strike price that is receiving the 80 ask. Conversely,
+a 20 ask translates into 80 percent of the trader crowd believes that the
+price will be below that associated ask price.
+A good idea is to relate the expected probabilities to the degree to which
+the underlying market has to move to win or lose the positions.
+We can see in Table 2.1 an example of various expected probabilities
+appearing, offering a range of probabilities at the start of a week. These
+strike prices were taken on a Monday morning for end-of-week expirations.
+A useful metric is to detect a strike price’s percentage distance from the
+underlying spot market. We can see that an ask price of 81.5 converts to a
+percentage distance of 1.4 percent from the underlying spot. This means the
+market has to move down more than 1.4 percent from the spot. The trader
+needs to decide if this is a reasonable expectation that it would not do so in
+order to win.
+While there is no guarantee that the expected probability will turn out to
+be settling at $100, scanning the offer ask prices provides a good first approximation of market opinion. Once a scan of market expectations is done, the
+next step is deciding on the direction of your binary trade. Do you want to
+join the crowd or do you want to be contrarian? Do you want a high return
+with a lower chance of winning versus a lower return with a high chance of
+
+Identifying Profit Return Potential in Binary Option Trading
+
+21
+
+Table 2.1 Sample Distribution of Expected Probabilities from 25 to 81 Percent on
+December 14, 2015, Expiring December 18, 2015
+
+Date
+
+Bid
+
+Ask
+
+Binary Option Contract (Indicative Price)
+
+12/14/15
+
+75
+
+81.50
+
+EUR/USD > 1.0825 (1.09847)
+
+12/14/15
+
+65
+
+69.50
+
+GBP/USD > 1.5075 (1.51537)
+
+12/14/15
+
+52.25
+
+58.25
+
+AUD/USD > 0.7225 (0.7243)
+
+12/14/15
+
+40
+
+46.25
+
+USD/CAD > 1.3775 (1.3738)
+
+12/14/15
+
+36
+
+42.50
+
+EUR/JPY > 133.25 (132.74)
+
+12/14/15
+
+18.25
+
+25
+
+GBP/JPY > 184.75 (183.144)
+
+winning? A binary trade costing $20 per unit and paying off $100 results in
+a 5:1 return (excluding fees).
+While this is a great result for any particular trade, the ultimate test is
+the profitability curve that results over time. Simple mathematics shows that
+a 5:1 binary option reward/risk ratio is required to be profitable in the long
+run—at least one win over every five trades. One trade, costing $20, turning
+out to be a winner will result in an $80 profit. The next four trades can be
+losers and the total result would be breakeven. In contrast, an $80 cost for
+a binary trade indicates a market expectation of an 80 percent probability
+of being a winner. One loser would result in an $80 loss, and would require
+four winners in the next five trades to get to breakeven. One has to be more
+than 80 percent accurate to go with a deep-in-the-money strategy, buying
+$80 binary contracts. In fact, no matter what win/loss ratio a trader has, the
+challenge for the trader will be to avoid having one loss risk wiping out a large
+winning streak!
+Winning Occurrence Analysis
+
+Which binary option strike prices are more likely to win? Conducting an
+occurrence analysis test demonstrated the attractiveness of binary option
+trading as a route to profitability. During the sample week of January 10
+to 14, using an algorithm search function that retrieved all offer prices, the
+algorithm was instructed to find a trade that had a market probability of
+80 percent for long positions, and 20 percent for short positions. Both directions had the same expected probabilities. The result was 87 trades and a 14.6
+percent return for the week (see Table 2.2).
+
+22
+
+Trading Binary Options
+
+Table 2.2 Same Occurrence Analysis
+
+Strategy
+
+Buy Binary Contracts > 80 and Sell
+Contracts < 20
+
+Number of trades
+
+87
+
+Capital committed for long positions
+
+$3,121
+
+Capital committed for shorting positions
+
+$330
+
+Return results
+
+409.25
+
+Return on weekly investment
+
+14.66%
+
+Even more interesting is the fact that a strategy that was buy everything
+over 80 percent, resulting in a win for a $100 payout, worked very well. This
+doesn’t mean that this strategy will work all the time. Markets can suddenly
+shift their sentiment and have surprise reversals. Binary option traders always
+using a pure strategy have to be prepared for setbacks.
+In another sample test, how would a strategy focusing on deep-out-ofthe-money trading work? During the same sample period of January 10 to 14,
+19 binary option strike prices were traded. Deep-out-of-the-money (less than
+50 percent probability) positions were bought. If there were deep-in-themoney positions (over 75 percent probability), they were sold. They were held
+not for a whole week but only one to three days. The percentage returns had
+some losses, but were offset by very large gains using the combined strategy of
+deep-out-of-the-money trading (Table 2.3).
+In reviewing Table 2.4, we can obtain a greater sense of the distribution
+of expected probabilities that the binary options markets generate during a
+week. The table presents a snapshot of the probabilities at about 10 a.m. every
+morning during a sample week (May 16 to 20, 2011) for different probability
+ranges. For example, on Monday, there were 30 binary option contracts with
+an ask price between $10 to 20. Of these 30 contracts, only one resulted
+in-the-money at the Friday expiration. In contrast, for the cohort of $45 to
+55 for ask prices on Monday, there were 15 contracts. Of these, nine settled

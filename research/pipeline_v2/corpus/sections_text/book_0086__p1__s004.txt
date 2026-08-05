@@ -1,0 +1,808 @@
+
+Income Generation in a Limited-Risk Fashion
+Selling out-of-the-money options to collect premiums and help generate
+income through time decay has long been a desirable strategy. The problem
+with that strategy is that it is very risky, as the naked selling of calls and
+puts leaves the investor open to unlimited risk should some sort of unforeseen event take place. Obviously this is highly undesirable—and downright
+scary. Vertical spreads can offer a way around this. By selling limited-risk
+out-of-the-money credit spreads (bull or short put spreads, bear or short call
+spreads), investors can still sell premium and help generate income through
+time decay. The advantage gained by using vertical spreads is that should
+the unforeseen event take place, the investor’s risk is limited rather than
+open-ended. The investor will lose money, but the amount of loss may be
+limited, hopefully allowing him or her to stay in the ballgame.
+
+STRATEGY COMPONENT SELECTION
+So, how should one structure a vertical spread strategy? The answer
+to that question depends on many of the variables we have discussed in
+previous sections:
+• What is one’s current market forecast?
+— Bullish
+— Bearish
+• What is the magnitude of the forecast move?
+— Choose a target price.
+• What is the time horizon of the forecast move?
+— Determine when one expects the target price to be reached.
+• What is one’s risk appetite?
+• What is the purpose of the vertical spread?
+— Capture market movement
+— Capture volatility movement
+— Income generation
+
+What Is One’s Current Market Forecast?
+One could theoretically make money with vertical spreads without
+having a directional bias, for example selling credit spreads. However,
+typically one will have a directional bias, bullish or bearish, which is the
+basis of the strategy selection. Remember that the bullish or bearish forecast should be moderate for the vertical spread strategy to be appropriate.
+
+49
+
+50
+
+Chapter 2
+
+Verticals
+
+What Is the Magnitude of the Forecast Move?
+For structuring purposes, it is important for the investor to have an
+idea of target price—where he thinks the underlying is likely to go if his
+bullish or bearish forecast is correct. This is important because, as we
+saw in “Strategy Composition,” the point of maximum profitability of
+a vertical spread is at or beyond the short strike (at or above the short
+strike for a bull spread, at or below the short strike for a bear spread).
+Ideally, the investor would like the underlying to move to the short
+strike at or near expiration to capture the majority of the move with the
+spread.
+
+Example
+The investor believes ABC is set to move from the 100.00 level to the
+110.00 level. What strikes should he incorporate into a bull spread strategy
+to make an optimal return on this move?
+• Answer
+Long the 100 strike option, short the 110 strike option (either calls or
+puts, depending on pricing at the point of execution).
+
+What Is the Time Horizon of the Forecast Move?
+Again, for structuring purposes, it is important to incorporate a time
+horizon into the forecast. This will allow the investor to choose the correct
+option expiration for his bull or bear spread.
+
+Example
+The investor believes XYZ will move down from 90.00 to the 70.00 area
+and that it will take two months for this to occur. What expiration cycle
+should he choose for his bear spread strategy, to make an optimal return
+on this move?
+• Answer
+The expiration cycle that most closely corresponds to his time horizon
+forecast.
+
+What Is One’s Risk Appetite?
+Obviously the answer to this question plays a large part in strategy
+selection. Because the risk in a vertical spread is limited, the investor can
+choose the amount he or she wishes to risk before the trade is put in place.
+By choosing which available spread to buy or sell and in what amounts,
+the investor can tailor the risk of a bull or bear spread to his or her risk
+appetite.
+
+Strategy Component Selection
+
+Example
+The investor believes that GHF is about to move from 100.00 to 110.00
+and would like to capture this move with a bull call spread. The 100兾110 call
+spread is offered at $5.00 while the 105兾110 call spread is offered at $2.50. The
+investor can only risk $250.00 per trade. Which bull spread can he buy?
+• Answer
+The investor can only afford to buy one 105兾110 call spread at 2.50.
+$2.50 (per call spread) ⫻ $100兾contract ⫽ $250.00 investment (not counting
+exchange fees, commissions, and so on).
+
+What Is the Purpose of the Vertical Spread?
+Usually the purpose of a bull or bear spread is to capture a bullish or
+bearish move, but other times there may be a volatility view involved or
+the vertical spread position might be simply for income generation purposes (credit spreads).
+• Volatility View
+If there is a volatility view involved, it is important to incorporate the
+ultimate vega exposure of the vertical spread (the vega exposure at the
+time and target zone) into the strike and expiration selection.
+
+Example
+The investor believes HIJ is going to go up from 120.00 to 130.00 in
+the next thirty days and that implied volatility will decline sharply on this
+move. How should he structure a bull spread strategy to take advantage
+of this view?
+• Answer
+The vega exposure of a vertical spread is dependent on the location of the
+underlying relative to the long and short strikes. When the underlying is near
+the long strike, the position will have a positive vega. When the underlying is
+near the short strike, the position will have a negative vega. Because the investor is forecasting a rally from 120.00 up to a target price of 130.00 along with a
+sharp volatility decline, it will be important that the position have a negative
+vega when the underlying arrives at 130.00. This means the investor will want
+his bull spread’s short strike to be the 130.00 strike and the long strike to be
+either the 120.00 strike or a 125.00 strike, depending on his risk appetite.
+• Income Generation
+If the purpose of the trade is to help generate income by selling premium
+and collecting time decay, it is important that the investor believes that it is
+
+51
+
+52
+
+Chapter 2
+
+Verticals
+
+unlikely that the underlying will move to the area of the short strike(s) of his
+credit spread(s). How the investor determines this is subjective, however.
+Technical analysis, fundamental analysis, statistical analysis, and so forth all
+can play a part in this type of strategy.
+
+Example
+EFGH announces spectacular earnings results and gaps from 30.00
+to 37.00 the next day. The investor believes it is highly unlikely the stock
+will trade down to 30.00 again in the next six months. The investor would
+like to generate some income based on this view by selling credit spreads.
+Which strikes should he select for this purpose?
+• Answer
+If the investor believes the stock will not trade down to 30.00, then he
+could initiate bull put spreads (short put spreads) within his six-month
+time frame using 30.00 as the short strike and a lower strike (depending on
+his risk appetite) as the long strike.
+
+At the Point of Execution: Call Spread or Put Spread?
+As mentioned earlier in our examination of the Greeks in “The
+Greeks of the Vertical Spread,” bull call and put vertical spreads (long
+call spreads and short put spreads) and bear call and put vertical spreads
+(short call spreads and long put spreads) are synthetically equivalent to
+one another. They have identical sensitivities and risk reward characteristics; the only difference is price and cash flow. When executing a bull
+spread—buying the lower strike option and selling the higher strike option—the bull call spread will result in a negative cash flow (a debit),
+while the bull put spread will result in positive cash flow (a credit). Conversely, when executing a bear spread—buying the higher strike option
+and selling the lower strike option—the bear put spread will result in
+negative cash flow (a debit), while the bear call spread will result in positive initial cash flow (a credit).
+
+Pricing Anomalies
+It would seem to make sense that a particular spread executed for a
+credit would be superior to a synthetically equivalent spread executed for
+a debit. After all, one can collect interest on a credit balance, whereas one
+must pay interest on a debit balance. Unfortunately, it is a bit more complicated than that, and the fact of the matter is that this advantage is usually
+a mirage.
+Pricing models build interest costs, no matter how trivial, into the
+price of each option. This means that options prices are discounted to compensate for the cost of financing the position. The buyer of an option or a
+spread will pay slightly less premium to compensate for the fact that he
+will incur financing costs for his debit balance, while the seller of an option
+or a spread will receive slightly less premium to compensate for the fact
+
+Strategy Component Selection
+
+that he will receive interest on his or her credit balance. This discounting
+tends to remove any advantage associated with a credit versus debit trade
+of synthetically equivalent positions.
+• The Box
+The best way to illustrate this is to break out the interest-rate component
+that accounts for the difference in pricing between a bull call spread and a
+bull put spread or a bear call spread and a bear put spread. The structure
+that contains the interest rate component and links bull and bear call and
+put vertical spreads is a structure called a box. A box is composed of a bull
+spread and a bear spread (same strikes, same expiration). Figures 2.22 and
+2.23, next, illustrate the structure of a box spread:
+
+Calls
+
+Strike
+
+Puts
+
+ⴙ1
+
+100
+
+ⴚ1
+
+ⴚ1
+
+105
+
+ⴙ1
+
+Calls
+
+Strike
+
+Puts
+
+ⴚ1
+
+100
+
+ⴙ1
+
+ⴙ1
+
+105
+
+ⴚ1
+
+Figure 2.22 The Long Box
+
+Figure 2.23 The Short Box
+Combining two debit spreads (a bull call spread and a bear put spread
+with the same strikes and the same expiration) creates a long box spread.
+A bear call spread and a bull put spread (same strikes, same expiration)
+creates a short box spread.
+• Box Value
+The box is a neutral structure with an interest rate component. It has
+no delta, no gamma, no theta, no vega—it can’t because it is composed of
+offsetting positions in two synthetically equivalent spreads (bull spread ⫹
+bear spread ⫽ neutral). It does, however, have an interest-rate component,
+and it is this component that explains the difference in pricing between
+bull and bear call and put spreads.
+At expiration, the value of a box spread will always be the difference
+between its strike prices (K2 ⫺ K1). This is the maturity value of the box.
+Any time before expiration, it will trade at a discount to compensate for
+carrying costs. The discounted value, or the present value, of the difference
+
+53
+
+54
+
+Chapter 2
+
+Verticals
+
+between the strike prices yields the fair value of the box spread, as shown
+in the equation below:
+(K2 ⫺ K1)
+BOX ⫽ _________
+(1 ⫹ r)t
+For example, what is the fair value of the 95/100 box spread with ninety
+days until expiration at an interest rate of 4.04 percent?
+(100 ⫺ 95)
+BOX ⫽ _____________
+(1 ⫹ 0.0404).25
+BOX ⫽ 4.95
+This means that the present value of the box spread carries a 0.05 discount to compensate for carrying costs. Now we will apply this to the relationship between the bull and bear call and put spreads to explain pricing
+differences (Figures 2.24 and 2.25).
+
+Calls
+
+Strike
+
+Puts
+
+0
+
+100
+
+ⴙ1
+
+0
+
+105
+
+ⴚ1
+
+Figure 2.24 Bull Call Spread ⫺ Box ⫽ Bull Put Spread
+Note that the equation in Figure 2.24 can also be rearranged to read Bull
+Put Spread ⫹ Box ⫽ Bull Call Spread.
+
+Calls
+
+Strike
+
+Puts
+
+0
+
+100
+
+ⴚ1
+
+0
+
+105
+
+ⴙ1
+
+Figure 2.25 Bear Call Spread ⫹ Box ⫽ Bear Put Spread
+Note that the equation in Figure 2.25 can be rearranged to read Bear Put
+Spread ⫺ Box ⫽ Bear Call Spread.
+
+Practical Uses
+When it comes time to pull the trigger on a bull or bear vertical position,
+whether at the point of entry or exit, we can evaluate which structure is a
+better trade by incorporating the box formula into the evaluation process.
+
+Strategy Component Selection
+
+Remember that call spread value ⫹ put spread value ⫽ box value. If the
+equation does not balance, there is a relative advantage available.
+
+Example
+An investor’s “system” has given a buy signal on ABC stock and the
+investor would like to initiate a 5-point bull vertical. He has two choices,
+buying the 50兾55 call spread or selling the 50兾55 put spread. The value of
+the 50兾55 box is 4.95, and the quotes the investor is seeing are 2.50 bid ⫺
+2.60 ask, for the call spread, and 2.45 bid ⫺ 2.55 ask, for the put spread.
+Should he buy the call spread or sell the put spread?
+• Answer
+If we use the formula call spread value ⫹ put spread value ⫽ box value,
+we can compare the relative value of the call spread offer and the put spread
+bid to see which, if any, has a relative advantage:
+CS ⫹ PS ⫽ BOX
+2.60 ⫹ PS ⫽ 4.95
+PS ⫽ 4.95 ⫺ 2.60 ⫽ 2.35
+With the call spread offered at 2.60 and a box value of 4.95, the put
+spread bid should theoretically be 2.35, but in the open market it is actually 2.45. So selling the put spread to initiate a bull spread is a trade that is
+superior to buying the call spread. Here are some easier and faster shortcuts for determining whether the call spread or the put spread represents
+the better trade.
+
+Bull Spread Rules
+• If call spread ask ⫹ put spread bid ⬎ box value, sell put spread
+• If call spread ask ⫹ put spread bid ⬍ box value, buy call spread
+
+Bear Spread Rules
+• If call spread bid ⫹ put spread ask ⬎ box value, sell call spread
+• If call spread bid ⫹ put spread ask ⬍ box value, buy put spread
+
+Example
+An investor wants to initiate a 5-point bear spread. The quote on the
+45兾50 call spread is 1.40 ⫺ 1.50, and the put spread is 3.55 ⫺ 3.65. The box
+is valued at 4.95. Should the investor sell the call spread or buy the put
+spread?
+
+55
+
+56
+
+Chapter 2
+
+Verticals
+
+• Answer
+Call spread bid ⫹ Put spread ask ⫽ 1.40 ⫹ 3.65, or 5.05
+This is greater than the box value, so the investor should sell the call
+spread.
+Note: These techniques for identifying relative pricing advantages can
+also be used when exiting a trade.
+
+TRADE MANAGEMENT
+Even though vertical spreads are pretty tame from a risk standpoint
+(they are generally low-cost and have limited risk), it is still a good idea to
+have a plan, regardless of whether one’s market forecast is correct or incorrect. Good traders have their exits planned before they enter the trade.
+These questions need to be addressed before the trade:
+• What is the most efficient way to take profits? Losses?
+• What does one do if the underlying reaches the target ahead of
+schedule?
+• What does one do if he or she is completely wrong on direction?
+• What does one do if he or she underestimated the magnitude of the
+move?
+• What if volatility behavior or any of the other assumptions that went
+into one’s forecast turn out to be incorrect?
+One mistake that is consistently made by options traders (probably
+because they tend to fancy themselves as chess masters) is staying too long
+in a position or making too many modifications when their market view
+changes from the initial forecast. The simplest and most effective rule in
+risk management is this: If the trader is wrong, he should get out!
+This means that if any of the assumptions that went into a market
+forecast turn out to be wrong, the investor should get out of the position.
+There is no room for hoping or praying . . .
+
+Sample Adjustments
+• When to Exit
+There are two reasons to exit a trade: when one’s market forecast has
+been met or when it has changed. The vertical spread is a directional strategy meant to be applied when one is forecasting a moderate directional
+move. If one’s view of the market suddenly shifts away from this forecast,
+then the trade will need to be modified or liquidated, depending on the
+shift in market view. In the case of liquidation there are two ways to exit a
+
+Trade Management
+
+vertical spread. One is to liquidate the original position, and (recalling the
+section “Strategy Component Selection”) the other is to liquidate via the
+synthetic equivalent.
+
+• How to Exit
+The decision whether to liquidate using the original position versus
+the synthetic equivalent depends on two factors: price and liquidity. Price
+is simple enough if one remembers to apply the pricing rules from “Strategy Component Selection” and use the most advantageously priced bull
+or bear spread to liquidate the position. Additionally, execution costs will
+affect the overall price.
+The other factor is liquidity, and liquidity issues usually have to do
+with the moneyness of the individual options that compose the vertical spread. As options move in-the-money, they acquire a larger delta,
+and this makes hedging them riskier for market makers. Accordingly,
+market makers will widen the bid-ask spread of in-the-money options
+to compensate for this risk. Conversely, out-of-the-money options have
+a lower delta, making hedging them less risky for market makers. This
+usually results in out-of-the-money options having a narrower bid-ask
+spread than their in-the-money counterparts. The net effect on vertical spreads is that a spread consisting of in-the-money options usually
+will have a wider bid-ask spread than a vertical spread consisting of
+out-of-the-money options. This is because an in-the-money call vertical
+has a synthetically equivalent out-of-the-money put vertical and an inthe-money put vertical has a synthetically equivalent out-of-the-money
+call vertical. This moneyness effect (especially on profitable trades) can
+make using synthetically equivalent positions to exit a trade even more
+appealing.
+
+Example 1: Liquidation of a Bull Call Spread
+Calls
+
++1
+–1
+
+Strike
+
+Puts
+
+Calls
+
+Strike
+
+100
+
++1
+
+–1
+
+100
+
+105
+
++1
+
+–1
+
+105
+
+Bull Call Spread
+
+Puts
+
+Bear Call Spread Closing Trade
+
+In this example, the original position is simply liquidated by executing
+the reverse position; in this case a bear call spread liquidates an existing
+bull call spread. Sometimes liquidity or pricing issues arise in liquidating
+the original spread. When these occur, the synthetically equivalent spread
+may be used to close the position.
+
+57
+
+58
+
+Chapter 2
+
+Verticals
+
+Example 2: Liquidation of a Bull Call Spread via a Synthetically
+Equivalent Put Spread
+Calls
+
++1
+
+Strike
+
+Puts
+
+Calls
+
+100
+–1
+
+Strike
+
++1
+
+Puts
+
+–1
+
+100
+
+105
+
+–1
+
+Bull Call Spread
+
+105
+
++1
+
+Bear Put Spread Closing Trade
+Calls
+
+Puts
+
+Strike
+
++1
+
+100
+–1
+
+105
+
+–1
++1
+
+Residual “Box” Spread
+
+This is an example of the dilemma that sometimes occurs when one
+is correct and the vertical spread is profitable. In this example, a bull call
+spread is now composed of in-the-money calls, leading to a wide bid-ask
+spread on the vertical spread and making liquidation difficult. One choice
+would be to employ the synthetically equivalent bear put spread to close
+the trade.
+
+Modifying the Trade
+• “Rolling” Vertical Spreads
+Occasionally the magnitude of a directional movement might be underestimated and the trader may want to “roll” the spread into a different
+set of strikes so that it can continue to participate in the further price movement of the stock. When one’s price target is reached prematurely, or when
+the underlying looks as though it might make a stronger move in the anticipated direction, “rolling” the spread up or down can allow one to continue to participate in the move. Rolling a vertical spread is accomplished
+by using another spread, the butterfly. Selling a butterfly that overlaps to
+the upside rolls a bull spread up:
+
+Trade Management
+
+Example 3: “Rolling Up” a Bull Call Spread
+Calls
+
++1
+–1
+
+Strike
+
+Puts
+
+Calls
+
+Strike
+
+100
+
++1
+
+–1
+
+100
+
+105
+
++2
+
+–1
+
+105
+
+–1
+
+110
+
+110
+
+Puts
+
+Sell the Overlapping Call Butterfly
+
+Bull Call Spread
+Calls
+
+Strike
+
+Puts
+
+100
++1
+
+105
+–1
+
+110
+
+New Bull Call Spread at Higher Strikes
+
+Example 4: “Rolling Up” a Bull Put Spread
+Calls
+
+Strike
+
+100
+
+Puts
+
+Calls
+
+Strike
+
++1
+–1
+
+105
+
+Puts
+
+100
+
++1
+
+–1
+
+105
+
++2
+
+–1
+
+110
+
+110
+
+Bull Put Spread
+
+Sell the Overlapping Put Butterfly
+Calls
+
+Strike
+
+Puts
+
+100
+105
+110
+
++1
+–1
+
+New Bull Put Spread at Higher Strikes
+
+–1
+
+59
+
+60
+
+Chapter 2
+
+Verticals
+
+A benefit of rolling vertical spreads by selling butterflies is that it takes
+a little money off the table and allows the trader to stick with the trade idea
+and participate in the extended directional move. Selling a butterfly that
+overlaps to the downside rolls a bear spread down:
+
+Example 5: “Rolling-Down” a Bear Call Spread
+Calls
+
+Strike
+
+Puts
+
+Calls
+
+100
+–1
++1
+
+Strike
+
+–1
+
+100
+
+105
+
++2
+
+–1
+
+105
+
+110
+
++1
+
+–1
+
+110
+
+Bear Call Spread
+
+Puts
+
+Sell the Overlapping Call Butterfly
+Calls
+
+Strike
+
+–1
+
+Puts
+
+100
+
++1
+
+105
+110
+
+New Bear Call Spread at Lower Strikes
+
+Example 6: “Rolling-Down” a Bear Put Spread
+Calls
+
+Strike
+
+Puts
+
+Calls
+
+Strike
+
+100
+
+Puts
+
+–1
+
+100
+
+105
+
+–1
+
+110
+
++1
+
+Bear Put Spread
+
+105
+
++2
+
+–1
+
+110
+
++1
+
+–1
+
+Sell the Overlapping Put Butterfly
+Calls
+
+Strike
+
+Puts
+
+100
+105
+
+–1
++1
+
+110
+
+New Bear Put Spread at Lower Strikes
+
+Chapter 2 Exercise
+
+Using this technique the trader is able to buy time should the underlying reach the target price prematurely, or participate in movement of a
+greater magnitude should it appear that the underlying is set to continue
+its directional move in a magnitude greater than originally forecast.
+
+CHAPTER 2 EXERCISE
+
+Figure 2.26 Data for Exercises Source: LiquidPoint, LLC
+Refer to Figure 2.26 to answer the following questions:
+1. What are the components of the XYZ 110兾115 bear credit spread?
+2. What is the delta value of the XYZ 105兾115 bear put vertical?
+3. What will be the delta value of the put vertical above if the underlying
+stock drops by $1.00?
+4. An investor is long the XYZ Jan. 100兾110 call vertical, with the stock
+at 110.00. Is the vega on the spread positive or negative?
+5. A debit spread takes advantage of theta decay over time. True or
+false?
+6. What is the maximum risk of the XYZ 105兾115 put vertical if sold at
+$4.10?
+7. What should be the fair value of the 100兾105 box with ninety days
+until expiration at an interest rate of 6.00?
+8. An investor bought the XYZ 105兾110 call spread for $1.00 months

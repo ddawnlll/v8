@@ -1,0 +1,563 @@
+
+The Wonders and Joys of Investment Technology
+Are there any other innovations in finance and investment theory of which
+the general investor should be aware? (See Chapter 42 for discussion of
+VAR.) Well, it never hurts to know everything, and the very best professionals not only are aware of everything, but are in the constant process of finding
+new wrinkles and glitches and anomalies. But, as Magee would say, what
+is necessary and sufficient to know (see Winning the Mental Game on Wall
+Street)? Absolute certainty is the hallmark of religious extremists and the
+naive, who do not know what they do not know. So I will remark that probably
+this book contains either what is necessary and sufficient for the investor to
+know about these matters, and/or guides the reader to further study.
+And, nota bene, any number of little old ladies with a chart, a pencil, and
+previous editions of this book have beaten the pants off professional stock
+pickers with supercomputers and MPT and Nobel Laureates and who knows
+what other resources. I personally know investment groups which have thrown
+enormous resources into the development of real-time systems which were in
+research 100% successful in beating the market. The only reality glitch was that
+the systems required so much computer power they could not be run quickly
+enough in real time to actually trade in the markets. Philosopher’s stone redux.
+
+AU3772_book.fm Page 339 Saturday, November 18, 2006 5:29 PM
+
+Chapter 17.2:
+
+Advancements in Investment Technology
+
+339
+
+Part 2. Futures and Options on Futures on the Dow–Jones
+Industrial Index at the Chicago Board of Trade
+(EN9: The general investor MUST be aware that the
+methods and techniques described in this chapter are
+for advanced practitioners. Careless use of the described
+instruments can be extremely damaging to a portfolio.)
+Investment and Hedging Strategies Using the Chicago Board
+of Trade DJIASM Futures Contract
+A futures contract is the obligation to buy or sell a specific commodity on
+or by some specified date in the future. For example, if one went long corn
+futures he would be obligated to accept delivery of corn on the delivery
+date, unless he sold the contract prior to the settlement date. Shorting the
+contract would obligate the seller to deliver corn unless he offset (by repurchase) the contract. The “commodity” in our present case is the basket of
+stocks represented by the DJIA Futures index. All futures contracts specify
+the date by which the transaction must conclude, known as the “settlement
+date,” and how the transaction will be implemented, known as “delivery.”
+The DJIA futures contract price closely tracks the price of the Dow Jones
+Industrials as computed from stock market values.
+The value of the future is found by multiplying the index price of the
+futures contract by $10. For example, if the futures index price is 10000, the
+value of the contract is 10000 ⋅ $10 = $100,000. So the buyer or seller of the
+futures contract is trading approximately $100,000 worth of stocks at that
+Dow Futures level. The value may be higher or lower owing to several
+factors, for example, cost of carry, which I will discuss below.
+
+Settlement of Futures Contracts
+All futures contracts must be “settled.” Some futures are settled by delivery.
+This is the famous nightmare of finding 5000 bushels of soybeans delivered
+on your front lawn. Dow Index futures “settle” (are delivered) in cash. The
+short does not dump a basket of Dow stocks on the yard of the long. Thus
+on the settlement date of the contract the settlement price is $10 times a
+figure called the “Special Opening Quotation,” a value calculated from the
+opening prices of the member stocks of the Dow Future following the last
+day of trading in the futures contract. This value is compared to the price
+paid for the contract when the trade initiated. For example, if the Dow Future
+is 10000 at expiration, a long who bought the contract at 9000 receives $10,000
+($10 ⋅ 1000) from the short.
+
+AU3772_book.fm Page 340 Saturday, November 18, 2006 5:29 PM
+
+340
+
+Technical Analysis of Stock Trends
+
+Marking to Market
+This $10,000, however, is paid daily over the life of the contract, rather than
+in one payment upon expiration of the contract. It is paid as successive daily
+“margin” payments. These payments are not really margin, but are in effect
+“earnest money” or a performance bond. And the practice of squaring up
+accounts at the end of every day’s trading is called “marking to market.”
+These daily payments are determined based on the difference between the
+previous day’s settlement price and the contract settlement price at the close
+of trading each day.
+As a practical example, if the settlement price of June Dow Index futures
+increases from 9800 to 9840 from May 17 to May 18, the short pays $400
+($10 ⋅ 40) and the long’s account is credited $400. If the futures settlement
+price decreases 10 points the following day, the long pays $100 to the short’s
+account — and so on each day until expiration of the contract, when the
+futures price and the index price achieve parity.
+At any time the trader can close his position by offsetting the contract,
+that is, by selling to close an open long, or buying to close an open short.
+At the expiration date open contracts are settled in cash at the final settlement
+price.
+
+Fungibility
+One of the great contributions of the great established exchanges like the
+Chicago Board of Trade and the Chicago Mercantile Exchange is their institutionalization of contract terms and relationships. This, of course, is “fungibility.” Any one futures contract for corn, or an Index, or any other commodity is substitutable for another of the same commodity. Similarly, the
+Exchange has negated counterparty risk by placing a Clearing Corporation
+between all parties to trades. So even if the other party to a trade went broke,
+the Clearing Corporation would assume his liability. And, using the mechanism of daily settlement, whereby losers pay winners daily, the danger of
+major default is avoided.
+Futures “margins” (or “earnest money”) are deposited with the broker
+on opening a trade. The leverage obtainable is quite extreme for a stock
+trader. Initial margin is usually 3–5% of the total value of the contract. Each
+day thereafter margins vary according to the process described above of
+marking to market.
+As the reader can easily see, the purchase or sale of a Dow Future is the
+equivalent of a fairly large portfolio transaction, with the understanding that
+it is a transaction which must be closed in the future, unlike a stock purchase
+which may be held indefinitely.
+
+Differences between Cash and Futures
+The main two differences between the cash and the futures transactions are
+
+AU3772_book.fm Page 341 Saturday, November 18, 2006 5:29 PM
+
+Chapter 17.2:
+
+Advancements in Investment Technology
+
+341
+
+1. In cash, the value of the portfolio must be paid up front, or financed
+in a stock margin account.
+2. The owner of the cash portfolio receives cash dividends.
+These are not the only differences of course. The leverage employed in
+the futures transaction is a two-edged sword. If the trader has no reserves,
+a minor move in the index wipes him out. Such a minor move would be
+barely noticed by the owner of a cash portfolio.
+
+Dow Index Future
+The price of the future and the price of the index are closely linked (cf.
+Figure 199.1). Any price anomaly is quickly corrected by arbitragers. On any
+significant price difference, arbitragers will buy the underpriced and sell the
+overpriced, bringing the relationship back in line. Their prices are not exactly
+the same because the futures contract value must reflect the costs of shortterm financing of stocks and the dividends paid by index stocks until futures
+expiration. This is known as the “cost of carry.” The “theoretical value” of
+the future should equal the price of the index plus the carrying cost. This is
+what is called the “fair” or “theoretical” value.
+
+Using Stock Index Futures to Control Exposure to the Market
+The owner of a cash portfolio in the Dow, or of DIAMONDS, can control
+his exposure, his risk, by using futures to hedge. If, for example, he is
+pessimistic about the market, or more to the point, a lot of uptrend lines
+have been broken and the technical situation seems to be deteriorating, he
+can sell a futures contract equivalent to his portfolio and be flat the market.
+Readers will immediately recognize the advantages of this strategy. Tax
+consequences on the cash portfolio are avoided, as are the other negative
+consequences of trading — slippage, errors, etc. Long-term positions are
+better left alone. By flattening his position the investor has now insured the
+future value of his portfolio and the capital involved is now earning the
+money market rate of return.
+What happens if the forecast market decline occurs? The portfolio is
+protected from loss, and the capital earns the market rate of return. And the
+investor should monitor his hedge closely, lifting it when he calculates that
+the correction has run its course. Taxes will, of course, then be due on the
+profits on the hedge.
+In monitoring the hedge, the possibility must be considered that the
+market rises instead of falling. In planning the hedge in the first place, the
+investor must plan for this eventuality and determine where he will lift the
+hedge on the losing side. At worst, of course, the investor has surrendered
+portfolio appreciation. Not considering cash flow implications, of course.
+It is worth emphasizing, in fact strongly emphasizing, that these techniques require knowledge, expertise, and study. Careless use of techniques
+
+AU3772_book.fm Page 342 Saturday, November 18, 2006 5:29 PM
+
+342
+
+Technical Analysis of Stock Trends
+118
+
+DIA LAST-Daily 02/24/2000
+
+118
+
+116
+
+116
+
+114
+
+114
+
+112
+
+112
+
+110
+
+110
+
+108
+
+108
+
+106
+
+106
+
+104
+
+104
+
+102
+
+102
+100
+
+100
+12000
+
+/DI200006 LAST-Daily 02/24/2000
+
+12000
+
+11600
+
+11600
+
+11200
+
+11200
+
+10800
+10400
+
+10800
+Created with TradeStation www.TradeStation.com
+9/1999
+
+10/1999
+
+11/1999
+
+10400
+12/1999
+
+00
+
+2/2000
+
+FIGURE 199.1. Diamonds and Futures. The 2% plus break at the arrow of an 11month trendline is an unmistakable invitation to hedge the DIAMONDS by shorting
+the futures. Profits on the short would have offset losses in the DIAMONDS. This
+convenient drill would have preserved liquidity, postponed capital gains taxes and
+avoided loss of equity. Notice the return to the trendline after the break. More of the
+foolish virgin syndrome?
+
+of this nature can bloody the amateur investor. So it is probably best to have
+a professional guide for the first several of these expeditions, and to execute
+a number of paper transactions first.
+The canny investor can increase his exposure to the market and the risk
+to his capital by buying index futures. But the canny investor must be careful
+not to turn into a burned speculator. Futures trading, because of the extreme
+leverage, is an area for dedicated and experienced speculators.
+A Dow Futures transaction costs less than if you had to buy or sell a
+whole basket of stocks. Professional fund managers — as well as other
+professionals — regularly use futures for asset allocation and reallocation.
+In all likelihood, they are not using the extreme leverage afforded by futures.
+In other words, if they have a million dollar cash portfolio, they don’t buy
+10 million dollars worth of futures. It is not the leverage they are interested
+in, but the extreme convenience and agility offered by doing short-term
+allocations in futures. The ability to almost instantaneously move in and out
+of the market without disturbing the underlying portfolio is a powerful
+feature of these “proxy markets.”
+
+Investment Uses of Dow Index Futures
+In the following examples, I describe the basic mechanics of using Dow
+Futures contracts. These can be used to adjust equity exposure in anticipation
+of volatile market cycles and to rebalance portfolios among different asset
+
+AU3772_book.fm Page 343 Saturday, November 18, 2006 5:29 PM
+
+Chapter 17.2:
+
+Advancements in Investment Technology
+
+343
+
+classes. The futures may also be used for other purposes not illustrated here.
+The following examples are not intended to be absolutely precise, but only
+to illustrate the mechanics involved. For the sake of simplicity, mark-tomarket payments and cost of carry have been eliminated from the examples.
+
+Situation 1: Portfolio Protection
+You are a long-term Magee-type investor and you have old and profitable
+positions with which you are satisfied. But you have seen the broadening
+top of the Dow Jones (circa anno 2000) and it is almost October and you
+would not be surprised to see a little bloodshed. You have $400,000 in the
+Dow and $100,000 in money market instruments. You decide to reverse this
+ratio. But you don’t want to liquidate the Dow portfolio, as there is no sign
+of a confirmed downtrend, only that of consolidation. So you sell $300,000
+of index futures, leaving yourself with a $100,000 kicker in case you are
+wrong about the market’s declining. At the time, the market is 10000 and
+the futures are 10500, meaning the cost of carry is approximately 0.5%
+(10,500/10,000 – 1).
+You sell three futures contracts ($300,000/($10 ⋅ 10,000)). You now have
+reversed your position and are long $100,000 Dow stocks and long $400,000
+money market equivalents.
+Validating your technical analysis, the market has begun to swing in
+broad undulations and, at the expiration of the futures, the Dow is at 10000.
+On your stocks you have a return of –0.5%, and the money market position
+has a rate of return of 0.5%.
+What would have been the situation had you not hedged?
+Stock Portfolio: $400,000 ⋅ 0.95
+Money Market + 100,000 ⋅ 1.005
+Total
+
+$380,000
+$100,500
+$480,500
+
+How the futures position affects the portfolio:
+Short 3 futures 3 ⋅ $10 ⋅ (10,000 – 9500)
+Total
+
++$15,000
+$495,000
+
+Value of portfolio with reallocation of assets in cash market:
+Stocks $100,000 ⋅ 0.95
+Money market + $400,000 ⋅ 1.005
+Total
+
+$95,000
+$402,000
+$497,000
+
+By hedging in the futures market, you now have the equivalent of a
+$100,000 investment in Dow Future stocks and a $400,000 investment in the
+money market instrument. The stock market decline now affects only
+$100,000 of your stock portfolio rather than $400,000; in addition, you earn
+a money market rate of return of 0.5% on the $300,000 difference.
+
+AU3772_book.fm Page 344 Saturday, November 18, 2006 5:29 PM
+
+344
+
+Technical Analysis of Stock Trends
+
+Without the futures transaction, the portfolio is worth $480,500. The
+$15,000 profit on the short futures position offsets the loss on the $300,000
+of the portfolio that was moved out of equities by the short futures position.
+In brief, by selling futures, you are able to protect $300,000 of your initial
+portfolio value from a stock price decline, nearly breaking even, an achievement given these market conditions. Of course, had you been more confident
+of the market decline, you might have completely neutralized the equity risk
+on the portfolio by selling more futures contracts. This would have converted
+the entire stock position to a $400,000 investment in the money market. The
+amount of protection you should obtain depends on your assessment of the
+market and your tolerance for risk.
+
+Situation 2: Increasing Exposure with Futures
+Now let us look at the other side of the coin. The market has come off its
+highs in a predictable and controlled secondary reaction and your technical
+analysis is that the Bull Market will continue. At 10000, it appears headed
+for 11000 and you want to increase your commitment. Your portfolio is as
+previously described, split 80/20 between Dow stocks and money markets.
+It is time to go whole hog, you decide. You are acutely aware of the market
+maxim that bulls make money and bears make money and hogs wind up
+slaughtered, but there is also a market maxim that no market maxim is true
+100% of the time, which is also true of this maxim.
+Rather than liquidate your money market holdings, you buy one futures
+contract, which puts you long another $100,000 of stocks. The rate of return
+on the money markets in your portfolio is 0.5%. To get a $500,000 exposure
+in blue chips, you buy the following number of contracts: $100,000/($10 ⋅
+10000) = 1 contract.
+Results: Your technical analysis of the direction of the market is correct,
+and the Dow Future rises to 11000 at the September expiration, or by 10%.
+Value of portfolio with passive management:
+Stocks
+Money market +
+Total
+
+$400,000 × 1.10
+$100,000 × 1.005
+
+$440,000
+$100,500
+$540,500
+
+Value of portfolio with futures position:
+Long DJIA futures 1 ⋅ $10 × (11000 – 10000)
+Total
+
+$10,000
+$550,500
+
+Value of portfolio with reallocation of assets in cash market:
+Stocks $500,000 × 1.10
+Money market
+Total
+
+$550,000
+$0
+$550,000
+
+AU3772_book.fm Page 345 Saturday, November 18, 2006 5:29 PM
+
+Chapter 17.2:
+
+Advancements in Investment Technology
+
+345
+
+In buying Dow Index futures, you are able to “equitize” $100,000 of your
+money market investment, effectively increasing your return from the money
+market rate of 0.5% to 10%. If you had not bought futures, the total value
+of your portfolio at the September expiration would have been $540,500
+instead of $550,500. Not only do you have a $10,000 extra gain in your
+portfolio, but you have taken advantage of the market’s continuing upward
+climb without having to adjust your portfolio.
+
+Situation 3: Using Bond and Index Futures for Asset Allocation
+Speculation in bonds can be quite profitable notwithstanding David
+Dreman’s assertion that long-term investments in bonds are net losers. (EN9:
+An oversimplification of a sophisticated thesis by an important figure.) So it is not
+unusual for an investor to have both bonds and stocks in his portfolio. In
+this event, the portfolio can be managed with facility by using both Index
+futures and Treasury bond futures.
+Many investors consider it prudent to reallocate their capital commitments based on inflation rates, interest rates, and the reported expression on
+Alan Greenspan’s face before Congressional testimony.
+An efficient and inexpensive way to reallocate assets between stocks and
+bonds is to put on spreads of Treasury bond futures and Dow Index futures.
+Analysis of recent long- and medium-term trends in the market, however, has led you to consider increasing your equity portfolio and decreasing
+your bond portfolio. You have $200,000 invested in Dow stocks and $200,000
+invested in Treasury bonds. You would like to take advantage of the sustained market rally by increasing your equities exposure to 75% and decreasing your bond holdings to 25%.
+As for tactics, you can reallocate both sides of your portfolio — buying
+$100,000 of stocks and selling $100,000 of bonds — with the sale of Treasury
+bond futures and the purchase of Dow Index futures.
+The Treasury bonds in your portfolio have a market price of 103-20. The
+price of September Treasury bond futures is 102-20 per $100 of face value,
+and $100,000 of face value must be delivered against each contract. The value
+of the Dow Future is 10000, and the price of the Dow Index futures contract
+is 10000 (ignoring the cost of carry, of course).
+The number of T-bond futures to sell is: short T-bond futures:
+$100,000/(102-20 ⋅ $1,000) = 1 (number of futures is rounded to the nearest
+whole number). The number of stock index futures to buy is: long stock
+index futures: $100,000/($10 ⋅ 10000) = 1 (number of futures is rounded to
+the nearest whole number).
+Results: at the September futures expiration, the value of the Dow Future
+is 11000, a rate of return of 10%, and the market value of the bonds is 10108, a rate of return of –1%.
+Portfolio value with no market action taken:
+Stocks
+Money market
+Total
+
+$200,000 × 1.10
+$200,000 × 0.99
+
+$220,000
+$198,000
+$418,000
+
+AU3772_book.fm Page 346 Saturday, November 18, 2006 5:29 PM
+
+346
+
+Technical Analysis of Stock Trends
+
+12000 /DI200006 LAST-Daily 02/24/2000
+11800
+11600
+11400
+11200
+11000
+10800
+10600
+10400
+10200
+
+Created with TradeStation www.TradeStation.com
+
+1600
+1200
+800
+400
+11/1999
+
+12/1999
+
+00
+
+2/2000
+
+FIGURE 199.2. Dow Jones Futures and Options. A put purchased at the arrow on
+the break would have protected patiently won gains over the previous 11 months.
+Increase in value of put can be seen as futures track declining Dow cash. A theoretical
+drill, but theoretical drills precede actual tactics in the market.
+
+Value of futures positions:
+Long Dow futures
+Short bond futures
+Total
+Grand total
+
+$10 × 1 × (11000 – 10000)
++$1000 × 1 × (102-20 – 101-08)
+
+$10,000
+$1375
+$11,375
+$429,375
+
+Value of portfolio had transaction been done in cash market:
+Stocks
+Bonds
+Total
+
+$300,000 × 1.10
++ $100,000 × 0.99
+
+$330,000
+$99,000
+$429,000
+
+By this simple maneuver you have quickly and easily changed your
+market posture to add an additional $100,000 exposure to stocks and subtract
+$100,000 exposure to bonds. Having correctly analyzed market trends, your
+action results in an increase in portfolio value from $418,000 to $429,375. You
+could have accomplished the same result by buying and selling bonds and
+stocks, but not without tax consequences and the attendant transaction headaches. The use of futures to accomplish your goals allowed you to implement
+your trading plan without disturbing your existing portfolio.
+
+AU3772_book.fm Page 347 Saturday, November 18, 2006 5:29 PM
+
+Chapter 17.2:
+
+Advancements in Investment Technology
+
+347
+
+Perspective
+While there can be no argument about the importance of CBOT® DJIASM
+Index futures — they are markets of enormous usefulness and importance —
+there can also be no doubt that the futures novice should thoroughly prepare
+himself before venturing into these pits. In such a highly leveraged environment, mistakes will be punished much more severely than an error in the
+stock market. By the same token, ignorance of this vital tool is the mark of
+an investor who is not serious about his portfolio, or who is less intense in
+his investment goals. “They” (the infamous “they”) use all the weapons at
+their disposal. So should “we.”
+
+Options on Dow Index Futures
+The buyer of this instrument has the choice, or the right, to assume a position.
+It is his option to do so — unlike a futures contract in which he has an
+obligation once entered. There are two kinds of options: calls (the right to buy
+the underlying instrument) and puts (the right to sell). And options can be
+bought (long) or sold (short) like futures contracts.
+A long call option on Dow Index futures gives the buyer the right to
+buy one futures contract at a specified price which is called the “exercise,”
+or “strike” price. A long put option on Dow Index futures gives the buyer
+the right to sell one futures contract at the strike price. For example, a call
+at a strike price of 10000 entitles the buyer to be long one futures contract
+at a price of 10000 when he exercises the option. A put at the same strike
+price entitles the buyer to be short one futures contract at 10000. The strike
+prices of Dow Index futures options are listed in increments of 100 index
+points, giving the trader the flexibility to express his opinions about upward
+or downward movement of the market.
+The seller, or writer, of a call or put is short the option. Effectively selling
+a call makes the writer short the market, just as selling a put makes the writer
+long the market. As in a futures contract, the seller is obligated to fulfill the
+terms of the option if the buyer exercises. If you are short a call, and the long
+exercises, you become short one futures contract at 10000. If you are short one
+put and the long exercises, you become long one futures contract at 10000.
+Buyers of options enjoy fixed risk. They can lose no more than the
+premium they pay to go long an option. On the other hand, sellers of options
+have potentially unlimited risk. Catastrophic moves in the markets often
+bankrupt imprudent option sellers.

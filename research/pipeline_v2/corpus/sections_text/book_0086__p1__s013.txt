@@ -1,0 +1,743 @@
+
+Implied Volatility
+
+174
+
+30
+
+60
+
+90
+
+120
+
+150
+
+Days to Expiration
+
+Figure 6.18 Term Structure of Implied Volatility—Recent Low Volatility
+Figure 6.18 charts implied volatility levels over expiration dates. In this
+case, implied volatility is lower in the near-term expiration months than
+in the longer-term expiration months, which is indicative of an underlying that has been going through a “slow period” where short-term volatility has underperformed the mean long-term volatility. Figure 6.19 is an
+
+Implied Volatility
+
+Strategy Component Selection
+
+30
+
+60
+
+90
+
+120
+
+150
+
+Days to Expiration
+
+Figure 6.19 Term Structure of Implied Volatility—Recent High Volatility
+
+example of what the term structure of implied volatility might look like if
+the underlying has gone through a recent period of high volatility.
+The fluctuations in the term structure of implied volatility, as shown
+in Figures 6.18 and 6.19, can be incorporated into time spread strategies.
+The term structure of implied volatility of a stock that has gone through a
+recent slow period, such as the one in Figure 6.18, would favor a short time
+spread strategy, because one would be purchasing the short-dated option
+at a lower implied volatility than the long-dated option that is being sold.
+The term structure of a stock that has gone through a recent volatile period,
+such as the one shown in Figure 6.19, would favor a long time spread strategy, since one would be purchasing the long-dated option at an implied
+volatility that is lower than that of the short-dated option that is being sold.
+Although term structure is important and can add to (or subtract from)
+the quality of one’s time spread strategy, it is not necessarily enough to
+warrant a trade in and of itself. It is important that one’s forecast for price
+movement (or nonmovement as the case may be) also justifies the selected
+time spread strategy.
+
+STRATEGY COMPONENT SELECTION
+So how should one structure his or her time spread strategy? There are
+many variables involved:
+• What is one’s current market forecast?
+— Bullish
+— Bearish
+— Neutral
+— Breakout
+
+175
+
+176
+
+Chapter 6
+
+Calendar Spreads
+
+• What is the magnitude of the forecast move?
+— Choose a target price.
+• What is the time horizon of the forecast move?
+— Determine when you expect the target price to be reached.
+• What is the term structure of implied volatility?
+
+What Is One’s Current Market Forecast?
+Bullish, bearish, neutral, or breakout. There may be a time spread position to address each one of these forecasts. A bullish forecast might call
+for a long time spread at a strike price above the current underlying price,
+while a bearish forecast might call for a long time spread at a strike price
+below the current underlying price. A neutral forecast might call for a long
+time spread at a strike that corresponds to the current market price, and a
+forecast of breakout in either direction might call for a short time spread at
+a strike that corresponds to the current market price.
+
+What Are the Magnitude and Time Horizon
+of the Forecast Move?
+For structuring purposes, it is important for the investor to have an
+idea of a target price—where she thinks the underlying is likely to go if
+her bullish or bearish forecast is correct—and the time horizon over which
+she thinks the move will take place. Both factors are important because, as
+we saw in “Strategy Composition,” the point of maximum profitability of
+a long time spread is at the strike price, at the expiration of the short-dated
+option. Ideally, the investor would like the underlying price to move to this
+strike price at or near expiration to capture the maximum amount of profit.
+
+Example
+The trader believes ABC is set to move from the 100.00 level to the 90.00
+level over the next thirty days. What strikes should he or she incorporate
+into a bearish long time spread strategy to target an optimal potential return on this move?
+• Answer
+Her strategy could be long a time spread at the 90.00 strike, with a
+short-dated option at the expiration closest to the trader’s forecast thirtyday time horizon.
+
+What Is the Term Structure of Implied Volatility?
+Obviously, this will play a large part in time spread strategy selection. If the current term structure of implied volatility is in alignment with
+one’s price/time forecast for the underlying it can be the deciding factor for
+choosing a time spread over another strategy. If the current term structure
+
+Strategy Component Selection
+
+of implied volatility is in opposition to one’s forecast, it can force one into
+a strategy other than a time spread.
+
+Example 1
+The investor believes that GHF is about to move from 100.00 to 110.00
+and would like to capture this move with a limited-risk options strategy.
+After careful examination of the term structure of implied volatility, he notices that the implied volatilities of short-dated options are very depressed
+relative to long-dated options. This eliminates a bullish long time spread
+from consideration.
+
+Example 2
+The investor believes HIJ is going to move up from 120.00 to 130.00 in
+the next thirty days, and would like to capture this move with a limited-risk
+options strategy. After careful examination of the term structure of implied
+volatility, she notices that the implied volatility of the options expiring in
+thirty days are very elevated compared to the implied volatility of the options expiring in ninety days. Based on this, she decides to implement a
+long time spread, buying the ninety-day option and selling the thirty-day
+option at the 130.00 strike.
+
+At the Point of Execution: Call Time Spread
+or Put Time Spread?
+• Pricing Anomalies
+As we mentioned earlier in our examination of the Greeks of time spreads,
+long call and put time spreads and short call and put time spreads (having
+the same underlyings, strike prices, and expirations) are synthetically equivalent to one another. They have identical sensitivities and risk-reward characteristics; the only difference is price. Call time spreads usually are more
+expensive than the put time spreads of the same strikes and expirations. As
+usual, this difference comes down to cash flows and carrying costs.
+Option prices are based on the theoretical forward price of the underlying instrument corresponding to their particular expiration date. The forward price of a stock is equivalent to the spot price plus financing costs
+(minus discounted dividends, if any). This means that, in general, the forward price of a stock rises over time, and therefore the forward price used
+to calculate option values will be (absent large dividends) progressively
+higher with each expiration month. When the strike price is factored into
+the equation, the result is a cost of carry differential from one expiration
+month to the next, and this interest rate differential is captured in a structure commonly known as the jelly roll.
+• The Jelly Roll
+A jelly roll is composed of a long time spread and a short time spread,
+one composed of puts, the other of calls, having the same strikes and
+
+177
+
+178
+
+Chapter 6
+
+Calendar Spreads
+
+same expiration. Figures 6.20 and 6.21 illustrate the structure of a jelly roll
+spread.
+
+Calls
+
+Strike
+
+Puts
+
+ⴚ1
+
+100
+
+ⴙ1
+
+Calls
+
+Strike
+
+Puts
+
+ⴙ1
+
+100
+
+ⴚ1
+
+Calls
+
+Strike
+
+Puts
+
+ⴙ1
+
+100
+
+ⴚ1
+
+Calls
+
+Strike
+
+Puts
+
+ⴚ1
+
+100
+
+ⴙ1
+
+Figure 6.20 Long Jelly Roll
+
+Figure 6.21 Short Jelly Roll
+Combining a long call time spread and a short put time spread (which
+have the same strikes, same expiration) creates a long jelly roll spread;
+combining a short call time spread and a long put time spread (which have
+the same strikes, same expiration) creates a short jelly roll spread.
+• Jelly Roll Value
+The jelly roll is a neutral structure with an interest-rate component. It has
+no delta, no gamma, no theta, and no vega—it can’t because it is composed
+of offsetting positions in two synthetically equivalent spreads: long time
+spread  short time spread  neutral. It does, however, have an interest-rate
+component, and it is this component that explains the difference in pricing
+between call and put time spreads. Absent any early exercise situations, the
+value of a jelly roll should always equal the cost of carry differential of the
+expirations, adjusted by the strike price:
+Jelly roll value1  K  (d2  d1)  (r  360)
+Where:
+K  Strike price
+d2  Days to expiry of the long-dated options
+
+Strategy Component Selection
+
+d1  Days to expiry of the short-dated options
+r  Annualized interest rate
+For example, what is the fair value of the sixty-day/ninety-day 100
+strike jelly roll at 6 percent interest?
+Jelly roll value  K  (d2  d1)  (r  360)
+ 100  (90  60)  (0.06  360)  0.50
+This value is embedded into the price differential of the call time spread
+and the put time spread; that is, the call time spread is worth $0.50 more than
+the put time spread. Another way to look at the relationship is as follows:
+Call time spread (CTS)  Put time spread (PTS)  Jelly roll value (JR)
+or
+CTS  PTS  JR
+This means that the value of the call time spread should always exceed
+the value of the put time spread by the value of the jelly roll. Buying the put
+time spread for less than the call time spread does not save money unless
+one is buying it for less than CTS  JR. Selling the call time spread for more
+than the put time spread does not make a great sale, unless one is selling it
+for more than PTS  JR.
+• Practical Uses
+When it comes time to “pull the trigger” on a call or put time spread,
+whether at the point of entry or exit, we can evaluate which structure is a
+better trade by incorporating the jelly roll formula into the evaluation process. Remember: CTS  PTS  JR. If the equation does not balance, there
+may be a relative advantage available.
+
+Example
+An investor decides market conditions in XYZ call for a long time
+spread. He decides to buy a sixty-day option and sell a twenty-eight-day
+option at the 50 strike. Interest rates are 5 percent.
+You receive the following quotes:
+Call time spread: $1.25  $1.35
+Put time spread: $1.15  $1.20
+Which time spread offer represents the best value?
+• Answer
+Jelly roll value  K  (d2  d1)  (r  360)
+ 50  (60  28)  (0.05  360)  0.22
+
+179
+
+180
+
+Chapter 6
+
+Calendar Spreads
+
+You can then evaluate the offers:
+CTS  PTS  JR
+1.35  1.20  0.15; less than the ⬃0.22 value of the jelly roll
+Therefore, the call time spread is theoretically underpriced and represents a better potential value when buying a time spread.
+Here are some easier and faster shortcuts:
+Long time spread rules:
+• If the call time spread ask minus the put time spread ask is
+greater than the value of the jelly roll, the put time spread appears
+cheap.
+• If the call time spread ask minus the put time spread ask is less than
+the value of the jelly roll, the call time spread appears cheap.
+Short time spread rules:
+• If the call time spread bid minus the put time spread bid is greater
+than the value of the jelly roll, the call time spread appears rich.
+• If the call time spread bid minus the put time spread bid is less than
+the value of the jelly roll, the put time spread appears rich.
+Important note: These rules could also be used when exiting a trade.
+
+TRADE MANAGEMENT
+Time spreads can be fairly tame when it comes to risk, with the risk
+limited to the purchase price when long and the risk “sort of limited” but
+unquantifiable when short (more in a moment)—as long as they are closed
+out before the expiration of the short-dated option. The risk of early exercise of a short deep-in-the-money leg of a time spread also exists. We will
+examine some of these scenarios in this section. As always, one’s game
+plan should be laid out in advance of making the trade. Important questions to consider:
+• What is the most efficient way to take profits? Losses?
+• What should be done if the underlying reaches the investor’s target
+ahead of schedule?
+• What should the investor do if a breakout fails to materialize?
+• What should the investor do if he is completely wrong on direction?
+• What should the investor do at expiration?
+These are all questions that need to be considered before the trade. Once
+again, our overarching risk management protocol: If you are wrong, get out!
+
+Trade Management
+
+This means that if any of the assumptions that went into your market forecast turn out to be wrong you should get out of the position.
+
+Taking Profits and Losses
+There are two points at which to exit a trade: when one’s market forecast has been met or when one’s market forecast has changed. In the case
+of the former, one should always have profit and loss targets going into a
+trade; if they are met, one should assess the situation and decide whether
+to lock in profits. We are very big fans of scaling into and out of positions.
+Scaling out is a very powerful and positive way to extract any profits from
+a position because it builds a level of comfort—taking money off the table
+and limiting risk while staying with one’s forecast. In the case of the latter,
+when the market forecast changes, it means the original assumptions used
+for selecting a certain strategy are no longer valid. The trade should be
+liquidated, or at the very least, modified.
+In the case of liquidation, there are two ways to exit a time spread. One
+is to liquidate the original position and (recalling the preceding section,
+“Strategy Component Selection”) the other is to liquidate via the synthetically equivalent position. It should be remembered, however, that exiting a
+time spread position with a synthetically equivalent position will result in
+a jelly roll position that will need to be managed and may eventually have
+assignment risk. Also, additional trades will incur additional commission
+charges. For these reasons, this type of position might be more trouble than
+it is worth for many traders.
+
+• How to Exit
+The decision whether to liquidate using the original position versus the
+synthetic equivalent (without commission considerations) depends on two
+factors: price and liquidity. Price is simple enough if one remembers to apply the pricing rules from the previous section and to use the most advantageously priced time spread to liquidate the position. The other factor is
+liquidity, and liquidity issues usually have to do with the moneyness of the
+individual options that compose the time spread. As options move in-themoney, they acquire a larger delta, and this makes hedging them riskier for
+market makers. Accordingly, market makers will widen the bid-ask spread
+of in-the-money options to compensate for this risk. Conversely, out-ofthe-money options have a lower delta, making hedging them less risky for
+market makers. This usually results in out-of-the-money options having a
+narrower bid-ask spread than their in-the-money counterparts. The net effect on time spreads is that a time spread consisting of in-the-money options will usually have a wider bid-ask spread than a time spread consisting of out-of-the-money options, because an in-the-money call time spread
+has a synthetically equivalent out-of-the-money put time spread and an
+in-the-money put time spread has a synthetically equivalent out-of-themoney call time spread. This moneyness effect can make using synthetically equivalent positions to exit a trade very effective.
+
+181
+
+182
+
+Chapter 6
+
+Calendar Spreads
+
+Example 6.1 Liquidation of a Long Call Time Spread
+Nearest Month
+Calls
+
+Strike
+
++1
+
+100
+
+–1
+
+Farther-Out Month
+Puts
+
+Calls
+
++1
+
+Strike
+
+–1
+
+Puts
+
+100
+
+Long Call Time Spread
+
+Closing Trade
+
+In the preceding case, the original position is simply liquidated by the
+execution of the reverse position; in Example 6.1, a short call time spread
+liquidates an existing long call time spread. Sometimes liquidity or pricing
+issues can arise in liquidating the original spread. In that event, the synthetically equivalent spread may be used to close the position (Example 6.2).
+
+Example 6.2 Liquidation of a Long Call Time Spread via a Synthetically
+Equivalent Put Time Spread
+Nearest Month
+Calls
+
+Strike
+
+–1
+
+100
+
+Farther-Out Month
+Puts
+
++1
+
+Calls
+
++1
+
+Long Call Time Spread
+
+Calls
+
+Strike
+
+–1
+
+100
+
+Strike
+
+Puts
+
+100
+
+–1
+
+Short Put Time Spread
+
+Puts
+
++1
+
+Calls
+
++1
+
+Resulting Position: Long Jelly Roll
+
+Strike
+
+Puts
+
+100
+
+–1
+
+Trade Management
+
+Early Arrival—Underlying Price Arrives at Target Price
+Ahead of Schedule
+It can be maddening to the long time spreader to get the direction right
+and the timing wrong, correctly forecasting a directional move but making
+very little profit on a long time spread because time decay has not yet had a
+chance to work on the short-dated option. This sets up a dilemma: Should
+the trader hang on and hope that the underlying price will “hang around”
+the strike price for awhile and capture some time decay? Should he simply
+exit? Or is there an adjustment that can be made?
+First of all, he must examine the market and see if his forecast needs to be
+adjusted. Was he wrong or was his timing just a bit off? It is very difficult for
+traders to be totally honest with themselves in these situations because they
+tend to rationalize in favor of their positions. If the trader truly believes that
+the underlying is going to now move sideways at the current level, then by
+all means, he should hold the position. However, if the nature of the movement has changed and the underlying is now moving at a higher velocity
+than initially forecast, then it is best to exit because the position is wrong.
+There is another possibility: The time spread could be “rolled” to a new
+target strike. The trader must feel very strongly about his forecast of movement by the underlying to the new target before doing this: It is involved
+and will generate a lot of commissions because he will have to execute two
+vertical spreads in two separate expiration months. See Example 6.3.
+Example 6.3 “Rolling Up” a Long Call Time Spread
+Nearest Month
+
+Farther-Out Month
+
+Calls
+
+Strike
+
+–1
+
+100
+
++1
+
+–1
+
+105
+
++1
+
++1
+
+Puts
+
+Calls
+
+Strike
+
+–1
+
+100
+
+Long Call Time Spread
+Calls
+
+Strike
+
+105
+
+Adjustments
+Puts
+
+Calls
+
+100
+–1
+
+105
+
+Puts
+
+Strike
+
+100
++1
+
+New Long Call Time Spread at Higher Strikes
+
+105
+
+Puts
+
+183
+
+184
+
+Chapter 6
+
+Calendar Spreads
+
+Late Arrival—Underlying Price Does Not Move
+When Expected
+Let’s say an investor had forecast a breakout within a certain time
+period and decided to trade a short time spread to target the anticipated
+move. His breakout failed to materialize and he is now eating the time decay generated by his short, at-the-money time spread. What should he do?
+He was wrong. He should get out!
+• Incorrect Direction
+An investor had forecast a move lower and executed a long put time
+spread at the strike near his target zone. Now the underlying price has
+moved higher through resistance. What should he do? He was wrong. He
+needs to get out!
+• Expiration
+Expiration is the trickiest time for time spread management—long or
+short. The position must be closed out or rolled; otherwise, a pure directional position will be the result, and it is possible that is could involve a
+position in the underlying. Let’s examine the outcome of both long and
+short time spreads taken through the expiration process (Example 6.4a).
+Note that a short calendar spread involves potentially unlimited (for
+calls) or substantial (for puts) risk after the expiration of the near-term long
+option. Additionally, a short calendar spread may be treated as an uncovered
+position for margin purposes.
+Example 6.4a Long Call Time Spread—Underlying Price Above
+the Strike Price
+Nearest Month
+Calls
+
+Strike
+
+–1
+
+100
+
+Farther-Out Month
+Puts
+
+Calls
+
+Strike
+
++1
+
+100
+
+Puts
+
+With the underlying price above the strike price at expiration, the short
+call in the expiration month will be exercised, leaving the trader with a short
+stock position against a long call in the deferred month. See Example 6.4b.
+
+Trade Management
+
+Example 6.4b Long Call Time Spread—Underlying Price Above
+the Strike Price
+
+–100 shares
+Calls
+
+Strike
+
++1
+
+100
+
+Puts
+
+The position in Example 6.4b is known as a synthetic long put.
+
+Example 6.5a Long Call Time Spread—Underlying Price Below
+the Strike Price
+Nearest Month
+Calls
+
+Strike
+
+–1
+
+100
+
+Farther-Out Month
+Puts
+
+Calls
+
+Strike
+
++1
+
+100
+
+Puts
+
+With the underlying price below the strike price at expiration, the short
+call in the expiration month will expire worthless, leaving the trader with
+a long call in the deferred month. See Example 6.5b.
+
+Example 6.5b Long Call Time Spread—Underlying Price Below the
+Strike Price
+
+Calls
+
+Strike
+
++1
+
+100
+
+Puts
+
+185
+
+186
+
+Chapter 6
+
+Calendar Spreads
+
+Example 6.6 Long Put Time Spread—Underlying Price Above the Strike Price
+Nearest Month
+Calls
+
+Strike
+
+–1
+
+100
+
+Farther-Out Month
+Puts
+
+Calls
+
+Strike
+
++1
+
+100
+
+Puts
+
+With the underlying price above the strike price at expiration (Example 6.6), the short put in the expiration month will expire worthless, leaving the trader with a long put in the deferred month.
+Example 6.7a Long Put Time Spread—Underlying Price Below the
+Strike Price
+Nearest Month
+Calls
+
+Farther-Out Month
+
+Strike
+
+Puts
+
+100
+
+–1
+
+Calls
+
+Strike
+
+Puts
+
+100
+
++1
+
+With the underlying price below the strike price at expiration, the short
+put in the expiration month will be exercised, leaving the trader with a long
+stock position against a long put in the deferred month (Example 6.7b).
+Example 6.7b Long Put Time Spread—Underlying Price Below the
+Strike Price
++100 shares
+Calls
+
+Strike
+
+Puts
+
+100
+
++1
+
+This position is known as a synthetic long call.
+What is the best way to deal with expiration? Unless the original plans
+included the possibility of ending up with a naked directional position,
+synthetic or otherwise, it is best to exit on or before expiration day.
+
+Chapter 6 Exercise
+
+CHAPTER 6 EXERCISE
+1. Which are examples of long put time spreads?
+A long or a short 1 June 105 put
+A long or a short 1 August 105 put
+2. As the seller of a time spread, one would want the underlying price
+to move as far away as possible from the strike price. True or false?
+3. Is it a long or a short time spread that can be either bullish, bearish,
+or neutral?
+4. Calculate the delta of the following put time spread:
+XYZ (August 2008) 110 put delta  0.35
+XYZ (June 2008) 110 put delta  0.45
+5. Is it a long or a short time spread that will have negative gamma

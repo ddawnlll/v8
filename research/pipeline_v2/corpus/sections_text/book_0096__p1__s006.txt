@@ -1,0 +1,714 @@
+
+Download at www.wowebook.com
+
+39
+
+Chapter 4 The Technical Analysis Controversy
+
+Log(P(x))
+
+0
+
+0
+
+0.1
+
+Drawdown
+
+0.2
+
+0.3
+
+Drawup
+
+Courtesy of Didier Sornette, from a January 28, 2003 private paper: Critical Market Crashes
+In this chart, Sornette compares the number of times particular drawdowns and drawups occurred in
+the DJIA during the twentieth century. Compare the actual numbers with those assumed by the null
+hypothesis of randomness shown by the straight lines.
+
+FIGURE 4.3
+
+Frequency of drawdowns and drawups in the DJIA
+
+Proportions of Scale
+A random walk is associated with a specific scaling property. Under RWH, if price change fluctuates over one series of intervals, say days, price change fluctuations over another series of
+intervals, say weeks, should be randomly distributed and proportional to the square root of the
+original interval changes. In other words, the square root of the typical amplitude of return fluctuations increases in proportion to time. If this proportional relationship does not exist, the price
+changes are not completely random. Furthermore, if the plot of the distribution of price changes
+shows any irregularity from the ideal plot of a random sequence of numbers, the assumption of
+randomness is challenged.
+Andrew W. Lo of MIT (see Figure 4.4) and A. Craig MacKinlay of the Wharton School of
+Business tested to see if this proportional relationship does indeed exist. In their 1988 Review of
+Financial Studies article, “Stock Market Prices Do Not Follow Random Walks: Evidence from a
+Simple Specification Test,” they reported that these amplitudes were not proportional for the
+time period from September 1962 to December 1985 and concluded that stock returns were nonrandom.
+Lo and MacKinlay used a simple mathematical model to demonstrate the nonrandomness
+of stock prices. Surprised that such a simple proof had not been used earlier, they conducted a
+
+Download at www.wowebook.com
+
+40
+
+Part I Introduction
+
+more thorough research of the literature. In doing so, they found that others (Larson, 1960;
+Alexander, 1961; Osborne, 1962; Cootner, 1962; Steiger, 1964; Niederhoffer and Osborne,
+1966; and Schwartz and Whitcomb, 1977) had also demonstrated the absence of random walk in
+securities prices. With the exception of the Schwartz and Whitcomb article, these previous studies had been published outside of the mainstream academic finance journals and had been
+ignored by finance academics. Even today, many professionals, not having read the literature or
+heard the results from their peers, incorrectly believe that security prices follow a random walk.
+The random walk model is strongly rejected for the entire sample period (1962–1985)
+and for all subperiods for a variety of aggregate returns indexes and size-sorted portfolios. Although the rejections are due largely to the behavior of small stocks, they
+cannot be attributed completely to the effects of infrequent trading or time-varying
+volatilities. Moreover, the rejection of the random walk for weekly returns does not
+support a mean-reverting model of asset prices. (Lo and MacKinlay, 1988)
+
+Courtesy of Professor Andrew W. Lo, MIT
+
+FIGURE 4.4 Andrew W. Lo
+
+In sum, evidence against the RWH has been
+found in many tests of independence, distribution, and
+proportion. The occurrence of strange outliers implies
+that other dynamics are occurring in freely traded
+markets. The evidence against the possibility of a random walk in price returns, however, does not suggest
+that technical analysis is an assured strategy. Yes, certain technical strategies may work, but the rejection of
+the RWH only suggests that because price returns are
+not purely randomly distributed, they may be dependent; in other words, they may have a “memory” and
+may provide some form of predictive power. The
+importance of the elimination of the RWH to technical
+analysis is that the profitability of technical analysis
+cannot be automatically dismissed as improbable. If
+price returns are somewhat dependent, as the tests
+show, then the gates are open for technical analysis to
+predict future prices.
+
+CAN PAST PATTERNS BE USED TO PREDICT THE FUTURE?
+Some researchers who have accepted that stock prices do not follow a random walk still do not
+accept the validity of technical analysts. These opponents agree that there may be patterns that
+can be fitted to stock price movement after the fact, but they argue that these past patterns cannot
+be used to predict the future. In other words, past patterns cannot be exploited to gain aboveaverage returns. There are two major reasons why this group of opponents, especially academics,
+has drawn these conclusions.
+First, though there may be some underlying patterns, markets are constantly being affected
+by new information. This new information causes enough variability in the underlying pattern
+that any knowledge of the underlying pattern will not be enough to exploit the knowledge for
+
+Download at www.wowebook.com
+
+41
+
+Chapter 4 The Technical Analysis Controversy
+
+profit. For example, a recurring business cycle is a well-known and accepted economic phenomenon but not a predictable harmonic. The economy experiences expansionary periods followed
+by recessionary periods repeatedly. Therefore, we can expect cycles of expansions and contractions in the future. However, each of these business cycles is unique; the cycles vary in length
+and intensity. Thus, acknowledgment of a recurring cycle cannot be equated with the ability to
+predict the timing of an expansion or the intensity of a recession.
+Second, even if we can use past stock market statistics, such as price and volume, to help
+predict future stock market movements, this information will not allow us to earn abnormal,
+above-average profits in the stock market. This conclusion is a result of the assumption of market efficiency. The EMH is widely accepted in the economic and finance communities, especially among academics. The EMH argues that price changes occur only on new information,
+immediately and rationally applied, and that any irregular price action is quickly adjusted back to
+true value by arbitration. Because prices change only on new information, technical analysis cannot determine future prices without that new information and is, thus, futile.
+
+WHAT ABOUT MARKET EFFICIENCY?
+Because of the central role the EMH has played in financial theory in the past 35 years, we spend a
+little time developing the basic ideas of the EMH and how, although it might be an interesting and
+thought-provoking model, it does not necessarily describe the real world of investments and markets.
+Market efficiency is a description of how prices in competitive markets respond to
+new information. The arrival of new information to a competitive market can be
+likened to the arrival of a lamb chop to a school of flesh-eating piranha, where
+investors are—plausibly enough—the piranha. The instant the lamb chop hits the
+water, there is a turmoil as the fish devour the meat. Very soon the meat is gone, leaving only the worthless bone behind, and the water returns to normal. Similarly, when
+new information reaches a competitive market, there is much turmoil as investors
+buy and sell securities in response to the news, causing prices to change. Once prices
+adjust, all that is left of the information is the worthless bone. No amount of gnawing
+on the bone will yield any more meat, and no further study of old information will
+yield any more valuable intelligence. (Higgins, 1992)
+The EMH, which evolved in the 1960s from Eugene Fama’s PhD dissertation, states that at
+any given time, security prices fully reflect all available information. The implication of this hypothesis is that if current prices fully reflect all information, the market price of a security will be a good
+estimate of its intrinsic value, and no investment strategy can be used to outperform the market.
+The basis for the EMH is the economic theory of competitive markets. Basic economic
+theory teaches that arbitrage competition among investors and their profit motive will create efficient markets. As new information enters the marketplace, so the hypothesis states, all investors
+will be appraised of it immediately and will act rationally to adjust the price to the new intrinsic
+value of the security. Should the price deviate from its true value, so-called “noise,” arbitrageurs
+will compete to bring that price back to that value at which the price will be in equilibrium with
+its value. Such is a purely efficient market. Figure 4.5 shows what would happen in a purely efficient market to a security price upon the announcement of new information. It shows a steplike
+progression as the price reacts instantly to that new information.
+
+Download at www.wowebook.com
+
+42
+
+Part I Introduction
+
+Asset
+Notice that the
+Price
+price instantaneously
+adjusts to the information.
+
+New Information
+Is Revealed
+
+Time
+
+The price drifts
+upward after
+the good news
+comes out.
+
+New Information
+Is Revealed
+
+Asset
+Price
+The price increases too Asset
+much on the good news Price
+announcement, and then
+decreases in the period after.
+
+Time
+
+New Information
+Is Revealed
+
+Time
+
+Courtesy Professor Aswath Damodaran, Stern School, New York University
+
+This figure shows the ideal efficient market assumption of how information affects price and two
+other assumptions that have been shown to be more realistic.
+
+FIGURE 4.5
+
+The impact that new information has on security prices
+
+Unfortunately for the hypothesis and fortunately for technical analysis, empirical evidence
+demonstrates that these immediate and complete reactions to new information do not occur. The
+problems with the hypothesis center around the assumptions that all investors will receive new
+information instantly, will react rationally to that new information, and that arbitrageurs will
+immediately and always act to adjust any deviations in the price back to its new value. Indeed, in
+their 1980 article “On the Impossibility of Informationally Efficient Markets,” Stanford
+Grossman and Joseph Stiglitz argue that because information is costly for investors to obtain,
+prices cannot perfectly reflect all available information. If prices do perfectly reflect all available
+information, those who obtain costly information receive no compensation for doing so.
+Even Paul Samuelson, professor at MIT and originator of the EMH, has begun to slightly
+change his tune.
+
+Samuelson’s Dictum:
+Modern markets show considerable micro efficiency (for the reason that the
+minority who spot aberrations from micro efficiency can make money from those
+occurrences and, in doing so, they tend to wipe out any persistent inefficiencies).
+In no contradiction to the previous sentence, I had hypothesized considerable
+macro inefficiency, in the sense of long waves in the time series of aggregate
+indexes of security prices below and above various definitions of fundamental
+values. (Paul A. Samuelson in a private letter to John Campbell and Robert
+Shiller, from Robert J. Shiller, Irrational Exuberance, 2nd Edition, 2001, p 243)
+
+New Information
+Information for purposes of the EMH is any news that will affect the intrinsic value of the security. In the case of a stock, most analysts and theoreticians hypothesize that the value of a company’s stock is equal to the present value of the future cash flows that the investor purchasing the
+stock expects to receive. This present value is a function of all of the company’s future cash
+flows and the expected interest rate during the period that the cash flows occur. New information
+is any news that affects interest rates or cash flow directly or indirectly. That information can be
+related to the underlying company or can be any of a multitude of other news about the economy,
+politics, and so on. In short, it can be almost anything because almost all change has an effect on
+value regardless of its immediate importance.
+
+Download at www.wowebook.com
+
+43
+
+Chapter 4 The Technical Analysis Controversy
+
+Information itself is subject to many problems and thus brings into question the precepts
+about it in the EMH. A well-documented characteristic of financial markets is the presence of
+asymmetric information. Asymmetric information refers to a situation in which one party of a
+transaction has information that the other party involved in the transaction does not have. For
+example, the managers of a corporation have better information about how well their business is
+doing than the stockholders do. In addition, the company managers know whether they are being
+honest about their reporting of the company’s financial position, but stockholders cannot immediately discern whether the managers are being honest.
+As any investor knows, in the real world, all information is not disseminated instantly to all
+market players. A classic example of the presence of asymmetric information is the Enron debacle in 2000. The management of Enron knew for years that the fundamental numbers being
+reported to the public and to analysts were incorrect and were upwardly exaggerated to maintain
+an artificially high stock price for acquisitions (see Figure 4.6). The true information was kept
+inside the corporation and known by only a few insiders.
+Even when the real story began to leak out and the stock price began to decline, security
+analysts on Wall Street continued to recommend the stock based on projections from the old,
+incorrect numbers. Thus, this new information was dribbled out to the public in small amounts.
+But, even when finally disseminated among analysts, it was not interpreted correctly. This is an
+extreme case, of course, but in the practical world of investments, new information gets disseminated slowly through the investment world and is acted upon with even more hesitation.
+Therefore, several problems exist in the process of information dissemination. First, in its
+transmission, the information might be inaccurate. Second, the source might be intentionally
+lying, as in the case of Enron executives. Third, the information might not be disseminated
+immediately even though it is time sensitive. Fourth, there exists a natural lag between when the
+news is announced and when it is received by the last recipient, during which time the information might have changed.
+Once information disseminates, the market participants must interpret the information. This
+interpretation can be extremely difficult and problematic. The information might be too numerous
+and too complex and, thus, not easily or inexpensively interpreted. The information age produces
+an enormous and incomprehensible amount of news and data that is impossible to assimilate.
+Often, information is vague and its consequences not understandable. Not enough precedent has
+occurred to be able to judge what potential consequences are likely from specific information. In
+short, information by itself is unreliable and its interpretation subject to logical errors.
+Academic studies suggest that it would be extremely costly for market participants to
+attain and assimilate perfectly new information. In his book, A Theory of Adaptive Economic
+Behavior, Cross (1983) discusses the costliness of solving the complex statistical problems that
+modern economic and financial theory assume that individuals in the market are working.
+The methodological price for this approach [traditional statistical and mathematical
+decision analysis] has been extremely high, however, for it has become necessary to
+assume individuals in these markets can be represented as mathematical statisticians
+capable of solving specific problems that are often beyond the analytic abilities of
+professionals in that field. It also requires reliance on the assumptions that individuals follow optimizing rules of behavior under just those dynamic and risky types of
+situations for which the assumption of optimization has the least empirical support.
+(Cross, 1983)
+
+Download at www.wowebook.com
+
+44
+
+Part I Introduction
+
+Point-and-Figure Enron Chart
+March 12– November 29, 2001
+85
+84
+83
+82
+81
+80
+79
+78
+77
+76
+75
+74
+73
+72
+71
+70
+69
+68
+67
+66
+65
+64
+63
+62
+61
+60
+59
+58
+57
+56
+55
+54
+53
+52
+51
+50
+49
+48
+47
+46
+45
+44
+43
+42
+41
+40
+39
+38
+37
+36
+35
+34
+33
+32
+31
+30
+29
+28
+27
+26
+25
+24
+23
+22
+21
+20
+19.5
+19.0
+18.5
+18.0
+17.5
+17.0
+16.5
+16.0
+15.5
+15.0
+14.5
+14.0
+13.5
+13.0
+12.5
+12.0
+11.5
+11.0
+10.5
+10.0
+9.5
+9.0
+8.5
+8.0
+7.5
+7.0
+6.5
+6.0
+5.5
+4.0
+4.75
+4.50
+4.25
+3.00
+3.75
+3.50
+
+Relative Strength Chart already in Os having reversed down in
+December 2000; Peer RS gave a sell signal in July 2000
+Bearish Resistance Line
+Double bottom at $77 after hitting strong resistance in
+the lower $80 area—supply is gaining the upper hand
+while demand is weakening
+
+Sector goes to bear-confirmed status at 70%
+Another sell signal after a lower top at 67
+
+Major bearish catapult at $51 after
+trying to build a base in the 54 to
+60 area, but supply was too strong
+
+Another double bottom at $42
+Another double bottom at $41
+
+No follow through on a
+breakout below the BRL
+Double-Bottom Sell
+
+Double-Bottom Sell
+
+Enron chart and associated commentary courtesy of Dorsey, Wright & Associates, www.dorseywright.com
+
+FIGURE 4.6 Point-and-figure chart of Enron stock price March 2001 through November 2001, with
+samples of Wall Street advisory comments on specific dates
+
+Download at www.wowebook.com
+
+45
+
+Chapter 4 The Technical Analysis Controversy
+
+Advice from Major Wall Street Firms on Enron
+March 12–November 29, 2001
+Date
+
+Price
+
+Date
+
+Price
+
+3/12
+
+$61.27
+
+Prudential—cut upward target price
+
+10/23
+
+19.79
+
+3/14
+
+62.75
+
+Commerzbank—raised to accumulate
+
+10/24
+
+16.41
+
+3/21
+
+55.89
+
+Merrill—reiterated near-term buy
+
+JP Morgan—cut to long-term buy
+
+3/22
+
+55.02
+
+Commerzbank—reiterated accumulate
+
+Lehman—reiterated strong buy
+
+3/29
+
+55.31
+
+Goldman—reiterated Recommend List
+
+4/16
+
+59.44
+
+Goldman—reiterated Recommend List
+
+4/17
+
+60.00
+
+Merrill—reiterated near-term buy
+
+4/18
+
+61.62
+
+Goldman—reiterated Recommend List
+
+5/21
+
+54.99
+
+Prudential—price target cut
+
+6/8
+
+51.13
+
+Bear Sterns—reiterated attractive
+
+6/15
+
+47.26
+
+JP Morgan—reiterated buy
+
+6/20
+
+45.80
+
+Goldman—reiterated Recommend List
+
+6/22
+
+44.88
+
+AG Edwards—raised to accumulate
+
+6/27
+
+46.72
+
+Goldman—estimate raised
+
+7/10
+
+49.22
+
+JP Morgan—reiterated buy
+
+7/13
+
+48.78
+
+First Albany—estimates raised
+
+8/15
+
+40.25
+
+Banc America—reiterated strong buy
+
+16.35
+
+8/28
+
+38.16
+
+Banc America—reiterated strong buy
+
+9/6
+
+30.49
+
+Sanders Morris—raised to buy
+
+9/26
+
+25.15
+
+AG Edwards—upgraded to strong buy
+
+10/3
+
+33.49
+
+Goldman—reiterated Recommend List
+
+10/4
+
+33.10
+
+AG Edwards—downgraded to buy
+
+10/5
+
+31.73
+
+First Albany—reiterated strong buy
+
+10/9
+
+33.39
+
+Merrill—raised to long-term buy
+
+10/16
+
+32.84
+
+Merrill—raised to near-term accumulate
+
+10/17
+
+32.20
+
+First Albany—reiterated strong buy
+
+10/19
+
+26.05
+
+AG Edwards—cut to hold
+
+10/22
+
+20.65
+
+Banc America—cut to market perform
+Salomon—reiterated buy but target cut
+from 55 to 30
+S&P—cuts to negative
+
+11/1
+
+11.99
+
+Merrill—near-term neutral
+CIBC—reiterated buy—but saw no
+reason to buy the stock
+
+11/7
+
+9.05
+
+AG Edwards—cut to sell
+
+11/9
+
+8.63
+
+Commerzbank—cut to hold
+
+11/12
+
+9.24
+
+Prudential—raised to hold
+
+11/13
+
+9.98
+
+Edward Jones—raised to maintain position
+
+11/21
+
+5.01
+
+Goldman—cut to market perform
+CIBC—cut to hold
+
+Goldman—reiterated Recommend List
+Merrill—cut to near-term neutral
+
+Prudential—cut to sell
+
+First Albany—cut to buy
+10/25
+
+Commerzbank—reiterated to accumulate
+
+Bear Sterns—reiterated attractive
+
+Edward Jones—cut to reduce
+
+Edward Jones—cut to sell
+11/28
+
+.61
+
+Prudential—estimates reduced
+UBS—cut to hold
+Commerzbank—cut to sell
+
+11/29
+
+.36
+
+Credit Suisse—cut to hold
+RBC Capital—cut to underperform
+
+CIBC—downgraded to hold
+Prudential—downgraded to hold
+
+Enron chart and associated commentary courtesy of Dorsey, Wright & Associates, www.dorseywright.com
+
+Download at www.wowebook.com
+
+46
+
+Part I Introduction
+
+Some of the optimization problems that market participants would need to be solving are
+beyond the analytical abilities of professional statisticians using high-speed computers. G.
+Hawawini and D. Keim (1994) argue that markets are not efficient because investors are prevented from optimizing by their inherent cognitive limits. Rode, et al., in a Wharton School
+working paper (1995) argue that there are “substantial constraints on the information processing
+time allowed,” that “there is also a continual abundance of new information made available,” and
+that “this flow of information easily exceeds investor’s abilities to process it completely.” They
+argue that because the object of technical analysis is to make sense out of this complex world of
+new and continual information, it has created rules that substitute simplified and “less complex
+for the intractable.” Basic economic theory teaches that market players will continue the costly
+process of gathering and processing information only so long as the cost of doing so is less than
+the cost of being wrong. Technical analysis represents a rational choice for bounded rational
+investors; it can allow them to make reasonably well-informed decisions with relatively small
+information processing costs.
+Interpretation is also subject to changes in risk preferences. In his 2004 article, “The Adaptive Markets Hypothesis: Market Efficiency from an Evolutionary Perspective,” Andrew Lo
+argues that even in the rational market assumed in the EMH, risk aversion is not a constant. Risk
+aversion depends on the history of market behavior, and, thus, may be time-varying. For example, an investor who had never experienced a stock market collapse before might assume a different risk preference structure after losing money in the 1987 crash or the 2007–2009 decline than
+he or she had before. This means that even under a rational decision-making assumption, the risk
+parameters are not constant. Time-varying risk assumption can also develop when investors trade
+based on irrational expectations, and time-varying risk assumptions may arise from the interactions of heterogeneous investors. In short, the assumption that risk assessment is a constant has a
+few problems.
+
+Are Investors Rational?
+This brings us to the subject of rationality. The EMH assumes that investors as a group will act
+rationally. In its more recent version, it also assumes that there are irrational participants, called
+“noise” players, in the marketplace (Black, 1986). When noise players, who drive prices away
+from intrinsic value, are not counteracted by arbitrageurs, who are called “informed” players, the
+market is considered irrational. Thus, individual irrationality can exist in the marketplace, but it
+is usually nullified by rational arbitrage.
+We will get to the subject of arbitrage shortly, but first let us look at the critiques of rationality. Most have centered on the subjects of behavior and preference of market participants.
+Market participant actions depend on how individuals process information and make decisions. Information interpretation and decision making are subject to cognitive bias and limits.
+The science of behavioral finance studies the irrational behavior of investors and how they interpret information. Some of the results have shown illogical behavior that would be undesirable in
+the marketplace, such as comfort in crowds called “herding” (Huberman and Regev, 2001), overconfidence based on little information (Fischoff and Slovic, 1980; Barber and Odean, 2001; Gervais and Odean, 2001), overreaction (DeBondt and Thaler, 1985), psychological accounting

@@ -1,0 +1,476 @@
+
+Download at www.wowebook.com
+
+422
+
+Part V Trend Confirmation
+
+Chaikin Oscillator
+Just to confuse things even more, Marc Chaikin invented the Chaikin Oscillator, as opposed to
+the Chaikin Money Flow. This oscillator is simply the ratio of the 3-day EMA of the AD to the
+10-day EMA of the AD. Chaikin recommends that a 20-day price envelope, such as a Bollinger
+Band, also be used as an indication of when signals from the oscillator will be more reliable.
+Most signals are from divergences.
+Figure 18.8 shows how well the Chaikin Oscillator signals short-term reversals within a
+trading range. The overbought and oversold levels in the chart demonstrate how the use of a standard deviation calculation for overbought and oversold can look. As with Bollinger Bands, the
+narrowing of the bands shows a decline in volatility. Declining volatility precedes significant
+price moves and is, thus, a warning of change in direction if not intensity. Notice also that when
+the stock price begins to trend upward, the oscillator gives premature sell signals. As mentioned
+earlier, this is the danger of using oscillators in a trending market.
+235.00
+
+225.00
+
+AAPL-Apple Computer
+
+215.00
+
+205.00
+
+195.00
+
+185.00
+20,000,000.00
+0.00
+-20,000,000.00
+
+Nov
+
+Dec
+
+'10
+
+Feb
+
+Mar
+Created using TradeStation
+
+FIGURE 18.8 Chaikin Oscillator (AAPL daily: October 1, 2009–March 30, 2010)
+
+Money Flow Index (Oscillator)
+Another method of measuring money flow into and out of a stock is the Money Flow Index. It
+considers “up” days and “down” days to determine the flow of money into and out of an equity.
+The money flow on any particular day is the day’s typical, or average, price multiplied by the
+daily volume. The day’s typical price is determined as the average of the high, low, and close.
+Therefore, money flow on Day i would be calculated as
+MFi = {(Highi + Lowi + Closei) / 3} × Volumei
+
+Download at www.wowebook.com
+
+423
+
+Chapter 18 Confirmation
+
+If Day i’s average price is higher than the previous day’s average price, there is positive
+money flow (PMF). Conversely, if Day i’s average price is lower than the previous day’s average
+price, negative money flow (NMF) occurs. The analyst chooses a specific period to consider and
+sums all the PMF together and all the NMF for that period. Dividing the sum of PMF by the sum
+of NMF results in the money flow ratio (MFR):
+MFR = ΣPMF / ΣNMF
+The Money Flow Index is then calculated using the formula:
+Money Flow Index = 100 – (100 / (1 + MFR))
+The Money Flow Index is an oscillator with a maximum of 100 and a minimum of 0. When
+positive money flow is relatively high, the oscillator approaches 100; conversely, when negative
+money flow is relatively high, the oscillator approaches 0. A level above 80 is often considered
+overbought and below 20 oversold. These parameters, along with the period, are obviously
+adjustable.
+In addition, another variation of the Money Flow Index uses a ratio between positive
+money flow and the total dollar volume (rather than the NMF) over the specified period to calculate the money flow ratio. We used this method of calculation in Figure 18.9. Generally, the
+results of this method are not significantly different from the method we described earlier. In this
+example, we use 1.5 × standard deviation as the overbought and oversold levels, and treat it like
+a Bollinger Band where the signals occur in the direction of the breakout from within the band.
+This has mediocre results, but it does catch the beginning of the large upward trend that begins in
+February. As in other oscillators, it has trouble once prices begin to trend and gives premature
+exit signals.
+Elder Force Index (EFI)
+The EFI is an easy oscillator to calculate in that it uses only closing prices and daily volume. The
+daily price change is calculated as the daily closing price minus the previous day’s closing price.
+This daily price change is then multiplied by the day’s volume. The index is simply an exponential moving average over some specified period of the daily price change multiplied by the volume.
+The purpose of this index is to measure the volume strength of a trend. The higher the level
+of the oscillator above zero, the more powerful the trend. A negative crossover through zero
+would thus indicate a weakening in trend power, and a deep negative would suggest strong power
+to the downside.
+We have plotted the EFI in Figure 18.10. Elder suggests using either a 2-day EMA for trading or a 13-day EMA for trend determination. We used 13 days. You can see how erratic the EFI
+can be. In theory, a trade should be made whenever the centerline is crossed. As a mechanical
+method, this would have been disastrous as a number of whipsaws occurred. However, as a confirmation device, the index has merit. For example, Figure 18.10 shows a triangle pattern, a
+broadening pattern, a pennant, a flag, and a pennant/flag in succession. By checking the EFI each
+time price broke out of these patterns to see if it was confirming the direction of the breakout
+would have been helpful. The zigzag in late January would have caused concern, but otherwise,
+the EFI properly confirmed each of the subsequent breakouts.
+
+Download at www.wowebook.com
+
+424
+
+Part V Trend Confirmation
+
+AAPL-Apple Computer
+
+240.00
+230.00
+220.00
+210.00
+200.00
+190.00
+
+90.00
+70.00
+50.00
+30.00
+money flow index
+Nov
+
+Dec
+
+'10
+
+Feb
+
+Mar
+
+Apr
+Created using TradeStation
+
+FIGURE 18.9 Money Flow Index (AAPL daily: October 1, 2009–April 20, 2010)
+
+240.00
+230.00
+
+AAPL-Apple Computer
+220.00
+210.00
+200.00
+190.00
+
+400.00
+0.00
+-400.00
+
+Elder force index (13 days)
+Nov
+
+Dec
+
+'10
+
+Feb
+
+Mar
+
+Apr
+Created using TradeStation
+
+FIGURE 18.10
+
+Elder Force Index (AAPL daily: September 29, 2009–April 15, 2010)
+
+Download at www.wowebook.com
+
+425
+
+Chapter 18 Confirmation
+
+Other Volume Oscillators
+We have just studied the most commonly used volume oscillators. As always, a large number of
+variations exist, a few of which we mention here. Because these volume oscillators are variations
+of the more common ones we just discussed, the signals from overbought and oversold or divergences are similar.
+Ease of Movement (EMV) is an oscillator developed by the volume expert Richard W.
+Arms. It uses a different calculation to determine daily price differences—namely, the average of
+the high and low for one day versus the average for the high and low of the previous day. The formula for calculating the EMV is the following:
+EMV = [(Lowi + Highi) / 2 – (Lowi–1 + Highi–1) / 2] ÷ Volume / [Lowi + Highi) / 2]
+The result is a figure that measures the effect of volume on the daily range. The EMV is
+usually smoothed using a moving average because it can be erratic from day to day.
+Volume Rate of Change is simply a ratio or percentage change between today’s volume and
+the volume of some specified day in the past. For example, a ten-day rate of change would be
+today’s volume versus the volume ten days ago. This method has problems because the drop-off
+number ten days prior, for example, will influence the current day’s reading and might not have
+significance to recent trading. The ratio is used to identify spikes in volume (see the next section), but is not a reliable indicator by itself.
+
+Volume Spikes
+Volume spikes (not to be confused with price spikes) are most common at the beginning of a
+trend and at the end of a trend. The beginning of a trend often arises out of a pattern with a breakout, and the end of a trend often occurs on a speculative or panic climax. Higher-than-usual volume tends to occur with each event. By screening for volume, the trader can often find issues that
+are either ready to reverse or that have already reversed. The usual method of screening for a volume spike is to compare daily volume with a moving average. The trader can look for volume
+that is either a number of standard deviations from the average volume or a particular percentage
+deviation from the average. As for interpretation of the spike when it occurs, it is often difficult
+to determine which variety of spike has occurred until after the spike peaks and you observe the
+subsequent price action.
+Usually there is a reason for a volume spike, but the reason for the spike might be unrelated
+to the technical issues of price trends and behavior. Of course, heavy trading might be related to
+a news announcement made about the company. Or, heavy trading volume in a stock can occur if
+the stock is a component of an index or basket that had a large institutional trade that day.
+Options expiring can also influence volume figures. In all spikes, any outside reason must first be
+investigated because it might have nothing to do with the issue’s trend and price behavior.
+Volume Spike on Breakout
+Breakouts are usually obvious. High volume on a gap or on a breakout from a preexisting chart
+pattern is usually the sign of a valid breakout. Although breakouts do not necessarily require high
+volume, many analysts use a spike in volume as a confirmation of the breakout and ignore those
+without a volume spike.
+
+Download at www.wowebook.com
+
+426
+
+Part V Trend Confirmation
+
+Volume Spike and Climax
+A climax usually marks the end of a trend and either a subsequent reversal or consolidation. Climaxes come in many forms, however, and are not always identifiable except in retrospect. Generally, climaxes occur with one of the short-term reversal patterns outlined in Chapter 17,
+“Short-Term Patterns.” These typically can be price spikes or poles, one- or two-bar reversals,
+exhaustion gaps, key reversals, or any of the other short-term reversal patterns.
+
+Examples of Volume Spikes
+A number of volume spikes appear in Figure 18.11. The first accompanies a breakaway gap, and
+the second is showing that large support exists at that price level, the same level as filled the earlier gap. The third instance occurred when prices tried to break above the resistance level at $215.
+It ran into heavy selling and turned down. Finally, a volume spike occurred on the runaway gap
+in early March. The high volumes at the support and resistance levels are often important clues
+as to changes in direction. If price meets those levels on heavy volume and then reverses direction, those levels are extremely important and must be recorded for future use. For example, the
+high volume low at marker 2 provided the support that also stopped the decline at marker 3. It
+told of huge buying pressure at that level. Likewise, the gap in March was caused by the realization that the earlier sellers who stopped the retracement to the resistance level at $215 were gone,
+and the stock price was free to rise to the next level of resistance at $240.
+
+235.00
+
+AAPL-Apple Computer
+
+225.00
+resistance
+gap
+
+215.00
+205.00
+195.00
+
+gap
+support
+
+185.00
+3
+
+1
+4
+
+2
+
+50,000,000
+42,345,344
+35,000,000
+20,000,000
+
+Nov
+
+Dec
+
+'10
+
+Feb
+
+Mar
+Created using TradeStation
+
+FIGURE 18.11
+
+Volume spikes (AAPL daily: October 1, 2009–April 15, 2010)
+
+Download at www.wowebook.com
+
+Chapter 18 Confirmation
+
+427
+
+Shock Spiral
+When we looked at the Dead Cat Bounce (DCB) in Chapter 17, we saw that a substantial volume
+spike occurs prior to the formation. Remember that the DCB occurs after a shocking news
+announcement causes a sudden and dramatic shift in price direction, usually accompanied by a
+large gap or a price spike. An extreme spike in volume accompanies that sudden shift. Tony
+Plummer (2003) uses the term “shock spiral” to describe the entire A-B-C pattern from the shock
+(A) to the DCB (B) to the final decline (C). The usual shock spiral is to the downside, but Plummer advocates that it can also occur on the upside.
+Volume Price Confirmation Indicator (VPCI)
+In a series of two articles in Active Trader Magazine and one in the Journal of Technical Analysis, Buff Dormier (2005) introduced a method of comparing a volume-weighted price moving
+average with a simple price moving average to determine whether volume is confirming price
+action. A positive deviation in the VPCI suggested that the volume was confirming the price
+action, and a negative deviation suggested that the volume was contradicting price action.
+Volume Dips
+Sharp declines in volume are usually not meaningful. The decline in volume generally indicates
+a decline in interest in the security, which is usually accompanied by a decline in volatility. For
+that reason, the issue should be ignored during the period of low volume, but the trader should be
+watching for an increase in volume and volatility. A volume dip is also typical for action just
+before a sudden expansion in price and volume, as in a breakout from a formation. Declines in
+volume can also occur before holidays, on summer days, and at other times when general activity is low.
+
+OPEN INTEREST
+The volume-related indexes and oscillators we have just discussed are based, in part, on the number of shares or contracts traded over a specific period of time. In the futures market, the total
+number of contracts outstanding is another important factor. The number of outstanding futures
+contracts is called “open interest.”
+
+What Is Open Interest?
+In the futures markets, only contracts trade, not physical instruments or items. At the expiration
+of the specific futures market delivery month, the number of contracts reduces to zero as buyers
+and sellers “roll” their contracts into the next expiration, or make or take delivery of the product
+or cash as the contracts require. The number of contracts outstanding at any one time in each
+delivery month is its open interest. Total open interest is the number of contracts outstanding in
+all delivery months. It is an excellent tool in estimating the liquidity of most contracts. However,
+open interest is a different figure than volume. Volume is the number of contracts traded during a
+certain period in a specific futures market delivery month, not the number of contracts outstanding.
+
+Download at www.wowebook.com
+
+428
+
+Part V Trend Confirmation
+
+Although open interest is a good tool for estimating the liquidity of a contract, using it for
+technical trading can be a bit tricky. One problem is that open interest rises at the beginning and
+declines at the expiration of each contract market. This action is often unrelated to the trend. In
+addition, in many futures markets, the clearinghouse takes time to calculate the open interest and
+actual cleared volume. The figures are only available to the public on the following morning.
+
+Open Interest Indicators
+Futures contracts are created as interest develops in the specific futures market and become eliminated as interest in the futures market recedes. Thus, the conventional interpretation of open
+interest is that expanding open interest confirms interest in the existing trend of the futures contract price. This expansion should also be accompanied by increasing volume. Expanding open
+interest and volume during an upward trend, for example, suggests buyers are creating more new
+contracts than old contracts. When the upward trend continues but open interest and volume
+decline, old contract holders are selling and absorbing any new buyers, suggesting that the trend
+may soon reverse direction. In a correction within an upward trend, declining open interest and
+volume suggest that the major trend is still healthy. In this sense, open interest is used similarly
+to volume.
+Larry Williams believes that open interest reflects the commercials because they account
+for such a substantial percentage of volume activity. Commercials are generally short futures
+contracts used to hedge against inventory. Thus, a decline in open interest, he reasons, is a sign
+that commercials are covering shorts and that the price will likely rise. He warns that this strategy should only be used in a trading range, and that a 30% change in open interest is necessary
+before action is contemplated. Colby argues that Williams’ strategy does not work in the stock
+index futures, but he did not test the requirement for a range only.
+As we know from Chapter 7, “Sentiment,” the Commodity Futures Trading Commission’s
+Commitment of Traders Reports provide breakdowns in open interest by category of trader.
+Some analysts have compared this data with the data reported daily by the commodity exchanges
+and used the resulting ratios and changes as indicators of professional and amateur trading action
+(Greco, 2001). These relations and calculations are complicated and go beyond our present
+scope.
+Herrick Payoff Index (Oscillator)
+John Herrick (1982) developed a complex oscillator based on price, volume, and open interest.
+As in many oscillators, interpretation is based on whether the index is above or below zero and
+whether divergences exist between volume and open interest and price velocity. Thomas Aspray
+(Stocks & Commodities Magazine, V.6:3, 115–118) has also found that in the Herrick Payoff
+Index, trend lines are often informative for warnings of a change in price direction, as are the
+penetration of support and resistance levels.
+Figure 18.12 of live cattle futures displays the Herrick Payoff Index (HPI) and its 14-week
+EMA. Cattle has some erratic moves over the period especially in 2009, but it often shows a divergence between price and the HPI (marked with a dashed line as 1 and 2) at its peak and trough.
+Generally, when the HPI is above zero, prices are in an upward trend. This has not always been the
+
+Download at www.wowebook.com
+
+429
+
+Chapter 18 Confirmation
+
+case with cattle and is one reason for being skeptical about breaks above and below the zero line.
+Trend lines are also shown in HPI (with solid lines), as well as action price (arrow) at which they
+were broken. The combination of trend line breaks and divergences seems to be favorable.
+Live Cattle (weekly)
+
+120.000
+
+110.000
+
+110.000
+
+100.000
+
+2
+
+100.000
+93.500
+90.000
+
+1
+
+90.000
+
+100.000
+
+100.000
+2
+
+60.000
+
+55.79
+resistance
+
+20.000
+-20.000
+
+120.000
+
+20.000
+0.00
+-20.000
+
+support
+
+-60.000
+
+1
+'09
+
+Herrick payoff index (HPI)
+
+-60.000
+
+'10
+Created using TradeStation
+
+FIGURE 18.12
+
+Herrick Payoff Index—live cattle, perpetual contract, weekly
+
+Other Open Interest Indicators
+A number of combinations of open interest, price, and volume have been proposed. Most
+demonstrate what the Herrick Payoff Index displays, and the methods of analysis are the same as
+for other oscillators. One example is the On Balance Open Interest Indicator. William Painter
+proposed this indicator, which uses open interest instead of volume in an Price and Open Interest
+Index (POI), proposed by R. Earle Hadady (1989). This index is calculated similarly to the Price
+and Volume Indicator using the change in price times the change in open interest.
+
+PRICE CONFIRMATION
+Confirmation is concerned with determining whether a price trend is continuing or coming to an
+end. One group of indicators uses measures based upon the movement of price itself to confirm
+the trend. Generally, these indicators are based upon the concept of momentum.
+
+Download at www.wowebook.com
+
+430
+
+Part V Trend Confirmation
+
+What Is Momentum?
+Momentum deals with the rate at which prices are changing. For example, in an uptrend, prices
+are rising and the trend line slopes upward. Momentum measures how quickly the prices are rising, or how steeply the trend line is sloping. In high school calculus, you probably learned that
+the slope of a line is called the first derivative, and that the change in that slope is called the second derivative. Momentum is, thus, the second derivative of price action over some period.
+Momentum is similar to acceleration and deceleration. For example, let us assume that a
+car is initially traveling at a constant speed of 30 miles per hour; at this point, the car has a constant travel slope of 30. When the car starts accelerating, it is gaining momentum, and its travel
+slope is increasing. At some point, the car cannot maintain the level of acceleration, and the rate
+of increase in speed begins to decline. The car is then said then to be decelerating, even though it
+is still traveling at an increasing rate of speed. The speed itself is not increasing as fast as earlier,
+so momentum is falling.
+The same principle applies to markets. Speed is equivalent to the slope of the price trend—
+the number of points gained per day, for instance. Momentum is equivalent to the car’s acceleration and deceleration and is the measure of the price trend’s changing slope. Trend can be
+thought of as direction and momentum can be thought of as the rate of speed of the price change.
+For example, suppose that a stock is originally selling for $25 a share. If the same stock is selling
+for $30 a share five days later, then the stock price has increased by $5 in five days. The momentum would be $5 in five days (or $1 per day). If over the next five days, the price continues to
+increase to $34, the trend is still upward. However, the rate of change (or momentum) has slowed
+to $4 in five days.
+Technical analysts have developed many indicators to measure momentum, and these
+measures have become leading signal generators or confirmation gauges, telling us whether the
+trend slope is changing. When momentum is confirming the price trend, a convergence or confirmation occurs; when momentum is failing to confirm the price trend slope by giving a warning
+signal, a divergence occurs. As a sign of price trend change then, the technical analyst often
+looks for a divergence.
+Confirmation also is used to identify overbought and oversold conditions. Remember that
+prices never follow a trend in an absolute straight line. Prices oscillate about a central trend, deviating above and below the trend. When prices are considerably above the trend, the expectation
+is that prices will return down to the central trend and perhaps even fall below the trend line.
+When prices are noticeably above the central trend, an overbought condition exists. When prices
+are considerably below the trend, they are to be oversold and are likely to return up to the central
+trend and, perhaps, above.
+Analysts have developed many types of oscillators to measure what is overbought and
+oversold. These oscillators usually are based on price but can also be based on volume or other
+data. Mathematically, these oscillators eliminate the trend and look only at the oscillations about
+the trend.
+Suppose that you are watching a particular stock and notice a breakout occurring. An oscillator can be useful in determining the validity of the breakout. If an oscillator is oversold, this
+breakout is more likely to be valid than if the oscillator were overbought. However, in some

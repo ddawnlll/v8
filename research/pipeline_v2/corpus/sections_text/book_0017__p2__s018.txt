@@ -1,0 +1,598 @@
+
+The downside gap filled pattern
+The downside gap filled pattern rounds out my discussion of the bearish
+three-stick trending patterns. It’s the most tradeworthy of all the patterns
+in this section because its close is higher than the others. It also calls for
+some pretty tight stops, so you’ll know quickly whether the pattern is going
+to succeed or fail.
+
+Recognizing the downside gap filled pattern
+As you can see in Figure 10-28, the downside gap filled pattern starts off with
+a down day in a downtrend. Like the other trending patterns in this chapter,
+
+16_178089 ch10.qxp
+
+2/27/08
+
+9:39 PM
+
+Page 243
+
+Chapter 10: Trading with Bearish Three-Stick Patterns
+the second day is a gap down, and it’s bearish. At first the gap between the
+first and second day isn’t filled and remains on the chart. On the third and
+final day there’s a lower open, but then the bulls push the price higher over
+the course of the day. The gap between the first and second day is then filled.
+However, at some point the bears decide it’s time to take over again and the
+rise in prices stops, usually in the lower half of the first day’s trading range.
+The downtrend is still in place.
+
+Figure 10-28:
+The
+downside
+gap filled
+pattern.
+
+Trading the downside gap filled pattern
+To give you an idea of how you can trade the downside gap filled pattern,
+I provide the example in Figure 10-29. It’s a chart of Ingersoll Rand (IR), a
+manufacturer of various commercial and consumer machinery goods. The
+company is tied to the overall economy, so the stock can experience periods
+of volatility that present ample trading opportunities.
+The downside gap filled pattern appears at the upper end of the downtrend,
+beginning with a black candle for the first day. There’s a gap down opening
+for the second day, and the gap isn’t filled as the day progresses bearishly.
+The third day completes the pattern with an up day that fills in the gap, and
+the downtrend continues after that.
+If you shorted using this pattern, you’d be pleased to see some bearish action
+that continues for a while after the pattern is completed. However, after a few
+weeks, a bullish reversal pattern emerges. There’s a doji followed by an up
+day in a downtrend, which is usually an indication that prices have reached a
+bottom. That would mean that it’s time to exit your short position and walk
+away with your profits.
+
+243
+
+16_178089 ch10.qxp
+
+2/27/08
+
+9:39 PM
+
+Page 244
+
+244 Part III: Making the Most of Complex Patterns
+
+Figure 10-29:
+The
+downside
+gap filled
+pattern
+predicts a
+downtrend
+continuation
+on a chart
+of IR.
+
+Failing to signal a continuing downtrend
+I hate to end the chapter on a down note, but I do feel obligated to present
+you with a failing example of the downside gap filled pattern. For that I turn
+to Figure 10-30, a chart of DuPont (DD).
+The pattern emerges in a downtrend, with a black candle that’s followed by a
+gap down, which is eventually filled on the third day. All is as it should be in
+terms of pattern formation, but if you look closely, you can see an indication
+that the pattern may not hold up for too long. The strength of the downtrend
+appears to be moderating, and because the trend has been in place for a long
+time, it may lead you to believe that a reversal is on deck. These indications
+prove to be true when the trend turns upward over the course of the next
+couple of weeks. The high of the pattern is violated, rendering it null, void,
+and more than a little annoying.
+
+16_178089 ch10.qxp
+
+2/27/08
+
+9:39 PM
+
+Page 245
+
+Chapter 10: Trading with Bearish Three-Stick Patterns
+
+Figure 10-30:
+The
+downside
+gap filled
+pattern
+provides a
+dud signal
+on a chart
+of DD.
+
+245
+
+16_178089 ch10.qxp
+
+2/27/08
+
+9:39 PM
+
+Page 246
+
+246 Part III: Making the Most of Complex Patterns
+
+17_178089 pp04.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 247
+
+Part IV
+
+Combining
+Patterns and
+Indicators
+
+17_178089 pp04.qxp
+
+2/27/08
+
+9:40 PM
+
+S
+
+Page 248
+
+In this part . . .
+
+ometimes I get worried that my vocal cords are going
+to give out because I spend so much time singing the
+praises of candlestick charts. In Part IV, though, I sing a
+different tune. No, I don’t discourage you from using candlestick charts — far from it — but I do show you how to
+combine candlestick charts with other types of technical
+indicators and encourage you to use those combinations
+in your trading strategy.
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 249
+
+Chapter 11
+
+Using Technical Indicators
+to Complement Your
+Candlestick Charts
+In This Chapter
+ Taking advantage of trendlines
+ Using moving averages to inform your decisions
+ Appreciating the relative strength index
+ Adding stochastics to your bag of tricks
+ Jumping on the Bollinger band bandwagon
+
+Y
+
+ou can use nothing but candlestick patterns when trading, and some
+traders have proven that to be a profitable route. But that shouldn’t make
+you think twice about combining candlesticks with other technical indicators.
+You can take advantage of a wide range of indicators to confirm the conclusions
+you draw from your candlestick charts, and your results are often more reliable
+and profitable. You may very well find that you can’t live by candlesticks alone!
+Many candlestick patterns — from single sticks to complex multiple-stick
+formations — depend on the market context in which they appear. For example, a bullish signal in a bearish market sparks skepticism and may even be
+ignored. But what constitutes a bull or bear market? (As I write this, I have a
+financial TV show on in the background and two market professionals are vigorously debating whether we’re in a bull or bear market. If these market pros
+can’t agree on the nature of the market, how are individuals supposed to
+figure it out?) It’s simple: use technical analysis! More specifically, use indicators that attempt to define the market trend.
+Traders use many different types of technical indicators to enhance and complement their trading styles. Traders are always trying to come up with the
+perfect combination of indicators and signals. (I confess to walking around
+with old business cards and a pen so I can jot down trading ideas when they
+pop in my head.) You never know when inspiration will strike! That brilliant
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 250
+
+250 Part IV: Combining Patterns and Indicators
+new way to incorporate candlestick charting in a new trading scheme may
+reveal itself at any moment.
+Technical indicators share one of a couple of goals. The first is to define the
+current trend, whether up, down, or even sideways (more on that later). To
+quote a popular trading saying, “The trend is your friend.” The other indicators try to identify market extremes or reversals. That information allows a
+trader to “fade the market,” or go against the trend in hopes that the trend
+will soon fade out and reverse. There are heated arguments over whether
+trading with the trend or trying to profit from reversals is the key to successful trading, and as long as traders are still making a living (and losing their
+shirts) using both styles, the debate will continue.
+There are more complex indicators than you can shake a (candle)stick at. (In
+fact, Technical Analysis For Dummies, by Barbara Rockefeller [Wiley] covers
+them extensively.) In this chapter, I clue you in on a few tried-and-true indicators that you can use to determine the trend of the market and make your
+candlestick-based decisions even more reliable. These indicators include
+trendlines, moving averages, relative strength index (RSI), stochastics, and
+Bollinger bands.
+
+Using Trendlines
+Trendlines can be the most basic of all technical indicators. A trendline is
+exactly what it sounds like: a line on a chart that shows the general direction
+a stock is trending. If a stock is moving up in price, its trendline slopes
+upward from left to right. If a stock is trending down in price, its trendline
+slopes downward from left to right.
+In this section, you discover how to draw a trendline on a chart. Also, some
+hints on how to determine the direction (up or down) are given. Finally there’s
+a quick overview of how machines (a computer) can draw trendlines for you.
+
+Drawing trendlines
+Trendlines seem pretty straightforward, but drawing a trendline can be
+tricky. Based on how you think a stock is performing, you draw a line of support (in a bullish case) or a line of resistance (in a bearish case).
+You can construct a trendline with nothing more than a printed out chart, a
+ruler, and a pencil. If you can’t find a ruler, just close this book and use the
+spine. Anything that allows you to draw a straight line between two points will
+do. To draw a trendline, simply draw a line that connects two or more low
+price points (for an upward trending line) or two or more high price points (for
+a downward trending line). Figure 11-1 shows a prime example of a trendline.
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 251
+
+Chapter 11: Using Technical Indicators to Complement Your Candlestick Charts
+Don’t let the ease of trendline construction fool you into thinking that trendlines are simple or cut-and-dried. In fact, it’s difficult to refer to a trendline on
+a chart as a technical indicator because the drawing of the line is such a subjective task. Much like the market experts debating on TV, it’s very likely that
+two traders can come up with completely different lines when asked to draw
+what they consider the most significant trendline on a chart. If a trader happens to be biased against a certain stock for some reason, she may be more
+inclined to look at a chart and find a downtrend.
+Despite all the subjectivity involved with drawling trendlines, some very successful traders rely heavily on them for their buy and sell decisions. When I
+began my career as a runner in the cattle trading pits 15 years ago, a very
+successful trader I knew based decisions on nothing more than daily charts
+and trendlines that he’d drawn during his train ride every morning. I’ve heard
+that he’s still using the same method today.
+
+Considering trendline direction
+Although different trendlines drawn on the same chart may differ a bit, you’ll
+usually find that at least the direction of the trendlines are the same. Trendlines
+can trend up, down, or not at all. For simplicity’s sake, Figure 11-1 has an obvious up (bullish) trend. (I say it’s obvious, but I wonder how many of my colleagues will insist I’m wrong!) After you determine that a trend is bullish, you
+may consider it with a bullish candlestick pattern and look to buy. On the other
+hand, if you witness a bearish candlestick pattern, you may be inclined to
+ignore it, or at least to take caution before implementing a sell signal.
+
+Figure 11-1:
+A chart
+showing a
+trendline
+with a
+positive
+trend.
+
+251
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 252
+
+252 Part IV: Combining Patterns and Indicators
+Taking trendline direction into consideration helps you determine the status
+of the market. Understanding the market helps you use the most appropriate
+candlestick pattern — one that makes your trading decisions more effective
+and profitable. Trendlines can be subjective, but there’s no easier or quicker
+way to define a trend.
+
+Taking advantage of automated trendlines
+You can take some of the subjectivity out of trendline drawing by using a software package that constructs trendlines for you. All you have to do is choose
+your preferred time frame, and the software does the rest. Even Microsoft
+Excel includes this option in its charting function. (In Chapter 4, I explore
+how to use Excel for charting, but for now, I point out the way Excel determines a trendline for the data presented.)
+Figure 11-2 displays the same data as Figure 11-1, but instead of the handdrawn approach, this trendline was generated by Excel. The placement of the
+line is a bit different than in Figure 11-1, but the trend is still clearly positive.
+Using software cuts down on the subjective nature of trendlines, but it doesn’t
+completely remove subjectivity. There’s still a subjective component to
+software-drawn trendlines. The user still determines the time frame for the
+trendline, which can have a definite impact on the type of line that’s generated. As with any computer program that involves user input, the data you
+get out is only as good as what you put in.
+
+Figure 11-2:
+A chart with
+an
+automated
+trendline
+placed on it.
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 253
+
+Chapter 11: Using Technical Indicators to Complement Your Candlestick Charts
+
+Utilizing Moving Averages
+When it comes to technical analysis, it doesn’t get much easier than drawing
+a trendline. But what if you’re in need of a slightly more complex indicator?
+The next step up from drawing trendlines is calculating moving averages. Put
+simply, a moving average is the average of the closing prices of a stock over a
+certain period of time. You can compare a closing price with a moving average to help you determine a trend.
+Like most technical indicators, there are several different types of moving
+averages, and I explain a few in this section. First, though, it’s important that
+you understand how to make good choices about the time frames you use
+when calculating your moving averages.
+
+Selecting appropriate moving
+average periods
+The time frames of your moving averages are determined by the number of
+closing prices you include. To decide on that number, consider the types of
+trading decisions you make based on your moving average. Pick a time frame
+that’s appropriate for the amount of time you intend to have a trade on. For a
+trade that’s to be held for only a day or two, a five- to ten-day moving average
+will suffice.
+For instance, the five-day example in Figure 11-3 is very short-term and is
+most useful for traders who trade for a day or two, or even for less than a
+day. I trade a system based on a moving average that uses data from only the
+two previous days’ closing prices. The holding period for this system is just
+half a day, so the short moving average makes perfect sense.
+The range of moving averages I’ve seen used on charts varies from 2 days to
+200. A 200-day moving average is very long-term, but in many circles it’s considered very significant when determining a stock’s long-term trend. In fact,
+the common definition of a long-term bull or bear market can be whether an
+index is trading above (bull) or below (bear) its 200-day moving average.
+
+Using simple moving averages
+The most basic type of moving average is the simple moving average. It’s also
+the easiest to calculate and the most common — so common, in fact, that the
+word “simple” is often left off when a simple moving average is displayed on a
+
+253
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 254
+
+254 Part IV: Combining Patterns and Indicators
+chart. Look at Figure 11-4, where a five-day simple moving average is calculated by using the closing prices from five previous days. It can’t be much
+easier: The five closing prices are added up and divided by five. If you keep
+the number of closing prices in your simple moving averages low, you can
+easily work them out with a calculator.
+The five-day simple moving average in Figure 11-4 comes out at 114.20, and
+the closing price on the fifth day is 113.87. Some technical analysts would
+say that indicates a downtrend, because the close on the final day is lower
+than the moving average. That can be very useful information if you’re working on a short-term trade.
+
+Figure 11-3:
+A chart with
+a five-day
+moving
+average
+on it.
+
+Day
+
+Close
+
+1
+2
+3
+4
+5
+
+114.70
+114.73
+114.14
+113.56
+113.87
+
+Figure 11-4:
+A quick
+calculation
+of a five-day
+moving Total
+average.
+Total / 5
+
+571.00
+114.20
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 255
+
+Chapter 11: Using Technical Indicators to Complement Your Candlestick Charts
+But if you’ve got a longer term trade in mind, it wouldn’t make much sense to
+fret over the fact that a closing price dipped below a five-day moving average.
+There just aren’t enough data points (closing prices, in this case) involved —
+a relatively minor change in a closing price can have a sizable impact on the
+average. A moving average calculated over a longer period of time (with
+many more closing prices) — say, 100 days or more — is less likely to reveal
+any closing prices that cross the average.
+The longer your time horizon for a trade (or even an investment), the longer
+the moving average you need.
+Figures 11-5a and 11-5b contain the same pricing data, but Figure 11-5a has a
+5-day moving average, while Figure 11-5b uses a 20-day moving average.
+Notice the extreme differences in trends between the two charts.
+
+Using other types of moving averages:
+What have you done for me lately?
+Two fairly common deviations on the simple moving average are the weighted
+moving average and the exponential moving average. These types of moving
+averages are calculated in different ways, but they both have the same goal:
+to place more emphasis on recent prices.
+Why would a trader want to explore more complex moving averages? Well,
+the major advantage one of these more complicated moving averages has
+over the simple moving average is that it’s better at revealing a change in
+trend more quickly. Being able to detect trend changes faster helps to make
+you a more agile trader. Also, traders (especially short-term traders), have
+very short memories. Ask me what the market did yesterday, and I’m pretty
+sure I can give you a quick answer. Ask me what it did two Fridays ago, and I
+would be quickly pulling up a chart (a candlestick chart, of course!) to get
+you an answer. Because a short-term trader places more emphasis on more
+recent price action, using a charting method that does the same typically
+works better for shorter term styles of trading. Weighted and exponential
+moving averages both emphasize recent price action, and the only substantial difference between the two is the method of calculation.
+If you were to rank the three most commonly used types of moving averages —
+simple, weighted, and exponential — according to their emphasis on recent
+price action, exponential moving averages, which place a lot of emphasis on
+recent prices, would top the list. Weighted moving averages would be a close
+second and simple moving averages a distant last.
+
+255
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 256
+
+256 Part IV: Combining Patterns and Indicators
+
+a
+
+Figure 11-5:
+A 5-day and
+20-day
+moving
+average
+compared
+together.
+b
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 257
+
+Chapter 11: Using Technical Indicators to Complement Your Candlestick Charts
+Calculating a weighted moving average
+To calculate a weighted moving average, multiply the most recent stock price
+by the total number of prices in your chosen time frame. Then multiply the
+second most recent stock price by the total number of prices minus one, and —
+using the same method — work your way back to the first price in your time
+frame.
+For Figure 11-6, I’ve taken the same five-day data used for the simple moving
+average in Figure 11-4 and calculated a weighted moving average. Note: For
+Day 5, the weighted close is equal to 5 × 113.87 or 569.35, while the weighted
+close for Day 1 is simply the closing price × 1 (114.70). To determine the
+weighted moving average, the weighted closing prices are added up and
+divided by the sum of the weights. In this case, that number is
+[(1 × Day 1 closing price) + (2 × Day 2 closing price) + (3 × Day 3 closing
+price) + (4 × Day 4 closing price) + (5 × Day 5 closing price)] ÷ 15.
+
+Figure 11-6:
+A
+calculation
+of a 5-day
+weighted
+moving
+average.
+
+Day
+
+Close
+
+Weighted Close
+
+1
+2
+3
+4
+5
+
+114.70
+114.73
+114.14
+113.56
+113.87
+
+114.70
+229.46
+342.42
+454.24
+569.35
+
+15 Total
+
+1710.17
+
+Total / 15
+
+114.01
+
+Refer to Figure 11-4 and Figure 11-6 for the difference between the simple
+moving average and the weighted moving average. There’s a pretty significant difference! The lower recent prices mean that the weighted moving average is quite a bit lower.
+
+Calculating an exponential moving average
+You can calculate an exponential moving average in a handful of different
+ways, and I suggest that you use . . . none of them. The math involved in the
+calculations is a bit complex, and for your purposes, I recommend leaving the
+hard work to a charting package. (See Chapter 4 for more info on popular
+charting software.)
+
+257
+
+18_178089 ch11.qxp
+
+2/27/08
+
+9:40 PM
+
+Page 258
+
+258 Part IV: Combining Patterns and Indicators
+Combining two moving averages
+Comparing closing prices with moving averages is a great way to use moving
+averages to determine a trend, but it’s not the only way. You can also combine and compare two moving averages to define the current trend. For
+example, you may calculate both a 5- and 20-day moving average for a stock,
+and then compare them to spot a trend. To do so, work your way though the
+following steps:
+1. Calculate the two moving averages, using the process described earlier in this chapter.
+2. Determine which of your two moving averages is fast, and which is
+slow.
+The fast moving average is always the one with the fewest number of
+data points (closing prices). It’s labeled “fast” because its small number
+of data points makes it prone to change much more quickly (completely
+different than the reasons someone gets labeled “fast” in high school).
+The slow moving average is slower to change because of its heftier
+number of data points.
+3. Compare your moving averages to spot a trend.
+If the fast moving average is higher than the slow moving average, that
+indicates an uptrend. The logic is exactly the same as comparing a closing price to a moving average to determine trend, but the fast moving
+average takes the place of the closing price.
+If you notice this type of trend, be more inclined to follow a bullish
+candlestick pattern and consider buying. If the fast moving average is
+lower than the slow moving average, that indicates a downtrend. If that’s
+what you see, you should follow a bearish candlestick pattern and look
+to sell.
+Take a look at Figure 11-7, which contains the same data as the previous
+charts in this chapter, but overlays both a 5- and 20-day moving average. The
+5-day moving average is represented by the solid line, while a dashed line is
+used for the 20-day moving average. You can clearly see the higher volatility
+of the 5-day moving average compared to the 20-day. And you can also see
+that the chart indicates an uptrend!
+Experts often use a combination of the 5- and 200-day moving averages to
+define a long-term bull or bear market. These choices may seem somewhat
+arbitrary, but they’ve been cemented as rules of thumb in the market.

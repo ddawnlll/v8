@@ -1,0 +1,565 @@
+
+393
+
+This page intentionally left blank
+
+Critical Questions
+for Trading
+Systems
+There are many questions you should ask when building and
+testing a trend following trading system. Here are a few:
+1. What are the largest actual and simulated drawdowns
+
+experienced? What was the maximal loss in equity—simulated
+and actual—in a single day?
+2. What is the maximum number of consecutive losing months
+
+the system has sustained?
+3. How often do drawdowns occur?
+4. Are drawdowns typically short-lived, or do they develop
+
+gradually?
+5. On the average, how long does it take to recover all losses
+
+incurred during a drawdown? What is the longest it has taken
+to complete a recovery from the trough of a drawdown?
+6. Is the risk of each trade quantified? If so, what variables are
+
+included when making the calculation? Is the procedure
+accomplished by the computer or “by hand?”
+7. How is the overall risk controlled?
+8. Are there circumstances under which all trading could be
+
+halted to avoid further losses? If so, what are they? If not, why
+not?
+9. Are there markets in which the trading system consistently
+
+performed poorly? If so, why does it not work well in those
+markets?
+
+395
+
+G
+There can never be
+surprises in logic.
+Ludwig Wittgenstein1
+
+396
+
+On the Cuban Revolution:
+Michael: “I saw an
+interesting thing happen
+today. A rebel was being
+arrested by the military
+police, and rather than be
+taken alive, he exploded a
+grenade he had hidden in
+his jacket. He killed
+himself, and he took a
+captain of the command
+with him.”
+Random observer: “Those
+rebels, you know they’re
+crazy.”
+Michael: “Maybe so but it
+occurred to me—the
+soldiers are paid to fight.
+The rebels aren’t.”
+Hyman Roth: “What does
+that tell you?”
+Michael: “They could
+win.”3
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+10. Does the system adapt quickly or slowly to changes in market
+
+volatility?
+11. Does the system have a way to minimize losses caused by
+
+whipsaws in the market?
+12. Does the system permit discontinuation of trading when equity
+
+falls to a prespecified point and call for resumption of trading
+when market conditions warrant?
+13. What principles establish stop placement?
+14. How much does portfolio diversification reduce risk in the
+
+trading system?2
+For more information on these types of questions, including
+additional study materials and personal instruction, please see:
+www.turtletrader.com/order.html.
+
+Resources
+Educational web sites from Michael Covel for trend followers
+include:
+• www.turtletrader.com
+• www.michaelcovel.com
+• www.trendfollowing.com
+• www.brokemovie.com
+
+397
+
+There are many who find a
+good alibi far more
+attractive than an
+achievement. For an
+achievement does not settle
+anything permanently. We
+still have to prove our
+worth anew each day: we
+have to prove that we are
+as good today as we were
+yesterday. But when we
+have a valid alibi for not
+achieving anything, we are
+fixed, so to speak, for life.
+Eric Hoffer
+
+This page intentionally left blank
+
+Endnotes
+Preface
+1. Recruitment ad for Shackleton’s Antarctic Expedition. The Times,
+London, 1913. Believed to have been posted in the personals section.
+2. Van K. Tharp, Trade Your Way to Financial Freedom. New York:
+McGraw-Hill, 1999.
+
+About the Author
+1. Denise G. Shekerjian, Uncommon Genius. New York: Penguin
+Books, 1990.
+
+Chapter 1
+1. See www.mises.org.
+2. Robert Koppel, The Intuitive Trader, Hoboken, NJ: John Wiley &
+Sons, Inc., 1996, 88.
+3. Ludwig von Mises, Human Action: A Treatise on Economics. 4th
+revised ed. Irvington-on-Hudson, NY: The Foundation for Economic
+Education, Inc., 1996, printed 1998. First published in 1949.
+4. Jack Schwager, Market Wizards: Interviews with Top Traders. New
+York, NY: Harper Collins, 1993.
+5. Ludwig von Mises, Human Action: A Treatise on Economics. 4th
+revised ed. Irvington-on-Hudson, NY: The Foundation for Economic
+Education, Inc., 1996, printed 1998. First published in 1949.
+6. Barclay Trading Group, Ltd. Barclay Managed Futures Report. Vol.
+3, No. 3 (Third quarter 1992), 3.
+399
+
+400
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+7. Allison Colter. Dow Jones. July 13, 2001.
+8. Trading System Review, Futures Industry Association Conference,
+November 2, 1994.
+9. Jack Schwager, Getting Started in Technical Analysis. Hoboken, NJ:
+John Wiley & Sons, Inc., 1999.
+10. The History of the Motley Fool. Fool.com, November 4, 2003. See
+www.fool.com.
+11. The State of the Industry. Managed Account Reports, Inc. June
+2000.
+12. John Allen Paulos. A Mathematician Plays the Stock Market. New
+York, NY: Basic Books, 2003, 47.
+13. Quantitative Strategy: Does Technical Analysis Work? Equity
+Research, Credit Suisse First Boston. September 25, 2002.
+14. Daniel P. Collins in Futures, October 2003.
+15. Disclosure Document. John W. Henry & Company, Inc. August 22,
+2003.
+16. Disclosure Document. John W. Henry & Company, Inc. August 22,
+2003.
+17. Carla Cavaletti, Top Traders Ride 1996 Trends. Futures. (March
+1997), 68.
+18. Jack Schwager, Getting Started in Technical Analysis. Hoboken, NJ:
+John Wiley & Sons, Inc., 1999.
+19. Ginger Szala, Abraham Trading: Trend Following Earns Texas Sized
+Profits. Futures (March 1995), 61.
+20. Desmond MacRae, Valuing Trend-Followers’ Returns. Managed
+Account Reports, Inc. No. 242 (April 1999), 12.
+21. Speech given to financial consultants on November 17, 2000. See
+www.jwh.com.
+22. Presentation in Geneva, Switzerland on September 15, 1998.
+23. Futures. Vol.22, No.12 (November 1993), 98.
+24. AIMA Newsletter, June 2001. Alternative Investment Management
+Association.
+25. Morton S. Baratz, The Investor’s Guide to Futures Money
+Management. Columbia, MD: Futures Publishing Group, 1984.
+26. Guest Article, 249. Managed Account Reports (November 1999), 9.
+27. Speech given to financial consultants on November 17, 2000. See
+www.jwh.com.
+28. From Upstairs/Downstairs Seminar with Tom Baldwin. Futures
+Industry Association, 1994.
+29. Performance Review, February 1999. John W. Henry & Company,
+Inc.
+30. Tass Twenty Traders Talk. Held June 29, 1996 at the Montreal Ritz
+Carlton Hotel in Montreal, Canada.
+
+401
+
+Endnotes
+
+31. Jack Schwager, Market Wizards: Interviews with Top Traders. New
+York: Harper Business, 1989.
+32. Riva Atlas, Macro, Macro Man. Institutional Investor Magazine.
+1996.
+33. Trend Following: Performance, Risk and Correlation Characteristics.
+White Paper. Graham Capital Management.
+34. Trend Following: Performance, Risk and Correlation Characteristics.
+White Paper. Graham Capital Management.
+35. Trends in Currency Markets: Which Way the $? AIMA Newsletter,
+June 2002. Alternative Investment Management Association.
+36. The Trading Tribe at Seykota.com. See www.seykota.com/tribe/.
+37. Mary Greenebaum, Funds: The New Way to Play Commodities.
+Fortune, November 19, 1979.
+38. Brett N. Steenbarger, The Psychology of Trading. Hoboken, NJ: John
+Wiley & Sons, Inc., 2002, 316–317.
+39. Brenda Ueland, How to Write. 10th ed. New York, NY: Graywolf
+Press, 1997. First published 1938.
+40. Bruce Cleland, Campbell and Co. Futures (March 2004), 72.
+41. David Whitford, Why Owning the Boston Red Sox Is Like Running a
+Successful Hedge Fund. Fortune Small Business (October 25,
+2003).
+42. The Whizkid of Futures Trading. Business Week (December 6,
+1982), 102.
+43. Anonymous, “Super Trader” in Van Tharp, Two Contrasting Super
+Traders.
+
+Chapter 2
+1. Jim Rogers, Investment Biker. New York: Random House, 1994.
+2. Thomas Friedman, The Lexus and the Olive Tree. New York: Farrar,
+Straus, and Giroux, 1999.
+3. Leah McGrath Goodman, Trader Monthly;
+www.traderdaily.com/magazine/article/17115.html.
+4. Leah McGrath Goodman, Trader Monthly;
+www.traderdaily.com/magazine/article/17115.html.
+5. Leah McGrath Goodman, Trader Monthly;
+www.traderdaily.com/magazine/article/17115.html.
+6. The Winton Papers. www.wintoncapital.com.
+7. Daniel P. Collins, Seeding Tomorrow’s Top Traders; Managed Money;
+Dunn Capital Management Provides Help to Commodity Trading
+Advisor Start-ups. Futures, No. 6, Vol. 32, 67, (May 1, 2003) ISSN:
+0746-2468.
+
+402
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+8. In J. R. Newman (ed.) The World of Mathematics. New York: Simon
+and Schuster, 1956.
+9. Jim Collins, Good to Great, New York: Harper Business, 2001.
+10. Robert Koppel, The Intuitive Trader. Hoboken, NJ: John Wiley &
+Sons, Inc., 1996, 74.
+11. The Reason Foundation. See www.reason.org.
+12. Daniel P. Collins, Seeding Tomorrow’s Top Traders; Managed Money;
+Dunn Capital Management Provides Help to Commodity Trading
+Advisor Start-ups. Futures, No. 6, Vol. 32, 67, (May 1, 2003) ISSN:
+0746-2468.
+13. Tricycle Asset Management, part of the Market Wizards Tour.
+Held on May 15, 2003 in Saskatoon, Saskatchewan.
+14. Tricycle Asset Management, part of the Market Wizards Tour.
+Held on May 15, 2003 in Saskatoon, Saskatchewan.
+15. Tricycle Asset Management, part of the Market Wizards Tour.
+Held on May 15, 2003 in Saskatoon, Saskatchewan.
+16. Amy Rosenbaum, 1990s Highs and Lows: Invasions, Persuasions and
+Volatility. Futures, Vol. 19, No. 14 (December 1990), 54.
+17. Andrew Osterland, For Commodity Funds, It Was as Good as It
+Gets. Business Week (September 14, 1998).
+18. Jack Reerink, Dunn: Slow Reversal Pays Off. Futures, Vol. 25, No. 3
+(March 1996).
+19. Mike Mosser, Learning from Legends. Futures, Vol. 29, No. 2
+(February 2000).
+20. How Managed Money Became a Major Area of the Industry; Futures
+Market. Futures, Vol. 21, No. 9 (July 1992), 52.
+21. Daniel P. Collins, Bob Pardo: Perfecting a Model. Futures, Vol. 31,
+No.13 (October 2002), 90.
+22. Denise G. Shekerjian, Uncommon Genius. New York: Penguin
+Books, 1990.
+23. Mary Ann Burns, Industry Icons Assess the Managed Futures
+Business. Futures Industry Association (May/June 2003).
+24. Jack Reerink, Dunn: Slow Reversal Pays Off. Futures, Vol. 25, No. 3
+(March 1996).
+25. Carla Cavaletti, Comeback Kids: Managing Drawdowns According to
+Commodity Trading Advisors. Futures Vol. 27, No. 1 (January
+1998), 68.
+26. Excerpt from Dunn Capital Management Monthly Commentary for
+February 2003.
+27. Barclay Trading Group, Ltd. Barclay Managed Futures Report.
+Vol. 3, No. 3 (Third quarter 1992), 2.
+28. Monster.com ad.
+29. Ginger Szala, John W. Henry: Long-Term Perspective. Futures
+(1987).
+
+Endnotes
+
+30. Presentation in Geneva, Switzerland on September 15, 1998.
+31. Lois Peltz, The New Investment Superstars. New York: John Wiley
+& Sons, Inc., 2001.
+32. Mary Ann Burns, Industry Icons Assess the Managed Futures
+Business. Futures Industry Association (May/June 2003).
+33. Mark S. Rzepczynski, John W. Henry & Co. Year in Review,
+December 2000.
+34. Oliver Conway, Cover story about John W. Henry & Company, Inc.
+Managed Derivatives (May 1996).
+35. W.H. Auden and L. Kronenberger (eds.). The Viking Book of
+Aphorisms. New York: Viking Press, 1966.
+36. Michael Peltz, John W. Henry’s Bid to Manage the Future.
+Institutional Investor (August 1996).
+37. Ginger Szala, John W. Henry: Long-term Perspective. Futures
+(1987).
+38. Lois Peltz, The New Investment Superstars. New York: John Wiley
+& Sons, Inc., 2001.
+39. Speech given to financial consultants on November 17, 2000. See
+www.jwh.com.
+40. Lois Peltz, The New Investment Superstars. New York: John Wiley
+& Sons, Inc., 2001.
+41. 2002 Year in Review. John W. Henry & Company, Inc.
+42. Futures Industry Association Conference Seminar. Trading System
+Review, November 2, 1994.
+43. John W. Henry, Morgan Stanley Dean Witter Achieve Conference.
+Naples, Florida, November 17, 2000.
+44. Presentation in Geneva, Switzerland on September 15, 1998.
+45. Presentation in Geneva, Switzerland on September 15, 1998.
+46. Presentation in Geneva, Switzerland on September 15, 1998.
+47. FIA Research Division dinner held in New York City on April 20,
+1995.
+48. Jack Schwager, The Market Wizards. New York: Harper Business,
+1989, 172.
+49. The Trading Tribe at Seykota.com. See www.seyokota.com/tribe/.
+50. Email to TurtleTrader.com.
+51. Daniel P. Collins, Long-Term Technical Trend-Following Method for
+Managed Futures Programs. Futures, Vol 30, No. 14 (November
+2001); 22.
+52. The Trading Tribe at Seykota.com. See www.seyokota.com/tribe/.
+53. Thom Hartle, ed., Ed Seykota of Technical Tools. Technical Analysis
+of Stocks & Commodities, Vol. 10, No. 8 (August 1992), 328–331.
+(Used with permission; www.traders.com.)
+
+403
+
+404
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+54. Thom Hartle, ed., Ed Seykota of Technical Tools. Technical Analysis
+of Stocks & Commodities, Vol. 10, No. 8 (August 1992), 328–331.
+(Used with permission; www.traders.com.)
+55. Thom Hartle, ed., Ed Seykota of Technical Tools. Technical Analysis
+of Stocks & Commodities, Vol. 10, No. 8 (August 1992), 328–331.
+(Used with permission; www.traders.com.)
+56. Thom Hartle, ed., Ed Seykota of Technical Tools. Technical Analysis
+of Stocks & Commodities, Vol. 10, No. 8 (August 1992), 328–331.
+(Used with permission; www.traders.com.)
+57. Shawn Tully, Princeton’s Rich Commodity Scholars. Fortune
+(February 9, 1981), 94.
+58. The Trading Tribe at Seykota.com. See www.seyokota.com/tribe/.
+59. http://sysdyn.clexchange.org/sd-intro/home.html.
+60. Kelly, J. L., Jr., A New Interpretation of Information Rate. Bell
+System Technical Journal (July 1956), 917–926.
+61. The Trading Tribe at Seykota.com. See www.seyokota.com/tribe/.
+62. Jack Reerink, The Power of Leverage. Futures, Vol. 24, No. 4 (April
+1995), 59.
+63. Gibbons Burke, How to Tell a Market by Its Covers: Financial
+Market Predictions Based on Magazine Covers. Futures, Vol. 22,
+No. 4 (April 1993), 30.
+64. Your Trading Edge. See http://www.yte.com.au.
+65. Joe Niedzielski, Wild Market Swings Take Toll on Commodity
+Trading Advisers. Dow Jones Newswires, April 25, 2000.
+66. H. Weyl, Mathematics and the Laws of Nature. In I. Gordon and S.
+Sorkin (eds.) The Armchair Science Reader. New York: Simon and
+Schuster, 1959.
+67. Darrell R. Jobman, How Managed Money Became a Major Area of
+the Industry. Futures Vol. 21, No. 9 (July 1992), 52.
+68. Futures Industry Association Conference Excerpt. Campbell and
+Company.
+69. Mary Ann Burns, Industry Icons Assess the Managed Futures
+Business. Futures Industry Association (May/June 2003).
+70. Value of Adding Managed Futures. Marketing Documents. Campbell
+and Company.
+71. 2003 Disclosure Document. Campbell and Company.
+72. Desmond McRae, 31-Year Track Record of 18.1%. Managed Account
+Reports: Extracting Inherent Value from Managed Futures (March
+2003).
+73. Barclay Trading Group, Ltd. Barclay Managed Futures Report. Vol.
+2, No. 3 (Third quarter 1991), 2.
+74. The Futures and Industry Association’s Future and Options Expo
+‘98. Held at the Sheraton Chicago Towers & Hotel in Chicago, Ill.,
+on October 14–16, 1998.
+
+Endnotes
+
+75. The Futures and Industry Association’s Future and Options Expo
+’98. Held at the Sheraton Chicago Towers & Hotel in Chicago, Ill.,
+on October 14–16, 1998.
+76. The Futures and Industry Association’s Future and Options Expo
+‘98. Held at the Sheraton Chicago Towers & Hotel in Chicago, Ill.,
+on October 14–16, 1998.
+77. The Futures and Industry Association’s Future and Options Expo
+‘98. Held at the Sheraton Chicago Towers & Hotel in Chicago, Ill.,
+on October 14–16, 1998.
+78. The Futures and Industry Association’s Future and Options Expo
+‘98. Held at the Sheraton Chicago Towers & Hotel in Chicago, Ill.,
+on October 14–16, 1998.
+79. Chuck Epstein, The World According to J. Parker. Managed Account
+Reports (November 1998).
+80. Barclay Trading Group, Ltd. Barclay Managed Futures Report. Vol.
+2, No. 3 (Third quarter 1991), 7.
+81. Barclay Trading Group, Ltd. Barclay Managed Futures Report. Vol.
+2, No. 3 (Third quarter 1991), 2.
+82. Simon Romero, A Homespun Hedge Fund, Tucked Away in Texas.
+New York Times, December 28, 2003, Business, 1.
+83. Futures (March 1995).
+84. Simon Romero, A Homespun Hedge Fund, Tucked Away in Texas.
+New York Times, December 28, 2003, Business, 1.
+85. See www.abrahamtrading.com.
+86. Ayn Rand, The Fountainhead. New York: Bobbs-Merrill Company,
+1943.
+87. Simon Romero, A Homespun Hedge Fund, Tucked Away in Texas.
+New York Times, December 28, 2003, Business, 1.
+88. Jack Schwager, Market Wizards: Interviews with Top Traders. New
+York: New York Institute of Finance, 1989.
+89. Stanley W. Angrist, Commodities: Winning Commodity Traders May
+Be Made, Not Born. The Wall Street Journal, September 5, 1989.
+90. Greg Burns, Rich Dennis: A Gunslinger No More. Business Week
+(April 7, 1997).
+91. Susan Abbott, Richard Dennis: Turning a Summer Job into a
+Legend. Futures (September 1983), 58.
+92. Susan Abbott, Richard Dennis: Turning a Summer Job into a
+Legend. Futures (September 1983), 59.
+93. Susan Abbott, Richard Dennis: Turning a Summer Job into a
+Legend. Futures (September 1983), 57.
+94. Susan Abbott, Richard Dennis: Turning a Summer Job into a
+Legend. Futures (September 1983), 58.
+95. Paul Rabar, Managed Money: Capitalizing on the Trends of 1990.
+Futures Vol. 20, No. 3 (March 1991).
+
+405
+
+406
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+96. Jack Schwager, Market Wizards: Interviews with Top Traders. New
+York: New York Institute of Finance, 1989.
+97. Barbara Dixon, Richard Donchian: Managed Futures Innovator and
+Mentor. Futures Industry Association.
+98. William Baldwin, Rugs to Riches (Section: The Money Men), Forbes
+(March 1, 1982).
+99. Barbara Dixon, Richard Donchian: Managed Futures Innovator and
+Mentor. Futures Industry Association.
+100. Barbara Dixon, Richard Donchian: Managed Futures Innovator and
+Mentor. Futures Industry Association.
+101. Barbara Dixon, Richard Donchian: Managed Futures Innovator and
+Mentor. Futures Industry Association.
+102. William Baldwin, Rugs to Riches (Section: The Money Men), Forbes
+(March 1, 1982).
+103. Barbara Dixon, Richard Donchian: Managed Futures Innovator and
+Mentor. Futures Industry Association.
+104. William Baldwin, Rugs to Riches (Section: The Money Men), Forbes
+(March 1, 1982).
+105. Futures Industry Association Review: Interview: Money Managers.
+See www.fiafii.org.
+106. Barbara S. Dixon, Discretionary Accounts. Managed Account
+Reports. Report No. 20, No. 14, 5.
+107. Barbara S. Dixon, Discretionary Accounts. Managed Account
+Reports. Report No. 20, No. 14, 5.
+108. Edwin Lefevre. Reminiscences of a Stock Operator. New York:
+George H. Doran Company, 1923.
+109. Andrew Leckey, Dabble, Don’t Dive, in Futures. Chicago Tribune,
+October 2, 1986, C1.
+110. Dickson G. Watts, Speculation as a Fine Art. Reprint. Flint Hill,
+Virgina: Fraser Publishing Co., 1997.
+
+Chapter 3
+1. Sir Arthur Conan Doyle, “A Scandal in Bohemia” in The Adventures
+of Sherlock Holmes. New York: A. L. Burt, 1892.
+2. Alexander M. Ineichen, Absolute Returns. New York, John Wiley &
+Sons, Inc., 2003, 19.
+3. Disclosure Document. John W. Henry & Company, Inc., August 22,
+2003.
+4. BMFR. Barclay Trading Group (First Quarter 2003).
+5. International Traders Research Star Ranking System Explanation.
+See http://managedfutures.com.
+
+Endnotes
+
+6. Ludwig von Mises, Human Action: A Treatise on Economics. 4th
+revised ed. Irvington-on-Hudson, NY: The Foundation for Economic
+Education, Inc., 1996, printed 1998. First published 1949.
+7. Larry Harris, Trading and Exchanges: Market Microstructure for
+Practitioners. New York: Oxford University Press, 2003.
+8. David Greising, How Managed Funds Managed to Do So Poorly.
+Business Week, No. 3294 (November 23, 1992), 112.
+9. Daniel P. Collins, The Return of Long-Term Trend Following.
+Futures, Vol. 32, No. 4 (March 2003), 68–73.
+10. Desmond McRae, Top Traders. Managed Derivatives (May 1996).
+11. Trend Following: Performance, Risk and Correlation Characteristics.
+White Paper, Graham Capital Management.
+12. Larry Harris, Trading and Exchanges: Market Microstructure for
+Practitioners. New York: Oxford University Press, 2003.
+13. Ben Warwick, The Holy Grail of Managed Futures (cover story).
+Managed Account Reports (MAR), No. 267 (May 2001), 1.
+14. The Trading Tribe at Seykota.com. See www.seyokota.com/tribe/.
+15. Definition from the Institutional Advisory Services Group (IASG).
+See www.iasg.com.
+16. Laurie Kaplan, Turning Turtles into Traders. Managed Derivatives
+(May 1996).
+17. Marketing Materials. Dunn Capital Management, Inc.
+18. Carla Cavaletti, Comeback Kids: Managing Drawdowns According to
+Commodity Trading Advisors. Futures, Vol. 27, No. 1 (January
+1998), 68.
+19. Michael Peltz, John W. Henry’s Bid to Manage the Future.
+Institutional Investor (August 1996).
+20. D. Harding, G. Nakou and A. Nejjar, “The Pros and Cons of
+Drawdown as a Statistical Measure of Risk for Investments.” AIMA
+Journal, April 2003, 16–17.
+21. Carla Cavaletti, Comeback Kids: Managing Drawdowns According to
+Commodity Trading Advisors. Futures, Vol. 27, No. 1 (January
+1998), 68.
+22. The Value of a Long-Term Perspective. Marketing Document. John
+W. Henry and Company, Inc. October 1999.
+23. Carla Cavaletti, Comeback Kids: Managing Drawdowns According to
+Commodity Trading Advisors. Futures, Vol. 27, No. 1 (January
+1998), 68.
+24. Thomas F. Basso, When to Allocate to a CTA?—Buy Them on Sale.
+25. New Fans for Managed Futures. Euromoney Institutional Investor
+PLC (February 1, 2003), 45.
+26. InvestorWords.com. See http://investorwords.com.
+27. Julius A. Staniewicz, Learning to Love Non-Correlation. Investor
+Support. John W. Henry & Company, Inc.
+
+407
+
+408
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+28. Ginger Szala, Tom Shanks: Former “Turtle” Winning Race the Hard
+Way. Futures, Vol. 20, No. 2 (January 15, 1991), 78.
+29. Carla Cavaletti, Turtles on the Move. Futures, Vol. 27 (June 1998),
+79.
+30. Laurie Kaplan, Turning Turtles into Traders. Managed Derivatives
+(May 1996).
+31. Larry Harris, Trading and Exchanges: Market Microstructure for
+Practioners. New York: Oxford University Press, 2003.
+32. Larry Harris, The Winners and Losers of the Zero-Sum Game: The
+Origins of Trading Profits, Price Efficiency and Market Liquidity.
+Draft 0.911, May 7, 1993.
+33. Larry Harris, The Winners and Losers of the Zero-Sum Game: The
+Origins of Trading Profits, Price Efficiency and Market Liquidity.
+Draft 0.911, May 7, 1993.
+34. Larry Harris, The Winners and Losers of the Zero-Sum Game: The
+Origins of Trading Profits, Price Efficiency and Market Liquidity.
+Draft 0.911, May 7, 1993.
+35. Danny Hakim, Huge Losses Move Soros to Revamp Empire. The
+New York Times. May 1, 2000.
+36. Enoch Cheng. “Of Markets and Morality …” Café Bagola weblog,
+August 27, 2002. See http://bagola.blogspot.com/2002_08_25_
+bagola_archive.html.
+37. Ayn Rand, “Philosophical Detection,” Philosophy: Who Needs It?
+Edited by Leonard Peiikoff. Indianapolis: Bobbs-Merrill, 1998.
+38. Written testimony submitted for the Record of Lawrence Parks,
+Executive Director, The Foundation for the Advancement of
+Monetary Education. Before the Subcommittee on Capital Markets,
+Securities, and GSE’s; House Committee on Banking and Financial
+Services, United States House of Representatives. Hearing on Hedge
+Funds, March 3, 1999.
+39. Danny Hakim, Huge Losses Move Soros to Revamp Empire. The

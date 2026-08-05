@@ -1,0 +1,332 @@
+
+12
+
+INTRODUCTION TO FUTURES AND OPTIONS: Understanding the Mechanics
+
+Trade’s initial margin requirement was about $1,700 and the maintenance
+margin was $1,200. Based on a contract of 37,500 pounds and a price of 60
+cents a pound, the total contract value was $22,500, putting the initial margin at about 7.5 percent of the contract’s value. If the price of coffee futures
+goes up just 2 cents a pound, you have a gain of $750 or a return of about 44
+percent on your initial margin money. However, if the price of coffee drops
+2 cents a pound—not an unusual occurrence—you have a loss of $750 or
+44 percent.
+Some traders think they are required to have $1,700 plus $1,200 or a
+total of $2,900 in their account to trade one coffee futures position. This is
+not so. The rules of margin are that you need at least $1,700 in your account
+to enter a coffee position. If your account balance drops below $1,200 at
+any time, as it would with a 2-cent price decline, then you may receive a request to send in more money to get your account balance back to the original $1,700 level.
+When a margin call is generated, it is advisable to discuss the situation
+with your broker/trading advisor. From a regulatory standpoint, margin calls
+must be discussed with the client and met as soon as possible. Generally,
+clients are given a reasonable time to meet a margin call, depending on the
+amount of money involved and the nature of the situation. Brokerage firms
+have the right and the obligation to ensure the financial integrity of the marketplace and, therefore, may liquidate your positions to ensure that your account is restored to the proper margin requirements. Thus, it is important
+to stay in tune with the markets and in touch with your broker when you
+are holding positions.
+There are two other ways to meet a margin call: (1) You may liquidate
+the position at a loss or (2) the market may make a reversal, trading back
+in your favor and taking you off margin call status.
+The open trade equity in your account is credited or debited each day
+as the settlement price fluctuates. This futures industry practice is called
+marked to market. Traders often do not regard a setback as a loss until they
+are out of the market, and they are only looking at a so-called paper profit
+until they close out a winning position. It is a good idea to have excess capital in your account beyond what is required. I recommend having at least
+50 percent more than the initial margin requirement for each position you
+plan to take as a longer-term trade. For day traders, maintenance margin is
+sufficient.
+Futures contracts often involve large quantities of product with a fraction of the total contract value needed as a good-faith deposit. Not many people have $200,000 in cash to purchase a home, so they apply for a mortgage
+and put 3 percent to maybe 20 percent down. But buying a home and trading
+futures aren’t the same because of the leverage factor, and that is why options have become extremely popular since the early 1990s.
+
+Contract Specifications
+
+13
+
+Investors who buy options have a right, but not an obligation, to fulfill
+the terms of an options contract at a specific strike price. They can buy calls
+to take advantage of price increases or buy puts to take advantage of price
+decreases. The risk in buying options is limited to the initial premium paid
+to acquire the option plus the commission and transaction fees associated
+with the transaction; that means no margin calls in the event of a short-term
+adverse price move. Simply stated, option buyers can enjoy staying power
+and a predetermined risk level.
+However, buying options is limited to a certain time period, and if the
+market does not move enough in your direction in that prescribed period of
+time, your entire premium or investment will be lost.
+Chapter 13 is devoted to a comprehensive description of trading in options and the logical approach for understanding the terms and uses of different strategies.
+
+CONTRACT SPECIFICATIONS
+In addition to the margin/security deposit difference, futures contracts have
+several other features that make them different from equities, as Table 1.1
+indicates. Futures come in different contract sizes and expire in specific
+months. Equities all are priced on a uniform per-share basis, and they do not
+expire (although a company may go out of business, which could cause your
+investment to “expire”). Stocks may also have splits and reverse splits, and
+some even pay dividends.
+With equities, you can maintain a long-term position indefinitely. With
+futures, you can also have a long-term position, but that will require that you
+roll over from one contract to the next, liquidating your holding in an expiring contract and establishing a new position in a contract month that is
+further away.
+Novice traders and even traders coming off an exchange floor to trade
+from a computer need to realize that different futures markets trade in different contract months, at different times of the day, and at different exchanges. In stocks, you have one symbol for Intel (INTC) or IBM (IBM) or
+every other individual stock. In futures, a June contract for Japanese yen is
+not the same as a September Japanese yen contract, for example, and they
+have different symbols.
+First, you need to know the symbol for the market you want to trade—
+CL for crude oil, for example. Most quote vendors use the same symbols as
+they are pretty much a universal language in the futures industry. However,
+some vendors use the symbol CC instead of CO for cocoa or SU instead of
+SB for sugar. The mini-sized Dow contract may be YJ, YM, ZJ, or some other
+
+14
+
+INTRODUCTION TO FUTURES AND OPTIONS: Understanding the Mechanics
+
+symbol specific to a data service or brokerage firm. Most applications have
+a menu of symbols so you can look up the quotes or charts you want.
+Second, you need to know the symbols for each month. This can be
+somewhat confusing, especially to newcomers. The list of symbols for each
+contract month is shown at the bottom of Table 1.1. Notice that March is
+the only month that even contains the month’s symbol, H, as a letter in the
+name of the contract month. The trickiness in properly identifying a futures contract is one reason new traders find futures trading more complicated than equity trading.
+It can lead to a hazardous situation when you are rolling out of a contract that has been trading for a while and switching to a new one. For example, if you have been trading a June contract and have to shift to the
+September contract as the June contract expires, you may still be in the
+habit of using June. When placing orders, a slip in identifying a contract can
+create problems and cost you money. Placing an order for a June contract
+when you really mean to trade the September contract can easily happen in
+futures trading if you get careless. There is a window of time when the
+June contract will still be trading but not actively as most of the trading activity shifts into the next month. For commodities, that time period is between the first notice day and the last trading day for a contract. Orders will
+still be accepted for the expiring month in that time frame, and it will be up
+to you to cover your error if your order gets you into the wrong contract
+month. (Note: The trading tactics section in Chapter 12 provides a technique that some big traders and floor professionals use as first notice day
+approaches. It may benefit you to be aware of the first notice day trick.)
+Third, you may need to know the exchange where the contract you want
+is traded. Although a number of futures markets are traded on only one exchange, some are traded at several exchanges. For example, if you want to
+trade hard red winter wheat, you have to specify the wheat contract traded
+at the Kansas City Board of Trade, not the wheat contracts traded in Chicago
+or Minneapolis.
+Fourth, you may need to be specific about the time of day you want to
+trade or the size of the contract you want to trade. Table 1.1 does not show
+all the symbols differentiating between the day session’s regular trading
+hours and the electronic or after-hours night sessions. Nor are the symbols
+given for most of the mini-sized electronic products traded at the Chicago
+Mercantile Exchange and the Chicago Board of Trade.
+
+ELECTRONIC ERA
+More than 70 percent of all futures markets now trade around the clock, including agricultural markets that once were traded only in the pits of an ex-
+
+Electronic Era
+
+15
+
+change during a relatively short daily session. Orders can be placed electronically on most companies’ online trading platforms, although many firms
+do not accept open orders and contingency orders for some markets. Chapter 10 explains the order process and contingency orders. It is also advisable
+to check with your trading firm regularly regarding any changes in trading
+hours and to see which orders are acceptable.
+The electronic product that started it all for the futures industry came
+from the Chicago Mercantile Exchange, as you might expect, when it developed Globex and launched trading in the e-mini S&P 500 and Nasdaq 100
+index futures contracts. These contracts have been particularly attractive
+to former investors in the stock market and are now among the most actively
+traded futures contracts.
+The Chicago Board of Trade launched a mini-sized contract based on the
+Dow Jones Industrial Average in April 2002, and its popularity accelerated
+in 2003, reaching a daily volume of more than 60,000 contracts a year later.
+The contract has several key features that make it an attractive trading
+vehicle:
+• A 100 percent electronic market with 24-hour access.
+• Lower margin than other stock index futures in dollars and as a percentage of contract value ($2,700 versus $3,563 for the e-mini S&P in the
+middle of 2003).
+• Simpler calculating and tracking components as the Dow only has 30
+underlying stocks to monitor.
+• For those with blue-chip stock portfolios, easier hedging by being able
+to go short the Dow as easily as going long. Dow futures correlate closely
+with the underlying Dow Jones Industrial Average.
+• More spreading opportunities because the mini-sized Dow can be traded
+against individual single stock futures, Diamonds or S&P 500, Nasdaq
+100, or other index futures.
+• Smaller minimum price fluctuations. Each point or tick in the mini-sized
+Dow is $5. Each point in the e-mini S&P is $50, with the minimum tick
+size a quarter of a point or $12.50. The two contracts trade in about a
+10-to-1 relationship—a 10-point move in the e-mini S&P and a 100-point
+move in the mini-sized Dow are each worth $500. A move of that size
+would equate to an 18.52 percent gain for the mini-sized Dow versus a 14
+percent gain for the e-mini S&P, using the margin amounts previously
+mentioned.
+Perhaps the biggest attraction of the mini-sized Dow is that it is based
+on the best-known U.S. stock market barometer, which is more than a century old and recognized around the world. When you ask how the stock market did today, most people think of the Dow.
+
+16
+
+INTRODUCTION TO FUTURES AND OPTIONS: Understanding the Mechanics
+
+INVESTMENT REVOLUTION?
+Next to the electronically traded stock index contracts, probably the most
+exciting new futures market area is single stock futures (SSF). SSFs were
+launched on two new U.S. exchanges on November 8, 2002, after a twodecade moratorium on that type of contract. They had been trading on foreign exchanges with moderate success for some time but had been banned
+in the United States by an agreement that allowed trading to begin in stock
+index futures in 1982. The realization that the United States might lose out
+on market share to foreign competitors in a potential major new market
+was high on the list of factors that prompted politicians and regulators at
+the Securities and Exchange Commission and Commodity Futures Trading
+Commission to finally resolve jurisdictional issues to allow trading in SSFs.
+SSFs are an innovative product and could change the way the world invests on Wall Street in the future. Investors who have limited their investments to the stock market especially may benefit from this new market.
+Imagine having the leverage to trade 100 shares of a popular stock for only
+a 20 percent margin requirement and not having to pay a stock firm the broker loan rate to sell a stock short (if they can loan it to you at all). Assume,
+for example, that Microsoft is priced at $25 per share. The futures contract
+size is 100 shares so the contract value is $2,500. With an initial margin requirement of 20 percent of the value of the contract, you have to put up only
+$500 to either buy or sell Microsoft futures instead of $1,250 it would take
+to buy 100 shares of Microsoft shares at the minimum margin rate in the
+stock market.
+With SSFs you can open a futures trading account, buy a cash Treasury
+bill, and trade a broad range of markets beyond SSFs while earning interest
+instead of paying interest. The best part is being able to go long or short without prejudice and having access to the market by trading from your computer at home or work. These developments may not make broker-dealers
+happy but are good news for individual traders.
+
+BULL MARKET FOR FUTURES
+These stock-related trading vehicles reinforce my optimism about the popularity of futures trading, not only in the United States but also around the
+globe as people attempt to increase their wealth and raise their standard of
+living. I believe the explosive growth in futures has come out of the dismal
+losses many investors suffered during the great bear market in equities since
+the peak in 2000.
+Investors are now becoming more educated and open to other opportunities rather than limiting themselves to recommendations from their stock-
+
+Bull Market for Futures
+
+17
+
+broker or investment advisor. The story earlier in this chapter about the
+gentleman who never traded futures because his stockbroker said he would
+lose his shirt is a testimonial to the fact that more and more investors—
+most likely, people just like you—want to learn more.
+Here is another example. I gave a seminar presentation in August 2002
+to the Chicago chapter of the Cornerstone Investors Group, speaking to
+about 70 people. I asked how many folks in the audience were trading futures. I believe about three people raised their hands, and I think two were
+clients of mine.
+The president of the group, Mark Anderson, invited me back in April
+2003, reminding me that I said to his group in 2002, “If the balance of you
+are not trading futures, then you will be sooner or later.” Just eight months
+after that 2002 seminar, I asked the same question at the April seminar,
+which had about 85 people. First, the investment club membership had
+grown and, second, it seemed like almost everyone raised their hands. I was
+shocked!
+What happened here? Well, this investor group had started to learn and
+discovered the benefits of trading futures and how to apply technical analysis to the markets. They were taking control of their own financial destiny.
+A whole lot of people are now interested in the futures markets and not
+just from the town of Schaumburg, Illinois, or in Tampa Bay, Florida, where
+the Cornerstone group was founded. The reach of traders wanting to learn
+this form of derivative trading stretches to Ireland, England, Europe, Asia,
+Australia—worldwide. I hope this book helps to keep you focused and financially prepared for the years ahead and helps you with the process of
+continually learning the ebb and flow of the markets.
+
+CHAPTER 2
+
+Fundamentals
+The Market Driver
+
+Everyone needs constant education and training.
+The more you keep yourself informed, the better
+honed your instincts and decision-making
+capabilities.
+—Linda Conway
+
+he term fundamental analysis refers to the study of tangible information about a market such as supply and demand statistics and expectations about what these numbers might be. Markets are a two-way
+street: Supply and demand are key factors in determining price, and price
+often is a factor in supply and demand.
+Supply and demand comes from the perceived value that is placed on a
+stock, commodity, or any derivative product. In its simplest definition, supply is the amount of a given stock, product, or commodity that is available
+to the market, either in excess or limited at a given price depending on the
+number of sellers. Price establishes a resistance level when the supply of a
+particular product or stock is adequately provided.
+Demand, the amount of buying or lack of buying, plays an integral role
+in establishing how high or low prices can go and is generated by buyers.
+Demand establishes a support level for prices.
+Numerous events directly affect the outcome of both supply and demand, but some are more critical than others. For example, for agriculture
+products from grains to livestock, weather is a crucial element in determining supply. In the event of a drought, grain production could be in short
+supply and livestock could suffer weight loss or be forced to market in
+large numbers if it appears scarce feed may become too expensive. In harsh
+
+T
+
+19
+
+20
+
+FUNDAMENTALS: The Market Driver
+
+winters, grain movement could be slowed and livestock could perish, resulting in supply disruptions that could cause prices to go higher in a steady
+or rising demand environment.
+
+THE FED FACTOR
+In the financial arena, when the Federal Reserve lowers short-term interest
+rates, economic activity theoretically accelerates due to an increase in commerce as a direct result of the cost of doing business becoming less expensive. However, events do not always unfold as theory suggests.
+The Federal Reserve began an aggressive campaign to lower interest
+rates to kick start the U.S. economy in 2001. It cut short-term rates 13 times,
+11 of those cuts amounting to 4.75 percentage points coming during 2001, a
+difficult period for the U.S. economy. Then in November 2002 the Fed cut
+rates another 50 basis points in what it called a “preventive” action against
+possible economic weakness as the United States was preparing to attack
+Iraq to combat global terrorism and oust Saddam Hussein and his weapons
+of mass destruction. The invasion was a quick one—I think the UN Security
+Council meeting debates took longer than the actual military operation.
+However, U.S. economic growth still did not accelerate as expected, so
+on May 6, 2003, the Fed slashed rates for the 13th time. That 25-point cut
+dropped the Fed funds rate to 1 percent, and Federal Reserve Chairman Alan
+Greenspan even mentioned combating potential deflation as a reason for
+making this move!
+The whole investment world did an about-face. Most people thought
+the Fed was getting closer to actually raising interest rates rather than lowering them, and there was speculation that the Fed would take other unconventional means such as buying back 10-year and 30-year bonds to lower
+rates for longer-term maturities. Mortgage rates fell to the lowest level in
+nearly 50 years. The market’s focus shifted to watching the Producer Price
+Index, the Consumer Price Index, and employment plus any other reports
+that would hint at a stronger manufacturing sector as well as any that would
+indicate a decrease in the jobless rate.
+These were some unconventional responses to some unconventional
+moves, but the key point is that it is important to grasp the significance of
+the underlying economic fundamentals and the implications they might have
+for any market you are trading.
+Interest rates control the cost of money. Those who can foretell what
+money will cost to lend or borrow have the upper hand in the investment
+community. Rates dictate many other factors, especially because they are
+one of the variables in calculations to determine fair-market values from
+stock index futures to the broker loan rates for stock traders. It isn’t just
+
+Reports, Reports
+
+21
+
+mortgage companies that have to guard against changes in interest rates,
+but a broad range of businesses have to consider interest rate levels in their
+plans.
+
+REPORTS, REPORTS
+One of the advantages of trading futures is that the government releases
+dozens of reports every week, and the media provides additional material
+that offers insights into what might lie ahead for market prices. Determining
+the direction of the economy from reading economic reports is vital for understanding the potential for the direction of interest rates as well as gauging the health of the various sectors of the economy.
+For example, government reports such as those on employment may
+reveal what the potential for future household disposable income is and give
+analysts and economists an idea of how much spending could occur based
+on the number of Americans working. News articles give you the ability to
+follow and understand the political scene, both on international and domestic levels. If Congress passes a bill to donate more wheat than expected, then
+this action may have a more bullish impact on the price of wheat futures. Or
+if Congress passes laws to change the tax rate on capital gains, you might be
+able to speculate on what the stock market or other financial markets
+may do.
+If the European Central Bank announces a lower than expected interest
+rate adjustment, it is likely to affect the value of the euro and, inversely, the
+U.S. dollar. If values of these currencies shift abruptly and to a severe degree,
+then, of course, products that are imported and exported would be priced
+differently and, ultimately, could cause a ripple effect on costs and prices of
+goods and services in the United States and overseas.
+One reason you want to be educated and up-to-date on developments
+in the economy is because they usually dictate how different financial products and futures prices will perform. The stock market likes to see healthy
+economic growth because that usually equates to better or substantially
+larger corporate profits. The bond market prefers a slower, more sustainable
+growth rate that will not lead to inflationary pressures. By watching and
+tracking economic data and getting insights from analysts and economists,
+investors will be better able to keep in tune with the markets and their
+investments.
+In fact, you should be aware of what could happen before most reports
+are released. That is why news services often give the schedule for current
+events and special reports. Publications such as Barron’s, Investors Business Daily, or the Wall Street Journal will often give you a consensus of
+analysts’ opinions on what to expect and show you what you need to know

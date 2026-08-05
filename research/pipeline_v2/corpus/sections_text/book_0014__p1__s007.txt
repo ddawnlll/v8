@@ -1,0 +1,2024 @@
+
+171,296
+
+148,723
+
+371,356
+
+1.15
+
+* Baseline
+
+These results show that this approach to an accelerating stop can improve
+results. Though the gain‐to‐pain is only marginally improved to 1.15 in the
+bottom‐row case, the max draw‐down is significantly reduced in every case.
+Let’s not take the bottom row as the new baseline. It gives up a lot of profit‐
+per‐trade for the draw‐down reduction. We can come back and incorporate
+it if the rest of the development doesn’t solve the draw‐down problem.
+■ Time-Based Exits (Commodity Example)
+TRADING SYSTEM ELEMENTS: EXITS
+
+82
+
+In our stock system development this chapter, we saw a big improvement in
+baseline performance when we capped the trade length at eight days. Let’s
+see if the same exit logic will work for the commodity system. Table 5.17
+shows results when we exit a position after a certain holding period in days.
+TABLE 5.17 Time‐Based Exit in Commodities
+Exit on Close after
+x Days: x Value
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+None*
+
+378
+
+167,553
+
+147,173
+
+474,203
+
+1.14
+
+30
+
+272
+
+156,543
+
+157,424
+
+480,732
+
+0.99
+
+40
+
+308
+
+162,459
+
+145,085
+
+451,963
+
+1.12
+
+50
+
+340
+
+169,530
+
+153,469
+
+482,254
+
+1.10
+
+60
+
+350
+
+168,619
+
+148,425
+
+466,228
+
+1.14
+
+70
+
+363
+
+172,015
+
+161,613
+
+472,137
+
+1.06
+
+80
+
+371
+
+173,386
+
+150,178
+
+470,228
+
+1.15
+
+* Baseline
+
+There is a marginal increase in gain‐to‐pain when the number of days for
+exit is 80, but that solution hardly impacts the draw‐down problem. This is
+pretty typical of mid‐ to longer‐term trend‐following. There just isn’t a time
+
+constraint on how long a trend will last. We need to find something that
+greatly curtails the risk side of this strategy, or it won’t be tradeable.
+■ Proﬁt Stops (Commodity Example)
+Maybe a profit target of some sort will cut back risk. We know that a profit‐
+target exit occurs at the peak profit point of the trade up to that point, so
+there won’t be any open equity give‐back on those trades. Maybe that will
+be enough to limit draw‐down, especially the $470,000 max draw‐down
+that makes this strategy a non‐starter.
+First we’ll try a dollar‐based profit stop. If there is a close that puts the
+trade in profit by x dollars, we’ll exit the trade on the next open. Table 5.18
+shows the results when the dollar‐based profit target is varied from $4,000
+to $15,000.
+TABLE 5.18 Dollar‐Based Profit Stop on Commodities
+Dollar‐Based Profit
+Target Amount ($)
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+None*
+
+378
+
+167,553
+
+147,173
+
+474,203
+
+1.14
+
+4,000
+
+369
+
+169,363
+
+161,136
+
+498,180
+
+1.05
+
+83
+
+6,000
+
+375
+
+170,820
+
+156,766
+
+504,604
+
+1.09
+
+TRADING SYSTEM ELEMENTS: EXITS
+
+8,000
+
+374
+
+170,395
+
+157,890
+
+506,325
+
+1.08
+
+10,000
+
+377
+
+171,334
+
+150,880
+
+481,065
+
+1.14
+
+15,000
+
+379
+
+172,238
+
+152,661
+
+469,953
+
+1.13
+
+* Baseline
+
+The dollar‐based profit target didn’t help. In fact, the max draw‐downs
+got worse.
+Let’s try a volatility‐based profit target. We saw that a volatility‐based
+catastrophic stop worked for the commodity system because the risk was
+tailored to the recent volatility of the commodity; maybe a volatility‐based
+profit stop will work as well. A volatility‐based profit stop that I’ve used
+successfully in the past counts the number of standard deviation moves of
+profit a trade makes. When the count hits the exit number, exit is done on
+the next open. Since we’re using 20 days of data for the Donchian entry, let’s
+use the last 20 days’ close to compute the standard deviation. When a long
+trade is signaled, the first target is the entry point plus the one standard deviation value on that day. If that value is surpassed, a second target is formed
+by adding the standard deviation value on the day the target is passed to the
+
+close for that day. After x targets are hit, the trade is exited. Note that we’re
+adjusting the size of each target by the prevailing standard deviation on the
+day of the adjustment, not with the standard deviation value that existed on
+the day the trade was entered. Normally, as a successful trade progresses,
+the volatility increases as the trade approaches and then goes parabolic. The
+increased volatility is accounted for in our profit target adjustments.
+Table 5.19 shows the results as the number of the count is varied.
+TABLE 5.19 Profit Targets Based on Standard Deviation Counts
+Number of One-Standard
+Deviation Counts until
+Profit Target Exit
+
+None*
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐
+Pain Ratio
+
+378
+
+167,553
+
+147,173
+
+474,203
+
+1.14
+
+6
+
+326
+
+167,127
+
+148,114
+
+472,945
+
+1.13
+
+7
+
+346
+
+170,137
+
+155,089
+
+468,454
+
+1.10
+
+8
+
+357
+
+170,890
+
+146,913
+
+473,515
+
+1.16
+
+9
+
+368
+
+173,072
+
+149,169
+
+470,345
+
+1.16
+
+10
+
+371
+
+172,556
+
+149,242
+
+470,040
+
+1.16
+
+* Baseline
+
+Table 5.19 shows that we only get a marginal increase in the gain‐to‐pain
+metric with standard deviation counts of 8 through 10. And again, the max
+draw‐down is not curtailed.
+I tried a few more profit‐stop mechanizations, but nothing took a significant bite out of draw‐down. Maybe the filters we test in the next chapter
+can do the trick.
+Figure 5.3 shows the baseline strategy equity curve at this point.
+6,000,000
+5,000,000
+4,000,000
+3,000,000
+2,000,000
+1,000,000
+0
+1/1/1980
+31/3/1981
+29/6/1982
+27/9/1983
+25/12/1984
+25/3/1986
+23/6/1987
+20/9/1988
+19/12/1989
+19/3/1991
+16/6/1992
+14/9/1993
+13/12/1994
+12/3/1996
+10/6/1997
+8/9/1998
+7/12/1999
+6/3/2001
+4/6/2002
+2/9/2003
+30/11/2004
+28/2/2006
+29/5/2007
+26/8/2008
+24/11/2009
+22/2/2011
+
+TRADING SYSTEM ELEMENTS: EXITS
+
+84
+
+FIGURE 5.3 Equity Curve for Commodity System
+
+The equity curve looks pretty good until 2009, when things get ugly.
+Table 5.20 shows the yearly returns and draw‐downs.
+TABLE 5.20 Annual Return and Max Draw‐Down for Commodity Strategy
+Yearly Profit ($)
+
+Annual Max Draw‐Down ($)
+
+1980
+
+150,845
+
+51,798
+
+1981
+
+154,428
+
+48,019
+
+1982
+
+84,492
+
+64,931
+
+1983
+
+110,407
+
+28,269
+
+1984
+
+84,499
+
+34,984
+
+1985
+
+116,143
+
+44,293
+
+1986
+
+102,198
+
+56,869
+
+1987
+
+274,372
+
+50,386
+
+1988
+
+139,532
+
+69,911
+
+1989
+
+102,122
+
+53,132
+
+1990
+
+186,828
+
+54,889
+
+1991
+
+148,221
+
+56,342
+
+1992
+
+95,537
+
+68,153
+
+1993
+
+166,581
+
+36,303
+
+1994
+
+59,648
+
+144,862
+
+1995
+
+179,870
+
+49,397
+
+1996
+
+44,510
+
+47,849
+
+1997
+
+200,712
+
+59,072
+
+1998
+
+86,020
+
+133,908
+
+1999
+
+57,195
+
+148,686
+
+2000
+
+33,229
+
+123,866
+
+2001
+
+177,332
+
+76,769
+
+2002
+
+59,923
+
+122,965
+
+2003
+
+291,803
+
+66,924
+
+2004
+
+–32,488
+
+126,280
+
+2005
+
+118,320
+
+83,433
+
+2006
+
+137,292
+
+235,711
+
+2007
+
+454,018
+
+157,243
+
+2008
+
+1,388,602
+
+225,404
+
+2009
+
+–6,302
+
+239,299
+
+2010
+
+190,711
+
+245,347
+
+2011
+
+–139,022
+
+446,438
+
+The strategy only had three losing years, but they all occurred in the last
+eight years. The draw‐downs were also pretty well contained in the past,
+
+85
+TRADING SYSTEM ELEMENTS: EXITS
+
+Year
+
+averaging about $75,000 per year until 2006. From 2006 and on, the yearly
+max draw‐down averaged about $275,000.
+Table 5.21 shows profitability by commodity.
+TABLE 5.21 Profitability by Commodity
+Winning Trades
+
+Losing Trades
+
+Total Profit ($)
+
+Profit‐per‐Trade ($)
+
+Corn
+
+108
+
+178
+
+36,100
+
+126
+
+Soybeans
+
+111
+
+164
+
+119,312
+
+433
+
+Bean Meal
+
+101
+
+171
+
+68,740
+
+252
+
+Bean Oil
+
+109
+
+181
+
+46,134
+
+159
+
+Wheat
+
+111
+
+184
+
+53,000
+
+179
+
+KC Wheat
+
+108
+
+169
+
+71,262
+
+179
+
+Rough Rice
+
+81
+
+113
+
+88,299
+
+455
+
+Live Cattle
+
+96
+
+203
+
+–5,451
+
+–19
+
+Lean Hogs
+
+107
+
+192
+
+16,480
+
+55
+
+Feeder Cattle
+
+106
+
+189
+
+6,975
+
+23
+
+Coffee
+
+115
+
+173
+
+169,181
+
+587
+
+Cotton
+
+115
+
+173
+
+103,815
+
+384
+
+Orange Juice
+
+111
+
+146
+
+62,137
+
+228
+
+Lumber
+
+111
+
+177
+
+65,978
+
+229
+
+86
+
+Cocoa
+
+92
+
+192
+
+–24,500
+
+–9
+
+TRADING SYSTEM ELEMENTS: EXITS
+
+Commodity
+
+Sugar
+
+111
+
+146
+
+71,187
+
+276
+
+Copper
+
+104
+
+186
+
+101,799
+
+351
+
+Palladium
+
+96
+
+186
+
+152,265
+
+539
+
+Silver
+
+115
+
+188
+
+214,764
+
+708
+
+Gold
+
+101
+
+150
+
+151,010
+
+601
+
+Platinum
+
+109
+
+217
+
+24,874
+
+76
+
+London Copper
+
+113
+
+158
+
+335,472
+
+1,237
+
+London Aluminum Alloy
+
+53
+
+137
+
+11,030
+
+58
+
+London Aluminum
+
+83
+
+141
+
+11,875
+
+53
+
+London Nickel
+
+109
+
+150
+
+627,498
+
+2,422
+
+Crude Oil
+
+845
+
+164
+
+104,489
+
+421
+
+Heating Oil
+
+109
+
+146
+
+234,490
+
+919
+
+Reformulated Gas
+
+88
+
+157
+
+150,611
+
+614
+
+Mini Natural Gas
+
+36
+
+63
+
+19,212
+
+194
+
+Brent Crude
+
+77
+
+116
+
+165,439
+
+857
+
+Japanese Yen
+
+109
+
+169
+
+160,212
+
+5,763
+
+Swiss Franc
+
+121
+
+166
+
+142,449
+
+496
+
+Canadian Dollar
+
+99
+
+199
+
+–18,331
+
+–62
+
+British Pound
+
+109
+
+175
+
+116,443
+
+410
+
+TABLE 5.21 (Continued)
+Commodity
+
+Winning Trades
+
+Losing Trades
+
+Total Profit ($)
+
+Profit‐per‐Trade ($)
+
+Dollar Index
+
+102
+
+124
+
+109,924
+
+486
+
+Australian Dollar
+
+84
+
+139
+
+44,909
+
+201
+
+Mexican Peso
+
+59
+
+104
+
+33,312
+
+204
+
+Euro‐Currency
+
+115
+
+150
+
+220,537
+
+832
+
+30‐Year Bonds
+
+103
+
+172
+
+76,734
+
+279
+
+10‐Year Notes
+
+105
+
+154
+
+88,000
+
+339
+
+5‐Year Notes
+
+83
+
+118
+
+53,601
+
+266
+
+72
+
+99
+
+52,812
+
+308
+
+Eurodollar
+
+106
+
+128
+
+84,475
+
+361
+
+Australian Bond
+
+85
+
+160
+
+30,531
+
+177
+
+Canadian Govt. Bond
+
+73
+
+118
+
+33,918
+
+177
+
+Euro Bund
+
+73
+
+101
+
+67,261
+
+386
+
+Long Gilt
+
+105
+
+171
+
+67,049
+
+242
+
+Spanish Bond
+
+54
+
+96
+
+16,265
+
+108
+
+Simex JGB Bond
+
+61
+
+106
+
+22,902
+
+137
+
+Hang Seng Index
+
+93
+
+133
+
+79,499
+
+351
+
+Dax Index
+
+76
+
+113
+
+197,275
+
+1,043
+
+Mini S&P
+
+99
+
+200
+
+14,112
+
+47
+
+Mini Russell 2000
+
+35
+
+59
+
+4,789
+
+50
+
+Mini Midcap
+
+69
+
+120
+
+–8,651
+
+–46
+
+Mini Nasdaq
+
+50
+
+93
+
+61,010
+
+426
+
+Nikkei
+
+76
+
+96
+
+98,075
+
+570
+
+All Trade Average
+
+2,976
+
+4,137
+
+2,756,675
+
+387
+
+Long Trade
+
+1,594
+
+2,086
+
+1,895,123
+
+514
+
+Short Trade
+
+1,382
+
+2,051
+
+861,542
+
+250
+
+■ Conclusion
+In this chapter we started the development of two trading strategies, one for
+stocks and one for commodities. Both used a Donchian entry, but the stock
+entry was counter‐trend while the commodity strategy was trend‐following.
+To this point, we’ve conditionally developed the strategies from entry
+through exit. In the next chapter, we’ll look at adding filters to try and make
+the strategies tradeable.
+
+87
+TRADING SYSTEM ELEMENTS: EXITS
+
+2‐Year Notes
+
+CHAPTER 6
+
+Trading System
+Elements: Filters
+I
+
+n general, filters are used in conjunction with the entry to eliminate
+certain trades from being taken. When volatility in the S&P was high in
+the late 1990s, it was common to employ a filter to avoid going long on a
+Friday or short on a Monday. The rationale was that many traders didn’t
+want to risk being long over the weekend so they exited on Friday. That
+caused the market to go down on that day more often any other day of the
+week. Conversely, the money would flow back in on Monday so it had an
+up bias. Those are trading-day-of-the-week type filters.
+Other common filters are seasonal, volatility, and longer‐term trend.
+Seasonal filters use the seasonal tendencies of an instrument to avoid trading
+against historical bias. Many traders won’t short reformulated gas going into
+the driving season, or short heating oil going into winter. For stocks, forms
+of a seasonal filter would be to avoid entering on a report day or an earnings
+day. Volatility filters are useful for keeping you out of an instrument that
+is going parabolic, or one whose trading range is so volatile that your stop
+is likely to be hit by the normal noise of its day‐to‐day moves. There’s big
+profit potential in those situations, but also abnormal risk. The longer‐term
+trend filter is useful as an adjunct to a shorter-term system:You only take the
+trades in the direction of the longer‐term trend.
+I use filters in almost all my systems. Some are intended to enhance profitability, and some are strictly meant to avoid risk. First we’ll develop filters
+for the stock system; then we’ll look at improving the commodity system.
+
+   +    (  +     ,( 
+  #  & - #.   & + "
+& + "#$ %    !"
+
+89
+
+■ Trading-day-of-the-week Filter (Stocks)
+Let’s see if avoiding stock entry on a particular day of the week helps baseline performance. Table 6.1 shows the performance of the baseline we carry
+over from last chapter. Added to that is logic that prohibits entry on the day
+indicated.
+TABLE 6.1 Day of the Week Filters with Stocks
+Entry
+Prohibited
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+None*
+
+50
+
+70,877
+
+50,693
+
+92,510
+
+1.40
+
+Monday
+
+48
+
+62,842
+
+49,007
+
+102,360
+
+1.28
+
+Tuesday
+
+49
+
+65,249
+
+49,741
+
+91,760
+
+1.31
+
+Wednesday
+
+52
+
+68,538
+
+47,013
+
+91,176
+
+1.46
+
+Thursday
+
+51
+
+67,922
+
+44,802
+
+93,204
+
+1.52
+
+Friday
+
+53
+
+70,020
+
+46,779
+
+87,027
+
+1.50
+
+* Baseline
+
+TRADING SYSTEM ELEMENTS: FILTERS
+
+90
+
+It looks like the best entries are early in the week; if we skip trading on
+either Monday or Tuesday, the stats drop off. Later in the week, the stats get
+better if entries are bypassed, but no day has such a large impact on trading
+that it should receive special consideration as an addition to the baseline
+system.
+There’s one other trading-day-of-the-week type filter that’s always worth
+looking at with stocks, and that’s the periods around the end of the quarter
+and the start of the month. The rationale is that money managers perform
+window dressing on their portfolios at those times.
+When the trades initiated on the last day of the month and those on the
+first day of the month were compared with baseline performance, the profit
+was identical: $50 per trade. Those days are just like any other with this
+strategy.
+■ Longer-Term Trend Filter (Stocks)
+Our long‐only stock strategy enters on weakness when there is a close
+below the lowest close of the preceding eight trading days. Those trades can
+occur when the longer‐term trend is either up or down. Let’s look at only
+taking trades that set up when the longer‐term trend is up. An easy way
+to define the longer‐term trend is to compare today’s closing price with
+
+price some number of days ago. If price today is higher, the trend is up.
+Table 6.2 shows our baseline when the longer‐term trend ranges from 30 to
+90 bars ago.
+TABLE 6.2 Adding a Longer‐Term Trend Filter to Stocks
+Number of Bars for
+Longer‐Term Trend
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+None*
+
+50
+
+70,877
+
+50,693
+
+92,510
+
+1.40
+
+30
+
+53
+
+35,227
+
+19,985
+
+39,201
+
+1.76
+
+40
+
+48
+
+33,761
+
+21,535
+
+37,633
+
+1.57
+
+50
+
+50
+
+35,620
+
+21,095
+
+37,744
+
+1.69
+
+60
+
+52
+
+37,565
+
+20,516
+
+37,828
+
+1.83
+
+70**
+
+54
+
+39,904
+
+21,026
+
+41,467
+
+1.90
+
+80
+
+52
+
+39,146
+
+21,219
+
+38,044
+
+1.84
+
+90
+
+51
+
+38,633
+
+21,620
+
+46,537
+
+1.79
+
+* Baseline
+** New baseline
+
+■
+■
+
+■
+
+Average profit‐per‐year is almost as large as the max draw‐down.
+If you trade the strategy with $200,000, your max draw‐down will be
+about 21 percent.
+If you trade the strategy with $200,000, your average annual return will
+be about 20 percent, and the average max draw‐down you will see each
+year is about 10.5 percent.
+
+■ Volatility-Based Filters (Stocks)
+I always check performance with two forms of volatility filter. Your entry
+setup can occur in a sleepy, almost sideways market, or in a very volatile up
+and down market. In the first case, your profitability potential is reduced
+from a normal setup.You are taking the risk of entering the trade, but your
+profit potential isn’t that good unless the market heats up quickly, and in
+the direction of the trade. To filter out those lesser‐profit potential trades,
+the first filter only accepts trades that meet a certain threshold volatility;
+
+91
+TRADING SYSTEM ELEMENTS: FILTERS
+
+Trading with the longer‐term trend causes performance to jump, as measured by our gain‐to‐pain metric. Note that the new baseline almost meets
+the minimum conditions for a tradeable system if we use the 70‐day look‐
+back filter.
+
+that’s the low‐volatility filter. When volatility is way above normal, you have
+an increased probability of getting stopped out due to higher up and down
+market noise. The high‐volatility filter bypasses trade entry when volatility
+is too high. There are a number of ways to measure volatility, like average
+range, average true range, or some measure of standard deviation. We’ll test
+both range and standard deviation. Table 6.3 shows results when trades are
+inhibited by the low‐volatility filter because recent average range wasn’t a
+large enough percentage of price. The average range was computed over the
+five days previous to the entry.
+TABLE 6.3 Low‐Volatility Filter Based on Average Range for Stocks
+Average Range Greater
+than x Percent of Price
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐
+Pain Ratio
+
+N/A*
+
+54
+
+39,904
+
+21,026
+
+41,467
+
+1.90
+
+1
+
+54
+
+39,873
+
+21,015
+
+41,467
+
+1.90
+
+2
+
+58
+
+36,822
+
+20,052
+
+34,354
+
+1.84
+
+3
+
+67
+
+26,670
+
+15,757
+
+23,047
+
+1.69
+
+* Baseline
+
+TRADING SYSTEM ELEMENTS: FILTERS
+
+92
+
+The low‐volatility filter did increase profit‐per‐trade by screening out
+trades that just didn’t have good profit potential, but gain‐to‐pain was decreased, so this filter won’t be added. Let’s look at the high‐volatility filter
+using average range. Table 6.4 shows trade statistics.
+TABLE 6.4 High‐Volatility Filter Based on Range for Stocks
+Average Range Less
+than x Percent of
+Price
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐Pain
+Ratio
+
+N/A*
+
+54
+
+39,904
+
+21,026
+
+41,467
+
+1.90
+
+10
+
+53
+
+38,848
+
+20,863
+
+41,467
+
+1.86
+
+8
+
+51
+
+36,273
+
+20,578
+
+41,467
+
+1.76
+
+6
+
+48
+
+32,667
+
+19,859
+
+40,797
+
+1.64
+
+5
+
+47
+
+30,201
+
+18,114
+
+40,327
+
+1.67
+
+* Baseline
+
+The high‐volatility filter did screen out higher‐volatility stocks, as
+seen by reduced profit‐per‐trade and reduced average max draw‐down,
+but profitability came down faster than draw‐down, so the gain‐to‐pain
+metric decreased. Maybe standard deviation volatility filters will be more
+successful.
+
+Table 6.5 shows results using the low‐volatility standard deviation filter.
+The standard deviation computation was based on the 20 closing prices
+previous to the day of the signal.
+TABLE 6.5 Low‐Volatility Filter Based on Standard Deviation for Stocks
+Standard Deviation
+Greater than x Percent
+of Price
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐
+Pain Ratio
+
+N/A*
+
+54
+
+39,904
+
+21,026
+
+41,467
+
+1.90
+
+1
+
+57
+
+39,011
+
+20,888
+
+41,187
+
+1.87
+
+2
+
+67
+
+31,198
+
+17,366
+
+29,045
+
+1.80
+
+3**
+
+84
+
+23,650
+
+11,491
+
+17,207
+
+2.06
+
+4
+
+97
+
+16,028
+
+7,994
+
+11,511
+
+2.01
+
+* Baseline
+** New baseline
+
+TABLE 6.6 High Volatility Filter Based on Standard Deviation on Stocks
+Standard Deviation Less
+than x Percent of Price
+
+Average Profit‐
+per‐Trade ($)
+
+Average Annual
+Return ($)
+
+Average Annual
+Draw‐Down ($)
+
+Max Draw‐
+Down ($)
+
+Gain‐to‐
+Pain Ratio
+
+N/A*
+
+84
+
+23,650
+
+11,491
+
+17,207
+
+2.06
+
+10
+
+84
+
+23,148
+
+11,469
+
+17,207
+
+2.02
+
+8
+
+82
+
+22,402
+
+11,430
+
+17,207
+
+1.96
+
+6
+
+78
+
+20,210
+
+10,701
+
+17,207
+
+1.89
+
+* Baseline
+
+Results aren’t improved with this filter, so it won’t be added to the current baseline. Figure 6.1 shows the equity curve for the developed strategy.
+
+93
+TRADING SYSTEM ELEMENTS: FILTERS
+
+Taking signals that only have a standard deviation of closing price that is
+greater than 3 percent of price increases profit‐per‐trade while decreasing
+average max draw‐down and max draw‐down. Note that the new baseline
+stock strategy is now tradeable.
+The average annual return is greater than the max draw‐down. If
+traded with $100,000, the return would average about 24 percent per
+year, the max draw‐down over the past 12 years would have been about
+17 percent, and the max draw‐down you could expect each year was
+about 11.5 percent.
+Let’s see if the standard deviation high‐volatility filter can make things
+even better. Table 6.6 shows results when trades are bypassed that have a
+standard deviation that is greater than x percent of price.
+
+300,000
+250,000
+200,000
+150,000
+100,000
+50,000
+1/1/2000
+16/6/2000
+30/11/2000
+16/5/2001
+30/10/2001
+15/4/2002
+29/9/2002
+15/3/2003
+29/8/2003
+12/2/2004
+28/7/2004
+11/1/2005
+27/6/2005
+11/12/2005
+27/5/2006
+10/11/2006
+26/4/2007
+10/10/2007
+25/3/2008
+8/9/2008
+22/2/2009
+8/8/2009
+22/1/2010
+8/7/2010
+22/12/2010
+7/6/2011
+21/11/2011
+
+0
+
+FIGURE 6.1 Developed Strategy Equity Curve for Stocks
+
+Note that the ugly 2008 draw‐down we saw in the stock system equity
+curve from Chapter 5 is gone. This is primarily due to the addition of the
+70‐day longer‐term filter. When the market plummeted in 2008, that filter
+kept us out of most of the long trades. Table 6.7 is a year‐by‐year breakout
+of return and draw‐down.
+TRADING SYSTEM ELEMENTS: FILTERS
+
+94
+
+TABLE 6.7 Annual Return and Max Draw‐Down for Stock System
+Year
+
+Yearly Profit ($)
+
+Annual Max Draw‐Down ($)
+
+2000
+
+30,424
+
+12,875
+
+2001
+
+38,149
+
+11,682
+
+2002
+
+20,709
+
+10,674
+
+2003
+
+53,978
+
+10,476
+
+2004
+
+10,812
+
+8,171
+
+2005
+
+15,788
+
+4,712
+
+2006
+
+4,073
+
+5,365
+
+2007
+
+16,871
+
+6,762
+
+2008
+
+−9,422
+
+12,347
+
+2009
+
+54,054
+
+8,781
+
+2010
+
+14,749
+
+11,288
+
+2011
+
+9,315
+
+17,207
+
+There was only one losing year (2008), and that year would have been
+about a 10 percent loss on a $100,000 account—not too bad when you
+consider that the S&P was down over 38 percent that year. Table 6.8 shows
+the performance of each stock in our NASDAQ 100 basket.
+
+TABLE 6.8 Developed Stock Strategy: Performance by Symbol
+Stock Symbol

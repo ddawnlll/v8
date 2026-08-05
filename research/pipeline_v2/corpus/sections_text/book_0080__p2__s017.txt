@@ -1,0 +1,593 @@
+
+Since few market movements are all vertical or all horizontal, we use
+Market Proﬁle to determine the ratio of one phase versus the other. As market
+professionals, we are concerned with where the market spends time—or fails
+to spend time—and Market Proﬁle is a superior tool to capture this twodimensional nature of markets in a statistically based, graphical format.
+Market Proﬁle was developed by legendary CBOT trader Pete Steidlmayer
+in 1984 and is a method for organizing data that expresses the vertical (trend)
+versus horizontal (nontrend) relationship of market data. Market Proﬁle charts
+illuminate where the auction of a security has taken place and uniquely
+highlights where the crowd trades, where trading volume accumulates, where
+trading volume is minimal or absent and, moreover, what the crowd tends to
+do at the various price levels.
+Unlike conventional bar charts (candlesticks, Western bar charts, etc.),
+Market Proﬁle does not force data into ﬁxed time increments (e.g., ﬁveminute, 30-minute, or daily bars). Rather, it statistically aggregates, organizes,
+and converts market-generated trading data into a free-ﬂowing, graphical
+format called proﬁles. These proﬁles tabulate and display the relative frequency
+of trading at various price levels that allow market professionals to assess
+probabilities much the same way that a statistician would evaluate a bellcurve distribution of any data set.
+In and of itself, Market Proﬁle is neither an indicator nor a trading
+system—but it is the backbone of many successful trading indicators, systems,
+
+232
+
+New Frontiers in Technical Analysis
+
+trading tactics, and methods. Market Proﬁle charts allow market professionals
+to organize market-generated data on the ﬂy to speed up analysis and accurately convert trading data into meaningful and actionable information. And
+because proﬁle data is not constricted to ﬁxed time increment bars, Market
+Proﬁle allows market professionals to organize the data and study a market
+based on market structure and dynamics.
+Classic Market Proﬁle organizes trading data using letters called TPOs
+(Time Price Opportunities—or “That Price Occurred”) to mark each price
+where a trade occurred. Each consecutive letter of the alphabet demarcates a
+30-minute period of market activity. For example, the letter “B” marked the
+ﬁrst half hour of trade, the letter “C” marked the second half hour of trade,
+and so forth.∗ However, as a market is developing, unlike conventional bar
+charts, Market Proﬁle collapses the data onto itself to the left as new price levels
+are reached. This display method reveals the relative frequencies of traded
+prices, which is key to determining probability.
+Let’s examine this step-by-step process, as shown in Figure 5.12.
+r A: Conventional high—low bars display 30-minute trading ranges.
+r B: We can represent these same ranges by placing letters (TPOs) at each
+
+price where trade(s) occurred: “B” marks the ﬁrst half hour of trade, “C”
+marks the second half hour, and so forth.
+r C: As a trade is occurring, Market Proﬁle collapses TPOs onto unused
+columns or “bins” in the proﬁle graphic.
+r D: Collapsing TPOs to the left reveals actual price (or volume) distribution
+that is similar to a bell-curve distribution that graphically organizes relative
+frequencies of occurrences of data—in this case, price—into “bins.”
+Unlike conventional bar charts, this proﬁling format reveals the underlying structure of each proﬁle’s market activity. In bar-chart format (A), one
+might conclude that the market has an upward bias. And while we would
+agree with this bias, the completed proﬁle (D) reveals a different picture: a
+balanced market state. As we will see soon, balance leads to imbalance, which
+is an either/or state. From balance a market goes either higher or lower. In
+Figure 5.12, the Market Proﬁle reveals a vital clue that the market is balanced
+∗
+
+Although TPOs were originally developed to demarcate 30-minute periods, any time increment may be used. I remember once asking Pete Steidlmayer, “How did you come up with
+using 30-minute periods for TPOs?” I was expecting a very scientiﬁc answer and instead burst
+out laughing when Pete told me, “Well, we had to come up with something, right?”
+
+233
+
+1077
+1076
+1075
+1074
+1073
+1072
+1071
+1070
+1069
+1068
+1067
+1066
+1065
+1064
+1063
+1062
+1061
+1060
+
+(B) TPO Prices
+
+1077
+J
+1076
+HJ
+1075
+GHJK M
+1074
+FGHJKLMN
+1073
+FGH KLMN
+CDEFG
+1072
+KLMN
+1071
+CDEFG
+LM
+1070 B C D E F
+1069 B C D E F
+1068 B C D E
+1067 B C D
+1066 B C D
+1065 B D
+1064 B
+1063 B
+1062
+1061
+1060
+
+The Evolution of a Market Proﬁle Graphic
+
+(A) 30-min. Bars
+
+FIGURE 5.12
+
+(C) Collapsed TPOs
+
+1077
+J
+1076
+HJ
+1075
+GH J K M
+1074
+FGH J K LMN
+1073
+FGH K LMN
+K L MN
+1072 C D E F G
+1071 C D E F G
+LM
+1070 B C D E F
+1069 B C D E F
+1068 B C D E
+1067 B C D
+1066 B C D
+1065 B D
+1064 B
+1063 B
+1062
+1061
+1060
+
+(D) Completed Profile
+
+1077 J
+1076 H J
+1075 G H J K M
+1074 F G H J K L M N
+1073 F G H K L M N
+1072 C D E F G K L M N
+1071 C D E F G L M
+1070 B C D E F
+1069 B C D E F
+1068 B C D E
+1067 B C D
+1066 B C D
+1065 B D
+1064 B
+1063 B
+
+234
+
+New Frontiers in Technical Analysis
+
+and “resting” and will either balance more—or is getting ready to make the
+next directional move.
+Each letter in proﬁles displays a price level where trade occurred and, in
+the completed proﬁle, the “fat” (wide) left-to-right areas accumulated the most
+trade volume at price while the skinnier (narrow) areas accumulated the least.
+The widest line of TPOs is called the Point of Control, and it is around both
+sides of this price level, especially in balanced markets, that all trade occurs.
+A related Market Proﬁle maxim is stated: “Time at price equals volume.”
+Market Proﬁle sheds light and gives market professionals insight on how
+well a market is facilitating trade and rationing supply because it displays:
+r Market structure.
+r Market dynamics.
+r Short- and long-term supply and demand and their effect on price.
+r Areas where the market spends time versus where it doesn’t spend
+
+time—which, in the latter case, has a high probability to move directionally
+and fast.
+r Whether a directional market is speeding up or slowing down.
+r What a market is trying to do—and whether it is succeeding at
+doing it.
+r And most importantly, how other traders in aggregate are responding and reacting to price movement and key reference areas because it’s their collective
+volume that moves the market.
+These objective attributes of Market Proﬁle allow market professionals
+to precisely manage risk in some unique ways because they can actually get
+a feel for a market as if they were trading in a physical market—such as the
+ﬂoor of a commodity trading pit—which in turn allows them to make timely
+decisions on how a market is accepting or rejecting areas of price and/or how
+the crowd is perceiving value in multiple timeframes.
+Market Movement: The Four Steps of Market Activity
+
+In the early 1990s, Pete Steidlmayer coined the concept of the Four Steps
+of Market Activity. The Four Steps are an ongoing process that markets go
+through to factor out inefﬁciencies. Inefﬁciencies are the market imbalance
+phases where the market moves directionally higher or lower to seek out a
+new fair price to trade, that is, where the market moves back to balance.
+The Four Steps concept was based on Steidlmayer’s research of how
+markets move in a sequence of steps as they seek out an efﬁcient price where
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+FIGURE 5.13
+
+235
+
+The Four Steps of Market Activity
+
+the market can facilitate trade by accommodating both the longs and the
+shorts. The concept applies to markets in any timeframe (5-minute, 30minute, daily, tick charts, etc.). According to Steidlmayer, the Four Steps
+concept is one of the most valuable skills market professionals need to know
+and apply.
+Although markets tend to be more fragmented and less range-bound and
+constrained by liquidity today than they were in the past, the concept is still
+valid today and worth further study because:
+r It helps orient market professionals to what a market is trying to do.
+r When a market succeeds at what it is trying to do, it often helps traders get
+
+ready for the next move.
+
+r Moreover, when a market skips a step in the sequence, it often leaves better
+
+clues as to where the market will make a vertical move.
+Let’s examine the Four Steps in sequence. (See Figure 5.13.)
+1. A vertical move (either up or down) is initiated by a market imbalance.
+2. A price in the market stops the vertical move, indicating that the last of
+the supply imbalance is in place as the dominant group responsible for the
+directional move withdraws their participation.
+3. The market balances in the area of the highs (lows) of the move where
+two-sided trade occurs among buyers and sellers. This is where the market
+forms a p-shaped proﬁle from vertical moves up or a b-shaped proﬁle from
+a vertical move down.
+4. The market either rebalances the inefﬁciency of the prior vertical move by
+moving vertically in the opposite direction, or a new vertical move resumes
+in the same direction.
+
+236
+FIGURE 5.14
+
+New Frontiers in Technical Analysis
+Determining Value Helps Us Know What Is Fairly and Unfairly Priced
+
+We use the four-step model as a general guide to market structure at the
+beginning of our analysis, looking in particular at whether a market follows
+the four steps or skips a step. It is when the market skips a step that participants
+are often caught off guard, and it is also when we look for new opportunities.
+
+Market Structure
+
+One of the basic tenets of Market Proﬁle is the concept of the Value Area,
+which for each proﬁle is where approximately 68 percent of all trade occurred
+in a proﬁle.∗ Figure 5.14 illustrates this concept.
+Why do market professionals care about perceived value? Isn’t the concept
+of value subjective? It is to a great degree, but Market Proﬁle helps us to
+objectify value by displaying two mutually exclusive phases of market development: balance and imbalance. The market’s collective perception of value is
+fairly certain in range-bound (balanced) markets but value is fairly uncertain in
+trending markets. Once we know the market’s collective and interim perception of value or “fair” area to trade—especially in multiple timeframes—then,
+by default, we know the following:
+∗
+The Value Area is calculated as one standard deviation of data above and below the Point of
+Control, which is the fattest part of a proﬁle, meaning that this is the price level where the
+most trade occurred.
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+237
+
+r We know that price below value is collectively considered inexpensively
+
+priced merchandise, which is fair to buyers—but unfair to sellers.
+
+r We know that price above value is collectively considered expensively priced
+
+merchandise, which is fair to sellers—but unfair to buyers.
+
+In general, we want to buy what no one wants (at the right time) and sell
+what everyone wants. For example, we want to become sellers of merchandise
+that everyone wants and will pay a high price for (think Apple iPhone and
+iPad), and also buyers of merchandise that no one wants and will sell cheaply
+(think distressed properties, asset ﬁre sales, etc.). It is this concept that becomes
+the basis for an objective trading plan that allows professionals to get on the
+right side of a market movement. To wit, if you think something is cheap
+and a buy, but the majority of the market thinks that it is expensive and it’s a
+good time to sell it, then buying will most likely result in a loss and waiting
+will most likely result in better (cheaper) prices. Therefore, when we clearly
+understand the market’s collective perception of value we are in a position to
+make good decisions from our analysis. Market Proﬁle is the tool that sheds
+light on this process.
+Summarizing our discussion on proﬁling, Figure 5.15 summarizes the two
+phases of market activity from which all market moves are derived. Comparing
+the two formations in Figure 5.15, we derive several market structure axioms.
+Areas where volume accumulates in a relatively narrow range of prices—
+the so-called “Value Area” or “fair” area of trade—accommodate both buyers’
+and sellers’ needs for using a market by providing liquidity to both sides of
+the trade. In this area, supply and demand are in relative balance and markets
+churn slowly through time, horizontally in a chart. A key feature in bar charts of
+horizontal development is that the bars overlap and become superior support
+and resistance areas when revisited in the future.
+And by default, once we know what is perceived as fair, then above that
+area, prices start becoming less fair to buyers and favor sellers because price is
+rising—and below the value area, prices start becoming less fair to sellers and
+favor buyers because price is falling. These are the areas in the market where
+either supply or demand exceeds the other on a relative basis and markets
+move rapidly and vertically through price ranges to accommodate the needs
+of buying or selling dominance. Price moves higher—faster—to grab the
+limited supply available; price moves lower—faster—to ﬁnd limited buyers
+who are willing to buy merchandise in a falling market. Where price is unfair
+to buyers or sellers, the side that considers itself as disadvantaged will trade
+less or simply not trade at that level.
+
+238
+
+FIGURE 5.15
+
+• Price direction: Horizontal
+• Profile shape: Fat
+• Range of price movement: Narrow
+• Movement through time: Slow
+• Accommodates: Buyers and sellers
+
+Balanced Market Mnemonics
+
+1077
+1076
+1075
+1074
+1073
+1072
+1071
+1070
+1069
+1068
+1067
+1066
+1065
+1064
+1063
+
+Imbalanced Market Mnemonics
+• Price direction: Vertical
+• Profile shape: Skinny
+• Range of price movement: Wide
+• Movement through price: Fast
+• Accommodates: Buyers or sellers
+
+1091
+1090
+1089
+1088
+1087
+1086
+1085
+1084
+1083
+1082
+1081
+1080
+1079
+1078
+1077
+1076
+1075
+1074
+1073
+1072
+1071
+1070
+1069
+1068
+1067
+1066
+1065
+1064
+1063
+
+The Unmistakable Characteristics of Horizontal versus Vertical Markets
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+239
+
+The Relative Speed of the Market’s
+Building-Block Components
+
+There are four basic guidelines for assembling and then observing these two
+market components:
+1. Fast vertical market movements follow slow horizontal market movements.
+This is an either/or state. The market will either go higher in price following
+a horizontal move—or it will go lower in price following a horizontal move.
+2. Slow follows fast. After a vertical move, a market consolidates. When slow
+becomes relatively slower, we are typically approaching the transition point
+to fast.
+3. When fast becomes faster—and more volatile—we are typically approaching the next slow phase in the market.
+4. There is one notable but less frequently occurring exception to guidelines 1
+and 2, and that is when a market goes from fast to fast; switching directions,
+it skips horizontal development. These formations are known as V-pivots
+or inverted V-pivots.
+Note: Can a market actually skip the horizontal development phase? Yes,
+it can—but it’s rare when considering that on a smaller timeframe; there is
+most likely some form of transition from fast to slow—then slow to fast—then
+faster.
+Because one phase follows the other, we can illustrate this slow-to-fast,
+then fast-to-slow market movement, as follows:
+r A market is horizontal and trading slowly through time:
+
+r A supply imbalance occurs in the market, which causes the market to move
+
+relatively faster, either higher or lower in price:
+
+r Supply and demand come back into balance after either of the prior vertical
+
+price movements, and the market resumes a slow and horizontal trading
+range:
+
+240
+
+New Frontiers in Technical Analysis
+
+r A supply imbalance occurs in the market [again], which causes the market
+
+to move relatively faster, either higher or lower in price:
+
+This simple diagram ﬂow depicts the continuous ebb and ﬂow of the
+two phases of market activity: horizontal leads to vertical (up or down) and
+vertical leads to horizontal—with few exceptions.
+Accurately identifying the two phases of the market is a valuable skill and,
+once obtained, makes the practice of trading simple because it simpliﬁes and
+provides clarity in two ways:
+1. The two phases are mutually exclusive.
+2. The two phases are traded differently.
+Therefore, once you know which of the two states are being exhibited,
+then you know how to adapt your trading to the current market conditions.
+To paraphrase Pete Steidlmayer, stop predicting what the market might do.
+Rather, trade what the market is actually doing. Align yourself and your
+trading style with what is being presented to you.
+
+Vertical Nondevelopment (“Minus Development”)
+
+We’ve taken a look at horizontal development in detail. Let’s now examine what happens in the absence of horizontal development by referring to
+Figure 5.16.
+r A: Efﬁcient price development accommodates both sides of the trade over
+
+time and produces a balanced proﬁle.
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+FIGURE 5.16
+
+241
+
+Vertical Price Movements Leave a Hole in the Proﬁle Chart—a Key
+
+Concept
+(A)
+
+(B)
+
+(C)
+Minus
+Development
+Hole
+
+r B: Inefﬁcient price, or “nondevelopment,” moves rapidly higher (or lower),
+
+accommodating only one side of the trade, and results in skipped development in the lower portion of the proﬁle.
+r C: This leaves a hole in the proﬁle chart in the price range where horizontal
+development did not actually occur—an important landmark in charts.
+A key feature in proﬁles during vertical moves is the lack of horizontal
+development—or “minus development,” a term coined by Pete Steidlmayer.
+The faster the vertical move, the less time a proﬁle has to build out horizontally.
+An extreme example of this condition is an opening gap where no trade occurs
+in the gap area, and hence, no development occurs in the proﬁle for that gap.
+These rapid vertical moves are caused by supply/demand imbalances and, in
+proﬁle terms, this leaves a hole in the proﬁle that, when revisited, has a high
+probability for fast price movement, as illustrated in Figure 5.17.
+r Markets trade relatively fast through holes of minus development—and
+
+between areas of horizontal development.
+
+r Market Proﬁle illuminates these holes, which helps traders to prepare for
+
+relatively fast vertical moves through the price areas demarcated by the holes.
+
+r The most proﬁtable trades will occur in the quickest amount of time at
+
+the lowest relative cost while trading into holes, when compared to trading
+
+242
+
+FIGURE 5.17
+
+Markets Trade Fast through Holes between Areas of Horizontal Development
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+243
+
+multiple up- and down-legs of horizontal development to achieve the same
+point moves (e.g., one vertical move of ﬁve points might take ﬁve or more
+individual long and/or short trades while under horizontal development).
+r When compared to multiple trades during horizontal development, traders
+must have a high degree of accuracy on entry, exit, and direction for each
+trade to achieve the same relative point gain of a single vertical move.
+r A single vertical move is an either/or proposition in the sense that we look
+for a trade into a hole to prevail in the intended direction—or quickly stop
+out. Notice that the bars marked “Probe” in Figure 5.17 quickly fail, which
+allows traders to take decisive action with tight stops.
+r Trading vertical moves into holes has higher reward-to-risk factors than
+trading horizontal moves of the same security and timeframe—provided, of
+course, that a trader is on the right side of the movement.
+In proﬁle terms, proﬁles are either relatively fat, representing horizontal
+development—or they’re relatively skinny, representing vertical movement.
+Between the horizontally developed fat proﬁles, markets move fast vertically
+and it’s in the vertical moves that market professionals will ﬁnd greater point
+moves than in the horizontal. Therefore, where a market has a high probability of moving faster and the speed at which price has the potential to
+traverse a range are critical distinctions for market professionals to take into
+consideration.
+Moreover, markets leave objective clues for traders: fast markets are either
+getting faster—or slower. And slow markets are either getting slower or starting
+to speed up. And proﬁles objectively reveal these conditions: in other words,
+there are a ﬁnite number of choices in our trading guidelines:
+r Fast to faster (skinnier and skinnier proﬁles)—stay with the trade.
+r Fast to slower (skinny to fatter proﬁles)—stay with the trade but tighten
+
+stops.
+
+r Slow to faster (fat to skinnier proﬁles)—get ready for a directional move.
+r Slow to slower (fat to fatter proﬁles)—stand aside (or trade the rotations),
+
+mindful that multiple consecutively slower and slower proﬁles often lead to
+very fast vertical moves.
+Figure 5.18 shows good examples of how these guidelines play out. On
+the far left of the chart the market starts out slow, then speeds up in the ﬁrst
+four proﬁles, as follows:
+r Decreasing horizontal development in proﬁles
+r Increasing vertical range in proﬁles
+r Little overlap between proﬁles
+
+244
+
+FIGURE 5.18
+
+Slowing down
+(fast-to-slow)
+
+Speeding up
+(slow-to-fast)
+
+Markets Move Slow-to-Fast and Fast-to-Slow
+
+(A)
+
+Speeding up
+higher, but then
+slows down and fails
+
+(B)
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+245
+
+We notice that the market then slows down (more horizontal, less vertical,
+and more overlap in the proﬁles). But on the next market speed-up (proﬁle
+A), the following proﬁle becomes very fat (proﬁle B), albeit with higher lows
+and highs, indicating another slowdown. This is a valuable clue that selling
+activity is increasing. So instead of getting faster and faster proﬁles that would
+tell us to stay with the move higher or even add to a long position, we have
+a clear indication to either tighten stops, get ready for an exit, or just watch
+with increased caution how proﬁle B develops and closes.
+Markets are either relatively fast—or relatively slow: but never both at the
+same time. Furthermore, faster follows slow—and slower follows fast in an
+endlessly repeating cycle. In fact, when we trademarked the phrase, “Know
+What’s NextTM ,” we really meant it. With experience or the right immersive
+training and trading tools, traders really can know what’s coming next with a
+high degree of conﬁdence.
+As a general rule, we prefer to trade the fast-to-slowdown versus the slowto-speeding-up because from slow, the next move is fast—but we have less
+certainty which direction will prevail. On the other hand, if you want to ﬁnd
+fast, don’t look for a fast market movement because you’re probably going
+to be too late. Find the areas where a change from horizontal is starting to
+take place—the end of slow—to be ready for the next fast move. And even if
+you’re late entering a fast market movement, in most cases it’s hard to get hurt
+because fast either (a) leads to faster (more proﬁt if you’re on the right side of
+this movement); (b) leads to slow, in which case you have time on your side
+to work an exit; or (c) immediately reverses, as is shown on the bars marked
+“Probe” in Figure 5.17 (as in the case of a less common V-pivot low or high),
+in which case you take the quick stop.
+Simplifying Market Proﬁle

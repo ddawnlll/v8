@@ -1,0 +1,421 @@
+
+53
+
+54
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+
+Internet charts, real-time prices
+Although most online brokers provide support for real-time prices, not all
+provide real-time charting capabilities. If your broker doesn’t offer what
+you need, and you find delayed prices are just too frustrating, you can find
+a number of sites that offer real-time price charts. Real-time, browser-based
+Internet charts usually aren’t free. You will generally find them priced
+between $9.95 and $34.95 per month.
+Sites offering real-time charts include the following:
+✓ StockCharts (www.stockcharts.com): Chip Anderson started
+StockCharts early in Internet history. He’s one of the few independents
+still around, and for good reason — the site is excellent. We use charts
+from this Web site throughout the book. StockCharts offers many
+excellent free charting tools, but the best parts are available by
+subscription. Advanced features include real-time, intraday pricing, the
+ability to create and store chart annotations, the ability to create large
+lists of your favorite charts, the ability to define custom chart settings,
+and the capability of creating custom scans based on technical indicators.
+Make sure that you click on “SharpCharts Voyeur,” which is listed under
+“Tools & Charts” on the StockCharts home page. It shows charts that are
+of interest to other traders.
+✓ FreeRealTime.com (www.freerealtime.com): The free capabilities of
+the site are fairly limited, and you’ll have to put up with banner ads and
+the occasional full-page ad that display before the page you actually
+want appears. The free portion of this site uses data from electronic
+communications networks (ECNs), not data from the major stock
+exchanges. Unfortunately, ECNs do not trade all stocks, so real-time
+charts and quotes may not always be available. And ECN prices may not
+always match prices on the major exchanges, but they’ll be very close. If
+you can put up with these limitations, the charts and price quotes are in
+real time. And they’re free.
+
+Charting software
+Before taking a step up toward a stand-alone charting application, make sure
+that you explore the tools provided by your broker and other brokers and by
+Web sites offering Internet charts. Some of these online tools are powerful and
+may be more cost effective than a stand-alone package.
+Stand-alone charting software, however, often provides capabilities beyond
+what you can find online. For example, charting software packages offer
+system testing but rarely are they part of a Web site’s tool set.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+Several packages are available; two examples include
+✓ MetaStock (www.equis.com): MetaStock comes in two flavors, a standard
+end-of-day trading package, and a professional version for intraday
+charts. Each offers a variety of analysis tools, technical indicators,
+system development and testing capabilities, and access to fundamental
+stock data.
+✓ TradeStation (www.tradestation.com): TradeStation is the gold
+standard of charting software. It is powerful, flexible, and configurable,
+and it’s designed to work the same way institutional trading platforms
+do. You can fully automate your trading system by programming your
+strategies into the system and then having TradeStation execute them in
+real time. (Whether you should do so, however, is open for discussion.)
+It also supports direct access to all ECNs and stock exchanges.
+Many other charting packages are available, but these two packages are
+widely used and give you a good basis for comparing all the other available
+products.
+The drawback to stand-alone charting software is the expense. In addition to
+the price of the software, you need a data provider to deliver end-of-day or
+intraday market prices. When selecting a charting software package, make
+sure that it supports the data service you plan to use. They must work
+together.
+Data service vendors include
+✓ Reuters DataLink (www.equis.com)
+✓ QuoteCenter (www.quotecenter.ca)
+✓ eSignal (www.esignal.com)
+
+Finding Fundamental Information
+Fundamental data — corporate information such as revenue, earnings, and
+cash flow — isn’t as perishable as price data or trading statistics, but
+accessing these numbers directly from your trading platform as they’re
+updated is a nice feature. Analysis of fundamental data is discussed in
+Chapters 5, 6, and 7. Many brokers provide access to at least some
+fundamental data, but if you’d like to run the numbers yourself, many of
+these online sources can review the raw financial data:
+
+55
+
+56
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+✓ The Wall Street Journal (www.wsj.com): The Wall Street Journal is
+available online by subscription. It provides access to a wide variety
+of information including stock quotes, stock valuation indexes,
+fundamental ratios, industry comparisons, insider transactions,
+earnings estimates, and stock analysis reports. Delayed-price charts
+also are available. The price for subscribers to the print version of The
+Wall Street Journal or Barron’s is $39 annually, otherwise it’s $119. They
+offer a free two-week trial.
+✓ Edgar (www.sec.gov/edgar.shtml): All publicly traded companies
+are required to file 10-Q and 10-K quarterly and annual reports
+electronically with the Securities and Exchange Commission (SEC)
+through its Electronic Data Gathering Analysis and Retrieval system
+(EDGAR). These reports are available to everyone online at no charge.
+
+Finding Analyst Reports
+Sometimes you can find these research reports at your local library, especially
+for big outfits like Standard & Poor’s and Value Line. Many analysts sell
+research in the form of investment newsletter subscriptions. We’ve used
+several of the following subscription services through the years, with varying
+degrees of success:
+✓ Standard & Poor’s (www.standardandpoors.com): Registration is
+required, but access is free. You cannot access the full reports and
+recommendations on this site, but the Business Week magazine Web site
+(www.businessweek.com/investor) offers several complete S&P
+reports, stock screens, and industry reports at no charge.
+✓ Value Line (www.valueline.com): The Value Line Investment
+Survey has been around for a long time. It profiles many of the major
+corporations and provides a variety of stock screens based on proprietary
+models. It also offers opinions on current economic and market climates.
+Some reports and updates are available on the site at no charge, but a
+subscription is required to access the complete site.
+✓ Briefing.com (www.briefing.com): This site has free and subscription
+components. Advanced features include access to analysts’ upgrades
+and downgrades as they’re released, access to updated earnings
+guidance, an IPO calendar, notification of changes in stock indexes, and
+quite a bit more.
+✓ Morningstar (www.morningstar.com): Morningstar probably is best
+known for its analysis of mutual funds, but it also provides extensive
+stock analysis, editorial commentary, a stock-screening tool, and a
+thorough snapshot tool that shows financial performance, fund
+ownership, and recent fund transactions. A subscription is required to
+access premium content.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+
+Selecting a Trading Platform
+You’ll find as many different approaches to trading as you’ll find traders.
+Fortunately, almost as many alternatives for setting up your trading
+environment also exist.
+As technology develops and expands, online brokers are providing
+increasingly powerful trading tools for their clients. These tools include
+market research, charting capabilities, streaming prices and news services.
+If your broker doesn’t offer a specific service, you probably can find it offered
+on the Internet.
+When selecting a trading platform, look for the capabilities you need today
+with an eye toward future expandability. You may want to consider the
+features in the three lists that follow.
+Trading tools to look for include the following:
+✓ Stock trading
+✓ Support of sophisticated option trading strategies
+✓ Futures trading, especially single-stock and index futures
+✓ NASDAQ Level II access
+✓ Direct-access trading and ECN book data
+✓ Watch lists
+✓ Automatic e-mail or text message notification when a stock hits your
+price point
+Analysis tools to shop for include these:
+✓ Sector analysis
+✓ Proprietary and third-party analyst’s reports
+✓ News feeds (Dow Jones, Reuters, and so on)
+✓ Real-time charting capabilities
+✓ Time and volume sales reports
+Account management tools that you may need include the following:
+✓ Real-time account balances
+✓ Real-time updates of buying power and margin exposure
+✓ Portfolio management tools
+✓ Open-order status
+
+57
+
+58
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+Before putting your computer to work as a trading platform, you need to
+understand the two primary techniques for delivering trading tools and
+services. The first uses your Internet browser to enter orders and deliver all
+information. The other approach uses a stand-alone software program, an
+integrated trading platform, to interact with your broker and your brokerage
+account.
+For the most part, integrated trading platforms are married to specific
+brokerage firms. Some brokers provide you with a choice. For example,
+Charles Schwab’s CyberTrader offers the integrated software-based system,
+StreetSmart Pro and StreetSmart.com for Web-based trading tools.
+The approach that suits you best depends somewhat on your trading style,
+cost considerations, and your computer’s configuration. You may find that
+the level of service offered by your broker depends on the size of your
+account or your trading volume. You have to balance your cost with your
+actual information needs.
+Integrated trading platforms typically are direct-access systems. We discuss
+both direct-access brokers and traditional online brokers in Chapter 3.
+Although direct-access systems are offered in browser-based configurations,
+active day traders and swing traders may require a completely integrated,
+direct-access trading platform.
+
+Browser-based trading environment
+For most new traders, trading volume starts out relatively small, perhaps five
+or fewer trades each month. Your time frame for holding a position probably
+is measured in days to weeks or weeks to months. You probably won’t be
+making many intraday trades, except to automatically exit a position after a
+stop price is hit. In that case, a browser-based trading environment certainly
+is good enough to get you started and may be all you’ll ever need.
+These systems may be tightly integrated or somewhat disjointed,
+depending on the way the broker implements them. Some brokers, for
+example, automatically fill in order-entry screens with as much data as can
+be gleaned from your account. Others make you type all the data into the
+order screen by hand, which can be cumbersome and time-consuming. Some
+brokers provide pop-up order confirmation and fill reports, and others make
+you continuously press the Enter key while waiting for a trade execution to
+show in your account.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+Pros
+For the most part, almost any Internet-ready computer can support a
+browser-based trading platform. Although Windows is most often used for
+trading platforms, even Apple Macintosh or Linux systems can be used for
+most browser-based applications.
+Much of the browser-based information offered by your broker is available
+to all clients, regardless of account size or trading volume. If your broker
+doesn’t offer something you want, you usually can find it elsewhere on the
+Internet, either free or for a modest fee.
+
+Cons
+When compared to an integrated software solution, browser-based trading is
+relatively slow, requiring you to open many browser windows and manually
+update account information. Depending on how well your broker implements
+these systems, a bit more typing may be necessary to enter and execute your
+orders.
+On some browser-based trading platforms, your Internet session may be
+disconnected whenever your screen is inactive for an extended period of
+time. At best, this kind of interruption can be frustrating. Similarly, some
+configurations depend on your using a specific browser, or may require that
+you download and install a special browser plug-in to operate correctly.
+
+Integrated trading platforms
+For very active traders, especially day traders and swing traders, and for
+traders looking to develop personalized trading systems, an integrated
+trading platform that doesn’t rely on your Internet browser can be a better
+solution. You typically download these software programs, install them on
+your computer, and then use them to access your brokerage account and
+trading tools. They range from rudimentary text-based applications with
+modest graphing capabilities to sophisticated technical-analysis programs
+that enable you to design and implement custom trading systems.
+The most sophisticated of these platforms provides an institutional-level
+trading experience. Some, for example, permit trading baskets that enable
+you to simultaneously enter orders for a number of different stocks. Others
+help you to define hot keys for fast order entry.
+
+59
+
+60
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+You’ll also find that integrated trading platforms provide support for
+sophisticated strategies. The most flexible among them give you the ability
+to enter contingent orders, where, for example, a stock’s price may trigger
+an option order or the execution of one order automatically cancels another.
+Several brokers will notify you by e-mail or a cellphone text message when a
+stock hits a price you’ve specified or an indicator reaches a preset level. One
+broker even gives you the ability to automatically execute trades based on
+recommendations from well-known and reputable advisory services.
+
+Pros
+These trading platforms typically are faster and easier to use and customize
+than browser-based applications. The best among them have system-testing
+tools that help you fine-tune your personal trading strategies.
+
+Cons
+Integrated trading platforms can be expensive. Unless you have a large
+account balance, your broker may charge you either a monthly fee or base
+the access on your making a minimum number of monthly trades.
+Furthermore, these platforms often require up-to-date computer equipment
+with a fast processor and plenty of storage to run well. Older equipment
+will not run this software satisfactorily. And it’s likely you’ll need to use the
+Windows operating system.
+
+Mike’s hybrid trading platform
+Mike here: My trading horizon is relatively long,
+and I don’t execute enough trades each month
+to justify the cost of an integrated direct-access
+trading environment. My trading strategies don’t
+depend on having access to NASDAQ Level
+II data or direct electronic communications
+network (ECN) access.
+However, I prefer working with a charting
+package versus evaluating charts by using a
+browser. I’ve used several popular packages,
+and a couple of homegrown applications. (Yes,
+I’ll admit that I’m sort of a geek.)
+My solution was to implement a hybrid
+approach that uses browser-based tools for
+account management and order entry alongside a software-based charting application.
+This approach provides me with access to more
+
+market data than I ever had when I worked as
+a broker, gives me tremendous flexibility, and
+minimizes my trading costs.
+And it suits my trading style. For some reason,
+the world looks different when I’m sitting in
+front of a computer. I feel rushed, somehow,
+and I don’t make my best decisions. That’s one
+of the reasons I don’t day trade. The pace works
+against me; I get caught up in the moment and
+end up making mistakes.
+I think and plan better when I’m sitting by myself,
+in a quiet corner of my home, with a pen in my
+hand. I’ll print the reports and charts that interest me, sit in a comfy chair, mark up my reports,
+and deliberately chart my trading course.
+Only then am I ready to enter orders online.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+
+Determining Computer Requirements
+Few new traders actually need a fully integrated direct-access trading
+platform to begin trading or to trade profitably. But if you’re considering a
+new computer system, the hardware and software requirements for these
+high-powered platforms may be of benefit. Otherwise, you may be unable to
+upgrade your new computer to run these applications.
+
+Decisions, decisions . . .
+Most trading platforms are designed for Windows, but die-hard Mac and
+Linux fans aren’t completely locked out. If you’re starting with a browser-based
+approach, almost any modern, Internet-ready computer can handle the task.
+Browser-based Internet tools usually work equally well on any hardware or
+operating system. Sadly, some sites require functions provided by a specific
+browser, but that is becoming increasingly rare.
+If you’re planning to buy new computer hardware for trading, we recommend
+that you avoid Mac hardware or Unix/Linux operating systems. Although Mac
+and Linux support browser-based applications at least as well as Windows,
+you may be unable to upgrade if ever you want a more integrated trading
+platform. We don’t know of any commercially available trading platforms for
+independent traders (as opposed to institutional traders) that run on Linux
+or either Mac OS 9 or OS X.
+
+Configuring your computer system
+Regardless of whether you decide to employ a browser-based approach or
+an integrated trading platform, you’re going to need a reliable computer with
+sufficient horsepower, memory, and storage space.
+Some of today’s high-powered, integrated trading software requires equally
+high-powered computer systems. We give you general hardware guidelines in
+this section, but if you decide you want a computer that can be upgraded to
+handle a high-performance integrated trading platform, you also need to check
+with specific software vendors to identify any special hardware requirements.
+You also need to be certain that your hardware supports your software.
+Software vendors often claim that their products can run on relatively modest
+hardware configurations; however, you’ll probably be disappointed and
+frustrated with system performance under such conditions. These software
+packages run much better on a computer that surpasses the system requirements. Trading platforms — especially testing applications and multichart,
+multiwindow, multimonitor displays — consume considerable amounts of
+system resources and can make many computers run unbearably slow.
+
+61
+
+62
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+The following minimum configurations easily support browser-based
+solutions. Upgraded configurations, however, may be required to adequately
+support fully integrated trading environments.
+✓ Central processing unit (CPU): At a minimum, you need a 1 GHz
+processor. Ideally, something much faster works better. Trading
+applications tend to rely on making many mathematical calculations,
+so you want to avoid the value-priced CPU chip sets. Look instead for
+systems that are primarily designed for graphics or gaming applications.
+Ideally, you should select a DualCore processor.
+The slowest machines being sold today are rated in gigahertz multiples,
+and most modern machines have enough CPU horsepower to run
+charting application programs. However, high-end programs like
+TradeStation take advantage of specialty hardware such as multi-CPU
+and hyperthreading configurations. Check with software manufacturers
+for specific details.
+✓ RAM memory: 1GB of RAM is the absolute minimum, but you probably
+want more. Memory is inexpensive compared with other hardware
+upgrades, and having too much of it is next to impossible. Errorcorrecting memory may buy only extra peace of mind, but it doesn’t
+cost much more than standard memory.
+✓ Available disk space: 1GB of free disk space should be enough when
+starting out, but you’ll need much more for long-term storage of real-time
+price data, which will be useful for developing and testing your own
+trading system. Chapter 15 discusses methods to personalize a trading
+system.
+✓ Operating system: If you’re running a Windows environment, you need
+to be running at least Windows XP or Vista. Although browsers and
+software applications will run on older versions of Windows, XP and
+Vista give you more stability and reliability than earlier versions of
+Windows. For trading applications, you want the most reliable system
+you can find and afford. Windows XP and Vista may not be bulletproof,
+but they’re so much better than their predecessors that you definitely
+want to upgrade if you haven’t already.
+✓ Video card: Although you may be able to squeak by using a sharedmemory video system (it shares some of your RAM), you’ll be better off
+with a stand-alone video card that relies on its own video memory. A
+minimum configuration for a single monitor requires at least 128MB of
+video memory, but 256MB of video RAM is better. You may even want
+1GB whenever you opt for a single video card that supports dual monitors.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+✓ Monitor size: Modern high-resolution LCD monitors are excellent and
+inexpensive. A 17-inch monitor probably is the smallest you should
+consider. Bigger is better. Even more important than size is the monitor’s
+resolution. Anything less than 1024 x 768 resolution is useless for
+reading chart detail, but you will want more. If you’re going with a single
+monitor setup, you should consider a 20- or 22-inch monitor with
+resolution up to 1920 x 1200.
+✓ Dual monitor configurations: Some traders swear by the dual monitor
+configuration. The idea is to pull up your charts on one monitor and
+everything else on the other. Many video cards support dual monitors.
+✓ Network interface: You need some way of accessing a high-speed
+Internet connection (see the next section). Many computers now come
+with either a built-in Ethernet port or an extra Ethernet Interface Card.
+Either works fine.
+✓ Power supply: We recommend that you use an uninterruptible power
+supply (UPS). A UPS is relatively inexpensive and provides an extra
+measure of security. Some protect against lightning strikes. If you live in
+an area where power fluctuations are common, a UPS is a must.
+
+Accessing the Internet
+You must have reliable Internet access, and that means a high-speed
+connection — either DSL or cable Internet will work fine. Some very active
+day traders will spring for a fractional T1 or dedicated T1 line for an
+additional measure of reliability, but either approach is expensive. A backup
+connection is a good idea. Consider a wireless laptop card or even a second
+high-speed Internet connection.
+A dial-up connection is not fast enough or reliable enough for trading. If
+dial-up is your only alternative, you may be able to temporarily squeak by
+with it, but look for an alternative as soon as possible.

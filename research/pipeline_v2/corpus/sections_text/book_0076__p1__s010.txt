@@ -1,0 +1,181 @@
+
+the trend used to be attackingShould I Be Using a 32-or 64-Bit Operating System?
+We’ve been able to keep the tech jargon to a bare minimum thus far, but it’s worth taking a moment to explain the difference between 32-and 64-bit operating systems.
+The amount of information traders need to know on the topic is fairly basic, and we’ll keep it that way.
+Everything with computers is just 1s and 0s. A bit is either populated or not, on or off. So for a 32-bit operating system, we have 2 to the 32nd power, giving us
+4,294,967,295, or 4 GB of RAM . Any 32-bit operating system is limited by definition to this 32-bit virtual address space, and if you install more RAM than the
+operating system can handle, it will simply ignore it. It has no way to address this additional storage. You’ll remember that toward the beginning of the chapter, we
+mentioned RAM and how the more of it you had, the faster your system would be. So how do we get past the 4-GB limit? The easy answer is moving to a 64-bit
+machine. We now have hardware and software that can take advantage of these advances, and when we take the on or off state of a bit, and then take it to the 64th
+power, we’re given enough address space to have several terabytes of RAM . If you’re looking to really max out your PC, you’ll want to be aware of the amount of
+memory that each version of Windows supports, and I’ve listed a few here. Windows Starter and Home Basic editions support a maximum of 8 GB, Home Premium
+supports 16 GB, and Professional and above support 192 GB. Obviously some of these numbers aren’t yet practical in a normal computer, but I have no doubt they
+will be in the near future.
+This same 32- vs. 64-bit theory applies to applications you install. Once an application can access more than 4 GB of RAM , you can have much more going on
+within that application. While trading platforms now are limited in the amount of data that can be accessed at one time, 64-bit platforms are emerging and will be able
+to handle much more data efficiently. What this means for traders is the ability to run more charts and more platforms and have fewer platform snags than we currently
+do.
+The 32/64-bit issue will eventually be a thing of the past, just like 8- and 16-bit computing. Until this transition is complete, just remember that 64 bits equals more
+memory and more performance.
+
+What Are the Best Solutions for Protecting Data?
+Anyone who’s been around computers long enough will tell you that the most expensive part of a PC is the data. Anything like a hard drive crash, a power surge that
+fries internal components, or this morning’s espresso that didn’t play nice with your laptop keyboard can destroy data. Once data are lost, data recovery procedures
+can be tedious and expensive, and do not guarantee recovery of your precious data. This includes everything from pictures and music to platform workspaces,
+45
+
+indicators, and portfolio spreadsheets. Fortunately, data backup procedures have advanced with technology, and in this day and age, there’s no excuse to ever lose a
+single document. Services like Carbonite will back up your data automatically to the cloud, where they are encrypted and stored should you need them.
+In discussing the preservation of your digital life, it’s important to understand the two main types of backup. The first, and my preferred method for backing up
+critical data, is the easiest and entails simply dragging the files from your local drive to an external drive. This keeps your data in their exact original form, and should
+you experience a crash, you can plug the drive into another PC and quickly have access to your files. This method can also be used in conjunction with services like
+Dropbox. Dropbox creates a new folder on your PC. Anything that is placed inside that folder is uploaded to its storage service and is accessible from all your
+connected devices. Not only does this accomplish the task of backing up data, but it makes it easy to make changes to a file at the office and have the exact same
+changes reflected on the document when you return home. For example, when working on this book, I had a Dropbox folder on five different computers. I could access
+this folder from any of the five computers, open up a chapter, make a few updates, and, voilà, this chapter was automatically updated across all five computers. This
+is way easier than e-mailing files back and forth to different computers. I also keep my TradeStation workspaces in this Dropbox folder, so that I can access them from
+any PC.
+The second type of data backup is known as imaging. Think of an image backup as just that: a snapshot, or image, of your PC. While the backup methods discussed
+up to this point back up only user data, imaged backups literally back up everything: user data, temporary files, the operating system with updates—literally
+everything. This is taken and stored in such a way that if your hard drive were to crash, you could replace the drive, run the imaging software, and not miss a beat.
+Trading platforms, indicators, pictures, and documents, along with every personal setting and application on your machine, are preserved with an imaged backup. I do
+both methods of backup on anything that’s important to me. I then take those backups and make sure they’re available in three different forms. Backups should be
+stored locally for quick recovery and off site for protection against natural disasters and theft, and then having a copy in the cloud completes the trifecta. While I do
+love cloud storage, I typically do not upload image backups to online data storage simply because of their size. I do keep physical copies in multiple remote locations,
+however.
+Data aren’t the only thing that traders need to have backups of. Power outages can and will happen, and battery backups are a must. These are available at any major
+office supply shop. In the event of a loss of electricity, these will give the trader around 30 minutes of power, which is plenty of time to close out positions or reset
+parameters in case the power is going to be down for a long time. This also gives the trader time to shut down the computer manually, which is much safer than having
+it go out suddenly because of a power loss.
+The third thing a trader needs to be prepared for is a loss of Internet. Cable and DSL connections can go out even when the electricity is still on, and this will
+undoubtedly happen at the absolute worst time. Broadband saturation has grown in the United States, and it’s now affordable for a trader to have not only a cable
+connection, but also a fiber or DSL line as backup. These connections can be run into a single device called a dual-WAN (wide-area network) router, and should one go
+out, no action is necessary on the part of the trader. The second connection simply picks up where the first left off, and ideally the end user never sees this hiccup. If
+this fails, the next step is direct contact with your broker.
+The trend in the industry is for brokers to let computers do all the work. Although this provides for efficiencies and cuts costs, the bottom line is that if I have a
+problem, I had better be able to get hold of my brokers right away. If I call my brokers and can’t get hold of them, I start foaming at the mouth—a signal that it is time
+for me to switch brokers. If I want to be put on hold, I will call the airlines, not my brokers. M y suggestion here is to take advantage of technology and get your broker
+or brokers hooked up on an instant messaging program. This is an incredibly efficient way to stay in touch throughout the day. If my data feed goes down, I can IM
+(instant message) my broker for a quote. M y expectations for my brokers are that I can contact them via phone or instant message right away. If they are not available,
+then I have the number and instant message as a backup. In trading, there is no excuse for not being able to get a live person to help out with an order or question right
+away. What else are we paying them all the commissions for? Of course, another option now is having a broker who is wired into your mobile phone. I use my iPhone
+to check quotes on my thinkorswim platform all the time. And, if need be, I can place a trade over my iPhone or iPad as well.
+If the trader’s data feed goes down, much of what already has been discussed will help. Being able to contact a broker to get a quote or place a trade in this situation
+is imperative. Yahoo! Finance is also a great site to get free quotes on stocks, options, and futures.
+Trading successfully requires an edge. Traders who choose to remain in ignorance about what is really going on with their computer, or who are “outta luck” when
+the power goes out, are leaving themselves at a decided disadvantage compared with traders who are prepared. By staying up to date on the technological front, the
+trader has an advantage over those who don’t. And having an advantage over other traders is the only thing that will make the trader a winner in this business.
+Technology can, of course, get outdated quickly. Henry has put together a free video and list of specs at www.tradethemarkets.com/hardware to keep everyone up
+to date.
+
+Why Aren’t All Quotes Created Equal?
+Now that we’ve beaten the nontrading technical issues to death, let’s look at issues geared specifically to trading. This typically comes down to three areas:
+1. Quote software
+2. Trade execution software
+3. M arket-related subscriptions and services
+Let’s look at quote software first. M uch of the decision to use a specific charting software package typically comes down to “whatever a person stumbled across”
+as he began the trading journey, typically as the result of a commercial he saw during the Super Bowl. For most traders, this is not a good thing. I remember when I
+first started trading online in the early 1990s, and I had to hit “refresh” every time I needed a new quote. I was charged a fee each time I hit “refresh” if I didn’t trade
+enough. I stayed with that brokerage for about three weeks, and that was three weeks too long. It is important for the trader to have a quote system that is robust, is in
+real time, and has the flexibility to easily add a variety of indicators and tools. The ultimate goal of traders is to develop a trading style that best fits their own
+personality. A flexible quote system gives people the ability to try different markets until they find the setups and techniques that work best for them. There are only
+a few quote vendors that fit this bill, and there are many that do not. The bottom line is that good quotes are not free and can easily run a few hundred dollars a month.
+Skimp on the desk, not on the quotes.
+Since this book was first published, thinkorswim (www.thinkorswim.com) has developed a quote system and trading platform that is not only is robust but free.
+Tom Sosnoff had a great idea when he decided to give the client everything for free. It was such a great idea that clients flocked to this platform, and it grew so fast that
+46
+
+it attracted the attention of TD Ameritrade, which recently purchased thinkorswim (TOS) and is incorporating this platform under its umbrella. This is a platform that
+I started using shortly after this book was first published in 2006. It has continued to deliver the goods, and I continue to use it for quotes, charting, and execution for
+trading options and stocks. It is also in the process of moving into futures—the first powerhouse broker to do so. It is going to change the playing field by bringing
+futures trading within reach of anyone (see Figure 3.1).
+I also utilize TradeStation (www.tradestation.com). TradeStation makes it possible for me to easily add my own indicators and studies, and I like its chart
+functionality and its ability to back-test specific setups and data. I also love its Radar Screen tool, which allows me to look at signals on multiple markets and time
+frames (see Figure 3.2). TradeStation is also in the process of coming out with a lot of awesome new trade analysis tools, and I’m looking forward to utilizing them as
+it rolls them out. I typically use TradeStation to trade options and futures. I like eSignal because it has fast reloading time and is robust and easy to use. Recently I also
+started using the charts at Infinity Futures (www.infinityfutures.com), as this company has also come out with a robust free quote platform for futures. I primarily
+use its platform to day-trade futures. As of this writing, thinkorswim and Infinity provide free quotes, while TradeStation and eSignal charge monthly fees for data.
+
+Figure 3.1
+47
+
+Figure 3.2
+
+Another good source that I use for futures quotes is the market data available at the Chicago M ercantile Exchange (CM E Group). Its website is www.cmegroup.com.
+For futures traders, information on quotes, open interest, front month, option activity, trading hours—it’s all there, especially now, since the CM E Group owns the
+Chicago Board of Trade and the New York M ercantile Exchange. There are, of course, other good quote systems available. The key is to utilize a robust and flexible
+version that best fits a trader’s needs. For the most part, traders will get what they pay for in this area. The best way to find a good quote system is, first and
+foremost, to ignore any marketing material that is put out by the company itself. Looking at that is like believing that a can of soda is good for you because it says
+“diet” on the label. One of the biggest marketing gimmicks in trading is “free level II data.” Level II data are worthless and shouldn’t be watched in the first place.
+Larger traders use level II to trick and fool smaller traders by putting up fake size and using every method at their disposal to hide what they are really doing. They
+also cause traders to overtrade, which is the number one way to get out of this business in a hurry. Traders will save themselves a lot of frustration simply by turning
+this off. In sum, ignore the marketing and ask other traders who have been actively slinging stocks and futures for at least five years.
+
+How Can a Bad Execution Platform Ruin My Account?
+In the late 1990s and early 2000s, it was all about faster executions. A trader who had an execution platform that was faster than the others had an edge. Online webbased brokers caught on and started offering “60-second guarantees” on fills. Those of us who were using direct access laughed in their faces. Sixty seconds might as
+48
+
+well have been a week. Today, nearly every broker has adapted, and everybody has lightning-fast executions. So what platforms have the edge?
+Think back to what I said about trader psychology in Chapter 2. M ost of the mistakes that traders make are emotional. I’ve watched traders get flustered, especially
+in futures trading, and make mistakes with their orders. They go long five contracts of the euro FX and then make an error in trying to place the stop that ends up
+liquidating their position. Other times, they put a target in place and end up doubling up on their position because of a mechanical error. Or, worse, they don’t feel like
+going through the entire process of placing a stop, then placing a target, and then remembering to cancel the remaining open order once either the stop or the target is hit
+—so they don’t place a stop or a target. These are the traders who “rely on their judgment while they’re in a trade” and create great opportunities for the rest of us
+when they inevitably freak out. M anual order submission and trade management is a tedious, error-prone process. Coupled with heightened emotions, it is a recipe for
+trader blowout. M aybe it won’t happen today, and maybe not tomorrow, but that day is always lurking on the horizon.
+In addition, some traders simply are not computer savvy. They are not comfortable on computers, and it is easy for them to fumble an order. The best computer
+users are kids (people in their twenties—I now refer to them as kids), and it’s because they have grown up playing video games on their PCs. Some traders I know
+have deliberately learned to play “one-person shooter” games on their PCs in order to improve their speed on the keyboard. The most popular of these is called Call of
+Duty. This game places you in various battles during World War II, and it is literally act fast or die—kind of like trading. By the time people get through this
+adventure, their eye-hand-mouse-keyboard coordination will have improved exponentially. M y trading partners and I have all gone through the game, and it improved
+our hand-eye coordination considerably. This game is available at stores like Best Buy for $30. Since this book was first published, multiple editions have come out—
+just be careful you don’t get so hooked on the games that you stop trading!
+Trading execution software today has evolved to help traders protect themselves from themselves. Think of a typical trade. Let’s say I go long 10 contracts of the Emini S&P 500 futures (ES) at 1204.25. I place a 2-point (8-tick) stop, and I want to exit half my position on a 1-point (4-tick) move to 1205.25. For the rest of my
+position, I will trail my stop—every time the ES moves 1 point (4 ticks), I will move my stop up 1 point. This requires active trade management, with the pressing of
+a lot of keys and many mouse clicks. One mistake and I can turn this winning trade into a loser.
+What if, each time I bought the ES, my trading execution platform knew that I would be using a 2-point stop and a 1-point target on the first half of my position? If
+it knew that, then it could place the orders for me automatically, and I wouldn’t have to do a thing. What if it also knew that when my first target was hit, I wanted to
+bring my stop up to breakeven? And what if it also knew to change the number of contracts in my stop from 10 to 5 when the first target was hit? What if it also knew
+to then trail the stop? What if I had a target, and it knew to cancel my stop order once my target was hit? And what if it did all this automatically, so that all I had to
+do was get into the trade, and after that I could essentially walk away because the software was managing the trade for me according to my specifications? The purpose
+of my day would be to sit back, relax, and focus on finding high-probability entries, instead of having to scramble around once I was in the trade and actively manage it
+—a process that can be mentally straining and cause many emotional fluctuations.
+That is the kind of software that is available today. All traders have to do is wait and be patient for an appropriate entry level, take the entry, and then the software
+can manage the trade for them according to their own specifications. This process removes a lot of the mental stress involved in trading and helps to prevent traders
+from making the common mistakes that ruin many of them. This type of functionality was not readily available with many brokers even in 2005, but as I’m updating
+this today in 2011, these are common features, and additional improvements continue to catch on.
+I’ve tried many of the platforms that are available today, and there are a few standouts from the crowd. However, it doesn’t take long for a new version to emerge
+and triumph over all its rivals. There are some that are great but add too many fees. Others work fine but are memory intensive and really slow down a computer. The
+perfect one is fast, doesn’t take up much memory, and doesn’t tag on a lot of extra fees. If you are interested in the list of platforms I am currently using, send an email to support@tradethemarkets.com or call our office. Let’s take a look at a more or less generic example of what I’m talking about.
+Figure 3.3 illustrates a shot of a “Strategy M anager” window, where traders can enter their predetermined trade entry and exit points. The Strategy M anager is open,
+and the Position Strategies tab is selected. The strategy that is highlighted is called TradeTheM arkets, which is a strategy that I created. In the position type box (Pos
+Type), I have selected the bottom choice (Stop/3T). This means that this strategy will have three profit targets and one stop order. In other words, I can buy six lots of
+the E-mini S&Ps and scale out of my position two lots at a time, at predetermined exit points. The details are entered in the middle of the screen. For this trade, when I
+get in long or short, the software will automatically place a 2-point stop, and it will automatically place orders so that I can scale out of two contracts when I’m up 1
+point, scale out of another two contracts when I’m up 2 points, and scale out of the final two contracts when I’m up 3 points. In addition, once I am out of my trade,
+the open stop order is automatically canceled.
+This screen focuses on my “target exit strategy.” M y “stop exit strategy” is different, and you can see that a stop strategy called “JohnCarter” is selected. (See
+Figure 3.4.)
+
+49
+
+50
+
+Figure 3.3
+
+51
+
+52
+
+Figure 3.4
+
+The “Stop Strategies” tab allows the trader to create a single stop or a trailing stop. The trailing stop will automatically move based on the parameters put into this
+screen. As the various profit targets are hit, the stop loss will move up a specified amount, ensuring that an increasing portion of any profits is protected.
+Traders may have just one setup that they use, or they may have half a dozen or more that they have created over the years. Each setup that a trader uses should
+have a different set of rules for exiting the trade. Some of the setups may utilize a 3:1 risk/reward ratio (risking 1 point to make 3), while others utilize a 1:2 risk/reward
+ratio (risking 2 points to make 1). Some of the setups may use trailing stops and multiple targets, and some may have stationary stops and single targets. All the
+various exit and stop strategies can be created for each setup on each market in which it is going to be utilized and matched together. Once these are all created, all
+traders have to do is tell the software which setup they are about to take, on which market, and then focus on the entry level. Once they enter the trade, the software
+does the rest of the often very tedious and error-prone work. What is also nice is that a trader can have a couple of plays running simultaneously in different markets
+and not get frazzled watching after all of them. This type of technology automatically brings discipline and focus into the trader’s life and generally makes the trading
+day smoother and more deliberate, leaving a trader refreshed at the end of the day instead of worn out.

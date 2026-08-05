@@ -1,0 +1,367 @@
+
+A trader who exercises a futures option early does so to capture the interest on the
+option’s intrinsic value. This intrinsic value will be credited to his account only if the
+option is subject to stock-type settlement. When he abandons the option through
+exercise, he receives the variation resulting from settlement of the futures contract. If,
+however, futures options are subject to futures-type settlement, as they are on many
+non-U.S. exchanges, no cash flow results from the early exercise of an option. With an
+80 call trading at 20 and the underlying futures contract trading at 100, if the option is
+subject to futures-type settlement when exercised, 20 points will be credited to the
+trader’s account from the settlement of the futures contract. But 20 points will
+simultaneously be debited from his account when the 20-point value of the option
+disappears. Since the cash credits and debits exactly offset each other, no additional
+interest earnings can accrue.
+
+In futures markets where the options are subject to futures-type settlement there is
+never any economic justification for early exercise, and early exercise can never be an
+optimal choice. A trader will always be better off either holding the option or selling it,
+rather than exercising it early.
+
+STOCK OPTIONS
+
+Early Exercise of Calls for the Dividends
+
+We can separate a stock option call into its components, as we did with a futures option.
+Now we have the additional consideration of dividends:
+
+call value = intrinsic value + interest rate value + volatility value — dividend value
+
+Since the intrinsic value, interest rate, and volatility components can never be less than
+zero, these factors always enhance the call’s value. As any one of them rises, the call
+value rises. Only the dividend component might affect the option’s value negatively. As
+the dividend rises, the call option’s value falls. If the underlying stock pays no dividend,
+or no dividend is expected prior to expiration of the option, a call option can never have
+a value less than parity (intrinsic value). If, however, the negative effects of the dividend
+are greater than the positive effects of interest rates and volatility, it might be possible
+for a call, if it is European, to be worth less than parity.
+
+For example, suppose a certain stock is trading at 100 and that the stock will go
+ex-dividend two points tomorrow. Suppose also that there is a 90 call available which
+will expire in two weeks. When we evaluate the option, we find that it has a theoretical
+value of 10 and a delta of 100. This means that the option has essentially the same
+
+
+244 Chapter 12
+
+characteristics as the stock. If the option is American, and we want to maintain the same
+delta position, we have three possible choices:
+
+1. Hold the option
+2. Exercise the option
+3. Sell the option and buy stock
+
+Which of these choices is best?
+
+Suppose we simply hold the option. Certainly we will maintain our delta position.
+But what will happen tomorrow when the stock gives up its dividend? If the stock opens
+unchanged, it will open ex-dividend at 98,2 since the two-point dividend will be
+deducted from its price. Since the option has a value of parity, it will open not at 10,
+the previous day's parity price, but at 8, today’s parity price. In other words, if we hold
+the option we can be certain of losing two points on our position.
+
+Can we do any better with the second choice, exercising the option? If we exercise
+the option, we will pay the exercise price of 90 for the stock, and we will discard the
+10-point value of the option, effectively purchasing the stock at 100. When the stock
+goes ex-dividend we will lose two points when it opens two points lower the next day,
+but we will also receive the dividend since we now own the stock. We will break even
+because the two-point loss on the stock price will be offset by the two-point dividend
+we receive. Clearly, we are better off exercising the option than holding it, not because
+we will show some additional profit, but because we will avoid a two-point loss. We
+must exercise the option to ensure that we break even.
+
+What about the third choice, selling the option and buying stock ourselves? This
+seems to be very similar to early exercise. In both cases we are replacing the option with
+the stock. If the option is trading at parity, in this case 10, there is no difference between
+exercising the option, or selling the option and buying the stock. In each case the cash
+flow will be identical and we will own the stock when it goes ex-dividend. But suppose
+the 90 call is trading at a price other than 10. Suppose, for example, it is trading at
+91, Clearly, this price is not possible in a market where the options are American and
+can be exercised at any time. Purchasing a 90 call for 91% is equivalent to purchasing
+the stock for 991. If the stock is trading at 100, this means the call is trading at less
+than parity. If this were indeed true, all traders would buy the call, sell the stock, and
+immediately exercise the call. This would result in a riskless profit of 14 point, the
+amount by which the option was below parity. In a market where options are subject
+to early exercise, no option ought to be trading at less than parity.
+
+What if the 90 call is trading for more than parity, say 1014? Now if we sell the
+option and purchase the stock we will still receive the dividend, since we will own the
+stock. But we will end up with an additional 1 point which we would not have
+
+2. On the day a stock gives up its dividend, prices are typically disseminated with the dividend already
+deducted from the stock’s price. Hence, a 100-point stock which gives up a 2-point dividend overnight
+and opens the next day at 98 would be deemed to have opened unchanged since the 2-point drop in
+its price results from the dividend payout, not from any change in investor demand,
+
+
+Early Exercise of American Options 245
+
+collected through exercise of the call. Therefore, our third choice, selling the call and
+buying the stock, is the optimum choice.
+
+Since the only reason a trader would ever consider exercising astock option call
+early is to receive the dividend, ifa stock pays no dividend there is no reason to exercise
+a call early. If the stock does pay a dividend, the only time a trader ought to consider
+early exercise is the day before the stock goes ex-dividend. At no other time in its life is
+a stock option call an early exercise candidate.
+
+We noted that in an American (exercise) market an option should never trade at
+jess than parity. Is the same true in a European (exercise) market? In our example of
+the 90 call and stock at 100, with an expected two-point dividend, the call price will
+clearly drop when the stock goes ex-dividend. If the option cannot be turned into stock
+through exercise prior to the ex-dividend date, the option is clearly going to lose value.
+If it has very little time value, the amount it will lose when the dividend is given up may
+make the option worth less than parity. In our example, if the option expires in two
+weeks with interest rates at 8% and a volatility of 20%, the European value of the 90
+call is approximately 81/4. This is 154 under parity, due to the fact that a call option, no
+matter how deeply in-the-money, does not carry with it the right to the dividend. Only
+ownership of the stock carries that right.
+
+Early Exercise of Puts for Interest
+
+As we did with a stock option call, we can express a stock option put’s value in terms
+of its components:
+
+put value = intrinsic value — interest rate value + volatility value + dividend value
+
+In the case of a put, the only component that affects its value negatively is the interest
+rate component. If the negative effects of interest rates are greater than the positive
+effects of volatility and dividends, it might be possible for a put, if it is European, to be
+worth less than parity. Consider this situation:
+
+Stock price = 100, Time to expiration = 8 weeks, Volatility = 20%
+Interest rate = 8.00%, Dividend = 0
+
+With these assumptions, the value of a 110 call is approximately .70. Using the put/call
+parity relationship, we can calculate the value of the 110 put:
+
+put value = call value + exercise price — stock price — carrying costs
+The carrying costs on the exercise price of 110 are:
+110 x 56/365 x 8% = 1.35
+The European put value is therefore:
+.70 + 110-100 - 1.35 = 9.35
+
+Since the 110 put is only worth 9.35 if we hold it to expiration, but is worth 10 points
+if we exercise it today, the option is apparentiy worth more dead (exercised) than alive
+
+
+246 Chapter 12
+
+(unexercised). When we exercise the 100 put we get to sell stock at 110, and we can
+earn interest on this 110-point credit to expiration.
+
+Whereas a stock option call can only be an early exercise candidate on the day prior
+to the stock’s ex-dividend date, a stock option put can become an early exercise
+candidate anytime the interest which can be earned through the sale of the stock at the
+exercise price is sufficiently large. Determining exactly when this happens is a difficult
+problem, but if the stock pays a dividend it is most likely to occur on the day after the
+stock goes ex-dividend. Since a put is a substitute for a short stock position, one of the
+advantages of holding a put is to avoid paying the dividend. Hence, a trader will almost
+always want to hold the put through the ex-dividend date. Then, if the interest
+considerations are sufficient, the trader will exercise his put.
+
+In an American (early exercise) market no put option can be trading at less than
+parity. Otherwise there is an immediate arbitrage opportunity available by purchasing
+the stock, purchasing the put, and immediately exercising the put. The profit will be
+equal to the amount by which the put is trading at less than parity. This is not necessarily
+true in a European (no early exercise} market, where the option must be carried to
+expiration. In our example of the 110 put where the theoretical value derived from the
+call price was 9.35 (.65 less than parity), the market in the European 110 put might be
+914-914. A market maker is willing to sell the option at 914 (14 less than parity) because
+he can hedge himself by selling stock, and he will be confident in the knowledge that
+he will not be required to buy back the stock until expiration. The interest he earns on
+the stock to expiration will more than offset the amount he will lose by selling the put
+below parity.
+
+Conditions for Early Exercise
+
+If given the chance, there are clearly reasons why a trader might want to exercise an
+American option early. In the case of futures options, when the option is subject to
+stock-type settlement, the trader is trying to capture the interest on the option’s intrinsic
+value. In the case of stock option calls, he is trying to capture the dividend which the
+stock pays. In the case of stock option puts, he is trying to capture the interest on the
+proceeds from the sale of the stock at the exercise price. From the foregoing discussion
+we can infer two conditions which are necessary before a trader considers exercising an
+option early to capture this additional profit:
+
+1. The option must be trading at parity.
+2. The option must have a delta close to 100.
+
+If the option is trading at more than parity, the trader will always do better selling
+the option and taking a position in the underlying market himself. Determining whether
+an option is trading at parity is simply a matter of finding out what the market in that
+option is. In the great majority of cases, if an option is deeply enough in-the- money to
+be an early exercise candidate, the bid/ask spread is probably so wide that for practical
+purposes the option is trading at parity.
+
+
+Early Exercise af American Options 247
+
+Why should the delta be close to 100? If we exercise an option early, we are trading
+in the option for a position in the underlying contract. We therefore want to be
+reasonably certain that the option and the underlying contract have the same charac-
+teristics. In other words, we want to be certain that the option has no additional
+insurance value left, so that when we exercise the option we are not throwing away
+this insurance value.
+
+For example, suppose there is an 80 call available with the underlying contract
+trading at 100. If we want to take a long position we can purchase either the 80 call or
+the underlying contract. If we feel there is no chance that the market can fall below 80
+prior to expiration, there is no difference between holding the 80 call or holding the
+underlying contract. But suppose we feel that there is some chance that the market
+could fall below 80. In that case we will prefer to hold the 80 call. If the market were
+to fall below 80, holding the call would limit our potential loss to the option’s premium.
+If, however, we hold a long underlying position and the market drops below 80, our
+potential loss is unlimited.
+
+Recail that one interpretation of the delta is the probability that the option will finish
+in-the-money. A delta close to 100 means that the underlying market has almost no
+chance of going through the exercise price, and the option therefore has almost no
+chance of going out-of-the-money.
+
+What degree of certainty justifies early exercise? With a delta of 100 one certainly
+would consider early exercise. What about 99? 96? 90? With a delta above 95, many
+traders will at least consider early exercise. How much interest will be earned, or what
+dividend will be collected, through early exercise? With a delta of 95 or lower, the risk
+is probably too great to consider early exercise. There is at least a 5% chance that the
+underlying market will go through the exercise price. If that happens, a trader will regret
+having exercised an option early, regardless of the additional benefits to be gained
+through early exercise.
+
+By ensuring that the delta is close to 100, we are also ensuring that we do not throw
+away any insurance value that the option might still retain. As an option goes more
+deeply into-the-money, its time value (insurance value) begins to disappear. With a delta
+of 100, in theory the option has no time value left. However, as the delta declines, the
+time value increases. If the delta were significantly less than 100, the option would still
+retain a significant amount of time value. If we were to exercise such an option, we
+would be throwing away this insurance value.
+
+Since the desirability of early exercise is dependent, at least in part, on the option’s
+delta, the accuracy of the delta is important. But there are many factors which affect the
+delta, and we might incorrectly assess any one of these factors. If we feel that the correct
+volatility is 15%, an option might have a delta of 98. But if we decide to raise our
+volatility to 17%, the delta of the option will decline. Under the new conditions its delta
+might only be 93. At a 15% volatility a trader might consider early exercise, while at a
+17% volatility he might not. For this reason, options in low-volatility markets are
+exercised eatly much more often than options in high-volatility markets.
+
+
+248 Chapter 12
+
+In the same way, an option with three months remaining to expiration might have
+a delta of 92, and would therefore not be an early exercise candidate. But if two months
+pass, and the price of the underlying contract is unchanged, the delta will rise, and the
+new delta might be 99. With three months remaining the option was not an early
+exercise candidate, but with one month remaining the option might be early exercise
+candidate.
+
+Of course, we ought to ask why we were considering early exercise in the first
+place. In many cases, we exercise to earn interest over the life of the option. We can
+eal more interest over three months than over one month, so from this point of view
+a three-month option is more likely to be an early exercise candidate than a one-month
+option. We can see that many factors affect the desirability of early exercise, and these
+factors can pull in different directions, with some factors dictating for early exercise and
+some dictating against.
+
+Thus far we have only addressed the question of when a trader might find it
+desirable to exercise an option early. There should be an additional value associated
+with an American option over an identical European option because the American
+option carries with it additional rights. Even an out-of-the-money option, which no one
+would consider exercising today, might someday go deeply enough into-the-money so
+that it could become an early exercise candidate. This possibility should always make
+an American option more valuable than a European option.
+
+How much more should a trader be willing to pay for an American option over an
+identical European option? The Black-Scholes model makes no attempt to answer this
+question since it is a European pricing model. In spite of the fact that Black-Scholes
+generated values are likely to show some inaccuracies in an American market, for many
+years traders continued to use the model because no model with equal ease of use
+existed to evaluate American options. The problem of early exercise was dealt with
+through intuition, or through slight adjustments to Black-Scholes generated values. For
+example, when a stock is expected to pay a dividend, an American call value can be
+approximated by comparing the Black-Scholes value of the call option under two
+circumstances:
+
+1. The call expires the day before the stock goes ex-dividend.
+
+2. The call expires on its customary date, but the underlying stock price used to
+evaluate the call is the current price less the expected dividend.
+
+Whichever value is greater is the pseudo-American call value.
+
+In the case of options on futures, or of put options on stock, traders used
+Black-Scholes generated values, but raised any option with a theoretical value less than
+parity to exactly parity.
+
+Models eventually were developed to more accurately evaluate American options.
+The most widely used of these are the Cox-Ross-Rubenstein model, developed by John
+Cox, Stephen Ross, and Mark Rubenstein; and the Whaley model, developed by
+Giovanni Barone-Adesi and Robert Whaley. Unlike the Black-Scholes model, neither of
+
+
+Early Exercise of American Options 249
+
+these models is closed form. One can’t simply sit down and add up all the numbers to
+get the correct value. Rather, both models are algorithms, or loops, and each time the
+user makes a pass through the loop, the closer he comes to the true American value of
+the option. While the Cox-Ross-Rubenstein model is quite easy to understand, both
+intuitively and mathematically, it may require numerous passes through the loop to
+generate an acceptable value. On the other hand, the Whaley model is more complex
+mathematically, but converges to an acceptable value much more quickly. The Cox-
+Ross-Rubenstein model may require 40 or 50 passes through the loop to reach the same
+degree of accuracy as the Whaley model achieves with four or five passes through the
+loop. In addition to evaluating American options, both models also determine when an
+option should be exercised early. We were somewhat vague on this point in our earlier
+discussion, stating that the delta of an option should be close to 100 to justify early
+exercise. When using a true American model, an option is optimally exercised early
+when its theoretical value is exactly parity and its delta is exactly 100.
+
+While the Cox-Ross-Rubenstein and Whaley models in most cases generate similar
+values, more and more computer services are using the Whaley model to evaluate
+American options because of the speed with which it can achieve results, However, the
+Cox-Ross-Rubenstein model, while slower, is still very widely used because it offers
+some advantages which are not available in the Whaley model. For example, the
+Whaley model handles the dividend payout of a stock as if it were a continuous interest
+payment over the life of the option. In reality dividends are paid all at once, and the
+Cox-Ross-Rubenstein model more accurately reflects the impact of this one-time pay-
+ment on 4 call option on the stock. Unlike the Whaley model, the Cox-Ross-Rubenstein
+model can also be used to evaluate some of the recently introduced, exotic options. Such
+options are path dependent since their value depends not only on the likely price
+distribution of the underlying contract at expiration, but also on the various paths which
+the underlying price might take to achieve that distribution. Both these models are
+discussed further in Appendix B.
+
+Regardless of the model a trader chooses, the accuracy of model-generated values
+will depend at least as much on the inputs into the model as the theoretical accuracy of
+the model itself. If a trader evaluates an American option using an incorrect volatility,
+or an incorrect interest rate, or an incorrect underlying price, the fact that he derives
+his values from an American rather than a European model is likely to make little
+difference. Both models will generate incorrect values because the inputs are incorrect.
+The American model may produce less error, but that will be small consolation if the
+incorrect inputs lead to a large trading loss.
+
+American option values are most important when there is a significant difference
+between the carrying cost associated with the option and the carrying cost associated
+with the underlying contract. The greater the difference between the two carrying costs,
+the greater the value of early exercise. When the underlying contract is a futures
+contract and the option on the contract is subject to futures-type settlement, the cost of
+carrying either position is, in theory, zero. This is the same as assuming an effective
+
+
+250 Chapter 12
+
+interest rate of zero. If we use a zero interest rate, there is no difference between
+European and American option values.
+
+When the options on a futures contract are subject to stock-type settlement, there
+is a small difference between the carrying cost on the option and the carrying cost on
+the underlying contract. Although che option is subject to stock-type settlement, the
+price of the option is only a small fraction of the price of the underlying contract. The
+additional value for early exercise is therefore small, and is only likely to show up in
+deeply in-the-money options. Even in this case, the difference between European and
+American values is often less than the minimum price increment. In such a market, a
+trader is unlikely to profit significantly because he is using an American pricing model
+while other traders are using a European pricing model. Practical considerations, such
+as the accuracy of the trader’s volatility estimate, his ability to anticipate directional
+trends in the underlying market, and his ability to control risk through effective
+spreading strategies, will far outweigh any small advantage gained by using an American
+rather than a European model.

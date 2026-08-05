@@ -34,17 +34,25 @@
     geometry changes are variants of that hypothesis family, not separate
     Experts. Every Expert carries `mechanism_family_id`, `behavior_family_id`,
     `expert_id`, `expert_version`, and `variant_id` where applicable.
-14. Complexity budget: initially at most 3 active Experts and at most one
-    learned component in the decision path (a Candidate Scorer or a single ML
-    Expert challenger — never both at once). Router, shared scorer, ranker, RL
-    execution, and online learning are absent.
+14. Complexity budget is defined on two separate axes, never collapsed into
+    one number. (a) **Runtime:** the number of active Experts is unbounded;
+    the only limits are determinism and the compute budget. Expert count is
+    not a validity constraint. (b) **Evidence:** the number of behavior
+    families simultaneously carrying a claim on one frozen-OOS evaluation is
+    preregistered and enters the family-level multiplicity correction of
+    rule 11. At most one learned component per pipeline position. Router,
+    shared scorer, ranker, RL execution, and online learning are absent.
 15. Learning is offline and registry-gated. Outcome data never mutates an
     active Expert's definition; it may only produce challenger versions that
     must pass a frozen-OOS comparison and registry review before promotion.
 16. Risk admission is deterministic and exposure-aware. The baseline holds one
     active exposure per (instrument, direction); a conflicting Candidate is
     rejected (`CAPACITY_REJECTED` / `EXISTING_EXPOSURE_CONFLICT`) and is still
-    measured counterfactually.
+    measured counterfactually. This is an **attribution default**, not a risk
+    ceiling: it keeps realized PnL attributable to a single Expert. Together
+    with the portfolio heat cap it — never the Expert count of rule 14 — is
+    what bounds portfolio scale. Relaxing either is a registry decision
+    (O-012, O-018), never a configuration change.
 17. Research materializations are compiled once from the tape and reused;
     training reads materialized views, never raw tape, and recompiles only
     when feature, Expert, simulator, or outcome definitions change.
@@ -53,7 +61,7 @@
 
 ```text
 versioned point-in-time tape/state
-  -> deterministic self-gating Experts (2–3)
+  -> deterministic self-gating Experts (N, unbounded)
   -> candidate event store (all outcomes)
   -> deterministic acceptance + risk cap
   -> canonical Level-1 simulator / single ledger

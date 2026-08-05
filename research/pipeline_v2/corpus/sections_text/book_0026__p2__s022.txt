@@ -1,0 +1,261 @@
+
+800 share size position allows you to execute this trade, assuming you will not allow a single position
+to be larger than one-third of your account (33.3 percent). Multiply 800 shares that you plan to
+purchase by the current price per share at $30.00 to arrive at $24,000.00. The dollar amount of
+$24,000.00, which is 24 percent of your account is within your allowable 33 percent threshold, so
+you certainly can take this trade. Notice how the closer stop resulted in a larger position size in terms
+of both the number of shares you purchased and the dollar amount of the position, which is of course a
+different strategy than the prior fixed-share size or fixed-dollar amount strategies.
+Let's look at this example one more time and assume that you determine that the stop-loss should
+only be $1.00 beneath your entry price at $30.00, resulting in a very low-risk position. How many
+shares can you purchase where a $1.00 move against your position results in a $2,000.00 equity
+account loss? That's right—2,000 shares. Now, we determine if a 2,000 share size position meets our
+rule that no trade can occupy larger than 33 percent of our account. We multiply 2,000 shares by the
+purchase price of $30.00 per share to arrive at $60,000.00 for the position, which is almost double
+our allowable dollar amount for this position. Unfortunately, we would have to reject this trade setup
+and move to a more appropriate opportunity, either with a lower-priced stock or one with a larger
+dollar-value-per-share risk. As you might guess, this model is not appropriate for conservative
+traders who wish to place their stops extremely close to their entry price.
+This model tends to be more effective in terms of using the charts to determine logical places to
+locate stop-losses as opposed to exiting when price has moved a fixed dollar amount against you,
+which may actually be just above a key support point in the market at which the price finds support,
+turns higher, and rallies up to your target. If you chose to locate your stop based on the chart, you
+would have held on to this trade and achieved profit, as opposed to using a strategy with fixed dollar
+stop-loss prices that focuses more on your account value than the logic of the charts in terms of
+placing stops.
+The advantage of the strategy allows for appropriate position sizing based on the unique risk in the
+trade setup you are about to take, but the disadvantage comes in the reality that you must reject certain
+trades that do not meet your dollar-per-position threshold. Unfortunately, the trades that you reject
+will most frequently be those with very tight stops, and if you decide to use a very large stop-loss,
+you may result in a position size that requires you to buy 100 shares or fewer, which would most often
+not make expected profit from the position worth the time in the trade.
+Traders refer to this strategy as the R-Value position-sizing strategy (a term coined by Dr. Tharp),
+because you can then quantify each trade by its value at risk, which will always be 2 percent of your
+account, or whatever value you chose, be it 1 percent, 3 percent, or greater. Over a series of 10
+trades, if you used the same tactic on each setup, all trades will thus risk 2 percent of your account.
+Van Tharp suggests labeling your risk by the letter R and then quantifying your profit in terms of R. If
+you risked 2 percent on a given position and then profited 10 percent on the trade, your 10 percent
+gain was five times larger than your 2 percent risk, and thus you have a winning trade with an RMultiple of five.
+In doing this, you can assess the long-term edge or expectancy of your trading performance in terms
+of profit multiples of risk or R-Multiples. You can also quantify your risk in fixed dollar terms
+instead of fixed percentage terms if you decide to adopt a fixed dollar amount stop-loss strategy. If
+you are interested in learning more about this type of position-sizing method, study Van Tharp's
+section on position sizing in his Trade Your Way to Financial Freedom.
+
+THREE POPULAR POSITION-SIZING METHODS
+Fixed-Share Size
+Traders purchase the same number of shares or contracts in every position depending on the size of the account. For
+example, a trader might buy one futures contract or trade 1,000 shares for every $50,000.00 in the account. As the account
+grows, so does the position size. Fixed-size strategies work best for day traders who trade the same stock, ETF, or contract
+exclusively.
+
+Fixed-Dollar Size
+Also called Fixed-Unit Size, this strategy allocates the same fixed amount of capital—a unit—for every trade. A trader
+might allocate $30,000.00 for every position regardless of the price of the stock, ETF, or futures contract. This is best for
+swing traders who want to hold numerous open positions and diversify risk across multiple opportunities over time, while
+keeping positions equal in dollar terms.
+
+Percent Risked
+Traders determine their share size as a function of the risk in the position as determined by the distance from the trade
+entry to the stop-loss price. A trader allocates a different number of shares and dollar amount for each position depending
+on the fixed percentage, usually 1 percent to 4 percent, in relation to the overall affect on the entire portfolio. This strategy
+is appropriate for swing and day traders alike, but unfortunately causes them to reject good opportunities, usually the ones
+with tighter stops which result in a very large position size that is too large for a given account. While day traders may be
+able to allocate 50 percent or even 100 percent of the account for an individual trade, swing traders cannot.
+
+Depending on your experience, risk-tolerance, and timeframe, certain strategies are more
+appropriate than others. Any strategy is better than randomly or emotionally sizing your position,
+which effectively is no position-sizing strategy at all. Professional traders often remark that long-term
+success in the market is a factor of the edge in your strategy and position-sizing tactic you use
+consistently, which is a balance of taking on too much risk or not enough in each position.
+
+TRADE EXECUTION TACTICS
+So far, we've discussed edge and how that applies to your trading. However, to maximize your edge
+in trading, or to have any chance of making money at all, you must put your analysis into action in the
+most efficient way possible, and that's where trade execution tactics come into the picture. You put
+your advantage, or edge, into action through recognizing opportunities, and then execute a position to
+participate in the expected price move and then exit the market either at your expected target or at
+your predetermined stop-loss price. Trade execution tactics help you maximize your entry into a
+position, and exit from an open position as efficiently as possible, while minimizing slippage and
+unforced errors as much as possible.
+While specific patterns such as bull flags or head and shoulders offer specific places to enter a
+position, other setups do not. It's up to you to determine the price you enter, price you locate your
+stop, and price at which you exit your position either with a loss or a gain. In addition to answering
+the question of where to execute, you need to answer the question how to execute. This section will
+cut through the confusion and address the importance of trade execution tactics.
+
+Common Types of Orders
+The two most common order types you will use as a discretionary trader include market orders and
+
+limit orders. No matter what online trading platform you use to execute your trades, you can send your
+order to buy or sell shares as a market order or a limit order, usually with the click of a button. At the
+time of entry, you also should place a stop-loss order which will predetermine your risk in a position
+if the market does not behave the way you expect.
+Stop-losses prevent normal, small losses from becoming abnormal, very large losses. Too many
+large losses not only erode your edge over time, but they can destroy a positive expectancy that you
+work so hard to achieve. To enter and exit trades, you will need to use the most appropriate type of
+order for the specific situation and volatility environment of the market at the time of your trade
+opportunity.
+
+Market Orders
+A market order sends your order immediately to the electronic routing network to have your order
+filled as soon as possible, and as close as possible to the last price quoted. With a market order, your
+order is often filled within seconds of you clicking the buy or sell button from your platform. The
+benefit lies from the speed of execution, however this speed usually comes with an associated cost.
+The price you pay in achieving a fast execution result in a higher rate of slippage, which adds up over
+time. Market orders are filled at the best available price when the exchange receives the order, and if
+the market is illiquid or moving very quickly in a range expansion breakout intraday, you may find that
+your fill is at a much higher price than you expected.
+For example, let's assume you want to enter a breakout trade from a particular stock that broke
+above resistance at $50.10 per share. You enter your number of shares and click on the market order
+option to send your order to the market as it begins to break above $50.10. Immediately, your system
+notifies you that your order has been filled for $50.20 per share. You check your screen to see that the
+price now trades at $50.18. While the price traded at $50.10 when you sent your order, you were
+actually filled 10 cents higher, which represents 10 cents per share of slippage. Remember the factors
+that affect slippage: they include the number of shares you are executing, the volatility of the market,
+the liquidity of the stock, and the time of day you are executing your trade. If you execute your trade
+with a market order to buy 5,000 shares of a low-priced stock in the first five minutes of the day in a
+stock that trades 100,000 shares per day, you can expect much larger slippage than if you entered a
+market order during the third hour of the trading day to buy 500 shares of a higher priced stock that
+trades 10,000,000 shares per day. Keep these factors in mind when you develop your trading plan.
+Slippage is the hidden cost of executing trades, and the more you can minimize its effects, the better
+you will be at the end of the year.
+You may be thinking that market orders are the worst type of orders to use. While market orders do
+have their drawbacks, they do have significant benefits that you miss if you abandon these types of
+orders completely. Though you can expect to pay in terms of slippage to buy a stock intraday in a
+volatile range-breakout, you do get your trade filled if you execute into a rapidly rising market. If you
+are playing for a range breakout target of $1.00 or more intraday, a slippage cost of 5 cents is a
+negligible part of the total expected move. Because the market is moving so quickly toward the
+breakout target, you want to participate in this move, and if you attempt to minimize your slippage as
+much as possible, you will find you have missed the trade entirely. Thus, in order to save 5 cents of
+slippage on the trade, you let 95 cents pass you by; instead of losing money, you lost opportunity.
+Sometimes the hidden costs of trading, such as watching an opportunity pass you by, can be worse
+than the losing trades that actually cost money. While slippage certainly is bad, saving a few pennies
+
+per share is not worth missing entire price moves that you saw develop.
+
+Limit Orders
+In contrast to market orders, limit orders allow you to specify a price at which you are willing to be
+filled but no higher (or lower if you are short-selling). Traders use limit orders to minimize slippage
+as much as possible, and once some traders begin using limit orders, they never use a market order
+again.
+To execute a trade with a limit order, type in the price of the stock at which you wish to be filled
+and then send the order through your broker. The electronic exchange will fill your order as soon as
+possible at a price that is equal to or better than your limit price. You may wait seconds or even
+minutes for your order to be filled, and if the market is moving rapidly in a volatile environment, you
+may not be filled at all. In such cases, you can decide to cancel your open order and then resend a
+new order at a higher limit price in the hopes that it will be filled. Traders can repeat this process
+until they receive a confirmation that their order has been filled at the price they specified for entry.
+Sometimes this is at a price far beyond the initial order to enter, especially in the case of a range
+breakout.
+Swing traders who study daily and weekly charts benefit from limit orders because they can
+perform their analysis overnight and then specify a price at which they wish to execute a trade. This is
+especially helpful if they have a full-time job or otherwise cannot monitor each price tick intraday. If
+the market trades to that price during the day, their order will be filled and they will be in a position
+that may last weeks or months depending on their time horizon. Day traders also benefit from limit
+orders because they can control the price of execution to minimize slippage as much as possible.
+While it may seem that limit orders are superior to market orders, keep in mind the factors that
+affect slippage affect the ability for your order to be filled. Let us revisit our earlier example of a
+price breaking intraday above a known resistance level at $50.10 per share. Our first trader entered a
+market order and was filled immediately at $50.20. Our second trader did not want to pay more than
+$50.15 to enter the position, so he executed a position with a limit order to buy 1,000 shares at
+$50.15 or better. After a few minutes go by, he notices that not only has he not received notification of
+a trade fill, but the stock is now trading above $50.20 and rallying sharply to the upside as he
+expected. Within moments, the stock is now trading at $50.30. Immediately, he rushes to cancel his
+first order and place another limit order to buy 1,000 shares at $50.30 or better. However, he finds
+the same outcome, with no notification of a fill and the stock rallying even higher to trade above
+$50.40.
+The trader is left now with two options: either pay the price and execute the same position with a
+market order as the stock rallies higher to the target of $51.00 per share intraday, or stand aside and
+miss this opportunity completely because the stock has now broken higher halfway to the target, and
+the reward-to-risk relationship severely deteriorated. Defeated, our trader decides to pass and watch
+the stock rally to $51.00 without him. In his attempt to save $50.00 to $100.00 of slippage (5 or 10
+cents), he left up to $900.00 on the table in a missed opportunity. While losses show up in our trading
+accounts where we can see them clearly, missed opportunities like this do not.
+Thus, all things being equal, traders do well to use limit orders to execute the majority of their
+trades with the exception of trading range breakout impulse moves to play breakout trading strategies.
+A trader should minimize slippage costs as much as possible, but not to the extent that clear
+
+opportunities for profit are missed because of an overzealousness to reduce slippage. Decide in
+advance and clarify in your trading plan the circumstances and specific trade setups where you will
+use limit orders or market orders for entry, and be sure to understand the tradeoffs of the decision.
+
+Stop-Loss Orders
+While no trader enjoys taking a stop-loss, stops are necessary to protect capital and exit positions
+where the edge in a trade has deteriorated. Not only do stops preserve capital, but they allow you to
+preserve your expectancy in terms of your accuracy and monetary edge. If you let too many losing
+positions grow from small losses into large losses, you deteriorate your monetary edge in your
+expectancy calculation by increasing the size of your average losing trade.
+You cannot let your emotions or psychological need to be right overrule the necessity to exit a trade
+that has fallen to trade at the stop-loss price you set when you entered the position. Exiting a position
+at a predetermined stop-loss price frees up your capital to be able to execute a new position with a
+more favorable opportunity in the near future.
+You also must minimize slippage as much as possible when exiting a position with a loss. The same
+discussion applies for minimizing slippage with trade exits as it does with trade entries: market
+orders allow you to exit a position immediately though at a cost of higher slippage, while a limit
+order allows you to fix your price of execution but at the potential of the order not filling.
+If you are a purely discretionary trader, the emotions you feel when exiting a losing position are
+different from those you feel either when entering a fresh new position or exiting a position with a
+win. Depending on your personality, you will either feel the need to widen your stop-loss price in
+order to give your position more room to breathe, and perhaps recover to a win, or will you will feel
+the need to exit your position as soon as possible, perhaps even before the market touches the price of
+your stop-loss order. Both scenarios have their advantages and disadvantages.
+In general, if you give a trade a wider stop, it will have the potential to trade lower and then
+recover back to the profitable side, resulting in a win. However, if you tend to exit trades before the
+price reaches your predetermined stop, you may find that you exit positions early that fall pennies
+lower and then reverse back to the profit zone without you in the position. In such cases, your
+decision to end the trade early resulted in a loss, decreasing your accuracy rate, but had you obeyed
+your predetermined stop and not exited early, you would have experienced a winning trade.
+The opposite is also true. If you find yourself unwilling to take losses appropriately and thus widen
+your stop-loss as the price approaches it, you will find that you will more frequently suffer larger
+losing trades than had you exited when the market touched your predetermined stop-loss price. How
+you solve this dilemma depends on your individual personality, strategy, and experience as a trader.
+However you decide to take a stop, it is preferable to place your stops as market orders instead of
+limit orders with few exceptions. You should place stops just beyond confluence support or
+resistance prices where price touching your stop would result in a clearly failed trade and shift in the
+expected supply/demand relationship.
+Let us assume that you are buying shares because you observe price to be in a rising uptrend and the
+most recent swing retraced back to the rising 20-day moving average, which happened to form a
+confluence with the 38.2 percent Fibonacci retracement that you drew from the recent swing higher.
+You bought because price formed a hammer candle in a sudden bounce higher from the 20-period
+average. In this example, you would want to place the stop a safe distance under the rising 20 period
+
+average, and perhaps even under the 50 percent Fibonacci retracement.
+In the event that price broke under the rising 20-period moving average and then lower through the
+50 percent Fibonacci retracement, then you would assume that price was forming a reversal swing
+lower instead of forming a retracement swing that would support off the 20 average and continue on
+to make a new swing high. You will allow the price to trade slightly under the 20-period average
+without exiting your trade, but you determine that if sellers push price under the 50 percent Fibonacci
+line, or especially under the 61.8 percent line, then the probabilities of a successful trade have greatly
+diminished. In this way, you place stops based on what you expect price to do, or not do, in terms of
+price principles, patterns, and setups.
+In terms of executing your stop-losses, you would prefer market orders in most cases because if you
+just entered a losing trade, there is a good chance other traders have entered the same position you did
+and have located stop-loss orders near the same price levels you have. As a result, a positive
+feedback loop can develop when the market moves to hit this pocket of stop-loss orders. If you used a
+limit order to minimize your slippage, you might not get filled if price moves sharply against you, and
+might be forced to send two or three orders to exit your position, which would result in a worse
+situation than had you used a market order initially to exit. Instead of a trader missing a breakout
+opportunity by not getting filled due to using limit orders, you would be losing actual money
+continuously by not getting filled.
+This is especially true if you are expecting price to remain within the confines of a trading range,
+and then the price unexpectedly breaks down through the trading range in a range expansion move at
+the same time you just entered a long position to play an expected bounce. You want to exit your
+position as soon as possible, accepting your slippage, and not accepting further larger losses in the
+event that price continues its breakout to the downside. Remember, the beginning of most breakout
+moves occurs when one side of the market is trapped and forced to cover their positions, which is
+combined with the other side entering new positions in expectation of a breakout to continue. You do
+not want to be caught in such an environment and unable to get filled on a stop-loss order.
+
+Degrees of Risk
+Deciding where to enter a trade will be determined by your experience, personality, and goals as a
+trader. Some traders are inherently risk-averse while others are inherently risk seeking. You will find
+that risk-seeking traders often exhibit risk-seeking behaviors in other facets of their lives, just as riskaverse traders will exhibit risk-averse behaviors in their lives. Trading ultimately is a private
+performance art that requires the balancing of many factors, with execution tactics being one of many
+variables to balance.
+While most trading books or courses tell you to enter here and exit there, traders will be unable to
+execute those strategies over time if the strategies do not align with their personalities or experience
+levels. A trader with a conservative risk tolerance will be unable long term to execute aggressivestyle trading strategies consistently, just as an aggressive trader will be unable to execute defensive,
+risk-averse trading strategies. The mismatch between trader personality and strategy results in
+frustration and unnecessary losses, and may be the reason for an early end to an otherwise promising
+trading career.

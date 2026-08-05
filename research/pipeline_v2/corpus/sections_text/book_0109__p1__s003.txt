@@ -1,0 +1,519 @@
+
+Recession
+or
+Stagnation
+
+Low
+GDP
+
+Deflation
+
+Crude Oil
+Low
+
+Equity
+Sell-Off
+
+Decreased
+Corporate
+Profits
+
+China
+Global
+Slowdown
+
+Slowdown
+
+36
+
+Trading Binary Options
+
+Step 2: Scan for Specific Fears
+Every Sunday evening and Monday morning, the binary option trader should
+ask and answer the question: Which fears dominate the market this week? The
+answers will point to likely market directions. But how can the average trader
+quickly and effectively extract information? How can the average trader obtain
+accurate Internet searches about the opinion that dominates the markets? Fortunately, the rise of the Internet provides a medium that quickly transfers emotional information. Emotions spread like molecules in a medium, reactive and
+diffuse. Emotions are transferred throughout the medium and converted into
+opinions. The boundary between information and sentiment often becomes
+blurred. This effect has been described as part of a cycle of market information
+processing: “The market reports by the news services often consist of trading
+participants’ perceptions and interpretations of the market, which are then
+fed back to the traders in the market” (Oberlechner 2004, 137). The task of
+binary option trader is to filter the enormous bag of words that populate the
+social media and come to some conclusion about the intensity of sentiment
+regarding the underlying markets. To accomplish this, the binary option trader
+has to become a sentiment miner. Don’t let the term scare you away. In a very
+real sense we are all sentiment and opinion miners every time we use language.
+
+Step 3: Scan Headlines
+Could the average binary option trader use sentiment mining to help shape
+their trades? If so, what everyday tools can be used by the trader to accurately
+extract market sentiment? It turns out that anyone can become a good sentiment miner using a few tips. First, the challenge is to spot occurrences of key
+terms that are tagged to the fundamental forces being searched. The main
+idea is to find the right terms. This is known in sentiment science as AdjectiveVerb-Adverb (AVA) combinations and using opinion lexicon (Qiu 2011).
+Traders scanning the web often see frequent references to the terms fear
+and greed. But these terms are too coarse and do not offer the granularity
+needed by the trader to accurately sketch the vectors of market opinion. The
+task is to classify sentiment that better correlates to opinions about expected
+market direction. There are three major, general, directional sentiments that
+characterize market emotions: bullish, bearish, and neutral. But to be helpful to the trader on a timely basis, these classifications need to be further
+unpacked and detailed. The words “bullish” and “bearish” are still at too general a level. Being bullish or bearish is the result of a collection or the balance
+of fears that make traders bullish or bearish or ambivalent. To successfully
+
+Sentiment Analysis: New Predictive Tools
+
+37
+
+extract information from the social media about these forces requires a greater
+level of precision in the use of keywords and efficiency in search and retrieval.
+The average individual does not have the more advanced text mining tools
+that are emerging. But some basic strategies are effective.
+Overlooked by many traders is the value of scanning headlines. Headlines provide a sentiment activation frame to capture fundamental opinion.
+They are effective because they are constructed by opinion leaders as devices
+to attract readers. Headlines may not be accurate as to representing actual
+economic data, but they are effective strength-attribute indicators that show
+the pulse of opinion. Headlines trigger excitation waves that actually take the
+shape of a contagion. Particularly in this age of the Internet, headlines that
+appear and disappear throughout the day and night provide real-time samples
+of sentiment trends. One headline is often replicated throughout the Internet, acting as a signal amplifier of sentiment.
+The headline effect was very powerful when the rating agency Standard &
+Poor’s announced its review of the U.S. government debt rating. The headline
+was: Standard & Poor’s Puts “Negative” Outlook on U.S. Rating. The headline
+triggered a big response throughout the market (Figure 3.6). The result was that
+gold hit new highs in response.
+
+1480
+
+1485
+
+1490
+
+1495
+
+1500
+1505
+Spot Price
+
+1510
+
+1515
+
+Figure 3.6 Gold Rises on S&P Ratings Headline
+
+Source: Bloomberg Financial, L.P.
+
+38
+
+Trading Binary Options
+
+Step 4: Form Your Own Keywords for Search Retrieval
+Beyond headlines, another critical tool in the hands of the binary trader
+are keywords. Monitoring keywords enables a quick test of the emotional
+strength of bullish and bearish sentiment on a 24/7 basis. While there are
+an enormous amount of keywords, there are certain words that enable a very
+effective sampling and mapping of the sentiment in the market. This is not
+a trivial task. But following the latest text mining strategies, the trick is to
+use words that are not subject to too much ambiguity and to filter out noise
+words that give no added value to the search (Qiu 2011).
+Let’s start with some initial suggested generic words that should be
+used. They are: “risk appetite,” “risk aversion,” “U.S. dollar,” “Yellin,”
+“Draghi,” “deflation,” “employment,” “wages,” and “inflation.” These
+words are effective because they result in a high level of precision for
+retrieving the sentiment that the market is focused on. Think of each
+word as a landmark that is associated with an emotion. By using keywords, the trader is, in effect, doing shape science and finding the shape
+of sentiment. In the context of the science of sentiment analysis, the challenge of correctly matching keywords to the correct sentiment the words
+really reflect is called sentiment polarity text classification. The trader does
+not want to mismatch.
+The words therefore have to have what is called lexical cohesion. Luckily,
+the use of words such as “risk aversion” and “risk appetite” have a high accuracy rate for retrieving and classifying the correct sentiment that goes with the
+word. The words also have to have an ability to link to emotions that can be
+categorized as positive and negative emotions. The positive emotions can also
+be broken down into “positive, no doubt”; “positive, doubt”; “negative, no
+doubt”; and “negative, doubt.”
+Let’s apply this to the binary option trader scanning the web using keyword groups. Let’s combine keywords with a set of verbs that are usually
+linked to emotions. For example, instead of the name of a key central banker
+(Yellen, Draghi, Carney (the trader can enter: “Yellen fears,” or “Draghi
+fears” (Figure 3.7). Using the group of words “inflation fears” or “U.S. dollar
+fears” enables a quick grab of words relating to negative emotions about
+the dollar. The result is a greater detection of emotions. As a general rule,
+combine the name of a key leader with verbs such as “admits,” “declares,”
+“warns,” “supports,” “denies,” and so on. The result is a retrieval of news that
+carries with it a lot of information about the emotions involved. A good idea
+for any trader would be to create his or her own table of opinion seed words,
+or a verbal quadrant.
+
+Sentiment Analysis: New Predictive Tools
+
+39
+
+These search strategies are flexible. It is a good idea to try different combinations to cast a wider net over the billions of words on the Internet. For
+example, the trader could try:
+Central Banker + Adjectives
+Yellen
+= fears, hopes, declares
+
+Entering each combination of words results in a slightly different
+grab, ensuring a wider and more diversified search. The effect is to provide a better match between the search and the retrieval of the emotion
+involved.
+Once an underlying binary option market is chosen, word searches
+should become more targeted and specific. For example, if the currency pairs
+were the subject of binary option trades for the week, specific searches using
+the names of the key central bankers would be appropriate and effective.
+For every binary option market there are specific keywords that should be
+used. This is an area for which every trader can add his or her own ­creativity
+and improve his or her effectiveness by constructing his or her own dictionary of market emotions. Here are suggested words for use at any time for
+trying to gauge market sentiment. Start with any underlying market and
+add the suggested keywords using the different word combination formula
+(Figure 3.7).
+
+Figure 3.7 U.S. Dollar Word Group
+
+Fears
+
+Risks
+
+Inflation
+Word Groups
+
+Worries
+
+Forecast
+
+40
+
+Trading Binary Options
+
+underlying market + risk appetite
+underlying market + risk aversion
+underlying market + fears
+underlying market + optimism
+underlying market + doubts
+underlying market + pessimism
+underlying market + deflation
+We can generalize the entire search process in one equation or algorithm.
+It would be: underlying market + emotional adjective or adverb.
+For example, for detecting U.S. dollar sentiment, a trader would generate
+a search, possibly using the group of words, at different times: U.S. Dollar
+Index risk appetite; U.S. Dollar Index risk aversion; U.S. Dollar Index fears;
+U.S. Dollar Index doubts; U.S. Dollar Index optimism. The result is an ability to count the positive and negative news items relating to the U.S. Dollar
+Index. This follows recent text mining and sentiment analysis methodology.
+Peter Hafez of RavenPack, referring to this methodology, states, “One may
+consider the sentiment ratio as the baseline for constructing market sentiment indices. As the ratio is measured as the count of positive to negative
+news items, it indirectly takes into consideration changes in news volume”
+(Hafez 2009).
+
+Step 5: Create Your Own Risk Appetite/Risk Aversion Ranking
+Since the words “risk appetite” and “risk aversion” are extremely effective as seed
+words to retrieve market sentiment, the trader should always conduct a general
+risk appetite and risk aversion search. By comparing the results of the search, the
+ratio between risk appetite and risk aversion beliefs can be approximated.
+After retrieving the results of using risk appetite and risk aversion, the next
+step is to create your own sentiment ratio. The result is your own ability to
+give a thumbs-up or thumbs-down assessment about the mood of the market.
+The risk appetite/risk aversion ratio compares positive to negative sentiment
+results from your own text searches. This is a good technique—until special
+search engines can do a better job!
+After doing a search for a good way to quantify the balance of risk appetite to risk aversion, you need to assign a number to the article or headline.
+Ask yourself: Is the article retrieved positive or negative about the underlying
+market? Keep score. This helps keep track of the strength of the sentiment.
+A useful technique is to use a ranking range of –5 to +5. If the total sum is
+positive, you have, in effect, a market that is risk positive.
+
+Sentiment Analysis: New Predictive Tools
+
+41
+
+GOOGLE TRENDS AND WORD CLOUDS
+Social media is becoming a source for sentiment analysis and even basic search
+techniques and traders are beginning to use these tools to provide clues about
+the shape of opinion related to an underlying market. Two of the most recent
+tools are Google Trends and Word Clouds.
+The millions of words in blogs, documents, and speeches form an unstructured
+bag that needs to be made sense of by the trader. An established method is called
+natural language processing to find patterns among the words. Word frequency
+analysis is particularly effective. Another technique is detecting the presence or
+absence of words. For example, when the Federal Open Market Committee
+(FOMC) issues a statement, any new phrase that occurs is carefully watched.
+What is really important is a statement or remark that occurs only one time.
+This is called a hapax legomena and in computer linguistics it is considered very
+significant. It is also significant when it occurs in financial statements. An example
+would be the word “deflation” suddenly appearing in a statement, but occurring
+only one time. It would set off market reactions. Word frequency counters are
+easily available and getting in the habit of conducting frequency analysis on key
+statements will help reinforce a trader’s sense of the mood of the market.
+Word clouds are also becoming popular and can become a very useful for
+traders. Word frequency should be considered a fundamental indicator about
+market mood and opinion. When applied correctly, they provide some additional perspective on changes in emphasis. They help the trader visualize what
+concerns the market at that moment. Here is a word cloud generated from
+the FOMC statement when they raised interest rates on December 16, 2015
+(Figure 3.8). It clearly shows the focus on inflation rates as the key concern of
+the FOMC. That word appeared very prominently.
+FigUre 3.8 Word Cloud of FOMC Dec 16, 2015 Statement
+
+42
+
+Trading Binary Options
+
+In recent years, word cloud software has become multilingual, and even
+the Chinese trader can use word clouds to quantify sentiment. Traders can use
+several word cloud generators, such as Wordle, Tagul, and WordItOut. They are
+all accessible on the Internet.
+
+references
+Adamatzky, Andrew. 2005. Dynamics of Crowd-Minds. Singapore: World Scientific Publishing
+Company.
+Guang, Qiu, Bing Liu, Jiajun Bu, and Chun Chen. 2011. “Opinion Word Expansion and
+Target Extraction through Double Propagation.” Computational Linguistics 37 (1): 9–27.
+www.mitpressjournals.org/doi/pdf/10.1162/coli_a_00034.
+Feinerer, Ingo, Kurt Hornik, and David Meyer. 2008. “Text Mining Infrastructure in R.”
+Journal of Statistical Software 25(5): 1–54.
+Hafez, Peter Ager. 2009. “Construction of Market Sentiment Indices Using News Sentiment.”
+White Paper. RavenPack International S.L. (August 28): 3. http://ravenpack.com/
+research/indexsentpaperform.htm.
+Miller, Rich. 2011. “Investors Favor Cash Over Commodities in Dim Poll Outlook.” Bloomberg
+.com (May 12). www.bloomberg.com/news/2011-05-12/investors-shifting-to-cashfrom-commodities-as-outlook-dims-in-global-poll.html.
+Moujahid, Adil. 2014. “An Introduction to Text Mining using Twitter Streaming API and
+Python.” July 21. http://adilmoujahid.com/posts/2014/07/twitter-analytics/.
+Oberlechner, Thomas. 2004. The Psychology of the Foreign Exchange Market. Hoboken, NJ:
+John Wiley & Sons.
+Olson, Kenneth R. 2006. “A Literature Review of Social Mood.” The Journal of Behavioral
+Finance 7 (4): 193–203.
+Pang, Bo, and Lillian Lee. 2008. “Opinion Minding and Sentiment Analysis.” Foundations
+and Trends in Information Retrieval 2 (1–2): 1–135. www.cs.cornell.edu/home/llee/omsa/
+omsa.pdf.
+Si, Mukherjee, Liu, Li, Li, and Deng. 2013. “Exploiting Topic-based Twitter Sentiment for
+Stock Prediction.” http://www2.cs.uh.edu/~arjun/papers/stock_prediction_acl_13.pdf.
+Xiaoxu, Fei, Huizhen Wang, and Jingbo Zhu. 2010. “Sentiment Word Identification Using
+the Maximum Entropy Model.” Natural Language Processing and Knowledge Engineering (NLP-KE), 2010. International Conference (August): 1–4, 21–23. http://ieeexplore
+.ieee.org/xpl/freeabs_all.jsp?arnumber=5587811.
+Yi, Jeonghee, and Wayne Niblack. 2005. “Sentiment Mining in WebFountain.” http://suraj
+.lums.edu.pk/~cs631s05/Papers/sentiment_webfountain.pdf.
+Wong, Felix Ming Fai, Zhenming Liu, and Mung Chiang. 2014. “Stock Market Prediction from
+WSJ: Text Mining via Sparse Matrix Factorization.” http://arxiv.org/pdf/1406.7330.pdf.
+Zhao, Yanchang. 2015. “Text Mining with R-Twitter Data Analysis.” R and Data Mining
+Workshop, Deakin University, Melbourne. www.RDatamining.com.
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 4
+
+Tracking Fundamental
+Forces That Impact
+Markets
+A Primer for Binary Traders
+
+While finding the predominant sentiment for the markets is important for
+selecting the direction of trading in the coming week, basic fundamental economic forces also affect the movement of prices. These forces are often in the
+background, but remain important to monitor. The objective of this chapter
+is to provide a basic understanding of the fundamental forces that a binary
+option trader should know and track.
+The relationship between economic fundamental forces and markets is
+not linear. This means that tomorrow’s or next week’s price direction is not
+directly predictable based on today’s or yesterday’s price patterns. Rather,
+price action is more chemical in nature, similar to what chemists refer to as
+a reaction-diffusion event, where an acid is dropped into a base and then the
+reaction follows a non-linear path. The globalization of the world economy
+promotes, of course, a gliding effect, in which a change in GDP growth,
+inflation, interest rates, employment, wage growth, housing prices, in one
+country, or market, generates ripples, and triggers a reaction and glides or cascades across the world. The gliding medium is the World Wide Web. A trigger event could be an earthquake, a sell-off in metals, a remark by a finance
+minister, or many other exogenous events. The fact is that there is no place
+43
+
+44
+
+Trading Binary Options
+
+to hide in the world economy. Once an event occurs, what is predictable is
+that there will be a reaction. The reaction varies in relationship to the level of
+surprise. Expectations therefore are itself a major fundamental force. After the
+reaction, the market digests the news and experiences a diffusion of original
+impact of the surprise.
+The Fundamental Forces
+
+The trader should now fear gaining knowledge about fundamental forces.
+Fortunately, we have filtered the key forces that shape market movements.
+Let’s begin our tour of fundamental forces and relationships by reviewing the
+most global of all forces—China. We then review the impact of commodity
+markets, gold, the U.S. dollar, and other forces that need to be understood to
+build skills in trading binary options.
+
+China and the Global Markets
+There is no doubt that economic expectations on China’s growth are and will
+increasingly become key drivers in the global economy. The importance of
+China in the world economy is partially reflected by the IMF granting reserve
+status to the Chinese currency, the yuan, on November 30, 2015. Clearly the
+Chinese economy is integrating into the global economy. The binary trader
+should recognize the impact of economic news coming from China. The
+binary option trader needs to monitor China economic news for a variety
+of reasons. China is the world’s production hub. It imports resources and
+exports consumer products for the rest of the world. First, if growth in China
+is strong, it will directly affect the entire world economy. Some underlying
+markets are more directly affected by China’s economic surprises than others.
+For example, China imports key resources from Australia and therefore trading the AUD/USD, and the copper binaries should be considered first when
+China economic data releases relate to these markets (Figure 4.1).
+The selloff in the Shanghai market lead to “black” Monday on August 24,
+demonstrating how the sentiment of fear cascades through markets.
+Secondly, when markets open Monday mornings in Asia, watching
+whether the Shanghai Index is bullish or bearish gives a powerful clue to
+which markets binary traders should focus on as the week opens. A classic
+example is the market actions in August 2015 (Figure 4.2) relating to China’s
+devaluation of the yuan on August 11.
+
+Tracking Fundamental Forces That Impact Markets
+
+45
+
+Figure 4.1 China Growth Expectations Affect Aussie and Copper Markets
+
+Increase
+Growth
+
+Greater
+Demand
+
+Triggers
+
+Increase
+In Value
+
+Drives
+
+China
+
+Aussie
+Exports
+
+AUD/USD
+
+Figure 4.2 Shanghai Index Sell-Off and Fear Spreads to S&P 500
+
+4000
+
+SHCOMP Index (R1)
+SPX Index (R2)
+2100
+
+3800
+2050
+3600
+2000
+3400
+1950
+3200
+1900
+3000
+
+Aug 2
+2015
+
+Aug 9
+
+Aug 16
+
+Aug 23
+
+Aug 30
+
+46
+
+Trading Binary Options
+
+Trading China news is now possible at Nadex and IG by trading the
+China A50 and at IG the China CSI 300 Index. These provide weekly, daily,
+and intraday opportunities.
+
+Global Growth and Commodity Markets
+In reviewing global market conditions, the trader will notice that an overarching theme is global growth and global slowdown. A good way to look
+at growth is to visualize it as a process of cause and effect. Global growth
+or expectations of growth (Figure 4.3) generate inflation, higher consumer
+prices, higher commodity prices, and increased interest rates. At some
+point, the increased interest rates start slowing down the growth to damper
+inflation.
+In a scenario of a global slowdown, the key fundamental forces reverse.
+Low GDP expectations lead to lower demand for crude oil, lower commodity
+prices, and equity markets become less attractive. The big fear is no longer
+inflation, but deflation. The fear of deflation applies directly to the Eurozone
+and to Japan, both of which have had a difficult time generating growth.
+Traders need to monitor economic data releases on inflation in these countries to detect any changes in the potential for pushing prices higher.
+
+Figure 4.3a  Global Growth Fundamental Factors
+GDP
+
+Growth
+
+High
+
+Hyper
+
+Inf lation
+
+High
+Consumer
+Prices
+
+China
+HyperGrowth
+
+High
+
+High
+
+Crude Oil Price
+
+Commodity
+Prices
+
+Global
+Inflation
+
+Tracking Fundamental Forces That Impact Markets
+
+47
+
+Figure 4.3b  Global Slowdown Fundamental Factors
+
+Recession
+or
+Stagnation
+
+Low
+GDP
+
+Deflation
+
+Crude Oil
+Low
+
+Equity
+Sell-Off
+
+Decreased
+Corporate
+Profits
+
+China
+Global
+Slowdown
+
+Slowdown
+
+Commodity Markets as a Global Fundamental Force
+Commodity markets will continue to be a valuable source for detecting profitable
+opportunities in binary option trading. A rise or fall in commodities should be
+used to select and shape binary option trades. Depending on the size of a move, a
+drop or spike in commodities spills over into the equity markets. The collapse of
+oil to historic lows during December 2015 is a case in point (Figure 4.4).
+The binary trader looking to trade oil needs to understand and take a measure of the trend or pattern that is in place. After a surge down, the trader can
+try to join the sentiment and predict that oil will go further down. This requires
+good timing on choosing the expiration. However, it is more likely to predict
+that after a surge down crude oil will not likely bounce back. It will take a shift
+in global growth levels or a decline in oil production to be bullish on crude oil.
+Beyond the overall fundamental forces, the binary option trader should
+track specific correlations between different markets and instruments. The
+value of being updated on correlations lies in reducing risk as well as augmenting profits. When trading several different underlying markets at one
+time, if two or more were highly correlated, the trader has the risk of incurring a loss in all those markets that are correlated. Of course, the potential of
+being correct increases and is augmented. Generally, reducing risk is achieved
+by trying to trade have less correlated markets during the trading period.

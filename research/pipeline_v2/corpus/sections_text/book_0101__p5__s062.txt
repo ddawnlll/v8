@@ -1,0 +1,604 @@
+
+Market Timing Indicators
+The reliability of chart trend patterns can be enhanced and improved by
+observing other market timing indicators which have a track record for
+producing reliable signals in the commodities markets. Often times such
+indicators need confirmation of another system to enhance the timing of
+buys and sells. Chart patterns and other timing indicators fit together well.
+
+Moving Averages
+Moving Averages are some of the oldest technical indicators, and remain
+some of the most useful indicators for market analysts. A Moving Average
+is the average price of a security at a specific point in time. A Moving Average
+shows a trend. The purpose of the Moving Average is to show the trend in
+a “smoothed” manner, with less apparent volatility. Although a smoothed
+
+AU3772_book.fm Page 645 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+645
+
+¢/BUSHEL
+
+CORN – CBOT
+
+AS OF: 12/20/96
+9 WEEK MOVING AVERAGE
+18 WEEK MOVING AVERAGE
+
+550
+
+H
+
+500
+450
+S
+
+S
+
+400
+350
+300
+
+Neckline
+
+250
+VOL & O.I
+1000000
+500000
+
+1995
+J A S O N D J
+
+F M A M J
+
+J A S O N D J
+
+1996
+F M A M J
+
+J
+
+A S O N D
+
+FIGURE 183. Weekly Corn Prices (Cash). As was suspected in the corn daily futures
+price chart (Figure 181), a broad, 9-month Head-and-Shoulders Topping/Pattern
+formed in the corn market. The left shoulder occurred in mid-December 1995, with
+the head in May–June of 1996, and finally the right shoulder (on lower volume) in
+August. Although the Consolidation could be the Bottom, it appears to be viewed
+with some caution in the November–December area. (See Chapters 6, 7, and 8 for
+more information on Head-and-Shoulders Formation and measuring.) Chart courtesy
+of Market Research, Inc. (www.barchart.com).
+
+trend can be considered a chart pattern (EN: i.e., trendline), Moving Averages
+give unique signals that can be used in conjunction with other traditional
+chart patterns.
+
+Time Span
+The user selects the time span. For stocks, the most common time periods
+are 10-day, 30-day, 50-day, 100-day, and 200-day Moving Averages. Most
+technicians, however, use variations of these numbers to suit their individual
+needs. There isn’t just one “right” time frame. Moving Averages with different time spans show different stories. The shorter the time span, the more
+sensitive the Moving Average will be to price changes. The longer the time
+span, the less sensitive or the more smoothed the Moving Average will
+appear.
+The other factor to define is the price used in computations. The most
+common price used is the close for a particular day. However, technicians
+
+AU3772_book.fm Page 646 Saturday, November 18, 2006 5:29 PM
+
+646
+
+Technical Analysis of Stock Trends
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+POINTS
+118
+
+30 YEAR TREASURY BONDS
+MARCH 1997
+
+116
+114
+112
+110
+108
+106
+VOL & O.I
+1000000
+500000
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2
+SEP
+OCT
+NOV
+
+9 16
+DEC
+
+FIGURE 184. 30-Year Treasury Bond Futures (March 1997). Here again are Triangle
+patterns indicating approaching market breaks. The first in July broke significantly
+to the upside with an accompanying increase in volume. The second break in midAugust had a decline, as did the break in late November. Although the October break
+showed a slight increase in volume, September’s break only had a Minor increase.
+Support held well in four instances: June, July, and two in September. Resistance
+from July–August held in early October, but when penetrated later in the month had
+a significant Rally. (See Chapter 7 for more on Triangle formations.) Chart courtesy
+of Market Research, Inc. (www.barchart.com).
+
+use several other variations. They are (high + low)/2; (close + high + low)/3;
+(open + close + high + low)/4; and the weighted variation is (high + low +
+close + close)/4. Closing prices are significant because they represent positions that investors are willing to carry overnight.
+
+Single Moving Average
+Perhaps the best way to understand a Moving Average is with an example.
+Assume we have been tracking the closing price of IBM for the past 100 days
+and want to create a 50-day Moving Average. First, add the closing prices
+together for the first 50 days. Then divide this amount by 50. This is the first
+point plotted on the chart. Then add the closing prices together for Day 2
+through Day 51. Next, divide this amount by 50, establishing the second
+point on the chart. Then add the closing prices for Days 3 through 52 together
+and divide the number by 50, etc. Connect all the points plotted together in
+a line and run it through the price bars.
+
+AU3772_book.fm Page 647 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+647
+
+IBM (Daily)
+120
+116
+112
+108
+104
+100
+96
+92
+A
+Volume
+
+M
+
+J
+
+J
+
+A
+131072
+98304
+65536
+32768
+
+FIGURE 185. IBM 1996, 50-Day Moving Average (Exponentially Smoothed). The
+plotted Moving Average shows a smoothed price trend. A buy signal is given when
+price crosses above the Moving Average and the Moving Average is directed upward.
+A sell signal is given when price drops below the Moving Average and the Moving
+Average is directed downward. Buy and sell signals are not given when the Moving
+Average changes direction but price does not cross above or below the Moving
+Average. Chart courtesy of AIQ MarketExpert (www.aiqsystems.com).
+
+Dual Moving Averages
+Moving Averages can become more powerful when multiple Moving Averages are plotted. One combination is to plot a 9-day Moving Average and
+an 18-day Moving Average on the same chart. A buy signal is given when
+the 9-day Moving Average crosses above the 18-day Moving Average and
+both Moving Averages are in an upward direction. A sell signal is given
+when the 9-day Moving Average crosses below the 18-day Moving Average
+and both Moving Averages are declining.
+Although any number of Moving Averages can be used, the use of three
+or four is not uncommon. Dual Moving Averages appeal to many technical
+analysts. Research shows using two averages tends to be the most effective.
+Like many other indicators, averages can be unreliable or difficult to trade
+in fast markets. They contain data not within the current range of volatility;
+the data never reach the present. The averages do call attention to the current
+movement in relation to the past.
+False signals can be given when prices fluctuate in a Broad Sideways
+Pattern. To compensate, technicians use other indicators to confirm the direction of price. Looking to the chart patterns can be the indicator of choice for
+
+AU3772_book.fm Page 648 Saturday, November 18, 2006 5:29 PM
+
+648
+
+Technical Analysis of Stock Trends
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+SOYBEANS – CBOT
+JANUARY 1997
+
+¢/BUSHEL
+
+825
+
+Buy
+
+Buy
+
+800
+775
+
+Sell
+
+750
+Buy
+
+725
+
+Sell
+
+700
+675
+Sell
+
+VOL & O.I
+200000
+100000
+
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2
+SEP
+OCT
+NOV
+
+9 16
+DEC
+
+FIGURE 186. Soybean Futures, January 1997. A chart with four buy signals and
+four sel1 signals, some with only minor gains. Watchers of Moving Averages need
+to establish which signals are significant enough for them to make a trade. (See
+Chapter 36, Automated Trendline: The Moving Average.) Chart courtesy of Market
+Research, Inc. (www.barchart.com).
+
+these occasions. Pattern Formations will be Rectangles, Triangles, Pennants,
+or other Consolidations. Seeing them on a chart can clarify the Moving
+Average signals. (See Chapter 11 on Consolidation Formations.)
+
+Weighted and Exponential Moving Averages
+There are two other types of Moving Averages, the Weighted Moving Average and the Exponential Moving Average. If a simple Moving Average is
+centered, the signal is delayed. To overcome this, many technicians use a
+Weighted Moving Average where the data are weighted in favor of the more
+recent data. A Weighted Moving Average reverses direction more quickly
+than a simple Moving Average.
+The most frequently used method to weight a Moving Average is, for a
+5-day Moving Average, multiply the first observation by 1; the second observation by 2; the third observation by 3; the fourth observation by 4; the fifth
+observation by 5. Then divide this sum by the sum of the weights. In this
+case, the divisor is 1 + 2 + 3 + 4 + 5 = 15. The sum in the first part of the
+equation is divided by 15. With a Weighted Moving Average, a buy or sell
+signal is given when the Weighted Moving Average changes direction.
+
+AU3772_book.fm Page 649 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+649
+
+An Exponential Moving Average is a form of a Weighted Moving Average. To construct a 20-day Exponential Moving Average, first construct a
+20-day Simple Moving Average. The Simple Moving Average becomes the
+starting point. Assume the Simple Moving Average value for Day 20 is 42;
+the Simple Moving Average value for Day 21 is 43; and the Simple Moving
+Average value for Day 22 is 44. We then subtract the Day 20 Moving Average
+value from Day 21 Simple Moving Average value and get a difference of
+1.00. This value (1.00) is multiplied by an exponent. In this case, the exponent
+is 0.1. Next, add 0.1 to the Simple Moving Average value of Day 20. The
+Exponential Moving Average value of Day 20 now becomes 42.100. And this
+goes on indefinitely. To calculate the exponent, divide 2 by the time period.
+In our case, we divided 2 by 20 to arrive at 0.1.
+The average itself can act as an area of Support and Resistance. The more
+times a Moving Average is touched, the greater the significance of a violation.
+A penetration of a Moving Average is a signal that a change in trend may
+be taking place. Confirmations of trend changes should be confirmed from
+alternative sources. Generally, the longer the time frame of the Moving
+Average, the greater the significance of a crossover.
+
+Moving Average Caveat
+The largest difficulty with Moving Averages is their reliance on trending
+markets. Flat or Consolidating markets will create similar Moving Average
+Lines (see Chapter 11, Consolidation Formations). Another annoyance is for
+a quick-turning market to be well ahead of the turn in the Moving Averages,
+which are buoyed up by the numbers from previous dates. Although
+Weighted or Exponential Averages partly get around being buoyed, they
+tend to whipsaw with the market and the smoothing factor is lost. These are
+reasons for not being dependent on Moving Averages alone. Traditional chart
+patterns can be useful in combination with Moving Averages.
+EN9: Without a doubt one of the most important contributions chart analysis
+can make to a mechanical system is to make the user aware of the state of the market.
+A competent analyst should recognize the difference between trading and trending
+markets and adjust his tactics accordingly. Unfortunately few traders seem to use
+this “hybrid” approach. They fear “discretionary trading,” not trusting their own
+emotional strength to deal with the enormous stress of futures trading.
+
+Moving Average Convergence Divergence (MACD)
+MACD, an oscillator, is derived by dividing one Moving Average by another.
+Basically, it combines three Moving Averages into two lines. In today’s computer programs, the Moving Averages are usually exponentially weighted,
+thus giving more weight to the more recent data. It is plotted on a chart with
+a horizontal equilibrium line.
+The equilibrium line is important. When the two Moving Averages cross
+below the equilibrium line, it means that the shorter EMA is at a value less
+
+AU3772_book.fm Page 650 Saturday, November 18, 2006 5:29 PM
+
+650
+
+Technical Analysis of Stock Trends
+
+than the longer EMA. This is a Bearish signal. When the EMAs are above
+the equilibrium line, it means that the shorter EMA has a value greater than
+the longer EMA. This is a Bullish signal.
+The first line is the difference between a 12-period Exponential Moving
+Average and a 26-period Exponential Moving Average. The second line
+(signal line) is an approximate exponential equivalent of a 9-period Moving
+Average of the first line. The exponential values being 0.15, 0.075, and 0.20.
+A MACD can be displayed as a line oscillator or a histogram.
+Software allows a user to change values when calculating MACD. Some
+systems require the entering of exponential values, and others use the actual
+number of periods for the three Moving Averages. There is a caution on
+changing original values of MACD to curve fit the data. It is recommended
+that two differing sets of values be used, one for the buy-side and another
+for the sell-side. Both use a 9-period (0.20) signal line, but the 0.15, 0.075
+combination is for the sell-side only. The buy-side values are 8-period (0.22)
+and 17-period (0.11). The sell-side formula is normally slower (EN: with the
+intention of buying quickly and letting profits run). It is probably best to stay
+with the standard sell-side formula in the commodities market; even though
+slower, it should be more reliable in most situations.
+
+S & P 500(Daily)
+
+MACD
+
+F
+
+M
+
+A
+
+M
+
+J
+
+J
+
+A
+
+678.40
+665.60
+652.80
+640.00
+627.20
+614.40
+601.60
+588.80
+8.00
+4.00
+0.00
+(4.00)
+(8.00)
+
+FIGURE 187. Standard & Poor’s 500 Index 1996, MACD. Buy signals are generated
+when the faster line crosses the slower line from below. Sell signals come from the
+opposite, when the faster line crosses the slower line from above. It is easy to see some
+of the difficulties and risks involved with mechanically trading every buy and sell signal
+from MACD. Using different periods for buy and sell can help overcome some of the
+difficulties, but using other indicators, such as trendlines drawn on the MACD line, can
+also assist the trader in selecting entry and exit points. The use of trendlines here changes
+the number of trades from nine to three and they are all on the right side of the market.
+Chart Courtesy of AIQ MarketExpert (www.aiqsystems.com).
+
+AU3772_book.fm Page 651 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+651
+
+Buy and Sell Signals
+Buy signals are generated when the faster line crosses the slower line from
+below. Sell signals come from the opposite, that is, when the faster line
+crosses the slower line from above. Beware of mechanically trading every
+MACD crossover, as it can lead to whipsaws and substantial drawdowns.
+The fact is, narrow trading ranges give many false signals which can be
+avoided with additional interpretation. EN9: This additional interpretation
+being conscientious observance of the bar charts.
+
+MACD Overbought–Oversold
+Gerald Appel, who originally developed MACD in 1979 (as a stock market
+timing device), sets the overbought and oversold signals for the S&P Index
+as a plus or minus 2.50 on the MACD scale. With the NYSE Index he
+recommends plus or minus 1.20. When the Differential Line crosses into
+these areas, a signal is generated for buy or sell. Similar levels can be
+observed and established for any market, thereby eliminating the whipsawing of short price swings. MACD is best used as a long-term analysis tool.
+
+MACD Trendlines, Divergences, and Combinations
+Drawing a trendline along the MACD and trading when the trendline is
+violated can often precede a change in the market. MACD crossovers have
+more significance when they are preceded by, or are in conjunction with, a
+violation of the trendline. Aggressive traders can use the trendline break as
+an action signal and cautious traders can wait for further confirmation.
+However, it is possible to have a trendline break and a delayed crossover,
+which can be frustrating.
+Divergence is one of the most common and effective patterns in technical
+analysis. Patterns where the MACD shows Divergence from what the prices
+are doing can be an important signal, although the pattern needs time to
+develop and should not be anticipated.
+Combining crossovers with other technical patterns can make the MACD
+system more reliable as a system for trading. Major Trends are identified by
+using a long-term MACD to confirm the short-term MACD. A monthly
+MACD can be used to confirm weekly patterns, the weekly pattern can
+confirm the daily, and the daily can be used for confirmation of intraday.
+Shorter-term signals can be traded in the direction of longer-term MACD;
+this helps avoid problems of whipsawing markets. As with other commodities trading systems, the use of stop-loss orders is recommended.
+
+AU3772_book.fm Page 652 Saturday, November 18, 2006 5:29 PM
+
+652
+
+Technical Analysis of Stock Trends
+
+Reversals
+Reversals in the direction of a Moving Average are usually more reliable
+than a Moving Average Crossover. In an uptrend, the following conditions
+apply:
+• Long positions are maintained as long as price remains above the
+Moving Average.
+• If price crosses above the Moving Average, a buy signal is generated.
+• If price falls to the Moving Average but doesn’t cross it and then
+moves back up, a buy signal is generated.
+If a price drops sharply below the Moving Average Line a rebound
+toward the Moving Average Line may occur, resulting in a whipsaw action.
+In a downtrend, short positions are held as long as price remains below the
+Moving Average. A sell signal is generated when price moves above a declining Moving Average Line. If price moves up to the Moving Average Line
+but doesn’t cross it and drops down again, a sell signal is generated.*
+
+Bollinger Bands (BB)
+Developed by John Bollinger (as the Financial News Network’s Chief Technical Analyst), Bollinger Bands are Alpha–Beta bands positioned two standard deviations from a 20-day Moving Average. They were developed in an
+attempt to improve on the concept of fixed-width trading bands (trading
+bands drawn parallel, at a fixed distance to a Moving Average). Bollinger
+selected standard deviations because the calculation involves squaring from
+the average; it makes the system responsive to the short-term price changes.
+
+Overbought or Oversold
+The primary purpose of the developed Bollinger Bands is to indicate whether
+prices are relatively too high or too low. Once the determination is made,
+the trader can turn to other indicators for trading signals (such as a Relative
+Strength Indicator).
+
+Customizing
+The standard deviation value can be altered. Some traders increase the value
+of the standard deviation from two standard deviations to 2.5 standard
+* “The Moving Average Convergence–Divergence Trading Method” from Technical Toolbox, a
+special monthly feature of Technical Traders Bulletin, January 1990.
+
+AU3772_book.fm Page 653 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+653
+
+deviations away from the Moving Average when using a 50-day Moving
+Average. Conversely, many technicians lower the value of the standard deviation from two to 1.5 standard deviations away from the Moving Average
+when using a 10-day Moving Average. Any alteration should have the bands
+containing most but not all of the data.
+
+Bollinger Bands with Other Indicators
+Since Bollinger Bands do not generate buy and sell signals alone, they are
+used with other indicators, such as a Relative Strength Index (RSI) or chart
+patterns. When price touches one of the bands, it can indicate a continuation
+of the trend; or it might indicate a Reversal. Bollinger Bands need buy and
+sell signals from other sources (see Chapter 30, Support and Resistance).
+When combined with an indicator such as RSI and chart patterns, Bollinger Bands can become quite powerful. RSI is an excellent indicator with
+respect to overbought and oversold conditions. When price touches the
+upper Bollinger Band, and RSI is below 70, it is an indication that the trend
+will continue. Conversely, when price touches the lower Bollinger Band, and
+RSI is above 30, it indicates the trend should continue.
+
+S & P 500(Daily)
+678.40
+665.60
+652.80
+640.00
+627.20
+614.40
+601.60
+F
+RSI Wilder
+
+M
+
+A
+
+M
+
+J
+
+J
+
+A
+
+588.80
+96.00
+80.00
+64.00
+48.00
+32.00
+16.00
+0.00
+
+FIGURE 188. Standard & Poor’s 500 Index 1996, Bollinger Bands. John Bollinger’s
+“Bollinger Bands” have gained an excellent reputation as a reliable indicator for stock
+trading and commodities trading. Bollinger’s intent was to create a system whereby
+the market would tell him what it was doing, rather than his trying to impose an
+external discipline on the market. The bands indicate overbought and oversold, but
+rely on other indicators for buy and sell signals. Here with RSI Wilder, as discussed
+in text. Chart Courtesy of AIQ MarketExpert (www.aiqsystems.com).
+
+AU3772_book.fm Page 654 Saturday, November 18, 2006 5:29 PM
+
+654
+
+Technical Analysis of Stock Trends
+
+If a price touches the upper Bollinger Band and RSI is above 70 (possibly
+approaching 80) the trend may reverse and decline. On the other hand, if a
+price touches the lower Bollinger Band and RSI is below 30 (possibly
+approaching 20) it indicates the trend may reverse and move upward.
+
+Driven by Market Variables
+The logic behind Bollinger Bands was to create a system driven by market
+variables, rather than trying to impose an external discipline on the market.
+It asks the market what is happening, rather than trying to tell the market
+what it is doing. Charting follows the same line of reasoning and can be
+effectively used with the bands.*
+
+Stochastics
+The Stochastic Oscillator, developed by George Lane, compares a security’s
+price closing level to its price range over a specific period of time. With this
+indicator, Lane theorized, in an upward-trending market, prices tend to close
+near their high; and during a downward-trending market, prices tend to
+close near their low. As an upward trend matures, prices tend to close further
+away from their high; as a downward trend matures, prices tend to close
+away from their low.
+
+Clusters
+The Stochastic Indicator attempts to determine when prices start to cluster
+around their low of the day in an uptrending market, and cluster around
+their high in a downtrend. Lane theorizes these conditions indicate a Trend
+Reversal is beginning to occur.
+
+%D Line and %K Line
+The Stochastic Indicator is plotted as two lines, the %D Line and %K Line.
+The %D Line is more important than the %K Line. The stochastic is plotted
+on a chart with values ranging from 0 to 100. The value can never fall below
+0 or above 100. Readings above 80 are considered strong and indicate a price
+is closing near its high.
+
+* “Bollinger Bands,” TTB Interviews John Bollinger, from Technical Traders Bulletin, July 1990.
+
+AU3772_book.fm Page 655 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+655
+
+Readings below 20 are strong and indicate a price is closing near its low.
+Ordinarily, the %K Line will change direction before the %D Line. However,
+when the %D Line changes direction prior to the %K Line, a slow and steady
+Reversal is often indicated.
+When both %K and %D Lines change direction, and the faster %K Line
+changes direction to retest a crossing of the %D Line, though doesn’t cross
+it, the incident confirms stability of the prior Reversal. A powerful move is
+under way when the indicator reaches its extremes around 0 and 100. Following a Pullback in price, if the indicator retests extremes, a good entry
+point is indicated. Many times, when the %K or %D Lines begin to flatten
+out, the action becomes an indication the trend will reverse during the next
+trading range.

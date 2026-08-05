@@ -1,0 +1,481 @@
+
+What Currencies Will You Trade?
+The second step is to determine which currency pairs you want to trade,
+because not all currencies are created equal. In FX, there are generally
+
+P1: JYS
+c11
+JWBK299-Lein
+
+August 7, 2008
+
+12:31
+
+How to Trade Like a Hedge Fund Manager
+
+Printer: Yet to come
+
+209
+
+two types of trading strategies—trend following or range trading. Most
+hedge funds are trend following because of the one-way directional bias
+of the currency market, but many people are contrarians by nature and
+may choose to range trade instead. There is no wrong or right choice, but
+in order to increase the probability of success, many hedge fund managers
+will narrow the currency pairs that the system will trade. Rarely have I seen
+professional traders apply the same strategy to every single currency pair.
+They will almost always have currency pairs that they trade often and currency pairs that they never trade. For example, if your trading strategy calls
+for a risk of no more than 100 pips on each trade, currency pairs with wide
+ranges like the GBP/JPY and the EUR/CAD should be avoided and probably
+not traded, because even if the currency pair eventually moves in your desired direction, its wide swings may stop you out before doing so. Another
+example would be to apply range-trading strategies only to range-trading
+currency pairs and apply trending strategies to trending currency pairs.
+The CHF/JPY, for example, is a great currency pair for a range-trading strategy and a horrible one for a trend-trading strategy, because except for one
+spike lower, it has been trapped in a 300-pip range from September 2007 to
+March 2008. Therefore, a person with a range-trading strategy should look
+to trade only currency pairs like the CHF/JPY, while trend traders should
+avoid the CHF/JPY at all costs.
+When it comes to currencies, another thing to consider is majors versus crosses. Major currency pairs such as the EUR/USD or the USD/JPY
+tend to be very sensitive to what is happening in the U.S. dollar, whereas
+this is generally not the case for the crosses, because they do not include
+the U.S. dollar. News traders may find this tip particularly useful, because
+unless you are trading U.S. data, crosses could actually be better bets because their price action may be less distorted by the market’s appetite for
+U.S. dollars.
+
+What Time Frame Will You Trade?
+The third step to defining your trading strategy is to determine what time
+frame you want to trade. A strategy that works on a daily chart will probably have far less accuracy on a 5-minute chart. For example, if you are
+using the inside day strategy, you will see that inside days are far more
+common on intraday charts and far less common on daily charts. This is
+why they are extremely accurate when they do appear on daily charts; the
+rarest things can be the most valuable.
+Finally, when it comes to time frames, other things that need to be
+considered include whether you will hold positions overnight and over the
+weekend. For example, short-term traders may find it more profitable to
+close their trades if they are not working after a certain number of hours
+
+P1: JYS
+c11
+JWBK299-Lein
+
+210
+
+August 7, 2008
+
+12:31
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+or when the market switches into the Asian trading session. This would apply for traders reacting to news, because if the trade does not move in your
+favor after a few hours, the momentum from the news release has probably waned. As for the weekend, occasionally something big may happen
+between Friday night and Sunday afternoon. Unless you have stops that
+can absorb any shocks or you know that there isn’t a significant event risk,
+closing positions before the weekend may also be something to consider.
+
+THE ART OF ENTERING AND EXITING
+In an interview for Millionaire Traders: How Everyday People Beat Wall
+Street at Its Own Game, Rob Booker made a fantastic analogy. We were
+talking about whether the entry of a trade or the exit is more important, and
+Rob likened this to flying and asking a pilot which is more important, the
+takeoff or the landing. Without even needing to ask a pilot, as passengers,
+we will all agree that the same degree of precision needs to be applied to
+both the takeoff and the landing. This is true for trading as well.
+The majority of traders spend their time trying to figure out the best
+entry strategies by looking for the perfect combination of indicators for
+buy and sell signals, while their exit strategies are usually relegated to being nothing more than an afterthought. Yet this afterthought often is what
+differentiates consistently profitable traders from ones who are perpetually looking for a better trading strategy. Too often have I heard traders
+complain about how they let a winning trade become a losing one.
+When hedge fund managers design trading strategies, they give a great
+deal of thought to both entries and exits. There are primarily four different
+ways to enter or exit a trade:
+1. Single entry, single exit: With a single entry and a single exit, traders
+
+basically put on their entire position at one price and exit the entire
+position at one price.
+2. Single entry, multiple exits: With a single entry and multiple exits,
+traders enter their entire position at one price but scale out of the position at different prices. This tactic is usually used to ride a breakout
+or trend for as long as possible while banking some profits along the
+way.
+3. Multiple entries, single exit: With multiple entries and a single exit,
+traders scale into a position at different prices but end up closing the
+entire position at one price. This tactic is used by traders who are
+averaging down and averaging up. To average down means to add to
+a position as it moves against you with the hope of attaining a better
+
+P1: JYS
+c11
+JWBK299-Lein
+
+August 7, 2008
+
+12:31
+
+How to Trade Like a Hedge Fund Manager
+
+Printer: Yet to come
+
+211
+
+average price. To average up means to add to a position as it moves in
+your favor.
+4. Multiple entries, multiple exits: With multiple entries and multiple
+
+exits, traders scale both into and out of their positions. This is a tactic
+frequently used by trend traders. They average up into a position by
+adding to winning trades and scale out of the position to capitalize on
+as much of the trend as possible.
+With automatic systems, entry and exit strategies are set in stone and
+coded into the system. Traders should try to approach entries and exits in
+the same way by deciding which of the four combinations to use before
+laying on a trade. For those traders who like to average up or down, an
+important question to ask is how low or how high you are willing to buy. If
+you keep on adding to a losing trade, at some point it just becomes smarter
+to bite the bullet, take the loss, and admit that the move you were initially
+looking for will not happen or the trend has changed. A good rule of thumb
+is to average down no more than three times. When it comes to stops, there
+should be no art involved—have a set rule on placing stops and stick to it.
+
+TEST DRIVE
+You will never buy a car without test-driving it, so you should never trade
+a strategy without back-testing it! For hedge funds and developers of automated trading systems, back-testing is extremely important because if
+a trading strategy did not make money in the past, how can they believe
+that the strategy will make money in the future? Many FX traders will learn
+strategies from their friends, trading coaches, or even this book, but no one
+should ever just follow a strategy blindly. Make sure it is back-tested and
+forward-tested.
+For traders who are particularly good at programming, code your strategy using something like TradeStation, eSignal, or Meta Trader, run the
+results, and make sure that it is profitable.
+Traders who do not know how to code should do the visual back
+test. Open your charts, apply your indicators, and look for a minimum of
+20 examples of the strategy working. Then downgrade the time frame of
+your charts to make sure that the strategy could have been executed at
+your desired price. For example, if you are trading a strategy based on
+hourly charts, make sure there are no spikes on the 5-minute charts.
+Once you have found your back-tested examples, it is time to forwardtest. One of the great things about trading currencies is the wide availability
+of demo and mini accounts. It is important to live test with a small amount
+
+P1: JYS
+c11
+JWBK299-Lein
+
+212
+
+August 7, 2008
+
+12:31
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+of money, because once there is actual money involved, a whole different set of emotions will arise, and controlling those emotions is an important part of developing the discipline you need to trade larger amounts of
+money. The best thing to do is to focus on the changes in pips and not the
+changes in dollars.
+
+GETTING INTIMATE
+The fourth step to thinking like a hedge fund manager is to get intimate
+with your trading strategy, because not all trading strategies are alike.
+
+Understanding Performance
+When it comes to performance, there are two primary types of trading
+strategies—one that has a high percentage of profitable trades and one that
+has a high profit factor.
+In strategies that have a high percentage of profitable trades, usually
+the amount of pips made in winning trades is approximately the same as
+the amount of pips lost in losing trades. An example would be a strategy
+where 8 out 10 trades are winners, with each winning trade making 20 pips
+and each unprofitable trade losing 20 pips. Although this does not satisfy
+the textbook description of a good risk-to-reward ratio, if the number of
+profitable trades is far higher than the number of losing trades, the strategy
+is still a solid one. In the previous example, the net profit for the 10 trades
+would still be 120 pips. Therefore, if you have a strategy similar to this and
+it starts to have six or seven consecutive losers, you know that it is time to
+seriously reexamine the strategy.
+For strategies that have a high profit factor but a low percentage of
+profitable trades, having a string of losers may be a part of the trading
+strategy. This applies particularly to breakout traders who may take small
+positions with tight stops in anticipation of a big breakout. Although they
+may get stopped out often for 30 or 40 pips, when the breakout occurs, the
+eventual move could be to the degree of 400 or 500 pips.
+The key here is to know exactly what type of market environment your
+strategy performs well in and what type of market environment your strategy fails in, because only then will you know when it is time to pull the plug.
+
+Understanding Drawdown
+In the currency market, managing losses is extremely important. Many people who are new to the currency market argue that trading FX is far more
+dangerous than trading any other asset. In some ways they are wrong and
+
+P1: JYS
+c11
+JWBK299-Lein
+
+August 7, 2008
+
+12:31
+
+How to Trade Like a Hedge Fund Manager
+
+Printer: Yet to come
+
+213
+
+in some ways they are right. With only eight major currencies to trade, the
+FX market is much easier to understand than other markets. Also, since
+most people trade only the G-10 currencies, economic data cannot really
+be manipulated and there will almost never be a scenario like WorldCom
+or Enron. On a day-to-day basis, currency rates usually move no more than
+1 to 2 percent, which actually makes them one of the least volatile assets
+to invest or trade in. However, the availability of very high leverage does
+make trading currencies more dangerous. Some brokers offer as much as
+400-to-1 leverage, which makes a 1 percent move more like 400 percent. It
+therefore becomes much easier to blow up your trading account. Thankfully, leverage is customizable, and it is important for traders to actively
+manage their risk.
+Understanding the drawdown of your trading strategy helps to manage risk by giving you a frame of reference for determining when to pull
+the plug and when to sit tight. A drawdown is defined as the reduction
+in account equity from a trade or series of trades. All professional money
+managers know the maximum drawdowns of their trading strategies. For
+example, I once tested a strategy involving carry trades, and the maximum
+drawdown for the strategy over the past 10 years was 15 percent. With that
+number in mind, I knew that if the drawdown going forward hits 10 percent, it does not necessarily mean that the strategy has failed. However,
+if the drawdown hits 15 percent I should start getting very worried; and if
+it hits 20 percent, then I know that this may be a completely new trading
+environment not previously accounted for in the back test, and for that reason, it may be time to seriously consider pulling the plug, admitting that I
+am wrong, and terminating the strategy.
+When it comes to drawdowns, there are three main things that all
+traders need to know about their strategies. The first is the average drawdown on a given trade; this is important because it lets you know whether
+the trade is behaving in accordance with your strategy. The second is the
+degree of the biggest drawdown; this lets you know how bad it can get.
+Finally, you need to know whether the drawdown is on a closing or an
+intratrade basis. Oftentimes the drawdown or maximum loss on a closed
+trade may be different from the drawdown or floating loss on an open
+trade.
+
+SELF-REFLECTION
+The last step of thinking or trading like a hedge fund manager is selfreflection. A few years ago, after I conducted an FX trading workshop in
+Malaysia, a trader came to me for advice. He told me that he had a trading
+strategy that worked well in nearly all market environments except when
+
+P1: JYS
+c11
+JWBK299-Lein
+
+214
+
+August 7, 2008
+
+12:31
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+news was being released. Interestingly enough, he asked me what I thought
+he should do, and I simply said, “Don’t trade when news is being released!”
+Oftentimes we become so absorbed with trading that we do not notice
+the obvious. This why it is important to spend some time on a weekly or
+monthly basis to go over or reflect on your trading. At the end of every
+week, Boris Schlossberg, with whom I run BKTraderFX, and I will sit down
+and go over each and every one of our trades. We will ask ourselves why
+a particular trade worked, why it did not work, and what we could have
+done better. We will review both the winning and losing trades to look to
+find room for improvement. In fact, with every trade that we take, we will
+ask ourselves if this is in line with our trading strategy, and if not, will
+we end up regretting making the same mistakes at our end-of-week review
+sessions.
+For the trader in Malaysia, the small improvement that he needed to
+make may have simply involved avoiding news releases, which can be applicable for range traders in general. Other people may realize that they are
+taking profits too early or find that their performance improves by limiting
+their trading to certain times of the day. Small and simple changes such as
+these can make a long-term difference for all traders.
+
+P1: JYS
+c12
+JWBK299-Lein
+
+September 15, 2008
+
+17:48
+
+Printer: Yet to come
+
+C H A P T E R 12
+
+Profiles and
+Unique
+Characteristics
+of Major
+Currency Pairs
+
+t is important for all traders to have a good grasp of the general economic characteristics of each of the most commonly traded currencies
+in order to gauge what economic data and factors in general may have
+the most significant impact on a currency’s movements. Some currencies
+tend to track commodity prices, while others may move in complete contrast. Traders also need to be aware of the difference between expected
+and actual data. That is, the most important aspect of interpreting news and
+its impact on the foreign exchange markets is the determination of whether
+the market is expecting a piece of news. This is known as the “market
+discount mechanism.” The correlation between the currency markets and
+news is very important. News or data that are in line with expectations have
+less of an impact on currency movements than unexpected news or data.
+Therefore, short-term traders need to closely monitor expectations of the
+market.
+
+I
+
+CURRENCY PROFILE: U.S.
+DOLLAR (USD)
+Broad Economic Overview
+The United States is the world’s leading economic power, with gross domestic product (GDP) valued at over US$13 trillion in 2006. This is the
+highest in the world, and, based on the purchasing power parity model, it
+is three times the size of Japan’s output, five times the size of Germany’s,
+215
+
+P1: JYS
+c12
+JWBK299-Lein
+
+216
+
+September 15, 2008
+
+17:48
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+and seven times the size of the United Kingdom’s. The United States is
+primarily a service-oriented country with nearly 80 percent of its GDP
+coming from real estate, transportation, finance, health care, and business
+services. Yet the sheer size of the U.S. manufacturing sector still makes
+the U.S. dollar particularly sensitive to developments within the sector.
+With the United States having the most liquid equity and fixed income
+markets in the world, foreign investors have consistently increased their
+purchases of U.S. assets. According to the International Monetary Fund
+(IMF), foreign direct investments into the United States are equal to approximately 40 percent of total global net inflows for the United States.
+On a net basis, the United States absorbs 71 percent of total foreign savings. This means that if foreign investors are not satisfied with their returns in the U.S. asset markets and they decide to repatriate their funds,
+this would have a significant effect on U.S. asset values and the U.S. dollar. More specifically, if foreign investors sell their U.S. dollar-denominated
+asset holdings in search of higher-yielding assets elsewhere, this would typically result in a decline in the value of the U.S. asset, as well as the U.S.
+dollar.
+The import and export volume of the United States also exceeds that
+of any other country. This is due to the country’s sheer size, as true import
+and export volume represent a mere 12 percent of GDP. Despite this large
+activity, on a netted basis, the United States is running a very large current
+account deficit of over $800 billion as of 2006. This is a major problem
+that the U.S. economy has been grappling with for more than 10 years.
+However, in the past five years, it has become an even larger problem since
+foreign funding of the deficit has been languishing as foreign central banks
+consider diversifying reserve assets out of dollars and into euros. The large
+current account deficit makes the U.S. dollar highly sensitive to changes in
+capital flows. In fact, in order to prevent a further decline in the U.S. dollar
+as a result of trade, the United States needs to attract a significant amount
+of capital inflows per day (in 2006, this number was over $2 billion per day).
+The United States is also the largest trading partner for most other
+countries, representing 20 percent of total world trade. These rankings are
+very important because changes in the value of the dollar and its volatility
+will impact U.S. trading activities with these respective countries. More
+specifically, a weaker dollar could boost U.S. exports to its trade partners,
+whereas a stronger dollar could curb foreign demand for U.S. exports. Here
+are the breakdowns of the most important trading partners for the United
+States (in order of importance).
+The list of export markets is important because it ranks the importance
+of growth and political stability of these countries for the United States. For
+example, should Canadian growth slow, its demand for U.S. exports would
+also fall, which would have a ripple effect on U.S. growth.
+
+P1: JYS
+c12
+JWBK299-Lein
+
+September 15, 2008
+
+17:48
+
+Printer: Yet to come
+
+Proﬁles and Unique Characteristics of Major Currency Pairs
+
+217
+
+Leading Export Markets
+1. Canada
+2. Mexico
+3. Japan
+4. United Kingdom
+5. European Union
+
+Leading Import Sources
+1. Canada
+2. China
+3. Mexico
+4. Japan
+5. European Union
+
+Source: Bureau of Economic Analysis, “U.S. International Transactions,”
+2006 Report.
+
+Monetary and Fiscal Policy Makers—The Federal
+Reserve
+The Federal Reserve Board (Fed) is the monetary policy authority of the
+United States. The Fed is responsible for setting and implementing monetary policy through the Federal Open Market Committee (FOMC). The voting members of the FOMC are the seven governors of the Federal Reserve
+Board, plus five presidents of the 12 district reserve banks. The FOMC
+holds eight meetings per year, which are widely watched for interest rate
+announcements or changes in growth expectations.
+The Fed has a high degree of independence to set monetary authority.
+It is less subject to political influences, as most members are accorded long
+terms that allow them to remain in office through periods of alternate party
+dominance in both the presidency and Congress.
+The Federal Reserve issues a biannual Monetary Policy Report in
+February and July followed by the Humphrey-Hawkins testimony where
+the Federal Reserve chairman responds to questions from both the
+Congress and the Banking Committees in regard to this report. This report
+is important to watch, as it contains the FOMC forecasts for GDP growth,
+inflation, and unemployment.
+The Fed, unlike most other central banks, has a mandate or “long-run
+objectives” of “price stability and sustainable economic growth.” In order
+to adhere to these goals, the Fed has to use monetary policy to limit infla-
+
+P1: JYS
+c12
+JWBK299-Lein
+
+218
+
+September 15, 2008
+
+17:48
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+tion and unemployment and to achieve balanced growth. The most popular
+tools that the Fed uses to control monetary policy are open market operations and the federal funds rate.
+Open Market Operations Open market operations involve Fed purchases of government securities, including Treasury bills, notes, and
+bonds. This is one of the most popular methods for the Fed to signal and implement policy changes. Generally speaking, an increase in Fed purchases
+of government securities decreases interest rates, while selling of government securities by the Fed boosts interest rates.
+Federal Funds Target The federal funds target rate is the key policy target of the Federal Reserve. It is the interest rate for borrowing that
+the Fed offers to its member banks. The Fed tends to increase this rate to
+curb inflation or decrease this rate to promote growth and consumption.
+Changes to this rate are closely watched by the market, tend to imply major changes in policy, and typically have large ramifications for global fixed
+income and equity markets. The market also pays particular attention to
+the statement released by the Federal Reserve, as it can offer signals for
+future monetary policy actions.
+In terms of fiscal policy, that is in the hands of the U.S. Treasury. Fiscal policy decisions include determining the appropriate level of taxes and
+government spending. In fact, although the markets pay more attention to
+the Federal Reserve, the U.S. Treasury is the actual government body that
+determines dollar policy. That is, if the Treasury feels that the USD rate on
+the foreign exchange market is under- or overvalued, the U.S. Treasury is
+the government body that gives the New York Federal Reserve Board the
+authority and instructions to intervene in the foreign exchange market by
+physically selling or buying U.S. dollars. Therefore, the Treasury’s view on
+dollar policy and changes to that view is generally very important to the
+currency market.
+Over the past few decades, the Treasury and Fed officials have maintained a “strong dollar” bias. This was particularly true under former Treasury Secretary Paul O’Neill, who was frequently very vocal in advocating
+a strong dollar. Under the Bush administration, Treasury Secretary Henry
+Paulson has reiterated this view and stated that he, too, favors a strong dollar. However, the Bush administration has done little to stem the dollar’s
+slide between 2003 and 2008, which has led the market to believe that the
+administration actually favors a behind-the-scenes weak dollar policy and
+uses it as a tool to spur growth. Yet, for political reasons, it is not likely
+that the government would vocally change its stance to supporting a weak
+dollar policy.

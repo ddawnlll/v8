@@ -1,0 +1,559 @@
+
+Reversal block
+appears if the
+high of the
+previous three
+low blocks are
+penetrated.
+
+Basic Technical Analysis
+
+83
+
+Figure 5.19 Three-Line Break Chart Showing Bearish Reversal
+
+A new black column is
+added when the price
+moves beyond the
+previous three lows.
+
+Price break charts may seem simplistic because they result from a simple
+set of rules, but they unleash a great deal of technical analysis. From the perspective of sentiment analysis, by registering only the occurrences when a price
+is establishing a new high or a new low, the chart is in effect visualizing the persistence of sentiment. The price’s ability to persist in setting new highs or new
+lows provides a way to quantify trends other than by using traditional trend
+analysis. It goes beyond the simple criterion of having higher highs and higher
+lows, or lower highs and lower lows. When we say a trend is in place, don’t we
+mean that there is a persistence of sentiment? Viewing it from the perspective
+of persistence, the trader can begin to quantify how serious a trend is, when
+it is weakening, and when it has reversed. Price break charts measure this persistence in an unambiguous way. Using price break charts, the trader cannot
+dispute the facts of the price action; either the price has succeeded in persisting
+higher or lower, or it has not. The trader also knows in advance where a price
+break chart would be considered strong enough to break the trend.
+
+84
+
+Trading Binary Options
+
+Pattern of Block Sequences
+The presence of block sequences is a key visual clue. If there is a long series of
+blocks, the trend direction is strong but can in fact be entering an end phase.
+A good idea is to look for very small sized blocks. This shows hesitation and
+presents the trader with a clue to an impending breakout (Figure 5.20). The
+trader’s task is to evaluate when a long series is in fact in its end stage. There
+is no definitive, preset rule regarding how many consecutive blocks represent
+an entry into an overextended area. Block sequences will vary by instrument
+and by time interval. A good idea is for the trader to scan the sequences that
+have appeared over the previous week and determine how many consecutive
+blocks have actually appeared. This approach ensures that the sentiment of
+the immediate environment is captured, rather than a predefined view that
+eight or 10 consecutive blocks represent a series that is about to end. If, for
+example, a trader using a five-minute price break chart determines that there
+have not been more than 21 consecutive black or white blocks, the trader
+can assume that if a series is in place that is approaching 21 blocks, there is
+a high probability that a reversal is about to occur. This kind of perusal of
+block sequences works very well. A more precise quantification is not difficult
+to achieve for the diligent, more mathematically inclined trader. In fact, one
+can generate a bell curve or standard deviation analysis of block sequences. It
+is also not an accident that Fibonacci resistance lines, when applied to price
+break chart blocks, often coincide with projected reversal points.
+Figure 5.20 Small Block Reveals Tired Trend
+
+Basic Technical Analysis
+
+85
+
+We need to state strongly that price break charts do not predict the coming of a reversal. They do tell us where such a reversal would be considered
+significant. Price break charts actually and precisely define and project where,
+not when, such a price reversal will appear. By definition, a reversal block will
+appear if the price gives back or retraces a given number of previous highs or
+lows! The trader knows in advance where a reversal will be powerful enough
+to generate a confirming new reversal color.
+
+Is a Reversal Serious?
+Very often, the binary option trader will confront a reversal in price direction
+in the candlestick chart. To determine the best strategy in the context of this
+kind of reversal, the question that needs to be answered is: Is it serious? This
+is where three-line break charts really help. A three-line break chart will very
+often not show a reversal, while a candlestick chart does. When this happens, the trader needs to question the conclusion that a reversal has occurred.
+Reversals can be short-lived, especially if they are occurring on an intraday
+time frame. A three-line break reversal, once detected, is not necessarily
+permanent. The trader should wait for another new high or low to feel more
+confident. It’s important to answer the questions:
+• Is the reversal near a Fibonacci resistance line?
+• Is the reversal in the direction of the larger trend?
+• Is the reversal consistent with the existing ratio of the number of consecutive highs to lows?
+Figure 5.21 shows a scenario in which the price reversed right at a
+61.8 percent Fibonacci resistance line. This is an ideal condition!
+Getting familiar with three-line break charts will benefit the binary
+option trader because it will provide an unambiguous tool for evaluating the
+trend conditions in the market. By using three-line break charts, the trader
+will accomplish four important analytical objectives:
+1. Determine the strength of the trend in place.
+2. Determine whether the trend is tiring.
+3. Determine if a reversal has occurred and whether it is serious.
+4. Select binary option strike prices.
+Traders can learn more about the three-line break at www.learn4x
+.com/3Line.
+
+86
+
+Trading Binary Options
+
+Figure 5.21 Three-Line Break Charts and Fibonacci
+
+High
+(100.00%)
+
+61.8%
+Fib
+Entry 2
+
+(61.80%)
+(50.00%)
+
+Entry 1
+(38.20%)
+(23.60%)
+
+(0.00%)
+
+Low
+
+Examples of Three-Line Break Charts for Underlying Markets
+Let’s look at examples using price break with an underlying market and apply
+the analysis to illustrate the kind of thinking a binary option trade involves.
+A trader looking at the AUD/USD three-line break chart (Figure 5.22) sees
+that the Aussie had a sequence of consecutive new-day highs, followed by a
+reversal of two consecutive new lows, and then followed by another reversal
+up. The trader could, looking at this pattern conclude that the pattern is very
+weak bullish. Any weak news on global growth could cause a reversal and the
+binary option strike price below the previous low would be a target.
+Let’s look at oil. The West Texas oil three-line break chart (Figure 5.23) shows
+the dramatic reversal of oil prices in February 2011 was followed by seven consecutive new-day highs. Then came a big reversal down. This was followed by a reversal up. When a reversal is followed by another reversal, it is a very strong signal that
+the resumption of the direction is strong. At the end of the chart is a big reversal
+down, followed by a smaller new-day low, followed by a much smaller new-day
+low. This is showing that bearish sentiment in oil was still there but getting tired.
+
+Basic Technical Analysis
+Figure 5.22 AUD/USD Three-Line Break Chart
+
+Figure 5.23 West Texas Crude Three-Line Break Chart
+
+87
+
+88
+
+Trading Binary Options
+
+Figure 5.24 GBP/JPY Three-Line Break Chart
+
+The binary option trader seeing this chart could justify an at-the-money
+binary option contract at 100. This would play a bounce back.
+The GBP/JPY cross pair represents a very good example of a wave pattern detected by the three-line break chart (Figure 5.24). This pair shows
+a sequence of alternating sequences of new highs and then back to lows.
+It is a great example of the power of a three-line break. Notice that when
+a reversal occurs, it’s very rare to have the reversal brick followed immediately by another reversal. This provides an excellent clue as to where to locate
+the binary option strike price that offers maximum support or resistance. A
+buyer would locate the strike price that is below the point of the most recent
+upward break at 130.00.
+
+Key Patterns for Trading Analysis
+
+We are not yet done with basic technical analysis. Trend analysis, and support
+and resistance analysis, is an excellent foundation. However, the next building block to establish stronger trading skills is to understand the key patterns.
+
+Basic Technical Analysis
+
+89
+
+Figure 5.25 USD/JPY Three-Line Break Chart
+
+Once the underlying market is chosen, it’s time to conduct a pattern
+analysis. The first choice is the time interval for the charts. The four-hour
+time interval represents an effective middle ground. One can gain a sense of
+the big picture, as well as of the near-term changes in sentiment. For those
+trading intra-day, the 30-minute time frame can be used.
+While there are many patterns that are formed by price action, the ones
+that all traders should know are the triangle, channel, parabolic, and Bollinger
+Bands. Let’s look at some examples.
+
+Triangles
+Notice the formation of the triangle: price action starting at a wide range
+between the low and high and developing incrementally smaller ranges leading to almost no difference between the low and high. The market is telling
+the trader that a breakout is about to happen. Triangles come in a variety
+of forms (Figure 5.26). There are ascending triangles, descending triangles,
+and equilateral triangles. Triangles are classic visualizations of a cluster of
+sentiment. The triangle is a compression of the range between highs and lows.
+
+90
+
+Trading Binary Options
+
+Figure 5.26 Symmetrical, Descending, and Ascending Triangles
+
+Symmetrical
+Triangle
+
+Descending
+Triangle
+
+Ascending
+Triangle
+
+This means the battle between bullish and bearish sentiment is coming to a
+breakout point. Triangles can be considered preludes to breakouts. The binary
+option trader, when seeing a triangle, should locate the strike prices outside of
+the triangle and play a breakout. This is usually an out-of-the-money strategy.
+It can also be a deep-out-of-the-money strategy.
+The triangle can be considered a barometer of emotions and indicates
+that the buyers and the sellers are lacking enough energy to dominate each
+other. The distance between the highs and the lows in the triangle are getting
+smaller until it goes to an apex, or point. When the trader sees a triangle, it
+means that there is likely to be a breakout.
+The challenge for the trader is to recognize that there is a triangle forming
+and then prepare to trade. The trader prepares to trade the triangles with a
+breakout trade. An ascending triangle is likely to break out to the upside and
+resume its trend direction that was up. A descending triangle is likely to break
+out to the downside and then resume its trend direction, which was down.
+Lastly, a symmetrical triangle is likely to break out in either direction.
+
+Hesitation or Consolidation Patterns: The Triangle and the Doji
+Often in viewing price movements, it looks like prices move chaotically. But
+closer monitoring of price movements will often reveal patterns. One of the
+most important kinds of patterns is seen after a big move. After a big move,
+which is perhaps a response to news, the market goes into a period where it’s
+
+Basic Technical Analysis
+
+91
+
+digesting new information and is hesitating. Hesitation means that it is ranging, but it also means that the market is preparing to make a decision. You know
+this by noticing that the range is getting narrower. The difference between the
+highs and lows becomes smaller because the buyers and sellers are giving up
+and have no strong sentiment to keep the range that has existed. Hesitation is
+a prelude to a shift to a new direction or a confirmation that the prior direction before the hesitation should be resumed. Several hesitation patterns have
+become useful in trading. You can trade on the bounce of the price, or you can
+wait for a break but wait further for the price to come back into the sideways
+channel. This would provide confirmation that the pattern is still in force.
+The most famous set of hesitation patterns is this class of doji candles
+(Figure 5.27). These candles reflect the emotional status of indecision. The
+opening and closing of a price is exactly the same. If during any period of
+Figure 5.27 Doji Candle Types
+
+Doji
+
+92
+
+Trading Binary Options
+
+Figure 5.28 Doji Shows Hesitation
+
+Long-Legged
+Doji Shows Hesitation
+
+Dragonfly
+Doji Shows Hesitation
+
+Gravestone
+Doji Shows Hesitation
+
+Four-Price
+Doji Shows Hesitation
+
+time the opening and closing is the same, it means the buyers and sellers are
+in equilibrium and therefore the sentiment is hesitating. When a doji appears,
+it doesn’t necessarily mean a reversal is coming (Figure 5.28). But what happens after the doji is important.
+Channels are the signature of stability and consistency. Their wave-like visuals underscore the predictive cycle, like oscillations of price swings from highs
+to lows (Figure 5.29). When detecting a channel, the trader is detecting the fact
+that the market sentiment is continuing. The trader therefore should go with the
+trend, and in-the-money strategies work with these conditions. Seeing a channel
+pattern is a welcome event for traders because it provides multiple opportunities
+Figure 5.29 Channels
+
+Sell on bounce
+off top
+
+Buy on bounce
+off bottom
+
+Basic Technical Analysis
+
+93
+
+Figure 5.30 Parabolic Pattern
+
+Parabolic
+Curve
+
+to trade. Traders can trade in either direction as long as the price is bouncing off
+the sides. We see in the following chart a representation of a downward channel.
+Notice that the bounce points are in both directions. This is what makes a channel important. It allows a trader more opportunity to trade in either direction.
+The parabolic pattern is a reflection of strong momentum and is powered
+by crowd mania, particularly when it is forming an apex (Figure 5.30). This
+is a reversal signal. However, if the parabolic is in its early stages, joining the
+crowd with ATM strategies would be a ride on the momentum.
+This pattern is called a parabolic because it actually follows the shape of a
+curved path known as a parabolic path. What is most important about it is that
+once a trader sees this pattern, it is a very strong indicator that the price is at an
+extreme. The parabolic pattern occurs because there is a rush of buying or selling. This rush of buying or selling shows crowd behavior. It starts because traders
+see an opportunity to make a profit, and other traders watching this start buy
+because they fear they will miss the opportunity. The emotion is self-fulfilling
+until the shape of the candles reaches an angle of nearly 90 degrees. This kind
+of shape cannot last long and it shows the sentiment is at its maximum. When
+a trader sees a parabolic pattern, it is a leading indicator that the price move will
+end, pause, and often reverse. This pattern appears in all time frames.
+
+94
+
+Trading Binary Options
+
+Fibonacci Resistance Lines
+
+In her book Fibonacci Analysis, author Constance Brown said, “To understand market expansion and contraction, you need to understand the difference between ratios, means, and proportion,” (Brown 2008, 16).
+The trader should at all times apply the standard Fibonacci resistance tool to
+the price action of the underlying market. Fibonacci ratios are a key pattern and
+apply to all price patterns. These ratios have been the subject of many books and
+studies. No experienced trader ignores Fibonacci lines. If you don’t know them,
+it’s important to become familiar with their application. We really don’t know
+why traders use Fibonacci lines, but part of the reason is that it is a self-fulfilling
+prophecy. As traders deem Fibonacci lines as important, they become important.
+Stops and limits and puts and calls are placed near them. They essentially work
+because traders believe they work. In any case, Fibonacci lines do not predict where
+the market will be. But they provide powerful markers as to where resistance and
+support will be. For binary option trading, the weekly or daily, and four-hour
+time price charts will be an effective time frame to use.
+For binary option trading decisions, Fibonacci lines are an important tool.
+When markets move in response to event risks, they often move in Fibonacci
+ratios. Here are the three steps involved for using Fibonacci lines with binary
+option trading:
+1. Locate on the weekly or daily chart the appropriate Fibonacci line.
+2. After applying the Fibonacci line, determine where the price is in
+relationship to the key Fibonacci ratios.
+3. Once you choose the binary option strike price you want to trade,
+determine which Fibonacci line the binary option strike price is near.
+The results of overlaying the Fibonacci lines on the underlying market can
+be very valuable to the trader. The relationship between binary option strike
+prices and Fibonacci lines are important because they can confirm whether
+the intended strike price is the best one to use for a trade. If, for example, a
+trader goes long a binary option strike price, but that strike price is just above
+a key 61.8 Fib line, it means that there is likely to be great resistance encountered. The trade success is less likely, or requires a lot more momentum than
+anticipated. Fib lines can confirm a choice of a binary option strike price. If
+the spot market has just probed above a 61.8 percent Fib line and the trade
+wants to go with an in-the-money strategy, choosing the strike price right
+below the fib line makes sense.
+The most important Fibonacci ratios used in trading are 38.2 percent,
+50 percent, and 61.8 percent. Fibonacci resistance lines on the day chart are the
+
+95
+
+Basic Technical Analysis
+TABLe 5.1 EUR/USD Strike Prices
+
+Market
+
+Expiration Date
+
+Bid
+
+Offer
+
+EUR/USD > 1.4625
+
+3-Jun-11
+
+17.5
+
+22.5
+
+EUR/USD > 1.4575
+
+3-Jun-11
+
+18
+
+22.5
+
+EUR/USD > 1.4525
+
+3-Jun-11
+
+24.5
+
+29.5
+
+EUR/USD > 1.4475
+
+3-Jun-11
+
+31.5
+
+37
+
+EUR/USD > 1.4425
+
+3-Jun-11
+
+39.5
+
+45
+
+EUR/USD > 1.4375
+
+3-Jun-11
+
+47.5
+
+54
+
+EUR/USD > 1.4325
+
+3-Jun-11
+
+56
+
+62
+
+EUR/USD > 1.4275
+
+3-Jun-11
+
+64.5
+
+70
+
+EUR/USD > 1.4225
+
+3-Jun-11
+
+72
+
+77
+
+most important. Many underlying markets often have prices probing near the key
+day fib lines. EUR/USD provides such an example. First we locate the EUR/USD
+chart and notice a significant high was formed about May 9. The price action followed with a decline and formed a low. The Fibonacci tool connects the high to
+the low and generates the Fibonacci ratios. At the same time, viewing the EUR/
+USD weekly binary option strike prices (Table 5.1) showed that the 1.4675 strike
+price was the closest to the actual 61.8 percent Fib line, which was at 1.4572
+(Figure 5.31). This is almost an exact overlay of a key Fibonacci line and a binary
+option strike price. The result is a confluence of confirmation that a trader loves
+to see from more than one technical condition. The trader looking to go long the
+EUR/USD would realize that a strong move was necessary to break through.
+TIP
+The binary option trade will face more resistance than usual when a strike price
+is near a key Fibonacci price point. It is a good idea to always check for the presence of Fibonacci patterns.
+
+This chapter has shown that a basic form of technical analysis for the binary
+option trader starts when the trader identifies patterns in the price action. Those
+patterns reflect the shape of market sentiment and the stability of the pattern
+is directly related to the stability of the sentiment. Since binary option trading
+is focused on direction, the trader should apply pattern analysis, and initially
+focus on trend analysis, to increase confidence about the trading decision he or
+she is about to make and improve the probability of profitable results.
+
+96
+
+Trading Binary Options
+
+Figure 5.31 Fibonacci Lines and Binary Option Strike Price Location
+100.0%
+
+1.4940
+1.4895
+1.4850
+1.4800
+1.4755
+1.4710
+1.4665
+
+1.4575 Weekly Binary
+
+1.4620
+
+61.8%
+
+1.4575
+1.4530
+
+50.0%
+
+1.4485
+1.4440
+1.4395
+
+38.2%
+
+1.4350
+1.4305
+1.4260
+1.4215
+1.4170
+1.4125
+1.4080
+1.4035
+
+0.0% 0.0 1.3990
+
+References
+Brown, Constance. 2008. Fibonacci Analysis. New York: Bloomberg Press.
+Nison, Steve. 1994. Beyond Candlesticks: New Japanese Charting Techniques Revealed. New
+York: John Wiley & Sons.
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 6
+
+Advanced Technical
+Analysis: Volatility Tools
+
+Beyond basic technical analysis of chart trend direction and chart patterns,
+there remains one more significant category of technical analysis that can give
+binary option traders an edge. It is the category of volatility tools. There are
+many of them. Let’s take a closer look.
+Defining Volatility
+
+Let’s first clarify what volatility is before delving into its technical aspects for
+trading. Simply put, if prices stayed stable and within a small range over any
+period of time, then volatility would be minimal. Volatility is a measure of
+the swings in price action and the rate of change of those swings. The trader
+detects volatility by seeing the market become increasingly anxious. Market
+anxiety can be observed first in headlines as well as the emergence of wider
+price swings. This is in contrast to the experience of a calm market with very
+little price action. Ignoring the volatility conditions of the underlying market
+is a recipe for misapplying binary option strategies. High volatility conditions,
+if ignored, will lead to applying inappropriate trading strategies. High volatility conditions are associated with larger swings in prices and therefore wider
+ranges. These conditions are excellent for successful application of out-of-themoney (OTM) and deep-out-of-the-money (DOTM) trades. They are more
+likely to work out when volatility is higher because price swings are more
+likely. However, extremely high volatility conditions are often used by traders
+as reversal signals. The reasoning is that extreme volatility reflects transient
+97
+
+98
+
+Trading Binary Options
+
+conditions and the underlying market will return to average ranges of volatility.
+This is also known as regression to the mean. In contrast, low volatility conditions reflect a market that is clustered and is often a prelude to a breakout.
+There are many technical analysis tools available to the trader to monitor volatility conditions. Let’s review some basic ones that ought to be applied.
+bollinger bands
+
+Bollinger Bands are a good first approach to mapping price volatility. They
+enable every trader to view volatility conditions. Bollinger Band charts have
+three parts. The first part is a curved line in the middle. This is a moving average
+line. The second part is a lower band, and the third part is an upper band. The
+bands are called Bollinger Bands because John Bollinger devised them. The
+upper and lower Bollinger Bands are a statistical curve that is placed around
+the price. In other words, they represent a special kind of boundary. The
+upper and lower bands actually represent a standard deviation around a moving average. The concept of standard deviation is a statistical concept used to
+summarize data. It’s seen in most applications as a bell curve. Let’s see how it
+can be applied to the world of trading.
+A common setting of the bands is (20, 2). This means that the moving
+average in the middle of the bands is a 20-period moving average. It also means
+that the upper and lower bands are two standard deviations from the moving
+average. This setting translates, in simpler terms, that the price is 96 percent of
+the time between the two bands! If the setting was (20, 3) the Bollinger Band
+chart would still have a 20-period moving average in the middle, but the upper
+and lower band would be three standard deviations, or 99 percent from the
+middle. The default setting used by traders is accepted as (20, 2).

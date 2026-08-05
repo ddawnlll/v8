@@ -1,0 +1,344 @@
+
+On Wednesday trade dates, spot currencies are normally trading for a Friday value date. At
+5 p.m. ET on Wednesday, the value date changes from Friday to Monday, a weekend
+rollover. In rollover calculations, that’s a three-day rollover (Saturday, Sunday, and
+Monday), which means the rollover costs/gains are going to be three times as much as any
+other day.
+
+The one exception to the two-day spot convention in FX are trades in USD/CAD. And that’s
+because the main financial centers in the United States and Canada share the same time zone,
+so communications and wire transfers can be made more quickly. USD/CAD trades settle in
+one business day. The weekend rollover for USD/CAD takes place on Thursday after the 5
+p.m. ET close, when the value date shifts from Friday to Monday. This only applies to
+USD/CAD and not to other pairs involving CAD, such as CAD/JPY or EUR/CAD.
+
+Market holidays and value dates
+Value dates are based on individual currency pairs to account for banking holidays in
+respective countries. Rollover periods can be longer if there is a banking holiday in one of
+the countries whose currency is part of the trade. For example, if it’s Wednesday and you’re
+trading GBP/USD, the normal spot value date would be Friday. But if there’s a banking
+holiday in the United Kingdom on Friday, U.K. banks are not open to settle the trade. So the
+
+value date is shifted to the next valid banking day common to the United Kingdom and the
+United States, typically the following Monday. In this case, the weekend rollover would take
+place at the close on Tuesday at 5 p.m. ET, when the value date would change from Thursday
+to Monday, because of Friday’s holiday. That’s a four-day rollover (Friday, Saturday,
+Sunday, and Monday).
+So what happens at the change in value date at Wednesday’s 5 p.m. ET close? No rollovers in
+GBP/USD, that’s what. Because the value date for trades made on Wednesday is already Monday,
+no rollover is needed because trades made on Thursday are also for value on Monday. That’s
+called a double value date, meaning two trade dates (Wednesday and Thursday) are settling for
+the same value date (Monday).
+
+A few times each year (mostly around Christmas, New Year’s, and Golden Week spring
+holidays in Japan) when multiple banking holidays in various countries coincide over several
+days, rollover periods can be as long as seven or eight days. So you may earn or pay
+rollovers of seven or eight times normal on one day, but then not face any rollovers for the
+rest of the holiday period.
+
+Applying rollovers
+Rollover transactions are usually carried out automatically by your forex broker if you hold an
+open position past the change in value date.
+Rollovers are applied to your open position by two offsetting trades that result in the same open
+position. Some online forex brokers apply the rollover rates by adjusting the average rate of your
+open position. Other forex brokers apply rollover rates by applying the rollover credit or debit
+directly to your margin balance. In terms of the math, its six of one, half a dozen of the other.
+Here’s an example of how the rollover of an open position would work under each model:
+Position: Long 100,000 AUD/JPY at a rate of 90.15 for a value date of January 10
+At 5 p.m. ET, the rollover takes place and the following rollover trades hit your account.
+(Remember: This is done automatically by most online brokers.)
+You sell 100,000 AUD/JPY at 90.22 for a value date of January 10. (This trade closes the
+open position for the same value date.)
+You buy 100,000 AUD/JPY at 90.206 for a value date of January 11. (This trade reopens the
+same position for the new value date.)
+The difference in the rates represents the rollover points. (90.22 - 90.206 = 0.014, which is
+expressed as 1.4 points.)
+If the rollover is applied to your average rate on the open position, your new average rate on
+
+the position is 90.136. (Here’s the math: 90.15 - 0.014 = 90.136.) Because you’re now long
+from a lower average price, you earned money on the rollover.
+If the rollover is applied directly to you margin balance, the rollover points are multiplied by
+the position size (100,000 × 0.014 = JPY 1,400 earned) and converted into USD (JPY 1,400 ÷
+116.00 [the USD/JPY rate] = $12.07) and added to your margin balance.
+
+Here’s what you need to remember about rollovers:
+Rollovers are interest earned or paid based on the direction of your position.
+Rollovers are applied to open positions after the 5 p.m. ET change in value date, or trade
+settlement date.
+Rollovers are not applied if you don’t carry a position over the change in value date. So if
+you’re square at the close of each trading day, you’ll never have to worry about rollovers.
+Rollovers reflect the interest rate return or cost of holding an open position.
+Rollovers represent the difference in interest rates between the two currencies in your
+open position, but they’re applied in currency-rate terms.
+Rollovers can earn you money if you’re long the currency with the higher interest rate and
+short the currency with the lower interest rate.
+Rollovers will cost you money if you’re short the currency with the higher interest rate
+and long the currency with the lower interest rates.
+Rollovers can have spreads applied to them by some forex brokers, which can reduce any
+interest earned by your position.
+Rollover costs/credits are based on position size — the larger the position, the larger the
+cost or gain to you.
+Rollovers should be considered a cost of doing business and rarely influence overall
+trading decisions.
+
+Most forex brokers publish daily rollover rates on their websites or directly on the trading
+platform. If you can’t find them, ask. If you’re going to be trading a relatively large account
+with an online forex broker (say, over $25,000 in margin deposited), you’ll probably be able
+to negotiate a tighter rollover spread with your broker. This will enable you to capture more
+of the gains if you’re positioned the right way, or to reduce your cost of carry if you’re not.
+
+Understanding Currency Prices
+Now you’re getting down to the brass tacks of actually making trades in the forex market. Before
+you get ahead of yourself, though, it’s critical to understand exactly how currency prices work and
+what they mean to you as a trader. Earlier in this chapter, I show you that buying means “buying
+the currency pair” and selling means “selling the currency pair.”
+Here, you look at how online brokerages display currency prices and what they mean for trade and
+order execution. Keep in mind that different online forex brokers use different formats to display
+prices on their trading platforms. A thorough picture of what the prices mean will allow you to
+navigate different brokers’ platforms and know what you’re looking at.
+
+Bids and offers
+When you’re in front of your screen and looking at an online forex broker’s trading platform,
+you’ll see two prices for each currency pair. The price on the left-hand side is called the bid and
+the price on the right-hand side is called the offer (some call this the ask). Some brokers display
+the prices above and below each other, with the bid on the bottom and the offer on top. The easy
+way to tell the difference is that the bid price will always be lower than the offer price.
+The price quotation of each bid and offer you see will have two components: the big figure and the
+dealing price. The big figure refers to the first three digits of the overall currency rate and is
+usually shown in a smaller font size or even in shadow. The dealing price refers to the last three
+digits of the overall currency price and is brightly displayed in a larger font size. The two big
+numbers are the last whole pips, and the smaller number is the tenth of a pip.
+For example, in Figure 4-1 the full EUR/USD price quotation is 1.40225/1.40246. The 1.40 is
+called the big figure and is there to show you the full price level at which the market is currently
+trading. The 225/246 portion of the price is the bid/offer dealing price in pips.
+
+Figure 4-1:
+A dealing box
+from the
+FOREX.com
+trading
+platform for
+EUR/USD.
+
+Spreads
+
+The spread is the difference between the bid price and the offer price. In one sense, you can look
+at the spread as the commission that the online brokers charge for executing your trades. So even if
+they say they’re commission free, they may be earning the difference when one trader sells at the
+bid price and another trader buys at the offer price. Spreads are standard in all financial market
+trading.
+
+Spreads will vary from broker to broker and by currency pairs at each broker as well.
+Generally, the more liquid the currency pair, the narrower the spread; the less liquid the
+currency pair, the wider the spread. This is especially the case for some of the less-traded
+crosses.
+
+Executing a Trade
+It’s trigger-pulling time, pardner. In this section, I assume you’ve signed up for a practice account
+at an online forex broker and you’re ready to start executing some practice trades. Getting a feel
+for executing deals now, before you’re ready to commit any real money to a trade, will be very
+helpful. (See Chapters 2 and 10 for more on using a practice account.)
+
+There are two main ways of executing trades in the FX market: live trades and orders. If
+you’re an adrenaline junkie, don’t focus only on the “Live dealing” section — the “Orders”
+section gives you plenty of juice to keep you going, too.
+
+Trading online
+Live dealing is how you access the market to buy or sell at current market rates. Knowing
+exactly what you want to do is important, because when you click the buy or sell button, it’s a
+done deal. If you make a mistake, you’ll have to make another trade to correct your erroneous
+trade, and that is very likely going to cost you real money.
+There are a few different avenues to get to the market depending on how your broker is set up. In
+the following sections, I cover all the bases.
+
+Click and deal or “Instant Execution”
+Most forex brokers provide live streaming prices that you can deal on with a simple click of your
+computer mouse. On those platforms, to execute a trade:
+
+1. Specify the amount of the trade you want to make.
+2. Click on the Buy or Sell button to execute the trade you want.
+The forex trading platform will respond back, usually within a second or two, to let you know
+whether the trade went through:
+• If the trade went through, you’ll see the trade and your new position appear in your
+platform’s list of trades.
+• If the trade failed because of a price change, you need to start again from the top.
+• If the trade failed because the trade was too large based on your margin, you need to
+reduce the size of the trade.
+When the trade goes through, you have a position in the market and you’ll see your unrealized
+P&L begin updating according to market price fluctuations.
+
+Online platforms usually have a number of shortcuts to enable more rapid trading. Some of
+these are for more advanced or active traders, so be sure you know what they are before you
+engage them. Following are the parameters that you can usually set up in advance.
+Preset trade amounts: These are so you don’t have to specify the amount each time you
+make a deal.
+Automatic stop-loss orders at a predetermined distance from the trade-entry price:
+These automatic stop-loss functions can be turned on or off, and you define the number of
+pips away for the stop loss. These functions are good for providing fail-safe stop-loss
+protection until you can enter a more detailed order for your trade strategy. Remember:
+You never know when a headline will roil the market, and you don’t want to get caught
+with your pants down.
+
+Some online brokers advertise narrower trading spreads as a way to attract traders. If your
+click-and-deal trade attempts frequently fail, and the platform then asks if you’d like to make
+the trade at a worse price, you’re probably being re-quoted. Re-quoting is when brokers
+offer you a worse price to make your trade, meaning you end up paying a larger spread than
+you bargained for.
+
+Pay attention to the rate you receive when a trade is executed, or your fill rate. Getting the
+rate you requested is a more important indicator of a forex platform’s execution ability than
+spreads.
+
+Phone dealing
+
+Placing live trades over the phone is available from most online forex brokers. You need to find
+out from your broker whether it offers this service and exactly what its procedures are before you
+can be ready to use it.
+
+The ability to make trades over the phone is critical if you’re frequently trading while away
+from your computer or in cases of technological disruptions. At the minimum, you need to
+have the dealing phone number memorized and a reliable phone connection in case something
+goes wrong with your computer or Internet connection. If your dog chews through your mouse
+cable or your kid spills a sippy cup of juice on your keyboard, you’ll need a fallback plan to
+protect your market exposure. (I discuss more such risk considerations in Chapter 13.)
+To place a trade over the phone, you’ll need to:
+1. Call the telephone number at your broker for placing a trade.
+2. When you’re connected to a representative, identify yourself by name and give your
+trading account number.
+Be ready to provide whatever account password is needed. (Knowing what’s required before
+you call to place the trade is a good idea.)
+Know what your position is. If you’re not sure, your broker will be able to give you this info,
+but be prepared for time delays.
+3. Ask what the current price is for the currency pair you’re trading. The broker’s
+representative will quote you a two-way bid/offer price, such as “EUR/USD is trading at
+1.3213/15.
+4. If you don’t want the price, say, “No, thank you.”
+5. If you want the price, specify exactly what trade you would like to make.
+Don’t just say “Close my position” or “Square me up.” Note the direction (buy or sell), the
+amount (don’t use lots — use the real amounts), and the currency pair. For example, “I would
+like to sell 140,000 EUR/USD.”
+The broker should then say, “Done” or “That’s agreed.”
+6. Confirm with your broker exactly what trade you just made.
+For example, say, “To confirm, I just sold 140,000 EUR/USD at 1.3213.”
+Be sure the broker confirms the trade. You can double-check that the trade was correct by
+asking the broker to input the trade and update your position.
+7. Get the name of the broker’s representative you just made the trade with in case you
+have to call back.
+
+Orders
+
+Currency traders use orders to catch market movements when they’re not in front of their
+screens. Remember: The forex market is open from Sunday evening (ET) through Friday
+afternoon (ET). A market move is just as likely to happen while you’re asleep or in the
+shower as it is while you’re watching your screen. If you’re not a full-time trader, then
+you’ve probably got a full-time job that requires your attention when you’re at work — at
+least your boss hopes he has your attention. Orders are how you can act in the market without
+being there.
+Experienced currency traders also routinely use orders to
+Implement a trade strategy from entry to exit
+Capture sharp, short-term price fluctuations
+Limit risk in volatile or uncertain markets
+Preserve trading capital from unwanted losses
+Maintain trading discipline
+Protect profits and minimize losses
+
+I can’t stress enough the importance of using orders in currency trading. Forex markets can
+be notoriously volatile and difficult to predict. Using orders will help you capitalize on
+short-term market movements, as well as limit the impact of any adverse price moves. A
+disciplined use of orders will also help you to quantify the risk you’re taking and, with any
+luck, give you peace of mind in your trading. Bottom line: If you don’t use orders, you
+probably don’t have a well-thought-out trading strategy — and that’s a recipe for pain.
+
+Types of orders
+In this section, I introduce you to all the types of orders available in the forex market. Bear in mind
+that not all order types are available at all online brokers. So add order types to your list of
+questions to ask your prospective forex broker. (For more in-depth information, I look at tactical
+considerations for placing orders in Chapter 13 and offer practical tips for entering orders in
+Chapter 14.)
+Take-profit orders
+Don’t you just love that name? There’s an old market saying that goes, “You can’t go broke taking
+profit.” You’ll use take-profit orders to lock in gains when you have an open position in the
+market. If you’re short USD/JPY at 90.20, your take-profit order will be to buy back the position
+and be placed somewhere below that price, say at 89.80 for instance. If you’re long GBP/USD at
+
+1.5505, your take-profit order will be to sell the position somewhere higher, maybe 1.5570.
+
+Partial take-profit orders are take-profit orders that only close a portion of your open
+position. Let’s say you bought 200,000 EUR/USD at 1.2950 expecting it to move higher —
+and it does. But to take some money off the table and lock in some gains, you decide to sell
+half the position (100,000 EUR/USD) at 1.3000 and to allow the market to see how high it
+wants to go with the rest. Or you can place two partial take-profit orders to close the whole
+position at two different levels.
+Limit orders
+Technically speaking, a take-profit order is a type of limit order. The key difference is that takeprofit orders close or reduce open positions, and limit orders open new positions or add to
+existing positions in the same direction.
+
+A limit order is any order that triggers a trade at more favorable levels than the current
+market price. Think “buy low, sell high.” If the limit order is to buy, it must be entered at a
+price below the current market price. If the limit order is to sell, it must be placed at a price
+higher than the current market price.
+Stop-loss orders
+Boo! Sound’s bad doesn’t it? Actually, stop-loss orders are critical to trading survival. The
+traditional stop-loss order, or just stop order (I use the terms interchangeably going forward),
+does just that: It stops losses by closing out an open position that is losing money. You’ll use stop
+orders to limit your losses if the market moves against your position. If you don’t, you’re leaving it
+up to the market, and that’s always a dangerous proposition.
+Stop orders are on the other side of the current price from take-profit orders, but in the same
+direction (in terms of buying or selling). If you’re long, your stop order will be to sell, but at a
+lower price than the current market price. If you’re short, your stop order will be to buy, but at a
+higher price than the current market.
+
+When stops don’t lose, and take profits don’t profit
+Sometimes the roles of take-profit orders and stop-loss orders reverse. This can happen if you
+adjust your order levels after you’ve entered a position and the market has already moved away
+from your entry price.
+With both take-profit orders and stop orders, the important price is not your entry price, but the
+current market price. For example, you may be short USD/JPY at 84.00 and the market is trading
+higher at 84.30. You originally had your take-profit limit order below to buy back at 83.60, but
+
+now you’re having second thoughts. You decide to raise your take-profit order to 84.15 to try to
+close the position on a dip. The order is still a take profit because it is below the current market
+price (84.30), even though it will result in a loss if it’s filled.
+The same can apply to stop losses. If you bought AUD/USD at 0.9640 and the price has since
+moved higher to 0.9670, you may decide to raise your stop-loss sell order from its original level
+(0.9610) to lock in some of the gains. So you raise your stop-loss order to 0.9655. If your stop-loss
+sell order is triggered, you’ll actually be taking profit.
+Trailing stop-loss orders
+
+A trailing stop is a beautiful little tool, especially when you’ve got a winning trade going.
+You may have heard that one of the keys to successful trading is to cut losing positions
+quickly, and let winning positions run. A trailing stop-loss order allows you to do just that.
+The idea is that when you have a winning trade on, you wait for the market to stage a reversal
+and take you out, instead of trying to pick the right level to exit on your own.
+A trailing stop-loss order is a stop-loss order that you set at a fixed number of pips from your
+entry rate. The trailing stop adjusts the order rate as the market price moves, but only in the
+direction of your trade. For example, if you’re long EUR/CHF at 1.3750 and you set the trailing
+stop at 30 pips, the stop will initially become active at 1.3720 (1.5750 - 30 pips).
+If the EUR/CHF price moves higher to 1.3760, the stop adjusts higher, pip for pip, with the price
+and will then be active at 1.3730. The trailing stop will continue to adjust higher as long as the
+market continues to move higher. When the market puts in a top, your trailing stop will be 30 pips
+(or whatever distance you specify) below that top, wherever it may be.
+If the market ever goes down by 30 pips, as in this example, your stop will be triggered and your
+position closed. So in this case, if you’re long at 1.3750 and you set a 30-pip trailing stop, it will
+initially become active at 1.3720. If the market never ticks up and goes straight down, you’ll be
+stopped out at 1.5720. If the price first rises to 1.5775 and then declines, your trailing stop will
+have risen to 1.5745 (1.5775 - 30 pips), and that’s where you’ll be stopped out.
+Pretty cool, huh? The only catch is that not every online trading platform offers trailing stops. If
+you find a platform you like and it doesn’t offer trailing stops, you can mimic a trailing stop by
+frequently manually changing the rate on your regular stop-loss order. But this is an imperfect
+solution, unless you can monitor your position constantly.
+One-cancels-the-other orders
+
+A one-cancels-the-other order (more commonly referred to as an OCO order) is a stop-
+
+loss order paired with a take-profit order. It’s the ultimate insurance policy for any open
+position. Your position will stay open until one of the order levels is reached by the market
+and closes your position. When one order level is reached and triggered, the other order
+automatically cancels.
+Let’s say you’re short USD/JPY at 90.00. You think if it goes up beyond 91.00, it’s going to keep
+going higher, so that’s where you decide to place your stop-loss buying order. At the same time,
+you believe that USD/JPY has downside potential to 88.50, so that’s where you set your takeprofit buying order. You now have two orders bracketing the market and your risk is clearly
+defined.
+As long as the market trades between 88.50 and 91.00, your position will remain open. If 88.50 is
+reached first, your take profit will trigger and you’ll buy back at a profit. If 91.00 is hit first, then
+your position is stopped out at a loss.

@@ -1,0 +1,501 @@
+
+Properly reading and interpreting the market is an endeavor that is as unique
+of an experience to one person as it is to another. However, when it comes to
+trading tools, market participants want them to timely and accurately perform
+seven main functions:
+1. Provide intelligence and insight into the broader market structure while at
+the same time helping to pinpoint precise entries.
+2. Speed up analysis of trading conditions in multiple timeframes (and quite
+often in multiple trading instruments).
+3. Improve accuracy in reading the market’s subtle clues of imminent change
+in market activity, regardless of the timeframe being observed.
+
+246
+
+New Frontiers in Technical Analysis
+
+4. Improve decision-making ability by offering multiple and simultaneous
+views and perspectives of varying market conditions and environments.
+5. Give a glimpse into the future (forecasting) by allowing market professionals to objectively eliminate one side of the market from consideration
+while weighing the probabilities of the remaining possible outcomes.
+6. Tightly manage risk in all trades while preserving proﬁts in both directional
+and nondirectional trades.
+7. Help market participants relax, observe, analyze, interpret, and make good
+decisions about high-probability situations while the computer does the
+laborious background analysis of trading levels, volume, volatility, and the
+like.
+At TAS Professional, we instinctively knew years ago that classic Market
+Proﬁle provided the right answers to the questions we had about the market.
+But one of the challenges inherent in classic Market Proﬁle was the steep
+learning curve associated with gleaning the right information from the proﬁles.
+And there was an additional subjectivity in its interpretation that left us
+wondering: Is there a better way to use the core concepts of Auction Market
+Theory and Market Proﬁle and yet simplify the presentation to its actionable
+components?
+It was the need to overcome these inherent challenges that lead us to
+develop the TAS PRO Indicator SuiteTM of trading tools. After seven years
+of ongoing development, we developed this suite of trading tools that have
+allowed us, our traders, market analysts, and clients around the world to make
+some very good market calls using our tools and technology.
+Speciﬁcally, the TAS PRO Indicator Suite helps market professionals to:
+r Clearly read, interpret, and understand where the concentration of crowd
+
+activity is located to make incisive interpretations and timely decisions that
+are suitable to a wide variety of applications.
+r Read, understand, and make decisions based on the two phases of market
+activity—the only two events that repeatedly occur in the market.
+r Make better decisions by properly interpreting volume-at-price, time-atprice, volatility, pivot levels, momentum characteristics, and other key market attributes and characteristics in all timeframes.
+r Avoid neutral, low-odds areas in the market—saving time, money, energy,
+and frustration that would otherwise be wasted on “go-nowhere” situations.
+r Improve trading odds by being able to eliminate one side of the market
+from consideration with objectivity.
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+247
+
+r Improve market timing and reward-to-risk by understanding where the
+
+crowd is demand-supporting a declining market or supply-capping a rising
+market.
+r Analyze and trade the market on their terms according to their tactics,
+strategies, and methods—which can now be supplemented by the TAS
+PRO Indicator Suite. These tools were intentionally designed to be additive
+with the least amount of disruption to existing analysis and trading methods.
+We have successfully adapted the attributes and strengths of classic Market
+Proﬁle and Auction Market Theory into a suite of professional trading and
+market analysis tools. To demonstrate how we have simpliﬁed classic Market
+Proﬁle, we will start with an overview of three indicators in our TAS PRO
+Indicator Suite, and then discuss actual trading applications.
+
+TAS PRO VAP Map
+
+TAS PRO VAP MapTM (Volume-at-Price Map) dynamically calculates and
+displays a sideways, color-coded frequency distribution histogram that is set
+to a user-deﬁnable ﬁxed number of look-back bars. VAP Map orients market
+professionals to any timeframe of auction activity by using a volume-at-price
+“heat map” format (rather than a TPO-based format) to ﬁnd the areas where
+the market will most likely move fast vertically through price ranges, versus
+moving slowly through time horizontally. These volume-at-price maps are
+overlaid on bar charts and can be set to any look-back and/or multiple lookback period maps on a single chart. (See Figure 5.19.)
+VAP Maps can either remain ﬁxed in place or move forward one bar at
+a time as new bars are printed on a chart. These “proﬁle maps” are overlaid
+on price bars to graphically represent areas of market balance and imbalance
+and employ the concepts of statistical probability distribution that have their
+basis in Auction Market Theory and Market Proﬁle. VAP Maps reﬂect price
+action relative to the volume traded within the delineated map area. Five key
+features of VAP Maps are:
+1. Their gradient-rich, intuitive, color-coded display delineates where volume
+is accumulating—or not accumulating—at price.
+2. They provide key insights about where the market is likely to move slowly
+and develop horizontally through time versus where the market is likely to
+move rapidly and vertically through price levels.
+
+248
+
+FIGURE 5.19
+
+TAS PRO VAP Map Illuminates Three Volume-at-Price Distribution (Numbered) Areas and Two “Holes”
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+249
+
+3. They are adaptable to any timeframe or tradable instrument that has a
+volume component.∗
+4. They have the ability to place multiple right-facing and/or left-facing VAP
+Maps of different look-back lengths on the same chart.
+5. They provide customizable horizontal line resolution with key-area highlights.
+
+VAP Map Applications
+VAP Map is the tool we primarily use for our premarket trade analysis and it
+serves as our roadmap for the day to show where the major capital ﬂows are
+likely to occur. We additionally use VAP Map for the following applications:
+r VAP Maps reveal that markets have the tendency to trade slowly and hori-
+
+zontally within the red areas of VAP Maps and to trade rapidly and vertically
+in the blue regions of the maps. Purple areas of the maps (i.e., red + blue)
+represent areas where a market is in transition from one phase to the next.
+r VAP Maps are especially intuitive in large timeframes in terms of orienting
+traders to the general tone and tempo of the market.
+r When price is trading inside the red value area, the market bias is horizontal.
+Anticipate moderate to strong support and resistance at the extremes of the
+value area.
+r When price does break out of the red value area, the market bias is vertical.
+Anticipate the previous value area and especially the point of control (POC)
+area to demarcate support or resistance.
+r Create multiple, independent, and simultaneously displayed maps to get
+a broader perspective of several areas of the market and how price and
+volume-at-price action affects the present market, especially where there is
+a conﬂuence of activity.
+
+TAS PRO Dynamic VAP
+TAS PRO Dynamic VAPTM (Dynamic Volume-at-Price) displays a dynamic
+representation of developing balance and imbalance areas by measuring
+volume-at-price, a statistical method for aggregating trading data that has
+∗
+
+For securities that do not have a volume component, such as spot Forex, TAS PRO TAP
+Map (time-at-price map) reveals proﬁles on the following basis: since volume accumulation
+at price = horizontal development, then time at price = volume. As a proxy for volume,
+we have created an algorithm in the TAP Map indicator that approximates relative volume
+accumulation by measuring time at price for securities without a volume component.
+
+250
+
+New Frontiers in Technical Analysis
+
+its roots in Auction Market Theory and Market Proﬁle. Dynamic VAP “proﬁles” are displayed as a series of three horizontal lines (also known as a “box”).
+r The upper line represents the upper resistance boundary of the balance area,
+
+the Unfair High.
+
+r The lower line represents the lower support boundary, the Unfair Low.
+r The middle line represents the Point of Control (POC).
+
+The proﬁles are calculated based on the price action from the previous
+proﬁle and new proﬁles are derived from a proprietary swing and momentum
+algorithm that dynamically calculates the next Dynamic VAP proﬁle.
+Dynamic VAP orients market professionals to the shorter-term, fastversus-slow auction that’s occurring within the larger-timeframe auction—as
+well as smaller-timeframe changes in the perception of value—a key concept. We’ve isolated the slow-versus-fast area of proﬁles, added a volatility
+component to the algorithm, and simpliﬁed them into a three-line graphic
+that highlights the area where the markets will likely rotate when price trades
+inside the lines—and above or below those areas where the markets will move
+to one side, resulting in a fast directional move.
+Three key features of Dynamic VAP are:
+1. Dynamic VAP is usable on all timeframes for all securities with a volume
+component.∗
+2. The longer the timeframe, the more robust are the support and resistance
+areas that are identiﬁed by the unfair low and unfair high.
+3. Use it to identify low-risk, high-probability areas to trade while measuring
+relative volatility.
+When price is trading inside Dynamic VAP proﬁles, it depicts an interim
+state of market balance, an area of trade that is deemed fair to both sides. New
+proﬁles form after the market moves away from balance toward imbalance,
+when new valuations are detected from market data. When price goes into
+imbalance, either a new set of Dynamic VAP proﬁles will form or price will
+be pulled back into the existing proﬁles. (See Figure 5.20.)
+∗
+
+For securities that do not have a volume component, such as spot Forex, TAS PRO TAP
+Map (time-at-price map) reveals proﬁles on the following basis: since volume accumulation
+at price = horizontal development, then time at price = volume. As a proxy for volume,
+we have created an algorithm in the TAP Map indicator that approximates relative volume
+accumulation by measuring time at price for securities without a volume component.
+
+251
+
+FIGURE 5.20
+
+TAS PRO Dynamic VAP on Daily U.S. 10-Year T-Note Futures
+
+252
+
+New Frontiers in Technical Analysis
+
+Dynamic VAP Applications
+Dynamic VAP helps eliminate a lot of the guesswork and subjectivity that
+goes into entering, managing, and exiting trades. For example:
+r If we are long above a Dynamic VAP proﬁle, then our stop is below the
+
+proﬁle—and vice-versa for shorts. The reasoning behind this is that the areas
+above and below Dynamic VAP proﬁles are essentially holes. As we’ve
+discussed, the expectation for price trading into holes is that there will
+be high-probability follow-through and, if not, then the probe higher is
+rejected fairly quickly for a quick-and-tight stopout.
+r Dynamic VAP is an effective trade management tool and forms the basis for
+our rules-based trading approach. For example, a break above a Dynamic
+VAP proﬁle tells us: (a) don’t be short; (b) get long or be long; and (c) hold
+the trade as long as price trades above consecutively higher proﬁles—or exit
+the trade when price trades into or below the next Dynamic VAP proﬁle.
+r When price is bracketed inside a Dynamic VAP proﬁle, the top line is
+considered a supply area (resistance) and the bottom line is considered a
+demand area (support).
+r When price moves outside the top of a Dynamic VAP proﬁle, then (a) a
+breakout has occurred, (b) the market bias is directional to the upside, and
+(c) the relative vertical speed of movement through price levels will likely
+increase.
+r When price moves outside the bottom of a Dynamic VAP proﬁle, then (a) a
+breakdown has occurred, (b) the market bias is directional to the downside,
+and (c) the relative vertical speed of movement through price levels will
+likely increase.
+r When breakouts and breakdowns occur above and below Dynamic VAP
+proﬁles, there is a high probability that the new directional move will remain
+intact until a new Dynamic VAP proﬁle occurs.
+r Previous Dynamic VAP proﬁles to the left in the chart are support or
+resistance areas where the market will either pause and reverse—or pause,
+consolidate, and then resume the current directional move.
+r Dynamic VAP proﬁles that are narrower (top to bottom) area relatively
+lower-volatility states and provide relatively lower-risk entry opportunities,
+compared to wider Dynamic VAP proﬁles, which are relatively highervolatility states.
+r When price is trading inside a Dynamic VAP proﬁle, we look to buy the
+lows in the range and/or short the highs. To improve trading odds in this
+situation, we give directional preference to higher-timeframe trends.
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+253
+
+TAS PRO Navigator
+TAS PRO NavigatorTM is a versatile indicator that combines several signals
+to assist in market analysis, getting on the right side of the market, and
+managing trades. TAS PRO Navigator provides several types of actionable information about underlying trading conditions and is a composite indicator
+that combines classic trend and volatility indicators to highlight trend, nontrend, momentum, potential exhaustion, and reversal points. (See Figures 5.21
+and 5.22.)
+Five key features of TAS PRO Navigator are:
+1. Rich, colorful display of multiple algorithms that is usable on any timeframe.
+2. Indicates which side of the trade to be on, where there is the highest
+probability of going in the direction of capital ﬂow, and which side to
+avoid, where there is lesser capital ﬂow.
+3. Measures momentum and relative strength or relative weakness of underlying trend.
+4. Indicates price divergence and peak conditions.
+5. Shows shifts in market conditions from one phase to the next: uptrend,
+countertrend short, downtrend, and countertrend long.
+
+TAS PRO Navigator Applications
+TAS PRO Navigator is a very suitable companion indicator to Dynamic VAP
+and Dynamic TAP. While the latter indicators focus on proﬁling aspects of
+market analysis, TAS PRO Navigator’s color coding assists market professionals in making quick assessments of market conditions including trend
+exhaustion.
+r When the TAS PRO Navigator histogram is green or red, either a long or
+
+short trend, respectively, is in place.
+
+r When the histogram switches color from green to dark green—or from red
+
+to dark red—trend momentum is slowing and countertrend trade opportunities may be indicated.
+r Magenta bars indicate trend exhaustion/peaking trend conditions and potentially indicate the end of a trend. This is a relatively high-probability
+event, however; traders may want to time their exits using other TAS PRO
+indicators, such as Dynamic VAP or Dynamic TAP.
+r Use the color-coded zero line to quickly assess relative volatility as well
+as identify broader areas of support and resistance. Yellow indicates a
+
+254
+
+FIGURE 5.21
+
+TAS PRO Navigator on Daily 10-Year T-Note Futures
+
+255
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+FIGURE 5.22
+
+TAS PRO Navigator on Daily Copper Illuminating Directional Bias and
+Momentum Indications
+
+Navigator indicating if a directional
+move is gaining momentum . . .
+
+. . . or losing momentum
+
+Zero Line—Used as long/short
+decision-support tool
+
+Divergence with price
+
+20,1403
+
+Return to Zero Line can identify
+potential support or resistance areas
+Peaking condition alert
+
+market that is supply balanced; cyan indicates a market that is supply
+imbalanced.
+r Relative peaks of the Momentum Histogram will provide further insight on
+momentum. Consecutive histogram peaks further away from the zero line
+indicate increasing momentum, and consecutive peaks closer to the zero
+line indicate decreasing momentum.
+Rules-Based Trading and Analysis with
+TAS PRO Navigator
+
+TAS PRO Navigator assists our traders in perfecting market call timing and,
+moreover, clearly shows what not to do, what to do, and when to execute—if
+at all. This simpliﬁed and objective method allows us to risk-manage our
+trades in several ways:
+r Helps us measure reward to risk for each trade based on trading a fast market
+
+segment between two areas of slow market movement (consolidation).
+
+256
+TABLE 5.2
+
+New Frontiers in Technical Analysis
+TAS PRO Navigator Color Coding Orients Traders to Rules-Based Trading
+
+Momentum Histogram
+Color
+
+Market State
+
+Suggested Action for Our Prop
+Traders
+
+Green
+
+Uptrend
+
+Get long, stay long
+
+Dark green
+
+Uptrend in pullback
+
+Consider countertrend shorts
+
+Red
+
+Downtrend
+
+Get short, stay short
+
+Dark red
+
+Downtrend in pushback
+
+Consider countertrend longs
+
+Magenta
+
+Trend exhaustion
+
+Tighten stops on longs or shorts
+
+r Helps us eliminate from consideration the one side of the market where
+
+price has very low odds of going (e.g., trying to short an uptrend, not for
+the countertrend pullback, but for a new downtrend).
+r Allows our traders to follow very speciﬁc trading rules based on the indications from our trading tools, while removing most of the burden of
+past price/volume analysis. This allows traders to focus on what’s actually
+occurring rather than what traders would like to have happen.
+We developed TAS PRO Navigator to orient our prop traders to the rulesbased trading methodology taught in our TAS PRO Approach to Trading and
+Market Analysis courses. Based on color coding of the momentum histogram,
+market participants can readily orient themselves to the current market condition in any timeframe, as shown in Table 5.2 (for full-color examples of this
+color coding, please visit http://tasprofessional.com/bloomberg/indicatorsnavigator.php).
+In addition to the rules-based color coding built into TAS PRO Navigator,
+it is an effective tool for analyzing momentum strength and weakness. Notice
+in Figure 5.23 that the S&P futures were in an uptrend during 2006 and
+2007, ﬁtting the price deﬁnition of a series of higher peak highs and higher
+peak lows. TAS PRO Navigator, however, was divergent and exhibiting lower
+peak highs and lower peak lows.
+While we could use TAS PRO Navigator in this instance to time our
+entries into shorter-term countertrend pullback trades against the uptrend,
+a potentially much larger situation was brewing: uptrend momentum was
+stalling. Knowing that momentum was stalling, we could use this shorter-term
+entry strategy to leg into a potentially longer-term move that eventually did
+occur in 2008. In this case, rather than wait for conﬁrmation of a breakdown
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+FIGURE 5.23
+
+257
+
+TAS PRO Navigator on Weekly S&P 500 E-Mini Futures Countertrend
+
+Strategy
+
+Don’t be long:
+Be short—stay short
+Peak condition
+
+Countertrend long:
+Get long or wait for next
+short.
+Downside momentum
+weakening
+
+Don’t be short:
+Countertrend short:
+Be long Get short or wait for next long
+—stay long Upside momentum weakening
+Peak condition
+
+and resulting downtrend, we use TAS PRO Navigator’s clues to leg into a
+short position while the market is still in an uptrend.
+TAS PRO Navigator includes a statistically based algorithm that displays
+magenta-colored bars in the histogram when it detects peak market conditions. We know, for example, that markets will trade directionally higher until
+they encounter prior supply levels where they will typically pause to absorb
+that supply. So while Dynamic VAP (or TAP) indicate how efﬁciently (in balanced markets) or inefﬁciently (in imbalanced markets) a market is rationing
+supply, TAS PRO Navigator can provide vital clues where a trending market
+is getting tired, eventually leading to exhaustion. Figure 5.24 illustrates these
+concepts.
+TAS PRO Indicator Application Examples
+
+According to the TAS PRO Approach to Trading and Market AnalysisTM ,
+there are only a limited number of trade types and trade locations to consider.
+
+258
+
+New Frontiers in Technical Analysis
+
+FIGURE 5.24
+
+TAS PRO Navigator and Dynamic VAP on Intraday NASDAQ E-Mini
+
+Futures
+
+Peak
+
+Peak
+
+Countertrend
+long
+
+Weak up move
+Countertrend shorts
+
+Stay short
+No longs here
+Countertrend longs
+Peak
+
+The steps to determine your actions are to ﬁrst identify the phase of market
+development (vertical or horizontal) and whether it is early in that phase or
+late. Next, identify the Areas of Opportunity within vertical or horizontal
+development. Once these are determined, trade locations can be identiﬁed
+and appropriate trade tactics can be applied to each situation.
+The four market development phases to distinguish in higher and then
+lower timeframes are:
+1. Mature balance (mature horizontal development)
+2. Early vertical development
+3. Mature vertical development
+4. Early stage of balance (early horizontal development)
+A mature balance area is a range with relatively equal highs and relatively equal lows and many overlapping swings within the horizontal range.
+When viewing the volume proﬁle (TAS PRO VAP Map), it will most often
+
+Rules-Based Trading and Market Analysis Using Simpliﬁed Market Proﬁle
+
+259
+
+show a sideways bell-shaped accumulation that includes a High Volume Area
+and Point of Control that is approximately centered. It doesn’t have to be
+symmetrical but often is.
+Note: We make a distinction between a proﬁle map’s Point of Control
+versus a High Volume Area, as follows:
+r The Point of Control (POC) is the price containing the highest volume
+
+accumulation in a volume-at-price distribution. This also applies to the
+highest accumulation of time at price in a time-at-price distribution. The
+POC of a VAP Map or TAP Map distribution is colored light green.
+r A High Volume Area (HVA) in a proﬁle map is an area of pronounced
+high volume-at-price on the vertical scale in comparison with surrounding volume above and below. The peak of the bell-shaped curve often
+forms in a volume proﬁle during horizontal development but it can also
+refer to an area of high volume-at-price in a phase of vertical development. The important key is that there has been much greater trade activity
+and volume compared with surrounding prices. VAP Map clearly identiﬁes the HVAs in any timeframe with a red or magenta color. (For fullcolor examples of this color coding in TAS Professional proﬁle maps, visit
+http://www.tasprofessional.com/bloomberg/indicators.php.)
+A balance area can be considered mature by taking on these characteristics
+in its volume accumulation at price (volume proﬁle) or in its time accumulation at price—or both. The process of a balance area becoming mature
+is a graduated spectrum and is not a suddenly deﬁnable event. Discretion is
+required to determine relative maturity of a balance area; however, these guidelines will allow you to make a reasonable determination. (See Figure 5.25.)
+Early stage vertical development most often follows horizontal development, the only exception being in the case of a V-pivot reversal. Typical price
+action in transition to this phase will be a price movement away from the
+HVA of a balance area and outside of the extremes of the balance area. The
+character of this movement is most often described by terms such as sharp,
+forceful, persistent, or aggressive.
+When a market is in balance, the HVA often acts as a magnet attracting
+price and accumulating volume. When a market is making a transition from
+balance to vertical development, the price action around the HVA will often
+change in character. For example, instead of acting like a magnet, it begins to
+repel price in an increasingly sharp manner. This is often an indication that
+the phase of mature balance (mature horizontal development) is over and the
+market is transitioning to early-stage vertical development. (See Figure 5.26.)

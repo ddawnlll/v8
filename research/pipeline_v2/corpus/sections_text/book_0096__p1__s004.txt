@@ -1,0 +1,435 @@
+
+Third, an important corollary to the notion that markets trend is the technical analyst’s
+belief that prices are nonrandom. As we address further in Chapter 4, if prices are nonrandom,
+past prices potentially can be used to predict future price trends. Technical analysts reject the
+notion that stock prices are random.
+Fourth, technical analysis assumes that history, in principle, will repeat itself (or as Mark
+Twain said, “History rhymes: It does not repeat”), and that humans will behave similarly to how
+they have in the past in similar circumstances. This similar behavior tends to form into patterns
+that have predictable results. These patterns are almost never identical and are, thus, subject to
+interpretation, with all its own bias problems, by the technical analyst. This is the most controversial aspect of technical analysis, as well as its most long-standing, and it is only recently being
+investigated with sophisticated statistical methods (see Chapter 4).
+Fifth, technical analysts also believe that, like trend lines, these patterns are fractal (see
+Figure 2.4). Each investor or trader has a specific time frame in which he or she operates. Interestingly, regardless of period, patterns occur with very similar, though not identical, shapes and
+characteristics. Thus, an analyst who is watching five-minute bar charts will observe the same
+patterns that an analyst watching monthly bar charts will see. These patterns suggest that the
+behavior that produces them is dependent also on the participants’ period of interest. A pattern in
+a five-minute bar chart, for example, is the result of other traders with a five-minute bar chart
+time horizon. Monthly investors would have very little effect on the five-minute bar chart, as
+five-minute traders would have almost no effect on the monthly bar chart. Thus, each group of
+participants, as defined by their investment horizon, has its own world of patterns that might or
+might not affect each other but will be similar in shape. Pattern analysis is, therefore, universal
+and independent of time.
+
+Download at www.wowebook.com
+
+19
+
+Chapter 2 The Basic Principle of Technical Analysis—The Trend
+Daily CNET–CNET Networks (NASDAQ)
+
+Hourly CNET–CNET Networks (NASDAQ)
+
+16.00
+15.00
+
+15.50
+14.75
+
+15.00
+
+14.50
+
+14.25
+14.50
+
+14.00
+
+14.00
+13.75
+
+2006
+
+Feb.
+
+11:30
+
+2/03
+
+12:30 2/06
+
+2/07
+
+2/08 11:30
+
+2/09
+
+12:30
+
+Created using TradeStation
+
+Notice that the patterns are almost identical, yet they occur over different time intervals, one with
+daily bars and the other with hourly bars. The development of the pattern, the shape of the pattern,
+and the final breakdown are very similar. These patterns are said to be “fractal” in that they occur
+irrespective of time.
+
+FIGURE 2.4 Daily and hourly charts in the same stock over different periods
+
+Sixth, technical analysis is also based on the notion that emotions are affected by earlier
+emotions through emotional feedback. If I buy a stock today and its price rises, I am happy and
+tell others to buy the stock, or others see its price rising and also buy it, thus causing the price to
+rise farther. Action in the markets, therefore, is not independent but is related instead to how the
+market itself is behaving. Excessive feedback can cause “bubbles” when price behavior rises far
+out of proportion to value and can cause panics when price behavior declines sharply. Technical
+analysis presumes that prices will expand beyond equilibrium for emotional reasons and eventually will revert to the mean and then expand beyond the mean in the opposite direction, constantly oscillating back and forth with excessive investor sentiment.
+
+CONCLUSION
+The focus of this chapter has been on the importance of understanding price trends to the practice of technical analysis. We have introduced some of the basic assumptions and beliefs of technical analysts. As we go through the next few chapters, we address each of these assumptions in
+
+Download at www.wowebook.com
+
+20
+
+Part I Introduction
+
+more detail. Some of the basic beliefs that technical analysis is built on and that we build upon
+throughout this book are as follows:
+• The interaction of supply and demand determine price.
+• Supply and demand are affected by investors’ emotions and biases particularly fear
+and greed.
+• Price discounts everything.
+• Prices trend.
+• Recognizable patterns form within trends.
+• Patterns are fractal.
+
+REVIEW QUESTIONS
+1. Explain why the notion that prices trend is central to the practice of technical analysis.
+2. The earlier an uptrend can be spotted, the more money an investor can make by “riding the
+trend.” Explain why recognizing a trend too late reduces potential profits for the investor.
+3. The sooner an investor recognizes that a trend has changed, the more profitable the
+investor’s trading will be. Explain why early recognition of trend reversals influences the
+investor’s profitability.
+4. Newton’s first law of motion is inertia—an object in motion will remain in motion in the
+same direction unless acted upon by an unbalanced force. How does this physics principle
+serve as an analogy for the notion of trends in technical analysis?
+5. Define primary, secondary, short-term, and intraday trends.
+6. Gather monthly closing prices for the Dow Jones Industrial Average (DJIA) from 1965
+until the present. One publicly available source for this data can be found electronically at
+http://finance.yahoo.com using the ticker symbol ^DJI. Under “quotes,” choose the “historical prices” option. At this point, you will be able to choose a monthly data option and
+download the data into a spreadsheet.
+a. Graph the monthly data for the DJIA for the 1965 through 1980 time period. Was the
+market in an uptrend, downtrend, or sideways trend during that time? Explain your
+answer.
+b. Graph the monthly data for the DJIA for the 1980 through 1990 time period. Was the
+market in an uptrend, downtrend, or sideways trend during that time? Explain your
+answer.
+c. Graph the monthly data for the DJIA for the 1990 through 2000 time period. Was the
+market in an uptrend, downtrend, or sideways trend during that time? Explain your
+answer.
+
+Download at www.wowebook.com
+
+Chapter 2 The Basic Principle of Technical Analysis—The Trend
+
+21
+
+d. Graph the monthly data for the DJIA from 2000 until the present. Has the market been
+in an uptrend, downtrend, or sideways trend? Explain your answer.
+e. Comparing the four charts that you have generated, what conclusions do you draw
+about historical market trends?
+7. Choose a one-year period during each of the 1965–1980, 1980–1990, 1990–2000, and
+2000–present periods. Download daily DJIA closes from the Yahoo! Finance Web site for
+each of these four one-year periods. Graph the daily data for each of these four periods.
+What types of trends do you see in these daily data graphs? Comparing these daily graphs
+with the monthly graphs during the same time periods, what similarities and what differences do you find?
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+3
+
+HISTORY OF TECHNICAL ANALYSIS
+
+CHAPTER OBJECTIVES
+In this chapter, you will gain knowledge about
+
+• The history of financial markets and exchanges
+• The creation of market indices by Charles Dow
+• The development of technical analysis in the United States over the past century
+• The impact that academic theory and fundamental stock market analysis have had on
+the development and use of technical analysis
+
+• The impact that data availability and computer power have had on the development of
+technical analysis
+
+EARLY FINANCIAL MARKETS AND EXCHANGES
+Though technical analysis is thought to be an ancient method of analyzing markets and prices, its
+history has been poorly recorded. We do not have recorded evidence of technical analysis being
+used in ancient times, but it is conceivable that technical analysis, in some form, was used in the
+distant past in freely traded markets.
+Markets in one form or another have existed for centuries. For instance, we know that
+notes and checks between traders and bankers existed in Babylon by 2000 BC (Braudel, 1981).
+Currency exchange, commodities, and participations in mercantile voyages were traded in Ostia,
+the seaport of Rome, in the second century AD (Braudel, 1982). In the Middle Ages, wheat,
+bean, oat, and barley prices were available from 1160 on in Angevin, England (Farmer, 1956);
+and a large grain market existed in Toulouse as early as 1203 (Braudel, 1982). Publicly available
+evidence suggests that as early as the twelfth century, markets existed in most towns and cities
+and were linked in a network of arbitrage (Braudel, 1982).
+23
+
+Download at www.wowebook.com
+
+24
+
+Part 1 Introduction
+
+Exchanges were developed later where more complicated negotiable instruments, such as
+state loan stocks, were invented, accepted, and traded. The earliest exchanges appeared in the
+fourteenth century, mostly in the Mediterranean cities of Pisa, Venice, Florence, Genoa, Valencia, and Barcelona. In fact, the Lonja, the first building constructed as an exchange, was built in
+1393 in Barcelona (Carriere, 1973). The Lonja has been described as
+…a whole squadron of brokers [could be seen] moving in and out of its pillars, and
+the people standing in little groups were corridors d’orella, the “brokers by ear”
+whose job was to listen, report, and put interested parties in touch. (Carriere, 1973)
+The statutes of Verona confirm the existence of the settlement or forward market (mercato
+a termine), and a jurist named Bartolomo de Bosco is recorded as protesting against a sale of forward loca in Genoa in 1428 (Braudel, 1981). As early as the fifteenth century, Kuxen shares in
+German mines were quoted at the Liepzig fairs (Maschke) and stocks traded in Hanseatic towns
+(Sprandel, 1971). A trading market for municipal stocks known as renes sur L’Hotel existed in
+France as early as 1522 (Schnapper, 1957).
+Can we assume that traders would record prices in these sophisticated markets and would
+attempt to derive ways to profit from those recordings? It seems very likely. Even if prices were
+not recorded using pencil and paper, traders mentally remembering past prices and using these
+memories to predict future price movements would be using a form of technical analysis.
+By 1585, public quotes of over 339 items were reported as traded on the streets and in the
+coffee houses in Amsterdam (Boxer, 1965). Commodities had been traded there as early as 1530
+(Stringham, 2003). The greatest of the early exchanges, the Amsterdam Exchange, called “The
+Beurs” or “Bourse,” was founded in 1608. The building housing the exchange was built in 1611
+and was modeled after the Antwerp Bourse of 1531 (Munro, 2005). This exchange is famous for
+the “Tulip Bulb Mania” of 1621. By 1722, the Amsterdam Exchange provided trading space for
+over 4,500 traders every day between noon and two o’clock (Ricard, 1722). Dealers, brokers, and
+the public traded and speculated on short sales, forwards, commodities, currencies, shares of
+ventures, and maritime insurance, as well as other financial instruments, such as notes, bonds,
+loans, and stocks. They traded grain, herring, spices, whale oil, and, of course, tulips (Kellenbenz, 1957, 1996). The principal stock traded was in the Dutch East India Company. (See Figure
+3.1, which is an example of one of the oldest stock shares.) It seems likely that prices for these
+items were also recorded and analyzed.
+In the eighteenth century, as the Dutch empire declined, the London and Paris Exchanges
+gradually surpassed the Amsterdam Exchange in activity and offerings. In other parts of the
+world, specifically in Japan, cash-only commodity markets in rice and silver were developing,
+usually at the docks of major seacoast cities. It is in these markets we first read about a wealthy
+trader who used technical analysis and trading discipline to amass a fortune.
+His name was Sokyo Honma. Born in 1716 as Kosaku Kato in Sakata, Yamagata Prefecture, during the Tokugawa period, he was adopted by the Honma family and took their name. A
+coastal city, Sakata was a distribution center for rice. Honma became very wealthy by trading
+rice and was known throughout Osaka, Kyoto, and Tokyo. He was promoted to Samurai (not bad
+for a technical trader) and died in Tokyo at the age of 87.
+
+Download at www.wowebook.com
+
+25
+
+Chapter 3 History of Technical Analysis
+
+Source: www.oldest-share.com
+Dutch Vereinigte Oostindische Compaignie (VOC) share certificate # 6, down-payment on a share;
+issued by the Camere Amsterdam 27th September 1606. Original signatures: Arent ten Grotenhuys
+and Dirck van Os, company founder van Verre and after 1602 Directors of VOC Kammer Amsterdam.
+Source: Private collection
+
+FIGURE 3.1 Oldest stock certificate—Dutch United East India Company (1606)
+
+Honma’s rules are recorded as the “Sakata constitution.” These rules include methods of
+analyzing one day’s price record to predict the next day’s price, three days of rice prices to predict the fourth day’s price, and rate of change analysis (Shimizu, 1986). None of this information
+was recorded on charts—they came later in Japan. Honma’s rules might also be considered
+“trading rules” rather than “technical rules” because they had much to do with how to limit loss
+and when to step away from markets. Nevertheless, his methods were based on prices and, thus,
+largely technical, were successful, and, most important, were recorded.
+Because Japan is the first place in which recorded technical rules have been found, many
+historians have suggested that technical analysis began in the rice markets in Japan. However, it
+seems inconceivable that technical analysis was not used in the more sophisticated and earlier
+markets and exchanges in Medieval Europe. Indeed, even in Japan, it is thought that charts were
+introduced first in the silver market around 1870 by an “English man” (Shimizu, 1986). Thus,
+technical analysis has a poorly recorded history but by inference is a very old method of analyzing trading markets and prices.
+
+Download at www.wowebook.com
+
+26
+
+Part I Introduction
+
+MODERN TECHNICAL ANALYSIS
+Although the practice of technical analysis in some forms likely dates back many centuries,
+Charles Dow (1851–1902) was the first to reintroduce and comment on it in recent times. He is
+considered the father of “modern” technical analysis. Dow’s introduction of stock indexes to
+measure the performance of the stock market allowed for a major advance in the sophistication
+of stock market participants.
+Dow was a lifelong newspaper journalist. His specialization in covering financial news
+began with a mining story he wrote when working for the Providence Journal (Rhode Island) in
+1879. In 1880, Dow relocated to New York, where he continued covering the mining industry. In
+1882, Dow joined with Edward Jones and Charles Bergstresser to form Dow, Jones & Company.
+The company offices were located behind a soda shop that was located next door to the entrance
+of the New York Stock Exchange. The company wrote handwritten news bulletins and distributed
+them by messenger to customers in the Wall Street vicinity.
+On July 3, 1884, Dow published his first version of a stock index in the company’s “Customer’s Afternoon Newsletter.” Dow calculated this price-weighted average simply by summing
+the prices of the stocks in the index and dividing by the number of stocks. This index included a
+total of 11 stocks—9 railroads and 2 industrials.
+Table 3.1 shows the companies that Dow included in this first index. Although this might
+seem to be an odd combination by today’s standards, the index was consistent with the important
+role the railway companies played in the economy of the 1880s. In February 1885, Dow began
+publishing a daily index of actively traded, highly capitalized stocks. This index contained 12
+railways and 2 industrial stocks. By January 1886, Dow replaced the 14-stock index with a 12stock index, containing 10 railroads and 2 industrials. By May 1896, Dow recognized the
+increasing role the emerging industrial sector was playing in the U.S. economy and altered his
+index so that it consisted entirely of indusTABLE 3.1 “Customer’s Afternoon Newsletter”
+trial stocks. The first version of the Dow
+(Forerunner to the Wall Street Journal)
+Jones Industrial Average (DJIA) appeared in
+the Wall Street Journal on May 26, 1896, and
+July 3, 1884
+included the 12 stocks listed in Table 3.2.
+List of “Representative” Stocks
+Although all of these companies survive in
+some form today, only General Electric
+Chicago & North Western
+remains a component of the DJIA.
+D. L. & W.
+Dow’s initial index of rail stocks was
+Lake Shore
+renamed
+the Railroad Average. The Railroad
+New York Central
+Average
+developed into the modern-day
+St. Paul
+Dow
+Transportation
+Average on January 2,
+Northern Pacific pfd.
+1970,
+when
+it
+included
+nonrailroad stocks
+Union Pacific
+such
+as
+airlines
+and
+truckers.
+As of today, of
+Missouri Pacific
+the
+20
+stocks
+in
+the
+Transportation
+Average,
+Louisville & Nashville
+only
+four
+are
+railroad
+stocks—Burlington
+Pacific Mail
+Northern Santa Fe Corp., CSX Corp., NorWestern Union
+folk Southern Corp., and Union Pacific
+
+Download at www.wowebook.com
+
+Chapter 3 History of Technical Analysis
+
+TABLE 3.2
+
+27
+
+Corp. Indeed, reflecting the changes in transportation since its composition, the TransMay 26, 1896
+portation Average now includes two shipping
+Original Dow Jones Industrial Average
+companies, five airlines, three trucking companies, two leasing companies, and four air
+American Cotton Oil
+delivery and freight services.
+American Sugar
+In 1916, 14 years after Charles Dow’s
+American Tobacco
+death, the DJIA expanded to 20 stocks. It
+Chicago Gas
+was not until 1928 that the index further
+Distilling & Cattle Feeding
+expanded to 30 stocks. Though the average
+General Electric
+has been updated to reflect the changing
+Laclede Gas
+composition of trading-market conditions,
+National Lead
+market capitalization, and industrial compoNorth American
+sition, the practice of including 30 stocks
+Tennessee Coal & Iron
+continues today.
+U. S. Leather pfd.
+Dow’s original intent was to use these
+U. S. Rubber
+averages as predictors of the economy, but
+his analysis took a life of its own, and his theories became known as the “Dow Theory.”
+(See Chapter 6, “Dow Theory.”) They are the foundation for modern technical analysis. The principles that Dow established are still valid today, albeit in a different form.
+However, Dow’s contribution to the field of technical analysis goes beyond the creation of
+indexes. The Dow Jones Company was the first in the United States to publicly report stock
+prices. Private subscription letters with stock prices had existed earlier but were available only to
+the few who paid directly for them. The reporting of prices on a consistent basis provided the
+“meat” for technical analysis. Motivation came from the many wide swings in prices both from
+legitimate news and information as well as from manipulation. By watching prices, investors and
+traders hoped to gather information on who was buying and selling shares and, thus, what the
+prospects for future prices might be. Technical analysis is a means for the uninformed to become
+informed.
+With recording of prices and the calculation of averages, analysts began to see that prices
+often traded with certain repetitive patterns. They also noticed that market dynamics are complicated and influenced by people and their own way of looking at investments, their own time horizons, their own information, and their own emotions. Patterns in market averages, specifically
+the “line” and the “double” top or bottom, were first mentioned by Charles Dow and his subsequent followers, William Peter Hamilton, S. A. Nelson, and Robert Rhea, in the 1920s. Richard
+D. Wyckoff offered a successful correspondence course in trading and investing, principally
+using technical analysis theories, in 1931. Earlier, in the 1920s, he published a technical newsletter that reached over 200,000 subscribers.
+Also in the 1920s and 1930s, classic indicators such as the advance-decline line (A/D line)
+were created. Colonel Leonard P. Ayers (1944) developed an early measure of business confidence and is considered the originator of the A/D line. Ayers ran a company called Standard Statistics. In 1941, Standard Statistics merged with a company headed by Henry Poor; this new
+entity became Standard and Poor’s.
+Wall Street Journal
+
+Download at www.wowebook.com
+
+28
+
+Part I Introduction
+
+Richard W. Schabacker, the financial editor of Forbes magazine and of the New York Times,
+began to recognize individual stock patterns and observed many common characteristics
+between different issues. He is probably the first person to use the words “triangle,” “pennant,”
+and “head-and-shoulders” to describe chart formations we consider in future chapters. Schabacker authored Stock Market Theory and Practice (1930), Technical Analysis and Market
+Profits (1932), and Stock Market Profits (1934). The commodity markets, which had long
+depended on price action for their speculative activity, also evolved their share of special technical theories such as those by William Delbert Gann. This was the age of speculation, inside information, and manipulation with little regulation. Those outside the information loop were at a
+disadvantage. Technical analysis made the difference by using price action as a predictive tool.
+During the late 1930s and much of the 1940s, little was written about stock market analysis. If we consider the business and economic climate at that time, it is not surprising that there is
+a void in the literature. After the Securities Act of 1933 and the Securities Exchange Act of 1934,
+Graham and Dodd published one of the few pieces of security analysis of the period. In their
+book, Security Analysis (1934), Graham and Dodd established the fundamental analysis side of
+investment analysis, which is concerned with economic conditions and company value. Although
+this book provides the groundwork for the development of fundamental analysis, a closer reading
+of it reveals that Graham and Dodd did not believe that fundamental analysis alone determined
+stock prices. For example, consider the following passage from their book:
+The influence of what we call analytical factors over the market price is both partial
+and indirect—partial, because it frequently competes with purely speculative factors
+which influence the price in the opposite direction; and indirect, because it acts
+through the intermediary of people’s sentiments and decisions. In other words, the
+market is not a weighing machine, on which the value of each issue is recorded by an
+exact and impersonal mechanism, in accordance with its specific qualities. Rather
+we should say that the market is a voting machine, whereon countless individuals
+register choices which are the product of and partly of emotion. (p. 28)
+It was not until 1948 that Robert Edwards (son-in-law to Schabacker) and John Magee (see
+Figure 3.2) published the first edition of Technical Analysis of Stock Trends. Edwards and Magee
+demonstrated the technical patterns observed in hundreds of stocks. Their interpretations are still
+used to this day, and technicians know their book as the “bible of technical analysis.” In fact, the
+ninth edition of the book was published in 2009.
+At first, prices were recorded and then plotted by hand. Indeed, even today, strict followers
+of point-and-figure technique plot their charts by hand, as do many specialists and traders who
+want to get the “feel” of the stocks they are trading. Chart services published books of hand-plotted charts for those who could not afford the time to check for accuracy and plot their own charts.
+As technical analysts became increasingly comfortable with more complex mathematical
+tools, they focused on more than just the chart patterns of their predecessors. Analysts began
+using more advanced mathematics to describe price action. The most prominent technical analyst of the 1950s was Joseph Granville, who worked for E. F. Hutton and published a short article on the Barron’s Confidence Index in Barron’s in 1959. After this article, Granville wrote two
+books in which he covered on-balance volume, the 200-day moving average, and other tools and

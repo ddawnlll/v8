@@ -1,0 +1,365 @@
+
+www.pdfdummies.com
+
+277
+
+278 Part V: Flying with Dynamic Analysis
+The probability of a trade generating a profit isn’t an objective number that
+you can determine scientifically at the start of a trade. You can estimate the
+chance of any particular trade being successful by subtracting the margin of
+error from the historical success rate from your backtests, assuming that you
+did a very large backtest. (See Chapter 4 for a discussion of backtests.) The
+margin of error is a statistical concept that programmers are just starting to
+include in technical analysis software. Say that a particular set of indicatorbased rules delivered 80 percent profitable trades over a large number of
+hypothetical trades on historical data. Your margin of error is 20 percent,
+meaning that the rule-based trade delivers a loss 20 percent of the time.
+Math whizzes say that if a technique works 80 percent of the time on, say, Blue
+Widget over a gazillion trials, it should work the same (or nearly the same) on
+Pink Widget. In other words, the probability of the outcome is a function of the
+statistics — and independent of the quality or character of the security. Nonmathematicians have a hard time swallowing this one. You can show identical backtest results for Blue Widget and Pink Widget, but feel in your bones
+that you should increase the margin of error judgmentally when trading Pink
+Widget. Don’t dismiss instincts like this one. Maybe Pink Widget has lower
+liquidity or some other characteristic that didn’t throw up a hairball in the
+backtest but is still vulnerable to doing it someday.
+Developing a positive expectancy of gain by having your indicators pass successive tests is not the same thing as having found a “high probability trade.”
+There is no such thing as a high-probability trade. Trades can go wrong because
+of events that you cannot foresee or control. To speak of high-probability trades
+is to buy into the huckster and con man mindset. The only time to use the highprobability label is when you fix the stop and target at trade entry. The high
+probability applies to the stop as well as the target.
+
+Enhancing positive expectancy by entering
+gradually and exiting at once
+Figure 16-5 discusses the trade in terms of a single purchase and sale. In
+practice, you can enhance profitability by scaling into the trade (Step 3 of
+the trading plan outline). To scale into the trade means to add to the position
+as each confirmation appears. Say you have $5,000 to place on this security. You start by placing a portion of that capital ($1,000) when the first or
+second indicator signals buy. Then you place additional lots of $1,000 as each
+benchmark is reached, until you have 100 percent of the capital allocated to
+the trade. One clear place to add more to the trade is at Point 7, where the
+price tests support and bounces off it to the upside.
+In Figure 16-5, the price breaks below the support line and also crosses below
+the 20-day moving average, and the two indicators in the top and bottom windows turn downward. Chances are this up move is over. You exit as shown.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 16: Combining Techniques
+Notice that you scaled into the trade but exited all at once. This chart doesn’t
+show a trailing stop-loss line, but in practice, this trend was fairly long lasting, and a trailing stop, if hit, would still have resulted in a nice gain.
+
+Evaluating Efficient Entries
+and Ruthless Exits: Setups
+Setup trading is a form of swing trading that’s very popular today. A setup is
+a particular configuration of bars, usually with one or two other confirming
+conditions like a pattern or an indicator, that delivers an expected outcome
+in a high proportion of trades. The opening range breakout I describe in the
+“Standing the Test of Time: Simple Ideas” section earlier in the chapter is an
+excellent example of a setup. Candlestick trading can be considered setup
+trading, too (see Chapter 8).
+Setups usually have catchy names (like pinball and coiled spring). Do these
+setups work? If you identify the setup correctly, yes, the price does often
+behave in the predicted manner. Unfortunately, statistics on exactly what
+percentage of the time they do work don’t exist, but experienced setup traders say that setups work often enough that early entry gives you an edge.
+Each setup identifies a specific market condition that can be explained in
+terms of market psychology. Setup analysis is promiscuous, borrowing from
+bar reading, pattern identification, and indicators. Setups are effective tools
+when you can read the supply and demand dynamics on the chart — you
+can imagine what traders must be thinking, such as the predictable burst of
+buying after a test of support. In general, you’re counting on the normal swing
+of Newtonian action-reaction and the principles of support and resistance.
+One benefit of setup trading is that you can be out of the market until you
+spot a setup situation. You take no risk when you’re out of the market. Some
+setup trades are intraday, where you enter and exit the trade on the same
+day. Other setup trades are more long lasting because they lead to authentic
+trends that you stick to until your exit rules or stop is hit. In the next section,
+I describe some aspects of trading setups.
+
+Starting off early
+A setup identifies the conditions that precede and accompany a price move,
+giving you a head start in entering a trade. When you correctly identify the
+setup, the price goes in your direction immediately. And when a strong move
+begins, the first few days can account for 25 percent or more of the total
+move. That’s the thrust or impulse aspect of new moves.
+
+www.pdfdummies.com
+
+279
+
+280 Part V: Flying with Dynamic Analysis
+The key to setup trading is early identification of a trading opportunity and
+early entry into the trade. As a general rule, your goal as a setup trader is to
+take a profit bite out of a move without necessarily having a position over the
+entire move.
+Entering early in setup trading is in stark contrast to trend-following, where
+you wait until the move has proved itself according to some definition of trendedness before you take a position. In setup trading, you enter a position on the
+same day or the next day as the chart event, whereas in trend-following,
+you may not enter until several periods (usually days) later.
+Efficient entries are the hallmark of setup swing trading, but being quick on
+the trigger doesn’t imply that the trader is a wild-eyed risk taker. Quite the
+opposite. Risk management is the key feature of setup swing trading and thus
+appropriate for beginners. You must
+✓ Never give up profits by sitting out a retracement (as you often do when
+trend-following).
+✓ Absolutely, positively use stops and keep them updated.
+
+Exiting the setup game
+For the most part, you do not scale into and out of setup trades. You determine
+the amount to trade only once. The next part of the trade — the exit —
+borrows a page from the professional playbook: Ruthless stops. The playbook
+offers the following tips:
+✓ If the setup is a dud — it fails or you have not identified it right — you
+need a stop at a level of loss that you can tolerate. (See Chapter 5 on
+stops.) All good traders use stops but if you have a problem obeying
+your stops, setup trading might be for you. You go broke fast without
+stops, and recognizing that, force yourself to use them.
+✓ If the setup succeeds, you keep moving your stop upward to secure
+each new level of gain as it occurs. Generally you hold until the price
+moves against you by some specified amount. Sometimes setups are so
+short lived that an initial stop is all you need and you are not in the trade
+long enough to use a trailing stop. Setup trading can be hit and run.
+
+Working hard while trading like a pro
+Here’s the catch: Not every setup works every time, and you have to adopt
+the professional’s attitude to a losing trade — get out of the trade and move
+on to the next one. Amateurs sometimes feel an emotional attachment to
+their securities — pros don’t.
+
+www.pdfdummies.com
+
+Chapter 16: Combining Techniques
+In the pros’ world, the only thing that counts is making money. If a security
+doesn’t offer a good setup today, they abandon it for a new one without a
+backward look. If your job required you to make a specific sum of money
+trading every day, you’d feel hard hearted toward securities that fail to offer
+setups, too.
+Other drawbacks to using setups include
+✓ A setup that you like may not appear every day or even every month. With
+a small universe of securities, you’d have to memorize a dozen setups if
+you want to be in the market most or all of the time. If you like only one or
+two setups, you have to monitor a large universe of securities.
+✓ If you focus on setups to the exclusion of all the other concepts in technical analysis, you’re at a loss for what to do when setups don’t appear.
+✓ To find your favorite setups, you have to scan a list of securities, and
+the best setups may appear in securities that you wouldn’t touch with a
+bargepole on a fundamental or value basis.
+✓ Setups require intense concentration and often the ability to trade
+actively during market hours. If you have a day job, this task can be
+impossible to do. And remember, active stop management is critical to
+success, meaning that you really should be out of the market altogether
+when you go on a vacation or business trip. War stories about hair-raising
+losses usually involve not having placed a stop and learning about some
+market-moving event only after arriving in an exotic location.
+
+Reading promotions carefully
+Because many professionals use setups to make trading decisions, some
+trading system vendors play off this nugget of information to claim that they
+have a “magic secret” that’ll get you trading like a pro. The secret identifies
+“high-probability trades,” and sometimes the vendor promises that “You
+can’t lose!” Sometimes setups are called power strategies, which is more
+promotional than anything else.
+Be wary of such promotions. For one thing, vendors who use exaggerated
+claims aren’t showing respect for your brainpower or common sense. Razzledazzle ads may intend to deceive and bamboozle rather than to share wisdom.
+Keep in mind that
+✓ Pros don’t have any secret indicators or techniques. All the trading techniques and tricks, including setups, are available to you in books, magazines, newspapers, Web sites, and seminars.
+✓ As for claims that you can’t lose — don’t be silly. Of course you can lose.
+In fact, you will lose. The point is to lose little and gain big. You don’t
+need to spend thousands of dollars on a program or seminar to grasp
+the principle of the five-step trading plan.
+
+www.pdfdummies.com
+
+281
+
+282 Part V: Flying with Dynamic Analysis
+✓ If trading discipline is a problem for you, trading psychologists and
+coaches can help — but discipline is a set of personal habits that you
+can’t acquire from anyone else — you can only build it internally. The
+heart of “trading like a pro” is the trading discipline, not the indicator.
+Some reputable technical traders offer follow-along setup trading in seminars
+or online, for a fee, in which you can see the price action on the chart and
+hear the trader’s commentary every few minutes. What you find out from participating in such a training course has less to do with identifying the setup
+and more to do with sharing the pro’s attitude toward exploiting a promising
+situation, but knowing how to retreat from a loser — without regret.
+
+www.pdfdummies.com
+
+Chapter 17
+
+Considering a Trading System
+In This Chapter
+▶ Introducing trading systems
+▶ Going over some problems you may encounter
+▶ Abiding by the rules
+▶ Deciding whether or not to buy a system
+▶ Selecting a system that works for you
+
+T
+
+he technical-based trader uses indicators and trading rules to plan as
+many decisions as are possible. To remove human judgment entirely,
+some technical traders go whole-hog and design trading systems. A strict,
+fully mechanical trading system automates the trading process by making
+every decision a rule-based decision. You have no discretion over any aspect
+of any trade.
+By the time you enable your computer to execute the trades as well as determine them, you have built a robot. Robo-trading or algorithmic trading is all
+the rage now that computing power has grown so enormous. Even a modest
+robot can have 5,000 (or 50,000) lines of code for just the indicators, and
+that’s before applying trading rules to generate the buy/sell signals.
+But should you build a trading system? The straightforward answer is “no.”
+For nearly everyone, building (or buying) a trading system is a bad idea. To
+build one, you must have advanced mathematical and computational skills.
+Plus, you need literally thousands of hours to devote to it. A complete trading
+system can take years of full-time work to develop (or hundreds of thousands
+of dollars to have custom built). Third, after you get started, it’s hard to stop.
+You can always find one more contingency you want to cover or one more
+technique to try out. And even if you have the scientific mind-set to do this
+complex work, you may not have the right mentality to place the trades in
+real time. The technical landscape is littered with engineers turned system
+designers who can’t trade their way out of a paper bag.
+
+www.pdfdummies.com
+
+284 Part V: Flying with Dynamic Analysis
+Next, consider that you change. Your risk appetite changes. Your patience in
+dealing with complexity may go down (or up). Finally, the market changes. By
+this I mean that until traders can make indicators instantly adaptive to changing volatility, the human mind is still a faster and more accurate computer
+than a computer. Where robots do excel is in speed of execution, which can
+be critical in trading on news releases and in arbitrage models.
+Having just poured cold water on the idea of building a system, why include
+this chapter at all? Two reasons. First, building a system forces you to examine indicator effectiveness and reliability in a strict and fact-based way. It
+also opens the door to refining your money-management rules, which often
+yields as much or more profit than replacing indicators or adjusting indicator
+parameters. Second, the process is a scientific one. You create a hypothesis,
+you test it, and you get results that can be evaluated to refine the hypothesis
+for another round of tests. The scientific process is disciplined. If you aren’t
+scientifically trained or oriented, having a system is invaluable to help you
+discard sloppy thinking, unwarranted assumptions, and general bias.
+
+Defining a Trading System
+The term trading system has different meanings to different people. Systematic
+trading can be as simple as a single indicator and a stop-loss rule (for more
+on these topics see Chapters 4 and 16). In fact, most folks in the technical
+analysis field now refer to any trading regime as a system, even when it
+doesn’t meet the strict requirement of full automation. In this chapter, I
+speak of a trading system in the strictest sense — every decision is dictated in
+advance by the indicators and trading rules that you set down.
+A trading system is built, block by block, by accumulating trading rules to
+convert indicators or other data inputs into buy/sell signals. A trading system
+becomes a robot when it executes the trades as well as determines them.
+These decisions include position size and other aspects of the trading plan.
+Instead of laboriously figuring out how many shares of Blue Widget to buy or
+sell depending on your changing risk preference and market volatility (see
+Chapter 16), the machine does it for you. Instead of selecting from among a
+menu of indicators and trading rules to reenter after a stop or target is hit,
+the machine does it for you.
+
+www.pdfdummies.com
+
+Chapter 17: Considering a Trading System
+
+Super systems
+Algorithmic trading is the fusion of technical
+analysis with efficient order entry, and banks
+and fund managers initially used this method
+to get an advantage in execution speed. One
+subset consists of “high-frequency” traders
+whose machines can place trades at literally
+the speed of light (or just under it), whereas the
+human trader may take as long as five or ten
+seconds to make a trading decision after the
+release of news or the appearance of a trading
+opportunity.
+Information input needs to be as fast as output
+(the trade orders). Data and news vendors, for
+a special price, make information available to
+big institutions fractionally faster than to the
+general public, too. The innate fairness of this
+fact is under question today. Algo trading may
+account for as much as 75 percent of all securities trading in the U.S. Does this mean the trading game is rigged against the little guy? If you
+want to do lightning-fast arbitrage, yes. If you
+are trend-following, maybe not. You can find
+any number of equally valid ways to trade the
+same security.
+The same problems arise in algo trading as in
+any system. Computer programming is deeply
+specific. If the program fails to include every
+contingency, it doesn’t have a brain that automatically falls back to some kind of default
+mode. Data errors caused a “flash crash” in
+May 2010, when the Dow fell 998 in under an
+hour and some $40 stocks were priced at $1.
+Experts doubt that this type of occurrence due
+to data error is the last.
+When a trade goes bad in some unprecedented
+way, humans have a fallback — they exit. But
+computers don’t watch TV or read newspapers, so if the trade goes bad, it may have no
+programmed instructions on what to do until
+after the event starts being reflected in prices.
+Markets are notoriously slow to respond to
+
+event shocks. This is one time the human is
+faster.
+The idea of automating trading is not innately
+wrong. After all, the equivalent of robots can fly
+an airplane and even land it. But the mechanical and electronic contingency planning underlying avionics is vast and has taken decades,
+and superlative as it is, would still not be able
+to land a very large plane on the Hudson River
+after a bird strike. At a guess, engineers are
+working on it.
+Algo trading is newer and presumably less far
+advanced than avionics, although the big institutions aren’t disclosing information on their
+top-secret systems. We can draw inferences,
+though. First, big institutions have made big
+investments in algo trading that are delivering a big payoff. In theory, you could duplicate
+the effort in every way except high-frequency
+trading (unless you’re willing also to pay for
+advance information) and market making —
+offering a two-way price to any comer for any
+size trade.
+The second deduction is that vendors of automated systems or robots have almost certainly
+not put hundreds of million of dollars into the
+design. If they had, they wouldn’t be promoting it to you for $500 or $5,000. It would literally
+be worth more than that. If the system were a
+fabulous design, they would sell it to a big institution for millions. A third flaw in retail-level
+systems and robots is that the designer has
+embedded into it his own trading philosophy,
+by which I mean choice of indicators and risk
+appetite. Risk appetite is deeply personal, as I
+discuss in Chapter 16. The robot designer may
+be willing to lose, say, $3 in an $8 initial buy
+whereas your stop would be half that, or $1.50.
+Buying somebody else’s system is always going
+to disappoint.
+
+www.pdfdummies.com
+
+285
+
+286 Part V: Flying with Dynamic Analysis
+Meeting the designers
+Books, articles, and Web sites abound on the
+topic of technical trading systems, but who are
+these gurus and system designers behind it
+all? Usually they’re self-trained “experts” (and
+a surprising number are drop-outs). They have
+mastered one or more of the software packages designed solely for technical analysis.
+Sometimes they program their own software.
+System designers are college math professors,
+engineers, medical doctors, economists, historians, musicians, and practitioners of dozens of
+other lines of work. They run the gamut from brilliant, insightful, and inspiring to self-important,
+argumentative, and petty (just like any other field).
+System designers are usually adept at math and
+computer programming, although often they’re
+
+not very good traders, as they themselves may
+admit. This reality isn’t really surprising because
+math and computer programming are complex and intricate, while trading can be mindbogglingly simple. Some designers start with
+programming and apply it to markets. Some start
+with markets and use programming as a tool. It’s
+amusing and intriguing that many technical traders barely passed high school algebra but take
+home high six-figure profits, while many knowit-all system designers barely scrape by.
+Why pay attention to system designers if they’re
+not successful traders? Because you never
+know when you’ll get a “Eureka!” moment and
+discover one indicator or one rule that makes all
+the difference to your own trading performance.
+

@@ -33,12 +33,44 @@
     yenilenene kadar V8 sözleşmeler ve doğrulama artefaktları oluşturabilir ama
     kârlılık, doğrulanmış execution ya da terfi ettirilmiş bir trading sistemi
     iddia edemez.
+13. Ontoloji: her Candidate'ın tam olarak bir kaynak Expert'i vardır; tek bir
+    karar olayı birden fazla Expert'ten Candidate üretebilir. Bir Expert, tek
+    bir davranış ailesi (behavior family) içindeki tek bir yanlışlanabilir
+    çalıştırılabilir hipotezdir; parametre ve geometri değişiklikleri o hipotez
+    ailesinin varyantlarıdır, ayrı Expert değildir. Her Expert
+    `mechanism_family_id`, `behavior_family_id`, `expert_id`, `expert_version`
+    ve varsa `variant_id` taşır.
+14. Karmaşıklık bütçesi iki ayrı eksende tanımlıdır ve asla tek bir sayıya
+    indirgenmez. (a) **Runtime:** aktif Expert sayısı sınırsızdır; tek sınır
+    determinizm ve hesap bütçesidir. Expert sayısı bir geçerlilik kısıtı
+    değildir. (b) **Kanıt:** tek bir donmuş OOS değerlendirmesinde eşzamanlı
+    olarak iddia taşıyan davranış ailesi sayısı önceden kayıtlıdır ve kural
+    11'in aile düzeyi çokluk düzeltmesine girer. Pipeline konumu başına en
+    fazla bir öğrenilmiş bileşen. Router, paylaşılan scorer, ranker, RL
+    execution ve online learning yoktur.
+15. Öğrenme offline ve registry-kapılıdır. Sonuç verisi aktif bir Expert'in
+    tanımını asla değiştirmez; yalnızca, terfiden önce donmuş bir OOS
+    karşılaştırmasını ve registry incelemesini geçmek zorunda olan challenger
+    sürümler üretebilir.
+16. Risk kabulü deterministik ve exposure-farkındadır. Taban çizgi
+    (enstrüman, yön) başına tek bir aktif exposure tutar; çakışan bir Candidate
+    reddedilir (`CAPACITY_REJECTED` / `EXISTING_EXPOSURE_CONFLICT`) ve yine de
+    karşı-olgusal (counterfactual) olarak ölçülür. Bu bir **atıf
+    varsayılanıdır**, bir risk tavanı değil: gerçekleşen PnL'in tek bir
+    Expert'e atfedilebilir kalmasını sağlar. Portföy ısı sınırıyla birlikte —
+    kural 14'ün Expert sayısı değil — portföy ölçeğini sınırlayan şey budur.
+    İkisinden birini gevşetmek bir registry kararıdır (O-012, O-018), asla bir
+    konfigürasyon değişikliği değil.
+17. Araştırma materyalizasyonları tape'ten bir kez derlenir ve yeniden
+    kullanılır; eğitim materyalize edilmiş görünümleri okur, asla ham tape'i
+    okumaz ve yalnızca feature, Expert, simülatör ya da outcome tanımları
+    değiştiğinde yeniden derler.
 
 ## Minimum tutarlı mimari
 
 ```text
 sürümlenmiş zaman-noktası tape/durum
-  -> deterministik kendi-kendine kapılanan Expert'ler (2–3)
+  -> deterministik kendi-kendine kapılanan Expert'ler (N, sınırsız)
   -> candidate olay deposu (tüm sonuçlar)
   -> deterministik kabul + risk sınırı
   -> kurallı Level-1 simülatör / tek defter

@@ -1,0 +1,355 @@
+
+Download at www.wowebook.com
+
+567
+
+Chapter 23 Money and Risk Management
+
+Theory of Runs
+The chance of going broke from a series of losses is the amount of trading times the percentage
+of losses to the power of the largest string of losses. Most analysts will assume a minimum run of
+ten consecutive losses as the baseline. In any case, most calculations end with a maximum suggested percentage investment of around 2% to avoid the risk of going broke.
+Optimal f and the Kelly Formula
+The Kelly formula was invented by John L. Kelly, Jr. of Bell Labs in the early 1940s to measure
+long-distance telephone noise and was later adopted by gamblers to determine optimal betting
+sizes. Its application to the trading markets is somewhat tenuous because it does not account for
+MDD and, thus, risk of ruin. However, it is used in conjunction with other position-size calculations to determine the optimal size of a position relative to capital. In any profitable system, capital growth increases in proportion to the percentage of capital risked. After a certain threshold in
+the percentage, however, the rate of growth decreases and eventually reaches zero. The Kelly
+ratio or optimal f is the threshold of maximum growth. Optimal f is, therefore, a method of determining the optimal percentage of capital that should be invested in a particular system.
+The optimal f percentage = (percentage of wins × (profit factor + 1) – 1) / profit factor
+Where: Percentage of wins is the percentage of winning trades
+Profit factor is the ratio of total gains over total losses
+Once f is determined, it is multiplied times capital for the amount to be used in each position. This amount can be divided by the contract margin requirement for each contract to determine the number of contracts. In the stock market, the amount for each position can be divided
+by the price of the shares to determine the number of shares. Because this method often suffers
+from extraordinary drawdowns, the percentage of capital is usually limited to 0.8 of optimal f, or
+a maximum optimal f of 25%.
+To account for MDD that is otherwise not in the f formula, another method called the
+secure f (Zamansky and Stedhahl, 1998) is to divide the MDD by optimal f to determine the
+amount that can be risked on one contract or convert this amount to a percentage of capital for
+stock shares. The Larry Williams formula for the number of contracts to trade is to take the
+amount of money at risk (account balance times risk percent from whatever formula) divided by
+the largest single loss. A loss in the future can be controlled by stops.
+
+Download at www.wowebook.com
+
+568
+
+Part VIII System Testing and Management
+
+BOX 23.2 CALCULATING OPTIMAL F
+Again, using the system developed in Chapter 22, let us calculate the optimal f.
+Formula
+Optimal f = (percentage of wins × (profit factor + 1) –1) / profit factor
+Data
+Percentage of wins = 82.33%
+Profit factor
+
+= 5.81
+
+Substituting
+Optimal f
+
+= (.8233 × (5.81 + 1) –1) / 5.81
+= 79.2%
+
+This is the maximum percentage to invest any capital account in the Nerves-of-Steel
+system developed in Chapter 22.
+
+Final Position Size
+The smallest percentage of capital suggested by the three formulas is used as the final percentage
+to use in trading the specified system. Generally, because the theory of runs limits the percentage
+to around 2%, most professional traders use this figure, or less, as a maximum commitment to
+any system. In the Nerves-of-Steel system, however, the percentage of losses is so small, the
+odds of a run of five losses is almost negligible. Thus, the other methods should take precedence,
+and each shows that a substantial portion of assets could have been invested in the system.
+Initial Capital
+The reason for concern about initial capital requirements is the risk of a series of losses right in
+the beginning of the system use. The problem at start-up is not the problem of individual loss in
+a trade. That can be controlled with stops. The problem is the risk of complete loss of capital.
+This problem is related to the possibility of a run of losses that wipes out capital and eliminates
+the trader from being able to reenter the system. Later, when profits have accrued, the accumulated profit cushion lessens the risk of losing all, but at the start, the risk of being wiped out is the
+highest.
+A general rule of thumb for initial capital is to have at least three times the margin required
+for a single contract for each contract traded, or at least two times the amount of the MDD plus
+the initial margin for stocks and contracts. A more precise number can be determined from the
+Monte Carlo simulation described previously, estimating the odds of complete failure of the system using history. As in any simulation, the levels determined from the test should be doubled or
+tripled as a precaution against extraordinary initial surprises.
+
+Download at www.wowebook.com
+
+569
+
+Chapter 23 Money and Risk Management
+
+BOX 23.3 INITIAL CAPITAL—MONTE CARLO SIMULATION
+In Chapter 22, we developed the Nerves-of-Steel trading system. Now, using a
+Monte Carlo simulation of the Nerves-of-Steel system, let us look at a chart of the
+distribution of terminal equity for the total number of tests. The test period was nine
+years, seven months, and five days, and 300 positions were taken for an average of
+46 per year. The initial price of U.S. Steel was $17.45, and we assume all trades are
+100 shares. From our earlier calculations of maximum capital to risk on this system,
+the lowest was 69%. Taking the first position of 100 shares at $17.45 and dividing by
+69% gives us $2,500, the amount of ideal starting capital based on those calculations. We set the maintenance capital at $1,000. This is the level below which our
+system goes broke. (We need the remaining $1,000 to close up shop and go home.)
+We then run the simulation to see if the system can withstand a series of adverse runs
+within a year.
+
+Terminal Equity Level ($)
+
+The lower line in Figure 23.1 shows the results for an initial capital of $2,500. At
+the 50% vertical line, the upper line appears at $9,700. This means that 50% of the
+upper tests beginning with $2,500 had ending equity of $9,700 or less. At no time in
+the 2,000 simulations did the Nerves-of-Steel go broke within the first year.
+17,500
+17,000
+16,500
+16,000
+15,500
+15,000
+14,500
+14,000
+13,500
+13,000
+12,500
+12,000
+11,500
+11,000
+10,500
+10,000
+9,500
+9,000
+8,500
+8,000
+7,500
+7,000
+6,500
+6,000
+5,500
+5,000
+4,500
+
+0
+
+5
+
+10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100
+
+Percentile
+
+Source: www.tickquest.com - equity montecarlo
+FIGURE 23.1 Monte Carlo simulation projected terminal equity of Nerves-of-Steel system
+
+Download at www.wowebook.com
+
+570
+
+Part VIII System Testing and Management
+
+Leverage
+Leverage, or the borrowing of capital to increase the potential for gain, of course, also increases
+the risk. Leverage generally increases the volatility of the portfolio or system and, thus, magnifies all those dangerous possibilities from increased volatility, including larger drawdowns and
+more potential for complete failure.
+Risk is proportional to leverage. If we find that our system or combination of systems produces an MDD that is unacceptably high, we can adjust the portfolio mix to include a risk-free
+investment, such as Treasury bills, in the proportion necessary to bring down the potential MDD.
+For example, if the model estimates a 40% MDD, and we will only accept a 20% MDD, we can
+adjust the model to invest 50% of the capital in risk-free investments and the remainder in the
+systems. On the other hand, if the systems suggest a 10% MDD, and we are willing to accept a
+20% MDD, we can borrow 100% of the model’s capital and double our return as well as our risk.
+Pyramiding
+Pyramiding is a more complicated method of adding leverage to a position. It consists of adding
+to a profitable position to gain leverage. Of course, the risks are not as clear because gaining size
+in the position after it is profitable may result in a larger position just as the inevitable drawdown
+begins. The best manner of pyramiding is to test it within the system as a set of rules. Specific
+rules of thumb for pyramiding include the following:
+1.
+2.
+3.
+4.
+
+Never adding to a position until its profit becomes positive
+Placing stops at the break-even level as size increases
+Entering the largest positions first and diminishing the size of subsequent entries
+Being sure that the position risk is still within the limits established by the system and by
+the maximum acceptable position size
+
+Unusual Risks
+Before we become involved in standard portfolio risks, we must be aware of other risks that we
+have some control over but that will not usually show up in standard tests of performance. These
+are outlined next.
+Psychological Risk
+As we have mentioned many times earlier, trading and investing are largely psychological. The
+motion of investment vehicles is due largely to rational and to irrational decisions on the part of
+buyers and sellers. Taking advantage of this price motion through technical analysis is an emotional exercise for the trader or investor as well. The participant in the markets must be careful
+not to be swept up in the emotion of the crowd; indeed, in many instances, he or she must act
+against the crowd and, thus, against human nature. Many inputs can affect the psychological stability of the trader. Lack of sleep, family fight, sickness, or any other nonstandard outside intervention can upset one’s attitude and ability to act successfully. Unfortunately, once lack of
+
+Download at www.wowebook.com
+
+Chapter 23 Money and Risk Management
+
+571
+
+success begins, lack of confidence also begins, and lack of confidence can cause even more
+errors in judgment. The purpose in designing a nondiscretionary system is to reduce those outside emotional effects and let the system operate by itself. However, a losing system or series of
+losses can cause even the slightest override of the system; simply a change in orders, a wait after
+a breakout, or any other minor action unknowingly can upset the expected results even more.
+Many system overrides are not even recognized by the trader—just a little change here and there.
+Thus, there is a constant battle between the psyche and the markets. A supersystem will not avoid
+one’s own nature. Only oneself can control one’s nature. It is a risk that cannot be eliminated by
+a computer, only reduced, and the system must be followed religiously. Some writers argue that
+the psychology of trading accounts for better than 70% of success. This is likely true, but unfortunately, it is perverse and unquantifiable.
+Knowledge of the Market
+“I didn’t realize that option expired today” or “I didn’t realize that contract traded at night in Singapore” can be costly mistakes. The trader or investor must be fully aware of the markets being
+traded, their history, their method of execution, their various peculiarities, their people, their
+structure, and their operation. There is no excuse for losing money from simple ignorance. Most
+investors learn from experience about the oddities of particular markets, but that experience can
+be costly.
+Diversifiable Risk
+Diversification is a complex subject. As we saw in Chapter 22, the complexity has to do with the
+weighting amount of different vehicles or systems in a portfolio, as well as whether the behaviors
+of the components are similar or different from each other. Various mathematical models have
+been developed; but as we said before, diversification is the commonsense approach of “not putting all your eggs in one basket” that is needed. Obviously, if different vehicles or systems are
+used, they should not act in concert. Otherwise, they are essentially the same system, and risk has
+not been diversified away.
+Risk is both correlated and uncorrelated. Correlated risk cannot be eliminated through
+diversification. We must use other means. This nondiversifiable, or market, risk is the risk generated by the overall market itself and accounts for a large portion of portfolio risk. Uncorrelated
+risk, however, can be reduced through diversification. Uncorrelated risk comes from the effects
+of all sorts of exogenous variables on individual issues and has more to do with the risk of the
+individual issue than the overall market. Uncorrelated risk can be reduced by diversification into
+dissimilar or uncorrelated issues or systems.
+An example of correlated, nondiversifiable risk would be the risk that the Federal Reserve
+tightening the money supply will have a widespread impact on security values and impact almost
+any stock in a portfolio. On the other hand, the risk that a Vioxx lawsuit will decrease the value
+of Merck stock is uncorrelated, diversifiable risk. The lawsuit would not impact the stocks of
+other companies.
+Reduction in uncorrelated risk can reduce MDD and enhance ROI. Indeed, the results of a
+diversified portfolio are often superior to the results from the best individual system by itself.
+The Capital Asset Pricing Model suggests that a properly structured 9-stock portfolio reduces the
+
+Download at www.wowebook.com
+
+572
+
+Part VIII System Testing and Management
+
+uncorrelated risk to that of one-third the risk of a single stock. A 16-stock portfolio can reduce
+uncorrelated risk to one-fourth that of a single stock. The relationship is based on the inverse
+square root of the number of stocks in the portfolio. As such, the portfolio can never eliminate
+uncorrelated risk, but with just a few different issues or systems, it can reduce it enough to make
+it irrelevant. The real problem then becomes the effect of correlated risk as in the debt crisis in
+2008–2009 when many investments that had earlier been uncorrelated suddenly became correlated and declined together. What constitutes correlation in investments or systems, then, is a
+subject equally difficult to assess. Some investors believe that diversification detracts from performance because it dilutes reward along with risk. Using specific selection methods to concentrate on the investments with the most potential, they use exit strategies in individual issues to
+reduce uncorrelated risk and market timing for the entire portfolio to reduce correlated risk. (For
+more details on the mathematics behind diversification and portfolio theory, refer to Appendix
+A.)
+One further complication in the subject of correlations is that often a lead-lag relationship
+occurs that is invisible to the system tester, and most correlations themselves change over time.
+Efficient diversification is, thus, a useful and important subject but not a simple one.
+Trade Frequency
+Ten losing trades in different markets is the same as ten consecutive losses in one market. The
+drawdown is the same. Thus, diversification can bring problems as well as reduce risk. The frequency of trading in different markets will increase the risk of a series of losses across markets.
+Temporal
+Risk increases with time. The longer a position is held, the more risky it becomes. This is why
+long-term interest rates are usually higher than short-term rates. On the other hand, in the markets, reward does not increase with time. Thus, to reduce risk, a position should not be held
+beyond the time that reward ends. Then, only risk remains.
+Security Quality
+If given the choice of trading a high-quality issue (as determined by some financial rating service) that has the same market characteristics as a low-quality issue, including volatility, liquidity,
+and volume, which would you choose? The high-quality issue, of course. Erroneously, quality is
+a concept that normally is not addressed and certainly is not a factor in most systems models.
+
+MONEY-MANAGEMENT RISK STRATEGIES
+In addition to determining the optimal position size, optimal initial capital, and leverage, risk
+strategies include the timing and placement of exits.
+Entry strategies carry no risk until executed. An entry can be made at any time, when the
+situation or setup is right, or not at all. Perhaps you would rather go to the beach. Because you
+must now watch your investment, you cannot go to the beach. Once entered into a position, however, an exit strategy is necessary because the position is now at risk. It is the most important
+action decision in any system.
+
+Download at www.wowebook.com
+
+Chapter 23 Money and Risk Management
+
+573
+
+Exit strategies are usually twofold: prevention of loss of capital or closing at a target profit
+or price. Prevention of capital loss can come after a loss, as in a protective stop, or after a profit,
+as in a trailing stop. There is always a trade-off between potential reward and potential risk. An
+exit stop placed too tightly to the trading price prevents a single large loss, but many small losses
+that are equally devastating can occur instead. An exit stop can also be too loose, resulting in a
+larger-than-necessary loss. It must be wide enough to avoid being triggered by random noise and
+intrinsic volatility of the issue but not sacrifice too many profitable trades. At other times, a profit
+may have accrued, and rather than a risk of loss, the question of stop placement or target exit is
+necessary. All these decisions, naturally, should be tested before the situation arises. There are
+advantages and disadvantages to all of them.
+Slippage is a problem with stops. Any stop that suggests an exit in the direction of the
+short-term trend rarely will be executed at the same price as the system test suggests. A volatility
+stop, for example, often will occur when price volatility exceeds the estimated volatility, and a
+technical stop at a specific price, depending on where it is located within a price pattern, may
+occur along with many others and receive a poor execution. A target exit often receives a better
+execution and less slippage because the trend is directed into the target limit. However, it might
+not be executed at all if the price fails to reach the target, or the price might roar through the target and lose profit opportunity. There is no easy answer about slippage except that these potential
+problems should be addressed in the testing of a system.
+Protective Stop
+All entries must have a protective stop under all circumstances, and that stop must be inviolate.
+The protective stop is placed at the level of maximum limit of loss from entry, accounting for the
+maximum loss that the trader can allow on any one position on any one trade. It is often called a
+“money-management” stop because it prevents the complete loss of capital. It is determined by
+the level of risk that the trader is willing to take with his capital in any one position on any one
+trade. There are numerous methods of determining where the protective stop should be placed.
+Hard Money or Dollar Stop
+When we decide how much money we are willing to risk in a trade, we can place a protective
+money stop at a price level that reflects that potential loss and no more. In the earlier example of
+position size risk, we considered a stock trading at $50 and the maximum amount we wanted to
+risk was $500. We can buy 100 shares at $50 and place a sell stop at $45, or we can buy 200
+shares at $50 and place a sell stop at $47.50. The same dollar risk appears to be present in each
+transaction. This is not accurate, however, because the odds of being triggered at $47.50 are
+higher than at $45. The consideration of where to place the stop, therefore, should be one based
+on the best price rather than on how many shares can be bought. Once the price is determined,
+the amount of shares to purchase can be adjusted accordingly. Let us say there is a large support
+level at $46. It would be wiser to use the $45 stop than the $47.50 stop, even though fewer shares
+are originally purchased, because the support level has a better chance of holding the stock from
+falling through $45 and triggering the stop. Furthermore, as technical traders, we know that if the
+support level at $46 is broken, we do not want to own the stock. At $47.50, we do not know anything about the stock prospects, and the market does not care.
+
+Download at www.wowebook.com
+
+574
+
+Part VIII System Testing and Management
+
+Maximum Winning Adverse Excursion
+The protective stop is placed to prevent loss if something goes wrong with the system. A method
+of determining when the system is going wrong is called the maximum adverse excursion
+method. Taking each winning trade in the system test or from the past real-time use of the system, one plots the frequency of adverse excursions. These are the amounts by which the value of
+the entered position in each trade goes against the initial value before it is closed at a profit. It is
+similar to a drawdown except limited to winning trades. If an entry is made and the trade eventually is a profitable one, the adverse excursion is the amount of money that the trade was in the
+hole before it turned profitable. Some profitable trades immediately profit. These are not a problem. Looking at those winning trades that do have initial problems, you will find that over time,
+the excursion from entry value reaches a limit. If the system is trouble free, that price is the level
+beyond which a profitable trade should not go in the future. A price just beyond that level is
+where the protective stop should be placed. Losing trade adverse excursions are not considered
+because they will become a problem and will be stopped out at the protective stop. Once the
+maximum adverse excursion from winning trades is established, it also determines how many
+contracts or shares can be entered on the system entry signal. If the maximum adverse excursion
+for one contract is greater than the maximum limit of loss allowed by the trader, the position
+should not be taken. Otherwise, the number of shares or contracts can be determined by dividing
+the maximum adverse excursion by the margin required for the contract or the price of the
+shares. The maximum winning adverse excursion should be recalculated periodically to maintain
+consistent with any changes in the market or the system.
+Trailing Stop
+With the protective stop in place and inviolate, the market issue will either trigger that stop or
+will begin to profit. Once a certain amount of profit in the trade has occurred, the next problem
+for the system is to maximize the profit without giving up too much of what has been gained. A
+trailing stop is used most frequently to lock in the gain.
+Breakeven Level and Breakeven Stop
+A trailing stop often is not placed until a certain gain level is accumulated. This is called the
+breakeven level, the profit level at which a stop can be placed at the entry price to lock in a
+breakeven on the trade but not be triggered by noise. In the preceding example, we bought the
+stock at $50, and after a little erratic motion, the stock rose to $55. The ATR (Average True
+Range) is $1.50. If we had earlier set three times the ATR, or $4.50, as the break-even level, then
+when the stock reached $54.50 ($50 + $4.50), we would automatically raise the protective stop
+to a break-even stop at the entry price of $50. This eliminates the risk of any loss on the transaction from now on. At the same time as the break-even stop is placed, a trailing stop strategy is initiated.
+Another method of handling the break-even level is to exit half the position when the profit
+has reached the break-even level. The break-even stop is then raised to the entry price. This
+method locks in a profit, keeps a portion of the position open, and cannot lose capital once it is
+entered. The potential for profit is reduced, but a smaller profit has already been stashed, and the
+risk of loss is zero on the remaining portion. A trailing stop strategy then is applied to the remaining position.

@@ -1,0 +1,736 @@
+DIVERG<0 AND LLV(IM,4)<30 AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=15;
+D2:=15;
+D3:=1;
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+
+306
+
+Intermarket Trading Strategies
+
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<-1 AND ALERT(CROSS(IM,25),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=15;
+D2:=15;
+D3:=1;
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND HHV(IM,3)>60 AND STOCH(5,3)> MOV
+(STOCH(5,3),3,S)
+Disparity (DXY)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;
+D2:=15;
+D3:=-1;
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG>0 AND ALERT(CROSS(85,IM),4) AND IM< REF(IM,-1) AND
+STOCH(5,3)>MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;
+D2:=15;
+D3:=-1;
+
+Appendix A
+
+307
+
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<0 AND {ALERT(CROSS(IM,OPT5),4)} LLV(IM,4)<25 AND IM>
+REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;
+D2:=15;
+D3:=-1;
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<-1 AND ALERT(CROSS(IM,25),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;
+D2:=15;
+D3:=-1;
+DIS1:=((C - Mov(C,D1,S)) / Mov(C,D1,S)) ∗ 100;
+DIS2:=((SEC2 - Mov(SEC2,D2,S)) / Mov(SEC2,D2,S)) ∗ 100;
+DIV1:=(D3∗ DIS2-DIS1);
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND HHV(IM,3)>50 AND STOCH(5,3)>MOV
+(STOCH(5,3),3,S)
+
+LRS (XAU)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=40;{LRS GOLD}
+
+308
+
+Intermarket Trading Strategies
+
+D2:=50;{LRS INTERMARKET}
+D3:=STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG>0 AND ALERT(CROSS(70,IM),4) AND IM< REF(IM,-1) AND
+STOCH(5,3)>MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=40;{LRS GOLD}
+D2:=50;{LRS INTERMARKET}
+D3:=STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<0 AND LLV(IM,4)<15 AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=40;{LRS GOLD}
+D2:=50;{LRS INTERMARKET}
+D3:=STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<-1 AND ALERT(CROSS(IM,5),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=40;{LRS GOLD}
+
+Appendix A
+
+309
+
+D2:=50;{LRS INTERMARKET}
+D3:=STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND HHV(IM,3)>50 AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+
+LRS (DXY)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=30;{LRS GOLD}
+D2:=40;{LRS INTERMARKET}
+D3:=-STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG>0 AND ALERT(CROSS(85,IM),4) AND IM< REF(IM,-1) AND
+STOCH(5,3)>MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=30;{LRS GOLD}
+D2:=40;{LRS INTERMARKET}
+D3:=-STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<0 AND LLV(IM,4)<25 AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+
+310
+
+Intermarket Trading Strategies
+
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=30;{LRS GOLD}
+D2:=40;{LRS INTERMARKET}
+D3:=-STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<-1 AND ALERT(CROSS(IM,25),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=30;{LRS GOLD}
+D2:=40;{LRS INTERMARKET}
+D3:=-STDEV(C,200)/STDEV(SEC2,200);
+LRSI:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D1)/Abs(Ref(C,-D1+1))∗ 100;
+DIV1:=(D3∗ LRSI-LRS)∗ 100;
+DIVERG:=Mov(DIV1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND HHV(IM,3)>60 AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+
+Bollinger Band (XAU)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=100;{BB PERIOD GOLD}
+D2:=100;{BB PERIOD INTERMARKET}
+sec1BOL:= 1+((C- Mov(C,D1,S)+2∗ Stdev(C,D1))/(4∗ Stdev(C,D1)));
+sec2BOL:=1+((SEC2- Mov(SEC2,D2,S)+2∗ Stdev(SEC2,D2))/(4∗ Stdev
+(SEC2,D2)));
+DIVERG1:=(sec2BOL-sec1BOL)/sec1bol∗ 100;
+diverg:=Mov(diverg1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+
+Appendix A
+
+311
+
+DIVERG>0 AND ALERT(CROSS(70,IM),4) AND IM< REF(IM,-1) AND
+STOCH(5,3)>MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=100;{BB PERIOD GOLD}
+D2:=100;{BB PERIOD INTERMARKET}
+sec1BOL:= 1+((C- Mov(C,D1,S)+2∗ Stdev(C,D1))/(4∗ Stdev(C,D1)));
+sec2BOL:=1+((SEC2- Mov(SEC2,D2,S)+2∗ Stdev(SEC2,D2))/(4∗ Stdev
+(SEC2,D2)));
+DIVERG1:=(sec2BOL-sec1BOL)/sec1bol∗ 100;
+diverg:=Mov(diverg1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+((DIVERG<-5 AND DIVERG>REF(DIVERG,-1)) OR (LLV(IM,4)<30 AND
+IM> REF(IM,-1)))
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=100;{BB PERIOD GOLD}
+D2:=100;{BB PERIOD INTERMARKET}
+sec1BOL:= 1+((C- Mov(C,D1,S)+2∗ Stdev(C,D1))/(4∗ Stdev(C,D1)));
+sec2BOL:=1+((SEC2- Mov(SEC2,D2,S)+2∗ Stdev(SEC2,D2))/(4∗ Stdev
+(SEC2,D2)));
+DIVERG1:=(sec2BOL-sec1BOL)/sec1bol∗ 100;
+diverg:=Mov(diverg1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<-10 AND ALERT(CROSS(IM,5),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:=100;{BB PERIOD GOLD}
+D2:=100;{BB PERIOD INTERMARKET}
+sec1BOL:= 1+((C- Mov(C,D1,S)+2∗ Stdev(C,D1))/(4∗ Stdev(C,D1)));
+sec2BOL:=1+((SEC2- Mov(SEC2,D2,S)+2∗ Stdev(SEC2,D2))/(4∗ Stdev
+(SEC2,D2)));
+DIVERG1:=(sec2BOL-sec1BOL)/sec1bol∗ 100;
+diverg:=Mov(diverg1,3,E);
+
+312
+
+Intermarket Trading Strategies
+
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND HHV(IM,3)>50 AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+
+Z-Score (XAU)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:= 100;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(CROSS(80,IM),4) AND IM< REF(IM,-1) AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:= 100;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+LLV(IM,4)<50 AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:= 100;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+
+Appendix A
+
+313
+
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<0 AND ALERT(CROSS(IM,10),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\XAU”,C);
+D1:= 100;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+HHV(IM,3)>40 AND STOCH(5,3)>MOV(STOCH(5,3),3,S)
+
+Z-Score (DXY)
+Buy
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:= 500;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(CROSS(90,IM),4) AND IM< REF(IM,-1) AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+AND ROC(SEC2,2,%)>0
+Sell
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:= 500;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+
+314
+
+Intermarket Trading Strategies
+
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+LLV(IM,4)<50 AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S)
+Short
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:= 500;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG<0 AND ALERT(CROSS(IM,5),3) AND IM> REF(IM,-1)
+AND STOCH(5,3)<MOV(STOCH(5,3),3,S) AND ROC(SEC2,2,%)<0
+Cover
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=500;
+r:=Correl(SEC2,C,D1,0);
+Z1:=(C-Mov(C,D1,S))/Stdev(C,D1);
+Z2:=(SEC2-Mov(SEC2,D1,S))/Stdev(SEC2,D1);
+ZDIV:=(Z2∗ r/Abs(r)-Z1)∗ Abs(r);
+diverg:=Mov(ZDIV,3,E);;
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+HHV(IM,3)>50 AND STOCH(5,3)>MOV(STOCH(5,3),3,S)
+
+Multiple Regression Divergence (XAU-SLV-DXY)
+Buy
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D2:=11; {ROC DAYS}
+a:=.16;b1:=.2;b2:=.175;b3:=-.5;
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+ROC3:=ROC(SEC3,D2,%);
+
+Appendix A
+
+315
+
+PRED:=a+b1∗ ROC1+b2∗ ROC2+b3∗ ROC3;
+DIVERG1:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+DIVERG>1 AND ALERT(CROSS(70,IM),4) AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+Sell
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D2:=11; {ROC DAYS}
+a:=.16;b1:=.2;b2:=.175;b3:=-.5;
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+ROC3:=ROC(SEC3,D2,%);
+PRED:=a+b1∗ ROC1+b2∗ ROC2+b3∗ ROC3;
+DIVERG1:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+STOCH(15,3)<MOV(STOCH(15,3),5,S) AND HHV(STOCH(15,3),3)>80 AND
+LLV(IM,4)<14
+Short
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D2:=11; {ROC DAYS}
+a:=.16;b1:=.2;b2:=.175;b3:=-.5;
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+ROC3:=ROC(SEC3,D2,%);
+PRED:=a+b1∗ ROC1+b2∗ ROC2+b3∗ ROC3;
+DIVERG1:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+DIVERG<-4 AND STOCH(5,3)<MOV(STOCH(5,3),5,S)
+AND ALERT(CROSS(IM,7),4) AND IM>1.2∗ REF(IM,-2)
+
+316
+
+Intermarket Trading Strategies
+
+Cover
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC3:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D2:=11; {ROC DAYS}
+a:=.16;b1:=.2;b2:=.175;b3:=-.5;
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+ROC3:=ROC(SEC3,D2,%);
+PRED:=a+b1∗ ROC1+b2∗ ROC2+b3∗ ROC3;
+DIVERG1:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+ALERT(DIVERG>0,3) AND STOCH(5,3)>MOV(STOCH(5,3),5,S) AND HHV
+(IM,4)>60 AND IM<REF(IM,-1)
+LRS Double (SLV-DXY)
+Buy
+SEC1:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+DIVERG>0 AND ALERT(CROSS(70,IM),4) AND STOCH(5,3)>
+MOV(STOCH(5,3),3,S)
+
+Appendix A
+
+317
+
+Sell
+SEC1:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+STOCH(15,3)<MOV(STOCH(15,3),5,S) AND HHV(STOCH(15,3),3)>80 AND
+LLV(IM,4)<7
+Short
+SEC1:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300)/Mov(SEC1,300,S);s2:=Stdev(SEC2,300)/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+
+318
+
+Intermarket Trading Strategies
+
+DIVERG<-1 AND STOCH(5,3)<MOV(STOCH(5,3),5,S)
+AND ALERT(CROSS(IM,5),4) AND IM>REF(IM,-2)
+Cover
+SEC1:=Security(“C:\Metastock Data\METAS\SLV”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+ALERT(DIVERG>0,3) AND STOCH(5,3)>MOV(STOCH(5,3),5,S) AND
+HHV(IM,4)>55 AND IM<ref(IM,-1)
+LRS Double (XAU-DXY)
+Buy
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+
+Appendix A
+
+319
+
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+DIVERG>0 AND ALERT(CROSS(70,IM),4) AND
+STOCH(5,3)>MOV(STOCH(5,3),3,S)
+Sell
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+STOCH(15,3)<MOV(STOCH(15,3),5,S) AND HHV(STOCH(15,3),3)>80 AND
+LLV(IM,4)<10
+Short
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+
+320
+
+Intermarket Trading Strategies
+
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+DIVERG<-1 AND STOCH(5,3)<MOV(STOCH(5,3),5,S)
+AND ALERT(CROSS(IM,15),4) AND IM>REF(IM,-2)
+Cover
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=20;{LRS SEC1};
+D2:=30;{LRS SEC2};
+D3:=20;{LRS GOLD};
+sY:=Stdev(C,300)/Mov(C,300,S);
+s1:=Stdev(SEC1,300))/Mov(SEC1,300,S);
+s2:=Stdev(SEC2,300))/Mov(SEC2,300,S);
+rY1:=Correl(SEC1,C,300,0);
+rY2:=Correl(SEC2,C,300,0);
+r12:=Correl(SEC1,SEC2,300,0);
+rY12:=(rY1-rY2∗ r12)/Sqrt(1-r12∗ r12);
+rY21:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12);
+LRS1:=LinRegSlope(SEC1,D1)/Abs(Ref(SEC1,-D1+1))∗ 100;
+LRS2:=LinRegSlope(SEC2,D2)/Abs(Ref(SEC2,-D2+1))∗ 100;
+LRS:=LinRegSlope(C,D3)/Abs(Ref(C,-D3+1))∗ 100;
+DIVERG1:=(rY12∗ sY/s1∗ LRS1+rY21∗ sY/s2∗ LRS2-LRS)∗ 100;
+DIVERG:=Mov(DIVERG1,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,300), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+300) - LLV(DIVERG,300), 3,S));
+ALERT(DIVERG>0,3) AND STOCH(5,3)>MOV(STOCH(5,3),5,S) AND
+HHV(IM,4)>70 AND IM<ref(IM,-1)
+Regression Double (XAU-DXY)
+Buy
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+
+Appendix A
+
+321
+
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=500; {REGRESSION DAYS}
+D2:=11; {ROC DAYS}
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+sY:=Stdev(ROCY,D1);
+s1:=Stdev(ROC1,D1);s2:=Stdev(ROC2,D1);
+rY1:=Correl(ROC1,ROCY,D1,0);
+rY2:=Correl(ROC2,ROCY,D1,0);
+r12:=Correl(ROC1,ROC2,D1,0);
+b1:=(rY1-rY2∗ r12)/(1-r12∗ r12)∗ (sY/s1);
+b2:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12)∗ (sY/s2);
+a:=Mov(ROCY,D1,S)-b1∗ Mov(ROC1,D1,S)-b2∗ Mov(ROC2,D1,S);
+PRED:=a+b1∗ ROC1+b2∗ ROC2;
+DIVERG:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG,3,E);
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));
+R2:= b1∗ s1/sY∗ rY1+b2∗ s2/sY∗ rY2;
+DIVERG>1 AND ALERT(CROSS(80,IM),4) AND STOCH(5,3)>MOV
+(STOCH(5,3),3,S) and R2>.46 AND (ADX(18) <28 or LinRegSlope
+(adx(18),5)<0)
+Sell
+SEC1:=Security(“C:\Metastock Data\METAS\XAU”,C);
+SEC2:=Security(“C:\Metastock Data\METAS\DXY0”,C);
+D1:=500; {REGRESSION DAYS}
+D2:=11; {ROC DAYS}
+ROCY:=ROC(C,D2,%);
+ROC1:=ROC(SEC1,D2,%);
+ROC2:=ROC(SEC2,D2,%);
+sY:=Stdev(ROCY,D1);
+s1:=Stdev(ROC1,D1);s2:=Stdev(ROC2,D1);
+rY1:=Correl(ROC1,ROCY,D1,0);
+rY2:=Correl(ROC2,ROCY,D1,0);
+r12:=Correl(ROC1,ROC2,D1,0);
+b1:=(rY1-rY2∗ r12)/(1-r12∗ r12)∗ (sY/s1);
+b2:=(rY2-rY1∗ r12)/Sqrt(1-r12∗ r12)∗ (sY/s2);
+a:=Mov(ROCY,D1,S)-b1∗ Mov(ROC1,D1,S)-b2∗ Mov(ROC2,D1,S);
+PRED:=a+b1∗ ROC1+b2∗ ROC2;
+DIVERG:=(PRED-ROCY)∗ 10;
+DIVERG:=Mov(DIVERG,3,E);
+
+322
+
+Intermarket Trading Strategies
+
+IM:=(Mov(DIVERG - LLV(DIVERG,200), 3,S) ∗ 100)/(Mov(HHV(DIVERG,
+200) - LLV(DIVERG,200), 3,S));

@@ -1,0 +1,1392 @@
+
+63%
+9.3%
+-0.5%
+
+Trades per Year:
+
+12.6
+
+Profitable Long Trades:
+Gain/Annum Long:
+Percent Time Long:
+
+Profitable Short Trades:
+Gain/Annum Short:
+Percent Time Short:
+
+68%
+12%
+47%
+
+BUY=Ratio crosses above 102 from neutral mode
+SELL=Ratio crosses below 98 from neutral mode
+Excessive Pessismism
+
+Source: International Securities Exchange
+S
+
+D
+
+M
+2003
+
+J
+
+S
+
+D
+
+M
+2004
+
+J
+
+1875
+1800
+1725
+1650
+1575
+1500
+1425
+1350
+1275
+1200
+1125
+1050
+975
+900
+825
+750
+675
+600
+525
+
+7/16/2010=1064.9
+
+13-day / 20-day smoothing ISE Put/Call Volume
+
+J
+
+58%
+7.1%
+53.0%
+
+110
+109
+108
+107
+106
+105
+104
+103
+102
+101
+100
+99
+98
+97
+96
+95
+94
+93
+92
+
+7/16/2010=100.0
+
+Excessive Optimism
+S
+
+D
+
+M
+2005
+
+J
+
+S
+
+D
+
+M
+2006
+
+J
+
+S
+
+D
+
+M
+2007
+
+J
+
+S
+
+D
+
+M
+2008
+
+J
+
+S
+
+D
+
+M
+2009
+
+J
+
+S
+
+D
+
+M
+2010
+
+J
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.2 ISE Sentiment Index and the S&P 500 (daily: May 17, 2002–July 16, 2010)
+
+Download at www.wowebook.com
+
+100
+
+Part II Markets and Market Indicators
+
+Ken Tower, CMT, chief market strategist at Quantitative Analysis Services, Inc., uses a
+ratio of the 10-day moving average of the put/call volume to the 126-day moving average,
+roughly equivalent to a 2-week versus a 26-week moving average. Deviations between these two
+averages determine the extremes in option emotion. A high ratio suggests more put buyers than
+call buyers, indicating that the uninformed players are pessimistic. Because this ratio is a contrarian indicator, a high put/call ratio is generally favorable for the future market direction. By combining futures premium/cash ratios on the NASDAQ and S&P 500 futures with CBOE put/call
+volume, Ned Davis Research, Inc., found another superior method with excellent trade performance, as shown in Figure 7.3. This combination of contrary opinion indicators produced a 26.6%
+gain per annum when favorable and a 17.8% loss when unfavorable. It appears that option volume and futures premiums are excellent methods of measuring speculator opinion.
+Daily Data 12/31/2003- 7/19/2010
+
+S&P 500 vs. CBOE Put/Call Ratio & Futures Premiums
+When Show of Three
+Indication
+Shown
+Optimism
+(-9 to -2)
+* Neutral
+(-1 to +1)
+Pessimism
+(+2 to +9)
+Signal
+Dates:
+5/20/1982
+
+1553.08 1505.15
+
+S&P 500
+Gain/Annum
+-17.2
+12.2
+25.2
+
+% of
+Time
+18.9
+59.9
+21.2
+
+– 7/19/2010
+
+1245.04
+
+S&P 500
+Scale Right
+
+1459.68
+1325.76
+
+1575
+1500
+1425
+1350
+1275
+1200
+1125
+1050
+975
+900
+825
+750
+
+1426.63
+1406.70
+
+1374.12
+
+1217.28
+
+1273.37
+1223.60
+
+1157.76
+
+1176.84
+1137.50
+1063.23
+
+60
+65
+
+Optimism
+
+18-Day CBOE Put/Call Ratio (1)
+Log Sale Left (Inverted)
+
+70
+75
+80
+85
+90
+95
+100
+105
+110
+
+752.44
+676.53
+
+Pessimism
+
+115
+120
+
+Optimism
+
+101.4
+
+24-Day NASDAQ 100
+Perpetual/Cash Ratio (-1)
+Scale Right
+
+101.2
+101.0
+Optimism
+100.8
+100.6
+
+101.0
+
+100.4
+
+100.8
+
+100.2
+
+100.6
+
+Pessimism
+
+100.4
+
+100.0
+
+Pessimism
+
+100.2
+
+99.8
+
+100.0
+99.8
+99.6
+
+17-Day S&P 500 Perpetual/Cash Ratio (0)
+Scale Left
+
+99.4
+J
+[S585]
+
+M
+
+2004
+
+M
+
+J
+
+S
+
+N
+
+J
+
+M
+
+M
+
+J
+
+S
+
+N
+
+2005
+
+J
+
+M
+
+2006
+
+M
+
+J
+
+S
+
+N
+
+J
+
+M
+
+M
+
+J
+
+S
+
+2007
+
+N
+
+J
+
+M
+
+M
+
+J
+
+S
+
+2008
+
+N
+
+J
+
+M
+
+M
+
+J
+
+S
+
+N
+
+2009
+
+J
+
+M
+
+M
+
+J
+
+2010
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.3 Combining put/call ratios with futures premium to gauge sentiment (December 31,
+2003–July 19, 2010)
+
+Volatility and Sentiment
+Another strategy for analyzing the behavior of the uninformed market participants is looking at
+volatility. Volatility is a measure of the amount by which a security price oscillates, usually about
+
+Download at www.wowebook.com
+
+Chapter 7 Sentiment
+
+101
+
+its mean, without regard to its trend over a specified period. The most common calculation for
+volatility is the standard deviation about the mean. Historical volatility is the standard deviation
+of prices in the underlying security about its mean over some past period. The 100-day volatility,
+for example, is the amount by which a security oscillated over the past 100 days about its mean.
+Volatility is mean reverting. Therefore, when it gets out of alignment with what it has been
+on average, we can assume that it will return to its mean. As in security returns, however, this is
+not an absolute. Just as there are fat tails in the distribution of price returns, fat tails also occur in
+volatility distributions. Another common assumption is that volatility is independent of price
+return. In other words, adherents to this assumption claim that the ability to predict the volatility
+of a security will not aid in predicting the future price direction or return. Some evidence refutes
+this hypothesis. Volatility is often a measure of the anxiousness of the players in the security market, increasing as they become nervous and decreasing as they become complacent. Because the
+players act as a crowd and are often uninformed, volatility can be a predictive factor in markets.
+Let us look at some of the ways to measure volatility.
+Using Volatility to Measure Sentiment
+VIX is the exchange symbol for a percentage indicator of implied volatility in Standard & Poor’s
+500 options. Volatility in the NASDAQ Composite and the S&P 100 Index are represented by
+VXN and VXO, respectively. VIX, VXN, and VXO are traded on the CBOE as futures and
+options. Instead of measuring historical volatility, these indicators measure what is known as
+implied volatility. Historic volatility is past volatility and generally oscillates with past anxiousness. By looking at implied volatility, the analyst hopes to measure market participants’ anxiousness about the future.
+Implied volatility is a figure derived from the Black-Scholes option formula. The BlackScholes option-pricing model suggests that the price of an option is a function of the spread
+between the underlying security price and the strike price of the option, the time remaining in the
+option, the prevailing interest rate, and the volatility of the underlying security. If we know the
+price of an option, the option strike price, the price of the underlying security, the interest rate,
+and the time remaining in the options, we can calculate the only missing variable—the implied
+volatility. Thus, implied volatility is the volatility implied by the option traders in their pricing of
+the options in the marketplace. Implied as well as historic volatility correlates to some extent
+with market prices. High volatility tends to occur at periods of stress, emotion, uncertainty, fear,
+and nervousness, most often peaking at a panic bottom. On the other hand, low volatility seems
+to occur during market rises and market peaks when emotions are calm, content, and relaxed. By
+looking for extremes in implied volatility then, because implied volatility expresses the expectations of those option traders, we can determine market emotion. VIX is the most common measure of implied market volatility, and its predictive ability is demonstrated in Figure 7.4.
+
+Download at www.wowebook.com
+
+102
+
+Part II Markets and Market Indicators
+
+Daily Data 12/31/1996- 7/19/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index vs VIX Index
+1531.4
+
+1531.4
+
+1465.6
+
+1465.6
+
+1402.6
+
+1402.6
+
+1342.3
+
+1342.3
+
+1284.6
+
+1284.6
+
+1229.4
+
+1229.4
+
+1176.5
+
+1176.5
+
+1126.0
+
+1126.0
+
+1077.6
+
+1077.6
+
+1031.3
+
+1031.3
+
+986.9
+
+986.9
+
+7/19/2010 = 1071.25
+
+944.5
+
+944.5
+
+903.9
+
+903.9
+S&P 500 Gain/Annum
+
+865.1
+
+758.2
+
+%
+of time
+
+Above 28.5
+
+37.7
+
+17.3
+
+-1.7
+
+32.1
+
+-1.3
+
+50.7
+
+* Between 21.5 and 28.5
+
+725.7
+
+21.5 and Below
+
+694.5
+
+865.1
+
+VIX Index Inc
+
+Gain/
+Annum
+
+827.9
+792.3
+
+When:
+
+76.6
+
+827.9
+792.3
+758.2
+725.7
+694.5
+76.6
+
+7/19/2010 = 26.0
+
+68.8
+
+> 28.5 $10,000 becomes $21144
+
+68.8
+
+61.7
+
+< 28.5 $10,000 becomes $6840
+
+61.7
+
+55.4
+
+Buy and Hold $10,000 becomes $14462
+
+55.4
+
+49.8
+
+49.8
+
+44.7
+
+44.7
+
+Implied Volatility Index
+
+40.1
+
+40.1
+
+High Fear
+
+36.0
+
+36.0
+
+32.3
+
+32.3
+
+29.0
+
+29.0
+
+26.1
+
+26.1
+
+23.4
+
+23.4
+
+21.0
+
+21.0
+
+18.8
+
+18.8
+
+16.9
+
+16.9
+
+15.2
+
+15.2
+
+High Complacency
+
+13.6
+
+13.6
+
+12.2
+
+12.2
+
+11.0
+
+11.0
+
+9.9
+[DAY1572]
+
+9.9
+
+M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J S D M J
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+C
+
+Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 7.4 The S&P 500 and VIX (December 1996–July 2010)
+
+Combining Put/Call Ratio and Volatility
+One final method of using option data is using the CBOE put/call volume ratio for all stocks and
+the VXO, the implied volatility index for the Standard & Poor’s 100 Index, the OEX. By calculating the ratio of a 10-day moving average to a 65-day moving average for each figure to normalize the data and averaging it by summing the two calculations and dividing by two, Kaeppel
+(2004) developed an option sentiment index that signaled intermediate market turns during the
+period from January 1997 through February 2003. As with many other indicators, the long, sustained rise into 2000 was partially missed with early sell signals. Option sentiment and other
+measures of sentiment tend to work more reliably at bottoms when investors panic than during an
+advance when greed develops more slowly.
+
+Polls
+One way to measure the sentiment of market participants is simply to ask the players if they are
+bearish or bullish. Although this might appear to be the most straightforward way of gathering
+
+Download at www.wowebook.com
+
+Chapter 7 Sentiment
+
+103
+
+information about expectations, sampling problems and other biases associated with poll taking
+exist. Despite these biases, poll results, if measured over a constant time interval, can give some
+idea of the public mood. Poll results are contrary indicators because they express optimism at
+market tops and pessimism at market bottoms. Polls, thus, gather information and measure the
+sentiment of uninformed investors. Several different companies collect and publish sentiment
+information based on polls. Let us look at a few of these.
+Advisory Opinion
+Investors Intelligence (www.investorsintelligence.com), a wholly-owned U.S. subsidiary of
+Stockcube Plc, a U.K. company, located in New Rochelle, New York, provides sentiment information in its Advisory Service Sentiment survey. Since 1963, the company has read approximately 120 independent (“not affiliated with brokers or mutual funds”) investment-advisory
+newsletters every week and determined the percentage of those that are bullish, bearish, or
+expecting a correction. Intuitively, it seems that newsletter writers would be more sophisticated
+and, thus, more in tune with the market than the public they advise, but the numbers over the past
+40 years instead show a tendency to be incorrect, especially at market extremes. Thus, this survey provides information about the uninformed players and works as a contrarian indicator.
+What they have found is that when the percentage of bearish advisors is greater than 50 and the
+percentage of bullish advisors is less than 25, a buy signal occurs in the general stock market. On
+the other hand, when the percentage of bearish advisors declines below 20 and the percentage of
+bullish advisors exceeds 55–60, a sell signal occurs. They neglect showing any tests of these levels, and have derived them purely from observation of the statistics over 45+ years.
+The profitability of using this information to make trading decisions is questionable. Solt
+and Statman (1988) found no statistically significant relation between the sentiment of investment newsletters and stock returns: The raw numbers and several ways of looking at them have
+not proven to be informative in the past. Colby (2003) found no profitable results in the crossing
+of advisory data exponential moving averages between 1 and 1,000 weeks.
+However, several studies by others have shown that with certain modifications, the advisory sentiment in the past has been a somewhat reliable indicator of future stock market price
+action. A standard calculation of advisory sentiment is the ratio of the percentage of bullish advisors to the total of the percentages of bullish and bearish advisors. This is then plotted (see Figure 7.5) and the signal levels are determined. Ned Davis Research, Inc., used a ten-week simple
+moving average of this ratio and determined that a rise above 69% in the ratio resulted in a
+loss/year of 0.6%, and a decline below 53% produced a gain/year of 11.5% over the period September 18, 1970 through February 12, 2010. These are credible results.
+To improve these results, they added a monetary background component, as displayed in
+Figure 7.6. They based the monetary background on a 26-week rate of change in three-year U.S.
+Treasury bill yields and Moody’s BAA bond yields from January 1965 through February 12,
+2010, and produced a gain/annum of 13.1% versus a buy-and-hold gain of 5.8%.
+
+Download at www.wowebook.com
+
+104
+
+Part II Markets and Market Indicators
+Weekly Data 7/19/1968- 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index
+1691
+1450
+1242
+1065
+913
+
+1691
+
+Profitable Long Trades:
+96%
+Gain/Annum:
+12.1%
+Buy–Hold Gain/Annum:
+5.8%
+Latest Signal 7/16/2010 1064.48
+S = Switch into Commercial Paper
+
+1450
+1242
+1065
+913
+
+782
+
+782
+
+670
+
+670
+
+Monetary Conditions Based on 26-Week Rate of Change
+in Three-Year Treasury Note Yields)
+
+575
+493
+
+575
+493
+
+422
+
+422
+
+362
+
+362
+
+310
+
+310
+
+Monetary Positive
+Buy When Bulls/(Bulls + Bears) < 51
+Sell When Bulls/(Bulls + Bears) > 81
+
+266
+228
+
+266
+228
+
+195
+
+195
+
+167
+
+167
+
+143
+
+143
+
+123
+
+123
+
+105
+
+105
+
+90
+
+90
+77
+
+2010
+
+66
+
+2009
+
+2008
+
+2007
+
+2006
+
+2005
+
+2004
+
+2003
+
+2002
+
+2001
+
+1998
+
+1997
+
+1996
+
+1995
+
+1994
+
+1993
+
+1992
+
+1991
+
+1990
+
+1989
+
+1988
+
+1987
+
+1986
+
+1985
+
+1984
+
+1983
+
+1982
+
+1981
+
+1980
+
+1979
+
+1978
+
+1977
+
+1976
+
+1975
+
+1974
+
+1973
+
+1972
+
+1971
+
+1970
+
+1969
+
+66
+
+2000
+
+77
+
+1999
+
+Monetary Negative
+Buy When Bulls/(Bulls + Bears) < 31
+Sell When Bulls/(Bulls + Bears) > 58
+
+90
+
+90
+
+Bearish
+
+85
+
+85
+
+80
+
+80
+
+75
+
+75
+
+70
+
+70
+
+65
+
+65
+
+60
+
+60
+
+55
+
+55
+
+50
+
+50
+
+45
+
+45
+
+40
+
+40
+
+35
+
+35
+
+30
+
+30
+
+25
+
+[S502]
+
+25
+
+Bullish
+
+Bulls/(Bulls+Bears) - Dynamic Brackets
+
+Source: Investors Intelligence
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+Data source: Investors Intelligence
+FIGURE 7.5 Advisory opinion—Percentage bullish/[percentage bullish + percentage bearish] (July
+1968–July 2010)
+Weekly Data 1/08/1965- 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index
+1903
+1547
+1258
+1022
+831
+
+1903
+
+Profitable Long Trades:
+96%
+Gain/Annum:
+13.1%
+Buy Hold Gain/Annum:
+5.7%
+Latest Signal 7/16/2010 1064.88
+S = Switch into Commercial Paper
+
+1547
+1258
+1022
+831
+
+676
+
+676
+
+549
+
+549
+
+(Monetary Conditions Based on 26-Week Rate of Change
+in Treasury Yields and BAA Bond Yields)
+
+446
+
+446
+
+363
+
+363
+
+Monetary Positive
+Buy When Bulls/(Bulls + Bears) < 50
+Sell When Bulls/(Bulls + Bears) > 83
+
+295
+240
+
+295
+240
+
+195
+
+195
+
+159
+
+159
+
+129
+
+129
+
+105
+
+105
+
+Monetary Negative
+Buy When Bulls/(Bulls + Bears) < 29
+Sell When Bulls/(Bulls + Bears) > 56
+
+85
+69
+
+85
+69
+
+90
+85
+
+2010
+
+2009
+
+2008
+
+2007
+
+2006
+
+2005
+
+2004
+
+2003
+
+2002
+
+2001
+
+2000
+
+1999
+
+1998
+
+1997
+
+1996
+
+1995
+
+1994
+
+1993
+
+1992
+
+1991
+
+1990
+
+1989
+
+1988
+
+1987
+
+1986
+
+1985
+
+1984
+
+1983
+
+1982
+
+1981
+
+1980
+
+1979
+
+1978
+
+1977
+
+1976
+
+1975
+
+1974
+
+1973
+
+1972
+
+1971
+
+1970
+
+1969
+
+1968
+
+1967
+
+56
+
+1966
+
+56
+
+90
+
+Bearish
+
+85
+
+80
+
+80
+
+75
+
+75
+
+70
+
+70
+
+65
+
+65
+
+60
+
+60
+
+55
+
+55
+
+50
+
+50
+
+45
+
+45
+
+40
+
+40
+
+35
+
+35
+
+30
+25
+20
+
+30
+25
+
+Bullish
+
+20
+
+15
+[S502A]
+
+Source:
+
+Investors
+
+15
+
+Intelligence
+
+Bulls/(Bulls+Bears) - Dynamic Brackets - Using 3-Year Treasury Yields and Moody’s BAA Bond Yields
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+Data source: Investors Intelligence, Moody’s, U.S. Treasury
+FIGURE 7.6 Advisory opinion with monetary component (January 1965–July 2010)
+
+Download at www.wowebook.com
+
+105
+
+Chapter 7 Sentiment
+
+Colby (2003) also suggests that when a large percentage of advisors are bearish, market
+prices will rise. He suggests using advisory sentiment to find these periods of extreme pessimism
+by using an optimistically skewed decision rule. In this decision rule, investors take a short position whenever the percentage of bearish newsletters is greater than the 54-week exponential
+moving average of bears plus ten percentage points. Following this strategy over the 1982–2001
+period would have resulted in a net profit of 70.3% over the profits of a buy-and-hold strategy.
+American Association of Individual Investors
+The American Association of Individual Investors (AAII; www.aaii.com) compiles a daily poll
+from its 150,000 members on what they believe the stock market will do over the next six
+months. DeBondt (1993) found that the members polled by the AAII tended to forecast as though
+they expected a continuation of the past stock returns. Ned Davis Research, Inc., found that over
+the July 1987–February 2010 period, when a two-week moving average of the bullish investor
+percentage divided by the sum of the bullish and bearish percentages rose above 65.0 (that is, the
+AAII investors were too optimistic), the stock market had a tendency to decline 2.8% per annum.
+When the ratio declined below 59.5, the stock market had a tendency to rise 9.9% per annum (see
+Figure 7.7).
+Weekly Data 8/07/1987- 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index
+1483
+
+1483
+
+1340
+
+1340
+
+S&P 500 Gain/Annum
+When:
+(8/07/1987 - 7/16/2012)
+
+1210
+1094
+AAll
+Survey:
+
+988
+892
+
+Above
+
+806
+728
+
+%
+
+Annum
+
+of Time
+
+-2.8
+
+23.9
+
+4.1
+
+17.7
+
+9.2
+
+58.5
+
+65
+
+Between
+
+1094
+988
+892
+806
+
+59.5 and 65
+
+* 59.5 and Below
+
+658
+
+1210
+
+Gain/
+
+728
+658
+
+594
+
+594
+
+537
+
+537
+
+485
+
+485
+
+438
+
+438
+
+396
+
+396
+
+358
+
+358
+
+323
+
+323
+
+84
+
+292
+264
+

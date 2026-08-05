@@ -1,0 +1,563 @@
+
+Even if both options are deeply in-the-money, a call time spread in the stock option
+market should always have some value greater than zero. If volatility is very low, the
+spread should still be worth a minimum of the cost of carry on the stock between
+
+
+156 Chapter 8
+
+Figure 8-15
+
+The Effects of Changing Interest Rates on Stock Option Time Spreads
+
+Stock Price = 100; Volatility = 20%; Dividend = 0
+Time to March expiration = 6 weeks
+Time to June expiration = 19 weeks
+
+If Interest rates are... 0% 3% 6% 9% 12%
+June 100 call 4.81 §.35 §.92 6.52 7.15
+March 100 call 2.71 2.88 3.05 3.24 3.43
+Call Spread Value 2.10 2.47 2.87 3.28 3.72
+June 100 put 4.81 4.26 3.76 3.30 2.88
+March 100 put 2.71 2.53 2.37 2.21 2.06
+Put Spread Value 2.10 1.73 1.39 1.09 82
+
+The Effect of Changing Dividends on Stock Option Time Spreads
+
+Stock Price = 100; Volatility = 20%; Interest Rate = 6.00%
+Time to March expiration = 6 weeks
+Time to June expiration = 19 weeks
+
+if the quarterly dividendIs... [a] 1.00 2.00 3.00 4,00
+June 100 cali 5.92 4.84 3.82 2.97 2.26
+March 100 call 3.05 2.53 2.07 1.66 1,31
+Call Spread Value 2.87 2.28 1,75 1.31 95
+June 100 put 3.76 4.62 5.62 6.75 8.01
+March 100 put 2.37 2.84 3.37 3.96 4.62
+Put Spread Value 1.39 1.78 2.25 2.79 3.39
+
+expiration months, This is only true, however, ifa trader can carry a short stock position
+between expiration months, If a situation arises where no stock can be borrowed, the
+trader who owns a time spread may be forced to exercise his long-term option, thereby
+losing the time value associated with the option.
+
+As an example, suppose in February a company’s stock is trading at 70, when a
+tender offer is made to buy a portion of the outstanding stock at a price of 80. Ifa trader
+is long a June/March 70 call time spread, he will be assigned on the March 70 call
+because the holder of that call wants to tender his stock for sale at 80. The trader is now
+short stock and long a June 70 call. The June call should still carry some time value
+because of the interest which can be earned on the short stock to June expiration. But
+in order to carry a short stock position, the trader must deliver the stock to the exerciser
+of the March 70 call. To deliver the stock, he must borrow it from someone. Unfortu-
+nately, no one will lend stock to the trader because everyone wants to tender the stock
+for sale at the tender price of 80. Unless the trader wants to go into the market and buy
+the stock at the tender price of 80, he will be forced to exercise his June 70 call. This is
+the only method by which the trader can obtain stock for delivery to the exerciser of
+
+
+Volatility Spreads 157
+
+the March 70 call. Even though the June 70 call should in theory have some time value,
+the trader will be forced to discard the time value in order to fulfill his delivery
+obligation.
+
+In the foregoing situation, sometimes referred to as a short squeeze, a trader is
+forced to exercise calls with some time value remaining because no stock can be
+borrowed to carry a short stock position. Anyone who owns the June/March 70 call
+time spread will be forced to exercise the June 70 call, and the price of the time spread
+will collapse to zero. Note that this situation is not the same as a buy-out, where all the
+stock in a company is purchased at one price. Although a tender offer was made at 80,
+it was for only a portion of the company’s outstanding stock. When the tender is
+completed, the remaining stock will continue to trade, most likely at its pre-tender price
+of 70.
+
+DIAGONAL SPREADS
+
+A diagonal spread is similar to a time spread, except that the options have different
+exercise prices. While many diagonal spreads are executed one-to-one (one long-term
+option for each short-term option), diagonal spreads can also be ratioed, with unequal
+numbers of long and short market contracts. With the large number of variations in
+diagonal spreads, it is almost impossible to generalize about their characteristics as we
+can with backspreads, ratio vertical spreads, and long and short time spreads. Each
+diagonal spread must be analyzed separately, often using a computer, to determine the
+risks and rewards associated with the spread.
+
+There is, however, one type of diagonal spread about which we can generalize. If
+a diagonal spread is done one-to-one, and both options are of the same type and have
+approximately the same delta, the diagonal spread will act very much like a conven-
+tional time spread. An example of a such diagonal spread is shown in Figure 8-12.
+
+OTHER VARIATIONS
+
+The spreads we have thus far defined are the primary types of volatility spreads, and are
+the ones most commonly executed in the marketplace. There are, however, some
+variations of which the reader ought to be aware.
+
+A Christmas tree (also referred to as a /adder) is a term which can be applied toa
+variety of spreads. The spread usually consists of three different exercise prices where
+all options are of the same type and expire at the same time. In a long (short) call
+Christmas tree, one call is purchased (sold) at the lowest exercise price, and one call is
+sold (purchased) at each of the higher exercise prices. In a long (short) put Christmas
+tree, one put is purchased (sold) at the highest exercise price, and one put is sold
+(purchased) at each of the lower exercise prices. Christmas trees are usually delta
+neutral, but even with this restriction, there are many ways to execute the spread. Some
+examples of Christmas trees are shown in Figure 8-16.
+
+Long Christmas trees, when done delta neutral, can be thought of as particular
+types of ratio vertical spreads. Such spreads therefore increase in value if the underlying
+market either sits still or moves very slowly. Short Christmas trees can be thought of as
+
+
+158 Chapter &
+
+Figure 8-16
+Long Christmas Trees Short Christmas Trees
+long 10 March 95 calls (78) short 5 June 90 calls (81)
+short 10 March 100 calls (61) long § June 100 calls (51)
+short 10 March 105 calls (24) long § June 105 calls (36)
+long 25 June 110 puts (—75) short 50 March 110 puts (-91)
+short 25 June 100 puts (47) long 50 March 105 puts (-75)
+short 25 June 95 puts (—31} long §0 March 95 puts (-21)
+
+particular types of backspreads, and therefore increase in value with big moves in the
+underlying market.
+
+It is possible to construct a spread which has the same characteristics as a butterfly
+by purchasing a straddle (strangle) and selling a strangle (straddle) where the straddle is
+executed at an exercise price midway between the strangle’s exercise prices. All options
+must expire at the same time. Because the position wants the same outcome as a
+butterfly, it is known as an iron butterfly. Like a true butterfly, at expiration an iron
+butterfly has a minimum value of zero and a maximum value of the amount between
+exercise prices.
+
+Note that if the straddle is purchased and the strangle is sold, the position will result
+in a debit (a long iron butterfly}. Such a position will show its greatest profit at expiration
+if the underlying market finishes beyond the outside (strangle’s) exercise prices. A long
+iron butterfly is therefore equivalent to a short butterfly. If the straddle is sold and the
+strangle is purchased, the position will result in a debit (a short iron butterfly). Such a
+position will show its greatest profit at expiration if the underlying market finishes right
+at the inside (straddle’s) exercise price. A short iron butterfly is therefore equivalent to
+a long butterfly. Examples of long and short iron butterflies are shown in Figure 8-17.
+
+Another variation on a butterfly, known asa condor, can be constructed by splitting
+the inside exercise prices. Now the position consists of four options at consecutive
+exercise prices where the two outside options are purchased and the two inside options
+sold (a long condor), or the two inside options are purchased and the two outside
+options sold (a short condor). As with a butterfly, all options must be of the same type
+all calls or all puts) and expire at the same time.
+
+At expiration a condor will have its maximum value, equivalent to the amount
+between consecutive exercise prices, when the underlying contract is at or anywhere
+between the two inside exercise prices. It will be worthless whenever the underlying
+contract is outside the extreme exercise prices at expiration. Note that this is very similar
+to a butterfly, except that a condor has a maximum value over a wider range of
+underlying prices. A butterfly will achieve its maximum value at expiration at only one
+underlying price, when the underlying contract is right at the inside exercise price. For
+this reason a condor will usually have a higher value than a butterfly with approximately
+the same exercise prices. Examples of long and short condors are shown in Figure 8-18.
+
+
+Volatility Spreads
+
+159
+
+Figure 8-17
+
+Long iron Butterfiles
+
+long 10 March 100 calls (51)
+
+long 10 March 100 puts (—48)
+short 10 March 105 calls (24)
+short 10 March 95 puts (-21)
+
+long 50 June 100 calls (51)
+
+long 50 June 100 puts (-47)
+short 50 June 110 calls (23)
+short 50 June 90 puts (—17)
+
+Short Iron Butterflies
+
+short 15 June 100 calls (51)
+short 15 June 100 puts (-47)
+long 15 June 105 calls (36)
+long 15 June 95 puts (-31)
+
+short 25 March 105 calls (24)
+short 25 March 105 puts (-75)
+long 25 March 110 calls (8)
+Jong 25 March 100 puts (-48)
+
+SPREAD SENSITIVITIES
+
+Just as every individual option has a unique delta, gamma, theta, vega, and rho
+associated with it, every spread position has unique sensitivities. These numbers can
+help a trader determine beforehand how changing market conditions are likely to affect
+the spread. Before proceeding further the reader may want to review Figure 6-27, which
+summarizes the significance of the signs associated with the various option sensitivities,
+
+A trader who initiates a volatility spread is concerned primarily with the magnitude
+of movement in the underlying contract and only secondarily with the direction of
+movement. Therefore all volatility spreads will be approximately delta neutral (the
+deltas will add up to approximately zero). It is true that some volatility spreads may
+prefer movement in one direction rather than the other, but the primary consideration
+is whether movement of any type will occur. If a trader has a large positive or negative
+delta, such that directional considerations become more important than volatility
+considerations, then the position can no longer be considered a volatility spread.
+
+All spreads which are helped by movement in the underlying market have a positive
+gamma. These include backspreads, long straddles, long strangles, short butterflies, and
+short time spreads. All spreads which are hurt by movement in the underlying market
+will have a negative gamma. These include ratio vertical spreads, short straddles, short
+
+Figure 8-18
+
+Long Condors
+
+long 10 March 90 calls (93)
+short 10 March 95 calls (78)
+short 10 March 100 calls (51)
+long 10 March 105 calls (24)
+
+long 25 June 95 puts (-31)
+
+short 25 June 100 puts (~47)
+short 25 June 105 puts (-62)
+long 25 June 110 puts (-75)
+
+Short Condors
+
+short 50 March 95 puts (-21)
+long 50 March 100 puts (—48)
+long 50 March 105 puts (~75)
+short 50 March 110 puts (-91)
+
+short 5 June 90 calls (81)
+long 5 June 95 calls (67)
+long 5 June 100 cails (51)
+short § June 105 calls (36)
+
+
+
+160 Chapter 8
+
+strangles, long butterflies, and long time spreads. A trader who has a positive gamma is
+sometimes said to be Jong premiumand is hoping for a volatile market with large moves
+in the underlying contract. A trader who has a negative gamma is sometimes said to be
+short premium and is hoping for a quiet market with only small moves in the underlying
+market.
+
+Since the effect of market movement and the effect of time decay always work in
+opposite directions, any spread with a positive gamma will necessarily have a negative
+theta. Any spread with a negative gamma will necessarily have a positive theta. If market
+movement helps, the passage of time hurts. If market movement hurts, the passage of
+time helps. An option trader can’t have it both ways.
+
+Spreads which are helped by a rise in volatility have a positive vega. These include
+backspreads, long straddles, long strangles, short butterflies, and long time spreads.
+Spreads which are helped by a decline in volatility have a negative vega. These include
+ratio vertical spreads, short straddles, short strangles, long butterflies, and short time
+spreads. In theory, the vega refers to the sensitivity of a theoretical value to a change in
+the volatility of the underlying contract over the life of the option. In practice, however,
+traders tend to associate the vega with the sensitivity of an option’s price to a change in
+implied volatility. Spreads with a positive vega will be helped (hurt) by any increase
+(decrease) in implied volatility. Spreads with a negative vega will be helped (hurt) by
+any decrease (increase) in implied volatility.
+
+The delta, gamma, theta, and vega associated with the primary types of volatility
+spreads are summarized in Figure 8-19. Since the delta of a volatility spread is assumed
+to be approximately zero, and since the theta is always of opposite sign to the gamma
+but of similar magnitude, we can place every volatility spread into one of four categories
+based on the sign of the gamma and vega associated with the spread:
+
+Category Gamma Vega
+Backspread Positive Positive
+Ratio Vertical Spread Negative Negative
+Long Time Spread Negative Positive
+Short Time Spread Positive Negative
+
+If a trader is approximately delta neutral—no matter how complex the position,
+even if it includes options of different types, at many different exercise prices, and with
+several different expiration dates—he can always place the position in one of these four
+general categories based on the gamma and vega of the position. The extent to which
+he is pursuing one of these strategies will depend on the magnitude of the gamma and
+vega. A trader with a gamma of —100 and vega of +200 would describe his position as
+along time spread, but not nearly to the degree of a trader who has a gamma of -1500
+and a vega of +3000.
+
+Figure 8-20 is an evaluation table with the theoretical value, delta, gamma, theta,
+and vega of several different options. Following this table are examples of volatility
+spreads of the types discussed in this chapter, along with their total delta, gamma, theta,
+and vega. (Although the examples in Figure 8-20 are based on futures options, the
+
+
+Volatility Spreads 161
+
+Figure 8-19: Characteristics of Volatility Spreads
+
+Spread Type Delta Gamma Theta Vega
+Position Position Position Position
+Backspread 0 + - +
+Long Straddle 0 + - +
+Long Strangle 9 + - +
+Short Butterfly 0 + - +
+Ratio Vertical Spread 0 - + ~
+Short Straddle ie) - + _
+Short Strangle 9 - + ~
+Long Butterfly ce] - + -~
+Long Time Spread 0 ~ + +
+Short Time Spread 0 + - -
+
+spread characteristics are equally valid for stock options.) The reader will see that each
+spread does indeed have the positive or negative sensitivities summarized in Figure
+8-19. Note also that a volatility spread need not be exactly delta neutral. (Indeed, as we
+saw in Chapter 6, no trader can say with any certainty whether he is delta neutral.) A
+practical guide is for the delta to be close enough to zero so that the volatility
+considerations are more important than the directional considerations.
+
+Note that no price is given for any of the option contracts in Figure 8-20, and
+therefore no theoretical edge can be calculated for any of the spreads. The prices at
+which a spread is executed may be good or bad, resulting in a positive or negative
+theoretical edge. But once the spread has heen established, the market conditions which
+will help or hurt the spread are determined by its type, not by the initial prices. Like all
+traders, option traders must not let their previous trading activity affect their current
+judgement. A trader’s primary concern ought never be what happened yesterday, but
+what he can do today to make the most of the current situation, whether that means
+maximizing his potential profit or minimizing his potential loss.
+
+CHOOSING AN APPROPRIATE STRATEGY
+
+With so many spreads available, how do we know which type of spread is best? First
+and foremost we will want to choose spreads which have a positive theoretical edge to
+ensure that if we are right about market conditions we can be confident of showing a
+profit. Ideally, we would like to construct a spread by purchasing options which are
+underpriced and selling options which are overpriced. If we can do this the resulting
+spread, whatever its type, will always have a positive theoretical edge.
+
+More often, however, our opinion about volatility will result in all options appear-
+ing either underpriced or overpriced. When this happens, it will be impossible to both
+
+
+Chapter 8
+
+‘aoud ewes ayy ye Gulpesy ese sPRIUON sainjyny Yjoq yeu] oWNSsE eM Apolduuts 104 ,
+
+eek: HELO s3@ sZ- Ott eel ee bOo— Se &% os'h
+lac 6bio— OE co- 992 Leo 0g FO"— oe 9¢ L£L™
+pe? 99 10'— Ze Lb- Lp bea 9910°— ce 13°) Zp
+600° ISbo- 6% be- soz 600 OF LO"— 6% 29 srl
+pst EELO— SY ZI- St pst o0600'— 2S 18 26°01
+eBaa eyul Buulues e11°q anjeaA eben eyOUuL puuwey &3/9q OnleA
+feonaio3yL feopasoey
+sind Ss11vVv9
+%00'9 = OyeY Sas} ul] %0'0% = ANNEIOA SYSOM 6} = UOHEIdXe 0} OWL
+sso’ colo’— ard bé- 9FOL sso velo ee 8 9c
+ZOV ovzo'— oF Sl- Ache) ZOl oszo"— oP be so"
+vel ebeo— 8s gb- 897 bel eleo— 8s Is 69%
+OO" cE20"— op Lo- se oor bezo- ev BL ces
+Oro’ 0600"— Zh i ras ovo’ 6900°— Zh €6 OLOb
+eBean eyUL euwer e}/9q anjeA eBon eyeuL euler 2/90 anjeA
+JeopaioayL [eopas004]
+slnd s11v9
+
+%00'9 = SEY }SO19}U|
+
+%0'0S = AWREIOA
+
+SYOOM 9 = UONBIIdXY 0} Stu
+
+ObL unr
+sol unr
+oor unr
+g6 unt
+06 unr
+
+989d
+9$/010x4
+
+0000} =sainjng aunr
+
+OLL JEW
+sol Jen
+oo} JEW
+96 Jey
+06 JEW
+
+89Ud
+es|qexg
+
+00°00} = Sainng Yyoeyy
+
+e661 Areniqe4 ¢
+
+speaids Ayyneloa Jo sejdwexg :oz-8 aunbi4
+
+162
+
+
+Volatility Spreads
+
+163
+
+Figure 8-20: Examples of Volatility Spreads (continued)
+
+CALL BACKSPREAD: Long more calls than short; all calls expiring at the same time.
+
+Long 30 March 105 calls
+Short 10 March 95 calls
+
+Long 25 Jun 110 calls
+Short 10 Jun 100 calls
+
+PUT BACKSPREAD: Long more puts than short;
+
+Long 80 March 90 puts
+Short 10 March 100 puts
+
+Long 45 June 95 puts
+Short 30 June 100 puts
+
+Deita Gamma Theta Vega
+Position Position Position Position
++380 x 24 +30 x 4.6 +30 x-.0250 430 x .107
+~10 x 78 -10x43  -10x-—0221 -10x.100
+
+-60 +95.0 ~-.9710 +2,210
+425 x 23 4265x2,5 +25x —0132 +26 .182
+-10 x51 -10x3.2 -10x-~.0166 -10x.234
+
++65 +30.5 —.1640 +2,.210
+all puts expinng at the same time.
+
+Delta Gamma Theta Vega
+Position Position Position Position
++80 x -6 +80 x 1.7 +480 x -.0090 +80 x .040
+
+~-10 x -48 -10x58 -10 x -0313 -10 x .134
+0 +78.0 ~-.4070 +1.860
+
++45 x -31 +45x29 445 x -0151 +45 x .209
+
+~30 x -47 ~30 x 3.2 —30 x -.0166 -30 x .234
++15 +34.5 —1815 +2.385
+
+CALL RATIO VERTICAL SPREAD: Short more calls than long; all calls expiring at the same time.
+
+Long 20 March 95 calls
+Short 30 March 100 calls
+
+Long 10 June $0 calls
+Short 20 June 105 calls
+
+Delta Gamma Theta Vega
+Position Position Position Positlon
+420 x 78 +20 x 4.3 +20 x ~.0221 +20 x .100
+-30 x51 -30 x 5.8 —30 x-.0313 -30x.134
+
++30 -88.0 +.4970 2.020
++10 x 81 +1021 +10 x—,0090 +10 x 154
+—20 x 36 -20 x 3.0 720 x-.0160 -—20x.221
+
++90 -~39.0 +.2300 ~2.880
+
+PUT RATIO VERTICAL SPREAD: Short more puts than long; all puts expiring at the same time.
+
+Long 20 March 95 puts
+Short 60 March 90 puts
+
+Long 15 June 105 puts
+Short 20 June 100 puts
+
+Deita Gamma Theta Vega
+Position Position Position Position
++20 x-21 420x 4.3 +20x-.0232 +20 .100
+—60 x -6 -60x1.7  -—60x-.0090 -60x.040
+—60 16.0 +.0760 -400
++15 x-62 +18* 3.0 +15 x -.0149 +15 x 221
+=20 x47 -20x3.2  -20x-0166 -20x.234
+
++10 -19.0 +.1085 -1.365
+
+
+
+164 Chapter 8
+
+Figure 8-20: Examples of Volatility Spreads (continued)
+
+LONG STRADDLE: Long calls and puts with the same expiration date and exercise price.
+
+Deita Gamma Theta Vega
+Position Position Position Position
+Long 10 March 100 calls +10 x +51 +10 x 5.8 +10x-.0313 +10 .134
+Long 10 March 100 puts +10 x -48 +10 x 5.8 +10 x-.0313 410 x .134
++30 +116.0 ~.6260 +2.680
+Long 10 June 95 calls +10 x +67 +10 x 2.9 +10 x —0140 +10 x .209
+Long 25 June 95 puts +25 x -31 +25 x 2.9 +25 x-.0151 +25 x .209
+—105 +1015 -.5175 4+7.315
+
+SHORT STRADDLE: Short cails and puts with the same expiration date and exercise price.
+
+Deita Gamma Theta Vega
+Position Position Position Position
+
+Short 30 March 105 calls ~30 x +24 ~30 x 4.6 ~30 x-.0250 -30x.107
+
+Short 10 March 105 puts —10 x—75 -10x 4.6 —10x-.0240 -10x.107
++30 -184.0 +.9900 ~4,280
+
+Short 20 June 100 calis -20 x +81 -20 x 3.2 —20 x -—0166 -20 x .234
+
+Short 20 June 100 puts -20 x 47 -20 x 3.2 ~20 x -.0166 -20 x .234
+80 -128.0 +.6640 +9.36
+
+LONG STRANGLE: Long calls and puts with the same expiration date but different exercise
+prices.
+
+Delta Gamma Theta Vega
+
+Position Position Position Position
+
+Long 20 March 105 calls +20 x +24 +20 x 4.6 420 x-.0250 +420 x .107
+
+Long 20 March 95 puts +20 x -21 +20 x 4.3 +20 x —.0232 +20 x .100
++60 +178.0 -.9640 44.140
+
+Long 30 June 110 calls +30 x +23 +30 x 2.5 +30 x -.0132 +30 x 182
+
+Long 15 June 100 puts +15 x47 +15x3.2 +15x—0166 +15 234
+—15 +123.0 —.6450 +8.970
+
+SHORT STRANGLE: Short calls and puts with the same expiration date but different exercise
+Prices.
+
+Deita Gamma Theta Vega
+Position Position Position Position
+Short 30 March 110 calls —30 x +8 -30 x 2.3 -30 x-.0124 -30x.055
+Short 40 March 90 puts -40 x -6 -40x1.7 —40x-.0090 -40x.040
+0 ~-137.0 +.7320 3.250
+Short 10 June 95 calls -10 x +67 -10x2.9 —10x-0140 -10x.209
+Short 10 June 105 puts -10 x -62 -10 x 3.0 -10x-.0149 -—10x.221
+
+50 -69.0 +.2890 —4.300
+
+
+
+Volatility Spreads 165
+
+Figure 8-20: Examples of Volatility Spreads (continued)
+
+LONG BUTTERFLY: Short two options at the same exercise price, and long one option with
+an immediately higher exercise price and one option with an immediately lower exercise price;
+all options are of the same type and expire at the same time.
+
+Deita Gamma Theta Vega
+Position Position Position Position
+Long 10 March 95 calls +10 x 78 10x43 +10x-0221 +10x.100
+Short 20 March 100 calls —20 x 84 -20x5.8 ~-20x -.03139 -20x.134
+Long 10 March 105 calls +10 x 24 +10 x 4.6 +10x-.0250 +10x.107
+Q -27.0 +,.1850 —.610
+Long 30 June 90 puts +80 x-17 +30 x 2.1 +80 x~0111 +80 154
+Short 60 June 95 puts -60 x-31 -60x2.9 -60x-.0151 -60~x,.209
+Long 30 June 100 puts +30 x -47 +80x3.2 -30x-0166 +30x.234
+-60 ~15.0 +.0780 -.900

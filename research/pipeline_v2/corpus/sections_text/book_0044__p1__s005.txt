@@ -1,0 +1,578 @@
+
+43
+
+
+44
+
+THE LANGUAGE OF INVESTING
+
+Assets
+
+Cash 10
++ Accounts receivable 0
++ Inventory 20
++ Net PP&E 70
+= Total Assets 100
+Liabilities
+
+Accounts payable 0
+
+Long-term debt 100
+Equity
+
+Retained earnings
+Depreciation expense
+
+Total Liabilities & Equity 100
+
+Figure 4.2 Simple balance sheet for Mike's hat dag stand. Source: Morningstar, Inc.
+
+IIL. Sells 30 hot dogs at $1 piece ($10 worth of
+inventory), with $7 worth being sold on credit
+(cash not received yet)
+
+ASSETS Before Change After
+Cash 10 +23 33
+Accounts receivable 0 +7 7
+Inventory 20 10 10
+
+In the middle of the day, Mike runs out of buns, so he has to run over to
+the corner grocery store to buy more. But when he arrives, he realizes he left
+his money back at the stand, so he promises the grocer he'll come back with
+the money on Monday when the hot dog biz slows down. We post $5 to ac-
+counts payable, which is money that Mike owes to the grocery store for the
+buns. (Think of accounts payable like your credit card. If you buy a shirt ora
+stereo on your Visa, you can use it right away—but you still owe the credit
+
+card issuer some cash.)
+
+
+PRACTICAL FINANCIALS—-THE STATEMENTS IN USE
+
+IV. Buys $5 worth of buns on credit
+
+ASSETS Before Change — After
+Cash 33 ° 33
+Inventory 10 +5 IS
+LIABILITIES
+
+Accounts payable ° +5 5
+
+At the end of the second day, Mike realizes that his tongs aren’t working as
+well as they used to, and it’s taking him longer to grill each hot dog. The ac-
+counting name for this wear-and-tear is depreciation, which lets us record the
+fact that Mike’s equipment isn’t as productive as it used to be. (In the real
+world, depreciation isn’t recorded at the moment something starts wearing out.
+It’s actually a regular charge that assumes that an asset wears out over a set time
+period—as long as forty years for a building, and as short as three years for a
+computer.) Depreciation is a cost of doing business, just like buying hot dogs
+and buns, because Mike will eventually have to buy another set of tongs if he
+wants to stay in business. Because all costs have to be recorded—accounting is
+funny that way—we post $1 to depreciation.
+
+V. Records wear and tear on tongs
+
+ASSETS Before Change After
+Net PP&E 70 -I 69
+
+After a long day of serving up delicious dogs to parade-goers, Mike’s in-
+come statement is shown in Figure 4.3.
+
+And his balance sheet is shown in Figure 4.4.
+
+The eagle-eyed reader will notice that although Mike’s net profit was $19,
+his cash account went up by 23—from $10 to $33—on his personal balance
+sheet. Why the difference? Let’s find out by developing a statement of cash
+flows from the income statement and balance sheet information that we
+have available. By following this example, you'll see into the heart and soul
+of accounting.
+
+To understand how much cash Mike’s little business generated, we start
+
+with his $19 in net profits, which is the difference between what he paid for
+
+4S
+
+
+46
+
+THE LANGUAGE OF INVESTING
+
+Sales 30
+— Cost of goods sald 10
+— Depreciation 1
+= Net Profit 19
+
+Figure 4.3. Simple Incame statement for Mike's hat dag stand. Source: Morningstar, Inc.
+
+the hot dogs, buns, and condiments, and what he received in payment for the
+hot dogs. But to arrive at the cash profits, we first need to add back the $1 in
+depreciation. You see, although we need to keep track of the expense that
+Mike incurred by partially wearing out his grilling tongs—remember, ac-
+counting is all about keeping score—Mike didn’t have to pay out $1 in cash to
+cover the wear and tear. He'll have to replace the tongs eventually, but as yet,
+he still has his slightly worn-out pair, and he hasn't laid out any green to fix it.
+
+This is the critical difference between accounting profits and cash profits—
+
+accounting profits match revenues (hot dogs sold) with expenses (a worn-out
+
+Assets Original Final
+Cash 10 33
++ Accounts receivable 0 7
++ Inventory 20 15
++ Net PP&E 70 69
+= Total Assets 100 124
+Liabilities Original Final
+Accaunts payable 0 5
+Long-term debt 100 100
+Equity Original Final
+Retained earnings 0 20
+Depreciation expense 0 =|
+Total Liabilities & Equity 100 124
+
+Figure 4.4 Balance sheet for Mike's hat dag stand. Source: Morningstar, Inc.
+
+
+PRACTICAL FINANCIALS—-THE STATEMENTS IN USE
+
+set of grilling tongs) as closely as possible, whereas cash profits measure only
+the actual dollar bills flowing into and out of a business.
+
+Next, we need to take into account the fact that Mike used up half his
+original inventory of hot dogs and buns, as well as the fact that he went out
+and bought an additional $5 worth of buns. His inventory went from $20, to
+$10, and back to $15. This net decrease in inventory from $20 to $15 is a source
+of cash. In other words, Mike had $20 of capital tied up in inventory at the
+start of the weekend, but now he has only $15 of capital invested in inventory.
+Asa result, he converted $5 in inventory to $5 in cash.
+
+However, Mike also is owed $7 by hot dog eaters who haven't paid him yet.
+Because Mike had to pay to produce the dogs they ate and they haven't yet
+given him any cash, he’s used up some money by letting those folks nosh on his
+tasty dogs on credit. In other words, Mike paid out cash to get the ingredients
+he needed to make the hot dogs, but he hasn’t yet received any cash in return,
+so his decision to extend credit used up $7 in cash.
+
+Finally, let’s not forget that Mike himself is the beneficiary of credit because
+he still owes the grocer $5 for those extra buns he bought. Because Mike received
+something without paying out cash for it, his cash account inereases by $5.
+
+We can follow the trail from Mike’s $19 in net profits to his $23 in cash flow
+with this simple table:
+
+Net profits = $19
++ $1 depreciation
++ $10 inventory (hot dogs sold)
+— $5 inventory (extra buns purchased)
+— $7 accounts receivable (money owed to Mike)
++ $5 accounts payable (money owed by Mike)
+
+= $23 in operating cash flow
+
+As you can see, the $23 in operating cash flow differs from the $19 in net
+income because of the choices Mike made in running his little business. For
+example, if Mike hadn’t let anyone buy on credit, but had the same amount
+of sales, his cash flow would have been $30 ($23 plus $7). Conversely, if the
+grocer had forced Mike to pay cash for those extra buns, Mike’s cash flow
+would have been $18 ($23 minus $5.) In both cases, however, Mike’s net prof-
+
+its would have remained $19.
+
+AT
+
+
+48
+
+THE LANGUAGE OF INVESTING
+
+The key takeaway here is that the income statement and cash flow state-
+ment can tell different stories about a business because they're constructed
+using different sets of rules. The income statement strives to match revenues
+and expenses as closely as possible—that’s why we had to deduct the $1 in de-
+preciation from Mike’s profits, and that’s why Mike gets to record the $7 in
+sales that he made on credit. But the cash flow statement cares only about the
+dollar bills that go in and out the door, regardless of the timing of the actions
+that generated those dollar bills.
+
+If you look only at the income statement without checking to see how
+much cash a company is creating, you won't be getting the whole story by a
+long shot. This simple concept—the difference between accounting, profits
+and cash profits—is the key to understanding almost everything there is to
+know about how a business works, as well as how to separate great businesses
+from poor ones. In subsequent chapters, we'll move from our simple hot dog
+stand to real-world companies to learn how to analyze all three of the finan-
+cial statements in detail.
+
+Investor's Checklist: The Language of Investing
+
+> The balance sheet is like a company’s credit report because it tells you
+how much the company owns (assets) relative to what it owes (liabilities).
+
+> The income statement shows how much the company made or lost in ac-
+counting profits during a year or a quarter. Unlike the balance sheet,
+which is a snapshot of the company’s financial health at a precise moment,
+the income statement records revenues and expenses during a set period,
+such as a fiscal year.
+
+> The third key financial statement—the statement of cash flows—records
+all the cash that comes into a company and all of the cash that goes out.
+
+> Accrual accounting is a key concept for understanding financial state-
+ments. The income statement matches sales with the corresponding ex-
+penses when a service or a good is provided to the buyer, but the cash flow
+statement is concerned only with when cash is received and when it goes
+out the door.
+
+» The income statement and cash flow statement can tell different stories
+about a business because they're constructed using different sets of rules.
+
+To get the most complete picture, be sure to look at both.
+
+
+Financial Statements Explained
+
+Now THAT you have a good idea of how businesses generate cash and how
+profits are recorded on financial statements, let’s look at each of the three
+main financial statements in detail. Unfortunately, not all businesses are as
+simple as a hot dog stand, so we need to introduce some additional complex-
+ity if we want to analyze real companies. But fear not—as we walk through
+the balance sheet, income statement, and cash flow statement, we'll look at a
+few real-world companies to see what their financial statements can tell us
+about how their businesses are functioning.
+
+Wherever possible, I'll refer to excerpts from the financial statements of
+Dell and Hewlett-Packard (H-P), taken from the two firms’ 10-K filings with
+the SEC. (The Dell excerpts contain data through January 31, 2003, and the
+H-P excerpts contain data through October 31, 2002.) We'll start with the
+balance sheet, move on to the income statement, and finish with the state-
+ment of cash flows. At the start of each section, you'll see a financial state-
+ment from the originally named (and fictitious) “Acme Corporation” that
+will show you how each statement is organized.
+
+Warning: This chapter may be tough going in parts, but it’s possibly the
+
+most important chapter of the entire book, since reading financial statements
+
+
+50
+
+FINANCIAL STATEMENTS EXPLAINED
+
+is the foundation for analyzing companies. If you find yourself confused
+about a concept or getting tired, put down the book and take a break. There’s
+no rush—it'll be here when you get back!
+
+The Balance Sheet
+
+The balance sheet (see Figure 5.1)—sometimes called a “statement of finan-
+cial position’ —tells you how much a company owns (its assets), how much it
+owes (its liabilities), and the difference between the two (its equity). Equity
+represents the value of the money that shareholders have invested in the firm,
+and if that sounds odd, think of it just like your mortgage—your equity in
+your home is the home’s value minus the mortgage. Stockholders’ equity in a
+
+firm is the value of the firm’s assets minus its liabilities.
+
+ACME Corporation: Balance Sheet
+
+(In millions} 2002 2001
+
+Assets
+Current assets:
+
+Cash and cash equivalents $284 $205
+Accounts receivable 842 827
+Inventories 644 697
+Other current assets 328 369
+Total current assets $2,098 $2,099
+Investments 79 92
+Property, plant, and equipment—net 1,874 1,872
+Goodwill 633 337
+Intangible assets $0 dg
+Other assets 418 390
+Total assets $5,188 $4,869
+
+Figure 5.1 A balance sheet for the fictitious ACME Corporation. Source: Morningstar, Inc.
+
+
+THE BALANCE SHEET §1
+
+Liabilities and stockholders’ equity
+
+Current liabilities:
+
+Short-term debt AN2 458
+Accounts payable 315 251
+Payrall 137 180
+Income taxes 173 199
+Other current liabilities 449 416
+Total current liabilities $1,486 $1,503
+Long-term debt $ 713 $ 507
+Other liabilities 913 830
+Total liabilities $3,112 $2,840
+
+Stockhalders’ equity:
+
+Common stock $ 2 $ 2
+Additional paid-in capital 97 97
+Retained earnings 4,249 cretl
+Treasury stack ~|,589 -|,544
+Accumulated other comprehensive incame (loss) -683 -497
+Total stackhalders’ equity $2,076 $2,029
+Total liabilities and stackholders’ equity $5,188 $4,869
+
+Figure 5.1. (Continued).
+
+The basic equation underlying a balance sheet is:
+Assets — Liabilities = Equity
+which can also be expressed as:
+Assets = Liabilities + Equity
+
+The key thing to understand about a balance sheet is simply that it must
+
+balance at all times, hence the name. An increase in liabilities—issuing a bond,
+
+
+52
+
+FINANCIAL STATEMENTS EXPLAINED
+
+for example—causes an increase in assets—the cash received from the sale of
+the bond. Ifa firm generates huge profits that drive an increase in assets, equity
+also increases. This makes sense because the value of shareholders’ investment
+in the firm rises if that firm starts making a ton of money. Let’s go through the
+balance sheet bit by bit to get a better grasp on how it’s put together.
+
+Asset Accounts: Current Assets
+
+The accounting gods define current assets as those likely to be used up or con-
+verted into cash within one business cycle, usually defined as one year. The
+major portions of this category are cash and equivalents, short-term invest-
+
+ments, accounts receivable, and inventories.
+
+Cash and Equivalents and Short-Term Investments: These line items don’t nec-
+essarily refer to actual greenbacks sitting around in a vault but to money in
+low-risk, fairly liquid investments. “Cash and equivalents” usually contains
+money market funds or anything that can be liquidated quickly and with min-
+imal price risk, whereas “short-term investments” is similar to cash—usually,
+bonds that have less than a year to maturity and earn a higher rate of return
+than cash but would take a bit of effort to sell. In most cases, you can men-
+tally lump this in with cash when considering how much a firm has on hand
+
+to meet an immediate need.
+
+Accounts Receivable: As we saw in the hot dog example, accounts receivable
+are bills that the company hasn’t yet collected but for which it expects to re-
+ceive payment soon. Watch how this account changes relative to the com-
+pany’s sales—if accounts receivable are rising much faster than sales, the firm
+is booking a large amount of revenue for which it has not yet received pay-
+ment. This can be a sign of trouble because it may mean that the firm is of-
+fering looser credit terms to increase sales—remember, a firm can record a
+sale as soon as it has shipped the product—but has less likelihood of ever re-
+ceiving the cash it’s owed.
+
+In Figure 5.2, Dell looks like it was in fine shape on this front. Dell’s ac-
+counts receivable rose about 14 percent, but sales increased by the same
+amount, as we'll see later when we look at the company’s income statement.
+
+However, H-P’s accounts receivable (see Figure 5.3) took a huge jump from
+
+$4.488 billion to 8.456 billion, which was a 90 percent increase, whereas sales
+
+
+THE BALANCE SHEET 53
+
+Dell Computer Corporation: Partial Balance Sheet
+
+Assets (millions) 2003 2002
+Current assets
+
+Cash and cash equivalents $4,232 $3,641
+Short-term Investments 406 22
+Accounts receivable—net 2,586 2,269
+Inventories 306 278
+Other 1,394 1,416
+Total current assets $8,924 $7,877
+
+Figure 5.2 Dell's current assets. Source: Dell SEC filings.
+
+rose only about 25 percent. (Remember, comparing the growth rate of ac-
+counts receivable with the growth rate of sales is a good way to judge whether
+a company is doing a good job collecting the money that it’s owed by cus-
+tomers.) Although H-P’s results were somewhat distorted by its acquisition of
+Compaq during this time period, that’s still a big discrepancy. At the time,
+H-P investors would have wanted to keep an eye on accounts receivable to
+make sure that the firm collected the cash that it was owed by customers.
+You'll often see an “allowance for doubtful accounts” just after accounts
+receivable on the balance sheet. This is the company’s estimate of how much
+money it’s owed by deadbeat customers, and which it’s consequently unlikely
+to collect. For example, on H-P’s balance sheet, you can see that the firm was
+assuming that it wouldn't collect $495 million of the money that customers
+
+owed it as of October 2002.
+
+Inventories: There are several types of inventories, including raw materials
+that have not yet been made into a finished product, partially finished prod-
+ucts, and finished products that have not yet been sold. Inventories are espe-
+cially important to watch in manufacturing and retail firms, and their value
+on the balance sheet should be taken with a grain of salt. Because of the way
+inventories are accounted for, their liquidation value may very well be a far
+
+cry from their value on the balance sheet. Use your common sense when
+
+
+54
+
+FINANCIAL STATEMENTS EXPLAINED
+
+Hewlett-Packard Company and Subsidiaries: Partial Balance Sheet
+
+Assets (millions) 2002 2001
+Current assets
+
+Cash and cash equivalents $11,192 $4,197
+Short-term Investments 237 139
+Accounts receivable, net of allowance for doubtful 8,456 4,488
+
+accounts of $495 and $275 as of Octaber 31, 2002
+
+and 2001, respectively
+
+Financing receivables, net of allowance for 3,453 2,183
+doubtful accounts of $184 and $68 as af Octaber
+
+31, 2002 and 2001, respectively
+
+Inventory 5,797 5,204
+Other current assets 6,940 5,094
+Total current assets $36,075 $21,305
+
+Figure 5.3 Hewlett-Packard’s assets. Source: Hewlett-Packard SEC filings.
+
+judging this: Although a construction firm could probably get a decent price
+if it needed to sell off some extra steel girders it had lying around in inven-
+tory, a retailer that needed to sell last fall’s teen fashions would likely have to
+take pennies on the dollar.
+
+More importantly, inventories soak up capital—cash that’s been converted
+into inventory sitting in a warehouse can’t be used for anything else. The
+speed at which a company turns over its inventory can have a huge impact on
+profitability because the less time cash is tied up in inventory, the more time
+it’s available for use elsewhere. You can calculate a metric called inventory
+turnover by dividing a company’s cost of goods sold by its inventory level.
+
+For example, Dell’s cost of goods sold for 2002 was $25.6 billion (see Fig-
+ure 5.4) and inventory was $278 million (see Figure 5.2), yielding an incredi-
+ble inventory turnover rate of 92. In other words, Dell went through its
+entire inventory 92 times over the course of the year. Contrast this with H-B
+which had a cost of goods sold of $34.5 billion (see Figure 5.5) and inventory
+of $5.8 billion for 2002, yielding much lower inventory turns of just 6. As you
+
+
+THE BALANCE SHEET
+
+Dell Computer Corporation: Partial Income Statement
+
+In millions
+
+Fiscal year ending 2003 2002 2001
+Net revenue $35,404 $31,168 $31,888
+Cost of revenue 29,055 25,661 26,445
+
+Figure 5.4 Dell's revenue and cost of revenue. Source: Dell SEC filings.
+
+can see, H-P lets inventory sit around much longer than Dell, which is not a
+
+great idea when you consider how fast high-tech equipment loses its value.
+
+Asset Accounts: Noncurrent Assets
+Noncurrent assets are assets that are not expected to be converted into cash or
+used up within the reporting period. The big parts of this section are prop-
+
+erty, plant, and equipment (PP&E); investments; and intangible assets.
+
+Property, Plant, and Equipment: Vhese are long-term assets that form the in-
+frastructure of the company: land, buildings, factories, furniture, equipment,
+and so forth. Dell, for example, had about $913 million in PP&E at the end
+of 2002, whereas H-P had $6.9 billion.
+
+Hewlett-Packard: Partial Consolidated Statement of Income
+
+For the following years ended October 31
+
+In millions, except per share amounts 2002 2001 2000
+Net revenue
+
+Products $45,955 $38,005 $41,653
+Costs and expenses
+
+Cost of praducts $34,573 $28,863 $30,343
+
+Figure 5.5 Hewlett-Packard’s revenue breakdown. Source: Hewlett-Packard SEC filings.
+
+55
+
+
+56 FINANCIAL STATEMENTS EXPLAINED
+
+Dell Computer Corporation: Partial Balance Sheet
+
+Assets (millions) 2003 2002
+Property, plant, and equipment, net $ 913 $ 826
+Investments §,267 4373
+Other nancurrent assets 366 459
+Total assets $15,470 $13,535
+
+Figure 5.6 Dell's assets. Source: Dell SEC filings.
+
+If we compare these numbers to the firms’ total assets (see Figures 5.6 and
+5.7, we can get a feel for how capital-intensive the firms are—Dell’s PP&E
+makes up about 6 percent of its total assets, whereas almost 10 percent of H-P’s
+assets are in PP&E. Therefore, H-P is more capital-intensive than Dell.
+
+Investments: This is money invested in either longer term bonds or in the
+stock of other companies, ranging from a token amount to a substantial
+
+stake. It’s not nearly as liquid as cash and might be worth more or less on the
+
+Hewlett-Packard Company and Subsidiaries: Partial Balance Sheet
+
+Assets {millions} 2002 2001
+
+Property, plant, and equipment, net of accumulated $ 6,924 $ 4397
+depreciation of $5,612 and $5,411 as of Octaber
+31, 2002 and 2001, respectively
+
+Long-term financing receivables and ather assets 7,160 6,126
+Goodwill 15,089 667
+Purchased intangible assets 4.862 89
+Total assets $70,710 $32,584
+
+Figure 5.7 Hewlett-Packard's assets. Source: Hewlett-Packard SEC filings.
+
+
+THE BALANCE SHEET
+
+market than the amount shown on the balance sheet. You'll need to dig
+around in the notes to the financial statements to see what exactly is in this ac-
+count and with how much skepticism you should view its value. You can see
+in Figures 5.6 and 5.7 that H-P has no long-term investments, but Dell has a
+pretty sizeable amount—about $5.3 billion—sitting on its balance sheet. Be-
+cause that’s almost a third of Dell’s total assets, it’s definitely something youd
+want to dig into. (Turns out that Dell’s investments were mainly bonds, so
+you wouldn't need to worry too much about them—if they were equities or
+
+venture capital, you'd want to find out more about that $5.3 billion value.)
+
+Intangible Assets: The most common form of intangible assets is goodwill,
+which arises when one company acquires another. Goodwill is the differ-
+ence between the price the acquiring company pays and tangible value—or
+equity—of the target company. Essentially, goodwill represents the value of
+all of the other stuff that one company gets when it acquires another. For
+example, the majority of Coca-Cola's value is not in the firm’s buildings and
+equipment; it’s in the powerful brand that Coke has built up over the past
+several decades. If some firm were to buy Coke, it would have to pay far
+more than the book value of Coke's equity, and that extra amount is called
+goodwill.

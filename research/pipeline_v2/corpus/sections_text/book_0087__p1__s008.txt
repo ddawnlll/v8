@@ -1,0 +1,466 @@
+Bonds turns out to be 8%, then both options are overpriced; while if volatility turns out
+to be 14%, both options are underpriced. Moreover, the leverage values of the options
+may not be the same so that their sensitivity to changes in market conditions may, under
+
+
+Volatility 75
+
+some circumstances, make several 102 calls a more desirable purchase than one 98 call.
+If we ignore these considerations, in relative terms the 98 call is a better value because
+its implied volatility is lower.
+
+While option traders may at times refer to any of the four types of volatilities, two
+of these stand out in importance, the future volatility and the implied volatility. The
+future volatility of an underlying contract determines the value of options on that
+contract. The implied volatility is a reflection of each option’s price. These two numbers,
+yalue and price, are what all traders, not just option traders, are concerned with. If a
+contract has a high value and a low price, then a trader will want to be a buyer. Ifa
+contract has a low value and a high price, then a trader will want to be a seller. For an
+option trader this usually means comparing the future volatility with the implied
+volatility. If implied volatility is low with respect to the expected future volatility, a
+trader will prefer to buy options; if implied volatility is high, a trader will prefer to sell
+options. Of course, future volatility is an unknown, so we tend to look at the historical
+and forecast volatilities to help us make an intelligent guess about the future. But in the
+final analysis, it is the future volatility which determines an option’s value.
+
+To help the new trader understand the various types of volatility, consider the
+following analogy to weather forecasting. Suppose a trader living in Chicago gets up on
+a July morning and must decide what clothes to wear that day. Do you think he will
+consider putting on a parka? This is not a logical choice because he knows that
+historically itis not sufficiently cold in Chicago in July to warrant wearing a winter coat.
+Next, he might turn on the radio or television to listen to the weather forecast. The
+forecaster is predicting clear skies with temperatures around 90° (32°C). Based on this
+information, our trader has reached a decision: he will wear a short sleeve shirt with no
+sweater or jacket, and he certainly won’t need an umbrella. However, just to be sure,
+he decides to take a look out the window to see what the people outside are wearing.
+To his surprise, everyone is wearing a coat and carrying an umbrella. The people outside,
+through their clothing, are ‘mplving completely different weather. What clothes should
+the trader then wear? He must make some decision, but whom should he believe, the
+weather forecaster or the people in the street? There can be no certain answer because
+the trader will not know the future weather until the end of the day.
+
+Much depends on the trader’s knowledge of local conditions. Perhaps the trader
+lives in an area far removed from where the weather forecaster is located. Then he must
+give added weight to local conditions. On the other hand, perhaps the people in the
+street all listened to a weather forecaster who has a history of playing practical jokes.
+
+The decision on what clothes to wear, just like every trading decision, depends on
+a great many factors. Not only must the decision be made on the basis of the best
+available information, but the decision must also be made with consideration for the
+possibility of error. What are the benefits of being right? What are the consequences of
+being wrong? If a trader fails to take an umbrella and it rains, that may be of little
+consequence if the bus picks him up right outside his residence and drops him off right
+outside his place of work. On the other hand, if he must walk several blocks in the rain,
+he might catch the flu and be away from work for a week. The choices are never easy,
+and one can only hope to make the decision that will turn out best in the long run.
+
+
+76 Chapter 4
+
+Seasonal Volatility
+
+There is one other type of volatility with which a commodity trader may have to deal.
+Certain agricultural commodities, such as corn, soybeans, and wheat, are very sensitive
+to volatility factors arising from severe seasonal weather conditions. Such conditions
+occur especially in the summer months when drought can destroy major portions of a
+crop and catise prices to fluctuate wildly. For this reason, grains show a significant
+increase in volatility during the months of June, July, and August. Conversely, they show
+a significant decrease during the early spring months, before American planting has
+begun but after the South American crop has been harvested. Given these factors, one
+must automatically assign a higher volatility to an option contract which extends
+through the summer months. If, in February, a trader has assigned a volatility of 18% to
+a May soybean contract, he will certainly choose some higher volatility, perhaps 22%,
+for a November contract. He knows that the November contract includes the summer
+months, while the May contract does not. The effect of seasonal volatility on soybeans
+is shown in Figure 4-10.
+
+A trader who is new to options might initially question whether volatility is really
+that important. He has probably been pursuing directional strategies where volatility
+was not a consideration. It is also possible to pursue a variety of directional strategies in
+the option market. But if a trader has a thorough understanding of volatility, he has an
+additional variable with which to work. He can, in effect, approach the market from
+two directions instead of one. Many traders find it easier to work exclusively with
+
+Figure 4-10: Monthly Soybean Volatility (1980-1992)
+60
+
+507
+
+407
+
+307
+
+Annulaized Volatility (%)
+
+“NLU
+104 ee ee ae
+
+T T T
+
+T T T T T T T
+van Feb Mar Apr May = Jun Jul Aug Sep Oct Nov Dec
+
+—™ high —*- mean =& low
+Courtesy of the Chicago Board of Trade.
+
+
+
+Volatility 77
+
+volatility, rather than try to guess market direction. Moreover, volatility strategies can
+be extremely profitable and, when chosen intelligently, can even reduce a trader’s risk
+exposure. These two variables, market direction and volatility, enable an option trader
+to pursue many strategies not available to the pure stock or futures trader.
+
+Changing our assumptions about future volatility can have a dramatic effect on the
+yalue of options. To see this, look at the prices, theoretical values, and implied volatilities
+for ten-week gold options in Figure 4-11. Note the change in theoretical values as
+volatility is increased from 11% to 14% to 17%. The 360 call and put, which are
+essentially at-the-money, change by approximately 1.85 ($185) for each three-percent-
+age-point increase in volatility. While out-of-the-money options do not show as great a
+dollar change in value, in percent terms their sensitivity to a change in volatility is even
+greater. As volatility increases from 11% to 14%, the 390 call and 330 put more than
+double in value, and double again as volatility increases from 14% to 17%. A three-per-
+centage-point change in volatility over ten weeks is not at all uncommon. Indeed, the
+volatility of gold can show swings of six or seven percentage points in a relatively short
+period of time. This is evident from the historical volatility of gold shown in Figure 4-12.
+
+Given its importance, it is not surprising that the serious option trader spends a
+considerable amount of time thinking about volatility. Using his knowledge of historical,
+forecast, implied, and, in the case of agricultural commodities, seasonal volatility, he
+
+Figure 4-11
+
+3 May 1991
+
+August Gold Futures at 358.30
+Time to expiration = 10 weeks
+Interest rate = 5.50%
+
+Exerclse Settlement Implled Theoretical Value If...
+
+Price Price Volatility Vol. = 11% Vol. = 14% Vol. = 17%
+Calls
+
+330 29.20 15.36 28.27 28.84 29.69
+340 20,60 14.48 19.26 20.40 21.73
+350 13.20 13.86 11.61 13.28 15.01
+360 7.80 13.89 6.02 7.87 9.73
+370 4.20 14,00 2.62 4.20 5.88
+380 2.40 14.93 94 2.01 3.32
+390 1.40 15.93 28 86 1.75
+Puts
+
+330 1.20 15.28 .29 87 1.72
+340 2.60 14.69 117 2.31 3.64
+350 5.10 14,04 3.44 5.08 6.80
+360 9.50 13.92 7.70 9.55 11.41
+370 15.70 13.88 14.18 15.77 17.45
+380 23.70 14.57 22.40 23.47 24.78
+
+390 32.50 15.13 31.62 32.20 33.08
+
+
+
+Chapter 4
+
+78
+
+Le-Aew
+
+06-AON
+1
+
+o6-dy
+
+68-des
+
+68-/eW
+
+ge-6ny
+
+sede 28Int Ze-uer
+8
+
+SL
+
+Oe
+
+(%) AneloA pezenuuy
+
+maa
+
+Lee
+
++92
+
+82
+
+ANNIOA PIOD HoomM-Ol :Z1-p eanb1y
+
+
+
+Volatility 79
+
+must try to make an intelligent decision about future volatility. From this, he will look
+for option strategies which will be profitable when he is right, but which will not result
+in a disastrous loss when he is wrong. Because of the difficulty in predicting volatility,
+a trader must always look for strategies which will leave the greatest margin for error.
+No trader will survive very long pursuing strategies based on a future volatility estimate
+of 15% if such a strategy results in a Joss when volatility actually turns out to be 16%.
+Given the shifts that occur in volatility, a one-percentage-point margin for error is no
+margin for error at all.
+
+We have not yet concluded our discussion of volatility. But before continuing, it
+will be useful to look at option characteristics, trading strategies, and risk considerations.
+We will then be in a better position to examine volatility in greater detail.
+
+
+de 5
+
+Using an Option’s
+Theoretical Value
+
+From a theoretician’s point of view, the Black-Scholes Model represents a novel solution
+to a complex problem. The model requires a limited number of inputs and relatively
+simple mathematical calculations. These factors have made the Black-Scholes Model the
+most popular of all option pricing methods.
+
+While a trader might appreciate the elegance of the mathematics, it is still the actual
+performance of the model in the marketplace which is his primary consideration. Is it
+really possible to profit from price discrepancies between model-generated values and
+the market prices of options?
+
+To see how the model is intended to function, let us make two assumptions:
+
+1. The price distribution of an underlying contract is accurately represented by a
+lognormal distribution.
+
+2. We actually know the future volatility of an underlying contract.
+
+Clearly, the second assumption is not very realistic since we obviously don’t know the
+future. As we shall see later, the first assumption is also highly questionable. But for the
+time being, rather than focus on the assumptions in the model, we want to focus on its
+use by a trader. If we make these assumptions, and the Black-Scholes Model does indeed
+work, then we ought to be able to turn any difference between an option’s price and its
+theoretical value into a profit. How should we go about doing this?
+
+Suppose that a series of options are available on a certain futures contract with the
+following conditions:
+
+June futures price = 101.35
+Interest rate = 8.00%
+Time to June expiration = 10 weeks
+
+Suppose also that the options are subject to stock-type settlement, requiring full payment
+of the premium, as they currently are on U.S. markets.
+
+Given that we can choose any exercise price we want, and that we can choose the
+type of option we want (call or put), the only input we still need for accurate evaluation
+of options on this futures contract is volatility. Since we have made the assumption that
+we actually know the future volatility of the underlying futures contract, let’s imagine
+
+8
+
+
+82 Chapter 5
+
+that we have a crystal ball which will teil us the future volatility. When we look into
+the crystal ball we see a volatility figure of 18.3% over the next 10 weeks. Now we have
+ali the necessary inputs for theoretical evaluation, and it only remains to choose a4
+specific option.
+
+The June 100 call, being close to at-the-money, is likely to be actively traded, so
+let’s focus on that option. Feeding our inputs into the Black Model (the futures variation
+of the Black-Scholes Model), we find that the June 100 call has a theoretical value of
+3.88. When we check its price in the marketplace, we find that it is being offered at
+3.25. How can we profit from this discrepancy?
+
+Clearly, our first move will be to purchase options since they are underpriced by
+.63. Can we now walk away from the position and come back at expiration to collect
+our money?
+
+We noted in Chapter 3 that the purchase or sale of a theoretically mispriced option
+requires us to establish a hedge by taking an opposing position in the underlying
+contract. When this is done correctly, for small changes in the price of the underlying,
+the increase (decrease) in the value of the option position will exactly offset the decrease
+{increase) in the value of the opposing position in the underlying contract. Such a hedge
+is unbiased, or neutral, as to the direction of the underlying contract.
+
+The number which enables us to establish a neutral hedge under current market
+conditions is a by-product of the theoretical pricing model and is known as the hedge
+ratio or, more commonly, the delta. We will discuss the delta in greater detail in the
+next chapter, but certain characteristics will be important in our present example:
+
+1. The delta of a call option is always somewhere between 0 and 1.00.
+2. The delta of an option can change as market conditions change.
+3. An underlying contract always has a delta of 1.00.
+
+Option traders commonly drop the decimal point when discussing deltas, a
+convention which we will also follow. Therefore, the delta of a call will fall in the range
+of 0 to 100, and an underlying contract will always have a delta of 100.!
+
+Going back to our example, in order to make correct use of the option’s theoretical
+value, we also need to know the delta, in this case 57 (.57). This means that for each
+option which we purchase we must sell 57% of an underlying contract to establish an
+unbiased or neutral hedge. Since the purchase or sale of fractional futures contracts is
+not permitted, we intend to purchase 100 June 100 calls and sell 57 June futures
+contracts. This maintains the proper neutral ratio but allows us to deal in whole
+numbers of contracts. We have established the following position:
+
+Contract Contract Delta Delta Position
+Buy 100 June 100 calls 57 +5700
+Sell 57 June futures 100 -5700
+
+1. This convention originated In the U.S. stock option market where an underlying contract typically
+consisted of 100 shares of stock. It became common to equate one delta with each share of stock.
+
+
+Using an Option’s Theoretical Value 83
+
+Note that the delta position on each side of the hedge is the number of contracts
+multiplied by the contract delta, keeping in mind that the purchase of a contract is
+represented by a positive sign and the sale of a contract is represented by a negative sign.
+The option delta position is therefore +100 x 57 = +5700 and the futures position is
+-57 x 100 = -5700. When we add these two numbers together, +5700 and -5700,
+the total delta position is zero, and we say that the position is delta neutral Within a
+small range, a delta neutral position has no particular preference for either upward or
+downward movement in the underlying market. If the total delta position is a positive
+number, this indicates an upward bias; if the total delta position is a negative number,
+this indicates a downward bias,
+
+Having established a delta neutral hedge we must still deal with the fact that a
+theoretical value is based on probability. The roulette player who is able to purchase a
+roulette bet for less than its theoretical value can only expect to show a profit if he is
+allowed to play many, many times. On any one bet he will most likely lose, since there
+is only one way for him to win but 37 ways for him to lose. The same is true of our
+hedge. The odds may be on our side because we have purchased undervalued options.
+But in the short run our hedge might very well result in a loss. Is there anything we can
+do to offset the possibility of short-term bad luck?
+
+We know that in the long run the laws of probability are on our side. We can be
+fairly certain of making a profit if we are given the chance to make many bets at the
+same favorable odds. The more bets we make, the better our chances of making a profit
+identical to that predicted by the theoretical pricing model. One way to accomplish this
+is to approach the initial hedge as a continuing series of small bets. We can replicate the
+long-term probability by reassessing our position at regular intervals, and then making
+appropriate changes in the position so that each new interval represents a new bet.
+
+Suppose that one week later the price of the June futures contract has moved up
+to 102.26. At this point we can feed the new market conditions into our theoretical
+pricing model:
+
+June futures price = 102.26
+Interest rate = 8.00%
+Time to June expiration = 9 weeks
+Volatility = 18.3%
+
+Note that we have made no change in the interest rate or volatility. The theoretical
+pricing model we are using, the Black model, assumes that these two inputs remain
+constant over the life of the option. Based on the new inputs we can calculate the new
+deita for the 100 call, in this case 62. The delta position is now:
+
+Contract Contract Delta Delta Position
+Long 100 June 100 calls 62 +6200
+Short 57 June futures 100 -5700
+
+Our total delta position is now +500. This is the end of one bet, with another about to
+begin.
+
+
+84 Chapter 5
+
+Whenever we begin a new bet we are required to return to a delta neutral position,
+In our example it will be necessary to reduce our position by 500 deltas. As we shall see
+later, there are a number of different ways to do this. But to keep our present
+calculations as simple as possible we will make the necessary trades in the underlying
+futures market, since an underlying contract always has a delta of 100.
+
+Here we wish to sell off 500 deltas, and we can do this by selling 5 futures contracts.
+Our delta position is now:
+
+Contract Contract Delta Delta Position
+Long 100 June 100 calls 62 +6200
+Short 62 June futures 100 6200
+
+We are again delta neutral and about to begin a new bet. As before, ournew bet depends
+only on the volatility of the underlying futures contract, and not on its direction.
+
+The extra five futures contracts we sold were an adjustment to our position.
+Adjustments are trades which are not necessarily made for the purpose of adding to the
+theoretical edge, although they may also have that effect. Rather, they are made
+primarily to ensure that a position remains delta neutral. In our case, the sale of the five
+extra futures contracts has no effect on our theoretical edge since futures contracts have
+no theoretical value. The trade was made solely for the purpose of adjusting our hedge
+to remain delta neutral.
+
+The steps we have thus far taken illustrate the correct procedure in using an
+option’s theoretical value:
+
+1, Purchase (sell) undervalued (overvalued) options.
+2. Establish a delta neutral hedge against the underlying contract.
+3. Adjust the hedge at regular intervals to remain delta neutral.
+
+Since volatility is assumed to compound continuously, theoretical pricing models
+assume that adjustments are also made continuously, and that the hedge is being
+adjusted at every moment in time. Such continuous adjustments are not possible in the
+real world, since a trader can only trade at discrete intervals. By making adjustments at
+regular intervals, we are conforming as best we can to the principles of the theoretical
+pricing model.
+
+Using the proper procedure, how would the adjustment process look if we were to
+carry the hedge to expiration? The results are shown in Figure 5-1. In our example
+adjustments were made at weekly intervals. At the end of each interval the delta of the
+June 100 call was recalculated from the time remaining to expiration, the current price
+of the underlying futures contract, the fixed interest rate of 8.00%, and the known
+volatility of 18.3%. Note that we have not changed the volatility, even though other
+market conditions may have changed. Volatility, like interest rates, are assumed to be
+
+2. While a futures trader might talk about the theoretical value of a futures contract, from an option
+trader’s point of view the underlying contract has no theoretical value. The theoretical value is
+whatever price the trader thinks he can trade the contract at.
+
+
+Using an Option’s Theoretical Value 85
+
+‘ constant over the life of the option. In practice, a trader may, and often does, change
+his opinion about volatility.
+What will we do with our position at the end of ten weeks when the options expire?
+At that time we plan to close out the position by:
+
+1. Letting any out-of-the money options expire worthless.
+
+2. Selling any in-themoney options at parity (intrinsic value) or, equivalently,
+exercising them and offsetting them against the underlying futures contract.
+
+3. Liquidating any outstanding futures contracts at the market price.
+
+Let’s go through this procedure step by step and see what the complete results of our
+hedge were.
+
+Original Hedge: At June expiration (week 10) we can liquidate our June 100 calls by
+either selling them at 2.54, or by selling futures at 102.54 and exercising the calls. Either
+method will result in a credit of 2.54 to our account. Since we originally paid 3.25 for
+each option, we have effectively lost .71 per option, and our total loss on the options is
+100 x -—.71 = -71,00.
+
+As part of our original hedge we also sold 57 June futures at 101.35. At expiration
+we had to buy them back at 102.54, fora loss of 1.19 per contract. Our total loss on
+the futures is therefore 57 x -1.19 = -67.83. Adding this to our option loss, the total
+loss on the original hedge is -71.00 -67.83 = -138.83. This certainly does not appear
+to have been successful. We expected to make money on the hedge, and yet we have
+a sizable loss.
+
+Adjustments: The original hedge was not our only transaction. In order to remain delta
+neutral, we were forced to buy and sell futures contracts over the ten-week life of the
+option. At the end of week one we were 500 deltas long, so we had to sell 5 futures at
+
+Figure 5-1
+Total Total Interest
+Futures Delta of Delta Adjustment  Futuree on
+
+Week Price 100Cali Poeltlon In Futures Adjustment Variation Variation
+
+(0) 101.35 57 0 0 0 ie) 0
+
+1 102.26 62 +500 sell 5 5 ~51.87 —72

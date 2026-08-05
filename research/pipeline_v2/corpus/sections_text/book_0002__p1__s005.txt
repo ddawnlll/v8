@@ -1,0 +1,529 @@
+1 pip 5 USD2.50
+EUR/USD exchange rate on June 1, 2012 5 1.3000
+Note: Had the transaction been done on June 1, 2012, the exporter
+would have received €76,923 (100,000/1.3000). Hence, the exporter
+needs to hedge an amount close to €76,923.
+
+c03.indd 64
+
+03/12/12 4:32 PM
+
+The Six Major Players
+
+65
+
+Since the contract size for 1 lot on Singapore Mercantile Exchange is
+€25,000, the exporter goes long on 3 lots for EUR/USD.
+Figure 3.1 shows a hedging example for an exporter.
+Because of the hedge, Company A gained certainty of price. If the transaction was done on June 1, 2012, the exporter would have received €76,923.
+With a simple hedge done on the Singapore Mercantile Exchange, the
+EUR/USD could have strengthened or weakened 500 pips in three months,
+and the amount the exporter received would have been almost identical.
+Let’s have a look at the ﬁnal summary.
+•
+
+If goods had been transacted on June 1, 2012, the exporter would have
+received €76,923.
+• On September 1, 2012, if EUR/USD had strengthened to 1.35, the
+exporter would have received €76,852.
+• On September 1, 2012, if EUR/USD had weakened to 1.25, the exporter
+would have received €77,000.
+The hedge executed by the exporter provided less than a €100 variance
+on either side of the amount of €76,923. This hedge is important to protect
+the company’s bottom line from wild currency ﬂuctuations.
+If Company A did not enter into a hedge position on the futures
+market, it would have received either €74,074 (100,000/1.35) or €80,000
+(100,000/1.25). It is this uncertainty that causes exporters to hedge on the
+currency market.
+
+Receives USD100,000 on
+1st Sept 2012
+
+Receives goods
+on 1st Sept 2012
+
+Germany
+(Exporter)
+
+1st June 2012: EURUSD  1.3000
+
+USA
+(Importer)
+
+Exporter goes Long on 3 contracts of
+EURUSD at 1.3000 on 1st June 2012
+(Risk of EUR dollar strengthening)
+1st Sept 2012
+EURUSD  1.3500
+Hedge  500 pips  USD2.50  3 contracts
+ €2,778 (After conversion)
+Goods  €74,074 (After conversion)
+(*Conversion based on EURUSD  1.3500)
+Net  ⴙ76,852 euros
+
+1st Sept 2012
+EURUSD  1.2500
+Hedge  500 pips  USD2.50  3 contracts
+ €3,000 (After conversion)
+Goods  €80,000 (After conversion)
+(*Conversion based on EURUSD  1.2500)
+Net  ⴙ77,000 euros
+
+FIGURE 3.1 Hedging Example for an Exporter
+
+c03.indd 65
+
+03/12/12 4:32 PM
+
+66
+
+FOREX IS A GAME
+
+In summary, for exporters, the affected revenue caused by currency
+ﬂuctuations is canceled out by taking a long position in the futures market.
+
+Hedging Example for Importers
+Let’s take an example of an import company in Germany (called A) that
+has bought a container of materials worth USD100,000 from an export
+company in the United States (called B). The deal is done on June 1, 2012,
+but the payment is only settled once the goods are delivered on September
+1, 2012.
+The risk to Company A is the ﬂuctuation of the currency rate EUR/
+USD. If the euro weakens against the U.S. dollar between June 1, 2012,
+and September 1, 2012, Company A will have to pay more euros for the
+USD100,000 due to Company B, thereby affecting its bottom line.
+If the euro strengthens against the U.S. dollar in the same period,
+Company A will pay fewer euros for the USD100,000 once the exchange
+rate is taken into account.
+There is no currency risk for Company B because it is based in the
+United States and the incoming payment is made in U.S. dollars. It has
+the assurance that the amount it receives from Company A will always be
+USD100,000 regardless of when the payment is made.
+To protect itself against currency ﬂuctuations, Company A can hedge
+this risk by going short on EUR/USD on the futures market. A short position is a bet that the EUR/USD currency pair will drop.
+This position is taken on the day the deal is done, which is June 1, 2012.
+On September 1, 2012, which is the day of the cash transaction between the
+two companies, two scenarios can happen.
+Scenario 1: Euro Strengthens Against the U.S. Dollar Say
+the euro strengthens against the U.S. dollar between June 1, 2012, and
+September 1, 2012. With a stronger euro, Company A will pay fewer euros
+once the USD100,000 is converted to euros. However, it will incur a loss on
+the futures market because of its short position.
+The lower payment for the goods will be countered by the loss incurred
+on the futures market. This sum total will be almost equivalent to the sum
+paid to Company B had the transaction been done on June 1, 2012.
+Scenario 2: Euro Weakens Against the U.S. Dollar In contrast,
+say the euro weakens against the U.S. dollar between June 1, 2012, and
+September 1, 2012. With a weaker euro, Company A will pay more euros
+for the USD100,000 bill due to Company B. However, it will net a proﬁt on
+the futures market because of its short position.
+
+c03.indd 66
+
+03/12/12 4:32 PM
+
+The Six Major Players
+
+67
+
+The more euros paid out is countered by the proﬁt gained on the
+short position in the futures market. This sum total will be almost equivalent to the sum paid to Company B had the transaction been done on June
+1, 2012.
+Let’s take a look at the next sample transaction.
+Futures exchange: Singapore Mercantile Exchange
+1 lot 5 $25,000
+1 pip 5 USD2.50
+EUR/USD exchange rate on June 1, 2012 5 1.3000
+Note: Had the transaction been done on June 1, 2012, the importer
+would have paid €76,923 (100,000/1.3000). Hence, the importer needs to
+hedge an amount close to €76,923.
+Since the contract size for one lot on Singapore Mercantile Exchange
+is €25,000, the importer goes short on 3 lots for EUR/USD.
+Figure 3.2 shows a hedging example for an importer.
+Because of the hedge, Company A gained certainty of price. If the
+transaction was done on June 1, 2012, the importer would have paid
+€76,923.
+With a simple hedge done on the Singapore Mercantile Exchange, the
+EUR/USD could have strengthened or weakened 500 pips in three months
+and the amount the importer paid would have been almost identical.
+
+Pays USD100,000 on 1st Sept
+2012
+
+Europe
+(Importer)
+
+Receives USD100,000
+on 1st Sept 2012
+
+1st June 2012: EURUSD  1.3000
+
+Receives goods on 1st Sept
+2012
+
+USA
+(Exporter)
+Sends goods on 1st Sept 2012
+
+Importer goes Short on 3 contracts of
+EURUSD at 1.3000 on 1st June 2012
+(Risk of EUR dollar weakening)
+st
+1 Sept 2012
+EURUSD  1.3500
+
+Hedge  500 pips  USD2.50  3 contracts
+ €2,778 (After conversion)
+Goods  €74,074 (After conversion)
+(*Conversion based on EURUSD  1.3500)
+Net  ⴚ76,852 euros
+
+FIGURE 3.2
+
+c03.indd 67
+
+1st Sept 2012
+EURUSD  1.2500
+Hedge  500 pips  USD2.50  3 contracts
+ €3,000 (After conversion)
+Goods  €80,000 (After conversion)
+(*Conversion based on EURUSD  1.2500)
+Net  ⴚ77,000 euros
+
+Hedging Example for an Importer
+
+03/12/12 4:32 PM
+
+68
+
+FOREX IS A GAME
+
+Let’s have a look at the ﬁnal summary:
+• If goods had been transacted on June 1, 2012, the importer would have
+paid €76,923.
+• On September 1, 2012, if EUR/USD had strengthened to 1.35, the
+importer would have paid €76,852.
+• On September 1, 2012, if EUR/USD had weakened to 1.25, the importer
+would have paid €77,000.
+The hedge executed by the importer provided less than a €100 variance
+on either side of the amount of €76,923. This hedge is important to protect
+the company’s bottom line from wild currency ﬂuctuations.
+If Company A did not enter into a hedge position on the futures market,
+it would have paid either €74,074 (100,000/1.35) or €80,000 (100,000/1.25). It
+is this uncertainty that causes importers to hedge on the currency market.
+In summary, for importers, the cost of goods caused by currency ﬂuctuations is canceled out by taking a short position in the futures market.
+
+INSTITUTIONAL TRADERS
+Institutional investors in the forex market include investment and insurance companies, pension funds, endowment funds, mutual funds, and
+hedge funds. These institutions make up about 30% of all forex transactions worldwide.
+As international players on the ﬁnancial circuit, these institutions participate in the forex market for two reasons. The ﬁrst reason is to trade for
+proﬁt. The second reason is that with a global portfolio spanning several
+countries, ﬂuctuations in the forex market require the investment managers to hedge their portfolios against currency risks.
+An example of a modern-day hedge fund is FX Concepts, the world’s
+largest currency hedge fund, which manages over USD12 billion in assets
+(as of 2012). In early 2011, chairman and chief investment ofﬁcer John
+Taylor announced that its Global Currency Program earned 12.53% in 2010,
+topping the Barclay Hedge Fund Index by 2 percentage points.
+A segment of the institutional crowd that has gained rapid popularity
+in recent years is called high-frequency trading (HFT). Sometimes referred
+to as algorithmic trading, HFT aims to earn small, short-term proﬁts on a
+high number of trades.
+Institutional-level HFT is rarely conducted over the public Internet,
+due to latency issues. It generally is outsourced to an institutional-grade
+
+c03.indd 68
+
+03/12/12 4:32 PM
+
+The Six Major Players
+
+69
+
+data center. Due to the extreme necessity for speed in the execution of
+trades, most principals seek to co-locate their transaction servers at distances measured in yards of their liquidity provider’s servers. Milliseconds
+can mean the difference between success and failure in HFT.
+
+RETAIL FOREX BROKERS
+Brokers allow individuals to access the forex market by passing clients’
+orders to commercial banks or institutional trading platforms, such as
+EBS, Reuters Dealing, and HotSpot. There are two basic models of brokers: straight-through processing (STP) or market making (MM). STP
+brokers pass the entire ﬂow of their clients’ orders straight through to the
+liquidity providers behind them. These brokers get paid from the spread
+or by charging a commission on each transaction. MM brokers operate
+differently. Besides earning a spread or commission on each transaction,
+MM brokers book clients’ trades in house, which means that the brokers
+themselves become the counterparties to client trades.
+On October 31, 2011, one of the world’s largest derivatives brokers, MF
+Global, went under, becoming the seventh largest bankruptcy in U.S. history. Besides embracing a market-making model, what sealed MF Global’s
+fate was a USD6.3 billion bet on the bonds of some of Europe’s most
+indebted nations.
+As shown in this report:
+“MF Global ﬁled for bankruptcy on Monday morning in New York,
+after the Federal Reserve Bank of New York as well as the major
+exchanges suspended dealings with the broker-dealer led by Jon
+Corzine. This followed its suspension as a primary dealer by the
+New York Fed, as well as the suspension on trading by MF Global on
+the Chicago Mercantile Exchange, ICE and NYSE Life, which said
+MF Global clients were limited to liquidation-only trading.”
+Financial Services, October 31, 2011
+The market-making model of brokers carries huge risks. Proﬁts can
+soar when trades go their way, but things can turn sour very quickly when
+trades go horribly wrong. The STP model, in contrast, is a steady business
+model with no downside risk. Unlike the market-making model, proﬁts are
+not volatile because the broker itself does not act as the counterparty to
+the client’s trades. Proﬁts are made solely on the volume of trades executed
+by the clients.
+
+c03.indd 69
+
+03/12/12 4:32 PM
+
+70
+
+FOREX IS A GAME
+
+Some of the world’s largest retail forex brokers include FXCM, Oanda,
+Alpari, GFT, and FXPRIMUS.
+
+RETAIL TRADERS
+By all accounts, retail traders represent the fastest-growing segment of the
+entire forex market. One of the key factors for the explosive growth in
+recent years was the crash of 2008.
+On September 29, 2008, the Dow Jones fell a jaw-dropping 778 points
+in a single day, closing at 10365. From October 2008 to March 2009, the
+Dow continued to shed 40% of its value. The global ﬁnancial crisis caused
+decade-old institutions to go out of business, and many families saw their
+hard-earned wealth evaporate.
+The ﬁnancial crisis also triggered a massive wave of deleveraging that
+saw investors ﬂock to the safety of the U.S. dollar, Japanese yen, and Swiss
+franc. As investors in other asset classes were reeling from the crisis, traders in the forex market remained largely unscathed. One of the key elements that kept the heads of forex traders above water was the ability to
+go long or short at any time.
+This was, and continues to be, the very reason that draws thousands
+of people into the forex market daily. Today, retail forex traders account
+for about 8% of the total forex market—and still growing. According to a
+recent report by Forex Magnates on February 1, 2012, the retail forex market volume is USD217 billion daily and USD4,777 billion monthly.
+
+SUMMARY
+There are six main participants in the forex market: central banks,
+commercial banks and investment banks, multinational corporations,
+institutional traders, retail forex brokers, and retail traders.
+Central banks take part in the forex market to stabilize their respective economies. They do this in three main ways: regulating interest rates,
+regulating reserve requirement ratios, and direct intervention by buying or
+selling currencies.
+Commercial banks take part in the forex market for two reasons: to
+facilitate forex transactions for their clients and to speculate for proﬁt.
+Banks speculate by running their own proprietary trading desks. However,
+inherent risks exist when they do this. Some of the biggest trading blowups
+
+c03.indd 70
+
+03/12/12 4:32 PM
+
+The Six Major Players
+
+71
+
+in history occurred because bank traders were left unchecked when they
+took on too much risk by piling on one trading position after another.
+Three of the most notable rogue traders in history are Jerome Kerviel
+of Société Générale, Kweku Adoboli of UBS, and Bruno Iksil of JPMorgan
+Chase & Co. Through their rouge trading activities, these three men racked
+up collective losses exceeding USD10 billion.
+The repeated unfolding of such failed proprietary trading activities
+prompted American economist and former United States Federal Reserve
+chairman Paul Volcker to draw up the Volcker Rule, which is a speciﬁc section of the Dodd-Frank Wall Street Reform and Consumer Protection Act
+that restricts U.S. banks from trading speculative investments that do not
+beneﬁt their customers.
+Multinational corporations take part in the forex market primarily for
+hedging purposes. A hedge is basically a type of activity that offsets the
+risk associated with currency movements. Hedging is mostly done when
+companies receive money or pay for goods in currencies other than their
+own local currency.
+Exporters take out long positions on their currency because the risk of
+a stronger currency erodes their net proﬁt when payment is made in other
+currencies. Importers take out short positions on their currency because
+the risk of a weaker currency means they have to pay more for goods that
+are denominated in other currencies. With a simple hedge, corporations
+gain certainty of price. Doing this keeps their bottom line fairly predictable
+regardless of how the currency market moves.
+Institutional traders, forex brokers, and retail traders all trade the
+forex market for the same reason: to generate proﬁts. A segment of
+the institutional crowd that has gained rapid popularity in recent years is
+called high-frequency trading (HFT). Sometimes referred to as algorithmic trading, HFT aims to earn small, short-term proﬁts on a high number
+of trades.
+As a result of increasing demand from the retail crowd, transaction
+costs have decreased, technology offerings have improved, and valueadded services on forex brokerage ﬁrms have increased tremendously over
+the years.
+
+c03.indd 71
+
+03/12/12 4:32 PM
+
+c03.indd 72
+
+03/12/12 4:32 PM
+
+CHAPTER 4
+
+Why You Must Play
+the Game
+
+T
+
+here are many reasons why retail traders are jumping on the forex
+bandwagon at an accelerated pace. This chapter lists the top 17
+advantages. One of the biggest attractions lies in the market’s unparalleled liquidity. The forex market is the largest market in the world and is
+open 24 hours a day, 5 days a week. Traders can also go short at any time
+and take advantage of the massive leverage available, sometimes as high
+as 500:1.
+Brokers provide other advantages. Some of these advantages include
+free tools, quality resources, free practice accounts, and the beauty of starting live trading with a low capital outlay. This chapter also discusses the
+biggest advantage in trading the forex market: It gives you a ﬁrm grip on
+global ﬁnance and other asset classes because it deals with the lowest common denominator in every country: the currency.
+
+TOP 17 REASONS TO TRADE FOREX
+There are a myriad of reasons to explain why ordinary folks and fellow
+traders are jumping on board the forex market at an accelerated pace.
+Here we discuss 17 of these reasons.
+
+1. Global 24-Hour Market
+One of the biggest draws of the forex market is its 24-hour accessibility,
+Mondays to Fridays. This accessibility is possible because markets around
+the world open and close at different times to facilitate cross-border global
+
+73
+
+c04.indd 73
+
+06/12/12 2:24 PM
+
+74
+
+FOREX IS A GAME
+
+trade. Trading starts in Sydney, Australia, on Monday morning, and as the
+day goes on, more ﬁnancial markets open for business: Japan, Singapore,
+and other parts of Asia. The Middle East, Europe, and ﬁnally the Americas
+follow.
+When the U.S. market starts to close, Australia begins again, and the
+process goes on 24 hours a day until the markets close at 5 p.m. New York
+time on Friday. Today, at any point of time, there is always a major ﬁnancial center open where commercial banks, hedge funds, corporations, and
+retail traders engage in trading currencies.
+The 24-hour availability means that traders can trade virtually any time
+of the day, without waiting for markets to open. This accessibility is particularly helpful to people who hold a day job. In contrast, the stock or
+futures market is opened for about eight hours a day only.
+The next table shows the opening and closing times of the top three
+ﬁnancial markets in the world: London, New York, and Tokyo.
+
+Forex Market
+
+Tokyo open
+Tokyo close
+London open
+London close
+New York open
+New York close
+
+Greenwich Mean Time
+
+23:00
+08:00
+07:00
+16:00
+12:00
+21:00
+
+2. World’s Most Liquid Market
+The forex market today is undisputedly the largest ﬁnancial market
+in the world. According to the 2010 Triennial Survey from the Bank for
+International Settlements, the ofﬁcial forex daily turnover was already
+USD4.0 trillion.
+With such an immense amount of money in the ﬁnancial system, there
+are always ready buyers and sellers to transact any amount at any price,
+especially the currencies of the major economies. Traders never have to
+worry about the inability to exit a trade once they enter.
+Other asset classes, such as stocks, futures, options, and commodities,
+do not enjoy such massive liquidity. In fact, their illiquidity tends to restrict
+traders, especially during after hours.
+The most liquid hours of the trading cycle occur when two major ﬁnancial centers are open, such as during the period of Asia closing/Europe
+opening and Europe closing/U.S. opening.
+
+c04.indd 74
+
+06/12/12 2:24 PM
+
+Why You Must Play the Game
+
+75
+
+3. Limited Slippage
+“Slippage” is deﬁned as the difference between the expected price of a trade
+and the price the trade actually executes at. However, due to the market’s
+liquidity, slippage is almost a non-issue as most brokers honor instantaneous
+trade executions from real-time quotes that are displayed on the traders’
+screens. Slippage is inversely proportional to the volume available at each
+price level—the more volume there is, the less slippage a trader experiences.
+During normal market conditions, there is usually no slippage. The
+only time slippage becomes an issue is when economic news is released.
+Such times lead to higher volatility than usual, and slippage may occur
+when markets move too fast.
+When slippage does occur, a trader ends up paying more than the
+quoted spread. As an example, if the quoted spread for the EUR/USD is 2
+pips and the trader gets slipped an additional 2 pips, the entire cost for the
+transaction becomes 4 pips.
+
+4. Go Short Anytime
+In the United States, the Securities and Exchange Commission (SEC)
+introduced a rule that disallowed selling short in the equity market, except
+on an uptick. This rule limits traders who are able to spot opportunities in
+the market when prices fall fast.
+Such restrictions are not conﬁned to the equity market. In the futures
+market, a limit-down/limit-up rule prevents prices from moving beyond a
+certain percentage from the previous day’s settlement price. However, no
+such rules apply in the forex market. You can short a currency pair as much
+as you want at any time, without needing to wait for any upticks.
+The main reason forex traders can go short at any time is because forex
+is traded in currency pairs. This means that in every currency transaction,
+there will always be one currency that gains over another.
+As an example, when you go short on USD/CAD, you are in fact selling
+U.S. dollars and buying Canadian dollars. When you go long on USD/CAD,
+you are in fact buying U.S. dollars and selling Canadian dollars.
+Depending on how the market moves, one currency will always be losing value over the other. It is for this reason that forex traders are able to
+go short at any time.
+
+5. No Restrictions
+The forex market is considered an over-the-counter (OTC) market, where
+trading is done via an interbank network. OTC trading is the opposite of
+exchange trading, which occurs on futures exchanges or stock exchanges.
+
+c04.indd 75
+
+06/12/12 2:24 PM
+
+76
+
+FOREX IS A GAME
+
+When trading is done on an exchange, rules apply. Here’s an example:
+On August 12, 2011, four European countries—Italy, France, Spain, and
+Belgium—banned the short selling of stock in their markets to try to halt
+the precipitous plunge in value of troubled European banks. The move was
+similar to the decision made by the SEC when it banned the shorting of
+stocks in the United States during the 2008 ﬁnancial crisis.
+Such exchange-enforced rules do not apply to the forex market simply
+because, as an OTC market, forex is not traded on any exchange, and thus
+it is not governed by the rules of any exchange.
+
+6. High Leverage
+The forex market offers the highest leverage available for any ﬁnancial
+instrument. Today, brokers offer leverage as high as 500:1. This means that
+traders can control $100,000 worth of currencies with only $200. Traders
+also have the ﬂexibility to select the right amount of leverage to suit their
+style of trading.
+Leverage is essential for retail traders to make good money from forex
+trading. This is because the average daily percentage move of a major currency is less than 1%, whereas a stock can easily have a 10% price move
+on any given day. With decent leverage, you do not need to fork out a huge
+amount to trade one standard lot.
+Comparatively, high leverage is not available in the equity market. This
+means that equity traders have to fork out more margin to trade. Leverage
+is further reduced when the trader decides to short. Again, these restrictions do not exist in the forex market.

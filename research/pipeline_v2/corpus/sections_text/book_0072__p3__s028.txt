@@ -1,0 +1,758 @@
+uptrend A time when successive rallies in a security price close at levels
+higher than those achieved in previous rallies and when lows occur at
+levels higher than previous lows.
+underlying asset The stock, bond, currency, or other value that an option
+contract is derived from. All references in this book were made to stocks,
+which is the underlying asset for all options mentioned in Chapter 10.
+volatility The amount of uncertainty or risk about the size of changes in
+a security’s value. A higher volatility means that a security’s value can
+potentially be spread out over a larger range of values. This means
+that the price of the security can change dramatically over a short time
+period in either direction. Whereas a lower volatility would mean that a
+security’s value does not fluctuate dramatically, but changes in value at
+a steady pace over a period of time.
+writer The seller of an option contract; one who sells or “writes” the option.
+
+bgloss.indd 311
+
+11/2/07 1:44:43 PM
+
+bgloss.indd 312
+
+11/2/07 1:44:44 PM
+
+Index
+
+A
+Accountability, absence, 280
+Accounts
+fees, 283–284
+ownership, considerations, 279–280
+records, necessity, 293
+security, 295
+types/considerations, 277–280
+Action, taking, 305–306
+Analysis, complication, 114–115
+Analysts, ratings (fundamentals), 171–172
+Ask price, 209
+At the market, 209
+At-the-money options, time premium, 222
+At-the-money strike prices, 230
+B
+Banking, 291–292
+Bearish engulfing candle, 193
+Bearish engulfing pattern, 192–194
+Bearish pivot point patterns, 192–198
+Behavior, conditioning, 37
+Bid price, 209
+Bills, payment (banking requirement), 291
+Black candle, 186–187
+Bollinger Bands, 95–97
+application, 96–97
+calculation, 95–96
+example, 97
+overview, 95
+squeeze, 97
+technical criteria, 167
+Bottom fisher, investor example,
+262–264
+Bottom shadow, 194
+Breakeven point
+example, 264–265
+pursuit, 129–130
+usage, 27–28
+Brokerage accounts, examination, 278
+Brokers
+advice/support, 280–281
+costs/fees, 283–284
+deal, 123
+reports/records, 292–294
+security, considerations, 294–295
+selection, 277
+Bullish engulfing pattern, 187
+
+Bullish pivot point patterns, 186–192
+Business risk, 241
+Buyer/seller, relationship, 121
+Buying power, leverage, 231
+Buying pressure, measurement, 58–59
+Buy/sell decisions, 108–109
+C
+Call options, 204–207
+listing, 209
+purchase, 160
+Candles, 186–192
+chart, usage, 135
+Candlestick chart, 131
+Cash-secured put selling, 231–233
+Channel breakout, 76–77
+entry points, 77
+Channel lines, 74–78
+application, 76–77
+calculation, 74–76
+example, 77–78
+overview, 74
+Channels, downtrend (inclusion), 76
+Chart
+trader usage, 101–102
+trends, identification, 102
+Cheap stocks/options, trader attraction, 113
+Checking access, importance, 291
+Choice, power, 151
+Commissions
+comparison, 263
+examination, 283
+Company profile, usage, 290
+Computer trading, 271–272
+Conditioning, 54–55
+Confidence, building, 273–274
+Contingent order, 289
+Corporate accounts, 280
+Country risk, 242
+Covered call, 233–234
+Credit cards, requirement, 292
+Credit markets, opinions, 202
+Credit risk, 241
+Crossover indicator, 90–91
+usage, 92–93
+Crowd, imitation, 269–271
+Currency risk, 241–242
+Custodial accounts, examination, 279
+
+313
+
+bindex.indd 313
+
+11/2/07 1:45:13 PM
+
+314
+
+Index
+
+D
+Dark cloud pattern, 196–198
+Dark cloud reversal pattern, factors, 197–198
+Data
+downloading, software packages, 293–294
+interpretation, 30–31
+Doji
+candle, 189–191
+confirmation, 190
+identification, 189–190
+Dollar cost averaging
+cost averaging down, contrast, 127–128
+plan, problems, 128–129
+Dow, Charles (market theory), 51–55
+tenets, 53–54
+Dow Jones Industrial Average (DJIA // DIA), 51
+change, 52–53
+ETF (Diamonds), 21, 254
+Downtrends, 61–63
+line, construction, 61–62
+scenario, 182–183
+stock purchases, 54
+E
+Earnings
+announcement, 174
+data, 289–290
+fundamentals, 170–171
+hit/miss, 173–174
+Education, usage/importance, 15–19, 290
+Electronic communication networks (ECNs),
+usage, 4
+Emotions
+avoidance, 266
+case studies, 40–44
+consideration, 45
+discipline, shift, 246–248
+exploitation, 27
+filtration, 39
+Enron, investor experience, 170
+Entry price, identification, 255–256
+Equity, value (decrease), 12
+Exchange
+criterion, 156–157
+listing requirements, 156–157
+Exchange rate risk, 241–242
+Exchange-traded funds (ETFs), usage, 21, 253
+Exercise, assign (contrast), 214–215
+Exercise price, 206
+Expectations. See Unrealistic expectations
+Expiration date, 206, 208
+Expiration day, option worth, 223–224
+Expiration Friday, 208
+Exponential moving average (EMA), 79, 165–166
+calculation, 80
+usage, 80–81, 91
+Exponential smoothing factor (ESF), 79
+usage, 91
+F
+Fairness, element, 247
+False claims, avoidance, 266–267
+Fast line, 87
+Fear, overcoming, 36–39
+
+bindex.indd 314
+
+Federal Deposit Insurance Corporation (FDIC), 294
+Fibonacci retracement lines, 84–86
+application, 85
+calculation, 84–85
+example, 85–86
+Financial gurus
+avoidance, 8–11
+credentials, consideration, 9–10
+Financial lives, danger, 28
+Financial objectives, knowledge, 267
+Fundamentals
+examination, 32–33
+usage, 170–172
+Funding sources, 19–20
+Funds, security, 294–295
+G
+Gainers/losers, technical criteria, 167
+Gains/losses, report, 293
+Gambling tendencies, 12
+Giant-cap companies, 159
+Golden Ratio, 84
+Greed
+driver, 132
+overcoming, 36–39
+Green candle, 191, 198
+H
+Hammer
+pattern, 188
+reversal, 188
+Hanging man
+occurrence, 195
+pattern, 194–195
+High/low price, technical criteria, 164–165
+Histogram
+peak, identification, 93
+usage, 93–94
+value, 92
+I
+Index, addition/removal, 173
+Industry, criterion, 157–158
+Inflation risk, 242
+Initial public offering (IPO), 154
+stocks, examination, 160–161
+Insider trading, 175
+Interest rate risk, 241
+International Federation of Technical Analysts
+(IFTA), 135
+In-the-money options, 215
+In-the-money strike prices, 230
+Intrinsic value, 211, 212
+impact, 222
+time value, addition, 215
+Investment
+products, 281–283
+safety, existence, 240–242
+software, 284–286
+success, ingredients, 109
+J
+Jiu-jitsu trading, 180–181
+Jointly owned accounts, 280
+
+11/2/07 1:45:14 PM
+
+Index
+L
+Leading indicators, 51
+Learning, continuation, 109
+Legal news, impact, 173
+Life
+change, 302–303
+making, 301–302
+story, 303–305
+Limit order, 287
+Line charts, usage, 121–122
+Liquidity risk, 242
+Loans, banking requirement, 292
+Long calls, 227–229
+Long puts, 229–231
+Long-Term Capital Management (LTCM),
+lesson, 250
+Long-term equity anticipation security
+(LEAPS), 223
+Losing position
+doubling, 106–107
+ignoring, 274–276
+Losses
+acceptance, failure, 103–105
+allowance, risk management (impact),
+248–249
+aversion, 249
+avoidance, tendency, 103
+chasing, 13
+Lower Bollinger Band, 95
+Lower shadow, 188
+Lucent, investor experience, 170
+M
+Major index, inclusion, 161
+Market
+capitalization (market cap), 158–159
+company grouping, 159
+cooling period, 138
+fundamentals, 175
+mastery, duplication/consideration, 10–11
+mechanics, 122–126
+opinion, impact, 126
+orders, 287
+risk, 240
+stress, management, 137
+trading, identification, 22–23
+trends, identification, 253–254
+usage, 198–199
+Market makers
+cost, 125
+order completion, discretion, 124
+Market Technicians Association (MTA), 135
+Mega-cap companies, 159
+Mind
+body, tricks, 30
+set, control, 34
+Money
+addition, decision, 19–20
+examination, 269–271
+usage, difference, 302–303
+Most active stocks, technical criteria, 166–167
+Moving average convergence divergence (MACD),
+91–95, 253
+application, 92–93
+
+bindex.indd 315
+
+315
+
+calculation, 91–92
+example, 94–95
+overview, 91
+Moving averages, 65–66, 78–83
+application, 80–81
+calculation, 79–80
+example, 81–83
+overview, 78
+support, examination, 256–257
+trends, technical criteria, 165–166
+usage, advice, 81
+Mutual funds, consideration, 108
+N
+NASDAQ
+Most Actives, 166
+QQQQ (trading stock), 152–153, 253
+ETF, trading, 21
+National Association of Securities Dealers
+(NASD), 295
+National Best Bid and Offer (NBBO), 3–4
+Negative emotions (escape), trading
+(usage), 13
+Net asset value (NAV)
+determination, 21
+pricing, 282
+News
+impact, 173–175
+importance, 290
+New York Stock Exchange (NYSE)
+broker/trading activity, regulatory body, 295
+Most Actives, 166
+securities, listing, 152
+stocks, trading, 52
+trading, 23
+floor, 156
+Noise reduction, 115
+O
+Obligations, put rights (contrast), 218–219
+1% rule. See Position
+variation, 146–147
+Opening trade, execution, 259
+Options. See Call options; Put options
+chain, 209
+contract
+purchase, 222–223
+seller, relationship, 205
+cost, net profit, 225
+data, usage, 285–286
+defining, 203–204
+education, 202–203
+exercise, 213
+growth, 282
+knowledge, 201
+least intrinsic value, worth, 223–224
+positions
+closure, 213–214
+expiration, closure, 224
+pre-expiration Friday closure, 225–226
+purchase, mistake, 112–114
+quote, 207
+sample, 208–210
+shift, 22
+
+11/2/07 1:45:14 PM
+
+316
+
+Index
+
+Options. See Call options; Put options (continued )
+strategies, 221
+discussion, 236
+trading, 216
+criterion, 159–160
+usage, 202
+value, 226–227
+Options Clearing Corporation (OCC), 208
+Option-trading screen, examination, 207–208
+Orders, types, 287–289
+Out-of-the-money options, 215
+Out-of-the-money strike prices, 230
+Overanalysis, tendency, 36–37
+P
+Pain
+avoidance, 27–29
+creation, 275–276
+Paper trading, usage, 17–18
+Partnerships, fundamentals, 175
+Pending order file, 124
+Penny stocks
+purchase, application, 112–113
+trading, 282
+Piercing line
+closing price, 191
+Piercing line, reversal signal, 191–192
+Pineapple principle, 184–185
+Pink sheet, 282
+Pivot point
+concept, 181–184
+patterns, 185–186. See also Bearish pivot point
+patterns; Bullish pivot point patterns
+Port-Royal Logic, market version, 244
+Position. See Losing position
+holding, 107
+size (calculation), 1% rule (usage),
+257–259
+sizing, understanding, 24
+Premium, 207
+Pretrade analysis, understanding, 23
+Price
+channeling, 75–76
+criterion, 155–156
+importance, 262
+pattern, occurrence (psychology), 132–133
+point, usage, 71–72
+trend, stochastic trend (divergence,
+determination), 89–90
+Price-to-book (P/E) ratio,
+fundamentals, 171
+Price-to-earnings (P/E) ratio
+examination, 32
+fundamentals, 171
+Probability, misunderstanding, 244–245
+Profits, ignoring (problem), 264–265
+Profit taking, 131
+Prospect Theory, 249
+Purpose, defining, 300–302
+Put options, 217–219
+Puts. See Long puts
+cost, 218
+purchase, 229–230
+Put-selling strategy, 232
+
+bindex.indd 316
+
+Q
+QQQQ. See NASDAQ
+R
+Ranking, fundamentals, 172
+Real-time account/order status, importance, 286
+Red candle, 186–187
+Regulatory risk, 242
+Reports/records. See Brokers
+Research, usage, 289–290
+Resistance, 63–64
+line, drawing, 64
+Retail trading office
+advantages, 4
+necessity, 3
+Retirement accounts, examination, 278–279
+Revenue, fundamentals, 172
+Risk
+analysis, understanding, 23–24
+aversion, 249
+exposure, reduction, 123–124
+managers, action, 122
+Risk management, 50–51, 160, 239
+action steps, 252–259
+non-negotiability, 251
+principles, 246–252
+probability, impact, 259–260
+problem, 243–244
+stock selection, impact, 250–251
+strategy, absence, 275
+Risk per share, 258
+Risk/reward profiles, creation, 236
+Role reversal. See Trading
+defining, 126–127
+occurrence, 130
+short side, 133–135
+Role reversal pattern
+building blocks, 130–131
+formation, 134
+importance, 135–136
+S
+Sales per employee, fundamentals, 172
+Scared money, usage, 110–112
+Screening
+criteria, 154–161
+tools, importance, 285
+Sector
+criterion, 157–158
+ETF, direct trade, 255
+trends, identification, 253–254
+Securities and Exchange Commission (SEC)
+special order handling rules, initiation, 122–123
+trades, reporting, 175
+Securities Investor Protection Corporation (SIPC),
+294–295
+Self-determination, necessity, 150
+Self-directed trader, 271
+Self-regulatory organizations (SROs), 295
+Seminars, overusage (problem), 265–267
+Shooting star pattern, 195–196
+Short covering, 134
+Short selling, 133–134
+example, 133
+
+11/2/07 1:45:15 PM
+
+Index
+Short squeeze, 134
+Short-term downtrend, 186, 188
+Short-term uptrend, 193, 194
+Sideways trend, 63
+Signal line, 92
+Signal maximization, 115
+Signal-to-noise ratio, concept, 114
+Simple moving average (SMA),
+56, 165–166
+usage, 68–69, 79–81
+volatility, 83
+Slow line, 87
+Software
+applications, form, 285
+charting ability, 285
+crutches, usage, 117–118
+familiarity, 16
+screening tools, importance, 285
+Splits, announcement, 174
+Standard deviation, usage, 96
+Standard & Poor’s 500 (S&P 500) Index ETF
+(Spyders), 21–22, 253
+Start-up costs, involvement, 34–35
+Statistics, misunderstanding, 244–245
+Stepping up (action), 125
+Stochastic oscillator, 86–91
+application, 88–90
+calculation, 87
+example, 90–91
+overview, 86–87
+Stochastics, technical criteria, 168–169
+Stock market systems, opinion, 8–9
+Stocks
+appearance, 56
+channeling, 76–77
+data, importance, 286
+dynamic, 107
+emotional value, measurement, 39
+identification, 254–255
+information, usage, 105
+market, selection, 123
+price
+increase, 224, 234
+movement, reason, 101
+purchase
+example, 262–264
+requirement, absence, 213–214
+replacement strategy, 160
+shares, obtaining, 214–215
+split, 174
+support, 232–233
+trades, combination, 100–103
+trading, understanding (importance), 22
+valuation, requirement, 272
+volatility, measurement, 226–227
+Stock screening
+objective, 153–154
+reasons, 165
+technical criteria, 162–169
+understanding, 23
+Stop order, execution, 259, 287–288
+Stop price, identification, 256–257
+Stop support, 257
+Strike calls, expense, 211–212
+
+bindex.indd 317
+
+317
+
+Strike price, 206, 214
+usage, 210–211
+Students in Free Enterprise (SIFE), 303–304
+Success stories, 304–305
+Support, 63–64
+levels, identification, 276
+line, anticipation, 182
+T
+Technical analysis
+importance, 51
+skills, usage, 233
+tools, usage (advocacy), 153–154
+understanding, requirement, 249–250
+usage, 31
+Technical indicators
+comparison, 68–69
+format, 69
+predictive power, confidence (avoidance), 250
+review, 50
+Technology, advantage, 3–4
+Time, money (relationship), 212–213
+Time horizons
+defining, 8
+trading, 6–7
+understanding, 23
+Time premium, 211
+decay, 216
+Time value, 211
+Top shadow, 188, 194
+Total premium, 215
+Trade
+cap, 240
+closing, opportunity, 105–106
+control, 29–31
+diary, usage, 24–25
+entry, advice, 85
+entry, pivot point (absence), 183–184
+execution, 23–24
+piloting, comparison, 29
+understanding, 24
+fear, 267–269
+mechanics, learning, 5
+setup, 23–24
+Trader-cum-gambler personality, 11–15
+Traders
+chart, reading, 101–102
+leverage, 228–229
+mistakes, avoidance, 99
+overanalysis, 115
+shyness, 111
+stock, selection, 100
+style, avoidance, 261
+thinking, mistake, 112
+toolbox, 67
+considerations, 98
+Trading. See Jiu-jitsu trading
+account, net worth (contrast), 239
+action plan, example, 140–142
+activity, knowledge, 293
+advice, consideration, 35
+analysis, 139–144
+business, 34–35
+case studies, 40–44
+
+11/2/07 1:45:15 PM
+
+318
+
+Index
+
+Trading. See Jiu-jitsu trading (continued)
+cessation, inability, 13
+change, 2–8
+concealment, lying (usage), 13
+discipline, 144–146
+environment, deficiencies
+(accommodation), 5–6
+floors, learning environment, 5
+funds, transfer rules, 20
+gambling aspect, 11–15
+goals/objectives, 20–21
+impact, 14
+mistakes, 261
+opportunities, identification, 88
+outperformance, goal, 21
+payment, borrowing (usage), 14
+pineapple, analogy, 185
+preparation, 15–25
+problem, identification, 13–14
+products, 281–283
+education, 16–17
+profit, deletion, 104
+psychology, understanding, 17
+purpose, defining, 300–302
+role reversal, 121
+scared money, usage, 110–112
+software, 284–286
+success, ingredients, 109
+timing, 179–180
+validation, requirement, 272–274
+Trading plan
+absence, 118
+assembly, 33–34
+content, definition, 11
+continuing education, usage, 18–19
+creation, 1
+development, 6
+education, inclusion, 109
+emotion, removal, 244
+growth, 25
+Trailing stop order, 288–289
+Training, usage, 290
+Training/preparation, absence, 108–110
+Transaction history, 292–293
+
+bindex.indd 318
+
+Trendiness, advantage, 49
+Trend line, 70–74
+angle, examination, 58–59
+application, 72
+calculation, 70–72
+construction, 56–57
+example, 73–74
+observation, 193–194
+overview, 70
+robustness, 72
+unreliability, 59
+Trends
+confirmation, volume (impact), 60–61
+stock identification, 254–255
+U
+Ultimatum Game, 247
+Underlying asset, 206
+Unrealistic expectations, 116–117
+Upper Bollinger Band, 95
+Uptrends, 55–61
+calculation, 70–71
+Dow definition, 55
+V position, 181–182
+V
+Volatility, 226–227
+Volume
+bars, 163
+changes, technical criteria, 162–164
+screening tool, 163
+W
+Watch lists, requirement, 286
+Wealth, purpose, 299
+White candle, 191, 198
+Wiring/fund transfers, usage, 292
+WorldCom
+bankruptcy, 31
+investor experience, 170
+Worthless stock, IRS recognition, 7
+Writer, 214
+
+11/2/07 1:45:15 PM
+
+

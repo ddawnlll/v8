@@ -1,0 +1,476 @@
+because you are trying to sell ahead of the crowd, just below the whole number. The
+odds of getting the sell ﬁlled at 48.98 are much greater than the odds of getting it ﬁlled
+at 49.00. The opposite applies if trying to cover a short position or buy a new long entry.
+If an ETF is at 95.36 and you want to cover the short position, you would place the buy
+limit around 95.05, as opposed to below the whole number (like 94.95). Again, this
+increases the odds of getting the order ﬁlled.
+
+184
+
+Fine-Tuning Your Strategy
+
+Always Use Reward/Risk Ratios
+
+Want a really easy way to minimize your risk when trading ETFs? Then be sure you
+thoroughly understand the reward/risk ratio concept—it will both minimize your
+risks and maximize your proﬁts.
+The reward/risk ratio of any trade enables the trader to compare the potential
+upside proﬁt, if the trade moves in the anticipated direction, with the potential risk
+of capital loss, if it’s stopped out. If the downside risk outweighs the proﬁt potential,
+don’t make the trade. If the opposite is true, then proceed with your planned trade,
+especially if the reward is at least double the risk (2:1 reward/risk ratio). When trading
+ETFs, you must be constantly aware of this dynamic.
+Here is an example of how you might weigh the reward/risk ratio of a swing trade.
+Say you are holding an ETF that has already rallied many points in the course of just a
+few days, and say that the ETF has already risen more than 20 percent, from $70 per
+share to $85 per share, during the course of just three trading days. If you decide to buy
+this ETF at a price of $85, how would you say the potential reward compares to the
+downside risk of a correction in the short term? Generally speaking, the downside risk
+is much greater than the upside potential because the ETF is more likely to come down
+several percent than it is to go up several more percent, at least in the short term. You
+would be risking at least several percent on the downside in an attempt to gain a mere
+couple of extra percent on the upside. This is why you don’t want to buy ETFs that are
+too far extended away from their breakout levels.
+If, however, you entered this ETF at a price of $73, just after it broke out above
+resistance at $70, the reward/risk ratio would be much more favorable because the ETF
+would have been only $3 beyond its pivot and would likely have much more upside
+potential.
+Here is another illustration of reward/risk. Suppose you are considering buying
+an ETF that broke out to a 52-week high about a week ago and has had ﬁve consecutive days of gains since then. Therefore, it is sitting at its new 52-week high, rather
+than consolidating in a sideways range. Also, in a slightly different scenario, you are
+considering buying an ETF that has already broken out to a 52-week high, eating up
+all overhead supply, but is now consolidating in a tight, sideways range. In the short
+term, all other factors being equal, which one of these two trades do you think would
+have the better reward/risk ratio? If you chose the second example, you are correct.
+In the ﬁrst scenario, it is extremely likely that the ETF would be due for some
+proﬁt taking and would quickly retrace a bit of its gain. If you bought that ETF at an
+extended level, you would be risking the possibility of losing a signiﬁcant amount of
+money, or else being forced to hold through a potentially deep pullback. The upside
+proﬁt potential would also be more limited in the near term because the ETF would
+have already made a signiﬁcant gain.
+In the second scenario, the reward/risk ratio is much better, because your downside is not as great as in the ﬁrst example. But, more important, your upside proﬁt
+potential is much greater. Remember that once this ETF breaks out above its consolidation, it is likely to keep going several points higher before turning back around.
+
+Additional Pointers
+
+185
+
+Therefore, in this second scenario, although there is still downside risk, the upside
+potential is much greater.
+Understanding the reward/risk ratio concept is crucial because it enables you to
+decide which trades have the least risk and the most proﬁt potential. This especially
+comes in handy if you ﬁnd several ETFs that all appear to have good technical chart
+patterns for entry, but you are nearing the maximum exposure of your capital account.
+Your decision can be based upon entering the ETF with the best reward/risk ratio. If one
+ETF has upside potential of $5 per share, but appears to have a minimal downside risk
+of $1 or so (based on the fact that the ETF is trading near a technical support level), then
+that ETF would be a better trade to enter than the one in which you are risking $7 to
+$10 on the downside in an attempt to gain a mere $2 per share of proﬁt on the upside.
+The risk value to use in the overall reward/risk calculation is always the number of
+points from the entry price to your intended stop. The reward is the number of points
+from your entry to the projected target price.
+After-Hours Trading Activity
+
+If you are new to trading ETFs, be aware of subtle variations between investing in
+them and in individual stocks. One difference is that the trading sessions of many
+ETFs conclude at 4:15 p.m. Eastern time (ET), 15 minutes after the close of the regular session, but at the same time that the S&P 500 and Nasdaq-100 futures wrap up
+their regular session. Stocks, of course, register their ﬁnal closing prices at 4:00 p.m.
+Most of the time, this doesn’t make a big difference either way. Nonetheless, the futures
+markets sometimes make large moves in that 15-minute window. On June 26, 2007,
+was one such occurrence, which is illustrated on the 5-minute intraday chart of the
+S&P 500 SPDR (SPY) in Figure 12.3.
+As you can see, SPY moved 72 cents lower between the regular close of 4:00 p.m.
+and its ofﬁcial closing time of 4:15 p.m. Its 4:00 p.m. closing price was 149.06, but
+its “ofﬁcial” session closing price was 148.34. This was due to an end-of-day wave of
+selling in the futures markets that, as you might have guessed, pushed the S&P 500
+futures below pivotal support of its June low. This is important to know because many
+brokers allow their mechanical stop orders to work until 4:15 p.m. instead of 4:00 p.m.
+If you don’t want your stops to get prematurely triggered by after-hours trading,
+remember this unique situation.
+Price Divergence Due to Dividend Distributions
+
+Another subtlety to remember about ETFs is that they pay regular dividend distributions, just like stocks. Depending on the underlying composition of the ETFs, however, their distributions can sometimes be much larger than those of individual stocks.
+This is especially true of the ﬁxed-income (bond) ETFs, most of which pay regular
+dividends on the ﬁrst of every month.
+
+186
+
+Fine-Tuning Your Strategy
+
+FIGURE 12.3 S&P 500 SPDR (SPY) 5-Minute Intraday Chart, June 26, 2007
+SPY – 5 min
+150.80
+150.60
+150.40
+150.20
+150.13
+150.00
+149.80
+149.60
+149.59
+149.40
+149.20
+149.11
+149.00
+148.80
+148.60
+148.40
+148.34
+
+Be aware that many of the broad-based ETFs
+continue to trade 15 minutes after the regular 4:00 P.M.
+stock market close. In this example, the S&P 500
+SPDR (SPY) fell an additional 72 cents between 4:00 P.M.
+and 4:15 P.M. ET. Keep this in mind when setting stops.
+
+5,000,000.00
+1,926,500.00
+6/26 10:00 10:30 11:00 11:30 12:00 12:30 13:00 13:30 14:00 14:30 15:00 15:30
+
+6/27
+
+Source: TradeStation
+
+Though their daily charts may sometimes show a lack of price volatility, remember
+that the prices of all ETFs are adjusted lower by the amount of the dividend payout.
+Therefore, if an ETF gained 2 points over the course of a few weeks but paid a dividend
+distribution of nearly $1 per share, the actual gain on the chart will look like only 1 point,
+but the total gain in your pocket is 2 points. Half of that will be in the price appreciation of
+the ETF and the rest in the form of a dividend distribution. Figure 12.4 is an example
+of such an ETF, the iShares iBoxx $ Investment Grade Corporate Bond Fund (LQD),
+which I took a two-month position in from August through October 2007. Notice that
+the price doesn’t appear to have gained much in the period that is circled on the chart,
+but LQD would actually be trading above the high of its consolidation and 200-day MA
+if not for two separate dividend payouts that totaled approximately 1 point.
+On September 4, LQD distributed 49 cents per share (A). On October 1, it paid
+out 48 cents per share (B). Both times, the price of the ETF was automatically adjusted
+lower by the amount of the dividend; just the same as occurs when individual stocks
+trade ex-dividend (the amount of the dividend has been deducted from the current
+market price of the stock after the dividend has been paid). In addition to the ﬁxedincome ETFs, note that the ProShares family of inversely correlated and leveraged
+ETFs also make rather large dividend distributions, largely due to the fact that they are
+leveraged.
+Because ETFs are derivatives, they will always trade in lockstep with the daily
+price action of their underlying components. In the case of broad-based ETFs that
+track indexes such as the S&P 500, the Dow, or the Nasdaq Composite, they move
+up or down by approximately the same percentage as their corresponding indexes.
+But occasionally you might ﬁnd a substantial price discrepancy between the index and
+the ETF. If so, don’t worry. It’s not an error in the computerized algorithm. Rather, the
+
+187
+
+Additional Pointers
+FIGURE 12.4 iShares iBoxx Investment Grade Corporate Bond Fund (LQD) Daily Chart
+LQD – Daily
+106.50
+Dividend distributions cause an ETF
+to gap down by the amount of the dividend,
+which can make ETFs such as the fixedincome family appear to be stagnant.
+
+106.00
+105.67
+105.50
+105.08
+105.00
+104.52
+104.50
+104.00
+103.50
+A
+
+B
+
+103.00
+2,500,000.00
+1,000,000.00
+31,300.00
+
+Jul
+
+Aug
+
+Sept
+
+Oct
+
+Source: TradeStation
+
+most likely explanation is that your ETF had a dividend distribution on that date.
+Such was the case on June 26, with my long position in the UltraShort S&P500
+ProShares (SDS).
+At the open, the inversely correlated SDS was instantly showing a loss of just over
+1 percent from the previous day’s close (about 60 cents per share). Yet, the S&P 500
+opened the day only fractionally higher. The reason for the difference was simply that
+SDS paid out a dividend of $0.43 per share that day. When stocks and ETFs trade
+ex-dividend, they automatically gap down by the amount of the dividend distribution
+that day, not factoring in any normal changes in supply or demand. The actual dividends subsequently show up as a cash deposit in your trading account.
+In the case of SDS, the dividend of $0.43 per share was paid to shareholders on
+July 2. If you add 46 cents to the June 26 closing price of SDS, you get the actual
+price it would have closed at on that day if there had not been a dividend distribution.
+Whenever an ETF has a distribution, you automatically adjust your original stop and
+target prices lower by the amount of the dividend payout.
+Withstanding Stop Hunts
+
+When trading stocks or ETFs with an expected holding time of one to three weeks,
+use the 60-minute or 120-minute chart interval for setting stops, as it allows you to
+overlook the “noise” associated with charts of a shorter time interval. Speciﬁcally, simply
+draw a trendline connecting the lows (for an uptrend) or highs (for a downtrend) over a
+period of weeks. You can then trail a stop just below or above support of the trendline.
+On the surface, this is a basic technical analysis concept that you may already know, but
+
+188
+
+Fine-Tuning Your Strategy
+
+the important detail that most traders miss is the wiggle room required to withstand the
+inevitable stop hunts below the trendline.
+One of the biggest problems I had as a novice trader was being stopped out of
+a stock, only to watch it reverse in the right direction only pennies below my stop.
+Eventually, I ﬁgured out why. The problem was that I was placing my stops at the same
+level as all the other traders’ stops. My stop was too obvious. Because specialists and
+market makers know where most stops are residing, they make sure that every test of
+trendline support results in a quick probe below those stops. Then, they can accumulate
+shares of the stock before continuing the primary trend. After years of frustration from
+losing money in this manner, I learned to give my stops enough wiggle room below the
+obvious trendline support where all the other traders had placed their stops. I now know
+my stops are in the right place when the position I am in reverses just before hitting my
+stop. This is exactly what happened in OIH on October 31, 2006. See Figure 12.5.
+I originally bought OIH as it broke out above the 50-day MA on October 19 (A).
+At the time of entry, I used new support of the 20-day EMA as the basis for setting
+my original stop of $126.58. That protective stop was equivalent to nearly one point
+below the 20-day EMA, giving enough wiggle room to withstand a stop hunt. On
+October 26, after OIH had rallied to an unrealized gain of 6 points, I trailed the stop
+up to the break-even point ($131.65), to remove all the risk from the trade. My mistake in doing so, however, was that I initially failed to realize that a break-even stop of
+$131.65 coincided exactly with support of the hourly uptrend line that had formed.
+Each of the circled areas indicate anchor points of that trendline. So, on October 30,
+I quickly corrected the problem by adjusting the stop a bit lower, down to $130.30.
+
+FIGURE 12.5 Oil Services HOLDR (OIH) Daily Chart, October 31, 2006
+OIH – Daily
+Oil Services HOLDR (OIH)
+
+145.00
+141.62
+140.00
+A
+Stop below
+the 20-day
+EMA gave
+enough
+wiggle room
+to survive the
+dip below the
+trendline.
+
+Sept
+
+Source: TradeStation
+
+Oct
+
+Nov
+
+135.00
+133.57
+130.88
+130.00
+129.84
+125.00
+120.00
+
+18,000,000.00
+14,385,240.00
+12,363,606.14
+12,000,000.00
+
+Additional Pointers
+
+189
+
+Again, this was done to give OIH a bit of wiggle room below support of the primary
+uptrend line. OIH dipped below trendline support on October 31, but not enough
+to hit the adjusted stop of $130.30. Later that afternoon, OIH rallied sharply, closing
+at its intraday high and back above support of its uptrend line. Such probes below key
+support levels are common on an intraday basis, but the closing price is more relevant.
+Changing a protective stop on a long position is not a good habit to establish, but
+it’s something that is necessary a few times per year. When I realize I have made a mistake by placing too tight of a stop, I have no problem with giving the ETF a little more
+wiggle room that a slightly looser stop affords, just as long as the maximum capital risk
+per trade is not violated. Because I had already raised the stop up to breakeven, lowering it slightly below that level meant that my maximum capital risk was still minimal
+if I stopped out. If you’re a trend trader, an easy rule of thumb in setting stops is to
+ask yourself, “Is my stop placement too obvious?” If it is, you can be assured that you
+will be stopped out, only to watch the stock or ETF reverse in the right direction. It’s
+always better to have smaller share size and the proper stop than to try to hit a home
+run with large share size, which requires a really tight stop.
+Another example of how to withstand stop hunts occurred on June 20, 2007, when
+my long setup in the Nasdaq-100 Index Tracking Stock (QQQQ) missed my trigger
+price by 10 cents. Though I was prepared to buy the breakout to a new high, I followed
+the rule of giving all stocks and ETFs a bit of wiggle room beyond key support and
+resistance levels. Specialists and market makers know that amateur investors often place
+stop orders right at the most obvious support and resistance levels. As such, the huge
+leverage of specialists and market makers enables them to move the market just enough
+to run those stops and scoop up shares at the best prices. In this case, QQQQ probed
+just 5 cents above its 3-day range, enabling market makers to trigger the buy stop orders
+and sell their shares at the highs before reversing sharply lower (Figure 12.6).
+Going into the open of June 20, the 3-day high of QQQQ was 47.87 (the horizontal line). Because QQQQ had an average true range (ATR) of about 50 cents,
+I needed to allow for at least 10 cents of wiggle room for buy stops above resistance and
+sell stops below support. That meant my minimum trigger price for entry was 47.97.
+When a trigger price is so close to a whole number, I move the stop to just above it
+because many investors simply use whole numbers as their stop prices. Therefore, my
+trigger price for entry was 48.02. If QQQQ had rallied enough to hit that price, the
+rally would have had a better chance of sticking. But since it missed the trigger price,
+there was no harm done. It’s always better to pay a slightly higher price for entry, in
+exchange for a better chance of not getting sucked into a false breakout.
+Closing Thoughts
+
+Most likely, the strategies you’ve learned here already make sense to you in theory, but
+understand that it requires real-life application of the strategies for you to truly beneﬁt.
+Learning the subtleties of detecting relative strength on charts, analyzing volume, and
+perfecting your entry and exit points with precision takes years of experience.
+
+190
+
+Fine-Tuning Your Strategy
+
+FIGURE 12.6 Nasdaq-100 Index Tracking Stock (QQQQ) 60-Minute Intraday Chart, June 20, 2007
+QQQQ – 60 min
+
+47.87
+
+48.20
+Intraday high of $47.92 48.00
+
+High of the consolidation was $47.87.
+
+47.80
+47.60
+
+On the morning of June 20, QQQQ
+probed just $.05 above the high
+of the consolidation before reversing
+sharply. Such stop hunts by the
+specialists and market makers are
+common before key market reversals.
+Be sure to allow enough wiggle room
+when setting your stops.
+
+47.40
+47.26
+47.20
+47.00
+46.80
+46.60
+46.40
+35,000,000.00
+20,532,299.00
+15,335,956.76
+
+6/7
+
+6/8
+
+6/11
+
+6/12
+
+6/13
+
+6/14
+
+6/15
+
+6/18
+
+6/19
+
+6/20
+
+6/21
+
+Source: TradeStation
+
+Don’t be a trader who seeks the holy grail of trading, the one small tip or indicator
+that will make you rich overnight. Simply put, there is no better teacher than diving
+in and getting experience with a concept and learning with real capital. I’m not afraid
+to say that I lost a substantial amount of money (to me anyway) in the beginning
+years of my trading career. But it was through those formative years that I very quickly
+learned what works and what doesn’t work. In my mind, it was not lost capital, but
+rather “traders’ tuition.”
+I learned the strategies in this book primarily through a lot of trial and error.
+Fortunately, your learning curve will be dramatically shortened if you simply put into
+action the concepts explained here. There’s a lot to digest in fully understanding and
+appreciating the top-down strategy, so be sure to review this book frequently. To fully
+beneﬁt from it, consider this a professional reference, not a novel you read once.
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+Afterword
+When I began trading at age 24, I was completely and utterly clueless about the stock
+market. At the time, I was managing a successful wholesale business but had no previous experience in the ﬁnancial world. Nor did I even study ﬁnance at my university.
+But now, more than 10 years later, I’m proud to say my consistently proﬁtable trading
+track record enables me to earn a rather comfortable livelihood. I say this not to inﬂate
+my ego but to make the signiﬁcant point that I’m frankly nobody special. Through
+lots of trial and error, sheer determination, and incredible persistence to ﬁght my way
+back from losses, I eventually ﬁgured out how to proﬁt from ETF trading. I will share
+some personal thoughts that can help you achieve the same results.
+Every successful trader I know has lost a lot of money in the market at one time or
+another. If they say they haven’t, chances are they’re either lying or brand-new to the
+trading business. Realize that a certain level of risk is required in order to proﬁt from
+the stock market. Without taking a certain degree of controlled risk, it’s impossible to
+earn a single dollar of proﬁt. Taking risk, however, also means occasionally incurring
+substantial losses. You must accept that losing trades are a completely normal, inevitable part of the business, and you simply can’t be afraid to suffer losses at times. The
+trick is to determine the exact dollar amount of capital you’re willing to risk on each
+and every trade and then maintain the discipline to cut the losses when you reach your
+protective stops. Consistent proﬁtability in the stock market is entirely possible with
+just a 50 percent batting average of winning trades—if the average dollar loss of each
+trade is less than the average dollar gain of each winning trade.
+Because virtually all traders make numerous mistakes in the formative years, it’s
+also imperative that you substantially limit the total amount of capital risk you take
+until you develop a consistent track record of proﬁtability. Trading with too heavy of
+a position size and trying to hit home runs before you establish long-term proﬁtability
+can easily result in a loss of capital so damaging that it is impossible to recover the
+losses. Unfortunately, traders frequently run out of trading capital just as they’re ﬁnally
+turning the corner and starting to “see the light.” If you’re new to the business, don’t
+let this happen to you. Making small bets and swinging for just singles and doubles in
+the early years will ensure that you can withstand losing periods long enough to enjoy the
+fruits of your labor when you eventually become consistently proﬁtable.
+When it comes to capital losses, one thing that separates long-term winners from
+perennial losers is that winners learn from their mistakes and make every effort not to
+repeat them. To ensure that you remember and don’t repeat your mistakes, keep some
+type of trading journal to record honest observations in periods of both successful
+191
+
+192
+
+Afterword
+
+and unsuccessful trading. In your journal, you also want to maintain detailed trading statistics that will enable you to glean valuable insights. Performance measured is
+performance gained. Your journal can be as simple or as fancy as you desire, but the
+point is to get one and use it.
+I am convinced there is no direct correlation between intelligence and the ability to
+become a consistently proﬁtable trader. Over the years, I’ve seen extremely intelligent
+doctors, lawyers, entrepreneurs, and even people with MBAs fail miserably at their
+trading. What’s the common denominator to all their failures? In my opinion, they all
+thought they were smarter than the market. They let their egos and their desire to be
+right dominate their trading decisions. They didn’t listen to what the market was telling them and simply react to it. My mantra, which reminds me to always keep my ego
+in check, is, “Trade what you see, not what you think.” I never really care about being
+right or wrong in my analysis; I care about making money.
+In addition to managing actual capital through the Morpheus Capital hedge
+fund, I still enjoy educating traders through my daily ETF and stock newsletters at
+morpheustrading.com, which I have been doing since 2002. I also enjoy teaching my
+strategy in more detail at dragoncharts.com. Occasionally, people ask me why I bother
+taking the time to write a subscription-based newsletter every day if my trading is
+proﬁtable enough to generate a steady income. The answer to that question is twofold.
+First and foremost, sharing trading lessons I’ve learned over the years with other
+people who quest for knowledge brings me great personal satisfaction. On a regular basis, I receive e-mails from subscribers, thanking me for the knowledge that has
+helped them generate proﬁts from their trading activities. It sincerely brings a big
+smile to my face each time I read one of those and certainly makes all my intensive
+writing over the years worth the effort.
+The second reason I continue to devote time to educating new and experienced
+traders and investors is that the technical analysis required for discussing what’s happening in the market forces me to stay focused on my actual trading. The separate
+activities of researching leading ETF picks for the newsletter and managing my trading accounts are fully complementary to each other. Further, since ETFs are synthetic
+instruments that automatically follow the direction of their underlying indexes, the
+prices of ETFs discussed in my newsletter will never be affected directly by the buying and selling of my newsletter subscribers. Nor will the strategies contained in my
+newsletter and this book stop working in the future merely because too many people
+are doing the same thing. That’s just one more beneﬁt of trading ETFs over individual
+stocks, although we actually trade both in our hedge fund.

@@ -372,7 +372,7 @@ def test_s2_funding_window_veto_fires_when_window_ge_period():
     bar = {'high': 101.0, 'low': 99.0, 'close': 100.0}
     # 1d interval, funding_hours=8: window = 24h >= period = 8h -> always veto
     vetoed, reason = tradability_mask_veto(bar, 'COMPLETE', 0,
-                                           max_spread_frac=0.05,
+                                           max_bar_range_frac=0.05,
                                            funding_window_bars=1,
                                            funding_hours=8,
                                            interval_ns=24 * HOUR_NS)

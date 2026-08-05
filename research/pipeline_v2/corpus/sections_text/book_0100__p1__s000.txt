@@ -1,0 +1,696 @@
+IP'
+
+TECHNICAL
+
+ANALYSIS
+FOR T H E
+
+TRADING PRDFESSIDNAL
+Strategies and Techniques for Today's
+Turbulent Global Financial Markets
+SECOND EDITION
+
+CONSTANCE M. BROWN, CMT
+Mc
+Graw
+Hill
+New York Chicago San Francisco Lisbon London Madrid IWexico City
+Milan New Delhi San Juan Seoul Singapore Sydney Toronto
+
+The McGrawHill Companies
+Copyright © 2012 by Constance M. Brown. All rights reserved. Printed in the United
+States of America. Except as permitted under the United States Copyright Act of
+1976, no part of this publication may be reproduced or distributed in any form or
+by any means, or stored in a database or retrieval system, without the prior written
+permission of the publisher.
+123456789
+
+10 DOC/DOC 1 9 8 7 6 5 4 3 2 1
+
+ISBN 978-0-07-175914-4
+MHID 0-07-175914-X
+
+CONTENTS
+
+e-ISBN 978-0-07-175915-1
+e-MHID 0-07-175915-8
+This publication is designed to provide accurate and authoritative information in regard
+to the subject matter covered. It is sold with the understanding that neither the author
+nor the publisher is engaged in rendering legal, accounting, securities trading, or other
+professional services. If legal advice or other expert assistance is required, the services
+of a competent professional person should be sought.
+-From a Declaration of Principles Jointly Adopted by a Committee of the
+American Bar Association and a Committee of Publistiers and Associations
+
+Art credits of permissions info or referral to a credits section at the back of the book.
+Library of Congress Cataloging-ln-Publicatlon Data
+Brown, Constance M.
+Technical analysis for the trading professional: strategies and techniques for today's
+turbulent global financial markets / by Constance Brown. — 2nd ed.
+p. cm.
+ISBN 13: 978-0-07-175914-4 (alk. paper)
+ISBN-10: 0-07-175914-X (alk. paper)
+1. Speculation. 2. Investment analysis. 3. Stocks-Charts, diagrams, etc. I. Title.
+HG6041.B74 2012
+332.64'5"dc23
+
+Part
+
+I
+
+Foreword v i i
+Acknowledgments x i i
+Disclaimer xiv
+
+1 DISPELLING SOME COMMON
+BELIEFS ABOUT INDICATORS
+
+Chapter | 1
+
+Oscillators Do Not Travel between
+0 and 100 3
+Oscillators, contrary to popular belief, can be used
+to define market trend. A discussion focusing on RSI
+and Stochastics reveals how specific indicator ranges
+can confirm larger trends and identify an upcoming
+trend reversal.
+
+2011041019
+
+McGraw-Hill books are available at special quantity discounts to use as premiums and
+sales promotions or for use in corporate training programs. To contact a representative,
+please e-mail us at bulksales@mcgraw-hill.com.
+
+Chapter [ 2
+
+Dominant Trading Cycles Are Not Time
+Symmetrical
+
+27
+
+Rhythmical fluctuations can be more than just
+a fixed interval. Explore how three great North
+American analysts, Benner (1875), Dewey (1930s),
+and Cann used cycle analysis to examine the trends
+and risks in their time and ours presently.
+
+This book is printed on acid-free paper.
+
+Chapter j 3
+
+Choosing and Adjusting Period Setup
+for Oscillators
+
+59
+
+The correct method for determining the time period
+for an oscillator is discussed. Recommendations are
+given as to when to change initial oscillator setups
+
+• Mi •
+
+iv •
+
+Contents
+
+and the methods for making these adjustments. This
+chapter also reveals how institutional traders can
+benefit from inexperienced technical traders.
+
+Chapter | 4
+
+Chapter | 7
+
+79
+
+Chapter [ 8
+
+Contents
+
+• v
+
+169
+
+Price Objectives Derived from Posihve and
+Negahve Reversals in the RSI
+
+Signals from Moving Averages Are
+107
+
+Price Projechons by Reverse-Engineering
+Indicators
+
+The concept of reverse-engineering an indicator to
+forecast price objectives is discussed using Microsoft's
+Excel software. This chapter includes a detailed, stepby-step picture illustration of how to export data from
+Omega Research's TradeStation to Microsoft's Excel
+software for advanced custom analysis.
+
+Dominant Trend Lines Are Not Always
+from Extreme Price Highs or Lows
+
+Trend lines of greatest significance may not originate
+from major price highs and lows. Visual exercises
+help demonstrate geometric proportions that extend
+beyond traditional charting techniques. Learn how
+gaps and strong bars define the angles to create
+channel lines. The market timing of high-risk trend
+changes can also be identified by projecting trend
+lines forward from specific chart signals.
+
+Chapter j 5
+
+185
+
+RSI can be used to calculate price objectives from
+specific indicator patterns called Positive and Negative
+Reversals. Signal probability and price objectives can
+be dramatically improved by measuring the amplitude
+of the oscillator. The price projection method and
+filtering technique are fully explained and illustrated.
+
+Frequendy Absent in Real-Time
+Charts
+
+Time-sequenced charts show that trading signals
+from moving averages and indicators that incorporate
+averages may not be present in real-time market
+analysis. Knowing how these indicators change their
+screen positions when the current bar is displaced
+with new data will allow traders to adjust to real-time
+conditions and miss fewer signals.
+
+Part I 2
+
+Chapter | 9
+
+Gann Analysis: Calculating Price and
+Time Objectives
+
+211
+
+A detailed introduction to W.D. Gann's use of price,
+time, and diagonal analysis to determine market
+movement. You will be introduced to the laws of
+vibration and natural laws, and harmonic ratios.
+Examine a 700-year history of the Wheat market.
+Explore the use of a Gann Wheel, and the critical geometric relationships between a Gann square, Gann Fan,
+and Square of Nine Gann price projection. Included are
+the formulas to create your own Gann Wheel.
+
+CALCULATING MARKET PRICE
+OBJECTIVES
+
+Chapter 6
+
+Chapter | 10
+
+Using Oscillators with the Elliott Wave
+Principle
+
+Adjusting Tradihonal Fibonacci Projechons
+for Higher Probability Targets
+
+247
+
+A market move that requires several days to develop is
+used to walk readers through a real-time, stepby-step progression to show how to apply the Elliott
+Wave Principle. As the market unfolds through a
+time-sequenced event, all the rules, guidelines, and
+patterns are discussed to show how they are used to
+predict future market action.
+
+13 5
+
+Weaknesses exist in the industry's standard use of
+Fibonacci relationships. The industry in general
+determines 0.382, 0.500, and 0.618 retracement levels
+from distinct price highs and lows and also projects
+618, equality, and 1.618 market swings from the
+same pivot levels. This chapter reveals methods for
+more accurate price projection to accommodate the
+normal expansion and contraction cycles present in
+all markets. In addition, it demonstrates why price
+spikes or key reversals should not be used to determine
+Fibonacci retracement targets.
+
+The prior chapters are also applied to clarify how the
+different techniques are combined. Wave counts in
+hindsight versus developing wave scenarios unfolding
+in real-time to predict future market movement
+require different skills. The differences are discussed,
+and common misunderstandings in the industry are
+identified.
+
+vi •
+
+Contents
+
+The chapter concludes with an in-depth look at an
+analytic method used to develop long-horizon wave
+interpretations for the S 6 P 500.
+
+Part 1 3
+
+NEW METHODS FOR IMPROVING
+INDICATOR TIMING AND FILTERING
+
+FOREWORD
+
+PREMATURE SIGNALS
+Chapter | 11 V o l a h l i t y Bands o n Oscillators
+
+357
+
+A volatility band formula is discussed that has
+a different character from Bollinger Bands. The
+chapter also discusses the importance of establishing
+independent variables for upper and lower bands
+because markets do not decline in the same manner as
+they advance.
+
+Chapter
+
+12
+
+T h e Composite Index
+
+431
+
+Appendix A
+
+403
+
+W r i t t e n by a b r i l l i a n t trader for only those seasoned traders w h o are
+w i l l i n g to work at their analysis o f the markets i n a disciplined way,
+this book contains the most advanced methodology I've ever seen!
+C o n n i e Brown's credentials come i n the f o r m o f nine years o n
+
+force to reckon w i t h i n the financial markets. A t the same t i m e , she
+publishes a daily b u l l e t i n o n the D o w , the S&P, and Bonds. T h i s
+is faxed to some o f the world's most sophisticated, large traders.
+Her predictions as to price objectives and trend o f the market are
+unequaled anywhere i n the industry.
+T h e r e are 14 separate chapters i n this book, each a separate subject. Six of these subjects have been written o n before, and these
+chapters serve as improvements o n o l d indicators. T h e r e are, also,
+15 major breakthroughs i n technical analysis! Seven o f these breakthroughs are new—never-before-revealed material! Eight more dissect, change, and improve o l d concepts.
+I n her discussion o f Stochastics and o f RSI as oscillators, she
+introduces the concept that oscillators do n o t necessarily f l u c t u -
+
+429
+
+435
+
+Appendix B
+
+the front line as a research analyst and f u n d trader. She is herself a
+disciplined professional, w h o has grown to the p o i n t where she is a
+
+369
+
+The Composite Index is fully disclosed and discussed
+in numerous global charts such as China's Shanghai
+Composite, American Corporate Debt BBS Bond
+Funds, and the USDCHF Forex market. The
+oscillator was developed to warn traders when RSI
+is failing to detect trend reversals.
+
+Chapter | 13 T h e Principles of D e p t h Perspective A p p l i e d
+to T w o - D i m e n s i o n a l C h a r h n g
+
+This chapter discusses the strengths and weaknesses
+of common indicators in order to isolate desired
+characteristics for developing a custom formula.
+Personal biases contribute to the effectiveness of an
+indicator's signal. Depth perception is discussed to
+clarify how we evaluate charts graphically in a twodimensional environment. Depth perception needs to
+be understood as it will affect our judgment of chart
+signals and will dictate how indicators should be plotted
+to accommodate personal strengths and weaknesses.
+
+Credits
+
+437
+
+Appendix C
+Index
+
+ate between 0 and 100 and that all signals do not fall w i t h i n the
+traditional default overbought and oversold bands. T h e oscillator
+may actually travel w i t h i n a larger or a narrower range that can
+be pinpointed w i t h precision. To correct what the writer perceives
+
+439
+
+. vii .
+
+viji •
+
+Foreword
+
+Foreword • ix
+
+the music, they cannot perceive the beauty of the composition
+
+ing band may travel up and down within the range, and that it may
+
+people are "wave-deaf"; just as a tone-deaf person cannot hear
+
+missed. She also introduces the concept that this effective signal-
+
+begins. Understanding their frustration, Connie agrees that some
+
+range to help identify signals that might otherwise have been
+
+because the wave count appears to change when a larger cycle
+
+of an upper resistance band and a lower support band within this
+
+industry. For some, the Elliott wave is frustrating i n the extreme
+
+as a flaw in commercial software packages, she suggests the use
+
+expand or contract. She suggests that the trader should adjust this
+effective signaling range to compensate for the idiosyncrasies of
+strongly trending bull and bear markets, and even suggests some
+better parameters! This alone would change the way we look at
+oscillators—and, consequently, our entry timing.
+
+because they are caught up in counting the beats and analyzing
+the notations. She stresses that it is necessary to understand the
+structure, but more important to keep a sense of proportionality
+to the analysis.
+Then she teaches the three simple rules that form the basis of
+
+ponent of a hypothesis I've long espoused: Stochastics can prove
+
+duces the Composite Index she created to accompany RSI.
+
+lators, Fibonacci ratios, and Gann into her analysis. She is a pro-
+
+and filtering indicators with variants of different lengths. She intro-
+
+real-time "to the T," showing as she goes how she integrates oscil-
+
+generation indicators created by applying oscillators on oscillators,
+
+explanation of flats and zigzags, and analyzes a number of charts
+
+to discuss the application of moving averages over oscillators, third-
+
+Elliott wave analysis, takes the reader through an "easy to take"
+
+But this inventive young trader does not stop there. She goes on
+
+In a theme she returns to frequently, she kids the "Stochas-
+
+Elliott wave—and help clarify an indistinct wave count!
+
+swing objectives, Connie's projections are plotted from numerous
+
+passionate case for keeping a flexible state of mind.
+
+retracement. In her discussion of the use of multiple Fibonacci
+
+data to construct responsive, customized indicators. She makes a
+
+order to properly calculate the correct price objective of the affected
+
+of attention to procedures for determining and inputting the proper
+
+and that the trader has to remove the differential of the gap in
+
+but does it anyway. She remedies this deficit by giving a great deal
+
+She rightly points out that markets may gap past a price objective
+
+clue as to why, and the educated but lazy trader who knows better
+
+chapter on Fibonacci measurement truly upgrades this old friend.
+
+default values in software and tries to use them to trade without a
+
+Connie also discusses Fibonacci methodology in depth. The
+
+tics Default Club"—both the uneducated public that accepts the
+
+by the reader. The explanation of the Fibonacci price projection
+
+naturally turns to the Elliott wave, her starting point i n the
+
+and internal Fibonacci guidance is to be especially appreciated
+
+Approaching the subject of market price objectives, this writer
+
+This chapter has been badly needed. The discussion on spikes
+
+the use of charts with differing time cycles to perfect cycle timing.
+
+I was particularly impressed with the discussion and the upgrades.
+
+of a weighted factor to them, versus Fibonacci cycles. She explains
+
+support and resistance levels, which are useful in and of themselves.
+
+and decay," which leads to asymmetrical cycles, and the application
+
+pivot levels. She has found that these levels tend to cluster into tight
+
+To the subject of cycles, Connie introduces the concept of "growth
+
+X • Foreword
+
+method—and specifically the use of multiple Fibonacci swing projections—is worth the price of the whole book!
+
+Foreword • xi
+
+In doing this, she correctly arrives at the conclusion that
+Fibonacci and Gann took two routes to arrive at much the same
+
+with even greater respect.
+
+required to work outside the mindset established by the puzzle. So,
+
+or price between the different methods she uses should be treated
+
+from the page. To come up with the correct answer, the reader is
+
+the same indicator should be respected, confluence in areas of time
+
+to connect the squares with four lines, without removing the pencil
+
+areas of confluence in time or price within different charts with
+
+writer challenges us to solve a puzzle, the Nine Squares. The task is
+
+place. This has led her to another valuable concept: that, just as
+
+Before tackling the subject of trend lines as price predictors, the
+
+be done—in the next book, of course!
+
+the intersection of trend lines as a timing tool—a subject that
+
+money in the markets. Connie, I challenge you to prove to us it can
+
+ignoring spikes or using intermediate highs or lows. She discusses
+
+a non-Mensa trader such as myself to actually use Gann to make
+
+in the market, she prefers less conventional approaches, such as
+
+she is holding back on some of the specific information needed for
+
+she believes spikes at tops and bottoms are caused by aberrations
+
+can be used to locate dates of changes in trend and price objectives,
+
+lines must be established from absolute highs and lows. Because
+
+However, while she explains how Gann's time and price wheels
+
+too, the writer asks us to suspend our preconceptions that trend
+
+has needed clarification for years! Then, she demonstrates a very
+
+—George C. Lane
+
+unconventional use of trend lines to "reverse-engineer" a triangle
+that can be bisected into two right triangles by a line extended into
+the future that will point to a final bottom. She goes on to introduce an entirely new approach to trend lines—the intersection of
+trend lines from divergent highs on an oscillator with the long-term
+trend line. The results are astounding! This is "eyeball training"
+from which a good chartist can profit!
+The Nine Squares connected by four unconventional trend lines
+in the formation of a pyramid is an excellent lead-in to the subject of Gann. Because his methods seemed enigmatic, it has been
+suggested that Gann used astrology to arrive at his predictions,
+and his work has been obscured by the veil of occultism. Connie
+has correctly perceived that this is not the case and has done an
+exceptional job of returning his use of an astronomical clock, the
+third oldest calculator known to humankind, from the occult to the
+realm of science and simple mathematics!
+
+ACKNOWLEDGMENTS
+
+Acknowledgments
+
+• xii!
+
+divergence signal that developed between two peaks of eight years
+apart is problematic.
+Learn to use every method as a weighting factor. This method
+versus another will either compliment, contradict, or add confusion. A l l are valid as the latter means stay out of a market when
+all the evidence is unclear. That is a valid opinion as well. But we
+
+isolation are outdated.
+
+There has been so much personal growth since this book was first
+
+our market opinions now. The times of looking at one market in
+
+this project to revise Technical Analysis for the Trading Professional.
+
+have to use multiple time horizons and global markets to develop
+
+I would like to thank Morgan Ertel of McGraw-Hill who initiated
+
+markets. But the key thing for all of us students of markets to keep
+
+involved in producing a book takes as long as it does to write it.
+
+one needs skills to read charts from all financial and agricultural
+
+critical step as well. Most people do not realize the design and work
+
+South African Rand and the other in U.S. Dollars? Today every-
+
+text that flows easily to read. The layout and clarity of graphics is a
+
+diverge will you understand the reason is because one is based in
+
+words from someone who is not a wordsmith and mold them into
+
+stock traders need only study stocks. But when two Gold stocks
+
+mation on to you. Books need a very skilled team to take the raw
+
+Readers need skills in all the financial markets. Some believe
+
+written it was a wonderful opportunity for me to pass this new infor-
+
+ing. By doing well today we earn the right to participate tomorrow.
+
+him continued success.
+
+presented itself to you. Take it. Run with it. Answer it. Assume noth-
+
+list of major contributing authors who feel similarly. We all wish
+
+become aware of a question that the opportunity has just politely
+
+advisor and expert contact in the book publishing worid. He has a
+
+to find the opportunities and risks. Always recognize when you
+
+I have eight books from various publishers. He remains my primary
+
+goal is to stay ahead of the ebbing tide of market changes in order
+
+ent publishing firms, I would stay loyal to him. It is the only reason
+
+methods to resolve the cash flow puzzles that lie in our path. Our
+
+made this book possible in 1998. As his career moved h i m to differ-
+
+in mind as the goal is not the mastery of our tools, but to use our
+
+A special mention must be given to Stephen Isaacs who first
+
+chairs.
+
+G M T (Ghartered Market Technician) designation. The experience
+
+changes are endlessly challenging and keep us on the edge of our
+
+paring for the final exam of the Market Technician's Association
+
+I guess that explains why few in our industry ever retire. The world
+
+I would like to take a moment to encourage the readers pre-
+
+contact them.
+
+that will build an opinion on the future move of a market. A
+
+the Gredits at the back of this book for a detailed list and ways to
+
+historians when the focus needs to be on searching for evidence
+
+who made the illustrations in this book possible. Please refer to
+
+have addressed in this second edition. Young analysts tend to be
+
+There are several market software vendors and chart services
+
+of grading these exams shows a few common misunderstandings I
+
+* xii •
+
+DISCLAIMER
+
+PART
+
+1
+
+It should not be assumed that the methods, techniques, or indicators presented i n this book w i l l be profitable or that they w i l l not
+result i n losses. Past results are not necessarily indicative o f future
+results. Examples i n this book are for educational purposes only.
+T h i s is not a solicitation o f any order to buy or sell.
+T h e N F A requires us to state that:
+
+"Hypothetical or simulated performance results have certain inherent limitations. Unlike an actual performance record, simulated
+results do not represent actual trading. Also, since the trades have
+not actually been executed, the results may have under- or over-
+
+DISPELLING
+SOME COMMON
+BELIEFS A B O U T
+INDICATORS
+
+compensated for the impact, i f any, of certain market factors, such
+as lack of liquidity. Simulated trading programs in general are also
+subject to the fact that they are designed with the benefit of hindsight. No representation is being made that any account will or is
+likely to achieve profits or losses similar to those shown."
+
+• xiv •
+
+chapter
+
+1
+
+O S C I L L A T O R S DO NOT
+TRAVEL BETWEEN
+0 AND 100
+
+A I h y does it appear that conventional technical indicators
+V V are failing us as we approach the twenty-first century?
+What has changed?" Thirteen years ago this was an opening which
+did not know the volatility changes that would be ahead. However,
+this method of describing oscillator movement to determine trend
+and entry/exits in volatile conditions has stood up to the test of
+time. I believe strongly that a method you favor should be able
+to handle market changes; therefore, the original text requires no
+revision. The only suggestion I would offer is to stop reading occasionally and study how a 14-period Relative Strength Index (RSI)
+has moved in your own charts. Take any time horizon or market.
+Study global indexes. Gold, O i l , Bonds, and Forex trend or trendless markets, as the method described here will stand up to the
+challenge. The ranges defined in this chapter remain valid and
+of value. However, the astute analyst and trader will know there
+• 3 •
+
+4 • D I S P E L L I N G SOME COMMON B E L I E F S ABOUT INDICATORS
+
+Oscillators Do Not Travel between 0 and 100
+
+• 5
+
+in w i t h instantaneous execution.

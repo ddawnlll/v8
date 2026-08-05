@@ -1,0 +1,1358 @@
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Forex
+Patterns and
+Probabilities
+
+i
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing company in the United States. With offices in North America, Europe,
+Australia and Asia, Wiley is globally committed to developing and marketing
+print and electronic products and services for our customers’ professional
+and personal knowledge and understanding.
+The Wiley Trading series features books by traders who have survived
+the market’s ever-changing temperament and have prospered—some by
+reinventing systems, others by getting back to basics. Whether a novice
+trader, professional, or somewhere in between, these books will provide
+the advice and strategies needed to prosper today and well into the future.
+For a list of available titles, please visit our web site at www.
+WileyFinance.com.
+
+ii
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Forex
+Patterns and
+Probabilities
+Trading Strategies for Trending and
+Range-Bound Markets
+
+ED PONSI
+
+iii
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+C 2007 by Ed Ponsi. All rights reserved.
+Copyright 
+
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+Wiley Bicentennial Logo: Richard J. Pacifico
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in
+any form or by any means, electronic, mechanical, photocopying, recording, scanning, or
+otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright
+Act, without either the prior written permission of the Publisher, or authorization through
+payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222
+Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax (978) 646-8600, or on the Web at
+www.copyright.com. Requests to the Publisher for permission should be addressed to the
+Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201)
+748-6011, fax (201) 748-6008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their
+best efforts in preparing this book, they make no representations or warranties with respect to
+the accuracy or completeness of the contents of this book and specifically disclaim any
+implied warranties of merchantability or fitness for a particular purpose. No warranty may be
+created or extended by sales representatives or written sales materials. The advice and
+strategies contained herein may not be suitable for your situation. You should consult with a
+professional where appropriate. Neither the publisher nor author shall be liable for any loss of
+profit or any other commercial damages, including but not limited to special, incidental,
+consequential, or other damages.
+For general information on our other products and services or for technical support, please
+contact our Customer Care Department within the United States at (800) 762-2974, outside the
+United States at (317) 572-3993 or fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in
+print may not be available in electronic formats. For more information about Wiley products,
+visit our web site at www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Ponsi, Ed, 1961–
+Forex patterns & probabilities : trading strategies for trending &
+range-bound markets / Ed Ponsi.
+p. cm. – (Wiley trading series)
+Includes index.
+ISBN 978-0-470-09729-8 (cloth)
+1. Foreign exchange market. I. Title. II. Title: Forex patterns and
+probabilities.
+HG3851.P65 2007
+332.4 5–dc22
+2007001693
+Printed in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+iv
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+To Mom, who taught me that anything is possible.
+To Dad, who taught me the value of hard work.
+
+v
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+vi
+
+Char Count= 0
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Contents
+
+Preface
+
+xv
+
+Acknowledgments
+
+xvii
+
+About the Author
+
+xix
+
+PART I
+
+CHAPTER 1
+
+The World’s Most Dynamic
+Trading Market
+
+1
+
+Getting Started in Forex
+
+3
+
+From Stocks to Forex
+
+4
+
+Getting to Wall Street
+
+4
+
+Welcome to the Jungle
+
+5
+
+Football and Forex
+
+5
+
+Stock Market Headaches
+
+6
+
+Welcome to Forex
+
+9
+
+A New Beginning
+
+10
+
+CHAPTER 2
+
+11
+
+All About Forex
+
+The Canadian Dollar and the U.S. Dollar
+
+11
+
+The Euro and the U.S. Dollar
+
+12
+
+Trading Terminology
+
+13
+
+An Easy Way to Understand the Exchange Rate
+
+23
+
+CHAPTER 3
+
+25
+
+Questions and Answers
+
+Why Does the Big Money Trade Forex?
+
+25
+
+Why Is Forex Suddenly So Popular?
+
+26
+
+vii
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+viii
+
+CONTENTS
+
+How Do Traders Make Money in the Forex Market?
+
+26
+
+Why Do Currencies Trade in Pairs?
+
+27
+
+How Can I Trade Two Currencies at One Time?
+
+28
+
+How Is 24-Hour-per-Day Trading Possible?
+
+28
+
+How Is the Trading Day Structured?
+
+29
+
+Greenwich Mean Time
+
+30
+
+CHAPTER 4
+
+33
+
+Technical Analysis and the Forex Market
+
+The Theory behind Technical Analysis
+
+33
+
+Statistical Survey
+
+34
+
+Fear of the Unknown
+
+34
+
+Trading Patterns and Technical Indicators
+
+35
+
+The Psychology behind the Market
+
+36
+
+Moving Beyond Technical Analysis
+
+38
+
+Trends
+
+39
+
+Proper Order
+
+39
+
+Fibonacci Techniques
+
+41
+
+CHAPTER 5
+
+Things You Need to Know Before
+Trading Forex
+
+43
+
+The “Triple Threat” Trader
+
+43
+
+Gaining Experience
+
+44
+
+Which Pair to Trade?
+
+45
+
+Commodity Currencies
+
+46
+
+Don’t Limit Yourself
+
+47
+
+Trading and Karma
+
+49
+
+Schadenfreude
+
+50
+
+PART II
+
+Trading Strategies for Trending Markets
+
+51
+
+CHAPTER 6
+
+Understanding Trends and Tendencies
+
+53
+
+Trading Conditions
+
+53
+
+The Importance of Maintaining Objectivity
+
+55
+
+Begin with a Tendency
+
+57
+
+Putting the Trend to Work
+
+59
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Contents
+
+ix
+
+Self-Fulﬁlling Prophecy
+
+59
+
+Take Me to the River
+
+60
+
+How to Determine If the Market is Trending
+
+61
+
+CHAPTER 7
+
+63
+
+The Anatomy of a Trend
+
+Why Trends Form
+
+63
+
+Don’t Fight the Trend
+
+66
+
+CHAPTER 8
+
+69
+
+Forex Multiple Time Frame Strategy
+
+Why Does It Work?
+
+70
+
+Combining Fibonacci and Trend
+
+71
+
+Overbought Does Not Equal “Sell”
+
+73
+
+Picking Tops and Bottoms
+
+75
+
+The Entry Signal
+
+76
+
+Placing the Stop
+
+76
+
+Getting Out
+
+77
+
+Welcome to the Real World
+
+79
+
+Tweaking the Exits
+
+79
+
+Executing the Plan
+
+81
+
+Second-Guessing
+
+82
+
+Bringing It Home
+
+83
+
+The Devil’s Advocate
+
+83
+
+When to Stay Out
+
+84
+
+Reloading the Trade
+
+85
+
+Fantasy versus Reality
+
+87
+
+Phantom Signal
+
+89
+
+Temporary Success and Failure
+
+89
+
+The Stop Run
+
+91
+
+CHAPTER 9
+
+The FX-Ed Trend Technique
+
+99
+
+Trends Are Self-Sustaining
+
+99
+
+Difference of Opinion
+
+100
+
+Big Money at Work
+
+100
+
+The Common Denominator
+
+100
+
+Long or Short
+
+101
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+x
+
+CONTENTS
+
+Identifying the Trend
+
+103
+
+Filtering the Trend
+
+104
+
+The Catalyst
+
+107
+
+Placing the Stop
+
+107
+
+Volatility Stop
+
+108
+
+Comparing Apples to Apples
+
+109
+
+ATR Calculation
+
+110
+
+The Entry
+
+110
+
+The Stop
+
+112
+
+The Trade
+
+112
+
+Don’t Fish for Minnows
+
+117
+
+Back to the Trade
+
+118
+
+Denouement
+
+120
+
+The News versus the Trend
+
+120
+
+Appearances Can Be Deceiving
+
+121
+
+More Than One Chance
+
+124
+
+Partial Exit Exercise
+
+125
+
+Discretionary and Strategic Exits
+
+126
+
+Faulty Wiring
+
+126
+
+Partial Exit Technique
+
+127
+
+Reloading
+
+128
+
+Important Points to Consider
+
+129
+
+Final Thoughts
+
+130
+
+PART III
+
+131
+
+Nontrending Trading Techniques
+
+CHAPTER 10 The Ultimate Indicator
+
+133
+
+The Price Is the Key
+
+133
+
+Why Support Becomes Resistance
+
+137
+
+The Pleasure Principle and Trading
+
+137
+
+Price Action
+
+139
+
+Don’t Stand in Front of a Freight Train
+
+140
+
+CHAPTER 11 Keys to Intraday Breakouts
+
+145
+
+Ascending and Descending Triangles
+
+145
+
+Trend Filter
+
+147
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Contents
+
+xi
+
+Time-of-Day Filter
+
+148
+
+Summary
+
+152
+
+CHAPTER 12 Flags and Pennants
+
+153
+
+Pennants
+
+154
+
+Flags
+
+162
+
+Filtering Entries
+
+164
+
+Summary
+
+168
+
+CHAPTER 13 The Squeeze Play
+
+169
+
+The Cycle of Volatility
+
+169
+
+Perception Moves the Market
+
+170
+
+Volatility Breakout Strategy
+
+176
+
+CHAPTER 14 The Round Trip
+
+181
+
+Why Round Numbers Capture Our Attention
+
+181
+
+Why Round Numbers Are Effective
+
+182
+
+Round Numbers and Forex
+
+182
+
+The First Bounce Is the Best Bounce
+
+183
+
+Using the Moving Average
+
+184
+
+The Strategy in Action
+
+186
+
+CHAPTER 15 The Interest Rate Edge
+
+193
+
+Think Like the Big Boys
+
+193
+
+Interest Rate Differentials
+
+194
+
+Here’s How It Works
+
+194
+
+Changing Differentials
+
+195
+
+What’s the Big Deal?
+
+196
+
+Collecting Interest
+
+196
+
+U.S. Dollar/Japanese Yen
+
+197
+
+Long-Term Play
+
+198
+
+Looking Ahead
+
+199
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+xii
+
+CONTENTS
+
+CHAPTER 16 The Boomerang
+
+201
+
+Fading False Breakouts
+
+201
+
+The Strategy
+
+202
+
+Setting the Parameters
+
+202
+
+Entering the Trade
+
+203
+
+Simple but Effective
+
+205
+
+PART IV
+
+207
+
+Take Control of Your Trading Destiny
+
+CHAPTER 17 How to Achieve Spectacular Gains
+
+209
+
+Keep Your Eyes on the Road
+
+210
+
+Proper Goal Setting
+
+210
+
+Breaking Down Your Goals
+
+212
+
+Consistency Is the Key
+
+213
+
+What Happens When I Reach My Goal?
+
+214
+
+CHAPTER 18 The Forex Playing Field
+
+215
+
+Evening the Odds
+
+215
+
+The House Has the Edge
+
+216
+
+Make the Playing Field Bigger
+
+216
+
+But the Other Trading Instructor Said . . .
+
+217
+
+Let’s Do the Math
+
+217
+
+Changing the Equation
+
+218
+
+Why Doesn’t Everyone Do It?
+
+219
+
+Huge Gains with Minimal Effort!
+
+220
+
+What We Can Learn from the “Smart Money”
+
+221
+
+Now Get Out There and Win
+
+221
+
+CHAPTER 19 Trading Lessons from Life
+
+223
+
+Panic at the Beach
+
+223
+
+The Endless Tournament
+
+224
+
+Summary
+
+225
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Contents
+
+xiii
+
+CHAPTER 20 What You Don’t Know Can Hurt You
+
+227
+
+Sarcasm Alert!
+
+228
+
+Know When to Retreat
+
+228
+
+The “95 Percent Winners Strategy”
+
+229
+
+Beware the Back Tester
+
+230
+
+Hypothetically Speaking
+
+230
+
+CHAPTER 21 A Tale of Two Traders
+
+233
+
+Individuals versus Institutions
+
+233
+
+The Difference Between Amateurs and Professionals
+
+234
+
+CHAPTER 22 Some Final Thoughts
+
+237
+
+A Good Trade Is Not the Same Thing as a Winning Trade
+
+237
+
+Proper Execution Is Critical
+
+238
+
+Take Responsibility for Your Actions
+
+238
+
+Keep It Simple
+
+239
+
+Physical versus Mental
+
+239
+
+In Closing
+
+240
+
+Glossary
+
+241
+
+Index
+
+247
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+xiv
+
+Char Count= 0
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Preface
+
+M
+
+ost books on trading deal with general concepts and shy away from
+specifics. There are plenty of books about the origins and history
+of currency trading, but very little in the way of useful, practical trading information. Forex Patterns and Probabilities provides readers with a rare sense of clarity about the specific mechanics of currency
+trading—real world strategies that tell the student when to enter, when to
+exit, and how to manage trades.
+This book provides traders with step-by-step methodologies that are
+based on real market tendencies. The strategies in this book are presented
+clearly in great detail, so that anyone who wishes to can learn how to trade
+like a professional. It is written for the new or experienced trader who needs
+specific, useful information to trade the Forex market.
+Forex Patterns and Probabilities begins with a whirlwind tour of life
+on a Wall Street trading desk, as the reader is transported to the exhilarating
+world of professional trading. Then, the author explains the “playing field”
+of the forex market, using powerful metaphors that relate trading scenarios
+to situations in everyday life.
+Now that the reader has been sufficiently prepared, Ed unleashes several specific trading strategies designed for trending markets. Trends create
+some of the most highly profitable trading situations, and the reader is given
+an arsenal of specific techniques to profit from them. Ed’s detailed explanations, backed by over 160 chart images, will leave no doubt in the mind
+of the reader exactly what the author is doing, and why he is doing it. Ed
+shares every part of his thought process, leaving nothing to the imagination.
+Next, the book delves into a variety of trading techniques, all based on
+unique market tendencies. The author introduces the reader to the Ultimate
+Indicator, and the Keys to Intraday Breakouts. He then explains the proper
+usage of Triangles and Filters, and demonstrates the correct way to trade
+consolidation patterns such as Flags and Pennants. The dozens of chart
+examples and explanations allow the reader to “look over the shoulder” of
+a professional trader, hard at work at his craft.
+
+xv
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+xvi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+PREFACE
+
+Next, Ed introduces the volatility-based “Squeeze Play,” and two daytrading techniques called the “Round Trip” and the “Boomerang.” Yet another strategy, the “Interest Rate Edge,” shows the reader how to trade like
+a hedge fund, revealing the techniques and philosophies used by the “smart
+money” to make fortunes.
+Armed with this impressive arsenal of strategies and techniques, the
+reader is now presented with the means to turn this knowledge into power—
+and profit. In “How to Achieve Spectacular Gains,” Ed shows exactly how
+professional traders make big money consistently, year after year. He then
+demonstrates the practical use of game theory in forex trading—a subject
+of immense importance, and a key to trading success.
+In “What You Don’t Know Can Hurt You,” Ed gives an insider’s insight
+into the pitfalls of forex trading and how to avoid them. Then, in “A Tale
+of Two Traders,” the reader learns how to emulate the behavioral patterns
+of successful professional traders and how to escape the mind-set of the
+amateur.
+Forex Patterns and Probabilities is packed with useful information
+from a Wall Street pro, yet it is written in an informal, easy-to-digest style
+that nearly anyone can understand.
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+Acknowledgments
+
+I
+
+’d like to thank everyone who helped to make the creation of this book
+a reality. In particular, I’d like to thank:
+Kevin Commins, first for suggesting the writing of this book, and then
+for granting me the freedom to create something truly special and unique.
+Emilie Herman, whose hard work and encouragement accentuated my
+strengths and concealed my weaknesses.
+Josep Giró, an artist who fulfilled one of my lifelong dreams by turning
+me into an animated cartoon character.
+And most of all, to my students, who constantly push me to be the very
+best forex trading instructor that I can be. Thank you one and all!
+
+xvii
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+xviii
+
+Char Count= 0
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+Char Count= 0
+
+About the Author
+
+E
+
+d Ponsi is the president of FXEducator.com and is the former chief
+trading instructor for Forex Capital Markets (FXCM). An experienced
+professional trader and money manager, Ed has advised hedge funds,
+institutional traders, and individuals of all levels of skill and experience.
+He is a regular contributor to FXStreet.com, TradingMarkets.com, and SFO
+Magazine, and has made numerous appearances on television, radio, online,
+and in print.
+Ed’s claim to fame is that he pulls no punches. His dynamic and humorous style of teaching sets him apart from the suit-and-tie crowd, making
+him one of the most sought-after lecturers in the financial world today. His
+no-nonsense, irreverent demeanor has earned him the moniker “The Rock
+Star of Forex Trading.”
+Ed’s popular DVD series, “FXEducator: Forex Trading with Ed Ponsi” is
+now available at www.fxeducator.com and from select distributors worldwide. For more information, email us at info@fxeducator.com.
+
+xix
+
+JWPR014-FM
+
+JWPR014-Ponsi
+
+June 2, 2007
+
+18:15
+
+xx
+
+Char Count= 0
+
+chap01
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+16:47
+
+Char Count=
+
+PART I
+
+The World’s
+Most Dynamic
+Trading Market
+
+T
+
+rading the forex market is one of the most exciting and potentially
+profitable endeavors that you can undertake. We trade the entire
+world, matching the world’s economies against one another. This
+market is vast, much larger than any stock or futures market. There is nothing else like it on earth.
+The stakes are high; fortunes can be won or lost quickly. In order to
+succeed in this realm, we must first learn to understand it. . . .
+
+1
+
+chap01
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+2
+
+June 2, 2007
+
+16:47
+
+Char Count=
+
+THE WORLD’S MOST DYNAMIC TRADING MARKET
+
+Copyright 
+c 2006 Josep Giró. All rights reserved.
+
+chap01
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+16:47
+
+Char Count=
+
+CHAPTER 1
+
+Getting Started
+in Forex
+
+all me Ishmael . . .
+Just kidding. I’m sure that when anyone is blessed with the task of
+writing a book, that person secretly (or not so secretly) wishes that
+it might attain the status of a classic, like Melville’s whaling tale.
+You may be an experienced trader, or perhaps you’re just starting out.
+Either way, remember: Everyone begins at the same starting point. Every
+trader who ever made money in any market began as a novice. Nobody is
+born with a deep, innate understanding of trading.
+Maybe you believe that superior intelligence is required to succeed at
+trading. While being bright is not a disadvantage, it is no guarantee of success. Often, very intelligent traders overanalyze trading situations.
+Maybe you believe that a good formal education is required to succeed,
+but this is not the case. What you are about to learn is not taught in any
+school. Traders learn through study, through trial and error, and through
+intense analysis of markets, strategies, and techniques. Most of all, traders
+learn through experience.
+Maybe you believe that you must read every trading book you can find.
+I’ve read dozens of books on trading, most of which are not worth your
+time. Most of the books that I’ve read contained a kernel of useful information, buried beneath an avalanche of filler. I decided that if I were
+ever asked to write a book about trading, it would be the antithesis of
+those books. Instead of performing a sort of “Dance of the Seven Veils,”
+I’d present an abundance of useful information in a way that most people
+could understand and appreciate.
+
+C
+
+3
+
+chap01
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+4
+
+June 2, 2007
+
+16:47
+
+Char Count=
+
+THE WORLD’S MOST DYNAMIC TRADING MARKET
+
+My feeling is that the material is useless unless it is explained well, and
+my goal of helping you to succeed is best served by relating the concepts
+you are about to study to everyday life. This is a big part of my teaching
+technique, and you’ll see it demonstrated repeatedly on these pages.
+Perhaps you are wondering, “Where should I begin?”
+
+FROM STOCKS TO FOREX
+Like most traders in the United States, my first experiences involved stock
+trading. My first trade, 100 shares in a NASDAQ biotech stock, yielded a
+small loss.
+I was lucky to have started out during the mid-1990s, during one of the
+most outstanding bull markets in history. In that environment, as long as a
+trader went with the trend, it was not too difficult to make money. It was a
+very forgiving market that would bail out even poor traders. The trick was
+to understand the difference between being good and merely being lucky.
+Many traders who I believed were talented began to falter when trading
+conditions became less than ideal. I realized that, like them, I had been
+a lucky trader, and that luck was transitory. I didn’t want to be lucky; I
+wanted to become a good trader, one who could make money in any market
+environment. I wanted to work on Wall Street.
+
+GETTING TO WALL STREET
+After sending out dozens of resumes, I was interviewed and hired by a Wall
+Street firm as a trader. The fact that I didn’t live in New York at the time
+was a minor detail, and soon I was getting up at around 4:00 A.M. to begin
+the trek to work.
+I would exit my train beneath the World Trade Center, meet up with
+some coworkers for coffee, and grab copies of the Wall Street Journal and
+the Investors Business Daily. Once in the office, we would review dozens
+of charts, discuss recent market tendencies, study economic indicators—in
+short, we would do everything possible to prepare for the all-out war that
+would begin every day at 9:30 A.M.
+Spending time in the Wall Street environment is an invaluable and irreplaceable experience. There were so many intelligent, driven people, with
+so much creative energy that you could feel it in the air like static electricity. We lived and breathed trading 24 hours per day, and learned concepts
+that changed the way we thought about the markets and trading, as well
+as the world in general. Much of what I learned in this environment would
+translate well to other trading markets, such as forex, and would become
+the basis for much of the material in this book.
+
+chap01
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+Getting Started in Forex
+
+16:47
+
+Char Count=
+
+5
+
+Eventually, I was lured away by another firm and began working on
+another trading desk in Manhattan. I moved to New York City, shortening
+my daily commute from two hours each way to two blocks.
+The new trading room was vast, with hundreds of desks and terminals. Having so many traders together, without walls or barriers to separate
+them, would facilitate the exchange of knowledge and information.
+I sought out the best traders and questioned them relentlessly, absorbing and applying the information as quickly as possible. I was introduced to
+concepts that went far beyond anything I had seen earlier, and the pieces of
+the puzzle began to fall into place. I began to achieve a level of consistency
+that had been missing from my earlier trading, which had been profitable
+but erratic.

@@ -1,0 +1,340 @@
+
+■ Common Pitfalls of Backtesting
+Although almost every strategy allows for unique opportunities in committing errors in backtesting, there are a number of common themes, some
+generally applicable to all markets, others pertain to specific ones.
+
+3
+BACKTESTING AND AUTOMATED EXECUTION
+
+Backtesting.” Often, each market and each strategy presents its own very
+specific set of pitfalls. Usually, a pitfall tends to inflate the backtest performance of a strategy relative to its actual performance in the past, which is
+particularly dangerous.
+Even if we have satisfied ourselves that we have understood and implemented every detail of a strategy in a backtesting program, and that there is
+no pitfall that we can discover, backtesting a published strategy can still yield
+important benefits.
+Backtesting a published strategy allows you to conduct true out-of-sample
+testing in the period following publication. If that out-of-sample performance
+proves poor, then one has to be concerned that the strategy may have worked
+only on a limited data set.This is actually a more important point than people
+realize. Many authors will claim in their articles that the backtest results were
+“verified with out-of-sample data.” But, actually, if the out-of-sample testing
+results were poor, the authors could have just changed some parameters, or
+they could have tweaked the model substantially so that the results look good
+with the “out-of-sample” data. Hence, true out-of-sample testing cannot really begin until a strategy is published and cast in stone.
+Finally, by backtesting a strategy ourselves, we often can find ways to
+refine and improve the strategy to make it more profitable or less risky.
+The backtesting process in trading should follow the “scientific method.” We
+should start with a hypothesis about an arbitrage opportunity, maybe based
+on our own intuition about the market or from some published research.
+We then confirm or refute this hypothesis by a backtest. If the results of the
+backtest aren’t good enough, we can modify our hypothesis and repeat the
+process.
+As I emphasized earlier, performance of a strategy is often very sensitive
+to details, and small changes in these details can bring about substantial improvements. These changes can be as simple as changing the look-back time
+period for determining the moving average, or entering orders at the open
+rather than at the close. Backtesting a strategy allows us to experiment with
+every detail.
+
+Look-ahead Bias
+As its name implies, look-ahead bias means that your backtest program is using tomorrow’s prices to determine today’s trading signals. Or, more generally, it is using future information to make a “prediction” at the current time.
+A common example of look-ahead bias is to use a day’s high or low price to
+determine the entry signal during the same day during backtesting. (Before
+the close of a trading day, we can’t know what the high and low price of the
+day are.) Look-ahead bias is essentially a programming error and can infect
+only a backtest program but not a live trading program because there is no
+way a live trading program can obtain future information. This difference
+between backtesting and a live trading program also points to an obvious
+way to avoid look-ahead bias. If your backtesting and live trading programs
+are one and the same, and the only difference between backtesting versus
+live trading is what kind of data you are feeding into the program (historical
+data in the former, and live market data in the latter), then there can be no
+look-ahead bias in the program. Later on in this chapter, we will see which
+platforms allow the same source code to be used for both backtest and live
+execution.
+
+ALGORITHMIC TRADING
+
+4
+
+Data-Snooping Bias and the Beauty of Linearity
+Data-snooping bias is caused by having too many free parameters that are
+fitted to random ethereal market patterns in the past to make historical performance look good. These random market patterns are unlikely to recur
+in the future, so a model fitted to these patterns is unlikely to have much
+predictive power.
+The way to detect data-snooping bias is well known: We should test the
+model on out-of-sample data and reject a model that doesn’t pass the out-ofsample test. But this is easier said than done. Are we really willing to give up
+on possibly weeks of work and toss out the model completely? Few of us are
+blessed with such decisiveness. Many of us will instead tweak the model this
+way or that so that it finally performs reasonably well on both the in-sample
+and the out-of-sample result. But voilà! By doing this we have just turned
+the out-of-sample data into in-sample data.
+If you are unwilling to toss out a model because of its performance on
+a fixed out-of-sample data set (after all, poor performance on this out-ofsample data may just be due to bad luck), or if you have a small data set
+to start with and really need to tweak the model using most of this data,
+you should consider the idea of cross-validation. That is, you should select a
+
+5
+BACKTESTING AND AUTOMATED EXECUTION
+
+number of different subsets of the data for training and tweaking your model
+and, more important, making sure that the model performs well on these
+different subsets. One reason why we prefer models with a high Sharpe ratio
+and short maximum drawdown duration is that this almost automatically
+ensures that the model will pass the cross-validation test: the only subsets
+where the model will fail the test are those rare drawdown periods.
+There is a general approach to trading strategy construction that can minimize data-snooping bias: make the model as simple as possible, with as few
+parameters as possible. Many traders appreciate the second edict, but fail
+to realize that a model with few parameters but lots of complicated trading
+rules are just as susceptible to data-snooping bias. Both edicts lead to the
+conclusion that nonlinear models are more susceptible to data-snooping bias
+than linear models because nonlinear models not only are more complicated
+but they usually have more free parameters than linear models.
+Suppose we attempt to predict price by simple extrapolation of the historical price series. A nonlinear model would certainly fit the historical data
+better, but that’s no guarantee that it can predict a future value better. But
+even if we fix the number of parameters to be the same for a nonlinear
+model versus its linear contender, one has to remember that we can usually
+approximate a nonlinear model by Taylor-series expansion familiar from
+calculus. That means that there is usually a simpler, linear approximation
+corresponding to every nonlinear model, and a good reason has to be given
+why this linear model cannot be used. (The exceptions are those singular
+cases where the lower-order terms vanish. But such cases seldom describe
+realistic financial time series.)
+An equivalent reasoning can be made in the context of what probability distributions we should assume for returns. We have heard often that the
+Gaussian distribution fails to capture extreme events in the financial market.
+But the problem with going beyond the Gaussian distribution is that we will
+be confronted with many choices of alternative distributions. Should it be a
+Student’s t-distribution that allows us to capture the skew and kurtosis of the
+returns, or should it be a Pareto distribution that dispenses with a finite second
+moment completely? Any choice will have some element of arbitrariness, and
+the decision will be based on a finite number of observations. Hence, Occam’s
+razor dictates that unless there are strong theoretical and empirical reasons
+to support a non-Gaussian distribution, a Gaussian form should be assumed.
+Linear models imply not only a linear price prediction formula, but also
+a linear capital allocation formula. Let’s say we are considering a meanreverting model for a price series such that the change in the price dy in
+
+ALGORITHMIC TRADING
+
+6
+
+the next time period dt is proportional to the difference between the mean
+price and the current price: dy(t) = (λy(t − 1) + μ)dt + dε, the so-called
+“Ornstein-Uhlenbeck” formula, which is explained and examined in greater
+detail in Chapter 2. Often, a trader will use a Bollinger band model to capture profits from this mean-reverting price series, so that we sell (or buy)
+whenever the price exceeds (or falls below) a certain threshold. However, if
+we are forced to stick to linear models, we would be forced to sell (or buy)
+at every price increment, so that the total market value is approximately
+proportional to the negative deviation from the mean. In common traders’
+parlance, this may be called “averaging-in,” or “scaling-in,” a technique that
+is discussed in Chapter 3.
+You will find several examples of linear trading models in this book because the simplicity of this technique lets us illustrate the point that profits
+are not derived from some subtle, complicated cleverness of the strategy
+but from an intrinsic inefficiency in the market that is hidden in plain sight.
+The impatient reader can look ahead to Example 4.2, which shows a linear
+mean-reverting strategy between an exchange-traded fund (ETF) and its
+component stocks, or Examples 4.3 and 4.4, showing two linear long-short
+statistical arbitrage strategies on stocks.
+The most extreme form of linear predictive models is one in which
+all the coefficients are equal in magnitude (but not necessarily in sign).
+For example, suppose you have identified a number of factors ( f ’s) that
+are useful in predicting whether tomorrow’s return of a stock index is
+positive. One factor may be today’s return, with a positive today’s return predicting a positive future return. Another factor may be today’s
+change in the volatility index (VIX), with a negative change predicting
+positive future return. You may have several such factors. If you normalize these factors by turning them first into Z-scores (using in-sample
+data!):
+z(i) = ( f(i) − mean( f ))/std( f ),
+
+(1.1)
+
+where f (i) is the ith factor, you can then predict tomorrow’s return R by
+R = mean ( R ) + std (R)∑ i sign(i)z(i)/ n.
+n
+
+(1.2)
+
+The quantities mean( f ) and std( f ) are the historical average and standard
+deviation of the various f(i), sign(i) is the sign of the historical correlation
+between f(i) and R, and mean(R) and std(R) are the historical average and
+
+standard deviation of one-day returns, respectively. Daniel Kahneman, the
+Nobel Prize-winning economist, wrote in his bestseller Thinking, Fast and
+Slow that “formulas that assign equal weights to all the predictors are often
+superior, because they are not affected by accidents of sampling” (Kahneman,
+2011). Equation 1.2 is a simplified version of the usual factor model used in
+stock return prediction. While its prediction of the absolute returns may or
+may not be very accurate, its prediction of relative returns between stocks
+is often good enough. This means that if we use it to rank stocks, and then
+form a long-short portfolio by buying the stocks in the top decile and shorting those in the bottom decile, the average return of the portfolio is often
+positive.
+Actually, if your goal is just to rank stocks instead of coming up with an
+expected return, there is an even simpler way to combine the factors f ’s
+without using Equations 1.1 and 1.2. We can first compute the ranks(i) of a
+stock s based on a factor f(i). Then we multiply these ranks by the sign of the
+correlation between f(i) and the expected return of the stock. Finally, we
+sum all these signed ranks to form the rank of a stock:
+ranks = ∑ i sign ( i ) ranks (i).
+n
+
+(1.3)
+
+Stock Splits and Dividend Adjustments
+Whenever a company’s stock has an N-to-1 split, the stock price will be divided by N times. However, if you own a number of shares of that company’s
+
+7
+BACKTESTING AND AUTOMATED EXECUTION
+
+As an example, Joel Greenblatt has famously used a two-factor model as a
+“magic formula” to rank stocks: f(1) = return on capital and f(2) = earnings
+yield (Greenblatt, 2006). We are supposed to buy the top 30 ranked stocks
+and hold them for a year. The annual percentage rate (APR) for this strategy
+was 30.8 percent from 1988 to 2004, compared with 12.4 percent for the
+S&P 500. Quite a triumph of linearity!
+In the end, though, no matter how carefully you have tried to prevent
+data-snooping bias in your testing process, it will somehow creep into your
+model. So we must perform a walk-forward test as a final, true out-ofsample test. This walk-forward test can be conducted in the form of paper trading, but, even better, the model should be traded with real money
+(albeit with minimal leverage) so as to test those aspects of the strategy that
+eluded even paper trading. Most traders would be happy to find that live
+trading generates a Sharpe ratio better than half of its backtest value.
+
+ALGORITHMIC TRADING
+
+8
+
+stock before the split, you will own N times as many shares after the split,
+so there is in fact no change in the total market value. But in a backtest,
+we typically are looking at just the price series to determine our trading
+signals, not the market-value series of some hypothetical account. So unless
+we back-adjust the prices before the ex-date of the split by dividing them by
+N, we will see a sudden drop in price on the ex-date, and that might trigger
+some erroneous trading signals. This is as true in live trading as in backtesting, so you would have to divide the historical prices by N just before the
+market opens on the ex-date during live trading, too. (If it is a reverse 1-toN split, we would have to multiply the historical prices before the ex-date
+by N.)
+Similarly, when a company pays a cash (or stock) dividend of $d per
+share, the stock price will also go down by $d (absent other market movements). That is because if you own that stock before the dividend ex-date,
+you will get cash (or stock) distributions in your brokerage account, so
+again there should be no change in the total market value. If you do not
+back-adjust the historical price series prior to the ex-date, the sudden drop
+in price may also trigger an erroneous trading signal. This adjustment, too,
+should be applied to any historical data used in the live trading model just
+before the market opens on an ex-date. (This discussion applies to ETFs as
+well. A slightly more complicated treatment needs to be applied to options
+prices.)
+You can find historical split and dividend information on many websites,
+but I find that earnings.com is an excellent free resource. It not only records
+such historical numbers, but it shows the announced split and dividend
+amounts and ex-dates in the future as well, so we can anticipate such events
+in our automated trading software. If you are interested in historical stock
+data that are already adjusted for stock splits and dividends, and are easy to
+download, try csidata.com.
+
+Survivorship Bias in Stock Database
+If you are backtesting a stock-trading model, you will suffer from survivorship bias if your historical data do not include delisted stocks. Imagine
+an extreme case: suppose your model asks you to just buy the one stock
+that dropped the most in the previous day and hold it forever. In actuality,
+this strategy will most certainly perform poorly because in many cases the
+company whose stock dropped the most in the previous day will go on to
+bankruptcy, resulting in 100 percent loss of the stock position. But if your
+
+Primary versus Consolidated Stock Prices
+Many U.S. stocks are traded on multiple exchanges, electronic communication networks (ECNs), and dark pools: The New York Stock Exchange
+(NYSE), NYSE Arca, Nasdaq, Island, BATS, Instinet, Liquidnet, Bloomberg
+Tradebook, Goldman Sachs’ Sigma X, and Credit Suisse’s CrossFinder are
+just some of the example markets. When you look up the historical daily
+closing price of a stock, it reflects the last execution price on any one of
+these venues during regular trading hours. Similarly, a historical daily opening price reflects the first execution price on any one of these venues. But
+when you submit a market-on-close (MOC) or market-on-open (MOO)
+order, it will always be routed to the primary exchange only. For example,
+an MOC order on IBM will be routed to NYSE, an MOC order on SPY
+
+9
+BACKTESTING AND AUTOMATED EXECUTION
+
+historical data do not include delisted stocks—that is, they contain only
+stocks that survive until today—then the backtest result may look excellent.
+This is because you would have bought a stock when it was beaten down
+badly but subsequently survived, though you could not have predicted its
+eventual survival if you were live-trading the strategy.
+Survivorship bias is more dangerous to mean-reverting long-only stock
+strategies than to mean-reverting long-short or short-only strategies. This is
+because, as we saw earlier, this bias tends to inflate the backtest performance
+of a long-only strategy that first buys low and then sells high, whereas it will
+deflate the backtest performance of a short-only strategy that first sells high
+and then buys low.Those stocks that went to zero would have done very well
+with a short-only strategy, but they would not be present in backtest data
+with survivorship bias. For mean-reverting long-short strategies, the two
+effects are of opposite signs, but inflation of the long strategy return tends
+to outweigh the deflation of the short portfolio return, so the danger is reduced but not eliminated. Survivorship bias is less dangerous to momentum
+models. The profitable short momentum trade will tend to be omitted in
+data with survivorship bias, and thus the backtest return will be deflated.
+You can buy reasonably priced historical data that are free of survivorship bias from csidata.com (which provides a list of delisted stocks). Other
+vendors include kibot.com, tickdata.com, and crsp.com. Or you can in fact
+collect your own survivorship bias–free data by saving the historical prices
+of all the stocks in an index every day. Finally, in the absence of such survivorship bias–free data, you can limit yourself to backtesting only the most
+recent, say, three years of historical data to reduce the damage.
+
+ALGORITHMIC TRADING
+
+10
+
+will be routed to NYSE Arca, and an MOC order on Microsoft (MSFT) will
+be routed to Nasdaq. Hence, if you have a strategy that relies on marketon-open or market-on-close orders, you need the historical prices from
+the primary exchange to accurately backtest your model. If you use the
+usual consolidated historical prices for backtesting, the results can be quite
+unrealistic. In particular, if you use consolidated historical prices to backtest a mean-reverting model, you are likely to generate inflated backtest
+performance because a small number of shares can be executed away from
+the primary exchange at a price quite different from the auction price on
+the primary exchange. The transaction prices on the next trading day will
+usually mean-revert from this hard-to-achieve outlier price. (The close and
+open prices on the U.S. primary exchanges are always determined by an
+auction, while a transaction at the close on a secondary exchange is not the
+result of an auction.)
+A similar consideration applies to using high or low prices for your strategy. What were recorded in the historical data are usually the consolidated
+highs or lows, not that of the primary exchange. They are often unrepresentative, exaggerated numbers resulting from trades of small sizes on secondary exchanges. Backtest performance will also be inflated if these historical
+prices are used.
+Where can we find historical prices from the primary exchanges? Bloomberg users have access to that as part of their subscription. Of course, just as
+in the case of storing and using survivorship bias–free data discussed earlier,
+we can also subscribe to direct live feeds from the (primary) exchanges and
+store those prices into our own databases in real time. We can then use these
+databases in the future as our source of primary exchange data. Subscribing
+to such feeds independently can be an expensive proposition, but if your
+broker has such subscriptions and it redistributes such data to its clients that
+colocate within its data center, the cost can be much lower. Unfortunately,
+most retail brokers do not redistribute direct feeds from the exchanges, but
+institutional brokers such as Lime Brokerage often do.
+If we don’t have access to such data, all we can do is to entertain a healthy
+skepticism of our backtest results.
+
+Venue Dependence of Currency Quotes
+Compared to the stock market, the currency markets are even more fragmented and there is no rule that says a trade executed at one venue has to be
+at the best bid or ask across all the different venues. Hence, a backtest will
+
+be realistic only if we use historical data extracted from the same venue(s)
+as the one(s) we expect to trade on.
+There are quotes aggregators such as Streambase that consolidate data
+feeds from different venues into one order book. In this case, you may use
+the consolidated historical data for backtesting, as long as you can execute
+on the venue that formed part of the consolidated order book.
+Another feature of currency live quotes and historical data is that trade
+prices and sizes, as opposed to bid and ask quotes, are not generally available, at least not without a small delay. This is because there is no regulation that says the dealer or ECN must report the trade price to all market
+participants. Indeed, many dealers view transaction information as proprietary and valuable information. (They might be smart to do that because
+there are high-frequency strategies that depend on order flow information and that require trade prices, as mentioned in Chapter 7. The banks’
+forex proprietary trading desks no doubt prefer to keep this information
+to themselves.) But using bid-ask quotes for backtesting forex strategies
+is recommended anyway, since the bid-ask spreads for the same currency
+pair can vary significantly between venues. As a result, the transaction costs
+are also highly venue dependent and need to be taken into account in a
+backtest.
+
+A stock-trading model that involves shorting stocks assumes that those
+stocks can be shorted, but often there are difficulties in shorting some
+stocks. To short a stock, your broker has to be able to “locate” a quantity of
+these stocks from other customers or other institutions (typically mutual
+funds or other asset managers that have large long positions in many stocks)
+and arrange a stock loan to you. If there is already a large short interest out
+there so that a lot of the shares of a company have already been borrowed,
+or if the float of the stock is limited, then your stock can be “hard to borrow.” Hard to borrow may mean that you, as the short seller, will have to
+pay interest to the stock lender, instead of the other way around in a normal
+situation. In more extreme cases, hard to borrow may mean that you cannot
+borrow the stock in the quantity you desire or at all. After Lehman Brothers
+collapsed during the financial crisis of 2008–2009, the U.S. Securities and
+Exchange Commission (SEC) banned short sales in all the financial industry stocks for several months. So if your backtesting model shorts stocks
+that were hard or impossible to borrow, it may show a wonderful return

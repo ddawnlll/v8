@@ -1,0 +1,1130 @@
+{
+ "pipeline_version": "research_pipeline_v2.1",
+ "order": [
+  {
+   "book_id": "book_0032",
+   "title": "Dave Landry on Swing Trading 2001",
+   "leads": 116,
+   "n_strong": 116,
+   "tokens": 56894,
+   "density": 2.0388793194361443,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0121",
+   "title": "Visual Guide to Chart Patterns 2012",
+   "leads": 157,
+   "n_strong": 157,
+   "tokens": 97119,
+   "density": 1.616573482016907,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0056",
+   "title": "High Probability Trading Strategies - Entry to Exit Tactics for the Forex, Futures, and Stock Markets 2008",
+   "leads": 190,
+   "n_strong": 190,
+   "tokens": 124320,
+   "density": 1.5283140283140284,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0020",
+   "title": "Come Into My Trading Room (Study Guide) 2002",
+   "leads": 70,
+   "n_strong": 70,
+   "tokens": 47085,
+   "density": 1.4866730381225444,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0115",
+   "title": "Trading with Ichimoku Clouds - The Essential Guide to Ichimoku Kinko Hyo Technical Analysis 2010",
+   "leads": 96,
+   "n_strong": 96,
+   "tokens": 64736,
+   "density": 1.4829461196243203,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0083",
+   "title": "The New Trading for a Living (Study Guide) 2014",
+   "leads": 62,
+   "n_strong": 62,
+   "tokens": 41958,
+   "density": 1.477668144334811,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0014",
+   "title": "Building Reliable Trading Systems - Tradable Strategies That Perform As They Backtest and Meet Your Risk-Reward Goals 2013",
+   "leads": 184,
+   "n_strong": 184,
+   "tokens": 128470,
+   "density": 1.4322409901144235,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0038",
+   "title": "Encyclopedia of Chart Patterns 2nd edition 2005",
+   "leads": 693,
+   "n_strong": 693,
+   "tokens": 510078,
+   "density": 1.3586157411219462,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0107",
+   "title": "Trade What You See - How To Profit from Pattern Recognition 2007",
+   "leads": 117,
+   "n_strong": 117,
+   "tokens": 86695,
+   "density": 1.3495587980852415,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0079",
+   "title": "Naked Forex - High-Probability Techniques for Trading Without Indicators 2012",
+   "leads": 160,
+   "n_strong": 160,
+   "tokens": 119841,
+   "density": 1.3351023439390526,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0048",
+   "title": "Forex Patterns and Probabilities - Trading Strategies for Trending and Range-Bound Markets 2007",
+   "leads": 126,
+   "n_strong": 126,
+   "tokens": 97022,
+   "density": 1.298674527426769,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0016",
+   "title": "Candlestick Charting Explained 3rd edition 2006",
+   "leads": 190,
+   "n_strong": 190,
+   "tokens": 149458,
+   "density": 1.2712601533541195,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0114",
+   "title": "Trading Price Action Trends - Technical Analysis of Price Charts Bar by Bar for the Serious Trader 2011",
+   "leads": 316,
+   "n_strong": 316,
+   "tokens": 250955,
+   "density": 1.2591898946026179,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0052",
+   "title": "Getting Started in Candlestick Charting 2008",
+   "leads": 131,
+   "n_strong": 131,
+   "tokens": 105311,
+   "density": 1.2439346317098878,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0002",
+   "title": "17 Proven Currency Trading Strategies - How to Profit in the Forex Market 2013",
+   "leads": 116,
+   "n_strong": 116,
+   "tokens": 94008,
+   "density": 1.233937537230874,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0007",
+   "title": "Attacking Currency Trends - How to Anticipate and Trade Big Moves in the Forex Market 2011",
+   "leads": 192,
+   "n_strong": 192,
+   "tokens": 160923,
+   "density": 1.193117205122947,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0008",
+   "title": "Beyond Candlesticks - New Japanese Charting Techniques Revealed 1994 (1) - annotated",
+   "leads": 115,
+   "n_strong": 115,
+   "tokens": 96480,
+   "density": 1.1919568822553896,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0006",
+   "title": "The Art and Science of Technical Analysis - Market Structure, Price Action, and Trading Strategies 2012",
+   "leads": 306,
+   "n_strong": 306,
+   "tokens": 271025,
+   "density": 1.1290471358730745,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0017",
+   "title": "Candlestick Charting For Dummies 2008",
+   "leads": 165,
+   "n_strong": 165,
+   "tokens": 147462,
+   "density": 1.1189323351100624,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0086",
+   "title": "Option Spread Strategies - Trading Up, Down, and Sideways Markets 2009",
+   "leads": 127,
+   "n_strong": 127,
+   "tokens": 114220,
+   "density": 1.111889336368412,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0108",
+   "title": "Trade Your Way to Financial Freedom 2 edition 2006",
+   "leads": 185,
+   "n_strong": 185,
+   "tokens": 167049,
+   "density": 1.1074594879346777,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0110",
+   "title": "Trading ETFs - Gaining an Edge with Technical Analysis 2nd edition 2012",
+   "leads": 115,
+   "n_strong": 115,
+   "tokens": 113641,
+   "density": 1.0119587120845468,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0018",
+   "title": "The Candlestick Course 2003",
+   "leads": 65,
+   "n_strong": 65,
+   "tokens": 64320,
+   "density": 1.0105721393034828,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0075",
+   "title": "The Master Swing Trader Toolkit - The Market Survival Guide 2010",
+   "leads": 177,
+   "n_strong": 177,
+   "tokens": 175466,
+   "density": 1.0087424344317417,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0080",
+   "title": "New Frontiers in Technical Analysis - Effective Tools and Strategies for Trading and Investing 2011",
+   "leads": 134,
+   "n_strong": 134,
+   "tokens": 133924,
+   "density": 1.0005674860368567,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0041",
+   "title": "Essentials of Foreign Exchange Trading 2009",
+   "leads": 90,
+   "n_strong": 90,
+   "tokens": 90894,
+   "density": 0.9901643672849693,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0111",
+   "title": "Trading for a Living - Psychology, Trading Tactics, Money Management 1993",
+   "leads": 146,
+   "n_strong": 146,
+   "tokens": 148560,
+   "density": 0.9827679052234787,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0064",
+   "title": "Japanese Candlestick Charting Techniques 2nd edition 2001 (1)",
+   "leads": 110,
+   "n_strong": 110,
+   "tokens": 112426,
+   "density": 0.9784213616067458,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0021",
+   "title": "Come Into My Trading Room - A Complete Guide to Trading 2002",
+   "leads": 159,
+   "n_strong": 159,
+   "tokens": 162768,
+   "density": 0.9768504865821291,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0015",
+   "title": "Candlestick and Pivot Point Trading Triggers - Setups for Stock, Forex, and Futures Markets CDR edition 2006",
+   "leads": 148,
+   "n_strong": 148,
+   "tokens": 155066,
+   "density": 0.9544323062437929,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0098",
+   "title": "Technical Analysis Explained - The Successful Investor's Guide to Spotting Investment Trends and Turning Points 4th edition 2002",
+   "leads": 234,
+   "n_strong": 234,
+   "tokens": 247672,
+   "density": 0.9447979585903937,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0124",
+   "title": "Way of the Turtle - The Secret Methods that Turned Ordinary People into Legendary Traders 2007",
+   "leads": 102,
+   "n_strong": 102,
+   "tokens": 110203,
+   "density": 0.9255646398010943,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0058",
+   "title": "How to Make a Living Trading Foreign Exchange - A Guaranteed Income for Life 2010",
+   "leads": 91,
+   "n_strong": 91,
+   "tokens": 98363,
+   "density": 0.9251446173866189,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0119",
+   "title": "Understanding Price Action - Practical Analysis of the 5-Minute Time Frame 2014",
+   "leads": 153,
+   "n_strong": 153,
+   "tokens": 166201,
+   "density": 0.9205720783870134,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0024",
+   "title": "A Complete Guide to Technical Trading Tactics - How to Profit Using Pivot Points, Candlesticks & Other Indicators 2004",
+   "leads": 123,
+   "n_strong": 123,
+   "tokens": 135344,
+   "density": 0.9087953658824921,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0117",
+   "title": "The Trend Following Bible - How Professional Traders Compound Wealth and Manage Risk 2012",
+   "leads": 97,
+   "n_strong": 97,
+   "tokens": 108109,
+   "density": 0.8972425977485686,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0099",
+   "title": "Technical Analysis For Dummies 2nd edition 2011",
+   "leads": 166,
+   "n_strong": 166,
+   "tokens": 189389,
+   "density": 0.8765028591945677,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0105",
+   "title": "Top Binary Options Trading Strategies - Strategies of Pros Explained for Dummies",
+   "leads": 6,
+   "n_strong": 6,
+   "tokens": 6872,
+   "density": 0.8731082654249127,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0005",
+   "title": "Algorithmic Trading - Winning Strategies and Their Rationale 2013",
+   "leads": 93,
+   "n_strong": 93,
+   "tokens": 106926,
+   "density": 0.86976039503956,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0001",
+   "title": "The 10 Essentials of Forex Trading - The Rules for Turning Trading Patterns Into Profit 2007",
+   "leads": 77,
+   "n_strong": 77,
+   "tokens": 90153,
+   "density": 0.8541035794704557,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0084",
+   "title": "The New Trading for a Living - Psychology, Discipline, Trading Tools and Systems, Risk Control, Trade Management 2014",
+   "leads": 153,
+   "n_strong": 153,
+   "tokens": 180134,
+   "density": 0.8493676929397005,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0118",
+   "title": "Trend Trading for a Living - Learn the Skills and Gain the Confidence to Trade for a Living 2007",
+   "leads": 87,
+   "n_strong": 87,
+   "tokens": 102516,
+   "density": 0.8486480159194661,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0050",
+   "title": "Forex Trading Secrets - Trading Strategies for the Forex Market 2010",
+   "leads": 122,
+   "n_strong": 122,
+   "tokens": 143993,
+   "density": 0.8472634086379199,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0055",
+   "title": "Harmonic Trading, Volume Two - Advanced Strategies for Profiting from the Natural Order of the Financial Markets 2010",
+   "leads": 84,
+   "n_strong": 84,
+   "tokens": 99155,
+   "density": 0.8471584892340275,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0042",
+   "title": "Evidence-Based Technical Analysis - Applying the Scientific Method and Statistical Inference to Trading Signals 2007",
+   "leads": 238,
+   "n_strong": 238,
+   "tokens": 288253,
+   "density": 0.8256635663809223,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0065",
+   "title": "Japanese Candlestick Charting Techniques - A Contemporary Guide to the Ancient Investment Techniques of the Far East 1991",
+   "leads": 96,
+   "n_strong": 96,
+   "tokens": 117812,
+   "density": 0.8148575696872984,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0096",
+   "title": "Technical Analysis - The Complete Resource for Financial Market Technicians 2nd edition 2011",
+   "leads": 330,
+   "n_strong": 330,
+   "tokens": 410359,
+   "density": 0.8041739062625652,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0103",
+   "title": "Technical Analysis of the Financial Markets - A Comprehensive Guide to Trading Methods and Applications 1999",
+   "leads": 154,
+   "n_strong": 154,
+   "tokens": 196473,
+   "density": 0.7838227135535162,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0072",
+   "title": "The Market Guys' Five Points for Trading Success - Identify, Pinpoint, Strike, Protect, and Act! 2007",
+   "leads": 126,
+   "n_strong": 126,
+   "tokens": 163684,
+   "density": 0.7697759096796266,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0109",
+   "title": "Trading Binary Options - Strategies and Tactics 2nd edition 2016",
+   "leads": 70,
+   "n_strong": 70,
+   "tokens": 91962,
+   "density": 0.7611839672908375,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0106",
+   "title": "Trade Like a Pro - 15 High-Profit Trading Strategies 2009",
+   "leads": 105,
+   "n_strong": 105,
+   "tokens": 139234,
+   "density": 0.754126147349067,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0100",
+   "title": "Technical Analysis for the Trading Professional - Strategies and Techniques for Today\u2019s Turbulent Global Financial Markets 2nd edition 2012",
+   "leads": 117,
+   "n_strong": 117,
+   "tokens": 157678,
+   "density": 0.7420185441215642,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0087",
+   "title": "Option Volatility & Pricing - Advanced Trading Strategies and Techniques 1994",
+   "leads": 188,
+   "n_strong": 188,
+   "tokens": 254694,
+   "density": 0.7381406707657032,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0095",
+   "title": "Swing Trading For Dummies 2008",
+   "leads": 133,
+   "n_strong": 133,
+   "tokens": 180591,
+   "density": 0.7364708097302745,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0053",
+   "title": "The Handbook of Technical Analysis - The Practitioner's Comprehensive Guide to Technical Analysis 2016",
+   "leads": 8,
+   "n_strong": 8,
+   "tokens": 10923,
+   "density": 0.7323995239403094,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0092",
+   "title": "Sentiment in the Forex Market - Indicators and Strategies To Profit from Crowd Behavior and Market Extremes 2008",
+   "leads": 60,
+   "n_strong": 60,
+   "tokens": 83243,
+   "density": 0.720781326958423,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0033",
+   "title": "Day Trading and Swing Trading the Currency Market - Technical and Fundamental Strategies to Profit from Market Moves 2nd edition 2008",
+   "leads": 109,
+   "n_strong": 109,
+   "tokens": 152251,
+   "density": 0.7159230481244786,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0062",
+   "title": "Intermarket Trading Strategies 2009",
+   "leads": 139,
+   "n_strong": 139,
+   "tokens": 194341,
+   "density": 0.7152376492865633,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0031",
+   "title": "Currency Trading For Dummies 2nd edition 2011",
+   "leads": 131,
+   "n_strong": 131,
+   "tokens": 183517,
+   "density": 0.7138303263457881,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0049",
+   "title": "Forex Trading Basics & Secrets Volume 3.0",
+   "leads": 11,
+   "n_strong": 11,
+   "tokens": 15778,
+   "density": 0.697173279249588,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0071",
+   "title": "Long-Term Secrets to Short-Term Trading 1999",
+   "leads": 69,
+   "n_strong": 69,
+   "tokens": 101848,
+   "density": 0.6774801665226612,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0091",
+   "title": "The Sensible Guide to Forex - Safer, Smarter Ways to Survive and Prosper from the Start 2012",
+   "leads": 128,
+   "n_strong": 128,
+   "tokens": 190461,
+   "density": 0.6720535962743028,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0101",
+   "title": "Technical Analysis of Stock Trends 9th edition 2007",
+   "leads": 280,
+   "n_strong": 280,
+   "tokens": 426595,
+   "density": 0.6563602480104079,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0039",
+   "title": "The Encyclopedia of Trading Strategies 2000",
+   "leads": 116,
+   "n_strong": 116,
+   "tokens": 185475,
+   "density": 0.6254212157972773,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0112",
+   "title": "Trading For Dummies 2nd edition 2009",
+   "leads": 130,
+   "n_strong": 130,
+   "tokens": 208219,
+   "density": 0.6243426392404151,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0104",
+   "title": "Timing Solutions for Swing Traders - Successful Trading Using Technical Analysis and Financial Astrology 2012",
+   "leads": 59,
+   "n_strong": 59,
+   "tokens": 94761,
+   "density": 0.6226190099302455,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0035",
+   "title": "Day Trading the Currency Market - Technical and Fundamental Strategies To Profit from Market Swings 2005",
+   "leads": 42,
+   "n_strong": 42,
+   "tokens": 67729,
+   "density": 0.6201184130874514,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0074",
+   "title": "The Master Swing Trader - Tools and Techniques to Profit from Outstanding Short-Term Trading Opportunities 2001",
+   "leads": 135,
+   "n_strong": 135,
+   "tokens": 217722,
+   "density": 0.6200567696420205,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0122",
+   "title": "The Visual Investor - How to Spot Market Trends 2nd edition 2009",
+   "leads": 76,
+   "n_strong": 76,
+   "tokens": 122631,
+   "density": 0.6197454151071099,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0076",
+   "title": "Mastering the Trade - Proven Techniques for Profiting from Intraday and Swing Trading Setups 2nd edition 2012 (1) - annotated",
+   "leads": 172,
+   "n_strong": 172,
+   "tokens": 277714,
+   "density": 0.6193422009693426,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0019",
+   "title": "Chart Your Way To Profits - The Online Trader's Guide to Technical Analysis with ProphetCharts 2nd edition 2010",
+   "leads": 105,
+   "n_strong": 105,
+   "tokens": 170536,
+   "density": 0.6157057747337805,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0069",
+   "title": "The Little Book of Currency Trading - How to Make Big Profits in the World of Forex 2010",
+   "leads": 35,
+   "n_strong": 35,
+   "tokens": 59274,
+   "density": 0.5904781185680062,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0097",
+   "title": "Technical Analysis and Stock Market Profits 2005",
+   "leads": 124,
+   "n_strong": 124,
+   "tokens": 223051,
+   "density": 0.5559266714787201,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0081",
+   "title": "The New Market Wizards - Conversations with America's Top Traders 1992",
+   "leads": 129,
+   "n_strong": 129,
+   "tokens": 233419,
+   "density": 0.5526542398005303,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0116",
+   "title": "Trend Following - Learn to Make Millions in Up or Down Markets 2009",
+   "leads": 123,
+   "n_strong": 123,
+   "tokens": 222610,
+   "density": 0.5525358249854004,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0025",
+   "title": "A Complete Guide To Volume Price Analysis 2013",
+   "leads": 57,
+   "n_strong": 57,
+   "tokens": 103996,
+   "density": 0.5480980037693758,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0054",
+   "title": "Harmonic Trading, Volume One - Profiting from the Natural Order of the Financial Markets 2010",
+   "leads": 47,
+   "n_strong": 47,
+   "tokens": 86747,
+   "density": 0.5418054803047944,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0022",
+   "title": "The Commitments of Traders Bible - How To Profit from Insider Market Intelligence 2008",
+   "leads": 61,
+   "n_strong": 61,
+   "tokens": 116626,
+   "density": 0.5230394594687291,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0047",
+   "title": "Forex for Beginners - A Comprehensive Guide to Profiting from the Global Currency Markets 2012",
+   "leads": 57,
+   "n_strong": 57,
+   "tokens": 110149,
+   "density": 0.517480866825845,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0034",
+   "title": "Day Trading For Dummies 3rd edition 2014",
+   "leads": 100,
+   "n_strong": 100,
+   "tokens": 199104,
+   "density": 0.5022500803600128,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0073",
+   "title": "Market Wizards - Interviews With Top Traders 2012",
+   "leads": 93,
+   "n_strong": 93,
+   "tokens": 190891,
+   "density": 0.4871890241027602,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0077",
+   "title": "Millionaire Traders - How Everyday People Are Beating Wall Street at Its Own Game 2007",
+   "leads": 81,
+   "n_strong": 81,
+   "tokens": 171412,
+   "density": 0.4725456794156768,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0051",
+   "title": "Fundamental Analysis For Dummies 2009",
+   "leads": 95,
+   "n_strong": 95,
+   "tokens": 202261,
+   "density": 0.46969015282234344,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0094",
+   "title": "Stock Market Wizards - Interviews with America's Top Stock Traders 2001",
+   "leads": 83,
+   "n_strong": 83,
+   "tokens": 177868,
+   "density": 0.46663818112308003,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0046",
+   "title": "Fooled by Randomness - The Hidden Role of Chance in Life and in the Markets 2005",
+   "leads": 49,
+   "n_strong": 49,
+   "tokens": 105929,
+   "density": 0.4625739882374043,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0004",
+   "title": "The Alchemy of Finance - Reading the Mind of the Market 2nd edition 1994",
+   "leads": 83,
+   "n_strong": 83,
+   "tokens": 179733,
+   "density": 0.46179610867230836,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0059",
+   "title": "How to Make Money in Stocks - A Winning System in Good Times and Bad 4th edition 2009",
+   "leads": 97,
+   "n_strong": 97,
+   "tokens": 213234,
+   "density": 0.45489931249237925,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0026",
+   "title": "The Complete Trading Course - Price Patterns, Strategies, Setups, and Execution Tactics 2011",
+   "leads": 77,
+   "n_strong": 77,
+   "tokens": 176827,
+   "density": 0.43545386168401884,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0027",
+   "title": "The Complete Turtle Trader - The Legend, the Lessons, the Results 2007",
+   "leads": 48,
+   "n_strong": 48,
+   "tokens": 116142,
+   "density": 0.41328718293123934,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0066",
+   "title": "Jesse Livermore - World's Greatest Stock Trader 2001",
+   "leads": 53,
+   "n_strong": 53,
+   "tokens": 138320,
+   "density": 0.38316946211683056,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0057",
+   "title": "How to Day Trade for a Living - Tools, Tactics, Money Management, Discipline and Trading Psychology 3rd edition",
+   "leads": 33,
+   "n_strong": 33,
+   "tokens": 86755,
+   "density": 0.3803815342055213,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0113",
+   "title": "Trading in the Zone - Master the Market with Confidence, Discipline and a Winning Attitude 2000",
+   "leads": 40,
+   "n_strong": 40,
+   "tokens": 108691,
+   "density": 0.36801575107414597,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0090",
+   "title": "Reminiscences of a Stock Operator 2008",
+   "leads": 49,
+   "n_strong": 49,
+   "tokens": 146810,
+   "density": 0.33376472992302975,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0023",
+   "title": "Common Stocks and Uncommon Profits and Other Writings 2nd edition 2003",
+   "leads": 55,
+   "n_strong": 55,
+   "tokens": 177342,
+   "density": 0.3101352189554646,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0029",
+   "title": "Currency Strategy - The Practitioners Guide to Currency Investing, Hedging and Forecasting 2002",
+   "leads": 51,
+   "n_strong": 51,
+   "tokens": 172219,
+   "density": 0.29613457284039507,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0036",
+   "title": "The Disciplined Trader - Developing Winning Attitudes 1990 - annotated",
+   "leads": 31,
+   "n_strong": 31,
+   "tokens": 117640,
+   "density": 0.2635158109486569,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0085",
+   "title": "One Up On Wall Street 2000",
+   "leads": 38,
+   "n_strong": 38,
+   "tokens": 148382,
+   "density": 0.2560957528541198,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0003",
+   "title": "Adventures of a Currency Trader - A Fable about Trading, Courage, and Doing the Right Thing 2007",
+   "leads": 31,
+   "n_strong": 31,
+   "tokens": 122087,
+   "density": 0.2539172884909941,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0040",
+   "title": "The Essays of Warren Buffett - Lessons for Corporate America 1998",
+   "leads": 33,
+   "n_strong": 33,
+   "tokens": 131125,
+   "density": 0.25166825548141086,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0060",
+   "title": "Inside the Currency Market - Mechanics, Valuation and Strategies 2011",
+   "leads": 43,
+   "n_strong": 43,
+   "tokens": 171387,
+   "density": 0.25089417517081225,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0061",
+   "title": "The Intelligent Investor - A Book of Practical Counsel 2003",
+   "leads": 76,
+   "n_strong": 76,
+   "tokens": 323665,
+   "density": 0.2348106838861168,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0037",
+   "title": "Dual Momentum Investing - An Innovative Strategy for Higher Returns with Lower Risk 2015",
+   "leads": 22,
+   "n_strong": 22,
+   "tokens": 97518,
+   "density": 0.2255993765253594,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0063",
+   "title": "Irrational Exuberance (Revised and Expanded) 3rd edition 2016",
+   "leads": 55,
+   "n_strong": 55,
+   "tokens": 257261,
+   "density": 0.21379066395606017,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0089",
+   "title": "A Random Walk Down Wall Street - The Time-Tested Strategy for Successful Investing 11th edition 2015",
+   "leads": 40,
+   "n_strong": 40,
+   "tokens": 187947,
+   "density": 0.2128259562536247,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0013",
+   "title": "Buffett - The Making of an American Capitalist 2008",
+   "leads": 56,
+   "n_strong": 56,
+   "tokens": 267015,
+   "density": 0.2097260453532573,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0082",
+   "title": "The New New Thing - A Silicon Valley Story 2014",
+   "leads": 29,
+   "n_strong": 29,
+   "tokens": 144277,
+   "density": 0.20100223874907297,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0044",
+   "title": "The Five Rules for Successful Stock Investing - Morningstar's Guide to Building Wealth and Winning in the Market 2004",
+   "leads": 37,
+   "n_strong": 37,
+   "tokens": 184926,
+   "density": 0.20008003201280514,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0028",
+   "title": "Cryptoassets - The Innovative Investor's Guide to Bitcoin and Beyond 2017",
+   "leads": 36,
+   "n_strong": 36,
+   "tokens": 181638,
+   "density": 0.19819641264493112,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0123",
+   "title": "The Warren Buffett Way 2nd edition 2005",
+   "leads": 24,
+   "n_strong": 24,
+   "tokens": 126274,
+   "density": 0.19006287913584743,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0030",
+   "title": "Currency Trading and Intermarket Analysis - How to Profit from the Shifting Currents in Global Markets 2008",
+   "leads": 28,
+   "n_strong": 28,
+   "tokens": 158809,
+   "density": 0.17631242561819543,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0067",
+   "title": "Liar's Poker - Rising Through the Wreckage on Wall Street",
+   "leads": 25,
+   "n_strong": 25,
+   "tokens": 143624,
+   "density": 0.17406561577452237,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0068",
+   "title": "The Little Book of Common Sense Investing - The Only Way to Guarantee Your Fair Share of Stock Market Returns 2007",
+   "leads": 11,
+   "n_strong": 11,
+   "tokens": 73123,
+   "density": 0.15043146479219943,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0093",
+   "title": "The Snowball - Warren Buffett and the Business of Life 2009",
+   "leads": 90,
+   "n_strong": 90,
+   "tokens": 608461,
+   "density": 0.14791416376727515,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0088",
+   "title": "Principles - Life and Work 2017",
+   "leads": 32,
+   "n_strong": 32,
+   "tokens": 232772,
+   "density": 0.13747357929647896,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0012",
+   "title": "The Broker 2005",
+   "leads": 20,
+   "n_strong": 20,
+   "tokens": 146018,
+   "density": 0.13696941472969085,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0043",
+   "title": "Extraordinary Popular Delusions and The Madness of Crowds 2001",
+   "leads": 54,
+   "n_strong": 54,
+   "tokens": 427662,
+   "density": 0.12626794056988933,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0011",
+   "title": "Boomerang - Travels in the New Third World 2012",
+   "leads": 11,
+   "n_strong": 11,
+   "tokens": 88732,
+   "density": 0.12396880494072038,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0070",
+   "title": "The Little Book That Beats the Market 2006",
+   "leads": 6,
+   "n_strong": 6,
+   "tokens": 51386,
+   "density": 0.11676332074884209,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0125",
+   "title": "When Genius Failed - The Rise and Fall of Long-Term Capital Management 2001",
+   "leads": 16,
+   "n_strong": 16,
+   "tokens": 143578,
+   "density": 0.11143768543927342,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0045",
+   "title": "Flash Boys - A Wall Street Revolt 2015",
+   "leads": 11,
+   "n_strong": 11,
+   "tokens": 123757,
+   "density": 0.08888386111492683,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0120",
+   "title": "University of Berkshire Hathaway - 30 Years of Lessons Learned from Warren Buffett & Charlie Munger at the Annual Shareholders Meeting 2017",
+   "leads": 4,
+   "n_strong": 4,
+   "tokens": 135715,
+   "density": 0.029473529086689015,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0009",
+   "title": "The Big Short - Inside the Doomsday Machine 2011",
+   "leads": 3,
+   "n_strong": 3,
+   "tokens": 133838,
+   "density": 0.022415158624605868,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0102",
+   "title": "Technical Analysis of Stock Trends Explained - An Easy-to-Understand System for Successful Trading 2013",
+   "leads": 1,
+   "n_strong": 1,
+   "tokens": 61883,
+   "density": 0.01615952684905386,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0010",
+   "title": "The Blind Side - Evolution of a Game 2007",
+   "leads": 1,
+   "n_strong": 1,
+   "tokens": 147849,
+   "density": 0.006763657515438049,
+   "lineage": null
+  },
+  {
+   "book_id": "book_0078",
+   "title": "Moneyball - The Art of Winning an Unfair Game 2004",
+   "leads": 0,
+   "n_strong": 0,
+   "tokens": 148108,
+   "density": 0.0,
+   "lineage": null
+  }
+ ]
+}

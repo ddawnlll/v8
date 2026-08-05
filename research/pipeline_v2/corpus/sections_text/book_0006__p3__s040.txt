@@ -1,0 +1,488 @@
+
+N=
+
+Sum
+
+Mean
+
+StDev
+
+AvgWin
+
+AvgLoss
+
+Win%
+
+p=
+
+A
+B
+C
+D
+All
+
+29
+17
+16
+6
+68
+
+2.9X
+13.5X
+6.7X
+0.1X
+23.2X
+
+0.1X
+0.8X
+0.4X
+0.0X
+0.3X
+
+0.8X
+0.8X
+0.7X
+0.6X
+0.8X
+
+0.8X
+1.2X
+0.7X
+0.6X
+0.9X
+
+−0.5X
+−0.3X
+−0.8X
+−0.3X
+−0.4X
+
+44.8%
+70.6%
+81.3%
+33.3%
+58.8%
+
+0.249
+0.001
+0.013
+0.463
+0.000
+
+P1: OTA
+JWBT634-c12
+
+JWBT634-Grimes
+
+May 10, 2012
+
+Becoming a Trader
+
+8:16
+
+Printer: Hamilton Printing
+
+393
+
+FIGURE 12.3 Trade-by-Trade %R P&L
+
+returned an average of 0.4 times initial risk against a standard deviation of 0.7. Based on
+this analysis, A-class and D-class trades should be carefully examined, as it appears there
+may not be an edge.
+Compare Figure 12.3, which shows the individual trade results as %R, to Figure 12.2.
+At first glance they appear to be similar, showing the same runs of wins and losses, but
+look again. Notice especially that the two large losses that stood out in the middle of
+Figure 12.2 are normal, insignificant losses when expressed as %R. Is it possible that
+the trader increased risk on those two trades, taking outsized risks and losses? If so,
+could those losses have unbalanced him psychologically and led to the series of losing
+trades? This cannot be answered from a numerical analysis, but these are the kinds
+of questions that must be asked. Note that, in general, Figure 12.3 is much more
+consistent—though the trader may have made poor decisions about his position sizing on
+each trade, it appears that he was working within and respecting his risk limits very well.
+This analysis can and should be extended to more detailed investigations of the different classes of trades and different asset classes, if applicable. For now, let’s leave
+this example with one more step. It is possible to generate a pro forma P&L, which assumes that the trader had risked a consistent percentage of account equity on each trade.
+Figure 12.4 shows this pro forma equity curve, assuming 1 percent fixed fractional risk,
+against the actual P&L. Note that you cannot simply add the %R results in Table 12.2
+to get ending P&L under a fixed fractional scheme because the amount risked is always
+changing with each trade. In this case, the trader would have ended with $22,935 had he
+
+P1: OTA
+JWBT634-c12
+
+JWBT634-Grimes
+
+May 10, 2012
+
+8:16
+
+Printer: Hamilton Printing
+
+394
+
+THE INDIVIDUAL, SELF-DIRECTED TRADER
+
+FIGURE 12.4 Cumulative Actual and Pro Forma P&L
+
+simply used 1 percent fixed fractional risk, a stunning gain over his actual $3,158. The
+path of this pro forma P&L provides another, visual confirmation of what we have seen
+clearly in the %R analysis—the trader actually did have an edge, but did not apply it very
+well. The lessons, in this case, are probably simple: perhaps eliminate one or two of the
+trading systems and consider applying the rest with a fixed fractional risk approach in
+the next period.
+
+Control Charts
+Control charts are tools used in manufacturing to monitor physical processes for early
+signs of degradation or failure, and are an important quality control tool in diverse fields
+such as metalworking, electronics, and pharmaceutical manufacturing, among others.
+They are especially powerful in physical processes that can be tightly controlled, especially with large sample sizes. For instance, an automobile part produced on an assembly
+line might have tolerances measured in a fraction of a human hair; some variation, within
+tightly defined limits, is acceptable, but the production line needs a warning when products stray outside these bounds. The same concepts can be applied to trading, with the
+caveat that trading results are far more variable than manufacturing applications.
+There are several different kinds of control charts used in manufacturing applications, but I am going to propose a simplified version that traders may find more immediately applicable. Many of the assumptions of distributions made in classic control charts
+do not hold in trading situations. For instance, one commonly used chart in manufacturing plots variations on both sides of an average, expecting that the variation should
+wander more or less freely above and below that average. The quality control manager
+
+P1: OTA
+JWBT634-c12
+
+JWBT634-Grimes
+
+May 10, 2012
+
+8:16
+
+Becoming a Trader
+
+Printer: Hamilton Printing
+
+395
+
+takes note when four or five data points appear on one side of the average, and considers
+this to be an early warning that the process is potentially moving out of the control zone.
+This degree of control is very unlikely in trading, so the purpose of these charts is slightly
+different: to present trading results in a graphical format that displays the individual data
+points, a moving average, and some measure of variation. The first of these charts is the
+Standard Deviation Control Chart, and is produced by the following procedure:
+
+r First, decide what the evaluation period is going to be. Many traders will find weekly
+analysis to be most applicable, but day traders should do this work on each trading
+day. (It is also possible to do a trade-by-trade analysis rather than a chronological
+grouping.)
+r Collect a time series of individual (not cumulative) P&Ls for each period.
+r Choose a look-back period. The example that follows is done on daily data produced
+by a day trader, so a look-back period of 20 trading days, which is approximately
+equal to one trailing calendar month, was chosen. In practice, look-back periods of
+10 to 50 are probably most useful.
+r For each data point, calculate a moving average of the look-back period as well as the
+standard deviation. Offset these by one day, so that today you are using yesterday’s
+average and standard deviation. This is important because a large value today will
+influence the average and standard deviation and, particularly for short look-back
+periods, will give an understated view of the variation.
+r For each data point, plot the raw data point as a bar, the moving average, and bands
++/−N times the standard deviation. Remember, it is very unlikely that this data will
+be normally distributed, so the usual rules of thumb for standard deviation do not
+apply. Rather, the standard deviation bands are used as a visual representation of
+the degree of variation in the process. The example that follows uses 2.5 for N, but
+values of 1.5 to 3.0 may be useful.
+Figure 12.5 shows an example of this Standard Deviation Control Chart, based on
+190 trading days of a model developing day trader’s P&L. Though there is much to be
+gleaned from this analysis, here are some important points to consider:
+A: The trader’s variation has been steadily increasing, evidenced by the expanding
+upper and lower bands. Note that the average (the dark black line in the middle)
+
+FIGURE 12.5 A Standard Deviation Control Chart
+
+P1: OTA
+JWBT634-c12
+
+JWBT634-Grimes
+
+May 10, 2012
+
+396
+
+8:16
+
+Printer: Hamilton Printing
+
+THE INDIVIDUAL, SELF-DIRECTED TRADER
+
+has been consistently above zero, suggesting that the trader is consistently making money. In addition, winning days are much larger than losing days. This is
+all good.
+B: Something happens here. The average takes a turn down, and even crosses to the
+other side of zero. The trader would have been losing money during this period,
+but the variation also decreases. It is important to ask the right questions to understand why this happened. What caused the change in the average? Are there
+behavioral factors at work? Did something shift in the market? Was a new trading system implemented? Perhaps the trader was aware that he was not doing
+well and reduced trading size. The answers are not on this chart, but the chart
+can provoke the correct questions.
+C: The average recovers after a series of winning days, but there may still be problems. The average is not as consistent, as it turns back down shortly after C, and
+there are not as many winning days above $500 as at the beginning of the chart.
+D: Finally, the trader’s P&L seems to be back under control, and the last part of the
+chart looks very much like the beginning, though the degree of variation (spread
+of the bands) is higher.
+This chart will serve the needs of most traders, but another possibility to consider is
+the Range Control Chart. This chart, shown in Figure 12.6, can be a useful complement
+to other P&L analyses. The procedure for creating this chart is simple:
+
+r For each period being evaluated (day, week, or trade), plot the raw data as a bar.
+r Choose a look-back period (20 days was used in Figure 12.6), and also plot the high
+and low for the look-back period.
+Consider the lessons of this chart in conjunction with the previous example:
+A: Variation is increasing, but it is increasing because of more large winning days.
+This is good because it suggests that even though the trader’s returns may be
+becoming more volatile, the variation is positive rather than being equally spread
+around zero.
+B: The high/low bands contract, highlighting the reduction of variation already seen
+on the previous chart.
+
+FIGURE 12.6 Range Control Chart
+
+P1: OTA
+JWBT634-c12
+
+JWBT634-Grimes
+
+May 10, 2012
+
+Becoming a Trader
+
+8:16
+
+Printer: Hamilton Printing
+
+397
+
+FIGURE 12.7 Three Control Charts
+
+C: Variation is once again increasing, but now more symmetrically. This may temper
+our optimism at the end of the previous analysis a bit. The trader is making
+money, but why is more of the volatility to the downside in this period compared
+to the first part of the chart? Where have the large winning days gone?
+One more chart that some traders find useful is a Win Ratio Control Chart, which
+is calculated by plotting a moving average of the win ratio over a look-back period.
+Though too much attention on win ratio is counterproductive, a shift in win ratio can
+be a harbinger of trouble to come, and it may be possible to identify problems before
+they become expensive. Figure 12.7 reproduces the first two charts, with the addition of
+a Win Ratio Control Chart also using a 20-day look-back period. Consider what information a careful analysis of these three together can give the trader. Note that there are two
+large declines in win ratio, all of which may point to some potential issues with trading
+performance. Again, the answers to most trading problems are not on these charts, but
+in many cases, the right questions are.
+
+SUMMARY
+Trading is difficult. Markets are highly random and nearly unpredictable, diverse and unforeseeable risks crop up at every turn, and traders themselves are vulnerable to many
+
+P1: OTA
+JWBT634-c12
+
+398
+
+JWBT634-Grimes
+
+May 10, 2012
+
+8:16
+
+Printer: Hamilton Printing
+
+THE INDIVIDUAL, SELF-DIRECTED TRADER
+
+psychological errors and weaknesses. In addition, the process of developing trading skill
+is a long one, fraught with hardship and obstacles. Many traders fail because they do
+not have realistic assumptions about the length and challenges of that process, or because they lack some essential requirements for success. This chapter addresses many
+of those problems, and gives valuable perspective and a much-needed reality check. A
+trader armed with these, and with the tools and techniques from elsewhere in this book,
+can develop a plan of attack and move along the path to trading mastery.
+
+P1: OTA
+JWBT634-bapp01
+
+JWBT634-Grimes
+
+May 11, 2012
+
+8:31
+
+Printer: Hamilton Printing
+
+APPENDIX A
+
+Trading Primer
+
+t first glance, the process of making a trade seems to be simple. Someone wanting
+to buy an item meets with a potential seller, they agree on a price, and money is
+exchanged in return for the item. Even the most complex trading ideas begin with
+this concept. The mechanics may be much more complicated—perhaps the buyer and
+seller negotiate through a sophisticated electronic medium. Perhaps the item is actually
+a sophisticated financial instrument or set of instruments. Perhaps there are complications such as currency adjustments or financing costs to be considered, or perhaps the
+transaction is merely arranged to occur at a future point in time. Regardless, this basic
+meeting of buyer and seller—weighing of value against value— is the very essence and
+the root of all market activity.
+Many books begin by saying that a trade occurs when a buyer and a seller agree on
+value, but this is not entirely correct. If this were so, if the parties truly agreed that the
+price represented the fair value of the asset, that one was equal to the other, wouldn’t
+they each be willing to immediately unwind the trade and even to take the other side?
+This is almost never the case. In simple buying or selling transactions (excluding spreading and hedging, which we will get to in a minute) the buyer is willing to part with the
+money because he believes the asset will offer him more value in the future than the
+money he gave up. The seller has made a decision that the utility value of the money she
+will receive exceeds the value she would get from continuing to own the asset, so each
+participant has made an assessment of value that might be unique to his or her particular
+situation at that point in time. Rather than an agreement, each and every trade that occurs in the market represents a disagreement over the value of the money and the assets
+being exchanged.
+
+A
+
+399
+
+P1: OTA
+JWBT634-bapp01
+
+JWBT634-Grimes
+
+400
+
+May 11, 2012
+
+8:31
+
+Printer: Hamilton Printing
+
+APPENDIX A: TRADING PRIMER
+
+THE SPREAD
+We often hear language like “The stock of company XYZ is at $50,” but even here we have
+an issue, for there is rarely only one price to consider; usually there are at least three. In
+active, liquid markets, there is a bid price at which buyers are willing to buy an asset, an
+offer (or ask, from asking price) at which sellers are offering to sell, and usually a last
+print (or simply, last) price where a trade was made. In a typical market, bids will be
+lined up below the market (more buyers are willing to buy at lower prices), and offers
+will be stacked at higher prices. The inside market refers to the highest bid price and the
+lowest offer, representing the best available price at any time, and the distance between
+those two prices is often referred to as the spread.
+In the hypothetical case of XYZ that just traded at $50, we might find that the best
+available bid is $49.95 and the lowest offered price is $50.05. A trader would verbalize
+this situation as “49.95 bid, offered at 50.05,” which is usually shortened in practice to
+“49.95 at 50.05.” If the trader is reasonably sure the person he is speaking to knows the
+approximate price, he may drop the handle (the whole number) part of the price and
+just give the decimal pricing. As prices change rapidly, this can lead to a dialogue like
+“95 at 05 [meaning .95 and .05], at 7, at 9, 98 bid, now at 06.” Though the last trade may
+have been at $50, there is a reasonable chance that we could not execute at that price in
+this situation with the market “95 at 05.” In fact, it is even possible that the last print was
+50.00, and now the market may have moved to 50.50 at 50.60. A buyer, in this case, has
+little hope of executing at any price under 50.50; the spread is often a better reflection of
+actual value than the last print.
+Some traders glean a lot of information from the spread. For instance, the size of
+the spread is often a measure of the uncertainty in the market; when prices are changing
+rapidly, market participants often react by widening the spread. Buyers are not aggressive in paying high prices because they know the market could move against them in
+the next instant, so bids tend to drop lower. At the same time, sellers also react by lifting their offers to higher prices. There is other information in the spread: how rapidly it
+moves, exactly how it moves (do sellers lift offers higher or do buyers aggressively bid
+higher?), how much size is displayed, and many other subtleties.
+If this seems like a lot of time spent on something very basic, you’re right; it is, and
+it is also very important. The spread represents a very real cost of trading. Imagine that
+a buyer pays the offer, and then immediately realizes he has made a mistake and wants
+to get out of the trade. This can be done only by turning around and selling to the buyers
+on the bid, so the spread is a source of risk and a cost of trading in every transaction. It
+is also usually the best estimation of the actual market value of an asset. In the case of a
+very active stock that prints a trade every few seconds, the inside market is rarely very
+far from the last print, so the last trade is a very good approximation of value. (This kind
+of stock will usually tend to have a relatively tight spread as well.)
+However, there are some instruments that may go days without trading (some
+stocks, options, distant months of futures contracts, for instance). In these cases, the last
+
+P1: OTA
+JWBT634-bapp01
+
+JWBT634-Grimes
+
+Appendix A: Trading Primer
+
+May 11, 2012
+
+8:31
+
+Printer: Hamilton Printing
+
+401
+
+price may be completely irrelevant because it happened so long ago that the market has
+moved. To further complicate matters, very inactive, illiquid instruments will often have
+extremely wide spreads. If stock XYZ last printed 50.00 three weeks ago, but is now bid at
+30.00 and offered at 49.00, what is it actually worth? Researchers studying price patterns
+need to be careful because printed price records in illiquid markets can be very misleading. As an interesting aside, a major factor in the 2007–2008 financial crisis was the importance of many financial instruments representing very significant financial commitments
+that did not have liquid markets. Spreads were wide, or in some cases, nonexistent, so
+it was impossible to derive a market value for many of these assets. In the absence of a
+market price, traders resorted to building complex models with many moving parts (if
+that sounds a lot like guessing, you’re not wrong), and many of these models gave very
+misleading values for these instruments. This complete breakdown in understanding the
+value and risk of these instruments was one of the major contributors to the crisis.
+Liquidity is a misused and often imprecisely defined term, but it usually means the
+availability of willing buyers and sellers. Liquid instruments tend to have tighter spreads
+and deeper books, meaning that there are many buyers and sellers at price levels beyond
+the inside market. Going back to XYZ, which is now 49.95 at 50.05, we might find there
+are 1,000 shares on the bid at 49.95, and many thousands at 49.94, 49.93, and so on for
+many pennies below the market. Imagine a very large sell order comes into the market.
+These buyers would easily be able to absorb that order, meaning that XYZ would trade on
+the bid at 49.95, then maybe 49.94 and 49.93—all in all, very little price change. However,
+imagine a second scenario where there are again 1,000 shares on the bid at 49.95, but
+now a few hundred at 49.91, a few more at 49.87, and so on. If a large sell order hits this
+market, it will “clear the bids” and the price will drop much lower.
+Market makers are a specific group of traders whose job is basically to provide liquidity. A market maker will usually have both a bid and an offer in the market, though
+they are free to adjust those levels as needed. For instance, if market makers are getting
+hit on the bid so that they are accumulating large long positions, they may choose to
+still bid for the stock, but to drop their bid to lower levels. If they keep their offer price
+on the inside market (meaning that they adjust their offer so that it is the lowest offer),
+eventually they will be able to sell some of their inventory, and in this way manage their
+exposure. Floor traders in open-outcry markets were the original market markers. Early
+electronic markets had designated market makers, but this role has now passed to many
+firms who run computer programs (algos) that function as market makers.
+Market makers incur significant risks at times because they will always be on the
+wrong side of big moves driven by informed traders. If a group of traders comes into
+the market with many buy orders, the market maker will be forced to short to take the
+other side of that trade. In extreme cases (e.g., the crash of 1987), market makers could
+be forced out of business by adverse price moves. Market makers are typically offered
+various incentives to compensate them for these risks; otherwise, no one would take this
+job! (As of this writing, in 2011, liquidity rebates, which pay the firm a very small fee for
+executing via limit orders, are one of the primary forms of compensation for most traders
+functioning as market makers.)
+
+P1: OTA
+JWBT634-bapp01
+
+JWBT634-Grimes
+
+May 11, 2012
+
+402
+
+8:31
+
+Printer: Hamilton Printing
+
+APPENDIX A: TRADING PRIMER
+
+TWO TYPES OF ORDERS
+Traders wishing to buy this market have, broadly speaking, two options. A buyer who is
+not really in any hurry might focus on getting the best (lowest) price he can get, so he
+can bid for the stock. (In this case, bid is used as a verb meaning “to place an order lower
+than current prices.”) Consider the case of XYZ with the market bid at 49.95 and offered
+at 50.05; a buyer could join the bid and put his order at 49.95. Of course, the buyer can
+also place orders lower, but they will be filled only if the market moves down to the level
+where he is bidding. If the buyer is feeling a little more urgency, he can step in front
+of the bid and put his order at 49.96 or 49.97. Note that in this case, the inside market
+would now be 49.97 (still offered at 50.05). This is a natural force that tends to compress
+spreads as buyers bid slightly higher and sellers offer lower in competition for fills, and is
+one of the main reasons why active, liquid markets tend to have tight spreads. However,
+if the buyer is really motivated and must have stock XYZ now, he may choose to pay the
+offer (other common language is take the offer, and the reverse is to hit the bid). Though
+much simplified, these are the two options available to traders and they correspond to
+the two most commonly used order types.
+Limit orders are orders where buyers try to buy at a cheaper price than the offer
+and sellers offer to sell at prices above the bid. A trader wanting to buy XYZ with a limit
+order might say, “Bid for it” or “Join the bid,” as in “We’re in no hurry here—just bid for
+it.” A seller might say, “Okay, fine, offer it out. Put it up on the offer.” Market orders are
+orders that will execute immediately. Buyers will pay the offer and sellers will end up
+hitting the bid. These orders usually reflect some degree of urgency—the order must be
+done immediately and a better price (trade location) is sacrificed for speed of execution.
+Though the buyer bidding with a limit order will get a better price if filled, the trade-off
+is that the order may never be filled if the market moves higher.
+Now we have arrived at something subtle and very important. Imagine XYZ is again
+49.95 at 50.05, and then it trades at 50.05. What just happened? A buyer wanted to buy

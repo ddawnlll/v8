@@ -1,0 +1,539 @@
+
+Continuous Futures Contracts 509
+
+nearest contracts, and looking 14 weeks into the future, the sym-
+bol could be: TRCF314. TR is the symbol, CF is for Continuous
+(Forward Looking), 3 is the number of contracts used, and 14 is
+the number of weeks the price is projected.
+
+The mechanics of this are fairly simple. First, a fixed rollover
+date would need to be set for each commodity. A good one to start
+with could be 10 days prior to expiration. What is important is that
+there is a rollover sometime prior to actual expiration. Second, the
+number of contracts used will never be less than 2 and probably
+never greater than 4. The number of weeks used should probably
+always be greater that 3 and could go up to 40 in some cases.
+
+Example: This is the method used by Commodity Systems,
+Inc. (See Perpetual Contract in Chapter 8.)
+
+T-Bonds will be used again, because they have a uniform
+expiration cycle of every 3 months. Let’s say a trader wants a
+Continuous Contract of T-Bonds using the 2 nearest months and
+looking 12 weeks into the future (symbol = TRCE212). Today’s
+date is December 1. A graphical portrayal makes this easier to
+understand (see Figure D.1). The vertical axis is price and the hor-
+izontal axis is time. Today’s date is marked on the horizontal axis
+and the expiration dates of the two nearest contracts (December
+and March), are also marked. He wants to look 12 weeks into the
+future so a mark is made 12 weeks from today which is about
+February 25. The close price of the December contract was 88.25
+and the close of the March contract was 87.75 These points are
+then put above their expiration dates at the corresponding prices.
+Then a linear extrapolation is made by merely drawing a line
+between the two points. The slope of this line will vary up and
+down depending upon the outlook for long term interest rates (in
+this T-Bond example). In this particular example the outlook is for
+higher rates because the March futures price is lower than the
+December price.
+
+To find the value of the TRCF212 close price for today, find
+the point on the horizontal axis that is 12 weeks from today (Feb
+25th) and go up to the line drawn on the chart. Then from the
+line go to the right and that is the price of the close for this
+Constant Forward Continuous Contract (about 87.91). You can
+
+
+510 Appendix D
+
+also visually see from the chart that the March contract is carry-
+ing more weight than the December contract because the point of
+interception is closer to March. This method can be done on the
+Open, High, Low, and Close in the exact manner. Of course, a
+computer does it mathematically; this is just a visual explanation
+of how a Perpetual Contract is constructed.
+
+
+Advance-decline line: One of the most widely used indicators
+
+to measure the breadth of a stock market advance or
+decline. Each day (or week) the number of advancing
+issues is compared to the number of declining issues. If
+advances outnumber declines, the net total is added to the
+previous cumulative total. If declines outnumber advances,
+the net difference is subtracted from the previous cumula-
+tive total. The advance-decline line is usually compared to
+a popular stock average, such as the Dow Jones Industrial
+Average. They should trend in the same direction. When
+the advance-decline line begins to diverge from the stock
+average, an early indication is given of a possible trend
+reversal.
+
+Arms index: Developed by Richard Arms, this contrary indicator
+
+is a ratio of the average volume of declining stocks divided by
+the average volume of advancing stocks. A reading below 1.0
+
+511
+
+
+512 Glossary
+
+indicates more volume in rising stocks. A reading above 1.0
+reflects more volume in declining issues. A 10 day average of
+the Arms index over 1.20 is oversold, while a 10 day average
+below .70 is overbought.
+
+Ascending triangle: A sideways price pattern between two con-
+verging trendlines, in which the lower line is rising while the
+upper line is flat. This is generally a bullish pattern. (See
+Triangles.)
+
+Bar chart: On a daily bar chart, each bar represents one day's
+activity. The vertical bar is drawn from the day’s highest price
+to the day’s lowest price (the range). A tic to the left of the
+bar marks the opening price, while a tic to the right of the bar
+marks the closing price. Bar charts can be constructed for any
+time period, including monthly, weekly, hourly, and minute
+periods.
+
+Bollinger bands: Developed by John Bollinger, this indicator
+plots trading bands two standard deviations above and below
+a 20 period moving average. Prices will often meet resistance
+at the upper band and support at the lower band.
+
+Breakaway gap: A price gap that forms on the completion of an
+important price pattern. A breakaway gap usually signals the
+beginning of an important price move. (See Gaps.)
+
+Channel line: Straight lines drawn parallel to the basic trendline.
+In an uptrend, the channel line slants up to the right and is
+drawn above rally peaks; in a downtrend, the channel line is
+drawn below price troughs and slants down to the right.
+Prices will often meet resistance at rising channel lines and
+support at falling channel lines.
+
+Confirmation: Having as many market factors as possible agree-
+ing with one another. For example, if prices and volume are
+rising together, volume is confirming the price action. The
+opposite of confirmation is divergence.
+
+
+Glossary 513
+
+Continuation patterns: Price formations that imply a pause or
+consolidation in the prevailing trend. The most common
+types are triangles, flags, and pennants.
+
+Descending triangle: A sideways price pattern between two con-
+verging trendlines, in which the upper line is declining while
+the lower line is flat. This is generally a bearish pattern. (See
+Triangles.)
+
+Divergence: A situation where two indicators are not confirming
+each other. For example, in oscillator analysis, prices trend
+higher while an oscillator starts to drop. Divergence usually
+warns of a trend reversal. (See Confirmation.)
+
+Double top: This price pattern displays two prominent peaks. The
+reversal is complete when the middle trough is broken. The
+double bottom is a mirror image of the top.
+
+Down trendline: A straight line drawn down and to the right
+above successive rally peaks. A violation of the down trend-
+line usually signals a reversal of the downtrend. (See
+Trendlines.)
+
+Dow Theory: One of the oldest and most highly regarded tech-
+nical theories. A Dow Theory buy signal is given when the
+Dow Industrial and Dow Transportation Averages close above
+a prior rally peak. A sell signal is given when both averages
+close below a prior reaction low.
+
+Elliott wave analysis: An approach to market analysis that is based
+on repetitive wave patterns and the Fibonacci number
+sequence. An ideal Elliott wave pattern shows a five wave
+advance followed by a 3-wave decline. (See Fibonacci numbers).
+
+Envelopes: Lines placed at fixed percentages above and below a
+moving average line. Envelopes help determine when a mar-
+ket has traveled too far from its moving average and is
+overextended.
+
+
+514 Glossary
+
+Exhaustion gap: A price gap that occurs at the end of an impor-
+tant trend, and signals that the trend is ending. (See Gaps.)
+
+Exponential smoothing: A moving average that uses all data
+points, but gives greater weight to more recent price data.
+(See Moving average.)
+
+Fibonacci numbers: The Fibonacci number sequence (1, 2, 3, 5,
+8, 13, 21, 34, 55, 89, 144...) is constructed by adding the first
+two numbers to arrive at the third. The ratio of any number
+to the next larger number is 62 percent, which is a popular
+Fibonacci retracement number. The inverse of 62 percent,
+which is 38 percent, is also used as a Fibonacci retracement
+number. The ratio of any number to the next smaller num-
+ber is 1.62 percent, which is used to arrive at Fibonacci price
+targets. (See Elliott wave analysis).
+
+Flag: A continuation price pattern, generally lasting less than
+three weeks, which resembles a parallelogram that slopes
+against the prevailing trend. The flag represents a minor
+pause in a dynamic price trend. (See Pennant.)
+
+Fundamental analysis: The opposite of technical analysis.
+Fundamental analysis relies on economic supply and
+demand information, as opposed to market activity.
+
+Gaps: Gaps are spaces left on the bar chart where no trading has
+taken place. An up gap is formed when the lowest price on a
+trading day is higher than the highest high of the previous
+day. A down gap is formed when the highest price on a day
+is lower than the lowest price of the prior day. An up gap is
+usually a sign of market strength, while a down gap is a sign
+of market weakness. Three types of gaps are breakaway, run-
+away (also called measuring), and exhaustion gaps.
+
+Head and shoulders: The best known of the reversal patterns. At
+a market top, three prominent peaks are formed with the
+middle peak (or head) slightly higher than the two other
+
+
+Glossary 515
+
+peaks (shoulders). When the trendline (neckline) connecting
+the two intervening troughs is broken, the pattern is com-
+plete. A bottom pattern is a mirror image of a top and is
+called an inverse head and shoulders.
+
+Intermarket analysis: An additional aspect of market analysis
+that takes into consideration the price action of related mar-
+ket sectors. The four sectors are currencies, commodities,
+bonds, and stocks. International markets are also included.
+This approach is based on the premise that all markets are
+interrelated and impact on one another.
+
+Island reversal: A combination of an exhaustion gap in one
+direction and a breakaway gap in the other direction within
+a few days. Toward the end of an uptrend, for example, prices
+gap upward and then downward within a few days. The
+result is usually two or three trading days standing alone
+with gaps on either side. The island reversal usually signals a
+trend reversal. (See Gaps.)
+
+Key reversal day: In an uptrend, this one day pattern occurs
+when prices open in new highs, and then close below the
+previous day's closing price. In a downtrend, prices open
+lower and then close higher. The wider the price range on
+the key reversal day and the heavier the volume, the
+greater the odds that a reversal is taking place. (See Weekly
+Reversal.)
+
+Line charts: Price charts that connect the closing prices of a given
+market over a span of time. The result is a curving line on the
+chart. This type of chart is most useful with overlay or com-
+parison charts that are commonly employed in intermarket
+analysis. It is also used for visual trend analysis of open end
+mutual funds.
+
+MACD: Developed by Gerald Appel, the moving average conver-
+gence divergence system shows two lines. The first (MACD)
+line is the difference between two exponential moving aver-
+
+
+516 Glossary
+
+ages (usually 12 and 26 periods) of closing prices. The second
+(signal) line is usually a 9 period EMA of the first (MACD)
+line. Signals are given when the two lines cross.
+
+MACD histogram: A variation of the MACD system that plots the
+difference between the signal and MACD lines. Changes in
+the spread between the two lines can be spotted faster, lead-
+ing to earlier trading signals.
+
+McClellan oscillator: Developed by Sherman McClellan, this
+oscillator is the difference between the 19 day (10% trend)
+and the 39 day (5% trend) exponentially smoothed averages
+of the daily net advance decline figures. Crossings above the
+zero line are positive and below zero are negative. Readings
+above +100 are overbought while readings below -100 are
+oversold.
+
+McClellan summation index: A cumulative sum of all daily
+McClellan oscillator readings that provides longer range
+analysis of market breadth. Used in the same way as an
+advance-decline line.
+
+Momentum: A technique used to construct an overbought-over-
+sold oscillator. Momentum measures price differences over a
+selected span of time. To construct a 10 day momentum line,
+the closing price 10 days earlier is subtracted from the latest
+price. The resulting positive or negative value is plotted
+above or below a zero line. (See Oscillators.)
+
+Moving average: A trend following indicator that works best in
+a trending environment. Moving averages smooth out price
+action but operate with a time lag. A simple 10 day moving
+average of a stock, for example, adds up the last 10 days’
+closing prices and divides the total by 10. That procedure is
+repeated each day. Any number of moving averages can be
+employed, with different time spans, to generate buy and
+sell signals. When only one average is employed, a buy sig-
+nal is given when the price closes above the average. When
+
+
+Glossary 517
+
+two averages are employed, a buy signal is given when the
+shorter average crosses above the longer average. There are
+three types: simple, weighted, and exponentially smoothed
+averages.
+
+On balance volume: Developed by Joseph Granville, OBV is a
+running cumulative total of upside and downside volume.
+Volume is added on up days and subtracted on down days.
+The OBV line is plotted with the price line to see if the two
+lines are confirming each other. (See Volume.)
+
+Open interest: The number of options or futures contracts that
+are still unliquidated at the end of a trading day. A rise or fall
+in open interest shows that money is flowing into or out of
+a futures contract or option, respectively. In futures markets,
+rising open interest is considered good for the current trend.
+Open interest also measures liquidity.
+
+Oscillators: Indicators that determine when a market is in an
+overbought or oversold condition. When the oscillator
+reaches an upper extreme, the market is overbought. When
+the oscillator line reaches a lower extreme, the market is
+oversold. (See Momentum, Rate of change, Relative strength
+index, and Stochastics.)
+
+Overbought: A term usually used in reference to an oscillator.
+When an oscillator reaches an upper extreme, it is believed
+that a market has risen too far and is vulnerable to a selloff.
+
+Oversold: A term usually used in reference to an oscillator. When
+an oscillator reaches a lower extreme, it is believed that a
+market has dropped too far and is due for a bounce.
+
+Pennant: This continuation price pattern is similar to the flag,
+except that it is more horizontal and resembles a small sym-
+metrical triangle. Like the flag, the pennant usually lasts
+from one to three weeks and is typically followed by a
+resumption of the prior trend.
+
+
+518 Glossary
+
+Percent investment advisors bullish: This measure of stock mar-
+Ket bullish sentiment is published weekly by Investor's
+Intelligence of New Rochelle, New York. When only 35% of
+professionals are bullish, the market is considered oversold. A
+reading of 55% is considered to be overbought.
+
+Price patterns: Patterns that appear on price charts and that have
+predictive value. Patterns are divided into reversal and con-
+tinuation patterns.
+
+Rate of change: A technique used to construct an overbought-
+oversold oscillator. Rate of change employs a price ratio over
+a selected span of time. To construct a 10 day rate of change
+oscillator, the last closing price is divided by the closing price
+10 days earlier. The resulting value is plotted above or below
+a value of 100.
+
+Ratio analysis: The use of a ratio to compare the relative strength
+between two entities. An individual stock or industry group
+divided by the S&P S00 index can determine whether that
+stock or industry group is outperforming or underperforming
+the stock market as a whole. Ratio analysis can be used to
+compare any two entities. A rising ratio indicates that the
+numerator in the ratio is outperforming the denominator.
+Trend analysis can be applied to the ratio line itself to deter-
+mine important turning points.
+
+Relative strength index (RSI): A popular oscillator developed by
+Welles Wilder, Jr. and described in his self published 1978
+book, New Concepts in Technical Trading Systems. RSI is plotted
+on a vertical scale from 0 to 100. Values above 70 are consid-
+ered to be overbought and values below 30, oversold. When
+prices are over 70 or below 30 and diverge from price action,
+a warning is given of a possible trend reversal. RSI usually
+employs 9 or 14 time periods.
+
+Resistance: The opposite of support. Resistance is marked by a
+previous price peak and provides enough of a barrier above
+the market to halt a price advance. (See Support.)
+
+
+Glossary 519
+
+Retracements: Prices normally retrace the prior trend by a per-
+centage amount before resuming the original trend. The best
+known example is the 50% retracement. Minimum and max-
+imum retracements are normally one third and two thirds,
+respectively. Elliott wave analysis uses Fibonacci retrace-
+ments of 38% and 62%.
+
+Reversal patterns: Price patterns on a price chart that usually
+indicate that a trend reversal is taking place. The best known
+of the reversal patterns are the head and shoulders and dou-
+ble and triple tops and bottoms.
+
+Runaway gap: A price gap that usually occurs around the mid-
+point of an important market trend. For that reason, it is also
+called a measuring gap. (See Gaps.)
+
+Sentiment indicators: Psychological indicators that attempt to
+measure the degree of bullishness or bearishness in a market.
+These are contrary indicators and are used in much the same
+fashion as overbought or oversold oscillators. Their greatest
+value is when they reach upper or lower extremes.
+
+Simple average: A moving average that gives equal weight to
+each day’s price data. (See Exponential smoothing and
+Weighted average.)
+
+Stochastics: An overbought-oversold oscillator popularized by
+George Lane. A time period of 14 is usually employed in its
+construction. Stochastics uses two lines—%K and its 3 period
+moving average, %D. These two lines fluctuate in a vertical
+range between 0 and 100. Readings above 80 are overbought,
+while readings below 20 are oversold. When the faster %K
+line crosses above the slower %D line and the lines are below
+20, a buy signal is given. When the %K crosses below the %D
+line and the lines are over 80, a sell signal is given.
+
+Support: A price, or price zone, beneath the current market price,
+where buying power is sufficient to halt a price decline. A
+previous reaction low usually forms a support level.
+
+
+520 Glossary
+
+Symmetrical triangle: A sideways price pattern between two con-
+verging trendlines in which the upper trendline is declining
+and lower trendline is rising. This pattern represents an even
+balance between buyers and sellers, although the prior trend
+is usually resumed. The breakout through either trendline
+signals the direction of the price trend. (See Ascending and
+Descending triangles.)
+
+Technical analysis: The study of market action, usually with
+price charts, which includes volume and open interest pat-
+terns. Also called chart analysis, market analysis and, more
+recently, visual analysis.
+
+Trend: Refers to the direction of prices. Rising peaks and troughs
+constitute an uptrend; falling peaks and troughs constitute a
+downtrend. A trading range is characterized by horizontal
+peaks and troughs. Trends are generally classified into major
+(longer than a year), intermediate (one to six months), or
+minor (less than a month).
+
+Trendlines: Straight lines drawn on a chart below reaction lows in
+an uptrend, or above rally peaks in a downtrend, that deter-
+mine the steepness of the current trend. The breaking of a
+trendline usually signals a trend reversal.
+
+Triangles: Sideways price patterns in which prices fluctuate with-
+in converging trendlines. The three types of triangles are the
+symmetrical, the ascending, and the descending.
+
+Triple top: A price pattern with three prominent peaks, similar to
+the head and shoulders top, except that all three peaks occur
+at about the same level. The triple bottom is a mirror image
+of the top.
+
+Up trendline: A straight line drawn upward and to the right
+below reaction lows. The longer the up trendline has been in
+effect and the more times it has been tested, the more signif-
+
+
+Glossary 521
+
+icant it becomes. Violation of the trendline usually signals
+that the uptrend may be changing direction. (See Down
+trendline.)
+
+Visual analysis: A form of analysis that utilizes charts and market
+indicators to determine market direction.
+
+Volume: The level of trading activity in a stock, option, or
+futures contract. Expanding volume in the direction of the
+current price trend confirms the price trend. (See On-balance
+volume.)
+
+Weekly reversal: An upside weekly reversal is present when prices
+open lower on Monday and then on Friday close above the
+previous week’s close. A downside weekly reversal opens the
+week higher but closes down by Friday. (See Key reversal day.)
+
+Weighted average: A moving average that uses a selected time
+span, but gives greater weight to more recent price data. (See
+Moving average.)
+
+
+Achelis, Steven B., Technical Analysis from A to Z, Probus, 1995.
+
+Allen, R.C., How to Build a Fortune in Commodities (Windsor Books,
+Brightwaters, NY) (Best Books, Chicago) 1972.
+
+Allen, R.C., How to Use the 4 Day, 9 Day, and 18 Day Moving
+Averages to Earn Large Profits in Commodities, Best Books 1974.
+
+Arms, Richard W., The Arms Index (TRIN), Dow Jones-Irwin, 1989.
+
+Volume Cycles in the Stock Market: Market Timing Through
+Equivolume—Charting, Dow Jones-Irwin, 1983.
+
+Bressert, Walter J., The Power of Oscillator/Cycle Combinations,
+Bressert & Associates, 1991.
+
+Burke, Michael L., Three-Point Reversal Method of Point & Figure
+Construction and Formations, Chartcraft, 1990.
+
+Colby, Robert W. and Thomas A. Meyers, The Encyclopedia of
+Technical Market Indicators, Dow Jones-Irwin, 1988.
+
+523
+
+
+524 Bibliography
+
+deVilliers, Victor, The Point and Figure Method of Anticipating Stock
+Price Movements (1933: available from Traders’ Library, P.O.
+Box 2466, Ellicott City, MD 20141 [1-800-222-2855]).
+
+Dewey, Edward R. with Og Mandino, Cycles, the Mysterious Forces
+That Trigger Events, Manor Books, 1973.
+
+Dorsey, Thomas J., Point & Figure Charting, Wiley, 1995.
+
+Edwards, Robert D. and John Magee, Technical Analysis of Stock
+Trends, 5th Edition, John Magee, 1966.
+
+Ehlers, John F, MESA and Trading Market Cycles, Wiley, 1992.
+Elder, Alexander Dr., Trading for a Living, Wiley, 1993.
+Study Guide for Trading for a Living.
+
+Freund, John E. and Frank J. Williams, Modem Business Statistics,
+Prentice-Hall.
+
+Frost, Alfred J. and Robert R. Prechter, Elliott Wave Principle, Key to
+Stock Market Profits, New Classics Library, 1978.
+
+Gann, W.D., How to Make Profits in Commodities, revised edition,
+Lambert-Gann Publishing, orig. 1942, reprinted in 1976.
+
+Granville, Joseph, Granville’s New Key to Stock Market Profits,
+Prentice Hall, Englewood Cliffs, NJ, 1963.
+
+Hadady, R. Earl, Contrary Opinion: How to Use It for Profit in Trading
+Commodity Futures, Hadady Publications, 1983.

@@ -1,0 +1,232 @@
+
+ Second, IB is an inexpensive broker. It charges me less than $1 per trade (as low as 0.0015 cents per share). This is an astoundingly low fee, compared to the typical $4.95/trade charge of many other brokers. 
+
+ Another reason I am with this broker is because IB does not require people in Canada to have a minimum of $25,000 for day trading. If you are in the U.S., you will need a minimum of $25,000 in your account for day trading, unless you use non-U.S. based brokers such as SureTrader. You can read further about the “Pattern Day Trade” regulation online. 
+
+ SureTrader 
+
+ SureTrader ( www.suretrader.com ) is a popular broker among international traders and those who fall below the $25,000 Pattern Day Trade Rule for U.S. residents. Unfortunately, they charge a higher commission of $4.95 per trade. A complete trade with one buy and one sell order will cost you at least $9.90 [$4.95 x 2 = $9.90]. Due to its high commission structure, traders must be careful not to overtrade with SureTrader. 
+
+ If you live in the U.S., have under $25,000 available for trading, and are looking for a good broker to start day trading with, SureTrader is one of your best choices. SureTrader opens accounts for as low as $500, but I would not recommend trading with less than $5,000. 
+
+ Do remember that brokers will give you 3 to 6 times leverage. If you put in $30,000, you're going to have $120,000 in buying power (a leverage of 4:1 in this case, which is what I have from IB). That leverage is called the “margin”, and you're allowed to trade on margin, but you need to be responsible about it. It is easy to buy on margin, but it is also very easy to lose on margin. If you lose on margin, your broker takes the loss from your main money account. Therefore, margin is a double-edged sword. It provides you an opportunity to buy more, but it also exposes you to more risk. There is nothing wrong with buying on margin, but you do have to be responsible. 
+
+ Margin is like a mortgage for your house. You borrow a significant amount of money and buy a residence. Banks will give you a mortgage, but they won’t take any responsibility or risk on it. For example, imagine that you put $100,000 down and borrowed $900,000 on a mortgage (10:1 leverage) from your bank to buy a $1,000,000 house. If the price of your house goes up to $1,200,000, you still owe the bank the original $900,000 plus their interest. So the extra $200,000 is your own profit that actually came from margin leverage. You couldn’t have bought that house without mortgage leveraging. Now imagine that the price of the house drops to $900,000. You still owe the bank $900,000 plus their interest, so the drop has hit your main $100,000 and you have lost all of your original down payment of $100,000. That is the other side of leveraging. Therefore, you need to be responsible about when and how much you make use of your account margin. 
+
+ When a broker notices that you are using leverage and losing money, they might issue a “ margin call ” to you. A margin call is a serious warning and day traders must avoid getting them. It means that your loss is now equal to the original money you had in your account. You must add more money or else your broker will freeze your account. If you need to know more about margin, leverage or margin calls, check the broker’s website, do some research on the Internet, email me, or ask other traders in your chatroom. 
+
+ Most day traders, including me, use a buying power of around $100,000. You’ll remember that your “buying power” consists of your capital plus the leverage offered from your broker. As I mentioned above, my broker, Interactive Brokers, offers me a 1:4 margin. While leverage enhances returns, it also enhances losses. But since I don’t hold positions for very long, almost always intraday, I do my best to minimize losses. SureTrader is one of the few brokers that will give you a 1:6 margin. Your $5,000 in their account is equal to $30,000 in buying power.
+
+How to Day Trade for a Living
+
+ Trading Platform 
+
+ Fast trade execution is the key for day traders to be successful. You need to be able to move in and out of trades quickly. If your broker doesn't use a platform or software that has Hotkeys, you're not going to get in and out of trades fast enough. I can't tell you how many times I've been up a thousand dollars because all of a sudden the stock spiked. When the stock spikes, you want to be able to put money in your pocket and profit from it quickly. You definitely don't want to be fumbling with your orders. You need quick executions, which is why I highly recommend a good broker and also a fast order execution platform. 
+
+ I use DAS Trader ( www.dastrader.com ) as my trading platform. As their advertising states, the DAS platform is one of the most efficient execution solutions for online traders worldwide. 
+
+ On a literally 24/7 basis, I have found their support team incredibly helpful and competent. DAS servers are collocated with NASDAQ data centers so you cannot be any closer to the market for trading than this. DAS Trader is not a broker, but you can link your trading account to its platform for fast order execution. Some brokers, such as SureTrader and SpeedTrader, offer you the DAS platform when you open an account (and they of course charge a monthly platform fee for it). My broker, IB, has its own platform (called Trader Workstation or TWS) that I do not recommend for day trading. I have a subscription to DAS directly and they have linked my IB account to the DAS platform. 
+
+ Please note that DAS is my charting and order execution platform but it is not my clearing firm. People often think DAS is also a broker, but it is not. DAS will send my orders to NASDAQ data centers and Interactive Brokers, as my clearing firm, will fill my orders. I pay my commissions to IB and not to DAS. DAS does not charge me any commission, only a monthly fee for using their platform and providing me with a real time data feed and Level 2 (which I will explain a little later in this chapter).
+
+How to Day Trade for a Living
+
+ Real Time Market Data 
+
+ Swing traders enter and exit trades within days or weeks, therefore end-of-day data that is available on the Internet for free is sufficient for them. But day traders need real time intraday data because they enter and exit within a few hours and often within a few minutes. Unfortunately, real time market data is not free, and you need to pay a monthly fee to your broker or your DAS platform depending on the type of market data you need access to. Which market data you should buy depends on the market that you are trading. If you are planning to trade in the Canadian market, you need real time Toronto Stock Exchange (TSX) data. I largely limit my trading to the U.S. markets because of its high volume (liquidity) and volatility, therefore I need NASDAQ real time data. Unfortunately, without real time market data, you cannot day trade properly. 
+
+ Contact your broker and ask for the real time NASDAQ TotalView Level 2 data feed. You may need to pay a monthly fee for your data depending on the broker.
+
+How to Day Trade for a Living
+
+ NASDAQ Level 2 and Bid-Ask 
+
+ As part of your data feed package, you will have access to NASDAQ Level 2. Level 2 can provide important insight into a stock's price action, including what type of traders are buying or selling a stock and where the stock is likely to head in the near term. Level 2 is known to be a “leading indicator”, which means it shows activity before a trade happens. Moving averages, charts and most of the other indicators are known as “lagging indicators”, meaning they provide information after the trades take place. 
+
+ Level 2 is essentially the order book for NASDAQ stocks. When orders are placed, they are placed through many different market makers and other market participants. Level 2 will show you a ranked list of the best bid and ask prices from each of these participants, giving you detailed insight into the price action. Knowing exactly who has an interest in a stock can be extremely useful, especially if you are day trading. 
+
+ Figure 5.1 below is what a Level 2 quote looks like: 
+
+ Figure 5.1 - Example of a NASDAQ Level 2 for UnitedHealth Group (ticker: UNH) in the middle of the trading day. Note that the number of shares (the “SIZE”) is in hundreds (×100). 
+
+ Whenever the market is open, there are always two prices for any trading stock - a bid and an ask. A bid is what people are offering to pay for that stock at that moment; an ask is what sellers are demanding in order to sell it. A bid is always lower, an ask is always higher, and the difference is called the bid-ask spreads . Bid-ask spreads vary for each stock and even for the same stock at d iff erent times of the day. 
+
+ The image in Figure 5.1 above shows us (first row, right-hand side of the chart) that someone is offering 200 shares (2 (the “SIZE”, the number of lots of shares) x 100 shares/lot) of UNH for $157.43 on the ask side through NYSE (a market maker). On the bid side, there are various market players who are willing to buy shares of UNH at a price of $157.38. Traders who want to buy UNH at various prices are sending their bids through market makers to the bid side of the Level 2 (NYSE, NASD, BATS, NSDQ, ACB, EDGX, and ARCA are all market makers active on this stock). 
+
+ The most important information you must take away from Level 2 is the bid-ask spreads. Spreads are higher in lower volume traded stocks, as the market makers who dominate such stocks demand higher fees from those who want to join their party. 
+
+ The bid-ask spreads are likely to be small, perhaps only one cent on a quiet day in an actively traded stock. They grow wider as prices accelerate on the way up or down and may become huge—I have seen up to $2—after a severe drop or a very sharp rally.
+
+How to Day Trade for a Living
+
+ Indicators on my Charts 
+
+ For day trading, I keep my charts relatively clean with a minimal number of indicators displayed. In day trading, you need to process information quickly and you need to make decisions very, very quickly. Therefore, I cannot keep track of too many indicators. Here is what I have on my charts: 
+
+ Price action in the form of candlesticks 
+ Volume of shares being traded 
+ 9 Exponential Moving Average (9 EMA) 
+ 20 Exponential Moving Average (20 EMA) 
+ 50 Simple Moving Average (50 SMA) 
+ 200 Simple Moving Average (200 SMA) 
+ Volume Weighted Average Price (VWAP) 
+ Previous day’s closing price 
+
+ All of the above indicators are automatically being calculated and plotted by my DAS Trader Pro platform. I do not find, calculate or plot these manually. I’ll explain these terms later on in this book. 
+
+ Daily levels of support or resistance 
+
+ For daily levels of support or resistance, my platform does not automatically find and plot them. These levels have to be identified manually by traders. I usually find and plot these levels during my pre-market screening for Stocks in Play on my watchlist or during the day when a new stock hits my scanners. I don’t trade without knowing nearby significant intraday levels of support or resistance. 
+
+ I keep the color of all my moving average indicators in grey except VWAP which is colored in blue. VWAP is the most important day trading indicator and needs to be easily and quickly distinguished from other moving averages. I don’t want to have a lot of colors on my charts so I maintain a white background with mostly red and black coloring. Heavily colored charts are confusing and over the long term irritate your eyes and limit your vision. I avoid dark background colors on my charts because they make my eyes feel achy and weak when processing dark colors for any length of time. Figure 5.2 below is a screenshot of the type of chart I use with my indicators marked on it. 
+
+ Figure 5.2 - Screenshot of the type of chart I use with my indicators marked on it. Only 200 SMA is not shown because it was moving outside of the zoomed price range.
+
+How to Day Trade for a Living
+
+ Buy and Sell Orders 
+
+ Essentially there are three important types of orders you can use for day trading: 
+
+ Market orders 
+ Limit orders 
+ Marketable limit orders 
+
+ Market Orders 
+
+ “Buy me at any price! Now!” 
+ “Sell me at any price! Now!” 
+
+ When you use market orders , you are asking your broker to immediately buy or sell the stock for you at any cost. Let me repeat that: at ANY cost. If you place a market order, it will be filled at the current price, whatever that happens to be. A limit order, on the other hand, allows you to specify the maximum or minimum price you will accept. 
+
+ In market orders, essentially, you are getting filled at the bad side of bid-ask spreads. A market order buys at the ask (high side) and sells at the bid (low side). The problem with using market orders is that the market can quickly change, and so then does the bid-ask spread, and thus you may get your order filled at a very bad price. For example, if the bid-ask spread is $10.95-$10.97, market orders should buy immediately at $10.97 for you, right? When your market orders come to the Exchange, the market can quickly change to $11.10-$11.15, and therefore your buy market order will be filled at $11.15. That is a 15 cents slippage. And that is really bad. 
+
+ Market makers and many professional traders make a good living from filling market orders. I discourage traders from placing market orders at any time. A market order is like a blank check. Most of the time a market order will be filled very closely to the quoted bid or ask price, but sometimes you will get a nasty surprise. 
+
+ Use limit orders whenever possible. 
+
+ Limit Orders 
+
+ “Buy me at this price only! Not higher!” 
+ “Sell me at this price only! Not lower!” 
+
+ A limit order , in contrast to a market order, limits the price you are willing to pay for the stock. You specify the number of shares you want to buy and the price you are willing to pay. For example, in the Level 2 screenshot below, marked as Figure 5.3, you will see I have two limit orders. I asked my broker to buy me 100 shares of TEVA at $34.75, and another 100 shares at $34.74. You’ll recall from before, “SIZE” is the number of lots of shares, with 1 standard lot equaling 100 shares. As you can see, my orders are now sitting in Level 2, waiting to get filled. There is no guarantee that I will get filled at those prices. If the price moves higher, I will never get filled and my order will stay in the Level 2 until the price moves back down. Sometimes the order will come back partially filled because the price of the stock moved up too quickly. 
+
+ Swing traders commonly use limit orders. 
+
+ Figure 5.3 - Example of a NASDAQ Level 2 for Teva Pharmaceutical Industries (ticker: TEVA) in the middle of the day. I have two limit orders to buy in total 200 shares on the bid. Note that the number of shares is in hundreds (×100). SMRT is the default clearing route for my broker, IB. 
+
+ Marketable Limit Orders 
+
+ “Buy me now, but up to this price! Not higher!” 
+ “Sell me now, but down to this price! Not lower!” 
+
+ Thirdly, the most important type of order for day traders is a marketable limit order . Marketable limit orders, once sent, will immediately give you as many shares as possible within the price range you have set. In marketable limit orders, you ask your broker to buy or sell stock for you immediately, but you specify the highest price you are willing to pay. For example, in the above Figure 5.3, the Level 2 for TEVA, you can ask your broker to buy 100 shares at “ask price + 5 cents”. Your broker will go to the ask and try to fill your order. As you can see in the top three highlighted rows on the right-hand side of Figure 5.3, there are currently 1,100 shares offered at ask ([4+4+3 = 11] ×100). Therefore, you should get filled immediately (like a market order). But, if the ask price moves up quickly before you get filled, you have already authorized your broker to buy TEVA for you at a higher price as well, up to $34.82 (ask of $34.77+ 5 cents). Therefore, your broker will try to buy 100 shares of TEVA for you at a cost of no more than $34.82. 
+
+ A similar example is also true for selling or short selling on the bid. In selling on the bid, you specify the range you are willing to sell at. For example, if you ask your broker to sell at “the bid – 5 cents”, it means that you are not willing to sell at a price lower than the bid minus 5 cents. 
+
+ I use marketable limit orders for all of my day trades. I typically buy at the “ask+5 cents” and sell at the “bid-5 cents”. In the next section, I will show you details of my order Hotkeys.
+
+How to Day Trade for a Living
+
+ Hotkeys 
+
+ Hotkeys are key commands that can be 
+ programmed to automatically send orders with the touch of a combination of keys on your keyboard. Professional traders will use Hotkeys to enter trades, exit trades, place stop orders, and cancel orders. They don’t use a mouse or any sort of manual order entry system. The use of Hotkeys eliminates the delay of manual entry. The volatility of the market, especially at the Open, can allow for huge profits if you can trade properly, but it can also result in significant losses if you fail to act quickly. Often, the proper use of Hotkeys distinguishes the losers from the winners. 
+
+ Most of the day trading strategies I use require high speed trading. In day trading, the market can 
+ move very fast, especially at the market Open. Stocks can very quickly hit your entry or exit price, often in a matter of mere seconds. In order to be able to day trade effectively, it is important to use a trading platform that offers Hotkeys. For high speed trading, you should have all of the possible trade combinations in your Hotkeys. In my opinion, it is almost impossible to day trade profitably without using Hotkeys. 
+
+ The following Figure 5.4 is the list of my Hotkeys in my DAS platform. Other platforms may use different scripts. It is best to check with your broker and trading platform support team to make sure you are familiar with how to write a proper script for your Hotkeys. 
+
+ Figure 5.4 - A chart showing some of my Hotkeys for my DAS Trader platform. A complete detailed Hotkeys script of my platform can be found on my website at www.BearBullTraders.com . 
+
+ Chart View 
+
+ Hotkey 
+
+ 1 MIN CHART 
+
+ F1 
+
+ 5 MIN CHART 
+
+ F2 
+
+ DAILY CHART 
+
+ F4 
+
+ WEEKLY CHART 
+
+ F5 
+
+ MONTHLY CHART 
+
+ F6 
+
+ Buying Long 
+
+ Buy 400 shares at limit Ask+.05 
+
+ Alt+1 
+
+ Buy 200 shares at limit Ask+.05 
+
+ Alt+Q 
+
+ Buy 100 shares at limit Ask+.05 
+
+ Alt+A 
+
+ Sell 1/2 position at limit Bid-.-05 
+
+ Alt+2 
+
+ Sell full position at limit Bid-.05 
+
+ Alt+3 
+
+ Selling Short 
+
+ Short 400 shares at limit Bid-.05 
+
+ Alt+4 
+
+ Short SSR 400 shares at limit Ask 
+
+ Alt+5 
+
+ Short 200 shares at limit Bid-.05 
+
+ Alt+R 
+
+ Short SSR 200 shares at limit Ask 
+
+ Alt+T 
+
+ Short 100 shares at limit Bid-.05 
+
+ Alt+F 
+
+ Short SSR 100 shares at limit Ask 
+
+ Alt+G 
+
+ Buy to cover 1/2 position at limit Ask+.05 
+
+ Alt+6 
+
+ Buy to cover full position at limit Ask+.05 
+
+ Alt+7 
+
+ For a long position (you’ll recall “buying long” means you buy shares at one price and hope to sell them at a higher price), my buy orders are in blocks of 400, 200 and 100 shares. I use a marketable limit order to buy at the ask price + 5 cents. My “sell” Hotkeys are marketable limit orders to sell my half or full positions on the bid price - 5 cents. When selling, I will accept the bid price and a price no more than 5 cents lower, to ensure my order gets filled immediately. The DAS platform will automatically calculate what half of my position equals in number of shares. The computer will also calculate the current bid and ask prices and place my order at the price I specify. 
+
+ Similarly, for short positions (you’ll recall “short” is when you borrow shares from your broker, sell them, and hope to later buy back the shares at a lower price for return to your broker), I short sell on the bid price or on a price no more than 5 cents lower. My “buy to cover shorts” Hotkeys are marketable limit orders to buy my half or full positions on the ask price + 5 cents. I am willing to pay higher prices (up to 5 cents) to asks, just to get my orders filled immediately. 
+
+ You may have noticed in Figure 5.4 that I have different Hotkeys for when a stock is in Short Selling Restriction (SSR) mode. An SSR is triggered when a stock is down 10% or more from the previous day's close. In that case, regulators and the Exchanges restrict short selling of the stock when its price is dropping. You can only sell short on the ask, you cannot sell short directly to the buyers (on the bid). It means that the priority for selling is for the sellers who currently hold positions, not for the short sellers who are wanting to profit from the downward movement. If you want to sell short, you have to queue up on the ask side and wait for buyers to come to you. Real sellers, on the other hand, can accept bids from buyers and get rid of their positions. 
+
+ The SSR is designed to give the real sellers, who own the stock, a priority to sell over the short sellers on the market. Therefore, when a stock is in SSR mode, I send my orders to sell on the ask, and then I must wait until my orders get filled. I cannot use a marketable limit order for short selling when a stock has a short selling restriction placed on it. For more information about SSR, Google it on the Internet, send me an email, or check my website for additional information. 
+
+ The most important advantage of these Hotkeys is that when a stock suddenly moves, you can press your Hotkey to sell your full or half-position on the bid without having to type in the new bid price or your number of shares. It is impossible to consistently profit from day trading without mastering Hotkeys. Part of your education includes trading in simulators for a few months, and during these months, you must master your Hotkeys. I have made many mistakes while using Hotkeys and you also no doubt will. That is part of the learning process in day trading. That is why it is extremely important to practice in real time simulators and practice with Hotkeys while you are mastering the trading strategies explained in Chapter 7. Hotkeys are an amazing tool, but they must be used with caution and with sufficient practice to prevent errors. Day trading is difficult enough; don’t let your Hotkeys make it even more difficult. 

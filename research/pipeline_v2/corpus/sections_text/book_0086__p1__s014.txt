@@ -1,0 +1,128 @@
+when the underlying is near the strike price?
+6. Will a short dated at-the-money option have a greater or a lesser
+theta than a longer dated at-the-money option of the same strike?
+7. Should the value of an at-the-money long time spread rise or fall as
+the underlying price hovers near the strike price of the spread?
+8. Long time spreads have (limited) (unlimited) risk and (limited)
+(unlimited) reward potential.
+9. What do long time spreads have: positive or negative gamma; positive or negative vega; and positive or negative theta?
+10. If you buy the ATM time spread and the underlying moves significantly in either direction, the spread will decrease, or narrow in
+value (assume no change in volatility). True or false?
+
+Chapter 6 Exercise Answer Key
+1. Short, long
+2. True
+3. Long
+4. XYZ August/June 110 put time spread delta  0.35  (0.45)  0.10
+5. Long
+6. Greater
+7. Rise
+8. Limited, limited
+
+187
+
+188
+
+Chapter 6
+
+Calendar Spreads
+
+9. Negative gamma, positive vega, positive theta.
+10. True. The at-the-money time spread is the most expensive.
+
+CHAPTER 6 QUIZ
+1. Calculate the vega of the following short call time spread:
+XYZ (June) 110 call vega  0.05
+XYZ (July) 110 call vega  0.10
+2. If implied volatility levels are low, and the forecast is for a sideways
+market in an underlying, a long time spread might be a strategy to
+employ to take advantage of this situation. True or false?
+3. Which is bullish, a long or a short time spread with a strike above
+the current price?
+4. Would the term structure of implied volatility of a stock that has
+gone through a recent slow period favor a long or a short time
+spread strategy?
+5. If the term structure of implied volatility shows a sharp upward
+slope, would this indicate that short-dated implied volatilities are
+much lower or higher than longer-dated implied volatilities?
+6. Assume that the market has been moving sideways for some time
+and that implied volatility levels are low. A trader decides to purchase the calendar spread with the strike price at exactly the price of
+the underlying. Determine the following:
+Delta: positive, neutral, or negative
+Gamma: positive, neutral, or negative
+Theta: positive, neutral, or negative
+Vega: positive, neutral, or negative
+7. An investor anticipates that XYZ is going to rally from 130.00 to
+140.00 in thirty days. He notices that implied volatility levels of
+all the options expiring in thirty days are high compared to the
+volatility of all options expiring in sixty days. To capture this move
+with a limited-risk strategy, would he buy or sell the sixty-day
+option and buy or sell the thirty-day option at the 140.00 strike?
+8. An investor holds a long June/July call time spread. At expiration,
+if the underlying is above the strike price, the short June call will be
+exercised. What position is he left with?
+9. To create a long jelly roll spread, do you need to combine a long or a
+short call time spread with a long or a short put time spread?
+10. If the call time spread ask price minus the put time spread ask price
+is less than the value of the jelly roll, is the call time spread expensive
+or cheap?
+
+Chapter 6 Quiz
+
+Chapter 6 Quiz Answer Key
+1. 110 call vega  0.05  (0.10)  0.05
+2. True
+3. Long
+4. Long
+5. Lower
+6. Neutral, negative, positive, positive
+7. Buy sixty-day, sell thirty-day
+8. Synthetic long put
+9. Long call time spread, short put time spread
+10. Cheap
+
+CHAPTER NOTE
+1. Assuming no early exercise considerations
+
+189
+
+Option Spread Strategies: Trading Up, Down, and Sideways Markets
+by Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson
+Copyright © 2009 by International Trading Institute, Ltd.
+
+7
+
+Ratio Spreads
+
+CONCEPT REVIEW
+Volatility skew: A graphic representation of implied volatility levels
+associated with different strike prices, the curves’ shape is often
+referred to as a “smile” or “smirk.”
+Congestion: An area where a security trades below resistance and
+above support levels.
+
+STRATEGY OVERVIEW
+Ratio spreads strategies can be used when one forecasts a complex
+market scenario, involving market direction, implied volatility levels, and
+timing. They may be especially effective for contratrend trading.
+The term ratio spread is used when referring to any structure that involves the purchase of an option that is underwritten by the sale of a greater
+number of further out-of-the-money options of the same class and expiration cycle. For example, buying one March 100 call and selling two March
+110 calls is a call ratio spread; buying one June 90 put and selling three June
+75 puts is a put ratio spread.
+The ratio of the ratio spread is determined by the number of further
+out-of-the-money options sold per nearer-the-money option purchased.
+Common ratios used by ratio spreaders are 1 to 2 (two sold for every one
+purchased), 2 to 3 (three sold for every two purchased), and 1 to 4 (four sold
+for every one purchased). However, any ratio may be used. Depending on
+the ratio used, the strikes involved, the time to expiration, and implied
+volatility levels, the spread could be executed for a debit, even money, or
+a credit.
+
+191
+
+192
+
+Chapter 7
+
+Ratio Spreads
+

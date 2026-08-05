@@ -1,0 +1,517 @@
+A casino does not like to see a bettor wager a large amount of money on one
+outcome, whether at roulette or any other casino game. The odds are still in the casino’s
+favor. But, if the bet is large enough, and the bettor is lucky, short-term bad luck can
+overwhelm the casino. Indeed, if a bettor knows that the odds are against him, and he
+waits the greatest chance of showing a profit, his best course is to wager the maximum
+amount on one outcome, and hope that in the short run he gets lucky. If he continues
+to make bets over a long period of time, the laws of probability will eventually catch up
+with him and the casino will end up with the bettor’s money. The ideal scenario from
+the casino’s point of view is for 38 players to place 38 bets of $1,000 each on all 38
+numbers at the roulette table. Now the casino has a perfect spread position. One player
+will collect $36,000, but with $38,000 on the table the casino has a sure profit of
+$2,000.
+
+The option trader prefers to spread for the same reason that the casino prefers the
+bets to be spread around the table: spreading maintains profit potential but reduces
+short-term risk. There is no perfect spread position for the option trader, as there is for
+a casino. But the intelligent option trader learns to spread off his risk in as many different
+ways as possible in order to minimize the effects of short-term bad luck.
+
+New traders are sometimes astonished at the size of the trades an experienced
+trader is prepared to make. For example, an independent floor trader in Treasury Bond
+options at the Chicago Board of Trade who buys 100 calls at 2-00 ($2,000) each has
+taken a position worth $200,000. How can he afford to do this? His capital resources
+certainly play a role in the risk he is willing to accept. But equally important is his ability
+
+
+Introduction to Spreading 135
+
+to spread off risk. An experienced trader may know a wide variety of ways to spread off
+the risk associated with the 100 calls he purchased, either using other options, futures
+contracts, cash bonds, or some combination of these instruments. He may not be able
+to completely eliminate his risk. But he may be able to reduce it to such an extent that
+his risk is actually less than that of a much smaller trader who does not know how to
+spread, or knows only a limited number of spreading strategies.
+
+
+x 8 oO
+
+Volatility Spreads
+
+To take advantage of a theoretically mispriced option, it is necessary to hedge the
+purchase or sale of the option by simultaneously taking an opposing market position. In
+the examples in Chapter 5, the opposing market position was always taken in the
+underlying instrument. It is also possible to hedge an option position with other options
+which are theoretically equivalent to the underlying instrument. For example, suppose
+we feel a certain call with a delta of 50 is underpriced in the marketplace. If we buy 10
+calls, giving us a total delta position of +500, we can hedge our position in any of the
+following ways:
+
+*% = Sell five underlying contracts
+
+* Buy puts with a total delta of -500
+
+“+ Sell calls, different than those which we purchased, with a total delta of +500
+“+ Combine several of these strategies, such that we create a total delta of -500
+
+With many different calls and puts available, as well as the underlying contract,
+there are many different ways of hedging our ten calls. Regardless of which method we
+choose, each spread will have certain features in common:
+
+“* Each spread will be approximately delta neutral.
+
++ Each spread will be sensitive to changes in the price of the underlying
+instrument.
+
+“+ Each spread will be sensitive to changes in implied volatility.
+
+“+ Each spread will be sensitive to the passage of time.
+
+Spreads with the foregoing characteristics fall under the general heading of volatil-
+ity spreads. In this chapter we will define the basic types of volatility spreads and look
+at their characteristics, initially by examining the expiration values of the spread, and
+then by considering the delta, gamma, theta, vega, and rho associated with each spread.
+
+Before defining the primary types of spreads, it should be noted that spreading
+terminology is not uniform. Traders sometimes use different terms when referring to the
+same spread; they sometimes use the same term when referring to different spreads. An
+attempt has been made to use the most common terminology, but alternative spread
+definitions are also given where appropriate.
+
+137
+
+
+138 Chapter 8
+
+BACKSPREAD
+(also referred to as a ratio backspread or long ratio spread)
+
+A backspread is a delta neutral spread which consists of more long (purchased) options
+than short (sold) options where all options expire at the same time. In order to achieve
+this, options with smaller deltas must be purchased and options with larger deltas must
+be sold. A call backspread consists of long calls at a higher exercise price and short calls
+at a lower exercise price. A put backspread consists of long puts at a lower exercise price
+and short puts at a higher exercise price.
+
+Typical backspreads and their values at expiration are shown in Figures 8-1 and
+8-2. (These, and the example spreads in the following sections, are taken from the
+option evaluation table in Figure 8-20.) In each case, a move away from the long
+option’s exercise price will increase the value of the spread. Depending on the type of
+backspread, movement in one direction may be preferable to movement in the other
+direction. In a call backspread the upside profit potential is unlimited; in a put
+backspread the downside profit is unlimited. But the primary consideration is that some
+movement will occur. If no movement occurs, a backspread is likely to be a losing
+strategy.
+
+Typically, a backspread is done for a credit. That is, the amount of premium
+received for the sold options is greater than the premium paid for the purchased options.
+This ensures that the backspread will be profitable if the market makes a large move in
+either direction. If the market collapses in the case of a call backspread, or the market
+
+Figure 8-1: Call Backspread
+
+sall the
+
+buy the
+
+lower higher
+exercise exercise
+price price
+o <a |
+8 long 30 March 105 calls (24)
+g short 10 March 95 calls (78)
+
+long 25 June 110 calls (23)
+short 10 June 100 calls (61)
+
+
+
+Volatility Spreads 139
+
+Figure 8-2: Put Backspread
+
+buy the sell the
+lower higher
+exercise exercise
+price price
+i
+a
+n
+6 long 80 March 90 puts (-6)
+a
+
+short 10 March 100 puts (-48)
+
+Jong 45 June 95 puts (-30)
+short 30 June 100 puts (-46)
+
+explodes in the case of a put backspread, all options will expire worthless and the trader
+will keep the credit from the initial transaction.
+
+A trader will tend to choose the type of backspread which reflects his opinion about
+market direction. If he foresees a market with great upside potential, he will tend to
+choose a call backspread; if he foresees a market with great downside potential he will
+tend to choose a put backspread. He will avoid backspreads in quiet markets since the
+underlying contract is unlikely to move very far in either direction.
+
+RATIO VERTICAL SPREAD
+{also referred to as a ratio spread, short ratio spread,
+vertical spread, or front spread)
+
+A trader who takes the opposite side of a backspread also has a delta neutral spread, but
+he ts short more contracts than long, with all options expiring at the same time. Such a
+spread is sometimes referred to as a ratio spread or a vertical spread. However, these
+terms can also be applied to other types of spreads. In order to avoid later confusion, we
+will designate the opposite of a backspread as a ratio vertical spread.
+
+Typical ratio vertical spreads, and their expiration values, are shown in Figures 8-3
+and 8-4. From these graphs we can see that a ratio vertical spread will realize its
+maximum profit at expiration when the underlying contract finishes right at the short
+(sold) option’s exercise price. Since a ratio vertical spreader assumes the opposite risks
+of a backspreader, his risk is unlimited on the upside in a call ratio vertical spread, and
+
+
+140
+
+Chapter 8
+
+Figure 8-3: Call Ratio Vertical Spread
+
+long 20 March 96 calls (78)
+short 30 March 100 calls (51)
+
+= long 10 June 95 calls (67)
+° short 30 June 110 calls (23)
+ao
+~~?
+n
+D
+° .
+S :
+buy the sell the
+lower higher
+exercise exercise
+price price
+
+Figure 8-4: Put Ratio Vertical Spread
+
+5
+
+long 20 March 95 puts (-21)
+short 60 March 90 puts (-6)
+
+long 15 June 105 puts (-62)
+
+= : short 20 June 100 puts (-46)
+5 /
+x i
+oa 1
+a .
+sell the buy the
+lower higher
+exercise exercise
+price price
+
+
+
+Volatility Spreads 141
+
+unlimited on the downside in a put ratio vertical spread. While a ratio vertical spreader
+expects the market to remain relatively stable, he will tend to choose either a call or put
+ratio vertical spread in order to limit his losses if he is wrong. If he is primarily worried
+about a swift rise in the market, he will choose a put ratio vertical spread; if he is
+primarily worried about a swift fall in the market, he will choose a call ratio vertical
+spread. In both cases, if the market does make a big move, his loss will be limited since
+the calls can only collapse to zero if the market falls, and the puts can only collapse to
+zero if the market rises.
+
+STRADDLE
+
+A straddle consists of either a long call and a long put, or a short call and a short put,
+where both options have the same exercise price and expire at the same time. If both
+the call and put are purchased, the trader is said to be long the straddle; if both options
+are sold, the trader is said to be short the straddle. Typical long and short straddles, with
+their expiration values, are shown in Figures 8-5 and 8-6,
+
+While most straddles are executed with a one-to-one ratio (one call for each put),
+this is not a requirement. A straddle can also be ratioed, so that it consists of unequal
+numbers of calls and puts. Any spread where the number of long market contracts (long
+calls or short puts) and short market contracts (short calls or long puts) are unequal fs
+considered a ratio spread. The most common types of ratio spreads are backspreads and
+
+Figure 8-5: Long Straddle
+
+buy
+= calls and puts
+© at the same
+oa exercise price
+on
+3
+a
+
+long 10 March 100 calls (51) : long 10 June 95 calls (67)
+long 10 March 100 puts (-48) Y long 25 June 95 puts (-30)
+
+
+
+142 Chapter 8
+
+Figure 8-6: Short Straddle
+
+short 30 March 105 calls (24) A short 20 June 100 calls (51)
+short 10 March 105 puts (-75) short 20 June 100 puts (-46)
+
+Profit
+
+sell
+calls and puts
+at the same
+exercise price
+
+Loss
+
+ratio vertical spreads. But other spreads, including straddles, can be ratioed. This is
+usually done to ensure that the spread is delta neutral.
+
+A long straddle has many of the same characteristics as a backspread. Like a
+backspread it has limited risk and unlimited profit potential. With a long straddle,
+however, the trader’s potential profit is unlimited in either direction. If the market
+moves sharply up or down, the straddle wil! realize ever increasing profits as long as the
+market continues to move in the same direction.
+
+A short straddle has many of the same characteristics as a ratio vertical spread. The
+spread will realize its maximum profit if the market stays close to the call and put
+exercise price. The spread has a limited profit potential, and unlimited risk should the
+Market move violently in either direction.
+
+The new option trader often finds long straddles attractive because strategies with
+limited risk and unlimited profit potential offer great appeal, especially when the profit
+is unlimited in both directions. However, if the hoped for movement fails to materialize,
+he soon finds that losing money little by little, even a limited amount, can also be a
+painful experience. This is not an endorsement of either long or short straddles. Under
+the right conditions either strategy may be sensible. But the intelligent trader’s primary
+concern ought to be the total expected return. If the strategy with the greatest expected
+return also entails unlimited risk, a trader may have to accept that risk as part of doing
+business.
+
+
+Volatility Spreads 143
+
+STRANGLE
+
+Like a straddle, a strangle consists of a long call and a long put, ora short call and a short
+put, where both options expire at the same time. In a strangle, however, the options
+have different exercise prices. If both options are purchased, the trader is long the
+strangle; if both options are sold, the trader is short the strangle. Typical long and short
+strangles are shown in Figures 8-7 and 8-8.
+
+Strangles have characteristics similar to straddles, and are therefore similar to
+backspreads and ratio vertical spreads. Like a long straddle, a long strangle needs
+movement to be profitable, and has unlimited profit potential should such movement
+occur. Like a short straddle, a short strangle has unlimited risk in either direction, but
+will show a profit if the underlying market remains in a narrow trading range.
+
+If a strangle is simply identified by its expiration month and exercise prices, there
+may be some confusion as to the specific options involved. A June 95/105 strangle
+might consist of a June 95 put and June 105 call. But it might also consist of a June 95
+call and a June 105 put. Both these combinations are consistent with the definition of
+a strangle. To avoid confusion a strangle is commonly assumed to consist of out-of-the-
+money options. If the underlying market is currently at 100 and a trader wants to
+purchase the June 95/105 strangle, it is assumed that he wants to purchase a June 95
+put and a June 105 call. When both options are in-the-money, the position is sometimes
+referred to as a guts.
+
+Figure 8-7: Long Strangle
+
+oe lt calls ‘euts)
+
+puts (calls)
+
+at a lower at a higher
+£ exercise price exercise price
+— i . i
+£ i
+a : i
+2
+3
+
+long 20 March 105 calls long 30 June 110 calls
+long 20 March 95 puts fong 1 June 100 puts
+
+
+
+144 Chapter 8
+
+Figure 8-8: Short Strangle
+
+short 30 March 110 calls short 10 June 95 calls
+short 40 March 90 puts short 10 June 105 puts
+
+Profit
+
+Loss
+
+sell sell
+
+puts (calls) calls (puts)
+at a lower at a higher
+exercise price exercise price
+
+Tn the absence of other identifying information, strangles, like straddles, are usually
+executed with a one-to-one ratio (one call for each put). However, there is no law
+against executing a strangle with some other ratio. If the call has a delta of 15 and the
+put has a delta of —30, and a trader wants to be delta neutral, it is perfectly acceptable
+to trade two calls for each put.
+
+If we ignore the limited or unlimited risk/reward characteristics of backspreads,
+long straddles, and long strangles, these spreads essentially differ in the degree of desired
+movement. A backspread needs some market movement to show a profit, a long straddle
+needs more movement, and a long strangle needs even greater movement. Indeed, a
+strangle is usually considered the most highly leveraged of all option positions because
+out-of-the-money options are cheap relative to other options. Several strangles can often
+be purchased for the price of just one straddle. If significant movement occurs with such
+a position, its value can increase dramatically. But there is a tradeoff. If movement fails
+to occur, the position will swiftly lose its value through the passage of time.
+
+The same considerations of degree are also true for ratio vertical spreads, short
+straddles, and short strangles. A ratio vertical spread, a short straddle, and a short
+strangle all want the market to sit still. But again, the strangle is considered the most
+highly leveraged of these positions. If a trader sells several strangles and the market does
+sit still his profits will usually be greater than if he had sold one straddle or done a
+moderate sized ratio vertical spread. If, however, the market makes an unexpectedly
+large Move, short strangles also entail the greatest risk. All option positions are a tradeoff
+
+
+
+Volatility Spreads 148
+
+between risk and reward. If the reward is great, so is the risk; if the risk is small, so is
+the reward.
+
+Based on their similar characteristics, it is sometimes convenient to classify long
+straddles and long strangles as special types of backspreads. This follows logically from
+the definition of a backspread: long more contracts than short, with all options expiring
+in the same month. A long straddle or strangle consists only of long options {long calls
+and long puts), with all options expiring at the same time. Hence, these positions are
+backspreads. (Even though the owner of a put has a short market position, he is said to
+be long the put because he has purchased it.}
+
+The same reasoning leads us to classify short straddles and strangles as special types
+of ratio vertical spreads. Short straddles and strangles consist only of short options, with
+all options expiring at the same time. Hence, the positions conform to our definition of
+a ratio vertical spread.
+
+BUTTERFLY
+
+Thus far we have looked at spreads which involve buying or selling two different option
+contracts. However, we need not restrict ourselves to two-sided spreads. We can also
+construct spreads consisting of three, four, or even more different options. A butterfly
+consists of options at three equally spaced exercise prices, where all options are of the
+same type (either all calls or all puts} and expire at the same time. In a long butterfly the
+outside exercise prices are purchased and the inside exercise price is sold, and vice versa
+for a short butterfly.! Moreover, the ratio of a butterfly never varies. It is always 1 x 2
+x 1, with two of each inside exercise price traded for each one of the outside exercise
+prices. ff the ratio is other than 1 x 2 x 1, the spread is no longer a butterfly. Typical
+examples of long and short butterflies are shown in Figures 8-9 and 8-10.
+
+Since a butterfly consists of equal numbers of long and short options, it does not fit
+conveniently into the backspread or ratio vertical spread category. However, as com-
+monly traded, a long butterfly tends to act like a ratio vertical spread and a short butterfly
+tends to act like a backspread. To understand why, consider a trader who buys a
+95/100/105 call butterfly (long a 95 call, short two 100 calls, long a 105 call). What
+will be the value of this position at expiration? If the underlying contract is below 95 at
+expiration all the calls will expire worthless, and the value of the position will be zero.
+If the underlying contract is above 105 at expiration, the value of the 95 and 105 calls
+together will be identical to the value of the two 100 calls. Again, the value of the
+butterfly will be zero. Now suppose the underlying contract is somewhere between 95
+and 105 at expiration, specifically, right at the inside exercise price of 100. The 95 call
+Will be worth 5 points, while the 100 and 105 calls will be worthless. The position will
+therefore be worth 5 points. If the underlying moves away from 100 the value of the
+butterfly will decline, but its value can never fall below zero.
+
+1, The inside exercise price is sometimes referred to as the body of the butterfly, while the outside
+exercise prices are referred to as the wings.
+
+
+146
+
+Chapter 8
+Figure 8-9: Long Buiterfly
+7
+long 10 March 95 calls (78) long 30 June 90 puts (-17)
+short 20 March 100 calls (51) short 60 June 95 puts (-30)
+long 10 March 105 calls (24} long 30 June 100 puts (-46)
+=
+e
+2
+oa
+o ~« —_
+6
+buy a buy a
+call (put) call (put)
+at a lower r [ at a higher
+exercise price exercise price exercise price
+Figure 8-10: Short Buiterfly
+sella sell a
+call (put) call (put)
+at a lower at a higher
+exercise price exercise price exercise price
+° i
+a _— al
+n
+i
+a
+
+short 20 March 100 puts {-48)
+long 40 March 105 puts (-75)
+short 20 March 1410 puts (-91)
+
+short 25 June 95 calls (67)
+long 50 June 100 calls (51)
+short 25 June 105 calls (36)
+
+
+
+Volatility Spreads 147
+
+At expiration a butterfly will always have a value somewhere between zero and the
+amount between exercise prices. It will be worth zero if the underlying contract is
+below the lowest exercise price or above the highest exercise price, and it will be worth
+its maximum if the underlying contract is right at the inside exercise price.
+
+Since a butterfly has a value between zero and the amount between exercise prices
+(5 points in our example), a trader should be willing to pay some amount between zero
+and 5 for the position. The exact amount depends on the likelihood of the underlying
+contract finishing right at or close to the inside price at expiration. If there is high
+probability of this occurring, a trader might be willing to pay as much as 414 or 414 for
+the butterfly, since it might very will expand to its full value of 5 points. If, however,
+there is a low probability of this occurring, and consequently a high probability that the
+underlying contract will finish outside the extreme exercise prices, a trader may only be
+willing to pay 14 or %, since he may very will lose his entire investment.
+
+Now we can see why a long butterfly tends to act like a ratio vertical spread. Ifa
+trader feels that the underlying contract will remain within a narrow range until
+expiration, he can buy a butterfly where the inside exercise price is at-the-money. If he
+is right, and the market does stay close to the inside exercise price, the butterfly will
+expand to its maximum value (Figure 8-9). A long butterfly tends to act like a ratio
+vertical spread since it increases in value as the underlying market sits still.
+
+In contrast, the trader who sells a butterfly wants the underlying market to move
+as far away from the inside exercise price as possible so that the position will expire with
+the underlying contract either below the lowest exercise price or above the highest
+exercise price. In this case, the butterfly will expire worthless and he will be able to
+keep the full amount he received when he sold the butterfly (Figure 8-10). A short
+butterfly tends to act like a backspread since it increases in value with movement in the
+underlying market.
+
+Why are the strategies in Figure 8-9 referred to as “long” butterflies, and the
+strategies in Figure 8-10 referred to as “short” butterflies? It is common practice to refer
+to a spread which requires an outlay of capital as a long, or purchased, spread. Ifa trader
+initiates a butterfly by purchasing the outside exercise prices and selling the inside
+exercise price, he has a position which can never be worth less than zero at expiration.
+The trader can therefore expect to lay out some amount of capital for the position when
+he initiates it. When the trader does this, he has purchased, or is “long,” the butterfly.
+(If a trader can initiate a long butterfly for a credit, he should do it as many times as the
+law will allow; he can’t lose.) When the trader sells the outside exercise prices and
+purchases the inside exercise price, he can expect to receive some amount of capital.
+He has sold, or is “short,” the butterfly.

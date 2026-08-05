@@ -1,0 +1,681 @@
+
+stationary
+
+P1: OTA
+JWBT634-bgloss
+
+JWBT634-Grimes
+
+May 10, 2012
+
+440
+
+11:22
+
+Printer: Hamilton Printing
+
+GLOSSARY
+
+stationarity refers to the shape and location of the return distribution. There is debate
+about whether financial markets exhibit stationarity.
+Stoller Average Range Channels (STARC)
+
+A modern variation of the Keltner Channel
+
+concept.
+stop and reverse A trading strategy that, rather than exiting the market, flips from long
+to short and vice versa when a stop level is hit.
+stop-loss point An initial point for directional trades, established at the time the trade
+is entered, where a loss will be booked on the trade. Stop-loss points must be placed
+outside the noise level of the market and at price levels where the trade is decisively
+wrong. Setting correct stop-loss points is a combination of art and science.
+strong form EMH A form of EMH that states that all information, even secret inside
+information, is incorporated in the price. Used today as a theoretical concept only, and
+well refuted by a number of events and empirical studies.
+supply line Another name for a downward-sloping trend line, drawn above prices. Socalled because it represents an area where supply has been sufficient to meet demand
+and stop the upward movement of prices in the past.
+support A price area where it is anticipated buyers might offer enough buying interest
+to hold prices above the level. The study of how price acts around support and resistance
+is one of the building blocks of technical analysis.
+survivorship bias Survivorship bias covers a range of logical errors and mistakes that
+may come from examining the surviving members of a game of chance or another selection process. It is almost always better to examine the entire group before the selection
+process, as the survivors can give misleading impressions about the process and the
+probabilities involved.
+swings Price movements from one level to another. This is an imprecise term with some
+overlap between swings and trends. (Chapter 2 offers a structured approach to defining
+swings based on pivot points and market structure.)
+swing trading Formally, a style of trading that seeks to profit from the next swing in the
+market. Swing traders generally do not scale in, and do not attempt to hold through large,
+adverse price movements. Informally, many writers use this term to describe the trader
+who focuses on three-day to two-week holding periods, but this is a faulty definition of
+the term.
+systematic trading Usually refers to a style of trading that is rule-based and that could
+be at least partially computerized.
+tail risk The risk of large outlier events at the tails of a probability distribution. These
+risks are mostly unhedgable except at great cost, and they create serious problems for
+traders and risk managers.
+technical analysis Technical analysis is the discipline of gauging the probabilities of
+future price movements and/or volatility conditions based on information contained in
+price changes themselves.
+theory of mind (ToM) The ability to attribute mental states and emotions to others, and to
+understand that they have beliefs, desires, and intentions different from our own. Some
+researchers postulate that this theory also forms the basis for market intuition.
+
+P1: OTA
+JWBT634-bgloss
+
+JWBT634-Grimes
+
+Glossary
+
+May 10, 2012
+
+11:22
+
+Printer: Hamilton Printing
+
+441
+
+three pushes A typical end-of-trend pattern consisting of three symmetrical (in both
+price and time) pushes to a new high or a new low, followed by a reversal that shows a
+distinct change of character.
+time frame Usually means the time period of the bars on the chart. For example, the 5minute time frame would refer to a chart with 5-minute bars. Can also be used to describe
+a scheme where a trader looks at several time frames of the same market, and refers to
+them as lower, higher, and trading time frames.
+trading time frame (TTF) In the three time frames scheme, this is the main, or focus,
+time frame. Lower and higher time frame charts may support decisions made based on
+the trading time frame.
+trailing stop A system of trade management that moves the stop to lock in profits as the
+trade moves in the intended direction.
+
+The costs involved in participating in a market. They cover all financing, commissions, fees, the bid-ask spread, and any adverse effect your own order has on
+prices. Most traders, particularly retail traders, have a poor understanding of transaction
+costs.
+trend continuation A class of trades that seeks to enter an established trend in the direction of that trend. Many trend continuation trades are based on entering in consolidation
+areas or pullbacks.
+trend following An entire industry has been built around the term trend following. Many
+adherents of this school claim that trend following is far superior to other methods of
+trading, that it is easier than other types of trading, and that it essentially is the holy grail.
+None of these things are true. Trend following is a style of trading that usually attempts
+to position with a trend, with the idea that the trader may have to sit through significant
+whipsaws and drawdowns.
+trend termination A class of trades that seeks to enter an established trend against the
+direction of that trend, with the idea that the trend is coming to an end. Note that these
+trades are not simply plays for trend reversal, as many of them will simply transition into
+trading ranges.
+true range The range of the bar plus any gap from the previous close. In other words, if
+the low of the current bar is above the previous bar’s close, the range of the current bar
+is the high-low. The true range of the bar is the range + (current bar’s low − previous
+bar’s close).
+t -test A common statistical significance test.
+transaction costs
+
+The average of the high, low, and close for any trading bar.
+The opposite of Wyckoff’s springs: price thrusts above resistance and immediately fails to carry through. This is also a type of failure test and a sign of classic
+distribution.
+variance The square of standard deviation, and a measure that is not particularly useful
+in most market applications because the units are units squared. (For instance, variance
+of price changes in USD would be in units of USD2 .)
+typical price
+upthrusts
+
+The tendency of high and low volatility areas to cluster together in
+market-derived time series. This is also a reflection of markets moving through different
+volatility regimes.
+
+volatility clustering
+
+P1: OTA
+JWBT634-bgloss
+
+442
+
+JWBT634-Grimes
+
+May 10, 2012
+
+11:22
+
+Printer: Hamilton Printing
+
+GLOSSARY
+
+walk-forward testing A complement to backtesting, in which rules are applied to historical prices. In walk-forward testing, the rules are applied to fresh market data as it is
+generated. This is essentially a form of papertrading.
+weak form EMH A form of the EMH that holds that information contained in past prices
+cannot be used to predict future prices. If this form of EMH is true, then the discipline of
+technical analysis is invalid.
+whipsaws The tendency for many technical tools, systems, or indicators to accumulate
+many small losses while markets chop back and forth in trading ranges. For many of
+these systems, whipsaws are an unavoidable fact of life and must be offset by profits
+from trending markets.
+z-score Also called a standard score, normal score, or a z-value: the number of standard
+deviations above or below a mean that a variable lies.
+
+P1: OTA
+JWBT634-biblio
+
+JWBT634-Grimes
+
+April 27, 2012
+
+18:15
+
+Printer: Hamilton Printing
+
+Bibliography
+
+Acar, Emmanuel, and Robert Toffel. “Highs and Lows: Times of the Day in the Currency CME
+Market.” In Financial Markets Tick by Tick, edited by Pierre Lequeux. New York: John Wiley &
+Sons, 1999.
+Brock, William, Joseph Lakonishok, and Blake LeBaron. “Simple Technical Trading Rules and
+the Stochastic Properties of Stock Returns.” Journal of Finance 47, no. 5 (December 1992):
+1731–1764.
+Brooks, Al. Reading Price Charts Bar by Bar: The Technical Analysis of Price Action for the
+Serious Trader. Hoboken, NJ: John Wiley & Sons, 2009.
+Bruguier, Antoine Jean, Steven R. Quartz, and Peter L. Bossaerts. “Exploring the Nature of ‘Trader
+Intuition.’ ” Journal of Finance 65, no. 5 (October 2010): 1703–1723; Swiss Finance Institute
+Research Paper No. 10-02. Available at SSRN: http://ssrn.com/abstract=1530263.
+Campbell, John Y., Andrew W. Lo, and A. Craig MacKinlay. The Econometrics of Financial
+Markets. Princeton, NJ: Princeton University Press, 1996.
+Collins, Bruce M., and Frank J. Fabozzi. “A Method for Measuring Transaction Costs.” Financial
+Analysts Journal 47, no. 2 (March–April 1991): 27–36, 44.
+Conover, W. J. Practical Nonparametric Statistics. New York: John Wiley & Sons, 1998.
+Crabel, Toby. Day Trading with Short Term Price Patterns and Opening Range Breakout.
+Greenville, SC: Trader’s Press, 1990.
+Csı́kszentmihályi, Mihály. Finding Flow. New York: HarperCollins, 1997.
+Csı́kszentmihályi, M., S. Abuhamdeh, and J. Nakamura. “Flow.” In Handbook of Competence and
+Motivation, edited by A. Elliot, 598–698. New York: Guilford Press, 2005.
+DeMark, Thomas R. New Market Timing Techniques: Innovative Studies in Market Rhythm &
+Price Exhaustion. New York: John Wiley & Sons, 1997.
+Dimson, Elroy, Paul Marsh, and Mike Staunton. Triumph of the Optimists: 101 Years of Global
+Investment Returns. Princeton, NJ: Princeton University Press, 2002.
+Douglas, Mark. Trading in the Zone: Master the Market with Confidence, Discipline and a
+Winning Attitude. Upper Saddle River, NJ: Prentice Hall Press, 2001.
+Drummond, Charles. Charles Drummond on Advanced P&L. Self-published, 1980.
+Edwards, Robert D., and John Magee. Technical Analysis of Stock Trends, 4th ed. Springfield, MA:
+J. Magee, 1964 (orig. pub. 1948).
+Ehlers, John F. Cybernetic Analysis for Stocks and Futures: Cutting-Edge DSP Technology to
+Improve Your Trading. Hoboken, NJ: John Wiley & Sons, 2004.
+
+443
+
+P1: OTA
+JWBT634-biblio
+
+444
+
+JWBT634-Grimes
+
+April 27, 2012
+
+18:15
+
+Printer: Hamilton Printing
+
+BIBLIOGRAPHY
+
+Elder, Alexander. Trading for a Living: Psychology, Trading Tactics, Money Management. New
+York: John Wiley & Sons, 1993.
+Faith, Curtis. Way of the Turtle: The Secret Methods That Turned Ordinary People into Legendary
+Traders. New York: McGraw-Hill, 2007.
+Fama, Eugene F., and Kenneth R. French. “The Capital Asset Pricing Model: Theory and Evidence.”
+Journal of Economic Perspectives 18, no. 3 (Summer 2004): 24–46.
+Feller, William. An Introduction to Probability Theory and Its Applications. New York: John
+Wiley & Sons, 1951.
+Fisher, Mark B. The Logical Trader: Applying a Method to the Madness. Hoboken, NJ: John Wiley
+& Sons, 2002.
+Grossman, S., and J. Stiglitz. “On the Impossibility of Informationally Efficient Markets.” American
+Economic Review 70 (1980): 393–408.
+Harris, Larry. Trading and Exchanges: Market Microstructure for Practitioners. New York:
+Oxford University Press, 2002.
+Hintze, Jerry L., and Ray D. Nelson. “Violin Plots: A Box Plot-Density Trace Synergism.” American
+Statistician 52, no. 2 (1998): 181–184.
+Jung, C. G. Psychology and Alchemy. Vol. 12 of Collected Works of C. G. Jung. Princeton, NJ:
+Princeton University Press, 1980.
+Kelly, J. L., Jr. “A New Interpretation of Information Rate.” Bell System Technical Journal 35
+(1956): 917–926.
+Kirkpatrick, Charles D., II. Technical Analysis: The Complete Resource for Financial Market
+Technicians. Upper Saddle River, NJ: FT Press, 2006.
+Langer, E. J. “The Illusion of Control.” Journal of Personality and Social Psychology 32, no. 2
+(1975): 311–328.
+Lo, Andrew. “Reconciling Efficient Markets with Behavioral Finance: The Adaptive Markets
+Hypothesis.” Journal of Investment Consulting, forthcoming.
+Lo, Andrew W., and A. Craig MacKinlay. A Non-Random Walk Down Wall Street. Princeton, NJ:
+Princeton University Press, 1999.
+Lucas, Robert E., Jr. “Asset Prices in an Exchange Economy.” Econometrica 46, no. 6 (1978):
+1429–1445.
+Malkiel, Burton G. “The Efficient Market Hypothesis and Its Critics.” Journal of Economic
+Perspectives 17, no. 1 (2003): 59–82.
+Mandelbrot, Benoı̂t, and Richard L. Hudson. The Misbehavior of Markets: A Fractal View of
+Financial Turbulence. New York: Basic Books, 2006.
+Mauboussin, Michael J. “Untangling Skill and Luck: How to Think about Outcomes—Past, Present
+and Future.” Maboussin on Strategy, Legg Mason Capital Management, July 2010.
+Miles, Jeremy, and Mark Shevlin. Applying Regression and Correlation: A Guide for Students
+and Researchers. Thousand Oaks, CA: Sage Publications, 2000.
+Niederhoffer, Victor. The Education of a Speculator. New York: John Wiley & Sons, 1998.
+Plummer, Tony. Forecasting Financial Markets: The Psychology of Successful Investing, 6th ed.
+London: Kogan Page, 2010.
+
+P1: OTA
+JWBT634-biblio
+
+JWBT634-Grimes
+
+April 27, 2012
+
+18:15
+
+Printer: Hamilton Printing
+
+Bibliography
+
+445
+
+Raschke, Linda Bradford, and Laurence A. Conners. Street Smarts: High Probability Short-Term
+Trading Strategies. Jersey City, NJ: M. Gordon Publishing Group, 1996.
+Schabacker, Richard Wallace. Technical Analysis and Stock Market Profits. New York: Forbes
+Publishing Co., 1932.
+Schabacker, Richard Wallace. Stock Market Profits. New York: Forbes Publishing Co., 1934.
+Schwager, Jack D. Market Wizards: Interviews with Top Traders. New York: HarperCollins, 1992.
+Snedecor, George W., and William G. Cochran. Statistical Methods, 8th ed. Ames: Iowa State University Press, 1989.
+Soros, George. The Alchemy of Finance: Reading the Mind of the Market. New York: John Wiley
+& Sons, 1994.
+Sperandeo, Victor. Trader Vic: Methods of a Wall Street Master. New York: John Wiley & Sons,
+1993.
+Sperandeo, Victor. Trader Vic II: Principles of Professional Speculation. New York: John Wiley
+& Sons, 1998.
+Taleb, Nassim. Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets.
+New York: Random House, 2008.
+Tsay, Ruey S. Analysis of Financial Time Series. Hoboken, NJ: John Wiley & Sons, 2005.
+Vince, Ralph. The Leverage Space Trading Model: Reconciling Portfolio Management Strategies
+and Economic Theory. Hoboken, NJ: John Wiley & Sons, 2009.
+Waitzkin, Josh. The Art of Learning: An Inner Journey to Optimal Performance. New York: Free
+Press, 2008.
+Wasserman, Larry. All of Nonparametric Statistics. New York: Springer, 2010.
+Wilder, J. Welles, Jr. New Concepts in Technical Trading Systems. McLeansville, NC: Trend
+Research, 1978.
+
+P1: OTA
+JWBT634-biblio
+
+JWBT634-Grimes
+
+April 27, 2012
+
+18:15
+
+Printer: Hamilton Printing
+
+P1: OTA
+JWBT634-babout
+
+JWBT634-Grimes
+
+April 27, 2012
+
+19:35
+
+Printer: Hamilton Printing
+
+About the Author
+
+dam Grimes has nearly two decades of experience in the industry as a trader,
+analyst, and system developer. He began his trading career with agricultural commodities, a reflection of his roots in a Midwestern farming community, and traded
+Chicago Mercantile Exchange (CME) listed currency futures during the Asian financial
+crisis. Later, he managed a successful private investment partnership focused on shortterm trading of stock index futures, and swing trading of other futures and options products. He spent several years at the NYMEX, and has held positions for a number of
+firms in roles such as portfolio management, risk management, and quantitative system
+development.
+Adam is the CIO of Waverly Advisors, LLC, an asset management and advisory firm
+specializing in tactical allocation and risk management in liquid markets. Adam is an
+expert in applying quantitative tools and methodology to market data, particularly in
+modeling volatility and complex intra-market relationships. In addition to his ongoing
+research and trading, Adam is also a prolific writer and educator. His personal website
+and blog (www.adamhgrimes.com) extends the work of this book with examples and
+applications to live market data. He has been a contributor on CNBC’s “FastMoney,” and
+his work and research have been quoted in major media outlets such as the Wall Street
+Journal, Investor’s Business Daily, TheStreet.com, SmartMoney.com, SFO Magazine,
+and many others.
+
+A
+
+447
+
+P1: OTA
+JWBT634-babout
+
+JWBT634-Grimes
+
+April 27, 2012
+
+19:35
+
+Printer: Hamilton Printing
+
+P1: OTA/XYZ
+JWBT634-bind
+
+P2: ABC
+JWBT634-Grimes
+
+May 10, 2012
+
+8:52
+
+Printer: Hamilton Printing
+
+Index
+
+Abuhamdeh, S., 365
+Acceleration factor, 238
+Accumulation:
+distribution and, 107–108
+prebreakout, 123, 177
+price patterns and, 33
+in Wyckoff market cycle, 32
+Active management:
+add back after partial exits, 244
+adding to existing trades, 243
+add without taking partial exits, 244–246
+enter all at once vs. scale in, 240–241
+generally, 240
+managing gaps beyond stops, 250
+never adding to existing trade, 243–244
+partial losses, taking, 241–243
+partial profits, taking, 241
+sharp momentum develops, 247–249
+tightening stops, 247, 249
+time stops, 246
+trade reaches risk multiple target, 247
+widening stops, 249–250
+Adding to existing trades:
+generally, 243
+never, 243–244
+only after partial exits, 244
+without taking partial exits, 244–246
+ADX. See Average Directional Index (ADX)
+Algorithms:
+electronic trading, 235–236
+execution or “algos,” 6
+for large orders, 260
+Amazon.com Inc. (Nasdaq: AMZN), 300–302
+Analysis of data. See Statistical analysis of
+trading results
+Analytical software, 381
+Anchoring bias, 355
+Ann Taylor (NYSE: ANN), 314, 315
+
+Anti failures:
+near previous swing, 334–335
+by strong momentum against, 335–336
+through consolidation, 333–334
+Anti trade:
+Anti 1 trade (AG), 327–329
+Anti 2 trade (BIDU), 329–331
+Anti 3 trade (EURUSD), 331–333
+comments, 173
+failures of (see Anti failures)
+profit target, 171–173
+setup for, 170, 323
+stop, 171
+trade type/concept, 170
+trigger, 170–171
+Appel, Gerald, 416
+Apple Inc (AAPL), 72–73
+Art of War (Tzu), 8, 149
+Ask/asking price, 400
+Asset allocation, 264
+ATR. See Average True Range (ATR)
+ATR modified Keltner channels, 52
+AUDJPY (Aust Dollar/Japanese Yen), 109–110
+Average Directional Index (ADX), 81
+Average True Range (ATR), 52, 233–234, 278
+Baidu, Inc. (BIDU), 69, 70, 99–100, 101,
+329–331
+Bands:
+enter on pullback from, 199
+slide outside the, 200–201
+spike through both, 201–202
+Bar charts, 12, 406
+Baruch, Bernard, 31
+Basis points, 379
+Baidu Inc. (BIDU)
+Bear flag. See Complex consolidation
+Bear market, 38–39
+
+449
+
+P1: OTA/XYZ
+JWBT634-bind
+
+P2: ABC
+JWBT634-Grimes
+
+May 10, 2012
+
+8:52
+
+450
+
+Becoming a trader:
+generally, 375, 397–398
+process for (see Process, becoming a trader)
+record keeping (see Record keeping)
+statistical analysis (see Statistical analysis
+of trading results)
+Biases:
+anchoring, 355
+concerning losses, 353–354
+confirmation, 355
+hindsight, 356
+illusion of control, 356
+overconfidence, 354–355
+recency, 355–356
+Bollinger bands, 52, 196, 197
+Bounces. See Pullback(s)
+Breakdown, 339
+Breaking, support or resistance, 44–45
+Breakout(s):
+classic, 44, 118
+defined/terminology, 122, 339
+failed (see Failed breakouts; Failed
+breakouts, patterns of)
+false, 37
+generally, 146
+good, patterns following (see Good
+breakouts, patterns following)
+good, patterns of (see Good breakouts,
+patterns of)
+good, patterns preceding, 123–124
+preceded by higher lows into resistance,
+21
+of trading range, 20
+trading range to trend (see Trading range to
+trend)
+warning of break, 20
+Breakout failures. See Failed breakouts
+Breakouts, entering in preceding base:
+comments, 180
+profit target, 180
+setup, 174–177
+stop, 178–180
+trade type/concept, 174
+trigger, 177–178
+Breakouts, entering on first pullback
+following, 181–182
+Brooks, Al, 89, 182
+Business plan, 381–382
+Buying/selling pressure imbalance,
+230
+
+Printer: Hamilton Printing
+
+INDEX
+
+Cancel-and-replace activity, 235–236
+Candles/candlestick charts:
+bar chart comparison, 12, 406
+formation of candles, 22–23
+shadows and, 34
+Capital, 379
+Casinos, 356
+Caterpillar, Inc. (NYSE: CAT), 156, 157
+Cattle futures, 312
+CCI. See Commodity Channel Index (CCI)
+Chandelier stop, 239
+Change of character, 143
+Channel(s). See also Bollinger bands; Keltner
+channels
+enter on pullback from bands, 199
+fade move outside, 198–199
+generally, 195–198
+ideas for using, 198
+slide outside the bands, 200–201
+spike through both bands, 201–202
+Chart analysis, 67. See also Chart patterns
+Charting, general principles:
+bars, candles, other choices, 12
+generally, 8–9
+linear vs. log scale, 9–11
+time frame selection, 11–12
+Charting by hand, 28–30
+Charting software, 381
+Chart patterns:
+bars and candles, 406–407
+classic, 49
+“gently rounding top,” 83
+tick charts, 404–405, 406
+time charts/other options, 407–408
+volume and, 107
+Charts, reading:
+charting by hand, 28–30
+chart representing market, 27
+general principles (see Charting, general
+principles)
+indicators (see Indicators)
+price action/market structure (see Price
+action/market structure)
+Clean tests/clean levels, 107
+Climax(es):
+blow-offs/parabolic moves, 60
+buying, 55, 56
+DJIA, crash of 1929, 58–59
+failures, 325–326
+failure test following, 318
+
+P1: OTA/XYZ
+JWBT634-bind
+
+P2: ABC
+JWBT634-Grimes
+
+May 10, 2012
+
+8:52
+
+Index
+
+fast line behavior in, 205–206
+parabolic (see Trading parabolic climaxes)
+parabolic blow-off into, 137–140
+patterns of, 54–60
+selling, 56–57, 58, 59
+terrorist attacks and, 58, 59
+Coefficient of variation, 270
+Coffee futures, 303, 304, 334–335
+Cognitive biases:
+biases concerning losses, 353–354
+gambler’s fallacy, 353
+Commodity Channel Index (CCI), 52, 416
+Commodity markets, 39
+Complex consolidation:
+pullback trades and, 169
+uptrending market and, 80–81
+Complex pullbacks:
+patterns and, 117
+rule of alternation and, 61–62
+trading (see Complex pullbacks, trading)
+Complex pullbacks, trading:
+comments, 169
+profit target, 169
+setup, 165–168
+stop, 169
+trade type/concept, 165
+trigger, 168–169
+Compound loss, 266
+Computer software, 381
+Confirmation, tools for:
+channels (see Channel(s))
+generally, 189–190
+indicators, 12–13, 52, 81–82 (see also
+Modified moving average
+convergence/divergence (MACD)
+moving average (see Moving average, as
+confirmation tool)
+multiple time frame analysis (see Multiple
+time frame analysis)
+Confirmation bias, 355
+Conners, Laurence, 81
+Consolidated Edison, Inc. (NYSE: ED), 193
+Consolidations/consolidation patterns.
+See also Complex consolidation
+complex, 80–81
+failure test following long, 318
+other terms for, 25, 60
+outside prebreakout range, 132
+against resistance, 118
+simple/complex pullbacks, 62
+
+Printer: Hamilton Printing
+
+451
+
+Continuation ranges, 114, 115
+Contratrend momentum, 53
+Contratrend movements. See Pullback(s)
+Control charts:
+generally, 394–395
+range, 396
+standard deviation, 395–396
+win ratio, 397
+Converging ranges, 118–119
+Correlated positions, 251–252
+Correlation risk, 287–288
+Cotton futures, 319, 325–326
+Countertrend exits, 235
+Countertrend momentum, 230
+Countertrend movement. See Pullback(s);
+Retracement(s)
+Countertrend position, 43
+Countertrend term, as misnomer, 171
+Cree, Inc. (Nasdaq: CREE), 175, 176
+Crowd psychology, 32, 35
+Crude oil, 184, 310
+Csı́kszentmihályi, Mihály, 365, 366
+Cuban, Mark, 385
+Currency markets, 39
+Data, sample trade, 425–426
+Day trader(s), 44, 369
+Deeper books, 401
+Defining a trader’s edge:
+expected value (expectancy), 5–6
+generally, 4
+holy grail, 7
+where edge comes from, 6
+Demand line, 85
+DeMark, Tom, 210
+Dendreon Corporation (Nasdaq: DNDN),
+163
+Dennis, Richard, 278
+Derivatives, 281
+Derived trades, 187
+Developing your edge, 7–8
+Diagonal trading range, 117
+Directional Movement Index (DMI), 81
+Disaster risk, 285–286. See also Natural
+disasters; Terrorist attacks of September
+11, 2001
+Discretionary trading:
+intuition and, 362
+relative strength and, 228
+systematic vs., 371–372

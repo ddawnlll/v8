@@ -1,0 +1,749 @@
+Artificial neural networks are well suited in quantifying complex relationships between interrelated markets because they address the nonlinear nature of financial
+time series. The concept behind neural networks was originally brought forth almost
+50 years ago and had its origin in studies of the mechanisms by which the brain
+learns. Neural network software is designed to mimic the working of the human brain
+when solving problems; they use information that the network has learned in solving
+problems with known outcomes, to solve similar problems with unknown outcomes.
+Neural networks consist of highly complex nonlinear models that use various
+optimization techniques to find the model that most closely gives the output corresponding to the input. They select which of the inputs are relevant in predicting the
+answer and assign weighting factors to produce the correct forecast. The predicted
+output is based on the training, so it is critical that a relationship is present between
+the variables.
+Neural network software are composed of three types of neuron layers: an input
+layer, one or more hidden layers, and an output layer. Transform functions serve
+
+Trading System Design
+
+169
+
+as the connectors or neurons. During training, the transform functions establish the
+weights of the connections by seeking the optimum connective weightings that will
+result in a minimum of error between the network’s prediction and the actual answer.
+Some modern commercial neural network software now actually have one layer for
+each hidden neuron, and the layers are added one by one as needed. They start
+training with an arbitrary set of starting weights and search for a set of weights
+that minimizes the network’s errors. Training neural networks by minimizing the
+output error is conceptually similar to the least-squares technique used in statistical
+regression analysis where the formula for a line that best fits a collection of scattered
+points on a graph is found by minimizing the sum of the squared differences between
+the predicted and actual values.
+Neural networks are primarily beneficial when the relationship between input
+and output data is not clearly understood, but a large number of sample sets
+of data are available. What distinguishes neural networks from artificial intelligence or standard programming practices? Neural networks are “trained with data”
+rather than programmed. This implies that neural networks improve with experience. The more data the network is trained with, the more reliable the answers
+will be.
+Unlike conventional technical trading systems, neural network systems work well
+when technical and fundamental data are combined. It is sometimes difficult, however,
+to find appropriate fundamental data, which is often subject to revision and not always
+reported in a data-compatible format. Neural networks trained with fundamental data
+are more often used as longer-term screening strategies.
+Fortunately you don’t have to be a computer programmer in order to use neural
+networks as there is a wide selection of commercial neural network software, like
+NeuroShell Trader, Trading Solutions, Traders Studio with the Neural Studio & Kernel regression add-in, NeuralWorks Predict, Deep Insight, Tradecision, WealthLab
+Developer, etc. It is tempting to see techniques like neural networks as a panacea
+for predicting the market, but it is important to realize that these are simply a step
+in the correct direction to model the complex underlying mechanics of the financial
+markets.
+There is general acceptance that neural networks are superior at modeling and
+predicting relationships within the financial market domain, due in part to their
+ability to model non-linear relationships in the noisy environment which the stock
+market represents. This praise may be premature in some areas such as trading and
+does not mean neural networks are the “Holy Grail”.
+The following is a list of limitations and criticisms of neural networks:
+• A major limitation of neural networks that most traders or analysts are not aware
+of is over-training or over-fitting, which is analogous to curve-fitting in rule-based
+trading systems. As a neural net makes training runs through the data, if it can’t
+minimize error level by learning real relationships between the input training data
+and the variable to be predicted, it will tend to find patterns that exist only by
+
+170
+
+Intermarket Trading Strategies
+
+chance. This will result in an over-fitted model that will fail miserably when used
+in actual trading. There are no rigorous training methodologies that can avoid this
+problem entirely. Also, where there are multiple inputs, neural networks tend to
+find inputs which are important for making the prediction and weight unimportant
+ones near 0. This uses some of the power of the network and will also produce
+curve-fitted results because it produces a model which works well on the training
+data but performs poorly on out-of-sample test data.
+• Another major problem encountered when working with neural networks is interpretability or their virtually non-existent explanatory capability. You can create a
+successful neural network without understanding how it works: the output would
+in all probability be completely valueless as a scientific resource. Generally, most
+researchers do not attempt to extract rules from their networks; rather they rely on
+statistical testing performed on out-of-sample results.
+• There are obvious mismatches between the goals of neural networks and real
+traders. While neural networks are attempting to minimize forecast errors in training, traders typically focus on maximizing profit and minimizing drawdown.
+• Neural network systems tend to overtrade. For example, a neural network system
+based on rules similar to a conventional system could produce three to ten times
+the number of trades.
+• An issue which can be confusing to new users of neural software is that it is very
+unlikely that you will get exactly the same results each time you train a network.
+This is counterintuitive and often leads to misconceptions among many traders
+who used conventional systems in the past. A conventional system, for example a
+moving average crossover system, uses a unique and specific relationship (between
+the two moving averages); all you have to worry about is getting accurate, precise
+data and then the system produces the appropriate unique signals. This is not the
+case, however, with neural systems because they start training with an arbitrary set
+of starting weights and therefore produce a different solution each time. This is a
+problem which cannot be overlooked, as it is often required to retrain the network
+up to 10 times in order for the solution to converge, meaning that all training
+outputs would have to be within a given tolerance limit of the correct answer. The
+resulting trained network would have deciphered the input conditions correctly
+and could then take new input data and presumably give good predictions every
+time. To deal with this issue, system developers started using the method of Kernel
+regression (see Chapter 3) as an alternative to neural networks as it always gives
+the same answers. Automation of the convergence process is also an alternative
+solution to the tedious training process.
+• A neural network model can fall apart when confronted with market conditions
+that were not present during the training and optimization process. They therefore
+need to be retrained occasionally to take into account the new market dynamics.
+• I have also heard criticisms citing the following conundrum: How can a technique
+which mirrors human intelligence be able to predict changes in the stock market
+when humans are remarkably poor at beating the market?
+
+Trading System Design
+
+171
+
+Despite these clear limitations, neural networks are still considered the tool of choice
+for investigating non-linear relationships amongst noisy and complex data sets. Of
+course neural networks are just tools in understanding one piece of the puzzle of the
+financial markets and their interrelationships and other pieces of the puzzle are still
+missing.
+
+10.8
+
+FUZZY LOGIC
+
+Indicators are rarely definitively bullish or bearish, nor can they be considered to have
+precise values, such as true or false. More accurately, a technical indicator provides, as
+the name suggests, an indication of a situation, and not a black-or-white conclusion.
+Artificial intelligence developers decided to deal with this ambiguity by introducing
+the concept of fuzzy logic. Fuzzy logic uses propositional logic that is modified to
+allow the use of any value in the range of 0 to 1, rather than only the crisp values of
+0 or 1.
+The result is a value falling within the range of 0 to 1 considered partly true to
+the magnitude of that particular value. For example, can a stock’s daily price change
+of 3 % be considered high while 2.9 % is not? A decision based on a crisp rule is
+difficult to develop, but by using fuzzy logic a rating or an indexed value from 0 to
+1 can be applied. The resulting fuzzy logic should then be able to accommodate the
+vague linguistic terms closer to human judgment and intuition.
+The following are a few of the advantages in incorporating fuzzy logic in your
+trading systems and indicators:
+• Simplicity of programming. Fuzzy rules do not have to be as precise as traditional
+binary specifications. This will reduce the time spent in designing a trading system.
+• Familiarity. Fuzzy systems can be used for developing systems that can be described with linguistic rules in which the experience of a trader can be incorporated in a natural way. Thus the behavior of the system would be more familiar for
+traders.
+• Speed. Less time will be required to optimize the system.
+• Pattern recognition. Experienced traders can recognize a formation or pattern on a
+chart but ask them to describe it precisely and you will get a different description
+from each. This makes pattern recognition an ambiguous task, more appropriate
+for fuzzy logic. By incorporating fuzzy indicators into your screening systems,
+you can scan for your favorite patterns or formations in multiple securities in a
+fraction of the time that you could do it manually.
+• Fundamental criteria (for example William O’Niel’s popular CANSLIM method)
+are relatively vague and the results depend on how one interprets them. In these
+cases, fuzzy logic could be used to transform ambiguous qualifiers, such as growth,
+leadership, supply and demand, etc., with crisp mathematical models for machine
+processing.
+
+172
+
+Intermarket Trading Strategies
+
+• Errors. Fuzzy logic is far more intuitive and closer to human judgment than binary
+logic and therefore more tolerant to bad data, outliers and other input data errors.
+Fuzzy logic fits well to the perception of the traders. However, a trader sometimes
+adapts his strategies depending on market conditions, circumstances and other external stimuli. To add the necessary flexibility to your fuzzy system, a genetic algorithm
+can be used to optimize the internal fuzzy logic engine parameters to allow for a wider
+range of variations in order to take into account the ever-changing market conditions.
+Despite the obvious advantages of using fuzzy logic, traders have been slow to embrace this new technology, and its use in the development of trading systems has been
+limited mainly to Wall Street professional consultants and academics. In fact, I don’t
+know of any independent trader who uses fuzzy logic systems in trading. This may
+be because their implementation is not as straightforward as binary logic, or because
+of the high cost of purchasing artificial intelligence software or the complexity in
+using them. I have presented in this chapter three different artificial intelligence tools
+(neural networks, fuzzy logic and genetic algorithms) as well as traditional binary
+rule-based systems, but the focus each time has been only on a single method. This
+doesn’t mean, however, that a combination of two or more different methods in a
+single strategy is not possible or without merit.
+While an artificial intelligence system can be profitable, its use may be sub-optimal,
+in the sense that results may be constrained by the limitations of the technology. For
+example, while neural networks have the positive attributes of adaptation and learning,
+they have the negative attribute of a “black box” syndrome. By the same token, fuzzy
+logic has the advantage of approximate reasoning but the disadvantage that it lacks
+an effective learning capability. Merging these technologies provides an opportunity
+to capitalize on their strengths and compensate for their shortcomings. However, to
+design an effective hybrid system, the strengths and weaknesses of all component
+technologies must first be understood.
+Commercial software vendors, eager to cash in on the new technologies, have
+already developed software that are capable of constructing a trading system which
+incorporates traditional as well as all the above artificial intelligence tools. The only
+obstacle in using them is the cost of the software and the time and skill required to
+learn to use the new software.
+
+10.9
+
+CONCLUSION
+
+In approximately 500 BC, Confucius said, “Study the past if you want to divine the
+future.” As far as I am concerned, this makes Confucius the first market technician.
+You should have learned by now, especially after reading the section on back-testing
+and the pitfalls of optimization, that there is no guarantee that a system, no matter
+how many hours you spent in back-testing it, is going to be profitable in the future.
+
+Trading System Design
+
+173
+
+For example, a change in market conditions or a price shock caused by an unexpected geopolitical event can devastate any system. In the world of trading there
+are no formulae that produce black and white results, and all rules must be based on
+partial knowledge. The paradox is that the market is a place where no transaction
+can be completed unless the opinions of the participants are diametrically opposed.
+You must therefore accept the fact that you are often going to be the participant who
+is wrong. You should accept losses with no remorse, no tears, no what-ifs, and no
+pointing fingers at others.
+In order to survive, seek out strategies based on probabilities and focus on limiting
+your losses, money management and the mathematical principle of compounding.
+The information on trading systems presented in this chapter is by no means
+exhaustive. I have included a number of books in the Bibliography, for the benefit of
+readers interested to learn more about the development of trading systems. I highly
+recommend Perry Kaufman’s Smarter Trading, Chuck Lebeau and David Lucas’
+Technical Trader’s Guide to Computer Analysis of the Futures Markets, and Murray
+Ruggiero’s Cybernetic Trading Strategies which also includes chapters on intermarket
+trading systems.
+
+Disclaimer
+My editor has asked me to include the following disclaimer. Please read it carefully
+before proceeding with the trading systems in the next chapters
+Hypothetical performance results have many inherent limitations, some of which
+are described below. No representation is being made that any account will or is
+likely to achieve profits or losses similar to those shown. In fact, there are frequently
+sharp differences between hypothetical performance results and the actual results
+subsequently achieved by any particular trading program.
+Any performance results listed in the next chapters represent simulated computer
+results over past historical data, and not the results of an actual account. All opinions
+expressed anywhere in this book are only opinions of the author. The information
+contained here was gathered from sources deemed reliable; however, no claim is made
+as to its accuracy or content. Different testing platforms can produce slightly different
+results. My systems are only recommended for well capitalized and experienced
+traders.
+
+11
+A Comparison of Fourteen
+Technical Systems for
+Trading Gold
+
+The market always does what it should do, but not always when.
+–Joseph D. Goodman
+I presented in Chapter 9 many different intermarket indicators that can be useful in
+developing trading systems. But which one has the best predictive capacity and which
+intermarket securities should one use for trading gold? Only testing can reveal the
+winner.
+
+11.1
+
+TEST SPECIFICATIONS
+
+All single divergence indicators were tested using the Philadelphia Gold & Silver
+Mining Index (XAU) and the dollar index (DXY) separately in order to evaluate
+the best performing indicator and intermarket security at the same time. Double and
+multiple divergence indicators used the XAU–dollar index and XAU–silver–dollar
+index combinations respectively.
+I used the gold ETF (GLD) instead of gold futures as not all investors or traders
+have a futures account. Unfortunately, the gold ETF started trading in the NYSE in
+November 2004. For this reason, for the time period that the GLD was not in existence
+(from January 1992 to November 2004) I used gold spot prices (after dividing them
+by 10) to create a “tradeable proxy”. I then used MetaStock’s downloader to join the
+proxy and actual GLD prices into one long continuous file of gold prices stretching
+from 1992 to 2007. Similarly, I joined the World Silver Index prices (after multiplying
+
+176
+
+Intermarket Trading Strategies
+
+them by 10) with the SLV. Daily pricing data were obtained from Telechart after
+exporting them to MetaStock.
+The test results were compared with the buy and hold method (Table 11.1). All
+tests started with an initial equity of $100 000. In order to compare the systems with
+the buy and hold method, profits or losses were compounded to the initial equity.
+Tests were carried out using MetaStock Professional 8.0 and test statistics are
+presented in Tables 11.1, 11.2 and 11.3. All orders were executed at next day’s
+opening price at the market, and the commission charged was $10. Gold bullion
+Table 11.1 Test results of some single intermarket systems from 1 December 1995 to
+21 August 2007. All tests were profitable and outperformed the buy and hold method by a
+wide margin. The LRS system used the linear regression slope divergence method. The
+momentum oscillator was used to determine optimum divergence levels.
+System
+
+Buy & hold
+
+Intermarket security
+Total net profit
+Profit/loss %
+Annual % gain/loss
+Total no. of trades
+Winning trades
+Losing trades
+Percent profitable
+Avg. winning trade
+Avg. losing trade
+Avg. win/avg. loss
+Profitability coef.
+Profit factor
+Max drawdown
+Risk/reward
+Time in market
+
+$67 509
+68 %
+5.8 %
+1
+1
+0
+100 %
+$67 509
+0
+
+−$35 194
+52.1 %
+100.0 %
+
+Regression
+
+Regression
+
+LRS
+
+LRS
+
+DXY
+
+XAU
+
+DXY
+
+XAU
+
+$265 474
+265 %
+23 %
+27
+16
+11
+59 %
+$14 306
+−$7071
+2.02
+2.62
+2.94
+−$31 108
+11.7 %
+30.2 %
+
+$621 084
+621 %
+53 %
+31
+25
+6
+81 %
+$20 410
+−$2941
+6.94
+6.80
+28.91
+−$12 896
+2.1 %
+38.0 %
+
+$282 257
+282 %
+24 %
+21
+19
+2
+90 %
+$10 135
+−$2721
+3.73
+6.93
+35.39
+−$9 282
+3.3 %
+20.7 %
+
+$244 097
+244 %
+21 %
+16
+13
+3
+81 %
+$11 795
+−$1717
+6.87
+6.85
+29.76
+−$11 067
+4.5 %
+24.0 %
+
+30
+40
+
+40
+50
+
+200
+85
+25
+25
+60
+50
+
+200
+70
+5
+15
+50
+50
+
+System Parameters
+Divergence days
+MA gold
+MA intermarket
+ROC – days
+IMO – days
+IMO – buy
+IMO – short
+IMO – sell
+IMO – cover
+Time exit – bars
+
+400
+
+10
+200
+60
+7
+15
+80
+50
+
+400
+
+12
+200
+60
+8
+15
+80
+50
+
+A Comparison of Fourteen Technical Systems for Trading Gold
+
+177
+
+Table 11.2 Test results of some single intermarket systems from 1 December 1995 to
+21 August 2007. All tests were profitable and outperformed the buy and hold method (in
+Table 11.1) by a wide margin. The XAU or the dollar index were used to calculate
+intermarket indicators. All systems used the momentum oscillator to determine optimum
+divergence levels.
+System
+
+BB
+
+Disparity
+
+Disparity
+
+Z-score
+
+Z-score
+
+Intermarket security
+
+XAU
+
+XAU
+
+DXY
+
+DXY
+
+XAU
+
+Total net profit
+Profit/loss %
+Annual % gain/loss
+Total no. of trades
+Winning trades
+Losing trades
+Percent profitable
+Avg. winning trade
+Avg. losing trade
+Avg. win/avg. loss
+Profitability coef.
+Profit factor
+Max drawdown
+Risk/reward
+Time in market
+
+$179 543
+180 %
+15 %
+16
+13
+3
+81 %
+$8553
+−$5662
+1.51
+4.14
+6.55
+−$10 665
+5.9 %
+18.9 %
+
+$290 447
+290 %
+25 %
+26
+18
+8
+69 %
+$11 080
+−$1700
+6.52
+5.59
+14.66
+−$35 424
+12.2 %
+26.7 %
+
+$323 637
+324 %
+28 %
+31
+23
+8
+74 %
+$12 437
+−$6852
+1.82
+3.87
+5.22
+−$26 844
+8.3 %
+24.1 %
+
+$409 960
+410 %
+35 %
+24
+17
+7
+71 %
+$20 113
+−$6807
+2.95
+4.55
+7.18
+−$30 650
+7.5 %
+38.4 %
+
+$307 540
+308 %
+26 %
+24
+16
+8
+67 %
+$16 948
+−$6286
+2.70
+3.96
+5.39
+−$26 863
+8.7 %
+28.9 %
+
+500
+
+100
+
+200
+90
+5
+50
+50
+50
+
+200
+80
+10
+50
+40
+50
+
+System Parameters
+Divergence days
+MA gold
+MA intermarket
+IMO – days
+IMO – buy
+IMO – short
+IMO – sell
+IMO – cover
+Time exit – bars
+
+100
+100
+100
+200
+70
+5
+30
+50
+50
+
+15
+15
+15
+200
+80
+25
+30
+60
+50
+
+20
+15
+200
+80
+25
+30
+60
+50
+
+investors do not get any dividends or interest, so for a more realistic comparison with
+the buy and hold method, interest was credited at an average rate of 4 % when out of
+the market.
+If you wish to replicate the tests, please keep in mind that for them to begin
+producing any signals the indicators used in each should be calculated first, and this
+requires a number of bars to be loaded. For example, the test using the regression
+divergence and the 200-day momentum oscillator will need 617 extra data bars to be
+loaded (11 for the ROC + 400 for the regression + 3 for the divergence EMA + 200
+
+178
+
+Intermarket Trading Strategies
+
+Table 11.3 Test results of the relative strength, LRS and multiple regression intermarket
+systems from 1 December 1995 to 21 August 2007. All tests were profitable and
+outperformed the buy and hold method by a wide margin. The XAU, the dollar index and
+silver were used to calculate intermarket divergence. The multiple divergence system
+outperformed all systems producing an astonishing profit of more than $1.2 million on a
+$100 000 initial equity.
+System
+
+RS
+(Diverg)
+
+RS
+
+LRS
+double
+
+LRS
+double
+
+Regresion
+multiple
+
+Intermarket security
+
+XAU
+
+DXY
+
+XAU DXY
+
+SLV DXY
+
+XAU - SLV
+- DXY
+
+Total net profit
+Profit/loss %
+Annual % gain/loss
+Total no. of trades
+Winning trades
+Losing trades
+Percent profitable
+Avg. winning trade
+Avg. losing trade
+Avg. win/avg. loss
+Profitability coef.
+Profit factor
+Max drawdown
+Risk/reward
+Time in market
+
+$267 542
+
+$141 363
+
+$370 418
+
+$476 181
+
+$1 263 992
+
+268 %
+23 %
+17
+14
+3
+82 %
+$14 487
+−$8410
+1.72
+4.56
+8.04
+−$21 483
+8.0 %
+21.4 %
+
+141 %
+12 %
+9
+7
+2
+78 %
+$13 282
+−$6899
+1.93
+4.36
+6.74
+−$13 453
+9.5 %
+20.6 %
+
+370 %
+32 %
+33
+20
+13
+61 %
+$17 460
+−$5702
+3.06
+3.60
+4.71
+−$48 835
+13.2 %
+40.8 %

@@ -1,0 +1,346 @@
+2
+
+Copyright © 2012 by The M cGraw-Hill Companies, Inc. All rights reserved. Except as permitted under the United States Copyright Act of 1976, no part of this
+publication may be reproduced or distributed in any form or by any means, or stored in a database or retrieval system, without the prior written permission of the
+publisher.
+ISBN: 978-0-07-178826-7
+M HID:
+0-07-178826-3
+The material in this eBook also appears in the print version of this title: ISBN: 978-0-07-177514-4, M HID: 0-07-177514-5.
+All trademarks are trademarks of their respective owners. Rather than put a trademark symbol after every occurrence of a trademarked name, we use names in an
+editorial fashion only, and to the benefit of the trademark owner, with no intention of infringement of the trademark. Where such designations appear in this book, they
+have been printed with initial caps.
+M cGraw-Hill eBooks are available at special quantity discounts to use as premiums and sales promotions, or for use in corporate training programs. To contact a
+representative please e-mail us at bulksales@mcgraw-hill.com.
+This publication is designed to provide accurate and authoritative information in regard to the subject matter covered. It is sold with the understanding that neither the
+author nor the publisher is engaged in rendering legal, accounting, or other professional service. If legal advice or other expert assistance is required, the services of a
+competent professional person should be sought.
+—From a Declaration of Principles Jointly Adopted by a Committee of the American Bar Association and a Committee of Publishers and Associations
+TD Ameritrade, Inc. and John Carter/TradeTheM arkets are separate unaffiliated companies and are not responsible for each other’s services or policies. Art provided
+by TD Ameritrade is © TD Ameritrade, Inc. Used with permission. For illustrative purposes only.
+TERMS OF US E
+This is a copyrighted work and The M cGraw-Hill Companies, Inc. (“M cGraw-Hill”) and its licensors reserve all rights in and to the work. Use of this work is subject
+to these terms. Except as permitted under the Copyright Act of 1976 and the right to store and retrieve one copy of the work, you may not decompile, disassemble,
+reverse engineer, reproduce, modify, create derivative works based upon, transmit, distribute, disseminate, sell, publish or sublicense the work or any part of it without
+M cGraw-Hill’s prior consent. You may use the work for your own noncommercial and personal use; any other use of the work is strictly prohibited. Your right to use
+the work may be terminated if you fail to comply with these terms.
+THE WORK IS PROVIDED “AS IS.” M cGRAW-HILL AND ITS LICENSORS M AKE NO GUARANTEES OR WARRANTIES AS TO THE ACCURACY,
+ADEQUACY OR COM PLETENESS OF OR RESULTS TO BE OBTAINED FROM USING THE WORK, INCLUDING ANY INFORM ATION THAT CAN
+BE ACCESSED THROUGH THE WORK VIA HYPERLINK OR OTHERWISE, AND EXPRESSLY DISCLAIM ANY WARRANTY, EXPRESS OR IM PLIED,
+INCLUDING BUT NOT LIM ITED TO IM PLIED WARRANTIES OF M ERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. M cGraw-Hill
+and its licensors do not warrant or guarantee that the functions contained in the work will meet your requirements or that its operation will be uninterrupted or error
+free. Neither M cGraw-Hill nor its licensors shall be liable to you or anyone else for any inaccuracy, error or omission, regardless of cause, in the work or for any
+damages resulting therefrom. M cGraw-Hill has no responsibility for the content of any information accessed through the work. Under no circumstances shall
+M cGraw-Hill and/or its licensors be liable for any indirect, incidental, special, punitive, consequential or similar damages that result from the use of or inability to use
+the work, even if any of them has been advised of the possibility of such damages. This limitation of liability shall apply to any claim or cause whatsoever whether
+such claim or cause arises in contract, tort or otherwise.
+
+3
+
+To everyone out there who is giving trading for a living a shot.
+And here’s to courage. Have the courage to take a loss
+so that you will have a chance at keeping some of your profits.
+
+4
+
+Contents
+Acknowledgments
+Foreword by Peter Borish
+Introduction
+PART 1 :
+TRADER’S BOOT CAMP:
+How Do the M arkets Work and What Are the Best Ways to Get
+M entally Prepared for Successful Trading and Investing?
+1 What Really Causes the M arkets to M ove?
+Did You Know That M ost People Who Lose M oney in the M arkets Do So Because of These Four Things?
+How Do Our Odds for Success Increase Once We Understand the Pain and Suffering of Individual M arket Participants?
+The Case Study You Will Never Read About at Harvard Business School, or, Has This Ever Happened to You or Your Spouse?
+A Note from M y Wife: How Have I Dealt with Being M arried to John Carter the Trader?
+How Do I Top That?
+How Does a Person M ake M oney from a Fake Orgasm?
+What Is the Only Economic Principle That M atters in the M arkets?
+2 Psychology 101: What Didn’t They Teach About Trading and Investing in School?
+Emotions Are Fine at Weddings and Funerals; Why Aren’t They Fine When It Comes to Trading and Investing?
+Why Is a Guy with a System Always Welcome in a Casino?
+What Is the Right M ental Outlook for the M arkets, and Why Shouldn’t I Turn on M y Computer Without It?
+M innesota Stupid
+Why Do M ost Traders Have to Blow Out an Account Before It All Sinks In?
+The Trader M indset: What Is the Best Way for Getting, and Keeping, Your Head in the Game?
+What Is the Easiest Way to Establish a Consistently Winning Outlook?
+What Does Personal Integrity Have to Do with Successful Trading?
+Where Are You Now in Your Trading Journey?
+Phase I Trading: Destined to Lose—What Are the Traits That M ake People a Success in Life but Routinely Get Them Killed in the M arkets?
+Phase II Trading: Fear-Based Trading, or, “Why Does Everything I Touch Turn to Crap?”
+Phase III Trading: Why Is the Search for the Holy Grail Guaranteed to Limit Your Success as a Trader and an Investor?
+What Are the Signs That a Trader Is Stuck in Phase I, II, or III?
+Paper Trading: Why Is It M ore Worthless Than an Iraqi Dinar?
+But What About Phase IV—How Does a Person Learn How Not to Lose M oney?
+Why Does the Plateau M oney M anagement M ethod Work?
+When Trading and Investing, What Are the Best Ideas to Keep in M ind?
+3 Hardware and Software—Top Tools for Traders
+Hardware: When It Comes to Your Trading Computer, What Are the M ost Important Things to Know?
+Taming the Technological Beast: What Dangers Should I Be Aware of When It Comes to M y Computer?
+Why Aren’t All Quotes Created Equal?
+How Can a Bad Execution Platform Ruin M y Account?
+Why Do M ost Financial Newsletters Suck?
+How to Establish Priorities: If You Are Getting Interrupted During the First Two Hours of Trading, Why Is It Your Fault?
+Why Is Watching Harry Potter on DVD after 12 Noon Eastern Better Than Watching CNBC?
+4 Futures M arkets 101—Understanding the Basic M echanics of the Futures and Commodity M arkets
+The World Beyond Stocks: Why Is It Important?
+M arkets Are a Reflection of the People Who Trade Them: Is Your Competition Wired on Starbucks or M ethodically Filling in a Crossword Puzzle?
+Why Should Traders Learn About the Futures M arkets?
+In a Nutshell, What Do Traders Really Need to Know?
+The M ini-Sized Dow Versus the E-M ini S&P 500: Does It M atter?
+When Is Liquidity King?
+Contract Specifications—What Does a Trader Need to Know to Trade the Key Commodity M arkets?
+How Are Forex M oves M easured?
+How Can You Hedge Your Own Life in the Forex M arkets?
+For Traders, This Is All You Need to Know
+
+5
+
+5 Stock Options: How Do They Work and What Is the Best Way to Trade Them?
+Why Is Option Trading Awesome to Some and Scary to Others?
+What Would You Pay for a First-Class Plane Ticket to Singapore?
+Why Wouldn’t I Buy These Particular Options with M y M other-in-Law’s Trading Account?
+Directional Plays: Why Is Delta 0.70 or Better Superior?
+The Importance of Implied Volatility Crush, or “Look, M a, They’re Panicking!”
+How Do You Know When to Hold ‘Em and When to Spread ’Em?
+6 The Stock M arket Is Now Open—What Is the Best Way to Predict M arket Direction Throughout the Trading Day?
+M usicians Know How to Read M usic; Can Traders Learn How to Read the M arkets?
+How Do You Track Institutional Trading?
+What Is The Fastest Heads-Up That Stocks Are About to M ake a M ove?
+What Is The Best Tool for Reading Buying Versus Selling Pressure?
+Is There a Similar Tool Just for Nasdaq Stocks?
+Put/Call Ratio—Is This the Key to the Kingdom?
+What Is the M ost Effective Way to See What’s Really Going On In the Stock M arket During the Day?
+How Do You Know When It’s Going to Be a Choppy Day?
+Listening In on the Floor—What Is the True Value of Pit Noise?
+Putting It All Together—How Can You Size Up the Trading Day from the Opening Bell?
+What Are the Other M ain Things to Keep Track Of?
+And, Oh Yes, Did You Know That If You Ignore This One Thing, You Don’t Stand a Chance?
+Summing Up
+PART 2
+WHAT ARE THE BES T INTRADAY AND S WING-TRADING S ETUPS FOR FUTURES ,
+S TOCKS , OPTIONS , AND FOREX?
+7 The Opening Gap: Why Is This the First and Highest-Probability Play of the Day?
+How Is Trading Without a Specific Setup in M ind Like Hiking in the Amazon Without a Compass?
+Why Aren’t All Gaps Created Equal?
+What Are the Trading Rules for Gaps?
+Who Is Getting Hurt on This Trade?
+What Are Some Specific Examples of Trading the Gap?
+What’s the Secret to Unfilled Gaps?
+What Are the Best Strategies for People Who Can’t Trade Full Time?
+How Does a Trader Position Size for This Setup?
+Summing Up the Gaps
+8 Pivot Points: Why Are These Good Pausing Points for Trending Days and Great Fading Points for Choppy Days?
+What Is the Best Way to Beat Indicator-Based Traders?
+Why Aren’t All Pivots Created Equal?
+How Exactly Should I Set Up the Pivots on M y Charts?
+The Psychology Behind the Pivots—Who Is Getting Burned?
+What Are the Trading Rules for Pivot Buys on Trending Days?
+What Are the Trading Rules for Pivot Buys on Choppy Days?
+What Are Some Specific Examples of Trading the Pivots?
+Trailing Stops in This Fashion Is the Key
+Tips and Tricks for Using the Pivots
+What About Fibonacci Numbers?
+What’s the Best Way to Trade Commodity M arkets with Pivots?
+Summing Up the Pivots
+9 Tick Fades: Are They Really the Best Way to Take M oney Away from Newbies?
+What Is the Number One Action Alert Available to Traders Today?
+What Are the Trading Rules for Sell Fades (Buys Are Reversed)?
+What Are Specific Examples of Tick Fade Setups?
+Summing Up the Tick Fades
+How Do You Know When Fading Ticks Won’t Work?
+How Do We Trade “Going With” the Ticks Instead of Fading Them?
+10 Reverting Back to the M ean, or, “When Is the Best Time to Take a Profit?”
+Where Do M arkets Stop Their Current Trend and Run Out of Gas?
+
+6
+
+This Sounds Awesome—Why Isn’t Everybody Doing This?
+11 The Squeeze: What Is the Best Way to Get positioned for the Big M arket M oves?
+Is It Better to Trade for Cash Flow or to Create Wealth?
+How Does a Trader Redefine Volatility and Use It to His Advantage?
+What Is the Best Way to Get in Right Before a Big M ove?
+What Are the Trading Rules for Buys (Sells Are Reversed)?
+What Is the Biggest M istake New Traders M ake?
+Is It Possible to Get Positioned Before a M arket Crash?
+What Is the Best Trading Strategy for Those of Us Who Have a Job and Can’t Trade Full Time?
+Updated Examples for the 2008 Financial Crisis and Beyond
+What Is the Best Way to Filter Out Squeezes That M ight Not Work Out?
+12 Catching the Wave: What Is the Easiest Way to Stay on the Right Side of the Trend on Any M arket, on Any Time Frame?
+Why Is It Critical to Understand the Concept of Anchor Charts?
+What Exactly Are the Waves, and How do They Work?
+How Can I Use the Waves to Sneak into a Squeeze Before It Fires Off?
+13 What Is the Best Tool for Staying in a Trade and Not Jumping Out Too Early?
+Entries Are a Dime a Dozen; It’s the Exits That M ake You M oney
+How Do I Protect M yself When They Are Trying to Shake M e Out of M y Position?
+14 Scalper Alerts: Is This the Best Tool for Quick Price Trend Change Confirmation?
+How Do You Identify and Profit from Changes in Trend Without Catching a Falling Knife or Stepping in Front of a Freight Train?
+Why Are Tick Charts Best for Scalping?
+What Are the Trading Rules for Buys (Sells Are Reversed)?
+Specific Examples of Scalper Alert Buy and Sell Setups
+Summing Up the Scalper Alerts
+Increase the Probabilities of Success Through M ultisetup Combinations
+15 Brick Plays: How Can I Tell When a M arket Is Going to Reverse Its Trend in the M iddle of the Day?
+Using Bricks to Capture Intraday Reversals in the M ini-Sized Dow
+Trading Rules for Buys (Sells Are Reversed)
+Summing Up the Bricks
+16 The Ping-Pong Play: Batting the M arkets Back and Forth … All Day Long
+A Trading Channel That M oves and Adapts to the M arkets in Real Time
+Trading Rules for Buys (Sells Are Reversed)
+When You’re Dancing with the M arket, It’s a Good Idea to Let It Lead
+17 The 3:52 Play: Capping Off the Day with a Fine Cigar
+This Is Where the Other People Start to Panic
+Trading Rules for Buys (Sells Are Reversed)
+Summing Up the 3:52 Play
+18 Box Plays—On Days when the Stock M arket Is Dead in the Water, Look to the Currencies
+M easuring the Length of the M ove Before It Occurs
+Trading Rules for Buys (Sells Are Reversed)
+Summing Up the Currency Box Play
+19 HOLP and LOHP—Catching Trend Reversals Without Getting Smashed
+Buying a M arket Just Because It’s Cheap or Shorting a M arket Just Because It’s Expensive Is Dangerous—Unless It’s Done Like This
+Trading Rules for Sells (Buys Are Reversed)
+Summing Up the HOLP and LOHP Plays
+20 Gold Trades and the Darvas Box
+This Is How I Like to Trade Gold
+Welcome to Trading. Are You Ready for the Bad News?
+Why Should You Consider Trading Gold?
+The Famous Good Night Gold Trade
+The Gold Rush Trade
+The Gold Spike Trade
+How Do I Buy Bottoms and Sell Tops?
+Darvas: How to M ake 2 M illion Dollars in the Stock M arket
+
+7
+
+21 Our Live Trading Room and Streaming Real Time Analysis
+It’s All About the Timing
+Let’s Dig into the Setups
+Getting Familiar with the TTM M omentum and TTM Trigger
+Summing Up the Trades
+22 Propulsion Plays—Swing Plays Using Stocks, Single-Stock Futures, and Stock Options
+Setting Up for the Bigger M oves in Individual Stocks
+The Trader’s Guide to Single-Stock Futures
+The Only Way to Play Individual Stock Options
+Trading Rules for Buy Fades (Sells Are Reversed)
+Updates to the Propulsion Trades
+Summing Up the Propulsion Plays
+PART 3
+HEADING BACK INTO THE
+REAL WORLD OF TRADING
+23 The Premarket Checklist—Creating a Game Plan for the Next Trading Day
+Like Running a Credit Check, to Understand What the M arket Is Going to Do in the Future, It Helps to Understand Its Past
+M onthly Chart Analysis
+Weekly Chart Analysis
+Daily Chart Analysis
+60-M inute Chart Analysis
+Daily RSI Chart Analysis
+60-M inute RSI Chart Analysis
+Index Radar Screen Alert
+Sectors and Key Stocks Radar Screen Alert
+The Key to Reading Daily Volume
+The Key Price Levels to Know Each and Every Trading Day
+Pivot Numbers, of Course
+Key Sentiment Readings
+It’s a Good Idea to Know What These People Are Doing
+M iscellaneous Items
+What Does Your M other Think?
+Summing Up the Premarket Checklist
+24 The Trader’s Business Plan
+Who Gets to the World Series—the Team with a Plan or the Team That Decides to Wing It?
+Why Am I Trading Again This Year?
+Happy Wife, Happy Life
+What M arkets Am I Going to Trade?
+Why These M arkets? What Specific Trading Strategies Am I Going to Use?
+How M uch M oney Am I Going to Allocate to Each Trading Strategy and Setup?
+What Execution M ethods Will I Be Using? What Parameters?
+How Am I Going to Track and Rank M y Trades?
+What Are M y Drawdown Rules?
+What Are M y Profit Rules?
+What Is M y Office Setup Going to Be Like?
+What Are M y Rewards If M y Trading Is Going Well?
+Are There Any Groups, People, or Organizations I’d Like to Help Out This Year?
+What Are M y Specific Plans for Staying “On Plan” Throughout the Year?
+What Am I Doing About M y Physical Health?
+Concluding Thoughts on M y Plan
+A Sample Plan from a Beginning Trader
+Summing Up the Trading Plan
+25 Tips and Tricks for When It’s Not Working for You, No M atter What You Do
+Will Cry for Food—Using Your Emotions to M ake M oney
+The Four Seasons Hotel Trade
+Thank You, Sir, M ay I Have Another?
+When I Tick, You Tick, We Tick
+8
+
+Dive, Captain, Dive
+High Five, Baby
+Discover Your Personality Type and Find Out If It’s Holding You Back
+Personality Types and Trading—What You Don’t Know About Yourself Can Hurt Your Trading
+Trading Really Isn’t That Easy—Alternatives to Consider for Jump-Starting Progress
+26 M astering the Trade
+Amateurs Hope; Professionals Steal
+40 Trading Tips for M aintaining a Professional State of M ind
+Surviving the Trader’s Journey
+Before He Trades
+The Easier Path: Swing Trading
+Conclusion and Final Thoughts
+Index
+
+9
+
+Acknowledgments
+Writing and trading have a lot in common in that they are essentially solitary professions that are made much more enjoyable by having people who are willing to lend
+a helping hand. With regard to this project, I would like to first thank Hubert Senters and Priyanka Rajpal for holding down the fort while I was “working on the
+nightmare.” Also thanks for your contributions to this project, which helped to keep me sane toward the end when things were getting crazy. Although the book
+deadline was firm, July soybeans were moving, and I couldn’t just ignore them.
+Thanks to Kira M cCaffrey Brecht, Gail Osten, and everyone at SFO Magazine for helping me to realize that writing about trading could be a worthwhile thing to do.
+Larry Connors and Eddie Kwong at Trading M arkets for advice along the way and for keeping me on track with this original project, making sure I didn’t spend a lot of
+wasted time reinventing the wheel. Kelli Christiansen at M cGraw-Hill for initially contacting me about this project and turning it from idea into reality, and to
+Executive Editor Stephen Isaacs at M cGraw-Hill for helping to keep the first edition of this project on track.
+I thought I could rest easy once I had completed the first draft, but little did I know that the real work was about to begin. Thanks to Bill Shugg, Tim Sambrano,
+Pamela Snelling, and Don Allen for reading early drafts and providing feedback. Also thanks to the staff at M cGraw-Hill, who performed the herculean task of bringing
+this book—both the first edition and the second edition—to life: Scott Kurtz, editing supervisor; M aureen Harper, production supervisor; Alice M anning, copy editor;
+and Eric Lowenkron, proofreader. Thanks also to M ark Douglas for insightful feedback in the later stages of the project.
+For help with my trading and trading related projects along the way, I’d like to thank M arcia Wieder, goddess of M aui, for kicking things off with regard to my
+leaving corporate America and trading full time. Scott Sether, who was truly in this from the beginning, for helping to redefine the term market research . Tracy
+Alderman, Rosa Hernandez, and M ichael Duwe, for helping to get things kicked off. Page Rossiter, for keeping me on track during the transition. Skip Klohn, as an
+early mentor in the process. Eric Corkhill … where do I start? Thanks for acting as a consultant on a multitude of topics, and thanks for giving me enough red wine so
+that I remembered only the good stuff the next morning.
+Thanks to Barbara Schmidt-Bailey and Jeff Campbell at the Chicago Board of Trade, and M arty Doyle at One Chicago for good ideas and great feedback along the
+way. John Conolly, for a multitude of solid insights into the business. To the gang at M irus, for continued support. To the gang at Newport, for clarifying what not to
+do and how not to do it. Cooper Bates, for keeping me on track on the meaning of it all. Steve Patrow and Becky Herman, for keeping things entertaining while I was in
+the beginning stages of this journey.
+Of course, it makes sense to thank family members where appropriate. Thanks to my mom, Francie Cobb, for supporting me while I “did my thing” along the way,
+even if it was sometimes scary to watch. Thanks to my stepfather, Lance Cobb, for being a father and introducing me to the world of financial markets at an early age.
+To my brother, Jason Carter, for being a great sibling. It’s nice to have another person in the world who understands. M aria Carter, my wife, for her unflinching
+support in the face of it all, and also for becoming passionate about the Home Decorating Channel while her husband played “catch up on the book” over the
+weekends. Next time I swear we’ll just go to Hawaii. I’m pretty sure I can write and drink M ai Tais at the same time.
+Thanks also to the memory of my father, Bill Carter, who was taken away too soon, but in so doing passed along valuable lessons to his kids. And to the memory of
+Joanne Wolfram, a good friend, who reminds us all to live life while you have the chance.
+
+Additional Acknowledgments for the Revised Edition
+A lot has changed over the past six years since the first edition hit the bookshelves in January 2006—the financial crisis of 2008, the flash crash, the credit bubble, the
+great deleveraging process, Eliot Spitzer thinking it aboveboard to wire money to prostitutes—and a lot has stayed the same. Over the past six years, my wife M aria
+has continued to be a source of hot Latina calm in a consistently crazy environment, and she even managed to squeeze out three kids in the process: James, Avery, and
+Dylan. One of these days, we’ll figure out what is causing “the kid thing” and maybe try to put a stop to it … but for now it’s a helluva lot of fun. A big thank you to
+Elsa and Daisy, Amanda M elin from Sweden (jah), and Sarah Wagner from Germany for helping us out with our crazy kids.
+The exchanges have undergone a lot of upheaval since this first book came out, with the Chicago M ercantile Exchange (now the CM E Group) consolidating nearly
+everyone under its wing. Continued thanks to Barbara Schmidt Bailey as well as Chuck Farra, Rich Jelinek, and the team in Asia for our overseas adventures. I’ve
+learned a lot on those trips (such as, don’t combine red wine with frog belly soup), and I am all the better for it. Also thanks to M ark Omens for continued input and
+ideas and Super Bowl adventures. At Infinity Futures/Transact, Jim M ooney, Jim Cagnina, and Sabby continue to keep things entertaining, while Patrick Zielbauer
+keeps me in line. At TradeStation, Stan Dash and M ichael Burke continue to be a fount of wisdom and humor, while M ichelle M oore keeps us all in line (I’m sensing a
+trend here). Over at thinkorswim, aka TOS, Tom Sosnoff has been a source of great encouragement and knowledge, while Beth Snyder has, of course, kept us all in line.
+And I’m loving your new venture over at TastyTrade.com. Of course a big thank you to M organ Ertel and M ary Glenn at M cGraw-Hill for making me man up and
+update the content of this book. Although I hated every minute of it (okay, not every minute, but many of those minutes), I knew it was something I had to do.
+Since the first book came out, Trade the M arkets has grown into a “real business” with an amazing group of team members in Austin, Boston, Chicago, and
+Kentucky. We continue to get great feedback, and we try to learn from our mistakes as best we can. A big thank you to the team for running the business and just
+letting me follow my passion, which is trading (first) and talking about trading (second). It’s been fun to watch Henry Gambell make the transition from “techie” to
+“trader.” Just relax; the process takes many years. Also to Jill M alandrino over at The Street. You are truly awesome to work with, no matter what goes on under the
+desk. The adventures with my partner (that’s “business” partner) Hubert Senters continue to unfold in ways we never thought possible. John Clayburg, aka “Doc,”
+you’ve been a real pleasure to work with. It is truly difficult finding islands of sanity in the trading world at times, but you are one of them. Rob Hoffman, thanks for
+diving in with enthusiasm and helping me make my e-mails more friendly! Thanks to my cousin/niece/adopted daughter, Adelita Campos Flores, for your quirky sense
+of humor and unique outlook on life. Good luck with whatever path you choose. To the Amigos, M ichael Palmieri and Tom Tuohy, thank you for your insights, even
+when I clearly did not need them. But alas, of course, I did. Aline Hanle and Honali Austin, thank you for your awesome and sometimes scary awareness and insights.
+And finally to every one of our clients. It’s an honor to work with you.

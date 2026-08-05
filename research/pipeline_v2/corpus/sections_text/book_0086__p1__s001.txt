@@ -1,0 +1,601 @@
+to have a gamma of .10 because the delta changed by .10 as the underlying
+price rose. If the underlying price declined from 100.00 to 99.00, the delta of
+the call would fall from 0.50 to 0.40. This would have an impact on the delta
+of a covered-write position because as the underlying price changed, the delta of the short call would change, affecting the delta of the overall position.
+
+Example
+An investor has a covered-write position consisting of 100 shares of
+long stock and short one .50 delta call. The call has a gamma of .10. What is
+the delta of the overall position if:
+The stock rises 1.00 . . .
+100  (100  (0.50  0.10))  40 shares
+The stock falls 1.00 . . .
+100  (100  (0.50  0.10))  60 shares
+Note that the gamma simply increases or decreases the delta of the
+option as the underlying price changes; it does not change whether the
+delta is positive or negative.
+The gamma of an option is not linear and is also sensitive to market
+conditions. It is highly dependent on the location of the strike price relative to the underlying price (sometimes called moneyness) and the time left
+until expiration. Figure 1.5 shows the relationship between the gamma of
+an option, moneyness, and time until expiration.
+
+9
+
+Chapter 1
+
+The Covered-Write
+
+0.08
+5 days
+15 days
+
+0.06
+
+30 days
+60 days
+90 days
+
+Gamma
+
+10
+
+0.04
+
+0.02
+
+0.00
+
+–0.02
+70
+
+80
+
+90
+
+100
+
+110
+
+120
+
+130
+
+Strike
+
+Figure 1.5 Gamma vs. Strike
+
+Gamma is highest when an option is at-the-money, and the rate of
+change of gamma itself increases as expiration approaches. For the
+covered-write, this means that the delta of the position will change the
+most as the underlying crosses the strike of the short call, and that this
+effect will be greater as time to expiration decreases.
+
+Vega
+Vega describes the sensitivity of an option’s theoretical value to a 1 percent change in implied volatility. It is usually expressed as the change in
+value that would be gained or lost from a 1 percent rise or fall in implied
+volatility. Long option positions have a positive vega, and short option
+positions have a negative vega. Because a covered-write has a short call as
+its option component, it will always have a negative vega.
+Rising implied volatility causes the extrinsic value of options to rise,
+and falling implied volatility causes the extrinsic value of options to fall.
+Furthermore, longer-dated options are more sensitive to changes in implied
+volatility, since a rise or fall of implied volatility over a longer period is
+extrapolated to a much larger (in the case of rising volatility) or much
+smaller (in the case of falling volatility) universe of possible price outcomes
+at expiration. This is illustrated in Figure 1.6.
+Because a covered-write has a negative vega, rising implied volatility
+will cause the value of the structure to fall as the short call component of
+the strategy rises in price. Conversely, falling implied volatility will cause
+the value of the covered-write to rise, as the short call component of the
+strategy falls in price. In addition, the value of a covered-write with a
+longer-dated short call component will be more sensitive to fluctuations
+in implied volatility than a covered-write with a shorter-dated short call
+component.
+
+The Greeks
+
+30
+90 strike
+100 strike
+
+25
+
+110 strike
+
+Vega
+
+20
+15
+10
+5
+0
+5
+
+15
+
+30
+
+60
+
+90
+
+120
+
+150
+
+Days to Expiry
+
+Figure 1.6 Vega vs. Time to Expiration
+
+Example
+An investor has a covered-write position consisting of 100 shares of
+long stock at $100.00 and short one 100 strike call at $5.00. The call has a
+vega of 0.10. With the stock unchanged, what is the change in value of the
+overall position if:
+Implied volatility rises 5 percent . . .
+The price of the call will change from $5.00 to $5.50 ($5.00  5  0.10), so
+the value of the position will change accordingly:
+Initial Position Value
+
+New Position Value
+
+Stock price
+
+$100.00
+
+Stock price
+
+$100.00
+
+ Call price
+
+$5.00
+
+ Call price
+
+$5.50
+
+Position value
+
+$95.00
+
+Position value $94.50
+
+Implied volatility falls 5 percent . . .
+The price of the call will change from $5.00 to $4.50 ($5.00  5  0.10), so
+the value of the position will change accordingly:
+
+Initial Position Value
+
+New Position Value
+
+Stock price
+
+$100.00
+
+Stock price
+
+$100.00
+
+ Call price
+
+$5.00
+
+ Call price
+
+$4.50
+
+Position value
+
+$95.00
+
+Position value $95.50
+
+11
+
+Chapter 1
+
+The Covered-Write
+
+As these examples show, rising implied volatility works against a coveredwrite, while falling implied volatility works in favor of a covered-write.
+
+Theta
+Theta is used to describe the sensitivity of an option’s theoretical value
+to the passage of time. It is usually expressed as the number of points that
+are lost from one day’s time decay. Long option positions have a negative
+theta, and short option positions have a positive theta. Because a coveredwrite has a short call as its option component, it will always have a positive
+theta.
+As mentioned above in “Strategy Overview,” all options are composed
+of intrinsic value and extrinsic value, and as time passes, the extrinsic value
+begins to decay. At expiration, the extrinsic value is gone, and an option is
+either in-the-money and has intrinsic value, or it expires worthless. This
+means that, all else being equal, the theoretical value of an option should
+fall by some amount every day. However, this amount varies because the
+rate at which extrinsic value decays is not linear and is itself dependent on
+other market factors, especially time to expiration and moneyness, as can
+be seen in Figure 1.7:
+–90
+90 strike
+
+–80
+
+100 strike
+
+–70
+
+110 strike
+
+–60
+
+Theta
+
+12
+
+–50
+–40
+–30
+–20
+–10
+0
+5
+
+15
+
+30
+
+60
+
+90
+
+120
+
+150
+
+Days to Expiry
+
+Figure 1.7 Theta vs. Time to Expiration
+We can see in the figure that the theta of all long-dated options is low
+and is very similar for the 90, 100, and 110 strike calls. As time moves forward toward expiration, time decay begins to accelerate and the theta for
+all of the options begins to rise. Then, as expiration approaches, the in- and
+out-of-the-money calls (the 90 and 110 strike calls) lose their extrinsic value
+early, and their thetas begin to decline. Notice, however, that the theta of
+the 100 strike call, which is the at-the-money option, begins to accelerate.
+Heading into expiration, when the surrounding in- and out-of-the-money
+options no longer have extrinsic value to lose, the decay of the at-the-money
+option will continue to accelerate.
+
+Investment Objectives
+
+Example
+An investor has a covered-write position consisting of 100 shares of
+long stock at $100.00 and short one 100 strike call at $5.00. The call has a
+theta of 0.02. With the stock unchanged and implied volatility unchanged,
+what is the change in value of the overall position if:
+Five trading days pass . . .
+The price of the call will change from $5.00 to $4.90 ($5.00  5  0.02), so
+the value of the position will change accordingly:
+Initial Position Value
+
+New Position Value
+
+Stock price
+
+$100.00
+
+Stock price
+
+$100.00
+
+ Call price
+
+$5.00
+
+ Call price
+
+$4.90
+
+Position value
+
+$95.00
+
+Position value $95.10
+
+As this example shows, time decay works in favor of a covered-write.
+
+INVESTMENT OBJECTIVES
+As mentioned earlier in “Strategy Overview,” the covered-write
+strategy is a neutral to mildly bullish strategy. The main objectives of a
+covered-write are the generation of income and limited downside protection. Every covered-write is a mixture of both and, depending on how the
+investor structures the trade, that is, which strike price and expiration cycle
+are chosen, the trade will be more of one and less of the other. It is also
+extremely important to distinguish between the covered-write as a long-term,
+systematic strategy, and the covered-write as a short-term trade.
+
+Covered-Write as a Long-Term Strategy
+Investors who use the covered-write as a long-term strategy usually have
+a core portfolio of stocks that—up or down, better or worse—they will hold.
+They systematically write calls against the stocks in the portfolio to help generate income, and, over time, lower the cost basis of the portfolio. Even though
+the written calls provide some downside protection for the portfolio, these investors are not as sensitive to downside risk because they will be holding the
+portfolio regardless of whether the market rises or falls in the short-term.
+
+Covered-Write as a Short-Term Trading Strategy
+The investor who uses the covered-write as a short-term trading strategy usually purchases the stock specifically for the purpose of writing
+a call against it and creating a strategy. Many times this trade is executed as
+a spread on an exchange known as a buy-write. The stock is not part of a longterm core portfolio, and, therefore, the short-term covered-write investor is
+
+13
+
+14
+
+Chapter 1
+
+The Covered-Write
+
+usually much more sensitive to downside risk than the long-term coveredwrite investor is and requires a stronger, bullish market view.
+
+Rates of Return
+Regardless of whether one is a short-term or long-term covered writer,
+the best outcome is a slow rise that allows the stock to appreciate in price
+while the option slowly decays, and, hopefully, expires worthless. This
+allows the investor to capture both the price appreciation in the stock and
+the time decay in the option, generating a profit on the overall position. The
+exact amount of profit depends on how the covered-write was constructed,
+the stock price, the option price, and the strike price. Usually covered-write
+strategies are analyzed in terms of rates of return at various points:
+• Return to Call
+This is the rate of return generated on the position if the stock price is
+at the strike price or higher at expiration, a price at which the stock would
+be called away by the holder of the written call. The stock price at or higher
+than the strike price is the best-case scenario for a covered-write:
+K
+ 1 R  100%
+Return to call  Q ________
+(S1  C)
+Where:
+C  Call price
+K  Strike price
+S1  Beginning stock price
+
+Example
+An investor buys stock at a price of $100.00 and sells a 105 strike call
+against it for $5.00. There are thirty days until expiration. What would be
+the rate of return if the stock were called?
+Q
+
+105
+_________
+ 1 R  100%  10.53%
+(100  5)
+
+• Return to Unchanged
+This is the rate of return generated on the position if the stock is
+unchanged but is still lower than the strike price at expiration, meaning an
+out-of-the-money call was written. This is the rate of return if the written
+call expires worthless while the stock remains unchanged:
+S2
+ 1 R  100%
+Return to unchanged  Q ________
+(S1  C)
+Where:
+C  Call price
+S1  Beginning stock price
+S2  Ending stock price
+
+Strategy Component Selection
+
+Example
+An investor buys stock at a price of $100.00 and sells a 105 strike call
+against it for $5.00. There are thirty days until expiration. What would be
+the rate of return if the stock were unchanged at expiration?
+Q
+
+100
+_________
+ 1 R  100%  5.26%
+(100  5)
+
+Return to call and Return to unchanged are variations of the same formula
+with the numerator representing the selling price for the stock at the end of
+expiration. In the case of Return to call, the numerator is represented by the
+strike price, because that is the price an investor would receive for his stock
+if it were called. In Return to unchanged it is represented by the current stock
+price, because that is the price an investor would receive for his stock if he
+wished to sell it in the open market.
+
+Break-Even Point
+The break-even point is the point at which the decline in stock price
+equals the amount of premium collected on the written call. At this point
+all of the protection furnished by the written call is “used up” and the
+investor is exposed to losses if the stock continues lower:
+Break-even point  S1  C
+Where:
+C  Call price
+S1  Beginning stock price
+
+Example
+You buy stock at a price of $100.00 and sell a 105 strike call against it for
+$5.00. There are thirty days until expiration. What is the break-even point?
+Break-even point  $100.00  $5.00  $95.00
+
+STRATEGY COMPONENT SELECTION
+So how does one structure a good covered-write strategy? The answer
+to this question depends on many of the variables we have discussed in
+previous sections:
+• What is one’s current market forecast?
+— Neutral
+— Mildly bullish
+— Moderately bullish
+
+15
+
+16
+
+Chapter 1
+
+The Covered-Write
+
+• What is one’s risk appetite?
+— Is covered-writing part of a long-term strategy against a portfolio?
+— Is covered-writing part of a short-term trading strategy?
+• What is the goal of one’s covered-write?
+— Income generation?
+— Downside protection?
+— Some of each?
+• What is the current state of implied volatility in the market?
+— High volatility?
+— Low volatility?
+— What are the potential rates of return?
+
+What Is One’s Current Market Forecast?
+As we have mentioned several times, the covered-write is a neutral
+to moderately bullish strategy, so, first and foremost, it is mandatory to
+have a neutral to moderately bullish outlook on the stock or portfolio one
+is considering as a candidate for a covered-write program. An extremely
+bullish strategy is inappropriate because the upside is limited, and a bearish approach is also inappropriate because the long stock portion of the
+position will lose money, which is only partially offset by the premium
+received when writing the call. A sharp or sustained move lower in a stock
+or portfolio is disastrous for covered-writes.
+Whatever methodology one chooses to use for forecasting market
+behavior—fundamental analysis, technical analysis, broker forecasts and
+research, or other methods—one should consider a covered-write strategy only if confident in a market forecast of neutral to moderately bullish. Where the forecast falls within that range will help determine strike
+selection. It is always desirable to have the stock price greater than or
+equal to the strike price at expiration, to achieve maximum returns, so
+the strike selected for writing should be where one expects the stock to
+be at expiration.
+• Neutral to Bullish
+With a neutral outlook one is likely forecasting little change in the
+underlying price through expiration. In this case, one would want to write
+a call that is at-the-money to potentially achieve maximum returns.
+• Mildly Bullish
+With a mildly bullish outlook, one is most likely forecasting a slight
+rise in the underlying price through expiration. In this case, one would
+want to write a call that is out-of-the-money in the expected target zone to
+potentially achieve maximum returns.
+
+Strategy Component Selection
+
+• Moderately Bullish
+With a moderately bullish outlook, one is likely forecasting a more substantial rise in the underlying price through expiration. In this case, one
+would want to write a call that is further out-of-the-money in the expected
+target zone to attempt to achieve maximum returns.
+
+What Is One’s Risk Appetite?
+The risk appetite of an investor interested in pursuing a covered-write
+strategy is usually determined by the category into which he falls in terms
+of time frame. Risk appetite determines strike selection and duration.
+The risk in a covered-write is determined by the premium received for
+the written call, which provides some downside protection for the stock
+position. This premium, in turn, is determined by the location of the strike
+price relative to the stock price (moneyness) and the time until expiration
+(duration).
+• Long-Term (High Risk Appetite)
+The long-term covered writer usually has a portfolio of stocks that he
+or she has selected to hold. These investors have purchased the stocks in
+their portfolios because they like their long-term prospects and because
+they intend to hold them no matter what the market chooses to do in the
+short-term. They are pursuing a covered-write strategy against the stocks
+in their portfolio in order to help generate income and lower the overall
+cost basis of the portfolio. They are not particularly interested in the downside protection aspect of the covered-write since they are going to hold
+their portfolio regardless of what the market might do; therefore, they are
+less sensitive to risk.
+High Risk Appetite: Investors with high risk appetites can afford to collect less premium for downside protection; this allows them to write calls
+that are further out-of-the-money or of shorter duration. Writing calls that
+are further out-of-the-money creates a covered-write that has a stronger
+bullish stance, allowing for more potential appreciation in the stock price.
+Writing calls of shorter duration generates a larger time decay (theta) for
+faster income generation.
+• Short-Term (Low Risk Appetite)
+The short-term covered writer usually enters the position as a trade. In
+other words, he has no particular long-term view for the stock that he is
+buying; he is more interested in the potential return of the covered-write
+itself, and is attracted to situations where high volatility (higher call premiums) are throwing off high potential rates of return. Because, for these
+investors, the covered-write is a short-term strategy or trade, they are very
+sensitive to risk because a loss in the position cannot be recouped over time
+as it might be with a long-term covered-write. Indeed, because short-term
+covered writers tend to be more the “trader” type than the “investor” type,
+
+17
+
+18
+
+Chapter 1
+
+The Covered-Write
+
+they tend to keep their trades on a short leash, may only be in the trade a
+few days, and will exit at the first sign of trouble.
+Low Risk Appetite: The investor with a low risk appetite needs to collect more premium for downside protection; this forces him to write calls
+that are at- or even in-the-money or of longer duration. Writing calls that
+are at- or in-the-money creates a covered-write that has a defensive stance
+of neutral to slightly bearish, and this removes any chance for upside
+appreciation in the stock price. Writing calls of longer duration will generate a smaller time decay (theta), slowing potential income generation.
+
+What Is the Purpose of the Covered-Write?
+• Income Generation
+Time decay is the key to income generation, and, as we noted in the earlier discussion of theta in “Strategy Composition,” shorter-dated options
+have a higher rate of time decay (a larger theta) than longer-dated options,
+and at-the-money options have a higher rate of time decay than in- or outof-the-money options. This pushes the investor interested in income generation into the short-dated options. Of course, this has to be balanced with
+market view and risk appetite, which require some give and take, but, in
+general, covered writers interested in quick income generation need to be
+operating in the shorter-dated (forty-five days to expiry and less) options
+that are near-the-money. This produces maximum time decay.
+• Downside Protection
+The investor interested in protecting his portfolio needs to generate
+larger premiums when writing calls against his holdings. Calls that are inthe-money, or of longer duration, generally carry larger premiums. Writing
+calls that are in-the-money creates a covered-write that has more of a defensive stance, which offers greater downside protection. However, structuring
+a covered-write in this fashion eliminates most if not all of the potential for
+upside appreciation in the stock price. In addition, writing calls of longer
+duration will result in a smaller time decay (theta), thus slowing income
+generation and increasing the holding period for the trade.
+
+What Is the Current State of Implied Volatility
+in the Market?
+Implied volatility is determined by the current pricing of options in the
+marketplace. By using the current option price and an option pricing model,
+investors are able to solve for the volatility implied by the option price. An
+option calculator such as the one on the Chicago Board Options Exchange
+(CBOE) website can make this calculation easier (www.cboe.com).
+Implied volatility reflects the consensus opinion of options market
+participants about what the expected volatility of the underlying will be
+through expiration. High implied volatility means that market participants
+are expecting high volatility in the price of the underlying through that
+
+Strategy Component Selection
+
+particular expiration cycle. Low implied volatility means that market participants are expecting low volatility in the price of the underlying through
+that particular expiration cycle. Implied volatility is in a constant state of
+flux as new information influences the market and alters the expectations
+of the participants. It is a “market” in and of itself.
+As we discussed in “Strategy Composition,” when we examined vega,
+rising implied volatility causes option prices to rise, while falling implied
+volatility causes option prices to fall. This has a direct impact on the
+covered-write because it is the premium generated by the sale of the call
+option(s) that determines the risk, reward, break-even point, and potential
+rate of return of the strategy.
+• High Implied Volatility
+As mentioned previously, high implied volatility means that market
+participants are expecting high volatility (that is, a lot of movement) in
+the price of the underlying through that particular expiration cycle. That
+means three things to the potential covered writer:
+• Market participants see risk in the price of the underlying.
+• Premiums may be elevated to reflect this risk.
+• Rates of return may be higher than normal to reflect this risk.
+Remember that the first and most important determining factor for a
+covered-write strategy is a neutral to moderately bullish forecast for the
+underlying price. High implied volatility is an indication that market participants have built in the possibility of greater than usual movement in
+the underlying price both to the upside and downside. In other words,
+they see risk and, because of that, option prices and rates of return on a
+covered-write are elevated to reflect this perceived risk. The investor who
+is confident of a neutral to bullish forecast for the stock and who has a view
+opposite the marketplace may be rewarded, if correct, by a higher than
+usual rate of return. But remember: It is the neutral to bullish price forecast that should be the first determining factor for a covered-write, never
+the rate of return! The rate of return is simply an indicator of the risk level
+perceived by market participants at that time. Using rate of return to determine covered-write strategies is a trap.
+• Low Implied Volatility
+Low implied volatility means that market participants are expecting
+low volatility (that is, a lack of movement) in the price of the underlying
+through that particular expiration cycle. That means three things to the
+potential covered writer:
+• Market participants may see low risk in the price of the underlying.
+• Premiums may be depressed to reflect this lack of risk.
+• Rates of return may be lower than normal to reflect this lack of risk.

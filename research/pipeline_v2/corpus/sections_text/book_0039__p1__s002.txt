@@ -1,0 +1,328 @@
+
+DATA QUALITY
+Data quality varies from excellent to awful. Since bad data can wreak havoc with
+all forms of analysis, lead to misleading results, and waste precious time, only use
+the best data that can be found when running tests and trading simulations. Some
+
+forecasting models, including those based on neural networks, can be exceedingly sensitive to a few errant data points; in such cases, the need for clean, error-free
+data is extremely important. Time spent finding good data, and then giving it a
+final scrubbing, is time well spent.
+Data errors take many forms, some more innocuous than others. In real-time
+trading, for example, ticks are occasionally received that have extremely deviant,
+if not obviously impossible, prices. The S&P 500 may appear to be trading at
+952.00 one moment and at 250.50 the next! Is this the ultimate market crash?
+No-a few seconds later, another tick will come along, indicating the S&P 500 is
+again trading at 952.00 or thereabouts. What happened? A bad tick, a “noise
+spike,” occurred in the data. This kind of data error, if not detected and eliminated, can skew the results produced by almost any mechanical trading model.
+Although anything but innocuous, such errors are obvious, are easy to detect (even
+automatically), and are readily corrected or otherwise handled. More innocuous,
+albeit less obvious and harder to find, are the common, small errors in the settling
+price, and other numbers reported by the exchanges, that are frequently passed on
+to the consumer by the data vendor. Better data vendors repeatedly check their
+data and post corrections as such errors are detected. For example, on an almost
+daily basis, Pinnacle Data posts error corrections that are handled automatically by
+its software. Many of these common, small errors are not seriously damaging to
+software-based trading simulations, but one never knows for sure.
+Depending on the sensitivity of the trading or forecasting model being analyzed, and on such other factors as the availability of data-checking software, it
+may be worthwhile to run miscellaneous statistical scans to highlight suspicious
+data points. There are many ways to flag these data points, or ourlieru, as they are
+sometimes referred to by statisticians. Missing, extra, and logically inconsistent
+data points are also occasionally seen; they should be noted and corrected. As an
+example of data checking, two data sets were run through a utility program that
+scans for missing data points, outliers, and logical inconsistencies. The results
+appear in Tables I-1 and 1-2, respectively.
+Table I 1 shows the output produced by the data-checking program when it was
+used on Pinnacle Data Corporation’s (800-724-4903) end-of-day, continuous-contract data for the S&P 500 futures. The utility found no illogical prices or volumes in
+this data set; there were no observed instances of a high that wan less than the close,
+a low that was greater than the open, a volume that was less than zero, or of any cognate data faux pas. Rvo data points (bars) with suspiciously high ranges, however,
+were noted by the software: One bar with unusual range occurred on 1 O/l 9/87 (or
+871019 in the report). The other was dated 10/13/89. The abnormal range observed
+on 10/19/87 does not reflect an error, just tbe normal volatility associated with a major
+crash like that of Black Monday; nor is a data error responsible for the aberrant range
+seen on 10/13/89, which appeared due to the so-called anniversary effect. Since these
+statistically aberrant data points were not errors, corrections were unnecessary.
+
+8
+
+Nonetheless, the presence of such data points should emphasize the fact that market
+events involving exceptional ranges do occur and must be managed adequately by a
+trading system. All ranges shown in Table l-l are standardized ranges, computed by
+dividing a bar’s range by the average range over the last 20 bars. As is common with
+market data, the distribution of the standardized range had a longer tail than would be
+TABLE
+
+I-1
+
+Output from Data-Checking Utility for End-of-Day S&P 500
+Continuous-Contract Futures Data from Pinnacle
+
+CHAPTER
+
+1 oata
+
+9
+
+expected given a normally distributed underlying process. Nevertheless, the events of
+10/19/87 and 10/13/89 appear to be statistically exceptional: The distribution of all
+other range data declined, in an orderly fashion, to zero at a standardized value of 7,
+well below the range of 10 seen for the critical bars.
+The data-checking utility also flagged 5 bars as having exceptionally deviant
+closing prices. As with range, deviance has been defined in terms of a distribution,
+using a standardized close-to-close price measure. In this instance, the standardized measure was computed by dividing the absolute value of the difference
+between each closing price and its predecessor by the average of the preceding 20
+such absolute values. When the 5 flagged (and most deviant) bars were omitted,
+the same distributional behavior that characterized the range was observed: a longtailed distribution of close-to-close price change that fell off, in an orderly fasbion, to zero at 7 standardized units. Standardized close-to-close deviance scores
+(DEV) of 8 were noted for 3 of the aberrant bars, and scores of 10 were observed
+for the remaining 2 bars. Examination of the flagged data points again suggests
+that unusual market activity, rather than data error, was responsible for their statistical deviance. It is not surprising that the 2 most deviant data points were the
+same ones noted earlier for their abnormally high range. Finally, the data-checking software did not find any missing bars, bars falling on weekends, or bars with
+duplicate or out-of-order dates. The only outliers detected appear to be the result
+of bizarre market conditions, not cormpted data. Overall, the S&P 500 data series
+appears to be squeaky-clean. This was expected: In our experience, Pinnacle Data
+Corporation (the source of the data) supplies data of very high quality.
+As an example of how bad data quality can get, and the kinds of errors that
+can be expected when dealing with low-quality data, another data set was analyzed with the same data-checking utility. This data, obtained from an acquaintance, was for Apple Computer (AAPL). The data-checking results appear in
+Table l-2.
+In this data set, unlike in the previous one, 2 bars were flagged for having
+outright logical inconsistencies. One logically invalid data point had an opening
+price of zero, which was also lower than the low, while the other bar had a high
+price that was lower than the closing price. Another data point was detected as
+having an excessive range, which may or may not be a data error, In addition, several bars evidenced extreme closing price deviance, perhaps reflecting uncorrected stock splits. There were no duplicate or out-of-order dates, but quite a few data
+points were missing. In this instance, the missing data points were holidays and,
+therefore, only reflect differences in data handling: for a variety of reasons, we
+usually fill holidays with data from previous bars. Considering that the data series
+extended only from l/2/97 through 1 l/6/98 (in contrast to the S&P 500, which ran
+from l/3/83 to 5/21/98), it is distressing that several serious errors, including logical violations, were detected by a rather simple scan.
+The implication of this exercise is that data should be purchased only from a
+
+T A B L E
+
+1 - 2
+
+Output from Data-Checking Utility for Apple Computer, Symbol AAPL
+
+reputable vendor who takes data quality seriously; this will save time and ensure
+reliable, error-free data for system development, testing, and trading, In addition,
+all data should be scanned for errors to avoid disturbing surprises. For an in-depth
+discussion of data quality, which includes coverage of how data is produced, transmitted, received, and stored, see Jurik (1999).
+
+DATA SOURCES AND VENDORS
+Today there are a great many sowces from which data may be acquired. Data may
+be purchased from value-added vendors, downloaded from any of several
+exchanges, and extracted from a wide variety of databases accessible over the
+Internet and on compact discs.
+Value-added vendors, such as Tick Data and Pinnacle, whose data have been
+used extensively in this work, can supply the trader with relatively clean data in
+easy-to-use form. They also provide convenient update services and, at least in the
+case of Pinnacle, error corrections that are handled automatically by the downloading software, which makes the task of maintaining a reliable, up-to-date database very straightforward. Popular suppliers of end-of-day commodities data
+include Pinnacle Data Corporation (800-724-4903), Prophet Financial Systems
+(650-322-4183). Commodities Systems Incorporated (CSI, 800.274.4727), and
+Technical Tools (800-231-8005). Intraday historical data, which are needed for
+testing short time frame systems, may be purchased from Tick Data (SOO-8228425) and Genesis Financial Data Services (800-62 l-2628). Day traders should
+also look into Data Transmission Network (DTN, SOO-485-4000),
+Data
+Broadcasting Corporation (DBC, 800.367.4670), Bonneville Market Information
+(BMI, 800-532-3400), and FutureSource-Bridge (X00-621 -2628); these data distributors can provide the fast, real-time data feeds necessary for successful day
+trading. For additional information on data sources, consult Marder (1999). For a
+comparative review of end-of-day data, see Knight (1999).
+Data need not always be acquired from a commercial vendor. Sometimes it
+can be obtained directly from the originator. For instance, various exchanges occasionally furnish data directly to the public. Options data can currently be downloaded over the Internet from the Chicago Board of Trade (CBOT). When a new
+contract is introduced and the exchange wants to encourage traders, it will often
+release a kit containing data and other information of interest. Sometimes this is
+the only way to acquire certain kinds of data cheaply and easily.
+FiiaIly, a vast, mind-boggling array of databases may be accessed using an
+Internet web browser or ftp client. These days almost everything is on-line. For example, the Federal Reserve maintains files containing all kinds of economic time series
+and business cycle indicators. NASA is a great source for solar and astronomical data.
+Climate and geophysical data may be downloaded from the National Climatic Data
+Center (NCDC) and the National Geophysical Data Center (NGDC), respectively.
+
+For the ardent net-surfer, there is an overwh&lming abundance of data in a staggering
+variety of formats. Therein, however, lies another problem: A certain level of skill is
+required in the art of the search, as is perhaps some basic programming or scripting
+experience, as well as the time and effort to find, tidy up, and reformat the data. Since
+“time is money,” it is generally best to rely on a reputable, value-added data vendor
+for basic pricing data, and to employ the Internet and other sources for data that is
+more specialized or difficult to acquire.
+Additional sources of data also include databases available through libraries
+and on compact discs. ProQuest and other periodical databases offer full text
+retrieval capabilities and can frequently be found at the public library. Bring a
+floppy disk along and copy any data of interest. Finally, do not forget newspapers
+such as Investor’s Business Daily, Barron’s, and the Wall Street Journal; these can
+be excellent sources for certain kinds of information and are available on microfilm from many libraries.
+In general, it is best to maintain data in a standard text-based (ASCII) format. Such a format has the virtue of being simple, portable across most operating
+systems and hardware platforms, and easily read by all types of software, from text
+editors to charting packages.
+
+C H A P T E R
+
+2
+
+Simulators
+
+N o savvy trader would trade a system with a real account and risk real money
+without first observing its behavior on paper. A trading simulator is a software
+application or component that allows the user to simulate, using historical data, a
+trading account that is traded with a user-specified set of trading rules. The user’s
+trading rules are written into a small program that automates a rigorous “papertrading” process on a substantial amount of historical data. In this way, the trading simulator allows the trader to gain insight into how the system might perform
+when traded in a real account. The r&on d’&re of a trading simulator is that it
+makes it possible to efficiently back-test, or paper-trade, a system to determine
+whether the system works and, if so, how well.
+
+TYPES
+
+OF
+
+SIMULATORS
+
+There are two major forms of trading simulators. One form is the integrated, easyto-use software application that provides some basic historical analysis and simulation along with data collection and charting. The other form is the specialized
+software component or class library that can be incorporated into user-written
+software to provide system testing and evaluation functionality. Software components and class libraries offer open architecture, advanced features, and high levels of performance, but require programming expertise and such additional
+elements as graphics, report generation, and data management to be useful.
+Integrated applications packages, although generally offering less powerful simulation and testing capabilities, are much more accessible to the novice.
+
+PROGRAMMING
+
+THE
+
+SIMULATOR
+
+Regardless of whether an integrated or component-based simulator is employed,
+the trading logic of the user’s system must be programmed into it using some computer language. The language used may be either a generic programming language, such as C+ + or FORTRAN, or a proprietary scripting language. Without
+the aid of a formal language, it would be impossible to express a system’s trading
+rules with the precision required for an accurate simulation. The need for programming of some kind should not be looked upon as a necessary evil.
+Programming can actually benefit the trader by encouraging au explicit and disciplined expression of trading ideas.
+For an example of how trading logic is programmed into a simulator, consider TradeStation, a popular integrated product from Omega Research that contains
+an interpreter for a basic system writing language (called Easy Language) with bistorical simulation capabilities. Omega’s Easy Language is a proprietary, tradingspecific language based on Pascal (a generic programming language). What does a
+simple trading system look like when programmed in Easy Language? The following code implements a simple moving-average crossover system:
+( Simple moving average crossover system in Easy Language)
+(length parameter )
+Inputs: k”(4) ;
+rf (close > Average~close, Led 1 And
+(Close [II c= Average ~ClOm?, Len) [II ) Then
+(buys at open of next bar)
+myc ‘A”, 1 contract At Market;
+If (Close
+(Close
+
+<=
+
+Average
+
+(Close,
+
+L1, > *"verage
+
+Sellc"B"J
+
+Len),
+
+And
+
+(Close.
+
+ILen) [II, Then
+(sells
+1 ContraCt At Market;
+
+at open Of next bar
+
+This system goes long one contract at tomorrow’s open when the close crosses
+above its moving average, and goes short one contract when the close crosses
+below the moving average. Each order is given a name or identifier: A for the buy:
+B for the sell. The length of the moving average (Len) may be set by the user or
+optimized by the software.
+Below is the same system programmed in Cf + using Scientific Consultant
+Services’ component-based C-Trader toolkit, which includes the C+ + Trading
+Simulator:
+
+Except for syntax and naming conventions, the differences between the Cf + and
+Easy Language implementations are small. Most significant are the explicit references to the current bar (cb) and to a particular simulated trading account or simulator class instance (ts) in the C+ + implementation. In C+ +, it is possible to
+explicitly declare and reference any number of simulated accounts: this becomes
+important when working with portfolios and merasystems (systems that trade the
+accounts of other systems), and when developing models that incorporate an
+implicit walk-forward adaptation.
+SIMULATOR OUTPUT
+All good trading simulators generate output containing a wealth of information
+about the performance of the user’s simulated account. Expect to obtain data on
+gross and net profit, number of winning and losing trades, worst-case drawdown, and related system characteristics, from even the most basic simulators.
+Better simulators provide figures for maximum run-up, average favorable and
+adverse excursion, inferential statistics, and more, not to mention highly detailed
+analyses of individual trades. An extraordinary simulator might also include in
+its output some measure of risk relative to reward, such as the annualized riskto-reward ratio (ARRR) or the Sharp Rario, an important and well-known measure used to compare the performances of different portfolios, systems, or funds
+(Sharpe, 1994).
+The output from a trading simulator is typically presented to the user in the
+form of one or more reports. Two basic kinds of reports are available from most trading simulators: the performance summary and the trade-by-trade, or “detail,” report.
+The information contained in these reports can help the trader evaluate a system’s
+“trading style” and determine whether the system is worthy of real-money trading.
+Other kinds of reports may also be generated, and the information from the
+simulator may be formatted in a way that can easily be run into a spreadsheet for
+further analysis. Almost all the tables and charts that appear in this book were produced in this manner: The output from the simulator was written to a file that
+would be read by Excel, where the information was further processed and formatted for presentation.
+Performance
+
+Summary
+
+Reports
+
+As an illustration of the appearance of performance summary reports, two have
+been prepared using the same moving-average crossover system employed to
+illustrate simulator programming. Both the TradeStation (Table 2-l) and C-Trader
+(Table 2-2) implementations of this system were run using their respective target
+software applications. In each instance, the length parameter (controls the period
+of the moving average) was set to 4.
+
+Such style factors as the total number of trades, the number of winning trades, the
+number of losing trades, the percentage of profitable trades, the maximum numbers
+of consecutive winners and losers, and the average numbers of bars in winners and
+losers also appear in performance summary reports. Reward, risk, and style are critical aspects of system performance that these reports address.
+Although all address the issues of reward, risk and trading style, there are a
+number of differences between various performance summary reports. Least significant are differences in formatting. Some reports, in an effort to cram as much
+information as possible into a limited amount of space, round dollar values to the
+nearest whole integer, scale up certain values by some factor of 10 to avoid the
+need for decimals, and arrange their output in a tabular, spreadsheet-like format.
+Other reports use less cryptic descriptors, do not round dollar values or rescale
+numbers, and format their output to resemble more traditional reports,
+Somewhat more significant than differences in formatting are the variations
+between performance summary reports that result from the definitions and
+assumptions made in various calculations. For instance, the number of winning
+trades may differ slightly between reports because of how winners are defined.
+Some simulators count as a winner any trade in which the P/L (proWloss) figure
+is greater than or equal to zero, whereas others count as winners only trades for
+which the P/L is strictly greater than zero. This difference in calculation also
+affects figures for the average winning trade and for the ratio of the average winner to the average loser. Likewise, the average number of bars in a trade may be
+greater or fewer, depending on how they are counted. Some simulators include the
+entry bar in all bar counts; others do not. Return-on-account figures may also differ, depending, for instance, on whether or not they are annualized.
+Differences in content between performance summary reports may even be
+more significant. Some only break down their performance analyses into long
+positions, short positions, and all trades combined. Others break them down into
+in-sample and out-of-sample trades, as well. The additional breakdown makes it
+easy to see whether a system optimized on one sample of data (the in-sample set)
+shows similar behavior on another sample (the out-of-sample data) used for verification; out-of-sample tests are imperative for optimized systems. Other important information, such as the total bar counts, maximum run-up (the converse of
+drawdown), adverse and favorable excursion numbers, peak equity, lowest equity,
+annualized return in dollars, trade variability (expressed as a standard deviation),
+and the annualized risk-to-reward ratio (a variant of the Sharpe Ratio), are present
+in some reports. The calculation of inferential statistics, such as the t-statistic and
+its associated probability, either for a single test or corrected for multiple tests or
+optimizations, is also a desirable feature. Statistical items, such as t-tests and probabilities, are important since they help reveal whether a system’s performance
+reflects the capture of a valid market inefficiency or is merely due to chance or
+excessive curve-fitting. Many additional, possibly useful statistics can also be cnl-
+
+culated, some of them on the basis of the information present in performance summaries. Among these statistics (Stendahl, 1999) are net positive outliers, net negative outliers, select net profit (calculated after the removal of outlier trades), loss
+ratio (greatest loss divided by net profit), run-up-t&rawdown ratio, longest flat
+period, and buy-and-hold return (useful as a baseline). Finally, some reports also
+contain a text-based plot of account equity as a function of time.
+To the degree that history repeats itself, a clear image of the past seems like
+an excellent foundation from which to envision a likely future. A good performance summary provides a panoramic view of a trading method’s historical
+behavior. Figures on return and risk show how well the system traded on test data
+from the historical period under study. The Sharpe Ratio, or annualized risk to
+reward, measures return on a risk- or stability-adjusted scale. T-tests and related
+statistics may be used to determine whether a system’s performance derives from
+some real market inefficiency or is an artifact of chance, multiple tests, or inappropriate optimization. Performance due to real market inefficiency may persist
+for a time, while that due to artifact is unlikely to recur in the future. In short, a
+good performance summary aids in capturing profitable market phenomena likely
+to persist; the capture of persistent market inefficiency is, of course, the basis for
+any sustained success as a trader.
+This wraps up the discussion of one kind of report obtainable within most
+trading simulation environments. Next we consider the other type of output that
+most simulators provide: the trade-by-trade report.
+Trade-by-Trade Reports

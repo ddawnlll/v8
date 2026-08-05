@@ -1,0 +1,483 @@
+[
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_001",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 1,
+    "exact_text": "The bearish neck lines appear during a downtrend, and the other criteria are\nin place; the setup day is represented by a long black candle, which is followed by a gap down.",
+    "added_conditions": [
+      "bearish neckline pattern appears during a downtrend",
+      "setup day is a long black candle followed by a gap down"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_003",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 1,
+    "exact_text": "The three inside up pattern\nThe three inside",
+    "added_conditions": [
+      "bullish three-stick reversal pattern signals a downtrend about to reverse"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_004",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 1,
+    "exact_text": "Avoid using the first day, because if the security breaks through the lows of\nthe first two days, then there’s a good chance that the first day levels are\ngoing to be tested if not violated.",
+    "added_conditions": [
+      "invalidate the setup if price breaks through the lows of the first two days"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_006",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 1,
+    "exact_text": "The gap is quickly filled, and then in a few days anything that may be\nconsidered a support level is compromised",
+    "added_conditions": [
+      "failure occurs when the gap is filled and support is compromised"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_011",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 1,
+    "exact_text": "The morning star arrives after a downtrend has been in place for a few weeks.",
+    "added_conditions": [
+      "morning star reversal pattern appears after a downtrend"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_014",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 17,
+    "exact_text": "it\ncomes very close to recent highs and reaches a level that the stock has had a\ndifficult time exceeding in the past",
+    "added_conditions": [
+      "avoid the pattern when it completes near a prior resistance level"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_018",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 17,
+    "exact_text": "place a buy order in the gap that was created with t",
+    "added_conditions": [
+      "bullish continuation pattern in an uptrend",
+      "buy in the gap for a pullback entry",
+      "sell stop below the low of the first day"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_019",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 17,
+    "exact_text": "between the first and second days stays intact",
+    "added_conditions": [
+      "bullish continuation pattern in an uptrend",
+      "the gap between the first and second days stays intact"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_010",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_021",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 17,
+    "exact_text": "The first day of the pattern featured in Figure 9-24 is a very bullish day, and it\nhelps to continue a choppy uptrend.",
+    "added_conditions": [
+      "bullish continuation pattern",
+      "gap between the first and second day remains in place",
+      "failure when the low of the first day is violated"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_022",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 17,
+    "exact_text": "there’s a longer term uptrend in place, and that trend is actually\ntested with this pattern",
+    "added_conditions": [
+      "bullish continuation pattern",
+      "longer-term uptrend in place and tested by the pattern"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_023",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 31,
+    "exact_text": "the low of the first day is violated — a sure sign of failure in this\nscenario.",
+    "added_conditions": [
+      "bullish continuation pattern",
+      "failure when the low of the first day is violated"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_024",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 31,
+    "exact_text": "It offers bullish trend confirmation, but it’s particularly\nnice because the gap that’s created gets filled without violating the prevailing\nuptrend.",
+    "added_conditions": [
+      "bullish trend confirmation",
+      "gap gets filled without violating the prevailing uptrend"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_026",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 31,
+    "exact_text": "The upside gap filled pattern\ncan go wrong",
+    "added_conditions": [
+      "bullish continuation pattern",
+      "failure case"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_028",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 31,
+    "exact_text": "For my failure example of the three inside down\npattern, I offer up the chart in Figure 10-3.",
+    "added_conditions": [
+      "bearish three-stick reversal pattern",
+      "failure example"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_016",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_029",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 31,
+    "exact_text": "The three outside\ndown pattern predicted a trend reversal, and that’s exactly what played out.",
+    "added_conditions": [
+      "bearish three-stick reversal pattern predicts a trend reversal"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_018",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 39,
+    "exact_text": "a common price pattern that serves as a\ngood sell signal is depicted in Figure 2-4.",
+    "added_conditions": [
+      "two-day candlestick pattern serving as a sell signal"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_031",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 31,
+    "exact_text": "The next two days see lower price levels across the\nboar",
+    "added_conditions": [
+      "three black crows bearish reversal pattern",
+      "second and third days are black candles with lower opens, highs, lows, and closes"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_020",
+    "verdict": "corroboration",
+    "behavior_id": "gap_reversion",
+    "page": 39,
+    "exact_text": "You should remember that gaps always get\nfilled when the high to low price action of a\nfuture day covers the price range where no\ntrades occurred.",
+    "added_conditions": [
+      "gaps get filled when future price range covers the gap"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_033",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 31,
+    "exact_text": "The first occurrence of the pattern appears in an uptrend that starts\nwith a",
+    "added_conditions": [
+      "three black crows bearish reversal pattern",
+      "failure case"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_036",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 45,
+    "exact_text": "Just a couple of days after the pattern emerges,\nthe stock starts to trade higher again, and then with a gap opening and a\nstrong bullish day, the pattern completely fails.",
+    "added_conditions": [
+      "bearish abandoned baby reversal pattern",
+      "failure case"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_026",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_042",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 45,
+    "exact_text": "You can initiate new positions by using bearish three-stick continuation patterns, but keep in mind that with trending signals there’s already been some\nprice movement in the direction you’ll be trading (sometimes considerable\nprice movement).",
+    "added_conditions": [
+      "bearish continuation patterns",
+      "some price movement already in the trade direction"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_043",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 45,
+    "exact_text": "You can harness the bearish power of the bearish side-by-side black lines to\ngive yourself confidence that a downtrend will continue.",
+    "added_conditions": [
+      "bearish continuation pattern signals downtrend continuation"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_047",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 45,
+    "exact_text": "soon a patient short is rewarded as the downtrend\nstarts up again",
+    "added_conditions": [
+      "bearish continuation pattern",
+      "short rewarded when downtrend resumes"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_048",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 45,
+    "exact_text": "The pattern is\nthen followed by a pretty sustained downtrend.",
+    "added_conditions": [
+      "bearish continuation pattern",
+      "gap down that is not filled",
+      "followed by a sustained downtrend"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_049",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 45,
+    "exact_text": "I highlight an outside up day —\na bullish reversal pattern — that precedes a change to an uptrend.",
+    "added_conditions": [
+      "outside up day bullish reversal pattern precedes a change to an uptrend"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_050",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 61,
+    "exact_text": "The third day completes the pattern with an up day that fills in the gap, and\nthe downtrend continues after that.",
+    "added_conditions": [
+      "bearish continuation pattern",
+      "gap gets filled on the third day",
+      "downtrend continues"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_051",
+    "verdict": "corroboration",
+    "behavior_id": "trend_exhaustion_reversal",
+    "page": 61,
+    "exact_text": "The strength of the downtrend\nappears to be moderating, and because the trend has been in place for a long\ntime, it may lead you to believe that a reversal is on deck.",
+    "added_conditions": [
+      "long-standing downtrend moderating",
+      "reversal anticipated when trend has been in place a long time"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_030",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 52,
+    "exact_text": "if a stock trades down to what’s considered a support level (flip back to Chapter 2 for more info on support levels)\non a day with significant volume, many traders may give this support level\nmore credence and consider buying.",
+    "added_conditions": [
+      "support level tested on a day with significant volume",
+      "high volume indicates buy interest at support"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_057",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_034",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_1_035",
+    "verdict": "corroboration",
+    "behavior_id": "news_discounting_reaction",
+    "page": 63,
+    "exact_text": "if a company generally\ntrades higher going into its earnings release, buying a week before the earnings date and selling the day before",
+    "added_conditions": [
+      "trade based on a stock's typical behavior around its earnings release date"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_061",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 61,
+    "exact_text": "You can also combine and compare two moving averages to define the current trend. For\nexample, you may calculate both a 5- and 20-day moving average for a stock,\nand then compare them to spo",
+    "added_conditions": [
+      "compare a fast and a slow moving average to define the trend"
+    ],
+    "added_parameters": [
+      {
+        "name": "fast_ma",
+        "value": "5-day",
+        "page": 61
+      },
+      {
+        "name": "slow_ma",
+        "value": "20-day",
+        "page": 61
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_063",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 77,
+    "exact_text": "you can pick out an\nuptrend when the fast moving average is higher than the medium one, and\nthe medium one is higher than the slow one.",
+    "added_conditions": [
+      "uptrend when fast MA is above medium MA and medium MA is above slow MA",
+      "downtrend when fast MA is below medium MA and medium MA is below slow MA"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_064",
+    "verdict": "corroboration",
+    "behavior_id": "mean_reversion_band",
+    "page": 77,
+    "exact_text": "Wilder recommends us",
+    "added_conditions": [
+      "buy at the oversold level and exit or sell short at the overbought level"
+    ],
+    "added_parameters": [
+      {
+        "name": "oversold_level",
+        "value": "30",
+        "page": 77
+      },
+      {
+        "name": "overbought_level",
+        "value": "70",
+        "page": 77
+      },
+      {
+        "name": "rsi_period",
+        "value": "14",
+        "page": 77
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_066",
+    "verdict": "corroboration",
+    "behavior_id": "momentum_divergence_reversal",
+    "page": 77,
+    "exact_text": "a divergent move in the RS",
+    "added_conditions": [
+      "combine a divergent RSI with a candlestick pattern signal"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_068",
+    "verdict": "corroboration",
+    "behavior_id": "mean_reversion_band",
+    "page": 77,
+    "exact_text": "when a price for a security gets too\nhigh above or below a moving average, that security may be considered overbought or oversold.",
+    "added_conditions": [
+      "price too far above or below a moving average is considered overbought or oversold"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0017::lead_book_0017_2_069",
+    "verdict": "corroboration",
+    "behavior_id": "mean_reversion_band",
+    "page": 77,
+    "exact_text": "when the price of a security is higher than the upper Bollinger\nband on a chart, you’re in a sell area, and when the price is lower than the\nlower Bollinger band, you’re in b",
+    "added_conditions": [
+      "price above the upper Bollinger band is a sell area",
+      "price below the lower Bollinger band is a buy area"
+    ],
+    "added_parameters": []
+  }
+]

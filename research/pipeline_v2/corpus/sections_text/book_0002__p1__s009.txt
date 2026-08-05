@@ -1,0 +1,667 @@
+
+c06.indd 113
+
+03/12/12 9:55 AM
+
+114
+
+STRATEGIES TO WIN THE GAME
+
+Parabolic SAR with default setting (step 0.02). The SMA 60 is used to
+identify the direction of the momentum. This means that we look to long
+EUR/USD when the price is above the SMA 60. Similarly, we look to
+short EUR/USD when the price is below the SMA 60.
+The Parabolic SAR is used to give the exact entry signal for both long
+and short positions. When the price for EUR/USD goes above the Parabolic
+SAR, we ﬁre off a long trade. When the price for EUR/USD goes below the
+Parabolic SAR, we ﬁre off a short trade.
+
+Long Trade Setup
+Here are the steps to execute a long trade using the rapid-ﬁre strategy:
+1. Look for the market price to go above the SMA 60.
+2. Wait for the Parabolic SAR to move above the market price.
+3. Once the market price goes above the Parabolic SAR, the Parabolic
+
+SAR will appear below the market price. This is the signal to enter for
+long. (See Figure 6.1.)
+4. The stop loss is set at 15 pips below the entry price.
+5. The proﬁt target is set at 10 pips above the entry price. (See
+Figure 6.2.)
+
+FIGURE 6.1
+
+Parabolic SAR Appears Below Market Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c06.indd 114
+
+03/12/12 9:55 AM
+
+Strategies for Scalpers
+
+FIGURE 6.2
+
+115
+
+Set Profit Target 10 Pips Above Entry Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 6.3:
+Entry price = 1.2934
+Stop loss = 1.2919
+Proﬁt target = 1.2944
+The risk for this trade is 15 pips, and the reward is 10 pips. The risk to
+reward ratio is 1.5:1, which yields a 2% return if we take a 3% risk.
+
+FIGURE 6.3
+
+Trade Hits Profit Target
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c06.indd 115
+
+03/12/12 9:55 AM
+
+116
+
+STRATEGIES TO WIN THE GAME
+
+Short Trade Setup
+Here are the steps to execute a short trade using the rapid-ﬁre strategy:
+1. Look for the market price to go below the SMA 60.
+2. Wait for the Parabolic SAR to move below the market price.
+3. Once the market price goes below the Parabolic SAR, the Parabolic
+
+SAR will appear above the market price. This is the signal to enter for
+short. (See Figure 6.4.)
+4. Set the stop loss at 15 pips above the entry price.
+5. Set the proﬁt target at 10 pips below the entry price. (See Figure 6.5.)
+
+From the short example in Figure 6.6:
+Entry price = 1.2937
+Stop loss = 1.2952
+Proﬁt target = 1.2927
+The risk for this trade is 15 pips, and the reward is 10 pips. The risk to
+reward ratio is 1.5:1, which yields a 2% return if we take a 3% risk.
+
+FIGURE 6.4
+
+Parabolic SAR Appears Above the Market Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company.
+All rights reserved.
+
+c06.indd 116
+
+03/12/12 9:55 AM
+
+Strategies for Scalpers
+
+FIGURE 6.5
+
+117
+
+Set Profit Target 10 Pips Below Entry Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 6.6
+
+Trade Hits Profit Target
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+The rapid-ﬁre strategy could give you another trade signal even before the
+current trade exits. It is not uncommon to encounter consecutive trading
+signals one after the other, simply because of the low time frame used.
+
+c06.indd 117
+
+03/12/12 9:55 AM
+
+118
+
+STRATEGIES TO WIN THE GAME
+
+As a scalper, you have to decide how to manage the trades, especially
+when the setups come fast and furious. Do you exit the previous trade
+before entering a new one, ignore any new trade signals until the current
+trade exits, or simply ﬁre off whenever there is a trade signal?
+Remember, the rapid-ﬁre strategy works best in a trending environment.
+It requires fast thinking and nimble reactions. It is most suitable for actiondriven traders who can maintain their composure while in the thick of action.
+
+STRATEGY 2: PIRANHA STRATEGY
+The forex market spends most of its time either in a trend or in a range. The
+rapid-ﬁre scalping strategy works best in a trend. The piranha strategy was
+developed to work when markets move in a range.
+Let us get right into the world of the piranhas. Piranhas take small frequent bites off their prey until it is totally devoured. Although a single bite
+may not cause much harm, the frequency of the bites causes the attack to
+be deadly. In much the same way, the piranha strategy was developed
+to give scalpers ample opportunities to bite the market and chew off small
+proﬁts each time.
+This strategy is designed speciﬁcally for the GBP/USD currency pair,
+using the 5-minute (M5) time frame. On average, there are about 15 to 20
+trading opportunities for the piranha strategy every day.
+
+Time Frame
+The piranha strategy works with the 5-minute (M5) time frame. This means
+that each candlestick on the chart represents 5 minutes of price movement.
+
+Indicators
+We use this indicator for the piranha strategy:
+One set of Bollinger Bands
+a. Period 12, Shift 0.
+b. Deviation 2 (default).
+
+Developed by technical trader John Bollinger, Bollinger Bands consist
+of three lines, with the simple moving average in the center and the outer
+Bands plotted using standard deviation formula away from the simple
+moving average.
+
+c06.indd 118
+
+03/12/12 9:55 AM
+
+Strategies for Scalpers
+
+119
+
+Standard deviation is a measure of price volatility. When markets
+become more volatile, the Bands widen and move farther from the center
+moving average line. The formulas to calculate the upper and lower Bands
+are:
+Upper band = SMA + (D × Std Dev)
+Lower band = SMA − (D × Std Dev)
+Where:
+SMA = Simple moving average
+D = Deviation value (e.g., 1, 2, 3, etc.)
+Std Dev = Standard deviation
+Due to the complexity of the formula, I will not focus too much on it;
+instead, I focus more on the signiﬁcance of the upper and lower Bands.
+When prices approach the upper band, it is considered to be in an
+overbought region. When prices approach the lower band, it is considered
+oversold. At these extreme levels, markets tend to consolidate and move
+back to the center moving average line.
+By setting a higher deviation value, the price volatility measure will be
+magniﬁed, and you will get a Bollinger band with wider upper and lower
+Bands.
+
+Currency Pairs
+The strategy is designed for the cable, which is the nickname for the
+currency pair GBP/USD.
+
+Strategy Concept
+Bollinger Bands are used to identify the trading band of the GBP/USD.
+The Bands help us to mimic the nature of the piranhas by giving objective
+entries for long and short positions. (See Figure 6.7.)
+Long trades are taken when market prices touch the bottom band;
+short trades are taken when market prices touch the upper band.
+Piranhas are active in relatively calm waters, such as rivers, but not
+in the rough open seas with strong currents and waves. In much the same
+way, avoid trading this strategy at times of major news releases during the
+U.S. and U.K. trading hours, as such environments reﬂect the rough open
+seas with strong currents and waves. We use the GBP/USD currency pair
+on the M5 time frame to illustrate both long and short trades.
+
+c06.indd 119
+
+03/12/12 9:55 AM
+
+120
+
+FIGURE 6.7
+
+STRATEGIES TO WIN THE GAME
+
+Bollinger Bands Used for Piranha Strategy
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 6.8
+
+Candlestick Touches Lower Band of Bollinger Bands
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Long Trade Setup
+Here are the steps to execute a long trade using the piranha strategy:
+1. Wait for the market to touch the lower band of the Bollinger Bands.
+2. Enter for a long when the market price touches the lower band of the
+
+Bollinger Bands. (See Figure 6.8.)
+
+c06.indd 120
+
+03/12/12 9:55 AM
+
+Strategies for Scalpers
+
+121
+
+3. Set the stop loss at 10 pips below the entry price.
+4. Set the proﬁt target at 5 pips above the entry price. (See Figure 6.9)
+
+From the long example in Figure 6.10:
+Entry price = 1.5931
+Stop loss = 1.5921
+Proﬁt target = 1.5936
+
+FIGURE 6.9
+
+Set Profit Target 5 Pips Above Entry Price
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 6.10 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c06.indd 121
+
+03/12/12 9:55 AM
+
+122
+
+STRATEGIES TO WIN THE GAME
+
+The risk for this trade is 10 pips, and the reward is 5 pips. The risk to
+reward ratio is 2:1, which yields us a 1.5% return if we take a 3% risk.
+
+Short Trade Setup
+Here are the steps to execute a short trade using the piranha strategy:
+1. Wait for the market to touch the upper band of the Bollinger Bands.
+2. Enter for a short when the market touches the upper band of the
+
+Bollinger Bands. (See Figure 6.11.)
+3. Set the stop loss at 10 pips above the entry price.
+4. Set the proﬁt target at 5 pips below the entry price. (See Figure 6.12.)
+
+From the short example in Figure 6.13:
+Entry price = 1.5941
+Stop loss = 1.5951
+Proﬁt target = 1.5936
+The risk for this trade is 10 pips, and the reward is 5 pips. The risk to
+reward ratio is 2:1, which yields us a 1.5% return if we take a 3% risk.
+
+FIGURE 6.11 Candlestick Touches Upper Band of Bollinger Bands
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c06.indd 122
+
+03/12/12 9:55 AM
+
+Strategies for Scalpers
+
+123
+
+FIGURE 6.12 Set Profit Target 5 Pips Below Entry Price
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 6.13 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+At the beginning of this section, I mentioned that piranhas attack their prey
+until it is totally devoured. In much the same way, once your trade hits a
+
+c06.indd 123
+
+03/12/12 9:55 AM
+
+124
+
+STRATEGIES TO WIN THE GAME
+
+stop loss, the loss is telling you that there is nothing left of your prey and
+it’s time to look for a new one.
+Hence, hitting a stop loss is a telltale sign that the market is no longer
+trading in a band and it is starting to move into a trend. So how do you look
+for the next prey?
+The answer is to look for a trade that is in the opposite direction of
+your stop-loss trade. For example, if you took a long trade that resulted
+in a stop loss, look to short the GBP/USD at the next opportunity with the
+same rules.
+This is an important consideration and a neat trick for you to navigate
+yourself in trending markets. As this strategy was designed primarily for
+range trading, it fails badly when the market goes into a strong trend.
+
+c06.indd 124
+
+03/12/12 9:55 AM
+
+CHAPTER 7
+
+Strategies for Day
+Traders
+
+A
+
+s a day trader, your biggest pet peeve is holding trading positions
+overnight. You are more concerned with ﬁnishing the day without an
+open position than the actual result of the trade itself.
+Your trades are characterized by proﬁt targets of around 20 to 50 pips
+per trade. Most day trading strategies involve a combination of both technical and fundamental analysis.
+For technical analysis, chart patterns, candlestick patterns, and
+indicators are important considerations. For fundamental analysis, trading
+important news, such as non-farm payrolls (NFP) and interest rates, is the
+focus.
+Four strategies are discussed in this section. The ﬁrst two—fade
+the break and trade the break—are centered on technical analysis. The
+next two—gawk the talk and balk the talk—are centered on fundamental
+analysis, or news trading.
+All strategies are developed using the 15-minute (M15) time frame
+and the 30-minute (M30) time frame. The biggest reason why these time
+frames are most suited for day traders is because the positions are most
+likely to exit in a day. As a day trader, the biggest frustration that you will
+face is the constant dilemma of leaving a trade open or exiting it manually. Sometimes, Murphy’s Law strikes when you decide to exit the trade
+manually, sending your trade to its intended proﬁt level had you left it
+open in the ﬁrst place.
+To prevent such scenarios, set some guidelines for yourself when it
+comes to closing off your open positions. An example could be “I will close
+off my position exactly at 11 P.M. every day, regardless of the trading result.”
+An objective rule like that can help you to manage your positions better—
+and prevent Murphy’s Law from striking in the future.
+
+125
+
+c07.indd 125
+
+06/12/12 2:53 PM
+
+126
+
+STRATEGIES TO WIN THE GAME
+
+STRATEGY 3: FADE THE BREAK
+The forex market is a constant battle between bulls and bears. Sometimes
+this ﬁght occurs between retail and institutional traders. It is common
+knowledge that institutional traders prey on unassuming retail traders who
+sometimes engage in emotional trading.
+Fade the break is a strategy that follows the trail of the institutional
+traders. It allows retail traders like you and me to pick up the clues of the
+smart money. Let’s get right into it.
+
+Time Frame
+The fade the break strategy works with the 15-minute (M15) or 30-minute
+(M30) candle. This means that each candle on the chart represents 15 or
+30 minutes of price movement.
+
+Indicators
+No indicators are used for this strategy. We use support and resistance
+levels only.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+Markets often reverse after a failure to break above the resistance level or
+below the support level. At the resistance level, the failure is characterized
+by the shadow of the candle that goes above the resistance level but fails to
+close above it. Subsequently the price falls back below the resistance level.
+
+c07.indd 126
+
+06/12/12 2:53 PM
+
+Strategies for Day Traders
+
+127
+
+At the support level, the failure is characterized by the shadow of
+the candle that goes below the support level but fails to close below it.
+Subsequently the price rises above the support level.
+Many retail traders get caught at exactly these levels because they
+take the “break” of the resistance as a signal that prices will continue to
+go up. Similarly, they assume that the break of the support is a signal that
+prices will continue to move down. Let’s see how to trade this setup when
+it occurs.
+
+Long Trade Setup
+We use the EUR/USD on the M30 time frame to illustrate long trades. Here
+are the steps to execute the fade the break strategy for long:
+1. Identify the support level.
+2. Identify a candle that has a shadow that goes below the support level.
+3. Wait for that candle to close as a bull candle. This is called the false-
+
+break candle. (See Figure 7.1.)
+4. Enter at the opening of the next candle.
+5. Set a stop loss of 5 pips below the low price of the false break candle.
+6. Set two proﬁt targets for this trade. Set the two targets at a risk to
+
+reward ratio of 1:1 and 1:2 respectively. (See Figure 7.2.)
+
+FIGURE 7.1 False-Break Candlestick
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c07.indd 127
+
+06/12/12 2:53 PM
+
+128
+
+FIGURE 7.2
+
+STRATEGIES TO WIN THE GAME
+
+Enter at Opening of Next Candle
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 7.3
+
+Trade Hits Profit Targets
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+7. In this example, the stop loss is 28 pips, the ﬁrst proﬁt target is 28 pips
+
+from the entry price, and the second proﬁt target is 56 pips from the
+entry price.
+From the long example in Figure 7.3:
+Entry price = 1.3090
+Stop loss = 1.3062
+
+c07.indd 128
+
+06/12/12 2:53 PM
+
+Strategies for Day Traders
+
+129
+Proﬁt target 1 = 1.3118
+Proft target 2 = 1.3146
+
+The risk for this trade is 28 pips, and the reward is 56 pips if both targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return if
+we take a 3% risk.
+
+Short Trade Setup
+We use the GBP/USD on the M15 time frame to illustrate short trades. Here
+are the steps to execute the fade the break strategy for short:
+1. Identify the resistance level.
+2. Identify a candle that has a shadow that goes above the resistance level.
+3. Wait for that candle to close as a bear candle. This is called the false-
+
+break candle. (See Figure 7.4.)
+
+FIGURE 7.4
+
+False-Break Candlestick
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+4. Enter at the opening of the next candle.
+5. Set a stop loss of 5 pips above the high price of the false-break candle.
+6. Set two proﬁt targets for this trade. Set the two targets at a risk to
+
+reward ratio of 1:1 and 1:2 respectively. (See Figure 7.5.)
+7. In this example, the stop loss is 22 pips, the ﬁrst proﬁt target is 22 pips
+
+from the entry price, and the second proﬁt target is 44 pips from the
+entry price.
+
+c07.indd 129
+
+06/12/12 2:53 PM
+
+130
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 7.5 Enter at Opening of Next Candlestick
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 7.6
+
+Trade Hits Profit Targets
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the short example in Figure 7.6:
+Entry price = 1.5843
+Stop loss = 1.5865
+Proﬁt target 1 = 1.5821
+Proft target 2 = 1.5799
+
+c07.indd 130
+
+06/12/12 2:53 PM
+
+Strategies for Day Traders
+
+131
+
+The risk for this trade is 22 pips, and the reward is 44 pips if both targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return if
+we take a 3% risk.
+
+Strategy Roundup
+The main reason why false breaks occur is due to the tussle between retail
+and institutional traders. Both groups of traders easily identify levels of
+support and resistance, and false breaks are big clues for us retail traders
+that there is a lack of momentum to push prices further.
+Remember that false breaks are traps to catch day traders off guard.
+However, fade the break helps us to turn these traps into opportunities.
+
+STRATEGY 4: TRADE THE BREAK
+In the previous strategy, we discussed a method to trade the market when
+prices fail to close above resistance or below support. In trade the break,
+we see exactly where to place our entries and exits for both short and
+long positions. The biggest difference between trade the break and fade
+the break is that for trade the break, prices have to close above resistance
+or below support.
+For this strategy, the trick is not so much in the entry price but in the
+stop loss. Many retail traders have no problem identifying areas of entry
+since the directional bias is to follow the momentum. However, the correct
+placement of the stop loss is what separates winners from losers.
+You see, as with the previous fade the break strategy, both retail and
+institutional traders closely watch areas of support and resistance. More
+often than not, these areas are the biggest battlegrounds between these two
+groups of traders. This is why prices sometimes reverse quickly once they
+break above resistance or below support.
+When we learn how to place the stop loss correctly for these trades,
+many potential “losers” can in fact turn into winners. Let’s get right into it.
+
+Time Frame
+Trade the break works with the 15-minute (M15) or 30-minute (M30) candle.
+This means that each candle on the chart represents 15 minutes or 30 minutes of price movement.
+
+Indicators
+No indicators are used for this strategy.
+
+c07.indd 131
+
+06/12/12 2:53 PM
+
+132
+
+STRATEGIES TO WIN THE GAME
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+Trade the break is all about momentum. A big clue is seen when prices close
+above resistance or below support. This clue tells us that momentum is
+building strongly on one side. When prices close above resistance, that candle is called the breakout candle. A long trade is then taken at the opening
+price of the next candle. The stop loss is placed below the midpoint of the
+prior range because we do not expect prices to fall back below that point.
+When prices close below support, that candle is also called the breakout
+candle. A short trade is then taken at the opening price of the next candle.
+The stop loss is placed above the midpoint of the prior range because we do
+not expect prices to rise above that point.
+
+Long Trade Setup
+We use the AUD/USD on M15 time frame to illustrate long trades. Here are
+the steps to execute the trade the break strategy for long:
+1. Use at least two lows and two highs to identify the support and
+
+resistance levels. (See Figure 7.7.)
+2. Identify a candle that closes above the resistance. This is the breakout
+candle. (See Figure 7.8.)
+3. Enter long at the opening of the next candle.
+4. Set the stop loss at the 60% mark of the range (distance between the
+support and resistance) below the resistance. In this example, the distance between the support and resistance is 41 pips; the stop loss is set
+at 25 pips below the resistance.
+
+c07.indd 132
+
+06/12/12 2:53 PM
+
+Strategies for Day Traders
+
+133
+
+FIGURE 7.7 Use Two Lows and Two Highs to Identify Support and Resistance Levels
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 7.8
+
+Identify a Candle that Closes Above Resistance
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+5. Set two profit targets for this trade. The targets are set at a risk to
+
+reward ratio of 1:1 and 1:2 respectively. Since the stop loss is 44
+pips (distance between the EP and the SL), the first profit target
+will be 44 pips, and the second profit target will be 88 pips. (See
+Figure 7.9.)
+
+c07.indd 133
+
+06/12/12 2:53 PM
+
+134
+
+FIGURE 7.9
+
+STRATEGIES TO WIN THE GAME
+
+Profit Targets for This Trade
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 7.10 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 7.10:
+Entry price = 1.0351
+Stop loss = 1.0307
+Proﬁt target 1 = 1.0395
+Proft target 2 = 1.0439

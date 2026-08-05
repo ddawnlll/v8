@@ -1,0 +1,442 @@
+
+Indicators in Action
+
+129
+
+FIGURE 6.19 The MACD provides a good signal to buy SUNW before the stock
+began its move upward.
+
+The most common figures are to have a 26-day exponential moving
+average (EMA) as the slow one, a 12-day EMA as the fast one, and a 9day as the crossover. ProphetCharts calculates the difference between the
+26-day and 12-day EMAs and plots this final value. This value moves above
+and below a flat plot line, and there is no preestablished upper or lower
+limit to this value, since the difference between these moving averages will
+be different for every security examined.
+Figure 6.19 shows the two-line MACD study: the black line is the difference between the 26-day and 12-day EMA; the dashed line is the 9-day
+EMA. A signal takes place when the black line crosses above the dashed
+line (bullish) or below the dashed line (bearish). The MACD’s purpose
+is to plot the underlying momentum of a security and to offer crossover
+points as a basis for trade decisions. In this example, the MACD provided a
+buy signal just before Sun Microsystems (symbol SUNW) started a healthy
+move upward.
+There are actually two different ways of making use of the MACD:
+crossovers and divergences. A crossover is the plainest, because you simply need to watch for the black line to cross above or below the dashed
+line. A divergence takes place when the general direction of an indicator
+is the opposite of the general direction of the security. For example, if a
+particular stock seemed to be in a downtrend, yet its MACD was firm and
+heading up at the same time, that is a divergent indicator as to where the
+
+130
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 6.20 Three signals in a relatively short period—ﬁrst a buy, then a sell,
+then another buy.
+
+price is going to move next. A person using the MACD in this way would
+acquire the stock, trusting the MACD to be providing a buy signal prior to
+the stock following suit and moving higher.
+As with any other crossover signal, the MACD is prone to providing
+multiple signals. The more volatile a security, the more frequent (and less
+reliable) these signals will be. If you are a very active trader, you can
+use multiple signals as an opportunity to trade the stock more frequently
+and in both directions (that is, both the long side and the short side). The
+symbol OIH (Figure 6.20) provides an illustration of this, since there were
+three signals given in a relatively short period: first a buy, then a sell, then
+another buy.
+The most powerful MACD signals are preceded by relatively quiet
+price activity. If a stock is moving along in a relatively tight channel and
+then gives a clear MACD signal, it is often an indicator of an important
+price change. For example, A G Edwards (symbol AGE) was trading for
+months in a tight range of just a few dollars (Figure 6.21). In mid-March,
+even though the prices did not seem to be doing anything particularly
+unusual, an MACD signal was generated to buy the stock. Although it
+took a couple of weeks before any breakout occurred, the subsequent
+movement was significant, and the MACD gave warning far in advance of
+the actual price move.
+Indicators can sometimes take on an almost clairvoyant quality
+about them. The reason is that indicators provide a different insight and
+
+Indicators in Action
+
+131
+
+FIGURE 6.21 The MACD shown here signaled a substantial move in A G Edwards
+stock.
+
+representation of the underlying price movement that is not visible by simply looking at the price chart. In Figure 6.22, the stock of the Chicago Mercantile Exchange (symbol CME) had been steady in July and August, drifting downward late in August. In spite of this anemic behavior, the MACD
+provided a crossover to the upside. This crossover preceded not just a very
+large up movement, but it specifically preceded a single-day movement of
+20 points.
+There is another way you can view MACD information, and that is by
+the use of a histogram. The MACD histogram is computed in the same way,
+but instead of providing two lines, it illustrates the difference between the
+two lines with positive bars (above the 0.00 line) or negative bars (below
+the 0.00 line).
+Figure 6.23 shows an example of an MACD histogram. Because the
+bars are different and the transition from positive to negative (or vice
+versa) is so obvious, this representation of MACD movement makes it
+much easier to spot crossovers.
+Figure 6.24 shows the analysis of a stock with an MACD histogram
+and a two-line MACD stacked on top of one another. This makes it easier
+to understand how these two studies correlate. In the two-line study, when
+the black line is beneath the dashed trigger line, there are negative bars
+in the histogram. When the black line is above the dashed trigger line,
+there are positive bars in the histogram. As you can see, the trigger points
+
+132
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 6.22 This MACD not only preceded a big move up by the stock CME but
+also was a day in advance of the 20-point move made in a single day.
+
+FIGURE 6.23 The MACD can also be viewed as a histogram.
+
+Indicators in Action
+
+133
+
+FIGURE 6.24 The diﬀerences between the MACD histogram and the two-line
+indicator.
+
+are identical for both studies, and which study you elect to use is strictly
+personal preference.
+
+RELATIVE STRENGTH INDEX (RSI)
+The Relative Strength Index, often shortened to simply RSI, is a study
+that compares the magnitude of a stock’s recent gains to recent losses.
+The study itself is a single line that is in its own pane, moving up and
+down between the ranges of 0 (at the bottom) to 100 (at the top). The
+RSI (Figure 6.25) is very simple to interpret and use: if it drops below 70
+(which is marked with a horizontal dashed line), there is a sell signal; if it
+goes above 30 (also marked with a dashed horizontal line), there is a buy
+signal.
+The path the RSI takes depends completely on the direction and
+momentum of the security’s price. It may bob up and down between the
+30 and 70 levels, generating no signals for quite some time. The best RSI
+indications happen when the study is plainly above or below one of the
+horizontal lines (Figure 6.26) and makes a decisive move back into the
+middle range.
+Unlike slower-moving studies, the RSI is prone to generating many buy
+and sell signals. In Chapter 7, you will learn how to use multiple studies together so they can essentially vote on the predicted direction of a stock.
+Figure 6.27 shows the popular NASDAQ exchange-traded fund (ETF; symbol QQQQ) with four different RSI signals: three of them sells, and one of
+
+134
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 6.25 Three RSI signals on symbol BHI—ﬁrst a sell, then a buy, then another sell.
+
+FIGURE 6.26 A very clean RSI buy signal, since the RSI line went plainly
+below—and then above—the 30 mark.
+
+Indicators in Action
+
+135
+
+FIGURE 6.27 Some securities are so volatile that they provide multiple entry and
+exit points in a relatively short time frame.
+
+FIGURE 6.28 The RSI is easiest to use on broad, more gradual movements, such
+as are shown here for United States Steel.
+
+136
+
+CHART YOUR WAY TO PROFITS
+
+them a buy. In this example, each of these signals correctly anticipated the
+future direction of the stock.
+Stocks with RSI studies that are moving steadily without an abundance of signals are typically the most profitable. Figure 6.28 illustrates
+such a case with United States Steel (symbol X). In late October, after
+a steady decline in prices, the RSI pushes above the 30 level and anticipates a handsome 40 percent appreciation in the stock within a very short
+time period. The RSI slips beneath the 70 level in early December, providing an easy opportunity to lock in profits before the stock eases in price
+any more.
+This chapter has given you an introduction to the basic concepts behind technical indicators. Although we have examined just a few basic
+studies, you should at this point understand:
+
+r The difference between overlaid and independent indicators.
+r Principles behind interpreting buy and sell signals with studies.
+r How to invoke an individual technical study.
+r Moving averages, RSI, MACD, Bollinger Bands, the Ribbon Study, the
+Linear Regression Channel, and PSAR studies.
+In the next chapter, you will learn how to edit the parameters of studies
+for more control and how to combine studies into Study Sets.
+
+CHAPTER 7
+
+Multiple Studies
+and
+Comparisons
+
+n Chapter 6, we learned how the application of technical studies
+(also known as indicators) can provide new insights into a chart’s
+price action, including providing explicit buy and sell signals. However, you may find there is value in applying more than just one study at
+a time.
+In ProphetCharts, the price graph and any overlay studies are in a single charting pane. The volume, if displayed, is in a separate pane and any
+other independent technical indicator each has its own pane (Figure 7.1).
+The value of having separate panes is that you can rearrange the order and
+size of each of those panes. Panes in ProphetCharts have a number of powerful properties:
+
+I
+
+r They can be arranged in any order you like.
+r They can each be as tall or short as you like.
+r The volume pane can be suppressed or revealed at any time.
+r You can apply technical studies to virtually any pane.
+That last point is particularly important. There is no reason, for instance, that a Simple Moving Average cannot be applied to the Volume
+pane as easily as it could be applied to the Price pane. The flexibility in
+ProphetCharts provides a virtually unlimited palette for crafting technical
+studies to help you make better trading decisions.
+
+137
+
+138
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.1 Many studies can be applied at once to assist in the analysis of a
+chart, and each study can be in its own individual pane.
+
+THE TECHNICAL STUDIES EDITOR
+One of ProphetCharts’ most powerful features is its technical studies editor, which allows you to apply, arrange, and adjust any of the nearly 200
+different studies available in the program. This section will introduce you
+to the editor and how to use it.
+Applying a single study is something you learned about in Chapter 6.
+The easiest way to apply one study is from the Technical Studies module
+(Figure 7.2), which has an alphabetical listing of all the selections. Doubleclick on any study to apply it to the current chart, or drag-and-drop the
+study onto the chart. Once the study is applied, it will remain there until
+you choose Clear Studies from the Studies menu. So even if you enter many
+other stock symbols, you will see the study applied to each one of them.
+The Technical Studies module limits you to applying just one indicator
+at a time. If you are using one study and double-click on another, the original study will be replaced by the new one. If you want to apply multiple
+studies, or if you want to fine-tune the settings of one or more of the indicators, you will need to use the technical studies editor. To get to this editor,
+choose the Apply Studies item from the Studies menu (Figure 7.3).
+
+Multiple Studies and Comparisons
+
+FIGURE 7.2 A list of all the studies is
+shown in the Technical Studies module.
+You can drag-and-drop or double click
+any of these to apply them.
+
+139
+
+FIGURE 7.3 To access the technical
+studies editor, click Apply Studies from
+the Studies menu.
+
+When you choose Apply Studies, a dialog box like the one in Figure 7.4
+appears. This is the technical studies editor, and it has four main components:
+1. Studies tab. Notice on the left side of the editor there are two
+
+tabs—Studies and My Study Sets. The leftmost one, Studies, is selected
+by default. This gives you access to the same list of technical studies
+as is available in the Technical Studies module. You can add a study in
+any of three ways—by double clicking it, by clicking it once and then
+clicking Apply Study, or by dragging-and-dropping the study into the
+pane of your choice.
+2. My Study Sets tab. The content here is identical to the My Study Sets
+module. You can choose this tab by clicking on the tab, and by clicking
+on any of the study sets, you can examine or edit the components of
+that study set. You will learn later in this chapter exactly how to make
+and name a study set.
+3. Panes. Most of the right side of this dialog box is devoted to the placement of the panes that make up the entire chart. Each small rectangle
+represents a pane, and they are in the same order as they would be
+displayed on the chart itself. You can grab the upper portion of any of
+
+140
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.4 When you apply a technical study to the price, a shorthand abbreviation for that study will appear in the price pane.
+
+these panes and drag it up or down in order to rearrange the order of
+the panes. You can also drag a study from the Studies tab into any of
+the panes in order to apply that study to that pane. For example, if you
+dragged Simple Moving Average into the Volume pane, it would apply
+that study to the volume.
+4. Buttons. There are eight other elements to this editor, seven of which
+are buttons and one of which is a checkbox. These are each described
+next.
+
+Multiple Studies and Comparisons
+
+141
+
+The buttons in the studies editor perform the following functions:
+
+r Apply Study. Clicking this is the equivalent of double-clicking a study.
+You have to click a particular study first before this button.
+
+r Edit Study. Clicking this brings up a dialog box to let you edit any
+study you have applied to the chart. You must click any of the studies
+on the right side of the screen before clicking Edit Study. The dialog
+box you see will depend on the study selected. A shortcut to get to the
+same place is to double-click the study within the pane.
+r Delete Study. This deletes a study you have applied to the chart. As
+with Edit Study, you have to choose one of the studies in one of the
+panes for this to do anything.
+r Show Last Values. This is a checkbox, not a button, but it has one
+simple function: to display the most recent values for each of the
+studies you have applied to the chart. If this is checked, the most
+recent values for each study will appear in the upper-left corner of
+each pane.
+r Add Pane. This adds a blank pane to your chart. The purpose of a pane
+is to put studies within it. You probably will not need to use this button
+very often, because when you add a study to a chart, it is given a new
+pane for itself, anyway.
+r Save Study Set. Clicking this button lets you preserve all the studies
+and their settings into a study set which you can later access by just
+double-clicking the name of the study set.
+r OK. This accepts all the changes you have made and closes the editor.
+
+EDITING A STUDY
+Whether you are applying one study or a multitude of them to a chart, you
+can edit any study to change its settings and appearance. Although you
+probably will be satisfied with the default settings provided with any given
+study, you might want to change the appearance settings to your liking.
+Plus, if you are particularly sophisticated with a given technical indicator,
+you may have your own settings you want to apply instead.
+Generally speaking, what you are able to edit for any given study falls
+into three general categories: (1) the source of the data; that is, the numbers
+upon which the resulting technical indicator is based; (2) other numeric
+parameters used to compute the study, such as the number of time periods
+to use; (3) the presentation of the study, such as its color, opacity, line
+style, and so forth.
+It should also be noted that the concept of time periods strictly depends on the frequency of the bars being shown in your chart. If you are
+
+142
+
+CHART YOUR WAY TO PROFITS
+
+looking at a daily graph, then a “period” is a day. So a 20-period moving
+average is a 20-day moving average. If you are instead looking at the past
+five days of trading activity on an hour-by-hour basis, each bar represents
+one hour of time, so the same moving average study would be a 20-hour
+moving average.
+For the sake of simplicity, we will assume you are looking at a daily
+chart, so we will use terms such as “50-day moving average” instead of the
+more precise and accurate “50-period moving average.”
+To edit a study, all you need to do is double-click the study that has
+been applied and appears on the right side of the technical studies editor. You can also click the study once and then click the Edit Study button. When you do this, a Study Editor for that particular study will appear
+(Figure 7.5) and will contain the various controls germane to that study as
+well as the settings that are being used for it (which will typically be the
+default settings, unless you have changed them).
+Although every dialog box will be a little different, based on the study,
+the one shown in Figure 7.5 (which is for Bollinger Bands) is representative
+of the general components you will see for a Study Editor. These are:
+
+r Data source. This dropdown lets you choose which element of the
+price should be used as the basis for computing the study. Most people
+want to use the closing price for their studies. But perhaps you’d rather
+use the high price. Or the low price. You can click on this dropdown
+and choose any of the available price fields. The fields available to you
+depend on the study and how it is being used.
+r Bar period and standard deviations. These two fields are specific to
+the Bollinger Bands study, but they are a good example of the kind of
+fine-tuning you can do with a technical study. You should have a deep
+understanding of the study in question before adjusting the default parameters, however. One exception is the Moving Average, whose principal parameter (the number of periods to use) is simple enough for
+anyone to understand.
+r Fill, upper, and lower buttons. These three graphical buttons control the color, upper-line appearance, and lower-line appearance, respectively. Again, these are specific to Bollinger Bands but are good
+general examples of the kinds of controls you will see on a Study
+Editor.
+Clicking on any of the appearance control buttons yields other dialog
+boxes. For example, clicking the Fill button (which has a colored square
+in it) opens a Color dialog box (Figure 7.6) that gives you control over the
+color and opacity of the study. Choosing the color is simple enough—you
+
+Multiple Studies and Comparisons
+
+FIGURE 7.5 You have a lot of control
+over each technical study, since virtually
+any aspect of its computation or appearance can be adjusted.
+
+143
+
+FIGURE 7.6 The color of a particular
+study makes it easy to read. You can adjust the color and opacity of any study to
+your preference.
+
+are provided a palette of colors from which to choose—but you might not
+be acquainted with the term “opacity.”
+The opacity of an object controls how much you can see through it,
+if at all. You can change this setting from as little as 0.1 (as see-through
+as possible) up to 1.0 (solid). This is valuable because you will quickly
+find that studies can clutter your chart. You want them to enhance your
+charting experience, not get in the way of it. One effective way to do this
+is to tone down the appearance of a study (particularly overlaid studies)
+so that they are more subtle. Your principal focus should always be on
+the price action, with the studies providing you different insights into the
+general trend of the price.
+Clicking either the “upper” or “lower” button produces a special dialog
+box to control the style of each line (Figure 7.7). As with the prior dialog
+box, you have control over the color and opacity. You also have two new
+controls: Weight (wherein the selection from the dropdown menu lets you
+select how thick the line should be) and Pattern (wherein the selection
+lets you choose if the line is solid, dashed, dotted, or some other style). It
+bears repeating that all the studies will have different controls, but these
+controls will be self-explanatory. You will also see the effects on the chart
+immediately, so you can continue to make adjustments before committing
+the changes with an OK.
+As another illustration of how each Study Editor is different,
+Figure 7.8 shows the dialog box for the MACD technical indicator. It has
+the Data Source dropdown, as the other one did, but its numeric input is
+
+144
+
+FIGURE 7.7 Use the line style editor
+to change the color, opacity, weight, and
+pattern of each line in a study.
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.8 You can edit any study.
+In this case, you can alter the data used
+as the basis for the MACD as well as its
+three moving average periods and the
+appearance of both the MACD and signal lines.
+
+different, since the MACD calls for different parameters (in this case, fast
+period, slow period, and signal period). Whereas the Bollinger Bands had
+an upper line and a lower line, the MACD has a MACD line and a Signal
+line. As with the numeric parameters, these appearance settings are given
+default values, which suit the majority of users.
+
+WORKING WITH PANES
+The ability to size and arrange the panes which comprise the entire chart
+is one of ProphetCharts’ most powerful features. Manipulating the panes is
+quite intuitive, since it merely involves dragging-and-dropping the panes in
+the order you want. First, it helps to fully understand the nature of panes.
+In ProphetCharts, a pane can either be (a) the Price pane, (b) the Volume pane, or (c) a study pane. Any of these panes can contain technical
+indicators, and the item affected depends on where those indicators are
+placed. If a Moving Average is in the Price pane, that study will show up
+overlaid with the prices. If it is in the Volume pane, it will show up overlaid
+with volume. If it is in its own pane, it will be the same shape as if it were
+in the Price pane, but it will be by itself.
+
+Multiple Studies and Comparisons
+
+145
+
+FIGURE 7.9 Independent indicators are provided with their own pane.
+
+You can also edit any given study within its pane. The editing you do
+in one pane does not affect the other panes. So if you had three moving
+averages in the Price pane (a 30-, 50-, and 100-day moving average) and
+a single moving average in the Volume pane, editing the moving average
+in the Volume pane would not alter the other three moving averages. The
+only “tie that binds” the panes together is the x-axis, which is time. All
+the panes will line up with respect to time, because the chart would be
+meaningless otherwise.
+You typically needn’t worry about the creation and management of
+panes, except insofar as you want to change their order. When you apply a
+study, that study will go into the most common place, and if it calls for the
+creation of a new pane, such a pane will be created. Figure 7.9 illustrates
+how the Price pane has its own indicator (BBEMA, which is the abbreviation for Bollinger Band Exponential Moving Average) while the MACD
+indicator is in its own pane.
+You may have reason for the panes to be in a different vertical order
+than is provided. It is completely up to you how you want these to appear.
+Typically, the volume for a price chart appears beneath the price. Perhaps
+you’d prefer the volume to be on top. All you need do is click on the Volume
+pane, hold down the mouse button, and drag the pane to be above the Price

@@ -1,0 +1,399 @@
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+Risk Management
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+281
+
+different mind-set. The key here is to realize that your intuition and perceptions regarding probabilities are unreliable and must be backed up by logic, reasoning, and testing of
+relevant scenarios.
+
+Uncertainty as Risk
+One commonly used definition of risk in many fields of finance is that risk is uncertainty.
+For instance, when different assets are being evaluated, the standard deviations of their
+returns are often used as a proxy measure of risk. This raises a few issues that are often ignored: First of all, is this right? Is uncertainty an appropriate measure of risk? This
+is what is taught in business schools around the world, so it is often accepted by practitioners without question. True, there are applications in other fields of finance where
+uncertainty may be a good measure of risk. For instance, in corporate finance, managers
+often prefer a project that has a lower, more certain return to one that has much higher
+potential payout but with more uncertainty. Certainty of cash flows is the goal in some
+cases because it allows for the most efficient allocation of resources—surprises are not
+good. Though this is appropriate from the manager’s perspective, it may not be the best
+standard to apply to trading and investment management, where strategies may sometimes be completely dependent on positive surprises and outliers.
+This desire for certainty finds its way into investment management when portfolio
+managers use the standard deviation of an asset’s returns, measured from past returns,
+as a predictor of future risk. This is potentially flawed on several fronts. First, there is
+no guarantee that future returns will carry similar variation to historical returns. In fact,
+it is easy to construct a study comparing standard deviations and distributions for assets
+across different time windows that will reveal the folly of this assumption. It is also
+entirely possible that an asset may carry risks that are not visible in the return series. For
+instance, the returns of a trader who simply writes option premiums every month are
+probably extremely consistent. A strategy like this may very well show many consecutive
+positive months (or years) with little or no variation, but there is no accounting for the
+hidden risk of an eventual catastrophic loss—execute this strategy long enough, and
+there will be a day of reckoning. Other examples might be complex derivatives, such
+as those that precipitated the 2007–2009 financial crisis, that have embedded structural
+risks; a return series is irrelevant for such an asset, especially if the market for them
+is illiquid and inactive. Quantitatively, there is no way to understand these risks from a
+simple examination of returns, but qualitative assessment might reveal some of the flaws
+and hidden risks in many of these cases.
+Symmetry of risk is another issue that standard models may not capture very well.
+In the case of the short premium options trader, there is unseen large left-tail risk, but in
+other cases, the risks may be dramatically skewed to the upside. Which of these carries
+more risk: a fund that will return 5 percent annually with a 10 percent standard deviation
+or a fund that will return 5 percent annually with an asymmetrical risk profile extending
+5 percent downward and 15 percent upward? The second fund has dramatically higher
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+282
+
+TRADING STRATEGIES
+
+variability, but all of the extra “risk” is skewed to the upside—in this case, variability is
+opportunity, not risk, as we saw earlier with fixed fractional position sizing. Simplistic
+measures of risk will consistently misprice asymmetrical risks in the real world.
+
+MISUNDERSTOOD RISK
+If the academic world and market researchers are somewhat divided on how to measure
+risk, it is no wonder that traders are a little confused. One of the key skills of competent
+trading is excellent risk management; this can be achieved only if the risks are fully
+understood and accepted. It is important for traders to think deeply about the nature of
+the risks they are assuming, and to put them in the context of their expected returns.
+
+Generating Positive Expected Value
+We can redefine the expected value equation like this:
+E = (Probwin × Sizewin) − (Probloss × Sizeloss ) ∴
+E = Reward − Risk
+Win ratio =
+
+Probwin
+Probloss
+
+Reward/risk ratio =
+
+Sizewin
+Sizeloss
+
+where the probabilities and sizes of wins and losses are averages over a large set of
+trades.
+The job of a trader seeking to take consistent money out of the market can be simplified to making the E in this equation bigger than zero, or, more formally, to achieving
+a positive expected value over a large set of trades. It should be clear that there are two
+paths leading to this same end: the trader can get there through having either a high win
+ratio or a high reward/risk ratio. Any combination of the two that results in a positive
+expected value will make money in the absence of transaction costs. There is no inherent advantage to high-probability trading, and there is also no reason to think that “high
+risk/reward” trades are better.
+
+The “Risk” of Risk/Reward
+Mark Douglas (2001) makes a good argument that one of the major reasons traders
+struggle psychologically is that they are unable to fully accept the risk in any trade. I
+would go one step further and say that the reason they are unable to accept the risk is
+that they don’t really understand that risk. This may be a radical idea, but, over a large
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:52
+
+Risk Management
+
+Printer: Hamilton Printing
+
+283
+
+set of trades, I would argue that the “risk” part of the risk/reward equation is not actually
+true risk.
+We live in a world of probabilities, not certainties. No matter how good a trader you
+are or how good your system is, the outcome of any one trade is more or less a coin
+flip. You can be a great trader and have three or four losing trades in a row, but this
+is not actually a risk. The losses on those trades are not true risk; they are the cost
+of doing business. Consider the case of a retail business with a simple business model:
+the business buys things (inventory), marks them up, and hopefully sells them for a little
+more than it paid for them. If this were your business, would you consider the money you
+spent on inventory to be risk, or is it simply a planned expense? Certainly, there are risks
+associated with your business: you can buy insurance to guard against fire, theft, flood,
+or other damage, but inventory expense is a regular, recurring expense as are normal
+trading losses.
+Some might call this an argument over semantics, but it is actually a very important
+distinction. When you enter a specific trade, you do not know if you will make or lose
+money on the trade, so there is a possibility of loss, but over a large enough set of trades,
+there is a near certainty of a profit if you are trading with a positive expectation. This
+loss is not, in the long run, a risk. (If you are not trading with a positive expectation, then
+you have a different problem.) Traders are paid for assuming the correct risks at the
+correct time within a larger-scale, positive expectancy framework. Until you fully assimilate this truth, you will struggle—this is probably the one belief the separates profitable
+discretionary traders from everyone else.
+
+PRACTICAL RISKS IN TRADING
+There are many very real risks in trading. Some of them are obvious, many of them are
+misunderstood, and some of them are unknowable. The purpose of this section is to get
+you thinking about these risks, some of which you will encounter every day, and some of
+which you may meet only once in your career. This is not an exhaustive list of all possible
+risks, but it does give you some ideas of things to think about.
+
+Trading Without an Edge
+One of the worst possible sources of risk must be acknowledged up front—perhaps the
+trader actually does not have an edge in the market. Larry Harris (2002) calls traders who
+trade without an edge futile traders, and has this to say about them:
+Futile traders expect to profit from trading, but they do not profit on average.
+They cannot recognize the difference between their expectations and their results.
+They may be irrational, they may have poor information about their results . . .
+or they may be of limited mental capacity.
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+284
+
+TRADING STRATEGIES
+
+He goes on to define inefficient traders, saying:
+Inefficient traders lack the skills, analytic resources, and access to information to
+trade profitably. They may do everything that profitable traders do, but they do not
+do it well enough to trade profitably. . . . [Their] profits are not sufficient to cover
+their losses to more skilled and better-informed traders. Inefficient traders generally make poor decisions about when to trade and when to refrain from trading.
+Without a real trading edge, everything else is a waste of time. Nothing will help;
+the trader is simply doomed to lose money because the markets are actually worse than
+our theoretical random walk zero-sum games—the markets are actually a negative-sum
+game due to trading frictions and transaction costs. It is impossible to make money trading without a real edge in the market, and, furthermore, if you don’t know what your
+edge is, you don’t have one.
+A surprising number of retail traders operate without an edge, and they consistently
+bleed money. Why would anyone do that? As Harris speculated, perhaps they may be of
+limited mental capacity, but probably a more common reason is poor record keeping.
+Few retail traders keep professional-level records tracking every aspect of their performance over a significant period of time. Though record keeping seems like an incredibly mundane topic, the discipline of tracking performance is a core skill of professional
+trading. It is not uncommon to see working traders devote more attention to the process
+of record keeping than to actual trading. If you are keeping good records and carefully
+tracking your trade stats, the numbers will not lie.
+Many traders fail and trade without an edge because they do not know how to do the
+correct analysis to understand their edge, or they make any of a number of mathematic
+errors in that analysis. (See Chapter 12 for some specific tools and a structured approach
+to this analysis.) Traders may work hard and sincerely believe they are trading with an
+edge, but they often are not, and they are confused by the fact that their trading accounts
+are continually decreasing in value. Many discretionary traders will resist the idea of a
+systematic, structured approach to trading, but I am not advocating that—I am, however,
+pointing out the necessity of that approach in analysis and in designing your trading
+system. Unless you do this analysis, how can you be sure you are really trading with an
+enduring edge in the market? Fail to do this, and you will lose.
+
+Execution Risk
+Execution risk is a topic that covers a number of events, including some that are out
+of the trader’s control. Every trader should approach the market with a precise plan
+for when and where to enter and exit the market on every trade. Execution risk is the
+divergence between those intended points and the actual prices received. Though these
+differences will sometimes be in the trader’s favor, on balance they will not be. Slippage,
+missed trades, and miscellaneous execution errors add up; collectively, these types of
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+Risk Management
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+285
+
+mistakes can become a trading friction that will significantly erode the trader’s edge in
+the market.
+The sources of these errors will vary from trader to trader and from market to market
+and will even be different at different points in a trader’s career. For instance, newer
+traders often miss trades because they are nervous about the (false?) risk associated
+with the trade. They may hesitate or they may jump the gun and execute trades when
+their methodology does not actually call for an entry. Some traders randomly alter sizes,
+sometimes taking a few trades on much larger size, or they may try multiple entries with
+smaller size. The end result of all of this is that realized results will start to diverge from
+the theoretical edge.
+Execution risk is, to some extent, a normal cost of doing business. Most executions
+that are time-sensitive will involve paying the spread on at least one, or maybe both,
+sides of the trade. In liquid markets, this is a negligible expense unless your strategy
+trades frequently, but for active traders, even the cost of paying a penny spread in and
+out can be a significant drag on performance. It is also important to consider what liquidity conditions may exist when you need to get out of a trade quickly. In some thin
+markets (e.g., illiquid futures, currencies, or small-cap stocks), slippage of 10 percent or
+more is possible at times. Though this is an extreme example, remember that slippage
+can be a much larger cost than the novice trader would expect. Another reason that execution may diverge from backtested results is that sometimes, in equities, it may not
+be possible to locate shares for a short sale, or other regulatory restrictions may interfere with the transaction. It is impossible to fully account for events like this in research
+and backtesting.
+Execution risk can be minimized to some extent through experience and the acquisition of good execution skills. It is also important to invest money in technology, infrastructure, and relationships with the best brokers. A good broker should have competitive
+rates, but no trader should have to deal with a subpar platform or a poor Internet connection. Furthermore, new ideas in new markets should be explored on very small size
+to judge the difficulties of execution in the unfamiliar territory. If a trader normally risks
+$5,000 on a trade, perhaps a foray into a new market would be done in a minuscule size,
+risking $50 per trade. There may be issues as size is increased, but it is always a good
+idea to have your mistakes and errors on small size where possible.
+
+Disaster Risk
+Some disaster risks are fairly common, but some are almost impossible to plan for.
+Examples of fairly mundane risks are loss of power or Internet connection, a hard drive
+crash, or some other mechanical failure. It is important to have backup systems and
+to have a plan that extends several steps further than that. But there are many more
+serious risks that bear consideration. What would a natural or man-made disaster in a
+major financial center do to your trading program? What if you could not access your
+trading accounts for a period of days or weeks? Some of these risks are systemic risks
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+May 10, 2012
+
+286
+
+7:52
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+and, frankly, cannot be managed very well. There is no point in obsessing over things you
+cannot control, but there is great value in being as prepared as you possibly can be.
+
+Markets Evolve. Do You?
+Throughout market history, there have been many ideas that have worked for a while
+or in one specific environment, and then they stop working, often after being published.
+Though we try to build our trading programs on principles that will not change, any trading plan is a specific expression of those tendencies expressed in one specific way. It is
+completely possible that what worked yesterday will not work tomorrow. This is reality.
+Stuff, as they say, happens. Markets evolve and erase certain kinds of trading edges.
+This is why any system, including a discretionary one, should be subject to some
+sort of control process, similar to the ones used in manufacturing and quality control
+(see Chapter 12). The idea is to identify normal variation in the system and then to flag
+events that seem to violate that normal variation. This is not a simple task, as markets
+are subject to much more randomness than any manufacturing process, and large surprises are normal for many trading systems. However, with a little work and adaptation,
+it is possible. Monitoring your performance for severe changes or degradation can give
+early warning and allow time to make some adjustments. If you are trading an idea that
+stops working, you will incur some losses. This is unavoidable, but a control process will
+monitor those losses as they evolve and give a cutoff point at which trading should be terminated. The real danger is not recognizing that something has changed, and continuing
+to pour money into a trading system that has become a bottomless hole.
+
+Event Risk/Tail Risk
+Tail risk refers to extreme events in the tails of a distribution. We might observe a commodity trade for several years, and see that most of its daily returns fall within +/−2
+percent of the previous day, with the occasional large move out to 4 percent. However, it
+is entirely possible that that same market could make a 25 percent move tomorrow, out
+of all proportion to anything in the historical record. Figure 9.4 shows a daily chart of
+Procter & Gamble (NYSE: PG) covering several months, including the day of the May 6,
+2010 Flash Crash. This was a fairly boring blue-chip stock that was not prone to making
+volatile movements, but nearly an entire decade of price gains were erased in less than
+30 minutes, only to be almost completely regained within the next few minutes. This was
+a move that most market participants probably thought was impossible, and yet it happened. There are other stocks that showed even more dramatic movements on this day,
+and this type of event happens several times a year in individual stocks.
+In many cases, though not all, these large standard deviation events will be driven
+by geopolitical events or natural disasters and are completely unpredictable. It is the
+nature of these events that they are complete surprises. In addition, they are also more
+or less unhedgeable; appropriate hedges do exist for most of these risks, but the costs of
+applying them continuously will set a hurdle rate that would be difficult to overcome. For
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+Risk Management
+
+287
+
+FIGURE 9.4 Daily Chart of PG During the 2010 Flash Crash
+
+instance, the cost of fully hedging a complex portfolio with options can easily run over
+10 percent on an annualized basis. With that kind of haircut, you have to ask yourself
+just how good you think you are. Can you hedge, beat the hedge hurdle, and still make
+enough to make the venture worth your time? Not likely.
+When most traders talk about tail risk, they refer to the kind of events that can put
+a trader out of business, but remember that tail events are not always bad. Sometimes
+the trader may be positioned on the right side of the surprise move, and it turns out
+to be a gift. Though some traders have tried, it is very difficult to structure strategies
+designed specifically to take advantage of these events, because they are so infrequent
+and volatile. Even if you are fortunate enough to be on the right side of such a move,
+there is no guarantee that you will find adequate liquidity to exit at a profit.
+
+Correlation
+Correlation is a major concern in portfolio design and analysis, but also may have a
+larger than expected impact on an active trader holding a handful of positions. Though
+correlation is usually considered in the context of longer-term portfolios, correlation risk
+
+P1: OTA
+JWBT634-c09
+
+JWBT634-Grimes
+
+288
+
+May 10, 2012
+
+7:52
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+cannot be ignored by the active trader. For instance, an equity swing trader who intends
+to hold positions for two to four weeks may often be holding five or more positions,
+distributed across various sectors and industries. Normally, these positions would be
+quite likely to each follow its own course, with some small degree of dependence on
+the overall index. A futures swing trader may hold positions in currencies, metals, and
+grains that turn out to be much more tightly correlated than expected. If a major event
+hits the market, they will all move together. In a nutshell, correlation is bad because
+it destroys diversification effects—diversification is not there exactly when you need it
+most. A trader may believe she is risking 3 percent of her portfolio on four different
+positions, but if they are highly correlated, it is much more like one large position risking
+12 percent of equity. This is far more than most traders intend to risk on any one position,
+but they do it all the time when they underestimate correlation and risk, and the risk of
+shifting correlations.
+There is a good reason to expect increased correlations in times of financial stress:
+large pools of money tend to move together in times of crisis. This has been well known
+and documented for decades, but the rise of ETF products has given more investors
+access to broad swaths of asset classes. Many of these assets are being pooled in various
+funds as general risky assets that will be dumped en masse in times of systemic stress.
+If this trend of aggregation continues, and it seems likely that it will, this effect is likely
+to intensify. Active traders must always consider the possibility that every position they
+hold can move against them at the same time.
+
+Liquidity Risk
+For most traders, the main danger of low liquidity is that you may be unable to execute
+at prices you intend. Even moderately sized orders can sometimes move markets far
+more than expected; if the order is time-sensitive, as in exiting a position at a stop point,
+heavy slippage can result. This is to be expected if the position represents a significant
+percentage, or multiple of, an asset’s average daily trading volume. What might not be so
+obvious, and thus is more dangerous, is that lack of liquidity can pose a threat to much
+smaller positions in normally liquid markets. In addition, this effect has been exacerbated
+in many markets by the risk of high-frequency trading (HFT) programs that provide what
+is essentially predatory liquidity. Automated market makers are capable of bidding and
+offering tight spreads, and then widening those spreads when other orders take liquidity
+from the order book, at speeds far beyond human reaction time.

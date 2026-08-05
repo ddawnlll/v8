@@ -1,0 +1,610 @@
+
+50
+
+HOW TO MAKE A LIVING TRADING FOREIGN EXCHANGE
+
+of the loss of getting stopped out at the 20-day low. The net result of a
+higher number of losing trades with a sharply lower size of losing trades
+equals a big boost to our bottom line.
+Alternately, you could put on a position five times larger than you
+would normally. Okay, perhaps not that aggressive. But you could easily
+double or triple the size of your position and still take on less risk than
+you would using the normal channel breakout method. You would take the
+normal $1,000 risk on your position but receive double or triple the profits
+on winning trades!
+Let’s look back at Figure 3.7. Find the day before the actual breakout.
+The market was very close to the 55-day high so we could put in an order to
+buy at 3 pips higher than the 55-day high. Where will the initial stop be? We
+know that we are going to put in a stop at the 20-day low but we also know
+that we will be getting out at a much higher price should the rejection rule
+kick in. In this case, we need to determine where we would be stopped out
+should the rejection rule kick in. Of course, we never know where it will
+kick in but we need to estimate this so that we can figure out the size of
+our upcoming positions.
+Let’s say that we figure that we will be stopped out no lower than
+1.9850 should the rejection rule be triggered. That is about one-third the
+dollar risk of actually trading down to the 20-day low. So, we can say that
+the dollar risk using the rejection rule is one-third of the risk of using the
+20-day low. However, we will be stopped out on a slightly larger number
+of trades so we need to scale the dollar risk higher to take into account
+the additional number of stop-outs. So, let’s estimate that we will lose
+50 percent less using the rejection rule than using the 20-day low. We must
+now decide whether we want to reduce our risk by 50 percent and only
+trade one contract or trade two contracts, which would boost the risk to
+100 percent of the 20-day low but would double our profits should the trade
+work. In order to make this decision, the background environment must be
+taken into consideration. For example, is this trade in the direction of the
+long-term trend? What are the expected seasonal price tendencies? Do you
+have a fundamental bias? Are there any conflicting or supporting technical
+indicators?
+If the bias from these other factors is bearish, then you should probably
+just put on the one contract and cut your risk while maintaining the normal profits potential. If the bias is bullish from these other environmental
+factors, then you should probably double the size of the position, take the
+normal level of risk, but have double the profit potential.
+Once again, you now have the flexibility of either cutting risk and leaving the profit potential the same or keeping the risk the same and making
+more money. This is a major enhancement to the classic channel breakout.
+
+Channel Breakouts
+
+51
+
+Adding the rejection rule adds significantly to the classic channel
+breakout. But there are two drawbacks. The first is that we don’t really
+know where the risk is. We don’t really know at what price the rejection
+rule will be triggered. This makes risk management a problem. Second, the
+rejection rule only covers the first two days we are in a trade. Do we really
+want to let our stop drop down to the 20-day low after the first two days in
+the trade? What if we were aggressive and bought a double-size position?
+Now the risk has ramped up dramatically and we may have a much larger
+position than we would want with a stop loss at the 20-day low.
+
+THE LAST BAR TECHNIQUE
+The solution to this risk management problem is the last bar technique.
+I originally got this idea from ace trader Peter Brandt. I had the opportunity to interview him and read his book Trading Futures with Classical Chart Patterns (Advanced Trading Seminars, 2000). He used classical
+chart formations such as head and shoulders and trendlines. He used the
+chart patterns as outlined in Magee and Edwards’ excellent book Technical
+Analysis of Stock Trends (AMACOM, 1997). There is actually a chapter on
+trading futures in that book. The problem with Magee and Edwards is that
+they suggested that you enter, for example, a head and shoulders top on a
+break of the neckline with a stop above the right shoulder. This would be
+a very wide stop and Brandt felt that proper risk management would mean
+that he would never be able to enter any trades.
+So what Brandt did was to put his stop, to carry on this example, above
+the high of the last bar in the formation. His concept was that the market
+had broken below support. It should be unlikely that the market would
+trade back up through the neckline and even go further and break the high
+of the last day in the formation. That would be two levels of resistance that
+should cap any rallies, particularly if the trade was going to be a winner.
+Brandt is using the principle of instant gratification here.
+Following Brandt’s idea, I apply it to the channel breakout technique.
+Let’s keep looking at our British Pound example in Figure 3.7. In this case,
+the market broke the 55-day high on July 15. Note that the bar of the 15th
+is the last bar with any portion still under the 55-day level. We set our stop
+loss at the bottom of this bar.
+Let’s assume for a moment that we are not using the rejection rule.
+That means that our initial stop loss in this trade would be the low of the
+bar of July 15, or about 1.9940. We would have been stopped out three days
+later at that level for a loss of about 80 pips. No big deal.
+
+52
+
+HOW TO MAKE A LIVING TRADING FOREIGN EXCHANGE
+
+I will use the second-to-last bar if the last is barely below the breakout level or it gaps above the breakout level. We are trying to find the last
+bar or near-last bar that defines where support will come in if the market
+sets back into the range. There is a certain level of discretion necessary to
+determine the best “last bar.” Most of the time, we can simply use the true
+last bar as our stop. We look for the bar that was the breakout bar. That
+should be the last bar 98 percent of the time. Only rarely are we going to
+look back one more bar to be the last bar.
+
+TACTICS
+There are four different exit strategies for the channel breakout method.
+Let’s assume that we have bought the British Pound. We will look at the
+rejection rule as our stop on the first two days we are in the trade. We will
+then shift to the last-bar method after the first two days. We will look at
+the Bishop starting from the first day and will keep it in mind every day we
+have the trade open. Finally, we will use the 20-day low once the 20-day low
+is higher than the low of the last bar. To repeat: First look at the rejection
+rule, then the last bar, then the 20-day low, in that order. We are looking at
+the Bishop every day.
+You should be putting in both buy and sell orders every day if you have
+no position. Once you are in a position, you need to put in your protective
+stops depending on the method you are following.
+
+TAKING PROFITS
+One of the key advantages of these enhancements is that it allows you to
+sometimes exit positions near the high of moves. I showed you how the
+Bishop enabled us to exit with a huge profit in September. Let’s look at
+some other trades.
+Refer back to Figure 3.3. I had previously marked the Bishop exit. That
+was a great exit and created a huge profit. We get short at the beginning
+of October. Notice that the rejection rule kicks in on the second day in the
+trade and we take a microscopic loss. But we enter short on the third day
+as we break down again. This trade has no five-day condition so there is no
+opportunity for the rejection rule to come into play. So we get short and
+use the last-bar technique as our initial stop loss. We never get stopped out
+so we shift from using the last bar to the 20-day high near the beginning of
+November when the 20-day high finally moves to below the level of the last
+bar. But before that, we get another breakdown in the middle of October.
+
+Channel Breakouts
+
+53
+
+There is a five-day condition in place so there is a potential rejection rule.
+However, prices slam lower and the rejection rule is never triggered. But
+it does cause a new lower last bar, which could become our new stop loss
+but I prefer to use the 20-day high.
+I prefer to use the 20-day high after I have a nice profit because it is
+best to give a profitable trade lots of room to make more money. You may
+want to move the stop on part of the position to the new last bar. Still, this
+should be a small percent of the total position. Use the 20-day high to make
+sure that you are maximizing the big money. So we remain short.
+But take a look in the lower-right corner of the chart. Note that there
+is a five-day condition in place on that breakdown two bars from the end
+of the chart. Notice that rejection rule kicks in and we exit the trade. At
+this point, we got short in early October near 1.7400 and exit near 1.4750
+for a monster profit. More important, the rejection rule gets us out of the
+position on the absolute low bar on the chart. What perfect timing! There
+are few techniques that can get us out of positions so close to the absolute
+low of the move. So the rejection rule, and the last bar, will help to get us
+out of trades and take profits near the lowest or highest price in the move.
+This is a huge enhancement of the classic channel breakout.
+Basically, we have taken probably the most powerful profit-generating
+system in trading and added some strong enhancements that reduce the
+risk, enhance profitability, and allow us to often take profits near highs
+rather than waiting for the trend to reverse.
+
+THE BOTTOM LINE
+If you only use one technique from this book, use the channel breakout
+method. But make sure that you use my enhancements, too! I believe that
+more money has been made using this technique in futures and forex than
+any other technique. The technique can be used plain vanilla or easily enhanced using the methods discussed in this chapter.
+
+CHAPTER 4
+
+The Conqueror
+
+his chapter discusses the Conqueror, which is a clever method that
+encourages some truly original thinking. I am a big fan of trading
+through multiple time frames (see Chapter 10 for more information
+on diversifying through time). This particular method looks at three different time frames before entering a trade.
+Most methods use the same method for entering and exiting trades.
+For example, you buy when the 20-day moving average crosses above the
+50-day moving average and sell when the 20-day moving average crosses
+below the 50-day moving average. However, the Conqueror actually uses a
+different exit technique from the entry technique. This is rare in the world
+of trading.
+In previous chapters we’ve covered ways to exit a trade that are different from the entry point. This uncommon approach leads to much higher
+profits than the basic method that most people use to trade. The Conqueror
+uses one method to enter and another method to exit. They are related to
+each other but are separate. In addition, the stop loss is adaptive. That is, it
+looks at current market conditions and adapts to those conditions to create
+the exit strategy.
+
+T
+
+THE BEGINNINGS OF THE CONQUEROR
+The idea originated back in 1991 when Bruce Babcock created a system
+called the Currency Conquistador. Bruce was one of the pioneers of futures
+trading. He was the founder of Commodity Traders Consumer Report
+55
+
+56
+
+HOW TO MAKE A LIVING TRADING FOREIGN EXCHANGE
+
+(CTCR, which is now Web-only at www.ctcr.investors.net), which I bought
+from him in 1996 when he was diagnosed with cancer. He was the author
+of one of the most popular books on trading, Dow Jones-Irwin Guide to
+Trading Systems, and designed many profitable systems.
+Perhaps his greatest contribution to futures trading was a sense of integrity and cutting through the hype that fills the futures and forex world.
+CTCR allowed no advertising so Bruce could be totally honest in his reviews of products.
+Bruce fiddled with the Currency Conquistador for a few years and then
+released Currency Conquistador II. This presented a more sensitive stop
+loss method than the first version.
+At this point, ace researcher Nelson Freeburg enters the story. Nelson
+publishes an amazing newsletter called Formula Research (see Appendix:
+Suggested Reading for more information). Nelson develops trading methods and systems for trading most markets. He has a clever mind and has
+come up with some great systems. I highly recommend his publication.
+Nelson published an enhancement for the Conquistador at the end of
+1994. One key enhancement was that the original Currency Conquistador
+was only for trading currencies. Nelson broadened the testing to other futures contracts and found that his modifications made it profitable for a
+broad list of futures. We are only looking at forex in this book, but knowing that the method works on many more markets gives confidence that
+this is a strong method.
+Nelson also simplified the system, which is almost always a good thing.
+In this case, it was a good thing because Nelson-simplified systems outperformed the basic Babcock system.
+
+WHAT IS TRUE RANGE?
+Before I get into the mechanics of the system, let me first discuss true
+range as we will be using this concept in the calculation of the Conqueror.
+One of the advantages of the forex market is that the opening price is
+basically the same as the closing price of the previous day. We close at one
+price and the opening price is simply the next tick. The only exception is
+the close on Friday going over to the open on Monday. Here, it is possible
+for a gap to be created by the change in price occurring over the weekend.
+In this case, we need to adjust for the potential gap in figuring out the true
+range on Monday. We will know what the actual range is by simply looking
+at the chart or a table and seeing what your chart service tells you what the
+range is. Good enough. The problem comes in when there is a gap between
+the range on Friday and the range on Monday.
+
+The Conqueror
+
+57
+
+In this case, the reported range doesn’t really represent the range of the
+day. Let’s say that the price gapped down and the high on Monday is below
+the low of Friday. The range that is reported is not reflective of what implicitly happened. Although no trading occurred between the high of Monday
+and the close of Friday, it can be said that the true high for Monday should
+have been the close of Friday.
+Here is how Nelson defined it in CTCR in 1995:
+To begin with, a day’s true high is the higher of today’s high or
+yesterday’s close. The true low is the lower of today’s low or yesterday’s close.
+The true range is simply the true high minus the true low. The
+true range is designed to better measure the totality of price movement in cases where yesterday’s close lies beyond today’s price range.
+Table 4.1, reproduced from Commodity Traders Consumer Report,
+shows the results of Nelson’s final modification of the Conquistador.
+As you can see, the method is very profitable. In fact, here is what Nelson stated in his issue of Formula Research devoted to the Conquistador:
+The self-adjusting stop is perhaps the most innovative element in
+this versatile trading system. The wealth of applications inherent in
+the logic is a tribute to the analyst who designed it. We are in Bruce
+Babcock’s debt for sharing Currency Conquistador, which, in terms
+of sheer dollars gained, is the most profitable futures system Formula
+Research has published thus far. (Commodity Traders Consumer
+Report, 1991)
+
+ENHANCING THE CONQUISTADOR
+Now I enter the story. I took Nelson’s profitable modifications of the Conquistador and modified them. I’ve created two different versions. One is
+very long term and the other is short term. To differentiate the results
+from the excellent work of Bruce and Nelson, I changed the name to the
+Conqueror.
+Let’s now take a look at the rules. First, we define several conditions.
+A positive number is bullish and a negative number is bearish.
+1. Today’s close minus the 10-day moving average (MA) of the close
+2. Today’s 10-day MA minus the 10-day MA 10 days ago
+3. Today’s close minus the close 40 days ago
+
+58
+
+HOW TO MAKE A LIVING TRADING FOREIGN EXCHANGE
+
+TABLE 4.1 Currency Conquistador Version by Nelson Freeburg (Study Shows
+Proﬁts/Losses from August 1, 1972, to July 9, 1998)
+Swiss
+Franc
+
+British
+Pound
+
+D-mark
+
+Japanese
+Yen
+
+Average
+
+Total Net Proﬁt
+
+$167,062
+
+$177,688
+
+$112,675
+
+$212,437
+
+$167,466
+
+Total Number of
+Trades
+Number Winning
+Trades
+Number Losing
+Trades
+Percent Proﬁtable
+
+97
+
+124
+
+104
+
+102
+
+107
+
+45
+
+46
+
+52
+
+53
+
+49
+
+52
+
+78
+
+52
+
+49
+
+58
+
+46 percent
+
+37 percent
+
+50 percent
+
+51 percent
+
+46 percent
+
+Largest Winning
+Trade
+Largest Losing Trade
+Average Winning
+Trade
+Average Losing
+Trade
+Ratio Average
+Win/Average Loss
+Average Trade (Win &
+Loss)
+
+$19,450
+
+$32,018
+
+$20,187
+
+$32,662
+
+$26,079
+
+$(2,787)
+$5,669
+
+$(3,019)
+$7,140
+
+$(3,987)
+$3,633
+
+$(3,087)
+$5,327
+
+$(3,220)
+$5,442
+
+$(1,693)
+
+$(1,933)
+
+$(1,467)
+
+$(1,426)
+
+$(1,630)
+
+3.34
+
+3.69
+
+2.47
+
+3.73
+
+3.31
+
+$1,722
+
+$1,433
+
+$1,083
+
+$2,082
+
+$1,580
+
+Maximum
+Consecutive
+Winners
+Maximum
+Consecutive Losers
+Average Number of
+Bars in Winners
+Average Number of
+Bars in Losers
+
+5
+
+4
+
+7
+
+4
+
+5
+
+5
+
+9
+
+4
+
+3
+
+5
+
+110
+
+104
+
+94
+
+99
+
+102
+
+23
+
+15
+
+25
+
+21
+
+21
+
+$(8,000)
+
+$(26,468)
+
+$(7,475)
+
+$(8,162)
+
+$(12,526)
+
+$(8,162)
+
+$(26,725)
+
+$(8,175)
+
+$(9,237)
+
+$(13,075)
+
+2.89
+$11,162
+
+2.17
+$29,725
+
+2.47
+$11,175
+
+4.03
+$12,237
+
+2.89
+$16,075
+
+1,496
+percent
+
+597
+percent
+
+1,008
+percent
+
+1,735
+percent
+
+1,209
+percent
+
+Max Closed-Out
+Drawdown
+Max Intra-Day
+Drawdown
+Proﬁt Factor
+Account Size
+Required
+Return on Account
+
+Source: Commodity Traders Consumer Report, 1991.
+
+The Conqueror
+
+59
+
+Go long if all three conditions are positive. Go short if all three conditions are negative. Stand aside on any other condition. I’ll get to the protective stop in a minute.
+Let’s consider this entry situation. Basically, we are looking at three
+different time horizons. First, we are looking at the price action over the
+last 10 days when we look at condition one. Condition two is really looking
+at the price action of the last 20 days. Finally, condition three is looking at
+the last 40 days.
+We do not go long or short until all three trends in the market are congruent. The concept of applying three different time frames is unusual in
+trading. I had kind of a “doh” moment when I first saw it because it is so
+obvious yet never really done.
+Basically, we are making sure that whatever trend is in place is powerful enough to turn all three directions bullish or bearish. A sideways
+market will not trigger the three conditions and we will stand aside in
+those situations, which is perfect. Only when the market really starts to
+move in one direction or another will the three trends line up and we
+will enter the market. Otherwise, one or more of the three conditions
+will be positive or negative and we will look for opportunities in other
+markets.
+It is, therefore, difficult to get a buy or sell signal from the Conqueror.
+Most of the time it sits out of the market. It stubbornly waits for the market
+to really get going in one direction or another before it jumps in with a
+long or short position. This is one of the most important features of the
+Conqueror. It sits out when the market is drifting sideways or has only
+a slight trend. This saves a lot of money in whipsaw losses. It is also a
+significant improvement over most trading methods!
+Let’s take a look at an example. Let’s pick up the action in the middle
+of September. The three conditions are mixed at that point. Let’s follow the
+flow of the trade to see how it develops.
+I’ve marked three arrows in Figure 4.1. The first arrow shows that condition three is negative. The close that day is below the close of the market
+40 days previously.
+Three days later, the price closes below the 10-day moving average,
+turning this condition negative. That’s two conditions that are negative. We
+still can’t go short because we need to have all three conditions negative
+before we can go short.
+Take a look at the chart. At this point, the market has had a down
+move from the upper left of the chart. There was a rally in mid-September.
+At this point, we don’t know if this is the beginning of a new bull market or
+simply a countertrend rally in the down trend. The market should probably
+be considered as roughly neutral. At this point, we have two conditions
+negative and one positive.
+
+60
+
+FIGURE 4.1 British Pound with Conditions Marked
+
+The Conqueror
+
+61
+
+The Conqueror sits back and waits until the trend is conclusively in
+one direction before entering. At this point, there are two negatives and
+one positive for only a net negative of one. This is not conclusive enough
+for the Conqueror.
+The one condition that is not cooperating is the 10-day MA because it is
+still not below itself 10 days previously. It is not until early October before
+the 10-day MA drops enough. At that point, as the third arrow indicates, the
+third condition turns negative.
+We go short on the close of trading on the day that the third condition
+triggers. If we don’t know if the third condition has triggered until after
+the close of trading, then we go short on the open the following day. Okay,
+we are now short. All three conditions have been triggered. Where is our
+protective stop? Now it gets really interesting. We are going to use several
+different methods to determine the protective stop.
+The first stop is a simple money management stop. For a standard contract, place a stop that would be a $2,000 loss. In other words, figure out
+how many pips represents $2,000 and place a stop that many pips away
+from the entry price. Fortunately, this stop will rarely be triggered. The
+other forms of stop will be triggered far more often. Still, we want some
+disaster insurance in place.
+I’ve added another panel to the chart (see Figure 4.2). The new lower
+panel shows the average true range (ATR) over the past 40 days. This is
+simply the 40-day average of the ATR. You can see that the ATR was about
+0.024 on the day we went short. That is really 240 pips. You can also see that
+the market was becoming more volatile from August through November.
+The ATR was slowly moving higher during this period showing that the
+average range for the day was increasing. In fact, it increased from about
+150 pips per day to 350 pips per day.
+This is the point where we create the two different versions of the
+Conqueror. Conqueror I will create a stop two times the ATR away from
+the current close while Conqueror II will create a stop 12 times the ATR
+away from the current close. Let’s look closer at the current situation as
+an example.
+Let’s say that we get short at 1.7400. The ATR on that day is 0.0240, or
+240 pips. Conqueror I will place a protective stop loss 480 pips above the

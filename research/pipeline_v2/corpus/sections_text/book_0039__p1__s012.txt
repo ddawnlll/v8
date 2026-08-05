@@ -1,0 +1,377 @@
+
+passages). There are several adaptive moving averages. One that seems to work
+well was developed by Mark Jurik (www.jurikres.com). Another was “VIDYA”
+(Variable Index Dynamic Moving Average) developed by Chande.
+A recursive algorithm for the exponential moving average is as follows: For
+each bar, a coefficient (c) that determines the effective length (m) of the moving
+average is multiplied by the bar now being brought into the average and, to the
+result, is added 1.0 - c multiplied by the existing value of the moving average,
+yielding an updated value. The coefficient c is set to 2.0/(1.0 + m) where m is the
+desired length or period. Chande (1992) modified this algorithm by changing the
+coefficient (c) from a fixed number to a number determined by current market
+volatility, the market’s “loudness,” as measured by the standard deviation of the
+prices over some number of past bars. Because the standard deviation can vary
+greatly between markets, and the measure of volatility needs to be relative,
+Chande divided the observed standard deviation on any bar by the average of the
+standard deviations over all bars on the S&P 500. For each bar, he recomputed the
+coefficient c in the recursive algorithm as 2.0 / (1.0 + m) multiplied by the relative volatility, thus creating a moving average with a length that dynamically
+responds to changes in market activity.
+We implemented an adaptive moving average based on VIDYA that does not
+require a fixed adjustment (in the form of an average of the standard deviations over
+all bars) to the standard deviation. Because markets can change dramatically in their
+average volatility over time, and do so in a way that is irrelevant to the adaptation of
+the moving average, a fixed normalization did not seem sound. We replaced the standard deviation divided by the normalizing factor (used by Chande) with a ratio of
+two measures of volatility: one shorter term and one longer term. The relative
+volatility required for adjusting c, and hence the period of the adaptive moving average, was obtained by dividing the shorter term volatility measure by the longer term
+volatility measure. The volatility measures were exponential moving averages of the
+squared differences between successive data points. The shorter moving average of
+squared deviations was set to a period of p, an adjustable parameter, while the period of the longer moving average was set top multiplied by four. If the longer term
+volatility is equal to the most recent volatility (i.e., if their ratio is 1). then the adaptive moving average behaves identically to a standard exponential moving average
+with period m; however, the effective period of the exponential moving average is
+monotonically reduced with an increasing ratio of short-term to long-term volatility,
+and increased with a declining ratio of short-term to long-term volatility.
+TYPES OF MOVING AVERAGE ENTRY MODELS
+A moving average entry model generates entries using simple relationships
+between a moving average and price, or between one moving average and another.
+Trend-following and countertrend models exist. The most popular models follow
+
+the trend and lag the market. Conversely, countertrend moving average models
+anticipate reversals and lead, or coincide with, the market. This is not to imply that
+countertrend systems trade better than trend-following ones. Consistently entering
+trends, even if late in their course, may be a more reliable way to make money than
+anticipating reversals that only sometimes occur when expected. Because of the
+need for a standard exit, and because no serious trader would trade without the protection of money management stops, simple moving average models that are
+always in the market are not tested. This kind of moving average reversal model
+will, however, be fairly well-approximated when fast moving averages are used,
+causing reversal signals to occur before the standard exit closes out the trades.
+Trend-following entries may be generated in many ways using moving averages. One simple model is the ntoving average C~SSDWE The trader buys when
+prices cross above the moving average and sells when they cross below. Instead of
+waiting for the raw prices to cross a moving average, the trader can wait for a faster
+moving average to cross a slower one: A buy signal occurs when the faster moving
+average crosses above the slower moving average, and a sell is signalled when the
+crossover is in the other direction. Smoothing the raw price series with a fast moving average reduces spurious crossovers and, consequently, minimizes whipsaws.
+Moving averages can also be used to generate countemend entries. Stock prices
+often react to a moving average line as they would to the forces of support or resistance; this forms the basis of one countertrend entry model. The rules are to buy when
+prices touch or penetrate the moving average from above, and to sell when penetration
+is from below. Prices should bounce off the moving average, reversing direction.
+Countertrend entries can also be achieved by responding in a contrary manner to a
+standard crossover: A long position is taken in response to prices crossing below a
+moving average, and a short position taken when prices cross above. Being contrarydoing the opposite of what seems “right”+ften works when trading: It can be profitable to sell into demand and buy when prices drop in the face of heavy selling. Since
+moving averages lag the market, by the time a traditional buy signal is given, the market may be just about to reverse direction, making it time to sell, and vice versa.
+Using a moving average in a counter&end model based on support and resistance is not original. Alexander (1993) discussed retracement to moving average sup
+port after a crossover as one way to set up an entry. Tilley’s (1998) discussion of a
+two parameter moving average model, which uses the idea of support and resistance
+to trade mutual funds, is also relevant. Finally, Sweeney (1998) described the use of
+an end-of-day moving average to define inuaday levels of support and resistance.
+CHARACTERISTICS OF MOVING AVERAGE
+ENTRIES
+A trend-following moving average entry is like a breakout: Intuitively appealing
+and certain to get the trader aboard any major trend: it is also a traditional, readily
+
+available approach that is easy to understand and implement, even in a spreadsheet.
+However, as with most trend-following methods, moving averages lag the market,
+i.e., the trader is late entering into any move. Faster moving averages can reduce lag
+or delay, but at the expense of more numerous whipsaws.
+A countertrend moving average entry gets one into the market when others
+are getting out, before a new trend begins. This means better fills, better entry
+prices, and greater potential profits. Lag is not an issue in countertrend systems.
+The danger, however, is entering too early, before the market slows down and turns
+around. When trading a countertrend model, a good risk-limiting exit strategy is
+essential; one cannot wait for the system to generate an entry in the opposite direction. Some countertrend models have strong logical appeal, such as when they
+employ the concept of support and resistance.
+ORDERS USED TO EFFECT ENTRIES
+Entries based on moving averages may be effected with stops, limits, or market
+orders, While a particular entry order may work especially well with a particular
+model, any entry may be used with any model. Sometimes the entry order can
+form part of the entry signal or model. A basic crossover system can use a stop
+order priced at tomorrow’s expected moving average value. To avoid intraday
+whipsaws, only a buy stop or a sell stop (not both) is issued for the next day. If the
+close is above, a sell stop is posted; if below, a buy stop.
+Entry orders have their own advantages and disadvantages. A market order
+will never miss a signalled entry. A stop order will never miss a significant trend
+(in a trend-following model), and entry will never occur without contirmation by
+movement in favor of the trade; the disadvantages are greater slippage and less
+favorable entry prices. A limit order will get the best price and minimize transaction costs, but important trends may be missed while waiting for a retracement to
+the limit price. In countertrend models, a limit order may occasionally worsen the
+entry price: The entry order may be filled at the limit price, rather than at a price
+determined by the negative slippage that sometimes occurs when the market
+moves against the trade at the time of entry!
+TEST METHODOLOGY
+In all tests that follow, the standard portfolio is used. The number of contracts to
+buy or sell on entry, in any market, at any time, was chosen to approximate the dollar volatility of two S&P 500 contracts at the end of 1998. Exits are the standard
+ones. All tests are performed using the C-Trader toolkit. The portfolios, exit strategies, and test platform are identical to those used previously, making all results
+comparable. The tests are divided into trend-following and counter&end ones.
+They were run using a script containing instructions to set parameters, run
+
+CHAPTER 6
+
+Moving-Average Models
+
+optimizations, and generate output for each combination of moving average type,
+model, and entry order.
+The code below is more complex than for breakouts: Instead of a different
+routine for each combination of moving average, entry rule, and trading order,
+there is one larger routine in which parameters control the selection of system elements. This technique is required when systems are genetically evolved. Although
+no genetics are used here, such algorithms are employed in later chapters. This
+code uses parameters to control model elements, making it easier to handle all the
+combinations tested in a clean, systematic way.
+
+local variables for clearer reference
+// period for faster moving average
+// period for slower moving
+average
+I/ type Of entry model
+I/ type of moving average
+I/ type Of entry order
+I/ maximum holding period
+I/ profit target in volatility units
+// stop loss in volatility units
+
+116
+
+// skip invalid parameter combinations
+if(fastmale"
+>= slovmlale") {
+set-"ector~eqcls,
+1, rib, 0.01;
+return;
+)
+I/ perform whole-series computations using vector routines
+// ATR for exit
+*"gTr"eRa"ses(exitatr,
+hi, 10, ClS, 50, "b);
+switchbvgtype)
+( // select type of moving average
+case 1:
+// simple moving averages
+A"erageS~fastma,
+cls, fastmale",
+"b);
+AverageSislovmla,
+ClS, slowmale*,
+nbl;
+break;
+,, exponential
+mo"i"g averages
+case 2:
+xA"erageS(fastma,
+ClS, fastmale", "b, ;
+xA"erageS~slowma,
+CL%, s1ovmden.
+"b) ;
+break;
+case 3:
+// front-weighted triangular moving averages
+FwTn"erages~fastma,
+ClS, fastmale",
+nb,;
+FwTAverageS
+~slowma, ClS, slowmale", "b, ;
+break;
+case 4:
+// "IDYA-style
+adaptive moving averages
+"rn"erages~fastma,
+ClS. fastmale". 10, "b, ;
+"IA"erageS~slowma,
+ClS. *lowmale",
+10. &I;
+break;
+default: "rerror~"I""alid
+mo"i"g average selected");
+1;
+
+// avoid placing orders on possibly limit-locked days
+if (hi L&+11 == lo L&+11 1 continue;
+,, generate entry signals, stop prices and limit
+// using
+the specified moving average entry model
+
+prices
+
+// enter trades using specified order type
+ifCts.positionO
+c= 0 && signal == 1) (
+switch(ordertype1
+( // select desired order type
+case 1: ts.b"yopen~‘1'.
+ncontracts,;
+break;
+case 2: ts.buylimitC~Z',
+limprice, ncontracts);
+break;
+
+The code contains three segments. The first segment calculates moving averages. A parameter (avgrype) selects the kind of average: 1 = simple; 2 = exponential: 3 = front-weighted triangular; and 4 = the modified VIDYA. Even if the
+model requires only one moving average, two of the same type are computed, this
+allows the selection of the moving average to be independent of model selection.
+The average true range is also computed and is required for setting stop-losses and
+profit targets in the standard exit strategy. Two additional parameters, fastmalen
+and slowmalen, specify the period of the faster and the slower moving averages,
+respectively. The moving averages are saved in the vectors,fismzma and slowma.
+The next block uses the selected model to generate entry signals, stop prices,
+and limit prices. First, simple relationships (CrossesAbove, CrossesBelow,
+TurnsUp, and TurnsDown) are defined. Depending on modeltype, one of four moving average models then generates the signals: 1 = the classic, trend-following dual
+moving average crossover; 2 = a slope-based trend-following model; 3 = a countertrend crossover model; and 4 = a countertrend support/resistance model. In the
+classic, trend-following dual moving average crossover, the trader goes long if a
+faster moving average of the closing price crosses above a slower moving average,
+and goes short if the faster moving average crosses below the slower one. As a special case, this model contains the classic crossover that compares prices to a moving average. The special case is achieved when the period of the shorter moving
+average is set to 1, causing that moving average to decay to the original series, i.e.,
+the closing prices. With a slope-based trend-following model, the trader buys when
+the moving average was decreasing on previous bars but increases on the current
+bar (slope turns up), and sells when the opposite occurs. This model requires only
+
+the fast moving average. The countertrend model is the opposite of the classic
+trend-following crossover: The trader buys when the shorter moving average (or the
+price itself) crosses below the longer moving average, and sells when it crosses
+above. This model is the contnuian’s delight: Doing exactly the opposite of the
+trend-followers. Last is a crude countertrend support/resistance model in which
+prices are expected to bounce off the moving average, as if off a line of support or
+resistance. The rules are almost identical to the countertrend crossover model,
+except that the slower moving average must be moving in the direction of the entry:
+If the slower moving average is trending upward, and prices (or the faster moving
+average) move from above that slower moving average into or below it, the trader
+buys; conversely, if prices (or the faster moving average) are currently below a
+downward trending slower moving average, and prices bump into or penetrate that
+moving average from below, then the trader sells. The additional trend rule prevents
+an immediate reversal of position after contact or penetration. Without the trend
+rule, a quick penetration followed by a reversal would trigger two entries: The fast
+would be the desired countertrend entry, occurring when the prices penetrate the
+moving average, and the second entry (in the opposite direction) would occur as the
+prices bounce back, again crossing the moving average. The trend check only
+allows entries to be taken in one direction at a time. A penetration, followed by a
+bounce in an up-trending market, will take the long entry; a penetration and reversal in a down-trending market will result in a short entry.
+In the last block of code, the entry order to be posted is determined by the
+ordertype parameter: 1 = market at open; 2 = limit; 3 = stop. Whether a buy or
+sell is posted, or no order at all, is determined by whether any signal was generated in the previous block of code; a variable called signal carries this information: 1
+= buy; - 1 = sell (go short); 0 = do nothing. The limit price (limpn’ce) is computed as the sum of today’s high and low prices divided by two. Because many of
+the models have no natural price for setting a stop, a standard stop was used. The
+standard entry stop price (stpprice) is obtained by taking the closing price of the
+previous bar and adding (if a long position is signalled) or subtracting (if a short is
+signalled) the 50-bar average true range multiplied by 0.50; the market must move
+at least one-half of its typical daily range, in the direction of the desired entry, for
+the entry to occur. This type of stop order adds a breakout test to the moving average system: Once a signal is given, the market must move a certain amount in the
+direction of the trade to trigger an entry. Because of the large number of tests, statistical significances were not reported unless something notable occurred.
+TESTS OF TREND-FOLLOWING MODELS
+The group of tests presented here involve moving averages as trend-followers. The
+models vary in the kinds of moving average, the rules that generate signals, and
+the orders posted to effect entry. The moving averages tested include the simple,
+
+120
+
+the exponential, the front-weighted triangular, and a modification of VIDYA. Both
+single and dual moving average crossovers, and models that use slope (rather than
+crossover) to determine entry, are examined. Entry orders are market-at-open,
+stop, and limit.
+Tests 1 through 12 were of the crossover models, Optimization was performed by stepping the length of the shorter moving average from 1 to 5, in increments of 1, and the longer moving average from 5 to 50, in increments of 5. Only
+cases in which the longer moving average was strictly longer than the shorter moving average were examined. Brute force optimization was used, controlled by the
+testing script. The parameters were chosen to maximize the risk-to-reward ratio or,
+equivalently, minimize the probability (based on a t-test of daily returns) that any
+profitable performance was due to chance. In Tests 13 through 24 (the slope models), brute-force optimization was performed by stepping the length of the first
+and, in this case, only moving average from 3 to 40, in increments of 1. As in Tests
+1 through 12, the risk-to-reward ratio was maximized. Optimization was only carried out on in-sample data.
+Tables 6-l and 6-2 show, for each of the 24 tests, the specific commodities that
+the model traded profitably and those that lost, for the in-sample (Table 1) and outof-sample (Table 6-2) runs. The SYM column represents the market being studied;
+the first row identifies the test. The data provides relatively detailed information
+about which markets were and were not profitable when traded by each of the models: One dash (-) indicates a moderate loss per trade, i.e., $2,000 to $4,000, two
+dashes (- -) represent a large loss per trade, i.e., $4,000 or more; one plus sign (+)
+means a moderate profit per trade, i.e., $1,000 to $2,000; two pluses (+ +) indicates
+a large gain per trade, i.e., $2,000 or more; a blank cell means that the loss was
+between $0 and $1,999 or the profit was between $0 and $1,000 per trade.
+Table 6-3 shows, for the entire portfolio, the return-on-account (ROA%) and
+average dollar-per-trade ($TRD) broken down by the moving average, model,
+entry order, and sample. The last two columns on the right, and the last four rows
+of numbers on the bottom, are averages. The numbers at the bottom have been
+averaged over all combinations of moving average type and model. The numbers
+at the right are averaged over order type.
+None of the trend-following moving average models was profitable on a portfolio basis. More detailed examination reveals that for the crossover models the
+limit order resulted in a dramatic benefit on the in-sample data. When compared
+with an entry at open or on a stop, the limit cut the loss of the average trade almost
+in half. Out-of-sample, the improvement was not as dramatic, but still significant.
+The return-on-account showed a similar pattern: The least loss was with the limit
+order. For slope models, the limit order worked best out-of-sample in terms of dollars per trade. The return-on-account was slightly better with a stop (due to distortions in the ROA% numbers when evaluating losing systems), and worse for entry
+at open. In-sample, the stop order performed best, but only by a trivial amount.
+
+TABLE
+
+6-l
+
+In-Sample Performance Broken Down by Test and Market
+
+In-sample, the simple moving average provided the best results in average
+dollars-per-trade. The worst results were for the adaptive moving average. The
+other two moving averages fell in-between, with the exponential better in the
+crossover models, and the front-weighted triangular in the slope models. Of the
+crossover models, the ROA% was also the best for the simple moving average.
+Overall, the crossover models did as well or better than the slope models, possibly because of a faster response to market action in the former. Out-of-sample,
+the simple moving average was the clear winner for the crossover models, while
+the front-weighted triangular was the best for the slope models. In terms of the
+
+TABLE
+
+6-2
+
+Out-of-Sample Performance Broken Down by Test and Market
+
+ROA%, the exponential moving average appeared the best for the crossover
+
+models, with the front-weighted triangular still the best for the slope models.
+When looking at individual tests, the particular combination of a frontweighted triangular moving average, the slope model, and entry on stop (Test 21)
+produced the best out-of-sample performance of all the systems tested. The out-ofsample results for the front-weighted triangular slope models seemed to be better
+across all order types. There apparently were some strong interactions between the
+various factors across all tests, e.g., for the crossover model on the in-sample data,
+entry at the open was consistently close to the worst, entry on stop was somewhere
+in between, and entry on limit was always best, regardless of the moving average
+
+T A B L E
+
+6-3
+
+Performance of Trend-Following Moving Average Entry Models
+Broken Down by Order, Moving Average Type, Model, and Sample
+
+used. Out-of-sample, the findings were much more mixed: With the simple moving
+average, the pattern was similar to that for the in-sample period; however, with the
+exponential moving average, the limit performed worst, the stop best, and the open
+not far behind. Out-of-sample, with the front-weighted triangular average, the stop
+performed by far the worst, with the limit back to the best performer. These results
+indicate interaction between the moving average, entry order, and time.
+The slope model, in-sample, had the entry at open always performing worst;
+however, although the results were often quite close, the limit and stop orders were
+hvice seen with the limit being favored (simple moving average and adjusted moving
+
+average), and twice with the stop being favored (exponential moving average and
+
+front-weighted triangular moving average). As before, great variation was seen outof-sample.
+For the simple moving average, the limit order performed best and the stop
+worst. The more typical pattern was seen for the exponential moving average: The
+entry at open performed worst, the limit best, and the stop was on the heels of the
+limit. As already stated, the front-weighted triangular moving average performed
+very unusually when combined with the stop order. The limit was best for the
+adaptive moving average, the stop was worst, and the open was slightly better
+albeit very close to the stop.
+As a whole, these models lost on most markets. Only the JapaneseYen and Pork
+Bellies were profitable both in- and out-of-sample; no other markets were profitable
+in-sample. Out-of-sample, some profits were observed for Heating Oil, Unleaded
+Gasoline, Palladium, Live Hogs, Soybean Meal, Wheat, and Coffee. The strong outof-sample profit for Coffee can probably be explained by the major run-up during the
+drought around that time. On an individual model-order basis, many highly profitable
+combinations could be found for Live Hogs, JapaneseYen, Pork Bellies, Coffee, and
+Lumber. No combinations were profitable in either sample for Oats.
+In terms of equity averaged over all averages and models, entry at the open
+performed, by far, the worst. Entry on limit or stop produced results that were
+close, with the limit doing somewhat better, especially early in the test period. It
+should be noted that, with the equity curves of losing systems, a distortion takes
+place in their reflection of how well a system trades. (In our analyses of these losing systems, we focused, therefore, on the average return-per-trade, rather than on
+risk-reward ratios, return-on-account, or overall net profits.) The distortion
+involves the number of trades taken: A losing system that takes fewer trades will
+appear to be better than a losing system that takes more trades, even if the better
+appearing system takes trades that lose more on a per-trade basis. The very heavy
+losses with entry at open may not be a reflection of the bad quality of this order;
+it may simply be reflecting that more trades were taken with an entry at the open
+than when a stop or limit order was used.
+Figure 6-l presents the equity curves for all eight model and moving average
+combinations. The equity curves were averaged across order type. Figure 6-l provides a useful understanding of how the systems interact with time. Most of the systems had their heaviest losses between late 1988 and early 1995. The best
+performance occurred before 1988, with the performance in the most recent period
+being intermediate. In Curve 3, the simple moving average crossover model was the
+most outstanding: This pattern was greatly exaggerated, making the equity curve
+appear very distinct; it actually showed a profit in the early period, a heavier relative loss in the middle period, and levelled off (with a potential return to flat or profitable behavior) toward the end of the third period. Finally, it is dramatically evident
+that the crossover systems (Curves 1 through 4) lost much less heavily than the

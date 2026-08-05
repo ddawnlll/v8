@@ -1,0 +1,415 @@
+
+ERRO EOUS 'IJ\ KNOWLEDGE: THE COST
+OF UNDISCIPLINED ANALYSIS
+To understand why the knowledge produced by the popular version ofTA
+is untrustworthy, we must consider two distinct forms of TA: subjective
+and objective. Both approaches can lead to erroneous beliefs, but they do
+so in distinct ways.
+Objective TA methods are well defined repeatable procedures that issue unambiguous signals. This allows them to be implemented as computerized algorithms and back-tested on historical data. Results produced by
+a back test can be evaluated in a rigorous quantitative manner.
+Subjective TA methods are not well-defined analysis procedures. Because of their vagueness, an analyst's private interpretations are required.
+This thwarts computerization, back testing, and objective performance
+evaluation. In other words, it is impossible to either confirm or deny a
+subjective method's efficacy. For this reason they are insulated from evidentiary challenge.
+
+6
+
+INTRODUCTION
+
+From the standpoint of EBTA, subjective methods are the most problematic. They are essentially meaningless claims that give the illusion of
+conveying cognitive content. Because the methods do not specify how
+they are to be applied, different analysts applying it to the same set of
+market data can reach different conclusions. This makes it impossible to
+determine if the method provides useful predictions. Classical chart pattern analysis, II hand-drawn trend lines, Elliott Wave Principle,12 Gann patterns, Magic T's and numerous other subjective methods fall into this
+category.13 Subjective TA is religion-it is based on faith. No amount of
+cherry-picked examples showing where the method succeeded can cure
+this deficiency.
+Despite their lack of cognitive content and the impossibility of ever
+being supported by sound evidence, there is no shortage of fervent believers in various subjective methods. Chapter 2 explains how flaws in human
+thinking can produce strong beliefs in the absence of evidence or even in
+the face of contradictory evidence.
+Objective TA can also spawn erroneous beliefs but they come about
+differently. They are traceable to faulty inferences from objective evidence. The mere fact that an objective method has been profitable in a
+back test is not sufficient grounds for concluding that it has merit. Past
+performance can fool us. Historical success is a necessary but not a sufficient condition for concluding that a method has predictive power and,
+therefore, is likely to be profitable in the future. Favorable past performance can occur by luck or because of an upward bias produced by one
+form of back testing called data mining. Determining when back-test
+profits are attributable to a good method rather than good luck is a question that can only be answered by rigorous statistical inference. This is
+discussed in Chapters 4 and 5. Chapter 6 considers the problem of datamining bias. Although I will assert that data mining, when done correctly,
+is the modem technician's best method for knowledge discovery, specialized statistical tests must be applied to the results obtained with data
+mining.
+
+HOW EBTA IS DIFFERENT
+What sets EBTA apart from the popular form of TA? First, it is restricted
+to meaningful claims-objective methods that can be tested on historical
+data. Second, it utilizes advanced forms of statistical inference to determine if a profitable back test is indicative of an effective method. Thus,
+
+Introduction
+
+7
+
+the prime focus of EBTA is determining which objective methods are worthy of actual use.
+EBTA rejects all forms of subjective TA. Subjective TA is not even
+wrong. It is worse than wrong. Statements that can be qualified as wrong
+(untrue) at least convey cognitive content that can be tested. The propositions of subjective TA offer no such thing. Though, at first blush, they
+seem to convey knowledge, when they are examined critically, it becomes
+clear they are empty claims.
+Promoters of New Age health cures excel at empty claims. They tell
+you that wearing their magic copper bracelet will make you will feel better and put more bounce in your step. They suggest your golf game will
+improve and maybe even your love life. However, the claim's lack of specificity makes it impossible to nail down exactly what is being promised or
+how it can be tested. Such claims can never be confirmed or contradicted
+with objective evidence. On these same grounds, it can be said that the
+propositions of subjective TA are empty and thus insulated from empirical
+challenge. They must be taken on faith.
+In contrast, a meaningful claim is testable because it makes measurable promises. It states specifically how much your golf game will improve or how bouncy your steps will be. This specificity opens the claim
+to being contradicted with empirical evidence.
+From the perspective of EBTA, proponents of subjective methods are
+faced with a choice: They can reformulate the method to be objective, as
+one practitioner of the Elliott Wave Principle has done,14 thus exposing it
+to empirical refutation, or they must admit the method must be accepted
+on faith. Perhaps Gann lines actually provide useful information. In their
+present form, we are denied this knowledge.
+With respect to objective TA, EBTA does not take profitable back
+tests at face value. Instead, they are subjected to rigorous statistical
+evaluation to determine if profits were due to luck or biased research.
+As will be pointed out in Chapter 6, in many instances, profitable back
+tests may be a data miner fool's gold. This may explain why many objective TA methods that perform well in a back testing perform worse when
+applied to new data. Evidence-based technical analysis uses computerintensive statistical methods that minimize problems stemming from the
+data-mining bias.
+The evolution of TA to EBTA also has ethical implications. It is the
+ethical and legal responsibility of all analysts, whatever form of analysis
+they practice, to make recommendations that have a reasonable basis
+and not to make unwarranted claims. 15 The only reasonable basis for asserting an analysis method has value is objective evidence. Subjective
+
+8
+
+INTRODUCTION
+
+TA methods cannot meet this standard. Objective TA, conducted in accordance with the standards of EBTA can.
+
+EBTA RESULTS FROM ACADEMIA
+Evidence-based technical analysis is not a new idea. Over the past two
+decades, numerous articles in respected academic journals 16 have approached TA in the rigorous manner advocated by this book. 17 The evidence is not uniform. Some studies show TA does not work, but some
+show that it does. Because each study is confined to a particular aspect of
+TA and a specific body of data, it is possible for studies to reach different
+conclusions. This is often the case in science.
+The following are a few of the findings from academic TA. It shows
+that, when approached in a rigorous and intellectually honest manner, TA
+is a worthwhile area of study.
+• Expert chartists are unable to distinguish actual price charts of stocks
+from charts produced by a random process. 18
+• There is empirical evidence of trends in commodities l9 and foreign exchange markets that can be exploited with the simple objective trend
+indicators. In addition, the profits earned by trend-following speculators may be justified by economic theory20 because their activities
+provide commercial hedgers with a valuable economic service, the
+transference of price risk from hedger to speculator.
+• Simple technical rules used individually and in combinations can
+yield statistically and economically significant profits when applied to
+stock market averages composed of relatively young companies (Russell 2000 and NASDAQ Composite).21
+• Neural networks have been able to combine buy/sell signals of simple
+moving-average rules into nonlinear models that displayed good predictive performance on the Dow Jones Average over the period 1897
+to 1988. 22
+• Trends in industry groups and sectors persist long enough after detection by simple momentum indicators to earn excess returns. 23
+• Stocks that have displayed prior relative strength and relative weakness continue to display above-average and below-average performance over horizons of 3 to 12 months. 24
+• United States stocks, selling near their 52-week highs, outperform
+other stocks. An indicator defined as the differential between a
+stock's current price and its 52-week high is a useful predictor of fu-
+
+Introduction
+
+ture relative performance. 25 The indicator is an even more potent predictor for Australian stocks. 26
+• The head-and-shoulders chart pattern has limited forecasting power
+when tested in an objective fashion in currencies. Better results can
+be had with simple filter rules. The head-and-shoulders pattern, when
+tested objectively on stocks, does not provide useful information. 27
+Traders who act on such signals would be equally served by following
+a random signal.
+• Trading volume statistics for stocks contain useful predictive information 28 and improve the profitability of signals based on large price
+changes following a public announcement. 29
+• Computer-intensive data-modeling neural networks, genetic algorithms, and other statistical learning and artificial-intelligence methods have found profitable patterns in technical indicators. 3o
+
+WHO AM I TO CRITICIZE 'fA?
+My interest in TA began in 1960 at the age of 15. During my high-school
+and college years I followed a large stable of stocks using the Chartcraft
+point and figure method. I have used TA professionally since 1973, first
+as a stock broker, then as managing partner of a small software company, Raden Research Group Inc.-an early adopter of machine learning
+and data mining in financial market applications-and finally as a proprietary equities trader for Spear, Leeds & Kellogg. 31 In 1988, I earned the
+Chartered Market Technician designation from the Market Technicians
+Association. My personal TA library has over 300 books. I have published approximately a dozen articles and have spoken numerous times
+on the subject. Currently I teach a graduate-level course in TA at the
+Zicklin School of Business, Baruch College, City University of New York.
+I freely admit my previous writings and research do not meet EBTA standards, in particular with regard to statistical significance and the datamining bias.
+My long-standing faith in TA began to erode in response to a very
+mediocre performance over a five-year period trading capital for Spear,
+Leeds and Kellogg. How could what I believed in so fervently not work?
+Was it me or something to do with TA in general? My academic training in
+philosophy provided fertile grounds for my growing doubts. My concerns
+crystallized into full fledged skepticism as a result of reading two books:
+How We Know What Isn't So by Thomas Gilovich and Why People Believe
+Weird Things, by Michael Shermer. My conclusion: Technical analysts,
+
+10
+
+INTRODUCTION
+
+including myself, know a lot of stuff that isn't so, and believe a lot of
+weird things.
+
+TECHNICAL ANALYSIS: ART, SCIENCE,
+OR SUPERSTITION?
+There is a debate in the TA community: Is it an art or a science? The question has been framed incorrectly. It is more properly stated as: Should TA be
+based on superstition or science? Framed this way the debate evaporates.
+Some will say TA involves too much nuance and interpretation to render its knowledge in the form of scientifically testable claims. To this I retort: TA that is not testable may sound like knowledge, but it is not. It is
+superstition that belongs in the realm of astrology, numerology, and other
+nonscientific practices.
+Creativity and inspiration playa crucial role in science. They will be
+important in EBTA as well. All scientific inquiries start with a hypothesis,
+a new idea or a new insight inspired by a mysterious mixture of prior
+knowledge, experience and a leap of intuition. Yet, good science balances
+creativity with analytical rigor. The freedom to propose new ideas must
+be married to an unyielding discipline that eliminates ideas that prove
+worthless in the crucible of objective testing. Without this anchor to reality, people fall in love with their ideas, and magical thinking replaces critical thought.
+It is unlikely that TA will ever discover rules that predict with the precision of the laws of physics. The inherent complexity and randomness of
+financial markets and the impossibility of controlled experimentation
+preclude such findings. However, predictive accuracy is not the defining
+requirement of science. Rather, it is defined by an uncompromising openness to recognizing and eliminating wrong ideas.
+I have four hopes for this book: First, that it will stimulate a dialogue
+amongst technical analysts that will ultimately put our field on a firmer intellectual foundation; second, that it will encourage further research along
+the lines advocated herein; third, that it will encourage consumers of TA
+to demand more "beef' from those who sell products and services based
+upon TA; and fourth, that it will encourage TA practitioners, professional
+and otherwise, to understand their crucial role in a human-machine partnership that has the potential to accelerate the growth of legitimate TA
+knowledge.
+No doubt some fellow practitioners of TA will be irritated by these
+ideas. This can be a good thing. An oyster irritated by a grain of sand
+sometimes yields a pearl. I invite my colleagues to expend their
+
+Introduction
+
+energies adding to legitimate knowledge rather than defending the
+indefensible.
+This book is organized in two sections. Part One establishes the
+methodological, philosophical, psychological, and statistical foundations
+of EBTA. Part Two demonstrates one approach to EBTA: testing of 6,402
+binary buy/sell rules on the S&P 500 on 25 years of historical data. The
+rules are evaluated for statistical significance using tests designed to cope
+with the problem of data-mining bias.
+
+Methodological,
+Psychological,
+Philosophical,
+and Statistical
+Foundations
+
+Objective Rules
+and Their
+Evaluation
+
+his chapter introduces the notion of objective binary signaling rules
+and a methodology for their rigorous evaluation. It defines an evaluation benchmark based on the profitability of a noninformative signal.
+It also establishes the need to detrend market data so that the performances of rules with different long/short position biases can be compared.
+
+T
+
+'fIlE GREAT DMDE: OBJECTIVE VERSUS SUBJECTIVE
+TECUNICAL ANALYSIS
+Technical analysis eTA) divides into two broad categories: objective and
+subjective. Subjective TA is comprised of analysis methods and patterns
+that are not precisely defined. As a consequence, a conclusion derived
+from a subjective method reflects the private interpretations of the analyst
+applying the method. This creates the possibility that two analysts applying the same method to the same set of market data may arrive at entirely
+different conclusions. Therefore, subjective methods are untestable, and
+claims that they are effective are exempt from empirical challenge. This is
+fertile ground for myths to flourish.
+In contrast, objective methods are clearly defined. When an objective
+analysis method is applied to market data, its signals or predictions are
+unambiguous. This makes it possible to simulate the method on historical
+data and determine its precise level of performance. This is called back
+testing. The back testing of an objective method is, therefore, a repeatable
+15
+
+16 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+experiment which allows claims of profitability to be tested and possibly
+refuted with statistical evidence. This makes it possible to find out which
+objective methods are effective and which are not.
+The acid test for distinguishing an objective from a subjective method
+is the programmability criterion: A method is objective if and only if it
+
+can be implemented as a computer program that produces unambiguous market positions (long,! short,2 or neutral3). All methods that cannot
+be reduced to such a program are, by default, subjective.
+
+1J\ RULES
+Objective TA methods are also referred to as mechanical trading rules or
+trading systems. In this book, all objective TA methods are referred to
+simply as rules.
+A rule is a function that transforms one or more items of information,
+referred to as the rule's input, into the rule's output, which is a recommended market position (e.g., long, short, neutral). Input(s) consists of
+one or more financial market time series. The rule is defined by one or
+more mathematical and logical operators that convert the input time series into a new time series that consists of the sequence of recommended
+market position (long, short, out-of-the-market). The output is typically
+represented by a signed number (e.g., +1 or -1). This book adopts the convention of assigning positive values to indicate long positions and negative values to indicate shorts position. The process by which a rule
+transforms one or more input series into an output series is illustrated in
+Figure 1.1.
+A rule is said to generate a signal when the value of the output series
+changes. A signal calls for a change in a previously recommended market
+position. For example a change in output from + 1 to -1 would call for
+closing a previously held long position and the initiation of a new short
+position. Output values need not be confined to {+I, -II. A complex rule,
+whose output spans the range {+IO, -WI, is able to recommend positions
+that vary in size. For example, an output of +10 might indicate that 10 long
+positions are warranted, such as long 10 contracts of copper. A change in
+the output from +10 to +5 would call for a reduction in the long position
+from 10 contracts to 5 (i.e., sell 5).
+
+Binary Rules and Thresholds
+The simplest rule is one that has a binary output. In other words, its output can assume only two values, for example + 1 and -1. A binary rule
+
+17
+
+Objective Rules and Their Evaluation
+
+INPUT
+
+OUTPUT
+
+Market
+Time
+Series
+
+Time Series
+
+of
+Market Position
+
+~
+
+Rule
+
+Time
+
+~
+•
+•
+•
+
+Time
+
+c:=>
+
+Mathematical
+&
+Logical
+Operators
+
+Long
+
+c:=>
+Short
+
+.- -
+
+,
+
+,,
+,,
+1-
+
+,,
+
+-
+
+-
+
+1
+
+'
+'
+
+'
+
+,
+: Time
+
+•
+
+Etc.
+
+FIGURE...
+
+TA rule transforms input time series into a time series of mar-
+
+ket position.
+
+could also be designed to recommend long/neutral positions or short/neutral positions. All the rules considered in this book are binary long/short
+(+1, -I).
+An investment strategy based on a binary long/short rule is always in
+
+either a long or short position in the market being traded. Rules of this
+type are referred to as reversal rules because signals call for a reversal
+from long to short or short to long. Over time a reversal rule produces a
+time series of + 1's and -1 's that represent an alternating sequence of long
+and short positions.
+The specific mathematical and logical operators that are used to define rules can vary considerably. However, there are some common
+themes. One theme is the notion of a threshold, a critical level that distinguishes the informative changes in the input time series from its irrelevant
+fluctuations. The premise is that the input time series is a mixture of information and noise. Thus the threshold acts as a filter.
+Rules that employ thresholds generate signals when the time series
+crosses the threshold, either by the rising above it or falling beneath it.
+These critical events can be detected with logical operators called inequalities such as greater-than (>) and less-than ( <). For example, if the
+
+18 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+time series is greater than the threshold, then rule output = +1, otherwise
+rule output = -1.
+A threshold may be set at a fixed value or its value may vary over time
+as a result of changes in the time series that is being analyzed. Variable
+thresholds are appropriate for time series that display trends, which are
+large long-lasting changes in the level of the series. Trends, which make
+fixed threshold rules impractical, are commonly seen in asset prices (e.g.,
+S&P 500 Index) and asset yields (AAA bond yield). The moving average
+and the Alexander reversal filter, also known as the zigzag filter, are examples of time series operators that are commonly used to define variable
+thresholds. The operators used in the rules discussed in this book are detailed in Chapter 8.
+The moving-average-cross rule is an example of how a variable
+threshold is used to generate signals on a time series that displays trends.
+This type of rule produces a signal when the time series crosses from one
+side of its moving average to the other. For example;
+If the time series is above its moving average, then the rule output
+value = +1, otherwise the rule output value = -1.
+This is illustrated in Figure 1.2.
+Because it employs a single threshold, the signals generated by the
+moving-average-cross rule are, by definition, mutually exclusive. Given a
+single threshold, there are only two possible conditions-the times series
+is either above or beloW! the threshold. The conditions are also exhaustive (no other possibilities).5 Thus, it is impossible for the rule's signals to
+be in conflict.
+
+Price
+Level
+
+Time Series
+
+Time
+
+Rule
+Output
+
+r···················)
++1 1·········:
+-1
+:
+
+.
+
+FIGURE 1.2 Moving-average-cross rule.
+
+19
+
+Objective Rules and Their Evaluation
+
+Rules with fixed value thresholds are appropriate for market time series that do not display trends. Such time series are said to be stationary.
+There is a strict mathematical definition of a stationary time series, but
+here I am using the term in a looser sense to mean that a series has a relatively stable average value over time and has fluctuations that are confined to a roughly horizontal range. Technical analysis practitioners often
+refer to these series as oscillators.
+Time series that display trends can be detrended. In other words, they
+can be transformed into a stationary series. Detrending, which is described in greater detail in Chapter 8, frequently involves taking differences or ratios. For example the ratio of a time series to its moving
+average will produce a stationary version of the original time series. Once
+detrended, the series will be seen to fluctuate within a relatively welldefined horizontal range around a relatively stable mean value. Once the
+time series has been made stationary, fixed threshold rules can be employed. An example of a fixed threshold rule using a threshold of value of
+75 is illustrated in Figure 1.3. The rule has an output a value of + 1 when

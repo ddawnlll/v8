@@ -1,0 +1,618 @@
+
+24 506455-ch17.indd 269
+
+9/24/09 10:40:28 PM
+
+270 Part IV: Getting Advanced with Fundamental Analysis
+The resulting formula looks like this:
+CAGR = (3777 / 1299.8) ^ (1/4) – 1
+After you run these numbers, you should come up with 0.306. To convert that
+into a percentage, 30.6%, simply multiply by 100.
+The ^ symbol tells you to take the number in the previous set of parentheses to
+a power. Most calculators will help you do this using a key, usually labeled yx.
+If you and math just don’t get along, this might be another reason why you
+might want to invest in a financial calculator such as Hewlett-Packard’s HP
+12C. The calculator can crunch these present-value problems down with just
+a few keystrokes.
+
+Attempting to forecast the
+future using trends
+Trying to forecast what a company might earn in the future is extremely difficult. Many Wall Street analysts get paid big bucks to attempt to forecast
+future revenue and profit.
+Historical trend analysis can be a helpful way to approach this extremely difficult task of forecasting. Sticking with the Oracle example, you can see how
+trend forecasting could be used to get a decent idea of how things would turn
+out after the 2002 tech decline.
+It turns out fiscal 2002’s disappointing results were followed by another difficult year. Operating income fell another 3.7% in fiscal 2003, pretty much
+cementing the doubters’ beliefs that even the biggest technology companies
+had finally hit a wall, and the growth was gone.
+Trend analysis, though, would help you know that growth wasn’t gone. It was
+just moderating a bit. Imagine that in 2002, when things looked bleak, you
+decided Oracle’s days of increasing operating income by 30% might have
+ended. But what about half that? Wouldn’t 15% growth be doable?
+While 15% growth isn’t 30%, that’s still outstanding growth for a company of
+Oracle’s size. A forecast of 15% growth, at a time when tech companies were
+struggling in 2002, would have seemed outlandish. But in reality, you would
+have been very close to what actually happened. Oracle’s actual compound
+average annual growth rate between fiscal 2003 and fiscal 2008 was 18.4%, as
+shown in Table 17-2.
+
+24 506455-ch17.indd 270
+
+9/24/09 10:40:28 PM
+
+Chapter 17: Pinpointing Trends Using Fundamental Analysis
+
+Table 17-2
+
+271
+
+Oracle’s Growth Wasn’t Dead After All
+
+Fiscal year
+
+Operating income
+($ millions)
+
+2003
+
+$3,440
+
+2004
+
+$3,918
+
+2005
+
+$4,377
+
+2006
+
+$4,958
+
+2007
+
+$6,133
+
+2008
+
+$8,009
+
+Source: S&P’s Capital IQ
+
+Paying close attention to Oracle’s financial trends could have been very profitable for you. Had you invested in Oracle’s stock on June 18, 2002, right after
+it announced the lower earnings, and held through the end of its fiscal 2008
+(ended May 30, 2008), you would have gained more than 150%. The market
+during that same time period gained just 40%.
+When forecasting a company’s future profit, it’s often best to use operating
+income, as I did in the Oracle example above. Operating income strips out
+one-time charges and gains, which are impossible to forecast, aren’t repeated
+and can muddy up a historical analysis.
+
+Attempting to forecast the future
+using index-number analysis
+Following the tremendous downturn in business when many companies
+suffered in 2008, fundamental analysts began wondering about the value of
+forecasting based on trend analysis. After all, how can you trust a historical
+analysis when one bad year can come along and knock the whole model to
+smithereens?
+One way to make sure your fundamental analysis has a long-term time horizon
+is by using index-number analysis. Despite the fancy name, index-trend analysis
+is just a way to see how a company’s financial results are changing over time.
+This analysis includes recent drastic ups or downs, but also lets you see the
+broader, long-term trend. You found out how to apply index-number analysis
+to the balance sheet in Chapter 6.
+
+24 506455-ch17.indd 271
+
+9/24/09 10:40:28 PM
+
+272 Part IV: Getting Advanced with Fundamental Analysis
+Index-number analysis, though, can also be applied to the income statement to
+help forecast a company’s growth rate into the future. The analysis attempts
+to help you put short-term declines in business into perspective.
+To perform an index-number analysis, you just need to choose a year to act as
+a starting point, or base year. You then divide each year’s results by the base
+year and multiply by 100 to get the index number for the year.
+For instance, imagine using Oracle’s fiscal 2000 operating income, $3,080, as
+the base year. To calculate the index number for fiscal 2001, simply divide
+that year’s operating income of $3,777 by the base year of $3,080, multiply
+by 100, and you get 122.6. Table 17-3 shows you how the index analysis puts
+Oracle’s downturn in fiscal 2002 and 2003 into perspective. Despite the downturn, the Oracle’s operating income kept chugging along.
+
+Table 17-3
+
+Oracle’s Index Numbers Tell the Full Story
+
+Fiscal year
+
+Operating income index-number
+analysis using fiscal 2000 as the
+base year
+
+2000
+
+100
+
+2001
+
+122.6
+
+2002
+
+115.9
+
+2003
+
+111.7
+
+2004
+
+127.2
+
+2005
+
+142.1
+
+2006
+
+161.0
+
+2007
+
+199.1
+
+2008
+
+260.0
+
+Applying moving averages
+to fundamental analysis
+Another technique used in long-term forecasts in fundamental analysis is the
+moving average. With this analysis, investors attempt to smooth out unusual
+bumps in a company’s results. A moving average serves the same role as
+your seatbelt when your airplane hits turbulence.
+
+24 506455-ch17.indd 272
+
+9/24/09 10:40:29 PM
+
+Chapter 17: Pinpointing Trends Using Fundamental Analysis
+
+273
+
+Moving averages may be applied to annual results or to quarterly results,
+based on how volatile the company’s profits are.
+To conduct a moving-average analysis, you first must choose how many
+years you want to incorporate. A common time period would be three years.
+You add up the company’s results over three-year chunks and then divide by
+the number of years, or 3. Table 17-4 shows you what a three-year movingaverage analysis on Oracle’s operating income would look like.
+
+Table 17-4
+
+Getting a Move On with Oracle
+
+Fiscal year ended
+
+Three-year operating-income moving
+average at the end of . . . (in $ millions)
+
+2004
+
+$3,643
+
+2005
+
+$3,912
+
+2006
+
+$4,418
+
+2007
+
+$5,156
+
+2008
+
+$6,367
+
+Using this analysis, you can see that the company’s compound average
+annual growth rate based on five moving-average periods is 15%. That might
+be a reasonable basis with which to make a forward-looking growth forecast.
+
+A word about restated results and trends
+Whenever you perform long-term trend analysis, as you’ve been practicing in this chapter,
+it’s imperative to pull all the data from a company’s most current annual or quarterly report.
+And that’s due to a dirty little secret known as
+restatements.
+From time to time, companies may come out and
+say, oops, remember when we said we made X
+in 2007? Scratch that. We actually made Y. If the
+restatement, or change in past financial results,
+is large enough, or material, the company may
+issue a formal statement. But other times, if
+they’re small changes, a company may simply
+
+24 506455-ch17.indd 273
+
+alter the numbers in the latest financial statements.
+Restatements are another reason why the
+annual report required by the regulators, or
+10-K, is one of your best friends in fundamental analysis. The portion of the 10-K called
+Selected Financial Data is a very useful source
+of the freshest data, including any restatements.
+Most companies provide the most up-to-date
+numbers for key elements of the income statement, including revenue, operating income, net
+income and balance-sheet items going back at
+least five years.
+
+9/24/09 10:40:29 PM
+
+274 Part IV: Getting Advanced with Fundamental Analysis
+Finding Trends in Insider
+Trading Information
+In what’s one of the harsh realities of fundamental analysis, no matter how
+carefully you examine a company’s financial statements, you’ll probably
+never know more than the CEO does. After all, the CEO is in constant contact
+with the company’s customers, suppliers and employees, and has access to
+financial data you’ll never see.
+And that’s why you’ll want to know how to watch trends in what top executives are doing when it comes to their company’s stock. Officers and directors of a company are permitted to buy and sell their stock, called legal
+insider trading, as long as they follow specific disclosure rules. Looking for
+trends in the transactions of executives, though, can sometimes tip you off to
+issues.
+Legal insider trading is very different from illegal insider trading. When a company’s officers or directors use knowledge of material, nonpublic information,
+or important financial data that have not been shared with everyone, they run
+the risk of committing illegal insider trading. Many executives try to avoid the
+appearance of illegal insider trading by instructing their brokers to sell the
+company stock they own at a prescheduled time each year.
+
+When a CEO is bullish, should you be, too?
+Ever go to a restaurant and notice the workers are eating the restaurant’s
+food, too, on their lunch break? There’s something kind of comforting about
+seeing the people in charge of a company using its products.
+Fundamental analysts carry that same idea when looking at companies. It’s
+often considered to be a positive sign when a company’s top management,
+including the CEO, is buying shares of the company. If nothing else, it’s comforting to at least know that the CEO stands to lose money, too, if things don’t
+work out.
+Even CEOs aren’t perfect. Sometimes CEOs’ own optimism can lead to not-sogreat investments in their company’s stock. In 1998, then-dominant PC seller
+CompUSA began reporting softening earnings, and the stock price was skidding. But James Halpin, an experienced retailer and CEO of CompUSA at the
+time, couldn’t have been more bullish about the company. He spent $3 million
+of his own money buying 200,000 shares of the company’s stock. “I didn’t wake
+up one morning and say, ‘Gee, I have this $3 million … what am I going to do
+with it?’ ” Halpin told Investor’s Business Daily in 1998. “People (insiders) sell
+stock for a lot of reasons. But they buy for only one.”
+
+24 506455-ch17.indd 274
+
+9/24/09 10:40:29 PM
+
+Chapter 17: Pinpointing Trends Using Fundamental Analysis
+
+275
+
+Turns out, though, the company’s future wasn’t all that bright. The company
+replaced Halpin just a few years later, says Hoovers.com. Eventually the company wound up selling most of its stores and was ultimately sold.
+
+Paying attention to when a company
+buys its own stock
+Some investors think the ultimate bullish signal is when companies announce
+they’re buying back their own stock. What could be more bullish than a company investing in itself, right? From time to time, when a company feels especially flush with cash and deems its stock price to be too low, it might plan to
+buy outstanding shares.
+Turns out, though, companies have had pretty lousy timing when it comes to
+buying their own shares. Companies spent a record $158 billion buying back
+their stock in the second quarter of 2007, only to pay peak prices ahead of the
+market’s gigantic swoon. As companies were paying up for their stock, the
+Standard & Poor’s 500 hit its bull-market peak on Oct. 9, 2007 and proceeded
+to fall into one of the worst bear markets since the Great Depression. So
+much for good timing. Table 17-5 shows you how much companies have spent
+buying back their stock in recent years.
+2007 wasn’t the first time companies had lousy timing buying their own stock.
+Stock buybacks surged in the first quarter of 2000 ended in March, just when
+the market was peaking and about to collapse.
+
+Table 17-5
+
+Tracking the Rise and Fall of Stock Buybacks
+
+Year
+
+Buybacks ($ billions)
+
+2008
+
+$339.7
+
+2007
+
+$589.1
+
+2006
+
+$431.8
+
+2005
+
+$349.2
+
+2004
+
+$197.5
+
+2003
+
+$131.1
+
+2002
+
+$127.3
+
+2001
+
+$132.2
+
+2000
+
+$150.6
+
+Source: Standard & Poor’s, based on the S&P 500
+
+24 506455-ch17.indd 275
+
+9/24/09 10:40:29 PM
+
+276 Part IV: Getting Advanced with Fundamental Analysis
+There are additional risks to stock buybacks other than bad timing. When
+companies use cash to buy their own stock back, that is cash that wasn’t
+used to invest in future products or even to reduce the company’s debt load.
+
+Watching when the insiders are selling
+When insiders sell stock, it almost instantly gets everyone’s attention.
+Investors might fear the executives know something they don’t when there’s
+a great deal of selling going on.
+Don’t assume just because the management team is selling shares that you
+should dump your holdings, too. CEOs may sell their stock for lots of reasons,
+such as paying for junior’s college or a new car or home renovation. But when
+you see a flurry of selling at a company, or an industry, it pays to be extra
+skeptical.
+Many investors were shocked and surprised by the dramatic meltdown of the
+real-estate business and of homebuilders’ stocks starting in 2005. Everyone,
+that is, expect the top executives at major homebuilding companies. Many
+of these executives, as a group, sold 4.8 million shares in July 2005, says
+Thomson Reuters. That was the largest level of selling in the industry since
+Thomson started keeping records in 1990. The timing couldn’t have been
+better, since the homebuilders’ stocks hit their peaks on July 20, 2005.
+
+How to track insider selling
+Now that you’ve seen how watching what the insiders are doing can be somewhat telling, you probably can’t wait to get started. Here’s the problem. You
+probably can’t call or e-mail the CEOs of companies you’re investing in and
+ask them if they’re buying or selling.
+Fundamental analysis, again, is your way to get the full story. There are two
+main ways to track the insider buying and selling at companies, including from:
+✓ Companies’ regulatory filings: Given how sensitive the topic of insider
+selling is, you can imagine how regulated it is. There is a whole array
+of filings executives must provide to the Securities and Exchange
+Commission when buying or selling company stock.
+The most common form containing insider-selling activity is Form 4.
+When an executive buys or sells stock, that activity must be reported on
+Form 4 within two business days. Form 4 documents are available in the
+SEC’s IDEA database. Flip back to Chapter 4 if you want to refresh your
+memory on how to get regulatory filings from IDEA.
+
+24 506455-ch17.indd 276
+
+9/24/09 10:40:29 PM
+
+Chapter 17: Pinpointing Trends Using Fundamental Analysis
+
+277
+
+✓ Financial Web sites: Several financial Web sites spare you the trouble of
+having to dig up Form 4 filings yourself and compile all insiders’ buying
+and selling in one place.
+The Nasdaq’s Web site provides comprehensive insider-trading data. At
+Nasdaq.com, enter the stock’s symbol and click the Info Quotes button.
+Next, click the Holdings/Insider option located toward the middle of the
+page. You’ll get a summary of how much insider buying and selling is going
+on. You can also drill down and get the names of the executives doing the
+buying and selling.
+
+Designing Screens to Pinpoint Companies
+With thousands of stocks and companies to choose from, it can be intimidating
+for a fundamental analyst to choose which stocks to start studying. After all,
+it could take hours to completely analyze just one company and stock. It’s
+not humanly possible to analyze every company available.
+Fundamental analysts often use stock screening tools to help them scan through
+thousands of companies’ financial statements, literally, with the push of a few
+buttons. These screening tools scan through massive databases of fundamental data on stocks to select those that meet characteristics you’re looking for.
+Stock screening tools help fundamental analysts find stocks much like online
+dating services help singles find potential mates. With online dating services,
+you can enter what particular eye color or hobbies you want your mate to have.
+The system then pulls up a list of people with those traits. Stock screening
+tools aren’t nearly as romantic, unless you think calculators are cute. But
+they’re just as useful. If you’re in search of stocks with returns on equity
+greater than the industry average, for instance, the stock screening tool will
+show you with stocks fit the bill.
+
+Examples of what screening can tell you
+Screening is fundamental analysts’ way of narrowing down the search for
+companies that have all the traits they are looking for. By carefully instructing
+the screening tool to filter out the universe of all stocks for only those with
+certain characteristics, fundamental analysts can get a shorter list of strong
+candidates that deserve closer attention.
+
+24 506455-ch17.indd 277
+
+9/24/09 10:40:29 PM
+
+278 Part IV: Getting Advanced with Fundamental Analysis
+Typically, stock screens fall into one of several categories, including those
+that look for:
+✓ Cheap stocks: By searching for stocks with low valuations relative to
+their industry, such as price-to-earnings ratios or price-to-book ratios,
+investors can pinpoint potential bargains.
+✓ Fast-growing companies: Investors who like to find companies that
+seem to have momentum on their side often seek out those with strong
+earnings or revenue growth.
+✓ Efficient companies: Pinpointing companies with strong efficiency ratios,
+such as accounts receivable turnover, are often the ones handling their
+resources effectively. Chapter 8 discusses efficiency ratios and other
+ratios you may decide to include in a screen.
+✓ Well-managed companies: Ratios like return on equity and return on
+assets, especially compared against peers, can give fundamental analysts
+an idea of which companies have an able set of hands behind the wheel.
+✓ Financial strength: Companies with excellent balance sheets, filled with
+cash and light on debt, may be well-positioned to endure an economic
+downturn.
+You may build screens that find companies that score well in all the areas
+listed above. Some professional fundamental analysts screen for companies
+based on dozens of criteria.
+
+Step-by-step instructions on
+building a sample screen
+Now you’re ready to stop reading about screens and start building them.
+I’ll give you an example of a basic screen in this section: A list of the largest
+companies, based on market value, in the S&P 500 that have return on equity
+that’s greater than the average in their industries.
+I’ll be using MSN Money’s Deluxe Screening tool for this example, but this is
+not the only stock screening tool that is available to you. Several Web sites
+offer screening tools; some are free and others require a subscription. You can
+read more about what stock screening tools are available in Investing Online
+For Dummies.
+Building this sample screen requires taking these steps:
+1. Log into the screening system. You can try MSN Money at money.msn.
+com. Scroll down and click on the “Stock Screener” option on the lefthand side of the page.
+
+24 506455-ch17.indd 278
+
+9/24/09 10:40:29 PM
+
+Chapter 17: Pinpointing Trends Using Fundamental Analysis
+
+279
+
+2. Make sure you’re running the Deluxe Screener. If you haven’t used the
+MSN Money stock screener before, you will be prompted to install the
+MSN Investment Toolbox. It’s a small program that won’t hurt your computer.
+3. Set your first criteria. Here you tell the screener to only find the companies with the largest market capitalizations. You can review what market
+capitalization is in Chapter 3.
+In the first row of the screen, you can instruct the screener to filter its
+results for companies with market values of $3 billion or more. Click in
+the first block under where it says Field Name, choose Company Basics,
+and then choose Market Capitalization.
+Next, change the Operator to >=, which means greater than or equal to.
+Finally, change the Value block to read 3,000,000,000, which is $3 billion.
+4. Set the second criteria. Here you want to limit your list to companies
+with better-than-average return on equity. Change the next blank, Field
+Name block, to Investment Return and then Return on equity. Set the
+operator to >=, for greater than or equal to. Lastly, click on the Value
+column and choose Investment Return, and then Industry Average
+Return on Equity.
+5. Set the third criteria. To limit your search to companies in the S&P 500,
+go to the third row and change the Field Name column to Company Basics
+and S&P Index Membership. Next, change the Operator column to =.
+Lastly, change the Value column to S&P 500.
+6. Run the screen. To see the results of your screen, just click the Run
+Search button. The results should look something like what you see in
+Table 17-6, but with updated numbers.
+
+Table 17-6
+
+Tracking the Rise and Fall of Stock Buybacks
+
+Company name
+
+Market
+Capitalization
+($ billions)
+
+Return on
+equity
+
+Industry return
+on equity
+
+Exxon Mobil
+
+$341.8
+
+38.5
+
+23.5
+
+Wal-Mart
+
+$197.9
+
+20.4
+
+19.2
+
+Microsoft
+
+$150.8
+
+50.0
+
+34.3
+
+Johnson & Johnson
+
+$140.2
+
+30.2
+
+24.5
+
+Chevron
+
+$133.5
+
+29.2
+
+23.5
+
+Source: MSN Money
+
+24 506455-ch17.indd 279
+
+9/24/09 10:40:29 PM
+
+280 Part IV: Getting Advanced with Fundamental Analysis
+
+24 506455-ch17.indd 280
+
+9/24/09 10:40:29 PM
+
+Chapter 18
+
+Avoiding Investment Blow-Ups
+with Fundamental Analysis
+In This Chapter
+▶ Finding out why ignoring fundamental analysis might expose you to investment losses
+▶ Exploring past speculative bubbles to see which fundamental data provided warnings
+▶ Understanding why poor investment decisions are so difficult to recover from
+▶ Considering a few of the financial shenanigans companies might play and
+
+how to spot them
+
+I
+
+n many sports, not messing up can be the best way to win. In tennis, for
+instance, mistakes you make yourself are called unforced errors. Too
+many unforced errors usually give your opponents an easy victory, even if
+they’re not all that good.
+Reducing the number of errors you make is also important in investing. As
+you’ll discover in this chapter, making too many unforced errors in picking
+the wrong investments can sink your returns. Fundamental analysis, while
+not perfect, can be a vital tool in allowing you to avoid at least some colossal
+disasters.
+Making big mistakes in investing can dig you into a hole that’s extremely difficult, if not impossible, to climb out of in a timely fashion. If fundamental
+analysis prevents you from making just one blunder, it’s well worth your time.
+Part of the process of avoiding mistakes is steering clear of companies whose
+fundamentals just aren’t right for some reason. Sometimes you might not know
+for sure that a company is about to implode. But fundamental analysis can
+give you the tools that may signal to you, at least, that something about the
+company’s financial reporting doesn’t smell right or displays some common
+red flags. By sticking with companies that have high quality of earnings, or
+reported results that accurately reflect the businesses’ health, you can go a
+long way in avoiding the many landmines that are so easy to step on.

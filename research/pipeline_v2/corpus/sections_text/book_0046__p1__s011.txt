@@ -1,0 +1,486 @@
+
+122
+
+MONKEYS ON TYPEWRITERS
+
+undeniable that such strategy might work; money spent bears no fruit
+(except the enjoyment of the spender). But the benefits promised in the
+book seem grossly overstated. A finer read of their thesis- reveals that
+their sample includes a double dose of survivorship bias. In other words,
+it has two compounding flaws.
+
+visibility winners
+
+The first bias comes from the fact that the rich people selected for their
+sample are among the lucky monkeys on typewriters. The authors made
+no attempt to correct their statistics with the fact that they saw only the
+winners. They make no mention of the "accumulators" who have
+accumulated the wrong things (members of my family are experts on
+that; those who accumulated managed to accumulate currencies about
+to be devalued and stocks of companies that later went bust). Nowhere
+do we see a mention of the fact that some people were lucky enough to
+have invested in the winners; these people no doubt would make their
+way into the book. There is a way to take care of the bias: lower the
+wealth of your average millionaire by, say, 50%, on the grounds that the
+bias causes the average net worth of the observed millionaire to be
+higher by such amount (it consists in adding the effect of the losers into
+the pot). It would certainly modify the conclusion.
+
+t
+
+it's a b u l l
+
+market
+
+As to the second, more serious flaw, I have already discussed the
+problem of induction. The story focuses on an unusual episode in
+history; buying its thesis implies accepting that the current returns in
+asset values are permanent (the sort of belief that prevailed before the
+great crash that started in 1929). Remember that asset prices have (still
+at the time of writing) witnessed the greatest bull market in history and
+that values did compound astronomically during the past two decades.
+A dollar invested in the average stock would have grown almost twentyfold since 1982 - and that is the average stock. The sample might
+include people who invested in stocks performing better than average.
+
+TOO
+
+MANY
+
+MILLIONAIRES
+
+NEXT
+
+DOOR
+
+123
+
+Virtually all of the subjects became rich from asset price inflation, in
+other words from the recent inflation in financial paper and assets that
+started in 1982. An investor who engaged in the same strategy during
+less august days for the market would certainly have a different story to
+tell. Imagine the book being written in 1982, after the prolonged erosion
+of the inflation-adjusted value of the stocks, or in 1935, after the loss of
+interest in the stock market.
+Or consider that the United States stock market is not the only
+investment vehicle. Consider the fate of those who, in place of spending
+their money buying expensive toys and paying for ski trips, bought
+Lebanese lira denominated Treasury bills (as my grandfather did), or
+junk bonds from Michael Milken (as many of my colleagues in the
+1980s did). Go back in history and imagine the accumulator buying
+Russian Imperial bonds bearing the signature of Czar Nicholas II and
+trying to accumulate further by cashing them from the Soviet government, or Argentine real estate in the 1930s (as my great grandfather
+did).
+The mistake of ignoring the survivorship bias is chronic, even (or
+perhaps especially) among professionals. How? Because we are trained
+to take advantage of the information that is lying in front of our eyes,
+, ignoring the information that we do not see.
+A brief summing up at this point: I showed how we tend to mistake
+one realization among all possible random histories as the most
+representative one, forgetting that there may be others. In a nutshell,
+the survivorship bias implies that the highest performing realization will
+be the most visible. Why? Because the losers do not show up.
+
+A Guru's Opinion
+The fund management industry is populated with gurus. Clearly, the
+field is randomness-laden and the guru is going to fall into a trap,
+particularly if he has no proper training in inference. At the time of
+writing, there is one such guru who developed the very unfortunate
+habit of writing books on the subject. Along with one of his peers, he
+
+124
+
+MONKEYS ON TYPEWRITERS
+
+computed the success of a "Robin Hood" policy of investing with the
+least successful manager in a given population of managers. It consists in
+switching down by taking money away from the winner and allocating
+it to the loser. This goes against the prevailing wisdom of investing with
+a winning manager and taking away money from a losing one. Doing so,
+their "paper strategy" (i.e. as in a Monopoly™ game, not executed in
+real life) derived considerably higher returns than if they stuck to the
+winning manager. Their hypothetical example seemed to them to prove
+that one should not stay with the best manager, as we would be inclined
+to do, but rather switch to the worst manager, or at least such seems to
+be the point they were attempting to convey.
+Their analysis presents one severe hitch that any graduate student in
+financial economics should be able to pinpoint at the first reading. Their
+sample only had survivors. They simply forgot to take into account the
+managers who went out of business. Such a sample includes managers
+that were operating during the simulation, and are still operating today.
+True, their sample included managers who did poorly, but only those
+managers who did poorly and recovered, without getting out of
+business. So it would be obvious that investing with those who fared
+poorly at some point, but recovered (with the benefit of hindsight)
+would yield a positive return! Had they continued to fare poorly, they
+would be out of business and would not be included in the sample.
+How should one conduct the proper simulation? By taking a
+population of managers in existence, say, five years ago and running
+the simulation until today. Clearly, the attributes of those who leave the
+population are biased towards failure; few successful people in such a
+lucrative business call it quits for making too much money. Next we
+turn to a more technical presentation of these issues.
+
+nine
+
+i t is e a s i e r t o b u y a n d s e l l
+than fry an egg
+Some technical extensions of the survivorship bias. On the
+distribution of "coincidences" in life. It is preferable to be lucky
+than competent (but you can be caught). The birthday paradox.
+More charlatans (and more journalists). How the researcher
+with work ethics can find just about anything in data. On dogs
+not barking.
+
+his afternoon I have an appointment with my dentist (it will mostly
+consist in the dentist picking my brain on Brazilian bonds). I can state
+with a certain level of comfort that he knows something about teeth,
+particularly if I enter his office with a toothache and exit it with some form
+of relief. It will be difficult for someone who knows literally nothing about
+teeth to provide me with such relief, except if he is particularly lucky on
+that day - or has been very lucky in his life to become a dentist while not
+knowing anything about teeth. Looking at his diploma on the wall, I
+determine that the odds that he repeatedly gave correct answers to the
+exam questions and performed satisfactorily on a few thousand cavities
+before his graduation - out of plain randomness - are remarkably small.
+Later in the evening, I go to Carnegie Hall. I can say little about the
+pianist; I even forgot her unfamiliar foreign sounding name. All I know
+
+126
+
+MONKEYS ON TYPEWRITERS
+
+is that she studied in some Muscovite conservatory. But I can expect to
+get some music out of the piano. It will be rare to have someone who
+performed brilliantly enough in the past to get to Carnegie Hall and now
+turns out to have benefited from luck alone. The expectation of having a
+fraud who will bang on the piano, producing only cacophonous sounds,
+is indeed low enough for me to rule it out completely.
+I was in London last Saturday. Saturdays in London are magical;
+bustling but without the mechanical industry of a weekday or the sad
+resignation of a Sunday. Without a wristwatch or a plan I found myself
+in front of my favorite carvings by Canova at the Victoria and Albert
+Museum. My professional bent immediately made me question whether
+randomness played a large role in the carving of these marble statues.
+The bodies were realistic reproductions of human figures, except that
+they were more harmonious and finely balanced than anything I have
+seen mother nature produce on its own (Ovid's materiem superabat
+opus comes to mind). Could such finesse be a product of luck?
+I can practically make the same statement about anyone operating in
+the physical world, or in a business in which the degree of randomness is
+low. But there is a problem in anything related to the business world. I
+am bothered because tomorrow, unfortunately, I have an appointment
+with a fund manager seeking my help, and that of my friends, in finding
+investors. He has what he claims is a good track record. All I can infer is
+that he has learned to buy and sell. And it is harder to fry an egg than
+buy and sell. W e l l . . . the fact that he made money in the past may have
+some relevance, but not terribly so. This is not to say that it is always the
+case; there are some instances in which one can trust a track record, but,
+alas, there are not too many of these. As the reader now knows, the fund
+manager can expect to be heckled by me during the presentation,
+particularly if he does not exhibit the minimum of humility and selfdoubt that I would expect from someone practicing randomness. I will
+probably bombard him with questions that he may not be prepared to
+answer, blinded by his past results. I will probably lecture him that.
+Machiavelli ascribed to luck at least a 50% role in life (the rest was
+cunning and bravura), and that was before the creation of modern
+markets.
+In this chapter, I discuss some well-known counterintuitive properties
+of performance records and historical time series. The concept presented
+
+IT
+
+IS
+
+EASIER
+
+TO
+
+BUY
+
+AND
+
+SELL
+
+THAN
+
+FRY
+
+AN
+
+EGG
+
+127
+
+here is well known for some of its variations under the name survivorship
+bias, data mining, data snooping, overfitting, regression to the mean, etc.,
+basically situations where the performance is exaggerated by the
+observer, owing to a misperception of the importance of randomness.
+Clearly, this concept has rather unsettling implications. It extends to
+more general situations where randomness may play a share, such as the
+choice of a medical treatment or the interpretation of coincidental events.
+When I am tempted to suggest a possible future contribution of
+financial research to science in general, I adduce the analysis of data
+mining and the study of survivorship biases. These have been refined in
+finance but can extend to all areas of scientific investigation. Why is
+finance so rich a field? Because it is one of the rare areas of investigation
+where we have plenty of information (in the form of abundant price
+series), but no ability to conduct experiments as in, say, physics. This
+dependence on past data brings about its salient defects.
+
+Fooled by Numbers
+placebo
+
+investors
+
+I have often been faced with questions of the sort: "Who do you think
+you are to tell me that I might have been plain lucky in my life?" Well,
+nobody really believes that he or she was lucky. My approach is that,
+with our Monte Carlo engine, we can manufacture purely random
+situations. We can do the exact opposite of conventional methods; in
+place of analyzing real people hunting for attributes we can create
+artificial ones with precisely known attributes. Thus we can manufacture situations that depend on pure, unadulterated luck, without the
+shadow of skills or whatever we have called non-luck in Table P.l. In
+other words, we can man-make pure nobodies to laugh at; they will be
+by design stripped of any shadow of ability (exactly like a placebo drug).
+We saw in Chapter 5 how people may survive owing to traits that
+momentarily fit the given structure of randomness. Here we take a far
+simpler situation where we know the structure of randomness-, the first
+
+128
+
+MONKEYS ON TYPEWRITERS
+
+such exercise is a finessing of the old popular saying that even a broken
+clock is right twice a day. We will take it a bit further to show that
+statistics is a knife that cuts on both sides. Let us use the Monte Carlo
+generator introduced earlier and construct a population of 10,000
+fictional investment managers (the generator is not terribly necessary
+since we can use a coin, or even do plain algebra, but it is considerably
+more illustrative - and fun). Assume that they each have a perfectly fair
+game; each one has a 50% probability of making $10,000 at the end of
+the year, and a 50% probability of losing $10,000. Let us introduce an
+additional restriction; once a manager has a single bad year, he is
+thrown out of the sample, good-bye and have a nice life. Thus we will
+operate like the legendary speculator George Soros who was said to tell
+his managers gathered in a room: "half of you guys will be out by next
+year" (with an Eastern European accent). Like Soros, we have extremely
+high standards; we are looking only for managers with an unblemished
+record. We have no patience for low performers.
+The Monte Carlo generator will toss a coin; heads and the manager
+will make $10,000 over the year, tails and he will lose $10,000. We run
+it for the first year. At the end of the year, we expect 5,000 managers to
+be up $10,000 each, and 5,000 to be down $10,000. Now we run the
+game a second year. Again, we can expect 2,500 managers to be up two
+years in a row; another year, 1,250; a fourth one, 625; a fifth, 313. We
+have now, simply in a fair game, 313 managers who made money for
+five years in a row. Out of pure luck.
+
+n o b o d y h a s t o be c o m p e t e n t
+
+Let's push the argument further to make it more interesting. We create a
+cohort that is composed exclusively of incompetent managers. We will
+define an incompetent manager as someone who has a negative expected
+return, the equivalent of the odds being stacked against him. We instruct,
+the Monte Carlo generator now to draw from an urn. The urn has 100
+balls, 45 black and 55 red. By drawing with replacement, the ratio of
+red to black balls will remain the same. If we draw a black ball, the
+manager will earn $10,000. If we draw a red ball, he will lose $10,000.
+The manager is thus expected to earn $10,000 with 45% probability,
+
+IT
+
+IS
+
+EASIER
+
+TO
+
+BUY
+
+AND
+
+SELL
+
+THAN
+
+FRY
+
+AN
+
+EGG
+
+129
+
+and lose $10,000 with 55%. On average, the manager will lose $1,000
+each round - but only on average.
+At the end of the first year, we still expect to have 4,500 managers
+turning a profit (45% of them), the second, 45% of that number, 2,025.
+The third, 911; the fourth, 410; the fifth, 184. Let us give the surviving
+managers names and dress them in business suits. True, they represent
+less than 2 % of the original cohort. But they will get attention. Nobody
+will mention the other 98%. What can we conclude?
+The first counterintuitive point is that a population entirely composed
+of bad managers will produce a small amount of great track records. As
+a matter of fact, assuming the manager shows up unsolicited at your
+door, it will be practically impossible to figure out whether he is good or
+bad. The results would not markedly change, even if the population
+were composed entirely of managers who are expected in the long run to
+lose money. Why? Because owing to volatility, some of them will make
+money. We can see here that volatility actually helps bad investment
+decisions.
+The second counterintuitive point is that the expectation of the
+maximum of track records, with which we are concerned, depends more
+on the size of the initial sample, than on the individual odds per
+manager. In other words the number of managers with great track
+records in a given market depends far more on the number of people
+who started in the investment business (in place of going to dental
+school), rather than on their ability to produce profits. It also depends
+on the volatility. Why do I use the notion of expectation of the
+maximum? Because I am not concerned at all with the average track
+record. I will get to see only the best of the managers, not all of the
+managers. This means that we will see more "excellent managers" in
+2002 than in 1998, provided the cohort of beginners was greater in
+1997 than it was in 1993 - I can safely say that it was.
+
+ergodicity
+
+To get more technical, I have to say that people believe that they can
+figure out the properties of the distribution from the sample they are
+witnessing. When it comes to matters that depend on the maximum, it is
+
+130
+
+MONKEYS ON TYPEWRITERS
+
+altogether another distribution that is being inferred, that of the best
+performers. We call the difference between the average of such
+distribution and the unconditional distribution of winners and losers
+the survivorship bias - here the fact that about 3% of the initial cohort
+will make money five years in a row. In addition, this example illustrates
+the properties of ergodicity, namely, that time will eliminate the
+annoying effects of randomness. Looking forward, in spite of the fact
+that these managers were profitable in the past five years, we expect
+them to break even in any future time period. They will fare no better
+than those of the initial cohort who failed earlier in the exercise. Ah, the
+long term.
+A few years ago, when I told one A., a then Master-of-the-Universe
+type, that track records were less relevant than he thought, he found the
+remark so offensive that he violently flung his cigarette lighter in my
+direction. The episode taught me a lot. Remember that nobody accepts
+randomness in his own success, only his failure. His ego was pumped up
+as he was heading up a department of "great traders" who were then
+temporarily making a fortune in the markets. They subsequently blew
+up during the harsh New York winter of 1994 (it was the bond market
+crash that followed the surprise interest rate hike by Alan Greenspan).
+The interesting part is that six years later I can hardly find any of them
+still trading (ergodicity).
+Recall that the survivorship bias depends on the size of the initial
+population. The information that a person made money in the past, just
+by itself, is neither meaningful nor relevant. We need to know the size of
+the population from which he came. In other words, without knowing
+how many managers out there have tried and failed, we will not be able
+to assess the validity of the track record. If the initial population
+includes ten managers, then I would give the performer half my savings
+without a blink. If the initial population is composed of 10,000
+managers, I would ignore the results. The latter situation is generally the
+case; these days so many people have been drawn to the financial
+markets. Many college graduates are trading as a first career, failing,
+then going to dental school.
+If, as in a fairy tale, these fictional managers materialized into real
+human beings, one of these could be the person I am meeting tomorrow
+at 11.45 a.m. Why did I select 11.45 a.m.? Because I will question him
+
+IT
+
+IS
+
+EASIER
+
+TO
+
+BUY
+
+AND
+
+SELL
+
+THAN
+
+FRY
+
+AN
+
+EGG
+
+131
+
+about his trading style. I need to know how he trades. I will then be able
+to claim that I have to rush to a lunch appointment if the manager puts
+too much emphasis on his track record.
+
+Life Is Coincidental
+Next we look at the extensions to real life of our bias in the
+understanding of the distribution of coincidences.
+
+the mysterious
+
+letter
+
+You get an anonymous letter on January 2nd informing you that the
+market will go up during the month. It proves to be true, but you
+disregard it owing to the well-known January effect (stocks have gone
+up historically during January). Then you receive another one on Feb 1st
+telling you that the market will go down. Again, it proves to be true.
+Then you get another letter on March 1st - same story. By July you are
+intrigued by the prescience of the anonymous person and you are asked
+to invest in a special offshore fund. You pour all your savings into it.
+Two months later, your money is gone. You go spill your tears on your
+neighbor's shoulder and he tells you that he remembers that he received
+two such mysterious letters. But the mailings stopped at the second
+letter. He recalls that the first one was correct in its prediction, the other
+incorrect.
+What happened? The trick is as follows. The con operator pulls
+10,000 names out of a phone book. He mails a bullish letter to one half
+of the sample, and a bearish one to the other half. The following month
+he selects the names of the persons to whom he mailed the letter whose
+prediction turned out to be right, that is, 5,000 names. The next month
+he does the same with the remaining 2,500 names, until the list narrows
+down to 500 people. Of these there will be 200 victims. An investment
+in a few thousand dollars worth of postage stamps will turn into several
+million.
+
+132
+
+MONKEYS ON TYPEWRITERS
+
+an interrupted tennis
+
+game
+
+It is not uncommon for someone watching a tennis game on television to
+be bombarded by advertisements for funds that did (until that minute)
+outperform others by some percentage over some period. But, again,
+why would anybody advertise if he didn't happen to outperform the
+market? There is a high probability of the investment coming to you if
+its success is caused entirely by randomness. This phenomenon is what
+economists and insurance people call adverse selection. Judging an
+investment that comes to you requires more stringent standards than
+judging an investment you seek, owing to such selection bias. For
+example, by going to a cohort composed of 10,000 managers, I have 2/
+100 chances of finding a spurious survivor. By staying home and
+answering my door bell, the chance of the soliciting party being a
+spurious survivor is closer to 100%.
+
+the birthday
+
+paradox
+
+The most intuitive way to describe the data mining problem to a nonstatistician is through what is called the birthday paradox, though it is
+not really a paradox, simply a perceptional oddity. If you meet
+someone randomly, there is a one in 365.25 chance of your sharing
+their birthday, and a considerably smaller one of having the exact
+birthday of the same year. So, sharing the same birthday would be a
+coincidental event that you would discuss at the dinner table. Now let
+us look at a situation where there are 23 people in a room. What is the
+chance of there being two people with the same birthday? About 50%.
+For we are not specifying which people need to share a birthday; any
+pair works.

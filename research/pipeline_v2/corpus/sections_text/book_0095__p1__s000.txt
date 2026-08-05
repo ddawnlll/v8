@@ -1,0 +1,365 @@
+Swing Trading
+FOR
+
+DUMmIES
+
+‰
+
+by Omar Bassal, CFA
+
+Swing Trading
+FOR
+
+DUMmIES
+
+‰
+
+Swing Trading
+FOR
+
+DUMmIES
+
+‰
+
+by Omar Bassal, CFA
+
+Swing Trading For Dummies®
+Published by
+Wiley Publishing, Inc.
+111 River St.
+Hoboken, NJ 07030-5774
+www.wiley.com
+Copyright © 2008 by Wiley Publishing, Inc., Indianapolis, Indiana
+Published simultaneously in Canada
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form
+or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as
+permitted under Sections 107 or 108 of the 1976 United States Copyright Act, without either the prior
+written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to
+the Copyright Clearance Center, 222 Rosewood Drive, Danvers, MA 01923, 978-750-8400, fax 978-646-8600.
+Requests to the Publisher for permission should be addressed to the Legal Department, Wiley Publishing,
+Inc., 10475 Crosspoint Blvd., Indianapolis, IN 46256, 317-572-3447, fax 317-572-4355, or online at http://
+www.wiley.com/go/permissions.
+Trademarks: Wiley, the Wiley Publishing logo, For Dummies, the Dummies Man logo, A Reference for the
+Rest of Us!, The Dummies Way, Dummies Daily, The Fun and Easy Way, Dummies.com and related trade
+dress are trademarks or registered trademarks of John Wiley & Sons, Inc. and/or its affiliates in the United
+States and other countries, and may not be used without written permission. All other trademarks are the
+property of their respective owners. Wiley Publishing, Inc., is not associated with any product or vendor
+mentioned in this book.
+LIMIT OF LIABILITY/DISCLAIMER OF WARRANTY: THE PUBLISHER AND THE AUTHOR MAKE NO
+REPRESENTATIONS OR WARRANTIES WITH RESPECT TO THE ACCURACY OR COMPLETENESS OF
+THE CONTENTS OF THIS WORK AND SPECIFICALLY DISCLAIM ALL WARRANTIES, INCLUDING WITHOUT LIMITATION WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE. NO WARRANTY MAY BE
+CREATED OR EXTENDED BY SALES OR PROMOTIONAL MATERIALS. THE ADVICE AND STRATEGIES
+CONTAINED HEREIN MAY NOT BE SUITABLE FOR EVERY SITUATION. THIS WORK IS SOLD WITH THE
+UNDERSTANDING THAT THE PUBLISHER IS NOT ENGAGED IN RENDERING LEGAL, ACCOUNTING, OR
+OTHER PROFESSIONAL SERVICES. IF PROFESSIONAL ASSISTANCE IS REQUIRED, THE SERVICES OF
+A COMPETENT PROFESSIONAL PERSON SHOULD BE SOUGHT. NEITHER THE PUBLISHER NOR THE
+AUTHOR SHALL BE LIABLE FOR DAMAGES ARISING HEREFROM. THE FACT THAT AN ORGANIZATION OR WEBSITE IS REFERRED TO IN THIS WORK AS A CITATION AND/OR A POTENTIAL SOURCE
+OF FURTHER INFORMATION DOES NOT MEAN THAT THE AUTHOR OR THE PUBLISHER ENDORSES
+THE INFORMATION THE ORGANIZATION OR WEBSITE MAY PROVIDE OR RECOMMENDATIONS IT
+MAY MAKE. FURTHER, READERS SHOULD BE AWARE THAT INTERNET WEBSITES LISTED IN THIS
+WORK MAY HAVE CHANGED OR DISAPPEARED BETWEEN WHEN THIS WORK WAS WRITTEN AND
+WHEN IT IS READ.
+For general information on our other products and services, please contact our Customer Care
+Department within the U.S. at 800-762-2974, outside the U.S. at 317-572-3993, or fax 317-572-4002.
+For technical support, please visit www.wiley.com/techsupport.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may
+not be available in electronic books.
+Library of Congress Control Number: 2008933744
+ISBN: 978-0-470-29368-3
+Manufactured in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+About the Author
+Omar Bassal, CFA is the head of Asset Management at NBK Capital, the
+investment arm of the largest and highest rated bank in the Middle East.
+There, he oversees all asset management activities for institutional and high
+net worth individuals investing in the equity markets of the Middle East and
+North Africa (MENA). Prior to joining NBK Capital, Mr. Bassal was a portfolio
+manager at Azzad Asset Management, where he managed mutual funds
+and separately managed accounts. Mr. Bassal also worked as an analyst at
+Profit Investment Management and launched a socially responsible hedge
+fund in 2002. He holds an MBA with honors in finance, management, and statistics from the Wharton School of Business at the University of
+Pennsylvania. Additionally, he graduated summa cum laude with a Bachelor’s
+of Science degree in Economics, also from the Wharton School. He has
+appeared on CNBC and has contributed articles to Barron’s and Technical
+Analysis of Stocks & Commodities.
+
+Dedication
+To my mother, my mother, and my mother — Maha Al-Hiraki Bassal. To my
+father, Dr. Aly Bassal. And my sisters, Suzie and Sarah. To my loving wife,
+Salma, and my brother-in-law, Hisham. And to my beloved nephew, Mostafa.
+They have always supported me in easy and difficult times.
+
+Author’s Acknowledgments
+I don’t believe any experience could possibly have prepared me for the rigorous schedule required to write a book. I can’t tell you how many weekends,
+evenings, and holidays were required to write Swing Trading For Dummies.
+The effort was, of course, worth it. But I did miss several episodes of Lost,
+The Office, and other shows. Alas, the cost of writing books isn’t measured in
+time alone.
+Before I turn this section into an autobiography (which I should pitch to
+Wiley as my second book, come to think of it: Omar Bassal For Dummies!), let
+me thank those who deserve thanks (give credit where credit is due, I’m told,
+is the way the kids are putting it these days). I first learned of this opportunity through Susan Weiner, CFA — a skilled and professional investment
+writer. Susan told me about a search Wiley was conducting to find an author
+for this book. Marilyn Allen, my agent, pitched me to Wiley. I’m honored
+Wiley offered me the opportunity to write this book. Thank you, Stacy
+Kennedy, for your confidence in me and your buy-in.
+Writing the book, as you may have gleaned from my previous comments, was
+a grueling, tough process, and Kristin DeMint was an invaluable resource. She
+was my project editor and made sure the book progressed. She often joked
+that she knew nothing about swing trading. But her “weakness” was in reality
+a strength. Not being an expert in the subject meant Kristin could offer helpful comments on what might confuse a novice when I made assumptions or
+didn’t properly explain ideas. Kristin also kept a watchful eye when deadlines
+approached. Oh how I didn’t want to draw her ire. (I’m half joking. She’s
+actually a very sweet person . . . as long as I didn’t miss my deadline!)
+As my trading mentor, Ian Woodward, once said: Many hands make light
+work. In addition to Kristin, many Wiley staff members worked behind the
+scenes. Russell Rhoads, the technical editor, ensured I wasn’t making things
+up, and other editors — Todd Lothery, Jennifer Tucci, and Elizabeth Rea —
+made sure my grammar made cents. (They must’ve missed this part!)
+Though not involved directly in my project, per se, my family supported me
+throughout. That meant a lot. It’s not something I can put into words — even
+as a writer.
+
+Publisher’s Acknowledgments
+We’re proud of this book; please send us your comments through our Dummies online registration
+form located at www.dummies.com/register/.
+Some of the people who helped bring this book to market include the following:
+Acquisitions, Editorial, and
+Media Development
+
+Composition Services
+
+Project Editor: Kristin DeMint
+
+Layout and Graphics: Stacie Brooks,
+Reuben W. Davis, Nikki Gately,
+Melissa K. Jester, Christine Williams
+
+Acquisitions Editor: Stacy Kennedy
+Senior Copy Editor: Elizabeth Rea
+Copy Editors: Todd Lothery, Jennifer Tucci
+Assistant Editor: Erin Calligan Mooney
+
+Project Coordinator: Erin Smith
+
+Proofreaders: Laura Albert,
+Context Editorial Services
+Indexer: Potomac Indexing, LLC
+
+Technical Editor: Russell Rhoads
+Editorial Manager: Michelle Hacker
+Editorial Assistants: Joe Niesen,
+Jennette ElNaggar
+Cover Photo: © ACE STOCK LIMITED/ Alamy
+Cartoons: Rich Tennant
+(www.the5thwave.com)
+
+Publishing and Editorial for Consumer Dummies
+Diane Graves Steele, Vice President and Publisher, Consumer Dummies
+Joyce Pepple, Acquisitions Director, Consumer Dummies
+Kristin Fergusan-Wagstaffe, Product Development Director, Consumer Dummies
+Ensley Eikenburg, Associate Publisher, Travel
+Kelly Regan, Editorial Director, Travel
+Publishing for Technology Dummies
+Andy Cummings, Vice President and Publisher, Dummies Technology/General User
+Composition Services
+Gerry Fahey, Vice President of Production Services
+Debbie Stailey, Director of Composition Services
+
+Contents at a Glance
+Introduction ................................................................ 1
+Part I: Getting into the Swing of Things ........................ 7
+Chapter 1: Swing Trading from A to Z ............................................................................. 9
+Chapter 2: Understanding the Swing Trader’s Two Main Strategies ........................ 25
+Chapter 3: Getting Started with Administrative Tasks ............................................... 41
+
+Part II: Determining Your Entry and
+Exit Points: Technical Analysis ................................... 57
+Chapter 4: Charting the Market ..................................................................................... 59
+Chapter 5: Asking Technical Indicators for Directions ............................................... 89
+Chapter 6: Analyzing Charts to Trade Trends, Ranges, or Both ............................. 117
+
+Part III: Digging Deeper into the
+Market: Fundamental Analysis ................................. 141
+Chapter 7: Understanding a Company, Inside and Out............................................. 143
+Chapter 8: Finding Companies Based on Their Fundamentals ................................ 163
+Chapter 9: Six Tried-and-True Steps for Analyzing a Company’s Stock ................. 181
+
+Part IV: Developing and Implementing
+Your Trading Plan .................................................... 201
+Chapter 10: Strengthening Your Defense: Managing Risk ........................................ 203
+Chapter 11: Fine-Tuning Your Entries and Exits ........................................................ 231
+Chapter 12: Walking through a Trade, Swing-Style ................................................... 247
+Chapter 13: Evaluating Your Performance ................................................................. 263
+
+Part V: The Part of Tens ........................................... 277
+Chapter 14: Ten Simple Rules for Swing Trading....................................................... 279
+Chapter 15: Ten Deadly Sins of Swing Trading .......................................................... 289
+
+Appendix: Resources ................................................ 299
+Index ...................................................................... 309
+
+Table of Contents
+Introduction ................................................................. 1
+About This Book .............................................................................................. 2
+Conventions Used in This Book ..................................................................... 3
+Foolish Assumptions ....................................................................................... 3
+How This Book Is Organized .......................................................................... 4
+Part I: Getting into the Swing of Things .............................................. 4
+Part II: Determining Your Entry and Exit Points:
+Technical Analysis ............................................................................. 4
+Part III: Digging Deeper into the Market: Fundamental Analysis ..... 4
+Part IV: Developing and Implementing Your Trading Plan ............... 5
+Part V: The Part of Tens ........................................................................ 5
+Icons Used in This Book ................................................................................. 5
+Where to Go from Here ................................................................................... 6
+
+Part I: Getting into the Swing of Things ......................... 7
+Chapter 1: Swing Trading from A to Z. . . . . . . . . . . . . . . . . . . . . . . . . . . . .9
+What Is Swing Trading?................................................................................. 10
+The differences between swing trading and
+buy-and-hold investing .................................................................... 11
+The differences between swing trading and day trading ............... 12
+What Swing Trading Is to You: Determining Your Time Commitment ... 13
+Swing trading as your primary source of income ............................ 13
+Swing trading to supplement income or improve investment
+returns ............................................................................................... 14
+Swing trading just for fun .................................................................... 15
+Sneaking a Peek at the Swing Trader’s Strategic Plan .............................. 15
+The “what”: Determining which securities you’ll trade .................. 16
+The “where”: Deciding where you’ll trade ........................................ 18
+The “when” and the “how”: Choosing your trading
+style and strategy ............................................................................. 19
+Building Your Swing Trading Prowess........................................................ 24
+
+Chapter 2: Understanding the Swing Trader’s
+Two Main Strategies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .25
+Strategy and Style: The Swing Trader’s Bio ............................................... 25
+Two forms of analysis, head to head................................................. 26
+Scope approach: Top down or bottom up? ...................................... 27
+Styles of trading: Discretionary versus mechanical ........................ 28
+
+xii
+
+Swing Trading For Dummies
+Wrapping Your Mind around Technical Theory ....................................... 29
+Understanding how and why technical analysis works .................. 29
+Sizing up the technical advantages and disadvantages .................. 31
+The two main aspects of technical analysis ..................................... 33
+Appreciating the Value of the Big Picture: Fundamental Theory............ 34
+Understanding how and why fundamental analysis works ............ 35
+Surveying the fundamental advantages and disadvantages .......... 36
+Looking at catalysts and the great growth/value divide ................ 38
+
+Chapter 3: Getting Started with Administrative Tasks . . . . . . . . . . . . .41
+Hooking Up with a Broker ............................................................................ 42
+Choosing a broker................................................................................ 42
+Opening an account ............................................................................. 45
+Selecting Service Providers .......................................................................... 46
+Providers to do business with ........................................................... 46
+Providers to avoid ............................................................................... 50
+Starting a Trading Journal ............................................................................ 52
+Creating a Winning Mindset ......................................................................... 56
+
+Part II: Determining Your Entry and
+Exit Points: Technical Analysis .................................... 57
+Chapter 4: Charting the Market . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .59
+Nailing Down the Concepts: The Roles of Price and
+Volume in Charting .................................................................................... 60
+Having Fun with Pictures: The Four Main Chart Types ............................ 61
+Charts in Action: A Pictorial View of the Security Cycle of Life .............. 64
+The waiting game: Accumulation....................................................... 64
+The big bang: Expansion ..................................................................... 66
+The aftermath: Distribution ................................................................ 67
+The downfall: Contraction .................................................................. 69
+Assessing Trading-Crowd Psychology: Popular
+Patterns for All Chart Types ..................................................................... 70
+The Darvas box: Accumulation in action .......................................... 71
+Head and shoulders: The top-off ....................................................... 73
+The cup and handle: Your signal to stick around for coffee .......... 74
+Triangles: A fiscal tug of war .............................................................. 76
+Gaps: Your swing trading crystal ball ............................................... 77
+Letting Special Candlestick Patterns Reveal Trend Changes .................. 80
+Hammer time! ....................................................................................... 80
+The hanging man (Morbid, I know) ................................................... 82
+Double vision: Bullish and bearish engulfing patterns ................... 82
+The triple threat: Morning and evening stars .................................. 83
+
+Table of Contents
+Measuring the Strength of Trends with Trendlines .................................. 85
+Uptrend lines: Support for the stubborn bulls................................. 86
+Downtrend lines: Falling resistance .................................................. 87
+Horizontal lines: Working to both support and resist .................... 88
+
+Chapter 5: Asking Technical Indicators for Directions. . . . . . . . . . . . .89
+All You Need to Know about Analyzing Indicators Before You Start ..... 90
+You must apply the right type of indicator ...................................... 90
+Not all price swings are meaningful .................................................. 90
+Prices don’t reflect volume, so you need to account for it ............ 92
+An indicator’s accuracy isn’t a measure of its value....................... 92
+Two to three indicators are enough .................................................. 93
+Inputs should always fit your time horizon...................................... 94
+Divergences are the strongest signals in technical analysis .......... 95
+Determining Whether a Security Is Trending ............................................ 95
+Recognizing Major Trending Indicators ..................................................... 97
+The compass of indicators: Directional Movement Index (DMI) ... 98
+A mean, lean revelation machine: Moving averages ..................... 100
+A meeting of the means: MACD ........................................................ 105
+Spotting Major Non-Trending Indicators .................................................. 107
+Stochastics: A study of change over time....................................... 108
+Relative Strength Index (RSI): A comparison
+of apples and oranges.................................................................... 111
+Combining Technical Indicators with Chart Patterns ............................ 114
+Using Technical Indicators to Determine Net Long or Net
+Short Positioning...................................................................................... 115
+
+Chapter 6: Analyzing Charts to Trade Trends, Ranges, or Both. . . . .117
+Trading Trends versus Trading Ranges: A Quick Rundown .................. 118
+Trading on Trends ....................................................................................... 120
+Finding a strong trend ....................................................................... 120
+Knowing when to enter a trend........................................................ 122
+Managing your risk by setting your exit level ................................ 124
+Trading Ranges: Perhaps Stasis Is Bliss? .................................................. 125
+Finding a security in a strong trading range .................................. 125
+Entering on a range and setting your exit level ............................. 127
+Comparing Markets to One Another: Intermarket Analysis ................... 128
+Passing the buck: The U.S. dollar .................................................... 128
+Tracking commodities....................................................................... 130
+Watching how bond price and stock price
+movements correlate ..................................................................... 133
+Putting Securities in a Market Head-to-Head:
+Relative Strength Analysis ...................................................................... 134
+Treating the world as your oyster: The global scope ................... 135
+Holding industry groups to the market standard .......................... 137
+
+xiii
+
+xiv
+
+Swing Trading For Dummies
+
+Part III: Digging Deeper into the
+Market: Fundamental Analysis .................................. 141
+Chapter 7: Understanding a Company, Inside and Out . . . . . . . . . . . .143
+Getting Your Hands on a Company’s Financial Statements ................... 144
+What to look for ................................................................................. 144
+When to look ...................................................................................... 145
+Where to look ..................................................................................... 146
+Assessing a Company’s Financial Statements ......................................... 146
+Balance sheet ..................................................................................... 147
+Income statement .............................................................................. 151
+Cash flow statement .......................................................................... 153
+Not Just Numbers: Qualitative Data .......................................................... 156
+Valuing a Company Based on Data You’ve Gathered ............................. 158
+Understanding the two main methods of valuation ...................... 158
+Implementing the swing trader’s preferred model........................ 159
+
+Chapter 8: Finding Companies Based on Their Fundamentals . . . . .163
+Seeing the Forest for the Trees: The Top-Down Approach.................... 163
+Sizing up the market .......................................................................... 164
+Assessing industry potential ............................................................ 170
+Starting from the Grassroots Level: The Bottom-Up Approach ............ 172
+Using screens to filter information .................................................. 173
+Assessing your screening results .................................................... 179
+Deciding Which Approach to Use ............................................................. 179

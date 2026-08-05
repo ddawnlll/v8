@@ -1,0 +1,223 @@
+
+4. However, this time the Dow does not make new highs, but in fact continues to drift lower. This is a heads-up that “even a buy program” is not able to move the
+market higher.
+5. There is another buy program at 12:45 p.m., and this one is after the first sell program hit the markets.
+6. This buy program causes a small pop in the markets, but this buying dries up quickly.
+7. At points 7, 8, 9, and 10, a series of sell programs hits the market, and each time a sell program hits, the markets make new lows. When this happens, the next
+opposing signal is a fading opportunity.
+8. At point 11 there is an opposing signal with a buy program—an opportunity to go short.
+This brings me to the next and last rule I use in following the tiki:
+
+If buy programs are driving the markets to new highs, then the occasional sell program is a buying opportunity. If sell programs are driving the markets to new
+lows, then the occasional buy program is a shorting opportunity.
+I like to see where most of the programs are hitting. Are they mostly buy or mostly sell programs? This is important, because most of the time markets are doing
+nothing. They are chopping back and forth. If most of the programs on the day are buy programs and these programs are pushing the markets up to new highs, then I
+want to use the quiet selling opportunities to get long. This way I’m getting into the market when it’s quiet, before the next move higher, instead of chasing it higher. A
+good example of a setup that works well in this situation is the pivot plays that I discuss in Chapter 8.
+
+What Is the Best Tool for Reading Buying Versus Selling Pressure?
+The trin (TradeStation symbol $TRIN), also known as the Arms Index after its creator, Richard W. Arms, measures the relative rate at which volume is flowing into
+advancing or declining stocks on the New York Stock Exchange. To calculate the trin, the following formula is utilized: (advancing issues/declining issues)/(advancing
+volume/declining volume). If more volume goes into advancing issues than into declining issues, the Arms Index falls below 1.0. If more volume goes into declining
+stocks than into advancing stocks, the Arms Index rises above 1.0. M ost educational material on “how to use the trin” tells traders that “over 1.0 is bearish, so consider
+shorting, and under 1.0 is bullish, so consider buying.” That statement is annoying and misleading, and it brings me to my first rule when using the trin:
+
+I don’t care what the current reading is.
+I care about the current reading only in relation to where it has been.
+In other words, what I care about is not the trin reading itself, but the trend of the trin. A reading of 1.50 might seem bearish, but if the reading started the day at
+2.00 and we are now an hour into the trading day and 1.50 is the low, this is bullish. This means that volume is flowing into advancing issues and that there is sustained
+buying pressure in the markets. Conversely, a reading of 0.85 might seem bullish, but if the reading started the day at 0.45 and we are now two hours into the trading
+day and 0.85 is the high, this is bearish. This means that volume is flowing into declining issues and that there is sustained selling pressure in the markets. Let’s take a
+look at Figure 6.5.
+1. Figure 6.5 is a shot of the mini-sized Dow on M arch 29, 2005, the same day we used for the tick and the tiki. At point 1, we can see that the trin started the day
+near 1.40. The first 15 to 20 minutes are volatile, as listed issues open on a delayed basis on the NYSE. Because of this, I dismiss the first five-minute bar, but I
+like to note the opening levels based on the start of the second five-minute bar.
+2. The trin settles in, and by 10:40 a.m. it is trading near its lows of the day at 0.81.
+3. The YM hits its highs of the day in correlation with the low trin reading.
+4. By 12:00 noon, the trin has been in a steady uptrend, making new highs on the day (after discounting the first five-minute bar).
+5. The YM is quiet and choppy, and it is trading in the middle of the day’s range. However, even though the markets are quiet, the trin continues to rally. This is the
+key action I’m looking for—which way is the trin trending? A trend higher indicates that volume is flowing into declining issues, and this means that when the
+market actually does break, the odds are strong that it will be to the downside. As we can see on the chart, a little later in the day, the market breaks down.
+
+96
+
+97
+
+Figure 6.5
+
+6. The YM tries to rally here, but it is in vain, as the trin is staying in a nice uptrend. The YM soon rolls over and drifts down into the close.
+This brings me to my next rule for the trin:
+
+If the trin is trending higher and making higher highs on the day, I will ignore all long setups.
+
+If the trin is trending lower and making lower lows on the day, I will ignore all short setups.
+Let’s take a look at another multiday chart and the trin action (see Figure 6.6).
+Figure 6.6 shows a good overall representation of what various trin patterns mean. On the first day, February 22, 2005, the trin started off low. Some would call this
+bullish. Yet the trin then proceeded to rally all day long, and the Dow fell more than 120 points. The rule of “no longs on this type of day” serves a trader well.
+Conversely, if I am in a short and the trin is making new highs, I realize that there is no reason to cover, as the eventual market break has a high probability of being in
+my favor.
+
+98
+
+99
+
+Figure 6.6
+
+On February 23, 2005, the trin started off high, but then proceeded to trend lower all day long. Although many traders will get caught up in the previous day’s
+selling and use this initial strength as a shorting opportunity, they would realize the folly of this idea if they knew that they should follow the trend of the trin. With
+the trin heading lower, the markets stabilized early in the session, and a modest rally ensued. Because the trin continued to make lower lows on the day, I just focused
+on long setups. On February 24, 2005, the trin started off high once again, then proceeded to spend the rest of the day grinding lower. Based on this, I ignored short
+setups on the day. The YM broke nicely higher later in the day. On February 25, 2005, the trin once again started off high and spent the day working lower. Finally,
+on February 28, 2005, the trin started off high—but moved higher. While it was making new highs on the day, I ignored long setups and focused only on short setups.
+During the last two hours of the trading day, the trin reversed, and the markets rallied into the close. The most bullish days are gap ups where the trin starts off low,
+say around 0.50, and stays at that level all day long. On such a day, it doesn’t trend lower because it can go only so low—it won’t make it to a zero reading. The
+sustained lower reading looks like a consolidation pattern on a chart, and it is extremely bullish. On these types of days, I ignore all short setups, and a breakout to new
+highs is a buying opportunity.
+The key with the trin is to watch to see if it is making new highs on the day or new lows on the day. Whenever this is happening, I just ignore the opposing setups.
+I’ve read that some people recommend using levels such as 1.50 as “oversold” and start looking for a bounce, or 0.50 as “overbought” and start looking for a sell-off. I
+am not a fan of oversold or overbought, and I generally ignore this with most indicators, and the trin intraday is no exception. The biggest rallies take place when the
+trin hovers under 0.50 all day long. Just because something is overbought doesn’t mean that it’s going to reverse. For reversals, I will look only at price action, and I
+discuss these types of setups in later chapters.
+Although I’m not a big fan of overbought and oversold in general and I don’t worry about overbought or oversold readings intraday on the trin, I will pay attention
+to where it closes on the day. This closing number actually is valuable when it comes to gauging an extreme overbought or oversold reading. These readings are rare and
+happen about a dozen times a year, and this brings me to my next rule when using the trin:
+
+If the trin closes above 2.0, the market has an 80 percent chance of rallying the next day.
+
+If the trin closes below 0.60, the market has an 80 percent chance of selling off the next day.
+The moves the next day won’t necessarily be big moves, but they will generally be opposing moves. I will keep this in mind as I’m viewing my setups the next
+trading day. If the previous day’s close was over 2.0, then the next day I’m going to focus more on long setups and ignore short setups. Here’s where it gets interesting
+—if after a 2.0 reading, the markets can’t rally on the next trading day, then the markets are in deep trouble and are setting up for a major slide. This happened during
+the first week of July 2004 (see Figure 6.7).
+On this daily chart of the trin and the mini-sized Dow, the trin closed on July 1, 2004, with a reading of 2.80 (point 1). The next day, the markets tried to rally early
+in the session, but ultimately collapsed and ended lower on the day. This is always an ominous sign, and the Dow went on to lose 673 points before bottoming out on
+August 6, 2004. On July 6, 2004, the trin closed at 2.12 (point 3) and the Dow managed to rally the next day (point 4), but the bulls’ moment of glory was short-lived.
+This same scenario unfolded during the second trading day of 2005, January 4, when the trin closed at 2.53. The next day, the markets couldn’t rally, and they ended
+up selling off 410 points through the rest of the month.
+
+Is There a Similar Tool Just for Nasdaq Stocks?
+The trinq (TradeStation symbol $TRINQ) is just like the trin, except that it’s for the Nasdaq. The same rules apply here—all I’m interested in is the trend of the trinq.
+Figure 6.8 is the same chart we were looking at on M arch 29, 2005, but I’ve added the trinq and the Nasdaq. With the trinq going higher, the Nasdaq is going lower.
+In general, I place more weight on the trin, but I like to see what is happening in the Nasdaq as well. There are times when the trinq will be the leading mover, making
+new highs or new lows before the trin. On days where the trinq is mixed and the trin is trending, I will pay more attention to the trin. The strongest moves in the
+market occur when both the trin and the trinq are moving more or less in alignment.
+
+100
+
+101
+
+Figure 6.7
+
+102
+
+103
+
+Figure 6.8
+
+Put/Call Ratio—Is This the Key to the Kingdom?
+As a trader, what would you give to be able to know what the rest of the market participants are doing at any given time? If a broker told me that he could provide me
+with that information each and every day, I’d be so appreciative that I might even let him charge me $25 a round turn for an E-mini futures contract. While a secret
+report is not going to magically appear in your in-box, the put/call ratio (TradeStation symbol $PCVA and referred to during the rest of this section as PC) is as close
+to actually having this information as a trader is going to get.
+The PC ratio measures how many put options are bought relative to call options. The formula is very simple to calculate—take the volume for puts and divide by
+the volume for calls. (For anyone who is not familiar with options, buying a put is making a bet that the market is going to fall, and buying a call is making a bet that
+the market is going to rise.) If there are 50,000 puts sold and 100,000 calls, the ratio is 50,000/100,000, or 0.5. If there are 125,000 puts sold and 85,000 calls, the ratio
+is 1.47.
+There are three main PC ratios that are generated throughout the day: the equity PC ratio, the index PC ratio, and the combined equity/index PC ratio. The equity PC
+ratio is generally very low, which reflects a retail crowd that has a tendency to favor the long side (more call buying). The index PC ratio is usually very high (more put
+buying), which reflects an institutional mindset that wants to stay hedged against any unexpected move lower. The combined equity/index PC ratio reflects the
+behavior of both of these groups and gives a trader the best gauge of what the overall market participants are thinking, and, more important, where they are placing
+their bets. It is this combined equity/index PC ratio that I watch during the trading day.
+To illustrate how I use this indicator, let’s assume that the market is made up of exactly 100 participants. Let’s further assume that all 100 of these people are
+bearish on the markets, and that because of this prevalent feeling, they have established short positions in stocks, ETFs, and index futures, as well as through the
+buying of puts. With all 100 market participants bearish and now short, a very interesting turn of events takes place—there is nobody left to sell. With nobody left to
+sell, the markets don’t have any downward pressure, and they start to drift higher. This drifting eventually hits the first set of stop orders placed in the market by the
+100 market participants who are short. Within any given group of traders, some will be using tight stops, some medium stops, and some wide stops. The group of
+tight stops gets hit first, and this generates fresh buying pressure in the form of short covering that drives the markets higher, right into the next range of stops. This
+next series of stops kicks off yet another short-covering spree, which, once triggered, drives the markets even higher into the next range of stops, and so on until all the
+stops are taken out.
+At this point, the 100 market participants get bullish, and they start buying stocks and index futures, as well as call options. Once they have all scrambled to
+establish their positions, a very curious thing takes place—there is nobody left to buy. With nobody left to buy, the markets begin to drift lower and take out the first
+set of tight stops, which in turn creates enough selling pressure to drive the markets down to the next set of stops, and so forth. It’s a vicious cycle.
+Obviously this is a simplified scenario, and in the real world, not every single market participant is going to be bullish or bearish at exactly the same time. However,
+the amount and intensity of bullish and bearish bias does fluctuate regularly, and this shift in attitude causes markets to move in a fashion related to the oversimplified
+scenario just described. This brings me to my first rule regarding the PC ratio:
+
+If the combined equity/index PC ratio gets over 1.0 intraday, I will ignore all short setups and start looking at long setups.
+A PC ratio of over 1.0 represents extreme bearishness and put buying, and, as a result of the scenario just described, places a floor in the markets. It’s not an
+immediate floor. When the ratio goes to 1.0, the markets don’t suddenly stop declining and then immediately rally. It’s a process, and a visible support level does take
+shape because of the simple fact that there are too many bears in the market—and lots of buy stops sitting overhead, just waiting to be taken out. These 1.0 readings
+usually happen when the markets have fallen for a number of days in a row, or when bad earnings or economic data hit the tape, suddenly infecting many market
+participants with a bearish outlook. In fact, many times a market will continue falling until the PC ratio gets over 1.0. The opposite extreme is also true, which brings
+me to my next rule:
+
+If the combined PC ratio falls under 0.60 intraday, I will ignore all long setups and start looking at short setups.
+A PC ratio of under 0.60 represents extreme call buying and puts a ceiling on the markets. This represents a scenario in which there are too many bulls and very few
+people left to buy. Now there are lots of sell stops sitting beneath the current levels, just waiting to be hit. This usually happens after the markets have rallied for a
+number of days in a row, or after seemingly great earnings or economic news hits the tape. Also, people who have missed the move start chasing it in the fear of being
+left behind. In fact, many times a market will continue rallying until the PC ratio gets under 0.60.
+Figure 6.9 is a 15-minute chart that shows the mini-sized Dow overlaid on top of the equity/index PC ratio. On February 22, 2005, the PC ratio stayed low most of
+the day, dipping below 0.60. This represents a bullish outlook and the buying of stocks, index futures, and calls. This placed a lot of stops below the markets, and the
+Dow subsequently sold off over 120 points to clear them out. On February 23, the PC ratio spent a little time over 1.0, which represents a bearish outlook, the
+establishment of short positions, and the buying of puts—and the placing of many stops above the market. This was enough to kick-start a modest rally into the close,
+as the overhead stops provided the fuel for the market rally. On February 24, the PC worked itself to an extreme high reading, while the markets gapped down and
+stayed under pressure early in the session. However, with so many people bearish and with so many buy stops sitting above the markets, the market had little choice
+but to rally. On February 25, the PC started the day low but quickly rallied and stayed near 0.80 for most of the day. On February 28, the PC started off low and
+spent nearly an hour under 0.60. This means that everyone was excited and was buying calls because of the rally on February 25, and now, with so many sell stops in
+the market resulting from all the fresh long positions, the markets drifted lower and took them out.
+
+104
+
+105
+
+Figure 6.9
+
+To reiterate, the main thing I’m looking for in the PC ratio is whether or not it is at an extreme range. This indicator doesn’t spend a lot of time in the extreme ranges,
+but they are hit often enough to have an impact on the markets. What about when the PC is not generating an extreme reading?
+The PC actually spends a lot of time in what I call “neutral” territory. This is between 0.70 and 0.90. During these periods, the PC is generally not a factor in my
+trading decisions. However, there is another aspect of the PC that I will watch during the day, and that is the “trend” of the PC. And this brings me to my next rule:
+
+If the market is rallying, I want to see the PC rallying to confirm the move. If the market is falling, I want to see the PC falling to confirm the move.
+If the PC is rallying, this means that more people are getting bearish, and they are shorting stock, shorting indexes, and buying puts. This means that people don’t
+believe in the rally, and they are using the strength to establish short positions. Little do they know that their act of shorting merely adds fuel to the next leg higher, as
+the market now has a series of stop orders sitting overhead, just waiting to be ripped through. If, however, the market is rallying and the PC is falling, this is because
+people believe in the rally and are chasing it—a sign that it has run its course. Naturally, the opposite is also true. If the market is falling and the PC is falling, this
+means that more people are bullish, and they are using the market weakness to buy stocks and buy calls. They are merely providing fuel for the market to continue on
+its downward path in the form of new sell orders placed below the market. If the market is falling and the PC is rallying, this means that people are getting scared and
+are chasing the market lower—a sign that the decline is about to end (see Figure 6.10).
+1. On M arch 29, 2005, the mini-sized Dow futures gap down and try to push lower.
+2. The PC rallies as people scramble to establish short positions and buy puts.
+3. This increases put buying. Even though it doesn’t push the PC above 1.0, it is enough to get the markets to reverse course and take out the overhead stop orders.
+4. Traders view this rally in the YM as a positive thing, and they start buying calls as the market pulls back. This call buying intensifies, driving the PC ratio to under
+0.65.
+5. With the aggressive call buying, the YM drifts lower for a few hours and then cracks, falling more than 120 points.
+6. With the decline, traders start to worry that they are going to miss the down move, and they start shorting stock and buying puts. This drives the PC ratio to its
+highs on the day.
+7. Although the markets don’t rally into the close, they stabilize, as a high PC ratio starts to establish a floor in the markets.
+Figure 6.11 shows the markets the next day. With the markets closing near their lows on M arch 29, people get bearish the next morning, and on the gap up, they
+start shorting aggressively and buying puts for the “inevitable” move lower. The PC ratio gets very high as the traders race to get positioned on the short side. How
+does the market respond? By closing more than 140 points higher than the previous day’s close.
+I do want to point out that I largely discount the PC ratio until after 10:00 a.m. EST. There are a lot of listed stocks that take time to get opened, and a lot of
+overnight option orders that take time to get executed. This causes a lot of erratic movement in the PC ratio. Also, I ignore the reading on options expiration day, as it
+tends to get out of whack because of all the specific options-related activity.
+The PC ratio is a valuable intraday trading tool. As of this writing, there are many data feeds that do not carry this indicator. On TradeStation, you have to be
+permissioned for “opra” in order to receive the PC ratio. For example, while it is available on TradeStation, it is currently not available on eSignal. M ore quote vendors
+will supply this information if their customers ask for it. Also, this information is available for free at www.cboe.com in its “M arket Data” section. These numbers are
+updated every half-hour.
+
+106
+
+107
+
+Figure 6.10
+
+108
+
+109
+
+Figure 6.11
+
+What Is the Most Effective Way to See What’s Really Going On in the Stock Market During the Day?
+The sector sorter list (SSL) is a simple tool that I use to gauge what is going on “beneath the indexes.” I list all the key sectors and have them sorted automatically
+every few seconds throughout the trading day based on their net percent change. This tells me at a glance which sectors are leading the markets higher or lower, and this
+brings me to my first rule regarding the sector sorter list:

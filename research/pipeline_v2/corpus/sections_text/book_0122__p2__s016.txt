@@ -1,0 +1,1287 @@
+
+FIGURE 10.11 From the summer of 2007 until mid-2008, the Energy SPDR (bars)
+soared while the Financials SPDR (line) collapsed. That shows why it’s important to
+be in the strongest sectors and out of the weakest ones.
+Source: StockCharts.com
+
+P1: JYS
+c10
+JWBT015-Murphy
+
+November 12, 2008
+
+Sectors and Industry Groups
+
+20:25
+
+Printer: TBD
+
+223
+
+$XNG (Natural Gas Index - AMEX) INDEX
+StockCharts.com
+11-Jun-2008 1:09pm
+Open 731.10 High 738.28 Low 729.84 Last 737.15 Chg +6.05 (+0.83%)
+737.15
+(Daily)
+$XNG
+750
+545 $SOX (Daily) 387.52
+540
+740
+535
+730
+530
+720
+Semiconductor
+525
+(SOX) Index
+710
+520
+515
+510
+505
+500
+495
+
+700
+690
+680
+670
+
+490
+485
+480
+475
+470
+465
+460
+455
+450
+445
+440
+435
+430
+425
+420
+415
+410
+405
+400
+395
+390
+385
+380
+375
+370
+365
+360
+355
+350
+345
+340
+335
+
+660
+650
+640
+630
+620
+610
+600
+590
+580
+570
+560
+
+AMEX Natural Gas Index
+
+550
+540
+530
+520
+510
+500
+490
+480
+470
+460
+450
+440
+430
+
+2007 Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 2008 Feb Mar Apr May Jun
+
+FIGURE 10.12 Natural gas stocks rose sharply from the summer of 2007
+through mid-2008 while semiconductors fell. It’s always better to be in the group
+that’s rising.
+Source: StockCharts.com
+
+P1: JYS
+c10
+JWBT015-Murphy
+
+November 12, 2008
+
+Sectors and Industry Groups
+
+20:25
+
+Printer: TBD
+
+225
+
+during that year. The two indexes in Figure 10.12 are index options. If
+you’re an option trader, you can buy and sell them directly. There are two
+other ways to trade them. One is to pick an ETF that matches up with one
+of the indexes (such as Semiconductor Holders). A second choice is to pick
+a sector mutual fund that matches up with the one you wish to trade.
+There’s usually a pretty close correlation between stock indexes and
+their related trading vehicles (either ETFs or mutual funds). Figure 10.13
+overlays the AMEX Natural Gas Index (bars) over the Fidelity Select Natural Gas Fund (solid line) from the start of 2006 to mid-2008. It’s hard to
+tell the two lines apart because they track each other so closely. The natural gas mutual fund was one of Fidelity’s top sector performers during
+that period of time. That leads us to our next chapter, which shows how to
+implement various trading strategies by utilizing mutual funds.
+
+P1: JYS
+c10
+JWBT015-Murphy
+
+November 12, 2008
+
+20:25
+
+Printer: TBD
+
+224
+
+THE VISUAL INVESTOR
+
+StockCharts.com
+FSNGX (Fidility Select Natural Gas) USMF
+Open 56.70 High 56.70 Low 55.22 Close 55.22 Chg +0.45 (+0.81%)
+FSNGX (Weekly) 55.22
+
+10-Jun-2008
+
+750
+740
+
+$XNG (Weekly) 737.27
+
+55
+
+730
+
+54
+
+720
+710
+
+53
+
+700
+
+52
+
+690
+680
+
+51
+
+670
+
+50
+
+660
+
+49
+
+650
+640
+
+Fidelity Select Natural
+Gas Mutual Fund
+
+630
+620
+
+48
+47
+46
+
+610
+600
+
+45
+
+590
+44
+
+580
+570
+
+43
+
+560
+550
+
+42
+
+540
+
+41
+
+530
+40
+
+520
+510
+
+39
+
+500
+
+38
+
+490
+
+37
+
+480
+470
+
+36
+
+460
+
+AMEX Natural
+Gas Index (bars)
+
+450
+440
+
+35
+34
+
+430
+420
+
+33
+
+410
+
+32
+
+400
+31
+
+390
+380
+
+30
+
+370
+06
+
+F M A M J
+
+J
+
+A S O N D 07 F M A M J
+
+J
+
+A S O N D 08 F M A M J
+
+FIGURE 10.13 A close linkage is seen between the AMEX Natural Gas Index (bars)
+and the Fidelity Select Natural Gas Mutual Fund (line) from 2006 to 2008. Sector
+mutual funds usually track their sector benchmarks pretty closely.
+Source: StockCharts.com
+
+P1: JYS
+c10
+JWBT015-Murphy
+
+November 12, 2008
+
+20:25
+
+226
+
+Printer: TBD
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+CHAPTER 11
+
+Mutual Funds
+
+hart analysis of mutual funds is an additional step. A trader can analyze the various industry and sector indexes to find which ones he
+or she wishes to invest in and then simply match them up to a suitable mutual fund. The mutual fund industry is so vast that you can find
+anything you wish to trade in the bond and stock markets. Most mutual
+funds are also indexed to some market benchmark. All you really need to
+do is analyze the benchmarks and then match them up with the appropriate
+fund. Chart analysis can also be performed on the mutual funds themselves
+if you wish to go a step further. There are at least two reasons for doing so.
+One is for purposes of confirmation. A buy or sell signal on an index
+chart should be confirmed by a similar signal on the mutual fund that corresponds to that index. A second reason is because index charts and mutual
+funds are not always “perfectly” correlated. Sometimes action in the mutual fund chart will lead the group index, and sometimes it’s the other way
+around. If you’re a mutual fund investor, it’s usually a good idea to make
+sure that the mutual fund chart looks reasonably similar to the group index that attracted you to the mutual fund in the first place. The good news
+is that most of the visual tools described in this book work very well on
+mutual fund charts.
+
+C
+
+WHAT WORKS ON MUTUAL FUNDS
+As is the case with most markets, it’s not necessary to do an exhaustive analysis of mutual fund charts. Simple trend-following techniques like
+227
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+228
+
+THE VISUAL INVESTOR
+
+trendlines, support and resistance levels, and moving averages work quite
+well. Moving average convergence divergence (MACD) and the MACD histogram can also be used to good effect. Most oscillators can also be employed to spot overbought and oversold conditions and positive and negative divergences. Price patterns like “double tops and bottoms,” “head and
+shoulders,” and “triangles” can be spotted on mutual fund charts. And, of
+course, relative strength analysis applies equally well on charts of mutual
+funds. There are some minor limitations, however, when charting open-end
+mutual funds.
+
+OPEN- VERSUS CLOSED-END FUNDS
+There are two types of mutual funds. Both types allow investors to buy and
+sell baskets of stocks, but in different ways. The closed-end mutual fund
+has a fixed amount of shares and is traded like any other stock on a stock
+exchange. That being the case, closed-end mutual funds can be charted
+like any other stock. The open-end mutual fund takes in new cash from
+investors at any time and is usually purchased through a fund family such
+as Fidelity or Vanguard. Since most of our work in this book is directed
+at the open-end fund, it’s necessary to point out some chart limitations in
+dealing with that vehicle.
+
+CHARTING ADJUSTMENTS ON
+OPEN-END FUNDS
+Some minor adjustments have to be made when doing chart analysis of
+open-end mutual funds. The first has to do with the price. Only one price
+is available on a daily basis—the net asset value (NAV) that is released
+after the close of business each day. The NAV tells us what the fund is
+actually worth, based on the closing values of the stocks included in the
+fund. There is no opening price and no high and low range for the day. As
+a result, line charts that connect closing prices are used in place of bar
+charts. (It isn’t possible to construct candlestick charts either because that
+technique requires an opening price along with high and low prices).
+Virtually all of the indicators described in this book can still be used
+because they are based primarily on closing prices. (One exception is the
+stochastics oscillator, which uses the daily price range.) The RSI oscillator,
+however, can still be used to measure overbought and oversold readings.
+Traditional momentum and rate of change (ROC), as well as the MACD
+indicators, can also be used. Volume analysis, however, isn’t possible on
+open-fund mutual funds. That’s because volume figures are not released
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+Mutual Funds
+
+229
+
+with the daily NAV values. This, however, doesn’t prevent you from checking the volume figures for the stocks or group on which the fund is based.
+
+BLENDING FUNDAMENTAL AND
+TECHNICAL DATA
+Although this book deals primarily with the charting (or visual) aspects
+of mutual fund analysis, investors should be aware of the fundamental (or
+economic) background that effects the various financial markets and their
+related mutual funds. Morningstar provides a unique rating system that
+takes into account fund profitability and risk. Investors might limit their visual analysis to funds that have the highest (four or five star) Morningstar
+ratings, for example. Or the visual investor might check Morningstar ratings to obtain more details on a fund that looks attractive from a charting
+standpoint. That way the investor has both the fundamental and technical
+factors working together. Sometimes it works the other way around. If you
+find a highly rated mutual fund, be sure to check its chart first to make sure
+that the timing of your purchase or sale is right.
+
+RELATIVE STRENGTH ANALYSIS
+Earlier chapters extolled the merits of relative strength analysis and its particular importance in choosing the right sectors and industry groups. The
+same holds true for mutual funds themselves. Relative strength analysis
+adds an important dimension to market analysis by telling us how one fund
+is performing relative to the rest of the market or how its performance compares to other fund competitors in the same category. Mutual fund rankings
+are readily available in the financial press and on the Internet which include general stock funds, international stock funds, and specialized stock
+funds. Those rankings can be done weekly, monthly, quarterly, or yearly.
+The same is true for general bond funds, government bond funds, international bond funds, specialized and municipal bond funds. There are lots of
+sector funds to choose from. Fidelity Investments list at least 40 specialty
+or select (i.e., sector) portfolios.
+
+TRADITIONAL AND NONTRADITIONAL
+MUTUAL FUNDS
+Fidelity Investments is one of the biggest mutual fund families. Others include Vanguard and T. Rowe Price. All offer a broad array of mutual fund
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+230
+
+Printer: TBD
+
+THE VISUAL INVESTOR
+
+offerings that allow the investor exposure to the stock market through
+broad index funds and the ability to divide the market up into categories
+based on size (small cap versus large cap), style (growth versus value), or
+region (domestic versus foreign). There are a wide variety of bond funds
+to choose from as well. In addition, there are a large number of sector
+mutual funds for investors who wish to fine-tune their stock portfolios
+even further. Our interest in this chapter lies mainly with sector funds.
+Since Fidelity has the biggest selection of sector funds (at least 40), that’s
+where we’re going to focus most of our attention. All of the aforementioned
+fund families are considered to be traditional mutual funds. Over the last
+decade, however, a number of newer fund families have started offering
+“nontraditional” mutual funds offerings.
+By nontraditional, I refer to mutual funds that offer exposure to commodity and currency markets. While traditional bond funds match the performance of bond prices, some newer funds are based on the direction
+of bond yields. We’ll show one of those newer funds later in the chapter. Inverse mutual funds have also become increasingly popular. These
+funds, which are designed to move in the opposite direction of some market benchmark, allow investors to profit in falling markets. We’ll have more
+to say on that a little later. The good news is that all of these traditional, and
+nontraditional, mutual funds lend themselves very nicely to visual market
+analysis.
+
+KEEP IT SIMPLE
+The accompanying charts apply some of the tools of chart analysis directly
+on open-end mutual fund charts representing various stock market sectors
+and industry groups. In most cases, only one or two visual tools (or indicators) are drawn on the charts. I’ve done that simply to show that it’s not
+necessary to get too fancy with your visual analysis. A couple of simple
+chart tools is usually all you need. There’s also a more subtle message on
+the mutual fund charts. The upside and downside breakouts are pretty easy
+to spot. So are the important changes in trend that take place. In my experience, the best market moves are usually fairly obvious. The real trick is
+to make sure that you see them.
+
+200-DAY MOVING AVERAGE
+AND HOUSING
+All of the charting tools included in the following charts have been explained in earlier chapters. Figure 11.1, for example, applies a simple
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+231
+
+Mutual Funds
+
+c StockCharts.com
+FSHOX (Fidelity Select Construction/Housing) USMF
+Open 29.26 High 29.26 Low 29.26 Close 29.28 Chg +0.23 (+0.81%)
+18-JAN-2008
+FSHOX (Daily) 29.26
+42.0
+MA(200) 36.83
+
+41.5
+41.0
+40.5
+40.0
+39.5
+39.0
+38.5
+38.0
+37.5
+37.0
+36.5
+
+200-day
+average
+
+36.0
+35.5
+35.0
+34.5
+34.0
+33.5
+33.0
+32.5
+32.0
+31.5
+31.0
+30.5
+30.0
+29.5
+29.0
+
+2007
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+2008
+
+FIGURE 11.1 The July 2007 drop below the 200-day moving average (circle)
+warned of a serious downturn in this housing mutual fund.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+232
+
+Printer: TBD
+
+THE VISUAL INVESTOR
+
+200-day moving average to the Fidelity Select Construction/Housing Fund
+from the start of 2007 into the first month of 2008. It’s no secret that the
+housing sector had a very bad 2007. In fact, this particular housing fund
+fell 30 percent from its June 2007 high to its January 2008 low. That made
+it one of that year’s weakest sector funds. The visual investor could have
+avoided most of those losses by simply tracking the fund’s 200-day moving average. The fund fell below that major support line during July which
+flashed a major sell signal (see circle).
+
+NATURAL GAS BREAKOUT
+Figure 11.2 shows the Fidelity Select Natural Gas Fund from mid-2005
+through spring 2008. The main focus on that chart is the very obvious
+bullish breakout that took place during spring 2007. During April, the fund
+rose above its spring 2006 highs to achieve a bullish breakout. As further
+confirmation of that bullish move, the fund dipped right back to its breakout point during August (see circle) before resuming its uptrend. That confirmed the old adage that “old resistance becomes new support.” Although
+several chart indicators also confirmed that bullish action in the natural
+gas group, they weren’t that necessary. That’s because the best breakouts
+are usually the most obvious ones. And that was certainly the case with
+this fund.
+
+CONSUMER DISCRETIONARY
+BREAKDOWN
+Trendlines are one of the simplest and most valuable of all charting tools.
+Figure 11.3 is a good example of that. That figure charts the Fidelity Select Consumer Discretionary Portfolio from 2003 to spring 2008. The rising
+trendline is drawn from the spring 2003 bottom and touches the reaction
+lows in 2004 and 2006 (up arrows). The more times a trendline is touched,
+the more reliable it becomes. A good trendline should be touched at least
+three times as this one was. That’s why the decisive break of that four-year
+support line during October 2007 (circle) was so important. Not only did
+that signal a substantial downturn in that fund, it occured only a third of
+the way into the decline. The visual investor had ample warning to step
+aside. Here again, there’s nothing fancy on Figure 11.3. Just a simple trendline was all that was needed.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+233
+
+Mutual Funds
+
+c StockCharts.com
+FSNGX (Fidelity Select Natural Gas) USMF
+Open 55.68 High 55.68 Low 55.68 Close 55.68 Chg +0.46 (+0.83%)
+11-Jun-2008
+FSNGX (Daily) 55.68
+57
+
+56
+55
+54
+53
+52
+51
+50
+49
+48
+47
+46
+45
+44
+43
+42
+41
+40
+39
+38
+
+Old resistance
+
+37
+
+New support
+
+36
+35
+34
+33
+32
+31
+30
+29
+28
+27
+26
+
+J A S O N D 06 F M A M J J A S O N D 07 F M A M J J A S O N D 08 F M A M J
+
+FIGURE 11.2 An example of how old resistance becomes new support. The
+bullish breakout in this natural gas mutual fund in the spring of 2007 was pretty
+easy to spot.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+234
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+THE VISUAL INVESTOR
+
+c StockCharts.com
+FSCPX (Fidelity Select Consumer Discretionary Port) USMF
+Open 19.63 High 19.66 Low 19.27 Close 19.27 Chg -0.42 (-2.13%)
+11-Jun-2008
+FSCPX (Weekly) 19.27
+
+Jul
+
+24.75
+24.50
+24.25
+24.00
+23.75
+23.50
+23.25
+23.00
+22.75
+22.50
+22.25
+22.00
+21.75
+21.50
+21.25
+21.00
+20.75
+20.50
+20.25
+20.00
+19.75
+19.50
+19.25
+19.00
+18.75
+18.50
+18.25
+18.00
+17.75
+17.50
+17.25
+17.00
+16.75
+16.50
+16.25
+16.00
+15.75
+15.50
+15.25
+15.00
+14.75
+14.50
+14.25
+14.00
+13.75
+13.50
+
+Oct 03 Apr Jul Oct 04 Apr Jul Oct 05 Apr Jul Oct 06 Apr Jul Oct 07 Apr Jul Oct 08 Apr
+
+FIGURE 11.3 The October 2007 break of four-year support line (circle) signaled
+a serious downturn in this consumer discretionary mutual fund.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+Mutual Funds
+
+235
+
+BEAR CROSSING SINKS CHIPS
+Figure 11.4 gets a bit fancier, but not by much. That chart uses a 50- and
+200-day moving average combination on the Fidelity Select Electronics
+Fund (which is comprised mainly of semiconductor stocks). There are actually two major sell signals produced on Figure 11.4. The first is the downside violation of the 200-day average during November 2007 (see circle).
+The second is the downside crossing of the 200-day average by the 50-day
+(down arrow) a month later. From its summer 2007 top to its spring 2008
+bottom, this fund lost 30 percent of its value. The visual trader who spotted the bearish moving average crossing could have avoided two-thirds of
+those losses. The November violation of the fund’s August low also gave
+a traditional sell signal by violating a previous support low. That’s pretty
+basic charting.
+
+NEGATIVE ROC HURTS TECHNOLOGY
+Figure 11.5 shows the Fidelity Select Technology Fund crossing its
+40-week (200-day) average twice during 2006. After a downside correction
+that spring, an upward crossing in September 2006 signaled a new uptrend
+which lasted more than year. The downward crossing in December 2008
+(circle) started a new downtrend. The line at the bottom is a 13-week ROC
+line. A sell signal occurred in December 2007 (down arrow) when the rate
+of change fell below zero for the first time in 16 months.
+
+CONSUMER STAPLES HOLD UP OKAY
+The darker line in Figure 11.6 plots the Fidelity Select Consumer Staples
+Portfolio. The lighter line is a ratio of that fund divided by the S&P 500. Although the Consumer Staples fund lost some ground during the first quarter
+of 2008, it did much better than the S&P 500. Its relative strength (RS) line
+hit a new high in March 2008. Figure 11.6 shows that a Consumer Staples
+fund is a relatively safer place to be during a market drop.
+
+RETAIL RATIO PLUNGES
+While a Consumer Staples fund is a good place to be during a market downturn (and a slowing economy), a retail fund isn’t. Figure 11.7 plots a ratio of the Fidelity Select Retailing Fund divided by the S&P 500. During
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+236
+
+THE VISUAL INVESTOR
+
+c StockCharts.com
+FSELX (Fidelity Select Electronics) USMF
+1-Apr-2008
+Open 38.90 High 38.90 Low 38.90 Close 38.90 Chg +1.46 (+3.90%)
+52.5
+FSELK (Daily) 38.90
+MA(50) 37.62
+52.0
+MA(200) 45.38
+
+51.5
+51.0
+50.5
+50.0
+
+200-day
+average
+
+49.5
+49.0
+48.5
+48.0
+47.5
+47.0
+46.5
+46.0
+45.5
+45.0
+44.5
+44.0
+43.5
+
+50-day
+average 43.0
+42.5
+42.0
+41.5
+41.0
+40.5
+40.0
+39.5
+39.0
+38.5
+38.0
+37.5
+37.0
+36.5
+2007
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+2008
+
+Feb
+
+Mar
+
+Apr
+
+FIGURE 11.4 This semiconductor mutual fund broke its 200-day average during
+November 2007. A month later the 50-day also broke the 200-day average.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+237
+
+Mutual Funds
+
+c StockCharts.com
+FSPTX (Fidelity Select Technology) USMF
+Open 65.81 High 68.25 Low 65.81 Close 68.25 Chg +2.81 (+4.29%)
+1-Apr-2008
+90
+FSPTX (Weekly) 68.25
+MA(40) 76.51
+89
+88
+87
+86
+85
+84
+83
+82
+81
+80
+79
+78
+77
+76
+75
+74
+73
+72
+71
+70
+69
+40-week
+68
+67
+average
+66
+65
+64
+63
+62
+61
+60
+59
+58
+57
+56
+
+06 F M A M J
+ROCK(13) -10.01%
+
+J
+
+A S O
+
+N D 07
+
+F M A
+
+M J
+
+J
+
+A S
+
+O
+
+N D
+
+08 F M
+15
+10
+5
+0
+
+13-week ROC
+
+−5
+−10
+−15
+−20
+−25
+
+06
+
+F M A M
+
+J
+
+J
+
+A S O
+
+N D 07
+
+F M A
+
+M J
+
+J
+
+A S
+
+O
+
+N D
+
+08 F M
+
+FIGURE 11.5 This technology mutual fund broke its 40-week average in December 2007. The 13-week rate of change fell below its zero line for the ﬁrst time in a
+year.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+239
+
+Mutual Funds
+c
+
+StockCharts.com
+FSRPX:$SPX (Fidelity Select Retailing/S&P 500 Large Cap Index) USMF/INDEX
+11-Jun-2008
+Open 0.02830 High 0.02830 Low 0.02830 Close 0.02830 Chg +0.00001 (+0.02%)
+FSRPX:$SPX (Daily) 0.02830
+
+0.03325
+0.03300
+0.03275
+0.03250
+0.03225
+0.03200
+0.03175
+0.03150
+0.03125
+0.03100
+0.03075
+0.03050
+0.03025
+0.03000
+0.02975
+0.02950
+0.02925
+0.02900
+
+Fidelity Retail Fund/ S&P 500 ratio
+
+0.02875
+0.02850
+0.02825
+0.02800
+0.02775
+0.02750
+0.02725
+0.02700
+0.02675
+0.02650
+0.02625
+0.02600
+0.02575
+
+Jul
+
+Oct
+
+05
+
+Apr
+
+Jul
+
+Oct
+
+06
+
+Apr
+
+Jul
+
+Oct
+
+07
+
+Apr
+
+Jul
+
+Oct
+
+08
+
+Apr
+
+FIGURE 11.7 The RS line for this retailing mutual fund broke a two-year support
+line during the summer of 2007. That wasn’t a good place to be.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2
+
+Printer: TBD
+
+238
+
+24%
+
+THE VISUAL INVESTOR
+
+c StockCharts.com
+FDFAX (Fidelity Select Consumer Staples Port) USMF
+Open 65.23 High 65.23 Low 65.23 Close 65.23 Chg +0.30 (+0.46%)
+15-Apr-2008
+FDFAX (Daily) 65.23
+FDFAX:$SPX (Daily) 24.03%
+
+RS
+line
+
+23%
+
+67.75
+67.50
+67.25
+67.00
+
+22%
+
+66.75
+66.50
+
+21%
+
+66.25
+
+20%
+
+66.00
+19%
+
+65.75
+
+18%
+
+65.50
+65.25
+
+17%
+
+65.00
+
+16%
+
+64.75
+64.50
+
+15%
+
+64.25
+14%
+
+64.00
+63.75
+
+13%
+
+63.50
+
+12%
+
+63.25
+
+11%
+
+63.00
+
+10%
+
+62.75
+62.50
+
+9%
+
+62.25
+
+8%
+
+62.00
+
+7%
+
+61.75
+61.50
+
+6%
+
+61.25
+
+5%
+
+61.00
+
+Fidelity Consumer
+Staples Fund
+
+4%
+
+60.75
+60.50
+
+3%
+
+60.25
+60.00
+
+2%
+
+59.75
+
+1%
+
+59.50
+0%
+
+59.25
+
+−1%
+
+59.00
+58.75
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+2008
+
+Feb
+
+Mar
+
+Apr
+
+FIGURE 11.6 The RS line for this Consumer Staples mutual fund hit a new high
+in spring 2008. This is why it’s considered a defensive fund.
+Source: StockCharts.com.
+
+P1: JYS
+c11
+JWBT015-Murphy
+
+November 22, 2008
+
+13:2

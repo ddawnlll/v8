@@ -1,0 +1,840 @@
+
+International Indices and Commodities
+
+57
+
+Table 4.10 Composition of the CBOE oil index (OIX) and Amex oil index (XOI) as of 2
+February 2008. A blank cell indicates that the stock in that row is not included in the index.
+
+Symbol
+
+Name
+
+Price
+8/2/08
+
+Market
+cap – billion
+
+OIX
+weight
+
+XOI
+weight
+
+APA
+HES
+XOM
+CVX
+TOT
+RDS.A
+COP
+OXY
+BP
+APC
+MRO
+REP
+VLO
+
+Apache Corp
+Hess Corp
+Exxon Mobil Corp
+Chevron Corp
+Total
+Royal Dutch Shell
+Conocophillips
+Occidental Petroleum
+British Petroleum
+Anadarko Petroleum
+Marathon Oil Corp
+Repsol Ypf S.A
+Valero Energy
+
+100.63
+56.46
+64.30
+75.38
+79.26
+88.96
+49.38
+66.68
+67.53
+70.29
+81.71
+31.88
+59.06
+
+33.5
+28.6
+439.8
+165.5
+158.3
+124.0
+119.9
+55.1
+202.8
+26.4
+35.0
+37.1
+32.1
+
+11.74 %
+10.41 %
+10.38 %
+10.24 %
+9.64 %
+9.28 %
+9.09 %
+8.49 %
+8.02 %
+6.84 %
+5.87 %
+–
+–
+
+–
+10.36 %
+9.86 %
+9.64 %
+8.30 %
+8.15 %
+9.16 %
+7.74 %
+7.27 %
+6.68 %
+5.34 %
+3.64 %
+6.75 %
+
+main difference between them is that the Amex used Apache Corporation instead of
+CBOE’s Repsol and Valero.
+Table 4.11 lists some markets that correlate well with the Amex oil index. The
+data are composed of equity indices, commodities, currencies and interest raterelated markets. I statistically correlated these against the XOI on a same month
+basis, meaning there was no monthly offset between the XOI data series and the
+related markets. The highest correlation in both time spans was between the XOI and
+Canada’s TSX index, but this was to be expected as the TSX is heavily weighted with
+oil exploration stocks. Surprisingly, Japanese bonds correlated considerably better
+with the XOI (r = −0.31) than US Treasury bonds (r = −0.1). Interest rates had
+virtually no correlation with the XOI.
+As can be seen in Table 4.11 the correlations were not constant over time, sometimes strengthening from weak to medium or strong during the most recent 5-year
+period. This was more pronounced in the case of the dollar and dollar denominated
+commodities such as gold, crude oil, and the CRB index.
+The XOI correlated better with the Australian dollar than the US dollar index and
+there was also strong positive correlation with the Australian All Ordinaries index.
+This was certainly a surprise since Australia is not a major oil-producing country.
+Options on the OIX trade on the CBOE under the symbol OIX expiring every three
+months from the March quarterly cycle (March, June, September and December).
+Options on the XOI are also available from the AMEX.
+
+58
+
+Intermarket Trading Strategies
+
+Table 4.11 Correlation of monthly (21 day) percentage yields between the Amex
+oil index (XOI) and related indices. The correlation using more recent data from
+1/1/2003 to 31/12/2007 is shown in the second column and the correlation using
+10-year data (from 1/1/1998 to 31/12/2007) in the third column.
+Correlation Data–Years
+Index/commodity
+OIX
+Crude oil
+Brent
+Natural gas
+S&P 500
+TSX (Canada)
+Venture (Canada)
+Australia All Ordinaries
+XAU
+Gold
+CRB index
+Japanese bonds
+Utility index
+10 yr Treasury bond
+10 yr Treasury yield
+Dollar index
+AUD
+GBP
+Yen
+
+4.10
+
+5
+
+10
+
+0.99
+0.52
+0.49
+0.3
+0.48
+0.74
+0.49
+0.54
+0.54
+0.37
+0.57
+−0.31
+0.45
+−0.12
+0.04
+−0.21
+0.38
+0.05
+−0.06
+
+0.99
+0.42
+0.43
+0.31
+0.46
+0.47
+0.47
+0.43
+0.40
+0.16
+0.44
+−0.31
+0.44
+−0.1
+0.1
+−0.12
+0.33
+0.08
+0.05
+
+THE CRB INDEX
+
+The history of the CRB index dates back to 1957, when the Commodity Research
+Bureau constructed an index comprised of 28 commodities to track the performance
+of commodities as an asset class.
+Since then, as commodity markets have evolved, the index has undergone periodic
+updates. Its name was changed to the Reuters CRB Index in 2001 and it was again
+renamed as the Reuters/Jefferies CRB Index (RJ/CRB) in July 2005 when it underwent its tenth and most recent revision, the collaborative effort of Reuters Plc. and
+Jefferies Financial Products, LLC.
+The original CRB index included 28 commodities until the list was reduced to
+21 in 1987, where it remained until a major revision in 1995 when it was further
+sliced down to 17 commodities. Of the 28 commodities included in the original CRB
+of 1957, foodstuffs such as rye, potatoes, onions and lard – that aren’t really relevant
+to an evolving industrial economy – were gradually removed.
+
+International Indices and Commodities
+
+59
+
+Table 4.12 Commodities included in the old and new CRB index and
+the Goldman Sachs Commodity Index (as of April 2007).
+
+Crude oil
+Brent
+Heating oil
+Unleaded gas
+Natural gas
+Gas/Oil
+Corn
+Wheat
+Soybeans
+Sugar
+Cotton
+Coffee
+Cocoa
+Orange juice
+Cattle
+Lean hogs
+Gold
+Silver
+Aluminum
+Copper
+Nickel
+Platinum
+Lead
+Zinc
+
+Old CRB
+
+New R/J CRB
+
+GSCI
+
+5.9 %
+0.0 %
+6.0 %
+0.0 %
+5.9 %
+0.0 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+5.9 %
+0.0 %
+5.9 %
+0.0 %
+5.9 %
+0.0 %
+0.0 %
+
+23.0 %
+0.0 %
+5.0 %
+5.0 %
+6.0 %
+0.0 %
+6.0 %
+1.0 %
+6.0 %
+5.0 %
+5.0 %
+5.0 %
+5.0 %
+1.0 %
+6.0 %
+1.0 %
+6.0 %
+1.0 %
+6.0 %
+6.0 %
+1.0 %
+0.0 %
+0.0 %
+0.0 %
+
+37.9 %
+15.5 %
+6.2 %
+1.3 %
+6.2 %
+5.4 %
+3.0 %
+5.9 %
+2.1 %
+0.9 %
+0.8 %
+0.6 %
+0.2 %
+0.0 %
+2.8 %
+1.1 %
+2.0 %
+0.3 %
+2.4 %
+3.0 %
+0.9 %
+0.0 %
+0.5 %
+0.7 %
+
+During the latest revision in 2005 three new commodities were added (unleaded
+gas, aluminum and nickel) and an existing one (platinum) was eliminated for a net
+gain of two components. In addition, the CRB’s traditional geometric averaging was
+also eliminated, in favor of a weighting arithmetic averaging which better tracks
+the true direction of commodities prices during today’s volatile markets. By its
+very mathematical nature geometric averaging effectively continually rebalanced
+the index, decreasing exposure to rising commodities and increasing exposure to
+declining commodities.
+To refresh the readers’ mathematics, the formula for the geometric mean of a data
+set [a1 , a2 , . . ., an ] is the nth root of their product and it is useful for averaging
+quantities with the same or similar values in magnitude.
+In the new CRB, crude oil has a weight of 23 times the weight of orange juice
+or hogs and 4.6 times the weight of sugar. You can see the composition of subsector weightings of the new RJ/CRB in Fig. 4.2 and the individual commodities in
+Table 4.12.
+
+60
+
+Intermarket Trading Strategies
+
+By diversifying into commodities, investors are better able to obtain desirable
+long-term results, while at the same time lowering the overall volatility of their
+portfolio.
+The counter-cyclic nature of commodities to other financial assets such as equities
+makes commodities an ideal asset class to incorporate into a portfolio in order to
+achieve a more desirable return scenario. Attempting to find the right combination of
+contracts in obscure markets such as soybeans, pork bellies, cattle, and coffee would
+be difficult for a futures market professional and potentially disastrous for anyone
+else. Many mutual type commodity funds and money managers have surfaced, but
+most with unpredictable results and very few offering the true commodity portfolio
+necessary for proper asset diversification.
+The Reuters/Jefferies CRB index has been recognized as the main barometer of
+commodity prices for many years and has been accepted globally as a standard for
+measuring the commodity futures price level.
+To alleviate the need to choose individual commodities while facilitating the investment in a representative group, the New York Board of Trade (NYBOT) began
+offering futures contracts on the Reuters/Jefferies CRB index. The trading symbol is
+CR and the contract size is 200 times the index.
+Buyers of the Reuters/Jefferies CRB index futures contract have direct participation
+in valuation changes of the component commodities (see Table 4.12 and also Figure
+4.2). A “long” position provides opportunities for obtaining a hedge against inflation
+and dollar depreciation while at the same time reaping potentially extraordinary
+returns from commodity price appreciation.
+
+4.11
+
+THE GOLDMAN SACHS COMMODITY INDEX (GSCI)
+
+The GSCI, created in 1991, currently includes 24 commodities and is designed to
+provide investors with a reliable and publicly available benchmark for investment
+performance in the commodity markets. Individual components qualify for inclusion
+in the GSCI on the basis of liquidity and are weighted by their respective world
+production quantities in the last five years of available data. A list of the components
+and their dollar weights, as of April 2007, is presented in Table 4.12.
+The GSCI is heavily weighted in energy futures contracts, which constitute 72.5 %
+of the index compared with only 39 % for the Reuters/Jefferies CRB index, which was
+the main factor for the GSCI becoming the top-performing commodity benchmark in
+2007. This, however, is not necessarily an advantage, as it limits the diversification
+into other commodities which is especially beneficial in periods of declining oil
+prices.
+In Fig. 4.3 you can see a comparison between the Goldman Sachs commodity
+index (thick line), the RJ/CRB index (normal line) and crude oil futures (thin line).
+Notice how the Goldman Sachs commodity index closely follows crude oil prices.
+
+International Indices and Commodities
+
+61
+
+Figure 4.2 Sub-sector composition of the new RJ/CRB index. The Energy group includes
+crude oil, heating oil, unleaded gas and natural gas; the Grain group includes corn, wheat and
+soybeans; the Meat group includes live cattle and lean hogs; the Tropicals include sugar, cotton,
+coffee, cocoa and orange juice and lastly, the Metals group includes gold, silver, aluminium,
+copper and nickel.
+
+Possible means of investing in the Goldman Sachs commodity index include the
+purchase of GSCI-related instruments, such as the GSCI futures contract traded on
+the Chicago Mercantile Exchange (CME).
+In February 2007 the GSCI was acquired by Standard & Poor’s and renamed the
+S&P GSCI.
+
+4.12
+
+THE XAU AND THE HUI
+
+The Philadelphia Exchange (PHLX) Gold and Silver Sector (XAU) Index is a
+capitalization-weighted index composed of 16 companies involved in the gold and
+silver mining industry. The XAU was set to an initial value of 100 in January 1979.
+Options on the XAU trade under the same symbol in the Philadelphia Exchange.
+The component companies and their weighing can be seen in Table 4.13.
+
+62
+
+Intermarket Trading Strategies
+
+Figure 4.3 Weekly chart of the S&P Goldman Sachs commodity index (thick bold line with
+the scale on the right), the RJ/CRB index (thin black line) and crude oil futures (thin grey
+line) from 2001 to February 2008. Notice how the Goldman Sachs commodity index closely
+follows crude oil prices.
+Table 4.13 Composition of XAU index as of 8 February 2008.
+Company name
+
+Symbol
+
+Weight
+
+Barrick Gold Corp.
+Agnico Eagle Mines Ltd.
+AngloGold Ashanti Ltd.
+Yamana Gold, Inc.
+Coeur d’Alene Mines Corp.
+Freeport McMoran Copper
+Gold Fields Ltd.
+Goldcorp, Inc.
+Randgold Resources Ltd.
+Harmony Gold Mining Co.
+Kinross Gold
+Newmont Mining Corporation
+Pan American Silver Corp.
+Royal Gold, Inc.
+Silver Wheaton, Inc.
+Silver Standard Resources
+
+ABX
+AEM
+AU
+AUY
+CDE
+FCX
+GFI
+GG
+GOLD
+HMY
+KGC
+NEM
+PAAS
+RGLD
+SLW
+SSRI
+
+22.04 %
+4.39 %
+5.64 %
+5.15 %
+0.62 %
+17.54 %
+4.63 %
+13.00 %
+1.74 %
+2.10 %
+6.64 %
+11.97 %
+1.34 %
+0.44 %
+1.70 %
+1.05 %
+
+International Indices and Commodities
+
+63
+
+Table 4.14 Composition of HUI index as of 1/31/08.
+Company name
+
+Symbol
+
+Weight
+
+Barrick Gold
+Newmont Mining
+Goldcorp Inc.
+Yamana Gold
+Randgold Resources Ads
+Agnico Eagle Mines
+Kinross Gold
+Golden Star Resources
+Eldorado Gold Corp
+Gold Fields Ltd. Adr
+Harmony Gold Mining
+Coeur d’Alene Mines
+Hecla Mining
+Iamgoldcorp
+Northgate Minerals
+
+ABX
+NEM
+GG
+AUY
+GOLD
+AEM
+KGC
+GSS
+EGO
+GFI
+HMY
+CDE
+HL
+IAG
+NXG
+
+17.16 %
+14.53 %
+10.04 %
+5.83 %
+5.81 %
+5.42 %
+5.40 %
+4.95 %
+4.89 %
+4.61 %
+4.38 %
+4.38 %
+4.32 %
+4.22 %
+4.06 %
+
+Another popular gold mining index is the AMEX’s Gold BUGS index (HUI).
+BUGS is an acronym for Basket of Unhedged Gold Stocks. The index was introduced
+on 15 March 1996 with a starting value of 200.
+The AMEX Gold BUGS index is comprised of 15 of the nation’s largest “unhedged” gold mining stocks. It is a “modified equal-dollar weighted” index. As a
+result, most of the index’s component stocks are equally weighted, yet the largest
+stocks still carry a greater weight than the smallest. The component companies and
+their weighing on the 31 January 2008 are depicted in Table 4.14.
+The major difference between the two indices is that BUGS is made up exclusively
+of mining stocks that do not hedge their gold positions more than 18 months into the
+future. This makes the BUGS index much more profitable than the XAU when gold
+prices are rising, but can also compound its losses when gold declines.
+
+4.13
+
+THE VIX
+
+The CBOE Volatility Index (VIX) is designed to reflect investors’ consensus view
+of future (30-day) expected market volatility by averaging the weighted prices of
+out-of-the money options on the S&P 500 (SPX) index.
+The name might be misleading as the VIX is not really a measure of market
+volatility but only of the price level of the SPX options, which is somewhat subjective
+and varies by opinions about the options that have nothing to do with volatility. The
+VIX also tells us something very important about the price of the options from which
+
+64
+
+Intermarket Trading Strategies
+
+it is derived: It indicates whether the options are expensive or cheap relative to their
+historical prices. When the VIX is high, options are expensive, and when it is low,
+options are cheap. The option premium usually goes up when the market declines
+and it is usually a sign of fear.
+I consider the VIX as a sentiment indicator because, unlike surveys and collections
+of information about bullishness or bearishness, it is an indicator based on traders
+using their capital during the course of the trading day willing to pay more for SPX
+put options if they perceive that a market correction is imminent. In that sense the
+VIX is the collective wisdom of the market at that instant.
+There are three variations of volatility indexes: the VIX which tracks the S&P 500,
+the VXN which tracks the Nasdaq 100 and the VXD which tracks the Dow Jones
+Industrial Average.
+The original VIX, introduced by the CBOE in 1993, measured the implied volatility or the amount that the OEX (S&P 100) options were selling above or below their
+fair value (as calculated by the Black-Scholes formula). The use of the Black-Scholes
+formula (which embodied a number of other factors like interest rates, time to expiration and historical volatility) tended to sometimes distort the expected volatility
+and so, in September 2003 the CBOE decided to change the calculation method. The
+new VIX used a newly-developed formula to derive expected volatility by averaging
+the weighted prices of the 30-day to expiration, out-of-the money puts and calls and
+was independent of the Black-Scholes option pricing model. The second noteworthy
+change was that the new VIX calculation used options on the S&P 500 index (SPX)
+rather than the S&P 100 (OEX).
+For the sake of consistency the CBOE has created a historical record for the new
+VIX dating back to 1986 and continued the calculation of the original OEX VIX, but
+under the new ticker symbol “VXO”.
+Generally VIX values greater than 30 are associated with a large amount of volatility as a result of investor fear or uncertainty, while values below 20 generally correspond to less stressful, even complacent, times in the markets. Traders who want to
+trade the VIX directly can do so by purchasing futures or options on the VIX which
+trade actively on the CBOE. The contract size is $1000 the VIX and the symbol is
+VX.
+Futures traders are most familiar with the fair value of stock index futures derived
+from the cost-of carry relationship between the futures and the underlying stock index.
+Since there is no carry between VIX and a position in VIX futures, the fair value
+of VIX futures cannot be derived by a similar relationship. Instead the fair value is
+derived by pricing the forward 30-day variance which underlies the settlement price
+of VIX futures. The fair value of VIX futures is the square root of this expected
+variance less an adjustment factor.
+The VIX has ranged from a high of 48 in 1998 to a low of about 9 in 1993 (Fig.
+4.4). The VIX generally declines during periods of orderly market advances and
+rises during periods of market declines. The steeper the decline, the greater the VIX.
+
+International Indices and Commodities
+
+65
+
+Figure 4.4 Monthly chart of the S&P 500 (top) and the VIX (bottom) from June 1990 to
+February 2008. Extreme tops in the VIX are marked H1 and H2 and extreme bottoms by L1, L2
+and L3. Keep in mind that this is a line chart and consequently only closing prices are plotted,
+which are considerably higher or lower than the extreme intraday highs and lows respectively.
+
+Certain levels of the VIX may predict turning points in the market. It is useful to
+examine selected periods and the relationship of the VIX and the market. For example,
+Figure 4.4 details some extremes in the VIX for the most recent 10-year period from
+1998 to 2008.
+Notice that the 2000 and 2002 bottoms in the VIX (marked L1 and L2 respectively
+in Fig. 4.4) coincide with tops in the S&P 500. The VIX usually forms extreme tops
+or bottoms at the same time as the S&P forms bottoms or tops but sometimes it
+may lead the S&P 500. Notice that in January 2007 the VIX declined as low as 10
+(marked L3 in Figure 4.4) which preceded a major market decline by more than six
+months.
+
+International Indices and Commodities
+
+67
+
+indicated a sell signal when it fell below a specific level (e.g. 30) and then rose above
+that level.
+According to the interpretation above, the oscillator issued seven buy signals
+and nine sell signals during the period from May 2006 to February 2008. These are
+overlaid in the chart in Fig. 4.5. The signals marked H2, H3 and H5 correctly identified
+market bottoms while the other four buy signals were early by approximately two
+weeks on average. Only two signals (marked L7 and L9) correctly predicted market
+tops while the rest of the sell signals were premature. In these cases the time period
+that the VIX was early in predicting a market top ranged from two weeks to five
+months.
+In view of the above we can conclude that the VIX, in spite of correctly predicting
+some market turning points, was early in predicting more than half of the market tops
+or bottoms. It is not, therefore, the “Holy Grail” that some people believe it is and
+should only be used together with other indicators for more accurate market timing.
+
+66
+
+Intermarket Trading Strategies
+
+Figure 4.5 2-day chart of the S&P 500 (top) and the VIX (bottom) from May 2006 to
+February 2008. The 75 bar (150-day) intermarket oscillator is plotted in the middle chart.
+Extreme tops of the IM momentum oscillator (over 80) are marked H1–H7 and extreme
+bottoms (below 30) by L1–L9.
+
+The absolute level of the extremes in the VIX is not very important and varies over
+time. The first two bottoms (L1 and L2) occurred with the VIX around 17, but during
+the third extreme bottom in 2007 the VIX declined as far as 10.
+Tops in the VIX indicate market bottoms. The VIX rose above 40 in August
+1998 (marked H1 in Figure 4.5) and in October 2002 (marked H2) which coincided
+with the end of the correction in 1998 and the end of the bear market in 2002
+respectively.
+To determine whether the VIX is useful in predicting short-term market tops
+or bottoms in real-time trading, let’s examine the 2-day chart in Fig. 4.5. To help
+correctly identify the tops and bottoms in the VIX, I used the 150 day (75 bar in
+a 2-day chart) intermarket momentum oscillator, described fully in Chapter 9. The
+interpretation of this indicator is similar to the Williams’ %R Oscillator. Buy signals
+were considered when the oscillator rose above a specific level (e.g. 80), formed a
+peak and subsequently reversed direction and fell below that level. The oscillator
+
+5
+The S&P 500
+
+Interpretation is the revenge of the intellect upon art.
+–Susan Sonntag
+The calculation of the correlation coefficient between the index to be predicted and
+other related markets is the first step of a complete and thorough intermarket analysis.
+Of course, the final challenge comes from interpretation. Intermarket analysis relies
+on the premise that relationships in the past will be the same in the future so before
+making any conclusions it is always prudent to assess the stability of the correlation
+coefficient over time.
+I chose to start this correlation analysis with a broad market index like the S&P
+500 which is widely regarded as the best single gauge of the US equities market.
+
+5.1
+
+CORRELATION WITH INTERNATIONAL INDICES
+
+The first step in a correlation or regression analysis is to decide whether you want to
+analyze the price on a daily, weekly, monthly or quarterly basis. Using long time scales
+has the added apparent theoretical benefit that averaging over long periods suppresses
+windowing errors and daily noise, revealing the underlying long term correlations.
+The choice of time periods is therefore very important and should depend on a
+trader’s time horizon. This is illustrated in Tables 5.3 and 5.4 where the correlation
+rises dramatically when weekly returns replace daily data. As the time segment is
+reduced, noise becomes a bigger factor in the calculation and the correlation drops
+due to an abundance of change which is unfolding in the short term.
+To better understand the evolution of correlations over time in Table 5.1 I have
+calculated price correlations between the S&P 500 and major world indices yearly
+from 1992 to 2007, in Table 5.2 up to 25 years long- and short-term nonparametric price correlations and in Table 5.3 nonparametric correlations between daily
+
+70
+
+Intermarket Trading Strategies
+
+Table 5.1 Yearly correlation between daily prices of the S&P and major world indices.
+Symbols: DJ-30 is the Dow Jones Industrials, RUT is the small cap Russell 2000 index, NDX
+is the Nasdaq 100, TSX is Canada’s S&P TSX Composite Index and Euro Stoxx is the Dow
+Jones Euro Stoxx 50 Index which tracks the 50 most important stocks in the Euro zone. The
+10th percentile row shows the yearly correlations below which certain percentages of cases
+fall. So for example, if the 10 % percentile of the correlation between the S&P 500 and the
+DJ-30 is 0.61, it means that the correlation was below 0.61 only 10 % of the time. The reverse
+is true for the 90th percentile row. Notice the significant improvement in correlation
+consistency during the latest 10-year period from 1998–2007 (bottom four rows).
+
+Year
+
+DJ-30 RUT NDX
+
+Euro
+TSX Stoxx
+
+DAX
+
+2007
+2006
+2005
+2004
+2003
+2002
+2001
+2000
+1999
+1998
+1997
+1996
+1995
+1994
+1993
+1992
+
+0.93
+0.97
+0.77
+0.84
+0.99
+0.98
+0.92
+0.59
+0.87
+0.92
+0.97
+0.99
+0.99
+0.95
+0.93
+0.24
+
+0.92
+0.81
+0.82
+0.86
+0.95
+0.98
+0.96
+0.57
+0.89
+0.38
+0.94
+0.97
+0.90
+0.72
+0.84
+−0.24
+
+0.84
+0.76
+0.95
+0.92
+0.83
+0.80
+0.91
+0.83
+0.97
+0.95
+0.96
+0.98
+0.95
+0.95
+0.50
+0.61
+0.84
+0.83
+0.61
+0.76
+0.93
+0.90
+0.95
+0.89
+0.78
+0.02
+0.04
+0.34
+0.89
+0.87
+−0.52 −0.34
+
+0.69
+0.85
+0.95
+0.96
+0.98
+0.96
+0.86
+0.46
+0.83
+0.28
+0.93
+0.73
+0.96
+0.75
+0.92
+0.49
+
+0.70
+0.75
+0.92
+0.94
+0.98
+0.85
+0.94
+0.67
+0.81
+0.80
+0.91

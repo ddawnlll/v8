@@ -1,0 +1,392 @@
+For More Information Please Visit :
+
+THE ENCYCLOPEDIA OF
+TRADING STRATEGIES
+
+JEFFREY OWEN KATZ, Ph.D.
+DONNA 1. M C CORMICK
+
+T R A D E M A R K S
+
+A N D
+
+S E R V I C E
+
+M A R K S
+
+Company and product names associated with listings in this book should be considered as trademarks or service marks of the company indicated. The use of a registered trademark is not permitted for commercial purposes without the permission
+of the company named. In some cases, products of one company are offered by
+other companies and are presented in a number of different listings in this book. It
+is virtually impossible to identify every trademark or service mark for every product and every use, but we would like to highlight the following:
+Visual Basic, Visual C++, and Excel are trademarks of Microsoft Corp.
+NAG function library is a service mark of Numerical Algorithms Group, Ltd.
+Numerical Recipes in C (book and software) is a service mark of Numerical
+Recipes Software.
+TradeStation, SuperCharts, and SystemWriter Plus are trademarks of
+Omega Research.
+Evolver is a trademark of Palisade Corporation.
+Master Chartist is a trademark of Robert Slade, Inc.
+TS-Evolve and TradeCycles (MESA) are trademarks of Ruggiero
+Associates.
+Divergengine is a service mark of Ruggiero Associates.
+C++ Builder, Delphi, and Borland Database Engine are trademarks
+of Borland.
+CQC for Windows is a trademark of CQG, Inc.
+Metastock is a trademark of Eqnis International.
+technical analysis function library is a service mark of FM Labs.
+Excalibur is a trademark of Futures Truth.
+MATLAB is a trademark of The MathWorks, Inc.
+MESA96 is a trademark of Mesa.
+
+C
+. ~. ONTENTS
+
+PREFACE xiii
+INTRODUCTION xv
+What Is a Complete Mechanical Trading System? - What Are Good Entries and Exits?
+* The Scientific Approach to System Development * Tools and Materials Needed for
+the Scientific Approach
+PART I
+
+Tools of the Trade
+Introduction 1
+Chapter 1
+
+Data 3
+Types of Data * Data Time Frames * Data Quality l Data Sources and Vendors
+Chapter 2
+
+Simulators 13
+Types of Simulators * Programming the Simulator * Simulator Output @erformance
+summnry
+reports; trade-by-trade reports) * Simulator Perfomxmce (speed: capacity:
+power) l Reliability of Simulators - Choosing the Right Simulator * Simulators Used
+in This Book
+Chaoter
+
+3
+
+Optimizers and Optimization 29
+What Optimizers Do * How Optimizers Are Used * ?Lpes of Optimization (implicit
+optimizers; brute force optimizers; user-guided optimization; genetic optimizers; optimization
+by simulated annealing; analytic optimizers; linearpmgrwnming)
+l
+How to Fail with
+Optimization (small samples: large fxmztneter sets; no veri~cation) . How to Succeed
+with O&mization (h-ge, representative samples; few rules andparameters;
+veriicatim
+@results) * Alternatives to Traditional Optimization * Optimizer Tools and Information *
+Which Optimizer Is forYou?
+
+Chapter 4
+
+Statistics 51
+Why Use Statistics to Evaluate Trading Systems? l Sampling * Optimization and
+. Evaluating a System Statistically
+Curve-Fitting l Sample Size and Representativeness
+* Example 1: Evaluating the Out-of-Sample Test (what ifthe distribution is not normal?
+what if there is serial dependence? what if the markets change?) l Example 2:
+Evaluating the In-Sample Tests * Interpreting the Example Statistics (optimization
+i-esults; verification results) l Other Statistical Techniques and Their Use (genetically
+evoJved systems; multiple regression; monte car10 simulations; out-of-sample testing;
+walk-forward testing) * Conclusion
+
+PART II
+
+The Study of Entries
+Introduction 71
+What Constitutes a Good Entry? * Orders Used in Entries (stop orders; limit orders;
+market orders; selecting appropriate orders) * Entry Techniques Covered in This Book
+(breakouts and moving averages; oscillators; seasonality: lunar and solar phenomena:
+cycles and rhythms; neural networks; geneticaNy evolved entry rules) * Standardized
+
+Exits * Equalization of Dollar Volatility * Basic Test Portfolio and Platfcnm
+
+Chapter 5
+Breakout Models 83
+Kinds of Breakouts l Characteristics of Breakouts . Testing Breakout Models l
+Channel Breakout Entries (close only channel breakouts; highest higMowest low
+bnxzkouts) l Volatility Breakout Entries l Volatility Breakout Variations (long positions
+only; currencies only; adx tremififilter) . Summary Analyses (breakout types: entry
+orders; interactions; restrictions andjilters; analysis by market) * Conclusion l
+What Have We Lamed?
+Chapter 6
+Moving Average Models 109
+What is a Moving Average? - Purpose of a Moving Average * The Issue of Lag l
+Types of Moving Averages l Types of Moving Average Entry Models l Characteristics
+of Moving Average Entries l Orders Used to Effect Entries * Test Methodology ’
+Tests of Trend-Following Models * Tests of Counter-Trend Models * Conclusion l
+What Have We Learned?
+
+ix
+Chapter 7
+
+Oscillator-Based
+
+Entries
+
+133
+
+What Is an Oscillator? l Kinds of Oscillators * Generating Entries with Oscillators *
+Characteristics of Oscillator Entries . Test Methodology l Test Results (teas of
+overbought/oversold models; tests of signal line models; tests of divergence models;
+summary analyses) - Conclusion * What Have We Learned?
+Chapter S
+
+Seasonality 153
+What Is Seasonality? l Generating Seasonal Entries l Characteristics of Seasonal
+Entries . Orders Used to Effect Seasonal Entries . Test Methodology . Test Results
+(test of the basic crossover model; tests of the basic momentum
+model: tests of the
+crossover model with con$mtion; tests of the C~SSOV~~ model with confirmation and
+inversions: summary analyses) * Conclusion * What Have We Learned?
+Chmter 9
+
+Lunar and Solar Rhythms
+
+179
+
+Legitimacy or Lunacy? l Lunar Cycles and Trading (generating lunar entries: lunar test
+methodology; lunar test results; tests of the basic cmmo~er model; tests of the basic
+momentum model: tests of the cnx~mer model with confirmation; test.s of the crmmver
+model with confirmation and inversions; summary analyses; conclusion) * Solar
+Activity and Trading (generazing solar entries: solar test results: conclusion) *
+What Have We Learned?
+Chapter 10
+
+Cycle-Based Entries 2Q3
+Cycle Detection Using MESA l Detecting Cycles Using Filter Banks (butterworth
+jilters; wavelet-basedjilters) * Generating Cycle Entries Using Filter Banks *
+Characteristics of Cycle-Based Entries . Test Methodology . Test Results .
+Conclusion l What Have We Learned?
+Chapter 11
+
+Neural Networks 227
+What Are Neural Networks? (feed-forward neural networks) . Neural Networks
+in Trading l Forecasting with Neural Networks l Generating Entries with Neural
+Predictions . Reverse Slow %K Model (code for the reverse slow % k model: test
+methodology for the reverse slow % k model; training results for the reverse slow %k
+model) l Turning Point Models (code for the turning point models; test methodology
+
+for the turning point models; training resulrs for the turning point models) * Trading
+Results for All Models (@ading results for the reverse slow %k model: frading results
+for the bottom ruming point model; trading results for the top turning poinf model) *
+Summary Analyses l Conclusion * What Have We Learned?
+
+Chapter 12
+Genetic Algorithms 257
+What Are Genetic Algorithms? * Evolving Rule-Based Entry Models * Evolving an
+Entry Model @he rule remplares) * Test Methodology (code for evolving an entry
+model) l Test Results (solutions evolved for long entries; solutions evolved for short
+enrries; fesf results for the standard portfolio; market-by-market tesf resulrs: equify
+curves; the rules for rhe solurions tesred) * Conclusion * What Have We Learned?
+PART III
+
+The Study of Exits
+Introduction 281
+The Importance of the Exit l Goals of a Good Exit Strategy * Kinds of Exits
+Employed in an Exit Strategy (money management exits; trailing exits; projir tnrgef
+exiW rime-based exits; volarilify airs: barrier exits; signal exits) * Considerations
+When Exiting the Market (gunning; trade-offs with prorecrive stops: slippage;
+conC?nian rrading: conclusion) * Testing Exit Strategies * Standard Entries for Testing
+Exits (the random entry model)
+
+Chaoter 13
+The Standard Exit Strategy 293
+What is the Standard Exit Strategy? * Characteristics of the Standard Exit * Purpose of
+Testing the SES l Tests of the Original SES (test results) * Tests of the Modified SES
+(test resulrs) * Conclusion - What Have We Learned?
+
+Chapter 14
+Improvements on the Standard Exit 309
+Purpose of the Tests l Tests of the Fixed Stop and Profit Target * Tests of Dynamic
+Stops (rest of the highest higWlowest low stop; fesf of the dynamic arr-based stop: fat
+of the modified exponential moving average dynamic stop) * Tests of the Profit Taget *
+Test of the Extended Time Limit - Market-By-Market Results for the Best Exit *
+Conclusion l What Have We Learned?
+
+xi
+Chapter 15
+
+Adding Artificial Intelligence to Exits 335
+Test Methodology for the Neural Exit Component . Results of the Neural Exit Test
+(baseline results; neural exit portjolio results: neural exit market-by-market results) .
+Test Methodology for the Genetic Exit Component (top 10 solutions with baseline exit:
+results of rule-based exits for longs and shorts; market-by-market resu1t.s (If rule-based
+exits for longs: market-by-market results
+
+P R E F A C E
+
+I n this book is the knowledge needed to become a mc~re successful trader of commodities. As a comprehensive reference and system developer’s guide, the book
+explains many popular techniques and puts them to the test, and explores innovative ways to take profits out of the market and to gain an extra edge. As well, the
+book provides better methods for controlling risk, and gives insight into which
+methods perform poorly and could devastate capital. Even the basics are covered:
+information on how to acquire and screen data, how to properly back-test systems
+using trading simulators, how to safely perform optimization, how to estimate and
+compensate for curve-fitting, and even how to assess the results using inferential
+statistics. This book demonstrates why the surest way to success in trading is
+through use of a good, mechanized trading system.
+For all but a few traders, system trading yields mm-e profitable results than
+discretionary trading. Discretionary trading involves subjective decisions that frequently become emotional and lead to losses. Affect, uncertainty, greed, and fear
+easily displace reason and knowledge as the driving forces behind the trades.
+Moreover, it is hard to test and verify a discretionary trading model. Systembased trading, in contrast, is objective. Emotions are out of the picture. Through
+programmed logic and assumptions, mechanized systems express the trader’s
+reason and knowledge. Best of all, such systems are easily tested: Bad systems
+can be rejected or modified, and good cntes can be improved. This book contains
+solid information that can be of great help when designing, building, and testing
+a profitable mechanical trading system. While the emphasis is on an in-depth,
+critical analysis of the various factors purported to contribute to winning systems,
+the essential elements of a complete, mechanical trading system are also dissected
+and explained.
+To be complete, all mechanical trading systems must have an entry method
+and an exit method. The entry method must detect opportunities to enter the market at points that are likely to yield trades with a good risk-to-reward ratio. The
+exit method must protect against excessive loss of capital when a trade goes wrong
+or when the market turns, as well as effectively capture profits when the market
+moves favorably. A considerable amount of space is devoted to the systematic
+back-testing and evaluation of exit systems, methods, and strategies. Even the
+trader who already has a trading strategy or system that provides acceptable exits
+is likely to discover something that can be used to improve the system, increase
+profits, and reduce risk exposure.
+Also included in these pages are trading simulations on entire pqrtfolios of
+tradables. As is demonstrated, running analyses on portfolios is straightforward, if
+not easy to accomplish. The ease of computing equity growth curves, maximum
+drawdowns, risk-to-reward ratios, returns on accounts, numbers of trades, and all
+
+xiv
+
+PREFACE
+
+the other related kinds of information useful in assessing a trading system on a
+whole portfolio of commodities or stocks at once is made evident. The process of
+conducting portfolio-wide walk-forward and other forms of testing and optimization is also described. For example, instruction is provided on how to search for a
+set of parameters that, when plugged into a system used to trade each of a set of
+commodities, yields the best total net profit with the lowest drawdown (or perhaps
+the best Sharpe Ratio, or any other measure of portfolio performance desired) for
+that entire set of commodities. Small institutional traders (CTAs) wishing to run a
+system on multiple tradables, as a means of diversification, risk reduction, and liquidity enhancement, should find this discussion especially useful.
+Finally, to keep all aspects of the systems and components being tested
+objective and completely mechanical, we have drawn upon our academic and scientific research backgrounds to apply the scientific method to the study of entry
+and exit techniques. In addition, when appropriate, statistics are used to assess
+the significance of the results of the investigations. This approach should provide the
+most rigorous information possible about what constitutes a valid and useful component in a successful trading strategy.
+So that everyone will benefit from the investigations, the exact logic behind
+every entry or exit strategy is discussed in detail. For those wishing to replicate
+and expand the studies contained herein, extensive source code is also provided in
+the text, as well as on a CD-ROM (see offer at back of book).
+Since a basic trading system is always composed of two components, this
+book naturally includes the following two parts: “The Study of Entries” and “The
+Study of Exits.” Discussions of particular technologies that may be used in generating entries or exits, e.g., neural networks, are handled within the context of developing particular entry or exit strategies. The “Introduction” contains lessons on the
+fundamental issues surrounding the implementation of the scientific approach to
+trading system development. The first part of this book, “Tools of the Trade,” contains basic information, necessary for all system traders. The “Conclusion” provides a summary of the research findings, with suggestions on how to best apply
+the knowledge and for future research. The ‘Appendix” contains references and
+suggested reading.
+Finally, we would like to point out that this book is a continuation and elaboration of a series of articles we published as Contributing Writers to Technical
+Analysis of Stocks and Commodities from 1996, onward.
+Jeffrey Owen Katz, Ph.D., and Donna L. McCormick
+
+I N T R O D U C T I O N
+
+There is one thing that most traders have in common: They have taken on the
+challenge of forecasting and trading the financial markets, of searching for those
+small islands of lucrative inefficiency in a vast sea of efficient market behavior.
+For one of the authors, Jeffrey Katz, this challenge was initially a means to indulge
+an obsession with mathematics. Over a decade ago, he developed a model that provided entry signals for the Standard & Poor’s 500 (S&P 500) and OEX. While
+these signals were, at that time, about 80% accurate, Katz found himself secondguessing them. Moreover, he had to rely on his own subjective determinations of
+such critical factors as what kind of order to use for entry, when to exit, and where
+to place stops. These determinations, the essence of discretionary trading, were
+often driven more by the emotions of fear and avarice than by reason and knowledge. As a result, he churned and vacillated, made bad decisions, and lost more
+often than won. For Katz, like for most traders, discretionary trading did not work.
+If discretionary trading did not work, then what did? Perhaps system trading
+was the answer. Katz decided to develop a completely automated trading system
+in the form of a computer program that could generate buy, sell, stop, and other
+necessary orders without human judgment or intervention. A good mechanical
+system, logic suggested, would avoid the problems associated with discretionary
+trading, if the discipline to follow it could be mustered. Such a system would provide explicit and well-defined entries, “normal” or profitable exits, and “abnormal” or money management exits designed to control losses on bad trades,
+A fully automated system would also make it possible to conduct historical
+tests, unbiased by hindsight, and to do such tests on large quantities of data.
+Thorough testing was the only way to determine whether a system really worked
+and would be profitable to trade, Katz reasoned. Due to familiarity with the data
+series, valid tests could not be performed by eye. If Katz looked at a chart and
+“believed” a given formation signaled a good place to enter the market, he could
+not trust that belief because he had already seen what happened after the formation occurred. Moreover, if charts of previous years were examined to find other
+examples of the formation, attempts to identify the pattern by “eyeballing” would
+be biased. On the other hand, if the pattern to be tested could be formally defined
+and explicitly coded, the computer could then objectively do all the work: It
+would run the code on many years of historical data, look for the specified formation, and evaluate (without hindsight) the behavior of the market after each
+instance. In this way, the computer could indicate whether he was indeed correct in
+his hypothesis that a given formation was a profitable one. Exit rules could also
+be evaluated objectively.
+Finally, a well-defined mechanical trading system would allow such things
+as commissions, slippage, impossible tills, and markets that moved before he
+
+xvi
+could to be factored in. This would help avoid unpleasant shocks when moving
+from computer simulations to real-world trading. One of the problems Katz had in
+his earlier trading attempt was failing to consider the high transaction costs
+involved in trading OEX options. Through complete mechanization, he could
+ensure that the system tests would include all such factors. In this way, potential
+surprises could be eliminated, and a very realistic assessment could be obtained of
+how any system or system element would perform. System trading might, he
+thought, be the key to greater success in the markets.
+WHAT IS A COMPLETE, MECHANICAL TRADING SYSTEM?
+
+One of the problems witb Katz’s early trading was that his “system” only provided
+entry signals, leaving the determination of exits to subjective judgment; it was not,
+therefore, a complete, mechanical trading system. A complete, mechanical trading
+system, one that can be tested and deployed in a totally objective fashion, without
+requiring human judgment, must provide both entries and exits. To be truly complete, a mechanical system must explicitly provide the following information:
+1. When and how, and possibly at what price, to enter the market
+2. When and how, and possibly at what price, to exit the market with a loss
+3. When and how, and possibly at what price, to exit the market with
+a profit
+The entry signals of a mechanical trading system can be as simple as explicit orders to buy or sell at the next day’s open. The orders might be slightly more
+elaborate, e.g., to enter tomorrow (or on the next bar) using either a limit or stop.
+Then again, very complex contingent orders, which are executed during certain
+periods only if specified conditions are met, may be required-for example, orders
+to buy or sell the market on a stop if the market gaps up or down more than so
+many points at the open.
+A trading system’s exits may also be implemented using any of a range of
+orders, from the simple to the complex. Exiting a bad trade at a loss is frequently
+achieved using a money management stop, which tertninates the trade that has
+gone wrong before the loss becomes seriously damaging. A money management
+stop, which is simply a stop order employed to prevent runaway losses, performs
+one of the functions that must be achieved in some manner by a system’s exit strategy; the function is that of risk control. Exiting on a profit may be accomplished
+in any of several different ways, including by the use of pm@ targets, which are
+simply limit orders placed in such a way that they end the trade once the market
+moves a certain amount in the trader’s favor; trailing stops, which are stop orders
+used to exit with a profit when the market begins to reverse direction; and a wide
+variety of other orders or combinations of orders.
+
+In Katz’s early trading attempts, the only signals available were of probable
+direction or turning points. These signals were responded to by placing buy-atmarket or sell-at-market orders, orders that are often associated with poor fills and
+lots of slippage. Although the signals were often accurate, not every turning point
+was caught. Therefore, Katz could not simply reverse his position at each signal.
+Separate exits were necessary. The software Katz was using only served as a partially mechanical entry model; i.e., it did not provide exit signals. As such, it was
+not a complete mechanical trading system that provided both entries and exits.
+Since there were no mechanically generated exit signals, all exits had to be determined subjectively, which was one of the factors responsible for his trading problems at that time. Another factor that contributed to his lack of success was the
+inability to properly assess, in a rigorous and objective manner, the behavior of the
+trading regime over a sufficiently long period of historical data. He had been flying blind! Without having a complete system, that is, exits as well as entries, not
+to mention good system-testing software, how could such things as net profitability, maximum drawdown, or the Sharpe Ratio be estimated, the historical equity
+curve be studied, and other important characteristics of the system (such as the
+likelihood of its being profitable in the future) be investigated? To do these things,
+it became clear-a system was needed that completed the full circle, providing
+complete “round-turns,” each consisting of an entry followed by an exit.
+WHAT ARE GOOD ENTRIES AND EXITS?
+
+Given a mechanical trading system that contains an entry model to generate entry
+orders and an exit model to generate exit orders (including those required for
+money management), how are the entries and exits evaluated to determine whether
+they are good? In other words, what constitutes a good entry or exit?
+Notice we used the terms entry orders and exit orders, not entry or exit signals. Why? Because “signals” are too ambiguous. Does a buy “signal” mean that
+one should buy at the open of the next bar, or buy using a stop or limit order? And
+if so, at what price? In response to a “signal” to exit a long position, does the exit
+occur at the close, on a profit target, or perhaps on a money management stop?
+Each of these orders will have different consequences in terms of the results
+achieved. To determine whether an entry or exit method works, it must produce
+more than mere signals; it must, at smne point, issue highly specific entry and exit
+orders. A fully specified entry or exit order may easily be tested to determine its
+quality or effectiveness.
+In a broad sense, a good entry order is one that causes the trader to enter the
+market at a point where there is relatively low risk and a fairly high degree of
+potential reward. A trader’s Nirvana would be a system that generated entry orders
+to buy or sell on a limit at the most extreme price of every turning point. Even if

@@ -1,0 +1,941 @@
+
+Burniske 03.indd 198
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+199
+
+Blockchain Venture Capital
+Bitcoin Venture Investments: Coin Desk
+
+Classification
+
+Round
+Cumulative
+Size ($m) Funding ($m)
+
+Close Date
+
+Company
+
+9-Feb-2017
+
+Coinfirm
+
+“RegTech”
+(Regulation
+Technology)
+
+0.7
+
+0.7
+
+Seed
+
+Luma Ventures
+
+7-Feb-2017
+
+Hashed
+Health
+
+Infrastructure
+
+1.85
+
+1.85
+
+N/A
+
+Martin Ventures, Fenbushi Capital
+
+31-Jan-2017 Storj
+
+Infrastructure
+
+0.1
+
+0.1
+
+Seed
+
+Utah Governor’s Office of
+Economic Development (GOED)
+
+30-Jan-2017 Bitfury
+
+Infrastructure
+
+30
+
+90
+
+Series D Credit China FinTech Holdings
+
+30-Jan-2017 Bitpesa
+
+Payment Processor
+
+2.5
+
+3.6
+
+Series A
+
+Draper VC, Greycroft LLC, Digital
+Currency Group, Pantera Capital
+Management, Blockchain Capital,
+Zephyr Acorn, FuturePerfectVC and
+BnkToTheFuture
+
+2
+
+2
+
+Seed
+
+Partech Ventures, Digital Currency
+Group
+
+24-Jan-2017 Cambridge Infrastructure
+Blockchain
+19-Jan-2017 CoolBitX
+
+Wallet
+
+17-Jan-2017 SatoshiPay Financial Services
+
+Round
+
+Investors
+
+0.2
+
+0.2
+
+Seed
+
+Midana Capital
+
+0.68
+
+1.07
+
+N/A
+
+Blue Star Capital
+
+17-Jan-2017 NeuFund
+
+Venture Capital
+
+2
+
+2
+
+Series A
+
+Atlantic Labs, Klaas Kersting
+
+11-Jan-2017 Qtum
+
+Financial Services
+
+1
+
+1
+
+Seed
+
+4
+
+5.3
+
+Series A
+
+Anthony Di Iorio, Star Xu,
+Xiaolai Li, Bo Shen
+Union Sqauare Ventures, Lux
+Capital, Naval Ravikant, Digital
+Currency Group, Compound, Version
+One, Kal Vepuri and Rising Tide
+
+1.9
+
+0.9
+
+Series A
+
+4-Jan-2017
+
+Blockstack Infrastructure
+
+3-Jan-2017
+
+Bitpagos
+
+Financial Services
+
+Huiyin Blockchain Ventures Boost
+VC, Digital Currency Group and
+Draper VC
+
+Figure 13.13 n Blockchain venture capital investments as tracked through CoinDesk
+Source: CoinDesk
+
+Another good proxy for the increased acceptance of a cryptoasset and its
+growing offering by highly regulated exchanges is the amount of fiat currency
+used to purchase it. As also mentioned in Chapter 9, in the early days of a
+cryptoasset listing, the majority of the volume often goes through bitcoin,
+meaning that buys and sells are done in bitcoin, not dollars or euros. As cryptoassets grow in diversity, so too do their trading pairs with fiat currencies, as
+shown with Ethereum’s ether in Figure 13.14.
+In the one-year period from March 2016 to March 2017, ether went from
+being traded 12 percent of the time with fiat currency to 50 percent of the
+time. This is a good sign of the maturation of an asset, and shows it is gaining
+wider recognition and acceptance.
+
+Burniske 03.indd 199
+
+9/9/17 2:41 PM
+
+USD
+
+KRW
+
+EUR
+
+CNY
+
+Aug-16
+
+Bitcoin
+
+Jun-16
+
+200 CRYPTOASSETS
+
+CAD
+
+AUD
+
+100%
+90%
+80%
+70%
+60%
+50%
+40%
+30%
+20%
+10%
+Feb-17
+
+Dec-16
+
+Oct-16
+
+Apr-16
+
+Feb-16
+
+Dec-15
+
+Oct-15
+
+Aug-15
+
+0%
+
+Figure 13.14 n Ether’s growing currency pair diversity
+Data sourced from CryptoCompare
+
+USER ADOPTION
+A number of metrics can assess the state and rate of mainstream adoption. We
+will focus on those that display the traction of people using the cryptoasset for
+its core utility. The basic metrics are:
+•
+•
+•
+•
+
+Number of users
+Number of transactions propagated on the blockchain
+Dollar value of those transactions
+Valuation metric, which is the network value of a cryptoasset divided by
+its daily dollar transaction volume
+
+We include examples of these metrics for Bitcoin and Ethereum. It should be
+noted that many of these numbers are not easily accessible for the other crypto­
+assets because they are still in their very early days, and thus data has not been
+extracted and presented in an easily digestible manner. Even for Ethereum, certain metrics are not as easily accessible as they are for Bitcoin. Two of the best
+data resources for Bitcoin and Ethereum respectively are Blockchain.info’s charts
+section18 and Etherscan’s charts section,19 and we posit that other crypto­assets will
+have similar services built to extract and visualize data from their blockchains.
+
+Number of Users
+Figure 13.15 shows the number of wallet users for Blockchain.info, a leading
+bitcoin wallet provider (a wallet is where bitcoin users store the keys to access
+
+Burniske 03.indd 200
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+201
+
+their bitcoin). Clearly, having more users with wallets that can hold a crypto­
+asset is good for that asset: more users, more usage, more acceptance. While the
+chart shows an exponential trend, there are a few drawbacks to this metric. For
+one, it only shows the growth of Blockchain.info’s wallet users, but many other
+wallet providers exist. For example, as of March 2017, Coinbase had 14.2 million wallets, on par with Blockchain.info. Second, an individual can have more
+than one wallet, so some of these numbers could be due to users creating many
+wallets, a flaw which extends to other wallet providers and their metrics as well.
+
+Blockchain.info Wallet Users
+
+14,000,000
+12,000,000
+10,000,000
+8,000,000
+6,000,000
+4,000,000
+2,000,000
+0
+Nov-11
+
+Nov-12
+
+Nov-13
+
+Nov-14
+
+Nov-15
+
+Nov-16
+
+Figure 13.15 n Blockchain.info wallet users over time
+Data sourced from Blockchain.info
+
+Willy Woo, a Coindesk.com contributor, utilized Google Trends to evaluate
+the searches done on Google for the term “BTC USD.” He wanted to do this as
+“an effective proxy for the growth and engagement of bitcoin over time.”20 In
+other words, he wanted to use this metric to determine the growth of bitcoin
+users. Figure 13.16 shows the trend of this search term over time. Woo indicates that the peaks “are in line with price bubbles, periods where more users
+head online to check the value of their wealth.” Woo makes the leap that an
+active bitcoin user checks the price every day, so he believes the chart helps to
+identify the number of bitcoin users.
+If we assume this to be true, then Woo’s analysis indicates a doubling in bitcoin users every year and an order of magnitude growth every 3.375 years. He
+calls this Woo’s Law in honor of Moore’s Law 21 (which is famous for predicting
+that the manufacturing density of transistors per square inch would double
+every eighteen months). It will be interesting to see how Woo’s Law holds up
+over time.
+
+Burniske 03.indd 201
+
+9/9/17 2:41 PM
+
+Bitcoin Users
+
+202 CRYPTOASSETS
+
+3.375 Years Per 10x
+
+2013
+
+2014
+
+2015
+
+2016
+
+2017
+
+2018
+
+Figure 13.16 n Woo’s Law in Action: Bitcoin users double every 12 months
+Source: http://www.coindesk.com/using-google-trends-estimate-bitcoins-user-growth/
+
+Consider too, the number of addresses on a blockchain. For Bitcoin, an
+address is where bitcoin is sent, and therefore the more addresses, the more
+locations that are holding bitcoin. However, a company like Coinbase may
+have only a handful of addresses, which serve to store bitcoin for millions of
+users. Thus, while this metric shows a nice up-and-to-the-right trend, it’s only
+part of the picture.
+Figure 13.17 shows the hyper growth of Ethereum’s unique address count.
+With Ethereum, an address can either store a balance of ether, like Bitcoin, or
+it can store a smart contract. Either denotes an increase in use.
+
+Ethereum Unique Addresses
+
+140,000
+120,000
+100,000
+800,000
+600,000
+400,000
+200,000
+
+Jan-17
+
+Feb-17
+
+Dec-16
+
+Oct-16
+
+Nov-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Feb-16
+
+Mar-16
+
+Jan-16
+
+Nov-15
+
+Dec-15
+
+Oct-15
+
+Sep-15
+
+Aug-15
+
+Jul-15
+
+0
+
+Figure 13.17 n The growth of Ethereum’s unique addresses
+Data sourced from Etherscan.io
+
+Burniske 03.indd 202
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+203
+
+Number of Transactions
+Figures 13.18 and 13.19 show the number of transactions using Bitcoin and
+Ethereum’s blockchains respectively. The rising numbers are healthy signs for
+each of the blockchains and their associated cryptoassets. This information for
+bitcoin can be accessed on Blockchain.info22 and for ether at Etherscan.23
+
+Number of Transactions Per Day
+
+400,000
+350,000
+300,000
+250,000
+200,000
+150,000
+100,000
+50,000
+0
+Jan-09
+
+Jan-10
+
+Jan-11
+
+Jan-12
+
+Jan-13
+
+Jan-14
+
+Jan-15
+
+Jan-16
+
+Jan-17
+
+Figure 13.18 n Number of transactions per day using Bitcoin’s blockchain
+Data sourced from Blockchain.info
+
+Number of Transactions Per Day
+
+120,000
+100,000
+80,000
+60,000
+40,000
+20,000
+
+Feb-17
+
+Dec-16
+
+Oct-16
+
+Aug-16
+
+Jun-16
+
+Apr-16
+
+Feb-16
+
+Dec-15
+
+Oct-15
+
+Aug-15
+
+0
+
+Figure 13.19 n Number of transactions per day using Ethereum’s blockchain
+Data sourced from Etherscan.io
+
+Burniske 03.indd 203
+
+9/9/17 2:41 PM
+
+204 CRYPTOASSETS
+
+Dollar Value of Transactions
+While the number of transactions is an important metric, it says nothing about
+the monetary value of those transactions. Figure 13.20 shows the numbers for
+bitcoin. In the first quarter of 2017, Bitcoin was processing over $270 million
+per day, which translates to $188,000 per minute or $3,100 per second.24
+$600,000,000
+$500,000,000
+$400,000,000
+$300,000,000
+$200,000,000
+$100,000,000
+
+Feb-17
+
+Aug-16
+
+Feb-16
+
+Aug-15
+
+Feb-15
+
+Aug-14
+
+Feb-14
+
+Aug-13
+
+Feb-13
+
+Aug-12
+
+Feb-12
+
+Aug-11
+
+Feb-11
+
+Aug-10
+
+$0
+
+Figure 13.20 n Estimated transaction volume per day using Bitcoin’s blockchain
+Data sourced from Blockchain.info
+
+A Potential Valuation Method
+Just as valuation methods for equities have evolved over the years, so too will
+methods to value cryptoassets grow over time. One valuation method we’re
+considering is to calibrate how much the market is willing to pay for the transactional utility of a blockchain. To gain this information, we divide the network
+value of a cryptoasset by its daily transaction volume. If the network value has
+outpaced the transactional volume of that asset, then this ratio will grow larger,
+which could imply the price of the asset has outpaced its utility. We call this
+the crypto “PE ratio,” taking inspiration from the common ratio used for equities. For cryptoassets we put forth that the denominator of valuation should be
+transaction volumes, not earnings, as these are not companies with cash flows.
+One would assume that an efficient price for an asset would indicate a steadiness of network value to the transaction volume of the asset. Increasing transactional volume of an asset should be met by a similar increase in the value of that
+asset. Upside swings in pricing without similar swings in transaction volume
+could indicate an overheating of the market and thus, overvaluation of an asset.
+
+Burniske 03.indd 204
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+205
+
+Over time, the market will likely find a happy medium for this ratio, just
+as equity markets find a happy medium for price to sales or price to earnings
+ratios. Cryptoassets, including bitcoin, are still too young with too little market data to claim exactly where this equilibrium ratio will stabilize. That said,
+looking at Figure 13.21, it appears that bitcoin has a comfortable base when its
+network value is 50 times its daily transactional volume. Maintaining a price
+that keeps the ratio near 50 could indicate that the asset is being fairly priced,
+and wide swings beyond that range can signal bearish or bullish trends.
+300
+250
+200
+150
+100
+50
+
+Oct-10
+Jan-11
+Apr-11
+Jul-11
+Oct-11
+Jan-12
+Apr-12
+Jul-12
+Oct-12
+Jan-13
+Apr-13
+Jul-13
+Oct-13
+Jan-14
+Apr-14
+Jul-14
+Oct-14
+Jan-15
+Apr-15
+Jul-15
+Oct-15
+Jan-16
+Apr-16
+Jul-16
+Oct-16
+Jan-17
+
+0
+
+Figure 13.21 n Bitcoin’s network value divided by estimated
+transaction volume (30-day rolling average)
+Data sourced from Blockchain.info
+
+SUMMARY ON OPERATING FUNDAMENTALS
+The process of performing fundamental analysis on a new asset class such as
+cryptoassets is in its early stages. As much as possible we’ve tried to utilize
+the rigor and depth available through many of the tools equity analysts have
+used over the years to come up with the useful metrics we’ve provided in these
+two chapters. Obviously, the study of equities and cryptoassets are fundamentally different. Yet we’ve tried to create resources and approaches for this type
+of analysis that can hold up over time as cryptoassets continue to grow and
+mature. We also know that as more data is created, as new trends are identified, and as more analysts enter the cryptoasset space, many of the resources
+we’ve utilized here may be superseded by even more elaborate and exact tools.
+It’s our hope that we have provided innovative investors with tools to do
+the necessary research and evaluation of these assets, as they would do with
+
+Burniske 03.indd 205
+
+9/9/17 2:41 PM
+
+206 CRYPTOASSETS
+
+any other investment in their portfolio. Just as this chapter will help arm the
+innovative investor, we’d like to see it provide future cryptoasset analysts with
+the tools to continue to build more robust fundamental analysis models for
+these assets.
+
+TECHNICAL ANALYSIS OF CRYPTOASSETS
+Technical analysis comes with its own tools and metrics. Although fundamental analysis differs between cryptoassets and other asset classes, technical
+analysis is largely the same. Technical analysis is simply the evaluation of the
+price and volume movements of an asset over time to help time buys and sells.
+Of course, it’s not a guaranteed method for finding the exact “right time” to
+buy or sell, but technical analysis has become a powerful tool that bitcoin and
+other cryptoasset traders use to understand market timing. Technical analysis
+is best used in conjunction with fundamental analysis to identify appropriate
+investments and when to make them. Here we provide some basic charts and
+considerations that the innovative investor can use.
+
+Support and Resistance
+Charting the support and resistance lines of an asset’s price movement over
+time is a tried and tested tool for technical analysis. Figure 13.22 shows bitcoin’s
+price movement through the year 2015, a period where it oscillated within a
+predictable trading range. In Figure 13.22 the top line is called the resistance
+line, indicating a price that bitcoin is having trouble breaking through. Often
+these lines can be numbers of psychological weight, in this case the $300 mark.
+When the price of bitcoin hits $300 it shows a tendency to bounce back into
+its trading range. On the flip side of resistance is support, which shows a price
+that bitcoin doesn’t want to violate, in this case $200. Each time bitcoin nears
+the support line it bounces back into its trading range, and the one time that it
+breaks through this support it quickly climbs above it again.
+Note that while this range can be a helpful guide, an asset doesn’t always
+remain range-bound. For example, at the end of the depicted range the price
+seems to be breaking out to potentially form a new higher price and new trading range. For many technical analysts, such a breakout accompanied by high
+trading volume is a buy signal as it signifies something notable has happened
+to push the market to value the asset more richly. Often, previous resistance
+
+Burniske 03.indd 206
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+207
+
+lines will become support lines if the asset has broken through a resistance line
+convincingly and stays elevated. Similarly, a prior line of support can become
+a point of resistance if the asset crashes through its prior support and stays
+beneath that line.
+Price
+
+Support
+
+Resistance
+
+500
+450
+400
+350
+300
+250
+200
+150
+100
+50
+Dec-15
+
+Nov-15
+
+Oct-15
+
+Sep-15
+
+Aug-15
+
+Jul-15
+
+Jun-15
+
+May-15
+
+Apr-15
+
+Mar-15
+
+Feb-15
+
+Jan-15
+
+0
+
+Figure 13.22 n Support and resistance lines for bitcoin in 2015
+Data sourced from CoinDesk
+
+This simple illustration of support and resistance lines is expanded on
+within detailed technical analysis resources available online, including the
+work of Brian Beamish of The Rational Investor,25 among others.
+
+Simple Moving Average
+One of the most common tools for technical analysts is the simple moving
+average, or SMA, which smooths out the price trend of an asset over a period
+of time.
+SMAs are provided by most online charting sites and, as the name implies,
+the calculation is simple. It merely plots the average price of an asset over a
+period of time, and that period can be days, weeks, or months. It’s called a
+moving average because with each new day there is a new average, which
+includes the price on the newest day, while dropping the price of the oldest
+day. Hence, the average moves over time. Common averages include 50-day,
+
+Burniske 03.indd 207
+
+9/9/17 2:41 PM
+
+208 CRYPTOASSETS
+
+100-day, and 200-day moving averages, as well as longer term averages, like the
+200-week moving average to observe trends on larger time scales. SMAs can
+indicate points of support and resistance and when used together can indicate
+changes in momentum. Cryptocompare.com makes the point:
+Often simple moving averages are used in conjunction with each
+other to spot trend reversals and shifts in momentum. For example when a short term SMA is below a longer term one and then
+crosses it—you have indicated an upward shift in momentum
+that is a buy signal.26
+
+Figure 13.23 shows bitcoin’s price from the launch of Mt. Gox in July 2010
+through the end of 2012, along with its 50- and 200-day SMAs. Note that an
+average doesn’t begin until enough days have passed for the first point to be
+plotted. To CryptoCompare’s point, in the spring of 2012 the 50-day SMA
+punched through the 200-day SMA, and stayed above it, indicating upward
+momentum. Inversely, if a short term average crashes beneath a long term average, that is a bearish signal as the price of the asset is falling quickly and is commonly referred to as a death cross. Such behavior can be seen in the fall of 2011
+when the 50-day moving average fell beneath the 200-day moving average.
+Price
+
+50-day moving average
+
+200-day moving average
+
+$10
+
+$1
+
+$0
+
+Nov-12
+
+Sep-12
+
+Jul-12
+
+May-12
+
+Mar-12
+
+Jan-12
+
+Nov-11
+
+Sep-11
+
+Jul-11
+
+May-11
+
+Mar-11
+
+Jan-11
+
+Nov-10
+
+Sep-10
+
+Jul-10
+
+$0
+
+Figure 13.23 n Simple Moving Averages in the early days of bitcoin
+Data sourced from CoinDesk
+
+Burniske 03.indd 208
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+209
+
+Pay Attention to Volume
+Because of the varying levels of trading that occur with cryptoassets, it’s
+important for the innovative investor to pay close attention to the trading volume of an asset. For a young cryptoasset, it’s not unusual to see price increases
+or decreases along with low volume. This indicates that the trading book is
+thin and thus the asset is susceptible to wild swings in price. By including an
+analysis of volume, these swings in price can indicate a sustained trend or a
+temporary movement. As Charles Bovaird points out in his piece on Technical
+Analysis for Coindesk.com,
+Bitcoin traders should keep in mind that volume plays an important role in evaluating price trends. High volume points to
+strong price trends, while low volume indicates weaker trends.
+Generally, rising prices coincide with increasing volume. If bitcoin prices enjoy an uptrend, but the currency’s upward movements take place amid weak volume, this could mean that the
+trend is running out of gas and could soon be over.27
+
+Similarly, a falling price with increasingly strong volume indicates capitulation as traders are rushing for the exits, whereas a falling price on low volume
+is of less concern.
+Remember, most cryptoassets are still in an early stage, and as such, technical charts for these assets will lack the history of longer term assets such as bitcoin. You’ll find many instances of newer cryptoassets experiencing wild price
+swings after their creation, but over time these younger assets begin to follow
+the rules of technical analysis. This is a sign that these assets are maturing, and
+as such, are being followed by a broader group of traders. This indicates they
+can be more fully analyzed and evaluated using technical analysis, allowing
+the innovative investor to better time the market and identify buy and sell
+opportunities.
+•
+
+•
+
+•
+
+Innovative investors must independently examine bitcoin and other crypto­
+assets, avoiding the temptation to buy or sell simply because everyone else is
+doing so. There’s a growing wealth of information and data online on each of
+these assets, and if investors can’t find enough data on an asset to perform the
+
+Burniske 03.indd 209
+
+9/9/17 2:41 PM
+
+210 CRYPTOASSETS
+
+necessary analysis, that’s probably a sign that it should be avoided as an investment. Let’s call that the Burniske-Tatar Law.
+Once the innovative investor has performed the necessary fundamental
+and technical analysis, the next step is to pull the trigger and actually make
+the investment. In the next few chapters we’ll present the wide, and still growing, range of opportunities for investors to gain access to bitcoin and other
+cryptoassets.
+
+Burniske 03.indd 210
+
+9/9/17 2:41 PM
+
+Chapter 14
+Investing Directly in Cryptoassets:
+Mining, Exchanges, and Wallets
+
+T
+
+oday, investors have many avenues for purchasing bitcoin and other
+cryptoassets. Options will continue to evolve, but broadly there are
+two main considerations: how to acquire cryptoassets and how to
+store them. Since cryptoassets are digital bearer instruments, they are unlike
+many other investments that are held by a centralized custodian. For example,
+regardless of which platform an investor uses to buy stocks, there is a centralized custodian who is “housing” the assets and keeping track of the investor’s
+balance.1 With cryptoassets, the innovative investor can opt for a similar situation or can have full autonomy and control in storage. The avenue chosen
+depends on what the innovative investor most values, and as with much of life,
+there are always trade-offs.
+
+MINING
+A brief history of the evolution of mining is needed so that the innovative
+investor can better understand the current state of affairs for bitcoin and other
+cryptoassets. From there, it is easier to decide if this avenue of acquisition is
+appropriate. Even for those who have no interest in mining themselves, it’s
+valuable to have a deeper understanding because for many cryptoassets mining is the means of new supply issuance and the security system underpinning
+transactions.
+211
+
+Burniske 03.indd 211
+
+9/9/17 2:41 PM
+
+212 CRYPTOASSETS
+
+When Bitcoin’s network was launched in January 2009, mining was the
+only method of acquiring bitcoin, and Satoshi Nakamoto and Hal Finney were
+the two main miners.2 As we’ve discussed, new bitcoin is minted through the
+process of verifying and confirming transactions in Bitcoin’s blockchain, the
+orchestration of which is a large part of the software that Satoshi created. In
+this way, it ensures the decentralized creation of the currency in controlled
+amounts, which prior to bitcoin had not been accomplished on a global scale.
+The mining process for bitcoin is a continual cycle of hashing a few pieces
+of data together in pursuit of an output that meets a predetermined difficulty
+level, mainly the number of 0s that the output starts with. We call this output
+the golden hash. Recall that a hash function takes data—for example the text in
+this sentence—and hashes it into a fixed-length string of alphanumeric digits.
+While the output of a hash function is always of fixed length, the characters
+within it are unpredictable, and therefore changing one piece of data in the
+input can drastically change the output. It’s called a golden hash because it
+bestows the privilege of that miner’s block of transactions being appended to
+Bitcoin’s blockchain. As a reward, that miner gets paid in a coinbase transaction, which is the first transaction in the block. Currently, that transaction
+delivers 12.5 bitcoin to the lucky miner.
+The computers involved in Bitcoin’s mining process take four pieces of data:
+a hash of the transactions for that block, the hash (identifier) of the previous
+block,3 the time, and a random number called the nonce. Different computers
+on the network take these four variables and increment the nonce, perhaps
+starting with a nonce equal to 0, then going to 1, then to 2, hoping that by
+changing this one variable the hash output will meet the necessary requirement of the number of starting zeros. The more nonces the miner can test, the
+more chances the miner will find a golden hash that meets the requirement.
+The rate at which new nonces can be tested is called the hash rate; it is the
+number of times per second a computer can run these four variables through
+a hash function and derive a new hash.
+Anyone with a computer can connect to Bitcoin’s network, download past
+blocks, keep track of new transactions, and crunch the necessary data in pursuit
+of the golden hash. Such open architecture is one of Bitcoin’s strongest points.
+While that might sound like an easy way to earn bitcoin, it is now incredibly
+difficult. Since the launch of Bitcoin, not only have the number of computers
+mining it increased, but the types of computers used have evolved significantly.
+Initially, computers on the network crunched through hashes using their
+central processing unit (CPU), which is the primary chip responsible for the

@@ -1,0 +1,414 @@
+
+Pinpointing a downtrend
+A downtrend is a series of down-day bars (a close lower than yesterday) characterized by lower lows and lower highs in a preponderance of the bars. For
+example: Look at the down days in Figure 6-3. After the first day, each of these
+bars has a close lower than the close the day before. Day 3 has the same high
+as the day before, but a lower low. On Day 3, you start to get the idea that this
+may be the beginning of a downtrend.
+When identifying a downtrend, a series of lower highs is a good confirming
+indicator to the series of lower lows. The same psychology applies as when an
+uptrend starts, only in reverse. Sellers see that new lows are occurring — somebody must know something negative about the security. Traders aren’t willing
+to hold a falling asset, and they unload it at ever-lower prices. Meanwhile, fans
+of the security can’t give it support at yesterday’s low — selling pressure is
+too great.
+
+Wading through Murky Bar Waters
+Reading bar charts isn’t always a clear-cut process. In bar terms, a trend has
+two identifiers — a series of higher highs (or lower lows) and a series of up
+days (or down days). (See previous sections in this chapter.) Technical analysis doesn’t offer a hard-and-fast rule on which identifier is more important.
+Traditional technical analysis emphasizes that you need higher lows to confirm the higher highs in an uptrend, but candlestick analysis, which I cover
+in Chapter 8, says that the position of the close trumps every other factor,
+including a new high or low.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+In practice, you find that the weight you place on the position of the close
+is a direct function of how far out in time you want to extend your forecast.
+Traditional bar chart reading generally has a longer forecasting time frame
+than candlestick chart reading and a longer expected holding period over
+which you plan to own the security. In traditional bar analysis, you may
+accept two, three, or even more days of countervailing bars (bars that don’t
+confirm the trend). In other words, in a long-term time frame, you can have
+several down days in a valid uptrend. In candlestick analysis, you may accept
+only one day or none because the trading style associated with candlestick
+analysis is very short term.
+So how should you approach bar reading to break through the muck? In this
+section, I suggest sticking to attributing supply-and-demand analysis to the
+high and low of the bar.
+
+Paying heed to bar series
+Most of the time, a series of higher highs with higher lows or a series of lower
+lows with lower highs does mean that a trend is emerging, even if the close
+is not yet in the right position to confirm it. Higher closes are the logical
+outcome of new highs if they persist in a series, just as lower closes are the
+outcome of a series of lower lows. The mind of the market isn’t hard to read.
+Market players start wondering why new highs or lows are occurring. They
+know a new high or a new low can occur only if some trader decides to buy
+or sell there — so what does he know that other traders don’t know?
+New highs and lows arouse emotions in the following ways:
+✓ A new high or low makes market participants nervous. A sufficiently
+large number of new highs triggers greed — better buy now so you don’t
+miss out, even if you don’t know why the new high is occurring. The
+result is a higher close as buyers pile in near the end of the day.
+✓ New lows scare just enough traders that they sell their positions, even in
+the absence of any fresh news that would justify it. Sellers are unwilling
+to hold a falling asset and so sell, causing a lower close.
+But sometimes it’s the other way around — you get a series of up days without getting a series of higher highs. In other words, the close today is higher
+than the close yesterday, but the high today isn’t higher than the high yesterday. Pay attention anyway because new highs may start to appear. These new
+highs may happen solely because so many people are aware of the meaning of
+up days and down days. In other words, so many people look at technical indicators — and a series of up days or down days is a basic indicator — that they
+anticipate higher highs or lower lows. By acting on that expectation — buying
+or selling ahead of the actual appearance of a higher high or lower low — they
+make it happen. You can observe this type of self-fulfilling prophecy often in
+technical analysis.
+
+www.pdfdummies.com
+
+105
+
+106 Part III: Observing Market Behavior
+Understanding relativity
+The textbook uptrend is a series of up-day price bars (close higher than
+yesterday) that have higher highs and higher lows in a preponderance of
+the bars. A downtrend is a series of down-day bars characterized by lower
+lows and lower highs in most of the bars. Your task is to define when a lower
+low from the day before is relatively harmless and when a higher high is
+relatively significant. But markets are not neat and tidy, and not every bar is
+going to qualify on all three criteria.
+See Figure 6-4. This chart depicts an uptrend — even though not every bar
+qualifies as belonging to an uptrend. You see lower lows as well as several
+days on which the bar is a down day. Down days are colored black, and up
+days are gray. This figure demonstrates two points where textbook definitions of trends are relative.
+
+60
+
+30
+Figure 6-4:
+Relative
+higher
+highs.
+
+20
+
+SIGNIFICANT HIGHER HIGHS
+
+10
+
+What is relatively harmless or significant is a subjective judgment. Try to
+make the effort to think about what highs and lows are saying about immediate supply and demand for the security:
+✓ Significance: What is a significant high? You determine the answer to
+that question. You can judge significance by eyeing the chart, or you can
+specify rules, such as “a significant high is one that is x percent higher
+than the average of the past y highs.” You can use software to develop
+a “filter” that defines criteria like a “significant high.” In Figure 6-4, two
+significant higher highs stand out. They each represent a 50 percent gain
+from the previous up day high. Note also that every high is higher than
+the day before, but every significant high is higher than the highs that
+came before.
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+✓ Preponderance: In addition to revealing that some bars in an uptrend
+can be net down days, Figure 6-4 illustrates that not every high in an
+uptrend has to be higher than the one before. You just need to identify
+a preponderance of higher highs and a preponderance of higher lows.
+Preponderance generally means “majority.” For example, a preponderance of higher highs may mean a simple majority, say six of ten bars,
+accompanied by six of ten higher lows. However, determining a preponderance is your call. Maybe you like seven out of ten. You can eyeball
+it or use software to develop a precise definition and backtest it on
+historical data.
+If you use charting software to look at charts, turn on the feature that lets you
+visually differentiate between up days and down days. A standard practice is
+to make up days green and down days red. It takes no practice to see where a
+trend is interrupted by bars that don’t qualify.
+
+Avoiding misinterpretation
+A series of price bars isn’t always trended, of course, but sometimes you can
+misinterpret what you’re seeing if you aren’t careful. You may see a series of
+higher highs but forget to make sure that each bar has a higher low and is an
+up day. Or you see a series of lower lows but forget to check that the high is
+lower or that the bars are all down days.
+You may see a price series where every day brings a new high but every day
+also brings a close lower than the day before and a low that is lower than the
+lows on preceding days. This situation is shown in Figure 6-5.
+
+Figure 6-5:
+Higher highs
+with lower
+lows.
+
+DAY 3
+
+Figure 6-5 reminds you that it’s not enough to have a series of higher highs in
+an uptrend — you also have to have higher lows. This set of bars is a series
+of down days (the close is lower than the close the day before). It’s hard
+
+www.pdfdummies.com
+
+107
+
+108 Part III: Observing Market Behavior
+to swallow, but this figure displays a downtrend emerging at the third bar.
+Your eye may want to see an uptrend, but when you look more closely and
+analyze the bars for all three conditions, you have only one uptrend condition (higher highs) that is more than offset by the two downtrend conditions
+(lower lows and lower closes). Appearances can be deceiving.
+You may never know for sure why such a strange series of bars develops.
+However, here are a few theories:
+✓ Some traders plan to exit at the end of the day no matter what (I
+describe the exit-on-close strategy earlier in the chapter). This is a riskmanagement decision, not a commentary on the price.
+✓ Some group in the market wants to see this security make higher highs,
+and so they buy near the highs, hoping that a new high will “create
+demand,” as in an auction. Such buyers may be insiders or option traders trying to trigger a specific price level.
+✓ A trader may be trying to test a support or a resistance line (which I
+describe in Chapter 10).
+
+Knowing when bar reading doesn’t work
+Some price series are unreadable. You can’t figure out what the market is
+thinking because the market is changing its mind just about every other day.
+Figure 6-6 is such a chart. The series of gray up days is a minor uptrend and
+the following series of black down days is a minor downtrend — but then
+things fall apart. You see higher highs followed by lower lows and no consistency in the placement of the close (up day or down day).
+What do you do in a case like this? Nothing — at least not anything based on
+interpretation of the bars. When bars are in a chaotic mess like in Figure 6-6,
+the probability of picking the right direction (up or down) is very low. You’d
+just be guessing. And although you have to accept imperfection and a certain amount of ambiguity in bar-chart analysis, the whole purpose of technical analysis is to obtain a higher probability of making the right decision.
+Guessing defeats the purpose.
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+0.745
+
+0.740
+
+0.735
+
+0.730
+
+0.725
+
+0.720
+
+0.715
+
+Figure 6-6:
+Nontrending
+bars.
+
+0.710
+24
+
+31
+
+7
+
+14
+
+21
+
+April
+
+Looking at Data in Different Time Frames
+In preceding sections, I talk about the price bar as a daily bar. In practice,
+you find that looking at data in a different time frame is often useful when you
+are facing a trading decision. You can zoom out to a higher time frame (such
+as weekly) or zoom in to a shorter time frame (hourly).
+Price bars are fractal, meaning you can’t tell by looking at a chart what
+time frame the bars represent. A chart of 15-minute price bars can’t be distinguished from a chart showing daily bars. They both show the same bar
+components acting in the same ways. If a chart isn’t labeled, you can usually
+assume that the bars are daily bars. No matter what time frame you select,
+everything in this book (including the following sections) about the price bar
+and its components is valid.
+
+Using daily data
+Most beginners start with the daily price bar. Daily data is widely available
+and free or cheap. Daily data is the standard because
+
+www.pdfdummies.com
+
+109
+
+110 Part III: Observing Market Behavior
+✓ Most of the commentary in newspapers, magazines, and Web sites refers
+to daily bars. It’s the “base case.”
+✓ Embracing daily price bars puts you on the same page with the majority
+of people in the market.
+✓ Even people who use intraday data (such as hourly bars) also look at
+the daily price bars.
+Technical analysis writers are sensitive to the increased use of intraday data,
+and today usually speak of periods rather than days. Changing the vocabulary
+has the unfortunate effect of making some technical analysis writing sound
+formal or pompous — but it’s more accurate.
+
+Zooming out to a higher time frame
+You can display prices in a weekly or monthly format. Mutual fund bars containing all the components are available only weekly. Quarterly and annual
+charts are seen less often. The universality of standard bar notation isn’t
+hard to understand — after all, a week has an opening price (the first trade
+on Monday morning) and a closing price (the last trade on Friday afternoon),
+with a high and a low somewhere in between. The weekly close is a summary
+of the sentiment of the majority of market participants for the week, just as
+the daily closing price summarizes sentiment for the day.
+You can often see trends and patterns over longer time frames that are hard
+to see on a daily chart. If you’re using charting software, make the habit of
+toggling the chart from a daily time frame to the weekly and monthly time
+frames to see whether anything pops out at you. In addition, you can use, say,
+a weekly chart to confirm a new trend that you discover on a daily chart.
+
+Zooming in to a shorter time frame
+Many traders today track and trade prices on shorter time intervals, like
+the 60-minute bar. The following sections outline how you, too, can get your
+hands on the data and select the best interval after you have the numbers.
+
+Getting the data
+Live, real-time data used to be too expensive for the little guy and only big
+firms could afford to buy it for their professional traders. Now anyone can
+buy it for a few hundred dollars per year. With a 10- or 15-minute time delay,
+you can get intraday price bars for free on many Web sites. Most brokers give
+you free live data in return for your opening an account.
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+When you subscribe to a data service, you can organize intraday data in any
+interval you like — 5-minute bars, 15-minute bars, 60-minute bars, and so on.
+You could have 7-minute bars or 73-minute bars, if you really wanted to. The
+notation is the same as in daily bars, though. The opening price is the price
+of the first trade during the period, and the closing price is the last trade
+done during the period, and so on. You can also see tick bars, a somewhat
+weird way of looking at prices in which a bar is created every 20 or 50 ticks
+no matter how much time it takes.
+
+Choosing an interval
+If you start using intraday price bars, how do you select the interval? Experts
+are reluctant to give advice on this point. Leading data vendor eSignal offers
+standard intervals of 1, 3, 5, 10, 13, 15, 30, and 60 minutes, as well as daily,
+weekly, monthly, or custom intervals of your choice. (You have to wonder
+why users told eSignal they wanted the 13-minute interval.) In foreign
+exchange, you may often see traders use bars covering 240 minutes (four
+hours) or 360 minutes (six hours), a tidy way of keeping track in a 24-hour
+market as it travels around the globe.
+The only logical way to select an interval is to treat it like a new pair of jeans.
+Try them all on your favorite security and see how they look. Selecting the
+interval to use in displaying bars is subjective. Sometimes you may want to
+use an odd number of minutes (like 13 or 73) because those bars regularly
+show patterns that give you insights. Remember, bar reading is a visual art.
+Other times you may prefer to look at what everyone else is looking at, on the
+principle that following the crowd is usually the right way to forecast.
+You want an interval that accurately represents activity in the security and
+suits your needs at the same time. If you’re trading an equity that has trading volume of only 10,000 shares during the day and all of that is done in 5
+trades, spacing your bars at 3-minute or 15-minute intervals is silly. Your
+result would be a chart that is mostly blank, and every trade looks like it
+gapped from the one before. (For an explanation of gaps, see Chapter 7.)
+If you’re watching a traditionally heavily traded security, such as IBM,
+though, you get a complete bar for every 1-minute interval, and each bar contains the open, high, low, and close of that minute. Be careful not to sabotage
+your analysis by selecting a time frame that’s out of sync with the normal
+flow of trading in the selected security.
+The key to selecting the right interval is the liquidity of the security you’re
+trading. Liquidity refers to potential volume in this context — kind of like a
+bench of buyers waiting around for their chance at bat, meaning a price that
+pleases them, with an opposing bench of sellers willing to throw balls until
+somebody takes a swing. A liquid security has lots of buyers and sellers,
+
+www.pdfdummies.com
+
+111
+
+112 Part III: Observing Market Behavior
+with some of them active at all times. Liquidity results in real trades that are
+measured as volume. A security with only one or two interested parties is
+not liquid, as you may have discovered if you ever tried to sell a thinly traded
+penny stock.
+Select intraday bar intervals that are proportional to the minimum volume of
+the security being charted. How do you judge what is proportional? You
+match the interval to your purpose. If you’re trading on a daily time frame in
+which you make two decisions per day, one to buy and one to sell, you want
+to see bars that have enough substance to convey real information. If a
+1-minute or 3-minute bar chart produces just a dot, you need to increase the
+interval. If 15-minute bars are big enough to read, perhaps you can stop there.
+But try the 30-minute and 60-minute bars while you are at it. You may like
+them better.
+
+www.pdfdummies.com
+
+Chapter 7
+
+Reading Special Bar
+Combinations: Small Patterns
+In This Chapter
+▶ Keying in on market psychology in simple bar combinations
+▶ Comprehending common and uncommon bar combinations
+▶ Getting the lowdown on gaps
+▶ Understanding the significance of the high-low range
+
+T
+
+he price bar is the basic building block of technical analysis, and a series
+of price bars on a chart is your basic workspace. (For the basics of the
+price bar, see Chapter 6.) Charts contain endless combinations of bar configurations, and you can’t possibly memorize all the combinations and permutations. Being able to identify a few special cases, however, is useful because
+you see these cases often enough that they serve as signposts to guide your
+interpretation of what the price is going to do next.
+“Special bars” are a small series of two to five bars — called combinations or
+configurations — that stand out on a chart. You can see them immediately,
+and so can everyone else. All the special bars and configurations are either
+trend-confirmation or trend-reversal patterns. Over the years, traders have
+interpreted these special bar combinations in specific ways, which I describe
+in this chapter. Knowing how other traders feel toward specific bar configurations can help you make your own trading decisions.
+As a general rule, you want to “go with the flow” — trade with the conventional wisdom about the meaning of the configurations. If you’re a very shortterm trader (three to five days), a good time frame to trade when you’re new
+to technical analysis, the special-case configurations literally tell you how to
+trade. If you’re a longer-term trend trader, the earlier you use these configurations to identify a new trend, continuation of the trend, or the end of an existing trend, the more profit you make. Check out the following sections in this
+chapter for more details on configurations.
+
+www.pdfdummies.com
+
+114 Part III: Observing Market Behavior
+Finding Clues to Trader Sentiment
+You use price bar combinations to determine whether your security is starting a trend, staying on a trend, or losing its grip on the trend. The start of a
+new trend is sometimes the end of an old one, called a reversal. In this section, you can figure out how these price bar combinations give you clues
+about general market sentiment in order to anticipate your next move.
+
+Tick and bar placement
+In Chapter 6, I define an uptrend as a series of bars featuring higher highs
+together with higher lows, and a downtrend as a series of lower lows together
+with lower highs. An uptrend also features bars that have a close higher than
+the day before — up days. A downtrend contains mostly down days (closes
+lower than the day before). A fourth factor you want to consider is whether
+the close is above the open (or below the open in the case of a downtrend).
+You hardly ever see a series of bars where every single one of these factors
+confirms the trend. Because prices never move entirely in a straight line, you
+have to accept that some bars in a trend don’t fall into line with all the trend
+criteria. You may have one or two bars in an uptrend that don’t have higher
+highs or a few bars where the close is lower than the day before. Such variations in tick placement (the horizontal line marking the open and close) and
+bar placement (position of a price bar relative to the bars that precede it) are
+normal in even the best-behaved trend.
+Some bars are just a little out of line, but sometimes you see bars that really
+stand out. It takes almost no practice at all to differentiate ordinary out-ofline bars from special configurations that traders consider to be associated
+with specific interpretations.
+In a series of three bars, each having four components, you can get any one
+of 2,463 permutations of configuration. When you specify joint conditions,
+such as higher high together with higher low, the number of combinations
+reaches into the millions — and that’s just with three bars! So, when you see
+the special cases, you know that you’ve got a valuable clue to upcoming price
+behavior. This is why, by the way, we can dismiss charges that technical
+analysis is not “proven” scientifically. The computational power to prove the
+validity of any single bar configuration does not yet exist. That doesn’t mean
+that the majority of human beings do not respond the same way to the same
+patterns on a chart in the year 2020 as in the year 1920.
+
+www.pdfdummies.com
+
+Chapter 7: Reading Special Bar Combinations: Small Patterns
+Even so, the interpretation guidelines aren’t 100 percent right at all times. In
+fact, nobody can tell you even roughly what percentage of the time the standard interpretation is correct, because it may be correct all the time in one
+security but only 10 percent of the time in another, or correct 75 percent of
+the time in one year but only 50 percent in another.
+A bar component or even the placement of the entire bar can be random.
+Random highs and lows, and even a few random bars, are caused by a “greater
+fool” making a trade at a sucker price or a whole batch of traders mistakenly
+believing a false rumor. Often you never know the reason for some weird bar
+configuration. Some securities have a high number of known configurations,
+and some are prone to out-of-whack (meaningless) configurations. The orderliness and regularity (or lack of regularity) is a function of the crowd that trades
+each security, and should be a consideration when you’re choosing what
+securities to trade. See Chapter 14 on volatility.

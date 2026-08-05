@@ -1,0 +1,573 @@
+
+Moving Average Convergence
+Divergence
+
+The moving average convergence divergence (MACD) trading method is a
+form of a trend-deviation indicator using two MAs, the shorter being sub-
+tracted from the longer. The two MAs are usually calculated on an expo
+nential basis, in which more recent periods are more heavily weighted than
+in the case of a simple MA. It is normal for the MACD to then be smoothed
+by a third exponential moving average (EMA), which is plotted separately
+on the chart. This average is known as the signal line, the crossovers of which
+generate buy and sell signals. This indicator obtains its name from the fact
+that the two EMAs are continually converging and then diverging from each
+other. The MACD has gained great popularity over the years, but in effect
+itis really just another variation on a trend-deviation indicator that employs
+two EMAs as its method of deviation. A visual of its construction is there
+fore very similar to Chart 11-13.
+
+Individual Momentum Indicators 1 229
+
+MACDs can be used with many different time periods. Gerald Appel of
+Signalert,* who has done a considerable amount of research on the subject,
+recommends that buy signals on a daily chart be constructed from a com-
+bination of 8, 17, and 9 exponential MAs, but he feels that sell signals are
+more reliable when triggered on the basis of a 12, 25, and 9 combination.
+On the other hand, the popular MetaStock program plots the default val-
+ues as 12 and 26 with the signal line at 9.
+
+Chart 11-17 shows an example from General Electric with an MACD indi-
+cator. As mentioned before, one of the principal ways in which the MACD
+is interpreted is to use the signal-line crossovers as buy and sell alerts. The
+problem I have with this approach is that it results in far too many whip-
+saws. In Chart 11-17, we see numerous examples. A more reliable technique
+is to construct overbought and oversold lines, trendlines, and price patterns
+and to look for divergences. In the chart, both series complete H&S pat-
+terns at the end of the year 2000. The MACD also experiences a negative
+divergence. Note how the divergence, flagged by the right shoulder, is barely
+able to rally above zero. The result is an above-average decline. Note also
+that the indicator was unable to rally above zero and touched its oversold
+level several times during the balance of the period covered by the chart.
+This type of action reflects bear market activity. The MACD is often plotted
+in a histogram format along with the signal line as in Chart 11-18.
+
+Chart 11-17 General Electric, 1999-2000, and MACD. (From www.pring.com.)
+
+84 5
+664 General Electric
+
+Bear market
+sod”
+
+404
+
+es
+
+ae MACD H ee
+
+194/s_ Signal line Ss ~ ~\ s No overboughts
+
+osd . \ J ff .
+
+0.04 -
+oi VS
+tod
+415 4----
+
+Tay, Dla Wal” aug” "TBep " Joet”” "How" "beeps rebar” Tam
+
+‘Signalert, 150 Great Neck Road, Great Neck, NY 1102].
+
+
+
+230 Part I: Trend-Determining Techniques
+
+Alternatively, the MACD can be plotted as a smoother series using two rel-
+atively long-term MAs. This more deliberate series then lends itself better
+to signal-line crossovers. For example, on hourly charts, a 65/90 combina-
+tion with a 12-period signal line appears to work quite well. The same prin-
+ciple can be applied to daily, weekly, or monthly charts. Ironically the default
+time span used for daily charts (26/12 with a 9-day signal line) appears to
+work better on monthly ones because it manages to retain the primary trend
+swings yet the signal line whipsaw crossovers are kept to a minimum.
+
+Stochastic Indicators
+Introduction and Formula
+
+The stochastic indicator originally gained a great deal of popularity among
+futures traders, with the result that the standard formula uses very short term
+time spans. The theory behind the indicator, which was invented by George
+Lane,‘is that prices tend to close near the upper end of a trading range dur-
+ing an uptrend. As the trend matures, the tendency for prices to close away
+from the higher end of the trading range becomes pronounced. In a down-
+ward-moving market, the reverse conditions hold true.
+
+Chart 11-18 Homestake Mining and an MACD in histogram format. This chart shows a
+classic H&S pattern. Note that the MACD histogram gradually became weaker as the pattern
+progressed. This was only a short-term sell signal, but the price eventually fell below the signal
+level. (From Telescan.)
+
+24
+
+23}
+22}
+
+20 .
+
+Nov. . Dec. i Jan. Feb. 7 Mar.
+
+‘Investment Educators Incorporated, Des Plaines, IL 60018.
+
+Individual Momentum Indicators I 231
+
+The stochastic therefore attempts to measure the points in a rising trend
+at which the closing prices tend to cluster around the lows for the period
+in question, and vice versa, since these are the conditions that signal trend
+reversals. It is plotted as two lines, the %K line and the %D line. The %D
+provides the major signals and is therefore more important.
+
+The formula for calculation of %K is
+
+%K = 100[(C— L,)/(Hg —Ls)]
+
+where C is the most recent close, L, is the lowest low for the last five trad-
+ing periods, and H;, is the highest high for the same five trading periods.
+Remember that the calculation of stochastic indicators differs from that of
+most other momentum indicators in that it requires high, low, and closing
+data for the period in question.
+
+The stochastic formula is similar to the RSI in that the plots can never
+exceed 0 or 100, but in this case, it measures the closing price in relation
+to the total price range for a selected number of periods. A very high read-
+ing, in excess of 80, would put the closing price for the period near the top
+of the range, while a low reading, under 20, would place it near the bottom
+of the range.
+
+The second line, %D, is a smoothed version of the %K line. The normal
+value is three periods. The %D formula is as follows:
+
+%D = 100 X (H,/L,)
+
+where H, is the three-period sum of (C— L,) and L,is the three-period sum
+of (H, — L).
+
+€ momentum indicator that results from these calculations is two lines
+that fluctuate between 0 and 100. The %K line is usually plotted as a solid
+line, while the slower %D line is usually plotted as a dashed line. A good
+Way to differentiate between them is to think of the fast %K as “kwick” and
+the slow %D as “dawdle.”
+
+The popularity of the stochastic can no doubt be explained by the smooth
+Manner in which it moves from an overbought to an oversold condition,
+lulling a trader into a feeling that price trends are much more orderly than
+Would appear from an observation of an RSI or an ROC indicator.
+
+Longer-term time frames, used on monthly and weekly charts, appear to
+Work much better than the shorter-term stochastic indicators used on daily
+futures charts, Colby and Meyers in The Encyclopedia of Technical Market
+Indicators’ noted that the stochastic tested very poorly relative to MA
+“rossovers and other momentum indicators.
+
+Robert W, Colby and Thomas A. Meyers, The Encyclopedia of Technical Market Indicators, Dow
+Jones-Irwin, Homewood, IL, 1988,
+
+
+232 Part I: Trend-Determining Techniques
+
+Overbought and oversold bands are usually plotted in the 75 to 85 per-
+cent area on the upside and in the 15 to 25 percent area on the downside,
+depending on the time span in question. An overbought indication is given
+when the %D line crosses the extreme band, but an actual sell alert is not
+indicated until the %X line crosses below it. When the two lines cross, they
+behave very similarly to a dual MA system. If you wait for the penetration,
+you can avoid getting trapped into shorting a strongly bullish move or buy-
+ing into an extremely negative one.
+
+Interpretation
+
+Crossovers Normally, the faster %K line changes direction sooner than
+the %D line. This means that the crossover will occur before the %D line
+has reversed direction, as in Fig. 11-3(a). When the %D line reverses direc-
+tion first, a slow, stable change of direction is indicated, and %D is regarded
+as a more reliable signal [see Fig. 11-3(6)}.
+
+_ Right crossing
+{b)
+
+Figure 11-3 Stochastic crossovers.
+
+Individual Momentum Indicators | 233
+
+Divergence Failure An important indication of a possible change in
+trend arises when the %K line crosses the %D line, moves back to test its
+extreme level, and fails to cross the %D line, as in Fig. 11-4.
+
+Reverse Divergence Occasionally, during an uptrend, the %D line will
+make a lower low, which is associated with a higher low in the price, as in
+Fig. 11-5. This is a bearish omen, and conventional wisdom suggests look-
+ing for a selling opportunity on the next rally. This condition is sometimes
+referred to as a bear setup. A bull setup develops at the end of a downtrend.
+
+Figure 11-4 Stochastic failures.
+
+“*—— Rising boltoms
+
+Fatling bottoms —————>*"
+
+Figure 11-5 Stochastic reverse divergences.
+
+
+
+234 Part I: Trend-Determining Techniques
+
+Extremes Occasionally, the %K value reaches the extreme of 100 or 0.
+This indicates that a very powerful move is underway, since the price is con-
+sistently closing near its high or low. If a successful test of this extreme occurs
+following a pullback, it is usually regarded as an excellent entry point.
+
+Hinges When either the %Kline or the %D line experiences a slowdown
+in velocity, indicated by a flattening line, the indication is usually that a rever-
+sal will take place in the next period (see Fig. 11-6).
+
+Divergences The stochastic indicator often sets up positive and negative
+divergences in a similar manner to other oscillators. Some possibilities are
+indicated in Fig. 11-7. Buy and sell alerts are triggered when the %K line
+crosses %D after a divergence has taken place.
+
+Slowed Stochastic Indicator _ It is also possible to extend the calcula-
+tion in order to invoke a slowed version of stochastic indicators. In this
+instance, the %K line is replaced with the %D line, and another MA is cal-
+culated for the %D. Many technicians argue that this modified stochastic
+version gives more accurate signals. Chart 11-19 shows the Amex Brokers
+Index together with a 10-day %K slowed by a factor of 5. The %D line has
+a slowing factor of 5 as well, hence the 10/5/5 label.
+
+Hinge
+
+Hinge ———>
+
+Figure 11-6 Stochastic hinges.
+
+Individual Momentum Indicators ! 235
+
+Figure 11-7 Stochastic divergences.
+
+Chart 11-19 Amex Brokers Index, 2000-2001, stochastic and several interpretive tech-
+niques. (From www.pring.com.)
+
+650d Confirmed
+6004 \ UW Alina: Cee , aK ~s., bullish divergence
+5504 Amex Brokers Index .
+
+5004
+
+a
+
+4p
+“e Hinge [NS
+i
+991 Stochastic (10/5/5) .
+
+=== Bolish Tanure oF Ww Es
+Libr [october " "November Becember” [2001 [February " Merch " _aprit”
+
+
+
+236 Part I: Trend-Determining Techniques
+
+Summary
+
+* The RSI is bounded by 0 and 100. Overbought and oversold lines should
+be wider the shorter the time span.
+
+* The RSI lends itself more easily to comparing the momentum of differ-
+ent.securities than does the ROC.
+
+* The RSI can be used in conjunction with overbought and oversold lines,
+divergences, price patterns, trendlines, and smoothings.
+
+* Trend-deviation indicators are calculated by dividing the close or a short-
+term MA by a longer-term one.
+
+© Trend-deviation indicators can be used with trendlines, price patterns, and
+Mas. They also lend themselves to overbought-oversold and divergence
+analysis.
+
+* The MACD is a form of trend-deviation indicator.
+
+¢ The stochastic indicator assumes that prices close near the low at the end
+of a rally and near their highs at the end of a downtrend.
+
+° The stochastic indicator is confined between 0 and 100 and consist of two
+lines, the %K and the %D.
+
+° The stochastic indicators lend themselves to crossovers, divergences,
+hinges, extremes, and reverse divergences and are usually plotted in their
+‘slowed version.
+
+12
+
+Individual
+Momentum
+
+Indicators Il
+
+The Know Sure Thing (KST)*
+The Long-Term KST
+
+Chapter 10 explained that the rate of change (ROC) measures the speed
+ofan advance or decline over a specific time span and is calculated by divid-
+ing the price in the current period by the price N periods ago. The longer
+the time span under consideration, the greater the significance of the trend
+being measured. Movements in a 10-day ROC are far less meaningful than
+those calculated over a 12- or 24-month time span.
+
+The use of an ROC indicator helps to explain some of the cyclical move-
+ments in markets, often giving advanced warning of a reversal in the prevail-
+ing trend, but a specific time frame used in an ROC calculation reflects only
+one cycle. If that particular cycle is not operating, is dominated by another
+one, or is dominated by a combination of cycles, it will be of little value.
+
+Major Technical Principle Price at any one time is determined by
+the interaction of many different time cycles: ‘An indicator that takes
+this into consideration is likely to be more-timely without losing too
+Much in the way of sensitivity. :
+
+.* The design of this indicator was adapted from a technique used by Jan S. Notley, in my
+“ew the world’s leading analyst of financial cyclic phenomena.
+
+237
+
+
+
+238 Part I: Trend-Determining Techniques
+
+This point is illustrated in Chart 12-1, which shows three ROC indicators
+of different time spans: 6 months, 12 months, and 24 months. The 6-month
+ROC tends to reflect all of the intermediate moves, and the 24-month series
+sets the scene for the major swings. The arrows flag the major turning points.
+They show that for the most part all three ROCs are moving in the same
+direction once the new trend gets under way. A major exception occurred
+at the 1984 bottom. Here we see the price rise, but immediately after, the
+24month ROC declines while the others continue on up. During the
+period covered by arrow A, the speed of the advance is curtailed because
+of the conflict between the three cycles. Later, though, all three ROCs get
+back in gear on the upside and the rally approximated by arrow B is much
+steeper. In effect, major turning points tend to occur when several cycles
+are in agreement and speedy advances and declines develop when more
+cycles are operating in the same direction. This is a fairly limited view
+because there are far more than three cycles operating at any one point
+in time.
+
+Clearly, one ROC time span taken on its own does not give us a complete
+picture. This was one of the factors that I considered when designing the
+KST. Another was that I wanted an indicator that fairly closely reflected the
+major price swings over the time period under consideration, primary
+trends for monthly charts, short-term trends for daily charts, and so forth.
+
+Chart 12-1 S&P Composite, 1978-1988, and three ROCs. (From www.pring.com.}
+
+S&P Composite
+
+ee
+“| re
+24-mo! rinROG
+)
+
+Segoe i979 fies __|isai___ isk? [roms [isea___jioss _[ioas
+
+Individual Momentum Indicators I 239
+
+Chart 12-2 shows the Standard & Poor’s Composite during the 1974-90
+period. The oscillator is a 24.month ROC smoothed with a 9-month MA.
+This series certainly reflects all of the primary trend swings during this
+period. However, if we use the indicator’s changes in direction as signals,
+close examination shows that there is a lot to be desired. For example, the
+1984 low is signaled with a peak in the oscillator. Similarly, the 1989 signal
+develops almost at the rally peak. What was required was an indicator that
+reflected the major trend yet was sensitive enough to reverse fairly close to
+the turning points in the price. A good way of achieving this is to construct
+an indicator that includes several ROCs of differing time spans. The func-
+tion of longer time frames is to reflect the primary swings, while the inclu-
+sion of the shorter ones helps to speed up the turning points. The formula
+for the KST is shown in Table 12-1.
+
+Table 12-1 Formulas for Time Frames
+
+Time Frame Smoothing Weight
+9-month MA x 1
+12-month 6-MA x 2
+18-month 6-MA x 3
+24month 9-MA x 4
+
+Chart 12-2 S&P Composite, 1973-1991, and a smoothed ROC. (From www.pring.com.)
+
+300-4
+
+ew
+
+2004 S&P Composite
+
+50~ Smoothed 24-month ROC
+
+iol
+
+er 4
+
+[73 [1974 [1975 [1976 [1977 [1978 [1979 [1980 [i5s2 [1982 [i983 [1984 R985 [i9Bs [1987 [LoBs [1989 [1990 |
+
+
+
+240 Part I: Trend-Determining Techniques
+
+Since the most important thing is for the indicator to reflect the primary
+swings, the formula is weighted so that the longer, more dominant time
+spans have a larger influence.
+
+Chart 12-3 compares the performance of the smoothed 24-month ROC
+to the long-term KST. It is fairly self-evident that the KST reflects all of the
+major swings being experienced by the smoothed 24-month ROC. However,
+the KST turning points develop sooner than those of the ROC. The verti-
+cal arrows slice through the ROC as it bottoms out. In every instance, the
+KST turns ahead of the arrow, the lead time varying with each particular
+cycle. Note how in 1988 the KST turns well after the 1987 bottom, but just
+at the time when the market begins to take off on the upside. The ROC
+reverses direction much later. There is one period when the KST under-
+performed, and that is contained within the 1986-1987 ellipse where the
+KST gave a false signal of weakness, unlike the ROC that continued to rise.
+
+The dominant time frame in the KST’s construction is a 24-month period,
+which is half of the 4-year business cycle. This means that the KST will work
+best when the security in question is experiencing a primary up- and down-
+trend based on the business cycle. For example, Chart 12-4 shows the KST
+during the 1960s and 1970s where the S&P was in a clearly defined business
+cycle-typetrading range. Periods of accumulation and distribution occur
+between the times when the KST and its MA change direction.
+
+There are really three levels of signaling. The first occurs when the indi-
+cator itself changes direction, the second when it crosses its MA, and the
+
+Chart 12-3 S&P Composite, 1973-1991, and a smoothed ROC versus the KST. (From
+wuww.pring.com.)
+
+3004
+200- sep Composite t
+100+
+i
+
+604 Smoothed 24-month ROC
+
+; yy
+1007 Long-term KST +
+
+C)
+
+04
+
+Lc [lt 74 [1975 1976 [1977 [i979 [i979 [iseo [isei [ios2 [ides [ioes [1985 lias [1987 1988 [1989 i950 |
+
+Individual Momentum Indicators II 241
+
+Chart 12-4 S&P Composite, 1963-1979, and a long-term KST. (From www.pring.com.)
+
+ey
+
+120
+1105
+
+S&P Composite
+100 | nf
+90 AN |
+20 Va
+
+Long-term KST
+
+Sh fides fives [1966 ]is67 fises [1965 [i970 [1972 [2972 [1973 [1974 ]i975 [i976 11977 1978 fy’
+
+third when the MA also reverses direction. In most cases, the MA crossover
+offers the best combination of timely signals with a minimum of whipsaws.
+Changes in the direction of the 9-month MA offer the most reliable signals,
+but these usually develop well after the turning point. The most timely and
+teliable signals thereby develop in those situations where the MA reverses
+close to a turning point.
+
+For the most part, the indicator has been very reliable, but like any other
+technical approach, it is by no means a perfect technique. For instance, the
+same calculation is shown in Chart 12-5, but this time for the Nikkei.
+During periods of a secular or linear uptrend (as occurred for Japanese equi-
+ties in the 1970s and 1980s), this type of approach is counterproductive since
+Many false bear signals are triggered. However, the vast majority of markets
+are sensitive to the business cycle, and so the summed ROC concept works
+extremely well. It is for this reason that | call this indicator the KST, which
+Stands for know sure thing. Most of the time the indicator is reliable, but you
+know that it’s not a sure thing.
+
+Short- and Intermediate-Term KSTs
+
+The KST concept was originally derived for long-term trends, but the idea of
+four smoothed summed ROCs can just as easily be applied to short, interme-
+diate, and even intraday trends. Formulas for various time frames are shown
+'n Table 12-2, The formulas presented here are by no means the last word and
+
+
+
+242 Part I: Trend-Determining Techniques
+
+Chart 12-5 The Nikkei, 1975-1992, anda long-term KST. (From www.pring.com.)
+
+Individual Momentum Indicators I 243
+
+Chart 12-6 Cash copper, 1993-2001, and an intermediate KST. (From www.pring.com.}
+
+4000 4
+3000 5
+
+20007) Nikkei
+
+1000 5
+
+160 4
+1004 Long-term KST
+
+sve] fis7a| isto | Jiswz [sea fisas | sey] isa] oa]
+
+Table 12-2 Suggested KST Formulas*
+
+ROC MA Weight ROC MA Weight ROG MA Weight ROG MA Weight
+
+Short-term 10 10 1 15 10
+
+Intermediate-term? 10 10 1 13° 13 2 15 15 3 20 20 4
+Intermediateterm? 10 101 1 13° 13 2 15 15% 3 20 201 4
+Long-term§ 9 6 #1 12 6 2 18 «6 3 24 9 4
+Long-term’ 39 261 «1 52 264 2 78 261 3 104 391 4
+
+*It is possible to program all KST form i
+Module (see Resources, atthe end of the book), on Measteck and the Computrac Snap
+‘Based on daily data.
+*Based on weekly data.
+5Based on monthly data.
+TEMA
+
+are suggested merely as good starting points for further analysis. Readers may
+experiment with different formulas for any of the time frames and may well
+come up with superior results. When experimenting, strive for consistency,
+never perfection, for there is no such thing in technical analysis.
+
+Chart 126 shows an intermediate KST for the London copper price. One
+of the things Ilike about the indicator, especially in its short-term and inter-
+mediate varieties, is its flexibility of interpretation. Pretty much all of the
+interpretive techniques discussed in Chapter 10 can be applied. In Chart 12-
+6, we see an overbought crossover at the tail end of 1994. It did not amount
+to anything because it was not possible to come up with any trend-reversal
+signals in the price. Later, though, in early 1995 we see a negative divergence,
+
+4 Cash Copper
+
+Intermediate KST
+
+oar alas ToT Trt
+
+teed gee” Tigge "figs"
+
+an overbought crossover, a 65-week exponential moving average (EMA)
+crossover, and a head-and-shoulders (H&S) top in the price—classic stuff,
+There were a couple of false buy signals on the way down, but the rally peaks
+in the KST lent themselves to a nice trendline construction. The violation
+of the line, the oversold crossover, and the completion of the base in the price
+combined to offer a nice buy signal in late 1996. The next time the KST
+crossed its oversold level in 1998 there was no good place to observe a trend-
+reversal signal in the price. That was not true in early 1999, where a positive
+divergence, an EMA crossover by the KST, and a trendline break in the price
+offered a good timely entry point. Note that after the price broke above the
+down trendline, it subsequently found support at the extended line.

@@ -1,0 +1,473 @@
+
+option $delta = underlying $delta x option’s delta
+
+An option’s $delta represents the dollar change in its theoretical value for a one percent
+change in the price of the underlying contract. An ABC call with a delta of 80 has a
+$delta of:
+
+$200 x .80 = $160
+An XYZ put with a delta of -30 has a $delta of:
+$100 x -.30 = -$30
+
+Given the $delta relationship, if we want to get long ABC and short XYZ, and we
+want to have the same number of dollars at risk on each side of the spread, we need to
+be long and short an equal number of $deltas. In other words, in a $delta neutral
+position:
+
+number of ABC contracts x contract delta x $delta of ABC
+must equal
+number of XYZ contracts x contract delta x $delta of XYZ
+
+Suppose ABC and XYZ are futures contracts with the following options available:
+
+ABC XYZ
+Exercise Call Put Exercise Call Put
+price delta delta price delta delta
+45 80 20 | 95 70 _ 30
+50 50 -50 100 50 -50
+55 20 -80 105 30 -70
+
+Some typical $delta neutral spreads might be:
+
+long 10 ABC futures / short 40 XYZ 100 calls
+long 10 ABC 45 calls / short 16 XYZ futures
+long 10 ABC 50 calls / long 20 XYZ 100 puts
+short 30 ABC 45 puts / long 40 XYZ 95 puts
+long 35 ABC 55 calls / short 20 XYZ 95 calls
+
+
+334 Chapter 16
+
+Each of these spreads is essentially balanced, because our $delta position in ABC options
+is exactly offset by an opposing $delta position in XYZ. Since we are always long ABC
+deltas and short XYZ deltas, for small movements in the underlying contracts, each
+spread will be profitable as long as ABC is stronger than XYZ.
+
+Why would a trader consider taking a position in options rather than the underlying
+instrument? When a trader considers an option’s theoretical value, in a sense he is
+comparing the option’s value to the value of the underlying instrument. That is why the
+correct use of an option’s theoretical value requires us to establish a hedge against the
+underlying instrument. If options are underpriced compared to theoretical value, a
+trader will want to buy options rather than take an equivalent position in the underlying
+instrument; if options are overpriced compared to theoretical value, a trader will want
+to sell options rather than take an equivalent position in the underlying instrument.
+From an option trader’s point of view, the determination of whether options are
+overpriced or underpriced depends on one’s opinion of volatility. If implied volatility is
+low compared to a trader’s forecast, options are underpriced; if implied volatility is high,
+options are overpriced. An option trader will prefer to take a position in the option
+market rather than in the underlying instrument if he believes that implied volatility is
+too low or too high.
+
+In our example, if a trader is in agreement with the implied volatility in both ABC
+and XYZ options, there is nothing to be gained by taking an option position rather than
+a position in the underlying instrument. Suppose, however, that implied volatility in
+ABC options is 22% but the trader believes that 24% is a more reasonable volatility. Now
+options are underpriced. If the trader wants to take a long position in ABC as part of his
+spread, he will be better off doing so by purchasing ABC calls. He will not only have his
+intermarket spread, but will, at the same time, be creating a position with a positive
+theoretical edge. On the other hand, if the trader believes that 20% is a reasonable
+volatility for ABC options, but implied volatility is 22%, the trader will be better off
+selling ABC puts. The sale of overpriced puts will create a long position in the ABC
+market while also creating a positive theoretical edge.
+
+A trader can take the same approach in the XYZ market. If he wants to take a short
+position in XYZ as part of his intermarket spread, and believes implied volatility in XYZ
+options is fairly priced, he can simply sell the underlying XYZ contract. Alternatively, if
+he believes implied volatility is too low, he can buy puts; if he believes implied volatility
+is too high, he can sell calls.
+
+What types of markets lend themselves to intermarket spreading? Since a trader
+who enters into an intermarket spread makes the assumption that there is a relationship
+between the markets involved, the important question for most traders is the closeness
+of that relationship. A trader is much more likely to construct an intermarket spread in
+markets which have similar characteristics, or where the markets are driven by the same
+forces, than in those where no apparent similarity exists. While a trader might find it
+difficult to identify a relationship between corn and Deutschemarks, he might very well
+find a relationship between corn and soybeans, or between Deutschemarks and Swiss
+Francs. In the same way, he might not find a relationship between gold and the stock
+of General Motors Corp., but he might find a relationship between gold and silver, or
+
+
+Intermarket Spreading 335
+
+between General Motors Corp. stock and Ford Motor Co. stock. Clearly, some instru-
+ments are more closely related than others. The closer the relationship, the more such
+instruments lend themselves to intermarket spreading.
+
+AN INTERMARKET HEDGE
+
+Because intermarket spreading is most common in markets with close relationships, it
+is not surprising that among the most common markets for intermarket spreading are
+those where one or more products are derived from some other product. For example,
+since both heating oil and gasoline are derived from crude oil one would expect price
+movements in these three markets to be closely correlated. If demand rises for heating
+oil or gasoline, forcing up the price of these products, then the price of crude oil is also
+likely to rise. Similarly, if the supply of crude oil is disrupted and prices consequently
+rise, then the price of gasoline and heating oil is also likely to rise.
+
+Refiners who purchase crude oil and refine it into gasoline and heating oil are often
+sensitive to the value of crack spreads, the spread between the price of crude oil and its
+derivative products. For example, a refiner who purchases crude oil and refines it into
+gasoline is concerned that the price of crude oil will rise and that the price of gasoline
+will fall. If crude oil is at $19.00 per barrel and gasoline at $.5400 per gallon, the price
+of a simple crude oil/gasoline crack spread is:!
+
+($.54 x 42} - $19.00 = $3.68 per barrel
+
+If the refiner is satisfied with the $3.68 profit margin, he might protect his position by
+purchasing crude oil futures at $19.00 and selling an equal number of gasoline futures
+at $.5400.2 If, however, he has an opinion on the volatility of either crude oil or gasoline,
+and this opinion differs from the implied volatility in the option market, he can take
+either position in options. If he feels that implied volatility in crude oil is unusually low
+(high), he can take his long position by purchasing calls (selling puts). If he feels that
+implied volatility in gasoline is unusually low (high), he can take his short position by
+purchasing puts (selling calls).
+
+While most intermarket spreads consist of opposing positions in two different
+Markets, there is no reason why an intermarket spread cannot be extended to multiple
+instruments. For example, some refining operations produce a combination of both
+gasoline and heating oil. In a typical combination 3:2:1 crack spread, from each three
+barrels of crude oil which the refiner purchases he expects to produce two barrels of
+gasoline and one barrel of heating oil. With crude oil at $19.00 per barrel, gasoline at
+$.5400 per gallon, and heating oil at $.5800 per gallon, the value of a3:2:1 crack spread
+is;
+
+((2 x 42 x $.5400) + (1 x 42 x $.5800) — (3 x $19.00)] / 3 = $4.24 per barrel
+
+1. Since gasoline and heating oil are quoted in cents per gallon, and a barrel contains 42 gallons, the
+gasoline or heating oil price must be multiplied by 42 in order to calculate its price per barrel.
+
+2. Although this is not a $delta neutral position, since the dollars at risk in crude oil are not equal to the
+dollars at risk in gasoline, it is still an intermarket spread since one market is being spread off against
+another market.
+
+
+336 Chapter 16
+
+Again, if the refiner is satisfied with the $4.24 profit margin, he can simply buy crude
+oil futures and sell gasoline and heating oil futures in a 3:2:1 ratio. For each three crude
+oil futures which he purchases, he can sell two gasoline futures and one heating oil
+future, If, however, the refiner has an opinion on the volatility of any of these products,
+he may find it advantageous to take his long or short position in the option market rather
+than in the futures market.
+
+VOLATILITY RELATIONSHIPS
+
+A close price relationship between markets may also mean that the markets have similar
+volatility characteristics. This may enable the trader to identify mispriced options
+without the necessity of picking the right volatility for either market. Returning to our
+ABC and XYZ contracts, suppose that a trader thinks ABC will be stronger than XYZ,
+and wants to take a long position in ABC and a short position in XYZ. If the implied
+volatility of ABC is 20% and the implied volatility of XYZ is 24%, the trader might now
+have reason to take his position in options rather than in the underlying instruments. If
+the market were to rise, the trader expects ABC to go up faster than XYZ since ABC is
+expected to be stronger than XYZ. In the trader’s estimation, ABC ought to have a
+greater volatility. But the implied volatilities reflect the opposite view. The marketplace
+seems to believe that if both ABC and XYZ rise in price, XYZ (with its implied volatility
+of 24%) will rise more quickly than ABC (with its implied volatility of 20%). Clearly, the
+prices in the marketplace do not reflect the trader’s opinion of market conditions. The
+trader can take advantage of this situation by purchasing ABC calls and selling XYZ calls.
+
+Note that the trader has not made any attempt to predict the right volatility for
+either ABC or XYZ. He has simply made the assumption that the implied volatilities do
+not reflect his view of market conditions.
+
+If the trader wants to construct a $delta neutral spread he must still determine the
+delta of the options involved. Since the $delta, like all deltas, is sensitive to changes in
+volatility, it may seem that the trader will need a specific volatility to calculate the
+$delta. He can avoid this problem if he decides to use at-the-money options. No matter
+what the volatility, he knows that an at-the-money option will have a delta of approxi-
+mately 50. If ABC is trading at 50 and XYZ is trading at 100, he can buy ABC 50 calls
+with an implied volatility of 20%, and sell XYZ 100 calls with an implied volatility of
+24%. If there are 70 days remaining to expiration, with interest rates at 6%, the price of
+the ABC 50 call would be 1.73 (a dollar price of $692) and the price of the XYZ 100
+call would be 4.14 (a dollar price of $414). Since the $delta of ABC is $200 and the
+$delta of XYZ is $100, a typical $delta neutral spread might consist of purchasing 10
+ABC 50 calls and selling 20 XYZ 50 calls. The value of such a spread at expiration is
+shown in Figure 16-1.
+
+In Figure {6-1 we can see that if ABC is stronger than XYZ, as the trader believes,
+the spread will show an ever increasing profit as ABC continues to outperform XYZ.
+Note that the trader will also show a profit if the market falls in both ABC and XYZ, or
+if ABC and XYZ move up at the same rate. This is because the trader received more for
+the XYZ options which he sold than he paid for the ABC options which he bought. If
+
+
+Intermarket Spreading 337
+
+Figure 16-1: Long 10 ABC 50 Calls/Short 20 XYZ 100 Calls
+
+ABC moves up twice
+as fast as XYZ
+
+ABC moves up 33% \ ae °
+
+faster than XYZ
+
+oO
+8
+3 _
+a
+& aa
+& ao
+2 a
+a ABC moves up at the
+same rate as XYZ
+en ra
+0 —
+T T T T T T T TT T T TT
+48 49 50 51 52 53 54 55 56 57 58 59 60
+
+ABC Price
+
+the market falls and the entire position ends up worthless, or if ABC and XYZ move up
+at the same rate, the trader is left with a profit equal to the excess price of XYZ options.
+The only market conditions which would hurt this spread would be an upward move
+in both ABC and XYZ, with XYZ outperforming ABC.
+
+What action could the trader take if the implied volatilities were reversed, with
+ABC having an implied volatility of 24% and XYZ having an implied volatility of 20%?
+Now if ABC and XYZ both rise, the marketplace expects ABC to outperform XYZ. Since
+this is also what the trader believes, there does not seem to be any opportunity. But
+Suppose, instead of buying calls in ABC and selling calls in XYZ, the trader decides to
+take his long position in ABC by selling puts, and his short position in XYZ by purchasing
+Puts. Assuming, again, that he uses at-the-money puts which he knows to have a delta
+of approximately -50, he might create a $delta neutral position by selling 10 ABC 50
+puts and buying 20 XYZ 100 puts. If the market moves up, and ABC is stronger than
+XYZ, all the options will collapse to zero. He will be left with a profit equal to the excess
+credit when he sold ABC 50 puts at an implied volatility of 24% and bought XYZ 100
+Puts at an implied volatility of 20%. And if the market moves down, based on his
+assumption that ABC will be stronger than XYZ, the trader expects XYZ to move down
+More quickly than ABC. Hence, the XYZ puts will appreciate more rapidly than the ABC
+puts, leaving the trader with an ever-increasing profit. The results of this strategy is
+Shown in Figure 16-2.
+
+
+Profit & Loss
+
+338 Chapter 16
+
+Figure 16-2: Short 10 ABC 50 Puts/Long 20 XYZ 100 Puts
+
+—
+XYZ moves down
+~~ twice as fast as ABC
+XYZ moves down _ .
+33% faster than ABC me
+° ~
+| ~~~. ae ~ mM
+XYZ moves Joma me .
+the same rate as ABC ae Me
+ae * on
+0 a |
+T T T “T T T T T T T T
+40 4 42 43 44 45 46 47 48 49 50 51 52
+ABC Price
+
+In the foregoing examples we used at-the-money options which we knew to have
+a delta of 50. What about using either in-the-money or out-ofthe-money options? Now
+the situation becomes more complex. If we use at-the-money options we are only
+required to determine that ABC and XYZ implied volatilities are mispriced with respect
+to each other. If, however, we start to vary the options’ exercise prices, we need to
+determine not only whether ABC and XYZ options are mispriced with respect to each
+other, but also whether the individual implied volatilities are too high or too low.
+Whenever options appear cheap because implied volatility is lower than a trader’s
+volatility forecast, the trader will try to buy out-of-the-money options (options with
+lower deltas). Whenever options appear expensive because implied volatility is higher
+than a trader’s volatility forecast, the trader will try to sell out-of-the-money options.
+
+For example, if ABC options not only appear too cheap with respect to XYZ options,
+but also appear too cheap compared to a trader’s volatility forecast for ABC, the trader
+will try to buy ABC options with smailer deltas and sell XYZ options with larger deltas.
+Assuming the trader wants to be long ABC and short XYZ, he might buy ABC 55 calls
+and sell XYZ 100 calls. Or he might buy ABC 50 calls and sell XYZ 95 calls. He is trying
+to create an intermarket call backspread, by purchasing options with smaller deltas, and
+selling options with larger deltas. In the same way, if ABC options appear too expensive
+with respect to XYZ, and also appear too expensive compared to a trader’s volatility
+forecast, he might take his long position in ABC by selling puts with lower deltas, and
+take his short position in XYZ options by purchasing puts with higher deltas. This will
+
+
+Intermarket Spreading 339
+
+create an intermarket put ratio vertical spread. Examples of an intermarket call
+backspread and an intermarket put ratio vertical spread are shown in Figures 16-3 and
+16-4. Note that such spreads are sensitive not only to the volatility relationship between
+ABC and XYZ, but also to the general level of volatility. A backspread wants the market
+to become more volatile; a ratio vertical spread wants the market to become less volatile.
+
+INTERMARKET VOLATILITY SPREADS
+
+Suppose a trader has decided that ABC and XYZ ought to have very similar volatilities,
+put he finds that the implied volatility of ABC options, at 20%, is markedly different than
+the implied volatility of XYZ options, at 25%. If the trader also believes that one market
+will outperform the other, he might take a position by purchasing calls (puts) in one
+market and selling calls (puts) in the other market. But suppose the trader has no opinion
+on the relative strengths of the two markets. His only opinion is that options in one
+market are too cheap or expensive in relation to options in the other market. He simply
+wants to be long volatility in one market and short volatility in the other. What can he
+do?
+
+Suppose the trader purchases ABC calls and sells XYZ calls. If he is right about
+volatility and both markets move in the same direction, he will always show some profit
+(Figure 16-1}. But his profit will be greatest when ABC and XYZ rise in price. In the
+same way, if the trader purchases ABC puts and sells XYZ puts, he will always show
+
+Figure 16-3: Long 21 ABC 55 Calls/Short 12 XYZ 95 Calls
+
+ABC moves up 33% 2
+faster than XYZ, or moves if
+down 33% slower than XYZ ras
+
+ABC moves up twice as ry
+fast as XYZ, or moves af
+down half as fast as XYZ :/
+
+Profit & Loss
+a
+
+ABC and XYZ move up and
+down at the same rate a
+
+T T T ¥ T “tT T T T T T T T T T T T T T
+40 41 42 43 #44 #45 #46 #47 #48 #<49 «50 «#«51 52 5&3 54 55 56 57 58 59 60
+ABC Price
+
+
+
+340 Chapter 16
+
+Figure 16-4: Short 21 ABC 45 Puts/Long 12 XYZ 105 Puts
+
+ABC moves up twice as
+fast as XYZ, or moves
+down half as tast as XYZ
+
+Profit & Loss
+
+ABC and XYZ move up and
+down at the same rate
+
+ABC moves up 33%
+faster than XYZ, or moves
+down 33% slower than XYZ
+
+T T T T T T T T T T T T T T T T T
+40 41 42 43 44 45 46 47 48 49 6560 51 62 53 54 55 56 57 68 58 60
+ABC Price
+
+some profit (Figure 16-2). But now his profit will be greatest when ABC and XYZ fall in
+price. A trader who has only a volatility opinion can combine these strategies to create
+an intermarket spread which is based solely on the assumption of a mispriced volatility
+relationship between the two markets. That is, the trader can buy straddles or strangles
+in one market and sell straddles or strangles in the other market.
+
+Since the trader is not taking a position on what the correct volatility is for ABC or
+for XYZ, but rather on the relative volatility between the two markets, he can’t
+determine the exact delta for the options. The easiest way to solve this problem is to
+focus on at-the-money straddles. Regardless of the correct volatility, he knows that
+at-the-money options have deltas of approximately 50.
+
+Suppose the trader decides to buy 20 ABC SO straddles. How many XYZ 100
+straddles should he sell if he wants the value of the total position to be dependent only
+on the volatility relationship between the two markets? The trader can think of his
+position as an ABC/XYZ call spread, combined with an ABC/XYZ put spread. Since
+ABC has a $delta of $200, the trader’s total $delta position in ABC 50 calls is:
+
+20 x $200 x .50 = $2000
+
+The $delta of XYZ is $100, so each XYZ call has a $delta of $100 x .SO = $50. The
+correct number of XYZ calls to sell is therefore:
+
+$2,000 / $50 = 40
+
+
+Intermarket Spreading 34]
+
+The arithmetic is essentially the same for ABC and XYZ puts, each having a delta of -50.
+If the trader buys 10 ABC 50 puts, his $delta position is:
+
+10 x $200 x -.50 = -$2000
+
+With the $delta for the XYZ 100 put of -$50 we need to sell 40 XYZ 100 puts to balance
+the 20 ABC 50 puts which we purchased. The complete position is:
+
+long 20 ABC 50 calls short 40 XYZ 100 calls
+long 20 ABC 50 puts short 40 XYZ 100 puts
+
+The value of this position at expiration is shown in Figure 16-5.
+
+Note in Figure 16-5 that if ABC and XYZ move at the same rate, the position will
+always show a profit equal to the excess premium received for XYZ options (implied
+volatility = 25%) over the premium paid for ABC options (implied volatility = 20%).
+Suppose the implied volatilities of 20% for ABC and 25% for XYZ turn out to be correct.
+This means that XYZ will move 25% faster than ABC since 25/20 = 1.25. If this happens
+we can see from Figure 16-5 that the spread will now act like a short straddle, showing
+its maximum value if the market sits still and showing a loss if the market makes a big
+move.
+
+If the trader believes that XYZ will move faster than ABC, as indicated by the
+implied volatilities, he might alter the ratio. If XYZ does have a volatility 25% greater
+than ABC, the trader can rebalance the spread by purchasing 25% more ABC straddles
+than he originally intended. Instead of purchasing 20 ABC straddles he can purchase 25
+ABC straddles. The effect of doing the spread in this new ratio is shown in Figure 16-6.
+
+We can see from Figure 16-6 that in the new size of 25 x 40 the spread breaks even
+if XYZ does move 25% faster than ABC. But the position acts like a long straddle if ABC
+and XYZ move at the same rate. In the new size of 25 x 40 the volatility difference
+between the two contracts has become a factor in determining the correct ratio.
+Originally, the trader balanced his spread based on the following relationship:
+
+ABC contracts x $delta of ABC x ABC option delta
+must equal
+XYZ contracts x $delta of XYZ x XYZ option delta
+
+But taking into consideration the different volatilities of the two contracts, the spread fs
+now balanced if:
+
+ABC contracts x $delta of ABC x ABC option delta x ABC volatility
+equals
+XYZ contracts x $delta of XYZ x XYZ option delta x XYZ volatility
+
+Our XYZ call position is:
+40 x $100 x .50 x .25 = $500
+Taking into consideration the volatility, each ABC call has a $delta of
+$200 x .50 x .20 = $20
+
+
+342 Chapter 16
+
+Figure 16-5: Long 20 ABC 50 Calls/Long 20 ABC 50 Puts
+Short 40 XYZ 100 Calls/Short 40 XYZ 100 Puts
+
+|
+
+ABC and XYZ move up and
+down at the same rate
+
+Profit & Loss
+
+XYZ moves up and down .
+25% faster than ABC . a
+
+T T T T T T T T T T T T T T T T T T
+40 41 42 43 44 45 46 #47 #48 #49 50 51 52 53 54 55 56 57 58 59 60
+ABC Price
+
+Therefore, the proper number of ABC contracts required to balance the spread is
+500/20, or 25 contracts. The spread is now completely balanced since:
+
+25 x $200 x .50 x .20 = 40 x $100 x .50 x .25
+
+We can see that the volatility relationship between the two contracts can be an
+important factor in determining the proper ratio in an intermarket volatility spread.
+Since predicting the correct volatility of even one underlying contract can be such a
+difficult task, what chance does the trader have of being correct about the volatility of
+two different contracts? The important consideration in an intermarket spread is not
+necessarily the volatility of each individual contract, but the volatility relationship
+between the contracts. If a trader can determine the relationship, the actual volatility
+might not affect the spread value. For example, if we determine that XYZ is always 25%
+more volatile than ABC, the actual volitilities of ABC and XYZ don’t really matter. The
+ratio is the same whether the volatility of ABC is 20% and XYZ is 25%, or ABC is 12%
+and XYZ is 15%, or ABC is 28% and XYZ is 35%. In each case XYZ is 25% more volatile
+than ABC, so the ratio of XYZ to ABC is the same.

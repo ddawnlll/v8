@@ -1,0 +1,429 @@
+
+Although I invest in and trade both individual stocks and exchange-traded funds,
+ETFs have some unique beneﬁts over stocks. The following are the reasons I initially
+became attracted to trading ETFs as a great alternative to trading individual stocks:
+Safety through diversiﬁcation. Do you ever wonder if you are going to wake up in
+the morning and ﬁnd out your stock dropped 50 percent because the CEO was
+
+8
+
+ETF Overview and Selection
+
+caught with his hands in the cookie jar? This is never an issue with ETFs because
+they automatically diversify equities and usually have minimal exposure to any
+one individual stock.
+Consider, for example, the PowerShares Dynamic Semiconductors Fund
+(PSI), the composition of which is shown in Table 1.1. As of July 2011, a total
+of 30 stocks represented the underlying portfolio of PSI. Of those, the largest
+percentage weighting of any individual stock was only 5.19 percent. Even if that
+company (QUALCOMM Inc.) had bad news that caused its stock to plummet
+overnight, the net effect on the price of the ETF would be minimal. By trading
+ETFs, you are automatically reducing your risk of damaging losses from overnight
+gaps (sessions in which the opening price of an ETF signiﬁcantly varies from the
+previous day’s closing price). (See Chapter 7 for a full discussion of overnight gaps.)
+TABLE 1.1
+
+Composition of PowerShares Dynamic Semiconductors Fund (PSI)
+% of Fund
+
+QCOM
+ALTR
+KLAC
+ADI
+TXN
+ATML
+NVDA
+MU
+ENTG
+ESIO
+CYMI
+OVTI
+MKSI
+NVLS
+FEIC
+BRKS
+IRF
+LTXC
+SMTC
+UTEK
+LRCX
+KLIC
+TER
+RTEC
+FCS
+CY
+PLAB
+SWKS
+CEVA
+VECO
+
+QUALCOMM Inc.
+Altera Corp.
+KLA-Tencor Corp.
+Analog Devices Inc.
+Texas Instruments Inc.
+Atmel Corp.
+NVIDIA Corp.
+Micron Technology Inc.
+Entegris Inc.
+Electro Scientiﬁc Industries Inc.
+Cymer Inc.
+OmniVision Technologies Inc.
+MKS Instruments Inc.
+Novellus Systems Inc.
+FEI Co.
+Brooks Automation Inc.
+International Rectiﬁer Corp.
+LTX-Credence Corp.
+Semtech Corp.
+Ultratech Inc.
+Lam Research Corp.
+Kulicke & Soffa Industries Inc.
+Teradyne Inc.
+Rudolph Technologies Inc.
+Fairchild Semiconductor International Inc.
+Cypress Semiconductor Corp.
+Photronics Inc.
+Skyworks Solutions Inc.
+CEVA Inc.
+Veeco Instruments Inc.
+
+Source: PowerShares.com
+
+5.19
+5.16
+5.10
+5.06
+4.96
+4.95
+4.28
+3.91
+3.25
+3.13
+3.08
+3.00
+2.94
+2.88
+2.83
+2.83
+2.79
+2.78
+2.77
+2.76
+2.75
+2.75
+2.71
+2.66
+2.66
+2.59
+2.58
+2.58
+2.54
+2.51
+
+Why Use Technical Analysis with ETFs?
+
+9
+
+Access to more markets. Through exchange-traded funds, retail investors and traders
+now have access to markets that were previously difﬁcult and expensive to participate in. Treasury bonds, international markets, commodities, and even currency
+ETFs can all be traded with the same ease and low commission of an individual
+stock. With new ETFs constantly being created, the realm of trading opportunities is boundless.
+Liquidity is never an issue. Unlike individual stocks, in which liquidity can greatly
+affect how a stock trades, all ETFs are synthetic instruments. As such, the average
+daily volume that an ETF trades is largely irrelevant. Even if a low-volume ETF
+had no buyers or sellers for several hours, the bid and ask prices would continue to
+move in correlation with the fair market value that is derived from the prices of the
+underlying stocks. Because all ETFs are linked to an index, and the intraday fair
+market value moves in line with the underlying index, specialists can easily provide
+continuous pricing. If a large institutional buy or sell order suddenly arrived on an
+ETF with low average daily volume, the price would not jump, as it would with
+an illiquid stock.
+Unlike stocks, ETFs are not traded on an auction system. Instead, demand
+is automatically met through computerized algorithms that allow specialists to
+create and redeem shares in an ETF at its net asset value (NAV). This is done in
+large blocks of shares that represent creation or redemption baskets. Once created, these new shares can then be traded in the secondary market.
+An ETF with a low average daily volume may sometimes have slightly wider
+spreads between the bid and ask prices than an ETF with a high average daily
+volume, but you can simply use limit orders (a speciﬁed maximum price you
+are willing to pay for the position) instead of market orders if this is the case.
+Moreover, if you’re trading for multiple points, paying a few cents more on occasion should not be a big deal.
+Lower trading commissions. Prior to the inception of ETFs, traders were
+forced to pay a separate commission for each individual stock if they wanted
+to buy a basket of stocks within a particular industry sector. However, through
+trading in sector-speciﬁc ETFs, traders pay only one commission to buy or sell
+short an entire group of stocks within an industry.
+Better odds of follow-through. Has this ever happened to you? You have
+identiﬁed a particular sector you would like to be in, you place the trade to buy a
+stock, and then you watch every single stock in that industry move higher except
+the one you are in. With ETFs, you are at less risk of buying or selling short the
+wrong stock because you are participating in an entire group of stocks within a
+sector. If you buy the iShares Nasdaq Biotechnology Index Fund (IBB), it does
+not matter much if Morgan Stanley has a big sell order on Amgen stock, because
+you also have exposure to many other stocks within the Biotechnology Index.
+Chances are you’re already familiar with ETFs and perhaps already invest in them.
+Nevertheless, I am conﬁdent you will appreciate and proﬁt from the concise and
+
+10
+
+ETF Overview and Selection
+
+simple manner of applying technical analysis to short-, intermediate-, and long-term
+ETF investing presented in the upcoming chapters. Whether you exclusively invest in
+ETFs or merely supplement your portfolio with them, the methods are equally effective. Approach the strategy with an open mind, and by the conclusion of the book you
+will have a paradigm shift in your thought process.
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+CHAPTER 2
+
+Major Types and
+Families of ETFs
+The most popular and well-known exchange-traded funds (ETFs) are those that track
+the major stock market indexes such as the S&P 500, the Dow, and the Nasdaq 100
+Index. Other broad-based ETFs mirror more speciﬁc indexes such as the small-cap
+Russell 2000 and the S&P MidCap 400.
+Within the arena of broad-based ETFs, there are also more specialized “market segment” ETFs that break down the main stock market indexes according to
+focus: growth, value, or dividend. When the entire stock market is overly bullish, there may not be much of an advantage to trading in the market segment
+ETFs. Nevertheless, during periods of range-bound trading, when most of the main
+indexes are stagnant, you will often ﬁnd that certain segments, such as value-focused
+or dividend-focused, outperform signiﬁcantly. This is because mutual funds, hedge
+funds, and other institutions continually rotate their massive buying power into
+speciﬁc industry sectors that have a greater chance of returning a proﬁt than the
+main stock market indexes, especially in range-bound periods.
+Because they are tied to well-known indexes and their composition is easy to
+understand, broad-based ETFs, such as the Dow Diamonds (DIA) or the Standard
+and Poor’s Depositary Receipt (SPDR), which trades under SPY, are understandably
+popular with the masses. But the growing popularity of ETFs in general has spawned
+many interesting and unique types of such funds. The following is an overview of each
+major type of ETF on the market in mid-2011.
+Industry Sector ETFs
+
+I most frequently trade ETFs that are correlated to speciﬁc industry sectors such as
+semiconductor, biotechnology, or utilities. This is because, no matter what the overall
+market is doing at any given moment, I can always ﬁnd an industry that is seeing positive money ﬂow and showing strength relative to the main indexes.
+In the late 1990s, the selection of sector-speciﬁc ETFs was rather limited. Because
+of this, the only way to gain exposure to a particular market sector was through trading
+11
+
+12
+
+ETF Overview and Selection
+
+a basket of individual stocks. Although this was a proﬁtable strategy, it was often challenging to manage a vast array of open positions. Because of excessive brokerage commissions, it also became expensive. Fortunately, the advent of sector ETFs simpliﬁed
+business and also increased proﬁtability. With ETFs that track speciﬁc sectors, traders
+can speculate on the direction of any number of industries with the same ease and
+cost-effectiveness of buying or selling only a single position.
+The ﬁrst, once the most popular family of sector ETFs, is the holding company
+depositary receipts (HOLDRs; pronounced holders), which was brought to market by
+Merrill Lynch and Co. Inc. in 2000. There are 17 HOLDRs, each of which represents
+ownership in the common stock or American depositary receipts (ADRs) of speciﬁed
+companies in a particular industry or sector. Each HOLDR was created to have exactly
+20 underlying stocks that are never rotated or changed, except through acquisitions.
+The most popular HOLDRs are as follows: the Semiconductor HOLDR (SMH),
+the Oil Services HOLDR (OIH), and the Biotechnology HOLDR (BBH). Like the
+broad-based ETFs, the average daily volume of most HOLDRs has grown steadily
+since their launch in 2000.
+When traders and investors caught on to the beneﬁts of trading a basket of stocks
+with the simplicity of trading an individual stock, trading activity in the HOLDRs
+shot through the roof. However, competing fund families hit the markets about ﬁve
+years later, causing the popularity of the HOLDRs to generally peak around 2007
+(based on the trend of the average daily trading volume).
+Though they may have been ﬁrst to market, the HOLDRs are deﬁnitely no longer
+the only game in town. The iShares family of ETFs, from Barclays Global Investors,
+NA, also offers a diverse group of sector-speciﬁc ETFs, including many sectors not
+covered by the HOLDR. Basic materials (IYM), consumer cyclical (IYC), and transportation (IYT) are just three of the newer sector ETFs. Within the iShares family are
+more than 200 ETFs, but not all of them are sector speciﬁc. The iShares funds also
+consist of many other types of ETFs, and they will be covered later in this chapter.
+In 2002, Barclays’ iShares, Select Sector’s SPDRs, and Merrill Lynch’s HOLDR
+were the only major families of ETFs that covered a wide array of industry sectors.
+Since then, the amazing popularity of ETFs has prompted numerous ﬁrms to bring
+new families of ETFs to the marketplace. Many of these new fund families are still
+ﬂying under the radar, but one group that attracted much attention in 2006–2007 is
+the PowerShares Capital Management LLC family of ETFs.
+If you visit the PowerShares web site and browse its investment products, you will
+see that the offerings are unique in several ways. First, the site has a handful of sector
+ETFs that are not represented by any of the other families. Cleantech (PZD), Water
+Resources (PHO), Aerospace & Defense (PPA), and Dynamic Food & Beverage (PBJ)
+are just a few of the interesting sector ETFs not yet found anywhere else. Although the
+iShares family of funds offers an international ETF that tracks the Chinese Xinhua
+25 market (FXI), the PowerShares China ETF (PGJ) tracks a diverse mix of sectors
+within mainland China, rather than just one index. In addition to more unusual sectors, the PowerShares family of ETFs also covers mainstream sectors such as semiconductors (PSI), oil and gas (PXJ), and biotechnology (PBE).
+
+Major Types and Families of ETFs
+
+13
+
+Along with covering sectors that are overlooked by other ETF families, another
+advantage of the PowerShares ETFs is the diversity of the underlying stocks within each
+sector. Unlike the HOLDR, in which two or three stocks often represent 30 to 50
+percent of the ETF’s value and only 20 stocks make up the entire value of the ETF,
+the PowerShares ETFs are represented by a large number of stocks. Further, because
+PowerShares is able to change the selection of stocks within each sector ETF, these ETFs
+are diversiﬁed, unlike the HOLDR in which the same companies have been represented
+since they were launched.
+The average daily volume of many PowerShares ETFs may be lower than the
+equivalent sector ETFs in the iShares or HOLDR families. However, it is important
+to remember that the average daily volume level in an ETF is much less signiﬁcant
+than the average volume of an individual stock.
+Most large investment ﬁrms would never consider trading a stock with an average daily volume of fewer than 100,000 shares because the demand may not be present when it comes time to sell the shares. But with an ETF, that is never a problem.
+Remember that the bid/ask prices of an ETF will change throughout the day, mirroring
+the formulated prices of the underlying stocks, regardless of whether any buyers or sellers are present. As such, there will always be a market when you want to trade in an
+ETF. Actual liquidity is not a factor with ETFs, even if they trade fewer than 100,000
+shares per day, but the spreads may sometimes be more than a few pennies wide. If this
+occurs, using a limit order instead of a market order will easily solve the problem.
+Fixed-Income ETFs
+
+A ﬁxed-income ETF consists of various ﬁxed-income instruments, most commonly
+bonds, rather than a group of underlying individual stocks. It enables investors to
+participate in various bond markets with the same ease and simplicity of investing in
+the stock market. Although initially designed for investors looking for easy access to
+long-term investing in bonds, the ﬁxed-income ETFs are excellent vehicles for shortterm traders as well.
+Launched in July 2002, the iShares family of ﬁxed-income ETFs was brought to
+market by Barclays Global Investors. Prior to the creation of these ETFs, it was difﬁcult
+for individual investors and traders to have transparency with regard to individual bond
+prices, making it challenging to verify prices paid to brokerage ﬁrms for bond transactions. Liquidity was also a concern at times. Fixed-income mutual funds were a viable
+alternative to individual bonds, but they are priced only once per day, at the close of
+trading. Capitalizing on intraday movements in bond prices was not possible with bond
+mutual funds.
+Thanks to the introduction of the iShares ﬁxed-income ETFs, investors and traders
+now have easy access to real-time intraday pricing of various bond indexes and have the
+ability to easily buy or sell the ETFs intraday. Like bond mutual funds, ﬁxed-income
+ETFs don’t mature but instead consist of a portfolio that reﬂects the underlying bond
+index’s target maturity date. As with individual stocks, ﬁxed-income ETFs can also be
+
+14
+
+ETF Overview and Selection
+TABLE 2.1
+
+iShares First Group of Fixed-Income ETFs
+
+Ticker
+
+Description
+
+SHY
+IEF
+TLT
+AGG
+TIP
+LQD
+
+iShares Lehman 1–3 Year Treasury Bond Fund
+iShares Lehman 7–10 Year Treasury Bond Fund
+iShares Lehman 20+ Year Treasury Bond Fund
+iShares Lehman Aggregate Bond Fund
+iShares Lehman TIPS Bond Fund
+iShares Goldman Sachs InvesTop Corporate Bond Fund
+
+Data: ishares.com
+
+sold short and traded on margin, allowing for interesting possibilities. Fixed-income
+ETFs also provide monthly dividend distributions, as do individual bonds.
+Participating in the Treasury, corporate bond, and other ﬁxed-income markets is
+now as simple as placing an order to buy or sell a common ETF or individual stock.
+Investors also save a lot of money they would spend on transaction costs in actual bonds
+because commission fees for ﬁxed-income ETFs are the same as those of any other individual stock trade. This pioneering effort by iShares to launch the ﬁrst group of ﬁxedincome ETFs in 2002 initially consisted of the six ﬁxed-income funds listed in Table 2.1.
+Because total asset growth in ﬁxed-income ETFs swelled from $3.9 billion in
+2002 to more than $20 billion by the end of 2006, iShares decided to expand its
+range of ﬁxed-income ETFs. By 2007, 17 ﬁxed-income products were available. ETFs
+correlated to government credit, corporate bonds, mortgage bonds, and municipal
+bonds round out the latest offerings. In mid-2007, both Vanguard Group and State
+Street Global Advisors (SSGA) launched small families of ﬁxed-income ETFs, but the
+iShares group remains the most popular.
+International ETFs
+
+Because the international markets have followed suit with the bullishness in the U.S.
+markets in recent years, ETFs composed of country- or region-speciﬁc stocks and
+ADRs have gained in popularity.
+The ﬁrst international ETFs to be traded on the domestic markets were launched
+in 1996. Assets of those ﬁrst 17 international ETFs totaled just $266 million at the
+end of the ﬁrst year. Fifteen years later, the number of international ETFs has surged
+to 298. Combined asset growth in these 298 ETFs was more than $276 billion as of
+the end of 2010. Clearly, an increasing percentage of American investors and traders
+appreciate the ability to speculate in foreign countries. International ETFs make that
+possible, without the need to invest directly in foreign markets.
+The market offers a diverse mix of international ETFs, covering both individual countries and general regions. The astounding growth of several Asian markets,
+for example, led to massive asset growth in ETFs such as the iShares FTSE/Xinhua
+China 25 Index (FXI), the iShares MSCI Hong Kong Index Fund (EWH), and iShares
+
+Major Types and Families of ETFs
+
+15
+
+Singapore (EWS). International ETFs are available from several ETF families, but the
+most diverse offering comes from iShares.
+The iShares family includes more than 100 country- and region-speciﬁc ETFs.
+The impressive growth of the iShares MSCI Japan Index Fund (EWJ) illustrates just
+how popular international ETFs have become. Between the end of 2000 and mid2011, the average daily volume in EWJ increased by nearly 6,000 percent, from a half
+million shares traded per day to 29 million shares per day. The average daily volume
+of the Hong Kong and China ETFs similarly grew at an amazing speed.
+Though a newer player than iShares, the PowerShares family of more than 20
+international ETFs has also developed a loyal following. This is partially because it
+ﬁlls the niche of regions not covered by the iShares funds. There are also 14 popular
+international ETFs in the Van Eck Market Vectors family of ETFs.
+Commodity ETFs
+
+Although commodity trading once required a specialized knowledge of the futures
+markets, it can now be done as simply as investing in stocks. Rather than messing with
+the leverage and detailed execution details required for futures trading, investors can
+now proﬁt from movements in a variety of commodities by buying the corresponding
+commodity ETFs.
+The ﬁrst commodity-based ETF to hit the U.S. markets was the StreetTRACKS
+Gold Trust (GLD). Launched in November 2004, GLD was designed as a way for investors to gain exposure to the price of the spot gold commodity, but without the inconvenience of storing physical bars. Though the Australian Stock Exchange was the ﬁrst
+market to launch a gold commodity ETF, legal questions over taxation delayed a similar
+U.S. product from coming to market. Because futures commodities are taxed differently
+from stocks and ETFs, the question was which asset class GLD belonged to. Although a
+few subtle nuances are involved, GLD is basically taxed as a stock.
+Some commodity ETFs are composed of a basket of underlying commodities
+futures contracts, while others actually hold the physical commodity. In the case of
+GLD, each share is backed by actual gold reserves.
+The transparency of commodity ETFs varies, depending on the actual commodity being tracked. The share prices of some ETFs can be easily derived because they
+mirror the actual price of a commodity. Such is the case with GLD, whose share price
+is equal to one-tenth the price of one ounce of spot gold, less small expenses for the
+trust. The PowerShares DB Agricultural Fund (DBA), on the other hand, is composed of futures contracts that include corn, wheat, soybeans, and sugar. Each contract expires in a speciﬁc month and on a speciﬁc exchange. As such, trading DBA is
+not as cut-and-dried as knowing that the price of GLD, for example, will always trade
+at roughly one-tenth the price of spot gold.
+The U.S. Oil Fund (USO) is supposedly designed to mirror the price of one barrel of crude oil; however, the mix of expirations on the individual underlying futures
+contracts, designed to “hedge” the risk, often causes USO to lag behind the actual
+
+16
+
+ETF Overview and Selection
+
+price of crude. Commodity ETFs include spot gold and silver, crude oil, agriculture,
+and precious metals, some of which are offered by several competing fund families.
+New ETFs that track other commodities are constantly being created.
+The Hazards of Contango
+
+An inherent performance issue that is problematic for a buy and hold commodity
+ETF strategy is directly a result of something known in futures trading as contango.
+Contango is a condition that exists in the futures markets when the cost to buy the
+next month’s contract (forward month) is greater than the value of the current month’s
+contract or more speciﬁcally the current month’s contract price as it approaches expiration. As the current contract approaches expiration, it gets closer and closer in value
+to the spot price of the commodity until they approximate each other at expiration.
+However, when contango is present in the market the cost of the forward month contract is higher than the current month’s contract at expiration. The contango problem
+is also a function of the disproportionate number of contracts that an ETF holds as a
+percentage of the outstanding interest in all contracts for a given commodity.
+When the commodities markets were much smaller than they are today, most commodities traded in a state of backwardation. Backwardation is the opposite of contango.
+Backwardation exists when the current month’s contract trades at a discount to the
+forward month’s contract. When a market is in backwardation it favors the commodity
+ETF investor. However, for reasons beyond the scope of this book, it is now more common for commodity ETFs to trade in a state of contango rather than backwardation,
+thus making long-term investing in commodity ETFs a dangerous proposition.
+The contango problem arises each month when the futures contracts for the underlying commodity are set to expire because the fund manager must “roll over” the existing
+contracts. Rollover refers to the process of selling the expiring contracts and simultaneously buying the next month’s contract. This is a mechanical trade that must be executed
+by the fund manager in order for the commodity ETF to limit the potential loss exposure in the futures market. It is also mechanical because it is mandated per the prospectus of most commodity ETF funds. Remember, when trading futures it is possible to
+lose more than the initial money invested due to the extreme leverage involved. Further,
+and with rare exception, it is not practical or possible for an ETF to take delivery of the
+actual commodity.
+This leads to another problem know as front running. Front running is a trading
+practice in which futures speculators and hedge funds actually fuel contango by shorting the current month’s contract that is set to expire while simultaneously going long
+the next month’s contract, thereby driving the price of the current month’s contract
+lower and the forward month’s contract price higher. Front running can also lead to
+contango when hedge funds take physical delivery of the commodity. For instance,
+many hedge funds lease oil tankers and take delivery of the physical commodity in
+order to hold prices up and thereby force the oil commodity ETFs to purchase the next
+month’s contract at a much higher price thereby creating contango. Since speculators

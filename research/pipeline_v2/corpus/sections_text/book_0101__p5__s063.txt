@@ -1,0 +1,763 @@
+
+Periodicity of D
+For commodities, the number of periods to use in stochastics is based on the
+cycle of the commodity being traded. First, determine the cycle of the commodity, then use the number of bars for stochastics corresponding to one
+half of the period of the cycle. If an 18-day cycle is observed, 9-day stochastics
+are used. Shorter-term stochastics should be used to fine-tune an entry or
+exit at the point of decision. However, the analyst should immediately revert
+back to the optimum stochastic and be certain to trade with the trend.*
+
+Divergence
+Quite often Divergence appears on the chart. The price may be making
+higher highs, but the Stochastic Oscillator is making lower lows. Or, conversely, price may be making lower highs, and the Stochastic Oscillator is
+making higher highs. In either case, the indicator is often demonstrating a
+change in price before price itself is changing.
+The Stochastic Oscillator analysis system was originally developed by
+George Lane back in the mid-1950s. At first, he believed the only valid signal
+was the Divergence between %D and the securities price. Later, he recanted
+and stated this was not strictly true and, furthermore, adherence to the
+original could get a beginning analyst into trouble.
+In an uptrending market, Lane has learned, many congested Tops, often
+Double Tops or Triple Tops (see Chapter 9, Important Reversal Patterns, for
+more information on Double and Triple Tops), can take several time periods
+to turn down and approach the bottom trendline. He refers to them as
+“Garbage Tops.”
+* “Stochastics Revisited” by George C. Lane, Technical Toolbox, a special monthly feature of
+Technical Traders Bulletin, December 1990.
+
+AU3772_book.fm Page 656 Saturday, November 18, 2006 5:29 PM
+
+656
+
+Technical Analysis of Stock Trends
+
+¢/BUSHEL
+
+OATS – CBOT
+MARCH 1997
+
+260
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+240
+220
+200
+180
+
+%D changed direction
+before %K
+
+160
+Prices closing near lows
+
+140
+PERCENT
+
+14 DAY STOCHASTIC %K
+14 DAY STOCHASTIC %D
+
+100
+
+%K
+%D
+
+24 1
+
+50
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2
+SEP
+OCT
+NOV
+
+9 16
+DEC
+
+FIGURE 189. Oats Futures (with stochastic chart), May 1997. Reversals were signaled when the %D changed direction prior to %K’s change in late August and early
+October. Prices closed near their lows in mid-July, late September. Late October to
+early November prices also closed near their lows, as shown by both %K and %D
+Lines being at the bottom of their range. Chart courtesy of Market Research, Inc.
+(www.barchart.com).
+
+When prices finally do turn down, they often bottom quickly and turn
+right back up again, creating “Spike Bottoms.” These are to be expected in
+an uptrending market. Knowledge of them can be helpful in strong trending
+markets.
+
+The 0% and 100% Misunderstandings
+A misunderstanding some stochastic analysts have refers to the %K reaching
+the extremes of 100% or 0%. When the %K Line reaches 100%, it does not
+mean that the prices can’t go higher. Conversely, even though the %K is at
+zero, prices can still go lower. Zero is not necessarily a Bottom; in fact, the
+opposite could be true. The extremes denote strength at the 100% level and
+extreme weakness at zero.* The misunderstanding comes from levels commonly believed to indicate “overbought” or “oversold.” When the %K
+and %D Lines rise above 75%, it is considered an overbought situation.
+* “Stochastics Revisited” by George C. Lane, Technical Toolbox, a special monthly feature of
+Technical Traders Bulletin, December 1990.
+
+AU3772_book.fm Page 657 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+657
+
+Conversely, if they drop below 25%, it is considered oversold (some traders
+use 80% and 20% for the indicator levels). When the move is a sustained
+move, the price decline can continue for an extended period, with the oscillator remaining near the bottom.
+
+Check the Weekly/Monthly
+Stochastics, as well as trend charting, should always look at the bigger
+picture as well as the tight focus. If a daily chart is followed, it should be
+compared to a weekly chart for a better understanding of what is happening
+in the longer term. The longer-term trend chart helps the analyst to understand developments leading up to the current market situation.
+Stochastics, used in combination with conventional charting techniques
+and common sense, can work well. For example, if an unviolated trend is
+in force, with no Consolidations or Reversal Patterns forming, the stochastic
+signal is likely false. If, however, a Symmetrical Triangle is forming and a
+trend is being violated, the signal is confirmed.
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+CORN – CBOT
+MARCH 1997
+
+¢/BUSHEL
+400
+380
+360
+340
+320
+300
+280
+PERCENT
+
+14 DAY STOCHASTIC %K
+14 DAY STOCHASTIC %D
+
+Near Zero
+
+Overbought 75%
+
+100
+50
+
+Oversold 25%
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2
+SEP
+OCT
+NOV
+
+9 16
+DEC
+
+FIGURE 190. Corn Futures, March 1997. Even though the Stochastic Lines are
+nearly zero, many would consider this oversold. The price of the corn futures continues to decline. Some erroneously believe a Reversal is imminent when the lines
+are near zero. Near zero signifies extreme weakness. In a sustained move, the values
+can remain in the below 25% area for some time. In this example, the oscillator
+remained low from early September through early November. Chart courtesy of
+Market Research, Inc. (www.barchart.com).
+
+AU3772_book.fm Page 658 Saturday, November 18, 2006 5:29 PM
+
+658
+
+Technical Analysis of Stock Trends
+
+Stochastics Formula
+Stochastics charts begin with three value calculations:
+• The Raw Value
+• %K
+• %D
+The three values are plotted on a scale from 0 to 100. If the raw value
+and %K are plotted on the same chart, it results in “fast stochastics.” Fast
+stochastics show several up and down swings in a short period of time.
+When the %K and %D are used, they create “slow stochastics.” Slow stochastics have smoothed data lines.
+Stoachastics Raw Value = 100 ×
+
+last close – 20-day low
+20-day high – 20-day low
+
+%K is a 3-day Moving Average of the raw value.
+%D is a 3-day Moving Average of the %K.
+
+Updating Stochastics Formula
+New %K = ⅔ previous %K + ⅓ new stochastics raw value.
+New %D = ⅔ previous %D + ⅓ %K.
+Raw value requires 20 days of information; the 20-day high is the highest
+price and the 20-day low is the lowest price for a commodity during that
+20-day time period. They are not the high and low price from 20 days
+previous.
+Stochastics can be useful in analyzing changes in commodities trading.
+It has been around for more than 30 years and has a well-established track
+record. Even so, like most systems of analysis, it is best used in combination
+with conventional charting techniques and common sense. The price of the
+commodity is being traded, not the stochastic signal or other indicator.
+Although technical indicators can be helpful, they must always be viewed
+in the context of what is happening with the market trend.
+
+Volume and Open Interest
+Investors always like to see strong volume on market advances and light
+volume on declines. Volume is considered an important indicator of market
+sentiment in the stock market. It is also important, but different, in the futures
+markets.
+
+AU3772_book.fm Page 659 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+659
+
+30 YEAR TREASURY BONDS
+MARCH 1997
+
+POINTS
+118
+116
+114
+112
+110
+108
+106
+VOL & O.I
+1000000
+500000
+
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2
+SEP
+OCT
+NOV
+
+9 16
+DEC
+
+FIGURE 191. 30-Year Treasury Bonds, March 1997 Futures. With futures trading,
+volume cannot push the market because for every buyer there must be a seller.
+Although volume is part of the big picture, forecasting from volume can be unreliable.
+Notice the volume decline in November, even though prices were still advancing.
+(See Chapter 6, Important Reversal Patterns, for more information on volume.) Chart
+courtesy of Market Research, Inc. (www.barchart.com).
+
+Volume as Confirmation
+Volume patterns are considered normal on a day-to-day basis, and any
+sudden change represents a Divergence. Volume doesn’t have the same
+significance as with equity trading and the information is comparatively
+delayed. Although volume is part of the picture, it is only somewhat useful
+as a confirmation (in hindsight) of what other indicators are signaling.
+
+Money Flow
+Open-interest figures are normally plotted on a line above the volume information. In a general sense, they measure the amount of money flowing into
+and out of the futures market. When both sides of a trade are new to the
+market, the open interest increases. If one side is new and the other is old,
+open interest is unchanged. When both sides close out, open interest declines.
+Analysis of open interest is complicated by (EN: the following factors:)
+seasonal implications (e.g., hedging activities tend to be heaviest at harvest
+time); speculative interest; whether the futures are nearby (it is better to
+
+AU3772_book.fm Page 660 Saturday, November 18, 2006 5:29 PM
+
+660
+
+Technical Analysis of Stock Trends
+
+watch total open interest rather than month by month); intermarket; and
+intramarket spreading.
+The relationship between open interest and volume is illustrated in the
+following table:
+
+Relationship Between Open Interest and Volume:
+
+1.
+2.
+3.
+4.
+
+Price
+Action
+
+Open
+Volume
+
+Interest
+
+Market
+
+Up
+Up
+Down
+Down
+
+Up
+Down
+Up
+Down
+
+Up
+Down
+Up
+Down
+
+Strong
+Weak
+Weak
+Strong
+
+Open interest and prices will rise as new money flows into the market.
+Buyers are willing to pay higher prices and sellers are willing to receive them
+(the number of buyers and sellers is always equal). It is a Bullish situation
+for the commodity.
+When prices rise and open interest declines, there are few new buyers
+and money is leaving the market. Rallies can be caused by the covering of
+short positions exiting the market. Although the situation can obviously be
+Bullish for the short term, it will turn Bearish. Any rally will falter without
+new money coming into the market; however, short covering can take longer
+than expected.
+When prices are falling and open interest is rising, and new money is
+coming into the market and there is selling pressure, it is considered Bearish.
+Prices fall and open interest falls is the opposite of situation 2. Short
+sellers are staying in the market and long-position holders are closing. There
+is little new money coming into the market and the situation is initially
+Bearish, but can turn Bullish. As the declining momentum slows, short sellers
+will quickly begin to cover and new money often returns.
+
+New Money
+Futures are dependent on new money for price stability and growth because
+for every buyer there is a seller. With equity stocks, it is possible to have
+pressure situations with more buyers than sellers or the other way around.
+It is the new money in futures that creates the rising prices in an uptrend.
+New money coming in will cause the open interest and volume to rise, but
+to be a truly Bullish indicator, they must be accompanied by rising prices.
+The action might be over by the time all three are observed.
+
+AU3772_book.fm Page 661 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+661
+
+30 YEAR TREASURY BONDS
+MARCH 1997
+
+POINTS
+118
+116
+114
+112
+110
+108
+106
+VOL & O.I
+
+O/I Declining/Prices Rising
+
+O/I Rising/Prices Rising
+
+1000000
+500000
+
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2 9 16
+SEP
+OCT
+NOV
+DEC
+
+FIGURE 192. 30-Year Treasury Bonds, March 1997 Futures. When prices rise and
+open interest declines, there are few new buyers and money is leaving the market.
+Rallies can be caused by the covering of short positions exiting the market. Although
+the situation can obviously be Bullish for the short term, it will turn Bearish. In this
+example it didn’t turn so Bearish, but rather sideways until the open interest began
+to increase with prices. The rising prices showed the entrance of new money. Rallies
+will falter without new money coming into the market; however, short covering can
+take longer than expected. Note the decline in open interest even though prices
+advanced. Open interest didn’t show a significant increase until early November.
+Chart courtesy of Market Research, Inc. (www.barchart.com).
+
+Even though volume and open interest data have value as far as the big
+picture is concerned, the data can be late and unreliable if used alone for
+forecasting short-term. Other indicators can be more reliable, with volume
+and open interest used in a more general sense or for confirmation.
+Volume data with equities can have greater significance because of
+immediacy and the fact that an imbalance of buyers and sellers can exist. In
+futures trading there is a seller for every buyer. Open interest data can have
+some significance, but it is often not as reliable as other indicators for trading
+purposes.*
+
+* “Volume and Open Interest” from the Technical Toolbox, a special monthly feature of the
+Technical Traders Bulletin, July 1990.
+
+AU3772_book.fm Page 662 Saturday, November 18, 2006 5:29 PM
+
+662
+
+Technical Analysis of Stock Trends
+
+Wilder Relative Strength Index (RSI)
+Although relative strength, comparing a security price to a benchmark index
+price (such as the Standard & Poor’s 500 Index), has existed for many years,
+the Wilder Relative Strength Index was developed by J. Welles Wilder as a
+system for giving actual buy and sell signals in a changing market.
+Relative Strength is often used to identify price tops and bottoms by
+keying on specific levels (usually “30” and “70”) on the RSI chart, which is
+scaled from 0–100. The RSI can also be useful to show:
+1.
+2.
+3.
+4.
+
+Movement which might not be as readily apparent on the bar chart.
+Swing failures above 70 or below 30, warning of coming Reversals.
+Support and Resistance Levels appear with greater clarity.
+Divergence between the RSI and price can often be a useful Reversal
+indicator.
+
+The Relative Strength Index requires a certain amount of lead time in
+order to operate successfully.
+
+Swing Failures (“W” Formations)
+When a Relative Strength Index Line spikes down and penetrates 30 on the
+Index Scale, then moves up, then is followed by another down spike (less
+than the first), a buy signal is generated as the index line rises to a level
+equal to the middle of the “W” Formation. A sell signal appears in a similar
+manner, but spiking up rather than down (an upside down “W”), above 70
+on the index scale.
+
+Divergence
+Probably the most common and significant trend pattern in virtually all
+technical indicators is the pattern of Divergence. Divergence refers to instruments which normally follow the same general direction together moving
+apart and proceding in different directions, and indicates trend weakness in
+the current direction. It often signals a reliable Reversal. Divergences in
+trends are analyzed between the Dow Industrial Average as compared to
+the Dow Transportation Average, stock prices compared to indexes (e.g.,
+Standard & Poor’s 500 Index) or between futures prices and a 10- to 14-day
+Relative Strength Index. Traders will often wait for a confirmation of a
+Divergence before placing their transactions in order to not be taken in by
+false signals.
+
+AU3772_book.fm Page 663 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+663
+CORN – CBOT
+MARCH 1997
+
+¢/BUSHEL
+400
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+380
+360
+340
+320
+300
+280
+PERCENT
+
+100
+
+14 DAY RELATIVE STRENGTH
+
+Sell
+
+Swing Failures
+
+Buy
+50
+
+Swing Failures
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2 9 16
+SEP
+OCT
+NOV
+DEC
+
+FIGURE 193. Corn Futures, March 1997. The sell signal in July had excellent timing
+for a trade. The buy signal appeared in the 14-day Relative Strength Index as the line
+penetrated the high point between the Swing Failures in early October and early
+November. Also, there is an important Divergence between the RSI moving sideways
+and the downtrend of prices. Divergence between prices and a Relative Strength
+Index is considered an important Reversal signal. The late July through August time
+period possibly has other Failure Swings followed by penetrations, but they are not
+as well defined as the others. Chart courtesy of Market Research, Inc. (www.barchart.com).
+
+Time Periods
+Although the most popular time period appears to be the 14-day Relative
+Strength Index, other time periods can be used. Shorter, 6-day RSIs are
+frequently used for intraday analysis to find profit-taking points after the
+RSI reaches 75 or higher and pulls back. The shorter RSI is more responsive
+in showing a pause in the current trend. Some go further and use a very
+sensitive 3-day RSI to determine reentry points as the indicator moves back
+to neither overbought nor oversold (between 70 and 30). A 10-week RSI
+Divergence is often used with financials. It frequently gives good signals in
+stock indices, bonds, and currencies. However, weekly signals appear to be
+somewhat less accurate and frequent in other markets.*
+* “Relative Strength Index (RSI)” from the Technical Toolbox of the Technical Traders Bulletin,
+September 1989.
+
+AU3772_book.fm Page 664 Saturday, November 18, 2006 5:29 PM
+
+664
+
+Technical Analysis of Stock Trends
+
+POINTS
+
+30 YEAR TREASURY BONDS
+MARCH 1997
+
+118
+
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+116
+114
+Resistance
+
+112
+110
+108
+Support
+
+106
+PERCENT
+
+Divergence
+14 DAY RELATIVE STRENGTH
+
+100
+
+Buy
+
+50
+
+Sell
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+9 16 23 30 7 14 21 28 4 11 18 25 2 9 16
+SEP
+OCT
+NOV
+DEC
+
+FIGURE 194. 30-Year Treasury Bond Futures, March 1997. Overbought is above 70
+and oversold below 30. The RSI dropped to the 30 mark in late August, but didn’t
+sharply penetrate, showing a weak buy signal for the sensitivity of this 14-day
+indicator. Although a sell signal was generated after the above 70 Failure Swings in
+November, an even stronger signal was given by the Divergence between the futures
+prices and the Relative Strength Index. (See Chapter 12, Support and Resistance.)
+Chart courtesy of Market Research, Inc. (www.barchart.com).
+
+Relative Strength Formula
+RSI is based on the difference between the average of the closing price on
+up days vs. the average closing price on the down days. A time period of
+14 days is common, but other periods can also be used.
+RSI = 100 − (100 I + U D)
+U = average of upward price closes (EMA of gains)
+D = average of downward price closes (EMA of losses)
+Relative Strength Indexes have become popular as countertrend oscillators. They give reliable overbought and oversold indications in most markets
+and can show long-term Divergence Patterns indicating Major Tops and
+Bottoms. The buy and sell signals given by an RSI are generally clear, but
+can be adjusted to greater sensitivity for short-term or long-term trading.
+
+AU3772_book.fm Page 665 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+665
+
+ROUGH RICE – CBOT
+JANUARY 1997
+9 DAY MOVING AVERAGE
+18 DAY MOVING AVERAGE
+
+¢/LB
+11.0
+10.8
+10 .6
+10.4
+10.2
+10.0
+9.8
+PERCENT
+100
+
+14 DAY RELATIVE STRENGTH
+
+50
+
+Sell
+24 1
+
+8 15 22 29 5 12 19 26 2
+JUL
+AUG
+
+Buy
+9 16 23 30 7 14 21 28 4 11 18 25 2 9 16
+SEP
+OCT
+NOV
+DEC
+
+FIGURE 195. Rough Rice Futures, January 1997. The signals won’t precisely hit the
+price bottom or top, but with Rough Rice they hit reasonable levels before the
+Reversals. The sell signal came in July, after the RSI (above the 70 level) showed two
+down spikes with an upturn rising above the middle between the spikes. The buy
+signal came after a similar situation (below the 30 level) in October. Chart courtesy
+of Market Research, Inc. (www.barchart.com).
+
+Chart patterns offer commodities traders another visual perspective of
+where prices are likely to go and when they are likely to reverse. Although
+chart patterns have a history of success and need no validation, it is interesting to see how well they match the signals given by oscillators, bands,
+Moving Averages, and other indicators. Identical signals of trend and change
+between chart patterns and other indicators are common. In fact, if identical
+signals do not appear, the validity of those appearing should be questioned.
+One of the most frustrating tendencies of all indicators is to give false signals
+from time to time. The frustration can be partly moderated by using more
+than one signal-producing indicator. Confirmed signals and trends, with
+experience and understanding of the markets, produce profitable trading
+results.
+
+Important Concepts in Commodities/Derivatives Trading
+• Prices are influenced by external factors such as weather changes,
+supply, and demand.
+• Futures trading is mostly made up of hedgers and speculators in for
+a shorter period of time than with stock trading.
+
+AU3772_book.fm Page 666 Saturday, November 18, 2006 5:29 PM
+
+666
+
+Technical Analysis of Stock Trends
+•
+•
+•
+•
+•
+
+•
+•
+•
+•
+
+Futures can have an unlimited number of contracts open.
+Futures have an expiration date which will influence prices.
+Stop-loss orders are essential.
+Make use of more than one indicator to make a buy or sell decision.
+Trendlines are the most important patterns and can be drawn on the
+indicators as well as on the prices. Divergence is one of the more
+reliable signals.
+Chart patterns can be used in combination with other indicators.
+Trades are made on prices, not on indicators.
+Look at the big picture by observing longer-term trends (weekly,
+monthly).
+Time periods can be altered on indicators to give a more sensitive
+picture (fewer time periods) or smoother picture (greater number of
+time periods).
+
+S & P 500(Daily)
+
+678.4
+665.6
+652.8
+640
+627.2
+614.4
+
+A
+RSI Wilder
+
+M
+
+J
+
+J
+
+A
+96
+64
+32
+0
+
+FIGURE 196. Standard & Poor’s 500 Index Futures (SPX). Using a 3-day period for
+a Wilder RSI gives a clear buy signal, whereas the 14-day time period is indefinite.
+The shorter time period is more sensitive to recent moves and can give more definite
+buy signals. Charts Courtesy of AIQ MarketExpert (www.aiqsystems.com). (Figure
+197 on the following page also illustrates this concept.)
+
+AU3772_book.fm Page 667 Saturday, November 18, 2006 5:29 PM
+
+Appendix C
+
+667
+
+S & P 500(Daily)
+
+678.4
+665.6
+652.8
+640
+627.2
+614.4
+
+A
+RSI Wilder
+
+M
+
+J
+
+J
+
+A
+96
+64
+32
+0
+
+FIGURE 197. Standard & Poor’s 500 Index Futures (SPX). Using a 3-day period for
+a Wilder RSI gives a clear buy signal, whereas the 14-day time period is indefinite.
+The shorter time period is more sensitive to recent moves and can give more definite
+buy signals. Charts Courtesy of AIQ MarketExpert (www.aiqsystems.com).

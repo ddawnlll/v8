@@ -1,0 +1,389 @@
+
+Fixing the indicator
+The two moving average crossover backtest results in Table 4-3 highlight
+some of the common problems you encounter when you begin backtesting
+indicators. I go into more detail about these issues in the following sections.
+
+www.pdfdummies.com
+
+71
+
+72
+
+Part II: Preparing Your Mind for Technical Analysis
+Overtrading
+Some indicator parameters call for more-frequent trading than you can spare
+time for. You therefore need to find adjustments to the indicator to reduce
+the number of trades without damaging the returns from the winning trades.
+One solution is to filter the buy/sell signals by specifying that you want the
+software to generate a buy/sell signal only if the price is x percent above or
+below the moving average or has been above or below the moving average by
+y amount of time. Most indicators can be filtered in this way.
+
+Losing trades
+The single best way to reduce your losing trades is to add a confirmation
+requirement, such as one of the momentum indicators. In fact, in my own
+experience, adding 12-day momentum as an additional requirement can
+reduce the number of trades by 30 to 50 percent without sacrificing much
+profit. And because the trades being eliminated by momentum confirmation
+are generally losing trades, the gain-loss ratio improves, too.
+
+Applying the indicator again
+After choosing your indicator parameter, your job isn’t finished. Backtests are
+hypothetical. You didn’t actually make those trades. To get a more-realistic
+idea of how an indicator-based trading rule works, backtest the rule on historical price data and then apply it to out-of-sample data. In the XYZ case in
+Table 4-1 and 4-2, for example, I backtested on 1,000 days of data. Now I should
+backtest it on the next 500 days of data. If the results are about the same on the
+fresh data, you consider your rule to be robust, meaning it works across a wide
+range of conditions.
+
+Evaluating the risks of backtesting
+The flaw in optimization is that the ideal parameter for an indicator is ideal
+only for the past. Critics of backtesting point out that even if your indicator is
+robust on the next 500 days of out-of-sample data, after you actually add that
+500 days to the backtest, the perfect parameter is now some other number.
+You can go mad backtesting until you are blue in the face, and you will never
+find the optimum parameter that stays the same over time.
+The unreliability factor gets worse if you fiddle with the indicator with filters.
+This is named curve-fitting, or making the indicator perfect for the past. The
+probability of that indicator being perfect for the future is low, because the
+market is dynamic and changes.
+
+www.pdfdummies.com
+
+Chapter 4: Using Indicators to Trade Systematically
+Don’t count on finding a magic number to put into your indicators. In fact, you
+can use the default parameters that you find in books and software without
+harm to your performance — if you have good indicators for the security and
+apply your trading rules with care and consistency.
+
+www.pdfdummies.com
+
+73
+
+74
+
+Part II: Preparing Your Mind for Technical Analysis
+
+www.pdfdummies.com
+
+Chapter 5
+
+Managing the Trade
+In This Chapter
+▶ Creating trading rules: The five-step plan
+▶ Knowing when to take the money and run
+▶ Keeping losses under control
+▶ Finding out how to adjust positions
+
+I
+
+n technical trading, you use indicators that help you identify what the
+price is doing — trending, going sideways, making a peak or a bottom,
+and so on. Indicators give you useful information about price dynamics, but
+it’s up to you to build trading rules around them. Indicators are about price
+changes. Trading rules are about you and your money.
+In this chapter, I talk about developing trading rules that match up with your
+indicator skills, your appetite for risk, and your choice of time frame. Special
+emphasis is on stop-loss rules — don’t leave home without one.
+
+Talking about managing the trade before I talk about indicators may seem
+a little strange, but I have a very good reason for it. You may see ads or get
+e-mails touting “the one indicator that will make you 89 percent in the next
+three weeks” or “the dirty little secret that guarantees 92 percent profits in
+a year.” Of course you know better than to believe these silly promotions
+(don’t you?). Well, all through this book, I show you every single one of these
+“hidden secrets” and magic flash point indicators. Some of them actually perform as well as advertised, at least sometimes. But they don’t do you a lick
+of good unless you prepare your mind ahead of time to take a new kind of
+responsibility — the responsibility of planning each trade.
+
+Building Trading Rules
+To plan and manage your trades, you need trading rules. A trading rule is the
+specific action you take when certain conditions are met. At the most basic,
+a trading rule instructs you to buy or sell when an indicator meets a preset
+criterion (like the moving average crossover in the case in Chapter 4). Most
+
+www.pdfdummies.com
+
+76
+
+Part II: Preparing Your Mind for Technical Analysis
+indicators have a buy/sell trading rule already embedded in them, as I describe
+in each of the chapters about indicators (see Chapters 6 through 17).
+But technical trading is a mindset that goes beyond using indicators. Trading
+rules improve your trading performance by refining the buy/sell signals you
+get from indicators. Trading rules tend to be more complex and contain more
+conditions than raw indicators, such as “buy after the first 45 minutes if x and
+y also occur” or “sell half the position when z occurs.”
+Your overall goal should be to get the highest return for the lowest risk. How
+can you accomplish this? You start with a plan.
+
+Your trading plan outline
+You may think that you can do it the easy way, by having a technical expert
+send you a newsletter or a password to a technical Web site that gives you
+the magic trade of the day. The expert may even explain and illustrate the
+technique. But when it fails — and they always fail at some point — you end
+up poorer and probably pretty mad at the charlatan who sold you a trading
+program based on MACD, the stochastic oscillator, or something else you
+could have done yourself without paying a big subscription fee. You may
+even walk away saying technical analysis is hokum.
+The fault lies not in the “magic” indicator but in the trader, or rather the trader’s lack of a trading plan. Good trading isn’t about the securities you trade
+or about indicators. It’s about planning the trade in full ahead of time and following the plan. Strictly speaking, managing the trade isn’t exclusive to technical analysis. But all successful technical traders manage their trades.
+At each step you have to decide which indicators or combinations of indicators to follow, and your exact specifications for them. Here’s what your indicators and rules need to do:
+1. Determine the current trend.
+2. Establish the rules for opening a position.
+3. Manage the money at risk by scaling up or down.
+4. Establish the rules for closing a position — set stops and targets.
+5. Establish a reentry rule after being stopped or after the target is hit.
+The technical trader plans the trade from entry to exit. This is the opposite
+of traditional investing, where you buy a security for an indefinite period of
+time and seldom establish in advance the level at which you will sell. But if
+you want to increase your stake or preserve capital, it’s when you sell that
+counts. You sell for one of three reasons — you met a profit target, you met a
+loss limit, or you chose to increase or decrease the risk of the trade.
+
+www.pdfdummies.com
+
+Chapter 5: Managing the Trade
+Step 4 is the most important step. If you do the other steps but neglect Step 4,
+you will not succeed in trading. The paramount rule in technical trading is to
+control losses. You can pick so-so securities and apply so-so indicators to
+them, and if you’re trading systematically, you can still make a decent net gain
+if you only control losses.
+
+Common questions and concerns
+The overall subject of money management is a big one, and I can’t hope to
+cover more than some basics here. However, I address some of the most frequent queries about technical trading in this section:
+✓ How much should I put into technical trading? Ten percent of my capital? Fifty percent? No single correct answer exists. You have to decide
+this one on your own. You might start out with 10 percent and move
+it up to a higher proportion as you gain expertise and confidence. One
+thing is for sure: You should never start technical trading with a stop
+that costs more than you can bear. Van Tharp, the author of the book
+Definitive Guide to Position Sizing, offers a sensible methodology that
+keeps us away, mostly, from the horrors of fancy mathematics.
+✓ How much risk should I take? Before you enter a new position, you
+should define your initial risk, which is the dollar amount you are willing
+to lose if the trade goes bad. If your security is priced at $8, you could
+set your initial risk at $2. Tharp calls this number R and notes that if differs from the usual definition of financial risk that involves variance as
+measured by the standard deviation. (See Chapter 14 for some digestible
+information about the standard deviation.)
+The amount of loss you embed in your stop-loss should be limited to R
+or a fraction of R. In this example, that means your stop-loss would entail
+losing less than $2, say $1.50. Your expected gain should be a multiple
+of R, meaning you would risk a loss of $1.50 only to make more than $2.
+Okay, how much more? Let’s say you are willing to risk losing $1.50 only
+if you can make twice R, or $4. This level of risk ensures that on average,
+your gains are bigger than your losses.
+Now you examine your security in the context of a possible $5.50 price
+swing over your expected holding period. If the maximum high-low
+range of your security is $3, you have no chance of making $4 (unless
+volatility changes), but you still have a chance of seeing your $1.50 stop
+get hit. You need to modify your expected gain to no more than $3. Now
+your risk-reward ratio is 2:1, meaning that you should make $2 for every
+$1 you lose over the course of many trades in this one security.
+✓ How many securities should I trade? As a general rule, you want more
+than one security as a form of diversification (which reduces the risk of
+losing it all in a single event), but less than 20 securities (which would
+require too much analysis even for a full-time trader). Three to five securities are about right, especially for a newcomer.
+
+www.pdfdummies.com
+
+77
+
+78
+
+Part II: Preparing Your Mind for Technical Analysis
+✓ Which securities? This question is trickier. Again according to Tharp,
+you can add up the R values for each of your securities and average
+them, giving you the expected return. If you are not happy with this
+number, you can alter the portfolio to include securities with a higher
+or lower R to shift the average. Similarly, you can take the square root
+of the mean R of the portfolio to measure its variance, and if that is a
+number that is too high or low for you, you can alter the composition of
+the portfolio.
+✓ How do you allocate your capital among the securities you’re trading?
+You can divide it up equally, or you can allocate a higher percentage
+to the security getting the most winning trades over the past 30, 60, or
+90 days. You can also allocate according to the volatility of the security
+(check out Chapter 14 for more on volatility).
+Finally, you can apply fixed fractional position sizing, popularized by
+Ralph Vince, which calls for allocation as a function of total possible loss
+as a fixed percentage of total capital. Say you have $10,000 in capital and
+you want to buy Blue Widget stock at $40 per share. You set your stop at
+$2, meaning you will sell if it reaches $38. At the same time, you want to
+limit the possible loss on Blue Widget to 2.5 percent of your total portfolio, or $250. Therefore, you can buy no more than 6.3 shares of Blue
+Widget.
+Buying only 6 shares (an odd-lot, where a standard lot is 100 shares)
+can be done but at a high commission cost. You need to pick a lowerpriced stock, reduce your stop, or raise the percentage of your portfolio
+dedicated to a single security. Even if you plan not to use fixed fractional
+position sizing, remember that this example embodies the spirit of managing the trade.
+
+Taking Money off the Table: Establishing
+the Profit Target
+When you have a gain in a trade, how much is enough? How do you know
+when to take profits? Unfortunately, few gurus offer guidance on how to
+design a take-profit rule. You never know at the beginning of a trend how long
+it will last, or how far it will go. The central issue in managing the trade is that
+you can have control over the size of your losses (via stop-losses), but very
+little control over the size of the gains. You can buy a stock at $5 and make
+sure that you only lose $2, but you cannot force the stock to go to $9.
+In practice, each individual trader develops his own technique that is a combination of risk analysis and indicator readings. The optimum way to take
+profit is, in fact, one of the great, unexplored frontiers of technical trading.
+Here are some choices for selecting a profit target:
+
+www.pdfdummies.com
+
+Chapter 5: Managing the Trade
+✓ Name a dollar amount. Logically, you are compensated by an amount
+that is a multiple of the risk you are taking. This is the Tharp approach I
+mention in the section, “Common questions and concerns.” You set your
+initial risk at $2 and are willing to accept a loss of a fraction of that, or
+$1.50. Your profit target is double initial risk, or $4. Because the security
+initially costs $8, you seek a 50 percent return. This expected gain may
+or may not be realistic depending on your holding period, changes in
+volatility, and other factors. After you have made the 50 percent, however, you obey the target and exit the trade when it reaches $12. The
+problem with this approach, of course, is that the price may keep on
+rising and then you have an opportunity loss if it reaches (say) $20.
+✓ Set a true-range amount. Your security, historically, has an average
+high-low range of $10 over 20 periods, your expected holding period.
+You want to capture 75 percent of the range, or $7.50. Because you use
+indicators to time your entry, you assume that you are entering at the
+low end of the range; therefore, 75 percent is realistic. When the price
+reaches your target, you take profit.
+The problem with this approach is twofold: The range can widen or
+narrow. If it widens, you aimed too low and if it narrows, your original
+target is too ambitious. Second, how do you sit through a pullback?
+You may have met the goal of entering at a low only to have an aberrant
+pullback take the price down 30 percent rather than up 75 percent. This
+movement was not enough to hit your stop but now your profit target
+is $10.50 away from the current price. Because you know the average
+range is $10, the probability of meeting your $7.50 target within your
+holding period just went out the window.
+✓ Rely on indicators. Instead of formulating take-profit rules, most technical traders rely on indicators to signal when a move has ended — the
+signal is the de facto take-profit rule. Relying on indicators is “winging
+it” and actually requires more market monitoring than the fixed dollar
+amount or average true-range methods, which deliver a number you can
+convert into a standing order with your broker.
+
+Controlling Losses
+Your level of risk seeking or risk aversion is personal. Therefore, nobody can
+design rules for you. You must do it for yourself. Ask yourself whether you’d
+faithfully follow every buy/sell signal generated by a given indicator when the
+backtest of the indicator predicts that you will have some individual trades
+that entail a loss of 50 percent of your trading capital. No?
+Well, how much of your trading capital are you prepared to lose? This is not an
+idle question. Your answer is critical to whether you succeed in technical trading. If you say you can accept no losses at all, forget technical trading. You will
+take losses in technical trading. If you say that you’re willing to lose 50 percent
+
+www.pdfdummies.com
+
+79
+
+80
+
+Part II: Preparing Your Mind for Technical Analysis
+in a single trade — whoa, Nellie! That’s too much. Three or four losing trades in
+a row and you would not have enough capital left to do any trades. I offer some
+help in deducing your personal number in the following sections.
+Experienced traders ask themselves, “How much will I lose today?” when they
+wake up every morning. They expect loss on some level. In contrast, beginners
+find losses almost impossible to contemplate. Yet if you don’t control losses,
+the question is not whether you go broke, but when you go broke (as a famous
+trader named W.D. Gann wrote on the very first page of one of his books).
+Exiting a losing trade is the single hardest thing to do in trading. For one
+thing, exiting means that your indicator let you down. Accept that your indicators have shortcomings and that your job is to overcome those shortcomings by using money-management rules.
+A bigger problem may be your bruised ego. To sell a losing position means
+that you failed, and the standard response to a loss is denial. “It will come
+back!” you cry. In the long run, maybe it will come back. But by then, you may
+be broke and unable to take advantage of it. Flip back a few pages and look at
+Table 1-1 in Chapter 1 that shows the percentage gain that you need to recover
+a loss. To recover a 50 percent loss, you need to make a 100 percent gain.
+Every top trader admits to taking bigger losses than they planned. Many go
+out of business for a period of time, only to come back later with essentially
+the same indicators — and better ways to manage the trade. In fact, some
+investors say that the best time to place money with a professional trader is
+right after he has taken a fat loss — because then he’s a better trader. Note
+that such investors aren’t predicting he will be a better indicator analyst, but
+a better trader.
+
+Using the First Line of Defense:
+Stop-Loss Orders
+You use a stop-loss order to overcome the unreliability of indicators as well as
+your own emotional response to losses. A stop-loss order is an order you give
+your broker to exit a trade if it goes against you by some amount. For a buyer,
+the stop-loss order is a sell order. For a seller, it’s a buy order.
+If market conditions are choppy (high volatility), you may want to widen your
+stop even though your own particular security is behaving nicely. In this
+instance, you fear an overflow effect from the general market to your particular security. You may switch from a money-based trailing stop like the 2 percent rule to a volatility or pattern type of stop.
+
+www.pdfdummies.com
+
+Chapter 5: Managing the Trade
+To know when to put on the brakes with a stop-loss order, keep reading. You
+absolutely need to understand stops to trade successfully.
+
+Mental stops are hogwash
+You should enter your stop-loss order at the same time you enter the position. In fact, you need to know the stop in order to calculate how big a position to take in the first place, if you’re using any risk-management rule. Why
+some traders don’t do this is a mystery. Many traders say they keep a mental
+stop in their heads, but this “method” is a delusion. The trader is conning
+himself into thinking that he’ll be watching the price every minute the market
+is open and will have the gumption to sell at a loss if the limit is reached.
+But no one can watch the market every minute, and in practice, most traders with mental stops sit hopelessly by as the trade goes further and further
+against them.
+Other traders say that their security isn’t suitable for stops because it’s too
+volatile. Or the trader is so big that the market would find out where his
+stops are and maliciously target them. Another rationalization is that the
+trader’s stops get hit, and often, only for the price to move back in the original direction right afterwards. This excuse isn’t a reason to avoid using stoplosses. It’s a reason to reset the stop to a better level.
+To pretend that you have a mental stop or to refuse to place stops is to avoid
+accepting the reality of trading — it’s a business, and setbacks happen in business. Setting a stop-loss order is like buying insurance in case the store burns
+down. Not to take out insurance is to treat trading as a hobby and view the
+amount at stake as play money rather than as risk capital.
+
+Sorting out the types of stops
+Technical traders have developed many stop-loss principles. Each concept
+is either a fixed trading rule or a self-adjusting one. Stops relate to indicators,
+money, or to time, and often these three don’t line up neatly to give you an
+easy decision. You have to choose the type of stop that works best for you.
+
+The 2 percent stop rule
+Probably the most famous stop-loss rule is the fixed 2 percent rule that was
+employed by a trading group named the Turtles. The 2 percent rule states that
+you should stop a loss when it reaches 2 percent of starting equity. If you’re
+trading risk capital of $10,000, you can afford to lose no more than $200 on any
+single trade if you expect to stay in business for a long period of time. The 2
+percent rule is an example of a money stop, which names the amount of money
+you’re willing to lose in a single trade.
+
+www.pdfdummies.com
+
+81
+
+82
+
+Part II: Preparing Your Mind for Technical Analysis
+Two hundred dollars may sound like a tiny number to you, but in the context
+of active trading, this figure is quite large. You need only 50 losing trades in
+a row to go broke. And 50 trades may sound like a lot of trades, but you find
+that many valid indicators have you trading that often, depending on your
+time frame. If you’re trading 15-minute or 60-minute bars, you could easily
+have more than 100 trades in a month.
+Although your indicators should be better than to have 50 consecutive losses
+in a single security, if you’re trading several securities, 50 is no longer a large
+number. If you’re trading five securities, for example, you go broke after ten
+consecutive losses per security.
+
+Risk-reward money stops
+The risk-reward ratio puts the amount of expected gain in direct relationship
+to the amount of expected loss, as in the Tharp approach I mention in the
+“Common questions and concerns” section in this chapter. The higher the
+risk-reward ratio, the more desirable the trade. Say, for example, that you’re
+buying Blue Widget stock at $5 and your indicators tell you that the potential
+gain is $10, which means that the stock could go to $15. You could set your
+initial stop at $2.50, or 50 percent of your capital stake, for the chance to
+make $10. That gives you a risk-reward ratio of 10:2.5, or 4:1. (Strangely, the
+amount of the gain, the reward, is always placed first in the ratio, even though
+it comes second in the name.)
+But consider the premise from this example — your ending capital triples
+your initial stake. But gee, expecting a 300 percent return is going a bit far,
+isn’t it? Well, it depends on your skills. If you consistently forecast and get
+300 percent gains, good for you. You may be able to accept a higher initial

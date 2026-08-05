@@ -1,0 +1,1028 @@
+
+■
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+134
+■
+■
+
+■
+
+■
+
+■
+■
+
+Price divergence short setup: Yesterday’s close is a Donchian 14‐day high,
+and it was higher than the last Donchian 14‐day high. There was a Donchian 14‐day low between these highs. Today’s close is less than yesterday’s close.
+Momentum divergence short setup: Yesterday’s momentum reading was
+lower than the momentum reading on the day of the previous 14‐day
+Donchian high.
+Divergence short entry: Enter short market on open.
+Divergence short exit: Compile statistics for exits 5, 10, 15, 20, and 30
+days after entry.
+Price divergence buy setup: Yesterday’s close was a Donchian 14‐day low,
+and it was lower than the last Donchian 14‐day low. There was a 14‐day
+Donchian high between the two lows. Today’s close is higher than yesterday’s close.
+Momentum divergence setup: Yesterday’s momentum reading was higher
+than the momentum reading on the day of the previous 14‐day Donchian
+low.
+Divergence buy entry: Enter long market on open.
+Divergence buy exit: Compile statistics for exits 5, 10, 15, 20, and 30
+days after entry.
+
+14-day Donchian High
+Price
+
+14-Bar Momentum
+
+14-day Donchian Low
+
+135
+
+14-day Donchian High
+
+14-day Donchian Low
+
+14-Bar Momentum
+
+FIGURE 9.1 Divergence Buy and Sell Signals
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+Price
+
+We’re using 14‐day Donchian highs and lows, so let’s use a 14‐day momentum calculation. The equation is:
+Momentum Today = Closing Price Today – Closing Price 14 Days Ago
+Table 9.1 shows the trade statistics across the Nasdaq 100 stock basket
+over the 2000–2011 time frame.
+TABLE 9.1 Trading Stock Divergences with Various Hold Periods
+Hold Period
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+136
+
+Winning Trades
+
+Losing Trades
+
+Total Profit Percent
+
+Profit‐per‐Trade Percent
+
+5
+
+2,343
+
+2,371
+
+–534
+
+–0.11
+
+10
+
+2,282
+
+2,432
+
+–1,228
+
+–0.26
+
+15
+
+2,314
+
+2,400
+
+–408
+
+–0.09
+
+20
+
+2,316
+
+2,398
+
+–370
+
+–0.08
+
+30
+
+2,320
+
+2,394
+
+–1,687
+
+–0.35
+
+I’d call the results unimpressive. There’s certainly no appreciable
+edge trading the divergences, or doing the opposite and fading the
+divergences. Let’s look at trading divergences on commodities with the
+same rules.
+Table 9.2 shows the statistics across the 56‐commodity basket we’ve been
+using over the 1980–2011 time frame.
+TABLE 9.2 Trading Commodity Divergences with Various Hold Periods
+Hold Period
+
+Winning Trades
+
+Losing Trades
+
+Total Profit ($)
+
+Profit‐per‐Trade ($)
+
+5
+
+2,368
+
+2,807
+
+–319,551
+
+–62
+
+10
+
+2,313
+
+2,862
+
+–623,435
+
+–120
+
+15
+
+2,321
+
+2,854
+
+–980,151
+
+–189
+
+20
+
+2,311
+
+2,864
+
+–1,037,318
+
+–200
+
+30
+
+2,334
+
+2,841
+
+–1,200,722
+
+–232
+
+These results are significant. Trading the divergences is definitely the
+wrong thing to do. You should be fading them. When you get a long signal,
+sell on the next open; and when you get a short signal, buy on the next open.
+What about the momentum part? Our setups require that momentum and
+price be moving in the opposite direction on trade day. What if we fade the
+buy and sell signals when momentum is moving in the same direction as
+price? Here are the new rules:
+
+New price buy setup: Yesterday’s close was a Donchian 14‐day high, and
+it was higher than the last Donchian 14‐day high. Today’s close is less than
+yesterday’s. There was a Donchian 14‐day low before yesterday’s high, and it
+was after the previous 14‐day Donchian high.
+■
+
+■
+■
+
+■
+
+■
+
+■
+■
+
+New momentum buy setup: Yesterday’s momentum reading was higher
+than on the day of the previous 14‐day high.
+New long entry: Enter long market on open.
+New long exit: Compile statistics for exits 5, 10, 15, 20, and 30 days
+after entry.
+New price sell setup: Yesterday’s close was a Donchian 14‐day low, and it
+was lower than the last Donchian 14‐day high. Today’s close is higher than
+yesterday’s. There was a Donchian 14‐day high before yesterday’s low,
+and it was after the previous 14‐day Donchian low.
+New momentum sell setup: Yesterday’s momentum reading was lower
+than on the day of the previous 14‐day low.
+New short entry: Enter short market on open.
+
+Table 9.3 shows the results on our 56‐commodity basket.
+
+TABLE 9.3 Fading Commodity Divergences with Various Hold Periods
+Hold Period
+
+Winning Trades
+
+Losing Trades
+
+Total Profit ($)
+
+Profit‐per‐Trade ($)
+
+5
+
+3,780
+
+3,118
+
+938,512
+
+136
+
+10
+
+3,830
+
+3,068
+
+1,781,738
+
+258
+
+15
+
+3,814
+
+3,084
+
+2,133,203
+
+309
+
+20
+
+3,812
+
+3,086
+
+2,243,463
+
+325
+
+30
+
+3,815
+
+3,083
+
+3,112,355
+
+451
+
+These results are very promising and could form the basis of a tradeable strategy. I think we can conclude that divergence trading doesn’t have
+a significant edge in either stock or commodity trading; in fact, for commodities you’d be much better off trading in the opposite direction on each
+divergence signal.
+
+137
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+New short exit: Compile statistics for exits 5, 10, 15, 20, and 30 days
+after entry.
+
+■ Buy/Fade a Gap
+Gaps are a subject in most trading books. An opening gap is formed when
+the open of a bar is outside the range of the previous bar. If that bar’s range
+stays entirely outside the previous bar’s range, it’s a bar gap. Some of the
+prevailing theories on gaps are:
+■
+
+■
+■
+
+■
+
+Gaps on longer time‐frame charts are more significant than those on
+shorter time‐frame charts; a gap on a weekly chart is more meaningful
+than one on a daily chart.
+Price moves to fill the gap.
+Gaps out of price consolidation signal the start of a breakout in the direction of the gap.
+Gaps in the direction of a sustained move can signal continuation of the
+strong move, or exhaustion with a reversal in price imminent.
+
+In this section we’ll explore opening gaps and bar gaps for both stocks
+and commodities.
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+138
+
+Opening Gaps in Stocks
+Using our 100‐stock basket of Nasdaq stocks, gap‐trade statistics were
+found on all the opening gaps in the 2000–2011 time frame. Gap trades
+are based on entering long on the open and exiting on the following open.
+A $5,000 position was taken in each trade. Table 9.4 summarizes the trade
+information.
+Scanning the table, you could conclude the following:
+■
+
+■
+
+Opening gaps aren’t shorting opportunities. There was only one gap
+setup (the last row) where the long trades lost money. That means
+doing the opposite and shorting those setups would have made money, but it’s only $2 per trade—not even enough to cover transaction
+costs.
+All the gaps opening below yesterday’s low made money on the long side.
+That’s in keeping with the counter‐trend nature of stocks: Weakness is a
+buying opportunity. Further, those opening below yesterday’s low when
+the trend was down did better than those that occurred when the trend
+was up.
+
+TABLE 9.4 Opening Gaps on Nasdaq Stocks, 2000–2011
+Opening Gap Description
+
+Open below yesterday’s low
+Open above yesterday’s high
+Open below yesterday’s low and trend up*
+Open below yesterday’s low and trend down*
+Open above yesterday’s high and trend up*
+Open above yesterday’s high and trend down*
+Open one standard deviation, or greater
+below yesterday’s low**
+Open one standard deviation, or greater
+above yesterday’s high**
+Open one standard deviation** or greater
+below yesterday’s low and trend up*
+Open one standard deviation** or greater
+below yesterday’s low and trend down*
+Open one standard deviation** or greater
+above yesterday’s high and trend up*
+Open one standard deviation** or greater
+above yesterday’s high and trend down*
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+16,661
+18,666
+8,174
+8,487
+7,569
+11,087
+729
+
+15,020
+17,466
+7,376
+7,644
+7,078
+10,368
+658
+
+$13
+$ 1
+$ 9
+$17
+$ 2
+$ 0
+$16
+
+818
+
+767
+
+$ 9
+
+358
+
+347
+
+$ 7
+
+371
+
+311
+
+$26
+
+492
+
+451
+
+$16
+
+326
+
+316
+
+–$ 2
+
+* Trend based on close versus close 20 days ago
+** Standard deviation based on previous 20 closes
+
+139
+I think the most useful setup is the first: an open below yesterday’s low,
+irrespective of trend. There are over 31,000 occurrences in the 12‐year
+period, which averages to about 10 a day. This might prove to be a good
+starting point for a tradeable long‐only stock strategy.
+Let’s do the same opening gap analysis on commodities.
+
+Opening Gaps in Commodities
+Using our 56‐commodity basket, the same opening gap statistics were compiled. Differences in this analysis are that gaps up are traded long, and gaps
+down are traded short. Gap trades are entered on the open the day of the
+gap and exited on the next open. A one‐lot (one contract) position was
+taken in each trade. Table 9.5 summarizes the results.
+The results were negative in 10 out of the 12 cases.This parallels the way the
+pullback filter from Chapter 6 works on commodities: An up day is followed by
+a down day, a down day is followed by an up day, a down day in an uptrend gets
+a big bounce up the next day, and an up day in a down trend turns more strongly
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+■
+
+TABLE 9.5 Opening Gaps on Basket of 56 Commodities, 2000–2011
+Opening Gap Description
+
+Open below yesterday’s low
+Open above yesterday’s high
+Open below yesterday’s low and trend up*
+Open below yesterday’s low and trend
+down*
+Open above yesterday’s high and trend up*
+Open above yesterday’s high and trend
+down*
+Open one standard deviation or greater
+below yesterday’s low**
+Open one standard deviation or greater
+above yesterday’s high**
+Open one standard deviation** or greater
+below yesterday’s low and trend up*
+Open one standard deviation** or greater
+below yesterday’s low and trend down*
+Open one standard deviation** or greater
+above yesterday’s high and trend up*
+Open one standard deviation** or greater
+above yesterday’s high and trend down*
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+140
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+27,694
+30,088
+12,441
+15,138
+
+31,727
+33,380
+15,058
+16,552
+
+–$13
+–$19
+–$32
+$ 3
+
+16,896
+13,080
+
+18,341
+14,930
+
+$ 6
+–$51
+
+1,289
+
+1,491
+
+–$27
+
+1,332
+
+1,578
+
+–$29
+
+550
+
+680
+
+–$60
+
+731
+
+801
+
+–$ 1
+
+798
+
+925
+
+–$ 9
+
+527
+
+647
+
+–$65
+
+* Trend based on close versus close 20 days ago
+** Standard deviation based on previous 20 closes
+
+down the next day.The openings that gap up are particularly interesting as short‐
+term shorting opportunities, especially in light of the fact that commodities have
+an upward bias. It’s nice to find a way to make money trading against the bias.
+One last note about opening gaps. Larry Williams introduced a short‐
+term trading system he called OOPS based on these gaps. His logic is that
+overnight news or opinion is occasionally so bullish or bearish for a given
+commodity that traders rush in at the opening and drive price to a gap opening. In the light of day, the true story causes a reversal of opinion and traders
+say “oops” as they hastily cover their positions and price reverses.
+Let’s now look at bar gaps for both stocks and commodities.
+
+Bar Gaps in Stocks
+If gaps are trading opportunities, a bar gap should be more meaningful than
+an opening gap because price maintained the gap for the entire bar. Let’s look
+at two cases. First is a bar gap coming out of congestion. There are many ways
+to define congestion, but a relatively simple one is to look at the recent range
+in relation to the standard deviation of closing price. If the range from the
+
+highest high to the lowest low over a recent period is less than one or two
+standard deviations of closing price over the same period, the stock is more or
+less range‐bound. Using our 100‐stock basket of Nasdaq stocks, statistics were
+found on all the bar gaps that occurred when the 10‐day range was less than
+one standard deviation of price and less than two standard deviations of price.
+When a bar gap occurred, trade entry was the open of the day following the
+gap, and profit was taken five days later on the open. A $5,000 position was
+taken in each trade. Table 9.6 summarizes the information.
+TABLE 9.6 Bar Gaps out of Congestion on Nasdaq Stocks, 2000–2011
+Bar Gap Description
+
+Above congestion when range
+< 1 standard deviation
+Above congestion when range
+< 2 standard deviations
+Below congestion when range
+< 1 standard deviation
+Below congestion when range
+< 2 standard deviation
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+163
+
+152
+
+$ 0.50
+
+1257
+
+1,290
+
+–$11.50
+
+95
+
+113
+
+$16.50
+
+1,076
+
+791
+
+$63.00
+
+TABLE 9.7 Bar Gaps without Congestion on Nasdaq Stocks, 2000–2011
+Bar Gap Description
+
+Above congestion when range > 1 standard
+deviation
+Above congestion when range > 2 standard
+deviations
+Below congestion when range > 1 standard
+deviation
+Below congestion when range > 2 standard
+deviations
+
+Winning Trades
+
+Losing Trades
+
+3,931
+
+3,882
+
+Profit‐per‐Trade
+
+–$ 7.50
+
+2,837
+
+2,744
+
+–$ 5.50
+
+3,455
+
+2,605
+
+$59.00
+
+2,492
+
+1,909
+
+$53.50
+
+141
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+For stocks, bar gaps out of congestion are not breakouts in the direction of
+the gap. In fact, they’re pretty good counter‐trend setups. Note that a breakout
+above congestion when the 10‐day range is less than two standard deviations
+of closing price actually leads to a small profit if we sell at the signal instead of
+buy. And buying stocks that gap down when the range is less than two standard
+deviations nets 1.26 percent per trade in five days ($63/$5,000). That’s a non‐
+compounded annual rate of over 60 percent if you could do trades consecutively.
+Now let’s look at bar gaps that occur when the stock isn’t in congestion.
+For that case we can use a 10‐day range that’s larger than one or two standard deviations of price. The results are shown in Table 9.7.
+
+Gaps without congestion behave pretty much the same as gaps out of congestion: They are counter‐trend setups. Table 9.8 summarizes the bar gap results
+without a congestion modifier; the gaps just break the 10‐day high or 10‐day low.
+TABLE 9.8 Bar Gaps on Nasdaq Stocks, 2000–2011
+Bar Gap Description
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+Bar gap up
+
+4,094
+
+4,034
+
+–$ 7.50
+
+Bar gap down
+
+3,568
+
+2,700
+
+$56.50
+
+Bar gaps up might be worth exploring as a short setup, while bar gaps
+down could probably be the start of a tradeable long‐only strategy.
+
+Bar Gaps in Commodities
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+142
+
+This section parallels the bar‐gap analysis just presented for stocks. Using
+the 56‐commodity basket over the 1980–2011 time frame, Table 9.9 shows
+the results of trading bar gaps out of 10‐day congestion: Trade entry was
+on the open following the gap and exit was done on the open five days
+later. Again, bar gaps up are long trades, and bar gaps down are short trades.
+TABLE 9.9 Bar Gaps out of Congestion on Commodities
+Bar Gap Description
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+Above congestion when range < 1 standard
+deviation
+
+303
+
+289
+
+–$75
+
+Above congestion when range < 2 standard
+deviations
+
+2,798
+
+2,827
+
+–$88
+
+Below congestion when range < 1 standard
+deviation
+
+274
+
+259
+
+$ 5
+
+Below congestion when range < 2 standard
+deviations
+
+2,362
+
+2,493
+
+–$34
+
+As with stocks, commodity bar gaps out of congestion are not breakouts
+in the direction of the gap; they’re counter‐trend setups.
+Table 9.10 shows the results when the commodity is not in congestion
+and it has a bar gap. Long trades are taken on the open after a bar gaps above
+the 10‐day high when the non‐congestion criterion is met, and short trades
+are taken on the open after a bar gaps below the 10‐day low. Exit is done on
+the open five days after entry.
+
+TABLE 9.10 Bar Gaps without Congestion on Commodities
+Bar Gap Description
+
+Winning Trades
+
+Losing Trades
+
+Profit‐per‐Trade
+
+Bar gap up when range > 1 standard
+deviation
+
+8,238
+
+7,818
+
+$ 50
+
+Bar gap up when range > 2 standard
+deviations
+
+5,743
+
+5,280
+
+$114
+
+Bar gap down when range > 1 standard
+deviation
+
+7,107
+
+7,286
+
+$ 14
+
+Bar gap down when range > 2 standard
+deviations
+
+5,019
+
+5,052
+
+$ 37
+
+Bar gaps when a commodity is not in congestion are a marker for a breakout in the direction of the trend. Because of the relative success of the long
+and short trades when the 10‐day range is greater than two standard deviations of closing price, I looked at an added trend condition.Table 9.11 shows
+the results when the bar gap is also in the direction of the 20‐day trend.
+TABLE 9.11 Bar Gaps without Congestion on Commodities in the Direction
+of the Trend
+Bar Gap Description
+
+Losing Trades
+
+Profit‐per‐Trade
+
+4,918
+
+4,411
+
+$163
+
+Bar gap down when range > 2 standard
+deviations, and close the day before the gap
+less than the close 20 days previous
+
+4,180
+
+4,107
+
+$64
+
+Clearly a bar gap out of congestion and in the direction of the trend is a
+good pointer to a trend continuation. This entry logic might lead to a tradeable strategy.
+■ Trade Fibonacci Retracements
+The Fibonacci sequence was introduced by Leonardo of Pisa in 1202. It is
+a sequence formed by adding the previous number in the sequence to the
+current number to form the next number, with the first two numbers being
+0 and 1, by definition. The following is the start of the sequence:
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377
+
+143
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+Winning Trades
+
+Bar gap up when range > 2 standard
+deviations, and close the day before the gap
+greater than the close 20 days previous
+
+The significance of the sequence is that many recurring patterns in nature have similar patterns, or they have patterns that reduce to the ratio of
+adjacent Fibonacci numbers. The Golden Ratio, in particular is a ratio well
+documented in the literature. It is the limit of the last two numbers near
+infinity of the sequence. So ratios based on the adjacent numbers shown
+above are:
+First/Second = 0, 1, 0.5, 0.667, 0.60, 0.625, 0.615, 0.619, 0.618,
+0.618, 0.618
+Second/First = 4, 1, 2, 1.5, 1.667, 1.6, 1.625, 1.615, 1.619, 1.618,
+1.618, 1.618
+As the sequence gets longer, the ratios between the numbers one, two,
+and three places apart converge to the following ratios:
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+144
+
+One apart
+55/89, 89/144 = 0.618
+89/55, 144/89 = 1.618
+Two apart
+55/144, 89/233 = 0.382
+144/55, 233/89 = 1.382
+Three apart
+55/233, 55/377 = 0.236
+233/55, 377/55 = 1.236
+These are the Fibonacci numbers the literature regards as important,
+though some add 0.5 to the mix. The way these numbers are traded on
+the long side is to wait for a pullback from the trend of 23.6 percent, or
+38.2 percent, or 50 percent, or 61.8 percent of the move, and then buy,
+expecting a reversal. Thus they are regarded as support points where an
+up‐trend should resume its rally, or where a down‐trend resumes its fall.
+Conversely, the 1.236, 1.382, and 1.618 points are regarded as resistance
+points where profits should be taken or the position lightened up.
+In this section we’ll look at trading our stock and commodity baskets using the Fibonacci numbers as support. The only element that needs to be defined is the price point that retracement or profit should be measured from.
+Let’s use the same Donchian points we used in the divergence section of this
+chapter. If there is a 14‐day Donchian low followed by a 14‐day Donchian
+high, the trend must be up. We’ll use the difference between the Donchian
+high and low points as the measuring point for a Fibonacci retracement and
+buy if there is a pullback of 23.6 percent, 38.2 percent, or 61.8 percent
+
+of the distance, and measure reaction after that. Conversely, if there is a
+14‐day high, followed by a 14‐day low, the trend is down, and we’ll look
+to sell at up moves from the low at our Fibonacci retracement points.
+Figure 9.2 shows buy and sell logic.
+
+14-Day Donchian High
+
+23.6% Retracement
+38.2% Retracement
+
+61.8% Retracement
+
+14-Day Donchian Low
+
+145
+
+61.8% Retracement
+
+38.2% Retracement
+
+23.6% Retracement
+
+14-Day Donchian Low
+
+FIGURE 9.2 Fibonacci Retracement Buy/Sell Setups
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+14-Day Donchian High
+
+The trading rules used are:
+■
+
+■
+
+Long trades: If the last Donchian 14‐day high occurred after the last
+14‐day low, the distance in points between the high and low is multiplied
+by the Fibonacci retracement fraction. That value is subtracted from the
+14‐day high to form the entry target. If there is a close below the entry
+target, a trade is entered on the next open. Trade profit is computed 5,
+10, 15, and 20 days after entry.
+Short trades: If the last Donchian 14‐day low occurred after the last
+14‐day high, the distance in points between the high and low is multiplied
+by the Fibonacci retracement fraction. That value is added to the 14‐day
+low to form the entry target. If there is a close above the entry target, a
+trade is entered on the next open. Trade profit is computed 5, 10, 15, and
+20 days after entry.
+
+Fibonacci Retracements with Stocks
+
+AVOID BEING SWAYED BY THE “WELL‐CHOSEN EXAMPLE”
+
+146
+
+Because of the difficulty in profitably trading stocks from the short side,
+we’ll look at the long trades and short trades separately. Table 9.12 shows
+the results of taking long trades on the basket of Nasdaq stocks when the
+Fibonacci retracement level is 23.6 percent of the distance from the
+Donchian low to the Donchian high.
+TABLE 9.12 Stock Trading Long: Fibonacci Retracements of 23.6 Percent
+Number of Days
+from Entry
+
+Winning Trades
+
+Losing Trades
+
+Total Profit Percent
+
+Profit‐per‐Trade
+Percent
+
+Annualized
+Return Percent
+
+5
+
+3,505
+
+3,104
+
+4,292
+
+0.65
+
+32.5
+
+10
+
+3,561
+
+3,048
+
+6,239
+
+0.94
+
+23.5
+
+15
+
+3,630
+
+2,979
+
+7,696
+
+1.16
+
+19.3
+
+20
+
+3,652
+
+2,957
+
+9,361
+
+1.42
+
+17.8
+
+The annualized return of the last column is just the average number of
+trading days per year (250) divided by the number of days in the trade,
+multiplied by the profit‐per‐trade. The results are certainly positive with a
+nice annualized return for a five‐day hold. Table 9.13 shows the results for a
+retracement percent of 38.2.
+These results are not nearly as good as the results with the 23.6 percent
+retracement.

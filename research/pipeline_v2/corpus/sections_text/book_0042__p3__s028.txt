@@ -1,0 +1,683 @@
+294 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Factor 1: umbel' of Rules Tested. All else being equal, the more
+rules back tested to find the best rule, the larger the data-mining bias.
+More monkeys dancing on keyboards increases the probability that one
+will get lucky enough to type something that appears literate. Similarly,
+back testing a larger number of rules increases the chance that one will
+enjoy extraordinary luck.
+In the tests that follow, each ATR was simulated over a 24-month period. First let's look at the no-data-mining case-only one rule is back
+tested. There is no data mining and no data-mining bias. Although an ATR
+with p(gain) set at 0.50 has an expected return equal to zero, sampling
+variability makes it possible for any given 24-month history to produce a
+mean return that varies above and below zero.
+To demonstrate this, 1,000 ATR performance histories, each of 24
+months' duration, were produced by computer simulation. The sampling
+distribution for the statistic mean annualized return is shown in Figure
+6.27. As expected, the distribution is centered at zero, which is indeed the
+expected return of an ATR with p(gain) set 0.50. Also as expected, the
+mean return displays a wide range of variation around zero because 24 observations is a relatively small sample size. A few ATRs, those out in the
+right tail of the sampling distribution, had very good luck (more than 50
+months wound up profitable). In the left tail of the distribution, we find
+the performance histories with bad luck. However, it is the center of the
+sampling distribution that tells the story. On average, under the condition
+of no data mining, an ATR with no predictive power can be expected to
+
+250
+200
+150
+100
+50
+
+-48
+
+-38 -29 -19 -9.6
+
+0
+
+9.6
+
+19
+
+29
+
+38
+
+48
+
+FIGURE 6.27 Mean annualized percent return (single ATR, 24 month history,
+1,000 replications).
+
+295
+
+Data-Mining Bias; The Fool's Cold of Objective TA
+
+earn a mean return of zero. AB the next tests will show, when a bestperforming ATR is picked from two or more ATRs, the best is likely to show
+a return greater than zero, even though it has an expected return of zero.
+Now we will be data mining by picking a best ATR from two or more.
+To examine the relationship between the size of the data mining bias and
+the number of rules from which the best is selected we will vary the size
+of the ATR universe-the number from which the best is picked. Specifically, the bias is measured for the best ATR of 2, 10, 50, and 400. For example, if the number of ATRs was set at 10, the best-performing one of 10
+was picked, and its observed mean return was noted. This procedure was
+repeated 10,000 times and the sampling distribution for the statistic (observed return of the best ATR) was plotted. All performance histories are
+24 months, all rules are set to p(gain) = 0.50 (expected return = 0), and all
+rules are set to have independent returns (no correlation). Because all
+ATRs had expected returns equal to zero, the data-mining bias is simply
+equal to the observed return of the best performer averaged over 10,000
+replications.
+Figure 6.28 shows the sampling distribution of observed performance for the best ATR out of two. The sampling distribution is centered
+at +8.5 percent. In other words, when only two ATRs are tested and the
+best is selected, the bias is a positive 8.5 percent. The data miner would
+be expecting +8.5 percent in the future, but we know the true expected
+return is 0 percent.
+If the number of ATRs is increased to 10, and the best is selected, the
+data-mining bias increases to +22 percent. However, we know that the
+selected ATR has a p(gain) of 0.50 and an expected return of 0 percent.
+
+f
+
+Expected
+Return
+Best
+ATR
+
+Observed
+Return
+Best
+ATR
+
+Of
+2 Rules
+
+Relative
+Freq.
+Data Mining
+Bias
+
++8.5%
+-70 -60 -50 -40 -30 -20 -10
+
+0 10 20 30 40 50 60 70
+
+FIGURE 6.28 Sampling distribution -mean return best of two ATRs.
+
+296 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Figure 6.29 is similar to 6.28, except it shows the sampling distribution for
+the mean observed return for the best-of-lO ATRs. The observed performance of the best-of-10 ATRs is biased by +22 percent.
+When the size of the data-mined universe is expanded to 50 ATRs the
+bias increases to +33 percent. Figure 6.30 shows the sampling distribution
+for the mean return of the best-of-50 ATRs.
+A similar plot, in Figure 6.31, shows that the data-mining bias increases to a +48 percent for the best-of-400 ATRs.
+The relationship between number of ATRs tested and the data-mining
+bias can be seen in Figure 6.32. It summarizes the results obtained for
+
+f
+
+Expected
+Return
+Best
+ATR
+
+Observed
+Return
+Best
+ATR
+
+Of
+10
+
+Relative
+Freq.
+Data Mining
+Bias
+
++22%
+-70-60-50 ~0-30-20-10
+
+FIG RE 6.29 Sampling distribution-mean return best of 10 ATRs.
+
+f
+
+Expected
+Return
+Best
+
+ATR
+
+Observed
+Return
+Best
+ATR
+
+Of
+50
+
+Relative
+Freq.
+Data Mining
+Bias
+
++33%
+-70-60-50 -40-30-20-10
+
+FIGURE 6.30 Sampling distribution-mean return best of 50 ATRs.
+
+297
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+Observed
+Return
+Best
+
+Expected
+Return
+Best
+
+f
+
+ATR
+
+ATR
+
+Of
+400
+
+Relative
+Freq.
+Data Mining
+Bias
+
++48%
+-70 -60 -50 -40 -30 -20 -10
+I~IGURE 6.31
+
+0 10 20 30 40 50 60 70
+
+Sampling distribution-mean return best of 400 ATRs.
+
+60 %
+
+I..···....
+SO %
+
+...... <)
+
+D
+
+M
+
+40 %
+
+B
+
+30 %
+
+I
+A
+
+20 %
+
+S
+
+................
+
+10%
+
+? ....
+2
+
+10
+
+50
+
+400
+
+Number of Rules Tested (log scale)
+Data-mining bias versus number of rules tested (annualized percent return): 24-month performance history.
+
+FIGURE 6.32
+
+best-of 2, 10, 50, and 400 ATRs. The vertical axis represents the magnitude
+of the data-mining bias-the differential between the observed returns for
+the best performing ATR and its expected return. The horizontal axis represents the number of ATRs back tested to find the best. The relationship
+is summarized by fitting a curve through the four data points. It is nearly
+linear when number of rules tested is plotted in log terms-log (baselO).
+The main point to take away from these experiments is this: The larger the
+number of rules tested to find a best rule, the greater the data-mining bias.
+
+298 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+It should be pointed out that the particular magnitudes of data-mining
+bias shown in the preceding tests are valid only for the particulars of this
+test: a particular set of S&P 500 monthly returns, a 24-month performance history, all rules have independent returns, and all rules having an
+expected return equal to zero. In a different data-mining venture, with
+different particulars, the same principle would apply (more rules produce a bigger bias) but the specific levels of the data-mining bias would
+be different.
+For example, had a longer performance history been used to compute
+mean return-48 months instead of 24-the distribution of mean ATR returns would have clustered more tightly around the expected return of
+zero. This is merely a manifestation of the Law of Large Numbers. Consequently, the bias associated with the highest performing ATR would have
+been less. This tells us that the number of observations used to compute
+the performance statistic is an important factor in determining the magnitude of the data-mining bias.
+Let's consider what was said in the previous sentence. The greater the
+number of monthly observations used to compute the performance statistic, the smaller the dispersion of the statistic's sampling distribution. In
+other words, the larger the sample size used to compute the performance
+statistic, the less the degree of randomness in observed performance and
+the less the opportunity for an extraordinarily lucky performance. Whatever reduces the degree of randomness in observed performance reduces
+the data-mining bias.
+The importance of sample size on data-mining bias can be seen in
+Figure 6.33. It is similar to the preceding Figure 6.32. It is a plot of datamining bias, represented on the vertical axis, as a function of number of
+ATR's compared to find the best one, on the horizontal axis. However, in
+this plot there are four curves instead of one. Each curve is based on using a different number of monthly observations to compute each rule's
+mean return; 10, 24, 100, and 1,000 months. The dotted line for 24
+months is the same curve seen in Figure 6.32. Two points are worthy of
+note. First, all curves rise as the number of rules back tested is increased. This is consistent with the finding discussed in the preceding
+section-the data-mining bias increases as the number of ATR's tested is
+increased. Second, and perhaps most important, is the fact that the magnitude of the bias is reduced by increasing the number of months used to
+compute the mean return. For example, when only 10 months of data
+are used, the bias for the best-of-1,024 ATRs is approximately 84 percent. When 1,000 months of data are used, the bias for the best of 1,024
+rules shrinks to less than 12 percent. In the next section, we will see why
+the number of observations is so important in determining the size of the
+data-mining bias.
+
+299
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+D
+
+M
+
+96
+
+10 mos.
+
+84
+
+72
+
+B
+I
+A
+S
+
+24 mos.
+
+60
+48
+36
+
+100 mos.
+
+24
+
+%
+
+Yr.
+
+-1000
+-' mos.
+
+---
+
+12
+
+4
+
+16
+
+64
+
+256
+
+1024
+
+Number of ATR s (log scale)
+
+FIGURE 6.33 Data-mining bias versus number of ATRs tested for different sample sizes.
+
+Factor 2: Number of Observations Used to (;ompute the Performance Statistic. Figure 6.33 tells us that increasing the number
+of observations used to compute the performance statistic reduces the
+magnitude of the data-mining bias. In fact, of all the factors impacting the
+size of the bias, sample size may be the most important. The more observations used, the less opportunity there is for a few lucky observations
+(profitable months) to result in a high mean return. We saw this in Chapter 4, where it was demonstrated that the sampling distribution is reduced in width when a larger number of observations are used to
+compute the sample statistic. With only a few observations, a sample
+mean can stray considerably above or below the true population mean.
+The message conveyed by a wide sampling distribution is that there is a
+greater opportunity for a rule to generate a very profitable return in a
+back test by luck rather than by predictive power. This is illustrated in
+Figure 6.34, which shows two sampling distributions for the same rule,
+for which expected return is zero. Note the sampling distribution based
+on fewer observations is wider. A mean return computed from a short
+performance history is more likely to produce a very lucky result than a
+mean computed from a larger number of observations (Le., a longer performance history).
+The next set of experiments examine the effect of the number of
+monthly observations used to compute mean ATR return on the size of
+the data-mining bias. The number of months was varied from one month
+to 1,000 months, in 50-month increments, with data-mining bias computed at each increment. This was done for two cases: the best-of-lO and
+
+300 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Sample Mean Computed From
+Large Number of Observations
+Lucky Rule
+Appears
+Modestly Profitable
+
+"--"~
+-10%
+
+0
+
++i'0%
+
+Sample Mean Computed from
+Small Number of Observations
+
+Lucky Rule
+Appears
+
+___~tfi"b1'
+-30%
+
+FIGURE 6.34
+
+-10%
+
+0
+
++10%
+
++30%
+
+.------
+
+Narrow versus wide sampling distributions.
+
+the best-of-lOO ATRs. As in prior experiments all ATRs were set to have
+expected returns equal to zero.
+Figure 6.35 shows the relationship between the data-mining bias on
+the vertical axis versus the number of observations used to compute
+ATR mean returns on the horizontal axis. Because the expected return
+for all ATRs is equal to zero, the data-mining bias is equal to the average
+observed performance of the best. Thus, the vertical axis, which is labeled data-mining bias, could as easily have been labeled average performance of the best rule. Note the steep decline in the magnitude of
+96
+D
+M
+
+84
+72
+
+B
+I
+
+A
+S
+%
+Yr.
+
+60
+
+Observed Performance
+Best-ot-100 ATRs
+
+48
+
+Observed Performance
+Best-ot-10 ATRs
+
+36
+24
+12
+
+'
+
+....
+
+-""
+
+-------- ...
+
+200
+
+400
+
+600
+
+800
+
+1000
+
+Number ot Months Used To Compute Mean ATR Return
+
+FIGURE 6.35
+
+Data-mining bias versus number observations.
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+301
+
+the bias as the number of observations used to compute the mean return
+is increased. This is the Law of Large Numbers working in favor of the
+data miner.
+The lesson here is this: Be very skeptical of performance statistics
+computed from a small number of signals or time intervals. Another important message from Figure 6.35 is that when the number of observations (months) becomes quite large, 600 or so, the difference in the bias
+between best-of-lO and the best-of-lOO ATRs becomes tiny. This finding
+has very important implications for the data miner-when the number of
+observations is sufficient, one can data mine a much larger number of
+rules without significantly increasing the data-mining bias. The Law of
+Large Numbers rules!
+FactoI' 3: Degl'ee of Rule COlTelation. The third factor affecting
+the size of the data-mining bias is the degree of similarity among the rules
+tested. Rules are said to be similar when they generate performance histories that are strongly correlated. That is to say, their monthly or daily returns are correlated. The stronger the correlation between the rules
+tested, the smaller will be the magnitude of the bias. Conversely, the lower
+the correlation (i.e., the greater the degree of statistical independence) between rules returns, the larger will be the data-mining bias.
+This makes sense because increased correlation among the rules has
+the consequence of shrinking the effective number of rules being back
+tested. Imagine a large set of rules that are completely identical. Naturally,
+they will generate perfectly correlated performance histories. In effect,
+this large set of rules is really just one rule, and we already know that the
+data-mining bias shrinks to zero when only one rule is back tested. Backing off from this extreme case, when rules are highly similar, and thus
+have highly correlated returns, the chance of an extraordinarily lucky performance is reduced. The more dissimilar the rules, the greater will be the
+opportunity for one to have a great coincidental fit to the historical data
+and achieve high performance. So high correlation amongst the rules
+shrinks the effective number of rules back tested and hence shrinks the
+data-mining bias.
+In practical terms, rule correlation is most likely to be high when data
+mining involves optimizing the parameters of a specific rule form. Suppose a dual moving average crossover rule is being optimized. This means
+that every rule tested is the same except for the parameter values-the
+number of days used to compute the short-term and long-term moving averages. The rule using values of 26 days and 55 days will produce returns
+that are highly correlated with a rule using values of 27 and 55.
+Figure 6.36 shows the relationship between the magnitude of the datamining bias for the best rule (vertical axis) and the degree of correlation
+
+302 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+24
+18
+
+Data
+Mining
+Bias
+
+12
+
+%
+Yr.
+
+6
+
+Best of 1000 ATRs
+Best of 100 ATRs
+
+Best of 10 ATRs
+
+-------- ----,,
+\
+
+0-'--------'----'---------'----'--------'-
+
+0.2
+0.4
+0.6
+0.8
+Rule Correlation
+
+1.0
+
+FIGURE 6.36 Data-mining bias versus rule correlation <annualized percent return number of monthly observations = 100).
+
+(horizontal axis) among the rules. Rule correlation was simulated as follows: An initial ATR performance history was generated. In the generation
+of a second ATR history, a biased random device was consulted to determine the monthly returns of ATR history 2. The bias was set to the desired
+level of correlation. For example, if a .7 correlation was desired, a coin flip
+was simulated with the probability of heads = 0.70. If the coin landed on
+heads, then the monthly return for the second ATR would be the same as
+the monthly return of the initial ATR. This was continued for subsequent
+ATR histories.
+Each ATR was simulated over a 100-month history. Three different
+tests were run, each based on a different number of ATRs: 10, 100, 1,000.
+In other words, one test measures the data-mining bias associated with
+the best ATR rule out of 100. As in prior tests, all rules had expected returns equal to zero. The vertical axis of the plot represents the datamining bias. The factor being examined here, rule correlation, was varied
+from 0 to 1.0. Note that the bias remains high until rule correlations approach a level of 1.0. Thus, rule correlation does not have a major impact
+in reducing the data-mining bias until there is a high level of correlation in
+their returns. Also note that the data-mining bias is higher for the best of
+1,000 rules than it is for best of 10. This is simply a manifestation of factor
+1, the greater the number of rules from which the best is selected, the
+greater the data-mining bias.
+Fador 4: Presence of Positive Outliers in Rule Returns.
+
+A
+sample of rule returns (daily, weekly, or monthly) that contains a few extremely large positive observations has the potential to create a large data
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+303
+
+mining bias. The size of the bias will depend on how extreme the values
+are and the number of observations used to compute the mean. If a small
+number of observations are used, one extremely positive value can boost
+the sample mean dramatically. A large number of observations will lessen
+the impact of an occasional extreme value.
+Distributions that contain extreme values are said to have heavy tails.
+The tails of a distribution are the outer right and left zones where the extreme but rare observations lie. Heavy-tailed distributions extend farther
+away from the distribution's center than light-tailed distributions. The normal distribution has light tails. Figure 6.37 illustrates this distinction. The
+distribution in the upper portion of Figure 6.37 has the normal bell shape.
+Note how quickly the tails disappear as one moves away from the distribution's center. This tells us that extreme observations are rare to the point
+of being virtually nonexistent. People's heights are norn1ally distributed. It
+is rare to see someone over seven feet tall. No one has ever seen a person
+over 10 feet. The distribution in the lower portion of the figure is heavy
+tailed. Although extreme observations are also rare, they occur more frequently than in light-tailed distributions. Were people's heights distributed
+this way, you might meet someone 20 feet tall!
+As mentioned earlier, when the distribution of daily (weekly, monthly)
+returns contains extreme observations, a sample mean, computed from
+these observations, can also take on an extreme value. This occurs when
+one or more of the extreme values wind up in the sample and the sample
+size is small. From this it follows that heavy tails in the return distribution
+tend to cause tail heaviness of the sampling distribution of the mean.
+
+I Light Tails I
+
+L
+
+o
+
+I Heavy Tails I
+
+Outliers:
+Extreme Positive
+Months, Days, Etc.
+
+o
+I"IGUKE 6.37 Light- versus heavy-tailed return distributions.
+
+304 METHODOLOGICAL, PSYCHOLOGICAL. PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Nevertheless, the value of a sample mean is never as extreme as the most
+extreme value found in a sample. This is simply the effect of averaging.
+Therefore, the sampling distribution of the mean return will always have
+lighter tails than the distribution of interval returns. This is illustrated in
+Figure 6.38. 'I\vo return distributions are depicted. On the left is a return
+distribution with heavy tails. The sampling distribution of the mean based
+on this distribution also has heavy tails, although they are lighter than the
+return distribution itself. On the right is a thin-tailed return distribution. A
+sampling distribution of the mean based on it necessarily has light tails.
+Note that both of the sampling distributions in the Figure 6.38 are
+based on the sanle sample size. Sanlple size is a separate factor influencing tail heaviness of the sampling distribution. I wanted to hold sample
+size constant so as not to confuse the issue.
+Now let's consider the effect of sample size on the sampling distribution's tail heaviness. When more observations are used to compute the
+sample mean, the effect of tail heaviness in the return distribution is minimized. The greater the number of observations used to compute the sample mean, the lighter will be the tails of the sampling distribution. This is
+illustrated in Figure 6.39. The return distribution clearly has heavy tails.
+On the left is the sampling distribution of the mean based on a small sample size. Its tails, though not as heavy as the return distribution itself, are
+still heavy. On the right is a sampling distribution of the mean derived
+from the same return distribution, except that a larger sample size is used
+
+Return Distribution: Heavy Tails
+
+Return Distribution: Light Tails
+
+-&o
+
+~
+
+Resulting
+Sampling Distribution of
+the Mean
+
+Resulting
+Sampling Distribution of
+the Mean
+
+-~- -..1.o
+
+o
+
+FIGURE 6.38 Impact of extremes in return distribution on sampling distribution: equal sample size.
+
+305
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+Return Distribution: Heavy Tails
+
+/
+
+.........................................................
+
+T
+\\
+
+.
+
+o
+
+Sampling Distribution
+Small Sample Size
+
+Sampling Distribution
+Large Sample Size
+
+(Tails Still Heavy)
+
+(Lighter Tails)
+
+-.4.- -io
+
+o
+
+FIGURE 6.39 Impact of sample size on tail heaviness of the sampling
+distribution.
+
+to compute the sample mean. The tails of this sampling distribution are
+lightened as a result.
+What is the relevance of all this to the data-mining bias? A heavytailed sampling distribution is saying that randomness is playing a large
+role in the mean return. Randomness is always bad news for the data
+miner. 31 Imagine two rules. Both have expected returns of zero. One has a
+heavy-tailed sampling distribution. The other has a sampling distribution
+with light tails. The heavy tails tell us that there is a greater probability
+that the rule will produce a mean return, in a back test, that is much
+higher than its expected return. If this rule is picked by the data miner, its
+data-mining bias will be large and its out-of-sample performance is likely
+to be disappointing. This is illustrated in Figure 6.40. The heavy-tailed
+sampling distribution shows that it is within the realm of probability for
+the rule to earn mean return of greater than 30 percent in a back test. In
+the case of the sampling distribution with light tails, a return that high
+would have a probability of almost zero.
+It is widely recognized that the distribution of stock market returns
+and the returns of other financial asset have relatively heavy tails compared to a normal distribution. 32 A rule that was short, by coincidence,
+when the market crashed may win the data-mining-performance competition, but it will have won for the wrong reason.
+The issue of tail heaviness and its resultant impact on the data-mining

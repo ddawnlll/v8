@@ -1,0 +1,327 @@
+on the underlying futures market. The wider and faster the price movements are, the higher the volatility level is, and the higher the volatility,
+the higher the premium for the option, other things being equal. Implied
+volatility is a figure used to rank the volatility percentage that explains
+the current market price of an option. It is considered the common denominator of option pricing as it helps compare an option’s theoretical
+value under different market conditions. Historical volatility refers to
+the measure of the actual price change of the futures product during a
+specified time period. Using mathematical calculations, historical volatility is the annualized standard deviation of daily returns during the
+period.
+Other variables are also used to calculate an option’s value such as interest rates and demand for the option itself. For instance, if you bought a
+call option and if the underlying futures market is moving up toward your
+strike price, then the option’s premium may increase in value as option
+writers or sellers will want more money and buyers will have to pay more
+for the option.
+One of the first things to know about buying options on futures is that
+you do not need to hold them until expiration. Option buyers may sell their
+position at any time during market hours when the contracts are trading on
+the exchange. Options may be exercised at any time before the expiration
+date during regular market hours by notifying your broker. This is called
+the American style of option exercising. The European style of option exercising means you can only exercise your option on the day the option
+expires. This method usually refers to equity options traded overseas. The
+references in this book are only to options on futures that are traded in the
+United States.
+You also need to know that most options on deliverable futures expire
+about a month before their respective futures contract months. For example, a July call option on corn futures will expire around June 20. Cash settlement products such as stock index futures have their options expire on
+the same day as the main underlying quarterly contract months: March, June,
+September, and December. Stock index futures also have off-month options
+that expire on the third Thursday of every month.
+If you buy an option and the market moves in the direction of your strike
+price, then the value may increase to the point where you may realize a profit
+after commissions and fees. If you are long a call or a put option, all you need
+
+Options 101
+
+221
+
+to do is sell it. If you believe that market conditions have changed and your
+opinion has changed, or if you think the option has gained about as much
+as it can, then get out. Provided there is a liquid market for the option, you
+should receive at least some premium back if there is time value left and if
+the strike price is still close to the underlying futures price.
+The purpose of this chapter is to give you a better understanding of the
+mechanics of options trading. I want to acquaint you with the everyday relevance of options trading for the individual trader and include my experiences and observations. I would rather help you understand when and how
+to use options than try to explain the complex details of the formulas and
+mathematical computations that determine the theoretical value of an options premium. The Black–Scholes model incorporates the current underlying futures price, expected volatility, time until expiration, interest rates,
+strike price, and so on. That type of computation is what computer programs
+are for, and we’ll leave that for the brokers and software vendors who provide these services and can tell you the effect of different scenarios for
+volatility, time, and the magnitude of the price move.
+Although some elements of options pricing may seem to be complex,
+you should be familiar with what are known as the Greeks:
+• Delta is the amount by which an option’s value will change relative to
+the change in value of the underlying futures contract.
+• Beta is a measure of an option’s price movement based on the overall
+movement of the option market.
+• Theta is the estimate of the price depreciation from time decay.
+• Vega is the measure of the rate of change in an option’s theoretical value
+for a certain percentage change in the volatility rate.
+• Gamma is the rate of change in an option’s delta based on a certain percent change in the underlying futures contract.
+Options and option strategies can be made simple or extremely complex because options are an extremely versatile investment instrument.
+What has made options trading so popular is that investors are now realizing that there are a wide variety of strategies and combinations that can
+offer the ability to maximize leverage and define risk parameters. Options
+can be used as a surrogate futures position, or they may be implemented as
+a hedge against a futures position, which, in turn, could be a hedge against a
+cash position.
+The complex options strategies usually involve spreading two or more
+positions and are considered a multiple-leg spread strategy. Generally speaking, the more complex the strategy, the more legs that are involved. That
+complexity can mean more transaction or commission costs as well. You
+need to examine and include these costs in a trading strategy to weigh
+
+222
+
+OPTIONS: A Primer
+
+whether the trade is worth initiating. Consider it like evaluating whether
+the cost of doing business is worth the effort. If there is not a lot of room for
+profit and the risks outweigh the rewards, then reconsider initiating the
+trade. Once you learn to understand this simple concept of weighing your
+alternatives, I believe trading in options can be a lot less stressful, and the
+result might be a more rewarding trading experience.
+After determining a trend direction or a price move in the underlying
+futures contract, I like to explore the different avenues to discover which
+strategy works for me to capitalize on my opinion. For example, I will look
+at the costs, the risk, and the potential reward. Unless you try to figure what
+is the best method, you won’t know how to get the most bang for your
+buck. Analyze what will work best for you.
+Education provides enlightenment and helps give you the confidence
+you need to experience new things. Humans seem to have an inherent natural tendency to be afraid to try new things due to fear of the unknown.
+What can cause more fear than investing in an industry that claims that 80
+percent to 90 percent of investors lose money? But let me show you how to
+examine the markets and formulate your own opinion before you invest
+using options. Then you can make an educated, rational business decision
+on your own before you place an order using options.
+
+OPTIONS TRADING STEPS
+To begin with, you have to have an opinion about what you expect the underlying market to do. Simple. You have three choices: up, down, or sideways. Now all you have to do is your homework, analyzing support and
+resistance, technical indicators, or whatever you want to use in your analysis to arrive at a decision. After doing your homework, you decide you want
+to go long, say, coffee futures. You arrive at this conclusion based on the
+fact that the price is at a 30-year low and your technical indicators are generating a buy signal. You expect a move from the 40-cent level back to at
+least the 80-cent price range, which would be a 50 percent correction level
+derived from a 2-year high. You conclude that it may take at least 6 months
+to see the trade mature.
+Great, this is the first step in planning a trade. Now let’s see how you
+can trade a plan by exploring the alternatives incorporating the use of options. I like to use options combined with futures as a hedge or insurance
+against adverse moves. This is one situation where that may be a good
+choice.
+First, you need to know what it takes as a good-faith deposit to margin
+a futures contract. You see that the initial requirement for coffee at that time
+
+Options Trading Steps
+
+223
+
+is $2,450 (may change with market conditions) and the maintenance margin
+requirement is $1,750. Every point move in coffee is $3.75. A move from 45
+to 46 cents is a 100-point move, which is equivalent to $375.
+An at-the-money 45 March put has a price of 280 points so, with each
+point worth $3.75, the cost of the put is $1,050 before commissions and related fees. The March put expires on February 8, providing 72 days of protection from today’s date, November 28. If you buy a futures contract at
+46.60 cents and pay a premium of 280 points, the cost of the option and the
+difference between the strike price and the futures price is 440 points
+(times $3.75 equals $1,650). Until the expiration of the option, that is your
+risk and your margin requirement. To break even at expiration, you need
+coffee futures to be at 49.40 cents.
+If coffee falls to, let’s say, 10 cents for the first time in 30 years, all you
+could lose is the initial dollar amount of $1,650. This is, in essence, a limited
+loss/unlimited profit spread position. The only way you can lose is if coffee
+goes down or does not move at all for the next 72 days. The profit opportunity that exists, if coffee rallies, is unlimited if the price reaches above 49.40
+during the next 72 days.
+All right, that is scenario number one. Or, as I tell investors, start playing the Monte Hall television game show, “Let’s Make a Deal.” That is what
+is behind door number one. Let’s start looking behind doors number two
+and three.
+You now know what the costs are, what the risks are, and what the potential rewards are. Let’s shop around and see what is behind door number
+two. First, you’ll price call options. You are trying to figure out what you
+can get for the same amount of money with the same or better returns if the
+price of coffee rises—within the realm of reality, of course. For example, you
+do not want to buy a call with a strike price of 100. That is not in the realm
+of reality. Prices could reach that level, but it would mean the price of coffee
+futures would have to more than double in a relatively short period of time.
+You will also compare how much a May call option is versus a July call
+option. Another determining factor that I use is the amount of time there is
+until expiration on the option and the price difference between the same
+contract month of the futures contract and the options month. Also, are
+May and July futures and options a liquid month? Would an options spread
+be beneficial?
+Start working the math on the different costs associated with different strategies and watch what the parameters of the option strategies are.
+The characteristics like limited risk/unlimited reward or limited reward/
+unlimited risks should be explored and understood.
+When trading a futures contract, you need to analyze which direction
+the market may go and when it is going to move. When dealing in options,
+
+224
+
+OPTIONS: A Primer
+
+especially when buying calls and paying premium, you need to know not
+only which direction the market may go and when it is going to move, but you
+also need to add another factor, an estimate how far the market will move.
+Remember, when buying call options, you need to cover the cost of the
+premium plus commissions and transaction fees to make a profit at expiration. This is a situation where you could be right about the direction of
+prices but still lose money if the market does not move beyond your strike
+price at expiration.
+For this example, though, a July 55 call option seems to be a better
+choice, weighing all the factors of cost, leverage, and risk/reward ratios.
+These options expire on June 14, providing 198 days until expiration. The
+premium is 500 points so, at $3.75 per point, the cost of the call is $1,875.
+The underlying futures contract is at 50.55 cents, which is 445 points out of
+the money. So you can use a call to buy an equal amount of coffee that will
+give you about the same amount of leverage and risk parameters as entering the market with one futures contract combined with a put option. The
+benefits are you have 2.75 times more life until the option expires using the
+outright long July 55 call option instead of the March futures and options
+strategy.
+In doing the math and analyzing your costs, look at what the probability is that the market will hit your targets and look at the possibility of the
+market moving in your direction. Now look at the risks and ask yourself if
+you can afford to lose if you are wrong. And then ask if the trade is worth
+the reward. If you follow this line of thinking, then you may have a better
+understanding of what you are doing.
+Because options on deliverable futures contracts generally expire the
+month before the month of the futures contract itself, it is a good idea to
+use the half-and-half rule when buying options outright. If half of the time
+value or half of the premium value erodes, reevaluate the position. Either
+get out of the options or salvage some premium by liquidating a portion of
+your position. You could also adjust your position by adding on more of the
+same options to lower your average premium price or you could buy other
+options that have more time value. This approach could be considered cost
+averaging, but some pundits consider it throwing good money after bad.
+Sometimes it pays not to give up on the product or the investment idea; just
+admit the timing was wrong and reevaluate.
+
+OPTIONS STRATEGIES
+There are so many different option strategies available that it would be difficult to cover them all. I explain here a few of the more common strategies
+
+Options Strategies
+
+225
+
+that individual investors use, and you can see both the advantages and disadvantages for yourself. Again, some strategies use the concept of spreading,
+which involves the act of simultaneously buying and writing or selling multiple option positions. Remember, the more legs or combinations involved,
+the more commissions and fees are involved, and you need to include these
+costs in your calculations for risk and reward parameters.
+Most of the following strategies can be combined with different strike
+prices and even options with different calendar months. I hope the names
+will help you identify the different characteristics associated with each strategy so you can use them for a quick future reference.
+
+Bull Call Spreads or Debit Spreads
+The terms bull and call imply a bias toward an upward price direction, so you
+can assume this strategy involves a spread that goes long the market by
+using calls. Debit implies that you are paying for the trade and that the costs
+are being debited from your account.
+Other courses or books may refer to this as a vertical bull call spread.
+What is usually involved in this strategy is the purchase of a close-to-themoney or an in-the-money call and at the same time the sale of a further
+away strike price call option of the same expiration date. The close-to- or
+in-the-money call option may cost a great deal of money as it is near or
+lower to where the underlying futures contract price is trading, especially
+if there is substantial time remaining until the option’s expiration. Traders
+spread this cost off by selling or writing a further out-of-the-money call option. When you sell or write a call, you collect premium or receive a credit
+to your account. This credit reduces the cost of the close-to- or in-themoney call option.
+The profit/loss profile for this strategy is a limited risk and a lower expense for the investor as premium costs are reduced by the sale of the
+higher strike price call. The short call is covered by the long call so there is
+a predetermined risk factored in this trade and no unnecessary risks associated with option writing. The profit potential is limited to the level between
+the two strike prices minus the premium costs, the commission, and fees.
+For example, if March silver futures were trading at $4.10 on November
+28 and you expected the market price to rise to at least $4.75 by January,
+then you might look at buying a March 425 call and at the same time selling
+the March 475 call. The strike price difference is 50 cents. If each penny
+move in silver futures equals $50, then this is a $2,500 maximum spread difference. If the cost of doing this trade is, say, a net of $500 for the premium,
+$65 per option (times two) for commissions, and $5 per option for fees, then
+your total cost is $640. That is your risk and maximum loss amount. Your
+maximum profit is $2,500 – $640, or $1,860.
+
+226
+
+OPTIONS: A Primer
+
+Your risk/reward ratio is almost 1 to 3 in this scenario. If silver settles
+below $4.25 at expiration, then you would lose $640. If silver does move and
+settles above $4.75 at expiration, then your net profit is $1,860. If silver really took off to $10 per ounce, you are still limited to the $1,860 profit.
+Because this is a spread, you can leg into or out of a position. If, on the
+one hand, the silver market fell to, say, $3.50 first, both the 425 and the 475
+calls would decline in value. If it is financially beneficial and if there is a
+good amount of time remaining, then you may consider buying back the
+short 475 call and staying long the 425 call, provided that you have enough
+free equity in your account to pay the difference of the 425 call. If this is
+possible, then you are now in an unlimited profit potential situation and are
+not locked into a defined profit situation. If, on the other hand, the market
+exploded up to $4.75 first and you sold the 425 call, that would leave you
+net short a 475 call with unlimited risk and you would be subject to a margin requirement. Most traders buy the spread and liquidate the spread, but
+the opportunity to leg out of a spread does exist.
+
+Bear Put Spreads or Debit Spreads
+The terms bear and put imply a bias toward a downward price move, so you
+can assume this strategy involves a spread that goes short the market by
+using puts. Again, debit spread means that you are paying for the trade and
+the costs are being debited from your account.
+Other courses or books may refer to this as a vertical bear put spread.
+What is usually involved in this strategy is the purchase of a close-to-themoney or an in-the-money put and at the same time the sale of a further away
+strike price put option of the same expiration date. As mentioned previously,
+the close-to- or in-the-money put option may cost a great deal of money as it
+is near to the price of the underlying futures contract price, especially if there
+is substantial time remaining until the option’s expiration. Traders spread
+this cost off by selling or writing a further out of the money put option. When
+you sell or write a put, you collect premium or receive a credit in your account. This credit reduces the cost of the close-to- or in-the-money put.
+The profit/ loss profile for this strategy is a limited risk and a lower expense for the investor as premium costs are reduced by the sale of the higher
+strike price call. The profit potential is limited to the level between the two
+strike prices minus the premium costs, the commission, and fees. It is the exact
+opposite of the bull call spread in the sense of trading market direction.
+
+Vertical Calendar Spreads
+Vertical calendar spreads are very similar to the bull call and bear put
+spreads except that the word calendar means that the strategy has to do
+
+Options Strategies
+
+227
+
+with different calendar months. The parameters involved in this strategy require that an investor be accurate not only for the direction of the price
+move, but also for the magnitude of the move and the time frame for which
+that move occurs. Because it involves similar but not the exact same months,
+there is a higher degree of risk associated with this strategy. As a result of
+this increased risk factor, there may be—and usually is—a margin deposit
+required in addition to the premium, commission, and fees involved if it is
+a debit spread.
+Many combinations can be used for calendar spreads. Buying a further
+out contract month and selling an option with less time until expiration is
+generally how you initiate this spread. Some reasons for using this spread
+are that there could be disparities between the call options and futures
+prices of the respected contract months, volatility levels may vary between
+calendar months, or a trader may simply think he or she can time the market. In any one of these situations, a trader could take advantage of these
+disparities by selling the close-to-the-money and close-to-expiration call
+options and at the same time buying further out-of-the-money call options
+with more time value.
+Let’s say you expect silver to move higher between November 28 and
+the time March options expire in February. You believe the market could
+rally up to the $4.50 level by then, but could go as high as $5.00 by maybe
+March or April. A good example of a calendar spread would be to sell the
+March 450 calls and to buy the May 475 calls. If prices do not move, then the
+rapid time decay of the close-to-expiration March calls will offset the cost
+of the longer-term May calls. Another feature is you can leg out of the short
+450 call option if it becomes profitable to do so. This strategy requires that
+you monitor the underlying futures contract regularly.
+
+Bull Credit Spreads
+You could utilize bull credit spreads if you have a neutral or bullish bias on
+the underlying futures market. In this strategy you sell a close-to-the-money
+put and buy a further out-of-the-money put. The idea is to collect premium
+in a steady or rising market as time decay decreases the option’s value. The
+purpose for doing a spread is to limit your risk in case an extremely unpredictable adverse market move occurs. By selling the closer-to-the-money
+put, you will be collecting more premium than you pay for the out-of-themoney put you are buying.
+Your risk is limited to the difference between the two strike prices minus
+the premiums that you collected. The profit potential is also limited to the
+net premium that you collect minus the commissions and related fees.
+Again, it is important to know these fees so that you can work them into
+your profit/loss calculations.
+
+228
+
+OPTIONS: A Primer
+
+For those who believe in income-generating trades, a good example is
+to use this strategy with stock index futures where options expire nearly
+every month. Stock index futures attract these option strategists because it
+is necessary to sell premium in an option market that has expensive values
+to make the risk worth the reward. The higher the volatility, the higher the
+premium is, especially for close-to-the-money puts. Stock index options
+meet that criteria. In a slowly uptrending market, a trader can put on these
+positions and collect premium, knowing what the risk and rewards are.
+There is no need for precise timing to execute this trade strategy, only a
+conviction that the futures market will remain at or above the same level by
+the options expiration day. A margin requirement or good-faith deposit may
+be required for this strategy.

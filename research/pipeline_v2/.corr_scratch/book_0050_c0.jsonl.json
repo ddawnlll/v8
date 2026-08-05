@@ -1,0 +1,373 @@
+[
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_001",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 1,
+  "exact_text": "The most common way to trade the news is to examine the charts previous to a particular big number to be released and look for periods of consolidation in preparation for that release. You then trade the breakout that\nensues after the figures have been made public",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_003",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 1,
+  "exact_text": "extreme movements in prices will be followed almost immediately by strong movements\nin the exact opposite direction; the stronger the first move, the greater will\nbe the reversal",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_007",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_008",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_009",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_010",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_012",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_013",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_014",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_016",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_017",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_019",
+  "verdict": "corroboration",
+  "behavior_id": "mean_reversion_band",
+  "page": 16,
+  "exact_text": "they help in gauging when prices are\nreaching unsustainable extremes and are near a reversal to the mean",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "periods",
+    "value": "20",
+    "page": 16
+   },
+   {
+    "name": "standard deviations",
+    "value": "2",
+    "page": 16
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_021",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_022",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_023",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_024",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_026",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_027",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_028",
+  "verdict": "corroboration",
+  "behavior_id": "momentum_divergence_reversal",
+  "page": 31,
+  "exact_text": "Divergences act as an early warning system, alerting you when the\nmarket could reverse",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_030",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_032",
+  "verdict": "corroboration",
+  "behavior_id": "candlestick_reversal_pattern",
+  "page": 31,
+  "exact_text": "a doji is a signal of indecision\nin the market and thus a potential turning point because both buyers and\nsellers didn’t get control",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_035",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_1_023",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_036",
+  "verdict": "corroboration",
+  "behavior_id": "breakout_retest",
+  "page": 31,
+  "exact_text": "one should wait for the break to be retested\nthrough a correction move to confirm that either the support has become a\nnew resistance or the resistance has become a new support",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_037",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_038",
+  "verdict": "corroboration",
+  "behavior_id": "trend_following_channel",
+  "page": 50,
+  "exact_text": "In a bullish price channel, as long as the prices are contained between\nthe upper and lower trendline boundaries, the trend is in force",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_039",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_040",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_043",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_049",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_051",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_052",
+  "verdict": "corroboration",
+  "behavior_id": "candlestick_reversal_pattern",
+  "page": 65,
+  "exact_text": "When the open is in the bottom quarter or third of the bar and the close is\nin the top quarter or third of the bar, the engulfing bar is bullish engulfing,\nand the buyers are in control; conversely, when the open is in the top quarter or third of the bar and the close is in the bottom quarter or third, the\nengulfing bar is bearish engulfing, and the sellers are in control",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_1_042",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_054",
+  "verdict": "corroboration",
+  "behavior_id": "support_resistance_bounce",
+  "page": 65,
+  "exact_text": "If the support holds, then there will be a bounce\nfrom the support, and the bullish sentiment will have won the battle",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_1_044",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_055",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_056",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_1_050",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_059",
+  "verdict": "corroboration",
+  "behavior_id": "support_resistance_bounce",
+  "page": 80,
+  "exact_text": "Such large numbers of orders act as a strong price barrier and, when triggered, will cause the price to bounce back",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0050::lead_book_0050_2_061",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 80,
+  "exact_text": "when you are buying\nconsecutive pullbacks on the daily chart that have a series of consecutive\nlower highs",
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

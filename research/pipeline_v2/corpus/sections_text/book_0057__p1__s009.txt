@@ -1,0 +1,130 @@
+
+ Figure 7.15 - Example of a Top Reversal Strategy on BBBY. 
+
+ To summarize my trading strategy for the Top Reversal Strategy: 
+
+ I set up a scanner to highlight stocks with four or more consecutive candlesticks moving upward. When I see the stock hit my scanner, I quickly review the volume and daily level of support or resistance near the stock to see if it will be a good trade or not. 
+ I wait for confirmation of a Top Reversal Strategy: (1) formation of a bearish Doji or indecision candle or, instead, a very bearish candlestick, (2) the stock is being traded at or near a significant resistance level at high volume, and (3) the RSI must be higher than 90. 
+ When I see the stock make a new 5-minute low, I consider this as a sign of weakness. I start short selling the stock if I have shares available to short. 
+ My stop will be the high of the previous candlestick or simply the high of the day. 
+ My profit target is either (1) the next level of support, or (2) VWAP or 9 EMA or 20 EMA moving averages (whichever is closer), or (3) when the stock makes a new 5-minute high, which means the buyers are once again gaining control and the sellers are exhausted. 
+
+ Some day traders focus exclusively on reversal trades and in fact base their entire careers on them. Reversal trades are certainly the most classic of the various strategies with a very good risk/reward ratio and, interestingly, virtually every trading day you will find stocks that are good candidates for reversal trades. I myself am trading more and more reversal trades these days, especially during late morning and afternoon trading. However, reversal trading is not yet the cornerstone of my trading strategies. I am more of a VWAP and Support or Resistance trader, which I will explain later on in this book.
+
+How to Day Trade for a Living
+
+ Strategy 5: Moving Average Trend Trading 
+
+ Some traders use moving averages as potential entry and exit points for day trading. Many stocks will start an upside or downside trend after the morning session (around 11 a.m. New York time) and you will see their moving averages in 1-minute and 5-minute charts as a type of moving support or resistance line. Traders can benefit from this behavior and ride the trend along the moving average (on top of the moving average for going long or below the moving average for short selling). 
+
+ As I explained in Chapter 5 about my indicators, I use 9 and 20 Exponential Moving Averages (EMA) and 50 and 200 Simple Moving Averages (SMA). For the sake of keeping this book short, I won’t go into the details of what moving averages are and the differences between simple and exponential. You can, however, do a Google search and find detailed information about these moving averages or you can of course contact me directly through www.BearBullTraders.com with any questions you may have. I’ve also included very brief definitions in the glossary at the back of this book. Your charting software will have most of the moving averages built in. They are ready to be used and there is no need to change the default setting in them. 
+
+ Let’s take a look at the chart below, marked as Figure 7.16, for Direxion Daily Gold Miners Bull 3x Shrs ETF (ticker: NUGT) to see how you could trade based on 9 EMA on a 1-minute chart. 
+
+ Figure 7.16 - Example of a long Moving Average Trend Strategy on NUGT on a 1-minute chart. 
+
+ As you can see, at 15:06 p.m. I noticed NUGT had formed a Bull Flag. I saw that a consolidation period was happening on top of 9 EMA. As soon as I saw that 9 EMA was holding as the support, I jumped on the trade and rode the trend until the price broke the moving average at 15:21 p.m. I’ve marked my entry and exit points on the chart. 
+
+ Moving Average Trends can happen in any intraday time frame. I monitor prices on both 1-minute and 5-minute charts and make my trades based only on these two time frames. 
+
+ Let’s take a look now at Figure 7.17, which is another Moving Average Trend on NUGT on June 16, 2016 on a 5-minute chart. 
+
+ Figure 7.17 - Example of a short Moving Average Trend Strategy on NUGT on a 5-minute chart. 
+
+ As you can see, NUGT sold off on a very steep downtrend from $116 to around $100: about a 14% drop in only two hours. I sold short early on the morning at around $115 with a stop loss at the break of 9 EMA on a 5-minute chart. I got stopped out at around 14:20 p.m. when the price broke the 9 EMA and closed above it at $104. 
+
+ Let’s take a look at another example, Celgene Corporation (CELG), on June 23, 2016. On the chart below, Figure 7.18, I’ve marked my entry and exit points and you will see how you can trade based on 9 EMA on a 5-minute chart. I entered the long position when 9 EMA held as a powerful support at around $99.90, and I then rode the upward move until 9 EMA broke at $100.40, for a profit of about 50 cents per share. 
+
+ Figure 7.18 - Example of a Moving Average Trend Strategy on CELG. 
+
+ Another example is Figure 7.19 below, a 5-minute chart for Exact Sciences Corp. (ticker: EXAS) on July 28, 2016 with 9 EMA. 
+
+ Figure 7.19 - Example of a Moving Average Trend Strategy on EXAS. 
+
+ Another fantastic example of a 9 EMA Moving Average Trend Strategy is set out below in Figure 7.20 for AMAG Pharmaceuticals, Inc. (ticker: AMAG). On January 9, 2017 its stock sold off from $31 to $23 in only a few hours. The 9 EMA held as a strong resistance. A great trade would have been a short sell on AMAG with a stop loss of the break of 9 EMA. In three areas marked on the chart, the price broke the 9 EMA and went slightly higher, but a 5-minute candlestick did not actually close above 9 EMA. These false breakouts usually happen with low volume. Experienced traders wait for a 5-minute candlestick to “close” above 9 EMA before they get out. A sudden break of 9 EMA with low volume may not be a good indicator of a trend coming to an end. 
+
+ Figure 7.20 - Example of a Moving Average Trend Strategy on AMAG. 
+
+ To summarize my trading strategy for Moving Average Trend trading: 
+
+ When I am monitoring a Stock in Play and notice a trend is establishing around a moving average (usually 9 EMA), I consider trend trading. I quickly look at the previous days’ trading data (on a 1-minute or 5-minute chart) to see if the stock is responding to these moving averages. 
+ Once I learn which moving average is more suitable to the behavior of the trade, I buy the stock after confirmation of moving averages as a support, and I buy as close as possible to the moving average line (in order to have a small stop). My stop will usually be 5 to 10 cents below the moving average line or, if a candlestick, close below the moving average (for long positions). For short positions, a close above moving average would stop me out. 
+ I ride the trend until the break of moving average. 
+ I never use trailing stops and I constantly monitor the trend with my eyes. 
+ If the stock is moving really high away from the moving average, offering me an equally really nice unrealized profit, I may take some profit, usually at half-position. I do not always wait until the break of moving average for my exit. Traders say: you can never go broke by taking good profits. If the price pulls back to the moving average, I may add again to my position and continue the trend trade. 
+
+ I personally don’t trade very often based on moving averages. I look at them to see potential levels of support or resistance, but I rarely make any trade based upon a trend because, in a trend trade strategy, you are usually left exposed in the market for a considerable length of time. Some trend trades can last as long as several hours and that is too long for my personality. I would like to take my profit in a matter of minutes. I rarely will wait even an hour. Another reason that I do not often trade these strategies is that they usually best work during Mid-day and the Close. At the Open (in the morning session), when volatility is high, it’s hard to identify a Moving Average Trend play. These slow trends are best identified during Mid-day, when there is low volatility, and they usually end near the Close (around 3 p.m. New York time) when the professional traders on Wall Street start to dominate the trading. 
+
+ Having said that, a Moving Average Trend Strategy is an excellent trading strategy, because it usually does not require a very fast decision making process and trade execution. It also often does not require the use of Hotkeys. You can enter the trades manually and still be successful. In addition, entry points and your stop loss can be clearly recognized from the moving averages on the charts. This is especially important for traders who pay high retail commissions (sometimes as high as $4.95/trade) and cannot scale in and out of trades without a high fee. The Moving Average Trend Strategy has clear entry and exit points and usually a good profit can be made by only two orders, one for entry and one for the exit. 
+
+ As I have discussed, strategies depend on your account size, personality, psychology of trading and risk tolerance, as well as on your software and the tools and brokers that you have. The combination of all of these factors have led me to be a VWAP trader who sometimes trades with the Opening Range Breakout Strategy. I also often trade Support or Resistance Strategies, which I will explain further in the next sections. However, I want to emphasize that trading strategies are not something that you can imitate just from reading a book, speaking with a mentor, or attending a class. You have to slowly and methodically develop your preferred method and then stick with it. There is nothing wrong with any strategy if it works for you. There is no good and bad in any of these strategies; it truly is a matter of personal choice.
+
+How to Day Trade for a Living
+
+ Strategy 6: VWAP Trading 
+
+ Volume Weighted Average Price, or VWAP, is the most important technical indicator for day traders. Definitions of VWAP can be found in both Wikipedia and many other online resources. I will skip explaining it in detail for the sake of keeping this guide short, but essentially, VWAP is a moving average that takes into account the volumes of the shares being traded at any price. Other moving averages are calculated based only on the price of the stock on the chart, but VWAP also considers the number of shares in that stock that are being traded on every price. Your trading platform should have VWAP built into it and you can use it without changing any of its default settings. 
+
+ VWAP is an indicator of who is in control of the price action - the buyers or the sellers. When stock is traded above the VWAP, it means that the buyers are in overall control of the price and there is a buying demand on the stock. When a stock price breaks below the VWAP, it is safe to assume that the sellers are gaining control over the price action. 
+
+ VWAP is often used to measure the trading efficiency of institutional traders. Professional traders working for investment banks or hedge funds who need to trade large amount of shares each day cannot enter or exit the market by just one single order. The market is not liquid enough to enter a one-million share buy order. Therefore, they need to liquidate their orders slowly during the day. After buying or selling a large position in a stock during the day, institutional traders compare their price to VWAP values. A buy order executed below the VWAP would be considered a good fill for them because the stock was bought at a below average price (meaning that the trader has bought their large position at a relatively discounted price compared to the market). Conversely, a sell order executed above the VWAP would be deemed a good fill because it was sold at an above average price. Therefore, VWAP is used by institutional traders to identify good entry and exit points. Institutional traders with large orders try to buy or sell large positions around VWAP. The performance of institutional traders is often evaluated based on what price they fill their large orders at. Traders who buy significantly higher than VWAP may be penalized because they cost the institution money for taking that large position. Institutional traders therefore try to buy below or as close to VWAP as possible. Conversely, when a professional trader has to get rid of a large position, they try to sell at the VWAP or higher. Day traders who know this may benefit from this market activity. 
+
+ After the market opens, the Stock in Play will trade heavily in the first five minutes. If the Stock in Play has gapped up, some individual shareholders, hedge funds or investment banks may want to as soon as possible sell their shares for a profit, before the price drops. At the same time, some investors wanting to take positions in the stock want to buy as soon as possible before the price goes even higher. Therefore, in the first five minutes, an unknown heavy trading is happening between the overnight shareholders and the new investors. Scalpers usually ride the momentum right at the Open. After volatility decreases around ten to fifteen minutes into the Open, the stock will move toward or away from the VWAP. This is a test to see if there is a large investment bank waiting to buy or sell. If there is a large institutional trader aiming to buy a significant position, the stock will pop over the VWAP and move even higher. This is a good opportunity for us day traders to go long. 
+
+ Conversely, if there are large shareholders wanting to get rid of their shares, then this is a good point for them to liquidate their positions. They start selling their shares at the VWAP. The price will reject the VWAP and start to move down. This is an excellent short selling opportunity for day traders. If there is no interest in the stock from market makers or institutions, the price may trade sideways near VWAP. Wise traders will then stay away from that stock. 
+
+ Trading based on VWAP can be very easy for beginner traders to master because so many traders study the VWAP and make decisions based on it. Therefore, a beginner trader can easily be on the right side of the trade. When a stock tries to break the VWAP but cannot, you can short the stock because you can safely assume that the other traders that are watching will also begin to short. A trading strategy based on VWAP is a simple and easy strategy to follow. I usually short stocks when traders try but fail to break the VWAP on 5-minute charts. 
+
+ Let's have a look now at Figure 7.21 which documents a trade that I took on SolarCity Corporation (ticker: SCTY) on June 24, 2016. 
+
+ Figure 7.21 - Example of a long VWAP Strategy on SCTY. 
+
+ At around 10:30 a.m. on June 24, 2016, I noticed that SCTY had found a support above VWAP at around $21. I purchased 1,000 shares of the stock with the anticipation of moving toward $22 with VWAP as a support. My stop was a 5-minute candlestick close below VWAP. I first sold a half-size position at $21.50, and then moved my stop to break-even. I sold another position at $22 because I know half-dollars (such as $1.50, $2.50, $3.50) and whole dollars ($1, $2, $3) usually act at a support or resistance level. 
+
+ VWAP also works well when you want to short stocks. Let's have a look at Figure 7.22, which documents another trade that I took on SCTY, this time on June 22, 2016, and this time on the short side.   
+
+ Figure 7.22 - Example of a short VWAP Strategy on SCTY. 
+
+ At around 11 a.m., I noticed that SCTY had faced a resistance over VWAP. I shorted the stock with the anticipation of losing the VWAP at around $23. At around 12 p.m., the buyers gave up and the sellers took control of the price action. I had a nice run down to $22 and covered my shorts at $22 for a good $1,000 profit. 
+
+ To summarize my trading strategy for VWAP trading: 
+
+ When I make my watchlist for the day, I monitor the price action around VWAP at the Open. If a stock shows respect toward VWAP, then I wait until a confirmation of the VWAP break (for short selling) or VWAP support (for going long). 
+ I usually buy as close as possible to VWAP to minimize my risk. My stop will be a break and a close 5-minute close below VWAP. For short selling, I short near VWAP with a stop loss of a close above the VWAP. 
+ I keep the trade until I hit my profit target or until I reach a new support or resistance level. 
+ I usually sell half-positions near the profit target or support or resistance level and move my stop up to my entry point or break-even.
+
+How to Day Trade for a Living
+
+ Strategy 7: Support or Resistance Trading 
+
+ Many traders love to draw diagonal trend lines. But after making thousands of trades, I’ve come to the conclusion that the market doesn’t know diagonal price levels. In my opinion, diagonal trend lines are subjective, and can result from wishful thinking. You can draw a trend line across any prices or zones in a way that can change its slope and its message. If you’re in a mood to buy, you can draw your trend line a little steeper. If you feel like shorting, you’ll “recognize” a downtrend. None of those diagonal trend lines are objective, and I am skeptical of them. The biggest pitfall with this kind of trend line charting is wishful thinking. Traders will find themselves identifying bullish or bearish trends depending on whether they’re in a mood to buy or sell. 
+
+ Horizontal support or resistance trading is my favorite style of trading. My years of experience have taught me that the market only remembers price levels, which is why horizontal support or resistance lines make sense, but diagonal trend lines are subjective and open to self-deception. In fact, trend lines are among the most deceptive of all tools in trading. I therefore avoid trend lines. 
+
+ Support is a price level where buying is strong enough to interrupt or reverse a downtrend. When a downtrend hits a support level, it bounces. Support is represented on a chart by a horizontal line connecting two or more bottoms (see Figure 7.23 below). 
+
+ Resistance is a price level where selling is strong enough to interrupt or reverse an uptrend. When an uptrend hits a resistance level, it acts like a person who hits their head on a ceiling while climbing a ladder - they stop and might even tumble down. Resistance is represented on a chart by a horizontal line connecting two or more tops (as also set out in Figure 7.23 below). 
+
+ Minor support or resistance causes trends to pause, while major support or resistance causes them to reverse. Traders buy at support and sell at resistance, making their effectiveness a self-fulfilling prophecy. 
+
+ Using this method, every morning I shortlist the stocks that I would like to trade based on the criteria I set forth in Chapter 4: a stock that has fundamental catalysts such as news, an extreme earnings report or a new drug approval. These Stocks in Play are the ones that retail traders are watching and planning to trade. 
+
+ Before the market opens, I go back to the daily charts and find price levels that have been shown in the past to be critical. Finding price support or resistance levels is tricky and requires trading experience. If you watch me trading every morning, you will see how I place my support or resistance lines on my Stocks in Play. 
+
+ For example, let’s take a look at Figure 7.23, a SCTY daily chart without support or resistance lines and another including the lines. 
+
+ Figure 7.23 - Example of a Support or Resistance Strategy on SCTY daily chart. 
+
+ Support or resistance lines on daily charts are not always easy to find, and at times you will not be able to draw anything clear. If I cannot see anything clear, I don’t have to draw anything. There is a good chance that other traders will also not see those lines clearly and therefore there is no point in forcing myself to draw support or resistance lines. In that case, I will plan my trades based on the VWAP or Moving Averages or other chart patterns that I earlier discussed. 
+
+ Here are some hints for drawing support or resistance lines on daily charts: 
+
+ You will usually see indecision candles in the area of support or resistance because that is where buyers and sellers are closely fighting each other. 
+ Half-dollars and whole dollars usually act at a support or resistance level, especially in lower than $10 stocks. If you don’t find a support or resistance line around these numbers on daily charts, remember that in day trading these numbers can act as an invisible support or resistance line. 
+ You should always look at the recent data to draw lines. 
+ The more of a line that is touching extreme price lines, the more that the line is a better support or resistance and has more value. Give that line more emphasis. 
+ Only the support or resistance lines in the current price range are important. If the price of the stock is currently $20, there is no point in finding support or resistance lines in the region when it was $40. It is unlikely that the stock will move and reach that area. Find only the support or resistance area that is close to your day trading range. 
+ Support or resistance lines are actually an “area” and not exact numbers. For example, when you find an area around $19.69 as a support line, you must expect price action movement around that number but not at exactly $19.69. Depending on the price of the stock, an area of 5 to 10 cents is safe to assume. In the example with a support line of $19.69, the real support area might range from $19.62 to $19.72. 
+ The price must have a clear bounce from that level. If you are not certain if the price has bounced in that level, then it is probably not a support or resistance level. Important support or resistance levels on daily charts stand out. They shout at you: “grab me by the face”. 
+ For day trading, it is better to draw support or resistance lines across the extreme prices or wicks on daily levels rather than across areas where the bulk of the bars stopped. This is the complete opposite of swing trading. For swing trading, you need to draw support or resistance lines across the edges of congested areas where the bulk of the bars stopped rather than across the extreme prices. This is because the close price is more important for swing trading than the extreme wicks in daily bars are. The close price of a stock on a daily chart is the price that the market makers and professional traders have agreed on. Previous extreme high and low wicks have been made by day traders, so you should look at those. 

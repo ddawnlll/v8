@@ -1,0 +1,405 @@
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+
+HIGH
+CLOSE
+
+Figure 6-1:
+The
+standard
+price bar.
+
+OPEN
+LOW
+
+The price bar tells you the outcome of the battle between the buyers (bulls) and
+the sellers (bears). Hidden in every price bar are a winning group and a losing
+group. If the price opened at the low and closed at the high, the winners that
+day were the buyers. If the price opened at the high and closed at the low, the
+winners that day were the sellers. You almost always have to take into consideration the price action embedded in the bar the day before in order to make the
+winner-loser judgment. For example, you can have an opening gap down from
+the day before that still delivers a close at the high of the new bar — but that
+close at the high is still lower than the close the day before. Who is the winner
+on this day? Well, anyone who bought at today’s low (not the poor guy who
+had bought the previous day).
+But back to the single bar. Each bar reflects a very real contest — and you
+measure the outcome in money. If the bar is very tall, encompassing a $10
+range when the normal bar for this security is only $3, the trading was a
+Titanic battle. If the bar is very short, say $1, it was a pillow fight. On every
+single trade, one party wins and the other party loses. That is why trading —
+like war — is called a zero sum game.
+The relationship between prices and volume is important in judging the bar.
+Volume is the number of shares or contracts traded during the period that
+your bar encompasses. Everything that you infer about the state of mind of
+the market participants is subject to confirmation by volume. For example,
+if the price bar is three times the usual size, you would want to verify that a
+large number of traders were active that day by looking at volume. It would
+be wrong to see a trading battle if only one trade was done at the $10 high. In
+that case, the $10 price is an anomaly. Somebody made a mistake — either the
+buyer at $10 or the data collection department at the exchange.
+When you get befuddled by a tangle of patterns and indicators on your chart,
+return to the basics — a clean chart that contains only the price bars — and
+ask yourself “What are these bars saying?” Chances are they are singing quite
+a tune. Price bars are the raw material of indicators, so when indicators are
+
+www.pdfdummies.com
+
+95
+
+96
+
+Part III: Observing Market Behavior
+giving you conflicting or confusing signals, go back to the source. Observing
+the characteristics of the price bar and interpreting changes correctly can
+save your hide. In fact, many traders make all their decisions on the price bar
+alone. See Chapter 16.
+
+Setting the tone: The opening price
+The opening price is the very first trade done between a buyer and a seller on
+the trading day. It reflects the new day’s hopes and fears. The meaning of the
+open, like all the price bar components, comes from its relationship to the
+other components of the bar as they develop and to the components of the
+bars that had come before, especially the close.
+Sometimes the opening price means nothing at all. Market prices are sometimes random because people make decisions about their money that have
+nothing to do with the price, but rather with their personal needs. Maybe
+Uncle Herbert got up this morning and said to himself, “I think I’ll sell my Blue
+Widget shares at the open today and go on a cruise.” Randomness can also
+affect the other parts of the price bar, not just the open, of course.
+In U.S. stocks, the exchanges decided years ago to stop recording the first
+trade. When you see the open in a newspaper or most data services, that numbers is often not actually the first trade of the day, but a synthetic price (like
+an average of the first five trades) devised by the data collector (the exchange
+where the security is traded or a private data vendor like Reuters). This is why
+the opening price varies from one data source to another. Not having accurate data drives some technical analysts wild because the opening price sets
+the tone and if somebody made it up, it doesn’t matter how reasonable the
+calculation process — it’s not literally the first price of the day. This problem
+is now compounded by the existence of several exchanges trading the same
+equity securities and related options.
+Some equity analysts say that they never look at the open because it’s not
+strictly accurate. And although in futures trading the open is the real McCoy,
+in many instances (such as equity index futures and foreign exchange), trading has been going on in the overnight Globex market, so the actual open on
+the U.S. exchange floor is hardly ever a surprise.
+So should you heed the open? Yes. In equities, any particular opening price
+may not be accurate, but over a series of days, the open adequately represents the sentiment at the beginning of the day. Heed the opening price in
+futures, too, including equity index futures. The open is your benchmark for
+evaluating the price action over the course of the day.
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+The opening price’s most important relationship is to the close of the day
+before. Whether the open is up or down, you can figure out how to evaluate
+the opening price in the following sections. (For more on the close, see the
+section “Summarizing sentiment: The closing price,” in this chapter.)
+
+When the open is up
+If the open is up from the close the day before, you imagine that the first
+trader of the day spotted overnight news favorable to the security, or is
+expecting favorable news, or has some other reason to think his purchase
+will return a gain. If you, too, want to be a buyer today, his action reinforces
+your feeling. The first trade sets the tone.
+Sometimes a good opening is due to a practice named buy on open. You
+can’t automatically attribute optimism or hopefulness to an opening bounce,
+because
+✓ Mutual fund and other professional managers have preset allocations to
+specific securities. When fresh money comes in the night before, these
+managers are going to distribute a certain percentage of it to all the
+securities in the fund selected by the new customer. To buy on open is
+the easiest way to top up a fund, but this action is not necessarily a judgment on that security that day.
+✓ Fund managers want to clean out stops from the day before. A stop is a
+preset sell order usually designed to prevent losses or otherwise exit
+the trade; see Chapter 5. A stop placed significantly beneath the close
+from the day before may be hit merely because all the market makers
+have not refreshed their bids at the time the market opens. This type of
+buying an open occurs particularly with more lightly traded issues, not
+the big names trading millions of shares a day.
+Fund managers and other professionals control far larger sums than individuals do, and you don’t know what proportion of opening trades are due
+to genuine research-based enthusiasm and what proportion is due to the
+mechanical buy-on-open effect. The market can take up to an hour to get
+down to new business.
+How do you know whether an opening bounce is due to fresh enthusiasm or
+just the mechanical buy-on-open effect? You have to study each security to
+see whether it normally displays the effect. Heavily traded, big-name securities (such as IBM stock) are less susceptible to an opening bounce than specialized securities with a narrower trader base (like cocoa futures).
+
+www.pdfdummies.com
+
+97
+
+98
+
+Part III: Observing Market Behavior
+When the open is down
+If the opening price is below the close of the day before, look out! Maybe
+bad news came out after the close last night. The bad news may pertain to a
+political event, a change in interest rates, a bankruptcy in the same industry,
+or a zillion other factors (see the discussion of events in the sidebar “Current
+events: Buy on the rumor; sell on the news,” in this chapter).
+Some traders may have executed a sell on open, although to sell on the open
+is not a common practice. A sell-on-open order is just what it sounds like — an
+order given the night before to exit the trade at whatever the price happens
+to be, although hunting for stops at the open is widespread and can create
+either a buying or a selling surge (for more on stops, see the section, “When
+the open is up”).
+
+Summarizing sentiment: The closing price
+The closing price is literally the last price at which a buyer bought and a
+seller sold before the closing bell. The close is the most important part of
+the price bar. In fact, if you were to draw a chart by using only one of the
+bar components, you’d usually pick the close. A set of closes over a small
+number of days is an indicator in its own right. The close remains the most
+important price bar component even though after-the-bell trading was introduced to the retail market in the early 2000s.
+The close is the most important part of the price bar because it summarizes
+what traders feel about the security. They’ve watched this price all day, and by
+the end of the day, they have a sense of how popular it was near the lows (lots
+of buying going on) or how unpopular near the highs (lots of selling going on).
+Remember, they’re also looking at volume to confirm these impressions. As the
+close approaches, traders have to decide whether to hold the security overnight, a course of action they take only if they think it’s going up farther tomorrow and they won’t be able to get it more cheaply than they already have.
+Note also that the close is what brokers use to value your portfolio at the
+end of an accounting period, and the close is used to calculate the “mark-tomarket” value of a futures position. Professionals whose job performance
+depends on end-of-period accounting care passionately about the close and
+you may sometimes see them engineering a higher close in the last few minutes of trading.
+After-hours trading creates a problem in evaluating the close. How do you
+treat the close when your security makes a new high or new low in afterhours trading — only ten minutes after the close? The answer is that you
+don’t adjust the close. In terms of managing your data, the open and close are
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+associated with the trading hours of the primary exchange where the security is listed — the New York Stock Exchange, the Tokyo Stock Exchange, the
+Chicago Mercantile Exchange, and so on. If the security trades wildly higher
+or lower from the “official” close, the new information is included in the price
+data for the next day. This can result in some peculiar outcomes, such as
+the price opening at $5 and closing at $7 on its primary exchange during the
+exchange’s regular hours, but both the high and the low occurring in afterhours trading — and reaching (say) $4 at the low and $9 at the high. The new
+high and low gets incorporated in the next day’s data.
+As with all price bar components, what’s important is the relationship of the
+close to other bar components, especially the open today and the close yesterday. Don’t dismiss the daily bar because your trading style is for a multiday period. Over time, the cumulative relationship of the close to the close
+the day before gives you a good impression of directional bias.
+You often hear “it’s up on the day” or “it’s down on the day,” referring to the
+closing price relative to the close the day before. Here’s the skinny on these
+technical trading terms:
+✓ An up day is one where the close is higher than the close the day before.
+✓ A down day refers to a day on which the close is lower than the close the
+day before.
+I go into more detail on these concepts in the following sections.
+
+When the close is up
+If today’s close is consistently higher than yesterday’s close, day after day,
+buyers are demanding more and more of the security and are willing to pay an
+ever-higher price to get it. In other words, the close is up. See Figure 6-2. With
+the exception of Day 4, every close is higher than the close the previous day.
+
+DAY 4
+Figure 6-2:
+A series of
+up days.
+
+www.pdfdummies.com
+
+99
+
+100 Part III: Observing Market Behavior
+If you see an up-day trend like the one shown in Figure 6-2, you want to join
+the crowd and buy into the trend.
+
+When the close is down
+In Figure 6-3, you can see that Day 3 starts a series in which each close is
+lower than the day before. Here the sellers are willing to take ever-lower
+prices to get rid of the security. The market assumes that those holding an
+inventory of the security are willing to sell at lower and lower prices in order
+to get buyers to demand it. This action is the same as your auto dealer putting last year’s cars on sale just before the new models come in. By lowering
+the price, he creates demand. When you see a down move like the one in
+Figure 6-3, you should join the crowd and be a seller.
+
+Figure 6-3:
+A series of
+down days.
+
+DAY 3
+
+Hope, fear, and risk management at the close
+On an up day, you hear that “today the bulls won” or on a down day, “today
+the bears won.” This talk of bulls and bears acknowledges the emotional
+aspect of trading — bulls are buyers who are hopeful of higher prices later
+that they can sell for a profit, and bears are pessimists who foresee prices
+falling. You can also say that the bulls are motivated by greed and the bears
+are motivated by fear. However, greed and fear aren’t the only emotions traders feel, and some even find the use of the word greed offensive. Traders also
+make buy/sell decisions to manage risk, a nonemotional reason.
+Just as some traders buy on the open as a standard practice, some traders sell
+on the close, chiefly to eliminate the risk of loss if something were to happen
+overnight that would cause the price to fall. Institutions as well as individuals use his simple risk-management tactic. Should you? Only if you’re trading
+without a stop or you fear the market could gap over your stop.
+Because so many people exit on the close, the close is seldom the high of the
+day. And when the close is at the exact high of the day, that’s useful information. It means people who do hold overnight positions are buying right up to
+the last minute, offsetting the usual end-of-day sales.
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+
+Current events: Buy on the rumor; sell on the news
+New highs and lows are often the seed of a new
+trend, and usually arise directly from a specific
+piece of news. Fresh news that causes a new
+high or a new low is an event. The risk that a
+new high or low will ensue from the news is
+event risk. It may seem odd, but most events
+are not surprises, but rather scheduled, such as
+✓ News or a rumor pertaining to the security itself, such as a company’s earnings
+announcement
+✓ Market-related events such as options
+expiration dates or the end of a calendar or
+tax period
+✓ Scheduled releases (such as the Fed’s
+interest rate statement or any of a dozen
+economic reports)
+Event risk also refers to unexpected
+developments:
+✓ Acts of terrorism and war.
+✓ Natural disasters.
+✓ Correlation of a stock to the performance
+of the major indices. Even if your stock is
+doing well, for example, it can open down
+from the close the night before as a side
+effect of a drop in the index or sector to
+which it belongs.
+✓ Previous technical levels, such as a round
+number (like 10,000 on the Dow) or a historic high or low (see Chapter 4).
+Traders treat forecasts prepared by economists
+and analysts as though the event had already
+happened precisely as predicted. In other words,
+
+they “build in” the forecast to the price, creating
+the very high on the price bar that the news is
+supposed to produce. This practice is named buy
+on the rumor, where rumor refers to the forecast.
+The rest of the phrase is sell on the news. The
+news is the event itself. You sometimes get the
+seeming paradox of a price reaching a new
+high before the event and falling lower immediately after the event, even when the news
+matches the forecast. The lower price comes
+about because the early birds take profit on
+the up move that they themselves engineered.
+The new low is usually short lived. After all, the
+forecast was for good news and the good news
+occurred, so the news was properly built in and
+the new high is the appropriate price.
+If the news is much better than forecast,
+though, traders don’t take profit because
+better-than-expected news draws in new players and sends the price higher still. Then the
+early birds are positioned to make even better
+profits. Should the news fail to match expectations, traders and investors alike sell, and the
+dip may turn into a longer-lasting price drop.
+Either way, to buy on the rumor pays off for the
+short-term trader who keeps his finger on the
+trigger. Evaluating forecasts and being mentally
+ready to buy or sell at the moment of impact of
+the news is a difficult and risky business. It’s
+no wonder risk-averse traders get out of the
+market altogether around scheduled event
+dates. Buy on the rumor, sell on the news is a
+primary cause of technical price developments,
+and in many instances, the only “technical analysis” that commentators mention (along with
+the 200-day moving average — see Chapter 12).
+
+Going up: The high
+The high of the price bar is literally the highest point of the bar. It’s the highest price at which a buyer and seller made an exchange of cash for the security. The buyer obviously thought he was getting a bargain or good value and
+
+www.pdfdummies.com
+
+101
+
+102 Part III: Observing Market Behavior
+thinks that the price will rise some more. The seller holds the opposite view,
+that the price will likely fall.
+The high of the day has meaning only in the context of its relationship to other
+parts of the same bar, especially the close (see earlier section), and to the
+high the day before.
+When the price closes at the high of the day, traders are extremely optimistic of more gains to come (bullish). When the high is at the open and it’s all
+downhill for the rest of the day, traders are pessimistic (bearish).
+
+Getting to the bottom of it: The low
+The low of the day is the cheapest price at which the buyer and seller
+exchange cash for the security. The buyer thinks he’s getting a good value
+and that the price will rise. The seller believes the price is going to fall or is
+already falling.
+As with the high of the day, the low has meaning only in the context of its
+relationship to other parts of the price bar and the bars that precede it.
+When the low is lower than the open, it probably means that some fresh
+news has come out after the opening bell that offsets any buy-on-open orders
+or initial sentiment. When the close is at the low, it means that bad news or
+negative sentiment ruled for the day.
+You can judge the power of fresh negative news by checking whether it
+inspired traders to produce not only a close at or near the low, but also a low
+that is lower than the low the day before.
+
+Putting It All Together: Using
+Bars to Identify Trends
+In the previous sections, I talk about interpreting market sentiment from
+the relationship of the price bar components to one another largely within a
+single bar. When you look at the components across a series of bars, you get
+even more information. In fact, you get so much information that you risk
+information overload. Interpretation — figuring out supply and demand from
+the bars — becomes a lot more complex.
+Some charts or parts of a chart are such a chaotic mess that no regularity
+or pattern exists at all. But a security whose price jumps around all over the
+place without rhyme or reason would soon run out of people to trade it. As
+I discuss in Chapter 2, the law of supply and demand states that for every
+
+www.pdfdummies.com
+
+Chapter 6: Reading Basic Bars: Showing How Security Prices Move
+security, you can find some price that persuades suppliers to part with it
+or buyers to purchase it. After a price is established through the execution
+of a real cash trade, traders have a baseline from which to track prices. Any
+transaction may occur at a random price, but not every transaction can occur
+randomly, or the market in that security would collapse.
+The central observation of technical analysis is that the price bar embodies
+all the supply-demand dynamics of the day and that a series of bars on a chart
+shows the evolution of the supply-demand dynamics over time. Some percentage of the time, the evolution is visible in the form of a trend. In this section, I
+describe how to use combinations of bars to help identify a trend.
+
+Identifying an uptrend
+The textbook-perfect uptrend is a series of up-day price bars (close higher
+than the close yesterday) that have higher highs and higher lows in a majority
+of the bars:
+✓ Higher high: When the high today is higher than the high yesterday or
+higher than the high of the past few days, you have a higher high. Higher
+highs refers to visible peaks, not a higher high every single day. A series
+of higher highs often signals that the market is feeling enthusiastic about
+the security. But you usually don’t know at the time whether a new high
+or a small series of new highs is the beginning of a trend.
+✓ Higher low: You need to qualify the higher high as truly indicating that
+a trend may be forming. What you want is an additional confirming condition — you can specify that you must also have higher lows.
+Now you have two pieces of evidence that bulls outnumber bears. A series of
+higher highs together with higher lows hints that a trend is forming. After two
+days, you aren’t yet sure what is happening, but you’re starting to get excited.
+After all, your goal in identifying a trend is to buy near the beginning of the
+trend. As I describe in Chapter 1, your key assumption is that a trend, once
+formed, will continue. If you have two higher highs with two higher lows, can
+you assume that Day 3 will also deliver a higher high and a higher low?
+Not necessarily. Alas, prices don’t move in straight lines. You often see a
+series of two or three higher highs interrupted by one or two lower highs.
+This happens for several reasons:
+✓ Traders already in the security are taking an early profit.
+✓ The market is reconsidering whether the new high is really justified.
+✓ The higher highs were just a random accident.
+
+www.pdfdummies.com
+
+103
+
+104 Part III: Observing Market Behavior
+You seldom see an unbroken series of higher highs on every single day. Go to
+Figure 6-2. You see a series of days on which the close is higher than the close
+the day before. At the same time, the price is making a fresh high nearly every
+day, but not every day without fail. See the bar marked “Day 4.” On that day,
+the close was higher than the open and the low was higher than the day
+before, but the high of the day was not higher than the day before. Oh, oh.
+What does that mean? Remember, you don’t know yet what Day 5 is going to
+bring at the time you’re looking this chart.
+Most analysts tell you not to worry about this particular configuration of
+bars. It’s an uptrend, all right, and you know this because you have an unbroken series of higher lows. Day 4 is a disappointment — it doesn’t deliver a
+higher high — but the low is higher than all the previous lows. By considering the additional factor of higher lows, you confirm that the probability is
+pretty good of getting a higher high and a higher close on Day 5.

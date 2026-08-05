@@ -1,0 +1,644 @@
+
+Enter at the opening candle
+of the news release
+
+SL  1.0430
+EP  1.0410
+
+TP  1.0370
+
+FIGURE 7.25 Set Stop Loss and Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+SL  1.0430
+EP  1.0410
+
+TP  1.0370
+
+FIGURE 7.26 Trade Hits Profit Target
+
+The risk for this trade is 20 pips, and the reward is 40 pips. The risk to
+reward ratio is 1:2, which yields a tidy 6% return if we take a 3% risk.
+
+Strategy Roundup
+This strategy takes advantage of the market reaction when the actual
+ﬁgures for the affected currency are lower than the forecasted ﬁgures by a
+minimum factor of 20%.
+
+c07.indd 152
+
+06/12/12 2:53 PM
+
+Strategies for Day Traders
+
+153
+
+Before taking a trade, it is important to note whether the affected
+currency is in the base currency or counter currency. As an example, if
+CHF is the affected currency, we look to go long on USD/CHF. If AUD is the
+affected currency, we look to go short on the AUD/USD.
+Pay attention to the two special cases for Rule of 20: PMI and interest
+rates. For interest rates, the deviation has to be more than 20 basis points
+(0.2%). For PMI, the deviation has to be more than 50 basis points (0.5%).
+
+c07.indd 153
+
+06/12/12 2:53 PM
+
+c07.indd 154
+
+06/12/12 2:53 PM
+
+CHAPTER 8
+
+Strategies for
+Swing Traders
+
+Y
+
+ou are a swing trader primarily because you have a full-time job
+and don’t have much time to analyze the markets. That is why your
+trading strategy is considered fairly midterm, with several trading opportunities in a week. Depending on the currency pair, the proﬁt
+potential per trade for swing traders can range from 50 pips to 150 pips or
+more. With trades having proﬁts as high as the daily volatility, it is normal
+for these trades to take more than a day to exit.
+Most swing trading strategies use indicators to pinpoint entries. This
+chapter covers ﬁve strategies suitable for all swing traders. The techniques
+are developed for use on middle time frames, such as the hourly (H1) and
+the 4-hourly (H4) charts.
+Due to the strategies’ time frame, swing traders are presented with
+trading opportunities that most likely last more than a day but exit within
+a week.
+
+STRATEGY 7: TREND RIDER
+Two of the most popular quotes in the forex market are the sentences
+“The trend is your friend until it bends” and “Always trade along the trend.”
+Each is good advice.
+One of the main reasons why many retail traders fail to make consistent income is because they exit too early. How often have we had that
+experience when we jump into a trade, watch in delight as it goes our way,
+take a 30 pip proﬁt with a smug grin, and then watch in horror as the trade
+goes another 500 pips in our direction?
+The strategy discussed here will help traders of all levels, because it
+essentially prevents us from exiting our trade too early. This is achieved by
+155
+
+c08.indd 155
+
+03/12/12 9:55 AM
+
+156
+
+STRATEGIES TO WIN THE GAME
+
+not setting a predetermined proﬁt target level but by employing a momentum indicator called the average directional movement index (ADX) to tell
+us when to exit the trade. I use this strategy often, because it only needs
+little monitoring but the payoff potential is huge.
+
+Time Frame
+The trend rider method works with the hourly (H1) or 4-hourly (H4) chart.
+This means that each candle on the chart represents 1 hour or 4 hours of
+price movement respectively.
+
+Indicators
+We use three indicators for this strategy:
+1. Exponential moving average (EMA) with period 12 (EMA 12).
+2. EMA with period 36 (EMA 36).
+3. Average Directional Movement Index with Meta Trader 4 default
+
+setting (ADX 14). A level of 40 is added.
+To understand the EMA, we ﬁrst deﬁne the simple moving average (SMA).
+Simple Moving Average An SMA is calculated by adding the closing
+price of the candlestick over a given number of periods and dividing this
+total sum by the number of periods. For example, SMA 12 is the sum of
+closing prices for 12 candles divided by 12. The ﬁgures are dynamic, which
+means that old data are dropped as new data are added. This rolling ﬁgure
+causes the moving average to move along the time scale.
+Exponential Moving Average The EMA is similar to the SMA except
+that more weight is given to recent prices. The formula for an EMA is:
+Exponential Percentage = 2/(Time Period + 1)
+For EMA 12:
+Exponential Percentage = 2/(12 + 1) = 15%
+This means that the most recent candle will be weighted 15% of the
+value of the EMA. For SMA 12, each candle has a uniform weight of only
+8.3% (100/12).
+The advantage of using an EMA over the SMA is its ability to pick up
+on price changes faster. I select EMA 12 because 12-hourly candles give
+me half a day’s worth of price action. EMA 36 is 36 hourly candles, giving
+
+c08.indd 156
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+157
+
+me one and a half days’ worth of price action. Twelve 4-hourly candles
+give me two days’ worth of price action, and 36 4-hourly candles give me
+6 days’ worth of price action on the 4-hourly chart.
+The combination of EMA 12 and EMA 36 on either the hourly or
+4-hourly time frame is important to give me a feel of the market over this
+time period.
+Average Directional Movement Index The ADX indicator is used to
+measure the strength of a trend. It is plotted as a line with values ranging
+from 0 to 100.
+A low reading indicates a weak trend while a high reading depicts a
+strong trend. The ADX is non-directional, which means it registers trend
+strength in both uptrends and downtrends. I select the level 40 as a guide
+to tell me when momentum of the trend is losing steam. The default
+setting is period 14, and this is the same setting we will use for the trend
+rider strategy.
+
+Currency Pairs
+The strategy is suitable for all currency pairs listed on the broker’s platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+The strategy uses moving average cross-over to detect an early change
+in momentum. Speciﬁcally, we get a signal to go long when the EMA 12
+crosses above the EMA 36. Similarly, we get a signal to go short when the
+EMA 12 crosses below the EMA 36. The ADX indicator helps us to gauge
+the strength of the momentum. We set the 40 level as a benchmark, as any
+value above 40 indicates that momentum is very strong. Once the ADX
+crosses above 40 and comes back below, it is telling us that the momentum
+is losing steam and it’s time to exit the trade. (See Figure 8.1.)
+
+c08.indd 157
+
+03/12/12 9:55 AM
+
+158
+
+FIGURE 8.1
+
+STRATEGIES TO WIN THE GAME
+
+Trend Rider Strategy Concept
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Long Trade Setup
+I use the EUR/USD on the H4 time frame to illustrate a long trade. Here are
+the steps to execute the trend rider strategy for long:
+1. Wait for the EMA 12 to cross above the EMA 36. (See Figure 8.2.)
+2. Take an entry when the price comes back down to touch the EMA 12.
+
+(See Figure 8.3.)
+
+FIGURE 8.2 EMA 12 Crosses EMA 36
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 158
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+FIGURE 8.3
+
+159
+
+Candlestick Touches EMA 12
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.4
+
+Set Stop Loss and Profit Target
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+3. Set the stop loss at the EMA 36; note that it must be at least 30 pips
+
+from the entry price. There is no predetermined level for the proﬁt
+target. (See Figure 8.4.)
+4. Exit the trade when the ADX 14 crosses above 40 and drops back
+below. (See Figure 8.5.)
+
+c08.indd 159
+
+03/12/12 9:55 AM
+
+160
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.5 Exit Trade When ADX 14 Crosses Above 40 and Drops Back Below
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 8.5:
+Entry price = 1.2886
+Stop loss = 1.2828
+Proﬁt target = 1.3202
+The risk for this trade is 58 pips, and the reward is 316 pips. The risk
+to reward ratio is 1:5.4, which yields a whopping 16.2% return if we take a
+3% risk.
+
+Short Trade Setup
+I use the AUD/USD on the H1 time frame to illustrate a short trade. Here
+are the steps to execute the trend rider strategy for short:
+1. Wait for the EMA 12 to cross below the EMA 36. (See Figure 8.6.)
+2. Take an entry when the price goes back up to touch the EMA 12.
+
+(See Figure 8.7.)
+3. Set the stop loss at the EMA 36; note that it must be at least 30 pips
+from the entry price. There is no predetermined level for the proﬁt
+target. (See Figure 8.8.)
+4. Exit the trade when the ADX 14 crosses above 40 and drops back
+below. (See Figure 8.9.)
+
+c08.indd 160
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+FIGURE 8.6
+
+161
+
+EMA 12 Crosses Below EMA 36
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.7 Candlestick Touches EMA 12
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the short example in Figure 8.9:
+Entry price = 1.0505
+Stop loss = 1.0543
+Proﬁt target = 1.0350
+
+c08.indd 161
+
+03/12/12 9:55 AM
+
+162
+
+FIGURE 8.8
+
+STRATEGIES TO WIN THE GAME
+
+Set Stop Loss and Profit Target
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.9
+
+Exit Trade When ADX 14 Crosses Above 40 and Drops Back Below
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 38 pips, and the reward is 155 pips. The risk
+to reward ratio is 1:4, which yields a decent 12% return if we take a 3% risk.
+
+Strategy Roundup
+The trend rider is one of the most effective strategies in the swing traders’
+toolbox because there is no predetermined proﬁt target.
+
+c08.indd 162
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+163
+
+One of the biggest reasons why retail traders fail to make good money
+in the forex market is because they exit too early, especially when the
+ongoing trade is registering a small proﬁt. The use of the ADX indicator
+in this strategy prevents us from exiting a trade prematurely. Instead,
+it keeps us with the trend for the long haul. This is how big proﬁts are
+generated.
+Trend following is statistically valid in the sense that every successful
+trader vouches for it. Additionally, because of the highly favorable risk to
+reward ratio of trend following strategies, one good trade can more than
+compensate for the losses incurred during a bad patch. Again, the key to
+successful trend trading is not to cut your proﬁts short.
+
+STRATEGY 8: TREND BOUNCER
+The trigger of a trend can be anything from a political decision, to a
+central bank policy announcement, to the discovery of new resources, to
+a myriad of other possibilities. Trends move like waves in that they ebb
+and ﬂow.
+In an uptrend, you will ﬁnd that, at a certain point in time, prices
+will pull back or retrace before continuing with the upward movement.
+Similarly for a downtrend, prices will retrace upward against the downward momentum before continuing their way down again.
+This ebb-and-ﬂow movement frustrates many trend traders, because
+these retracements often stop out their trades while the market moves in
+their direction again later.
+Experienced trend traders usually wait for the retracement to
+happen before taking a trade in the direction of the trend. This is how
+the trend bouncer strategy came about. The Bollinger Bands indicator
+provides an objective way of identifying the ebb-and-ﬂow movement of
+a trend.
+Since this is a trend strategy, we have more than one proﬁt target.
+In fact, we have three speciﬁc proﬁt levels for this strategy. The strategy
+differs slightly from the trend rider in that there are speciﬁc levels for trend
+bouncer traders to exit with proﬁts.
+
+Time Frame
+The trend bouncer method works with the hourly (H1) or 4-hourly (H4)
+chart. This means that each candle on the chart represents 1 hour or
+4 hours of price movement respectively.
+
+c08.indd 163
+
+03/12/12 9:55 AM
+
+164
+
+STRATEGIES TO WIN THE GAME
+
+Indicators
+We use these indicators for this strategy:
+1. Bollinger Bands (moving average [MA] 12, deviation [Dev] 2)
+2. Bollinger Bands (MA 12, Dev 4)
+
+Bollinger Band
+Refer to the piranha strategy in Chapter 5 for an explanation on the
+Bollinger Bands indicator.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s
+platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+With the help of the Bollinger Bands, we can objectively identify the
+ebb-and-ﬂow movement of a trend. When the candlestick hits the upper
+band of Bollinger Bands (MA 12, Dev 2), it indicates an upward momentum, and we prepare to go long. As prices retrace back to the MA 12
+(the center line of the Bollinger Bands), a signiﬁcant retracement has
+occurred, and it is a good time to enter for a long trade.
+When the candlestick hits the lower band of the Bollinger Bands
+(MA 12, Dev 2), it indicates a downward momentum, and we prepare to go
+short. As prices retrace back to the MA12 (the center line of the Bollinger
+Bands), a signiﬁcant retracement has occurred, and it is a good time to
+enter for a short trade. This trend strategy exits at three different targets.
+
+Long Trade Setup
+We use the GBP/USD on the H4 time frame to illustrate a long trade. Here
+are the steps to execute the trend bouncer strategy for long:
+1. Wait for the price to hit the upper band of the ﬁrst Bollinger Bands (MA
+
+12, Dev 2) and retrace back down to the center MA 12. (See Figure 8.10.)
+
+c08.indd 164
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+165
+
+2. When the price touches MA 12, enter for a long. (See Figure 8.11.)
+3. The stop loss is the lower band of the second Bollinger Bands (MA 12,
+
+Dev 4). (See Figure 8.12.)
+4. The trade will have three proﬁt targets with risk to reward ratios of
+1:1, 1:2, and 1:3 respectively. (See Figure 8.13.)
+
+Price Hits Upper Band of First Bollinger Bands (MA 12, Dev 2) and
+Retraces Down to the Center MA 12
+
+FIGURE 8.10
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.11 Price Touches MA 12
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 165
+
+03/12/12 9:55 AM
+
+166
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.12 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.13 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 8.13:
+Entry price = 1.5334
+Stop loss = 1.5244
+Proﬁt target 1 = 1.5424
+Proﬁt target 2 = 1.5514
+Proﬁt target 3 = 1.5604
+
+c08.indd 166
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+167
+
+The risk for this trade is 90 pips, and the reward is 270 pips if all three
+targets are hit. The risk to reward ratio is 1:3, which yields a tidy 9% return
+if we take a 3% risk.
+
+Short Trade Setup
+We use the NZD/USD on H1 time frame to illustrate a short trade. Here are
+the steps to execute the trend bouncer strategy for short:
+1. Wait for the price to hit the lower band of the ﬁrst Bollinger Bands (MA
+
+12, Dev 2) and retrace back up to the center MA 12. (See Figure 8.14.)
+2. When the price touches MA 12, go for a short. (See Figure 8.15.)
+3. The stop loss is the upper band of the second Bollinger Bands (MA 12,
+
+Dev 4). (See Figure 8.16.)
+4. The trade will have three proﬁt targets with risk to reward ratios of 1:1,
+1:2, and 1:3 respectively. (See Figure 8.17.)
+From the short example in Figure 8.17:
+Entry price = 0.8214
+Stop loss = 0.8260
+Proﬁt target 1 = 0.8168
+Proﬁt target 2 = 0.8122
+Proﬁt target 3 = 0.8076
+
+FIGURE 8.14 Price Hits Lower Band of First Bollinger Bands (MA 12, Dev 2) and
+Retraces Back Up to Center MA 12
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 167
+
+03/12/12 9:55 AM
+
+168
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.15 Price Touches MA 12
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.16 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 46 pips, and the reward is 138 pips if all
+three targets are hit. The risk to reward ratio is 1:3, which yields a tidy 9%
+return if we take a 3% risk.
+
+c08.indd 168
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+169
+
+FIGURE 8.17 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+Understanding how trends move in ebbs and ﬂows allow traders like you
+and me to identify the direction and timing of our entries. We enter during
+the “ebb” and let the “ﬂow” ride us to our proﬁt targets.
+Unlike the trend rider strategy, the trend bouncer strategy has three
+predetermined proﬁt targets. Traders who like to bank in proﬁts in various
+stages prefer this strategy. The strategy is rooted in trend trading. With a
+momentum indicator like the Bollinger Bands, you will greatly increase
+your odds at being proﬁtable in the long run.
+Remember that smart money typically follows the trend. This strategy
+helps us to hop on board early when we identify the trend.
+
+STRATEGY 9: FIFTH ELEMENT
+“I am using a wonderful strategy, but I have to constantly monitor the market in order not to miss a trade.” “Ah! I missed a trade again.” “According
+to my strategy, it looks like there may be a trade setup soon, but I have a
+movie date in the next hour. What should I do?”
+Do these scenarios sound familiar to you?
+Wouldn’t it be nice to have a strategy that actually prompts you when
+momentum of the market has switched to a new trend? In fact, the beauty
+
+c08.indd 169
+
+03/12/12 9:55 AM
+
+170
+
+STRATEGIES TO WIN THE GAME
+
+of the ﬁfth element strategy is that it tells you ahead of time when the entry
+price will be.
+This is the third and ﬁnal trend strategy in this segment. Let’s ﬁnd out
+what’s so special about it.
+
+Time Frame
+The ﬁfth element strategy works with the hourly (H1) or 4-hourly (H4)
+chart. This means that each candle on the chart represents 1 hour or
+4 hours of price movement respectively.
+
+Indicators
+We use this indicator for this strategy:
+Moving average convergence divergence (MACD) with default settings:
+a. Fast EMA: 12
+b. Slow EMA: 26
+c. MACD SMA: 9
+d. Apply to close.
+The moving average was created by Gerald Appel in 1979. Today the
+MACD is one of the most popular indicators used by forex traders worldwide. The indicator calculates and displays the difference between the two
+EMAs at any time.
+Since we are using the default setting, this difference is based on the
+EMA 12 and the EMA 26. As the market moves, the two moving averages
+move in tandem, widening (diverging) when the market is trending and
+tightening (converging) when the market is slowing down.
+There are three important elements of the MACD indicator:
+1. MACD line. This is the difference between the EMA 12 and the
+
+EMA 26.
+2. Signal. This is the 9-day SMA of the MACD line.
+3. Histogram. This is the difference between the MACD line and the
+signal.
+It is important to recognize that the histogram is a derivative of the
+price and not the price itself. The histogram is positive when the MACD line
+is above its SMA 9 and negative when the MACD line is below its SMA 9.
+
+c08.indd 170
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+171
+
+When prices rise, the histogram bar becomes longer as the speed of the
+price movement accelerates; the bar contracts as price movement decelerates. The same principle applies when prices are falling, but the histogram
+bars form at the bottom.
+Up until now, I have described the traditional MACD. In the ﬁfth
+element strategy, we use the Meta Trader 4 MACD. The difference between
+the traditional MACD and the Meta Trader 4 MACD is in the histogram.
+The traditional MACD’s histogram represents the difference between the
+MACD line and signal. The Meta Trader 4 MACD’s histogram however, represents only the MACD line, which is the difference between the EMA 12
+and EMA 26.
+The histogram is important to help us identify possible shifts in momentum and acts as a conﬁrmation of the momentum. This is the main essence
+of the ﬁfth element.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s
+platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+The MACD histogram indicates the direction and momentum of the market. When the MACD histogram switches from negative to positive, this
+indicates a possible upward shift in momentum. We wait for ﬁve positive
+bars on the histogram to conﬁrm the momentum before entering a long
+trade on the ﬁfth bar. No prizes for guessing why the name of this strategy
+is called the ﬁfth element!
+When the MACD histogram switches from positive to negative,
+this indicates a possible downward shift in momentum. We wait for ﬁve
+negative bars of the histogram to conﬁrm the momentum before entering a
+short trade on the ﬁfth bar.
+
+c08.indd 171
+
+03/12/12 9:55 AM
+
+172
+
+STRATEGIES TO WIN THE GAME
+
+Long Trade Setup
+We use the AUD/USD on the H4 time frame to illustrate a long trade. Here
+are the steps to execute the ﬁfth element strategy for long:
+1. Wait for the MACD histogram to go from negative (<0) to positive (>0).
+
+(See Figure 8.18.)
+2. Wait for four positive bars to form on the histogram before going long
+on the opening candle of the ﬁfth histogram. (See Figure 8.19.)
+3. Set the stop loss at the last low of the histogram.
+4. The trade will have two proﬁt targets with risk to reward ratios of 1:1
+
+and 1:2 respectively. (See Figure 8.20.)
+From the long example in Figure 8.21:
+Entry price = 1.0300
+Stop loss = 1.0150
+Proﬁt target 1 = 1.0450
+Proﬁt target 2 = 1.0600
+The risk for this trade is 150 pips, and the reward is 300 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+FIGURE 8.18 MACD Histogram Goes from Negative to Positive
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.

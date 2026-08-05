@@ -1,0 +1,627 @@
+
+c08.indd 172
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+173
+
+FIGURE 8.19 Four Positive Bars Form Before Going Long
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.20 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Short Trade Setup
+We use the EUR/USD on the H4 time frame to illustrate a short trade.
+Here are the steps to execute the ﬁfth element strategy for short:
+1. Wait for the MACD histogram to go from positive (<0) to negative (>0).
+
+(See Figure 8.22.)
+
+c08.indd 173
+
+03/12/12 9:55 AM
+
+174
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.21 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.22 MACD Histogram Goes from Positive to Negative
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+2. Wait for four negative bars of the histogram before going short on the
+
+opening candle of the ﬁfth histogram. (See Figure 8.23.)
+3. Set the stop loss at the last high of the histogram.
+4. The trade will have two proﬁt targets with risk to reward ratios of 1:1
+
+and 1:2 respectively. (See Figure 8.24.)
+
+c08.indd 174
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+175
+
+FIGURE 8.23 Four Negative Bars Form on Histogram Before Going Short
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.24 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the short example in Figure 8.25:
+Entry price = 1.3400
+Stop loss = 1.3547
+Proﬁt target 1 = 1.3253
+Proﬁt target 2 = 1.3106
+
+c08.indd 175
+
+03/12/12 9:55 AM
+
+176
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.25 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 147 pips, and the reward is 294 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+Strategy Roundup
+The ﬁfth element is an excellent swing trading strategy for beginners. The
+beauty of this strategy is that it does not require you to monitor the market
+for a long time. It also signals you well in advance as to when the entry of a
+trade is about to take place. As you know by now, the entry takes place on
+the ﬁfth bar after the MACD histogram switches from negative to positive
+or from positive to negative.
+Five bars of the histogram is equivalent to 5 hours on the H1 time frame
+or 20 hours on the H4 time frame. This means you need to monitor the
+market only on a 5-hourly basis if you are trading the H1 time frame or
+a 20-hourly basis if you are trading the H4 time frame. Knowing that the
+entry is always on the ﬁfth bar of the histogram means that you are in total
+control of your time.
+As an example, let’s say that you are trading the H1 time frame. You
+spot the MACD histogram switching from negative to positive. You glance
+at your watch and see that the time is 2:15 P.M.
+The current bar is the ﬁrst bar, and it corresponds to the 2 P.M. candle.
+What would be the likely time that you will enter the trade? The answer is
+
+c08.indd 176
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+177
+
+6 P.M., because that would be the start of the candle that corresponds to the
+ﬁfth bar of the histogram. You have ample time to catch a two-hour movie
+before heading home again to prepare for the trade!
+
+STRATEGY 10: POWER RANGER
+The forex market either trends or ranges. The last three strategies were dedicated to trading the trend. The next two strategies are used to trade the range.
+Range strategies are based either on pure price action or on indicators,
+or using a combination of both. Oscillators are a class of indicators that are
+commonly used in range strategies, because the oscillator indicates a possible range that the price swings back and forth from.
+Some common oscillators are the stochastic and the relative strength
+index (RSI). As a trader and coach, I have found that identifying ranges
+poses more challenges to traders than identifying trends. After all, a range
+looks obvious to us only after it is formed.
+To make matters worse, when a range is clearly formed and we are
+using a range strategy, price action soars and causes the market to break
+out of a range again. Hence, identifying the range while it is still forming
+offers a huge advantage to traders.
+The power ranger strategy serves to ﬁll this gap. Let us take a look at
+how this is done through the use of a powerful oscillator.
+
+Time Frame
+The power ranger method works with the hourly (H1) or 4-hourly (H4)
+chart. This means that each candle on the chart represents 1 hour or 4 hours
+of price movement respectively.
+
+Indicators
+We use the stochastic indicator for this strategy with these settings:
+%K period = 10
+%D period = 3
+Slowing = 3
+Price field = High/Low
+MA method = Simple
+Levels 20 and 80
+
+c08.indd 177
+
+03/12/12 9:55 AM
+
+178
+
+STRATEGIES TO WIN THE GAME
+
+Formula
+%K = 100[(C − L10) / (H10 − L10)]
+Where:
+C = most recent closing price
+L10 = low of the last 10 periods
+H10 = high of the last 10 periods
+%D = 3-period moving average of %K
+Stochastic Indicator Stochastic is an oscillator that measures overbought and oversold conditions in the market.
+How to Apply Stochastic Stochastic tells us when the market is
+overbought or oversold. When the stochastic lines are above 80, the market is overbought. When the stochastic lines are below 20, the market is
+oversold. As a general rule of thumb, oversold gives us a buy signal, and
+overbought gives us a sell signal.
+Looking at the chart in Figure 8.26, you can see that the stochastic
+has been showing overbought and oversold conditions respectively. Based
+on this information, because the market was overbought for such a long
+period of time, we expect the price to go down soon.
+
+FIGURE 8.26 Illustration of Stochastic Indicator
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 178
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+179
+
+That is the basics of the stochastic. Many traders use the stochastic in
+different ways, but the main purpose of the indicator is to show us where
+the market is overbought and oversold.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s
+platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+The power ranger strategy is based on the concept that a range will form
+after the market ﬁnishes trending. We use the stochastic to give us an indication of a possible range formation. We also rely on the current market
+momentum to tell us when to go long or short. If the market is moving in
+an uptrend, we look to go long in the range. The entry is determined by the
+oversold region (below level 20) of the stochastic.
+If the market is moving in a downtrend, we look to go short in the
+range. The entry is determined by the overbought region (above level 80)
+of the stochastic. We use the most recent high and low to determine the
+possible resistance and support of the range.
+This strategy has two proﬁt targets, and we take the ﬁrst proﬁt target
+within the range. The second proﬁt target is located beyond the range in
+anticipation of a breakout opportunity.
+
+Long Trade Setup
+We use EUR/USD on the H1 time frame to illustrate a long trade. Here are
+the steps to execute the power ranger strategy for long:
+1. Draw an uptrend line based on a series of higher highs and higher
+
+lows. (See Figure 8.27.)
+2. On the stochastic, look for %K and %D to go below level 20 (oversold).
+(See Figure 8.28.)
+
+c08.indd 179
+
+03/12/12 9:55 AM
+
+180
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.27 Draw Uptrend Line Based on Series of Higher Highs and Higher Lows
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.28 On the Stochastic, Look for %K and %D to Go Above Level 20 (Oversold)
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+3. Determine the support and resistance of the range. Enter long once the
+
+stochastic crosses above level 20.
+4. Set the ﬁrst proﬁt target at the 75% mark of the range. Set the stop loss
+at a risk to reward ratio of 1:1, and set the second proﬁt target at risk to
+reward ratio of 1:2. After calculation, the stop loss must be below the
+support level. If not, the trade is considered invalid. (See Figure 8.29.)
+
+c08.indd 180
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+181
+
+FIGURE 8.29 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.30 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 8.30:
+Entry price = 1.2919
+Stop loss = 1.2877
+Proﬁt target 1 = 1.2961
+Proﬁt target 2 = 1.3003
+
+c08.indd 181
+
+03/12/12 9:55 AM
+
+182
+
+STRATEGIES TO WIN THE GAME
+
+The risk for this trade is 42 pips, and the reward is 84 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+Short Trade Setup
+We use AUD/USD on the H1 time frame to illustrate a short trade. Here are
+the steps to execute the power ranger strategy for short:
+1. Draw a downtrend line based on a series of lower highs and lower
+
+lows. (See Figure 8.31.)
+2. On the stochastic, look for %K and %D to go above level 80 (oversold).
+(See Figure 8.32.)
+3. Determine the support and resistance of the range. Enter short once
+the stochastic goes below level 80.
+4. Set the ﬁrst proﬁt target at the 75% mark of the range. Set the stop
+loss at a risk to reward ratio of 1:1, and set the second proﬁt target
+at risk to reward ratio of 1:2. After calculation, the stop loss must
+be above the resistance level. If not, the trade is considered invalid.
+(See Figure 8.33.)
+
+FIGURE 8.31 Draw a Downtrend Line Based on a Series of Lower Highs and
+
+Lower Lows
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 182
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+183
+
+FIGURE 8.32 On the Stochastic, Look for %K and %D to Go Below Level 80 (Oversold)
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.33 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the short example in Figure 8.34:
+Entry price = 1.0624
+Stop loss = 1.0700
+Proﬁt target 1 = 1.0548
+Proﬁt target 2 = 1.0472
+
+c08.indd 183
+
+03/12/12 9:55 AM
+
+184
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.34 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 76 pips, and the reward is 152 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+Strategy Roundup
+This is an awesome range strategy as it allows us to take a range trade in
+the early stages of formation. The bonus is that it also allows us to take
+advantage of a second proﬁt target in the event prices break out of a range
+and move into an early trend.
+It doesn’t mean that you should go long whenever the stochastic
+is at the oversold region or go short whenever the stochastic is at the
+overbought region. If you do so, you may end up selling on an uptrend
+or buying on a downtrend. Going against momentum in this way can
+be risky.
+Always determine the momentum of the market ﬁrst before deciding
+whether to look for the overbought or oversold region of the stochastic.
+In an uptrend, look for the oversold region. In a downtrend, look for the
+overbought region. In this way, you will be trading along with the market
+momentum and putting yourself in an advantageous position.
+Determining the momentum of the market ﬁrst prevents us from
+blindly trading the signal given by the stochastic.
+
+c08.indd 184
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+185
+
+STRATEGY 11: THE PENDULUM
+In the previous strategy, we explored a technique that helps us to anticipate a range with the help of the stochastic indicator and also trade it in
+the early stages of formation. The pendulum strategy comes to the rescue
+in the later stages of a range formation. In other words, we can still trade
+the range after it has been formed.
+You don’t need any indicators for this strategy, and you can use it to
+trade a range for as long as the market is swinging back and forth within
+the range like a pendulum.
+
+Time Frame
+The pendulum method works with the hourly (H1) or 4-hourly (H4) chart.
+This means that each candle on the chart represents 1 hour or 4 hours of
+price movement respectively.
+
+Indicators
+No indicators are used for this strategy.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s
+platform, especially the seven major currency pairs of:
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+USD/CAD
+AUD/USD
+NZD/USD
+
+Strategy Concept
+The pendulum in motion swings back and forth because the force of
+gravity is pulling it back to the vertical position every time it swings away
+from it. The pendulum reaches an optimal height before it starts to fall
+back. However, if the swinging force is too great, the string holding the
+pendulum will snap, and the pendulum will ﬂy off.
+
+c08.indd 185
+
+03/12/12 9:55 AM
+
+186
+
+STRATEGIES TO WIN THE GAME
+
+The ranging market acts in a similar fashion to the pendulum. Every
+time prices pull away from the midpoint of the range toward the support
+or resistance, market forces will pull it back towards the mid-point of the
+range. However, when the market gathers enough momentum, prices will
+break the support or resistance of the range and move into a trend.
+In this strategy, we wait for the pendulum to reach its optimal height
+and fall before we enter the trade. We do this by executing a trade only at
+the 10% mark after prices turn back from either support or resistance. The
+ﬁrst target is set at the 50% mark of the range, and the second target is set
+at the 90% mark of the range.
+
+Long Trade Setup
+We use the AUD/USD on the H4 time frame to illustrate a long trade. Here
+are the steps to execute the pendulum strategy for long:
+1. Identify the resistance and support. Take note when the price goes
+
+back to the support again. (See Figure 8.35.)
+2. In this example, the range is 269 pips; 10% of the range is 27 pips.
+Enter when the price bounces 27 pips above the support (1.0101).
+(See Figure 8.36.)
+3. The ﬁrst and second proﬁt targets are 50% and 90% of the range respectively, which are 135 pips and 243 pips above the support (1.0101).
+4. Use risk to reward ratio of 1:1 to set the stop loss. (See Figure 8.37.)
+
+FIGURE 8.35 Identify Resistance and Support
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c08.indd 186
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+187
+
+FIGURE 8.36 Enter When Price Bounces 27 Pips Above Support
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.37 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+From the long example in Figure 8.38:
+Entry price = 1.0128
+Stop loss = 1.0020
+Proﬁt target 1 = 1.0236
+Proﬁt target 2 = 1.0344
+
+c08.indd 187
+
+03/12/12 9:55 AM
+
+188
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.38 Trade Hits Profit Target
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 108 pips, and the reward is 216 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+Short Trade Setup
+We use the GBP/USD on the H4 time frame to illustrate a short trade.
+Here are the steps to execute the pendulum strategy for short:
+1. Identify the resistance and support. Take note when price goes back to
+
+the resistance again. (See Figure 8.39.)
+2. In this example, the range is 205 pips; 10% of the range is 21 pips.
+Enter when the price bounces 21 pips below the resistance (1.6117).
+(See Figure 8.40.)
+3. The ﬁrst and second proﬁt targets are 50% and 90% of the range respec-
+
+tively, which are 103 pips and 185 pips below the resistance (1.6117).
+4. Use risk to reward ratio of 1:1 to set the stop loss. (See Figure 8.41.)
+From the long example in Figure 8.42:
+Entry price = 1.6096
+Stop loss = 1.6178
+Proﬁt target 1 = 1.6014
+Proﬁt target 2 = 1.5932
+
+c08.indd 188
+
+03/12/12 9:55 AM
+
+Strategies for Swing Traders
+
+189
+
+FIGURE 8.39 Identify Resistance and Support
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.40 Enter When Price Bounces 21 Pips Below Resistance
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+The risk for this trade is 82 pips, and the reward is 164 pips if both
+targets are hit. The risk to reward ratio is 1:2, which yields a tidy 6% return
+if we take a 3% risk.
+
+c08.indd 189
+
+03/12/12 9:55 AM
+
+190
+
+STRATEGIES TO WIN THE GAME
+
+FIGURE 8.41 Set Stop Loss and Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+FIGURE 8.42 Trade Hits Profit Targets
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Strategy Roundup
+This strategy is applicable as long as the market is swinging back and forth
+in a range. The power ranger strategy and the pendulum strategy work perfectly together. You can use the power ranger strategy to identify and trade
+the range in its early stage of formation, then apply the pendulum strategy
+to trade the later portion of the range.
+
+c08.indd 190
+
+03/12/12 9:55 AM
+
+CHAPTER 9
+
+Strategies for
+Position Traders
+
+T
+
+hree characteristics deﬁne you as a position trader:
+
+1. You have a deep understanding of market fundamentals.
+2. You are not concerned with the short-term and medium-term move-
+
+ments of the currency market.
+3. You have a sizable account to trade with. This is necessary to support
+
+your long-term outlook and withstand possible large ﬂoating losses
+should the trade go against you for an extended period of time.
+Two advantages come into play for position traders. The ﬁrst point is
+that interest can be earned. This is because interest or swap is paid on
+the currency that is borrowed and earned on the one that is bought. This
+amount can be signiﬁcant when trades are held for long periods of time.
+Secondly, correlations between other ﬁnancial instruments can be
+brought into play. In the ﬁnancial world, capital ﬂows in a fairly predictable manner. Position traders who have a great feel for the market can use
+their knowledge to predict how other markets will correlate to the ﬂow of
+money in the forex market.
+A great example is the commodity market. When risk is on, commodity currencies, such as the Australian dollar, the New Zealand dollar, and
+the Canadian dollar, tend to do well. Over time, the strengthening of these
+3 currencies also translate into higher prices for the actual commodities
+involved. Examples include gold and oil.
+This chapter explores three strategies with time frames of either the
+daily or weekly charts. The two aspects of position trading—swap and
+commodity correlation—are also explored to allow position traders to
+achieve maximum gains across several asset classes.
+191
+
+c09.indd 191
+
+06/12/12 2:26 PM
+
+192
+
+STRATEGIES TO WIN THE GAME
+
+STRATEGY 12: SWAP AND FLY
+Every forex transaction involves the borrowing of one currency to buy
+another. This transaction also forms the basis of why traders can go long
+or short at any time.
+As an example, if you are buying a currency with a higher interest rate
+than the one you are borrowing, the net interest rate differential will be
+positive, and you earn interest for every day that the trade remains open.
+Conversely, if the interest rate differential is negative, you will have to pay
+interest for every day that the trade remains open. You may know this as
+the carry trade.
+Five P.M. in New York is considered the beginning and end of the
+forex trading day. Hence, any trading positions that are open beyond
+5 P.M. are considered to be held overnight—or rolled over—and are subject to swap rates. The forex market is closed on Saturdays and Sundays,
+so no swap rate is incurred or earned over the weekend. However, most
+liquidity providers still apply the swap rules over the weekend.
+To balance the effect of non-trading activities over the weekend, the
+forex market books three days of swap on Wednesday. Hence, if you hold
+a trade over 5 P.M. on a Wednesday evening, you will either incur or earn
+three times the normal rates.
+The swap and ﬂy strategy is a slow but steady technique that helps you
+to accumulate interest every day. You can even come out with a positive
+return after a period of time, even though the trade exits at breakeven.
+Figures 9.1 and 9.2 show how you can track which currency pairs
+give positive swap when you execute a long or short position in the currency market. Do note, however, that ﬁgures may be different for different
+brokers.
+
+FIGURE 9.1
+
+Positive Swap for Long Trades on AUD/JPY
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+c09.indd 192
+
+06/12/12 2:26 PM
+
+Strategies for Position Traders
+
+FIGURE 9.2
+
+193
+
+Positive Swap for Short Trades on GBP/AUD
+
+Source: Created with FX Primus Ltd, a PRIME Mantle Corporation PLC company. All rights reserved.
+
+Time Frame
+The swap and ﬂy method works with the daily candle (D1) and weekly
+candle (W1). This means that each candle on the chart represents 1 day or
+1 week of price movement.
+
+Indicators
+No indicators are used for this strategy.
+
+Currency Pairs
+This strategy is suitable for all currency pairs listed on the broker’s platform that have positive swaps for either long or short positions.
+
+Strategy Concept
+The main aim of this strategy is to earn as much interest as we can. Hence
+the ﬁrst step is to ﬁnd out which currency pairs on the broker’s platform
+offer the highest swap rates for both long and short positions.
+If a positive swap is given on a long position, we look for a suitable long
+entry on the chart. If a positive swap is given on a short position, we look
+for a suitable short entry on the chart.
+The next milestone is to shift the stop loss dynamically to the entry
+price, also known as the break-even price. This step is done when the market moves favorably in our direction. After a period of time, even if our
+“new” stop-loss level is hit, the trade is exited with a proﬁt because of the
+swap earned.

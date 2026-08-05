@@ -1,0 +1,742 @@
+Knowing how closely correlated the currency pairs are in your portfolio is a
+great way to measure your exposure and risk. You might think that you're
+diversifying your portfolio by investing in different pairs, but many of them have a
+tendency to move in the same direction or opposite to one another. The correlations
+between pairs can be strong or weak and last for weeks, months, or even years.
+Basically, what a correlation number givers us is an estimate of how closely pairs
+move, together or how opposite their actions are over a specified period of time. Any
+correlation calculation will be in decimal form; the closer the number is to 1 the
+stronger the connection between the two currencies. For example, by looking at the
+sample data in Table 6.1, we can see a +0.94 correlation between the EUR/USD and
+the NZD/USD over the last month. If you are not a fan of decimals, you can also
+think of the number as a percentage by multiplying it by 100 percent (in this case
+getting 94 percent correlation between the EUR/USD and the NZD/USD). High
+decimals indicate currency pairs that closely mirror one another while lower numbers
+tell us that the pairs do not usually move in a parallel fashion. Therefore, because
+there is a high correlation in this particular pair, we can see that investing in both the
+EUR/USD and the NZD/USD is very similar to doubling up on a position. Likewise,
+it might not be the best idea to go long one of the currency pairs and short the other
+because a rally to one has a high likelihood of also setting off a rally in the other
+currency pair. While this would not make your profits and losses exactly zero
+
+56
+
+because they have different pip values, the two do move in such a similar fashion that
+taking opposing positions could take a bite out of profits or even cause losses.
+Positive correlations aren't the only way to measure similarities between
+pairings; negative correlations can be just as useful. In this case, instead of a very
+positive number, we are looking for a highly negative one. Just as on the positive
+side, the closer the number is to -1, the increasingly connected the two currencies
+movements are, this time in the opposite direction. Again we can use the EUR/USD
+as an example. While we just saw a strong positive correlation with the NZD/USD,
+the EUR/USD has a very negative relationship with the USD/CHF. Between these
+two currency pairs, the correlation has been -0.98 over the last year and -0.99 over
+the past month. This number indicates that these two pairings have a strong
+propensity to move in opposite directions. Therefore, taking contrary positions on the
+two pairs could act the same as taking the same position on two highly positive
+correlated pairs. In this instance going long in one and shorting the other would be
+almost the same as doubling up on the position, and as a result, would also open your
+portfolio up to a higher amount of risk. However, deciding to go long or short on
+both would probably be counterproductive and lead to near zero profit mid losses
+because the two currency pairs move in opposite directions so if one side of the trade
+became profitable, the other would usually result in losses.
+
+57
+
+TABBLE 6.1 Correlation Table: Data for March 2005
+EUR/USD
+1 Month
+3 Month
+6 Month
+1 Year
+AUD/USD
+1 Month
+3 Month
+6 Month
+1 Year
+USD/JPY
+1 Month
+3 Month
+6 Month
+1 Year
+GBP/USD
+1 Month
+3 Month
+6 Month
+1 Year
+NZD/USD
+1 Month
+3 Month
+6 Month
+1 Year
+USD/CHF
+1 Month
+3 Month
+6 Month
+1 Year
+
+AUD/USD
+0.94
+0.47
+0.74
+0.85
+EUR/USD
+0.94
+0.47
+0.74
+0.85
+EUR/USD
+-0.92
+-0.37
+-0.83
+-0.86
+EUR/USD
+0.92
+0.83
+0.94
+0.91
+EUR/USD
+0.94
+0.57
+0.78
+0.93
+EUR/USD
+-0.99
+-0.98
+-0.96
+-0.98
+
+USD/JPY
+-0.92
+-0.37
+-0.83
+-0.86
+USD/JPY
+-0.91
+0.24
+-0.70
+-0.87
+AUD/USD
+-0.91
+0.24
+-0.70
+-0.87
+AUD/USD
+0.95
+0.81
+0.75
+0.79
+AUD/USD
+0.96
+0.90
+0.89
+0.90
+AUD/USD
+-0.94
+-0.44
+-0.70
+-0.78
+
+GBP/USD
+0.92
+0.83
+0.94
+0.91
+GBP/USD
+0.95
+0.81
+0.75
+0.79
+GBP/USD
+-0.88
+-0.08
+-0.75
+-0.82
+USD/JPY
+0.88
+-0.08
+-0.75
+-0.82
+USD/JPY
+-0.91
+0.15
+-0.61
+-0.84
+USD/JPY
+0.94
+0.40
+0.83
+0.83
+
+NZD/USD
+0.94
+0.57
+0.78
+0.93
+NZD/USD
+0.96
+0.90
+0.89
+0.90
+NZD/USD
+-0.91
+0.15
+-0.61
+-0.84
+NZD/USD
+0.87
+0.83
+0.84
+0.82
+GBP/USD
+0.87
+0.83
+0.64
+0.82
+GBP/USD
+-0.95
+-0.82
+-0.88
+-0.90
+
+USD/CHF
+-0.99
+-0.98
+-0.9b
+-0.98
+USD/CHF
+-0.94
+-0.44
+-0.70
+-0.78
+USD/CHF
+0.94
+0.40
+0.83
+0.83
+USD/CHF
+0.95
+-0.82
+-0.88
+-0.90
+USD/CHF
+-0.92
+-0.53
+-0.69
+-0.88
+NZD/USD
+-0.92
+-0.53
+-0.69
+-0.88
+
+USD/CAD
+-0.32
+-0.61
+-0.57
+-0.89
+USD/CAD
+-0.17
+-0.14
+-0.54
+-0.81
+USD/CAD
+0.06
+0.12
+0.59
+0.80
+USD/CAD
+0.03
+-0.36
+-0.42
+-0.70
+USD/CAD
+-0.29
+-0.35
+0.38
+-0.94
+USD/CAD
+0.21
+0.55
+0.70
+0.87
+
+USD/CAD
+1 Month
+3 Month
+6 Month
+1 Year
+
+EUR/USD
+-0.32
+-0.61
+-0.57
+-0.89
+
+AUD/USD
+-0.17
+-0.14
+-0.54
+-0.81
+
+USD/JPY
+0.06
+0.12
+0.59
+0.80
+
+GBP/USD
+-0.03
+-0.36
+-0.42
+-0.70
+
+NZD/USD
+-0.29
+-0.35
+-0.58
+-0.94
+
+USD/CHF
+0.21
+0.55
+0.70
+0.84
+
+Date
+
+EUR/USD AUD/USD USD/JPY GBP/USD NZD/USD USD/CHF USD/CAD
+
+03/29/2004- 6 Month
+09/99/2004 Trailing
+04/29/2004- 6 Month
+10/28/2004 Trailing
+05/31/2004- 6 Month
+11/29/2004 Trailing
+06/30/2004 6 Month
+12/29/2004 Trailing
+07/30/2004- 6 Month
+01/28/2005 Trailing
+08/31/2004- 6 Month
+03/01/2005 Trailing
+09/30/2004- 6 Month
+03/31/2005 Trailing
+Average
+
+0.10
+
+-0.28
+
+0.69
+
+0.68
+
+-0.88
+
+-0.60
+
+0.77
+
+-0.67
+
+0.47
+
+0.84
+
+-0.90
+
+-0.78
+
+0.96
+
+-0.88
+
+0.61
+
+0.88
+
+-0.97
+
+-0.89
+
+0.93
+
+-0.94
+
+0.87
+
+0.94
+
+-0.98
+
+-0.85
+
+0.93
+
+-0.93
+
+0.92
+
+0.95
+
+-0.99
+
+-0.86
+
+0.88
+
+-0.91
+
+0.96
+
+0.91
+
+-0.98
+
+0 80
+
+0.74
+
+-0.83
+
+0.95
+
+0.79
+
+-0.96
+
+-0.58
+
+0.76
+
+-0.78
+
+0.78
+
+0.86
+
+-0.95
+
+-0.77
+
+58
+
+IMPORTANT FACT ABOUT CORRELATIONS: THEY CHANGE
+Anyone who has ever traded the FX market knows that currencies are very
+dynamic; economic conditions, both sentiment and pricing change every day.
+Because of this the most important aspect to remember when analyzing currency
+correlations is that they can easily change over time. The strong correlations that are
+calculated today might not be the same this time next month. Due to the constant
+reshaping of the forex environment, it is imperative to keep current if you deride to
+use this method for trading. For example, over a one-month period that we observed,
+the correlation between USD/CAD and USD/JPY was 0.06. This is a very low
+number and would indicate that the pairs do not really share any definitive
+relationship in their movements. However, if we look at the three-month data for the
+same time period, the number increases to 0.12 and then to 0.59 for six months and
+finally to 0.80 for a year. Therefore, for this particular example we can see that there
+was a blatant recent breakdown in the relationship between these two pairs. What
+was once a strongly positive association in the long run has almost totally
+deteriorated over the short term. On the other hand, the USD/CHF and AUD/USD
+pairing has shown a strengthening trend in the most recent data. The correlation
+between these two pairs started at -0.78 for the year and edged up to -0.94 for the last
+month. This suggests that there is an increasing probability that if one of the trades
+became profitable the other would incur a loss.
+An even more dramatic example of the extent to which those numbers can
+change can be found in the GBP/USD and AUD/USD pairing; there was a -0.87
+correlation between the two for the yearlong data. However, while these two tended
+to move in reasonably opposite directions in the long term, between January and
+March of 2005 they were actually positively correlated with a +0.24 reading. The
+major events that change the amount and even direction that pairs are correlated are
+usually associated with major economic happenings such as interest rate changes.
+CALCULATING CORRELATIONS YOURSELF
+Because correlations have the tendency to shift over lime, the best way to keep
+current on the direction and strength of your pairings is to calculate them yourself.
+Although it might seem like a tricky concept, the actual process can be made quite
+easy. The simplest way to calculate the numbers is to use Microsoft Excel. In Excel,
+you can take the currency pairs that you want to derive a correlation from over a
+specific time period and just use the correlation function. The one-year, six-month,
+three-month, one-month, and six-month-trailing reading gives the most comprehensive view of the similarities and differences between pairs; however, you can decide
+which or how many of these readings you want to analyze. Breaking down the
+process step-by-step, we'll find the correlation between the GBP/USD and the
+USD/CHF. First you'll need to get the pricing data for the two pairings. To keep
+organized, label one column GBP and the other CHF and then put in the weekly
+values of these currencies using the last price and pairing them with the USD for
+whatever time period you want to use. At the bottom of the two columns, go to an
+empty slot and type in =CORREL. Highlight all of the data in one of the pricing
+columns, type in a comma, and then do the same thing for the other currency; the
+number produced is your correlation. Although it is not necessary to update your
+59
+
+numbers every day, updating them once every couple of weeks or at the very least
+once a month is generally a good idea.
+
+60
+
+Trade Parameters for
+Different Market Conditions
+After having gone through the emergence of the foreign exchange market, who
+the major players and significant historical milestones, and what moves the markets,
+it is time to cover some of my favorite strategies for trading currencies. However,
+before I even begin going over these strategies, the most important first step for any
+trader, regardless of the market that you are trading in, is to create a trading journal.
+KEEPING A TRADING JOURNAL
+Through my experience, I have learned that being a successful trader is not
+about finding the holy grail of indicators that can perfectly forecast movements 100
+percent of the time, but instead to develop discipline. I cannot, overemphasize the
+importance of keeping a trading journal as the primary first step to becoming a
+successful and professional trader. While working on the interbank FX trading desk
+at J. P. Morgan and then on the cross-markets trading desk after the merger with
+Chase, the trading Journal mentality was ingrained into the minds of every dealer and
+proprietary trader on the trading floors, regardless of rank. The reason was simple:
+the bank was providing the capital for trading and we needed to be held accountable,
+especially since each transaction involved millions of dollars. For every trade that
+was executed, we needed to have a solid rationale as well as justification for the
+choice of entry and exit levels. More specifically, you had to know where to place
+your exit points before you placed the trade to approximate worst-case losses and to
+manage risk.
+With this sort of accountability, the leading banks of the world are able to breed
+successful and professional traders. For individual traders, this practice is even more
+important because you are trading with your own money and not someone else's. For
+interbank traders, when it comes down to the bottom line, it is someone else's money
+that they are trading with and regardless of how poorly they might have performed
+over the prior two weeks, they will still be receiving a paycheck twice a month. At a
+bank, traders have plenty of time to make the money back without any disruptions to
+their daily way of life—unless of course they lose $1 million in one day. As an
+Individual trader you do not have this luxury. When you are trading with your own
+money, each dollar earned or lost is your money. Therefore, even though you should
+be trading only with risk capital, or money that would not otherwise be used for rent
+or groceries, one way or the other, the pain is felt. To avoid repeating the same
+mistakes and taking huge losses, I cannot stress enough the importance of keeping a
+trading journal. The journal is designed to ensure that as a trader you take only
+calculated losses and you learn from each one of your mistakes. The trading journal
+setup that I recommend is broken up into three parts:
+1. Currency Pair Checklist.
+2. Trades That I Am Waiting For.
+3. Existing or Completed Trades.
+
+61
+
+Currency Pair Checklist
+The first section of your trading journal should consist of a spreadsheet that can
+be printed out and completed every day. This purpose of this checklist is to get a feel
+for the market and to identify trades, it should list all of the currency pairs that are
+offered for trading in the left column, followed by three columns for the current,
+high, and low prices and then a series of triggers laid out sis a row on the right-hand
+side. Newer traders probably want to start off with following only the four major
+currency pairs, which are the EUR/USD, USD/JPY, USD/CHF and GBP/USD and
+then gradually add in the crosses. Although the checklist that I have created is fairly
+detailed, I find that it is a very useful daily exercise and should take no more than 20
+minutes to complete once the appropriate indicators are saved on the charts. The
+purpose of this checklist is to get a clear visual of which currencies are trending and
+which are range trading. Comprehending the big picture is the first step to trading
+successfully. Too often have seen traders fail because they lose sight of the overall
+environment that they are trading in. The worst thing to do is to trade blindly. Trying
+to pick tops or bottoms in a strong trend or buying breakouts in a range-bound
+environment can lead to significant losses. You can see in Figure 7.1 of the
+EUR/USD that trying to pick tops in this pair would have led to more than three
+years of frustrating and unsuccessful trading. For trending environments, traders will
+find a higher success rate by buying on retracements in an uptrend or selling on
+rallies in a downtrend. Picking lops and bottoms should be a strategy that is used only
+in clear range-trading environments, and even then traders need to be careful of contracting ranges hiding to breakout scenarios.
+
+Figure 7.1 EUR/USD Three-Year Chart
+(Source: eSignal. www.eSignal.com)
+A simplified version of the daily market overview sheet that I use is shown in
+Table 7.1. As you can sec in the table, the first two columns after the daily high and
+low prices are the levels of the 10-day high and low. Listing these prices helps to
+identity where current prices are within previous price notion. This helps traders
+62
+
+gauge whether we are pressing toward a 10-day high or low or if we are simply
+trapped in the middle of the range. Yet just the prices alone do not provide enough
+information to determine if we are in a trending or a range-hound environment. The
+next five indicators provide a checklist for determining a trending environment. The
+more X marks in this section, the stronger the trend.
+The first column in the trending indicator group is the “ADX (14) above 25.”
+ADX is the Average Directional Index, which is the most popularly used indicator
+for determining the strength of a trend. If the index is above 25, this indicates that a
+trend has developed. Generally speaking, the greater the number, the stronger the
+trend. The next column uses Bollinger bands. When strong trends develop, the pair
+will frequently tag and cross either the upper or lower Bollinger band. The next three
+trend indicators are the longer-term simple moving averages (SMAs). A break above
+or below these moving averages may also be indicative of a trending environment.
+With moving averages, crossovers in the direction of the trend can be used as a
+further confirmation. If there are two or more Xs in this section, traders should be
+looking for opportunities to buy on dips in an uptrend or sell on rallies in a
+downtrend rather than selling at the top and buying back at the bottom of the range.
+The last section of the trading journal is the range group. The first indicator is
+once again ADX, but this time, we are looking for ADX below 25, which would
+suggest that the currency pair's trend is weak. Next, we look at the traditional
+oscillators, the Relative Strength Index (RSI), and stochastic. If the ADX is weak and
+there is significant technical resistance above, provided by indicators such as moving
+averages or Fibonacci retracement levels, and RSI and/or stochastics are at
+overbought or oversold levels, we identify an environment that is highly conducive to
+range trading.
+Of course, the market overview sheet is not foolproof, and just because you have
+numerous X marks in either the trend group or the range group doesn't mean that a
+trend will not fade or a breakout will not occur. Yet what this spreadsheet will do is
+certainly prevent traders from trading blindly and ignoring the broader market
+conditions. It will provide traders with a launching pad from which to identify the
+days trading opportunities.
+
+63
+
+Table 7.1 Currency Checklist
+Date
+Currency
+Pair
+
+Trending
+Last
+Price
+
+Daily
+High
+
+Daily
+Low
+
+10-day
+high
+
+10-day
+low
+
+ADX
+(14)
+above
+25
+
+Bollinger
+
+EUR/USD
+USD/JPY
+GBP/USD
+USD/CHF
+EUR/CHF
+AUD/USD
+USD/CAD
+NZD/USD
+EUR/GBP
+GBP/JPY
+GBP/CHF
+AUD/JPY
+
+64
+
+Crosses
+50-day
+
+Range
+Crosses
+100-day
+
+Crosses
+200-day
+
+ADX
+(14)
+below
+25
+
+RSI (14)
+
+RSI (14)
+
+Stochastics
+>70
+
+Stochastics
+<30
+
+Trades That I Am Waiting For
+The next section in the trading journal lists the possible trades for the day. Based
+on an initial overview of the charts, this section is where you should list the trades
+that you are waiting to make. A sample entry would be:
+April 5, 2005
+Buy AUD/USD on a break of 0.7850 (previous day high). Stop at 0.7800 (50day SMA).
+Target 1—0.7025 (38.2% Fibonacci retracement or Nov.-Mar. bull wave).
+Target 2—0.8075 (upper Bollinger).
+Target 3—10-day trailing low.
+Therefore, as soon as your entry level is reached, you know exactly how you
+want to take action and where to place your stops and limits. Of course, it is also
+important to take a quick glance at the market to make sure that the trading
+conditions that you were looking for are still intact. For example, if you were looking
+for a strong breakout with no retracement to occur at the entry level, when it does
+break, you want to make sure that the scenario that you were looking for plays out.
+This exercise is used to help you develop a plan of action to tackle your trading day.
+Before every battle, warriors regroup to go over the plan of attack; in trading you
+want to have the same mentality. Plan and prepare for the worst-case scenario and
+know your plan of attack for the day!
+
+Existing or Completed Trades
+This section is developed and used to enforce discipline and to learn from your
+mistakes. At the end of each trailing day, it is important to review this section to
+understand why certain trades resulted in losses and others resulted in profits. The
+purpose of this section is to identify trends. I will use a completely unrelated example
+to explain why this is important. On a normal day, most people will subconsciously
+inject a lot of “ums” or “uhs” into their daily conversation. However, I bet most of
+these people do not even realize that they are even doing it until someone records one
+of their conversations and plays it back to them. This is one of the ways that
+professional presenters and newscasters train to kick the habit of using placeholder
+words. Having worked with more than 65,000 traders, too often have I seen these
+traders repeatedly make the same mistakes. This could be taking profits too early,
+letting losses run, getting emotional about trading, ignoring economic releases, or
+getting into a trade prematurely. Having a record of previous trades is like keeping a
+recording of your conversations. When you flip back to the trades that you have
+completed, you have a perfect map of what strategies have or have not been
+profitable for you. The reason why a journal is so important is because it minimizes
+the emotional component of trades. I frequently see novice traders take profits early
+but let losses run. The following are two samples of trade journal entries that could
+provide learning opportunities:
+February 12, 2005
+Trade: Short 3 lots of EUR/USD @ 1.3045.
+Stop: l.3095(former all-time high).
+Target: 1.2900.
+65
+
+Result: Trade closed on Feb. 13 2005- stopped out of the 3 lots @ 1.3150 (-105
+pips).
+Comments: Got margin call! EUR/USD broke the all-time high, but I thought it
+was going to reverse, and did not stick to slop—kept letting losses run, until
+eventually margin rail closed out all positions. Note to self: Make sure stick to stops!
+April 3, 2005
+Trade: Long 2 lots of USD/CAD @ 1.1945.
+Stop: 1.1860 (strong technical support—confluence of 50-day moving average
+and 68% Fibonacci retracement of Feb.-Mar. rally).
+Target: First lot @ 1.2095 (upper Bollinger and 5 pips shy of 1.2100
+psychological resistance)Second lot @ 1.2250 (former head and shoulders support turned resistance, 100day SMA).
+Result: Trade closed on Apr. 5, 2005—stopped out of the 2 lots at 1.1860 (-85
+pips).
+Comments: USD/CAD did not continue uptrend and was becoming overbought;
+I didn't see that ADX was weakening and falling from higher levels and that then was
+also a divergence in stochastics. Note to self: Make sure to look for divergences next
+time!
+Unlike many traders, I believe the best trades are where both the technical and
+fundamental pictures are telling the same story. In line with this premise, I prefer to
+stay out of trades that contradict my fundamental outlook. For example, if there is a
+bullish formation in both the GBP/USD and the AUD/USD due to U.S. dollar
+weakness, but the bank of England has finished raising interest rates, while the
+Reserve Bank of Australia has full intentions of raising rates to tame the strength of
+the Australian economy, I would most likely choose to express my bearish dollar
+view in the AUD/USD rather than the GBP/USD. My bias for choosing the
+AUD/USD over the GBP/USD would be even stronger if the AUD/USD already offered a higher interest rate differential than the GBP/USD. Too often have I seen
+technicals thwarted by fundamentals, so now I always incorporate both into my
+trading strategy. I use a combination of technical, fundamental, and positioning and
+am generally also a trend follower. I also typically use a top-down approach that
+involves the following:
+1. First I will take an overall technical survey of the market and pick the currency
+pairs that have retraced to attractive levels for entry in order to participate in a
+medium-term trend.
+2. For currencies with a dollar component (i.e., not the crosses), I determine if my
+initial technical view for that pair coincides with my fundamental view on the dollar
+as well as my view on how upcoming U.S. releases may impact trading for the day.
+The reason why I look at the dollar specifically is localise 90 percent of all currency
+trades involve the dollar, which makes U.S. fundamentals particularly important.
+3. If it is a cross-currency pair such as GBP/JPY, I will proceed by determining if
+the technical view coincides with the fundamental outlook using Fibonacci
+retracements, ADX, moving averages, oscillators, and other technical tools.
+
+66
+
+4. Then I like to look at positioning using the FXCM Speculative Sentiment index

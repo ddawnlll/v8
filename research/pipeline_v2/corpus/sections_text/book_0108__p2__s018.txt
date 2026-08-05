@@ -1,0 +1,441 @@
+If you plan to trade a channel breakout, I would make the following recommendations. First, use a setup with the entry that
+involves a sequential condition with price (i.e., something that happens to the price before you are willing to take a breakout signal).
+For example, you might require (1) a narrow band of volatility
+before the breakout occurs, (2) an “efficient market” before you
+take a breakout signal, (3) a clear sign of a trend signaled by a high
+relative strength in the stock you are considering. Generally, the
+setups that will help you are those that involve a sequence of price
+changes prior to the entry or involve some element other than price
+as discussed in Chapter 7.
+Second, most of the problems that are associated with drawdowns or require large accounts in breakout systems can be solved
+by market selection and a careful selection of your stops and exits.
+However, those are both topics of other chapters.
+Visual Entry Based upon Charts
+Many experts don’t have an exact entry signal into the market.
+Instead, they visually inspect the charts and act on their gut feelings about what they see.
+For example, Ed Seykota, a market wizard, said that his entry
+technique was to look at a long-term chart of the market he was
+
+PART 3
+
+Understanding the Key Parts of Your System
+
+CHAPTER 8 Entry or Market Timing
+
+209
+
+Patterns
+
+Figure 8-2 A clear visual trend--crude oil in 1989
+
+considering. He’d put the chart, such as the one in Figure 8-2, on
+the wall and go to the other end of the room and look at it. He said
+that if the market’s trend was obvious from the other side of the
+room, then he would have no trouble entering that particular market in the direction of the trend.
+One of my clients regularly makes a million dollars in profits
+each year trading stocks for his own account. He only uses visual
+patterns for entry, although he claims that his visual entries are
+somewhat intuitive.
+This particular type of entry has some real advantages for people with the discipline to follow it. For example, price information
+is much purer that any summary information you might get from
+some indicator. If price information indicates a clear trend, then the
+chances are pretty good-probably as high as 60 percent-that the
+trend will continue for some time. Thus, entry in the direction of
+the trend is probably mu&bettq than a random entry.
+
+Many people take the visual interpretation of charts much further.
+For example, the art of technical analysis focuses on the many types
+of chart patterns that markets tend to form. Some patterns are
+described as bullish and other as bearish. Thus, those patterns
+could give you your entry signals. Types of chart patterns include
+daily patterns such as gaps, spikes, key reversal days, thrust days,
+run days, inside days, and wide-ranging days. These patterns are
+typically used as short-term trading signals.
+Other patterns are better described as continuation patterns.
+These include triangles, flags, and pennants. These have little
+meaning unless you wish to enter in the direction of the major
+trend after a breakout from these patterns.
+Finally, there are top and bottom patterns. These include
+double bottoms and tops, head and shoulders patterns, rounded
+tops and bottoms, triangles, wedges, and island reversals.
+Obviously, these would tend to be entry signals for top and bottom pickers.
+Other charts are composed of candlesticks, where the difference between the open and the close is either “clear” or “filled
+in” depending upon whether the price is up or down, respectively. Books have been devoted to describing the various patterns that can be made with these candlesticks. The patterns have
+such obscure names as “doji,” the “hammer,” the “hanging man,”
+etc.
+If you are interested in a pattern approach to trading, then
+read the appropriate chapters of Jack Schwager’s book, S&wager
+on Futures: Technical Ar~nlysis.~ It has excellent descriptions of all
+these patterns as well as numerous chart examples. However,
+such patterns are very difficult to computerize and thus test. In
+addition, when people do test these various patterns, they do not
+find any evidence that they increase the reliability of entry signals
+beyond the 50 percent level. That being the case, I have elected
+not to spend a lot of effort describing patterns in this chapter.
+Most people are much better off just entering in the direction of a
+major trend than they are looking for a particular pattern in the
+trend.’
+
+210
+
+PART 3
+
+Understanding the Key Parts of Your System
+
+Pure Prediction
+A number of prediction techniques were discussed in the concepts chapter-Chapter 5. Prediction techniques include Elliott
+Wave, Gann, and various forms of countertrend trading that predict tops and bottoms. My belief is that prediction has nothing to
+do with good trading. Many good forecasters, despite being excellent at their craft, have a great deal of trouble making money in
+the markets.
+I once met a man who described himself as the Michael Jordan
+of the markets-meaning that he believed that no one was better
+than he was at trading the markets. He claimed that the markets
+were perfectly orderly and that he had worked out some “patented
+secrets” that he wouldn’t sell for a million dollars. He showed me
+some old accounts that he had taken from $5,000 to $40,000 in less
+than 6 months to prove his knowledge and skill.
+I wasn’t particularly interested in his secrets, but I was interested in how he traded. As a result, I watched him trade for about
+6 months. During that time, the account he was trading dropped in
+value by 97 percent. Just over 22 percent of his trades made money, and
+
+the account was neuer profitable throughout the entire 6 months.
+
+Be wary of people who claim extensive trading skill. Watch
+their trading, and in particular, how they size their positions. If
+they don’t practice low-risk position sizing, then don’t walk
+away-run!
+One of the reasons his trading accuracy was so dismal, and this is true
+for most market predictors, was that he
+always anticipated turning points in the
+market. For example, in November he
+anticipated an early freeze in the
+Midwest that would destroy next
+year’s soybean crop. It didn’t happen.
+Several times he said the market was
+due for cycle turns. He said they would
+be dramatic so he wanted to get into the
+market early. The turns never happened or were insignificant.
+Prediction is fine if it is accompanied by market confirmation.
+In other words, if you think you can predict a market bottom or
+
+CHAP7ER 8
+
+Entry or Market Timing
+
+211
+
+top, fine. But don’t trade it until the market shows you some sort
+of confirmation that it is turning. A good example of such a confirmation is a volatility breakout, as discussed below.
+Volatility Breakouts
+The next two techniques, volatility breakouts and directional
+movement, were first described by J. Wells Wilder, Jr., in New
+Come@ in Technical Trading System8 The techniques are simple
+and have withstood the test of time.
+Volatility breakouts are essentially sudden dramatic price
+movements in a particular direction. Suppose the average true
+range is about 3 points. We might define a volatility breakout to be
+a move of 0.8 times the average true range (from the prior close) in
+a single day, or 2.4 points. Let’s say today’s price closed at 35. A
+volatility breakout would be a move of 2.4 points from the close,
+either up or down. If the price moved to 37.4, then you’d have an
+upside volatility breakout and you’d want to buy. If the price
+moved to 32.6, then you’d have a downside breakout and you’d
+want to short the market. This is the general type ofentry signal that I
+would recommend for those of you who hnw setups that involve market
+
+prediction.
+
+Wilder’s system is somewhat different from what is described
+above. He recommends that the average true range be multiplied
+by a constant of 3.0 (called the ARC). This essentially is used as a
+trailing stop from the close, and it becomes both an exit point for a
+cm-rent position and an entry point for a new position. In essence,
+the exit is almost exactly the same as the exit that we use on the random entry system (i.e., three times the average true range).
+Generally, when the market makes a strong move in some
+direction, it’s a good sign that you may want to be in the market on
+the side of that move. For example, you may have a strong uptrend,
+but a solid volatility breakout to the downside would be a good
+indication that the trend was over and that you need to go with the
+market in its new direction. At minimum, you probably don’t
+want to go against a strong volatility breakout.
+Figure 8-3 shows an example of a volatility breakout in bonds.
+Depending upon how the volatility breakout is defined, a clear
+
+212
+
+PART 3 Understanding the Key Parts of Your System
+
+CHAPTER 8 Entry or Market Timing
+
+213
+
+predict price movement. Price prediction is very dangerous unless
+it is accompanied by a sound trading system. Volatility breakouts
+could help you achieve the entry part of that solid system to trade
+your “secret knowledge” about how the markets work.
+Directional Movement and the Average
+Directional Movement
+
+Figure t&3 Sample volatility breakouts (Indicated with a 8) in the same bond
+chart
+
+breakout seems to occur on July 24 and an even stronger one occurs
+on August 2. Notice the large range of prices on the breakout day
+and notice how far from the old close the new prices break out.
+When you use a volatility breakout, you have some interesting advantages. First, this type of price movement~is quite different
+from the channel breakout-which requires a clear trend when you
+have a long (40 days plus) channel. However, the examples shown
+in Figure 8-3 were also both channel breakouts.
+The volatility breakout could simply signal the end of a trend
+and the start of a new one. As a result, at least part of the movement
+in a volatility breakout would have little correlation with a channel
+breakout. In fact, if the exit is quick enough, there may be no correlation between the profits generated by these two diverse entry
+signals.
+The second advantage, ~which I’ve already~mentioned,
+is that
+volatility breakouts are ideal for people who use various models to
+
+Market technicians for some time have
+struggled with the concept of “trendiness” in the market. How do you know
+when a market is really trending?
+J. Wells Wilder, Jr. (again from NEZU
+Concepts in Technicnl Truding Systems),
+developed two concepts called directional movement and average directional movement, which for many people define trendiness. For example,
+Bruce Babcock has published for many
+years a book called Trendiness in the Market.’ In that book, he ranks
+the various tradable markets according to their trendiness. The book
+is based on the idea that if you trade the markets with the most “history of trending,” you’re most liiitely to catch a future trend in those
+markets. Babcock’s measure of trendiness was simply a measure of
+the profitability of using a 28.day directional movement index (see
+below) to trade each market. When the net directional movement is
+up, you go long. When the net directional movement is down, you
+go short. Profitable markets were deemed to be “trendy,” and the
+most profitable market was deemed to be the most “trendy.”
+The basic assumptions behind directional movement are that:
+1. When the trend is up, today’s high price should be above
+yesterday’s high price. Thus, the difference between the
+two prices is the “up” directional movement.
+2. When the trend is down, today’s low price should be
+below yesterday’s low price. Thus, the difference between
+the two prices is the “down” directional movement.
+3. Inside days, when the high and low of today do not fall
+outside of yesterday’s range, are essentially ignored.
+
+CHAPTER 8 Entry or Market Timing
+
+4. Outside days, when both the high and low are outside of
+yesterday’s range, will add both an up and down
+directional movement. Only the larger value is used.
+The directional movement indicator is calculated as follows:
+1. Add the up days (ZDI+) and the down days (ZDI-) for a
+predetermined period of days (Wilder suggests 14).
+2. Divide each sum by the average true range for the same
+number of days. The directional movement indicator is
+then calculated as follows:
+3. Determine the difference between the ZDI+ and the
+ZDI- and find the absolute value, that is, DI difference =
+[(ZDI+) - (ZDI-)] treated as a positive number.
+4. Determine the DI sum: DI sum = ZDI+ plus ZDI-.
+5. The directional movement index is defined by (DI
+difference)/(DI sum) * 100. Multiplying by 100 normalizes
+the directional movement index so that it falls between
+zero and 100.
+6. Although Wilder suggests 14 days for your calculations,
+LeBeau and Lucas report that 14 to 20 days are all good,
+with 18 days being optimal.
+Perhaps the most important extension of the directional
+movement indicator is the average directional movement index, or
+ADX. The ADX is simply a moving average of the directional
+movement index. It’s usually averaged over the same number of
+days that was used previously (e.g., 14).
+LeBeau and Lucas claim that “the proper interpretation of the
+ADX allows traders to significantly improve their odds of finding
+good markets and avoiding bad ones.” They believe that the ADX
+actually provides a means to quantify the strength of various
+trends and claim to have done~more work in that area than anyone
+else. Since I’ve done many seminars with Chuck LeBeau, I’m also
+quite familiar with his love of, and use of, the ADX.
+Generally, the higher the ADX, the more directional movement there has been in the market. You don’t know, however,
+whether the movement has been up or down. The lower the ADX,
+the less directional movement there has been in the market. Thus,
+
+215
+
+the size of the ADX tells you the strength of the trend, but it says
+nothing about the direction of the trend.
+According to LeBeau and Lucas you cannot use the absolute
+value of the ADX to indicate whether a trend is strong or not.
+Instead, they make the following observations:
+1. As long as the ADX is rising, any level of the ADX above
+15 indicates a trend.
+2. The greater the increase in the ADX, the stronger the
+trend. For example, a jump in the ADX from 15 to 20 is
+probably a better signal than a jump from 25 to 27.
+3. Decreases in the ADX only mean that the trend is
+weakening or that the market is no longer trending.
+4. When the ADX is rising, indicators such as overbought or
+oversold oscillators will not work. Such oscillators only
+work when the ADX is falling.
+Before suggesting ways to use the ADX or directional movement as an entry signal, let’s first discuss a few of the problems that
+tend to occur with the ADX. These include spikes and the lag factor.
+When the market changes direction suddenly in the form of a
+spike, the ADX has a hard time adjusting. For example, when the
+market suddenly shifts direction, the longer-term ADX, as recommended by LeBeau and Lucas, may suddenly appear to go into a
+downtrend-indicating a trendless market. As a result, a substantial downtrend could be totally ignored by the ADX.
+The long-term ADX also has a lag built into it. That is, you
+won’t know that you are in a trending market until the trend is well
+under way. This is a real disadvantage if you are a short-term trader
+and you want to get into trends early. On the other hand, if your
+objective is to only get into strong trends with a clear signal, then
+the lag in the ADX is not a problem at all.
+Now that you understand what directional movement and the
+ADX are, we can give you some useful entry signals. The following
+entry signals are only some suggestions for you to ponder:
+1. Enter after crosses of the DI+ and the DI-. Long trades
+would occur after the DI+ goes above the DI- and the
+high of the previous day is penetrated. Short trades would
+
+CHAPTER 8
+
+occur after the DI- goes above the DI+ and the low of the
+previous day is penetrated. This is Wilder’s original use of
+the indicator, and he believes that the price penetration is
+an important part of the signal.
+2. Enter in the direction of the market movement when the
+ADX rises more than 4 points? in 2 days. Of course, you’ll
+need a setup (such as a visual inspection of the chart) to
+tell you whether to go long or short since an ADX rise
+only indicates a strong trend.
+3. Enter when the ADX reaches the highest value of the last
+10 days. Once again, you’ll need another signal (also a
+setup) to tell you which direction to go.
+Moving Averages and Adaptive Moving Averages
+Moving averages are very popular trading indicators because they
+are simple and easy to calculate. As far as I can tell, they have been
+used since trading markets were first invented by human beings.
+The concept behind such an average is simple. You represent
+the price over the last X days by a single number, an average. It’s
+the sum of the prices over the X days, divided by the number of
+days. That number moves with time. When you get tomorrow’s
+price, you simply drop the price X days ago (i.e., the number of
+days in the moving average), add in the new price, and once again
+divide by the number of days.
+One bar is simpler for most people to grasp than, for example,
+30 bars might be, even though the 30 bars might give you a lot more
+information about what the market was really doing. But people
+feel more control over the market when they transform data in
+some way. As a result, a lot of traders and investors use moving
+averages.
+If you have a lot of days in your average, then you will have a
+slow moving average. If your moving average only includes a few
+days, then it will move quickly. For example, many stock market
+followers use I-year moving averages to indicate the overall trend
+of the market. When the price has been going up consistently, it
+should be well above the l-year average. When the price drops
+below the l-year moving average, some people make the assump-
+
+Entry or Market Timing
+
+217
+
+tion that the direction of prices has changed. Colby and Meyers, in
+their Encyclopedia of Technical Market Indicators,” found that the
+strategy of buying stock when the price crossed above the l-year
+average and selling it when it crossed below that average outperformed a buy-and-hold strategy by a
+‘,.I
+large margin.
+Short moving averages, in contrast, are quick moving. A market does
+not have to go up too many days for the
+price to be above its 5-day moving average. Similarly, prices could quickly
+drop below that average.
+Donchian was one of the first people to write about a system using moving averages. He used both the 5-day
+and the 20-day moving averages. When
+the 5-day average crossed above the 20.
+day average, you went long. When the 5-day average went down
+and crossed below the 20-day average, you reversed and went
+short.
+This kind of system works well in pure trending markets.
+However, it assumes that the market only has two directions, up
+and down. Unfortunately, markets tend to trend about 15 percent
+of the time and spend 85 percent of the time consolidating. As a
+result, during the consolidation periods such a system gets whipsawed continually.
+To overcome this problem, traders have decided to use three
+moving averages. R. C. Alleni popularized a method in the early
+1970s involving the 4-, 9-, and 18-day moving averages. When the
+4-day and 9-day averages have both crossed the 18.day average,
+you would enter the market-long if they are moving up and short
+if they are moving down. When the $-day signal crosses back
+across the 9, you get an exit signal. However, you don’t get a new
+entry signal until both the 4 and the 9 are on the same side of the
+%-day average. Thus, this sort of system gives you a neutral zone.13
+There are numerous types of moving averages and movingaverage systems. For example, you have simple moving averages
+(as described), weighted moving averages, exponential moving
+
+218
+
+PART 3
+
+Understanding the Key Parts of Your System
+
+averages, displaced moving averages, and adaptive moving averages. Each type is designed to overcome particular problems of the
+others, but they also each create their own problems.
+Weighted Moving Average
+The simple moving average gives as much weight to the day that
+drops off as it does to the most recent day. Some people argue that
+this is not the best way to trade, because the newest price is the
+most important. As a result, weighted moving averages give more
+weight to the most recent data and less weight to distant data.
+Weighted moving averages can get very complex, because
+you can just give the most recent day extra weight or you can give
+a different weight for each day. For example, you could have a loday weighted average that multiplies the first day (most distant) by
+1, the second day by 2, the third day by 3, etc. This is probably nonsense, but some people think that complex calculations make trading easier. The assumption is wrong, but people do it anyway.
+Exponential Moving Average
+The exponential moving average weights the most recent data
+most heavily, and it doesn’t drop anything out. For example, a 0.1
+exponential moving average (equivalent to about a 20.day average) would multiply the current day’s price by 0.1 and add it to yesterday’s average. Nothing would be subtracted. This procedure is
+quite handy for calculations, and it does give more weight to the
+most recent data.
+Displaced Moving Average
+Since a moving average tends to be very close to the prices, the signals can often be too quick. As a result, some people have elected to
+“displace” their moving averages by moving them into the future
+a number of days. This simply means that you are less likely to get
+whipsawed by a moving-average signal.
+Adaptive Moving Averages
+Adaptive moving averages have become quite popular in the mid1990s. Both Kaufman” and Chande and Kroll15 have various versions of adaptive moving avekages.
+These particular systems
+
+CHAPTER 8
+
+Entry or Market liming
+
+219
+
+change speed according to some combination of market direction
+and speed.
+Think about the amount of noise in the market. The daily price
+fluctuation is a good measure of the market noise. When there is a
+lot of noise, the moving average must be very slow to avoid being
+whipsawed in and out of the market. However, when the market is
+quite smooth, then fast moving averages can be used because there
+is much less chance of a whipsaw. As a result, adaptive moving
+averages first measure the velocity of market movement against
+the amount of noise in the market. They then adjust the speed of the
+average according to the speed and noise factor.
+Thus the adaptive moving average must (1) have at minimum
+some measure of the current efficiency of the market (i.e., how
+much noise exists) and (2) be able to map that scenario onto various moving averages. A specific example of using an adaptive
+moving average is given under the entry technique designed by
+Perry Kaufman that is discussed later in this chapter.
+Oscillators and Stochastics
+Oscillators such as RSI, stochastics, Williams %R, etc., are all designed to help people who are trying to pick tops and bottoms. In
+my opinion, this is a fool’s game, and there is no evidence that entry
+signals based upon oscillators have a reliability much better than
+chance. In fact, in most cases there is no evidence that the market
+generally meets the assumptions that many oscillators are making.
+As a result, I’ve elected not to give a long discussion on something
+in which I have little faith.
+However, there is a way that you can use an “overbought/
+oversold” oscillator-such as Wilder’s RSI-to help you trade with
+narrow stops (see Chapter 9 on protective stops). Here’s what you
+need to do this sort of trading:
+1. Wait until the market gives a clear signal of being in a

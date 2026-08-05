@@ -1,0 +1,1725 @@
+period by Ned Davis Research. Using daily breadth statistics, 30 buy signals were generated
+when the ratio of ten-day advances to ten-day declines exceeded 1.91. These signals averaged a
+17.9% return over the following year. In only one of the 30 instances did the signal fail, and the
+loss then was only 5.6%.
+Daily Data 5/17/1947 - 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index
+4030
+3289
+2684
+2190
+1787
+1459
+1190
+971
+793
+647
+528
+431
+352
+287
+234
+191
+156
+127
+104
+
+Date
+
+Ratio
+Above 1.91
+
+8/23/1947
+3/29/1948
+7/13/1949
+11/20/1950
+1/25/1954
+1/24/1958
+7/10/1962
+11/07/1962
+1/13/1967
+8/31/1970
+12/03/1970
+12/08/1971
+1/08/1975
+1/09/1979
+10/05/1981
+8/24/1982
+10/18/1982
+8/09/1984
+1/21/1985
+1/13/1987
+12/18/1987
+2/04/1991
+1/04/1992
+10/22/1998
+9/04/2003
+10/14/2003
+12/05/2008
+3/23/2009
+7/21/2009
+9/19/2009
+3/11/2010
+
+5-days
+
+1.90
+2.05
+2.00
+2.01
+2.00
+2.00
+1.98
+1.91
+1.94
+1.91
+1.95
+1.98
+1.98
+2.05
+1.98
+2.00
+2.09
+1.93
+2.03
+2.03
+2.00
+1.98
+2.01
+1.94
+2.04
+1.98
+2.09
+2.10
+1.50
+2.42
+1.92
+
+-0.2
+3.1
+1.3
+1.3
+0.2
+-0.0
+-0.7
+2.5
+1.8
+1.9
+1.1
+1.7
+3.0
+2.2
+-1.9
+3.0
+2.5
+1.7
+1.2
+3.5
+-1.4
+5.8
+-0.9
+0.7
+1.1
+0.3
+0.4
+4.3
+2.0
+0.7
+1.4
+
+S&P 500 % Gain After
+10-days
+22-days
+03-days
+2.8
+4.0
+1.9
+-2.0
+1.2
+0.0
+-1.5
+3.0
+1.9
+-0.2
+1.3
+4.4
+2.4
+5.7
+-2.3
+5.9
+0.9
+1.4
+2.9
+5.3
+3.8
+0.0
+-0.4
+5.1
+2.4
+0.3
+1.3
+1.5
+5.3
+-1.1
+1.3
+
+5.8
+7.3
+3.7
+-1.5
+-0.1
+-2.0
+0.5
+0.1
+4.3
+-3.4
+3.9
+0.0
+12.3
+7.3
+1.0
+0.9
+0.9
+1.9
+2.8
+0.0
+-2.4
+7.9
+-1.0
+10.2
+1.8
+0.9
+3.8
+3.5
+5.5
+1.8
+4.1
+
+120-days
+
+252-days
+
+-0.2
+7.0
+12.7
+10.2
+17.0
+11.8
+12.9
+12.7
+9.7
+19.0
+13.9
+11.1
+35.4
+10.7
+-4.5
+20.1
+10.8
+10.9
+10.9
+19.5
+7.9
+10.5
+-1.0
+20.1
+8.2
+7.0
+7.0
+29.4
+19.2
+9.1
+-5.5
+
+4.2
+0.0
+20.7
+19.4
+37.0
+33.7
+22.2
+24.4
+14.1
+22.1
+7.8
+21.8
+34.1
+13.0
+7.9
+42.5
+24.2
+17.2
+17.4
+-5.0
+10.9
+17.0
+4.2
+20.7
+13.2
+5.1
+25.9
+42.7
+NA
+NA
+NA
+
+-0.4
+10.1
+7.3
+11.0
+7.5
+3.4
+0.2
+12.7
+7.0
+7.0
+11.3
+12.4
+18.3
+10.7
+-3.8
+10.4
+7.3
+3.0
+3.1
+9.9
+-7.9
+9.1
+-3.9
+14.1
+4.1
+7.7
+-17.9
+8.5
+15.0
+3.7
+-5.5
+
+Arrows show initial dates when indicator
+1.91 with repeats screened out for 50 days
+
+rose
+
+4030
+
+above
+
+3289
+2684
+2190
+1787
+1459
+1190
+971
+793
+647
+528
+431
+352
+287
+234
+191
+
+Combined statistics for all dates
+
+156
+
+85
+69
+56
+46
+38
+
+Days
+Out
+
+Mean
+Gain
+
+Med
+Gain
+
+Total
+Cases
+
+Num
+Up
+
+Num
+Down
+
+All Days
+Mean
+
+127
+
+5
+10
+22
+63
+126
+252
+
+0.9
+2.0
+3.6
+6.5
+13.1
+18.8
+
+1.2
+1.9
+3.7
+7.5
+11.0
+18.5
+
+31
+31
+31
+31
+30
+28
+
+21
+23
+26
+25
+27
+27
+
+10
+8
+5
+6
+3
+1
+
+0.2
+0.3
+0.7
+2.0
+4.1
+8.4
+
+85
+69
+56
+46
+38
+
+31
+
+31
+
+25
+
+25
+20
+
+20
+
+17
+
+17
+14
+
+NDR
+2.7
+
+5M
+
+10-Day Advances/10-Day Declines
+
+14
+
+SM
+
+Chart
+
+II
+
+data from 101/1910
+to present.
+NYSE Composite
+data used prior.
+
+2.4
+
+2.7
+2.4
+
+7/16/2010=1.26
+
+2.1
+
+2.1
+
+2007
+
+2002
+
+1997
+
+1992
+
+1987
+
+1982
+
+0.6
+
+1977
+
+0.9
+
+0.6
+
+1972
+
+1.2
+
+0.9
+
+1967
+
+1.5
+
+1.2
+
+1962
+
+1.8
+
+1.5
+
+1957
+
+1.8
+
+1952
+
+[N]
+
+104
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 8.7 Advance-decline ratio—ten-day moving average (May 1947–July 2010)
+
+Download at www.wowebook.com
+
+147
+
+Chapter 8 Measuring Market Strength
+
+Colby (2003) reports that taking a one-day advance-decline ratio and buying the Dow
+Jones Industrial Average (DJIA) when the ratio crossed above 1.018 and selling it when the ratio
+declined below 1.018, in the period from March 1932 to August 2000, would have turned $100
+into $884,717,056, assuming no commissions, slippage, or dividends. Turnover, of course,
+would have been excessive—an average of one trade every 3.47 days—but the results were
+excellent for both longs and shorts. We tested this system for the period from April 2000 to February 2010 and found that until 2005, the results were still credible. However, since 2005, the
+equity line collapsed (see Figure 8.8). This negates, for now, the one-day method of trading the
+advance-decline ratio.
+Equity Curve Line - $INDU Daily (01/03/00 16:00 - 03/01/10 16:00)
+
+4000
+3000
+2000
+1000
+
+Equity($)
+
+0
+-1000
+-2000
+-3000
+-4000
+-5000
+-6000
+-7000
+
+100
+
+200
+
+300
+
+400
+
+500
+
+600
+
+Trade Number
+
+FIGURE 8.8 Equity line for one-day advance-decline ratio (April 2000–February 2010)
+
+Breadth Thrust
+A thrust is when a deviation from the norm is sufficiently large to be noticeable and when that
+deviation signals the beginning of a new trend, usually upward. Figure 8.9 shows that during the
+period from 1979 to 2010, when the breadth ratio thrust above 1.65, the stock market rose an
+average of 17.6% over the next 52 weeks. The thrust in this example is calculated as the fiveweek total of the weekly advances to total issues ratio less the weekly declines to total issues
+ratio. It appears still to be valid in 2010.
+
+Download at www.wowebook.com
+
+148
+
+Part II Markets and Market Indicators
+
+Weekly Data 1/08/1965 - 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index & NYSE Advance/Decline Line
+1511
+1278
+
+Median
+
+S&P
+
+500
+
+% Returns
+
+Standard & Poor’s 500
+Log Scale Left
+7/16/2010 = 1064.88
+
+(15 Cases)
+
+1081
+915
+774
+654
+554
+468
+
+After All
+
+All
+
+1.05
+
+Periods
+
+3.1
+
+1.1
+
+13
+
+5.0
+
+2.0
+
+29
+
+10.0
+
+3.9
+
+52
+
+14.1
+
+8.0
+
+Weeks
+>
+
+Later
+4
+
+B
+B
+
+B
+
+B
+B
+B
+B
+
+2600
+
+B
+
+2550
+2500
+2450
+
+396
+
+2400
+
+Repeat signals within 20 weeks screened out.
+
+335
+B
+
+283
+
+2350
+
+B
+
+2300
+
+240
+
+2250
+
+B
+
+203
+
+2200
+
+171
+
+B
+
+2150
+
+145
+
+2100
+
+B
+
+123
+
+2050
+
+104
+
+2000
+B
+
+1950
+
+B
+
+1900
+1850
+1800
+Daily NYSE Advance/Decline
+Line (Friday
+Scale Right
+7/16/2010 = 2604.34
+
+Close)
+
+1750
+1700
+
+Breadth Thrust
+
+2
+
+2
+Bullish Breadth
+1
+
+1
+
+0
+
+0
+
+-1
+
+-1
+Oversold
+
+2010
+
+2009
+
+2008
+
+2007
+
+2006
+
+2005
+
+2004
+
+2003
+
+2002
+
+2001
+
+2000
+
+1999
+
+1998
+
+1997
+
+1996
+
+1995
+
+1994
+
+1993
+
+1992
+
+1991
+
+1990
+
+1989
+
+1988
+
+Five-Week Total of
+Weekly NYSE Advances/Issues minus Declines/Issues
+1986
+
+1985
+
+1984
+
+1983
+
+1982
+
+1981
+
+1980
+
+[S205]
+
+-2
+
+Very Oversold
+
+1987
+
+-2
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 8.9 Advance-decline ratio and breadth thrust (January 1979–July 2010)
+
+Martin Zweig devised the most common breadth thrust indicator, calculating a ten-day
+simple moving average of advances divided by the sum of advances and declines. Traditionally,
+the long-only signal levels in this oscillator were to buy when the index rose above 0.659 and sell
+when it declined below 0.366. With these limits, however, this method has not had a signal since
+1994. In testing the calculation using a moving average between four and six days, we found that
+the original signal limits were profitable again for longs only. Why did the results for this indicator suddenly change in 1994? We do not know. Again, these changes are excellent examples of
+why the analyst must frequently review the reliability of any indicator being used.
+One other way to use Zweig’s calculation is to generate a signal when the ratio reverses
+direction (Colby, 2003). Although this method continues to be profitable, it suffered a severe
+drawdown from October 2002 to October 2003, bringing into question its long-term viability.
+
+Summary of Breadth Indicators
+It appears that since 2000, a period of declining then rising stock prices, the breadth indictors for
+short-term signals that had previously had admirable records mostly failed. These failures are the
+reason why technical analysts must constantly test and review their indicators. Many changes
+occur in the marketplace, both structurally—as, for example, the change to decimalization and
+
+Download at www.wowebook.com
+
+149
+
+Chapter 8 Measuring Market Strength
+
+the inclusion of many nonproducing stocks in the breadth statistics—and marketwise—as, for
+example, the disconnection between stock prices and interest rates. No indicator remains profitable forever, both because of these internal changes, as well as the overuse by technical analysts
+who recognize their value. Apparently, the best remaining breadth usage is the old Ayres-Hughes
+double negative divergence analysis and the ten-day advance-decline ratio. They have had minimal failures for over 60 years. Before an indicator is used in practice, however, it must be tested
+objectively. No indicator should be used just because it has demonstrated positive results in the
+immediate past.
+
+UP AND DOWN VOLUME INDICATORS
+Breadth indicators assess market strength by counting the number of stocks that traded up or
+down on a particular day. An alternative way to gauge market internals is to measure the up volume and down volume. Daily up volume is volume traded in declining stocks. Up and down volume figures are reported in most financial media.
+Considering the volume, rather than only the number of shares traded, places more emphasis on stocks that are actively trading. With the breadth indicators, a stock that moves up on very
+light trading is given equal importance to one that moves up on heavy trading. By adding volume
+measures, the lightly traded stock does not have as much influence on the indicator as a heavily
+traded stock. The one caveat with using volume is that occasionally an enormous trade in a lowpriced stock will upset the daily figures. This happened on December 9, 2009, when 3.76 billion
+Citigroup shares traded. The up and down volume statistics for that day were useless. Finally, the
+use of dark pools, off-exchange trading, and other methods of avoiding the reporting of transactions as well as the increase in trading in stocks that are part of ETFs have upset the earlier balance between volume and the individual investor. Many stocks are traded today as commodities
+in an index, for example, not because they are worthwhile investments. Volume as a statistic has,
+thus, become another aspect of change in the marketplace, and its use for technical indicators is
+changing and should be approached with caution.
+
+The Arms Index
+One of the most popular up and down volume indicators is the Arms Index, created by Richard
+W. Arms, Jr. (winner of the MTA 1995 Annual Award). The Arms Index (Arms, 1989), also
+known by its quote machine symbols of TRIN and MKDS, is reported daily in the financial
+media.
+The Arms Index measures the relative volume in advancing stocks versus declining stocks.
+When a large amount of volume in declining stock occurs, the market is likely at or close to a
+bottom. Conversely, heavy volume in advancing stocks is usually healthy for the market. The
+Arms Index is actually a ratio of two ratios, as follows:
+Arms Index =
+
+Advances
+Declines
+UpVolume
+DownVolume
+
+Download at www.wowebook.com
+
+150
+
+Part II Markets and Market Indicators
+
+The numerator is the ratio of the advances to declines, and the denominator is the ratio of
+the up volume to the down volume. If the absolute number of advancing shares increases on low
+volume, the ratio will rise. This higher level of the Arms Index would indicate that although the
+number of shares advancing is rising, the market is not strong because there is relatively low volume to support the price increases. This ratio, thus, travels inversely to market prices (unless
+plotted inversely), tending to peak at market bottoms and bottom at market peaks. This inverse
+relationship can initially be confusing to the chart reader.
+Similar to breadth ratios, the Arms Index can be smoothed using moving averages and
+tested for parameters at which positions can be entered. An Arms Index greater than 1.0 is considered to be a bearish signal, with lower levels of the index indicating a more favorable market
+outlook. In our experiments, however, for the period February 2000 through February 2010, we
+found that when the Arms Index rose above 1.0, it was a short-term buy signal. The trick was not
+the entry per se but the exit. Using the Diamonds (ETF for the DJIA) and after optimizing for the
+exit, we used a stop loss of 0.53, a breakeven of 0.01, and a trailing stop of 0.48 points, respectively. This produced a return on account of 5,334% versus a buy-and-hold of a 7% loss for the
+period. Because the sell stops reduced capital risk, the maximum drawdown was negligible.
+However, it was only invested in the DIA 8% of the period.
+Equity
+Equity Curve
+Curve Line
+Line -- $SPX.X Daily(01/03/00
+(01/03/0016:-00
+16:00 -- 03/01/10
+03/01/10 16:00)
+16:00)
+160
+
+140
+
+120
+
+Equity($)
+
+100
+
+80
+
+60
+
+40
+
+20
+
+0
+
+-20
+
+100
+
+200
+
+300
+
+400
+
+500
+
+600
+
+Trade Number
+
+FIGURE 8.10 Equity line of Arms Index buy on crossing over 1.0 (DIA—February 2000–February
+2010)
+
+Download at www.wowebook.com
+
+151
+
+Chapter 8 Measuring Market Strength
+
+Colby (2003) introduced a number of calculations that showed promise until the year
+2000. A long-standing panic signal, devised by Alphier and Kuhn (1987), is to buy the stock market when the Arms Index exceeds 2.65 and hold it for a year. This signal has occurred twice since
+2000, with one win and one loss. The win, however, was considerably larger than the loss.
+When we shortened the holding period to 40 days rather than the original 252 days, the
+performance of the signals was outstanding, a return of 97% versus a 1.8% buy-and-hold. It
+appears, then, that the signal is still valid, but the analyst must watch the holding period after the
+signal.
+Ned Davis Research, Inc., found a way to use the Arms Index for selling as well as buying.
+They calculated a 40-day moving average and various thresholds (shown in Figure 8.11) for buying and selling. Their performance showed an 11.2% annual gain versus an 8.4% annual gain
+from a buy-and-hold strategy.
+Weekly Data 7/17/1979 - 7/19/2010 (Log Scale)
+
+Dow Jones Industrial Average
+16321
+13644
+11406
+9535
+7971
+6664
+
+S
+
+S
+
+S
+
+GPA on buys = 12.6%
+
+S
+
+S SS
+
+S
+
+1590
+1329
+1111
+
+S
+S
+
+S S
+
+S
+
+B
+B
+
+776
+
+BB B
+
+BB B
+
+6664
+5571
+4657
+3893
+
+B
+
+B B
+B
+
+B
+
+929
+649
+
+SS
+
+7971
+
+B
+
+B
+
+3255
+2721
+
+B B
+
+BB
+
+S
+
+S
+
+S
+
+9535
+
+B
+
+B
+
+S
+
+2274
+S
+
+B
+
+B
+
+S
+
+S
+
+S
+
+S
+
+S
+
+3255
+
+S
+
+B
+B
+
+S S
+
+SSS
+
+Time on buys = 64.1%
+
+1901
+
+S
+
+S
+S
+
+2721
+
+11406
+B
+
+5571
+3893
+
+13644
+
+S
+
+S
+
+S = Switch into Commercial
+Paper
+Signal Dates: 3/09/1979 – 7/19/2010
+
+4657
+
+16321
+
+S S
+
+Profitable
+Long Trades:
+86%
+Gain/Annum:
+11.0%
+Buy–Hold
+Gain/Annum:
+8.3%
+Latest Signal 7/05/2007 = 13565.84
+
+2274
+
+B
+
+B
+
+DJNA
+
+1901
+
+7/19/20100=101543.43
+
+1590
+
+BB
+
+1329
+
+B
+
+1111
+929
+
+B
+
+776
+649
+
+B
+
+169
+
+2009
+
+2004
+
+1999
+
+1994
+
+1989
+
+1984
+
+B B
+
+169
+
+BUY = Increase to 112 or rise to 97.7
+
+160
+
+and decline back below that level
+
+152
+
+SELL = Decline to 79.8 or fall to 90.9
+
+144
+
+and rise back above that level
+
+MKDS SMA40
+7/19/2010 = 160.09
+
+160
+152
+144
+137
+
+137
+
+130
+
+130
+123
+
+123
+
+Panic: Buying
+
+117
+
+117
+111
+105
+
+111
+
+Churning
+on the
+
+105
+
+Oversold
+
+Downside
+
+100
+
+100
+
+95
+
+95
+90
+
+90
+85
+
+85
+Overbought
+
+81
+77
+
+[S170]
+
+81
+77
+
+Manic: Buying
+
+ARMS (MKDS or TRIN) Trading Index -40-Day Smoothing
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 8.11 Arms Index 40-day moving average (February 1979–July 2010)
+
+Modified Arms Index
+Generally, a high number above 1.0 in the Arms Index is bearish and a low number bullish. However, take an example of a hypothetical day when 1,000 issues advance and 100 decline with 1m
+up volume and 200,000 down volume. From these numbers, the Arms Index would be calculated
+
+Download at www.wowebook.com
+
+152
+
+Part II Markets and Market Indicators
+
+as 2.00, a bearish number, yet the market action was obviously bullish (1,000/100 advances to
+decline). To combat this problem, Dave Steckler calculates a modified index by multiplying
+advance issues times advancing volume and subtracting from that figure the product of declining
+issues times declining volume. This index can sometimes be negative. Then he sums the modified index over 11 days, smoothes the total with a 10-day moving average, and plots the result.
+He claims that it often diverges a few days earlier at market tops and bottoms.
+
+Ninety Percent Downside Days (NPDD)
+Paul F. Desmond in his Charles H. Dow Award paper (Desmond, 2002) presents a reliable
+method for identifying major stock market bottoms that uses daily upside and downside volume
+as well as daily points gained and points lost. The volume figures are reported in the financial
+media, as are the stock tables. Unfortunately, the sum of points gained and lost is not reported
+publicly and requires considerable handwork or a computer. A 90% downside day occurs when
+on a particular day, the percentage of downside volume exceeds the total of upside and downside
+volume by 90% and the percentage of downside points exceeds the total of gained points and lost
+points by 90%. A 90% upside day occurs when both the upside volume and points gained are
+90% of their respective totals. What he found was that
+• An NPDD in isolation is only a warning of potential danger ahead, suggesting,
+“Investors are in a mood to panic” (Desmond, 2002, p. 38).
+• An NPDD occurring right after a new market high or on a surprise negative news
+announcement is usually associated with a short-term correction.
+• When two or more NPDDs occur, additional NPDDs occur, often 30 trading days or
+more apart.
+• Big volume rally periods of two to seven days often follow an NPDD and can be profitable for agile traders but not for investors.
+• A major reversal is signaled when an NPDD is followed by a 90% upside day or two
+80% upside days back-to-back.
+• In half the cases, the upside reversal occurred within five trading days of the low. The
+longer it takes for the upside day reversal, the more skeptical the investor should be.
+• Investors should be careful when only one of the two upside components reaches 90%.
+Such rallies are usually short.
+• Back-to-back 90% upside days are relatively rare but usually are long-term bullish.
+
+Download at www.wowebook.com
+
+153
+
+Chapter 8 Measuring Market Strength
+
+10-to-1 Up Volume Days and 9-to-1 Down Volume Days
+Whereas Desmond combines breadth and volume for his panic indicator, Ned Davis Research,
+Inc., studied up and down volume alone without confirmation from breadth. Their rules are a little complicated, a sign that the analyst should beware. Complicated rules are usually those that
+are constructed from curve fitting and might not be viable in the future because they only fit past
+data. However, the results of these studies were impressive and just demonstrated the contrary
+opinion thesis that panics are often times to buy and sharp, steep rises from lows especially often
+signal the end of a decline.
+Specifically what they found was that roughly six months after a 10-to-1 up volume day,
+the market was 9% higher (see Figure 8.12), and that after roughly six months following a 9-to1 down volume day, the market was 6% higher (see Figure 8.13). Shorter periods after each signal were also higher but not by the same percentage. In other words, each of these events
+suggested a panic bottom.
+Daily Data 10/01/1980 - 7/16/2010 (Log Scale)
+
+Standard & Poor’s 500 Stock Index vs. 10-to-1 Up Days
+
+1552
+
+1552
+1438
+1333
+1235
+
+Signals with B =
+Second 10-to-1 Up-Day Occurrence
+Within a 3-Month Period
+(With No Intervening 10-to-1 Down Day)
+
+1438
+1333
+1235
+1144
+
+1144
+1060
+
+1060
+
+Latest B signal = 7/13/2010
+
+982
+
+982
+
+910
+
+910
+
+843
+
+843
+
+782
+
+782
+724
+
+724
+
+671
+
+671
+622
+576
+
+622
+
+Signals Issued on NDR MultiCap Institutional Equity Series data
+from 10/1/1980 to present and NYSE data prior to 10/1/1980
+
+576
+
+534
+
+534
+
+495
+
+495
+458
+
+458
+
+425
+
+425
+
+393
+
+393
+365
+338
+313
+
+Up Signals =
+Daily Upside Volume
+More than 10 Times
+Daily Downside Volume
+
+365
+338
+313
+290
+
+290
+269
+
+S&P 500 Mean Gain After 10-to1 Up-Day
+
+249
+
+NYSE
+
+231
+
+(1950-Current)
+1.8%
+4.3%
+9.4%
+
+22 Days Later =
+63 Days Later =
+123 Days Later =
+
+214
+198
+
+NDR
+
+269
+
+Signal:
+MultiCap
+
+(1980-Current)
+1.1%
+2.6%
+7.3%
+
+All Days
+
+249
+
+(1950-Current)
+0.7%
+2.0%
+4.1%
+
+231
+214
+198
+184
+
+184
+
+S&P 500 Mean Gain After Second 10-to-1 Up-Day
+3–Month Period (With No Intervening 10-to-1 Down Day):
+
+170
+158
+
+NYSE
+
+146
+135
+
+22 Days Later =
+63 Days Later =
+123 Days Later =
+
+125
+116
+
+(1950-Current)
+2.8%
+5%
+11.4%
+
+NDR
+
+MultiCap
+
+(1980-Current)
+2.5%
+4.1%
+7.9%
+
+Occurrence
+
+Within
+
+170
+158
+
+All Days
+
+146
+
+(1950-Current)
+0.7%
+2%
+4.1%
+
+135
+125
+116
+
+2010
+
+2005
+
+2000
+
+[S53]
+
+1995
+
+100
+
+1990
+
+108
+
+100
+
+1985
+
+108
+
+C Copyright 2010 Med Davis Research, Inc. Further distribution prohibited without prior permission. All Rights Reserved.
+
+See MDR Disclaimer alt
+
+www.mdr.comcopyright.com
+
+- For data vendor disclaimers refer to
+
+www.mdr.com/vendorinfo/
+
+FIGURE 8.12 10-to-1 up days (October 1980–July2010)
+
+Download at www.wowebook.com
+
+154
+
+Part II Markets and Market Indicators
+
+Equal-Weighted
+
+Daily Data 1/02/1998 - 7/16/2010
+
+5M
+
+NDR Institutional Index
+
+vs Breadth Indicators
+635.62
+
+630
+
+612.67
+
+600
+
+5M
+
+Equal-Weighted
+NDR
+Price Line
+7/16/2010 = 419.69
+25-Day Smoothing [
+]
+Scale Right
+Current = 1500 Issues
+
+569.89
+530.46
+
+570
+540
+
+553.36
+492.16
+
+480.93
+485.40
+
+455.43
+
+446.16
+
+464.41
+
+563.60
+
+551.63
+
+450
+446.85
+
+419.31
+
+420
+
+415.27
+
+349.20
+
+390
+360
+
+367.05
+350.39
+
+343.69
+
+330
+300.04
+
+NDR
+
+302.59
+
+Analysis
+255.21
+
+50
+
+NDR II
+
+5M
+
+Advance-Decline
+7/16/2010 = 46.32
+25-Day Smoothing [
+Scale Left
+
+47.10
+
+47
+
+[10/02/1980
+
+Above
+
+One
+
+Above
+
+* Both
+
+Below
+
+Lines
+
+300
+
+Performance
+-
+
+When
+A/D
+
+Both
+
+49
+47.95
+
+and
+
+5M
+
+Dates
+
+Performance
+
+242.21
+
+Price
+
+48
+
+7/16/2010]
+%
+
+Gain/
+
+270
+240
+
+%
+
+are:
+
+Annum
+
+of Time
+
+Smoothings
+
+19.6
+
+50.6
+
+13.4
+
+10.5
+
+-13.7
+
+38.8
+
+Smoothing
+
+229.68

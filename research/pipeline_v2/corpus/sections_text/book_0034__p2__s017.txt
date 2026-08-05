@@ -1,0 +1,494 @@
+
+157
+
+158 Part II: Exploring Popular Day-Trading Strategies
+News trading
+News trading is possibly the most traditional form of day trading. This type
+of trader doesn’t pay much attention to charts. Instead, he waits for information that will drive prices. This information may come in the form of a company announcement about earnings or new products; a general economic
+announcement about interest rates or unemployment; or just a lot of rumors
+about what may or may not be happening in a given industry.
+Traders who do well with news trading usually have some understanding of
+the markets they’re working in. They’re not hard-core fundamental researchers, but they know enough to know what kind of news would be taken well
+by the markets and what would be taken poorly. They also have the attention
+span needed to pay attention to a few different news sources simultaneously,
+as well as the ability to place the order when the time comes.
+The downside of news trading is that really good events may be few and far
+between; more often, the hype is already built into the price by the time you
+see it. Also, news trading is difficult to automate, although more and more
+computer programs draw signals from news and social-media feeds. You can’t
+place a limit order to buy when a price level is hit; you have to wait until you
+see the news and then place the order yourself. Thus, news trading works
+well only for traders who can commit to placing the order.
+
+Pairs trading
+A pairs trader looks for two related assets and goes long on the stronger
+one and short on the weaker. Many pairs traders work with stocks and look
+for two companies in the same industry, but a pairs strategy can be worked
+in futures and currency markets, too — going long on metals and short on
+interest-rate futures, for example, or long on the dollar and short on the euro.
+The idea is to get the maximum return possible from a trend that affects both
+assets. For example, if one retail stock does really well, it may be because the
+company is taking market share from a weaker one. These trades are a little
+more complex because you have to plan both sides.
+
+Developing a Program
+Most modern day traders find that they need to program their trades. By this,
+I mean that they need to determine what they are trading, identify the signals
+they use to buy and sell securities, and set their trading platform to execute
+the orders automatically. Instead of working on your reflexes, you do the
+work of planning and testing.
+
+Chapter 8: Following Market Indicators
+Of course, a program is only as good as its inputs, and even the biggest of the
+big trading firms have had huge losses because of trading glitches.
+You don’t need to be a software engineer to develop trading programs. Many
+of the charting services offer program templates that you can follow or
+adapt; the brokerage firms that work with day traders offer trading platforms
+that can be programmed without too much effort, usually by clicking on
+icons or inserting widgets of prewritten code.
+How do you get started?
+✓ If you already know a programming language, look for a broker or
+trading platform that uses it.
+✓ If you don’t know a programming language, expect to spend a lot of time
+and trial and error learning it. The broker probably has online tutorials; spend time with them. If you’re stuck on something, ask the broker’s customer service rep for help and look for additional tutorials on
+YouTube.
+✓ Write out your process step by step with a pen on paper before you
+attempt to convert it to code.
+✓ Buy a book or take a class if you need more help.
+And if the very idea of programming gives you the heebie-jeebies, consider
+another way to make money!
+
+159
+
+160 Part II: Exploring Popular Day-Trading Strategies
+
+Chapter 9
+
+Increasing Risk and Potential
+Return with Short Selling and
+Leverage
+In This Chapter
+▶ Making money with other people’s money
+▶ Garnering tall profits from short sales
+▶ Using leverage in every market you can imagine
+▶ Borrowing for business and personal needs
+▶ Considering the consequences of leverage
+
+I
+
+n a certain sense, day trading isn’t risky at all. Day traders close out their
+positions overnight to minimize the possibility of something going wrong
+while the trader isn’t paying attention. Each trade is based on finding a small
+price change in the market over a short period of time, so nothing is likely
+to change dramatically. But here’s the thing: Trading this way leads to small
+returns. Trading full time is hard to justify if you aren’t making a lot of money
+when you do it, no matter how low your risk is.
+And some days, there aren’t many good trades to make. You may be looking
+for securities to go up, but they don’t. Zero trades lead to zero risk — and
+zero return. For this reason, savvy traders think about other ways to make
+money on their trades, even when doing so involves taking on more risk. That
+risk is what generates the return that many traders crave.
+In this chapter, I cover two techniques for finding trades and increasing
+returns: short selling and leverage. Both involve borrowing, and both
+increase risk.
+
+162 Part II: Exploring Popular Day-Trading Strategies
+The Magic of Margin
+The dollars you make from trading depend on two things: your percentage
+return on your trades and the dollars you have to start out with. If you double
+your money but have only a $1,000 account, you’re left with $2,000. If you get
+a 10 percent return but have a $1,000,000 account, you make $100,000. Which
+would you rather have? (Yes, I know, you’d rather double your money with
+the $1,000,000 account. But I didn’t give you that choice, alas.)
+The point is that the more money you have to trade, the more dollars you can
+generate, even if the return on the trade itself is small. If you have $500,000
+and borrow $500,000 more, then your 10 percent return gives you $100,000
+to take home, not $50,000. You’ve doubled the dollars returned to you
+by doubling the money you used to place the trades, not by doubling the
+performance of the trade itself. Clever, huh?
+Here are two important things to remember about borrowing, which is known
+in trading as leverage:
+✓ Leverage gives you more money to trade, which helps you generate
+more dollars for your account — or lose more dollars, if you aren’t
+careful or have a string of reversals.
+✓ When you borrow money or shares of stock, you have to pay it back, no
+matter what happens. That’s why borrowing can be risky.
+Day traders and other short-term traders aren’t looking to make big money
+on any single trade. Instead, the goal is to make small money on a whole
+bunch of trades. Unfortunately, all those little trades don’t easily add up to
+something big. That’s why many day traders turn to leverage. They either
+borrow money or stock from their brokerage firm or they trade securities
+that have built-in leverage, such as futures and foreign exchange.
+
+Making margin agreements
+Leverage not only adds risk to your own account but also adds risk to the
+entire financial system. If everyone borrowed money and then some big
+market catastrophe happened, no one would be able to repay their loans, and
+the people who lent the money would go bust, too.
+As a result, an incredible amount of oversight goes with leverage strategies.
+The Securities and Exchange Commission, the Commodity Futures Trading
+Commission, the different exchanges, and even the U.S. Treasury Department
+regulate how much money a trader can borrow. Many brokerage firms have
+
+Chapter 9: Increasing Risk and Potential Return with Short Selling
+even stricter rules in place as part of their risk management, and they’re
+expected to demonstrate to FINRA and the National Futures Association that
+they follow their practices.
+This extensive oversight means that you have about as much flexibility when
+you borrow from your broker to buy and sell securities as you would have
+if you borrowed from your friendly neighborhood loan shark to play a highstakes poker game. In other words, not much. Margin loans, which are loans
+from your broker that increase your buying power, are highly regulated, and
+you must meet the broker’s terms. If you fail to repay the loan, your positions
+will be sold from underneath you. If you try to borrow too much, you will be
+cut off. No amount of begging and pleading will help you.
+Your brokerage firm makes you sign a margin agreement, which says that you
+understand the risks and limits of your activities. You probably can’t have a
+margin account unless you meet a minimum account size, maybe $10,000 or
+more, and the amount you can borrow depends on the size of your account.
+Generally, a stock or bond account must hold 50 percent of the purchase
+price of securities when you borrow the money. The price of those securities
+can go down, but if they go down so much that the account ends up holding
+only 25 percent of the value of the loan, you get a margin call. (Some brokers
+call in loans faster than others; their policies are disclosed in their margin
+agreements.)
+Brokerage firms handle margin trades all the time. You do the paperwork
+once, when you sign a margin agreement. Then each time you place an order,
+you’re asked whether you’re making the trade with cash or on margin. Click
+the box marked “Margin,” and you’ve just borrowed money. It’s that easy.
+
+Understanding the costs and fees
+of margin
+Every brokerage firm charges interest on margin. The stated number is
+usually an annualized rate; if the rate given is 8 percent, for example, then
+you’d owe that much if your loan was outstanding for the entire year.
+(Some investors have margin loans in place that long.) A day trader, whose
+loan may only be outstanding for a few hours, probably has to pay interest,
+too. Some brokerage firms charge by the day; others may charge interest
+over three days because it takes three days for a trade to settle.
+On top of margin interest, some firms charge a higher commission on margin
+trades than for cash trades. They justify this policy with the higher levels of
+paperwork and risk management required on margin accounts. Some firms
+
+163
+
+164 Part II: Exploring Popular Day-Trading Strategies
+go with the higher commission rather than charge interest on intraday loans.
+Your trading life will be easier if you find out your firm’s policies and fees
+before you open a margin account.
+If you trade derivatives, margin works differently. The contract itself is
+leveraged, so you aren’t charged interest. You have to settle your profits
+and losses at the end of the day, however (don’t worry; the exchange’s
+clearinghouse does it for you). You can’t use the money held as margin for
+other trades.
+
+Managing margin calls
+If the value of your account starts falling and it looks like it’s falling below
+the 25 percent maintenance margin limit, you get a margin call, in which your
+broker calls you and asks you to deposit more money in your account. If you
+can’t make the necessary deposit, the broker starts selling your securities
+to close out the loan. And if you don’t have enough to pay off the loan, the
+broker closes your account and puts a lien, which is a claim on your assets,
+against you.
+Most brokerage firms have risk-management limits in place, so you’ll
+probably get plenty of warning before you get a margin call or see your
+account closed out. After all, neither you nor your brokerage firm wants
+to lose money. Just keep in mind that a margin call is a possibility. If your
+account falls to the maintenance level, ask yourself, as objectively as you
+can, whether your idea is still good or whether you’re just wishing and
+hoping that it is.
+At least one brokerage firm advertises that, as a service to you, it will close
+out your account as soon as you lose the amount in it in order to keep you
+from losing more money. This service helps the brokerage firm as much as it
+helps you, because it keeps the firm from dealing with the hassles of chasing
+down additional margin. This is one example of the built-in risk management
+policies that firms use to limit risks to everyone.
+
+Enjoying margin bargains for day traders
+Day traders are often able to avoid margin calls because they borrow money
+for such short periods of time. Good day traders look for small market moves
+and cut their losses early, which minimizes the risk of using other people’s
+money. And by definition, day traders close out their positions every night.
+
+Chapter 9: Increasing Risk and Potential Return with Short Selling
+If you qualify as a pattern day trader, you get two benefits. First, your brokerage
+firm probably won’t charge you any interest as long as you don’t hold a margin
+loan balance overnight. Second, you may be allowed to borrow more than
+50 percent of the purchase price of securities. Some firms allow pattern day
+traders to borrow 75 percent or more of their trade value.
+The Financial Industries Regulatory Association defines a pattern day trader as
+one with a margin account holding at least $25,000. This trader must also buy
+then sell, or sell short then buy, the same security on the same day four or more
+times in five business days. The number of day trades should be more than
+6 percent of the customer’s total trading activity for that same five-day period.
+
+The Switch-Up of Short Selling
+Traditionally, investors and traders want to buy low and sell high. They buy a
+position in a security and then wait for the price to go up. This strategy isn’t a
+bad way to make money, especially because, if the country’s economy continues
+to grow even a little bit, businesses are going to grow and so are their stocks.
+But even in a good economy, some securities go down. The company may
+be mismanaged, it may sell a product that’s out of favor, or maybe it’s just
+having a string of bad days. For that matter, maybe it went up a little too
+much in price, and investors are now coming to their senses. In these situations, you can’t make money buying low and selling high. Instead, you need a
+way to reverse the situation.
+The solution? Selling short. In short — hah! — selling short means that you
+borrow a security and sell it in hopes of repaying the loan of the shares by
+buying back cheaper shares later on.
+In trading lingo, when you own something, you are considered to be long.
+When you sell it, especially if you do not already own it, you are considered to
+be short. You don’t have to be long before you go short.
+
+Selling short
+Most brokerage firms make selling short easy. You simply place an order to
+sell the stock, and the broker asks whether you’re selling shares that you
+own or selling short. After you place the order, the brokerage firm goes about
+borrowing shares for you to sell. It loans the shares to your account and
+executes the sell order.
+
+165
+
+166 Part II: Exploring Popular Day-Trading Strategies
+You can’t sell short unless the brokerage firm is able to borrow the shares.
+Sometimes so many people have sold a stock short that no shares are left to
+borrow. In that case, you have to find another stock or another strategy.
+When the shares are sold, you wait until the security goes down in price, and
+then you buy the shares in the market at a bargain. You then return these
+purchased shares to the broker to pay the loan, and you keep the difference
+between where you sold and where you bought — less interest, of course.
+The stock exchanges are in the business of helping companies raise money, so
+they have rules in place to help maintain an upward bias in the stock market.
+These rules can work against the short seller. The key regulation is what’s
+called the uptick rule, which means you can only sell a stock short when the
+last trade was a move up. You can’t short a stock that’s moving down.
+Figure 9-1 shows how short selling works. The trader borrows 400 shares selling at $25 each and then sells them. If the stock goes down, she can buy back
+the shares at the lower price, making a tidy profit. If the stock stays flat, she
+loses money because the broker will charge her interest based on the value
+of the shares she borrowed. And if the stock price goes up, she not only loses
+money on the interest expense but also is out on her investment.
+
+The trader borrows 400 shares of SuperCorp shares to sell. The shares are trading at $25 each. She sells them for $10,000.
+
+Figure 9-1: The brokerage firm charges 10% interest.
+Looking at Beginning Shares
+Proceeds
+Repurchase
+Price
+short selling Price Borrowed from Sale
+400
+$ 10,000
+$ 40
+in the equi- $ 25
+$ 25
+400
+$ 10,000
+$ 25
+ties market. $ 25
+400
+$ 10,000
+$ 15
+
+Repurchase
+Cost
+
+Loan Value
+
+$ (16,000)
+$ (10,000)
+$ (6,000)
+
+$ 10,000
+$ 10,000
+$ 10,000
+
+Net Profit
+
+Interest
+Expense
+
+Rate of
+Return
+
+% Change
+in Stock
+Price
+
+$ (6,000)
+$
+$ 4,000
+
+$ 1,000
+$ 1,000
+$ 1,000
+
+-70%
+-10%
+30%
+
+60%
+0%
+-40%
+
+The interest and fees that the broker charges traders who borrow stock
+accrue to the broker, not to the person who actually owns the stock. In fact,
+the stock’s owner will probably never know that his shares were loaned out.
+
+Choosing shorts
+Investors — those people who do careful research and expect to be in their
+positions for months or even years — look for companies that have inflated
+expectations and are possibly fraudulent. Investors who work the short side
+of the market spend hours doing careful accounting research, looking for
+companies that are likely to go down in price some day.
+Day traders don’t care about accounting. They don’t have the time to wait for a
+short to work out. Instead, they look for stocks that go down in price for more
+
+Chapter 9: Increasing Risk and Potential Return with Short Selling
+mundane reasons, like more sellers than buyers in the next ten minutes. Most
+day traders who sell short simply reverse their long strategy. For example,
+some day traders like to buy stocks that have gone down for three days in a
+row, figuring that they’ll go up on the fourth day. They’ll also short stocks that
+have gone up three days in a row, figuring that they’ll go down on the fourth
+day. You don’t need a CPA to do that!
+Trading strategies are covered in more detail in Chapters 7 and 8, if you are
+looking for some ideas.
+
+Losing your shorts?
+Shorting stocks carries certain risks because a short sale is a bet on things
+going wrong. Because, in theory, there’s no limit on how much a stock can go
+up, there’s no limit on how much money a short seller can lose. Two traps
+in particular can get a short seller. The first is a short squeeze due to good
+news; the second is a concerted effort to hurt traders who are short.
+
+Squeeze my shorts
+With a short squeeze, a company that has been popular with a lot of short
+sellers has some good news that drives the stock price up. Or, maybe some
+other buyers simply drive up the price in order to force the shorts to sell,
+which is a common form of market manipulation. When the price goes up,
+short sellers lose money, and some may even have margin problems. And the
+original reason for going short may be proven to be wrong. Those who are
+short start buying the stock back to reduce their losses, but their increased
+demand drives the stock price even higher, causing even bigger losses for
+people who are still short. Ouch!
+
+Calling back the stock
+All is not sweetness and light in the world of short selling. Many market
+participants distrust those folks who are doing all the careful research, in
+part because they are often right. Company executives are often optimists
+who don’t like to hear bad news, and they blame short sellers for all that
+is wrong with their stock price. Meanwhile, some short sellers have been
+known to get impatient and start spreading ugly rumors if their sale isn’t
+making money.
+Many companies, brokers, and investors hate short sellers and try tactics to
+bust them. Sometimes they issue good news or spread rumors of good news
+to create a squeeze. Other times, they collectively ask holders of the stock to
+request that their brokerage firm not loan out their shares, which means that
+those who shorted the stock have to buy back and return the shares even if
+doing so makes no sense.
+
+167
+
+168 Part II: Exploring Popular Day-Trading Strategies
+Leveraging All Kinds of Accounts
+Leverage is the use of borrowed money to increase returns. Day traders use
+leverage a lot to get bigger returns from relatively small price changes in the
+underlying securities. And as long as they consistently close their positions
+out at the end of the day, day traders can borrow more money and pay less
+interest than people who hold securities for a longer term.
+The process of borrowing works differently in different markets. In the stock
+and bond markets, it’s straightforward: When you place the order, you just
+tell your broker you’re borrowing. In the options and futures markets, the
+contracts you buy and sell have leverage built in to them. Although you don’t
+borrow money outright, you can control a lot of value in your account for
+relatively little money down. The following sections go into more detail on
+these points.
+
+In stock and bond markets
+Leverage is straightforward for buyers of stocks and bonds: You simply click
+the box marked “Margin” when you place your order, and the brokerage firm
+loans you money. Then when the security goes up in price, you get a greater
+percentage return because you’ve been able to buy more for your money.
+Of course, that also increases your potential losses. (For more detail on the
+margin process, head to the earlier section “The Magic of Margin.”)
+Figure 9-2 shows how leverage works. The trader borrows money to buy 400
+shares of SuperCorp. If the stock goes up 4 percent, she makes 8 percent.
+Whoo-hooo! But if the stock goes down 4 percent, she still has to repay the
+loan at full dollar value, so she ends up losing 8 percent. That’s not so good.
+A trader buys $10,000 of SuperCorp with $5,000 of her own cash and a $5,000 loan.
+SuperCorp trades at $25/share, so the trader purchases a total of 400 shares. The trader
+closes out at the end of the day, so no interest is charged. What happens as the stock
+price changes?
+% Change
+Trader’s
+in Stock
+Ending
+Ending
+Loan
+Net
+Rate of
+Price
+Price
+Value
+Value
+Equity
+Return
+Figure 9-2:
+$
+26.00
+$
+10,400
+$
+5,000
+$
+5,400
+8%
+4%
+An example
+$ 10,200
+$ 5,000
+$ 5,200
+4%
+2%
+of trading $ 25.50
+$ 10,000
+$ 5,000
+$ 5,000
+0%
+0%
+stocks on $ 25.00
+$ 9,800
+$ 5,000
+$ 4,800
+-4%
+-2%
+margin. $ 24.50
+$ 24.00
+$ 9,600
+$ 5,000
+$ 4,600
+-8%
+-4%
+
+Chapter 9: Increasing Risk and Potential Return with Short Selling
+If you hold your margin position overnight or longer, you have to start paying
+interest, which cuts into your returns or increases your losses.
+
+In options markets
+An option gives you the right, but not the obligation, to buy or sell a stock or
+other item at a set price when the contract expires. A call option gives you
+the right to buy, so you would buy a call if you think the underlying asset
+is going up. A put option gives you the right to sell, so you would buy a put
+if you think the underlying asset is going down. (You can read more about
+options in Chapter 3.) By trading an option, you get exposure to changes
+in the price of the underlying security without actually buying the security
+itself. That’s the source of the leverage in the market.
+A day trader can use options to get an exposure to price changes in a stock
+for a lot less money than buying the stock itself would cost. Suppose a call
+option is deeply in the money, meaning that its strike price (the price at which
+you would buy the stock if you exercised the option) is far below the current stock price. In this event, the obvious thing to do is to set option price
+at the difference between the current stock price and the strike price, which
+is more or less what happens — more in theory, less in practice. When the
+stock price changes, the option price changes by almost exactly the same
+amount, enabling you to buy the price performance of the stock at a discount, with the discount being the strike price of the option.
+Figure 9-3 shows the performance-boosting leverage from this strategy. The
+trader buys call options with an exercise price of $10 on a stock trading at
+$25. The option price changes the same amount that the stock price does,
+but the call holder gets a greater percentage return than the stockholder.

@@ -1,0 +1,991 @@
+
+O P T I O N S — UNDtiSWNDING THE BASICS
+
+The option premium consists of two components: intrinsic value plus
+time value. The intrinsic value of a call option is the amount by which the
+current market price is above the strike price. (The intrinsic value of a
+put option is the amount by which the current market price is below the
+strike price.) In effect, the intrinsic value is that part of the premium that
+coulcl be realized if the option were exercised at the current market price.
+The intrinsic value serves as a floor price for an option. Why? Because if
+the premium were less than the intrinsic value, a trader could buy and
+exercise the option and immediately offset the resulting market: position,
+thereby realizing a net gain (assuming that the trader covers at least
+transaction costs).
+Options that have intrinsic value (i.e., calls with strike prices below
+the market price and puts with strike prices above the market price) are
+said to be in the money. Options that have no intrinsic value are called
+out of the money options. Options with a strike price closest to the market
+price are called al (he -money options.
+An out of the money option, which by definition has an intrinsic value
+equal to zero, will still have some value because of the possibility that the
+market price will move beyond the strike price prior to the expiration
+date. An in the money option will have a value greater than the intrinsic
+value because a position in the option will be preferred to a position in
+the underlying market. Why? Because both the option and the market
+position will gain equally in the event of a favorable price movement, but
+the option's maximum loss is limited. The portion of the premium that
+exceeds the intrinsic value is called the time value.
+The three most important factors that influence an option's time
+value are the following:
+1. Relationship between the strike price and market price. Deeply out of
+the money options will have little time value, since it is unlikely that
+the market price will move to the strike price—or beyond—prior to
+expiration. Deeply in the money options have little time value
+because these options offer positions very similar to the underlying
+market—both will gain and lose equivalent amounts for all but an
+extremely adverse price move. In other words, for a deeply in the
+money option, risk being limited is not worth very much because the
+strike price is so tar from the prevailing market place.
+
+Time remaining until expiration. The more time remaining until expiration, the greater the value of the option. This is true because a
+longer life span increases the probability of the intrinsic value
+increasing by any specified amount prior to expiration.
+Volatility. Time value will vary directly with the estimated volatility (a
+measure of the degree of price variability) of the underlying market
+for the remaining life span of the option. This relationship results
+because greater volatility raises the probability of the intrinsic value
+increasing by any specified amount prior to expiration. In other
+words, the greater the volatility, the greater the probable price range
+of the market.
+Although volatility is an extremely important factor in the determination of option premium values, it should be stressed that the future
+volatility of a market is never precisely known until after the fact. (In
+contrast, the time remaining until expiration and the relationship
+between the current market price and the strike price can be exactly
+specified at any juncture.) Thus, volatility must always be estimated
+on the basis of historical volatility data. The future volatility estimate
+implied by market prices (i.e., option premiums), which may be
+higher or lower than the historical volatility, is called the implied
+volatility.
+
+INDEX
+
+accounting, 84, 89, 91, 94, 324
+
+Blake, Gil, 189, 197-98
+Bloomberg financial services, 57, 59
+
+acquisition finance, 250-52, 253
+Advanced Research Projects Agency (ARPA), 262
+AIDS drugs, 1 74
+Amazon.com, 150-52, 272-73, 323
+
+America Online (AOL), 43-44, 235, 259
+Amerigon, 62
+arbitrage, 132-33, 255-56, 267, 284
+ARPAnet, 262
+Asian financial crisis, 18
+assets:
+growth of, 23-24, 207, 312-13
+liquidation of, ]65
+
+return of, ], 31
+transfer of, 189
+value of, 41, 63, 248-49, 253
+audits, 84,91
+Balance Bars, 66
+
+balance sheets, 42, 51, 85, 268
+Bankers Trust, 57, 58
+banking, 141, 243-44, 249
+
+Bombay (clothing store), 67-68
+bonds:
+
+convertible, 257
+government, 8, 247-48
+illiquid, 7, 8, 25
+interest rates and, 9, 24, 67, 105, 133-34, 135,
+
+269, 277
+junk, 82
+market for, 9-10, 1 10-1 1, 144-45, 285, 309
+price of, 7-8, 110-11, 144-45, 285
+book value, 44, 149, 150, 165, 167
+Brandywine Fund, 58-59
+brokerage firms, 55-56, 61-62
+Buffett, Warren, 40, 42, 157
+business plans, 68-69, 91, 94, 1 18, 122, 316,
+324
+Business Week, \27n
+Canada, 1-6, 9-10, 36
+capital:
+
+bankruptcy, 12-14, 24, 105-6, 122, 139, 145-46,
+
+appreciation of, 23
+loss of, 68
+
+163
+
+Bannister, Roger, 291
+
+Bear Stearns, 127, 131, 135-36, 138, 142
+Beat the Dealer (Thorpe), 266
+Beat the Market (Thorpe), 266
+Bender, John, 221-38
+background of, 221-25
+
+fund managed by, 221, 222
+losses of, 225
+as novice trader, 225-27
+
+profits of, 221-22, 234
+strategy of, 221, 226-38, 303, 304, 306, 312
+Bezos, Jeff, 272-73
+
+preservation of, 44, 141, 217
+venture, 10, 205, 207, 222, 303
+capitalization:
+large, 34, 43-44, 150, 198-99, 320
+medium, 58
+revenue vs., 36-37, 45, 52
+small, 24, 47, 57, 58, 59, 68, 69, 78, 198-99,
+281
+for trading, 10, 114-19, 120, 142, 146, 147,205,
+
+207, 222, 303
+cash flow, 43, 44, 45, 51, 149, 248
+catalysts, 44-46, 52, 60, 61, 62-63, 89, 94, 114,
+
+bid/ask differentials, 134-35
+
+215-17,220, 279-81, 307, 325
+
+Black & Decker, 62-63
+
+central processing unit (CPU), 261
+
+blackjack, 266-67
+Black-Scholes model, 221, 227-34
+
+certificates, stock, 69-70
+chart patterns, 181-84
+
+331
+
+INDEX
+chief executive officers (CEOs), 49, 91, 241, 244-45,
+250
+
+Cook, Marvin, 95, 96, 123-24, 126
+Cook, Terri, 97, 99, 106
+
+funds managed by, 128-29, 138, 142-47
+
+Ingram's, 272
+
+as novice trader, 127-38
+
+initial public offerings (IPOs), 24, 25, 250-52,
+
+chief financial officers (CFOs), 57, 58, 59, 60, 62, 64,
+
+Cramer's commentary, 218
+
+67, 71, 72,94, 142, 324
+Church, George J., 320
+Cisco, 22
+
+Cray, Seymour, 261-62
+
+profits of, 128-29, 132, 141-42, 147
+strategy of, 138-47, 252, 300, 301, 304, 305,
+306
+
+279-81
+innovation, 147
+
+currency trading, 5, 9, 202-3
+
+Cyrus J. Lawrence, 32
+
+insider buying, 4 3 , 4 5 , 5 1 , 60-61, 1 50, 156-57, 160,
+
+Claire's, 68
+classic arbitrage, 255, 267
+
+Daily Graphs, 158
+
+Fletcher Asset Management, 128, 138, 142
+Fletcher Fund, 129
+flexibility, 29, 299-300
+
+Daley, Richard, 98, 100
+
+Food and Drug Administration (FDA), 174
+
+Clinton, Bill, 259
+Close Encounters of the Third Kind, 100
+CNBC, 236
+Coakley, Ted, III, 149
+
+data mining, 319
+
+Ford Motors, 62, 145
+
+Intel, 37, 41, 57, 308-9
+interest rates, 9, 24, 67, 105, 133-34, 135, 269,
+277
+
+debt, 43, 45
+
+foreign exchange, 5
+
+Internet, 43-44, 64, 87, 90-91, 92, I 18, 149,
+
+default rate, 82
+Dell, 19,39-41
+
+Cohen, Steve, 275-87
+
+D. E. Shaw, 251, 255, 257-58, 259, 272, 273,
+
+Fortune, 127n
+Fosback, Norman, 1 56-57
+Franklin, Benjamin, 299
+
+Cities Service, 103-7, 108, 109
+
+background of, 278-79
+fund managed by, 275, 288, 290-93
+losses of, 279-81,286-87
+
+profits of, 275
+strategy of, 275-87, 298, 300, 301, 305, 306, 308,
+309, 312, 315,316
+cold-calling, 12, 56,212-13
+
+304
+D. E. Shaw Financial Products, 259
+
+DESoFT, 259
+diagnostic capability, 29
+
+discounts, 140-41, 157,213,250-52,253,315
+
+Columbia Pictures, 100
+commissions, 48, 134, 148, 175, 203, 213, 214,
+
+Disney, 93-94
+diversification, 33, 34, 51, 86-87, 93, 306, 319,
+321
+dividend capture strategy, 140-41
+
+328
+Commodities Corporation, 191
+
+dividends, 13, 133, 140-41
+dog races, 129-30
+
+commodity markets, 199,231
+commodity trading advisors (CTAs), 231
+Commodore Computer, 13-14
+
+Dow Jones Industrial Average, 47, 109
+
+Compaq, 37
+competition, 73, 145, 229
+
+earnings:
+
+compilers, 258
+
+Complete Guide to the Futures Market, A (Schwager),
+327n
+compliance departments, 11 1—13
+Comp USA, 90
+computers:
+market for, 37-38, 39, 43-44, 86-88, 90, 139, 244,
+
+269,279-80
+parallel-processor, 258-63
+research based on, 77, 81, 129-30, 157-58, 181,
+
+194-95, 197, 202-3, 204, 208, 215, 255, 274,
+319
+software for, 26, 86-88, 90, 139, 215
+see also Internet
+confirmation statements, 16
+conjunction trades, 109
+consolidates, 24M4
+contingency plans, 184, 186, 187
+Cook, Mark D., 95-126
+background of, 95-97
+fund managed by, 97
+
+losses of, 101-7, 108, 122-24, 126, 314
+as novice trader, 97-107
+profits of, 96, 97-98, 101, 112-19, 125
+
+strategy of, 97, 107-26, 299, 301, 303, 304, 305,
+308,312,314,315,316,319
+Cook, Martha, 104-5, 123-24
+
+Dutch tulip craze, 64
+
+fraud, 91-92
+Friess Associates, 58-59, 67, 73
+front-running, 79-80
+futures, 144-45, 191-92, 199, 202-3
+see also options
+
+Galante, Dana, 75-94
+fund managed by, 76, 85-89, 93
+
+losses of, 86-88
+as novice trader, 76, 77-85
+profits of, 75-76, 93-94
+strategy of, 75-77, 81, 85-94, 311, 324
+as woman, 77, 88-89
+
+gambling, 90, 225-26, 255-56, 266-67
+Gap, 12,67-68
+Gatev, Evan G., 256»i
+
+expectations of, 15, 16, 40-41, 49, 61, 63, 86-88,
+138-39, 141,215-17,279,286-87
+loss of, 81,89-90, 92,94, 138-39, 215-17,
+279
+
+General Electric, 136, 137
+General Motors, 145
+Goetzmann, William N., 256n
+
+price vs., 21, 22, 43-44, 52, 58, 59, 60, 62, 65, 66,
+
+gold prices, 102, 231-32, 310
+
+72-73, 79, 81, 89, 92, 94, 149, 152, 154-55,
+158, 164, 165, 166-67, 172,216,306,320,321,
+325
+quarterly reports of, 40, 60, 62-63, 84, 138-39,
+141,215-17,286-87
+"earnings surprise," 216
+
+Goldwyn, Samuel, 118
+"greater fool" premise, 34, 36
+
+Greenberg, Ace, 136, 138
+
+163, 165,318
+Institutional Investor All-Star analyst team, 32
+
+150, 151, 162, 185, 186, 218, 229-30,
+240, 249, 259, 262, 279-81,
+310-11
+inventory, 90, 92
+Investing Championship, U.S., I l l , 118, 170
+
+investment:
+diversification of, 33, 34, 51, 86-87, 93, 306, 319,
+321
+institutional, 192,318
+long-term, 40, 42, 157, 164, 234-35
+
+return on, 46, 55, 59, 75-76, 97, 170, 243
+size of, 32-33, 52
+speculation vs., 20, 84-85, 177, 225-26
+sea also portfolios
+Investor's Business Daily, 152
+Istanbul Stock Exchange, 148, 1 53-54, 156
+January effect, 198-99
+
+Janus 20, 39-40
+Japan, 7-8,64,223,303,310
+J, Crew, 10
+J. D.Edwards, 157, 159
+journal of Portfolio Management, 266
+Juno Online Services, 259
+Justice Department, U.S., 36
+"just-say-no" risk, 244-45
+
+Guazzoni, Claudio, 239-53
+
+background of, 239-40, 245^(6, 247
+as novice trader, 246-52
+
+profits of, 239
+
+Eastman Kodak, 192, 199
+eBay, 323
+Education Department, U.S., 91-92
+
+Gulf War, 81, 113
+
+Einstein, Albert, 236
+Elsie the Cow, 98-100
+
+head-and-shoulders pattern, 265
+
+Enamalon, 68
+enhanced index funds, 34-36
+equity trading, 6, 144-45, 257
+
+hearing aids, 242
+hedge funds, 16, 22, 59-60, 61, 80, 81-84, 146-47,
+200-202, 207, 295, 306
+
+strategy of, 241-53, 301, 306, 315
+
+historical volatility, 330
+
+Kidder Peabody, 32, 127-28, 135-38
+Kiev, Ari, 285, 288-97, 310, 313, 315
+"Knowledge Based Retrieval on a Relational
+Database Machine" (Shaw),
+258-59
+Korea, Republic of (South Korea), 18
+Kovner, Bruce, 191
+Lancer Offshore, 31, 50
+
+Lauer, Michael, 30-53
+
+FarSight, 259
+
+Hoik, Tim, 191-92
+
+as financial analyst, 31-32, 48
+fund managed by, 30, 31, 33, 36-37, 51
+
+Federal Reserve Bank, 271, 277
+fees, 35, 55, 275
+Fidelity Magellan, 34-36, 38-39, 43, 67
+financial statements, xiii, 57, 185, 255
+
+home-equity loans, 12-14, 20
+How to Trade in Stocks {Livermore), 176-77
+
+losses of, 31,42-43, 46
+
+Fletcher, Alphonse "Buddy," Jr., 127-47
+
+background of, 129—31
+as black, 127-28, 136-38
+
+IBM, 37, 131-32, 133, 193, 227, 232, 269, 279, 308,
+327
+implied volatility, 330
+
+index funds, 34-37, 39, 50, 52, 53, 217-18, 285, 321
+
+as novice trader, 31-32, 48-49, 50
+
+profits of, 30-31, 50
+strategy of, 37-53, 229, 253, 301, 302, 306-7,
+308-9, 31 1, 314, 315, 318, 319, 320, 321, 322,
+326
+LensCrafters, 242
+
+INDEX
+Lescarbeau, Steve, 189-206
+background of, 190-91
+fund managed by, 189, 200-202
+as novice trader, 190-94, 202-3
+profits of, 189, 198,201
+strategy of, 189, 194-206, 300, 302-3, 304, 311,
+315,321
+leverage, 47-48, 69-70, 117, 174, 204, 222, 314-15
+
+as novice trader, 72, 170, 188
+profits of, 170, 175, 188
+strategy of, 169, 171-88,299,303,304,305,312,
+314, 316,317, 318
+Miramar Asset Management, 76, 85-89, 93
+Molecular Simulations Inc., 259
+money managers, 144-45, 176, 200-202, 205, 214,
+
+226, 234, 235
+
+INDEX
+primer on, 95re, 150n, 221n, 327-30
+probability curve for, 221, 227-34, 236-37
+
+cash flow vs., 44
+discrepancies in, 254, 257-58
+
+put, 84, 85, 102, 110, 116, 118, 159-60, 325, 327,
+
+earnings vs., 21, 22, 43-44, 52, 58, 59, 60, 62, 65,
+
+328, 329
+risk of, 101, 109-10, 112, 138-40,328
+strike price for, 151, 159, 160, 167, 327-28, 329,
+330
+volatility of, 330
+
+66, 72-73, 79, 81, 89, 92, 94, 149, 152, 154-55,
+158, 164, 165, 166-67, 172, 216, 306, 320, 321,
+325
+entry and exit, 157-58, 162-63, 171, 217, 220,
+231,232,257,305,308
+recovery of, 25-26, 44
+relative, 42, 51, 81, 1 72-73, 311
+run-ups of, 17, 35-40, 43-44, 229, 277, 325
+
+leveraged buyouts (LBOs), 248-50, 253
+Levitt, Jim, 80, 81
+
+Morgan Stanley, 256, 263
+multiple regression, 1 30
+
+Lewis, Michael, 246
+Liars Poker (Lewis), 246
+
+mutual funds, 34-36, 40, 55, 82, 189-206, 207, 214
+
+Livermore, Jesse, 176-77
+Liz Claibornc, 6, 10, 12
+
+Nasdaq, 75, 110, 158
+Network Associates, 89-90
+
+Pairs Trading: Performance- of a Relative Value Arbitrage
+
+Lloyd's Bank, 4-6
+Lo, Andrew, 265
+
+Newman, Bill, 58
+New Yorker, 229
+
+Rule (Gatev, Goetzmann, and Rouwenhort), 256n
+parallel processors, 258-63
+
+lognormal curve, 237n
+Long-Term Capital Management (LTCM), 19—20,
+
+New York Post, 278
+
+Pearle Vision, 242
+
+New York Stock Exchange, 107,312
+Nintendo, 276
+Novell, 22
+
+Pegasystems, 91
+Peil, Tom, 208
+
+OEX, 84
+
+phone cards, 146
+pig-at-the-trough approach, 58, 73
+
+locked-in, 255
+
+PIMCO, 144
+
+probable, 255
+reinvestment of, 25
+risk vs., 70-71, 76, 125, 127, 128-29, 132, 134-35,
+166, 207, 222, 237, 249-50, 255, 265, 269, 299,
+323, 326
+sources of, xiii
+
+sales vs., 44
+
+271, 306
+Love, Richard, 171
+
+LTXX, 63
+Lynch, Peter, 34, 66-67, 157, 161, 316-17
+
+oil prices, 81
+Okumus, Ahmet, 148-68
+background, 148-49, 160-61
+fund managed by, 149, 153, 162-63
+
+McGuinn, Ed, 59
+macroeconomics, 15—16, 18, 26, 81
+Magic Faith and Healing: Studies in Primitive
+Psychiatry Today (Kiev), 289
+Mammis, Justin, 209
+
+losses of, 149-53, 167
+as novice trader, 148-49, 153-57
+
+management, 25-26, 45,91, 141-42, 150, 156-57,
+166,250-52
+manufacturers, 65—66
+Marcus, Michael, 191
+
+margin calls, 103, 105
+market makers, 234, 247^18
+market timers, 196
+Marlin fund, 207
+Masters, Michael, 207-20
+background of, 209-14
+
+fund managed by, 207
+as novice trader, 209
+profits of, 207, 209, 218
+strategy of, 211-12, 214-20, 301, 302, 304, 307,
+308
+
+profits of, 155-56, 162
+strategy of, 155-68, 306, 308, 309-10, 318, 319,
+325
+Okumus Opportunity Fund, 148, 153, 162-63
+Olympics, 288, 289-90, 291, 297, 310
+Olympic Sports Medicine Committee, U.S., 288,
+289-90
+One Vf on Wall Street (Lynch), 66-67, 1 57
+
+Oppenheimer & Co., 32
+options:
+bid/ask differentials for, 134-35
+box spread for, 134
+call, 101-2, 103, 108-9, 113, 124, 150-51, 325,
+327, 328, 329
+cumulative tick indicator for, 107-11,114
+
+Masters, Suzanne, 214
+Masters Capital Management, 207
+
+exercised, 103, 151n, 159, 325, 327, 328
+expiration of, 121-22, 151,313, 329-30
+
+M.B.A.s, 4, 5,31,209
+Men's Wearhouse, 68
+Meriwether, John, 271
+
+index, 140
+"in the money" vs. "out of the money," 150-51, 325,
+329
+
+Merrill Lynch, 142,259
+Merton, Robert, 271
+Microchip Technology, 158
+
+intrinsic value of, 329-30
+market for, 224-25, 230, 231-32, 325, 327-28,
+
+Microsoft, 22, 36-38, 57, 311
+
+models for, 131-35, 221, 227-34, 312
+over-the-counter, 140
+
+329
+
+Milestone Scientific, 65-66
+
+premiums on, 101, 102, 103, 140, 159, 160, 325,
+
+Minervini, Mark, 169-88
+background of, 169-70
+
+out-of-the-money calls, 150-51, 325, 329
+"overfitting the data," 270
+overhead, 24
+
+N
+
+fund managed by, 170
+losses of, 171, 173-76, 179-80, 182, 184, 187, 188
+
+.327, 328, 329, 330
+pricing of, 221, 226-27, 229-30, 234, 236-38, 270,
+325, 327-28, 329
+
+pairs trading, 256-57
+
+Pfizer, 130
+
+target, 157-58, 161-64, 177-80, 183,257
+trends in, xiii, 24, 45, 85-86, 89-90, 138-39,
+155-56, 158,171, 178-84, 212, 216, 254,
+278-79
+Prime Computer, 37-38
+private market value, 44
+probability curve, 221, 227-34, 236-37
+products, 63, 65, 68-69
+
+Philadelphia Stock Exchange, 225, 226, 233
+
+profit:
+
+Playboy Club, 99-100
+"point of smooth sailing," 182
+Pokemon, 276-77
+
+poker, 177, 178, 202, 225
+portfolios:
+insurance for, 320—21
+
+management of, 78-81, 82
+risk of, 306, 322-23
+theory of, 211-12
+positions, trading:
+covering of, 85-88, 103, 106, 142-46
+disclosure of, 49-50
+exposure of, 59, 64, 92-93, 106, 133, 164, 269
+liquidation of, 16-17, 25, 46-47, 63, 64, 70, 73,
+109, 114-15, 161-62, 167, 185, 217, 219-20,
+236, 279-81, 308, 309, 314, 317
+long, 15, 19-20, 31, 41^12, 46, 55, 63-64, 68,
+80-81, 83, 90, 92, 93, 94, 153-54, 164, 178,
+197,217,269,323,324
+short, 12-13, 18-19, 24, 36, 38, 40, 44-52, 63-68,
+75-94, 103, 108, 112, 149-54, 164, 204, 209,
+216-17, 269, 276-81, 285, 293, 306, 315,
+321-25
+President's Committee of Advisors on Science and
+
+Technology, 259
+"price action sandwich," 179
+price/earnings ratio, 21, 22, 43-44, 52, 58, 59, 60, 62,
+65,66, 72-73,79, 81, 89,92,94, 149, 152,
+154-55, 158, 164, 165, 166-67, 172,216,306,
+320,321,325
+prices, stock:
+aggregate, 248
+
+book value vs., 44
+
+margin of, 45, 154-55, 165, 229, 299
+
+target, 308
+proprietary structures, 243
+Psychology of Mastering the Markets, The (Kiev), 288
+Quantech Fund, LP, 170
+Quantech Research Group, 170
+Quantum fund, 222
+quarterly earnings report, 40, 60, 62-63, 84, 138-39,
+
+141,215-17,286-87
+
+Ranieri, Lewis, 249
+ratios:
+capitalization/revenue, 36-37, 45, 52
+
+debt/cash flow, 43
+price/book value, 44
+price/cash flow, 44
+
+price/earnings, 21, 22, 43-44, 52, 58, 59, 60, 62,
+65, 66, 72-73, 79, 81, 89, 92, 94, 149, 152,
+154-55, 158, 164, 165, 166-67, 172, 216, 306,
+320,321,325
+price/sales, 44
+return/risk, 70-71, 76, 125, 127, 128-29, 132,
+134-35, 166, 207, 222, 237, 249-50, 255, 265,
+269, 299, 323, 326
+Rattner, Steve, 142-43
+
+RCA, 229
+real estate, 64
+receivables, 91-92, 94, 324
+
+INDEX
+Reindeer Capital, 1-3
+religion, 208
+replacement value, 248
+
+research:
+brokerage, 55-56, 61-62
+computer, 77, 81, 129-30, 157-58, 181, 194-95,
+197, 202-3, 204, 208, 215, 255, 274, 319
+consumer, 67-69
+
+hypotheses in, 256, 265, 270, 274, 319
+necessity of, xiii, 50, 59-60, 65-66, 100, 154-55,
+160, 166, 189-90
+
+reliability of, 25-26, 4 1 , 4 5 , 55-56, 165, 176-77,
+
+Schwartz, Eddie, 98-99
+Securities and Exchange Commission (SEC), 39, 72,
+80,89,235,251
+
+prices of, sag prices, stuck
+
+Seinfeld, 276
+Shaw, David, 254-74
+
+relative linearity ol, 15
+repurchase of, 1 7, 43, 45, 5 1, 162
+response of, 15-16, 18,26,40-41,47-48,81,
+235-36, 318
+
+background of, 258—63
+fund managed by, 254, 255. 257-58, 259, 272, 273,
+304
+profits of, 254, 255
+strategy of, 19, 254-74, 301, 303, 304, 306, 320
+
+Shearson Lehman Brothers, 191-92
+
+sell-side, 61-62, 64, 65-66, 72, 73, 143
+
+"sheet monkeys," 233
+shopping malls, 67—68
+short selling; see positions, trading, short
+
+technical, 190, 193, 194-95, 202-3, 206, 228-29,
+
+slippage, 203
+
+185, 187,231,326
+
+254-74, 320
+
+Social Psychiatry Research Institute, 288
+
+research and development (R£D), 89
+Resolution Trust Corporation (RTC), 249-50
+restructuring, 45-46
+
+software, computer, 26, 86-88, 90, 139, 215
+
+revenue, 65, 90, 92, 139
+
+stockbrokers, 20-21, 56, 100, 207, 212-14
+
+capitalization vs., 36-37, 45, 52
+reverse franchising, 242
+risk:
+exposure to, 59, 64, 92-93, 106, 1.33, 164, 269
+of index funds, 34-37, 50, 53
+"just-say-no," 244-45
+management of, xiii, 30, 33, 54-55, 59, 63, 71-72,
+
+sec also sales, brokerage
+stock market:
+anomalies of, 254, 265-69
+
+speculation, 20, 84-85, 177, 225-26
+statistical arbitrage, 255—56
+
+bull, 64, 75-76, 88, 92, 108, 162, 165, 183, 237,
+255,284
+
+corrections in, 16, 232
+as efficient, 42, 50-51, 131-33, 147, 1 6 1 , 2 1 7 ,
+264, 265-69, 270, 320,328
+environment of, 25, 29, 33, 38, 41, 47-48, 176,
+
+profit vs., 70-71, 76, 125, 127, 128-29, 132,
+134-35, 166, 207, 222, 237, 249-50, 255, 265,
+
+forecasts of, 196, 269, 310-11
+indexes of, 30, 31, 34-36, i 40; see also specific
+indexes
+
+269, 299, 323, 326
+
+S.A.C., 275, 288, 290-93
+sales, brokerage:
+cold-calling for, 12, 56, 212-13
+pitch for, 20-21, 48, 56, 59, 190-91, 212
+
+sales, company, 44, 90
+Salomon Brothers, 246-48, 249
+Sambo's restaurants, 100, 101
+Sanchez Computer Associates, 86-88
+
+S&P500, 30, 31,34, 35-36, 52, 110-11, 113,
+144-45, 149, 162-63, 196, 200, 235, 285
+Scholcs, Myron, 271
+Schrodinger, Inc., 259
+
+Schwab, 149-52, 164
+Schwager, Jo Ann, xi-xii
+
+privately held. 84-85
+quality, 20, 1 1 1
+
+restricted, 250-52
+screening of, 42-46, 51-52, 59-63, 72-74, 89-94,
+166-68, 171, 172-73, 187
+
+technology, 64, 90-91, 92, 118, 1 5 1 , 162, 186,
+229-30,249,269,310-11
+tips on, 6, 13-14,20,25,72, 173, 176, 312
+valuation of, 17, 45, 46-47, 58, 64, 67, 81, 83,
+85-86,89-91, 152, 157, 160, 162-63,229-30,
+
+256-57, 306-7, 322
+volatility of, 102, 108, 115, 153, 197,330
+stop-loss points. 162-63, 217, 220, 231, 232, 305,
+308
+Strategy for Daily Living, A (Kiev), 289
+Sjrperper/ormtiMce Sfocfa (Love), !71
+supply and demand, 50
+Susquehanna, 233
+
+bear, 92-93, 152-53, 162, 237, 255
+
+73,87-88,93, 139, 145-46, 147, 166, 167, 177,
+189,222,255,269,297,305-6
+of options, 101, 109-10, 1 12, 138-40, 328
+portfolio, 306, 322-23
+
+reduction of, 44, 46-47, 76, 254, 316,
+322-23
+unlimited, 1 64, 280, 323-24
+unsystematic (company specific), 21 1-12
+roulette, 255-56
+Rouwcnhort, K. Geert, 256n
+Russell 2000, 30, 33, 35
+Russia, 18,64,231-32
+
+INDEX
+
+300
+
+misconceptions about, 27, 185-86
+as random, 8, 228-29, 238, 274
+trends in, 17-19, 29, 50-51, 52, 75-76, 77,92-93,
+107, 115-16, 131-32, 151-52, 164, 165,257,
+
+270,281-82,308-9
+stock market crash (1987), 47-48, 56, 108, 135, 237,
+320-21
+Slock Market Logic (Fosback), 156-57
+
+stock market wizards, see traders
+stocks:
+"blessed," 15-17, 318
+breakouts of, 183
+capitalization of, see capitalization
+certificates for, 69-70
+cyclical, 81
+discounts on, 140-41, 157,213,250-52,253,
+315
+dividends from, 13, 133, 140^41
+
+fundamentals of, 15, 18, 62, 70, 79, 87, 92, 147,
+152, 155, 161, 162-63, 165, 166, 180-82,
+268-69,274, 281, 3 1 1 , 320
+over-the-counter, 77, 140, 235
+
+preferred, 243
+
+takeovers, 103, 105
+taxes, 35, 109, 133, 134-35, 200
+T-bill rate, 1 34
+Tektronix, 37, 42, 45-46
+Teledyne, 10!
+"ten-bagger," i61
+Thailand, 18
+
+Thermolase, 46-47
+ThcSlreet.com, 218
+Thorpe, Ed, 266
+3Com, 22
+lick indicators, 107-1 1, 114, 312, 322
+Time, 277
+timc-and-sales log, 80
+lips, stock, 6, 13-14, 20, 25, 72, 173, 176, 312
+Tokyo Stock Exchange, 223
+traders:
+athletes compared with, 285, 288, 289-90, 291,
+297, 310
+author's previous works on, 30, 77, I 70, 189, 197,
+214-15,233
+
+black, 127-28, 136-38
+competitive edge of, 61-62, 144-45, 172, 177,203,
+217-18, 225-26, 255-56, 301-2
+conviction of, 27, 37-38, 48-49, 51, 52, 55, 57,
+120-21, 126, 152, 167, 171, 174, 288-97, 302-3
+decision-making by, 6, 13-14, 20. 21-22, 23, 25,

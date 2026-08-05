@@ -1,0 +1,321 @@
+Papers on Economic Activity, 1 (1997): 159–211.
+13. Jeremy Stein, in his speech at the International Monetary Fund, “Incorporating
+Financial Stability Considerations into a Monetary Policy Framework,” March 21, 2014.
+14. It is conceivable that an inflation-indexed bond with a negative yield could
+have a positive real return over its lifetime. This could happen in the United States
+in the unlikely event that persistent and strong deflation occurs, since the Treasury
+Inflation Protected Securities promise to pay at least the nominal original value of
+the principal back on maturity.
+
+Chapter Three    The Real Estate Market in Historical Perspective
+1. The Bank of International Settlements (BIS) in Basel has pioneered the assembly
+of home price data around the world (http://www.bis.org/statistics/pp.htm). The
+Economist magazine in London has assembled a list of indices that is similar to the
+one produced by the BIS (http://www.economist.com/blogs/dailychart/2011/11/
+global-house-prices).
+2. There have been many booming cities in China, but in other parts of China a huge
+increase in supply has kept home price increases in check: the Chinese government
+has allowed construction to proceed at a massive rate, without so much of the zoning
+
+286
+
+NOT ES TO PAGE 19
+
+and environmental restrictions seen in other countries. In recent years, the Chinese
+government has sought to temper the rapid increases in home prices.
+3. I produced the home price series shown in Figure 3.1 by first linking together
+various annual home price indices (by multiplying each by a constant so that values
+in one overlapping year are equalized across indices) to arrive at a nominal home
+price index. Next, the nominal home price index was deflated by the Consumer
+Price Index.
+Even though there were no regularly published home price indices before the
+1960s, some economists were constructing indices of home prices that cover most of
+the years since 1890. We found home price indices from 1890 to 1934 and from 1953 to
+the present that used in their construction some device to attempt to hold the quality
+of the home constant.
+The nominal home price index, 1890–1934, is from Leo Grebler, David M. Blank,
+and Louis Winnick, Capital Formation in Residential Real Estate: Trends and Prospects
+(New York and Princeton, N.J.: National Bureau of Economic Research and Princeton
+University Press, 1956), Appendix C (http://www.nber.org/chapters/c1339.pdf). It
+is a repeated-measures index based on a survey of homeowners in twenty-two U.S.
+cities, who were asked to give the value of their home in 1934 and the date and price
+of earlier purchase of that home. Since it is based on repeated measures of individual
+homes, the series is protected, in contrast to the simple median price, from any bias
+from changes in the mix of houses sold or of the increasing size and quality of newer
+homes. Its shortcoming is that it depends on memories of the surveyed homeowners
+for the earlier purchase price.
+The nominal home price index that we constructed for 1934–53 is a simple average over five cities of median home prices advertised in newspapers. The cities are
+Chicago, Los Angeles, New Orleans, New York, and Washington, D.C. My students
+collected the data from microfilmed newspapers at the Yale University library, collecting approximately thirty prices for each city and year, except that for the fifth city,
+Washington, D.C., 1934–48, data came from a median price series from E. M. Fisher,
+Urban Real Estate Markets: Characteristics and Financing (New York: National Bureau of
+Economic Research, 1951). The median series for 1934–53 does not make any attempt
+to correct for home quality change, as do the indices we use for the other subperiods.
+Improvement in home size and quality puts an upward bias in median home price,
+and this is why I avoided using median price as much as possible.
+The nominal home price index for 1953–75 is the home purchase component of
+the U.S. Consumer Price Index (CPI). The Bureau of Labor Statistics collected data
+on home prices for those years for homes that are held constant in age and square
+footage. In the 1980s, they discontinued this index when they switched to a rental
+equivalence basis for housing in the CPI. They made this change to correct what
+was considered a conceptual flaw in the housing component of the CPI: the CPI is
+supposed to be a price of consumption goods and services, not of investment assets.
+For our purposes, however, the old home purchase component is acceptable. There
+are, however, some shortcomings in the home purchase component, notably that
+it is based only on homes with certain government-subsidized mortgages, and the
+
+NO T E S T O PA G E S 2 1–22
+
+287
+
+procedure that the Bureau of Labor Statistics used to correct for changes in the ceiling
+on these mortgages was not optimal. See J. S. Greenlees, “An Empirical Evaluation
+of the CPI Home Purchase Index 1973–8,” American Real Estate and Urban Economics
+Association Journal, 10(1) (1982): 1–24. A more detailed discussion of the indices that
+were used here for years before 1975 can be found in my paper “Consumption, Asset
+Markets and Macroeconomic Fluctuations,” Carnegie-Rochester Conference Series on
+Public Policy, 17 (1982): 203–38.
+The nominal home price index for 1975–present is the monthly S&P/Case-Shiller
+U.S. National Home Price Index produced by CoreLogic, Inc., purchasers of Case
+Shiller Weiss, Inc. Before 1992, this index relied partly on U.S. Office of Federal Housing Enterprise Oversight (now replaced by the U.S. Federal Housing Finance Agency)
+indexes to fill in geographic regions for which our own data were missing.
+The consumer price index used to deflate nominal series to real is the same as that
+used in Figure 1.1 and elsewhere in this book.
+The building cost index links together two building cost series. The first, for
+1890–1915, is taken from Grebler, Blank, and Winnick, Capital Formation in Residential
+Real Estate, Table B-10, col. 1 (Housekeeping), http://www.nber.org/chapters/c1338
+.pdf, p. 342. Their index is a weighted average of wages per hour in the building trades
+and an index of materials prices. The second is the Engineering News Record Building Cost Index. Their index, for 1915–present, based on twenty cities, is the cost of
+66.38 hours of skilled labor: bricklayers, carpenters, and structural ironworkers, plus
+25 hundredweight of standard structural steel shapes, 1.128 tons of Portland cement,
+and 1,088 board feet of two-by-four lumber.
+From 1890 to 1953 the interest rate series is from Homer, A History of Interest Rates,
+Tables 38 (col. 3), 45 (col. 15), 48 (col. 1), and 50 (col. 1), interpolated from annual to
+monthly. For April 1953–present it is the monthly ten-year Treasury Bond Yield,
+from the Federal Reserve. This long rate series is very similar to the one in Jeremy
+J. Siegel, Stocks for the Long Run, 5th ed. (New York: McGraw-Hill, 2014), http://
+jeremysiegel.com. Siegel describes the series in Jeremy J. Siegel, “The Real Rate of
+Interest from 1800–1990.”
+4. See the Standard & Poor’s analysis of costs of buying relative to renting: http://
+www.housingviews.com/2013/02/08/charts-of-rent-vs-buy-and-inflation-adjusted
+-home-prices/. A Federal Reserve study finds no significant evidence from regional
+data that a high home price–to–income ratio portends future declines in home prices.
+See Joshua Gallin, “The Long-Run Relation between House Prices and Income: Evidence from Local Housing Markets” (Washington, D.C.: Board of Governors of the
+Federal Reserve System, Finance and Economics Discussion Paper Series No. 2003.17,
+2003). However, this study may not have had sufficient power with its twenty-three
+years’ data, ending in the midst of a national home price boom, to detect such an effect.
+5. See Karl E. Case and Robert J. Shiller, “The Efficiency of the Market for Single
+Family Homes,” American Economic Review, 79(1) (March 1989): 125–37.
+6. According to a Federal Reserve study, the replacement cost of homes from 1970
+to 2003 was much more steady than the price of residential land. See Morris A. Davis
+and Jonathan Heathcote, “The Price and Quantity of Residential Land in the United
+
+288
+
+NOT ES TO PAGES 22–23
+
+States” (Washington, D.C.: Board of Governors of the Federal Reserve System, Finance
+and Economics Discussion Series No. 2004-37, 2004).
+7. Jonathan McCarthy and Richard W. Peach of the Federal Reserve Bank of New
+York have reached a different conclusion. In a July 2004 article they write: “Home
+prices have essentially moved in line with increases in family income and declines
+in nominal mortgage interest rates.” See Jonathan McCarthy and Richard W. Peach,
+“Are Home Prices the Next ‘Bubble’?” Federal Reserve Bank of New York Economic
+Policy Review, 2004, p. 1. Part of the reason for their very different conclusion is that
+they chose to base their analysis on an index of new homes, the so-called Constant
+Quality Index of new home prices. The Constant Quality Index has increased much
+less in the last twenty years than have the repeat sales indices, suggesting that
+there is no bubble. But new home prices tend to track building costs because new
+homes tend to be built in areas where land is abundant; we just cannot expect to
+see a boom in new home prices. Nor do we expect to see the burst of a bubble in
+new home prices: new homes are not built in places where prices have fallen below
+construction costs. The structural housing market model McCarthy and Peach say
+explains home price movements in terms of interest rates was fit over their sample
+period 1981–2003, when interest rates’ downtrend inversely matched a home price
+much better than over a longer period. There is a sense in which they are right,
+though: there are major areas in the United States where home prices have not risen
+a lot and there has not been a bubble.
+8. See Claudio Borio and Patrick McGuire, “Twin Peaks in Equity and Housing
+Prices?” BIS Quarterly Review, March 2004, pp. 79–93. In the United States fixed-rate
+long-term mortgages have predominated since the 1930s. It appears that there is
+greater sensitivity to interest rate changes in countries where floating rate mortgages
+are more widely used. See Kostas Tsatsaronis and Haibin Zhu, “What Drives Housing Price Dynamics: Cross-Country Evidence,” BIS Quarterly Review, March 2004,
+pp. 65–78. Another study of six industrialized countries found an impact on house
+prices of interest rates, the stock market, and aggregate economic activity. See Gregory
+D. Sutton, “Explaining Changes in House Prices,” BIS Quarterly Review, September
+2002, pp. 46–55.
+9. World War I was a much smaller war than World War II by U.S. standards. The
+military comprised only 9% of the U.S. male population in World War I, compared
+with 24% in World War II. U.S. direct involvement in World War I lasted only seven
+months, whereas U.S. involvement in World War II lasted forty-five months.
+10. Our data for the period 1934–53 are based on five large U.S. cities, and each of
+the five cities shows a sharp increase in home prices after World War II. But it is not
+clear how much the price increases in these cities correspond to those in the country
+as a whole. I therefore sought to find other evidence about the country as a whole,
+particularly regarding the apparently large home price increases after World War II.
+The U.S. Census Department has collected data at decadal intervals on home
+prices since 1940 based on homeowners’ estimates. Their data show an increase of
+45% between 1940 and 1950 for the median price of a home corrected for inflation;
+our data show a 30% increase.
+
+NO T E S T O PA G E S 2 4–30
+
+289
+
+A 1951 New York Times article reported a survey of 150 cities, a much better repre­
+sentation of the country than just five big cities, made by Myron L. Matthews, vicepresident of the Dow Service, Inc. “His report showed that in the typical city the
+$6000 house of 1941 now has a price tag of $13,860 on it.” (Lee E. Cooper, “Effects of
+Curbs on Building Loans Will Appear Soon,” New York Times, April 22, 1951, p. 225.)
+The wording “typical city” is a little vague. But these numbers imply a 131% nominal
+price increase (28% real increase) in the ten years from 1941 to 1951, not too far from
+the 154% nominal price increase (41% real increase) that our index shows over that
+same interval.
+However, a 1949 New York Times article reported the results of an even bigger study
+of 276 cities by the National Association of Real Estate Boards. It reported that the
+median over these cities of the increase in home prices since 1940 was only “about
+50%.” (Lee E. Cooper, “Realty Men Look for Further Rise in Housing Prices,” New York
+Times, May 3, 1949, p. 81.) Since the Consumer Price Index rose 73% from 1940 to 1949,
+their numbers suggest a decline of 13% in real home prices over this interval, rather
+than the real increase of 22% that our numbers show for the same interval. However,
+the median price increase over 276 cities is likely a downward-biased measure of the
+national mean price increase, and puts too much emphasis on small cities. That study
+also said that in some congested areas buyers now had to pay “about 100% more.” Our
+index shows a 111% nominal increase from 1940 to 1949, suggesting that our numbers
+may show an upwardly biased growth rate relative to prices nationwide after World
+War II if our five cities were congested areas.
+11. President Franklin Roosevelt’s statement on signing the GI Bill, June 24, 1944,
+Franklin D. Roosevelt Presidential Library and Museum, http://www.fdrlibrary
+.marist.edu.
+12. Data are from Japan Real Estate Institute, Shigaichi Urban Land Price Index,
+Tokyo Metropolitan Area, deflated by consumer price index.
+13. Prime Residential Properties, rupees per square foot, deflated by consumer
+price index, Knight Frank India.
+14. See Piet Eichholtz, “A Long Run House Price Index: The Herengracht Index,
+1638–1973,” unpublished paper, the University of Limburg and the University of
+Amsterdam, 1996.
+15 Karl E. Case, “Measuring Urban Land Values,” unpublished paper, Wellesley
+College, October 26, 1997.
+16. Computed from figures shown in his Table XLIV, “Land Values on North–South
+Streets in the Central Business District of Chicago, 1830–1931,” p. 345, in Homer Hoyt,
+One Hundred Years of Land Values in Chicago (Chicago: University of Chicago Press,
+1933). I chose the years 1877 and 1931 for comparison because both of them were in
+the middle of a recession, as defined by the National Bureau of Economic Research,
+actually both in depressions, and thus in comparable economic conditions.
+17. Hoyt, One Hundred Years of Land Values in Chicago, p. 279.
+18. U.S. Census data show that the average new house rose from 1,500 square feet in
+1970 to over 2,200 square feet in 2000, and household size decreased from 3.1 persons
+per household in 1970 to 2.8 persons in 2002.
+
+290
+
+NOT ES TO PAGES 33–41
+
+19. A search found that the first reference to the median selling price of existing
+homes in a major newspaper was in the Washington Post in 1968. The article said that
+the survey that had produced the median “was initiated over two years ago.” See
+“Average Sales Price Up $1000 to $20,630,” Washington Post Times Herald, October 5,
+1968. It is clear that there was no well-publicized regularly published index of existing home selling prices before then. An article in the New York Times in 1963 about
+a new government series on median prices of new homes noted: “The new study is
+arousing considerable interest in the housing industry. A reason is that no previous
+government or industry statistical reports concentrated on sales.” See “New Home
+Study Arouses Interest,” New York Times, October 13, 1963.
+20. Before real estate investment trusts were created by an act of Congress in 1960,
+there were no publicly traded real estate securities in the United States, and hence
+no place where speculative attentions to real estate would be recorded in published
+prices. Even then, the investment performance of real estate investment trusts is
+not a good indicator of the investment performance of individual owner-occupied
+homes, because the nature of the homes and of the dividend stream that they yield
+is fundamentally different.
+21. Jennifer Taub, Other People’s Houses: How Decades of Bailouts, Captive Regulators,
+and Toxic Bankers Made Home Mortgages a Thrilling Business (New Haven, Conn.: Yale
+University Press, 2014), p. 141.
+22. Atif Mian and Amir Sufi, “Summary of ‘the Consequences of Mortgage Credit
+Expansion,’” Proceedings, Federal Reserve Bank of Chicago (May 2008): 129–32.
+23. “3 WaMu execs agree to settle FDIC lawsuit for up to $64 million,” Los Angeles
+Times, December 3, 2011. http://articles.latimes.com/2011/dec/13/business/la-fi-fdic
+-wamu-20111214.
+24. Gretchen Morgenson, "Lending Magnate Settles Fraud Case," New York Times,
+October 16, 2010. http://www.nytimes.com/2010/10/16/business/16countrywide.html?
+pagewanted=all&_r=0.
+
+Chapter Four    Precipitating Factors: The Internet, the Capitalist
+Explosion, and Other Events
+1. A number of studies of international data have provided evidence that countries
+with more highly developed financial markets show higher economic growth or
+allocate resources more efficiently. See Robert G. King and Ross Levine, “Finance and
+Growth: Schumpeter May Be Right,” Quarterly Journal of Economics, 108 (1993): 717–37;
+Rafael LaPorta, Florencio Lopez‑de‑Silanes, and Andrei Shleifer, “Corporate Ownership
+around the World,” Journal of Finance, 54 (1999): 471–518; and Jeffrey Wurgler, “Financial
+Markets and the Allocation of Capital,” Journal of Financial Economics, 58 (2000): 187–214.
+2. One study finds that individual investors tend to be less heavily invested in
+stocks during business cycle troughs, when expected returns tend to be high, while
+institutional investors tend to do the opposite, and hence to work in the direction
+of stabilizing the market. See Randolph Cohen, “Asset Allocation Decisions of
+Individuals and Institutions,” Harvard Business School Working Paper Series,
+No. 03-112, 2003. A Merrill Lynch survey showed that professional fund managers
+
+NO T E S T O PA G E S 4 3–46
+
+291
+
+outside the United States were generally selling U.S. stocks during bull markets
+from 1994 to 1999, but there was no such clear pattern for U.S. fund managers; see
+Trevor Greetham, Owain Evans, and Charles I. Clough, Jr., “Fund Manager Survey:
+November 1999” (London: Merrill Lynch & Co., Global Securities Research and
+Economics Group, 1999).
+3. Some simple economic growth models suggest that a sudden techno­logical
+advance will have no effect on stock prices; for such models, see Robert Barro and
+Xavier Sala-i-Martin, Economic Growth (New York: McGraw-Hill, 1995); Olivier
+Blanchard and Stanley Fischer, Lectures on Macroeconomics (Cambridge, Mass.: MIT
+Press, 1989); or David Romer, Advanced Macroeconomics (New York: McGraw-Hill,
+1996). For example, the theoretical effect of a sudden technological advance might be
+to spur investment in new capital, which will compete away any extra profits that the
+technological advance might make for existing capital.
+4. On November 1, 1999, Microsoft and Intel were added to the Dow Jones Industrial Average.
+5. Survey by Roper‑Starch Worldwide, cited in Karlyn Bowman, “A Reaffirmation
+of Self‑Reliance? A New Ethic of Self‑Sufficiency?” Public Perspective, February–March
+1996, pp. 5–8. The plausibility of changes in materialistic values over time is enhanced
+by evidence of differences in such values across cultures. See Gueliz Ger and Russell
+W. Belk, “Cross‑Cultural Differences in Materialism,” Journal of Economic Psychology,
+17 (1996): 55–77.
+6. U.S. Bureau of Justice Statistics, National Crime Victimization Survey (NCVS), http://
+www.ojp.usdoj.gov/bjs/cvict.htm#ncvs. The survey is based on interviews with people
+in 84,000 households; results are not affected by the trend towards greater reporting
+of crimes to police.
+7. See Joel E. Cohen, “A Global Garden for the Twenty‑First Century,” The Key
+Reporter, Spring 1998, p. 1.
+8. See World Bank, Averting the Old Age Crisis (New York: Oxford University Press,
+1994).
+9. Gurdip S. Bakshi and Zhiwu Chen (“Baby Boom, Population Aging and Capital Markets,” Journal of Business, 67 [1994]: 165–202) found a substantial correlation
+between the average age of the U.S. population over age 20 and the real S&P Index,
+1950–92. However, Robin Brooks (“Asset Market and Savings Effects of Demographic
+Transitions,” unpublished Ph.D. dissertation, Yale University, 1998) showed that their
+result was sensitive to the cutoff age (20), and when he extended their analysis to seven
+other countries, he found that the fit was poorer. Bakshi and Chen are probably on
+the right track, but the evidence for a relation between the Baby Boom and the level
+of the stock market is weak.
+Possibly the differences in price behavior across asset classes could still be reconciled with a Baby Boom theory by postulating that people in different age groups have
+different attitudes toward risk because of age-related differences in risk tolerance and
+that the stock market was relatively high at the peak of the Millennium Boom because
+the numerous people in their forties today are naturally less risk averse than older
+people. But such a theory has never been carefully worked out or shown to explain
+
+292
+
+NOT ES TO PAGES 46–50
+
+relative price movements. It is also noteworthy that the personal savings rate in the
+United States was then nearly zero, not significantly positive as the life cycle theory
+might suggest.
+Economists have argued that given the increase in the stock market recently,
+savings rates are in fact surprisingly high; see William G. Gale and John Sabelhaus,
+“Per­spectives on the Household Saving Rate,” Brookings Papers on Economic Activity,
+1 (1999): 181–224.
+10. See Ronald Inglehart, “Aggregate Stability and Individual‑Level Flux in Mass
+Belief Systems,” American Political Science Review, 79(1) (1985): 97–116.
+11. Richard Parker, “The Media Knowledge and Reporting of Financial Issues,”
+presentation at the Brookings‑Wharton Conference on Financial Services, Brookings
+Institution, Washington, D.C., October 22, 1998.
+12. James T. Hamilton, All the News That’s Fit to Sell: How the Market Transforms
+Information into News (Princeton, N.J.: Princeton University Press, 2004).
+13. Data courtesy Mitchell Zacks of Zacks Investment Research. According to a

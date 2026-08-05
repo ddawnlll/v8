@@ -1,0 +1,1342 @@
+
+each bar used to compute the average. I’ve found very little difference in
+using average true range or average range, so I pretty much just use one:
+average range. There is a big difference between using range and standard
+deviation as volatility measures.
+The primary difference is that standard deviation accounts for directional
+volatility, while average range doesn’t. The two data streams in figure A.1
+will yield the same average range number over the 18 bars shown because
+the distance from the high to the low each day is the same in both streams.
+But the standard deviation calculation will have a much higher standard deviation number for the first stream because the closes are trending. In this case
+standard deviation captures the real volatility better than average range. The
+bottom line is that I always check both measures when I use a volatility filter.
+
+Data Stream 1
+
+247
+
+FIGURE A.1 Non‐Directional and Directional Data Streams
+
+■ Correlation
+Correlation is the degree to which two data streams move in the same direction. There is a mathematical formula called the Pearson correlation coefficient that measures correlation values, referred to as r, in the range ‐1 to 1.
+If two data streams yield a value of 1, they are perfectly correlated and rise
+and fall together, although not necessarily at the same rate. When the output
+is −1, they are perfectly negatively correlated and when one rises the other
+falls—again, not necessarily at the same rate. For values close to 0, the two
+
+UNDERSTANDING THE FORMULAS
+
+Data Stream 2
+
+data streams are non‐correlated and the data streams move independently
+of each other. Figure A.2 shows pairs of data streams and their associated
+correlation coefficients.
+
+r=1
+
+r = −1
+
+r=0
+
+FIGURE A.2 Correlation Coefficients for Various Data Pairs
+
+The formula to compute the Pearson correlation coefficient is:
+r=
+
+UNDERSTANDING THE FORMULAS
+
+248
+
+n ∑ xi y i − ∑ xi ∑ y i
+
+( n ∑ x − ( ∑(x ) ).( n∑ y − ( ∑( y ) )))
+2
+i
+
+2
+
+i
+
+2
+i
+
+2
+
+i
+
+where:
+n=
+xi=
+yi=
+r=
+
+the number of samples in the group
+the ith sample in data stream 1
+the ith sample in data stream 2
+the Pearson correlation coefficient
+
+This is another formula that looks complex, but it can be calculated in
+a single pass of the two data streams (stream x and stream y). If the two
+streams are paired, as you go down the two columns you make three calculations: the sum of the product of the two data points, ∑xi yi; the sum of the
+x points, ∑xi; and the sum of the y points, ∑yi.Then just insert in the formula
+and solve for r.
+There are many uses for correlation. In Appendix B, it will be used to
+show the degree of correlation between commodities in the same group. It
+can also be used to show the degree of serial correlation in a data stream.
+Serial correlation is the degree to which previous data in the stream influences the value of succeeding data. If a stream has a high degree of serial correlation, up‐moves in the stream will be followed by other up‐moves, and
+
+down‐moves followed by down‐moves. Serial correlation can be exploited
+for gain. Suppose the profit for each trade is put in a file sequentially and
+correlated with the same file lagged by one place. If the correlation of the
+two streams is positive, it means winning trades have a tendency to follow
+a period of winning trades, and losing trades follow losers. In real trading,
+when you have a good winning streak you might up the size of your trades to
+take advantage of expected additional winners, and when in a losing streak,
+reduce size or even cut off trading.
+In trading, perhaps the best use of correlation is to illustrate the power of
+diversification in money management. If the difference in consecutive closing prices of two trading variables is normally distributed, a third variable
+formed by summing the first two will have the following standard deviation:
+σ32 = σ12 + 2 r12 σ1 σ2 + σ22
+where:
+
+Think of the first two variables as trades in your portfolio that move in
+price from day to day (hopefully in the direction of your trade). The third
+variable is the portfolio value. The standard deviation of portfolio value represents the movement of the portfolio, either up or down. It is instructive
+to assign some values to the variables and look at outcomes, as Table A.1
+illustrates.
+TABLE A.1 Portfolio Outcomes Based on Two Variables
+Variable 1 Standard
+Deviation (Points)
+
+5
+5
+5
+
+Variable 2 Standard
+Deviation (Points)
+
+Correlation between 1 and 2
+
+5
+5
+5
+
+1
+0
+–1
+
+Variable 3 Standard
+Deviation (Points)
+
+10
+7.1
+0
+
+The first row in the table has Variable 1 and Variable 2 perfectly correlated. When the close of Variable 1 is up, so is that of Variable 2. When the
+close of Variable 1 is down, so is that of Variable 2. They are moving in perfect lock‐step. Since the standard deviation of both Variable 1 and Variable 2
+
+249
+UNDERSTANDING THE FORMULAS
+
+σ1 is the standard deviation of the change in closes of the first variable
+σ2 is the standard deviation of the change in closes of the second
+variable
+σ3 is the standard deviation of the change in closes of the new variable
+r12 is the correlation coefficient between the two variables
+
+is the same (a value of 5), the portfolio moves as if you’re trading two contracts of the same tradeable (10 points).
+The second row highlights the rationale behind the diversification used
+in traditional money management. With no correlation between Variable 1
+and Variable 2, the portfolio moves less than the sum of the two variables’
+standard deviations, but more either variable alone. Some people make the
+argument that if your portfolio is fully diversified with uncorrelated assets,
+your risk actually goes down. This two‐variable portfolio shows that the risk
+doesn’t go down. With each additional uncorrelated variable portfolio risk
+does go up, but at a decreasing rate.
+The last row shows trading nirvana. If you could successfully trade two
+instruments at the same time that are perfectly negatively correlated, you
+would have no risk. There are commodities that are negatively correlated
+to a high degree like the Dollar Index and the Japanese yen, but finding a
+strategy that makes money on both while long at the same time, or short at
+the same time is the problem.
+The two‐variable formula above can be easily extended to any number of
+tradeables, trading any number of contracts/shares of either long or short
+positions.
+UNDERSTANDING THE FORMULAS
+
+250
+
+APPENDIX B
+
+Understanding
+Futures
+251
+
+C
+
+ommodity trading is a zero-sum game. For each contract traded, there
+will be a buyer and a seller. For traders, not hedgers, the buyer believes
+the price of the commodity is going up, while the seller believes the price
+is going down. Price movement up from the entry price of the trade will
+cause the buyer to have a profitable position (positive open‐trade equity, or
+run‐up), while the seller will be in the red by the exact same amount the
+buyer is ahead (negative open‐trade equity, or draw‐down).When either the
+buyer or seller closes out a position, that trade is ended with either a profit
+or loss (closed‐trade profit or loss).
+Commodities are traded by a number of exchanges in the United States
+and abroad. The exchange is really a sponsor of the commodity being traded
+and administers trading to include the size of the contract, the hours it is
+traded, the delivery months traded, minimum movement of price, and
+margin requirements.
+
+   +    (  +     ,( 
+  #  & - #.   & + "
+& + "#$ %    !"
+
+■ The Contract
+
+UNDERSTANDING FUTURES
+
+252
+
+The basis of trading is the commodity contract. It has a specific start date
+and an expiration date. The contract is an obligation to either buy or provide
+the underlying commodity at the price the trade is entered at upon contract
+expiration. The seller commits to provide the underlying deliverable. Most
+trades are ended before contract expiration, so a trader can exit his position
+before first notice day, and neither provide nor take delivery of the contract.
+There are commodity contracts for a variety of raw materials and foodstuffs
+like copper or corn. The vast majority of these are settled in the physical
+deliverable. A seller of a copper contract would have to deliver 25,000
+pounds of high‐grade copper upon contract expiration, while a buyer of
+corn would receive 5,000 bushels of corn.
+Each contract has a specific size and a specific trading start date and
+contract expiration date. As a trader, you will probably want to trade the
+most liquid month. Generally the most liquid month has the highest reported
+volume and open interest. It is called the front month because most speculative traders are making their trades on that contract. Volume is the total
+number of contracts traded on a given day. It is reported in two ways: by
+contract, or across all contracts. Open interest is the total number of paired
+contract positions. If the open interest is reported at 10,000 contracts, it
+means that there are 10,000 long positions and 10,000 short positions.
+■ Contract Pricing
+As a trader, it is crucial to understand the potential risk and reward of any
+position you enter. Risk and reward depend on the type of contract you are
+trading (oats versus the S&P, for example), the relative recent volatility of
+the commodity, and the way it is priced by the exchange. The size of a corn
+contract is 5,000 bushels. If the price of a bushel goes up a penny, the value
+of the corn contract has just increased by $50 ($0.01 × 5,000). If the price
+of a copper contract goes down by a penny, the value of the copper contract
+has decreased by $250 ($0.01 × 25,000) where 25,000 is the number of
+pounds of high‐grade copper in one contract.
+■ Relative Contract Risk
+The corn and copper examples illustrate that a one‐cent move in copper nets
+five times as large a change in contract value as a one‐cent move in corn.
+
+Is trading copper five times as risky as trading corn? The answer depends
+on the volatility of the underlying commodity. If corn’s price movement is
+five times as volatile as copper, their contract risks are approximately equal.
+Volatility can be measured in any number of ways, but I prefer to use the
+standard deviation of the closing prices. (See Appendix A for information
+regarding standard deviation.) The standard deviation is just the dispersion
+of price from its average price over some time frame. The formula for standard deviation is:
+
+∑ (μ − x )
+σ=
+n
+
+2
+
+i =1
+
+i
+
+n −1
+
+where:
+n = the number of samples in the group
+xi = the ith sample in the group
+μ = the mean of a group that has n samples
+σ = the standard deviation of the samples in the group
+
+TABLE B.1 Range of Volatility by Commodity
+Commodity
+
+Average SD in
+Points
+
+Max SD in
+Points
+
+Min SD in
+Points
+
+Average SD in
+Dollars
+
+Corn
+Oats
+Soybeans
+Soy Meal
+Bean Oil
+Wheat
+KC Wheat
+Rough Rice
+Live Cattle
+Lean Hogs
+Feeder Cattle
+
+7.68
+6.46
+19.60
+6.37
+0.80
+11.00
+10.40
+0.30
+1.46
+2.18
+1.49
+
+50.50
+74.20
+101.00
+39.70
+4.63
+61.30
+74.80
+1.83
+7.37
+7.84
+6.69
+
+1.32
+1.28
+3.64
+1.34
+0.20
+2.46
+1.92
+0.04
+0.36
+0.55
+0.32
+
+$384
+$323
+$978
+$634
+$483
+$553
+$522
+$594
+$585
+$873
+$747
+(continued )
+
+253
+UNDERSTANDING FUTURES
+
+To determine the relative risk of each contract, the average 40‐day
+standard deviation of the closes over the trading life of the contract was
+computed. For analysis purposes, continuous contracts were used. Table B.1
+shows the underlying commodity; its mean standard deviation over its life;
+its max and min standard deviation over its lifetime; and the dollar value of
+the average standard deviation.
+
+TABLE B.1 (Continued )
+
+UNDERSTANDING FUTURES
+
+254
+
+Commodity
+
+Average SD in
+Points
+
+Max SD in
+Points
+
+Min SD in
+Points
+
+Average SD in
+Dollars
+
+Coffee
+Cotton
+Lumber
+Cocoa
+Sugar
+Orange Juice
+Copper
+Palladium
+Silver
+Gold
+Platinum
+London Copper
+London Alloy
+London Al.
+London Nickel
+Crude Oil
+Natural Gas
+Heating Oil
+Unleaded Gas
+Japanese Yen
+Swiss Franc
+Can. Dollar
+British Pound
+Dollar Index
+Mexican Peso
+Australian Doll.
+Euro‐Currency
+30‐Year Bond
+10‐Year Note
+5‐Year Note
+2‐Year Note
+Euro‐Dollar
+Australian Bond
+Canadian Bond
+Euro‐Bund
+Long Gilt
+Spanish Bond
+Simex JGB
+S&P500
+Nasdaq 100
+Nikkei
+
+6.12
+1.99
+11.50
+65.00
+0.57
+4.43
+3.24
+10.50
+33.50
+9.84
+16.40
+61.30
+32.90
+48.30
+354.00
+1.09
+0.23
+0.30
+0.33
+0.013
+0.012
+0.0058
+0.026
+1.30
+0.0017
+0.010
+0.018
+1.36
+0.995
+0.67
+0.30
+0.19
+0.19
+0.94
+0.80
+1.04
+0.87
+0.89
+14.70
+88.00
+529.00
+
+46.50
+7.64
+77.70
+229.00
+5.78
+30.20
+19.50
+115.00
+877.00
+98.30
+166.00
+514.00
+273.00
+308.00
+3183.00
+5.11
+1.72
+0.14
+0.20
+0.057
+0.039
+0.021
+0.12
+3.82
+0.0094
+0.033
+0.052
+5.14
+2.93
+1.75
+0.85
+1.42
+0.82
+2.40
+1.95
+3.77
+2.20
+3.22
+81.00
+465.00
+1558.00
+
+1.19
+0.48
+1.36
+12.5
+0.11
+0.72
+0.50
+0.76
+2.69
+1.23
+2.35
+11.6
+6.77
+9.63
+34.4
+0.13
+0.01
+0.005
+0.008
+0.001
+0.003
+0.0006
+0.0053
+0.25
+0.00045
+0.0025
+0.0056
+0.28
+0.21
+0.15
+0.066
+0.004
+0.051
+0.26
+0.22
+0.28
+0.26
+0.24
+1.22
+11.4
+110
+
+$2,297
+$996
+$1,260
+$650
+$639
+$665
+$811
+$1,054
+$1,672
+$983
+$820
+$1,532
+$658
+$1,207
+$2,123
+$1,095
+$2,328
+$1,270
+$1,417
+$1,596
+$1,523
+$579
+$1,601
+$1,303
+$839
+$1,028
+$2,241
+$1,364
+$995
+$670
+$596
+$484
+$1,095
+$640
+$760
+$797
+$825
+$822
+$6,128
+$8,800
+$2,646
+
+Table B.1 clearly shows that there is a big difference between contracts.
+The average 40‐day standard deviation results in a variance of $8,800 for
+a full‐size Nasdaq 100 contract, but only $323 for oats. It is clearly much
+riskier to trade a Nasdaq 100 contract than an oat contract. Moreover, the
+max and min variance within a given commodity shows that at different
+times there is a big difference within the same commodity. The Nasdaq 100
+has an average volatility of $8,800, but it has been as low as $1,140 and as
+high as $46,500, a very large range. This is the reason I advocate using stops
+relative to recent volatility.
+■ Commodity Groups
+It is convenient to group commodities into categories. The most commonly
+used grouping refers to the grains (or agriculturals), meats, metals, energies, currencies, financials, softs, and stock indices. The following breakout
+is my grouping of the commodities that I develop trading systems across:
+
+Energies
+Crude Oil
+Natural Gas
+Heating Oil
+Unleaded Gas
+Stock Indices
+S&P 500
+Nasdaq 100
+Russell 2000
+Midcap 400
+Nikkei
+
+Meats
+Live Cattle
+Lean Hogs
+Feeder Cattle
+Metals
+Gold
+Copper
+Palladium
+Platinum
+London Nickel
+London Copper
+London Alloy
+London Aluminum
+Silver
+Financials
+30‐Year Bond
+10‐Year Note
+5‐Year Note
+2‐Year Note
+Australian Bond
+Euro Bund
+Spanish Bond
+Long Gilt
+Dollar Index
+
+Softs
+Coffee
+Cocoa
+Cotton
+Sugar
+Orange Juice
+Lumber
+Currencies
+Australian Dollar
+Euro‐Currency
+Swiss Franc
+Canadian Dollar
+British Pound
+Mexican Peso
+Japanese Yen
+Eurodollar
+
+255
+UNDERSTANDING FUTURES
+
+Grains
+Corn
+Oats
+Soybeans
+Soymeal
+Bean Oil
+Wheat
+KC Wheat
+Rough Rice
+
+UNDERSTANDING FUTURES
+
+256
+
+The reason to group commodities is that, generally, those in the same
+group are highly correlated with each other. For money management reasons it is much more advantageous to trade a basket of commodities that
+are lowly correlated to each other than a basket that is high correlated, even
+if each basket makes the same amount of money over time. The reason to
+avoid correlated commodities is that they tend to move together. A good
+trade in one will be a good trade across all, and a bad trade in one will generally be a bad trade for all the other commodities highly correlated to it. It is
+the bad trades to watch out for. A number of trades losing at the same time
+will cause a big pullback in your trading equity (draw‐down). On the other
+hand, it is much more likely that an uncorrelated basket will not frequently
+have bad trades together. They tend to move on their own individual fundamentals independently of each other.
+When a correlation algorithm is used on two data sets, the correlation
+number that is returned will range from –1 to +1. A –1 value means the two
+data sets move in the opposite direction at each data point. A value of +1
+means the two data sets move in the same direction at each data point. I use
+a value of 0.40 as a significant positive correlation between two data streams.
+Tables B.2 through B.9 show the correlation among all the commodities
+in each group.They were generated using the Pearson correlation algorithm.
+TABLE B.2 Correlation among Grain Commodities
+Grains
+
+Commodity Corn
+Corn
+1
+Oats
+0.50
+Soybeans
+0.62
+Soy Meal
+0.54
+Bean Oil
+0.48
+Wheat
+0.51
+KC Wheat
+0.51
+Rough Rice 0.17
+
+Oats Soybeans Soy Meal Bean Oil Wheat
+0.50
+0.62
+0.54
+0.48
+0.51
+1
+0.40
+0.37
+0.29
+0.42
+0.40
+1
+0.82
+0.68
+0.40
+0.37
+0.82
+1
+0.35
+0.36
+0.29
+0.68
+0.35
+1
+0.30
+0.42
+0.40
+0.36
+0.30
+1
+0.41
+0.37
+0.33
+0.38
+0.87
+0.15
+0.17
+0.15
+0.13
+0.13
+
+KC
+Wheat
+0.51
+0.41
+0.37
+0.33
+0.38
+0.87
+1
+0.13
+
+Rough
+Rice
+0.17
+0.15
+0.17
+0.15
+0.13
+0.13
+0.13
+1
+
+To use Table B.2, enter the first commodity you are interested in from
+the left of the table and move across the row until you hit the column that
+intersects with the second commodity you are interested in. For example,
+corn is correlated at a level of 1 with itself and 0.5 with oats. Looking over
+all the relationships, it is clear that all the members of the grain group are
+significantly correlated with one or more of the other commodities, with
+
+the exception of rough rice, which isn’t significantly correlated with any
+other grain group member.
+TABLE B.3 Correlation among Meat Commodities
+Meats
+Commodity
+
+Live Cattle
+
+Lean Hogs
+
+Feeder Cattle
+
+Live Cattle
+Lean Hogs
+Feeder Cattle
+
+1
+0.35
+0.75
+
+0.35
+1
+0.32
+
+0.75
+0.32
+1
+
+The cattle members (live cattle and feeder cattle) are significantly correlated with one another. The cattle members and hogs are correlated at the
+0.25 to 0.35 range with each other—not significant correlation, but on the
+threshold.
+TABLE B.4 Correlation among Soft Commodities
+Softs
+Coffee
+
+Cocoa
+
+Cotton
+
+Lumber
+
+Sugar
+
+Orange Juice
+
+1
+0.11
+0.01
+0.02
+0.05
+0.03
+
+0.11
+1
+0.04
+0.02
+0.09
+0.01
+
+0.01
+0.04
+1
+0.08
+0.02
+0.04
+
+0.02
+0.02
+0.08
+1
+0.08
+0.02
+
+0.05
+0.09
+0.02
+0.08
+1
+0.02
+
+0.03
+0.01
+0.04
+0.02
+0.02
+1
+
+None of the members of the softs group show a significant correlation
+with any other member. I treat them as totally independent of each other. I
+should note that the softs group is really a “cats and dogs” group. Things that
+don’t readily fit in another group are lumped here. Clearly the fundamentals
+driving each of these commodities are very different, as are the areas that
+primarily produce them.
+As shown in Table B.5, the precious or semi‐precious metal members of
+this group (silver, gold, and platinum) are all highly correlated with each
+other. Palladium, which is an industrial white metal used primarily in catalytic converter production, is more highly correlated with the precious
+metal group than the industrial metal members (copper and the London
+metals). All the industrial metals are highly correlated with each other.
+
+257
+UNDERSTANDING FUTURES
+
+Commodity
+
+Coffee
+Cocoa
+Cotton
+Lumber
+Sugar
+Orange Juice
+
+0.21
+1
+0.39
+0.41
+0.57
+0.16
+0.17
+
+0.16
+0.05
+
+1
+0.21
+0.23
+0.22
+0.25
+0.78
+0.46
+
+0.51
+0.31
+
+Copper
+Palladium
+Silver
+Gold
+Platinum
+London Copper
+London Aluminum
+Alloy
+London Aluminum
+London Nickel
+
+Palladium
+
+Copper
+
+0.12
+0.09
+
+0.23
+0.39
+1
+0.67
+0.52
+0.16
+0.15
+
+Silver
+
+0.13
+0.08
+
+0.22
+0.41
+0.67
+1
+0.58
+0.15
+0.18
+
+Gold
+
+Correlation among Metal Commodities
+
+Commodity
+
+TABLE B.5
+
+0.17
+0.06
+
+0.25
+0.57
+0.52
+0.58
+1
+0.14
+0.13
+
+Platinum
+
+UNDERSTANDING FUTURES
+
+Metals
+
+258
+0.52
+0.40
+
+0.78
+0.16
+0.16
+0.15
+0.14
+1
+0.46
+
+London Copper
+
+0.75
+0.35
+
+0.46
+0.17
+0.15
+0.18
+0.13
+0.46
+1
+
+London Aluminum Alloy
+
+1
+0.45
+
+0.51
+0.16
+0.12
+0.13
+0.17
+0.52
+0.75
+
+London
+Aluminum
+
+0.45
+1
+
+0.31
+0.05
+0.09
+0.08
+0.06
+0.40
+0.35
+
+London Nickel
+
+As shown in Table B.6, all the members of the energy group are significantly correlated with one or more of the other commodities of the group.
+
+TABLE B.6 Correlation among Energy Commodities
+Energies
+Commodity
+
+Crude Oil
+
+Natural Gas
+
+Heating Oil
+
+Crude Oil
+Natural Gas
+Heating Oil
+Unleaded Gas
+
+1
+0.28
+0.85
+0.79
+
+0.28
+1
+0.32
+0.35
+
+0.85
+0.32
+1
+0.74
+
+Unleaded Gas
+
+0.79
+0.35
+0.74
+1
+
+259
+UNDERSTANDING FUTURES
+
+All the major currencies (euro, yen, franc, pound, and dollar) are all
+highly correlated with each other. The yen, franc, and pound tend to move
+up and down together, while the dollar moves in the opposite direction
+of those three (high negative correlation). Note that the dollar and euro
+have an almost perfect negative correlation, −0.97. The minor currencies
+(Canadian dollar, Australian dollar, and Mexican peso) are not highly correlated with the major currencies, nor are they highly correlated with each
+other. It is my experience that these three currencies are much harder to
+trade than the majors.
+Table B.8 illustrates that all U.S. financials are highly correlated with each
+other, and the degree of correlation is highest with instruments closest in
+maturity length (30‐year bond and 10‐year note, 10‐year note and 5‐year
+note, etc.). All U.S. financials are also highly correlated with the foreign
+financials, but the degree of correlation is less than within the U.S. financial
+group. Likewise, all foreign financials are highly correlated with each other,
+and the highest correlation occurs within instruments from the same region
+(Spanish bond, Euro bund, and Long gilt, which are all European instruments).
+The U.S. stock indices are highly correlated to all members of that group,
+and significantly correlated with the Nikkei (Table B.9).
+
+Japanese Yen
+Swiss Franc
+Canadian Dollar
+British Pound
+Dollar Index
+Mexican Peso
+Australian
+Dollar
+Euro‐Currency
+
+Commodity
+
+0.54
+1
+0.16
+0.65
+–0.91
+–0.20
+0.12
+
+0.91
+
+0.38
+
+Swiss
+Franc
+
+1
+0.54
+0.15
+0.41
+–0.57
+–0.14
+0.09
+
+Japanese Yen
+
+0.13
+
+0.15
+0.16
+1
+0.20
+–0.14
+0.02
+0.31
+
+Canadian
+Dollar
+
+TABLE B.7 Correlation among Currency Commodities
+
+UNDERSTANDING FUTURES
+
+0.63
+
+0.41
+0.65
+0.20
+1
+–0.73
+–0.07
+0.20
+
+British
+Pound
+
+Currencies
+
+260
+–0.97
+
+–0.57
+–0.91
+–0.14
+–0.73
+1
+0.12
+–0.18
+
+Dollar
+Index
+
+–0.16
+
+–0.14
+–0.20
+0.02
+–0.07
+0.12
+1
+0.01
+
+Mexican Peso
+
+0.19
+
+0.09
+0.12
+0.31
+0.20
+–0.18
+0.01
+1
+
+Australian
+Dollar
+
+1
+
+0.38
+0.91
+0.13
+0.63
+–0.97
+–0.16
+0.19
+
+Euro Currency
+
+30‐Year Bond
+10‐Year Note
+5‐Year Note
+2‐Year Note
+Eurodollar
+Australian Bond
+Euro Bund
+Spanish Bond
+Long Gilt
+
+1
+0.95
+0.87
+0.76
+0.71
+0.44
+0.61
+0.53
+0.48
+
+30‐Year Bond
+
+0.95
+1
+0.96
+0.88
+0.77
+0.46
+0.62
+0.51
+0.46
+
+10‐Year Note
+
+0.87
+0.96
+1
+0.94
+0.83
+0.52
+0.60
+0.48
+0.49
+
+5‐Year Note
+
+Eurodollar
+
+0.71
+0.77
+0.83
+0.88
+1
+0.39
+0.46
+0.33
+0.34
+
+0.76
+0.88
+0.94
+1
+0.88
+0.55
+0.56
+0.43
+0.49
+
+Financials
+
+2‐Year Note
+
+UNDERSTANDING FUTURES
+
+Commodity
+
+TABLE B.8 Correlation among Financial Commodities
+
+261
+
+0.44
+0.46
+0.52
+0.55
+0.39
+1
+0.45
+0.46
+0.35
+
+Australian
+Bond
+
+0.61
+0.62
+0.60
+0.56
+0.46
+0.45
+1
+0.77
+0.74
+
+Euro Bund
+
+0.53
+0.51
+0.48
+0.43
+0.33
+0.46
+0.77
+1
+0.70
+
+Spanish
+Bond
+
+0.48
+0.46
+0.49
+0.49
+0.34
+0.35
+0.74
+0.70
+1
+
+Long Gilt
+
+TABLE B.9 Correlation among Stock Index Commodities
+Stock Indices
+Commodity
+
+S&P 500
+
+Nasdaq 100
+
+Russell 2000
+
+Midcap 400

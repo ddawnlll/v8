@@ -1,0 +1,327 @@
+
+8.4 ABSOLUTE RETURNS — RISK REDUCTION
+Just as a corporation has to decide whether to run their Treasury operation as a proﬁt or as a risk
+reduction centre, so a portfolio manager has to make the same kind of choice. While one can
+theoretically change one’s core approach to managing the portfolio at any time, it is usually
+better to make that choice right at the start. In the process, the portfolio manager should decide
+
+160
+
+Currency Strategy
+
+what style of portfolio management is to be adopted as regards the underlying investments, the
+desired return proﬁle of the portfolio and also the style of currency management to be used.
+In the case of a portfolio manager who is focusing on absolute returns, the currency risk
+management style that is synonymous with this focuses on reducing the risk of the overall
+portfolio. This in turn usually means adopting a passive style of currency risk management.
+8.4.1 Passive Currency Management
+Passive currency hedging or currency management involves the creation of a currency hedging
+benchmark and sticking to that benchmark come what may, avoiding any slippage. As a result,
+it involves the taking of standard currency hedges and then continuing to roll those for the life
+of the investment. The two obvious ways of establishing a passive hedging strategy are for
+instance:
+
+r Three-month forward (rolled continuously)
+r Three-month at-the-money forward call (rolled continuously)
+The advantage of passive currency management is that it reduces or eliminates the currency
+risk (depending on whether the benchmark is fully or partially hedged). The disadvantage is
+that it does not incorporate any ﬂexibility and therefore cannot respond to changes in market
+dynamics and conditions. Passive currency management can be done either by the portfolio
+manager themselves or by a currency overlay manager, and focuses on reducing the overall
+risk proﬁle of the portfolio.
+8.4.2 Risk Reduction
+The emphasis on risk reduction within a passive currency management style deals with the
+basic idea that the portfolio’s return in the base currency is equal to:
+The return of foreign assets invested in + the return of the foreign currency
+This is a simple, but hopefully effective way of expressing the view that there are two separate
+and distinct risks present within the decision to invest outside of the base currency. The motive
+of risk reduction is therefore to hedge to whatever extent decided upon the return of the foreign
+currency. From this basic premise, we can extrapolate the following:
+Return (unhedged) = Return (asset) + Return (currency)
+and
+Return (hedged) = Return (asset) + Return (hedge currency)
+The overall aim remains the same, and that is to reduce the overall risk of the portfolio,
+maximizing the total or absolute return in the process. In other words, it is to boost the
+portfolio’s Sharpe ratio, which is usually deﬁned as the (annual) excess return as a proportion
+of the (annual) standard deviation or risk involved.
+It should be noted from this formula however that some investors balk at the idea of hedging
+on the simplistic view that the hedge cost automatically reduces not just the hedged return
+of the asset but the asset’s total return in base currency terms. This is not necessarily the
+case. Actually, the converse can be argued, namely that the hedge reduces or eliminates any
+@Team-FLY
+
+Managing Currency Risk II
+
+161
+
+Figure 8.1 USD balanced investor, 1973–1999: EAFE + Canada combined to 60% US equity/40%
+US bond portfolio
+
+possible currency loss. Whether or not the investor hedges, there is the foreign currency return
+to be considered. That may add or detract from the asset return in foreign currency terms,
+and therefore may in turn boost or reduce the asset return in domestic currency terms. The
+hedging cost component will clearly depend on a number of variables, including the currency
+hedging benchmark and the ﬁnancial instruments that can be used, but has clear parameters.
+The potential unhedged currency loss is theoretically limitless.
+Example
+As an example of risk reduction, we will take an average balanced investor with international
+exposure. As Figure 8.1 shows, looking from 1973 to 1999, currency hedging can signiﬁcantly
+reduce the overall risk proﬁle of the portfolio.
+
+8.5 SELECTING THE CURRENCY HEDGING BENCHMARK
+A crucial decision for portfolio managers who want to manage their currency risk, whether
+actively or passively, is the selection of their currency hedging benchmark. After all, when we
+are talking about managing currency risk, we are really talking about establishing whether or
+not there may be a need to hedge out that currency risk. Using a currency hedging benchmark
+is a more disciplined and rigorous way of managing currency risk than either not hedging or
+at the other extreme conducting all currency hedging on a discretionary and “gut feel” basis.
+There are four main currency hedging benchmarks used by institutional investors, which
+can be divided into:
+
+r 100% hedged benchmark
+r 100% unhedged benchmark
+r Partially hedged benchmark
+r Option hedged benchmark
+
+162
+
+Currency Strategy
+
+Being 100% hedged is usually not the optimal strategy, apart from in exceptional cases. Equally,
+using a currency hedging benchmark of 100% unhedged would seem to defeat the purpose
+of managing currency risk, again apart from in exceptional cases. A further consideration is
+that many funds are not allowed to use options as they are viewed as a speculative ﬁnancial
+instrument, ironically in the same way that some corporations are also not allowed to use them.
+This still leaves them however with the choice of three possible currency hedging benchmarks of
+100% hedged, 100% unhedged or partially hedged. The primary instrument for such hedging
+would be the forward for passive currency management, though active currency managers
+would no doubt have greater ﬂexibility, both in the currencies in which they can operate and
+the ﬁnancial instruments they can use.
+Currency hedging benchmarks of 0% or 100% are known as asymmetrical or polar benchmarks and have obvious limitations. With a polar benchmark, an active currency manager is
+able to take positions only in one direction. As a result, their ability to add value is also limited.
+For example, it is extremely difﬁcult for a currency manager to be able to add value operating
+under an unhedged currency benchmark when foreign currencies are appreciating because the
+manager is generally unable to take on additional foreign currency exposure. The best the
+manager can do is to mimic the benchmark by holding the unhedged benchmark exposure and
+avoiding hedging. Similarly, when operating under a fully hedged benchmark, it is difﬁcult for
+a manager to add value when foreign currencies are falling.
+Adoption and use of benchmarks depends critically on the currency risk management style,
+for which the type of fund is clearly a key determinant. For instance, a pension fund manager
+may use a fully hedged or alternatively unhedged currency benchmark to either reduce risk
+on the one hand or minimize transaction costs on the other. Meanwhile, the active currency
+manager will seek a partially hedged benchmark, preferably 50%, to give them as much
+ﬂexibility and room as possible with which to be able to add value. With such a symmetrical
+benchmark, active currency managers can take advantage of both bull and bear markets in their
+currencies. In the context of relative returns, it should therefore be of no surprise that there is
+good evidence to suggest that symmetrical benchmarks have consistently added more “alpha”
+than their asymmetrical counterparts.
+Example
+A classic example of a group of international investors that typically use one speciﬁc type of
+currency hedging benchmark is that of international equity funds, which generally either do
+not hedge or adopt unhedged benchmarks. Though the technical details are different between
+these two approaches, they amount to the same thing. There may be some debate as to what
+should be the optimum currency benchmark for an international equity fund in terms of the
+hedging ratio. However, what is clear is that the hedging ratio for these should in theory
+be higher than for those funds with only a small portion of international equity risk, on the
+simple premise that the higher the currency risk the higher the required hedge ratio. Despite
+this, unhedged currency benchmarks remain very popular among this group of investors. In
+part, this is because many fund managers still suggest that the long-term expected return
+of currencies is zero and in addition that currency hedging generates unnecessary transaction
+costs. Furthermore, the idea that investing in a country means investing in the currency remains
+prevalent within international equity funds.
+For the reasons that we have already outlined earlier in this chapter, we would dispute both
+these views. The very idea of long term is subjective for one thing. For another, currency
+
+Managing Currency Risk II
+
+163
+
+weakness in the short term may lead to intolerable mark-to-market and tracking error deterioration. Finally, the trading and analytical dynamics of currency and asset markets are as we
+suggested different from one another, ergo the two risks they represent should be treated and
+managed separately and independently from one another. Generally speaking therefore, we
+would suggest having an unhedged currency benchmark would be inappropriate, even supposing the currency risk management motive was for risk reduction rather than adding alpha.
+Using a partially hedged benchmark can undoubtedly reduce the portfolio’s overall risk and
+thus boost its Sharpe and information ratios.
+A possible exception to this broad disagreement with the general idea of using unhedged
+benchmarks is where the fund has only a small portion of its assets in international as opposed
+to domestic equities. Indeed, if the international allocation of an equity fund is below 10–15%,
+it may not make sense to have a hedging benchmark above that allocation as that might in
+fact add to the portfolio’s risk while detracting from the return. In other words, under certain
+circumstances it may make sense to use an unhedged benchmark for those equity funds with
+only a small international allocation. Generally however, if an international equity fund has
+an international allocation that signiﬁcantly exceeds its benchmark weight, this represents
+unnecessary currency risk that should be managed.
+
+8.6 RELATIVE RETURNS — ADDING ALPHA
+Asset managers who are focused on absolute returns when managing their currency risk tend to
+use strategies that are characterized by risk reduction, adopting a passive currency management
+approach in order to achieve this. By contrast, funds that are focused on relative returns tend to
+manage currency risk more actively. Their aim is after all to outperform an unhedged position,
+or in some cases the hedged benchmark, in other words to “add alpha”. In this, there is no
+“right” and “wrong”. It depends completely on the risk management style of the fund and what
+risk approach it takes towards both the underlying assets and also the embedded currency risk.
+8.6.1 Active Currency Management
+Active currency management around a currency benchmark means the fund has given either the
+asset manager or a professional currency overlay manager the mandate to “trade” the currency
+around the currency hedging benchmark for the explicit purpose of adding alpha to the total
+return of the portfolio.
+With active currency management, the emphasis should be on ﬂexibility, both in terms of the
+availability of ﬁnancial instruments one can use to add alpha and also in terms of the currency
+hedging benchmark. On the ﬁrst of these, an active currency manager should have access to a
+broad spectrum of currency instruments in order to boost their chance of adding value. Similarly,
+their ability to add value is signiﬁcantly increased by the adoption of a 50% or symmetrical
+currency hedging benchmark rather than by a 100% hedged or 100% unhedged benchmark.
+8.6.2 Adding “Alpha”
+The motive of risk reduction is primarily defensive, in that it seeks to defend or maintain the
+portfolio’s return within a given tolerance of overall risk. That for adding “alpha” on the other
+hand is quite different, in so much as “alpha” refers to the excess return generated by an active
+currency manager relative to a passive hedging programme.
+
+164
+
+Currency Strategy
+
+Economic theory suggests that the long-term return of a currency is zero, so how can an
+active currency manager add value or “alpha”? There appear to be two aspects to this question.
+Firstly, currency markets are dominated by short-term movement. Thus, while their long-term
+return may be zero, their short-term returns (and losses!) may be signiﬁcant. Secondly, it should
+be remembered that the same theory that suggested there were fundamental equilibrium levels
+for currencies also suggests that their long-term returns are zero. While not rejecting such a
+theory outright, it should surely be treated with some care, put in this context.
+Indeed, there is a ﬁne — and increasing — body of academic work that suggests that contrary
+to theory, managing currency risk can indeed add “alpha”. Among these, I will draw out several
+notable examples. Firstly, while formulating his “Universal Hedging Policy” in 1989, Fisher
+Black suggested that currency was, contrary to theory, not a zero sum game and investors could
+indeed increase their returns by holding currency inventories. Needless to say, this contradicted
+the widely held view that currencies could not provide added value because currency markets
+were perfectly efﬁcient. A relatively short time after that, Mark Kritzman put forward the
+view that active currency managers could take advantage of the apparent serial correlation
+in currency returns. Subsequent research by Taylor (1990) and Silber (1994) targeted market
+trends as being behind persistent positive returns from currency managers.
+Two further research reports that should be mentioned are those by Strange (1998, updated
+2001) and The Frank Russell Company (2000). In the ﬁrst case, the survey by Brian Strange,
+as published in Pensions and Investment (15/6/98), entitled “Do Currency Managers Add
+Value?” stated that of the 152 individual currency overlay programmes managed by 11 ﬁrms,
+these produced an average of 1.9% per year over a 10-year review period from 1988 to 1998,
+while simultaneously reducing the risk of the portfolio. In other words, not only did currency
+managers consistently add value, but their action of seeking to manage currency risk also helped
+lower the overall risk proﬁle of the portfolio, thus boosting the Sharpe ratio from both sides!
+The second example is that of the Frank Russell study of May 2000 entitled “Capturing Alpha
+through Active Currency Overlay”, which analysed the historical performance of currency
+overlay mandates and conﬁrmed the view that managing currency risk does indeed add value
+or “alpha”.
+As noted above, a host of empirical studies have proven conclusively that active currency
+management can indeed boost the portfolio’s return, both on an absolute basis and in this context
+relative to not hedging, in contrast to classical exchange rate theory. In line with this, a number
+of studies have been published suggesting clear market inefﬁciencies, which might therefore
+be taken advantage of by active currency managers. For instance, the 1993 study by Kritzman,
+suggesting that the discount/premium of the currency forward contract “systematically and
+signiﬁcantly overestimated the subsequent change in the spot rate”. Kritzman also introduced
+the concept of so-called “bilateral asymmetry”, referring to a bias by risk-averse investors for
+the perceived predictable returns of the interest rate differential as opposed to the unpredictable
+returns of the currency. Work by Choie (1993) supported these ﬁndings. Overall, a body of
+informed opinion has developed, supportive of the view that active currency management can
+add value.
+After ﬁnally admitting that currency markets may offer proﬁt potential, whether over the
+short or long term, academic theorists have suggested that such proﬁt opportunities may exist
+in currency markets because there are some currency market participants that are not solely or
+even mainly motivated by proﬁt. Classical theory suggests rational currency market participants
+are solely proﬁt-seeking and moreover offset each other, with the result that any outstanding
+proﬁt opportunities are instantly arbitraged away. Thus, from this, they seek to explain the
+
+Managing Currency Risk II
+
+165
+
+existence of sustained proﬁt opportunities within currency markets by suggesting that nonproﬁt-seeking currency market participants such as central banks, tourists and national or
+corporate Treasuries effectively distort pricing. To me, such a view appears more reﬂective of
+the guesswork of someone who does not actually know the answer but is afraid to own up.
+Currency markets generate proﬁts because it is the theory that they should not that is wrong
+rather than the currency market itself.
+Active currency management can add value because there is value to be had in currency
+markets, plain and simple. Within this, an active currency manager will clearly favour the most
+ﬂexibility possible to add that value, both in terms of the currency benchmark that they have
+to operate under and the currencies and ﬁnancial instruments with which they are allowed
+to trade. For the active currency manager, the foreign currency return is not just a matter of
+currency translation of the underlying asset, but also of the excess return or alpha that the
+currency manager is able to add. The alpha an active currency manager generates is usually
+measured against an unhedged position. However, probably a truer idea of the alpha the active
+currency manager generates would come from comparing their returns to those of a passive
+currency management strategy of maintaining the benchmark hedge ratio. Historically, the
+typical mandate has allowed managers to vary the hedge ratio between 0 and 100% regardless
+of the benchmark.
+8.6.3 Tracking Error
+Just as corporations have to deal with “forecasting error” in terms of the deviation of forecast
+exchange rates relative to the actual future rate, so investors have to deal with “tracking error”
+within their portfolios, which is the return of the portfolio relative to the investment benchmark
+index being used. Within this, there is “expected” and “realized” tracking error. Expected
+tracking error is as the name suggests determined before the fact — ex ante — whereas the
+realized tracking error is determined after the fact.
+Determining the relevance of tracking error is also a function of comparing the portfolio’s
+hedging strategy with a random strategy, which creates hedge/don’t hedge signals with equal
+probability on a regular basis. Using polar benchmarks — i.e. 0% or 100% hedged — the equal
+probability of the outcome of the random strategy suggests that hedge deviations will be
+zero in half the cases and 100% in half the cases. However, with a partially hedged currency
+benchmark, the deviations will vary in direct proportion to the ratio of the benchmark. For
+instance, for a symmetrical or 50% hedged currency benchmark, the deviations will be 50%
+from each side of the benchmark.
+From this, we can gather two things, ﬁrstly that the tracking error — or the deviation — is a
+function of the hedged ratio used for benchmarking and secondly that the tracking error for a
+partially hedged benchmark should be less than that for a polar benchmark. Indeed, generally,
+the tracking error for a symmetrical or 50% currency hedging benchmark should be around 70%
+of the tracking error using polar benchmarks. Expressed differently, the tracking error of a polar
+benchmark should be 1.41 (square root of 2) times higher than that of a 50% hedged benchmark.
+The advantage of a symmetrical or 50% currency hedged benchmark for a portfolio manager
+is that it reduces the tracking error of the portfolio and also enables them to participate in both
+bull and bear markets compared to the polar benchmark where the participation is limited to
+either/or.
+Tracking error can be further reduced by a technique known as “matched hedging”, which
+increases or decreases the hedge ratio relative to the change in asset allocation. Historically,
+@Team-FLY
+
+166
+
+Currency Strategy
+
+the act of asset allocation itself within ﬁxed income portfolios has been a major and seemingly
+unavoidable factor in increasing a portfolio’s tracking error. Matched hedging can reduce
+though clearly not eliminate this.
+Tracking error can also occur under passive currency management. This is because in order
+to implement a passive currency hedging programme a portfolio manager still has to adjust the
+amount of the currency hedge relative to the value of the underlying as it changes on a regular
+basis — i.e. once a month. In reality, many portfolio managers don’t bother to do this. As a
+result, the residual that is left over- or under-hedged contributes to the tracking error. In this,
+the portfolio manager has to balance the transaction costs of re-balancing the currency hedges
+against the negative effect on tracking error.
+
+8.7 EXAMPLES OF ACTIVE CURRENCY MANAGEMENT
+STRATEGIES
+There are a wide variety of active currency management strategies that are used in the market,
+varying at one end of the spectrum from entirely discretionary-based trading to strict rule-based
+strategies. Three prominent strategies that we will look at in this section are closer to the latter
+rather than the former end of this spectrum:
+
+r Differential forward strategy
+r Simple trend-following strategy
+r Optimization of the carry trade
+All three of these strategies have consistently added alpha to a portfolio if followed rigorously
+and interestingly have also proven to be risk reducing compared to unhedged benchmarks.
+Thus, they also help to boost signiﬁcantly the portfolio’s Sharpe ratio. With what follows, the
+contributions and advice of Henrik Pedersen of the CitiFX Risk Advisory Group and Emmanuel
+Acar of Bank of America’s Risk Management Advisory Group are gratefully acknowledged.
+8.7.1 Differential Forward Strategy
+The core idea behind this is that of “forward rate bias”, or the reality that forward rates are
+poor predictors of future spot exchange rates, in contrast to the theories of covered interest
+rate parity and unbiased forward parity. We have looked at some of the academic backing for
+this admission earlier in this chapter, notably by Fama (1984), Kritzman (1993) and ﬁnally
+Bansal and Dahlquist (2000), who suggested that the negative correlation presented by Fama
+between future exchange rate changes and current interest rate differentials is crucially linked
+to changes in macroeconomic variables.
+As outlined by Acar and Maitra (2000), the differential forward strategy seeks to take
+advantage of the apparent market inefﬁciencies as represented by “forward rate bias” by
+hedging the currency risk only when the interest rate differential is in favour of the hedger. That
+is to say, only when the forward points are at a discount. Conversely, the currency manager
+should not hedge currency risk when the forward points are at a premium and consequently
+the interest rate differential would reﬂect a cost. More speciﬁcally, when the interest rate
+differential pays the investor to hedge, the currency manager should have a hedge ratio of
+100%. Conversely, when the interest rate differential costs the investor to hedge, the hedge

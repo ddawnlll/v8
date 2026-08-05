@@ -1,0 +1,357 @@
+time that they heard of the crash was 10:32 a.m. EDT. Individual investors
+reported talking on average to 7.4 other people about the market situation
+on the day of the crash; institutional investors reported talking on average
+to 19.7 other people.
+The channels of human communication that we know today seem to
+favor the interpersonal face‑to‑face and word‑of‑mouth communication that
+developed over millions of years of evolution, during times when such communication was virtually the only form of interpersonal communication. The
+patterns of communication hard‑wired into our brains rely on there being
+another person’s voice, another person’s facial expressions, another person’s
+emotions, and an associated environment of trust, loyalty, and cooperation.
+
+HER D B E H AV I O R A ND E P ID E MICS
+
+181
+
+Because these elements are missing from the written or electronic word,
+people find it somewhat more difficult to react to these sources of information. They cannot give these other sources the same emotional weight, nor
+can they remember or use information from these other sources as well.
+This is an important reason why we still have teachers—why we cannot tell
+our children to simply sit down and read books or rely on computer‑aided
+instruction.
+It is also for this reason that television is such a powerful medium, in that it
+mimics much of the appearance of direct interpersonal conversation. Watching
+television simulates the very stimuli—the voices, faces, and emotions—that
+we experience in conversation. Indeed, television advertisers often recreate
+images of everyday conversation about their products. Television today has
+become more interactive, now that viewers will chat on social media while
+watching it, but the communication it offers is primarily one‑way, and so it is
+still not as effective as direct person‑to‑person communication.
+The telephone, invented well over a hundred years ago, may still be the
+most important artificial medium for interpersonal communication today,
+because it so closely simulates face‑to‑face communications, lacking only the
+visual stimuli. Studies by sociologists and communications researchers have
+found that telephone conversations come very close to face‑to‑face communications in information transmission and problem‑solving functions, though
+they still fall somewhat short in conflict‑resolution and person‑perception
+functions.9
+The impact of the telephone appears to have been a factor behind the volatile
+stock market of the 1920s. Although the telephone was invented in 1876, it was
+slow to be adopted. Clarence Day, in his book Life with Father, recalled why his
+family did not get a telephone in the 1890s: “Since almost nobody had them
+but brokers, there was no one to talk to . . . though people saw vaguely that a
+telephone might be a convenience if everyone had one, they decided to wait
+in a body until everyone did.”10 The telephone did not become widely used
+until a number of improvements brought the cost down and made the case for
+a telephone more compelling—improvements such as the invention in 1915 of
+vacuum tube amplification of longer‑distance telephone calls. By the mid‑1920s,
+the average person was making over two hundred telephone calls per year
+in the United States. The 1920s saw the spread of “boiler rooms” and “bucket
+shops” that actively sold stocks to the public using the telephone, employing
+questionable tactics that easily slipped past ineffective “blue‑sky” legislation
+at the level of the states. The proliferation of telephones un­doubtedly made it
+easier to sell stocks to the public, and the resulting impetus to fraud helped
+bring the country to the point of enacting the Securities Act of 1933 and the
+Securities Exchange Act of 1934, which created the Securities and Exchange
+Commission.11
+
+182
+
+PSYC HOLOGIC AL FAC TOR S
+
+During the 1990s stock market boom, we were witnessing another explosion of technological innovations that facilitate interpersonal communication,
+consisting of e‑mail and chat rooms, and after 2000 these led to social media.
+Like the telephone, many people were slow to use these innovations at first,
+but as time went by, it became increasingly clear that it was inevitable that
+virtually everyone would be making them part of their daily lives.
+These new and effective media for interactive (if not face‑to‑face) communication may have the effect of expanding yet again the interpersonal
+contagion of ideas. They may have allowed enthusiasm for the market to
+spread much more widely than it would otherwise have. Certainly we are
+still learning how to regulate the use of these new media in the public
+interest.
+Although e‑mail and other Internet platforms were significant changes
+in the technology of communications, it is not clear that their advent was
+more significant than that of the telephone many decades ago. Because the
+telephone allows communication of emotions as expressed vocally, it may
+yet be a better simulator of effective communication than those that rely on
+the written word, like e-mail, Twitter, or Weibo. However, the advances in
+video interaction, like Skype, Facetime, or Google Hangouts, may further
+enhance the potency of long-distance communication by more nearly mimicking human interaction.
+
+Epidemic Models Applied to Word‑of‑Mouth Communication
+The mathematical theory of the spread of disease has been used by epidemiologists to predict the course of infection and mortality.12 These models can
+be used to better understand the transmission of attitudes and the nature of
+the feedback mechanism supporting speculative bubbles.
+In the simplest epidemic model, it is assumed that the disease has a given
+infection rate (the rate at which the disease spreads from contagious people to
+susceptible people) and a given removal rate (the rate at which infected people
+become no longer contagious, through recovery or death).
+If the removal rate is zero, the graphical plot of the number of infected
+people after the introduction of one contagious person follows a mathe­
+matical curve called the logistic curve.13 With the logistic curve, the percentage of the population that is infected rises initially at the infection
+rate. Although the rate of increase is nearly constant at first, the absolute
+number of people recorded as contracting the disease rises faster and
+faster: as more and more people become contagious, more and more people
+become infected and are seen in doctors’ offices complaining of the first
+symptoms of the disease. But the rate of increase starts to decline as the
+pool of yet‑to‑be‑infected susceptibles begins to be depleted. Even though
+
+HER D B E H AV I O R A ND E P ID E MICS
+
+183
+
+the intrinsic infection rate of the disease is unchanged, the rate at which
+new infected people are being produced declines, because those who are
+infected meet fewer people who have yet to become infected. Eventually the
+entire population is infected and the logistic curve becomes flat, at 100%;
+then of course there are no new cases.
+If the removal rate is greater than zero but less than the infection rate, the
+model predicts instead that the course of the epidemic will be bell shaped:
+the number of infectives will at first rise from zero, peak, and then drop back
+to zero. The peak can occur before 100% of the population is ever infected.
+If the removal rate is greater than the infection rate, then the epidemic will
+never get started and will never even be observed.
+Epidemiologists use these models constructively to understand the pattern of disease outbreaks. Using such models they can infer, for example,
+that if the removal rate is just above the infection rate, then a nearly healthy
+population is in danger of an epidemic, for any small uptick in the infection rate or downtick in the removal rate can tip the balance toward a new
+epidemic. Thus, epidemiologists can infer that a change in weather patterns
+that will tend to keep people indoors together (where they are more likely to
+infect one another) may cause the infection rate to increase above the removal
+rate. The epidemic will then begin, but the absolute number of infectives
+will grow slowly at first. If, in this example, the weather changes fairly soon
+again in such a way that the infection rate is brought back down, so that
+the number of infectives never becomes very large, then the epidemic will
+fail to be noticed by the general public. But if the bad weather lingers long
+enough relative to the difference between the bad‑weather‑infection rate
+and the removal rate, then the epidemic will become large and noticeable
+in the population at large. Epidemiologists can use this model to predict,
+according to this example, how long a spell of bad weather is necessary to
+produce a serious epidemic.
+The same type of epidemic models has been applied to other biological
+phenomena that may have relevance to financial markets. Economist Alan
+Kirman has used them to model the behavior of ants in exploiting food
+sources, and he notes that the models also seem relevant to stock market
+price changes.14 It has been found experimentally that ants, when presented
+with two identical food sources near their nest, tend to exploit both sources,
+but one more intensively than another. Over time (and as the experimenter
+constantly replenishes the food sources so that they remain exactly equal),
+the primary attention of the ants may switch from one source to the other.
+Why should they not exploit the two equally, and what causes them to switch
+their attention? Kirman notes that ants individually recruit other ants to food
+sources; there is no central direction for the nest as a whole. Recruitment is
+done by contact and following (tandem recruitment) or by laying a chemical
+
+184
+
+PSYC HOLOGIC AL FAC TOR S
+
+trail (pheromone recruitment). Both of these processes are the ant equivalent
+of word‑of‑mouth communication. Kirman shows that if there is randomness
+in the recruitment process, the experimentally observed phenomena can be
+explained in terms of a simple epidemic model.
+Although disease spread and ant behavior are of theoretical interest in our
+consideration of stock market bubbles, of greatest practical relevance is the fact
+that epidemic models have been applied by sociologists to predict the course
+of word‑of‑mouth transmission of ideas.15 Here, the infection rate is the rate
+of communication of ideas, and the removal rate is the rate of forgetting or of
+losing interest. The dynamics of such transmission may mimic that of disease.
+The formal mathematical theory of epidemics appears, however, to be less
+accurate for modeling social processes than for modeling disease spread or
+ant behavior, and it has yet to spawn an influential and successful literature
+by social scientists. This lack of success may be explained by the fact that the
+basic parameters of these models are not as constant in the social sciences as
+in biological applications.
+One reason for the lack of success in applying epidemic models to the
+spread of ideas may be that the mutation rate, the rate of transmission errors,
+is much higher for ideas than for disease or other biological processes. Many
+of us recall the children’s game of telephone, in which the first person selects
+a simple story and whispers it into the ear of the second person, who then
+whispers it into the ear of the third, and so on. When the story is finally told to
+the group by the last person in the chain, the distortion of the original story is
+often so dramatic as to provoke laughter. The person‑to‑person transmission
+of stories of any complexity is just not very reliable.
+For this reason, pure word‑of‑mouth transmission of ideas, even if abetted
+by the telephone, is not likely to extend widely enough to infect an entire
+nation all by itself. The accuracy of transmission will falter long before
+that happens. In contrast, computer‑to‑computer transmission is un­­erring.
+Computer viruses can spread nationally and internationally with no alteration whatsoever. But viruses do not have the ability to change people’s thinking; they do not get beyond the machine. The ability of users of e‑mail to
+forward others’ messages or to provide web links effectively permits word
+of mouth to spread unerringly. And new technology that makes it possible
+and natural to forward word‑of‑mouth messages from others as part of a
+telephone conversation or a video conference or the social media would
+again dramatically improve the accuracy and persistence of interpersonal
+communications.
+Although the imprecision and variability of interpersonal communications
+as they currently occur prevent formal mathematics from predicting with
+any reliability how ideas spread, epidemic models are still helpful in understanding the kinds of things that can bring about changes in market prices.
+
+HER D B E H AV I O R A ND E P ID E MICS
+
+185
+
+For example, it is useful to consider that any change in the infection rate or
+removal rate will change the rate of spread of new ideas.
+Thus, for example, a major national news story unrelated to speculative
+markets may lower the infection rate of ideas related to speculative markets
+by deflecting attention from them. This phenomenon may help explain why,
+as noted in Chapter 6, stock price movements are not notoriously volatile at
+times of national crisis despite the potential importance of such crises for the
+nation’s businesses and why most large stock market movements occur when
+there is not much other news. In contrast, national news that ties in with or
+encourages discussion of the stock market may raise the infection rate. This
+may be part of the explanation for the Internet’s apparently exaggerated effect
+on the stock market: attention being paid to the Net promotes conversation
+about technology stocks in general, thereby raising the infection rate for
+theories about these stocks.
+The word‑of‑mouth transmission of ideas does not have to infect the
+entire nation to affect national prices in the stock market or the market for
+homes. Moreover, word of mouth may function to amplify public reaction
+to news events or to media accounts of such events. It is still necessary to
+consider the infection rate relative to the removal rate in order to understand
+the public impact of any new idea or concept, since most people’s awareness
+of any of these is still socially mediated. Thus, the likelihood of any event
+affecting market prices is enhanced if there is a good, vivid, tellable story
+about the event.
+The importance of a tellable story for keeping the infection rate of ideas
+high can be seen in many examples drawn from new‑product marketing,
+such as the promotion of motion pictures. Marketers launch an ad campaign
+as the movie is first screened, to attract the attention of especially receptive
+people. Only a small fraction of the population responds directly to the
+initial advertisements. Yet the success of the movie ultimately depends on
+the reaction of these people to the film—and the opinions they pass on to
+others. It is well known that the advice of movie critics has less impact than
+the mass effect of such word of mouth. Producers have learned over the years
+the importance of including set pieces in movies. These are scenes that in
+and of themselves have story quality, scenes that, either during a screening
+or even as part of a trailer, pack word‑of‑mouth potential analogous to that
+of popular jokes or tall tales—or stories linked to high‑flying companies on
+the nation’s exchanges.
+The effect of story quality on the contagion of ideas can have a real impact
+on market value. Why are certain paintings valued so highly among others?
+When I took my older son to the Louvre and we viewed the Mona Lisa, he
+expressed puzzlement that this painting should be considered so much more
+valuable than the others. He said it was undeniably good, but it did not stand
+
+186
+
+PSYC HOLOGIC AL FAC TOR S
+
+out among all the other remarkable paintings. We then found ourselves betting that many people in the crowd viewing the painting were saying to each
+other—in whatever language—much the same thing.
+To understand the exaggerated value of the Mona Lisa, we must consider
+the powerful word-of-mouth potential of a certain story about Mona Lisa’s
+smile, apparently created by embellishment in word-of-mouth transmission
+from a story that first appears in Giorgio Vasari’s biography of Leonardo written shortly after Leonardo’s death. The story, which now appears in many
+forms, is that the artist had difficulty capturing her smile and worked four
+years on it but never felt he had fully succeeded. In his original biography,
+Vasari reported that Leonardo tried musicians, singers, and jesters to get the
+model to show the right expression. Vasari said that the smile in the painting “was a thing more divine than human, and it was held to be a marvel.”16
+Vasari’s description of the painting does not match the Mona Lisa that we see
+today, and so there may be some confusion; the story might actually be from
+a different painting. But no matter—the story is attached to that painting in
+the Louvre today.
+That story has real currency; why it does is hard to pin down. The story
+seems to attach to many other thoughts. Mona Lisa’s smile was used as a
+theme by poets and essayists over the centuries. Public attention could never
+have fixated on this painting without the story of Leonardo’s long struggle to
+capture the smile, a story with powerful word-of-mouth potential.
+The story of Mona Lisa’s smile gained further impetus from two events
+that occurred in the year 1910. Both events enriched the story of her smile and
+provided immense publicity for it.
+The first was the publication in 1910 of a provocative book by Sigmund
+Freud that undertook to examine Leonardo’s subconscious and that dwelled
+on the Mona Lisa. Freud thought that for Leonardo, Mona Lisa’s smile was a
+suppressed memory of his birth mother, from whom he was separated at age
+four, and who had expressed an unnatural affection for her son.
+The second was the story of the theft of the Mona Lisa from the Louvre
+in 1910 and the continuing saga of the law authorities’ attempts to recover it,
+then the story of the return of the painting and the trial of the thief. Of course
+the newspaper writers mentioned the smile: good writers covering the theft
+would not miss it. The theft story evolved over a period of years, a period long
+enough to reinforce the smile story firmly in the public consciousness. The
+smile story was ubiquitous in the press coverage. Even a 1914 story about the
+thief’s final sentencing concluded with the ridiculous assertion, “He listened
+to his sentence with a facial expression somewhat akin to ‘Mona Lisa’s’ enigmatic smile.”17 The reporter just had to get that smile story in.
+According to a Proquest search of English language publications, the
+number of references to Mona Lisa during 1915–25 (after the theft story was
+
+HER D B E H AV I O R A ND E P ID E MICS
+
+187
+
+completed) was twenty times greater than during 1899–1909, that is, before
+1910. The legacy of the news coverage during 1910–14 is still with us today, since
+it amplified a media and word-of-mouth feedback about that smile, reinforced
+by continuing news mentions and parodies of the painting, that continue to
+this day. The 1910 events are forgotten in themselves by most people today, but
+the enhanced smile story is not, and the events are thus an important cause
+of the extraordinary value placed on the Mona Lisa today.
+By analogy, news events that are more likely to be transmitted in informal
+conversations are in turn more likely to contribute to the contagion of ideas.
+The dry, analytical outlook an expert may offer for the nation’s economy is
+very unlikely to be transmitted by word of mouth. In contrast, news that
+the stock market or the housing market has made a sudden move is vastly
+more likely to be communicated. To be sure, experts’ opinions sometimes
+tag along with news stories about price movements, but they are seldom
+vivid enough to become the focus of word‑of‑mouth communications by
+themselves.
+Word‑of‑mouth communications, either positive or negative, are an essential part of the propagation of speculative bubbles, and the word‑of‑mouth
+potential of any event must be weighed in judging the likelihood of that
+event to lead to a speculative bubble. Thus, for example, the predictions of
+widespread computer problems after the beginning of the new year in 2000
+due to the so‑called Y2K bug was a classic word‑of‑mouth story because of
+its association with both the world’s fascination with computers and the
+new millennium. Thus—although fears ultimately proved groundless—it
+was likely to have an exaggerated impact on the markets compared with
+other, less vivid stories.
+
+A Pool of Conflicting Ideas Coexisting in the Human Mind
+One reason the contagion of ideas can sometimes happen rapidly, and
+public thinking can experience such abrupt turnarounds, is that the ideas in
+question are already in our minds. Even conflicting ideas can coexist at the
+same time in our minds, and a shift in supporting facts or public attentions
+may suddenly bring to the fore an apparent belief that contradicts formerly
+stated beliefs.
+For example, people widely believe that the stock market is unforecastable
+and that market timing is futile. But they also believe (as we saw in Chapter 5)
+that if the stock market were to crash, it would surely come back up. Such
+views are clearly inconsistent.
+One explanation for the fact that people are able to hold such conflicting
+views simultaneously is that they think they have heard both views endorsed
+by experts. The culture transmits a number of supposed facts, often attributed
+
+188
+
+PSYC HOLOGIC AL FAC TOR S
+
+only to “them,” as in: “They say that. . . .” When stories are casually accepted
+on some imagined authority, conflicts are likely.
+Sometimes, stories achieve currency even though they can be traced to no
+competent authority whatsoever. One hears again and again, for example, that
+“they say” that only 10% of the human brain is actually used by most people—a
+myth that extends back to the nineteenth century, when neuro­logical science
+was clearly incapable of either establishing or disproving such a fact. “They
+say” also that the birth rate in New York City jumped nine months after a 1965
+power blackout left New Yorkers with nothing to do for a while: but there was
+no jump in the birth rate.18 And, more apropos, “they say” that there were an
+unusually high number of suicides at the time of the crash of 1929, but there
+were not.19 Stories that are useful in conversations, and in media presentations,
+have a currency often unrelated to the facts.
+Given this tendency to attribute views to real or imagined experts, people
+do not worry much about apparent contradictions among the views they hold.
+There is a willingness to free-ride here—to suppose that the experts have
+thought through the apparent contradictions and therefore to assume that
+the experts know why they are not in fact contradictions at all. It is certainly
+true that sometimes theories that appear to be contradictory really are not.
+And from there it is but a short step to the supposition that the experts could
+explain away most apparent contradictions—if one asked.
+People’s thinking about the arcane field of investments is surely clouded
+with many half‑thought‑through ideas that may be mutually contradictory,
+or at least have not been put into any coherent analytical framework. It is a
+real challenge to try to infer what these ideas will mean for concrete investment decisions.
+The significance of the fact that contradictory views are held simultaneously is that people may have no clear attachment to many of their views.
+Therefore, we cannot attach too much credence to investors’ stated belief
+that the market will surely come back up after a crash, for the circumstances
+of the actual crash could bring to the forefront other, contradictory, views
+that were only dimly remembered before the crash. Investors would then
+react in ways that could not have been foreseen based on their previously
+expressed confidence.

@@ -1,0 +1,2039 @@
+Anybody who plays the market without inside information is like a
+man buying cows in the moonlight.
+—Attributed to legendary trader Daniel Drew (1797–1879)
+
+T
+
+here are three viable livestock futures markets: feeder cattle, live cattle, and lean
+hogs. The open interest in pork bellies is so marginal that it is reported only
+sporadically in the COT report (due to the minimum 20 large traders requirement). Small traders are a bigger factor in these markets, especially with feeder cattle, than in most other futures markets. This, plus the short trading cycles and the
+unusual seasonals affecting various individual delivery periods, make for some interesting moves. Quite often the COT data provides advance warning of imminent trend
+changes.
+
+IT MIGHT BE CORNY, BUT. . .
+The hog-corn ratio is used to predict future hog production, normally with a 12- to
+24-month lag. The theory originated with the family farm, where a relatively low corn
+price relative to hogs would cause the farmer to feed the corn to pigs. A high corn
+price would, on the other hand, limit pig production. Can the net positions of these two
+markets aid the forecasting of this ratio? To find out, I first converted each market’s
+net positions to separate ratios using the procedure detailed in Appendix A, Example 3.
+This conversion seemed appropriate because the two markets are not related (except
+by way of the food chain), and this procedure eliminates any open interest imbalance.
+The corn net positions were then subtracted from live hogs, similar to the price ratio calculation. Figure 18.1 shows the resulting net position / price pattern, which shows large
+
+195
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+196
+
+Char Count=
+
+COT IN PRACTICE
+
+FIGURE 18.1 The Hog-Corn Ratio
+
+speculators tracking price, while commercials mirror price. This pattern is typical of
+each individual market, and it appears that it may be quite helpful in predicting turns in
+the hog-corn ratio.
+
+SMALL CAN BE BEAUTIFUL
+In Chapter 5, “Net Positions,” livestock was mentioned as a sector where small trader
+net positions might prove an effective price predictor. The live cattle chart (Figure 18.2)
+shows the small trader net position opposite live cattle prices. Opposite is the operative word. The prototypical commercial mirror image pattern is readily apparent. The
+dominance of this pattern suggests that commercial hedgers are a heavy influence in
+the small trader totals. Peaks in the small trader net position mark price lows, and net
+position troughs signal price peaks.
+
+COMMERCIAL HEDGERS
+Hog production is very concentrated with a few major producers, who typically use futures and options to hedge prices. These include Smithfield Foods, Premium Standard
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+Moonlighting
+
+197
+
+FIGURE 18.2 Small Is Beautiful in Live Cattle
+
+Farms, Seaboard Corp., and Prestige Farms. It is not unusual for these companies to
+hedge feeds such as corn, wheat, and soybean meal. On the user side, major packers
+include Tyson Foods, Smithfield Foods, Swift and Co., and Hormel.
+As with pork, there is a great deal of vertical integration in the beef industry, with
+Tyson Foods, Cargill (Excel), Smithfield, and others involved in both the production
+and packing end. This could produce both long and short hedges depending on delivery
+period and price trends. Major commercial end users include McDonalds, Burger King,
+and Wendy’s. With operations in more than 120 countries, McDonalds also uses options
+to hedge interest rate and foreign exchange risk.
+
+LIVESTOCK CORRELATION TABLES
+There are some interesting entries in the correlation tables of markets (Tables 18.1 and
+18.2) that you might research as potential live cattle (or other futures market) proxies.
+These are not recommendations; they are research candidates only. Historical charts
+follow.
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+198
+
+COT IN PRACTICE
+
+TABLE 18.1 Markets Positively Correlated with the Livestock Complex
+Symbol
+
+Security
+
+LIVE CATTLE
+FC
+GI
+BPT
+PL
+HO
+PBT
+LGO
+CRT
+SJT
+CIXU-T
+TALX
+SM
+COG
+TEVA
+IIVI
+ABFS
+EGN
+SAN
+JMAT-L
+EQT
+CL
+EOG
+DBLE
+LUK
+LCO
+CRB
+HLCL-L
+MBT-T
+RB
+ABV
+PN
+DVN
+TK
+OSG
+ESS
+CLI-L
+SNDS
+STR
+CHK
+APA
+PCA-T
+NG
+
+Cattle-Feeder-CME
+Goldman Sachs Commodity-CME
+BP Prudhoe Bay Royalty Trust
+Platinum-NYMEX
+Heating Oil #2-NYMEX
+Permian Basin Rlty Ubi
+Gas Oil-ICE(IPE)
+Cross Timber Royalty Trust
+San Juan Basin Royalty
+CI Financial
+Talx Corp
+St Mary Land & Explorations
+Cabot Oil & Gas Cp
+Teva Pharm Ind Inc ADR
+II-VI Inc
+Arkansas Best Corp
+Energen
+Banco Santander ADR
+Johnson Mathey plc
+Equitable Resources Co
+Crude Oil Light-NYMEX
+EOG Resourses
+Double Eagle Pete Co
+Leucadia Natl Corp
+Crude-Brent-ICE(IPE)
+Reuters Jeﬀeries CRB Index-NYFE
+Helical Bar plc
+Manitoba Telecom Services
+RBOB Gasoline-NYMEX
+Companhia de Bebidas Das Americas
+Propane Gas-Liquiﬁed-NYMEX
+Devon Energy Cp
+Teekay Co
+Overseas Shiphldg Grp
+Essex Property Trust
+CLS Holdings plc
+Sands Regent The
+Questar Corp Holding Co.
+Chesapeake Energy Corp
+Apache Corp
+Petro-canada
+Natural Gas-Henry Hub-NYMEX
+
+R
+
+R2
+
+0.93
+0.88
+0.87
+0.87
+0.87
+0.87
+0.87
+0.87
+0.87
+0.87
+0.87
+0.87
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.86
+0.85
+0.85
+0.85
+0.85
+0.85
+
+0.86
+0.78
+0.77
+0.76
+0.76
+0.76
+0.76
+0.76
+0.75
+0.75
+0.75
+0.75
+0.75
+0.75
+0.75
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.74
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+0.73
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+199
+
+Moonlighting
+
+TABLE 18.1 (Continued)
+R
+
+R2
+
+Chicago Bridge & Iron Co
+Petro-Canada
+Roper Industries Inc
+EXELON CORPORATION
+Newﬁeld Exploration Co
+S&P TSX Oil and Gas
+Diodes Inc
+S&P TSX Integrated Oil and Gas
+Forest City Enterprises Inc Cl B
+Dow Jones Commodity Ave
+Unit Corp
+Murphy Oil Corp
+Credo Petroleum Cp
+Natural Gas -ICE(IPE)
+Zargon Oil & Gas Ltd
+Chemring Group plc
+Stryker Corp
+Expeditors Intl Wash
+Alatenn Resources Inc
+Precision Drilling Corp
+Equity Residential Properties Trust
+Panhandle Oil & Gas
+Sabine Royalty Tr
+Brady Corp Class A
+Carpetright plc
+Quality Systems Inc
+Ceradyne Inc
+Admin De Fondos De Pension
+AMCOL Intl Corp
+Clarkson (Horace) plc
+Amphenol Cp
+XTO Energy Inc
+
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+0.85
+
+0.73
+0.73
+0.73
+0.73
+0.73
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.72
+0.71
+0.71
+0.71
+
+Glentel Inc
+Tat Tech Ltd
+Pork Bellies-CME
+Aluminum-TCE
+Immucell Inc
+Autodesk Inc
+Latin Amer Discovery Fund
+Latin America Equity Fund Inc
+Intl Forest Prod Cl A
+Apco Argentina Inc
+
+0.76
+0.74
+0.74
+0.73
+0.72
+0.71
+0.71
+0.70
+0.69
+0.69
+
+0.57
+0.55
+0.54
+0.54
+0.51
+0.51
+0.50
+0.49
+0.48
+0.48
+
+Symbol
+
+Security
+
+CBI
+PCZ
+ROP
+EXC
+NFX
+TS29-I
+DIOD
+TS23-I
+FCEB
+DJCA-I
+UNT
+MUR
+CRED
+NGL
+ZARU-T
+CHG-L
+SYK
+EXPD
+ATRI
+PDS
+EQR
+PHX
+SBR
+BRC
+CPR-L
+QSII
+CRDN
+PVD
+ACO
+CKN-L
+APH
+XTO
+LEAN HOGS
+GLN-T
+TATTF
+PB
+JAL
+ICCC
+ADSK
+LDF
+LAQ
+IFPA-T
+APAGF
+
+(Continued)
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+200
+
+COT IN PRACTICE
+
+TABLE 18.1 (Continued)
+Symbol
+
+Security
+
+JFC
+CFP-T
+JIAI-F
+TINY
+AGYS
+AMR-L
+DJCA-I
+SII
+EDV-T
+MSF
+MXE
+RFIL
+EFM-L
+AQI-T
+GDP
+RNE
+VIP
+HG
+IIF
+EWM
+BKEAF
+TKF
+BKEAY
+TEM-L
+GRR
+CH
+TRMB
+NUCO
+IFLO
+HTC
+EWW
+BUX-F
+MGB
+AL
+DOCX
+IIVI
+BTEU-T
+DIOD
+
+JF China Region Fund
+Canfor Inc
+Johannesburg Industrial Index
+Harris & Harris Group Inc
+Agilysys Inc
+Armour Group plc
+Dow Jones Commodity Ave
+Smith Intl Inc
+Endeavour Mining
+MSDW Emerging Market Fund
+Mexico Equity & Income Fund Inc
+RF Industries
+EFM Dragon Trust
+Aquiline Resources Inc
+Goodrich Petroleum Corp
+Morgan Stanley Eastern Europe Fund
+Open Join Stock Vimpel Comm ADR
+CopperHG-COMEX
+MSDW India Fund
+WEBS Malaysia (free)
+Bank of East Asia Ltd
+Turkey Fund
+Bank East Asia Ltd Spons ADR
+Templeton Emerging Market
+Asia Tigers Fund
+Chile Fund
+Trimble Navigation Ltd
+Nuco2 Inc
+I-ﬂow Corp
+Hungarian Telephone
+WEBS Mexico (free)
+Hungary BUX Index
+MSDW Glob Opp Fd
+Alcan Inc
+Document Sciences Corp
+II-VI Inc
+Baytex Energy Ltd Cl A
+Diodes Inc
+
+R
+
+R2
+
+0.69
+0.69
+0.68
+0.68
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.67
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+0.66
+
+0.48
+0.47
+0.46
+0.46
+0.46
+0.46
+0.46
+0.45
+0.45
+0.45
+0.45
+0.45
+0.45
+0.45
+0.45
+0.45
+0.45
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.44
+0.43
+0.43
+0.43
+0.43
+0.43
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+201
+
+Moonlighting
+
+TABLE 18.2 Markets Negatively Correlated with the Livestock Complex
+R
+
+R2
+
+PRG-Schultz Intl
+Web.com
+Abbeycrest plc
+Technology Solutions Company
+Parity plc
+Virco Mfg Cp
+Telspec plc
+Milacron Inc
+Pointer Telocation
+Jarvis plc
+Worthington Group plc
+Heywood Williams Group plc
+Medquist Inc
+Six Flags Inc
+PMA Capital Cp A
+Airsprung Furniture Group plc
+Eastman Kodak Co
+Great Lakes Banc
+Penn Treaty Amer Cp
+Universe Group
+Osteotech Inc
+Foamex International Inc
+Aerosonics Cp
+Ballard Power System
+Ballard Power Systems
+Natuzzi Spa ADR
+
+−0.85
+−0.81
+−0.80
+−0.80
+−0.79
+−0.79
+−0.79
+−0.79
+−0.79
+−0.78
+−0.78
+−0.76
+−0.76
+−0.73
+−0.72
+−0.72
+−0.72
+−0.72
+−0.71
+−0.71
+−0.71
+−0.70
+−0.70
+−0.70
+−0.70
+−0.70
+
+0.73
+0.66
+0.64
+0.63
+0.63
+0.63
+0.63
+0.62
+0.62
+0.61
+0.60
+0.58
+0.58
+0.53
+0.52
+0.52
+0.52
+0.51
+0.51
+0.51
+0.51
+0.50
+0.49
+0.49
+0.49
+0.49
+
+Medquist Inc
+Aerosonics Cp
+Jarvis plc
+Canadian Dollar-FINEX
+
+−0.65
+−0.62
+−0.61
+−0.61
+
+0.42
+0.38
+0.38
+0.38
+
+Symbol
+
+Security
+
+LIVE CATTLE
+PRGX
+WWWW
+ACR-L
+TSCC
+PTY-L
+VIRC
+TSP-L
+MZ
+PNTR
+JRVS-L
+WRN-L
+HYWD-L
+MEDQ
+SIX
+PMACA
+APG-L
+EK
+GLK
+PTA
+UNG-L
+OSTE
+FMXL
+AIM
+BLD-T
+BLDP
+NTZ
+LIVE HOGS
+MEDQ
+AIM
+JRVS-L
+YD
+
+LIVESTOCK HISTORICAL COT CHARTS
+Figures 18.3 to 18.5 show weekly bar charts with nonspreading open interest, commercial
+COT Index, and net trader positions for livestock futures.
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+202
+
+FIGURE 18.3 Feeder Cattle COT 2001–2007
+
+FIGURE 18.4 Live Cattle COT 2001–2007
+
+COT IN PRACTICE
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Moonlighting
+
+FIGURE 18.5 Lean Hogs 2001–2007
+
+Char Count=
+
+203
+
+c18
+
+JWBK143-Briese
+
+February 19, 2008
+
+16:29
+
+Char Count=
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+C H A P T E R 19
+
+Cedeless Oranges
+
+V
+
+ariously called “international” or “food and fiber” or “softs,” the six commodity
+markets of orange juice, cocoa, coffee, sugar, lumber, and cotton often get lumped
+together. There also is a commodity index to add to the mix; that makes seven.
+Many of these commodity markets are dominated by trade interests (commercials). If
+there were ever a set of markets where some technical indicator of the supply and demand balance was badly needed, these would be them. Fortunately for the clued-up, the
+COT report frequently finds opportunities in these markets before they become newspaper headlines.
+Orange juice is an exception that highlights one of the principles of net position
+analysis discussed in Chapter 5. The COT Index does not always signal the exact start
+of a new trend (or end of the old trend). It usually makes up for this faux pas during the
+trend by marking reentry or pyramid points on reactions to the main trend. This does not
+mean that you must miss the turning point, but sometimes you need to interpret. OJ was
+such a case. Here is how I laid it out on July 12, 2004.
+
+ORANGE JUICE: Commercials began shortcovering in February, but their buying
+never reached a level that merited attention; the COT Index maxed out at 28% on
+May 25. So, there has been no warning from large commercial hedgers that the bear
+market may have ended. Nonetheless, the “Commitments” pattern suggests that an
+important bottom is being made. The net position pattern is very similar to the
+October 2000 bottom (also to 1997—not shown). In 2000, the COT Index read 31
+at the price low. From there, commercials sold aggressively into the initial rally.
+(Vertical arrows show where the pattern stands now.) If the pattern develops as it
+did in 2000–2001, commercial selling will cause a setback, which they will use to
+dump their shorts and move net long. If so, you will be among the first to recognize
+its significance.
+205
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+206
+
+COT IN PRACTICE
+
+FIGURE 19.1 Orange Juice Chart as of July 12, 2004
+
+Figure 19.1 is the actual chart printed with this write-up, retrieved from that issue.
+The pattern development up to that point was eerily similar to the 2000 bottom. Figure
+19.2 shows the action that followed. The scale of the OJ chart in Figure 19.2 does not do
+justice to this bull market. OJ prices nearly quadrupled over the next 30 months. Two
+weeks following this write-up, there was a sudden 80 percent retracement of the initial
+up leg. That was the buying opportunity. It was straight up from there, very similar to
+the 2000–2001 run-up. There were four significant corrections during this bull run. The
+arrows show that each one attracted enough commercial buying to trigger an opportune
+buy signal (black bars). The final pullback in February 2007 (point B) turned out to be
+the end of the line. To find out how the COT Index handled this market top, check back
+to Figure 10.3.
+
+CONTINUOUS COMMODITY INDEX
+This index has had more name changes than Elizabeth Taylor, but it has stood the test
+of time as an indicator of market turns in physical commodities. It is about the only
+commodity index that is not dominated by the oil sector. (See the Glossary for a complete
+description of this index.) The trouble is that the CCI is not traded heavily enough to earn
+a listing on the COT report. My composite COT Index and net positions were assembled
+from the 17 actual commodity markets that are components of the index. These currently
+include those listed in Table 19.1.
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+Cedeless Oranges
+
+FIGURE 19.2 Orange Juice Chart May 2004 to March 2007
+
+FIGURE 19.3 Sugar #11 (International) COT 2001–2007
+
+207
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+208
+
+COT IN PRACTICE
+
+TABLE 19.1 Reuters/Jeﬀries CRB CCI Components
+Group
+
+Components
+
+Energy:
+
+Weighting
+
+17.6%
+Crude Oil
+Heating Oil
+Natural Gas
+
+Grains and Oilseeds:
+
+17.6%
+Corn
+Soybeans
+Wheat
+
+Industrials:
+
+11.8%
+Copper
+Cotton
+
+Livestock:
+
+11.8%
+Live Cattle
+Lean Hogs
+
+Precious Metals:
+
+17.6%
+Gold
+Platinum
+Silver
+
+Softs:
+
+23.5%
+Cocoa
+Coﬀee
+Orange Juice
+Sugar
+
+FOOD AND FIBER CORRELATION TABLES
+Many interesting statistical relationships appear on these correlation tables; some of
+them undoubtedly are by chance. These are not recommended as substitutes for the
+respective market. They are presented merely as a starting point for your own research.
+Coffee stood out in this study with 60 issues rating 80 percent correlation or better. The
+top 25 positively correlated issues are listed in Table 19.2. Negatively correlated markets
+are shown in Table 19.3.
+
+FOOD AND FIBER HISTORICAL COT CHARTS
+Figures 19.3 to 19.8 show weekly bar charts with nonspreading open interest, commercial COT Index, and net trader positions for markets in the food and fiber category. Figure 19.9 illustrates composite net positions for markets underlying the CRB Continuous
+Commodity Index.
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+209
+
+Cedeless Oranges
+
+TABLE 19.2 Positively Correlated Markets
+R
+
+R2
+
+Mitcham Indust
+Callon Petroleum Co
+Hexcel Corp/De
+CGG Veritas
+RMI Intl Metals Inc
+ICO Inc
+Titanium Metal Corp
+Parallel Petroleum
+Parker Drilling Co
+Pride Intl Inc
+National Oilwell Var
+Vail Resorts Inc
+Transocean Inc
+CE Franklin Ltd
+Expro Int’l Group plc
+Diamond Oﬀshore Drilling
+Crescent Real Estate Equities
+Halliburton Co
+Lamson & Sessions Co.
+Aldila Inc
+Georesources Inc
+Global Santa Fe Intl Corp
+Riviera Holding Co
+Graham Cp
+Grey Wolf Inc
+Axsys Tech Inc
+Tidewater Inc
+TGC Industries Inc
+National Energy Group Inc
+Rowan Companies Inc
+Baytex Energy Ltd Cl A
+Forest Oil Cp
+
+0.82
+0.80
+0.80
+0.80
+0.80
+0.79
+0.78
+0.78
+0.78
+0.78
+0.78
+0.77
+0.77
+0.77
+0.77
+0.77
+0.77
+0.76
+0.76
+0.76
+0.76
+0.76
+0.76
+0.76
+0.75
+0.75
+0.75
+0.75
+0.75
+0.75
+0.75
+0.75
+
+0.68
+0.64
+0.64
+0.64
+0.63
+0.63
+0.61
+0.61
+0.61
+0.60
+0.60
+0.60
+0.60
+0.59
+0.59
+0.59
+0.59
+0.58
+0.58
+0.58
+0.58
+0.58
+0.57
+0.57
+0.57
+0.56
+0.56
+0.56
+0.56
+0.56
+0.56
+0.56
+
+Rapeseed(Canola)-WCE
+S&P TSX Gold
+Softchoice Corp
+S&P TSX Communication Service Suppliers
+AGCO Corp
+Angelica Corporation
+IPL Inc
+Rapeseed-Euro-EURONEXT(MATIF)
+Wool (Greasy)-SFE
+Hecla Mining
+Cascades
+
+0.75
+0.73
+0.69
+0.69
+0.69
+0.67
+0.67
+0.67
+0.67
+0.66
+0.66
+
+0.56
+0.53
+0.48
+0.47
+0.47
+0.46
+0.46
+0.45
+0.44
+0.44
+0.44
+
+Symbol
+
+Security
+
+SUGAR #11 (International)
+MIND
+CPE
+HXL
+CGV
+RTI
+ICOC
+TIE
+PLLL
+PKD
+PDE
+NOV
+MTN
+RIG
+CFK
+EXR-L
+DO
+CEI
+HAL
+LMS
+ALDA
+GEOI
+GSF
+RIV
+GHM
+GW
+AXYS
+TDW
+TGE
+NEGI
+RDC
+BTEU-T
+FST
+COCOA
+RS
+TS19-I
+SO-T
+TS08-I
+AG
+AGL
+IPIA-T
+COX
+YGW
+HL
+CAS-T
+
+(Continued)
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+210
+
+COT IN PRACTICE
+
+TABLE 19.2 (Continued)
+R
+
+R2
+
+Gymboree Corp
+Lockheed Martin Corp
+Molins plc
+
+0.66
+0.65
+0.65
+
+0.43
+0.43
+0.42
+
+COFFEE
+ZOLT
+LKD
+MLR
+CCK
+HGRD
+ASY
+EQS
+GNA-T
+LWB-L
+TRNS
+GRA
+RTWI
+AVG-L
+SMXC
+FUR
+TEN
+HTI-L
+MNGS-L
+CELL
+SHLO
+MIG
+TSAI
+CYBI
+
+Zoltek
+Coﬀee-Robusta-EURONEXT (LCE)
+Miller Industries
+Crown Holdings
+Health Grades
+Elecsys Corp
+Equus Total return
+Gerdau Ameristl
+Low & Bonar plc
+Transcat Inc
+Grace (WR) & Co
+Rtw Inc
+Avingtrans
+Smithway Motor Xpress Corp Cl A
+Winthrop Rlty Tr
+Tenneco Inc
+Hawtin plc
+Manganese Bronze Holdings plc
+Brightpoint Inc
+Shiloh Industries Inc
+Meadowbrook Insurance Group
+Transaction Systems Architect
+Cybex Intl Inc
+
+0.89
+0.89
+0.89
+0.88
+0.88
+0.88
+0.86
+0.86
+0.86
+0.85
+0.85
+0.85
+0.84
+0.84
+0.84
+0.84
+0.84
+0.84
+0.84
+0.84
+0.83
+0.83
+0.83
+
+0.80
+0.80
+0.78
+0.77
+0.77
+0.77
+0.75
+0.74
+0.74
+0.73
+0.72
+0.72
+0.71
+0.71
+0.71
+0.70
+0.70
+0.70
+0.70
+0.70
+0.69
+0.69
+0.69
+
+ORANGE JUICE
+PXX-V
+LDG
+URGI
+NWPX
+ULVR-L
+SQAA
+AGII
+UU-L
+CH-T
+ODP
+PZZA
+PYM
+TS39-I
+BTJ
+ICON
+SYM
+TS22-I
+
+Pearl Expl Prod
+Longs Drug Stores Inc
+United Retail Group Inc
+Northwest Pipe Co
+Unilever plc
+Sequa Corp Class A
+Argonaut Group Inc
+United Utilities plc
+Century II Hldgs
+Oﬃce Depot Inc
+Papa John Intl Inc
+Putnam High Yield Muni Trust
+S&P TSX Steel
+Bolt Technology
+Iconix Brand
+Syms Corp
+S&P TSX Insurance
+
+0.66
+0.66
+0.66
+0.66
+0.65
+0.65
+0.65
+0.64
+0.64
+0.64
+0.64
+0.63
+0.63
+0.63
+0.62
+0.62
+0.62
+
+0.44
+0.44
+0.44
+0.43
+0.42
+0.42
+0.42
+0.41
+0.41
+0.41
+0.41
+0.40
+0.39
+0.39
+0.39
+0.38
+0.38
+
+Symbol
+
+Security
+
+GYMB
+LMT
+MLIN-L
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+211
+
+Cedeless Oranges
+
+TABLE 19.2 (Continued)
+R
+
+R2
+
+Marks & Spencer plc
+Tate & Lyle plc
+CSX Corp
+Lockheed Martin Corp
+Castle A M & Co
+Brussels Bel-20 Share Index
+Great Atlantic/Paciﬁc Tea
+Ceco Environment
+
+0.62
+0.62
+0.61
+0.61
+0.61
+0.61
+0.61
+0.61
+
+0.38
+0.38
+0.37
+0.37
+0.37
+0.37
+0.37
+0.37
+
+Network Equipment Tech
+Point 360
+Edgewater Tech Inc
+Sinclair (Wm) Holdings plc
+Blue Phoenix
+Cray Inc
+China Nat Resources
+Merisel Inc
+Transcend Services Inc new
+R F Monolithics
+
+0.70
+0.67
+0.66
+0.66
+0.64
+0.64
+0.63
+0.63
+0.63
+0.63
+
+0.50
+0.45
+0.44
+0.44
+0.41
+0.41
+0.40
+0.40
+0.40
+0.39
+
+R
+
+R2
+
+Symbol
+
+Security
+
+MKS-L
+TATE-L
+CSX
+LMT
+CAS
+BFX-F
+GAP
+CECE
+COTTON
+NWK
+PTSX
+EDGW
+SNCL-L
+BPHX
+CRAY
+CHNR
+MSEL
+TRCR
+RFMI
+
+TABLE 19.3 Negatively Correlated Markets
+Symbol
+
+Security
+
+SUGAR #11
+NYT
+LZB
+NDN
+SGA
+MEDQ
+BWX-T
+WON
+CXR
+NSR-L
+CRU-L
+TRB
+
+New York Times Class A
+La-Z-Boy Inc.
+Ninety Nine Only Stores
+Saga Communications Inc
+Medquist Inc
+Bowater Canada Inc
+Westwood One Inc
+Cox Radio Inc Cl A
+Nestor-BNA plc
+Coral Products plc
+Tribune Co
+
+−0.70
+−0.69
+−0.68
+−0.67
+−0.66
+−0.65
+−0.65
+−0.64
+−0.63
+−0.62
+−0.61
+
+0.49
+0.48
+0.46
+0.45
+0.44
+0.43
+0.42
+0.41
+0.39
+0.38
+0.37
+
+COFFEE
+FITB
+ZR
+BSG
+NDN
+TRR
+MMC
+
+Fifth Third Bancorp
+South African Rand-FINEX
+Bisys Group
+Ninety Nine Only Stores
+TRC Inc
+Marsh & McLennan Co’s
+
+−0.81
+−0.78
+−0.78
+−0.78
+−0.77
+−0.76
+
+0.65
+0.61
+0.61
+0.60
+0.59
+0.57
+(Continued)
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+212
+
+COT IN PRACTICE
+
+TABLE 19.3 (Continued)
+R
+
+R2
+
+Superior Industries Intl
+New York Times Class A
+Biovail Corp
+Biovail Corp
+Taro Pharmaceutical Industries
+Fannie Mae
+Workspace Group
+La-Z-Boy Inc.
+Westwood One Inc
+Cox Radio Inc Cl A
+Saga Communications Inc
+Talbots Inc
+Planar Systems
+Enzon Pharmaceutical
+
+−0.75
+−0.73
+−0.72
+−0.72
+−0.70
+−0.70
+−0.69
+−0.68
+−0.68
+−0.67
+−0.67
+−0.67
+−0.67
+−0.67
+
+0.57
+0.54
+0.51
+0.51
+0.50
+0.49
+0.47
+0.47
+0.46
+0.45
+0.45
+0.45
+0.45
+0.45
+
+COCOA
+PMCS
+INTC
+CMVT
+MCRL
+PWAV
+TWX
+SWKS
+EMC
+FLEX
+QUIP
+BVC-L
+LOG-L
+CVC
+QLTI
+QLT-T
+MU
+XCI-I
+OPMR
+ALKS
+TYC
+TER
+RFMD
+NIPNY
+SWC
+CSGS
+GERN
+
+PMC-Sierra Inc
+Intel Corp
+Comverse Technology
+Micrel Inc
+Powerwave Technologies
+Time Warner Inc
+Skyworks Solution
+EMC Corp
+Flextronics Intl Inc
+Quipp Inc
+Batm Advanced Comm
+Logica plc
+Cablevision Sys Cp Cl A
+Qlt Inc
+QLT Phototherapeutics
+Micron Technology
+Amex Computer Technology Index
+Optimal Group
+Alkermes
+Tyco International Ltd
+Teradyne Inc
+RF Micro Devices Inc
+NEC Cp ADR
+Stillwater Mining
+CSG Systems Intl
+Geron Corp
+
+−0.82
+−0.80
+−0.76
+−0.76
+−0.76
+−0.76
+−0.75
+−0.75
+−0.74
+−0.74
+−0.73
+−0.73
+−0.73
+−0.72
+−0.72
+−0.72
+−0.71
+−0.71
+−0.71
+−0.71
+−0.71
+−0.70
+−0.70
+−0.70
+−0.70
+−0.70
+
+0.67
+0.63
+0.58
+0.58
+0.58
+0.57
+0.56
+0.56
+0.55
+0.55
+0.54
+0.53
+0.53
+0.52
+0.52
+0.51
+0.51
+0.51
+0.51
+0.51
+0.50
+0.50
+0.49
+0.49
+0.49
+0.49
+
+ORANGE JUICE
+EPIX
+ACCP
+QLT-T
+
+Epix Pharma
+Access Pharmaceuticals Inc
+QLT Phototherapeutics
+
+−0.73
+−0.71
+−0.69
+
+0.53
+0.50
+0.48
+
+Symbol
+
+Security
+
+SUP
+NYT
+BVF-T
+BVF
+TAROF
+FNM
+WKP-L
+LZB
+WON
+CXR
+SGA
+TLB
+PLNR
+ENZN
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+213
+
+Cedeless Oranges
+
+TABLE 19.3 (Continued)
+R
+
+R2
+
+Qlt Inc
+C&D Technologies Inc
+Quipp Inc
+Cost Plus Inc
+Integr Silicon Solution
+Coral Products plc
+Sanctuary Group
+Ponirad Pharm
+Sun Times Media Group Inc
+
+−0.69
+−0.66
+−0.66
+−0.65
+−0.62
+−0.61
+−0.61
+−0.60
+−0.60
+
+0.48
+0.44
+0.43
+0.42
+0.39
+0.38
+0.37
+0.36
+0.36
+
+Langer Biomechanics Gr
+Coinstar Inc
+THQ Inc
+Scholastic Corp
+Baxter Intl
+Freddie Mac
+MTR Gaming Group Inc
+Cranswick plc
+
+−0.70
+−0.69
+−0.66
+−0.63
+−0.61
+−0.61
+−0.61
+−0.61
+
+0.49
+0.48
+0.43
+0.40
+0.38
+0.37
+0.37
+0.37
+
+Symbol
+
+Security
+
+QLTI
+CHP
+QUIP
+CPWM
+ISSI
+CRU-L
+SGP-L
+PARD
+SVN
+COTTON
+GAIT
+CSTR
+THQI
+SCHL
+BAX
+FRE
+MNTG
+CWK-L
+
+FIGURE 19.4 Coﬀee “C” COT 2001–2007
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+214
+
+FIGURE 19.5 Cocoa COT 2001–2007
+
+FIGURE 19.6 Orange Juice COT 2001–2007
+
+Char Count=
+
+COT IN PRACTICE
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Cedeless Oranges
+
+FIGURE 19.7 Cotton COT 2001–2007
+
+FIGURE 19.8 Lumber COT 2001–2007
+
+Char Count=
+
+215
+
+c19
+
+JWBK143-Briese
+
+February 19, 2008
+
+17:20
+
+Char Count=
+
+216
+
+FIGURE 19.9 CRB Continuous Commodity Index COT 2001–2007
+
+COT IN PRACTICE
+
+c20
+
+JWBK143-Briese
+
+February 26, 2008
+
+21:53
+
+Char Count=
+
+C H A P T E R 20
+
+Now You CIT,
+Now You Don’t
+
+A
+
+lthough this new subset of the Options and Futures Combined COT report is
+just six months old as this book is written, and it carries only 12 markets, there
+are a few useful scraps of information to be gleaned. Table 20.1 lists the contracts included in the COT-Supplemental and the breakdown of the total contract values of CIT positions in January 2007, when reporting began. The total notional value is
+nearly $34 billion, making the commodity index traders the largest player on the long
+side of these physical commodities. They hold larger positions than the large speculative
+funds! Most of this long-only “investment” in commodities is not made by the commodity funds themselves, but passes through swap dealers, who in turn lay off their risk by
+buying futures.
+
+THE COT-SUPPLEMENTAL REPORT
+The CFTC took public comments before initiating the Supplemental report. (See Briese
+and Williams 2006.) The International Swaps and Derivatives Association (ISDA) submitted comments on their members’ behalf, which proved quite revealing:
+[T]he non-traditional commercial [CIT] category is highly concentrated, with, we
+believe, the top four swap dealers composing over 70% of the category. In some of
+the lower-volume commodities markets, only a single swap dealer is a dominant
+participant . . . (Zerzan 2006).
+This concentration is disquieting, but the Commission hushed it up by omitting
+the Long Form report for the COT-Supplemental (which details the number of large
+traders in each category). The report is being released under a two-year pilot program,
+217

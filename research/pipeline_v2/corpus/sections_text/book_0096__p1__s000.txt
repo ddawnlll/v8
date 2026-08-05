@@ -1,0 +1,408 @@
+TECHNICAL ANALYSIS
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+TECHNICAL ANALYSIS
+THE COMPLETE RESOURCE
+FOR FINANCIAL MARKET TECHNICIANS
+SECOND EDITION
+
+Charles D. Kirkpatrick II, CMT
+Julie Dahlquist, Ph.D., CMT
+
+Download at www.wowebook.com
+
+Vice President, Publisher: Tim Moore
+Associate Publisher and Director of Marketing: Amy Neidlinger
+Executive Editor: Jim Boyd
+Editorial Assistant: Pamela Boland
+Operations Manager: Gina Kanouse
+Senior Marketing Manager: Julie Phifer
+Publicity Manager: Laura Czaja
+Assistant Marketing Manager: Megan Colvin
+Cover Designer: Chuti Prasertsith
+Managing Editor: Kristy Hart
+Project Editor: Betsy Harris
+Copy Editor: Karen Annett
+Proofreader: Kathy Ruiz
+Indexer: Erika Millen
+Compositor: Bronkella Publishing
+Manufacturing Buyer: Dan Uhrig
+© 2011 by Pearson Education, Inc.
+Publishing as FT Press
+Upper Saddle River, New Jersey 07458
+FT Press offers excellent discounts on this book when ordered in quantity for bulk purchases or special sales. For more
+information, please contact U.S. Corporate and Government Sales, 1-800-382-3419, orpsales@pearsontechgroup.com.
+For sales outside the U.S., please contact International Sales at international@pearson.com.
+Company and product names mentioned herein are the trademarks or registered trademarks of their respective
+owners.
+All rights reserved. No part of this book may be reproduced, in any form or by any means, without permission in
+writing from the publisher.
+Printed in the United States of America
+First Printing November 2010
+ISBN-10: 0-13-705944-2
+ISBN-13: 978-0-13-705944-7
+Pearson Education LTD.
+Pearson Education Australia PTY, Limited.
+Pearson Education Singapore, Pte. Ltd.
+Pearson Education Asia, Ltd.
+Pearson Education Canada, Ltd.
+Pearson Educación de Mexico, S.A. de C.V.
+Pearson Education—Japan
+Pearson Education Malaysia, Pte. Ltd.
+Library of Congress Cataloging-in-Publication Data
+Kirkpatrick, Charles D.
+Technical analysis : the complete resource for financial market technicians / Charles D. Kirkpatrick and Julie
+Dahlquist. — 2nd ed.
+p. cm.
+Includes bibliographical references and index.
+ISBN 978-0-13-705944-7 (hbk. : alk. paper)
+1. Technical analysis (Investment analysis) 2. Investment analysis. I. Dahlquist, Julie R., 1962- II. Title.
+HG4529.K564 2011
+332.63’2042—dc22
+2010032991
+
+Download at www.wowebook.com
+
+This book is sold with the understanding tha t neither the author nor the publisher is eng aged in
+render ing le gal, accounting , or other pr ofessional services or advice by publishing this book. Each
+individual situa tion is unique . Thus, if legal or financial advice or other e xper t assistance is r equired
+in a specific situation, the services of a competent pr ofessional should be sought to ensur e that the
+situation has been evalua ted carefully and appropriately. The author and the publisher disclaim
+any lia bility, loss, or risk r esulting directly or indirectly, from the use or application of any of the
+contents of this book.
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+To Ellie—my precious wife, long-term love and companion, and best friend.
+—Charlie
+
+To Richard, Katherine, and Sepp.
+—Julie
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+CONTENTS
+
+Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .xxiv
+About the Authors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .xxvi
+
+Part I: Introduction
+
+1
+
+INTRODUCTION TO TECHNICAL ANALYSIS . . . . . . . . . . . . . . .3
+
+2
+
+THE BASIC PRINCIPLE OF TECHNICAL ANALYSIS—
+THE TREND . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+How Does the Technical Analyst Make Money? . . . . . . . . . . . . . . . . 10
+What Is a Trend? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+How Are Trends Identified? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+Trends Develop from Supply and Demand . . . . . . . . . . . . . . . . . . . . 14
+What Trends Are There? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+What Other Assumptions Do Technical Analysts Make? . . . . . . . . 17
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+Download at www.wowebook.com
+
+x
+
+Contents
+
+3
+
+HISTORY OF TECHNICAL ANALYSIS ......................................23
+Early Financial Markets and Exchanges . . . . . . . . . . . . . . . . . . . . . . 23
+Modern Technical Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+Current Advances in Technical Analysis . . . . . . . . . . . . . . . . . . . . . . 30
+
+4
+
+THE TECHNICAL ANALYSIS CONTROVERSY ..........................33
+Do Markets Follow a Random Walk? . . . . . . . . . . . . . . . . . . . . . . . . . 35
+Fat Tails ................................................................................................36
+Drawdowns...........................................................................................37
+Proportions of Scale . ...........................................................................39
+
+Can Past Patterns Be Used to Predict the Future? . . . . . . . . . . . . . . 40
+What About Market Efficiency? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+New Information...................................................................................42
+Are Investors Rational? . ......................................................................46
+Will Arbitrage Keep Prices in Equilibrium?.........................................47
+
+Behavioral Finance and Technical Analysis . . . . . . . . . . . . . . . . . . . . 49
+Pragmatic Criticisms of Technical Analysis . . . . . . . . . . . . . . . . . . . . 50
+What Is the Empirical Support for Technical Analysis? . . . . . . . . . 52
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
+
+Part II: Markets and Market Indicators
+
+5
+
+AN OVERVIEW OF MARKETS . . . . . . . . . . . . . . . . . . . . . . . .57
+In What Types of Markets Can Technical Analysis Be Used? . . . . 58
+Types of Contracts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+Cash Market .........................................................................................60
+Derivative Markets . .............................................................................62
+Swaps and Forwards.............................................................................66
+
+Download at www.wowebook.com
+
+Contents
+
+xi
+
+How Does a Market Work? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 66
+Who Are the Market Players? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 68
+How Is the Market Measured? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 69
+Price-Weighted Average . .....................................................................70
+Market Capitalization Weighted Average . ...........................................71
+Equally Weighted (or Geometric) Average . .........................................72
+
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
+
+6
+
+DOW THEORY .......................................................................75
+Dow Theory Theorems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 78
+The Primary Trend. ..............................................................................80
+The Secondary Trend ............................................................................81
+The Minor Trend ...................................................................................81
+Concept of Confirmation . ....................................................................82
+Importance of Volume. .........................................................................83
+
+Criticisms of the Dow Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 85
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 86
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 86
+
+7
+
+SENTIMENT............................................................................89
+What Is Sentiment? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 90
+Market Players and Sentiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 91
+How Does Human Bias Affect Decision Making? . . . . . . . . . . . . . . . 92
+Crowd Behavior and the Concept of Contrary Opinion . . . . . . . . . 95
+How Is Sentiment of Uninformed Players Measured? . . . . . . . . . . . 96
+Sentiment Indicators Based on Options and Volatility .........................97
+Polls ....................................................................................................102
+Other Measures of Contrary Opinion ................................................107
+Unquantifiable Contrary Indicators ..................................................116
+Historical Indicators .........................................................................117
+
+Download at www.wowebook.com
+
+xii
+
+Contents
+
+How Is the Sentiment of Informed Players Measured? . . . . . . . . . 118
+Insiders ...............................................................................................118
+
+Sentiment in Other Markets . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 124
+Treasury Bond Futures Put/Call Ratio ...............................................124
+Treasury Bond COT Data ..................................................................125
+Treasury Bond Primary Dealer Positions . ........................................125
+T-Bill Rate Expectations by Money Market Fund Managers . ...........126
+
+Hulbert Gold Sentiment Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 128
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 128
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 129
+
+8
+
+MEASURING MARKET STRENGTH .......................................131
+Market Breadth . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 133
+The Breadth Line or Advance-Decline Line .......................................134
+Double Negative Divergence ..............................................................136
+Traditional Advance-Decline Methods That No Longer Are
+Profitable......................................................................................138
+Advance-Decline Line to Its 32-Week Simple Moving Average. ........139
+Breadth Differences . ..........................................................................140
+Breadth Ratios ....................................................................................146
+Breadth Thrust ....................................................................................147
+Summary of Breadth Indicators. ........................................................148
+
+Up and Down Volume Indicators . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+The Arms Index ..................................................................................149
+Ninety Percent Downside Days (NPDD). ..........................................152
+10-to-1 Up Volume Days and 9-to-1 Down Volume Days . ...............153
+
+Net New Highs and Net New Lows . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+New Highs Versus New Lows . ...........................................................155
+High Low Logic Index .......................................................................156
+Hindenburg Omen .............................................................................157
+
+Using Moving Averages . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
+Number of Stocks above Their 30-Week Moving Average ..................157
+
+Very Short-Term Indicators . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 159
+Breadth and New Highs to New Lows ...............................................159
+Net Ticks .............................................................................................160
+
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 161
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 162
+
+Download at www.wowebook.com
+
+Contents
+
+9
+
+xiii
+
+TEMPORAL PATTERNS AND CYCLES ....................................163
+Periods Longer than Four Years . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 164
+Kondratieff Waves, or K-Waves ..........................................................164
+34-Year Historical Cycles. .................................................................166
+Decennial Pattern ...............................................................................168
+
+Periods of Four Years or Less . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+Four-Year or Presidential Cycle .........................................................170
+Election Year Pattern ..........................................................................171
+Seasonal Patterns ...............................................................................172
+
+January Signals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174
+January Barometer . ..........................................................................174
+January Effect. ...................................................................................174
+
+Events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 175
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 176
+
+10
+
+FLOW OF FUNDS ..................................................................177
+Funds in the Marketplace . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178
+Money Market Funds .........................................................................178
+Margin Debt ......................................................................................179
+Secondary Offerings . ........................................................................180
+
+Funds Outside the Security Market . . . . . . . . . . . . . . . . . . . . . . . . . . 181
+Household Financial Assets ...............................................................182
+Money Supply .....................................................................................183
+Bank Loans .........................................................................................184
+
+The Cost of Funds . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 185
+Short-Term Interest Rates ...................................................................185
+Long-Term Interest Rates (or Inversely, the Bond Market) . .............187
+Money Velocity....................................................................................187
+Misery Index ......................................................................................188
+
+Fed Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 190
+Fed Policy Futures ..............................................................................191
+The Federal Reserve Valuation Model. ..............................................192
+Three Steps and a Stumble .................................................................193
+Yield Curve ........................................................................................194
+
+Download at www.wowebook.com
+
+xiv
+
+Contents
+
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 195
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 196
+
+Part III: Trend Analysis
+
+11
+
+HISTORY AND CONSTRUCTION OF CHARTS . . . . . . . . . . . .199
+History of Charting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 201
+What Data Is Needed to Construct a Chart? . . . . . . . . . . . . . . . . . . 204
+What Types of Charts Do Analysts Use? . . . . . . . . . . . . . . . . . . . . . 206
+Line Charts .........................................................................................207
+Bar Charts ..........................................................................................210
+Candlestick Charts . ...........................................................................211
+
+What Type of Scale Should Be Used? . . . . . . . . . . . . . . . . . . . . . . . . 213
+Arithmetic Scale. ................................................................................213
+Semi-Logarithmic Scale. ....................................................................214
+
+Point-and-Figure Charts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 215
+One-Box (Point) Reversal ...................................................................216
+Box Size ..............................................................................................217
+Multibox Reversal...............................................................................217
+Time ....................................................................................................218
+Arithmetic Scale..................................................................................220
+Logarithmic Scale...............................................................................220
+
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 220
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 221
+
+12
+
+TRENDS—THE BASICS ........................................................223
+Trend—The Key to Profits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 224
+Trend Terminology . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225
+Basis of Trend Analysis—Dow Theory . . . . . . . . . . . . . . . . . . . . . . . 225
+How Does Investor Psychology Impact Trends? . . . . . . . . . . . . . . . 226
+How Is the Trend Determined? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 227
+Peaks and Troughs ..............................................................................228
+
+Download at www.wowebook.com
+
+Contents
+
+xv
+
+Determining a Trading Range . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 230
+What Is Support and Resistance? .......................................................230
+Why Do Support and Resistance Occur? . .........................................230
+What About Round Numbers? ...........................................................232
+How Are Important Reversal Points Determined? . ...........................232
+How Do Analysts Use Trading Ranges?.............................................236
+
+Directional Trends (Up and Down) . . . . . . . . . . . . . . . . . . . . . . . . . . 237
+What Is a Directional Trend? .............................................................238
+How Is an Uptrend Spotted? ..............................................................238
+Channels .............................................................................................243
+Internal Trend Lines ...........................................................................244
+Retracements ......................................................................................245
+Pullbacks and Throwbacks .................................................................247
+
+Other Types of Trend Lines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 247
+Trend Lines on Point-and-Figure Charts............................................248
+Speed Lines ........................................................................................248
+Andrews Pitchfork .............................................................................249
+Gann Fan Lines ..................................................................................250
+
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 251
+Review Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 251
+
+13
+
+BREAKOUTS, STOPS, AND RETRACEMENTS .........................255
+Breakouts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 255
+How Is Breakout Confirmed? .............................................................256
+Can a Breakout Be Anticipated? . ......................................................262
+
+Stops . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 263
+What Are Entry and Exit Stops? .........................................................263
+Changing Stop Orders ........................................................................264
+What Are Protective Stops? . ..............................................................264
+What Are Trailing Stops?....................................................................265
+What Are Time Stops?.........................................................................268
+What Are Money Stops?......................................................................269
+How Can Stops Be Used with Breakouts?..........................................269
+Using Stops When Gaps Occur ..........................................................269
+Waiting for Retracement .....................................................................270
+Calculating a Risk/Return Ratio for Breakout Trading . ....................271
+Placing Stops for a False (or “Specialist”) Breakout . ......................272

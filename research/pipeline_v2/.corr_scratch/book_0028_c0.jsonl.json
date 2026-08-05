@@ -1,0 +1,11 @@
+[
+  {"claim_ref": "book_0028::lead_book_0028_2_009", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_012", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_013", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_022", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_024", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_025", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_2_040", "verdict": "corroboration", "behavior_id": "support_resistance_bounce", "page": 68, "exact_text": "it shows a tendency to bounce back into its trading range", "added_conditions": ["price in a trading range bounces off resistance line and support line", "on the one time it breaks through support it quickly climbs back above it again"], "added_parameters": [{"name": "resistance", "value": "300", "page": 68}, {"name": "support", "value": "200", "page": 68}]},
+  {"claim_ref": "book_0028::lead_book_0028_1_031", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0028::lead_book_0028_1_045", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

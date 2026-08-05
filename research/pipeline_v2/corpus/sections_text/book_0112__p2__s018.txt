@@ -1,0 +1,426 @@
+
+175
+
+176 Part III: Reading the Charts: Technical Analysis
+However, you’ll soon discover that what worked when using historical data
+often fails miserably when trading real money in real time. This problem is
+well known to statisticians and economists who build mathematic models to
+forecast future events. It is called curve fitting, because you are molding your
+model to fit the historical data. We talk about this problem more in Chapter
+15. For now, know that fine-tuning an indicator for a specific stock or index
+rarely has any predictive value and you must avoid it. You simply can’t trade
+using historical data. You’re better off settling on a moving average period
+that satisfies the requirements for a great many situations, rather than trying
+to fine-tune the time frame of a moving average to fit each stock.
+
+Understanding Stochastic Oscillators
+The stochastic oscillator indicates momentum and attempts to show buying
+and selling pressure. This indicator compares current closing prices with
+the recent range of high to low prices and displays the results on a chart.
+Stochastic oscillator values cycle, or oscillate, between zero and 100 percent.
+
+Calculating stochastic oscillators
+The typical stochastic oscillator is measured across a 14-day period, but a
+different time frame can be specified. Here’s the calculation:
+%K = 100 × (closing price – lowest low (N)) ÷ (highest high (N)
+– lowest low (N))
+% D = 3-period moving average of %K
+Where: N is the number of periods used in the calculation (usually 14)
+This calculation describes a fast stochastic. The names %K and %D, respectively, identify the stochastic oscillator and the signal line. We typically use a
+variation of this indicator that’s called a slow stochastic. The slow stochastic
+oscillator calculation is
+%K = 3-period moving average of (100 × (closing price – lowest low (N))
+÷ (highest high (N) – lowest low (N)))
+% D = 3-period moving average of %K
+Where: N is the number of periods used in the calculation (usually 14)
+
+Chapter 11: Calculating Indicators and Oscillators
+In effect, the slow stochastic uses the %D value from the fast stochastic
+calculation as its starting point. While the fast and slow stochastics look
+similar when plotted on a chart, the slow stochastic is smoother and less
+jumpy. It generates fewer and more reliable trading signals, but the signals
+appear more slowly than with the fast stochastic. Note: You will find that
+some charting packages permit you to specify different values for the moving
+average period, and some even permit you to change from an SMA to an EMA.
+
+Interpreting stochastic oscillators
+As we mention earlier, the stochastic oscillator cycles between zero and 100
+percent. Readings of more than 80 percent imply an overbought condition.
+Readings of less than 20 percent are interpreted as an oversold condition.
+As with most indicators, an overbought condition can be resolved if a stock
+trades lower or enters a period of consolidation. Similarly, an oversold
+condition can be resolved if a stock trades higher or enters a period of
+consolidation.
+Overbought and oversold conditions can persist for long periods of time;
+therefore, readings that stay above 80 percent or below 20 percent are not
+enough to generate trading signals. Instead, stochastic oscillator signals are
+generated
+✓ When the stochastic oscillator moves from below to above 20 percent,
+triggering a buy signal
+✓ When the stochastic oscillator moves from above to below 80 percent,
+triggering a sell signal
+Figure 11-4 shows a slow stochastic oscillator on a price chart for Apple
+(APPL). Note the transitions from below to above 20 percent that occurred
+in February, April, August, and November. All three represented good entry
+opportunities for this uptrend. Also note that the stochastic buy signals
+coincided with a retracement pattern. Finally, note that few of the indicator’s
+sell signals, where the stochastic oscillator crosses below 80 percent,
+represented good selling or shorting opportunities while Apple was trending
+higher.
+Some traders use a stochastic oscillator crossover strategy where buy signals
+are triggered when %K crosses above %D, and sell signals are triggered when
+%K crosses below %D. For our style of trading, that generates too many signals, a very high percentage of which are false, as you can see in Figure 11-4.
+
+177
+
+178 Part III: Reading the Charts: Technical Analysis
+
+Figure 11-4:
+Chart of
+Apple stock
+prices
+includes
+a slow
+stochastic
+oscillator.
+
+The stochastic oscillator is most useful when it’s used in conjunction with
+other indicators. When a stock is trending, the stochastic oscillator is useful
+in finding entry points within a dominant trend. In an uptrend, for example, a
+buy signal that’s generated when the stochastic oscillator moves from below
+to above 20 percent is likely to be a good one. The stochastic oscillator
+signals many overbought conditions within an uptrend and rarely generates
+useful sell signals. It also works well in trading-range situations, and you’ll
+find short-term traders who use it to trigger buy and sell signals when a stock
+is in a trading range.
+
+Discovering MACD
+The moving average convergence divergence indicator (MACD) is a trendfollowing momentum indicator. MACD is designed to generate trend-following
+trading signals based on moving average crossovers while overcoming problems associated with many other trend-following indicators. MACD also acts
+as a momentum oscillator, showing when a trend is gaining strength or losing
+momentum as it cycles above and below a center zero line. MACD is an excellent indicator and an integral part of our trading toolset.
+
+Calculating MACD
+Charting packages routinely calculate MACD for you, but knowing how this
+indicator is created is important for gaining a better understanding of how
+it works. The MACD calculation isn’t complex; it’s just three exponential
+moving averages. Here are the steps:
+
+Chapter 11: Calculating Indicators and Oscillators
+1. Calculate a 12-period EMA (see the earlier section on “Exponential
+moving average”).
+2. Calculate a 26-period EMA.
+3. Subtract the 26-period EMA from the 12-period EMA to create the
+MACD line.
+4. Use the resulting MACD line to calculate a 9-period EMA to create the
+signal line.
+5. Plot the MACD as a solid line; plot the signal line as either a dashed or
+lighter-colored line.
+An additional indicator, the MACD Histogram, is usually shown as part of the
+MACD. It uses a histogram to show the difference between the MACD line and
+the signal line. The histogram is plotted above the zero line when the MACD
+line is above the signal line, below the zero line when the signal line is above
+MACD, and at zero when they cross.
+Figure 11-5 shows a weekly chart of AGCO Corp. (AG) along with an MACD
+indicator and an MACD Histogram. When using MACD, we prefer weekly
+charts. That’s how the indicator was originally designed to be used, and for
+our style of trading, a weekly MACD indicator provides more useful information about the strength and direction of a trend and potential trend reversals.
+You will find that other traders use this indicator for both longer and shorter
+periods as well.
+
+Figure 11-5:
+A weekly
+chart of
+AGCO Corp.
+stock with
+MACD
+and MACD
+Histogram.
+
+179
+
+180 Part III: Reading the Charts: Technical Analysis
+AG experienced a long period of consolidation before starting to rally in
+early 2006. The stock continued its ascent through 2006 and 2007. Notice the
+corresponding periods on the MACD. The MACD line (the solid line) crosses
+over the zero center line during the third week in February. This was a buy
+signal for this stock. You might also notice that the MACD line crossed the
+signal line in early January 2006. This MACD crossover signal is another early
+indication suggesting a possible new uptrend. See Chapter 13 for more about
+how we use this signal.
+
+Using MACD
+MACD provides a remarkable amount of information in a concise format. As
+you can see in Figure 11-5, MACD oscillates above and below a center zero
+line and is a good indicator for showing the direction of the dominant trend,
+signaling
+✓ An uptrend when the MACD line crosses above the center line
+✓ A downtrend when the MACD line crosses below the center line
+Some short-term traders use the signal line to trigger
+✓ Buy signals when the MACD line crosses above the signal line
+✓ Sell signals when the MACD line crosses below the signal line
+We don’t, however, find that short-term technique to be very reliable because
+it generates too many false signals. Instead, we prefer using the position of
+the MACD line relative to the zero line as an indication that the stock has
+begun trending.
+Figure 11-6 shows a chart of weekly prices for the S&P 500 Depository
+Receipts, sometimes called SPDR or Spyders. (The stock symbol is SPY.) SPY
+is an exchange-traded fund that tracks the S&P 500 index.
+Notice how the SPY establishes a series of higher highs and higher lows
+during the period from June through October 2007, but the MACD line establishes a series of lower highs during this period. This creates what’s known
+as a divergent pattern. This particular example of a divergent pattern is a
+bearish divergence. In a bearish divergence, the stock establishes a series of
+higher lows and higher highs, while the MACD establishes a series of lower
+highs. A bullish divergence is the reverse, the stock establishes a series of
+lower lows and lower highs, while the MACD establishes a series of higher
+highs.
+
+Chapter 11: Calculating Indicators and Oscillators
+Divergences that occur in the same direction as the dominant trend are often
+useful for entering positions. However, a divergence that is counter to the
+dominant trend is less likely to be a reliable trading signal. For example, a
+bearish divergence in a dominant uptrend is rarely a good signal to enter a
+short position. This type of bearish divergence may, however, signal that the
+stock has entered, or is about to enter, a period of retracement.
+This bearish divergence on SPY is best interpreted as a signal showing that
+the momentum of the multiyear S&P 500 bull market was slowing. In fact,
+the market peaked in October 2007 and remained in a downtrend for many
+months.
+Each time the MACD line crosses above or below the signal line suggests a
+potential change in the direction of the dominant trend. While this is not an
+outright buy signal or sell signal, it does suggest a change may be in the wind.
+In the case of a bearish divergence, the best way to exploit that information
+is to monitor individual stocks and ETFs for weakness, and either close long
+positions when they deteriorate, or initiate new short positions as they
+present themselves. In Chapter 13, we provide additional ideas to help
+integrate the information generated by the MACD indicator into a useful
+trading strategy.
+
+Figure 11-6:
+Chart of the
+SPY shows
+a divergent
+MACD
+pattern.
+
+181
+
+182 Part III: Reading the Charts: Technical Analysis
+Most charting packages enable you to fine-tune the MACD calculation. Many
+traders vary the 12-, 26-, and 9-week values. Although nothing is inherently
+wrong with this approach, you nevertheless risk the curve-fitting problem
+whenever you try to find parameters that give you better results for a specific
+stock. That said, Gerald Appel, the man who developed MACD, uses values different than the original 12, 26, and 9. He also uses different values to generate
+buy signals than he does to generate sell signals. So feel free to experiment
+and have fun after you gain some experience with the default parameters.
+
+Revealing Relative Strength
+Relative strength measures the performance of one stock against another, or
+more commonly, against the performance of an index such as the S&P 500.
+The idea is to determine how the stock is performing compared with the
+broad market.
+Unfortunately, you may run across another indicator with a similar name
+when working with your charting software. The other indicator is called the
+relative strength index (RSI) and it is something completely different than the
+relative strength discussed here. RSI is an oscillator that is used in a similar
+way as the stochastic oscillator described earlier. To keep the two separate,
+we suggest you call the RSI by its initials and use the phrase “relative
+strength” when you mean to compare the performance of a stock against a
+broad-based index or another stock.
+
+Calculating relative strength
+Among the many ways that you calculate relative strength is simply dividing
+the stock price by the index value and plotting the result, like this:
+Relative strength No. 1 = stock price ÷ index value
+Another technique compares the price of the stock during a given period of
+time against the index during the same period. Our preference is comparing
+percentage changes during the same period. The calculation looks like this:
+Relative strength No. 2 = percentage change in stock price ÷ percentage
+change in index value
+Either of these approaches, or any other that you may invent, can be plotted
+on a stock chart. Some Internet sites provide a relative strength capability.
+See www.stockcharts.com/charts/performance for an example.
+Unfortunately, if you’re using a charting software package, you’ll probably
+have to program it into your system by using its formula-editing capabilities.
+
+Chapter 11: Calculating Indicators and Oscillators
+Or, you can look it up. Investor’s Business Daily has a proprietary calculation
+for relative strength that ranks stocks based on their six-month performance.
+It is a handy tool.
+
+Putting relative strength to work
+The goal when examining a stock’s relative strength is not necessarily to find
+the best performing stocks in the universe of all stocks, but rather to find
+stocks that are performing better than the average stock as each stock signals
+a buy.
+Relative strength is one of the final pieces to the technical analysis puzzle.
+You’ve found a trading candidate when you find a stock that:
+✓ Exhibits fundamentals as a strong company
+✓ Has earnings that are growing faster than average
+✓ Functions well in a strong sector
+✓ Operates in a growing economy
+✓ Is approaching a technical buy signal on its bar chart
+✓ Performs better than the average stock
+These characteristics favor a long position, of course. For short position candidates, reverse each criterion.
+
+183
+
+184 Part III: Reading the Charts: Technical Analysis
+
+Part IV
+
+Developing Strategies
+for When to Buy and
+Sell Stocks
+
+A
+
+In this part . . .
+
+ll of the pieces come together in this part as we
+show you how to get started as a trader and use
+fundamental analysis and technical analysis to develop
+a profitable strategy. In addition, we show you how to
+create a trading system of your own that matches your
+trading goals and your personality, and we explain how
+you can effectively implement that strategy and work with
+your broker to enter trading positions and exit them
+under the right circumstances. But most important of all,
+in this part, we show you how to manage your money to
+achieve profitable results.
+
+Chapter 12
+
+Money Management
+Techniques: When to Hold ’em,
+When to Fold ’em
+In This Chapter
+▶ Building your trading characteristics
+▶ Trading successfully and cutting your losses
+▶ Managing your holdings
+▶ Protecting your money
+▶ Knowing your risks
+
+Y
+
+ou may find this hard to believe, but some successful traders have
+more losing trades than winning trades. How? Their profits from
+winning trades overwhelm the losses from losing trades. The key to this
+success is knowing when to hold ’em and when to fold ’em — disciplined
+money management. You must develop a discipline that keeps your losses
+under control by quickly closing losing positions. The trick is to follow the
+rules you set. Good money management minimizes your trading losses
+when they occur and helps you realize a profit when it hits you right in the
+old kisser. Recognizing winners and losers — and setting your target prices
+before ever entering a position — is crucial to your money management
+strategy. In this chapter, we give you a set of rules to follow to get you started.
+
+Identifying Important Characteristics
+of a Successful Trader
+Successful traders share a common trait. You’ll find that they all successfully
+manage their money. The critical points of successful money management
+may be difficult to implement, but they’re easy to identify. They include
+
+188 Part IV: Developing Strategies for When to Buy and Sell Stocks
+✓ Planning your trades carefully by identifying entry and exit points
+✓ Minimizing losses by ruthlessly adhering to your stop-loss points
+✓ Protecting your profits with trailing stops
+✓ Exiting your position when the trend ends
+When using technical analysis to make your trades, you won’t get the
+lowest entry price or the highest exit price. That means you will always leave
+something on the table. The idea is identifying when a trend has begun,
+entering the position, and riding the trend until it ends.
+
+Opening the Door to Successful Trading
+Because your way to successful trading is disciplined money management,
+the key to opening that door to success is developing a plan for your trades
+and sticking to that plan, even if it goes against what your gut tells you.
+Sometimes you think you’ve picked what seems like the perfect stock, but
+then it just doesn’t perform the way you expected.
+Before entering that trade, you need to set an entry point, the price at which
+you’ll enter a trade, and an exit point where you will exit the trade if it goes
+poorly. Don’t deviate from your plan, even if it means accepting the fact that
+you made a mistake. We discuss setting entry and exit points in the section
+“Protecting Your Principal.” For more info about entering and exiting positions, check out Chapters 10 and 11.
+Although it may be cliché, it’s nevertheless true: You need to cut your losses
+short and let your profits run. In other words, fold (sell) when your losses first
+appear and hold as your profits continue to build.
+Your most important money management goal is to get out of losing positions
+as quickly as possible. After taking normal up and down price fluctuations (as
+discussed in Chapters 9 and10) into consideration, you must develop a
+method of recognizing when a stock is not behaving the way you expected,
+and as a result, be prepared to close a losing position before it consumes too
+much of your trading capital. Try to keep losses below 5 or 6 percent for any
+position. Or you could think in terms of your total trading capital and try to
+keep the loss from any single position below 1 or 2 percent. Unfortunately,
+achieving a balance between recognizing your losers and dumping them in
+time (knowing when to fold ’em) is more difficult than it sounds.
+
+Chapter 12: Money Management Techniques: When to Hold ’em, When to Fold ’em
+
+Managing Your Inventory
+To be successful, you need to treat trading as a business and stocks as your
+business inventory. Just like any other business, you must carefully manage
+your inventory to succeed. Factors paramount to successful trading are:
+✓ Viewing trading as a business. You trade to make money. Sometimes
+you pick the wrong stock and have to accept a loss. Losses are a part of
+any business. The key to good business planning is minimizing losses.
+✓ Overcoming the most common trader’s dilemma. Many traders get
+caught up in the moment, trying to defend their position even as it
+moves in the wrong direction. When your choices no longer make good
+business sense, you must quickly make cold, hard decisions and decisively act to cut losses short.
+✓ Approaching the solution to your trading dilemma as if it’s a business
+problem to solve. Sell when you stand the chance of making a healthy
+profit or when you must accept that you’ve made a mistake and it’s time
+to move on. Select your entry and exit target points before you buy the
+first share of any stock.
+
+Thinking of trading as a business
+So, how do you start thinking of trading as a business? Conceptually, it’s
+simple. Like any other business, traders have fixed costs; variable costs;
+finite amounts of working capital, assets, and liabilities; fickle customers
+(or fickle market conditions); fickle vendors (market conditions again); and
+inventory. Managing these business factors results either in profits or losses,
+and you, of course, want to maximize the profits and minimize the losses.
+The most important step you can take in treating trading as a business is
+thinking of the contents of your portfolio as your inventory.
+Traders need to manage their businesses with the same clear-eyed, coldhearted detachment as any successful business owner. But many traders,
+even the experienced, find thinking about trading as a business a difficult task.
+They make a decision, take a position, and stick with it regardless of how far
+prices go down — even when their stock flushes farther down the toilet.
+
+189
+
+190 Part IV: Developing Strategies for When to Buy and Sell Stocks
+Recognizing the trader’s dilemma
+Selling is hard. For some reason it’s emotionally more difficult to close a
+position, especially a losing position, than it is to open it. Traders rationalize
+holding a losing position by saying to themselves, “I’ll give it some room to
+work out, it’s only a paper loss.” But that rationalization is foolhardy. You
+never hear traders describe a winning trade as a paper gain, and you shouldn’t
+rationalize losing positions that way, either.
+
+Falling in love
+Traders fall in love with their stocks. Understanding how falling in love with
+a stock can happen is easy. You spend many a late night finding the right
+stock. You evaluate the economy, find a strong sector, research the financial
+condition of the top companies in the sector, and check the charts.
+You didn’t mean for it to happen, but you try to justify your actions as
+nothing more than a fling . . . really. You find a stock that looks promising,
+and then something clicks. You hardly notice at first, but now you’re in love.
+So you enter your trade, and . . . your stock’s price goes the wrong way.
+Which way is the wrong way depends on your position. If you own the stock
+and its price falls, obviously that’s the wrong way. But if you sell the stock
+short, the wrong way is if its price rises. We discuss the mechanics of selling
+short in Chapter 14. Either way, you’re losing money.
+
+Breaking up is hard to do
+After all the late nights, the hard work, and the brilliant analysis, you may
+end up asking yourself, “How could I have been so wrong?” You’re not alone.
+We just kept thinking: “How can everyone else be so wrong? This is a great
+stock. It has to go up. We’ll wait for everyone else to come to their senses, to
+realize the error of their ways, and then this trade will turn out just fine.”
+The idea that the market may not love your stock, too, sometimes is hard to
+swallow. After you’ve taken a position, a psychological quirk (everyone has it)
+makes you want to be right. Somehow, you need to overcome this quirk.
+Otherwise, it can lead to many losses and possibly to financial ruin.

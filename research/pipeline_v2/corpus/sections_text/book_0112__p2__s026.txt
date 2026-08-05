@@ -1,0 +1,424 @@
+
+Chapter 16: The Basics of Swing Trading
+climbed above $29.45, rising as high as $30.01 before backing off to close at
+$29.80. You could expect your order to fill very near your $29.45 buy-stop
+price. For the sake of our example, we’ll assume a fill price of $29.50.
+
+Bar #1
+
+Bar #3 Bar #5 Bar #7
+
+Figure 16-2:
+Chart of
+National
+Oilwell
+Varco (NOV)
+showing
+pullback
+trading
+examples.
+
+Bar #2
+
+Bar #4
+
+Bar #6
+
+Immediately following the trade execution, you set a stop-loss order below
+the low of the previous bar, $28.74 in this case. Or you may set the low at
+$28.90, the trade day’s low. Either approach makes sense, so it’s your call.
+Each day the trade remains active, reset the stop order just below the low of
+the previous bar on the chart.
+The thrust of this trend lasted through February 12, 2007, a duration of ten
+trading days. This position hit the stop price on February 12, labeled Bar #3
+on the chart in Figure 16-2, when the stock traded below the February 9 low
+of $33.03.
+The next opportunity to trade a pullback occurred during the pullback that
+began after NOV traded at a new high on February 13, labeled Bar #4. The
+trade was triggered on February 21, shown as Bar #5, when NOV traded
+above the February 20 high of $33.85. The position hit its stop price on
+February 27, shown as Bar #6, when the stock traded below the February 26
+low of $34.91. Given slippage and transaction costs, this trade was no better
+than a breakeven trade.
+
+263
+
+264 Part V: Risk-Taker’s Paradise
+The next opportunity came following the poorly formed pullback that began
+with Bar #6. You entered the trade on Bar #7 when NOV traded above the
+February 28 intraday high of $35.00. The trade would stop out two bars later
+for a loss.
+Swing trades don’t always work out, of course. Complications and frequent
+losing trades always are likely.
+
+Surfing channels
+Another trend-following approach to swing trading uses a channeling strategy
+to identify entry and exit points. Chapter 10 explains the channeling strategy
+and how to construct the channel lines. After a channel is identified on the
+daily charts, channel lines are treated as lines of support and resistance.
+Figure 16-3 shows an example.
+
+Resistance Channel Line
+
+Figure 16-3:
+Chart of
+Jacobs
+Engineering
+Group, Inc.
+(JEC) in
+a trend
+channel.
+
+Support Channel Line
+
+After identifying support and resistance levels for a channeling stock, you
+can monitor its chart for reversals near the channel lines. As the stock price
+approaches the lower or support channel line, you have an opportunity to
+take a position in the direction of the trend. After entering a position, your
+stop-loss order is entered just below the support channel line. As the stock
+price approaches the upper or resistance channel line, that signals when to
+exit your position.
+
+Chapter 16: The Basics of Swing Trading
+You can use intraday charts to fine-tune this strategy. As a stock price falls
+toward its lower channel or support level, begin watching intraday charts for
+indications that the stock is changing direction and heading higher. If you see
+an intraday low near the location of the support channel line, followed by a
+higher high and a higher low, you can use that situation as an entry signal.
+After entering a long position, you place a stop-loss order just below the support channel line.
+You hold this long position until it either is stopped out or the stock
+approaches its upper channel resistance level. Again, you need to monitor the intraday charts for hints of a change in direction and exit the trade
+whenever you see the reversal. After that, you wait for the stock to head back
+toward the lower channel line to initiate a new long trade.
+
+Trading range-bound stocks
+Unlike the typical position trader, a swing trader is more likely to use countertrend strategies (see Chapter 15) and actively participate when a stock
+is range bound. The swing trader tries to make trades based on price movements from the bottom to the top of the range and back down again. You can
+use either daily or weekly charts to identify the trading range. An example
+using a daily chart is shown in Figure 16-4.
+Your trading approach to range-bound stocks is similar to the one for trading a channeling stock that we describe in the previous “Surfing channels”
+section. As the stock price approaches the support level, which is just above
+$59.00 in Figure 16-4, you have an opportunity to take a position. You can use
+the a few approaches to enter a position.
+You can, for example, simply choose to place a buy order using a limit price
+just above the support line. Another approach that may give you a little more
+control and provide better entry and exit points is to monitor the stock to
+find pivot points as it trades near the support line. A pivot point is a three-bar
+pattern in which the low price of the middle bar is lower than the lows of the
+bars on either side of it. The entry and exit points for this kind of trading are
+similar to the ones used for trading based on a pullback pattern. After identifying a pivot point, you enter an order on the next bar. The protective stop
+is placed either immediately below the low of the pivot bar or just below the
+support channel line.
+
+265
+
+266 Part V: Risk-Taker’s Paradise
+Sell
+
+Breakout
+Resistance
+
+Figure 16-4:
+Chart of
+Genzyme
+General
+(GENZ)
+stock prices
+bound
+within a
+trading
+range.
+
+Support
+Buy
+
+Using intraday charts is another way to fine-tune your entry point. As the
+stock approaches the support line, you enter a position as soon as you see
+a reversal pattern on the intraday charts — for example, a higher high and a
+higher low, or a gap higher (Chapter 10).
+You exit these kinds of positions when the stock reverses near its resistance
+line. You can then take a short position in the stock — using any of the entry
+techniques described earlier — or wait for the stock to return to the support
+line to initiate another long position.
+If the stock breaks through its upper resistance level, you interpret that
+condition exactly the way a position trader does — a very bullish indication
+that the stock is likely beginning a new trend, immediately closing any open
+short positions and converting to a trend-following strategy (see the earlier
+“Trading trending stocks” section).
+
+Chapter 16: The Basics of Swing Trading
+
+Swinging with Gann and Taylor
+Swing trading has been around in one form or
+another since the earliest days of markets. The
+term itself probably originated with W. D. Gann
+when he invented the swing chart during the
+1920s. George Douglass Taylor popularized the
+phrase, and a short-term trading technique,
+when he introduced a now classic three-bar
+trading pattern in his 1950 book, The Taylor
+Trading Technique.
+Taylor’s ideas serve as the basis for much of
+today’s swing-trading methodology. According
+to Taylor, trending stocks tend to rally, then
+rest, and then continue to trend. Swing traders watch for these rest periods and attempt to
+enter the market just in advance of the thrust of
+the new trend.
+Taylor’s method, sometimes called “the book
+trader’s method,” was originally developed to
+trade futures contracts in the grain markets.
+Taylor theorized that the market cycles through
+three distinct phases or days. The first phase
+is the buy day, the second is a sell day, and the
+third is a sell-short day. Although these three
+days don’t necessarily fall on consecutive days,
+for the sake of following the discussion, we
+assume they do.
+Taylor first determines the short-term trend,
+finds the position of the short-term cycle within
+the trend, and then uses this information to
+
+determine when to buy, sell, or sell short. The
+buy day begins the cycle. A typical buy day
+begins with weakness, and the trader takes a
+long position near a previously identified support level based on the weakness. This position is held overnight into the next day, the
+sell day. The sell day typically opens strong,
+but the strength fades before the close. The
+trader sells at the early signs of weakness. The
+final day of the cycle is the sell-short day. The
+trader watches for any strength near resistance
+levels on the third day and sells short into this
+strength. The short position is held overnight
+and then covered during early weakness the
+following buy day. The cycle begins in earnest
+again with the trader initiating a long position
+after covering the short position.
+Taylor’s approach is difficult to execute. Like
+all swing trading, it requires constant monitoring of the market and an excellent understanding of support and resistance levels. It
+is a discretionary approach that is difficult to
+test. Few stocks actually follow a three-day
+script on consecutive days. Many stocks trend
+for several days before pulling back or rising,
+so the three-bar method must be adjusted to
+account for these differences. Nevertheless,
+Taylor’s thinking is evident in much of today’s
+swing-trading methodology.
+
+Trading volatility
+Swing traders try to trade stocks that move up and down more than average.
+To find these stocks, swing traders spend a great deal of effort measuring
+and analyzing volatility, usually in the form of historic volatility. Although
+the math required to calculate historic volatility is complex, the concept
+is simple. Historic volatility measures a stock’s price movement. The faster
+it moves, the higher the historic volatility. Fortunately, many charting and
+analysis programs include a method for calculating historic volatility, so you
+don’t have to program in the formula.
+
+267
+
+268 Part V: Risk-Taker’s Paradise
+Historic volatility isn’t concerned with the direction of a stock’s price movement. A high historic volatility value doesn’t reveal whether a stock’s price is
+rising or falling. Although swing traders want to know that a stock trends in
+one direction or the other, they don’t really care which direction. Downside
+movement is just as attractive as upside movement to the swing trader.
+You can use historic volatility for swing trading in several different ways. One
+popular approach uses historic volatility for finding stocks that have been
+very volatile but currently are experiencing quiet periods. These temporarily
+quiet stocks often return to previous levels of historic volatility, and that presents a swing-trading opportunity. Swing traders identify these stocks by comparing measurements of historic volatility across longer and much shorter
+periods of time and expressing that comparison as a ratio. The ratio looks
+like this:
+Historic volatility ratio = Short-term historic volatility ÷ Long-term
+historic volatility
+One common ratio compares a 6-day historic volatility with a 100-day historic
+volatility. Whenever the value of that ratio is less than 50 percent, the stock
+is a candidate for a swing-trading position.
+After this stock takes a short low-volatility rest, it is likely to return to its
+historic level of volatility with a fast move. Remember that volatility tells you
+nothing about the direction of price movements, so to get around this limitation, be sure to place buy and sell-short stop orders, respectively, above the
+high and below the low of the current bar. When the stock decides which
+way it will go, one of your stop orders will be filled and that should get you
+pointed in the right direction. Using more traditional technical analysis tools
+is another approach to evaluating a stock’s current trend, so you can then
+trade in the direction of that trend.
+Risks accompany both approaches. Using the first approach, the stock may
+take off in one direction and quickly reverse course, and you may end up
+holding a position with a highly volatile stock heading the wrong way. This
+same scenario also can happen with the second approach. Another potential
+problem occurs when the stock price gaps through your entry order, and your
+order may end up getting filled at a price that’s significantly different than you
+expected.
+
+Money management issues
+Because of the short duration of each trade, swing trading generates a large
+volume of trades. Execution and slippage costs (Chapter 12) can be very
+high. Profits are relatively small when measured on each trade, so losses
+must be carefully controlled.
+
+Chapter 16: The Basics of Swing Trading
+You need to adhere closely to the money management rules we discuss in
+Chapter 12. In addition, each swing trade must represent only a small percentage of your trading capital. Ten percent of your capital per trade is too
+much. Risking less than 5 percent — and perhaps as little as 2 percent — of
+your trading capital on any one swing trade is a more conservative approach.
+This approach is similar to the one used by professional traders. When profit
+potential is small, don’t take big risks, or you won’t be a swing trader for long.
+
+Using Options for Swing Trading
+Stock options can be used as substitutes for the underlying stocks when
+swing trading. A stock option is a limited duration contract that grants the
+option buyer the right to either buy or sell a stock for a fixed price. The option
+seller, usually called the option writer or the option grantor, is granting the
+right to the option buyer to either buy or sell a specific stock for a fixed
+price.
+Each option represents 100 shares of stock. A call is an option to buy 100
+shares of a specified stock. The call buyer is acquiring a limited duration
+right to buy 100 shares of a stock from the option grantor at a fixed price,
+called the strike price. A put is an option to sell 100 shares of a specified
+stock. The put buyer is acquiring a limited duration right to sell 100 shares
+of a stock to the option grantor at the specified strike price. Options are discussed in more detail in Chapter 18.
+You can, for example, substitute a call option for a long stock position or a
+put option for a short stock position. You realize any profits by selling the
+options outright, or you can exercise an option and take possession of the
+shares of stock. Swing traders, however, are more likely to sell the option
+than exercise it.
+Although using options as stock substitutes has several advantages, it also
+has risks of its own. The primary advantage: An option costs far less than
+the underlying stock, which enables you to limit your risk to the price of the
+option.
+Each option is a substitute for 100 shares of stock or 100 shares of an
+exchange-traded fund. One call option, for example, gives you the ability to
+buy 100 shares of a stock at a fixed price for a certain length of time. As an
+example, assume that the QQQQ exchange-traded fund is trading at $27.10
+per share. At the time of the example, you can buy one call option with a $27
+strike price for $2.26 per share, or a total of $226, before transaction costs.
+That one option enables you to buy 100 shares of QQQQ for $27 before the
+option expires.
+
+269
+
+270 Part V: Risk-Taker’s Paradise
+Say that the option in this example has approximately six weeks before
+expiration. Your option position is therefore profitable as long as the QQQQ
+exchange-traded fund trades above $29.26 (excluding transaction costs)
+before the expiration date. (We determined the breakeven price by adding
+the $27 strike price to the $2.26 cost of the option, which totals $29.26.) Your
+risk is the price of the option. In other words, you can’t lose any more than
+$2.26 per share, or $226, on this trade.
+Unfortunately, option pricing is not as straightforward as stock pricing.
+The pricing example above is merely a snapshot that varies with changes
+in the price of the QQQQ exchange-traded fund. The following factors affect
+option prices:
+✓ Options expire and their prices decay as the expiration date draws
+closer. This price decay is caused by the option’s falling time value.
+✓ The prices of current-month options decay at faster rates than longerdated options.
+✓ In percentage terms, out-of-the-money options often move at a faster rate
+than in-the-money options. (An option is said to be in the money if it has
+intrinsic value and out of the money if it has no intrinsic value. For a call
+option, that means the price for the underlying stock is greater than the
+specified strike price. For a put, that means the price for the underlying
+stock is less than the strike price. See Chapter 18 for additional details.)
+Note: Trading options that are far out of the money is rarely a good
+strategy.
+✓ Volatility is a component of option pricing. Option prices rise and fall as
+the volatility of the stock rises and falls.
+✓ Except in a few unusual circumstances, an option’s price doesn’t move
+in lock step with the underlying stock’s price. If a stock moves $1, the
+option, in general, moves some amount less than $1. The more an option
+is in the money, the closer the change in an option’s price will be to the
+change in the underlying stock’s price.
+Another factor to consider when substituting options for stocks is that the
+option’s spread, or the difference between the bid price and the ask price, is
+extremely wide when considered as a percentage of the option price.
+Before you decide to substitute options for your stock trades, make sure that
+you understand the option-pricing model. We discuss it in Chapter 18. And be
+careful that you don’t overtrade with options. If you normally buy 100 shares
+of a stock, then you need to buy only one option contract. Although the price
+of 10 option contracts may be attractive when compared with the price of
+the stock, 10 option contracts nevertheless represent 1,000 shares of stock.
+When buying options for 10 times the number of shares that you normally
+trade, you’re increasing your exposure to risk by a factor of 10.
+
+Chapter 16: The Basics of Swing Trading
+When trading options, you can’t make money in as many ways as you can
+lose it. Being right on the stock’s direction but still losing money on an option
+trade is possible because of pricing issues. That’s why gaining an understanding of the option-pricing model is so important before you try to substitute an
+option for a stock. We discuss options more fully in Chapter 18.
+
+Getting a Grip on Swing-Trading Risks
+Swing trading is risky and demands a great deal of time. As a swing trader,
+you must monitor the market during every trading hour. You also must be
+able to control your emotions so that you stay focused and trade within
+your plan.
+Ask any swing trader; you’re likely to hear that strict adherence to money
+management reduces risk. The counterargument is that swing trading
+exposes a great deal of capital to risk but makes only small profits. Some
+traders are able to swing trade profitably, but you need to realize that the
+odds are stacked against you. Only you can decide whether it’s worth the
+effort.
+Some argue that swing trading combines the worst aspects of position trading with the worst aspects of day trading. Like day trading, swing-trading
+profits are small and slippage costs are high. Swing-trading positions are held
+overnight, so swing traders can’t take advantage of the special margin provisions that are available to day traders who close all positions by the end of
+the trading day. And swing traders are subject to the same account restrictions as day traders, but they may not qualify for the special tax advantages
+afforded to full-time day traders.
+
+Taxes (of course)
+Special tax treatment is available from the IRS for full-time traders. The
+benefits enable full-time traders to be taxed as a business rather than an
+investor, and that means you can deduct the cost of the computer hardware and software used for trading, and you can treat your home-office
+expenses, including the costs for data acquisition, as ordinary business
+expenses. Furthermore, you can convert capital gains and losses to ordinary
+gains and losses under the Mark-to-Market accounting rules in the IRS Code
+Section 475. Mark-to-Market rules enable you to avoid wash-sale regulations
+and deduct all losses against other income, without hitting the $3,000 cap
+imposed on other investors.
+
+271
+
+272 Part V: Risk-Taker’s Paradise
+Unfortunately, swing traders do not necessarily trade every day, so some
+swing traders have a difficult time qualifying for these special tax provisions.
+If you are unable to qualify as a full-time trader, then your swing trades will
+be taxed in the same way as every other investor. You must report gains and
+losses on IRS Schedule D, and you must adhere to wash-sale regulations. You
+may also run into difficulty if you try to report your trading expenses as a
+business deduction.
+The rules are complex. You need to consult with your tax advisor to determine
+your eligibility. Information about the rules is in IRS Publication 550, Chapter 4,
+“Special Rules for Traders.” We provide more information in Chapter 17.
+
+Pattern day-trading rules apply
+Swing traders are subject to the same rules as day traders. If a swing trader
+opens and closes a position in a single stock during one day, and does this
+more than four times in a five-day period, the swing trader is categorized as
+a pattern day trader. If this occurs, the swing trader must maintain an equity
+balance of $25,000 in his account or his broker will prohibit him from making
+any day trades. Additional information about the pattern day-trading rules is
+provided in Chapter 17.
+This scenario actually is quite likely for the swing trader, because of the
+number of stops that are hit. As a swing trader, you may as well plan to maintain a minimum equity balance in your trading account in excess of $25,000.
+
+Chapter 17
+
+The Basics of Day Trading
+In This Chapter
+▶ Exploring day trading
+▶ Deciphering account restrictions
+▶ Reviewing day-trading strategies
+▶ Assessing day-trading risks
+
+D
+
+ay traders enter and exit trading positions sometimes more than a hundred times within a single day. Day traders may even get into and out of
+a position within the span of only a minute or two.
+Some players compare watching the charts and jumping quickly in and out of
+positions to the rapid-fire action and excitement of a video game. However,
+much more is at risk. Instead of merely losing a game, a bad move can mean
+the loss of your entire portfolio, or maybe even more. Yes, day traders sometimes end up in negative positions, owing money to the firms with which
+they’re trading. We explain how that can happen later in this chapter.
+For now, you need to know that day traders rarely hold a stock overnight
+and that watching a computer screen for hours at a time is a critical part of
+the day for this high-stress type of trading. Although neither of us is or ever
+has been a day trader, in this chapter, we nevertheless explain how this
+type of high-risk trading works, give you some common strategies used by
+these types of traders, explore restrictions the United States Securities and
+Exchange Commission (SEC) places on day traders, and show you the high
+levels of risk day traders face.

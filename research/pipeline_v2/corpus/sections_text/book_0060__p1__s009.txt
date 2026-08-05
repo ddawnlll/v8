@@ -1,0 +1,339 @@
+standardized system. Collateral substitution has always been a factor of this
+market that was previously left to the market to decide. As long as a substitution met the acceptable securities list, a substitution was acceptable practice.
+The second issue addresses risk-management practices of cash lenders
+and clearing banks that are subject to procyclical pressures. The term procyclical pressure derives from a 2009 BIS paper titled “The Role of Valuation
+and Leverage in Procyclicality” published by the Committee on the Global
+Financial System, a 31-member committee traditionally chaired by the
+Chairman of the Federal Reserve. Procyclical pressures can be deﬁned as market practices such as collateral and margin subject to the credit cycle. Further,
+it is a measure of leverage and risk. For example, when long-term assets are
+funded by short-term liabilities, a maturity mismatch known as basis risk on
+dealer’s banks can occur or when exposure to risky assets exceeds equity capital. The report outlines leverage in terms of mismatches, degrees of leverage,
+and the durability of secured ﬁnancing.
+Cash lenders are money market mutual funds among others that make
+investments while cash borrowers are ﬁxed-income-securities broker dealers who use the repo market for short-term funding because they don’t have
+
+Short-Term Interest Rates and Money Market Instruments
+
+85
+
+access to the Fed discount window (frbdiscountwindow.org). They must rely
+on clearing banks to fund short positions, ﬁnance customer orders, and cover
+hedge exposures such as derivative hedges.
+“In the ﬁrst quarter of 2010, securities ﬁnanced in the repo market
+totaled $1.7 trillion, down from the peak of $2.8 trillion in May 2008”. Yet
+this peak saw a majority of overnight deals completed rather than longerdated term deals, a prediction of a market turn?” From 2004 to 2007, repo
+markets doubled but term repos fell while 2006 to 2007 saw growth come
+from overnight deals. In May 2002, $750 billion was ﬁnanced and a straight
+trend line existed to the May peak. Since then, the market trended down
+and appears to be presently stabilized. “The top-10 cash borrowers account
+for 85 percent of market value of Tri-party repo securities ﬁnanced. The top
+10 cash investors provide 65 percent of funds invested. The largest borrowers
+ﬁnance more than $100 billion in securities, the peak saw $400 billion. Cash
+investors provide $100 billion in ﬁnance daily.”
+“In the ﬁrst quarter of 2010, 77 percent of Tri-party deals were ﬁnanced
+by Treasury securities that included 27 percent treasuries, 37 percent agency
+mortgage-backed securities, and 13 percent ﬁxed-income securities.”
+Agency securities are deﬁned as Fannie Mae, Federal Home Loan Mortgage
+Corporation, and Ginnie Mae. “This quarter saw corporate and municipal
+securities slowly return.” The repo market deteriorated because these securities” values were uncertain.
+What really forced a deterioration of this market was the collapse of
+Countrywide, Bear Stearns, and most prominently Lehman Brothers. Lehman
+Brothers had $50 million of U.S. debt in repurchase agreements. Through
+Repo 105 accounting standards, Lehman Brothers treated these transactions
+as sales rather than ﬁnance loans that masked their leverage ratios. This caused
+a change to their balance sheets. Lehman collapsed, the market deteriorated,
+and a review of Repo 105 transactions was under way, ﬁrst by the Securities
+and Exchange Commission (SEC) and U.S. central bank, and then by all
+central banks to ensure perpetuity of the repo market.
+No anticipation of higher margins was expected. Margins are deﬁned as
+cash loaned, and value of collateral is equal to the margin or haircut. Stated
+differently, a haircut occurs when the cash is lower than the collateral value
+of securities. Yet it was recommended that stress tests be performed on collateral price movements to understand margin capacity and market risks. Any
+margin increases should be based on asset classes to add market stability. “The
+question remains how should collateral valuations be valued, based on yesterday’s closing prices, today’s closing prices, trading ranges of prices, or volatility?” Margin payouts were $1,710.5 billion as of April 9, 2010.
+Questions of margin as risk based have not been addressed in prior papers
+until another BIS paper titled “Role of Margin Requirements and Haircuts in
+
+86
+
+Inside the Currency Market
+
+Procyclicality” was released in March 2010 by the Committee on the Global
+Financial System. This paper reports that erosion of margin with increased
+trading activity contributed to the growth in leverage possibility due to competition for business. Further, “high credit ratings, ample liquidity, and low
+volatility increased borrowers’ comfort level.” This led to more margin calls
+as the market began its deterioration due to uncertain value of assets. This
+polemic was worldwide rather than a speciﬁc U.S. example.
+Currently, the Basel 2 Accords world framework for haircuts says haircuts are established for each transaction secured by collateral. The Japanese
+employ this model in their repo market by a list of margins based on classes of
+accepted collateral. The Basel 2 model employed is the Value-at-Risk (VAR)
+versus Historic-Volatility framework; “framework periods depend on assets
+and length of time in the transaction. VAR haircuts estimate risk at a 95
+to 99 percent conﬁdence level over a 10-day liquidation period. A trade is
+factored by the holding period with a 10-day haircut multiplied by the square
+root of 0.5.” To borrow an example, a haircut for a ﬁve-day holding period
+will employ the 10-day liquidation rate multiplied by the square root of 0.5,
+a ratio of 5 divided by 10. The U.S. Federal Reserve employs this model for
+borrowers at their discount window but progresses a step further by classifying loans as minimal-risk versus normal-risk loans. Minimal-risk loans
+are classiﬁed as similar to investment-grade bonds, while normal risk is classiﬁed as below-investment-grade bonds. The purpose is to further evaluate
+loans for margins with faster process times. For this purpose, the DTCC is
+scheduled to expand its cutoff times later than its present 3:00 p.m. close to
+facilitate transactions, which is scheduled for late 2010 or early 2011. The
+current proposal is still being addressed. Currently, haircuts are under further
+review by the Basel Committee on Banking Supervision to determine the
+acceptable level of margin. Margin changes in the future are an obvious possibility. Any increase in margin requirements or the elimination of a class of
+security can potentially hamper this market and restrict access to credit that
+means huge implications for the spot trade. A restriction of credit can only
+be U.S. dollar, U.S. dollar/Japanese yen, or U.S. dollar/Swiss franc negative
+and euro/U.S. dollar, British pound/U.S. dollar, Australian dollar/U.S.
+dollar, or New Zealand dollar/U.S. dollar positive. The Federal Reserve is
+currently ﬂoating proposals to increase the number of primary dealers.
+Liquidation. Recommendations included a collateral-liquidation service.
+Before the market collapsed, prior recommendations included the formation
+of a bank to handle liquidations and ﬁre sales in case of defaults. This recommendation lends more credence in this report and may soon become a reality.
+For mature repo trades, a standard time settlement system was recommended to be implemented in late 2010 and point-of-trade conﬁrmations
+
+Short-Term Interest Rates and Money Market Instruments
+
+87
+
+that would legally bind the parties were also recommended. These proposals
+are currently operational.
+Transparency. A recommendation was issued to publish key market
+information by clearing banks. Information includes market size, depth and
+volume, dealer concentration, asset categories, and margin and haircut levels.
+This point is profoundly important as well as historic because it will inform
+other markets, particularly the currency markets. No mention of rates. Yet
+the DTCC proposes to publish a GC rate in September 2010 which has been
+completed by their index.
+These remaining proposals await to be addressed and formally adopted
+by the DTCC. What this market will look like in the future is undetermined,
+yet its implications are huge so market professionals may want to monitor
+this situation for further developments.
+Treasury Market Practices Group and U.S. Fails Charges
+
+In a further effort to review the problems of the repo market and ensure market efﬁciency, a group of market professionals that comprise the Treasury
+Market Practices Group (TMPG) recommended in 2008 a voluntary fails
+charge for buyers and sellers that fail to deliver securities based on the contract date, better known as Delivery versus Payment. Since May 2009, thanks
+to submittal of Rule 2009-03 by the FICC, clearer and governed by the
+1934 Securities and Exchange Act, and approval by the SEC, this rule has
+been formalized as a standard market practice in the repo, options, and
+forwards markets. The question of fails has been considerable. Consider
+par value of fails reached its highest levels in December 2009 with $676
+million in fails and $624 million in January 2010. August 2009 saw $572
+million, September 2009 $312 million, and October 2009 $260 million.
+July 2010 saw $468 million and May 2010 $280 million. A fails charge
+also allows a reasonable interest charge subject to agreement by contracting parties.
+To calculate a fails charge,
+Amount  1/360  0.01  Max (3-R,O)  P
+R  each day based on the previous day’s 5:00 p.m. reference rate in
+percent per annum.
+The reference rate is the most recent Fed Funds target rate.
+The amount of funds from non-failing party on a delivery versus
+payment basis or market value on the date the failure began.
+
+88
+
+Inside the Currency Market
+
+Japanese Repo Market
+
+Traditional Japanese repo markets were quite different from their Western
+counterparts because the Japanese viewed their repo markets more as a lending market rather than a buy-and-sell arrangement. The Japanese borrow and
+lend but not through an outright purchase and sale. The modern-day repo
+began with the General Repo and Special Collateral market. The General
+repo market was a source for banks to raise funds and served as the link to the
+money and interbank markets (Baba, Inamura, 2002).
+The Special Collateral market was the link for dealers, called Tanshi
+companies, to the securities markets such as the all-important Japanese
+Government Bond (JGB). Traders and banks lend cash and bonds and then
+cash in at the repo rate. The Japanese term this the gensaki market to reﬂect
+a special ﬁnancing method that employs securities and funds exchanged
+for a ﬁxed period. The market exploded from $18 trillion yen in 1996 to
+$42 trillion by 2001 (Baba, Inamura). The polemic arose due to contract
+settlement after the contract date and repo rates hovered above Japanese Call
+and EUROYEN rates so the modern-day GC market was born in 2002 to
+reﬂect a better-managed risk system.
+Today’s Tokyo repo rate is a reﬂection of Japan’s GC market, a market
+rate based on a mid rate of bids and offers from an average of 20 banks.
+Currently 15 to 20 active banks in the market with good credit standing
+bid at least the mandated $10 billion yen transaction, a standard for any
+maturities. If half the institutions fail to bid, no rate is issued. The Bank
+of Japan conducts and manages the bidding process for each maturity
+promptly at 11:00 a.m. Tokyo time and ends at 11:45 a.m. Quick Corp
+then calculates the rate by eliminating the highest and lowest 15 percent and
+averages the remaining bids to three decimal places. The BOJ then promptly
+reports the Tokyo Repo Rate at 12:30 p.m. on their web site and the bidding
+institutions report the repo rate on their own web sites shortly thereafter
+(Japanese Bankers Association 2010).
+Bidders termed counter parties bid on yields to purchase or sell the
+majority and most important asset of Japan and the repo market, the JGB. A
+purchase or sale price is calculated by dividing the market price by the margin
+ratios. A resell is calculated by the amount obtained by multiplying the purchase price by purchasing yields to purchase price. A repurchase is factored
+by amount obtained by multiplying the selling price by selling yields to sell
+price. Rates are on a 365-day basis.
+Overnight rates are settled based on a T0 and T1, spot/next known
+as day-after-tomorrow trades and settled T2, and one week or longer trades
+are settled on a T3 basis (Tokyo Stock Exchange). Current 2010 BOJ policy
+
+Short-Term Interest Rates and Money Market Instruments
+
+89
+
+is to settle repo transactions on a T1 basis to eliminate fails. Many changes
+occurred in the last three years in Japan’s repo market that required revisions
+to the Japan Banking Act (BOJ 2010).
+At the October 2008 Bank of Japan policy meeting, the bank introduced
+a Floating Rate JGB, an inﬂation-indexed bond, broadened the range of
+acceptable asset-backed commercial paper, and issued a 30-year JGB. All are
+subject to margin ratios set by the BOJ annually (BOJ Ofﬁcial Reports 2009).
+Current 2010/2011 margin ratios for Japan’s repo market to sell are as follows: up to 1 year maturities—0.998, more than 1 year and up to 5 years—
+0.998, more than 5 years, up to 10 years—0.998, more than 10 years and
+up to 20 years—0.998, 20 to 30 years—0.998. For Floating Rate Bonds up
+to 1 year—0.992, one to ﬁve years—0.998, 5 to 10 years—0.981, and 10 to
+20 years—0.981. For Inﬂation Indexed Bonds, up to 1 year—0.964, one to ﬁve
+years—0.998, 5 to 10 years—0.981, and 10 to 20 years—0.981. For Inﬂation
+Indexed Bonds up to 1 year—0.964, one to ﬁve years—0.960, 5 to 10 years—
+0.981, and 10 to 20 years—0.981,. For Inﬂation Indexed Bonds up to 1 year—
+0.964, one to ﬁve years—0.960, 5 to 10 years—0.954, 10 to 20 years—0.948,
+20 to 30 years—0.940 and more than 30 years—0.940. (BOJ web site)
+Following is a list of rates for 2010/2011 securities purchased by the
+BOJ: For JGB’s with a residual maturity of up to 1 year maturity—1.003, one
+to ﬁve years—1.007, 5 to 10 years—1.007, 10 to 20 years—1.007, 20 to 30
+years—1.007, and more than 30 years—1.029.
+Floating Rate Bonds with maturity up to 1 year 1.009, 1 to 5 years
+1.013, 5 to 10 years 1.020, 10 to 20 years 1.020. Inﬂation Indexed Bonds up
+to 1 year 1.039, 1 to 5 years 1.043, 10 to 20 1.058, 20–30 years 1.068 and
+more than 30 years 1.068.
+Inﬂation Indexed Bonds up to 1 year maturity 1.039, 1–5 years 1.043,
+5–10 1.051, 10–20 1.058, 20–30 1.068 and 30+ 1.068.
+Daily volume in the repo market is $53 trillion yen, $39.9 trillion in the
+Call market, $42.3 trillion in JGB’s settled as delivery versus payment, and
+$11.9 in yen foreign-exchange transactions. Intraday overdrafts are measured
+every 10 minutes and account for $38.6 trillion.
+While trades in the U.S. closely track U.S. LIBOR, Japanese repo rates closely
+track Yields on U.S. Treasury Bills. The formula to trade Japanese yen/U.S.
+dollar is found within this framework. For all of 2010 margin ratios,
+Japanese repo rates stabilized between 0.10 and 0.15, yet the top policy
+Call rate for Japan is 0.10. Ultimately, the price to borrow must always be
+below the top rates.
+Consistent with the U.S. TMPG, the Japanese Securities Dealers
+Association formed the Working Group concerning the “Review of Fails
+Practice for Bond Trading.” This ongoing discussion involves the question
+
+90
+
+Inside the Currency Market
+
+whether fails charges should be a penalty charge or a simple rate charge.
+The release of this report is scheduled for late 2010. Current 2010 fails in the
+Japanese repo market includes 89 fails in April 2010 with a yen face value
+of 100 million yen that totaled 3406, May 2010 saw 69 fails totaling 1,673,
+and June 2010 saw 53 fails totaling 694 (BOJ Ofﬁcial Reports 2010). The
+Japanese decided to apply fails as a market practice rather than a rule equaled
+to about three percent of the transaction.
+Japanese banks are subject to higher margin rates in March 2011 based
+on a recently released report by the Basel Committee.
+Spot Currency and Japanese Repo Rates
+
+Japan’s futures market, the Tokyo Futures Exchange, trades a Spot/Next repo
+rate future whose index is quoted as 100 minus the average GC spot/next
+repo rate, or better stated as 100 minus the rate of interest. This contract is
+cash settled. Many employ these contracts to hedge spot against futures or
+futures against cash markets while others speculate on interest-rate changes
+by the BOJ (Tokyo Stock Exchange 2010).
+No better method exists in Japan to determine interest-rate direction
+than this ﬁnancial instrument due to its short-term nature. A rise in rates
+usually signals a BOJ policy rate increase while a lower rate signals a fall in
+policy rates. The perfect time to monitor this rate is before a BOJ meeting.
+A rate increase or decrease will send the U.S. dollar/Japanese yen skyrocketing
+up or down in a matter of minutes and represents signiﬁcant proﬁts for traders.
+The implication for this trade is to factor an implied repo trade. An implied repo
+trade is to short one market and go long in another so one position is hedged.
+In this instance, suppose one is long the futures contract and short the
+cash repo market or vice versa. Proﬁts from the long will cover the short with
+a proﬁt, provided that the security can be delivered for a proﬁt on settlement
+date. The instrument with the highest implied repo rate would be the cheapest
+to deliver upon settlement. A formula must account for the price paid/purchase
+price of bond or whatever instrument  Day count convention, 365 for
+Japan/days to delivery (Tokyo Stock Exchange 2010).
+New Zealand
+
+New Zealand’s central bank targets inﬂation and prices as their market
+methodology. The only method to manage an inﬂation target is through
+the Consumer Price Index to ensure prices are aligned with inﬂation. Bank
+
+Short-Term Interest Rates and Money Market Instruments
+
+91
+
+reserves must then be further managed so targets are properly aligned and this
+is done through repo markets.
+The Ofﬁcial Cash Rate (OCR) is the top benchmark interest rate in New
+Zealand. New Zealand’s repo market began in 1994. Since 1990, market
+trades had cleared through Austraclear but the June 2010 introduction of
+NZ Clear means that New Zealand now conducts repo operations. NZ Clear
+serves as a real-time settlement system while New Zealand’s central bank, the
+Royal Bank of New Zealand (RBNZ) owns and manages the New Zealand
+Central Securities Depository Limited who becomes the legal owner of securities during transactions.
+NZ Clear settles trades on a delivery-versus-payment basis and trades in
+certiﬁcates of deposit, New Zealand Bank Bills, Bonds, notes, and equities,
+and are irrevocable once reported on the system. Austraclear once reported
+approximately 800 to 1200 daily trades totaling about NZ $6 billion, but
+New Zealand’s repo markets in all of 2010 saw about an average of $3 billion
+daily volume with a vast majority ﬁxed-interest trades (New Zealand Financial
+Markets Association). Reason for this is the RBNZ conducted more FX
+swaps for funding, but as that market became illiquid during the crisis, repo
+transactions became the dominant funding mechanism. So funding occurred
+between the two markets as funding in markets permitted.
+During the ﬁnancial crisis, the RBNZ offered an Overnight Term Reverse
+Repo Facility to conduct repo operations for overnight and one-week trades
+only. The cost is New Zealand’s OCR plus 50 basis points, but ironically this
+facility has not been used often.
+The RBNZ also offers a Bond Lending Facility where government securities are lent at OCR minus 150 basis points and repurchased at the OCR rate.
+Bids begin with $1 million, and maturities and terms last from overnight to
+one week. Bids must state yields factored two decimal places. RBNZ Open
+Market Operations begin at 9:30 a.m. New Zealand time.
+European Repo Council
+
+Richard Comotto, a noted repo author, scholar, and repo expert has written
+the International Capital Markets Association-sponsored biannual European
+Repo Market Survey since its 2001 inception. The 40-year goal of ICMA
+as a self-regulatory body is to bring efﬁciency to the capital markets and the
+European Repo Market Survey is just one of those goals.
+A few noted points from the survey to gauge conditions for future economic activity to highlight future spot trades will be addressed. Fifty-eight
+
+92
+
+Inside the Currency Market
+
+ofﬁces from 53 ﬁnancial groups reported for the March 2010 survey. This is an
+imperative as an indicator because it represents 14 European nations, Japanese,
+and North American banks that conduct repo market business in Europe.
+The value of outstanding contracts as of the December 2009 cutoff of
+the survey was valued at euro 5,582 billion, down from the 6,775 peak in
+2007, but still above the December 2008 euro 4,633 billion and euro 4,868
+in June 2009. Forward-start repos reﬂect interest-rate positioning and aren’t
+widely traded. Yet forward-start repos increased from 6.1 percent to 11.2 percent
+to reﬂect future interest-rate activity, a prediction of a future downturn. British
+pound sterling repos fell from 15.3 percent to 12.3 percent as well as use of
+U.K. collateral, 16.1 percent to 12.4 percent, another future prediction of a
+downturn. More dramatic is currency composition of repo deals.
+The British pound in December 2008 saw a 13.0 composition, 15.3 in
+June 2009, and 12.3 in December 2009, a clear indication of either a highly
+oversold British pound or an economy falling into an abyss as credit disintegrated. Yet the most widely traded euro currency composition fell from 70.6
+in December 2008 to 64.2 in June 2009, and recovered to 65.6 in December
+2009. The safe-haven status of the U.S. dollar covered the gaps as 9.6 percent
+of U.S. dollar-comprised repo deals in December 2008, 14.2 percent in June
+2009, and 15.9 percent in December 2009.
+Implications of Survey and Spot Currency
+
+The European Repo Market Survey is a true picture of economic activity
+because it relates to private banks and markets and because repo rates and
+lending activity, due to the safety of this market, are a clear sign to determine
+future economic activity. Higher repo rates and reduced lending activity can
+only lead to a decrease in the amount of government bonds brought to market by central banks, which restricts their own ability to ﬁnance their own
+operations. It is a downward spiral that leads to periods of deﬂation where
+piles of cash stand idle, markets turn down, shorter term ﬁnance rates such as
+LIBOR and Eurodollars in Europe rise, and the value of currencies fall.
+Switzerland

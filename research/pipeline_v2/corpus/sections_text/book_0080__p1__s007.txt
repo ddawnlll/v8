@@ -1,0 +1,1781 @@
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.6
+
+91
+
+American Express Optimized Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+Is the optimized seasonal cycle “better”? Not necessarily. Because the
+optimized is a more local statistic, it is a trade-off in terms of offering a
+pattern that is less “time tested.” Therefore, we suggest that both seasonal
+patterns are of use. Moreover, if they both suggest a strong seasonal tendency
+at the same speciﬁc period in the current calendar year, more attention should
+be paid. In the standard and optimized seasonal cycles (Figures 3.5 and 3.6),
+the low seasonal point was in March 2010, with the strongest jump in both
+cycles occurring soon thereafter. The largest jump in American Express during
+2010 occurred in this period.
+
+Finding the Most Aggressive Parts of a Cycle
+A more intuitive strategy when using seasonal cycles is to focus on the most
+rapidly shifting portions of the cycle. We call these long or short zones.
+
+92
+FIGURE 3.7
+
+New Frontiers in Technical Analysis
+Strong and Weak Seasonal Zones
+
+Source: Erlanger Chart Room.
+
+The Erlanger Chart Room program can highlight the strongest and weakest portions of the seasonal cycle, identifying those as “long” and “short” zones
+respectively. In Figure 3.7, the long zones are the four strongest portions of
+14 days or more that exist in the cycle. These long zones are the shaded areas
+above the cycle line itself. The weakest short zones are the shaded areas just
+below the cycle line itself. These can be colored by the user, and the parameters
+for minimum days per zone and the number of zones can be user selected.
+The idea is to focus on the meaty portions of the seasonal cycle.
+
+Testing for a Consistent Cycle
+So far in this discussion, we have shown how seasonal cycles are created every
+New Year’s Day, and how they can be tested for validity, optimized, and carved
+into strong or weak zones to more easily act on the meatiest parts of the cycle.
+However, that’s not the end of the story!
+
+Applying Seasonality and Erlanger Studies
+
+93
+
+Every New Year’s Day, a fresh seasonal cycle is created by adding the
+most recently completed year of price data. If there was already 15 years of
+history, the oldest year is removed from the composition of the seasonal cycle.
+Therefore, for every preceding year a different seasonal cycle existed. Through
+the magic of computer processing, it is possible to perform a statistical test for
+“consistency” for each of the current cycle’s seasonal zones. In this situation
+consistency is a measure of how frequently a current seasonal zone (either
+long or short) repeated as such in all the prior seasonal cycles over the past
+15 years (or in the case of optimized seasonal cycles, over the span of years
+equivalent to the optimized look-back period). We call this seasonal heat.
+In Figure 3.8, there are two portions in the seasonal heat area—the
+horizontal portion above the 50 percent level is a representation of strong
+seasonal heat while the horizontal portion below the 50 percent level is a
+representation of weak seasonal heat. The lighter the background in the strong
+
+FIGURE 3.8
+
+Seasonal Heat Is Expressed by Background Coloring
+
+Source: Erlanger Chart Room.
+
+94
+
+New Frontiers in Technical Analysis
+
+seasonal heat portion, the more times a strong seasonal zone appeared at that
+speciﬁc time of the year in past seasonal cycles. The lighter the background
+in the weak seasonal heat portion, the more times a weak seasonal zone
+appeared at that speciﬁc time of the year in past seasonal cycles. Figure 3.8 is
+a black-and-white representation of what is colored shading in the Erlanger
+Chart Room program; typically the strong seasonal heat is colored green.
+The brightest green (the lighter shading above 50% in Figure 3.8, which is
+a black & white version) shows the most consistent period in terms of prior
+occurrences of strong seasonal zones; the weak seasonal heat is colored red,
+with the brightest red (the lighter shading below 50% in Figure 3.8, which is
+a black-and-white version) illustrating the most consistent period in terms of
+prior occurrences of weak seasonal zones.
+These seasonal heat light areas help the user focus in on the more consistent portions of the seasonal cycle. A seasonal zone that has dark seasonal
+heat is less reliable.
+Applying Cycles as a Strategy
+
+The complexities of investment and trading decisions can be distilled to a
+technical process of determining bias, uncovering setup situations, and acting
+on triggers in the direction of the setup and bias.
+Setup situations are technical patterns that suggest that a change in price
+trend is imminent. Seasonality is a setup indicator. As stated previously,
+seasonality does not cause price to move a certain way. It simply reﬂects
+tendencies based on known or unknown fundamental factors. There can be
+times when price action deviates from seasonal cycles, most often because
+of exogenous factors that are of greater inﬂuence than the normal seasonal
+inﬂuences. For these reasons, it is wise to act on shifts in the seasonal patterns
+only if a price trigger indicates a move in the new direction of seasonality.
+The chart in Figure 3.9 shows the daily DMA (displaced moving average)
+channel with the seasonal cycle for American Express. The shaded areas of the
+seasonal cycle point to the two most rapid changes in the seasonal cycle for
+the year. Remember, we can see this seasonal pattern for the entire year at the
+beginning of the year. The strategy is to wait for the beginning of each seasonal
+cycle, and then trigger into a trade using the daily DMA channel. The ﬁrst
+shaded area in Figure 3.9 highlights a strong seasonal period. Just days before
+this strong seasonal period began, the price of American Express closed above
+its DMA channel (see arrow A in Figure 3.9) on March 4, 2010, at a price
+of $38.89. At the actual low in the seasonal cycle the price maintained its
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.9
+
+95
+
+Using the DMA Channel as a Trigger after a Seasonal Setup
+
+Source: Erlanger Chart Room.
+
+posture above the DMA channel at $39.72 on March 10, 2010. The earlier
+price could have been used as a speculative entry point because it was just
+days before the upturn in the seasonal cycle, but let’s stick to the plan and use
+the March 10 entry of $39.72. In this case the price action continued to trade
+above the DMA channel until May 4, 2010, when it closed below the DMA
+channel at a price of $45.86 for a gain of 15.46 percent in just 38 trading
+days.
+The second shaded area in Figure 3.9 highlights the weakest season
+period for American Express. This weak shaded area began on August 25,
+2010. Instead of falling, however, the price of American Express rose above
+its DMA channel for several weeks, ﬁnally triggering a short trade (see arrow
+B in Figure 3.9) by closing below its DMA channel on September 30, 2010,
+at a price of $42.30. The short trade was closed out by the move above the
+DMA channel at $39.09 on October 15, 2010, for a gain of 7.00 percent in
+just 11 trading days.
+
+96
+
+New Frontiers in Technical Analysis
+
+TABLE 3.1
+
+Daily DMA Channel Signals for the Dow 30 Stocks during 2010
+
+Symbol
+
+Last Close
+
+Winners
+
+Losers
+
+Avg Winner
+
+Avg Loser
+
+AA
+
+15.39
+
+9
+
+12
+
+7.99%
+
+–3.58%
+
+AXP
+
+42.92
+
+8
+
+12
+
+7.00%
+
+–4.92%
+
+BA
+
+65.26
+
+7
+
+14
+
+7.48%
+
+–3.24%
+
+BAC
+
+13.34
+
+7
+
+10
+
+8.75%
+
+–2.64%
+
+CAT
+
+93.66
+
+9
+
+6
+
+7.88%
+
+–3.80%
+
+CSCO
+
+20.23
+
+10
+
+11
+
+3.92%
+
+–4.81%
+
+CVX
+
+91.25
+
+8
+
+9
+
+6.77%
+
+–2.25%
+
+DD
+
+49.88
+
+6
+
+9
+
+6.38%
+
+–2.13%
+
+DIS
+
+37.51
+
+7
+
+13
+
+4.38%
+
+–3.13%
+
+GE
+
+18.29
+
+7
+
+16
+
+8.49%
+
+–2.78%
+
+HD
+
+35.06
+
+4
+
+13
+
+13.83%
+
+–3.60%
+
+HPQ
+
+42.1
+
+7
+
+19
+
+6.77%
+
+–2.92%
+
+IBM
+
+146.76
+
+8
+
+19
+
+1.98%
+
+–2.23%
+
+INTC
+
+21.03
+
+8
+
+10
+
+5.94%
+
+–4.24%
+
+JNJ
+
+61.85
+
+8
+
+13
+
+2.18%
+
+–1.28%
+
+JPM
+
+42.42
+
+9
+
+12
+
+5.26%
+
+–3.19%
+
+KFT
+
+31.51
+
+8
+
+16
+
+2.12%
+
+–1.69%
+
+KO
+
+65.77
+
+6
+
+18
+
+3.59%
+
+–2.31%
+
+MCD
+
+76.76
+
+7
+
+16
+
+2.27%
+
+–1.86%
+
+MMM
+
+86.3
+
+8
+
+9
+
+3.50%
+
+–2.01%
+
+MRK
+
+36.04
+
+9
+
+18
+
+2.88%
+
+–2.11%
+
+MSFT
+
+27.91
+
+11
+
+8
+
+4.98%
+
+–3.21%
+
+PFE
+
+17.51
+
+7
+
+14
+
+4.89%
+
+–2.05%
+
+PG
+
+64.33
+
+7
+
+20
+
+1.60%
+
+–1.74%
+
+T
+
+29.38
+
+8
+
+9
+
+3.89%
+
+–1.77%
+
+TRV
+
+55.71
+
+6
+
+19
+
+2.49%
+
+–2.25%
+
+UTX
+
+78.72
+
+8
+
+9
+
+6.18%
+
+–1.51%
+
+VZ
+
+35.78
+
+8
+
+6
+
+7.08%
+
+–1.29%
+
+WMT
+
+53.93
+
+6
+
+20
+
+2.04%
+
+–2.08%
+
+97
+
+Applying Seasonality and Erlanger Studies
+TABLE 3.1
+
+(Continued )
+
+Symbol
+
+Last Close
+
+Winners
+
+Losers
+
+Avg Winner
+
+Avg Loser
+
+XOM
+
+73.12
+
+9
+
+10
+
+4.04%
+
+–1.94%
+
+Total:
+
+230
+
+390
+
+Average:
+
+8
+
+13
+
+5.22%
+
+–2.62%
+
+Average Win/Average Loss Ratio:
+
+1.99
+
+Win/Loss ratio:
+
+0.59
+
+Return Per Trade:
+
+0.29%
+
+Source: Erlanger Chart Room.
+
+By incorporating the seasonal cycle as a setup and the daily DMA channel
+as price action trigger, a trader would have accomplished two things: (1)
+improving the chances of success, and (2) taking less heat in the price action
+in the form of a negative excursion.
+The overall strategy has four basic components: bias, setups, triggers, and
+monitoring. Bias is used to determine the big-picture trend, and indicates
+which side of a market to trade—long or short. As mentioned, setups are
+technical patterns that suggest a change in price trend is imminent—a “get
+ready to trade” type of indication. Triggers are indicators used to actually
+execute opening and closing trades. To assess the effectiveness of a typical
+plan using seasonality as a setup trigger, we examine the process in reverse,
+starting with the trigger indicator.
+Trigger indicators get us into and out of the trade. The problem with most
+strategies is that they focus only on trigger indicators. Too much effort has
+focused on ﬁnding the Holy Grail, that technical indicator that, if followed,
+will eliminate risk and reap steady rewards. The sad truth is that such indicators
+are rarely possible, especially on a daily basis. Triggers should be considered
+only as tools that indicate a near-term change in direction. They do not, by
+themselves, provide a complete trading strategy. To illustrate this, we are going
+to examine the bias, setups, and triggers process in reverse by ﬁrst detailing all
+the daily trigger signals generated by the daily DMA channel for all 30 Dow
+Jones Industrial stocks during the entire year of 2010.
+As Table 3.1 shows, though the average gain is almost twice the average
+loss, the win/loss ratio is only 0.59/1, which yields a paltry 0.29 percent
+average gain per trade—hardly enough to pay for commissions. This does not
+
+98
+
+New Frontiers in Technical Analysis
+
+TABLE 3.2 Daily DMA Channel Signals in the Direction of Seasonal Zones for the Dow
+30 Stocks during 2010
+
+Symbol
+
+Strong Zone Net %
+
+SZ P/L
+
+Weak Zone Net %
+
+WZ P/L
+
+Total P/L
+
+AA
+
+3.91%
+
+3.91%
+
+–12.50%
+
+12.50%
+
+16.41%
+
+AXP
+
+9.98%
+
+9.98%
+
+no trade
+
+—
+
+9.98%
+
+BA
+
+no trade
+
+—
+
+no trade
+
+—
+
+—
+
+BAC
+
+10.12%
+
+10.12%
+
+4.34%
+
+–4.34%
+
+5.78%
+
+CAT
+
+13.88%
+
+13.88%
+
+–11.06%
+
+11.06%
+
+24.94%
+
+CSCO
+
+–13.45%
+
+–13.45%
+
+no trade
+
+—
+
+–13.45%
+
+CVX
+
+7.98%
+
+7.98%
+
+–6.60%
+
+6.60%
+
+14.58%
+
+DD
+
+0.47%
+
+0.47%
+
+1.42%
+
+–1.42%
+
+–0.95%
+
+DIS
+
+14.93%
+
+14.93%
+
+–0.77%
+
+0.77%
+
+15.70%
+
+GE
+
+14.94%
+
+14.94%
+
+5.18%
+
+–5.18%
+
+9.75%
+
+HD
+
+14.07%
+
+14.07%
+
+4.88%
+
+–4.88%
+
+9.19%
+
+HPQ
+
+–4.53%
+
+–4.53%
+
+5.41%
+
+–5.41%
+
+–9.93%
+
+IBM
+
+–6.69%
+
+–6.69%
+
+no trade
+
+—
+
+–6.69%
+
+INTC
+
+8.65%
+
+8.65%
+
+–0.75%
+
+0.75%
+
+9.40%
+
+JNJ
+
+–0.81%
+
+–0.81%
+
+–1.34%
+
+1.34%
+
+0.53%
+
+JPM
+
+no trade
+
+—
+
+no trade
+
+—
+
+—
+
+KFT
+
+–2.64%
+
+–2.64%
+
+0.92%
+
+–0.92%
+
+–3.56%
+
+KO
+
+6.50%
+
+6.50%
+
+2.97%
+
+–2.97%
+
+3.53%
+
+MCD
+
+2.43%
+
+2.43%
+
+0.55%
+
+–0.55%
+
+1.88%
+
+MMM
+
+3.27%
+
+3.27%
+
+–2.70%
+
+2.70%
+
+5.96%
+
+MRK
+
+–3.15%
+
+–3.15%
+
+3.49%
+
+–3.49%
+
+–6.64%
+
+MSFT
+
+7.45%
+
+7.45%
+
+0.63%
+
+–0.63%
+
+6.82%
+
+PFE
+
+–2.22%
+
+–2.22%
+
+2.39%
+
+–2.39%
+
+–4.61%
+
+PG
+
+2.44%
+
+2.44%
+
+no trade
+
+—
+
+2.44%
+
+T
+
+2.95%
+
+2.95%
+
+–9.49%
+
+9.49%
+
+12.44%
+
+TRV
+
+2.47%
+
+2.47%
+
+2.86%
+
+–2.86%
+
+–0.38%
+
+UTX
+
+0.94%
+
+0.94%
+
+2.71%
+
+–2.71%
+
+–1.77%
+
+VZ
+
+no trade
+
+—
+
+1.81%
+
+–1.81%
+
+–1.81%
+
+99
+
+Applying Seasonality and Erlanger Studies
+TABLE 3.2
+
+(Continued )
+
+Symbol
+
+Strong Zone Net %
+
+SZ P/L
+
+Weak Zone Net %
+
+WZ P/L
+
+Total P/L
+
+WMT
+
+3.56%
+
+3.56%
+
+no trade
+
+—
+
+3.56%
+
+XOM
+
+–3.08%
+
+–3.08%
+
+2.08%
+
+–2.08%
+
+–5.16%
+
+Average:
+
+3.50%
+
+0.15%
+
+3.50%
+
+Median:
+
+2.95%
+
+–1.42%
+
+2.98%
+
+Wins:
+
+17
+
+Losses:
+
+11
+
+Win/Loss Ratio:
+
+1.55
+
+Average Win:
+
+8.99%
+
+Average Loss:
+
+–5.00%
+
+Average Win/Average Loss Ratio:
+
+1.80
+
+Return Per Trade:
+
+3.50%
+
+Source: Erlanger Chart Room.
+
+mean that the daily DMA channel is of no use as a trigger tool. It simply means
+that at daily intervals, the price action chops back and forth too many times
+relative to the times it travels along an extended trend. After all, the objective
+is to capture substantial trends while eliminating the unproﬁtable chops. The
+nature of the DMA channel on a daily basis is that it does signal the beginning
+of those proﬁtable, “meaty” trends, but it also signals the beginning of the
+chops as well. The trick is to avoid chops while retaining longer trends. To
+accomplish this task, we will look at the sharpest strong and weak seasonal
+period for each of the Dow 30 Industrials.
+In Table 3.2 we show daily DMA channel trades that trigger during
+a strong or weak seasonal zone. By this one step of incorporating a setup
+indicator, our win/loss ratio improves from 0.59/1 to 1.55/1 while the average
+win/average loss ratio is little changed. Most important, the return per trade
+improves from 0.29 percent to 3.50 percent. There are more steps that can
+be taken that logically focus on “meaty” trends.
+In our discussion of seasonal cycles, we tested for validity by calculating
+the Cycle-R statistic for a particular security. If we eliminate those stocks of
+the Dow 30 that have a Cycle-R less than zero, we get the results shown in
+Table 3.3. The win/loss ratio jumps from 1.55/1 to 2.50/1, while the return
+
+100
+
+New Frontiers in Technical Analysis
+
+TABLE 3.3 Daily DMA Channel Signals in the Direction of Seasonal Zones for the Dow
+30 Stocks with Valid Cycle-R during 2010
+Symbol
+
+Strong Zone Net %
+
+SZ P/L
+
+Weak Zone Net %
+
+WZ P/L
+
+Total P/L
+
+AA
+
+3.91%
+
+3.91%
+
+–12.50%
+
+12.50%
+
+16.41%
+
+AXP
+
+9.98%
+
+9.98%
+
+no trade
+
+—
+
+9.98%
+
+BAC
+
+10.12%
+
+10.12%
+
+4.34%
+
+–4.34%
+
+5.78%
+
+CAT
+
+13.88%
+
+13.88%
+
+–11.06%
+
+11.06%
+
+24.94%
+
+CSCO
+
+–13.45%
+
+–13.45%
+
+—
+
+—
+
+–13.45%
+
+CVX
+
+7.98%
+
+7.98%
+
+–6.60%
+
+6.60%
+
+14.58%
+
+DD
+
+0.47%
+
+0.47%
+
+1.42%
+
+–1.42%
+
+–0.95%
+
+GE
+
+14.94%
+
+14.94%
+
+5.18%
+
+–5.18%
+
+9.75%
+
+HD
+
+14.07%
+
+14.07%
+
+4.88%
+
+–4.88%
+
+9.19%
+
+IBM
+
+–6.69%
+
+–6.69%
+
+no trade
+
+—
+
+–6.69%
+
+INTC
+
+8.65%
+
+8.65%
+
+–0.75%
+
+0.75%
+
+9.40%
+
+JNJ
+
+–0.81%
+
+–0.81%
+
+–1.34%
+
+1.34%
+
+0.53%
+
+KO
+
+6.50%
+
+6.50%
+
+2.97%
+
+–2.97%
+
+3.53%
+
+MMM
+
+3.27%
+
+3.27%
+
+–2.70%
+
+2.70%
+
+5.96%
+
+MSFT
+
+7.45%
+
+7.45%
+
+0.63%
+
+–0.63%
+
+6.82%
+
+PG
+
+2.44%
+
+2.44%
+
+no trade
+
+—
+
+2.44%
+
+T
+
+2.95%
+
+2.95%
+
+–9.49%
+
+9.49%
+
+12.44%
+
+TRV
+
+2.47%
+
+2.47%
+
+2.86%
+
+–2.86%
+
+–0.38%
+
+UTX
+
+0.94%
+
+0.94%
+
+2.71%
+
+–2.71%
+
+–1.77%
+
+WMT
+
+3.56%
+
+3.56%
+
+no trade
+
+—
+
+3.56%
+
+XOM
+
+–3.08%
+
+–3.08%
+
+2.08%
+
+–2.08%
+
+–5.16%
+
+Average:
+
+4.26%
+
+1.08%
+
+5.09%
+
+Median:
+
+3.56%
+
+–1.03%
+
+5.78%
+
+Wins:
+
+15
+
+Losses:
+
+6
+
+Source: Erlanger Chart Room.
+
+Win/Loss Ratio:
+
+2.50
+
+Average Win:
+
+9.02%
+
+Average Loss:
+
+–4.73%
+
+Average Win/Average Loss Ratio:
+
+1.91
+
+Return Per Trade:
+
+5.09%
+
+Applying Seasonality and Erlanger Studies
+
+101
+
+per trade improves from 3.50 percent to 5.09 percent. We can improve the
+numbers further by eliminating low beta stocks.
+Beta is a common measure of sensitivity of a stock to the direction (either
+up or down) of the overall market. Typically the overall market index used
+in calculating beta is the S&P 500 index. A beta of 1 describes a stock that
+matches the percentage moves of the S&P 500. A beta of 1.3 describes a
+stock that is overly sensitive to the market direction—if the market was up 10
+percent, that stock with a beta of 1.3 should rise 13 percent. If the stock had a
+beta of 0.6, it would tend to only rise 6 percent relative to a 10 percent jump
+in the market. In Table 3.4, we have eliminated all Dow 30 stocks that have
+a beta less than 1. The actual win/loss ratio dipped a bit from 2.50 to 2.33,
+but the average win/average loss ratio rose from 1.91/1 to 2.20/1. Moreover,
+the return per trade rose from 5.09 percent to 6.69 percent.
+Determining bias is a step that is often misunderstood. The stock markets
+tend to move in one direction or another on a big-picture basis. The idea is to
+take trades only in sync with the larger market trend underway. Bias indicators
+are primarily set to intervals larger than those used to trigger in and out of
+trades. If daily data is used for triggers, weekly or monthly data are typically
+used for the determination of bias. In our demonstration we use the monthly
+DMA channel as the bias indicator.
+In Table 3.5 only trades taken in sync with a stock’s big-picture bias are
+taken. We use the monthly DMA channel. This results in a jump in win/loss
+ratio from 2.33/1 to 7/1. Average win/average loss jumps from 2.20/1 to
+3.26/1. The return per trade rose from 6.69 to 7.40 percent.
+By using the strategy of bias, setups (using the seasonal zones) and triggers,
+we have demonstrated the added value of using seasonality as a setup factor.
+As Figure 3.10 shows, each step adds value, especially in terms of return per
+trade.
+Monitoring Seasonal Data
+
+Using quote sheets that track the various elements of seasonality make it easy
+to pinpoint trading seasonal setups and changes to the seasonal aspects of
+your current portfolio positions.
+Let’s again use the Dow 30 component issues as an example. In Figure
+3.11 the Dow 30 component issues are listed in alphabetic order along with
+several key seasonal statistics. Average net heat measures the net seasonal heat
+that is currently in progress for a particular stock. The more positive this
+number, the more consistently strong seasonal zones have occurred at this
+
+102
+
+New Frontiers in Technical Analysis
+
+TABLE 3.4 Daily DMA Channel Signals in the Direction of Seasonal Zones for the Dow
+30 Stocks with Valid Cycle-R and Beta of 1 or More during 2010
+
+Symbol
+
+Strong Zone Net %
+
+SZ P/L
+
+Weak Zone Net %
+
+WZ P/L
+
+Total P/L
+
+AA
+
+3.91%
+
+3.91%
+
+–12.50%
+
+12.50%
+
+16.41%
+
+AXP
+
+9.98%
+
+9.98%
+
+no trade
+
+—
+
+9.98%
+
+BAC
+
+10.12%
+
+10.12%
+
+4.34%
+
+–4.34%
+
+5.78%
+
+CAT
+
+13.88%
+
+13.88%
+
+–11.06%
+
+11.06%
+
+24.94%
+
+CSCO
+
+–13.45%
+
+–13.45%
+
+no trade
+
+—
+
+–13.45%
+
+DD
+
+0.47%
+
+0.47%
+
+1.42%
+
+–1.42%
+
+–0.95%
+
+GE
+
+14.94%
+
+14.94%
+
+5.18%
+
+–5.18%
+
+9.75%
+
+INTC
+
+8.65%
+
+8.65%
+
+–0.75%
+
+0.75%
+
+9.40%
+
+MSFT
+
+7.45%
+
+7.45%
+
+0.63%
+
+–0.63%
+
+6.82%
+
+UTX
+
+0.94%
+
+0.94%
+
+2.71%
+
+–2.71%
+
+–1.77%
+
+Average:
+
+5.69%
+
+1.25%
+
+6.69%
+
+Median:
+
+8.05%
+
+–1.03%
+
+8.11%
+
+Wins:
+
+7
+
+Losses:
+
+3
+
+Win/Loss Ratio:
+
+2.33
+
+Average Win:
+
+11.87%
+
+Average Loss:
+
+–5.39%
+
+Average Win/Average Loss Ratio:
+
+2.20
+
+Return Per Trade:
+
+6.69%
+
+Source: Erlanger Chart Room.
+
+time. The more negative this number, the more consistently weak seasonal
+zones have occurred at this time. The next two columns show the standard
+and optimized 40-day seasonal juice statistics. These measure the difference
+in the seasonal cycle 40 days in the future from the seasonal cycle today on
+both a standard and optimized basis. The more positive the number, the more
+the seasonal cycle jumps 40 days hence. The more negative the number, the
+more the seasonal cycle falls 40 days hence. It is always important to know
+the validity of these numbers, so we have added in the next two columns
+
+103
+
+Applying Seasonality and Erlanger Studies
+
+TABLE 3.5 Daily and Monthly DMA Channel Signals in the Direction of Seasonal Zones
+for the Dow 30 Stocks with Valid Cycle-R and Beta of 1 or More during 2010
+
+Symbol
+
+Strong Zone Net %
+
+SZ P/L
+
+Weak Zone Net %
+
+WZ P/L
+
+Total P/L
+
+AA
+
+3.91%
+
+3.91%
+
+no trade
+
+—
+
+3.91%
+
+AXP
+
+9.98%
+
+9.98%
+
+no trade
+
+—
+
+9.98%
+
+BAC
+
+10.12%
+
+10.12%
+
+no trade
+
+—
+
+10.12%
+
+CAT
+
+13.88%
+
+13.88%
+
+no trade
+
+—
+
+13.88%
+
+DD
+
+0.47%
+
+0.47%
+
+no trade
+
+—
+
+0.47%
+
+GE
+
+14.94%
+
+14.94%
+
+no trade
+
+—
+
+14.94%
+
+INTC
+
+8.65%
+
+8.65%
+
+no trade
+
+—
+
+8.65%
+
+UTX
+
+no trade
+
+—
+
+2.71%
+
+–2.71%
+
+–2.71%
+
+Average:
+
+8.85%
+
+–2.71%
+
+7.40%
+
+Median:
+
+9.98%
+
+–2.71%
+
+9.31%
+
+Wins:
+
+7
+
+Losses:
+
+1
+
+Win/Loss Ratio:
+
+7.00
+
+Average Win:
+
+8.85%
+
+Average Loss:
+
+–2.71%
+
+Average Win/Average Loss Ratio:
+
+3.26
+
+Return Per Trade:
+
+7.40%
+
+Source: Erlanger Chart Room.
+
+the standard and optimized Cycle-R statistics. Seasonal data is used as setups
+for trades, so we have also added a trigger column that shows a stock’s price
+relative to its daily DMA channel.
+Performing various sorts on these columns allows us to hone in on opportunities.
+In Figure 3.12 the Dow 30 component issues are sorted by average net
+seasonal heat. This tells us right away which stocks during this time of the
+year are in strong seasonal zones. It is important to remember that seasonal
+patterns are setups, not triggers. The stock that has the most positive seasonal
+heat is Wal-Mart (WMT), but two additional factors make this a poor choice:
+the Cycle-R is negative, which means the seasonal pattern is not a valid one on

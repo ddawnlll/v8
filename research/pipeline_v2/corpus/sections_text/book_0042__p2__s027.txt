@@ -1,0 +1,537 @@
+
+282 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+With regard to the second promise, that the observed performance of
+the selected candidate is a reliable estimate of its future performance, the
+news is not good. Jensen and Cohen 29 point out that, when MCP is applied
+in situations where randomness plays a significant role in observed performance, the observed performance of the best-performing candidate
+overestimates its expected (future) performance. In other words, when
+observed performance is significantly determined by luck, it is gives a positively biased estimate. This is the case in TA rule data mining.
+Observed performance is a reliable estimate of the best candidate's
+future performance in situations where randomness is nonexistent or so
+low that it can never influence the choice of the wining candidate. Such is
+the case in a music competition or a competition at doing mathematical
+proofs, where it is merit, not luck, that carries the day.
+The bottom line: the MCP selected candidate is the candidate most
+likely to do best in the future so long as a large number of observations
+are used to compute the performance statistic. Nevertheless, in problems
+where randomness has a significant impact, observed performance is
+positively biased, and the selected candidate's future performance will, in
+all probability, be worse than the performance that allowed it to win the
+competition.
+MCP Efficacy in Low Randomness Situations
+First, consider the application of MCP to problems with low randomness.
+At this end of the spectrum, a candidate's observed performance is dominated by merit, and Mep is effective in identifying superior merit.
+This problem is exemplified by the task of hiring a new first violinist
+for a symphony orchestra. 3o The universe of candidates consists of the set
+of musicians applying for the job. Each is asked to perform a challenging
+composition, without prior rehearsal, for a panel of judges. The judges'
+evaluation is the figure of merit. This acid test of instrumental competence, known as sightreading, is effective because great performances do
+not occur by luck. If luck is a factor, it is a minor one. For example, a great
+musician may have an off day because of a marital spat or a flat tire on the
+way to the audition, but even these random influences will have only a
+small effect on a truly meritorious musician.
+In this situation, observed performance is an accurate indicator of
+true merit and an excellent predictor of future performance. This is
+depicted in Figure 6.14. Each candidate's merit, which is equivalent to
+his expected performance, is indicated by the arrow. Both musicians
+are excellent, although one is slightly better. The distribution of possible performance surrounding each candidate's merit is narrow, indicating the minor impact of randomness on observed performance. Note
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+283
+Expected
+Performance
+Higher Merit
+Candidate
+
+Probability
+
+Expected
+Performance
+Lesser
+Candidate
+
+J.
+Poor
+
+l\/. l\
+Excellent
+
+I
+I
+
+Performance
+
+FIGURE 6.14 Low randomness-small merit differential. True merit shines
+through thin fog of randomness.
+
+that there is no overlap in the distributions so that even if the better
+candidate has an unlucky performance (i.e., at the extreme low end of
+the distribution) and the lesser candidate has an extremely lucky one,
+the better candidate will still be selected. This is another way of saying
+that randomness is unlikely to inflate the inferior competitor's performance sufficiently such that it would be selected over the higher merit
+candidate.
+MCP Efficacy in High Randomness
+
+Now consider a situation at the opposite end of the randomness spectrum, TA rule data mining. Here, randomness has a major impact on observed performance, for even the most potent TA rules or models possess
+relatively little predictive power. This is a consequence of the complex
+and highly random nature of financial markets. The probability distribution of observed performance of a rule with an expected return of zero is
+illustrated in Figure 6.15. Although zero is the most likely return, far
+higher or lower returns are possible due to good or bad luck. If the rule is
+unlucky in the back test, observed performance will be negative. Even
+more problematic for the objective technician is when good luck shines
+on the worthless rule and it earns a positive rate of return. This may fool
+the objective technician into believing that TA gold has been found. In
+fact, the rule's signals coincided favorably with the market's fluctuations
+purely by accident.
+Although an extremely positive or negative average return is unlikely
+for an individual rule, it becomes increasingly likely as more rules are
+back tested. Just as the greater the number of people playing the lottery
+
+284 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Probability
+
+Possible
+But
+Rare
+
+Bad luck
+Negative Returns
+
+Good Luck
+
+o
+
+Positive Returns
+
+Annualized Return
+FIGURE 6.15
+
+Probability distribution of observed performance.
+
+increases the chance that there will be someone lucky enough to win
+twice, the greater the number of rules back tested increases the chance
+that a rule will have an extraordinarily lucky observed performance. This
+is the rule that would be picked by the data miner. The bottom line: when
+observed performance is primarily due to randomness, it is likely that the
+best observed performance, among a large set of observed performances,
+will be largely an effect of randomness.
+To see how luck might impact a data miner, imagine that you are observing a data miner at work. Furthermore, imagine that you are in the
+fortunate position of knowing what no data miner ever knows, the true
+expected return of each rule that is back tested. Suppose the data miner
+back tests twelve different rules, and you know that each of the rules has
+an expected return of 0 percent. All the data miner knows are the observed returns produced by each rule's back test. In Figure 6.16, each
+rule's observed performance is depicted by an arrow on the probability
+distribution. Each distribution is centered at zero, reflecting the fact that
+each rule has an expected rate of return of zero. Notice that one rule got
+lucky, producing an observed return of +60 percent. This is the rule that
+would be selected by the data miner. In this case, the data-mining bias was
+a positive 60 percent.
+If the data miner were to test an even greater number of rules, the
+chance of an even more positive observed performance would be increased. As will be discussed, the number of rules tested during data mining is one of five factors that impact the size of the data-mining bias. In
+Figure 6.17, 30 rules are tested, and one managed to produce an observed
+performance of 100 percent. This is the rule that would be selected by the
+data miner. You know it is highly probable that its future performance will
+be disappointing.
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+285
+
+r·····················································.
+
+60%
+
+FIGURE 6 .• 6 Twelve different rules (each has an expected return of 0 percent).
+
+FIG RE 6.17 Data mining more rules increases probability of more extreme luck.
+
+286 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+The Risk of Picking an Inferior Rule
+The prior examples assumed that all rules were of equal merit (all had expected returns equal to zero). Naturally, the data miner hopes that there is
+at least one superior rule amongst all those tested, and that the superior
+rule's observed performance will identify it as such. Unfortunately, this is
+not always the case.
+This is another negative consequence of high randomness. The superior
+rule, the one with highest expected return, may not get picked, because an
+inferior rule's lucky performance wins the data mining competition. An intuitive sense of the likelihood of this unfortunate result is portrayed in Figure
+6.18. It shows the distribution of observed performance for two rules with
+nearly identical expected performances, but one is indeed superior. However, the considerable overlap of the distributions gives a sense there is a
+substantial chance the rule of lesser merit will produce the highest observed performance, causing it to get picked.
+However, when the difference in expected returns (merit) between
+the truly best rule and the next best rule is large enough, the data miner
+can be more confident that best-observed performance will reliably
+point to the superior rule. This is illustrated in the Figure 6.19. In other
+words, when the difference in merit between the best rule and its nearest competitor is large, merit will be more likely to shine through the
+fog of randomness. This is the illumination that guides the data miner to
+the gold.
+Practically speaking, the data miner is never aware of the risk of picking an inferior rule. That would require knowledge of true merit (expected
+return), which is a population parameter and hence never known. The
+
+Probability
+
+r--Expeeted Return--l
+
+i lesser Merit Candidate i
+
+Low
+
+o
+Performance
+
+FIGURE 6.18
+
+High randomness and small merit difference.
+
+High
+
+287
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+Probabi Iity
+r------------------------------l
+
+Expected
+I
+Return
+j
+! Inferior Rule
+I
+
+j
+
+Bad
+Luck
+
+i
+
+~---------------1--------------~
+
+Expected
+Return
+Superior Rule
+
+//T"~_
+Low
+
+o
+
++20%
+
+High
+
+Performance
+1~IGUHE 6.19 High randomness and large merit difference (superiority overcomes randomness).
+
+data miner never gets to see the full consequences of the data-mining bias
+until, as the song says, the future is past.
+
+Five Factors Determine the Magnitude
+of the Data-Mining Bias
+Let us recap briefly what has been established thus far:
+• The data-mining bias is defined as the expected difference between
+the observed performance of a rule that wins the data mining competition and its true expected performance.
+• Observed performance refers to the level of performance achieved by
+a rule in back testing. Expected performance refers to the rule's theoretical performance in the future.
+• The observed perfomlance of the highest-perfomling rule found by
+data mining is positively biased. Therefore, its expected performance
+out of sample will be less than the in-sample observed performance
+that allowed it to beat other rules tested.
+• Observed performance is a combination of randomness and predictive power. The greater the relative contribution of randomness, the
+larger will be the magnitude the data-mining bias.
+The relationship between the data-mining bias and the relative contribution of randomness is illustrated in Figure 6.20. As explained in the next
+section, the degree of randomness encountered in a given data mining
+venture depends on five factors that characterize the venture.
+
+288 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Large
+
+Data
+Mining
+Bias
+No Bias
+
+MERIT
+
+,
+
+LUCK
+
+Spectrum of Randomness
+
+FIGURE 6.20 Relationship of data-mining bias to degree of randomness.
+
+The Five Factors Defined.
+
+Five factors determine the degree of
+
+data-mining bias. They are:
+1. Number of rules back-tested: This refers to the total number of
+
+rules back tested during the data-mining process en route to discovering the highest-performing rule. The larger the number of rules tested,
+the larger the data-mining bias.
+2. The number of observations used to compute the performance
+statistic: The larger the number of observations, the smaller the
+data-mining bias.
+3. Correlation among rule returns: This refers to the degree to which
+the performance histories of the rules tested are correlated with each
+other. The less correlated they are, the larger the data-mining bias.
+4. Presence of positive outlier returns: This refers to presence of
+very large returns in a rule's performance history, for example a very
+large positive return on a particular day. When these are present, the
+data-mining bias tends to be larger, although this effect is reduced
+when the number of positive outliers is small relative to the total number of observations that are used to compute the performance statistic. In other words, more observations dilute the biasing effect of
+positive outliers.
+5. Variation in expected returns among the rules: This refers to the
+variation in true merit (expected return) among the rules back tested.
+The lower the variation, the greater the data-mining bias. In other
+words, when the set of rules tested have similar degrees of predictive
+power, the data-mining bias will be larger.
+How Each Factor Impacts the Data-ll1ining Bias. Figures 6.21
+through 6.25 depict the relationships between each of the five factors and
+
+289
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+Large
+
+OM Bias
+
+O"'---------
+
+~
+
+1
+
+Many
+Log of Number of Rules Back-Tested
+
+FIGURE 6.21
+
+Number of rules back tested (1).
+
+Large
+
+OM Bias
+
+Ol-
+
+.... _-
+
+_- .. _---
+
+1
+
+~
+
+Many
+Number of Observations
+
+FIGURE 6.22 Number of observations used to compute performance statistic (2).
+
+Large
+.... _-- ..... _-_._-- . ...... _-
+
+.
+
+.....
+
+OM Bias
+
+OL-_-+---t---+---t---+-_
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+Correlation Coeffient
+
+FIGURE 6.23 Correlation among rule returns (3).
+
+1.0
+
+290 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Large
+
+DM Bias
+
+OL-
+
+____+_
+
+High
+
+Low
+
+Number & Magnitude of Outliers Relative to Number of Observations Used to
+Compute Performance Statistic
+
+FIGURE 6.24
+
+Presence of positive outlier returns (4).
+
+Large
+
+....
+DM Bias
+
+OL-_----'-_ _--'-_ _-'-_-'_ _--L____+
+Low Variance
+(All Rules'" Merit)
+
+High Variance
+(One Very Superior Rule)
+
+FIGURE 6.25 Variance in expected ROI-degree of difference in merit in rule
+universe(S).
+
+the magnitude of the data-mining bias. These relationships pertain specifically to data mining ventures where the performance statistic being used
+is the rule's mean rate of return. Because the sampling distribution of
+other performance statistics, such as the Sharpe ratio, will differ from the
+distribution of the mean return, the relationships between the five factors
+and the data mining bias may also be different.
+The astute reader will wonder how such curves could have been developed, given that a rule's expected performance is never known (it is a
+population parameter) but must be known to measure the data-mining
+bias. The reader is correct; the data-mining bias is never known for actual
+rules. However, it can be known for artificial rules and can therefore be
+investigated. An artificial rule is a computer-simulated trading signal
+
+Data-Mining Bias: The Fool's Gold of Objective TA
+
+291
+
+whose accuracy (fraction of correct signals) can be set experimentally.
+This makes it possible to know the expected return of the artificial rule.
+The preceding curves were based on a set of tests done on artificial rules.
+The results of these tests, which are described in the next section, show
+how the five factors impact the data-mining bias.
+
+EXPERlMEN1i\L INVESTIGUION
+OF THE DA1l\-M1NING BIAS
+Scientists make observations and draw inferences from them. Sound inferences depend on accurate observations. Thus, a key task is determining the
+accuracy of the procedure used to make observations. The process of measuring the random and systematic error that may be present in an observational procedure is called calibration. One way to calibrate the accuracy of
+a procedure is to test it on a problem whose correct answer is known. This
+makes it possible to measure its random and/or systematic errors.
+Objective technicians are the scientists of the TA world. Their primary
+procedure is rule back testing. The observable produced is a performance
+statistic. On the basis of this statistic, an inference is made about a rule's
+predictive power or expected performance. Therefore, objective technicians are properly concerned with the random and or systematic error
+that that may be present in performance statistics obtained by back testing. Chapter 4 showed that performance statistics are subject to random
+error due to sampling variability. This chapter is concerned with a form of
+systematic error that stems from data mining-the data-mining bias.
+This section describes the results of experiments that investigate the
+data-mining bias by examining how each of the five factors impacts the
+size of the bias. This is done by data mining a universe of artificial trading
+rules (ATRs). Unlike real TA rules, ATRs are ideal for this purpose because their expected return can be known because it is under experimental control. This allows us to measure the data-mining bias associated
+with the rule that had the best-observed performance. This, in turn, tells
+us how accurately its observed performance, a statistic which is known to
+the data miner, portrays its expected performance, the population parameter the data miner wishes to knOw.
+Artificial Trading Rules and
+Simulated Performance Histories
+
+The ATR performance histories produced in these experiments are composed of monthly returns. The expected return of an ATR is controlled
+
+292 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+by manipulating the probability of a profitable monthly return. This
+probability can be expected to manifest over a very large number of
+months, a manifestation of the Law of Large Numbers. However, over
+any small sample of months, the actual fraction of profitable months will
+vary randomly about the specified probability level. This variation introduces the crucial element of randomness into the experiments. An ATR
+performance history can be generated for any specified number of
+months (e.g., 24).
+When the probability of a profitable month is known, as it is with an
+ATR, its expected return can be determined precisely. This, in turn, allows
+the data-mining bias associated with the rule to be measured. The expected return of an ATR is given by the formula used to compute the expected value of a random variable:
+EV = p(profitable month) x average gain - p(losing month)
+x average loss
+
+The average gain and average loss are also known because the ATRs
+were applied to the absolute monthly percentage changes for the S&P 500
+over the period August 1928 through April 2003. The term absolute means
+the sign of the S&P's actual monthly change was ignored. In the ATR tests
+the algebraic sign ( + or -) of the ATR's monthly return was determined by
+a random process that is described below. Over this time period, comprising nearly 900 monthly observations, the average absolute monthly return
+for the S&P 500 was equal to 3.97 percent. Thus, the formula for calculating an ATR's expected return is:
+ER = ppm x 3.97 - (1 - ppm) x 3.97
+
+Where ppm is defined as the probability of a profitable month.
+ATR performance histories were generated by Monte Carlo simulation. Specifically, the absolute monthly changes in the S&P 500 were sampled with replacement from the 900-month history. A monthly return,
+without its sign, was chosen at random, and a roulette wheel, simulated
+by a computer, determined if that particular month was a gain or loss.
+This represented one month of the ATR's performance history. The probability of a profitable month was set by the experimenter. A probability of
+0.70 would be as if the roulette wheel had 100 slots with 70 designated as
+profit and 30 designated as loss. This procedure for generating monthly
+ATR returns was repeated for a specified number of months, another variable under experimental control. The performance history is then summarized with a statistic-mean monthly return, annualized. This procedure is
+illustrated in Figure 6.26.
+
+293
+
+Data-Mining Bias: The Fool's Cold of Objective TA
+
+n-month mean
+Return = 7
+Absolute
+
+I
+
+Monthly
+j
+Returns
+
+S&P 500
+
+1928 -2003
+
+Random
+Sampling
+With
+Replacement
+
+FIGURE 6.26
+
+Random Device
+With
+Probability of
+Profitable month
+Set Experimentally
+
+ATR
+Performance
+History
+
+Of
+M months
+
+Monte Carlo generation of ATR performance histories.
+
+Let's consider what the expected return for an ATR would be under four
+different settings for probability of a monthly gain: 1.0, 0.63, 0.50, and 0.0. An
+ATR with p(gain) set at 1.0 (all months profitable) would have an expected
+monthly return equal to the S&P 500's average absolute monthly return of
++3.97 percent per month or a 47.6 percent annualized noncompounded return. This value can be obtained by plugging into the formula for the expected value of a random variable. The same formula tells us that an ATR
+with probability of a gain month set to 0.63 would have an expected return of
++12.4 percent. An ATR with probability of gain set to 0.50 would have an expected return of zero whereas a probability of gain equal to zero would earn
+a return of -3.97 percent per month or -47.6 percent per year.
+Bear in mind that these are expected values that would be earned
+over a very large number of months. Over any small number of months,
+the ATR's observed mean return can vary from this value. The smaller the
+number of months comprising the ATR's performance history, the larger
+will be the random variation from the expected mean return.
+To simulate the effect of data mining, for example picking the bestperforming ATR of 10, 10 ATR performance histories were generated. The
+one with highest mean return was selected, and its observed return was
+noted. This process was repeated a total of 10,000 times. The 10,000 observations were used to form the sampling distribution for the statisticmean return of the highest performing ATR selected from 10.
+Experiment Set 1: Data Mining ATRs of Equal Merit
+
+In the first set of experiments, all ATRs were specified to have equal predictive power. This was accomplished by setting p(gain) to 0.50 for all
+ATRs, thus giving them all an expected return of zero.
+

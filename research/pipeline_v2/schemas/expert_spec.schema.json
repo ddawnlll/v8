@@ -1,0 +1,212 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "Expert Spec",
+ "description": "research_pipeline_v2.0 expert_spec_builder output. A pure signal expert that emits SignalCandidate; it never decides size/leverage/portfolio admission and never invents geometry the translation did not define.",
+ "type": "object",
+ "required": [
+  "expert_id",
+  "translation_id",
+  "expert_type",
+  "required_inputs",
+  "emit_candidate_when",
+  "natural_invalidation",
+  "output",
+  "missing_geometry"
+ ],
+ "properties": {
+  "expert_id": {
+   "type": "string"
+  },
+  "translation_id": {
+   "type": "string"
+  },
+  "source_claim_ids": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "expert_type": {
+   "enum": [
+    "SIGNAL_EXPERT",
+    "REGIME_GATE",
+    "RISK_RULE",
+    "LIFECYCLE_RULE",
+    "PORTFOLIO_RISK_RULE",
+    "SIMULATOR_MODEL",
+    "FEATURE_EXPERT",
+    "METHODOLOGY_RULE"
+   ]
+  },
+  "timeframe": {
+   "type": "string",
+   "enum": [
+    "1h",
+    "4h",
+    "1d",
+    "MULTI"
+   ],
+   "description": "decision bar(s) the expert operates on; multi-timeframe when the strategy spans horizons"
+  },
+  "direction_support": {
+   "type": "array",
+   "items": {
+    "enum": [
+     "LONG",
+     "SHORT",
+     "BOTH"
+    ]
+   }
+  },
+  "required_inputs": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "MarketState feature keys (V8 feature-group vocabulary: trend, volatility, location, participation, response, liquidity, flow, time, cross_market, history)"
+  },
+  "state_machine": {
+   "type": "object",
+   "properties": {
+    "initial": {
+     "type": "string"
+    },
+    "states": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "preconditions": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "emit_candidate_when": {
+   "type": "object",
+   "properties": {
+    "state": {
+     "type": "string"
+    },
+    "conditions": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "direction": {
+     "type": "string"
+    }
+   }
+  },
+  "natural_invalidation": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "parameters": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "name",
+     "source_status",
+     "parameter_status"
+    ],
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "source_status": {
+      "enum": [
+       "SOURCE_SPECIFIED",
+       "NOT_SPECIFIED"
+      ]
+     },
+     "parameter_status": {
+      "enum": [
+       "SOURCE_EXPLICIT",
+       "SOURCE_DERIVED",
+       "EXPERIMENTAL",
+       "V8_DEFAULT"
+      ]
+     },
+     "default": {
+      "type": [
+       "number",
+       "string",
+       "null"
+      ]
+     },
+     "range": {
+      "type": "array",
+      "items": {
+       "type": "number"
+      }
+     }
+    }
+   }
+  },
+  "output": {
+   "type": "object",
+   "required": [
+    "type"
+   ],
+   "properties": {
+    "type": {
+     "enum": [
+      "SignalCandidate",
+      "NoCandidate"
+     ]
+    },
+    "fields": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "expert_id",
+       "direction",
+       "trigger_time",
+       "observed_conditions",
+       "natural_invalidation",
+       "source_claim_ids",
+       "translation_receipts",
+       "missing_geometry",
+       "setup_anchor_event_id"
+      ]
+     }
+    }
+   }
+  },
+  "missing_geometry": {
+   "type": "object",
+   "properties": {
+    "stop": {
+     "type": "boolean",
+     "default": false
+    },
+    "target": {
+     "type": "boolean",
+     "default": false
+    },
+    "position_size": {
+     "type": "boolean",
+     "default": false
+    }
+   },
+   "description": "true when the source/translation did not define it; the central RiskGeometryResolver fills these, never the expert"
+  },
+  "pit_safe": {
+   "type": "boolean",
+   "description": "validator output: uses only data available at decision time"
+  },
+  "deterministic": {
+   "type": "boolean",
+   "description": "validator output: same input -> same output, no wall clock"
+  }
+ },
+ "additionalProperties": false
+}

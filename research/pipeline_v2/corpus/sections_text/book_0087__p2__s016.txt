@@ -1,0 +1,412 @@
+
+Since all butterflies are worth their maximum amount when the underlying
+contract is right at the inside exercise price at expiration, both a call and put butterfly
+with the same exercise prices and the same expiration date desire exactly the same
+outcome, and therefore have identical characteristics. Both the March 95/100/105 call
+butterfly and the March 95/100/105 put butterfly will be worth a maximum of 5 with
+the underlying contract right at 100 at expiration, and a minimum value of zero with
+the underlying contract below 95 or above 105. If both butterflies are not trading at the
+
+
+148 Chapter &
+
+same price, there is a sure profit opportunity available by purchasing the cheaper and
+selling the more expensive.2
+
+Ifa trader foresees a quiet market, why might he choose a long butterfly over some
+other type of strategy, for example a short straddle? An important characteristic of a
+butterfly is its limited risk. Ifa trader initiates a long butterfly in the belief that the market
+is unlikely to move very far from the current price, the most he can lose if he is wrong
+is the amount he laid out to purchase the butterfly. On the other hand, if a trader sells
+a straddle and the market makes a large move, his potential risk is unlimited. Regardless
+of theoretical considerations, some traders are not comfortable with the possibility of
+unlimited risk. If given the choice between purchasing butterflies and selling straddles,
+they will prefer the former strategy to the latter.
+
+Of course the straddle, while riskier, also has greater profit potential. If a trader
+intends to purchase butterflies but wants a potential profit commensurate with that of
+a short straddle, he will have to trade butterflies in much greater size. A trader who is
+considering the sale of 25 straddles might decide instead to buy 100 butterflies (100 x
+200 x 100). While trading 100 spreads may appear riskier than trading 25 spreads, 100
+butterflies may tn fact be much less risky than 25 straddles because of the risk
+characteristics associated with a butterfly. A trader should never confuse size and risk.
+Risk often depends on the characteristics of the strategy, not on the size in which the
+Strategy is executed.
+
+TIME SPREAD
+{also referred to as a calendar spread or horizontal spread)
+
+If all options in a spread expire at the same time, the value of the spread is simply a
+function of the underlying price at expiration. If, however, the spread consists of options
+which expire at different times, the value of the spread cannot be determined until both
+options expire. The spread’s value depends not only on where the underlying market is
+when the short-term option expires, but also on what will happen between that time
+and the time when the long-term option expires. Time spreads, sometimes referred to
+as calendar spreads or horizontal spreads,’ consist of opposing positions which expire
+in different months.
+
+The most common type of time spread consists of opposing positions in two options
+of the same type (either both calls or both puts] where both options have the same
+exercise price. When the long-term option is purchased and the short-term option ts
+sold, a trader is long the time spread; when the short-term option is purchased and the
+long-term option is sold, the trader is short the time spread. Since a long-term option
+will have more time value, and therefore a higher price than a short-term option, this is
+consistent with the practice of referring to any spread which is executed at a debit
+(credit) as a long (short) spread position.
+
+2. This is not necessarily the case if the spreads consist of American options, where there Is a possjbility
+of early exercise. A sure profit would exist only if one were certain of carrying the position to expiration.
+
+3. Expiration months were originally listed horizontally on exchange option displays. Hence the term
+horizontal spread.
+
+
+Volatility Spreads 149
+
+Although time spreads are most commonly executed one-to-one (one contract
+purchased for each contract sold}, a trader may ratio a time spread to reflect a bullish,
+bearish, or neutral market sentiment. For the present we will assume that all time
+spreads will be ratioed delta neutral. Typical long and short time spreads are shown in
+Figures 8-11 and 8-12.
+
+A time spread has different characteristics from the other spreads we have dis-
+cussed, because its value depends not only on movement in the underlying market, but
+also on other traders’ expectations about future market movement as reflected in the
+implied volatility. If we assume that the options making up a time spread are approxi-
+mately at-the-money, time spreads have two important characteristics.
+
+A long time spread always wants the underlying market to sit still. An important
+characteristic of an at-the-money option’s theta (time decay) is its tendency to become
+increasingly large as expiration approaches. As time passes, a short-term at-the-money
+option, having less time to expiration, will lose its value at a greater rate than a long-term
+at-the-money option. (Note the value of at-the-money options in Figures 6-13 and 6-14,
+and the theta values in Figure 6-15.) This principle has an important effect on the value
+of a time spread,
+
+For example, suppose two at-the-money calls, one with three months to expiration
+and one with six months to expiration, have values of 6 and 714, respectively. The value
+of the spread is therefore 14%. If one month passes and the underlying market is
+unchanged, both options will lose value. But the short-term option, with its greater
+theta, will lose a greater amount. If the long-term option loses '/, the short-term option
+
+Figure 8-11: Long Time Spread (Value at Near Term Expiration)
+
+tong 10 June 95 puts (-31)
+
+long 20 June 100 calls (51) short 10 March 95 puts (21)
+
+short 20 March 100 calls (61)
+
+Profit
+
+buy a long term option
+at one exercise price
+
+Loss
+
+sell a short term option
+of the same type
+at the same exercise price
+
+
+
+150 Chapter 8
+
+Figure 8-12: Short Time Spread (Value at Near Term Expiration)
+
+buy a short term option
+at one exercise price
+
+= sell a long term option
+2 of the same type
+o at the same exercise price
+|
+|
+|
+- |
+8 *long 10 March 105 calls (24) | long 25 March 100 puts (-48)
+4 short 10 June 110 cails (23) short 25 June 100 puts (-47)
+|
+
+“technically a diagonal spread, but with many of the
+same characteristics as a time spread
+
+may lose a full point. Now the options are worth 5 and 7%, and the spread is worth
+2%. If another month passes and the market is still unchanged, both options will
+continue to decay, But, again, the short-term option, with less time remaining to
+expiration, will decay at a greater rate. If the long-term option loses %4, the short term
+option may lose 2 points. Now the options are worth 3 and 6%, and the spread has
+increased in value to 3%, Finally, if at expiration the market is still unchanged, the
+short-term option, since it is still at-the-money, will lose all of its remaining value of 3
+points. The long-term option will continue to decay but will do so at a slower rate. If
+the long-term option loses %, it will be worth 6 points, and the spread will be worth 6
+points (Figure 8-13).
+
+What will happen if the underlying market makes a larger move? Assume as before
+that both options are at-the-money and have values of 7% and 6. As the underlying
+market rises and options move more deeply into-the-money, they begin to lose their time
+value. If the move is large enough, it won’t matter that the long-term option has three
+more months remaining to expiration. Both options will eventually lose all their time
+value (see Figures 6-15 and 6-16). If the time spread consists of calls, both of which have
+exercise prices of 100, and the underlying market moves from 100 to 150, both options
+might trade at parity (intrinsic value), or 50 points. The spread will then go to zero. Even
+if the long-term option retains as much as 44 point, the spread will still have collapsed to 44.
+
+What about a large downward move in the underlying market? The situation is
+almost identical to an upward move. As an option moves further out-of-the-money its
+
+
+Volatility Spreads 151
+
+Figure 8-13: The Effect of Time Passage on Time Spreads
+Time to Expiration
+
+Long-term option 6 months 5 months 4 months 3 months
+Short-term option 3 months 2 months 4 month none
+Option Value
+
+Long-term option Tip ™% 6% 6
+Short-term option 6 5 3 0
+Spread Vaiue 1% 2M 3% 6
+
+time value also begins to shrink. Here, however, neither option will have any intrinsic
+value, so that if the market moves down far enough both options will eventually be
+worthless. If that happens, the time spread will be worthless. If, as above, the long-term
+option retains even 1% point in value, the spread will still collapse to 14 point.
+
+Since a short-term at-the-money option always decays more quickly than a long-
+term at-the-money option, regardless of whether the options are calls or puts, both a
+long call time spread and a long put time spread want the underlying market to sit still.
+Ideally, both spreads would like the short-term option to expire right at-the-money so
+that the long-term option will retain as much time value as possible while the short-term
+option expires worthless.
+
+Ifa long time spread wants the market to sit still, logically a short time spread wants
+the market to move. It may therefore seem that, as with backspreads and ratio vertical
+spreads, the major consideration in deciding whether to initiate a long or short time
+spread is the likelinood of movement in the underlying market. Certainly time spreads
+are sensitive to movement in the price of the underlying, but time spreads are also
+sensitive to changes in implied volatility.
+
+A long time spread always benefits from an increase in implied volatility. Look
+again at Figure 6-18, the relationship between an option’s vega (sensitivity to a change
+in volatility) and the time remaining to expiration. As time to expiration increases, the
+vega of an option increases. This means that a long-term option is always more sensitive
+in total points to a change in volatility than a short-term option with the same exercise
+Price.
+
+For example, assume again that a 100 call time spread is worth 114 (long- and
+short-term options with values of 714 and 6, respectively). Assume also that the value
+of the spread is based on a volatility of 20%. What will happen to the value of the spread
+if we raise volatility to 25%? Both options will increase in value since an increase in
+volatility increases the value of all options, But the long-term option, with more time
+Temaining to expiration and therefore a higher vega, will gain more value as a result of
+the increase in volatility. If the short-term option gains 14, the long-term option may
+gain a full point. Now the options will be worth 814 and 614, and the spread will have
+widened from 11% to 2 (Figure 8-14).
+
+
+152 Chapter 8
+
+Figure 8-14: The Effect of Volatility on Time Spreads
+
+Voiatility 15% 20% 25%
+Option Value
+
+Long term option 6% 7% 8%
+Short term option 5% 6 6%
+Spread Vaiue 1 1% 2
+
+Conversely, if we lower our volatility estimate to 15%, both options will lose value.
+But the long-term option, with more time remaining to expiration, will be more sensitive
+to the change in volatility and will lose a greater amount. The new option values might
+be 6!4 and 514, causing the spread to narrow to | point.
+
+The effects of volatility on a time spread become especially evident when there is
+a change in implied volatility in the option market. When implied volatility rises, time
+spreads tend to widen; when implied volatility falls, time spreads tend to narrow. This
+effect can often be great enough to offset either a favorable or unfavorable move in the
+underlying market. A trader who is long a time spread expects to lose money if the
+underlying market makes a swift move in either direction. He knows that time spreads
+begin to collapse as the options move into- or out-of-the-money. But if this movement
+is accompanied by a sufficient increase in implied volatility, the increase in the spread’s
+price due to the increase in implied volatility may actually be greater than the loss due
+to market movement. In that case the trader may find that the spread has actually
+widened. Conversely, if the market sits still, the trader expects the spread to widen
+becatise of the short-term option’s greater time decay. But if, at the same time, there is
+a collapse in implied volatility, the decline in the spread’s price due to the decline in
+implied volatility may more than offset any gain from the passage of time. If this happens,
+the trader may find that the spread has narrowed.
+
+These two opposing forces, the decay in an option’s value due to the passage of
+time and the change in an option’s value due to changes in volatility, give time spreads
+their unique characteristics. When a trader buys or sells a time spread, he is not only
+attempting to forecast movement in the underlying market. He is also trying to forecast
+changes in implied volatility. The trader would like to forecast both inputs accurately,
+but often an error in one input can be offset by an accurate forecast for the other input.
+
+Ideally, the trader who is long a time spread wants two apparently contradictory
+conditions in the marketplace. First, he wants the underlying market to sit still so that
+time decay will have a beneficial effect on the spread. Second, he wants everyone to
+think the market is going to move so that implied volatility will rise. This may seem an
+impossible scenario, the market remaining unchanged but everyone thinking it will
+move. In fact, this happens quite often because events which don’t have an immediate
+effect on the underlying market could be perceived to have a future effect on the market.
+
+Suppose an announcement is made that the finance ministers of the major indus-
+trialized countries plan to meet to discuss exchange rates. If no one knows what the
+
+
+Volatility Spreads 153
+
+outcome of the meeting will be, there is unlikely to be any significant move in the
+currency markets when the initial announcement is made. On the other hand, all
+traders will assume that major changes in exchange rates could result from the meeting.
+This possibility will result in an increase in implied volatility in the currency option
+market. The lack of movement in the underlying market, together with the increase in
+implied volatility, will cause time spreads to widen.
+
+Suppose that, as a result of the meeting, the finance ministers decide to maintain
+the status quo. Now expectations of a major change in exchange rates fade, implied
+volatility falls, and, as a result, time spreads narrow.
+
+Scenarios with similar consequences also occur in the interest rate options market
+when a policy statement is expected from the Federal Reserve in the United States, or
+when a company’s earnings are due to be reported in the stock option market. These
+events are unlikely to have an effect on the underlying market before the fact, but they
+could have significant repercussions after the fact.
+
+The effect of implied volatility is what distinguishes time spreads from the other
+types of spreads we have discussed. Backspreads (including long straddles, long stran-
+gles, and short butterflies) and ratio vertical spreads (including short straddles, short
+strangles, and long butterflies) want real volatility (price movement in the underlying
+market) and implied volatility (a reflection of expectations about future price movement
+in the underlying market} to either both rise or both fall. A swift move in the underlying
+market or an increase in implied volatility will help a backspread. A quiet market or a
+decrease in implied volatility will help a ratio vertical spread. With time spreads,
+however, real and implied volatility have opposite effects. A big move in the underlying
+market or a decrease in implied volatility will help a short time spread, while a quiet
+market or an increase in implied volatility will help a long time spread. This opposite
+effect is what gives time spreads their unique characteristics.
+
+While the foregoing characteristics of time spreads apply to all option markets,
+there may be other considerations, depending on the specific underlying market. We
+previously assumed that the price of the underlying contract for both the short- and long-
+term option was the same. In the stock option market this will always be true because
+the underlying for every expiration is the same stock. The underlying contract for all
+IBM options, regardless of the expiration month, is always IBM stock. And IBM stock
+can only have a single price at any one time. In contrast, the underlying for a futures
+option is a specific futures contract. Consider this situation for Eurodollar futures and
+options traded at the CME:
+
+March Eurodollar Futures = 93.90
+June Eurodollar Futures = 93.75
+
+Suppose a trader initiates a long time spread:
+
+long 10 June 94.00 calls
+short 10 March 94.00 calls
+
+The underlying for March Eurodollar options is a March Eurodollar futures con-
+tract; the underlying for June Eurodollar options is a June Eurodollar futures contract.
+
+
+154 Chapter 8
+
+While the March and June Etrodollar futures contracts are related, they are not
+identical. It is not impossible fo' one futures contract to go up while the other goes
+down. As a result, in additior to volatility considerations, a trader who buys a
+June/March Eurodollar option all time spread also has to worry about the risk of the
+June futures contract falling whib the March futures contract is rising. Is there any way
+to offset this risk?
+
+If, in our example, the sprad between the March and June futures contracts,
+which is currently .15, begins b widen, the option spread will narrow regardless of
+volatility considerations. If, however, when the trader initiates the option spread, he
+also executes a futures spread bypurchasing March futures and selling June futures, he
+will have a position which wiiloffset any loss to the option spread resulting from a
+widening in the futures spread.
+
+How many futures spreads should the trader execute? He ought to trade the
+number of futures spreads requird to be delta neutral. If the delta of both options is 40
+and the trader executes the optien spread ten times, he will be long 400 deltas in June
+and short 400 deltas in March. Tierefore, he should buy 4 March futures contracts and
+sell 4 June futures contracts, “he entire spread will look like this (deltas are in
+parentheses):
+
+long 10 June 94.00calls (40) short 4 June futures (100)
+short 10 March 94.)0 calls (40) long 4 March futures (100)
+
+This type of balancing is 10t necessary, indeed not possible, in stock options
+because the underlying for all maths is identical. There is no such thing as March IBM
+stock or June IBM stock.
+
+THE EFFEC] OF CHANGING INTEREST
+RATIS AND DIVIDENDS
+
+Thus far we have considered ony the effects of changes in the price of the underlying
+market and changes in volatility2n the value of volatility spreads. What about changes
+in interest rates and, in the case f stocks, dividends?
+
+Because there is no carrying cost associated with the purchase or sale of a futures
+contract, interest rates have onlya minor impact on futures options, and, consequently,
+a negligible effect on the value o futures option volatility spreads.4 If, however, we are
+trading stock options and changethe interest rate, we change the forward price of stock
+(the current stock price plus th carrying cost on the stock to expiration). When all
+options expire at the same time as they do in backspreads and ratio vertical spreads,
+the forward stock price for all optons remains the same, so that the effects of the change
+are practically negligible. If, on te other hand, we are considering stock options with
+different expiration dates, we mut consider two different forward prices. And these two
+forward prices may not he equaly sensitive to a change in interest rates. For example,
+consider the following situation:
+
+4, Interest rates can of course affect tie relative value of different futures months. As noted, we can offset
+this risk by trading a futures spreal along with the futures option time spread.
+
+
+Volatility Spreads 155
+
+Stock price=100 Interestrate=12% Dividend =0
+Suppose a trader initiates a long time spread:
+
+long 10 June 100 calls
+short 10 March 100 calls
+
+If there are three months remaining to March expiration and six months remaining to
+June expiration, the forward prices for March and June stock are 103 and 106,
+respectively. If interest rates drop to 8 percent, the forward price for March will be 102
+and the forward price for June will be 104. With more time remaining, the June forward
+price is more sensitive to a change in interest rates. Assuming the deltas of both options
+are approximately equal, the June option will be more affected in total points by the
+decline in interest rates than the March option, and the time spread will narrow. In the
+same way, ifinterest rates increase, the time spread will widen because the June forward
+price will rise more quickly than the March forward price. Therefore, a long (short) call
+time spread in the stock option market must have a positive (negative) rho.
+
+Changes in interest rates have just the opposite effect on stock option puts. In our
+example, if interest rates fall from 12% to 8% the March forward price will fall from 103
+to 102, while the June forward price will fall from 106 to 104. Again, if we assume that
+the deltas of both options are approximately equal, and recalling that puts have negative
+deltas, the June put will show a greater increase in value than the March put. The put
+time spread. will therefore widen. In the same way, if interest rates increase, the put
+time spread will narrow. Therefore, a long (short) put time spread in the stock option
+market must have a negative (positive) rho.
+
+The degree to which stock option time spreads are affected by changes in interest
+rates depends primarily on the amount of time between expiration dates. If there are six
+months between expiration dates (e.g., March/September) the effect will be much
+greater than if there is only one month between expiration dates (e.g., March/April).
+
+Changes in dividends can also affect the value of stock option time spreads.
+Dividends, however, have the opposite effect on stock options as changes in interest
+rates (see Chapter 3). An increase (decrease) in dividends lowers (raises) the forward
+price of stock. If all options in a volatility spread expire at the same time (backspreads,
+ratio vertical spreads), the forward stock price will be identical for all options and the
+effect on the spread will be negligible. But in a time spread, if a dividend payment is
+expected between expiration of the short-term and long-term option, the long-term
+option will be affected by the lowered forward price of the stock. Hence, an increase in
+dividends, if at least one dividend payment is expected between the expiration dates,
+will cause call time spreads to narrow and put time spreads to widen. A decrease in
+dividends will have the opposite effect, with call time spreads widening and put time
+spreads narrowing. The effect of changing interest rates and dividends on stock option
+time spreads is shown in Figure 8-15.

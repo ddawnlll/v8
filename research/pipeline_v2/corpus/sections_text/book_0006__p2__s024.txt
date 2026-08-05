@@ -1,0 +1,373 @@
+
+P1: OTA
+JWBT634-c08
+
+244
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+playing for is the slight statistical edge that may come from the rule set, and some of
+these conditions have fairly limited influence with respect to both time (i.e., they are
+good for only a few bars) and price (small price movements). A trader working with a
+system like this, or with a discretionary approach that is similar, will find that adding to
+existing trades is usually a mistake because the statistical edge identified by the condition
+is usually strongest right at the entry point. Once again, note that this is not the same
+thing as an entry that requires scaling in to reach full size as the market moves against
+the entry price.
+Add Back Only After Partial Exits As another example, consider a trader who
+gets into a trade, takes half of it off at a 1X profit (where X is the initial dollar amount
+risked on the trade) and then finds the trade back at the entry price. This trader can add
+the half she already exited back to the trade; a stop-out at the initial stop point will now
+be only a half-sized loss because of the offsetting win on half the initial position. A trader
+establishing a position in an accumulation area could go through a process of selling part
+of her exposure at the top of the range and bidding to buy it back at the bottom, perhaps
+several times before the eventual breakout of the range. In effect, this trader is building
+up a profit cushion as the market oscillates in the range before the breakout. If she has
+misread the market, or if the trade doesn’t work for any reason, her ultimate loss will be
+cushioned or even eliminated by the profits made in the range. There is always a tradeoff, and in this specific scenario, if the market does eventually break out of the top of
+the range, the trader will have on less than full size because she was selling some of the
+position at the top of the range. This trader will be penalized on the clean, easy trade that
+breaks immediately out of the top of the range with no oscillations, but these trades are
+the exception rather than the rule.
+Another case to consider is where a trader gets lucky and catches a well-trending
+market that extends for many trend legs after the entry. Though this is not common, there
+are opportunities to reap truly outsized profits from extended trends with the proper
+plan, so it is worth spending some time thinking about how to build positions in these
+trends while also managing the downside. One very good plan is to enter a full position
+and take partial profits at the appropriate targets. (For simplicity’s sake, assume half
+the position is exited at a profit target.) Then, when another setup in the direction of the
+trend emerges, this entry is also taken on full size, so now the trader is holding a net position equal to 1.5 times the initial trading size. At the appropriate target for that trade (the
+second entry), half of that trade is exited, leaving a full-sized position, essentially for free,
+with locked-in profits. This can be repeated, trading the same size and gradually accumulating a larger, more or less risk-free position as the trend expands. Avoid the temptation
+to increase size on later entries—growing profits can lead to overconfidence, which is
+especially dangerous near the end of trends, where volatility can dramatically expand.
+Add Without Taking Partial Exits The classic pyramiding plans fall under this
+category; accumulated profits from one tier are used to fund the next tier. Reverse
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+Trade Management
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+245
+
+pyramid plans, for instance starting with one unit, next buying two, then four, eight,
+16, and so on, are used in a lot of marketing literature for trading methods and systems;
+if you want to turn $2,000 into $2,000,000 in one, glorious trade, this is pretty much the
+only way to do it. It is possible to find historical examples of trends and show that, if
+you had pyramided aggressively and perfectly, you could have eventually ended up essentially cornering the market in some commodity or owning most of the float in a stock,
+even starting with a very small initial investment.
+By this point in this book, we probably do not need to point out the other side, which
+is that your probability of success is vanishingly small. The problem with reverse pyramid
+plans is that the position is top-heavy and becomes increasingly so as more contracts are
+added. When you start with one unit and end up adding 20 at higher prices, it takes
+only a very small dip in the market to completely wipe out all accumulated profits since
+the average price on the position is so high. As you also know, extended trends tend to
+become more volatile, so reverse pyramid plans usually end up blowing out accounts or,
+in the case of leveraged accounts, even going significantly negative.
+In the exceedingly unlikely chance that you do get lucky with a reverse pyramid plan,
+there is something else to consider—you would be totally unprepared for and unable to
+deal with the psychological pressures of trading the size dictated by the pyramid. Imagine
+you are a one-unit trader with a $20,000 trading account, and you’re comfortable risking
+maybe $500 per trade. If you happen to catch a good trade and pyramid up to 50 units,
+your average daily swings could be hundreds of thousands of dollars. How likely are you
+to make good decisions under that kind of pressure? These reverse pyramid strategies
+have payoff structures very close to a lottery ticket, which is probably the right way to
+think of them—just imagine you are buying a lottery ticket equal to your full account
+value. They are not acceptable, professional trading plans.
+Pyramiding should not be dismissed out of hand, however; there is another way.
+Proper pyramids, those that have the largest size at the beginning of the campaign, can
+be valuable in some situations. In a proper pyramid, the trader adds successively smaller
+units as the trend progresses. (For instance, you might start with 20 units, and add 16,
+and next add 12.) A pyramid built this way keeps its average price closer to the base,
+closer to the first units; it is not top-heavy so traders can weather volatility near the end
+of the trend better. There are many successful trend followers who use some variation
+of this plan, but it can cause some problems in conjunction with certain entry techniques
+and other trade management plans. In the worst case, it basically adds another random
+element to the risk and trade sizing equation. These additions almost always result in
+a more volatile bottom line, so make sure that the additional upside compensates on a
+risk-adjusted basis.
+If you do decide to pyramid, size up, or aggressively add to trades when you know
+you are right, make sure you are actually adding value to your overall P&L. These are
+important questions that should be considered. You have to ask whether it makes sense
+to add to trades in the first place. Many traders do not consider this question in building their trading plan, but make a hasty decision the first time they are faced with an
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+246
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+extended and very profitable trade. Without a good plan, that decision is likely to completely destroy the profit in that particular trade, and perhaps to even do more damage to
+the trading account. If you do decide that adding makes sense, then you need to consider
+exactly how to do it. There are few absolutes in trading, but it is very difficult to imagine a reverse pyramid plan that actually makes sense. With that possibility off the table,
+there are several other variations of adding size to trades that can be explored. From a
+practical trade management standpoint, the last thing to consider is whether the additions will be considered completely new trades so that each individual trade preserves
+its own entry and management rules, or you choose to think of them as one combined
+position with an average price equal to the cost basis of the group. The answers to these
+questions will depend on your trading style and your chosen approach to the markets.
+
+Time Stops
+Few technical traders get into a position with the plan of the market simply staying at
+their entry price. (The obvious exception would be option spreads or other derivatives
+that are short volatility.) The choice to actually enter a trade is usually made because we
+believe that an imbalance exists in the market and that this imbalance should cause a
+price movement within a short time period. If this movement does not happen quickly,
+it often suggests that much of the edge has gone out of the trade, and we are basically
+flipping a coin. This is why time stops can make sense. There are many variations of
+these rules, but they basically say that if a trade does not hit some kind of predetermined
+profit limit within a certain time, the trade will be exited after that time window expires.
+Time stops will also cut out some winning trades. This is unavoidable, but, even with
+the loss of some winners, the end result could still be a net gain to the bottom line. In
+addition, many traders find that their best trades work right away; this is a reflection
+of certain setups in certain markets and may not generalize to all situations. For these
+traders, even if a trade does end up being profitable after an extended flat period at the
+beginning, the resulting trade is often less energetic and less profitable than the ones that
+worked immediately, so a time stop will still make sense.
+There are several choices for how to actually execute time stops. The obvious choice
+is to simply exit at the market once the time window expires. Another choice that is not
+often considered is to tighten the stop very close to current market prices, moving it
+closer as time goes on in a similar fashion to the movement of the Parabolic SAR’s stop
+levels. This greatly reduces the open risk in the trade, though it does leave the position
+vulnerable to a large loss if an unexpected event causes an overnight gap. Furthermore,
+after reducing the risk, this technique leaves the possibility of gains intact if the market
+does move in the intended direction. This is probably not a technique for the newer trader
+who has not learned to deal fully with the emotions of trading and who would probably
+be better off with a simpler rule set. For the more advanced trader, this technique can
+offer a very attractive compromise between limiting risk in flat trades and still preserving
+the opportunity to profit from trades that take a while to develop. This is one of the most
+underutilized techniques available to the self-directed discretionary trader.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+Trade Management
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+247
+
+Tightening Stops
+At first glance, it would seem that tightening stops is a simple and effective way to reduce
+risk in existing trades. However, the risk/reward/probability matrix always applies in all
+situations and to every action the trader makes. Inevitably, tightening stops reduces the
+probability of the trade working out, as a tighter stop is always more likely to be hit than
+a wider stop. Make sure that you are moving stops in response to developing market
+structure and to the shifting probabilities of the scenario, rather than in response to your
+own emotions or desires to avoid losses.
+There is a trade-off between staying in a trade for the bigger move, which requires
+looser stops, and being unwilling to give back much profit with tighter stops. Traders
+using very loose stops (far from current market prices) have a much higher probability
+of staying in the trade and not getting shaken out by noise, but they must also be willing
+to give back large percentages of open profits. We often say “weak-hand longs” or “weak
+shorts” in a pejorative sense, but there are times when a smart trader will actively choose
+to be the weak hand. There are times when we want to be taken out of a trade by a
+very small adverse move, for instance when taking profits in an overextended trend or a
+parabolic blow-off.
+Trade Reaches a Risk Multiple Target For many technical traders, once the
+trade has made a significant move into the profit zone, it rarely makes sense to take a
+full-sized loss on the trade. Traders can use their initial risk level as a reference point,
+projected at an equivalent distance on the other side of the entry, to define a significant
+move for the trade. For instance, assume you enter a long position in a $50.00 market with
+a $2.50 stop at $47.50. When the market reaches $52.50, it may make sense to tighten the
+stop to just under your entry point or even higher. If the initial stop was set correctly
+for the volatility level of the market, once the trade moves an equivalent distance in the
+other direction, the trade is working. At that point, the pattern is playing out as expected,
+and a failure from that level usually suggests a larger-scale failure—there is no need to
+take a full-sized loss on a trade in this situation.
+Another scenario applies to traders who take profits at specific multiples of that
+initial risk (e.g., taking profits at 2X). Once this profit target is hit, it usually makes sense
+to tighten the stop on the remainder of the trade to the entry price, essentially working
+a breakeven stop on the rest of the trade. The same logic applies here: the trade worked
+in that it was able to reach the first profit target, so it makes sense to eliminate the open
+risk on the trade. Move the stop to a point where a stop-out will, at worst, result in a
+breakeven trade, as the loss on the open portion will be offset by the already lockedin gains on the closed portion. Be clear: this solution may not be the right fit for every
+trading style, but short-term swing traders will find that a plan like this will significantly
+reduce the volatility of their returns.
+Sharp Momentum Develops Sometimes a trend will accelerate into a parabolic run
+with very sharp momentum. This is a somewhat rare but glorious outcome, and one that
+
+P1: OTA
+JWBT634-c08
+
+248
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+FIGURE 8.5 A Stop Under the Previous Day’s Low Is Appropriate in a Parabolic, Runaway Trend
+
+often justifies working very tight stops. Figure 8.5 shows a daily chart of Silver futures,
+which, after an already extended uptrend, broke into a parabolic expansion. A trader
+holding a long position in a runaway trend like this could have worked a stop each day
+below the previous day’s lows. In this example, assume that the trade was entered somewhere around A on the chart; if you were working a stop under the previous day’s low, it
+would not have been hit until the point marked C, the day after the extreme high of the
+run-up. This is a very aggressive stop technique that crosses the line into a profit-taking
+exit. Basically you are asking for the market to take you out of the position with a slight
+downtick so you can book the profit, but you are also leaving yourself open to continued
+upside in the unlikely event the market extends further. You want your stop to be hit in
+this case. Parabolic trends are a special example because they often carry very high risk
+of sharp reversals from climax points. Traders who are fortunate enough to be holding
+heavy exposure into such a move can become emotional and excited as they extrapolate
+the move into infinity, and this time of extreme emotion often results in very poor decisions. Use tight stops on at least part of the position to remove the emotional component
+from the decision process in parabolic trends.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+Trade Management
+
+249
+
+The parabolic trend is an unusual and dramatic example, but even normal trends
+can often justify fairly tight stops, depending on the trader’s plan and personality. Swing
+traders, who are clearly playing for only one swing with minimal giveback, will work
+much tighter stops than traders who plan to hold for the longer trend, if it should develop. Price action in trends is more directional and more predictable than price action
+in ranges, so we can get away with stops much closer to the market if the goal is to
+protect open profits. For example, in an uptrend, a tight stop could be trailed under the
+highest pivot low of the trend. Slightly wider stops could go under the second-highest
+pivot low, probably working both of these stops on a close-only basis to avoid the possibility of selling into a fake dropout. It is also worth considering that if you are stopped
+out by an intraday move that reverses on close, it may make sense to reenter the position
+with a stop under the new extreme.
+It Is Difficult to Tighten Stops Against a Range If it is easy to work tight stops
+in trends, it is much more difficult to work tight stops in consolidation areas. These areas
+tend to be much more random, and one of the dominant features of these structures is
+that they have large spikes outside the range. Volume and liquidity tend to be lower in
+these areas, reflecting the generally reduced trading interest, so medium-sized orders
+can have a very large impact on prices. Be aware that tightening stops on a trade in
+consolidation is usually effectively a time stop and a conscious decision to work toward
+being taken out of the trade. This is often justified, but if it is not what you are trying
+to accomplish, it may make sense to leave stops close to the initial risk point while the
+market is ranging. Once momentum and a new trend develop in the trade’s favor, the
+stop can be significantly tightened in the new trending environment.
+
+Widening Stops
+The rules for this technique can be simplified to one word: don’t. Most traders will be
+better off if they have a simple rule that says they will never move a stop in the direction of risk. In other words, never move a stop down in a long position or higher in a
+short position. For new trades, the reason is obvious: A trade is initiated against a fixed
+stop, and position size is calculated based on a loss at that level. If the stop is moved to
+allow for additional risk, then a larger than expected loss could result. Why even make
+rules for position sizing, initial risk, and initial stop placement if you do not intend to
+follow them?
+I actually have a trading rule that says a stop can never be moved in the direction
+of risk, but there are two precisely defined exceptions to that rule. In both cases, the
+common factor is that the stop must remain inside the initial 1× risk parameter; this
+is a hard limit established at the time of trade entry that can never be violated. The
+exceptions are:
+
+r When the decision to tighten the stop was clearly an error. In these cases I will move
+the stop back out, but not further than the day on which the error was made.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+250
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+r When emerging market structure suggests the need for a slightly wider stop. Be careful because it is easy to justify moving the stop further and further away from the
+market as the market edges toward the stop. In my opinion, newer traders should
+never do this, because they do not have the experience to separate their emotional
+reactions from legitimate market feel.
+There is actually a third, very rare case that justifies a larger stop. Imagine that you
+are scaling into a trade in a large move, and something happens that suggests the volatility may be even higher than expected. For instance, perhaps you are buying into a decline
+and then some news hits the market that causes ranges to expand. In this case, assuming
+you have on part of the intended position size, it may make sense to not complete your
+buying program, but to move the stop further away from the market. The total risk on
+the trade is equal to or less than the original intended risk, but the position size will be
+much smaller against a further stop. This is not actually an increase of risk in any way,
+as the total bottom line for the trade will be the risk that was initially allocated.
+
+Managing Gaps Beyond Stops
+Though many markets are moving toward round-the-clock trading, there are still cases
+where a market will gap open beyond a stop level. For instance, overnight news could
+cause a stock to open much lower, gapping under a stop on a long position. In a more
+dramatic example, a natural catastrophe could trigger a large shift in markets, causing
+many positions to gap beyond stop levels. In these cases, the initial losses on the open
+may be many times the intended risk on the trade. No doubt this event is a disaster, but
+the damage can get much worse. It is important to have a good plan that accounts for
+these possibilities, so that you are not put in the position of having to make emotional
+decisions on the fly.
+There are two important factors to consider here. Understand your chosen markets’
+tendencies around the open. For instance, most gaps in equities are reversed; if a stock
+opens down, there is a good tendency for it to trade up into the gap. Second, consider
+the markets’ tendencies in trading off the open print. The high or low of the day tends
+to be set in early trading. So, if you are holding a long position that gaps down and immediately starts trading up, it may make sense to set a new stop under the day’s low to
+give the market a chance at recovery. However, if the market opens down and immediately presses lower, or breaks lower out of an opening range, there is a good chance
+that it could trend down all day. Long positions should be dumped immediately in the
+second scenario.
+If you trade long enough, these gaps through stops will happen, and they will result in
+some stunning losses. Fortunately, you will be on the right side of some of these surprise
+events as well, but it is important to realize that your ability to make good decisions
+may be compromised in the face of very large, volatile market movement. In these cases,
+your best hope is to have a plan that already considered the possibilities and to follow
+that plan with perfect discipline.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:48
+
+Trade Management
+
+Printer: Hamilton Printing
+
+251

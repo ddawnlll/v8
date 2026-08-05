@@ -1,0 +1,429 @@
+
+Download at www.wowebook.com
+
+65
+
+Chapter 5 An Overview of Markets
+
+ruination of many traders. The other major danger is in more illiquid futures markets where what
+is called a limit day occurs. Some futures have daily range limits. This practice has declined over
+the past few years to the point where some futures have limits only for contracts older than the
+spot month. Nevertheless, a daily price limit, when applicable, means that once the daily range
+limit from open to high or low is reached, trading in that contract is shut down. If one has a stop
+order that was not executed when the range was exceeded and the market shut down, too bad.
+Sometimes several range or daily limit days occur in a row and no trading takes place at all. On
+a highly leveraged position on the wrong side of the market, this can be ruinous. In the liquid
+markets such as the financial markets, a limit day is rarely seen because the liquidity of the market is so strong. Nevertheless, a limit day is a risk to be considered.
+
+BOX 5.3 CONCURRENT EXPIRATION OF OPTION AND FUTURES CONTRACTS
+One cross-vehicle effect that can influence price action in all three market vehicles in
+the stock market especially is the expiration of option and futures contracts. On each
+concurrent expiration date or shortly before, the prices of all three vehicles can be
+affected by the crosscurrents between each vehicle expiring and its underlying security. This is even more complicated when the underlying security is itself a derivative. For example, options on index futures expire on the same day and are priced at
+the same time. Depending on the number of options being exercised on that day and
+the number of futures also coming due that day, the markets in the underlying can
+become hectic. From the viewpoint of the technical analyst, almost none of the price
+action from such expiration activity has any meaning for the future of the underlying
+prices. Nevertheless, limit and stop orders can sometimes be triggered, causing necessary adjustments in a portfolio.
+
+Option Markets
+An option contract gives the holder the right, but not the obligation, to complete the transaction
+stated in the contract before the expiration date of the contract. There are two basic types of
+options—call options and put options. The call option gives the owner the option to buy an asset
+at a particular price, known as the strike price, before the option expiration date. The owner of a
+put option has the right to sell the stated asset at the strike price before the option expiration date.
+Technical analysis is useful in the cash and futures vehicles but not so much in the options
+markets. Option markets usually have a short life span and with certain exceptions, such as the
+index options, less liquidity than the other vehicles. Because options are derivatives of the cash
+or futures markets (the “underlying” markets), often these markets are analyzed first and then
+trading rules are applied to the options markets. For example, in the S&P 500 futures, a technical
+buy signal may be generated and the trader, instead of acting on the future, will buy the call, sell
+the put, or create some kind of combination of calls and puts. This is extremely dangerous for the
+
+Download at www.wowebook.com
+
+66
+
+Part II Markets and Market Indicators
+
+novice because options include sizable leverage risk and other complications. Options are a subject all their own and are not covered in this book. Because options are derivatives of other vehicles, the student should well understand the cash and futures market before studying or entering
+the options markets.
+Most options trade on exchanges. However, there are esoteric options that trade over the
+counter in an invisible market between large institutions. These options include the credit default
+options (CDO) that caused so many problems in the recent financial breakdown. These markets
+are not freely traded, nor are prices readily available for technical analysis. Within institutions
+that trade such vehicles, prices may be available for study, but for the public they are not.
+
+Swaps and Forwards
+Swaps and forwards are traded over the counter, not on exchanges where prices are continuous
+and visible. Often, these contracts are specific to the parties only, not transferable, not freely
+traded, and do not have continuous prices. For these reasons, technical analysis is impossible.
+Swaps are contracts between parties agreeing to swap certain investment vehicles, one interest
+rate vehicle for another, for example. Forwards are swap agreements to swap similar investment
+vehicles sometime in the future. Repurchase agreements, for example, where one agrees to sell
+and then repurchase Treasury bills are forward swaps. Technical analysis is inapplicable to most
+of these contracts because they are not freely traded or substitutable with continuous prices.
+Indeed, in many cases, these contracts cannot be valued.
+
+HOW DOES A MARKET WORK?
+To understand the principles of technical analysis, we must be familiar with how markets work
+and who the players might be. To better understand how market prices are set, let us begin with a
+hypothetical trading example. Let us assume that we are watching the trading post on the New
+York Stock Exchange where the stock of an imaginary company International Business Products
+(IBP) is being traded during normal trading hours.
+Assume that a specialist who has an interest in the stock of IBP is present; this specialist’s
+job is to stabilize the price of IBP’s stock. In addition, several floor traders are present; these
+floor traders represent off-floor interests in the stock. The first off-floor interest is a mutual fund
+that wants to purchase the stock because its analyst believes the company’s earnings are going to
+rise suddenly and rapidly. The analyst has determined this expectation from studying the financial statements of IBP and from interviewing IBP’s management. The second off-floor interest is
+a group of investors from a golf club in New Jersey who have heard of the profits one member of
+the club has gained from buying IBP earlier in the year. They also are interested in buying the
+stock but have no other information than what they have heard about their friend’s profits. The
+third off-floor interest is a pension fund that currently owns IBP stock. This pension fund has
+made a substantial profit in IBP but now wants to sell its holdings because it has determined that
+the stock is overpriced. The fourth off-floor interest is an estate that owns the stock and needs to
+liquidate the position to raise cash to pay taxes. The fifth off-floor interest is a hedge fund that
+
+Download at www.wowebook.com
+
+Chapter 5 An Overview of Markets
+
+67
+
+has been watching the stock price change and is flexible enough to either buy or sell shares but
+has no particular opinion about the prospects for the company.
+Thus, the players in this hypothetical marketplace can be summarized as
+1. A specialist whose job is to stabilize the price of IBP
+2. A mutual fund that desires to accumulate shares of IBP because it believes the earnings of
+IBP will improve rapidly
+3. A group of investors acting on the fact that IBP’s stock has risen in the past
+4. A pension fund that already owns shares of IBP and believes the current price is too high
+5. An estate that owns shares of IBP and must sell them to raise cash
+6. A hedge fund that is attempting to trade the shares of IBP but has no opinion about the
+prospects for IBP as a company
+Notice that the players have different sources of information, different interpretations of
+that information, different reasons for trading IBP’s stock, different time horizons, and different
+expectations. The mutual fund believes in the analyst’s recommendation that the prospects for
+the company will improve immediately and wants to buy because it expects the price to rise. On
+the other hand, the pension fund believes the price of the shares is already too high and wants to
+sell, not necessarily because it expects the price to decline but because the possibility of future
+rises is diminishing. One or the other will end up correct, depending on how the stock performs
+in the future. In addition to these major players is the estate that wants to sell the stock to raise
+cash. It has no interest in the company and only wants the money from the sale. Its information
+is the necessity to raise cash and its interpretation is to sell the stock. The specialist may have an
+opinion and expectations about the company, but his responsibility is to stabilize the market for
+its shares. He will step in and buy or sell to provide liquidity and to keep the share price from rising or declining sharply. He will thus be acting contrary to the direction of the stock price, buying when it dips and selling when it rallies. The hedge fund will try to take advantage of
+anomalies, times when the stock seems to be out of balance with either its trend or its value.
+Finally, the golf club members are interested in buying the stock only because someone they
+know has made money in it. They expect to realize a sizable profit.
+These different types of players are just examples. In real markets, of course, the number
+of players is huge, and information and interpretation of that information are equally as vast.
+Players buy and sell based on their interpretation of information. In some cases, that information
+might have nothing to do with the company and might not even be accurate. The estate sale, for
+example, is based on information that the estate needs cash, and the golf club members are buying stock purely on the information that someone else has made money in it. It is possible that the
+estate does not need the cash or that the member claiming the outstanding profit is lying. Players
+might interpret the information incorrectly; they might not care about the company at all; or they
+might act strictly emotionally, based on either greed or fear (in the case of a sudden and unexpected decline). The net result is a transaction between opposing players at a specific price. That
+price reflects the sum of all the information and interpretation by all players at that instant in
+time.
+
+Download at www.wowebook.com
+
+68
+
+Part II Markets and Market Indicators
+
+Now what happens to that price when the players interact over time? Obviously, each new
+price reflects a new sum of interpretation. Say the last price of IBP was $50.0. The mutual fund
+is anxious to buy the stock and bids 50.0 for 20,000 shares. The pension fund, not being as anxious, offers 10,000 shares at 50.4 and 10,000 shares at 50.6, all it has to sell. This is a standoff, as
+a new price has yet to be established. The specialist, judging that the spread between the bid and
+offer is too wide and surmising from his information that the buyer is larger than the seller, offers
+1,000 shares at 50.1 because he cannot outbid the buyer above the last price. At the same time,
+the golf club members enter an order to buy 1,000 shares at the market. This trades at 50.1
+against the specialist’s offer. Now a new price has been established at 50.1, higher than the previous price of 50.0. The sum of all expectations has changed slightly to the upside. Now the
+estate comes in and sells its 10,000 shares at the market, which is the 20,000-share mutual fund
+bid at 50.0. The new price is back to 50.0 on higher volume. The hedge fund, seeing that the
+10,000 shares were easily traded at 50.0, believes there is a large buyer at 50.0 and buys the pension fund’s 10,000 shares at 50.4. Remember that each time a trade occurs, one player is willing
+to buy at that price and another player is willing to sell an identical number of shares at the same
+price; there is always a buyer and a seller for every transaction that takes place. Also, it is important to remember that the individual players know their own motivation for buying and selling,
+but they do not know with whom they are trading or why the other party wants to enter the transaction. The players only see the price and the volume of shares traded.
+Thus, we have a series of transactions at different prices and different volumes reflecting
+the interpretation of different information by the different players. The mutual fund and pension
+fund are interpreting fundamental information about the company and the value of its stock relative to that information. The specialist is using knowledge of what exists in the way of bids and
+offers; the hedge fund is watching the tape; and the estate and golf club members are acting without regard to price but on information having to do with practicality in the case of the estate and
+emotion in the case of the golf club members. As long as the players on both sides of the transaction are fairly balanced, the price of the stock will oscillate in a relatively small zone, as it has in
+our example. If one of the factions (buyers or sellers) overwhelms the other, the price will adjust
+accordingly. The reasons for the adjustment in price are unimportant. What is important to the
+trader or investor is that the price moves in such a manner that its direction can be determined or
+confirmed from past experience. This is why technical analysts study price behavior. It discounts
+all known information and interpretation and considers only what the price action implies about
+future price action.
+
+WHO ARE THE MARKET PLAYERS?
+From the preceding example, it is obvious that a number of different individuals participate in
+establishing the price of a security. Academia has divided these types of participants into three
+separate categories: informed, noise, and liquidity players.
+
+Download at www.wowebook.com
+
+Chapter 5 An Overview of Markets
+
+69
+
+The early Efficient Markets Hypothesis presumed that only informed investors acted
+within the marketplace to establish a price. These players supposedly interpreted new information rationally and adjusted the market price of a security to its equilibrium value immediately.
+This strict interpretation has been relaxed considerably. Now the informed investor is considered
+similar to the more historical type, called the “professional or smart money investor,” who can be
+just as affected by bias and misinformation as any other investor or trader. Professional speculators, position traders, hedge fund managers, professional arbitrageurs, and insiders are considered to be in this category.
+Noise is a term coined by Fisher Black (Black, 1986) and is used to describe the random
+activity around the equilibrium price. Academically, the uninformed market participants are the
+noise players. A more widespread and older term is the public. Most mutual fund managers,
+pension fund managers, traders, and technical analysts are considered also to be in this category,
+even if they are professionals. The distinction between informed and uninformed is blurry, of
+course, and it’s only useful in certain sentiment statistics generated by each group (see Chapter 7,
+“Sentiment”). All types of participants are human and subject to the same universal human biases
+and cognitive limitations.
+Liquidity players are market participants who affect prices in the markets for other reasons than investment or trading. An earlier example is the estate that wants to liquidate securities
+for needed cash. This type of player makes no investment decision but affects the market for a
+very short time with its liquidation. Another example is the index fund that is forced to buy and
+sell a security based on its addition to or deletion from the index that the fund is following. This
+causes an outside effect on each security’s price with no regard for its investment value by itself.
+Too often, these three participant types are considered as separate and distinct groups.
+However, they are changing constantly. Arbitrageurs sometimes act as uninformed players,
+members of the public learn and change categories, insiders misjudge the marketplace, and so
+on. Experience, as well as knowledge, is important and also changing. In short, the marketplace
+is not a stable system headed in a straight line toward equilibrium. The interaction is dynamic
+and nonlinear. The system is complex.
+
+HOW IS THE MARKET MEASURED?
+As more of the market players want to buy stocks and fewer want to sell their stock holdings,
+stock prices will be driven up. Likewise, if many market players want to sell their stocks relative
+to the number of participants who want to buy stocks, stock prices will fall. Looking at the
+increase or decrease in the price of one stock will tell us how strong the market for that one particular stock is. If we want to measure the overall direction of the stock market, however, we
+need a way of measuring the movement of the broad market that is composed of the stocks of
+many companies.
+Though the origins of the U.S. stock market date back to 1792 when 24 New York City
+stockbrokers and merchants gathered under a buttonwood tree and signed the Buttonwood
+Agreement, it was almost 100 years later before the concept of a measure of overall market
+
+Download at www.wowebook.com
+
+70
+
+Part II Markets and Market Indicators
+
+movement was developed. At the end of the nineteenth century, Charles H. Dow began publishing a representative average of stocks. Dow intended to gauge overall market trends by looking
+at the combined stock price movement of nine railroad stocks, the blue chips of the day. As we
+discussed in Chapter 3, “History of Technical Analysis,” Dow’s initial average developed into the
+Dow Jones Industrial Average that we have today. Dow’s work also led to the development of the
+Dow Jones Transportation Average and the Dow Jones Utility Average.
+Building on Dow’s initial concept, other individuals have also developed averages, or
+indices, to measure market movement. Today there are almost as many averages or indices as
+there are stocks. Although the concept of a market average or index might be simple, choosing a
+method to use to construct the index is complicated. There are three major types of index construction: price weighted, market capitalization weighted, and equally weighted.
+
+Price-Weighted Average
+The Dow Jones averages are price-weighted averages. This means that the prices for each of the
+component stocks are added together, and the sum is divided by a divisor that has changed over
+the years to account for splits and stock dividends in each of the component stocks. To see how a
+price-weighted average is constructed, consider the four hypothetical stocks in Table 5.3. A
+price-weighted average for each trading day is calculated by simply adding the four prices and
+dividing by four. The problem with a price-weighted average is that a high-priced stock will have
+more influence on the average than a lower-priced stock. Note that between trading Day 1 and
+Day 2, the price of Alpha increased by 10%, while the price of the other three stocks remained
+constant; this led to a 3.8% increase in the value of the price-weighted index. On the following
+trading day, the price of Delta rose by 10% and the price of the other three stocks did not change.
+When the lower-priced Delta increased in value by 10%, the price-weighted index only changed
+by 0.9%. The price-weighted average does not represent the usual manner in which a portfolio is
+constructed. Investors rarely invest in an equal number of shares in each portfolio stock.
+TABLE 5.3
+
+Calculation of Price-Weighted, Market Capitalization, and Unweighted Indexes
+
+Company
+
+Alpha
+
+Volume of
+Shares
+Outstanding
+
+Beta
+
+5,000,000
+Price
+
+Change
+
+Gamma
+
+8,000,000
+Price
+
+6,000,000
+
+Change Price
+
+85
+
+Change
+
+25
+
+Delta
+
+2,000,000
+
+PriceWeighted
+Index
+
+Market
+Capitalization
+Unweighted
+Weighted Index Average
+
+Price
+
+Level
+
+Level
+
+Change
+
+Day 1
+
+80
+
+20
+
+Day 2
+
+88
+
+10.00%
+
+85
+
+0.00%
+
+25
+
+0.00%
+
+20
+
+0.00%
+
+54.50
+
+Day 3
+
+88
+
+0.00%
+
+85
+
+0.00%
+
+25
+
+0.00%
+
+22
+
+10.00%
+
+55.00
+
+Day 4
+
+88
+
+0.00%
+
+85
+
+0.00%
+
+27.5 10.00%
+
+22
+
+0.00%
+
+55.62
+
+Change
+
+52.50
+
+Change
+
+Level
+
+Change
+
+100.00
+
+100
+
+3.81%
+
+103.15 3.15%
+
+102.50 2.5%
+
+0.92%
+
+103.46 0.31%
+
+105.06 2.5%
+
+1.14%
+
+104.65 1.14%
+
+107.69 2.5%
+
+Download at www.wowebook.com
+
+71
+
+Chapter 5 An Overview of Markets
+
+Market Capitalization Weighted Average
+Another way to calculate a market index is to use market capitalization in the weighting scheme.
+The Standard & Poor’s 500 Index is a market capitalization weighted index, in which each of the
+500 stocks is weighted by its market value. The NYSE composite index, the NASDAQ composite index, and the Russell Indexes are also capitalization weighted. An interesting change in the
+Standard & Poor’s 500 Index began in the spring of 2005. Rather than calculating the index
+based on the shares outstanding in each company, Standard & Poor’s index now calculates based
+on the float of each stock. Float is a term used to describe the number of shares actually available
+to the marketplace for purchase or sale. In many companies, some stock is held in the treasury,
+some has been given to employees in the form of options, some has been reissued in secondary
+offerings, and some is held closely by entities such as pension funds, foundations, other companies, owners, or syndicates. These closely held shares are generally not available for normal dayto-day transactions and are, thus, eliminated from the calculation of the index. The purpose in
+this new calculation is to reduce the influence on the index by the amount of capital value that is
+locked up and not available to the market.
+To compare how this index construction differs from price weighting, refer to Table 5.3. To
+begin creating a market capitalization weighted index, an initial market value of all the included
+stocks is calculated. In our example, this would be accomplished by multiplying each stock’s
+price by the number of shares outstanding on Day 1. This gives a value of 1,270,000,000. This
+initial figure is the base and is assigned an index value, usually of 100. Then a new market value
+is calculated for all of the securities each trading day. This new value is compared with the initial
+base level to calculate a daily index value. The general formula for calculating the daily index
+level is
+
+Indext =
+
+Pt Q t
+Pb Q b
+
+Index t =
+
+⫻ Beginning Index Value
+
+Market capitalization weighted index on Day t
+
+Pt =
+
+Closing stock prices on Day t

@@ -1,0 +1,828 @@
+
+S&P 500
+
+Nikkei 225
+
+Euro
+
+Dollar Index
+
+TNX
+
+JP Bond
+
+−0.083
+−0.29
+−0.377
+−0.493
+
+n/a
+n/a
+0.027
+0.029
+
+−0.05
+−0.275
+−0.383
+−0.488
+
+n/a
+n/a
+0.147
+0.183
+
+−0.11
+−0.285
+−0.43
+−0.55
+
+n/a
+n/a
+0.238
+0.335
+
+−0.182
+−0.28
+−0.447
+−0.56
+
+n/a
+n/a
+0.29
+0.377
+
+−0.186
+−0.27
+−0.47
+−0.56
+
+n/a
+n/a
+0.37
+0.44
+
+Correlation of daily % changes
+11
+6
+3
+2
+
+−0.09
+−0.145
+−0.243
+−0.373
+
+0.048
+−0.02
+−0.113
+−0.125
+
+0.342
+0.478
+0.417
+0.36
+
+−0.507
+−0.59
+−0.53
+−0.487
+
+Correlation of weekly % changes
+11
+6
+3
+2
+
+−0.028
+−0.085
+−0.167
+−0.259
+
+0.068
+−0.091
+−0.263
+−0.3
+
+0.345
+0.5
+0.5
+0.456
+
+−0.534
+−0.62
+−0.598
+−0.559
+
+Correlation of 10 day % changes
+11
+6
+3
+2
+
+0.014
+−0.076
+−0.24
+−0.312
+
+−0.022
+−0.09
+−0.343
+−0.393
+
+0.352
+0.54
+0.547
+0.535
+
+−0.541
+−0.65
+−0.637
+−0.615
+
+Correlation of 15 day % changes
+11
+6
+3
+2
+
+0.011
+−0.07
+−0.298
+−0.397
+
+−0.036
+−0.09
+−0.39
+−0.457
+
+0.37
+0.56
+0.6
+0.581
+
+−0.556
+−0.67
+−0.685
+−0.653
+
+Correlation of 20 day % changes
+11
+6
+3
+2
+
+0.046
+−0.065
+−0.33
+−0.45
+
+0.06
+−0.09
+−0.4
+−0.48
+
+0.375
+0.574
+0.61
+0.56
+
+−0.554
+−0.675
+−0.684
+−0.63
+
+Forex Trading Using Intermarket Analysis
+
+271
+
+The fact that the yen is already a minor (13.6 %) component of the dollar index
+doesn’t seem to have serious repercussions on the correlation values as the strong
+correlation between the yen and the euro (which is the major component of the dollar
+index) indicates. Nevertheless, just to make sure, I created a pseudo dollar index
+using the formula 4.2 (explained in Chapter 4), taking into account all other currency
+components except the yen, and calculated the correlation of 15-day percent changes
+between the yen and the pseudo dollar index over a six-year span. The result was
+an 11 basis point reduction in correlation from −0.67 to −0.56 which still beats all
+others.
+The S&P 500 was also used, but only as a confirmation of the dollar index divergence signal and not to generate autonomous signals. This last condition wasn’t
+verified by back-testing as the correlation between the yen and the S&P 500, stemming from the “carry trade”, is something that emerged recently. To deal with this
+problem I used the TNX as an alternative confirmation when back-testing the system
+using older data. Thus the system could switch to TNX if the condition was not
+verified by the S&P 500.
+The same problem inherent in all divergence models (discussed in the previous
+chapter) was also encountered here, as the system generated only 28 trades during the
+seven-year out-of-sample testing period. To increase the turnover I added a volatility
+breakout component which increased the number of trades to 39, sufficient for a
+statistical evaluation of the system.
+To develop the volatility component I used the SD* ADX indicator, introduced
+in my article “Las Vegas or Los Nasdaq” first published in the January 2005 issue
+of STOCKS & COMMODITIES (see Bibliography). This indicator is calculated by
+multiplying Wilder’s ADX by the standard deviation and dividing by the moving
+average. The SD* ADX indicator was used to detect low volatility periods which, just
+like the calm before a storm, usually precede violent breakouts.
+Low volatility periods can also be detected by a contraction of the Bollinger Bands
+or low values of the ADX indicator, but my research has shown that the SD* ADX
+indicator, which combines both methods, is superior to both when used alone.
+
+Testing Procedure
+In order to develop the system I divided the available data into two segments. I then
+used the first segment to test different rules and optimize the indicator parameters and
+the second segment of data to test and evaluate the results. No optimization, except
+for the S&P 500 condition, was carried out in the second phase of testing.
+Several assumptions underlie the trading model.
+The default trade size was one round lot of $100 000 per trade. Long and short
+signals were executed the same day at the close. This doesn’t present problems in
+real-time trading since forex markets are open 24 hours and a trade can be executed
+virtually seconds after the close indicated by the data.
+
+272
+
+Intermarket Trading Strategies
+
+When the system was long the USD, the interest difference between the dollar and
+the yen, currently at 4.15 − 0.80 = 3.35 % was credited to the account and when
+short the 3.35 % interest was debited to the account.
+The commission of 1.5 pip (or 100 000* 0.015/115 = $13), was deducted from exit
+trades. Returns were calculated as a percent of account required to trade each system
+and compared to the buy and hold method which involved buying $100 000 and
+selling yen for the duration of the test. The compound formula was used to annualize
+percentage returns.
+The amount of the account required was the 2 % margin required by major forex
+brokers plus the initial drawdown. The percent standard deviation of change in equity
+was calculated monthly and the risk-adjusted return was calculated by dividing the
+annualized return by the percent standard deviation of the change in equity.
+Three different indicators were used to define the intermarket rules: According to
+Table 17.1 the yen correlated best with the dollar index for 15–20 day percentage
+changes. On testing, the 15-day segment produced slightly more profitable results
+and this value was substituted in the regression divergence indicator. The intermarket
+momentum oscillator (IMO) was again used to identify extreme divergence levels.
+The 10-day disparity indicator was used to quantify divergence between the yen and
+the TNX, as this indicator performed better than the regression method on testing.
+The one-day rate of change of the S&P 500 was also used to confirm signals. I could
+not back-test this last condition effectively, as there was no correlation between the
+yen and the S&P 500 before 2006, but since their relationship (because of the “carry
+trade”), has recently changed dramatically, the system should be reevaluated and
+perhaps the S&P 500 may play a more dominant role in the future.
+The combined intermarket regression-disparity-volatility system was defined as
+follows:
+Buy condition 1 (intermarket): A buy signal was generated if the 200 bar IMO
+of the 15-day YEN-DXY regression divergence rose over 70 and declined by more
+than 4 points during the next four days. To eliminate premature signals, I used the
+10-day moving average to confirm the price reversal as follows. The system executed
+the IMO buy signals only if the 2-day moving average of the yen crossed over its
+10-day moving average and the yen rose intraday (closed above the open). To further
+eliminate false signals during periods that the yen decoupled from the dollar index, I
+used a second intermarket condition which required a positive YEN-TNX disparity
+or the S&P 500 rising more than 2 %.
+Buy condition 2 (intermarket): A buy signal was generated if the 10-day disparity
+divergence rose above 4 and reversed direction but only during short-term oversold
+conditions defined by the 5-day stochastic crossing over 20 from below.
+Buy condition 3 (volatility): The SD* ADX indicator was used to detect extremely
+low volatility and the Bollinger Bands to detect breakouts. This condition tended to
+
+Forex Trading Using Intermarket Analysis
+
+273
+
+produce some unprofitable trades so the signals were filtered using an intermarket
+condition. Thus a buy signal was generated if the SD* ADX dropped below 0.11 and
+the yen subsequently crossed over the Bollinger Band top during the next three days,
+but only if the disparity with the TNX was positive or the Dollar Index was above its
+20-day moving average.
+The opposite of the first two conditions, with the addition of a trailing stop loss,
+was used to liquidate the trades as follows:
+Sell condition 1 (trailing stop loss): Any open trades were stopped out if the yen
+crossed below the lower 10-day Bollinger Band.
+Sell condition 2 (intermarket): The position was liquidated if the IMO dropped
+below 30 and then reversed while the MACD was below its signal line.
+Sell condition 3 (intermarket): The position was liquidated when the disparity
+dropped below −4 and reversed direction but only when the yen was in a short-term
+overbought state specified by the five-day stochastic crossing below 80.
+Sell short: The exact opposite of the first three buy conditions was used to generate
+short signals.
+Buy to cover: Once again, the exact opposite of the sell conditions described above
+were used except that an extra requirement was added for the dollar index to be above
+its 20-day moving average or the yen above its 10-day moving average as the system
+tended to close short positions rather prematurely.
+Please keep in mind that the conditions described above can only be used to trade
+the USD/YEN pair which is positively correlated with the dollar index, the TNX
+and the S&P 500. To trade the YEN/USD pair or Japanese yen futures, which are
+negatively correlated with the dollar index, the TNX and the S&P 500, the system
+should be modified as follows.
+A minus sign should be added to the disparity formula to take into account the negative correlation. Also the disparity extreme values used to signal trades by the first
+system will have to be adjusted to take into account the reverse sign of the correlation
+between the YEN/USD and the TNX. This is because the disparity between negatively correlated markets is less (in absolute values) than the corresponding disparity
+between positively correlated markets. Another thing to change is the inequality sign
+in all references to the S&P and the DXY moving average. Therefore the inequality
+sign in the buy conditions should be reversed from > to < and the opposite in the
+sell or short conditions. Luckily there is no need to adjust the regression divergence
+indicator as the formula detects the correlation sign and adjusts automatically.
+I did limited testing of the reverse system on JY futures and the system performed
+as expected, reversing the signals produced by the USD/YEN system. I have not
+presented the results as Reuters did not provide enough data to cover the entire
+
+274
+
+Intermarket Trading Strategies
+
+testing period chosen for the USD/YEN test. The code is, however, included in
+Appendix A.
+
+Evaluation of Results
+The results for both tests are summarized in Table 17.2. I have also marked in the
+accompanying chart in Figure 17.1 when each buy/sell signal occurred but only (because of space limitations) from January to December 2007. The net profit is shown
+on the sixth row and the total profit (including the interest income resulting from the
+interest rate spread between the two currencies) is shown on the next row. Buying
+and holding $100 000 (and selling yen) produced a small loss but this was offset
+by the considerable “carry interest” difference of $20 700 credited to the account during the seven-year period. The results of the initial pure intermarket system are shown
+in the third column and the combined system profit/loss statistics in the last column.
+In the period tested, the results of the combined system were very impressive.
+During the course of the seven-year simulation, the system made more than $70 000
+with only 39 trades, which were roughly 72 % accurate. The profit factor, which is
+defined as gross profits divided by gross losses, was 7.8. A profit factor above 4 is
+considered excellent.
+The system sustained a maximum drawdown of $5900 or 5.9 % of equity, which
+occurred on 30 July 2001, mainly due to a trade initiated by an unpropitious regression
+divergence buy signal during the yen’s temporary decoupling from the dollar index,
+which was not closed in time to limit the loss.
+If you achieve a higher return with a lower standard deviation than buy and hold,
+that is your first piece of evidence that you are achieving a greater return with less
+risk and that your returns are more likely to be stable over any given period. In this
+case, the standard deviation of 1.4 % was 1.2 percentage points lower than that of
+buy and hold and the risk-adjusted return was 42 % compared with a 1 % loss of the
+buy and hold.
+In addition, the buy and hold investor suffered a precipitous $29 000 or 29 %
+of equity drawdown and a rather steep initial drawdown of $11 184, increased the
+account required to buy the USD/YEN, because of the margin calls, from the initial
+minimum requirement of 2 % or $2000 to $13 184.
+Certain drawbacks of a strategy, which are not readily apparent from the profit-loss
+statistics, can only be diagnosed by heeding the signals of a trading system once they
+are in place. After inspecting carefully the trade signals on the chart, I identified the
+following weaknesses.
+The timing of the exits was not always the best as they were sometimes late
+and other times too early to close out trades. This occurred more often on signals
+produced by the first system which relied solely on intermarket conditions to enter
+and exit trades. This is because intermarket generated signals can fail, where there is
+a temporary decoupling of the base security from its related intermarket.
+
+Forex Trading Using Intermarket Analysis
+
+275
+
+Table 17.2 Profit/loss report. In Column 3 you can see the test results of the pure
+intermarket regression test and Column 4 the volatility enhanced results. All tests were
+profitable and outperformed the buy and hold or short and hold strategies.
+
+Test
+
+Buy & hold
+
+Intermarket
+
+Intermarket +
+Volatility
+
+Security on test
+Intermarket security
+Trading amount
+Account required
+Total net profit
+Total profit (incl. interest)
+Profit/loss %
+Annualized % gain/loss
+Total number of trades
+Winning trades
+Losing trades
+Percent profitable
+Gross profit
+Gross loss
+Avg. winning trade
+Avg. losing trade
+Ratio avg. win/avg. loss
+Profitability coefficient
+Profit factor
+Max. drawdown
+Max. initial drawdown
+Max. loss
+Max. consecutive losses
+Standard deviation % of equity
+Risk adjusted annualized return
+Sharpe ratio
+Reference bars needed
+Start date/loaded data
+Start date/test
+End date
+Test period (years)
+Test period (days)
+Total trade length (days)
+Out of market (days)
+Average trade length – days
+Time in market
+
+USD/YEN
+
+USD/YEN
+DXY, TNX, SPX
+$100 000
+$5216
+$37 456
+$35 735
+718 %
+35 %
+28
+20
+8
+71.4 %
+$42 189
+−$4733
+$2109
+−$592
+3.57
+4.95
+8.91
+−$4199
+−$3216
+−$1397
+3
+1.55 %
+23 %
+19.7
+418
+03-05-99
+02-01-01
+31-12-07
+7.0
+2554
+971
+1583
+35
+38.0 %
+
+USD/YEN
+DXY, TNX, SPX
+$100 000
+$3058
+$72 585
+$71 152
+2374 %
+58 %
+39
+28
+11
+71.8 %
+$83 214
+−$10 629
+$2972
+−$966
+3.08
+4.73
+7.83
+−$5914
+−$1058
+−$2518
+2
+1.37 %
+42 %
+39.2
+418
+03-05-99
+02-01-01
+31-12-07
+7.0
+2554
+1875
+679
+48
+73.4 %
+
+$100 000
+$13 184
+−$2726
+$20 715
+157.0 %
+14 %
+1
+0
+1
+0%
+0
+−$2726
+
+−$29 270
+−$11 184
+−€29 270
+1
+2.54 %
+−1 %
+−3.1
+03-05-99
+02-01-01
+31-12-07
+7.0
+2554
+2554
+0
+2554
+100.0 %
+
+276
+
+Intermarket Trading Strategies
+
+Table 17.2 (continued)
+System Parameters
+Disparity bars
+Rate of change – bars
+Momentum oscillator – bars
+Momentum oscillator – buy
+Momentum oscillator – (long exit)
+Disparity buy
+Disparity sell
+
+10
+15
+200
+70
+30
+4
+−4
+
+10
+15
+200
+70
+30
+4
+−4
+
+Figure 17.1 Chart of the Japanese yen (USD/YEN) from January to December 2007. Test
+signals generated by the regression method are superimposed on the chart. The 10-day disparity
+with the TNX (10-year Treasury yield) is plotted in the top window, and below is the intermarket
+momentum oscillator of the regression between the yen and the dollar index. The 15-day
+standard deviation* ADX product is also plotted above the yen chart.
+
+Forex Trading Using Intermarket Analysis
+
+277
+
+Adding the volatility trailing stop loss condition in the second (combined) test, did
+improve on the results by eliminating large drawdowns but failed to close trades in
+cases of small and gradual adverse movements. More stringent exit rules, however,
+failed to improve on profitability as they tended to close out trades far short of their
+maximum profit potential.
+Premature entry signals, however, did not affect the bottom line, as trades triggered
+by early signals usually ended up profitable.
+Although I was not entirely satisfied with all entry and exit conditions the model was
+robust and maintained a more than acceptable balance between risk and reward. The
+timing of the entry and exit signals, however, can be improved further by combining
+conventional technical analysis with intermarket rules and indicators, thus filtering
+unprofitable or untimely signals.
+
+17.5
+
+THE EURO
+
+The euro is the single currency currently shared by 15 of the European Union’s member states (Belgium, Germany, Greece, Spain, France, Ireland, Italy, Luxembourg,
+Netherlands, Austria, Portugal, Finland, Slovenia, Cyprus and Malta).
+When the euro was first launched in 1999, it became the new official currency of
+11 member states, replacing the old national currencies – such as the Deutschmark
+and the French franc – in two stages. It was first used as a virtual currency for cashless
+payments and accounting purposes, while the old currencies continued to be used
+for cash payments. It appeared in physical form, as banknotes and coins, for the first
+time on 1 January 2002.
+The euro is not the currency of all EU Member States. Two countries (Denmark and
+the United Kingdom) agreed an ‘opt-out’ clause in the Treaty exempting them from
+participation, while the remainder (many of the newest EU members plus Sweden),
+have yet to meet the conditions for adopting the single currency. Nevertheless the
+euro is the single currency for more than 320 million Europeans. Including areas
+using currencies pegged to the euro, it directly affects close to 500 million people
+worldwide. The name – the euro – was chosen at the European Council meeting in
+Madrid in 1995 and the euro symbol – € – was inspired by the Greek letter epsilon
+(). It also stands for the first letter of the word “Europe” in the Greek alphabet, while
+the two parallel horizontal lines crossing through the symbol signify stability.
+When the euro came into being, monetary policy became the responsibility of
+the independent European Central Bank (ECB), which was created for that purpose.
+Fiscal policy (tax and spending) remains in the hands of individual national governments – though they undertake to adhere to commonly agreed rules on public finances
+known as the Stability and Growth Pact.
+The euro’s miserable debut on 1 January 1999 had developed into a stunning bull
+market by 2004. Since breaking out in the spring of 2002, the euro has enjoyed a
+strong, vigorous bull market over the past six years, which can be mainly attributed to
+
+278
+
+Intermarket Trading Strategies
+
+Table 17.3 Pearson’s correlation of 15-day (three week) percent changes between the euro
+(EUR/USD) and related commodity and forex markets using 2–9 years of data from the
+euro’s launch on 1 January 1999 to 31 December 2007. In the first column is the number of
+years of data used. The TNX is the 10-year Treasury yield, and the Bund is the 10-year
+German Bund futures (GBL).
+Correlation of 15 day % changes between the euro and related markets
+Data
+Years
+
+Euro
+Stoxx
+
+TNX
+
+10-year
+bund
+
+Gold
+
+CRB
+
+GBP
+
+AUSD
+
+Yen/USD
+
+9
+5
+3
+2
+
+−0.23
+−0.16
+−0.01
+0.01
+
+−0.26
+−0.28
+−0.10
+−0.27
+
+0.22
+0.27
+−0.03
+0.17
+
+0.43
+0.51
+0.52
+0.61
+
+0.26
+0.37
+0.48
+0.57
+
+0.73
+0.76
+0.77
+0.77
+
+0.52
+0.62
+0.57
+0.59
+
+0.37
+0.52
+0.58
+0.58
+
+the weakness of the dollar and the US twin deficit rather than strength in the Euroland
+economy.
+When currency guru George Soros was asked about the weakness in the US dollar
+in June 2002, he predicted that the greenback could drop as much as 30 % before the
+move was over. The dollar has dropped by more than 50 % since, from 0.94 dollars to
+the euro to 1.47 by the end of 2007 and there are no indications that the move is over.
+But how can the euro be predicted using intermarket relationships?
+To quantify its correlation with related markets I compiled three tables. In Table
+17.3 you can see how the correlation of three week percent changes between the
+euro and European stock indices, US and European interest rates, commodities and
+other currencies evolved during the nine years of its existence. In Table 17.4 you can
+see how different percent changes can affect the correlation, and in Table 17.5 you
+can see how well a related market’s weekly percentage price change can predict next
+week’s change of the euro.
+The most important conclusions drawn from these tables are summarized below:
+• The relation with the Euro Stoxx 50 index has recently deteriorated from a negative
+correlation of −0.23 to nearly zero during the last two years from 2005 to 2007
+(Table 17.3). Unlike correlation with other indices, the correlation with Euro Stoxx
+is stronger when taking 10-day price differences (Table 17.4), suggesting a shortterm relationship. Also a slight lead of the euro is evident from Table 17.5.
+• The euro correlates better with US rather than European interest rates, especially
+in the longer term (more than three months).
+• The correlation with gold and the CRB has been trending up when using more
+recent data (Tables 17.3 and 17.4), and it is stronger for short to medium percent
+changes (two to three weeks). The euro lags both the CRB and gold slightly
+(Table 17.5).
+
+Forex Trading Using Intermarket Analysis
+
+279
+
+Table 17.4 Pearson’s correlation of different percentage changes between the euro and
+related commodity and forex markets using five years of data from 1 January 2003 to 31
+December 2007. In the first column is the number of trading days used to calculate the
+percentage differences, which varied from 1 to 126 days (six months). Weekends and
+holidays were not included.
+5 year correlation of % changes between the euro and related markets
+% change –
+days
+
+Euro
+Stoxx
+
+TNX
+
+10-year
+bund
+
+Gold
+
+CRB
+
+GBP
+
+AUSD
+
+Yen/USD
+
+1
+5
+10
+15
+21
+63
+126
+
+−0.20
+−0.19
+−0.2
+−0.16
+−0.13
+−0.06
+−0.05
+
+−0.32
+−0.27
+−0.28
+−0.28
+−0.27
+−0.32
+−0.32
+
+0.31
+0.23
+0.24
+0.27
+0.27
+0.21
+0.16
+
+0.52
+0.53
+0.52
+0.51
+0.50
+0.47
+0.3
+
+0.26
+0.35
+0.36
+0.37
+0.38
+0.27
+0.16
+
+0.69
+0.73
+0.75
+0.76
+0.78
+0.79
+0.75
+
+0.57
+0.61
+0.61
+0.62
+0.63
+0.80
+0.79
+
+0.46
+0.47
+0.50
+0.52
+0.54
+0.69
+0.74
+
+• The correlation between the euro and the British pound, stemming from Britain’s
+membership of the European Union, is the strongest of the group. The relationship
+is strong for both short and long term time segments and constant through the
+years. A lead of the euro is clearly evident from Table 17.5. This indicates that it
+is better to use the euro to predict the British pound and not the other way around.
+• There is also strong correlation with the Australian dollar. This is more pronounced
+for longer term percent change intervals (more than three months). Also it is evident
+from Table 17.5 that the euro leads the Australian dollar.
+• The relation with the yen has also been increasing recently (Table 17.3). It is
+evident from Table 17.4 that the correlation is stronger when taking three or more
+months of percentage changes.
+• The euro seems to lead all other currencies.
+17.6

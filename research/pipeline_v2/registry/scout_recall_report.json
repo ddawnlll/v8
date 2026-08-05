@@ -1,0 +1,466 @@
+{
+ "pipeline_version": "research_pipeline_v2.1",
+ "recall_overall": 0.08545778329627335,
+ "per_section": [
+  {
+   "section": {
+    "section_id": "book_0038__p3__s032",
+    "book_id": "book_0038",
+    "label": "m_dense",
+    "is_leadless": false
+   },
+   "llm_leads": 38,
+   "regex_leads": 8,
+   "matched": 5,
+   "recall": 0.13157894736842105,
+   "missed": [
+    {
+     "text": "In these two examples, the move after the flag is longer than the one before the flag, but that is not always the case. The move after the flag completes is a key trait of this pattern. By using the length of the trend l",
+     "reason": "Claims the post-flag move is a key trait and that the length of the leading trend forecasts post-breakout move size, which is the basis of the measure rule.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "Two parallel trend lines bound the price action for flags as shown in Figure 21.3. Three-week maximum. Flags are short compared with many other chart patterns in this book. The formations usually are shorter than 3 weeks",
+     "reason": "Defines the bounded-trendline and short-duration identification characteristics of flags, with an explicit caveat that the 3-week limit is arbitrary.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "AUTHOR_CAVEAT"
+     ]
+    },
+    {
+     "text": "Reliable flags appear during steep, quick price trends. The trends might be up or down, but prices rise or fall quickly, moving several points in just a few days to a few weeks.",
+     "reason": "States that flag reliability depends on a steep, quick preceding price trend, a core selection criterion.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "STRATEGY_SETUP"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0038__p7__s095",
+    "book_id": "book_0038",
+    "label": "m_dense",
+    "is_leadless": false
+   },
+   "llm_leads": 0,
+   "regex_leads": 2,
+   "matched": 0,
+   "recall": 1,
+   "missed": []
+  },
+  {
+   "section": {
+    "section_id": "book_0038__p7__s092",
+    "book_id": "book_0038",
+    "label": "m_dense",
+    "is_leadless": true
+   },
+   "llm_leads": 140,
+   "regex_leads": 0,
+   "matched": 0,
+   "recall": 0,
+   "missed": [
+    {
+     "text": "Head-and-Shoulders Tops, down breakout: -22 / 4 / 51 / 50",
+     "reason": "Statistics-table row in Chart Patterns: Bull Markets asserting Head-and-Shoulders Tops, down breakout has average rise/decline %, break-even failure rate %, change after trend ends %, throwback/pullback occurrence % = -22 / 4 / 51 / 50.",
+     "claim_types": [
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "Head-and-Shoulders Tops, Complex, down breakout: -23 / 4 / 48 / 67",
+     "reason": "Statistics-table row in Chart Patterns: Bull Markets asserting Head-and-Shoulders Tops, Complex, down breakout has average rise/decline %, break-even failure rate %, change after trend ends %, throwback/pullback occurrence % = -23 / 4 / 48 / 67.",
+     "claim_types": [
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "Horn Bottoms, up breakout: 35 / 9 / -32 / 29",
+     "reason": "Statistics-table row in Chart Patterns: Bull Markets asserting Horn Bottoms, up breakout has average rise/decline %, break-even failure rate %, change after trend ends %, throwback/pullback occurrence % = 35 / 9 / -32 / 29.",
+     "claim_types": [
+      "EMPIRICAL_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0005__p1__s006",
+    "book_id": "book_0005",
+    "label": "x",
+    "is_leadless": false
+   },
+   "llm_leads": 30,
+   "regex_leads": 6,
+   "matched": 3,
+   "recall": 0.1,
+   "missed": [
+    {
+     "text": "We find that the ADF test statistic is about \u20133.64, certainly more negative than the critical value at the 95 percent level of \u20133.359. So we can reject the null hypothesis that \u03bb is zero. In other words, EWA and EWC are ",
+     "reason": "Empirical test result establishing that EWA/EWC cointegrate with 95% certainty via CADF test statistic versus critical value.",
+     "claim_types": [
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "In order to test for cointegration of more than two variables, we need to use the Johansen test. To understand this test, let's generalize Equation 2.1 to the case where the price variable y(t) are actually vectors repre",
+     "reason": "States the Johansen test as the method for multi-series cointegration and its no-constant-drift modelling assumption.",
+     "claim_types": [
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "Just as in the univariate case, if \u039b = 0, we do not have cointegration. (Recall that if the next move of Y doesn't depend on the current price level, there can be no mean reversion.)",
+     "reason": "States the theoretical condition under which no cointegration/mean reversion exists in the multivariate model.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "FEATURE_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0005__p2__s018",
+    "book_id": "book_0005",
+    "label": "x",
+    "is_leadless": false
+   },
+   "llm_leads": 0,
+   "regex_leads": 9,
+   "matched": 0,
+   "recall": 1,
+   "missed": []
+  },
+  {
+   "section": {
+    "section_id": "book_0005__p1__s009",
+    "book_id": "book_0005",
+    "label": "x",
+    "is_leadless": false
+   },
+   "llm_leads": 49,
+   "regex_leads": 6,
+   "matched": 5,
+   "recall": 0.10204081632653061,
+   "missed": [
+    {
+     "text": "The one advantage of trading ETF pairs instead of stock pairs is that, once found to be cointegrating, ETF pairs are less likely to fall apart in out-of-sample data. That is because the fundamental economics of a basket ",
+     "reason": "States the structural/empirical reason ETF cointegration is more stable out-of-sample than single-stock pairs.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "since both Australia and Canada are commodity-based economies, EWA and EWC (their respective stock index ETFs) are good candidates for cointegration tests. And, indeed, we confirmed their cointegration in Chapter 3.",
+     "reason": "Documents a specific confirmed-cointegrated pair (EWA/EWC) offered as a tradable candidate.",
+     "claim_types": [
+      "EMPIRICAL_CLAIM",
+      "STRATEGY_SETUP"
+     ]
+    },
+    {
+     "text": "The pair selection process for ETFs is quite easy: we need to find ETFs that are exposed to common economic factors. Besides country ETFs, sector ETFs are another fertile ground for finding cointegrated instruments. For ",
+     "reason": "Prescribes how to screen ETF pairs for cointegration (common economic exposure) with worked examples.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "STRATEGY_SETUP"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0108__p1__s010",
+    "book_id": "book_0108",
+    "label": "g",
+    "is_leadless": false
+   },
+   "llm_leads": 29,
+   "regex_leads": 4,
+   "matched": 2,
+   "recall": 0.06896551724137931,
+   "missed": [
+    {
+     "text": "The number of neurons in the hidden layer is determined through experimentation. For any nonlinear problem such as prediction of stock or futures prices, the network needs at least one hidden layer. In addition, the tran",
+     "reason": "Prescribes a concrete neural-network design rule (>=1 hidden layer, nonlinear differentiable transfer function) for nonlinear forecasting problems such as price prediction.",
+     "claim_types": [
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "Decisions must be made about what is to be predicted and what data will be used as inputs in the network. \"Garbage-in, garbage-out\" applies to neural networks. Knowledge of the financial markets, coupled with the use of ",
+     "reason": "States a methodology rule for input selection and claims PCA over related markets is a useful tool for finding cross-market correlations in NN input selection.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "Normalization transforms a single data input to distribute the data evenly and scale the data to match the range of the input neurons. In most neural network applications, transformation involves algebraic or statistical",
+     "reason": "Defines preprocessing methods (transformation/normalization) and lists the concrete input features used in financial NN forecasting (differences, ratios, MAs of OHLCVI).",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "FEATURE_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0108__p3__s029",
+    "book_id": "book_0108",
+    "label": "g",
+    "is_leadless": false
+   },
+   "llm_leads": 0,
+   "regex_leads": 6,
+   "matched": 0,
+   "recall": 1,
+   "missed": []
+  },
+  {
+   "section": {
+    "section_id": "book_0108__p2__s015",
+    "book_id": "book_0108",
+    "label": "g",
+    "is_leadless": false
+   },
+   "llm_leads": 45,
+   "regex_leads": 6,
+   "matched": 0,
+   "recall": 0,
+   "missed": [
+    {
+     "text": "You will profit most by selecting markets that are relatively independent because you will be more likely to have at least one market that is in a legitimate profit-making trend than you will if all your markets are rela",
+     "reason": "Prescriptive portfolio rule: selecting relatively independent markets raises the odds that at least one is in a profit-making trend.",
+     "claim_types": [
+      "PORTFOLIO_RISK_RULE",
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "most people need to assess the predominant direction that the market has been moving in over the last 6 months. You need to understand what kind of 'animal' you are dealing with in 'today's' market. This is the long-term",
+     "reason": "Methodological requirement to determine the long-term (6-month) market direction before trading.",
+     "claim_types": [
+      "REGIME_FILTER",
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "Although the principle behind it is still valid, shorter criteria might be more appropriate now that market trends tend to be shorter.",
+     "reason": "Empirical claim that trends now tend to be shorter, so trend-assessment criteria should be shortened.",
+     "claim_types": [
+      "REGIME_FILTER",
+      "EMPIRICAL_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0042__p2__s017",
+    "book_id": "book_0042",
+    "label": "f",
+    "is_leadless": false
+   },
+   "llm_leads": 13,
+   "regex_leads": 5,
+   "matched": 1,
+   "recall": 0.07692307692307693,
+   "missed": [
+    {
+     "text": "If a rule's expected return is equal to zero or less, then a back test should generate profits that are reasonably close to zero. The back-tested performance was not reasonably close to zero; in fact, it was significantl",
+     "reason": "Sets out a falsification template for back-testing: if back-tested profits are significantly above zero for a rule whose expected return is claimed to be zero-or-less, the no-edge hypothesis is falsified.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "There is no hard and fast rule. By convention most scientists would not be willing to reject a hypothesis so unless the observed performance has a 0.05 probability or less of occurrence under the assumption the null is t",
+     "reason": "States the conventional 0.05 statistical-significance threshold used to reject the null that a rule is devoid of predictive power.",
+     "claim_types": [
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "Although data mining is an effective research method, testing many rules increases the chance of a lucky performance. Therefore, the threshold of performance needed to reject the null hypothesis must be set higher, perha",
+     "reason": "Claims testing many rules raises the odds of a lucky back-test result, so the significance threshold must be raised accordingly (data mining bias).",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "EMPIRICAL_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0042__p4__s050",
+    "book_id": "book_0042",
+    "label": "f",
+    "is_leadless": false
+   },
+   "llm_leads": 0,
+   "regex_leads": 6,
+   "matched": 0,
+   "recall": 1,
+   "missed": []
+  },
+  {
+   "section": {
+    "section_id": "book_0042__p2__s025",
+    "book_id": "book_0042",
+    "label": "f",
+    "is_leadless": false
+   },
+   "llm_leads": 27,
+   "regex_leads": 7,
+   "matched": 4,
+   "recall": 0.14814814814814814,
+   "missed": [
+    {
+     "text": "The bottom line: whether one searches sport statistics, the Bible, the random writings of monkeys, the universe of lottery players, or financial market history, data mining can lead to false conclusions if the data minin",
+     "reason": "General warning that data mining over any universe yields false conclusions unless data-mining bias is accounted for.",
+     "claim_types": [
+      "AUTHOR_CAVEAT",
+      "METHODOLOGY_RULE"
+     ]
+    },
+    {
+     "text": "TA is comprised of two mutually exclusive domains-subjective and objective. To recap, objective TA is confined to methods that are sufficiently well defined that they can be reduced to a computerized algorithm and back t",
+     "reason": "Definitional boundary between objective TA (reducible to a computerized algorithm and back-testable) and subjective TA.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "Objective TA methods have the potential to be valid knowledge but only if back-test results are considered in light of randomness (sampling variability) and data-mining bias. Because many objective practitioners are unaw",
+     "reason": "States the precondition for objective TA validity: back-test results must be interpreted through randomness and data-mining bias, which many practitioners ignore.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "AUTHOR_CAVEAT"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0018__p1__s004",
+    "book_id": "book_0018",
+    "label": "ocr",
+    "is_leadless": false
+   },
+   "llm_leads": 47,
+   "regex_leads": 6,
+   "matched": 4,
+   "recall": 0.0851063829787234,
+   "missed": [
+    {
+     "text": "Although the ideal doji has the opening and closing at the same level, if the real body is small enough, It has the same implications as a doji. ... compare a near-doji day to recent action. If there are a series of very",
+     "reason": "Gives a method for classifying a near-doji day as a doji using recent small-body context.",
+     "claim_types": [
+      "METHODOLOGY_RULE",
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "The dragonfly doji completes its formation with the open, high, and close all at the session's high. As such, it might have more bullish implications than a regular doji.",
+     "reason": "Defines the dragonfly doji formation and claims it carries more bullish implication than a regular doji.",
+     "claim_types": [
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "A doji is more effective if it appears in an extended rally or uptrend, especially if the market is overbought (meaning it has moved up too far, too fast). Its signal is even more powerful if it appears at a resistance l",
+     "reason": "States the regime (extended/overbought uptrend, at resistance) in which a doji signal is more effective.",
+     "claim_types": [
+      "REGIME_FILTER",
+      "EMPIRICAL_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0018__p1__s011",
+    "book_id": "book_0018",
+    "label": "ocr",
+    "is_leadless": false
+   },
+   "llm_leads": 22,
+   "regex_leads": 6,
+   "matched": 5,
+   "recall": 0.22727272727272727,
+   "missed": [
+    {
+     "text": "doji (LF) A-session in which the open and close are the same, or almost the same (Exhibit G.5). There are different varieties of doji lines (see gravestone, dragonfly, and long-legged doji), depending on where the openin",
+     "reason": "Defines the doji candle (open and close the same or nearly the same) and makes an empirical claim about where doji occur: northern doji during rallies, southern doji during declines.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "EMPIRICAL_CLAIM"
+     ]
+    },
+    {
+     "text": "dragonfly doji (B) A doji with a long lower shadow, in which the open, high, and close are at the session's high (Exhibit G.6).",
+     "reason": "Defines the dragonfly doji variant by its structure: long lower shadow with open, high, and close at the session's high.",
+     "claim_types": [
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "enguiling patterns A bullish engulfing pattern (B) is comprised of a large white real body that engulfs a small black real body in a downtrend (Exhibit G.7). A bearisk engulfing pattern (BR) oecurs when selling pressure ",
+     "reason": "Defines the bullish engulfing setup (large white body engulfing a small black body in a downtrend) and the bearish mirror (long black body engulfing a small white body in an uptrend).",
+     "claim_types": [
+      "STRATEGY_SETUP",
+      "FEATURE_CLAIM"
+     ]
+    }
+   ]
+  },
+  {
+   "section": {
+    "section_id": "book_0018__p1__s006",
+    "book_id": "book_0018",
+    "label": "ocr",
+    "is_leadless": false
+   },
+   "llm_leads": 34,
+   "regex_leads": 7,
+   "matched": 0,
+   "recall": 0,
+   "missed": [
+    {
+     "text": "In scenario 2, the last two candle lines form a dark cloud cover, which is a potential top reversal signal.",
+     "reason": "Defines the dark cloud cover two-candle pattern and asserts its predictive meaning as a potential top reversal signal.",
+     "claim_types": [
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "In scenario 3, a series of small real bodies typifies a market that is running out of steam.",
+     "reason": "States an interpretive claim that a run of small real bodies indicates a market losing momentum.",
+     "claim_types": [
+      "FEATURE_CLAIM"
+     ]
+    },
+    {
+     "text": "In scenario 1, although the last candle 1s a hanging man line, we would need bearish confirmation of that line to turn negative.",
+     "reason": "A hanging man is not treated as negative on its own; explicit bearish confirmation is required, a confirmation/trigger condition.",
+     "claim_types": [
+      "FEATURE_CLAIM",
+      "TRIGGER_RULE",
+      "AUTHOR_CAVEAT"
+     ]
+    }
+   ]
+  }
+ ]
+}

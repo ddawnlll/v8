@@ -1,0 +1,407 @@
+
+If the index is price weighted, replication of the index requires an equal number of
+shares of each stock. So the total dividend payout is simply the sum of all the dividends.
+If the index is capitalization weighted, replication of the index requires a different
+number of shares for each stock. In that case, the total dividend payout will be the
+dividend payout for each stock multiplied by the number of shares required for
+replication.
+
+Given the apparently complex dividend calculations, as well as the interest consid-
+erations on the index and dividends, determining the exact fair value of a futures
+contract might seem a daunting task. In practice, however, active trading firms have
+computers which can quickly, and continuously, calculate the fair value for futures
+contracts on most commonly traded stock indices,
+
+Even when it is not possible to calculate the exact fair value, many traders find it
+almost as effective to estimate the fair value by adding the carrying cost to the index and
+subtracting the average dividend payout. For example, suppose there are nine weeks
+
+
+308 Chapter 15
+
+(63 days) to expiration on a stock index futures contract with the underlying index
+currently at 425.00. If interest rates are 8% annually, and the average annual dividend
+payout on the stocks making up the index is 6%, we have:
+
+(8% — 6%) x 63/365 x 425.00 = 1.47
+
+Therefore, the approximate fair value of the futures contract is 425.00 + 1.47 = 426.47,
+The reader should be aware that this is only an estimate. If it turns out that a large
+number of stocks do not pay their regular dividends during this nine-week period, or if
+the dividend payout is unusually large, this estimate could prove to be far from accurate.
+
+The daily dividend payout for the S&P 500 index for one quarterly cycle, from
+March 1993 to June 1993 expiration, is shown in Figure 15-1, Note the large amounts
+which were paid at the beginning of May, compared to the relatively small amounts
+paid during April. The cumulative effect of this dividend payout, in terms of the total of
+dividends expected to June expiration, is shown in Figure 15-2. The line drops only
+slightly during April, but declines sharply during the first two weeks in May. A trader
+who intended to initiate some type of arbitrage strategy either just prior to, or just after,
+a large dividend payout, would need more than a rough estimate of the fair value of an
+S&P 500 futures contract. If he were not aware of the exact dividend payout, a strategy
+which he expected to be profitable might turn out to be just the opposite.
+
+It is also possible to reverse the calculations and ask, given an observed futures
+price, where would the index have to be for the futures to be fairly valued? For example,
+
+Figure 15-1: S&P 500 Index Dividend Payout
+(March 1993 to June 1993 Expiration)
+
+0.25
+
+0.20 |
+| t
+
+015
+
+0.10
+
+Daily Dividends in Index Points
+
+0.00 He Perey t mH
+25 30 5 10.15 20 25 30 5 10 15 20 25 30 5 10 15
+April May dune
+
+
+
+Stock Index Futures and Options 309
+
+Figure 15-2: S&P 500 Dividends to Expiration
+(March 1993 to June 1993 Expiration)
+
+3507
+3005 —_—
+250
+2
+&
+fe}
+a.
+% 200-4
+3
+£
+£
+S 1.805
+c
+oS
+QZ
+5
+1.004
+0.50
+Q.OOS TAT TAT TTT TAT TTT TTT TT TTI TTT TTT TTT TTT TAT TTT TT TTT tt tt rt
+25 30 5 10 15 20 25 30 5 10 15 20 25 30 5 10
+March April May June
+
+if the futures price is 432.70, and we assume that it is trading at fair value, what should
+the index price be if there are 6 weeks (42 days) to expiration, interest rates are 6%, and
+the expected dividend payout is 2.23? First we can add the dividend payout of 2.23 to
+the futures price of 432.70, giving a value of 434.93. Then we can deduct the carrying
+costs on this amount over the next six-weeks:
+
+434.93 x 42/365 x 6% = 3.00
+The implied index value is therefore 434.93 — 3.00 = 431.93.
+
+INDEX ARBITRAGE
+
+In theory, the price of a futures contract should always reflect the fair value of holding
+the futures contract rather than holding the stocks making up the index. But markets
+are not always one hundred percent efficient. If the futures price doesn’t reflect the fair
+value, a trader can execute a profitable arbitrage by purchasing the undervalued asset,
+either the basket of stocks or the futures contract, and selling the overvalued asset. Ifa
+trader believes that the fair value of a stock index futures contract is 386.75, and finds
+that the futures contract is trading at 387.40, he will attempt to buy all the stocks in
+their correct proportion and simultaneously sell the futures contract. If the trader
+succeeds, and if the point value of the futures contract is $500, for each futures contract
+he executes he will show a theoretical profit of:
+
+(387.40 - 386.75) x $500 = .65 x $500 = $325
+
+
+310 Chapter 15
+
+Of course, this profit will only be fully realized at expiration, when the futures contract
+is automatically settled at the index value. At the same time, the trader will also have
+to liquidate his stock holdings to ensure that at the moment of expiration both his
+futures position and stock position zero out. This can be done by placing a market on
+close order, guaranteeing that the last trade price for each stock which determines the
+final index value will be the liquidation price for the trader’s stock holdings.
+
+What would happen if the fair value for the stock index futures contract were
+386.75, but the futures contract were actually trading at 385.95? Now the trader would
+take just the opposite position, buying the undervalued futures contract and selling the
+basket of stocks. The theoretical profit would be:
+
+(386.75 - 385.95} x $500 = .80 x $500 = $400
+
+Unfortunately, some practical problems might affect the workability of this strategy. If
+the trader wants to sell stock which he doesn’t own, he will have to borrow it. If no
+stock is available, or if the market in which he is dealing does not freely permit the short
+sale of stock, he may not be able to execute the arbitrage, no matter how mispriced the
+futures contract. Finally, a trader might not earn full interest on the short sale of stock.
+If the actual interest earned is less than the interest rate used to calculate the fair value
+of the futures contract, the fair value of the futures contract, for trading purposes, may
+be less than the presumed fair value of 386.75.
+
+This type of trading strategy, where one buys or sells a mispriced stock index futures
+contract and takes an opposing position in the underlying stocks, is one type of index
+arbitrage. Since computers can often be programmed to calculate the fair value of a
+futures contract, and to exectte the arbitrage when the futures contract is mispriced,
+such a strategy is also commonly referred to as program trading. A buy program consists
+of buying the stocks and selling the futures contract, and a sell program consists of selling
+the stocks and buying the futures contract.
+
+How great a mispricing of a futures contract relative to the price of the underlying
+stocks justifies futures arbitrage? If markets are totally frictionless, a trader would
+attempt to execute an arbitrage if there were any mispricing, no matter how small.
+Unfortunately, markets are not totally frictionless. An arbitrage which in theory is
+profitable because of a mispriced futures contract may be unprofitable when transaction
+costs are factored in. Ifa trader believes that it will cost approximately 1% index point
+to execute all the trades required for an arbitrage, he will not attempt to enter into a
+program trade unless the futures contract is at least 50 too expensive or too cheap. If
+he also considers the problems associated with the short sale of stock, he may decide
+that the futures contract must be .75 too cheap before he will initiate a sell program.
+With the fair value of the futures contract at 386.75, the trader will initiate a program
+trade only if the price of the futures contract is outside the range
+
+386.75 — .75 and 386.75 + .50
+
+or less than 386.00 and more than 387.25.
+Even if the quoted index price is 386.75, and the futures contract is higher than
+387.25 or lower than 386.00, the trader cannot be certain that a profit opportunity
+
+
+Stock Index Futures and Options 311
+
+exists. In order to execute an arbitrage, it is necessary to trade all the stocks at a price
+consistent with the index value of 386.75. But there is a bid price and an offer price for
+each individual stock, and it is likely that the last trade price for some of the stocks in
+the index took place at the bid price, some at the ask price, and some at prices in
+petween. If a trader wants to immediately execute a buy program, he will have to
+purchase every stock in the index at the ask price, and this may be at a price well above
+the quoted index value.
+
+Moreover, the quoted index price can sometimes present a distorted picture of
+actual market conditions. The index itself may be quoted at 386.75, but does that
+represent the price at which all the stocks in the index are trading? Perhaps trading in
+some of the stocks has been halted due to pending news. Or perhaps the last sale for
+one or more of the stocks took place at a price outside the current market for the stock.
+The last sale in a stock may have been at 381/4, but if the market in the stock is falling
+very quickly, the offered price for the stock may be 37934. The index value is based on
+the last sale price of 381/4, but the actual price is at least as low as 3744, and possibly
+even lower. Ifa trader hopes to profit from a mispriced futures contract he must know
+the true market for all the stocks which underlie that contract.
+
+Assuming the trader can execute all purchases and sales at theoretically profitable
+prices, is there anything which could go wrong with a program trade consisting of stocks
+against stock index futures? Suppose a trader buys an underpriced futures contract and
+simultaneously sells the underlying stocks. If the index starts to fall, and the futures
+contract follows, the trader will show a profit on his stock trades and a loss on his futures
+trade, and presumably these two components will offset each other. Unfortunately, the
+stock trades, being subject to stock-type settlement, only result in a paper profit, while
+the futures trade, being subject to futures-type settlement, results in a cash loss. If the
+index drops far enough, and the trader must borrow cash to meet the variation
+requirements for the futures contract, the interest cost may be so great that the arbitrage
+which initially appeared profitable actually turns into a loss. This is similar to the
+settlement risk for a conversion or reversal in the futures option market described in
+Chapter 11.
+
+From this, we can see that a program trade always wants the market to move in
+the direction of the futures contract so that cash will flow into the trader’s account. This
+will increase the trader’s potential profit, since he will be able to earn interest on this
+cash over the life of the futures contract. In this respect, we can apply the concept of
+the delta to futures contracts in much the same way we do to an option contract. The
+delta is the rate at which a contract will change its theoretical value with respect to
+movement in the underlying contract. For example, assume that a stock index is quoted
+at 300.00. If there are three months to expiration, with interest rates at 8%, and an
+expected dividend payout of 4.50, the fair value of a futures contract is approximately:
+
+300.00 + (300.00 x 3/12 x .08) — 4.50 = 301.50
+
+Suppose the index immediately rises 10% to 330.00. The new fair value of the futures
+Contract is:
+
+
+S312 Chapter 15
+
+330.00 + (330.00 x 3/12 x .08) - 4.50 = 332.10
+
+The index rose 30.00 while the futures contract rose 30.60, The delta of the futures
+contract is therefore 102, since 30.60/30.00 = 1.02. The futures contract is changing
+its value at 102% the rate of the underlying index.
+
+If we assume that the dividend payout remains constant, the delta of a futures
+contract is simply a function of interest rates. The extra two deltas associated with the
+futures contract results from an interest rate of 8% and a time to expiration of three
+months, since 3/12 x .08 = .02. As the amount of time to expiration changes, or as
+interest rates change, the delta of the futures contract will also change.
+
+We can now express in delta terms the amount by which a program trade is
+unbalanced. If a trader buys 50 futures contracts, each with a delta of 102, and sells an
+appropriate amount of the underlying stocks, his delta total position is
+
+(50 x 102} - (50 x 100) = +100
+
+He is long as if he had purchased stock outright corresponding to one index contract. If
+he wants to be exactly delta neutral, he must sell a basket of stocks corresponding to
+one index contract.
+
+A change in interest rates will not only affect the delta of the futures contract, but
+can also affect the profitability of a program trade. If a trader institutes a buy program
+(buy the stocks, sell the futures), he is effectively borrowing cash in order to purchase
+the stocks. If the cost of funds is tied to a floating interest rate, any increase in rates will
+hurt his position and any decrease will help. If he institutes a sell program (sell the
+stocks, buy the futures) he is effectively lending cash. Now any increase in rates will
+help his position and any decrease will hurt. If the change in interest rates is sufficiently
+large, an initially profitable program trade might become unprofitable. This can be
+especially true if the program trade consists of very long-term futures contracts. In such
+a case, the interest considerations are magnified because of the increased costs of
+borrowing or lending over extended periods. In the same way, because of reduced
+interest considerations, changes in interest rates are unlikely to affect program trades
+consisting of short-term futures.
+
+We have thus far assumed that the dividend payout of all the stocks in an index
+remains constant, but this is not necessarily true. Companies can have good years and
+bad years, and their dividend policies can change accordingly. In a buy program (buy
+the stocks, sell the futures), any increase in dividends will help the position, and any
+decrease will hurt. In a sell program (sell the stocks, buy the futures), the effect is just
+the opposite. In a broadly based index consisting of hundreds of stocks it is unlikely that
+a change in the dividend policy of any one company, or even several companies, will
+have a significant impact on the profitability of a program trade. But in a narrowly based
+index consisting of only a few stocks, a change in the expected dividend payout of even
+one firm can alter the potential profitability of the trade. In sucha case, the trader must
+carefully consider beforehand the possibility of a dividend change in the companies
+making up the index.
+
+
+Stock Index Futures and Options 313
+
+INDEX OPTIONS
+
+There are really two types of stock index options, those where the underlying is a stock
+index futures contract, and those where the underlying is the index itself. Although they
+are alike in many respects, they also have unique characteristics which set them apart
+from each other. For this reason, we will look at each market separately.
+
+Options on Stock Index Futures
+
+Since an option on a stock index futures contract is often evaluated in the same way as
+a traditional futures option, a trader in such a market has all the usual problems which
+go with futures option evaluation. He must pick 4 suitable pricing model, determine the
+correct inputs into the model, choose appropriate strategies, and consider the risks that
+go with these strategies. Since exercise or assignment of a futures option contract will
+result in the trader taking a long or short position in the stock index futures contract,
+the trader might logically use the current futures price as the underlying price input into
+his theoretical pricing model. But a futures option trader is often faced with a new
+problem. Should he also use the current price of the futures contract as his price input
+if the futures contract is clearly mispriced and trading at other than fair value?
+
+For example, if a stock index futures contract is trading at 424.00 but an option
+trader believes that the fair value is 425.00, which value should the trader feed into his
+theoretical pricing model? If the trader really believes that the futures contract ought to
+be trading at 425.00, and also believes that all the assumptions upon which the
+theoretical pricing model is based are valid, then he might very well choose to use
+425.00 as the underlying price in his model. He can then take option positions, whether
+outright or spread positions, by purchasing options which he believes are underpriced
+and selling those which he believes are overpriced.
+
+Notice, however, that with the futures contract trading at 424.00, he cannot use
+425.00 as his price input and still use the futures contract to hedge his option position.
+If he were to do so, whatever positive theoretical edge he achieved because of his option
+trades would automatically be offset by the negative theoretical edge resulting from his
+futures trades. This becomes obvious when we recall the basic synthetic relationship for
+futures options from Chapter 11:
+
+call price — put price = futures price — exercise price
+
+If the trader believes the underlying futures contract ought to be trading at 425.00, then
+he also believes that the 425 call and the 425 put ought to be trading at an identical
+Price. The difference between the presumed futures price and the exercise price is zero,
+so the difference between the call price and put price ought to also be zero. But with
+the underlying futures market actually trading at 424.00, the call price will be approxi-
+mately 1.00 less than the put price. If the 425 call is trading for 8.50 and the 425 put
+is trading for 9.50, the call will appear too cheap to the trader and the put will appear
+too expensive. Unfortunately, if the trader buys the call for 8.50 and sells the put for
+9.50, he has no way to lock in his presumed profit of 1.00. If he attempts to complete
+the reverse conversion (buy the call, sell the put, sell the underlying), he will have to
+
+
+314 Chapter 15
+
+do so by selling the futures contract at 424.00. What he makes on the options he will
+give back on the futures contract.
+
+If a trader simply wants to execute volatility or directional spreads based on a
+presumed underlying price of 425.00, then it might very well make sense to use that
+price as the input into the theoretical pricing model. But professional option traders rely
+heavily on arbitrage relationships for many of their trading strategies. If a price other
+than the actual underlying price is used, these arbitrage relationships will no longer be
+valid. Because the choice of underlying price may vary from trader to trader, many
+on-line option evaluation services give traders the choice of using either the actual
+futures price or the theoretical futures price as the basis for theoretical evaluation.
+
+Although the ultimate decision about the underlying price is the trader’s, in a stock
+index futures option market a trader should be very careful about using an underlying
+futures price different from the quoted price. As we have already seen, the theoretical
+value of a stock index futures contract depends on information which may not be readily
+available to the trader. If he is wrong about the price at which the index is actually
+trading because the individual stock prices do not reflect the true market, his theoretical
+evaluation of the futures contract will be incorrect. Most traders have learned through
+experience that the apparent mispricing of a stock index futures contract is often
+illusory, or at least smaller than it appears.
+
+Options on a Cash Index
+
+The exercise or assignment of a stock option requires the buyer or seller to take delivery
+or make delivery of the underlying stock. In theory there is no reason why the exercise
+or assignment of a stock index option could not be treated the same way. If a trader
+were to exercise such an option, he would take delivery or make delivery of all the
+stocks in the index, in their correct proportion, at a price equivalent to the value of the
+index. The trader who was assigned would take an opposing position at the same price.
+
+While this sounds reasonable, in practice it presents the same problems that would
+arise if we were to settle a stock index futures contract through the physical delivery of
+all the stocks. The delivery of many different stocks, in their appropriate amounts (which
+might include fractional shares), would overwhelm the clearing organization. As with
+futures, the popular solution is to settle the contract in cash rather than through physical
+delivery. If a trader holds a 440 call and exercises it with the index at 450, he is credited
+with a cash amount equivalent to 10 index points. If each index point has a value of
+$100, his account is credited with $1,000. The account of the trader who is assigned
+on the same call is debited $1,000. In the same way, ifa trader exercises a 475 put with
+the index at 450, his account will be credited with $2,500. The account of the trader
+who is assigned will be debited $2,500.
+
+In theory, if the index option is American, carrying with it the right of early
+exercise, the cash settlement should be based on the index value at the time the trader
+exercises his option. But this is impractical since exercise is not an instantaneous
+transaction, An exercise notice must be filled out by the trader, submitted to the clearing
+firm, and then submitted to the clearing house. Even if one could pinpoint the precise
+time at which an option was exercised, it might be difficult to ascertain the exact value
+
+
+Stock Index Futures and Options 315
+
+of the index. For all these reasons, the exercise or assignment value for an index option
+is calculated from the index value at the end of the trading day.3 Whether an exercise
+notice is submitted at 10:00 AM or 3:00 PM, both traders will be credited with cash equal
+to the difference between the exercise price and the index value at the close of trading
+on that day.4
+
+Evaluating a Cash Index Option
+
+The most common method for evaluating cash options on a stock index is based on the
+assumption that the underlying contract for a cash index option is a basket of stocks
+which, taken together, have the characteristics of one individual stock. Therefore, a
+trader might logically choose to evaluate options on an index using a traditional stock
+option model, the Black-Scholes model for European options or the Cox-Ross-Ruben-
+stein model for American options. In either case, it will be necessary to feed into the
+model the usual information: time to expiration, exercise price, underlying price,
+interest rates, volatility, and dividend payout. Unfortunately, the dividend payout
+presents a problem which we have already touched upon in the discussion of stock
+index futures. If the options are European, with no possibility of early exercise, the total
+amount of dividend payout expected to expiration is sufficient for theoretical evaluation.
+But if the options are American, where early exercise is a possibility, we need to know
+the exact date of the dividend payout. There is, however, no one exact date since
+dividends on different stocks are paid at different times. In order to accurately evaluate
+American options, we need to create a matrix of dividend payouts with the dates and
+amounts, and then feed this into our theoretical pricing model. Ifa trader wants an exact
+evaluation of a stock index option, he will need software which is capable of exact
+dividend calculations.

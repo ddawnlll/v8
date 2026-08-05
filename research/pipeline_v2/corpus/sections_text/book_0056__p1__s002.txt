@@ -1,0 +1,596 @@
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+14
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+Execute the Trade Following Smaller Time Frame
+Momentum Reversals
+The key to momentum strategies is to use at least two time frames—a larger time frame
+to identify trade direction, and a smaller time frame for trade execution setups. We only
+want to take a trade if at least two time frames of momentum are moving in the same
+direction. That ups the odds big-time for the trade to be successful. This is such a simple
+and logical strategy that it should be a part of everyone’s trade plan.
+If a trader only considers the momentum position of one time frame, he is at a great
+disadvantage. Momentum may trend consistently without making any reversals, but during that momentum trend, price will usually make corrections, sometimes sizable ones,
+without the momentum making a reversal. Or the speed of the price trend will ebb and
+flow without causing a momentum reversal. Wouldn’t it be best to be able to identify during the price trend when either a minor correction is likely to be complete or the speed
+of the trend might increase? That is what is accomplished by using the Dual Time Frame
+Momentum Strategy.
+DTF Momentum Rule 2: A trade execution may be made following a smaller time
+frame momentum reversal in the direction of the larger time frame momentum
+trend.
+The initial conditions for trade entry are met when the smaller time frame momentum makes a reversal in the direction of the larger time frame momentum trend. That
+gives us the best shot for the price trend making the biggest moves with minimal capital
+exposure.
+
+MOMENTUM REVERSALS
+A momentum reversal is when the momentum indicator reverses from bullish to bearish
+or from bearish to bullish. A momentum indicator that has two lines, like a stochastic or
+a relative strength index, makes a momentum reversal when the fast line crosses above
+or below the slow line. The fast line in most two-line indicators is usually the raw data;
+the slow line is usually a moving average of the fast line. When the fast line crosses the
+slow line the momentum trend is likely reversing. A momentum crossover is similar to
+a moving average crossover except the momentum crossover is of the indicator values
+and not the price data itself. A momentum reversal for some indicators may be signaled
+by the momentum lines crossing above or below the oversold (OS) or overbought (OB)
+zones, if the indicator is the type with OS and OB zones.
+Other indicators will have other conditions that reflect a reversal in momentum.
+With a moving average convergence divergence (MACD) indicator, when the bars become taller or shorter or cross the signal line, the momentum speed is changing. Each
+indicator will have different conditions that signal a momentum reversal but they all represent about the same thing: The price trend is either reversing, slowing, or speeding up.
+Later we’ll see chart examples that show momentum reversals, but for now, you must
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+Multiple Time Frame Momentum Strategy
+
+15
+
+thoroughly understand the concepts before looking at a single chart with indicators. Understanding the concepts first is the key to developing a specific trade strategy for any
+market and any time frame, under any market condition.
+A smaller time frame momentum reversal into the direction of the larger time frame
+momentum is the Dual Time Frame Momentum setup for a trade. It is a precondition
+that must be met before a trade is even considered. A Dual Time Frame Momentum
+Strategy will be the best filter you have to identify optimum trades. It can be a stand-alone
+trade strategy, but we use it as part of a trading plan that also considers the price, pattern,
+and time position for high probability trade setups with acceptable capital exposure.
+Trade in the direction of the larger time frame momentum. Execute following a
+smaller time frame momentum reversal. These are the setup conditions that must be
+met before a trade is considered.
+Okay, it’s time to look at some charts and illustrate what you’ve learned so far, so at
+any time you can bring up a chart of any market and any time frame and almost instantly
+identify if the market is in a high probability position to consider a trade.
+
+MOST PRICE INDICATORS REPRESENT
+RATE-OF-CHANGE
+Figure 2.1 shows three different indicators with the bar chart plus a simple rate-of-change
+(ROC). The three indicators are a stochastic (Stoch), relative strength index (RSI), and
+DT Oscillator (DTosc), which is a combination of RSI and Stoch. All four studies have an
+eight-period lookback.
+The momentum trends are about the same in all three indicators. While it is a little
+difficult to see this in the black-and-white screen shots, the momentum reversals for
+each indicator where the fast line crosses the slow line are all within a bar or two of each
+other.
+What’s the point of this comparison? Most price-based indicators represent about
+the same thing, that momentum cycles act and react about the same time. The settings
+for any indicator, including the lookback period can be tweaked for different markets
+and different time frames for the most reliable signals. But, as you can see from Figure
+2.1, even without tweaking the settings for each indicator they each still represented the
+momentum cycles about equally well. Later in this chapter you will learn how to choose
+the best settings for any indicator for any market and time frame.
+Figure 2.2 is another screen shot with just two indicators, Stoch and DTosc, with less
+data so you can see the momentum cycles more clearly. I’ve drawn thick vertical lines in
+the indicator window at each bullish and bearish momentum reversal where the fast line
+crosses the slow line.
+The momentum reversals in both indicators were made plus or minus one bar of
+each other. Either the Stoch or DTosc would be equally helpful to identify momentum
+reversals for this data. Don’t let anyone sell you on some magical, mystical indicator for
+momentum trading! All momentum indicators represent the same momentum cycles, and
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+16
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+FIGURE 2.1 Compare Three Indicators and ROC
+
+most make reversals about the same time. The black-box system scammers will claim
+they have a secret, foolproof indicator, but more than likely it is one you already have in
+your charting program.
+There are only so many ways to crunch the open-high-low-close of price bars. Most
+variations come up with about the same result and can be equally useful.
+
+MOMENTUM AND PRICE TRENDS OFTEN DIVERGE
+Remember how I said earlier that price and momentum do not always trend together? If
+they did, this book would be almost complete. However, they don’t. When a price trend
+slows down but doesn’t reverse, the momentum trend will often make a reversal and
+trend in the opposite direction to price. Let’s take a look at an example.
+Figure 2.3 is 60-minute ES-0607 data. I’ve marked off a price-momentum divergence
+with the arrow lines.
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+Multiple Time Frame Momentum Strategy
+
+17
+
+FIGURE 2.2 Bullish and Bearish Momentum Reversals Coincide for Two Indicators
+
+Near the high point of this data, the price trend continued to a new high, but the
+momentum trend made a bearish reversal and declined as price continued higher. How
+can this happen? The rate of price advance slowed down even though the price continued
+higher. Most price-based momentum indicators represent the speed of the trend, and the
+speed of the trend slowed down here, so the momentum was bearish even while price
+made a new high.
+Let’s take a look at one more price-momentum divergence example.
+Figure 2.4 is a 60-minute EUR/USD Forex chart. I’ve drawn the arrow lines to show
+a period when price and momentum diverged. Price continued higher, while momentum declined. Why? The rate of the advance slowed down even through price continued
+higher, which caused the momentum to be bearish for a while.
+Every indicator will diverge with price now and then. This is why I challenge any
+of the indicator junkies to prove any trading system consistently profitable based on
+any single indicator for any market. I’ve done it again—put out another challenge, and
+here we are still near the beginning of the book. I can’t help it, because I see and read so
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+18
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+FIGURE 2.3 Price-Momentum Divergence
+
+much nonsense in trading publications about so-called momentum systems that optimize
+settings for historic data and claim amazing results.
+I’ve also seen entire trading plans based on price-momentum divergence strategies
+with many well-chosen examples. I’ve never seen one of these plans that actually made
+money, but the systems are sold to naı̈ve traders who don’t do their homework to prove
+to themselves how useful (or useless) the setups really are. For every price-momentum
+divergence example that resulted in a trend reversal, I can just about guarantee there
+were one or two and probably a lot more that did not result in a trend reversal on the
+same data. I don’t know how many times I’ve read an article in a trading publication
+about a momentum divergence strategy where, on the same data on the chart the author
+used to illustrate price-momentum divergence setup and price reversal, there were other
+identical setups that would have resulted in losses that the author simply ignored!
+But I digress from the important task at hand: how to use Dual Time Frame Momentum Strategies for trade setups.
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+Multiple Time Frame Momentum Strategy
+
+19
+
+FIGURE 2.4 Price-Momentum Divergence on EUR/USD
+
+HOW DUAL TIME FRAME MOMENTUM
+STRATEGIES WORK
+The concept for Dual Time Frame Momentum Strategy trade setups is simple, practical, and logical: Trade in the direction of the larger time frame momentum; execute the
+trade following the smaller time frame momentum reversals in the direction of the larger
+time frame momentum. Let’s take a look at a couple of charts and see how valuable this
+strategy will be. We’ll use the SPX daily data for the higher time frame momentum and
+60-minute data for the lower time frame momentum reversals for this example, but it
+works the same for any market and any two time frames.
+Figure 2.5 includes about three months of daily SPX data with the DTosc momentum indicator. The dates of each momentum reversal are shown during this period. The
+dates across the top are bearish momentum reversals and the dates along the bottom are
+bullish momentum reversals.
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+20
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+FIGURE 2.5 Bullish and Bearish Momentum Reversals
+
+Most of the momentum reversals were made within a couple bars of the actual price
+high or low. Okay, I did cherry-pick this example somewhat so that I can clearly show the
+momentum reversals, but I want to be sure you get the idea. No matter what indicator or
+settings you use, all momentum reversals will not always be made this close to the actual
+price reversals, although most of the time they will. We’ll have plenty of time to show
+you examples in the book and CD that are not so perfect, but first let’s get the concept
+clearly down.
+Figure 2.6 is the SPX 60-minute data for one of the periods shown on the previous
+chart when the daily momentum was bullish. The Dual Time Frame Momentum Strategy
+is to trade in the direction of the higher time frame momentum (daily in this case) and execute following a momentum reversal on the smaller time frame (60-minute in this case).
+On the 60-minute (60m) chart, I’ve marked off a period when the daily momentum
+was bullish from February 10 to February 23 and drawn an arrow line between the closes
+of those two dates through the price bars. Before and after this arrowed line, the daily
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+Multiple Time Frame Momentum Strategy
+
+21
+
+FIGURE 2.6 Smaller Time Frame Momentum Reversals
+
+momentum was bearish, so we would not consider the smaller time frame bullish reversals as trade setups.
+I’ve also drawn a vertical arrow line from each 60m momentum bullish reversal
+pointing up to the bar when the reversal was made. The momentum bullish reversal is
+when the fast line crosses above the slow line. Any one of these smaller time frame 60m
+momentum bullish reversals could be a setup for a long trade. Some were followed by
+sharp advances, some only modest advances. All were immediately followed by some
+advance. It only makes sense that advances should follow. If the larger time frame daily
+momentum is bullish, a smaller time frame 60m momentum bullish reversal puts two
+time frames of momentum in the same direction, which is a high probability setup for a
+continued advance.
+Ponder this chart for a minute and consider when you think the most optimal times
+would be to take Dual Time Frame Momentum Strategy setup trades without considering
+any other rules, guidelines, or factors of your trading plan. How about soon after the
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+22
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+higher time frame daily momentum makes its bullish reversal, like the first couple of
+smaller time frame bullish reversals? I know, this is only one example so far of Dual
+Time Frame Momentum Strategy trade setups, but think of the logic of making it a part
+of your trading plan to focus on setups soon after the higher time frame momentum
+reverses. We’ll consider this more later in the chapter.
+Let’s take a look at another example, using 60m data for the higher time frame and
+15m data for the lower time frame. Figure 2.7 shows the EUR/USD Forex 15m data for
+about a 24-hour period. The upward-sloping arrow through the bar data is a period when
+the higher time frame 60m momentum was bullish. The vertical arrows show the four
+lower time frame 15m momentum bullish reversals during the time when the higher time
+frame 60m momentum was bullish. I’ve labeled them 1 through 4.
+
+FIGURE 2.7 Smaller Time Frame Momentum Bullish Reversals
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Multiple Time Frame Momentum Strategy
+
+Printer: Yet to come
+
+23
+
+The first 15m momentum bullish reversal was followed by the EUR/USD continuing
+lower for a few bars. Would a long trade have been entered? We haven’t talked about
+entry strategies yet so we will pass on this question for now. Remember, the smaller time
+frame momentum reversal in the direction of the larger time frame momentum is only the
+condition that must be met to consider a trade; it is not a trade execution strategy.
+The second and third 15m momentum bullish reversals were followed by strong advances. The fourth reversal was followed by several sideways to down bars before the
+higher time frame 60m momentum made a bearish reversal where the arrowed line along
+the bars ends. Regardless of the specific trade execution strategy used, based only on
+the Dual Time Frame Momentum Strategy setups there were two set ups for clear-cut
+winners, and two no-trades or small losses.
+The next example is bond weekly and daily data, which may be used to positiontrade bond futures or a bond exchange-traded fund (ETF). Figure 2.8 shows the higher
+time frame bond weekly data. I’ve labeled the five weekly momentum trends for this
+18-month period. I chose this period because it includes a fairly prolonged cycle of pricemomentum divergence when the weekly momentum was bearish while bond prices continued sideways to up.
+The five momentum trends during this period are labeled 1 through 5 in the indicator
+window below the bar chart. Period 1 is a bullish momentum trend that began in May
+and ended in August. For the next several months, the momentum trend was bearish
+(period 2), although bonds eventually went higher but ended the period with little net
+advance. How can there be a price bull trend with a momentum bear trend? You know
+the answer to this. The rate of advance slowed down compared to what it had been.
+The bond market became choppy with short swings up and down. This decreased rateof-change and choppy market would force any price momentum indicator to become
+bearish.
+It would be nice if we knew in advance when a market was going to go into a trading range or slow down a trend, but we can never know this in advance. We are always
+trading on the right-hand side of the chart after the last bar, which is the unknown side
+of the chart. We can only use the information available as of the last price bar to make
+a decision. I’ve actually read articles and chapters in books about “how to trade a trading range.” You can never know in advance if a market is going to begin a trading
+range—never. If any trading instructor tries to teach you special strategies for trading
+ranges, run, don’t walk. The strategies will all have worked great after the fact. But you
+will never know in advance when to use the so-called trading range strategies because
+you can never know in advance if a market is going to begin a trading range.
+During periods 3, 4, and 5, the weekly momentum and price trended together. Let’s
+take a look at the smaller time frame daily momentum trends and reversals for each of
+the five weekly momentum trends shown on this weekly chart.
+The first daily bond chart (Figure 2.9) is for weekly period 1, when the weekly momentum was bullish from May through August. Bonds made two daily momentum bullish
+reversals below the overbought zone during this period. The overbought line is the 75%
+horizontal line near the top of the indicator window. One of the daily bullish reversals
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+24
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+FIGURE 2.8 Bull and Bear Momentum Trends
+
+was made in the OB zone between the points I have labeled 1 and 2. The momentum
+bullish reversal made in the OB zone is not numbered. You will learn later why we ignore
+momentum bullish reversals in the overbought and momentum bearish reversals in the
+oversold zones.
+Since the higher time frame weekly momentum is bullish for this period, only daily
+momentum bullish reversals would be potential long trade setups. The weekly momentum turned bullish the week ending May 21. The first daily momentum bullish reversal on
+June 10 was made almost three weeks after the weekly momentum bullish reversal. For
+this three-week period, bonds continued the bear trend. If a trader only looked at one
+time frame, in this case the weekly momentum, a bullish momentum setup would have
+been made although the bond market continued to decline.
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Multiple Time Frame Momentum Strategy
+
+Printer: Yet to come
+
+25
+
+FIGURE 2.9 Smaller Time Frame Bullish Reversals in the Direction of the Larger Time Frame
+Momentum Trend
+
+Waiting for the smaller time frame daily momentum bullish reversal before considering a long trade kept you out of a long trade immediately following the weekly momentum bullish reversal, when price continued to decline but made a great setup June
+10 following the daily momentum bullish reversal. This is an excellent example of why
+you must always consider at least two time frames of momentum position before even
+considering a trade. Both smaller time frame daily momentum reversals were followed
+by a strong advance.
+There was one additional bullish momentum reversal between points 1 and 2. Why is
+it not considered a setup? It was made in the OB zone. A smaller time frame momentum
+bullish reversal must be made below the OB zone to be a valid setup. If the momentum
+bullish reversal is in the OB zone, the upside should be very limited and you will want to
+avoid a long trade.
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+26
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Printer: Yet to come
+
+HIGH PROBABILITY TRADING STRATEGIES FOR ANY MARKET AND ANY TIME FRAME
+
+The next daily bond chart (Figure 2.10) is for weekly period 2. That was the period
+when the higher time frame weekly momentum was bearish, yet price was sideways
+to marginally up by the end of the period. If the higher time frame weekly momentum
+is bearish, only short trades would be considered following daily momentum bearish
+reversals.
+The first daily momentum bearish reversal (point 1 on the daily chart) was made
+on a wide range down day which ended up being a swing low. Would this be a losing
+trade? I want to stress again, the Dual Time Frame Momentum Strategy setups are not
+about trade execution. They meet the minimum conditions to consider entering a trade.
+Specific trade entry and stop strategies will be taught in a later chapter. For now, consider that a low of a daily bar was not taken out following the daily momentum bearish
+
+FIGURE 2.10 Smaller Time Frame Momentum Bearish Reversals, Weekly Period 2
+
+P1: PIC/PIC
+c02
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+August 18, 2008
+
+6:40
+
+Multiple Time Frame Momentum Strategy
+
+Printer: Yet to come
+
+27
+
+reversal—a hint of trade strategies you will soon learn. Regardless of the time frame you
+trade, a trade is not entered until a bar high or low is taken out following the smaller time
+frame momentum reversal.
+Daily bearish reversal 2 was made on the swing high bar followed by a sharp decline.
+Nice setup. Daily momentum reversals numbers 2, 3, 4, and 5 were all made within a bar
+or two of a swing high and followed by very tradable multiday declines.
+Now I don’t want you to think at this point that every Dual Time Frame Momentum
+Strategy setup will result in a profitable trade. Nothing could be further from the truth.
+A complete trading plan depends on more factors, including trade entry, stop-loss, exit
+strategy, multiple units, acceptable capital exposure per trade, and more. All I want you
+to learn at this point, until it becomes second nature to you, is that a trade setup is made
+following a smaller time frame momentum reversal in the direction of the larger time
+frame momentum. This is a completely objective, logical, and practical strategy for high
+probability, low capital exposure trade setups for any market and any time frame. Trade
+setups are not trade executions. Trade setups are simply conditions that must be met
+before a trade is considered.
+During this bond weekly period, bonds were essentially in a trading range, making
+nice swings up as well as down. The daily momentum made bullish reversals within a bar
+or two of each price low. However, because the higher time frame weekly momentum
+was bearish during this period, only short setups would be considered. Wouldn’t it have
+been nice to know in late August that bonds were going to make nice, clearly defined
+trading range swings for the next four months! We could make a ton of money with a
+trading range strategy. Wait a minute! We never know in advance when a trading range is
+going to begin or end, so we don’t have a trading range strategy. Only academic authors
+with questionable trading experience have a trading range strategy, and we’re not going
+to listen to their nonsense.
+The third weekly momentum trend was bullish from the week ending December 23
+through the week ending February 18 (Figure 2.11). During this higher time frame weekly
+bullish momentum period, the smaller time frame daily momentum made two bullish
+reversals. Each was followed by a strong move up.
+Let’s note a couple of important things at this point. First, I haven’t changed the daily
+momentum settings for any of these examples to optimize the signals. You will learn
+how to choose the best settings for any indicator later in this chapter. Second, I also
+haven’t talked about stop-loss or exit strategies, both of which are crucial to a sound and
+consistently profitable trading plan. Those also come later in the book. Right now I’m
+just focusing on identifying trade entry setups based on the dual time frame momentum
+position.
+Let’s look at the next period, when the higher time frame weekly momentum reversed to bearish (Figure 2.12). During this period between the weeks ending February
+18 and April 8, the smaller time frame daily momentum made two bearish reversals.

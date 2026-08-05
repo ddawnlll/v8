@@ -1,0 +1,470 @@
+
+V
+
+olatility is a measure of price variation, either the total movement
+between low and high over some fixed period of time or a variation
+away from a central measure, like an average. Both concepts of volatility are
+valid and useful. The higher the volatility, the higher the risk.
+A change in volatility implies a change in the expected price range to come. A
+volatile security offers a wide range of possible outcomes. A nonvolatile security delivers a narrower and thus more predictable range of outcomes. The
+main reason to keep an eye on volatility is to adjust your profit targets and
+your stop-loss to reflect the changing probability of gain or loss.
+In this chapter, I describe three ways you can measure volatility, and discuss
+their virtues and drawbacks. Then I describe the most popular way traders incorporate consideration of volatility into their trading plans — the
+Bollinger band. I also introduce another kind of band — the average true
+range band.
+
+Catching a Slippery Concept
+Volatility is a concept that can easily slip through your fingers if you aren’t
+careful. Just about everybody uses the word volatility incorrectly from a statistician’s viewpoint — and even statisticians squabble over definitions. To
+the mathematically inclined trader, volatility usually refers to the standard
+deviation of price changes (see the “Considering the standard deviation” section). Standard deviation is not the only measure of volatility, but it suffices
+for most technical analysis purposes. In general usage, volatility means variance, and that’s how I use it in this chapter.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+244 Part V: Flying with Dynamic Analysis
+Variance is a statistical concept that measures the distance on each bar
+between the high and low from the mean (such as a moving average). You
+calculate variance by taking the difference between the high or low from the
+average, squaring each result (eliminating the minus signs), adding them
+up, and dividing by the number of data points. Squaring magnifies wildly
+aberrant prices, so the bigger the variation from the average and the more
+instances of such big variations in any one series, the higher the volatility.
+Traders do not use variance as a stand-alone measure or indicator, and
+it’s not offered in software charting packages. Why? Because variance isn’t
+directly useful as a separate measure from the standard deviation, which is
+essentially the square root of variance.
+Time frame is everything. How you perceive volatility depends entirely on
+the time frame you’re looking at. Failure to specify a specific time frame is
+why you see so many conflicting generalizations about volatility. The period
+over which you measure volatility has a direct effect on how you think about
+volatility and, therefore, what kind of a trader you are. Your trading style isn’t
+only a function of what indicators you like, but also of how you perceive risk.
+Two traders can use the same indicators but get different results because they
+manage the trade differently by looking at volatility differently (scaling in and
+out, choosing a stop-loss level, and so on).
+In Figure 14-1, your eye tells you that the low-variance prices on the left-hand
+side of the chart are less volatile and therefore less risky to trade than the
+high-variance prices on the right-hand side of the chart, even when the highvariance prices are in a trending mode. And that’s the point about volatility — it
+describes the level of risk. In the following sections, I go into more detail about
+the nature of volatility, including both high and low levels.
+
+How volatility arises
+Think of volatility in terms of crowd sentiment. Volatility rises when traders
+get excited about a new move. They anticipate taking the price to new highs
+or lows, which arouses greed in bulls putting on new positions and fear in
+bears, who scramble to get out of the way in a cascade of stop losses. The
+start of a new move is when you get higher highs and lower lows. Volatility
+tends to be abnormally low just before a turning point and abnormally high
+just as the price is taking off in the first big thrust of a new trend. It is also,
+however, a sad fact of trading life that sometimes volatility is high or low for
+no price-related reason you can find.
+High volatility means trading is riskier but has more profit potential, while low
+volatility means less immediate risk.
+
+www.pdfdummies.com
+
+Chapter 14: Estimating Volatility
+Volatility isn’t inherently good or bad. Stability of volatility is a good thing
+because it allows you to estimate maximum potential gains and losses with
+greater accuracy. Every security has its own volatility norm that changes
+over time as the fundamentals and trader population changes. Sometimes
+you can impute a “personality” to a security that is really a reflection of the
+collective risk appetite of its traders.
+
+Low volatility with trending
+Go to Figure 14-1. As the price series begins, you instantly see that it’s trending upward. Your ability to see the trend is due in part to the orderliness of
+the move. You see the trend, not variations away from it.
+A trending security that has low volatility offers the best trade, because it has a
+high probability of giving you a profit and low probability of delivering a loss. It
+is also easier on the nerves. Here’s why low volatility means the best trade:
+✓ You can project the price range of a low-volatility trending security into
+the future with more confidence than a high-volatility security.
+✓ You generally hold a low-volatility trending security for a longer period
+of time, reducing trading costs such as brokerage commissions.
+
+HIGH VARIANCE
+WITHOUT TRENDING
+HIGH VARIANCE
+WITH TRENDING
+
+CONTRACTION OF BAR
+HIGH-LOW
+LOW VARIANCE
+WITHOUT TRENDING
+Figure 14-1:
+Degrees of
+volatility.
+
+LOW VARIANCE WITH TRENDING
+
+www.pdfdummies.com
+
+245
+
+246 Part V: Flying with Dynamic Analysis
+Low volatility without trending
+A security that’s range-trading sideways with little variation from one day
+to the next is simply untradeable in that time frame. You have no basis on
+which to form an expectation of a gain, and without an expectation of gain,
+don’t trade it. You can reduce the time frame (from one day to one hour, for
+example) to make visible and tradeable the minor peaks and troughs. Note
+that options traders don’t care about trendedness and see trading opportunities in both extra-low and extra-high volatility environments.
+If a price is trading sideways without directional bias but the high-low range of
+the bars contracts or widens, now you’re cooking with gas. Range contraction
+and expansion are powerful forecasting tools of an upcoming breakout. You
+can start planning the trade. In Figure 14-1, every bar is the same height except
+the ones in the circle, which are narrowing. The drop in high-low range and
+therefore in volatility often precedes a breakout, although you don’t know in
+advance in which direction unless you also have a reliable pattern (Chapter 9),
+including candlesticks (see Chapter 8).
+
+High volatility with trending
+You may think that the degree of volatility doesn’t matter when your security is trending, but an increase in volatility automatically increases the risk
+of loss. You may start fiddling with your indicators to adapt them to current
+conditions. Tinkering with the parameters of indicators when you have a live
+trade in progress is almost always a mistake. A better response to rising volatility is to recalculate potential gain against potential loss (Chapter 5).
+
+High volatility without trending
+When a security isn’t trending but has high volatility in a wide range, it’s
+called “trader’s nightmare.” This is the right-hand section of the price series
+in Figure 14-1. In this situation, the range is so wide you can’t identify a breakout; you see spiky one- and two-day reversals as bulls and bears slug it out,
+making it hard to find entries or to set systematic stops.
+The solution to high volatility in a nontrending case is to stop trading the
+security, or to narrow the time frame down to an intraday time frame. Often
+you can find tradeable swings within 15-minute or 60-minute bars that don’t
+exist on the daily chart. (Another choice is spread trading in options.)
+
+www.pdfdummies.com
+
+Chapter 14: Estimating Volatility
+
+Measuring Volatility
+Volatility is the degree of variation of a price series over time. You can
+measure volatility in plain or fancy ways. In financial analysis, volatility
+usually means one thing — the standard deviation, which I discuss in the
+“Considering the standard deviation” section later in the chapter. Before
+tackling that, look at other useful measures of volatility.
+
+Tracking the maximum move
+One way to measure volatility is to capture the largest price change over x
+number of days — the maximum move, also called gross move. You subtract
+the lowest low from the highest high over 10 days or 100 days or some other
+number of days. You use the resulting maximum move to set a profit target
+(maximum favorable excursion) or worst-case stop loss (maximum adverse
+excursion). See Chapter 5 for information on setting stops.
+In Figure 14-2, the top window shows the highest high in a rolling 30-day
+period minus the lowest low in the same 30-day period — the maximum
+move. Notice that at the beginning and middle of the chart, you could make
+as much as $30 in a 30-day period in this security, but then the volatility of
+the price change tapers off to under $10 by the end of the chart. At that point,
+you’re taking less risk of a catastrophic drop in the price over any 30-day
+period, but your profit potential has just been cut to one-third of its previous
+glory, too — the usual trade-off between risk and reward. Keep reading for
+more on the maximum and minimum moves in the following sections.
+Volatility changes. Projecting the volatility of the last 30 days to the next 30
+days is to assume conditions will not change — but conditions always change.
+
+Maximum move and trend
+In Figure 14-2, seeing the connection between the 30-day maximum move in
+the top window and the prices in the bottom window is hard. The straight
+line starting at the middle of the bottom window is the linear regression (see
+Chapter 10). The line slopes upward, meaning that the price is in a slight
+uptrend — but at the same time, volatility is on a downtrend. This is a good
+combination for you — trendedness is delivering new profits at an ever-lower
+risk of a big one-period loss. But remember, low volatility precedes a breakout, so it may not be a good deal for long.
+The price trend can differ in size and slope from the volatility trend. Sometimes
+they’re in sync, rising or falling together, or they can move in opposite directions. Knowing something about the trend in the maximum move doesn’t
+necessarily tell you anything about the trend in prices, and vice versa. In other
+words, volatility is often independent of price trendedness.
+
+www.pdfdummies.com
+
+247
+
+248 Part V: Flying with Dynamic Analysis
+30
+25
+20
+15
+10
+5
+110
+105
+100
+95
+90
+85
+80
+75
+70
+65
+60
+55
+
+Figure 14-2:
+Thirty-day
+minimum &
+maximum of
+a stock.
+
+40000
+30000
+20000
+10000
+x10
+b Mar Apr
+
+May Jun Jul
+
+Aug Sep Oct
+
+Nov Dec 2003 Feb Mar
+
+Apr May Jun
+
+Jul
+
+Aug
+
+Maximum move and holding period
+In Figure 14-3, the orderly price series has a net change from the lowest low
+to the highest high (A to B) of exactly the same amount as the disorderly
+price series below it. But obviously the disorderly series implies a greater
+risk of loss if you have to exit before the period ends. The trendedness of each
+security is the same, as shown by the identical linear regression slopes.
+Figure 14-3 illustrates that measuring the maximum high-low range over a
+fixed period of time fails to capture the risk of holding a position during the
+period, so don’t write your expected holding period in stone.
+
+Considering the standard deviation
+Maximum move (see preceding section) measures the gross low-to-high
+move over a period, but the bottom chart in Figure 14-3 exhibits a different
+kind of volatility that isn’t captured by the maximum move. The disorderly
+price series has the same degree of trendedness and the same low-to-high
+outcome over the period, but it’s obviously a riskier trend. What is the right
+way to express that riskiness?
+
+www.pdfdummies.com
+
+Chapter 14: Estimating Volatility
+
+ORDERLY
+B
+
+A
+DISORDERLY (NOISY)
+B
+Figure 14-3:
+Orderly and
+disorderly
+price series.
+
+A
+
+The answer is the standard deviation. The standard deviation is a measure
+of the dispersion of prices away from the average. The wider the spread, the
+higher the standard deviation. The concept is in the same statistical family
+as standard error, which I introduce in Chapter 11. The standard deviation is
+measured from a moving average and measures the actual variance of each
+price away from the centerline.
+I bet you were expecting a chart showing standard deviation right about
+here. Well, charting software does offer it but it’s not very useful as a standalone measure. Hardly anyone actually looks at the raw standard deviation on a chart, because we have better applications for it. See the section
+“Applying Volatility Measures: Bollinger Bands” later in the chapter.
+
+Using the average true range indicator
+Another way to view volatility is to look at the average high-low range over
+x number of days. The best version of the high-low range is the average
+true range (ATR), which incorporates gaps by substituting the close for the
+gapped high or low. See Chapter 7 for the calculation method and for illustrations of expanding and contracting ranges. To summarize here:
+✓ Range expansion: The highs and lows are getting farther apart; volatility
+is rising. Range expansion provides a bigger profit opportunity and an
+equivalent increase in risk of gain or loss.
+✓ Range contraction: The highs and lows are moving closer together, and
+you may think that risk is lower, too. But this is true only up to a point —
+the point of a breakout.
+
+www.pdfdummies.com
+
+249
+
+250 Part V: Flying with Dynamic Analysis
+In Figure 14-4, the ATR indicator in the top window starts falling after the oneday big-bar rise that marks the beginning of the support line. You don’t know
+whether you can draw the support line until afterwards, but you can see the
+ATR indicator failing to match that spiky high and continue to fall. The price is
+rising, but the indicator is falling. And as usual, a divergence between indicator
+and price is a warning sign. Sure enough, right after the highest high, you get
+a series of lower highs and can draw a resistance line (see Chapter 10). Pretty
+soon the price breaks under support.
+
+HIGHER HIGH
+
+Figure 14-4:
+Average
+true range
+indicator
+(ATR).
+
+RISING SUPPORT
+
+BREAKOUT
+
+Applying Volatility Measures:
+Bollinger Bands
+The most popular volatility measure is the Bollinger band, invented by John
+Bollinger. He charted a simple 20-day moving average of the closing price
+with a band on either side consisting of two standard deviations of the
+moving average, effectively capturing about 95 percent of the variation away
+from the average. See Figure 14-5.
+You use Bollinger bands to display the price in the context of a norm set
+at the 20-day moving average, which is the number of days that Bollinger’s
+research showed is the most effective in detecting variance in U.S. equities. The bands display relative highs and relative lows in the context of the
+moving average — they’re adaptive to the price by the amount of the standard deviation. The bands are, so to speak, moving standard deviations.
+
+www.pdfdummies.com
+
+Chapter 14: Estimating Volatility
+
+WALKING UP
+THE BAND
+
+THE SQUEEZE
+
+Figure 14-5:
+Bollinger
+bands.
+
+The price touching or slightly breaking the top of the band is a continuation
+signal. Often the price continues to walk up or walk down the band, as shown
+in Figure 14-5. A Bollinger band breakout is just like any other breakout — you
+expect the price to continue moving in the same direction as the breakout.
+At some point, every price thrust exhausts itself. Bollinger bands display the
+end of the up move in two ways:
+✓ The price bar stops hugging the top band in an up move, and slides
+down to the center moving average (or farther). In Figure 14-5, the
+retreat to the moving average occurs at the ellipse. As a general rule, the
+failure to make a relative new high signals the end of the move, although
+this time, the bulls made a second effort to keep the rally going. In this
+case, the price was forming a double top (see Chapter 9).
+✓ The bands contract. When the bands contract, the range is narrowing.
+Traders are having second thoughts. They aren’t willing to test a new
+high, but they aren’t willing to go short and generate new lows, either.
+The narrowing of the trading range is named the squeeze and implies an
+impending breakout. Figure 14-5 displays a reversal, but a reversal isn’t the
+inevitable outcome. Breakouts can occur in the same direction as the original move, too. In this case, the downside breakout of the bottom of the band
+occurred unusually quickly after an upside breakout of the top band.
+
+www.pdfdummies.com
+
+251
+
+252 Part V: Flying with Dynamic Analysis
+A rapid break of the opposite band is sometimes a head fake. In the case of a
+downside move like the one in Figure 14-5, traders could have been overly
+exuberant in taking profits after such a big run up to the high. See the upward
+pullback from the down move in the two circles. Sometimes pullbacks keep
+going, and the price resumes the uptrend — although hardly ever after breaking the bottom band like this one. To detect head fakes, use Bollinger bands
+with other confirming indicators, especially momentum indicators like the relative strength index and MACD (Chapter 12).
+
+Applying Stops with Average
+True Range Bands
+Bollinger bands are not generally used to set stops. The bands are equidistant from the moving average, so an upside breakout has the same statistical strength as a downside breakout. When you have a strongly trending
+security, you can’t make a reversal move face a tougher breakout test — but
+logically, you should. I call it a “prove it” test. Given that false breakouts are
+so common, this reason makes it necessary and sufficient for you to consider
+another type of band, as observed by system designer Steve Notis.
+To use a band for a stop, you want the band to be asymmetrical, so that in an
+uptrend, a down move has to be more severe than recent up moves to trigger
+your stop. But you can’t filter Bollinger bands. Instead of using the standard
+deviation to form the upper and lower bands, you can use a version of the
+average true range (ATR). You can adjust the ATR as follows so that a breakout “proves” that it is statistically significant:
+✓ Uptrend: Widen the distance of the lower band from the average.
+✓ Downtrend: Widen the distance of the upper band from the average.
+The greater width of one of the bands from the center moving average separates corrective moves from real reversals. This move can become labor
+intensive, not least because before you can widen either band, you must be
+sure of the trend direction.
+In Figure 14-6, the price makes a bottom on the left-hand side and starts an up
+move. The centerline is a moving average of the median price, or the average
+of the high, low, and close. The bands are formed by taking a moving average
+of the ATR and adding and subtracting it from the moving average.
+This process creates an ATR test that a breakout has to pass to qualify as a
+true breakout. When the price starts a new uptrend, the price breaking the
+upper band confirms that you have identified the trend correctly.
+
+www.pdfdummies.com
+
+Chapter 14: Estimating Volatility
+
+3
+
+1
+
+2
+Figure 14-6:
+Average
+true range
+band.
+
+A downside breakout has to pass a bigger test in an uptrend. Accordingly,
+you widen the lower band by adding a percentage of the ATR to it. On the
+chart in Figure 14-6, the lower band is 50 percent wider than the upper band
+(it is 150 percent of the ATR). The last bar on the chart breaks the band, just
+after the support line is broken. This is no mere retracement! You have a
+double breakout of the trend (support) plus a volatility breakout (ATR band).
+As with Bollinger bands, a breakout above the upper band signals continuation, but because breakouts are a sign of abnormally high volatility, you
+can usually count on a pullback to the median. A longer-term position trader
+would buy at the left-hand low and hold the break of the support line. A
+swing trader, on the other hand, would sell at breakout “1” and go short
+the security to the touch of the support line at point “2.” Now he becomes a
+buyer again to point “3,” where high volatility again triggers a short position
+that he holds to the break of the support line or final ATR band breakout.
+Few traders would use the ATR breakout alone as the sole deciding factor.
+On Figure 14-6, I put only a support line, but in practice, you would be looking
+at other indicators. I didn’t do the profit-and-loss arithmetic in this case, but
+it’s pretty clear that swing trader using volatility would have made a series
+of gains that collectively added up to a higher profit than the trend-following
+buy-and-hold trader.
+
+www.pdfdummies.com
+
+253
+
+254 Part V: Flying with Dynamic Analysis
+
+www.pdfdummies.com
+
+Chapter 15
+
+Ignoring Time:
+Point-and-Figure Charting
+In This Chapter
+▶ Figuring out point-and-figure charting
+▶ Looking at patterns
+▶ Taking a look at breakouts
+▶ Using point-and-figure with other indicators
+
+P
+
+oint-and-figure (“P&F”) charting strips away time and displays only significant prices on the chart. Significant prices are those that exceed the
+high or low of a recent trading range by a specified amount. You ignore minor
+moves — literally. You don’t even record them on your chart. The result is
+filtered price action. You don’t see a price move in the opposite direction of
+the current trend until it’s meaningful, according to a rule you set yourself, so
+that you can have confidence when a reversal signal is accurate.
+You can also easily identify patterns on point-and-figure charts, especially
+support and resistance, and therefore, breakouts of support and resistance.
+Point-and-figure charts look very different from standard bar charts, but after
+you get used to them, you may find their directness and simplicity addictive.
+P&F charting emphasizes a shift in the price range as the basis of trading decisions, which is in keeping with the idea of measuring crowd behavior (see
+Chapter 3). The purpose of the display method is to filter out irrelevant prices
+to isolate the trends.
+P&F analysis is suitable for trading that has a medium- to long-term holding
+period — weeks and months. The only way to know whether point-and-figure
+charting is for you is to try it out on your chosen securities and see what
+gains you would’ve made, how many trades it requires of you, and so on. In
+general, point-and-figure charting on a daily basis is the easiest technique
+of all and the best way for a beginner to start getting a feel for making rulebased trading decisions. So what are you waiting for? This chapter is ready to
+guide you through what you need to know about point-and-figure charting.

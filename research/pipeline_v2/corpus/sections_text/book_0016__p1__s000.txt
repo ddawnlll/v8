@@ -1,0 +1,400 @@
+CANDLESTICK
+CHARTING
+EXPLAINED
+
+This page intentionally left blank
+
+CANDLESTICK
+CHARTING
+EXPLAINED
+Timeless Techniques
+for Trading Stocks
+and Futures
+Third Edition
+
+Gregory L. Morris
+with Ryan Litchfield
+
+McGraw-Hill
+New York Chicago San Francisco Lisbon London Madrid Mexico City
+Milan New Delhi San Juan Seoul Singapore Sydney Toronto
+
+Copyright © 1992, 1995, 2006 by Gregory L. Morris. All rights reserved. Except as permitted under the United States Copyright Act of
+1976, no part of this publication may be reproduced or distributed in any form or by any means, or stored in a database or retrieval system,
+without the prior written permission of the publisher.
+ISBN: 978-0-07-163217-1
+MHID: 0-07-163217-4
+The material in this eBook also appears in the print version of this title: ISBN: 978-0-07-146154-2, MHID: 0-07-146154-X.
+All trademarks are trademarks of their respective owners. Rather than put a trademark symbol after every occurrence of a trademarked
+name, we use names in an editorial fashion only, and to the benefit of the trademark owner, with no intention of infringement of the
+trademark. Where such designations appear in this book, they have been printed with initial caps.
+McGraw-Hill eBooks are available at special quantity discounts to use as premiums and sales promotions, or for use in corporate training
+programs. To contact a representative please e-mail us at bulksales@mcgraw-hill.com.
+This publication is designed to provide accurate and authoritative information in regard to the subject matter covered. It is sold with the
+understanding that neither the author nor the publisher is engaged in rendering legal, accounting, or other professional service. If legal
+advice or other expert assistance is required, the services of a competent professional person should be sought.
+—From a Declaration of Principles jointly adopted by Committee of
+the American Bar Association and a Committee of Publishers.
+TERMS OF USE
+This is a copyrighted work and The McGraw-Hill Companies, Inc. (“McGrawHill”) and its licensors reserve all rights in and to the
+work. Use of this work is subject to these terms. Except as permitted under the Copyright Act of 1976 and the right to store and retrieve
+one copy of the work, you may not decompile, disassemble, reverse engineer, reproduce, modify, create derivative works based upon,
+transmit, distribute, disseminate, sell, publish or sublicense the work or any part of it without McGraw-Hill’s prior consent. You may use
+the work for your own noncommercial and personal use; any other use of the work is strictly prohibited. Your right to use the work may
+be terminated if you fail to comply with these terms.
+THE WORK IS PROVIDED “AS IS.” McGRAW-HILL AND ITS LICENSORS MAKE NO GUARANTEES OR WARRANTIES AS
+TO THE ACCURACY, ADEQUACY OR COMPLETENESS OF OR RESULTS TO BE OBTAINED FROM USING THE WORK,
+INCLUDING ANY INFORMATION THAT CAN BE ACCESSED THROUGH THE WORK VIA HYPERLINK OR
+OTHERWISE, AND EXPRESSLY DISCLAIM ANY WARRANTY, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. McGraw-Hill and its
+licensors do not warrant or guarantee that the functions contained in the work will meet your requirements or that its operation will be
+uninterrupted or error free. Neither McGraw-Hill nor its licensors shall be liable to you or anyone else for any inaccuracy, error or omission,
+regardless of cause, in the work or for any damages resulting therefrom. McGraw-Hill has no responsibility for the content of any
+information accessed through the work. Under no circumstances shall McGraw-Hill and/or its licensors be liable for any indirect,
+incidental, special, punitive, consequential or similar damages that result from the use of or inability to use the work, even if any of them
+has been advised of the possibility of such damages. This limitation of liability shall apply to any claim or cause whatsoever whether such
+claim or cause arises in contract, tort or otherwise.
+
+To Dusti, Grant, Derek, and Kane
+
+This page intentionally left blank
+
+Contents
+Foreword from the Second Edition ix
+Foreword for the Third Edition by Tim Chapman
+Preface from the Second Edition xvii
+Preface for the Third Edition xxi
+Acknowledgments xxiii
+
+xiii
+
+1. Introduction 1
+2. Candlestick Lines 11
+3. Reversal Candle Patterns 21
+4. Continuation Patterns 211
+5. Sakata’s Method and Candle Formations 281
+6. The Philosophy behind Candle Pattern Identification
+7. Reliability of Pattern Recognition 317
+8. Candle Pattern Performance 351
+9. Candle Pattern Filtering 361
+10. Candlesticks for Traders 391
+11. Conclusions 479
+Appendix A: Interview with Takehiro Hikita 481
+Appendix B: Derivative Charting Methods 489
+Bibliography 497
+Index 503
+Special Offer 521
+䊏 vii 䊏
+
+301
+
+This page intentionally left blank
+
+Foreword from the
+Second Edition
+I am a collector of first editions of books. My specialties include
+astronomy texts written before 1900, such as Percival Lowell’s classic Mars, the first published speculations about the possibility of life
+on the red planet (which inspired Jules Verne to write The War of the
+Worlds), and a strange little tome from 1852 that claims astronomer
+William Hershel spotted sheep on the Moon with his telescope.
+My collection also includes about 200 business books written by
+authors I have interviewed through the years. My inscribed copy of
+Ivan Boesky’s Merger Mania, for example was appraised a few years
+ago at $200.
+But my sentimental favorite is a beat-up old chart book of the
+Dow Jones Industrials and Transportation Averages going back to
+December 18, 1896, the day the modern Dow Jones averages were
+born. (Trivia question: Where did the Dow Industrials close after its
+very first day of trading? Answer: 38.59). Back then, the Industrials
+only had 12 components, and the Transports, with 20 issues, were
+known as the Rails.
+A 90-year-old FNN viewer from Virginia offered it to me in the fall
+of 1985.
+“I have been interested in, but not too active in, the market since
+the early ’20’s” he wrote, “and lived through the ’29 ‘break’ and the
+great depression which was a ‘tempering’ influence against excessive
+enthusiasm.”
+
+䊏 ix 䊏
+
+䊏 x
+
+Foreword from the Second Edition
+
+“At age 90 my activities are confined to ‘growth’ stocks and safe
+investments. I am no longer interested in ‘speculation.’ ” So he wondered if I would be interested in his chart book.
+Indeed, I was. I gladly accepted in exchange for a signed copy of
+one of Joe Granville’s books.
+The book was published in 1931 by Robert Rhea, the famed disciple of Charles Dow and of the oldest form of technical analysis, the
+Dow Theory. It covers the years 1896–1948, with each page devoted
+to one year’s trading of both averages.
+It is one big, faded green rectangle, measuring 11 inches high and
+18 inches across. Its heavy cardboard covers are held together by a
+couple of rusty screws.
+I browse through it once in awhile, marveling at its simplicity.
+Each day’s closing value is designated by a single horizontal hash
+mark meticulously notched on the graph paper.
+Nothing fancy. No intraday highs and lows, no trendlines, no
+points or figures, just a simple daily record of the debits and credits
+of civilization.
+There is the market panic in December of 1899, when the Industrials plunged from 76 to 58 in just 13 trading days.
+There is the period from July to December of 1914, when, incredibly, the market was closed on account of World War I. Eerily, half
+the page devoted to that year is blank.
+And, of course, there is 1929, when the Industrial peaked on September 3 at 381.17 and hit a bottom, three pages later, in July of
+1932 at 41.22.
+The book means a lot to me. Between its covers there is a bit of history, some mathematics, a dose of economics, and a dash of psychology. It has taught me much about a discipline that I once considered
+voodoo.
+Good journalists are supposed to maintain an open mind about
+the stories they cover. Political reporters, for example, should be nei-
+
+xi 䊏
+Foreword from the Second Edition
+
+ther Republican nor Democrat. And successful financial reporters
+should avoid being either bullish or bearish. And they should also be
+familiar with both fundamental and technical analysis.
+I remember the first time I interviewed a technical market analyst in
+the fall of 1981, when I was still cutting my teeth on business news.
+This analyst spoke of 34-day and 54-week market cycles and headand-shoulder bottoms and wedge formations. I thought it was so
+much mumbo-jumbo until the summer of 1982 when the bull market
+was launched, and the fundamental analysts were still bemoaning the
+depths of the recession that gripped the economy at the time. That
+was when I realized the technicians may have something there.
+He doesn’t know it, but Greg Morris taught me a lot about technical analysis. Or, more accurately, his N-Squared software did. For
+a couple of years during the mid-1980s, I hand-entered the daily
+NYSE advance/decline readings and the closing figures of a few market indices into my computer. I used N-Squared to build charts and
+draw trendlines. (I hadn’t yet learned about modems and downloading from databanks.)
+The slow, painstaking process gave me a hands-on, almost organic,
+feel for the markets. And watching various repetitive chart patterns
+unfold on the computer screen was a great lesson about supply and
+demand and about market psychology.
+I think I understand how technical analysis works. It’s the why
+that still puzzles me. I understand the supply and demand implications of support and resistance levels, for example, and I appreciate
+the theories behind pennant formations and rising bottoms.
+But I still marvel at what ultimately makes technical analysis
+work: that intangible something that causes technicians to anthropomorphize the markets without even realizing it. The market is tired,
+they say. Or the market is trying to tell us this or that. Or the market
+always knows the news before the newspaper do.
+That something, in my mind, is simply the human side of the mar-
+
+䊏 xii
+
+Foreword from the Second Edition
+
+ket, which I suggest American technicians tend to ignore. Technical
+analysis is, after all, as much art as it is science. But too many analysts have a mathematical blind spot, and I blame that on computers.
+Yes, charts represent numerical relationships, but they also depict
+human perceptions and behavior.
+Enter Sakata’s Candlesticks, which combine the highly quantitative ratiocination of American technical analysis with the intuitive
+elegance of Japanese philosophy. Greg Morris has more that ably
+turned his attention to this fascinating charting style with this book.
+It occurs to me that Japanese Candlesticks are the perfect form of
+technical analysis for the 1990s. I happen to agree with authors John
+Naisbett and Patricia Aburdene. It won’t necessarily be an overtly
+religious period, mind you, but rather one subtle, intuitive power we
+may all develop that allows us to sense things before they actually
+happen. It will be a period that embraces a kind of hybrid Eastern
+philosophy and Western practicality without all the New Age hocuspocus.
+Just right for Candlestick analysis. The system is precise and exacting, but it charms with its haiku-like names for charts patterns:
+“paper umbrella,” or “spinning tops,” for example.
+But I’ll let Greg Morris tell the story from here. I just hope my
+90-year-old friend is still around to read it. I think he would like it.
+Bill Griffeth, Anchor
+Strictly Business, CNBC
+Park Ridge, NJ
+
+Foreword for the
+Third Edition
+I got into the investment business when I was 21 and my timing was
+impeccable. I opened my first office in June 1982 only two months
+before the stock market embarked on an 18-year secular bull market.
+(I thought I was the catalyst for the market’s improvement!) I was
+young and knew everything—or at least I thought so. It didn’t take
+long for me to realize that not only did I not know everything; I actually knew very little. The investment world is a big place and the confounding truth is there is no single “right” way to do it. There are
+many good ideas and strategies but none are perfect.
+I considered myself quite mature at the ripe age of 21, but thankfully I was alone in that assessment. There were very few people
+standing in line to get investment advice from a kid, which was a
+good thing because as a result, I had little opportunity to do any
+damage.
+One benefit of youth is an openness to ideas, and by setting out on
+my own I was fortunate to have escaped the traditional training of
+the big brokerage firms. No one brainwashed me into believing their
+way was the only way, so I was able to listen and learn without bringing a lot of preconceived notions to the table. To use a good Southern phrase, “I wasn’t set in my ways” yet.
+As we were in the midst of what would become the most unprecedented bull market in history, my first experience with a market hiccup was the 1987 crash. While the short-term effects of Black
+
+䊏 xiii 䊏
+
+䊏 xiv
+
+Foreword for the Third Edition
+
+Monday were emotional and nerve-wracking, it wasn’t long before
+that cyclical bear market became additional ammunition for the fundamental, buy-and-hold crowd to espouse how “right” they were:
+Every correction was simply a buying opportunity, bear markets
+don’t last long, and losses are quickly recovered. I was drinking the
+Kool-Aid.
+The cyclical bear market in 1990 was similar to the 1987 bear—it
+didn’t last very long and the recovery time was less than a year—but
+it was different for me because by that time I had real clients with real
+money! I was being asked real questions about ways to manage risk
+in a portfolio and I didn’t have any answers. That’s when technical
+market analysis finally popped up on my radar screen.
+In 1991, Don Beasley and I formed what would become PMFM,
+Inc., a registered investment advisor managing money using technical
+market analysis. Our goal was to deliver reasonable returns without
+the roller coaster ride and risks that come with buy-and-hold.
+Technical analysis is still not “mainstream” because the buy-andhold approach is so much easier for brokers and financial advisors,
+but in the wake of the recent bear market, investors are finally taking
+notice. In 2000–2002 a ferocious bear kicked down the door and proceeded to destroy all those market “truths” that had been ingrained
+since 1982. This bear market wasn’t brief; twenty percent drops were
+not good buying opportunities; and the overall damage was severe.
+Now, more than five years after the slide began, we are still a long way
+from breaking even on most indices. Unfortunately it took the worst
+bear market since the Great Depression to bring technical market
+analysis the attention it deserves, but I am thankful that our approach
+allowed us to preserve our clients’ money and actually post a positive
+return over that dreadful three-year period.
+Over the past decade, I have come to appreciate how vast the
+study of technical analysis really is. There are so many viable models
+and measures—some basic, some complex—but ultimately they are
+
+xv 䊏
+Foreword for the Third Edition
+
+just tools of the trade for a good technician. We all find comfort in
+familiarity and maybe that is why Japanese Candlestick Charting is
+often passed over and left in the toolbox. At first glance is seems
+obscure, mysterious, and almost impenetrable—until now!
+Greg Morris, a gifted market technician and wonderful writer, has
+brought Japanese Candlestick Charting to life in a way that only he
+can. We are delighted to have Greg on our team at PMFM, Inc. The
+information provided in this book is direct, easy to understand, and
+most importantly, easy to apply. It doesn’t matter if you are an investment professional looking for ways to serve your clients better, or an
+individual searching for knowledge to manage your own assets, Candlestick Charting Explained is an important how-to manual that will
+make you a better investor/trader.
+Tim Chapman
+PMFM.com
+
+This page intentionally left blank
+
+Preface from the
+Second Edition
+Japanese candlestick charting and analysis is definitely a viable and
+effective tool for stock and commodity market timing and analysis.
+That is a bold statement, especially when you consider the universe of
+analysis techniques that are being promoted, offered, sold, used,
+abused, and touted. Other than Nison’s work, the only problem has
+been the lack of detailed information on how to use and identify them.
+Not only will this book solve this problem, but it will also provoke an
+intellectual curiosity in candlesticks that will not easily disappear.
+Japanese candlesticks provide visual insight into current market
+psychology. There is no ancient mystery behind Japanese candlesticks, as some promoters would have you believe. They are, however, a powerful method for analyzing and timing the stock and
+futures markets. That they have been used for hundreds of years only
+supports that fact. When candlesticks are combined with other technical indicators, market timing and trading results can be enhanced
+considerably.
+It is almost regretful that this sound analysis technique was introduced to the West using the word “candlesticks” instead of some
+more appealing or appropriate terminology, such as Sakata’s Methods or Sakata’s Five Methods. If candlesticks’ Western debut had
+focused on the uncovering of an ancient Japanese analysis technique
+called Sakata’s Methods, I believe their acceptance would have been
+quicker and more widespread. None of this, however, changes the
+
+䊏 xvii 䊏
+
+䊏 xviii
+
+Preface from the Second Edition
+
+contribution that candlesticks make to technical analysis; only fewer
+misleading claims would have been made.
+In January 1992, I completed a week of study in Japan with Mr.
+Takehiro Hikita, an independent and active futures trader. While
+staying in his home, we thoroughly discussed the entire realm of
+Japanese culture related to candlestick analysis. His extensive knowledge and dedication to the subject made my learning experience not
+only enjoyable, but quite thorough. His insistence that I try to understand the psychology at the same time was instrumental in learning
+many of the pattern concepts. I hope that I have transposed that
+priceless information into this book.
+This is a book that not only covers the basics, but offers more
+detail into exactly how to identify and use the patterns. A comprehensive analysis and recognition methodology will be presented so
+that you will have no doubt in your mind when you see a candlestick
+pattern. In addition to a thorough coverage of the candlestick patterns, the philosophy of their use will be discussed so that you will
+have a complete understanding of the Japanese candle pattern analysis and its usefulness to market timing and strategies. Candle Patterns
+need to be defined within parameters that people can understand and
+use in their everyday analysis. This can still involve flexibility as long
+as the limits of that flexibility are defined, or at least explained.
+An attempt to take the subjectivity out of Japanese candlesticks
+analysis will be primary thrust of this book. Most sources that deal
+with candlesticks admit that patterns should be taken into the context of the market. This is true, but is often an excuse to avoid the
+complicated methodology of pattern recognition.
+Chapters on statistical testing and evaluation will reveal, totally,
+all assumptions used and all details of the testing results. Rigorous
+testing has been done on stocks, futures, and indices. Some of the
+results were surprising and some were predictable. All results are
+shown for your use and perusal.
+
+xix 䊏
+Preface from the Second Edition
+
+There is nothing more tiring, useless, and inefficient than reading
+pages of detailed analysis on chart patterns about how the market
+was or what you should have done. The seemingly endless verbiage
+about how you would have done if you had only recognized this or
+that when this or that occurred is totally worthless. Charting examples will be shown in this book only as learning examples of the candle patterns being discussed. It definitely helps to see the actual
+candle patterns using real data.
+I could not have allowed myself even to start a project as involved
+as this if I had even the slightest doubt as to the viability and credibility of using Japanese candlesticks as an additional tool for market
+analysis and timing. Over the last 15 years, I have read almost every
+book on technical analysis, used every type of indicator, followed
+numerous analysts, and developed technical and economical analysis
+software in association with N-Squared Computing. Believe me, if
+candlesticks were just a passing fancy, this book would not have been
+considered—certainly not by me.
+I felt that a straightforward approach in writing the book would
+be the most accepted, and certainly the most believable. When I buy
+a book to learn about new techniques, a textbook-like approach is
+appreciated. Hence, this style has played a vital part in the structure
+and organization of this book.
+This book will not only introduce and explain all of the inner
+workings of Japanese candlesticks, but will also serve as a reference
+manual for later use. Each candle pattern has been defined and
+explained in a standard format so that quick and easy referral is possible. I will introduce a new method of analysis called “candlestick
+filtering,” which, based upon my research, is essential for better
+recognition. You will see it gain in popularity because it can provide
+such a sound basis for future analysis and research.
+Japanese candlestick analysis used with other technical/market
+indicators will improve your performance and understanding of the
+
+䊏 xx
+
+Preface from the Second Edition
+
+markets. Even if you use candlesticks solely as a method of displaying data, you will find them indispensable. Candlestick charting, candle pattern analysis, and candlestick filtering will give you an edge, a
+tool if you will, that will enhance your understanding of the markets
+and trading performance. Learn candlestick charting and analysis,
+use it, and enjoy its rewards.
+Greg Morris
+Dallas, Texas
+1992
+
+Preface for the
+Third Edition
+The preface for the second edition still says most of the facts that
+need to be here, with only a few changes and additions given below.
+A number of new candle patterns have been developed since the first
+edition came out in 1992. Many of these were created to fill the holes
+in the original Japanese versions of the patterns. A large number of
+original Japanese patterns did not have a complement or counterpart;
+there was either a bullish version or a bearish version, but not both.
+Those holes have been filled, along with a handful of new patterns.
+When you study these patterns for all these years, one easily can start
+to see how new things can develop. Steve North of North Systems was
+the originator of many of these complementary and new patterns. If
+you see these patterns in other books or articles on candlesticks, be
+sure to ask the author where he/she obtained the information.
+So after 14 years, what has changed? Computers are readily available; certainly computing power growth has exceeded even Moore’s
+Law. Almost all data services offer stock data that has the open price
+available. In 1992 that was definitely not the case, as I addressed it
+in Chapter 6. The internet has offered charting services such as
+StockCharts.com, that make the term software almost obsolete; all
+you need is a browser. Intraday data is certainly more readily available. I still have a problem in using candle pattern analysis on anything other than daily data. The Japanese believed strongly that the
+time between the close of one day and the open of the next day was
+important to investor psychology. The time between the end (close)

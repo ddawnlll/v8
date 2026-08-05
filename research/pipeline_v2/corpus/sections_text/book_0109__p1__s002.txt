@@ -1,0 +1,930 @@
+in-the-money at expiration on Friday. That represents a 60 percent success
+rate. Even more interesting is the fate of the 42 contracts that were deep-inthe money on Monday ($75 to $90). Of these 42, all of them were winners.
+This is only a one-week sample, but it is instructive regarding the potential of winning outcomes and the challenges. In this single week, the at- or
+near-the-money strategies had the highest winning percentage.
+
+Identifying Profit Return Potential in Binary Option Trading
+
+23
+
+Table 2.3 Deep-Out-of-the-Money Sample Results
+
+Initial
+Price
+
+Closing
+Price Direction
+
+Days
+Held
+
+Return
+%
+
+Return
+($s)
+
+Long
+
+2
+
+259.60%
+
+$61.00
+
+$90.50
+
+Short
+
+2
+
+–9.00%
+
+($7.50)
+
+0.9875 $22.00
+
+$15.00
+
+Long
+
+1
+
+–31.80%
+
+($7.00)
+
+USD/CHF
+
+0.9975 $12.50
+
+$8.00
+
+Long
+
+1
+
+–36.00%
+
+($4.50)
+
+EUR/USD
+
+1.3025 $34.00
+
+$96.00
+
+Long
+
+3
+
+182.40%
+
+$62.00
+
+EUR/USD
+
+1.3125 $24.00
+
+$94.50
+
+Long
+
+3
+
+293.80%
+
+$70.50
+
+EUR/USD
+
+1.3225 $12.50
+
+$84.00
+
+Long
+
+2
+
+572.00%
+
+$71.50
+
+GBP/USD
+
+1.5525 $53.00
+
+$83.00
+
+Long
+
+1
+
+56.60%
+
+$30.00
+
+GBP/USD
+
+1.5725 $56.50
+
+$72.00
+
+Long
+
+1
+
+27.40%
+
+$15.50
+
+USD/JPY
+
+82.25
+
+$71.50
+
+$77.00
+
+Short
+
+1
+
+–7.70%
+
+($5.50)
+
+USD/JPY
+
+82.25
+
+$45.00
+
+$39.00
+
+Long
+
+1
+
+–13.30%
+
+($6.00)
+
+Crude Oil
+
+90.25
+
+$35.50
+
+$73.00
+
+Long
+
+3
+
+105.60%
+
+$37.50
+
+Copper
+
+438.50
+
+$30.00
+
+$60.00
+
+Long
+
+2
+
+100.00%
+
+$30.00
+
+S&P 500
+
+1287.50
+
+$23.00
+
+$31.00
+
+Long
+
+1
+
+34.80%
+
+$8.00
+
+Gold
+
+1388.50
+
+$26.00
+
+$45.50
+
+Long
+
+2
+
+75.00%
+
+$19.50
+
+Silver
+
+2825
+
+$90.00
+
+$26.50
+
+Short
+
+3
+
+70.60%
+
+$63.50
+
+Silver
+
+2825
+
+$37.50
+
+$60.00
+
+Long
+
+1
+
+60.00%
+
+$22.50
+
+Silver
+
+2975
+
+$26.50
+
+$5.00
+
+Long
+
+2
+
+–81.10% ($21.50)
+
+DAX
+
+7075
+
+$34.00
+
+$39.50
+
+Long
+
+1
+
+16.20%
+
+Underlying
+
+Strike
+
+USD/CAD
+
+0.9925 $23.50
+
+$84.50
+
+USD/CAD
+
+0.9825 $83.00
+
+USD/CHF
+
+Total Returns
+
+$5.50
+
+60.10% $445.00
+
+A good way to look at the expected probabilities of the binary contracts
+in Table 2.4 is to view them as horses in a race. Each probability range (that
+is, 10–20 percent, and so on), as depicted in Table 2.6, represents an opportunity to get to the finish line of 100 percent by the end of the week. But in
+this kind of horse race, the trader is the jockey, and the racetrack conditions
+can change any minute. Another difference is you can switch horses in the
+middle of the race!
+
+24
+
+Trading Binary Options
+
+Table 2.4 Binary Option Contract Buying Probabilities
+
+16May
+
+17May
+
+18May
+
+19May
+
+20May ITMM
+
+MON TUE
+
+WED
+
+THUR
+
+FRI
+
+(ITMW)
+%ITM
+
+ITM
+
+%ITM
+
+10–20
+
+30
+
+30
+
+25
+
+16
+
+8
+
+1
+
+3
+
+1
+
+4
+
+20–30
+
+24
+
+23
+
+19
+
+11
+
+5
+
+2
+
+8
+
+4
+
+21
+
+30–40
+
+18
+
+21
+
+14
+
+10
+
+5
+
+5
+
+28
+
+2
+
+14
+
+45–55
+
+15
+
+18
+
+11
+
+11
+
+4
+
+9
+
+60
+
+8
+
+73
+
+55–75
+
+30
+
+29
+
+24
+
+15
+
+9
+
+25
+
+30
+
+19
+
+79
+
+75–90
+
+42
+
+38
+
+32
+
+22
+
+10
+
+42
+
+23
+
+32
+
+100
+
+Total
+Contracts
+
+159
+
+159
+
+125
+
+85
+
+41
+
+Identifying Potential Profits in High-Low Binaries
+
+In contrast to the laddered binaries, let’s consider binary trading on platforms
+that offer trade decisions that the underlying markets will be higher or lower
+at expiration. They do not provide inherent expected probabilities. In effect,
+these trades are at-the-money trades and have a theoretical probability of
+50 percent. Traders at these binaries do not get information on the opinion
+of the crowd of traders from these platforms.
+The challenge for the binary option trader using non-laddered binaries
+is to identify high probable trading signals. Keep in mind that binaries that
+require a higher or lower trading decision is essentially a momentum directional decision. The strongest signal that is available for this kind of trading is
+a break in a pattern. Therefore, choosing to enter on a break and then picking
+an appropriate duration for the trade are the two key factors for successful
+trading of the high-low binaries.
+Each trader needs to fine-tune the combination of expirations and what
+the best chart time frame to use (Table 2.5). The following combinations,
+however, are a useful place to start.
+
+Identifying Profit Return Potential in Binary Option Trading
+
+25
+
+TABlE 2.5 Matching Charts with Durations
+
+Expiration Duration
+
+Best Chart to View
+
+1 Min
+
+1-Minute Renko Charts
+
+5 Min
+
+1-Minute Three-Line Break Charts
+
+15 Min
+
+15-Minute Candlestick
+
+End of Day
+
+30-Minute Three-Line Break
+
+End of Week
+
+1-Day Three-Line Break
+
+TIP
+Predicting the direction of the market is a key to binary option trading, but
+many traders ignore that predicting where the market will not go back to is
+also a high-payoff strategy. This strategy works well because the crowd energy
+pushing a price up or down quickly needs time to rest and new information is
+necessary to reverse the situation.
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 13
+
+Sentiment Analysis:
+Chpater
+New Predictive Tools
+Title
+
+This chapter provides an introduction and guide to one of the recent, and
+increasingly important tool for understanding fundamental forces that
+relates to binary option trading. Let’s call it sentiment detection for predicting
+direction. You will learn how to create and use your own sentiment detection
+tools as part of conducting fundamental analysis. A review of key fundamental
+economic forces and which markets they affect are also provided.
+Defining Sentiment
+
+At the heart of binary option trading is the need to anticipate the direction
+the underlying market will go. To make that decision, traders cannot ignore
+market sentiment. But the question arises: Just what is market sentiment? For
+starters, a text-mining technical definition of sentiment is this: the orientation
+(or polarity) of the opinion on the subject that deviates from the neutral state
+(Yi and Niblack 2005). In other words, sentiment relating to market conditions refers to whether opinion is positive or negative. So how can traders
+detect it? All of us are familiar with viewing the market as if it was a biological
+sentient being that has moods. Take, for instance, when the market is referred
+to as nervous or optimistic—these descriptions underscore our tendency to
+anthropomorphize the market. When it comes down to shaping trades, and
+in particular shaping binary option trades, the trader needs new and sharper
+tools to trace the shape of market sentiment. The fact is that now all ­trading
+27
+
+28
+
+Trading Binary Options
+
+is, in this age of the Internet, a social web phenomenon. “Studies of contagion
+share the finding that people’s feelings and behaviors are strongly affected by
+their observations of others” (Olson 2006).
+The Internet has had a fantastic impact on trading because it acts as a
+medium propagating a wave. The wave in trading is the collective grouping
+of emotions. It is similar to what computational chemistry calls crowd-minds.
+According to a recent work on artificial chemistry titled Dynamics of CrowdMinds (Adamatzky 2005), “A crowd-mind emerges when formation of a crowd
+causes fusion of individual minds into one collective mind. Members of the
+crowd lose their individuality. The deindividualization leads to derationalization: emotional, impulsive, and irrational behavior.”
+The emergence of the Internet is producing new sets of tools that can be
+put to effective use by the binary option trader. The new set of tools that can
+be put to effective use by the trader is called text mining. Text mining is the
+art and science of finding word trends in a given document. The goal is to
+determine and categorize the meaning of those documents and text. Related
+to text mining is sentiment analysis. Here is how a leading sentiment scientist
+described the field (Xiaoxu, Huizhen, and Jingbo 2010):
+With the rapid growing availability of opinion-rich resources on the
+Internet such as product reviews, blogs and twitters, sentiment analysis becomes a popular research direction whose goal is to determine
+public assessments on products or social issues. Polarity analysis is
+one of fundamental techniques in sentiment analysis. To determine
+the polarity expressed by an opinionated sentence, it is important to
+first determine which words have sentiment tendency (i.e., positive
+or negative), referred to as sentiment word identification. A sentiment word is a word that can express positive or negative feelings of
+the opinion holder.
+Text mining is quickly becoming a key part of our lives. In fact, almost
+everyone has experienced text mining—simply by using an Internet search
+engine. With advances in programming and technology, text mining will
+generate an entire new set of tools for detecting sentiment and it will revolutionize technical analysis. At its most basic, the search engine scans documents, web pages, blogs, or anything else that has text and shows you where
+to find them. In the language of experts, these are called keyboard Boolean
+searches. The results are often ambiguous and inaccurate.
+Of course, the challenge of text searching goes beyond the retrieval of
+information. With trillions of words on the Internet, search engines need to
+
+Sentiment Analysis: New Predictive Tools
+
+29
+
+instantly scan sites and convert that information into something useful. The
+software powering the searches use specialized programs called algorithms, or
+algos, to zero in on the data.
+Google has mastered search engine algorithms, constantly tweaking them
+to produce even better results. But text mining goes way beyond looking up
+something online. Almost all business sectors can utilize this technology.
+For example, text mining is penetrating call rooms and customer service
+functions—making it faster and easier to handle questions and complaints.
+Reuters and Dow Jones are also developing text mining applications. And, of
+course, financial markets are just beginning to look at text mining. The field
+of text mining is evolving quickly with many new companies offering text
+search and semantic analysis services. Open source software such as GATE
+(http://gate.ac.uk) that processes text is now fully developed and available to
+anyone. This software enables the ability to scan, retrieve, annotate text, and
+identify concepts (see the sidebar for more information).
+
+WHAT IS GATE?
+GATE is the acronym for general architecture for text engineering. Professor
+Ronen Feldman, co-founder and chief scientist of Digital Trowel, has been a
+leader in applying text mining and sentiment analysis to financial markets. His
+case studies tracked sentiment changes in stocks for their predictive value. Does
+a change in sentiment predict a change in stock price direction? His work is
+discovering that it can be predictive (see more details at www.digitaltrowel.com).
+At this time, text-mining tools are still focused on a single stock rather than a
+sector. To have effective predictive results for a sector, a lot more work has to
+be done to retrieve the right documents. If one wanted opinion about the gold
+sector, just searching for gold would bring in many other unrelated documents.
+When a search retrieves unrelated results, the effect is similar to a low signal/
+noise ratio in physics. Special algorithms in these situations are needed to disambiguate the results.
+
+Others in the financial industry are applying text search tools to Twitter
+and other social media to profile mood changes. Research is ongoing on how
+to use Twitter as a source of sentiment that has predictive value. A recent
+study focused on using Twitter to predict next-day pricing of the S&P 100.
+“We collected the tweets via Twitter’s REST API for streaming data using
+symbols of the Standard and Poor’s 100 stocks (S&P 100) as keywords. In
+
+30
+
+Trading Binary Options
+
+this study, we focus only on predicting the S&P 100). The time period of our
+dataset is between Nov. 2, 2101, and Feb. 7, 2013, which gave us 624,782
+tweets.” They developed in their methodology a ratio of positive/negative
+opinion words per day. They concluded:
+Predicting the stock market is an important but difficult problem.
+This paper showed that Twitter’s topic-based sentiment can improve
+the prediction accuracy beyond existing non-topic based approaches.
+(Si, Mukherjee, Liu, Li, Li, and Deng 2013, 28)
+The challenge for usefully using Twitter as a crowd sourcing and sentiment prediction tool for trading is rooted in the problem of sampling
+misrepresentation. Sampling Twitter followers would be very inaccurate as
+a predictor without knowing who the Twitter users are and whether they are
+representative of the overall population of traders. To be statistically reliable
+and effective, Twitter data needs a lot of post-monitoring processing. At
+best, Twitter-sentiment-based indicators would be a confirming indicator.
+(See the site http://twittersentiment.appspot.com/, which takes a snapshot
+of Twitter opinion.)
+While the overall field of text searching for understanding the mood of
+the market is getting better, the goal is to actually use the information to help
+the trader. A next step would be to match the sentiment scans with price
+action.
+Text Mining Mood on the U.S. Dollar
+
+Let’s look at an example involving the U.S. dollar index and the potential for
+using text mining as a predictive tool.
+SentiMetrix, a text-mining firm, conducted a test scan from April 17 to
+May 15 of the Internet for sentiment on the U.S. Dollar Index. It showed
+some promise (Figure 3.1). During a test period, the Internet was scanned
+for mentions of the U.S. Dollar Index and then using natural language processing (NLP), the documents were evaluated (not by humans) for emotional tags regarding the U.S. dollar. The result was a sentiment polarity
+index. While this is a small sample of one week, it demonstrates that opinion
+mining regarding the U.S. dollar is possible and that certainly we can detect
+shifts in positive and negative attitudes for the U.S. dollar. An improved
+approach would be to generate a scan at a regular interval during the week
+and then match the sentiment score to price action. Much more work
+
+Sentiment Analysis: New Predictive Tools
+
+31
+
+Figure 3.1 U.S. Dollar Index versus Sentiment Score
+80
+
+Sentiment
+Reading
+
+Dollar Index
+Close
+
+70
+
+0.20
+
+0.00
+
+−0.20
+
+Source: Sentiment analysis data provided by SentiMetrix, Inc. Used with permission.
+
+needs to be done to achieve predictive accuracy, but the goal of building
+sentiment-leading indicators is worthy and exciting and rapidly gaining in
+effectiveness.
+In another example of matching sentiment against price action we can
+see how positive and negative sentiment regarding crude oil correlates with
+price action (Figure 3.2). News, blogs, video, and forums over the Internet
+were scanned during the week of May 28 to June 9 on sentiment regarding
+crude oil prices. Each day’s negative scores were converted into a line graph
+and overlaid against each day’s positive scores. Then the actual Brent crude
+oil prices were matched against these negative and positive lines. While this
+is only a sample period, we can see that it is worthwhile to use sentiment
+data as a gauge for price direction. A peak in negative sentiment on crude
+oil occurred on May 31 as crude oil prices reached a high of 102.98. It was
+followed by decline in crude oil prices. Sentiment reached a bottom negative score on June 5 and positive sentiment started bouncing up. Crude oil
+prices rose back to the 102 area a few days later. While the data needs much
+more granularity, we can sense, even at this early stage in the art and science
+of sentiment-based signals that there are two key areas that will be useful
+to the trader. First, when positive or negative sentiment crosses over, the
+trader can use this as a clue that market opinion is shifting. It also appears
+that sentiment peaks, whether positive or negative, are the key milestones
+relating to subsequent price changes and offer great potential as a source of
+trading signals.
+
+32
+
+Trading Binary Options
+
+Figure 3.2 Negative and Positive Sentiment and Crude Oil Prices
+102.98
+
+Negative Sentiment
+
+Crude Oil Price
+
+101.35
+
+100.75
+
+101.29
+100.52
+
+100.53
+99.99
+
+1
+
+100.57
+100.06
+99.08
+98.56
+
+98.68
+Positive Sentiment
+
+Source: © 2011 Attensity Group, Inc. All rights reserved.
+
+The state of text mining is already evolving to a brand new level. The
+first step was just grabbing words and counting them or transforming the
+document into a statistical breakdown of sorts. It’s now at a point at which
+millions of documents can be scanned virtually in seconds with a state-ofthe-art text retrieval system. But until machines can do natural language
+processing at the level of humans, it will be up to the trader to initiate and
+complete the task of sentiment mining. Let’s see how any trader can apply
+this new technology every day to binary option trading.
+The field of text mining sentiment continues to rapidly evolve
+approaches to market prediction. A recent study (Wong, Liu, and Chiang
+2014) reports the development of an algorithm based on news articles.
+Here is what they did.
+We identified 553 stocks that were traded from 1/1/2008 to
+9/30/2013 and listed in at least one of the S&P 500, DJIA, or
+Nasdaq stock indices during that period. We then downloaded opening and closing prices2 of the stocks from CRSP.3 Additional stock
+information was downloaded from Compustat. For text data, we
+downloaded the full text of all articles published in the print version of WSJ in the same period. We computed the document counts
+per day that mention the top 1,000 words of highest frequency and
+the company names of the 553 stocks. After applying a stoplist and
+removing company names with too few mentions, we obtained a list
+of 1,354 words.
+It should yield results of better than 55.7 percent accuracy for predicting
+daily price movements (Wong, Liu, and Chang 2014).
+
+Sentiment Analysis: New Predictive Tools
+
+33
+
+TIP
+Read Sentiment Analysis: Mining Opinions, Sentiments, and Emotions by Bing Liu
+
+Traders with experience in programming can actually do their own
+text mining and twitter mining. Using the open source programming
+called R, one can extract tweets and measure the sentiment in those tweets
+(see Zhao 2015).
+For those who want a program that does the text mining, see www.attensity
+.com; Feinerer, Hornik, and Meyer 2008; and Moujahid 2014.
+Applying Your Own Sentiment Detection
+When Trading Binaries
+
+The first step is to decide on what market sentiment the trader wants to
+tag or monitor. What emotion is being expressed relating to a particular
+market? This is where the rubber meets the road. The technology of text
+searches at this point is still a dumb technology. The search function is
+extremely fast in retrieving documents, but it is not that smart at filtering
+out the noise. A lot of unrelated documents get retrieved. This is because
+the Internet is full of unstructured text. It is a bag of words that has to be
+categorized.
+So the binary option trader is really more advanced than the search
+engine, at least at specifying what to look for so the search engine retrieves
+the right documents. This is called semantic processing. In February 2011,
+IBM demonstrated a breakthrough in semantic processing and text search
+when Watson won a contest on the TV show Jeopardy. Watson, as you may
+recall, is the name of the IBM computer system that competed against two
+human competitors on Jeopardy. The breakthrough was that Watson wasn’t
+just searching its memory banks for keywords—it also had to understand
+how the words related to one another. In this era of Watson, computer programs will be important assistants in opinion mining and, as a result, it will
+mean any person is able to quickly understand the mood of the market. Until
+then, the trader has to do the work of a future Watson. But it can and should
+be done for binary option trading. Here is how. It is not that hard to do
+(Figure 3.3).
+
+34
+
+Trading Binary Options
+
+Figure 3.3 Risk Appetite/Risk Aversion Search Phases
+
+Create Your Own
+Risk Appetite/Risk Aversion
+
+Refine Your Keywords
+Scan Headlines
+Scan Specific Market Factors
+Copper
+
+Dollar
+Index
+
+Crude
+Oil
+
+Gold
+
+Scan for Sentiment Using Key
+Risk Appetite and Aversion Words
+Inflation
+
+Global Slowdown
+
+Deflation
+
+China
+
+Recession
+
+Let’s explore each key step on how any trader can apply sentiment
+detection tools.
+
+Step 1: Use Key Terms—Risk Appetite and Risk Aversion
+A basic understanding of market forces generates the realization that there
+are two major emotional forces that become expressed in the market. Those
+forces are market moods on risk appetite and risk aversion. You can consider
+them the major axis of sentiment. However, don’t attribute negative or positive associations with either term. They are neither good nor bad. Using the
+words risk appetite and risk aversion helps describe where the crowd-mind
+of market opinion is clustering. These two opinion pools are always in flux.
+In the new fundamentals, sentiment trumps economics in affecting price
+moves. This doesn’t mean fundamentals don’t count. It means that the market
+is not only an information engine generating valuation, it is also an expectation engine, spewing out emotions. The words “risk appetite” are code for
+market optimism, while risk aversions are code for market fear. Each week
+the balance between risk appetite and risk fear constantly shifts and a virtual
+war and struggle ensues for which force is dominant. The lingo of sentiment
+science calls the resulting shift of sentiment sentiment polarity. The balance of
+sentiment and stability will shape the direction and speed of price moves. The
+binary option trader making a decision on direction is, in a very real sense,
+measuring the emotions of the market. Weekly market direction reflects a
+precarious balance of fears. There are many fears and traders should become
+
+Sentiment Analysis: New Predictive Tools
+
+35
+
+Figure 3.4 Impact of High Growth
+GDP
+
+Growth
+
+High
+
+Hyper
+
+Inflation
+
+High
+Consumer
+Prices
+
+China
+HyperGrowth
+
+Global
+Inflation
+
+High
+
+High
+
+Crude Oil Price
+
+Commodity
+Prices
+
+familiar with them. Fears shift from one polarity to the other and can do so
+very quickly. For example, if fear of inflation is dominant, market direction
+will tend to be bullish on commodity prices (Figure 3.4). Fear of U.S. deficits becomes a force reflecting bearish sentiment toward the U.S. dollar. Fear
+of Middle East instability, leads to price appreciation in crude oil. Fear of a
+China slowdown, can lead to a bearish view of the Australian dollar and fears
+of a global slowdown (see Figure 3.5).
+Figure 3.5 Impacts of Slow Growth or Recession

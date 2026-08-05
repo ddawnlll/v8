@@ -1,0 +1,582 @@
+
+The Bund options in our example form what is probably the most common skew
+shape, a smile which is approximately symmetrical. But this is not always the case.
+Skews can be symmetrical or asymmetrical, and they can reflect inflated or defiated
+implied volatilities across exercise prices, depending on how the marketplace sees the
+possibility, and consequences, of various moves in the underlying market. In addition,
+in stock index markets, because it is not always possible to take advantage of a mispriced
+arbitrage relationship (see Chapter 15), calls and puts with the same exercise prices do
+not necessarily trade at the same implied volatility. For this reason, many traders in stock
+index markets prefer to evaluate call and put skews separately.
+
+As an example, Figures 18-11a and 18-11b represent the implied volatilities of
+March 1993 OEX calls and puts with different amounts of time remaining to expira-
+
+
+Models and the Real World 415
+
+Figure 18-11a: OEX March 1993 Calls
+
+30
+a5 |
+5 weeks to expiration
+OEX = 406.26
+\
+3 \ 1 week to expiration
+> 207 7 CEX = A1267-
+o
+>
+3
+2
+‘o 15
+—
+10-;—+1-weeks td —s
+OEX = 3
+5 4
+
+Tt ~T
+360 370 3B0 390 400 410 420 430
+Exercise Price
+
+Figure 18-11b: OEX March 1993 Puts
+
+30>
+
+ppt ~OEKe a0e expiration
+
+GEX = 406.26 (406.79)
+
+:
+|
+r
+i
+
+20+ = Sanaa ee
+
+Implied Volatility (%)
+
+ant a
+
+OEX =|396.64 (397.2
+
+: |
+| i
+or + +
+360 370 360 390 400 410 420 430
+Exercise Price
+
+
+
+416 Chapter 18
+
+tion.!2 Note the extreme inflation of downside exercise prices, both for calls and puts.
+While it may not be possible to determine exactly what is causing the skew to have this
+particular shape (it may indicate that the marketplace believes stock markets go down
+faster than they go up—as witness October 1987—or it may reflect the fact that stock
+index options are often used to hedge long stock portfolios), the marketplace seems to
+be giving greater relative value to lower exercise prices. A trader who wanted to use the
+marketplace’s relative evaluation might try to integrate the skew into his theoretical
+pricing model.
+
+As before, we might try to generalize the skew by expressing each exercise price
+in terms of a logarithmic relationship to the underlying index price. Stock index prices,
+like stock prices, are assumed to be lognormally distributed around the forward price of
+the index, i.e., the current index price plus carrying costs less dividends. It therefore
+makes sense to express the exercise price in relation to the forward price rather than to
+the index price:
+
+in(exercise price/forward price) / Vtime
+
+This has been done in Figures 18-11¢ and 18-11d. (The forward price of the OEX is in
+parenthesis.)
+
+While there are clearly some differences between volatility skews in Figures 18-11¢
+and 18-11d, there is considerably more consistency than one would expect from Figures
+18-11a and 18-11b. If a trader wanted to find functions, one for calls and one for puts,
+by which the skews could be expressed, he could use these functions to analyze a
+position under a wide variety of market conditions.
+
+It is only in the last several years that traders have begun to appreciate the
+importance of volatility skews, both as an evaluation tool and as a risk management
+consideration. This section is intended not as a solution to all the problems that traders
+encounter in analyzing and using volatility skews, but as an introduction to how traders
+approach the problem. Each trader as he gains more experience must decide how best
+to deal with the volatility skew, given the characteristics of the market in which he is
+dealing, as well as his ultimate goal in that market.
+
+A FINAL THOUGHT
+
+Because the use of a theoretical pricing model requires a trader to make so many
+different decisions, both with respect to the inputs into the model and the degree to
+which the assumptions on which the model is based are likely to be accurate, the new
+option trader may feel that making the right decisions is simply a matter of luck. While
+luck undoubtedly plays a role in the short run, in the long run those traders who are
+willing to put in the effort required to understand how models work always seem to
+come out ahead. Experienced traders know that using a model, with all its problems, is
+still the best way to evaluate options and manage risk.
+
+12. Because of the possibility of early exercise, the Cox-Ross-Rubenstein model was used to calculate OEX
+implied volatilities.
+
+
+Models and the Real World 417
+
+Figure 18-11¢: OEX March 1993 Calls
+
+220
+\ 5 weeks t6 expiration i H
+\ ' OEX = 406,26 (406.79)
+‘ ;
+i
+
+\
+BOO et
+
+180
+
+i
++
+|
+
+160
+
+141 weeks to expiration
+OEX= sooo te 728)
+i
+I
+if
+
+| | OEX = 412.67 | (412.89)
+
+140
+
+120 oar _
+
+Implied Volatility (% of at-the-money)
+
+rs
+‘
+
+i
+
+!
+
+807 t — +— t
+
+0.3 -0.2 04 0.0 O41 02 03
+In(ex. price/forward price)/sqrtitime)
+
+Figure 18-11d: OEX March 1993 Puts
+
+220 7 |
+
+200 |
+s
+= 180 sare
+fe) 11 weeks tolexpiration
+& OEX = 396.64 (397.28)
+
+0: -
+
+3) ON
+x e
+z EN 1 week tolexpiration
+= 140 SA OEX = 41P.67 (412.85)
+= SoD
+is} ~S
+>
+UD
+8 Lo »
+ao -
+
+1005 WEEKS to EXDITatION
+
+OEX = 406.26 (406.79) Ih
+
+80 ! 4
+-0.3 -0.2 -0.1 0.0 0.4 0.2 0.3
+
+In(ex. price/forward price)/sqrt(time)
+
+
+
+418 Chapter 18
+
+This text, like many others on options, may have left the reader with the impression
+that option evaluation and trading can be reduced to a series of arithmetic calculations,
+The science of option evaluation is an important part of any trader’s education, but
+mathematical models are only a tool to help the trader make decisions. Successful option
+trading is at least as much an art as a science, and a trader must know where science
+leaves off, and other intangible assets, whether intuition or market feel or experience,
+begin. This brings us to one final point, and perhaps the most important principle of
+option trading: there is no substitute for common sense. A trader who slavishly uses a
+model to make every trading decision is heading for disaster. Only a trader who fully
+understands what a model can and cannot do will be able to make the model his servant
+rather than his master.
+
+
+«+ Appendix A +
+
+A Glossary of Option
+and Related Terminology
+
+Alt or None (AON)—An order which must be filled in its entirety or not at all.
+American Option—An option which can be exercised at any time prior to expiration.
+
+Arbitrage—The purchase and sale of the same product in different markets to take
+advantage of a price disparity between the two markets.
+
+Asian Option—Average price option.
+
+Assignment—The process by which the seller of an option is notified of the buyer’s
+intention to exercise.
+
+At-the-Money—An option whose exercise price is equal to the current price of the
+underlying contract. On listed option exchanges the term is more commonly used to
+refer to the option whose exercise price is closest to the current price of the underlying
+contract.
+
+Automatic Exercise—The exercise by the clearing house of an in-the-money option
+at expiration, unless the holder of the option submits specific instructions to the
+contrary.
+
+Average Price Option—An option whose value at expiration is determined by the
+average price of the underlying instrument over some period of time.
+
+Backspread—A spread, usually delta neutral, where more options are purchased than
+sold, and where all options have the same underlying contract and expire at the same
+time.
+
+Backwardation—A futures market where the more distant delivery months trade at a
+discount to the nearterm delivery months.
+
+Barrier Option—An option which will either become effective or cease to exist if the
+underlying instrument trades at some predetermined price prior to expiration.
+
+419
+
+
+420 Appendix A
+
+Bear Spread—Any spread which will theoretically increase in value with a decline in
+the price of the underlying contract.
+
+Box—A long call and short put at one exercise price, together with a short call and long
+put ata different exercise price. All options must have the same underlying contract and
+expire at the same time.
+
+Bull Spread—Any spread which will theoretically increase in value with a rise in the
+price of the underlying contract.
+
+Butterfly—The sale (purchase) of two options with the same exercise price, together
+with the purchase (sale) of one option with a lower exercise price and one option with
+a higher exercise price. All options must be of the same type, have the same underlying
+contract, and expire at the same time, and there must be an equal increment between
+exercise prices.
+
+Buy/Write—The purchase of an underlying contract together with the sale of a cail
+option on that contract.
+
+Cabinet Bid—On some exchanges, a bid smaller than the minimum increment,
+permissible between traders desiring to close out positions in very far out-of-the money
+options.
+
+Calendar Spread—A time spread.
+
+Call Option—A contract between a buyer and a seller whereby the buyer acquires the
+right, but not the obligation, to purchase a specified underlying contract ata fixed price
+on or before a specified date. The seller of the call option assumes the obligation of
+delivering the underlying contract should the buyer wish to exercise his option.
+
+Cap—A contract between a borrower and a lender of floating rate funds, whereby the
+borrower is assured of paying no more than some maximum interest rate for borrowed
+funds. This is analogous to a call option where the underlying instrument is an interest
+rate on borrowed funds.
+
+Chooser Option—A straddie where the owner must decide by some predetermined
+date whether to keep either the call or the put.
+
+Christmas Tree—A spread involving three exercise prices. One or more calls (puts)
+are purchased at the lowest (highest) exercise price and one or more calls (puts) are sold
+at each of the higher (lower) exercise prices. All options must expire at the same time,
+be of the same type, and have the same underlying contract.
+
+Class—all options of the same type with the same expiration date and same underlying
+instrument.
+
+
+A Glossary of Option and Related Terminology 421
+
+Clearing House—The organization which guarantees the integrity of all trades made
+on an exchange.
+
+Clearing Member—A member firm of an exchange which is authorized by the
+clearing house to process trades for its customers, and which guarantees, through the
+collection of margin and variation monies, the integrity of its customers’ trades.
+
+Collar—A contract between a borrower and a lender of floating rate funds, whereby
+the borrower is assured of paying no more than some maximum interest rate for
+porrowed funds, and whereby the lender is assured of receiving no less than some
+minimum interest rate on loaned funds. This is analogous to an option fence where the
+underlying instrument is an interest rate on borrowed funds.
+
+Combination—A two-sided option spread which does not fall into any well defined
+category of spreads. Most commonly it is used to refer to a long call and short put, or
+short call and long put, which together make up a synthetic position in the underlying
+contract.
+
+Compound Option—An option to purchase an option.
+
+Condor—tThe sale (purchase) of two options with different exercise prices, together
+with the purchase (sale) of one option with a lower exercise price and one option with
+a higher exercise price. All options must be of the same type, have the same underlying
+contract, and expire at the same time, and there must be an equal increment between
+exercise prices.
+
+Contango—A futures market where the more distant delivery months trade at a
+premium to the nearterm delivery months.
+
+Contingency Order—An order which becomes effective only upon the fulfillment of
+some predetermined condition(s) in the marketplace.
+
+Conversion—A long underlying position together with a short call and long put, where
+both options have the same exercise price and expire at the same time.
+
+Covered Write—The sale of a call (put) option against an existing long (short) position
+in the underlying contract.
+
+Cylinder—A fence or collar.
+Deferred Start Option—A forward start option.
+
+Delta (A)—The sensitivity of an option’s theoretical value to a change in the price of
+the underlying contract.
+
+Delta Neutral—A position where the sum total of all the positive and negative deltas
+adds up to approximately zero.
+
+
+422 Appendix A
+
+Diagonal Spread—A long call (put) at one exercise price and expiration date, together
+with a short call (put) at a different exercise price and expiration date. All options must
+have the same underlying stock or commodity. This is simply a time spread using
+different exercise prices.
+
+Elasticity-—The percent change in an option’s value for a given percent change in the
+value of the underlying instrument. Sometimes referred to as the leverage value.
+
+Exchange Option—An option to exchange one asset for another asset.
+
+Ex-dividend—The day on which a dividend paying stock is trading without the right
+to receive the dividend.
+
+Exercise—The process by which the holder of an option notifies the seller of his
+intention to take delivery of the underlying contract, in the case of a call, or to make
+delivery of the underlying contract, in the case of a put, at the specified exercise price.
+
+Exercise Price—The price at which the underlying contract will be delivered in the
+event an option is exercised.
+
+Expiration (Expiry}—The date and time after which an option may no longer be
+exercised.
+
+European Option—An option which may only be exercised at expiration.
+Extrinsic Value—Time value.
+Fair Value—Theoretical value.
+
+Fence—A long (short) underlying position, together with a long (short) out-of-the-
+money put and a short (long) out-of-the-money call. All options must expire at the same
+time.
+
+Fill or Kill (FOK)—An order which will automatically be cancelled unless it can be
+executed immediately and in its entirety.
+
+Flex Option—An exchange-traded option where the buyer and seller are permitted to
+negotiate the exact terms of the option contract. Typically, this includes the exercise
+price, the expiration date, and the terms of exercise (either European or American).
+
+Floor—aA contract between a borrower and a lender of floating rate funds, whereby the
+lender is assured of receiving no less than some minimum interest rate for loaned funds.
+This is analogous to a put option where the underlying instrument is an interest rate on
+loaned funds.
+
+Forward Contract—A contract between a buyer and a seller whereby the buyer is
+obligated to take delivery and the seller is obligated to make delivery of a fixed amount
+
+
+A Glossary of Option and Related Terminology 423
+
+of a commodity at a predetermined price on a specified future date. Payment in full is
+due at the time of delivery.
+
+Forward Price—Taking into consideration all carrying costs on a contract, the price at
+which a contract would have to be trading on some future date such that a trade made
+at today’s price would just break even.
+
+Forward Start Option—An option whose exercise price will be equal to the price of
+the underlying instrument on some predetermined date.
+
+Front Spread—A ratio vertical spread.
+
+Fugit—The expected amount of time remaining to optimum early exercise of an
+American option.
+
+Futures Contract—A contract, usually exchange-traded, between a buyer and a seller
+whereby the buyer is obligated to take delivery and the seller is obligated to make
+delivery ofa fixed amount of a commodity at a predetermined price on some future date.
+All profits and losses are realized immediately, and result ina cash credit or debit based
+on daily changes in the settlement price of the contract.
+
+Futures-Type Settlement—aA settlement procedure used by commodity exchanges
+whereby an initial margin deposit is made, but under which no immediate cash payment
+is made by the buyer to the seller. Cash settlement takes place at the end of each trading
+day based on the difference between the current day’s settlement price and the previous
+day’s settlement price or the original trade price.
+
+Gamma (T}—The sensitivity of an option’s delta to a change in the price of the
+underlying contract.
+
+Good ’til Cancelled (GTC)—An order to be held by a broker until it can either be
+executed or is cancelled by the customer.
+
+Guts—A strangle where both the call and the put are in-the-money.
+
+Haircut—On equity option exchanges, money deposited by a trader with the clearing
+house to ensure the integrity of his trades. This is similar to a margin requirement ona
+commodity exchange.
+
+Hedge Ratio—Delta
+
+Hedger—A trader who enters the market with the specific intent of protecting an
+existing position in an underlying contract.
+
+Horizontal Spread—A time spread.
+
+
+424 Appendix A
+
+Immediate or Cancel (IOC)—An order which will automatically be cancelled if it is
+not filled immediately. An IOC order need not be filled in its entirety.
+
+Implied Volatility—Assuming ai! other inputs are known, the volatility which would
+have to be input into a theoretical pricing model in order to yield a theoretical value
+identical to the price of the option in the marketplace.
+
+In-Option—A type of barrier option which becomes effective only if the underlying
+instrument trades at some predetermined price prior to expiration.
+
+In-Price—The price at which the underlying instrument must trade before an in-option
+becomes effective.
+
+In-the-Money—A cal! (put) option whose exercise price is lower (higher) than the
+current price of the underlying contract.
+
+Index Arbitrage—One of several strategies attempting to take advantage of the
+relative mispricing of options, futures contracts, or the physical stocks underlying a stock
+index.
+
+Intermarket Spread—A spread consisting of opposing market positions in two differ-
+ent underlying securities or commodities, or their derivative products.
+
+Intrinsic Value—The amount by which an option is in-the-money. Out-of-the-money
+options have no intrinsic value.
+
+Iron Butterfly—A long (short) straddle, together with a short (long) strangle. All
+options must expire at the same time and have the same underlying contract.
+
+Jelly Roll (Roll}—A long call and short put with one expiration date, together with a
+short call and long put with a different expiration date. All four options must have the
+same exercise price and same underlying stock or commodity.
+
+Kappa (K)—Vega.
+Knock Out Option—An out-option
+Ladder—A Christmas tree.
+
+Long-Term Equity Anticipation Security (LEAPS)}—A long-term (usually more
+than one year) exchange traded equity option.
+
+Leg—One side of a spread position.
+
+Limit—The maximum allowable price movement over some time period for an
+exchange traded contract.
+
+Limit Order—An order to be executed at a specified price or better.
+
+
+A Glossary af Option and Related Terminology 425
+
+Local—An independent trader on a commodity exchange. Locals perform functions
+similar to market makers on stock and stock option exchanges.
+
+Locked Market—A market where trading has been halted because prices have
+reached their limit.
+
+Long—A position resulting from the purchase of a contract. The term is also used to
+describe a position which will theoretically increase (decrease) in value should the price
+of the underlying contract rise (fall). Note that a long (short) put position is a short (long)
+market position.
+
+Long Premium—A position which will theoretically increase in value should the
+underlying contract make a large move in either direction. The position will theoreti-
+cally decrease in value should the underlying market sit still.
+
+Long Ratio Spread—A backspread.
+
+Look Back Option—An option whose exercise price will be equal to either the lowest
+price of the underlying instrument, in the case of a call, or the highest price of the
+underlying instrument, in the case of a put, over the life of the option.
+
+Margin-—Money deposited by a trader with the clearing house to ensure the integrity
+of his trades.
+
+Market Maker—An independent trader or trading firm which stands ready to buy or
+sell contracts in a designated market. Market makers perform duties similar to locals on
+commodity exchanges, the primary difference being that a market maker is obligated to
+make a two-sided (bid and ask) market in his designated contract.
+
+Market If Touched (MIT)—A contingency order which becomes a market order if
+the contract trades at or beyond a specified price.
+
+Market On Close (MOC)—An order to be executed at the current market price as
+near as possible to the close of that day’s trading.
+
+Market Order—An order to be executed immediately at the current market price.
+Naked—A long (short) market position with no offsetting short (long) market position.
+
+Neutral Spread—A spread which is delta neutral. A spread may also be lot neutral,
+where the total number of long contracts and short contracts of the same type are equal.
+
+Not Held—An order submitted to a broker, but over which the broker has discretion
+as to when and how the order is executed.
+
+Omega (Q.}—The Greek letter sometimes used to denote an option’s elasticity.
+
+
+426 Appendix A
+
+One Cancels the Other (OCO)—Two orders submitted simultaneously, either of
+which may be executed. If one order is executed, the other is automatically cancelled.
+
+Order Book Official (OBO)—An exchange official responsible for executing market
+or limit orders for public customers.
+
+Out-of-the-Money—An option which currently has no intrinsic value. A call (put) is
+out-of-the-money if its exercise price is more (less) than the current price of the
+underlying contract.
+
+Out-Option—A type of barrier option which is deemed to have expired if the
+underlying instrument trades at some predetermined price prior to expiration.
+
+Out-Price—The price at which the underlying instrument must trade before an out
+option is deemed to have expired.
+
+Out-trade—A trade which cannot be processed by the clearing house due to conflicting
+information reported by the two parties to the trade.
+
+Overwrite—The sale of an option against an existing position in the underlying
+contract.
+
+Parity—lIntrinsic value.
+
+Pin Risk—The risk to the seller of an option that at expiration the option will be exactly
+at-the-money. The seller will not know whether the option will be exercised.

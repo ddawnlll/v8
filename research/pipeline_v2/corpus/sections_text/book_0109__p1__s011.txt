@@ -1,0 +1,685 @@
+
+164
+
+Trading Binary Options
+
+Table 8.1 NFP Binary Option Ladder For NFP Data Release February 5, 2016
+
+Nonfarm Payroll > 260,000
+
+EXPIRATION DATE FEB 5 8:30 a.m. EST
+
+BID/ASK
+12/22
+
+Nonfarm Payroll > 230,000
+
+EXPIRATION DATE FEB 5 8:30 a.m. EST
+
+BID/ASK
+25/35
+
+Nonfarm Payroll > 200,000
+
+EXPIRATION DATE FEB 5 8:30 a.m. EST
+
+BID/ASK
+40/50
+
+Nonfarm Payroll > 170,000
+
+EXPIRATION DATE FEB 5 8:30 a.m. EST
+
+BID/ASK
+70/80
+
+Nonfarm Payroll > 140,000
+
+EXPIRATION DATE FEB 5 8:30 a.m. EST
+
+BID/ASK
+85/95
+
+Headlines following the jobless claims data releases reflect the ongoing surprise of the results. On April 28, 2011, a Bloomberg headline was “Jobless
+Claims in U.S. Unexpectedly Rise to Three Month High.” Another headline
+on May 5, 2011: “Jobless Claims in U.S. Unexpectedly Jump on One-Time
+Events.” What is a typical reaction to surprise? A major surprise happened on
+the October 2015 NFP data release on November 4. The nonfarm payroll
+report astounded the market with results of 271,000 new jobs. This result
+signaled a strengthening U.S. economy and increased market confidence that
+interest rates would be raised by the end of 2015. One can also note the
+decline in the NFP results prior to the 2008 collapse (Figure 8.1).
+Evidently, our best number crunchers don’t know how to accurately
+predict these economic levels. The question arises, why should the binary
+option trader have a better handle on the results? Certainly, the binary
+option trader will have a challenging time mastering trading binaries
+relating to predictions of employment levels. In any case, there are some
+useful approaches to deciding on direction of the NFP report. One strategy
+is to locate what the “gurus” are forecasting. There are several sources of
+professional forecasts. A good place to start is the latest professional economic forecasts of the Federal Reserve Bank of Philadelphia. It issues a
+quarterly Survey of Professional Forecasters (https://www.philadelphiafed.org/
+research-and-data/real-time-center/survey-of-professional-forecasters/).
+Here is what the last survey of 2015 stated:
+Growth in real GDP in 2016 and 2017 looks a little slower now
+than it did three months ago, according to 45 forecasters ­surveyed
+
+Analyzing NFP Data for Binary Trading 
+
+165
+
+Figure 8.1 NFP Results
+NFP JOBS
+400
+200
+0
+−200
+−400
+−600
+−800
+2008
+
+2009
+
+2010
+
+2011
+
+2012
+
+2013
+
+2014
+
+2015
+
+by the Federal Reserve Bank of Philadelphia. The forecasters
+currently see growth in the annual-average level of real GDP at
+2.6 percent in 2016 and 2.5 percent in 2017. These current estimates represent downward revisions to the outlook of three months
+ago, when the forecasters thought 2016 growth would be 2.8 percent
+and 2017 growth would be 2.6 percent. Notably, the forecasters
+have raised their growth estimates for 2018. They now see real
+GDP growing 2.8 percent in 2018, up from the previous estimate
+of 2.4 percent.
+A slightly improved outlook for the unemployment rate accompanies the outlook for growth. The forecasters predict the unemployment
+rate will be an annual average of 5.3 percent in 2015, before falling to
+4.8 percent in 2016, 4.7 percent in 2017, and 4.7 percent in 2018. The
+projections for 2016 and 2017 are below those of the last survey.
+On the jobs front, the panelists have revised upward their estimates for job gains in the first three quarters of 2016. The forecasters see nonfarm payroll employment growing at a rate of 201,500
+jobs per month this quarter and 188,200 jobs per month next
+quarter. The forecasters’ projections for the annual-average level of
+
+166
+
+Trading Binary Options
+
+nonfarm payroll employment suggest job gains at a monthly rate
+of 241,800 in 2015 and 197,000 in 2016. (These annual-average
+estimates are computed as the year-to-year change in the annualaverage level of nonfarm payroll employment, converted to a
+monthly rate.)
+In the Philadelphia survey, the trader can obtain very detailed
+summaries of different forecasts regarding real GDP, unemployment
+rate, payrolls, and inflation levels. (Federal Reserve Bank of
+Philadelphia 2015)
+For those traders looking to gain an edge in predicting a strong NFP report,
+checking on several sources of economic forecasts is advisable. One of the most
+interesting is the Anxious Index. It reflects whether economists are hopeful or
+anxious about the prospects of GDP growth or decline and the prospects of a
+recession. It is taken every quarter by the Federal Reserve Bank of Philadelphia.
+They describe it: “The anxious index peaks during recessions, then declines
+when recovery seems near.” It can be used by traders as a contrarian signal for
+the economy. It’s a good idea to keep tabs on the results (see Figure 8.2). We
+can also see how the Anxious Index was at extreme highs before the financial
+collapse of 2008 (Figure 8.3).
+To be sure, a great deal of quantitative research is being done to attempt
+to obtain better predictions for nonfarm payrolls. Recent research uses Google
+Trends as a predictive tool for these event binaries. Researchers D’Amuri and
+Figure 8.2 Anxious Index Correlates Negatively with Recessions
+The Anxious Index Probability of Decline in Real GDP in the Following Quarter Quarterly,
+1968:Q4 to 2015:Q4
+100
+
+80
+70
+60
+50
+40
+30
+20
+10
+0
+
+1968
+1969
+1970
+1971
+1972
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985
+1986
+1987
+1988
+1989
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+
+Probability (percent)
+
+90
+
+Survey Date
+
+167
+
+Analyzing NFP Data for Binary Trading
+Figure 8.3 Anxious Index and the Financial Collapse
+
+90
+80
+70
+60
+50
+40
+30
+20
+10
+2007
+
+2008
+
+2009
+
+2010
+
+2011
+
+2012
+
+2013
+
+2014
+
+2015
+
+Marcucci from the Bank of Italy said about the use of Google to quantify
+search trends: “We suggest the use of an Internet job-search indicator (the
+Google Index, GI) as the best leading indicator to predict the U.S. unemployment rate. . . . We find that models augmented with the GI outperform
+the traditional ones in predicting the monthly unemployment rate, even in
+most state-level forecasts and in comparison with the survey of professional
+forecasters.”
+
+look Online
+The Conference Board’s Index of Leading Economic Indicators:
+www.conference-board.org
+Institute for Supply Management (ISM): www.ism.ws/
+Survey of Professional Forecasters: www.phil.frb.org/econ/spf/index.html
+The Anxious Index: www.phil.frb.org/files/spf/anxind.html
+
+168
+
+Trading Binary Options
+
+Wall Street Journal Economic Forecast Survey: http://online.wsj.com/public/
+page/0,,2_0891,00.html
+Consensus Estimates: www.forexfactory.com or www.forexpros.com
+Gallup Poll: www.gallup.com
+Business Insider, a site with financial, media, tech, and other industry news:
+www.businessinsider.com
+U.S. Bureau of Labor Statistics: www.bls.gov
+
+The trader is not the only one who has a challenge regarding trading the
+binaries on the nonfarm payroll releases. The market maker has a unique
+problem in pricing event binaries because the Black-Scholes model, which is
+used to generate pricing for the regular underlying markets, can’t be applied.
+So this means the market maker has a lot more risk exposure when deciding
+to put on a price for a particular binary ladder.
+Key Steps Before Trading Nonfarm Payroll
+and Job Claims Binaries
+
+There are several analytical questions that need to be asked and answered by
+anyone set on trading these event risks.
+
+What Is the Consensus on the Coming Data Release?
+Several analysts and economists offer their opinions about the upcoming
+numbers. Reuters and Bloomberg poll a sample of experts. Tradingeconomics
+.com releases estimates as well. Historically, there is surprise in actual versus
+estimate outcomes. Sometimes there is great surprise and as a result the markets react with volatility. However, those traders who want to develop an
+opinion of whether the nonfarm payroll will hit new highs or lows can get into
+the data at a more focused level. They can seek to answer several questions.
+
+Is There a Trending Pattern in the Data?
+The United States Department of Labor issues a report called the Unemployment
+Insurance Weekly Claims Report. The four-week moving average seasonally
+adjusted (SA) is the key row to look at.
+
+Analyzing NFP Data for Binary Trading 
+
+169
+
+Look at the data and ask yourself: Is the moving average of claims going
+up, down, or sideways? The trader can also apply basic technical analysis to the
+employment data. For example, on the NFP chart (Figure 8.1), one can apply
+classical trend line, support, and resistance analysis to the data and we can see
+that from January 2006 to April 2009, job losses were increasing every month,
+but stopped decreasing in April 2009. A binary trader would logically play
+the downtrend during this period by betting that the NFP report would not
+generate new highs. This would mean selling the highest or next to the highest
+ladder. Noticing that a shift in the trend occurred after April 2009, the binary
+strategy that would have been logical would have been to bet on an increasing
+ability to generate jobs, or that no new lows would occur. This would mean
+buying the lowest or next to the lowest binary ladder. When the NFP shows a
+sideways action, a wide binary option range trade would be logical.
+
+Is There Consensus Error Bias?
+Evaluating the technical trend can be supplemented by evaluating the trend
+in the consensus. Even more important is evaluating whether there is a bias
+in the consensus. Forecasts are often wrong, but more important to know
+is whether the error is underestimating or overestimating. In studying data
+produced by Tradingeconomics.com, we can see in Table 8.2 that there is a
+challenge in achieving accuracy.
+Table 8.2 Actual versus Estimated Nonfarm Payroll Changes
+
+Month
+
+Consensus
+
+Actual Results
+
+Oct-2-2015
+
+203k
+
+142k
+
+Nov-11-2015
+
+180k
+
+271k
+
+Dec-4-2015
+
+200k
+
+211k
+
+Here are some tips for traders of nonfarm payroll reports:
+• If the most recent actual results were greater than the estimate, the strategy
+for the binary option trader for NFP data release is to go for out-of-the-money
+strike prices on the next release. Remember, since there is no underlying market, the consensus estimate can be used as the at-the-money spot market.
+• If the recent actual results are below the consensus, the strategy for the
+binary option trader for the next data release is to go for playing in-themoney strike prices.
+• If the employment data has no reliable trend, and is very choppy, find the
+strike price that is above but closest to the result, and the strike price that is
+below but closest to the results. Put on a breakout strategy.
+
+170
+
+Trading Binary Options
+
+• If NFP data breaks a trend line, use in-the-money or deep-in-the-money
+binary strike prices to go with the direction.
+• If the jobless claims data breaks uptrend, or is getting close to breaking it,
+consider an out-of-the-money sell position.
+Tactics for Trading NFP Report in Binaries
+
+We have focused on analyzing the NFP data and getting a grip on direction.
+Let’s focus on tactics. What are the alternative ways of trading the NFP report.
+This applies to any binary, whether it is a ladder binary or a regular high-low
+binary. There are several strategies.
+First, it is important to note that one can trade the NFP report by trading
+binaries on the EUR/USD, USD/JPY, and the S&P 500. These markets will
+likely react and move big with the NFP results. The trader needs to choose an
+expiration that allows the trade to benefit from the momentum of the market.
+This means the expiration should be short-term from 1-minute to 30-minute
+durations. Regardless of the durations, there are several trading strategies to
+consider. Let’s examine them now.
+
+Strategy 1: Anticipate Data Release Results
+In this strategy, the trader believes she knows what the results of the news release
+will be (see Figure 8.4 and Table 8.3). She consequently chooses a direction before
+the news release. If the trader was trading spot, the action would be to put on a
+Figure 8.4 Anticipate Data Release Strategy
+
+Binary Option
+Expiration time
+
+10 min.
+
+Instant of Data Release
+
+Analyzing NFP Data for Binary Trading 
+
+171
+
+Table 8.3 Key Decisions on Strategy for Anticipating Data Release
+
+Action
+
+Advisory
+
+Choose trade direction
+
+Buy or sell
+
+Choose option expiration
+
+Select option that expires 5 to 10 minutes after data release
+
+Execute trade
+
+5 to 10 minutes before data release
+
+market order before the news release in the anticipated direction. However, for
+binaries, the trader chooses an option that will expire shortly after the data release.
+
+Strategy 2A: Trade at Data Release in a Bullish Direction
+In this strategy, the market has reacted and it is going bullish (see Figure 8.5
+and Table 8.4). The trade is to buy the next expiration binary, which will enable
+participation in the direction of the break. The disadvantage of this strategy is
+that prices could reverse and the reaction is not as strong to ride it out through
+the next expiration binary.
+Figure 8.5 Bull Trading NFP at Data Release
+Execute Buy of Next Expiration
+Option After Instant of Data Release
+
+Price Direction
+After Data Release
+
+Instant of Data Release
+
+Table 8.4 Key Decisions for Bull Trading NFP at Data Releases
+
+Action
+
+Advisory
+
+Detect price direction at instant of data release
+
+Choose buy if price direction is up
+
+Select next expiration binary option
+
+Execute next expiration binary option
+
+172
+
+Trading Binary Options
+
+Strategy 2B: Sell Trade at Data Release
+The benefit of this strategy is that the trader doesn’t have to guess the results
+of the news release (see Figure 8.6 and Table 8.5). The market has reacted and
+is bearish in this case. Go and sell the next expiration binary as soon as the
+news breaks out. It will enable participation in the direction of the break. The
+disadvantage of this strategy is that prices could reverse and the reaction is not
+as strong to ride it out through the next expiration binary.
+
+Strategy 3A: (Buy) Trade at Fibonacci Points
+In this strategy, the trader waits for the initial reaction of the news release to
+be over (see Figure 8.7 and Table 8.6). If the reaction is bullish, wait until the
+price starts reversing. The trader puts on a Fibonacci retracement tool and
+finds the key Fibonacci points. The trader waits for the market to go to those
+Figure 8.6 Bear Trading NFP at Data Release
+Execute Sell of Next Expiration
+Option After Instant of Data Release
+
+Price Direction
+After Data Release
+
+Instant of Data Release
+
+Table 8.5 Key Decisions for Bear Trading NFP at Data Release
+
+Action
+
+Advisory
+
+Detect price direction at instant of data release
+
+Choose sell if price direction is up
+
+Select next expiration binary option
+
+Execute next expiration binary option
+
+Analyzing NFP Data for Binary Trading 
+
+173
+
+Figure 8.7 Using Fibonacci Strategy for Buying after Data Release
+
+1 After release price
+
+reaches an initial high
+
+2 Price retraces off
+
+highs and likely
+stops at Fib levels
+
+3 Price bounces off
+
+Fib line and creates
+New high
+
+Instant of Data Release
+
+Table 8.6 Key Decision Steps for Bull Trading NPF Using Fibonacci Strategy
+
+Action
+
+Advisory
+
+Wait for instant of data release
+
+Detect buy direction of price upon data
+release
+
+Wait for price to stop going up
+
+Place a sell binary option (next-expiration)
+after price starts reversing back down
+
+Wait for price to stop falling at likely
+Fib level
+
+Place a buy binary option (next-expiration)
+as price resumes expiration as price resumes
+movement upward
+
+Wait for price to break previous high
+
+Place a binary option (next-expiration) as
+price breaks previous high
+
+points and if the price resumes the initial direction up—put on the next
+expiration trade in the new direction.
+
+Strategy 3B: (Sell) Trade at Fibonacci Points
+In this strategy, the trader waits for the initial reaction of the news release,
+which in this scenario is a bearish reaction (see Figure 8.8 and Table 8.7). Wait
+for it to be over. The trader puts on a Fibonacci retracement tool and finds the
+key Fibonacci points. The trader waits for the market to go to those points. It
+will try to reverse back up. Put on a next expiration trade in the new direction.
+
+174
+
+Trading Binary Options
+
+Figure 8.8 Bear Trading NPF Using Fibonacci Strategy
+
+1
+
+3
+
+2
+
+1 After release price
+
+reaches an initial low
+
+2 Price retraces off
+
+highs and likely
+stops at Fib levels
+
+3 Price bounces off
+Fib line but then
+creates new low
+
+Instant of Data Release
+
+Table 8.7 Key Decision Steps for Using Fibonacci Strategy for Trading NFP
+
+Action
+
+Advisory
+
+Wait for instant of data release
+
+Detect down direction of price upon data
+release
+
+Wait for price to stop going down
+
+Place a buy binary option (next-expiration)
+after price starts reversing back up
+
+Wait for the price to stop retracing upward
+at likely Fib level
+
+Place a sell binary option (next-expiration)
+as price resumes movement downward
+
+Wait for price to break previous low
+
+Place a buy binary option (next-expiration)
+as price breaks previous low
+
+Timing and Managing Trades During the Week
+
+We have considered event risks as triggered by political and market-driven
+events. But there is another kind of event risk—the days of the week. The
+process of analysis is important, but the probability of success also depends
+upon timing decisions. The trader has to learn which strategies work better
+on which days of the week.
+
+Analyzing NFP Data for Binary Trading 
+
+175
+
+Contrarian Mondays
+Monday mornings (3 a.m. EST) are when the binary option trading week
+essentially begins. Monday mornings represent, perhaps, the best opportunity
+to be a contrarian. The distance in time from Monday morning when markets
+in Asia open to Friday afternoon when the U.S. equity markets close provides
+a great deal of room for the unexpected events and changes in the mood of
+the market. Abraham Lincoln referred to the silent artillery of time as one of
+the most powerful weapons. It is true for traders. Time fuels hope as well as
+delusion. The initial opinion polls that form around a binary option strike
+price on Monday morning are the most likely to change and be wrong. The
+market mood formed on Monday mornings is based on lagging information
+from the events of the previous week. The previous week’s reaction to news
+and surprises has had time to diffuse. The new week presents new potential
+for mis-speculation and misjudgments. This leads to good conditions for
+putting on high return trades, offering more than 100 to 500 percent returns
+for the week. Monday morning becomes the best time slot for putting on
+initial trades.
+
+Missing Monday: Initiating Trades on Tuesday
+One strategy that requires some patience but can pay off strategically can be
+called Missing Monday. If Monday is the time when misjudgments occur,
+then Tuesday provides a reprieve. There may even be justification for waiting until Tuesday to do binary option trades. The rationale is that there is
+a value in waiting for more information. By Tuesday, initial assumptions
+about the week have been absorbed by the market, thereby offering less risk.
+Less risk, however, may mean lower returns. Putting on a trade on Tuesday
+offers less probable opportunities for 100 to 500 percent binary settlement
+values. Even so, on Tuesday, $30 to $45 ask prices still provide excellent
+return potential.
+
+Surfing the Volatility Wave: At-the-Money Wednesdays
+By Wednesday, the market has had time to absorb news. Price patterns have
+had time to solidify or probe their important levels of resistance and support.
+Emotions have dissipated somewhat and often what was expected on Monday
+morning has just collapsed and gone the other way. But by Wednesday, it is
+midweek in uncertainty. This makes Wednesday a good day for at-the-money
+(ATM) trades.
+
+176
+
+Trading Binary Options
+
+Going with the Crowd: Deep-in-the-Money Thursdays
+Deep-in-the-money strategies make sense on Thursdays because, by that time,
+the market has formed a crowd or consensus of opinion on many of the market
+patterns. By Thursday, an additional strategy unfolds in this scenario. If the ask
+has gone to $75, the market mood is now definitely optimistic. It would take
+some new information, or event surprises, to trigger a reversal of the trend direction. With 75 percent expected probability of success, the very same crowdmind, which we tend to doubt as accurate on Monday, is much more reliable
+on Thursday. With only two days left to expiration, a binary option trade with
+a $75 ask represents a 25 percent return in two days. Not bad by any standard.
+
+Last Chance: Very-Deep-in-the-Money Fridays
+Initiating a trade on Friday is appropriate for loading up on a position. By
+Friday, probability streams have narrowed and reduced the opportunities to
+very deep-in-the-money plays, such as $85 to $90 asks. This means the market is very confident of a binary strike price settling at $100. While such plays
+return zero to 15 percent in a few hours, they also risk 85 to 90 percent. Trading this strategy requires a high level of technical confirmation.
+A different view of binary option trading opportunities is worth considering—the once-a-month trade. Once every month, the nonfarm payroll
+data release moves the markets. A breakout strategy put on for the first week
+of every month (since the nonfarm payroll report comes out the first Friday of
+every month) may be all you need to satisfy the challenge and excitement of
+binary option trading.
+Using Binaries with Forex Trading
+
+An application worthy of much further analysis, but slightly beyond the scope
+of this book, is the use of binary options in combination with spot trading.
+Because binary options pay out a fixed amount if a strike price is penetrated,
+and settles in-the-money, they can be viewed as a form of rebate insurance. For
+example, if a trader had a long position in the EUR/USD spot market, he can
+also select a sell binary option strike price in which he would have placed a stop.
+If the EUR/USD sold off and he incurred losses in his spot account at the same
+time, the binary account would pay off. This can offset part or all of the loss.
+One can view the binary option as a form of hedge as well when doing correlated trades. For example, if a trader was trading crude oil futures, she can at the
+
+Analyzing NFP Data for Binary Trading 
+
+177
+
+same time put on a trade in the opposite direction on the USD/CAD. Remember, they are from a technical point of view inversely correlated. Being long on
+oil, and being wrong, would likely see the USD/CAD rise. Therefore, a trader
+being long on oil would also be long the USD/CAD binary to provide a form of
+a hedge. A USD/CHF trade may be used to hedge an S&P equity trade.

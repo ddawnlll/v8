@@ -1,0 +1,399 @@
+
+The Illusory Validity of Subjective Technical Analysis
+
+89
+
+bias stemming from a faulty application of the representativeness heuristic can explain why subjective technicians fall prey to an illusion of order
+in charts that were, in fact, produced by a random process.
+To explain how chartists make this mistake, which is rather subtle, we
+will take a brief detour by considering a more easily understood case of
+heuristic bias caused by representativeness reasoning.
+As mentioned earlier, reasoning by representativeness is premised on
+the notion that a class of objects or events can be represented by a class
+stereotype-a typical example that possesses the class's key distinguishing characteristics. Often this line of reasoning works well. However, it
+fails when an object's most noticeable features are not reliable indicators
+of the object's class. In other words, when the characteristics that most
+draw our attention are not relevant in judging the object's class l46 reasoning by representativeness tends to fail. Unfortunately, intuitive judgment
+tends to be based on the most obvious features of an object or event regardless of whether these features are truly useful indicators of its class.
+Reasoning by representativeness estimates the probability than an
+object belongs to a given class by considering the degree of match between the object's most salient attributes and the most salient attributes
+of the class stereotype. The greater the number of matching attributes,
+the higher the adjudged probability that the object is indeed a member of
+the class in question. "Modern psychologists hypothesize that our concepts of categories (classes) like bank tellers, feminists, microcomputers, skunks, and all kinds of things are represented cognitively as lists of
+attributes that we believe are defining characteristics ofthose entities."147
+This is illustrated in Figure 2.19. In many instances this fast and frugal
+classification rule gives accurate results. People would not use such a
+rule it if it did not.
+Let's consider an example where the application of the representativeness rule leads to an erroneous judgment about an object's class.
+Imagine that you have just taken your seat on a commercial airline flight
+and you become concerned that a person (the object) seated next to you
+may be a terrorist (the class). Your apprehension is aroused because the
+person has the following obvious characteristics: man of apparently Middle Eastern origin, mustache, 25-30 years of age, wearing a turban, reading the Koran, and appearing nervous. Your conclusion that the man may
+very well belong to the class of terrorists occurred quite spontaneously
+because his obvious characteristics are similar to a set of characteristics
+that was also possessed by (i.e., is representative of) the terrorists who
+conducted the attacks of September 11, 2001. Your inference was based
+on the representativeness heuristic. Now consider how you would have
+reacted if the passenger were a young Middle Eastern man but was wearing blue jeans and a tee-shirt with an obscene logo, had on a New York
+
+90
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+C
+
+•
+
+K
+
+Q
+
+•,
+
+Object
+
+of
+Uncertain
+Class
+
+Stereotypical Class Member
+
+Class
+FIGURE 2.19 Classification by number of matching attributes.
+
+Yankee baseball cap instead of a turban, was reading a copy of Playboy
+instead of the Koran, and was listening to rock music on an iPod while
+blowing chewing-gum bubbles. You would not have been worried. Intuitive judgments of class rest on the assumption that the most obvious
+characteristics of an individual are reliable indicators of that individual's class.
+Judgments based on representativeness can err because they fail to
+take into account statistical and/or logical elements of a situation that are
+truly relevant to an accurate judgment about its class. The probabilistically correct way of estimating the class of an event or object is called
+Bayes' theorem,148 which is derived from the axioms of probability theory.
+If it were applied to the airline passenger suspected of being a terrorist, it
+would take into account such things as the proportion of terrorists in the
+world (Le., the base rate of the class of terrorists), the proportion of people in the world that possess the set of observed characteristics (i.e., the
+base rate of the pattern), and the proportion of terrorists that have this
+pattern of characteristics (Le., the conditional probability that these characteristics are present given that the individual is in fact a terrorist). When
+these values are plugged into the equation that expresses Bayes' theorem
+we obtain the conditional probability that the person is a terrorist, given
+that they possess the pattern of characteristics.
+
+The Illusory Validity of Subjective Technical Analysis
+
+91
+
+Because intuition operates on the basis of representativeness, rather
+than Bayes' law, we tend to commit an error called the base rate faUacy.
+This is the failure to consider the base rate statistics characterizing a situation. Terrorists, fortunately, are very rare (i.e., have a very low base rate).
+Thus, among the entire set of people who possess the same salient characteristics as the terrorists of 9/11/01, the fraction that are actually terrorists
+is extremely small. Perhaps only one person in a million with these traits
+is actually a terrorist. This fact is highly relevant to judging the likelihood
+that the person seated next to us is dangerous. However, we tend to neglect base-rate statistics because intuitive judgment is focused on the attention-grabbing features of a situation or object rather than relevant facts
+such as a base-rate.
+An example of fallacious reasoning by representativeness was displayed by market analysts who predicted that a deflationary depression
+would follow the stock market crash of October 1987. They were captivated by the very noticeable similarity between the behavior of the stock
+market in 1929, which did lead to a deflationary depression, and its behavior in 1987. Both witnessed market crashes. This glaring similarity took
+analysts' attention away from significant dissimilarities between 1987 and
+1929. In other words, 1987 and 1929 were different with respect to factors
+that do have some predictive information with respect to deflationary collapses. An examination of market crashes over the last 100 years shows
+that a price crash is not a reliable predictor of a deflationary depression.
+Another error associated with representative reasoning is called the
+conjunction fallacy, a failure to take into account a basic law of logic
+telling us that a proper subset must contain a smaller number of objects
+than the larger set to which it belongs. The set horses is a proper subset of
+the larger set, animals. It follows that horses must be fewer in number
+than animals in general, which includes horses, bluebirds, aardvarks, and
+so forth. However, when people rely on the representativeness rule, they
+seem to ignore this law of logic and commit the conjunction 149 fallacy. In
+one experiment conducted by Tversky and Kahneman,150 subjects were
+presented with the following description:
+
+Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a stUdent, she was deeply concerned with issues of discrimination and social justice, and also participated in
+antinuclear demonstrations. Which possibility is most likely? (1)
+Linda is a bank teller, or (2) Linda is a bank teUer AND is active in
+the feminist movement.
+Astoundingly, 85 percent of the subjects responded that it was more
+likely that Linda was a bank teller AND active in the feminist movement
+
+92
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+than that Linda was simply a bank teller. This conclusion ignores the logical relationship between a set and a proper subset. Subjects became so
+fixated on the fact that Linda possessed a set of salient characteristics that
+matched an intuitive stereotype of a feminist, that they committed the
+conjunction fallacy. Clearly, the set of women who are both bank tellers
+and active in the feminist movement is a subset of a larger category which
+contains all female bank tellers including those who are feminists and
+those who are not. Other studies confirmed these findings and led Tversky
+and Kahneman to conclude that people's probability judgments are biased
+by the addition of salient detail. Even though each additional detail describing an object reduces the probability that such an object exists, \5\
+when people reason by representativeness, additional detail increases the
+number of characteristics that match a class stereotype, thus increasing
+an intuitive estinlate of probability. The conjunction fallacy is illustrated
+in Figure 2.20.
+The conjunction fallacy can have disastrous consequences when it
+seeps into jury verdicts. For example, consider which of two possibilities
+would seem more likely 152:
+1. The defendant left the scene of the crinle.
+2. The defendant left the scene of the crime for fear of being accused of
+murder.
+
+Bank Tellers
+Who Are
+Feminists
+
+FIGURE 2.20 The conjunction fallacy.
+
+The Illusory Validity of Subjective Technical Analysis
+
+93
+
+The second hypothesis involves a conjunction of "left the scene" and
+"fear of accusation." Because the second alternative is a subset of the first,
+it is by definition less probable. Clearly, there are reasons for someone's
+leaving a crime scene other than fear of being accused, like going to pick
+up the dry cleaning. However, the additional detail of the second hypothesis lends a ring of plausibility because it increases a sense of match to actions that would be representative of a guilty party.
+
+THE REPRESEN11\TIVENESS IIEURISTIC AND THE
+ILLUSION TRENDS AND PA1'TERNS IN CHARTS:
+REAL AND FAKE
+So far the representativeness heuristic has been discussed with respect to
+its use in classifying objects. In fact, the heuristic is also involved in a
+more abstract type of classification judgment that is central to the practice of subjective TA: judging that a sample of data evidences trends and
+patterns and is, therefore, worthy of further analysis or alternatively that
+the data is a random hodge-podge not worthy of further analysis.
+Bear in mind the judgment about whether a data set appears random
+or nonrandom is not made with conscious awareness or intention. It occurs as automatically and unconsciously as the judgment involved in recognizing the face of a friend. All heuristic judgments, including reasoning
+by representativeness, occur automatically and without conscious awareness. As a result, when a chartist concludes that a sample of price history
+contains authentic patterns and trends (i.e., that the data is nonrandom)
+and is, therefore, worthy of analysis, it is not a matter of controlled thinking. That is to say, the chartist does not consciously pose the question:
+"Does this data appear as if it contains exploitable order and structure."
+Although heuristic judgments slip into our thinking unnoticed, they
+can have a profound influence on our beliefs. The problem is that heuristic thinking fails to take into account important features of the data that
+are relevant to determining if it does contain authentic patterns and
+trends that might be exploited with further analysis.
+In a previous section, I asked you to create an artificial price history
+(random-walk chart) by flipping a coin 300 times. If you did not do so
+then, I urge you to do so now. Not only will it make this section more
+meaningful, it may permanently change the way you look at charts. To
+quote Martha Stewart, "that's a good thing."
+If this was your first exposure to data generated by a random process,
+you may be surprised by how nonrandom it looks. You may not have expected to see formations that look like chart patterns (head-and-shoulders,
+
+94
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+double top, etc.). The question we must consider is this: Why does this sequence, which we know to be random in origin, give the appearance of
+having authentic patterns and trends. Or, said differently, why does data
+generated by a purely random process appear as if it were generated by
+a process governed by rules, which, if discovered, would make prediction possible?
+Your chart may have looked something like Figure 2.21.
+The bottom line is this: That which appears to be nonrandom is not
+necessarily nonrandom. My contention is that the perception of trends
+and patterns in randomly generated data occurs because of a faulty application of the representativeness heuristic. Specifically, the heuristic creates a faulty intuitive notion of how random data is supposed to look. That
+is to say, it produces a false stereotype of randomness. Thus, when we
+view data that does not appear to match this false stereotype, we automatically and erroneously conclude that the data is nonrandom. From this
+flawed conclusion, it is a short leap to the equally false perception of patterns and the equally false notion that the patterns contain predictive
+information.
+One consequence of representativeness-based reasoning is the expectation that an effect should resemble its cause. This is often reasonable. The Earth (big cause) is responsible for gravity (big effect), while a
+mere pebble in our shoe causes only a minor annoyance. However, the
+rule that an effect should resemble its cause does not always hold. The
+1918 flu pandemic, a big effect, was caused by a creature of submicroscopic proportions.
+How does this relate to charts of asset prices? A set of data on a chart
+can be seen as an effect of a process, the activity of a financial market.
+The process is the cause whereas the data is the effect. A chart of our
+
+Price
+
+Time
+FIGURE 2.21
+
+Data from a random process that appears ordered.
+
+95
+
+The Illusory Validity of Subjective Technical Analysis
+
+body's hourly temperature over a 24-hour period is an effect caused by a
+process that happens to be our body's metabolism.
+Because representativeness-based thinking operates involuntarily beneath conscious awareness, when we view the chart of an asset's price
+history, we tend to draw an automatic conclusion about the nature of the
+process that generated the chart. Perhaps, if stock charts looked something like the trace in Figure 2.22, the pioneers of TA would have been less
+likely to see exploitable structure, and the practice of TA would never
+have been born. This data is supposed to approximate an intuitive stereotype of randomness: haphazard, disorderly, and without any hint of trend.
+On the basis of the representativeness heuristic, we presume that if a
+process (the cause) is random, its effect (the data) should also appear random. As a consequence of this assumption, any sample of data that deviates from the presumed stereotype of randomness, because it manifests
+some sense of pattern or trend, is concluded to be the product of a nonrandom process. Stock charts give the appearance of having been generated by a nonrandom process. In other words they match an intuitive
+notion of order and predictability. Bear in mind that financial markets may
+indeed be nonrandom to some degree and hence be amenable to prediction. However, that is not the issue here. Rather the issue is can nonrandom structure that is amenable to prediction be detected by visual
+inspection and intuitive appraisal?
+As mentioned previously, the deficiencies of reasoning by representativeness are due to an excessive focus on obvious appearances and the simultaneous disregard of important statistical and logical features. As will
+be explained in Chapter 4, one of the most important features of a sample
+of data, from the standpoint of data analysis, is the number of observations
+comprising the sample. Valid conclusions about a sample of data must
+take the number of observations into account. Moreover, the statistical
+
+Price
+
+Time
+
+FIGURE 2.22
+nontrending.
+
+Intuitive stereotype of random data: haphazard, disordered,
+
+96
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+characteristics of a large number of observations are required to accurately represent the true nature of the process that generated the data
+(e.g., random or nonrandom). Conversely, small samples of data often
+convey the illusion of patterns and trends because the statistical characteristics of a small sample of data can be wildly unrepresentative of the
+data generating process.
+I contend that the belief that visual chart analysis is a valid method for
+detecting trends and patterns is based on a flawed chain of thinking that
+goes something like this:
+1. On the basis of the representativeness heuristic, it is erroneously
+thought that data generated by a random process should look random-a formless haphazard flip-flop without any hint of patterns, organized shapes or trends.
+2. This stereotype is erroneously assumed to manifest in all samples of
+random data, irrespective of the number of observations comprising
+the sample.
+3. A small sample of data is examined and it appears not to match the intuitive stereotype of randomness.
+4. The data is thus deemed to be the product of a nonrandom process.
+5. Nonrandom processes are amenable to prediction, hence it would be
+reasonable to look for patterns and trends in the data to make predictions.
+This is illustrated in Figure 2.23.
+The principal flaw in this chain of reasoning is the failure to consider
+the matter of sample size (step 2 of the preceding list). The presumption
+that a sample of data can accurately reflect the nature of the data generating process, irrespective of the number of observations comprising the
+sample, violates an important principle of formal data analysis, the Law of
+Large Numbers. Reasoning by representativeness fails to respect the Law
+of Large umbers. In other words, it commits the crime of small numbers
+or sample size neglect. The penalty is automatic membership in The Fools
+of Randomness l53 club.
+The Law of Large Numbers and the Crime
+of Sample Size Neglect
+
+The Law of Large Numbers tells us that sample size is of paramount importance because it determines the confidence we can have in inferences
+based on a sample of data. Also known as the Law of Averages, the Law of
+Large Numbers tells us that only samples comprised of large numbers of
+
+97
+
+The Illusory Validity of Subjective Technical Analysis
+
+Does The Data Contain Predictable Order?
+Yes: Data sample does not match intuitive stereotype of randomness
+
+7
+Data Sample
+
+Stereotype
+Random
+Data
+
+Non-Random
+Process
+
+FIGURE 2.23 Data is presumed to be amenable to prediction because it does
+not match an intuitive stereotype of randomness.
+
+observations reliably and accurately reflect the characteristics of the
+process that generated the sample. Or, said differently, only large samples
+can inform us about the characteristics of the population from which the
+sample came. Thus, the larger the number of coin tosses, the more closely
+the proportion of heads in the sample will reflect an essential truth about
+fair coins: the probability of heads is 0.50. The bottom line is we can have
+greater confidence in what we learn from large samples than from small
+ones. The Law of Large Numbers will be discussed in greater depth in connection with statistics in Chapter 4. For the present discussion, what is
+important is the connection between the Law of Large Numbers and the
+appearance of illusory patterns and trends in small samples of data.
+Small samples can be misleading because they can manifest characteristics that are very different from the true characteristics of the process
+that generated the sample. This explains why a small segment of a pseudostock chart-one that was actually generated by a random process-gives
+the appearance of authentic patterns and trends. Of course, by design,
+such a chart cannot have real trends and patterns. Thus, a reliable conclusion about whether a sample of data was the result of a random or nonrandom process cannot be obtained from a small sample. This is depicted
+by Figures 2.24 and 2.25. When the parts (small samples) ofthe chart look
+nonrandom, an illusion of nonrandomness is created in the entire chart,
+when they are put together.
+Coin-toss experiments illustrate how small samples can produce misleading impressions. The obvious statistical characteristic of this random
+
+98
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Random Process
+
+Small Sample
+Illusory Uptrend
+
+Small Sample
+Illusory H&S Pattern
+
+Small Sample
+Illusory Downtrend
+
+FIGURE 2.24 The illusion of trends and patterns in small samples-data generated by a random process.
+
+process is that there are two equally likely outcomes. This is the basis for
+an expectation that the proportion of heads is 0.50. This intuition is indeed correct when the number of tosses is large. In a sample of 100,000
+tosses, the proportion of heads will be extremely close to 0.50. If one were
+to repeat this experiment many times, the proportion of heads would always be very close to 0.50. In fact, it would be unlikely to fall outside the
+range of 0.497-0.503. 154
+The problem is intuition pays no attention to sample size or the Law
+of Large Numbers. So we also expect 0.50 heads to appear in all samples.
+Although it is true that the expected proportion of heads in any sample is
+always 0.50, even for just two tosses, the proportion of heads that will ac-
+
+Price
+
+r·······························:
+
+Illusory Up-Trend
+
+Illusory Down-Trend
+Time
+
+FIGURE 2.25 If small parts of a chart look orderly, the whole chart assumes a
+nonrandom look.
+
+The Illusory Validity of Subjective Technical Analysis
+
+99
+
+tually appear in a given small sample can depart significantly from 0.50. In
+ten tosses, for example, three heads (0.30) or seven heads (0.70) can easily happen. In a sample of 100,000 tosses, 0.30 heads (30,000) or 0.70
+(70,000) would be virtually impossible with a fair coin.
+Another faulty intuition about random processes is that outcomes
+should alternate (up/down, head/tail) more than they really do. When people are asked to imagine what a sequence of coin tosses would be like,
+they tend to imagine sequences that show far more head Itail alternation
+than would really occur in a random sequence. 155 In reality, random
+process displays less alternation and longer streaks of similar outcomes
+(up, up, up) than is widely believed. Therefore, when a set of data does
+not match the false expectation of an alternating sequence, it gives rise to
+the illusion of a trend. For example, it seems intuitively correct that a coin
+toss would be more likely to produce the sequence H,T,H,T,H,T than the
+sequence H,H,H,H,H,H. However, both sequences are, in fact, equally
+probable,156 so we come away with the erroneous impression that the former sequence suggests a random process whereas the latter suggests a
+process that displays a trend.
+Because random sequences actually alternate less and streak more
+than our intuitive conception, sequences that actually are random appear
+as if they are nonrandom. For example, the average basketball player
+makes about 50 percent of their shots, similar to the probability of getting
+heads. Thus, there is a reasonably good chance of making four, five, or
+even six shots in a row if 20 shots are taken in a game. In other words,
+chance favors the appearance of what sports fans call a hot-hand, 157 which
+is, in fact, nothing more than a streak typical of a random sequence.
+The erroneous notion that random processes should alternate more
+and streak less is responsible for two false perceptions: (1) the clustering iUusion, and (2) the gambler's faUacy. In this context, the term cluster refers to a clump, either in time or space, of similar events. A cluster
+of similar outcomes in a random time series gives the illusion of a trend
+that has momentum and this creates the false expectation that the trend
+should persist. The gambler's fallacy is the equally false expectation that
+a cluster of similar outcomes should not occur, and when one does, it
+gives rise to the false expectation that a reversal is due. The gambler's fallacy is exemplified by a person who thinks a tail is more likely after a
+string of heads.
+It is an observer's prior beliefs about a process that determines
+whether he will fall prey to the clustering illusion or the gambler's fallacy. Suppose a person is observing a process that is, in fact, random but
+does not realize that it is. That person will tend to fall prey to the clustering illusion if they hold a prior belief that the process is nonrandom
+and that it should manifest trends. Sooner or later a streak occurs, and

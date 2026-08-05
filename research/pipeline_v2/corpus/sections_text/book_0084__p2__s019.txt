@@ -1,0 +1,414 @@
+
+■■
+
+If you’re a short-term momentum trader, you can buy as soon as both timeframes
+turn green and take profits as soon as one of them fades to blue.
+When trying to catch market turns, the best trading signals are given not by green
+or red but by the loss of green or red colors.
+
+If a stock is falling, but your analysis indicates that a bottom is near, monitor the
+Impulse system on weekly and daily charts. If even one of them shows red, the downtrend is still in force and buying is not permitted. When both timeframes stop being
+red, they allow you to buy.
+If you think that a stock is forming a top and is about to turn down, examine the
+Impulse system on both weekly and daily charts. If even one of them is green, it’s
+a sign that the uptrend is still alive, and no shorting is permitted. When the green
+disappears from both timeframes, you may start shorting.
+The shorter a timeframe, the more sensitive its signals: the Impulse on a daily chart
+almost always changes colors ahead of the weekly. When day-trading, the 5-minute
+chart changes colors ahead of a 25-minute chart. If my studies show that the market
+is bottoming and getting ready to turn up, I wait until the daily chart stops being red
+and turns blue or even green; then I start watching the weekly chart, which is still
+red. As soon as it turns from red to blue, it allows me to buy. This technique saves me
+from buying too soon, while the market is still declining.
+I use the same approach to shorting. When I think that a top is forming and the
+daily Impulse stops being green and turns blue or even red, I closely monitor the
+weekly chart. As soon as it loses its green color, it permits me to go short. Waiting
+Get More Forex Books + Secrets at http://forexfinest.com
+
+40. THE IMPULSE SYSTEM
+
+165
+
+FIGURE 40.2â•… SSYS weekly with 13- and 26-week EMAs, 12-26-9 MACD-Histogram and the
+Impulse system. (Chart by Stockcharts.com)
+
+The Impulse System
+The Impulse system can sharpen any method of finding trades, whether technical or fundamental. Let’s review an example, using the stock of Stratasys, Inc. (SSYS)—one of the
+two leading stocks in the additive manufacturing industry. In 2012, I published the world’s
+first popular e-book on additive manufacturing in which I called for a boom in its stocks.
+Vertical green arrows mark bars immediately following red bars. Red prohibits you from
+buying. The best time to buy is immediately following red’s disappearance. You can see
+how those green arrows pick one intermediate bottom after another, including the buy
+signal at the right edge of the chart. Having an objective method gives you the confidence
+to buy as soon as a decline screeches to a halt.
+The Impulse system also suggests good areas for profit taking. Slanted red arrows point
+to blue bars that occur after a series of green bars far away from value. They indicate that
+bulls are choking up—a good time to cash out and wait for the next buying opportunity.
+
+for both timeframes to lose the color that is contrary to my plan helps ensure that I
+trade in gear with the market and not against it.
+Remember, the Impulse system is a censorship system. It doesn’t tell you what
+to do—but it clearly tells you what you’re not allowed to do.You’re not supposed to
+go against the censor.
+Many programs for technical analysis include a feature called “conditional formatting.” It allows you color price bars or candles depending on the slope of the EMA
+and MACD-Histogram. A brilliant programmer in Chicago named John Bruns used
+this feature when he included the Impulse system in tool kits we call elder-disks1.
+1
+
+These are available for various trading programs, listed at elder.com.
+
+166
+
+TRADING SYSTEMS
+
+If you use a platform that doesn’t permit conditional formatting, you can still use the
+Impulse system. Simply observe the slopes of the EMA and MACD-Histogram: their
+combination will tell you what should be the color of the latest bar.
+If you know how to program, you can add more features to the Impulse system.
+You can test different EMA lengths or MACD settings, looking for those that work
+best in your market. A day trader can program sound alarms to monitor color changes
+in several markets without being glued to the screen.
+
+Exits
+If you’re a short-term momentum trader, close out your trade as soon as the color of the Impulse system stops supporting the direction of your trade, even in
+one of the two timeframes. Usually, the daily MACD-Histogram turns ahead of the
+weekly. When it ticks down during an uptrend, it shows that the upside momentum is weakening. When the buy signal disappears, take profits without waiting for a
+sell signal.
+Reverse this procedure in downtrends. Cover shorts as soon as the Impulse system stops being red, even in one of the two timeframes. The most dynamic part of
+the decline is over, and your momentum trade has fulfilled its goal.
+The Impulse system encourages you to enter cautiously but exit fast. This is the
+professional approach to trading. Beginners tend to do the opposite; jump into trades
+and then take forever to exit, hoping for the market to turn their way.
+A swing trader may stay in a trade, even if one of the timeframes turns blue. What
+he should never do is stay in a trade against the color. If you’re long, and one of the
+timeframes turns red, it is time to sell and go back to the sidelines. If you’re short,
+and the Impulse system turns green, it signals to cover your short position.
+The Impulse system helps identify islands of order in the ocean of market chaos by
+showing when the crowd, usually so aimless and disorganized, becomes emotional
+and starts to run.You enter when a trend pattern emerges and exit when it starts to
+sink back into chaos.
+
+■■41. Channel Trading Systems
+Market prices tend to flow in channels, like rivers in their valleys. When a river
+touches the right edge of its valley, it turns left. When it touches the left rim of its
+valley, it turns right. When prices rally, they often seem to stop at an invisible ceiling. Their declines seem to stop at invisible floors. Channels help us anticipate where
+those support and resistance levels are likely to be encountered.
+Support is where buyers buy with greater intensity than sellers sell. Resistance is
+where sellers sell with greater intensity than buyers buy (see Chapter 18). Channels
+show where to expect support and resistance in the future.
+Channels help identify buying and selling opportunities and avoid bad trades. The
+original research into trading channels was conducted by J. M. Hurst and described
+in his 1970 book, The Profit Magic of Stock Transaction Timing.
+Get More Forex Books + Secrets at http://forexfinest.com
+
+41. CHANNEL TRADING SYSTEMS
+
+167
+
+The late great mathematician Benoit Mandelbrot was hired by the Egyptian government to create a mathematical model of cotton prices—the main agricultural
+export of that country. After extensive study, the scientist made this finding: “prices
+oscillate above and below value.” It may sound simple, but in fact it’s profound. If
+we accept this mathematical finding and if we have the means to define value and
+measure an average oscillation, we’ll have a trading system. We’ll need to buy below
+value and take profits at value or sell short above value and cover at value.
+We have already agreed that value is in the zone between a short and a long moving averages. We can use channels to find normal and abnormal oscillations.
+
+Two Ways to Construct a Channel
+We may construct a channel by plotting two lines parallel to a moving average: one
+above and another below. We may also vary the distance between the channel lines
+depending on that market’s volatility (standard deviation channels).
+A symmetrical channel, centered around a moving average, is useful for trading
+stocks and futures. A standard deviation channel (sometimes called Bollinger bands)
+is good for those who trade options.
+Channels mark the boundaries between normal and abnormal price action. It is
+normal for prices to stay inside a well-drawn channel, and only unusual events push
+them outside. The market is undervalued below its lower channel line and overvalued above its upper channel line.
+
+Symmetrical Channels
+Earlier we’ve discussed using a set of two moving averages for trading (see Chapter
+22). With such a pair, use the slower one as the backbone of your channel. For example, if you use 13-day and 26-day EMAs, draw your channel lines parallel to the
+26-day EMA.
+The width of a channel depends on the coefficient selected by the trader. This
+coefficient is usually expressed as a percentage of the EMA level.
+Upper Channel Line = EMA + Channel Coefficient • EMA
+Lower Channel Line = EMA − Channel Coefficient • EMA
+When setting a channel for any market, start with 3% or 5% of the EMA and
+keep adjusting those values until a channel contains approximately 95 percent of all
+price data for the past 100 bars, about five months on a daily chart. This is similar to
+trying on a shirt: you look for the one that fits not too loose or too tight, with only
+your wrists and neck sticking out. Only the extreme prices will protrude outside of
+a well-drawn channel.
+Volatile markets require wider channels, while quiet markets require more narrow channels. Cheaper stocks tend to have higher coefficients than expensive ones.
+Long-term charts require wider channels. As a rule of thumb, weekly channel coefficients are twice as large as daily ones.
+
+168
+
+TRADING SYSTEMS
+
+I used to plot channels by hand until my programmer wrote an add-on for several
+software packages called an Autoenvelope. It automatically plots correct channels
+for any trading vehicle in any timeframe (Figure 41.1). It’s included on elder-disks
+for several popular programs.
+
+Mass Psychology
+An exponential moving average reflects the average consensus of value in its time
+window.When prices are near their moving average, the market is fairly valued.When
+they decline near the lower channel line, the market is undervalued. When prices rise
+to the upper channel line, the market is overvalued. Channels help find buying opportunities when the market is cheap and shorting opportunities when the market is dear.
+When prices fall below their moving average, bargain hunters step in. Their buying as well as short covering by bears stops declines and lifts prices. When prices rise
+above value, sellers see an opportunity to take profits on long positions or go short.
+Their selling caps the rise.
+When the market sinks to the bottom of a depression, its mood is about to improve. Once it rises to the height of its mania, it’s about to start calming down. A
+channel marks normal limits of mass optimism and pessimism. The upper channel
+M
+
+M
+
+M
+
+D
+D
+
+FIGURE 41.1â•… Euro futures, with 26- and 13-day EMAs, the Impulse system, and Autoenvelope. (Chart by
+
+Tradestation)
+
+Channels: Autoenvelope
+This chart shows several recent months of trading in the March 2014 Euro currency futures
+(ESH14). Futures are much more transparent and true than the murky forex deals. Whenever I trade currencies, I use currency futures.
+Warren Buffet refers to the stock market as a manic-depressive fellow, and his description applies to non-equity markets. Here you see the Euro swinging above and below
+value. When it rises above the upper channel line, it shows that the market has become
+manic (marked with a letter M), and when it falls below the lower channel line, it is depressed (marked with a letter D).
+Buffett observes that the trouble with most people is that they become infected by the
+mood of Mr. Market—they want to buy when he is manic and sell when he’s depressed.
+Plotting a channel helps you diagnose the market’s mania and depression and avoid becoming infected by either. One of my strict rules is never to buy above the upper channel
+line or sell short below the lower channel line. I may miss a runaway trend because of this
+restriction, but my safety is greatly increased. At the right edge of the screen, the Euro is
+rising very near its upper channel line—it looks like a manic episode is about to develop.
+Get More Forex Books + Secrets at http://forexfinest.com
+
+169
+
+41. CHANNEL TRADING SYSTEMS
+
+line shows where bulls run out of steam, while the lower channel line shows where
+bears become exhausted.
+At the upper channel line, bears have their backs against the wall as they fight off
+the bulls. At the lower channel line, bulls have their backs against the wall and fight
+off the bears. We all fight harder when our backs are against the wall, and that’s why
+channels tend to hold.
+If a rally shoots out of a channel and prices close above it, it shows that the uptrend
+is exceptionally strong.When a rally fails to reach the upper channel line, it is a bearish
+sign, as it shows that bulls are becoming weaker. The reverse applies to downtrends.
+My friend Kerry Lovvorn finessed this idea by plotting not one but three sets of
+channels around a moving average.The width of his channels is driven by Average True
+Ranges (see Chapter 24). His three channels are set at one, two, and three ATRs away
+from the moving average. Normal moves tend to stay within 1-ATR channels, while
+only extreme moves go outside of 3-ATRs, indicating a reversal is near (Figure 41.2).
+Channels help us remain objective, while other traders get swept up in mass bullishness or bearishness. When prices rally to the upper channel line, you see that mass
+bullishness is being overdone, and it’s time to think about selling. When prices drop
++3
+A
+
+B
+
+H
+
+I
+
+G
+
++2
+F
+
++1
+
+–1
+–2
+–3
+
+C
+
+D
+
+E
+
+FIGURE 41.2â•… RSOL daily with 21-day EMA and 1-, 2-, and 3-ATR channels, MACD-Histogram 12-26-9,
+and the Impulse system. (Chart by Tradestation)
+
+Multiple ATR Channels
+This chart of Real Goods Solar, Inc. (RSOL) reflects several months of action:
+Area A—Warning. Prices stab outside +3 ATRs—the uptrend has reached an extreme.
+Area B—Sell. Prices couldn’t hold above +2 ATRs—take profits on long positions.
+Area C—Alert. Decline stopped at −2 ATRs—a sign of bottoming.
+Area D—Alert confirmed. Prices holding above −2 ATRs—bottom is being built.
+Area E—Buy. False downside breakout reaches −3 ATRs and rejects that low.
+Area F—Warning. Prices stab outside of +3 ATRs—watch whether +2 ATRs will hold.
+Area G—Warning. Prices stab outside of +3 ATRs—watch whether +2 ATRs will hold.
+Area H—Another warning. Prices stab outside of +3 ATRs—watch whether +2 ATRs
+will hold.
+Area I—Sell. Prices couldn’t hold above +2 ATRs—take profits on long positions.
+
+170
+
+TRADING SYSTEMS
+
+near the lower channel line and everyone turns bearish, you know that it’s time to
+think about buying instead of selling.
+
+Trading Rules
+Amateurs like to bet on long shots—they tend to buy upside breakouts and short
+(if they ever sell short) downside breakouts. When an amateur sees a breakout, he
+expects riches from a major new trend.
+Professionals, on the other hand, tend to trade against deviations and for a return
+to normalcy. The pros know that most breakouts are exhaustion moves that are soon
+aborted. That’s why they like to fade breakouts—trade against them, selling short
+as soon as an upside breakout stalls and buying when a downside breakout starts
+returning into the range.
+Breakouts can produce spectacular gains when a major new trend blows out of a
+channel, but in the long run it pays to trade with the pros. Most breakouts fail and are
+followed by reversals, which is why channel lines mark attractive zones for entering
+trades against breakouts, with profit targets in the value zone.
+You can use moving-average channels as a stand-alone trading method or combine
+it with other techniques. Gerald Appel, a prominent market researcher and money
+manager in New York, recommended these rules for trading with channels:
+1. Draw a moving average and build a channel around it. When a channel is relatively flat, the market is almost always a good buy near the bottom of its trading
+channel and a good sell near the top.
+2. When the trend turns up and a channel rises sharply, an upside penetration of the
+upper channel line shows very strong bullish momentum. It indicates that you
+will probably have one more chance to sell in the area of the highs that are being
+made. It is normal for the market to return to its moving average after an upside
+penetration, offering an excellent buying opportunity. Sell your long position
+when the market returns to the top of the channel.
+This also works in reverse during sharp downtrends. A breakout below the lower
+channel line indicates that a pullback to the moving average is likely to occur, offering another opportunity to sell short. When prices return to the lower channel line,
+it is time to cover shorts.
+The best trading signals are given by a combination of channels and other technical indicators (Figure 41.3). Indicators give some of their strongest signals when
+they diverge from prices. A method for combining channels and divergences was
+described to me by the late Manning Stoller.
+1. A sell signal is given when prices reach the upper channel line while an indicator,
+such as MACD-Histogram, traces a bearish divergence. It shows that bulls are
+becoming weak when prices are overextended.
+2. A buy signal is given when prices reach the lower channel line while an indicator
+traces a bullish divergence. It shows that bears are becoming weak when prices
+are already low.
+Get More Forex Books + Secrets at http://forexfinest.com
+
+171
+
+41. CHANNEL TRADING SYSTEMS
+
+We must analyze markets in multiple timeframes. Look for buys on the daily
+charts when prices are rising on the weeklies. Look for shorting opportunities
+on the dailies when prices are sinking on the weekly charts.
+3. Go long near the moving average when the channel is rising, and take profits at
+the upper channel line. Go short near the MA when the channel is falling, and
+take profits at the lower channel line.
+When a channel rises, it pays to trade only from the long side, buying in the value
+zone which lies between the fast and slow moving averages, and then selling at
+the upper channel line. When a channel declines, it pays to short in the value
+zone and cover at the lower channel line.
+
+A
+
+B
+
+C
+
+E
+
+F
+
+G
+
+D
+
+FIGURE 41.3â•… SIX daily with 26- and 13-day EMAs, 6% channel, MACD-Histogram 12-26-9, and the
+Impulse system. (Chart by Stockcharts.com)
+
+Combining Channels and MACD Signals
+This chart reflects several months of action in Six Flags Entertainment Corporation (SIX).
+Area A—while prices have reached the lower channel line, a new record low of MACDHistogram suggests that this low will be retested or exceeded.
+Area B—channel line rejected, rally is likely ahead.
+Area C—prices reached their upper channel line and recoiled—reversal is likely.
+Area D—buy. Prices have reached the lower channel line, while MACD-Histogram has
+traced out a bullish divergence between bottoms A and D, with a break at C.
+Area E—while prices have reached their upper channel line, a new record high of
+MACD-Histogram suggests that this high is likely to be retested or exceeded.
+Area F—pullback to value completed; MACD-Histogram breaks below zero, creating a
+setup for a possible bearish divergence. Still may buy to ride back to the prior high.
+Area G—sell and sell short. Prices have reached the upper channel line, while MACDHistogram has traced out a bearish divergence between tops E and G, with a break
+at F.
+
+172
+
+TRADING SYSTEMS
+
+Standard Deviation Channels (Bollinger Bands)
+The unique feature of these channels is that their width changes in response to market volatility. Their trading rules differ from those of regular channels.
+1. Calculate a 21-day EMA.
+2. Subtract the 21-day EMA from each closing price to obtain all the deviations
+from the average.
+3. Square each of the deviations and get their sum to obtain the total squared
+deviation.
+4. Divide the total squared deviation by the EMA length to obtain the average
+squared deviation.
+5. Take the square root of the average squared deviation to obtain the standard
+deviation.
+These steps, outlined by Bollinger, have been included in many software packages.
+A band becomes wider when volatility increases but it narrows down when volatility decreases. A narrow band identifies a sleepy, quiet market. Major market moves
+tend to erupt from flat bases. Bollinger bands help identify transitions from quiet to
+active markets.
+These bands are useful for options traders because option prices are largely driven
+by swings in volatility. Narrow Bollinger bands help you buy when volatility is low
+and options are relatively cheap. Wide bands help you decide to write options when
+volatility is high and options are expensive.
+When we return to options in the following chapters, you’ll read that buying
+options is a losers’ game. Professional traders write options. Wide Bollinger Bands
+can signal when to be more active with your writes. If you trade stocks or futures
+rather than options, it’s better to use regular channels as profit targets; trading is
+hard enough without trying to shoot at a moving target, such as a Bollinger Band.
+
+Get More Forex Books + Secrets at http://forexfinest.com
+
+PA R T 8
+
+Trading Vehicles
+
+A
+
+ll trading vehicles are divided into several classes. Their charts may look similar
+on a computer screen, but don’t let their looks deceive you. Each group has
+its pluses and minuses. They offer different profit opportunities and carry different
+risks. Choosing what to trade is among your most important market decisions.
+We’ll review the following major groups to help you make a conscious decision
+on which to focus:
+Stocks
+■■ ETFs
+■■ Options
+■■ CFDs
+■■ Futures
+■■ Forex
+■■
+
+Whichever group you select, make sure your trading vehicle meets two essential
+criteria: liquidity and volatility.
+Liquidity refers to the average daily volume, compared with other vehicles in its
+
+group. The higher it is, the easier it’ll be for you to get in and out of your trades.
+You may build a profitable position in an illiquid stock, only to lose at the exit due to
+especially bad slippage.
+I learned this lesson decades ago, after building a 6,000-share position in a fairly
+inactive stock. When it began to sag, I decided to sell, and that’s when I discovered
+173
+
+174
+
+TRADING VEHICLES
+
+that its average daily volume was only 9,000 shares. There were so few people trading it that my own sales began to depress its price. Taking several days to trade out
+of my 6,000-share lot felt like taking a fat cow through a very narrow gate and
+leaving large strips of its hide on gate posts. Now I focus on U.S. stocks that trade
+over a million shares a day. That’s where I can slip in and out of my trades unnoticed and unmolested. With a large number of traders, there are plenty of orders to
+buy and sell, and my slippage, when it occurs, is small.
+Volatility is the extent of average short-term movement of a trading vehicle. The

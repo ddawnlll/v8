@@ -1,0 +1,613 @@
+the bottom of Table 12.1. The optimized parameters were then tested out-of-sample
+from 18 February 1997 to 26 September 2007 and the test results were compared
+with the profits earned from a buy and hold strategy covering the entire test period
+(Table 12.1). The simulation model was intended to replicate how traders actually
+use trading systems and therefore profits were not compounded, as this sometimes
+involved (during the latest phase of the test) holding large positions. Instead, an equal
+dollar amount of $20 000 per trade was specified.
+All orders were executed at the opening price on the day following a system signal
+and execution costs were assumed to be $10. For simplicity’s sake, dividends were
+not included in the calculation of both the buy and hold and system performance
+when in the market. All positions were closed on the last bar.
+If you wish to replicate the tests, please keep in mind that for the test to begin
+producing signals, the regression indicator should first be calculated and this requires
+at least 477 bars to be loaded.
+The divergence model did not perform very well on the short side of the market and
+it was abandoned in favor of a different approach, which initiated short positions when
+the intermarket security (percentage of stocks above their 40-day moving average)
+reached an extreme point and reversed direction. Results for the divergence long only
+and the long–short system are summarized separately on Table 12.1.
+The criteria used to generate buy and sell signals can be summarized as follows.
+Buy: A long position was initiated when the regression divergence reached an extreme value and reversed direction.
+The intermarket momentum oscillator was used to help detect divergence extreme
+values of the regression divergence indicator and, more precisely, buy signals were
+issued when the 40-day intermarket momentum crossed under 80 from above. To
+
+Trading the S&P 500 ETF and the e-mini
+
+191
+
+Table 12.1 Test results of the daily SPY systems from 18 February 1997 to 17 September
+2007. Both tests were profitable and outperformed the buy and hold method by a wide margin
+and considerably less risk. Both systems used the regression divergence method for long
+trades. The second system used a different method to trade on the short side as well. The
+momentum oscillator was used to determine optimum divergence levels.
+Test
+
+Buy & hold
+
+Regression
+
+Regression hybrid
+
+Daily
+Long
+SPY
+
+Daily
+Long–Short
+SPY
+T2108
+$20 000
+$37 850
+189 %
+18 %
+41
+31
+10
+76 %
+$24 467
+−$4161
+$789
+−$416
+1.90
+4.11
+5.9
+−$4 054
+−6 %
+−$977
+3
+11 %
+
+Periodicity
+Long/short
+Security on test
+Intermarket security
+Transaction cost per trade
+Total net profit
+Profit/loss %
+Annual percent gain/loss
+Total number of trades
+Winning trades
+Losing trades
+Percent profitable
+Gross profit
+Gross loss
+Avg. winning trade
+Avg. losing trade
+Ratio avg. win/avg. loss
+Profitability coefficient
+Profit factor
+Max. drawdown
+Max. % drawdown
+Max. trade loss
+Max. consecutive losses
+Risk/reward
+
+−$19 178
+−96 %
+$0
+0
+119 %
+
+Daily
+Long
+SPY
+T2108
+$20 000
+$32 931
+165 %
+16 %
+22
+19
+3
+86 %
+$17 660
+−$586
+$929
+−$195
+4.76
+6.90
+30.1
+−$4 070
+−7 %
+−$319
+2
+12 %
+
+Reference bars needed
+Start date/test
+End date
+Test period (years)
+Average trade length in days
+Trades/year
+Time in market
+Stock price at start of test
+Stock price at end of test
+
+0
+2/18/97
+9/17/07
+10.6
+3863
+0.1
+100 %
+81.88
+148.1
+
+477
+2/18/97
+9/17/07
+10.6
+61
+2.1
+35 %
+81.88
+148.1
+
+477
+2/18/97
+9/17/07
+10.6
+45
+4
+48 %
+81.88
+148.1
+
+20
+40
+80
+15
+100
+
+20
+40
+80
+15
+100
+
+$20 000
+$16 138
+81 %
+8%
+1
+1
+0
+100 %
+$16 138
+$0
+$16 138
+
+System Parameters
+ROC days
+Momentum oscillator – bars
+Momentum oscillator – buy
+Momentum osc. (long exit)
+Time exit-bars
+
+192
+
+Intermarket Trading Strategies
+
+exclude cases where both the base and the intermarket security were in decline, the
+following conditions were also required: The stochastic should be above its moving
+average and the 2-day rate of change of the intermarket security should be positive.
+Sell: The long position was liquidated on the exact opposite to the buy conditions
+above. A sell signal was generated when the intermarket momentum oscillator reached
+an extreme reading below 15 and reversed direction, subsequently crossing over 15.
+Sell short: A contrarian interpretation of the breadth indicator was used to initiate
+short positions when the percentage of stocks above their 40-day moving average
+reached an extreme value above 72 % and then reversed and crossed below its 15-day
+exponential moving average. To deal with whipsaw problems, the breadth indicator
+should have also crossed below 65 % in the next nine days or earlier. During extremely bullish periods, as in 2003 or 2006, the indicator had a tendency to remain
+in overbought territory for extended periods. To exclude premature signals, the short
+order was not executed unless the S&P 500 crossed below its 15-day exponential
+average as well.
+Buy to cover: The exact opposite of the short sale condition was not sufficient to
+cover all short positions in a timely fashion, as this breadth indicator did not always
+reach extreme low values before the market reversed and the emerging rally wiped out
+all profits from the short sale. There was therefore a need for more complex criteria
+in order to include the situations when the indicator did not perform as expected.
+Thus the short positions were closed when the breadth indicator reached an extreme
+reading below 25 and then rose above 30 or the S&P 500 crossed over its 5-day
+moving average on oversold breadth indicator readings (below 40).
+A stop loss was also added to cover all other situations not included in the above.
+
+Evaluation of Results
+The results for both tests are summarized in Table 12.1. I have marked in the accompanying chart in Fig. 12.1 when each buy/sell signal occurred but only (because of
+space limitations) for the time sub-period from September to December 2006.
+In the period tested, the results were very impressive. The buy and hold strategy
+would have shown a profit of $16 000 compared to $33 000 for the long-only and
+$38 000 for the long–short model.
+The long-only divergence system won 86 % of the time with a profit factor of 30
+but, most notably, this was achieved with substantial risk reduction. The maximum
+drawdown was only $4000 or 7 % of equity, an amount most traders would be
+comfortable with. Not so comfortable was a drawdown of $19 000 or nearly 96 %
+of their initial equity, which the buy and hold investors lost during the 2001–2002
+traumatic bear market.
+
+Trading the S&P 500 ETF and the e-mini
+
+193
+
+Figure 12.1 Chart of the SPY ETF. Test signals generated by the regression method are
+superimposed on the chart. The system equity line is plotted in the top window and below
+the 40-day momentum oscillator and the corresponding intermarket regression divergence
+indicator. The intermarket security used by the regression indicator is the NYSE % of stocks
+above their 40-day MA and is depicted, together with its 15-day moving average, in the third
+window. Buy signals are generated by the momentum oscillator crossing under 75 from above
+and sell signals when it crosses over 15. Short signals are triggered when the intermarket
+breadth indicator rises above 72 and then falls under 60.
+
+One of the major benefits from transaction timing is obtained by avoiding the price
+declines that occur during bear markets and this was true for the current systems tested.
+Both systems initiated only two trades during the 2001–2002 bear market. The
+first one was marginally profitable. The second, in March 2000, was initiated after
+
+194
+
+Intermarket Trading Strategies
+
+a premature divergence signal, but managed to show a modest profit at close even
+though it resulted in the test’s maximum open drawdown.
+The major problem with intermarket divergence systems is that they do not produce
+a lot of trades. This is because these systems take advantage of temporary market
+inefficiencies to generate signals. These inefficiencies do not occur very often and,
+as a result, all divergence systems produce very few signals. The current system
+was no exception. The long-only divergence model produced only 22 trades during
+the 10-year test duration. The short–long system improved on the trade turnover by
+adding another 19 trades on the short side of the market. Short trades did not perform
+as well, but this was no surprise as the S&P advanced 8 % per year on average during
+the test period.
+Considering the fact that 87 % of professional money managers haven’t beaten the
+stock market average l0-year performance, I feel that a mechanical trading system
+that for the past 10 years has at least doubled the market’s annualized returns is very
+worth considering.
+
+12.2
+
+E-MINI INTRADAY SYSTEM
+
+This system took advantage of the time difference between US and European exchanges to trade the S&P 500 e-mini before the US market opened, and it is based
+on the divergence between the e-mini and the Dow Jones EuroStoxx 50 futures.
+I used the following method for creating continuous contracts: The most dominant
+or current contract was used until the next one became dominant. A problem arising
+from the use of dominant contracts is that the price difference between the old
+dominant contract and new dominant contract at the time of roll-over may be large
+enough to create a discontinuous break in the price series, thus a false signal. This
+can be taken care of by adding the price difference at roll-over to the older contract.
+The current trading simulation involved joining the March and June contracts of the
+e-mini and EuroStoxx contracts.
+Several other assumptions underlie the trading model.
+The default trade size was five contracts per trade (or approximately $20 000 at
+the time of the first trade). The initial and maintenance margins were assumed to be
+5.5 % and 4.4 % of contract value respectively and 50 % of total funds were allocated
+to the initial trading capital and the other 50 % was held back for potential margin
+calls. Returns were calculated as a percent of initial trading capital and compared to
+the buy and hold method which involved buying and holding five contracts for the
+duration of the test. No interest was credited to the account when out of the market
+as this was assumed to cancel out additional slippage and skid costs.
+I used for this test the LRS single divergence system (presented in Chapter 11) and
+optimized the trade parameters using 15-minute intraday data of the December 2007
+e-mini futures contract (ESZ7). The optimal parameters are included at the bottom
+of Table 12.2.
+
+Trading the S&P 500 ETF and the e-mini
+
+195
+
+Table 12.2 Test results of the intraday S&P e-mini intermarket LRS system from
+16 January 2007 to 14 June 2007. The intermarket security used for the LRS divergence
+comparison was EuroStoxx 50 Futures (FESX). The test outperformed the buy and hold
+method by a wide margin and considerably less risk. The 250-bar momentum oscillator was
+used to determine extreme divergence levels.
+Test
+
+Buy & hold
+
+LRS
+
+Periodicity
+Security on test
+Intermarket security
+Number of shares/contracts
+Transaction cost per trade
+Total net profit
+Profit/loss %
+Annual percent gain/loss
+Total number of trades
+Winning trades
+Losing trades
+Percent profitable
+Gross profit
+Gross loss
+Avg. winning trade
+Avg. losing trade
+Ratio avg. win/avg. loss
+Profitability coefficient
+Profit factor
+Max. drawdown
+Max. % drawdown
+Max. trade loss
+Max. consecutive losses
+Risk/reward
+
+15 minute
+ES
+
+−$47 625
+−238 %
+$0
+0
+252 %
+
+15 minute
+ES
+FESX
+5
+$20 000
+$59 147
+296 %
+724 %
+72
+50
+22
+69 %
+$75 300
+−$16 153
+$1506
+−$734
+2.05
+3.67
+4.7
+−$5024
+−10 %
+−$3149
+3
+8%
+
+1/16/07
+6/14/07
+0.41
+149
+1
+100 %
+1441
+1516.75
+
+510
+1/16/07
+6/14/07
+0.41
+0.44
+176
+21 %
+1441
+1516.75
+
+Reference bars needed
+Start date/test
+End date
+Test period (years)
+Average trade length – days
+Trades/year
+Time in market
+Price at start of test
+Price at end of test
+
+5
+$20 000
+$18 890
+94 %
+231 %
+1
+1
+0
+100 %
+$18 890
+$0
+$18 890
+
+System Parameters
+LRS – bars
+Momentum oscillator – bars
+Momentum oscillator – buy
+Momentum osc. (long exit)
+Time exit – bars
+
+9
+250
+70
+15
+50
+
+196
+
+Intermarket Trading Strategies
+
+I then tested the system out-of-sample on e-mini continuous data from 16 January
+2007 to 14 June 2007. An extra 500 bars (10 days) had to be loaded for the system
+to start producing trades. The data were downloaded from interactive brokers using
+Metaserver RT (www.traderssoft.com).
+The S&P leads all other markets and therefore it is the most difficult market to
+predict, at least using intermarket indicators. The only time that the S&P doesn’t lead
+other international markets is when the US equity markets are closed. Thus trades
+were taken only from 1:00 am EST (9:00 am CET), when European futures start
+trading, until 9:30 am EST (15:30 CET), when US markets open for trading.
+Because of the reduced trading hours and also the reasons mentioned in Section
+12.1 above, the divergence model produced only about 20 trades for the whole
+five month duration of the simulation. These were too few for a statistically valid
+conclusion. To increase the number of trades (and profits) I added conventional
+technical analysis indicators to the model. The problem with conventional indicators
+is that some indicators, like moving averages, only work in trending market conditions
+and others only in oscillating markets. To determine the appropriate market phase I
+used the Congestion Index (CI) presented in Chapter 9.
+To refresh your memory here is a brief review. This function compares the percentage that the market wandered to the actual percentage the market rose during the
+last 15-bar period.
+The less the absolute value of the indicator, the more congested the market.
+This strategy was more complicated to program, as it included three different
+criteria for initiating positions. The final system was able to switch gears and trade
+in three modes: divergence, trending and congestion.
+More precisely the criteria for initiating positions were as follows.
+
+Long Entry
+Divergence conditions: No divergence signals were allowed after 10:00 US EST for
+the reasons mentioned above. For the divergence signal to initiate a long entry the
+following four conditions were employed:
+• The divergence between the 9 bar (135 minute) linear regression slope of the ES
+e-mini and ESTX futures should be positive.
+• The intermarket momentum indicator was used to help detect divergence extreme
+values of the divergence indicator. Long trades were initiated when the 250 bar
+(5-day) intermarket momentum oscillator rose over 70 and reversed direction.
+• It’s not unusual for high divergence readings to register for a long time before
+the tradeable starts responding. Therefore it was desirable that the e-mini should
+also confirm the reversal. This was ensured by specifying that the 5-bar stochastic
+should be above its 4 bar moving average and the CI rose above the previous bar
+reading.
+
+Trading the S&P 500 ETF and the e-mini
+
+197
+
+• An additional condition requiring that the rate of change of the 5-bar intermarket
+security (ESTX) should be positive was added to eliminate divergence signals
+when both the intermarket security and the base security were declining.
+Congestion conditions: The 15-bar CI was used to diagnose the market character.
+This condition generated signals if the absolute value of the CI was less than 20 and
+the following conditions were true.
+• The lowest value of the 15 bar stochastic was below 30 and the stochastic crossed
+above its 4 bar moving average.
+• The price rate of change for both the e-mini and the intermarket security was 0.1 %
+or higher.
+Trending conditions: The CI was again used to identify the market phase. Signals
+were generated only if the CI rose above 20. To ensure that no trades were initiated in
+extremely overbought situations when the trending phase was about to end, no signals
+were allowed if the CI was above 85. The most popular technical trending indicators,
+the Moving Average Convergence Divergence (MACD) and the moving average,
+were used to initiate conditions and, more precisely, a buy signal was issued when:
+• the MACD was above its 9-bar exponential moving average and at the same
+time the price was also above the 40-bar moving average;
+• the 9-bar rate of change of the intermarket security was above 0.4 % (double that
+of the e-mini). Also the divergence momentum was above 50 (the mid point of its
+range).
+
+Long Exit
+Always remember that it is the exit technique that determines the success of the
+entry signal. Timely sell conditions are more difficult to implement using divergence
+conditions alone as they tend to initiate sell signals prematurely. The divergence
+conditions described above were used in the opposite fashion and the Congestion
+Index was again used to identify the market phase and liquidate the position using the
+appropriate trending or non-trending indicator. An extra condition was introduced to
+avoid trend reversals. This condition liquidated the position if the CI rose above 85
+and then fell, during the next three 15-minute bars, below 60.
+All trading methods will occasionally fail, especially intraday systems, as breaking
+adverse economic news can have unexpected results and price shocks. Therefore
+some form of protection should be put in place to cut losses short and let profits run.
+Traders use a number of different methods to calculate stop-loss conditions: standard
+deviation, average true range, percentages, support violation, etc. The stop-loss that
+I chose to use here liquidated long positions if the closing price fell below 1.6 times
+
+198
+
+Intermarket Trading Strategies
+
+the average true range of the last eight bars. This last condition reduced losses and
+drawdown but at the expense of decreasing the percentage of profitable trades.
+
+Short
+The exact opposite of the long entry conditions described above were used to initiate short positions. The congestion condition exploited declines from overbought
+situations and the trend condition initiated short positions during a decline when the
+MACD crossed under its exponential moving average, and at the same time the price
+was under its 40-day moving average and the CI below −20.
+
+Buy to Cover
+A strategy similar, but opposite, to the long exit strategy was used to cover short
+positions. A volatility stop-loss was also used to cut losses in cases of unexpected
+reversals when the price crossed over the lowest value of the last four bars plus 1.6
+times the average true range of the last eight bars.
+
+Evaluation of Results
+The results of the intraday trading simulation using a 5-month test period are shown
+in Table 12.2 and test signals from 17 May 2007 to 1 June 2007 are superimposed in
+the chart in Fig. 12.2. The returns using this approach as compared to buy and hold
+are impressive. The model made over $59 000, three times the amount made by the
+buy and hold investor and it was profitable on both the long and short side of the
+market.
+The stop-loss condition reduced the drawdown dramatically to only $5000 or
+10 % of equity compared to a $47 000 or 240 % of equity suffered by the buy and
+hold method. This also helped keep the reserve capital required for margin calls very
+low.
+The amalgamation of the three different conditions enhanced returns over the single
+divergence method. It was difficult, however, to determine which specific condition
+contributed more to the overall profitability because the MetaStock system tester does
+not provide this information.
+In this case, the application of the stop-loss condition improved total profits from
+$50 700 (no stop-loss) to $59 200 by reducing the size of some individual losses.
+However, it had the adverse effect of decreasing the frequency of winning trades
+slightly from 71 % to 69.4 %. Although massaging the results with a stop-loss condition does not necessarily add validity to the system, it does contribute to a trader’s
+peace of mind.
+
+Trading the S&P 500 ETF and the e-mini
+
+199
+
+Figure 12.2 Intraday 15-minute chart of the S&P 500 e-mini (ES) from 17 May 2007 to
+1 June 2007. Test signals generated by the intraday system are superimposed on the chart.
+The equity line is plotted in the top window (the right-hand scale should be multiplied
+by 10), the single intermarket LRS divergence indicator is depicted in the second window
+and the corresponding 250-bar momentum oscillator in the third window. The intermarket
+security used for the LRS indicator was EuroStoxx 50 Futures (FESX).
+
+One of the major benefits of short-term intraday trading is the ability to exit or even
+reverse the trade in the event of an unexpected and inevitable price reversal, a situation
+that occurs very often because of breaking economic news. On the other hand,
+intraday trading requires the trader’s constant attention and can only be implemented
+by professional or full-time traders unless an automated trading platform is being
+employed.
+If you want to use the system in real time trading you should keep in mind there
+can be sharp differences between hypothetical performance and real trading results as
+trading systems are prepared and optimized with the benefit of hindsight. Regardless
+of the hours spent in back-testing and optimizing systems on historical data, the future
+cannot be optimized.
+
+13
+Trading DAX Futures
+
+There are two times in a man’s life when he should not speculate: when he
+can’t afford it and when he can.
+–Mark Twain
+In Chapter 6 we discussed the relationship between the DAX and major international
+indices and commodities. I will now use a related index with the highest correlation
+with the DAX in order to develop an intermarket divergence system to trade DAX
+futures.
+A close inspection of Tables 6.1 and 6.2 reveal that either the CAC 40 or the
+EuroStoxx 50 would be a good choice. The correlation between the DAX and the
+CAC was slightly better on absolute price basis but the EuroStoxx, on the other
+hand, was a little better when taking daily and weekly yields. This was also the case
+between the corresponding index futures.
+The dilemma was resolved by testing. Both the profit factor and total profits
+suggested that the CAC 40 was more effective in predicting the DAX. It seems that
+the traditional historical antipathy between the German and the French people does
+not extend into their markets as, whether they like it or not, their economies are linked
+together in the European Union.
+Another factor that influenced my decision to select the CAC is the fact that the
+EuroStoxx shared no less than 13 common component stocks with the DAX, which
+can reduce its predictive correlation.
+The same problem inherent in all divergence models (discussed in the previous
+chapter) was also encountered here, as the system generated only 22 signals during the
+4-year testing period. A classic moving average crossover system was also included
+for the benefit of active traders. The system was profitable but was not able to
+outperform the buy and hold method. By using intermarket conditions, however, I
+was able to improve on the system’s performance, filtering out a large number of
+unprofitable trades.

@@ -1,0 +1,977 @@
+
+Index
+
+LINREGSLOPE . . . 381
+liquidity issues
+forex 261–2, 263
+traders 148
+LLV . . . 381
+London International Futures & Options
+Exchange (LIFFE) 45, 215
+London Stock Exchange (LSE) 9, 44–7
+see also FTSE . . .
+long entry conditions 196–9, 238–9
+Long Term Capital Management 77–8
+Lorenz, Edward 4
+losses
+see also profit . . .
+acceptance needs 173, 295
+catastrophic losses 166–7, 209, 232
+‘cut your losses and let your profits run’
+principle 167, 295
+profit/loss index 156, 159–61, 191–9,
+205–13, 225–33, 236–7, 255–9,
+274–7, 283–5
+stop-loss conditions 165–7, 180–1, 187,
+192–9, 232, 259, 273–4, 281–5
+Lovell, Robert 93
+LRS divergence
+concepts 127–8, 132–3, 176–87, 190–9,
+240–2, 298, 299–300, 307–10,
+316–20
+definition 127–8
+MetaStock code 298, 299–300, 307–10,
+316–20
+LRS double divergence 132–3, 178, 184–7,
+240–2, 299–300, 316–20
+LSE see London Stock Exchange
+Lucas, David 173
+luck coefficient, trading system evaluations
+157
+MACD() 381
+MACD see moving average
+convergence/divergence
+MAE see maximum position adverse
+excursion
+‘majors’, forex 262
+manganese 291
+margin calls 10
+market breadth, definition 374
+
+Index
+
+market fundamentals, forex 261–8
+market movements, phases 139–40
+MatchbookFX 262
+maximum drawdown, concepts 162,
+176–87, 192–9, 205–13, 225–33,
+242–4, 274–7, 283–5
+maximum initial open drawdown, concepts
+162
+maximum percentage drawdown, concepts
+162–3
+maximum position adverse excursion
+(MAE)
+concepts 163
+definition 163, 374
+MDAX 41–2
+mean 17–31, 130–1
+median 70–83
+Meehan, Bill 357
+mergers and acquisitions 9
+Metaserver RT 195
+MetaStock 153, 156, 163, 175–87, 198,
+297–355, 378, 379–81
+Bollinger bands 123–4, 297–8, 310–12
+code and test specifications 379–81
+DAX systems 327–32
+ETF system 344–7
+Euro (EURO-USD) daily
+MA-intermarket system 355
+forex systems 348–55
+FTSE system 332–4
+FUTURES system 341–4
+gold comparison tests 301–23
+gold stocks 335, 339–41
+intermarket indicators 175–87, 199,
+297–301
+list of functions 379–81
+multiple regression divergence 134, 300,
+314–16, 334
+oil stocks 335–9
+optimization factors 231
+rectangles 367–70
+relative strength 297, 303–5, 341–7
+S&P 500 e-mini 324–7
+S&P systems 323–7
+SPY daily regression system 323–4
+yen 348–55
+Mexico IPC Index 249, 256, 259
+
+403
+
+Michigan sentiment figures, forex 267
+momentum, concepts 299, 374–5
+momentum oscillator
+concepts 122–3, 126–7, 128–30, 140,
+148–9, 177–87, 190–9, 204–13,
+218–33, 242, 246, 253–60, 272–7,
+299
+definition 128–9
+formula 129–30
+MetaStock code 299
+money flow, definition 375
+money management
+conclusions 295
+trading systems 168, 194, 295
+money supply, forex 265
+Monte Carlo Simulation
+concepts 151–2, 153–4, 168, 375
+definition 375
+optimization factors 151–2, 153–4, 168
+Moscow Times Index (MTMS) 249, 259
+MOV . . . 381
+moving average convergence/divergence
+(MACD)
+concepts 139–40, 197–9, 203–13, 273–4,
+375, 381
+definition 375
+moving average crossover system
+concepts 138–9, 183–7, 192–9, 201–2,
+209–13, 218–33, 242–6, 329–31,
+363–5, 375
+definition 375
+MetaStock code 329–31
+moving average universal, MetaStock code
+301
+moving averages
+see also lagging indicators
+concepts 6–7, 99–109, 114–19, 121–43,
+176–87, 209–13, 218–33, 240–6,
+250–60, 269, 279–85, 294–5, 300–1,
+355, 373, 375, 381
+critique 6, 294–5
+definition 138–9, 375
+EMA 121–4, 177–87, 218–33, 250–60,
+373
+MetaStock code 300–1, 355
+relative strength indicator 121–3,
+179–80, 183–7, 236–44
+
+404
+
+multicollinearity
+concepts 34, 36–7, 216–17, 375
+definition 375
+multiple intermarket divergence
+concepts 131–3
+definition 131–2
+multiple regression 34–8, 133–8, 178,
+181–3, 215–33, 300, 314–16, 334,
+375
+concepts 34–8, 215–33
+formula 34
+three-dimensional scatterplots 36–8
+multiple regression divergence
+concepts 133–8, 178, 181–3, 215–33,
+300, 314–16, 334
+definition 133–4
+MetaStock code 134, 300, 314–16, 334
+Murphy, John 8, 103, 189
+Nasdaq (NDX) 4–6, 9, 20–6, 41, 48–50, 64,
+70–6, 86–8, 237–8
+DAX 86–8
+S&P 500 70–6
+VXN 64
+negative correlation 4–7, 11–15, 17–19,
+23–5, 54–5, 72–83, 94–9, 125–7,
+269–70
+see also uncorrelated asset classes
+network architecture, artificial neural
+networks 230–2
+neural networks see artificial neural
+networks
+NeuralWorks Predict 169
+NeuroShell Trader 169, 215, 221–33,
+357–65
+New Concepts in Technical Trading Systems
+(Wilder) 281–2
+New York Board of Trade (NYBOT) 55, 60,
+268–9
+New York Commodities Exchange
+(COMEX) 93, 99, 289–90
+New York Stock Exchange (NYSE) 9,
+47–50, 175–87, 190, 193, 237–8, 302
+New Zealand dollar 285
+Newmont Mining 62–3
+news events, forex 267–8
+
+Index
+
+Newton’s first law of inertia 179
+nickel 59–61, 291
+Nikkei 4, 9–10, 23–7, 37, 45, 47–51, 55,
+70–6, 86–8, 249, 259, 269–77
+all-time high of 1989 46
+concepts 45–6, 86–8, 269–77
+DAX 86–8
+forex 269–77
+futures 46
+intermarket relations 9–10, 23–7
+linear relationships 23–7
+S&P 500 70–6, 269–77
+Nison, Steve 124–5
+nonlinear relationships 20–7
+nonparametric regression, concepts 38–9,
+69–83, 86–92, 233
+normal distributions 17–20, 25–9, 37–8,
+47–8, 73–6, 106–7, 158–9, 184, 374,
+375–6, 377
+assumptions of correlation 17–20, 25–9,
+37–8, 106–7, 158–9, 184
+definition 375
+normality tests 38, 158–9, 374, 377
+null hypothesis, definition 376
+number of consecutive losers, risk metrics
+164
+NYBOT see New York Board of Trade
+NYMEX 12–13, 30, 55, 98–9, 239–40
+NYSE see New York Stock Exchange
+OBV see On-Balance Volume
+OEX see S&P 100
+oil 11–15, 45, 48–50, 55–62, 77–82, 86,
+95–9, 216–33, 235–46, 249, 291,
+335–9, 357–65
+see also Amex . . . ; CBOE . . . ;
+commodities
+capital per trade 242–4
+gold 95–9
+MetaStock code 335–9
+S&P 500 79–82, 235–44
+TradeSim 236–44, 337–9
+trading stocks 235–46, 337–9
+winning/losing trades 237–41
+OIX see CBOE oil index
+OMX 9, 82
+
+Index
+
+On-Balance Volume (OBV) 376, 379
+O’Niel, William 121, 171
+optimization factors 149–55, 172–3,
+204–13, 215–33, 373
+artificial neural networks 168–71,
+226–33
+back-testing 149–55, 172–3, 217–33
+cluster spotting 151
+exhaustive search technique 153, 154–5,
+224–9
+genetic algorithm 154–5, 172, 215,
+222–33, 373
+gradient descent method 154
+low number of inputs 152
+MetaStock 231
+methods 153–5
+Monte Carlo Simulation 151–2, 153–4,
+168
+NeuroShell Trader 231
+profit mapping 151
+trading systems 149–55, 172–3, 204–13,
+215–33
+options 42–4, 63–7
+DAX 42
+prices 42, 63–4
+VIX 63–7
+orange juice 59–61, 249
+ordinary least squares
+see also regression
+concepts 33–9, 169
+Osaka 46
+oscillator indictor 122–3, 126–7, 128–30,
+140, 148–9, 177–87, 299, 376
+‘out of the money’ options 42, 63–4
+out-of-sample data 150–1, 204–13, 217–33,
+282–5, 376
+outliers, concepts 30, 38, 159
+over-fitting, concepts 150, 166, 169–70,
+202–3, 223, 376
+overbought/oversold oscillators 139–41,
+184, 250–60
+p see Spearman’s rank correlation
+coefficient
+pairs trading, definition 376
+paper trades, back-testing 153, 223–33
+
+405
+
+Paris 37–8, 42–4, 47–51, 327, 333, 334,
+357–65
+see also CAC40
+part correlation coefficient
+see also multiple regression . . .
+concepts 132–8
+past performance, returns 15
+payroll factors, forex 267
+Pearson’s product-moment correlation
+coefficient
+see also coefficient of determination;
+correlation
+assumptions 18–19, 20, 25–9, 106–7
+concepts 17–31, 34, 89–92, 99–109,
+112–19, 135–8, 216–17, 236–7, 241,
+278, 279–80, 289–90
+definition 17
+examples 20–1, 89–92, 99–109
+Excel examples 20–1
+formula 17
+homoscedasticity 31
+interpretation 17–19
+regression formula 34
+penny stocks 238
+percentage of profitable trades (P), trading
+system evaluations 155, 161–2,
+176–87, 191–9, 205–13, 225–33,
+237–46, 255–9
+percentiles 70–83
+perceptions, risk 148
+pessimistic rate of return (PRR)
+definition 376
+trading system evaluations 157, 376
+phases, market movements 139–40
+Philadelphia Exchange (PHLX) Gold and
+Silver Sector Index (XAU) 49–50, 55,
+61–3, 95–109, 129, 134–8, 175–87
+AUD 289–91
+concepts 61–3, 79–82, 94–109, 175–87
+fourteen technical systems for trading
+gold 175–87
+list of companies 61–3
+S&P 500 79–82
+weighting method 61–3
+pip, definition 376
+point spreads, forex 263
+
+406
+
+politics 173, 265–8
+Portfolio Management Formulas . . .
+(Vince) 157
+PPI see Producer Price Index
+precious metals 11–13, 15, 61–3
+see also gold; silver
+price level based stop condition, concepts
+165–6
+price percent changes, correlation 18–19,
+24, 37–8, 55–6, 72–6, 89–92, 107,
+224–33
+prices, options 42, 63–4
+Producer Price Index (PPI) 266
+productivity levels, inflation rates 94
+profit factor (PF), trading system
+evaluations 155, 161–2, 176–87,
+243–4, 274–7, 283–5
+profit mapping, optimization factors 151
+profit targets, trading systems 167–8, 295,
+369–70
+profit/loss index, trading system evaluations
+156, 159–61, 176–87, 191–9, 205–13,
+219–33, 236–7, 245–6, 255–9, 274–7,
+283–5
+profitability evaluations, trading systems
+155–62, 166–7, 175–87, 191–9,
+205–13, 217–33, 236–44, 271–7,
+283–5
+profitability metric, trading system
+evaluations 156, 161–2, 176–87,
+191–9, 205–13, 225–33, 236–44,
+271–7, 283–5
+profits
+see also returns
+‘cut your losses and let your profits run’
+principle 167, 295
+ProShares UltraShort . . . 253
+PRR see pessimistic rate of return
+pullbacks 140–1, 218–33
+pyramid technique, definition 376
+quarterly GDP figures 267
+r see Pearson’s product-moment correlation
+coefficient
+r square see coefficient of determination
+
+Index
+
+random number generators 151–2
+random walks, definition 377
+range
+concepts 70–83, 377
+definition 377
+rank correlation coefficient see Spearman’s
+rank correlation coefficient
+rate of change (ROC) 18–19, 176–87,
+222–33, 274–7, 357–60, 377
+artificial neural networks 222–33,
+357–60
+concepts 9, 18–19, 181–3, 222–33, 377
+definition 377
+real estate crises 46
+rebalanced portfolios 15
+recessions 7–8, 77–82
+rectangles
+concepts 46, 167–8, 367–70
+definition 367
+MetaStock code 367–70
+target formula 167–8, 369–70
+regression 9, 19, 30–1, 33–9, 112–14, 128,
+133–8, 181–7, 240–2, 298–9, 300,
+302–3, 314–16, 320–3, 334, 352–5,
+374, 375, 381
+see also multiple . . .
+assumptions 38
+coefficient of determination 19, 30, 36,
+37–8, 182–7
+concepts 30–1, 33–9, 112–14, 181–7
+definition 33
+examples 34–8
+Excel examples 34–7
+formulas 33–4
+homoscedasticity 31
+kernel regression 39, 170
+linearity assumption 38
+nonparametric regression 38–9, 69–83,
+86–92, 233
+outliers 30, 38
+Pearson’s product-moment correlation
+coefficient 34
+smoothing splines 39
+regression divergence indicators
+concepts 128, 177–87, 190–9, 218–33,
+245–6, 269–77, 298–9, 302–3
+
+Index
+
+definition 128
+MetaStock code 298–9, 302–3
+regression double, MetaStock code 320–3
+regulations 26–9, 47–8, 248
+multiple accounts 248
+‘uptick rule’ 26–9, 47–8
+relative strength (RS) 121–3, 179–80,
+183–7, 236–44, 247–60, 297, 303–5,
+341–7, 377
+concepts 121–3, 179–80, 183–7, 247–60,
+377
+critique 260
+definition 121–2, 377
+dynamic asset allocations 247–60
+MetaStock code 297, 303–5, 341–7
+Repsol Ypf S.A. 57
+returns 11–15, 93–4, 162–5, 219–33, 376,
+377, 378
+see also profit . . .
+all stock index returns statistics 12–14
+excess returns 164, 206–9, 219, 255–9,
+275, 283–5, 377
+gold 93–4
+past performance 15
+pessimistic rate of return 157, 376
+risk 11–12, 162–5, 219–33, 377, 378
+risk-adjusted returns 163, 209–13, 218,
+259, 275–7, 283–5, 377
+statistics 12–15
+Reuters Datalink 202, 211–12, 249–54
+Reuters forex market 261–2, 273–4
+Reuters/Jefferies CRB Index (RJ/CRB)
+58–60, 105–7, 294
+see also Commodity Research Bureau
+reversals 6–7, 66–7, 78–82, 121–43,
+218–33, 294–5, 367–70
+RINA index, risk metrics 163
+risk
+see also diversification; standard
+deviations
+attitudes 148
+drawdowns 161–5, 176–87, 191–9,
+205–13, 219–33, 237–46, 274–7, 295,
+372
+Efficient Market Theory 148
+metrics 162–5
+
+407
+
+perceptions 148
+reduction methods 11–14, 162–5, 294
+returns 11–12, 162–5, 219–33, 377, 378
+volatility 13–14, 15
+risk management 166, 294–5
+risk of ruin 168
+risk-adjusted returns
+concepts 163, 209–13, 218, 259, 275–7,
+283–5, 377
+definition 163, 377
+risk-free rates of return 164
+risk/reward index
+see also drawdown
+concepts 163, 176–87, 191–9, 205–13,
+219–33, 237–46, 283–5
+definition 163
+RJ/CRB see Reuters/Jefferies CRB Index
+ROC see rate of change
+Royal Dutch Shell Plc 57, 369–70
+Ruggiero, Murray 126, 173, 189
+rules, forex 263
+Russell 2000 index (RUT), S&P 500 70–6,
+83
+Russell, Bertrand 41, 215–33
+Russian bond crisis 78
+RWE 203
+S&P 100 (OEX) 48–50, 64
+S&P 500 e-mini 88–92, 111–19, 189–99,
+324–7, 377
+15-min intraday system 112–19, 189–99,
+324–7
+DAX 88–92, 112–19
+definition 377
+intraday correlations 111–19, 189–99
+MetaStock code 324–7
+S&P 500 (SPX) 4–6, 9–10, 12–15, 20–9,
+31, 33, 36–8, 41, 47–50, 54–5, 58,
+63–4, 69–83, 85–6, 121–2, 140–2,
+159–62, 247–60, 269–77, 294
+bonds 77–82, 269–77
+CAC40 70–6, 82–3
+commodities 77–83, 94–6
+comparison charts 4–6, 12–15
+concepts 69–83, 248–60, 269–77
+correlation 69–83, 85–6, 159–62, 269–77
+
+408
+
+S&P 500 (SPX) (Continued)
+CRB 77–82, 236
+curvilinear relationships 20–4
+DAX 85–6
+DJIA 70–6
+dollar index 79–82, 236, 269–77
+dynamic asset allocations 248–60
+ESTX50 72–6, 194–9
+forex 77–83, 269–77
+FTSE 100 70–6, 82–3
+gold 78–82, 94–6
+heteroscedasticity 31
+historical returns 94
+interest rates 77–83
+intermarket relations 9–10
+intraday correlations 111–19, 189–99
+linear relationships 20–7
+multiple regression 36–8
+Nikkei 70–6, 269–77
+normal distributions 26–9
+oil 79–82, 235–44
+regression 33, 36–8, 159–62
+RUT 70–6, 83
+stocks’ correlations 82–3, 235–44
+VIX 64–7, 72–6, 77–83
+XAU 79–82
+XOI 79–82, 236–44
+yen 79–82, 269–77
+S&P Bank Index (BIX) 216–33, 357–65
+S&P ETF (SPY)
+see also exchange-traded funds
+concepts 159–62, 189–99, 323–4
+MetaStock code 323–4
+S&P GSCI see Goldman Sachs Commodity
+Index
+sample sizes 149, 159, 186–7
+SAP 203
+SAR . . . 166, 281–5, 381
+see also Wilder’s parabolic stop and
+reverse . . .
+SaxoBank 246, 248
+Schwager, Jack 235
+SDAX 42
+seasonal patterns, gold 98–9
+SEC see Securities and Exchange
+Commission
+
+Index
+
+sector rotations, economic cycles 8
+Securities and Exchange Commission
+(SEC) 26, 47–8
+sell signals 123–4, 126–7, 137–9, 147–8,
+183, 190–9, 202–13, 218–33, 254–6,
+259, 274–7, 283–5
+see also exit . . .
+sensitivity analysis, artificial neural
+networks 226
+Shapiro-Wilk’s normality test
+concepts 38, 158–9, 377
+definition 377
+Sharpe’s ratio
+concepts 164, 206, 219, 255–9, 275,
+283–5, 377
+definition 164, 377
+Shell 45
+short-term trading 192–9, 202–3, 205–13,
+238–9, 294–5
+Siemens 203
+Silver ETF (SLV) 48–50, 55, 59, 61–3,
+95–107, 125, 134–8, 175–87, 244–5,
+250, 291
+small positions, big price moves 357
+Smarter Trading (Kaufman) 173
+smoothing splines
+see also regression
+concepts 39
+software
+see also telecommunications
+developments
+artificial neural networks 25, 154–5,
+168–71, 215, 221–33, 357–65,
+371
+back-testing 152–3
+trading systems 149–51, 152–3
+Sonntag, Susan 69
+Soros, George 278
+South Africa 285, 292
+soybeans 59–61, 249
+SPDR . . . 93, 253–9
+Spearman’s rank correlation coefficient
+see also correlation
+assumptions 19–20
+concepts 19–20, 86–7
+examples 20, 22, 69–83, 86–7
+
+Index
+
+Excel examples 20, 22
+formula 20
+speculators, carry trade money 4, 268–77
+SPSS 181
+SPX see S&P 500
+Standard & Poor’s 61
+see also S&P . . .
+standard deviations 11–15, 17–31, 70–83,
+123–4, 130–1, 163–5, 205–13, 218,
+274–7, 279–85, 377–8, 381
+see also risk
+definition 377–8
+formula 378
+risk metrics 163–5
+risk-adjusted returns 163, 209–13, 218,
+259, 275–7, 283–5, 377
+Z-score divergence 130–1, 177, 184–7,
+312–14
+standardized regression coefficients
+136–8
+static asset allocations, concepts 3–15, 247,
+254–60, 294
+STDEV . . . 12, 161–2, 381
+Sterling ratio
+concepts 164
+definition 164, 378
+STOCH . . . 381
+stochastic tunnelling approach
+see also Monte Carlo Simulation
+concepts 153–4
+stochastics oscillator 140, 179, 192, 196–9,
+203–13, 218–33, 242, 253–60, 378,
+381
+definition 378
+stock index futures
+concepts 111–19, 378
+definition 378
+US/European correlation analysis
+116–19
+stocks 7–8, 9–15, 77–83, 86–7, 111–19,
+201–13, 235–46, 295, 337–9, 378
+conclusions 295
+DAX correlations 86–7, 201–13
+diversification 10–15, 247–60
+economic cycles 7–8
+gold trading 235–46, 335, 339–41
+
+409
+
+intermarket systems 235–46, 295
+oil trading 235–46, 337–9
+S&P 500 correlations 82–3, 235–44
+stop-loss conditions
+advantages 166–7
+concepts 165–7, 180–1, 187, 192–9, 232,
+259, 273–7, 281–5
+disadvantages 166–7, 232
+time factors 165
+types 165–6
+STXX50 see Dow Jones Stoxx 50 index
+sub prime mortgage crisis 27
+sugar 59–61, 249, 259
+Support Vector Machines (SVMs) 39
+SVMs see Support Vector Machines
+Swedish krona 50–5
+Swiss franc (CHF) 50–5, 249, 262
+symbols, international indices 46–50
+system traders
+see also technical analysis; trading
+systems
+concepts 147–73
+t-tests
+concepts 158–62, 378
+definition 378
+trading system evaluations 158–62
+tails 27–30, 38
+Tankan quarterly survey, Japan 267
+target formula, rectangles 167–8,
+369–70
+TDIST function, Excel 159–62
+TecDAX 41–2, 86
+technical analysis
+classic trendlines 122–3
+concepts 6–7, 121–7, 147–8, 294–5,
+367–70
+conclusions 294–5
+discretionary traders 147–8
+fourteen technical systems for trading
+gold 78, 175–87
+rectangles 167–8, 367–70
+system traders 147–8
+Technical Analysis of STOCKS &
+COMMODITIES (Harris) 156, 167,
+241, 271
+
+410
+
+Technical Trader’s Guide to Computer
+Analysis of the Futures Markets
+(Lebeau and Lucas) 173
+Telechart 190
+telecommunications developments
+see also software
+integrated markets 3, 4, 10–11
+Templeton Dragon Fund (TDF) 251, 258
+temporary pullbacks 140–1, 218–33
+three-dimensional scatterplots
+see also multiple regression
+concepts 36–8
+time factors 89–92, 106–9, 111–19, 166,
+194–9, 217–33, 247–60, 293–5
+see also intraday . . .
+conclusions 293–5
+DAX 89–92, 111–19, 210–13
+dynamic asset allocations 247–60, 294
+Efficient Market Theory 148
+forex 262
+gold 106–9
+stop-loss conditions 165
+time stop condition, concepts 166
+time zones 116–19
+titanium minerals 291
+TNX see CBOE 10 Year Treasury Yield
+Index
+Tokyo Stock Exchange (TSE) 45–6
+see also Japan
+tops 65–7, 100–1, 122–3
+Total 57
+total daily drawdown, concepts 162
+total net profit
+artificial neural networks 225–33
+trading system evaluations 155, 176–87,
+191–9, 205–13, 225–33, 237–46,
+255–9, 274–7, 283–5
+trade balance factors, forex 265–6, 269,
+288–9
+‘tradeable proxy’ 175–6
+Tradecision 169
+TradersStudio 151, 154–5, 169
+TradeSim 203–13, 236–44, 331–2, 337–9,
+341–2, 368–70, 378
+see also MetaStock
+DAX 203–13, 331
+
+Index
+
+ETF system 344–5
+FUTURES system 341–2
+oil stocks 236–44, 337–9
+rectangles 368–70
+Tradestation 151, 153
+trading hours 42–50, 76–7, 262, 263,
+271–2
+Trading Solutions 169
+trading specifications, artificial neural
+networks 229–30
+trading strategies, artificial neural networks
+168–71, 215, 221–33, 360–5
+trading systems
+artificial neural networks 25, 154–5,
+168–71, 215, 221–33, 357–65, 371
+back-testing 148–55, 217–33
+benefits 147–8
+concepts 147–73, 179–81, 215–33,
+235–46, 262, 293–5, 360–5
+conclusions 293–5
+countertrend systems 179–87
+‘cut your losses and let your profits run’
+principle 167, 295
+design concepts 147–73, 179–81, 211–13
+discretionary traders 147–8
+drawdown 161–5, 176–87, 191–9,
+205–13, 219–33, 237–46, 274–7, 295,
+372
+emotions 147, 161, 166, 173, 295
+fourteen technical systems for trading
+gold 78, 175–87
+fuzzy logic 171–2
+money management 168, 194, 295
+optimization factors 149–55, 172–3,
+204–13, 215–33
+profit targets 167–8, 295, 369–70
+profitability evaluations 155–62, 166–7,
+175–87, 191–9, 205–13, 217–33,
+236–46, 271–7, 283–5
+risk metrics 163–5, 176–87
+software considerations 149–51, 152–3
+stop-loss conditions 165–7, 180–1, 187,
+192–9, 232, 259, 273–7, 281–5
+t-test evaluations 158–62
+trend-following systems 179–81, 262,
+279–85
+
+Index
+
+trailing stop-loss condition, concepts 165–6,
+273–7
+trailing stops, definition 378
+training aspects, artificial neural networks
+168–71, 172, 223–33
+Treasury Bonds 8, 37, 55, 77–82, 88–92,
+95–9, 135, 269–77
+see also bonds
+‘the trend is your friend’ maxim 262
+trend-following systems, concepts 179–81,
+262, 279–85
+trending movements, market movements
+139–43, 179–81, 211–13
+True Range indicator 371–2
+TSE see Tokyo Stock Exchange
+Twain, Mark 201–13
+UK
+euro opt-out 277
+GBP 13–14, 53–5, 58, 216–33, 249, 262,
+268, 278–91
+GBP/USD 13–14, 262
+Ulcer Index, concepts 165
+uncertainty, benefits 85
+uncorrelated asset classes
+see also negative correlation
+concepts 11–15, 294
+unemployment index 7
+‘uptick rule’, abolition 26–9, 47–8
+uranium 291
+US 4–6, 9, 20–6, 41, 47–51, 69–83, 95–9,
+116–19, 194–9, 249, 262–92, 302,
+348–55
+AUD/USD 55, 262, 289–91
+EUR/USD 262, 283–6, 355
+GBP/USD 13–14, 262
+intraday correlations 116–19, 189–99
+leading/lagging analysis 116–19
+Michigan sentiment figures 267
+USD/JPY 4–5, 95–9, 249, 262–92,
+348–55
+US Eastern time (EST) 47–50, 196–9
+US markets, times of the day 7
+USD, Euro (EURO-USD) daily
+MA-intermarket system 355
+USD/CAD 262
+
+411
+
+USD/CHF 262
+USD/JPY 4–5, 79–82, 95–9, 249, 262–92,
+348–55
+UTY 37–8
+Valero Energy 57
+variance
+see also standard deviations
+covariance 17–31, 372
+homoscedasticity 31
+VDAX 42
+VDAX-NEW 42
+venture 135–8
+vertical horizontal filter (VHF)
+concepts 140–3
+formula 141
+VFI see Volume Flow Indicator
+VHF see vertical horizontal filter
+Vince’s optimal f 168
+VIX see CBOE Volatility Index
+volatility 13–14, 15, 26–7, 37–8, 42, 46–51,
+59–60, 63–7, 72–6, 164–5, 241, 271–7,
+294, 374
+forex 263, 271–7
+international indices 46–50
+risk 13–14, 15
+VIX 37–8, 42, 63–7, 72–6, 77–83
+volatility stops, concepts 166, 198–9
+Volume Flow Indicator (VFI)
+concepts 127–8, 241–2, 254–60, 379
+definition 379
+VXD 64
+see also CBOE Volatility Index
+VXN 64
+see also CBOE Volatility Index
+W test see Shapiro-Wilk’s normality test
+walk forward testing, concepts 150–1
+Wealth-Lab Developer software 154, 169
+wheat 51–61, 249
+Wilder, J Welles 281
+Wilder’s parabolic stop and reverse
+indicator, concepts 166, 281–5
+Wilder’s Relative Strength Index 122,
+140–1
+see also relative strength
+
+412
+
+Williams Oscillator 66–7
+Winning on Wall Street (Zweig) 77
+wisdom, fear 41, 215
+World Gold Index 95–107, 302
+World Silver Index (XSLV) 104,
+175–87
+XAU see Philadelphia Exchange (PHLX)
+Gold and Silver Sector Index
+XOI see Amex Oil Index
+XSLV see World Silver Index
+Y-Intercept formula 128
+yen 4–5, 36–8, 50–1, 53–5, 58, 79–82,
+95–9, 134–8, 249, 262–92,
+348–55
+see also Japan
+AUD 287–8, 289–91
+carry trade 4, 268–77, 287–8
+correlations 269–77
+daily intermarket volatility system
+348–50
+euro 269–71, 278–85
+evaluation of test results 274–7
+Index compiled by Terry Halliday
+
+Index
+
+futures (GLOBEX:6J) daily intermarket
+volatility system 350–2
+gold 95–9
+MetaStock code 348–55
+multiple regression 36–8
+S&P 500 79–82, 269–77
+testing procedures 271–4
+trading 268–77
+USD/JPY 4–5, 79–82, 95–9, 249,
+262–92, 348–55
+(USDYEN) daily intermarket regression
+system 79–82, 352–5
+yields
+see also bonds
+S&P 500 77–82, 269–77
+Z-score divergence
+concepts 130–1, 177, 184–7, 312–14
+definition 130
+formula 130
+MetaStock code 312–14
+zinc 291
+zircon 291
+Zweig, Martin 77
+
+

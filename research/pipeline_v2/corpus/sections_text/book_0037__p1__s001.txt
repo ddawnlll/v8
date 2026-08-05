@@ -1,0 +1,201 @@
+
+ Figure B.22 Quarterly Returns: Parity Portfolio Versus S&p 500, 1974–2012 
+ STOCHASTIC DOMINANCE 
+ Because financial markets can have nonstationary variance and autocorrelated interdependent return distributions, it is best to analyze and compare them using robust or nonparametric methods. One such method is second-order stochastic dominance, where one set of outcomes is preferred over another if it is more predictable (less risky) and has at least as high a mean return (Hader and Russell 1969). Figure B.23 is a plot of the cumulative distribution function of the monthly returns of the parity portfolios, with and without absolute momentum. 
+
+ Figure B.23 Cumulative Distribution Functions, 1974–2012 
+ The parity portfolio with 12-month absolute momentum shows a lower probability of loss and a greater probability of gain than the parity portfolio without momentum. Because the mean of the parity portfolio with 12-month absolute momentum is also higher than the mean of the parity portfolio without absolute momentum, a risk-averse investor would always prefer the parity portfolio with 12-month absolute momentum, due to second-order stochastic dominance. 
+ LEVERAGE 
+ Risk parity programs often have so much fixed income in their portfolios that their managers have to leverage the portfolios in order to strive for an acceptable level of expected return. Since absolute momentum reduces the volatility of our parity portfolio while, at the same, preserving equity-level returns, there is not the same need for leverage. 
+ However, given the low expected drawdown of an absolute momentum parity portfolio, one may still wish to use leverage in order to boost expected returns, as is done with other risk parity programs. 8 Table B.8 and Figure B.24 show the pro forma results of our 12-month absolute momentum parity portfolio leveraged to an annual volatility level just below the long-term volatility of a normal 60/40 portfolio. We use a borrowing cost of the fed funds rate plus 25 basis points 9 and a leverage ratio of 1.85 to 1. 
+ Table B.8 Parity Portfolios, 1974–2012 
+
+ Figure B.24 Parity Portfolios, 1974–2012 
+ Risk in a levered portfolio has many facets, such as fat tail, illiquidity, counterparty, basis, and converging correlation risk. Since most risk parity programs have well over 50% of their assets in fixed-income securities, their greatest future risk may be that of rising interest rates. An increase in nominal interest rates back to a historically normal level of 6% could lead to a 50% drop in the price of long bonds. Parity with 12-month absolute momentum, as presented here, is more adaptive than normal risk parity and has the ability to exit fixed-income investments during periods of rising interest rates due to its trend-following nature. Absolute momentum is, in general, a valuable adjunct to the use of leverage. 
+ FACTOR PRICING MODELS 
+ Table B.9 shows our 12-month absolute momentum parity portfolio regressed against the U.S. stock market using the single-factor capital asset pricing model (CAPM), as well as the three-factor Fama/French model incorporating market, size, and value risk factors, as per the Kenneth French website. 10 We also show a four-factor Fama/French model that adds relative momentum, as well as a six-factor model that additionally adds the excess return of the Barclays Capital U.S. Aggregate Bond and S&P GSCI commodity indexes. 
+ Table B.9 Factor Model Coefficients, 1974–2012 
+
+ Since our parity portfolio is long only, we naturally see highly significant loadings on the stock, bond, and GSCI market factors. Absolute momentum captures some significant cross-sectional momentum beta. Our parity portfolio with 12-month absolute momentum provides substantial and significant alphas according to all four models. 
+ CONCLUSIONS 
+ Cowles and Jones first presented 12-month momentum to the public in 1937. It has held up remarkably well ever since. Relative strength momentum, looking at performance against one’s peers, has attracted the most attention from researchers and investors. Yet relative strength is a secondary way of looking at price strength. Absolute momentum, measuring an asset’s performance with respect to its own past, is a more direct way of looking at and utilizing market trends to determine price continuation. 
+ Trend determination through absolute momentum can help one navigate downside risk, take advantage of regime persistence, and achieve higher risk-adjusted returns. Absolute momentum, as used here, is a simple rule-based approach that is easy to implement. One needs only to see if returns relative to Treasury bills have been up or down for the preceding year. 
+ We have seen on 39 years of past data how 12-month absolute momentum can help improve the reward-to-risk characteristics of a broad range of investments. Absolute momentum has considerable value as a tactical overlay to multiasset portfolios, where it has many potential uses. A risk parity portfolio using absolute momentum, due to its modest correlation to traditional investments, such as stocks and bonds, could function either as a core holding or as an alternative asset holding. 
+ Absolute momentum can enhance the expected return and reduce the expected drawdown of core portfolios, as we have shown in this paper. It can help investors with basic stock/bond allocations, such as a 60/40 balanced mix, meet their investment objectives without resorting to excessively large allocations to fixed income that could subject them to substantial interest rate risk. We have seen, in fact, that applying absolute momentum to a stock-only portfolio may reduce or eliminate the need for fixed income as a portfolio diversifier. Investors using absolute momentum can also reduce or eliminate leverage, the selection of riskier assets like hedge funds and private placements, and data-snooping based portfolio constructs that rely on nonstationary and estimation risk–prone correlations and covariances. 
+ There are other potential uses as well for absolute momentum. Simple absolute momentum can be a more cost-effective alternative to managed futures (Hurst, Ooi, and Pedersen 2014). It can also be an attractive alternative to option overwriting by retaining more of the potential for upside appreciation while at the same time providing greater downside protection. Absolute momentum can likewise be an attractive alternative to costly tail-risk hedging. It can reduce the need for aggressive diversification with marginal assets having lower expected returns. If one wishes to achieve higher returns by using riskier assets or by leveraging a portfolio, then 12-month absolute momentum can make that more viable by truncating expected drawdown. 
+ Despite its many possible uses, absolute momentum has yet to attract the attention it deserves as an investment strategy and risk management tool. We have developed variations of and enhancements to 12-month absolute momentum that go beyond the scope of this introductory paper. Yet all investors would do well to become familiar with absolute momentum, since, even in its simplest form as presented here, absolute momentum can be an attractive stand-alone strategy or a powerful tactical overlay for improving the risk-adjusted performance of any asset or portfolio.
+
+Dual Momentum Investing: An Innovative Strategy for Higher Returns with Lower Risk 
+
+ BIBLIOGRAPHY 
+ Ahn, Dong-Hyu, Jennifer Conrad, and Robert Dittmar (2003), “Risk Adjustment and Trading Strategies,” Review of Financial Studies 16(2), 459–485. 
+ Akemann, Charles A., and Werner E. Keller (1977), “Relative Strength Does Persist!” Journal of Portfolio Management 4(1), 38–45. 
+ Amenc, Noël, Felix Goltz, and Véronique Le Sourd (2009), “The Performance of Characteristics-Based Indices,” European Financial Management 15(2), 241–278. 
+ Ang, Andrew (2012), “Mean Variance Investing,” working paper. 
+ Antonacci, Gary (2011), “Optimal Momentum: A Global Cross Asset Approach,” Portfolio Management Consultants. 
+ Antonacci, Gary (2012), “Risk Premia Harvesting Through Dual Momentum,” Portfolio Management Consultants. 
+ Antonacci, Gary (2013), “Absolute Momentum: A Universal Trend-Following Overlay,” Portfolio Management Consultants. 
+ Ariely, Dan (2009), Predictably Irrational , New York: HarperCollins Publishers. 
+ Asness, Clifford S., Andrea Frazzini, Ronen Israel, and Tobias J. Moskowitz (2014), “Fact, Fiction, and Momentum Investing,” working paper. 
+ Asness, Clifford S., John Liew, and Ross Stevens (1997), “Parallels Between the Cross-Sectional Predictability of Stock and Country Returns,” Journal of Portfolio Management , 23(3), 79–87. 
+ Asness, Clifford S., Tobias J. Moskowitz, and Lasse J. Pedersen (2013), “Value and Momentum Everywhere,” Journal of Finance , 68(3), 929–985. 
+ Asness, Clifford S., R. Burt Porter, and Ross L. Stevens (2000), “Predicting Stock Returns Using Industry-Relative Firm Characteristics,” working paper. 
+ Avramov, Doron, and Tarun Chordia (2006), “Asset Pricing Models and Financial Market Anomalies,” Review of Financial Studies 19(3), 1001–1040. 
+ Bachelier, Louis (2006), Louis Bachelier’s Theory of Speculation: The Origins of Modern Finance , Princeton NJ: Princeton University Press. 
+ Bacon, Carl (2013), Practical Risk-Adjusted Performance Measurement , West Sussex, UK: John Wiley & Sons Ltd. 
+ Bailey, David H., Jonathan M. Borwein, Marcos López de Prado, and Qiji Jim (2014), “Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance,” Notices of the American Mathematical Society 61(5), 458–474. 
+ Bajgrowicz, Pierre, and Olivier Scaillet (2012), “Technical Trading Revisited: False Discoveries, Persistence Tests, and Transaction Costs,” Journal of Financial Economics 106(3), 473–491. 
+ Baker, Kent H., and Victor Ricciardi (2014), Investor Behavior: The Psychology of Financial Planning and Investing , Hoboken: NJ: John Wiley & Sons, Inc. 
+ Baltas, Akindynos-Nikolaos, and Robert Kosowski (2012), “Improving Time-Series Momentum Strategies: The Role of Trading Signals and Volatility Estimators,” working paper. 
+ Bansal, Ravi, Robert F. Dittmar, and Christian T. Lundblad (2005), “Consumption, Dividends, and the Cross Section of Equity Returns,” Journal of Finance 60(4), 1639–1672. 
+ Barber, Brad M., and Terrance Odean (2000), “Trading Is Hazardous to Your Wealth: The Common Stock Investment Performance of Individual Investors,” Journal of Finance 55(2), 773–806. 
+ Barber, Brad M., and Guojun Wang (2011), “Do (Some) University Endowments Earn Alpha?” Financial Analysts Journal 69(5), 26–44. 
+ Barberis, Nicholas, Andrei Shleifer, and Robert Vishny (1998), “A Model of Investor Sentiment,” Journal of Financial Economics 49(3), 307–343. 
+ Barberis, Nicholas, and Richard H. Thaler (2002), “A Survey of Behavioral Finance,” National Bureau of Economic Research Working Paper No. 9222. 
+ Barras, Laurent, Olivier Scaillet, and Russ Wermers (2010), “False Discoveries in Mutual Fund Performance: Measuring Luck in Estimated Alphas,” Journal of Finance 65(1), 179–216. 
+ Benjamini, Yoav, Abba M. Krieger, and Daniel Yekutieli (2006), “Adaptive Linear Step-Up Procedures That Control the False Discovery Rate,” Biometrika 93(3), 491–507. 
+ Beracha, Eli, and Hilla Skiba (2011), “Momentum in Residential Real Estate,” Journal of Real Estate Finance and Economics 43(3), 299–320. 
+ Bernartzi, Shlomo, and Richard H. Thaler (1995), “Myopic Loss-Aversion and the Equity Premium Puzzle,” Quarterly Journal of Economics 110(1), 73–92. 
+ Bhardwaj, Geetesh, Gary B. Gorton, and K. Geert Rouwenhorst (2013), “Fooling Some of the People All of the Time: The Inefficient Performance and Persistence of Commodity Trading Advisors,” working paper. 
+ Bhojraj, Sanjeev, and Bhaskaran Swaminathan (2006), “Macromomentum: Returns Predictability in International Equity Indices,” Journal of Business 79(1), 429–451. 
+ Bikhchandani, Sushil, David Hirshleifer, and Ivo Welch (1992), “A Theory of Fads, Fashion, Custom, and Cultural Change as Informational Cascades,” Journal of Political Economy 100(5), 992–1026. 
+ Blake, Christopher R., Edwin J. Elton, and Martin J. Gruber (1993), “The Performance of Bond Mutual Funds,” Journal of Business 66(3), 370–403. 
+ Blitz, David, and Wilma De Groot (2014), “Strategic Allocation to Commodity Factor Premiums,” Journal of Alternative Investments , forthcoming. 
+ Blitz, David C., and Pim Van Vliet (2008), “Global Tactical Cross-Asset Allocation: Applying Value and Momentum Across Asset Classes,” Journal of Portfolio Management 35(1), 23–38. 
+ Bohan, James (1981), “Relative Strength: Further Positive Evidence,” Journal of Portfolio Management 8(1), 36–39. 
+ Booth, David, and Eugene Fama (1992), “Diversification Returns and Asset Contributions,” Financial Analysts Journal 48(3), 26–32. 
+ Brock, William, Josef Lakonishok, and Blake LeBaron (1992), “Simple Technical Trading Rules and the Stochastic Properties of Stock Returns,” Journal of Finance 47(5), 1731–1764. 
+ Brown, David P., and Robert H, Jennings (1989), “On Technical Analysis,” Review of Financial Studies 2(4), 527–551. 
+ Brush, John S., and Keith E. Bowles (1983), “The Predictive Power in Relative Strength and CAPM,” Journal of Portfolio Management 9(4), 20–23. 
+ Busse, Jeffrey A., Amit Goyal, and Sunil Wahal (2010), “Performance and Persistence in Institutional Investment Management,” Journal of Finance 65(2), 765–790. 
+ Carhart, Mark M. (1997), “On Persistence in Mutual Fund Performance,” Journal of Finance 52(1), 57–82. 
+ Chabot, Benjamin R., Eric Ghysels, and Ravi Jagannathan (2009), “Price Momentum in Stocks: Insights from Victorian Age Data,” National Bureau of Economic Research Working Paper No 14500. 
+ Chan, Kalok, Allaudeen Hameed, and Wilson H. S. Tong (2000), “Profitability of Momentum Strategies in International Equity Markets,” Journal of Financial and Quantitative Analysis 35(2), 153–175. 
+ Chan, Louis K. C., Narasimhan Jegadeesh, and Josef Lokonishok (2012), “Momentum Strategies,” Journal of Finance 51(5), 1681–1713. 
+ Chancellor, Edward (1999), Devil Take the Hindmost: A History of Financial Speculation , New York: Plume Books. 
+ Chen, Hong-Yi, Sheng-Syan Chen, Chin-Wen Hsin, and Cheng-Few Lee (2014), “Does Revenue Momentum Drive or Ride Earnings or Price Momentum?” Journal of Banking and Finance 38, 166–185. 
+ Chen, Li-Wen, and Hsin-Yi Yu (2013), “Investor Attention, Visual Price Pattern, and Momentum Investing,” working paper. 
+ Chen, Long, Ohad Kadan, and Engin Kose (2009), “Fresh Momentum,” working paper. 
+ Chestnutt, George A. (1961), Stock Market Analysis: Facts and Principles , Larchmont, NY: American Investors Service. 
+ Chordia, Tarun and Lakshmanan Shivakumar (2002), “Momentum, Business Cycle, and Time Varying Expected Returns,” Journal of Finance 57(2), 985–1019. 
+ Chordia, Tarun, Avanidhar Subrahmanyam, and Qing Tong (2013), “Trends in Capital Market Anomalies,” working paper. 
+ Chow, Tzee-man, Jason Hsu, Vitali Kalesnik, and Bryce Little (2011), “A Survey of Alternative Equity Index Strategies,” Financial Analysts Journal 67(5), 37–57. 
+ Conrad, Jennifer, and Gautam Kaul (1998), “An Anatomy of Trading Strategies,” Review of Financial Studies 11(3), 489–519. 
+ Cooper, Tony (2014), “Simulation as a Stock Market Backtesting Tool,” working paper. 
+ Covel, Michael W. (2007), The Complete Turtle Trader: How 23 Novice Investors Became Overnight Millionaires , New York: HarperCollins Publishers. 
+ Cowles, Alfred III, and Herbert E. Jones (1937), “Some A Posteriori Probabilities in Stock Market Criteria,” Econometrica 5(3), 280–294. 
+ Daniel, Kent, David Hirshleifer, and Avanidhar Subrahmanyam (1998), “Investor Psychology and Security Market Under- and Overreactions,” Journal of Finance 53(6), 1839–1886, 
+ Darvas, Nicolas (1960), How I Made $2,000,000 in the Stock Market , Larchmont, NY: American Research Council. 
+ Daskalaki, Charoula, and George S. Skiadopoulus (2011), “Should Investors Include Commodities in Their Portfolios After All? New Evidence,” Journal of Banking and Finance 35(10), 2606–2626. 
+ De Bondt, Werner F. M., and Richard Thaler, “Does the Stock Market Overreact?” Journal of Finance 40(3), 793–805. 
+ DeLong Bradford J., Andrei Shleifer, Lawrence H Summers, and Robert J, Waldmann (1990), “Positive Feedback Investment Strategies and Destabilizing Rational Speculation,” Journal of Finance 45(2), 375–395. 
+ DeMiguel, Victor, Lorenzo Garlappi, and Raman Uppal, (2009), “Optimal Versus Naïve Diversification: How Inefficient Is the 1/N Portfolio Strategy?” Review of Financial Studies 22(5), 1915–1953. 
+ Dewaele, Benoit, Hughues Pirotte, Nils Tuchschmid, and Erik Wallerstein (2011), “Assessing the Performance of Funds of Hedge Funds,” working paper. 
+ Dichev, Ilia D., and Gwen Yu (2009), “Higher Risk, Lower Returns: What Hedge Funds Really Earn,” Journal of Financial Economics 100(2), 248–263. 
+ Dickson, Joel M., Sachin Padmawar, and Sarah Hammer (2012), “Joined at the Hip: ETF and Index Development,” The Vanguard Group, Inc. 
+ Dimson, Elroy, Paul Marsh, and Mike Staunton (2014), Credit Suisse Global Investment Returns Yearbook 2014 , Zurich: Credit Suisse AG, 8–10. 
+ Docherty, Paul, and Gareth Hurst (2014), “Trend Salience, Investor Behaviors, and Momentum Profitability,” working paper. 
+ Duffie, Darrell (2010), “Asset Price Dynamics with Slow-Moving Capital,” Journal of Finance 65(4), 1238–1268. 
+ Erb, Claude B., and Campbell R. Harvey (2006), “The Strategic and Practical Value of Commodity Futures,” Financial Analysts Journal 62(2), 69–97. 
+ Evans, Dylan (2012), Risk Intelligence: How to Live with Uncertainty , New York: Free Press. 
+ Faber, Mebane T. (2007), “A Quantitative Approach to Tactical Asset Allocation,” Journal of Wealth Management 9(4), 69–79. 
+ Faber, Mebane T., and Eric W. Richardson (2009), The Ivy Portfolio: How to Invest Like the Top Endowments and Avoid Bear Market Losses , Hoboken, NJ: John Wiley & Sons Inc. 
+ Fama, Eugene F. (1998), “Market Efficiency, Long-Term Returns, and Behavioral Finance,” Journal of Financial Economics 49(3), 283–306. 
+ Fama, Eugene, and Kenneth French (1988), “Dividend Yields and Expected Stock Returns,” Journal of Financial Economics 22(1), 3–25. 
+ Fama, Eugene, and Kenneth French (1992), “The Cross-Section of Expected Stock Returns,” Journal of Finance 47(2), 427–465. 
+ Fama, Eugene F., and Kenneth French (1993), “Common Risk Factors in the Returns on Stocks and Bonds,” Journal of Financial Economics 33(1), 3–56. 
+ Fama, Eugene, and Kenneth French (2004), “The Capital Asset Pricing Model: Theory and Practice,” Journal of Economic Perspective 18(3), 25–46. 
+ Fama, Eugene, and Kenneth French (2007), “Smart Talk: Fama and French,” Journal of Indexes 8(4), 10–12. 
+ Fama, Eugene, and Kenneth French (2008), “Dissecting Anomalies,” Journal of Finance 63(4), 1653–1678. 
+ Fama, Eugene, and Kenneth French (2010), “Luck Versus Skill in the Cross-Section of Mutual Fund Returns,” Journal of Finance 65(5), 1915–1947. 
+ Fama, Eugene F., and Kenneth R. French (2014), “A Five-Factor Asset Pricing Model,” working paper. 
+ Fang, Jiali, Ben Jacobsen, and Yafeng Qin (2013), “Predictability of the Simple Technical Trading Rules: An Out-of-Sample Test,” Review of Financial Economics 23(1), 30–45. 
+ Fang, Jiali, Yafeng Qin, and Ben Jacobsen (2014), “Technical Market Indicators: An Overview,” working paper. 
+ Feifei, Li, Vitali Kalesnik, and Jason Hsu (2012), “An Investor’s Guide to Smart Beta Strategies,” AAII Journal , American Association of Individual Investors, December 2012. 
+ Fox, Justin (2009), The Myth of the Rational Market , New York: HarperCollins Publishers. 
+ Frazzini, Andrea (2006), “The Disposition Effect and Underreaction to News,” Journal of Finance 61(4), 2017–2046. 
+ Friesen, Geoffrey C., Paul Weller, and Lee Dunham (2009), “Price Trends and Patterns in Technical Analysis: A Theoretical and Empirical Examination,” Journal of Banking and Finance 33(6), 1089–1100. 
+ Galbraith, John Kenneth (1990), A Short History of Financial Euphoria , New York: Penguin Books. 
+ Gârleanu, Nicolae, and Lasse Heje Pedersen (2007), “Liquidity and Risk Management,” American Economic Review 97(2), 193–197. 
+ Gartley, H. M. (1935), Profits in the Stock Market , Pomeroy, WA: Lambert Gann Publishing. 
+ Gartley, H. M. (1945), “Relative Velocity Statistics: Their Application in Portfolio Analysis,” Financial Analysts Journal , 51(1), 18–20. 
+ Geczy, Christopher, and Mikhail Samonov (2012), “212 Years of Price Momentum (The World’s Longest Backtest 1801–2012),” working paper. 
+ George, Thomas J., and Chuan-Yang Hwang (2004), “The 52-Week High and Momentum Investing,” Journal of Finance 59(5), 2145–2176. 
+ Gennaioli, Nicola, Andrei Shleifer, and Robert W. Vishny (2012), “Money Doctors,” National Bureau of Economic Research Working Paper No. 18077. 
+ Goetzmann, William N., and Alok Kumar (2008), “Equity Portfolio Diversification,” Review of Finance 12(3), 433–463. 
+ Gordon, William (1968), The Stock Market Indicators , Palisades Park, NJ: Investors’ Press. 
+ Gorton, Gary, and K. Geert Rouwenhorst (2006), “Facts and Fantasies about Commodity Futures,” Financial Analysts Journal 62(2), 57–68. 
+ Graham, Benjamin, and David L. Dodd (1951), Security Analysis: Principles and Techniques , New York: McGraw-Hill. 
+ Graham, John (1999), “Herding Among Investment Newsletters: Theory and Evidence,” Journal of Finance 54(1), 237–268. 
+ Gray, Wesley, and Tobias Carlisle (2013), Quantitative Value: A Practitioner’s Guide to Automating Intelligent Investment and Eliminating Behavioral Errors , Hoboken, NJ: John Wiley & Sons Inc. 
+ Gray, Wesley, and Jack Vogel (2013), “Using Maximum Drawdown to Capture Tail Risk,” working paper. 
+ Griffin, John, Xiuqing Ji, and J. Spencer Martin (2003), “Momentum Investing and Business Credit Risk: Evidence from Pole to Pole,” Journal of Finance 58(6), 2515–2547. 
+ Griffin, John, Xiuqing Ji, and J. Spencer Martin (2005), “Global Momentum Strategies: A Portfolio Perspective,” Journal of Portfolio Management 31(2), 23–39. 
+ Griffin, John M., and Jim Xu (2009), “How Smart Are the Smart Guys? A Unique View from Hedge Fund Stock Holdings,” Review of Financial Studies 22(7), 2531–2570. 
+ Grinblatt, Mark, and Brian Han (2005), “Prospect Theory, Mental Accounting, and Momentum,” Journal of Financial Economics 78(2), 311–339. 
+ Grinblatt, Mark, Sheridan Titman, and Russ Wermers (1995), “Momentum Investment Strategies, Portfolio Performance, and Herding: A Study of Mutual Fund Behavior,” American Economic Review 85(5), 1088–1105. 
+ Grove, William M., David H. Zald, Boyd S. Lebow, Beth E. Snitz, and Chad Nelson (2000), “Clinical Versus Mechanical Prediction: A Meta-Analysis,” Psychological Assessment 12(1), 19–30. 
+ Grundy, Bruce D., and J. Spencer Martin (2001), “Understanding the Nature of the Risks and the Sources of the Rewards to Momentum Investing,” Review of Financial Studies 14(1), 29–78. 
+ Hader, Josef, and William R. Russell (1969), “Rules for Ordering Uncertain Prospects,” The American Economic Review 59(1), 25–34. 
+ Haller, Gilbert (1965), The Haller Theory of Stock Market Trends , West Palm Beach, FL: Gilbert Haller. 
+ Han, Yufeng, Ke Yang, and Guofu Zhou (2011), “A New Anomaly: The Cross-Sectional Profitability of Technical Analysis,” working paper. 
+ Han, Yufeng, and Guofu Zhou (2013), “Trend Factor: A New Determinant of Cross-Section Stock Returns,” working paper. 
+ Harris, Robert S., Tim Jenkinson, and Steven N. Kaplan (2013), “Private Equity Performance: What Do We Know?” Journal of Finance , forthcoming. 
+ Harvey, Campbell R., Yan Liu, and Heqing Zhu (2013), “… And the Cross-Section of Expected Returns,” working paper. 
+ Haugen, Robert A. (2010), The New Finance: Overreaction, Complexity, and Uniqueness , Upper Saddle River, NJ: Prentice Hall, Inc. 
+ Haugen, Robert A., and Nardin L. Baker (1991), “The Efficient Market Inefficiency of Capitalization-Weighted Stock Portfolios,” Journal of Portfolio Manag ement 17(3), 35–40. 
+ Higson, Chris, and Rüdiger Stucke (2012), “The Performance of Private Equity,” working paper. 
+ Hong, Harrison, and Jeremy Stein (1999), “A Unified Theory of Underreaction, Momentum Trading, and Overreaction in Asset Markets,” Journal of Finance 54(6), 2143–2184. 
+ Hurst, Brian, Yao Hua Ooi, and Lasse H. Pedersen (2012), “A Century of Evidence on Trend-Following Investing,” AQR Capital Management, LLC. 
+ Hurst, Brian, Yao Hua Ooi, and Lasse H. Pedersen (2014), “Demystifying Managed Futures,” Journal of Investment Management , forthcoming. 
+ Ilmanen, Antti (2011), Expected Returns: An Investor’s Guide to Harvesting Market Rewards , West Sussex, UK: John Wiley & Sons Ltd. 
+ Inker, Ben (2010), “The Hidden Risks of Risk Parity Portfolios,” GMO White Paper, March 2010. 
+ Israel, Ronen, and Tobias J. Moskowitz (2013), “The Role of Shorting, Firm Size, and Time on Market Anomalies,” Journal of Financial Economics 108(2), 275–301. 
+ Jacobs, Heiko, Sebastian Müller, and Martin Weber (2014), “How Should Individual Investors Diversify? An Empirical Evaluation of Alternative Asset Allocation Policies,” Journal of Financial Markets 19, 62–85. 
+ Jegadeesh, Narasimhan (1990), “Evidence of Predictable Behavior of Security Returns,” Journal of Finance 45(3), 881–898. 
+ Jegadeesh, Narasimhan, and Sheridan Titman (1993), “Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency,” Journal of Finance 48(1), 65–91. 
+ Jegadeesh, Narasimhan, and Sheridan Titman (2001), “Profitability of Momentum Strategies: An Evolution of Alternative Explanations,” Journal of Finance 56(2), 699–720. 
+ Jensen, Michael C. (1968), “The Performance of Mutual Funds in the Period 1945–1964,” Journal of Finance 23(2), 389–416. 
+ Johnson, Timothy (2002), “Rational Momentum Effects,” Journal of Finance 57(2), 585–608. 
+ Jostova, Gergana, Stanislova Nikolova, Alexander Philipov, and Christof W Stahel (2013), “Momentum in Corporate Bond Returns,” Review of Financial Studies 26(7), 1649–1693. 
+ Kahneman, Daniel (2011), Thinking, Fast and Slow , New York: Farrar, Straus and Giroux. 
+ Kahneman, Daniel, and Amos Tversky (1979), “Prospect Theory: An Analysis of Decision Under Risk,” Econometrica 47(2), 263–292. 
+ Kandasamy, Narayan, Ben Hardy, Loinel Page, Markus Schaffner, Johann Gaggaber, Andrew S. Powlson, Paul C. Fletcher, Mark Gurnell, and John Coates (2014), “Cortisol Shifts Financial Risk Preferences,” Proceedings of the National Academy of Sciences 111(9), 3608–3613. 
+ Keim, Donald B., and Robert F. Stambaugh (1986), “Predicting Returns in Stock and Bond Markets,” Journal of Finance 17(2), 357–390. 
+ Kindleberger, Charles P., and Robert Z. Aliber (2011), Manias, Panics, and Crashes: A History of Financial Crises , New York: Palgrave MacMillan. 
+ King, Matthew, Oscar Silver, and Binbin Guo (2002), “Passive Momentum Asset Allocation,” Journal of Wealth Management 5(3), 34–41. 
+ Klein, Donald B., and Robert F. Stambaugh (1986), “Predicting Returns in Stocks and Bond Markets,” Journal of Financial Economics 17(2), 357–390. 
+ Knight, Timothy (2014), Panic, Prosperity, and Progress: Five Centuries of History and the Markets , Hoboken, NJ: John Wiley & Sons, Inc. 
+ Kothari, S. P., Jay Shanken, and Richard G. Sloan (1995), “Another Look at the Cross-Section of Expected Returns,” Journal of Finance 50(1), 185–224. 
+ Kumar, Alok (2009), “Who Gambles in the Stock Market?” Journal of Finance 64(4), 1889–1933. 
+ Lack, Simon A. (2012), The Hedge Fund Mirage: The Illusion of Big Money and Why It’s Too Good to Be True , Hoboken, NJ: John Wiley & Sons Inc. 
+ Lefèvre, Edwin (2010), Reminiscences of a Stock Operator: With New Commentary and Insights on the Life and Times of Jesse Livermore , Hoboken, NJ: John Wiley & Sons Inc. 
+ Lemperiere, Y., C. Deremble, P. Seager, M. Potters, and J. P. Bouchad (2014), “Two Centuries of Trend Following,” working paper. 
+ Levy, Robert A. (1967), “Relative Strength as a Criterion for Investment Selection,” Journal of Finance 22(4), 595–610. 
+ Levy, Robert A. (1968), The Relative Strength Concept of Common Stock Price Forecasting , Larchmont, NY: Investors Intelligence, Inc. 
+ Li, Xiaoming, Bing Zhang, and Zhijie Du (2011), “Correlation in Commodity Futures and Equity Markets Around the World: Long-Run Trend and Short-Run Fluctuation,” working paper. 
+ Liu, Laura Xiaolei, and Lu Zhang (2008), “Momentum Profits, Factor Pricing, and Macroeconomic Risk,” Review of Financial Studies 21(6), 2417–2448. 
+ Lo, Andrew W. (2012), “Why Buy and Hold Doesn’t Work Anymore,” Money magazine, March issue. 
+ Lo, Andrew W., and A. Craig MacKinlay (1988), “Stock Market Prices Do Not Follow Random Walks: Evidence from a Simple Specification Test,” The Review of Financial Studies 1(1), 41–66. 
+ Lo, Andrew W., and A. Craig MacKinlay (1999), A Non-Random Walk Down Wall Street , Princeton: NJ, Princeton University Press. 
+ Lo, Andrew W., Harry Mamaysky, and Jiang Wang (2000), “Foundations of Technical Analysis: Computational Algorithms, Statistical Inference, and Empirical Implementation,” Journal of Finance 55(4), 1705–1770. 
+ Lombardi, Marco J., and Francesco Ravazzolo (2013), “On the Correlation Between Commodity and Equity Returns: Implications for Portfolio Allocation,” Bank for International Settlements Working Paper No. 420. 
+ López de Prado, Marcos (2013), “What to Look for in a Backtest,” Hass Energy Trading Corp. 
+ Lowenstein, Roger (2000), When Genius Failed: The Rise and Fall of Long-Term Capital Management , New York: Random House. 
+ MacKenzie, Donald (2006), An Engine, Not a Camera: How Financial Models Shape Markets , Cambridge, MA: MIT Press. 
+ Malkiel, Burton G. (1995), “Returns from Investing in Equity Mutual Funds,” Journal of Finance 50(2), 549–572. 
+ Mandelbrot, Benoit, and Richard L Hudson (2004), The Misbehavior of Markets: A Fractal View of Financial Turbulence , New York: Basic Books. 
+ Marshall, Ben R., Rochester H. Cahan, Jared M. Cahan (2008), “Can Commodity Futures Be Profitably Traded with Quantitative Market Timing Strategies?” Journal of Banking and Finance 32(9), 1810–1819. 
+ McLean, R. David, and Jeffrey Pontiff (2013), “Does Academic Research Destroy Stock Return Predictability?” working paper. 
+ Menkoff, Lukas, Lucio Sarno, Maik Schmeling, and Andreas Schrimpf (2011), “Currency Momentum Strategies,” working paper. 
+ Meub, Lukas, and Till Proeger (2014), “An Experimental Study on Social Anchoring,” working paper. 
+ Meucci, Attilo (2009), Risk and Asset Allocation , New York: Springer Finance. 
+ Miffre, Joelle, and Georgios Rallis (2007), “Momentum Strategies in Commodity Futures Markets,” Journal of Banking and Finance 31(6), 1863–1886. 
+ Mitchell, Mark, Lasse Heje Pedersen, and Todd Pulvino (2007), “Slow Moving Capital,” American Economic Review 97(2), 215–220. 
+ Moskowitz, Tobias J., and Mark Grinblatt (1999), “Do Industries Explain Momentum?” Journal of Finance 54(4), 1249–1290. 
+ Moskowitz, Tobias J., Yao Hua Ooi, and Lasse Heje Pedersen (2012), “Time Series Momentum,” Journal of Financial Economics 104(2), 228–250. 
+ Mou, Yiqun (2011), “Limits to Arbitrage and Commodity Index Investment: Front-Running the Goldman Yield,” working paper. 
+ Mouboussin, Michael J. (2008), More Than You Know: Finding Financial Wisdom in Unconventional Places , New York: Columbia University Press. 
+ Newey, Whitney K., and Kenneth D. West (1987), “A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix,” Econometrica 55(3), 703–708. 
+ Nofsinger, John R. (2013), Psychology of Investing , 5th ed., Upper Saddle River, NJ: Prentice Hall. 
+ Odean, Terrance (1998), “Are Investors Reluctant to Realize Their Losses?” Journal of Finance 53(5), 1775–1798. 

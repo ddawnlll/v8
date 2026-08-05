@@ -1,0 +1,421 @@
+
+Spotting One-Time Charges That Aren’t
+Spotting outright corporate fraud using just the publicly available financial
+statements can be very difficult. If a company lies to you and fabricates portions of the financial statements, you are at a huge disadvantage as a fundamental analyst. Fortunately, corporate fraud, while more common than I’d
+like to see, still remains rare overall.
+What’s much more common, though, are companies that pad results using
+perfectly legal tricks you need to watch out for.
+My top suggestion on detecting when a company is using little tricks to boost
+earnings is by comparing a company’s net income with its free cash flow. I step
+you through this very important analysis, in detail, in Chapter 11. If you didn’t
+read that section during the first swing through this book, you might want to
+flip back and check it out now.
+Another thing to be aware of as a fundamental analyst is when companies
+routinely take so-called one-time or restructuring charges. By classifying a
+charge as one-time or nonrecurring, some analysts might overlook the costs,
+assuming they are unusual and not indicative of the company’s core business. But when you see a company constantly taking one-time charges, be
+careful.
+One of the companies that seemed to make one-time charges a regular phenomenon was technology firm, i2 Technologies. As of late 2001, the company
+made reporting one-time charges a quarterly event. And these charges were
+significant. In fact, at some points the company’s nonrecurring charges were
+larger than its revenue.
+Detecting companies reporting incessant one-time charges can tip you off to
+an overly aggressive management team.
+And certainly at i2, the chronic one-time charges were a red flag worth paying
+attention to as they were symptomatic of deeper problems. In June 2004,
+the company agreed to pay $10 million to wronged investors for a pattern of
+misstating its results for a five-year period ended in 2002, according to the
+
+28 506455-ch20.indd 316
+
+9/24/09 10:43:04 PM
+
+Chapter 20: Ten Examples of Unearthing Financial Secrets
+
+317
+
+Securities and Exchange Commission. The company’s improper accounting
+techniques gave investors the impression the company’s revenue and profits
+were rising, when in fact, its results were “increasingly negative,” the SEC says.
+You can spot a company reporting excessive one-time charges yourself in the
+earnings press release or the income statement, as described in Chapter 5.
+But MSN Money, a Web site that consolidates financial information, makes it
+even easier to find one-time charges. Enter a stock symbol at money.msn.com,
+click the Get Quote button and choose the Financial Results option, and then
+Statements. You’ll see a row called “Total Extraordinary Items.” If that item is
+consistently high relative to revenue, be wary.
+
+Spotting Financial Distress a Mile Away
+There are many ways to protect yourself from buying a car that’s a lemon.
+You can look up the company’s history and even get a warranty. When it
+comes to avoiding a dud in investing, though, fundamental analysis is one of
+your best weapons.
+The best way to know whether a company is unlikely to survive is by carefully studying the financial statements, covered in Chapters 5, 6 and 7 and the
+financial ratios, discussed in Chapter 8.
+There’s a shortcut, though, to finding whether a company is unlikely to make
+it. It’s called the Altman’s Z-score. The Z-score is a long formula that crunches
+down many of the things you look for and puts it into a single number.
+Z-Score = (0.717 * A) + (0.847 * B) + (3.107 * C) + (0.42 * D) + (0.998 * E)
+Where:
+A: (Current assets – current liabilities) / total assets
+B: Retained earnings / total assets
+C: Earnings before interest and taxes / total assets
+D: Shareholders’ equity / total liabilities
+E: Revenue / total assets
+Calculating the Z-score is just a matter of mostly pulling the data off the financial
+statements and plugging them into the formula. You can find out how to obtain
+all the data listed above from a company’s financial statements in Chapters 5
+through 7. But to make it easy, I’ve listed their locations in Table 20-1.
+
+28 506455-ch20.indd 317
+
+9/24/09 10:43:04 PM
+
+318 Part V: The Part of Tens
+Table 20-1
+
+Where To Find The Numbers You Need For Z-Score
+
+You will find . . .
+
+. . . on the . . .
+
+Current assets
+
+Balance sheet
+
+Current liabilities
+
+Balance sheet
+
+Total assets
+
+Balance sheet
+
+Retained earnings
+
+Balance sheet. This is the amount of a company’s
+earnings that it keeps, rather than distributing
+them to shareholders as dividends.
+
+Earnings before interest and
+taxes (or EBIT)
+
+Income statement. You’ll need to calculate EBIT.
+Chapter 8 tells you how.
+
+Shareholders’ equity
+
+Balance sheet
+
+Revenue
+
+Income statement
+
+Once you calculate the Z-score, you might wonder what it means. One of the
+beauties of the Z-score is that you just see where it fits on a chart, as shown
+in Table 20-2, and get a quick interpretation.
+
+Table 20-2
+
+Reading the Z-Score
+
+If a company’s Z-Score is . . .
+
+. . . Then it’s considered . . .
+
+Less than 1.2
+
+Highly likely to fail
+
+Between 1.2 and 2.9
+
+In so-so condition
+
+Higher than 2.9
+
+Unlikely to fail
+
+Consider the example of Nortel Networks. The telecommunications company stunned many long-term investors who figured the company was too
+big to fail, when it became the second largest public company bankruptcy in
+January 2009, says BankruptcyData.com.
+But fundamental analysts monitoring the Z-score saw this colossal wipeout
+coming. Nortel’s Z-score dipped below 1.2 in the second quarter of 2001,
+coming in at a -1.74, says Capital IQ. The Z-score never pulled above 1.2 again.
+Talk about a huge warning.
+The Z-score is really a quick-and-dirty way to assess a company’s health. Don’t
+rely on it solely when making a financial decision, instead, be sure to fully analyze the company’s health.
+
+28 506455-ch20.indd 318
+
+9/24/09 10:43:04 PM
+
+Chapter 20: Ten Examples of Unearthing Financial Secrets
+
+319
+
+Sidestepping the Financial Crisis
+Every once in a while, perhaps once every generation, there comes a shock
+to the financial and economic system so severe, you really don’t want to get
+caught in the middle of it. The banking crisis that began in 2007 with the subprime mortgage crisis was one of those brutal economic events you didn’t
+want to have anything to do with.
+The crisis stunned many investors because much of the damage hit shares
+of banks, which for many years, had been considered safe and steady investments. While the severity of the crisis caught many investors off guard, there
+were some clues available to fundamental analysts that at least showed there
+were problems brewing.
+A good place to have noticed the financial crisis gaining steam was reading
+the risks section of the 10-Ks filed by top financial institutions. Chapter 12,
+for instance, shows how AIG was taking blatant risks that caused the firm to
+implode.
+But there were other tip-offs for fundamental investors. Consider the fate of
+Cleveland’s National City Corp. The regional bank, founded in 1845, grew into
+one of the nation’s largest originators of mortgages. National City’s dividends
+and earnings were all steady. So was the stock for many years, as it marched
+to nearly $37 a share at the end of 2006.
+Turns out the steady results were a mirage. National City was eventually
+bought by rival bank PNC in a distress situation in 2008, for just $1.92 a share.
+Investors were shocked at how a seemingly strong bank could weaken so
+quickly.
+But they shouldn’t have been so surprised. Basic industry analysis provided a clue, had investors picked up the regulatory filings released by
+National City’s nearby Akron, Ohio-based rival FirstMerit. As far back as 2003,
+FirstMerit, which serves many of the same communities as National City, constantly alerted investors it was aware of some shaky mortgages on its books
+and was taking action to get rid of them.
+Back in 2003, FirstMerit told investors it was selling off some of its most risky
+loans. And again, in the 2006 letter to shareholders, the CEO of FirstMerit said
+the company was actively identifying potentially problematic loans and dealing with them immediately. All these warnings came well before the mortgage
+crisis hit in force in 2007.
+But even as FirstMerit was paring troubled assets, National City’s 2006 annual
+report to shareholders was glowing. “Our competitors face the same issues
+
+28 506455-ch20.indd 319
+
+9/24/09 10:43:04 PM
+
+320 Part V: The Part of Tens
+as we do, but we believe we’re better-positioned than most in this tougher
+environment,” then-CEO David Daberko wrote in a letter to shareholders in
+the 2006 annual report.
+Savvy fundamental analysts might have wondered why FirstMerit was making
+such a dramatic effort to reduce its risk, while nearby rival National City
+hardly made a mention of troubles until it was too late.
+
+Seeing Companies with Potential
+Environmental Issues
+Rising concerns about the environment are increasing awareness by consumers, regulators and investors about how companies are treating the planet.
+Without getting into the ethical issues connected with how companies use
+natural resources, investors need to be aware of the potential for financial
+risk connected with pollution or other environmental factors. Companies
+might face large fines or consumer backlashes if caught violating environmental rules and regulations.
+Don’t expect a company to give you a nice neat list of all the potential sites
+they may have polluted that could come back to haunt it. However, again, the
+10-K can give fundamental analysts a head’s-up of potential environmental
+concerns.
+My favorite example of this is Pacific Gas & Electric’s 1994 10-K. Buried deep
+in this filing are the allegations from a lawsuit claiming the company’s power
+station in San Bernardino County, California, was causing serious contamination. The suit alleged the plant was exposing residents to chromium. The
+company also disclosed a number of environmental measures that would
+cost it up to $55 million over five years. Does this sound familiar? Well, these
+allegations were the basis of the movie Erin Brockovich. Of all the 10-Ks in the
+world, this might be one of the most famous ones.
+
+Staying Away from Investment Fads,
+Like the Dot-Bombs
+Up until the financial crisis, the biggest implosion of the financial markets
+had to be the Internet bubble. Investors ignoring the fundamentals of companies rushed to buy stock of companies that didn’t make any money and
+sometimes didn’t even have revenue.
+
+28 506455-ch20.indd 320
+
+9/24/09 10:43:04 PM
+
+Chapter 20: Ten Examples of Unearthing Financial Secrets
+
+321
+
+Even to this day, the absurdity of the dot-com bubble remains one of the
+best reasons why anyone who buys individual stocks should take the time to
+understand the fundamentals. Investors who blindly jumped into technology
+and Internet stocks blindly got a beating of a lifetime.
+More than 117 dot-com companies collapsed between September 1999 and
+October 2000, according to Boston Consulting Group. Of those, 12 of the failures resulted in bankruptcies, 63 shut down their Web sites completely, and
+the rest struggled in various forms. But in each case, investors lost nearly all,
+if not all, their money.
+Online pet supply store Pets.com, in hindsight, provides some of the best
+lessons on how fundamental analysis can help you avoid getting sucked into
+investment fads. The company’s story sounded great. The site allowed consumers to buy things they needed for their pets over the Internet. Great, right?
+But fundamental analysis revealed the true story. Turns out the company’s
+survival was nearly impossible. Pets.com lost 19 cents on every $1 in revenue
+it posted in the third quarter of 2000, reported USA TODAY. And that didn’t
+even include overhead costs. In other words, the more product the company
+sold, the more money it lost. You can’t do that very long before going out of
+business. And it didn’t. Pets.com liquidated itself roughly one year after going
+public.
+It turns out that Pets.com wasn’t alone. Nearly 60 of the 729 Internet companies in late 2000 were selling products for less than what they paid for them,
+USA TODAY found. If you want a telltale sign of a mania, this is it.
+
+Pinpointing Companies Fooling Investors
+When trying to detect accounting fraud, there’s only so much a fundamental
+analyst can do. After all, you have to believe the numbers to some degree,
+since you don’t have the authority to go inside a company to verify its books
+and records yourself.
+But there are some aspects of accounting that are so commonly abused, they
+are worth constantly being on a lookout for. So-called channel stuffing would
+be at the top of my list of early fraud warnings.
+A company can boost its revenue and profit by enticing customers to buy
+products now, even thought they don’t want them yet, in order to boost
+results in the short term. Often, a company might cut customers slack in how
+quickly they must actually pay for the merchandise. That way, the company
+
+28 506455-ch20.indd 321
+
+9/24/09 10:43:04 PM
+
+322 Part V: The Part of Tens
+may book the revenue, even though no cash is collected. Clearly, this practice
+causes a problem for the company in the future, since consumers don’t order
+because they have more than enough product.
+Sunbeam is a classic example of alleged channel stuffing. The SEC accused
+the company’s management of providing customers with lucrative deals in
+1997 to coax them to buy product ahead of time. And the channel stuffing
+technique wasn’t enough to keep the fraud going, so the company resorted to
+even more aggressive means to prop up results, the SEC says.
+Again, techniques in this book could have at least shown you something was
+amiss. Fundamental analysis of the company’s accounts receivable turnover in
+days, discussed in Chapter 8, would have provided clues. This financial ratio
+tells you how many days it takes for a company to collect amounts owed to it
+by customers. In 1996, Sunbeam collected its accounts receivable in 79 days.
+But that period shot up to 92 days in 1997, which was a gigantic red flag.
+Always be suspicious when you see accounts receivable turnover in days
+jump up like that.
+
+Seeing through Distortions Caused
+by Stock Buybacks
+Stock buybacks occur when a company uses its cash to buy back shares
+of its own stock. There are many reasons why companies might do this, as
+explained in Chapter 18.
+But these buybacks can create enormous distortions to financials. While
+there’s nothing nefarious about stock buybacks, investors might come to
+false conclusions unless they use fundamental analysis. Since buybacks
+reduce a company’s number of shares outstanding, they can inflate a company’s earnings per share. Remember earnings per share is calculated by
+dividing net income by the number of shares outstanding. So if the number of
+shares falls, the denominator falls, and the earnings per share rises.
+The distortions caused by stock buybacks to a company’s earnings per share
+aren’t fraudulent. They’re merely the result of mathematics. Still, the effect can
+dramatically alter how investors perceive a company’s results.
+Take, for instance, Automatic Data Processing. The company has been financially strong for a long time, and is one of the few nonfinancial firms to earn
+the coveted AAA-credit rating from Standard & Poor’s. The company had
+
+28 506455-ch20.indd 322
+
+9/24/09 10:43:05 PM
+
+Chapter 20: Ten Examples of Unearthing Financial Secrets
+
+323
+
+been long known for its unstoppable consistency. Back in January 2003, the
+company touted it had extended its “streak” of posting higher earnings per
+share for 166 straight quarters. ADP’s streak gave it the reputation of being a
+solid and dependable generator of consistent growth.
+But fundamental analysts who took a closer look saw that while the company
+was telling the truth, there was more to the story. Certainly, the company’s
+earnings per share indeed rose 2% to 43 cents a share during the December
+2002 quarter. However, that increase in earnings per share was largely due
+to the fact the company reduced its number of shares outstanding by spending $80 million buying back 2 million shares of its stock during the quarter.
+Stripping out the effect of buybacks, by looking at net income, tells the real
+story. ADP’s net income fell 1.1% in the quarter to $262 million. No, it wasn’t a
+big drop, but the number puts ADP’s streak into more context.
+
+Knowing a Trend Will Come to an End
+It never fails. Every couple of years, there’s a company that captures the
+imagination of investors. Crocs, the maker of plastic shoes that had been
+used mainly by gardeners and boaters, became that new darling. After debuting its shares as an initial public offering in February 2006, the company
+could do no wrong.
+Crocs’ revenue soared at a neck-turning pace, rocketing from just $1.2 million
+in 2003 to $847.4 million in 2007. And investors didn’t miss a step, driving
+shares from their first day’s closing price of $14.28 in Feb. 2006 to $74.75 on
+Oct. 31, 2007. Investors figured the company could expand into all sorts of
+new footwear and keep up the growth.
+Fundamental analysts, though, knew better. For one thing, Crocs’ compound
+average annual growth rate of 415.5% between 2003 and 2007 wasn’t sustainable, just by using logic. If Crocs were to grow keep growing that fast, it would
+have exceeded the revenue of Nike in two years. You can find out how to calculate compound average annual growth rates in Chapter 17.
+But fundamental analysis also gave investors clues the momentum at Crocs
+was petering out. As early as the first quarter of 2007, the company’s revenue
+and earnings growth both fell, breaking a streak of quarterly increases in
+growth. Even if investors missed this first sign of trouble, there were more,
+including when the company posted a net loss of $4.5 million in the first quarter of 2008. Even at that time, fundamental investors could get out, as Crocs’
+stock was still trading for $17.47 a share in March 2008.
+
+28 506455-ch20.indd 323
+
+9/24/09 10:43:05 PM
+
+324 Part V: The Part of Tens
+But ignoring the fundamentals proved to be very hazardous. While Crocs
+posted a small profit in the second quarter of 2008, it swung to large losses
+in the third and fourth quarters. At the end of 2008, Crocs shares fell to $1.24.
+And then, in 2009, the company’s auditor publicly questioned whether Crocs
+could survive as the company’s revenue fell to $126.1 million in the fourth
+quarter of 2008, down from $224.8 million in the fourth quarter of 2007.
+
+Separating the Strong
+from the Weak Players
+Savvy fundamental analysts know economic downturns can be as much as an
+opportunity as it is a threat.
+If a company can survive, while its key rivals do not, it will likely be better off
+once the economy heals. A great example of this occurred in the consumer
+electronics business in 2008. Clearly, the slowdown in the economy caused
+consumers to cut back their spending on big-screen TVs and MP3 players.
+And that caused a big problem for archrivals Circuit City Stores and Best Buy.
+But fundamental analysis removed any doubt which company would survive.
+A free cash flow analysis, as described in Chapter 11, told the story. During
+the fiscal year ended Feb. 2007, Circuit City’s free cash flow was just $34 million, and it actually burned $355 million in cash in the fiscal year ended Feb.
+2008. Considering the company only had $296.1 million in cash in February
+2008, fundamental analysis told you Circuit City had a big problem. Circuit
+City filed for bankruptcy protection on Nov. 10, 2008, making it the 13th largest public company bankruptcy in 2008, says BankruptcyData.com.
+Contrast Circuit City’s standing with the situation at Best Buy. Best Buy had a
+sizeable chunk of cash, $1.4 billion, in the bank at the end of its fiscal year in
+March 2008. And while Best Buy felt the negative impact of the economy, as
+did Circuit City, it still generated $1.2 billion in free cash flow in its fiscal year
+ended March 2008. Clearly, Best Buy was in a position to survive.
+Correctly choosing which company can withstand a tough economic period
+can be lucrative once the weaker rivals drop off. With Circuit City out of the
+way, Best Buy reported better-than-expected 9.7% revenue growth in the quarter ended Feb. 28, 2009.
+
+28 506455-ch20.indd 324
+
+9/24/09 10:43:05 PM
+
+Chapter 20: Ten Examples of Unearthing Financial Secrets
+
+325
+
+Watching for Market Saturation
+When companies start out, investors can’t help but expect limitless growth.
+Many of the most successful stocks in history include brand-new concepts
+for stores, such as Home Depot and Starbucks, which seemed to have no end
+in sight as to where they could open stores.
+Guess what? There were limits. Especially in retail, investors at first get
+overly optimistic about how many cities and communities can support a new
+concept. Investors rush into the stock, assuming its blistering pace of opening new stores will never end. But inevitably, as fundamental analysts know,
+it’s possible to build one too many locations. After time, market saturation
+sets in.
+Starbucks remains a classic example of a chain which has tremendous growth
+prospects, but there were still limits. Since being founded in 1971 with its first
+store, Starbucks seemed able to open as many stores as it wanted, and then
+open even more. The company added hundreds of stores a year starting in
+1994 and by 2007 there were nearly 16,000 Starbucks locations worldwide.
+But in July 2008, the first signs of market saturation become apparent when
+the company said it would close about 600 company-owned stores in the U.S.
+Investors, used to Starbucks turning coffee into liquid gold by constantly
+opening new stores, didn’t like what they heard. Shares of Starbucks fell
+nearly 40% from the July announcement through the end of 2008, trailing the
+rest of the stock market by about 10 percentage points amid a tough time for
+the economy.
+Fundamental analysts, though, saw this market saturation coming. And it
+didn’t take any fancy financial formulas to spot these warnings. In the quarter ended March 2008, Starbucks reported its largest decline in net income
+growth, 28%, since 1998.
+And even more alarming, the company’s return on assets fell to an uncharacteristically low 7% for Starbucks. That was half the return the company
+earned on its assets in the quarter ended Dec. 2007. It was clear the company
+wasn’t getting the kinds of returns it traditionally did from its stores and
+assets.

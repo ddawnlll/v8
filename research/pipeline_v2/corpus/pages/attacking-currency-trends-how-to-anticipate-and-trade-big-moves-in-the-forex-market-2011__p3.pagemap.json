@@ -1,0 +1,23 @@
+[
+ {
+  "page": 1,
+  "char_start": 0,
+  "char_end": 2253,
+  "line_start": 1,
+  "line_end": 101
+ },
+ {
+  "page": 2,
+  "char_start": 2254,
+  "char_end": 3934,
+  "line_start": 102,
+  "line_end": 182
+ },
+ {
+  "page": 3,
+  "char_start": 3935,
+  "char_end": 3935,
+  "line_start": 183,
+  "line_end": 180
+ }
+]

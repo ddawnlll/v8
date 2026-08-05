@@ -1,0 +1,632 @@
+Because ratio spreads are net short of options (there are always more
+short options in the position than long options), they generally will have a
+short volatility bias, meaning they will be short vega and will benefit from
+declining volatility. For the same reason, they generally will have a positive theta, meaning that the position will benefit from the passage of time.
+For these reasons ratio spreads can be most effective when one is expecting
+a low-magnitude directional move coupled with either declining implied
+volatility or the passage of time:
+• Call ratio spreads could be used when forecasting a low-magnitude upward directional move that will be accompanied by declining volatility
+or that will take a great deal of time to materialize. Usually this takes
+the form of a contratrend recovery or “bounce” scenario in which the
+market has been declining with rising implied volatility and the trader
+is forecasting a bounce or mild correction, during which the underlying
+will trade higher for a time while implied volatility declines.
+• Put ratio spreads could be used when one is forecasting a low-magnitude
+downward directional move that will be accompanied by declining
+volatility or that will take a great deal of time to materialize. Usually
+this takes the form of a contratrend sell-off or “correction” scenario in
+which the market has been rising and the trader is forecasting a sell-off
+or mild correction, during which the underlying will trade lower for a
+time while implied volatility declines.
+
+Risk
+Because they generally are used as contratrend trading vehicles, ratio
+spreads usually are constructed so that they have minimal cost or even a
+credit. Then, if the prevailing trend resumes, the position in that direction
+has little or no risk. It needs to be emphasized, however, that a ratio spread
+is net short of options and therefore has open-ended risk in the direction
+of the short options. Therefore, one’s market forecast should assume only
+a remote possibility of the market moving through the short strike of the
+position with any velocity. The risk-averse trader should probably avoid
+the ratio spread entirely and instead use a limited-risk spread with similar
+characteristics, such as a vertical spread or a long butterfly.
+
+STRATEGY COMPOSITION
+Call Ratio Spreads
+As mentioned in the previous section, the call ratio spread (Figure 7.1)
+consists of a long call at a particular strike, usually, but not necessarily, atthe-money or slightly out-of-the-money, underwritten by the sale of more
+than one further out-of-the-money call of the same expiration cycle.
+Components:
+
+Long 1 Jan. 105 call at $3.40
+Short 2 Jan. 110 calls at $2.00
+⫽ Jan. 105兾110 call ratio spread at $0.60 (credit)
+
+Strategy Composition
+
+8
+5
+
+Profit/Loss
+
+2
+0
+–1
+–4
+–7
+–10
+100
+
+105
+
+110
+
+115
+
+120
+
+125
+
+Underlying Price
+
+Figure 7.1 Call Ratio Spread P&L Diagram
+Maximum Profit:
+
+(K2 ⫺ K1) ⫹ credit or ⫺ debit (to initiate spread)
+($110.00 ⫺ $105.00 ⫹ $0.60 ⫽ $5.60)
+
+Maximum Loss:
+
+Unlimited on the upside; on the downside, limited to
+the amount of the debit (if initiated for a debit)
+
+Breakeven(s):
+
+On the downside: K1 ⫹ debit (if done for a debit)
+On the upside: [(number of short calls ⫻ short call
+breakeven) ⫺ (number of long calls ⫻ long call
+breakeven)]/(number of short calls ⫺ number of long
+calls) [(2 ⫻ $112.00) ⫺ (1 ⫻ $108.40)]/(2 ⫺ 1) = $115.60
+
+Figures 7.2 and 7.3 illustrate the structure of some basic call ratio spreads.
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ2
+
+105
+
+Puts
+
+Figure 7.2 1-to-2 Call Ratio Spread
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ3
+
+105
+
+Puts
+
+Figure 7.3 1-to-3 Call Ratio Spread
+Previously discussed spreads are evident in the structure of the call
+ratio spread. One can view a call ratio spread as a bull call spread with one
+
+193
+
+194
+
+Chapter 7
+
+Ratio Spreads
+
+or more extra short calls at the upper strike (see Figure 7.4) or in the case of
+a 1-to-2 call ratio spread, a long call butterfly with an extra short call at the
+upper strike (see Figure 7.5).
+
+Calls
+ⴙ1
+ⴚ1
+
+Strike
+
+Puts
+
+100
+ⴚ1
+
+105
+
+Figure 7.4 Bull Call Spread with an Extra Short Call
+
+Calls
+
+Strike
+
+ⴙ1
+
+100
+
+ⴚ2
+
+105
+
+ⴙ1
+
+ⴚ1
+
+Puts
+
+110
+
+Figure 7.5 Long Call Butterfly with an Extra Short Call
+
+The bull call spread and the long call butterfly are limited-risk positions
+that address mild upward movement and declining implied volatility and
+the passage of time, as do call ratio spreads. The addition of the extra short
+option at the upper strike of both of those structures reduces risk to the
+downside and converts the spread to a call ratio spread—a more aggressive strategy geared for taking advantage of declining implied volatility
+and time decay.
+
+Put Ratio Spreads
+The put ratio spread (Figure 7.6) consists of a long put at a particular strike, usually, but not necessarily, at-the-money or slightly out-of-themoney, underwritten by the sale of more than one further out-of-the-money
+puts of the same expiration cycle.
+Components:
+
+Long 1 Aug. 860 put at $2.00
+Short 2 Aug. 855 puts at $1.75
+⫽ Aug. 855/860 put ratio spread at $1.50 (credit)
+
+Maximum Profit:
+
+(K2 ⫺ K1) ⫹ credit, or ⫺ debit ($6.50)
+
+Maximum Loss:
+
+On the downside, substantial to zero
+On the upside, a debit if incurred for a debit.
+
+Strategy Composition
+
+9
+6
+
+Profit/Loss
+
+3
+0
+–3
+–6
+–9
+840
+
+845
+
+850
+
+855
+
+860
+
+865
+
+Underlying Price
+
+Figure 7.6 P&L Diagram
+
+Breakeven(s):
+
+On the upside: K2 ⫺ debit (if done for a debit)
+On the downside: [(number of short puts × short
+put breakeven) ⫺ (number of long puts ⫻ long puts
+breakeven)]/(number of short puts ⫺ number of long
+puts) [(2 ⫻ $853.25) ⫺ (1 ⫻ $858)] / (2 ⫺ 1) ⫽ $848.50
+
+Figures 7.7 and 7.8 illustrate the structure of some basic put ratio
+spreads.
+Calls
+
+Strike
+
+Puts
+
+100
+
+ⴚ2
+
+105
+
+ⴙ1
+
+Figure 7.7 1-to-2 Put Ratio Spread
+
+Calls
+
+Strike
+
+Puts
+
+100
+
+ⴚ3
+
+105
+
+ⴙ1
+
+Figure 7.8 1-to-3 Put Ratio Spread
+As with the call ratio spread, it is obvious that some other previously
+discussed spread structures are represented in the put ratio spread. A put
+ratio spread can be viewed as a bear put spread with an extra short put(s)
+at the lower strike (see Figure 7.9) or a long put butterfly with an extra
+short put at the lower strike (see Figure 7.10).
+
+195
+
+196
+
+Chapter 7
+
+Ratio Spreads
+
+Calls
+
+Strike
+
+Puts
+
+100
+
+ⴚ1
+
+105
+
+ⴙ1
+
+ⴚ1
+
+Figure 7.9 Bear Put Spread with an Extra Short Put
+Calls
+
+Strike
+
+Puts
+
+100
+
+ⴙ1
+
+105
+
+ⴚ2
+
+110
+
+ⴙ1
+
+ⴚ1
+
+Figure 7.10 Long Put Butterfly with an Extra Short Put
+The bear put spread and the long put butterfly are limited-risk positions that address mild downward movement and declining implied
+volatility and the passage of time, as do put ratio spreads. The addition
+of the extra short option at the lower strike of both of those structures
+limits risk to the upside and converts the spread to a put ratio spread—
+a more aggressive and unlimited-risk spread geared for taking advantage
+of declining implied volatility and time decay.
+
+THE GREEKS OF RATIO SPREADS
+Ratio spreads are complex positions. They are composed of a long option at
+a particular strike that has the sensitivities of a long option and a greater number
+of short options at a different strike that have the sensitivities of short options.
+The combined position is sensitive to changes in underlying price, implied
+volatility, and the time until expiration. We will examine the Greeks of basic
+1-to-2 call and put ratio spreads. Visualizing the ratio spread as an out-of-themoney long butterfly without the extra long option on the furthest out-of-themoney “wing” can help one to better understand the behavior of the position.
+
+The 1-to-2 Call Ratio Spread
+• Delta
+The delta of a call ratio spread is dependent on the location of the underlying versus the strike, time to expiration, and implied volatility. Depending on the interplay of those three factors, the delta can be long, neutral, or
+short at any particular underlying price. The delta of a complex position can
+be difficult to visualize without looking at graphs, but a good method for
+visualizing how the delta of a complex position responds to changing market conditions is to think of the delta of an option as the odds that the option will finish in-the-money. Continuing with the horse racing analogy, the
+favorites (the in-the-money and at-the-money options) would have higher
+deltas (odds) than the long shot (the out-of-the-money options). As the race
+
+The Greeks of Ratio Spreads
+
+continued toward the finish line (expiration approaches), the deltas (odds)
+of the in-the-money options would continue to rise toward 100 while the
+deltas of the out-of-the-money options would fall toward zero.
+The delta of a call ratio spread is the sum of the position-adjusted deltas
+of its component options. For example, the delta of the 100/105 1-to-2 call
+ratio spread would be calculated as follows:
+100 strike call delta ⫽ 0.50
+105 strike call delta ⫽ 0.20
+1-to-2 call ratio spread delta ⫽ (0.50 ⫻ 1) ⫹ (0.20 ⫻ ⫺2) or 0.10
+The delta of the same spread with greater time until expiration or higher
+implied volatility might look something like this:
+100 strike call delta ⫽ 0.50
+105 strike call delta ⫽ 0.30
+1-to-2 call ratio spread delta ⫽ (0.50 ⫻ 1) ⫹ (0.30 ⫻ ⫺2) or ⫺0.10
+The delta of the same spread with less time until expiration or lower
+implied volatility might look something like this:
+100 strike call delta ⫽ 0.50
+105 strike call delta ⫽ 0.10
+1-to-2 call ratio spread delta ⫽ (0.50 ⫻ 1) ⫹ (0.10 ⫻ ⫺2) or 0.30
+Figure 7.11 illustrates the relationship of the delta of a call ratio spread
+to time until expiration.
+
+Figure 7.11 1-to-2 Call Ratio Spread Delta vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+
+197
+
+198
+
+Chapter 7
+
+Ratio Spreads
+
+Figure 7.12 1-to-2 Call Ratio Spread Delta vs. Underlying Price and
+Implied Volatility: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+
+Figure 7.11 shows that the delta of the call ratio spread becomes increasingly positive with modest upward movement over time. As time
+passes, the delta of the short out-of-the money options decrease faster
+than that of the long at- or near-the-money option. This causes the delta
+of the spread to “grow” to positive over time, as long as the underlying
+does not rally too sharply. Obviously, if the underlying rises far enough, the
+delta of the position will flip to negative. The same effect can be observed
+with declining implied volatility in Figure 7.12. Notice the similarity in this
+graph and the preceding one and recall that the effect of declining volatility
+on option positions mimics the passage of time.
+• Gamma
+The gamma of a call ratio spread is the sum of the position-adjusted
+gammas of its component options. For example, the gamma of the 100/105
+1-to-2 call ratio spread is calculated as follows:
+100 strike call gamma ⫽ 0.10
+105 strike call gamma ⫽ 0.04
+1-to-2 call ratio spread gamma ⫽ (0.10 ⫻ 1) ⫹ (0.04 ⫻ ⫺2) or 0.02
+The gamma of the call ratio spread is highly sensitive to the location of
+the underlying relative to the strikes. As with any spread made up of both
+long and short options, the position will take on the gamma characteristics of
+the underlying option position at the nearest strikes. A ratio spread includes
+
+The Greeks of Ratio Spreads
+
+Figure 7.13 Call Ratio Spread Gamma vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+more short options than long options, so gamma quickly becomes negative as the underlying price rises, or as implied volatility rises. Figure 7.13
+illustrates the relationship of the gamma of a call ratio spread to the underlying price and the time to expiration.
+The preceding figure shows how the gamma of the call ratio spread
+depends on the location of the underlying and the time until expiration.
+When expiration is near and the underlying price is closest to the long
+option at the lower strike, the spread will have a positive gamma; when
+the underlying price is closer to the short options at the upper strike, the
+spread will have a large negative gamma. When there is greater time until
+expiration, the gamma curve is much softer. The effect of the passage of
+time on the gamma of the call ratio spread is again mimicked by falling
+implied volatility, as illustrated by Figure 7.14.
+Note the similarities between Figures 7.13 and 7.14 and recall that
+the effects of declining volatility on the sensitivity of an option position
+mimics the passage of time.
+• Vega
+The vega of a call ratio spread is the sum of the position-adjusted vegas
+of its component options. For example, the vega of the 100/105 1-to-2 call
+ratio spread is calculated as follows:
+100 strike call vega ⫽ 0.15
+105 strike call vega ⫽ 0.10
+1-to-2 call ratio spread vega ⫽ (0.15 ⫻ 1) ⫹ (0.10 ⫻ ⫺2) or ⫺0.05
+
+199
+
+200
+
+Chapter 7
+
+Ratio Spreads
+
+Figure 7.14 Call Ratio Spread Gamma vs. Underlying Price and Implied
+Volatility: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+
+Figure 7.15 Call Ratio Spread Vega vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+This means that for every 1 percent change in implied volatility, the
+price of the call ratio spread would change by approximately 0.05. Because
+the call ratio spread is generally short vega, the value of the spread will
+fall when implied volatility rises and rise when implied volatility falls.
+Figure 7.15 illustrates the vega of the call ratio spread.
+
+The Greeks of Ratio Spreads
+
+The vega of the spread is positive when the underlying price is near the
+strike of the long option, and then becomes negative when the underlying
+price moves toward the strike of the short options. Recall from Chapter 1
+that vega increases with the time to expiration so that, all things being
+equal, the vega of an option with a greater amount of time left until expiration will be larger than that of an option with a lesser amount of time left
+until expiration. With regard to the call ratio spread, this means that the
+overall amount of positive or negative vega generated by the position will
+decline as expiration approaches.
+• Theta
+The theta of the call ratio spread is the sum of the position-adjusted
+thetas of its component options. For example, the theta of the 100/105 1-to-2
+call ratio spread would be calculated as follows:
+100 strike call theta ⫽ ⫺0.06
+105 strike call theta ⫽ ⫺0.04
+1-to-2 call ratio spread theta ⫽ (⫺0.06 ⫻ 1) ⫹ (⫺0.04 ⫻ ⫺2) or ⫹0.02
+This means that the value of the call ratio spread would increase by
+approximately 0.02 per calendar day (all else being equal). Because a call
+ratio spread generally has positive theta, the value of the spread will rise as
+time passes and option values decay. Figure 7.16 illustrates the theta of a
+call ratio spread.
+Figure 7.16 illustrates how the sensitivity of the position depends on
+the location of the underlying price and the time until expiration. When the
+
+Figure 7.16 Call Ratio Spread Theta vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Call Ratio Spread
+Source: LiquidPoint, LLC
+
+201
+
+202
+
+Chapter 7
+
+Ratio Spreads
+
+underlying price is near the strike of the long option, the call ratio spread
+will have negative theta, and when the underlying price is nearer the strike
+of the short options, the call ratio spread will have positive theta. Recall
+that the theta of an at-the-money option increases as time to expiration
+decreases and the theta of an out-of-the-money option decreases as time to
+expiration decreases, so the swings of negative to positive theta that occur
+as the underlying price shifts location between the long and short strikes
+become more dramatic.
+
+The 1-to-2 Put Ratio Spread
+• Delta
+As with the call ratio spread, the delta of a put ratio spread is dependent on the location of the underlying relative to the strike, time to expiration, and implied volatility. The delta can be short, neutral, or long at any
+particular underlying price depending on those market factors. The delta
+of a put ratio spread is the sum of the position-adjusted deltas of its component options. For example, the delta of the 100/105 1-to-2 put ratio spread
+would be calculated as follows:
+105 strike put delta ⫽ ⫺0.60
+100 strike put delta ⫽ ⫺0.20
+1-to-2 put ratio spread delta ⫽ (⫺0.60 ⫻ 1) ⫹ (⫺0.20 ⫻ ⫺2) or ⫺0.20
+The delta of the same spread with greater time until expiration or higher
+implied volatility might look something like this:
+105 strike put delta ⫽ ⫺0.50
+100 strike put delta ⫽ ⫺0.30
+1-to-2 put ratio spread delta ⫽ (⫺0.50 ⫻ 1) ⫹ (⫺0.30 ⫻ ⫺2) or ⫹0.10
+The delta of the same spread with less time until expiration or lower
+implied volatility might look something like this:
+105 strike put delta ⫽ ⫺0.50
+100 strike put delta ⫽ ⫺0.10
+1-to-2 put ratio spread delta ⫽ (⫺0.50 ⫻ 1) ⫹ (⫺0.10 ⫻ ⫺2) or ⫺0.30
+Figure 7.17 illustrates the relationship of the delta of a put ratio spread
+to time until expiration.
+The delta of the put ratio spread becomes increasingly negative with
+modest downward movement over time. As time passes, the delta of the
+short out-of-the money options decreases (in absolute terms) faster that
+the long at- or near-the-money option. This causes the delta of the spread
+to become increasingly negative over time, as long as the underlying
+
+The Greeks of Ratio Spreads
+
+Figure 7.17 Put Ratio Spread Delta vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+does not sell off too sharply. If the underlying falls far enough, the delta
+of the position will flip to positive. The same effect can be observed with
+declining implied volatility in Figure 7.18. Again, observe that the effect
+of declining volatility on option positions mimics the passage of time.
+
+Figure 7.18 Put Ratio Spread Delta vs. Underlying Price and Implied
+Volatility: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+
+203
+
+204
+
+Chapter 7
+
+Ratio Spreads
+
+• Gamma
+The gamma of a put ratio spread is the sum of the position-adjusted
+gammas of its component options. For example, the gamma of the 100/105
+1-to-2 put ratio spread is calculated as follows:
+105 strike put gamma ⫽ 0.10
+100 strike put gamma ⫽ 0.04
+1-to-2 put ratio spread gamma ⫽ (0.10 ⫻ 1) ⫹ (0.04 ⫻ ⫺2) or 0.02
+As with the call ratio spread, the put ratio spread is highly sensitive to
+the location of the underlying relative to the strikes, and the position will
+take on the gamma characteristics of the underlying option position at the
+strikes nearest the underlying price. Gamma quickly becomes negative as
+the underlying price falls, or as implied volatility rises. Figure 7.19 illustrates the relationship of the gamma of a put ratio spread to the underlying
+price and the time to expiration.
+
+Figure 7.19 Put Ratio Spread Gamma vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+When the underlying price is near the long option at the upper
+strike, the put ratio spread will have a positive gamma, shifting to
+negative as the underlying price moves lower toward the short options
+at the lower strike. Because at-the-money gamma rises and in- or outof-the-money gamma falls as expiration approaches, the gamma of the
+put ratio spread will have a bigger swing as it moves from positive
+to negative. When there is greater time until expiration, the gamma
+curve is much softer. The effect of the passage of time on the gamma of
+
+The Greeks of Ratio Spreads
+
+Figure 7.20 Put Ratio Spread Gamma vs. Underlying Price and Implied
+Volatility: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+the put ratio spread is again mimicked by falling implied volatility, as
+illustrated by Figure 7.20.
+• Vega
+The vega of a put ratio spread is the sum of the position-adjusted vegas
+of its component options. For example, the vega of the 100/105 1-to-2 put
+ratio spread is calculated as follows:
+105 strike put vega ⫽ 0.15
+100 strike put vega ⫽ 0.10
+1-to-2 put ratio spread vega ⫽ (0.15 ⫻ 1) ⫹ (0.10 ⫻ ⫺2) or ⫺0.05
+This means that for every 1 percent change in implied volatility, the
+price of the put ratio spread would change by approximately 0.05. Because
+the put ratio spread is generally short vega, the value of the spread will
+fall when implied volatility rises, and rise when implied volatility falls.
+Figure 7.21 illustrates the vega of the put ratio spread.
+The vega of the spread is positive when the underlying price is near the
+strike of the long option, and then becomes negative when the underlying price
+moves toward the strike of the short options. Recall from Chapter 1 that vega
+increases with time to expiration so that, all things being equal, the vega of an
+option with a greater amount of time left until expiration will be larger than
+that of an option with a lesser amount of time left until expiration. With regard
+to the call ratio spread, this means that the overall amount of positive or negative vega generated by the position will decline as expiration approaches.
+
+205
+
+206
+
+Chapter 7
+
+Ratio Spreads
+
+Figure 7.21 Put Ratio Spread Vega vs. Underlying Price and Time
+to Expiration: July 25/30 1-to-2 Put Ratio Spread
+Source: LiquidPoint, LLC
+
+• Theta
+The theta of the put ratio spread is the sum of the position-adjusted
+thetas of its component options. For example, the theta of the 100/105
+1-to-2 put ratio spread would be calculated as follows:
+105 strike put theta ⫽ ⫺0.06
+100 strike put theta ⫽ ⫺0.04
+1-to-2 put ratio spread theta ⫽ (⫺0.06 ⫻ 1) ⫹ (⫺0.04 ⫻ ⫺2)
+or ⫹0.02
+This means that the value of the put ratio spread would increase by
+approximately 0.02 per calendar day (all else being equal). Because a put
+ratio spread generally has positive theta, the value of the spread will rise as
+time passes and option values decay. Figure 7.22 illustrates the theta of a
+put ratio spread.
+The put ratio spread generally will have positive theta when the underlying price is nearest the strike of the short options. When the underlying
+price is near the strike of the long option, the spread may have a negative
+theta. Recall that the theta of an at-the-money option increases as time to
+expiration decreases and the theta of an out-of-the-money option decreases
+as time to expiration decreases, so as expiration approaches, the theta of
+the put ratio spread will have bigger swings as it moves from positive to
+negative. When there is greater time until expiration, the theta curve is
+much softer.

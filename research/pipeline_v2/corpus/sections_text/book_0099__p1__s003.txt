@@ -1,0 +1,375 @@
+
+UPTREND
+
+Figure 1-1:
+Uptrend and
+downtrend.
+
+DOWNTREND
+KEY REVERSAL
+
+At the most basic level, your goal as a technical trader is to shun the security shown on the chart while it’s downtrending and to identify the reversal
+point — the best place to buy (shown in the circle) — as early as possible.
+Figure 1-1 is a good example of the kind of chart with which you spend most of
+your time. A chart is the workspace of technical analysis. Technical analysts
+have developed numerous indicators based on price and volume that can be
+expressed as statistics, tables of numbers, and other formats, but the core
+method remains a graphic display of prices in a chart.
+
+www.pdfdummies.com
+
+Chapter 1: Opening the Technical Analysis Toolbox
+
+Taking a Closer Look at the Many
+Faces of Trendedness
+Trend means different things to different people. Trend is such a wide and
+flexible concept that a large variety of definitions is possible. In fact, to be
+pragmatic, you can say that a trend is a price move that your indicator identifies. In other words, you can define trend according to technical measures
+that appeal to your sense of logic and what works for you. In this book, definitions of trendedness are spread out under various technique headings so
+that you can choose which definition of trendedness suits your personality
+and trading style.
+
+Quantifying trendedness
+Creating a chart like the one in Figure 1-1 is easy. To illustrate classic trend
+behavior, I could’ve taken any security out of thousands in my database and
+found some period of time over which the security’s price looked like this
+chart. However, I could have also found many time periods when this same
+security was not trending. In fact, some securities are frequently in a trending mode, others seldom trend, or their trends are short lived. To complicate
+matters, some securities exhibit a “habit” of tidy trending while others trend
+in a sloppy way (with high variability around the average).
+Charles Dow may have started the ball rolling in technical analysis over 100
+years ago, but in the grand scheme of things, we’re still in frontier days. Ask
+a group of technical traders, “What percentage of time are securities trending and what percentage of the time are they nontrending?” and you will get
+a different answer from each person. Each technical analyst has a different
+idea about the percentage of time securities are trending based on his own
+personal definition of trendedness and the time frame he looks at.
+
+Choosing a definition
+No single definition of trendedness is the universal gold standard on which
+everyone agrees, so it’s hardly surprising that no one can say, “Securities are
+trended x percent of the time.” Just about any generalization about trendedness can be demonstrated — or rebutted.
+For example, I trade foreign exchange, and in my experience, the pound, the
+euro, and the yen are trended about 60 percent of the time. I say that because
+60 percent of the time, I can identify a directional bias by using my tools on
+my time frames. However, someone else may say currencies are trended only
+
+www.pdfdummies.com
+
+15
+
+16
+
+Part I: Defining Technical Analysis
+40 percent of the time — using a different, equally valid statistical method
+to define trendedness. In fact, some analysts say foreign exchange prices are
+mean reverting 60 percent of the time (see Chapter 2 for the mean-reversion
+concept) but I say “So what?” Mean reversion can coexist with trendedness
+and doesn’t affect my trading.
+Only one thing is certain: No security trends all the time. Even the bestbehaved security spends some time going sideways (nontrending), which can
+be considered a trend in its own right.
+I give you the key definitions of trendedness in Parts III through V. Chapter 6
+describes it as a series of higher highs together with a series of higher lows
+(for an uptrend). In Chapter 12, trendedness is defined as the price rising
+above a moving average or a short-term moving average rising above a longterm moving average (also an uptrend). The rest of the chapters contain
+other definitions, like the linear regression slope I mention at the beginning
+of this section.
+
+Picking a time frame
+If you’re looking at ten years of daily prices, you get a different view of trendedness than when you’re looking at only two years of data. In other words,
+you need to consider the time period of the data you analyze. A security may
+display a trend on data captured every hour but appear to be nontrending
+when you look at daily data. Some securities may trend in the morning and
+not in the afternoon. To go to the other extreme, you may not be able to
+detect a trend on daily data but a weekly or monthly chart shows a trend.
+You cannot say anything reasonable and useful about trends without specifying the time frame.
+Further, a security that trended in one period may not be trending in another.
+Markets are dynamic. They change (then they change back). Accept it.
+Embrace the spirit of empirical investigation embodied in technical research.
+When you’re drawing charts, experiment with different time frames.
+
+Discovering Why Technical Analysis
+Does and Doesn’t (Always) Work
+Technical analysis works because people consistently repeat behaviors under
+similar circumstances. For example, I say in Chapter 10 that support and resistance lines are a simple and effective method to identify the limits of a trend,
+and when a price breaks a support or resistance line, it’s called a breakout.
+
+www.pdfdummies.com
+
+Chapter 1: Opening the Technical Analysis Toolbox
+Breakout is a powerful concept and used in other indicators, too. Why does a
+breakout attract so much attention? Because over decades of analysts following prices, a breakout reliably signaled the end of a trend many, many times.
+While “breakout” is powerful, it isn’t always correct. You will run into situations where a breakout is not respected and the price resumes the direction
+it was headed in the first place. In short, some breakouts are “false” — they
+lead you astray.
+The biggest mistake that beginning technical traders make is attributing too
+much reliability and accuracy to technical methods. (Check out Chapter 3 for
+more technical analysis forecasting method constraints.) Experienced technical traders know that no technique works all the time. In fact, many techniques work only when the majority of market participants believe that they
+will work, forming a self-fulfilling prophecy. As long as you can identify what
+technical theory has a grip on the market’s imagination at any one time, you
+don’t need to care whether the theory is scientifically verifiable. Your goal is
+to make money, not to be scientifically pure.
+Understanding that no technique works all the time helps you overcome
+doubts raised by critics who say that the whole field of technical analysis
+is not worthwhile because techniques are not 100 percent reliable. Because
+a method doesn’t work all the time isn’t the right criterion for evaluating it.
+Just because the meteorologist is wrong 50 percent of the time doesn’t mean
+you should take off in your Cessna when he’s forecasting a violent thunderstorm in the next hour.
+In financial markets, the value of an analytical method is determined by
+whether it helps you to consistently make more money than you lose. Notice
+that this statement has two components: The method and you. The “you” variable is why two traders — whether newcomers or grizzled old hands — can
+use the same method but achieve very different results. (I discuss this puzzle
+in Chapter 17.)
+
+Beating the Market
+Every day, hundreds of thousands of traders all over the world beat the
+market. To beat the market means to earn a return higher than the benchmark
+in that market, such as making more from trading a single stock included in
+the Dow Industrial Average than the Dow Industrial Average index returned
+in the same period. Beating the market can also mean to earn a return greater
+than the return on the return on a risk-free investment, usually defined as the
+three-month U.S. Treasury bill.
+
+www.pdfdummies.com
+
+17
+
+18
+
+Part I: Defining Technical Analysis
+Technical analysis is about making extraordinary gains — beating the market —
+and if you think that isn’t possible, you haven’t looked hard enough. Many
+people try to beat the market and fail. Almost everyone knows the story of
+the hapless day traders of the 1990s who deluded themselves into thinking
+that they possessed trading secrets when all they had was a roaring bull
+market. A few survived — because they adapted their trading techniques to
+the changing market. To trade well is a skill that takes training, practice, and
+benefiting from mistakes, just like any other business. You wouldn’t open a
+restaurant without knowing how to cook, but somehow people think they can
+trade securities without understanding how and why prices move.
+Whether you just want to get out ahead of another crash, sharpen your trading skills, or aspire to become a self-supporting trader, use your noggin: This
+business is going to take some sweat — and some hard choices. You may be
+disappointed to discover that technical analysis doesn’t offer a single, coherent path to market wisdom. You’d think that after 100 years of development,
+traders would have a rule book with a single set of steps to take and processes to go through. But they don’t.
+Why not? For the same reason that you can find ten equally good ways to cook
+an omelet. Each cook selects a different pan, whisking and stirring techniques,
+amount of salt, amount of heat, and so on. Likewise in trading, each trader sees
+a different amount of risk on any particular chart, chooses one set of indicators over another, and has a taste for taking a certain amount of profit (or loss)
+for the capital at stake. Just as no one can dictate a single right way to cook an
+omelet, no one can name the single best way to trade a particular price situation. Theoretically, you could say that the best way is the way that makes the
+most money, but that fails to account for the trader — his personality, goals,
+and experience — and how much money he has to risk.
+To blend technical methods with your own personal risk profile isn’t the
+work of one day. It’s a lengthy and difficult process that requires some soulsearching. To keep the process manageable, confine your conclusions to what
+you can observe and verify — the empirical approach. Be careful to avoid the
+error of composition, like reading that one set of technical traders believes in
+magic numbers and concluding that all of technical analysis involves magic
+numbers. (It doesn’t.) It’s astonishing how many otherwise smart people misjudge technical analysis in exactly this manner, and in widely reviewed books,
+based on an incomplete understanding of the field. Many critics take one technical idea, fail to integrate it with their personal risk profile, and then blame all
+of technical analysis for their losses.
+Another error to avoid is the overly scientific approach. Like the expert who
+proved that the Bernoulli principle is mathematically wrong and therefore
+airplanes can’t fly, probability experts say they can prove prices are random.
+Random numbers do throw up patterns, the argument goes, so technical
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 1: Opening the Technical Analysis Toolbox
+analysts are deluding themselves that apparent orderliness can be exploited
+for profit over any length of time. And yet you do see orderliness, and you can
+exploit it, at least enough of the time to beat the market. Traders have been profiting from technical methods for over a hundred years — longer, if you count
+17th-century candlestick charting (for more on this method, see Chapter 8).
+
+Finding Order
+Much of the time you can see order in the way securities prices evolve, even
+though they develop in an infinite variety of configurations and each chart
+is literally unique. Technical traders attribute that orderliness to the swings
+of market sentiment. Prices form patterns because the traders in the market
+behave in regular and repetitive ways. You can identify, measure, and project
+prices because you can identify, measure, and project human behavior. Most
+people can do it only imperfectly, but you and I can both do it.
+Probably the most intriguing thing about technical analysis is that ideas and
+insights about price behavior from 1900 are as fresh and valuable today as
+they were then. Technical analysis never throws anything out — it just finds
+more-efficient ways to capture price moves. Since the personal computer
+came along, technical analysis has become more math oriented, but the
+essence of technical analysis is still to grasp the underlying human behavior
+that makes prices move.
+In the grand scheme of things, technical analysis is a fairly new field of
+endeavor, and still changing. Traders like you and me have a lot to master.
+The few things technical traders do know for certain include the following:
+✓ No technique works all the time.
+✓ No technique works on every security.
+✓ Something mysterious is going on that traders don’t yet understand. A
+famous trader named Bernard Baruch said
+Have you ever seen, in some wood, on a sunny quiet day, a cloud of flying
+midges — thousands of them — hovering, apparently motionless, in a sunbeam? . . . Yes? . . . Well, did you ever see the whole flight — each mite apparently preserving its distance from all others — suddenly move, say three feet,
+to one side or the other? Well, what made them do that? A breeze? I said a
+quiet day. But try to recall — did you ever see them move directly back again
+in the same unison? Well, what made them do that? Great human mass movements are slower in inception but much more effective.
+This phenomenon is what technical analysis seeks to explain.
+
+www.pdfdummies.com
+
+19
+
+20
+
+Part I: Defining Technical Analysis
+
+Viewing the Scope of Technical Analysis
+Technical analysis focuses on prices. Analyzing prices can take many different forms — from drawing lines on a chart by hand to using high-powered
+computer software to calculate the most likely path of a price out of all possible paths. Technical analysis is sometimes called by other names, such as
+charting, market timing, and trend-following. The press, the public, and even
+technical-analysis authors all use these terms interchangeably.
+When you see these terms in this book and elsewhere, don’t fret over a strict
+interpretation — and don’t accept or reject a technical idea because it has a
+particular label. You can put ten technical traders in a room and get ten definitions of each term. The following sections are my interpretation of these terms
+and their nuances.
+
+Charting
+Charting is probably the oldest generic term used for technical analysis. I
+cover “charting” techniques in Parts III and IV. Charting refers to reading
+supply and demand into bars and patterns. Some technical analysts reject
+the term charting because it harkens back to the days of colored pencils and
+rulers. They see charting as subjective, while statistics-based indicators
+(which I cover in Part V) are “objective.” But many traders use charting conventions developed over decades, and they work. I think charting gets you
+closer to the supply-demand dynamics (the “mind of the market”) than mathbased indicators that quantify market sentiment in a more abstract way.
+
+Market timing
+Market timing is another term used in place of technical analysis. All technical trading involves timing, but to my way of thinking, the term market timing
+refers to statistical analysis that goes beyond a single chart. It encompasses
+many techniques, such as sentiment indicators and calendar effects, that many
+self-described chartists say aren’t charting and at least some technical analysts
+say aren’t technical analysis. I cover these and other tools in Chapter 3.
+
+Trend-following (there’s that word again)
+The very first thing you look for in a chart is whether the price is trending.
+Because so much emphasis is put on the presence or absence of a trend,
+technical analysis is sometimes named trend-following. Parts IV and V contain techniques that are trend-following. Some analysts object to the term
+because you aren’t always following, but often anticipating, a trend such as
+when you use momentum indicators (see Chapter 13).
+
+www.pdfdummies.com
+
+Chapter 1: Opening the Technical Analysis Toolbox
+
+Keeping your bulls and bears straight:
+A word about words
+A bullish market is one that is rising, and a
+bearish market is one that is falling. A bull is an
+optimist who thinks prices will rise; a bear is a
+pessimist who thinks prices will fall. Bull and
+bear are oversimplifications. But those words
+are commonly used in discussing securities
+markets. Accept them. The word bull applies
+to the long-term holder as well as the in-andout quick-trade artist. The point is that bull and
+bear, or bullish and bearish, are useful shorthand words that summarize market players and
+market sentiment as either positive and optimistic (prices will rise) or negative and pessimistic
+(prices will fall).
+A lot of people don’t like those words, finding
+them to be coarse, undignified, and often inaccurate. When you buy a security for an expected
+long-term holding period, you feel positive about
+the security, but the word bullish sounds emotional and doesn’t describe the deeply intellectual process you went through in selecting that
+particular security. When you sell a security, you
+may not appreciate being named a bear. You
+may not have had a negative attitude toward that
+security — you just wanted the money from the
+sale for some other purpose.
+
+Some critics complain that technical analysis
+uses far too much jargon that is not intuitively
+obvious, and sometimes just plain ridiculous
+(although bull and bear are not confined to
+technical analysis). The only answer is that
+every field has its lingo, and I introduce it as
+gently as possible. When you take a course in
+cooking, you have to understand the meaning of
+sauté, blanch, and braise. The lingo of technical analysis is no more difficult or silly than the
+lingo of fine cooking.
+But it does have some additional problems. Not
+everybody agrees on word usage. A bearish
+market is one in which prices are falling. It rises
+to the status of bear market (no -ish) when it
+has fallen by 20 percent or more from a peak for
+a sustained period. A bull market is one that has
+risen at least 20 percent for a sustained period
+from a major low. Some writers, even experts,
+call any big move a bull or bear market when
+they should use a more-careful phrase, such as
+“the market has a bullish tone.” In short, market
+commentators are prone to exaggeration and
+sloppy use of language. Be aware of this shortcoming. Check the facts before you go bulling
+or bearing your way through the market.
+
+Technical analysis
+Technical analysis is the broadest of the terms. It covers hand-drawn lines
+as well as grand theories of price cycles. In short, technical analysis is a term
+encompassing all the tricks and techniques.
+Technical analysis is not confined to just math-based techniques, as some
+folks may think. Using math is a breakthrough and a curse. Math may outperform human judgment and the human eye, as many an optical illusion
+has proved, but it’s not true that numbers never lie. Numbers lie all the time
+in price analysis! You can have a textbook-perfect trend with ten confirming
+indicators, and it can still run into a brick wall — really bad news that trashes
+the price of the security. Math can never overcome the inconvenient fact that
+fresh news, which no one can predict, may overwhelm any price trend.
+
+www.pdfdummies.com
+
+21
+
+22
+
+Part I: Defining Technical Analysis
+In your quest to define trendedness and formulate trading rules to maximize
+profits and reduce risk, don’t run the risk of turning into an obsessed, nerdy
+number cruncher. Don’t forget that behind the numbers are other human
+beings who often behave in irrational ways. Technical analysis (so far)
+remains an art, not a science, even when it uses scientific methods.
+
+What You Need to Get Started
+If you don’t already know trading basics, you need to get a few things under
+your belt to get the most out of this book — things like what a securities
+exchange is, exchange hours, what trades in after hours, what brokers do
+(and don’t do), trading conventions like “bid and offer” and order types, how
+to read a brokerage statement, and oh yes, what securities you plan to trade.
+After that, all you really need is a newspaper that publishes securities prices,
+a sheet of graph paper, and a pencil. Fortunes have been made with nothing
+more than that. But these days, a computer, an Internet connection, and at
+least one piece of software that allows you to collect data and draw charts
+are also standard issue. You can also do charting directly on technical analysis Web sites without buying software.
+Don’t skimp on tools to put in your technical analysis tool belt. Buy the data,
+books, magazines, and software you need. Pay for lessons. Get a trading
+coach. You wouldn’t try to make a cordon bleu dinner on a camp stove with
+three eggs and a basil leaf, so don’t try to make money in the market by using
+inadequate tools. Your first task when you’re ready to take your technical
+knowledge out for a trial run is to earn back the seed capital you put into the
+business, the business of technical trading.
+
+www.pdfdummies.com
+
+Chapter 2
+
+Uncovering the Essence
+of Market Movement
+In This Chapter
+▶ Looking at a new model of supply and demand
+▶ Figuring out the crowd
+▶ Reverting to the mean
+▶ Handling crowd extremes
+▶ Studying the big picture
+
+T
+
+echnical analysis focuses on the price of a security rather than its fundamentals. The collective behavior of buyers and sellers, also known as
+“the crowd” or “the market,” sets the prices. The market may be rational or
+irrational, but the market is always “right” in the sense that it sets the price
+of a security. You and I, as minor members of the market, don’t get to set the
+price, no matter how intelligent our analyses and piercing our judgments.
+In this chapter, I suggest one way of looking at the supply-and-demand
+dynamics of crowd behavior that’s consistent with the technical approach —
+the auction model of supply and demand. Next, an outcome of crowd behavior is the tendency of prices to cluster around the average, even when the
+average is trending. It’s useful to identify clustering, in part to know when
+to heed the prices that stray from the cluster. Also, a large group of technical traders think that crowd behavior fits a particular model based on a
+sequence of numbers called the Fibonacci sequence. At the end of the chapter, I address whether this is a useful way to work with technical concepts.

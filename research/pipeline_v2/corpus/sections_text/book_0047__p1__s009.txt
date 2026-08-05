@@ -1,0 +1,564 @@
+
+Figure 5-19. Rolling 6-month correlation between oil prices and trade-weighted USD (Source:
+U.S. Energy Information Administration, Federal Reserve Bank)
+
+High oil prices negatively impact economic growth in the United States. In
+addition, the Fed’s core inflation index excludes food and energy prices,
+which means that rising oil prices will not likely be followed by higher
+interest rates, another negative in the short-term for the dollar. Finally, trade
+
+121
+
+122
+
+Chapter 5 | Fundamental Analysis
+between the United States and OPEC is largely one way, unlike trade
+between OPEC and the rest of the world, which means that US oil imports
+are not offset by increased exports. The upshot is that in the short term,
+significant changes (increases) in the price of oil can explain 50% (based on
+a correlation of -0.5) of subsequent changes (decreases) in the dollar, as seen
+in Figure 5-19.
+
+Correlations between two or more currencies are the most interesting
+and the strongest quantitative relationships in forex. As I explained in
+Chapter 2, while there are dozens of liquid currencies, there is simply
+too much information for all of them to trade independently of one
+another. As a result, most currencies (especially those outside of the
+majors) tend to fluctuate relative to the US dollar. Emerging market
+currencies, in particular, behave similarly, especially during times
+when risk appetite is very strong or very weak. As can be seen in
+Figure 5-20, emerging market currencies rose and fell in lockstep for
+the first half of 2010. In the second half, risk appetite strengthened and
+growth/inflation differentials began to diverge, as did emerging market
+currencies.
+
+Figure 5-20. Correlations in emerging market currencies break down
+
+As far as correlations between individual currencies go, they tend to fluctuate
+in proportion to market conditions. As a general rule, however, currency
+
+Forex for Beginners
+correlations have been getting stronger over time. In Figure 5-21 it can
+clearly be seen that the correlation between the Canadian and Australian
+dollars has been relatively strong for most of the last decade and is currently
+nearing 100%!
+
+Figure 5-21. Strengthening correlation between the AUD/USD and CAD/USD
+
+There are a few theories for why this is the case, but the consensus is that
+currency markets are converging with other financial markets. Despite
+tremendous volume, forex trading was previously relegated to a quiet corner
+of finance. As more sophisticated traders expand into forex, they are bringing
+pre-existing trading mindsets with them. Many hedge funds, in particular, are
+connecting all of their trading operations under the umbrella of one broad
+strategy. The result is that algorithms may buy and sell the Canadian and
+Australian dollars together when commodity prices are rising, causing the
+correlation between these two currencies to become self-fulfillingly strong.
+Finally, the rising popularity of index funds (which consist of a basket of
+securities designed to represent a particular segment of the markets) has
+caused assets that were already correlated to become even more so.
+There are a handful of online forex portals that publish real-time correlation
+data for the major currencies over different intervals of time. This
+information can be used toward a handful of strategic ends, which will be
+covered in Chapter 7. For now, consider that they serve as useful gauges for
+the strength of various fundamental indicators. For example, let’s say that
+one has a theory that rising interest rates are causing the Loonie to rise
+against the US dollar. Based on the matrix of correlations displayed in Figure
+
+123
+
+124
+
+Chapter 5 | Fundamental Analysis
+5-22, however, it seems that the USD/CAD is quite strongly correlated
+(greater than 80%) with most of the other major currency pairs. This tells us,
+then, that the apparent rise in the CAD is better interpreted as a decline in the
+USD, and that one should probably look to US factors to explain the
+performance of the USD/CAD.
+
+Figure 5-22. Weekly correlation between Canadian dollar and other major currencies (Source:
+Forexticket.co.uk)
+
+Debt Analysis
+The efficacy of debt as a fundamental analysis tool varies. During periods of
+economic growth, the markets tend to pay scant attention to rising debt
+levels. As long as the ratio of debt to GDP stays constant, investors operate
+under the implicit assumption that the economy will be able to grow its way
+out from under the burden of increased debt. As government spending is a
+component of economic output, it can even have a positive impact on
+currency performance, especially if it doesn’t crowd out private investment.
+When growth slows down, however, debt ratios tend to increase relative to
+GDP. This is exacerbated by declining tax revenues, the propensity of
+governments to increase spending during recessionary periods, and by
+consequent cuts in sovereign credit ratings.
+Any time this happens, default can quickly become a self-fulfilling prophecy
+as governments find it impossible to take out new debt and refinance existing
+debt at affordable interest rates. Investors get nervous and respond by
+moving money offshore, causing rapid currency depreciation. In fact, this is
+exactly what transpired during the credit crisis. Debt had already risen to
+alarming levels, but it wasn’t until growth slowed down in 2008 that
+investors took stock of the bubble years. Iceland was singled out for its
+imprudence, and it wasn’t long before its banks were declared insolvent, its
+government defaulted on its debt, and the krona had to be temporarily
+replaced by the euro.
+
+Forex for Beginners
+As far as fundamental analysis goes, there are a couple of ways in which debt
+is relevant. First of all, it can be used to forecast the likelihood of full-blown
+financial crises. The Economist, for instance, uses three indicators (budget
+deficit, net debt, and GDP growth minus the cost of finance) to rank
+countries in terms of the sustainability of their debt. Unsurprisingly, the four
+PIGS countries of Europe were near the top of the 2010 rankings. Then
+again, so were Japan and the United States! (See Table 5-1.)
+Table 5-1. Countries Ranked by Sustainability of Debt Position in 2010 (Source: The
+Economist, Bloomberg L.P., EIU, OECD)
+Budget Balance
+% of GDP
+
+Net Debt %
+of GDP
+
+GDP Growth Less
+Cost of Finance
+
+Sovereign Debt,
+Years to Maturity
+
+Greece
+
+-4.6
+
+94.6
+
+-3.2
+
+7.7
+
+Ireland
+
+-7.0
+
+38.0
+
+-5.1
+
+6.8
+
+Britain
+
+-6.7
+
+59.0
+
+-1.5
+
+13.7
+
+Japan
+
+-5.9
+
+104.6
+
+0.1
+
+5.4
+
+Portugal
+
+-2.7
+
+62.6
+
+-2.3
+
+6.5
+
+Spain
+
+-4.3
+
+41.6
+
+-3.0
+
+6.7
+
+France
+
+-3.8
+
+60.7
+
+-0.7
+
+6.9
+
+United States
+
+-7.0
+
+65.2
+
+1.4
+
+4.8
+
+Poland
+
+-5.3
+
+32.4
+
+-0.7
+
+5.2
+
+Italy
+
+2.2
+
+100.8
+
+-1.0
+
+7.2
+
+Hungary
+
+4.2
+
+62.1
+
+-3.5
+
+3.3
+
+Norway
+
+-7.8
+
+-143.6
+
+2.4
+
+4.9
+
+Canada
+
+-2.7
+
+32.6
+
+2.0
+
+5.2
+
+Switzerland
+
+0.4
+
+11.0
+
+0.5
+
+6.7
+
+In this case, however, it is not debt itself which presages a crisis, but the ease
+with which such debt can be financed. The currency markets thus tend to
+view bond yields as being most representative of a country’s ability to deal
+with debt. A sudden increase in yields can signal the start of a potential
+crisis, and currency depreciation tends to follow. In addition, yields adjust in
+real-time while debt levels change incrementally. In the case of the
+
+125
+
+126
+
+Chapter 5 | Fundamental Analysis
+Eurozone, sudden spikes in bond yields have often corresponded with
+depreciation in the euro. (See Figure 5-23.)
+
+Figure 5-23. Portugal’s 10-year bond yield and EUR/USD, relative change (Source:
+Bloomberg L.P.)
+
+Some pessimists have argued that both the actual and the potential increase
+in US debt levels could threaten the long-term viability of the US dollar.
+Alas, neither credit nor currency markets have priced in the possibility of US
+federal government default. And the historic downgrade of the US sovereign
+credit rating in August 2011 was met with yawns.
+Finally, debt level comparisons have been used to buttress the case for
+buying emerging market currencies, whose net debt levels are much lower
+than their developed world counterparts. To be sure, this is yet another
+reason why emerging market currencies will continue their steady upward
+march over the next decade.
+
+Forex for Beginners
+
+127
+
+Monetary Policy and Central Bank
+Intervention
+I’ve already talked about the role that central banks play in setting interest
+rates and tweaking money supply. Here I want to examine some of the other
+ways in which they can influence the forex markets.
+First are the central banks’ open market operations. Open market operations
+are now arguably the most prominent weapon in a central bank’s arsenal.
+During periods of recession, when inflation is low, central banks can literally
+print money in order to fund purchases of financial securities. The central
+bank holds these securities on its balance sheet with the intention of selling
+them off once the economic pump has been fully primed and inflation has
+taken hold.
+In the wake of the credit crisis, the world’s major central banks stunned the
+markets with the scope of their open market operations. The Fed’s program
+was particularly ambitious. In a process known as quantitative easing, the
+Fed purchased almost $3 trillion worth of financial securities in two discrete
+blocks. (See Figure 5-24.) Critics worried that the bank had sacrificed its
+independence, that it was enabling record US government borrowing, and
+that it would foment asset price bubbles and inflation. As a result, the
+currency markets punished the dollar severely after each round of
+quantitative easing was announced. Whether their concerns were justified
+ultimately depends on whether the Federal Reserve Bank can unwind the
+program (by selling the securities on its balance sheet back to private
+investors) when inflation picks up.
+
+h
+
+128
+
+Chapter 5 | Fundamental Analysis
+
+Figure 5-24. Federal Reserve Bank balance sheet
+
+From the standpoint of fundamental analysis, there is an edge to be gained
+from correctly reading the tea leaves and predicting both the beginning and
+end of quantitative easing programs. Those that guess right and invest
+accordingly will be rewarded with profits. More importantly, fundamental
+analysts should understand how quantitative easing can indirectly impact
+forex markets in various ways, via a stronger stock market, lower bond
+yields, and potentially higher inflation.
+Central banks can also attempt to guide their exchange rates through forex
+intervention. Most emerging market central banks are active (to varying
+degrees) in taking steps to push down their respective currencies, though
+countries in Latin America and Asia have been particularly aggressive. This
+is typically achieved by selling large chunks of their home currency on the
+spot market and can be supported with measures that penalize speculation by
+foreign investors. Some central banks have fixed intervention programs in
+place. Others spend large amounts on discrete occasions in a bid to
+overwhelm the markets. Still others engage in “verbal intervention” without
+ever directly entering the markets.
+Beginning in 2009, central banks began intervening, one after another, in
+vain attempts to prevent their currencies from returning to pre-credit crisis
+levels. Even the major central banks contributed with a coordinated
+intervention on behalf of the yen, which had strengthened after the March
+2011 earthquake. In November 2011, the central banks intervened again with
+
+Forex for Beginners
+a program of liquidity swaps that was designed to prop up the ailing euro.
+The Swiss National Bank, meanwhile, keeps threatening to renew its failed
+program to hold down the franc. After a multi-day appreciation, it intervened
+verbally and caused the CHF/EUR to raise by an unprecedented 1000 PIPs in
+a single trading session! (Note Figure 5-25.) To be sure, all intervention is
+doomed to fail over the long term. Over the short term, however, it can quite
+spur magnificent spikes.
+
+Figure 5-25. Immediate and medium-term impact of SNB franc intervention
+
+When central banks intervene, they inadvertently provide support for
+opposing currencies. In other words, a central bank cannot simply sell its
+home currency; it must simultaneously buy an opposing currency. As I
+explained in Chapter 3, this drives the accumulation of currency reserves.
+That most central banks disproportionately prefer USD-denominated assets is
+a huge source of support for the US dollar. While there are frequent
+indications that this could change, problems with the other major currencies
+(most recently with the euro) favor a continuation of the status quo.
+Emerging market currencies meanwhile remain subject to liquidity and other
+logistical complications that hinder their broad adoption as reserve
+currencies. Nevertheless, central banks collectively represent one of the
+largest long-term players in the forex markets, and fundamental analysts
+must closely monitor this situation for any signs of change.
+
+129
+
+130
+
+Chapter 5 | Fundamental Analysis
+
+Political Factors
+The role of politics in financial markets has always been difficult to quantify.
+Generally speaking, elections and changes in political administrations tend to
+have only a psychological impact on forex markets. This is especially true in
+the case of the United States, where economic policy has not changed
+significantly over the last few decades. Free trade has been gradually
+embraced, tax rates have edged down slightly, corporations have become
+more profitable, budget deficits have become the norm as spending has
+surged, the business cycle is increasingly driven by financial factors, and so
+forth. To be sure, policy may shift to the right or to the left depending on
+which party holds power. For the most part, though, the overall trend has
+remained intact. As a result, elections tend to offer very little insight into how
+a particular currency will perform during the years that follow. Instead,
+financial-economic factors tend to carry more weight. As can be seen from
+Figure 5-26, former President Bill Clinton can claim the dubious distinction
+of being the only US president to witness an overall rise in the US dollar
+while in office. This was probably less due to the nuances of his economic
+policy, however, than the economic and stock market boom that began in the
+late 1990s and carried over into the presidency of George W. Bush.
+That’s not to say that politics are irrelevant. On the contrary, the whims of
+governments can cause significant gyrations in the forex markets. For
+example, the US dollar suffered mightily when the US Congress temporarily
+balked at raising the US borrowing limit in May 2011. Meanwhile, political
+developments in Europe continue to drive the euro, whose very existence
+seems to hinge on political life support.
+
+Forex for Beginners
+
+Figure 5-26. USD Trade-weighted index and corresponding US president
+
+Emerging market currencies are perhaps most sensitive to political
+developments, because their governments are more likely to pay attention to
+and take steps to influence the value of their currencies. While this task is
+supposed to be delegated to independent central banks, in practice it is
+subject to political meddling. For example, if the incumbent government of
+Brazil makes a strong export sector the cornerstone of its economic policy, it
+may instruct the Bank of Brazil to actively take steps to hold down the real.
+This practice reached an extreme from 2010–2011, as cash (spurred by loose
+monetary policies in industrialized countries) began to pour into emerging
+markets, causing their currencies to appreciate rapidly. Emerging market
+central banks fought back and, one after another, sought to devalue their
+respective currencies. Before long, a full-scale currency war had erupted, and
+emergency meetings of the G7 and G20 were convened. It wasn’t until late
+2011 (when the European sovereign debt crisis flared up and risk appetite
+cratered) that the currency wars began to fade, once again underscoring that
+political factors are less important than financial-economic factors.
+
+131
+
+132
+
+Chapter 5 | Fundamental Analysis
+
+Conclusion
+If there is any lesson to be learned from the preceding discussion, it is that
+there are no cut-and-dried rules in fundamental analysis. In understanding
+how numerous variables impact exchange rates, one must first understand the
+particular narrative that is guiding the markets at any given time. Whether
+risk appetite is strong or weak, whether a currency has or has not been
+targeted by carry traders, whether an interest rate change has been anticipated
+in advance are all factors that will ultimately determine the market reaction.
+Fundamental analysis merely provides a framework for understanding these
+narratives.
+
+Forex for Beginners
+
+133
+
+CHAPTER
+
+6
+Technical
+Analysis
+Analyzing Exchange Rates
+Based on Technical Factors
+Technical analysis is grounded in the notion that price data alone is all that is
+needed to forecast future price movements. While simple in theory, technical
+analysis is extremely complex in practice. There are dozens of basic
+technical trading strategies, incorporating hundreds of tools and thousands of
+different iterations. To master (let alone attempt to utilize) more than a
+handful of these tools would be unrealistic or even counterproductive.
+Accordingly, in the sections that follow, I have tried to pare down the vast
+spectrum of technical analysis strategies into a manageable number, with an
+emphasis on those that are easy to use, quantitative, and compatible with
+fundamental analysis.
+
+Charts
+A trader’s best friend is his chart, and this is especially true for technical
+traders. With time on the x-axis and price on the y-axis, a chart is the most
+basic visual representation of the historical exchange rate performance for a
+given currency pair. If only it were that simple! One must first select the
+chart type, variously depicted in Figure 6-1. Line charts and area charts
+connect individual price points over a given period of time. Technical traders
+prefer bar or candlestick charts—which show opening, closing, high, and low
+
+136
+
+Chapter 6 | Technical Analysis
+prices for each unit of time, and are color-coded to distinguish upward and
+downward movements—because of the depth of information that they
+contain.
+
+Figure 6-1. Examples of different chart types
+
+In fact, there is a branch of technical analysis devoted to the study of
+candlestick formations, with a system of Japanese nomenclature to boot.
+Individual formations (some of which are depicted in Figure 6-2) can be
+interpreted as being bullish, bearish, or stable, and series of formations can
+potentially indicate good times to buy and sell. Alas, candlestick analysis is
+exceedingly intricate, and it extends beyond the scope of this book. For those
+of you interested in learning more, I would recommend consulting one of the
+numerous books that have been written about the subject.
+
+Forex for Beginners
+
+Figure 6-2. Basic candlestick formations and their interpretations
+
+Anyway, the next step in setting up a chart is to select the overall time frame
+(e.g., one year, one month, one day, one hour) and the unit of time (e.g., one
+day, five minutes, one minute). While seemingly trivial, the time frame of
+your chart is actually a very important consideration. Different lengths of
+time may show different—and sometimes contradictory—trends. Naturally,
+it’s best to select a time period that is consistent with your trading horizon. If
+you plan to follow the swing trading approach advocated in this book, it
+makes sense to look at price data on 3–12 month time frame. If, in contrast,
+you are an aspiring day trader, you probably won’t be able to glean anything
+useful from a chart covering anything longer than one week.
+In fact, as you can see in Figure 6-3, selecting the wrong time scale for your
+chart could yield disastrous consequences. Specifically, if you bought the
+EUR/GBP based on your interpretation of the 30-minute inset chart, you
+probably would have lost money on the trade. If you instead had taken the
+time to examine a medium-term (five-hour) chart, you would have clearly
+
+137
+
+138
+
+Chapter 6 | Technical Analysis
+noticed that the overall trend was still bearish. Sure enough, the EUR/GBP
+resumed its downward arc immediately after the slight correction. The lesson
+here is that it’s important to have a broad perspective when performing any
+kind of analysis.
+
+Figure 6-3. Multiple time scale analysis
+
+Some charting software also includes data on volume and open interest. Due
+to the decentralized nature of spot forex trading, however, both are calculated
+based primarily on activity in the futures or options markets. Volume tends to
+ebb and flow in accordance with daily and seasonal patterns; the open and
+closing of the main markets, as well as the middle of the week (go figure!),
+tend to see the greatest volume. Volume spikes during news releases and falls
+off around major holidays and during the summer when traders are away
+from their desks. This is also reflected in terms of lower volatility. (See
+Figure 6-4.)
+
+Forex for Beginners
+
+Figure 6-4. Average USD/EUR volatility, by month
+
+Volume can also be used as proxy for momentum and to confirm the
+existence of trends. For instance, if the EUR/USD suddenly experiences an
+upside break-out after a period of flat trading, you might see a corresponding
+surge in volume as traders rush to buy the EUR/USD before it loses its
+upward momentum.
+Open interest, meanwhile, reflects futures positions that have not yet been
+settled by offsetting positions. When a new long position is opened, open
+interest rises while the closing of a long position (or the opening of a short
+position) will cause open interest to fall. Since real-time open interest is
+available only through futures and options brokers, most spot forex portals
+will use the Commitments of Traders (COT) data as a proxy. Every Friday
+afternoon, the Commodity Futures Trading Commission (CFTC) releases its
+weekly COT report, which shows long and short positions for various
+financial and commodity futures and options contracts. Overall open interest
+for each contract is calculated, and data is further broken down among the
+different types of participants. As can be seen from Figure 6-5, there is often
+a tight relationship between open interest and spot prices. In this case, the
+longest sustained rise in the New Zealand dollar in 2011 was preceded by a
+bottoming out of open interest.

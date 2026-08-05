@@ -1,0 +1,329 @@
+
+COMBINING TECHNICAL INDICATORS: WHICH
+ONES AND HOW MANY?
+One of the hardest, most time-consuming aspects of trading is figuring out what trading style(s) and
+time frame(s) suit you best. From the technical analysis perspective, that means finding the right
+toolbox of indicators you habitually use and learn very well.
+As noted earlier, the consensus is that about five indicators is the right balance between enough
+information to make informed decisions and not too much so that you suffer from information
+overload, aka paralysis by analysis. Practically, that can mean anywhere from three to seven; it's
+ultimately your choice. You don't have to stick with the same tools all the time; just limit the number
+you're watching at any given time. Those trading longer time frames have more time and can afford to
+look at more indicators. They also need to be better informed about the long-term fundamentals of
+both:
+The underlying economies of the currencies they trade.
+The big macroeconomic drivers of the global economy that drive risk appetite and influence all
+markets all the time.
+This is critical. At minimum it involves following a few good fundamental analysts to read and at
+least one big picture indicator like the S&P 500 Index (and what's driving it for your chosen time
+frame). I write weekly reviews of the past week's top market drivers and the likely ones for the
+coming week, simply because I couldn't find anyone who was already providing the big picture of the
+prior and coming weeks' top market drivers (which I generally post both on my own sites, as well as
+on SeekingAlpha.com, ForexFactory.com, and others. John Kicklighter at DailyFX.com, and Kathleen
+
+Brooks of Forex.com provide some of my favorite weekly reviews for forex, and there are often
+excellent weekly reviews from top banks on FXstreet.com. Joel Kruger of DailyFX.com and Boris
+Schlossberg and Kathy Lien of Bkassetmanagement.com are always part of my daily forex reading.
+For commodities (closely related to forex, as we'll see later), Oil N' Gold (oilngold.com) usually has
+a very good weekly review of what was driving commodity markets. I read these and many others and
+try to sort out the big drivers influencing all markets in my weekly articles. For more on my favorite
+daily and weekly reads, see Appendix A.
+
+Your Tool Kit Needs a Gang of Four
+While your exact choice of indicators can vary with preference, needs, and trading style, the
+overriding principle in selecting your tool kit of indicators is to have a balance that gives you a “gang
+of four” of different kinds of information you need, specifically:
+1. Trend or trading range.
+2. Momentum.
+3. Support/resistance.
+4. Timing or cycles.
+
+Trend or Range
+Examples are trend lines, channels, moving averages, and Double Bollinger Bands. DBBs are really a
+hybrid trend and momentum indicator. In range-bound markets, DBBs provide support and resistance
+(s/r) points. When there's a trend, they show the trend's momentum and likely staying power.
+
+Momentum Indicators
+You should strongly consider using Double Bollinger Bands and one or two oscillators of choice,
+especially moving average convergence/divergence (MACD). A set of moving average lines like we
+saw earlier (10, 20, 50, 100, and 200 period) not only serves as a momentum indicator, it also
+provides s/r points, too.
+
+Support/Resistance Points
+In addition to obvious price levels that stand out on your chart (and on time frames four to five times
+shorter and longer), you should always watch:
+The s/r points generated from trend or range indicators.
+The s/r points formed by Western-style chart patterns, both their trend lines and implied breakout
+targets, as shown in Chapter 4. See Figures 4.14, 4.16, 4.18, 4.19, 4.20, 4.21, 4.23, and 4.24 for
+examples.
+
+Timing or Cycle Indicators
+Fibonacci, Elliott Wave, Gann, DiNapoli, and similar studies are timing or cycle indicators.
+For example, your typical technical tool kit might include, in addition to an awareness of any
+obvious s/r points:
+
+A set of moving averages of 10, 20, 50, 100, and 200 periods: Again, these serve as both s/r
+points as well as momentum indicators if they show crossing or layering as discussed in Chapter
+8.
+Trend/channel lines show the trend and provide s/r points.
+Double Bollinger Bands and MACD show changes in momentum.
+Fibonacci retracements of the most recent trends in each given time frame suggest possible s/r
+points. You'd need to redraw these for each time frame that you examine, as the primary trends
+may differ dramatically in different time frames.
+If you spot any Western-style chart pattern forming, note the implied s/r levels (highs, lows,
+necklines, shoulders, etc.). Japanese candlestick patterns provide shorter-term signals of trend
+continuation or reversal.
+
+Apply Indicators to Each Time Frame When Screening Trades
+You'd then apply this group of indicators to the time frame in which you trade, as well as those four to
+five times longer and shorter. For example, if you trade off daily charts, you'd also look at weekly and
+two- to four-hour charts (depending on whether you define your trading day as 24 hours or 8 to 10
+hours).
+A good charting program like that included with MetaTrader 4 will allow you to store any group of
+indicators you like as a chart template that can be applied to any chart of any asset or time frame your
+broker offers.
+As shown in our trading examples in Chapter 7:
+The purpose of your first screening on the longer time frame (weekly, in our examples) is to find
+longer-term s/r points than you would see on the charts on which you trade, and hopefully, find a
+currency pair that looks like it might reach that s/r area and provide a low-risk entry point. That's
+the first step in locating low-risk, high-yield trades.
+Your second screening would then examine the likely entries and exits on the shorter time frame
+chart from which you trade, to see if you can find situations where your entry point is two to three
+times farther from your exit than it is from your stop loss. The profit-taking point is usually easy
+to spot. It's whether you can get the right stop loss point that usually determines whether you take
+the trade. See the description of the second screening in Chapter 7 for a review of the criteria for
+a low-risk stop loss that isn't too close to your entry point so that you don't risk getting stopped
+out by random price movements.
+Your third screening would check your shorter time frame (two- to four-hour charts in our
+examples) to look for any short-term s/r points, just so you're aware of temporary s/r points. If
+those hold too long or too often, your trade may be showing signs of failing and you might want to
+reduce your position size. If, however, these are quickly breached, that's a sign of progress and a
+signal to consider adding to your position.
+
+BACK TESTING: LEARNING FROM THE PAST
+Those who do not learn from history are doomed to repeat it.
+—Philosopher George Santayana
+
+At some point, any serious trader will develop his or her own sets of rules or conditions for entering
+and exiting trades. These sets of rules are called trading systems, and they are of vastly varying
+degrees of complexity.
+The only way to avoid losing money on bad systems is to test them using prior market data. That's
+called back testing, and it is as essential as risk and money management (RAMM) practices and
+trading journals for developing good trading rules and habits.
+The goal of back testing is to discover a set of rules for a given time frame and currency pair (or
+other instrument) for entering and exiting positions so that over time you're consistently profitable.
+That profitability can come from a high percentage of winning trades, high profits on fewer winning
+trades that outweigh the losses, or anything in between. Typically these rules work only in certain
+market conditions. In other words, for a given asset or currency pair, you'll develop different systems
+for trending markets, range-bound flat markets, and so on. You may also find that you need different
+systems for different kinds of assets.
+
+Back Testing Software: Play It Again, Sam
+Today any serious back testing is done via computer software designed for that purpose. It works by
+simulating trades when the programmed signals or conditions appear on the historical price data. The
+goal is to test the system's potential profitability and maximum drawdown or risk over the given
+historical data.
+Computerized back testing works for technical trading strategies as long as their rules are clear and
+unambiguous enough to be translated into programming code. It can also be applied to fundamental
+strategies as long as the strategy can be reduced to a set of clear, quantifiable criteria like interest
+rates, growth statistics, or other quantifiable macroeconomic data and/or the logical or mathematical
+relationships between them.
+A quick online search will yield a wealth of information about various software packages. Online
+forex forums will provide a venue to benefit from the experience of others. There are many such
+venues. A few off the top of my head include (look under their “forum” tabs or links):
+ForexFactory.com: Has a trading systems forum on the homepage.
+Currensee.com: Under the Social Network tab of the homepage.
+DailyFX.com: Under the Forum tab.
+These sites have active forums that should provide a good place to start along with a diligent online
+search for information on how to back test and which software to use.
+The preceding also applies for researching automated trading systems. More on these in Chapter 10.
+
+A Manual Back Testing Example
+Before you're ready to work with back testing software, you should first go through the experience of
+manually back testing. You will learn a lot, improve your technical analysis skills, and be a better
+testing software user. Manual tests also give you a quick-and-dirty way to play with indicators and
+get a sense of what combinations deserve further investigation.
+We'll take a deeper look at manual back testing so that you better understand how back testing
+works.
+
+Technical Tools
+To keep the illustration simple, we'll use:
+Double Bollinger Bands (DBBs).
+A set of exponential moving averages (EMAs): 10, 20, 50, and 200 period.
+Awareness of established s/r price levels.
+MACD standard settings (12, 26, 9).
+Together these will provide our gang of four indicators: s/r, momentum, trend, and timing/cycle
+indicators as discussed earlier.
+
+The Purpose
+To see if these provide leading (predictive) and/or lagging (confirming) indications of the start and/or
+end of a tradable price move. In other words, you'll want to scroll back in time on the charts and
+observe how these interacted with price when trends both began and ended. If you see that they
+behaved the same way each time (or most of the time) a trend began and/or ended, you then have a set
+of rules to follow for when to enter and exit a trade.
+In its simplest form, our overall goal is to develop rules for entering and exiting trades.
+Specifically, we want to distinguish the real signals from the false ones; that is:
+Entry rules that provide early entry signals only at the start of real trends, yet don't issue entry
+signals at the start of false trends.
+Exit rules that don't issue exit signals until the trend has fully run its course, do issue exit signals
+before you lose profits to a trend stopping or reversing.
+The reality is that you'll need to strike a balance between rules that offer higher profits with higher
+risk of loss versus those that offer lower profits and lower risk. In other words, you'll probably need
+to choose between sets of rules that offer higher reward and risk versus those that offer the lower
+reward and risk.
+That means you must choose between rules that offer more risk and reward or less risk and reward:
+Higher risk/reward versus lower risk/reward entry rules: The former get you in sooner but catch
+more false trends; the latter miss more of the trend as they wait for more trend confirmation and
+safer entries.
+Higher risk/reward versus lower risk/reward exit rules: The former keep you in the trade longer
+to both ride the trend longer (for greater profits) and its reversal (for greater losses); the latter get
+you out faster, and miss more of the trend (for lower profits) and its reversal (for lower risk).
+If all of this sounds abstract, the examples that follow should clarify what you're trying to do with
+back testing.
+
+Time Frame
+Let's assume we're long-term forex investors looking to develop some rules for trading long-term
+trends with the above indicators for the AUDUSD on its monthly chart. Figure 9.1 presents the
+AUDUSD monthly chart from September 1, 1996, through September 2008. The same process applies
+to any time frame.
+
+FIGURE 9.1 AUDUSD Monthly Chart, September 1, 1996, to September 30, 2008
+Source: MetaQuotes Software Corp.
+
+The Thought Process
+Here's a simple example of how we create a simple set of rules. The following example refers to
+Figure 9.1.
+First, start looking for the strong, clear trends—defining a strong trend as one that entered and
+stayed in the DBB buy zone (between the upper two Bollinger Bands) for at least three to four months.
+Alternatively, you could look for well defined trading ranges too, but for this example we'll seek
+clear trends.
+Then we'll look at how the DBBs and EMAs reacted (and interacted with the candles) both before
+and after these started to identify leading and confirming indicators.
+To identify leading indicators, look at what tended to happen before the trend started. If we can
+identify a pattern of behavior for how these indicators interact with price, we'll know how these may
+signal the start of a trend (aka be a leading indicator).
+To identify confirming indicators (to help us trade only real trends not false moves), we look at
+how these indicators acted (and interacted with the candles) at the start of real trends that lasted
+versus those false-start trends that didn't follow through. More specifically:
+To find leading indicators, we're looking for what lines were crossed before or at the start of the
+trend.
+To find confirming indicators, we're looking for what lines were crossed after the successful
+trends got started, and want to see that these same crossings didn't occur for trends that failed (the
+ones that didn't stay in the DBB buy or sell zones for an extended, tradable period).
+So, what do we find with this simple back testing exercise?
+In April 2000 (D), the AUDUSD began a nice long dip into the DBB sell zone (lower two Bollinger
+Bands), our definition of a tradable downtrend. To find possible leading indicators, let's see if our
+
+indicators would have given us any clues in advance that this downtrend would start.
+Starting at the earliest part of the chart to the left, we note that in July 1997 (A) the AUDUSD
+entered the DBB sell zone and stayed there for a strong, very tradable long-term downtrend until it
+rose out of the sell zone in October 1998 (B). The fact that the AUDUSD was already below its 200-,
+50-, 20-, and 10-month EMAs already gave us a clearly bearish sign, but what signaled that the pair
+would enter and remain in its DBB sell zone, our definition of a strong downtrend?
+From July 1997 to October 1998, note that as long as the 10-month EMA was below the 20-month
+EMA and the MACD histogram remained below the signal line (from C to C1), the AUDUSD stayed
+within a strong downtrend, defined as the pair being in its DBB sell zone. So the tentative rules for
+shorting the AUDUSD from studying this period would be that all three of the following conditions
+must be present for us to short the pair:
+1. The AUDUSD is in its DBB sell zone.
+2. The 10-month EMA is below the 20-month EMA (A to B, D to E).
+3. The MACD histogram is below its signal line (C to C1, C2 to C3).
+From April 2000 (D and C2) to August 2001 (E and C3), following these same rules would have
+worked again, keeping you in a profitable AUDUSD short position at any time you entered until the
+final months for most of the downtrend.
+Applying these same three criteria for being in long AUDUSD positions also worked. That is, to be
+long the AUDUSD we would need the following three conditions in place:
+1. The AUDUSD is in its DBB buy zone (F to G): Note this was the first indicator to issue a sell
+signal (price falls below buy zone) and to get us out in April 2004 (G) so we would miss the
+choppy price action that occurred until October 2006 (H).
+2. The 10-month EMA is above the 20-month EMA (F to G).
+3. The MACD histogram is above its signal line (C4), which occurred in December 2006.
+Waiting for this indicator to give us a bullish signal would have kept us from taking any long
+position until then, even though the AUDUSD had entered the DBB buy zone. That's fine; the price
+action from October to December of 2006 was choppy even though the pair was in the buy zone,
+so it was no big loss.
+Again, this example was simplified for illustration purposes. It was also shortened. Normally, we'd
+scroll back and look at multiple past examples of what happened with our indicators before and
+during major trend changes.
+My point was not to give you a complete system for trading the AUDUSD during the time period
+covered. Rather it was to show you the kind of thought process you go through when doing simple
+back testing. If we had wanted to do a full back testing we'd have looked at a longer period, asked a
+lot more questions, and at some point inserted some Fibonacci retracements to see how the pair
+would respond at different retracement levels.
+Here's a final word about manual back testing. In the example we looked at this 9.5-year period all
+at once just to get an initial quick idea of a set of rules that might work and show you the basic thought
+process. Part of your further testing would involve scrolling back in time on the chart, then scrolling
+forward one candle at a time so that you can't see subsequent price movements, and simulating the
+strategy as if you were implementing it in real time. That process helps avoid the temptation to trade
+using hindsight that wouldn't be available in real trading. Remember, you can trade only from the far
+
+right side of the chart. You can't trade from its middle.
+
+Back Testing Is a Tool, Not a Solution
+History doesn't repeat itself—at best it sometimes rhymes.
+—Mark Twain
+Back testing is a valuable tool for any serious trader. However, just because a system seems to have
+worked in the past doesn't mean it will remain effective in the future. Even if you do design a system
+that works, market conditions and the correlations they produce change over time, and because others
+will eventually discover a similar system on their own and eliminate your advantage.
+So by all means learn more about back testing and how to do it better via software. Just know that
+it's only a fallible tool, not a foolproof route to fast riches. Apply full RAMM practices when using
+back tested systems.
+
+INTERMARKET ANALYSIS: READING
+INTERMARKET CORRELATIONS AND
+DIVERGENCES
+Another area for further study will be learning how to do intermarket analysis. A full treatment of this
+topic alone could cover multiple books, big books. However, we just want to introduce this area of
+analysis so you understand what it is, why it's important, and thus why you need to pay attention when
+you read analysts talking about what another market may be telling about what could happen in forex.
+Specifically, we'll introduce how to use price movements in other markets to predict what could
+happen to a given currency pair.
+
+Background
+In essence, intermarket analysis is all about
+Knowing how different assets, asset classes, and markets correlate—that is, whether they tend to
+move in the same direction (positive correlation) or the opposite direction (negative correlation).
+Watching for divergences from those correlations: Those divergences are often leading or
+coincident indicators of changing market conditions. Over time you'll see how some markets tend
+to react before others, and so provide advanced notice of changes from which you can profit.
+We noted in Chapter 2 that currencies can be classified as either risk or safe haven, depending on
+whether they behave like risk or safe haven assets. That is, currencies have either a positive or a
+negative correlation with other risk assets. In fact, virtually every tradable financial instrument can be
+classified as a risk or safe haven asset. For a variety of reasons, most global asset markets share
+some kind of general correlation. That is, they generally move in either the same direction or
+opposite directions, either because:
+Causation and thus correlation: One market acts on another. For example, because most
+commodities are priced in U.S. dollars, if the dollar gets stronger, that puts pressure on
+
+commodity prices and vice versa. This rule doesn't always hold, because there are a variety of
+other forces that influence both commodities and the dollar. Another example, crude oil, is
+usually a risk asset that moves in response to the popular risk asset barometers like the S&P 500.
+However, when oil prices spike suddenly as they did during the Arab Spring of 2011, those
+suddenly much higher prices hurt growth and thus risk assets. Oil was now not only moving in the
+opposite direction of other risk assets, but actually directly driving them higher or lower, not
+merely reacting to macroeconomic data along with them.
+Correlation without causation: Both markets are influenced by the same underlying drivers, either
+in similar or in opposite ways, but aren't influencing each other. For example, when markets are
+feeling optimistic, the classic risk assets like equities, commodities, and higher-yielding and
+commodity-driven currencies all tend to rise together because they're reacting to the same
+things in the same way. Meanwhile, classic safe haven assets like the lower-yielding currencies
+and bonds fall together. When markets are fearful, the opposite happens. Both groups of assets
+are responding to the same good or bad news, just in opposite ways. They are usually not causing
+each other to rise or fall.
+For example, in recent years the USD and equities tend to move in opposite directions, leading
+many ill-informed journalists to blame a rising USD for falling stocks. Typically the flimsy
+rationale was that a rising USD made U.S. exports less competitive. The point is true, but not
+relevant. By the same reasoning, a rising USD should be accompanied by rising stocks in nations
+dependent on exporting to the United States. Yet, in fact, global stock indexes all move together
+with those of the United States, invalidating the above rationale. In fact, the real reason that U.S.
+stocks and the USD move in opposite directions is that stocks are risk assets and the USD is a
+safety asset. By definition they tend to move in opposite directions.
+In fact, there are times when news favors both risk assets and the USD, like when the United
+States reports strong jobs or consumer spending data. This news not only raises optimism about
+U.S. growth (good for stocks), it also raises expectations for U.S. rate increases and reduces the
+chances of additional U.S. stimulus (both bullish for the USD).
+Just be aware that these relationships can and do change over time, as noted earlier with crude oil
+and risk assets.
+When the normal relationships don't apply, it could well be a sign of important trend changes
+coming. Let's look at a few simple examples.

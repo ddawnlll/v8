@@ -87,7 +87,9 @@ monograph build symmetric.
 
 - Spec freeze on the corpus except this plan's own entries: the operator owns
   `docs/` edits; session artifacts stay in `STATUS_REPORT.md` / `RUNLOG.md`.
-- One moving part at a time; complexity budget is a hard cap (rule 14).
+- One moving part at a time; the complexity budget caps simultaneous claims and
+  learned components per pipeline position, never the runtime Expert count
+  (rule 14).
 - No experiment run, no frozen-OOS opening, no `--amend`, no `git add -A`.
 - Determinism: no wall clock inside replay; the three clocks are never
   collapsed.

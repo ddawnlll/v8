@@ -1,0 +1,218 @@
+
+132 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+confirmatory evidence is a necessary condition of a proposition's truth but
+not a sufficient condition. 29 Popper's point was that the absence of necessary evidence is sufficient to establish the falsity of a hypothesis, but the
+presence of necessary evidence is not enough to establish its truth. Having four legs is a necessary condition of a creature being a dog, but the
+presence of four legs is not sufficient to establish that a creature is a dog.
+However, the observation that the creature does not have four legs is sufficient to falsify the contention it is a dog. Popper's logic of falsification can
+be seen as a protection against the confirmation bias that infects informal
+inference (see Chapter 2).
+One final example may help clarify the power of falsifying evidence
+and the weakness of confirmatory evidence. It is the famous problem of
+the black swan posed by philosopher John Stuart Mill (1806-1873). Suppose we wish to ascertain the truth of the proposition: 'All swans are
+white.' Mill said, and Popper concurred, that no matter how many white
+swans have been observed-that is, no matter how voluminous the confirmatory evidence-the proposition's truth is never proven. A black swan
+may lurk just around the next corner. This is the limitation of induction
+that so upset Hume. However, by merely observing a single non-white
+swan, one may declare with certitude that the proposition is false. The
+conditional syllogism below shows that the falsity of the proposition All
+swans are white is based on the valid deductive form falsification of the
+consequent.
+Premise 1: !fit is true that all swans are white, then allfuture observations of swans will be white.
+Premise 2: A nonwhite swan is observed.
+Valid Conclusion: The proposition that all swans are white is false.
+The general form of argument used to test a hypothesis under Popper's method of falsification is:
+Premise 1: If the hypothesis is true, thenfuture observations are predicted to have property X.
+Premise 2: An observation occurs that lacks property X.
+Valid Conclusion: Therefore, hypothesis is false.
+As will be seen in Chapters 4 and 5, this is the logic used to test statistical hypotheses.
+
+l'he .-rovisional and Cumulative Nature of' Scientilic I{nowledge.
+
+One implication of Popper's method of falsification is that all existing sci-
+
+The Scientific Method and Technical Analysis
+
+133
+
+entific knowledge is provisional. Whatever theory is currently accepted as
+correct is always a target for empirical challenge and the possibility of its
+being replaced by a more correct theory always exits. Today Einstein's
+Theory of Relativity is taken as correct. Though its predictions have withstood countless tests, tomorrow a new test may show it to be false or incomplete. Thus, science is a never-ending cycle of conjecture, prediction,
+testing, falsification, and new conjecture. It is in this way that the body of
+scientific knowledge continually evolves toward an ever more accurate
+representation of objective reality.
+In most instances when older theories are replaced, it is not because
+they are proven false so much as they are shown to be incomplete. When
+Newton's laws of motion were replaced by Einstein's theories, Newtonian
+physics was still mostly correct. Within the limited domain of everyday experience, where bodies travel at normal speeds (approximately less than
+90 percent of the speed of light), Newton's laws still held true. However,
+Einstein's theory was correct in a wider domain, which not only included
+the motions of everyday objects, but also objects traveling up to and including the speed of light. In other words, Einstein's theory, which built
+upon Newton's, was more general and thus subsumed it.
+The net result of building upon prior successful ideas (those whose
+predictions have been confirmed) and pruning away wrong ideas (those
+whose predictions have been falsified) is a body of knowledge that continually improves. This cannot be said of any other intellectual discipline,
+where new styles are introduced but where newer is not necessarily
+better. The fact that a scientist in any field of science knows more today
+than even the best one living just a generation ago is beyond debate.
+However, whether gangsta rap is better or worse than Mozart could be
+argued endlessly.
+
+l'he Restriction of Science to l'cstable Statements. Another
+implication of Popper's method is that science must restrict itself to
+testable hypotheses-propositions that generate predictions about observations not yet made. To say that a hypothesis has been tested and has
+survived or has been tested and falsified means that predictions deduced
+from it have either been confirmed or contradicted by new observations.
+The comparison of predictions with new observations is the crucial mechanism that fosters the continual improvement of scientific knowledge. For
+this reason, propositions that do not generate testable predictions must
+be excluded from the domain of scientific discourse.
+The term prediction, in the context of hypothesis testing, warrants
+some clarification, because TA is essentially an enterprise dedicated to
+prediction. When we speak of prediction as it pertains to testing a hypothesis, it does not necessarily mean foretelling the future though the pre-
+
+134 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+dicted observations may indeed lie in the future. Rather, the term prediction refers to the fact that the observations' outcomes are not yet known.
+Predictions made in historical sciences, such as geology, refer to
+events that have already taken place perhaps eons ago. For example, geology's dominant theory, plate tectonics, may predict that specific geologic
+formations that were created millions of years ago would be observed if
+an investigation of some specific location were to be carried out tomorrow. In finance, the efficient market's hypothesis predicts that if a TA rule
+were to be back tested, its profits, after adjustment for risk, would not exceed the risk adjusted return of the market index.
+Once the prediction has been deduced from the hypothesis, the operations necessary to produce the new observations are carried out. They
+may involve a visit to the location of the predicted geologic formation or
+the back test of the TA rule. Then it becomes a matter of comparing prediction with observation. Measuring the degree of agreement between observation and prediction and making the decision about whether the
+hypothesis is left intact or falsified is what statistical analysis is all about.
+What is important from the standpoint of science is that the hypothesis is able to make predictions about observations whose outcomes are
+not yet known. This is what allows a hypothesis to be tested. Observations
+whose outcomes are known cannot serve this purpose because it is always possible to fashion an explanation, after-the-fact that is consistent
+with said observations. Therefore, activities that are unable or unwilling
+to make testable predictions, thus opening them to the possibility of falsification, do not qualify as scientific.
+'I'he Demat'cation I-roblem: Distinguishing Science I".'om .-seudoscience. An important consequence of Popper's method was that it
+
+solved a key problem in the philosophy of science-defining the boundary
+between science and nonscience. The domain of science is confined to
+propositions (conjectures, hypotheses, claims, theories, and so forth) that
+make predictions that are open to refutation with empirical evidence.
+Popper referred to such propositions as falsifiable and meaningful. Propositions that cannot be challenged in this manner are unfalsifiable or meaningless. In other words they do not say anything of substance, something
+that sets up a testable expectation.
+Unfalsifiable propositions may appear to assert something, but, in
+fact, they do not. They cannot be challenged because they do not say, with
+any degree of specificity, what can be expected to happen. In effect, they
+are not informative. Hence, the falsifiability of a proposition is related to
+its information content. Falsifiable propositions are informative because
+they make specific predictions. They may prove to be wrong, but at least
+they say something of substance. A proposition that cannot generate falsi-
+
+The Scientific Method and Technical Analysis
+
+135
+
+fiable predictions essentially says any outcome can happen. For example,
+a weather forecast that says, It will be cloudy or sunny, wet or dry,
+windy or calm, and cold or hot, allows for all possible outcomes. It cannot be falsified. The only thing good that can be said about it is that its
+lack of information is completely obvious.
+The problem is that pseudoscientists and pseudoforecasters are
+clever about the way they word their predictions so as to obscure their
+lack of information and nonfalsifiability. Consider the astrologer's forecast
+"You will meet a tall dark stranger, and your life will be changed." This
+statement is impossible to refute no matter what the outcome. Should you
+ever go back for a refund, you will be given one of two answers: (1) be patient-you will meet the stranger soon, or (2) you already did meet a dark
+stranger and you life is indeed different, but you are oblivious to the
+change. These answers cannot be challenged because the prediction was
+vague. It neither stated when your life would change or in what measurable (verifiable) manner. This is a far cry from the prediction, "Before 7:00
+P.M. next Wednesday you will see a man wearing one red shoe, walking
+east on 42nd Street whistling 'Satin Doll.'" By 7 P.M. next Wednesday, the
+evidence will be in and you will have had the opportunity to evaluate the
+prediction as true or false. Even if the prediction turns out to be false, it
+was at least falsifiable allowing you to decide if future visits to the astrologer are worthwhile.
+The infomercial pitchmen that inhabit late-night television are masters of the meaningless claim. "Wearing our copper bracelet will improve your golf game." What does improve mean? How is it to be
+measured and when? As with the astrologer's forecast, the claim's
+vagueness makes it impossible to deduce a testable (falsifiable) prediction. However, it is quite easy to imagine after-the-fact anecdotal evidence that is seemingly confirmatory. "Holy cow, I feel so much more
+relaxed wearing my copper bracelet. I used get all tensed up before teeing off. Now my drives seem straighter. Last week I almost had a hole in
+one, and I don't curse nearly as much as I used to. My wife even says I
+look more handsome in my golf outfit, and I think my hair has stopped
+falling out." Although meaningless claims invite confirmatory anecdotes,
+they are protected from objective falsifying evidence. The claimant
+never gets nailed and the claim gains support from seemingly confirmational anecdotal reports.
+In contrast, the statement, "Wearing a copper bracelet will increase
+the length of your drives by 25 yards," is informative and meaningful because it generates a testable prediction. You hit 100 golf balls not wearing
+the copper bracelet and determine their average distance. The next day,
+do the same thing while wearing a copper bracelet and get their average
+distance. Repeat this alternating series of experiments for 10 days. If the
+
+136 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+drives on copper-bracelet days are less than 25 yards better, evidence refuting the claim would be in hand.
+Limitations of Popper's Method. As important as Popper's method
+of falsification is to modem science, it has been criticized on a number of
+grounds. Critics assert that Popper's contention that hypotheses can be
+definitively falsified overstates matters. Although the observation of a
+black swan can neatly and logically falsify the universal generalization
+that all swans are White, the hypotheses of real science are far more complex30 and probabilistic (nonuniversal). They are complex in the sense
+that a newly proposed hypothesis rests on numerous auxiliary hypotheses
+that are assumed to be true. Thus, if a prediction deduced from the new
+hypothesis is later falsified, it is not clear whether the new hypothesis was
+in error or one of the many auxiliary hypotheses was incorrect. This proved
+to be the case when the solar system's eighth planet, Neptune, was discovered. The aberrant path of Uranus was not due to flaws in Newton's laws
+but in the auxiliary hypothesis that the solar system contained only seven
+planets. However, when the theory did fail early in the twentieth century,
+it was indeed because of imperfections in Newton's laws. Doing real science is tricky business. TA is a long way from facing these problems because we are still at the at the point of scratching the data for reliable
+predictive rules.
+Moreover, because many of the hypotheses of science are probabilistic, as would be the case in TA, an observation that contradicts the hypothesis can never be taken as certain evidence of falsity. The aberrant
+observation may be a chance occurrence. It is here that statistical analysis
+enters the picture. As will be pointed out in Chapters 4 and 5, the decision
+to reject a hypothesis on the basis of observed evidence runs a certain
+probability of being wrong. Statistics helps us quantify this probability.
+Despite these and other limitations that go beyond our concerns here,
+Popper's contributions to the development of the scientific method have
+been enormous.
+
+The Information Content of Scientific Hypotheses
+To recap, a hypothesis is informative if it can make testable predictions.
+This opens it to the possibility of being found false. Thus, the falsifiability
+of a hypothesis and its information content are related.
+Within the domain of scientifically meaningful hypotheses, there are
+degrees of information content and falsifiability. Some hypotheses are
+more information rich and hence more falsifiable than others.
+When Popper referred to a bold conjecture he was speaking of a
+highly informative hypothesis from which many falsifiable predictions
+
+The Scientific Method and Technical Analysis
+
+137
+
+could be deduced. The scientist's job, therefore, is to continually attempt
+to refute an existing hypothesis and to replace it with an even more informative one. This spurs the improvement of scientific knowledge.
+An information-rich hypothesis makes many precise (narrow ranged)
+predictions about a broad range of phenomena. Each prediction presents
+an opportunity to show the hypothesis is false. In other words, the more
+informative a hypothesis the more opportunities it presents for falsification. In contrast, low information, timid hypotheses make fewer or lessprecise predictions. Consequently they are more difficult to falsify. For
+example, a TA rule that claims high profitability on any instrument in any
+time frame makes a bold and information-rich claim that that could be falsified by showing that it is unprofitable on one market in one time frame.
+In contrast, a method that only claims to be marginally profitable on S&P
+futures on the one-week bar time scale is timid, has low information content, and is hard to falsify. The only opportunity to refute it would be limited to back test of the S&P 500 on a weekly showing that was not at all
+profitable.
+Some TA methods that are seemingly informative are not. Elliott Wave
+Principle is a case in point. On the surface, it bravely proclaims that all
+price movement in all markets over all time scales can be described by a
+single unifying principle. This proposition is seemingly confirmed by the
+ability of EWP practitioners to produce a wave count for any prior segment of price data. In fact, EWP is timid to the point of being meaningless
+because it makes no falsifiable predictions of future price motion. 31
+A second case in point, one more pleasing to the TA community, is the
+Efficient Markets Hypothesis (EMH). In this context, the term efficiency
+refers to the speed with which prices reflect all known and knowable information that is relevant to the future returns of an asset. In an efficient
+market, relevant information is presumed to be reflected in price almost
+instantaneously. EMH comes in three flavors. In descending order of boldness, information content, and falsifiability they are: EMH strong, EMH
+semistrong, and EMH weak.
+EMH strong asserts that financial markets are efficient with respect to
+all information, even private inside information. This version predicts that
+all investment strategies, be they based on an inside tip from the president
+about an impending takeover, or based on public information of a fundamental or technical nature, will be useless in earning market-beating (ex:cess) returns. This most audacious version of EMH is also seemingly the
+most informative and falsifiable because any evidence of abnormal profits
+from any investment strategy whatsoever, irrespective of the type of information or form of analysis used, would be sufficient to refute EMH strong.
+However, because information that is known privately can never be confirmed, this version is not testable in a practical sense.
+
+138 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+

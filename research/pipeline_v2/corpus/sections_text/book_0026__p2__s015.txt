@@ -1,0 +1,274 @@
+
+Sears Holdings Example: Intraday Ascending Triangle
+All price patterns are applicable on all timeframes, as Figure 5.10 reveals, as it shows the 30-minute
+intraday chart of Sears Holdings (SHLD). Patterns even form and complete their targets on
+timeframes as low as the 1-minute chart!
+
+FIGURE 5.10 Intraday Ascending Triangle Example in Sears Holdings—April 2010
+
+The price of SHLD was in a sharp impulse move up from the $106.00 level on April 21 to peak and
+form a line of horizontal resistance at $125.00 from April 23 to May 1. Traders and investors formed
+a horizontal resistance line at the $125.00-per-share level, as they deemed this level to be
+“expensive” to buy shares at that price. However, the level deemed cheap, or the lower support zone,
+began on April 23 with a series of higher lows that formed a clean rising trendline as drawn.
+By May 1, it became clear that price was most likely forming a consolidation pattern that took the
+form of an ascending triangle. However, just as soon as you realized that price was contained within
+a consolidation pattern with a median or fair value price at the $122.00 level, sellers took price
+lower, breaking under not just the lower rising trendline, but the prior swing low of $121.00 per
+share from April 30, triggering an official price pattern short-sale entry trade.
+I used this example to underscore the point that if you were 100 percent convinced that price had to
+rise and had bought shares long while the triangle formed, either because the prior trend was up or
+because you felt that all ascending triangles broke to the upside, you would be trapped in a sharp selloff that began with a morning gap and immediate sell-off that took price from $122.00 to $118.00
+right off the market open. If you regarded this pattern as neutral, you would have avoided this painful
+loss and would be in the right mindset to put on a short-sale trade, if you so desired, to play a range
+breakout trade.
+In this case, the entry was as soon as you could get short once price cleanly broke under the rising
+trendline, which occurred at the $122.00 level. Your most realistic entry came at the $118.00 level,
+which placed a stop likely within the triangle at the $122.00-per-share level or above the upper
+resistance line at $125.00. To project your price target, you would measure the height of the triangle,
+$125.00 minus $116.00 gives us $9.00, and then subtract this value from the price breakout zone at
+the $121.00-per-share level. Subtracting $9.00 from $121.00 gives us a lower price projection target
+of $112.00. In the event that you entered short at $118.00, that left you with a price target distance of
+
+$6.00 with a stop-loss at $122.00, which was $4.00 away. That's not at all an ideal reward-to-risk
+ratio, being $6.00 to $4.00, or one and a half to one.
+This also underscores the point that it is best to enter into a triangle breakout as soon as possible,
+and you could have done so right off the open as price began to trade under $120.00. Shorting exactly
+at $120.00 would have given you a superior reward-to-risk ratio of $9.00 to $2.00, or four and a half
+to one. Every penny matters when you are taking a trade, and the longer you wait for confirmation as
+the price moves toward the target and away from the stop-loss, your reward-to-risk ratio deteriorates.
+Sears Holdings hit its price target of $112.00 per share officially on May 6, 2010, two days after
+the breakout trade triggered. Price actually fell further after this chart ends. Remember, with price
+patterns, generally your stop is at a fixed location and your target is also at a fixed location. The
+closer you enter to where you would locate a stop makes a big difference in your reward-to-risk ratio.
+We will discuss these details when we discuss Edge and Probability in Chapter 8.
+
+USING PRICE PATTERNS IN THE REAL WORLD
+
+Price patterns are important to traders, but they are by no means perfect. If you expect all patterns you
+see on a chart to work perfectly according to textbook standards, you will soon be disappointed.
+However, when you tie price patterns to underlying principles of price behavior, understand that
+patterns offer a brief window of a possible pathway forward to a target in price, and that the edge
+from patterns comes from the low risk/higher reward relationship contained in the inherent stop and
+target placement, you will likely find that trading specific price patterns can be a rewarding practice.
+As is the purpose of this book, all concepts are enhanced through confluence, rather than in
+isolation. Look for as many convergences in principles and price levels as possible before putting on
+a trade. In so doing, you will pass on the sub-par patterns that develop and trade only those that align
+with other price principles or concepts you have learned in your experience. Envision patterns as a
+brief window into the supply/demand relationship that exists among traders of all styles and
+experience levels, similar to the way a candle reveals insights into the current supply/demand
+relationship between buyers and sellers and what that might indicate for the future.
+Keep in mind that some of the best trades come from what we call busted patterns, or patterns that
+grab the attention of a large majority of traders, and then fail, taking the massive stop-losses of those
+who have entered which creates a predictable equal but opposite reaction than is expected. Positive
+feedback loops often develop unexpectedly when a popular price pattern fails as traders are trapped.
+For now, study these patterns along with additional patterns you have learned in the trading
+literature, but never take a pattern at face value or believe with 100 percent certainty that the pattern
+will resolve exactly as the textbooks say it will. We trade in the real world, not the theoretical, and
+we need to adjust our expectations accordingly and be nimble without being biased to a single
+position.
+We have briefly touched on how Fibonacci retracements can enhance a bull flag trade, but
+Fibonacci retracement grids go far beyond that application. Our next chapter explains how to draw
+and apply Fibonacci retracements within the context of trending environments to locate hidden
+support or resistance confluence levels in price.
+
+CHAPTER 6
+Fibonacci Tools
+So far, we have discussed price principles, price patterns, and basic candlestick charting as a means
+to discover higher probability trade setups. Now we move into our first advanced price charting
+method, known as Fibonacci Analysis. Traders use basic Fibonacci retracements to find support or
+resistance in a trending market, and these key prices can help uncover hidden points of potential
+support or resistance levels not seen using basic charting methods. Most software programs or
+charting web sites make Fibonacci tools available to traders, and thus increased the popularity of
+using even simple Fibonacci techniques.
+In this chapter, we will discuss how to use Fibonacci retracements to find key support or resistance
+levels that may form alignment with other price levels, how to uncover hidden confluences of
+Fibonacci retracement levels, and how even simple Fibonacci tools can help confirm other methods
+of identifying price support or resistance, which leads to enhanced trade entry and exit.
+
+WHAT IS FIBONACCI IN TRADING?
+Traders in 2010 still use insights from a number series described by Leonardo Fibonacci of Pisa, an
+Italian mathematician from the thirteenth century as described in his book Liber Abaci (which
+translates as “The Book of the Abacus”). Most modern mathematics students know the Fibonacci
+sequence as the classic 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, and so on, where the next number
+in the sequence is the result of adding the prior two numbers together. For example, 5 plus 8 equals
+13, and 8 plus 13 equals 21. The Fibonacci sequence initially explained growth and decay sequences
+in nature, such as the growth in generations beginning with a single pair of rabbits, and has now been
+expanded to include larger growth and decay cycles of much larger structures, including financial
+markets.
+The numbers themselves are not as important to modern traders, who are more concerned with the
+specific ratio between the numbers that develops the idea behind the Fibonacci charting strategies
+used today. Dividing one number by the immediate larger number in the sequence results in the ratio
+0.618, such as the number 55 divided by 89 equals 0.618, which forms a stable relationship when
+dividing any number by one Fibonacci number higher. With the exception of the beginning numbers in
+the sequence (5 divided by 8 is 0.625, any number in the infinite sequence above 34 results in the
+0.618 relationship). The 0.618 number becomes important when using the Fibonacci retracement tool
+common on most software programs.
+Dividing a given number by the next smaller number in the sequence results in the ratio 1.618, as in
+the example 89 divided by 55 equals 1.618, or 55 divided by 34 equals 1.618. This relationship and
+ratio holds true no matter which number in the sequence is divided by a lower number. As such, the
+ratio of one number to the next Fibonacci number is 1.618 times itself, or stated differently, to identify
+the next larger number in the series, one then multiplies a current number by 1.618, as in the example
+
+89 times 1.618 equals 144. The ratio 1.618 has importance for traders looking to use Fibonacci price
+projection or extension tools on their charting software to uncover potential range expansion price
+targets.
+The application to modern traders has less to do with the actual Fibonacci numbers than the 0.618
+and 1.618 relationships themselves. As explained by Charles Kirkpatrick and Julie Dahlquist in
+Technical Analysis: The Complete Resource for Financial Market Technicians (2007), the .618 and
+1.618 ratio between numbers holds true regardless of the departure point as long as the two numbers
+sum to the third number in an infinite sequence. Kirkpatrick and Dahlquist begin their example with
+the random whole numbers 14 and 285 as a departure point instead of the 1, 1, 2, 3, 5, 8 numbers that
+begin the official Fibonacci sequence. Over a period of 7 to 8 iterations of adding the original two
+numbers, the ratio converges to the same 0.618 relationship between a given number and the next
+larger digit, and the 1.618 ratio of a given number and the next smaller digit in the sequence.
+Try it for yourself with any two random starting digits, such as in the example 25 and 50. 25 + 50 =
+75; 75 + 50 = 125; 125 + 75 = 200; 200 + 125 = 325; 325 + 200 = 525; 525 + 325 = 850; 850 + 525
+= 1,375 to infinity. The sequential number 850 divided by 1,375 equals 0.618, and the sequential
+number 850 divided by the higher sequential number 1,375 equals 1.618. The application to the
+markets and beyond therefore comes from the mathematical ratio itself and not from the starting
+numbers.
+Now that we have a basic understanding of the 0.618 and 1.618 ratio numbers which are important
+not only to mathematicians, let us now move into the realm of describing how modern traders use
+these ratios to create Fibonacci tools to uncover potential turning points in the market.
+
+FIBONACCI RETRACEMENTS
+While many traders are familiar with Fibonacci tools, others have never heard of the concept as it
+relates to technical analysis or charting. The simplest way to apply the 0.618 ratio is in the common
+Fibonacci retracement tool on most charting software programs. Recall that in an upward trend move,
+price forms higher highs and higher lows, or stated differently, price forms upward impulses and
+downward retracements. Traders anticipate where these retracement swings to the downside will
+stop and then price will resume rising in its established uptrend. Some of the easiest trades come from
+buying pullbacks in an uptrend to a key support level, such as a short-term moving average, rising
+trendline, or prior price support levels.
+Another trading tool is the simple Fibonacci retracement tool, which is designed to find the end of a
+downward retracement into support so that traders may buy shares as price begins to rise upward
+from a potential support level. Traders use the 0.618 ratio and derivations of this ratio such as the
+popular 0.382 ratio to find potential turning points in a market. Traders use percentages such as the
+61.8 percent retracement level and the 38.2 percent retracement level. The 38.2 percent level derives
+from the remainder or what is left over after measuring 61.8 percent of a move. In terms of ratios,
+think of the 0.382 as being left-over after finding the 0.618 segment, or specifically 1 minus 0.618
+equals 0.382. This is why you see the 38.2 percent retracement on standard Fibonacci retracement
+tools. While not officially a Fibonacci ratio, almost all traders pay attention to the 50 percent
+retracement level in addition to the 61.8 and 38.2 percent levels, which is why most default
+retracement tools show three lines in the chart. Thus, the 61.8 percent, 38.2 percent, and the 50
+percent retracement lines are what you can expect to see most frequently when doing any type of
+
+Fibonacci retracement analysis on the price chart.
+
+Drawing Fibonacci Retracement Grids
+Most software programs incorporate Fibonacci tools into their basic or free set of indicators, such as
+the charting web sites StockCharts.com and FreeStockCharts.com. The following describes the
+purpose and rules for drawing a classic Fibonacci retracement grid on a chart to reveal potential
+support levels in an established uptrend.
+The purpose for drawing a Fibonacci Retracement Grid is to find potential support or turning points
+that will end a downward retracement swing in an established uptrend. The trader looks to buy shares
+if price forms a reversal candle at a major Fibonacci retracement level, or if a Fibonacci Level forms
+a price confluence with a moving average, trendline, or other form of support.
+The following steps represent the sequence to draw a Fibonacci Retracement Grid:
+1. Establish that price is in a confirmed uptrend
+2. Observe a recent price swing high and note that price is retracing down from a recent
+swing high in price
+3. Use the Fibonacci Retracement tool to start the grid by clicking on the most recent swing
+low in price and dragging the grid to the most recent swing high in price
+4. Observe the 38.2, 50.0, and 61.8 percent retracement levels the software labels on the
+price chart for potential downside targets and areas to identify potential price confluences
+with other methods, with the purpose being to buy when price has retraced into support and
+may be resuming the established uptrend
+For finding overhead resistance levels in a downtrend, repeat the procedure above but start the
+Fibonacci grid at the most recent swing high in price in an established downtrend and end the grid at
+the most recent new swing low in price to uncover the 38.2, 50.0, and 61.8 percent overhead
+resistance levels. Look to sell short when price retraces into one of these overhead resistance levels,
+particularly if the level forms a confluence with a moving average or trendline along with a reversal
+candle.
+
+Examples of Identifying Price Support
+The following examples of Fibonacci retracement grids designed to identify price support will be
+helpful in understanding this concept. Keep in mind that the technique will be opposite for finding
+overhead resistance levels to short-sell in a downtrend. Let us start with a pure Fibonacci example
+using a theoretical uptrend beginning at $1.00 and moving to $100.00 (an extreme example), and we
+want to know the potential retracement levels of the prior swing from $50.00 to $100.00. Figure 6.1
+shows the established uptrend and the recent retracement to a lower support level, where a Fibonacci
+Retracement grid can be helpful.
+FIGURE 6.1 A Pure Price Example of a Fibonacci Retracement Grid
+
+In Figure 6.1, we first observe an uptrend as evidenced by higher price highs and higher price lows.
+The most recent swing took price from a swing low of $50.00 to the most recent swing high of
+$100.00 per share. The most recent swing was a $50.00 move to the upside, and we want to know
+where potential levels of support might be, and so we use the Fibonacci retracement tool.
+Starting with the most recent $50.00 swing low, we begin our grid and then end the grid with the
+most recent swing high at $100.00. The software then draws the 38.2, 50.0, and 61.8 percent
+retracement levels. Some software programs might draw the grid starting with the high and ending
+with the low, so be sure to consult the user manual of the charting software program you use. The goal
+is to have the 38.2 percent retracement in an uptrend be near the recent high in an uptrend to find
+support, and for the 38.2 percent retracement to be near the recent low in a downtrend to find
+resistance.
+The 50.0 percent retracement is the easiest to understand, as this is the halfway point of the prior
+swing. In a strong uptrend, price can retrace up to 50 percent of the prior swing to be considered
+healthy. However, any price retracement greater than 50 percent of the prior move could signal a
+deeper than normal retracement is underway, and that the next level to expect support is at the 61.8
+percent level.
+If price retraces greater than 61.8 percent of the prior move, then many traders would be
+comfortable stopping out in anticipation that price was forming a reversal swing to the downside
+instead of a standard retracement to test lower support levels. As such, many traders regard the 61.8
+percent level as a very important level to watch as a boundary line to determine the potential for a
+
+reversal to form instead of a retracement.
+In this example, the price swing is $50.00. Half of this value is $25.00, and when either subtracted
+from the $100.00 high or added to the $50.00 swing low, the result is $75.00 per share, which is
+conveniently labeled on the chart. In this example, the $75.00 level also forms a confluence with the
+most recent prior swing high, meaning that we have a confluence of support from the 50 percent
+retracement grid and a prior swing high. If price retraces to this level and a reversal candle or a
+positive momentum divergence forms at the $75.00 confluence support level, we would be interested
+in buying the market to anticipate a resumption of the uptrend, leaving us to profit from any move to
+the upside from an expected support level.
+Other than the 50 percent halfway retracement level, we then turn to the two Fibonacci Levels as
+drawn by the retracement grid, starting with the 38.2 percent line which appears at $80.90 in this
+example. It is possible that price will continue retracing downward and find support at this higher
+retracement level, and we might want to buy the market if we start to see signs of a reversal forming
+at the $81.00 level in the form of positive divergences or reversal candles. We would also look for
+any rising trendlines or short-term moving averages such as the 20-period simple or exponential
+moving average to align at the $81.00 level. If so, we would consider buying the market at the 38.2
+percent Fibonacci retracement price of $80.90.
+The final well-known Fibonacci-based retracement zone comes in at the 61.8 percent retracement
+level. The 61.8 percent level reflects the 0.618 ratio of the recent $50.00 swing to the upside, such
+that $50.00 (the distance of the prior swing) times 0.618 (the Golden Ratio) equals $30.90. Taking the
+swing high at $100.00 and subtracting $30.90 gives us the 61.8 percent retracement at $69.10. As a
+cross-check, adding this same value to the $50.00 swing low gives us the $80.90 price, which is the
+same as the 38.2 percent retracement level.
+After observing price as being in an established uptrend and finding the price retracing downward
+from the key swing high of $100.00, we use our Fibonacci retracement tool to find the $80.90,
+$75.00, and $69.10 price levels to be potential support zones. Should other non-related methods, such
+as moving averages, trendlines, or prior price support levels align with one or more of these levels,
+then we could expect increased odds of a potential turn in price back to the upside, giving us a
+potential trade setup.
+While specific trade execution tactics will be discussed in Chapter 8, we would confirm a trade
+entry if we observed a reversal candle such as a bullish hammer, bullish engulfing, or doji candle at
+the expected support level. In addition, if we observed a positive momentum divergence either on the
+same timeframe or on a lower timeframe, odds would be increased for profitable trade setup. No
+method alone can guarantee success, but finding confluences across multiple non-correlated methods
+increases the odds of a successful trade outcome and helps with the accuracy edge in our strategies.
+
+UTX Daily Example
+I n Figure 6.2, we see a real example of a Fibonacci retracement grid and the outcome of a deep
+retracement of a prior swing to new highs in United Technologies (UTX) in mid-2007.
+FIGURE 6.2 Daily Chart of a Fibonacci Retracement Grid in United Technologies during mid-2007
+
+Although not specifically showing it, United Technologies was in an uptrend since the 2003 lows
+and had recently formed a key swing high just shy of $78.00 per share. In July, price began a
+downswing to test lower levels, and nimble traders drew the following Fibonacci Retracement grid
+to find potential support levels to watch for a potential entry. Initially, price found support in early
+August at the 38.2 percent level at $72.41, but after a week of trading higher, price then suddenly fell
+to the deeper potential support level of the 61.8 percent retracement at $69.06. Traders often place
+stop-losses under the 61.8 percent level of a retracement, and the United Technologies chart in Figure
+6.2 is a good example of how this can be a helpful tactic for those who were bullish on United
+Technologies.
+The candle on August 16, 2007 took price sharply lower in a sudden gap lower as price fell
+throughout the intraday trading session. However, by the close of the day, buyers found that the 61.8
+percent retracement level contained the low of the trading day, and also the retracement lower as a
+bullish hammer candle formed at the close of the session. Traders associate bullish hammer candles,
+with the long lower shadow reflecting price rejection of lower prices, with price reversals. True to
+its bullish signal, the hammer candle preceded the next upswing in price as buyers took price back
+above the 38.2 percent retracement level and later to new highs above $78.00 in a resumption of the
+uptrend, though this chart does not show the new highs which formed a final swing high of $82.50 on
+October 2, 2007, a few weeks after the end of this chart.

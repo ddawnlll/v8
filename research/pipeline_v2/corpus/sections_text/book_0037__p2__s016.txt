@@ -1,0 +1,177 @@
+
+Dual Momentum Investing: An Innovative Strategy for Higher Returns with Lower Risk 
+
+ NOTES 
+ P REFACE 
+         1 . “Why Buy and Hold Doesn’t Work Anymore,” Money Magazine , March 2012. 
+         2 . Fama and French (2008). 
+ C HAPTER 1 
+         1 . For more than you could ever want to know about the first index mutual fund, see John Bogle’s write-up at http://www.vanguard.com/bogle_site/lib/sp19970401.html . 
+         2 . Unsustainable growth rates assumptions, such as those occurring in bubbles, challenge rational expectations that underlie the efficient market hypothesis. 
+         3 . In Bachelier’s work, we find the Chapman-Kolmogorov-Smoluchowski equation for continuous stochastic processes, derivation of the Einstein-Wiener Brownian motion process, and recognition that this process is a solution for the partial differential equation for heat diffusion. Bachelier also developed the rudiments of Markov properties, Fokker-Planck equations, Ito calculus, and Doob’s martingales. 
+         4 . Lo later coauthored a book called A Non-Random Walk Down Wall Street as a rejoinder to Burton Malkiel’s popular efficient market tome, A Random Walk Down Wall Street . 
+         5 . See http://www.berkshirehathaway.com/letters/1988.html . 
+         6 . The Federal Reserve Bank of New York organized a $3.62 billion bailout of LTCM in order to avoid a collapse of Wall Street. In his book When Genius Failed , Lowenstein (2000) tells the interesting story of the dramatic rise and fall of LTCM, which had two Nobel laureates on its board. 
+         7 . See C. Munger, “A Lesson on Elementary Worldly Wisdom as It Relates to Investment Management and Business,” Lecture at the University of Southern California, Marshall School of Business, 1994. 
+         8 . See D. Sutton, “The Berkshire Bunch,” Fortune , October 1998. 
+         9 . Speech at the Boston Security Analysts Society, November 15, 2005. 
+       10 . See Fama and French (2008). 
+ C HAPTER 2 
+         1 . See O’Neil (2009), p. 174. 
+         2 . See Covel (2007), The Complete Turtle Trader: How 23 Novice Investors Became Overnight Millionaires . 
+         3 . See Schwager (2012), pp. 151–152. 
+         4 . See “The Whipsaw Song,” https://www.youtube.com/watch?v=O0yZG6eoahU . 
+         5 . See Fama and French (1988), Lo and MacKinlay (1988), and Jegadeesh (1990). 
+         6 . For U.S. equities, see Fama and French (2008); for developed markets, Rouwenhorst (1998), Chan, Hameed, and Tong (2000), and Griffen, Ji, and Martin (2005); for emerging markets, Rouwenhorst (1999); for industries, Moskowitz and Grinblatt (1999) and Asness, Porter, and Stevens (2000); for equity indexes, Asness, Liew, and Stevens (1997); for global government bonds, Asness, Moskowitz, and Pedersen (2013); for corporate bonds, Jostova et al. (2013); for commodities, Pirrong (2005) and Miffre and Rallis (2007); for currencies, Menkoff et al. (2011) and Okunev and White (2000); for real estate, Beracha and Skiba (2011). 
+         7 . See Antonacci (2012), Asness et al. (2013), and King, Silver, and Guo (2002). 
+         8 . See Fama and French (2008). 
+         9 . See http://papers.ssrn.com/sol3/DisplayAbstractSearch.cfm . 
+ C HAPTER 3 
+         1 . For more in-depth information on the methods of modern finance, see Ilmanen (2011) and Meucci (2009). 
+         2 . These assumptions are that portfolio returns are normally distributed or that investors have a quadratic utility function. Quadratic utility implies unrealistic increasing absolute risk aversion, meaning you become more risk averse as your wealth increases. The popular Sharpe ratio relies on these same assumptions. 
+         3 . See Ang (2012) and Jacobs, Müller, and Weber (2014). 
+         4 . When someone asked Markowitz how he invests his own money, Markowitz said he keeps half in a stock index fund and half in bonds. 
+         5 . They were Jack Treynor, William Sharpe, John Lintner, Jon Mossin, and later, Fischer Black. 
+         6 . There are now robust methods to correct for autocorrelation and heteroscedasticity. See Newey and West (1987). 
+         7 . The lead author, Campbell Harvey, was a former editor of the prestigious Journal of Finance . The title of this working paper, “… and the Cross-Section of Expected Returns,” is a tongue-in-cheek reference to more than 50 research papers submitted to the journal that included this line in their title, beginning with the seminal one by Fama and French (1992) that started the whole process of factor modeling. 
+         8 . A lognormal distribution has fatter tails than a normal distribution and is therefore a better match to the true distribution of stock prices, which have a fat left tail and negative skew. 
+         9 . Mandelbrot gained prominence later outside of finance for his work with fractal geometry. 
+       10 . See Lowenstein (2000), p. 236. 
+       11 . Heilbroner is author of The Worldly Philosophers: The Lives, Times, and Ideas of the Great Economic Thinkers , which is the second bestselling economics text of all time, just behind Samuelson’s Economics . 
+       12 . See http://icifactbook.org/ . 
+ C HAPTER 4 
+         1 . Both norepinephrine and cortisol prepare the body for the fight-or-flight response to danger. For more on this, see Zweig (2007). 
+         2 . See also “A Survey of Behavioral Finance,” by Barberis and Thaler (2002). 
+         3 . See Fox (2009), p. 298. 
+ C HAPTER 5 
+         1 . See Dimson, Marsh, and Stauton (2014). 
+         2 . Non-U.S. long-term government bonds had an annualized real return of 1.6%, versus 4.5% for non-U.S. equities from 1900 through 2013, as per Dimson et al. (2014). 
+         3 . Available from Morningstar, Inc. 
+         4 . See Siegel (2014). 
+         5 . See Dimson et al. (2014). 
+         6 . See http://www.econ.yale.edu/~shiller/data.htm . 
+         7 . My paper “Absolute Momentum: A Simple Rule-Based Strategy and Universal Trend-Following Overlay,” is included in this book as Appendix B . It includes a risk parity approach using only a 40% permanent allocation to fixed income, which is made possible due to absolute momentum. 
+         8 . Non-U.S. investors have generally had a more universal approach toward investing. 
+         9 . See Dimson et al (2014). 
+       10 . Currencies reflect relative exchange rate differences more than a buy-and-hold premium. 
+       11 . See Zaremba (2013). 
+       12 . See Inker (2010). 
+       13 . See also Li, Zhang, and Du (2011). 
+       14 . One might still consider exposure to certain commodity risk factors if one has a way to identify, isolate, and utilize them. See Blitz and De Groot (2014). 
+       15 . I use DJ-UBSCI instead of GSCI because DJ-UBSCI constrains each commodity sector to no more than one-third of the index, whereas the energy sector allocation in GSCI can be as high as 60–70%. 
+       16 . Nominal annual returns were 4.84% with a standard deviation of 10.2 and a Sharpe ratio of 0.16. 
+       17 . They developed a method to determine the false discovery rate used to adjust for data-snooping bias. 
+       18 . See Dimson et al. (2014). 
+       19 . See https://personal.vanguard.com/us/insights/investingtruths/investing-truth-about-cost . 
+       20 . See 1996 Annual Report, Chairman’s Letter, Berkshire Hathaway, Inc. 
+       21 . See “A Conversation with Benjamin Graham” at http://www.bylo.org/bgraham76.html . 
+       22 . Skewness relates to the symmetrical characteristics of the return distribution. Positive skewness of returns implies greater variance of positive returns, while negative skewness implies greater variance of negative returns. 
+       23 . See Asness et al. (2013) and Moskowitz, Ooi, and Pedersen (2012). 
+ C HAPTER 6 
+         1 . BlackRock (owner of iShares) and JPMorgan Chase have also switched over to the term “strategic beta.” 
+         2 . Morningstar found the alpha of PRF to be negative when using a multifactor framework incorporating size, value, momentum, and quality. 
+         3 . See http://morningstar.com . 
+         4 . At the CFA Institute Annual Conference in May 2014, Nobel laureate William Sharpe remarked, “When I hear smart beta, it makes me sick … . I don’t think it will work in the future.” 
+         5 . See Haugen and Baker (1991). 
+         6 . See Chordia, Subrahmanyam, and Tong (2013), and McLean and Pontiff (2013). 
+         7 . Representative of these are Israel and Moskowitz (2013), Fama and French (2008), and Schwert (2002). 
+         8 . Warren Buffett has always favored highly profitable companies with low capital requirements, which is consistent with the factor loadings of this new Fama and French model. 
+         9 . Betas are 1.08 for momentum, 1.27 for value, and 1.26 for size. Residual volatilities are 7.60 for momentum, 11.05 for value, and 11.30 for size. Annual information ratios are 0.73 for momentum, 0.26 for value, and 0.19 for size. 
+ C HAPTER 7 
+         1 . See “2014 Quantitative Analysis of Investor Behavior,” Dalbar, Inc. 
+         2 . See http://www.curatedalpha.com/2011/curated-interview-with-ed-seykota-from-market-wizards/ . 
+         3 . There is significant positive auto-covariance between a security’s excess future return and its past excess return. 
+         4 . Lo and MacKinlay (1988) had to wait almost two years to have their paper on technical trading rules accepted, despite the soundness of their research. 
+         5 . See Brock, Lakonishok, and LeBaron (1992), Lo and MacKinlay (1999), Lo, Mamaysky, and Wang (2000), Zhu and Zhou (2009), Han, Yang, and Zhou (2011), and Han and Zhou (2013). 
+         6 . See Schwager (2012), p. 137, 
+         7 . Antonacci (2011), second place winning paper, 2011 Wagner Awards. 
+         8 . One should calculate Sharpe ratios using average monthly returns and monthly standard deviations rather than annualized figures. Some use compound annual growth rates (CAGR) instead of average returns when calculating Sharpe ratios. This double counts the effect of volatility. 
+         9 . See “Right Tail Information in Financial Markets” by Xiao (2014). 
+       10 . See Zakamouline and Koekebakker (2009) or Bacon (2013). 
+       11 . There are many other reward-to-risk measures, such as the Omega ratio, Kappa 3 ratio, and Rachev ratio. See Bacon (2013) for an extensive list. 
+       12 . Trend-following methods often tend toward positive skewness. 
+       13 . See Gray and Vogel (2013). 
+       14 . Ibid. 
+       15 . Daily drawdown would, of course, be larger. 
+ C HAPTER 8 
+         1 . Four momentum-based products available to the public make use of 12-month momentum. AQR Capital Management LLC, QuantShares, BlackRock, and SummerHaven Index Management are the index providers for these. 
+         2 . The start date of the Barclays U.S. Aggregate Bond index is January 1, 1976. For dates prior to January 1976, we substitute the Barclays U.S. Government/Credit Bond Index, which tracks U.S. aggregate bonds closely. 
+         3 . From 1926 on, the average annual return of intermediate- and long-term bonds has been approximately the same, while the standard deviation of intermediate bonds has been 4.25 versus 7.65 for long-term bonds. 
+         4 . All indexes used are on a total return basis that includes dividend distributions. 
+         5 . There are four brokerage firms with commission-free ETFs that could be used with GEM. 
+         6 . If we leave out emerging markets by using MSCI World ex-U.S. instead of ACWI ex-U.S., average annual return is 17.0, standard deviation is 12.54, Sharpe ratio is 0.84, and maximum drawdown is –22.72. 
+         7 . Negative skewness is an indicator of left tail risk. Skewness over the entire data period is –1.05 for ACWI, –0.93 for absolute momentum, –0.54 for relative momentum, and –0.61 for GEM. 
+         8 . See http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html . 
+         9 . ETFs usually have no capital gain distributions, while mutual funds are required to pass through net capital gains when fund managers sell their holdings. 
+       10 . See http://stockcharts.com/freecharts/perf.php . 
+       11 . One can trade commission-free at Fidelity using iShares ETFs having the same 10 basis points average expense ratio, but its non-U.S. fund has less trading volume than the Vanguard fund. The average annual expense ratio of similar Schwab ETFs is only 6 basis points, but they have significantly less liquidity than the Vanguard funds. 
+       12 . Tobin came up with his separation theorem in 1958, shortly after Markowitz published his work on MVO. 
+ C HAPTER 9 
+         1 . See http://www.forbes.com/sites/davidleinweber/2012/07/24/stupid-data-miner-tricks-quants-fooling-themselves-the-economic-indicator-in-your-pants/ . 
+         2 . From talks given at Cornell in 1964 as part of the Messenger Lecture series. 
+         3 . See Cooper (2014). 
+         4 . There are now 88 years of data in the CRSP database. 
+         5 . An advantage of using the false discovery rate is its robustness with respect to cross-sectional dependencies. For more on this, see Barras et al. (2010) and Benjamini, Krieger, and Yekutieli (2006). 
+         6 . Galton discovered the concepts of standard deviation, correlation coefficient, and regression to the mean. 
+         7 . CAPE has been above 20 and overvalued for almost all of the past 20 years. For more on this subject, see http://philosophicaleconomics.wordpress.com/2014/06/08/sixpercent/ . 
+         8 . See AQR Capital Management LLC, http://www.aqrindex.com . 
+         9 . This paper does a good job of debunking some common myths and misconceptions about momentum. 
+       10 . See Booth and Fama (1992) for an analysis of rebalancing profits. 
+ C HAPTER 10 
+         1 . Someone actually interviewed Madoff in federal prison, where he is serving 150 years for securities fraud, to ask his investment recommendations: http://www.valuewalk.com/2013/06/madoff-recommends-index-funds/ . 
+         2 . This applies to bonds as well as stocks. See Blake, Elton, and Gruber (1993). 
+         3 . According to Gennaioli, Shleifer, and Vishny (2012), investors pay excessive fees to active managers who underperform because trust in outside managers reduces investors’ perception of investment risk. 
+         4 . For more on experts versus algorithms, see Tetlock (2005). 
+         5 . For other examples of quantitative models dominating over experts, see “Global Equity Strategy: Painting by Numbers—An Ode to Quant” by James Montier. http://www.thehedgefundjournal.com/node/7378 . 
+         6 . From his 2010 MIT speech, “Mathematics, Common Sense, and Good Luck: My Life and Career,” http://video.mit.edu/watch/mathematics-common-sense-and-good-luck-my-life-and-careers-9644/ . 
+         7 . See http://www.traderslog.com/richard-driehaus-profile/ . 
+         8 . Adapted from the traditional song “The Great Rock Island Route” by J. A. Roff (1882). 
+ A PPENDIX B 
+         1 . There are no transaction costs deducted for monthly rebalancing of the momentum or any benchmark portfolios. 
+         2 . Cowles and Jones (1937) were the first to point out the profitable look-back period of 12 months using U.S. stock market data from 1920 through 1935. Moskowitz et al. (2012) also found a 12-month look-back period best when applying absolute momentum to 58 liquid futures markets from 1969 through 2009. 
+         3 . For the 10 years ending December 2012, the monthly correlation of the absolute momentum 60/40 portfolio to the S&P 500 Index was 0.53, compared to a correlation of 0.87 for the normal 60/40 portfolio to the S&P 500 Index. 
+         4 . Data is from the Robert Shiller website: http://www.econ.yale.edu/~shiller/data.htm . 
+         5 . Some use covariance instead of volatility in order to take into account asset correlations. 
+         6 . DeMiguel, Garlappi, and Uppal (2009) test 14 out-of-sample allocation models on seven datasets and find that none has higher Sharpe ratios or higher certainty equivalent returns than equal weighting. Gains from optimal diversification with more complicated models are more than offset by estimation errors. 
+         7 . We use gold instead of commodities because of the possible lack of risk premia and substantial front-running rollover costs associated with commodity index futures (Daskalaki and Skiadopoulus 2011; Mou 2011). 
+         8 . Trend-following methods can also reduce negative skew and associated left tail risk (Rulle 2004). Negative skew can be especially problematic when there is leverage. Absolute momentum may reduce or eliminate negative skew. 
+         9 . Elimination of Treasury bill holdings in lieu of borrowing would reduce borrowing costs. We have not accounted for this cost saving. 
+       10 . See http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html .
+
+Dual Momentum Investing: An Innovative Strategy for Higher Returns with Lower Risk 
+
+ Praise for Dual Momentum Investing 
+ This is an excellent book on the various forms of price momentum: why they work, including a very clever way to use them. I highly recommend investors read this book. 
+ —James P. O’Shaughnessy, author, What Works on Wall Street ; Chairman and CEO, O’Shaughnessy Asset Management 
+ Gary Antonacci takes us on a comprehensive tour of investment methods, exploring their strengths and weaknesses, and lays out a strong case for combining absolute and relative momentum. I consider Dual Momentum Investing an essential reference for system designers, money managers, and investors. 
+ —Ed Seykota 
+ I was familiar with Antonacci’s writing talent when he won first place in the 2012 NAAIM Wagner Paper contest, which I chair. Dual Momentum Investing is a treasure of well-researched momentum-driven investing processes. After a thorough and enlightening review of historical momentum writings and a brief, critical review of modern portfolio theory, he clearly shows a number of different methods that anyone who is serious about a long-term strategy will find easy to implement. This is one of those five-star books; it is logical and easy to grasp. 
+ —Gregory L. Morris, Chief Technical Analyst and Investment Committee Chairman, Stadion Money Management, LLC; author, Investing with the Trend 
+ In Dual Momentum Investing , Gary Antonacci presents a clear and scholarly sound case for the success of a simple momentum-based strategy. It is easy to implement, yet its quantitative nature helps you avoid your own behavioral biases. Give it a try; you’ll be hooked! 
+ —John Nofsinger, PhD, Seward Chair of Finance, University of Alaska Anchorage; author, The Psychology of Investing 
+ Gary Antonacci’s Dual Momentum Investing is what happens when “Ed Thorpe’s Beat the Dealer meets Seth Klarman’s Margin of Safety .” Dual Momentum presents a thoughtful and tantalizing “do what you know and know what you’re doing” investment process. This is an ambitious and must-have book. 
+ —Claude Erb, retired Managing Director, TCW Group, Inc. 
+ This is a must-read for both individual investors as well as financial advisors. It will forever change the way you think about developing investment and asset allocation strategies. 
+ —Dr. Bob Froehlich, retired Vice Chairman, Deutsche Asset Management 
+ Gary Antonacci provides a fantastic and valuable viewpoint of dual momentum investing. This book is highly informative, substantive, and readable for the sophisticated investor. Gary presents a well-crafted balance between academic findings and application of this emerging topic. 
+ —Victor Ricciardi, Coeditor, Investor Behavior: The Psychology of Financial Planning and Investing 
+ Few authors can review the breadth of competing investment theories and practices in such an accessible manner. Even fewer can make their own contributions. Gary Antonacci’s Dual Momentum Investing achieves both. 
+ —Jerry Waldron, PhD, former Assistant Professor of Finance, University of Memphis and Assistant Professor of Management, New York University Stern School of Business 
+ Gary Antonacci’s book Dual Momentum Investing opens up a secret world—the power of momentum investing—that has been hidden in plain sight for decades. 
+ —Kurt Brouwer, Chairman, Brouwer & Janachowski, LLC
+
+Dual Momentum Investing: An Innovative Strategy for Higher Returns with Lower Risk 
+
+ PREFACE 
+          Profit in the share market is goblin treasure; at one moment, it is carbuncles, the next it is coal; one moment diamonds, and the next pebbles. Sometimes they are the tears that Aurora leaves on the sweet morning’s grass; at other times, they are just tears. 
+ — José de la Vega , Confusion of Confusions, 1688 
+ A CCORDING TO THE RESPECTED MIT financial economist Andrew Lo (2012), “Buy and hold doesn’t work anymore. The volatility is too significant. Almost any asset can suddenly become much more risky.” 1 Even Warren Buffett’s Berkshire Hathaway, Inc. lost nearly 50% of its market value on two separate occasions since 1998. 
+ Mohamed El-Erian, former head of PIMCO, said, “Diversification alone is no longer sufficient to temper risk. You need something more to manage risk well.” Diversification has long been called the only free lunch in investing. Now somebody needs to pay for that lunch. Because financial markets have become progressively more integrated and correlated, multiasset diversification can no longer protect investors from severe market losses. Such losses can cause investors to overreact and convert temporary setbacks into permanent ones by closing out their investments prematurely. 
+ What we need now is a new paradigm that dynamically adjusts to market risk and keeps us safe from the vagaries of today’s highly volatile markets. We need a way to earn long-term above-market returns while limiting our downside exposure. This book shows how momentum investing can make that desirable outcome a reality. 
+ Momentum, or persistence in performance, has been one of the most heavily researched finance topics over the past 20 years. Academic research has shown momentum to be a valid strategy from the early 1800s up to the present, and across nearly all asset classes. After many years of such intense scrutiny, the academic community now accepts momentum as the “premier anomaly” for achieving consistently high risk-adjusted returns. 2 
+ Yet momentum is still largely undiscovered by most mainstream investors. I wrote this book to help bridge the gap between the academic research on momentum, which is extensive, and its real-world application, which is still minimal. 
+ The first goal of this book is to explain momentum principles so readers can easily understand and readily appreciate them. I present the history of momentum investing and bring readers up to speed on modern financial theory and the possible reasons why momentum works. I then look at a wide range of asset choices and alternative investment approaches. I finally show how dual momentum—a combination of relative strength and trend-following methods that I introduced in two award-winning research papers—is the ideal way to invest. 
+ I develop and present an easy-to-understand, straightforward application of dual momentum that I call Global Equities Momentum (GEM). Using only a U.S. stock market index, an all world non-U.S. stock market index, and an aggregate bond index, I show how investors using GEM could have achieved long-run returns nearly twice as high as the world stock market over the past 40 years while avoiding severe bear market losses. 
+ I am always amazed when I think of how much time and effort most people put into accumulating wealth and how little study and effort they put into finding the best ways of preserving and growing that wealth. Warren Buffett says that risk comes from not knowing what you are doing. This book should help remedy that situation and steer you in the right direction. 
+ Dual Momentum Investing is more than just an introduction to momentum investing ideas. It is also a practical guide to help investors and investment professionals tune in with market forces and profit from this newfound knowledge. 
+ I have tried to make the book interesting and useful to as many readers as possible. I include some advanced material for those interested in an in-depth treatment of the subject, while also keeping the book understandable to more casual readers. I provide a glossary for those who may need help with the vocabulary of modern finance. So, let us get started.

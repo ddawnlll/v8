@@ -1,0 +1,14 @@
+[
+  {"claim_ref": "book_0089::lead_book_0089_2_001", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_003", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_005", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_2_012", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_011", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_013", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_014", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_2_015", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_2_016", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_1_015", "verdict": "corroboration", "behavior_id": "contrarian_extreme_reversal", "page": 1, "exact_text": "it’s usually a good time to buy after the market has fallen out of bed", "added_conditions": ["buy extra shares only when the market is down sharply", "fund purchases from a small reserve kept in a money fund"], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_2_017", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0089::lead_book_0089_2_019", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

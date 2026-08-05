@@ -1,0 +1,352 @@
+
+Objective Rules and Their Evaluation
+
+29
+
+ever, there are problems with computing returns as percentages. These
+problems can be eliminated by computing daily returns as the logs of daily
+price ratios which is defined as:
+La (current day's price)
+9 prior day' 5 price
+
+The log-based market returns are detrended in exactly the same way
+as the percentage changes. The log of the daily price ratio for the market
+being traded is computed for each day over the back-test period. The average is found, and then this average is deducted from each day. This eliminates any trend in the market data.
+
+OTitER DElf\1LS: THE LOOK-AHEAD BIAS AND
+TRADING COS1'S
+It is said the devil lives in the details. When it comes to testing rules, this
+truth applies. There are two more items that must be considered to ensure
+accurate historical testing. They are (1) the look-al1ead bias and the related issue, assumed execution prices, and (2) trading costs.
+
+Look-Ahead Bias and Assumed Execution Prices
+
+Look-ahead bias,14 also known as "leakage of future information," occurs
+in the context of historical testing when information that was not truly
+available at a given point in time was assumed to be known. In other
+words, the information that would be required to generate a signal was
+not truly available at the time the signal was assumed to occur.
+In many instances, this problem can be subtle. If unrecognized, it
+can seriously overstate the performance of rule tests. For example, suppose a rule uses the market's closing price or any input series that only
+becomes known at the time of the close. When this is the case, it would
+not be legitimate to assume that one could enter or exit a position at the
+market's closing price. Assuming this would infect the results with
+look-ahead bias. In fact, the earliest opportunity to enter or exit would
+be the following day's opening price (assuming daily frequency information). All of the rules tested in Part Two of this book are based on market data that is known as of the close of each trading day. Therefore,
+the rule tests assume execution at the opening price on the following
+day. This means that a rule's daily return for the current day (dayo) is
+equal to the rule's output value (+ 1 or -1) as of the close of dayo multi-
+
+30 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+plied by the market's change from the opening price of the next day
+(open day+1) price to the opening price on day after that (open day+2)'
+That price change is given as the log of the ratio defined as opening
+price of daY+2 divided by the opening price on day+l' as shown in the following equation:
+
+Poso x
+
+Log
+
+Where:
+POS o = Rule's market position as of the close of dayo
+0+ 1 = Open S&P 500 on daY+1
+0+ 2 = Open S&P 500 on daY+2
+
+This equation does not show the detrended version of rule returns, as
+shown here:
+
+Log [O+J - ALR
+[O+IJ
+Where:
+POS o = Rule's market position as of the close of dayo
+0+ 1 = Open S&P 500 on daY+l
+0+ 2 = Open S&P 500 on daY+2
+ALR = Average Log Return over Back Test
+
+Look-ahead bias can also infect back-test results when a rule uses an
+input data series that is reported with a lag or that is subject to revision.
+For example, the back-test of a rule that uses mutual fund cash statistics, 15
+which is released to the public with a two-week delay, must take this lag
+into account by lagging signals to reflect the true availability of the data.
+None of the rules tested in this book use information reported with a lag
+or that is subject to revision.
+
+Objective Rules and Their Evaluation
+
+31
+
+Trading Costs
+
+Should trading costs be taken into account in rule back-tests? If the intent
+is to use the rule on a stand-alone basis for trading, the answer is clearly
+yes. For example, rules that signal reversals frequently will incur higher
+trading costs than rules that signal less frequently and this must be taken
+into account when comparing their performances. Trading costs include
+broker commissions and slippage. Slippage is due to the bid-asked spread
+and the amount that the investor's order pushes the market's price-up
+when buying or down when selling.
+If, however, the purpose of rule testing is to discover signals that contain predictive information, then trading costs can obscure the value of a
+rule that reverses frequently. Since the intent of the rule studies conducted in this book are aimed at finding rules that have predictive power
+rather than finding rules that can be used as stand-alone trading strategies
+it was decided not to impose trading costs.
+
+The Illusory
+Validity of
+Subjective
+Technical
+Analysis
+The difference between a crank and a charlatan is
+the charlatan knows he is dealing in snake oil, the
+crank does not.
+-Martin Gardner
+
+he chapter has two purposes. First, it is intended to encourage an attitude of skepticism toward subjective TA, a body of propositions
+that are untestable because they lack cognitive content. Second, it
+underscores the need for a rigorous and objective approach to knowledge
+acquisition, to combat the human tendency to form and maintain strong
+beliefs in the absence of solid evidence or even in the face of contradictory evidence.
+Besides what we take on faith, most of us are under the impression
+that our beliefs are justified by sound reasoning from good evidence. It
+can be said that we know something when we have a belief that is true
+and we hold it because we have drawn a correct inference from the right
+evidence. l We know that ice cream is cold, gravity is real, and some dogs
+bite, on the basis of first-hand experience, but without the time or expertise to acquire all requisite knowledge directly, we willingly accept wisdom from secondhand sources we deem reliable. However we come by it,
+we do not adopt knowledge willy-nilly, or so we believe.
+Unfortunately, this belief and many others that we hold are erroneous.
+Without realizing it, by a process that is as automatic as breathing, we
+adopt all sorts of beliefs without rational thought or reliable evidence. According to a growing body of research, this is due to a variety of cognitive
+errors, biases, and illusions. This is a serious liability, because once a
+
+T
+
+33
+
+34
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+)
+
+(
+B
+
+)>-------«
+A
+FIGURE 2.1
+
+Senses can deceive us.
+
+falsehood is adopted, it tends to persist even when new evidence shows it
+to be wrong. This longevity is also attributable to various cognitive errors
+that lead us to defend existing beliefs.
+A visual illusion is an example of an erroneous belief that persists
+even after it has been pointed out. In Figure 2.1, line segment A appears
+longer than segment B, but if you apply a ruler, you will see they are of
+equal length. However, this knowledge does not undo the illusion. Seeing
+can be deceiving, and the deception lasts.
+Figure 2.2 2 depicts another visual illusion. The table top on the right
+appears more elongated. If you compare them you will see they have the
+same dimensions.
+Under normal circumstances, sensory impressions as interpreted by
+the brain produce accurate beliefs about the world. The selective pressures of evolution assured the development of such a vital capability.
+However, as well adapted as the eye/brain system is, it is not perfect. Under adverse conditions, conditions outside of those that shaped its evolution, the system can be fooled.
+Just as there are illusory perceptions, there is illusory knowledge. It
+seems valid, but it is not, and similar to perceptual illusions, false knowledge tends to occur in situations beyond those that shaped the evolution
+
+R
+FIGURE 2.2 Both table tops have same size and shape.
+''Turning the Tables" from MIND SIGHTS by Roger N. Shepard. Copyright © 1990
+by Roger N. Shepard. Reprinted by permission of Henry Holt and Company, LLC.
+
+The Illusory Validity of Subjective Technical Analysis
+
+35
+
+of our cognitive abilities. Under such adverse conditions, our generally
+successful learning strategies fail, and we come to "know" what is not SO.3
+Over the last 30 years, cognitive psychologists have discovered that
+erroneous knowledge is often the result of systematic errors (biases) in
+the way we process information about complex and uncertain situations. Financial market behavior is complex and uncertain, so it should
+be no surprise that informal (subjective) analysis would produce illusory knowledge.
+A systematic error, unlike a random error, occurs over and over again
+in similar situations. This is good news because it means the error is predictable and steps can be taken to avoid it. The first step is realizing that
+such errors are common.
+
+SUBJECTIVE 'fA IS NOT LEGITIMATE KNOWLEDGE
+As defined in Chapter 1, subjective TA is any method of analysis that, be-
+
+cause of vagueness, cannot be defined as an algorithm that can be back
+tested by computer. Though the subjective domain of TA is comprised of
+many different methods, they share a faith that valid knowledge about financial markets can be discovered in an informal and nonscientific manner. I contend this faith is misplaced.
+As discussed in the Introduction, subjective TA cannot be called
+wrong, because to call a method wrong implies it has been tested and contradicted by objective evidence. Subjective TA is immune to empirical
+challenge because it is untestable. Thus, it is worse than wrong; it is meaningless.
+Beliefs that cannot be tested must be accepted on faith, anecdotal evidence, or authoritarian pronouncement. In this way, subjective TA is similar to practices such as New-Age medicine, astrology, numerology, and a
+host of other untestable claims, none of which can legitimately be classified as knowledge.
+However, many TA practitioners and consumers believe strongly in
+the validity of subjective methods, and if asked, no doubt each would assert that their belief is justified and supported by evidence. I contend this
+is a consequence of the same cognitive flaws that underlie erroneous beliefs in general and the unscientific manner in which traditional TA is
+practiced.
+TA is certainly not the only field to suffer the ill effects of nonscientific methods. Medicine and psychology, where the penalties for faulty
+wisdom are much greater, are also burdened with erroneous knowledge.
+This has spawned an emerging movement called evidence-based medicine
+
+36
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+that appeals to doctors to restrict themselves to practices with proven efficacy. There is a similar movement in psychotherapy. A journal called the
+Scientific Review of Mental Health Practicrt! describes its mission as ridding the field of unsubstantiated and untested treatments. Unfortunately,
+it is unlikely that traditional doctors and psychotherapists will abandon
+their ingrained ways. Old beliefs are hard to change. However, new practitioners may be persuaded, and it is their patients who will benefit from
+methods with proven efficacy.
+Although this chapter is a critique of subjective TA, objective TA is
+also vulnerable to erroneous knowledge. However, it comes about in an
+entirely different manner. Whereas subjective TA suffers from a lack of
+quantitative evidence, objective TA suffers from faulty inferences drawn
+from quantitative evidence. This problem and possible solutions are explored in Chapter 6.
+
+A PERSONAL ANECD01'E: FIRS1' A TRUE 11\ BEUEVER,
+THEN A SKEPTIC
+A book on the necessity of quantitative objective evidence may be a
+strange place for personal anecdotes. Nevertheless, I offer a firsthand account of my initial conversion to a true believer in TA, my fall from faith,
+and my rebirth as a scientific skeptic who believes TA can offer value
+when researched in a disciplined manner.
+I first learned of TA as a teenager and wanted to believe its claims
+were true. Making money from chart patterns seemed magical yet
+plausible. Until that time, my earnings were derived from summers
+spent tending lawns, digging clams on Long Island's North Shore, and
+working on a garbage truck at a local resort. Though I've never shied
+away from physical labor, the idea of making money without sweat
+had great appeal.
+Like most TA true believers, my initial convictions came secondhand,
+reading the revealed wisdom of the field's self-proclaimed authorities. It
+never occurred to me that their clain1s might not be grounded in sound research. The very term technical analysis had a scientific ring to it. Later it
+became clear that in many instances the authorities were not basing their
+claims on firsthand research but merely regurgitating what they had read
+from even earlier self-proclaimed experts. Humorist and philosopher
+Artemus Ward has said, "It's not so much the things we don't know that
+get us into trouble as the things we know that just ain't so."
+My first read was How I Made Two Million Dollars in the Stock Market by Nicholas Darvas, a professional dancer. He attributed his success to
+
+The Illusory Validity of Subjective Technical Analysis
+
+37
+
+a charting method called the Box Theory. As my first exposure to TA, the
+idea that buy-and-sell signals could be derived from a stock's behavior
+was entirely novel and exciting. Darvas based his analysis on a staircaselike arrangement of price ranges that he called boxes. Soon I learned this
+was old wine in a new bottle-the good old-fashioned support and resistance zones of TA. My enthusiasm was undeterred. Next I studied Chartcraft's Point and Figure Method and began keeping charts on a large
+stable of stocks. For my sixteenth birthday my parents gave me the bible,
+Technical Analysis of Stock Trends, by Edwards and Magee, and my conversion was complete.
+Before long, I was giving stock tips to my chemistry teacher, Mr. Com.
+My initial success with a stock called Cubic made several other teachers
+fans of my mysterious charts. I picked several more winners. No one, not
+even I, considered the possibility that these early successes might have
+been nothing more than a run of good luck. There was no reason to. None
+of the TA books I studied ever discussed the roles of randomness in market behavior or luck in the performance of an investment method. My
+early scores were plausible because they were consistent with the anecdotes that filled the books, but it did not last. My track record began to
+blemish and my fans faded. However, my enthusiasm for TA continued to
+grow because it was always possible to explain away my failures. After
+the fact, I could always see where I had misread the chart. I'd get it right
+next time.
+In high school I was a good science student, although I now realize I
+was scientifically illiterate. Later, college courses in the philosophy of science taught me that science is more than a set of facts. First and foremost,
+it is a method for distinguishing real from illusory knowledge. It would
+take me the better part of 40 years to see the connection between the philosophy of science and TA.
+My skepticism grew out of my experience as a proprietary or "prop"
+trader for the firm of Spear, Leeds & Kellogg from the fall of 1996
+through the spring of 2002. Prop traders have the ultimate fun job. They
+are given the freedom to speculate with a firm's capital. My trading strategy was based on what I had learned about TA over the prior 35 years. I
+made profits during the first three and one-half years, October 1996
+through February 2000. Because my trading methods were subjective, it
+is not clear if these gains were the result of my abilities with TA or my
+ever-bullish bias coinciding with an upward-trending market. I suspect it
+was the latter because an analysis of my monthly returns relative to a
+market benchmark indicated I was not beating the market but merely
+matching it. In other words, I had not generated a significantly positive
+alpha. 5 Also suggestive was the fact that I gave back all my gains in the
+two years after the market trend turned down in March 2000. Over the
+
+38
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+full five-and-one-half-year period, my results, to put it generously, were
+lackluster.
+Prior to joining Spear, Leeds & Kellogg, I had been a proponent of
+objective trading methods, so while at Spear, I made efforts to develop
+a systematic trading program in hopes that it would improve my performance. However, with limited time and development capital, these
+plans never came to fruition. Thus, I continued to rely on classical barchart analysis, supplemented with several indicators that I interpreted
+subjectively.
+However, I was objective in several ways. Early in my trading career
+with Spear, I began keeping a detailed journal. Prior to each trade I would
+note its TA rationale. In addition, each trade was based on an objectively
+falsifiable prediction-a defined point of adversity where I would admit
+the trade was wrong. My managers insisted on this. I maintained the journal daily over the five-plus years of trading. After each transaction was
+completed, I did a postmortem analysis. This practice made it hard for me
+to rationalize my failures. There they were staring me in the face. This accelerated my fall from faith in subjective TA.
+Because my results were for only one person, I considered the possibility I was not properly implementing the dictates of the TA texts I had
+been studying for the past 30+ years. Yet, I also began to wonder if what
+they said was correct or if what they said was even substantive.
+When I discussed my growing skepticism with colleagues, their response was that TA was obviously valid. Trends and patterns in historical
+charts were simply too evident to be illusory. A widely used TA text6 asserts that TA is valid on these grounds. This did not satisfy me. When I
+learned that the same patterns and trends,7 to which TA attributes such
+significance, also appear with regularity in purely random data, my faith in
+chart analysis was shaken to the core. Moreover, it came to my attention
+that studies have shown that expert chart readers cannot reliably distinguish actual market charts from charts produced by a random process. s
+Such charts, which are generated by random draws from a sample of actual price changes, are, by design, devoid of authentic trends and patterns
+and, therefore, impossible to predict, but, to experienced chartists, they
+looked just like authentic price charts. On this basis, it would seem that
+predictions based on authentic charts could not be trusted. Clearly, "obvious validity" is an inadequate standard for judging the validity of market
+patterns.
+With inspiration from two books, How We Know What Isn't So by
+Thomas Gilovich,9 and Why People Believe Weird Things by Michael Shermer,1O I came to the realization that TA must be approached with the skepticism and rigor of the scientific method.
+
+The Illusory Validity of Subjective Technical Analysis
+
+39
+
+TIlE MIND: A NATURAL PATTERN FINDER
+We are predisposed to look for and find predictive patterns. Human nature
+is repulsed by the unpredictable and the unexplained, so our cognitive
+machinery tends to perceive order, pattern, and meaning in the sensory
+stimuli we receive from the world regardless of whether it truly is ordered, patterned, or meaningful. "In many instances, what we experience
+is nothing more than the vagaries of chance at work." I I "The appearance
+of a face on the surface of the moon, the perception of Satanic messages
+when rock music is played backwards, or seeing the face of Jesus in the
+wood grain of a hospital door are examples of the mind imposing order on
+random visual sensory stimuli."12
+The tendency to perceive order evolved because this ability was crucial for our survival. 13 The early humans who were best at it produced the
+most offspring, and we are descended from them. Unfortunately, evolution did not endow us with an equal ability to distinguish valid from invalid patterns. AE a consequence, along with the valid knowledge came
+many falsehoods.
+Acquiring knowledge, whether in prehistoric times or today, can fail
+in two ways: learning a falsehood or failing to learn a truth. Of these two
+mistakes, we seem to be more prone to adopting falsehoods than we are
+to overlooking vital truths. Evolutionary biologists speculate that the acquisition of false ideas was less detrimental to the survival of early humans than failing to learn something vital. The belief that a ritual dance
+prior to a hunt would promote success is a learned falsehood with minimal cost-a little wasted dancing-but the failure to learn the importance
+of standing downwind of an animal during a hunt was an error with a significant survival cost.
+AE a result, our brains evolved to have a voracious, although indiscriminate, appetite for predictive patterns and causal relations. The false
+beliefs that accumulated along the way were a price worth paying. Sometimes, a successful hunt did follow a ritual dance, so the superstitious
+practice was reinforced. Also, performing a ritual reduced anxiety by giving an illusory sense of control over outcomes that were largely a matter
+of chance.
+Modern civilized life has changed this picture considerably. Not only
+are decisions more complex today, but the costs of learned falsehoods are
+greater. Consider the debate on global warming. Are rising temperatures
+indicative of a real long-term danger or are they a false alarm? If those
+convinced that it is a false alarm are later proven wrong, future generations will pay dearly. However, the cost of treating global warming as a serious threat would be more modest if that view turns out to be mistaken.
+
+40
+
+METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+The evolution of human intelligence has been a slow process. Our intellectual capacities developed over a several-million-year period, most of
+which took place under conditions referred to as the ancestral environment of adaptation. In this environment, the mandates were few and
+clear: Survive and reproduce. Human intellectual capacities and thinking
+strategies were adapted for those conditions, not for the complexities of
+modem civilization, which date back a mere 10 to 15 thousand years. In
+other words, 99 percent of human evolution took place in an environment
+dramatically less complex than the one we face today. It is not surprising,
+then, that our intelligence would be maladapted to the complex judgment
+and decision-making tasks we face today. We seem to be as superstitious
+today as the cave dweller who believed in ritual dances.

@@ -1,0 +1,11 @@
+[
+{"claim_ref": "book_0116::lead_book_0116_1_100", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_2_090", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_2_094", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_2_095", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_2_102", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_3_051", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_3_053", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_3_054", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+{"claim_ref": "book_0116::lead_book_0116_3_056", "verdict": "corroboration", "behavior_id": "trend_following_channel", "page": 94, "exact_text": "'89-day breakout for long entry", "added_conditions": ["we risk 2 percent of our equity on each trade", "we trade the lesser quantity of contracts as calculated by 2 percent divided by new risk"], "added_parameters": [{"name": "long entry breakout length", "value": "89-day", "page": 94}, {"name": "long exit breakdown length", "value": "13-day", "page": 94}, {"name": "short entry breakout length", "value": "89-day", "page": 94}, {"name": "short exit breakdown length", "value": "13-day", "page": 94}, {"name": "average true range period", "value": "15-day", "page": 94}]}
+]

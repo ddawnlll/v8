@@ -1,0 +1,236 @@
+
+286
+
+Inside the Currency Market
+
+options against Micro U.S. dollar/Canadian dollar and U.S. dollar/Swiss
+franc. Traders should look at option-strike prices with the understanding that
+American options are the vast majority of trade.
+COT Reports
+
+The weekly COT report is still a valuable tool studied by market professionals to determine market direction, sentiment, and trend. Two types of
+reports are released weekly for ﬁnancial futures and options. Legacy reports
+for currency pairs highlight commercial and noncommercial positions,
+longs and shorts for each currency pair, open interest, open interest as a percentage by trader type, and weekly changes. Commercials could be hedgers
+or wish to manage risk, while non-commercials are everybody else. Futures
+only and futures and options combined reports are available weekly free of
+charge from the CFTC.
+The recommendation is to view each report separately to determine
+open interest for futures and options because futures and micro contracts are
+reported together. U.S. dollar/Japanese yen must be viewed critically due to
+the Japanese yen/U.S. dollar futures arrangement. This is why options must
+be viewed separately to determine sentiment. COT reports are without question a vital tool and worth every trader’s time and effort. The report to view
+should always be reportable positions.
+August 2010 marked the ﬁrst publication of Traders in Financial Futures
+(TFF). The reports contain the same information but classiﬁcation of traders
+are identiﬁed and their market activity.
+The ﬁrst of four categories of large traders are Dealers/Intermediaries
+who represent the sell side of the market. Asset Managers/Institutional are
+pension funds, portfolio managers, and mutual funds to name a few. This
+category represents the buy side of the market. Third are Leverage Funds,
+who are money managers and hedge funds who represent the buy side of the
+market. Finally Other Reportables represent hedgers.
+A category of spreading was introduced to both the legacy and TFF
+reports. The CFTC “computes spreading amount equal to offsetting longs
+and shorts held by a trader. It’s calculated as the amount of offsetting in different calendar months or offsetting futures and options in the same or different
+calendar months” (CFTC).
+Since COT reports all futures and options for all traded instruments, conﬁrmation of proposed or ongoing currency pair trades can be validated by its
+respective instrument. For example, euro/U.S. dollar can be validated by oil.
+
+Technical Analysis
+
+287
+
+Both are risk assets that move together. Agricultural commodities are risk assets
+and conﬁrmed by Australian dollar/U.S. dollar and New Zealand dollar/U.S.
+dollar since both move together.
+Australian dollar/U.S. dollar prices are moved more by coal and metal
+prices for exports more so than any other commodities. New Zealand
+dollar/U.S. dollar prices respond to logs, dairy, wool, and meat. U.S. dollar/
+Canadian dollar is a commodity currency that must be measured critically against oil and speciﬁc commodities inherent to Canada’s trade ﬂows.
+Corporations, importers, exporters, and central bankers with oil interests can
+swing Canadian dollar prices as they seek to lock a respective oil price. Metals
+are risk assets and can be measured against all risk currencies. For example,
+industrial gold exported from Australia is another measure for Australian
+dollar/U.S. dollar risk.
+Bollinger Bands
+
+John Bollinger recently celebrated the twenty-ﬁfth anniversary of his
+Bollinger Band introduction. Its wide use in all markets attests to its success, and forex is no different because it has survived the test of time. The
+purpose of Bollinger Bands is to capture highs and lows on a relative basis
+using standard deviation to measure volatility and a moving average to measure time series.
+To understand Bollinger Bands methodology is to know Bollinger’s rules
+for use.
+Bollinger Bands conﬁrm W and M market patterns. They can be used for
+buy and sell decisions. Closing prices outside the bands don’t necessarily mean
+market reversal; they may mean price continuation. Yet prices that touch the
+upper or lower band doesn’t always translate to a buy or sell. Bandwidths can
+be adjusted. As moving averages increase or decrease so must standard deviations increase or decrease. Bollinger recommends two standard deviations for
+a 20-period moving average, 2.1 standard deviations for a 50-period moving
+average, and 1.9 standard deviations for a 10-period moving average. Moving
+average refers to simple moving averages and factored in the formula. Yet true
+sample size standard deviations are small so distributions are not normal.
+Indicators are normalized with percent b.
+Parker Evans in the 2008 Journal of Technical Analysis performed a study
+employing percent b as adopted in the Bollinger Band calculation. He deﬁnes
+percent b as an oscillator that measures closing prices in relation to the upper
+and lower bands.
+
+288
+
+Inside the Currency Market
+
+Many traders employ two sets of Bollinger Bands with various moving
+averages and standard deviations. Bollinger recommends conﬁrmation by a
+sentiment or momentum indicator.
+Simple Moving Averages
+
+Precisely when a simple moving average was applied to a chart remains a mystery. It probably occurred after the ﬁrst reported open interest in the 1920s
+but before the 1960s introduction of exponential moving averages. What is
+known as a simple moving average is an old indicator that survived the test of
+time for its effectiveness.
+To calculate: add closing prices over X days and divide by X. A 20-day
+simple moving average is calculated by adding 20 closing prices and dividing
+the sum by 20. On the next day, the ﬁrst day drops from the calculation and
+a new day is added to smooth the average.
+Traders should focus on 10-, 20-, 50-, and 100-day averages and employ
+those as support and resistance levels as well as crossovers. Long crossovers
+occur when a 10-day crosses above a 20-day average and short crossovers occur
+when the 10-day crosses below a 20-day average. The same phenomena
+occur for 50- and 100-day averages. Many employ the 200-day average as
+well, but its accuracy deserves mention.
+The most important simple moving average for a yearly view of the market has been the 200-day average. Factor trading days in the United States
+minus weekends and holidays, the 200-day average is actually 253 days, 249
+for Canada, 249 for Australia, 253 for New Zealand, 245 for Japan, 258 for
+the euro, and 255 for the Swiss.
+The 200-day average not only doesn’t exist, but any yearly calculation
+based on it for trading purposes will be off by at least 45 days, possibly more,
+depending on the currency pair calculated.
+The recommendation is to deploy the proper sized average to the currency pair in the respective market. For example, a long euro/U.S. dollar
+in Europe should employ the 258-day average, while a long U.S. dollar/
+Swiss franc in the United States should employ the 253-day average. Further,
+employ the proper period for 100-day crossovers from above or below.
+To employ a standard deviation moving-average indicator, subtract the
+moving average from each of the data points used in the moving-average
+calculation. This is a list of deviations from the average. Square each deviation and add them all together. Divide the sum by the number of periods
+selected and take the square root. This is a volatility indicator where high
+
+289
+
+Technical Analysis
+
+standard deviations will see prices fall and low standard deviations will see
+prices rise. The indicator will move opposite of prices.
+Ichimoku Kinko Hyo
+
+Ichimoku is an old Japanese indicator purportedly invented by a Japanese
+trader in the 1940s. Purportedly because the English and Japanese translation
+of the book can’t be found, so it’s assumed that Ichimoku methods exist today
+based on past Japanese tradition.
+The widespread use of Ichimoku as a primary indicator in Japan and
+throughout Asia was highlighted by Nicole Elliott in her 2007 book Ichimoku
+Charts. It’s imperative to understand the methodology of Ichimoku to measure not only Japanese yen pairs, but Ichimoku can be employed on any
+ﬁnancial instrument. The success and further methodologies of Ichimoku
+can be found in a study in the Summer 2008 Journal of Technical Analysis.
+
+Ichimoku Highlights
+Ichimoku incorporates ﬁve moving average lines that work based on market highs and lows rather than closing prices. The Tenkan line is the shortest moving average and provides trade signals. The calculation is as follows:
+Subtract the lowest low over the past 9 days from the highest high in the same
+time period, then divide the sum by two. The Kijun line is a medium-term
+moving average calculated as follows: Add the highest high of the past 26
+candles or days from the lowest low of the same time frame and divide that
+sum by two (Elliott).
+Senkou Span A and Senkou Span B begin formation of the cloud, Kumo
+in Japanese, that provides an upper boundary of support and lower boundary
+of resistance. Senkou Span A calculation is:
+Tenkan  Kijun/2 plotted 26 days ahead
+Senkou Span B calculation:
+Highest high in last 52 days  lowest low of the past 52 days/
+2 offset 26 days ahead
+Chikou Span is the momentum line calculated as today’s closing price plotted
+26 days back.
+
+290
+
+Inside the Currency Market
+
+The basics of Ichimoku say buy when Tenkan crosses above Kijun and
+sell when Tenkan crosses below. Prices above the cloud signify a bullish situation while prices below the cloud is a bear situation. Tenkan and Kijun
+crossovers above and below the cloud must be managed due to its short-term
+duration and relation to cloud support and resistance. Ichimoku is a trend
+indicator that employs Fibonacci time series as a measure of price targets and
+wave pattern measurement. (Elliott).
+As a personal favorite indicator, my sincere recommendation for the
+9-, 26-, and 52-day periods is not to shorten the lengths of the periods,
+especially if a trade is managed throughout all markets. These are special timetested numbers to measure time, price, and waves, that the overall features
+of Ichimoku use (Elliott). The inventor worked tirelessly for many years to
+perfect Ichimoku. Additionally, these numbers can measure currency-price
+congestion using the special day-count numbers. Used correctly, Ichimoku
+can stand alone as a primary indicator as the Japanese intended.
+Baltic Dry Index
+
+An important barometer to monitor commodity currencies and exportdependent nations such as Australian dollar, New Zealand dollar, and Japanese
+yen is the Baltic Exchange located in London. The Baltic Exchange advertises
+itself as the only independent source of maritime-market information. And
+rightly so since its existence traces back more than 250 years.
+With a 550-member organization, the purpose of the group is arrange
+ocean transportation of bulk cargoes such as oil, coal, grain, iron ore, and
+sugar, to name a few categories, on behalf of ship owners and charterers
+(Baltic Exchange). The Baltic Exchange provides daily market information
+for the dry market for Capesize, Panamax, Supramax, and Handysize vessels
+(Baltic Exchange). Wet market products such as oil are also reported.
+The main question for traders to monitor commodity currencies is who
+is shipping and where are shipments delivered or placed in storage. Most
+important is what is the price of shipping costs and is it rising or falling.
+A downturn in the number of orders for freight deliveries and freight
+rates may mean a downturn in commodity prices, a downturn in expected
+proﬁts for commodity currencies, and a downturn in spot prices. Likewise, a
+healthy commodity market is a rise in orders. Current 2010 dry-side orders
+in the ﬁrst four months amounted to 18.8 million dry weight, while all 2009
+saw 33.6 million dry orders. Compare that to Australian dollar/U.S. dollar
+and New Zealand dollar/U.S. dollar and notice a rise in spot prices. Dry
+
+Technical Analysis
+
+291
+
+Supramax routes are reported during Asian sessions as of September 2010
+while market information is reported Monday through Friday at 13:00
+London time. Dry side orders are no longer reported due to the introduction
+and ﬁrst trade on Baltex.
+Baltex is an electronic marketplace introduced by the Baltic exchange to
+trade dry freight derivatives. The ﬁrst trade began June 2011 and the exchange
+is regulated by the FSA in the UK.
+The four Baltic indices include the Capesize, Panamax, Supramax,
+and Handysize with a separate category for Baltic International Tanker
+Routes. Currently 19 routes are mapped for oil deliveries, though a change
+is expected as the U.S. Gulf Coast oil route was closed for seven years. Oil
+routes will be rerouted from the United States to Brazil to China as new
+oil ﬂows into China. U.S. oil rigs closed in the Gulf reopened in Brazil,
+and Brazilian oil ﬂow is expected to ﬂow to China (Baltic Exchange Site).
+The Baltic Dry Index (BDI) is the most prominent, as traders trade forward rate agreements against its price. The BDI is calculated by taking
+time-charted components of all indices. Currently 20 routes are covered
+within the BDI. Generally as the BDI rises, commodity currencies and
+major export nations’ spot prices rise. The conﬁrmation for any market is
+monitoring the respective nation’s transportation indices and the indices of
+major export destinations.
+IMF and Special Drawing Rights
+
+Special Drawing Rights (SDR) traditionally never deserved special attention
+since their inception in 1969 but a number of recent developments may have
+implications for the future in terms of nation-to-nation trade, prices of commodities bought and sold in world markets, and central bank reserves.
+From 1944 to 1973, the world operated on a ﬁxed gold system—currencies
+were pegged to the price of an ounce of gold. Member nations of the IMF
+contributed a portion of their reserves to support the SDR system of trade on
+a voluntary quota system. Least-developed nations lacked gold and reserves
+so couldn’t afford contributions in gold terms as a means to exchange their
+currencies. Plus gold was priced in U.S. dollars. So least-developed nations
+lacked the means to participate in global trade.
+The main mandate of the IMF is ensure exchange rate stability. Their
+mandate worked for developed nations only so they devised the SDR as a
+“reserve asset to supplement reserves of all members” (IMF). The IMF deﬁnition of SDR is a “claim on freely usable currencies of members.” The IMF
+
+292
+
+Inside the Currency Market
+

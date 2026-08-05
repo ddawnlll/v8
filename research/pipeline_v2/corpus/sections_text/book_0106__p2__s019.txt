@@ -1,0 +1,678 @@
+
+Advanced Option Selling Strategies
+
+207
+
+SELL STRANGLE
+The New York Mercantile Exchange (NYMEX) has an excellent glossary
+on its web site regarding options. NYMEX defines a short strangle as similar to a short straddle, but the short call and the short put have different
+strike prices. This definition is just as good as any other definition. Some
+of the nuances of shorting or selling a strangle are lost in the definition,
+though.
+On average, while selling options does expose traders to risk, that risk
+is diminished when an out-of-the-money option is sold. Whenever you sell
+an option you are faced with the potential of unlimited risk, and this risk
+is only mitigated by the fact that the further out-of-the-money an option is,
+the less likely for the underlying asset to hit its strike price.
+There are a few drawbacks to putting on a short strangle. One of the
+main drawbacks is the amount of premium collected. While you are putting
+up a significant margin to protect against the unlimited risk you are exposed to, the premium that you receive may bring in only a small ROI.
+Another drawback is that in order to be profitable, short strangles need
+to thrive in a low-volatility marketplace. The less volatile the market is, the
+better it can be for the option seller. The lack of volatility is great on the
+one hand because it increases the likelihood that the options will expire
+worthless. On the other hand, a low-volatility option market means that you
+cannot sell options and command a high premium. It becomes a serious
+measure of risk versus reward before deciding to put on a short strangle.
+
+Short Strangle Examples
+These examples are meant to highlight what a potential short strangle position can look like. The examples have been plucked from Chapter 4. At
+that time we were purchasing a strangle, whereas in these examples we
+are taking a second look at the charts from the perspective of the seller.
+By mastering the short strangle you can apply another approach to your
+trading repertoire.
+In the examples that follow we look at two different markets, the gold
+market and the S&P 500 commodities market. Each market has its own
+rhythms and behavior, but they still follow the same rules when it comes
+to using the strangle as a trading technique.
+In the first example (see Figure 13.3 and Table 13.2) we take another
+look at the gold market. There is a simple setup. We sell a 960 call and
+an 890 put. With only the limited information provided by the charts and
+the options, we can make an informed decision about a few fundamental
+factors.
+
+208
+
+ADVANCED STRATEGIES
+
+GC-067: Gold Comex (PM) Cad) Uq {Dally b ....'
+
+lCSO.O
+
+" 025,0
+
+Gold Short Strangle
+
+1000.0 "
+
+SI!iIlGoI~' c.l1
+
+............................................................ .................................. ..................
+
+.~t-.
+
+t
+
+'r .+'.............'.~..
+. . . . . . . . . . . ... . . . . . . . . . · · · · . · ··· ···••I. · · h·+IL .. . ~,~";"""!.
+1+
+
+,
+
+.,
+
+TU '
+92S0
+
+.+
+
+"'.0
+
+~
+
+,th
+
+• It.
++1
+8
+• ',.L+ f'.Tltl+·' ft .+*t
+
+975.0
+
+"L
+
+67S.Q
+
+850.0
+
++1'
+
+"'.0
+. BtIO.O
+
+77s.o
+
+~~~~
+...~"~
+m ~~!1_~~
+7 ~~~.~ .~~7~~~
+.~
+~
+7 ~~~0~
+1fl~
+~~==W
+"~
+~~-=~=~~~,=====~
+Gol<l,.SL.QI':C: $tn,nqh
+
+FIGURE 13.3 Gold Short Strangle
+
+Source: TradeNavigator.com © 2007 . All rights reserved.
+
+For the call position we know the following: First, we have found a
+decent resistance level at 960; the gold market has bumped against this
+high for three days without breaking through. Second, if the market does
+break through the 960 level, we will lose only $31.50 for every $1 move.
+Third, the market would have to hit and break through $968 before the
+option buyer would begin to profit.
+For the put position we know that the market is currently $70 away
+from our $890 strike price. We also know that not only will the market
+need to drop to $890, but it will have to hit $885 before it begins to move
+in-the-money. In the meantime, for every $1 that the gold market moves
+up, our $890 put loses $18 in value. This means that ifthe market moves up
+$30 ($960 + $30 = $990), the option that we sold will be virtually worthless
+
+TABLE 13.2
+
+Short Strangle Premiums
+
+Margin
+Premium
+Delta
+Return on investment
+
+Gold 960 Call
+
+Gold 890 Put
+
+$5,400
+$820
+.315
+15%
+
+$5,400
+$530
+.188
+9.8%
+
+209
+
+Advanced Option Selling Strategies
+
+and we could offset our gold 890 put and still gain the majority of premium
+without waiting for expiration.
+In Figure 13.4 we see gold break through $960, moving into new territory. On February 27, 2008, gold moves $4, eventually closing at $965.90.
+This is less than $3 away from the option buyer's breakeven of $968. This
+move requires that we offset the 960 call that we sold. In order to accomplish this we would have placed a stop order at $960, with the hope that we
+would not lose more than $100 on this side of the trade.
+With a $100 loss on the sold call, that effectively leaves us a profit of
+only $430 on our sold 890 put option. On March 5, 2008, gold closes above
+$990, reaching as high as $999.90 that day. This move signaled gold touchingjust below an important psychological number of $1,000 per ounce. This
+move also triggers the $30 target we needed in order to offset our 890 put
+to obtain the maximum premium.
+In Table 13.3 we see that the total gain on the gold short strangle is
+$420 over the course of five days. On a $10,800 investment this produces
+nearly a 4 percent return. On the face of it that is not a very impressive
+return. If you extrapolate it to a monthly return figure, though, you would
+have a monthly return of 24 percent, since six sets of five days equals 30
+days or one month. If you extrapolate it out to an annual return, you are
+looking at a simple, noncompounded, return of 288 percent!
+
+GC.()67: Gold Comex (Pit) Cadj Uq (Dally bara)
+fAoVlngA'Ig(C.50)-935 · <i3il1l2OOf1 . ·1001.St~3. 11
+
+112~tl
+~
+
+1100,0
+
+. · 'Q1~.O "
+
+Gold 960 Call
+Breaks Out
+i
+
+Ii
+
+105M
+
+' I"'.'
+
+'.IIG~d'''C''1·.... ·· ....·,It"':+
+J,,,.
+............................................................ .................... ..... ·......····· .. ·........V .. ·..\T,.
+···· .. ·......
+••
+
+· 950.
+
+. .. . . . . . . .
+·.;;:;..r~.1t"cITI....""GoIi""
+I."~:
+. .....
+• .. IT... "
+,'t.t' r. "l +*,."1' '"loot·
+
+"
+
+,.· .... ..........·........ · .~1.,
+++".,
+
+til'
+
+++.+.J..·',t.'"
+
+FIGURE 13.4 Offsetting Gold Short Strangle
+Source: TradeNavigator .com © 2007. All rights reserved.
+
+210
+
+ADVANCED STRATEGIES
+
+TABLE 13.3 Offsetting Gold Short Strangle
+
+Initial premium
+Offset
+Profit/loss
+
+Gold 960 Call
+
+Gold 890 Put
+
+Total Gold Option Values
+
+$820
+- $920
+- $100
+
+$530
+-$ 10
+$520
+
+$1,350
+$ 930
+$ 420
+
+These numbers are hypothetical, but are indicative of why selling options is considered an attractive alternative to purchasing options. You can
+easily calculate your annual rate of return on a case-by-case basis and determine whether the risk of the trade is worth taking. So even though $420
+is not a phenomenal return on the face of it, it can be a significant income
+boost to anyone's portfolio. Who would turn down an effective annual rate
+of return of 288 percent?
+In Figure 13.5 we put on the exact same type of strangle on the S&P
+500. We sell an S&P 500 1400 strike price call for $1,250 in premium along
+with an S&P 500 1325 put and collect $2,250.
+In Figure 13.5 we see that the S&P 500 closes at 1310, 15 points beneath our put strike price of 1325, on March 6, 2008. This is the first signal
+to offset our short put immediately. The fact that the delta for our put is
+SP.Q67: S&P500lndex(P!tICldJUq (OaUyb...,'
+M"''''.o<C,50J''''''9S 03~_' ·",.,o,
+
+..,., :'
+1 1650.0
+
+-· 120M
+
+FIGURE 13.5 S&P 500 Short Strangle
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+211
+
+Advanced Option Selling Strategies
+
+~
+
+SP-067: S&P 500 Index (Pit) Cad) Llq (Dally bars)
+MOVtn!)AvO(C ,SO) " '344.3 41211118 11 :00· 13$4.9 {-3.o1
+
+I
+
+t65Ce
+
+Offset S&P 500 Short Strangle
+1550.0
+
+\ I'~
+
+ll't_'tH'."'.,
+* r.t 'II
+
+1500.0
+
+itt..
+
+j
+
+t
+
+1'1~'r~.
+
+"II C,II
+
+."400
+
+"""
+
+'f' jl
+
+I
+
+"
+
+,-
+
+................... ........... 'i,tl,t... ·;~rt~"I.'r'. ·'ttt~ ."" 11••:•••t .+.'' \t .. -"50.'
+' ' ' '...'''' / t, 't"
+
+'300.'
+
+/
+
+'250'
+
+Offset 1325 Put on first day
+that closes below 1325
+Tr,deNIV .tor.com
+
+t1f13/07
+
+1112$101
+
+1211 2J07
+
+12/21107
+
+01111fG8
+
+01(.2Gi08
+
+O2/1VOa-
+
+Oll26ltl6
+
+03ltlJOt
+
+OY.26lO3
+
+~-.".,.
+
+Ofset sap SW &h.QIt Stra[l_g~
+
+FIGURE 13.6 Offset S&P 500 Short Strangle
+Source: TradeNavigator .com © 2007 . All rights reserved .
+
+.367 means that our option's value increases by one-third of the underlying
+asset, in this case only about 5 points. As the option stays in-the-money, the
+delta increases and if we are not careful we will continue to bleed money.
+We get off easy with an approximate $250 loss (5 points x $50).
+In Figure 13.6 we see that in order to offset the S&P 500 1400 call in
+this environment the price of the underlying futures contract has to drop
+a little over 50 points. Every point drop is the equivalent of $50, but since
+the delta rate of change is a little under one-half, we would need a total of
+a 50-point drop to reach the total value of the premium, $25 (one-half point
+movement) x 50 points = $1,250. Our ideal exit to offset our call position
+would be 1275 (1325 - 50 points) (see Tables 13.4 and 13.5).
+
+TABLE 13.4 Short Strangle Premiums
+
+Margin
+Premium
+Delta
+Return on investment
+
+S&P 500 1400 Call
+
+S&P 500 1 325 Put
+
+$22,500
+$1,250
+
+$22,500
+$2,250
+
+.483
+
+.367
+
+6%
+
+10%
+
+212
+
+ADVANCED STRATEGIES
+
+TABLE 13.5 Offsetting Short Strangle
+
+Initial premium
+Offset
+Profit/loss
+
+SBIP 500
+1400 Call
+
+SBIP 500
+1325 Put
+
+Total SBIP 500
+Option Values
+
+$1,250
+- $
+50
+$ 1,200
+
+$2,250
+-$2, 500
+-$ 250
+
+$3,500
+- $2,550
+$ 950
+
+Two days after closing below 1325, the S&P 500 market hits 1277, two
+points above our target goal. We can still offset the call we sold by purchasing an inexpensive S&P 5001400 call at $50. In Table 13.5 we see that
+the entire strangle brings in $950 after only'eight days of being in the trade.
+We risked a total of $45,000 to earn $950; this is a return of 2 percent on
+our money. If you could make 2 percent every eight days, you would make
+7 percent per month, or an annual return of 84 percent.
+Although you are not breaking the bank, an annual rate of return of
+84 percent exceeds both the stock market's and the bond market's annual
+historic returns. This is a prime example of how a small 2 percent return
+can playa significant role in changing your investing success.
+
+Short Strangle Wrap-Up
+Strangles are a less profitable alternative to straddles, but they clearly have
+a leg up when it comes to risk. There is little doubt that if you sell the right
+option you will have the opportunity to collect the premium with little or no
+hassle. The only thing standing in your way is simply the challenge of picking the right option to sell. The short strangle strategy allows you to hedge
+your bets. At the same time, a short strangle gives you enough breathing
+room between different strike prices to get you out of the trade altogether
+if, for some reason, it proves too difficult to hold on to.
+Short strangles are also perfect for markets that just can't break out
+of their sideways momentum. If the market is stuck between a significant
+support and resistance point, there is an opportunity to profit from both the
+put and the call. This type of double-dipping with option premiums can't be
+accomplished in a straddle. This is what makes selling a strangle a lot more
+desirable to selling a straddle in the long run.
+
+NAKED OPTION SELLING
+For the record, I do not recommend naked option selling. Of all of the
+techniques, I consider naked options to be the most risky. This is the only
+
+213
+
+Advanced Option Selling Strategies
+
+advanced strategy that I have discussed in the book that is not automatically paired up with a spot, futures, or other option position to protect you
+from the risk. The key reason that it is even mentioned in this chapter is because shorting straddles and strangles can't be honestly discussed without
+at least acknowledging their origin.
+Naked option selling has two handicaps: misinformation and leverage. The first handicap, misinformation, was discussed at the outset of this
+chapter. The fictional number of 90 percent of options expiring worthless
+was rightly dispelled, but it also reduces the level of confidence that can be
+had in believing in its overall success, particularly when only 30 percent of
+options actually make it to their expiration dates.
+The second handicap is leverage. When initiating a futures contract,
+doing a spot forex transaction, or purchasing an option, it can be comforting to know that the leverage is on your side. The amount of money you
+can earn on your positions is vastly superior, in terms of percentage, to the
+actual amount you have put up. In gold trading a $1 move is equal to $100. It
+only takes a $54 move to match the necessary futures margin, $5,400. This
+leverage works against naked option sellers.
+If an option seller sells an at-the-money option and collects $1,800, it
+only takes an $18 move into-the-money, at $100 per $1 move, to eliminate
+his entire collected premium. If an out-of-the-money option is sold for $800,
+then it simply takes an $8 move into-the-money against the seller before he
+gives up all of his profits. Although there is more leeway between the strike
+price and the cash price when it comes to an out-of-the-money option, it
+still doesn't take much to eliminate the collected premium.
+There are two primary benefits of selling naked options. First, your
+margin reserves are 50 percent of what it would take when putting on
+short straddles and strangle positions. A second key benefit is that you
+know ahead of time what your potential return on investment can be. In
+Table 13.6 we see that a gold 940 call has the potential to return 34 percent,
+and in Table 13.7 we see that a gold 960 call has the potential to return
+15 percent.
+As you sell options further and further out-of-the-money, your overall
+return diminishes, but the likelihood of you getting that return increases.
+TABLE 13.6
+
+Example 1: At-the-Money Option Premium
+Gold 940 Call
+
+Margin
+Premium
+Delta
+Return on investment
+
+$5,400
+$1,830
+.483
+34%
+
+214
+TABLE 13.7
+
+ADVANCED STRATEGIES
+
+Example 2: Out-of-the-Money Option Premium
+Gold 960 Call
+
+Margin
+Premium
+Delta
+Return on investment
+
+$5,400
+$820
+.315
+15%
+
+This is a constant trade-off when it comes to selling naked options. How
+far can you sell your option contract out-of-the-money before the amount
+of capital you tie up doesn't justify the unlimited risk you are exposed to
+and the limited returns you are capable of earning?
+This is not an easy question to answer. It becomes a personal choice of
+whether you wish to earn 15 percent or 5 percent. Your technical analysis
+tools or market opinion will determine how you expect to interact with the
+market and where you expect it to go. The more aggressive may sell only
+at-the-money options, and the less aggressive will sell out-of-the-money options. However you approach selling options, do not take it lightly.
+
+There are two other ways to sell naked options, in-the-money and based on
+theta, that have not been discussed at length . First, selling an in-the-money option requires a level of understanding of the greeks that is outside the scope
+of this book. And even if you understand the greeks, there is still no guarantee of success. This would make selling an in-the-money option akin to a suicide mission, no matter how much premium could be collected. Second, using
+time decay or theta to make your selling decision may not always be prudent.
+Just like out-of-the-money options, the closer you get to expiration, the less premium you will be able to collect. So make theta a component of your decisionmaking process but not the sole reason for selling ; otherwise you may be
+disappointed at the results .
+
+Naked Option Wrap-Up
+Tackling a naked option is much like tackling a regular futures contract.
+There is so much exposure to risk that the rewards may not be there.
+If you sell an at-the-money option you can collect a significant premium,
+compared to shorting a straddle or a strangle. Selling only one option diminishes your capital commitment to the brokerage firm as well. Nevertheless, with the increased premium comes increased exposure to risk. The
+
+Advanced Option Selling Strategies
+
+215
+
+exposure to unlimited risk compared to the premium that can be collected
+makes the sale of an at-the-money option less attractive.
+Selling out-of-the-money options can be slightly more attractive. While
+unlimited risk still looms over the seller's head, time decay and decreased
+volatility work in favor of the option seller. The key trade-off between
+selling an at-the-money option versus an out-of-the-money option is the
+amount of collected premium. Where an at-the-money option premium has
+a potential return as high as 30 percent or more, an out-of-the-money option may bring in as little as 5 to 7 percent. If the market suddenly moves
+against an out-of-the-money option seller, the limited rewards-5 to 7 percent returns-simply don't justify the exposure to unlimited risk.
+If a trader chooses to be a naked option seller, the risk and reward must
+constantly be weighed. Once the rewards are significantly diminished by
+the potential risk, a reassessment must be done on how to approach that
+risk. This may mean either avoiding selling options altogether or making
+sure you take advantage of the daisy-chain relationship of the spot, options,
+and futures markets combined for maximum opportunity.
+
+CONCLUSION
+Whether you are selling straddles, strangles, or naked options, you are exposing yourself to a significant amount of risk. Much of this risk can be
+offset by buying options to counter the risk, but once that is done, we
+move into more exotic trading of synthetic futures and synthetic futures
+collars, techniques we discussed earlier in the book. Purchasing an additional option as protection forces you to use the premium you collected
+inefficiently, practically eliminating the entire reason you sold the option
+in the first place.
+The smart way to manage your option selling risk is to simply use a
+stop. Since options do not move at the same speed as the underlying asset, you have an opportunity to exit with a little less sticker shock, as opposed to dealing with slippage in the futures market and the volatile forex
+market.
+Also keep in mind that these techniques have been shoved into the
+advanced section, deep in the back of the book, for a reason. This is a style
+of trading that should not be taken lightly and quite literally is not meant for
+everyone. Paper trading and demo trading the ideas in this chapter should
+not need to be emphasized, but I will point out one more time that selling
+options involves unlimited risk, and when it comes to trading in futures and
+commodities you can not only lose your entire investment, but you can also
+lose much more.
+
+216
+
+ADVANCED STRATEGIES
+
+Sell options with both caution and common sense, and you will find
+yourself tapping into small, but consistent, profit opportunities for the rest
+of your life. Many successful Commodity Trading Advisors have successfully created practices solely around selling options or establishing straddles and strangles. The trick to being successful at selling options comes
+from your ability to temper your profit goals. If you are willing to tum your
+back on the potential of unlimited risk in favor of taking small bite-size
+chunks from the market, your entire market outlook evolves.
+
+(; II \.- 'I' 1<: II • 4
+
+Retreat,
+Recovery,
+Opportunity
+Coming togethe1' is a beginning. Keeping together is
+progress. Working together is success.
+-Henry Ford
+
+his book has been an unparalleled journey into how professional
+traders approach the market and deal with the risk of loss. The information throughout these chapters has been broken down into basic and advanced strategies to highlight the differences between concepts
+that are solely designed to manage risk and ideas designed to also generate
+income. By themselves the basic and advanced concepts presented here
+are not inherently more difficult from one another. Nor are the basic and
+advanced strategies really required to be operated on their own.
+As you have probably learned, in reading through the various chapters,
+it takes only small changes to convert one strategy into another. If you were
+to add an out-of-the-money option to a futures or spot position, you could
+create a hedge. To make another change only requires that you turn an outof-the-money option into an at-the-money option and tie it to a futures or
+spot position to make a synthetic put or call option. It simply requires the
+willingness to sell an option and purchase an option with the same contract
+month to create a synthetic futures. If you sell one option and purchase two
+options slightly out-of-the-money, then all of a sudden you have a type of
+ratio spread.
+Subtle changes and modifications to a position can make it morph into
+an entirely different trade altogether. By being open to combining the basic
+strategies in this book along with the advanced strategies that you learned,
+you have the ability to manipulate the markets, even if you are losing.
+
+T
+
+217
+
+218
+
+ADVANCED STRATEGIES
+
+In the face of a losing trade, the majority of retail traders either freeze
+up or head for the hills. Those who do exit their losing positions do so with
+their emotions. It is important to know that whether it is the same moment
+that they exit their losing trade or days later, the simple fact that they can
+take the loss at all is a testament to their trading maturity. It is a far better
+solution than freezing up in the face of adversity.
+Professional traders do not look at taking a loss the same way as retail
+traders do. Often professional traders think in terms of how to manipulate
+the losing trade into an opportunity to profit. Whether they convert a trade
+into another form, such as an option hedge into a synthetic option, or they
+unwind an advanced trade, such as a collar into a ratio spread, they are
+looking for a way to put the odds of success back in their favor. With that
+being said, for the majority of retail traders simply closing out a losing trade
+is most likely the intelligent way to approach loss. Don't stop doing that.
+Taking a loss gives you a chance to take a break from the market and
+come back to it with fresh eyes. You can review your technical analysis
+as well as determine whether there has been a fundamental shift in the
+supply and demand of the currencies or futures you are currently trading.
+When you have only a finite amount of capital available to you, closing out
+your losing trades is simply the most prudent thing to do, nine times out
+often.
+The decision to combine strategies or morph one strategy into another
+strategy should occur only that tenth time-that one time when you know
+for a fact that your technical analysis signals have pegged the market's
+reversal or your original assessment is simply experiencing a setback. You
+can see the shift in the market and you can tell that it only requires that you
+make one or two changes to your approach in order to be successful over
+the long run.
+That is what this chapter is about. We will look at five different scenarios and ask ourselves up to three questions: Should we hold on to the
+trade, should we walk away from the trade, or should we convert the trade?
+For each one of our choices we will look at our risk and reward profile to
+determine what makes the most sense for our goals.
+The examples in this chapter are designed to show you that no matter
+what the situation is, you can manipulate anyone of these strategies to
+give yourself the best opportunity for success, even if that means exiting
+the trade altogether.
+Analyze the charts and see how the various trades can flow from one
+scenario to the next. Eventually you will see the lines of opportunity and be
+able to manipulate the various strategies accordingly. There are no hardand-fast rules to trading with risk management strategies; as long as you
+keep your mind flexible to the market's behavior, you will be able convert
+from one strategy to the next with ease.

@@ -1,0 +1,359 @@
+Meeting the strict requirements
+A trading system is a mechanical trading system when it dictates every single
+decision, leaving no latitude for the operator to inject a subjective decision.
+Definitions for a mechanical trading system vary, but most systems designers
+would agree on the bare minimum:
+✓ You backtested every indicator and combination of indicators over a
+large set of historical data and have determined that the indicator set
+generates a favorable gain-loss ratio.
+✓ The system contains enough trading rules so that whatever the contingency, you never need to make a judgment call. You have already
+provided directions ahead of time. As noted in a previous section, this
+really cannot be done in full. Why? Because of what Nassim Nicholas
+Taleb named black swans — highly improbable events. Do traders ever
+get a new black swan? In other words, an event shock of a type never
+seen before? Maybe not. Human history is a long affair and perhaps
+nothing is ever really new. But programming every contingency into
+trading rules is a vast and probably impossible task.
+✓ You follow the system without fail and without overriding the signals
+by using judgment. You take every trade that the system gives you, if
+only because you never know which signal is the one that’ll generate the
+juicy profit. And in most systems, the successful backtest track record
+depends on those big profits to offset many small losses.
+
+www.pdfdummies.com
+
+Chapter 17: Considering a Trading System
+Building a mechanical trading system is a major undertaking that requires
+knowledge of statistics, computing, and risk management as well as technical trading methods. You could spend years developing a comprehensive
+mechanical trading system, and many people do.
+
+Finding your place on the spectrum
+You don’t have to embrace a fully mechanized computer program-based
+system to be a technical trader. But when you take losses, you start imagining that some indicator, rule, or risk-management concept might have
+saved you from the loss, so you think you should trade more systematically.
+Yearning for more systematic trading is especially heartbreaking if you have
+a spectacular winning year and then a losing one, and honestly can’t remember how you did it in the winning year.
+You can start small. The first step is to review various indicators and their
+associated trading rules. You can develop a buy/sell system fairly easily,
+choosing indicators that seem logical and workable to you, and then adjust
+the trading rules until you get a satisfactory hypothetical gain-and-loss profile.
+Hypothetical is the right word because the chief reason to combine techniques
+in a trading system is to backtest indicators and trading rules to see how they
+would have worked in the past. I discuss backtesting in Chapter 4. For all its
+faults, backtesting is the only way to know whether an indicator works on
+your security. After you find good indicators and rules, you can take them out
+for a trial run in real time.
+
+Discovering Why Mechanical
+Systems Fail
+Training yourself to be a fully systematic trader is hard. The virtue of a welldesigned trading system is that real-time results come in as the backtest leads
+you to expect. The challenge of a mechanical trading system is . . . you.
+You have to trade exactly as the system dictates in order to duplicate test
+results. For some, following every single system dictate is impossible. More
+than one advanced system designer has had to give day-to-day control of
+trading his system to another party, because he can’t help second-guessing
+it. Here are some ideas to help you sidestep some of the common pitfalls of
+mechanical trading systems.
+
+www.pdfdummies.com
+
+287
+
+288 Part V: Flying with Dynamic Analysis
+Fooling around with new ideas
+Mechanical trading systems often fail because the trader can’t resist fiddling
+with system components — either indicators or rules. Most traders’ systems
+are never really finished. They evolve as the trader experiments with new
+ideas. The problem with new techniques is that people are impatient and try
+to fit the new idea into an existing system without fully backtesting it — or
+sometimes without backtesting it at all. Even experienced technical traders
+(late at night, after a few martinis) confess to reading about a new idea or
+hearing about it at a conference, and running right back home to trade it —
+using actual money. Needless to say, this decision usually ends in tears.
+
+Backtesting until you’re blue in the face
+To find the “perfect” parameter for your indicator on your securities, you can
+spend countless hours backtesting. No sooner do you discover the ideal parameters than market volatility shifts, and the parameter is no longer optimum.
+A lot of indicator testing is just spinning your wheels. Indicator signal accuracy isn’t 100 percent reliable to begin with, and fiddling with indicators never
+cures the accuracy problem. To add more indicators to “fix” the shortcomings
+of an existing indicator can result in excessive complexity without a commensurate improvement in accuracy. The one exception is if you’re able to make
+your indicators more adaptive to market conditions, either arithmetically or
+with filters or additional indicators.
+Performing backtesting research while working toward a fully automated trading
+system has two virtues. You not only find out about indicator effectiveness and
+reliability, but you also get the opportunity to refine your money-management
+rules.
+Before you spend a zillion hours adding or perfecting indicators, remember
+that your goal isn’t to have the perfect indicator; your goal is to make money.
+You spend time more wisely by perfecting your money-management rules
+than by backtesting indicators until 2 a.m. Maybe nothing is wrong with your
+indicators — it may be your risk management that needs work. See Chapter 5
+for a discussion of managing the trade.
+
+Not knowing your time frame
+No rule is always right. Technical analysis contains rules that are valid in the
+context of their own time frame but work a whole lot less well in a different
+time frame. Candlesticks (see Chapter 8), for example, tend to be most effective in a short time frame (intraday or three to five days). If your preference
+is for trades lasting many months, you need indicators and risk-management
+rules that match up to that time frame.
+
+www.pdfdummies.com
+
+Chapter 17: Considering a Trading System
+
+Practicing self sabotage
+The success of technical trading systems is due to one characteristic — they
+keep you in winning trades for a relatively long time while getting you out of
+losing trades relatively quickly. Therefore, over a large number of trades, your
+profit exceeds your losses. In this sense, fully systematic technical trading is a
+numbers game.
+While a mechanical system imparts confidence in the eventual profit-and-loss
+profile over some period of time, it has the drawback of occasionally being
+wrong on any single trade. Sometimes you can see the wrong trade coming,
+which makes you want to override the signal. To override technical signals
+is called discretion. Discretion is an innocent-sounding word, but in fact, it’s
+dynamite. To exercise discretion means to abandon your hard-earned, highprobability systematic trading signals in favor of personal judgment.
+Just about every technical trader allows himself the luxury of discretion to
+some extent. Professionals tend to exercise discretion a lot more than nonprofessionals. System purists point out that to override signals is to defeat
+the purpose of having a system, while experienced traders say they have a
+“gut feel” about when a signal is bad.
+Overriding system signals is the main way that traders sabotage themselves.
+Sabotage can take the form of overtrading (trading too often) or being unable
+to pull the trigger (indecisiveness), despite clear directions from your own
+system on what to do.
+One of the chief reasons to use technical analysis and a systematic approach
+to trading is to give yourself a break from emotion. You may get away with a
+little overriding once in a while if you have good instincts, but if you do it on
+more than a few rare occasions (in other words, more than a quarter of your
+trades), you’re still a technical trader but no longer a system trader.
+Because you can’t backtest judgment, the only way to evaluate discretionary
+overrides is to keep a diary and write down every override you want to do.
+Every so often, go back and do an honest accounting of your judgment. A trading diary is a prose rendering of what you’re seeing on the chart. Print out the
+chart and write your override idea on it. Then a few periods later, print out the
+chart showing what happened.
+A trading diary has many benefits:
+✓ You get ideas about additions to your system to overcome a shortcoming.
+The diary becomes a wish list. Then while perusing the technical literature,
+you can see a gem when you come across it — it’s the solution to an issue
+on your wish list.
+✓ You may discover that your eye was detecting patterns that math-based
+indicators don’t catch. If you had a feeling that you should stop out a
+
+www.pdfdummies.com
+
+289
+
+290 Part V: Flying with Dynamic Analysis
+position but your indicators didn’t agree, and in retrospect you can see
+a pattern that was correct, you may have a hidden talent for patterns.
+See Chapters 7 and 9 for more about patterns.
+✓ You discover personal characteristics you didn’t know about yourself
+(and may or may not like). A common finding is that you saw a continuing trend because you wanted to see it and willfully ignored reversal
+warnings from other indicators that were present on the chart.
+
+Following Big-Picture Rules
+Having a positive expectancy of a gain is the key element of taking a trade
+(for more on this topic, see Chapter 16). Whether you’re aiming for a full trading system or working more informally toward a more systematic approach,
+this section gives you a short list of other considerations that have a big
+impact on overall long-term profitability.
+
+Stopping out versus the stop-and-reverse
+Stopping out is a function of having met the maximum loss you’re willing to
+take. When the stop is hit, you have to decide whether to go short. Hitting
+a stop doesn’t necessarily mean you want to reverse direction. Maybe you
+prefer to be out of the market altogether. As a practical matter, most individual traders are buy only and never go short.
+Some professionals are required by the rules of their firms to be in the
+market nearly all the time. They’re not “working” if they’re not trading.
+Individuals don’t bear this burden. The flip side is that when you’re out of
+the market, you’re potentially missing an opportunity.
+
+Trading more than one security
+You may have a valid and systematic way to trade a single security, but you
+still face a high risk of loss due to a one-time catastrophe. The obvious solution is to apply your systematic trading regime to a broader array of securities. Diversification reduces risk. When one security is falling in price, some
+other security is rising. A solid track record may require offsetting some
+losses with gains in an inversely correlated or noncorrelated security.
+A good portfolio is diversified, and so are good trading systems. Using spreadsheet software, you can easily discover whether any two securities are correlated. Or you can plot both securities on the same chart and eyeball whether
+they move in tandem. If they do, you may not have to dump one if you can find
+something else that is inversely correlated. The process of diversification is
+
+www.pdfdummies.com
+
+Chapter 17: Considering a Trading System
+named portfolio optimization. Portfolio optimization isn’t, strictly speaking, a
+technical analysis idea, but it’s a natural extension of the systematic approach
+to trading.
+Optimization may make for some strange bedfellows. Don’t reject a noncorrelated security on fundamental grounds and pass up the opportunity to
+smooth your earnings path. You don’t have to like the security to trade it
+successfully. If you’re building an equity system and find that adding soybean
+futures would reduce total system risk by half, then resign yourself to finding
+out how to trade soybean futures.
+The same thing is true when you buy a system that requires you to trade
+each security of a basket of securities. If you cherry-pick the securities,
+you’re violating a core principle of the trading strategy — its diversification.
+Diversification may be its best feature on which results depend. See the section “Buying a Trading System” later in this chapter.
+Don’t forget that correlation or the absence of correlation is not written in
+stone. Two securities that are uncorrelated today may become highly correlated at some point in the future. Keep your correlation data updated.
+
+Don’t trade on too little capital
+A good system designer acknowledges that every system takes losses, and
+the trader must have enough capital to remain standing afterward. If the
+system is capable of generating a $3,000 loss, the minimum capital required
+to trade the system is obviously higher than $3,000. You must know in
+advance the amount of money you could lose on any single trade, named
+a drawdown. Whether you’re building your own system or buying one, you
+should know the expected average drawdown and the expected maximum
+drawdown.
+A standard rule is the Turtle rule — never risk more than 2 percent of total
+capital on any single trade. In practice, the maximum drawdown many traders
+accept is 20 to 30 percent of capital, or ten times the conservative amount.
+You can take only three or four worst-case losses in a row before you’re out
+of business. Alas, this happens all too often because many brokers encourage
+newcomers to trade with a small capital stake and high leverage.
+This situation is particularly prevalent in foreign exchange trading, where you
+can open an account with $1,000 and control (say) $20,000 in face value of contracts. If you applied the 2 percent rule using your true capital, your stop loss
+would have to be $20, which is two points in a currency futures contract like
+the Canadian dollar. The Canadian dollar has an average daily range of about
+80 points, so you can forget about using the average true range (see Chapter 5)
+as a guide or indicator. The stop is obviously unrealistically tight — you will get
+stopped on the first random move. Instead of accepting that $1,000 is too little
+
+www.pdfdummies.com
+
+291
+
+Download from Wow! eBook <www.wowebook.com>
+
+292 Part V: Flying with Dynamic Analysis
+capital to trade, beginners widen their stops. But widening the stop is a mistake
+when it’s done for this reason. One thousand dollars is simply too small an
+amount.
+
+Buying a Trading System
+You may see ads for trading systems that promise huge returns, practically
+no risk, and 80 percent accuracy on trade recommendations. Never forget
+that if it sounds too good to be true, it’s not true. These trading systems are
+usually black boxes, which are systems that claim to select high-probability
+trades but don’t reveal the trading rules and indicators that the system uses.
+The promotional material may say that the inner workings of the system are
+self-adaptive (it’s a “neural network” that “learns” from its own mistakes) and
+is simply too complex to display.
+Even in the case of a self-adapting system, chances are that the system
+worked well on certain securities in a certain time frame in the past. But
+that’s no guarantee that it is working today, will work in the future, will work
+on the securities you like, or will work for you. You have to ask yourself why
+anyone would sell such a gold mine to you (at any price) instead of keeping it
+to himself. This section can help you avoid these too-good-to-be-true trading
+systems and find one that can work for you.
+
+Overcoming phony track records
+If you choose to buy a trading system, be aware that crooks and charlatans
+are found in the technical analysis business just as they are in any other
+business. You see fraudulent track records, track records that mysteriously
+include only certain periods, and other chicanery. One trick is to adjust the
+track record by excluding the performance of securities in a portfolio when
+they produce losses in the period, but to add them back when they produce
+gains. You can see through this financial foolishness by doing the following:
+✓ Get disclosure of all the indicators and rules and verify results yourself by testing the system on the same historical data as the vendor’s
+track record. Make sure that you get data covering several years, and
+verify that the prices shown on the vendor’s track record actually
+existed on each trade date.
+✓ Examine the vendor’s actual brokerage statements, if possible. If the
+vendor doesn’t trade his own system and disclose real-life results, why
+not? To be fair, some system designers may have some good reasons why
+he doesn’t trade his own system, including a fondness for systems and
+deep dislike of the trading process. Forget testimonials. Everyone has a
+Cousin Fred who will say the system is fabulous for the price of a pizza.
+
+www.pdfdummies.com
+
+Chapter 17: Considering a Trading System
+Evaluate carefully what it means if performance results are “hypothetical.”
+Regulatory agencies require the hypothetical label if the vendor doesn’t have
+brokerage statements. But this requirement applies equally to systems published in real time for same- or next-day day execution and systems that are
+only curve-fitted to the past. Any 12-year-old can “fit” trading indicators to historical data to produce 100 percent plus gains. A system that gives you trading
+signals, with stops and targets, for tomorrow’s market and then calculates a
+track record on this outcome is a better bet.
+
+Looking under the hood
+Only a few system vendors are crooks. Most are perfectly legit. Still, you want
+to get good value for money spent. You want
+✓ Original ideas that are fully disclosed: In some cases, you could pay
+$250 to $5,000, only to get nothing more than a formula or two that you
+could have acquired free from a book or the Internet. Often the vendor
+has a near-religious attachment to some theory of price movements that
+is unproven or unprovable. You’re welcome to share beliefs, but remember that technical analysis is an empirical exercise. If a belief doesn’t
+translate into profitable trading outcomes, why pay for it?
+✓ Scalability, which means that you can trade the system with a variable amount of money, including small amounts: Some trading systems
+require $50,000 or $100,000 in risk capital, amounts that are unrealistically high for a newcomer. Usually the vendor has a good reason for
+requiring so much capital — the system depends on diversification
+among many securities to get the published track record, for example,
+or the system tends to generate big drawdowns. If you buy a high-capital
+requirement system but then allocate too little money to it, you must
+cherry-pick the trades, defeating the core concept.
+✓ Fully defined money-management rules: Most trading systems don’t
+contain money-management rules and leave so much decision making
+up to the user that duplicating the advertised track record is virtually
+impossible. At the very least, a trading system should tell you the recommended entry and exit (stop and target). An estimate of riskiness and
+advice on adding and subtracting from positions would be nice, too.
+
+Picking the Tool, Not the Security
+Say that you just arrived from another planet, and you have no attachment
+to the concept of blue chip stocks and no difficulty seeing soybean futures in
+the same light as IBM or the Swiss franc. To you, a security is a security, and
+you care nothing about its underlying value or fundamental characteristics.
+
+www.pdfdummies.com
+
+293
+
+294 Part V: Flying with Dynamic Analysis
+Welcome to the realm of professional traders, chartists, and system designers. They all have a peculiar and wonderful ability to see a price as just a
+price. Using this mind-set, you’re free to pick indicators and securities without regard for fuddy-duddy ideas of what is “proper.” Who knows? Maybe
+your talent is for applying candlesticks to silver futures when you thought
+you wanted to trade equities.
+An accomplished technical trader can sit in front of a live price screen and
+before an hour is out, spot a method to trade the security. Even if he’s an
+equities trader and you’re showing him the Japanese yen, he can “read” the
+price action. You can do this, too, if you focus on the tools and not on the
+security.
+Rather than seeking the best indicators to trade your favorite securities,
+consider finding good indicators and matching the securities to them. If your
+only goal is to make money by using technical indicators, why not reverse the
+usual order? The process goes by several different names, the most generic
+of which is scanning. You scan a universe of securities to find the ones that fit
+the criteria you specify. Each technical analysis software package has its own
+name and method of scanning. Say you like the breakout concept. You can tell
+the software to search or explore for every security in your database that has
+just risen above its 20-day moving average. Now you have a candidate list of
+securities to check out for other technical criteria.
+That list will be too large, of course, so next you seek out the securities that
+have other characteristics that suit your indicators and risk preference, such
+as a volatility filter. Note that some software vendors have scanning capability
+for fundamental characteristics, too.
+
+www.pdfdummies.com
+
+Part VI
+
+The Part of Tens
+
+www.pdfdummies.com
+
+E
+
+In this part . . .
+
+very trade has two parts — the security and its technical characteristics, and you. After you master a few
+key concepts, exactly how you apply technical methods is
+a matter of personal preference. No one technical method
+is “right” — the right method is the one that consistently
+makes you more money than you lose. To do that, your
+chosen method must match up with your risk profile and
+be practical — you have to be able to execute it.
+This part — the legendary Part of Tens — gives you easily
+digestible tips and tricks to do just that. I cover some of
+the tricks of the trade many top-performing traders use on
+a daily basis, as well as some basic rules for “playing well”
+with indicators. Finally, I wrap up this part with ten ways
+that the market has changed and what that means for
+technical analysis and you.

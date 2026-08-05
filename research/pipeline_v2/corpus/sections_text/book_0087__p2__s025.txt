@@ -1,0 +1,815 @@
+
+jelly roll = long term synthetic - short-term synthetic
+= cost of carry — expected dividends
+
+where the cost of carry is calculated on the exercise price over the period between
+expiration months.
+
+In the same way that we evaluated a box as the combination of two vertical spreads,
+we can also evaluate a jelly roll as the difference between two time spreads:
+
+long a June 100 call short a September 100 call
+short a June 100 put long a September 100 put
+
+This is simply a short June/September 100 call time spread and a long June/September
+put time spread. Since the roll is a combination of the sale of a call (put) time spread
+and the purchase of put (call) time spread, the values of the call and put times spreads
+should differ by exactly the value of the roll. If the roll is worth 11/4, the difference
+between the call and put time spreads should also be 11%. If the call time spread is
+trading for 31/4, the put time spread should be trading for 2. This is logical when we
+realize that we can rewrite the jelly roll in a slightly different form:
+
+jelly roll = long-term synthetic — short-term synthetic
+= (long-term call — long-term put) - (short-term call — short-term put)
+= (long-term call — short-term call) — (long-term put - short-term put}
+= carrying costs — expected dividends
+
+The difference between the call and put time spreads should therefore be equal to the
+cost of carry on the exercise price less the expected dividends.
+
+
+Option Arbitrage 233
+
+Since jelly rolls involve holding stock positions for some period of time, they have
+risks similar to those affecting conversions and reversals. If interest rates rise, or the
+dividend is cut, a jelly rol! will become more valuable. If interest rates fall, or the
+dividend is increased, a jelly roll will become less valuable.
+
+Finally, we can create a time box by taking opposing synthetic positions at different
+exercise prices and expiration dates:
+
+long a June 90 call short a September 100 call
+short a June 90 put long a September 100 put
+
+The value of this position is the combined value of purchasing the June 90/100 box and
+selling the June/September 100 jelly roll. If the June 90/100 box is worth 934, and the
+June/September 100 jelly roll is worth 11, the time box should be worth 8!/.
+
+USING SYNTHETICS IN VOLATILITY SPREADS
+
+A trader need not restrict himself to using synthetics only in arbitrage strategies. He can
+also execute a volatility or directional strategy using a synthetic. Consider the following
+situation. Dealing in a futures option market where the underlying March futures
+contract is trading very actively at 100.00, a trader wants to execute the following
+backspread for a one-point credit:
+
+buy 20 March 105 calls
+sell 10 March 100 calls
+
+That is, the amount he expects to receive for the sale of one March 100 call less the
+amount he expects to pay for two March 105 calls should equal one point. Suppose the
+current market in these options is:
+
+Option Bid/Ask
+March 100 call 2.70/2.90
+March 105 call 85/.95
+
+If the trader were able sell the March 100 calls at the ask price of 2.90, he would be
+willing to pay the ask price of .95 for the March 105 calls, since 2.90 — (2 x .95) = 1.00.
+In the same way, if he were able to buy the March 105 calls at the bid price of .85, he
+would be willing to sell the March 100 calls at the bid price of 2.70, since 2.70 — (2 x
+.85} = 1.00.
+
+Suppose that an offer comes into the marketplace to sell March 105 cails at .85.
+The trader immediately buys these calls and is about to offer the March 100 calls at
+2.70, when suddenly a bid of 2.80 is made for March 100 puts. Does this affect what
+the trader might do?
+
+Since the new bid is for the March 100 put, and the trader is interested in selling
+the March 100 call, it may seem that the put bid will have no affect on his strategy. But
+recall the synthetic relationship:
+
+synthetic short call = short put + short underlying
+
+
+234 Chapter 11
+
+In the futures market, the value of the call is:
+call price = put price + futures price — exercise price — carrying costs
+
+If the underlying March futures contract is trading at 100, there is no carrying cost
+associated with a March 100 synthetic because the difference between the futures price
+and exercise price is zero. Therefore:
+
+March 100 call = March 100 put + 100- 100-0
+March 100 call = March 100 put
+
+In other words, if the trader believes he can trade the March futures contract at 100,
+then the prices of the March 100 call and put ought to be identical. He originally
+intended to sell the March 100 call at 2.70 to complete his backspread. He is now given
+the chance to sell the March 100 call, synthetically, at 2.80. If he sells the March 100
+put at 2.80, and simultaneously sells the March futures contract at 100.00, he has
+effectively sold the March 100 call at 2.80, which is .10 better than he originally
+intended.
+
+Whenever a trader ts consideringa strategy, he ought to always ask himself whether
+he can do better by executing some part of his strategy synthetically. Usually he won’t
+be able to because synthetic relationships tend to be very efficient. But every now and
+then the trader will find that the synthetic position is slightly more favorable. Over a
+career of trading even small savings can add up.
+
+Using synthetic equivalents, we can also rewrite some volatility spreads in more
+familiar terms. For example, we said that call and put butterflies with the same exercise
+prices are identical. Suppose we take a typical call butterfly and rewrite it in terms of its
+synthetic equivalents:
+
+Contract Synthetic Equivalent
+long 1 March 95 call long 1 March 95 put/long an underlying contract
+short 2 March 100 calls short 2 March 100 puts/short 2 underlying contracts
+long 1 March 105 call long 1 March 105 put/long an underlying contract
+
+Since the long and short underlying contracts in our synthetic equivalent cancel out, we
+are left with a put butterfly:
+
+long 1 March 95 put
+short 2 March 100 puts
+long 1 March 105 put
+
+Using synthetic equivalents, we can also express the following strategy in a more
+familiar form:
+
+long 2 March 100 calls
+short an underlying contract
+
+This is simply a long straddle, since we can take one of the March 100 calls and rewrite
+it synthetically:
+
+long March 100 call = long March 100 put + long underlying contract
+
+
+Option Arbitrage 235
+
+leaving: 3
+
+long 1 March 100 call
+short an underlying contract
+
+long 1 March 100 put
+long an underlying contract
+
+Since the Jong and short underlying contracts cancel out, we are left with a typical long
+straddle: ‘
+
+long 1 March 100 call
+long 1 March 100 put
+
+TRADING WITHOUT THEORETICAL VALUES
+
+Synthetic relationships can often enable a trader to make logical trading decisions
+without the aid of values generated by a theoretical pricing model. Usually all that is
+required is an ability to calculate the carrying cost on a position and, in the case of stocks,
+to determine the dividend payout.
+
+While a trader can’t always be as certain ofa profit as he is with arbitrage strategies
+such as conversions, reversals, boxes, and jelly rolls, there are many logical relationships
+between options and underlying contracts, or between options and other options, which
+enable a trader to identify potentially profitable trading strategies without the use of a
+theoretical pricing model.
+
+Consider the following option prices with the underlying price at 101.50:
+
+95 call 100 call 105 call
+8.00 4.80 1.60
+
+Is there anything wrong with these prices?
+If the trader purchases one 95 call for 8.00, sells two 100 calls at 4.80, and
+purchases one 105 call for 1.60, he has bought the 95/100/105 butterfly for zero since:
+
+(2 x 4.80) — (8.00 + 1.60) = 9.60 - 9.60 =0
+
+Since a butterfly can never be worth less than zero at expiration, and in this case might
+be worth as much as five points, the purchase of this butterfly represents a riskless
+trading opportunity.
+
+Another way of reaching the same conclusion is to realize that a butterfly is made
+up of two consecutive vertical spreads. In our example, the purchase of the
+95/100/105 butterfly consists or purchasing the 95/100 vertical call spread and selling
+the 100/105 vertical call spread. We know that as the market rises, a vertical call spread
+goes more deeply into-the-money and becomes more valuable. Therefore, as long as
+there is an equal amount between exercise prices, a vertical call spread with lower
+exercise prices will always be more valuable than a vertical call spread with higher
+exercise prices. The opposite is true of vertical put spreads. Those with higher exercise
+prices are always more valuable than those with lower exercise prices. If two vertical
+spreads violate this relationship, a trader can take advantage of the situation by
+
+
+236 Chapter I 1
+
+purchasing the spread which ought to be more valuable, and selling the spread which
+ought to be less valuable. In our example, the vertical call spreads are:
+
+95/100 spread 8.00 - 4.80 3.20
+100/105 spread 4.80 — 1.60 3.20
+
+While both spreads are trading at the same price, the 95/100 spread is intuitively more
+valuable than the 100/105 spread. Consequently, a trader will try to purchase the
+95/100 spread and sell the 100/105 spread. If he succeeds, he will have purchased the
+butterfly for zero. While there is no guarantee that this will be profitable (the underlying
+market could finish below 95 or above 105), the strategy still makes sense because there
+is no risk associated with it.
+
+Consider a different type of relationship:
+
+Underlying price = 99.75 Interest rate = 0
+95 100 105
+calls: 6.85 3.70 1,10
+puts: 2.10 3.95 6.35
+
+First, we might check to make sure that all the synthetic relationships balance. Since
+they do, there is no profit opportunity there. Next, we might check the butterflies. Both
+the call and put butterflies are trading for 55. This might or might not be a reasonable
+price; without a theoretical pricing model it would be difficult to say. But at least the
+butterflies are trading for some positive number, so it is not immediately apparent that
+they represent a good trading opportunity. Is there any other logical relationship that
+might be violated?
+Look at the prices of the straddles:
+
+95 100 105
+call + put: 8.95 7.65 74S
+
+We know that a straddle becomes more valuable as the underlying price moves
+away from the exercise price, resulting in one side of the straddle, either the call or put,
+going more deeply into-the- money. With the underlying price at 99.75, the 95 straddle
+should be more valuable than the 100 straddle, and this is reflected in the respective
+prices of 8.95 and 7.65. The 105 straddle, being further away from 99.75, should also
+be more valuable than the 100 straddle. But here the prices do not reflect the additional
+value. The 105 straddle is .30 cheaper than the 100 straddle. Even though we don’t
+know the theoretical value of either the 100 or 105 straddle, we do know that the 105
+straddle is too cheap with respect to the 100 straddle. Therefore, if given the opportu-
+nity, a trader would attempt to purchase the 105 straddle at 7.45 and sell the 100
+straddle at 7.65. There is no guarantee that this strategy will be profitable. The
+underlying contract could finish above 105, in which case the 100 straddle will be
+worth five points more than the 105 straddle. But if we assume that movement is
+random, then the sale of the 100 straddle and the purchase of the 105 straddle puts the
+laws of probability heavily on the trader’s side.
+
+
+Option Arbitrage 237
+
+Finally, consider this scenario:
+
+Underlying price = 100.75 Interest rate = 0
+95 100 105
+March calls: 7.50 3.85 2.35
+June calls: 9.65 5.70 3.30
+
+Is there any apparent mispricing here?
+
+First, we might look at the butterflies. The March butterfly is trading for (7.50 +
+2.35) — (2 x 3.85} = 2.15. The June butterfly is trading for (9.65 + 3.30) — (2 x 5.70)
+= 1.55. Since both butterflies are trading for some positive amount, it isn’t immediately
+clear that we should buy or sell either one? What about the prices of the butterflies with
+respect to each other? Should the June butterfly, at 1.55, be less expensive than the
+March butterfly, at 2.15? It may seem that the June butterfly, with more time to
+expiration, ought to be more expensive. In option evaluation we usually associate more
+time with greater value. But if the market remains at 100.75, the price of the butterfly
+will expand towards 4.25 as time passes. Hence, it is logical that the March butterfly is
+more valuable than the June butterfly.
+
+Is there any other relationship we might consider? When we see options with
+different expiration dates, time spreads certainly come to mind.
+
+95 100 105
+June call less March call: 2.15 1.85 95
+
+Is there anything wrong with these prices?
+
+We know that a time spread maintains its greatest value with the underlying
+contract at the exercise price. The 100 time spread, being more at-the-money, is trading
+for more than the 105 time spread, as one would expect. The 100 time spread should
+also be more valuable than the 95 time spread. Here the 95 time spread is trading at a
+greater price, and, again, if we assume random movement in the underlying contract,
+this is clearly not logical. Without a theoretical pricing model, we can’t be sure what
+each of these spreads is worth. But we do know that the 95 call time spread is too
+expensive with respect to the 100 call time spread. If we sell the former and buy the
+latter we can’t be certain of a profit, but we do have the laws of probability on our side.
+
+Note that in each of these examples we made an important assumption:
+
+Regardless of the exact theoretical value, there ought to be a uniform
+progression of both individual option prices and spread prices in the
+marketplace. If this uniform progression is violated, a trader can take
+advantage of the situation by purchasing the option or spread which is
+relatively cheap and selling the option or spread which is relatively
+expensive.
+
+While the great majority of option traders work with theoretical values, a good
+habit for the new trader is to quickly check the relationship of option prices and spreads
+in the market to ensure that there are no obvious mispricings. The trader can start with
+
+
+238 Chapter I 1
+
+conversions and reversals, then look at vertical spreads and butterflies, and finally
+consider straddles and time spreads. Usually there will not be any obvious mispricing.
+But if there is, the trader can exploit the situation by purchasing the cheap side of the
+relationship and selling the expensive.
+
+Two evaluation tables, demonstrating typical progressions of option prices and
+spreads in a stock option and futures option market, are shown in Figures 11-4 and 11-5.
+
+
+239
+
+‘Zp 4aydeyy ul pessnosip eq
+
+sanjen peaids uo esiosexe Apee JO OSJJe OU ‘SeNjeA saTeGou eAeY Aew
+
+spreads ewos pure Ajived ue] sso] oq ABW sanjeA jeonel0ey) ewos ‘panied aspexe Aes ou UM ‘uesdoiNy aq 0) pauinsse ale suondo je souls ,
+
+69°
+Po'h
++0864
+sLe
+sol
+sSS2t
+Sova
+Se'Bt
+ee'¢
+es
+xba'8h
+1"
+O@L
+
+Option Arbitrage
+
+xo
+
+Hd
+
+Od
+6°
+
++08'Eh
+og'e
+
+HE'St
+OP’
+
+xoG EL
+6h t
+SLL
+
+gee
+beh
+
+cee
+86°
+
+br
+£go¢
+
+BVst
+sr
+
+pProl
+PLY
+
+rarAy
+Ly
+
+oo'OL
+LVN
+OLL
+
+\eo7e
+68
+
+SEE
+ook
+
+ge
+1e'o
+
+olPrl
+os"
+
+esl
+£9°9
+
+ZO
+OL
+
+s9'9
+oLe
+SO}
+
+bp’?
+6E°%
+
+soe
+G2’?
+
+ene
+so’e
+
+PPL
+rs
+
+os
+206
+
+466
+BL
+
+00°
+46'S
+oo}
+
+£84
+c6%
+
+28°}
+coe
+
+oh
+s6'c
+
+O¢'S}
+eg
+
+See
+S6°LE
+
+elbt
+WL
+
+eve
+00°6
+s6
+
+se"h
+SPs
+
+OL'L
+PLe
+
+66°
+99%
+of’ Zh
+cb
+06"
+o6'e
+06'}
+OP's
+Wan
+9g"
+09°
+oc'p
+16
+plat
+06
+0 = puapinig
+
+£9" 9c"
+92°% 68°}
+0f'0¢ Obs
+io
+
+6s"
+
+Leb
+00" ly
+Oe°6t LS'E%
+bread 6L he
+re
+
+92°
+
+Po'p
+Ze be
+PO'Lt Bol?
+
+s8 08
+
+'%00'S = Syed ISO19}U]
+
+speaids own ind
+speeds oun |IeO
+
+sa|ppejs eunr
+saleynq aunr
+syeonaa ynd eunr
+s{Baed eo eunc
+
+synd ounr
+sjeo ounr
+
+sojppeys yore
+sailaynd YoIeW
+S|BOMaA ynd yoseyy
+SIBOMOA [120 YOreyy
+
+sind yorey
+s|j20 YoreW,
+
+%Se = ANNeion
+
+S¥8eM 92 = eUNC ‘syeeM E1 = YURW ‘uONeuIdXe 0) SUL,
+
+00} = sould yooIS
+pb} eanbiy
+
+
+
+6V
+oc
+
+ov'v
+
+6b
+
+bob
+
+00°P
+
+vO
+vs
+
+1s
+rae
+
+$0
+
+ce
+9g"
+
+ee'e
+90°
+
+so’e
+80°
+es
+
+SL
+ee
+
+Le
+ra
+
+or
+Le
+
+ose
+60°
+
+69°?
+19
+
+Bes
+We
+
+ele
+02
+es
+
+99°
+ce
+
+gL
+€a
+
+ss
+9s
+
+962
+or
+
+2674
+66°
+
+seh
+gt"
+
+oP'l
+er
+ts
+
+9s"
+oy
+
+og
+6e
+
+6s
+6S"
+
+ees
+
+LL
+
+bey
+
+boy
+
+orl
+
+sr
+es
+
+Or
+6s
+
+es
+es
+
+06'2
+LL
+
+96°
+P6'L
+
+ee"
+gL"
+
+op"
+bPih
+6P
+
+be
+
+‘ZL seldeyy ul pessnosip aq jm senfed peeids uo asjolexe
+Auee Jo eye eu ‘Aued UeU] Sse] aq ABW SONIPA JEOle1OSU] eos ‘poyued esfojexe Ayes ou YM ‘UeedoiNny 9q 0} pelunsse ale suondo Je souls ,
+
+by
+oP’
+Oc’e
+ol’
+
+ese
+
+pee
+el
+
+el
+oe
+ch
+
+Syaem Z| = Aine
+
+be
+
+be
+BL
+
+OLe
+20°
+
+ee
+cee
+
+IL'e
+20°
+
+Z0°
+PO's
+Le
+
+ey
+a
+per
+Zu
+1s
+le
+ele
+cO'r
+O°
+so"
+£0
+s66E
+oF
+
+%00'8 = ayes ysesa]U}
+‘syaom p = Ae
+
+speroids own ind
+speeds owl] [PO
+
+sejppeas Ane
+selpeyng Aine
+sjeomed ynd Aine
+SfEOMOA eo Aine
+sind Aine
+
+syeo Aine
+
+salppens Aew
+salpoyng Aeyy
+SfeoeA nd Aew
+S[BONIDA |/eo Aeyy
+sind Ae;
+
+sifeo Aew
+
+!%G) = AUINEIOA
+‘UONeIGXe 0} OUI L
+os’ = goud sainjny
+
+S-LE eaunBi4
+
+240
+
+
+12%
+
+Early Exercise
+of American Options
+
+Thus far we have assumed that all option strategies involve holding a position to
+expiration. Since the great majority of exchange traded options are American, carrying
+with them the right of early exercise, it will be worthwhile to consider some of the
+characteristics of American options. Specifically, we will want to answer two questions:
+
+1. Given the opportunity, under what circumstances might a trader consider
+exercising an American option prior to expiration?
+
+2. How much more should a trader be willing to pay for an American option over
+an equivalent European option?
+
+In order for early exercise to be desirable, there must be some positive cash flow
+which will result from early exercise, and the value of this cash must be greater than
+the insurance value of the option. Because the cash flow which results from the exercise
+of a stock option is significantly different from the cash flow which results from the
+exercise of a futures option, the conditions under which eatly exercise will be desirable
+are different. For this reason, we will look at these two situations separately.
+
+FUTURES OPTIONS
+
+From previous discussions (see Chapter 6) we know that in evaluating an option there
+are some factors which make the option more valuable and there are some factors which
+make the option less valuable. Consider a futures option. We might list the factors which
+affect its value as follows:
+
+option value = intrinsic value + volatility value — interest rate value
+
+Since the intrinsic value and volatility components can never be less than zero, these
+factors always enhance the option’s value. As either rises, the option value rises. Only
+the interest rate component might affect the option’s value negatively. As interest
+considerations rise, the option’s value falls. If the negative effects of interest rates are
+greater than the positive effects of volatility, it might be possible for an option, if it is
+
+241
+
+
+242 Chapter 12
+
+European, to be worth less than parity.! In such a case, if the option were an American
+option it would become an early exercise candidate.
+
+For example, suppose a certain futures contract is trading at 100. Suppose also that
+we own an 80 call which will expire in two months, and that this option is subject to
+stock-type settlement. When we evaluate the option, we find that it has a theoretical
+value of 20 and a delta of 100. This means that the option has essentially the same
+characteristics as the futures contract. If the option is American, and we want to
+maintain the same delta position, we have three possible choices:
+
+1. Hold the option
+2. Exercise the option
+3. Sell the option and buy a futures contract
+
+Which of these choices is best?
+
+If we choose the first alternative and hold the position, there is no change to our
+account. The position we take home is identical to the one with which we begin the
+next trading day.
+
+If we choose the second alternative and exercise the 80 call, it is as if we had gone
+into the futures market and purchased a futures contract at 80. Since we now have a
+futures position, we are subject to futures-type settlement. If the futures contract which
+we purchased at 80 settles at 100, 20 points will be credited to our account—20 points
+on which we can earn interest. How much interest will we earn? That depends on the
+level of interest rates as well as the amount of time remaining to expiration. If interest
+rates are 6%, with two months remaining to expiration, we will earn:
+
+20 x 2/12 x 6% = .20
+
+Through early exercise of the option we will earn an additional .20 in interest over the
+time remaining to expiration. Since no trader wants to throw away an additional profit,
+exercising the option early makes better sense than simply holding the position.
+
+What about the third choice, selling the option ourselves and buying a futures
+contract? If the 80 call is trading at exactly its intrinsic value of 20 points, there is no
+difference between exercising the call, or selling the call and buying a futures contract.
+Both strategies will result in a 20-point credit, and over the time remaining to expiration
+we will earn the same interest of .20. But suppose the 80 call is trading at a price other
+than 20. Suppose it is trading at 19.50. Clearly, this price is not possible in a market
+where the options are American and can be exercised at any time. Purchasing an 80
+call for 19.50 is equivalent to purchasing the futures contract for 99.50. If the futures
+contract is trading at 100, this means the call is trading at less than parity. If this were
+indeed true, all traders would buy the call, sell the futures contract, and immediately
+exercise the call. This would result in a riskless profit of 50, the amount by which the
+
+1. Note that a European option with a theoretical value less than parity will have a positive theta. Its value
+will gradually rise to parity as expiration approaches.
+
+
+Early Exercise of American Options 243
+
+option was below parity. In a market where options are subject to early exercise, no
+option ought to be trading at less than parity.
+
+What if the option is trading for more than parity, say 20.50? If we sell the 80 call
+for 20.50 and buy the futures contract for 100, we will have the same position we would
+have had through early exercise. But now, instead 20 points, we will have 20.50 points
+credited to our account, We will realize an additional profit of 50 through the sale of
+the option, as well as the slight additional interest earnings which go with it.

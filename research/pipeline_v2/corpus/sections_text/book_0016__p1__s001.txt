@@ -1,0 +1,458 @@
+
+䊏 xxi 䊏
+
+䊏 xxii
+
+Preface for the Third Edition
+
+of a 10-minute candlestick and the beginning (open) of the next one,
+is just simply the next tick. Not a lot of time to develop a psychological outlook on the market, is it?
+So what has not changed? I still witness folks using candle pattern
+analysis that seem to forget its one primary and most basic premise;
+you must first identify the trend of the market before you can even
+begin to find candle patterns. How can you have a bullish reversal
+candle pattern if you not in a downtrend? You can’t. Remember,
+these short-term views of investor psychology are based upon the
+trend of the market.
+I still hear and witness analysts making much more out of candle
+pattern analysis than they should. It is not magical; it is not the key
+to instant profit; it is just simply another good short-term tool for
+market analysis and trading. Candle pattern analysis should always
+be supplemented with other analysis techniques.
+In this edition, I added considerably more information on the
+measures of success for candle patterns relative to many other technical indicators. I also enhanced the statistics that support the candle
+pattern filtering concept I introduced in the first edition.
+I have also shortened my view on the viability of using candle patterns. In the first edition I mentioned that they were fairly reliable up
+to about nine market days. Today, I strongly believe that anything
+over five days is coincidental and random. If a candle pattern calls the
+beginning of the biggest up move in history, it is not the candle pattern
+that causes it; the candle pattern only helps identify its beginning.
+Finally, Ryan Litchfield contributed a much-needed section on
+candlesticks for traders. If you are a trader you will love Chapter 10.
+If you are not a trader you will love Chapter 10.
+Gregory L. Morris
+Big Canoe, GA
+2006
+
+Acknowledgments
+There are people without whom this book could not have been possible. Where do I start? Who do I mention first? This, quite possibly,
+is more difficult than the book itself.
+One must never forget one’s roots. There is no doubt in my mind
+that my parents, Dwight and Mary Morris, are mostly responsible
+for all the good that I have ever accomplished. Any of the bad surely
+had to come from being a jet fighter pilot in the U.S. Navy for six
+years.
+I am blessed with a wonderful wife, Laura. Her support during
+this effort was unwavering and fully appreciated.
+Norman North (Mr. N-Squared Computing) has gone from a business associate to a valued friend. His insight and opinions are always
+sought and usually relied upon. The bottom line is this: without
+Norm, this book would not have been written. Steve North (Norm’s
+son) was invaluable with all the new material that was used in this
+edition.
+I am forever grateful to Takehiro Hikita for his gracious offer to
+visit Japan, stay in his home, and help with the many Japanese interpretations. My trip to Japan in January 1992 to study Japanese candlestick analysis was invaluable. His knowledge of candle pattern
+analysis is filtered throughout this book.
+Ron Salter, of Salter Asset Management, has always offered an
+unusual but insightful opinion on the economy and the markets, one
+that usually seems to be more right than wrong. I am grateful for his
+permission to quote some of his comments from his client letter.
+
+䊏 xxiii 䊏
+
+䊏 xxiv
+
+Acknowledgments
+
+Steve Nison must be given full credit and acknowledgment for pioneering “candlesticks” into Western analysis. His book Japanese
+Candlestick Charting Techniques, published by New York Institute
+of Finance/Simon & Schuster is a classic and provides the reader with
+a rich history of candlesticks and candlestick analysis. Nison coined
+many of the English names for the various patterns used in the West
+today. Many of the concepts used in the West today originated from
+Nison’s work and have been widely accepted as commonplace
+among candlestick enthusiasts. This book does not try to change
+that.
+The first book translated into English about Japanese candlesticks
+was The Japanese Chart of Charts, by Seike Shimizu. This book provided as immense wealth of information about all of the popular candle patterns along with their many interpretations. It was translated
+by Greg Nicholson. Another valuable source of information on candlesticks was published by Nippon Technical Analysis Association,
+called Analysis of Stock Price in Japan, 1988.
+My thanks also go to Chip Anderson and all the folks at
+StockCharts.com for their assistance in creating most of the new
+charts in this edition. Special recognition goes to Kellie Erlandson for
+converting them into a usable format and never complaining when I
+wanted to change something. Also thanks to Edgar Isidro for typing
+the original book into Microsoft Word. I think I must have been
+using a DOS-based word processor, or something long since gone
+when I did the first edition in 1991.
+Thanks to Jason Holcombe for reviewing all of my Japanese language books in search of any new patterns and providing a few of the
+translations for the new patterns.
+Thanks to Raymond Fowkes for his expertise in generating the
+Microsoft Excel tables that were converted into the Pattern Detail
+Information Boxes in Chapters 3 and 4.
+
+xxv 䊏
+Acknowledgments
+
+I need to give special mention of Ryan Litchfield, who made some
+significant contributions to this new edition. Ryan has a unique way of
+viewing markets and trading, and our collaboration on this edition has
+enhanced this book significantly. You are going to enjoy Chapter 10.
+As is the accepted standard, and certainly in this case the fact,
+whatever factual errors and omissions are sadly, but most certainly,
+my own.
+
+This page intentionally left blank
+
+CANDLESTICK
+CHARTING
+EXPLAINED
+
+This page intentionally left blank
+
+CHAPTER ONE
+
+Introduction
+Japanese candlestick analysis is a valid form of technical analysis and
+should be treated as such. Promoters of instant wealth will always
+misdirect and abuse their rights, but in the end, they are not around
+long enough to cause any substantial damage. One should always
+look into any new technique with a healthy amount of skepticism.
+Hopefully, this book will keep that skepticism under control and
+unnecessary.
+
+TECHNICAL ANALYSIS
+When considering technical analysis, one should remember that things
+are quite often not always what they seem. Many facts that we learn
+are not actually true; and what seems to be the obvious, sometimes is
+not. Many people believe water runs out of a bathtub faster as it gets
+to the end; it doesn’t. Some people may drink like a fish, but fish don’t
+drink. George Washington neither cut down a cherry tree, nor threw a
+silver dollar across the Potomac. Dogs don’t sweat through their
+
+䊏 1 䊏
+
+䊏 2
+
+Chapter One
+
+tongues, Audi automobiles never mysteriously accelerated, and the
+Battle of Bunker Hill was not fought at Bunker Hill (Breed’s Hill).
+A good detective will tell you that some of the least reliable information comes from eye witnesses. When people observe an event, it
+seems their background, education, and other influences color their
+perception of what occurred. A most important thing that detectives
+try to do at a crime scene is to prevent the observers from talking to
+each other, because most would be influenced but what others say
+they saw.
+Another curious human failing becomes a factor when we observe
+facts. The human mind does not handle large numbers or macro ideas
+well. That thousands of people die each year from automobile accidents raises scarcely an eyebrow, but one airplane crash, killing only a
+few people, grabs the nation. We are only modestly concerned that tens
+of thousands of people are infected with AIDS, but we are touched
+deeply when presented with an innocent child that has been indirectly
+infected. If a situation is personalized, we can focus on it. We can
+become deluded by our emotions, and these emotions can affect our
+perceptions. When our portfolios are plunging, all of the fears that we
+can imagine are dragged out: recession, debt, war, budget, bank failures, etc. Something is needed to keep us from falling victim to everyday emotion and delusion; that something is technical analysis.
+Almost all methods of technical analysis generate useful information, which, if used for nothing more than uncovering and organizing
+facts about market behavior, will increase the investor’s understanding of the markets. The investor is made painfully aware that technical competence does not ensure competent trading. Speculators who
+lose money do so not only because of bad analysis, but because of
+their inability to transform their analysis into sound practice. Bridging the vital gap between analysis and action requires overcoming the
+threats of fear, greed, and hope. It means controlling impatience and
+
+3 䊏
+Introduction
+
+the desire to stray away from a sound method to something new during times of temporary adversity. It means having the discipline to
+believe what you see and to follow the indications from sound methods, even though they contradict what everyone else is saying or
+what seems to be the correct course of action.
+
+JAPANESE CANDLESTICK ANALYSIS
+As a new and exciting dimension of technical analysis, Japanese candlestick charting and candle pattern analysis will help people who
+wish to have another tool at their disposal; this tool will help sort and
+control the constant disruptions and continuous outside influences
+on sound stock and futures market analysis.
+What does candlestick charting offer that typical Western highlow bar charts do not? As far as actual data displayed—nothing.
+However, when it comes to visual appeal and the ability to see data
+relationships easier, candlesticks are exceptional. A quick insight to
+the recent trading psychology is there before you. After a minimal
+amount of practice and familiarization, candlesticks will become part
+of your analysis arsenal. You may never return to a standard bar
+chart.
+Japanese candlesticks offer a quick picture into the psychology of
+short-term trading, studying the effect, not the cause. This places candlesticks squarely in the category of technical analysis. One cannot
+ignore the fact that prices are influenced by investors’ psychologically
+driven emotions of fear, greed, and hope. The overall psychology of
+the marketplace cannot be measured by statistics; some form of technical analysis must be used to analyze the changes in these psychological factors. Japanese candlesticks read the changes in the makeup of
+investors’ interpretations of value. This is then reflected in price
+
+䊏 4
+
+Chapter One
+
+movement. More than just a method of pattern recognition, candlesticks show the interactions between buyers and sellers. Japanese candlestick charting provides insight into the financial markets that is not
+readily available with other charting methods. It works well with
+either stocks or commodities. Related analysis techniques, such as
+candlestick filtering and CandlePower (candle volume) charting, will
+add to your analysis and timing capabilities.
+This book not only will serve as a complete guide to Japanese candlestick charting and candle pattern analysis, but will also provide conclusive evidence of the usefulness of candlestick patterns as an analysis
+tool. All methods of analysis and all assumptions will be opened and
+unobstructed. You will, after reading this book, either begin to use candlesticks to assist in your market analysis and timing or be confident
+enough in them to further your own research into candlestick analysis.
+
+JAPANESE CANDLESTICKS AND YOU
+Once you become accustomed to using candlestick charts, you will
+find it disconcerting to be limited to a standard bar chart. Without
+candlesticks, you will feel that you are not seeing the complete picture—that something is missing. Besides providing the quick and
+easy pattern recognition, candlesticks have great visual appeal. The
+data relationships almost jump off the page (or computer screen),
+hardly the case with bar charts.
+
+CANDLESTICK CHARTS VERSUS BAR CHARTS
+Throughout this book, the assumed time period will be a single day
+of trading. It should be understood that a bar or candle line can represent any trading period, not always just a day. However, daily
+
+5 䊏
+Introduction
+
+analysis is probably the most common and will thus represent the
+period of trading for this book. Additionally, the mention of inventors, speculators, and traders will be used throughout with no attempt to classify or define them.
+Standard Bar Charts
+The data required to produce a standard bar chart consists of the
+open high, low, and close prices for the time period under study. A
+bar chart consists of vertical lines representing the high to low range
+in prices for that day. The high price refers to the highest price that
+the issue traded during that day. Likewise, the low price refers to the
+lowest price traded that day.
+For years, the only other price element used in bar charting was
+the close price. The close was represented on the high-low bar as a
+small tick mark extending from the bar out to the right. Recently,
+bar charting has incorporated the open price by another small tick
+on the left side of the high-low bar. This stands true for almost all
+stock charts and stock data vendors. Most futures and commodity
+charts have always used the open price because it was more readily
+available.
+Most bar charts are displayed with a volume histogram at the bottom. Charting services also offer a number of popular indicators
+along with the bar chart. Technical analysis software vendors gave
+
+Figure 1-1
+
+䊏 6
+
+Chapter One
+
+Figure 1-2
+
+the user a great deal of flexibility in displaying the bar charts. The
+standard bar chart could be displayed with indicators, volume, open
+interest, and a large assortment of other technical tools appropriate
+for that software.
+Candlestick Charts
+Japanese candlestick charts do not require anything new or different
+as far as data are concerned. Open, high, low, and close are all that is
+needed to do candlestick charting. When this was first written, many
+
+7 䊏
+Introduction
+
+data vendors did not have open prices on stocks. This problem can be
+addressed by using the previous day’s close for today’s open price.
+This, however, presents a somewhat controversial situation and is
+thoroughly discussed in Chapter 6.
+
+THE BODY ( JITTAI)
+The box that makes up the difference between the open and close is
+called the real body of the candlestick. The height of the body is the
+range between the day’s open price and the day’s close price. When
+this body is black, it means that the closing price was lower than the
+opening price. When the closing price is higher than the opening, the
+body is white.
+
+THE SHADOWS ( KAGE )
+The candlestick line may have small thin lines above and/or below
+the body. These lines are called shadows and represent the high and
+low prices reached during the trading day. The upper shadow (uwakage) represents the high price and the lower shadow (shitakage) represents the lower price. Some Japanese traders refer to the upper
+
+Figure 1-3
+
+䊏 8
+
+Chapter One
+
+shadow as the hair and the lower shadow as the tail. It is these shadows that give the appearance of a candle and its wick(s).
+When drawing candlestick charts by hand, the Japanese use red
+instead of white to represent the up days (close higher than open).
+With the use of a computer, this is not feasible because red would be
+printed as black on most printers and you could not tell the up days
+from the down days. This also applies to photocopying.
+If you compare Figures 1-4 and 1-5, you can see that the Japanese
+candlestick chart really does not display anything different from the
+standard bar chart. However, once you become accustomed to seeing
+
+Figure 1-4
+
+9 䊏
+Introduction
+
+Figure 1-5
+
+Japanese candlestick charts, you will prefer them because their clarity is superior and allows a quick and accurate interpretation of the
+data. This matter of interpretation is also what this book is about.
+Japanese candlestick charting and analysis will continue to grow and
+gain in popularity. For as long as it is used as intended, only a profit
+of doom would suggest its demise.
+
+This page intentionally left blank
+
+CHAPTER TWO
+
+Candlestick Lines
+A day of trading in any stock or futures market is represented in traditional charts by a single line or price bar; Japanese candlestick
+charting is no different, except that the information is so much more
+easily interpreted.
+There is much information provided in a single candle line. This
+will help in understanding the psychology behind the many candle
+patterns described in later chapters. There are a few candle patterns
+that consist of only a single candlestick and also qualify as reversal
+patterns. They will be covered thoroughly in the chapter on reversal
+patterns.
+Each type of candle line has a unique name and represents a possible trading scenario for that day. Some candle lines have Japanese
+names and some have English names. Whenever possible, if the name
+is in English, the Japanese name will also be given. The Japanese
+name will be written in a format called Romanji. This is a method of
+writing Japanese so that it can be pronounced properly by nonJapanese-speaking people. Single candle lines are often referred to as
+yin and yang lines. The terms yin and yang are Chinese, but have
+been used by western analysis to account for polar terms, such as
+
+䊏 11 䊏
+
+䊏 12
+
+Chapter Two
+
+in/out, on/off, up/down, and over/under. (the Japanese equivalents
+are inn and yoh) Yin relates to bearish and yang relates to bullish.
+There are 9 basic yin and yang lines in candlestick analysis. These can
+be expanded to 15 different candle lines for a clearer explanation of
+the various possibilities. It will be shown in later chapters how most
+candle patterns can be reduced to single candle lines and maintain the
+same bullish or bearish connotations.
+
+LONG DAYS
+Reference to long days is prevalent in most literature dealing with
+Japanese candlesticks. Long describes the length of the candlestick
+body, the difference between the open price and the close price, as
+shown in Figure 2-1. A long day represents a large price movement
+for the day. In other words, the open price and the close price were
+considerably different.
+How much must the open and close price differ to qualify as a long
+day? Like most forms of analysis, context must be considered. Long
+compared to what? It is best to consider only the most recent price
+action to determine what is long and what is not. Japanese candlestick analysis is based solely upon the short-term price movement, so
+the determination of long days should be also. Anywhere from the
+previous 5 to 10 days should be more than adequate to produce the
+Figure 2-1
+
+13 䊏
+Candlestick Lines
+
+proper results. Other acceptable methods of determining long days
+may also be used. These will be thoroughly discussed in the chapter
+on pattern identification and the recognition.
+
+SHORT DAYS
+Short days, shown in Figure 2-2, may also be based on the same
+methodology as long days, with comparable results. There are also
+numerous days that do not fall into any of these two categories.
+Figure 2-2
+
+MARUBOZU
+Marubozu means close-cropped or close-cut in Japanese. Other interpretations refer to it as Bald or Shaven Head. In either case, the meaning reflects the fact that there is no shadow extending from the body at
+either the open or the close, or at both.
+Black Marubozu
+A Black Marubozu is a long black body with no shadows on either end
+(Figure 2-3). This is considered an extremely weak line. It often becomes part of a bearish continuation or bullish reversal candle pattern,
+especially if it occurs during a downtrend. This line, being black, shows
+the weakness of the continuing downtrend. A long black line could be a
+final sell off; this is why it is often the first day of many bullish reversal
+patterns. It is also called a Major Yin or Marubozu of Yin.
+
+䊏 14
+
+Chapter Two
+
+Figure 2-3
+
+Figure 2-4
+
+White Marubozu
+A White Marubozu (Figure 2-4) is a long white body with no shadow
+on either end. This is an extremely strong line when considered on its
+own merits. Opposite of the Black Marubozu, it often is the first part
+of a bullish continuation or bearish reversal candle pattern. It is
+sometimes called a Major Yang or Marubozu of Yang.
+Closing Marubozu
+A Closing Marubozu has no shadow extending from the close end of
+the body, whether the body is white or black (Figure 2-5). If the body
+is white, there is no upper shadow because the close is at the top of
+the body. Likewise, if the body is black, there is no lower shadow
+because the close is a the bottom of the body. The Black Closing
+Marubozu (yasunebike) is considered a weak line and the White
+Closing Marubozu is a strong line.
+Opening Marubozu
+The Opening Marubozu has no shadow extending from the open
+price end of the body (Figure 2-6). If the body is white, there would
+be no lower shadow, making it a strong bullish line. The Black Opening Marubozu (yoritsuki takane), with no upper shadow, is a weak
+and therefore bearish line. The Opening Marubozu is not as strong as
+the Closing Marubozu.
+
+15 䊏
+Candlestick Lines
+
+Figure 2-5
+
+Figure 2-6
+
+SPINNING TOPS (KOMA)
+Spinning Tops are candlestick lines that have small real bodies with
+upper and lower shadows that are of greater length than the body’s
+length (Figure 2-7). This represents indecision between the bulls and
+the bears. The color of the body of a spinning top, along with the
+actual size of the shadows, is not important. The small body relative
+to the shadows is what makes the spinning top.
+Figure 2-7
+
+DOJI
+When the body of a candle line is so small that the open and the closing prices are equal, they are called Doji (simultaneous or concurrent) lines. A Doji occurs when the open and close for that day are
+the same, or certainly very close to being the same. The lengths of the
+shadows can vary. The perfect Doji has the same opening and closing
+
+䊏 16
+
+Chapter Two
+
+price, however, there is some interpretation that must be considered.
+Requiring that the open and close be exactly equal would put too
+much of a constraint on the data and there would not be many Doji.
+If the difference between the open and close prices is within a few
+ticks (minimum trading increments), it is more than satisfactory.
+Determining a Doji day is similar to the method used for identification of a long day; there are no rigid rules, only guidelines. Just like
+the long day, it depends upon previous prices. If the previous days
+were mostly Doji, then the Doji day is not important. If the Doji
+occurs alone, it’s a signal that there is indecision and must not be
+ignored. In almost all cases, a Doji by itself would not be significant
+enough to forecast a change in the trend of prices, only a warning of
+impending trend change. A Doji preceeded by a long white day in an
+uptrend would be meaningful. This particular combination of days is
+referred to as a bearish Doji Star (Chapter 3). An uptrend that, all of
+a sudden, ceases to continue, would be caused for concern. A Doji
+means that there is uncertainty and indecision.
+According to Nison, Doji tend to be better at indicating a change
+of trend when they occur at tops instead of at bottoms. This is related
+to the fact that for an uptrend to continue, new buying must be present. A downtrend can continue unabated. It is interesting to note
+that the Doji also means “goof” or “bungle.”
+Long-Legged Doji ( juji )
+The Long-Legged Doji has long upper and lower shadows in the middle of the day’s trading range, clearly reflecting the indecision of buyers and sellers (Figure 2-8). Throughout the day the market moved
+higher and then sharply lower, or vice versa. It then closed at or very
+near the opening price. If the opening and closing are in the center of
+the day’s range, the line is referred to as a Long-Legged Doji. Juji
+means “cross.”

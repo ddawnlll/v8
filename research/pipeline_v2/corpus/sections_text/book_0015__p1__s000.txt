@@ -1,0 +1,494 @@
+Candlestick
+and
+Pivot Point
+Trading
+Triggers
+Setups for Stock, Forex,
+and Futures Markets
+
+JOHN L. PERSON
+
+John Wiley & Sons, Inc.
+
+Additional Praise for
+
+Candlestick and Pivot Point
+Trading Triggers
+“Coming from the trading floor, it wasn’t until we started building charting
+software that I realized how little I knew about the retail trader’s passion
+for technical analysis. John’s latest book clearly defines many of the delicate intricacies of trading patterns and key turning points. I’m a junkie for
+this type of stuff and I learned a ton from this book.”
+—Tom Sosnoff
+CEO, thinkorswim Group
+“As a professional options trader and teacher, I have always told my students that to be consistently successful in the markets, you must first
+identify the opportunity and then apply the best strategy for you that fits
+that opportunity. Candlestick and Pivot Point Trading Triggers is the answer to the first step: finding and identifying the best opportunities to trade.
+John breaks down pivot points, a sophisticated form of technical analysis,
+in a surprisingly simple way, and then combines it with candlesticks to create a simple and easy-to-use system. This system, unlike most others, is
+consistently able to predict highs and lows of stocks and other securities
+for multiple timeframes with amazing accuracy. This is a great book for
+traders of all experience levels and I am making it mandatory reading for all
+of my students.”
+—Ron Ianieri
+Chief Options Strategist, The Options University
+“John Person has built his career on teaching investors how to understand
+and use technical analysis. The strategies described in Candlestick and
+Pivot Point Trading Triggers are employed by professional traders every
+trading session and are the lifeblood of futures and forex investors. If you
+want a complete guide to why the smart money buys at this level and sells
+at that, you must read John’s book. I heartily endorse it!”
+—Jon “Doctor J” Najarian
+co-founder of www.optionmonster.com
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing
+company in the United States. With offices in North America, Europe, Australia, and Asia, Wiley is globally committed to developing and marketing
+print and electronic products and services for our customers’ professional
+and personal knowledge and understanding.
+The Wiley Trading series features books by traders who have survived
+the market’s ever-changing temperament and have prospered—some by
+reinventing systems, others by getting back to basics. Whether a novice
+trader, professional, or somewhere in-between, these books will provide
+the advice and strategies needed to prosper today and well into the future.
+For a list of available titles, visit our Web site at www.WileyFinance.com.
+
+Candlestick
+and
+Pivot Point
+Trading
+Triggers
+Setups for Stock, Forex,
+and Futures Markets
+
+JOHN L. PERSON
+
+John Wiley & Sons, Inc.
+
+Copyright © 2007 by John L. Person. All rights reserved.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form or
+by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior written
+permission of the Publisher, or authorization through payment of the appropriate per-copy fee to the
+Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax (978) 6468600, or on the web at www.copyright.com. Requests to the Publisher for permission should be
+addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030,
+(201) 748-6011, fax (201) 748-6008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in
+preparing this book, they make no representations or warranties with respect to the accuracy or completeness of the contents of this book and specifically disclaim any implied warranties of merchantability
+or fitness for a particular purpose. No warranty may be created or extended by sales representatives or
+written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall be
+liable for any loss of profit or any other commercial damages, including but not limited to special, incidental, consequential, or other damages.
+RealTick® graphics used with permission of Townsend Analytics, Ltd. © 1986–2006 Townsend Analytics,
+Ltd. All rights reserved. RealTick is a registered trademark of Townsend Analytics, Ltd. Any unauthorized reproduction, alteration, or use of RealTick is strictly prohibited. Authorized use of RealTick does
+not constitute an endorsement by Townsend Analytics of this book. Townsend Analytics does not guarantee the accuracy of or warrant any representations made in this book.
+Designations used by companies to distinguish their products are often claimed as trademarks. In all
+instances where John Wiley & Sons, Inc., is aware of a claim, the product names appear in initial capital
+or all capital letters. Readers, however, should contact the appropriate companies for more complete
+information regarding trademarks and registration.
+For general information on our other products and services or for technical support, please contact our
+Customer Care Department within the United States at (800) 762-2974, outside the United States at (317)
+572-3993 or fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may
+not be available in electronic books. For more information about Wiley products, visit our web site at
+www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Person, John L.
+Candlestick and pivot point trading triggers : setups for stock, forex, and futures markets / John L.
+Person.
+p. cm. — (Wiley trading series)
+Includes index.
+ISBN-13 978-0-471-98022-3 (cloth)
+ISBN-10 0-471-98022-6 (cloth)
+1. Stocks—charts, diagrams, etc. 2. Investment analysis. 3. Futures. 4. Options (Finance).
+I. Title. II. Series.
+HG4638.P468 2007
+332.63'2042--dc22
+2006011098
+Printed in the United States of America.
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+To my wife, Mary,
+who is always by my side and who gave me
+encouragement and assistance in completing this book.
+Thank you from the bottom of my heart
+and with all my love.
+
+Contents
+
+Introduction
+
+CHAPTER 1
+
+1
+
+Trading Vehicles, Stock, ETFs,
+Futures, and Forex
+
+5
+
+Determining Market Condition:
+Bullish, Bearish, or Neutral
+
+77
+
+How to Read Oscillators to Spot
+Overbought or Oversold Conditions
+
+93
+
+Momentum Changes: How to
+Spot Divergence or Convergence
+
+111
+
+Pivot Points: Determine Key Price
+Support and Resistance Areas and
+the Importance of Confluence
+
+121
+
+CHAPTER 6
+
+Pivot Point Moving Average System
+
+159
+
+CHAPTER 7
+
+Candle Charts and Top
+Reversal Patterns
+
+187
+
+CHAPTER 2
+
+CHAPTER 3
+
+CHAPTER 4
+
+CHAPTER 5
+
+vii
+
+viii
+CHAPTER 8
+
+CONTENTS
+
+Setups and Triggers: Combining
+Candles and Pivots
+
+213
+
+CHAPTER 9
+
+Risk Management: Setting Stops
+
+257
+
+CHAPTER 10
+
+Projecting Entry and Exit Points:
+Learn to Scale Out
+
+269
+
+The Sample Analysis: The Proof
+Is in the Back-Testing
+
+279
+
+Confidence to Pull the Trigger
+Comes from Within
+
+307
+
+CHAPTER 11
+
+CHAPTER 12
+
+Glossary
+
+317
+
+About the CD-ROM
+
+335
+
+Index
+
+339
+
+Acknowledgments
+
+want to thank Pamela van Giessen and Jennifer MacDonald of John
+Wiley & Sons for allowing me to share my work. I would also like to
+thank Cindy Cromwell, Mike Felix, Sarah Neis, and Joanna Pak from
+RealTick Software—what a great team! I also extend my sincere gratitude
+to Glen Larson and Peter Kilman from Genesis Software for testing my theories and for helping me to develop my trading library on their software.
+Between these two charting software companies, any serious trader will
+have the best support and the most advanced trading tools to succeed! I
+also wish to thank the folks at eSignal.com.
+I wish to thank all my past students for taking the initiative to apply
+these principles and for testing me while trading. I wish you all the very
+most life has to offer!
+To my son John, you have made your father proud! Then to Mary, my
+wife of 19 years, your help in fixing all my computer and technical issues
+was instrumental in helping me finish this project, including completing the
+Pivot Point Calculator CD.
+
+I
+
+JOHN L. PERSON
+
+ix
+
+Candlestick
+and
+Pivot Point
+Trading
+Triggers
+
+Introduction
+
+o all the individual traders reaching out to learn how to invest and
+trade wisely and to all those who are looking for new ideas and who
+have been around looking to learn a more positive approach, I say
+that after reading this material, you will find a great approach to trading and
+will learn the importance of or at least will expand your knowledge on how
+to develop your personalized mechanical trading system and learn why that
+is important. You will learn specifically what methods and parameters to
+use with time-tested material. My first book, A Complete Guide to Technical Trading Tactics, was released in April 2004. It was a great introductory
+on how to incorporate pivot point analysis with other forms of technical indicators and how it related to trading commodities. The foresight that book
+offered suggested that we would see resurgence in commodity activity and
+that commodity markets would soon be in vogue. I had chart examples of
+silver at 4.50 per ounce and gold at 350 per ounce. On page 211, I gave an example of a potentially great scale trading opportunity in coffee when it was
+as low as 49.00. Sugar was at 7.00. Crude oil was at 21.00. The 30-year bonds
+were at 111. The Federal Funds interest rate was at 1.0 percent. There were
+great trading opportunities, many of which I was able to take advantage.
+
+T
+
+THINGS CHANGE
+Times changed, as did prices of these raw commodities. Other hard asset
+products, including housing and real estate, besides the commodity markets, skyrocketed in value. Things changed; global tensions mounted as we
+1
+
+2
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+invaded Iraq trying to set a country free. Nations’ economies grew
+as new opportunities emerged in places such as China and India. Global
+economic growth pushed demand for products through the roof, creating
+spectacular price gains. Things changed alright, even intermarket relationships. Gold went up on fears of inflationary pressures in light of the Federal
+Reserve (Fed) raising interest rates. In turn, the U.S. dollar rallied as the interest rate differentials widened here in the United States against foreign
+central banks.
+
+THE CONUNDRUM
+One favorite word among economists in 2005 was conundrum, which was
+used by then-chairman of the Federal Reserve Alan Greenspan. This was
+the term he used to describe the event of Treasury yields declining while
+the Fed was raising interest rates. The Federal Reserve moved to raise interest rates 14 consecutive times in 0.25 percent increments in an effort to
+reduce inflationary pressures. Bond yields, instead of moving in tandem
+with the Fed’s rate hikes, declined. Short-term Treasury instruments were
+yielding more than longer-term, and what developed was known as a flattening of the yield curve. At some points, we even had an inversion effect,
+where longer-term interest rate instrument yields were lower than shorterterm. Throughout history, that is a sign that the economy will soon proceed
+into a recession.
+
+HISTORY SHOULD REPEAT ITSELF
+Often it is said that history repeats itself. Economies and the world move in
+cycles. Based on the market’s price behavior and the climb that commodity prices had, intermarket relationships were not moving in a traditional
+way in 2005, or at least not in a manner in which they had in the past. History should have repeated itself, but it did not; or if it does, it will be a delayed reaction. Due to this keen observation, there was one solid piece of
+advice I was constantly giving to people through our trading room or in my
+newsletter advisory service. It was, “Trade the markets independently of
+each other.” One reason for this advice was this: Not much was making
+sense at times in the traditional way. Let’s face it, when crude oil or energies shoot to the moon, it is inflationary and has a taxing effect on consumers. We would have expected stocks to sell off sharply, and they did not
+(they did not rally much either in 2005). When federal deficits soar, it creates inflationary pressures; when the Fed raises interest rates, yields should
+
+Introduction
+
+3
+
+go up and Treasury prices should go down. The key word is “should go
+down.” What happened was just the opposite. Gold was the only mover that
+acted in response to investors’ demand for protection on resurgence in inflation. In fact, at times, price swings of gold interacted well with crude oil.
+
+DELAYED REACTION
+As of February 2006, the U.S. economy was in its third year of an economic
+recovery. It remained a stock picker’s market, as we did see stellar moves
+from Apple, Rambus, AMD, and other lost hopefuls. But there were other
+investors who were expanding their knowledge in trading other investment
+assets, such as foreign currencies. There were others who made fortunes in
+real estate. Unemployment in January 2006 was reported at 4.7 percent.
+Times were good and were probably going to remain good forever! Well,
+that’s where I must say, “You can’t cheat history.” As the old saying goes, if
+it’s got four legs and a tail, it’s probably an animal. I see a delayed reaction
+and an economic downturn. Will it be the end of civilization as we know it
+today? I doubt it. However, I believe we will go into a period of an economic
+slowdown. Why? For starters, usually we see energy and commodity prices
+rally near the peak of an economic upturn. Then, as the Fed fights inflation,
+they will continue to put the brakes on and continue to raise interest rates.
+Since no one knows for sure how soon or by how much consumers will adjust their spending habits, usually the Fed will go too far. That will slow borrowing and increase debt payments, especially on all those adjustable
+mortgage rates (ARMs) that so many people have. Yes, I believe an economic downturn will occur. I just believe it will be a delayed reaction. It
+seems that most cycles have stretched a little further than people believe.
+Just ask all the folks who predicted a stock market crash in 1999. They
+were right, but quite a bit off in their timing. That leaves one to wonder
+where to go to make money.
+
+TRADING FOR A LIVING
+If you don’t already know of my past, I started in the business as a runner
+on the floor of the Chicago Mercantile Exchange back in the late 1970s. I
+had the privilege of working with a true master trader, George Lane, the
+creator of stochastics. I had a knack for the financial markets and learned
+to trade the 30-year bonds. I also discovered how to use pivot points and
+how to incorporate longer-term time periods in my analysis. Then came options on commodities; and in 1986 I made a fortune for myself and others in
+
+4
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+the bond market. I gradually improved my techniques; and through the understanding of candle charts while using them in conjunction with pivot
+points, I have developed quite a methodology that shows a high frequency
+of recurring patterns. This is what I believe is one of the single best methods for identifying market moves for various trading vehicles. Trading for a
+living is a fabulous career. Now more than ever, we have global market influences, advanced technology, equal access, market liquidity, and, best of
+all, diversified markets investment vehicles. We have forex, or foreign currency exchange; futures products to day trade; and commodities that allow
+speculators to participate in a structured, regulated, open marketplace that
+offers leverage. Then we have stocks to participate in investing for longterm growth. And there is a new breed of investment asset, exchange
+traded funds. Most of these products offer options so as to hedge or speculate to fully capture a market opportunity and develop the right strategy to
+enhance rewards wile reducing risks.
+
+THE NEW AGE TECHNICIAN
+As a technician, one who practices the art of technical analysis, I have now
+more than at any time in the past a greater edge in the marketplace.
+Through electronic market access and charting software with the power of
+today’s computers, I can take my refined market analysis methods and implement these strategies and apply them to all markets. As long as there is
+liquidity and a structured environment, and as long as I keep my trading
+capital intact, follow specific trading rules to manage risk, there will be a
+bonanza of opportunities in the years ahead. I fully expect the techniques
+that I am sharing with you in this book to help you discover how to be a
+consistently profitable trader. This book opens the door to how you can
+learn to read charts and rely on price rather than on indicators. You will
+learn what triggers momentum and what to look for in order to spot when
+a market changes direction. Another important element of this book is that
+it will help you learn techniques to cut your losses quickly and to stay with
+the winning trend, to ride a winning tide.
+
+CHAPTER 1
+
+Trading Vehicles,
+Stock, ETFs,
+Futures,
+and Forex
+
+elcome to Trading Triggers. If you are an active trader or a firsttime investor looking for a trading method that suits your personality, then you have the right book. Trading for a living is an
+amazing and yet risky business. There is more to trading than buying and
+selling. There are often-missed but important issues that many books do
+not mention, such as not only how to make money in the market but also
+how to keep it and create a positive cash flow. The purpose of this book is
+to take you to a new level of trading knowledge by giving detailed explanations of technical tools that will help you develop your own trading system
+so you can cultivate and extract money from the market, especially those
+traders who want high alpha (big returns) with reasonable standard deviation (volatility). I will explain some of the most obvious yet simple concepts
+of how to interpret technical analysis and improve your chart-reading skills
+so you can make money in the markets.
+There are two theories on how markets perform: efficient market theory and random walk theory.
+
+W
+
+1. Efficient market theory lends to the belief that markets are always
+
+priced correctly because the current price reflects all factual information. If the markets are efficient, then no fundamental information will
+give an investor an edge in the market.
+2. Random walk theory lends to the belief that price movements do not
+follow any pattern or trend and that past price behavior cannot be used
+
+5
+
+6
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+to predict future price movements. In other words, the markets are
+completely unpredictable.
+I fall in the category of believing that history can and does repeat itself.
+People can and do make money based on technical analysis, and I am here
+to help prove it.
+
+IMPORTANCE OF A RULE-BASED APPROACH
+You may have heard of Jesse Livermore, who was immortalized by Edwin
+Lefèvre’s book Reminiscences of a Stock Operator (G. H. Doran, 1923;
+Wiley, 2006). Jesse was considered one of the greatest speculators of his
+day. Many of his principles and ideas are still used. His three key concepts
+of trading are (1) timing, (2) risk management, and (3) emotional control.
+This quote from Richard Smitten’s Trade Like Jesse Livermore (Wiley,
+2005, p. 70) sticks with me because it is as true now as it ever was (keep in
+mind that Jesse committed suicide in 1940, so this was stated nearly 70
+years ago): “All through time, people have basically acted the same way in
+the stock and commodity markets as a result of greed, fear, ignorance, and
+hope: that is why the formations and patterns recur on a constant basis. The
+patterns the traders and technicians observe are simply the reflections of
+human emotional behavior.”
+Most traders who are consistently profitable have learned to develop a
+rule-based approach that doesn’t change. They have within their arsenal of
+trading tools, definitive, recognizable, and frequently reoccurring patterns
+that can be used to trade by a set of established trading rules. They can
+clearly define, without guessing or using a vague approach, support and resistance levels and what to do once prices reach those levels. Moreover,
+they have the ability to clearly define their entry, stop-loss, or risk parameters and their profit objectives in a consistent, repetitious fashion each time
+they place a trade. This is what I do when trading my own account and what
+I have taught my son and even my own father. My dad used to think trading
+commodities was like gambling until I showed him a method. This is the
+same method that will be disclosed in these pages.
+It is important for you to realize that it is the emotional balance that
+helps keep you on the profitable side of the ledger. You must never anticipate what the market might do, but rather wait for confirmation on
+your triggers.
+Most traders who are profitable are flexible as to the anticipated outcome that may occur on each trade. Successful traders have the mindset to
+develop the perspective that their trading business is to manage their
+
+Trading Vehicles, Stock, ETFs, Futures, and Forex
+
+7
+
+money rather than to predict the future. Successful traders can emotionally
+handle losing trades or the negative trades that result from an error or
+trading equipment malfunction. Remember that the business of trading
+for a living requires that you establish some kind of structure in a marketplace with countless variables. Why not consider trading by a set of rules?
+Most traders do not trade by a system; the term “black box” just means
+that a trader has input a set of trading parameters and automatically executes a trade based on a specific set of criteria—strict rules to automatically trade by.
+
+START TRADING AS A BUSINESS
+If you are currently trading for a living or if you are expanding your knowledge to learn how to trade for a living, remember that this is a business. You
+need to treat it like a business. Therefore, some considerations need to be
+made, for example, forming a corporation in order to deduct such expenses
+as your computer equipment, quote feed, DSL (digital subscriber line), office rent, travel to investment conferences, and continued education seminars. What matters most to every trader and investor is creating a positive
+cash flow. You wouldn’t want to finally start learning to make money consistently in the market and find out that you cannot take any expense deductions. You should seek advice from a tax specialist so that you can take
+advantage of all regular and necessary expenses as business deductions
+and save thousands of dollars each year.
+Let’s add up the examples I mentioned: Suppose your quote feed is
+$200 per month and your DSL is $40 per month. Renting a small one-room
+office could run $500 to $700 per month. Then there are equipment expenses, such as your desktop computers, a laptop for travel, monitors and
+printers and ink cartridges and general office supplies to purchase and upgrade from time to time, say $2,000. Attending an investment conference
+could mean $700 roundtrip airfare, plus $250 per night for hotel and meals.
+If you have business entertaining expenses and went to at least two conferences per year, you could be talking as little as $5,000 to as much as
+$25,000 in actual business expenses that can be deducted if you are running
+trading as a business.
+If you are a first-time smaller investor and decide that trading for a living is something you have the financial resources, time, and emotional
+makeup to do, what business plan do you have in place to protect the
+money you make in the market? Where will you put your profits as a shortterm trader? Some traders have had many problems with this issue; it is
+similar to the old expression of “Robbing Peter to pay Paul.” After all, who

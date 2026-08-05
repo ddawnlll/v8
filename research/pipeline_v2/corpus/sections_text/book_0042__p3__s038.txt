@@ -1,0 +1,730 @@
+
+The lag of a simple moving average can be reduced while maintaining the same degree of smoothing by using a linearly weighted moving
+average. As pointed out by Ehlers 16 the lag of a linearly weighted moving
+average with a look-back span of n days is
+1)/3 compared with
+1)/2 for a simple moving average. Thus, a linearly weighted moving average with a span of 10 days will have a lag of 3 days whereas a simple
+moving average with the same span will have a lag of 4.5 days. The linear-weighting scheme applies a weight of n to the most recent data
+point, where n is the number of days in the moving average look-back
+span, and then the weight is decreased by one for each prior day. The
+sum of the weights becomes the divisor. This is illustrated in the following equation:
+
+en -
+
+en -
+
+Linear Weighted Moving Average
+Weights
+r-"---..,...-"----,
+
+~
+
+(n) x Pt + (n-l ) x Pt-l + ... + (n-(t-n+ 1» x Pt-n+ 1
+WMAt
+
+n + n-l + ... + n-(t-n-l )
+.....
+
+----------_/
+
+Sum of Weights
+Where:
+Pt = Price at time t
+WMA t = Weighted moving average at time t
+n = Number of days used to compute moving average
+
+The case study used a four-day linearly weighted moving average to
+smooth indicators used in rules that signal when the indicator crosses
+above or below a critical threshold. Smoothing mitigates the problem of
+excessive signals that an unsmoothed version of the indicator wiggling
+back and forth across the threshold would produce. The calculation of a
+
+401
+
+Case Study of Rule Data Mining for the S&P 500
+
+four-day linearly weighted moving average is illustrated in the following
+equation:
+
+Four Day Linear Weighted Moving Average
+Weights
+,-..A--,
+
+,-..A--,
+
+,-..A--,
+
+,-..A--,
+
+(4)xPtO + (3) xPt-] + (2)xPt-2 + (1 )XPt-3
+
+WMAt
+
+10
+'-v--J
+
+Sum of Weights
+Where:
+Pt = Price at time t
+
+WMAt = Weighted moving average at time t
+
+n = Number of days used to compute moving average
+
+Channel- ormaJization Operator
+
+(Stochastics): C
+The channel-normalization operator (CN) removes the trend in a time
+series, thus clarifying short-term fluctuations around the trend. Channel
+normalization detrends the time series by measuring its current position within a moving channel. The channel is defined by the maximum
+and minimum values of the time series over a specified look-back span.
+In this way it is similar to the channel breakout operator discussed
+earlier.
+The channel normalized version of a time series is scaled to the range
+o to 100. When the raw time series is at its maximum value within the
+look-back span, CN assumes the value of 100. When the series is at the
+minimum value within the look-back span the CN is equal to zero. A value
+of 50 indicates the series is currently midway between its maximum and
+minimum values.
+
+402
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+The calculation of CN is illustrated in the following equation:
+
+Channel Normalization Operator
+
+CNt
+
+I
+=l
+
+St - Smin-n
+Smax-n - Smin-n
+
+l
+
+100
+
+Where:
+CNt = n day channel normalized value on day t
+St = Value of time series at time t
+Smin-n = Minimum value of time series, last n days
+Smax-n = Maximum value of time series, last n days
+n = Channel look-back span in days
+An example of the calculation is illustrated in Figure 8.6.
+
+In terms of its filtering properties, the CN operator functions as a
+high-pass filter. In contrast to the moving average, a low-pass filter, CN expresses the short-period (high-frequency) oscillations in its output while
+filtering out the long-period fluctuations or trend. This is illustrated in Figure 8.7. Note that the input series has a distinct upward trend, but the output series has no trend.
+Input
+Series
+
+Look-Back Span
+
+Current
+
+7S
+
+Channel Minimum: 60
+
+Time
+
+Channel Normalized Value = (75 - 60)/(83-60) = 0.65
+FIGURE 8.6 Channel normalization.
+
+403
+
+Case Study of Rule Data Mining foy the S&P 500
+
+Input:
+Time Series
+
+Output:
+Time Series
+
+eN
+Operator
+
+Time
+
+Time
+
+FIGURE 8.7 Channel normalization operator: a high-pass filter.
+
+The CN operator has been known in TA at least as far back as 1965
+when Heiby l7 used it to formulate divergence rules. He measured divergences by comparing the channel normalized value of the S&P 500 with
+the channel normalized value of a market breadth indicator. According to
+Heiby, a divergence occurred when one series was in the upper quartile of
+its 50-day range (CN > 74) while the other series was in the lower quartile
+of its range (CN <26). Sometime in the early 1970s, a virtually identical operator was described by George Lane,18 who dubbed it stochastic. Unfortunately, the name is a misnomer. In reality, stochastic is a mathematical
+term that refers to the evolution of a random variable through time. There
+is nothing random about the C operator, which is a completely deterministic data transformation. This text uses the term channel normalization
+(CN) rather than Lane's term, because it accurately describes what the operator does. Most TA writings continue use the tem1 stochastics. The case
+study utilizes the CN operator for two types of rules: (1) extremes and
+transitions and (2) divergences. They are discussed in following sections.
+
+Indicator Scripting
+As discussed earlier, the tin1e series that are used as inputs to the rules
+
+may either be in raw form, just as they comes from the market, or in the
+form of indicators-times series that have been created by applying one
+or more mathematical, logical, or time-series operators to one or more
+raw time series. The specification of an indicator may require the application of several operators. For example, the raw time series might first be
+smoothed with a moving average and then channel normalization is applied to the smoothed version. When the creation of an indicator involves
+multiple steps, it is convenient to express it in terms of an indicator
+scripting language (ISL). An ISL expression succinctly depicts the set of
+transformations used to create the indicator from raw time series.
+
+404
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+My first exposure to an ISL was Gener, which was developed in 1983
+for Raden Research Group by friend and colleague Professor John Wolberg. Today, ISLs are common. All rule back-testing platforms,19 such as
+TradeStation, Wealth-Lab, Neuro-Shell, Financial Data Calculator, and so
+forth have an ISL. Though each ISL has features unique to it, they share
+similar syntaxes. The most basic ISL statement is a time-series operator
+followed by a set of parentheses that contain the arguments of the operator. The arguments are the items that must be defined for the operator to
+do its thing. Operators differ in terms of the number of arguments required. For example, the moving-average operator requires two arguments: a data series to which the operator will be applied and the number
+of periods in the look-back span. Thus a moving-average indicator would
+be specified by a statement such as this:
+Moving Average Indicator = MA (input series, N)
+Where:
+MA is the moving average operator
+N is the number of days in the moving average.
+
+The general form of an indicator expression in scripting language is:
+Indicator = Operator (Argument l , Argument z' ... , Argument j )
+Where:
+i is the number of arguments required by the operator.
+
+Figure 8.8 shows the ISL syntax for the operators defined thus far:
+channel breakout, moving average, and channel normalization.
+A key benefit of ISL is the ability to define complex indicators by nesting operators. In nesting, the output of one operator becomes an argument for a second operator and so on. For example, if one wanted to
+define an indicator that is the 60-day channel normalization of another
+time series that is a lO-day moving average of the Dow Jones Transportation Index, the expression for the indicator in ISL would look something
+like this:
+Indicator = eN [MA(DJTA, 10), 60]
+
+Case Study of Rule Data Mining faY the S&P 500
+
+405
+
+Channel-Breakout Operator (CBO)
+Number of Arguments = 2:
+
+Indicator = CBO (Time Series, n)
+
+Moving-Average Operator (MA) or Linear Weighted MA (LMA)
+Number of Arguments = 2:
+
+Indicator = MA or LMA (Time Series, n)
+
+Channel-Normalization Operator (CN)
+Number of Arguments = 2:
+
+Indicator = CN (Time Series, n)
+FIGUKI~ 8.8
+
+Indicator scripting language for three TA operators.
+
+I PUT SERIES TO RULES: RAW TIME SERIES
+AND INDICA1'ORS
+This section describes the 24 raw time series used in the case study as
+well as the 39 time series that were ultimately used as rule inputs. Ten of
+the 39 inputs were in the fOffil of raw unprocessed time series: S&P 500
+closing price, Dow Jones Transportations Index closing price, NASDAQ
+Composite Index closing price, and so forth. The additional rule 29 inputs
+were indicators derived from one or more raw time series.
+Raw Time Series
+
+The 24 raw time series used in the case study came from two sources:
+Ultra Financial Systems 20 and Market Timing Reports. 21 They are shown
+in Table 8.1.
+Indicators
+
+Twenty-nine of the 39 rule inputs were indicators derived by transforming one or more raw time series with various mathematical, logical, and
+
+CASE STUDY: SIGNAL RULES FOR THE S&P sao INDEX
+
+406
+'rABLE 8.1
+Number
+
+Raw Time Series
+Raw Data Series
+
+Abbreviation
+
+Source
+
+S&P SOO Daily Close
+
+SPX
+
+Ultra 8
+
+2
+
+S&P SOO Open
+
+SPO
+
+Ultra 8
+
+3
+
+DjlA High
+
+DjH
+
+Ultra 8
+
+4
+
+DjlA low
+
+Djl
+
+Ultra 8
+
+5
+
+DjlA Close
+
+OJ(
+
+Ultra 8
+
+6
+
+S&P Industrials
+
+SPIA
+
+Market Timing Reports
+
+7
+
+Dow jones Transports
+
+DjTA
+
+Market Timing Reports
+
+8
+
+Dow jones Utilities
+
+DjUA
+
+Market Timing Reports
+
+9
+
+NYSE Financial Index
+
+NYFA
+
+Market Timing Reports
+
+10
+
+Dow jones 20 Bonds
+
+DjB
+
+Ultra 8
+
+11
+
+NASDAQ Composite Close
+
+OTC
+
+Ultra 8
+
+12
+
+Value Line Geometric Close
+
+VL
+
+Ultra 8
+
+13
+
+NYSE Advancing Issues
+
+ADV
+
+Ultra 8
+
+14
+
+NYSE Declining Issues
+
+DEC
+
+Ultra 8
+
+15
+
+NYSE Unchanged Issues
+
+UNC
+
+Ultra 8
+
+16
+
+NYSE New S2-Week Highs
+
+NH
+
+Ultra 8
+
+17
+
+NYSE New 52-Week Lows
+
+NL
+
+Ultra 8
+
+18
+
+NYSE Total Volume
+
+TVOL
+
+Ultra 8
+
+19
+
+NYSE Upside Volume
+
+UVOl
+
+Ultra 8
+
+20
+
+NYSE Downside Volume
+
+DVOl
+
+Ultra 8
+
+21
+
+3-Month T-Bill Yields
+
+T3M
+
+Market Timing Reports
+
+22
+
+1O-Year T-Bond Yields
+
+Tl0Y
+
+Market Timing Reports
+
+23
+
+AAA Bond Yields
+
+AAA
+
+Market Timing Reports
+
+24
+
+BAA Bond Yields
+
+BAA
+
+Market Timing Reports
+
+time-series operators. This section describes the transformations used to
+produce these indicators.
+The indicators are presented in four categories: (1) price and volume
+functions, (2) market-breadth indicators, (3) prices-of-debt instruments,
+and (4) interest-rate-spread indicators.
+Price & Volume Functions. Fifteen (15) indicators were functions
+that combine price and volume information. A number of studies have
+
+Case Study of Rule Data Mining for the S&P 500
+
+407
+
+shown that trading volume contains useful infomlation both on its
+own and when used in conjunction with price. 22 Technical analysis
+practitioners have suggested a number of price and volume functions:
+on-balance volume, accumulation distribution volume, money flow,
+negative volume, and positive volume. Each of these functions is described below.
+The price-volume functions were used to create two types of indicators: (1) cumulative sums and (2) moving averages. An indicator defined
+as a cumulative sum is the algebraic sum of all prior daily values of the
+price-volume function. The daily value of a price-volume function can either be a positive or negative quantity. Thus, an indicator defined as the
+cumulative sum of the on-balance volume, at a given point in time, is equal
+to the sum of all prior values of the daily on-balance-volume quantity. An
+indicator defined as a cumulative sum will display long-term trends similar to those observed in the levels of asset prices and interest rates. In
+other words, these indicators are nonstationary time series.
+In contrast, a moving average of a price-volume function will be a stationary time series. In other words, it will not display trends. This is explained by the fact that a moving average only considers the observations
+within the look-back span. Since price and volume functions can assume
+both positive or negative values, a moving average will tend to remain
+within a relatively confined range near zero. See Figure 8.9.
+
+Cumulative Sum
+Price-Volume Function
+
+Time
+
+Moving Average
+Price-Volume Function
+
+b
+
+f"v\ f\
+o I~V V
+
+1\V\JJ
+rv\
+[\ f\ J.
+\TV
+
+Time
+
+FIGURE 8.9 Cumulative sum versus moving average of price-volume functions.
+
+408
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+Cumulative On-Balance Volume. Perhaps the first invented price &
+volume function was the cumulative on-balance-volume indicator,
+which is attributed to Joseph Granville and Woods and Vignolia. 23 It is a
+cumulative sum of signed (+ or -) total market volume. The algebraic
+sign of the volume for any given day is determined by the sign of the
+change in a market index for the current day, week, or whatever time
+interval is being used. The case study used daily market changes in the
+S&P 500 to determine the appropriate sign for the volume. If the price
+of the index rose on a given day, that day's entire NYSE volume was assigned a positive value and the number of shares traded was added to
+the prior cumulative sum. On days when the price declined, the NYSE
+volume was assigned a negative value and added to the prior cumulative sum (Le., subtracted).
+The computation for the cumulative on-balance volume is shown in
+the following equation: 24
+
+Cumulative On-Balance Volume (COBV)
+COBVt = COBVt-l + (ftVt)
+
+ft = 1.0
+ft = -1.0
+ft = 0
+
+if PCt > PCt-l
+if PCt < PCt-l
+if PCt = PCt-l
+
+Where:
+OBVt = (ftVt) = On-Balance Volume for day t
+COBVt = Cumulative On-Balance Volume for day t
+Vt = NYSE volume for day t
+PCt = Closing price S&P 500 for day t
+
+Moving Averages of On-Balance Volume. In addition to the cumulative on-balance volume, two moving averages of daily on-balance vol-
+
+Case Study of Rule Data Mining for the S&P 500
+
+409
+
+ume were considered: for 10 and 30 days (OBVlO, OBV30). In ISL they
+would be:
+OBVl O=MA(OBV, 10)
+OBV30=MA(OBV,30)
+
+where OBV represents the on-balance volume for a given day.
+
+Cumulative Accumulation-Distribution Volume (CADV). Another
+price-volume function, accumulation distribution volume, is
+attributed to Marc Chaiken. 25 However, there are several similar functions including: Intra-day Intensity developed by David Bostian and
+Variable Accumulation Distribution developed by Larry Williams.
+These transformations attempt to overcome a perceived limitation in
+on-balance volume, which treats the entire day's volume as positive
+(negative) even if the market index had a miniscule positive (negative)
+price change. It was felt that minor price changes should not be treated
+the same as large price changes. The proposed modifications to onbalance volume sought to ameliorate on-balance volume's all-or-none
+approach.
+Chaiken proposed that a day's price activity could be more accurately characterized by quantifying the position of the closing price
+within the high-low range. Specifically, his calculation takes the difference between the closing price and the midpoint of the daily range and
+divides the difference by the size of the range. The assumption is that,
+when the market closes above the midpoint of its daily range, bullish or
+accumulation activity dominated the day's trading activity (accumulation) and should predict higher prices. Conversely when the market
+closes below the midpoint of its daily range, the day is said to be dominated by bearish or distribution activity and should predict lower
+prices. Only if the index closed at the low of the day or the high of the
+day is the entire day's volume assigned a negative (distribution) or positive (accumulation) value. More typically, the close is somewhere
+within the day's range resulting in some fraction of the volume being assigned to accumulation (positive volume) or to distribution (negative
+volume). The range factor, which is defined below, quantifies the position of the closing price within the day's range. The range factor is
+multiplied by the daily volume, and this figure is accumulated to produce the cumulative sum. The calculation is shown in the following
+equation. 26
+
+410
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+Cumulative Accumulation/Distribution Volume
+CADVt = CADVt-l + (Vt x Rft)
+Range Factor (Rft) =
+
+(PCt - Pit) - (Ph t - PCt)
+(Ph t - Pit)
+
+Where:
+ADVt =Vt x Rft = Accumulation/Distribution Volume for day t
+CADVt = Cumulative Accumulation/Distribution Volume for day t
+Vt = NYSE volume for day t
+Rft = Range factor for day t
+PCt = Closing price Dow Jones Industrials for day t
+Pit = Low price Dow Jones Industrials for day t
+Ph t = High price Dow Jones Industrials for day t
+
+The case study used data for Dow Jones Industrials for the calculation of the accumulation-distribution function rather than the S&P 500 because daily high and low prices were not available for it. I assumed that
+the closing position of the Dow Industrials within its range would be similar to the closing position of the S&P 500 within its range.
+
+Moving Averages of Accumulation Distribution Volume. Moving
+averages of daily accumulation/distribution values were constructed for
+10- and 30-day periods. In ISL they are:
+ADVI O=MA(ADV, 10)
+ADV30=MA(ADV,30)
+
+Cumulative Money Flow (CMF). Cumulative money flow (CMF) is
+similar to CADY with the exception that the product of volume and
+range factor is further multiplied by the price level in dollars of the S&P
+500 Index. This is intended to measure the monetary value of the volume. The price level used is an average of the daily high, low, and closing prices. The computation is shown in the following equation: 27
+
+Case Study of Rule Data Mining for the S&P 500
+
+411
+
+Cumulative Money Flow
+CMFt = CMFt-l + (Vt x APt x Rft)
+Range Factor (Rft)
+
+=
+
+(PCt - Pit) - (Pht - PCt)
+(Ph t - Pit)
+
+Where:
+MFt = (Vt x APt x Rft) = Money Flow for day t
+CMFt = Cumulative Money Flow for day t
+APt = Average price S&P 500 for day t: (Hi + La + Close)/3
+Vt = NYSE volume for day t
+Rft = Range Factor for day t
+PCt = Closing price Dow Jones Industrials for day t
+Pit = Low price Dow Jones Industrials for day t
+Ph t = High price Dow Jones Industrials for day t
+
+Moving Averages of Money Flow. Moving averages of money flow
+were constructed for 10- and 30-day periods. In ISL they are:
+MFI O=MA(MF, 10)
+MF30=MA(MF,30)
+Cumulative Negative Volume Index (CNV). Cumulative negative
+volume is an accumulation of price changes on days of lower trading volume. In other words, it is a continuous algebraic sum of daily percentage
+changes in a stock market index on days when volume is less than the
+prior day. When volume is equal to or greater than a prior day, the CNV remains unchanged.
+The inventor of CNV is unclear. Several sources attribute it to Norman Fosback28 but several sources, including Fosback, attribute the
+idea to Paul Dysart. 29 However, it seems clear that it was Fosback who
+developed objective signal rules for CNV and evaluated their predictive
+power. 30
+The notion of negative volume is based on the conjecture that "trading by unsophisticated investors occurs predominately on days of exuberantly rising volume, whereas informed buying and selling (Le.,
+
+CASE STUDY: SIGNAL RULES FOR THE S&P sao INDEX
+
+412
+
+smart-money activity) usually occurs during quieter periods of declining volume. Therefore, the direction that the market assumes on days of
+negative volume purportedly reflects accumulation (buying) or distribution (selling) of stock by those who are in the know."31
+The computation of the index is as shown in the following equation:
+
+Cumulative Negative Volume Index (CNV)
+CNVt = CNVt-l + ft
+ft = [(Pctl PCt-l )-1] x 100
+
+if Vt < Vt-l
+
+ft = a
+
+if Vt> or = Vt-l
+
+Where:
+NVt = ft = Negative Volume Index for day t
+CNVt = Cumulative Negative Volume Index for day t
+Vt = NYSE volume for day t
+PCt = Closing price S&P 500 for day t
+
+Moving Averages of Negative Volume Index. Moving averages of the
+daily value of negative volume index (i.e., index's percentage change on
+lower volume days) were constructed for 10- and 3D-day periods. In ISL:
+NV1 O=MA(NV, 10)
+NV30=MA(NV,30)
+
+Cumulative Positive Volume Index (CPV). Cumulative positive volume (CPV) is the opposite of CNV. It is an algebraic accumulation of market index changes for days when volume is greater than the prior day.
+Positive volume index is variously attributed to Fosback32 and to Dysart.
+The calculation is presented in the equation that follows. It seems as if
+Dysart proposed the positive volume index and suggested ways of inter-
+
+Case Study of Rule Data Mining for the S&P 500
+
+413
+
+preting it in a subjective manner, whereas Fosback defined objective rules
+and formally tested them:
+
+Cumulative Positive Volume Index (CPV)
+CPVt = CPVt-l + ft
+
+ft = [(Pctl PCt-l )-1 ] x 100
+
+if Vt> Vt-l
+
+ft = 0
+
+if Vt < or = Vt-l
+
+Where:
+PVt = ft = Positive Volume Index for day t
+CPVt = Cumulative Positive Volume Index for day t
+Vt = NYSE volume for day t
+PCt = Closing price S&P 500 for day t
+
+Moving Averages of Positive Volume. Moving averages of daily values of the positive volume index were constructed for 10- and 30-day periods (PVIO and PV30). In ISL:
+
+PV1 O=MA(PV, 10)
+PV30=MA(PV,30)
+Market breadth refers to the spread or
+difference between the number of stocks advancing and the number declining on a given day, week, or other defined time interval. Breadth has
+been measured in a variety of ways, and they are reviewed in a scholarly
+study by Harlow. 33 For purposes of the case study, breadth is defined as
+the daily advance-decline ratio; that is, it is the difference between a day's
+advancing and declining issues divided by the total number of issues
+traded. The data is based on all issues traded on the NYSE rather than an
+alternative version that is restricted to NYSE common stocks. The series
+restricted to common stocks, which some have claimed is superior because it excludes closed-end stock and bond funds and preferred stocks,
+was not available in computer-readable form for the time period required.
+
+Market Breadth Indicators.
+
+414
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+The case study's breadth indicators are of two forms: cumulative
+sums of daily figures and moving averages of daily figures. For reasons
+previously explained, the breadth indicators that are cumulative sums display long-term trends, whereas moving-average breadth indicators tend to
+have reasonably stable mean values and fluctuation ranges.
+Cumulative Advance-Decline Ratio (CADR). The cumulative advance decline ratio or CADR is a cumulative sum of the daily advancedecline ratio:

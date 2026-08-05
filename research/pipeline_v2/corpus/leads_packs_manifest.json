@@ -1,0 +1,3100 @@
+{
+ "pipeline_version": "research_pipeline_v2.0",
+ "pack_size": 60,
+ "packs": [
+  {
+   "pack_id": "book_0001__pack01",
+   "book_id": "book_0001",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0001__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0001__pack02",
+   "book_id": "book_0001",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0001__pack02.jsonl",
+   "n_leads": 17,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0002__pack01",
+   "book_id": "book_0002",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0002__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0002__pack02",
+   "book_id": "book_0002",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0002__pack02.jsonl",
+   "n_leads": 56,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0003__pack01",
+   "book_id": "book_0003",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0003__pack01.jsonl",
+   "n_leads": 31,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0004__pack01",
+   "book_id": "book_0004",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0004__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 21
+  },
+  {
+   "pack_id": "book_0004__pack02",
+   "book_id": "book_0004",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0004__pack02.jsonl",
+   "n_leads": 23,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0005__pack01",
+   "book_id": "book_0005",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0005__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0005__pack02",
+   "book_id": "book_0005",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0005__pack02.jsonl",
+   "n_leads": 33,
+   "n_high": 20
+  },
+  {
+   "pack_id": "book_0006__pack01",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0006__pack02",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 49
+  },
+  {
+   "pack_id": "book_0006__pack03",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0006__pack04",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack04.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0006__pack05",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack05.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0006__pack06",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__pack06.jsonl",
+   "n_leads": 6,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0007__pack01",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0007__pack02",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 29
+  },
+  {
+   "pack_id": "book_0007__pack03",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 40
+  },
+  {
+   "pack_id": "book_0007__pack04",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__pack04.jsonl",
+   "n_leads": 12,
+   "n_high": 8
+  },
+  {
+   "pack_id": "book_0008__pack01",
+   "book_id": "book_0008",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0008__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0008__pack02",
+   "book_id": "book_0008",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0008__pack02.jsonl",
+   "n_leads": 55,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0009__pack01",
+   "book_id": "book_0009",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0009__pack01.jsonl",
+   "n_leads": 3,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0010__pack01",
+   "book_id": "book_0010",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0010__pack01.jsonl",
+   "n_leads": 1,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0011__pack01",
+   "book_id": "book_0011",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0011__pack01.jsonl",
+   "n_leads": 11,
+   "n_high": 0
+  },
+  {
+   "pack_id": "book_0012__pack01",
+   "book_id": "book_0012",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0012__pack01.jsonl",
+   "n_leads": 20,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0013__pack01",
+   "book_id": "book_0013",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0013__pack01.jsonl",
+   "n_leads": 56,
+   "n_high": 27
+  },
+  {
+   "pack_id": "book_0014__pack01",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0014__pack02",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0014__pack03",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0014__pack04",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__pack04.jsonl",
+   "n_leads": 4,
+   "n_high": 2
+  },
+  {
+   "pack_id": "book_0015__pack01",
+   "book_id": "book_0015",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0015__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 46
+  },
+  {
+   "pack_id": "book_0015__pack02",
+   "book_id": "book_0015",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0015__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 49
+  },
+  {
+   "pack_id": "book_0015__pack03",
+   "book_id": "book_0015",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0015__pack03.jsonl",
+   "n_leads": 28,
+   "n_high": 15
+  },
+  {
+   "pack_id": "book_0016__pack01",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0016__pack02",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0016__pack03",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 28
+  },
+  {
+   "pack_id": "book_0016__pack04",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__pack04.jsonl",
+   "n_leads": 10,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0017__pack01",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0017__pack02",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0017__pack03",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__pack03.jsonl",
+   "n_leads": 45,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0018__pack01",
+   "book_id": "book_0018",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0018__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0018__pack02",
+   "book_id": "book_0018",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0018__pack02.jsonl",
+   "n_leads": 5,
+   "n_high": 2
+  },
+  {
+   "pack_id": "book_0019__pack01",
+   "book_id": "book_0019",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0019__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0019__pack02",
+   "book_id": "book_0019",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0019__pack02.jsonl",
+   "n_leads": 45,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0020__pack01",
+   "book_id": "book_0020",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0020__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 31
+  },
+  {
+   "pack_id": "book_0020__pack02",
+   "book_id": "book_0020",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0020__pack02.jsonl",
+   "n_leads": 10,
+   "n_high": 7
+  },
+  {
+   "pack_id": "book_0021__pack01",
+   "book_id": "book_0021",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0021__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0021__pack02",
+   "book_id": "book_0021",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0021__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0021__pack03",
+   "book_id": "book_0021",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0021__pack03.jsonl",
+   "n_leads": 39,
+   "n_high": 27
+  },
+  {
+   "pack_id": "book_0022__pack01",
+   "book_id": "book_0022",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0022__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0022__pack02",
+   "book_id": "book_0022",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0022__pack02.jsonl",
+   "n_leads": 1,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0023__pack01",
+   "book_id": "book_0023",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0023__pack01.jsonl",
+   "n_leads": 55,
+   "n_high": 10
+  },
+  {
+   "pack_id": "book_0024__pack01",
+   "book_id": "book_0024",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0024__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0024__pack02",
+   "book_id": "book_0024",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0024__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0024__pack03",
+   "book_id": "book_0024",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0024__pack03.jsonl",
+   "n_leads": 3,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0025__pack01",
+   "book_id": "book_0025",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0025__pack01.jsonl",
+   "n_leads": 57,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0026__pack01",
+   "book_id": "book_0026",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0026__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 51
+  },
+  {
+   "pack_id": "book_0026__pack02",
+   "book_id": "book_0026",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0026__pack02.jsonl",
+   "n_leads": 17,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0027__pack01",
+   "book_id": "book_0027",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0027__pack01.jsonl",
+   "n_leads": 48,
+   "n_high": 20
+  },
+  {
+   "pack_id": "book_0028__pack01",
+   "book_id": "book_0028",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0028__pack01.jsonl",
+   "n_leads": 36,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0029__pack01",
+   "book_id": "book_0029",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0029__pack01.jsonl",
+   "n_leads": 51,
+   "n_high": 25
+  },
+  {
+   "pack_id": "book_0030__pack01",
+   "book_id": "book_0030",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0030__pack01.jsonl",
+   "n_leads": 28,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0031__pack01",
+   "book_id": "book_0031",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0031__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0031__pack02",
+   "book_id": "book_0031",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0031__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0031__pack03",
+   "book_id": "book_0031",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0031__pack03.jsonl",
+   "n_leads": 11,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0032__pack01",
+   "book_id": "book_0032",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0032__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0032__pack02",
+   "book_id": "book_0032",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0032__pack02.jsonl",
+   "n_leads": 56,
+   "n_high": 28
+  },
+  {
+   "pack_id": "book_0033__pack01",
+   "book_id": "book_0033",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0033__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 27
+  },
+  {
+   "pack_id": "book_0033__pack02",
+   "book_id": "book_0033",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0033__pack02.jsonl",
+   "n_leads": 49,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0034__pack01",
+   "book_id": "book_0034",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0034__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 19
+  },
+  {
+   "pack_id": "book_0034__pack02",
+   "book_id": "book_0034",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0034__pack02.jsonl",
+   "n_leads": 40,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0035__pack01",
+   "book_id": "book_0035",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0035__pack01.jsonl",
+   "n_leads": 42,
+   "n_high": 21
+  },
+  {
+   "pack_id": "book_0036__pack01",
+   "book_id": "book_0036",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0036__pack01.jsonl",
+   "n_leads": 31,
+   "n_high": 17
+  },
+  {
+   "pack_id": "book_0037__pack01",
+   "book_id": "book_0037",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0037__pack01.jsonl",
+   "n_leads": 22,
+   "n_high": 17
+  },
+  {
+   "pack_id": "book_0038__pack01",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 52
+  },
+  {
+   "pack_id": "book_0038__pack02",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 55
+  },
+  {
+   "pack_id": "book_0038__pack03",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 56
+  },
+  {
+   "pack_id": "book_0038__pack04",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack04.jsonl",
+   "n_leads": 60,
+   "n_high": 52
+  },
+  {
+   "pack_id": "book_0038__pack05",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack05.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0038__pack06",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack06.jsonl",
+   "n_leads": 60,
+   "n_high": 52
+  },
+  {
+   "pack_id": "book_0038__pack07",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack07.jsonl",
+   "n_leads": 60,
+   "n_high": 54
+  },
+  {
+   "pack_id": "book_0038__pack08",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack08.jsonl",
+   "n_leads": 60,
+   "n_high": 53
+  },
+  {
+   "pack_id": "book_0038__pack09",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack09.jsonl",
+   "n_leads": 60,
+   "n_high": 57
+  },
+  {
+   "pack_id": "book_0038__pack10",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack10.jsonl",
+   "n_leads": 60,
+   "n_high": 53
+  },
+  {
+   "pack_id": "book_0038__pack11",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack11.jsonl",
+   "n_leads": 60,
+   "n_high": 55
+  },
+  {
+   "pack_id": "book_0038__pack12",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__pack12.jsonl",
+   "n_leads": 33,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0039__pack01",
+   "book_id": "book_0039",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0039__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0039__pack02",
+   "book_id": "book_0039",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0039__pack02.jsonl",
+   "n_leads": 56,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0040__pack01",
+   "book_id": "book_0040",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0040__pack01.jsonl",
+   "n_leads": 33,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0041__pack01",
+   "book_id": "book_0041",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0041__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0041__pack02",
+   "book_id": "book_0041",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0041__pack02.jsonl",
+   "n_leads": 30,
+   "n_high": 22
+  },
+  {
+   "pack_id": "book_0042__pack01",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0042__pack02",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0042__pack03",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0042__pack04",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__pack04.jsonl",
+   "n_leads": 58,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0043__pack01",
+   "book_id": "book_0043",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0043__pack01.jsonl",
+   "n_leads": 54,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0044__pack01",
+   "book_id": "book_0044",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0044__pack01.jsonl",
+   "n_leads": 37,
+   "n_high": 2
+  },
+  {
+   "pack_id": "book_0045__pack01",
+   "book_id": "book_0045",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0045__pack01.jsonl",
+   "n_leads": 11,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0046__pack01",
+   "book_id": "book_0046",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0046__pack01.jsonl",
+   "n_leads": 49,
+   "n_high": 21
+  },
+  {
+   "pack_id": "book_0047__pack01",
+   "book_id": "book_0047",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0047__pack01.jsonl",
+   "n_leads": 57,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0048__pack01",
+   "book_id": "book_0048",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0048__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0048__pack02",
+   "book_id": "book_0048",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0048__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0048__pack03",
+   "book_id": "book_0048",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0048__pack03.jsonl",
+   "n_leads": 6,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0049__pack01",
+   "book_id": "book_0049",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0049__pack01.jsonl",
+   "n_leads": 11,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0050__pack01",
+   "book_id": "book_0050",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0050__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0050__pack02",
+   "book_id": "book_0050",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0050__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0050__pack03",
+   "book_id": "book_0050",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0050__pack03.jsonl",
+   "n_leads": 2,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0051__pack01",
+   "book_id": "book_0051",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0051__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0051__pack02",
+   "book_id": "book_0051",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0051__pack02.jsonl",
+   "n_leads": 35,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0052__pack01",
+   "book_id": "book_0052",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0052__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0052__pack02",
+   "book_id": "book_0052",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0052__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0052__pack03",
+   "book_id": "book_0052",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0052__pack03.jsonl",
+   "n_leads": 11,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0053__pack01",
+   "book_id": "book_0053",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0053__pack01.jsonl",
+   "n_leads": 8,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0054__pack01",
+   "book_id": "book_0054",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0054__pack01.jsonl",
+   "n_leads": 47,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0055__pack01",
+   "book_id": "book_0055",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0055__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 52
+  },
+  {
+   "pack_id": "book_0055__pack02",
+   "book_id": "book_0055",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0055__pack02.jsonl",
+   "n_leads": 24,
+   "n_high": 24
+  },
+  {
+   "pack_id": "book_0056__pack01",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 56
+  },
+  {
+   "pack_id": "book_0056__pack02",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 53
+  },
+  {
+   "pack_id": "book_0056__pack03",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0056__pack04",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__pack04.jsonl",
+   "n_leads": 10,
+   "n_high": 9
+  },
+  {
+   "pack_id": "book_0057__pack01",
+   "book_id": "book_0057",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0057__pack01.jsonl",
+   "n_leads": 33,
+   "n_high": 24
+  },
+  {
+   "pack_id": "book_0058__pack01",
+   "book_id": "book_0058",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0058__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 46
+  },
+  {
+   "pack_id": "book_0058__pack02",
+   "book_id": "book_0058",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0058__pack02.jsonl",
+   "n_leads": 31,
+   "n_high": 20
+  },
+  {
+   "pack_id": "book_0059__pack01",
+   "book_id": "book_0059",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0059__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0059__pack02",
+   "book_id": "book_0059",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0059__pack02.jsonl",
+   "n_leads": 37,
+   "n_high": 16
+  },
+  {
+   "pack_id": "book_0060__pack01",
+   "book_id": "book_0060",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0060__pack01.jsonl",
+   "n_leads": 43,
+   "n_high": 17
+  },
+  {
+   "pack_id": "book_0061__pack01",
+   "book_id": "book_0061",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0061__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0061__pack02",
+   "book_id": "book_0061",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0061__pack02.jsonl",
+   "n_leads": 16,
+   "n_high": 2
+  },
+  {
+   "pack_id": "book_0062__pack01",
+   "book_id": "book_0062",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0062__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0062__pack02",
+   "book_id": "book_0062",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0062__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0062__pack03",
+   "book_id": "book_0062",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0062__pack03.jsonl",
+   "n_leads": 19,
+   "n_high": 16
+  },
+  {
+   "pack_id": "book_0063__pack01",
+   "book_id": "book_0063",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0063__pack01.jsonl",
+   "n_leads": 55,
+   "n_high": 15
+  },
+  {
+   "pack_id": "book_0064__pack01",
+   "book_id": "book_0064",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0064__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0064__pack02",
+   "book_id": "book_0064",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0064__pack02.jsonl",
+   "n_leads": 50,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0065__pack01",
+   "book_id": "book_0065",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0065__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0065__pack02",
+   "book_id": "book_0065",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0065__pack02.jsonl",
+   "n_leads": 36,
+   "n_high": 27
+  },
+  {
+   "pack_id": "book_0066__pack01",
+   "book_id": "book_0066",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0066__pack01.jsonl",
+   "n_leads": 53,
+   "n_high": 17
+  },
+  {
+   "pack_id": "book_0067__pack01",
+   "book_id": "book_0067",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0067__pack01.jsonl",
+   "n_leads": 25,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0068__pack01",
+   "book_id": "book_0068",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0068__pack01.jsonl",
+   "n_leads": 11,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0069__pack01",
+   "book_id": "book_0069",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0069__pack01.jsonl",
+   "n_leads": 35,
+   "n_high": 22
+  },
+  {
+   "pack_id": "book_0070__pack01",
+   "book_id": "book_0070",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0070__pack01.jsonl",
+   "n_leads": 6,
+   "n_high": 2
+  },
+  {
+   "pack_id": "book_0071__pack01",
+   "book_id": "book_0071",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0071__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0071__pack02",
+   "book_id": "book_0071",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0071__pack02.jsonl",
+   "n_leads": 9,
+   "n_high": 7
+  },
+  {
+   "pack_id": "book_0072__pack01",
+   "book_id": "book_0072",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0072__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 23
+  },
+  {
+   "pack_id": "book_0072__pack02",
+   "book_id": "book_0072",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0072__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0072__pack03",
+   "book_id": "book_0072",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0072__pack03.jsonl",
+   "n_leads": 6,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0073__pack01",
+   "book_id": "book_0073",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0073__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0073__pack02",
+   "book_id": "book_0073",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0073__pack02.jsonl",
+   "n_leads": 33,
+   "n_high": 14
+  },
+  {
+   "pack_id": "book_0074__pack01",
+   "book_id": "book_0074",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0074__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 48
+  },
+  {
+   "pack_id": "book_0074__pack02",
+   "book_id": "book_0074",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0074__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 51
+  },
+  {
+   "pack_id": "book_0074__pack03",
+   "book_id": "book_0074",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0074__pack03.jsonl",
+   "n_leads": 15,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0075__pack01",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0075__pack02",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0075__pack03",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__pack03.jsonl",
+   "n_leads": 57,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0076__pack01",
+   "book_id": "book_0076",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0076__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0076__pack02",
+   "book_id": "book_0076",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0076__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0076__pack03",
+   "book_id": "book_0076",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0076__pack03.jsonl",
+   "n_leads": 52,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0077__pack01",
+   "book_id": "book_0077",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0077__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0077__pack02",
+   "book_id": "book_0077",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0077__pack02.jsonl",
+   "n_leads": 21,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0079__pack01",
+   "book_id": "book_0079",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0079__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 40
+  },
+  {
+   "pack_id": "book_0079__pack02",
+   "book_id": "book_0079",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0079__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0079__pack03",
+   "book_id": "book_0079",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0079__pack03.jsonl",
+   "n_leads": 40,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0080__pack01",
+   "book_id": "book_0080",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0080__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0080__pack02",
+   "book_id": "book_0080",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0080__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0080__pack03",
+   "book_id": "book_0080",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0080__pack03.jsonl",
+   "n_leads": 14,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0081__pack01",
+   "book_id": "book_0081",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0081__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 19
+  },
+  {
+   "pack_id": "book_0081__pack02",
+   "book_id": "book_0081",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0081__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0081__pack03",
+   "book_id": "book_0081",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0081__pack03.jsonl",
+   "n_leads": 9,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0082__pack01",
+   "book_id": "book_0082",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0082__pack01.jsonl",
+   "n_leads": 29,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0083__pack01",
+   "book_id": "book_0083",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0083__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0083__pack02",
+   "book_id": "book_0083",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0083__pack02.jsonl",
+   "n_leads": 2,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0084__pack01",
+   "book_id": "book_0084",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0084__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 40
+  },
+  {
+   "pack_id": "book_0084__pack02",
+   "book_id": "book_0084",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0084__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0084__pack03",
+   "book_id": "book_0084",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0084__pack03.jsonl",
+   "n_leads": 33,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0085__pack01",
+   "book_id": "book_0085",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0085__pack01.jsonl",
+   "n_leads": 38,
+   "n_high": 19
+  },
+  {
+   "pack_id": "book_0086__pack01",
+   "book_id": "book_0086",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0086__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 23
+  },
+  {
+   "pack_id": "book_0086__pack02",
+   "book_id": "book_0086",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0086__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 23
+  },
+  {
+   "pack_id": "book_0086__pack03",
+   "book_id": "book_0086",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0086__pack03.jsonl",
+   "n_leads": 7,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0087__pack01",
+   "book_id": "book_0087",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0087__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0087__pack02",
+   "book_id": "book_0087",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0087__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0087__pack03",
+   "book_id": "book_0087",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0087__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0087__pack04",
+   "book_id": "book_0087",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0087__pack04.jsonl",
+   "n_leads": 8,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0088__pack01",
+   "book_id": "book_0088",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0088__pack01.jsonl",
+   "n_leads": 32,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0089__pack01",
+   "book_id": "book_0089",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0089__pack01.jsonl",
+   "n_leads": 40,
+   "n_high": 28
+  },
+  {
+   "pack_id": "book_0090__pack01",
+   "book_id": "book_0090",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0090__pack01.jsonl",
+   "n_leads": 49,
+   "n_high": 10
+  },
+  {
+   "pack_id": "book_0091__pack01",
+   "book_id": "book_0091",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0091__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0091__pack02",
+   "book_id": "book_0091",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0091__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0091__pack03",
+   "book_id": "book_0091",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0091__pack03.jsonl",
+   "n_leads": 8,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0092__pack01",
+   "book_id": "book_0092",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0092__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0093__pack01",
+   "book_id": "book_0093",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0093__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 8
+  },
+  {
+   "pack_id": "book_0093__pack02",
+   "book_id": "book_0093",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0093__pack02.jsonl",
+   "n_leads": 30,
+   "n_high": 5
+  },
+  {
+   "pack_id": "book_0094__pack01",
+   "book_id": "book_0094",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0094__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0094__pack02",
+   "book_id": "book_0094",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0094__pack02.jsonl",
+   "n_leads": 23,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0095__pack01",
+   "book_id": "book_0095",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0095__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 31
+  },
+  {
+   "pack_id": "book_0095__pack02",
+   "book_id": "book_0095",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0095__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 48
+  },
+  {
+   "pack_id": "book_0095__pack03",
+   "book_id": "book_0095",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0095__pack03.jsonl",
+   "n_leads": 13,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0096__pack01",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 48
+  },
+  {
+   "pack_id": "book_0096__pack02",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 41
+  },
+  {
+   "pack_id": "book_0096__pack03",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0096__pack04",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack04.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0096__pack05",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack05.jsonl",
+   "n_leads": 60,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0096__pack06",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__pack06.jsonl",
+   "n_leads": 30,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0097__pack01",
+   "book_id": "book_0097",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0097__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0097__pack02",
+   "book_id": "book_0097",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0097__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0097__pack03",
+   "book_id": "book_0097",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0097__pack03.jsonl",
+   "n_leads": 4,
+   "n_high": 4
+  },
+  {
+   "pack_id": "book_0098__pack01",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 46
+  },
+  {
+   "pack_id": "book_0098__pack02",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0098__pack03",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0098__pack04",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__pack04.jsonl",
+   "n_leads": 54,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0099__pack01",
+   "book_id": "book_0099",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0099__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 40
+  },
+  {
+   "pack_id": "book_0099__pack02",
+   "book_id": "book_0099",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0099__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 42
+  },
+  {
+   "pack_id": "book_0099__pack03",
+   "book_id": "book_0099",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0099__pack03.jsonl",
+   "n_leads": 46,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0100__pack01",
+   "book_id": "book_0100",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0100__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 31
+  },
+  {
+   "pack_id": "book_0100__pack02",
+   "book_id": "book_0100",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0100__pack02.jsonl",
+   "n_leads": 57,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0101__pack01",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0101__pack02",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 36
+  },
+  {
+   "pack_id": "book_0101__pack03",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0101__pack04",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__pack04.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0101__pack05",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__pack05.jsonl",
+   "n_leads": 40,
+   "n_high": 24
+  },
+  {
+   "pack_id": "book_0102__pack01",
+   "book_id": "book_0102",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0102__pack01.jsonl",
+   "n_leads": 1,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0103__pack01",
+   "book_id": "book_0103",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0103__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 35
+  },
+  {
+   "pack_id": "book_0103__pack02",
+   "book_id": "book_0103",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0103__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0103__pack03",
+   "book_id": "book_0103",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0103__pack03.jsonl",
+   "n_leads": 34,
+   "n_high": 22
+  },
+  {
+   "pack_id": "book_0104__pack01",
+   "book_id": "book_0104",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0104__pack01.jsonl",
+   "n_leads": 59,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0105__pack01",
+   "book_id": "book_0105",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0105__pack01.jsonl",
+   "n_leads": 6,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0106__pack01",
+   "book_id": "book_0106",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0106__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0106__pack02",
+   "book_id": "book_0106",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0106__pack02.jsonl",
+   "n_leads": 45,
+   "n_high": 23
+  },
+  {
+   "pack_id": "book_0107__pack01",
+   "book_id": "book_0107",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0107__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 49
+  },
+  {
+   "pack_id": "book_0107__pack02",
+   "book_id": "book_0107",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0107__pack02.jsonl",
+   "n_leads": 57,
+   "n_high": 50
+  },
+  {
+   "pack_id": "book_0108__pack01",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0108__pack02",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 43
+  },
+  {
+   "pack_id": "book_0108__pack03",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 38
+  },
+  {
+   "pack_id": "book_0108__pack04",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__pack04.jsonl",
+   "n_leads": 5,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0109__pack01",
+   "book_id": "book_0109",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0109__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0109__pack02",
+   "book_id": "book_0109",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0109__pack02.jsonl",
+   "n_leads": 10,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0110__pack01",
+   "book_id": "book_0110",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0110__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0110__pack02",
+   "book_id": "book_0110",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0110__pack02.jsonl",
+   "n_leads": 55,
+   "n_high": 39
+  },
+  {
+   "pack_id": "book_0111__pack01",
+   "book_id": "book_0111",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0111__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0111__pack02",
+   "book_id": "book_0111",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0111__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 45
+  },
+  {
+   "pack_id": "book_0111__pack03",
+   "book_id": "book_0111",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0111__pack03.jsonl",
+   "n_leads": 26,
+   "n_high": 22
+  },
+  {
+   "pack_id": "book_0112__pack01",
+   "book_id": "book_0112",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0112__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 33
+  },
+  {
+   "pack_id": "book_0112__pack02",
+   "book_id": "book_0112",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0112__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 30
+  },
+  {
+   "pack_id": "book_0112__pack03",
+   "book_id": "book_0112",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0112__pack03.jsonl",
+   "n_leads": 10,
+   "n_high": 6
+  },
+  {
+   "pack_id": "book_0113__pack01",
+   "book_id": "book_0113",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0113__pack01.jsonl",
+   "n_leads": 40,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0114__pack01",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 57
+  },
+  {
+   "pack_id": "book_0114__pack02",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 50
+  },
+  {
+   "pack_id": "book_0114__pack03",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack03.jsonl",
+   "n_leads": 60,
+   "n_high": 48
+  },
+  {
+   "pack_id": "book_0114__pack04",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack04.jsonl",
+   "n_leads": 60,
+   "n_high": 53
+  },
+  {
+   "pack_id": "book_0114__pack05",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack05.jsonl",
+   "n_leads": 60,
+   "n_high": 57
+  },
+  {
+   "pack_id": "book_0114__pack06",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__pack06.jsonl",
+   "n_leads": 16,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0115__pack01",
+   "book_id": "book_0115",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0115__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 26
+  },
+  {
+   "pack_id": "book_0115__pack02",
+   "book_id": "book_0115",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0115__pack02.jsonl",
+   "n_leads": 36,
+   "n_high": 11
+  },
+  {
+   "pack_id": "book_0116__pack01",
+   "book_id": "book_0116",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0116__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 21
+  },
+  {
+   "pack_id": "book_0116__pack02",
+   "book_id": "book_0116",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0116__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 22
+  },
+  {
+   "pack_id": "book_0116__pack03",
+   "book_id": "book_0116",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0116__pack03.jsonl",
+   "n_leads": 3,
+   "n_high": 1
+  },
+  {
+   "pack_id": "book_0117__pack01",
+   "book_id": "book_0117",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0117__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 31
+  },
+  {
+   "pack_id": "book_0117__pack02",
+   "book_id": "book_0117",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0117__pack02.jsonl",
+   "n_leads": 37,
+   "n_high": 21
+  },
+  {
+   "pack_id": "book_0118__pack01",
+   "book_id": "book_0118",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0118__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 32
+  },
+  {
+   "pack_id": "book_0118__pack02",
+   "book_id": "book_0118",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0118__pack02.jsonl",
+   "n_leads": 27,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0119__pack01",
+   "book_id": "book_0119",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0119__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 49
+  },
+  {
+   "pack_id": "book_0119__pack02",
+   "book_id": "book_0119",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0119__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 47
+  },
+  {
+   "pack_id": "book_0119__pack03",
+   "book_id": "book_0119",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0119__pack03.jsonl",
+   "n_leads": 33,
+   "n_high": 18
+  },
+  {
+   "pack_id": "book_0120__pack01",
+   "book_id": "book_0120",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0120__pack01.jsonl",
+   "n_leads": 4,
+   "n_high": 3
+  },
+  {
+   "pack_id": "book_0121__pack01",
+   "book_id": "book_0121",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0121__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 37
+  },
+  {
+   "pack_id": "book_0121__pack02",
+   "book_id": "book_0121",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0121__pack02.jsonl",
+   "n_leads": 60,
+   "n_high": 44
+  },
+  {
+   "pack_id": "book_0121__pack03",
+   "book_id": "book_0121",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0121__pack03.jsonl",
+   "n_leads": 37,
+   "n_high": 29
+  },
+  {
+   "pack_id": "book_0122__pack01",
+   "book_id": "book_0122",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0122__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 40
+  },
+  {
+   "pack_id": "book_0122__pack02",
+   "book_id": "book_0122",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0122__pack02.jsonl",
+   "n_leads": 16,
+   "n_high": 13
+  },
+  {
+   "pack_id": "book_0123__pack01",
+   "book_id": "book_0123",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0123__pack01.jsonl",
+   "n_leads": 24,
+   "n_high": 0
+  },
+  {
+   "pack_id": "book_0124__pack01",
+   "book_id": "book_0124",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0124__pack01.jsonl",
+   "n_leads": 60,
+   "n_high": 34
+  },
+  {
+   "pack_id": "book_0124__pack02",
+   "book_id": "book_0124",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0124__pack02.jsonl",
+   "n_leads": 42,
+   "n_high": 29
+  },
+  {
+   "pack_id": "book_0125__pack01",
+   "book_id": "book_0125",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0125__pack01.jsonl",
+   "n_leads": 16,
+   "n_high": 2
+  }
+ ],
+ "packs_b": [
+  {
+   "pack_id": "book_0001__bh01",
+   "book_id": "book_0001",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0001__bh01.jsonl",
+   "n_leads": 43
+  },
+  {
+   "pack_id": "book_0002__bh01",
+   "book_id": "book_0002",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0002__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0002__bh02",
+   "book_id": "book_0002",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0002__bh02.jsonl",
+   "n_leads": 16
+  },
+  {
+   "pack_id": "book_0003__bh01",
+   "book_id": "book_0003",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0003__bh01.jsonl",
+   "n_leads": 13
+  },
+  {
+   "pack_id": "book_0004__bh01",
+   "book_id": "book_0004",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0004__bh01.jsonl",
+   "n_leads": 32
+  },
+  {
+   "pack_id": "book_0005__bh01",
+   "book_id": "book_0005",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0005__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0005__bh02",
+   "book_id": "book_0005",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0005__bh02.jsonl",
+   "n_leads": 2
+  },
+  {
+   "pack_id": "book_0006__bh01",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0006__bh02",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0006__bh03",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__bh03.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0006__bh04",
+   "book_id": "book_0006",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0006__bh04.jsonl",
+   "n_leads": 44
+  },
+  {
+   "pack_id": "book_0007__bh01",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0007__bh02",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0007__bh03",
+   "book_id": "book_0007",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0007__bh03.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0008__bh01",
+   "book_id": "book_0008",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0008__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0008__bh02",
+   "book_id": "book_0008",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0008__bh02.jsonl",
+   "n_leads": 9
+  },
+  {
+   "pack_id": "book_0009__bh01",
+   "book_id": "book_0009",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0009__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0010__bh01",
+   "book_id": "book_0010",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0010__bh01.jsonl",
+   "n_leads": 1
+  },
+  {
+   "pack_id": "book_0012__bh01",
+   "book_id": "book_0012",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0012__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0013__bh01",
+   "book_id": "book_0013",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0013__bh01.jsonl",
+   "n_leads": 27
+  },
+  {
+   "pack_id": "book_0014__bh01",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0014__bh02",
+   "book_id": "book_0014",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0014__bh02.jsonl",
+   "n_leads": 50
+  },
+  {
+   "pack_id": "book_0015__bh01",
+   "book_id": "book_0015",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0015__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0015__bh02",
+   "book_id": "book_0015",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0015__bh02.jsonl",
+   "n_leads": 50
+  },
+  {
+   "pack_id": "book_0016__bh01",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0016__bh02",
+   "book_id": "book_0016",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0016__bh02.jsonl",
+   "n_leads": 44
+  },
+  {
+   "pack_id": "book_0017__bh01",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0017__bh02",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0017__bh03",
+   "book_id": "book_0017",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0017__bh03.jsonl",
+   "n_leads": 8
+  },
+  {
+   "pack_id": "book_0018__bh01",
+   "book_id": "book_0018",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0018__bh01.jsonl",
+   "n_leads": 38
+  },
+  {
+   "pack_id": "book_0019__bh01",
+   "book_id": "book_0019",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0019__bh01.jsonl",
+   "n_leads": 57
+  },
+  {
+   "pack_id": "book_0020__bh01",
+   "book_id": "book_0020",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0020__bh01.jsonl",
+   "n_leads": 38
+  },
+  {
+   "pack_id": "book_0021__bh01",
+   "book_id": "book_0021",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0021__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0021__bh02",
+   "book_id": "book_0021",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0021__bh02.jsonl",
+   "n_leads": 35
+  },
+  {
+   "pack_id": "book_0022__bh01",
+   "book_id": "book_0022",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0022__bh01.jsonl",
+   "n_leads": 33
+  },
+  {
+   "pack_id": "book_0023__bh01",
+   "book_id": "book_0023",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0023__bh01.jsonl",
+   "n_leads": 10
+  },
+  {
+   "pack_id": "book_0024__bh01",
+   "book_id": "book_0024",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0024__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0024__bh02",
+   "book_id": "book_0024",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0024__bh02.jsonl",
+   "n_leads": 19
+  },
+  {
+   "pack_id": "book_0025__bh01",
+   "book_id": "book_0025",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0025__bh01.jsonl",
+   "n_leads": 26
+  },
+  {
+   "pack_id": "book_0026__bh01",
+   "book_id": "book_0026",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0026__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0026__bh02",
+   "book_id": "book_0026",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0026__bh02.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0027__bh01",
+   "book_id": "book_0027",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0027__bh01.jsonl",
+   "n_leads": 20
+  },
+  {
+   "pack_id": "book_0028__bh01",
+   "book_id": "book_0028",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0028__bh01.jsonl",
+   "n_leads": 5
+  },
+  {
+   "pack_id": "book_0029__bh01",
+   "book_id": "book_0029",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0029__bh01.jsonl",
+   "n_leads": 25
+  },
+  {
+   "pack_id": "book_0030__bh01",
+   "book_id": "book_0030",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0030__bh01.jsonl",
+   "n_leads": 1
+  },
+  {
+   "pack_id": "book_0031__bh01",
+   "book_id": "book_0031",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0031__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0031__bh02",
+   "book_id": "book_0031",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0031__bh02.jsonl",
+   "n_leads": 19
+  },
+  {
+   "pack_id": "book_0032__bh01",
+   "book_id": "book_0032",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0032__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0032__bh02",
+   "book_id": "book_0032",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0032__bh02.jsonl",
+   "n_leads": 11
+  },
+  {
+   "pack_id": "book_0033__bh01",
+   "book_id": "book_0033",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0033__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0033__bh02",
+   "book_id": "book_0033",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0033__bh02.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0034__bh01",
+   "book_id": "book_0034",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0034__bh01.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0035__bh01",
+   "book_id": "book_0035",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0035__bh01.jsonl",
+   "n_leads": 21
+  },
+  {
+   "pack_id": "book_0036__bh01",
+   "book_id": "book_0036",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0036__bh01.jsonl",
+   "n_leads": 17
+  },
+  {
+   "pack_id": "book_0037__bh01",
+   "book_id": "book_0037",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0037__bh01.jsonl",
+   "n_leads": 17
+  },
+  {
+   "pack_id": "book_0038__bh01",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh02",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh03",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh03.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh04",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh04.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh05",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh05.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh06",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh06.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh07",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh07.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh08",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh08.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh09",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh09.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh10",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh10.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0038__bh11",
+   "book_id": "book_0038",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0038__bh11.jsonl",
+   "n_leads": 16
+  },
+  {
+   "pack_id": "book_0039__bh01",
+   "book_id": "book_0039",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0039__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0039__bh02",
+   "book_id": "book_0039",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0039__bh02.jsonl",
+   "n_leads": 26
+  },
+  {
+   "pack_id": "book_0040__bh01",
+   "book_id": "book_0040",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0040__bh01.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0041__bh01",
+   "book_id": "book_0041",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0041__bh01.jsonl",
+   "n_leads": 56
+  },
+  {
+   "pack_id": "book_0042__bh01",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0042__bh02",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0042__bh03",
+   "book_id": "book_0042",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0042__bh03.jsonl",
+   "n_leads": 30
+  },
+  {
+   "pack_id": "book_0043__bh01",
+   "book_id": "book_0043",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0043__bh01.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0044__bh01",
+   "book_id": "book_0044",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0044__bh01.jsonl",
+   "n_leads": 2
+  },
+  {
+   "pack_id": "book_0045__bh01",
+   "book_id": "book_0045",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0045__bh01.jsonl",
+   "n_leads": 11
+  },
+  {
+   "pack_id": "book_0046__bh01",
+   "book_id": "book_0046",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0046__bh01.jsonl",
+   "n_leads": 21
+  },
+  {
+   "pack_id": "book_0047__bh01",
+   "book_id": "book_0047",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0047__bh01.jsonl",
+   "n_leads": 26
+  },
+  {
+   "pack_id": "book_0048__bh01",
+   "book_id": "book_0048",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0048__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0048__bh02",
+   "book_id": "book_0048",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0048__bh02.jsonl",
+   "n_leads": 18
+  },
+  {
+   "pack_id": "book_0049__bh01",
+   "book_id": "book_0049",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0049__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0050__bh01",
+   "book_id": "book_0050",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0050__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0050__bh02",
+   "book_id": "book_0050",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0050__bh02.jsonl",
+   "n_leads": 10
+  },
+  {
+   "pack_id": "book_0051__bh01",
+   "book_id": "book_0051",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0051__bh01.jsonl",
+   "n_leads": 17
+  },
+  {
+   "pack_id": "book_0052__bh01",
+   "book_id": "book_0052",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0052__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0052__bh02",
+   "book_id": "book_0052",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0052__bh02.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0053__bh01",
+   "book_id": "book_0053",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0053__bh01.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0054__bh01",
+   "book_id": "book_0054",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0054__bh01.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0055__bh01",
+   "book_id": "book_0055",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0055__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0055__bh02",
+   "book_id": "book_0055",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0055__bh02.jsonl",
+   "n_leads": 16
+  },
+  {
+   "pack_id": "book_0056__bh01",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0056__bh02",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0056__bh03",
+   "book_id": "book_0056",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0056__bh03.jsonl",
+   "n_leads": 39
+  },
+  {
+   "pack_id": "book_0057__bh01",
+   "book_id": "book_0057",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0057__bh01.jsonl",
+   "n_leads": 24
+  },
+  {
+   "pack_id": "book_0058__bh01",
+   "book_id": "book_0058",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0058__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0058__bh02",
+   "book_id": "book_0058",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0058__bh02.jsonl",
+   "n_leads": 6
+  },
+  {
+   "pack_id": "book_0059__bh01",
+   "book_id": "book_0059",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0059__bh01.jsonl",
+   "n_leads": 46
+  },
+  {
+   "pack_id": "book_0060__bh01",
+   "book_id": "book_0060",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0060__bh01.jsonl",
+   "n_leads": 17
+  },
+  {
+   "pack_id": "book_0061__bh01",
+   "book_id": "book_0061",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0061__bh01.jsonl",
+   "n_leads": 7
+  },
+  {
+   "pack_id": "book_0062__bh01",
+   "book_id": "book_0062",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0062__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0062__bh02",
+   "book_id": "book_0062",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0062__bh02.jsonl",
+   "n_leads": 23
+  },
+  {
+   "pack_id": "book_0063__bh01",
+   "book_id": "book_0063",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0063__bh01.jsonl",
+   "n_leads": 15
+  },
+  {
+   "pack_id": "book_0064__bh01",
+   "book_id": "book_0064",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0064__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0064__bh02",
+   "book_id": "book_0064",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0064__bh02.jsonl",
+   "n_leads": 13
+  },
+  {
+   "pack_id": "book_0065__bh01",
+   "book_id": "book_0065",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0065__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0065__bh02",
+   "book_id": "book_0065",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0065__bh02.jsonl",
+   "n_leads": 14
+  },
+  {
+   "pack_id": "book_0066__bh01",
+   "book_id": "book_0066",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0066__bh01.jsonl",
+   "n_leads": 17
+  },
+  {
+   "pack_id": "book_0067__bh01",
+   "book_id": "book_0067",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0067__bh01.jsonl",
+   "n_leads": 4
+  },
+  {
+   "pack_id": "book_0068__bh01",
+   "book_id": "book_0068",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0068__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0069__bh01",
+   "book_id": "book_0069",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0069__bh01.jsonl",
+   "n_leads": 22
+  },
+  {
+   "pack_id": "book_0070__bh01",
+   "book_id": "book_0070",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0070__bh01.jsonl",
+   "n_leads": 2
+  },
+  {
+   "pack_id": "book_0071__bh01",
+   "book_id": "book_0071",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0071__bh01.jsonl",
+   "n_leads": 46
+  },
+  {
+   "pack_id": "book_0072__bh01",
+   "book_id": "book_0072",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0072__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0072__bh02",
+   "book_id": "book_0072",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0072__bh02.jsonl",
+   "n_leads": 1
+  },
+  {
+   "pack_id": "book_0073__bh01",
+   "book_id": "book_0073",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0073__bh01.jsonl",
+   "n_leads": 44
+  },
+  {
+   "pack_id": "book_0074__bh01",
+   "book_id": "book_0074",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0074__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0074__bh02",
+   "book_id": "book_0074",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0074__bh02.jsonl",
+   "n_leads": 52
+  },
+  {
+   "pack_id": "book_0075__bh01",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0075__bh02",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0075__bh03",
+   "book_id": "book_0075",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0075__bh03.jsonl",
+   "n_leads": 12
+  },
+  {
+   "pack_id": "book_0076__bh01",
+   "book_id": "book_0076",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0076__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0076__bh02",
+   "book_id": "book_0076",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0076__bh02.jsonl",
+   "n_leads": 57
+  },
+  {
+   "pack_id": "book_0077__bh01",
+   "book_id": "book_0077",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0077__bh01.jsonl",
+   "n_leads": 30
+  },
+  {
+   "pack_id": "book_0079__bh01",
+   "book_id": "book_0079",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0079__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0079__bh02",
+   "book_id": "book_0079",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0079__bh02.jsonl",
+   "n_leads": 47
+  },
+  {
+   "pack_id": "book_0080__bh01",
+   "book_id": "book_0080",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0080__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0080__bh02",
+   "book_id": "book_0080",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0080__bh02.jsonl",
+   "n_leads": 34
+  },
+  {
+   "pack_id": "book_0081__bh01",
+   "book_id": "book_0081",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0081__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0081__bh02",
+   "book_id": "book_0081",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0081__bh02.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0082__bh01",
+   "book_id": "book_0082",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0082__bh01.jsonl",
+   "n_leads": 13
+  },
+  {
+   "pack_id": "book_0083__bh01",
+   "book_id": "book_0083",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0083__bh01.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0084__bh01",
+   "book_id": "book_0084",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0084__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0084__bh02",
+   "book_id": "book_0084",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0084__bh02.jsonl",
+   "n_leads": 47
+  },
+  {
+   "pack_id": "book_0085__bh01",
+   "book_id": "book_0085",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0085__bh01.jsonl",
+   "n_leads": 19
+  },
+  {
+   "pack_id": "book_0086__bh01",
+   "book_id": "book_0086",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0086__bh01.jsonl",
+   "n_leads": 50
+  },
+  {
+   "pack_id": "book_0087__bh01",
+   "book_id": "book_0087",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0087__bh01.jsonl",
+   "n_leads": 36
+  },
+  {
+   "pack_id": "book_0088__bh01",
+   "book_id": "book_0088",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0088__bh01.jsonl",
+   "n_leads": 18
+  },
+  {
+   "pack_id": "book_0089__bh01",
+   "book_id": "book_0089",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0089__bh01.jsonl",
+   "n_leads": 28
+  },
+  {
+   "pack_id": "book_0090__bh01",
+   "book_id": "book_0090",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0090__bh01.jsonl",
+   "n_leads": 10
+  },
+  {
+   "pack_id": "book_0091__bh01",
+   "book_id": "book_0091",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0091__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0091__bh02",
+   "book_id": "book_0091",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0091__bh02.jsonl",
+   "n_leads": 26
+  },
+  {
+   "pack_id": "book_0092__bh01",
+   "book_id": "book_0092",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0092__bh01.jsonl",
+   "n_leads": 32
+  },
+  {
+   "pack_id": "book_0093__bh01",
+   "book_id": "book_0093",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0093__bh01.jsonl",
+   "n_leads": 13
+  },
+  {
+   "pack_id": "book_0094__bh01",
+   "book_id": "book_0094",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0094__bh01.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0095__bh01",
+   "book_id": "book_0095",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0095__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0095__bh02",
+   "book_id": "book_0095",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0095__bh02.jsonl",
+   "n_leads": 30
+  },
+  {
+   "pack_id": "book_0096__bh01",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0096__bh02",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0096__bh03",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__bh03.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0096__bh04",
+   "book_id": "book_0096",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0096__bh04.jsonl",
+   "n_leads": 43
+  },
+  {
+   "pack_id": "book_0097__bh01",
+   "book_id": "book_0097",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0097__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0097__bh02",
+   "book_id": "book_0097",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0097__bh02.jsonl",
+   "n_leads": 36
+  },
+  {
+   "pack_id": "book_0098__bh01",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0098__bh02",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0098__bh03",
+   "book_id": "book_0098",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0098__bh03.jsonl",
+   "n_leads": 30
+  },
+  {
+   "pack_id": "book_0099__bh01",
+   "book_id": "book_0099",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0099__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0099__bh02",
+   "book_id": "book_0099",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0099__bh02.jsonl",
+   "n_leads": 54
+  },
+  {
+   "pack_id": "book_0100__bh01",
+   "book_id": "book_0100",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0100__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0100__bh02",
+   "book_id": "book_0100",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0100__bh02.jsonl",
+   "n_leads": 6
+  },
+  {
+   "pack_id": "book_0101__bh01",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0101__bh02",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0101__bh03",
+   "book_id": "book_0101",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0101__bh03.jsonl",
+   "n_leads": 55
+  },
+  {
+   "pack_id": "book_0102__bh01",
+   "book_id": "book_0102",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0102__bh01.jsonl",
+   "n_leads": 1
+  },
+  {
+   "pack_id": "book_0103__bh01",
+   "book_id": "book_0103",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0103__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0103__bh02",
+   "book_id": "book_0103",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0103__bh02.jsonl",
+   "n_leads": 41
+  },
+  {
+   "pack_id": "book_0104__bh01",
+   "book_id": "book_0104",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0104__bh01.jsonl",
+   "n_leads": 43
+  },
+  {
+   "pack_id": "book_0105__bh01",
+   "book_id": "book_0105",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0105__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0106__bh01",
+   "book_id": "book_0106",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0106__bh01.jsonl",
+   "n_leads": 57
+  },
+  {
+   "pack_id": "book_0107__bh01",
+   "book_id": "book_0107",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0107__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0107__bh02",
+   "book_id": "book_0107",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0107__bh02.jsonl",
+   "n_leads": 39
+  },
+  {
+   "pack_id": "book_0108__bh01",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0108__bh02",
+   "book_id": "book_0108",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0108__bh02.jsonl",
+   "n_leads": 59
+  },
+  {
+   "pack_id": "book_0109__bh01",
+   "book_id": "book_0109",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0109__bh01.jsonl",
+   "n_leads": 38
+  },
+  {
+   "pack_id": "book_0110__bh01",
+   "book_id": "book_0110",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0110__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0110__bh02",
+   "book_id": "book_0110",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0110__bh02.jsonl",
+   "n_leads": 23
+  },
+  {
+   "pack_id": "book_0111__bh01",
+   "book_id": "book_0111",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0111__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0111__bh02",
+   "book_id": "book_0111",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0111__bh02.jsonl",
+   "n_leads": 52
+  },
+  {
+   "pack_id": "book_0112__bh01",
+   "book_id": "book_0112",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0112__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0112__bh02",
+   "book_id": "book_0112",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0112__bh02.jsonl",
+   "n_leads": 9
+  },
+  {
+   "pack_id": "book_0113__bh01",
+   "book_id": "book_0113",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0113__bh01.jsonl",
+   "n_leads": 18
+  },
+  {
+   "pack_id": "book_0114__bh01",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0114__bh02",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__bh02.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0114__bh03",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__bh03.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0114__bh04",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__bh04.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0114__bh05",
+   "book_id": "book_0114",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0114__bh05.jsonl",
+   "n_leads": 38
+  },
+  {
+   "pack_id": "book_0115__bh01",
+   "book_id": "book_0115",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0115__bh01.jsonl",
+   "n_leads": 37
+  },
+  {
+   "pack_id": "book_0116__bh01",
+   "book_id": "book_0116",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0116__bh01.jsonl",
+   "n_leads": 44
+  },
+  {
+   "pack_id": "book_0117__bh01",
+   "book_id": "book_0117",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0117__bh01.jsonl",
+   "n_leads": 52
+  },
+  {
+   "pack_id": "book_0118__bh01",
+   "book_id": "book_0118",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0118__bh01.jsonl",
+   "n_leads": 50
+  },
+  {
+   "pack_id": "book_0119__bh01",
+   "book_id": "book_0119",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0119__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0119__bh02",
+   "book_id": "book_0119",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0119__bh02.jsonl",
+   "n_leads": 54
+  },
+  {
+   "pack_id": "book_0120__bh01",
+   "book_id": "book_0120",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0120__bh01.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0121__bh01",
+   "book_id": "book_0121",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0121__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0121__bh02",
+   "book_id": "book_0121",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0121__bh02.jsonl",
+   "n_leads": 50
+  },
+  {
+   "pack_id": "book_0122__bh01",
+   "book_id": "book_0122",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0122__bh01.jsonl",
+   "n_leads": 53
+  },
+  {
+   "pack_id": "book_0124__bh01",
+   "book_id": "book_0124",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0124__bh01.jsonl",
+   "n_leads": 60
+  },
+  {
+   "pack_id": "book_0124__bh02",
+   "book_id": "book_0124",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0124__bh02.jsonl",
+   "n_leads": 3
+  },
+  {
+   "pack_id": "book_0125__bh01",
+   "book_id": "book_0125",
+   "path": "/Users/hootie/src/v8/research/pipeline_v2/corpus/leads_packs/book_0125__bh01.jsonl",
+   "n_leads": 2
+  }
+ ]
+}

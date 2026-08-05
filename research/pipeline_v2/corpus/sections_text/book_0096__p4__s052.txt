@@ -1,0 +1,802 @@
+
+70.00
+
+X - U.S. Steel Corporation
+
+65.00
+60.00
+55.00
+50.00
+45 .00
+40.00
+
+detrended - 1/11 SMA
+
+1.0500
+0.9500
+35-day cycle lows
+
+’10
+
+’Feb
+
+’Mar
+
+’Apr
+
+’May
+
+0.8500
+
+’Jun
+
+’Jul
+
+Created using TradeStation
+
+FIGURE 19.8 Detrended plot 1- to 11-day SMA showing 35-day cycle lows (X daily: November 30,
+2009–July 22, 2010)
+70.00
+
+X - U.S. Steel Corporation
+
+65.00
+60.00
+55.00
+50.00
+45.00
+
+detrended - 1/6 SMA
+
+40.00
+
+inversion
+
+1.0600
+1.0000
+0.9400
+18-day cycle lows
+
+0.8800
+
+’10
+
+’Feb
+
+’Mar
+
+’Apr
+
+’May
+
+’Jun
+
+’Jul
+
+Created using TradeStation
+
+FIGURE 19.9 Detrended plot 1- to 6-day SMA showing 18-day cycle lows (X daily: November 30,
+2009–July 22, 2010)
+
+Download at www.wowebook.com
+
+463
+
+Chapter 19 Cycles
+
+Centered Moving Averages
+…the time relationship between the moving average and the data it smoothes is not
+the one that is always shown on stock price charts. In fact, the moving average data
+point plotted in association with the last price datum should be associated with price
+datum one-half the time span of the average in the past. (Hurst, 1970, p. 65)
+What Hurst was saying is that a moving average is an average of both price and time. Most plots
+take into account the average in price but incorrectly plot that average at the time the last price of
+the average occurs. For example, an 11-day moving average of prices of Days 1–11 is frequently
+plotted at Day 11. Instead, because the moving average is also an average of the time over which
+the average price occurred, it should be plotted at the mean point or center of the time span of the
+average. In other words, the moving average of Days 1–11 should be plotted at Day 6. This plot
+is called a centered moving average. Figure 19.10 shows an 11-day centered moving average
+versus an 11-day moving average plotted the usual way. We use a centered moving average for
+the remainder of our discussion on cycles.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+11-day SMA
+(centered)
+60.00
+
+55.00
+
+50.00
+
+11-day SMA
+standard
+45.00
+
+40.00
+
+Dec
+
+’10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 19.10 11-day centered moving average plot versus the standard moving average plot (X daily:
+November 30, 2009–July 22, 2010)
+
+Notice in Figure 19.10 that the centered moving average better reflects the price action
+than the conventional plot. It runs through the center of all the price oscillations and is not
+skewed to the right of prices, as is the conventional method. The problem of skewing to the right
+
+Download at www.wowebook.com
+
+464
+
+Part VI Other Technical Methods and Rules
+
+becomes even more noticeable as the moving average span increases. The centered moving average plot is a better representation of prices but, of course, lags behind prices and by itself cannot
+be used as a signaling method. It is used to identify cycles but not to predict them.
+Envelopes
+As we saw in Figure 19.7, Hurst used a hand-drawn envelope about prices to get a rough estimate
+of the potential cycle period in the price data. Once that period could be estimated, he used moving averages to quantify the cycle more definitively.
+Moving averages dampen or smooth data. In terms of cycles, a moving average represents
+price oscillations greater than the period of the moving average and effectively cancels out price
+action or oscillations less than the moving average period. Figure 19.11 includes a centered 35day moving average overlay. The large price deviations below and above the moving average
+appear roughly 40 days apart. To quantify the range of price movement about this moving average, we draw an envelope parallel with the moving average. Notice that prices touch the lower
+envelope band about every 35 days.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+35-day SMA
+centered
+with 9% envelope
+
+60.00
+
+55.00
+
+50.00
+
+45.00
+
+40.00
+
+Dec
+
+’10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 19.11 35-day centered moving average with a 9% parallel envelope (X daily: November 30,
+2009–July 22, 2010)
+
+The next step is to draw a half-cycle centered moving average with an envelope, as shown
+in Figure 19.12. A half-cycle moving average in this example is 18 days. This moving average
+smoothes out all waves shorter than 18 days and includes waves 18 days or longer. When subtracted from the 35-day moving average, it reflects the waves that exist between 18 and 35 days,
+or the 35-day cycle we are investigating.
+
+Download at www.wowebook.com
+
+465
+
+Chapter 19 Cycles
+
+The points at which the 18-day envelope touches, or comes close to, the 35-day envelope
+and turns upward are the low points of the 35-day cycle. It is pure chance that the analysis results
+in exactly 35 days. Normally it would be close but not exact. To be more confident of the cyclicality, we should use a minimum of seven examples. We now have a well-defined 35-day cycle,
+and we know the days on which it bottomed and turned upward. When we later discuss the projection of cycles, we will use this data to predict when the next 35-day cycle should occur in the
+future.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+35-day SMA centered
+with 9% envelope
+60.00
+
+18-day SMA centered
+with 5% envelope
+55.00
+
+50.00
+
+45.00
+
+40.00
+
+approximate 35-day cycle lows
+
+Dec
+
+’10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 19.12 Combined full-cycle period (35-day) and half-cycle (18-day) moving averages and
+envelopes (X daily: November 30, 2009–July 22, 2010)
+
+Somehow we have lost precision with envelopes. This is likely because higher-order
+cycles are trending so strongly that the shorter cycles are being dampened out. To counter this,
+we return to the detrending method. Because we want to pinpoint the 35-day cycle and cycle of
+lesser period, we detrend the price data by plotting a line of the ratio of a 5-day SMA to the 18day. We use the 5-day to smooth out short-term daily fluctuations and the 18-day because it
+should represent cycles above 18 days, namely the 35-day.
+Figure 19.13 shows this detrended line with the 35-day lows clearly marked by the vertical
+lines exactly 35 days apart. On every line, with the exception of the inversion in May where the
+line peaks, a slight valley occurs that represents the 35-day low. This is fairly conclusive evidence that a periodicity of 35 days exists in the price data.
+
+Download at www.wowebook.com
+
+466
+
+Part VI Other Technical Methods and Rules
+
+70.00
+
+X - U.S. Steel Corporation
+
+65.00
+60.00
+55.00
+50.00
+
+detrending with 5-day SMA
+vs 18-day SMA
+
+45.00
+40.00
+
+1.0500
+0.9500
+lows are 35 days apart
+
+’10
+
+Feb
+
+Mar
+
+Apr
+
+0.8500
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 19.13 Detrending using a 5-day SMA to 18-day SMA ratio (X daily: November 30,
+2000–July 22, 2010)
+
+Let us go down one more period and see if any cycle appears less than 35 days. We suspect,
+from Figure 19.9, the detrending exercise, that an 18-day cycle exists, but we cannot pinpoint it
+because we did not use a centered moving average. Remember that a moving average of roughly
+half the period of a cycle represents that cycle. Now we will calculate a detrended line based on
+the 18-day SMA which should represent the 35-day cycle and all others longer. It will screen out
+the motion from those longer cycle and give us more precise data for any shorter cycle than 35
+days. Figure 19.14 is a plot of the ratio of the closing price to the 18-day centered SMA.
+Visual inspection of Figure 19.14 shows vertical dashed lines at exact 18-day intervals
+beginning at the major low in February. At each of the nine dashed lines, a dip in the ratio shows
+that a cycle low of some nature occurred within one day of each vertical line. The one exception
+out of the nine shown is the inversion in late May and even on this line there is the slight dip of
+the M pattern mentioned earlier as common at inversion highs. We now have some convincing
+evidence that an event, usually a low, occurs in U.S. Steel stock every 18 and 35 days.
+We also notice that the phase of the short cycle is out of synchronization with the 35-day
+cycle. This is why the actual lows in the 35-day cycles are rounded rather than sharp. If the two
+cycles synchronized at the lows, they would bottom at the same time and create a “V” type bottom pattern.
+
+Download at www.wowebook.com
+
+467
+
+Chapter 19 Cycles
+
+70.00
+
+X - U.S. Steel Corporation
+
+65.00
+60.00
+55.00
+50.00
+45.00
+
+close to 18-day centered SMA
+
+40.00
+1.1500
+1.0500
+0.9500
+0.8500
+
+’10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 19.14 Ratio: Close to 18-day centered SMA showing short-term 18-day cycle highs and lows
+(X daily: November 30, 2009–July 22, 2010)
+
+The process we just went through of deducing the cycles shorter than a known dominant
+cycle is called “nesting downward.” We could equally as well have nested upward by again taking the dominant cycle of 35 days and deducing cycles with longer periods. This would have
+taken considerably more data, but it is an exercise that should be done before any trading or
+investing is initiated using cyclical data. When investors decide upon the period of investment,
+they should understand at least the next longer and shorter cycle period because these cycles will
+affect the behavior of the cycle of interest. In addition, the analysis should be repeated every time
+a cycle has completed just to be sure that the original assumptions as to cycle periods are still
+correct.
+The preceding analysis, and all of the analysis in this chapter, can be used in any time
+series data regardless of the bar interval—daily, weekly, monthly, or minute-by-minute. However, as explained in Chapter 14, “Moving Averages,” analysis of cycles shorter than a day must
+be limited to securities that trade over the complete 24 hours because the data that is shorter than
+daily does not account for the time between the close of one day and the open of the next day.
+
+PROJECTIONS
+We have looked at methods to determine cycles in market data. We now look at how we can use
+the knowledge about cycles in the data to project the next low and perhaps the next high.
+
+Download at www.wowebook.com
+
+468
+
+Part VI Other Technical Methods and Rules
+
+Projecting Period
+To project the time for the next low, we need three facts: the period length of the cycle of interest, the standard error of that cycle, and the ideal starting point from which to measure it into the
+future. In the example, we have found periods of 35 days and 18 days. Because we only have
+four cycles of the 35-day period, we cannot determine accurate projections. However, for the 18day cycle, we have plenty of examples with apparently little error.
+The first and most simple method is to use a ruler or the paper trick mentioned previously
+to draw points on the chart that match the periods determined from measurement. This is subject
+to interpretive error; in our example, the process suggested an 18-day cycle that was not borne
+out by further analysis.
+Second, we could use the vertical line shown on the charts and project into the future. This
+method is accurate once we know the precise cycle periods from our analysis and the beginning
+point. However, it does not estimate an error range of when to expect the next turning point.
+Third, we could use a linear regression model of the periods to estimate the period, the
+error, and the exact location for the starting point (Kirkpatrick, 1990). To begin this process, we
+identify the lows given by the ratio in Figure 19.14, beginning numbering with 1. Thus, the first
+low, which occurred on December 8, 2010, would be 1; the second low, occurring on December
+31, would be 2; and so forth. Table 19.2 displays this numbering of lows under the Number column heading.
+In addition, each time interval is converted to a sequence of whole numbers to eliminate
+the problem of weekends and to make calculation easier. In our example, for instance, the first
+18-day low occurred on December 8. We record that as low Number 1 at time interval 0 because
+it is the beginning of our period. The next low occurred on December 31. Because this low
+occurred 16 trading days after low Number 1, we would label it low Number 2 and with a day
+number 16 days, in other words it occurred 16 days after low Number 1. From now on, all days
+will be measured from low Number 1. The third low occurred on January 29. We would label it
+low Number 3 with a period of 35 days from low Number 1. The time interval for all lows is
+measured from the first low. Successive lows are entered into the spreadsheet in a similar manner
+until the end of the period is reached, as shown in Table 19.2.
+This process creates two columns in the spreadsheet. The first, the low’s specific number,
+is the independent variable (second column in Table 19.2). The second, the low’s corresponding
+period number, is the dependent variable (fourth column in Table 19.2).
+TABLE 19.2
+
+Kirkpatrick Linear Method of Determining the Optimal Location and Error of Cycle Periods
+
+Column No
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+Date
+
+NO
+(x)
+
+Actual
+Period
+
+Actual
+Day No.
+
+Projected
+Day No.
+
+Regression
+
+Output
+
+Dec 8
+Dec 31
+
+1
+2
+
+16
+
+0
+16
+
+16
+
+Intercept (start day)
+
+-1.32
+
+Jan 29
+Feb 23
+
+3
+4
+
+19
+16
+
+35
+51
+
+34
+52
+
+Y (cycle period)
+R sq (closeness of fit)
+
+17.738
+0.9996
+
+Download at www.wowebook.com
+
+469
+
+Chapter 19 Cycles
+
+TABLE 19.2
+
+Continued
+
+Column No
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+Date
+
+NO
+(x)
+
+Actual
+Period
+
+Actual
+Day No.
+
+Projected
+Day No.
+
+Regression
+
+Output
+
+Mar 19
+Apr 19
+
+5
+6
+
+18
+20
+
+69
+89
+
+70
+87
+
+May 11
+
+7
+
+16
+
+105
+
+105
+
+Jun 7
+
+8
+
+18
+
+123
+
+123
+
+Jul 2
+
+9
+
+17
+
+140
+
+141
+
+(Jul 30)
+(Aug 25)
+
+10
+11
+
+158
+176
+
+We then use linear regression to determine a best fit between the cycle number and the time
+interval on which it occurred. The results of the linear regression suggest that the cycle period is
+17.738 days, roughly 18 days, and is very reliable with an R square so close to one.
+Using these numbers, we can project future lows. The best projection into the future is for
+the next 18-day low (Number 9) to occur 17.738 days after the model’s estimate of the eighth
+low. As illustrated in Figure 19.15, this suggests a Number 9 projected low will occur at time
+interval 158, or on July 28, and the Number 10 projected low will occur on August 23 plus or
+minus a day or so. As it turns out, the longer 35-day cycle is due for a low around August 25.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+60.00
+
+Projected 18-day lows and 34-day lows
+55.00
+
+50.00
+
+35-day cycle
+
+45.00
+
+18-day cycle
+40.00
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Created using TradeStation
+
+FIGURE 19.15 Projected 18-day and 35-day cycles and lows (X daily: November 30, 2009–July 22,
+2010)
+
+Download at www.wowebook.com
+
+470
+
+Part VI Other Technical Methods and Rules
+
+Projecting Amplitude
+Figure 19.14 also shows how amplitude can vary enormously. Indeed, the variation is so large
+that prediction is almost impossible. We can only conjecture what the future might bring in
+amplitude because, so far, no reasonable and consistent method exists. In this example, what can
+help in amplitude projection, however, is the concept of nesting. Cycles tend to oscillate within
+cycles. Thus, their outer boundaries, as defined by envelopes, can give us a rough estimate of
+what to expect for amplitude. Again, let us look at our same data example, this time shown in
+Figure 19.16 with a 35-day cycle envelope.
+We project the next cycle lows using the linear regression method outlined previously. This
+gives us an idea as to when to expect cycle lows and, by inference, cycle highs. We know that the
+low around early July is a 35-day low. Because the envelope is bending upward, we also know
+that the July low is likely one of a larger cycle that is influencing the shorter cycles. It is, therefore, a powerful low, and we can expect the immediately following cycles to translate right.
+Right translation has already occurred in the first 18-day cycle and will likely occur in the first
+35-day cycle. Because of the right translation, the peak in the 35-day cycle will likely occur during the second 18-day cycle, sometime in August.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+60.00
+
+55.00
+
+50.00
+
+45.00
+
+40.00
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+
+Created using TradeStation
+
+FIGURE 19.16 Amplitude projection (X daily: November 30, 2009–July 22, 2010)
+
+Half-Cycle Reversal
+We mentioned earlier that the half-cycle, centered, moving average represents the full cycle
+under investigation. When the half-cycle, centered, SMA reverses, it signals that the low in the
+cycle of interest has occurred. Because the half-cycle, centered, moving average is plotted half
+its cycle back from the present, it represents what the full cycle was doing 1/4 of a cycle length
+
+Download at www.wowebook.com
+
+Chapter 19 Cycles
+
+471
+
+back. If the full cycle was bottoming as represented by the centered moving average, we know
+that the full cycle still has 3/4 of its time and perhaps distance to travel. An ideal cycle will spend
+half its time rising and half its time declining. At 1/4 the time through the cycle we know that it
+has another 1/4 to go before showing signs of downward reversal. It is, thus, halfway through its
+advance. Being so, we can take the distance that it has traveled and assume that the price will
+approximately double what it did during the first quarter. We now have an estimate of the potential amplitude of the current full cycle. Of course, the amplitude also depends on the next higher
+order cycle. If that longer cycle is rising, we can assume the projection will be exceeded as the
+cycle translates to the right, and if the next higher is downward, we likely will not see an upward
+reversal in the centered moving average. If the next higher cycle is flat, the projection should be
+precise. The bottom line, then, is when one-quarter of a cycle is completed, we can begin to see
+what the potential shape of the full cycle will be from looking at the behavior of the half-cycle,
+centered moving average.
+The FLD and Centered Moving Average Crossovers (The “Forward Line”)
+Hurst describes another interesting method of projecting prices in a cycle called the FLD line.
+FLD stands for “Future Line of Demarcation.” It is the closing prices projected a half-cycle
+period forward from the current price. In Figure 19.17, for example, the cycle of interest is the
+35-day cycle. Projecting closing prices a half-cycle forward, or 18 days, produces the FLD line.
+Several observations can be made.
+First, because the projection is a half-cycle forward, its peak should appear when a low is
+expected and vice versa. This is because prices should rise during the first half into a cycle measured from the cycle low and should decline during the second half. Thus, the FLD high should
+occur at the same time as the real cycle low and vice versa. Of course, this can be upset by the
+influence of the next longer cycle. If prices peak after the low in the FLD, or bottom before the
+top in the FLD, the underlying trend is upward. Conversely, if prices bottom after the FLD peak
+or peak before the FLD peak, the underlying trend is downward. The location of the FLD can,
+thus, help us with determining the trend of the next longer cycle.
+In Figure 19.17, in February, the peak in the FLD and the bottom in prices coincide precisely. In March, when a price peak is suggested by the bottoming of the FLD, prices continue
+higher, suggesting that the underlying trend is strong and likely to cause price to rise further. In
+early May, prices pay no attention to the FLD peak and continue downward, suggesting that by
+the next cycle low, prices will be considerably lower.
+Second, by representing a half-cycle, the FLD line is declining when the cycle prices are
+advancing. The crossover of current prices through the FLD should occur at roughly the midpoint both time wise and pricewise in the advance or decline. In Figure 19.17, the downward
+crossover of prices through the FLD in February at $54.68 projected a decline of $10.66 to an
+estimated target of $44.02. The bottom closing price at the actual low was $44.07, only 4 cents
+different. In late February, prices crossed the FLD continued far beyond their projected midpoint
+target. This is evidence that the prior low was that from a higher-order cycle. In April, prices
+crossed the forward line and continued lower, telling us that the longer cycle beginning in February was over. From the 35-day cycle, the timing for the low was easily projected. The rule, then,
+is that when prices exceed the FLD target price after the crossover, the next higher-order cycle is
+strong in the direction of the price crossover. Conversely, if prices do not reach their target, or as
+in some cases, do not cross the FLD line, the next higher-order cycle is weak.
+
+Download at www.wowebook.com
+
+472
+
+Part VI Other Technical Methods and Rules
+
+Third, the FLD can act as support or resistance. Notice in Figure 19.17 during the decline
+from April to July how many times the price touched the FLD and then reversed. This gives an
+example of how prices can come close to the FLD, after a cycle low or high, stop for a few bars,
+and either penetrate the FLD or reverse direction and fail. Thus, the FLD is an important point to
+watch. If prices halt at the FLD and reverse, the underlying cycle trend is not reversing on schedule. It will increase in strength in its original direction. If prices penetrate the FLD, the cycle is
+still intact, and prices will head for the midpoint target. Depending on whether it reaches that target or overruns it will then give clues as to the strength of the next longer cycle trend. It is, therefore, very important to watch price action when it reaches the FLD to see if it is confirming the
+strength or weakness of the cycle direction.
+In sum, the FLD can be a useful projection device.
+70.00
+
+X - U.S. Steel Corporation
+65.00
+
+60.00
+
+55.00
+
+35-day
+FLD line
+
+50.00
+
+35-day cycle
+45.00
+
+for the 35-day cycle
+half-cycle centered
+half-cycle forward by half-cycle (FLD line)
+
+’10
+
+’Feb
+
+’Mar
+
+’Apr
+
+’May
+
+’Jun
+
+40.00
+
+’Jul
+
+Aug

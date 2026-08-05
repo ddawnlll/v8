@@ -1,0 +1,708 @@
+TABLE 9.1 Length of EUR/USD Extension
+Moves (10 Years)
+Number of Days
+
+EUR/USD
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+1,292
+595
+273
+125
+64
+35
+10
+5
+2
+1
+0
+0
+0
+0
+0
+
+odds become even more compounded if the move lasts for an eighth day.
+This provides traders with a high-probability short-term trading opportunity. Please bear in mind that this strategy does not usually predict major
+turns, but occasionally the turn can become a meaningful one.
+The next set of data is for the GBP/USD (see Table 9.2). Over the past
+10 years, the longest extension move lasted for 12 days. As indicated by
+the data, trends in the British pound have lasted longer than trends in the
+euro. The longest move in the EUR/USD was 10 days. However, it is also
+important to realize that rarely do the moves in the GBP/USD extend for
+eight days; there have been only seven cases of this, which means that for
+the GBP/USD an eight-day extension has approximately the same statistical significance as a seven-day extension move in the EUR/USD.
+The last table, Table 9.3, provides the same data for USD/JPY. The
+longest move was nine days in length, and that happened only twice over
+the past 10 years.
+
+How Can You Use This Information?
+I have devised some rules to help traders utilize this valuable information:
+Rules for a Long Trade (Using Daily Charts)
+1. Look for seven consecutive days of weakness, when the close of each
+
+day is lower than the open.
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+158
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+TABLE 9.2 Length of GBP/USD Extension
+Moves (10 Years)
+Number of Days
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+GBP/USD
+
+1,352
+659
+299
+145
+69
+31
+12
+7
+3
+2
+2
+1
+0
+0
+0
+
+TABLE 9.3 Length of USD/JPY Extension
+Moves (10 Years)
+Number of Days
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+USD/JPY
+
+1,334
+652
+323
+159
+66
+33
+12
+7
+2
+0
+0
+0
+0
+0
+0
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+Technical Trading Strategies
+
+159
+
+2. Buy at 5 p.m. New York time, which is when the next trading candle
+
+begins.
+3. Place a stop 30 pips below the entry price.
+4. Close half of the position when it moves by two times the amount
+
+risked. Move the stop on the remaining half to your initial entry.
+5. Close the remaining position when the price has moved by four times
+
+the amount risked, or 120 pips.
+Rules for a Short Trade
+1. Look for seven consecutive days of strength, when the close of each
+
+day is higher than the open.
+2. Sell at 5 p.m. New York time, which is when the next trading candle
+
+begins.
+3. Place a stop 30 pips above the entry price.
+4. Close half of the position when it moves by two times the amount
+
+risked. Move the stop on the remaining half to your initial entry.
+5. Close the remaining position when the price has moved by four times
+
+the amount risked, or 120 pips.
+Here are some examples of how this strategy works.
+The first example is a long trade in USD/JPY. As indicated in
+Figure 9.38, USD/JPY dropped for seven consecutive trading days. Based
+on the USD/JPY table of extension moves, we see that only seven out of the
+
+FIGURE 9.38 USD/JPY Daily Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+160
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+12 times that USD/JPY has moved in one direction for seven days straight
+did the move extend for an eighth day. Given this information, there is a
+high probability that USD/JPY would not sell off for an eighth consecutive day. For that reason, we go long USD/JPY when the next day’s candle
+begins at 5 p.m. New York time with a 30-pip money stop. The trade is executed at 108.56 with a stop of 108.26 (108.56 minus 30 pips). The first target
+is simply two times the amount risked, or 60 pips, which places our limit order to exit the first half of our position at 108.56 plus 60 pips or 109.16. This
+is reached the very next day, at which time we move our stop to breakeven,
+or our initial entry price of 108.56. The target on the second lot is four times
+the amount risked or 120 pips. Our entry price of 108.56 plus 120 pips is
+109.76, and that, too, is hit 24 hours later, banking us a total profit of 180
+pips, or an average profit of 90 pips per lot if two lots were traded.
+The second example is a short trade in GBP/USD. As indicated in
+Figure 9.39, GBP/USD rallied for seven consecutive trading days. Based on
+the GBP/USD table of extension moves, we see that only seven out of the 12
+times that GBP/USD has moved in one direction for seven days straight did
+the move extend for an eighth day. Given this information, there is a decent
+chance that the GBP/USD would not rally for an eighth consecutive day.
+For that reason, we go short GBP/USD when the next day’s candle begins
+at 5 p.m. New York time with a 30-pip money stop. The trade is executed at
+
+FIGURE 9.39 GBP/USD Daily Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Technical Trading Strategies
+
+Printer: Yet to come
+
+161
+
+2.0083 with a stop of 2.0113 (2.0113 plus 30 pips). The first target is simply
+two times the amount risked, or 60 pips, which places our limit order to
+exit the first half of our position at 2.0083 minus 60 pips or 2.0023. This is
+reached the very next day, at which time we move our stop to breakeven,
+or to our initial entry price of 2.0083. The target on the second lot is four
+times the amount risked, or 120 pips. Our entry price of 2.0083 minus 120
+pips is 1.9963, and that is hit a few days later, banking us a total profit of
+180 pips, or an average profit of 90 pips per lot if two lots were traded.
+
+Does the Strategy Work for Other
+Currency Pairs?
+This strategy does work on other currency pairs, but it is important to realize that each currency is different. Although seven days is significant for
+the EUR/USD, GBP/USD, and USD/JPY, eight days is more significant for
+currency pairs such as GBP/JPY, CHF/JPY, and GBP/CHF. Different currency pairs have different characteristics because some are more trending
+than others.
+The following is an example of fading an extension in a currency cross
+such as EUR/JPY. As indicated in Figure 9.40, EUR/JPY rallied for seven
+
+FIGURE 9.40 EUR/JPY Daily Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+162
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+consecutive trading days. According to our strategy rules, we go short the
+currency pair when the next day’s candle begins at 5 p.m. New York time
+with a 30-pip money stop. The trade is executed at 164.54, with a stop of
+164.84 (164.54 plus 30 pips). The first target is simply two times the amount
+risked, or 60 pips, which places our limit order to exit the first half of our
+position at 164.54 minus 60 pips or 163.94. This is reached the very next day,
+at which time we move our stop to breakeven, or our initial entry price of
+164.54. The target on the second lot is four times the amount risked or 120
+pips. Our entry price of 164.54 minus 120 pips is 163.34, and that is hit 24
+hours after that, banking us a total profit of 180 pips, or an average profit
+of 90 pips per lot if two lots were traded.
+
+Can the First Target Be Altered?
+When examining this strategy, many people may realize that the first target is relatively tight and easily reached. Traders are free to alter the first
+target to try to bank more pips, but please remember that the reason the
+limit is placed at that level is because I like to focus on high-probability
+trading strategies, and having the first target easily achievable allows us
+to bank profits on the trade even if the turn that we are looking at is only
+temporary. When designing trading strategies, I am a big believer that it is
+important to start with a good foundation, meaning a strategy that works
+on the most simplistic level, because it is hoped that any improvements or
+alterations will only increase the strategy’s profitability. Trying to improve
+on a strategy that doesn’t work in the first place becomes far more difficult.
+
+Could You Trade a Six-Day Move Instead?
+Given the rarity of a seven-day extension move, some traders may wonder whether they can trade a six-day extension move instead because the
+chance of the move continuing for a seventh day is relatively small. Although this can be done, it is not recommended. Traders need to be mindful
+of the risks, because in all three of the major currencies, the move extended
+for a seventh day at least 10 times within the past 10 years.
+
+What Happens If the Move Continues for More
+Than Seven Days?
+One of the most common questions asked about this strategy is whether
+the trade should be taken again if the move extends for more than seven
+days. The answer is yes, because with each additional day that the move
+continues, the greater the chance of a turn. Also, the risk on the strategy is
+small enough to withstand a 10-day extension if both the first and second
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+163
+
+Technical Trading Strategies
+
+targets are eventually achieved. The math works out well as long as the
+extension does not continue for a twelfth day. Table 9.4 shows why.
+According to Table 9.4, if we trade two lots and the seven-day fade
+trade fails and the currency pair continues to move in the same direction
+for an eighth day, we lose 60 pips on the trade. However, if we take the
+trade again at the beginning of the ninth trading day and both target 1 and
+target 2 are achieved, we bank 180 pips. The net return on the two trades
+would be +120 pips.
+If the move continues for the ninth day and we attempt to fade the
+move at the beginning of the tenth trading day, we would be starting off
+with two losing trades and a loss of −120 pips. If we are correct and the
+move does stop on the tenth day, the third trade would bank 180 pips, netting us a total of +60 pips on the three trades.
+If we are so unlucky that the move continues for the tenth trading day
+and we attempt to fade the move again at the beginning of the eleventh
+trading day, we would be starting off with a loss of −180 pips on three
+
+TABLE 9.4 Proﬁt and Loss for Extension Moves
+Days
+
+Lot 1
+
+Lot 2
+
+Pips P/L
+
+8
+9
+
+−30
+60
+
+−30
+120
+Total P/L
+
+−60
+180
+120
+
+Days
+8
+9
+10
+
+Lot 1
+−30
+−30
+60
+
+Lot 2
+−30
+−30
+120
+Total P/L
+
+Pips P/L
+−60
+−60
+180
+60
+
+Days
+8
+9
+10
+11
+
+Lot 1
+−30
+−30
+−30
+60
+
+Lot 2
+−30
+−30
+−30
+120
+Total P/L
+
+Pips P/L
+−60
+−60
+−60
+180
+0
+
+Days
+8
+9
+10
+11
+12
+
+Lot 1
+−30
+−30
+−30
+−30
+60
+
+Lot 2
+−30
+−30
+−30
+−30
+120
+Total P/L
+
+Pips P/L
+−60
+−60
+−60
+−60
+180
+−60
+
+P1: JYS
+c09
+JWBK299-Lein
+
+164
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+trades. However, if we are right on the fourth trade, at least we would
+break even.
+And on the rare occasion that the move extends for the eleventh trading day and we decide to attempt the trade again on the twelfth trading day,
+we would be starting off with a loss of −240 pips on four trades. If we end
+up being right on the fourth trade, we would reduce our loss to −60 pips.
+A sequence of 12 consecutive trading days of strength is very rare; of the
+three major currency pairs, a move has extended to the twelfth trading day
+only once in the past 10 years, and that was in the GBP/USD.
+The returns, of course, are not as good if the first target or limit is hit
+and the second lot is closed out at breakeven due to a retracement, because
+the losses start to build if the currency pair’s move extends for a tenth trading day. If the move continues for an eighth trading day and you attempt
+to fade it again on the ninth day, the best-case scenario based on the stops
+and limits of this strategy is breakeven. If the move is exhausted on the
+tenth day, the net loss on the trade would be 60 pips. This loss would grow
+to 120 pips if the move continues for another day and so forth. Thankfully,
+hitting just the first target usually does not happen, because the second
+target of 120 pips is relatively close and still easily achievable, especially
+as the moves become more extended. When a turn happens, it tends to be
+more than 100 to 150 pips.
+Although the entry and exit rules for this strategy apply well for the
+EUR/USD, GBP/USD, and USD/JPY, when it comes to some of the other
+currency pairs, particularly the Japanese yen crosses, the entry and exit
+rules may have to be altered, because the wild volatility in some of these
+pairs may make a 30-pip stop-loss too tight.
+
+P1: JYS
+c10
+JWBK299-Lein
+
+September 15, 2008
+
+15:40
+
+Printer: Yet to come
+
+C H A P T E R 10
+
+Fundamental
+Trading
+Strategies
+
+PICKING THE STRONGEST PAIRING
+When trading currencies, many traders make the mistake of shaping opinions around only one specific currency without taking into account the relative strength and weakness of both of the currencies in the pair that they
+are trading. In the FX market, this neglect of foreign economic conditions
+has the potential to greatly hinder the profitability of a trade. It also increases the odds of a loss. When trading against a strong economy, there
+is more room for failure; the currency you want to trade could flop badly,
+leaving you stuck against a currency more likely to appreciate. Likewise,
+there is an augmented chance that the other currency could strengthen,
+resulting in a trade with negligible gains. Therefore, finding strong economy/weak economy pairings is a good strategy to use when attempting to
+maximize returns.
+Take for example March 22, 2005—the U.S. Federal Reserve upped
+its risk for inflation in its Federal Open Market Committee (FOMC) statement, causing every major currency pair to tank against the dollar. Along
+with this, a slew of positive U.S. economic data further reinforced the dollar’s strength. While you probably could have gained on any long dollar
+trade at that point, in some of the pairs the dollar appreciation had much
+more staying power than in others. For example, after the initial bloodbath, the pound did show a rebound in the weeks after the Fed’s meeting,
+while the yen depreciated for a longer period of time. The reason is because at the time, Britain’s economy had been exhibiting a consistent, impressive amount of economic growth, which, after the compulsive dollar
+165
+
+P1: JYS
+c10
+JWBK299-Lein
+
+166
+
+September 15, 2008
+
+15:40
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+frenzy, helped it gain back some substantial ground within a matter of a
+few weeks. The rebound in the British pound against the dollar can be seen
+in Figure 10.1. After hitting a low of 1.8595 on March 28, the pair proceeded
+to rebound back toward its pre-FOMC level of 1.9200 over the next three
+weeks.
+On the other hand, the Japanese yen saw a depreciation over a
+much longer period of time with a continual upward movement in the
+USD/JPY pair well into the middle of April. This price action can be seen in
+Figure 10.2. After the FOMC meeting, the dollar proceeded to strengthen
+another 300 pips over the next two weeks. Part of the reason for the
+differences in these movements was that market watchers did not have
+much faith in the Japanese economy, which had been teetering on the
+edge of recession and showing no signs of positive economic expansion.
+Therefore, the dollar strength had a much higher impact and an increased
+amount of staying power with the struggling yen than with the consistently
+strong pound.
+Of course, interest rates as well as other geopolitical macro events
+are also important, but when weighing two equally compelling trades,
+finding the best strong economy and weak economy pairing can lead to
+higher chances of success. Examining crosses of the majors during this
+time period shows another way that knowledge of the strength of different
+currency pairings can be used to increase profitability. For example, take
+a look at Figure 10.3 and Figure 10.4. Following the FOMC meeting on
+
+FIGURE 10.1 GBP/USD Post Fed Meeting
+(Source: www.eSignal.com)
+
+P1: JYS
+c10
+JWBK299-Lein
+
+September 15, 2008
+
+15:40
+
+Fundamental Trading Strategies
+
+FIGURE 10.2 USD/JPY Post Fed Meeting
+(Source: www.eSignal.com)
+
+FIGURE 10.3 AUD/JPY Post Fed Meeting
+(Source: www.eSignal.com)
+
+Printer: Yet to come
+
+167
+
+P1: JYS
+c10
+JWBK299-Lein
+
+168
+
+September 15, 2008
+
+15:40
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+FIGURE 10.4 EUR/JPY Post Fed Meeting
+(Source: www.eSignal.com)
+
+March 22, both AUD/JPY and EUR/JPY sold off, but AUD/JPY rebounded
+much quicker than EUR/JPY. One of the reasons why this might have
+occurred could very well be the strong economy/weak economy comparison. The Eurozone economy experienced very weak growth in 2003,
+2004, and into 2005. Australia, on the other hand, performed much better
+and throughout 2004 and the first half of 2005 Australia offered one of the
+highest interest rates of the industrialized world. As a result, as indicated
+in Figure 10.3, the currency pair rebounded much quicker than EUR/JPY
+post FOMC. This is why when looking for a trade, it is important to keep
+strong economy/weak economy pairings in mind.
+
+LEVERAGED CARRY TRADE
+The leveraged carry trade strategy is one of the favorite trading strategies
+of global macro hedge funds and investment banks. It is the quintessential
+global macro trade. In a nutshell, the carry trade strategy entails going long
+or buying a high-yielding currency and selling or shorting a low-yielding
+currency. Aggressive speculators will leave the exchange rate exposure unhedged, which means that the speculator is betting that the high-yielding
+currency is going to appreciate in addition to earning the interest rate differential between the two currencies. For those who hedge the exchange
+rate exposure, although interest rate differentials tend to be rather small,
+
+P1: JYS
+c10
+JWBK299-Lein
+
+September 15, 2008
+
+Fundamental Trading Strategies
+
+15:40
+
+Printer: Yet to come
+
+169
+
+on the scale of 1 to 5 percent, if traders factor in 5 to 10 times leverage, the
+profits from interest rates alone can be substantial. Just think about it: A
+2.5 percent interest rate differential becomes 25 percent on 10 times leverage. Leverage can also be very risky if not managed properly because it can
+exacerbate losses. Capital appreciation generally occurs when a number of
+traders see this same opportunity and also pile into the trade, which ends
+up rallying the currency pair.
+In foreign exchange trading, the carry trade is an easy way to take advantage of this basic economic principle that money is constantly flowing in and out of different markets, driven by the economic law of supply
+and demand: markets that offer the highest returns on investment will in
+general attract the most capital. Countries are no different—in the world
+of international capital flows, nations that offer the highest interest rates
+will generally attract the most investment and create the most demand for
+their currencies. A very popular trading strategy, the carry trade is simple
+to master. If done correctly, it can earn a high return without an investor
+taking on a lot of risk. However, carry trades do come with some risk. The
+chances of loss are great if you do not understand how, why, and when
+carry trades work best.
+
+How Do Carry Trades Work?
+The way a carry trade works is to buy a currency that offers a high interest
+rate while selling a currency that offers a low interest rate. Carry trades are
+profitable because an investor is able to earn the difference in interest—or
+spread—between the two currencies.
+An example: Assume that the Australian dollar offers an interest rate
+of 4.75 percent, while the Swiss franc offers an interest rate of 0.25 percent.
+To execute the carry trade, an investor buys the Australian dollar and sells
+the Swiss franc. In doing so, he or she can earn a profit of 4.50 percent (4.75
+percent in interest earned minus 0.25 percent in interest paid), as long as
+the exchange rate between Australian dollars and Swiss francs does not
+change. This return is based on zero leverage. Five times leverage equals a
+22.5 percent return on just the interest rate differential. To illustrate, take a
+look at the following example and Figure 10.5 to see how an investor would
+actually execute the carry trade:
+Executing the Carry Trade
+Buy AUD and sell CHF (long AUD/CHF).
+Long AUD position: investor earns 4.75 percent.
+Short CHF position: investor pays 0.25 percent.
+With spot rate held constant, profit is 4.50 percent, or 450 basis points.
+
+P1: JYS
+c10
+JWBK299-Lein
+
+170
+
+September 15, 2008
+
+15:40
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+FIGURE 10.5 Leveraged Carry Trade Example
+
+If the currency pair also increased in value due to other traders identifying this opportunity, the carry trader would earn not only yield but also
+capital appreciation.
+To summarize: A carry trade works by buying a currency that offers a
+high interest rate while selling a currency that offers a low interest rate.
+
+Why Do Carry Trades Work?
+Carry trades work because of the constant movement of capital into and
+out of countries. Interest rates are a big reason why some countries attract
+a great deal of investment as opposed to others. If a country’s economy
+is doing well (high growth, high productivity, low unemployment, rising
+incomes, etc.), it will be able to offer those who invest in the country a
+higher return on investment. Another way to make this point is to say that
+countries with better growth prospects can afford to pay a higher rate of
+interest on the money that is invested in them.
+Investors prefer to earn higher interest rates, so investors who are interested in maximizing their profits will naturally look for investments that
+offer them the highest rate of return. When making a decision to invest in a
+particular currency, an investor is more likely to choose the one that offers
+the highest rate of return, or interest rate. If several investors make this
+exact same decision, the country will experience an inflow of capital from
+those seeking to earn a high rate of return.
+What about countries that are not doing well economically? Countries
+that have low growth and low productivity will not be able to offer investors a high rate of return on investment. In fact, there are some countries that have such weak economies that they are unable to offer any return on investment, meaning that interest rates are zero or very close to it.

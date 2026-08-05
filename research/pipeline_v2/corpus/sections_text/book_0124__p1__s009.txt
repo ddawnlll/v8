@@ -1,0 +1,692 @@
+
+This page intentionally left blank
+
+nine
+TURTLE-STYLE
+BUILDING BLOCKS
+Don’t spend all your time admiring the fancy tools
+in the magazines. First learn how to use the basic ones well.
+It’s not the size of your tools that counts but how well you use them.
+
+hapter 2 provided an overview of the various market states: stable and quiet, stable and volatile, trending and quiet, and
+trending and volatile. I also pointed out the importance of being
+able to identify the state of the market you are trading in since
+many systems are designed to keep you out of that market when it’s
+in a state that is not favorable given their trading styles.
+I refer to the tools that indicate market states as building blocks.
+Some building blocks have speciﬁc names such as indicators, oscillators, and ratios, but I group them all into the more general category. This chapter focuses on the building blocks for trend-following
+systems. These are tools that indicate when the market may have
+moved from a stable state to a trending state and, conversely, when
+it has moved back to a stable state. Simply put, they indicate when
+a trend may have started and when it may have ended.
+
+C
+
+• 123 •
+Copyright © 2007 by Curtis M. Faith. Click here for terms of use.
+
+124 • Way of the Turtle
+
+Unfortunately for traders, there are no building blocks that work
+all the time, no secret formulas that lead to an easy fortune. The best
+we can do is ﬁnd tools that help us identify times when the odds that
+a trend has started or ended have improved. This is sufﬁcient for our
+purposes since it is possible to make good returns even when the odds
+are only slightly in your favor (ask your favorite casino owner).
+
+One Brick at a Time
+Let’s begin with a survey of many common trend-following building blocks, including the ones we were taught in the Turtle program. These are ways to determine when a trend may be starting
+and when it may have ended. This is not a complete survey: You
+can ﬁnd entire books that do nothing more than outline different
+indicators and system rules that can be used to build trend-following systems. For other types of trading there are other types of building blocks that may be useful. Since this book is not a
+comprehensive treatise, however, I’ll leave the discovery of those
+tools as an exercise for the reader. The building blocks discussed in
+this chapter are the following:
+• Breakouts: These are situations when the price exceeds the
+highest high or the lowest low for a speciﬁc number of days.
+This was the primary tool used in the original Turtle system.
+• Moving averages: These are continuously calculated
+averages of the price for a speciﬁc number of days. They are
+called moving averages because they are calculated each
+day and their value therefore moves up and down with the
+new prices.
+
+Turtle-Style Building Blocks • 125
+
+• Volatility channels: These are built by adding a speciﬁc
+amount of price to a moving average that is based on a
+measure of market volatility such as the standard deviation
+or ATR.
+• Time-based exits: These are the simplest possible exits: You
+exit the market at a speciﬁc, predetermined time (e.g., exit
+the market after 10 days or after 80 days).
+• Simple lookbacks: These involve a comparison of the
+current price with a historical price at some earlier period.
+We will explore each building block in more detail and demonstrate how it can be used in a trend-following system.
+
+Breakouts
+Earlier in the book I discussed breakouts and showed how they
+have an edge. A new high price is a strong indicator of the possibility that a trend is beginning. The number of days used to calculate the highest high or the lowest low for the breakout will
+determine the type of trend you may be entering. Fewer days will
+indicate the possibility of a shorter-term trend. A large number of
+days will be more indicative of the possibility of a longer-term trend.
+Breakouts work especially well when they are combined with other
+indicators of overall trend, such as the Donchian Trend system,
+which uses breakouts for both entry signals and exit signals and
+moving averages to indicate the overall trend.
+
+Moving Averages
+Moving averages are continuously calculated averages of the price
+for a speciﬁc number of days. The simplest type of moving average,
+
+126 • Way of the Turtle
+
+SB: Sugar #11 World-CSCE
+14.0
+
+13.5
+
+13.0
+
+12.5
+
+12.0
+
+11.5
+
+11.0
+
+10.5
+
+Figure 9-1
+
+05
+
+05
+
+20
+ov
+N
+
+ct
+O
+
+Se
+
+p
+
+20
+
+20
+
+05
+
+05
+20
+A
+
+ug
+
+20
+l
+Ju
+
+Ju
+
+n
+
+20
+
+05
+
+05
+
+10.0
+
+20-Day and 70-Day Exponential Moving Averages
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+called a simple moving average, is the average of the price for a speciﬁed number of days. The 10-day moving average of the close is the
+average of the prior 10 days’ closes, and a 70-day moving average
+of the high is the average of the previous 70 highs.
+There are other kinds of moving averages that are slightly more
+complex, the most common being the exponential moving average.
+This is an average that is computed by taking a portion of the previous day’s average and mixing it with a portion of the current price.
+Figure 9-1 presents two moving averages: a 20-day exponential
+moving average and a 70-day exponential moving average.
+You can see how the 20-day moving average follows the price
+more closely and how it crosses the longer-term moving average in
+mid-June, indicating the start of an up trend. This is a very com-
+
+Turtle-Style Building Blocks • 127
+
+mon system entry: A trade is taken in the direction of the shorter
+moving average when it crosses over the longer moving average. In
+this case, a long trade would have been initiated in early June at
+the point of the crossover.
+Many other different types of moving averages have been proposed by system designers and researchers. Most of the additional
+complexity offered by their designers is not all that useful in actual
+practice and presents a greater potential for curve ﬁtting and unrealistic test results. This potential pitfall is considered in greater
+detail in Chapter 11.
+
+Volatility Channels
+Volatility channels are good indicators of the beginning of a trend.
+If the price exceeds a particular moving average plus some additional amount, this means that the price is going up. In other words,
+it indicates that a trend possibly has begun. We will examine two
+different systems built on volatility channels in Chapter 10.
+Figure 9-2 shows an 80-day moving average with a volatility
+channel plotted both above and below the moving average. You
+can see from the graph that the prices remain inside the channel for the most part except in the right-hand part of the graph,
+when they descend below the channel. You also can see how the
+moving average slowly turns down and follows the prices as they
+go lower.
+
+Time-Based Exits
+A simple time-based exit can be very effective and useful. It also
+can help smooth out the drawdowns associated with a breakdown
+in a trend. This is the case because very often a time-based exit
+
+128 • Way of the Turtle
+
+SB: Sugar #11 World-CSCE
+12.00
+
+11.75
+
+11.50
+
+11.25
+
+11.00
+
+10.75
+
+10.50
+
+10.25
+
+Figure 9-2
+
+05
+
+05
+
+20
+n
+Ju
+
+ay
+M
+
+pr
+A
+
+ar
+M
+
+20
+
+05
+20
+
+05
+20
+
+05
+20
+Fe
+
+b
+
+20
+n
+Ja
+
+D
+
+ec
+
+20
+
+05
+
+04
+
+10.00
+
+Moving Average with Volatility Channel
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+occurs before the drawdown is revealed by a moving average or
+breakout, both of which follow price more closely.
+
+Simple Lookbacks
+If you consider at a very basic level what trend following is, you can
+devise even simpler mechanisms for determining the potential start
+of a trend. One method that works reasonably well is to simply look
+at a price some number of days earlier. You can add those prices
+by using a volatility-based measure such as ATR. For example, you
+can buy if the prices exceed the price 100 days ago by 2 ATR.
+Chapter 10 will explore some systems that use other types of simple lookbacks.
+
+Turtle-Style Building Blocks • 129
+
+Want More?
+Over the years, hundreds of different types of indicators have been
+invented. Recently, advances in technology have made it easier for
+traders to program their own formulas and create their own indicators, and trading magazines publish new indicators and systems
+built on those indicators in each new issue. For those who want to
+learn about other indicators and system building blocks in more
+detail, some sources are included in the bibliography. However,
+before you dig in too deeply, here are some words of advice. I’ll use
+trend following as an example, but this advice applies to other types
+of trading as well.
+If a market starts to go up, sooner or later it will trigger a long
+entry signal using any of the trend-following building blocks. All
+the building blocks can be tuned so that they react more quickly
+or more slowly. Therefore, in effect you can use any of them to
+build systems that will perform similarly to systems built with other
+building blocks.
+My advice is that there are better ways to spend your time than
+searching for the perfect newfangled nuclear-powered indicator
+that works perfectly in past years’ markets. I suggest that instead you
+try out some simple systems that use the basic building blocks that
+were outlined above. We will look at some of them in Chapter 10.
+
+This page intentionally left blank
+
+ten
+TURTLE-STYLE TRADING:
+STEP BY STEP
+Keep it simple. Simple time-tested methods that are
+well executed will beat fancy complicated methods every time.
+
+his chapter will look at some Turtle-style trading systems, more
+commonly known as long-term trend-following systems. Those
+systems are as follows:
+
+T
+
+• ATR Channel Breakout: A volatility channel system that
+uses ATR as the volatility measure.
+• Bollinger Breakout: A volatility channel system that uses
+the standard deviation as the volatility measure.
+• Donchian Trend: A breakout system with a trend ﬁlter.
+• Donchian Trend with Time Exit: A breakout system with a
+trend ﬁlter and a time-based exit.
+• Dual Moving Average: A system that buys and sells when a
+faster moving average crosses over a slower moving average.
+Unlike the other systems, this system is always in the market,
+either long or short.
+• 131 •
+Copyright © 2007 by Curtis M. Faith. Click here for terms of use.
+
+132 • Way of the Turtle
+
+• Triple Moving Average: A system that buys and sells when a
+faster moving average crosses over a slower moving average
+but only in the direction of the major trend deﬁned by a
+very slow-moving average.
+To examine the differences among these systems, I ran a series
+of historical simulations to determine how much money one would
+have made if one had used each of those systems for the last ten
+years. This chapter will use some of the metrics discussed in Chapter 7 to compare the relative performance of each of the systems.
+
+To Test or Not to Test
+There are many traders, including quite a few successful ones, who do
+not believe in historical testing, sometimes referred to as backtesting.
+They believe that testing with historical data is not useful because the
+past will not repeat itself. For readers who are not familiar with this
+debate, I am going to spend several paragraphs convincing you of
+something that you probably think needs no explanation. To those who
+do not believe in historical testing, my question is: What is the alternative? How do you arrive at any strategy without knowledge of the
+past? How do you determine when to buy or sell? Do you guess?
+The only information you have is what the markets have done
+so far. Even if you are a discretionary trader who does not use rules
+or systems, you still have your personal experience of historical
+price action as a guide. You are relying on your interpretation of
+the past; in effect you are relying on historical data.
+Smart discretionary traders can develop systems after years of
+experience in trading. They note repeating patterns that offer
+
+Turtle-Style Trading: Step by Step • 133
+
+opportunities for proﬁts. They then trade by using ideas designed
+to capitalize on those opportunities. New traders often pore over
+charts for months before starting to trade so that they can understand what the market did in the past. They do this because they
+know that the best indication of what the markets are likely to do
+in the future is contained in the past.
+It is not hard to argue that computers can test ideas more reliably using the same historical data. Computer simulation enables
+traders to perform a more rigorous analysis of a particular strategy
+before trading begins. Then the traders often ﬁnd that ideas that
+appeared promising will not work because of something that was
+not anticipated. It is much better to ﬁgure this out by computer
+than with an actual account.
+The reason some traders do not believe in historical simulation
+is that there are many ways to distort backtesting. It is easy to use
+the power of a computer to ﬁnd methods that appear to work but
+will not work in real markets. These problems are tractable if you
+make sure to avoid the most common pitfall: Overoptimization.
+This topic is covered in Chapter 11.
+Proper historical testing requires some experience and skills that
+beginning traders do not possess. However, the fact that you would
+not give a sharp knife to a small child does not mean you don’t want
+to use one in the kitchen when you are cooking. You just need to
+be careful with sharp instruments.
+A historical simulation does not predict what you will encounter
+in future trading, but it will give you a way to determine whether
+an approach is likely to be proﬁtable in the future. It is not the optimal solution—a crystal ball or time machine would be better—but
+it is the best tool that is currently available.
+
+134 • Way of the Turtle
+
+The Myth of the Expert
+The “don’t optimize” counsel is an effect of what my friends and
+I like to call the myth of the expert. Unfortunately, in most ﬁelds the
+number of people who really understand what’s going on is very
+limited. For every true expert, there are scores of pseudo-experts
+who are able to perform in the ﬁeld, have assembled loads of knowledge, and in the eyes of those who are not experts are indistinguishable from the true experts. These pseudo-experts can function but
+do not really understand the area in which they claim expertise.
+True experts do not have rigid rules; they understand what’s
+going on, and so they do not need rigid rules.
+Pseudo-experts, however, don’t understand, and so they tend to
+look at what the experts are doing and copy it. They know what to
+do but not why it should be done. Therefore, they listen to the true
+experts and create rigid rules where none were intended.
+One sure sign of a pseudo-expert is writing that is unclear and
+difﬁcult to follow. Unclear writing comes from unclear thinking.
+A true expert will be able to explain complicated ideas in ways that
+are clear and easy to understand.
+Another common characteristic of pseudo-experts is that
+they know how to apply complex processes and techniques and
+have been well trained but do not understand the limits of those
+techniques.
+In trading, a good example would be someone who can perform
+complex statistical analyses of trades, runs a simulation that generates 1,000 trades, and then assumes that she can draw conclusions
+from those trades without regard for the fact that they might have
+been drawn from only two weeks of short-term data. These people
+
+Turtle-Style Trading: Step by Step • 135
+
+can do the math but do not understand that the math does not
+matter if next week is radically different from the last two weeks.
+Don’t confuse experience with expertise or knowledge with
+wisdom.
+
+Common Building Blocks
+The testing described in this chapter was performed using a common portfolio of markets and a common money management algorithm to keep the differences in results isolated to those effects
+which are due to changes in the rules of the system. Here are the
+variables used in the testing discussed in this chapter.
+
+Markets
+The markets in the testing portfolio include the Australian dollar,
+the British pound, corn, cocoa, the Canadian dollar, crude oil, cotton, the euro, the eurodollar, feeder cattle, gold, copper, heating oil,
+unleaded gas, the Japanese yen, coffee, cattle, hogs, the Mexican
+peso, natural gas, soybeans, sugar, the Swiss franc, silver, Treasury
+notes, Treasury bonds, and wheat.
+These markets were selected from the liquid (high-tradingvolume) U.S. markets. A few liquid markets were eliminated
+because they were very highly correlated with other, more liquid
+markets. We decided to limit our testing for these purposes to U.S.
+markets because many of the providers of historical data sell the
+information for foreign markets separately. For that reason, many
+new traders start with the U.S. markets only, and we wanted to
+make it as easy as possible for traders to duplicate our results in their
+own testing.
+
+136 • Way of the Turtle
+
+Money Management
+The money management algorithm used here was the same as that
+used by the Turtles except that we employed a ﬁgure that was half
+as aggressive. Instead of equating 1 ATR to 1 percent of our trading equity, we equated it to 0.5 percent. To arrive at number of contracts for the test, we divided 0.5 percent of the equity by the value
+of a given market’s ATR in terms of dollars at the point when the
+orders were entered for a speciﬁc trade.
+
+Test Dates
+The testing was performed using data from January 1996 through
+June 2006 for all the systems.
+
+The Systems
+Let’s examine each system in greater detail before revealing the
+testing results.
+
+ATR Channel Breakout
+The ATR Channel Breakout system is a volatility channel system
+that uses the average true range as the volatility measure. The channel is formed by adding 7 ATR to a 350-day moving average of the
+closing prices for the channel top and subtracting 3 ATR from the
+moving average for the channel bottom. A long trade is entered on
+the open if the previous day’s close exceeded the top of the channel; a short trade is entered if the previous day’s close fell below the
+bottom of the channel. Trades are exited when the close crosses
+back through the moving average price.
+A variation of the ATR Channel Breakout system was popularized as the PGO (Pretty Good Oscillator) system by the trader Mark
+
+Turtle-Style Trading: Step by Step • 137
+
+FC: Cattle-Feeder-CME
+117.5
+
+115.0
+
+112.5
+
+110.0
+
+107.5
+
+105.0
+
+102.5
+
+100.0
+
+97.5
+
+Figure 10-1
+
+6
+20
+0
+Ju
+
+n
+
+20
+ay
+M
+
+A
+
+pr
+
+20
+
+06
+
+06
+
+6
+00
+M
+ar
+2
+
+Fe
+
+b
+
+20
+
+06
+
+95.0
+
+ATR Channel Breakout System
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+Johnson on Chuck LeBeau’s System Trader’s Club (www.
+traderclub.com) forum. It is also a variant of the Bollinger Breakout system discussed below. Figure 10-1 shows a graph of the
+volatility channel for the ATR Channel Breakout system.
+The middle line is the 350-day moving average, and the top line
+is the top of the volatility channel formed by adding 7 ATR to the
+moving average.
+
+Bollinger Breakout
+This system was described by Chuck LeBeau and David Lucas in
+their 1992 book Technical Traders Guide to Computer Analysis of
+
+138 • Way of the Turtle
+
+the Futures Markets (using different numbers for the days in the
+moving average and the standard deviations for the channel width).
+A Bollinger band is a volatility channel that was invented by John
+Bollinger. The Bollinger band for this system is formed by adding
+and subtracting 2.5 standard deviations of the close to a 350-day
+moving average. A long trade is entered on the open if the previous day’s close exceeded the top of the channel; a short trade is
+entered if the previous day’s close fell below the bottom of the channel. Trades are exited when the close crosses back through the moving average price. Figure 10-2 shows a graph of the volatility
+channel for the Bollinger Breakout system.
+SI: Silver-COMEX
+1500
+
+1400
+
+1300
+
+1200
+
+1100
+
+1000
+
+900
+
+800
+
+Figure 10-2
+
+Bollinger Breakout System
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+20
+pr
+A
+
+M
+
+ar
+2
+
+00
+
+06
+
+6
+
+06
+b
+Fe
+
+n
+Ja
+
+20
+
+20
+06
+
+05
+20
+D
+
+ec
+
+20
+
+05
+
+700
+
+Turtle-Style Trading: Step by Step • 139
+
+Donchian Trend
+This Donchian Trend system, which was described in Chapter 5, is
+a simpliﬁed version of the system we used as Turtles. It uses a 20-day
+breakout for entry and a 10-day breakout for exits and includes a 350day/25-day exponential moving average trend ﬁlter. Trades are taken
+only in the direction indicated by the faster moving average. If the
+25-day moving average is above the 350-day average, only longs may
+be taken; if the 25-day moving average is below the 350-day average,
+only shorts may be taken. The system also uses a 2-ATR stop just as
+the original Turtle system did. Figure 10-3 shows the breakout levels
+and moving averages for the Donchian Trend system.
+
+CD: FX-Canadian Dollar-CME
+0.76
+
+0.74
+
+0.72
+
+0.70
+
+0.68
+
+0.66
+
+Figure 10-3
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+00
+3
+l2
+
+n
+Ju
+
+Donchian Trend System
+
+Ju
+
+20
+03
+
+03
+20
+ay
+M
+
+pr
+A
+
+M
+
+ar
+
+20
+
+20
+03
+
+03
+
+0.64
+
+140 • Way of the Turtle
+
+The smooth line that follows the prices fairly closely is the short
+moving average; the lower smooth line at the bottom is the long
+moving average. The graph indicates that a long-trend is in
+progress, and so only long trades will be taken. The jagged lines at
+the top and bottom of the prices are the breakout levels. The highest high moves directly as a new high is made, and so it closely follows the price on the way up. Note that the lowest low does not
+follow the price as closely as the price moves up.
+The chart shows that a long trade would have been entered on
+April 10 as the price penetrated the former highest high at 0.6802,
+which had been made on March 7. Note too how a previous
+attempt to exceed that price at the end of March was unsuccessful. This is a good example of resistance indicating selling. The
+second time the price rose to that level, it was able to break
+through and rally 6 cents to 0.74 without any signiﬁcant pullbacks.
+The price was able to rise because there were no more traders willing to sell at that level but there were buyers willing to buy at the
+higher prices.

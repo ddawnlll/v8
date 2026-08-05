@@ -1,0 +1,477 @@
+
+Probability
+
+Outcome
+
+Expectation
+
+A
+B
+
+999/1000
+1/1000
+
+$1
+-$10,000
+Total
+
+$.999
+-$10.00
+-$9,001
+
+My expectation is a loss of close to $9 (obtained by multiplying the
+probabilities by the corresponding outcomes). The frequency or
+probability of the loss, in and by itself, is totally irrelevant; it needs to
+be judged in connection with the magnitude of the outcome. Here A is
+
+86
+
+SOLON'S
+
+WARNING
+
+far more likely than B. Odds are that we would make money by betting
+for event A, but it is not a good idea to do so.
+This point is rather common and simple; it is understood by anyone
+making a simple bet. Yet I had to struggle all my life with people in the
+financial markets who do not seem to internalize it. I am not talking of
+novices; I am talking of people with advanced degrees (albeit MBAs)
+who cannot come to grips with the difference.
+How could people miss such a point? Why do they confuse
+probability and expectation, that is, probability and probability times
+the payoff? Mainly because much of people's schooling comes from
+examples in symmetric environments, like a coin-toss, where such a
+difference does not matter. In fact the so-called "Bell Curve" that seems
+to have found universal use in society is entirely symmetric. More on
+that later.
+
+Bull and Bear Zoology
+The general press floods us with concepts like bullish and bearish as
+these mean to refer to the effect of higher (bullish) or lower (bearish)
+prices in the financial markets. But also we hear people saying "I am
+bullish on Johnny" or "I am bearish on that guy Nassim in the back who
+seems incomprehensible to me", to denote the belief in the likelihood of
+someone's rise in life. I have to say that the notion bullish or bearish are
+often hollow words with no application in a world of randomness particularly if such a world, like ours, presents asymmetric outcomes.
+When I was in the employment of the New York office of a large
+investment house, I was subjected on occasions to the harrying weekly
+"discussion meeting", which gathered most professionals of the New York
+trading room. I do not conceal that I was not fond of such gatherings, and
+not only because they cut into my gym time. While the meetings included
+traders, that is, people who are judged on their numerical performance, it
+was mostly a forum for salespeople (people capable of charming
+customers), and the category of entertainers called Wall Street
+"economists" or "strategists" who make pronouncements on the fate of
+
+SKEWNESS
+
+AND
+
+ASYMMETRY
+
+87
+
+the markets, but do not engage in any form of risk taking, thus having their
+success dependent on rhetoric rather than actually testable facts. During
+the discussion, people were supposed to present their opinions on the state
+of the world. To me, the meeting was pure intellectual pollution. Everyone
+had a story, a theory, and insights that they wanted others to share. I resent
+the person who, without having done much homework in libraries, thinks
+that he is onto something rather original and insightful on a given subject
+matter (and respect people with scientific minds like my friend Stan Jonas
+who feel compelled to spend their nights reading wholesale on a subject
+matter, trying to figure out what was done on the subject by others before
+emitting an opinion - would the reader listen to the opinion of a doctor
+who does not read medical papers?).
+I have to confess that my optimal strategy (to soothe my boredom
+and allergy to confident platitudes) was to speak as much as I could,
+while totally avoiding listening to other people's replies by trying to
+solve equations in my head. Speaking too much would help me clarify
+my mind, and, with a little bit of luck, I would not be "invited" back
+(that is, forced to attend) the following week.
+I was once asked in one of those meetings to express my views on the
+stock market. I stated, not without a modicum of pomp, that I believed
+that the market would go slightly up over the next week with a high
+probability. How high? "About 70%". Clearly, that was a very strong
+opinion. But then someone interjected "But, Nassim, you just boasted
+being short a very large quantity of SP500 futures, making a bet that the
+market would go down. What made you change your mind?". "I did not
+change my mind! I have a lot of faith in my bet! (audience laughing). As
+a matter of fact I now feel like selling even more!" The other employees
+in the room seemed utterly confused. "Are you bullish or are you
+bearish?" I was asked by the strategist. I replied that I could not
+understand the words "bullish" and "bearish" outside of their purely
+zoological consideration. Just as with events A and B in the preceding
+example, my opinion was that the market was more likely to go up ("I
+would be bullish"), but that it was preferable to short it ("I would be
+bearish"), because, in the event of its going down, it could go down a
+lot. Suddenly, the few traders in the room understood my opinion and
+started voicing similar opinions. And I was not forced to come back to
+the following discussion.
+
+88
+
+SOLON'S
+
+WARNING
+
+Let us assume that the reader shared my opinion, that the market
+over the next week had a 70% probability of going up and 30%
+probability of going down. However, let us say that it would_go up by
+1% on average, while it could go down by an average of 10%. What
+would the reader do? Is the reader bullish or is he bearish}
+Table 6.2
+Event
+
+Probability
+
+Outcome
+
+Expectation
+
+Market goes up
+
+70%
+
+Up 1 %
+
+0.7
+
+Market goes down
+
+30%
+
+Down 1 0 %
+
+-3.00
+
+Total
+
+-2.3
+
+Accordingly, bullish or bearish are terms used by people who do not
+engage in practicing uncertainty, like the television commentators, or
+those who have no experience in handling risk. Alas, investors and
+businesses are not paid in probabilities, they are paid in dollars.
+Accordingly, it is not how likely an event is to happen that matters, it is
+how much is made when it happens that should be the consideration. How
+frequent the profit is irrelevant; it is the magnitude of the outcome that
+counts. It is a pure accounting fact that, aside from the commentators,
+very few people take home a check linked to how often they are right or
+wrong. What they get is a profit or loss. As to the commentators, their
+success is linked to how often they are right or wrong. This category
+includes the "chief strategists" of major investment banks the public can
+see on T.V., who are'nothing better than entertainers. They are famous,
+seem reasoned in their speech, plow you with numbers, but, functionally,
+they are there to entertain - for their predictions to have any validity they
+would need a statistical testing framework. Their fame is not the result of
+some elaborate test but rather the result of their presentation skills.
+
+an a r r o g a n t 29-year-old
+
+son
+
+Outside of the need for entertainment in these shallow meetings I have
+resisted voicing a "market call" as a trader, which caused some personal
+
+SKEWNESS
+
+AND
+
+ASYMMETRY
+
+89
+
+strain with some of my friends and relatives. One day a friend of my
+father - of the rich and confident variety - called me during his New
+York visit (to set the elements of pecking order straight, he hinted right
+away during the call that he came by Concorde, with some derogatory
+comment on the comfort of such method of transportation). He wanted
+to pick my brain on the state of a collection of financial markets. I truly
+had no opinion, nor had made the effort to formulate any, nor was I
+remotely interested in markets. The gentleman kept plowing me with
+questions on the state of economies, on the European central banks;
+these were precise questions no doubt aiming to compare my opinion to
+that of some other "expert" handling his account at one of the large
+New York investment firms. I neither concealed that I had no clue, nor
+did I seem sorry about it. I was not interested in markets ("yes, I am a
+trader") and did not make predictions, period. I went on to explain to
+him some of my ideas on the structure of randomness and the
+verificability of market calls but he wanted a more precise statement
+of what the European bond markets would do by the Christmas season.
+He came under the impression that I was pulling his leg; it almost
+damaged the relationship between my father and his rich and confident
+friend. For the gentleman called him with the following grievance:
+"When I ask a lawyer a legal question, he answers me with courtesy and
+precision. When I ask a doctor a medical question, he gives me his
+opinion. No specialist ever gives me disrespect. Your insolent and
+conceited 29-year-old son is playing prima donna and refuses to answer
+me about the direction of the market!"
+
+rare
+
+events
+
+The best description of my lifelong business in the market is "skewed
+bets", that is, I try to benefit from rare events, events that do not tend to
+repeat themselves frequently, but, accordingly, present a large payoff
+when they occur. I try to make money infrequently, as infrequently as
+possible, simply because I believe that rare events are not fairly valued,
+and that the rarer the event, the more undervalued it will be in price.
+Why? Because of a psychological bias; people who surrounded me in
+my career were too focused on memorizing section 2 of the Wall Street
+
+90
+
+SOLON'S
+
+WARNING
+
+Journal during their train ride to reflect properly on the attributes of
+random events. Or perhaps they watched too many gurus on television.
+Or perhaps they spent too much time upgrading their PalmPilot. Even
+some experienced trading veterans do not seem to get the point that
+frequencies do not matter. Jim Rogers, a "legendary" investor, made the
+following statement:
+I don't buy options. Buying options is another way to go to the poorhouse. Someone did a study for the SEC and discovered that 90 percent
+of all options expire as losses. Well, I figured out that if 90 percent of all
+long option positions lost money, that meant that 90 percent of all short
+option positions make money. If I want to use options to be bearish, I
+sell calls.
+Visibly, the statistic that 90% of all option positions lost money is
+meaningless, (i.e., the frequency) if we do not take into account how
+much money is made on average during the remaining 10%. If we make
+50 times our bet on average when the option is in the money, then I can
+safely make the statement that buying options is another way to go to
+the palazzo rather than the poorhouse. Mr Jim Rogers seems to have
+gone very far in life for someone who does not distinguish between
+probability and expectation (strangely, he was the partner of George
+Soros, a complex man who thrived on rare events - more on him later).
+One such rare event is the stock market crash of 1987, which made
+me as a trader and allowed me the luxury of becoming involved in all
+manner of scholarship. Nero of the smaller house in Chapter 1 aims to
+get out of harm's way by avoiding exposure to rare events - a mostly
+defensive approach. I am far more aggressive than Nero and go one step
+further; I have organized my career and business in such a way as to be
+able to benefit from them. In other words, I aim at profiting from the
+rare event, with my asymmetric bets.
+
+symmetry and
+
+science
+
+In most disciplines, such asymmetry does not matter. Unfortunately, the
+techniques used in finance are often imported from other areas - finance
+
+SKEWNESS
+
+AND
+
+ASYMMETRY
+
+91
+
+is still a young discipline (it is certainly not yet a "science"). People in
+most fields outside of finance do not have problems eliminating extreme
+values from their sample, when the difference in payoff between
+different outcomes is not significant, which is generally the case in
+education and medicine. A professor who computes the average of his
+students' grades removes the highest and lowest observations, which he
+would call outliers, and takes the average of the remaining ones,
+without this being an unsound practice. A casual weather forecaster
+does the same with extreme temperatures - an unusual occurrence might
+be deemed to skew the overall result (though we will see that this may
+turn out to be a mistake when it comes to forecasting future properties
+of the ice cap). So people in finance borrow the technique and ignore
+infrequent events, not noticing that the effect of a rare event can
+bankrupt a company.
+Many scientists in the physical world are also subject to such
+foolishness, misreading statistics. One flagrant example is in the globalwarming debate. Many scientists failed to notice it in its early stages as
+they removed from their sample the spikes in temperature, under the
+belief that these were not likely to recur. It may be a good idea to take
+out the extremes when computing the average temperatures for vacation
+scheduling. But it does not work when we study the physical properties
+of the weather. These scientists initially ignored the fact that these
+spikes, although rare, had the effect of adding disproportionately to the
+cumulative melting of the ice cap. Just as in finance, an event, although
+rare, that brings large consequences cannot just be ignored.
+Figure 6.1 shows a series of points starting with an initial level Wo
+and ending at the period concerned W t . It can also be seen as the
+performance, hypothetical or realized, of your favorite trading strategy,
+the track record of an investment manager, the price of a foot of average
+Palazzo real estate in Renaissance Florence, the price series of the
+Mongolian stock market, or the difference between the U.S. and
+Mongolian stock markets. It is composed of a given number of
+sequential observations Wi, W 2 , etc., ordered in such a way that the one
+to the right comes after the one to the left.
+If we were dealing with a deterministic world - that is, a world
+stripped of randomness (the right-column world in Table P.l on page 3),
+and we knew with certainty that it was the case, things would be rather
+
+92
+
+SOLON'S
+
+WARNING
+
+Figure 6.1 A Primer on Time Series.
+easy. The pattern of the series would reveal considerable and predictive
+information. You could tell with precision what would happen one day
+ahead, one year ahead, and perhaps even a decade ahead. We would not
+even need a statistician; a second-rate engineer would do. He does not
+even need to be armed with a modern degree; someone with nineteenthcentury training under Laplace would be able to solve the equations,
+called differential equations, or, equivalently, equations of motion since we are studying the dynamics of an entity whose position depends
+on time.
+If we were dealing with a world where randomness is charted, things
+would be easy as well, given that there is an entire field created for that
+called Econometrics or Time Series Analysis. You would call a friendly
+econometrician (my experience of econometricians is that they are
+usually polite and friendly to practitioners). He would run the data in
+his software, and prdvide you with diagnostics that would tell you if it is
+worth investing in the trader generating such a track record, or if it is
+worth pursuing the given trading strategy. You can even buy the student
+version of his software for under $999 and run it yourself during the
+next rainy weekend.
+But we are not sure that the world we live in" is well charted. We will
+see that the judgment derived from the analysis of these past attributes
+may on occasion be relevant. But it may be meaningless; it could on
+occasion mislead you and take you in the opposite direction. Sometimes
+market data becomes a simple trap; it shows you the opposite of its
+nature, simply to get you to invest in the security or mismanage your
+
+SKEWNESS
+
+AND
+
+ASYMMETRY
+
+93
+
+risks. Currencies that exhibit the largest historical stability, for example,
+are the most prone to crashes. This was bitterly discovered in the
+summer of 1997 by investors who chose the safety of the pegged
+currencies of Malaysia, Indonesia, and Thailand (they were pegged to
+the U.S. dollar in a manner to exhibit no volatility, until their sharp,
+sudden, and brutal devaluations).
+We could be either too lax or too stringent in accepting past information as a prediction of the future. As a skeptic, I reject a sole time
+series of the past as an indication of future performance; I need a lot
+more than data. My major reason is the rare event, but I have plenty of
+others.
+On the surface, my statement here may seem to contradict earlier
+discussions, where I blame people for not learning enough from history.
+The problem is that we read too much into shallow recent history, with
+statements like "this has never happened before", but not from history
+in general (things that never happened before in one area tend eventually
+to happen). In other words history teaches us that things that never
+happened before do happen. It can teach us a lot outside of the narrowly
+defined time series; the broader the look, the better the lesson. In other
+words, history teaches us to avoid the brand of naive empiricism that
+consists of learning from casual historical facts.
+
+The Rare Event Fallacy
+the mother of all
+
+deceptions
+
+The rare event, owing to its dissimulative nature, can take a variety of
+shapes. It is in Mexico that it was spotted first, where it was called by
+academics the peso problem. Econometricians were puzzled by the
+behavior of the Mexican economic variables during the 1980s. The money
+supply, interest rates, or some similar measure of small relevance to the
+story exhibited some moody behavior, thwarting many of their efforts at
+modeling them. These indicators erratically switched between periods of
+stability to brief bursts of turbulence without warning.
+
+94
+
+SOLON'S
+
+WARNING
+
+By generalization, I started to label a rare event as any behavior where
+the adage "beware of calm waters" can hold. Popular wisdom often
+warns of the old neighbor who appears to remain courtly and reserved,
+the model of an excellent citizen, until you see his picture in the national
+paper as a deranged killer who went on a rampage. Until then, he was not
+known to have committed any transgression. There was no way to
+predict that such pathological behavior could emanate from such a nice
+person. I associate rare events with any misunderstanding of the risks
+derived from a narrow interpretation of past time series.
+Rare events are always unexpected, otherwise they would not occur.
+The typical case is as follows. You invest in a hedge fund that enjoys
+stable returns and no volatility, until one day, you receive a letter
+starting with "An unforeseen and unexpected event, deemed a rare
+occurrence . . . " (emphasis mine). But rare events exist precisely because
+they are unexpected. They are generally caused by panics, themselves
+the results of liquidations (the investors rushing to the door
+simultaneously by dumping anything they can put their hands on as
+fast as possible). If the fund manager or trader expected it, he and his
+like-minded peers would not have invested in it, and the rare event
+would not have taken place.
+The rare event is not limited to one security. It can readily affect the
+performance of a portfolio. For example, many traders engage in the
+purchase of mortgage securities and hedge them in some manner to
+offset the risks and eliminate the volatility, hoping to derive some profits
+in excess of the Treasury bond returns (which is used as the benchmark
+of the minimum expected returns on an investment). They use computer
+programs and draw meaningful assistance from Ph.D.s in applied
+mathematics, astrophysics, particle physics, electrical engineering, fluid
+dynamics, or sometimes (though rarely) plain Ph.D.s in Finance. Such a
+portfolio shows stable returns for long periods. Then, suddenly, as if by
+accident (I consider that no accident), the portfolio drops by 4 0 % of its
+value when you expect, at the worst, a 4 % drop. You call the manager
+to express your anger and he tells you that it was not his fault, but
+somehow the relationship dramatically changed (literally). He will also
+point out to you that similar funds also experienced the same problems.
+Recall that some economists call the rare event a "peso problem".
+The designation peso problem does not appear to be undeservedly
+
+SKEWNESS
+
+AND
+
+ASYMMETRY
+
+95
+
+stereotypical. Things have not gotten better since the early 1980s with
+the currency of the U.S.'s southern neighbor. Long periods of stability
+draw hordes of bank currency traders and hedge fund operators to the
+calm waters of the Mexican peso; they enjoy owning the currency
+because of the high interest rate it commands. Then they "unexpectedly"
+blow up, lose money for investors, lose their jobs and switch careers.
+Then a new period of stability sets in. New currency traders come in
+with no memory of the bad event. They are drawn to the Mexican peso,
+and the story repeats itself.
+It is an oddity that most fixed income financial instruments present
+rare events. In the spring of 1998, I spent two hours explaining to a
+then-important hedge fund operator the notion of the peso problem. I
+went to great lengths to explain to him that the concept was generalized
+to every form of investment that was based on a naive interpretation of
+the volatility of past time series. The reply was: "You are perfectly right.
+We do not touch the Mexican peso. We only invest in the Russian
+ruble". He blew up a few months later. Until then, the Russian ruble
+Carried attractive interest rates, which invited yield hogs of all types to
+get involved. He and other holders of investments denominated in rubles
+lost close to 97% of their investment during the summer of 1998.
+We saw in Chapter 3 that the dentist does not like volatility as it
+causes a high incidence of negative pangs. The closer he observes his
+performance, the more pain he will experience owing to the greater
+variability at a higher resolution. Accordingly investors, merely for
+emotional reasons, will be drawn into strategies that experience rare but
+large variations. It is called pushing randomness under the rug.
+We can look at other aspects of the problem; think of someone
+involved in scientific research. Day after day, he will engage in dissecting
+mice in his laboratory, away from the rest of the world. He could try
+and try for years and years without anything to show for it. His
+significant other might lose patience with the loser who comes home
+every night smelling of mice urine. Until bingo, one day he comes up
+with a result. Someone observing the time series of his occupation would
+see absolutely no gain, while every day would bring him closer in
+probability to the end result.
+The same with publishers; they can publish dog after dog without
+their business model being the least questionable, if once every decade
+
+96
+
+SOLON'S

@@ -1,0 +1,405 @@
+
+89
+
+Figure 8.14 EUR/GBP Inside Day Chart
+(Source: eSignal. www.eSignal.com)
+
+Figure 8.15 NZD/USD Inside Day Chart
+(Source: eSignal. www.eSignal.com)
+Figure 8.15 is another example or inside day trading, this time using the daily
+chart of the New Zealand dollar against the U.S. dollar (NZD/USD). The difference
+between this example and the previous one is that our stop and reverse order actually
+gets triggered, indicating that the first move was a false breakout. The two inside
+days are labeled on the chart. In accordance with our rules, after identifying the
+inside days, we place an order to buy on the break of the high of the previous inside
+90
+
+day and an order to sell on the break of the low of the previous inside day. The high
+on the first or previous inside day is 0.6638. We place an order to go long at 0.6638
+or to go short at 0.0.6618. Our long order gets triggered on the first day of the break
+at 0.6638 and we place a stop and reverse order 10 pips below the low of the most
+recent inside day (or the daily candle before the breakout), which is 0.6560.
+However, instead of continuing the breakout, the pair reverses and we close our first
+position at 0.6560 with a 78-pip loss. We then enter into a new short position with the
+reverse order at 0.6560. The new stop is then 10 pips above the high of the most
+recent inside day at 0.6619. When NZD/USD moves by double the initial amount
+risked, conservative traders can take profit on the entire position while aggressive
+traders can trail the stop using various methods, which may be dependent on how
+wide the trading range is. In this example, since the daily trading range is fairly wide,
+we choose to close the posit ion once the price reaches our limit of 0.6404 for a profit
+of 156 pips and a total profit on the entire trade of 78 pips.
+
+Figure 8.16 EUR/CAD Inside Day Chart
+(Source: eSignal. www.eSignal.com)
+The final example uses technicals to help determine a directional bias of the
+inside day breakout. Figure 8.17 is a daily chart of EUR/CAD. The inside days are
+once again identified directly on the chart. The presence of higher lows suggests that
+the breakout could very well be to the upside. Adding in the MACD histogram to the
+bottom of the chart, we see that the histogram is also in positive territory right when
+the inside days are forming. As such, we choose to opt for an upside breakout trade
+based on technical indicators. In accordance with the rules, we go long 10 pips above
+the high of the previous inside day at l.6008. Our short trade gets triggered first, but
+then our stop and reverse order kicks in. Our long trade is then triggered and we
+place our new stop order 10 pips below the low of the most recent inside day at
+91
+
+1.5905. When prices move by double the amount that we risked to 1.6208, we exit
+the entire position for a 200-pip profit.
+With the inside day breakout strategy, the risk is generally pretty high if done on
+daily charts, but the profit potentials following the breakout are usually fairly large as
+well. More aggressive traders can also trade more than one position, which would
+allow them to lock in profits on the first half of the position when prices move by
+double the amount risked and then trail the stop on the remaining position. Generally
+these breakout trades are precursors to big trends, and using trailing stops would
+allow traders to participate in the trend move while also banking some profits.
+
+THE FADER
+More often than not, traders will find themselves faced with a potential breakout
+scenario, position for it, and then only end up seeing the trade fail miserably and have
+prices revert back to range trading. In fact, even if prices do manage to break out
+above a significant level, a continuation move is not guaranteed. If this level is very
+significant, we frequently see interbank dealers or other traders try to push prices
+beyond those levels momentarily in order to run stops. Breakout levels are very
+significant levels, and for this very reason there is no hard-and-fast rule as to how
+much force is needed to carry prices beyond levels into a sustainable trend.
+Trading breakouts at key levels can involve a lot of risk and as a result, false
+breakout scenarios appear more frequently than actual breakout scenarios. Sometimes
+prices will test the resistance level once, twice, or even three times before breaking
+out. This has fostered the development of a large contingent of contra-trend traders
+who look only to fade breakouts in the currency markets. Yet fading every breakout
+can also result in some significant losses because once a real breakout occurs, the
+trend is generally strong and long-lasting. So what this boils down to is that traders
+need a methodology for screening out consolidation patterns for trades that have a
+higher potential of resulting in a false breakout. The following rules provide a good
+basis for screening such traders. The fader strategy is a variation of the waiting for
+the real deal strategy. It uses the daily charts to identify the range-bound environment
+and the hourly charts to pinpoint entry levels.
+
+Strategy Rules
+1.
+
+2.
+3.
+4.
+5.
+
+1.
+
+Long
+Locate a currency pair whose 14-period ADX is less than 35. Ideally the ADX
+should also be trending downward, indicating that the trend is weakening
+further.
+Wait for the market to break below the previous day’s low by at least 15 pips.
+Place an entry order to buy 15 pips above the previous day’s high.
+After getting filled, place your initial stop no more than 30 pips away.
+Take profit on the position when prices increase by double your risk, or 60 pips.
+Short
+Locate a currency pair whose 14-period ADX is less than 35. Ideally the ADX
+should also be trending downward, indicating that the trend is weakening
+further.
+92
+
+2.
+3.
+4.
+
+Look for a move above the previous day's high by at least 15 pips.
+Place an entry order to sell 15 pips below the previous day’s low.
+Once filled, place the initial protective stop no more than 30 pips above your
+entry.
+5. Take profits on the position when it runs 60 pips in your favor.
+Further Optimization
+The false breakout strategy works best when there are no significant economic
+data scheduled for release that could trigger sharp unexpected movements. For
+example, prices often consolidate ahead of the U.S. non-farm payrolls release.
+Generally speaking, they are consolidating for a reason and that reason is because the
+market is undecided and is either positioned already or wants to wait to react
+following that release. Either way, there is a higher likelihood that any breakout on
+the back or the release would be a real one and not one that you want to fade. This
+strategy works best with currency pairs that are less volatile and have narrower
+trading ranges.
+Examples
+Figure 8.17 is an hourly chart of the EUR/USD. Applying the rules just given,
+we see that the 14-period ADX dips below 35, at which point we begin looking for
+prices to break below the previous day's low of l.2166 by 15 pips. Once that occurs,
+we look for a break back above the previous day's high of 1.2254 by 15 pips, at
+which point we enter into position at 1.2269. The stop is placed 30 pips below the
+entry price at 1.2239, with the limit exit order placed 60 pips above the entry at
+1.2329. The exit order gets triggered a few hours later for a total profit of 60 pips
+with a risk of 30 pips.
+
+Figure 8.17 EUR/USD Fader Chart
+(Source: eSignal. www.eSignal.com)
+93
+
+Figure 8.18 is an example of the fader trading strategy on the short side.
+Applying the rules to the hourly chart of the GBP/USD, we see that…
+*************************************
+PAGE 120
+*************************************
+
+FILTERING FALSE BREAKOUTS
+…rules behind this strategy are specifically developed to take advantage of strong
+trending markets that make new highs that then proceed to fail by taking out a recent
+low and then reverse again to make other new highs. This type of setup tends to have
+a very high success rate as it allows traders to enter strongly trending markets after
+weaker players have been flushed out, only to have real money players reenter the
+market and push the pair up to make major highs.
+
+Strategy Rules
+Long
+1. Look for a currency pair that is making a 20-day high.
+2. Look for the pair to reverse over the next three days to make a two-day low.
+3. Buy the pair if it takes out the 20-day high within three days of making the twoday low.
+4. Place the initial stop a few pips below the original two-day low that was identified
+in step 2.
+5. Protect any profits with a trailing stop or take profit by double the amount risked.
+Short
+1. f. Look for a currency pair that is making a 20-day low.
+2. Look for the pair to reverse over the next three days to make a two-day high.
+3. Sell the pair if it trades below the 2-day low within three days of making the twoday high.
+4. Risk up to a few ticks above the original two-day high that was identified in step 2.
+5. Protect profits with a trailing stop or take profit by double the amount risked.
+Examples
+Take a look at our first example in Figure 8.19. The daily chart of the GBP/USD
+shows that the currency pair made a new 20-day high on November 17 at 1.8631.
+This means that the currency pair gets onto our radar screens and we prepare to look
+for the pair to make a new two-day low and then rally back beyond the previous 20day high of 1.8631 over the…
+
+94
+
+Figure 8.20 USD/CAD Filtering Fake Breakouts Chart
+(Source: eSignal. www.eSignal.com)
+
+Figure 8.21 USD/JPY Filtering Fake Breakouts Chart
+(Source: eSignal. www.eSignal.com)
+Our last example is on the short side. Figure 8.21 is a daily chart of USD/JPY.
+The chart illustrates that USD/JPY made a new 20-day low on October 11 below
+109.30. The currency pair then proceeded to make a new two-day high on October 13
+of 110.21. Prices then reversed over the next two days to break below the original 20day low, at which point our sell order at 109.20 (a few pips below the 20-day low)
+95
+
+was triggered. We placed our stop a few pips above the two-day high at 110.30. As
+the currency moves in our favor, we have two choices: either to take profits by
+double the amount that we risked, which would be 220 pips in profits, or to use a
+trailing stop such as a two-bar high. The two-bar profit would have the trade exited at
+106.76 on November 2, while the 220-pip profit would have the trade exited at
+107.00 on October 25.
+CHANNEL STRATEGY
+Channel trading is less exotic but nevertheless works very well with currencies.
+The primary reason is because currencies rarely spend much time in tight trading
+range and have the tendency to develop strong trends. By just going through a few
+charts, traders can see that channels can easily be identified and occur frequently. A
+common scenario would be channel trading during the Asian session and a breakout
+in either the London or the U.S. session. There are many instances where economic
+releases are triggers for a break of the channel. Therefore it is imperative that traders
+keep on top of economic releases. If a channel has formed, a big U.S. number is
+expected to be released, and the currency pair is at the top of a channel, the
+probability of a breakout is high, so traders should be looking to buy the breakouts
+not fade it.
+Channels are created when we draw a trend line and then draw a line that is
+parallel to the trend line. Most if not all of the price activity of the currency pair
+should fall between the two channel lines. We will seek to identify situations when
+the price is trading within a narrow channel, and then trade in the direction of a
+breakout from the channel. This strategy will be particularly effective when used
+prior to a fundamental market event such as the release of major economic news, or
+when used just prior to the open of a major financial market.
+Here are the rules for long trades using this technique.
+1. First, identify a channel on either an intraday or a daily chart. The price should be
+contained within a narrow range.
+2. Enter long as the price bleaks above the upper channel line.
+3. Place a stop just under the upper channel line.
+4. Trail your stop higher as the price moves in your favor.
+Examples
+Let us now examine a few examples. The first is a USD/CAD 15-minute chart
+shown in Figure 8.22. The total range of the channel is approximately 30 pips. In
+accordance with our strategy, we place entry orders 10 pips above and below the
+channel at 1.2395 and 1.2349. The order to go long gets triggered first and almost
+immediately we place a stop order 10 pips under the upper channel line at 1.2375.
+USD/CAD then proceeds to rally and reaches our target of double the range at
+1.2455. A trailing stop also could have been used, similar to the ones that we talked
+about in our risk management section in Chapter 7.
+
+96
+
+Figure 8.22 USD/CAD Channel Example
+(Source: eSignal. www.eSignal.com)
+The next example, shown in Figure 8.23 is a 30-minute chart of EUR/GBP. The
+total range between the two lines is 15 pips. In accordance with our strategy, we
+place entry orders 10 pips above and below the channel at 0.6796 and 0.6763. The
+order to go long gets triggered first and almost immediately we place a stop order 10
+pips under the upper…
+*************************************
+PAGE 126
+*************************************
+
+Figure 8.24 EUR/USD Channel Example
+(Source: eSignal. www.eSignal.com)
+97
+
+PERFECT ORDER
+…price level than the 20-day SMA, which is higher than the 50-day SMA.
+Meanwhile, the 100-day SMA would be below the 50-day SMA, while the 200-day
+SMA would be below the 100-day SMA. In a downtrend, the opposite is true, when
+the 200-day SMA is at the highest level and the 10-day SMA is at the lowest level.
+Having the moving averages stacked up in sequential order is generally a strong
+indicator of a trending environment. Not only does it indicate that the momentum is
+on the side of the trend, but the moving averages also serve as multiple levels of
+support. To optimize the perfect order strategy, traders should also look for ADX to
+be greater than 20 and trending upward. Entry and exit levels are difficult to
+determine with this strategy, but we generally want to stay in the trade as long as the
+perfect order holds and exit once the perfect order no longer holds. Perfect orders do
+not happen often, and the premise of this strategy is to capture the perfect order when
+it first happens.
+The perfect order seeks to take advantage of a trending environment near the
+beginning of the trend. Here are the rules for using this technique.
+1. Look for a currency pair with moving averages in perfect order.
+2. Look for ADX pointing upward, ideally greater than 20.
+…
+*************************************
+PAGES 128-129
+*************************************
+…
+fect order no longer holds and the 20-day SMA moves below the 10-day SMA.
+This occurs on December 16,2005, when prices open al 1.1420. The total profit on
+this track is 410 pips. We risked 97 pips.
+Figure 8.27 is a perfect order formation in the USD/CAD. The formation
+materialized on September 30, 2004. We count five bars forward and enter into the
+position at 1.2588 with a stop at 1.2588. The pair then proceeds to sell off and we
+look to exit the position when the perfect order formation no longer holds. This
+occurs on December 9, 2005, at which time we buy back our position at 1.2115 for a
+443-pip profit while risking 149 pips.
+
+98
+
+Fundamental Trading Strategies
+*************************************
+PAGE 131
+*************************************
+
+Picking the Strongest Pairing
+… because at the time, Britain's economy had been exhibiting a consistent,
+impressive amount of economic growth, which, after the compulsive dollar frenzy,
+helped it gain hack some substantial ground within a matter of a few weeks. The
+rebound in the British pound against the dollar can be seen in Figure 9.1. After
+hitting a low of 1.8595 on March 28, the pair proceeded to rebound back toward its
+pre-FOMC level of 1.9200 over the next three weeks.
+
+Figure 9.1 GBP/USD Post Fed Meeting
+(Source: eSignal. www.eSignal.com)
+On the other hand, the Japanese yen saw a depreciation over a much longer
+period of time with a continual upward movement in the USD/JPY pair well into the
+middle of April. This price action can be seen in Figure 9.2. After the FOMC
+meeting, the dollar proceeded to strengthen another 300 pips over the next two
+weeks. Part of the reason for the differences in these movements was that market
+watchers did not have much faith in the Japanese economy, which had been teetering
+on the edge of recession and showing no signs of positive economic expansion.
+Therefore, the dollar strength had a much higher impact and an increased amount of
+staying power with the struggling yen than with the consistently strong pound.
+*************************************
+PAGE 133
+*************************************
+99
+
+Figure 9.3 AUD/JPY Post Fed Meeting
+(Source: eSignal. www.eSignal.com)
+
+Figure 9.4 EUR/JPY Post Fed Meeting
+(Source: eSignal. www.eSignal.com)
+
+LEVERAGED CARRY TRADE
+THE leveraged carry trade strategy is one of the favorite trading strategies of
+global macro hedge funds and investment banks. It is the quintessential global macro
+trade. In a nutshell, the carry trade strategy entails going long or buying a high100
+
+yielding currency and selling or shorting a low-yielding currency. Aggressive
+speculators will leave the exchange rate exposure unhedged, which means that the
+speculator is betting that the high-yielding currency is going to appreciate in addition
+to earning the interest rate differential between the two currencies. For those who
+hedge the exchange rate exposure, although interest rate differentials tend to be rather
+small, on the scale of 1 to 5 percent, if traders factor in 5 to 10 times leverage, the
+profits from interest rates alone can be substantial. Just think about it: A 2.5 percent
+interest rate differential becomes 25 percent on 10 times leverage. Leverage can also
+be very risky if not managed properly because it can exacerbate losses. Capital
+appreciation generally occurs when a number of traders see this same opportunity
+and also pile info the trade, which ends up rallying the currency pair.
+In foreign exchange trading, the carry trade is an easy way to take advantage of
+this basic economic principle that money is constantly flowing in and out of different
+markets, driven by the economic law of supply and demand: markets that offer the
+highest returns on investment will in general attract the most capital. Countries are no
+different in the world of international capital flows, nations that offer the highest
+interest rates will generally attract the most investment and create the most demand
+for their currencies. A very popular trading strategy, the carry trade is simple to
+master. If done correctly, it can earn a high return without an investor taking on a lot
+of risk. However, carry trades do come with some risk. The chances of loss are great
+if you do not understand how, why, and when carry trades work best.
+How Do Carry Trades Work?
+The way a carry trade works is to buy a currency that offers a high interest rate
+while selling a currency that offers a low interest rate. Carry trades are profitable
+because an investor is able to earn the difference in interest—or spread—between the
+two currencies.
+An example: Assume that the Australian dollar offers an interest rate of 4.75
+percent, while the Swiss franc offers an interest rate of 0.25 percent. To execute the
+carry trade, an investor buys the Australian dollar and sells the Swiss franc. In doing
+so, he or she can earn a profit of 4.50 percent (4.75 percent in interest earned minus
+0.25 percent in interest paid), as long as the exchange rate between Australian dollars
+and Swiss francs does not change. This return is based on zero leverage. Five times
+leverage equals a 22.5 percent return on just the interest rate differential. To
+illustrate, take a look at the following example and Figure 9.5 to see how an investor
+would actually execute the carry trade:
+Executing the Carry Tirade
+Buy AUD and sell CHF (long AUD/CHF).
+Long AUD position: investor earns 4.75 percent.
+Short CHF position: investor pays 0.25 percent.
+With spot rate held constant, profit is 4.50 percent, or 450 basis points.
+If the currency pair also increased in value due to other traders identifying this
+opportunity, the carry trader would earn not only yield but also capital appreciation.
+To summarize: A carry trade works by buying a currency that offers a high
+interest rate while selling a currency that offers a low interest rate.
+
+101
+
+Why Do Carry Trades Work?
+Carry trades work because of the constant movement of capital into and out of
+countries. Interest rates are a big reason why some countries attract a great deal of
+investment as opposed to others. If a country’s economy is doing well (high growth,
+high productivity, low unemployment…
+
+Figure 9.5 Leveraged Carry Trade Example
+*************************************
+PAGES 137-138
+*************************************
+…be able to pay high interest rates. Indeed, there is a clear chance that
+something might happen to prevent the country from paying this high interest rate.
+Ultimately, the investor must be willing to take this chance.
+If investors as a whole, were not willing to take on this risk, then capital would
+never move from one country to another, and the carry trade opportunity would not
+exist. Therefore, in order to work, carry trades require that investors as a group have
+low risk aversion, or are willing to take the risk of investing in the higher-interestrate currency.
+To summarize: Carry trades have the most profit potential during times when
+investors are willing to take the risk of investing in high-interest-paying currencies.
+When Will Carry Trades Not Work?
+So far we have shown that a curry trade will work best when investors have low
+risk aversion. What happens when investors have high risk aversion?
+Carry trades are the least profitable when investors have high risk aversion.
+When investors have high risk aversion, they are less willing as a group to take
+chances with their investments. Therefore, they would be less willing to invest in
+riskier currencies that offer higher interest rates. Instead, when investors have high
+risk aversion they would actually prefer to put their money in "safe haven" currencies
+that pay lower interest rates. This would be equivalent to doing the exact opposite of
+a carry trade—in other words, investors are buying the currency with the low interest
+rate and selling the currency with the high interest rate.
+102
+
+Going back to our earlier example, assume the investor suddenly feels
+uncomfortable holding a foreign currency, the Australian dollar. Now, instead of
+looking for the higher interest rate, she is more interested in keeping her investment
+sale. As a result, she swaps her Australian dollars for more familiar Swiss francs.
+The net effect of millions of people doing this transaction is that capital flows
+out of Australia and into Switzerland as investors take their Australian dollar and
+trade them in for Swiss francs. Because, of this high investor risk aversion,
+Switzerland attracts more capital due to the safety its currency offers despite the
+lower interest rates. This inflow of capital increases the value of the Swiss franc (see
+Figure 9.7).
+To summarize: Carry trades will he the least profitable during times when
+investors are unwilling to take the risk of investing in high-interest-paying currencies.

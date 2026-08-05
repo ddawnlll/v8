@@ -1,0 +1,660 @@
+
+Speculative Value
+
+100%
+90%
+80%
+70%
+60%
+50%
+40%
+30%
+20%
+10%
+0%
+
+Young
+Cryptoasset
+
+Mature
+Cryptoasset
+
+Figure 8.3 n The maturation of a cryptoasset from speculative to utility value
+
+Speculative value in young markets is hard to estimate and can be dangerous to play with, as often only a few investors have a good basis for the future
+value of the asset, while the rest follow the movement of the market.
+Benjamin Graham uses a famous example in his classic investing book The
+Intelligent Investor, where he personifies the market as Mr. Market, who is
+prone to oscillation between dark and ebullient moods. When Mr. Market is
+dark, he’ll throw assets around, damaging their value to beneath their utility
+value. When Mr. Market is ebullient, he’ll pay most any price for assets, driving them far above their utility value with hefty speculative premiums. Mr.
+Market is a fictional representation of the movement of crowds, and Graham
+
+Burniske 02.indd 119
+
+9/9/17 1:46 PM
+
+120 CRYPTOASSETS
+
+suggests that investors do their fundamental work on the asset and from there
+ignore the moods of Mr. Market. Speaking of Mr. Market, let’s discuss how
+cryptoasset marketplace behavior evolves over time.
+
+Burniske 02.indd 120
+
+9/9/17 1:46 PM
+
+Chapter 9
+The Evolution of Cryptoasset
+Market Behavior
+
+I
+
+n the previous chapter, we discussed what differentiated asset classes from
+one another. We identified economic characteristics, liquidity and trading volume profiles, and marketplace behavior, as key differentiators. The
+economic characteristics covered in Chapter 8 are largely well defined at the
+launch of an asset, though any given cryptoasset’s economic characteristics
+may evolve more than a stock, and certainly more than a bond, given the
+nature of its open-source software.
+Inarguably, the liquidity and trading volume profiles along with the marketplace behavior of an asset class—and individual examples within an asset
+class—mature considerably over time. For example, in 1602 when the United
+Dutch Chartered East India Company (Dutch East India Company, for short)
+became the first company to issue stock,1 the shares were extremely illiquid.
+When first issued, no stock market even existed, and purchasers were expected
+to hold on to the shares for 21 years, the length of time granted to the company by the Netherlands’ charter over trade in Asia. However, some investors
+wanted to sell their shares, perhaps to pay down debts, and so an informal
+market for the stock (the very first stock market) developed in the Amsterdam
+East India House. As more joint-stock equity companies were founded, this
+informal location grew, and was later formalized as the Amsterdam Stock
+Exchange, the oldest “modern” securities exchange in the world.2 Despite the
+structure of the shares of the Dutch East India Company not changing much,
+their market liquidity and trading volumes changed considerably.
+121
+
+Burniske 02.indd 121
+
+9/9/17 1:46 PM
+
+122 CRYPTOASSETS
+
+Similarly, when bitcoin, the first cryptoasset and therefore the cryptoanalogue to the Dutch East India Company, was “issued” through the mining process, there was no market to transact or trade bitcoin. For much of
+2009, there were hardly any bitcoin transactions, even though a new batch
+of 50 bitcoin was minted every 10 minutes. It wasn’t until October 2009 that
+the first recorded transaction of bitcoin for the U.S. dollar took place: 5,050
+bitcoin for $5.02, paid via PayPal.3 This transaction was sent from one of
+Bitcoin’s earliest proselytizers, Martti Malmi, to an individual using the name
+NewLibertyStandard, who was trying to set up the world’s first consistent place
+of exchange between bitcoin and the U.S. dollar.4
+To say it was an exchange in the sense of the word that we think of today
+would be an overstatement. NewLibertyStandard’s attempt to create a trading
+location for bitcoin was sparsely populated and illiquid, yet the idea was there.
+It wouldn’t be until the summer of 2010 that a formidable place of exchange
+would come into existence. In short, the bitcoin markets took time to develop,
+just as those for stocks or any other asset class.
+The asset can stay the same, but the functioning markets around it and the
+way the asset changes hands can morph considerably. For example, currently
+the bond markets are undergoing significant changes, as a surprising amount
+of bond trading is still a “voice and paper market,” where trades are made by
+institutions calling one another and tangible paper is processed. This makes
+the bond market much more illiquid and opaque than the stock market, where
+most transactions are done almost entirely electronically. With the growing
+wave of digitalization, the bond markets are becoming increasingly liquid and
+transparent. The same can be said of markets for commodities, art, fine wine,
+and so on.
+Cryptoassets have an inherent advantage in their liquidity and trading volume profile, because they are digital natives. As digital natives, cryptoassets
+have no physical form, and can be moved as quickly as the Internet can move
+the 1s and 0s that convey ownership. The rapidity with which cryptoassets
+can be moved sets them apart from other asset classes—especially alternative
+assets like art, real estate, and fine wines—and should enable more liquid markets much earlier in their developmental history.
+Correlations between assets are also relevant in the evolution of an asset
+class. Recall from Chapter 6 that correlation refers to the prices of assets
+moving together. With the globalization of markets, correlations have largely
+increased as national economies are attached at the hip. Many still turn to gold
+
+Burniske 02.indd 122
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+123
+
+in risk-off periods, when they want something safe from the groupthink trading in the bond and equity markets.
+As of April 2017, the aggregate network value for cryptoassets was so small
+on a relative basis, storing less than $30 billion in value, that they had yet to
+penetrate most traditional investor capital pools. Even though they are growing
+at an incredible clip, separation between cryptoasset markets and traditional
+investor capital pools still largely remains the case. As a result, cryptoassets currently have little correlation with traditional assets. However, we increasingly
+see signs of correlation between bitcoin and the broader capital markets (either
+negative or positive correlation), which makes sense as bitcoin is the most wellestablished cryptoasset and will likely be the first for traditional investors to
+venture into.
+Over time, we expect increasing correlations (once again, either negative
+or positive) between cryptoassets and other asset classes, as overlap between
+the entities using these investments increases. The transition from an emerging asset class to a mature asset class involves being accepted by the broader
+capital markets.
+It’s critical for the innovative investor to understand the liquidity and trading volume profiles of cryptoassets and how they change as they mature. Given
+bitcoin’s status and tenure, we’ll begin there. Then for comparison, we’ll pull
+in relevant examples from other top cryptoassets by market cap, such as ether,
+dash, ripple, monero, and litecoin.
+
+BITCOIN’S LIQUIDITY AND TRADING
+VOLUME PROFILE
+Bitcoin’s liquidity has improved dramatically over time, and exchanges have
+grown from just Mt. Gox in July 2010 to over 40 as of the start of 2017.5 Equally,
+the order books of individual exchanges have matured. For example, consider
+that on the first day Mt. Gox traded bitcoin, only 20 were traded, totaling 99
+cents of value. On opening day Mt. Gox had an extremely thin order book.
+Now sites such as Bitcoinity.org provide metrics like, “Spread 100 BTC [%],”
+showing how much the price of bitcoin would move on different exchanges if
+100 bitcoin were bought.6
+In Figure 9.1, we see that there are five exchanges where placing a trade
+for 100 bitcoin (at the time, worth about $100,000) would not move the price
+more than 1 percent—and this was only for U.S. dollar-denominated order
+
+Burniske 02.indd 123
+
+9/9/17 1:46 PM
+
+124 CRYPTOASSETS
+
+Figure 9.1 n Comparing the effect that the purchase of 100 bitcoin
+has on prices among different exchanges
+Source: Annotation of Bitcoinity.org screenshot
+
+books. As can be seen in the upper-right tab, one can compare order books for
+different currency pairs, like the yuan, yen, euro, and so on.
+Greater liquidity is created from more trading activity, as there are more
+people buying and selling bitcoin. Global trading volumes since the opening
+of Mt. Gox have increased exponentially.7 On January 5, 2017, bitcoin trading
+activity clocked in at over $11 billion and bitcoin broke through $1,000 a coin
+for the second time in its history (see Figure 9.2).
+$100,000,000,000
+$10,000,000,000
+$1,000,000,000
+Volume (USD)
+
+$100,000,000
+$10,000,000
+$1,000,000
+$100,000
+$10,000
+$1,000
+$100
+$10
+Jul-10
+Nov-10
+Mar-11
+Jul-11
+Nov-11
+Mar-12
+Jul-12
+Nov-12
+Mar-13
+Jul-13
+Nov-13
+Mar-14
+Jul-14
+Nov-14
+Mar-15
+Jul-15
+Nov-15
+Mar-16
+Jul-16
+Nov-16
+Mar-17
+
+$1
+
+Figure 9.2 n Bitcoin’s trading volume history
+Data sourced from CryptoCompare
+
+Burniske 02.indd 124
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+125
+
+Just as trading equities evolved from an informal venue in Amsterdam to
+trading hundreds of billions of dollars daily in exchanges all over the world,
+so too has bitcoin evolved. We now have tens of exchanges globally trading
+hundreds of millions to billions of dollars daily. This increase in trading volume is a function of increased interest, which has driven maturation in bitcoin
+markets.
+
+THE EVOLUTION OF CRYPTOASSET TRADING VOLUMES
+Other cryptoassets show similar trends as they mature, but because they’re
+younger than bitcoin, their variability in volume and liquidity is greater. For
+example, in 2016, Monero experienced a sizeable increase in notoriety—
+largely because its privacy features began to be utilized by a well-known dark
+market8—which sent its average trading volume skyrocketing. In December
+2015, daily volume for the asset was $27,300, but by December 2016 it was
+$3.25M, well over a hundredfold increase. The price of the asset had appreciated more than 20-fold in the same period, so some of the increase in trading
+volume was due to price appreciation, but clearly a large amount was due to
+increased interest and trading activity in the asset. Figure 9.3 shows monero’s
+historic trading volume.
+To varying degrees, ether, dash, litecoin, ripple, and other cryptoassets
+have shown similar increases in trading volume as they have matured. Many
+$100,000,000
+
+Volume (USD)
+
+$10,000,000
+$1,000,000
+$100,000
+$10,000
+$1,000
+
+Feb-17
+
+Jan-17
+
+Dec-16
+
+Nov-16
+
+Oct-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Mar-16
+
+Feb-16
+
+Jan-16
+
+Dec-15
+
+Nov-15
+
+$100
+
+Figure 9.3 n Monero’s trading volume history
+Data sourced from CryptoCompare
+
+Burniske 02.indd 125
+
+9/9/17 1:46 PM
+
+126 CRYPTOASSETS
+
+crypto­assets will enjoy significant boosts in trading volumes upon sizeable
+price appreciation because a rising asset catches the attention of more investors
+and traders. Such a pattern is easily visible in monero in Figure 9.3. However,
+once the cryptoasset settles down into a price range, its trading volume will
+often settle into a new range as well. Some cryptoasset traders will then look
+for increases in volume as an early indicator that interest is picking up and that
+a move in the asset’s price could be on the horizon.
+Regardless of whether or not traders are right, burgeoning interest, trading
+volumes, and market liquidity all point to a maturing cryptoasset. If sustained,
+all of these are good indicators of health for the innovative investor to be aware
+of. If, however, the rise in trading volumes looks too steep and there is little
+news as to why, then that is reason to be wary. As we will cover in the next two
+chapters on speculation, sometimes volumes that rise too far and too fast can
+be a sign of manipulation or overheating markets.
+
+REGULATORY IMPACT ON MARKET LIQUIDITY
+While the innovative investor can generally expect assets with real value to
+mature and increase in liquidity and trading over time, external factors that
+impact markets can significantly dampen trading volume. Investors become
+skittish and at times regulation can forcibly clamp down on overenthusiasm.
+What helps an asset through these difficult periods is the diversity and depth
+of the exchanges and trading pairs offered globally.
+On January 6, 2017, the day after bitcoin hit an all-time high trading volume of $11 billion in one day and crossed the $1000-a-coin mark for the second
+time in its life, the People’s Bank of China (PBoC) announced it was investigating bitcoin trading on Chinese exchanges.9 Shortly after, the PBoC issued new
+regulations for the trading of bitcoin on exchanges within the country, including
+curtailing margin trading, requiring trading fees, and demanding stronger anti–
+money laundering and know-your-customer protocols. All of these requirements were understandable and have helped to legitimize bitcoin, but they did
+lead to a noticeable decline in Chinese trading volume, which for much of 2016
+was still greater than 90 percent of trading volumes worldwide in bitcoin.10
+China was responsible for over 90 percent of all bitcoin trading volume
+worldwide, and now the PBoC was placing restrictions on this activity. The situation was eerily similar to a late 2013 incident, when the PBoC rolled out new
+regulations after bitcoin crossed the $1,000 mark for the first time.11 Bitcoin’s
+price crashed then, and continued to decline for over a year, and many feared
+
+Burniske 02.indd 126
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+127
+
+USD
+
+JPY
+
+1/8/17
+
+1/15/17
+
+the same would happen after the PBoC’s commentary in 2017. While the price
+did initially fall precipitously, within a month it had recovered, and would
+shortly move to all-time highs. This was a very different reaction than 2013.
+Bitcoin’s price resilience in 2017, compared to the devastating price impact
+in 2013, reveals a valuable lesson for the innovative investor on the importance
+of trading volumes, exchange diversity, and trading pair diversity. In December
+2013, trading volumes averaged $60 million, whereas in December 2016 they
+averaged $4.1 billion. Hence, there was significantly more market depth leading
+into the PBoC announcement in 2017 than there was in 2013. Furthermore, in
+2013 bitcoin trading occurred on a much more limited number of exchanges
+(most activity was at Mt. Gox). Currency pair diversity was not nearly as robust
+either, both through different fiat currencies or other cryptoassets.
+In 2017, bitcoin was able to recover quickly because market liquidity,
+exchange diversity, and trading pair optionality came through in spades. As a
+result, when the PBoC issued its regulations, there were plenty of other investors and traders outside of China to pick up the slack, leading to an inversion
+in market share of fiat currencies used to trade bitcoin, as shown in Figure 9.4.
+The Chinese yuan’s percent of market share fell from 90+ percent to less than
+10 percent.
+CNY
+
+EUR
+
+KRW
+
+SGD
+
+AUD
+
+100%
+90%
+80%
+70%
+60%
+50%
+40%
+30%
+20%
+10%
+3/5/17
+
+2/26/17
+
+2/19/17
+
+2/12/17
+
+2/5/17
+
+1/29/17
+
+1/22/17
+
+1/1/17
+
+0%
+
+Figure 9.4 n Share of bitcoin trading volume in various currency pairs,
+highlighting the drop in the Chinese yuan’s share in January 2017
+Data sourced from CryptoCompare
+
+Burniske 02.indd 127
+
+9/9/17 1:46 PM
+
+128 CRYPTOASSETS
+
+The increase of dollar and yen trading in bitcoin is dramatic after January
+22, 2017. Traders of bitcoin weren’t rattled by the Chinese regulations for long,
+and increased investments from the United States and Japan filled the void and
+buoyed bitcoin’s price.
+
+TRADING PAIR DIVERSITY AS A SIGN OF
+MATURITY FOR CRYPTOASSETS
+Balancing the diversity of exchanges and trading pairs is important for the
+robustness of any asset, including cryptoassets. Learning from bitcoin’s reliance on too few currencies and exchanges early in its young life, we can now
+follow the trading pair diversity of other cryptoassets, especially with regard
+to fiat currency pairs.
+Fiat currency pairs are particularly important for cryptoassets because they
+require significant integration with preexisting financial infrastructures. Due
+to high levels of required compliance, only a small number of cryptoasset
+exchanges offer the capability to accept fiat currency or connect to investors’
+bank accounts. These exchanges, such as Bitstamp, GDAX, itBit, Gemini,
+Kraken, and a few others, are hesitant to provide access to all cryptoassets, as
+they do not want to encourage trading in those that are not reputable. Given
+their caution, it is a stamp of approval for a cryptoasset to be added to their
+platforms.
+Ethereum’s ether provides a study on how exchanges adding a cryptoasset
+can increase the diversity of the trading pairs used to buy the asset. If our
+hypothesis on the importance of fiat currencies in cryptoasset trading holds,
+then as an asset grows in maturity and legitimacy, it should have more diversity in its trading pairs, with particularly strong growth in fiat currencies being
+used to buy the asset.
+That has certainly been the case with ether. In Figure 9.5 we can see that
+over the course of 2016 the diversity in trading pairs used to buy it has grown
+significantly. The dollar has shown particular strength, and overall fiat currencies have increased from less than 10 percent of ether’s trading volume in the
+spring of 2016 to nearly 50 percent in the spring of 2017.
+We encourage the innovative investor to monitor the increase of trading
+pair diversity as a way to check the growing robustness and maturity of a single
+cryptoasset within the broader asset class. CryptoCompare.com is a good tool
+to identify these trends.
+
+Burniske 02.indd 128
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+BTC
+
+USD
+
+EUR
+
+CNY
+
+CAD
+
+MXN
+
+129
+
+RUB
+
+100%
+90%
+80%
+70%
+60%
+50%
+40%
+30%
+20%
+10%
+2/7/17
+
+12/7/16
+
+10/7/16
+
+8/7/16
+
+6/7/16
+
+4/7/16
+
+2/7/16
+
+12/7/15
+
+10/7/15
+
+8/7/15
+
+0%
+
+Figure 9.5 n Ether’s increase in trading pair diversity and the use of fiat onramps
+Data sourced from CryptoCompare
+
+DECREASING VOLATILITY AS A CRYPTOASSET MATURES
+Greater trading volumes, liquidity, exchange diversity, and trading pair diversity all lead to more resilience in the market. The cryptoasset is better able to
+absorb shocks without wild price swings—or at least with price swings that are
+diminishing in severity over time—which translates into a decrease in volatility.
+We should expect to see decreasing volatility in cryptoassets when we plot
+this volatility over time. Since we already covered bitcoin’s decreasing volatility in Chapter 7, we will showcase the other cryptoassets here. Figures 9.6, 9.7,
+and 9.8 show the volatility of ether, ripple, and monero over time. The following figures were made using CryptoCompare data, which provides similar
+graphs for other cryptoassets.12
+From these trends, we can infer that this declining volatility is a result
+of increased market maturity. Certainly, the trend is not a straight line, and
+there are significant bumps in the road, depending on particular events. For
+example, monero had a spike in volatility in late 2016 because it experienced
+a significant price rise. This shows that volatility is not only associated with a
+tanking price but also a skyrocketing price. The general trend, nonetheless, is
+of dampening volatility (while not pictured in the following figures, Q2 and
+Q3 of 2017 were quite volatile for cryptoassets, underscoring that decreasing
+volatility will not unfold in a straight line).
+
+Burniske 02.indd 129
+
+9/9/17 1:46 PM
+
+130 CRYPTOASSETS
+
+16%
+14%
+12%
+10%
+8%
+6%
+4%
+2%
+
+Mar-17
+
+Feb-17
+
+Jan-17
+
+Dec-16
+
+Nov-16
+
+Oct-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Mar-16
+
+Feb-16
+
+Jan-16
+
+Dec-15
+
+Nov-15
+
+0%
+
+Figure 9.6 n Ether’s decreasing daily volatility
+Data sourced from CryptoCompare
+
+30%
+25%
+20%
+15%
+10%
+5%
+
+Feb-17
+
+Dec-16
+
+Oct-16
+
+Aug-16
+
+Jun-16
+
+Apr-16
+
+Feb-16
+
+Dec-15
+
+Oct-15
+
+Jun-15
+
+Aug-15
+
+0%
+
+Figure 9.7 n Ripple’s decreasing daily volatility
+Data sourced from CryptoCompare
+
+20%
+18%
+16%
+14%
+12%
+10%
+8%
+6%
+4%
+2%
+Feb-17
+
+Jan-17
+
+Dec-16
+
+Nov-16
+
+Oct-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Mar-16
+
+Feb-16
+
+Jan-16
+
+Dec-15
+
+Nov-15
+
+Oct-15
+
+0%
+
+Figure 9.8 n Monero’s decreasing daily volatility
+Data sourced from CryptoCompare
+
+Burniske 02.indd 130
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+131
+

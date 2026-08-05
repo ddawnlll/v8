@@ -36,15 +36,17 @@ TRADABILITY_MASK_VETO = 'TRADABILITY_MASK_VETO'
 
 
 def tradability_mask_veto(bar: dict, state_quality: str, entry_fill_time_ns: int, *,
-                          max_spread_frac: float, funding_window_bars: int,
+                          max_bar_range_frac: float, funding_window_bars: int,
                           funding_hours: int, interval_ns: int,
                           ) -> tuple[bool, str | None]:
     """Deterministic D-024 vetoes; data-plane, not a regime filter.
 
     Pure function of the entry bar and the frozen manifest constants: no
     degrees of freedom, no fitting, no learned component. Returns
-    (vetoed, reason) with reason one of 'SPREAD' | 'DEGRADED' |
-    'FUNDING_WINDOW' | None.
+    (vetoed, reason) with reason one of 'BAR_RANGE' | 'DEGRADED' |
+    'FUNDING_WINDOW' | None. 'BAR_RANGE' fires on the entry bar's
+    (high-low)/close — an intrabar range, NOT a bid-ask spread; the tape
+    carries no depth. It was reported as 'SPREAD' until 2026-08-04.
 
     Funding window: a boundary B with 0 < B - fill <= window means the first
     post-entry step crosses B and books funding immediately, so the entry is
@@ -55,8 +57,8 @@ def tradability_mask_veto(bar: dict, state_quality: str, entry_fill_time_ns: int
     would falsely veto entries whose fill already cleared the boundary.
     """
     high, low, close = float(bar['high']), float(bar['low']), float(bar['close'])
-    if close <= 0 or (high - low) / close > max_spread_frac:
-        return True, 'SPREAD'
+    if close <= 0 or (high - low) / close > max_bar_range_frac:
+        return True, 'BAR_RANGE'
     if state_quality == 'DEGRADED':
         return True, 'DEGRADED'
     if funding_hours > 0 and funding_window_bars > 0 and interval_ns > 0:

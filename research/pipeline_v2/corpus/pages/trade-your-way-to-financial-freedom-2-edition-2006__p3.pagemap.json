@@ -1,0 +1,58 @@
+[
+ {
+  "page": 1,
+  "char_start": 0,
+  "char_end": 4773,
+  "line_start": 1,
+  "line_end": 72
+ },
+ {
+  "page": 2,
+  "char_start": 4774,
+  "char_end": 10419,
+  "line_start": 73,
+  "line_end": 160
+ },
+ {
+  "page": 3,
+  "char_start": 10420,
+  "char_end": 14464,
+  "line_start": 161,
+  "line_end": 224
+ },
+ {
+  "page": 4,
+  "char_start": 14465,
+  "char_end": 16543,
+  "line_start": 225,
+  "line_end": 317
+ },
+ {
+  "page": 5,
+  "char_start": 16544,
+  "char_end": 21522,
+  "line_start": 318,
+  "line_end": 520
+ },
+ {
+  "page": 6,
+  "char_start": 21523,
+  "char_end": 26277,
+  "line_start": 521,
+  "line_end": 726
+ },
+ {
+  "page": 7,
+  "char_start": 26278,
+  "char_end": 30351,
+  "line_start": 727,
+  "line_end": 903
+ },
+ {
+  "page": 8,
+  "char_start": 30352,
+  "char_end": 30352,
+  "line_start": 904,
+  "line_end": 896
+ }
+]

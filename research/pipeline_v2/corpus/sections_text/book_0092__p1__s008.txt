@@ -1,0 +1,608 @@
+large, usually the largest it has been in a certain period (13, 26, 52
+weeks): COT Index at 0 or 100.
+2. Speculative positioning is the most bullish at the top and most bearish
+at the bottom: Spec Ratio Index at 100 or 0.
+3. Commercial positioning is the most bearish at the top and most bullish
+at the bottom: Comm Ratio Index at 0 or 100.
+When these three things line up, the probability of a turn outweighs
+the risk that comes from giving back profits by staying in the trade. In this
+instance, it is wise to keep risk tight and/or examine the chart for a possible reversal trade. Figures 5.14 to 5.17 are charts of major currency pairs
+with the three COT indicators that I use: the COT Index, the Spec Ratio
+Index, and the Comm Ratio Index. Vertical lines indicate when the three
+indicators line up. In those instances, action is warranted.
+
+OPEN INTEREST
+I do not find much of an advantage to closely following open interest. That
+is not to say that open interest is useless; I simply do not believe any insight is gained that is not already gained by studying the commercial and
+speculative positioning. Open interest is a function of these two groups
+anyway. Also, there is no reason to junk up charts with indicators that are
+not needed. The traders that do follow open interest typically look for increasing open interest to gauge the strength of the trend. For example, increasing open interest and increasing price indicates a strong bull market.
+Similarly, increasing open interest and decreasing price indicates a strong
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+92
+
+T1: g
+May 31, 2008
+
+11:54
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 5.14 Some major turns in the USDJPY were signaled by the three COT
+indicators lining up at either 0 or 100
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+bear market. However, this analysis is backward looking in that it conveys
+to us what has happened, not what is likely to happen. In other words, just
+because open interest and price increased last week does not mean that
+the same will happen next week.
+Also, notice in Figure 5.18 that open interest is extremely volatile in
+its fluctuations. In fact, tops in open interest occur on a three-month cycle.
+This is because the contract months for currency futures are March, June,
+September, and December. Trading for the specific contract month ends
+at 9:16 A . M. Central Time on the second business day immediately preceding the third Wednesday of the contract month (usually a Monday). The
+exception to this is the Canadian dollar, which stops trading at 9:16 A . M .
+Central Time on the business day immediately preceding the third Wednesday of the contract (usually a Tuesday). Futures traders must settle their
+contracts with either cash or by rolling over to the next contract month.
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+11:54
+
+Printer: Yet to come
+
+Sentiment Indicators
+
+93
+
+FIGURE 5.15 Some major turns in the GBPUSD were signaled by the three COT
+indicators lining up at either 0 or 100
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+The result is a short-term top in open interest every three months, usually
+during the second or third week of the contract month.
+The tendency for open interest to run in three-month cycles makes it
+difficult to extract meaningful information, at least during the middle of
+the trend. However, major tops and bottoms do tend to occur when open
+interest is its highest within a specific period. In this sense, open interest is
+valuable at the same time as the Composite COT.
+
+OTHER SENTIMENT INDICATORS
+As mentioned previously, indicators derived from the COT data are the
+most useful in my opinion, but there are other options out there. This is a
+brief overview of the various sentiment and/or positioning indicators that I
+am aware of.
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+11:54
+
+94
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 5.16 Some major turns in the AUDUSD were signaled by the three COT
+indicators lining up at either 0 or 100
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FXCM Speculative Sentiment Index
+The FXCM Speculative Sentiment Index (SSI) is based on proprietary customer flow information and is designed to recognize price trend breaks
+and reversals in the seven most popularly traded currency pairs. The SSI
+is a real-time snapshot of market sentiment measuring the open interest
+of small non-commercial forex market participants. The indicator is compiled using aggregate order flow information from FXCM’s non-commercial
+clients. The size, breadth, and activity of the FXCM customer base provides
+a good representative sample of overall speculative behavior.
+Every bank has this information but rarely discloses it due to its profitability in-house. FXCM remains neutral and does not trade against its
+clients; therefore, it is able to make this data publicly available. The absolute number of the ratio itself represents the amount by which long orders
+exceed short orders or vice versa. A negative number indicates that the
+majority of traders are net short while a positive number indicates that the
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+11:54
+
+Printer: Yet to come
+
+Sentiment Indicators
+
+95
+
+FIGURE 5.17 Some major turns in the USDCAD were signaled by the three COT
+indicators lining up at either 0 or 100
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+majority of traders are net long. For example, a EURUSD ratio of 2 means
+that long customer positions in the EURUSD exceed short positions by a
+ratio of 2 to 1. This list details how to interpret SSI. Figures 5.19 and 5.20
+show daily charts accompanied by SSI.
+
+r The SSI works as a contrarian indicator during trending markets.
+r The flipping of the ratio is a more accurate signal of a turn in prices
+than extreme positioning.
+
+r The SSI confirms the price action during range-bound markets.
+r SSI moves inversely to price.
+r Follow the slope of SSI; a change in slope indicates a change in trend.
+r The other way of looking at speculative positioning is to view the percentage of open orders that are long.
+
+r Net positioning = long orders + short orders.
+r More than 50 percent long favors weakness.
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+96
+
+11:54
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 5.18 Open interest for the British pound is volatile, which makes discerning useful information diﬃcult
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+r Less than 50 percent long favors strength.
+r Higher net positioning means that more traders are entering the
+market.
+
+r Higher net positioning suggests more confidence in the direction of the
+current trend.
+
+r Many times a significant increase in net positioning precedes a bull
+market because many of the traders who entered the market are leaving their stop losses just above the current price action.
+r Lower net positioning means that more discouraged traders are leaving
+the market.
+r Rising prices with a big fall in net positioning is bearish because short
+covering is fueling the rising trend. When the short covering has ended,
+prices will likely decline.
+r Lower net positioning suggests profit taking and therefore
+consolidation.
+r Lower net positioning suggests higher risk aversion.
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+11:54
+
+Printer: Yet to come
+
+Sentiment Indicators
+
+97
+
+FIGURE 5.19 SSI on the EURUSD shows that as retail traders remain short, the
+pair continues to rally. The SSI is volatile during range periods
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+FXCM clients receive SSI readings twice a day, free of charge. The firm
+also offers a managed fund product based on SSI. For more information
+about the fund, see www.FXCMManagedFunds.com.
+
+Daily Sentiment Index (from Jake Bernstein’s
+trade-futures.com)
+The Daily Sentiment Index (DSI) is a top-notch contrary opinion indicator. The DSI provides daily market sentiment readings on all active U.S.
+markets daily at 4:00 P . M Central Time. The DSI has become the standard in short-term market sentiment for futures traders. Currently in use
+by top banks, money managers, brokerage firms, professional traders, and
+speculators throughout the world, the DSI is used to spot and trade shortterm market swings at extremes in small trader market sentiment. DSI is
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+98
+
+T1: g
+May 31, 2008
+
+11:54
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 5.20 The same is true regardless of the pair traded. Retail traders ﬂipped
+to a long position in July 2007, just when the USDJPY peaked at 124.13 and began a
+multimonth downtrend
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+supplied for a number of markets. See below for a brief introduction to the
+indicator and information on how to receive it.
+
+r How Supplied: The DSI is available daily either in FAX form, daily
+voice recording, FTP, or Internet log-in to our web site.
+
+r Cost: Call for pricing.
+r History: Daily sentiment data history on 32 U.S. markets back to 1987
+is provided at no additional charge to annual subscribers. Historical
+data cost is $99/year to nonsubscribers.
+r European Markets: European DSI is available as well. Call for details.
+r Intra-day Sentiment: This is available on selected U.S. markets. Call
+for details.
+r Meaning and Interpretation: High percent bullish readings (i.e., 90
+percent or higher) suggest that a short-term top is developing or has
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+Sentiment Indicators
+
+11:54
+
+Printer: Yet to come
+
+99
+
+FIGURE 5.21 The risk reversal rate and the currency pair (the EURUSD, in this
+case) are positively correlated. Extremes in the risk reversal rate warn of short-term
+tops and bottoms in price
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+been made. Low percent bullish readings (i.e., 10 percent or lower)
+suggest that a short-term bottom is developing or has been made. Individual users have their own applications and interpretations. The service does not recommend trades, but provides the data which you may
+apply in your own trading program.
+r Subscriptions and Information: Call 1-800-678-5253 or 847-446-0800
+for subscriptions and additional information.
+
+Risk Reversal Rates
+Another useful tool that can be used to warn of extreme bullish or bearish psychology and therefore warn of market tops and bottoms is the risk
+reversal rate on currency options. The rate is updated as options prices
+update throughout the day, whereas the COT report is released once a
+week. The risk reversal rate calculates the difference between call option
+
+P1: a/b
+c05
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+May 31, 2008
+
+100
+
+11:54
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+volatility and put option volatility on currency options. Call option volatility
+increases as options traders’ bullishness increases and put option volatility
+increases as options traders’ bearishness increases. Subtracting put volatility from call volatility produces the risk reversal rate. An extremely high
+rate, indicating extreme bullishness on the part of options traders, often
+leads to a top and reversal. Similarly, an extremely low rate, indicating extreme bearishness on the part of options traders, often leads to a bottom
+and reversal. The risk reversal rate for the EURUSD is shown in Figure 5.21.
+
+CONCLUSION
+All sentiment indicators move together. The methods of obtaining the
+bullish or bearish readings are different: actual reported positions for COT,
+actual positions for FXCM SSI, survey for DSI, and call rate—put rate on
+options for risk reversal rate. But the reason that the indicators move up
+and down is the same: psychology. Psychology moves markets, so it makes
+sense to study the indicators that track psychology if you wish to trade
+profitably.
+Do not forget about the media headlines mentioned in Chapter 4. Look
+for the headlines with words like surge when the indicators in this chapter
+indicate a bullish extreme. Look for headlines with words such as plummet
+or plunge, when sentiment indicators indicate a bearish extreme. Headlines from daily publications with strong language indicate short-term sentiment extremes themselves. If these headlines appear when sentiment
+indicators also warn of sentiment extremes, then the signal is that much
+stronger.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+CHAPTER 6
+
+The Power of
+Technical
+Indicators
+
+he method that is referred to as technical analysis encompasses
+a wide array of techniques, including moving averages, oscillators,
+point and figure charting, candlesticks, time cycles, pivot points,
+trendlines, traditional chart patterns such as the head and shoulders, and
+tools derived from Fibonacci mathematics (which is the mathematical
+foundation for Elliott wave analysis). I will cover just a few of these indicators. There are so many indicators, and many new traders feel overwhelmed when it comes to deciding what technical tools to use for their
+trading. Technical analysis is only valuable if the person using it is disciplined. Once you develop a trading method robust enough that you feel
+comfortable risking real money, it is imperative to be consistent and stay
+with that strategy until further analysis suggests otherwise. Exploring and
+testing new methods is always important, but hastily changing your trading style because of a few bad trades destroys the advantage that technical
+analysis provides in the first place. That advantage is objectivity. The following hypothetical example sheds light on this matter.
+A trader using a moving average to determine a directional bias might
+decide to take long trades if price is above the 21-day simple moving average and take short trades if price is below the 21-day simple moving average. There is nothing subjective about price being above or below the
+21-day simple moving average. Price is either above or below the average: end of story. On the other hand, two traders could argue all day about
+the relationship between the Dow and the U.S. dollar. There is no consistent relationship, by the way; the Dow and the dollar sometimes advance
+together, decline together, and sometimes move in completely opposite
+
+T
+
+101
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+102
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+SENTIMENT IN THE FOREX MARKET
+
+FIGURE 6.1 There is absolutely no consistent correlation between the Dow and
+the U.S. dollar
+R
+Source: Chart created on TradeStation
+, the ﬂagship product of TradeStation Technologies, Inc.
+
+directions. See Figure 6.1. Both traders can sound convincing but at the
+end of the day, their opinion is just that. A moving average is objective, and
+the opinions of the traders arguing about the Dow and the U.S. dollar are
+subjective.
+However, say that the moving average trader suffers a few bad trades
+in a ranging market. After all, a moving average is a trend-following indicator and moving average strategies get destroyed in range bound markets.
+The trader is discouraged and makes an emotion-based decision to switch
+methods. Remember, the decision to trade the moving average system was
+made rationally after testing was performed. The decision to change methods and try something else was made emotionally due to the pain of losing
+money. Of course, immediately after changing strategies, the market enters
+a trending period. The losses suffered would have been more than offset
+had the trader in this example had the discipline to stick with the moving
+average strategy.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+The Power of Technical Indicators
+
+103
+
+Flip-flopping back and forth between technical methods is just as
+bad as trading based on backward looking fundamentals. Neither method
+leads to success. The biggest problem with both is lack of consistency and
+objectivity. I recently came across an article from Reuters titled “Stocks
+and dollar fall as economy, earnings sour.” The first sentence of that article
+is “Stocks slipped and the dollar fell on Thursday after another batch of
+weak data suggested the economy faces further weakness.” Three days
+earlier, a Thomson Financial article was titled “Dollar recovers against
+euro as investors turn to safe haven currencies.” The first sentence of
+that article was “The dollar recovered firmly against the euro as falls in
+equity markets prompted investors to turn to safe-haven currencies.” To
+summarize: On Monday, the dollar rallied and stocks fell because of a
+slowing economy. On Thursday, the dollar fell and stocks fell because of
+a slowing economy. There is nothing consistent or objective about that
+analysis nor is there anything consistent or objective about switching
+technical trading methods on a whim.
+
+WHAT IS TECHNICAL ANALYSIS?
+In trading, the trader is his own worst enemy. The emotional impulses from
+the limbic system win over the rationalization of the neocortex and the result, more often than not, is bad trading decisions (made emotionally, not
+rationally). Technical analysis helps us in that regard by providing objectivity. But what is technical analysis?
+Technical analysis is the study of price action through pattern recognition and indicators in order to forecast future price action. Of course,
+there is no way to predict the next price move 100 percent of the time.
+Trading is a probability game and successful application of technical analysis alerts the trader to the highest probability move, whether that is up,
+down, or sideways. Collective psychology is the force behind every market move, and it is that psychology that shows up in a patterned way on
+the price chart (more on this in Chapter 7). This is where pattern recognition comes into play. Human history tends to repeat itself. Since markets
+are a manmade product, market action also repeats itself. The same patterns that showed up last year will show up next year, and the year after
+that, and . . . you get the idea. This remains the case as long as markets are
+a result of human interaction. Indicators include, among others, moving
+averages, pivot points, Bollinger bands, and oscillators. These indicators
+determine trend, gauge support and resistance, and warn if a market is too
+high or too low on a relative basis and might be ready to reverse course.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+Printer: Yet to come
+
+104
+
+SENTIMENT IN THE FOREX MARKET
+
+These indicators work because markets do trend and markets do reverse
+at optimistic and pessimistic extremes.
+
+KEEP IT SIMPLE
+One problem that traders, especially new traders, face is that there are so
+many indicators to use. Which ones should you use? Many free charting
+packages include at least a dozen or more indicators, and paid packages
+include many more. The charting package that I use provides hundreds
+of already programmed technical indicators. Traditionally, indicators are
+classified as either trending or range. Moving averages are often considered to work better in trending markets and oscillators such as RSI, and
+stochastics are considered to work better in range bound markets. Technical indicators are just a piece of the puzzle, along with sentiment indicators
+(see Chapter 5) and price patterns.
+Using these tools together will improve your odds for success. Finally,
+there is no correct answer to the question, “What indicators should I use?”
+Trading is very personal, and you should use what you feel most comfortable with. I will show you how I use the indicators that I use, which hopefully will inspire your ideas.
+
+WHAT TIME FRAMES TO USE?
+A study of price data, technical analysis can be classified as a statistical
+study. Any statistician will tell you that the results become more reliable
+as more data is included in the study. In our case, the result is future price
+action (more specifically, a trading signal) and the data is past price action.
+An hourly chart will yield more reliable signals than a minute chart since
+the hourly chart includes much more data than a minute chart. Similarly,
+a daily chart will yield more reliable signals than an hourly chart, and a
+monthly chart will be more reliable than a daily, and so on. With this in
+mind, I find extremely short-term charts, which I consider anything under
+hourly bars, to be unfavorable.
+Also, short-term trading increases the risk of making emotionally
+based decisions. For example, a swing trader risking 100 pips on a 1 lot
+trade is risking the same amount as a scalp trader risking 10 pips on 10
+lots. Aside from the fact that the scalper’s margin for error is far less, the
+scalper sees his P/L fluctuate in larger amounts. The opportunity to make
+or lose more in a shorter amount of time amplifies the greed and fear factor
+which in turn increases the likelihood of making a stupid trading decision.
+
+P1: a/b
+c06
+
+P2: c/d
+
+QC: e/f
+
+JWBK195-Saettele
+
+T1: g
+June 5, 2008
+
+19:35
+
+The Power of Technical Indicators
+
+Printer: Yet to come
+
+105
+
+Some traders thrive in such an environment, but most do not. I know
+that my personality is too impulsive to scalp successfully, which is why
+I refrain from making trading decisions based on charts shorter than
+hourly bars.
+
+SUPPORT AND RESISTANCE
+Before we go any further, it is vital to present the foundation for all of technical analysis: support and resistance. Support is an area below the market price where buying overcomes selling (Figure 6.2). Resistance is an
+area above the market price where selling overcomes buying (Figure 6.3).
+Support and resistance are estimated in different ways, including previous highs and lows, Fibonacci retracements and extensions, pivot points,
+
+FIGURE 6.2 An example of round number support for the USDJPY just above
+100.00

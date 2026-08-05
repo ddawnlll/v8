@@ -1,0 +1,407 @@
+[
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_001",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_003",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_005",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_007",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_009",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_010",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_008",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_011",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 6,
+  "exact_text": "Walton looks for stocks that move higher on good news but don't give\nmuch ground on negative news.",
+  "added_conditions": [
+   "stock moves higher on good news",
+   "stock does not give much ground on negative news"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_009",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_013",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_3_016",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_018",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_023",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_024",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_025",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_026",
+  "verdict": "corroboration",
+  "behavior_id": "liquidity_sweep_reclaim",
+  "page": 13,
+  "exact_text": "the market dips enough to stop me out. The stock then witnesses a huge\nreversal and closes near the high of the day. That price action may be\nan indication that there was a shakeout, which knocked out most of\nthe weak hands, and the stock is ready to go up",
+  "added_conditions": [
+   "market dips enough to stop the trader out",
+   "stock then witnesses a huge reversal and closes near the high of the day",
+   "price action indicates a shakeout that knocked out weak hands",
+   "re-entry is considered once the shakeout completes"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_012",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_029",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_035",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_022",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_039",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 19,
+  "exact_text": "if on a given day, a\nsector had both above-average volatility and above-average return, it\nwould be considered a buy signal",
+  "added_conditions": [
+   "sector shows above-average volatility on a given day",
+   "sector shows above-average return on the same day",
+   "long position held until a sell condition is met (a down day, passage of a specific number of days, or other liquidation condition)"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_023",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 27,
+  "exact_text": "the\nstock has shown that it needs a spectacular positive surprise to go up.\nIf it just meets expectations, it goes down.",
+  "added_conditions": [
+   "short is timed into an event such as the quarterly earnings report",
+   "the stock needs a spectacular positive surprise to move up",
+   "meeting expectations alone leads the stock down"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_024",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_025",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_026",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_027",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 27,
+  "exact_text": "the\nmore severely depressed the valuation and the more pessimism that\nsurrounds the stock, the less it actually takes to reverse the market's\nperception and trigger a price recovery.",
+  "added_conditions": [
+   "valuation is severely depressed",
+   "pessimism surrounding the stock is extreme"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_042",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_030",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_046",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_050",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 31,
+  "exact_text": "if a stock moved down\nbefore a positive earnings surprise, it increases the probabilities\nof a bullish market response.",
+  "added_conditions": [
+   "stock moved down before the report due to negative expectations",
+   "a positive earnings surprise follows"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_052",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_056",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_057",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_047",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_059",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 43,
+  "exact_text": "stock gets hit by really bad news, and every analyst downgrades the\nstock, it's probably a good buy.",
+  "added_conditions": [
+   "stock is hit by very bad news",
+   "every analyst downgrades the stock"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_050",
+  "verdict": "corroboration",
+  "behavior_id": "relative_strength_ranking",
+  "page": 44,
+  "exact_text": "He ran computer screens ranking stocks based on\nrelative strength [price change in the stock relative to the broad market index] and earnings growth. He would then buy the stocks at the\ntop of the list and sell the stocks at the bottom of the list.",
+  "added_conditions": [
+   "stocks are ranked by relative strength (price change relative to the broad market index) and earnings growth",
+   "stocks at the top of the list are bought",
+   "stocks at the bottom of the list are sold"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_052",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_059",
+  "verdict": "corroboration",
+  "behavior_id": "line_crossover_momentum",
+  "page": 49,
+  "exact_text": "stocks\nbreaking below their fifty-day moving average.",
+  "added_conditions": [
+   "used as one of multiple short-side screening characteristics"
+  ],
+  "added_parameters": [
+   {
+    "name": "moving average period",
+    "value": "fifty-day",
+    "page": 49
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_2_066",
+  "verdict": "corroboration",
+  "behavior_id": "mean_reversion_band",
+  "page": 54,
+  "exact_text": "Whenever there is a statistically meaningful performance divergence between two stocks in a\ndefined pair, the stronger of the pair is sold and the weaker is bought.\nThe basic assumption is that the performance of these closely related\nstocks will tend to converge.",
+  "added_conditions": [
+   "pairs are defined from past data as stocks that tend to move together",
+   "a statistically meaningful performance divergence within a pair triggers the trade",
+   "the stronger stock is sold and the weaker is bought",
+   "the basic assumption is that the performance of the closely related stocks will converge"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0094::lead_book_0094_1_065",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 61,
+  "exact_text": "whenever the tick became very negative, the market would tend to snap back on the upside. Conversely, strongly\npositive tick readings seemed to be followed by sell-offs.",
+  "added_conditions": [
+   "tick reading becomes very negative",
+   "tick reading becomes strongly positive"
+  ],
+  "added_parameters": []
+ }
+]

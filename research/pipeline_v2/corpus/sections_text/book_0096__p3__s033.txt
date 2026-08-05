@@ -1,0 +1,1491 @@
+
+Date
+
+Open
+
+High
+
+KO
+Low
+
+Close
+
+Open
+
+BSTE
+High
+Low
+
+Close
+
+15-Apr-05
+18-Apr-05
+19-Apr-05
+20-Apr-05
+21-Apr-05
+22-Apr-05
+25-Apr-05
+26-Apr-05
+27-Apr-05
+28-Apr-05
+29-Apr-05
+2-May-05
+3-May-05
+4-May-05
+5-May-05
+6-May-05
+9-May-05
+10-May-05
+
+42.08
+41.12
+42.7
+42.52
+42.3
+41.95
+42.43
+42.68
+42.89
+42.63
+42.71
+43.49
+43.57
+43.98
+43.78
+44.22
+44.2
+44.12
+
+42.13
+41.33
+42.92
+42.55
+42.3
+42.56
+42.73
+43.31
+42.95
+42.92
+43.5
+43.62
+44.02
+44.24
+44.24
+44.53
+44.6
+44.41
+
+41.15
+40.74
+42.06
+41.63
+41.74
+41.89
+42.11
+42.6
+42.48
+42.62
+42.6
+43.24
+43.52
+43.69
+43.76
+44.1
+44.1
+44.02
+
+41.29
+40.97
+42.4
+41.88
+41.98
+42.13
+42.68
+42.96
+42.82
+42.69
+43.44
+43.57
+43.76
+43.93
+44.15
+44.19
+44.57
+44.23
+
+58.65
+58.33
+58.33
+60
+59.4
+58.03
+59.51
+59.35
+58.55
+58.04
+56.46
+56.61
+56.78
+56.56
+57.59
+57.87
+56.65
+57.18
+
+60.26
+58.81
+59.92
+60.85
+60.89
+62.5
+60.2
+59.69
+58.55
+58.04
+57
+56.85
+57.06
+57.82
+57.96
+57.99
+57.7
+57.65
+
+58.18
+57.52
+58.14
+58.97
+59.29
+58
+59.09
+58.15
+57.15
+55.99
+55.45
+55.76
+56.01
+56.55
+56.81
+56.11
+56.27
+57
+
+58.35
+58.42
+59.82
+59.3
+60.8
+58.89
+59.77
+58.4
+57.75
+55.99
+57
+56.64
+56.26
+57.61
+57.42
+56.76
+57.47
+57.21
+
+11-May-05
+12-May-05
+13-May-05
+
+44.13
+44.17
+44.47
+
+44.32
+44.75
+44.47
+
+43.79
+43.75
+43.87
+
+44.27
+44.17
+44.11
+
+57.01
+56.7
+57.52
+
+57.37
+57.87
+58.26
+
+55.9
+56.51
+56.91
+
+56.73
+57.65
+57.58
+
+3. Using the same data that you used in Question 2, calculate the daily pivot points for the
+two stocks. Explain how these results can be used to determine points of resistance and
+support or breakouts.
+4. Explain why, during an uptrend, an investor would want to use trailing stops rather than
+setting one constant stop level.
+5. Explain the advantages and disadvantages of using time stops and money stops.
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+1 4
+
+MOVING AVERAGES
+
+CHAPTER OBJECTIVES
+By the end of this chapter, you should
+
+• Be aware of how moving averages are used to identify trends
+• Be able to calculate a simple moving average
+• Be able to calculate an exponential moving average
+• Be familiar with the concept of directional movement
+• Be familiar with the construction of envelopes, bands, and price channels
+One of the most successful methods of identifying and profiting from trends is the use of moving
+averages. A moving average is a constant period average, usually of prices, that is calculated for
+each successive chart period interval. The result, when plotted on a price chart, shows a smooth
+line representing the successive, average prices. Moving averages dampen the effects of shortterm oscillations. Many of the most successful technical investment managers use moving averages to determine when trends are changing direction. Moving averages are especially useful in
+markets that have a tendency to trend.
+Moving averages have been tested by academics and shown to have statistical significance.
+Brock, Lakonishok, and LeBaron (1992) were the first to demonstrate, using modern statistical
+bias-reducing methods, that moving average crossover signals have intrinsic value. As with most
+academic studies, the results of Brock, Lakonishok, and LeBaron’s have been somewhat controversial. Even though some have since criticized their study, other researchers have validated their
+results. (Incidentally, the Brock, Lakonishok, and LeBaron study provides one of the more useful arguments against the Random Walk and Efficient Markets hypotheses.) Although the Brock,
+Lakonishok, and LeBaron study focused on the Dow Jones Industrials, later studies have used
+moving average crossover systems for market data in other countries with generally the same
+positive results. Detry and Gregoire (2001) provided a summary of these studies.
+
+275
+
+Download at www.wowebook.com
+
+276
+
+Part III Trend Analysis
+
+There obviously is something to moving averages. Traders and trend investors, of course,
+have known all this for many years, but technical analysts now feel more comfort in what they
+have been doing. In this chapter, we discuss some of the moving average methods and strategies
+that technical analysts use, as well as introduce some variations on moving averages, such as
+Bollinger Bands, envelopes, and directional movement indicators.
+
+WHAT IS A MOVING AVERAGE?
+The moving average is one of the oldest tools used by technical analysts. Daily fluctuations in
+stock prices, commodity prices, and foreign exchange rates can be large. Moving averages tone
+down these fluctuations—deemphasizing but sometimes distorting fluctuations. Technical analysts use moving averages to smooth erratic data, making it easier to view the true underlying
+trend.
+The principal reason that moving averages are used is to smooth out shorter fluctuations
+and focus on the trend that fits with the investor’s time horizon. A moving average by its nature
+is just one number that represents a net of certain past numbers. For example, a 20-day moving
+average is one number that represents all the prices for the past 20 days. As such, it filters out
+each one of the prices during the past 20 days and tells us how the group of 20 days is behaving,
+rather than its separate parts.
+
+HOW IS A SIMPLE MOVING AVERAGE CALCULATED?
+Table 14.1 contains the daily closing prices for CLB (Core Laboratories) from May 10, 2010
+through July 12, 2010. Most moving averages of prices are based on closing prices, but they can
+be calculated on highs, lows, daily means, or any other value as long as the price type is consistent throughout the calculations. We use closing prices.
+TABLE 14.1
+
+Price Data and Moving Average Calculations for CLB Daily Price Close Between May
+10, 2010 and July 12, 2010
+10-Day
+SMA
+
+26-Day
+SMA
+
+10-Day
+LWMA
+
+143.55
+
+146.86
+
+143.13
+
+145.24
+
+143
+
+146.25
+
+143.44
+
+144.54
+
+142.4
+
+144
+
+145.69
+
+143.75
+
+144.13
+
+144.85
+
+140.59
+
+141.05
+
+144.72
+
+143.98
+
+143.28
+
+139.14
+
+141.42
+
+139.11
+
+140.53
+
+143.79
+
+144.17
+
+142.52
+
+141.71
+
+142.17
+
+138.85
+
+141.04
+
+142.7
+
+144.39
+
+142.02
+
+5/18/2010
+
+142.3
+
+145.74
+
+140.65
+
+141.57
+
+142.18
+
+144.6
+
+141.82
+
+5/19/2010
+
+141.58
+
+142.16
+
+138.7
+
+139.91
+
+141.74
+
+144.77
+
+141.4
+
+Date
+
+Open
+
+High
+
+Low
+
+Close
+
+1
+
+5/10/2010
+
+145.29
+
+145.82
+
+140.98
+
+2
+
+5/11/2010
+
+142.41
+
+144.86
+
+141.84
+
+3
+
+5/12/2010
+
+144.18
+
+145.2
+
+4
+
+5/13/2010
+
+142.95
+
+5
+
+5/14/2010
+
+6
+
+5/17/2010
+
+7
+8
+
+10-Day
+EMA
+
+Download at www.wowebook.com
+
+277
+
+Chapter 14 Moving Averages
+
+10-Day
+SMA
+
+26-Day
+SMA
+
+10-Day
+LWMA
+
+133.46
+
+140.83
+
+144.6
+
+139.9
+
+133.48
+
+140.16
+
+144.39
+
+138.56
+
+130.52
+
+138.86
+
+143.88
+
+136.81
+
+126.01
+
+131.61
+
+137.72
+
+143.51
+
+135.49
+
+137.17
+
+134.86
+
+132.24
+
+134.17
+
+136.73
+
+143.12
+
+134.85
+
+136.63
+
+137
+
+140.9
+
+136.45
+
+140.35
+
+136.66
+
+142.99
+
+135.5
+
+137.30
+
+140
+
+140
+
+135.55
+
+135.98
+
+136.21
+
+142.47
+
+135.38
+
+137.06
+
+6/1/2010
+
+134.69
+
+134.69
+
+128.72
+
+129.46
+
+135.05
+
+141.58
+
+134.15
+
+135.68
+
+17
+
+6/2/2010
+
+130.2
+
+136.21
+
+130.2
+
+136.12
+
+134.51
+
+140.95
+
+134.35
+
+135.76
+
+18
+
+6/3/2010
+
+135.55
+
+142.27
+
+135.55
+
+141.94
+
+134.71
+
+140.68
+
+135.7
+
+136.88
+
+19
+
+6/4/2010
+
+140.76
+
+140.76
+
+136
+
+137.16
+
+135.08
+
+140.2
+
+136.14
+
+136.93
+
+20
+
+6/7/2010
+
+136.84
+
+139.95
+
+134.99
+
+135.33
+
+135.26
+
+139.61
+
+136.19
+
+136.64
+
+21
+
+6/8/2010
+
+134.86
+
+137.34
+
+134.1
+
+136.22
+
+135.83
+
+139.08
+
+136.36
+
+136.57
+
+22
+
+6/9/2010
+
+137.5
+
+141.69
+
+137.13
+
+138.19
+
+136.49
+
+138.56
+
+136.79
+
+136.86
+
+23
+
+6/10/2010
+
+139.73
+
+143.77
+
+139.73
+
+143.74
+
+137.45
+
+138.44
+
+138.11
+
+138.11
+
+24
+
+6/11/2010
+
+142.13
+
+146.53
+
+142.13
+
+146.27
+
+138.04
+
+138.51
+
+139.71
+
+139.59
+
+25
+
+6/14/2010
+
+148.89
+
+148.91
+
+145
+
+145.58
+
+139
+
+138.63
+
+141.08
+
+140.68
+
+26
+
+6/15/2010
+
+146.9
+
+150.04
+
+146.9
+
+149.99
+
+141.05
+
+139.01
+
+143.08
+
+142.37
+
+27
+
+6/16/2010
+
+150.45
+
+152.29
+
+148.81
+
+149.64
+
+142.41
+
+139.24
+
+144.64
+
+143.70
+
+28
+
+6/17/2010
+
+150.74
+
+152.62
+
+149.34
+
+152.27
+
+143.44
+
+139.6
+
+146.44
+
+145.25
+
+29
+
+6/18/2010
+
+152.93
+
+155.48
+
+152.23
+
+155
+
+145.22
+
+140.02
+
+148.54
+
+147.03
+
+30
+
+6/21/2010
+
+157.9
+
+157.9
+
+155.32
+
+156.52
+
+147.34
+
+140.62
+
+150.59
+
+148.75
+
+31
+
+6/22/2010
+
+157.49
+
+158.79
+
+152.28
+
+152.98
+
+149.02
+
+141.1
+
+151.62
+
+149.52
+
+32
+
+6/23/2010
+
+153
+
+153
+
+150.51
+
+150.93
+
+150.29
+
+141.48
+
+151.97
+
+149.78
+
+33
+
+6/24/2010
+
+150
+
+153.1
+
+148.89
+
+152.63
+
+151.18
+
+141.9
+
+152.39
+
+150.30
+
+34
+
+6/25/2010
+
+151.2
+
+155.02
+
+150.01
+
+151.8
+
+151.73
+
+142.36
+
+152.5
+
+150.57
+
+35
+
+6/28/2010
+
+153
+
+154.15
+
+152.55
+
+153.69
+
+152.55
+
+143.14
+
+152.86
+
+151.14
+
+36
+
+6/29/2010
+
+151.78
+
+151.8
+
+148.1
+
+148.29
+
+152.38
+
+143.71
+
+152.08
+
+150.62
+
+37
+
+6/30/2010
+
+148.95
+
+150.06
+
+146.92
+
+147.61
+
+152.17
+
+144.36
+
+151.22
+
+150.07
+
+38
+
+7/1/2010
+
+147.38
+
+148.87
+
+145.33
+
+147.54
+
+151.7
+
+144.98
+
+150.38
+
+149.61
+
+39
+
+7/2/2010
+
+147.73
+
+149.29
+
+146.29
+
+147.25
+
+150.92
+
+145.48
+
+149.57
+
+149.18
+
+40
+
+7/6/2010
+
+149.42
+
+150.6
+
+148.75
+
+150.6
+
+150.33
+
+145.87
+
+149.51
+
+149.44
+
+41
+
+7/7/2010
+
+152.92
+
+156.3
+
+151.08
+
+156.24
+
+150.66
+
+146.65
+
+150.58
+
+150.68
+
+42
+
+7/8/2010
+
+156.25
+
+158.1
+
+155.05
+
+156
+
+151.17
+
+147.67
+
+151.55
+
+151.64
+
+43
+
+7/9/2010
+
+156.02
+
+157.52
+
+154.66
+
+157.22
+
+151.62
+
+148.49
+
+152.65
+
+152.66
+
+44
+
+7/12/2010
+
+157.46
+
+158.78
+
+155.68
+
+158.46
+
+152.29
+
+149.12
+
+153.9
+
+153.71
+
+Date
+
+Open
+
+High
+
+Low
+
+9
+
+5/20/2010
+
+138.05
+
+138.05
+
+133.18
+
+10
+
+5/21/2010
+
+131.57
+
+135
+
+131.51
+
+11
+
+5/24/2010
+
+132.99
+
+133.64
+
+130.5
+
+12
+
+5/25/2010
+
+127.36
+
+131.7
+
+13
+
+5/26/2010
+
+132.78
+
+14
+
+5/27/2010
+
+15
+
+5/28/2010
+
+16
+
+Close
+
+10-Day
+EMA
+
+138.41
+
+Source: http://finance.yahoo.com
+
+Download at www.wowebook.com
+
+278
+
+Part III Trend Analysis
+
+The most commonly used type of moving average is the simple moving average (SMA),
+sometimes referred to as an arithmetic moving average. An SMA is constructed by adding a set
+of data and then dividing by the number of observations in the period being examined. For example, look at the ten-day SMA in Table 14.1. We begin by summing the closing prices for the first
+ten days. We then divide this sum by 10 to give us the mean price for that ten-day period. Thus,
+on the tenth day, the ten-day simple moving average would be the mean closing price for CLB
+for Days 1 through 10, or $140.16.1
+On Day 11, the moving average changes. To calculate the moving average for Day 11, we
+calculate the mean price for Days 2 through 11. In other words, the closing price for Day 1 is
+dropped from the data set, while the price for Day 11 is added. The formula for calculating a tenday simple moving average is as follows:
+10
+
+SMA10
+
+Σ data i / 10
+i =1
+
+Of course, we can construct moving averages of different lengths. In Table 14.1, you can
+also see a 26-day moving average. This SMA is simply calculated by adding the 26 most recent
+closing prices and dividing by 26.
+Although a moving average can smooth prices over any desired period, some of the more
+popular daily moving averages are for the periods 200, 60, 50, 30, 20, and 10 days. These periods are somewhat arbitrary and were chosen in the days before computers when the calculations
+had to be done by hand or on a crank adding machine. Gartley (1935), for example, used the 200day moving average in his work. Simple, round numbers were easier to calculate. Also, the 10day, 20-day, and 60-day moving averages summarize approximately two weeks, one month, and
+three months (one fiscal quarter) of trading data, respectively.
+Once calculated, moving averages are plotted on a price chart. Figure 14.1 shows a plot of
+the 26-day simple moving average for CLB. From mid-June through mid-July, the moving average is an upward sloping curve, indicating an upward trend in Core Labs’s price. The daily fluctuations are smoothed by the moving average so that the analyst can see the underlying trend
+without being distracted by the small, daily movements.
+A rising moving average indicates an upward trend, while a falling moving average indicates a downward trend. Although the moving average helps us discern a trend, it does so after
+the trend has begun. Thus, the moving average is a lagging indicator. By definition, the moving
+average is an indicator that is based on past prices. For example, Figure 14.1 shows an upward
+trend in CLB beginning in late May. However, an upward movement in the SMA does not occur
+until approximately mid-June. Remember that according to technical analysis principles, we
+want to be trading with the trend. Using a moving average will always give us some delay in signaling a change in trend.
+
+1. Of course, being able to calculate a ten-day average requires ten days of data. Data occurring before the period shown
+in the chart was used to calculate the ten-day moving average for May 10–May 20. Our discussion centers on the calculation of the moving average for Day 10 so that the reader can follow the steps necessary to do such a calculation.
+
+Download at www.wowebook.com
+
+279
+
+Chapter 14 Moving Averages
+
+80.00
+
+CLB - Core Laboratories
+
+78.00
+76.00
+74.00
+72.00
+70.00
+68.00
+26-day simple moving average (SMA)
+
+66.00
+64.00
+
+17
+
+24
+
+Jun
+
+7
+
+14
+
+21
+
+28 Jul 6
+
+12
+
+Created using TradeStation
+
+FIGURE 14.1
+
+Simple moving average (CLB daily: May 10, 2010–July 13, 2010)
+
+Length of Moving Average
+Because moving averages can be calculated for various lengths of time, which length is best to
+use? Of course, a longer time period includes more data observations, and, thus, more information. By including more data in the calculation of the moving average, each day’s data becomes
+relatively less important in the calculation. Therefore, a large change in the value on one day
+does not have a large impact on the longer moving average. This can be an advantage if this large
+change is a one-day, irregular outlier in the data.
+However, if this large move represents the beginning of a significant change in the trend, it
+takes longer for the underlying trend change to be discernable. Thus, the longer moving average
+is slower to pick up trend changes but less likely to falsely indicate a trend change due to a shortterm blip in the data.
+Figure 14.2, for example, shows both a 13-day and a 26-day SMA plotted for CLB. Notice
+how the shorter, 13-day moving average shows more variability than the longer, 26-day moving
+average. The 26-day moving average is said to be the “slower” moving average. Although it provides more smoothing, the 26-day smoothing average is also slower at signaling underlying trend
+changes. Notice how the 13-day SMA troughs in early June, signaling a change in trend; a week
+later, the slower, 26-day SMA is flat but and gradually turning upward. Thus, the 26-day SMA is
+slower to indicate a trend change.
+Because spotting a trend reversal as soon as possible maximizes trading profits, the 13-day
+SMA may first appear to give superior information; however, remember that the faster SMA has
+a disadvantage of potentially giving a false signal of a changing trend direction. For example,
+look at early July in Figure 14.2. The 13-day SMA flattens out, suggesting an end to the upward
+price trend. After the fact, however, we can see that a trend reversal did not occur in early July.
+
+Download at www.wowebook.com
+
+280
+
+Part III Trend Analysis
+
+The 13-day SMA was overly sensitive to a temporary decrease in price. During this period, the
+slower 26-day SMA continued to signal correctly an upward trend.
+80.00
+
+CLB - Core Laboratories
+
+78.00
+76.00
+74.00
+
+13-day simple moving average
+
+72.00
+70.00
+68.00
+26-day simple moving average (SMA)
+
+66.00
+64.00
+
+17
+
+24
+
+Jun
+
+7
+
+14
+
+21
+
+28 Jul 6
+
+12
+
+Created using TradeStation
+
+FIGURE 14.2 Two moving averages—crossover as support and resistance zone (CLB daily: May 10,
+2010–July 13, 2010)
+
+Using Multiple Moving Averages
+Analysis is not limited to the information provided by a single moving average. Considering various moving averages of various lengths simultaneously can increase the analysts’ information
+set. For example, as shown in Figure 14.2, a support or resistance level often occurs where two
+moving averages cross. Where the shorter moving average crosses above the longer is often
+taken as a mechanical buy signal, or at least a sign that the price trend is upward. Likewise, it is
+considered a sell signal when the shorter declines below the longer. Many successful moving
+average strategies use moving averages as the principal determinant of trend and then use
+shorter-term moving averages either as trailing stops or as signals. In some instances, moving
+averages are used to determine trend, and then chart patterns are used as entry and exit signals.
+Using these types of dual moving average signals during a sideways trend in prices, however, can result in a number of whipsaws. This problem can be seen in Figure 14.3. This is essentially the same problem that occurs during the standard sideways trend in a congestion area. It is
+very difficult to determine from such action in which way prices are going to break out, and
+meanwhile they oscillate back and forth within the support and resistance levels. A moving average provides no additional information on which way the trend will eventually break. Indeed, a
+moving average requires a trend for a crossover to be profitable. This means that the analyst must
+be sure that a trend exists before using moving average crossovers for signals. Otherwise—and
+
+Download at www.wowebook.com
+
+281
+
+Chapter 14 Moving Averages
+
+some traders are willing to take the risk of short-term whipsaws in order not to miss the major
+trend—a plurality of signals will be incorrect and produce small losses while waiting for the one
+signal that will produce the large profit. This can be a highly profitable method provided the analyst has the stomach and discipline to continue with the small losses, and it often is the basis for
+many long-term trend systems. It also demonstrates how, with proper discipline, one can profit
+while still losing on a majority of small trades.
+CLB - Core Laboratories
+58.00
+
+57.00
+
+56.00
+
+13-day SMA
+55.00
+
+54.00
+
+sell
+
+buy
+
+buy
+
+53.00
+
+sell
+
+52.00
+
+26-day SMA
+26
+
+Nov
+
+9
+
+16
+
+23
+
+Dec
+
+7
+
+14
+
+21
+
+Created using TradeStation
+
+FIGURE 14.3 Moving average crossovers causing whipsaws in a flat trend (CLB daily: October 19,
+2009–December 23, 2009)
+
+WHAT OTHER TYPES OF MOVING AVERAGES ARE USED?
+Although we have discussed various lengths of moving averages, up to this point our discussion
+has centered on the most basic type of moving average calculation—the SMA. Remember that
+each day’s calculation of the SMA represents adding the most recent day’s price figure and dropping the earliest day’s price figure. When calculating the simple moving average, equal weight is
+given to each daily observation. For a ten-day SMA, the information contained in the stock price
+for each of the ten days is given equal importance. However, in certain situations, the most recent
+stock price may have more bearing on the future direction of the stock than the ten-day old stock
+price does. If observations that are more recent contain more relevant information than earlier
+observations, we want to weight data in favor of the most recent observation. By calculating a
+weighted moving average, the most recent day’s information is weighted more heavily. This
+weighting scheme gives the most recent observation more importance in the moving average calculation.
+
+Download at www.wowebook.com
+
+282
+
+Part III Trend Analysis
+
+The Linearly Weighted Moving Average (LWMA)
+Let us refer back to the example in Table 14.1 to calculate a linearly weighted moving average. A
+ten-day linearly weighted moving average multiplies the tenth day observation by 10, the ninth
+day by 9, the eighth day by 8, and so forth. The total of these numbers are added up and divided
+by the sum of all the multipliers. In this case, the total will be divided by the sum 10 + 9 + 8 + 7
++ 6 + 5 + 4 + 3 + 2 + 1, or 55. In Table 14.1, we find that the linearly weighted moving average
+for the first ten trading days is 138.56.
+When using this ten-day moving average weighting scheme, the most recent trading data
+(Day 10) is given twice the importance of the price five days earlier (Day 5) and ten times the
+importance of the price ten days earlier (Day 1). As we go on to calculate the ten-day linearly
+weighted moving average for Day 11, the prices for trading Days 2–10 again will be weighted.
+Therefore, just as with the simple moving average, as the moving average is calculated for each
+successive day, the earliest trading day information is dropped from the data set being used in the
+calculation.
+
+The Exponentially Smoothed Moving Average (EMA)
+For some analysts, dropping off the earliest trading day’s data that occurs with an SMA or linearly weighted moving average is problematic. If the most recent price reflects little change, but
+the earliest price, now being omitted, shows considerable change, the moving average can be
+unduly influenced by the discarding of the older data. A large change in the moving average that
+results from the deletion of early data potentially generates a false signal. This is called the
+“drop-off effect” (Kaufman, 1998) and is probably the most criticized aspect of a simple moving
+average.
+Although it is easy to see how this very early data is not necessarily as important in determining future price movement as the most recent prices, it is still information that may have
+value. With both the simple moving average and the linearly weighted moving average, this older
+information, which lies outside of the length of the moving average, is being totally ignored. To
+address this issue and maintain this older information in the moving average calculation, analysts
+use the exponential moving average.
+To see how the exponential moving average is calculated, let us again refer to the example
+in Table 14.1. The simple ten-day moving average on Day 10 was 140.16. The closing price on
+Day 11 was 130.52, a lower value than the mean value for the previous ten days. To calculate the
+exponential moving average, we will use both the ten-day moving average (which represents the
+mean exchange rate for Days 1–10) and the closing price for Day 11. Thus, we are now using 11
+days of price information. If we were going to calculate an SMA using these 11 days of information, each day’s exchange rate would have a weight of 1/11, or 9.09% in the calculation. Remember, however, that we want to place a larger weight on information that is more recent. If we want
+the exchange rate information from Day 11 to have a weight twice as great as it would have in a
+simple moving average, it would have a weight of 2/11, or 18.18%. Of course, the total of all the
+weights in the calculation of the exponential moving average must sum to 100%. This leaves
+100% minus 18.18%, or 81.82% weight to be placed on the ten-day moving average.

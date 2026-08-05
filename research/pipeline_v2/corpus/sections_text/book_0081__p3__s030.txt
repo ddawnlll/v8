@@ -1,0 +1,274 @@
+
+148
+
+149
+option trading? ====
+A classic example we give all our trainees is the following: Assume you're playing seven card stud, and it's
+the last round of betting. You have three cards in the hole and four aces showing; your opponent has the two
+of clubs, three of clubs, nine of diamonds, and queen of spades showing. You're high with four aces. The
+question we ask is: "What bet do you make?" The typical response is, "I would bet as much as I can, because
+I have four aces and the odds of my winning are huge." The correct answer is ...
+==== You pass, because if he can't beat you, he's going to fold, and if he can beat you, he'll raise and you'll
+lose more. ====
+That's right. He might have the four, five, and six of clubs in the hole. You can't win anything by betting;
+you can only lose. He knows what you have, but you don't know what he has.
+==== So what is the analogy to option trading? ====
+Let's say that I believe an option is worth $3. Normally, I would be willing to make a market at 27/8/3 1/8
+[i.e., be a buyer at 2 7/8 and a seller at 3 1/8]. However, let's say a broker whom I suspect has superior
+information asks me for a quote in that option. I have nothing to gain by making a tight market because if I
+price the option right, he'll pass- that is, he won't do anything-and if I price it wrong, he'll trade, and I'll lose.
+Along the same line, if a broker with superior information is bidding significantly more for an option than I
+think it's worth, there's a very good chance that he's bidding higher because he knows something I don't.
+Therefore, I may not want to take the other side of that trade, even though it looks like an attractive sale.
+The point is that option trading decisions should be based on conditional probability. I may have thought
+that an option was worth X, but now that someone else wants to bid X + Y, I may have to revise my estimate
+of the option's value. The lesson we try to teach our traders is that anything that seems very obvious should
+be double-checked.
+A great example to illustrate this concept is a puzzle posed years ago by Fisher Black of the Black-Scholes
+option pricing model fame. Imagine that you're on "Let's Make a Deal," and you have to pick one of the three
+doors. You pick door No. 1. Monty Hall says, "OK, Carol, open door No. 2." The big prize is not behind door
+No. 2. Monty Hall, of course, knows which door the prize is behind. The way he played the game, he would
+never open the door with the real prize. Now he turns to you and asks, "Do you want to switch to door No.
+3?" Do you stay with door No. 1 or switch? [Reader: You might wish to think of your own answer before
+reading on.]
+==== The obvious answer seems to be that it doesn't make a difference, but obviously that must be the
+wrong answer ====
+The correct answer is that you should always switch to door No. 3. The probability that the prize is behind
+one of the two doors you did not pick was originally two-thirds. The fact that Monty opens one of those two
+doors and there is nothing behind it doesn't change this original probability, because he will always open the
+wrong door. Therefore, if the probability of the prize being behind one of those two doors was two-thirds
+originally, the probability of it being behind the unopened of those two doors must still be two-thirds.
+==== I don't understand. This show was watched by millions of people for years, and yet no one realized
+that the odds were so heavily skewed in favor of switching! ====
+You have to remember that you're talking about a show where people had to wear funny rabbit ears to get
+picked.
+The thing that confuses people is that the process is not random. If Monty randomly chose one of the two
+doors, and the prize was not behind the selected door, then the probabilities between the two remaining
+doors would indeed be 50/50. Of course, if he randomly selected one of the two doors, then sometimes the
+prize would be behind the
+opened door, which never happened. The key is that he didn't randomly select one of the doors; he
+always picked the wrong door, and that changes the probabilities. It's a classic example of conditional
+probability. If the probability of the prize being behind door No. 2 or door No. 3 is two-thirds, given that it's
+not door No. 2, what is the probability that it's door No. 3? The answer, of course, is two-thirds.
+Ironically, four weeks after my interview with Jeff Yass, the New York Times ran an article on the exact
+same puzzle. The Times article reported that when Marilyn Vos Savant answered this puzzle correctly in her
+Parade column in response to a reader's inquiry, she received nearly a thousand critical (and misguided)
+letters from Ph.D.s, mostly mathematicians and scientists. The Times article engendered its own slew of
+letters to the editor. Some of these provided particularly lucid and convincing explanations of the correct
+answer and are reprinted below:
+To the Editor:
+Re "Behind Monty Hall's Doors: Puzzle Debate and Answer?" (front page, July 21): One reason people
+have trouble understanding the correct solution to the puzzle involving three doors, two with goats behind
+them and one with a car, is that the problem uses only three doors. This makes the assumed, but incorrect,
+probability of picking the car (1 in 2) appear too close to the actual probability (1 in 3) and the solution
+difficult to arrive at intuitively.
+To illustrate better the right answer-that a player should switch the door picked first after one of the other
+two has been opened by Monty Hall, the game-show host-suppose the game were played with 100 doors,
+goats behind 99 and a car behind 1.
+When first offered a door, a player would realize that the chances of picking the car are low (1 in 100). If
+Monty Hall then opened 98 doors with goats behind them, it would be clear that the chance the car is behind
+
+149
+
+150
+the remaining unselected door is high (99 in 100).
+Although only two doors would be left (the one the
+player picked and me unopened door), it would no longer appear that me car is equally likely to be behind
+either. To change me pick would be intuitive to most people.
+Cory Franklin Chicago, July 23, 1991
+To the Editor-:
+As I recall from my school days, when you are dealing with tricky, confusing probabilities, it is useful to
+consider the chances of losing, rather than the chances of winning, thus: Behind two of the three doors there
+is a goat. Therefore, in the long run, twice in three tries you will choose the goat. One goat-bearing door is
+eliminated. Now two times out of three when you have a goat, the other door has a car. That's why it pays to
+switch.
+Kari V. Amatneek San Diego, July 22, 1991
+And finally there was this item:
+To the Editor:
+Your front-page article July 21 on the Monty Hall puzzle controversy neglects to mention one of the
+behind-the-door options: to prefer the goat to the auto. The goat is a delightful animal, although parking
+might be a problem.
+Lore Segal New York, July 22, 1991
+The point is that your senses deceive you. Your simplistic impulse is to say that the probabilities are 50/50
+for both door No. 1 and door No. 3. On careful analysis, however, you realize that there is a huge advantage
+to switching, even though it was not at all obvious at first. The moral is that in trading it's important to
+examine the situation from as many angles as possible, because your initial impulses are probably going to
+be wrong. There is never any money to be made in the obvious conclusions.
+==== Can you give me a trading example of a situation where the obvious decision is wrong? ====
+Let's say a stock is trading for S50 and an institution comes in with an offer to sell five hundred of the 45
+calls at $4 1/2. The instinctive response in that type of situation is: "Great! I'll buy the calls at $4 1/2, sell
+the stock at $50, and lock in $1/2 profit." In reality, however, nine times out often, the reason the institution
+is offering the call at $4 1/2 is because it's fairly certain that the stock is going lower.
+==== Does this type of situation ever happen-that is, an institution offering to sell options at a price below
+intrinsic value [the minimum theoretical value, which is equal to the difference between the stock price and
+strike price-$5 in Yass's example]? ====
+It happens all the time.
+==== I don't understand. What would be the motive to sell the option below its intrinsic value? ====
+In the example I gave you, the institution may be very certain that the stock is going to trade below $49
+1/2, and therefore a price of $4 1/2 for the 45 call is not unreasonable.
+==== Even if they have good reason to believe that the stock will trade lower, how can they be that sure of
+the timing? ====
+The straightforward answer is that they know they have a million shares to sell, and that they may have
+to be willing to offer the stock at $49 to move that type of quantity. It all comes down to conditional
+probabilities. Given that this institution is offering the option at below its intrinsic value, which is more likelythey're so naive that they're virtually writing you a risk-free check for $25,000, or they know something that
+you don't? My answer is, given that they want to do this trade, the odds are you're going to lose.
+When I first started out, I would always be a buyer of options that were offered at prices below intrinsic
+value, thinking that I had a locked-in profit. I couldn't understand why the other smart traders on the floor
+weren't mshing in to do the same trades. I eventually realized that the reason the smart traders weren't
+buying these calls was that, on average, they were a losing proposition.
+==== If ifs not illegal, why wouldn't the institutions regularly sell calls prior to liquidating their positions? It
+seems that it would be an easy way to cushion the slippage on exiting large positions. ====
+In fact, that is a common strategy, but the market makers have wised up.
+==== How has the option market changed in the ten years that you have been in the business? ====
+When I first started trading options in 1981 all you needed to make money was the standard BlackScholes model and common sense. In the early 1980s, the basic strategy was to try to buy an option trading
+at a relatively low implied volatility and sell a related option at a higher volatility. For example, if a large buy
+order for a particular strike call pushed its implied volatility to 28 percent, while another call in the same
+stock was trading at 25 percent, you would sell the higher-volatility call and offset the position by buying the
+lower-volatility call.
+==== I assume these types of discrepancies existed because the market was fairly inefficient at the time.
+====
+That's correct. At that time, a lot of option traders still didn't adequately understand volatility and basic
+option theory. For example, if a call was trading at a 25 percent volatility, which was relatively low for the
+options in that stock, many traders didn't understand that you didn't have to be bullish on the stock to buy
+the call- If you were bearish on the stock, you could still buy the underpriced call by simultaneously selling
+the stock, yielding a combined position equivalent to a long put. The more mathematical market makers
+understood these types of relationships and were able to exploit pricing aberrations. Now everybody
+understands these relationships, and you no longer see situations in which different options in a same stock
+are trading at significantly different volatilities-unless there's a good fundamental reason for that difference in
+
+150
+
+151
+pricing. Now that everybody understands volatility,
+the major battle is in the skewness in option pricing.
+==== Can you explain what you mean by "skewness"? ====
+To explain it by example, the OEX today was at 355. If you check the option quotes, you will see that the
+market is pricing the 345 puts much higher than the 365 calls. [The standard option pricing models would
+actually price the 365 calls slightly higher than the 345 puts.]
+==== Are options prices always skewed in the same direction? In other
+words, are out-of-the-money puts always priced higher than equiv-alently out-of-the-money calls? ====
+Most of the time, puts will be high and calls wilt be low.
+==== Is there a logical reason for that directional bias? ====
+There are actually two logical reasons. One I can tell you; the other I can't. One basic factor is that there
+is a much greater probability of financial panic on the downside than on the upside. For example, once in a
+great while, you may get a day with the Dow down 500 points, but it's far less likely that the Dow will go up
+500 points. Given the nature of markets, the chance of a crash is always greater than the chance of an
+overnight runaway euphoria.
+==== Did the markets always price puts significantly higher than calls for that reason? ====
+No. The market didn't price options that way until after the October 1987 crash. However, I had always
+felt that the chance of a huge down-move was much greater than the chance of an upmove of equivalent
+size.
+==== Did you reach the conclusion about the bias in favor of larger downmoves based on a study of
+historical markets? ====
+No, nothing that elaborate. Just by watching markets, I noticed that prices tend to come down much
+harder and faster than they go up.
+==== Does this directional bias apply only to stock index options? Or does it also apply to individual stock
+options? ====
+The options on most major stocks are priced that way [i.e., puts are more expensive than calls], because
+downside surprises tend to be much greater than the upside surprises. However, if a stock is the subject of a
+takeover mmor, the out-of-the-money calls will be priced higher than the out-of-the-money puts.
+==== Do your traders use your option pricing models to make basic trading decisions? ====
+Anyone's option pricing model, including my own, would be too simplistic to adequately describe the real
+world. There's no way you can construct a model that can come close to being as informed as the market. We
+train our market makers to understand the basic assumptions underlying our model and why those
+assumptions are too simplistic. We then teach them more sophisticated assumptions and their price implications. It's always going to be a judgment call as to what the appropriate assumptions should be. We believe
+we can train any intelligent, quick-thinking person to be a trader. We feel traders are made, not born.
+==== Essentially then, you start off with the model projections and then do a seat-of-the-pants adjustment
+based on how you believe the various model assumptions are at variance with current realities. ====
+Exactly.
+==== Can you give an example of how this adjustment process works? ====
+A current example is NCR, which is a takeover target of AT&T. AT&T's bid is $110, and the stock is
+currently trading at approximately $106. If the takeover goes through, the buyer of the stock stands to make
+about $2. (About half of the difference between the current price and the takeover bid represents interest
+rate costs on carrying the stock.) If, on the other hand, the takeover falls through, then the stock can drop
+sharply-to about $75 based on current market estimates. In this particular case, the relatively close calls are
+essentially worthless, because the stock is unlikely to go above $110. On the other hand, the much further
+out-of-the-money 90 puts have some chance of gaining significant value in the event the takeover fails.
+Thus, in this type of situation, the out-of-the-money puts will be priced much higher than the equivalent outof-the-money calls.
+==== In other words, this is an example of how an option pricing model could yield very misleading
+projections in a real-world situation. ====
+Right, because the standard model assumes that the probability of any individual tick being up or down is
+50/50. That, however, is not the case here because there's a much greater probability for a large price
+decline than a large price rise.
+At one time, the mathematical types traded straight off their models, and in a situation like the one I have
+just described, they would sell the out-of-the-money puts because they appeared to be priced too high.
+However, the seat-of-the-pants types would look at the situation and realize that there was a real possibility
+of the stock witnessing a large decline [i.e., a breakdown in the case of a takeover]. The traders using a
+commonsense approach would end up buying the out-of-the-money puts from the mathematical types and
+taking them to the cleaners in the process. Eventually, the mathematical types caught on.
+==== In your day-to-day operations, do you basically start off by looking at the model and then making
+certain mental adjustments? ====
+Exactly. Our basic philosophy is that we have tremendous respect for market opinion. For example, if we
+believe an option is worth $2 and a knowledgeable market maker is bidding $2 1/2, we assume that nine
+times out of ten he's going to be right, because he's trading one stock and we're trading five hundred. We will
+then try to figure out why he's bidding $2 1/2. If we can identify the reason and we disagree with it, then we
+
+151
+
+152
+may sell the option because it's overpriced. But
+most of the time, we'll decide that his knowledge is
+better than ours, and we'll end up adjusting our valuation on the other options in that stock and then buying
+these other options or the stock itself.
+==== When you adjust your option valuations because someone else is bidding at a price that appears to
+be removed from the theoretical value, are you simply assuming that they know more about the given
+company? ====
+Yes, information doesn't exactly flow perfectly, like they teach you in Finance 101. Frequently, the
+information will show up first in the option market. A lot of these insider trading cases involve options, and
+we're the people who lose the money.
+For example, just today they caught an employee of Marion Labs who obviously had inside information
+that Dow was going to offer a takeover bid for the company. This person had bought five hundred of the July
+25 calls at $1 [total cost: $50,000], and the next day the options were worth $10 [total position value:
+$500,000]. In the old days- before options-someone with this type of information might buy the stock, and
+even assuming 50 percent margin, the profit percentage wouldn't be that large. However, now, by buying
+options, traders with inside information can increase their profit leverage tremendously. Sometimes I feel
+sorry for some of these people because, until the recent barrage of publicity regarding insider trading, I'm not
+sure that many of them even realized they were breaking the law. However, since they come to the options
+market first, we're the ones on the other side of the trade getting picked off.
+==== I don't understand. Doesn't the SEC scrutinize the order flow when there's an announced takeover to
+make sure there are no suspicious orders? ====
+Yes, they do, and they're getting particularly effective in catching people trading on insider information.
+They have also become much more efficient in returning money to those on the other side of these trades.
+However, in earlier years, the process took much longer.
+One famous example involved Santa Fe, an oil company that was a takeover target by the Kuwaitis in
+1981. At the time, the stock was at $25 and the option traders on the floor filled an order for one thousand
+35 calls at $1/16. Shortly afterwards, the stock jumped from $25 to $45 and the options went from $1/16 to
+$10. The floor traders had a virtual overnight loss of about $1 million. Although they eventually got their
+money back, it took years. If you're a market maker and you're broke, waiting to get your capital back is not
+pleasant. You live in fear that you're going to be the one selling the option to an informed source.
+Eventually, everyone gets picked off, because if you try to avoid it completely, you're going to pass up a
+lot of good trading opportunities. In a nutshell, if you're too conservative, you won't do any trades, and if
+you're too aggressive, you're going to get picked off a lot. The trick is to try to strike a balance between the
+two.
+==== Can you think of a recent example in which you were picked off? ====
+The options for Combustion Engineering are traded on the Pacific Coast Exchange. The options rarely
+trade. One morning, we received a call from the board broker (the exchange employee responsible for
+managing order imbalances). He said there was an order to buy several hundred options and inquired
+whether we wanted to take the other side. The stock was trading at around $25, and we agreed to sell three
+hundred of the 25 calls at approximately $2 1/2. Ten minutes later, trading in the stock was halted, and
+there was an announcement that the company was being taken over by a European corporation. When
+trading resumed several minutes later, the stock reopened at $39, and we were out over $350,000 in a
+matter of minutes. It turned out that the buyer was on the board of directors of the acquiring company.
+==== What ultimately happened? ====
+In this particular case, we've already gotten our money back. The SEC identified the buyer quickly, and
+because the individual was a high-level foreign executive who didn't even realize he was doing anything
+illegal, he returned the money without any complications.
+==== Given that consideration, aren't you always reticent to till a large option order in a market that
+normally doesn't trade very often? ====
+There's always that type of reticence, but if you want to be in the business, it's your job to fill those types
+of orders. Besides, in the majority of cases, the orders are legitimate and nothing happens. Also, under
+normal circumstances, we hedge the position after we fill the option order. In the case of Combustion
+Engineering, the stock stopped trading before we had a chance to buy it as a hedge against our position. We
+still would have lost money, but not as much as we did being completely unhedged.
+The more successful the SEC is in catching people trading on inside information-and lately they seem to
+be catching everyone-the tighter the bid/ask spreads will be. Every trade we do involves some risk premium
+for the possibility that the other side of the trade repre
+sents informed activity. Therefore, if everyone believes that the SEC is going to catch all inside traders,
+then the market will price away that extra risk premium. In essence, it's really the average investor who ends
+up paying for insider trading through the wider bid/ask spreads.
+==== When stocks have large overnight moves, is that type of price action normally preceded by a pick up
+m the option volume? ====
+Almost always. If you go over the volume data for stocks that were taken over, you'll Find that there was
+almost always a flurry of option trading before the event.
+==== Do you do any directional trading? ====
+None. It's my firm belief that the market's wisdom is far greater than mine. In my opinion, the market's

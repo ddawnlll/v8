@@ -1,0 +1,476 @@
+stock market performance. Calculate the ratio of money market mutual fund assets to the
+Wiltshire 5000 Index using the most recent statistics available. (Money market mutual
+fund asset statistics are included in the Federal Reserve Flow of Funds Report Z.1 in Chart
+L.122, available electronically at www.federalreserve.gov/releases/.) What does this ratio
+suggest about future stock market performance?
+2. Why would many public offerings occur at market tops (and few at market bottoms)?
+3. Why might household liquidity be related to stock market performance?
+4. What has happened to the federal funds target rate over the past year? What does this suggest about stock market performance?
+5. Determine the shape of the yield curve during the 2006–2007 time period. You can gather
+information to construct the yield curve from the Federal Reserve Web site. Alternatively,
+many Web sites, such as stockcharts.com (http://stockcharts.com/charts/YieldCurve.html),
+provide pictures of historical yield curves. Looking at this yield curve, do you think that
+the weak economic conditions and market downturn that began in the fall of 2008 were a
+surprise to an alert observer?
+6. Gather data for the yield curve this week and for the yield curve one year ago. What
+changes do you notice? What impact do you think this will have on the stock market?
+
+Download at www.wowebook.com
+
+P A R T
+
+I I I
+
+TREND ANALYSIS
+C HAPTER 11 H ISTORY AND C ONSTRUCTION OF C HARTS
+C HAPTER 12 T RENDS —T HE B ASICS
+C HAPTER 13 B REAKOUTS , S TOPS , AND R ETRACEMENTS
+C HAPTER 14 M OVING AVERAGES
+
+197
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+1 1
+
+HISTORY AND CONSTRUCTION
+OF CHARTS
+
+CHAPTER OBJECTIVES
+By the end of this chapter, you should be familiar with
+
+• The advantages of presenting price information in a picture, or chart, format
+• The construction of line charts
+• The construction of bar charts
+• The construction of candlestick charts
+• The construction of point-and-figure charts
+• The differences between arithmetic and logarithmic scales
+A chart is like a cat’s whiskers. A cat’s whiskers tell the cat which way the mouse
+will turn and thus which way to pounce. The mouse doesn’t think about which way
+it will turn, but the cat must anticipate that direction. Likewise, the market doesn’t
+know which way it will turn, but the speculator must anticipate that turn regardless.
+He uses a chart as his whiskers. (Sieki Shimizu, 1986)
+A chart is the traditional tool of the technical analyst. Charts are merely graphical displays of data.
+Many chart varieties have evolved over the centuries, but the basic principle of graphing price and
+other important information is the cornerstone of technical analysis. Indeed, in many countries,
+technical analysts are still called “chartists,” even though hand-drawn charts have become somewhat antiquated because computers display and, in some programs, analyze the price data more
+quickly and efficiently. Nevertheless, some specialists, floor traders, market makers, and technical
+analysis departments for brokerage and management firms still maintain hand-drawn charts. These
+analysts believe that by drawing a chart, rather than allowing a computer to draw a chart or a publishing service to deliver a chart, the fine points of price changes, trends, and patterns become more
+visible. By taking the time and effort to draw each day’s activity, a personal “feeling” for the price
+action develops that is more intimate than that gained from a mechanical drawing.
+199
+
+Download at www.wowebook.com
+
+200
+
+Part III Trend Analysis
+
+From these charts, technical analysts recognize patterns and trends that can be useful in
+trading and investing. Of course, the chart method is also subject to considerable criticism
+largely because the recognition of patterns and trends is subjective, based on the analyst’s skill
+and experience. These human attributes are difficult to quantify and, thus, difficult to test.
+Interestingly, a recent, unpublished study by Hasanhodzic, Lo, and Viola (2010) showed that
+humans, when confronted with graphic data in a “video game” format, can “distinguish between
+actual financial returns from random temporal permutations of those returns.” They found “overwhelming statistical evidence (p-values no greater than 0.5%) that subjects can consistently distinguish between the two types of time series, thereby refuting the widespread belief that financial
+markets ‘look random.’ A key feature of the experiment is that subjects are given immediate feedback regarding the validity of their choices, allowing them to learn and adapt” (p. 1).
+Some analysts are now using pattern-recognition systems and other sophisticated computerized methods, and early results have demonstrated that, indeed, many of the traditional chart patterns
+have some predictive value. Charts have other uses, however, if only to quickly observe the history
+of prices. The benefits of chart use outweigh the problems associated with their interpretation.
+
+BOX 11.1 BENEFITS OF USING CHARTS
+In his book, Technical Analysis, Jack Schwager (1996) outlines numerous benefits to
+the investor of using charts. These benefits include the following:
+• Charts provide a concise price history—an essential item of information for
+any trader (or investor).
+• Charts can provide the trader or investor with a good sense of the market’s
+volatility—an important consideration in assessing risk.
+• Charts can be a very useful tool to the fundamental analyst. Long-term price
+charts enable the fundamentalist to isolate quickly the periods of major price
+moves. By determining the fundamental conditions or events that were peculiar
+to those periods, the fundamentalist can identify the key price-influencing factors. This information can then be used to construct a price behavior model.
+• Charts can serve as a timing tool, even by traders who base their decisions
+on other information (e.g., fundamentals).
+• Charts can be used as a money management tool by helping to define meaningful and realistic stop points.
+• Charts reflect market behavior that is subject to certain repetitive patterns.
+Given sufficient experience, some traders will uncover an innate ability to
+use charts successfully as a method of anticipating price moves.
+• An understanding of chart concepts is probably an essential prerequisite for
+developing profitable technical trading systems.
+• Cynics take notice: Under specific circumstances, a contrarian approach to
+classical chart signals can lead to very profitable trading opportunities
+(when those signals fail).
+
+Download at www.wowebook.com
+
+201
+
+Chapter 11 History and Construction of Charts
+
+HISTORY OF CHARTING
+According to exhaustive research on technical analysis by Lo and Hasanhodzic (2010), the earliest known recording of commodity prices with the intent to predict from them was in ancient
+Babylonia in the first millennium B.C. These recording were diaries of traders and astronomers
+who were attempting to correlate astrology with price changes. By the fifth and sixth centuries
+A.D., price charts, similar to those used presently, were developed in China, Europe, and Japan.
+The Chinese were interested in cyclicality of prices; the Europeans were interested in astrology;
+and the Japanese developed the candlestick chart that is still in use today. The “opening of commodity exchanges in Western Europe (1561) and Japan (1654) provided the necessary environment for the development of the chart” (Shimizu, 1986, p 14). At the time of these exchanges,
+freely trading markets had become sophisticated enough to produce multiple prices during a
+trading day and, thus, the requirement for recording the high, low, and close price of each commodity traded on the exchange. It was only natural that this information was portrayed in graphic
+form. By the 1830s, just before the invention of the ticker tape for the stock exchanges, several
+chart vendors in New York sold published charts on stock and commodity prices.
+The information charted and the method of charting often flows from how the market
+being analyzed operates. For example, the current use of high and low in a bar chart is not feasible in those trading markets that settle a price only once a day.
+Plausibly, the first type of chart was just a simple plot on paper of a number, either amount
+or price, and a date. In early Japan, for example, rice was traded by amount. Instead of a price per
+bag, it was the number of bags per price that was recorded by the famous rice trader Sokyu
+Honma in the 1750s. As markets began to trade more frequently during the day, the chart became
+more complex. A high and low price could be recorded, and eventually as multiple trades
+occurred, an open and close price could be added. Volume was recorded much later when more
+complete and public records were available. At first, witnesses located in the marketplace
+recorded prices. Eventually, markets became better organized, and prices and amounts were publicly available.
+The growth of this business is of great monument to the stock exchange, for it is
+through the instant dissemination of the quotations made on its floor that the active
+and continuous interest in the markets is sustained. (Horace L. Hotchkiss, founder of
+the Gold Stock and Telegraph Company)
+The invention of the ticker and the ticker tape revolutionized technical analysis and charting. Shortly after Thomas Edison invented a machine called the Edison Telegraph Printer to print
+messages from a telegraph, in 1867 Edward A. Calahan, an employee of the American Telegraph
+Company, invented the ticker tape. Eventually, it was improved upon and patented by Thomas
+Edison in 1871. This invention not only made conventional charting easier but also allowed for
+point-and-figure charting, because such charts required knowledge of every price at which an
+item had traded during the day. Without the ticker tape, the gathering of this information would
+have been difficult in markets with multiple trades during a day.
+
+Download at www.wowebook.com
+
+202
+
+Part III Trend Analysis
+
+BOX 11.2 WHAT IS A TICKER TAPE?
+A tick is any change, up or down, in the price of a stock (or any other traded security). Information regarding stock transactions is recorded on a ticker tape. By
+watching the ticker tape, an investor is able to keep abreast of changes in stock
+prices. The first ticker tape was developed in 1867, following the invention of the
+telegraph machine. This technology allowed information to be printed in a shorthand
+format on a narrow strip of paper, or tape. Messengers would run a circuit between
+the New York Stock Exchange (NYSE) trading floor to brokers’ offices, delivering
+tapes of the most recent transactions. Brokers would place an office near the NYSE
+because the closer they were to the trading floor, the more quickly they could get
+ticker tapes and the more up to date their information about recent stock transactions
+would be. Technology improved over the years, providing faster access to stock
+transaction data. In the hectic trading days of the late 1960s and early 1970s, the
+ticker could not keep up with trading, and there was a period when the markets were
+closed on Wednesdays to facilitate the clearing of trades. Not until 1996 did the realtime electronic ticker provide up-to-the-minute transaction data. Today, you will see
+immediate stock market transaction figures on TV news shows and Web sites.
+Although these figures are reported electronically, and the actual tape is no longer
+used, the name “ticker tape” is still used when a running list of trades is shown on
+TV or a quote machine.
+When you are watching a ticker tape, you will see information recorded in a format such as:
+HPQ2K@23.16 1.09
+or
+Ticker Symbol Shares Traded@Price Traded, Change Direction, Change Amount
+
+The first information given is the ticker symbol; these unique characters identify a
+particular company’s stock. In the preceding example, HPQ indicates that this information is for the common stock of Hewlett-Packard Co. Next, the volume of shares
+traded appears. 2K indicates that 2,000 shares were traded. The price per share for
+the particular trade is then quoted. Next, an up or down triangle appears, indicating
+whether this trading price is higher or lower than the previous day’s closing price.
+Finally, the difference between the current trading price and the previous closing
+price is reported. Reading this ticker tape, we can tell that 2,000 shares of HewlettPackard stock just traded at $23.16 a share. We can also tell that this is $1.09 higher
+than the previous day’s closing price of $22.07.
+
+Modern technology has greatly simplified the task of chart construction. Computer power
+has replaced much of the tedious human work. Now, even basic home computers have spreadsheet
+
+Download at www.wowebook.com
+
+203
+
+Chapter 11 History and Construction of Charts
+
+programs, such as Microsoft Excel, that can store daily stock price data and create a variety of
+charts used by technical analysts. In addition, other sophisticated software programs that are
+specifically designed for technical analysis are readily available. These programs not only plot
+charts and indicators or oscillators but also can test trading rules. Examples are TradeStation
+(www.tradestation.com), Metastock (www.equis.com), High Growth Stock Investors
+(www.hgsi.com), and Amibroker (www.amibroker.com). In addition to charting software, the
+Web hosts many charting sites, examples of which are StockCharts.com, www.bigcharts.com,
+finance.yahoo.com, and freestockcharts.com. Today, the technical analyst can focus much more
+time and attention on analysis and much less on chart construction.
+Over the years, technicians developed several different approaches to chart construction.
+The four main categories of charting that we discuss in this chapter are line charts, bar charts,
+candlestick charts, and point-and-figure charts. Each approach has its own features, benefits, and
+drawbacks. Whichever method a technical analyst chooses to use, charts serve as the technical
+analyst’s road map. Charts give a quick and concise picture of past price action.
+For example, look at Table 11.1. This table contains the closing price for Alcoa for the
+month of February 2010.
+TABLE 11.1
+
+Stock Price Data for AA in Tabular Form
+
+Date
+
+Open
+
+High
+
+Low
+
+Close
+
+Volume
+
+2/1/2010
+2/2/2010
+2/3/2010
+2/4/2010
+2/5/2010
+2/8/2010
+2/9/2010
+2/10/2010
+2/11/2010
+2/12/2010
+2/16/2010
+2/17/2010
+2/18/2010
+2/19/2010
+2/22/2010
+2/23/2010
+2/24/2010
+2/25/2010
+2/26/2010
+
+12.99
+13.76
+13.60
+13.29
+12.91
+13.18
+13.36
+13.31
+13.19
+13.33
+13.53
+13.89
+13.45
+13.55
+13.68
+13.44
+13.18
+12.90
+13.36
+
+13.39
+13.90
+13.89
+13.29
+13.19
+13.53
+13.50
+13.34
+13.65
+13.42
+13.75
+13.90
+13.66
+13.69
+13.70
+13.52
+13.29
+13.33
+13.37
+
+12.91
+13.52
+13.43
+12.90
+12.61
+12.93
+13.10
+13.00
+13.12
+13.19
+13.35
+13.51
+13.42
+13.45
+13.44
+13.05
+12.95
+12.80
+13.12
+
+13.36
+13.67
+13.49
+12.91
+13.18
+13.06
+13.28
+13.16
+13.58
+13.28
+13.74
+13.60
+13.61
+13.53
+13.54
+13.18
+13.06
+13.31
+13.30
+
+40,076,300
+50,545,100
+36,035,900
+44,587,200
+43,984,100
+39,405,800
+44,023,100
+33,049,100
+34,224,500
+46,158,500
+37,189,200
+26,052,800
+27,540,300
+28,570,000
+23,186,500
+35,032,000
+36,244,500
+39,552,000
+24,756,200
+
+Source: www.finance.yahoo.com
+
+Download at www.wowebook.com
+
+204
+
+Part III Trend Analysis
+
+It is difficult to look at the 19 closing prices in this table and get an idea of whether the
+stock price trend is up, down, or sideways. Now look at Figure 11.1.
+This chart contains the same information as Table 11.1. Notice how much easier it is to
+process the information when it is provided in the picture form of Figure 11.1 rather than in tabular form. As the old saying goes, “A picture is worth a thousand words.” With just a glance at the
+chart, you have a road map of where prices have been; in a fraction of a second, you can easily
+spot the highest prices and lowest prices that occurred during the period. A chart quickly transforms a table of data into a clear visual representation of the information.
+
+14.60
+
+Candlestick Chart
+14.40
+
+14.20
+
+14.00
+
+13.80
+AA - Alcoa Corp
+Daily
+
+13.60
+
+13.40
+
+Feb 2010
+8
+
+15
+
+22
+Created using TradeStation
+
+FIGURE 11.1 Stock price information for AA in chart form (daily: February 1, 2010–February 26,
+2010)
+
+WHAT DATA IS NEEDED TO CONSTRUCT A CHART?
+To construct reliable charts, the technical analyst must be sure of the trustworthiness of the data.
+During a normal trading day, many errors appear on the tape, from which most data originates,
+that someone must screen out and adjust. Some trade reports show the wrong price or volume;
+some trades are in error and must be broken; and some trades occur out of order. When a price
+error occurs at a high or a low for the trading day, the error is especially troublesome because it
+
+Download at www.wowebook.com
+
+205
+
+Chapter 11 History and Construction of Charts
+
+affects daily calculations of averages and oscillators using highs and lows. It is, therefore, very
+important that any data used for charting is extremely “clean” and reliable.
+In addition to trading errors, other data errors can occur through stock splits, dividends,
+offerings, and distributions. In the commodities markets, because contracts have a settlement
+date at which trading halts, incorrect calculation of the time and price linkage between contracts
+may affect longer-term technical patterns and trends. Calculation of these linkages into time
+series data for a longer-term perspective is never precise. The results are called either “nearest
+future,” “perpetual series,” or “continuous series” and are provided by many data vendors and
+exchanges (see Box 11.3). There are other methods of joining the different contracts into a continuous series, but all have serious problems for the analyst wanting to test longer periods of data.
+Schwager (1996) recommends the continuous contract as the best method for such tests.
+
+BOX 11.3 LINKED CONTRACTS
+For very short-term testing and analysis of futures contracts, you can use the actual
+contract data. The test period must be extremely short, however, because the liquid
+portion of any contract, the period when active trading occurs, is only a portion of
+the contract time span. Thus, the data available for realistic study is short, and to test
+a number of signals, it must be separated at very short intervals.
+Once the trading signal horizon exceeds an hour, however, one must calculate a
+linked contract to provide sufficient data for testing. There are three basic types of
+linked contracts: the nearest future, the perpetual, and the continuous. Each has its
+advantages and disadvantages.
+The nearest future method is just a plot of each futures contract as it expires and
+is replaced by a new contract. Unfortunately, during the transition between old and
+new contract, a gap always exists at the rollover into the new contract. Thus, this
+method is useless for testing trading systems, even though the contracts plotted are
+historically correct. It is the least preferable method of analyzing longer-term futures
+price moves.
+The perpetual contract (also known as the “constant-forward”), to avoid the nearest future rollover problem, uses a constant forward price, namely the anticipated
+price some specific period ahead. This forward contract comes from the interest and
+foreign exchange markets where constant-forward contracts are traded. The adjustment to the futures markets assumes a price that adjusts for the time between a contract series that is current and one that is beyond the specific constant-forward
+period. The perpetual price then is the price of the current contract and the forward
+contract each weighted by the amount of time remaining in the hypothetical forward
+period. Thus, the perpetual price avoids the problem of the rollover by smoothing the
+two contract prices, one near and one far out, in a gradual manner as time progresses.
+The problem with this method is that it is not real. The actual prices recorded in the
+perpetual contract never occurred. It is, thus, not a suitable method for testing a technical trading system.
+continues
+
+Download at www.wowebook.com
+
+206
+
+Part III Trend Analysis
+
+continued
+The third method, the continuous contract, is more realistic but is useless for calculating percentage changes over time. It adjusts for the premium difference
+between the current contract prices—the price of the previous contract and the contract into which the trader rolls his position at a specific rollover date, say 15 days
+before expiration—to avoid the trading bias that occurs as the contract nears its end.
+This continuous contract then carries the adjustment into the future. It reflects
+exactly what would have occurred to a portfolio that invested in the first contract and
+rolled over each contract at its rollover date. It is, thus, a realistic expression of the
+history of the futures contract and can be used for testing past data. It has two problems, however. One is that because the adjustments are additive, it cannot be used for
+percentage returns; and two, the ending price of the continuous contract is not the
+same as the current price of the current contract. The continuous contract is the primary contract used for testing trading systems.
+
+WHAT TYPES OF CHARTS DO ANALYSTS USE?
+In early markets, when the price for a security or good might be established only once or twice a
+day, the chart was extremely simple. It was merely a graph of closing prices connected by a line,
+sometimes directly connected, and sometimes connected by perpendicular lines. In Japan, this
+type of chart was called a “tome” chart from the word “tomene,” which means “close.” In the
+Western world, this type of chart is still used and is called a “line” chart.
+When trades became more frequent, chart forms took two paths. The first and still most
+common style was borrowed from the bar graph or stick graph and portrayed the high and low
+with a “floating” vertical line not connected to the base line. These were called bar charts or vertical line charts. Interestingly, in Japan, where many chart types were developed, the original
+plotting of price data was from right to left rather than the now-universal method of plotting from
+left to right. This bar style then evolved into the candlestick chart, which uses the same information as the bar chart but has a more appealing appearance to the eye. The other path was called
+the price movement line, where prices were recorded as they occurred, and only the ones that
+deviated from earlier prices by a specified amount were graphed in a line. This method of price
+plotting is the forerunner to the modern point-and-figure chart.
+Today, the three most common types of charts that record prices at given time intervals
+(such as hourly, daily, weekly, or monthly) are line charts, bar charts, and candlestick charts. Let
+us look at each of these charts and see how they differ.

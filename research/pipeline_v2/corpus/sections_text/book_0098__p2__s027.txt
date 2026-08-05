@@ -1,0 +1,612 @@
+
+It is then a relatively simple task to see whether any consistent time peri-
+Ods separate these points. One method is to note the time differences
+between all the cycle lows and highs in order to determine which ones come
+
+” up most frequently. Since MAs smooth out all cycles within their time span,
+
+it is important to experiment with several averages in order to identify as
+many cycles as possible. The more reliable ones should then be used in the
+analysis,
+
+
+
+392
+
+8
+
+|
+1
+t
+i
+
+phe phe.
+Gweeks | Gweeks "Gweeks ' 6 weeks
+
+3 3
+weeks
+
+Figure 21-1 Cycle highs and lows.
+
+6 weeks 6 weeks
+
+cycle high that is “late” in arriving, that is, it arrives well after the halfway
+period, usually indicates a strong cycle, with the implication that the cycle
+low will be above the low of the previous cycle. A number of different cycles
+can be observed for any market or stock, some long and some short in dura-
+tion. The task of the technician is not to identify as many as possible, but
+to isolate the most dominant and reliable.
+
+Principles
+
+* The longer the cycle, the greater the amplitude in price; for example, a
+10-week cycle will have far greater trading significance than a 10-hour
+
+cycle.
+
+It follows from item 1 that the larger the cycle, the greater the significance
+
+of the low.
+
+The larger the number of cycles reaching a low at around the same time,
+
+the stronger the ensuing price movement.
+
+Ina rising trend, the cycle high has a tendency to “translate to the right,”
+
+that is, to occur after the halfway point of the cycle. The same principle
+
+holds in reverse for bear markets; that is, there is a tendency for the cycle
+
+high to translate to the left.
+
+It is possible to observe cyclic highs that occur at regular time intervals.
+
+A projected cyclic high or low may develop in the opposite way to that
+
+anticipated. In such cases, the cycle is said to be “inverted.”
+
+Part I: Market Structure ;
+
+Practical Identification of Cycles 393
+
+Methods of Detection
+
+Many mathematical techniques have been used to identify cycles. Fourier
+analysis, for example, isolates the existence of various cycles by length, ampli-
+tude, phases, and so on. Systematic reconnaissance is a technique that tests
+for periods requested. The result is a periodgram that shows the most dom-
+inant cycles. Although such techniques can be useful, they tend to make
+technical analysis look as if it is an exact science, which it very definitely is
+not. These approaches fall outside the scope of this book, but materials
+listed in the Bibliography will give more information. This chapter will be
+confined to three methods of cycle identification: deviation from trend,
+-< momentum, and simple observation.
+
+Deviation from Trend
+
+This method takes a series of data and divides each item by a moving aver-
+
+age (MA). The period under observation represents the deviation, and the
+
+MA represents the trend.
+
+Chapter 9 explained that since an MA is designed to reflect the underly-
+ing price trend, ideally it should be plotted halfway along its span. This is
+because the “average” price occurs halfway through the time span, such as
+
+: in the seventh week for a 13-week MA. However, changes in the direction
+“of the MA usually occur far too late to offer timely signals for the purpose
+of identifying trend reversals. For this reason, technicians normally use an
+MA crossover for generating signals. Since only historical data are used in
+cycle identification, this disadvantage is not important. The MA deviation
+is therefore calculated by dividing the period in question by the midpoint
+of the MA. The price observation for February 27 is divided by a 13-week
+MA, as calculated on April 18; that is, the MA is “moved” back 7 weeks. The
+result is then plotted as an oscillator, which isolates the cyclical high and
+low points.
+
+It is then a relatively simple task to see whether any consistent time peri-
+ods separate these points. One method is to note the time differences
+between all the cycle lows and highs in order to determine which ones come
+
+~ Up most frequently. Since MAs smooth out all cycles within their time span,
+it is important to experiment with several averages in order to identify as
+Many cycles as possible. The more reliable ones should then be used in the
+analysis,
+
+
+
+394 Part fl: Market Structure
+
+Momentum
+
+A simpler method is to calculate a momentum oscillator and smooth it by
+an appropriate MA, as determined by trial and error. This approach will
+bring out the underlying rhythm in the price movement, just as a deviation-
+from-trend calculation does. It is doubtful whether the momentum
+approach alone can be successfully used for cycle identification, but it can
+prove to be an invaluable confirmation of cyclic reliability when used in con
+junction with the technique of simple price observation discussed later.
+The position of a momentum index can also be useful in warning of
+potential cyclic inversions, that is, when a projected cyclic low might tum
+out to be a cyclic high, and vice versa. For example, a cyclic inversion may
+occur when the observed data project that a cyclic low is likely to develop
+around a specific date, while the momentum indicator used in conjunction
+with this study is at, or coming down from, an overbought level. A good
+example is shown in Chart 20-8 of the S&P Composite. In 1987 the 9.2-year
+cycle appeared to reach its peak, as measured by the 55-month rate of
+change (ROC) at exactly the time when a low should have been recorded.
+
+Simple Observation
+
+Chart 21-1 shows the Philadelphia Gold and Silver Share Index. The solid
+vertical line represents an 82-week cycle of lows and the dashed vertical line
+a 126-week cycle of highs. The ROC has a time span of 41 weeks, half the
+82-week cycle. Neither of these cycles is perfect, but they do, for the most
+part, explain most of the turning points in the period under consideration.
+These two cycles were isolated on a trial-and-error basis using the cycle line
+tool in the MetaStock program.
+
+If you do not have access to a package such as this and wish to accom
+plish this task manually, the easiest method of identifying cycles is to start
+by observing on a price chart two or three major lows that appear to be rel-
+atively equidistant. The next step is to pencil in the projections for that pa
+ticular cycle. Ifa substantial proportion of those projections result in either
+highs or lows, it is a good idea to mark them with a colored pencil. If most
+projections result in failure, the cycle should be abandoned and a new one
+sought. A cycle high occurring at any of these points should be treated as
+a successful projection, since the first objective of cycle analysis is to deter
+mine potential turning points.
+
+Once a reliable cycle has been established, the analyst should !ook at all
+the important cycle lows that are unexplained by the first cycle and try 0
+explain them by discovering another cycle. The chances are that the se
+ond cycle will not only fit some of the unexplained lows, but also will occur
+
+i 395
+Practical Identification of Cycles
+
+Chart 21-1 Philadelphia Gold and Silver Share Index and a 41-Week ROC, 1985-2001.
+
+(From www. pring. com.)
+
+Philadelphia Gold and silver Share index Ny ae i”
+: Vi Te Bull market
+
+Na
+so Bear market \
+
+1604
+
+41-month Ros
+
+i: ce es ore rs i
+iz Cs aC
+
+-. ator near some of the cycle lows previously established. This is very impor-
+
+tant, because a basic principle of cycle analysis is that the greater the num-
+ber of cycles making a Jow around a certain time, the stronger the ensuing
+
+~~” move is likely to be. Such knowledge must be used in conjunction with other
+
+technical evidence, but if that too offers a green light, the odds that a ae
+nificant upwave will occur are increased. The next step in the method is dis-
+* cussed in the following section.
+
+Combining Cycle Highs and Lows
+
+The vertical lines in Chart 21-1 point out a fairly reliable pattern for both
+
+«+, §de highs and lows. One of the most important principles coming out of
+
+this exercise is that the various turning points derive their significance from
+the direction of the main or primary trend. In this respect, the arrows on
+the chart flag the various bull and bear market environments. Note how sa
+cle tops tend to have greater magnitude in a bear market, such as the 198
+8nd 1990 tops. Conversely, the 1986 and late 1992 lows developed at the start
+
+fa bull market and experienced far greater magnitude than the 1997 and
+1999 signals, which developed in a bear market.
+
+
+396
+
+One of the advantages of combining high and low cycles is that this
+approach makes it possible to obtain some idea of how long a rally or reac.
+tion might last. This arises from the proximity of the high and low. For exam.
+ple, the late 1992 low developed just after the high. The ensuing decline
+was quite brief. The reverse was true at the end of 1989, where the low was
+
+very close to the early 1990 high. The rally in this instance was short. The
+
+position of the ROC can often provide a clue as to whether a particular cycli-
+cal turning point will work. For example, the strong peaks in 1987, 1990,
+and late 1999 all developed when the ROC was at or close to an overbought
+condition. Similarly, the 1986 and 1988 lows were associated when moder-
+ately oversold conditions failed to materialize.
+
+Not all examples work out quite as accurately as that shown in Chart 21-
+1, Readers are cautioned not to try to make a cycle work. If it does not fit
+naturally and easily, chances are that it either does not exist or is likely to
+be highly unreliable, and therefore should not be used. In any event, such
+analysis should always be used in conjunction with other indicators.
+
+Summary
+
+* Recurring cycles, both of low points and high points, can be observed
+from charts of financial markets.
+
+*¢ A cycle turning point is significant both for the time interval between
+cycles and for the number of cycles that are turning at the same time.
+
+* Cyclic analysis should always be used in conjunction with other indicators.
+
+* Suspected cycles that do not easily fall into a consistently recurring pat
+tern should not be made to work and should be discarded.
+
+Part I: Market Structure
+
+22
+
+Volume: General
+Principles
+
+Advantages of Volume Analysis
+
+Pretty much all of the indicators covered so far, with the notable exception
+
+. of cycles, have been concerned with price or a statistical manipulation of it.
+
+This means that each of these indicators represents a variation on a theme.
+
+Asa result, the study of volume patterns gives greater depth to the weight
+of the evidence approach described earlier. In this chapter we will explore
+some basic volume principles, and in Chapter 23 we will expand the dis-
+cussion to include volume indicators that are suitable for analyzing indi-
+
+-, Vidual securities and the stock market.
+
+There are three principal benefits from monitoring volume. First, when
+
+© we look at indicators that measure both price and volume momentum, it is
+
+Possible to see if they are in agreement. If so, the probabilities favor an
+
+. extension of the prevailing trend. Second, if they disagree, it tells us that
+
+the underlying trend is not as strong as it might appear on the surface.
+Finally, volume often throws up characteristics of its own that literally shout
+
+the message of an impending trend reversal.
+
+Major Technical Principle. Volume not only measures the enthu-
+sm of buyers and sellers, but it is also a totally independent variable
+from price. :
+
+397
+
+
+
+398 Pith ine
+
+Volume is usually featured in a chart in histogram format under the price
+series, as in Fig. 22-1. This arrangement is usually acceptable since it high-
+lights significant expansions and contractions in trading activity. These, in
+turn, confirm or question the sustainability of the price trend itself. Volume
+may also be expressed in a momentum format, which has the effect of accen-
+tuating fluctuations in activity in a more graphic way.
+
+Principles of Volume
+Interpretation
+
+1. The most important principle is that volume typically goes with the trend.
+It is normal for activity to expand in a rising market and contract in a
+declining one. In this sense volume is always interpreted in relation to
+the recent past. It’s no good comparing current 1 billion plus share days
+on the NYSE with 5 or 6 million 70 years ago. This expansion is a result
+of institutional changes, a larger market, derivatives, and so forth.
+However, a 2-billion share day compared to a recent 1.5-billion share
+day is relevant. Prices move in trends, but do not generally rise and fall
+in Straight lines, as reactions to the prevailing trend set in. The same
+principle applies to volume. On the left side of Fig. 22-1, for instance,
+the arrow shows that the volume trend is up. By the same token, it is
+apparent that the level of activity does not expand every day. There are
+quiet ones and active ones, but the general thrust is up. The right-hand
+part of the diagram features a downtrend in volume, but it too is irreg-
+
+AS
+wlll il ili al
+
+Figure 22-1 Volume histogram.
+
+Volume: General Principles 399
+
+ular. When we talk about volume rising or falling, then we are usually
+referring to its trend. Volume trends, like price, can be intraday, short,
+intermediate, or long, depending on the nature of the chart.
+
+. One important aspect to consider is the fact that volume reflects an
+
+exchange between buyers and sellers. By definition the amount of
+money flowing into a security must always equal the amount flowing out.
+This is true regardless of the level of volume.
+
+. If buyers get greedy, they will push up the bid until they obtain as much
+
+quantity as they want. If sellers react to bad news, they might panic, push-
+ing prices down sharply, but at all times the amount of a security being
+sold is always equal to that being purchased.
+
+. Rising volume and rising prices are normal. This combination indicates
+
+that the market is in “gear” and has no forecasting value. If this is the
+case, it is reasonable to expect at least one more rally that reaches a new
+price high when volume does not.
+
+. Volume normally leads price during a bull move. A new high in price
+
+that is not confirmed by volume should be regarded as a red flag,
+warning that the prevailing trend may be about to reverse. In Fig. 22-2,
+the price peaks at point C, yet volume reached its maximum at point A.
+Such action is normal; the declining volume peaks warn of underlying
+technical weakness. As with momentum divergences, there are no hard
+and fast rules about how many divergences precede a peak. Generally
+speaking, though, the greater the number of negative divergences, the
+weaker the underlying technical picture. Also, the lower the peaks rel-
+ative to each other, the less enthusiasm that is generated and the more
+susceptible the technical position becomes once buying dries up or sell-
+ing enthusiasm intensifies. A new high accompanied by virtually no vol-
+ume is just as bearish as a new price high with virtually no upside
+momentum.
+
+. Rising prices and falling volume (see Fig. 22-3) are abnormal and indi-
+
+cate a weak and suspect rally. This type of activity is also associated with
+a primary bear market environment and can be used as an indicator in
+this respect. Just remember, volume measures the relative enthusiasm
+
+» Major Technical Principle It is the level of enthusiasm of buyers
+or sellers that determines the course of prices.
+
+
+
+400
+
+iia
+
+Figure 22-2 Volume leads Price.
+
+/\
+
+Bearish volume
+configuration
+
+Figure 22-3 Bearish volume configuration.
+
+of buyers and sellers. A market that rallies on a trend of lower volume
+indicates that Prices are rising because of a lack of sellers rather than
+the enthusiasm of buyers. Sooner or later the market will reach a point
+where sellers become more motivated. After that, prices will start to pick
+up on the downside. One tip-off is to watch for volume to increase
+noticeably as the price starts to decline. This is shown in Fig. 22-4.
+
+- Sometimes both price and volume ing i
+oth price expand slowly, gradually working into
+an exponential rise with a final blowoff stage. Following this develop-
+
+ment, both volume and price fall off e i
+< ! qually sharply. This represents an
+exhaustion move and is characteristic of a trend reversal. The signif-
+
+Volume: General Principles an
+
+Figure 22-4 Bearish volume configuration.
+
+cance of the reversal will depend upon the extent of the previous
+advance and the degree of volume expansion. Obviously, an exhaustion
+move that takes 4-6 days will be nowhere near as significant as one that
+develops over a matter of weeks. This phenomenon is termed a para-
+bolic blowoff and is featured in Fig. 22-5. Unfortunately, exhaustion or
+blowoff moves such as this are not easy to define in the sense that it is
+possible to construct clearly definable trendlines, price patterns, and so
+on. For this reason it is not usually possible to spot the terminal phase
+until a day or so after volume and price have reached their crescendos.
+
+8. The opposite of a parabolic blowoff is a selling climax. A selling climax
+occurs when prices fall for a considerable time at an accelerating pace,
+accompanied by expanding volume. Following a selling climax, prices
+may be expected to rise, and the low established at the time of the cli-
+max is unlikely to be violated for a considerable time. A price rise from
+a selling climax is by definition accompanied by declining volume. This
+is the only time when contracting volume and a rising price may be
+regarded as normal. Even so, it is important to make sure that volume
+expands on subsequent rallies, as indicated in Fig. 22-6. Termination of
+a bear market is often, but not always, accompanied by a selling climax.
+
+9. When prices advance following a long decline and then react to a level
+at slightly above, or marginally below, the previous trough, it is a bull-
+ish sign if the volume on the second trough is significantly lower than
+the volume on the first. There is an old saying on Wall Street: “Never
+short a dull market.” It applies very much to this type of situation in
+which a previous low is being tested with very low volume. This indicates
+a complete lack of selling pressure (see Fig. 22-7).
+
+
+
+402
+Part I: Market Structine
+
+clini
+
+Figure 22-5 Parabolic blowoff.
+
+_—
+
+DLT
+
+. 4
+Tl ln li dl
+
+Figure 22-6 Selling climax.
+
+10. A downside breakout from a price pattern, trendline, or moving aver-
+age (MA) that occurs on heavy volume is abnormal and is a bearish sign,
+confirming the reversal in trend (see Fig. 22-8). When prices decline,
+it is usually because of a lack of bids, so volume contracts. This is nor-
+mal activity and is not giving us much information. However, when vol-
+
+11. When the market has been rising for many months, an anemic price
+
+rise (see Fig. 22-9) accompanied high vol indi i
+action and is a bearish factor. Si asieniaanaee
+
+_ 403
+
+Low volume
+on test
+
+Figure 22-7 Low volume on test.
+
+WN
+
+Rising volume and
+falling prices are bearish
+
+Pit a
+Figure 22-8 Bearish volume configuration.
+
+12. Following a decline, heavy volume with little price change is indicative
+of accumulation and is normally a bullish factor (see Fig. 22-10).
+
+13, Record volume coming off a major low is usually a very reliable signal
+that a very significant bottom has been seen because it indicates that an
+underlying change in psychology has taken place. Such reversals in sen-
+timent are usually of a primary-trend magnitude. Examples in the U.S.
+stock market developed in March 1978, August 1982 and 1984, and
+October 1998. It also developed at the 1987 low in bonds and eurodol-
+Jars. It is not an infallible indicator though, because record volume was
+achieved in January 2001 for both the NYSE and NASDAQ, yet this did
+not turn out to be the final low for the move.
+
+
+
+404
+
+Churning
+
+luv
+
+Figure 22-9 Churning.
+
+Accumulation
+
+ill
+
+14. When volume and price expand at a sharp pace, short of a parabolic
+blowoff, and then contract slightly, this usually indicates a change in
+trend. Sometimes this is an actual reversal, and at other times, it is a con-
+solidation. This phenomenon is featured in Fig. 22-11 and represents
+a temporary exhaustion of buying power.
+
+When price experiences a small rounding top and volume a rounding
+bottom, this is a double abnormal situation since price is rising and vol
+ume falling as the peak is reached. During the decline, price declines
+and volume expands, which is also abnormal and bearish. An example
+is shown in Fig. 22-12,
+
+ull lull
+
+Figure 22-10 Accumulation.
+
+15.
+
+Part Il: Market Structure
+
+Volume: General Principles 405
+
+Temporary exhaustion
+
+| idl
+
+Volume expands
+on the decline
+
+Figure 22-11 Temporary exhaustion.
+
+/
+
+Bearish volume
+configuration
+
+eo
+lll ttl
+
+Figure 22-12 Bearish top configuration.
+
+Marketplace Examples
+
+Chart 22-1 features RadioShack. The volume price configuration at A is
+indicative of bull market activity, where price and volume are expanding
+simultaneously. The character of the technical position changes quite dra-
+Matically by the time we reach B. Here, the price is rallying, but volume is
+declining. This is a tip-off that a bear market has begun, because such a rela-
+
+tionship is abnormal. Note how volume picks up again in early February as
+
+
+
+406 Part Il: Market Structure
+
+Chart 22-1 RadioShack, 2000-2001. (From www.pring.com.)
+
+70+ rot
+cof ee I, ny
+
+fl ~
+604 ia aaa hte br
+tal
+
+40+ rae
+
+Bear market
+
+304
+
+A | Rising volume B Cc
+10004 and price
+
+a | M
+
+Ht i q
+yt full Ht | i
+& ugust __|September [November 2001 February April May
+
+Chart 22-2 Coors, 2000-2001, volume divergence. (From www.pring.com.)
+
+the price begins its decline. This again is abnormal behavior and is bearish. _ :
+As the price bottoms at C, this could be construed as a selling climax. If that. 4
+
+had been the case, then the declining volume associated with the subsequent
+
+rally could be construed as normal. However, this was clearly not the cas¢ “4
+as volume started to pick up again at D. This was the tip-off that the bea 3 |
+
+s04 oe Confirmation
+64 -flees if . a
+704 t fl
+| | prot " li
+ey piel That "Yoong |
+604 v Volume ‘|
+4 divergence
+2000 {
+1600 |
+1000
+o] dl, atjulll mT sll | Ly lh li uth ult ‘wily {nuit Lil
+November [December [2001 February | [March | lapel
+
+Volume: General Principles 407
+
+market was still intact. A confirmation developed at E, because volume and
+price once again diverged negatively.

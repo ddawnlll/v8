@@ -1,0 +1,1201 @@
+
+CADRt = CADRt-l + ADRt
+ADRt =
+
+advt - dect
+advt + dect + unch t
+
+Where:
+CADRt = Cumulative Advance/Decline Ratio for day t
+ADRt = Advance/Decline Ratio for day t
+advt = NYSE advancing issues for day t
+dect = NYSE declining issues for day t
+unch t = NYSE unchanged issues for day t
+
+Moving Averages of Advance-Decline Ratio. Moving averages of
+daily advance-decline ratio (ADR) were constructed for 10- and 30-day periods (ADRIO and ADR30). In ISL they are:
+ADR 1O=MA(ADR, 10)
+ADR30=MA(ADR,30)
+
+Cumulative Net Volume Ratio (CNVR). Another measure of market
+breadth is the net volume ratio. It is based on the difference between daily
+upside and downside volume. Upside (downside) volume is the total number of shares traded in stocks that closed up (down) for the day. The innovation of calculating and analyzing upside and downside volume
+separately is attributed to Lyman M. Lowry in 1938.34 The daily net volume
+ratio, a quantity that can assume either positive or negative values, is the
+difference between upside and downside volume divided by total trading
+volume. The case study used statistics released daily by the New York
+
+Case Study of Rule Data Mining for the S&P 500
+
+415
+
+Stock Exchange. The cumulative net volume ratio (CNVR) is the cumulative sum of daily ratios:
+
+Cumulative Net Volume Ratio (CNVR)
+CNVRt = CNVRt-l + NVRt
+NVRt
+
+up volt - dnvolt
+upvolt + dnvolt + unchvolt
+
+Where:
+CNVRt = Cumulative Net Volume Ratio for day t
+NVRt = Net Volume Ratio for day t
+upvolt = NYSE advancing volume for day t
+dnvolt = NYSE declining volume for day t
+unchvolt = NYSE unchanged volume for day t
+Moving Averages of Net Volume Ratio. Moving averages of the daily
+net volume ratio were constructed for 10- and 3D-day periods (NVRlO and
+NVR30). In ISL:
+NVR 1O=MA(NVR, 10)
+NVR30=MA(NVR, 30)
+
+Cumulative New Highs-Lows Ratio (CHLR). A third measure of
+breadth, the cumulative new highs and new lows ratio (CHLR), takes a
+longer-term view. In contrast to CADR and CNVR, which are based on
+daily price changes and daily volumes, CHLR is based on a stock's current
+price relative to its maximum and minimum price over the preceding year.
+Specifically, CHLR is the cumulative sum of the daily new highs-new lows
+ratio (HLR), a quantity that can assume positive or negative values. The
+high-low ratio is defined as the difference between the number of stocks
+making new 52-week highs on the day and the number of stocks making
+new 52-week lows on the same day divided by the total number of issues
+traded that day. This figure is accumulated algebraically to obtain CHLR.
+There is nothing particularly significant about using a look-back interval of 52 weeks. It is simply the mostly widely available statistic for new
+high and new low data. Prior to 1978, the number of issues making highs
+and lows was not based on a consistent 52-week look-back span. From
+the middle of March in any given year, the data were based only on the
+
+416
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+current calendar year. Prior to the middle of March, the figures were
+based on the current and prior years. Thus, over the course of a given
+year, the look-back span used to determine if a stock was making a new
+low or a new high varied from 2.5 months in mid-March to as long as 14.5
+months just before mid-March. Most of the data used in this study was
+post-1978.
+Despite the distortions created by the variable look-back span, rule
+tests based on pre-1978 high-low data suggested that the indicator's information content was robust to this distortion. For example, Fosback developed and tested an indicator called the high-low logic index over the
+period 1944 to 1980. His results showed that indicator demonstrated predictive power over the entire period even though the bulk of the data was
+infected with the variable look-back span distortion. 35 The formula for
+constructing the CHLR series is shown here: 36
+
+Cumulative New Highs New Lows (CHLR)
+CHLRt = CHLRt-l + HLRt
+HLRt =
+
+nuhit - nulot
+advt + dect + unch t
+
+Where:
+CNHLt = Cumulative New Highs New Lows on day t
+HLRt = New Highs New Lows on day t
+nuhit = NYSE new 52-week highs day t
+nulot = NYSE new 52-week lows day t
+advt = NYSE advancing issues for day t
+dect = NYSE declining issues for day t
+unch t = NYSE unchanged issues for day t
+Moving Averages of New HighslNew Lows Ratio (HLRI and
+HLR30). Moving averages of the daily higMow ratio were constructed
+for 10- and 30-day periods (HLRlO and HLR30). In ISL they are:
+HLR 1O=MA(HLR, 10)
+HLR30=MA(HLR,30)
+
+Typically, interest rates and stock price levels move inversely. However, by taking the recipPl'ices-of-Debt Instruments from Interest Rates.
+
+Case Study of Rule Data Mining for the S&P 500
+
+417
+
+rocal (1/interest rate) interest rates can be transformed into price-like
+time series that are, in general, positively correlated with stock prices.
+This reciprocal series can be multiplied by a scaling factor such as 100.
+Thus, a rate of 6.05 percent would be equivalent to a price of 15.38 (1/6.05
+x 100).
+This transformation was used in the case study and was performed
+on four interest rate series: three-month treasury bills, lO-year treasury
+bonds, Moody's AAA corporate bonds, and Moody's BAA corporate
+bonds.
+Interest Rate Spreads. An interest-rate spread is the difference
+between two comparable interest rates. 1\vo types of interest-rate
+spreads were constructed for the case study; the duration spread and
+the quality spread. The duration spread, also known as the slope of the
+yield curve, is the difference between yields on debt instruments having
+the same credit quality but having different durations (Le., time to maturity). The duration spread used in the case study was defined as the yield
+on the 10-year treasury note minus the yield on the three-month treasury
+bills (IO-year yield minus 3-month yield). The spread was defined in this
+way rather than 3-month minus 10-year so that an upward trend in the
+spread would presumably have bullish implications for the stock market
+(S&P 500).37
+A quality spread measures the difference in yield between instruments with similar durations but with different credit qualities (default
+risk). The quality spread for the case study was based on two of
+Moody's38 long-term corporate bond series: AAA,39 which are the highest rated corporate debt, and BAA,40 a lower rated grade of corporate
+debt. The quality spread is defined here as AAA yield -BAA yield. When
+rates on lower quality debt (higher default risk such as BAA rated
+bonds) are falling faster than rates on higher quality debt such as AAA
+rated bonds, it is interpreted as indication that investors are more willing to assume additional risk to earn the higher yields on lower quality
+debt. In other words, a rising trend in the quality spread is a signal that
+investors are willing to take higher risks to earn higher returns. By this
+reasoning, the quality spread should trend in the same direction as
+stocks.
+
+1f\BLE OF 40 INPUT SERIES USED IN CASE STUDY
+Table 8.2 lists all of the data series used as rule inputs in the case study.
+
+418
+
+CASE STUDY: SIGNAL RULES FOR THE S&P SOO INDEX
+
+T.!\BLE 8.2 Input Series Used in the Case Study
+Number
+
+Description
+
+1
+S&P 500 Close
+2
+S&P 500 Open
+3
+S&P Industrials Close
+Dow jones Transportation Index
+4
+5
+Dow jones Utility Index
+6
+NYSE Financial Index
+7
+NASDAQ Composite
+8
+Value Line Geometric Close
+9
+Cumulative On-Balance Volume
+lOOn-Balance Volume 1O-Day MA
+11
+On-Balance Volume 30-Day MA
+12
+Cumulative Accum. Distr. Volume
+13
+Accum. Distr. Volume 1O-Day MA
+14
+Accum. Distr. Volume 30-Day MA
+15
+Cumulative Money Flow
+Money Flow 1O-Day MA
+16
+17
+Money Flow 30-Day MA
+18
+Cumulative Negative Volume Index
+19
+Negative Volume Index 1O-Day MA
+20
+Negative Volume Index 30-Day MA
+21
+Cumulative Positive Volume Index
+22
+Positive Volume Index 1O-Day MA
+23
+Positive Volume Index 30-Day MA
+24
+Cum. Advance Decline Ratio
+25
+Advance Decline Ratio 1O-Day MA
+26
+Advance Decline Ratio 30-Day MA
+27
+Cum. Up Down Volume Ratio
+28
+Up Down Volume Ratio 1O-Day MA
+29
+Up Down Volume Ratio 30-Day MA
+30
+Cum. New Highs/New Lows Ratio
+31
+New Highs/New Lows Ratio 1O-Day MA
+32
+New Highs/New Lows Ratio 30-Day MA
+33
+NYSE Volume
+34
+Dow jones 20 Bond Index
+35
+Price 3-Month T-Bill
+36
+Price 1O-Year Treasury Bond
+37
+Price AAA Corporate Bonds
+38
+Price BAA Corporate Bonds
+39
+Duration Spread (10 Year -3 Month)
+40
+Quality Spread (BAA-AAA)
+
+Abbreviation
+
+Form
+
+SPX
+SPO
+SPIA
+DjTA
+DjUA
+NYFA
+OTC
+VL
+COBV
+OBV10
+OBV30
+CADV
+ADV10
+ADV30
+CMF
+MF10
+MF30
+CNV
+NV10
+NV30
+CPV
+PV10
+PV30
+CADR
+ADR10
+ADR30
+CUDR
+UDR10
+UDR30
+CHLR
+HLRIO
+HLR30
+TVOL
+DjB
+PT3M
+PT10Y
+PAAA
+PBAA
+DURSPD
+QUALSPD
+
+Raw
+Raw
+Raw
+Raw
+Raw
+Raw
+Raw
+Raw
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Raw
+Raw
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+Indicator
+
+Case Study of Rule Data Mining for the S&P 500
+
+419
+
+THE RULES
+The rules tested in the case study can be grouped into three categories,
+each representing a different theme of technical analysis: (1) trends, (2)
+extremes and transitions, and (3) divergence. The following sections describe the rules in each category.
+Trend Rules
+
+The first category of rules is based on trends. A foundational principle of
+TA is that prices and yields move in trends that can be identified in a sufficiently timely manner to generate profits. Practitioners have developed a
+variety of objective indicators to define the direction of the current trend
+and signal trend reversals. Among the most widely used are moving averages, moving-average bands, channel breakout, and Alexander filters also
+known as zigzag filters. These are described in Kaufman41 and there is no
+need to cover them all here.
+The trend rules in the case study used the channel breakout operator
+or CBO to define trends in the input time series. Thus, the CBO operator
+transformed the input time series into a binary valued time series consisting of + 1 and -1. When the trend of the input series was in an uptrend, as
+determined by the CBO, the rule's output was + 1. Conversely, when the
+analyzed series was determined to be in a downtrend, the output was -1.
+The identification of trend reversals in the input series by CBO is subject to lag. All trend indicators necessarily incur lag-a delay between the
+time the input series experiences a trend reversal and the time the operator is able to detect it. Lag can be reduced by making the indicator more
+sensitive. For example, in the case of CBO, lag can be reduced by decreasing the number of periods in the look-back span. However, this fix creates
+a different problem-an increased number of false signals. In other words,
+there is a tradeoff between a trend-following indicator's lag and its accuracy. Therefore, all trend indicators attempt to strike a reasonable balance
+between signal accuracy and signal timeliness. Finding the optimum is a
+challenge in the design of any signaling system, be it a household smoke
+detector or a TA trend rule. In the end, optimal is whatever maximizes the
+indicator's performance, such as average return, risk-adjusted rate of return, and so forth. Since the behavior of financial market time series
+changes over time, the optimal look-back span for the CBO operator would
+change as well. Adaptive versions of CBO were not used in the case study.
+Of the 40 input series depicted in Table 8.2, 39 were used as inputs for
+the trend rules. The open price of the S&P 500, input series 2 in Table 8.2,
+was excluded on grounds of being redundant of the S&P 500 close.
+
+420
+
+CASE STUDY: SIGNAL RULES FOR THE S&P SOO INDEX
+
+Each trend rule was defined by two parameters or arguments: the
+CBO look-back span and a time series chosen from the set of 39 candidates shown in Table 8.2. A set of 11 values were tested as look-back
+spans. They were 3,5,8, 12, 18,27,41,61,91, 137, and 205 days. The values were chosen to be separated by a multiplier of approximately 1.5. For
+example, the look-back span of 205 days is approximately 1.5 times 137
+days. This resulted in a total of 858 trend rules, 429 (39 x 11) based on a
+traditional TA interpretation, and an additional 429 inverse-trend rules.
+A traditional version of a trend rule produced an output value of + 1
+(long position in the S&P 500) when the input time series was determined
+to be in an upward trend by CBO operator, and an output value of -1
+(short position in the S&P 500) when the time series was in downtrend according to CBO operator. Inverse trend rules simply produced the opposite signals (e.g., short S&P 500 when the analyzed series was determined
+to be in an uptrend).
+In Chapter 9, where test results are reported, the following shorthand
+nan1ing convention will be used for the traditional and inverse trend rules.
+A naming convention was necessitated by the large number of rules. The
+syntax of the naming convention is as follows (note this syntax is different
+from the syntax used for indicator scripting):
+Rule (TT or TI) - Input Series Number - Look-back Span
+Where TT stands for a traditional trend rule
+and
+TI stands for an inverse trend rule
+For example, the rule named TT-15-137, is a traditional trend rule applied to input series 15 (Cumulative Money Flow) using a look-back
+span of 137 says. A rule named TI-40-41 is an inverse trend rule applied
+to input series 40 (the quality spread BAA- AAA) using a look-back span
+of 41 days.
+
+Extreme Values and Transitions
+The second category of rules considered in the case study is "Extreme
+Values and Transitions" or E rules. This category is based on the notion
+that a time series conveys information when it assumes an extreme high
+or low value or as it makes the transition between extremes. High and
+low extremes can be defined in terms of fixed value thresholds if the time
+series has a relatively stable mean and fluctuation range (Le., is stationary). All input series used for E rules were made stationary by applying
+the CN operator.
+
+Case Study of Rule Data Mining for the S&P 500
+
+421
+
+Thirty-nine of the 40 input series were used for the E-type rules. The
+open price of the S&P 500 was excluded on grounds of redundancy. The
+input series used for E rules were first smoothed with a four-day linearly
+weighted moving average (LMA) before applying the CN operator. The
+smoothing was done to reduce the number of signals that would have resulted from an unsmoothed version of the input series wiggling above and
+below the signal threshold. Though smoothing may have been inappropriate for series that were already smoothed, for example the 30-day moving
+average of negative volume, all series were treated with the LMA on
+grounds of consistency.
+In ISL, the expression for the input time series used for E rules is
+given by the expression:
+=CN (LMA (Input Series, 4), N-days)
+
+Where:
+CN is the channel normalization operator
+LMA is a linearly weighted moving-average operator
+
+This sequence of transformations is illustrated in Figure 8.10.
+
+Input
+Time Series
+
+4-day LMA Smoother
+
+Smoothed
+Time Series
+
+CN Operator
+
+Smoothed
+Channel-Normalized
+Series
+
+{)
+fn(\nAu
+
+~
+
+~.Q~
+
+."IGUKI': 8.10 Smoothed channel normalized series.
+
+CASE STUDY: SIGNAL RULES FOR THE S&P sao INDEX
+
+422
+
+E-rule signals were generated when the channel normalized smoothed
+series crossed a threshold. Given that there are two thresholds, an upper and
+lower, and given that there are two directions in which a crossing can occur
+(up or down) there are four possible threshold-crossing events:
+1. Lower threshold is crossed in the downward direction.
+2. Lower threshold is crossed in the upward direction.
+3. Upper threshold is crossed in the upward direction.
+4. Upper threshold is crossed in the downward direction.
+These events are illustrated in Figure 8.1l.
+Each E rule was defined in terms of two threshold-crossing events:
+one specifying the long entry/short exit and the other specifying the short
+entry/long exit. This scheme yields 12 possible E-rule types. They are
+listed in Table 8.3. Because they cover all possibilities, there would be no
+point in including inverse versions. Note that type 7 is an inversion of
+Type 1, Type 8 is an inversion of Type 2, and so on.
+The 12 E-rule types are illustrated in Figures 8.12 to 8.23.
+
+Channel-Normalized
+Smoothed
+Series
+
+Events
+
+Upper
+
+------th-r-eshold ------Time
+
+....
+
+50 I'------~------I------~:_----___,
+
+2
+
+Lower
+Threshold
+
+--------- .------------------------
+
+o
+Events
+FIGURE 8.11
+
+Threshold crossing events.
+
+423
+
+Case Study of Rule Data Mining for the S&P 500
+
+'Il\BLE 8.3 The 12 E-Rule Types Defined in Terms of Threshold Crossing Events
+E-Rule Types
+
+Long Entry/Short Exit
+
+Short Entry/Long Exit
+
+1
+
+Event 1
+Event 1
+Event 1
+Event 2
+Event 2
+Event 3
+Event 2
+Event 3
+Event 4
+Event 3
+Event 4
+Event 4
+
+Event 2
+Event 3
+Event 4
+Event 3
+Event 4
+Event 4
+Event 1
+Event 1
+Event 1
+Event 2
+Event 2
+Event 3
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+
+100
+
+Upper
+
+-------Thres-holC"{ -----
+
+....
+
+50 I'-------l_----~f__------'~----~
+
+Lower
+Threshold
+
+---------------------
+
+o
++1
+
+L
+
+S
+
+L
+
+S
+
+I
+
+I
+
+I
+
+I
+
+,----------
+
+Rule
+'
+o I----;:~...;...--_+---.;..'--------+----;..~~
+,
+,
+,
+,
+Output
+-1
+
+,
+
+- - - - - - - - - ------ ------_.
+
+FIGURE 8.12
+
+,
+
+,
+
+'- - - - - - - - - - - - - - - - - - - - - - - - -,
+
+Extreme value and transition rule: Type 1.
+
+,
+
+'- - - _.
+
+424
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+100
+
+Upper
+
+-------Thres}lolc( ----Time
+
+.....
+
+50 I'-.....j.---.-...-----....j.-+----~----__,
+
+Lower
+
+--Thre-s"hoicl" ~a
++1
+
+S
+
+L
+
+S
+
+I
+
+I
+
+I
+
+L
+I
+
+,,,--------------
+
+' - - - - - - - " - - - - " - - " ",
+
+Rule:
+:
+--;.-......"..;.;.;;;,,;.;;..---.+------'------"""""----....
+:
+Output
+:
+
+0 .....
+-1
+
+,------------------
+
+f'IGURE 8.13 Extreme value and transition rule: Type 2.
+
+100
+
+Upper
+
+------" Thres}iolc( ---"Time
+
+50 1'------1~~----__J.----_++-----.,....
+
+Lower
+Threshold
+
+--------------
+
+a
+S
++1
+
+I
+
+--------------:
+
+L
+
+S
+
+I
+
+I
+
+:----------------------------;
+,
+Rule
+:
+
+L
+I
+
+.,--------------
+
+Ol------"---!---~.:.;.::.;~---~-_+_---_+
+
+-1
+
+---------
+
+Output
+
+:
+
+'- - - - - - -.
+
+FIGURE 8.14 Extreme value and transition rule: Type 3.
+
+425
+
+Case Study of Rule Data Mining foy the S&P 500
+
+100
+
+Upper
+-------fhres}loicr
+----
+
+....
+
+50 1'-.......----~-----_I_-01_---~-----.....,
+
+Lower
+Threshold
+
+----------------
+
+a
++1
+
+S
+
+L
+
+S
+
+L
+
+I
+
+I
+
+I
+
+I
+
+,-------.
+
+a ~.......---------~: __.:. :
+_1
+
+,
+:
+
+FIGURE 8.85
+
+::
+~
+
+1----
+
+_~
+
+...",.:R.;.:u:.:,l.::,e
+Output
+
++-'
+
+I.
+
+•
+
+Extreme value and transition rule: Type 4.
+
+100
+
+Upper
+-------fhres-hoia----Time
+
+50 1 ' - - - - - . j . . . . ; I , - - - - - - I - - - - - 4 -....- - - - -.....
+
+Lower
+Threshold
+
+-.------------
+
+a
+S
+
+L
+
+S
+
+L
+
+I
+
+I
+
+I
+
+I
+
+I.
+
+•
+
++~ 1---_-_--_-_--_-_--_-_-....
+-:
+-1
+
+FIGURE 8.86
+
+.i.:-_-_- _-.,,--.;.:R~~.:.::I~:..-_--_-_---:~~-----+-: -_-_--.
+o
+Output
+
+Extreme value and transition rule: Type 5.
+
+426
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+100
+
+Upper
+
+-------Threslioi(( ----Time
+
+50 I'--+----+~~----_+-+_--_++----___:r+
+
+a
++1
+
+L
+
+S
+
+L
+
+S
+
+I
+
+I
+
+I
+
+I
+
+,---------,
+
+a t----t:---+-:_ _---:~R.;.::u;.;.le~--...;..---..;....------_+
+Output
+
+•
+
+-1
+
+,
+
+,
+
+1
+
+----------------------
+
+FIGURE 8.17 Extreme value and transition rule: Type 6.
+
+100
+
+Upper
+
+-------Thres-hola- -----
+
+....
+
+50 I'------~-----_+-------l,~----_.,
+Lower
+Threshold
+
+- - - - - - - - - ---- - - - - - - - -
+
+a
++1
+
+Rule
+Output
+
+S
+
+L
+
+I
+
+I
+
+,.-
+
+S
+
+L
+
+I
+
+I
+
+- - - - - - - - - - - - - - - - - - - - - - --,
+
+,
+
+,,
+
+Ot-----:~----:---t---~-------_+---+_
+
+-1
+
+,
+
+"----------
+
+FIGURE 8.18 Extreme value and transition rule: Type 7.
+
+....
+
+427
+
+Case Study of Rule Data Mining foy the S&P 500
+
+100
+
+Upper
+
+--- --- -Thres"tibia- ----50 I'--+---~~-----I--+----~-----r+
+
+Lower
+---------------lhreshold
+
+a
++1
+
+L
+
+S
+
+L
+
+S
+
+I
+
+I
+
+I
+
+I
+
+,- - - - - - - - - - - - - - - - -.
+
+.- - - - - - - - - - - - - - - - - -.
+
+a 1----!_~~R,;,;u..;.le,;,...-......- - - - - _ ,
+Output
+
+-1
+
+FIGURE 8.19
+
+,,
+
++,,
+
+''
+
+I.
+
+.1
+
+1
+
+•
+--------
+
+Extreme value and transition rule: Type 8.
+
+100
+
+Upper
+
+-------Thres-tibia- ----50 I'-----+~-----_f_----_+_~----~r+
+
+Lower
+-------------Threshold
+
+a
++1
+
+L
+
+S
+
+L
+
+S
+
+I
+
+I
+
+I
+
+I
+
+- - - - - - - -.
+
+,- - - - - - -.
+
+Rule
+
+::
+
+a 1------.;.,---+,---~O~u;,;,t;,;.p;..u-t- --~:---+-----+
+-1
+
+--------------1
+
+FIGURE 8.20
+
+:---------------------------~
+
+Extreme value and transition rule: Type 9.
+
+:--------------
+
+428
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+100
+
+Upper
+
+-------fhreslioia- ----Time
+
+...
+
+50 I'--+-----'~-----.;__+_----~----__,
+
+Lower
+Threshold
+
+----------------
+
+o
+
+s
+
+l
+
++1
+
+s
+
+l
+
+I
+
+:--- - --------- - - ------ - ----- ~
+
+o t - - - - ! ' - - - - - - - - -......:
+
+I
+
+.--- --- - --- ---- ------ --- -----.
+
+'
+
+,
+
+-:::'R_u~l..;.e~---T_...
+Output
+
+-1
+
+,
+
+I.
+
+FIGURE 8.21
+
+_
+
+Extreme value and transition rule: Type 10.
+
+100
+
+Upper
+
+-------fhreslioia- ----Time
+
+...
+
+50 I'-----+-~-----....,.------.,H~------,
+
+Lower
+---._--------Threshold
+
+o
++1
+
+o
+-1
+
+l
+
+S
+
+l
+
+I
+
+I
+
+I
+
+,. - - - - - - - - - - - - - - - -
+
+Rule
+:
+Output
+:
+'- - - - -. - - - - - - - - - - --
+
+FIGURE 8.22 Extreme value and transition rule: Type 11.
+
+S
+I
+~
+
+,,
+,
+1
+
+_
+
+429
+
+Case Study of Rule Data Mining for the S&P 500
+
+100
+
+Upper
+-------fhresrioia----Time
+
+50 I'---+---+-~------I--+-----+~--------,""
+
+a
+S
+
+L
+
+S
+
+L
+
+I
+
+I
+
+I
+
+I
+
+,
+
+.
+
+,
+1
+
+0
+1
+
+o
+,
+
+0
+
+-----------
+
+FIGURE 8.23 Extreme value and transition rule: Type 12.
+
+Parameter Sets and Total Number of E Rules. An E rule is defined
+by four parameters: type (I through 12), input series, displacement of the
+thresholds form 50, and look-back span for the channel normalization. Because both the upper and lower thresholds are displaced equally from the
+midvalue of 50, it is possible to specify them with a single number, their
+displacement from 50. For example, a threshold-displacement 10 places
+the upper threshold at 60 (50 + 10) and the lower threshold at 40 (50 - 10).
+1\vo different values for the threshold displacement parameter were
+tested: 10 and 20. The displacement value of 20 gave the upper threshold as
+70 and the lower threshold as 30. Three different values were considered

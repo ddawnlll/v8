@@ -1,0 +1,369 @@
+
+2 99.07 46 —1,600 buy 16 +11 +197.78 +2.43
+
+3 100.39 53 +700 sell 7 +4 ~60.72 —.65
+
+4 100.76 56 +300 sell 3 +1 ~19.61 —.18
+
+5 403.59 74 +1,800 sell 18 -17 —158.48 -1.22
+
+6 99.26 45 ~2,900 buy 29 +12 +320.42 +1.97
+
+7 98,28 35 —1,000 buy 10 +22 +44,10 +.20
+
+8 99,98 50 +1,500 sell 15 +7 59.50 -.18
+
+9 403.78 93 +4,300 sell 43 -36 —190.00 —.29
+
+10 402.54 buy 36
+
+
+
+86 Chapter 5
+
+102.26, At the end of week two we were 1600 deltas short, so we had to buy 16 futures
+at 99.07; and so on each week until the end of week ten. At expiration we were short
+an extra 36 futures contracts, and we bought these in at the closing price of 102.54,
+Note that each time the futures price rose our delta position became positive, so that
+we were forced to sell futures; and each time the futures price fell our delta position
+became negative, so that we were forced to buy futures. Because our adjustments
+depended on the delta position, we were forced to do what every trader wants to do:
+buy low and sell high.
+
+What was the result of all the adjustments required to maintain a delta neutral
+position? In fact the resuit was a profit of 205.27. (The reader may wish to confirm this
+by adding up the cash flow from all the trades in the adjustment column in Figure 5-1.)
+This profit more than offset the losses incurred from the original hedge.
+
+Carrying Costs: What else will effect our final profit or loss? Originally we bought calls
+and sold futures. While futures are subject to futures-type settlement and require no
+initial cash outlay, the options are subject to stock-type settlement and require full
+payment. We bought 100 calls for 3.25 each, for a total outlay of 325.00. Based on our
+assumed 8.00% interest rate, the carrying cost on 325,00 for 10 weeks is .08 x 70/365
+x 325.00 = 4.99. We will have to include this debit of 4.99 in our final calculations.
+
+Variation Costs: Finally, we must take into consideration the variation costs required
+to maintain our futures position. As futures move up or down in price, cash is either
+credited to, or debited from, a trader’s account. In theory, a trader can earn interest on
+a cash credit, but must pay interest on a cash debit. For example, we initially sold 57
+futures contracts at 101.35. One week later the futures price rose to 102.26, so our
+account was debited 57 x (101.35 - 102.26) = -51.87. Financing this debit for nine
+weeks at 8.00% cost us—51.87 x .08 x 63/365 =~.72. In order to remain delta neutral
+at the end of week one we sold an additional five futures contracts, for a new total of
+short 62 futures. One week later (week 2) the futures price fell to 99.07, so our account
+was credited 62 x (102.26 - 99.07) = +197.78. The amount of interest we were able
+to earn on this credit for 8 weeks at 8.00% was +197.78 x .08 x 56/365 = +2.43. The
+cash flow resulting from futures variation is shown in Figure 5-1 under the “variation”
+column, and the resulting interest is shown under the “interest on variation” column.
+The total interest is +1.36.
+
+We can now summarize all the profit and loss components resulting from our
+position:
+
+Original Hedge Adjustments Option Carrying Costs Variation Costs
+-138.83 +205.27 ~4,99 +1.36
+
+The total profit is -138.83 +205.27 -4.99 +1.36 = +62.81. How much did the
+theoretical pricing model predict we would make? We bought 100 calls worth 3.88 for
+3.25 each, for a total theoretical edge of 100 x (3.88 — 3.25) = 100 x .63 = +63.00. In
+other words, the theoretical model came very close to predicting the actual profit from
+the position.
+
+
+Using an Option’s Theoretical Value 87
+
+In our example, the profit and loss was made up of four components. Two of these
+were profitable (the adjustments and the variation costs} while two were unprofitable
+(the original hedge and the option carrying costs). Is this always the case? It is impossible
+to determine beforehand which components will be profitable and which will not. One
+could just as easily construct an example where the original hedge was profitable and
+the adjustments were not. The important point here is that if a trader’s inputs are
+correct, in some combination he can expect to show a profit (or loss) approximately
+equal to that predicted by the theoretical pricing model.
+
+Of all the inputs, volatility is the only one which is not directly observable. Where
+did our volatility figure of 18.3% come from? Obviously, one can’t know the future
+volatility, but in this case the author took the ten price changes in Figure 5-1 and
+calculated the annualized standard deviation of the logarithmic changes (the volatility}.
+Hence, the volatility of 18.3% was the correct volatility for this series of price changes.
+The complete calculations are given in Appendix B.
+
+In the foregoing example we assumed that the market was frictionless, that no
+external factors affected the total profit or loss. This assumption is basic to many
+economic models, including the Black-Scholes Model. In a frictionless market we
+assume that:
+
+1, Traders can freely buy or sell the underlying contract without restriction
+2. All traders can borrow and lend money at the same rate.
+
+3. Transaction costs are zero.
+
+4, There are no tax considerations.
+
+A trader will immediately realize that option markets are not frictionless, since each
+of the above assumptions is violated to a greater or lesser degree in the real world. For
+example, in certain futures markets there is a daily limit on the amount of allowable
+price movement. When this limit ts reached, the market is said to be locked, and no
+further trading can take place until the price of the futures contract comes off its limit.>
+Clearly, in such a market the underlying contract cannot always be freely bought or sold.
+
+Additionally, individual traders cannot generally borrow or lend money at the same
+rate as large financial institutions. If a trader has a debit balance, it will cost him more
+to carry that debit; if he has a credit balance, he will not earn as much on that credit.
+There is a spread, and perhaps a fairly large one, between a trader’s borrowing and
+lending rate. Fortunately, as we discussed in Chapter 3, the interest rate component is
+usually the least important of the inputs into a theoretical pricing model. Even though
+the applicable interest rate may vary from trader to trader, in general it will only cause
+small changes in the total profit or loss in relation to the profit or ioss resulting from
+other inputs.
+
+3. It is sometimes possible to circumvent the problem of a locked market by either buying or selling the
+physical commodity rather than the futures contract, or by trading spreads between futures months if
+one of the months is not locked.
+
+
+88 Chapter 5
+
+Transaction costs, on the other hand, can bea very real consideration. If such costs
+are high, the hedge in Figure 5-1 might not be a viable strategy; all the profits could be
+eaten up by brokerage fees. In theory, the desirability of a strategy will depend not only
+on the trader’s initial transaction costs, but also on the subsequent costs of making
+adjustments. The adjustment cost is a function of a trader’s desire to remain delta
+neutral. A trader who wants to remain delta neutral at every moment will have to adjust
+more often, and more adjustments mean more transaction costs.
+
+Suppose a trader initiates a hedge but adjusts less frequently, or does not adjust at
+all. How will this affect the outcome? Since theoretical evaluation of options is based
+on the laws of probability, a trader who initiates a theoretically profitable hedge still has
+the odds on his side. Although he may lose on any one individual hedge, if given a
+chance to initiate the same hedge repeatedly at a positive theoretical edge, on average
+he should profit by the amount predicted by the theoretical pricing model, assuming, of
+course, that his inputs are correct. The adjustment process is simply a way of smoothing
+out the winning and losing hedges by forcing the trader to make more bets, always at
+the same favorable odds. A trader’s disinclination to adjust simply means that there is
+greater risk of not realizing a profit on any one hedge. Adjustments do not in themselves
+alter the expected return; they simply reduce the possibility of short-term bad luck.
+
+Based on the foregoing discussion, a retail customer and a professional trader are
+likely to approach option trading in a slightly different manner, even though both
+understand and use the values generated by a theoretical pricing model. A professional
+trader, particularly if he is an exchange member, has relatively low transaction costs.
+Since adjustments cost him practically nothing in relation to the expected theoretical
+profit from a hedge, he is willing to make frequent adjustments. However, a retail
+customer who establishes the same hedge will probably not adjust, or will adjust less
+frequently, because any adjustments are likely to significantly reduce the profitability of
+a hedge. But if he understands the laws of probability, the retail! customer will realize
+that his position has the same favorable odds as the professional trader’s position. At the
+same time he should realize that his position is more sensitive to short-term bad luck.
+Even though the retail customer may occasionally experience larger losses than the
+professional trader, he will also occasionally experience larger profits. In the long run,
+on average, both should end up with approximately the same profit.4
+
+Taxes may also be a factor in evaluating an option strategy. When positions are
+initiated, when they are liquidated, how the positions overlap, and the relationship
+between different instruments (options, stock, futures, physical commodities, etc.} may
+have different tax consequences. Such consequences can often have a significant impact
+on the value of a diversified portfolio, and for this reason portfolio managers must be
+sensitive to the tax ramifications of a strategy. Since each trader has unique tax
+considerations, and this book is intended as a general guide to option evaluation and
+strategies, we will simply assume that each trader wishes to maximize his theoretical
+pre-tax profits and that he will worry about taxes afterward.
+
+4. This of course ignores the very real advantage the professional trader often has from being able to buy
+at the bid price and sell at the ask price. A retail customer can never hope to match the profit resulting
+from this advantage, nor should he try to do so.
+
+
+Using an Option’s Theoretical Value 89
+
+Returning to our example in Figure 5-1, note that after the hedge was initiated no
+subsequent trades were made in the option market. The trader’s only concern was the
+volatility, or price fluctuations, in the underlying market. These price fluctuations
+determined the size and the frequency of the adjustments, and in the final analysis it
+was the adjustments which determined the profitability of the hedge. We might think
+of the hedge as a race between the loss in time value of the June 100 calls and the cash
+flow resulting from the adjustments, with the theoretical pricing model acting as the
+judge. The model says that if options are purchased at less than theoretical value, the
+adjustments will win the race; if options are purchased at more than theoretical value,
+the loss in time value will win the race. The conditions of the race are determined by
+the inputs into the theoretical pricing model.
+
+While we assumed in our example that the future volatility was known to be
+18.3%, we might ask what the outcome would have been had volatility been other than
+18.3%? Suppose, for example, it turned out to be higher than 18.3%. Higher volatility
+means greater price fluctuations, resulting in more and larger adjustments. In our
+example, more adjustments mean more profit. This is consistent with the principle that
+options increase in value as volatility increases.
+
+What about the reverse, if volatility had been less than 18.3%? Lower volatility
+means smaller price fluctuations, resulting in fewer and smaller adjustments. This would
+have reduced the profit. If the volatility were low enough, the adjustment profit would
+just be enough to offset the other components, so that the total profit from the hedge
+would be exactly zero. This break-even volatility is identical to the option’s implied
+volatility at the trade price. Using the Black model, we find that the implied volatility of
+the June 100 call at a price of 3.25 is 14.6%. At that volatility the race between profits
+from the adjustments and the loss in the option’s time value will end in an exact tie.
+Above a volatility of 14.6% we expect the hedge, including adjustments, to show a
+profit; below 14.6% we expect the hedge to show a loss,
+
+Since we needed to make adjustments in order to realize a profit, it may seem that
+every profitable hedge requires us to maintain the position until expiration. In practice,
+however, this may not be necessary. Suppose, for example, that immediately after we
+established the hedge the implied volatility in the option market began to increase.
+Suppose that it increased from 14.6%, the implied volatility when we bought the June
+100 calls, to 18.3%, the future volatility over the life of the option. What would happen
+to the price of the June 100 cail? Its price would rise from 3.25 (an implied volatility of
+14.6%) to 3.88 (an implied volatility of 18.3%}. We could then sell our calls for an
+immediate profit of .63 per option. Of course, if we wanted to close out the hedge we
+would also have to buy back the 57 June futures contracts which we originally sold.
+What effect would the change in implied volatility have on the price of the futures
+contracts? Implied volatility is a characteristic associated with options, not with under-
+lying contracts. For this reason we would expect to see the underlying futures contract
+continue to trade at its original price of 101.35. By purchasing our 57 outstanding
+futures contracts at 101.35 we would realize an immediate total profit from the hedge
+of 63.00, exactly the amount predicted by the theoretical pricing model. If we could do
+all this, there would be no reason to hold the position for the full ten weeks.
+
+
+90 Chapter 5
+
+How likely is an immediate reevaluation in implied volatility from 14.6% to 18.3%?
+While violent changes in implied volatility are possible, they are the exception rather
+than the rule. Changes usually occur gradually over a period of time, and are the result
+of equally gradual changes in the volatility of the underlying contract. As the volatility
+of the underlying contract changes, option demand either rises or falls, and this demand
+is reflected in a corresponding rise or fall in the implied volatility. In our example, if
+Market participants realized that the price of the underlying futures contract were
+fluctuating at a volatility greater than 14.6%, we would expect implied volatility to begin
+to rise. If implied volatility ever reached our target of 18.3%, we could sell out our calls
+and buy in our futures, thereby realizing our expected profit of 63.00 without having
+to hold the position for the full ten weeks. However, option prices are subject to a wide
+variety of market forces, not all of them theoretical. There is no guarantee that implied
+volatility will ever reevaluate up to 18.3%. In that case, we will have to hold the position
+for the full ten weeks and continue to adjust in order to realize our profit.
+
+Every trader hopes for quick reevaluation of implied volatility towards his volatility
+forecast. It not only enables him to realize his profits more quickly, but it eliminates the
+risk of holding a position for an extended period of time. The longer a position is held,
+the greater the possibility of error from the inputs into the model.
+
+Not only might implied volatility not reevaluate favorably, it might actually move
+against us, even if the true volatility of the underlying contract moves in our favor.
+Suppose that after initiating our hedge, implied volatility immediately falls to 13.5%
+from 14.6%. The price of the June 100 call will fall from 3.25 to 3.06. Now we have a
+paper loss of 100 x —.19 =--19.00. Does this mean we made a bad trade and should
+close out the position? Not necessarily. If the volatility forecast of 18.3% turns out to be
+correct, the options will still be worth 3.88 by expiration. If we hold the position and
+adjust, we can eventually expect a profit of 63.00. Realizing this, we ought to maintain
+the position as we originally intended. Even though an adverse move in implied
+volatility is unpleasant, it is something with which all traders must learn to cope. Just
+as a spectilator can rarely hope to pick the exact bottom or top at which to take a long
+or short position, an option trader can rarely hope to pick the exact bottom or top in
+implied volatility. He must try to establish positions when market conditions are
+favorable. But he must also realize that conditions might become even more favorable.
+if they do, his initial trade may show a temporary loss. This is something a trader learns
+to accept as a practical aspect of trading.
+
+Let’s look at a somewhat more complex hedge, this time in the form of mispriced
+stock options. Suppose current market conditions are as follows:
+
+Stock price = 484
+
+Interest rate = 8.00%
+
+Time to March expiration = 10 weeks
+Expected dividend = 50¢ in 40 days
+
+Note that we now have an additional input, the expected dividend. Of course, we
+still need the volatility over the life of the option. Again looking into our crystal ball, we
+
+
+Using an Option’s Theoretical Value 91
+
+see that the volatility over the next 10 weeks will be 32.4%. Again, we decide to look
+at a call which is close to at-the-money, specifically the March 50 call. Feeding all of our
+inputs into the Black-Scholes model, we find that the March 50 call has a theoretical
+value of 2.17 and a delta of 46.
+
+Having determined the theoretical value of the call, we still need its price in order
+to see if there is any profit opportunity available. In this case, it turns out that the call is
+trading for 3 (an implied volatility of 42.2%). Since the option is overpriced, we want
+to sell it and establish a delta neutral hedge against the underlying contract. We might,
+for example, sell 100 March 50 calls and simultaneously buy 46 stock contracts.
+Assuming this option is trading on a U.S. stock options exchange where each underlying
+contract consists of 100 shares of stock, it will be necessary to buy 4600 shares of stock.
+
+Asin allt hedges based on a theoretically mispriced option, it is necessary to maintain
+a delta neutral position throughout the life of the option. As before, we will make our
+adjustments at weekly intervals, but now the underlying contract is shares of stock.
+Figure 5-2 shows the adjustment process for this hedge. Let’s go through the hedge step
+by step and see what the final results are.
+
+Original Hedge: At expiration, with the stock at 523, the 50 calls were worth 234.
+So on the option we showed a profit of $300 — $237.50, or $62.50. The 4600 shares
+of stock we purchased at 48% we were able to sell at 525, for a profit of 37% ($3.875}
+per share. The total hedge profit was therefore +(100 x $62.50} +(4600 x $3.875) =
++$24,075.
+
+Adjustments: The adjustment process forced us to buy and sell stock to remain delta
+neutral. At week one we bought 600 shares of stock at 495; at week two we bought
+1400 shares at 521; at week three we sold 200 shares at 5134; and so on. At week
+ten we sold out our remaining 900 shares of stock at 524. The result of all these
+
+Figure 5-2
+Stock Deltaof Total Delta Adjustment Total Share Interest on
+Week Price 50call Position inShares Adjustment Cash Flow Cash Flow
+0 48% ce) 0 0 0 fe) 0)
+1 49% 52 -600 buy 600 +600 -23,775 411.14
+2 52% 66 -1400 buy 1,400 +2000 -72,975 —-895.69
+3 51% 64 +200 sell 200 +1800 +10,350 4111.16
+4 50 52 +1200 sell 1,200 +600 +60,000 +552.33
+5 47 28 +2400 sell 2,400 -1800 +112,800 +865.32
+ex-dividend 50¢
+6 48% 38 —1000 buy 1,000 —800 ~48,125 —295.34
+7 52 73 -3500 buy 3,500 +2700 182,000 -837.70
+8 52% 78 500 buy 500 +3200 -26,125 ~80.16
+9 50% 55 +2300 sell 2,300 +900 +115,288 +176.88
+
+10 52% sell 900 +47,138
+
+
+
+92 Chapter S
+
+adjustments was a loss of $13,425, (Again, the reader may wish to confirm this by
+adding up all the numbers in the “cash flow” column.}
+
+Carrying Costs on the Initial Position: Originally we sold 100 options at $300 each,
+and bought 4600 shares of stock at $48.50 each. This resulted in a total debit of (100
+x $300) - (4600 x $48.50} = $193,100. The carrying cost on this debit for ten weeks
+at an annual rate of 8.00% (our interest rate assumption} was $193,100 x .08 x 70/365
+= $2,962.63. Note that this is somewhat different than the futures example, where only
+the option contracts entailed a carrying cost. Unlike futures trades, the purchase or sale
+of stock results in an immediate cash flow, and this cash flow becomes part of the
+carrying cost on the initial hedge.
+
+Interest on the Adjustments: Whenever we bought or sold stock to make an
+adjustment, the trade resulted in a cash flow, either a debit or a credit. We were able
+to earn interest on any credit, and we were required fo pay interest on any debit, ata
+rate of 8.00 percent. For example, at week one we bought 600 shares of stock at
+495, for a total cash outlay of $29,775. The cost of carrying this debit to expiration
+(nine weeks hence} was -$29,775 x 63/365 x .08 = -$411.14. The total interest cost
+from our adjustments is the sum of all the individual interest calculations, or -$81 4.34.
+
+Dividends: We also assumed that 30 days prior to expiration (between week five and
+six) the stock paid a dividend of 50¢. What was the dividend earnings or loss to our
+position? We initially bought 4,600 shares of stock. At the end of week five we were
+short 1800 shares of stock as part of the adjustment process. This means that on the
+ex-dividend date we were long a total of 2800 shares of stock. At a dividend of 50¢ per
+share, we received a dividend payout $1,400.
+
+Interest on Dividends: We were also able to earn interest on the $1,400 dividend
+payout for the remaining 30 days to expiration at a rate of 8.00%. The proceeds from
+this were $1,400 x 30/365 x .08 = $9.21.
+
+Summarizing the results, we have:
+
+Original Interest on Interest on Interest on
+Hedge Adjustments Hedge Adjustments Dividends Dividends
++$24,075 -$13,425 -$2,962.63  -$814.34 +$1,400 +$9.21

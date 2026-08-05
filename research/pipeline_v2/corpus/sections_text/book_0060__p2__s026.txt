@@ -1,0 +1,410 @@
+
+276
+
+Inside the Currency Market
+
+can be exercised anytime. This point changes the entire equation, because
+both accompany different formulas and methodologies and neither can
+be employed together. For example, some track the S&P 500 against VIX
+Options that settle European exercise. Secondly, American options trade
+ﬁve hours longer than European options and that must be held account in
+any trading plan (CME Options Rulebook). The methodology is European
+options are employed to hedge and American options are widely traded.
+The Black Scholes formula originated in 1973 in the Journal of Political
+Economy and is employed to measure European options both over the counter and exchange traded. The vast majority of over-the-counter options are
+European exercised.
+The Barone, Adesi, and Whaley formula originated in 1987 in the Journal
+of Finance to factor American exchange-traded options (CME). The question
+for both was how to price and value options, but both formulas must be
+employed against its respected type. Consider traded options.
+Formulas must factor call and put options, time to expiration, price,
+strike price, and interest rates. Interest rates must be factored as a risk-free
+rate. The T-Bill is widely employed, but that rate is twice removed from an
+actual BBA or internal LIBOR.
+John Cox, Stephen Ross, and Mark Rubenstein published a binomial
+pricing model in the Journal of Financial Economics in 1979 that valued trades
+based on arbitrage that factored a currency pair and currency option. In one
+way, Cox-Ross, as it’s known in market parlance, can be viewed as the risk
+measure to the two main option pricing models currently in existence.
+The Canadians at the Montreal options and derivatives exchange widely
+employ Cox-Ross. All three models set standards that haven’t been surpassed
+since inception.
+In 1983, Mark Garmen and Steven Kohlhagen advanced the Black
+Scholes formula with introduction of an interest-rate factor measured against
+each side of a currency pair. The purpose was to factor the risk-free rate
+between a currency pair that accounts for exchange rates. Finally, is the question of implied volatility.
+Implied volatility is deﬁned by the market as the expected return. The
+CME deﬁnes implied volatility as “implied by a market price of an option
+based on option pricing models. Volatility through models yields a theoretical
+option value.” Despite a deﬁnition that said nothing, the key word is implied.
+Implied volatility is expected, not guaranteed, but expected if the market
+reacts as anticipated. Some say a formula doesn’t exist to calculate implied
+volatility hence the purpose to follow a delta strategy. Implied correlation is
+the preferred method due to its statistical component.
+
+Currency Cycles, Currency Futures, Options, and Volatility
+
+277
+
+Volatility is an estimate based on American or European formulas using
+option-market prices as an input. By using past and present prices, implied
+volatility is found by running the models backward. These are what-if scenarios that incorporate a futures price, strike, option price, days to expiration,
+and interest rates. Formulas are factored as F(S, O, D, R).
+Market events in a delta strategy can disrupt an expected forecast and
+destroy a risk-reversal strategy especially when the return is expected within a
+30-day period. The assumption is volatility within a currency pair will increase
+the price of deltas. Yet it’s not a guaranteed strategy simply because currency
+markets can trade sideways, and move in inﬁnitesimal ranges with price congestion for long periods. Time will surpass the strategy. Implied volatility may
+work well in other markets, but spot prices and its fast rate of change or no
+change can impinge the overall measure of volatility unless the strategy was
+perfected. Today’s strategy is trade at the money options. A risk measure is
+employed by taking the one month interest rate differential and divide by the
+implied volatility from the one month at the money call or put option. It’s a
+measure of currency options but can be employed to trade equitiy indices.
+Volatility and Volatility Indicators
+
+To measure risk is to measure volatility. The question is how far will prices
+vary in relation to expected returns? Two instruments can realize different
+returns based on variations because we are squaring the difference from the
+mean as a measure of variability. So volatility must be measured by squaring
+the variance to obtain a standard deviation to obtain an accurate view of
+volatility.
+Volatility is measured by standard deviation calculated by standard deviation of daily returns over X trading days to annualize the ﬁgure. This measures
+the spread of prices around the mean—the average. When prices are close to
+the mean, standard deviation is low, and high when prices are far away.
+The general strategy should be buy the low and sell the high.
+Standard deviation asks the question how far apart is the distribution.
+Normal distribution says prices should be 68 percent within one standard
+deviation of the average, 95 percent within 2 standard deviations, and about
+96 percent within three standard deviations. This outline is known as realized,
+actual, or market volatility that’s generally measured in one- to three-month time
+frames, one year to measure historic volatility. Looked at another way, suppose
+as suggested by prior research that a 252-day simple moving average was plotted, a mean based on past year price closes that considers U.S. foreign exchange
+
+278
+
+Inside the Currency Market
+
+(FX) trading days and holidays. Much dispersion occurs around the mean over
+a yearly period. How to capture those short-term variations in volatility terms
+has been the subject of intense research over many years, more so in the present
+day as option trading increased with new ﬁnancial instruments. Consider that in
+Whaley’s historic 1987 paper, 30 American options traded on the CME.
+The main point associated with volatility and volatility indicators is it
+tends toward mean reversion where prices oscillate around a long-term average. Whether low or high volatility, it mean reverts. A rate of return of volatility as an annualized standard deviation percentage index or indicator can
+be converted to shorter time frames. For example, a 20 percent index value
+converts to a monthly value by multiplying 20 percent by square root of onetwelfth, for a 5.77 forecast that predicts movement of one standard deviation
+over one month of / 5.77 (ASX example). This formula addresses the
+question of stressed rates.
+Stress rates ask the question what is the probability z scores change based
+on whatever standard deviations are measured in relation to the square root
+of time? The formula is:
+Sezσ√t
+
+where
+s = spot in logs,
+e = the natural logarithm,
+z = a z score, sigma (SD) at the square root of t.
+It’s a strategy not only to determine spot prices but other market instruments
+such as options. Market professionals view this methodology as a measurement of a time series employed for the short term. The purpose is to capture
+only volatility that deviated from normal trend.
+Another strategy widely employed by central banks is to measure volatility
+between two pair’s exchange rates and correlate.
+The formula
+2  σ—
+2  σ—
+2 2 σ σ
+σ—
+p 1 2
+12
+1
+2
+where
+volatility 12  cross rate volatility,
+volatility 1  volatility of exchange rate 1,
+volatility 2  volatility of exchange rate 2, and
+p  correlation between currency 1 and 2.
+Prior research measured volatility in terms of options, and measured
+volatility by Garch models, Arch models, time-series models, long-term
+
+279
+
+Currency Cycles, Currency Futures, Options, and Volatility
+
+volatility, and short-term volatility. Papers measured single-market instruments, combined markets, and instruments. The study of pure volatility
+began in the summer of 2000 in the Journal of Alternative Investments by
+Robert Krause and intensiﬁed over the years.
+Krause proposed then a pure volatility contract, later ﬁnalized and outlined in the 2010 issue of the Swiss Derivatives Review. Many questions were
+settled with formulation of the CME’s 2011 introduction of Krause’s volatility
+contracts on six currency pairs, euro/U.S. dollar, British pounds/U.S. dollar,
+Canadian dollar/U.S. dollar, Australian dollar/U.S. dollar, Swiss francs/U.S.
+dollar and Japanese yen/U.S. dollar. Vol (Trademark) contracts are cash settled and settle to either the 1 or 3 month realized volatility.
+The formula is:
+RV = 100 ×
+
+⎛
+p ⎞
+252 / n ⎜ L n p t ⎟
+t −1 ⎠
+⎝
+
+2
+
+n
+
+∑R
+
+2
+t
+
+t=1
+
+where
+n  number of trading days,
+rt  continuous compounded daily returns calculated by
+p
+rt  L n p t and,
+t −1
+where
+
+Ln  natural logarithm,
+pt  underlying reference price at time t, and
+pt1  underlying reference price at time t period preceding time t.
+
+The formula is calculated as an annualized standard deviation of log returns
+of daily settlement. Any volatility contract should begin with zero as the
+foundation point. To deﬁne a mean, it begins at a zero point and deviations
+occur from that point.
+At the Volatility Institute at New York University, many time-series charts
+for various ﬁnancial instruments are available for daily review at the vlab, as
+well as many published papers and lists of courses. Robert Krauss updated
+volx.us with an abundance of information, papers, and trade strategies.
+Option Premiums
+
+On any screen shot of American currency options is a view of volume, futures
+price, option price, and strike price for each option offered. American currency options trade at premiums in half-point strike price increments and
+
+280
+
+Inside the Currency Market
+
+represent 85 percent of total CME volume (CME Options Rulebook).
+Premiums are quoted in U.S. dollar points per foreign currency. The notional
+values equal the same underlying price convention, $12.50 euro, $62,500
+British pounds.
+The formula to determine premium is:
+Points  Contracts  Tick value
+For example, a 1.4430 euro/U.S. dollar call option bid at 75  150 contracts is equal to 0.0075 multiplied by $125,000 equals $937.50. To sell the
+option 150 multiplied by $937.50 equals $140,625. A premium quote is
+reported as the equivalent of a live price in the OTC market (2010 Option
+Rulebook). To know currency options is to know liquidity in the market
+related to any currency pair combined with the futures and cash prices.
+The overall question is where is the market in terms of liquidity and at what
+strike price, a determination of a long or short market.
+Barrier Options
+
+The importance of this section is not to understand barrier options, how to
+trade those options, and price methodologies. Rather it’s important to know
+where barriers are located within spot currency prices to determine if a break
+or bounce will occur at a particular price once a barrier is reached.
+Importers, exporters, and major companies routinely employ barrier
+options to facilitate trade across borders. For example, Canadians employ
+barrier options to facilitate oil ﬂows and other trade to U.S. markets, its
+largest export partner. Japanese exporters routinely employ barrier options
+to facilitate a multitude of trade in various products to various world
+destinations.
+A multitude of barrier options can routinely be found within yen prices
+in various currency-pair arrangements. Since the United States is the secondlargest export market, Japanese yen/U.S. dollar and U.S. dollar/Japanese yen
+must be evaluated to determine where barriers are located since barriers may
+restrict a price break at certain levels.
+Barrier levels at certain prices are either defended successfully, in which a
+bounce will occur in the opposite direction, or an unsuccessful defense occurs
+and prices will continue a forward path. Barrier options are employed to lock
+in a particular price.
+
+Currency Cycles, Currency Futures, Options, and Volatility
+
+281
+
+Other currency pairs may contain barrier options to hedge other ﬁnancial instruments. Other types of barrier options exist such as a Binary or Plain
+Vanilla, but they don’t have the market power as a full barrier option simply
+because of a higher-priced barrier. The question for deployment of barrier
+options is how important is the price and cost to defend it. European-style
+options are by far the most popular deployed, yet American- and Bermudastyle are also employed (US FX Committee 2005 Report). Bermuda options
+allow expiration relative to time, but speciﬁc dates relative to exercise must
+be stated in prior arranged agreements. For traders, it’s the nondiscrete
+barrier options to monitor because they are determined by the spot rate
+(FX Committee 2005).
+Barrier options began trade with formal outlines implemented by the
+U.S. FX Committee and other organizations such as the International Swaps
+and Derivatives Association in 1998 with an additional update in 2005 and
+2006. Highlights from the updated report follow.
+A barrier event was further deﬁned. The committee question was how
+does one know a barrier was reached? A barrier-determination agent was introduced as a third-party conﬁrmation a barrier event occurred. Determination
+dates and rate calculations were further deﬁned. Barrier and other options are
+backed by extensive agreements that outline the terms between two parties.
+The real purpose to this supplementary report was to further deﬁne barrier
+options and single- and double-No-Touch and One-Touch binary options.
+It was a forward report, as most of these reports are facilitated by market
+professionals.
+Two types of barrier options exist for our purposes, Knock in/Knock out
+and Double Knock in/Double Knock out. Knock-out options terminate if
+spot trades at or beyond a deﬁned barrier before expiration. The closer the
+knock out to the spot rate, the less expensive it is because the probability that
+the barrier is reached will increase.
+A knock-in option is inactive but becomes live if spot trades at or beyond
+a barrier before expiration. The closer Knock in trades to spot, the more the
+option will increase because the probability exists that the barrier will be hit
+(FX Committee). Double Knock-in and Double-Knock out options include
+another barrier. News organizations that specialize in currency markets routinely report locations of barrier options.
+The problem with movements at times of an export currency such as the
+U.S. dollar/Japanese yen is barrier options are routinely located within various price points of U.S. dollar/Japanese yen that at times restrict movements.
+It’s not unusual to see a $5 or $10 million barrier located at a certain price.
+
+282
+
+Inside the Currency Market
+
+Volatility and Value-at-Risk Models
+
+Volatility affects market prices as a function primarily from outside forces.
+Inﬂation, interest rates, political changes, economic disasters, military escapades, and wars all affect markets in terms of volatility levels and levels can
+change dramatically.
+Dollars at Risk seeks to determine such factors as yield-curve movements
+in relation to currency prices and employed as a measure of risk. Dollars at
+Risk ask questions as to how many basis points does a 10-year Treasury bond
+move in relation to a target price or stop loss order, and what about two-yearbond basis points? The preferred method is to factor ﬁxed-income returns
+against a constructed yield curve using various risk measures that account for
+volatility.
+Value-at-risk (VAR) models assess risk using “statistical techniques on
+worst-case scenarios that can’t exceed a particular conﬁdence level. It measures
+risk in relation to leverage. New components include volatility, correlations,
+and exponentially weighted moving averages to assess risk” ( Jorion 2007).
+Conclusion
+
+After a historic walk through past economists such as Schumpeter and
+methodologies of economic business cycles, an introduction of currency
+cycles was offered in terms of inversions. The methodology of currency cycles
+is in the measurement. Since currency-pairs invert, past inventors of indicators widely employed today such as Gann and Elliot were offered as a
+methodology to help in understanding how and why cycles occur, with
+a further idea that methodologies can be applied easily to a chart.
+Volatility was discussed in all its minute details of historic importance
+as well as offered formulas to calculate and measure market instruments and
+currency pairs, volatility in relation to options and premiums, and barrier
+options. Risk models in terms of VAR and dollars at Risk were addressed.
+
+Inside the Currency Market: Mechanics, Valuation, and Strategies
+by Brian Twomey
+Copyright © 2012 Brian Twomey
+
+CHAPTER 10
+
+Technical Analysis
+This chapter highlights in depth and detail many market tools and various
+indicators. Volume and open interest is discussed due to its wide use
+and effectiveness. Formulas, trade strategies, trading methodologies, and
+past history to understand its modern-day context are all highlighted.
+Commitment of traders’ reports, where to ﬁnd them at the Commodity
+Futures Trading Commission (CFTC) and Chicago Mercantile Exchange
+(CME), how to read the reports, and which ones to read, as well as their
+points of reference in order to evaluate a trade plan is explained step by
+step. The Baltic Exchange, its derivation, products, purpose, functions,
+and evaluative tools are addressed in order to track commodity currencies.
+Correlations, then regression lines and other trend lines, are shown and
+methodologies highlighted to understand how to plot lines on a chart to
+measure currency and other market prices. Special Drawing Rights (SDRs)
+and the International Monetary Fund (IMF) may be a future indicator due
+to wide use of the SDR ﬁnancial instrument. Pivot points, Bollinger Bands,
+and Ichimoku, and their purpose, derivations, calculations, and formulas
+along with full explanations of how to measure currency and other market
+prices is fully explained.
+Currency-pair prices trend, range, or cluster in a zone for periods of time,
+while other periods of time account for volatility. How to measure various
+phenomena can be gauged by market tools and/or indicators.
+It’s imperative to know a range of indicators to account for various market periods, yet it’s also imperative to be able to shift indicators as market
+periods meld from one type to another, such as range to trend. Indicators
+are never perfect, but they provide reasonable estimates of various market
+periods. Reasonable estimates are derived from indicator calculations.
+
+283
+
+284
+
+Inside the Currency Market
+
+For example, Bollinger Bands are widely deployed to account for both
+volatility and moving-average components. Moving averages measure mean
+time series over time, pivot points measure support and resistance, and
+Ichimoku measures moving averages for present and future market conditions. All work equally well to capture proﬁts, but none have the perfection
+of a pure mathematical model. Yet markets are never perfect so it’s imperative
+to allow conﬁrmation in every market scenario.
+The import of any indicator is to know its minute details as well as any
+currency pair for its various characteristics, because all have variations. Some
+indicators work well in trends, others work better in short-term market moves.
+Volume and Open Interest
+
+Volume and open interest studies trace their roots to commodity trading with
+passage of the Commodity Exchange Act on September 21, 1922. It was
+formerly titled the Grain Futures Act, but was amended in June 1936 to
+include other traded commodities such as wheat, rice, corn, oats, and other
+agricultural products (Bear, 1948).
+The Chicago Board of Trade (CBOT), established in 1848, was mandated by
+the Agricultural Department to maintain volume and other extensive records for
+open inspection for at least three years. Commitment of Traders (COT) Reports
+today still maintain a three-year history for public view. The main purpose for
+the records was to maintain integrity of the markets due to the importance of
+agricultural products to the American public in staple and export terms.
+Open interest is assumed to be a byproduct of future market developments. Yet the Chicago Daily Tribune reported open interest for wheat contracts as early as 1926.
+The New York Stock Exchange traces its roots to the 1792 Buttonwood
+Agreement where 24 brokers signed an agreement to trade securities by commission (NYSE). Possibly volume and open-interest studies trace their roots
+to these early days and became a natural byproduct with establishment of
+organized commodity exchanges.
+As two of the oldest indicators, volume and open interest hasn’t been a
+focus in the modern day due to more popular, ready-made indicators. Yet
+volume and open interest have been a constant staple for market professionals
+since inception.
+Ken Shaleen of Chartwatch can be credited with writing the deﬁnitive
+book in 1992, called Volume and Open Interest. Outside Ken Shaleen’s work,
+
+Technical Analysis
+
+285
+
+volume and open interest has been contained within the conﬁnes of market
+professionals because not much has been written since Shaleen. Ironically,
+market professionals know nothing about popular indicators, nor do non-market
+professionals know anything about professional tools. Market professionals
+employ pure mathematical models while nonprofessionals employ indicators,
+and neither interest intersects.
+Open interest is deﬁned by the CME as total futures contracts long
+or short in a delivery month entered into but not offset by delivery. Only
+one side of the transaction is calculated. Volume is simply the number of
+contracts bought or sold for a given time period. Volume in days past was
+an essential ingredient as a hedge, called price insurance (Baer 1948). Open
+interest was the trading method. Today, volume and open interest together
+are employed to determine trends, market sentiment, and direction by monitoring contract ﬂows.
+Under daily settlements on the CME web site is where volume and
+open interest information is found. Anyone can view foreign exchange (FX)
+futures, FX options, or both for open interest and volume reports. The new
+addition is FX Micro contracts and the key is to study open interest and
+volume because Micro contracts are arranged as spot transactions, so a full
+view of standard and FX Micros can be determined.
+Three different reports may be employed: futures only, options and put/
+call totals, and Micro contracts. For options, volume and open interest is
+now available for each strike price. Long-term traders would be interested in
+near- and next-term contracts while short-term traders would be served by
+nearest contracts. Floor trading and Globex are the two reports of interest.
+An initial report is issued after market closes that includes ﬂoor trading, and
+ﬁnal reports are issued before market openings the next day that include ﬂoor
+trading and Globex trading from overnight. There are a number of scenarios
+to monitor.
+A trending market occurs when volume and open interest is up. Prices
+rise on increased volume and open interest. Low volume may be a correction,
+but it depends if open interest rises (Shaleen). A rise is a correction, a fall
+could be a reversal. Average volume is a range trade. When volume and open
+interest is up and prices decline, chances are good it’s a downtrend (Shaleen).
+Average volume and ﬂat open interest represent congestion, an unsure market,
+or a wait-and-see approach to outside events (Shaleen).
+The key is to compare Japanese yen/U.S. dollar futures and options
+against U.S. dollar/Japanese yen Micros to determine direction. Same
+for Canadian dollar/U.S. dollar and Swiss franc/U.S. dollar futures and

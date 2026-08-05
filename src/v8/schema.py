@@ -207,10 +207,18 @@ class ExperimentManifest:
     # Frozen manifest constants — no fitting, no leakage, no learned component.
     # A candidate is vetoed at admission (TRADABILITY_MASK_VETO, kept
     # counterfactual NOT_EXECUTED) when the entry bar's (high-low)/close
-    # exceeds max_spread_frac, when StateQuality == DEGRADED at decision time,
-    # or when the entry bar closes within funding_window_bars of a funding
-    # boundary.
-    max_spread_frac: float = 0.05
+    # exceeds max_bar_range_frac, when StateQuality == DEGRADED at decision
+    # time, or when the entry bar closes within funding_window_bars of a
+    # funding boundary.
+    #
+    # Named for what it measures: (high-low)/close is the entry bar's INTRABAR
+    # RANGE, not a bid-ask spread. It was called max_spread_frac until
+    # 2026-08-04; a real spread needs depth data the tape does not carry, so
+    # this is a volatility/illiquidity proxy and must not be read as execution
+    # cost. The 0.05 default is declared, not fitted (D-036) — but it is also
+    # not derived, and its firing rate on the declared dev window has never
+    # been measured, so whether the veto does anything is unknown (O-019).
+    max_bar_range_frac: float = 0.05
     funding_window_bars: int = 1
     authority_receipt: str | None = None
 

@@ -1,0 +1,244 @@
+[
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_005",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_007",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_011",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_012",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_014",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_019",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 1,
+  "exact_text": "I am contrarian just about all the way. When everyone\nis bullish, I’m normally looking the other direction.",
+  "added_conditions": [
+   "applies at psychological price levels that are big movers, where other traders get pushed out of their positions"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_020",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_021",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 1,
+  "exact_text": "I watch for the pullback,\nmake sure it’s not a reversal, and then normally I'll move in on that\npullback.",
+  "added_conditions": [
+   "enter on the pullback only after confirming it is not a reversal; if it is a reversal go short, if it is a pullback go long"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_026",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_027",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_037",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_031",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_036",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_062",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 1,
+  "exact_text": "If the market had a certain\nconsensus and it was wrong, then everyone is basically wrong and\nthen the market moves.",
+  "added_conditions": [
+   "market moves when released figures differ from the priced-in consensus"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_059",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_065",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_065",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_067",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_071",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_084",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_085",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_096",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_097",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_1_108",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_109",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 1,
+  "exact_text": "When I see that, I buy them with him on every pullback.",
+  "added_conditions": [
+   "buy on every pullback while a market maker is holding the price up even as the market declines"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0077::lead_book_0077_2_110",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

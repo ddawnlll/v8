@@ -1,0 +1,380 @@
+Contents
+Foreword
+Preface
+Disclaimer
+Chapter 1: Be Prepared
+Fundamental and Technical Analysis
+Conclusion
+Chapter 2: Let’s Get Started
+Patterns
+Volume
+Price Momentum
+Price and Moving Averages
+Combining the Four Dimensions
+Beyond Technical Analysis
+Financial Astrology
+Keeping Count
+Conclusion
+Chapter 3: Essential Patterns
+Open
+High
+Low
+Close
+Candlestick Patterns
+Divergence Patterns
+Diagonal Patterns
+Patterns Continued
+“M” and “W” Patterns
+Head and Shoulders Patterns
+Rectangle Patterns
+Saucer Patterns
+AB=CD Patterns
+Gaps
+Conclusion
+Chapter 4: Elliott Waves
+Wave 1
+Wave 2
+Wave 3
+
+Wave 4
+Wave 5
+Extended Waves
+Three-Wave Structures
+Corrective 3-3-5 Patterns
+Corrective 5-3-5 Patterns
+Rule of Alternation
+Fibonacci Retracement and Projection
+Application of Elliott Wave Analysis
+Conclusion
+Appendix: Ratios and Wave Relationship
+Chapter 5: Volume
+Basic Volume Plots
+Reading Volume
+Money-Flow Indicator
+Deciphering Trend with Volume
+Conclusion
+Chapter 6: Key Indicators
+Momentum Oscillator
+Queuing Theory of Moving Average Crossovers (QMAC)
+MACD
+Average Direction Index
+Protective Stops
+Conclusion
+Chapter 7: Applied Systems
+Catching That Trend
+Built-In Color Trend Indicator
+Supporting Moving Averages
+Trade on Daily Signals
+Trading with Ichimoku
+Conclusion
+Chapter 8: Formulating Your Trading Plan
+Determining Your Time Frame
+Selecting Stocks
+Risk Management
+Determine Entry Points
+Determine Exit Strategies
+Reality Check
+Chapter 9: Financial Astrology
+
+Using Lunar Cycles in Trading
+How to Pick Winning Stocks
+Choosing the Best Periods for Trading
+Market Projection
+Conclusion
+Appendix 1: Ruling Planets of the Natural Horoscope
+Appendix 2: Effects of Various Aspects
+Appendix 3: Characteristics of the Twelve Zodiac Signs
+Appendix 4: Formulas in MetaStock Format
+Glossary
+Bibliography
+About the Authors
+Index
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing company in the
+United States. With offices in North America, Europe, Australia and Asia, Wiley is globally
+committed to developing and marketing print and electronic products and services for our
+customers’ professional and personal knowledge and understanding.
+The Wiley Trading series features books by traders who have survived the market’s ever
+changing temperament and have prospered—some by reinventing systems, others by getting
+back to basics. Whether a novice trader, professional or somewhere in-between, these books
+will provide the advice and strategies needed to prosper today and well into the future.
+For a list of available titles, please visit our Web site at
+www.WileyFinance.com
+.
+
+Copyright © 2012 by John Wiley & Sons Singapore Pte. Ltd.
+Published by John Wiley & Sons Singapore Pte. Ltd.
+1 Fusionopolis Walk, #07-01, Solaris South Tower, Singapore 138628
+All rights reserved.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in
+any form or by any means, electronic, mechanical, photocopying, recording, scanning, or
+otherwise, except as expressly permitted by law, without either the prior written permission of
+the Publisher, or authorization through payment of the appropriate photocopy fee to the
+Copyright Clearance Center. Requests for permission should be addressed to the Publisher,
+John Wiley & Sons Singapore Pte. Ltd., 1 Fusionopolis Walk, #07-01, Solaris South Tower,
+Singapore 138628, tel: 65–6643–8000, fax: 65–6643–8008, e-mail:
+enquiry@wiley.com
+.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best
+efforts in preparing this book, they make no representations or warranties with respect to the
+accuracy or completeness of the contents of this book and specifically disclaim any implied
+warranties of merchantability or fitness for a particular purpose. No warranty may be created
+or extended by sales representatives or written sales materials. The advice and strategies
+contained herein may not be suitable for your situation. You should consult with a professional
+where appropriate. Neither the publisher nor the author shall be liable for any damages arising
+herefrom.
+Other Wiley Editorial Offices
+John Wiley & Sons, 111 River Street, Hoboken, NJ 07030, USA
+John Wiley & Sons, The Atrium, Southern Gate, Chichester, West Sussex, P019 8SQ, United
+Kingdom
+John Wiley & Sons (Canada) Ltd., 5353 Dundas Street West, Suite 400, Toronto, Ontario, M9B
+6HB, Canada
+John Wiley & Sons Australia Ltd., 42 McDougall Street, Milton, Queensland 4064, Australia
+Wiley-VCH, Boschstrasse 12, D-69469 Weinheim, Germany
+ISBN 978-1-118-33917-6 (Hardcover)
+ISBN 978-1-118-33918-3 (ePDF)
+ISBN 978-1-118-33919-0 (Mobi)
+ISBN 978-1-118-33920-6 (ePub)
+
+Foreword
+Like many practitioners, my collection of books on technical analysis has grown over the years.
+In the initial years, during the 1980s, when such books were few and far between, I bought
+almost indiscriminately. Later, as my knowledge of the markets and analytical methods grew,
+my purchases became more selective. This well-written book, which focuses solely on the
+equity markets, will occupy an important place on my bookshelf along with Robert’s first little
+gem of a book, Power Tools for Traders (1997).
+Timing Solutions for Swing Traders has something for the novice as well as the seasoned
+trader. The first few chapters serve as both a learning aid for beginners and as a refresher
+course for the more experienced practitioner, while the latter chapters show how to combine
+and use the indicators and methods discussed to create a trading plan.
+I found Robert’s innovative approach to multiple moving averages, which he calls the
+Queuing Theory of Moving Average Crossovers (QMAC), to be very interesting. I particularly
+liked the way he dissects the interplay of long-term moving averages to anticipate major
+support and resistance levels and his use of colored candlesticks to differentiate between
+trending and non-trending phases based on simple but effective concepts.
+It is the last chapter, on financial astrology, written by Peter, that I found to be most
+fascinating. Having never explored this area before—and not being very esoterically inclined—I
+found the material quite easy to follow. The astrology-based approach to selecting stocks, in
+combination with the more accepted methods of analysis along with the section on projecting
+future trends based on planetary influences, definitely merits further study. I hope the authors
+explore this fascinating new area in more detail, with examples from other equity markets and
+perhaps the currency markets, in a future publication.
+I have known Peter since he was a rookie broker, and in recent years, I have come to know
+Robert as well. I have observed firsthand how their approach to analyzing the stock market can
+produce quite extraordinary results. Robert and Peter have many more innovative indicators
+and methods between them and I look forward to reading their next offering.
+Ananda Bhaumik
+Private Banker
+Hong Kong
+
+Preface
+
+The title of this book, Timing Solutions for Swing Traders: Successful Trading Using Technical
+Analysis and Financial Astrology, defines its mission. It is all about detecting trend and exploring
+the best timing to trade. The first eight chapters are authored by Robert and cover
+comprehensive aspects of technical analysis, including a summary on the Theory of Elliott Wave
+Principle and the Queuing Theory of Moving Average Crossovers. The last chapter was
+contributed by Peter. It introduces the application of financial astrology to picking stocks and
+cycles, to finding the best period to trade, and to ascertaining the best period of your personal
+Part of Fortune.
+The book covers four dimensions related to trend analysis: price patterns, volume, price
+momentum, and price moving averages. The objective is to decipher price trend and to develop
+the most effective and profitable method to trading. It will show how to use financial astrology
+in lunar cycle trading, select stocks with the best potential, and find the best time for profitable
+trading. And, it will introduce readers to the emerging trend of fusing technical analysis with
+cycle analysis and financial astrology.
+This book is not about day trading of stocks and is not intended for day traders. Day traders
+are very short-term players and they make trades during market hours in one trading day. This
+is a book primarily for people who work from “9 to 5” and who do not have the spare time to
+monitor their stocks closely during the day. They are more likely to be position traders who
+make longer-term trades that may last from several days to several months, and can only find
+time after office hours in the evening. Many of them would like to have some sort of technical
+analysis method that can help them take better care of their trades, but they just do not know
+where to start. They would like to read charts. However, there are so many methods and
+systems to pursue that the whole process becomes somewhat overwhelming. This book is
+dedicated to these people who want to be more proactive traders. It will demonstrate a simple
+and practical approach to doing just that. It will not require the purchase of expensive and
+sophisticated software, as we are dealing only with end-of-day data and not real-time data.
+Other than the examples of charts in financial astrology, we are using MetaStock software and
+end-of-day data subscribed from data vendors to illustrate the charts. The formulas in the
+samples of this book are enclosed for the benefit of the readers. These formulas are not
+exhaustive or definitive; readers can of course amend them to suit their own style of trading.
+MetaStock also has many other popular indicators and systems available.
+Our purpose is to show swing traders or non–day traders a concise method to trading and
+encourage them to take the subject to a higher level, particularly in configuring the indicators
+they will use for trading, management of risk, and use of financial astrology. In financial
+astrology, we try to show the application of astro-harmonics and how they are being used with
+common technical tools to give an extra edge in timing market turns. Every trader has his or her
+own habit of trading, such as preferred use of certain indicators and methods, and margin of
+acceptable risk. Most traders, however, depend entirely on the standard formula of a packaged
+program. Many of them have good ideas of what indicators they would like to use in their
+trading, but lack the time and patience to implement their concepts into a program. Others are
+still exploring different options to develop a trading program that suits all their criteria.
+After countless hours of research, we have put together the essentials of a practical course
+on technical analysis in nine chapters, as described in Chapter 2, Let’s Get Started. We feel the
+subjects covered will be more than adequate for trading stocks. There are many dos and don’ts
+regarding interpretation of analysis that we have encountered in our 35 years of trading
+
+experience, and the book describes how to interpret developing patterns and trends. It also
+gives examples of how mechanical trading systems are designed, and how a standard indicator
+could be incorporated into a system. Taken together with the emerging trend of fusing
+technical analysis with cycle analysis and financial astrology, it is hoped the book may serve as a
+useful guide and inspire novice as well as veteran traders to further their techniques in the
+areas covered.
+How to gauge different market scenarios is one of the trickiest issues facing traders every
+day. To help develop your trading techniques, the book contains many charts illustrating how to
+assess and analyze different kinds of conditions. The charts have been produced from various
+vendors’ software programs. By the end, traders should have further advanced to an all-around
+understanding of using technical analysis in formulating a profitable trading plan
+In the book, we have demonstrated a simple concept of a trading method. The stocks are
+selected at random and are not selected to fit the system. The system is not a mechanical or
+fully automated trading system, and parameters of the system and indicators are not
+optimized. The basic formulas used in the system are provided for reference. The formulas are
+simple and easy for traders to use. It should be easy also to adjust them for incorporation (with
+their personal system design) into their personal trading method. The program has a built-in
+color trend indicator to alert traders to the state of the stocks in the short time frame, and to
+validate the short-term trend by the medium-term indicators of the system. In essence, we
+want to trade when the short-term trend is moving in tandem with the medium-term trend,
+and trade signals are executed only in the direction of the longer trend frame. The application
+requires discretionary traders’ decisions to anticipate market outlook for the intermediate
+trend. It uses candlestick patterns, Elliott Wave Principle, volume, and the interplay of three
+longer-term moving averages to decide whether relevant price rallies or corrections are
+expected to be short-lived or the start of a longer trend. It is also recommended to include a
+protective stop-loss system in every trading system. There are no standard parameters or
+definitive methods for applying stop-loss. Each trader has to define his own acceptable risk to
+set the appropriate stop-loss. For reference, the formula of a simple indicator for stop-loss has
+been included together with formulas of the various indicators mentioned in the book.
+To a large extent, the success of trading depends on your frame of mind, money
+management ability, and trading methodology. Having a healthy frame of mind is a prerequisite
+for trading stocks. The mind greatly influences how you trade and how you manage your
+financial risk. Trading is all about making mental decisions. A frame of mind that is negative,
+tired, or anxious is not the right condition for trading anything. On the other hand, a healthy
+and cheerful attitude and learning to take a break from trading are indispensable factors in the
+unceasing quest to achieve the best trading results.
+Robert T. H. Lee
+Peter A. Tryde
+
+Disclaimer
+This book is sold with the understanding that neither the publisher nor the authors are engaged
+in offering legal, accounting, or other professional services or advice by publishing this book.
+Thus, if legal or financial advice or other expert assistance is required in a specific situation, the
+services of a competent professional should be sought to ensure that the situation has been
+evaluated carefully. The publisher, the authors, and any other person connected with the
+writing of this book disclaim any liability for any losses that may be sustained as a result of
+applying the methods suggested in this book.
+This book should not be deemed to be a definitive investment guide and should not be taken
+to replace advice from a qualified financial planner or other competent professionals. There are
+always risks in investments of almost any kind and there is no guarantee that the investment
+methods described in this book will be profitable. System trading is a risky business and can
+result in heavy losses. Do not assume that the theories, systems, methods, or indicators
+mentioned in the book would be profitable or that they will not result in losses. The trading
+systems presented in this book are for guidelines only and serve to illustrate the relative
+theoretical results between different trading systems. They were produced from various
+technical analysis software programs developed by various vendors who are in no way
+responsible for the results. They do not warrant or make any representation regarding the use,
+or the results of the use of their software programs, or written materials in terms of
+correctness, accuracy, reliability, or otherwise. They are not responsible for any losses resulting
+from investment decisions based on information obtained through the use of the systems.
+Certain information contained herein has been obtained from sources believed to be reliable,
+but which cannot be guaranteed as to accuracy or completeness, and is subject to change
+without notice. The risk of using any trading program or method rests with the user.
+
+CHAPTER 1
+
+Be Prepared
+
+Trading stocks is 100 percent mental. Trading means the buying and selling of one or multiple
+stocks to take advantage of price fluctuations, rather than just holding on to the stocks
+indefinitely. Success as a trader is a difficult achievement; it has never been easy. Added to this,
+the 2008 financial crisis brought to the market a new age of volatility, as well as new thinking
+and new approaches in trading. If you do not know what you are doing, trading will now be
+even harder.
+Markets consist of a multitude of investors from individuals to institutions, each with their
+own investment agenda. In aggregate, investors’ emotions of greed, fear, hope, and despair
+dictate market fluctuations and directional movements. Similarly, the psychological state of a
+trader may affect his trading results because his emotions influence his decision making. To
+outperform the market and to succeed in trading, a trader needs to take charge of his
+emotions. To start off, he requires a patient and confident mind. If a trader is confused about
+what he is doing, the probable win ratio is zero and he might as well give up trading. The mind
+is mischievous and it often is the primary cause of failures. The market is always creating noises
+and if a trader fails to control his inner noises, how can he listen to what the market is trying to
+tell him?
+In
+Figure 1.1
+, the Hang Seng Index showed that the market was in an optimistic mood for about 55
+months from April 2005 to its exuberant high in October 2007. Fear began to take over in
+November 2007, and the market finally cracked in January 2008. The financial crisis struck
+across the globe, creating panic among investors. The collapse of confidence lasted about 13
+months until the U.S. government began to announce concerted efforts to calm investors. Hope
+returned to the market with the announcements of the government’s financial stimulus
+packages.
+FIGURE 1.1
+Greed, Fear, Hope, and Despair form the four psychological states of the market, swinging
+sentiment states from optimism to pessimism and repeating it all over again, time after time.
+
+After approximately eight months, the buoyancy of the market slowed down and investors
+seemed to return to an anxious mood. Notice that the volatility of the market, shown by the
+wide monthly range, was greater toward the end of the greed and fear states of the market.
+The top window shows that the momentum oscillator stayed in the oversold zone for 12
+months during the state of fear. During the optimism state, the momentum oscillator stayed
+continually above the oversold line and rose steadily to the overbought zone, supported by
+increasing volume.
+The market is always dynamic. It is oblivious to your wins or losses. But too many traders
+blame the market for their failures. They do not consider for a moment that their failures are
+caused by a lack of preparation and irrational emotions. Whatever the cause, the best solution
+is just to move on to the next trade with a clear mind and in good spirits. A good trader should
+not dwell on the past. A trader’s ego is his greatest hindrance to being successful. The best
+approach is to turn emotion into a positive tool. Whenever any negative emotions stir in him, a
+trader should take it as a wake-up call. He should not allow such emotion to blur his judgment
+and derail his trading plan. The most common fault in trading is overthinking—dwelling on the
+past and not keeping to the trading plan. Besides thinking too much, a trader may believe he is
+always correct and will refuse to accept the reality of the market. Thus, he should make extra
+effort to understand more of himself and his emotion, so that he will trade better and feel
+better.
+
+FUNDAMENTAL AND TECHNICAL ANALYSIS
+When a stock price is compared to its intrinsic value, it is termed as “fundamental analysis.”
+When the stock price is looked at from the angle of supply and demand, it is known as
+“technical analysis.” Each method of analysis is just as useful and important as the other, and
+both methods should be used in combination when reading the market and selecting stocks.
+However, it must be remembered that all analysis serves as a means to estimate the value of
+stocks.
+Fundamentals refer to the financial information reported by the listed companies, which is
+always historical. A fundamental analyst calculates the stock’s future worth based on the
+company’s past reports, and projects its value and relative earnings. Fundamental analysts
+study the change in profitability of the corporation relative to its revenue trend, costs, and
+expenses, which will include an analysis of its business competition, its capitalization, and the
+strength of its business sectors. Fundamental analysts should be aware of the potential risk of
+change between the company’s latest report and its current situation. It takes generally at least
+three months from the cutoff date of the financial statements to have the audited results
+published. During that period, many things can happen and, as a result, the published results
+may not reflect the current state of the company’s financial position. Nonetheless, one would
+be foolish to ignore all fundamental analysis.
+Fundamentals are more determinable and deliver fewer surprise punches. After studying
+companies with consistent earnings and growth, it should be possible to forecast these
+companies’ earnings per share (EPS) and the likely range of their revenue and earnings growth.
+It might also be possible to estimate the return on equity and the dividend payout ratio based
+on each company’s dividend policy. However, it would be difficult to do so for companies with
+volatile levels of revenue and earnings. Investors look for steady growth in both earnings and
+dividend payout over time. This does not mean the investment dividend has to increase each
+year. The dividend payout ratio is an important sign. If the dividend payout ratio starts to make
+a series of declines, business may be turning negative and it should trigger an alert to reassess
+the investment.
+Fundamental analysis is more likely to be based on a uniform standard, which makes it easier
+for investors to understand the results. Fundamental and technical analyses are not alike, but
+there is a growing trend to combine both forms of valuation. In fundamental analysis, the P/E
+ratio is the indicator most often used. It indicates the multiples of earnings represented in the
+current price. However, the indicator has a major flaw; it tends to distort if and when the
+current information and the cycles of an industry have changed since the latest earnings report.
+In spite of this, the P/E ratio has remained a popular and decisive indicator used by many
+analysts for valuing stocks. Other ratios are important as well, including dividend yield and price
+to book value.
+Investors have a tendency to overvalue stocks by pushing their prices to extreme levels,
+especially when such stocks are in hot demand for one reason or another. In such instances,
+P/E ratios can be used as a comparative guide of the stock’s value against other similar stocks in
+its industry, and when the P/E ratios are well above a specific level, the ratio can be used to
+eliminate such stocks. Also, P/E ratios make it practical and easy to search for stocks trading at
+a bargain price. Sometimes, stocks may have extraordinarily low P/E ratios because they may
+be priced too conservatively and the potential for profit is limited. Other times, very low P/E
+stocks should be avoided, as there may be certain undisclosed reasons why they are being
+shunned by knowledgeable investors. A more sensible way, perhaps, is to tread the middle

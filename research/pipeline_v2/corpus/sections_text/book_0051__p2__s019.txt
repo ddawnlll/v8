@@ -1,0 +1,473 @@
+
+Taking a cue from bond investors
+One way to estimate the discount rate is by taking the yield being paid on
+some of the company’s bonds that mature in five years or longer. The yield
+is the return investors would get if they bought the bond at the current price.
+The current yield on thousands of companies’ bonds are available for free at
+brokerage firms’ Web sites. Bond yields are also available on the free corporate
+bond tracking system, TRACE, which is operated by securities regulator FINRA
+at cxa.marketwatch.com/finra/BondCenter. Here’s how to get a bond yield from
+TRACE in four easy steps:
+1. Enter the stock’s ticker symbol in the “Symbol” blank, located under
+the light blue bar that says “Quick Bond Search.”
+2. Choose the Corporate option next to where it says “Bond Type:”.
+3. Select 5 to 10 years in the Maturity space.
+4. Click the Search button.
+
+17 506455-ch11.indd 185
+
+9/24/09 10:35:00 PM
+
+186 Part III: Making Money from Fundamental Analysis
+You’ll see a list of the company’s bonds and their yields, giving you an idea
+of what returns bond investors are demanding. In early 2009, the average on
+P&G bonds was about 4.5%.
+Don’t assume that a bond’s yield is equal to the discount rate for a stock. After
+all, you’re taking more risk buying a company’s stock than a bond investor
+is taking, since you don’t get a guaranteed return. As a result, you must add
+anywhere between one to three percentage points to arrive at a discount rate.
+In this example, you might assume the discount rate to be 7%. The riskier the
+company, the more you’ll want to add to this yield.
+
+Using the Capital Asset Pricing Model (CAPM)
+So, are you sorry you started reading this chapter yet? Hang in there.
+You might not like using a bond yield to approximate a discount rate. After
+all, bond buyers are taking much less risk, since they’re guaranteed a return
+and get first dibs on the company’s assets in case of trouble.
+That’s where the Capital Asset Pricing Model, or CAPM, comes in. This formula
+states a company’s discount rate should be relative to the risk taken by investors and what return they could get for taking no risk. The formula looks
+like this:
+CAPM discount rate = risk free rate + (expected market return –
+risk free-rate) × stock’s beta
+That’s a scary-looking formula. But it’s not bad if you break it down into its parts:
+✓ Risk-free rate: This is the return you’d get for taking very little risk with
+your money. Generally, this is the yield on U.S. securities maturing in
+10 years. This yield is available on nearly any financial Web site. Yahoo
+Finance (finance.yahoo.com) lists it on the top left-hand side of the page
+next to the label, 10 Yr Bond (%). The yield was 2.819% in early 2009.
+✓ Expected market return: This is the return investors generally expect
+from investing in stocks. Generally, investors use the stock market’s
+long-term return of 10% as a reasonable long-term expectation.
+If you don’t like using the 10% long-term average, you can consider measuring the expected market return by adding the dividend yield to the
+earnings yield. If you’d like to find out how to measure dividend yield
+and earnings yield, that’s covered in Chapter 8.
+✓ Stock’s beta: Some stocks are riskier than others. Beta is a statistical
+tool used to quantify how risky a stock is relative to the market. When
+a stock’s beta is greater than 1, the stock is considered to be riskier, or
+more volatile, than the market. When a stock’s beta is less than 1, it’s
+thought to be less risky.
+
+17 506455-ch11.indd 186
+
+9/24/09 10:35:00 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+187
+
+You can get stocks’ betas from nearly all financial Web sites. For instance,
+using MSN Money, money.msn.com, enter the stock’s symbol in the blank in
+the upper left-hand corner of the screen and click the Get Quote button. You’ll
+see the stock’s beta on the right-hand side of the screen. In early March, P&G
+had a beta, for instance, of 0.63.
+Still with me? If so, it’s just a matter of doing some plugging and chugging.
+The discount rate for P&G looks like:
+0.0730 = 0.02819 + (0.1-0.02819) × 0.63
+If you multiply 0.073 by 100, you can convert it into a percentage: 7.3%.
+When using the CAPM to calculate a discount rate, you must convert all the
+interest rates into decimals before inserting them into the formula. You can
+do this by dividing the interest rate by 100. For instance, 10% is 0.1, or 10
+divided by 100.
+
+Putting it all together
+Now that you’ve gathered all the raw data, it’s time to put them into a fullfledged DCM. The primary objective is to estimate a company’s future cash
+flows and then figure out what those cash flows would be worth today. This
+section will show you do to do this.
+
+Forecasting the cash flows for the first five years
+You’ll start by creating a table of what the company’s cash flows will look
+like in the future. All you need is the company’s free cash flow from the justcompleted year and its expected growth rate.
+Going back to the P&G example, start with the company’s 2008 free cash flow of
+$15.8 billion. To estimate what the following year’s free cash flow might be, multiply the previous year’s figure by 10%, or simply by 1.1. So, to estimate 2009’s free
+cash flow, multiply 2008’s ($15.8 billion) by 1.1 to get $17.4 billion. And for year
+two, just repeat. Multiple the estimated 2009 free cash flow of 17.4 billion by
+1.1 to arrive at an estimated 2010 free cash flow of $19.1 billion. Keep repeating
+this procedure for five years until you get something that looks like Table 11-1.
+
+17 506455-ch11.indd 187
+
+Table 11-1
+
+Forecasting P&G’s Future Cash Flows ($ billions)
+
+Year
+
+1 (2009)
+
+2 (2010)
+
+3 (2010)
+
+4
+(2011)
+
+5 (2012)
+
+Expected free
+cash flow in
+future dollars
+
+$17.4
+
+$19.1
+
+$21.0
+
+$23.1
+
+$25.4
+
+9/24/09 10:35:01 PM
+
+188 Part III: Making Money from Fundamental Analysis
+Forecasting the cash flows for years five and beyond
+You might be wondering how long you have to keep multiplying by 1.1. After
+all, P&G will likely be around a very long time. Luckily, though, yet another
+formula will bail us out and help us figure out how much the company is
+expected to earn in perpetuity, known as its residual value. The formula looks
+like this:
+Residual Value = Cash flow in year 5 × (1 + long-term growth rate)/
+(Discount rate – long-term growth rate)
+For P&G, that’s $608.42 billion, as calculated by just plugging the variables
+into the formula like this:
+= 25.4 × (1 + 0.03)/(0.073 – 0.03)
+
+Discounting all the cash flows to current value
+At this point, you’ve estimated how much cash the company is expected to
+generate in its lifetime. There’s just one problem. Those cash flows will be
+received in the future. And as you discovered above, a cash flow received in
+the future is worth less than one received now.
+To solve this mind-bending dilemma, you’ll need to discount the future cash
+flows using the discount rate. That’s right. That’s a big reason why this whole
+tortured exercise is called a discounted cash flow analysis. All you need to
+do now is determine the present value of all the future cash flows you’ve
+estimated. Starting with the first cash flow, $17.4 billion, you would use this
+formula:
+Present value = Future value / (1+interest rate) ^ time
+By hand, you would calculate the answer, $16.22 billion, by inserting the numbers in the present value formula like this:
+Present value = $17.4 / (1+0.073) ^ 1
+Had enough of all these formulas and prefer to let your calculator do the
+work? Using an HP 12C calculator, you would follow these steps:
+1. Set the number of years. Enter 1 and the n key.
+2. Set the discount rate. Enter 7.3 and the i key.
+3. Enter the future cash flow. Enter 17.4 and the FV key.
+4. Calculate the present value. Press the PV key.
+If Excel is more your speed, the following formula will do the trick for you:
+=PV(0.073, 5, 0, 17.4)
+
+17 506455-ch11.indd 188
+
+9/24/09 10:35:01 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+189
+
+Be sure to calculate the present value of all five of the years. And when you’re
+done with that, don’t forget to calculate the present value of the residual
+value. When you calculate the present value of the residual year, in this example, it’s considered to be in year five.
+You should get something that looks like what you see in Table 11-2:
+
+Table 11-2
+
+Present Values of Future Cash Flows ($ billions)
+
+Year
+
+1
+
+2
+
+3
+
+4
+
+5
+
+Residual
+
+Present
+value
+
+$16.2
+
+$16.6
+
+$17.0
+
+$17.4
+
+$17.9
+
+$417.8
+
+Finally, you add up all the present values to arrive at an intrinsic value of
+$502.9 billion. This number can then be compared with the market value to
+see whether the stock is cheap or expensive based on intrinsic value.
+
+Comparing intrinsic value to market value
+Many investors like to think of stocks in terms of their per-share stock prices.
+And now that you have the stock’s intrinsic value, you can finish the analysis by estimating what its intrinsic value, per share, is. To do this, simply
+divide the intrinsic value of $502.9 billion by the number of shares outstanding, which you figured at the beginning of this section to be 3.03 billion. The
+answer: P&G’s intrinsic value is $165 a share. You then compare the stock’s
+intrinsic value to the current stock price, using the rules in Table 11-3:
+
+Table 11-3
+
+Sizing Up Intrinsic Value
+
+If a stock’s intrinsic value is . . .
+
+. . . the stock may be . . .
+
+Greater than the current stock price
+
+Undervalued
+
+Less than the current stock price
+
+Overvalued
+
+At the time this chapter was written, amid the bear market of 2008 and 2009,
+P&G’s stock price was $45.71. Using the discounted cash flow analysis, that
+would make the stock appear to be very undervalued.
+Don’t assume that just because a stock looks undervalued using the DCF analysis, you should run out and buy it. The DCF analysis is highly reliant on the
+multiple assumptions and estimates you’ve made, as I’ll explain more at the
+end of the chapter. Fundamental analysts use the DCF analysis as one of many
+tools before deciding whether or not to buy a stock.
+
+17 506455-ch11.indd 189
+
+9/24/09 10:35:01 PM
+
+190 Part III: Making Money from Fundamental Analysis
+Making the Discounted Cash Flow
+Analysis Work for You
+Perhaps your brain shut down as soon as you hit the first formula above.
+Certainly, the discounted cash flow analysis is one of the more math-intensive
+things you’ll do with fundamental analysis.
+Don’t let the parade of formulas, though, discourage you from using the
+theory of the discounted cash flow analysis. Many people, fearing they’re
+paying too much for a stock, love how the discounted cash flow model gives
+a framework to measure a reasonable value for a stock. But the math just
+scares them away.
+And that’s one reason I recommend beginners to use a variety of Web sites
+that will help them do the analysis for you.
+If you’d like to practice doing another DCF analysis and read through another
+explanation, I’ve made one available here: http://www.usatoday.com/
+money/perfi/columnist/krantz/2005-06-29-cash-flow_x.htm.
+
+Web sites to help you do a DCF
+without all the math
+Given just how much calculation goes into the DCF analysis, it’s not surprising
+you can just let a computer do all the work for you. A couple of sites worth
+checking out include:
+✓ Moneychimp’s Cash Flow Calculator (www.Moneychimp.com/articles/
+valuation) attempts to turn the DCF analysis into a matter of plugging in the data. The site asks for you to enter a company’s earnings.
+However, the analysis works the same if you enter the company’s free
+cash flow instead, if you’d prefer. After you fill in the blanks, click the
+Calculate button, and the site will calculate the intrinsic value.
+✓ Valuation Technologies’ Discounted Cash Flow (www.Valtechs.com/
+r2.shtml) takes more of a tutorial approach. There’s quite of bit of text
+that coaches you on what to enter, and the site does the calculations for
+the DCF analysis.
+✓ KJE ComputerSolutions’ Business Valuation tool (www.dinkytown.
+net/java/BusinessValuation.html) is made with a fundamental
+analyst in mind. You can enter items from the statement of cash flow,
+and the site helps you process the data to arrive at the intrinsic value.
+
+17 506455-ch11.indd 190
+
+9/24/09 10:35:01 PM
+
+Chapter 11: Finding a Right Price for a Stock Using Discounted Cash Flow
+
+191
+
+✓ Damodaran Online’s spreadsheet templates (Pages.stern.nyu.
+edu/~adamodar). If you click on the Spreadsheets option on the left-hand
+side of the screen, you’ll find a treasure trove of financial spreadsheets.
+There’s a section on the site, called Focused Valuation Models, which
+offers a variety of pre-made valuation tools.
+✓ TransparentValue (www.transparentvalue.com) takes a unique
+approach with the DCF model. Rather than analyzing a company’s cash
+flow, and indicating what the stock price is worth, Transparent Value
+tells you how many products a company must sell to justify its current
+stock price. For instance, you can find out how many iPods Apple must
+sell to justify its valuation, based on the DCF model.
+✓ Newconstructs.com (www.newcontructs.com) provides an extremely
+powerful DCF tool designed for professionals. The system automatically
+calculates companies’ cash flow, so you don’t even have to crack open a
+10-K. While the system is designed for professionals, individual investors
+may buy reports the company generates using its methodology.
+
+Knowing the limitations
+of the DCF analysis
+Ever hear the expression, “Garbage in, garbage out?” That’s really the best
+way to describe the DCF analysis. While the analysis gives the impression
+that you’re measuring a stock’s intrinsic value to the penny, it’s highly based
+on the few assumptions you’ve made.
+For instance, you can get just about any stock to look cheap if you jack up the
+discount rate. And while the discount rate seems like it’s based in science,
+that, too, is subject to estimation.
+
+17 506455-ch11.indd 191
+
+9/24/09 10:35:01 PM
+
+192 Part III: Making Money from Fundamental Analysis
+
+17 506455-ch11.indd 192
+
+9/24/09 10:35:01 PM
+
+Chapter 12
+
+Using the Annual Report (10-K) to
+See What a Company Is Worth
+In This Chapter
+▶ Understanding what data fundamental analysts should be on the lookout
+
+for in the annual report
+▶ Getting a game plan on how to logically read an annual report and find
+
+the things that matter
+▶ Pinpointing seemingly minute details that have large meaning for fundamental analysis
+▶ Tuning into valuable information auditing firms share about companies
+
+M
+
+ail carriers around the country know exactly who the fundamental
+analysts in the neighborhood are. The tip-off? Every spring, hundreds
+of companies publish and mail out the annual report to shareholders, which
+are hefty documents full of just about everything fundamental analysts search
+for. The annual report to shareholders and the closely related official annual
+report called the 10-K, for many fundamental analysts, are the single most
+important documents a company provides to investors all year. Think of these
+annual reports as the company’s printed State of the Union Address, a source
+of information of where the business was and where it is headed. And just as
+the State of the Union Address is a chance for the president to stir up hopes for
+the nation, the annual report is a company’s chance to do a bit of flag-waving
+for itself, too.
+The annual report to shareholders and the 10-K annual report are so important that I’m dedicating an entire chapter to them. While the 10-K has been
+touched on in previous chapters in the book, this chapter will give you a road
+map on how to read these massive documents when they arrive.
+I’ll share with you techniques used by fundamental analysts to skip past
+the fluff in the 10-K and get to the meat. You’ll also find out how to find the
+subtle, but important pieces of data buried in annual reports. After reading
+this chapter, I hope that you’ll know exactly what to look for when delving
+into these sometimes intimidating documents.
+
+18 506455-ch12.indd 193
+
+9/24/09 10:36:06 PM
+
+194 Part III: Making Money from Fundamental Analysis
+Familiarizing Yourself with
+the Annual Report
+Plunk. The annual report to shareholders for the company you own shares of
+has just arrived in your mailbox or in your e-mail. You’ll probably notice scores
+of colorful photos and pictures of happy executives and employees at the front
+of the document. But if you flip through pages long enough, you’re sure to hit
+the meat of the report, which is a pile of financials, legal disclaimers and seemingly endless footnotes. You might feel tempted to stuff the document back into
+the mailbox or delete the e-mail and pretend you never got it.
+But while it would seem you need some sort of decoder ring to make any
+sense out of the annual report to shareholders and 10-K, after a little guidance you’ll know exactly what to do. And if you’re already experienced at
+reading annual reports, it’s a good idea to know what kinds of things companies can easily bury in these documents and hope nobody notices.
+
+First, a word on the difference between
+the annual report and the 10-K
+The term annual report is somewhat of a misnomer. When investors mention
+the annual report, they are either confusing or grouping together two separate
+documents that have similar purposes. There’s the annual report to shareholders, which is usually just called the annual report, and the annual report
+required by regulators, usually referred to by its legal name, the 10-K.
+You may notice most fundamental analysts use the terms annual report and
+10-K somewhat interchangeably. And that’s usually okay, since both the
+annual report to shareholders and 10-K generally contain the same information; they just look different.
+When the term annual report is mentioned in this chapter, you can assume I’m
+referring to the 10-K unless I state otherwise.
+
+Introducing the 10-K
+The 10-K is the annual statement companies are required to file with the
+Securities and Exchange Commission. These closely monitored documents
+are required as a result of a company being publicly traded, or having shares
+of stock trading on a major market exchange. Companies that have more than
+500 shareholders may also need to file a 10-K.
+
+18 506455-ch12.indd 194
+
+9/24/09 10:36:06 PM
+
+Chapter 12: Using the Annual Report (10-K) to See What a Company Is Worth
+
+195
+
+The 10-K is a document giving investors and regulators an update on the
+company’s financial standing each fiscal year. The 10-K isn’t much to look at.
+The document is almost always printed entirely in black and white, and is
+very sparse when it comes to graphics and other pretty stuff. The 10-K is the
+document both regulators and auditors look over to make sure the company
+is disclosing, or informing, investors of all the material, or important, facts
+about its business.
+
+Highlighting the annual report to shareholders
+The document known as the annual report to shareholders is essentially the
+glam version of the 10-K. The annual report to shareholders is usually a slick,
+highly produced document companies mail out to investors every year to
+kind of show off a little bit. Many companies make an online version, which
+features fancy graphics and interactive pages. Generally, the printed version of
+the annual report to shareholders looks almost like a magazine, with the first
+few pages covered with photos of beaming employees and giddy customers all
+beside themselves with happiness about using the companies’ products.
+Some companies are trying to remove confusion between the annual report to
+shareholders and the 10-K. A growing number of companies are simply using
+the 10-K as their annual report to shareholders, a move that is also saving
+companies money. But companies, such as Coca-Cola, appear to be making
+the annual report to shareholders more of a high-level and highly readable
+summary for investors. Coke, for instance, calls its annual report to shareholders its annual review. In addition to pages of beautiful people in many
+countries drinking soda, Coke’s annual review summarizes the financials in a
+bird’s-eye view.
+If you’ve ever read an annual report to shareholders, you’ll notice there’s
+kind of a Jekyll and Hyde thing going on. The first part of the annual report is
+colorful and fun. Keep reading, though, and the back half gets pretty serious
+and no-nonsense. In fact, the back portion of the annual report to shareholders is very often a carbon copy of the 10-K, but printed on nicer paper and in
+a more hip font. And in an increasingly common trend, many companies are
+simply putting a colorful promotional folder around the 10-K, called a 10-K
+wrapper, to create a less expensive annual report.
+Some fundamental analysts say the annual report to shareholders is a worthless marketing document. That’s probably a bit of an overstatement, though.
+Certainly, the 10-K is where you want to spend most of your time as an analyst.
+But the marketing portion of the annual report may contain some useful background to help you understand a company. Just know that the annual report to
+shareholders is written to be flattering toward the company and its executives.
+
+18 506455-ch12.indd 195
+
+9/24/09 10:36:06 PM
+
+196 Part III: Making Money from Fundamental Analysis
+Getting your hands on the 10-K
+Obtaining a copy of the 10-K annual report is surprisingly simple. The document
+is available in several formats, depending on what you’re most comfortable
+with, including:
+✓ Downloading from the Securities and Exchange Commission: The most
+direct way to get the 10-K is from the SEC’s IDEA database. This is the
+official database of corporate filings required by the SEC. Downloading
+the annual report from IDEA assures you that you’re looking at the same
+document as the regulators. You can get step-by-step directions on navigating IDEA in Chapter 4.
+✓ Downloading from the company: Most companies will put an electronic
+version of their annual report to shareholders on their Web site. You can
+either view it online or download a PDF file. Many companies will also
+provide access to the 10-K.
+✓ Requesting a paper copy from the company: If you’re the kind of person
+who likes to take a pencil to paper, you can either call or e-mail most companies’ investors relations departments and request a copy of the annual
+report to shareholder or 10-K, or both. Some brokerage firms will
+automatically send paper copies of these documents to shareholders.

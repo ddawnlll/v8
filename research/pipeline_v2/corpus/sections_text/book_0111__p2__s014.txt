@@ -1,0 +1,569 @@
+3. If prices reach a new high but S-ROCtraces a lower peak, it shows that
+the market crowd is less enthusiastic even though prices are higher. A
+bearish divergence between S-ROC and price gives a strong signal to
+sell short.
+4. If prices fall to a new low but S-ROC traces a higher bottom, it shows
+that the market crowd is less fearful, even though prices are lower. It
+
+29. WILLIAMS %R
+
+151
+
+..
+
+Figure 28-4.
+
+138
+
+Smoothed Rate of Change (S-ROC13/21 )
+
+To create this indicator, calculate a 13-day exponential moving average
+
+of closing prices and apply a 21-day Rate of Change to it. S-ROC usually
+flows in smooth waves whose crests and bottoms identify many important turning points. This indicator works especially well in the stock market, with stock groups as well as with individual stocks.
+
+shows that the downside pressure has lessened, even though the market has fallen deeper than before. A bullish divergence gives a strong
+signal to cover shorts and buy.
+
+29. WILLIAMS %R
+Williams %R (Wm%R) is a simple but effective oscillator described by
+Larry Williams in 1973. It measures the capacity of bulls and bears to close
+prices each day near the edge of the recent range. Wm%R confirms trends
+and warns of their upcoming reversals.
+
+Hr - C
+Wm%R = 100
+
+Hr - Lr
+
+152
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+where r = the time window selected by a trader, such as 7 days.
+H,= the highest high of the selected period (i.e., a 7-day high).
+L, = the lowest low of the selected period (i.e., a 7-day low).
+C = the latest close.
+Wm%R measures the placement of each closing price in relation to the
+recent high-low range. It expresses the distance from the highest high to the
+lowest low in its time window as 100 percent. It expresses the distance from
+the latest closing price to the top of that window as a percentage of the range
+in its window (see worksheet, Figure 29-1). Williams %R is closely related
+to Stochastic (see Section 30).
+Wm%R is designed to fluctuate between 0 and 100 percent. It equals 0
+(plotted at the top of the chart) when bulls reach the peak of their power and
+close prices at the top of the range. It reaches 100 percent when bears are at
+the peak of their power and close prices at the bottom of the recent range.
+A rule of thumb with all oscillators-when in doubt,-make them shorter.
+This is the opposite of trend-following indicators-when in doubt make
+them longer. Oscillators with narrow windows help catch short-term reversals. If you work with cycles, make Wm%R equal half the cycle length. A 7day window fits Wm%R fine. Wm%R works well with weekly charts-use
+a 7-week window.
+Horizontal reference lines for Wm%R are drawn at 10 percent and 90 percent levels. When Wm%R closes above its upper reference line, it shows
+that bulls are strong but the market is overbought. When Wm%R closes
+below its lower reference line, it shows that bears are strong but the market
+is oversold.
+Crowd Psychology
+Each price is a momentary consensus of value among all market participants.
+The high of the recent range shows how high bulls can lift prices - it reflects
+their maximum power. The low of the range reflects the maximum power of
+bears during that period. Closing price is the most important consensus of
+the day because the settlement of trading accounts depends on it.
+Wm%R compares each closing price to the recent range. It shows whether
+bulls can close the market near the top of the recent.range or bears can close
+the -market at the bottom of the range. Wm%R measures the balance of
+power between bulls and bears at closing time - the crucial money-counting
+time in the market.
+Bulls may push prices higher during the day, or bears may push them
+
+153
+
+29. WILLIAMS %R
+
+Gold
+
+Figure 29-1.
+
+Williams O/OR Worksheet
+
+Wm%R expresses the distance from the latest closing price to the top of
+the 7-day high-low range as a percentage of that range. Wm%R:7 is calculated here using a -/-day time window. You may choose a longer or a
+shorter window, depending on the trend you are trying to analyze.
+
+lower. Wm%R shows which group is capable of closing the market in its
+favor. If bulls cannot close the market near the top during a rally, they are
+weaker than they seem. This is a shorting opportunity. If bears cannot close
+the market near the lows during a decline, they are weaker than they appear.
+This is a buying opportunity.
+
+Trading Rules
+
+Wm%R gives three types of trading signals. They are, in order of importance, bullish or bearish divergences, failure swings, and overbought-oversold readings (Figure 29-2).
+
+154
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+..
+
+Figure 29-2.
+
+370,3
+
+Seven-Day Williams %R (Wm%R:7)
+
+When Wm%R rises above its upper reference line, it shows that the market is overbought. When it falls below its lower reference line, it shows
+that the market is oversold. The best buy and sell signals are given by
+divergences (marked by arrows). A Class B bearish divergence in July
+gave a sell signal. A Class A bullish divergence in September gave a
+strong buy signal.
+Failure swings (marked by the letter F) occur when Wm%R reverses
+without reaching its reference line. This happens during reactions against
+very strong trends-failure swings confirm those trends. A failure swing
+during a downtrend in August gave a strong sell signal. A failure swing
+during an uptrend in September gave a strong buy signal.
+At the right edge of the chart, prices are surging. If Wm%R dips below
+its lower reference line, use that as a buying opportunity. Do not sell
+short unless a bearish divergence emerges.
+
+Divergences
+
+Divergences between prices and Wm%R rarely occur. They identify the best
+trading opportunities. When Wm%R rises above its upper reference line,
+falls, and then cannot rise above that line during the next rally, it creates a
+bearish divergence. It shows that bulls are losing their power and the market
+
+is likely to fall. A bullish divergence occurs when Wm%R falls below its
+lower reference line, rallies, and then cannot decline below that line when
+prices slide again. It shows that bears are losing power and a rally is in the
+offing.
+
+1. When you identify a bullish divergence, go long and place a protective
+stop below the recent price low.
+2. When you identify a bearish divergence, go short and place a protective stop above the recent price high.
+Failure Swings
+
+Crowds tend to swing from one extreme to the other. Wm%R seldom
+reverses in the middle of its range. Failure swings occur when Wm%R fails
+to rise above its upper reference line during a rally or fall below its lower
+reference line during a decline.
+
+3. When Wm%R stops rising in the middle of a rally and turns down
+without reaching its upper reference line, it produces a failure swing.
+This shows that bulls are especially weak and gives a sell signal.
+4. When Wm%R stops falling in the middle of a decline and turns up
+without reaching its lower reference line, that is a failure swing. It
+shows that bears are very weak and gives a buy signal.
+Overbought and Oversold
+
+When prices close near the upper edge of their range, Wm%R reaches its top
+and becomes overbought. When prices close near the bottom of their recent
+range, Wm%R falls and becomes oversold. Neither bulls nor bears are allpowerful. They seldom can close prices near the extreme of the recent range
+for too many days in a row.
+
+5. When Wm%R rises above its upper reference line, it marks a potential
+market top and gives a sell signal.
+6. When Wm%R falls below its lower reference line, it marks a potential
+
+market bottom and gives a buy signal.
+These overbought and oversold signals tend to work well during flat trading ranges. They become premature and dangerous when the market enters a
+
+156
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+trend. Wm%R can stay near the top for a week or longer during a strong
+rally: Its overbought readings can identify strength rather than a shorting
+oppofiunity. Similarly, in a strong downtrend, Wm%R can stay oversold for
+weeks, indicating weakness rather than a buying opportunity.
+Overbought and oversold readings of Wm%R should be used for trading
+only after you identify the major trend. Use long-term trend-following indicators for that purpose (see Section 43). If a weekly chart shows a bull market, take only buy signals from daily Wm%R, and do not go short when it
+gives a sell signal. If a weekly chart indicates a bear market, sell short whenever daily Wm%R gives you a sell signal, but do not go long when it
+becomes oversold.
+
+30. STOCHASTIC
+Stochastic is an oscillator popularized by George Lane. It is now included in
+many software programs and widely used by computerized traders.
+Stochastic tracks the relationship of each closing price to the recent high-low
+range.
+Stochastic is more complex than Williams %R. It includes several steps
+for filtering out market noise and weeding out bad signals. Stochastic consists of two lines: a fast line called %K and a slow line called %D.
+1. The first step in calculating Stochastic is to obtain "raw Stochastic" or
+% K.
+
+where Ctod = today's close.
+Ln = the lowest point for the selected number of days.
+Hn = the highest point for the selected number of days.
+n
+= the number of days for Stochastic, selected by the trader.
+The standard width of Stochastic's time window is 5 days, although some
+traders use much higher values. A narrow window helps catch more turning
+points, but a wider window helps identify major turning points.
+2. The second step is to obtain %D. It is done by smoothing %K-usually over a three-day period. It can be done in several ways, such as:
+
+30. STOCHASTIC
+
+%D =
+
+3-day sum of (Ctod - L,)
+3-day sum of (H, - L,)
+
+100
+
+There are two ways to plot Stochastic-Fast and Slow. Fast Stochastic
+consists of two lines - %K and %D-plotted on the same chart. It is very sensitive to market turns but leads to many whipsaws. Many traders prefer a less
+sensitive Slow Stochastic. The %D of Fast Stochastic becomes the %K of
+Slow Stochastic and is smoothed by repeating step 2 to obtain %D of Slow
+Stochastic. Slow Stochastic does a better job of filtering out market noise and
+leads to fewer whipsaws. A 5-bar Slow Stochastic (smoothed over a 3-day
+period) is a popular choice among traders (see worksheet, Figure 30-1).
+Swiss Franc
+
+-
+
+Figure 30-1.
+
+-
+
+Stochastic Worksheet
+
+The %K of Fast Stochastic is similar to Williams %R.
+The %D of Fast Stochastic is obtained by smoothing %K over a 3-day
+period.
+The %D of Fast Stochastic becomes the %K of Slow Stochastic and is
+smoothed once again to obtain %D of Slow Stochastic.
+Most traders use computers to construct Stochastic. Choosing the
+width of the Stochastic window depends on a trend you are trying to
+identify. A very short-term Stochastic (5 days or so) helps catch shortterm reversals. A longer Stochastic (14-21 days) helps identify more significant market turns.
+
+158
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+Stochastic is designed to fluctuate between 0 and 100. Reference lines are
+drawn at 20 percent and 80 percent levels to mark overbought and oversold
+areas. Slow Stochastic seldom reaches the same extremes as raw Williams
+%R.
+
+Crowd Psychology
+Each price is the consensus of value of all market participants at the moment
+of transaction. Daily closing prices are important because the settlement of
+trading accounts depends on them. The high of any period marks the maximum power of bulls during that time. The low of that period shows the maximum power of bears during that time.
+Stochastic measures the capacity of bulls or bears to close the market near
+the upper or lower edge of the recent range. When prices rally, markets tend
+to close near the high. If bulls can lift prices up during the day but cannot
+close them near the top, Stochastic turns down. It shows that bulls are
+weaker than they seem and gives a sell signal.
+Daily closes tend to occur near the lows during downtrends. When a bar
+closes near its high, it shows that bears can only push prices down during the
+day but cannot hold them down. An upturn of Stochastic shows that bears
+are weaker than they appear and flashes a buy signal.
+
+Trading Rules
+Stochastic shows when bulls or bears become stronger or weaker. This
+information helps you decide whether bulls or bears are likely to win the
+current fight in the market. It pays to trade with the winners and against
+the losers.
+Stochastic gives three types of trading signals, listed here in the order of
+importance: divergences, the level of Stochastic lines, and their direction
+(Figure 30-2).
+
+Divergences
+
+The most powerful buy and sell signals of Stochastic are given by divergences between this indicator and prices.
+
+30. STOCHASTIC
+
+,. Swiss Franc
+
+14
+
+:: 11'1' t
+"
+
+11, l ~ \ ~ ~ j i 1i , h l
+
+lflll,!
+t
+
+1 l'~'l'~!'l]
+sell
+
+, 1 , 1 1 111
+
+1'
+
+sell
+
+A
+
+self
+
+.. M a y Slow Stochastic
+
+Figure 30-2.
+
+,
+
+.
+
+6833
+
+f / + \ ~ ' + / ~ ~
+
+S~II
+
+'"I'
+
+"
+
+..
+..
+.A
+
+67"
+65,48
+63*96
+62,43
+
+.. 128,88
+
+Five-Day Slow Stochastic
+
+Stochastic lines help identify top and bottom areas when they move
+above or below their reference lines. These signals work well during
+trading ranges but are premature when a new trend begins (see early
+September). Stochastic gives its best signals when it diverges from prices.
+There is a Class A bearish divergence in early October, prior to a sharp
+price break.
+Once you go long or short using Stochastic, place a protective stop
+immediately below the latest minor low or above the latest minor high.
+There is a buy signal at the right edge of the chart-it is time to cover
+shorts and buy.
+A
+
+1. A bullish divergence occurs when prices fall to a new low but
+Stochastic traces a higher bottom than during the previous decline. It
+shows that bears are losing strength and prices are falling out of inertia. As soon as Stochastic turns up from its second bottom, it gives a
+strong buy signal: Go long and place a protective stop below the latest
+low in the market. The best buy signals occur when the first bottom is
+below the lower reference line and the second is above it.
+2. A bearish divergence occurs when prices rally to a new high but
+Stochastic traces a lower top than during its previous rally. It shows
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+160
+
+that bulls are becoming weaker and prices are rising out of inertia. As
+soon as Stochastic turns down from its second top, it gives a sell signal: Go short and place a protective stop above the latest price peak.
+The best sell signals occur when the first top is above the upper reference line and the second is below.
+Overbought and Oversold
+
+When Stochastic rallies above its upper reference line, it shows that the market is overbought. Overbought means too high, ready to turn down. When
+Stochastic falls below its lower reference line, it shows that the market is
+oversold. Oversold means too low, ready to turn up.
+These signals work fine during trading ranges but not when a market
+develops a trend. In uptrends, Stochastic quickly becomes overbought and
+keeps giving sell signals while the market rallies. In downtrends, Stochastic
+quickly becomes oversold and keeps giving premature buy signals. It pays to
+combine Stochastic with a long-term trend-following indicator (see Section
+43). The Triple Screen trading system allows traders to take buy signals from
+daily Stochastic only when the weekly trend is up. When the weekly trend is
+down, it allows traders to take only sell signals from daily Stochastic.
+3. When you identify an uptrend on a weekly chart, wait for daily
+Stochastic lines to decline below their lower reference line. Then,
+without waiting for their crossover or an upturn, place a buy order
+above the high of the latest price bar. Once you are long, place a protective stop below the low of the trade day or the previous day,
+whichever is lower.
+
+The shape of Stochastic's bottom often indicates whether a rally is likely
+to be strong or weak. If the bottom is narrow and shallow, it shows that bears
+are weak and the rally is likely to be strong. If it is deep and wide, it shows
+that bears are strong and the rally is likely to be weak. It is better to take only
+strong buy signals.
+4. When you identify a downtrend on a weekly chart, wait for daily
+Stochastic lines to rally above their upper reference line. Then, without waiting for their crossover or a downturn, place an order to sell
+short below the low of the latest price bar. By the time Stochastic lines
+cross over, the market is often in a free fall. Once you are short, place
+
+30. STOCHASTIC
+
+161
+
+a protective stop above the high of the trade day or the previous day,
+whichever is higher.
+The shape of Stochastic's top often indicates whether a decline is likely to
+be steep or sluggish. A narrow top in Stochastic shows that bulls are weak
+and a severe decline is likely. A Stochastic top that is high and wide shows
+that bulls are strong- it is safer to pass up that sell signal.
+
+5. Do not buy when Stochastic is overbought and do not sell short when
+it is oversold. This rule filters out most bad trades.
+Line Direction
+
+When both Stochastic lines are headed in the same direction, they confirm
+the short-term trend. When prices rise and both Stochastic lines rise, the
+uptrend is likely to continue. When prices slide and both Stochastic lines fall,
+the short-term downtrend is likely to continue.
+
+More on Stochastic
+Stochastic can be used in any timeframe, including weekly, daily, or intraday. Weekly Stochastic usually changes its direction one week prior to
+weekly MACD-Histogram. If weekly Stochastic turns, it warns you that
+trend-following MACD-Histogram is likely to turn the next week. It is a signal to tighten stops on existing positions or start taking profits.
+Choosing the width of the Stochastic window is important. Short-term
+oscillators are more sensitive. Long-term oscillators turn only at important
+tops and bottoms. If you use Stochastic as a stand-alone oscillator, a longer
+Stochastic is preferable. If you use Stochastic as part of a trading system,
+combined with trend-following indicators, then a shorter Stochastic is
+preferable.
+An ingenious way to use Stochastic, popularized by Jacob Bernstein, is
+called a Stochastic pop. When Stochastic crosses above its upper reference
+line, it indicates strength. You can buy for a quick rally and sell as soon as
+Stochastic turns down. This signal can help you catch the last splash of the
+bullish wave.
+Stochastic is one of the favorite tools of automatic trading systems developers. These modern-day alchemists try to use Stochastic in a pu-ily
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+162
+
+mechanical manner, buying and selling when the two Stochastic lines cross.
+They discard Stochastic when it fails to deliver magic results. Trading the
+crossovers of Stochastic lines is not profitable, no matter how much you
+optimize them, because Stochastic works differently, depending on whether
+the market is in a trend or in a trading range.
+
+31. RELATIVE STRENGTH INDEX
+Relative Strength Index (RSI) is an oscillator developed by J. Welles Wilder,
+Jr. It is now included in most software packages. RSI measures the strength
+of any trading vehicle by monitoring changes in its closing prices. It is a
+leading or a coincident indicator - it is never a laggard.
+100
+RSI = 100 1+RS
+average of net UP closing changes for a selected number of days
+RS =
+average of net DOWN closing changes for the same
+number of days
+The pattern of RSI peaks and valleys does not change in response to the
+width of its time window. Trading signals become more visible with shorter
+RSI, such as 7 or 9 days. Most traders use computers to calculate and plot
+RSI. Take these steps to calculate a 7-day RSI for any market:
+1. Obtain closing prices for the past 7 days.
+
+2. Find all days where the market closed higher than the day before and
+add up the amounts of increases. Divide the sum by 7 to obtain the
+average UP closing change.
+
+3. Find all days when the market closed lower than the day before and
+add up the amounts of declines. Divide the sum by 7 to obtain the
+average DOWN closing change.
+4. Divide the average UP closing change by the average DOWN closing
+change to obtain Relative Strength (RS). Insert RS in the formula
+above to arrive at RSI - Relative Strength Index.
+
+5. Repeat the process daily (see worksheet, Figure 31-1).
+
+31. RELATIVE STRENGTH INDEX
+
+163
+
+r
+
+Swiss Franc
+
+Date......... ". ..................................
+Close
+UpAvq:7
+DownAvg:7.............
+I RSI:7
+"..................
+"..
+..."". .........?i....................
+................
+"
+
+""
+
+77.34
+10129
+i
+.{ ............................................................
+........................................................................................
+78.02
+10130
+j
+10131
+1 77.71 I
+i
+I
+1111
+78.45
+1
+!
+79.15
+1112
+:
++L .............................
+......................................................................................................................
+i
+79.91
+1115
+:.............................4.............................
+........................................................................................
+79.63
+1116
+i
+I
+1117
+1 79.99 ) 0.4629
+0.0843 I 84.60
+0.3967 i 0.0765 1 83.83
+0.0685 i:.............................
+83.24
+0.3401 9i.............................
+...........................
+0.2943 9i.............................
+0.0587 i.............................
+83.38
+...........................
+0.2523 I 0.0789 ---76.18
+--1 80.09 1 0.2634 i 0.0676 j 7 9 . 5 8 7
+11/14
+11/15
+1 79.72 1 0.2258 / 0.1108 j 67.08
+11/16
+1 80.10 1 0.2478 i 0.0950 ! 72.29
+i
+
+Figure 31-1.
+
+Seven-Day Relative Strength Index Worksheet
+
+Begin by calculating average UP closing and average DOWN closing for
+the past 7 days. Insert the results in the RSI formula and then start using
+the calculation shortcut, as outlined in the text.
+
+If you calculate RSI by hand, you can use a shortcut. Once you have 7
+days' worth of data, replace steps 2 and 3 on all following days:
+2. Multiply yesterday's average UP closing change by 6, add today's UP
+closing change, if any, and divide the total by 7. That is your new
+average UP closing change.
+3. Multiply yesterday's average DOWN closing change by 6, add today's
+DOWN close if any, and divide the total by 7. That is your new average DOWN closing change. Then proceed to step 4 (opposite page).
+
+RSI fluctuates between 0 and 100. When RSI reaches a peak and turns
+down, it identifies a top. When RSI falls and then turns up, it identifies a bottom. These turns come at different levels in different markets or even in the
+same market, during bull and bear periods.
+
+164
+
+COMPUTERIZED TECHNICAL ANALYSIS
+
+Overbought and oversold levels vary from market to market and from
+year to year. There are no magical levels marking all tops and bottoms.
+Oversold and overbought signals are like hot and cold readings on a thermometer. The same temperature has a different meaning in summer or in
+winter.
+Horizontal reference lines must cut across the highest peaks and the lowest valleys of RSI. They are often drawn at 30 and 70. Some traders use 40
+and 80 levels in bull markets or 20 and 60 in bear markets. Use the 5 percent
+rule: Draw each line at a level beyond which RSI has spent less than 5 percent of its time in the past 4 to 6 months. Adjust reference lines once every
+three months.

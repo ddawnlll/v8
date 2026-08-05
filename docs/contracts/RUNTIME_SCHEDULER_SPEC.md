@@ -44,11 +44,17 @@ experiment; it is absent by default (`V8_CONSTITUTION` rule 6).
 
 ## 3. Topology and state ownership
 
-- The research runtime is a **single process**: components are modules with
-  interface contracts (`Expert.evaluate`, `Lifecycle.apply`,
+- The research runtime is currently a **single process**: components are
+  modules with interface contracts (`Expert.evaluate`, `Lifecycle.apply`,
   `Simulator.step`, `Lab.run`), not services. There is no hidden shared
   mutable state; all cross-component information flows through `MarketState`
   values and append-only logs.
+- Determinism rests on the **single writer plus a declared evaluation order**
+  (Experts sorted by `expert_id`), not on the process count. This matters now
+  that rule 14 leaves the Expert count unbounded: growing it is a throughput
+  question, and a future multi-process or multi-threaded evaluation fan-out is
+  an engineering change, not a validity change, as long as the single-writer
+  discipline and the declared order are preserved.
 - The **candidate lifecycle service owns transition legality**: only it may
   write `CandidateTransition` records, and only legal transitions pass
   (`CANDIDATE_LIFECYCLE_SPEC` §2).
@@ -77,8 +83,13 @@ claim is admissible until it is independently renewed.
    its OHLC returns `NOT_YET_AVAILABLE`.
 2. Two events with identical timestamps are processed in the declared
    tie-break order, deterministically, across runs.
-3. Shuffle the evaluation order of independent experts; results and stored
-   events are identical.
+3. Shuffle the caller's Expert list; results and stored events are identical.
+   The runtime sorts by `expert_id` before evaluating, so this holds under full
+   exposure contention too, not only when Experts rarely coincide
+   (`tests/test_admission_contention.py`). The surviving tie-break for a
+   contested exposure slot is therefore that lexicographic order — deterministic
+   but arbitrary; replacing it with a ranking is gated by rule 6 / D-008
+   (O-006 / O-012).
 4. A replay run and a live-adaptor contract test produce the same event
    stream for the same tape window.
 5. An expert that reads a fact with `available_time > D` fails the state

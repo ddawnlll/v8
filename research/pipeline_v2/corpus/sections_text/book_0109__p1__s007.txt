@@ -1,0 +1,592 @@
+
+VOLATILITY MATH
+For the math-minded, here is a formula for volatility.
+Vol = 100
+
+252
+∑ R12 Rt
+n
+
+Vol = realized volatility
+N = number of trading days in the period
+Rt = continuously compounded daily returns
+
+Advanced Technical Analysis: Volatility Tools
+
+99
+
+Bollinger Bands are a popular indicator used in many markets. They
+enable the trader to confirm whether the price is at an upper range or
+resistance, and whether the price is at a lower range or support. When
+prices are near Bollinger Bands, they have a strong probability of pausing
+in their direction and reversing. This has important implications to the
+binary option trader because the binary option strike price may be located
+above, or below one of the bands. Or the binary option strike price might
+be right in the middle of the band. The trader needs to know where the
+binary option strike price is in relationship to the band to assess properly
+the degree of likely resistance or support that will be encountered as time
+moves forward.
+
+Interpreting Bollinger Bands
+Interpreting the Bollinger Band patterns (Figure 6.1) is straightforward and
+can be explained as a simple three-step process:
+1. Notice the shape of the band.
+The bands can be narrow or wide. If the band is narrow, it means that
+the market is becoming undecided as to which direction to go. A narrow
+band becomes narrow as the range between support and resistance
+decreases. A band becomes wider as the range becomes wider.
+2. Notice the direction of the bands.
+The band can be sideways, tilted up, or tilted down. If it is a sideways
+band and looks quite level, this means that the trend direction is in a
+pause before it resumes going up or down. If the bands are tilted up, this
+means that the trend is upward. If the bands are titled down, it means
+the trend is downward.
+3. Notice the location of the price.
+The price (candles or bars) are often right on the band. If there are
+several candles in a row on an upper or lower band, it indicates that the
+market is sticky and is not ready yet to decide which way to go.
+
+Do’s and Don’ts
+When noticing a narrow band, try to avoid trading it because it can suddenly
+move against you. It’s actually a very good precondition for a breakout binary
+option trade. When the price has moved above the Bollinger Band, watch if
+it tries to come back below the band; if it does, it is an indication of a reversal
+down. When the price has moved below the Bollinger Band, watch if it tries
+
+100
+
+Trading Binary Options
+
+Figure 6.1 Basic Features of Bollinger Bands
+
+Upper Band
+
+Moving Average Line
+20 Periods
+
+Lower Band
+
+Band Narrows
+
+to come back above it; if it doesn’t, it is an indication of a reversal back up.
+Don’t assume that if a price is at a Bollinger Band, it will stop there. It can
+stay at the band for a long time.
+Bollinger Bands also provide a standard and accepted quick look at
+volatility. The wider the bands are, the greater the range between support
+and resistance. When Bollinger Bands become narrow, it is a signal of breakout potential. When Bollinger Bands are very wide, they reflect increased
+volatility conditions. The Bollinger Band has a standard setting of (20, 2).
+The number 20 represents the simple moving average, and the number 2
+represents the standard deviation around the moving average. This means
+that the price is 96 percent of the time between the upper and lower levels.
+A price probing or breaking an upper or lower band signals a big change in
+volatility. It means the trader should be much attuned to what is going on.
+The price is there for a reason, and assumptions that it will reverse have to
+be confirmed.
+An additional technique useful to traders is to put on an extra outer band
+at a setting of (13, 2.618). This additional setting represents 13 periods as the
+
+Advanced Technical Analysis: Volatility Tools
+
+101
+
+moving average and a 2.618 standard deviation. This means that the upper
+and lower bands are capturing 99 percent of the move. A price that has gone
+through the standard band (20, 2) and also the outer band of (13, 2.618) is at
+very high levels of extreme value. This is often associated with very high levels
+of volatility and therefore is a reversal signal.
+
+Using Bands with Support and Resistance Lines
+In our introductory section, we described the basic definition of Bollinger
+Bands. This section will help you identify ways to combine Bollinger Bands
+with other technical analysis tools to make them even more effective.
+The first tool that should be combined with a Bollinger Band is a support and resistance line. In many ways, a Bollinger Band acts as a kind of
+resistance, or support line. By its very nature, the bands are providing a
+boundary for the price. It is a statistical boundary and the bands are not
+actual price support or resistance lines. A price support and resistance line
+connects lows or highs of the prices in a selected time interval. When you
+combine Bollinger Bands and support and resistance lines, the effect can
+be much greater information about how strong the support or resistance
+is. It is always a good idea to use both Bollinger Bands and support and
+resistance lines.
+We see that the upper Bollinger Band is coinciding almost exactly with
+the resistance line (Figure 6.2). When this happens the trader is more confident that there is serious and strong resistance in this area. It’s important to
+notice that the price highs are able to go above the upper Bollinger Band. This
+shows that the Bollinger Bands are really a zone and should not be interpreted
+as a solid resistance or support area. It’s important to observe what the price
+is doing after it penetrates the Bollinger Band. Is it returning back into the
+band? When this happens, it is a strong reversal condition.
+
+Using Bands with Trend Lines
+Another useful approach is to combine Bollinger Bands with trend lines. This
+combination works very well together (Figure 6.3).
+First, we can notice that the band is fairly sideways and wide in shape.
+This provides more opportunity for the price to bounce around. In fact, we
+can see that the price came to the bottom of the bands and started turning
+up. It created an outer trend and then quickly shifted inward and it created
+an inner trend line and then another inner trend line. This showed a great
+deal of momentum. By drawing the inner trend lines, the trader can see that
+
+102
+
+Trading Binary Options
+
+Figure 6.2 Bollinger Bands with Support and Resistance Lines
+
+Bollinger Bands coincide
+with resistance level
+
+Sell on
+break
+
+Sell condition as
+price hugs band
+
+the price is very bullish. In fact, the price went up to the top of the Bollinger
+Band. When the price is at an upper band, it is a clue that it may turn around.
+In this situation, the trader should wait until the price goes back and breaks
+the trend line to confirm a selling condition!
+Let’s examine a situation in which the price is entering a downward trend
+and the candles are sliding down the lower Bollinger Band (Figure 6.4). This
+kind of pattern is seen often. The price after going up then breaks its uptrend.
+At that point, it is a sell signal. Another sell point occurs when the price on
+its way down hesitates, forms a doji, and then breaks down. This is a key sell
+point because it shows a failure to go up.
+
+Advanced Technical Analysis: Volatility Tools
+
+103
+
+Figure 6.3 Bollinger Bands and Trend Lines
+
+Resistance
+
+Inner Trend Line
+
+Outer Trend Line
+
+The question will arise: What are indications that a bounce back up is
+likely? If the price is in a downtrend line and it breaks that line, then the
+situation can be considered a move toward the other side. By using trend
+lines in combination with Bollinger Bands, the ability to locate an entry
+point is greatly enhanced. If the Bollinger Band is sideways and flat, it really
+is the best shape for binary option traders because it’s the condition for a
+breakout trade.
+
+104
+
+Trading Binary Options
+
+Figure 6.4 Price Action on the Lower Bollinger Band
+
+Sell on break of
+uptrend
+
+Sell on break below doji
+
+Adding Another Band with a Different Setting
+To further advance your knowledge and use of Bollinger Bands, we introduce
+here the addition of a second band setting. The first setting is a standard,
+or default, setting of 20, 2. This, as you know, means, 20 periods, and two
+
+Advanced Technical Analysis: Volatility Tools
+
+105
+
+standard deviations. It captures between the two bands 96 percent of the
+prices. What happens if we add another band with a different setting? Another
+band might help us understand better what is happening with the first band!
+A second band setting suggested here is known as the extended Bollinger
+Band (EBB). Its setting is (13, 2.618). This means the moving average is 13
+periods and the standard deviation is nearly at 3 or 99 percent. The 2.618 is
+really a Fibonacci extension number.
+Let’s examine what it means for the trader to put on another Bollinger
+Band with the settings of 13, 2.618 (Figure 6.5). First, it means that the
+moving average, or the middle line of the Bollinger Band, is a shorter time
+line. Contrast this with the 20-period time line. This provides the trader a
+view that is nearer to the recent action. But the adjustment of the setting
+to 2.618 standard deviations means that the band widens to capture nearly
+99 percent of the action. If we put these two settings together, we have two
+upper bands and two lower bands! The result is four bands. The trader should
+particularly focus on where the price is. If the price is beyond the inner band,
+which is usually the standard band setting of 20, 2, it means the price is at
+an extreme. But the trader using an extended Bollinger Band can see that it
+would be very extreme only if it went to touch or go beyond the outer band
+of 13, 2.618. The addition of an extended Bollinger Band is very effective in
+alerting the trader to a buy or sell signal. In Figure 6.5 we see that the price hit
+a double bottom that was sitting right on both lower bands. That represents
+very strong support.
+Let’s consider how the EBB generates price signals. For a sell signal situation, the concept is simply that if the price goes to the EBB, the trader has
+an extreme situation and can consider it to be a strong predictor of a reversal.
+If the price goes beyond the EBB and then returns below it, this is a strong
+sell signal.
+A buy signal is straightforward. If the price goes beyond the bottom EBB
+and then returns above it, it is a strong buy signal!
+We can clearly see in Figure 6.5 that when the price went down to the
+lower bands, a candle going back up followed it. This showed that the mood
+of the market was more bullish. Without the EBB, the trader wouldn’t have
+an ability to confirm if the price is about to reverse.
+
+Example of Step-by-Step Analysis
+Let’s pause and reflect on the technical analysis process so far, evolving toward
+placing a binary option trade (Figure 6.6). The flow of analysis starts with an initial technical scan of fundamental market conditions. A second phase consists
+
+106
+
+Trading Binary Options
+
+Figure 6.5 Buy and Sell Signals with Extended Bollinger Bands
+
+Extended Bollinger Band
+setting = (13,2.618)
+
+Strong double bottom
+
+Figure 6.6 Technical Analysis Process Leading to Binary Option Trades
+
+Place Your Trade
+
+Choose Binary Option Strike Price
+Check Chart Patterns
+Check and Rank
+Trend Conditions
+
+Check
+Ranging Markets
+
+Scan Fundamental Market Conditions
+
+Advanced Technical Analysis: Volatility Tools
+
+107
+
+of a thorough checking and ranking of trend conditions. The analytical process continues by checking the presence of sideways, or ranging, markets. At
+this point, a close look at chart patterns is in order. Some underlying markets
+look better than others and will appeal to the trader. Once you select the
+underlying market(s) to trade, the challenge is to find the binary option strike
+price that matches the pattern. Then place your trade. Let’s explore these steps
+with more scrutiny.
+Step 1: Scan the Fundamental Market Conditions
+The initial technical analysis scanning process starts with a review of the most
+important market complexes. They include, but are not limited to the USDX,
+gold, oil, the Shanghai Index, SPX, and so on.
+The goal of the scan is to evaluate the technical conditions in these
+important markets. The conditions include, but are not limited to trends,
+momentum, resistance, support, and volatility.
+While there isn’t one single method to conduct the technical scan, the
+initial scan should include multiple time frames. Multiple time frames need
+to be reviewed from the weekly and daily to the four-hour patterns to gain a
+sense about any changes in the mood of the market. The four-hour pattern
+provides a good interim time period. It reflects most recent market reactions,
+and allows the trader to still review the price action over several days. The key
+point here is to never review only one time frame. Upon performing the scans,
+ask yourself what is interesting that strikes you. Interesting patterns noticed
+by the trader are very important. This is also known as the blink effect. It
+means one can recognize binary trading opportunities within seconds!
+Figure 6.7 Key Markets to Scan
+
+Crude
+Oil
+
+Gold
+
+Key
+Fundamental
+Scans
+U.S. Dollar
+Index
+
+Copper
+
+108
+
+Trading Binary Options
+
+Step 2: Check and Rank Trend Conditions
+The focus of analysis here is on ranking the trend conditions. Trends can be
+just starting, strong, and stable. Of course, they can also begin to show weakening. These conditions, once detected, will help the trader match the binary
+option strategy that best fits the changing trend conditions.
+As noted earlier, a very good charting tool for assessing trend conditions
+is the three-line break chart. This charting focuses exclusively on detecting the
+strength of the trend. In any case, no matter which charts you are using, ranking the trend conditions is a useful technique. Besides using three-line break
+charts, a commonly accepted measure of trend strength is the 50-day moving
+average. If the underlying market is probing the 50-day moving average, it
+is a signal of a change in the trend. Also, for each underlying market, rank
+the trend for the weekly, daily, and four-hour chart. A rank of one means the
+trend has just begun after reversing the previous trend. A rank of two means
+it’s into the beginning of a new trend. A rank of three means it’s a stable trend
+(usually approaching a 37 to 45 degree angle). A rank of four means it’s accelerating; five means it’s almost parabolic.
+Step 3: Check If a Sideways Ranging Market Exists
+If a market is not trending, it must be in a range. Markets in a range provide excellent binary trading opportunities. So, just as it was important
+to rank the trending markets, it’s important to rank those markets that
+are ranging. Ask yourself: Have there been multiple tests of resistance or
+support?
+Is there a breakout pattern forming?
+Step 4: Choose Underlying Markets to Trade
+While there are more than 20 underlying markets to choose, the simple fact
+is that most people should start with trading only a handful. The choice
+of what to trade should be based on conclusions derived from Step 1 to
+Step 3.
+Step 5: Evaluate Volatility Conditions
+Once you choose the underlying market to trade, it’s important to look at the
+volatility conditions. Many beginning traders ignore this phase. We have not
+covered this step, so let’s review what is involved.
+
+Advanced Technical Analysis: Volatility Tools
+
+109
+
+These five basic steps provide a firm foundation for assessing trading
+conditions. The trader should always be sure that she has participated in each
+step. The effect of using each step is that it will minimize misunderstanding
+market conditions.
+VIX: The Fear Index
+
+In addition to Bollinger Bands, another tool that binary option traders should
+know about and use is the VIX Index. The words fear and risk aversion reflect
+bearish sentiment. But even more importantly, they are evidence of a herding
+behavior. The crowd has joined the sentiment wave of fear. It’s a powerful
+event and moves markets and creates trading opportunities.
+Here is what the CBOE says about VIX:
+The CBOE Volatility Index (VIX) is a key measure of market expectations of near-term volatility conveyed by S&P 500 stock index option prices. Since its introduction in 1993, VIX has been considered
+by many to be the world’s premier barometer of investor sentiment
+and market volatility.
+What is important about the VIX is its use as a contrarian indicator for
+the S&P 500. The inverse correlation often approaches 90 percent (Table 6.1).
+The S&P 500 as an underlying market is one of the most important as it
+affects many other markets. Trading the S&P 500 depends not only on basic
+charting analysis, it requires tracking emotions and the mood of the market.
+So if a binary option trader wants to select a direction for trading the
+S&P, it’s a very good idea to first check volatility. Historically, the inverse
+correlation relationship between the VIX and S&P 500 has been quite high,
+reaching to over 85 percent in the opposite direction (Figure 6.8). As with
+other instruments, there is never a linear correlation. There are times when
+the VIX and the S&P 500 can move together.
+Table 6.1 VIX Futures Indexes Have Historically Been Negatively
+Correlated with the S&P 500
+
+Date
+
+S&P 500 VIX Correlation
+
+12/17/14
+
+–0.8539
+
+6/24/15
+
+–0.8812
+
+Data source: Bloomberg Financial LP.
+
+110
+
+Trading Binary Options
+
+Strength of Index
+
+Figure 6.8 VIX Movements and the S&P 500
+
+S&P 500
+
+VIX
+
+Source: Bloomberg Financial, L.P.
+
+How should the VIX relationship to the S&P 500 be used? Its most
+important use is confirming whether extreme conditions are in place in the
+market. If the VIX is rising fast, the S&P 500 is likely falling fast. These
+are transient conditions, and the binary option trader, who is looking for a
+directional bet for a few days, has to be careful. But the VIX isn’t only for
+the S&P 500. Since its introduction, there are a large number of volatility indexes for other underlying markets that provide indicators of whether
+those markets are at low or high extremes in volatility. For example, there is
+a VIX for the Brent Crude oil market, which is also contrarian. Its symbol is
+OVX. We can see that when the OVX hit highs, it was a leading indicator of
+a decline in crude (Figure 6.9). West Texas oil has its own volatility index—
+OIV (Figure 6.10). Gold spot has a volatility index version with the symbol
+GVZ. Binary option traders who trade gold directions use it to see volatility
+conditions (Figure 6.11). Silver, like gold has its own volatility index with the
+symbol VXSLV (Figure 6.12).
+The FTSE index provides an excellent example of the contrarian relationship between extremes in VIX and direction. The symbol VFTSE is the VIX
+for the FTSE (Figure 6.13). The DAX30 has a VIX counterpart in the symbol
+VDAX (Figure 6.14). The key volatility indexes associated with the binary
+option underlying markets are important to follow. They will enable the
+
+Advanced Technical Analysis: Volatility Tools
+
+111
+
+Figure 6.9 Crude Oil and Its Volatility Index (OVX)
+
+OVX
+
+Strength of Price
+
+Crude Oil
+
+Source: Bloomberg Financial, L.P.
+
+Strength of Price
+
+Figure 6.10 West Texas Oil and Its Volatility Index (OIV)
+
+WTI
+
+OIV
+
+Source: Bloomberg Financial, L.P.
+
+trader to spot opportunities and extremes in markets otherwise difficult to
+detect. Use the different VIXs as a barometer of market sentiment. It doesn’t
+matter if there is no underlying binary option market to trade. They do help.
+For example, the Hang Seng index has its own VIX (CHIX) and it provides
+an ability to monitor sentiment on the Chinese markets (Figure 6.15). More
+volatility indexes in the future are likely to be developed. A good idea is to
+always inquire whether a key index has its own VIX version.
+
+112
+
+Trading Binary Options
+
+Strength of Price
+
+Figure 6.11 Gold Spot and Its Volatility Index (GVZ)
+
+Gold
+
+GVZ
+
+Source: Bloomberg Financial, L.P.
+
+Strength of Index
+
+Figure 6.12 Silver Spot and Its Volatility Index (VXSLV)
+
+Silver
+
+Source: Bloomberg Financial, L.P.
+
+VXSLV
+
+Advanced Technical Analysis: Volatility Tools
+
+113
+
+Strength of Price
+
+Figure 6.13 FTSE and Its Volatility Index (VFTSE)
+
+FTSE 100
+
+VTSE
+
+Source: Bloomberg Financial, L.P.
+
+Strength of Price
+
+Figure 6.14 The DAX 30 and Its Volatility Index (VDAX)
+
+DAX 30
+
+VDAX
+
+Source: Bloomberg Financial, L.P.
+
+The overall value of knowing the volatility of the underlying markets is to
+use it as a confirming indicator of breakout conditions. Without any volatility, there would be little information about the conditions of market opinion.
+Extremes in volatility can be considered valuable information events as well
+as contrarian signals that the market direction is about to reverse. While this
+
+114
+
+Trading Binary Options
+
+Strength of Price
+
+Figure 6.15 Hang Seng Index and the Volatility Index (CHIX)
+
+Hang Seng Index
+
+CHIX
+50
+
+Source: Bloomberg Financial, L.P.
+
+relationship is never perfect, it acts as a good technical barometer of sentiment
+conditions. An additional value of watching several global volatility indexes
+is to see which are diverging. While the foreign markets often move in coincidence with each other, they may not react with the same magnitude to an
+event. There will be markets with relatively lower volatility compared to others.
+This is particularly important in trading the binary option contracts for the
+equity indexes (see Table 6.2).
+
+Table 6.2 Volatility Index of Several Underlying Markets
+
+Underlying Volatility Index
+
+Symbol
+
+FTSE 100 Volatility
+
+VFTSE
+
+DAX Volatility
+
+DAX 30
+
+HANG SENG INDEX
+
+CHIX
+
+NIFTY 50
+
+INDIA 50
+
+CRUDE OIL
+
+OVX
+
+NYMEX WTI
+
+OIV
+
+GOLD
+
+GVZ
+
+SILVER
+
+VXSLV
+
+Advanced Technical Analysis: Volatility Tools
+
+115
+
+TIP
+Check the latest VIX data at https://www.cboe.com/micro/volatility/pricecharts
+.aspx.
+
+Option Volatility and Sentiment: Put/Call ratios
+
+A long established class of volatility indicators is known as the put/call ratio.
+It is a classic sentiment indicator. The concept is that when traders are bearish, they buy puts. When they are bullish about direction, they buy calls. As a
+result, extremes in sentiment can be detected. How does a trader know when
+the sentiment is skewed in favor of puts or calls? There are several ways of
+measuring sentiment extremes. First, when the sentiment is predominantly
+bearish, there is naturally more contract volume of puts than that of calls. The
+result is known as the put/call ratio. This is the volume of put options/volume
+of call options. Once again, the concept of volatility or extreme variation in
+a pattern comes into play. The key step in relationship to put/call ratios is to
+identify when these ratios are at extremes. Put/call premium ratios are reliable
+gauges of the skew of opinion.
+A second, valuable form of the put/call ratio is the comparison of the
+implied volatility of the puts divided by the implied volatility of the calls. The
+reasoning is: if buying an at-the-money put is more expensive than an at-themoney call, the market is more bearish.
+The binary option trader can use a variety of sources to locate put/call
+ratios for a particular underlying market. One common source is the futures
+market. Even if you are not trading futures contracts, the value of the put/
+call information is worthy of review and is available by viewing the futures
+options contracts at the CME, CBOT, NYMEX, and other futures trading
+exchanges. A quick guide to whether fear or greed is dominant in the market
+can be seen at www.money.cnn.com/data/fear-and-greed.
+Their Fear and Greed index monitors seven factors: put/call ratio,
+VIX, the McClellan Volume Summation Index, stock price strength, haven
+demand, market momentum, and junk bond demand.

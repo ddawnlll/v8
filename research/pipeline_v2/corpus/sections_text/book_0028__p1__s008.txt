@@ -1,0 +1,368 @@
+
+THE RISE AND (HARD) FALL OF THE DAO
+Standing for decentralized autonomous organization, The DAO was a complex dApp that programmed a decentralized venture capital fund to run on
+Ethereum. Holders of The DAO would be able to vote on what projects they
+wanted to support, and if developers raised enough funding from The DAO
+holders, they would receive the funds necessary to build their projects. Over
+time, investors in these projects would be rewarded through dividends or
+appreciation of the service provided.
+The vision of a decentralized autonomous organization like The DAO is
+somewhat like autonomous vehicles—whereas humans used to have to drive
+cars, the cars increasingly can drive themselves. Similarly, whereas humans
+used to be needed for all aspects of business processes, often in manual paper
+pushing, approval, orchestration, and so on, a decentralized autonomous organization can codify much of those processes so that the company better drives
+itself. As exciting as the concept was, The DAO was nearly Ethereum’s undoing.
+The creators of The DAO implemented a crowdfunding effort. Theirs surpassed the amount raised by Ethereum by nearly an order of magnitude, setting the record for the largest amount ever raised in this manner: over $168
+million.24 The crowdfunding required that investments be made with ether,
+and because of this, by the end of the crowdfunding period The DAO team
+held 11.5 million ether, or 15 percent of all the ether created to that point.
+While enthusiasm and interest in The DAO was clear, some developers were
+concerned it was not ready for prime time. A paper published by a group of
+computer scientists who examined the workings of The DAO expressed concern that there were major security vulnerabilities that threatened its pending release on Ethereum’s network. “The current implementation can enable
+attacks with severe consequences,” explained Dino Mark, Vlad Zamfir, and
+Emin Gün Sirer.25
+
+Burniske 01.indd 60
+
+9/9/17 1:12 PM
+
+Cryptocommodities and Cryptotokens
+
+61
+
+Subsequently, there was a call for a moratorium on activity around The
+DAO until the issues were satisfactorily addressed.26 However, the call went
+unheeded and on May 28, 2016, the day after the crowdsale was completed,
+tokens in The DAO (DAOs)—which were received in exchange for the ether
+invested at the crowdfunding—began trading on exchanges.
+Less than three weeks later, on June 17, 2016, a major hack on The DAO was
+conducted that gained control of 3.6 million ether, one-third of the amount
+that had been committed to the project. The hack had nothing to do with
+an exchange, as had been the case with Mt. Gox and other widely publicized
+Bitcoin-related hacks. Instead, the flaw existed in the software of The DAO.
+This software was hosted on Ethereum’s blockchain, for all eyes to see, and it
+needed to be flawless.27 However, as critics had pointed out, the code was far
+from perfect. Given the scale of assets The DAO had raised, there was significant incentive for a hacker to break in. As a result, the world’s largest crowdfunding effort and a major showcase for the capabilities of Ethereum became
+a bust.
+Buterin and those involved with The DAO and Ethereum immediately
+began to address the hack. The situation was problematic, however, because
+Ethereum was a decentralized world computer that provided the platform for
+dApps to run on. However, it did not promise to audit and endorse each application. Similarly, while Apple may screen the apps that go into its App Store, it
+doesn’t claim responsibility for their inner workings. Core Ethereum developers were helping The DAO team. This was analogous to Apple engineers helping to fix a flailing app.
+None of the options to correct the situation were particularly palatable.
+The primary solution was to release a software update to Ethereum that would
+remove the funds from the hacker’s account within The DAO, returning them
+to the rightful shareholders. Known as a “hard fork,” Ethereum’s blockchain
+would be slightly modified to allow for the investors in the project to have their
+funds returned. Stephen Tual, founder and COO of Slock.it, the main company behind The DAO, explained the fix as follows, “In summary, a hard fork
+will retrieve all stolen funds from the attacker. If you have purchased DAO
+tokens, you will be transferred to a smart contract where you can only retrieve
+funds. Since no money in The DAO was ever spent, nothing was lost.”28
+However, a hard fork would run counter to what many in the Bitcoin and
+Ethereum communities felt was the power of a decentralized ledger. Forcefully
+removing funds from an account violated the concept of immutability. This
+was exacerbated by the fact that a centralized set of players was making the
+
+Burniske 01.indd 61
+
+9/9/17 1:12 PM
+
+62 CRYPTOASSETS
+
+decision. Many complained of moral hazard, and that this would set a precedent for the U.S. government or other powerful entities to come in someday
+and demand the same of Ethereum for their own interests. It was a tough decision for all involved, including Buterin, who while not directly on The DAO
+developer team, was an administrator.
+With an understanding of both sides of the debate, Buterin supported the
+decision to hard fork because of his view that Ethereum was still in a development stage and that a lesson such as this would help shape the technology
+going forward. “I don’t think the way things are done right now are precedentsetting,” he said.29 In the end, Buterin and much of the Ethereum team used
+their own technical skills to aggressively correct the situation that The DAO
+had created.30
+A hard fork doesn’t come without risks, and unfortunately, Ethereum would
+pay a dear price for its decision to help The DAO. While hard forks are often
+used to upgrade a blockchain architecture, they are typically employed in situations where the community agrees entirely on the beneficial updates to the
+architecture. Ethereum’s situation was different, as many in the community
+opposed a hard fork. Contentious hard forks are dangerous, because when
+new software updates are released for a blockchain in the form of a hard fork,
+there are then two different operating systems. While the two operating systems share a common ancestor, and therein a common record of transactions,
+once the hard fork occurs, the two operating systems split, and so too do their
+blockchains, each with separate native units. While some people think, “Great,
+I’ve just doubled my money,” a hard fork can often crash the value of the native
+units on the two separate blockchains, as people worry about an ongoing
+schism within a divided community (see Figure 5.2). With two separate blockchains, miners, developers, and companies building applications, users must
+decide which blockchain and its inherent operating system to support. While
+many initially claimed the hard fork a success for Ethereum, a few big traders
+started to buy up as much of the native asset on the lesser supported chain as
+possible.
+On July 23, 2016, cryptoasset exchange Poloniex listed this newly branded
+network, called Ethereum Classic, with its own native ether classic (ETC).31
+Once a widely used exchange like Poloniex listed ETC, an open market was
+created for the asset, and people quickly started to speculate on its value. This
+drew more miners to support Ethereum Classic’s blockchain, which continues
+to exist to this day and as of writing tends to stick near 5 percent the network
+value of Ethereum.32
+
+Burniske 01.indd 62
+
+9/9/17 1:12 PM
+
+Cryptocommodities and Cryptotokens
+
+63
+
+Ethereum Classic
+
+Last block
+before hard
+fork
+
+Ethereum
+
+Figure 5.2 n The forking of Ethereum as a result of The DAO’s bug
+
+The site for Ethereum Classic defines the cryptoasset as “a continuation of
+the original Ethereum blockchain—the classic version preserving untampered
+history; free from external interference and subjective tampering of transactions.” 33
+While The DAO may have been a disaster, the concept of a decentralized
+autonomous organization is generalizable past this single instance. The innovative investor should expect to see similar concepts coming to market over
+the years with their own cryptotokens and should know that not all DAOs or
+dApps with cryptotokens are similarly shaky.
+For example, a fully functional decentralized insurance company, Airbnb,
+or Uber all hold great promise, and developer teams are working on similar
+use cases. One can think of an Airbnb or Uber as a middleman, connecting the
+consumer and provider of a service, and then taking a 20 to 30 percent fee for
+doing so. While many merchants understandably complain about credit card
+fees of 2 to 3 percent, the “platform fees” of Airbnb, Uber, and similar platform
+services are borderline egregious. Many of the cryptotoken systems that are
+imitating such platforms plan to take a fee that is an order of magnitude less,
+using underlying blockchain architectures to facilitate the decentralized transfer of value and services. Many of these systems have their own cryptotokens
+and will run on Ethereum or a similar platform. However, some will be much
+better constructed than others, and it is unlikely that Ethereum, or platforms
+like it, will help dApps in future debacles.
+
+Burniske 01.indd 63
+
+9/9/17 1:12 PM
+
+64 CRYPTOASSETS
+
+DECENTRALIZED PLATFORMS TO PREDICT THE FUTURE
+One of the more interesting dApps in development uses Ethereum’s blockchain
+to facilitate prediction markets. The company Augur seeks to provide a platform that allows users to wager on the results of any event, creating a market
+for people to test their predictions.34 Hence the term “prediction market.” For
+instance, if someone had sought to predict whether Donald Trump or Hillary
+Clinton would win the 2016 U.S. presidential election, he or she could have used
+Augur to create a prediction market and wager against others on the outcome (if
+the service had been up and running at the time).
+Augur uses a cryptotoken, which it calls Reputation (REP), to incentivize
+people to report on the outcomes of events truthfully. These reporters are different from the people wagering on the outcome of events. The problem with a
+decentralized prediction market is that there’s no centralized authority on the
+outcome of events. Augur uses REP to reward people who report truthfully
+and penalize those who lie. Augur explains it as follows:
+Those who hold Reputation are expected to report accurately on
+the outcome of randomly selected events within Augur every few
+weeks. If holders fail to report accurately on the outcome of an
+event, or attempt to be dishonest—the Augur system redistributes the bad reporter’s Reputation to those who have reported
+accurately during the same reporting cycle.35
+
+Augur conducted its own crowdfunding effort in 2015, selling 80 percent of
+a fixed supply of 11 million REP. In so doing, it raised over $5 million to fund
+the creation of the platform. Brian Armstrong, CEO of Coinbase, which is one
+of the largest companies in the cryptoasset sector, has called it an “awesome
+project with huge potential.”36 Even Vitalik Buterin acknowledged its potential
+when he called it an “Uber for knowledge.”37
+Augur is one of the clearest uses of cryptotokens, and its potential success could set the stage for even more implementations of crypotokens in the
+future. A similar prediction market system, Gnosis, held a crowdsale in April
+2017 raising money at an implied valuation north of $300 million.
+
+A GROWING WEB OF CRYPTOCOMMODITIES
+AND CRYPTOTOKENS
+While Ethereum has a robust community building on it, several similar
+platforms have taken note of its success. The aforementioned Dfinity, Lisk,
+
+Burniske 01.indd 64
+
+9/9/17 1:12 PM
+
+Cryptocommodities and Cryptotokens
+
+65
+
+Rootstock, Tezos, and Waves as of writing all are at different stages of development, between pre-crowdsale to already operating in the wild, and offer their
+own variations of a decentralized world computer.
+Rootstock, similar to Counterparty, intends to run on Bitcoin. Rootstock is
+led by Sergio Lerner, who specialized in IT security for much of his life, and
+when he first came to Bitcoin audited many aspects of the code. He now leads
+a team that is basically building Ethereum on Bitcoin, and the system will be
+compatible with all dApps that run on Ethereum. Just as Ethereum has ether,
+Rootstock will have its own native currency called RSK.
+While some posit that Rootstock will be a significant competitor to
+Ethereum,38 we think the two will coexist and provide healthy redundancy.
+Having two or more widely recognized decentralized world computers to run
+on will make dApps more resilient to disruptions. If one network is experiencing severe trouble, then a dApp can replicate its state on another similar platform, and from then on process all transactions through that platform. While
+the transition would likely induce harrowing market volatility, such optionality means that dApps are not beholden to the platforms they build upon.
+Lastly, at the risk of confusing the innovative investor, we should add that
+a dApp may use many cryptocommodities simultaneously, but for different
+infrastructural purposes. For example, a dApp may use a decentralized cloud
+storage system like Filecoin to store large amounts of data, and another crypto­
+commodity for anonymized bandwidth, in addition to using Ethereum to process certain operations.
+For such bleeding-edge platforms, it is most important for the innovative
+investor to keep track of developer mindshare and miner support. Both are
+vital to the long-term growth and survival of these platforms. Developers
+will quickly iterate and fix bugs, while miners will provide the hardware and
+resources necessary to computationally secure the platform. Since these are
+decentralized systems operating in the wild, they need to move fast and be
+properly secured. Only then will other developers build dApps on them.
+Now that the innovative investor has an understanding of what these assets
+are, we want to move into why that investor should consider placing them in
+his or her investment portfolio. Although cryptoassets are creating a rapidly
+evolving and somewhat complex future, investment tenets that have stood the
+test of time still apply. Returning to the fundamentals of investment theory
+will allow innovative investors to properly position their overarching portfolio
+to take advantage of the growth of cryptoassets responsibly.
+
+Burniske 01.indd 65
+
+9/9/17 1:12 PM
+
+This page intentionally left blank
+
+Burniske 01.indd 66
+
+9/9/17 1:12 PM
+
+Part II
+
+WHY
+
+Burniske 02.indd 67
+
+9/9/17 1:46 PM
+
+This page intentionally left blank
+
+Burniske 02.indd 68
+
+9/9/17 1:46 PM
+
+Chapter 6
+The Importance of Portfolio
+Management and Alternative Assets
+
+I
+
+(Jack) was a columnist at MarketWatch.com in August 2013, when I made
+the logical leap to add bitcoin to my portfolio. While initially born of curiosity, my interest in bitcoin had grown more mature and serious with each
+passing month. As a writer focused on retirement, I decided that I could only
+recommend the asset to others if I had the courage to put it in my own retirement portfolio.
+Not only did I decide to invest in bitcoin, I decided to place the entirety
+of that year’s allocation for my Simplified Employee Pension (SEP) plan into
+bitcoin. When I announced what I had done in my article “Do Bitcoins Belong
+in your Retirement Portfolio?,”1 it created a stir online and in the financial
+planning community. My writing over the years had consistently discussed the
+need to remain prudent when making investment decisions, rationally building portfolios that balanced risks and returns.
+A balanced approach to investing grew from my experience as a financial
+consultant. I come from a background of not only working within companies
+in the financial community, but also from nearly a decade of working directly
+with regular investors who are trying to accomplish their financial goals and
+objectives. I have sat around hundreds of kitchen tables with my clients and
+near-clients, explaining my belief that their personal dreams of retirement or
+sending their children to college could be accomplished by following a discipline of saving and proper asset allocation. I believe in the power of building
+a prudent portfolio based upon the needs and risks of each individual client.
+69
+
+Burniske 02.indd 69
+
+9/9/17 1:46 PM
+
+70 CRYPTOASSETS
+
+To some, my decision to invest in bitcoin flew in the face of my own advice.
+I may have managed portfolios in a prudent manner for myself and others,
+but my interest in new technologies in the past made me no stranger to criticism. During the dot-com days, I made (and lost) a sizeable amount of money
+investing in companies that flew high in terms of valuation only to crash on
+the shores of reality as they were little more than business facades. Was I chasing a similar crash-and-burn scenario with bitcoin? Even my technologically
+and investment savvy son, Eric, initially criticized me about bitcoin. “They
+have these things called dollar bills, Dad. Stick to using those.”2
+However, I saw real potential in the virtual currency. Over the months I
+spent evaluating it, I analyzed bitcoin the same way I analyzed every other
+asset I added to my own or a client’s portfolio, just as I had done over the last
+30 years. I carefully considered and quantified bitcoin’s market behavior (using
+the tools that follow), so I knew what beast I was dealing with. I ruminated on
+the percentage of my portfolio I could responsibly allocate to it, with the overarching goal of sensible asset allocation among stocks, bonds, and alternative
+assets. Then, I investigated the mechanics of putting bitcoin into a retirement
+account. The overall process of analyzing an asset was the same; I’d done it
+countless times before. The only difference this time was that it was bitcoin.
+
+MODERN PORTFOLIO THEORY
+When evaluating any investment decision, the starting point is always an
+individual’s financial goals, time horizon, and risk tolerance. Goals are what
+the funds will be used for, and the time horizon reveals when they will be
+used. Risk tolerance takes a bit more analysis. Each investor has a unique
+tolerance for the ongoing gyrations of the value of his or her portfolio. For
+example, do people lose sleep when their portfolio fluctuates, or do they
+slumber through ups and downs, dreaming of long-term gains? Once goals,
+time horizon, and risk tolerance are determined, one can proceed to developing an investment portfolio that maximizes returns while staying within the
+bounds of these parameters.
+Nobel Prize winner Harry Max Markowitz defined an approach to constructing portfolios in 1952 that has been the model that most advisors and
+investors have followed since. His Nobel Prize winning effort created modern
+portfolio theory (MPT), which provides for the construction of investment
+portfolios that maximize expected returns based upon a targeted level of risk.
+
+Burniske 02.indd 70
+
+9/9/17 1:46 PM
+
+The Importance of Portfolio Management and Alternative Assets
+
+71
+
+His efforts showed that higher returns are achieved by taking on higher risk,
+while also recognizing what he called an efficient frontier, which defines the
+maximum possible expected return for a given level of risk.
+The key for any investor employing MPT is to explicitly consider risk.
+While risk is not a palatable thought for retail investors—many of whom prefer to dream of risk-free million-dollar returns—there can be no reward without risk. The Securities and Exchange Commission, which regulates securities
+markets in the United States, has this advice about risk for investors:
+When it comes to investing, risk and reward are inextricably
+entwined. You’ve probably heard the phrase “no pain, no gain.”
+Those words come close to summing up the relationship between
+risk and reward. Don’t let anyone tell you otherwise. All investments involve some degree of risk. If you intend to purchase
+securities—such as stocks, bonds, or mutual funds—it’s important that you understand before you invest that you could lose
+some or all of your money. The reward for taking on risk is the
+potential for a greater investment return.3
+
+We’ll tackle the specifics of quantifying risk shortly, mainly through a discussion of volatility. Similarly, we will dive into how to approach absolute
+returns and the returns per unit of volatility, or risk-reward ratio.
+While it’s vital to understand the individual attributes of each asset in a
+portfolio, MPT goes beyond single assets to emphasize a holistic approach to
+the risks and returns of the overall portfolio. The same can be said of how a
+coach approaches any team. Understanding the strengths and weaknesses of
+each team member is important, but it’s more important to understand how
+the team members play together. Great teams can be composed of average
+players, while a disjointed combination of great players can make average
+teams.
+Markowitz’s efficient frontier, which maximizes returns for a given level of
+risk, is reached by smartly combining assets in a portfolio. A savvy combination of assets can actually decrease the risk of the portfolio to a lower level
+than any single asset in the portfolio (other than risk-free issues), which is one
+of the areas in which cryptoassets become particularly noteworthy. We will
+return to how an investor can craft such a portfolio after we outline the three
+core characteristics of individual assets.
+
+Burniske 02.indd 71
+
+9/9/17 1:46 PM
+
+72 CRYPTOASSETS
+
+Standard Deviation
+Standard deviation of returns, or the range that an asset’s price will vary from its
+mean value, is one of the most common measures of risk. While Markowitz’s
+approach makes clear the need for risk in a portfolio, most investors are riskaverse to one degree or another, and so they must be compelled by the potential for increased reward if they are to increase their risk. To help with the anxiety of risk, MPT defines it quantitatively, removing much of the uncertainty.
+Typically, simply being well informed lets investors sleep better at night.
+The standard deviation of returns draws from the statistics of normal bell
+curves. If the average value, or mean, of a bell curve is 10 and its standard
+deviation is 5, then 68 percent of the time a randomly chosen entity from
+the sample will fall between 5 and 15. Five is one standard deviation to the
+left of 10, and 15 is one standard deviation to the right of 10. Due to the way
+normal curves work, 95 percent of the time a random sample will fall within 2
+standard deviations of the mean, so between 0 and 20 for our example. This is
+illustrated in Figure 6.1.

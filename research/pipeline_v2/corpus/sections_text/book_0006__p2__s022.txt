@@ -1,0 +1,372 @@
+
+Relative Strength
+Relative strength is another way to understand the action and the convictions of market participants in related markets. In general, the idea is not complex: things go up in
+price because demand has, at least temporarily, overtaken supply—these movements are
+driven by strong buying pressure. It takes a lot of money to make a significant move in
+a major market, so when we see relative outperformance in an asset or assets, we can
+
+P1: OTA
+JWBT634-c07
+
+228
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+usually assume that informed traders are driving the move. It is the same idea that drives
+all technical analysis: significant buying and selling must leave patterns in prices. These
+patterns can be complex and they are obscured by background noise more often than
+not, but if we can learn to read them we can understand what the large players in the market are doing and how they are positioning for the future. If we are monitoring a group
+of related markets, we will usually see that a few of them are stronger than the rest, and
+one or two often emerge as the clear leaders. Conversely, it is usually possible to identify
+a handful of laggards who tend to move behind the group. Much of the literature on relative strength comes from the context of equity traders who have a strong long bias (many
+of whom do not short stocks at all) and are attempting to identify market-leading stocks,
+but the concept is equally valid to the downside. In bear markets, it is possible to identify
+relative strength leaders to the downside and laggards that resist the sell-offs. Do not
+be confused by the terminology—relative strength leaders lead the trend, whether that
+trend is up or down.
+A rule of thumb is that, if you are trading relative strength ideas, you want to be long
+the strongest markets in an uptrend, and you want to be short the weakest in a downtrend. Be careful, because to many traders, the opposite play might seem to be attractive.
+They will focus on buying the weaker markets in uptrends, with the justification that they
+are cheap and that they have a lot of room to make up. This is human nature, but, unfortunately, it is usually exactly the wrong play. It is difficult, and somewhat counterintuitive,
+to be buying things that are already marked up more than average (this is the definition of
+a market leader), but resist the temptation to go bargain hunting in the relative strength
+space. It is far better to be in the markets that have the best institutional reinforcement
+and support, or, on the downside, to be short the markets the institutions are dumping.
+If you choose to develop a systematic trading plan based on relative strength, you will
+also need to consider the impact of mean reversion. Consistently buying the strongest
+markets will often have you buying overextended markets that are poised for at least a
+temporary reversal. Depending on how you rebalance your portfolio and actually execute, you could potentially then rotate into the new leaders after booking losses on the
+first set, and repeat this process as long as capital allows. Systematic approaches to relative strength are possible, but these issues have to be addressed in development and
+through proper backtests. There is also a lesson here for discretionary traders: though
+you may want to focus much of your attention on relative strength leaders, blindly buying
+them is probably not a path to success.
+There are many ways to track relative strength. The simplest is probably to simply
+take a number of markets and rank them by percent change from a fixed point in time, but
+there are a few potential issues with this simple measure. Most importantly, this measure
+is anchored to two specific points in time, and is blind to anything that happens in between. One market could appreciate 10 percent in a series of steady gains, while another
+could have extremely volatile swings and just happen to end the evaluation period also
+up 10 percent. Both markets will register the same relative strength readings, but they
+may have dramatically different trading characteristics. In a purely quantitative ranking
+this may not be an issue, but it must be considered before trades are actually made.
+
+P1: OTA
+JWBT634-c07
+
+JWBT634-Grimes
+
+Tools for Conﬁrmation
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+229
+
+Choosing an arbitrary look-back window is not always a good choice, since the rate
+of change (ROC) calculation is also sensitive to what happens at the initial point. To standardize, it is possible to anchor the calculations to a fixed point in time, and to calculate
+changes for a wide range of related markets from those points. Significant swing highs
+and lows are ideal anchor points for this calculation. For instance, if tracking individual
+stocks, they can all anchor their ROC calculations to a significant and visible pivot on
+the weekly chart of a broad index. When the market structure of that index evolves, usually no more than once every other month, the ROC calculations can be updated to refer
+to the new pivot point. The same thing can be done with grain markets, currencies, or
+world equities, though the reference indexes are not always as clear in these situations.
+Another limitation is that, if we want to compare relative strength across disparate asset classes, it is usually impossible to find a significant anchor that makes sense for all
+of them. Why compare, for instance, European equities, grains, sugar, and cocoa to the
+same starting date, and how is this better than picking an arbitrary starting point?
+One potentially attractive solution averages several different rates of change, perhaps with different weightings. Using a system like this, it is possible to create a measure
+that has a very long look-back window, but is also very responsive to recent data. Bill
+O’Neil has long been an advocate of such an approach, which has been used with some
+success in his funds and his writings. Traders who are interested in this concept can begin by simply averaging two different rates of change, comparing relative strength rankings, and then tweaking the measure via weightings or the addition of other look-back
+periods in the average. As always, each addition will bring additional complexity into the
+tool, so be sure that you are compensated with real value. Simple, parsimonious tools
+will usually outperform complex calculations in most market-related applications.
+Trading Relative Strength Though the concept of being long the strongest markets
+by relative strength and short the weakest is sound, there are the twin forces of mean reversion and range expansion to consider. A campaign of simply buying the strongest
+markets will usually result in frustration, as your entries will often be at the apex of overbought markets. At the risk of oversimplifying, most successful relative strength trading
+programs follow some pattern like this:
+
+r Understand the overall market trend, and decide whether you want to trade from the
+long side, the short side, or both. If trading from both sides, decide whether you wish
+to construct a true hedged portfolio or simply to hold both long and short positions
+as you deem them attractive.
+r Identify the strongest and weakest relative strength candidates.
+r Look to buy the strongest relative strength candidates, but buy them on weakness
+and using specific technical patterns as triggers. Conversely, look to short the weakest markets into strength.
+r Once the leaders have been bought on weakness, monitor them carefully as they turn
+out of the weakness to see if they resume leadership. If not, exit or adjust the trade.
+If the weakness continues for too long, the leaders will no longer be leaders.
+
+P1: OTA
+JWBT634-c07
+
+230
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:44
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+The actual execution of buying into weakness is not as difficult as it sounds—use the
+general technical rules for buying pullbacks. As long as the pullbacks do not develop extreme countertrend momentum (e.g., make a significant new momentum low reading on
+the MACD), they should be buyable for at least an attempt at making new highs. The reverse is true for shorting into pops. With some experience, it is not difficult to make these
+trades with some degree of reliability, but every piece of the puzzle matters: the relative
+strength measure, the frequency of evaluation/rebalancing, the actual execution triggers,
+whether you are executing off simple charts or spread charts, and your intended exit
+strategy. Change one part, and the others will have to adjust as well, as there is usually a
+fairly small sweet spot where everything comes together and the system works reliably.
+As long as you understand the core concepts, do your homework, and understand how
+these concepts play out in your chosen market, you can build a strong trading program
+around these ideas.
+It is, however, very important to have a realistic sense of how these ideas work,
+rather than trying to trade an idealized model that has a loose connection with reality.
+Realize that relative strength leaders are usually a large group, and there is generally rotation within the group. In the case of stocks, there may be 50 to 150 different names vying
+for leadership on the rallies. In the case of the commodity metals, there may be only four
+to 10 names in the sector, but relative strength may pass between two or three of those
+regularly. The point is that you cannot say that “XYZ is the market leader” and then abandon XYZ the first time you notice another name has edged XYZ off the very top of list. In
+addition to its actual ranking in any quantitative scheme you develop, the trading patterns
+and integrity of trends in the leaders are also important considerations. Last, consider
+the actual instruments you will use for execution. A relative strength portfolio allocation
+model could focus on broad sectors or asset classes, though it may make little sense to
+consider relative strength between, for instance, equities and real estate. Shorter-term
+traders will probably find better success with individual stocks or futures contracts, but
+this analysis may be enhanced with an awareness of shifting relative strength in those
+broad sectors.
+One of the recurring themes of this book has been that simplistic technical patterns,
+taken out of context, have very limited utility. The only reliable patterns are those that
+are truly driven by large-scale institutional buying and selling pressure, and technical
+traders have an edge only in the presence of a real buying and selling imbalance. The
+logical question is: how do we know when such an imbalance exists? Relative strength
+points the way to one possible answer: using a relative strength screen as the first step in
+a technical process that then focuses on individual patterns will usually have the trader
+focused on markets that are, by definition, experiencing an imbalance of buying pressure.
+Again, there is no holy grail, but this combination of well-researched technical patterns
+in a relative strength context creates opportunities for synergy and for a trading plan in
+which the whole truly is greater than the sum of the parts.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+CHAPTER 8
+
+Trade Management
+
+Choices are the hinges of destiny.
+—Pythagoras
+
+rade management is what you do after you get into the trade. These decisions are
+complicated because they deal both with mathematical realities and with trader
+psychology. One thing that you’ll often hear is that it’s your responsibility, as the
+trader, to find your own right way to trade. The implication is that basically anything
+works; you just have to make some choices from the giant menu of possibilities, experiment until they feel right, and then stick with them. There is some truth here, in
+that any rule set must be matched to the trader’s personality and psychological makeup,
+but there is also a very important point that goes unsaid: it is exceedingly difficult to
+find an edge in the market. You must understand the impact of every decision and
+every adjustment.
+Consider the simple case of a specific trading pattern that has an edge in predicting a
+small directional movement over the next few bars. Traders A and B decide to trade this
+pattern, but they both realize the importance of adapting it to their personalities. Let’s
+simplify the problem they face, and consider only the choices in exiting at a profit and
+exiting at a loss, and furthermore restrict the options for those two conditions to “large”
+and “small.” If we were trading our theoretical random walk market, these choices would
+not matter because the probability of winning would adjust to maintain zero expectancy
+(remember, no edge is ever possible in a random walk market), but the situation is different if the trading signal actually has predictive value in real markets—trading signals that
+have predictive value generally see that value limited to a specific time horizon and magnitude. This is fairly intuitive. No one would expect a signal on an intraday time frame to
+reliably have an impact many months out. In this theoretical example, assume that the
+signal is good for only a few bars following the entry.
+
+T
+
+231
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+232
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+Trader A finds that a combination of a rather wide stop and a fairly tight profit target
+works for him in trading this pattern. The losses are infrequent but large, and he appreciates the psychological reinforcement of having long strings of winners, so this strategy
+works for him. Trader B knows from past experience with other patterns that she has
+a different approach to trading. She prefers to have a few large winners, and doesn’t
+care so much about having a high win rate. She is perfectly comfortable sitting through
+many small losses, knowing that the gains from the large but infrequent wins will more
+than cover those losses. However, she is about to make a serious mistake. Though this
+approach has worked well for her with other types of systems (e.g., longer-term trend
+following), the signal under consideration in this example has predictive value for only
+a few bars. If she tries to squeeze large profits out of this pattern by setting a large profit
+target, it is unlikely to work because the signal has no power that far out; the market
+degenerates into random noise a few bars after each occurrence of the signal—the profit
+target must respect this reality.
+Many traders struggle because they do not understand that these choices matter.
+They wrongly assume that they can make any decision regarding stop, target, and position management, and, as long as they follow a disciplined plan, they will make money.
+You must understand the nature of the patterns you are trading. Some, like the pattern
+in this example, require very close targets and would allow for discretion on the stop.
+Others might require both large stops and large targets. Consider the case of a long-term
+signal that has predictive value many weeks to months after the signal event, but is essentially random in the time period immediately following the signal. A tight stop or target
+would be hit in this random noise. In addition, markets do have a baseline level of random noise on any time frame. Stops must be set outside that noise level or they will be
+hit by normal, random fluctuations. In most trading methods, there is a fairly small sweet
+spot or combination of parameters across which the system will be profitable. If you tinker with or change any part, there may be unintended consequences. Systems can and
+should be adapted for each trader, but this work requires careful thought and testing; it
+cannot be done haphazardly.
+
+PLACING THE INITIAL STOP
+The placement of the initial stop is very important. First, it sets the ultimate risk point
+on the trade and so removes much of the emotion from the trade process. This point
+is also important because many traders will use this risk to set the trade size in a risk
+management/position sizing plan (see Chapter 9). From the outset, consider that there is
+an unavoidable trade-off between near and far stops. Closer stops allow larger positions,
+which, of course, means larger profits on winning trades, while farther stops will result
+in a higher probability of a win on a smaller position size. All of this is fairly intuitive,
+but it leaves an important question unanswered: where do we actually place these stops?
+There is no one right answer, but here are several common solutions to the problem,
+some better than others.
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+Trade Management
+
+7:48
+
+Printer: Hamilton Printing
+
+233
+
+Fixed-Percentage Stops
+Old-school stock traders, in particular, tend to do this: simply get into a position and give
+it 10 percent or 20 percent price movement against you. There is one good thing to say
+about this approach: it does define a fixed and clear hard loss limit. It is far better to have
+one, even if it is a not very well-thought-out level, than to have none at all. However, using
+the same fixed percentage across different markets is not optimal. Most importantly,
+different markets trade with very different volatility levels. For instance, most actively
+traded stocks trade with an average daily range that is a little under 3 percent of their
+stock price (based on 500 active stocks as of April 1, 2011), but many have a much larger
+average range that is 9 percent or more of their underlying price. Using a 10 percent
+stop on two markets, one with 9 percent average daily range and one with 3 percent
+average daily range, will give very different results; for the first market, a 10 percent stop
+is within the potential noise level of a single trading day so probably does not represent
+an intelligent stop point. Using a fixed-percentage stop is better than no stop at all, but
+not that much better.
+
+Volatility-Based Stops
+A simple refinement would be to use a percentage stop that is based on some measure
+of the market’s volatility. For instance, a trader might use a stop that was N times a market’s average daily range, or N times a single-day one standard deviation move. Stops
+for volatile markets will naturally be much farther away from the entry price, so position sizes will be smaller in volatile markets; stops calculated in this way automatically
+respect the natural swings of each individual market. These can be useful stops for discretionary traders, and often are ideal initial stops for algorithmic trading systems.
+
+Market Structure
+A third approach is to set the stops based on the structure of the market itself. This is
+definitely an art, and it can be difficult to learn, especially for the newer trader. It is not
+possible to reduce this to a set of simple rules, but here are some guidelines:
+
+r The stop placement is determined by the location of pivot points. If entering a position with the short-term momentum, you do not want to see the market take out the
+closest pivot low (the solid straight line in Figure 8.1). It is also possible to step back
+to the penultimate pivot in many cases (the dotted line stop in Figure 8.1), but with
+the trade-off of a much smaller position size.
+r In general, it usually makes sense to set fairly wide initial stops. As a rough guideline,
+it would be very unusual to set an initial stop that is less than two Average True
+Ranges (ATRs) from the current price, and the initial stop may sometimes be more
+than four ATRs away from the current price. (You may choose to actually calculate
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+234
+
+May 10, 2012
+
+7:48
+
+Printer: Hamilton Printing
+
+TRADING STRATEGIES
+
+FIGURE 8.1 Two Stop Levels for a Long Position Entered on the Last Candle of the Chart
+
+the ATR, but it is also possible to judge it from a visual inspection of the chart for
+this purpose.)
+r If buying against a sloppy support area with many shadows below, the only stop that
+makes sense is beyond the most extreme low. Furthermore, it is entirely possible
+that the stop will be hit on a drop to an even more extreme low. If this happens and
+you are stopped out of the position on a fakeout, it is necessary to rebuy with a new
+stop beyond the new, lowest extreme.
+r In practice, if you are concerned about the particular market for some reason—for
+instance, an impending report or something else that could generate excessive
+volatility—you may want to have smaller size on the trade. One way to accomplish
+this is to set the initial stop farther away. This is a tool to be used only in rare, extreme cases.
+There are many examples of my initial stops and subsequent trade management decisions in Chapter 10. In addition, the trade templates in Chapter 6 also feature discussions
+on initial stop placement for each of those patterns. These are specific examples, but the
+principles can be adapted to your own personality and your own trading style. The most
+
+P1: OTA
+JWBT634-c08
+
+JWBT634-Grimes
+
+May 10, 2012
+
+Trade Management
+
+7:48
+
+Printer: Hamilton Printing
+
+235
+
+important thing is that every trade, without exception, has a precise initial risk point defined at the time of entry. In other words, you always know where you are getting out if
+you are wrong, and you must always respect that level.
+
+SETTING PRICE TARGETS
+To set or not to set price targets, that is the question. Many traders prefer to not set
+price targets in an effort to follow the maxim “let your winners run.” Other traders make
+the cogent argument that fixed profit targets are easy to test in the context of a trading
+system, and that smaller profits can be taken with a degree of regularity. Compared to
+the multiple trade management decisions that may go into an open-ended trade, it is
+relatively easy to quantify and test a system with fixed profit targets and fixed stops, and
+such a system may be amenable to an optimized sizing strategy. There is value in both of
+these perspectives, and some traders even combine the two by taking partial profits at a
+set target and holding the remainder of the position for a larger move.
+In general, there are two approaches to getting out of profitable trades: with or
+against the trend of the trade. With-trend exits (i.e., selling into strength or covering
+into weakness) are usually done via limit orders and are often done at preset targets.
+Countertrend exits are usually done after some kind of give-back rule is activated and
+the trade has retreated from its maximum profit point. Let’s consider a few variations of
+profit-taking strategies.

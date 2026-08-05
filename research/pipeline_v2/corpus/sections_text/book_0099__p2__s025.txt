@@ -1,0 +1,533 @@
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+256 Part V: Flying with Dynamic Analysis
+Creating a Point-and-Figure Chart
+to Visualize What’s Important
+Technical indicators aim to identify trend tuning points and, if a trend exists,
+how strong it is. But all charts contain a lot of data that isn’t meaningful —
+it’s filler or noise. For example, a standard bar chart (see Chapter 6) has an
+entry every day, even when nothing interesting happened. What if you could
+isolate just the juicy nuggets of price information and forgo the noise?
+Displaying the price only when it makes a significant move is the essence of
+point-and-figure charting. If nothing noteworthy happened on a particular day,
+you put nothing on the chart. Because chart events like a breakout or reversal
+often follow real-world events (breaking news, for example), you can consider
+the point-and-figure chart to be event driven.
+The point-and-figure method of displaying data takes time to get used to. Some
+people think that it looks weird, while others take to it like a duck to water.
+Stick with me through this section, and by the end, you’ll have the hang of it.
+
+Putting each move into a column
+In point-and-figure charting, you put a price entry on the chart only if the
+price is higher than the previous high by a certain amount or lower than the
+previous low by a certain amount.
+When a price is going sideways — not making a new high or low — nothing is
+happening in the security, and you have nothing worth entering on the chart.
+For a new high that is higher than the previous high, you enter a dot or an
+X. For a new low that is lower than the previous low, you enter a dot or an
+O. You place the Xs and Os in a column that represents a continuous move,
+either up or down. The point-and-figure chart contains alternating columns of
+Xs and Os, where each column is a move. A column of Xs is an up move and
+a column of Os is a down move. Each X column is reserved for rising prices
+and each O column is reserved for falling prices. You can’t put an X into an O
+column or an O into an X column.
+Say you’re considering a security whose price has been rising. The high
+today is $9. You start a new chart and enter an X next to the $9 label on the
+vertical axis, as I’ve done in Figure 15-1. The next day, the price high is $10,
+so you enter an X in the same column at the $10 level. When the high reaches
+$12 the next day, you add two Xs to denote the move from yesterday’s $10
+to today’s $12. You keep adding Xs in the same column until the price climb
+ends. In the example in Figure 15-1, the price stops climbing at $13. You see a
+column of Xs that represents the price rise from $9 to $13 in a single move.
+
+www.pdfdummies.com
+
+Chapter 15: Ignoring Time: Point-and-Figure Charting
+
+Figure 15-1:
+Point-andfigure chart
+format.
+
+$13
+
+X
+
+$12
+
+X
+
+$11
+
+X
+
+$10
+
+X
+
+O
+
+$9
+
+X
+
+?
+
+PRICE RISES
+FROM $9 TO $13
+
+NEW LOW $3 BELOW
+PREVIOUS HIGH
+
+When the up move is over and the price makes a new low below yesterday’s
+low by a specific amount, you must start a new column, using an O and placing it at the dollar level of the new low. (I tell you more about this topic in a
+minute in the “Defining box size” section; for now, consider that the new low
+suffices to consider that the up move is over.) Figure 15-1 tells you that the
+new low came at $10. You now expect the next entry to be another O where
+the question mark is placed on the chart. Whatever happens next, the formation of a new column alerts you to a change in the price dynamics.
+Each column on the chart represents an up move or a down move, regardless
+of time. On a daily chart, a column can represent 2 days, 10 days, 100 days, or
+any other number of days. You start a new column only when the last directional move is over. On the chart in Figure 15-1, you have an up move from $9
+to $13 and thus five Xs, but that doesn’t mean it took five days. It may have
+taken 30 days, because on days showing no new high, you skipped over that
+price data and did not make a chart entry.
+Most P&F software exhibits dates at the bottom of the chart along the horizontal axis. These dates aren’t spaced evenly at regular intervals because they are
+in the usual chart format. In fact, the dates are there only for convenience —
+they don’t actually measure time because in point-and-figure charting, the date
+is irrelevant and only price action matters.
+
+Dealing with box size
+The box size is the minimum amount that the security needs to move above
+the recent highest high (marked by the last X) or below the lowest low
+(marked by the last O) before another entry is made on the chart. The following sections discuss how to get the box size right in P&F charting.
+
+www.pdfdummies.com
+
+257
+
+258 Part V: Flying with Dynamic Analysis
+Defining box size
+The horizontal axis suppresses dates and compresses time, but the vertical
+axis is spaced in the conventional way. In the days when traders used actual
+graph paper, they filled in the little boxes of the grid with the Os and Xs set at
+some appropriate dollar amount, such as $.50 or $1. In futures markets, traders use the number of points corresponding to dollar amounts. The choice of
+spacing on the vertical axis is still called the box size, even if you’re using a
+computer program and not actual graph paper.
+When your security has a highest high of $10, for example, and it regularly
+varies by $.50 per day, you might set your box size at $1. If today’s new high
+is $12, you acknowledge that this is a price extreme — four times the usual
+daily trading range — and deserves a new X in the X column. In fact, in this
+case, the new high is a full $2 over the last high, so you fill in two $1 boxes
+with the X notation. What happens if the price changes by $.98? Nothing. The
+new price is close to the box size of $1, but close doesn’t count.
+
+Choosing a box size
+When you select a small box size, you’re asking to see a lot of detail, including small retracements. By increasing the box size, you’re filtering out filler
+data, just like when you make a rule that requires a price to cross a moving
+average by x percent (see Chapter 12 for a discussion of filtering).
+The smaller the box, the more sensitive the chart is to price changes. The
+bigger the box, the less sensitive the chart is. If you’re risk averse, you may
+prefer a small box size. If you want to see the big picture, you prefer a bigger
+box. Table 15-1 contains the standard box-size guidelines.
+
+Table 15-1
+
+Approximate Guidelines for Box Size
+
+Security Price
+
+Box Size
+
+$5–20
+
+$.50
+
+$20–100
+
+$1
+
+$100–200
+
+$2
+
+$200–300
+
+$4
+
+$300–400
+
+$6
+
+Computer charting programs adjust the box size to fit the screen if you leave the
+program in default mode. You may wind up with a box size of $.67 or some other
+arbitrary number. Box size is too important to leave to a program, because many
+other traders use a standard round-number box, like $.50 or $1. Besides, software
+adjusts box size to accommodate the amount of data you select, so you get different point-and-figure charts (and hypothetical trading decisions), depending on
+
+www.pdfdummies.com
+
+Chapter 15: Ignoring Time: Point-and-Figure Charting
+how much data you display. The software uses the box size that fits the highest
+range in the data series in order to get everything on one chart. But the trading
+range of any single security changes over time, and you want to take note of that
+rather than let software obscure the changing range. If you use P&F charting software, fix the box size so you know whether the range is expanding — the columns
+of Xs and Os get taller — or contracting — or whether the columns get shorter
+and there are more of them.
+
+Adding the reversal amount to the picture
+The purpose of the box size (see earlier section on this topic) is to note
+a significant change in price. But how do you know how far a price has to
+move below the X (upward) column to warrant starting an O (downward)
+column? For that, you establish a second criterion, the reversal amount. The
+traditional reversal amount is three boxes. If your box is $1 and you’re now
+in a rising X column, you have to get a new low that is $3 lower than the low
+today to start a new O (downward) column.
+You can backtest a variety of box sizes and reversal amounts to arrive at the
+best numbers to use for any particular security. As a general rule, though,
+point-and-figure chartists recommend sticking to the three-box rule for reversals and adopting different box sizes for chart entries, depending on the absolute level of the prices.
+A box size of $4, the appropriate box for a security selling over $200, with a
+three-box reversal, works out to $12. If you have 100 shares, you would exit on
+a reversal of at least $1,200, which is a fairly hefty sum of money. If you use the
+three-box reversal as a stop level (see Chapter 5 for stops), you have to accept
+that big of a loss when the price goes against you. If you judge that $1,200 is
+too big a loss to take on a single position, you can trade a smaller number of
+shares (an odd-lot) or trade a cheaper security.
+
+Drawing the daily chart
+To draw the chart, every day you check the highest high and lowest low of
+the day. Is the price higher than the previous high by $1? If so, enter another
+X above the last X in the column. Is the low lower than today’s low by $1?
+Enter nothing. By $2? Again, enter nothing. By $3? Aha! That’s three boxes
+worth, the reversal amount, and you start a new column, entering the O at
+a level $3 below the last X. Because it’s a reversal, now you expect the next
+entry to be one box lower. The next day, is the low price lower than yesterday by $1? If so, enter another O. If it’s higher, it has to be higher than today’s
+high by $3 to abandon the falling-price O column.
+If you see a lot of reversal columns that contain only one entry, chances are
+your box size is too small — or your reversal amount is wrong.
+
+www.pdfdummies.com
+
+259
+
+260 Part V: Flying with Dynamic Analysis
+What if you get a new high by one box and on the same day, also get a new low
+by the reversal amount — three boxes? This is an outside day (see Chapter 6).
+The new low trumps the new high, and you should start a new column of Os.
+After all, you’re looking for a threat to the trend (and your pocketbook). A new
+low by the reversal amount constitutes a serious threat.
+
+Applying Patterns
+Patterns pop out on point-and-figure charts. Some of the most common patterns include support and resistance, but also simple patterns like double
+and triple tops and bottoms appear. This section outlines how you can use
+these common point-and-figure chart patterns.
+
+Support and resistance
+Point-and-figure charting offers two versions of support and resistance: The
+horizontal historic-level version I describe in Chapter 5 and the conventional
+version that slopes along a series of highs or low, which you can discover in
+Chapter 10. I show you how to approach both types when using point-andfigure charting in the following sections.
+
+Horizontal support and resistance
+In Chapter 5, I talk about the historic high or low. Traders remember the
+highest high ever or the lowest low in three months as benchmarks when the
+price approaches the same level. In point-and-figure charting, the horizontal
+line that you draw to mark the top or bottom of columns becomes a kind of
+recent-history support or resistance. Therefore, you often get a series of columns that all end at a floor or a ceiling, regardless of whether they’re Xs or
+Os. Floors and ceilings are very handy both for spotting a breakout and setting a stop (see Chapter 5 for a discussion of stops).
+In Figure 15-2, the top-left chart shows a breakout X above the resistance
+line. Using conventional charting, you wouldn’t have known that line was
+there unless you were on the lookout for historic highs and lows. But pointand-figure chartists draw them all the time to denote where supply becomes
+abundant or demand falls short, halting a price rise.
+
+Conventional support and resistance
+On a standard bar chart (see Chapter 6), you draw a support line along a
+series of lows or a resistance line along a series of highs. These lines almost
+always have a slope that describes the trend and are hardly ever horizontal
+except in a consolidation. You can draw sloping support and resistance lines
+on point-and-figure charts, too.
+
+www.pdfdummies.com
+
+Chapter 15: Ignoring Time: Point-and-Figure Charting
+
+X
+X
+X
+
+X
+X
+X
+
+X
+
+O
+
+BREAK OF HORIZONTAL
+RESISTANCE
+
+X
+X
+X
+Figure 15-2:
+Patterns
+on pointand-figure
+charts.
+
+O
+O
+
+X
+X
+
+O
+O
+O
+
+DOUBLE TOP
+REVERSAL
+
+X
+X
+X
+O
+
+CONVENTIONAL
+SUPPORT
+
+X
+X
+X
+
+X
+O X
+O X
+O
+
+X
+X
+O X
+O
+
+DOUBLE TOP
+BULLISH CONTINUATION
+
+You trade point-and-figure support and resistance the same as you do when
+using conventional support and resistance — a breakout to the upside triggers a purchase and a breakout to the downside triggers a sale. As with conventional support and resistance lines, don’t erase a support line after it’s
+broken — it has a good chance of becoming the new resistance line. An old
+resistance line may become the new support line, too.
+Because a point-and-figure chart filters out noisy prices and compresses
+time, your chart often displays authentic long-term support or resistance that
+you’d miss on a regular daily bar chart. You may also see triangles, which are
+support and resistance lines that converge. Chapter 9 covers triangles.
+The top-right chart in Figure 15-2 shows a conventional support line. You
+could have a conventional (sloping) resistance line, too. Notice that if your
+boxes are perfectly square, you can draw a 45-degree line and extend it out
+into the future by starting with just two columns when one of the columns is
+one box higher or lower than the other. The 45-degree technique allows you
+to start a support or resistance line more simply and sometimes earlier than
+in conventional bar charting. The upward-sloping 45-degree line is named a
+bullish support line, and a downward-sloping 45-degree line is a bearish resistance line.
+
+www.pdfdummies.com
+
+261
+
+262 Part V: Flying with Dynamic Analysis
+Double and triple tops and bottoms
+Double and triple tops are formed when demand falls off as the price nears a
+previous high. When bulls fail to get a breakout above the established high,
+it’s a pretty good sign that sellers are happy to unload the security at that
+price. When you get more than one low at about the same level, it’s a double
+or triple bottom, where buyers think it’s a bargain, and the price is likely to
+rise. See Chapter 9 for a discussion of double and triple tops and bottoms.
+A double or triple top or bottom can be either a reversal pattern or a continuation pattern in point-and-figure charting, depending on the behavior of the
+opposite-direction columns. In conventional time-based bar charting, you
+have to wait for confirmation of these patterns — chewing up time. Point-andfigure, therefore, can speed up the process of helping you decide whether
+you’re getting a reversal or a continuation.
+In regular bar charting, a confirmed double top has a high probability of
+resulting in a price drop. A qualified double bottom leads to a price rise.
+They’re reversal patterns, which you can see in chart form in Figure 15-2. In
+point-and-figure, however, chartists find that in an uptrend of Xs, if the intervening Os are on a rising line (the lowest low in the last O column isn’t as low
+as the lowest low in the previous O column), a double top may turn into a
+triple top and then an upside breakout — in other words, a continuation pattern. This configuration is shown in the fourth pattern in Figure 15-2. If the
+opposite-direction columns are horizontal, though, the traditional reversal
+interpretation is probably correct.
+
+Projecting Prices after a Breakout
+Point-and-figure chartists forecast prices after a breakout by using the box
+count, either vertically or horizontally. However, vertical projections work
+more often than horizontal projections. The following sections discuss how
+to make your own forecasts based on point-and-figure chart breakouts.
+In point-and-figure charting, you buy when the new price surpasses the highest X
+in the previous X column, and you sell when the new price surpasses the lowest
+low O in the previous O column. When the price surpasses a previous high or
+low, you have a breakout. (See Chapter 10 for a full discussion of breakouts.)
+
+Using vertical price projection
+Say that your security has just made a double or triple top breakout like the
+one shown in Figure 15-2. You want to know how high the price will go. Or
+your security has fallen to a new low but is now rising up off it. You want to
+
+www.pdfdummies.com
+
+Chapter 15: Ignoring Time: Point-and-Figure Charting
+know the potential gain if the bottom is really in and the up move continues.
+You know that the price will retrace to the downside over the course of the
+move, and you don’t want to mistake a retracement for the end of the trend.
+If you have faith in the forecast, you decide to ride out the retracement.
+Point-and-figure chartists create forecasts in each case with an ingenious version of momentum. Here’s how you can do it:
+1. Find the bottom of the last X (upward) column if you have an upside
+breakout (or the bottom of the lowest X column if you suspect a reversal
+to the upside).
+2. Count the number of boxes in the column (say four boxes).
+3. Multiply the number of boxes by your reversal amount (see the reversal amount section earlier in the chapter), say the standard three.
+4 x 3 = 12
+4. Multiply that product by the box size, say the standard $1.
+12 x $1 = $12
+5. Add the product to the lowest low in the starting column to get your
+new price target.
+If the lowest low was $10, you add $12, and your price target is now $22.
+Figure 15-3 shows a sample vertical point-and-figure projection.
+
+O
+O
+O
+O
+O
+O
+Figure 15-3: O
+Vertical O
+projection.
+O
+
+X
+X
+X
+X
+
+X
+X
+X
+X
+X
+O X
+O
+
+NO. BOXES IN
+REVERSAL
+COLUMN ×
+REVERSAL
+AMOUNT +
+STARTING LOW
+= TARGET PRICE
+
+The price objective is only a guide. The actual new high may fall short of $22,
+or it may be a great deal more than $22. You don’t automatically sell at $22
+if the price is still making new highs. But you may want to evaluate the riskreward ratio in terms of the price projection (the reward) and the lowest low
+in the starting column (where you may place your initial stop). As I discuss
+in Chapter 5, you always want to manage the trade so that the expected gain
+from a trade is higher than the worst-case loss you allow.
+
+www.pdfdummies.com
+
+263
+
+264 Part V: Flying with Dynamic Analysis
+To estimate how far a down move may go, reverse the process. You start from
+the highest-high box before the down move column begins, count the boxes,
+multiply by three, multiply again by the box size, and voilà! You have an estimate of where the drop may stop.
+
+Applying horizontal projection
+You use a horizontal count to project the ending price of a breakout after a
+period of consolidation. Say the price has been going mostly sideways for
+some period of time. Yes, it has alternating X and O columns, but your eye
+can detect a base, or bottom formation. (For a downside breakout, you need
+to see a top formation.)
+Figure 15-4 shows a base forming after a five-column downtrend ahead of an
+upside breakout. To calculate the projected price, follow these steps:
+1. Identify the number of columns in the base, which is the sideways
+period before the breakout. Exclude the breakout column.
+In this example, say you identify five columns.
+2. Multiply by the number of columns in the base by the reversal amount
+you choose — say the standard three-box reversal.
+5 x 3 = 15
+3. Add the product to the lowest low in the base to get a price target.
+Say the lowest low is $10.
+Now you have a price target of $10 + $15 = $25.
+
+X
+
+Figure 15-4:
+Horizontal
+projection.
+
+O
+O
+O
+O
+
+X
+X
+
+O X
+O X
+O
+
+X
+X
+O X
+O
+
+NO. OF BASE
+COLUMNS ×
+REVERSAL
+AMOUNT +
+STARTING
+LOW =
+TARGET PRICE
+
+www.pdfdummies.com
+
+Chapter 15: Ignoring Time: Point-and-Figure Charting
+
+Combining Point-and-Figure Techniques
+with Other Indicators
+The innate simplicity of point-and-figure charting is appealing, but you can
+add value to decision making by speeding up the buy/sell signal or seeking
+confirmation or lack of confirmation from other indicators. Because other
+indicators are time based, how can this merger be done?
+Here’s how you can use point-and-figure charting along with other indicators
+I mention in this book:
+✓ Moving averages: You use the price at the center of each column in
+calculating a moving average in P&F charts, instead of the usual method
+of averaging prices over a fixed number of periods. Thus you are using
+the average price per reversal. If the moving average shows that you had
+a downtrend and now you get a new column of Xs that rises over the
+moving average, you have more confidence that the Xs really do imply a
+rising trend and thus a safer buy signal.
+✓ Parabolic stop-and-reverse indicator: The parabolic stop-and-reverse
+(SAR) indicator delivers a speedier reversal than waiting for a new column
+of Xs or Os. (See Chapter 5.) The parabolic SAR has the advantage of tightening your stop as the momentum of a price move decelerates.
+✓ Bollinger bands: Data displayed in the P&F format can’t display momentum and thus overbought or oversold, a shortcoming that can be
+partly addressed by applying Bollinger bands (see Chapter 14). If your
+columns of Xs persist in pressing against the top of the band and sometimes breaking it, you have confirmation of the uptrend. When the next
+column of Os crosses the centerline (a simple moving average) to the
+downside, you expect a swing all the way to the bottom band.
+Finally, Bollinger bands are wide apart when volatility is high, and they
+“squeeze” narrower as volatility dissipates and prices become congested. In a congestion, P&F prices are in a series of short columns that
+you can’t trust to deliver a reliable buy-or-sell signal. When you see the
+short columns together with the narrow Bollinger band, you can guess
+that the market is fickle — it’s not trending, and you should go find
+something else to trade.
+
+www.pdfdummies.com
+
+265
+
+266 Part V: Flying with Dynamic Analysis
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>

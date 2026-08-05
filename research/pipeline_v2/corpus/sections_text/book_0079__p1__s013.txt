@@ -1,0 +1,647 @@
+Using the ladder exit will allow the market a “cushion” of one zone.
+This may seem frustrating, to allow the market to come back and stop out
+a trade for less profit, but this is the nature of the trailing exit. All trailing exits (including the three-bar exit described further on), have to allow some
+breathing room, or “cushion” in order to capture the large profits available
+in trending markets.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+188
+
+NAKED FOREX
+
+EURUSD, Weekly 1.35215 1.36892 1.33624 1.33846
+0.97055
+0.96205
+0.95380
+0.94530
+0.93705
+0.93300
+0.92855
+0.92005
+
+0.91000
+
+4
+
+0.90330
+0.89480
+0.88655
+0.87805
+0.87500
+
+3
+
+0.86955
+0.86130
+0.85280
+
+2
+0.84430
+0.83750
+
+1
+
+0.82755
+0.81930
+
+7 May 2000
+
+2 Jul 2000
+
+27 Aug 2000
+
+22 Oct 2000
+
+17 Dec 2000
+
+11 Feb 2001
+
+8 Apr 2001
+
+3 Jun 2001
+
+29 Jul 2001
+
+23 Sep 2001
+
+FIGURE 11.7 The ladder exit on a weekly EUR/USD bullish kangaroo tail. 1. The
+stop loss is ﬁrst placed below the low of the kangaroo tail. 2. The stop loss is moved
+to breakeven once the market reaches the 0.87500 zone. 3. The market trades up to
+the next zone at 0.9100, so the stop loss is moved to 0.8750. 4. The market reaches
+the next zone at 0.9330, so the stop loss is moved to 0.9100, and this is where the
+trade is exited for 575 pips.
+© 2000–2011, MetaQuotes Software Corp.
+
+Three-Bar Exit The three-bar exit is a unique exit because, unlike the
+previous exits, it does not involve zones. The three-bar exit gets its name
+because the exit is based on the price action of the most recent three bars
+(or candlesticks). The exit is a simple trailing exit based on the lowest low
+of the previous three candlesticks (for buy trades), or the highest high of
+the previous three candlesticks (for sell trades).
+The naked trader locks in profits by trailing the stop loss behind the
+lowest low (for buy trades) of the previous three candlesticks. Take the
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+189
+
+Exiting the Trade
+
+example on the one-hour GBP/AUD chart. This trade is obviously a bullish
+trendy kangaroo on an excellent zone at 1.5868 (see Figure 11.8). The initial
+stop-loss placement is below the low of the trendy kangaroo.
+Once the market prints three candlesticks after the trendy kangaroo,
+the stop loss is moved below the low of the lowest candlestick. The lowest
+of the three candlesticks in Figure 11.9 is the third candlestick, the candlestick immediately after the trendy kangaroo candlestick. The stop loss is
+moved to just below the low of the candlestick immediately following the
+trendy kangaroo candlestick.
+In Figure 11.10, the three-bar exit is applied to GBP/AUD one-hour
+trendy kangaroo. One more candlestick prints, and so the stop loss is
+moved higher, this time it is placed below the third most recent candlestick because it has the lowest low at this stage of the trade.
+In Figure 11.11 the market moves higher once again after another onehour candlestick closes. The GBP/AUD one-hour trendy kangaroo is trending nicely, and the three-bar exit is locking in profits as the market trades
+higher.
+The one-hour chart for the GBP/AUD changes drastically as the market
+makes a strong move downward (see Figure 11.12). At this stage, the candlestick with the lowest low is the most recent candlestick, so according to
+the three-bar exit rules the stop loss must be placed a few pips below this
+most recent candlestick.
+
+1.60630
+1.60230
+1.59830
+1.59430
+1.59030
+1.58681
+
+1.58230
+1.57830
+1.57430
+1.57030
+1.56630
+1.56230
+27 Sep 23:00
+
+28 Sep 07:00
+
+28 Sep 15:00
+
+28 Sep 23:00
+
+29 Sep 07:00
+
+29 Sep 15:00
+
+FIGURE 11.8 The stop loss for the GBP/AUD one-hour trendy kangaroo is ﬁrst
+placed below the low of the candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+190
+
+NAKED FOREX
+
+1.60630
+1.60230
+1.59830
+1.59430
+1.59030
+1.58681
+1.58230
+1.57830
+1.57430
+1.57030
+1.56630
+1.56230
+1.55820
+27 Sep 18:00
+
+28 Sep 02:00
+
+28 Sep 10:00
+
+28 Sep 18:00
+
+29 Sep 02:00
+
+29 Sep 10:00
+
+29 Sep 18:00
+
+FIGURE 11.9 The three-bar exit applied to the GBP/AUD one-hour chart. Once the
+market has printed three candlesticks, the stop loss is moved beneath the lowest low
+of the most recent three candlesticks.
+© 2000–2011, MetaQuotes Software Corp.
+
+1.60630
+1.60230
+1.59830
+1.59430
+1.59030
+1.58681
+1.58230
+1.57830
+1.57430
+1.57030
+1.56630
+1.56230
+Sep 19:00
+
+28 Sep 03:00
+
+28 Sep 11:00
+
+28 Sep 19:00
+
+29 Sep 03:00
+
+29 Sep 11:00
+
+29 Sep 19:00
+
+FIGURE 11.10 The three-bar exit applied to the one-hour GBP/AUD trendy kangaroo trade. The market moves higher, and the stop loss is placed just below the
+lowest low of the three most recent candlesticks.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+191
+
+Exiting the Trade
+
+1.60770
+1.60360
+1.59960
+1.59550
+1.59140
+1.58681
+1.58330
+1.57920
+1.57510
+1.57100
+1.56700
+1.56290
+1.55880
+27 Sep 20:00
+
+28 Sep 04:00
+
+28 Sep 12:00
+
+28 Sep 20:00
+
+29 Sep 04:00
+
+29 Sep 12:00
+
+29 Sep 20:00
+
+FIGURE 11.11 One more candlestick prints, and the three-bar exit is adjusted
+once again. This time the third most recent candlestick is again the candlestick with
+the lowest low, so the stop loss on the GBP/AUD trendy kangaroo trade is placed
+below the third candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+1.60770
+1.60360
+1.59960
+1.59550
+1.59140
+1.58681
+1.58330
+1.57920
+1.57510
+1.57100
+1.56700
+Sep 21:00
+
+28 Sep 05:00
+
+28 Sep 13:00
+
+28 Sep 21:00
+
+29 Sep 05:00
+
+29 Sep 13:00
+
+29 Sep 21:00
+
+FIGURE 11.12 The most recent candlestick on the one-hour GBP/AUD chart
+makes a strong move down. The stop loss is placed below this candlestick because
+it has the lowest low of the most recent three candlesticks.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+192
+
+NAKED FOREX
+
+One more candlestick prints, and the trade survives by a whisker. The
+new candlestick is slightly lower than the previous candlestick, so the stop
+loss is placed below this most recent candlestick (see Figure 11.13).
+The next one-hour candlestick on the GBP/AUD one-hour chart (see
+Figure 11.14) prints slightly higher. The stop loss remains at the same location because this second candlestick still has the lowest low of the most
+recent three candlesticks.
+The one-hour trendy kangaroo trade on the GBP/AUD chart is closed
+out on the next candlestick (see Figure 11.15). The most recent candlestick
+pushes through the stop loss, and so the trade is closed for a modest gain
+of 13 pips.
+Some of the trades that are managed according to the three-bar exit
+will end up with similar results to this GBP/AUD one-hour trendy kangaroo
+trade. The three-bar exit is ideal for a strong trending market, but if the
+market does not continue moving with a strong trend, the three-bar exit
+will only capture minimal profits. Although this may seem discouraging
+for some traders (particularly gunners), for runners, who take a long-term
+perspective, a few losing trades or minimal gains are acceptable. Runners
+understand that the large gains will come from time to time and make the
+three-bar exit a worthwhile exit strategy.
+Another example of the three bar exit is in order. This time, it is the
+AUD/JPY daily chart, and the trade set-up is a bearish big shadow (some
+
+1.60770
+1.60360
+1.59960
+1.59550
+1.59140
+1.58681
+1.58330
+1.57920
+1.57510
+1.57100
+1.56700
+1.56290
+27 Sep 22:00
+
+27 Sep 06:00
+
+28 Sep 14:00
+
+28 Sep 22:00
+
+29 Sep 06:00
+
+29 Sep 14:00
+
+29 Sep 22:00
+
+FIGURE 11.13 The GBP/AUD one-hour trendy kangaroo trade survives after the
+next candlestick prints on the chart. This most recent candlestick now has the lowest
+low, so the stop loss is placed a few pips below this candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+193
+
+Exiting the Trade
+
+1.60770
+1.60360
+1.59960
+1.59550
+1.59140
+1.58681
+1.58330
+1.57920
+1.57510
+1.57100
+1.56700
+1.56290
+1.55880
+15:00
+
+27 Sep 23:00
+
+28 Sep 07:00
+
+28 Sep 15:00
+
+28 Sep 23:00
+
+29 Sep 07:00
+
+29 Sep 15:00
+
+29 Sep 23:00
+
+FIGURE 11.14 The stop loss for the one-hour GBP/AUD trendy kangaroo trade
+remains the same because the most recent candlestick does not present a lower low.
+© 2000–2011, MetaQuotes Software Corp.
+
+1.60770
+1.60360
+1.59960
+1.59550
+1.59140
+1.58681
+1.58330
+1.57920
+1.57510
+1.57100
+1.56700
+1.56290
+27 Sep 16:00 28 Sep 00:00 28 Sep 08:00 28 Sep 16:00 29 Sep 00:00 29 Sep 08:00 29 Sep 16:00 30 Sep 00:00
+
+FIGURE 11.15 The next candlestick triggers the three-bar exit stop loss. The
+most recent one-hour GBP/AUD trades low enough to hit the stop loss, and so the
+trade is over after a gain of 13 pips.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+194
+
+NAKED FOREX
+
+naked traders may argue that this set-up is not a bearish big shadow, but
+something else; go to www.fxjake.com/book to watch a video about this
+trade). The original placement for the stop loss is just above the high of the
+bearish big-shadow candlestick (see Figure 11.16).
+The stop loss remains above the high of the big shadow until three
+more candlesticks print after the bearish big shadow. The stop loss
+is moved a few pips above the highest high of the three most recent
+candlesticks. As Figure 11.17 illustrates, the highest high of the previous three candlesticks is the candlestick immediately following the big
+shadow, so the stop loss is placed above this candlestick.
+The next chart (see Figure 11.18) shows four candlesticks after the
+bearish big shadow. The highest high of the most recent three candlesticks
+becomes the most recent candlestick. Therefore, the stop loss is placed a
+few pips above the high of the most recent candlestick. It is important to
+note that according to the rules of the three-bar exit, the candlestick must
+close before the stop loss may be moved.
+Another candlestick prints and the candlestick with the highest high
+remains the same. The stop loss is not moved because the second most
+recent candlestick still has the highest high (see Figure 11.19).
+
+88.550
+88.070
+87.600
+87.120
+86.650
+86.170
+85.700
+85.220
+84.740
+84.270
+83.790
+83.320
+82.840
+82.370
+
+Mar 2006
+
+3 Apr 2006
+
+13 Apr 2006
+
+25 Apr 2006
+
+5 May 2006
+
+17 May 2006
+
+81.890
+29 May 2006
+
+FIGURE 11.16 The initial stop-loss placement for the daily AUD/JPY bearish big
+shadow is just above the high of the big shadow.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+195
+
+Exiting the Trade
+
+88.550
+88.070
+87.600
+87.120
+86.650
+86.170
+85.700
+85.220
+84.740
+84.270
+83.790
+83.320
+82.840
+82.370
+
+Mar 2006
+
+3 Apr 2006
+
+13 Apr 2006
+
+25 Apr 2006
+
+5 May 2006
+
+17 May 2006
+
+81.890
+29 May 2006
+
+FIGURE 11.17 According to the three-bar exit, once the third candlestick prints
+the stop loss may be adjusted. In this case, the ﬁrst candlestick after the AUD/JPY
+daily bearish big shadow has the highest high of the three candlesticks, thus the
+stop loss is placed a few pips above this candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+88.550
+88.070
+87.600
+87.120
+86.650
+86.170
+85.700
+85.220
+84.740
+84.270
+83.790
+83.320
+82.840
+82.370
+
+Mar 2006
+
+3 Apr 2006
+
+13 Apr 2006
+
+25 Apr 2006
+
+5 May 2006
+
+17 May 2006
+
+81.890
+29 May 2006
+
+FIGURE 11.18 The most recent candlestick on the daily AUD/JPY chart becomes
+the candlestick with the highest high. Thus, according to the three bar exit, the stop
+loss is placed a few pips above the high of the most recent candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-c11
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:55
+
+Printer: Courier Westford
+
+196
+
+NAKED FOREX
+
+88.550
+88.070
+87.600
+87.120
+86.650
+86.170
+85.700
+85.220
+84.740
+84.270
+83.790
+83.320
+82.840
+82.370
+
+Mar 2006
+
+3 Apr 2006
+
+13 Apr 2006
+
+25 Apr 2006
+
+5 May 2006
+
+17 May 2006
+
+81.890
+29 May 2006
+
+FIGURE 11.19 Using the three-bar exit, the stop loss placement on the AUD/JPY
+daily bearish big shadow trade remains the same after one more candlestick prints.
+© 2000–2011, MetaQuotes Software Corp.
+

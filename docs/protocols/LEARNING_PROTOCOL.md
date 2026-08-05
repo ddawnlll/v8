@@ -48,8 +48,12 @@ overwriting previous versions.
 | D | How is entry executed better? | sequential control | heuristic -> contextual bandit -> conservative offline RL |
 | E | Which Experts run? | routing | none initially; full self-gating is the baseline |
 
-Only one learned component may be active in the decision path at any time
-(`V8_CONSTITUTION` rule 14). A learned component enters through the same
+At most one learned component may be active **per pipeline position**
+(`V8_CONSTITUTION` rule 14). A Candidate Scorer (step B) and an ML Expert
+challenger occupy different positions; each is gated by its own preregistered
+frozen-OOS comparison against its immediately simpler baseline (rule 5), not by
+a global count. The ladder above fixes the order in which positions are opened.
+A learned component enters through the same
 `ExpertContract` as a deterministic Expert — the Candidate store must not know
 whether an Expert is an if-statement, a LightGBM, or a GRU. Training happens
 outside the Expert: `trainer.fit(frozen_dataset) -> model_artifact_v2 ->
@@ -69,5 +73,5 @@ action is masked, not punished.
 3. Outcome-ledger access from an Expert evaluation raises.
 4. Retraining reads only materialized views and pinned hashes; raw tape access
    in training fails (`DATASET_SPEC` section 5).
-5. A second learned component cannot be admitted while one is already active
-   in the decision path.
+5. A second learned component cannot be admitted at a pipeline position that
+   already has one active.

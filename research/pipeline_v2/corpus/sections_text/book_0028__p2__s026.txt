@@ -1,0 +1,351 @@
+
+Burniske 03.indd 264
+
+9/9/17 2:41 PM
+
+Preparing Current Portfolios for Blockchain Disruption
+
+265
+
+Hence, the incumbent that avoids developing products that utilize the new
+technology may be maximizing short-term revenue, but is shooting itself in the
+foot over the long term. As Christensen notes, in the early stages of a disruptive technology, it is most important that the company learn and experiment.
+If the company doesn’t experiment early on, then by the time the technology
+is inflecting in its growth—with a market that is sizeable enough to move the
+needle for the incumbent—it is too late. By that point, the smaller companies that took the time to master the new technology are much more nimble
+and experienced and will outcompete incumbents in what have become big
+growth markets.
+If an incumbent misses enough of these growth opportunities, its offerings
+will become obsolete, its revenue will dwindle, its market capitalization will
+shrink, and it will become a dead-end investment. Often these are referred to
+as value-traps. As the innovative investor might expect, the fall of incumbents
+is happening at an accelerating rate, as is the rise of new winners. The disruption of incumbents can be quantified by how long the biggest companies stay
+in the S&P 500, or their average life span. The average life span for companies
+in the S&P 500 has fallen from 60 years in the 1960s to below 20 years of
+late.2 This is clearly a sign that investors must not be complacent. One cannot
+assume that the companies succeeding today will continue to be the leading
+(and profitable) companies for decades to come.
+Disruptive technologies are also being invented at an accelerating rate. The
+trend is one we have been witnessing for millennia. For example, between AD
+900 and 1900, a new general purpose technology was invented roughly every
+100 years, with notable examples including the steam engine, automobile,
+and electricity. In the twentieth century, a new general purpose technology
+came into existence every 15 years, with familiar examples like computers, the
+Internet, and biotechnology. In the twenty-first century, general purpose technologies have come into existence every 4 years, with autonomous robotics
+and blockchain technology as two of the more recent examples.3
+While disruptive technologies tend to unseat incumbents, there are examples of companies that have managed to reinvent themselves continually for
+decades. Just as there is danger, there is also opportunity for incumbents to
+capitalize on exciting new growth markets, which can boost their revenue and
+market capitalizations. Discerning the difference between a value-trap and a
+reborn incumbent can make all the difference for the innovative investor.
+
+Burniske 03.indd 265
+
+9/9/17 2:41 PM
+
+266 CRYPTOASSETS
+
+BLOCKCHAIN TECHNOLOGY IN THE FINANCIAL SECTOR
+In 2016, the father-son team of Don and Alex Tapscott published the book
+Blockchain Revolution: How the Technology Behind Bitcoin Is Changing Money,
+Business, and the World, and William Mougayar published the book, The
+Business Blockchain: Promise, Practice, and Application of the Next Internet
+Technology. As the titles imply, these books discuss the many ways in which
+blockchain technology is currently and will continue to disrupt how business
+is done worldwide. In this chapter, we investigate a few ways the financial sector may be upended by cryptoassets and how incumbents are responding.
+Using the financial sector as a leaping off point, investors can then apply their
+learnings to other industries.
+The financial industry must slog through a swamp of regulation, sometimes
+making it slow to adapt to new technologies. Recently the industry has been
+showing its age with numerous data breaches, near-monopolistic structures,
+and continued use of tools and models developed decades ago that still run the
+inefficient money systems in place today. However, the Tapscotts believe the
+days of “Franken-finance”—that convoluted, contradictory, and often irrational system of finance we’ve lived under for so many years—are “numbered as
+blockchain technology promises to make the next decade one of great upheaval
+and dislocation but also immense opportunity for those who seize it.”4
+Recall from Chapter 2 that not all instances in which blockchain technology
+is used necessarily involve a cryptoasset (such as bitcoin or ether). In fact, thus
+far the majority of companies in the financial services space have opted for
+blockchain implementations void of cryptoassets. It is increasingly common
+for these implementations to be referred to as distributed ledger technology
+(DLT), which differentiates them from the blockchains of Bitcoin, Ethereum,
+and beyond. For companies pursuing a DLT strategy, they still utilize many
+of the innovations put forth by the developers of public blockchains, but they
+don’t have to associate themselves with those groups or share their networks.
+They pick and choose the parts of the software they want to use and run it
+on their own hardware in their own networks, similar to intranets (earlier
+referred to as private, permissioned blockchains).
+We see many DLT solutions as band-aids to the coming disruption. While
+DLT will help streamline existing processes—which will help profit margins
+in the short term—for the most part these solutions operate within what will
+become increasingly outdated business models. As we will cover with insurance, incumbents could use public blockchain architectures to provision simi-
+
+Burniske 03.indd 266
+
+9/9/17 2:41 PM
+
+Preparing Current Portfolios for Blockchain Disruption
+
+267
+
+lar services to what they do already, but it would cannibalize some of their
+revenue. Such cannibalization is admittedly painful, but as Christensen lays
+out, it is often necessary for long-term survival. Additionally, regulation can
+handcuff the incumbents, and in the financial services industry incumbents
+are particularly sensitive to regulatory rebukes after the financial crisis of 2008.
+The incumbents protect themselves by dismissing cryptoassets, a popular
+example being JPMorgan’s Jamie Dimon, who famously claimed bitcoin was
+“going to be stopped.”5 Mr. Dimon and other financial incumbents who dismiss cryptoassets are playing exactly to the precarious mold that Christensen
+outlines:
+Disruptive technologies bring to a market a very different value
+proposition than had been available previously. Generally, disruptive technologies underperform established products in mainstream markets. But they have other features that a few fringe
+(and generally new) customers value. Products based on disruptive technologies are typically cheaper, simpler, smaller, and, frequently, more convenient to use.
+
+Disruptive technologies like cryptoassets initially gain traction because they’re
+“cheaper, simpler, smaller.” This early traction occurs on the fringe, not in the
+mainstream, which allows incumbents like Mr. Dimon to dismiss them. But
+cheaper, simpler, smaller things rarely stay on the fringe, and the shift to mainstream can be swift, catching the incumbents off guard.
+
+Remittances and Blockchain Technology
+One area long discussed as ripe for disruption is the personal remittances market, where individuals who work outside of their home countries send money
+back home to provide for their families. The market is massive, with the World
+Bank reporting worldwide remittance flows north of $600 billion, though it
+admits that the estimate is conservative: “The true size of remittances, including unrecorded flows through formal and informal channels, is believed to be
+significantly larger.” 6
+Most remittances originate in high-income countries and are sent to individuals in developing countries, where the banking systems may not be easily
+accessible. As families in the receiving countries are typically unbanked—without access to a bank account or direct wire transfer capabilities—companies
+
+Burniske 03.indd 267
+
+9/9/17 2:41 PM
+
+268 CRYPTOASSETS
+
+that provide a solution serve as a lifeline between the remitter and his or her
+family.7 For many years companies such as Western Union and MoneyGram
+have used their lifeline position to levy high fees on these remitters, as they are
+among few options available and provide a mission critical service.
+For example, toward the end of 2016 the global average fee for a remittance
+was just shy of 7.5 percent, with the weighted average coming in just under 6
+percent.8 These fees are decreasing, and rightfully so; in 2008, the average fee
+was nearly 10 percent, which meant that someone with $100 to send home
+only ending up giving $90 to his or her family, while the remitting company
+took the other $10.9 It hardly seems fair; some call it exploitation.
+As more competitors enter the market in the Internet era, people realize
+there is little reason for such high fees to be charged. While the term “wire
+money” may make it sound like the company providing the service is doing
+something sophisticated, in reality there’s no wire. This is an outdated term
+from the days when Western Union was a telegraph company, literally using
+wires to send messages. Those wires are long gone. For the most part, all that
+happens in a remittance is a few centralized entities rebalance their books,
+debiting one account and crediting the other, after taking out a large chunk of
+the original amount, of course.
+It’s no stretch then to recognize that bitcoin, with its low cost, high speed,
+and a network that operates 24/7, could be the preferred currency for these
+types of international transactions. Of course, there are requirements to make
+this happen. The recipient needs to have a bitcoin wallet, or a business needs
+to serve as an intermediary, to ultimately get the funds to the recipient. While
+the latter option creates a new-age middleman—which potentially has its own
+set of problems—thus far these middlemen have proved to be much less costly
+than Western Union. The middleman can be a pawnshop owner with a cell
+phone, who receives the bitcoin and pays out local currency to the intended
+recipient.
+In India, the largest receiver of remittances in the world with 12 percent of
+the global remittance total, a recent partnership between bitcoin exchanges is
+projected to bring the fee down to 0.5 percent for remittances into the country.10 In Mexico, there’s been a huge surge in volume at the country’s bitcoin
+exchange, Bitso, where funds can be transferred for a similarly low fee.11 All of
+these companies are eyeing the tens of billions of dollars the incumbents make
+from levying fat fees on vulnerable customers.
+The impact of this major disruption in the remittance market should be
+recognized by the innovative investor not only because of the threat it creates
+
+Burniske 03.indd 268
+
+9/9/17 2:41 PM
+
+Preparing Current Portfolios for Blockchain Disruption
+
+269
+
+to a publicly traded company like Western Union (WU) but for the opportunities it provides as well. For example, Bitso secured startup funding through
+the online investment service bnktothefuture.com, which, as we discussed in
+Chapter 16, connects investors with cryptoasset startups.12
+
+Business-to-Business Payments and Blockchain Technology
+Sending money internationally goes beyond citizens, as businesses also transmit large volumes to global business partners. While this industry is too large
+to dive into every detail, the same story laid out in remittances applies: fees
+are generally higher than they should be, and payments are slower than they
+should be. Visa, for example, has sensed the opportunity and is working with
+a startup called Chain to build a business-to-business payment solution using
+blockchain technology.13 BitPesa is another company that leverages Bitcoin to
+help companies in Africa (currently Kenya, Nigeria, Tanzania, and Uganda)
+send and receive global payments.14
+Ripple has been a popular startup for incumbents to work with, and some
+of them are creating projects that utilize its native asset, XRP. Incumbents such
+as Bank of America, RBC, Santander, BMO, CIBC, ATB Financial, and more
+use Ripple’s blockchain-based technology to achieve faster and more secure
+financial transactions.15 If realized, these efforts could not only reward the
+companies that utilize Ripple but also potentially benefit Ripple’s own crypto­
+asset, XRP, which can be used as a bridge currency to help settlements on the
+Ripple network.16
+The innovative investor will want to monitor how cheaper money flows
+may create opportunities for new and existing businesses in emerging markets. Capital fuels the growth of industries, and if money moves more freely
+between citizens and businesses, that may induce a significant economic boom
+in developing markets. This, too, may warrant an investigation of which geographies stand to benefit the most, as many ETFs and mutual funds can be purchased for exposure to targeted geographies. Geographic diversification can
+benefit a portfolio when isolated macroeconomic dislocations strike.
+
+Insurance and Blockchain Technology
+Thus far, most insurance companies have opted to investigate DLT implementations and have not ventured far into the world of cryptoassets. Large consulting firms are competing to be viewed as thought leaders on how distributed
+
+Burniske 03.indd 269
+
+9/9/17 2:41 PM
+
+270 CRYPTOASSETS
+
+ledger technology will change the insurance industry, as these firms hope to
+win valuable contracts with deep-pocketed insurance companies that need
+help navigating the potential disruption. Deloitte believes that “a blockchain
+could allow the industry as a whole to streamline its processing and offer a better user experience for customers who have to make a claim. Simultaneously,
+storing claims and customer information on a blockchain would cut down
+fraudulent activity.”17
+Innovative investors can get a leg up on which insurance companies may
+be good short-term investment candidates and which to avoid, based on the
+action they take given the predictions of well-respected consulting firms. That
+said, as we have already mentioned, we view many of these DLT implementations as band-aids to prolong the life of systems that will fade into obsolescence over the coming decades. For the long term investor, careful analysis
+should be undertaken to understand if insurance companies are pursuing DLT
+use cases that will provide a lasting and meaningful solution. Lastly, some of
+the major consulting firms may be so entrenched in incumbent ideology that
+they too may be blind to the coming disruption.
+Recall from Chapter 5 that there are already companies like Etherisc providing decentralized insurance policies. The disruption can go beyond the
+capital raising and claims management processes of insurance companies, and
+into the risk models themselves. For example, Augur’s prediction platform
+built on Ethereum allows for markets to be created around the outcome of
+real-world events.18 The predictive applications for this platform in the insurance area are varied and could have a direct impact on the actuarial industry,
+which is an integral part of the insurance industry and currently defines its
+pricing models.
+Options exist for insurance companies to find a happy medium using the
+solutions provided by cryptoassets. For example, Factom has implemented a
+smart contract platform that allows for the creation of insurance policies with
+improved security and identification capabilities. Peter Kirby, the cofounder of
+Factom, points out that his platform can protect policyholders from fraud and
+identity theft, or at least provide them with the ability to track down the perpetrators of fraud and identity theft through the immutability provided by the
+blockchain technology that his platform is built on.19 Cutting down on fraud
+and identity theft would help the bottom line of many insurance companies
+tremendously. Furthermore, operating in the transparency of public networks
+would do much to bolster trust in their operations, which could draw more
+customers.
+
+Burniske 03.indd 270
+
+9/9/17 2:41 PM
+
+Preparing Current Portfolios for Blockchain Disruption
+
+271
+
+DON’T REARRANGE THE DECK CHAIRS ON THE TITANIC
+In the days immediately after the 2016 election of Donald Trump as U.S.
+president, the stocks of companies in the financial sector rallied in expectation of the new president’s potential policy shifts from that of the prior
+administration.20 During that time, investors benefited from having financial
+stocks in their portfolio, and perhaps, many more put these stocks into their
+portfolio after the election, either on the advice of advisors or as a reaction to
+the financial media claiming financial stocks were bound to benefit in the “age
+of Trump.” However, focusing on these short-term trends is like rearranging
+the deck chairs on a sinking Titanic.
+The innovative investor should ask if these gains were due to actual policies or the expectation of these policies, which hadn’t yet been implemented.
+Policies can be temporarily effective at reinforcing the financial status quo
+but are only stopgaps in the face of long-term secular trends. It’s important to
+recognize the disruption that bitcoin and cryptoassets can bring to the entire
+global financial system. Armed with this recognition, the innovative investor
+should consider the long-term investment prospects of financial companies
+clinging to their current operating models without consideration or recognition of the impending disruptions that these technologies will bring to the
+sector. The bottom line is that rather than fretting over where to position
+their deck chair, investors should consider if they should be long-term buyers of these existing banks and financial firms, given what they know about
+blockchain technology and the potential it brings to significantly change the
+banking industry.
+
+THREE POTENTIAL STRATEGIES FOR SURVIVAL
+We list three general strategies incumbents will likely use in their attempt to
+capitalize on the potential of blockchain technology.
+
+If You Can’t Beat ’Em, Buy ’Em
+Toward the end of 2015 and through much of 2016, it seemed as if every single
+financial services firm was waking up to the potential of blockchain technology to disrupt its industry. When incumbents feel like they are late and being
+
+Burniske 03.indd 271
+
+9/9/17 2:41 PM
+
+272 CRYPTOASSETS
+
+outmaneuvered by startups, they simply buy or invest in the startups. That
+is precisely what happened. The list of incumbents investing in bitcoin and
+blockchain startups accelerated to a frenzied pace starting in late 2015, and
+continued through the first half of 2016, including Citi, Visa, MasterCard,
+New York Life, Wells Fargo, Nasdaq, Transamerica, ABN AMRO, and Western
+Union.21
+While the investing or takeover strategy has been a go-to for incumbents
+trying to avoid disruption, it is rarely as effective as hoped. Once the big company swallows the startup, or begins meddling, it is often hard for the startup
+to retain its fast-moving and flexible culture. Nimble cultures are key to succeeding in the early stages of a disruptive technology, and if the startup is
+tainted by corporate bureaucracy, then it will quickly lose its edge.
+
+Circle the Wagons
+Industry consortiums have been extremely popular among incumbents investigating how to apply distributed ledger technology to their industry. On one
+hand, a consortium makes perfect sense, as a distributed ledger needs to be
+shared among many parties for it to have any use. A collaborative consortium
+helps financial services companies—many of which have historically been
+competitors that keep their business processes close to their chest—learn how
+to share. On the other hand, these consortiums can hit snags if too many big
+names and big egos become involved.
+One of the most famous consortiums is R3, which launched on September
+15, 2015, with big names such as JPMorgan, Barclays, BBVA, Commonwealth
+Bank of Australia, Credit Suisse, Goldman Sachs, Royal Bank of Scotland,
+State Street, and UBS. By the end of September, 13 more financial companies
+had joined, including Bank of America, BNY Mellon, Citi, Deutsche Bank,
+Morgan Stanley, and Toronto-Dominion Bank. Before 2015 was over, 20 other
+financial companies joined R3. R3 consists of the leading financial companies
+in the world, many of which are held either in individual equity or bond positions in portfolios or are in managed money investments like mutual funds
+and ETFs.
+Another consortium, The Hyperledger Project,22 offers more open membership than R3. Remember, one of the strengths and defining aspects of an
+effective blockchain project is its open source ethos. The Hyperledger project
+was launched in December 2015 under the umbrella of the Linux Foundation
+to create a collaborative and open-source platform that could work with many
+
+Burniske 03.indd 272
+
+9/9/17 2:41 PM
+
+Preparing Current Portfolios for Blockchain Disruption
+
+273
+
+industries, not just financial companies.23 Companies currently supporting the
+project include Airbus, American Express, Daimler, IBM, and SAP.
+The project states, “Hyperledger members and staff are committed to sharing best-practices and providing assistance with the use-case development,
+Proof-of-Concept (POC) testing, and adoption of Hyperledger.”24 Initial efforts
+undertaken by the group are in the finance and healthcare industries, with
+plans to build supply chain solutions as well. It will be interesting to see how
+this cross-industry collaborative and open source effort proceeds and what
+results come of it. An innovative investor will do well to follow the group’s
+efforts to help identify specific companies that may benefit from the results.
+One of the more interesting recent consortiums was the Enterprise
+Ethereum Alliance. It went public in late February 2017, and its founding
+members include Accenture, BNY Mellon, CME Group, JPMorgan, Microsoft,
+Thomson Reuters, and UBS.25 What is most interesting about this alliance is
+that it aims to marry private industry and Ethereum’s public blockchain. While
+the consortium will work on software outside of Ethereum’s public blockchain,
+the intent is for all software to remain interoperable in case companies want to
+utilize Ethereum’s open network in the future.
+
+Create an Innovation Lab and Leave It Alone
+The third strategy that an incumbent can follow is known as an innovation lab.
+Several universities, including Harvard, have set up innovation labs as a way
+to foster innovation through a collaborative effort between students and businesses. The corporate world has also jumped on this unique way of providing
+a forum for nurturing creative ideas with solid business skills. Often, these
+innovation labs are left alone, or largely untouched, by the incumbent parent,
+perhaps following Christensen’s advice,
+With few exceptions, the only instances in which mainstream
+firms have successfully established a timely position in a disruptive technology were those in which the firms’ managers set up
+an autonomous organization charged with building a new and
+independent business around the disruptive technology.

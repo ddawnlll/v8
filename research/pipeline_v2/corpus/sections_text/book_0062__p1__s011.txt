@@ -1,0 +1,791 @@
+
+Intermarket Indicators
+
+141
+
+Figure 9.10 Chart of the S&P 500 from 1 February 2007 to 12 October 2007. The 3-day
+moving average of the 28-day CI is plotted in the top window, the 28-day vertical horizontal
+filter below and the 14-day ADX in the second from bottom window. CI detected both up
+trends (in gray) with virtually no lag.
+
+On 5 April, the CI crossed over 20, decisively followed eight days later by the VHF
+crossing over 0.35 (the indicator’s default value for a trend) on 16 April.
+The ADX, on the other hand, missed the trend altogether. It was actually down at
+the beginning of the trend and started rising on 17 April, but by the time it crossed
+over 25 (indicating a trend) the trend was over.
+But why the disparity between the indicators? The answer is in the calculation
+method. The VHF is calculated using the formula:
+VHF =
+
+Highest(C, 28) − Lowest(C, 28)
+
+ABS(Ci − Ci−1 )
+
+(9.17)
+
+142
+
+Intermarket Trading Strategies
+
+Table 9.7 Calculation of the VHF. Column B is the S&P 500 closing price, Column C
+shows the highest close of the last 28 days, Column D shows the lowest close of the last
+28 days, Column E is their difference, Column F is the absolute value of the difference
+between consecutive daily closes, Column G is their sum for the last 28 days and Column H
+is the VHF.
+A
+
+B
+
+C
+
+D
+
+E
+
+F
+
+G
+
+H
+
+Date
+
+Close
+
+Highest
+
+Lowest
+
+H-L
+
+|(C-C[1])|
+
+
+
+VHF
+
+2/27/07
+2/28/07
+3/1/07
+3/2/07
+3/5/07
+3/6/07
+3/7/07
+3/8/07
+3/9/07
+3/12/07
+3/13/07
+3/14/07
+3/15/07
+3/16/07
+3/19/07
+3/20/07
+3/21/07
+3/22/07
+3/23/07
+3/26/07
+3/27/07
+3/28/07
+3/29/07
+3/30/07
+4/2/07
+4/3/07
+4/4/07
+4/5/07
+
+1399.04
+1406.82
+1403.17
+1387.17
+1374.12
+1395.41
+1391.97
+1401.89
+1402.85
+1406.6
+1377.95
+1387.17
+1392.28
+1386.95
+1402.06
+1410.94
+1435.04
+1434.54
+1436.11
+1437.5
+1428.61
+1417.23
+1422.53
+1420.86
+1424.55
+1437.77
+1439.37
+1443.76
+
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1459.68
+1457.63
+1456.38
+1451.19
+1449.37
+1443.76
+
+1399.04
+1399.04
+1399.04
+1387.17
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+1374.12
+
+60.64
+60.64
+60.64
+72.51
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+85.56
+83.51
+82.26
+77.07
+75.25
+69.64
+
+50.3
+7.8
+3.6
+16.0
+13.1
+21.3
+3.4
+9.9
+1.0
+3.8
+28.6
+9.2
+5.1
+5.3
+15.1
+8.9
+24.1
+0.5
+1.6
+1.4
+8.9
+11.4
+5.3
+1.7
+3.7
+13.2
+1.6
+4.4
+
+190.96
+194.49
+194.01
+202.46
+210.47
+219.62
+206.83
+215.03
+214.43
+209.98
+229.21
+230.73
+233.39
+237.32
+251.42
+258.28
+280.67
+270.92
+267.8
+259.55
+256.15
+266.02
+270.05
+267.58
+269.22
+281.19
+277.6
+280.17
+
+0.318
+0.312
+0.313
+0.358
+0.407
+0.390
+0.414
+0.398
+0.399
+0.407
+0.373
+0.371
+0.367
+0.361
+0.340
+0.331
+0.305
+0.316
+0.319
+0.330
+0.334
+0.322
+0.317
+0.312
+0.306
+0.274
+0.271
+0.249
+
+Column
+C
+D
+E
+F
+G
+H
+
+Formula
+= MAX(B9:B36)
+= MIN(B9:B36)
+= C36-D36
+= ABS(B36-B35)
+= SUM(F9:F36)
+= E36/G36
+
+Intermarket Indicators
+
+143
+
+Table 9.8 Example of calculating CI in Excel. The second, third and fourth columns are the
+S&P 500 high, low and closing prices respectively. Column E is the highest high of the last
+28 days, Column F is the lowest low of the last 28 days, and Column G is the price percent
+change during the last 28 days. In column H is the percent daily price difference and in the
+last column is the CI.
+A
+
+B
+
+C
+
+D
+
+E
+
+F
+
+G
+
+H
+
+I
+
+Date
+
+High
+
+Low
+
+Close
+
+HH
+
+LL
+
+ROC
+
+(HH-LL) /LL
+
+CI
+
+3/19/07
+3/20/07
+3/21/07
+3/22/07
+3/23/07
+3/26/07
+3/27/07
+3/28/07
+3/29/07
+3/30/07
+4/2/07
+4/3/07
+4/4/07
+4/5/07
+
+1403.2
+1411.53
+1437.77
+1437.66
+1438.89
+1437.65
+1437.49
+1428.35
+1426.24
+1429.22
+1425.49
+1440.57
+1440.16
+1444.88
+
+1386.95
+1400.7
+1409.75
+1429.88
+1433.21
+1423.28
+1425.54
+1414.07
+1413.27
+1408.9
+1416.37
+1424.27
+1435.08
+1436.67
+
+1402.06
+1410.94
+1435.04
+1434.54
+1436.11
+1437.5
+1428.61
+1417.23
+1422.53
+1420.86
+1424.55
+1437.77
+1439.37
+1443.76
+
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1461.57
+1456.95
+1456.95
+1449.25
+
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+1363.98
+
+−3.31
+−2.58
+−0.21
+0.08
+−0.48
+−1.22
+−1.94
+−2.63
+−2.55
+−2.52
+−2.19
+−0.92
+−0.69
+3.20
+
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.07
+0.06
+
+−46.23
+−36.06
+−2.94
+1.14
+−6.68
+−17.10
+−27.06
+−36.79
+−35.57
+−35.26
+−30.55
+−13.57
+−10.12
+51.13
+
+Column
+E
+F
+G
+H
+I
+
+Formula
+= MAX(B22:B49)
+= MIN(C22:C49)
+= (D49-D22)/D22* 100
+= (E49-F49)/(F49+0.01)
+= G49/H49
+
+where Highest(C,28) is the highest close in the last 28 days; Lowest(C,28) is the
+lowest close in the last 28 days; and the denominator is the sum of the absolute value
+of the difference between consecutive daily closes for the last 28 days.
+To help solve the mystery I calculated the 28 day readings, up to 5 April, for the
+VHF and CI indicators in the Excel sheets in Tables 9.7 and 9.8 respectively. Let’s
+take a closer look what happened on 3 April (the first day of the breakout).
+On that day the S&P was up 1 %, and as a result the denominator of formula (9.17)
+increased while the numerator decreased because the new 28-day high was lower
+than the previous one. As a result the VHF was down on the actual breakout and the
+start of the trend! On the other hand the CI shot up from −13 to 51 during the next
+two days, confirming decisively the start of a possible trend.
+
+Part II
+
+10
+Trading System Design
+
+Life can only be understood backwards but it must be lived forwards.
+–Søren Kierkegaard
+There are basically two ways to trade using technical analysis: discretionarily and
+systematically. Discretionary traders use technical indicators and their experience to
+make their trading decisions. System traders, on the other hand, rely on the trading
+signals automatically produced by computerized trading systems.
+The disadvantages of discretionary trading are human emotions: fear and greed.
+When you are in a trade that seems to move against you, fear of loss and hope of
+recovery make it hard to cut your losses. Optimism keeps you in a losing trade, hoping
+that the price will eventually turn in your favor. On the other hand, when you are in a
+trade that starts to move to the upside, greed takes over and you take profits too early,
+missing the biggest part of the move.
+Trading systems remove much of the emotion surrounding trading decisions, and
+can also save a lot of time.
+But do they work?
+Many people believe in the Efficient Market Hypothesis. The Efficient Market
+Hypothesis states that, at any given time, security prices fully reflect all available
+information. The implications of the Efficient Market Hypothesis are truly profound.
+But if markets are efficient and current prices fully reflect all information, then buying
+and selling securities in an attempt to outperform the market will effectively be a game
+of chance rather than skill.
+This belief persists although it is rudimentary, false and intellectually dishonest.
+Researchers have uncovered stock market anomalies that seem to contradict the
+Efficient Market Hypothesis. One major criticism stems from the fact that market
+participants take into consideration other factors than just the price when they buy or
+sell an asset.
+
+148
+
+Intermarket Trading Strategies
+
+One such factor, not taken into account at all by the Efficient Market Hypothesis, is
+the concept of risk. Since different kinds of market players compute risk in different
+ways, it is perfectly possible that one participant views a certain stock price as a good
+buying opportunity, while another views the same price as a good selling opportunity.
+Another factor is different liquidity needs among traders. Some traders are gladly
+willing to pay a higher price just to make sure the trade is executed immediately
+while others may want to sell an asset in order to buy something else. Yet none of
+the traders above can be said to act irrationally. They simply have different needs for
+computing the value of different actions and states.
+Another flaw in the Efficient Market Hypothesis is that prices tend to be slow to
+reflect all fundamental information. Without instantaneous adjustment, speculation
+based on the price trend may be profitable until all information is fully discounted
+and reflected in the price. Thus, the time lag can be exploited by technical systems in
+short-term speculation.
+The search for anomalies is effectively the search for systems or patterns that can
+be used to outperform passive and/or buy and hold strategies.
+Developing an effective trading system is by no means an easy task. It requires
+a solid understanding of the plethora of available parameters, the ability to make
+realistic assumptions and the time and dedication to develop the system. However,
+if developed and deployed properly, a trading system can yield many advantages. It
+can increase efficiency, free up time and, most importantly, increase your profits.
+I have seen a lot of different approaches to designing trading systems and strategies.
+The most popular are trend and countertrend systems but other less common systems
+use breakout from consolidation, channel breakout or volatility concepts. Indicators
+and techniques that work for one trader do not necessarily work for others.
+
+10.1
+
+BACK-TESTING
+
+Back-testing is a key component of effective trading-system development. It is
+accomplished by reconstructing, with historical data, trades that would have occurred in the past using rules defined by a given strategy. The results can be analyzed
+statistically and used to gauge the effectiveness of the strategy. Using this data, traders
+can optimize and improve their strategies, find any technical or theoretical flaws, and
+gain confidence in their strategy before applying it in real trading. The underlying
+theory is that any strategy that worked well in the past is likely to work well in the
+future and, conversely, any strategy that performed poorly in the past is likely to
+perform poorly in the future. Some of the advantages of back-testing a trading system
+are as follows:
+• History repeats itself. Back-testing will reveal repeating patterns, disclosed by
+any number of indicators, oscillators or chart formations. Otherwise we would be
+shooting in the dark at every market turn.
+
+Trading System Design
+
+149
+
+• Traders have the confidence to rely on the systems.
+• It provides an estimate of the probability and magnitude of the potential trade
+profits because the performance statistics can be reproduced by back-testing.
+Since back-tests are always done with the benefit of hindsight, there are all kinds of
+ways to cheat on reported performance.
+There are many factors traders pay attention to when they are back-testing trading
+strategies. Here is a list of the five most important things to remember.
+
+Sample Size
+For a strategy to have value it must be adaptable to many market types. To avoid unrealistic back-testing results that cannot be reproduced in actual trading it is essential that
+an adequate sample size must be measured both in number of trades and diversity of
+market trends. For example, if a strategy was only back-tested during the 2003–2007
+bull market, it may not fare well in a bear market. It is often a good idea to back-test
+over a long time frame that encompasses several different types of market conditions.
+
+Optimization
+Trading system optimization is a controversial subject among analysts and traders.
+But what is optimization? When designing a technical trading system, the analyst
+must use an indicator or formula to produce trading signals.
+All indicators, however, contain one or more variable parameters. A parameter
+can be set to one of several possible numeric values, which can greatly alter the
+behavior and performance of the indicator. The dilemma is what value to assign to
+each parameter. That is where optimization occurs. Optimization is the process of
+choosing the best parameter values for the indicator.
+This is accomplished by having the software “try” a large number of different
+combinations of parameters or combination of indicators, until a set is found that
+gives the best result. The result could be net profits, percentage of profitable trades,
+minimum drawdown and so forth. An example of a trading system parameter is the
+length of a moving average used. It is very important to identify the ranges into which
+the values for parameters and criteria fall.
+A thorough development of a trading system must involve the testing of thousands
+of parameter combinations to identify those that persist in producing profits, even
+though they are not necessarily the optimum. Thus, it is often better to pick up those
+parameters in the best ten percent of the parameters instead of the best based on stable
+neighbouring parameters.
+Today’s software for trading systems can take you down a dangerous path. A big
+profit, however, on an optimized test does not necessarily mean you have a good
+
+150
+
+Intermarket Trading Strategies
+
+system. The danger with optimization is that what worked well in the past will
+almost certainly not perform as well in the future. Optimized variables can reflect
+irregularities in the data far more than any underlying logic of the market or the
+trading strategy.
+Usually, such curve-fitting fails as soon as the parameters hit the real world with its
+random shocks, because the more control you take of the data by specifying indicators
+and their optimal parameters, the less substance is left in the data to provide predictive
+capacity. Statisticians call this a loss of degrees of freedom; traders call it curve-fitting.
+Some analysts claim that if the data sample is large enough, then the curve-fitting
+captures most of the price dynamics and the future buy and sell signals will be just
+as good as the curve-fitted ones. These claims are generally accepted as being true
+because there is a lack of knowledge, but the truth is that they are based on nothing
+more than hope.
+So how can we design trading models and avoid the illusion of optimization?
+The usual way to validate an optimized trading system is to test the system on
+data it has never been tested on before — that is, test the system on some data set
+aside and not used when developing the model. This holdout data set is referred to
+as out-of-sample data. If the system performance holds up well on the out-of-sample
+data, we can be confident the system will perform as well in the future as it has in the
+past.
+A more rigorous method of back-testing is that of walk forward testing. The
+concept is similar to out-of-sample testing but instead of optimizing on seven years
+of data and using the last three years for testing, a system is optimized on five years
+and then tested the next year. Once this test is completed, the whole time window
+is moved forward one year to include the year just tested and the system is then
+re-optimized. It is then tested again the next year. This process is repeated again and
+again, “walking forward” through the data series until all the data is exhausted. At
+the end, all tabulated one-year out-of-sample results are merged to create one large
+out-of-sample results segment and the system performance is evaluated based on the
+combined out-of-sample results.
+The main advantage of using this method is that since market dynamics change
+slowly over time the optimum values based on the most recent five-year segment will
+be accurate in forecasting one year into the future before the model falls apart.
+The time periods used in this example for optimization and walk forward testing
+are not set in stone. The selection of the optimization period depends on the available
+data and the time required to model the market dynamics. The walk forward period
+can be between 12–20 % of the optimization period.
+Although computationally intensive, this is an excellent way to study and test
+a trading system. Even though optimization is occurring, in a sense all the trades
+are tested on what is essentially out-of-sample test data. In addition, the results
+will closely simulate the process that occurs during real trading, in which traders
+frequently re-optimize their systems to bring them up to date with fundamental or
+technical changes in the traded market or its intermarket relationships. Even though
+
+Trading System Design
+
+151
+
+nothing can guarantee future results, this approach appears to be as close as we
+can practically come to estimating trading relationships during constantly changing
+market conditions.
+Unfortunately, totally automated walk forward testing is not available in most
+popular off-the-shelf trading software and implementing it manually can be time
+consuming. There is, however, a Tradestation add-in that can be purchased separately. Walk forward testing is also available in Deepinsight Professional and
+TradersStudio.
+A major drawback of out-of-sample testing is that to exhaustively determine the
+optimal indicator sets as well as their respective periods would require an inordinately
+large amount of data. If one uses this approach consistently, every piece of data must
+be thrown away after a single use in the testing phase. In addition to the cost of
+subscribing to data providers, some futures have only recently begun trading. If the
+amount of data you possess is limited, you may want to consider the following
+additional methods of reliability testing.
+Cluster spotting and profit mapping: When optimizing a system, traders often save
+the parameter set which produces the highest level of profit. Once the system with
+the highest level of profit is identified, you should inspect the results of surrounding
+parameter values nearby to be sure it is not merely the result of a freak coincidence
+in the data. Optimal results which are surrounded by similar levels of profit are much
+more desirable. A better approach is to export the test results produced from each
+simulation to an Excel spreadsheet and plot a three-dimensional graph, with one
+parameter scaled along the X-axis, the second parameter scaled along the Y-axis and
+the profit as height along the Z-axis. Casually inspecting this graph, one can find the
+region where variations in both parameters have the smallest impact on profitability.
+Parameter sets in this range may be assumed to be more reliable than parameter sets
+which produce spikes of profits. This is because low parameter sensitivity in the past
+implies continued low sensitivity in the future, even though the parameter values
+producing maximum profits are outside this parameter range.
+The process described above can be applied to a wide variety of trading systems
+as most of them are either already described by two parameters or can be altered to
+fit a two-parameter model by optimizing each rule or indicator separately.
+Monte Carlo simulation: This technique is mainly used to obtain a more realistic
+figure for the drawdown statistic than the figure obtained by simulation testing and
+is performed by rearranging the trades randomly (hence the name).
+To rearrange the trades, the Monte Carlo simulation uses a random number generator to select a random number between zero and one. This random number is then
+used to select a trade from the specified listing. The Monte Carlo simulation can
+reveal whether the account would have experienced a deeper drawdown and what the
+actual expected drawdown could be in real trading. If the Monte Carlo drawdown
+
+152
+
+Intermarket Trading Strategies
+
+is significantly different to that obtained from the simulation model this can also
+indicate that the system has been overoptimized.
+A limitation of this method is that the random number generator assumes that
+trade returns are independent of each other. It is therefore a good idea to check for
+autocorrelation of returns before running a Monte Carlo simulation.
+Low number of inputs: By increasing the number of inputs to extremely high levels,
+you could design a system that fits almost perfectly around a price series. This system,
+however, will almost certainly fail when confronted with real time data that it has not
+seen before. It is therefore a good idea to keep the number of parameters in the model
+relatively low, because the larger the number of variables in the system, the easier it
+is to create an overoptimized system that will underperform in real time.
+Diversification with intermarket indicators: Last but not least, the key to robust
+system development is to select non-correlated inputs that have predictive ability.
+Using a superfluous number of moving averages and oscillators that are derived from
+the same price series won’t create a profitable trading strategy. In fact, it will most
+likely fail to work in real time. Rather than using standard, price derived indicators
+as your only input, try to ascertain what other markets are related to the market being
+traded and use the intermarket relationship as a filter or replacement of a redundant
+classic indicator. One interesting advantage of intermarket analysis is that it relies on
+at least two different data sources or price series. Most single market analysis tools
+are derived from the same price data. A price shock or bad data would affect all the
+indicators or tools based on those data. By using two different data sources, you can
+help to insulate yourself against such an event. The use of intermarket relationships
+in developing trading systems is explained extensively in the following chapters.
+By using some of the above techniques, I am convinced that anyone can, at the
+very least, avoid trading with systems of absolutely no value. Considering the amount
+of money at stake in these highly leveraged and volatile markets, it’s hard to believe
+anyone can justify trading a system without first performing some type of validation
+and reliability testing.
+Markets: The choice of securities used in back-testing is also important. For example, if a broad market system is tested only on oil stocks, it may fail to do well in
+different sectors. As a general rule, if a strategy is targeted towards a specific sector,
+limit the stocks to that sector, but in all other cases, maintain a large universe for
+testing purposes.
+Software inputs: Back-testing customization is extremely important. Many backtesting applications have input for commission amounts, round (or fractional) lot
+sizes, tick sizes, margin requirements, interest rates, slippage assumptions, positionsizing rules, same-bar exit rules, (trailing) stop settings and much more. To get the
+
+Trading System Design
+
+153
+
+most accurate back-testing results, it is important to tune these settings to mimic your
+trading style and the broker that will be used when the system goes live.
+Paper trading: The market is dynamic and strategies that performed well in the past
+fail to do well in the present because of changing market conditions. Be sure to paper
+trade a system to ensure that the strategy still applies in practice.
+Data quality: Price data often contain errors, which can cause serious problems,
+Special care should be exercised when handling missing values as these are usually
+replaced by zeroes. Sometimes free internet data sources, such as Yahoo Finance, do
+not adjust stock prices for splits. The resulting gap will not only affect the system’s
+profitability but will also bias the system to select the appropriate parameters to
+position itself on the right side of the market when the price jump (or split) occurred.
+While easily spotted manually, data errors tend to corrupt a mechanical system if a
+price series is used for testing without careful data preprocessing and error checking.
+There is an option in Equis’ Downloader to test the data for over 100 different error
+conditions. The most useful is testing for a large change in close (Error#1090).

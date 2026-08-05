@@ -1,0 +1,719 @@
+
+Comparison of a Neural Network and a Conventional System for Trading FTSE Futures
+
+233
+
+analyzed by conventional methods but neural networks simply make a better job of
+analyzing nonparametric price series without making any unrealistic assumptions.
+This does not imply, however, that neural networks are the “Holy Grail” that traders
+have been looking for. A major drawback is their virtually non-existent explanatory
+capability which makes it impossible to see the rules that led to the predictions.
+As my research has revealed, this makes it difficult to incorporate additional classic
+technical conditions or risk management considerations into a neural network-based
+trading system as they may degrade the system’s performance by conflicting with its
+unknown internal neural-based rules.
+I believe my findings may have also a practical significance in deciding on the
+appropriate data preprocessing techniques, in order to exploit more efficiently the
+hidden intermarket relationships.
+Finally, you should keep in mind that the world does not stand still once a model is
+defined; network models age in the same way as conventional rule-based models and
+you should always keep one step ahead by re-training your system on more recent
+data.
+
+15
+The Use of Intermarket Systems
+in Trading Stocks
+
+Successful strategies in trading often require doing what most people find
+distinctly uncomfortable.
+–Jack Schwager
+If you own shares of Archer Daniels Midlands (ADM), have you ever thought of
+following corn futures? What is the possible impact of a steep drop of the price
+of copper on the Phelps Dodge stock? It may be worth your effort to analyze such
+correlations.
+Intermarket analysis can be a valuable tool when you trade individual or
+groups of stocks. This can be accomplished by comparing commodity-related
+stocks with the corresponding commodity or index. Since many stock groups have
+strong correlation with commodity markets, it also makes sense to analyze this
+relationship.
+Some classic examples include the relationship between energy stocks and the
+price of crude oil, the correlation between gold miners and gold bullion or the impact
+of interest rate changes on financial stocks.
+The systems presented in this chapter for trading oil and gold stocks are examples
+of using the correlation between a stock and a related commodity to develop a trading
+system.
+
+15.1
+
+TESTING METHOD
+
+The correlation matrix between sector indices and related commodities is presented in Table 15.1. The best correlated commodity was used to construct an
+
+236
+
+Intermarket Trading Strategies
+
+Table 15.1 Correlation matrix (using 15-year data) of 10-day % yields.
+
+S&P
+XOI
+XAU
+UTY
+CRB
+Gold
+Oil
+Gas
+
+S&P
+500
+
+XOI
+
+XAU
+
+UTY
+
+CRB
+Index
+
+Gold
+
+Crude
+Oil
+
+Natural
+Gas
+
+1
+0.47
+0.13
+0.34
+0.06
+−0.02
+−0.02
+0.02
+
+0.47
+1
+0.30
+0.34
+0.39
+0.14
+0.41
+0.26
+
+0.13
+0.30
+1
+0.11
+0.44
+0.70
+0.19
+0.11
+
+0.34
+0.34
+0.11
+1
+0.04
+0.04
+−0.03
+0.10
+
+0.06
+0.39
+0.44
+0.04
+1
+0.45
+0.54
+0.35
+
+−0.02
+0.14
+0.70
+0.04
+0.45
+1
+0.14
+0.08
+
+−0.02
+0.41
+0.19
+−0.03
+0.54
+0.14
+1
+0.28
+
+0.02
+0.26
+0.11
+0.10
+0.35
+0.08
+0.28
+1
+
+intermarket trading system based on the divergence of each stock from the corresponding commodity.
+My research has shown that using the relative strength between a stock and its
+corresponding index (e.g. between an oil stock and the XOI) as a filter to exclude
+weak stocks can improve performance.
+A correlation between two related markets, however, doesn’t always mean that one
+market can always be used to predict the other. To deal with this issue I used Pearson’s
+correlation between the stock and its corresponding index as a filter to exclude
+stocks during periods that they decoupled from the corresponding index. This new
+condition improved performance and decreased drawdown as it filtered out signals on stocks with specific problems having nothing to do with their industry
+group.
+All tests started with an initial equity of $100 000 and 10 % of total capital was
+allocated per trade. In order to compare them with the buy and hold method, profits
+or losses were compounded to the initial equity. No buying on margin was used for
+either system.
+Portfolio test simulations were carried out using Tradesim Enterprise Edition version 4.2.2 (a MetaStock plug-in). The most useful test statistics are presented in
+Table 15.2. All orders were executed at next day’s opening price at the market, and
+the commission charged was $10. No interest was credited when out of the market.
+The minimum trade size was specified at $3000 and any position was limited to 15 %
+of traded volume.
+If you wish to replicate the tests, please keep in mind that for the test to begin
+producing signals, the indicators used in each should first be calculated and this
+requires a number of bars to be loaded.
+The buy and hold profit was calculated by buying equal dollar amount of all stocks
+in the corresponding index (e.g. all 12 constituents of the XOI index in the case of
+the oil stocks system) on the date of the first portfolio trade and selling them on the
+last day of the test.
+
+The Use of Intermarket Systems in Trading Stocks
+
+237
+
+Table 15.2 Profit/loss report of the intermarket oil stock system. In the first column is the
+profit of buying and holding all XOI components for the entire test duration. In the second
+column are profit statistics using 10 % of capital per trade and in the last column using a fixed
+$10 000 capital per trade. Comparison with the buy and hold is only meaningful using the
+first method, as the second method used only one tenth of the initial buy-and-hold capital.
+System
+
+Buy & hold
+
+Intermarket security
+Number of stocks
+Initial equity
+Capital/trade
+Total net profit
+Profit/loss %
+Annual percent gain/loss
+Total number of trades
+Winning trades
+Losing trades
+Percent profitable
+Avg. winning trade
+Avg. losing trade
+Ratio avg. win/avg. loss
+Profitability coefficient
+Profit factor
+Drawdown %
+Risk/reward
+Start date/test
+End date
+Test period (years)
+Trades/year
+
+$100 000
+$100 000
+$354 347
+354 %
+30 %
+1
+1
+0
+100 %
+$354 347
+$0
+
+−6.0 %
+18.7 %
+8/1/95
+8/1/07
+12.0
+0.1
+
+Oil stocks (% of equity)
+
+Oil stocks (equal dollar)
+
+Crude oil
+244
+$100 000
+10 %
+$1 618 573
+1619 %
+135 %
+347
+251
+96
+72.3 %
+$8353
+−$4980
+1.68
+3.49
+4.40
+−5.4 %
+3.5 %
+8/1/95
+8/1/07
+12.0
+29
+
+Crude oil
+244
+$100 000
+$10 000
+$295 982
+296 %
+25 %
+320
+231
+89
+72.2 %
+$1677
+−$1026
+1.63
+3.42
+4.24
+−5.5 %
+3.9 %
+8/1/95
+8/1/07
+12.0
+27
+
+System Parameters
+Correlation days
+LRS oil stocks
+LRS intermarket SEC1
+LRS intermarket SEC2
+IMO – days
+IMO – buy
+IMO – sell
+Time exit–bars
+
+15.2
+
+300
+20
+25
+25
+200
+70
+7
+100
+
+300
+20
+25
+25
+200
+70
+7
+100
+
+A SYSTEM FOR TRADING OIL STOCKS
+
+The portfolio model consisted of 244 oil and gas stocks, trading in the three major
+US exchanges, the NYSE, AMEX and Nasdaq, and was tested in the preceding
+
+238
+
+Intermarket Trading Strategies
+
+Figure 15.1 Oil stock system closed trade equity line.
+
+12-year period from 8 August 2005 to 8 August 2007. The portfolio embraced oil and
+gas stocks across all sub industry groups, including drilling and exploration, major
+integrated oil and gas, pipelines, independent oil and gas, equipment and services
+and oil and gas ETFs.
+Penny stocks were excluded as a first run revealed that these did not move in
+tandem with the rest of the group, mainly because of their own stock-specific financial
+problems.
+Only long positions were considered as shorting individual stocks is not always
+possible. It depends on the broker’s ability to borrow the stock but, even if this was possible, I wouldn’t advise it as you can find yourself in a very dangerous predicament in
+case of a takeover or a surge in oil prices because of an unexpected geopolitical event.
+
+The Use of Intermarket Systems in Trading Stocks
+
+239
+
+Figure 15.2 Graphical representation of yearly profits (oil stock system). The best year was
+in 2005 when the system made more than $480 000 and the worst year was in 2001 when it lost
+$19 000. The distribution presented above shows significant positive skewness. This suggests
+that most of the profits were made during the later part of the test during the recent run in crude
+oil prices.
+
+Before proceeding with the test design the correlation matrix between 10-day yields
+of the Amex Oil Index (XOI) and related commodities and stock indices (depicted in
+Table 15.1) was calculated for the preceding 15-year period. Because of high cross
+correlation between stock indices, only one stock index should be included in the
+model. It is reasonable to include a broad stock index like the S&P 500 since, as
+the name suggests, oil stocks are stocks and not commodities, and are inevitably
+influenced by the general direction of the market and the economy as well as the
+price of oil itself. In fact the XOI correlated better with the S&P 500 (r = 0.47) than
+with crude oil futures (r = 0.41 in Table 15.1).
+My final selection of related markets included NYMEX crude oil futures and the
+S&P 500. High correlation with the market to be predicted is not the only criterion
+in choosing the best model but low cross correlation between predictor variables is
+
+240
+
+Intermarket Trading Strategies
+
+Figure 15.3 The percent drawdown is on the vertical axis and time on the horizontal axis.
+The drawdown was quite low and it only exceeded 4 % of equity three times during the 12-year
+period: Once in September of 1998, once in October 2001, and the last time in September of
+2002.
+
+also important. In this case there was no correlation between crude oil and the S&P
+500 (r = −0.02).
+This system was based on the successful double linear regression (LRS) slope
+indicator used in Chapter 11 to trade gold. Preliminary testing showed that this
+system produced more profits with less drawdown. The linear regression length
+was optimized and the most robust parameter set was 35 days for both intermarket
+securities and 10 days for the stocks. The following additional entry conditions
+improved on the model’s performance:
+• The 50-day moving average of the relative strength between the stock and the
+XOI was required to be above the corresponding 200-day moving average. This
+condition was introduced in order to eliminate weak stocks with temporary stock
+specific problems. This additional condition not only improved the profit factor
+but also helped reduce drawdown.
+
+The Use of Intermarket Systems in Trading Stocks
+
+243
+
+Figure 15.6 Graphical representation of yearly profits (gold stock system). The most profitable year was 2006 when the system made nearly $80 000 and the worst in 2000 when it
+barely broke even.
+
+involved (during the latest phase of the test) holding large positions in each stock
+I decided to include a second simulation with a fixed dollar amount of $10 000 per
+trade.
+The results of the first method are depicted in the second column of Table 15.2.
+I also included a graphical presentation of the equity line, the yearly profits, the
+drawdown and the percentage of profitable trades in Figures 15.1, 15.2, 15.3 and
+15.4 respectively. The system outperformed the buy and hold method by a wide
+margin and producing more than $1.6 million of net profits in the 12-year period of
+the test.
+The average drawdown (Fig. 15.3) was quite low and it only exceeded 4 % of
+equity three times during the 12-year period: Once in September 1998, when the XOI
+dropped more than 17 % and twice during the devastating bear market of 2001–2002.
+It would be difficult to realize the same amount of total profits by fixing the capital
+per trade to $10 000. Although most profitability metrics (profit factor, win/loss ratio,
+etc.) were not affected, the total net profit dropped rather dramatically but so did the
+
+242
+
+Intermarket Trading Strategies
+
+Figure 15.5 Closed trade equity (gold stock system).
+
+• A money flow to sell when the VFI crossed below its 100-day moving average and
+the Finite Volume Element (FVE) indicator crossed below the zero line was added.
+This last condition helped to reduce maximum drawdown from 7.1 % to 5.4 % of
+equity.
+
+15.3
+
+EVALUATION OF THE OIL STOCK MODEL
+
+When specifying the test parameters in a portfolio test of a basket of stocks, the first
+thing that you have to decide is the capital per trade. Different amounts or different
+methods (fixed or compounding) can produce very different results. I used a fixed
+percentage (10 % of equity) capital per trade in the first simulation but as this method
+
+244
+
+Intermarket Trading Strategies
+
+Figure 15.7 The percent drawdown is on the vertical axis and time is on the horizontal axis.
+The drawdown was quite low and it only exceeded 3.5 % of equity two times during the 9-year
+period: Once in December of 2000, and once in June 2005.
+
+maximum drawdown. This method is not comparable with the buy and hold method
+as only a small percentage of equity was invested at any time.
+
+15.4
+
+TRADING GOLD STOCKS
+
+This system exploited the strong correlation between gold mining stocks and gold
+bullion prices.
+A problem in testing this system is that only a few gold mining stocks trade
+in the major US exchanges. After excluding all industrial metal and silver miners,
+the portfolio on test consisted of only 55 gold producers. Some of these stocks
+
+The Use of Intermarket Systems in Trading Stocks
+
+241
+
+Figure 15.4 Graphical representation of percent winning trades (top) and percent losing
+trades (bottom). After some initial volatility the winning percentage settled around 72 % and
+the losing percentage around 28 %. The initial volatility can be attributed to the reduced number
+of oil stocks trading in 1995–1996.
+
+• Pearson’s correlation was used as a filter to exclude stocks that temporarily decoupled from the group. The requirement was that Pearson’s correlation between the
+stock and XOI should be 0.5 or more.
+• A money flow condition was added to the entry conditions, which helped to reduce
+drawdown by excluding stocks in a downtrend. The Volume Flow Indicator (VFI),
+first introduced in my June 2004 article in Technical Analysis of STOCKS &
+COMMODITIES was used.
+The following conditions improved on the timeliness of exits:
+• Divergence based exit signals were triggered only when the 15-day stochastic was
+below its five-day moving average
+
+The Use of Intermarket Systems in Trading Stocks
+
+245
+
+started trading fairly recently so a shorter testing period (from 11 September 1998 to
+11 September 2007) than the one used in the oil stock system was used.
+For the same reasons mentioned in the previous test, only long positions were
+considered.
+Table 15.3 Profit/loss report of the intermarket gold stock system. In the first column is the
+profit of buying and holding all XAU components for the entire test duration. In the second
+column are profit statistics using 10 % of capital per trade and in the last column using a fixed
+$10 000 capital per trade. Comparison with the buy and hold is only meaningful using the
+first method, as the second method started with only one tenth the capital used by the
+buy-and-hold method.
+
+System
+Intermarket security
+Number of stocks
+Initial equity
+Capital/trade
+Total net profit
+Profit/loss %
+Annual percent gain/loss
+Total number of trades
+Winning trades
+Losing trades
+Percent profitable
+Avg. winning trade
+Avg. losing trade
+Ratio avg. win/avg. loss
+Profitability coefficient
+Profit factor
+Drawdown %
+Date of max drawdown
+Risk/reward
+Start date/test
+End date
+Test period (years)
+Trades/year
+
+Buy & hold
+
+16
+$100 000
+$100 000
+$122 267
+122 %
+14 %
+1
+1
+0
+100 %
+$122 267
+$0
+
+−40.4 %
+11/17/00
+41.9 %
+9/11/98
+9/10/07
+9.0
+0.1
+
+Gold stocks
+(% of equity)
+
+Gold stocks
+(equal dollar)
+
+Gold (spot)
+55
+$100 000
+10 %
+$243 105
+243 %
+27 %
+222
+151
+71
+68.0 %
+$2107
+−$1058
+1.99
+3.46
+4.24
+−3.7 %
+6/7/05
+4.2 %
+9/11/98
+9/10/07
+9.0
+24.7
+
+Gold (spot)
+55
+$100 000
+$10 000
+$123 770
+124 %
+14 %
+220
+147
+73
+66.8 %
+$1117
+−$554
+2.02
+3.37
+4.06
+−3.1 %
+11/30/99
+3.0 %
+9/11/98
+9/10/07
+9.0
+24.4
+
+500
+200
+70
+7
+80
+
+500
+200
+70
+7
+80
+
+System Parameters
+Correlation days
+IMO – days
+IMO – buy
+IMO – sell
+Time exit – bars
+
+246
+
+Intermarket Trading Strategies
+
+The system was based on the regression divergence model discussed in Chapter 11
+as it performed slightly better than the LRS method on preliminary testing. The
+double LRS method, used for trading oil stocks, could not be used as there was only
+a single intermarket security (gold) for calculating the divergence.
+There were no variables to optimize, except for the momentum oscillator entry
+threshold. All additional entry conditions, used for the oil stock test above, were
+tested and included in the current system as they improved on the test performance.
+Comparison test results for percent of equity and equal dollar capital per trade are
+shown in Table 15.3, the equity line, the yearly profits and the drawdown in Figures
+15.5, 15.6 and 15.7 respectively.
+Based on profit factor, profitability, and win/loss ratio criteria this system performed
+slightly better than the oil stock system. However, the total net profit was considerably
+less, mainly because the portfolio of the available gold stocks on test contained only
+55 stocks, a quarter of the stocks contained in the corresponding oil stock portfolio.
+One way to increase total dollar profit is to enlarge the portfolio by adding Australian,
+British and Canadian gold miners. This should not be a problem as it is now possible,
+with certain online brokers like interactive Brokers, Internaxx, Etrade or SaxoBank,
+to trade international stocks using a single account.
+The drawdown was considerably less than the oil stock system, exceeding 3 % of
+equity only three times during the nine-year test: Once in December 2000 (−3.4 % of
+equity), during the end of gold’s precipitous long-term decline, once in 2005 (−3.7 %
+of equity) because of a short-term correction and once in 2006 (−3.3 % of equity).
+
+15.5
+
+CONCLUSION
+
+While the scope of this book is to demonstrate the efficacy of intermarket analysis
+when applied to market averages, the systems presented above demonstrate that it can
+be applied in a similar manner and just as profitably to stock trading. The examples
+presented in this chapter are by no means exhaustive of intermarket stock trading
+systems and the basic method can be used for trading stocks belonging in various
+other sectors, as long as the sector index data are readily available.
+
+16
+A Relative Strength Asset
+Allocation Trading System
+
+The market can remain irrational longer than you can remain solvent.
+–John Maynard Keynes
+In the first chapter I presented a static asset allocation investment strategy where
+international stocks, commodities, bonds and forex were used to decrease the overall
+volatility of a properly structured portfolio while maintaining return characteristics.
+Diversification obviously reduces risk, and asset allocation analysis is important
+because it enables us to assign a value to the expected risk.
+The main weakness of the static model, however, is that it relies on historical returns
+to calculate the risk-adjusted return of the portfolio asset allocation. Rather than rely
+on historical returns, a more comprehensive and dynamic approach is needed when
+making trading decisions. This criticism is generally valid as historical returns are
+very unlikely to be repeated in the future.
+Take, for example, the performance of the stock market from 2000 to 2007. An
+investor who bought an S&P index fund in 2000 hasn’t made any money, whereas
+another investor who bought the same index fund in 2003 has had a 70 % return
+on his investment. In addition, historical returns are not the only variables that can
+change over time because, as I have demonstrated in Chapter 5, correlations between
+asset classes can also change. For example, the correlation between stocks and bonds
+has been highly unstable during the last four years, with the correlation coefficient
+alternating from positive to negative.
+Thus developing timing strategies to dynamically allocate portfolio assets among
+a choice of investments can greatly enhance portfolio performance with no additional
+risk. Even during the strongest bull markets, not every investment rises at the same
+rate or at the same time. In addition, only a few investments, such as money market,
+
+248
+
+Intermarket Trading Strategies
+
+precious metals, bonds, or certain commodities are less likely to lose money in a
+down market.
+The goal of this study was to compare the performance of the static buy and
+hold with a dynamic asset allocation method. The search was on for the timing
+tool that would trigger the move to the strongest asset classes or sectors that would
+systematically keep the assets moving into the right instrument in approximately the
+right time frame. The positive benefits of this investment approach are obvious. A
+minor problem, however, is that it crosses regulatory boundaries as multiple accounts
+are needed to trade domestic and international stocks, futures and forex. Fortunately,
+it is now possible to do this with certain international brokers like Interactive Brokers,
+Saxobank or Internaxx.
+The current method is based on the relative strength between an investment and a
+benchmark which, for the purposes of this study, was the S&P 500.
+
+16.1
+
+TESTING PROCEDURE
+
+The test period covered was from 16 July 1999 to 27 November 2007, which covered
+a complete market cycle that included a bull and a bear market.
+The system was tested on two different portfolios. The securities tested in the first
+simulation are depicted in Table 16.1 and include a wide variety of investments from
+all asset classes. They include one commodity index future (the GSCI), 13 international stock indices, four interest rate futures, four currencies and 15 commodity
+futures: four metal, two energy and nine agricultural contracts. The available data
+for international index futures did not cover the entire test period so I had to use data
+for the indices themselves. Of course the indices themselves cannot be traded but
+were, for testing purposes, a good enough approximation. The proliferation of exchange traded funds (ETF) gives traders a chance to profit from moves in commodities
+without the risk of leveraged futures contracts.
+In the second simulation, for the benefit of investors who prefer to trade only
+stocks, I tested a wide variety of ETFs which included six commodity funds, 44
+international country funds, 63 US sector funds, six bond funds, and four currency
+ETFs (see Table 16.2).
+The test results were compared with returns of buying and holding a static diversified portfolio consisting of the SPY ETF (40 %), an emerging market ETF (5 %),
+a European equity ETF (5 %), bonds (10 %), the commodities included in the CRB
+Index (30 %) and the euro (10 %). The diversified portfolio composition and returns
+are depicted in Table 16.3. Although returns would have been better had I used the
+Goldman Sachs Commodity Index (GSCI) instead of the CRB Index, I preferred to
+use the latter as it was not so heavily weighted in energy (for the composition of
+the GSCI and CRB see also Chapter 4). In order to demonstrate the advantages of
+diversification, the results were also compared with buying and holding only the S&P
+500 for the entire test duration.

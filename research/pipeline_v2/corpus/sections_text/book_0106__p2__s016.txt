@@ -1,0 +1,452 @@
+
+Outflanking the Market
+
+.7.
+
+lose value. At that time the hope is that premium collected from selling
+$940 puts will cover the losses and help the trade to break even.
+For a more advanced trader who has a thorough understanding of
+option volatility and has the ability to juggle the risk of multiple positions,
+this type of ratio spread may be just the ticket. For those traders who are
+a little more conservative with both their capital and their time, a second
+type of ratio spread exists: the backspread.
+
+Backspreads
+The backspread is so powerful that it has the ability, depending on the market's volatility, to give you 360-degree protection from risk. At the outset
+the backspread ratio spread is designed to manage the risk. Instead of buying the at-the-money call and paying a significant premium, the backspread
+requires that you sell the more expensive option and use that premium to
+purchase two slightly out-of-the-money options. Instead of dreading any
+market move, the backspread thrives on the volatility.
+If the market moves aggressively in the direction of the backspread,
+bullish or bearish, the purchased options create the opportunity for unlimited gains. While the frontspread is exposed to unlimited risk by the one
+uncovered option, this setup is inverted in the backspread. The original
+sold call is covered by one of the purchased options. The second option is
+where all of the profits accumulate. This is liberating.
+Add the fact that the backspread trade protects itself from accumulating losses by setting up a break-even scenario between the sold option
+and the two bought options, and the backspread ratio spread beats out the
+frontspread any day. The worst loss that can occur is the premium paid
+for the bought options, and most of that can be made up by the premium
+collected by the sold option.
+For example, if the technical analysis is pointing to the oil market moving up in price, but the high cost of the margin (as of this writing $10,000
+per contract) drives you away, a backspread ratio spread has the ability to
+get you in. You sell a call option at a strike price of $145 per barrel and collect a premium of $6,000. You then purchase two out-of-the-money options
+with a strike price of $150 per barrel for a total of $7,000 in premium. Your
+net expense is $1,000, plus the clearing firm runs the SPAN risk management software program and reduces or eliminates any margin requirement
+for the sold option.
+If the market moves in the direction of the purchased call options at
+$150 per barrel, then the risk between $145 per barrel and $150 per barrel
+equals $5,000. At the same time the options are increasing in value because
+of increased volatility as the underlying asset moves closer to the strike
+
+172
+
+BASIC STRATEG IES
+
+price. Once the underlying asset breaks through the $150 strike price, the
+premium increases rapidly.
+If the market were to hit $160 per barrel, then gross proceeds would
+be $20,000. However, $10,000 would have to be subtracted to cover the
+increase in the premium of the sold $145 call. An additional $5,000 would
+have to be subtracted as well, the difference between the two strike prices.
+This leaves a net profit of $5,000, give or take a few dollars due to slippage.
+This is not a bad return for a $1,000 investment, 1 for 5.
+What happens if the market moves against the position? Let's say it
+falls from $145 per barrel to $135 per barrel. The collected premium of
+$6,000 begins to erode in value at the same time that the options you bought
+at $150 decrease in value. Even if both of the options lose their entire premium, the net expense to execute the trade~is $1,000. This is in sharp contrast to the futures oil margin of $10,000- practically a tenfold increase in
+the leverage without the tenfold increase in risk.
+In a one-for-one comparison, the frontspread has just as many variables as a backspread, but its unlimited risk makes the frontspread an inferior trade to the backspread. Yet they both are trades that suffer from
+the one-trick pony syndrome. While selling a call is a way to have a bearish bias in the market or selling a put is a way to have a bullish bias in the
+market, they are both passive ways to be involved in a trade. This in effect
+can cut your returns in half if the market dictates that you have to reverse
+your position quickly.
+
+TRADING BACKSPREADS
+The core benefit of trading a backspread ratio spread is the ability to use
+the market's money to trade. There are few times when the market actually works on your behalf to help you succeed, but this is one of those
+times. Throughout the book we have looked at the favoritism given to
+hedge traders and commercial traders for daisy-chaining multiple positions
+together; there is no better place where this is exemplified than in the backspread ratio spread. Selling an option and buying two options provides a
+sincere opportunity to trade practically for free. It is therefore important to
+discern how many options should be bought, whether price or delta should
+be the guide, and when a call or a put should be sold to establish the beginnings of a backspread trade.
+
+Price versus Delta
+Thus far we have talked about the ratio spread as if there is a specific number of options sold versus options bought, in this case two. The reality is
+
+Outflanking the Market
+
+173
+
+that for every option sold you can determine the number of options purchased in any fashion. Some have strictly adhered to the price difference
+between the bought and sold options, whereas others have used delta as a
+guide to optimizing how many contracts to initiate.
+
+Price If price is used as the litmus test of what options to buy and
+sell, then the premium collected should represent no less than 50 percent of the total value of the options purchased. This goes back to our
+one-for-two money management trading rule. If the price of the sold option is less than 50 percent of the value of the bought options, then the
+question that has to be asked is, "Can I use a less exposing risk management tool to achieve the same results?" The answer is most likely yes.
+Regardless of whether the sold option is being covered by a bought option, the less capital you commit to the trade, the more profitable the
+trade will be for you in the long run. Ideally you would like the sold option to cover the cost of both of the bought options, but this can be a
+difficult task.
+There are trade-offs when attempting to make a backspread ratio
+spread entirely free; they involve the strike price. The closer an option
+strike price is to the underlying asset price, the more expensive that option's premium is. When the goal is to collect premiums, at-the-money or
+in-the-money options are great. Unfortunately, the inverse is also true: The
+closer you buy options to the underlying asset's fair market value, the more
+you will spend.
+So when it comes to trading the ratio spread, the further out that the
+strike price is for the bought options, the more likely you will be able to use
+the premium collected to pay for most or all of them. Yet at the same time
+the further out that the bought option strike price is from the sold option,
+the greater the loss difference before the positive effects of the bought
+options can kick in.
+In our oil example earlier, we sold an option at $145 and bought two
+options with a strike price of $150. The difference between $145 and $150,
+$5, equates to a built-in loss between the prices of $5,000. If the strike price
+for the purchased options were to be stretched out to $155 per barrel, the
+loss gap would extend from $5,000 to $10,000. This would mean that more
+patience would be required on the part of the trader, more volatility would
+be necessary on the part of the option, and the opportunity costs would
+simply have a disastrous effect on any trader who was right about the market's direction but had used two strike prices that were simply too far out
+to take advantage of a move.
+Therefore, when an option's premium is used to determine the buying
+of a covered position, it is essential that the difference in strike prices plays
+a role in the decision-making process for a ratio spread.
+
+174
+
+BASIC STRATEGIES
+
+Delta Delta is a little trickier than choosing a strike price or collecting
+and comparing premiums. Delta measures how closely an option's change
+in price mirrors the change in its underlying asset. If the delta is .S, that
+means that it moves SO cents for every one-dollar move in the underlying
+asset. This also means that your ratio of sold options to bought options
+can have multiple permutations. You could buy two options with a delta
+of .4 or you could buy four options with a delta of .2. This is known as a
+delta-neutral strategy.
+This significantly changes the trader's dependence on the strike price.
+If the delta of the underlying sold option is fiat or slightly increasing in
+value while the bought options are rapidly increasing, then the trade is
+succeeding.
+For instance, if the sold option has a delta of .6 and the purchased options have a delta of .3, then any change in delta value ofthe bought option
+enhances the ratio trade. Let's say the market moves in the same direction as the purchased options, the sold call moves deeper into the money,
+and the delta shifts from .6 to .S. At the same time, the purchased options
+shift from a delta of .3 to .6 each. This is a very bullish sign. Where once
+before there was a one-to-one ratio regardless of the number of options,
+now the ratio has moved in favor of the bought options, making it .S to 1.2
+(a 2:3 ratio), and climbing.
+In this breakdown we are looking purely at price in relation to the underlying asset. In this way we can assess whether we can exit a trade with
+a profit, regardless of whether it has actually reached the underlying strike
+price. Of course there is no hard-and-fast rule when it comes to using the
+delta. This is simply a tool to help you play with the ratio spread and adds
+another dimension to help you succeed in your trading.
+
+Bullish Backspread
+The bullish backspread is also known as a call ratio backspread. This is
+the strategy that is used if a trader wants to catch the long momentum of a
+market. The call ratio backspread consists of two components: the sale of
+calls and the purchase of a greater number of calls at a higher strike price.
+This strategy has the exact same profile as a standard call option: limited
+downside risk and unlimited profit potential. If this strategy is established
+at a credit, the trader stands to make a small gain if the price of the underlying asset decreases dramatically.
+Let's take a look at how a call ratio backspread would be executed in
+the com market (see Figure 11.1).
+The September com futures price is $5.74 per bushel after dropping
+from a high of $6.20 per bushel. The price is sitting on the 50-day MA with
+one of two scenarios presenting itself. Either the market will bounce off
+
+.75
+
+Outflanking the Market
+C2-(167;'~Com CST (Comb) C'd! Uq '(6.dy bm)
+
+Initiating a Bullish Backspread
+
+FIGURE 11.1
+
+Buy 2 Calls at 580 for 23'3 each
+
+Initiating a Bullish Backspread
+
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+the 50-day MA and resume its up trend or it will break through the 50-day
+MA and make a fundamental shift in becoming a bearish market.
+With the bias being on the upside for as long as it has been for this
+chart, two months, putting on a bullish backspread is not unreasonable.
+Based on Table 11.1, a bullish backspread could work based on our 50
+percent or greater criterion.
+The 570 call commands a premium of 28'2 and the 580 call commands
+a premium of 22'2. If you are willing to be 30 cents out-of-the-money, you
+can get a 605 call for 14'6. This would definitely be a two-for-one scenario,
+but in the process you would be exposing yourself to a loss of $1,500 (30
+cents times $50/cent) before you could make any money.
+By selling the 570 call and purchasing two 580 calls, the maximum
+amount of loss you are exposIng yourself to between the two strike prices
+
+TABLEtl.1
+
+570
+580
+590
+600
+605
+
+Corn Option Prices
+Call
+
+Put
+
+28 ' 2
+22'2
+19'4
+16'2
+14'6
+
+21
+26
+32'2
+39
+42'4
+
+176
+
+BASIC STRATEGIES
+
+is $500. At the same time the 570 option has an additional 5 cents left over
+after paying for its covered option. This means that the second call option effectively cost just 18'3, making the cost of the 580 premium less
+than that of a 590 option, 19'4. There is a $500 difference between the
+two strike prices, which you get to collect if the market moves in your
+direction.
+As shown in Figure 11.2, the price of com drops briefly below the
+50-day MA before turning around and resuming its upward trend. Each
+of the bought calls grosses $1,800 in profits for a total of $3,600. The net
+proceeds to the trader come out to around $1,300.
+
+Bearish Backspread
+On the opposite side the bullish backspread is the bearish backspread, also
+known as the put ratio backspread. Everything is done the exact same way
+as in a bullish backspread, but instead options are bought and sold to take
+advantage of the drop in prices.
+Let's rewind the com contract to a time before it dropped down toward
+the 50-day MA.
+In Figure 11.3 the price has stalled out at around 620. Significant horizontal resistance has developed around this price. This is definitely an
+indicator that the market has the potential to pull back at least to the
+
+Completion of a Bullish Backspread
+Buy 2 Calls at 580 for 23'3 each
+
+FIGURE 11.2 Completion of a Bullish Backspread
+Source: TradeNavigator.com © 2007. All rights reserved .
+
+177
+
+Outflanking the Market
+
+ist"
+
+FIGURE 11.3 Initiating a Bearish Backspread
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+50-day MA. A drop from 620 to 570 is a potential gross profit of $2,500
+(50 cents x $50/cent).
+In Table 11.2 the premium received from a 620 put is 32 cents. By
+selling one 620 put and buying two 610 puts, the effective cost of the profitmaking put is just 18'1, almost the same price as the 590 put, which is 20
+cents away or $1,000.
+In Figure 11.4 the price of com drops, and it grosses the trader $2,775
+for each sold put because it gaps below the 50-day MA. The net profit for
+the trader is $2,275. In order to arrive at the figure, we have to take the
+$2,775 and subtract $500, which is the difference between the 620 and 610
+strike prices.
+
+TABLE 11.2 Corn Option Prices
+
+620
+610
+600
+590
+580
+
+Call
+
+Put
+
+26'1
+28'1
+32'2
+38
+43'2
+
+32
+25' 1
+21 '4
+17'1
+15'2
+
+178
+
+BASIC STRATEGIES
+
+Completion of a Bearish Backspread
+
++ tl"'t
+
+.t+,t~lt t.f+l---",,·~~·v~
+II
+//~
+~,~
+
+~----------
+
+/--------
+
+FIGURE 11.4 The Price of Corn Drops
+Source : TradeNavigator,com © 2007, All rights reserved ,
+
+Weaknesses of the Bullish and
+Bearish Backspreads
+The bullish and bearish backspreads are highly effective strategies if you
+have both the time and the capital. Yet there are some key weaknesses that
+can't be overlooked. First is the cost of the bought options versus the premium collected. If you hope to not be caught off guard by a huge difference
+in the strike prices, you will be paying top dollar for the close-to-the-money
+options. As we have seen, this can playa significant role in how much of
+a discount can truly be applied to the bought options from the sale of an
+option. The premium can be used to acquire more options the further outof-the-money their strike prices are, but that also means more missed profit
+opportunity.
+A second problem is the one-sided emphasis on the market's direction.
+When you are bullish or bearish, that is your market bias. In our examples
+the market behaved, but what if it doesn't? Then the premium you paid for
+the second option is fully at risk. Another risk management strategy would
+need to be implemented to protect the option that is meant to make you a
+profit.
+Finally, if the market moves but not significantly enough to gain a
+profit, the option seller is still on the hook to give back the premium, plus
+any gains due to the purchaser. So while our idealized scenarios showed
+the market dropping or moving up significantly, what would happen if it
+
+Outflanking the Market
+
+179
+
+moved only halfway or a quarter of the way? Those near successes would
+be as bad as a complete failure in some instances.
+
+CONCLUSION
+Ratio spreads are an exciting way to get the market to pay for part if not
+all of your trading activity, but they come with some significant pitfalls
+and risks. Whether you trade frontspreads or backspreads, there are no
+surefire ways to guarantee that you won't be exposed to losing something.
+The question that needs to be answered is, "Is the risk worth it?" That can
+only be determined by the level of faith you have in your technical and
+fundamental analysis. How well you pick market direction and set profit
+targets will directly impact whether ratio spread trading can work for you.
+
+Advanced Strategies
+
+n this section we look at six advanced risk management strategies.
+While some basic strategies were mentioned briefly in Winning the
+Trading Game, these strategies are altogether brand-new. We explore synthetic futures, selling straddles, selling strangles, intercommodity
+spread, naked option selling, and bull/bear call spreads. These strategies,
+while having some risk management components associated with them,
+also provide more exposure to the unlimited risk aspect of selling options.
+I discuss these strategies because they have the potential to minimize
+costs and maximize profits. These strategies are broken down by definition,
+potential application, the risk and rewards associated with them, and when
+(and when not) to use them.
+This section lays the groundwork for you to be able to add a higher
+level of sophistication to your trading. You will be able to think beyond the
+trade that you may have just executed and see the bigger picture of the
+market's movements. Knowing how to use these advanced strategies will
+lead to a better understanding of the market and give you the know-how to
+react appropriately to the market when it does the unexpected. This skill
+is just as valuable as knowing how to get into a trade in the first place.
+We explore the concept of synthetic futures and the simultaneous buying and selling of options, and we discover whether a synthetic future is superior to a pure futures position. Then we tackle the elusive sell side straddle and sell side strangle. This section also contains information on how
+to create anyone of the most common intercommodity spreads (grains,
+metals, energy). We also analyze how to sell a naked option with the help
+
+I
+
+181
+
+182
+
+ADVANCED STRATEGIES
+
+of the greeks. Finally the bull call spread and the bear put spread are introduced. Traders learn how to match the premium gains with the strike
+price differences in order to optimize the benefits of the bull call-bear put
+spread.
+Much information is covered in few pages. As you progress in your understanding of the various ways that the markets interconnect, it becomes
+easier to take chances. Eventually you will be able to fluidly combine basic
+and advanced strategies based on the demands of the market, with little
+separation between the two approaches.
+
+(; H t\ I- 'I' E R I 2
+
+Exposing
+Yourself to Loss
+
+reviously we focused on risk management-investing and trading
+with few if any chances being taken with your principal. This chapter and the next take a different approach. Now that you have a
+thorough understanding of how to minimize risk, these more advanced
+techniques can show how to optimize profits. You can expand your versatility by mixing these strategies, which expose you to loss, with the risk
+limiting strategies found in earlier chapters.
+We explore three advanced strategies: synthetic futures, intercommodity spreads, and bull call-bear put spreads. Each strategy revolves around
+the interrelationship of two or more different markets or two different
+contracts all combined together to help maximize returns. Once these
+strategies are applied in a trading environment they can diminish margin
+expenses, give traders access to market relationships that they didn't know
+existed, and put a trader in control of how he interacts with the market.
+
+P
+
+SYNTHETIC FUTURES, LONG-SHORT
+Throughout this book I have liberally included information on trading futures and forex. In fact I have even paired futures contracts with options
+to create synthetic option positions. As we learned earlier, a synthetic position combines various types of derivatives to simulate the risk associated
+with a pure position. A trader would use a simulated contract for various
+reasons. Sometimes it is not easy to obtain a pure position (price, liquidity,
+and regulations can playa role). Other times a pure position can prevent
+183
+
+184
+
+ADVANCED STRATEGI ES
+
+a trader from maximizing all the different types of profit available to him
+(as is the case with options). Finally, a pure position can simply be too
+expensive in relationship to a synthetic position.
+Putting on a synthetic futures position can solve the problems that can
+be associated with having a pure futures, spot, or cash position. A synthetic
+futures position is the combination of buying an option and selling a second
+option at the san1e strike price, but in the opposite directions. This option
+combination gives you unlimited access to profits and loss simultaneously.
+It's worth having because the sold option has the potential of paying for
+most, if not all, of the premium of the bought option. The combined sold
+and bought premium can end up being a fraction of the cost of an outright
+futures contract or of purchasing a cash position.
+An exchange market you trade a pure' position on can have just one
+of the problems discussed previously or the complete trifecta. The stock
+market is a prime example of an exchange market that is affected by all
+the problems that traders have to contend with. This is in sharp contrast
+to the fact that the stock market is very versatile. There are at least three
+active derivative markets available to stock investors. At any given time
+a trader can buy or sell options, futures, and/or contracts for difference
+(CFDs). While there are varying levels of availability, each derivative has
+its own associated risk as well as margin and premium price figures.
+Often the most economical stock derivatives to trade are the CFDs.
+They tend to have the greatest liquidity and can have some of the best trading margins, depending on the publicly listed corporation you trade shares
+in. Unfortunately, as of this writing, it is illegal for U.S. traders to trade
+directly in CFDs; they're only allowed to trade stock options and stock futures. This is an example of how the first problem-regulatory issues-can
+stop traders from participating in the best possible market.
+The closest trading alternative to CFDs is single stock futures contracts, created by the Commodity Futures Modernization Act of 2000 and
+designed to be a compromise for both the SEC and the CFTC. Instead, single stock futures have become the laughingstock of the investment world.
+While good in theory, they lack the same mainstream support that CFDs
+have gained around the world. This demonstrates the second problem, the
+inability to maximize opportunities. The weakness of single stock futures
+leaves stock options as the only realistic derivative left to trade.
+To get a better understanding of the stock derivatives, let's break down
+the numbers. The regulatory compromises that established single stock futures require that there be a uniform margin of 20 percent of a stock's face
+value. Depending on the shares that are traded, putting up 20 percent of
+the face value can quickly get expensive. Each single stock futures contract is based on 100 shares. Before a contract can even be established a
+trader must have the required 20 percent margin available to him. If the

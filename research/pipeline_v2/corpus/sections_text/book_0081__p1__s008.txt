@@ -1,0 +1,274 @@
+
+45
+
+46
+god only knows what. When they get signals from these systems, they essentially buy on the bid or sell
+on the offer. At the end of the month, they have a profit, which they always attribute to their system. Yet
+some of these systems are completely vacuous. Perhaps I did a variation of the same theme. I had ideas
+about speculating and trading, and I did well in the pit. But I'm not sure that I made any money from my
+ideas about the market.
+==== What was the basis of your buying and selling decisions on the floor? ====
+Basically, I would buy when weak hands were selling and sell when they were buying. In retrospect, I'm
+not sure that my strategy had anything to do with my success. If you assume that the true theoretical price
+is somewhere between the bid and the offer, then if you buy on the bid, you're buying the market for a little
+less than it's worth. Similarly, if you sell on the offer, you're selling it for a little more than it's worth.
+Consequently, on balance, my trades had a positive expected return, regardless of my strategy. That fact
+alone could very well have represented 100 percent of my success.
+==== Is that, in fact, what you think? ====
+I think that the execution edge was probably the primary reason for my success as a floor trader. The
+major factor that whittles down small customer accounts is not that the small traders are so inevitably wrong,
+but simply that they can't beat their own transaction costs. By transaction costs I mean not only commissions
+but also the skid in placing an order. As a pit trader, I was on the other side of that skid.
+==== As a former Ph.D. candidate in mathematics, did you miss the intellectual challenge in what you were
+doing? ====
+Initially, yes. But I eventually got into serious research on prices, and that was as tough a problem as
+anything I ever came across in academia.
+==== Were any of the areas you studied in mathematics applicable to developing trading systems? ====
+Certainly-statistics. The analysis of commodity markets is prone to pitfalls in classical statistical inference,
+and if one uses these tools without having a good foundational understanding, it's easy to get into trouble.
+Most classical applications of statistics are based on the key assumption that the data distribution is
+normal, or some other known form. Classical statistics work well and allow you to draw precise conclusions if
+you're correct in your assumption of the data distribution. However, if your distribution assumptions are even
+a little bit off, the error is enough to derail the delicate statistical estimators, and cruder, robust estimators
+will yield more accurate results. In general, the delicate tests that statisticians use to squeeze significance out
+of marginal data have no place in trading. We need blunt statistical instruments, robust techniques.
+==== Could you define what you mean by "robust"? ====
+A robust statistical estimator is one that is not perturbed much by mistaken assumptions about the nature
+of the distribution.
+==== Why do you feel such techniques are more appropriate for trading system analysis ====
+Because I believe that price distributions are pathological.
+==== In what way? ====
+As one example, price distributions have more variance [a statistical measure of the variability in the
+data] than one would expect on the basis of normal distribution theory. Benoit Mandelbrot, the originator of
+the concept of fractional dimension, has conjectured that price change distributions actually have infinite
+variance. The sample variance [i.e., the implied variability in prices] just gets larger and larger as you add
+more data. If this is true, then most standard statistical techniques are invalid for price data applications.
+==== I don't understand. How can the variance be infinite? ====
+A simple example can illustrate how a distribution can have an infinite mean. (By the way, a variance is a
+mean-it's the mean of the squares of the deviations from another mean.) Consider a simple, one-dimensional
+random walk generated, say, by the tosses of a fair coin. We are interested in the average waiting time
+between successive equalizations of heads and tails-that is, the average number of tosses between successive ties in the totals for heads and tails. Typically, if we sample this process, we find that the waiting time
+between ties tends to be short. This is hardly surprising. Since we always start from a tie situation in
+measuring the waiting time, another tie is usually not far away. However, sometimes, either heads or tails
+gets far ahead, albeit rarely, and then we may have to wait an enormous amount of time for another tie,
+especially since additional tosses are just as likely to increase this discrepancy as to lessen it. Thus, our
+sample will tend to consist of a lot of relatively short waiting times and a few disquietingly large outliers.
+What's the average? Remarkably, this distribution has no average, or you can say the average is infinite.
+At any given stage, your sample average will be finite, of course, but as you gather more sample data, the
+average will creep up inexorably. If you draw enough sample data, you can make the average in your sample
+as large as you want.
+==== In the coin toss example you just provided, computer simulations make it possible to generate huge
+data samples that allow you to conclude that the mean has no limit. But how can you definitively state that
+the variances of commodity price distributions are not finite? Isn't the available data far too limited to draw
+such a conclusion? ====
+There are statistical problems in determining whether the variance of price change is infinite. In some
+ways, these difficulties are similar to the problems in ascertaining whether we're experiencing global warming. There are suggestive indications that we are, but it is difficult to distinguish the recent rise in
+temperature from random variation. Getting enough data to assure that price change variance is infinite
+could take a century.
+
+46
+
+47
+==== What are the practical implications of the
+variance not being finite? ====
+If the variance is not finite, it means that lurking somewhere out there are more extreme scenarios than
+you might imagine, certainly more extreme than would be implied by the assumption that prices conform to a
+normal distribution-an assumption that underlies most statistical applications. We witnessed one example in
+the one-day, 8,000-point drop in the S&P on October 19, 1987. Normal estimation theory would tell you that
+a one-day price move this large might happen a few times in a millennium. Here we saw it happen within a
+decade of the inauguration of the S&P contract. This example provides a perfect illustration of the fact that if
+market prices don't have a finite variance, any classically derived estimate of risk will be significantly
+understated.
+==== Besides implying that traders need to be more conservative in risk control than might be implied from
+straightforward statistical interpretations, are there other practical implications of using what you term a
+robust approach as opposed to methods that assume a normal probability distribution? ====
+One important application concerns a situation in which you have several indicators for a certain market.
+The question is: How do you most effectively combine multiple indicators? Based on certain delicate statistical
+measures, one could assign weights to the various indicators. But this approach tends to be assumptionladen regarding the relationship among the various indicators.
+In the literature on robust statistics you find that, in most circumstances, the best strategy is not some
+optimized weighting scheme, but rather weighting each indicator by 1 or 0. In other words, accept or reject.
+If the indicator is good enough to be used at all, it's good enough to be weighted equally with the other ones.
+If it can't meet that standard, don't bother with it.
+The same principle applies to trade selection. How should you apportion your assets among different
+trades? Again, I would argue that the division should be equal. Either a trade is good enough to take, in
+which case it should be implemented at full size, or it's not worth bothering with at all.
+==== You talked earlier about the pitfalls in market analysis. Can you provide some other examples? ====
+chooses to average. This is a degree of freedom, and its allowed values are positive integers. But there
+can also be hidden degrees of freedom. One can have structures within the system that can take on various
+alternative forms. If various alternatives are tested, it gives the system another chance to conform to past
+idiosyncrasies in the data.
+Not only is it perilous to have too many degrees of freedom in your system, there are also "bad" degrees
+of freedom. Suppose a certain degree of freedom in your system impinges only on a very few oversized
+trends in me data and otherwise does not affect how the system trades. By affixing to accidental features of
+the small sample of large trends, such a degree of freedom can substantially contribute to overfitting, even
+though the overall number of degrees of freedom is manageable.
+==== How do you determine to what extent the performance of a system is affected by overfitting past
+data as opposed to capturing truths about market behavior? ====
+The best way is to look at hundreds of examples. Add degrees of freedom to a system and see how much
+you can get out of them. Add bogus ones and see what you can get. I know of no substitute for experience in
+this matter. Try a lot of systems. Try systems that make sense to you and ones that don't. Try systems that
+have very few parameters and ones that are profligate with them. After a while, you develop an intuition
+about the trade-off between degrees of freedom and the reliability of past performance as an indicator of
+future performance.
+==== Do you have a limit to how many degrees of freedom you would put into a system? ====
+Seven or eight is probably too many. Three or four is fine.
+==== What is your opinion about optimization? [Optimization refers to the process of testing many
+variations of a system for the past and then selecting the best-performing version for actual trading.] ====
+It's a valid part of the mechanical trader's repertoire, but if you don't use methodological care in
+optimization, you'll get results that are not reproducible.
+==== How do you avoid that pitfall? ====
+You really are caught between conflicting objectives. If you avoid optimization altogether, you're going to
+end up with a system that is vastly inferior to what it could be. If you optimize too much, however, you'll end
+up with a system that tells you more about the past than the future. Somehow, you have to mediate between
+these two extremes.
+==== Other than the things we have already talked about, what advice do you have for people who are
+involved in system development? ====
+If the performance results of the system don't sock you in the eye, then it's probably not worth pursuing.
+It has to be an outstanding result. Also, if you need delicate, assumption-laden statistical techniques to get
+superior performance results, then you should be very suspicious of the system's validity.
+As a general rule, be very skeptical of your results. The better a system looks, the more adamant you
+should be in trying to disprove it. This idea goes very much against human nature, which wants to make the
+historical performance of a system look as good as possible.
+Karl Popper has championed the idea that all progress in knowledge results from efforts to falsify not to
+confirm, our theories. Whether or not this hypothesis is true in general, it's certainly the right attitude to
+bring to trading research. You have to try your best to disprove your results. You have to try to kill your little
+creation. Try to think of everything that could be wrong with your system, and everything that's suspicious
+about it. If you challenge your system by sincerely trying to disprove it, then maybe, just maybe, it's valid.
+
+47
+
+48
+==== Do you use chart patterns in your systems?
+====
+Most things that look good on a chart-say, 98 percent-don't work.
+==== Why is that? ====
+The human mind was made to create patterns. It will see patterns in random data. A tum-of-the-century
+statistics book put it this way:
+"Too fine an eye for pattern will find it anywhere." In other words, you're going to see more on the chart
+than is truly there.
+Also, we don't look at data neutrally-that is, when the human eye scans a chart, it doesn't give all data
+points equal weight. Instead, it will tend to focus on certain outstanding cases, and we tend to form our
+opinions on the basis of these special cases. It's human nature to pick out the stunning successes of a
+method and to overlook the day-in, day-out losses that grind you down to the bone. Thus, even a fairly
+careful perusal of the charts is prone to leave the researcher with the idea that the system is a lot better than
+it really is. Even if you carry it a step further by doing careful hand research, there is still a strong tendency
+to bias the results. In fact, this bias exists in all scientific research, which is why they have persnickety
+double-blind tests. Even the most honest researcher will tend to bias data toward his or her hypothesis. It
+can't be helped. When I did research by hand, I took the attitude that I had to discount my results by 20 to
+50 percent.
+I remember one time when I was on a flight from San Francisco to New York, I had a new system idea
+that I was excited about and wanted to test preliminarily off the charts. The system involved using a
+conventional indicator I stochastics. I believe) in an unconventional way. I tried the system on several
+different markets, and it seemed to do terrifically. When I eventually had the system computer tested, I
+discovered that it actually lost money. What happened was that my alignment between the indicator on the
+bottom of the chart and the price on top was off by a day or so. Since the signals tended to come during
+periods of rapid price movement, being off by one day could mean the difference between being on the
+wrong side of the market for a 500-point move (say, in a market such as the S&P) instead of on the right
+side-a 1,000-point ($5,000 in the S&P) difference altogether. So what had actually looked like a great system
+proved to be totally worthless. Ever since then, I've been very cautious about drawing any conclusions from
+hand testing. I now wait until the computer results are in.
+The desire to find patterns is the same human quirk that convinces people that there is validity in
+superstitions, or astrology, or fortune tellers. The successes are much more startling than the failures. You
+remember the times when the oracle really hit the naii on the head, and you tend to forget the cases in which
+the prediction was ambiguous or wrong.
+==== Your comments basically seem to imply that chart reading is just laden with pitfalls and unfounded
+assumptions. ====
+Yes, it is. There may be people out there who can do it, but I certainly can't. Every pattern recognition
+chart trader I know makes the trades he really likes larger than the trades he doesn't like as much. In
+general, that's not a good idea. You shouldn't be investing yourself in the individual trades at all. And it's
+certainly wrong to invest yourself more in some trades than others. Also, if you think you're creating the
+profitable situation by having an eye for charts, it's very difficult not to feel excessively responsible if the
+trade doesn't work.
+==== Which, I assume, is bad. ====
+Yes, it's very destabilizing.
+==== Whereas if you have a mechanical system, that's not a problem. ====
+That's right. Your job is to follow the system. If the system does something that results in losses, that's
+just an expected part of the system. Your judgment might be on the line over the entire performance of your
+system, but there's no sense in which your judgment is on the line on any single trade.
+==== I fully understand the psychological advantages of a mechanical approach (assuming, of course, that
+it's effective), but are you also saying that you're skeptical of chart reading as a general approach to trading?
+====
+When I have an idea based on a chart pattern, I try to reduce it to an algorithm that I can test on a
+computer. If a method is truly valid, you should be able to explain it to a computer. Even if you can't define it
+precisely, you should still be able to concoct an algorithm that approximately describes the pattern. If your
+algorithm gives you an expected gain near zero-as is typically the case-then don't delude yourself into
+believing that the pattern has validity that depends on some indescribable interpretation you bring to it.
+==== In other words, the computer doesn't lie; believe it rather than your intuitive notions of a pattern's
+reliability. ====
+Yes, because, as I mentioned before, the human mind will tend to find patterns where none exist.
+==== Do you follow your systems absolutely, or do you sometimes intervene? ====
+At this stage of the game, computer trading systems are rote algorithms. They may be complex, but they
+are still simpleminded. Any system that I know of, if traded at a level that is large enough, will occasionally
+stray into overly risky terrain. Of course, this vulnerability can be avoided by trading too small-that is, scaling
+to the worst cases-but that is a costly solution in terms of overall performance. It's better to trade at a
+reasonable level, and when you find yourself with too much exposure, override your system and cut back.
+Also, a good system will occasionally direct you to do something stupid, hi such cases, your own judgment is
+vital.
+
+48
+
+49
+Generally speaking, however, if your system is any good, don't override it, except when it's clearly
+violating the intentions of its design. Don't get into the habit of finagling the system day in and day out. Save
+your ingenuity and creativity for research.
+==== Can you give me an example of a system violating the intentions of its design? ====
+On the day of the stock market crash [October 19, 1987], I was short S&Ps, and I was also short
+Eurodollars. At the close, the S&Ps were down 8,000 points, but the Eurodollars were down only 5 points. My
+trader mentality told me that the Eurodollars should have been down at least 40 or 50 points in sympathy
+with the S&P collapse. Even though my system was still short Eurodollars, I covered my position because I
+didn't like the market action.
+==== Was that the right thing to do? ====
+Yes. The market opened nearly 300 points higher the next day.
+==== When you discover that your system does something that is not optimal for reasons you can
+verbalize, as in the Eurodollar example you just cited, do you then modify your system to incorporate a new
+rule to address such situations? ====
+If you find yourself repeatedly running into a certain kind of problem, or if you find a structural flaw in the
+system, then it's time to change the system. But you shouldn't change it every time it does something you
+don't like. No system of reasonable algorithmic complexity is going to behave according to the intentions of
+the designer under all constellations of circumstances. A designer cannot anticipate all possible situations.
+Even if he could, it would be unwise to add a degree of freedom to the system for something that happens
+less than once a year.
+==== Any other examples of overriding your system that stick in your mind? ====
+Yes, around the time of the Gulf War. This was a completely unprecedented situation. We had never
+before had a war by deadline. My instinct was to not trade, but I had other concerns. I take the point of view
+that missing an important trade is a much more serious error than making a bad trade. In any worthwhile
+system, you have all kinds of backups to protect you (that is, to assure that you get out) when you take a
+bad trade. On the other hand, typically, if you miss a good trade, you have nothing to protect you-that is,
+nothing in the system will assure that you eventually get in. Also, missing a good trade can be demoralizing
+and destabilizing, especially if you've been in the midst of a losing period. And like so many bad trading
+decisions, it ends up costing you more than just the money lost or not made on the trade. Missing a major
+trade tends to have a reverberating effect throughout your whole trading strategy. Sometimes it can be
+weeks before you get back on track. For all these reasons, I felt that it was inappropriate to not trade.
+==== But I thought you said this was an instance when you overrode the system? ====
+I took the trades, but I cut my normal position size in half.
+==== What happened? ====
+I got clobbered, or, more accurately, half-clobbered.
+==== So, once again, your intervention seemed to help your performance. Were there situations when
+overriding the system blew up in your face? ====
+Many. One that stands out occurred several years ago after I had suffered a longer-than-usual string of
+losses. At the time, I happened to be long currencies. Some international situation developed over the weekend that caused the currencies to move sharply higher. By Monday morning I had what appeared to be a
+windfall profit. On the alleged basis that I was reducing my exposure because of the increased volatility, I
+took profits on half of my position. In fact, my exposure across all markets at that time was light, and I could
+easily have afforded the extra risk in the currency position. It was simply that coming after a period of much
+losing, I couldn't stand the idea of giving back all that profit. In effect, I reasoned that the currencies had
+gone up enough-the call of the countertrend. Shortly thereafter, the currencies underwent another upside
+explosion that exceeded the first. Such willfully missed opportunities hurt more than losses.
+==== On balance, have you found that your intervention has helped or hindered your performance? ====
+I had the experience of simultaneously trading for myself, which is what I've done for most of my career,
+and also managing an account for an associate, which I traded exclusively on a mechanical system. Although
+the performance in my account was good, the account trading entirely on the mechanical system definitely
+did better.
+I had known that a good system would outperform me in a windfall year, but I thought I could outperform
+the system in a mediocre year. (Maybe I could have once, but my systems have improved over the years.)
+This experience indicated otherwise.
+==== Yet, I take it that until this unintentional experiment, you must have thought that your overrides
+were helping performance. ====
+That's because the times when you do something that appears to outsmart the system are the ones that
+stay with you. The day-in, day-out slippage is the sort of thing you forget. Clearly, my overriding was costing
+me money, even though I thought otherwise.
+==== Have you then changed your viewpoints on overriding? ====
+Certainly, I now feel that it should be a far more selective process than I did years ago. You should try to
+express your enthusiasm and ingenuity by doing research at night, not by overriding your system during the
+day. Overriding is something that you should do only in unexpected circumstances-and then only with great
+forethought. If you find yourself overriding routinely, it's a sure sign that there's something that you want in
+the system that hasn't been included.

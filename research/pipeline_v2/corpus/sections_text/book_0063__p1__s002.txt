@@ -1,0 +1,500 @@
+
+authors are by competition for readers, listeners, and viewers, media accounts
+tend to be superficial and thus to encourage basic misconceptions about the
+market. A conventional wisdom of sorts, stressing the seemingly eternal
+durability of stocks, has emerged from these media accounts. The public has
+learned to accept this conventional—but in my view shallow—wisdom. To
+be fair to the Wall Street professionals whose views appear in the media, it is
+difficult for them to correct the conventional wisdom because they are limited
+by the blurbs and sound bites afforded them. One would need to write books
+to straighten these things out. This is such a book.
+As noted earlier, the conventional wisdom holds that the stock market as
+a whole has always been the best investment, and always will be, even when
+the market is overpriced by historical standards. Small investors, in their
+retirement funds, are increasingly shifting their investments toward stocks,
+and the investment policy of 100% stocks in retirement funds is increasingly
+popular. They put their money where their mantra is. This attitude invites
+exploitation by companies who have an unlimited supply of equities to sell.
+“You want stocks? We’ll give you stocks.”
+Most investors also seem to view the stock market as a force of nature
+unto itself. They do not fully realize that they themselves, as a group,
+determine the level of the market. And they underestimate how similar
+to their own thinking is that of other investors. Many individual investors
+think that institutional investors dominate the market and that these “smart
+money” investors have sophisticated models to understand prices—superior
+knowledge. Little do they know that most institutional investors are, by and
+large, equally clueless about the level of the market. In short, the price level
+is driven to a certain extent by a self‑fulfilling prophecy based on similar
+hunches held by a vast cross-section of large and small investors and reinforced by news media that are often content to ratify this investor‑induced
+conventional wisdom.
+When the Dow Jones Industrial Average first surpassed 10,000 in March
+1999, Merrill Lynch took out a full‑page newspaper ad with a headline saying, “Even those with a disciplined long‑term approach like ours have to sit
+back and say ‘wow.’” In the bottom left corner of the page, next to a stock plot
+ending up at 10,000, appeared the words “human achievement.” If this is an
+achievement worth congratulating, then we should congratulate employees
+whenever they submit glowing self‑evaluation reports.
+At present there is a whiff of extravagant expectation, if not irrational
+exuberance, in the air. People are optimistic about the stock market. There
+is a lack of sobriety about its downside and the consequences that would
+ensue as a result. If the Dow were to drop to 6,000, the loss would represent
+something like the equivalent value of the entire housing stock of the United
+
+PREFA C E T O T H E F IRS T E D ITIO N , 2000
+
+xxix
+
+States. There would be harmful and uneven effects on individuals, pension
+funds, college endowments, and charitable organizations.
+We need to know if the price level of the stock market today, tomorrow, or
+on any other day is a sensible reflection of economic reality, just as we need to
+know as individuals what we have in our bank accounts. This valuation is the
+future food on our tables and clothes on our backs, and nearly every decision
+to spend money today ought to be influenced by it. We need a better understanding of the forces that shape the long‑run outlook for the market—and it
+is such an understanding that this book is intended to provide.
+
+Acknowledgments
+
+J
+
+eremy Siegel, while clearly not agreeing
+with me on all points, urged me to set
+down my ideas in this book. He is its real instigator. Jeremy has been a lifelong
+friend. Our families regularly vacation together, and I learned a distinctive
+approach to finance from him while strolling the beach together or watching
+our children fish. In the years since the first edition of this book appeared, he
+and I have frequently been cast as antagonists, he the bull and I the bear. But
+in fact we share a lot of the same worldview, and his new book The Future for
+Investors in many ways complements this book.
+John Campbell, my former student, then co‑author on a dozen scholarly
+papers on financial markets, and for years a close friend, has been my intellectual other half in formulating many of the ideas that led to this book. My
+original work on volatility in financial markets was refined and significantly
+advanced with his collaboration. He has also offered many helpful suggestions for this book and comments on the manuscript.
+Peter Dougherty, my editor at Princeton University Press, has been an
+extremely important formative influence on the book, helping to define
+the fundamental aspects of its structure. He has been a great colleague
+and more—really almost a collaborator. Peter Strupp and his colleagues at
+Princeton Editorial Associates have as always been most helpful throughout
+the production process.
+My assistants Carol Copeland, Minhua Wan, Sumithra Sudhir, and now
+Bonnie Blake have kept me going through difficult times with their steadfast support. I was fortunate to have a number of excellent student research
+xxxi
+
+xxxii
+
+AC KNOWLEDGMENT S
+
+assistants to help me during the writing: Eric Bair, Yigit Bora Bozkurt, Peter
+Fabrizio, Jon Fougner, Gerardo Garcia Lopez, Michael Gousgounis, William
+“Drew” Haluska, Erik Hjalmarsson, Yuanfeng Hou, Murad Jivraj, Leora
+Kelman, Alston E. Lambert II, Anthony Ling, Luis Mancilla, Steven Pawliczek,
+Stefan Schneeberger, and Kinde Wubneh.
+I am also blessed with a number of friends and colleagues who read drafts
+of the manuscript and provided extensive comments: Stefano Athanasoulis,
+John Geanakoplos, William Konigsberg, Stephen Morris, Sharon Oster, Jay
+Ritter, Martin Shubik, and James Tobin.
+My colleagues at the Cowles Foundation for Research in Economics at Yale
+University—Glena Ames, Donald Brown, Stefan Krieger, Stephen Morris, and
+William Nordhaus—have been a great help. I must also take this occasion to
+express gratitude to our late founder, Alfred Cowles III, an investment manager in the early part of this century and patron of mathematical economics,
+who tabulated the pre‑1926 dividend and earnings data used in this book.
+Help from my colleagues at the Yale International Center for Finance—its
+director, William Goetzmann, as well as Zhiwu Chen, Roger Ibbotson, Eli
+Levy, Jim Snyder, Ivo Welch, and Jeffrey Wurgler—is also acknowledged.
+Roger, who in 2000 was giving talks titled “Dow 100,000” and predicting a
+brilliant future for the stock market, was a willing foil for my ideas. The Dow
+has just surpassed 17,000, and so I think he will eventually be right.
+My research with colleagues at Barclays Bank, who have collaborated in
+research on the dynamics of sector stock market indices, is another source of
+enlightenment for this book. Among the many collaborators I would mention
+Laurence Black, Oliver Bunn, Kenneth Crawford, Anthony Lazanas, Vytautas
+Martinaitis, Benedict Redmond, Richa Singh, Arne Staal, Cenk Ural, and
+Ji Zhuang.
+Support from my colleague Prof. Karl E. Case of Wellesley College has also
+been most important. I met him after hearing about an article he wrote in 1986
+that attempted to enumerate the reasons for the surge in home prices in the
+Boston area. We first did a questionnaire survey of attitudes of homebuyers
+in 1988. He has been working with me ever since to understand the psychology of real estate markets. Case and I continue to update the survey data with
+the support of the Yale School of Management, our latest work now joint with
+Anne Kinsella Thompson of McGraw Hill Construction.
+I am grateful to Bracebridge Capital, Fuller and Thaler Asset Management,
+LSV Asset Management, and the Russell Sage Foundation for sponsoring the
+behavioral finance workshops that Richard Thaler and I have been organizing
+since 1991 at the National Bureau of Economic Research, and to the Russell
+Sage Foundation and the Federal Reserve Bank of Boston for sponsoring the
+behavioral macroeconomics workshops that George Akerlof and I organized
+there in 1994–2007. The term behavioral economics refers to research on markets
+
+A CKN O W L E D G M E N TS
+
+xxxiii
+
+that takes into account the details of human behavior, including human
+psychology and sociology. This book benefits immeasurably from the work
+of the many scholars in the emerging field of behavioral economics, which
+is now beginning to take a solid place in university economics and finance
+departments.
+The U.S. National Science Foundation has supported much of my basic
+research on financial markets. Their continuing support of my work for over
+twenty years enabled me to focus attention on issues independent of financial
+pressures. Whitebox Advisors, under the leadership of Andrew Redleaf, has
+given a grant to Yale University to support research on behavioral economics,
+and this grant also helped support the revisions of this book for the second
+edition.
+I am also grateful to Brad Barber, Scott Boorman, David Colander, Robert
+Ellickson, Ray Fair, Peter Garber, Jeffrey Garten, Christian Gollier, Sunil
+Gottipati, Trevor Greetham, Stanley Hamilton, Anne Laferrere, Jonathan
+Laing, Ricky Lam, Xindan Li, Yan Li, Justin Yifu Lin, Benoit Mercereau,
+John Rey, Colin Robertson, Tsur Somerville, Nassim Taleb, Philippe Trainar,
+Mark Warshawsky, Oleg Zamulin, Yong Zhang, and Ning Zhu for helpful
+discussions. Yoshiro Tsutsui of Osaka University and Fumiko Kon‑Ya of the
+Japanese Securities Research Institute have collaborated with me for many
+years on questionnaire survey research exploring investor attitudes in Japan
+as well as the United States. Help from Josephine Rinaldi and Walt Smietana
+at CompuMail has been much appreciated. I should certainly also thank the
+numerous investors who have taken the time to fill out questionnaires for me.
+To my wife, Virginia Shiller, who is a clinical psychologist at the Yale Child
+Study Center, I owe fundamental gratitude for getting me really interested in
+psychology and convincing me of its importance in economics. She has given
+the most careful reading and criticism to the entire book and has helped me
+greatly in articulating my ideas. She also kept the home fires burning while
+I spent long days and nights working.
+
+One
+
+The Stock Market in
+Historical Perspective
+
+W
+
+hen Alan Greenspan, then Chair of the
+Federal Reserve Board, used the term
+irrational exuberance to describe the behavior of stock market investors, the
+world fixated on those words.1 He spoke at a black-tie dinner in Washington,
+D.C., on December 5, 1996, and the televised speech was followed the world
+over. As soon as he uttered these words, stock markets dropped precipitously.
+In Japan, the Nikkei index dropped 3.2%; in Hong Kong, the Hang Seng
+dropped 2.9%; and in Germany, the DAX dropped 4%. In London, the FTSE
+100 was down 4% at one point during the day, and in the United States, the
+next morning, the Dow Jones Industrial Average was down 2.3% near the
+beginning of trading. The sharp reaction of the markets all over the world to
+those two words in the middle of a staid and unremarkable speech seemed
+absurd. This event made for an amusing story about the craziness of markets,
+a story that was told for a time around the world.
+The amusing story was forgotten as time went by, but not the words
+irrational exuberance, which were referred to again and again. Greenspan did
+not coin the phrase irrational exuberance, but he did cause it to be attached to a
+view about the instability of speculative markets. The chain of stock market
+events caused by his uttering these words made the words seem descriptive
+of essential reality. Gradually they became Greenspan’s most famous quote—
+a catch phrase for everyone who follows the market.
+Why do people still refer so much to irrational exuberance years later?
+I believe that the words have become a useful name for the kind of social
+phenomenon that perceptive people saw with their own eyes happening in
+1
+
+2
+
+TH E S TO CK MARKET IN HIST OR IC AL PER SPEC TIVE
+
+the 1990s, and that in fact, it appears, has happened again and again in history,
+when markets have been bid up to unusually high and unsustainable levels
+under the influence of market psychology.
+Many perceptive people were remarking, as the great surge in the stock
+market of the 1990s continued, that there was something palpably irrational
+in the air, and yet the nature of the irrationality was subtle. There was not
+the kind of investor euphoria or madness described by some storytellers, who
+chronicled earlier speculative excesses like the stock market boom of the 1920s.
+Perhaps those storytellers were embellishing the story. Irrational exuberance
+is not that crazy. The once-popular terms speculative mania or speculative orgy
+seemed too strong to describe what we were going through in the 1990s. It
+was more like the kind of bad judgment we all remember having made at
+some point in our lives when our enthusiasm got the best of us. Irrational
+exuberance seems a very descriptive term for what happens in markets when
+they get out of line.
+Irrational exuberance is the psychological basis of a speculative bubble.
+I define a speculative bubble as a situation in which news of price increases
+spurs investor enthusiasm, which spreads by psychological contagion from
+person to person, and, in the process, amplifies stories that might justify
+the price increase and brings in a larger and larger class of investors, who,
+despite doubts about the real value of the investment, are drawn to it partly
+through envy of others’ successes and partly through a gambler’s excitement. We will explore the various elements of this definition of a bubble
+throughout this book.
+Greenspan’s “irrational exuberance” speech in 1996 came during the biggest
+historical example to date of a speculative upsurge in the U.S. stock market.
+The Dow Jones Industrial Average (from here on, the Dow for short) stood at
+around 3,600 in early 1994. By March 1999, it passed 10,000 for the first time.
+The Dow peaked at 11,722.98 in January 14, 2000, just two weeks after the
+start of the new millennium. The market had tripled in five years. Other stock
+price indices peaked a couple of months later. The real (inflation-corrected)
+Dow did not reach this level again until 2014, and, as of this writing, the real
+Standard & Poor’s 500 index has still not quite returned to its 2000 level. It is
+curious that this peak of the Dow (as well as other indices) occurred in close
+proximity to the end of the celebration of the new millennium—it was as if the
+celebration itself was part of what had propelled the market, and the hangover
+afterward had brought it back down.
+Figure 1.1 shows the monthly real (corrected for inflation using the
+Consumer Price Index) Standard and Poor’s (S&P) Composite Stock Price
+Index, a more comprehensive index of stock market prices than the Dow,
+based, since 1957, on 500 stocks rather than just the 30 stocks that are used
+to compute the Dow.2 Inflation correction was used here because the overall
+
+3
+
+T HE S T O C K M A R K ET IN H IS TO RICAL P E RS P E CTIVE
+
+450
+2000
+
+2000
+
+2014
+
+2007
+!
+
+1500
+
+2003
+2009
+
+1973
+
+300
+
+200
+150
+100
+
+1929
+
+500
+
+350
+
+250
+
+Price
+1000
+
+400
+Real S&P composite earnings
+
+Real S&P Composite Stock Price Index
+
+2500
+
+50
+0
+1870
+
+Earnings
+1890
+
+1910
+
+1930
+
+1950
+
+1970
+
+1990
+
+2010
+
+0
+
+Figure 1.1
+U.S. Stock Prices and Earnings, 1871–2014
+Real (inflation‑corrected) S&P Composite Stock Price Index, monthly, January
+1871 through June 2014 (upper curve), and real S&P Composite earnings (lower
+curve), January 1871 to March 2014. Source: Author’s calculations using data from
+S&P Statistical Service; U.S. Bureau of Labor Statistics; Cowles and associates,
+Common Stock Indexes; and Warren and Pearson, Gold and Prices. See also note 3.
+
+level of prices has been very unstable over parts of this period (the government printed a lot of money, which pushed all prices up) so that the un­­
+corrected numbers would give a misleading impression of the real increase in
+the stock market. The stock prices are shown from 1871 through 2014 (upper
+curve), along with the total earnings (corporate profits per share) that the
+corporations that comprise the index made in doing their businesses (lower
+curve) for the same years.3
+This stock market chart is unusual: most long-term plots of stock prices
+are not this long term, and most are done in nominal terms, without inflation
+correction. On this chart, the magnitude of the boom beginning in 1982 and
+peaking in 2000 stands out especially well. It is a unique event in history.
+The 2000 Millennium Boom peak in world stock prices was followed by the
+Ownership-Society Boom, 2003–7, which I have named after a slogan used by
+George Bush in his 2004 presidential campaign. This peak was followed by
+the world financial crisis in 2008–9. Starting in 2009, after the crisis lessened,
+there was another major upswing in world stock markets, which I will call the
+New-Normal Boom, after a phrase popularized by Bill Gross, then of PIMCO,
+in 2009.4 The news media have shown a tendency since 2000 to dramatize the
+
+4
+
+TH E S TO CK MARKET IN HIST OR IC AL PER SPEC TIVE
+
+“new records” set in stock markets in 2007 and 2014. But, in fact, these post2000 booms were not record setting. The biggest-ever upswing in the real
+(inflation-corrected) U.S. stock market was from July 1982 to August 2000, when
+the market went up 7.7-fold, dwarfing the 5.2-fold upswing from December
+1920 to September 1929, and also dwarfing the 5.1-fold upswing from June 1949
+to December 1968. The upswings from 2003 to 2007 (1.5-fold) and from 2009
+to 2014 (2.3-fold) are mild by comparison. For the purpose of understanding
+irrational exuberance, I will emphasize the 1982–2000 Millennium Boom,
+particularly its later years, when this exuberance became most palpable.
+The stock market increase from 1994 (when the real stock market had
+already more than doubled since 1982) to 2000 could not obviously be justified in any reasonable terms. Basic economic indicators did not come close to
+tripling. Over the same interval, U.S. gross domestic product rose less than
+40%, and corporate profits rose less than 60%, and that from a temporary
+recession‑depressed base. Viewed in the light of these figures, the stock price
+increase appears unwarranted.
+Large stock price increases occurred in many countries at around the
+same time, and the peaks in the stock markets were often roughly simultaneous in many countries in early 2000. Figure 1.2 shows the paths of stock
+prices for ten countries and for the world as a whole from 1995 to 2014. As
+can be seen from Figure 1.2, between 1995 and 2000 the real stock market
+valuations of Brazil, France, China, and Germany roughly tripled, while
+that of the United Kingdom roughly doubled. In 1999, the year before the
+peak, real stock price increases averaged 58% over the ten countries shown
+in Figure 1.2. The prices of all countries went up sharply in 1999; in fact, the
+smallest increase, occurring in the United Kingdom, was still an impressive 16%. Stock markets in Asia (Hong Kong, Indonesia, Japan, Malaysia,
+Singapore, and South Korea) and Latin America (Chile and Mexico) also
+made astounding gains in 1999. It was a truly spectacular worldwide stock
+market boom.
+The end of the 2000 boom brought stock markets down across much of
+the world by 2003, as can be seen in Figure 1.2. Once again, the next boom,
+peaking in late 2007 or early 2008, had huge impacts over much of the world.
+After that, the world slipped into the most serious recession since the Great
+Depression of the 1930s, economic growth rates faltered, and the post-bubble
+weakness of the world economy continued for years after. Despite the weakness of the world economy, the third stock market boom that began around
+2009 affected many countries.
+Looking back to Figure 1.1, which shows a longer history for the S&P Index,
+we can see how differently the market behaved up to 2000 compared with
+the long past. The spiking of prices in the years 1982 through 2000 was most
+remarkable: the price index looks like a rocket taking off through the top of
+
+5
+
+T HE S T O C K M A R K ET IN H IS TO RICAL P E RS P E CTIVE
+
+900
+China
+
+800
+
+Index (January 1995 = 100)
+
+700
+
+Brazil
+
+600
+
+United States
+Germany
+
+500
+
+Mexico
+Brazil
+United States
+Germany
+China
+
+France
+
+400
+300
+
+France
+
+World
+India
+United Kingdom
+Korea
+Japan
+
+200
+UK
+
+100
+0
+1994
+
+Korea
+
+1999
+
+2004
+
+2009
+
+2014
+
+Figure 1.2
+Real Stock Prices in Ten Countries and the World,
+January 1995–July 2014
+Monthly closing prices in Brazil (Bovespa), China (SE Shang Composite), France
+(CAC), Germany (DAX), India (Sensex), Japan (Nikkei), Korea (KOSPI), Mexico
+(Mexbol), United Kingdom (FTSE 100), the United States (NASDAQ Composite),
+and the Morgan-Stanley Capital International All Country World Index, all
+deflated by the monthly Consumer Price Index for the currency, all rescaled to
+January 1995 = 100. Source: Bloomberg and International Monetary Fund Inter­
+national Financial Statistics (1999).
+
+the chart, only to sputter and crash. This—the largest stock market boom
+ever—may be referred to as the Millennium Boom or, now that it is over, the
+Millennium Bubble.5
+The boom and crash in the stock market in the years after 1994 are clearly
+related to the behavior of earnings. As can be seen in Figure 1.1, S&P Composite
+earnings grew very fast in the late 1990s before they crashed after 2000, rose
+again until 2007, utterly crashed in 2009, and then rose with the market.
+Earnings seem to have been oscillating around a slow, steady growth path
+that has persisted for over a century.
+Inspection of Figure 1.1 should make it clear that nothing like the
+Millennium Boom had ever happened before in the entire stock market history since 1871. There was of course the famous stock run‑up of the 1920s,
+culminating in the 1929 crash. Figure 1.1 reveals this boom as a cusp‑shaped
+price pattern for those years. If one corrects for the market’s smaller scale then,
+
+6
+
+TH E S TO CK MARKET IN HIST OR IC AL PER SPEC TIVE
+
+one recognizes that this episode in the 1920s does somewhat resemble the
+recent stock market increase, but it is the only historical episode that comes
+even close to being comparable.
+
+Price Relative to Earnings
+Figure 1.3 shows the cyclically adjusted price‑earnings ratio (CAPE), that is, the
+real (inflation‑corrected) S&P Composite Index divided by the ten‑year moving average of real earnings on the index. The points shown reflect monthly
+data from January 1881 to June 2014.6 The price‑earnings ratio is a measure
+of how expensive the market is relative to an objective measure of the ability
+of corporations to earn profits. John Campbell and I originally defined CAPE
+using the ten‑year average, along lines proposed by Benjamin Graham and
+David Dodd in 1934.7
+The ten‑year average smooths out such events as the temporary burst of
+earnings during World War I, the temporary decline in earnings during World
+War II, and the frequent boosts and declines that we see due to the business
+cycle.8 Note again that there was an enormous spike after 1997, when the ratio
+rose until it hit 47.2 intraday on March 24, 2000. Price‑earnings ratios by this
+measure had never been so high. The closest parallel was September 1929,
+when the ratio hit 32.6.
+In 2000 earnings were quite high in comparison with the Graham and
+Dodd measure of long‑run earnings, but nothing here was startlingly out of
+the ordinary. What was extraordinary in 2000 was the behavior of price (as
+also seen in Figure 1.1), not earnings.
+Part of the explanation for the remarkable price behavior between 1990
+and 2000 may have to do with the unusual behavior of corporations’ profits
+as reflected in their earnings reports. Many observers remarked then that
+earnings growth in the five‑year period ending in 1997 was extraordinary:
+real S&P Composite earnings more than doubled over this interval, and such
+a rapid five‑year growth of real earnings had not occurred for nearly half a
+century. But 1992 marked the end of a recession during which earnings were
+temporarily depressed.9 Similar increases in earnings growth following
+periods of depressed earnings from recession or depression have happened
+before. In fact, there was more than a quadrupling of real earnings from 1921
+to 1926 as the economy emerged from the severe recession of 1921 into the
+prosperous Roaring Twenties. Real earnings doubled during the five‑year
+periods following the depression of the 1890s, the Great Depression of the
+1930s, and World War II.
+It was tempting for observers in 2000, at the peak of the market, to extrapolate this earnings growth and to believe that some fundamental changes
+in the economy had produced a new higher growth trend in earnings.

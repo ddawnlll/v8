@@ -93,4 +93,6 @@ admits a component bumps the version. The sprint breakdown lives in
 - Versions evolve by challenger + frozen-OOS + registry, never in place
   (`LEARNING_PROTOCOL` section 1).
 - Every change lands in `CHANGELOG.md`; every bump in `DECISION_REGISTER`.
-- One moving part at a time; complexity budget is a hard cap (rule 14).
+- One moving part at a time; the complexity budget caps simultaneous claims and
+  learned components per pipeline position, never the runtime Expert count
+  (rule 14).

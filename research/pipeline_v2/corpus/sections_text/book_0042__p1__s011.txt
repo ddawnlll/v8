@@ -1,0 +1,444 @@
+
+Typically the values of the predictors are known, but the value of the
+dependent variable is not. In many applications, this is because the dependent variable Y refers to a future outcome, whereas the X variables refer
+to values that are currently known. Once a functional relationship has
+been derived, it is possible to predict values for the dependent variable by
+plugging in known values of the predictor variables.
+Functional relationships can be derived in two ways. They can be deduced from explanatory theories or they can be estimated (induced) from
+historical data by function fitting (e.g., regression analysis). Currently, TA
+is primarily constrained to the latter because theories of TA are just now
+being formulated (see Chapter 7).
+
+The Scientific Method and Technical Analysis
+
+THE ROLE OF LOGIC I
+
+111
+
+SCIENCE
+
+Scientific knowledge commands respect, in part because its conclusions
+are based on logic. By relying on logic and empirical evidence to justify its
+conclusions, science avoids two of the common fallacies that contaminate
+informal reasoning: appeals to authority and appeals to tradition. An appeal to authority offers as proof the statement of a purportedly knowledgeable person. An appeal to tradition offers a long-standing way of
+doing things as proof.
+To its detriment, much of popular TA is justified on grounds of tradition or authority rather than fornlallogic and objective evidence. In many
+instances, current authorities merely quote prior authorities who, in turn,
+quote yet earlier experts and so on back to an original source whose
+knowledge was primarily intuitive. Thus the fallacies of authority and tradition are mutually reinforcing.
+The First Rule of' Logic: Consistency
+
+Aristotle (384-322 B.C.) is credited with the invention of fornlal logic,
+which evolved from geometry. The Egyptians had been making accurate
+measurements of lines and angles and calculating areas for over two thousand years, but it was the "Greeks who extended these basic notions and
+transformed them into a compelling system of irrefutable conclusions derived from mathematical definitions (axioms)."10
+Formal logic is the branch of mathematics concerned with the laws of
+correct reasoning that are used to formulate and evaluate the validity of
+arguments. In contrast to informal inference, if the rules of formal logic
+are followed, a true conclusion is guaranteed.
+The most fundamental principle of formal logic is the rule of consistency. It is expressed in two laws: the Law of the Excluded Middle and the
+Law ofNoncontradiction. "The law of the excluded middle requires that a
+thing must either possess or lack a given attribute. There is no middle alternative. Or said differently, the middle ground is excluded."ll A statement is either true or false. It cannot be both. However, the law is only
+properly applied to situations that are binary and is easily misapplied to
+situations that are not truly two-state.
+"Closely related to the law of the excluded middle is the law of noncontradiction. It tells us that a thing cannot both be and not be at the same
+time."12 A statement cannot be true and not true at the same time. An argument that allows for its conclusion to be true and not true at the same
+tinle is said to be a self-contradictory.
+As will be shown in subsequent sections, these laws of logic are
+used to great effect in science. Although observed evidence, such as the
+
+112 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+profitable back test of a TA rule, cannot logically prove that the rule has
+predictive power, that same evidence can be used to logically disprove
+(contradict) the assertion that the rule is devoid of predictive power. By
+the Law of Noncontradiction, this indirectly proves that the rule does possess predictive power. This method of proving empirical laws, called the
+method of indirect proof or proof by contradiction, is the logical basis of
+the scientific method.
+Propositions and Arguments
+
+Logical inference takes two distinct forms: deduction and induction. We
+will consider each separately and then see how they are used together in
+the logical framework of modern science, the hypothetico-deductive
+method. However, before considering these forms of inference some definitions are in order.
+• Proposition: a declarative statement that is either true or false sometimes referred to as a claim. For example, the statement The headand-shoulder pattern has more predictive power than a random
+signal is a proposition. A proposition differs from other kinds of
+
+statements that do not possess the attribute of truth of falsity such as
+exclamations, commands, and questions. Therefore, only propositions may be affirmed or denied.
+• Argument: a group of propositions, one of which is referred to as the
+conclusion, which is claimed to follow logically from the other propositions, called premises. Thus, an argument asserts that its premises
+provide the evidence to establish the truth of its conclusion.
+Deductive Logic
+As mentioned earlier, the there are two forms of logic, deductive and
+
+inductive. This section considers deductive logic; the next considers
+inductive.
+Categorical Syllogisms. A deductive argument is one whose premises
+are claimed to provide conclusive, irrefutable evidence for the truth of its
+conclusion. A common form of deductive argument is the categorical syllogism. It is comprised of two premises and a conclusion. It is so named
+because it deals with logical relations between categories. It begins with a
+premise that states a general truth about a category, for example All humans are mortal, and ends with a conclusion that states a truth about a
+specific instance, for example Socrates is mortal.
+
+The Scientific Method and Technical Analysis
+
+113
+
+Premise 1: All humans are mortal.
+Premise 2: Socrates is a human.
+Therefore: Socrates is mortal.
+Notice that the argument's first premise establishes a relationship between two categories, humans and mortals: All humans are mortal. The
+second premise makes a statement about a particular individual member
+of the first category: Socrates is a human. This forces the conclusions
+that this individual must also be a member of the second category:
+Socrates is mortal.
+The general form of a categorical syllogism is as follows:
+Premise 1: All members of category A are members of category B.
+Premise 2: X is a member of category A.
+Therefore: X is a member' of category B.
+Deductive logic has one especially attractive attribute-certainty. A
+conclusion arrived at by deduction is true with complete certainty, but
+this is so if and only if two conditions are met: the premises of the argument are true and the argument has valid form. If either condition is lacking, the conclusion is false with complete certainty. Therefore, a valid
+argument is defined as one whose conclusion must be true if its premises
+are true. Or, said differently, it is impossible for a valid argument to have
+true premises and a false conclusion.
+In summary, conclusions arrived at by deduction are either true or false.
+If either valid form or true premises are lacking, then the conclusion is false.
+If both are present, the conclusion is true. There is no middle ground.
+It is important to note that truth and validity are two distinct properties. Truth, and its opposite, falsity, are properties that pertain to an individual proposition. A proposition is true if it conforms to fact. Because
+premises and conclusions are both propositions, they are aptly characterized as either true or false. The premise All pigs can fly is false. The
+premise Socrates is a man is true as is the conclusion Socrates is mortal.
+Validity is a property that pertains to the form of an argument. In
+other words validity refers to the logical relationships between the propositions comprising the argument. Validity or lack thereof describes the
+correctness of the logical inference linking the premises to the conclusion, but validity makes no reference to the factual truth of the argunlent's
+premises or conclusion. An argument is said to be valid if, when its
+premises are true, its conclusion must also be true.
+However, an argument can be valid even if is composed of false
+propositions so long as the logical connections between the propositions
+
+114 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+CARS
+
+Sports
+Cars
+FIGURE 3.2 Euler circles.
+
+are sound. The categorical syllogism that follows has valid form because
+its conclusion is logically compelled by its premises, yet its premises and
+conclusion are clearly untrue.
+
+AU humans are immortal.
+Socrates is a human.
+Therefore, Socrates is immortal.
+Because validity has nothing to do with matters of fact, validity can
+best be demonstrated with arguments or diagrams of arguments, called
+Euler circles, which make no factual references whatsoever. In a Euler diagram, the set of elements comprising a category is represented by a circle. To show that one category, such as sports cars, is a subset of the more
+general category-cars in general-the circle representing sports cars resides within the larger circle representing cars. See Figure 3.2.
+Figure 3.3 makes clear why argument 1 is valid but argument 2 is not.
+Argument 1 is valid because its conclusion, X is a B, follows necessarily
+from (i.e., is compelled by) its premises. However, Argwnent 2 is not valid
+because it conclusion, X is an A, is not logically compelled by its
+premises. X may belong to category A but not necessarily. The Euler diagrams portray validity more forcefully than the argument itself because
+the argument alone requires some thinking.
+Argument 1
+All As are B's.
+
+Xis anA.
+Therefore, X is a B.
+
+115
+
+The Scientific Method and Technical Analysis
+
+Argument 1
+Valid
+
+Argument 2
+Invalid
+
+All A's are 8's.
+X is an A.
+Therefore X is a B.
+
+All A's are B's.
+X is a 8.
+Therefore X is an A.
+
+Category B
+
+Category 8
+
+Category A
+
+Category A
+
+x
+FIGURE 3.3 Valid and invalid categorical syllogisms.
+
+Argument 2
+All A's are B's.
+Xis aBo
+Therefore, X is an A.
+
+Conditional Syllogisms: l'he Logic of Scientific Arguments.
+
+Another form of deductive argument, and the one that is central to scienti:fic reasoning, is the conditional syllogism. It is the logical basis for establishing the discovery of new knowledge.
+Like the categorical syllogism, the conditional syllogism is also composed of three propositions: two premises and a conclusion. It is so
+named because its first premise is a conditional proposition.
+A conditional proposition is a compound statement that combines
+two simple propositions using the words If-then. The proposition following if is referred to as the antecedent clause and the proposition following
+then is referred to as the consequent clause. The general form of a conditional proposition is
+
+If (antecedent clause), then (consequent clause)
+
+116 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+For example:
+
+If it is a dog, then it has four legs.
+In the example, it is a dog is the antecedent clause and it has four
+legs is the consequent clause. A second example that is closer to the purpose at hand would be
+
+If the TA rule has predictive power, then its back tested rate of return wiU exceed zero.
+Our ultimate goal will be to establish the truth of the antecedent
+clause of these conditional propositions like the preceding example. As
+will become clear, the route to establishing its truth is an indirect one!
+The second premise of a conditional syllogism is a proposition that either affirms or denies the truth of either the antecedent clause or the consequent clause of the first premise. Referring to the prior example, the
+second premise could be one of the following four statements:
+It is a dog: Affirms the truth of the antecedent.
+
+It is not a dog: Denies the truth of the antecedent.
+It has four legs: Affirms the truth of the consequent.
+It does not have four legs: Denies the truth of the consequent.
+The conclusion of the conditional syllogism affirms or denies the
+truth of the remaining clause of the first premise. In other words, the conclusion references the clause that is not mentioned in the second premise.
+For example, if the second premise refers to the antecedent clause of the
+first premise, It's a dog, then the conclusion would refer to the consequent
+clause, It has four legs.
+An example of a conditional syllogism is as follows:
+
+Ifit is a dog, then it has four legs.
+It is a dog (affirms the truth of the antecedent).
+Therefore, it has four legs (affirms the truth of the consequent).
+When a conditional syllogism possesses valid form, its conclusion is
+logically compelled by the two premises. Moreover, if it has valid form and
+its premises are factually true, then the conclusion of the conditional syllogisms must also be true.
+
+The Scientific Method and Technical Analysis
+
+117
+
+There are two valid
+forms of the conditional syllogism; affirming the antecedent and denying the consequent. In an argument that affirms the antecedent, the second premise affirms the truth of the antecedent clause of the first
+premise. In an argument that denies the consequent, the second premise
+asserts that the consequent clause of the first premise is not true. These
+two valid forms of argument are shown here. They assume all dogs possess four legs.
+
+Valid FOl'lns 01' the Conditional Syllogism.
+
+Affirming the antecedent:
+Premise 1: If it is a dog, then it has four legs.
+Premise 2: It is a dog.
+Valid Conclusion: Therefore, it has four legs.
+In this valid form, the second premise affirms the antecedent clause
+by stating It is a dog. These two premises deductively compel the conclusion It has four legs. The general form of a conditional syllogism in which
+the antecedent is affirmed is
+Premise 1: If A is true, then B is true.
+Premise 2: A is true.
+Valid Conclusion: Therefore, B is true.
+The other valid form of the conditional syllogism is denial of the consequent. In this form, the second premise asserts that the consequent
+clause of premise 1 is a falsehood. From this, one may conclude that the
+antecedent clause of premise 1 is also false. This is illustrated by the following example:
+Premise 1: If it is a dog, then it has four legs.
+Premise 2: It does NOT have four legs.
+Valid Conclusion: Therefore, it is not a dog.
+Denial of the consequent follows the general form:
+Premise 1: If A is true, then B is true.
+Premise 2: B is not true.
+Valid Conclusion: Therefore, A is not true.
+
+118 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+This is sometimes shortened to
+
+If A, thenE.
+NotE.
+Therefore, not A.
+Notice that this form of argument uses evidence (creature does not
+have four legs) to prove that antecedent (It is a dog) is false. It is this form
+of reasoning that is used in science to prove that a hypothesis is false. The
+hypothesis plays the role of the antecedent. We hypothesize that the creature is a dog. The consequent clause predicts what will be observed if the
+hypothesis is true. That is, if the creature is truly a dog, then, when it is observed, it will be seen to possess four legs. In other words, the conditional
+proposition, If A, then B, predicts that B would be observed in an experiment if the hypothesis (A) were in fact true. The second premise states
+that when the observation was made, the observation contradicted the
+prediction, that is, B was not observed. Given this, we can validly deduce
+that the hypothesis A is false.
+As will be shown in due course, if we can prove that hypothesis A is
+false, we can indirectly prove that some other hypothesis is true. That
+other hypothesis is the new knowledge that we wish to establish as true,
+for exanlple that a new vaccine is more effective than a placebo or that
+some TA rule predicts more effectively than a randomly generated signal.
+
+Invalid Form of the Conditional Syllogism. An important reason
+for using formal logic is the difficulty people often have when reasoning
+informally about conditional syllogisms. Consistent with the numerous biases and illusions discussed in Chapter 2, psychological studies l3 have
+shown that people tend to commit two fallacies when reasoning about
+conditional propositions: the fallacy of affirming the consequent, and the
+fallacy of denying the antecedent. An example of the fallacy of affirming
+the consequent is
+Premise 1: If it is a dog, then it has four legs.
+Premise 2: It has four legs.
+Invalid Conclusion: Therefore, it is a dog.
+The fact that a creature has four legs certainly does not compel the
+conclusion that the creature is a dog. It may be a dog. The evidence is consistent with the fact that it is a dog. However, the evidence is also consistent with other conclusions. It could just as easily be a cow, a horse, or
+
+The Scientific Method and Technical Analysis
+
+119
+
+any other four-legged creature. The fallacy of affirming the consequent
+has the general form:
+Premise 1: If A is true, then B is true.
+Premise 2: B is true.
+Invalid Conclusion: Therefore, A is true.
+This fallacy is a very common error in poor scientific reasoning and
+one committed in many articles on TA. Consider the following syllogism,
+which commits the fallacy of affirming the consequent.
+Premise 1: If TA rule X has predictive power, then it should produce
+profits in a back test.
+Premise 2: The back test was profitable.
+Invalid Conclusions: Therefore, the TA rule has predictive power.
+Both of these premises may be true, but the conclusion is not necessarily true. With respect to the first premise, it is true that if the TA rule X does
+possess predictive power it should back test profitably. In other words, a
+profitable back test would be consistent with the supposition that the rule
+has predictive power. However, a profitable back test could also be consistent with the supposition that the rule was merely lucky. Similarly, just as
+evidence of four legs is consistent with a dog, it is also consistent with all
+other four-legged creatures. 14 The fallacy of affirming the consequent is the
+reason that empirical evidence cannot be used to prove that a hypothesis is
+true. As we shall see, one philosopher of science, Karl Popper, contended
+that the scientific method must, therefore, rest on denial (falsification) of
+the consequent, which, as pointed out earlier, is a valid form of inference.
+The other fallacy associated with conditional syllogisms is the fallacy
+of denying the antecedent. It is illustrated here:
+Premise 1: If it is a dog, then it has four legs.
+Premise 2: It is not a dog.
+Invalid Conclusion: Therefore, it does not have four legs.
+The fact that a creature is not a dog does not preclude its having four
+legs. The general form of this fallacy is
+Premise 1: If A is true, then B is true.
+Premise 2: A is not true.
+Invalid Conclusion: Therefore, B is not true.
+
+120 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+In logical shorthand
+
+If A, thenB.
+NotA.
+Therefore, not B.
+Invalid arguments can be hard to notice when they concern complex
+subjects. The best way to reveal them is to plug in commonplace items for
+A and B and see if the conclusion follows from the premises.
+Figures 3.4 and 3.5 summarize the preceding discussion of the conditional syllogism.
+As mentioned, the great strength of deductive reasoning is its ability
+to deliver conclusions that are true with certainty. However, deductive
+logic has a great wealrness; it is unable to reveal new lrnowledge about the
+world. All that a deductive argument can do is to reveal truths that were
+already implicit in its premises. In other words, deductive reasoning can
+only tease out truths that were already present in the premises though
+they may not have been evident.
+This is not meant to minimize or trivialize deduction but to clarify its
+role. It may well be that a conclusion implied by the premises is far from
+obvious. Great mathematical discoveries are exactly that-the revealing
+of truths that had been implicit in the axioms of a mathematical system
+but that had not been understood prior to being proven. Such was the
+case with the much-publicized proof of Fermat's last theorem. It was first
+
+Valid
+Affirming the Antecedent
+If A, then B.
+A.
+Therefore, B.
+
+Denying the Consequent
+If A, then B.
+Not B.
+Therefore, Not A.
+
+FIGURE 3.4 Conditional syllogisms: general form.
+
+Invalid
+
+121
+
+The Scientific Method and Technical Analysis
+
+Valid
+
+Invalid
+
+Affirming The Antecedent
+
+If a dog, then has 4 legs.
+It is a dog.
+Therefore, has 4 legs.
+
+Denying The Consequent
+If a dog, then has 4 legs.
+
+Legs not equal to 4.
+Therefore not a dog.
+
+FIGURE 3.5 Conditional syllogisms: example.
+
+hinted at in the margin of a book in 1665 but not proven until 1994, by Andrew Wiles and Richard Taylor.
+Inductive Logic
+
+Induction is the logic of discovery. It aims to reveal new knowledge about
+the world by reaching beyond the knowledge contained in the premises of
+an inductive argument. However, this new knowledge comes with a
+price-uncertainty. Conclusions reached by induction are inherently uncertain. That is, they can only be true with some degree of probability.
+Thus, the notion of probability is intimately connected with induction.
+Induction proceeds in a manner opposite to deduction. We saw that deduction progresses from a premise expressing a general truth that is held to
+apply to an unlimited number of instances, AU men are mortal to a conclusion about a specific instance Socrates is mortal. In contrast, inductive reasoning moves or, better said, leaps from a premise based on a limited
+number of observed instances to a general conclusion about an unlimited
+number of similar but not-yet-observed instances. Thus, this form of inference is often referred to as inductive generalization. It is in leaping beyond
+what has been directly experienced by observation that induction incurs
+uncertainty-the possibility that its conclusion may be wrong.
+Inductive generalization is illustrated by the following:
+Premise: Each of one thousand healthy dogs hadfour legs.
+General conclusions: All healthy dogs will have four legs.
+
+122 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+The conclusion, in this example, is called a universal generalization,
+because it asserts that all members of the class dog have the attribute four
+legs. Universal generalizations have the form
+
+All X's are Y's.
+or
+
+100 percent ofX's have the attribute Y.
+Generalizations need not be universal. Nonuniversal generalizations
+have the form
+
+P percent ofX's are Y's.
+or
+
+P percent ofX's have attribute Y.
+or
+
+X's have attribute Y with probability P.
+Again, we see that probability is inextricably tied to the concept of
+generalization. In fact, nonuniversal generalizations are also known as
+probabilistic generalizations. An example would be: A higher percentage
+of bulldogs are prone to violence than poodles. This statistically sound
+nonuniversal generalization 15 does not claim all bulldogs are prone to violent behavior, nor does it claim that even a majority are so inclined. However, it does say that, as a group, statistics show that bulldogs have a
+higher probability of being dangerous than poodles.
+Aristotle's defeat as scientist was in part attributable to his failure to
+appreciate that nonuniversal generalizations convey useful knowledge.
+His fascination with the certainty of deductive proofs led him to restrict
+his search to universal generalizations. He was unable to see that many
+important regularities of the natural world are inherently probabilistic.

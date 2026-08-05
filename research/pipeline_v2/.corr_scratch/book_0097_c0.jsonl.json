@@ -1,0 +1,410 @@
+[
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_002",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_007",
+    "verdict": "corroboration",
+    "behavior_id": "trend_following_channel",
+    "page": 1,
+    "exact_text": "If the trend channel slopes at a steep angle,\nany minor price movement within it",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_001",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_010",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 11,
+    "exact_text": "The length of the mast (in points) from the preceding\ncongestion to the point where the Flag begins to form, will be found to indicate in by\nfar the great majority of cases the extent of the rapid price movement",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "flag mast length",
+        "value": "18 points",
+        "page": 11
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_002",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_012",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 11,
+    "exact_text": "A rapid continuation to about 34 was indicated",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "indicated continuation objective",
+        "value": "about 34",
+        "page": 11
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_003",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_013",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 11,
+    "exact_text": "the movement will continue from one to one and a half\ntimes as far beyond the Gap as the distance from the break-out to the Gap",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "continuation distance ratio",
+        "value": "1 to 1.5 times the distance from breakout to gap",
+        "page": 11
+      },
+      {
+        "name": "gap completion point",
+        "value": "40% to 50% of the movement",
+        "page": 11
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_014",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_016",
+    "verdict": "corroboration",
+    "behavior_id": "pattern_breakout_projection",
+    "page": 11,
+    "exact_text": "These two Gaps were approximately 11/2 points apart so their forecast\nwas for a further advance of about 3 points",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "gap separation",
+        "value": "1.5 points",
+        "page": 11
+      },
+      {
+        "name": "projected further advance",
+        "value": "about 3 points",
+        "page": 11
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_017",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_005",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 1,
+    "exact_text": "an obvious break-out occurred on May 7 with decisive\npick-up in volume",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_020",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 22,
+    "exact_text": "there was no pick-up in volume such as we expect to accompany\na good break-out from a Symmetrical Triangle",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_006",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 13,
+    "exact_text": "finally a break-out occurs with a notable\nincrease in volume",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_021",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_007",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 13,
+    "exact_text": "reaching 20,000 shares on the day a decisive break-out occurred with prices closing out of the pattern",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "breakout day volume",
+        "value": "20,000 shares",
+        "page": 13
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_024",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 33,
+    "exact_text": "if the volume tends to increase on a move out of a pattern, or\nthrough a critical chart line, then the move is more likely to be genuine",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_008",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_025",
+    "verdict": "corroboration",
+    "behavior_id": "support_resistance_bounce",
+    "page": 33,
+    "exact_text": "End Runs are also occasionally traceable to previously indicated strong resistance (or support) zones\nclose to the break-out level.",
+    "added_conditions": [
+      "only occasionally traceable to such zones"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_026",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_030",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_031",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_011",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_033",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_030",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_034",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_036",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_038",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 62,
+    "exact_text": "the break away is typically confirmed by increased volume",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_015",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_039",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 73,
+    "exact_text": "An increase in volume on the breaking of the neck line is more to be depended\nupon in the ascending neck line formations",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_016",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 27,
+    "exact_text": "This reaction to the support level of the break-out is a normal occurrence which may be expected to follow\nthe completion of, perhaps, a quarter of all Symmetrical Triangles",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "expected post-breakout reaction frequency",
+        "value": "about a quarter of all Symmetrical Triangles",
+        "page": 27
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_041",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_042",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_044",
+    "verdict": "corroboration",
+    "behavior_id": "trend_exhaustion_reversal",
+    "page": 64,
+    "exact_text": "reversal following a rapid, almost ‘‘vertical’’ advance of unusual extent",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_017",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_045",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_3_046",
+    "verdict": "corroboration",
+    "behavior_id": "trend_following_channel",
+    "page": 64,
+    "exact_text": "reached the upper line and was followed by a reaction as we might have anticipated on the basis of trend action alone",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_040",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 73,
+    "exact_text": "the neck line was broken at F on November 7\nwith a significant increase in volume",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_2_022",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0097::lead_book_0097_1_041",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  }
+]

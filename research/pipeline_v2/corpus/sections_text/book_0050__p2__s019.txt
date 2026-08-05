@@ -1,0 +1,496 @@
+
+PIVOT POINTS: DO THEY WORK?
+“Big dogs” are a very important part of the market. Usually the settings
+used by the greater number of people will work the best because everybody will be reacting to those levels at the same time and place. However,
+I would recommend testing different approaches so that you can determine
+by yourself which settings work more accurately on your charts.
+The key is support/resistance—former levels at which the price has
+been rejected many times—as well as channels and trendlines too. Also,
+pivots should be considered as zones more than a particular and exact price
+
+CHAPTER 12
+
+SUPPORT AND RESISTANCE
+
+223
+
+(especially because there are differences among most brokers on prices that
+can go as far as 10 to 12 pips).
+I want to point out that this is my personal opinion: I check the pivots
+but personally prefer the psychological levels to work with short term in 1
+minute increments also known as M1, which I consider to be small pivots
+in themselves.
+Price goes in waves, not linearly. When price action is observed in a
+very small time frame, you can see that at every lower level, a “decision”
+must be made, a price is approved or rejected. Bulls or bears win the small
+battle, then go on to the next level or come back to the previous one, and
+later on “decide” to retest again until the level breaks or the opposite party
+wins and rejects the “proposed” price, just like a staircase. Then the key
+levels (previous bigger staircases on larger time frames) are made by the
+support or resistance levels that held through many attempts at being
+crossed.
+
+Pivots are, like Fibonacci lines, the result of a calculation made based
+on an analysis of historical data, and in a certain way and because of it, they
+can become a self-fulfilling prediction because everyone is watching the
+
+224
+
+FOREX TRADING SECRETS
+
+same prices and has the same information. Thus, indeed, the best pivots
+will be those that are used by the greater number of traders.
+For me, it’s more logical to start the day when the FOREX day “officially” starts in Sydney through the New York close (5 p.m. Eastern Time).
+In my opinion, this doesn’t matter much because in the end, you won’t have
+more than 24 hours in a daily candle.
+
+The pivot indicator is based on the high-low and close price of the daily
+candle (calculated with respect to every different set of settings and based
+on 24 sequential hourly candles), which will show differently on each platform according to its own time zone.
+The “daily session” consists of the whole day (all the markets
+involved), and personally, I don’t think that two hours difference can make
+much noise unless there’s a huge move at the end of the day (New York
+close), and even then, I don’t think it would matter because it would be
+compensated by the hours not taken from the preceding day.
+Settings that start at Greenwich Mean Time (GMT) 00:00 (eight hours
+before the London session) are perhaps a more normalized time where
+more people calculate the pivots (you would have to know how many brokers start the day with GMT 00:00). Mine starts with the Sydney session
+two hours earlier because it seems more logical to me, since most markets
+
+CHAPTER 12
+
+SUPPORT AND RESISTANCE
+
+225
+
+open on Sunday at the Sydney open and close on Friday at the New York
+close. Other people may like to base the close/open of the daily candle on
+the New York Stock Exchange (NYSE) close at 4 p.m. Eastern Time. The
+more people who use the same setting, the more probabilities there will be
+for a pivot price to become predictable. This works exactly like the
+Fibonacci levels.
+Since I see pivots more as a range level (or zone) than a particular
+exact price (and I prefer to take into account the psychological levels anyway), it doesn’t bother me much if my pivot is 5 pips up or 5 pips down
+(because, anyway, prices between brokers differ sometimes by as much as
+10 or more pips, and in some, there can be huge spikes that don’t show on
+the others; this in respect to high highs and low lows). Therefore, it’s
+really relative, and real support/resistances, which can be seen on the
+charts at the levels the price went and bounced back, in my opinion are
+more accurate.
+Exactly the same is true for Fibonacci levels. It is impossible to calculate prices to the pip because of all the preceding. You can easily take a look
+at several sites that show the daily pivots, and there will be differences
+among them, too.
+
+FIBONACCI
+
+R3
+R2
+R1
+Pivot
+S1
+S2
+S3
+
+STANDARD
+H + 2 (Pivot – L)
+Pivot + (H – L
+(2 × Pivot) – L
+(H + L + C) / 3
+(2 x Pivot) – H
+Pivot – (H – L)
+L – 2(H – L)
+
+R3
+R2
+R1
+Pivot
+S1
+S2
+S3
+
+Pivot + 1.000 * (H – L)
+Pivot + 0.618 * (H – L)
+Pivot + 0.382 * (H – L)
+(H + L + C) / 3
+Pivot – 0.382 * (H – L)
+Pivot – 0.618 * (H – L)
+Pivot – 1.000 * (H – L)
+
+R4
+R3
+R2
+R1
+Pivot
+S1
+S2
+S3
+S4
+
+CAMARILLA
+R4 = C + RANGE * 1.1/2
+R3 = C + RANGE * 1.1/4
+R2 = C + RANGE * 1.1/6
+R1 = C + RANGE * 1.1/12
+(H + L + C) / 3
+R1 = C – RANGE * 1.1/12
+R2 = C – RANGE * 1.1/6
+R3 = C – RANGE * 1.1/4
+R4 = C – RANGE * 1.1/2
+
+R4
+R3
+R2
+R1
+Pivot
+S1
+S2
+S3
+S4
+
+R3 + RANGE
+R1 + RANGE
+PP + RANGE
+R1 = (2 * PP) – LOW
+(H + L + C) / 3
+R1 = (2 * PP) – HIGH
+PP – RANGE
+S1 – RANGE
+S3 – RANGE
+
+WOODIE
+
+226
+
+FOREX TRADING SECRETS
+
+DEMARK PIVOT POINTS
+Tom DeMark, in calculating pivots projections, differentiates three situations:
+1. Close ⬎ open:
+PHigh ⫽ [(H ⫹ H ⫹ L ⫹ C)/2] ⫺ L
+PLow ⫽ [(H ⫹ H ⫹ L ⫹ C)/2] ⫺ H
+2. Close ⬍ open:
+PHigh ⫽ [(H ⫹ L ⫹ L ⫹ C)/2] ⫺ L
+PLow ⫽ [(H ⫹ L ⫹ L ⫹ C)/2] ⫺ H
+3. Close ⫽ open:
+PHigh ⫽ [(H ⫹ L ⫹ C ⫹ C)/2] ⫺ L
+PLow ⫽ [(H ⫹ L ⫹ C ⫹ C)/2] ⫺ H
+In intraday application with open (yesterday open), H (yesterday high), L
+(yesterday low), and close (yesterday close).
+
+PSYCHOLOGICAL LEVELS
+You might have noticed that you are constantly rounding off numbers in
+your daily activities. You tend to see round numbers as more perfect and
+whole and are invariably drawn to use them, especially numbers that end in
+zero. These round numbers also play an important role in FOREX trading.
+If you take a look at previous support and resistance levels, you might
+discover a common characteristic that prices have with respect to certain
+prices: They can be seen as usually having difficulty moving past a round
+price, such as, for example, $100. Other strong levels are prices ending in
+5, or quarter prices, such as 25 or 75. There is also a curious behavior that
+I have noticed that I can only associate with Fibonacci levels around prices
+ending on 66 and 33. All these are said to be psychological levels. Human
+beings also tend to be attracted to numbers that are factors of 10, a theory
+suggested by the fact that we have 10 fingers and toes for counting.
+Hitting a major 00 mark is a quite common goal, and often it will be
+tested and tried until it is reached or crossed, only for the price to come
+back soon afterwards because the final milestone was reached, and the market continues toward its next new goal.
+Supports and resistances are being created at those round-number
+levels through the accumulation of pending limit or stop orders. This also
+could be a reason why those levels are bounced off sometimes when they
+
+CHAPTER 12
+
+SUPPORT AND RESISTANCE
+
+227
+
+have been barely touched and, conversely, the price experiences a surge as
+soon as it has crossed the level for a few points. Limit orders will be
+placed a little below the higher round-number price or above the lower
+round-number price, whereas stop orders usually are placed beyond
+either level.
+Most target prices or stop-loss orders are placed by market participants
+at round-number price levels because these are perceived to be a fair value
+and a more perfect price than nonround numbers. For example, the $100
+mark will be more attractive to a trader than a price of $101.02 or $99.96.
+Such large numbers of orders act as a strong price barrier and, when triggered, will cause the price to bounce back. The levels are said to be psychological because there is no other logical, technical, or fundamental
+reason to explain the reaction of the market except for this simple attraction
+to round numbers.
+Banks are known for implementing most orders around these levels, as
+can be seen from the relative volumes on the Interbank. Large pools of
+orders accumulate, and when the price level is reached, they are triggered,
+causing an avalanche in the contrarian direction, which is perceived on
+charts as a strong bounce.
+This is very important information for traders, who then can base their
+strategies on this peculiarity of the markets and increase their profits by
+going with the flow.
+
+----·
+
+228
+
+FOREX TRADING SECRETS
+
+Round numbers can be better employed on smaller time frames. The
+first bounce from a round-number support or resistance is usually the
+strongest, and every time a round number is hit, a series of orders is executed. With every successive reach of the same level, the volume of orders
+decreases; if at any moment this volume is not strong enough to keep holding the support or resistance, the level will break.
+Although successive moves from a support or resistance level also can
+yield handsome profits, it is better to try to take advantage of the first time
+the price hits the level and comes back because this is the moment when the
+volume is at its strongest peak for a rejection.
+This penchant for round numbers is common to all trading markets but
+is especially dominant in the FOREX market. The principal reason behind
+this phenomenon is that, simply, most human beings are attracted to round
+numbers, and as long as trading is performed by human beings, the condition will recur.
+
+USING MULTIPLE TIME FRAMES
+When you look at multiple time frames, you can get a much better idea
+of what is happening with a currency pair. You should use at least two
+time frames, one to spot the trend and the other to pinpoint your entries at
+
+CHAPTER 12
+
+SUPPORT AND RESISTANCE
+
+229
+
+a better price. However, the best option is to use from three to four time
+frames, especially when you are swing trading, because the perspective
+will be much broader, and you will be able to understand how the market
+moves.
+For example, in a usual swing trading situation, where the main chart is
+located in the daily time frame, you can use the weekly, daily, 1-hour, and
+5-minute charts. Here is a short description of what you should look for in
+each of those time frames, and if you are trading intraday, you can translate
+the method to the series of smaller time frames.
+Main Chart or Charting Workspace ⫽ Daily Chart
+Buy and sell decisions are made here. You find the setups and signals given
+by your system to get to trading opportunities. You can see a general
+medium-term trend. However, you need to know what the longer-term
+trend is.
+Overview of the General Trend ⫽ Weekly Chart
+In this chart, you can step back and see what the longer-term trend looks
+like. You can find more data than in the daily chart earlier in time. You also
+can check the significant patterns to confirm that the decision made based
+on the daily trend is probably correct.
+Looking Closer ⫽ 1-Hour Chart
+You switch to a broader representation in detail of what is really going on
+during the day. You can see the smaller swings that occur that can’t be seen
+in a single candle on the daily chart. For example, when you are buying
+consecutive pullbacks on the daily chart that have a series of consecutive
+lower highs, you will be able to see that the prices are showing a downtrend
+on the hourly chart. Thus you will be looking for a break of that trendline
+in this time frame and enter at the appropriate time.
+The Magnifying Glass ⫽ 5-Minute Chart
+The 5-minute chart is the smaller time frame, the one you will be using to
+time your entries. Your setup is perfect on the daily chart, and you have
+already checked the weekly chart to gauge the patterns and to be sure of
+the current main trend. You have drawn the trendline on the hourly chart
+and are waiting for a break. The decision to enter a long position is
+already made, and you will wait until the price pulls back to a support
+level on the smaller chart so as to enter at the best possible price.
+
+230
+
+FOREX TRADING SECRETS
+
+Every time frame has an effect on every other time frame, from the
+smaller ones to the bigger ones. Using smaller time frames for entries
+allows you to enter at better prices, thus giving you the opportunity to use
+much tighter stop losses than if you just traded off the main chart. Check
+every time frame, and spot the support and resistance levels and chart and
+candlesticks patterns. Finally, a good point of reference for general support and resistance is the SMA 200, which you should use in all time
+frames. I personally also add the SMA 34 because I have found that the
+prices always will bounce at least once from this particular moving average before resuming a move.
+This type of multiple-chart analysis can improve your success as
+a swing trader. Your main goal is to identify the areas of support and resistance and to check if there is an alignment of your preferred setup on most
+of the time frames chosen. The more all the time frames are in alignment,
+
+CHAPTER 12
+
+SUPPORT AND RESISTANCE
+
+231
+
+the greater the opportunity for success. Try to look at two additional time
+frames along with your main chart. The lower time frame will be telling
+you what is happening in the present, and the higher time frame will show
+you what could happen in the future!
+
+TREND IS YOUR FRIEND
+The end of a trend is signaled when it stops making progressively higher (or
+lower) highs and higher (or lower) lows. A trend reverses its previous direction when the price begins making progressively lower (or higher) lows and
+lower (or higher) highs. However, you need to filter out any consolidation
+pattern (e.g., a flag in an uptrend may be making lower lows and lower
+highs, but its consequence is a further continuation almost three out of four
+times). For this, you can observe the momentum of the move or use moving
+averages or another indicator crossing to determine if there is a reversal of
+the trend or if it is only a pause before the strength of the trend resumes.
+Very often, when the market looks the most bullish or bearish and
+everybody is jumping in, this is precisely the moment when professional
+FOREX traders will be loading their positions in the contrarian direction.
+Be very aware not to be late when entering a trend. At the same time, never
+trade against a trend (unless you are swing trading in a range or scalping in
+smaller time frames). When the trend is strong, apparent reversal patterns
+may have no meaning, and the reversal never happens, unless it is for just a
+few pips. In a strong market such as this, you trade breakouts—and that’s it.
+Very often there isn’t even a pullback to trade, and by the time a pullback
+happens, the move is already over. In a market such as this, the energy has
+to slow down before it can reverse.
+
+This page intentionally left blank
+
+C
+
+13
+
+H
+
+A
+
+P
+
+T
+
+E
+
+R
+
+AUTOMATED TRADING
+EXPERT ADVISORS AND AUTOMATIC PROGRAMMING
+INTERFACES (APIs)
+Trading systems are a series of rules that traders use to determine their
+entries and exits from a position. A well-designed trading system can help
+traders to attain consistent returns while limiting risk through its moneymanagement specifications. In an ideal situation, traders should follow
+their system rules like robots, executing trades systematically and without
+emotion. However, the human condition makes this last part a little difficult, and this is why automated systems have started gaining in popularity.
+I have always said the number one mistake investors make is that they
+let their emotions get in the way. To increase your winning percentage, you
+must trade emotion-free. A good system will help you to refine your ability to stick to your trading rules. The advent of program trading, which is
+nothing new, can maximize your opportunities. Program trading (robots)
+has really made headway with individual investors. With all the advances in
+personal computing, this is an area where I have spent considerable time
+and money on research and development. All my software, as well as new
+software yet to be released, incorporates some state-of-the-art programming language that allows all my customers to take advantage of the latest
+robots to trade for you.
+The importance of an automated system is reflected in its wide array of
+uses in the financial markets. The FOREX market is not only the biggest
+market worldwide in terms of daily turnover but also because it involves the
+
+233
+
+234
+
+FOREX TRADING SECRETS
+
+largest number of participants. Many of the biggest players in the FOREX
+market use a diversity of automated systems to help in their decision making and overall organization of the trading process.
+Today, most of the order flow goes through a computerized communications network. This facilitates the use of computer-based automation.
+Automated trading systems are created simply by converting the rules of
+your trading system into code that can be interpreted by your computer and
+the software that is employed to interact on the financial markets. The computer runs those rules through your trading software, and the system itself
+will be looking for trades that comply with the coded rules. When the
+appropriate conditions are met, the system will place the trades automatically directly with your broker.
+Many brokerage firms and platforms support automated trading systems. Such systems can be used in a totally automated manner or as semiautomatic variants, where the trader will be given a signal when conditions
+are met, and the trader will take the final decision of opening the trade.
+Some brokers require an authorization to be able to implement an automated system on your account.
+These kinds of trading systems have many advantages, but they also
+have some negative aspects. The positive side is that all the emotion and
+stress are taken out of the picture. The hard work already has been done
+through the development and testing of the trading strategy, and thereafter,
+you only need to focus on its improvement and, of course, applying moneymanagement rules. As long as market conditions do not change and the system has proven to be profitable in its development phase, it will not require
+additional work on your part. The negative aspects come from the fact that
+if the code is not defined and tested properly before using it in a real-money
+account, you could face losing trades. In addition, there are some combinations of rules that can’t be translated to a code, especially when the system
+includes a discretionary approach, making it difficult to develop.
+The following are the main areas to pay attention to if you decide to
+work with a trading robot: backtesting and performance and market phases
+(whether it is trending or ranging).
+It is of an extreme importance to do a thorough backtesting of your system until you are sure that it performs well with historical data. Then trade it
+on a demo account to make sure that there will be no surprises along the way
+and that actual performance is equivalent to that which resulted from the
+backtesting. Very few strategies perform well in both phases of the markets
+because the conditions present in a ranging market are very different from
+those in a trending market. Be sure to use and implement the appropriate
+
+CHAPTER 13
+
+AUTOMATED TRADING
+
+235
+
+strategy for each of those situations, either in a single system or by developing and using two alternate automated systems.
+Additionally, it is important that you keep things simple and that your
+code is well documented so as to be able to find out quickly when a portion
+of it is not performing or you need to change some of the conditions.
+Changes to code should be done one at a time so that you can more precisely
+pinpoint which changes improve the performance of the system and which
+ones set it back. Finally, make sure that you know what strategy operates
+behind your trading system. Sometimes the coded version can become so
+complex that it deviates from the original rules of the trading strategy.
+
+ADVANCED ROBOTS: NEURAL NETWORKS IN THE FOREX
+The first research on neural networks began back at the beginning of the
+nineteenth century, but only between the 1940s and 1950s, in the twentieth
+century, did the study of neural networks acquire its major strength, thanks
+to the Connectionist movement. This movement sustained the theory that
+the secret of learning processes and knowledge can be found in axioms or
+unquestionable truths; members of this movement affirmed that knowledge
+is independent of the structure that handles the symbols and that the representation of knowledge is done from the most basic stratum of intelligence—the brain, especially the neurons and the multiple interconnections
+between them.
+This important interest in neural networks decreased in the 1970s
+because researchers such as Minsky and Papert in 1969 indicated that there
+were limitations in the learning processes of the architectures of neural networks that had been used until then. In their book, Perceptrons, they made a
+detailed analysis of the perceptron and considered that its extension to a
+multilayered structure was a totally sterile activity (the original perceptron,
+a neural network under research, possessed only one layer). The limitations
+of the perceptron were quite important, especially its failure to resolve
+many problems simultaneously. This caused a setback in the development
+of neural networks that lasted more than 10 years.
+Advances in technology and in knowledge about the structure of the
+brain gave a new impetus to interest in neural networks that has allowed the
+development of a growing number of applications in several different fields
+and with diverse purposes. Artificial neural networks now are established as
+a technique of massive and parallel processing of information that emulates
+the essential characteristics of the neural structure of the biologic brain.
+
+236
+
+FOREX TRADING SECRETS
+
+One of the fields in which these data-analysis methods have been introduced is the automated FOREX world. Neural networks consist of a large
+number of processing units that are linked together by weighted probabilities. They are a model that exhibits behavior that is similar to the working
+and learning of the human brain. This model “thinks and learns” based on
+the results of the previous actions.
+Neural networks can be trained to interpret data and draw conclusions
+from them. They are able to take in multiple streams of data and give a single result as the outcome of their calculations. New forms of quantification
+of those data can be added to the series of factors that the neural network
+considers before it makes a decision, and the new forms will be processed
+along with the previous ones. This is why neural networks are being used
+increasingly in the FOREX to make price predictions.
+The network is trained to adjust itself based on specific patterns that
+form between the time of the input data and the output it generates. This is
+quite time-consuming, but in the end, it will provide the neural network
+with the ability to predict a future outcome based on historical data. When
+it is presented with examples of pairs of input and output data, the network
+can “learn” the dependencies and apply those dependencies when presented with new data. Thereafter, the network can compare the new data
+with output it has generated previously and determine how far from or
+close to the real data its prediction was, go back and adjust the relationships
+among the various factors that determine the calculations, and keep on
+adjusting until it reaches the correct answer and the output is equivalent to
+the real event.
+The training has to be performed with two different sets of data: the
+data specifically used for training and the data that will be used in testing.
+The neural network can continue to learn by continuously comparing the
+predictions it makes with the data that are being given to the system. The
+neural network also combines technical and fundamental data in its calculations; in this way, it can find additional patterns that might not have been
+included in earlier considerations and apply them to the prediction, coming
+up with very accurate results.
+However, the output will be as good as the input data it is fed. The neural
+network is very good at correlations independent of the amount of data you
+are introducing in the process. It will be able to recognize patterns even
+among extremely different types of information, even if there is no existing
+relationship or particular pattern. Most important, the neural network can
+apply its intelligence without clouding it with emotions. However, this can
+become a weakness when unknown factors are introduced, such as, for

@@ -157,9 +157,13 @@ Fixed, frozen definitions (they already exist in code; they are the
   scalar remains only as a no-funding-tape fallback. The D-024 mask vetoes
   entries within 1 bar of a funding boundary regardless of rate, per the
   locked baseline.
-- D-024 mechanical tradability mask (data-plane, frozen): `max_spread_frac =
-  0.05`, `funding_window_bars = 1`; vetoed candidates are kept
-  counterfactual (`NOT_EXECUTED`) with reason `TRADABILITY_MASK_VETO`.
+- D-024 mechanical tradability mask (data-plane, frozen): `max_bar_range_frac =
+  0.05` (named `max_spread_frac` until 2026-08-04; it bounds the entry bar's
+  intrabar range `(high-low)/close`, never a bid-ask spread — the tape carries
+  no depth), `funding_window_bars = 1`; vetoed candidates are kept
+  counterfactual (`NOT_EXECUTED`) with reason `TRADABILITY_MASK_VETO` and
+  detail `BAR_RANGE` (was `SPREAD`). The rename changed no threshold and no
+  decision; whether 0.05 is a meaningful level at all is O-019.
 
 ## 9. Dependence unit
 

@@ -1,0 +1,308 @@
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+Time invokes an indicator’s power as it compares key values and marks developing trends. Periodbased snapshots sum up this price-volume activity and quantify relative movement. Fresh
+calculations then examine each new piece of data so the swing trader can make informed
+predictions about future price direction. Indicator time frames destroy the best tool’s effectiveness
+when they don’t align properly with current cycles or holding period. Alternatively, resonant time
+readings with mediocre tools will generate startling accuracy in prediction.
+Study of market volume has two primary functions. First, it attempts to measure actual levels of
+accumulation and distribution hidden under the massive flow of the ticker tape. Second, it gathers
+up the crowd’s divergent impulses and evokes graphic images of their herd behavior. Volume
+indicators comprise a significant subset of all technical analysis. But they offer far less useful
+information than most price-based tools.
+
+FIGURE 5.4
+Layered indicators through multiple time frames build a 3D landscape of short-term trends, cycles, and
+congestion. Both the 5-minute and 60-minute Nextel charts feature 13-bar Bollinger Bands with 5- and 8-bar
+simple MAs. A trend-following MACD histogram under the 60-minute chart tracks momentum while the
+oscillating Stochastics under the 5-minute chart measures short-term buying and selling cycles. The best trades
+arise when features through different time frames come into perfect alignment.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+The lack of a simple linear relationship between volume and price change frustrates attempts to
+make accurate predictions. Volume leads the crowd as often as it lags, and it always seems to make
+perfect sense in hindsight. Timing trades to volume signals alone yields very poor results. Always
+combine volume study with price action before making important decisions. Swing traders should
+apply a simple histogram and accumulation-distribution overview to most charts. But move on
+quickly to more urgent matters unless the emotional crowd demands a more detailed examination.
+
+BUILDING CUSTOM INDICATORS
+Most technical indicators tune to preadjusted settings by the author, charting software or website.
+Use these canned inputs to track crowd behavior, but set them aside when growing skills demand
+original strategies. Trends and opportunities exist throughout all time frames. Proper choice of both
+indicators and their related settings requires considerable attention. Common parameters can
+misalign with particular tactics and trigger execution decisions that depend on false information.
+
+Vary time frame to track cyclical price behavior and build a 3D trend model. Place one custom set
+above and below a central study that correlates with the chosen holding period. This may require
+plotting different indicator types for each length chart. For example, to track faster signals on
+intraday holds between 1 and 3 hours, try a 6-17-9 MACD histogram on a 60-minute chart, 5-3-3
+Stochastics on the 5-minute, and watch the broad daily action with 8-day Bollinger Bands.
+Many indicators apply smoothing averages to their raw calculations. These slow down choppy
+output and filter individual data to emit fewer false signals. Swing traders apply these moving
+averages in different ways to remove inherent bias from the classic formula. Exponential MAs offer
+the most common variation. This measure applies greater weight to more recent input and filters the
+double count tendency of simple MAs. Experiment with alternative MA calculations when
+indicators require a smoother appearance. The varied output may improve a particular tactic or
+method. Use this custom technique to speed up, slow down, or filter out certain levels of data.
+When a classic analysis method gains popularity with the masses, price adjusts to undermine its
+most common outcome. An indicator may stop working entirely when the trading majority bases
+decisions on that price examination. This popularity forces constant reevaluation of indicator
+effectiveness and choice of parameters. Common knowledge focuses upon specific time periods and
+smoothing averages. Swing traders adjust by phasing their parameters ahead of or behind those of
+the crowd. This capitalizes on the herd instinct and uses its behavior to build trading profits.
+Canned indicators never answer all of the important questions for each promising setup. Because
+this limitation adversely affects performance, develop customized views of market activity that
+reflect and support unique strategies. Start with pieces of popular tools already in existence. More
+importantly, learn to articulate exactly what new information will support evolving tactics. Identify
+the question first and then compose an original way to answer it.
+Test many variations of a new math application before moving on to the next step. Once in place,
+find optimum smoothing averages through trial and error. Then run this new indicator through a
+systems testing program such as TradeStation. These heavy number-crunching software programs
+take complex data sets and evaluate them through numerous markets to measure how well they
+signal primary buy and sell zones.
+
+PATTERN TOOLS
+Apply price pattern tools before beginning any other chart analysis. They provide the core
+knowledge required to execute original and profitable trading strategies.
+TABLE 5.1
+Core Elements of Popular Indicators
+Indicator
+Element
+ADX
+Bar Range
+Chaikin oscillator
+Volume
+Commodity channel
+Price deviation
+index
+Historical volatility
+Price deviation
+MACD histogram
+Price moving average
+McClellan oscillator
+Daily breadth
+Up closes vs. down
+MoneyFlow
+closes
+
+Rate of change
+RSI
+Stochastics
+
+Price
+Up closes vs. down
+closes
+Bar close vs. bar range
+
+TRENDLINES
+Trendlines reflect hidden market order as well as self-fulfilling prophecy. Because many market
+participants watch straight-line extensions of two prior highs or lows, odds increase that any
+extended line will support or resist price when struck. Trendlines grow stronger after each
+successful test. Some may persist for years, while others may break in minutes. An individual
+trendline will print on the arithmetic or log scale chart, but not both at the same time. Always toggle
+between chart types to uncover these important S/R barriers.
+Trendlines have many applications beyond their well-known uses. The indicator plots average
+momentum for the trend that forms the line. The rate of price change up or down the line always
+remains constant. Therefore, these straight lines reflect momentum convergence-divergence when
+compared with other price inputs. For example, momentum increases when price expands away
+from a trendline and decreases when it rolls toward the line. Also monitor the distance between
+trendlines and major moving averages. This oscillation provides significant timing feedback when
+used in conjunction with Pattern Cycles.
+Trendlines often print in a psychotic manner. This odd phenomenon occurs through many scenarios.
+For example, important lines or channels may vanish for no apparent reason and then reappear
+unexpectedly months or years after their departure, still exerting major influence. Or an apparently
+normal trendline may suddenly act as a price swivel, rather than support or resistance. Price strikes
+it once, and the line holds but then breaks on a second test. Price thrusts through, pulls back, and
+tests successfully from the other side, but then fails once more and jumps back to the original side.
+The line becomes a central pivot axis that drives swing traders crazy.
+Legitimate trendline breaks display common price mechanics. Bars expand sharply away from the
+violation point on greater-than-average volume. Pullbacks occur, but not until price prints a good
+distance away from the break point. Volume then declines on a slow reversal back toward the
+former barrier. When price breaks a trendline on low participation and doesn’t expand quickly, an
+immediate jump back across S/R often occurs. This behavior triggers an excellent pattern failure
+signal in the opposite direction. Watch for price to draw a miniature reversal pattern right across the
+trendline. Use these small double tops and bottoms to signal a low-risk fade entry.
+The relationship between trendlines and the charting landscape shifts relative to the time frame of
+each element. The swing trader must properly tune time to explore different aspects of momentum.
+Make certain the time inputs match holding period for the intended execution. For example, the plot
+of a 6-month trendline has little meaning for intraday trading unless price touches it that day. But
+the return of a 5-minute candlestick to a 3-hour trendline may pinpoint a profitable entry zone.
+The first break in a major trendline does not signify a reversal. It flags the end of a move and
+beginning of sideways congestion. Take the time to understand the difference between that
+phenomenon and an actual trend change. Congestion represents an important feature of the
+underlying trend. It often leads to a new price thrust in the same direction as the previous one.
+Sometimes congestion evolves into a legitimate reversal, but other conditions must support the
+change first.
+
+FIGURE 5.5
+Three variations of a 20-day moving average can produce very different results. The linear weighted MA logs the
+fastest overall signals on this Verticalnet chart, while the simple MA lags far behind. Notice how the distance
+between the simple and linear weighted averages exceeds 10% through some volatile periods in VERT’s price
+development. Choose moving averages that correspond with temperament and timing. For example, aggressive
+traders can respond quickly with faster MA signals while defensive traders avoid whipsaws with slower ones.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+Price action rings a profitable buy signal when it remounts a broken trendline. This occurs after a
+pullback that follows the breakdown. Momentum reverses in the direction of the trendline, and
+significant participation spikes price back through the line. Support from this new floor should be
+strong and eventually push the growing rally into another breakout move. Look for price waves to
+print a series of rising trendlines that arc upward above the original remount level.
+Charting landscapes may print conflicting trendlines within the same time frame. This adds
+considerable noise to any trade analysis. Each intersecting force must resolve price direction
+through crowd participation. When two or more trendlines clash, consider a quick position exit until
+conditions resolve. Don’t confuse this event with trendlines that print within different time frames.
+These represent important profit opportunities. This setup predicts that price within the smaller
+wave will come under the influence of the larger trendline and reverse course.
+
+FIGURE 5.6
+Siebel Systems builds a series of stepping trendlines while momentum sharply increases. Each trendline generates a
+constant rate of price change for that segment of the rally. As it approaches parabolic movement, SEBL collapses back
+into a substantial correction. Note how price returns to test the prior trendlines, which now define clear stages of
+declining momentum.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+PSYCHOTIC TRENDLINES
+Always seek innovative methods to evaluate new setups. Many odd chart shapes have
+characteristics that generate original ways to look at the markets. For example, standard trading
+wisdom uncovers a trendline whenever three or more relative highs or lows line up. This exercise
+sketches a straight line under rising trends and over falling ones. But many participants fail to
+realize that a trendline drawn through both highs and lows contains predictive properties as well.
+Psychotic trendlines (PTs) encompass all straight-line phenomena not covered by classic charting
+landscape rules. They recognize that some market participants will act on the extension of any two
+price pivots. PTs don’t have the power of normal trendlines but can exert tremendous influence on
+price development. For example, watch their great impact when vanishing trendlines suddenly
+reappear after months or years. Evaluate PTs in relation to other chart elements and use them for
+simple cross-verification. Also determine whether they define classic S/R or swing axis events.
+
+FIGURE 5.7
+Adobe enters a vertical rally after remounting a broken trendline. Whipsaws right at the line after the initial break
+suggest a lack of conviction as price rolls over and drops through 55. The violation also occurs within a bull flag
+that declines at a mirror angle to the prior rally. Note how price first gaps up out of the flag and then uses the next
+bar to climb the trendline.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+A straight line drawn across any two relative highs or lows should produce a random extension with
+no predictive power. But in Methods of a Wall Street Master, Vic Sperandeo illustrates how his
+two-point method will locate breakouts when combined with specific trading rules. Apply PTs in a
+similar manner. But any strategy must also address several variations since these lines represent
+price pivots as often as S/R levels.
+First locate a PT on a chart of interest. Then see whether price gaps through it repeatedly or whether
+bars swivel back and forth across its boundaries. This signals a pivot bias for that line. Next
+categorize whether the slope trend is up or down and whether it acts more as support or resistance.
+Then trade primarily in the direction of the slope if the PT shows classic S/R. For example, if the
+trend descends and displays price resistance, sell that market at the line.
+Apply simple trading rules with pivot PTs regardless of trend slope. Expect that price will hold the
+first two times that it strikes the line but fail the third time. This tracks the same strategy that swing
+traders use for the second test of a horizontal high or low. If the PT also exhibits multiple gaps
+
+through past pivots, odds increase for a gap to ultimately break the line. But don’t take the trade
+unless cross-verification also pinpoints a breakout or reversal at this level.
+
+PARALLEL PRICE CHANNELS
+Parallel price channels (PPCs) build across the highs and lows of relative price movement. They
+print two sets of trendlines at an equal distance to each other and can persist for long periods of
+time. PPCs have greater predictive value than simple trendlines and work with many different
+strategies. They form on either arithmetic or log scale charts, but not both at the same time. They
+owe their existence to Fibonacci proportion within trend development.
+FIGURE 5.8
+Lucent gaps above a psychotic trendline on the 60-minute chart. The original line shows typical support on the first test
+but follows with a critical violation. Price bottoms and draws a simple rising wedge several weeks later that pushes up
+into the line and explodes through on high volume. This chart also illustrates typical behavior for a remounted trendline
+as the crowd returns for another long-side opportunity.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+PPCs can display all the psychotic tendencies of regular trendlines. They exhibit vanishing
+phenomena that can persist for years. They will often criss-cross into complex mosaic patterns that
+box price in all directions. Frequently, small channels embed themselves into larger ones. At times,
+swing traders may find three or four sublevel PPCs on a single major trend. These multiple-time-
+
+frame PPCs have a great advantage over trendlines. Complex trading systems, such as Elder’s
+Triple Screen, can be applied with great ease when they appear.
+Channels persist because the crowd sees and acts upon them. This unique formation demonstrates
+considerable potency, although modern PPCs print more violations than in the past. While other
+common patterns whipsaw participants into oblivion, channels print their classic mechanics more
+consistently. It may be that this stable Fibonacci structure cannot be easily altered by the insider
+manipulation that weakens other patterns.
+How can four chart points connect so easily into parallel lines in our random walk world? They
+present a strong argument for technical analysis all by themselves. While logic suggests that these
+formations rarely occur, the opposite is true. PPCs print more often than clean trendlines on most
+charts. Their frequency probably generates due to self-fulfilling prophecy. Market participants
+naturally target a fourth strike after the chart draws the first three points. If a reversal does appear at
+that level, the pattern confirms and improves the odds that the next test will also succeed. The
+formation then strengthens with each strike and persists until a greater force overcomes it.
+PPCs offer more versatility than trendlines in finding low risk entry. The two primary lines display
+natural reward targets and focus attention on clear violation levels. Harmonic parallel lines often
+form between the two extremes. These intermediate S/R levels target short-term swings, especially
+when they intersect with moving averages. Violation of any harmonic line raises the odds that price
+will continue to the next parallel support level. When the broader formation prints with embedded
+countertrend PPCs, swing traders access a complete pattern mosaic that guides price development.
+Channels extend the reach of classic technical analysis. These unique lines reveal vital information
+on a trend’s underlying mechanics. Channel traders maintain their edge over the competition since
+few books examine them in detail and the crowd remains unaware of their true power.
+Unfortunately, clean trendlines don’t print often in modern markets. Insiders know exactly where
+these lines set up and repeatedly violate them to trigger volume. But those same players never see
+PPCs and enable low-risk positions just below the radar.
+PPCs demonstrate Fibonacci behavior that allows visual traders to make accurate predictions
+without using a calculator. Many channel strategies closely follow trendline and S/R concepts.
+Choose setups based on the channel’s time frame persistence. The longer a pattern endures, the
+more likely that it will support the trade. Always search for other S/R to cross-verify PPC extremes.
+When moving averages, Bollinger Bands, or Fibonacci retracements cross parallels, risk decreases
+and potential reward increases.
+Channels may take months to form and last for years. Due to broad movement over long periods of
+time, locate monthly and weekly PPCs with log scale charts rather than arithmetic ones. Observe all
+the S/R information on these large and complex formations and then drill down to very short time
+periods to build detailed insight on embedded price movement.
+
+GAPS
+Gaps reveal sudden and important shifts in crowd sentiment through a single price bar. They can
+print anywhere within the charting landscape but tend to occur in several distinct patterns. Each
+type predicts specific characteristics in regard to persistence, response during retracements, and the
+impact on trend. Gaps cut through many time frames and trends, but they represent very different
+phenomena in each one. For example, a breakout move in one time frame may print an exhaustion
+event in another.
+
+FIGURE 5.9
+Parallel price channels build harmonic lines into Motorola’s decline. Note the clear support and resistance of the two
+inner channels, which bounce price around like a pinball. Even down gaps within the larger pattern respond to these
+harmonic levels as they print. Draw new PPCs in as much detail as possible to identify these inner lines and other
+obvious swing pivot zones. Then use them for trade execution in combination with other charting landscape features.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+Gap importance relies upon location, extension, and volume. They can print in the major trend
+direction or against it. When a major gap opposes the current market momentum, it represents the
+only chart phenomenon that signals trend change without a common top or bottom pattern. A short
+or long price bar can stand at the far end of a gap move. Long bars tend to predict a quick followthrough in the direction of the gap. Short bars suggest sideways action or a pullback test into the
+violated space.
+FIGURE 5.10
+Sandisk Corp. prints a five-wave rally with a well-organized gap structure on the 60-minute chart. The breakaway gap
+pushes through the old downtrend line into an inverse head and shoulders neckline at the (eventual) 38% level. After a
+short pullback, a sharp continuation gap prints right through the midpoint of the trend. Then price bases for three bars at
+the 62% level before a broad exhaustion gap marks the end of the rally.
+
+RealTick® ©1986–2000. All rights reserved. Used with permission of Townsend Analytics, Ltd.
+
+The gap’s location reveals both the character and mechanics for subsequent price action. Sharp gaps
+through clear S/R signify important breakouts and breakdowns. Pressure can build so strongly at
+these levels that the opening tick prints far from the last close. Emotional bursts can trigger
+multiple gaps as active trends build momentum. Gaps that print within congestion display far less
+persistence and may fill with little warning or volume. And high intensity gaps that occur late in
+strong rallies or selloffs often signal the end of a trend.
+Participation will limit or fuel gap strength. Certain S/R events only verify when strong volume
+accompanies them. For example, breakout gaps without adequate volume invite a strong reversal
+even if they print at a perfect location. This relationship between gaps and crowd participation relies
+upon complex interactions. For example, a high-volume gap may end price movement in that
+direction if it uses up the last available supply for that trend. But another gap with less volume may
+leave enough on the table to ensure new surges of momentum.
+Old traders’ wisdom advises that gaps get filled. This simple expression describes the mechanics of
+retracement found throughout most market trends. However, some gaps never fill. This knowledge
+dictates a fresh approach to these specialized patterns. Swing traders must learn the characteristics
+of each gap to apply the strategy that aligns best with its behavior. Start by identifying the location
+of the event on the trend-range axis.

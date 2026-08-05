@@ -1,0 +1,332 @@
+
+On the End of a Limb and Sawing It Off
+The problem with an optimal F approach or fixed fraction of your account is 'that, once you get on a
+roll, you roll too fast. Let me prove my point; if your average win/loss trade is $200 and you have 10 trades
+per month and you will increase on contract at every $10,000 of profits, it will take you 50 trades or 5
+months to add that first additional contract. Then it will take only 2.5 months to go from 2 to 3; about 7
+weeks to boost it up to 4 contracts; 5 weeks to jump to 5; one month to reach 6; 25 days, to 7; 21 days, to 8
+contracts. Eighteen days later, you are at 9, and at 16.5 days, you trade a 10 lot.
+Then disaster strikes, as it surely must. You have now scooted out on the end of a limb and are sitting
+there with lots of contracts on. Although the limb snaps when you have a large losing trade (3 times the
+average of $200 or $600 per contract times the 10 lot so you just dropped $6,000), you have not given back
+$10,000 yet. So you trade a 10 lot on the next trade and lose another $6,000. Now in two trades, you are
+down $12,000 from your equity high at $100,000.
+The next trade is also a loser, three in a row, for the average of $200 times the 9 lot you are now
+trading and you get tagged for another $1,800 (let's call it $2,000). You are now down $14,000.
+Meanwhile, a "smarter" trader decreases faster than you, cutting back two contracts for every $5,000
+lost, so on the first hit he or she is back to 8 contracts, losing only $2,400, sidestepping another $6,000 hit,
+and on it goes.
+And It Can Get Worse by Far...
+
+178
+Let's take a winning system. It wins 55 percent of the time, and you decide to trade 25 percent of your
+bank roll, starting at $25,000 on each trade. Wins are equal to losses at $1,000 each. Table 13.1 shows the
+way the trades played out.
+You made $1,000 yet had a 65 percent drawdown while a single contract trader would have dipped
+$16,000 with a 20 percent drawdown!
+Let's look at another scenario where we hit it right from the get-go winning 5 of 8 trades (Table 13.2),
+a great deal, right?
+Table 13.1
+Winning 55 Percent of the Time
+
+Table 13.2
+A Winning Combination
+
+Look at this ... 5 winners, 3 losers, and you are down. How can this be? Well, it is a combination of two
+things, one the money management that got you to the
+
+$58,000 also brought you down. Plus, I threw in a
+
+kicker, the last trade was just like trades the market gives us all the time, a loss 2 times greater than the
+average loss. Had it been the traditional loss, your account would be at $26,000. The smart trader who cut
+back twice the amount after the first loss would have lost $5,000 on trade 7, taking him to $29,000 and
+-$8,000 on the double hit on trade 8 to show a net of $31,000!
+
+179
+
+Looking In New Directions, Drawdown as an Asset
+My trading stumbled along with spectacular up-and-down swing, while we continued looking for an
+improvement, something, anything that would tame the beast. From this search came the basic idea that we
+needed a formula that would tell us how many contracts to take on the next trade.
+One such thought was to divide our account balance by margin+ the largest drawdown the system had
+seen in the past. This sure makes a lot of sense. You are sure to get hit by a similar, if not larger, drawdown
+in the future, so you had better have enough money for that plus margin. Matter of fact it struck me that one
+would need an amount equal to margin + drawdown *1.5 just to be on the safe side.
+Thus, if margin was $3,000 and the system's largest drawdown in the past had been $5,000, you would
+need $10,500 to trade one contract ($3,000 + $5,000*1.5). This is not a bad formula, but it does have some
+problems.
+I am now going to show several money management schemes applied to the same system. The system
+is one of the best I have, so the results will look a little too good. You should also notice the almost
+unbelievable gains the system produces, millions of dollars of profits. Now the reality is this system may
+not hold up in the future exactly like this. Most of you will not want to trade up to 5,000 bonds, as this test
+allowed, which means one tick, the smallest price change bonds can have, will cost you $162,500 if that
+one tick is against you. Let me add, it is not unusual for bonds to open 10 ticks against you, on any given
+morning, that is $1,625,000! So, don't get carried away with the profits, focus on the impact money
+management can have on the results.
+What you should focus on is the differences in performance produced by different approaches to
+managing your money. The system trades bonds, which have a $3,000 margin. Figure 13.1 shows no
+money management; it simply reflects the complete results of the system from January 1990 through July
+1998, starting with a $20,000 account balance.
+Now we will take this same system and apply a variety of money management strategies so you can
+see which one might best work for you. To arrive at the inputs, I ran the system for just the first 7 years,
+then traded forward with money management for the remaining time period so the drawdown, percent
+accuracy, risk/reward ratios, and the like were developed on sample data and run on out-of-sample data. I
+allowed the system to trade up to 5,000 bonds, which is a heck of a lot.
+
+180
+
+Ryan Jones and Fixed Ratio Trading
+Another friend, Ryan Jones, went at trying to solve money management like a man possessed. I met
+him when he was a student at one of my seminars; I later went to his seminar on my favorite subject,
+money management. Ryan has thought about the problem a great deal and spent thousands of dollars and
+research formulating his solution called Fixed Fractional Trading.
+Like Ralph and me, Ryan wanted to avoid the blowup phenomenon inherent in the Kelly formula. His
+solution is to wander away from a fixed ratio approach of trading X contracts for every Y dollars in your
+account.
+His reasoning is based largely on his dislike of increasing the number of contracts too rapidly. Consider
+an account with $100,000 that will trade one contract for every $10,000 in the account, meaning it will start
+trading 10 contracts or units. Let's assume the average profit per trade is $250, meaning we will make $2,500
+(10 contracts times $2 50) and need 5 trades to increase to trading 11 contracts. All goes well, and we keep
+making money until we are up $50,000 with a net balance of $150,000 meaning we are now trading 15
+contracts, which times $250 nets us $3,750 per win. Thus we increase an additional contract after only three
+trades. At $200,000 of profits, we make $5,000 per trade, thus needing only two winners to step up another
+contract.
+Ryan's approach is to require a fixed ratio of money to be made to bump up one contract. If it takes
+$5,000 in profits to jump from one to two contracts, it will take $50,000 in profits on a $100,000 account to
+go from 10 to 11 units. The fixed ratio is that if it took 15 trades, on average, to go from one to two contracts
+it will always take 15 trades, on average, to bump on to that next level, unlike Ralph's fixed ratio that
+requires fewer trades to go to higher levels.
+Ryan accomplishes this by using a variable input (one you can alter to suit your personality) as a ratio
+to drawdown. He seems to prefer using the largest drawdown times 2. We will now look at the same trading
+system for the bond market with the Ryan Jones formula.
+As you can see, this approach also "creates wealth" in that it brings about an exponential growth of
+your account, in this case $18,107,546! However to achieve the same growth as with the other formulas you
+need to pony up a larger percent of your bankroll on each bet. This can result in a wipeout scenario as well,
+unless you use a very low percentage of your money, which in return guarantees a less rapid growth in your
+account.
+
+181
+
+And Now My Solution to the Problem
+In talks with Ralph and Ryan, I became aware that what was causing the wild gyrations was not the
+percent accuracy of the system, nor was it the win/loss ratio or drawdown. The hitch and glitch came from
+the largest losing trade and represents a critical concept.
+In system development, it is easy to fool ourselves by creating a system that is 90 percent accurate,
+making scads of money, but will eventually kill us. Doesn't sound possible does it? Well it is, and here's
+how. Our 90 percent system makes $1,000 on each winning trade and has 9 winners in a row leaving us
+ahead by a cool 9 G's. Then comes a losing trade of $2,000, netting us $7,000, not bad. We get nine more
+winners and are sitting pretty with $16,000 of profits when we get another loss, but this one is a big one, a
+loss of $10,000, the largest allowed by the system, setting us back on our fannies with only $6,000 in our
+pocket.
+But, since we had been playing the game by increasing contracts after making money, we had two
+contracts on and thus lost $20,000! We were actually in the hole $4,000 despite 90 percent accuracy! I told
+you this money management stuff was important.
+What ate us alive was that large losing trade. That is the demon we need to protect against and
+incorporate into our money management scheme.
+The way I do this is to first determine how much of my money I want to risk on any one trade. I am a
+risk seeker so, for sake of argument and illustration, let's say I am willing to risk 40 percent of my account
+balance on one trade.
+If my balance is $100,000 that means I have got $40,000 to risk and since I know the most I can lose
+is, say, $5,000 per contract, I divide $5,000 into $40,000 and discover I can trade 8 contracts. The problem
+is if I get two large losers in a row I am down 80 percent, so we know 40 percent is too much risk. Way too
+much.
+Generally speaking, you will want to take 10 percent to 15 percent of your account balance, divide
+that by the largest loss in the system, or loss you are willing to take, to arrive at the number of contracts
+you will trade. A very risk-oriented trader might trade close to 20 percent of his or her account on one
+trade, but keep in mind, three max losers in a row and you have lost 60 percent of your money!
+The final product of such a money management approach is shown in Figure 13.3. The $582,930,624
+of "profits" came from determining a risk factor of 15 percent, taking that percentage of the account to
+arrive at a dollar amount which was then divided by the largest loss in the system.
+
+182
+As your account increases in value, you trade more contracts; as it declines, you trade fewer. This is
+what I do and this is the general area of risk I am willing to assume. It does not matter too much; a lower,
+and thus safer risk of 10 percent still makes millions of dollars.
+What I find fascinating is that the Ryan Jones approach, which did very well, "made" only
+$18,107,546 while a one-contract trader would have made a mere $251,813, and my approach, at least on
+paper, makes a staggering $582,930,624. clearly, how you play the game does matter, it matters
+immensely.
+Figure 13.4 shows the system with various risk percentages being used. The graph in Figure 13.5 depicts
+the increase in the account equity with the increase in percent risk drawdown directly next to it. As you can
+see, there is a point where the amount you make rises faster than the drawdown, then as the risk percent
+increases, drawdown increases faster than the increase on profits in your account. This usually takes place
+between 14 percent and 21 percent; in most systems, any risk percent value greater than 25 percent will
+make more money but at a sharp increase in the drawdown.
+System Report
+System Number: 387
+System Rules:
+Market:
+
+9/11/98 3:00:45 PM
+Description: bonds 7/98 no bail
+Test Period: 1/1/90 to 7/16/98
+
+Base Unit Calculation Rules
+BASE UNITS = account balance*. 1 5/largest loss
+
+Figure 13.3 Varied results based on risk % of account.
+
+183
+System Begin Balance $0.00
+
+Figure 13.4 Top 10 optimization results.
+
+So there it is, my money management formula: (account balance *risk percent) /largest loss = contracts or
+shares to trade.
+There are probably better and more sophisticated approaches, but for run-of-the-mill traders like us, not
+blessed with a deep understanding of math, this is the best I know of. The beauty of it is that you can tailor it
+to your risk/reward personality. If you are Tommy Timid, use 5 percent of your bank; should you think you
+are Normal Norma, use 10 percent to 12 percent; if you are Leveraged Larry, use from 15 percent to 18
+percent; and if you are Swashbuckling Sam or Dangerous Danielle, use in excess of 20 per cent of your
+account ... and go to church regularly.
+I have made millions of dollars with this approach. What more can I tell you-you have just been handed
+the keys to the kingdom of speculative wealth.
+
+184
+
+Back to Ryan and Ralph
+All equity runs and money management printouts in this chapter are from ULTIMANAGER a
+remarkable piece of software that allows you to test money management and trade selection techniques for
+any system. The software will teach you about your system or approach. For examples, it will tell you if you
+should add more contracts after "X" number of winning or losing trades, inform you to add or subtract
+contracts following a big winning or losing trade, tell you what to do if you have a 70 percent accurate
+system that is running 30 percent on the last "X" number of trades, and on and on. If this software doesn't
+improve your systems' performance, it can't be done. Developed by Mark Thorn, it can be purchased from
+Genesis Data at 800-808-3282 or by writing them at 425 East Woodmen Road, Colorado Springs, CO
+80919.
+In any formula, even the fixed fractional approach, it is the largest loss that can kill you. Consider the
+results from my system with Ryan's money management shown earlier. To achieve a return even close to my
+formula, you would have to use a percentage of your account so high that when the large losing trade
+comes-and it will-you may be done in. What we need is a balance of risking but not so much that one or two
+very predictable events will cause too much damage. Longest losses are predictable.
+
+Chapter 14
+
+Thoughts from the Past
+
+Success in trading comes from knowIng the markets well and knowing yourself better.
+
+Successful trading is based on a combination of using systems and the like tempered by thinking and
+controlling our emotions. To be successful. you need to know as much about yourself and market
+psychology as you do the markets. Until you get a handle on both these elements, Your trading will not be
+at its best.
+For that reason, I have selected what I think are some of my most useful writings from back issues of
+my newsletter, Commodity Timing I hope they can help you, as they have helped me, become more
+balanced and controlled in trading.
+
+185
+
+186
+
+October 1995
+
+Volume 32, Issue 10
+Lock-Up Time
+
+More comments on why traders "choke," freeze, or lock up, thus not trading, or worse yet,
+bypassing winning trades in favor of taking guaranteed losers.
+At least once a week someone calls, telling me they know what to do in the markets but just can't
+pull the trigger. They are afraid to do anything. Strangely, this is truer for traders with less to lose. The
+$10,000-and-under traders have more of this fear than the heavy capitalized traders.
+Let's Take a Good Look at Fear Itself
+We fear only two things. They are things we don't understand, hence there is no way to rationally
+deal with the situation, or similar things that have hurt us in the past.
+It's no wonder then the markets stir up so much fear. No one really fully understands the markets ...
+and are continually bitten by market alligators. So what's one to do for this self-inflicted catatonia?
+Since fear is largely emotional, you need to reframe yourself with valid data to offset the fear. Here is
+some of that data.
+First, if you use stops, you really can't get clobbered too badly. Ever. Sure, you will have losing trades.
+But wiped out, killed? That's not going to happen.. Next, if you only trade with 30 percent of your bankroll
+at any one time, you can never get blown out. Again, never. Ever. The quickest way to bring sanity to
+trading is to use stops and only a fixed fraction of your bankroll.
+By so doing, you have full understanding that you are trading with a huge safety net. You will survive,
+because you have controlled the seemingly uncontrollable game.
+At a more cosmic level, you need to check out if your deck of cards in life is one of blowouts, crashes,
+cycles of major success leading only to cycles of failure. For most, it isn't. You can trade (with stops and
+percentage of bankroll) knowing blowouts are just not your thing, not your spiritual calling. Speaking of
+spirituality, I'm a firm believer that God will not let us down. Knowing that gives me ample courage ...
+sometimes too much, in fact ... to trade, to pull the trigger.
+
+187
+June 7995
+
+Volume 32, Issue 6
+Enough on Greed ... Now Let's Deal with Fear
+
+I've written at length about Greed being the dominant and most difficult emotion to deal with. Now
+it's time to walk through Fear.
+There are several things that distinguish winning traders from losers. Perhaps the least discussed is what I
+refer to as “locking up." I've seen it in countless traders, and experienced it myself many a time.
+The repercussions of locking up are numerous, and all bad. A locked up trader doesn't get out of
+winners or losers ... he/she is too frozen to act. Or, the lock up prevents you from pulling the trigger on
+getting into positions. This is the worst of all problems ... a trader who can't trade! When this happens,
+know that fear is motivating you. The good news is that there are several things you can do to release the
+grasp old man fear has on your mind.
+There Is a lot More to Fear Than Fear Itself
+Roosevelt was as poor at understanding emotions as he was at being a President. Have you ever
+noticed that sometimes it seems impossible to do something, maybe even something physical, like take
+action, step on the brakes, get out of harm's way, etc? You can be so locked up with fear that your attention
+is on the fear, not on taking the correct action. Yes, fear is the great immobilizer.
+Proof? Okay, remember the last time you looked at a truly frightening person, some one either so
+ugly, so big, so dangerous, or of a different race that you "just knew" the guy was a killer? Okay, good,
+recall that. Then recall what you did ... you turned away. You would not look into the object of fear. You
+froze, and not because you were hurt or because you were about to be harmed!
+When you see fear, you MUST look directly into its ugly face before your fear will diminish. The vile
+villain we traders look at (the market), is that of being hurt. Hurt in our case means losing money and ego.
+There is no other harm that can become you in this business, ego and money, that's all there is to lose. So
+which is it for you?
+The more you focus on losing, the better off you will be. Winners plan what to do if their trades don't
+work out. Losers have no plan for disaster; when it occurs, they don't know what to do ... and are stuck in
+fear's grip.
+
+188
+Think about it. You, and you alone, have absolute and total control over what and how much you will
+lose. You control the number of contracts you trade, you control the stop or dollar risk (you set your fear
+level). Knowing that, what's there to be afraid of? That you might have another losing trade?
+Let me tell you, 0 loyal follower, I have losing trades all the time. I had about 20 in a row a few years
+ago ... losing trades are as much a part and parcel to this business as breathing is to living. It happens,
+always has, always will. Once you fully acknowledge that at a deep inner level (looking it in the face), and
+learn to only commit $$ up to your "Fear Level," fear will no longer have you in its ugly grasp.
+
+June 1996
+
+Volume 33, Issue 6
+
+In an Information Age ... Information Is Not Enough
+It takes more than data to be a winning trader ... it also takes ability, attitude, and most
+importantly focus ...
+What Dennis Rodman and You Should Have in Common
+It's become increasingly clear to me, after all the seminars I've given, books and letters I've written,
+that just having winning approaches and strategies is not enough. To actualize my intentions to make more
+winning traders, I realized something was missing.
+Years ago, I fell into the psycho-babble, mumbo-jumbo that psychological baggage kept us from
+maximizing our success. I no longer feel that is the main problem. The problem is one of focus. I'll explain:
+McDonald's is not the largest purveyor of fast foods. They are big, about 14,000 restaurants
+worldwide. But the King of the business is, of all people, Pepsi Cola with over 24,000 stores including Taco
+Bell, Chevy's, Pizza Hut, California Pizza Kitchen, Kentucky Fried Chicken, Hot 'n Now, and numerous
+other food outlets. Pepsi's sales were recently 28.5 billion a year, Coca-Cola had 16.2 billion, and
+McDonald's 7.4 billion.
+Yet the total market valuation (shares x market price) of Coke is 93 billion compared to Pepsi's 44
+billion and McDonald's has a 31 billion valuation on 25 percent of the revenues of Pepsi!
+Profitwise Pepsi earned 4 percent on sales compared to McDonald's 15 percent and Coke's 13 percent.
+The difference? Coke and McDonald's and more focused ... more profitable.
+Dennis Rodman is a great showman and basketball star. Why? Because early on in his college days his
+coach told him to focus exclusively on defense, forget being an offensive high scorer ... and away his career
+
+189
+skyrocketed. He has now become more profitable. Fellow team-mate Michael Jordan unfocused to become
+a baseball player and became less profitable. Other unfocused sports stars Bo Jackson and Dion Sanders
+have also done less well than they could have by being one sport athletes.
+The year I turned $10,000 into $1,100,000 I was totally focused. Did nothing but trade, no marathons,
+no fishing, no family life, but, boy did I make money!
+There are three levels of market focus. The first level is that of time and commitment. Most folks think
+that's all there is to it. It isn't. YOU must also focus on just a few markets and next focus on approach. Most
+traders follow too many markets with too many systems or approaches, becoming unfocused and
+unprofitable.
+Like corporations that think they can grow by expanding into new areas, traders think they can make
+more money by following more markets with more systems. On paper, both strategies look good. In reality
+... they simply don't pan out thanks to the human element and Mr. Murphy's appearance and the least
+expected, and most costly, times.
+Therefore, my bottom line is that while it helps to have winning strategies and valid data to base
+decisions upon, without focus-dedication-and single mindedness-you will never maximize your ability to be
+a winning trader.

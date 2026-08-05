@@ -1,0 +1,382 @@
+time value since it is unlikely that the market price will move to the strike price-or beyond-prior to expiration.
+Deeply in-the-money options have little time value because these options offer positions very similar to the
+underlying market- both will gain and lose equivalent amounts for all but an extremely adverse price move.
+In other words, for a deeply in-the-money option, risk being limited is not worth very much because the
+strike price is so far from the prevailing market price.
+2. Time remaining until expiration-The more time remaining until expiration, the greater the value of the
+
+182
+
+183
+option. This is true because a longer life span
+increases the probability of the intrinsic value increasing by any specified amount prior to expiration.
+3. Volatility-Time value will vary directly with the estimated volatility (a measure of the degree of price
+variability) of the underlying market for the remaining life span of the option. This relationship results
+because greater volatility raises the probability of the intrinsic value increasing by any specified amount prior
+to expiration. In other words, the greater the volatility, the greater the probable price range of the market.
+Although volatility is an extremely important factor in the determination of option premium values, it
+should be stressed that the future volatility of a market is never precisely known until after the fact. (In
+contrast, the time remaining until expiration and the relationship between the current market price and the
+strike price can be exactly specified at any juncture.) Thus, volatility must always be estimated on the basis
+of historical volatility data. The future volatility estimate implied by market prices (i.e., option premiums),
+which may be higher or lower than the historical volatility, is called the implied volatility.
+//**Note:**// //This Appendix was adapted from Jack D. Schwager, A Complete Guide lo the Futures
+Market (New York: John Wiley & Sons, 1984).//
+
+183
+
+184
+Glossary
+==== Advance/decline line ====
+The cumulative total of the daily difference between the number of New York Stock Exchange stocks
+advancing and the number declining. Divergences between the advance/decline line and the market
+averages, such as the Dow Jones Industrial Average (DJIA), can sometimes be viewed as a market signal.
+For example, if after a decline the DJIA rebounds to a new high but the advance/decline line fails to follow
+suit, such price action may be reflective of internal market weakness.
+==== Arbitrage ====
+The implementation of purchases in one market against equivalent sales in a closely related market based
+on the price relationship between the two being viewed as out of line.
+==== Arbitrageurs ====
+Traders who specialize in arbitrage. Arbitrageurs seek to make small profits from temporary distortions in the
+price relationships between related markets, as opposed to attempting to profit from correct projections of
+market direction.
+==== Averaging losers (averaging down) ====
+Adding to a losing position after an adverse price move.
+==== Bear ====
+Someone who believes that prices will decline.
+==== Bear market ====
+A market characterized by declining prices.
+==== Boiler room operation ====
+An illegal or quasilegal phone sales operation in which high-pressure tactics are used to sell financial
+instruments or commodities at excessive prices or inflated commissions to unsophisticated investors. For
+example, contracts for precious metals (or options on precious metals) might be sold at prices far above
+levels prevailing at organized exchanges. In some cases, such operations are complete frauds, as the
+contracts sold are purely fictitious.
+==== Breakout ====
+A price movement beyond a previous high (or low) or outside the boundaries of a preceding price
+consolidation.
+==== Bull ====
+Someone who believes that prices will rise.
+==== Bull market ====
+A market characterized by rising prices.
+==== Call option ====
+A contract that gives the buyer the right-but not the obligation-to purchase the underlying financial
+instrument or commodity at a specified price for a given period of time.
+==== Chart ====
+A graph that depicts the price movement of a given market. The most common type of chart is the daily
+bar chart, which denotes each day's high, low, and close for a given market with a single bar.
+==== Chart analysis ====
+The study of price charts in an effort to find patterns that in the past preceded price advances or declines.
+The basic concept is that the development of similar patterns in a current market can signal a probable
+market move in the same direction. Practitioners of chart analysis are often referred to as chartists or technicians.
+==== Congestion ====
+See Consolidation.
+==== Consolidation ====
+
+184
+
+185
+A
+
+price
+
+pattern
+
+characterized
+
+by
+
+extended
+
+sideways movement. (Also known as Congestion.)
+
+==== Contract ====
+In futures markets, a standardized traded instrument that specifies the quantity and quality of a
+commodity (or financial asset) for delivery (or cash settlement) at a specified future date.
+==== Contrarian ====
+One who trades on contrary opinion (see next item).
+==== Contrary opinion ====
+The general theory that one can profit by doing the opposite of the majority of traders. The basic concept
+is that if a large majority of traders are bullish, it implies that most market participants who believe prices
+are going higher are already long, and hence the path of least resistance is down. An analogous line of reasoning would apply when most traders are bearish. Contrary opinion numbers are provided by various
+services that survey traders, market letters, or trading advisors.
+==== Cover ====
+To liquidate an existing position (i.e., sell if one is long; buy if one is short).
+==== Day trade ====
+A trade that is liquidated on the same day it is initiated.
+==== Discretionary trader ====
+In a general sense, a trader who has the power of attorney to execute trades for customer accounts
+without prior approval. However, the term is often used in a more specific sense to indicate a trader who
+makes decisions based on his own interpretation of the market, rather than in response to signals generated
+by a computerized system.
+==== Divergence ====
+The failure of a market or indicator to follow suit when a related market or indicator sets a new high or
+low. Some analysts look for divergences as signals of impending market tops and bottoms. Diversification.
+Trading many different markets in an effort to reduce risk.
+==== Downtrend ====
+A general tendency for declining prices in a given market.
+==== Drawdown ====
+The equity reduction in an account. The maximum drawdown is the largest difference between a relative
+equity peak and any subsequent equity low. Low drawdowns are a desirable performance feature for a trader
+or a trading system.
+==== Earnings per share (EPS) ====
+A company's total after-tax profits divided by the number of common shares outstanding.
+==== Elliott Wave analysis ====
+A method of market analysis based on the theories of Ralph Nelson Elliott. Although relatively complex,
+the basic theory is based on the concept that markets move in waves, forming a general pattern of five
+waves (or market legs) in the direction of the main trend, followed by three corrective waves in the opposite
+direction. One aspect of the theory is that each of these waves can be broken down into five or three smaller
+waves and is itself a segment of a still larger wave. Equity. The total dollar value of an account.
+==== Fade ====
+To trade in the opposite direction of a market signal (or analyst). For example, a trader who goes short
+after prices penetrate the upside of a prior consolidation-a price development that most technically oriented
+traders would interpret as a signal to buy or stay long-can be said to be fading the price breakout.
+==== False breakout ====
+A short-lived price move that penetrates a prior high or low before succumbing to a pronounced price
+move in the opposite direction. For example, if the price of a stock that has traded between $18 and $20 for
+six months rises to $21 and then quickly falls below $18, the move to $21 can be termed a false breakout.
+==== Federal Reserve Board (Fed) ====
+The governing arm of the Federal Reserve System, which seeks to regulate the economy through the
+implementation of monetary policy.
+
+185
+
+186
+==== Fibonacci retracements ====
+The concept that retracements of prior trends will often approximate 38.2 percent and 61.8 percent-numbers derived from the Fibonacci sequence (see next item).
+==== Fibonacci sequence ====
+A sequence of numbers that begins with 1,1 and progresses to infinity, with each number in the sequence
+equal to the sum of the preceding two numbers. Thus, the initial numbers in the sequence would be 1, 1, 2,
+3, 5, 8, 13, 21, 34, 55, 89, etc. The ratio of consecutive numbers in the sequence converges to 0.618 as the
+numbers get larger. The ratio of alternate numbers in the sequence (for example, 21 and 55) converges to
+0.382 as the numbers get larger. These two ratios-0.618 and 0.382-are commonly used to project
+retracements of prior price swings.
+==== Floor trader ====
+A member of the exchange who trades on the floor for personal profit.
+==== Frontrunning ====
+The unethical-and in some cases illegal-practice of a broker placing his own order in front of a customer
+order that he anticipates will move the market.
+==== Fundamental analysis ====
+The use of economic data to forecast prices. For example, fundamental analysis of a currency might focus
+on such items as relative inflation rates, relative interest rates, relative economic growth rates, and political
+factors.
+==== Futures ====
+See "Futures-Understanding the Basics."
+==== Gann analysis ====
+Market analysis based on a variety of technical concepts developed by William Gann, a famous stock and
+commodity trader during the first half of the twentieth century.
+==== Gap ====
+A price zone at which no trades occur. For example, if a market that has previously traded at a high of
+$20 opens at $22 on the following day and moves steadily higher, the price zone between $20 and $22 is
+referred to as a gap.
+==== Hedge ====
+A position (or the implementation of a position) used to offset inventory risk or risk related to an
+anticipated future purchase or sale. An example of a hedge trade is a corn farmer who, during the growing
+season, sells corn futures with a delivery date subsequent to his anticipated harvest. In this illustration, the
+sale of futures effectively locks in an approximate future sales price, thereby limiting risk exposure to
+subsequent price fluctuations.
+==== Hedger ====
+A market participant who implements a position to reduce price risk. The nedger's risk position is exactly
+opposite that of the speculator, who accepts risk in implementing positions to profit from anticipated price
+moves.
+==== Implied volatility ====
+The market's expectation of future price volatility as implied by prevailing option prices.
+==== Leverage ====
+The ability to control a dollar amount of a commodity or financial instmment greater than the amount of
+capital employed. The greater the leverage of the position, the greater the potential profit or loss.
+==== Limit position ====
+A maximum position size (i.e., number of contracts) that a speculator may hold. For many futures
+contracts, government regulations specify this limit.
+==== Limit price move ====
+For many futures contracts, the exchanges specify a maximum amount by which the price can change on
+a single day. A market that increases in price by this specified maximum is said to be limit-up, while a market
+that declines by the maximum is said to be limit-down. In cases in which free market forces would normally
+
+186
+
+187
+seek an equilibrium price outside the range of
+boundaries implied by the limit, the market will
+simply move to the limit and virtually cease to trade. For an advancing market, such a situation is referred to
+as locked limit-up or limit-bid; for a declining market, the analogous terms are locked limit-down or limitoffered.
+==== Liquidity ====
+The degree to which a given market is liquid.
+==== Liquid market ====
+A market in which there is a sufficiently large number of trades daily so that most reasonably sized buy
+and sell orders can be executed without significantly moving prices. In other words, a liquid market allows
+the trader relative ease of entry and exit.
+==== Local ====
+A synonym for Floor trader, typically used to connote an exchange member who trades for his or her own
+account.
+==== Long ====
+A position established with a buy order, which profits in a rising price market. The term is also used to
+refer to the person or entity holding such a position.
+==== Lot ====
+In futures markets, another name for contract.
+==== Mark to the market ====
+The valuation of open positions at prevailing settlement prices. In other words, if a position is marked to
+the market, there is no distinction between realized and unrealized losses (or gains).
+==== Mechanical system ====
+A trading system (usually computerized) that generates buy and sell signals. A mechanical system trader
+follows the signals of such a system without regard to personal market assessments.
+==== Money management ====
+The us.e of various methods of risk control in trading.
+==== Moving average ====
+A method of smoothing prices to more easily discern market trends. A simple moving average is the
+average price during the most recent fixed number of days.. Crossovers (one series moving from below to
+above another, or vice versa) of price and a moving average-or of two different moving averages-are used as
+buy and sell signals in some simple trend-following systems.
+==== Naked option ====
+A short option position by a trader who does not own the underlying commodity or financial instrument.
+==== Open interest ====
+In futures markets, the total number of open long and short positions are always equal. This total (long or
+short) is called the open interest- By definition, when a contract month first begins trading, the open interest
+is zero. The open interest then builds to a peak and declines as positions are liquidated approaching its expiration date.
+==== Options ====
+See the Appendix.
+==== Outright position ====
+A net long or short position (as opposed to spreads and arbitrage trades, in which positions are
+counterbalanced by opposite positions in related instruments).
+==== Overbought/oversold indicator ====
+A technical indicator that attempts to define when prices have risen (declined) too far, too fast, and hence
+are vulnerable to a reaction in the opposite direction. The concept of overbought/oversold is also often used
+in association with contrary opinion to describe when a large majority of traders are bullish or bearish.
+==== PandL ====
+
+187
+
+188
+Shorthand for profit/loss
+==== Pattern recognition ====
+A price-forecasting method that uses historical chart patterns to draw analogies to current situations.
+
+==== Pit ====
+The area where a futures contract is traded on the exchange floor. Also sometimes called the Ring.
+==== Position limit ====
+See Limit position.
+==== Price/earnings (P/E) ratio ====
+The price of a stock divided by the company's annual earnings.
+==== Put/call ratio ====
+The volume of put options divided by the volume of call options. A put/call ratio is one example of a
+contrary opinion or overbought/oversold measure. The basic premise is that a high ratio, which reflects more
+puts being purchased than calls, implies that too many traders are bearish and the ratio is hence considered
+bullish. Analogously, a low put/call ratio would be considered bearish.
+==== Put option ====
+A contract that provides the buyer with the right-but not the obligation-to sell the underlying financial
+instrument or commodity at a specific price for a fixed period of time.
+==== Pyramiding ====
+Using unrealized profits on an existing position as margin to increase the size of the position. By
+increasing the leverage in a trade, pyramiding increases the profit potential as well as the risk.
+==== Reaction ====
+A price movement in the opposite direction of the predominant trend.
+==== Relative strength ====
+In the stock market, a measure of a given stock's price strength relative to a broad index of stocks. The
+term can also be used in a more general sense to refer to an overbought/oversold type of indicator.
+==== Resistance ====
+hi technical analysis, a price area at which a rising market is expected to encounter increased selling
+pressure sufficient to stall or reverse the advance.
+==== Retracement ====
+A price movement counter to a preceding trend. For example, in a rising market, a 60 percent
+retracement would indicate a price decline equal to 60 percent of the prior advance.
+==== Reversal day ====
+A day on which the market reaches a new high (low) and then reverses direction, closing below (above)
+one or more immediately preceding daily closes. Reversal days are considered more significant ("key") if
+accompanied by high volume and a particularly wide price range.
+==== Ring ====
+A synonym for Pit.
+==== Risk control ====
+The use of trading rules to limit losses.
+==== Risk/reward ratio ====
+The ratio of the estimated potential loss of a trade to the estimated potential gain. Although, theoretically,
+the probability of a gain or loss should also be incorporated in any calculation, the ratio is frequently based
+naively on the magnitudes of the estimated gain or loss alone.
+==== Scalper ====
+A floor broker who trades for his own account and seeks to profit from very small price fluctuations.
+Typically, the scalper attempts to profit from the edge available in selling at the bid price and buying at the
+
+188
+
+189
+offered price-a trading approach that also provides
+
+liquidity to the market.
+
+==== Seat ====
+A membership on an exchange.
+==== Sentiment indicator ====
+A measure of the balance between bullish and bearish opinions. Sentiment indicators are used for contrary
+opinion trading. The put/call ratio is one example of a sentiment indicator.
+==== Short ====
+A position implemented with a sale, which profits from a declining price market. The term also refers to
+the trader or entity holding such a position.
+==== Slippage ====
+See Skid.
+==== Skid.
+The difference between a theoretical execution price on a trade (for example, the midpoint of the opening
+range) and the actual fill price.
+==== Speculator ====
+A person who willingly accepts risk by buying and selling financial instruments or commodities in the
+hopes of profiting from anticipated price movements.
+==== Spike ====
+A price high (low) that is sharply above (below) the highs (lows) of me preceding and succeeding days.
+Spikes represent at least a temporary climax in buying (selling) pressure and may sometimes prove to be
+major tops or bottoms.
+==== Spread ====
+The combined purchase of a futures contract (or option) and sale of another contract (or option) in the
+same or a closely related market. Some examples of spreads include long June T-bonds/short September Tbonds, long Deutsche marks/short Swiss francs, and long IBM 130 call/short IBM 140 call.
+==== Stop order ====
+A buy order placed above the market (or sell order placed below the market) that becomes a market order
+when the specified price is reached. Although stop orders are sometimes used to implement new positions,
+they are most frequently used to limit losses. In this latter application. They are frequently called stop-loss
+orders.
+==== Support ====
+In technical analysis, a price area at which a falling market is expected to encounter increased buying
+support sufficient to stall or reverse the decline.
+==== System ====
+A specific set of rules used to generate buy and sell signals for a given market or set of markets.
+==== Systems trader ====
+A trader who utilizes systems to determine the timing of purchases and sales, rather than rely on a
+personal assessment of market conditions.
+==== Tape reader ====
+A trader who attempts to predict impending market direction by monitoring closely a stream of price
+quotes and accompanying volume figures.
+==== Technical analysis ====
+Price forecasting methods based on a study of price itself (and sometimes volume and open interest) as
+opposed to the underlying fundamental (i.e., economic) market factors. Technical analysis is often contrasted
+with fundamental analysis.
+==== Tick ====
+The minimum possible price movement, up or down, in a market.
+==== Trading range ====
+
+189
+
+190
+A sideways price band that encompasses all
+range implies a directionless market.
+
+price activity during a specified period. A trading
+
+==== Trend ====
+The tendency of prices to move in a given general direction (up or down).
+==== Trend-following system ====
+A system that generates buy and sell signals in the direction of a newly defined trend, based on the
+assumption that a trend, once established, will tend to continue.
+==== Uptick rule ====
+A stock market regulation that short sales can be implemented only at a price above the preceding
+transaction.
+==== Uptrend ====
+A general tendency for rising prices in a given market.
+==== Volatility ====
+A measure of price variability in a market. A volatile market is a market that is subject to wide price
+fluctuations.
+==== Volume ====
+The total number of shares or contracts traded during a given period.
+==== Whipsaw ====
+A price pattern characterized by repeated, abrupt reversals in trend. The term is often used to described
+losses resulting from the application of a trend-following system to a choppy or trendless market. In such
+markets, trend-following systems will tend to generate buy signals just before downside price reversals and
+sell signals just before upside price reversals.
+
+190
+
+

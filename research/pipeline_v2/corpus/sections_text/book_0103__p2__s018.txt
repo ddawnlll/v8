@@ -1,0 +1,611 @@
+
+This means further that the shorts must be well capitalized
+and are considered to be strong hands. The 80%, who are holding
+much smaller positions per trader, are considered to be weaker
+hands who will be forced to liquidate those longs on any sudden
+turn in prices.
+
+
+260 Chapter 10
+
+Some Additional Features of the Bullish
+Consensus Numbers
+
+Let’s consider a few additional points that should be kept in mind
+when using these numbers. The norm or equilibrium point is at
+55%. This allows for a built-in bullish bias on the part of the gen-
+eral public. The upper extreme is considered to be 90% and the
+lower extreme, 20%. Here again, the numbers are shifted upward
+slightly to allow for the bullish bias.
+
+A contrarian position can usually be considered when the
+bullish consensus numbers are above 90% or under 20%.
+Readings over 75% or under 25% are also considered warning
+zones and suggest that a turn may be near. However, it is general-
+ly advisable to await a change in the trend of the numbers before
+taking action against the trend. A change in the direction of the
+Bullish Consensus numbers, especially if it occurs from one of the
+danger zones, should be watched closely.
+
+The Importance of Open Interest (Futures)
+
+Open interest also plays a role in the use of Bullish Consensus num-
+bers. In general, the higher the open interest figures are, the better the
+chance that the contrarian positions will prove profitable. A contrar-
+ian position should not be taken, however, while open interest is still
+increasing. A continued rise in open interest numbers increases the
+odds that the present trend will continue. Wait for the open interest
+numbers to begin to flatten out or to decline before taking action.
+
+Study the Commitments of Traders Report to ensure that
+hedgers hold less than 50% of the open interest. Contrary Opinion
+works better when most of the open interest is held by speculators,
+who are considered to be weaker hands. It is not advisable to trade
+against large hedging interests.
+
+Watch the Market’s Reaction to
+Fundamental News
+
+Watch the market’s reaction to fundamental news very closely.
+The failure of prices to react to bullish news in an overbought
+
+
+Oscillators and Contrary Opinion 261
+
+area is a clear warning that a turn may be near. The first
+adverse news is usually enough to quickly push prices in the
+other direction. Correspondingly, the failure of prices in an
+oversold area (under 25%) to react to bearish news can be
+taken as a warning that all the bad news has been fully dis-
+counted in the current low price. Any bullish news will push
+prices higher.
+
+Combine Contrarian Opinion with Other
+Technical Tools
+
+As a general rule, trade in the same direction as the trend of the
+consensus numbers until an extreme is reached, at which time the
+numbers should be monitored for a sign of a change in trend. It
+goes without saying that standard technical analytical tools can
+and should also be employed to help identify market turns at
+these critical times. The breaking of support or resistance levels,
+trendlines, or moving averages can be utilized to help confirm
+that the trend is in fact turning. Divergences on oscillator charts
+are especially useful when the Bullish Consensus numbers are
+overbought or oversold.
+
+INVESTOR SENTIMENT READINGS
+
+Each weekend Barron’s includes in its Market Laboratory section a
+set of numbers under the heading “Investor Sentiment Readings.”
+In that space, four different investor polls are included to gauge
+the degree of bullishness and bearishness in the stock market. The
+figures are given for the latest week and the period two and three
+weeks back for comparison purposes. Here’s a random sample of
+what the latest week’s figures might look like. Remember that
+these numbers are contrary indicators. Too much bullishness is
+bad. Too much bearishness is good.
+
+
+262
+
+Chapter 10
+
+INVESTORS INTELLIGENCE
+NUMBERS
+
+Investor's Intelligence
+
+Bulls 48%
+Bears 27
+Correction 24
+Consensus Index
+
+Bullish Opinion 77%
+AAll Index
+
+(American Association of
+
+Individual Investors
+
+625 N. Michigan Ave.
+
+Chicago, IL 60611)
+
+Bullish 53%
+Bearish 13
+Neutral 34
+Market Vane
+
+Bullish Consensus 66%
+
+Investors Intelligence (30 Church Street, New Rochelle, NY
+10801) takes a weekly poll of investment advisors and produces
+three numbers—the percent of investment advisors that are bull-
+ish, those that are bearish, and those that are expecting a market
+correction. Bullish readings over 55% warn of too much optimism
+and are potentially negative for the market. Bullish readings
+below 35% reflect too much pessimism and are considered posi-
+tive for the market. The correction figure represents advisers who
+are bullish but expecting short term weakness.
+
+Investors Intelligence also publishes figures each week that
+
+measure the number of stocks that are above their 10 and 30 week
+
+
+Oscillators and Contrary Opinion 263
+
+moving averages. Those numbers can also be used in a contrary
+fashion. Readings above 70% suggest an overbought stock market.
+Readings below 30% suggest an oversold market. The 10 week
+readings are useful for measuring short to intermediate market
+turns. The 30 week numbers are more useful for measuring major
+market turns. The actual signal of a potential change in trend
+takes place when the numbers tise back above 30 or fall back
+below 70.
+
+
+
+
+INTRODUCTION
+
+The first charting technique used by stock market traders before
+the turn of the century was point and figure charting. The actual
+name “point and figure” has been attributed to Victor deVilliers
+in his 1933 classic, The Point and Figure Method of Anticipating Stock
+Price Movements. The technique has had various names over the
+years. In the 1880s and 1890s, it was known as the “book
+method.” This was the name Charles Dow gave it in a July 20,
+1901 editorial of The Wall Street Journal.
+
+Dow indicated that the book method had been used for
+about 15 years, giving it a starting date of 1886. The name “figure
+charts” was used from the 1920s until 1933 when “point and fig-
+ure” became the accepted name for this technique of tracking
+market movement. R.D. Wyckoff also published several works
+dealing with the point and figure method in the early 1930s.
+
+265
+
+
+266 Chapter 11
+
+The Wall Street Journal started publishing daily high, low,
+and closing stock prices in 1896, which is the first reference to the
+more commonly known bar chart. Therefore, it appears that the
+point and figure method predates bar charting by at least 10 years.
+
+We're going to approach point and figure charting in two
+steps. We’ll look at the original method that relies on intraday
+price moves. Then we'll show you a simpler version of point and
+figure charting that can be constructed by using only the high
+and low prices for any market.
+
+THE POINT AND FIGURE VERSUS
+THE BAR CHART
+
+Let’s begin with some of the basic differences between point and
+figure charting and bar charting and look at a couple of chart
+examples.
+
+The point and figure chart is a study of pure price movement.
+That is to say, it does not take time into consideration while plot-
+ting the price action. A bar chart, by contrast, combines both
+price and time. Because of the way the bar chart is constructed,
+the vertical axis is the price scale and the horizontal axis, a time
+scale. On a daily chart, for example, each successive day’s price
+action moves one space or bar to the right. This happens even if
+prices saw little or no change for that day. Something must always
+be placed in the next space. On the point and figure chart, only
+the price changes are recorded. If no price change occurs, the
+chart is left untouched. During active market periods, a consider-
+able amount of plotting may be required. During quiet market
+conditions, little or no plotting will be needed.
+
+An important difference is the treatment of volume. Bar charts
+record volume bars under the day’s price action. Point and figure
+charts ignore volume numbers, as a separate entity. This last
+phrase, “as a separate entity,” is an important one. Although the
+volume numbers are not recorded on the point and figure chart,
+it does not necessarily follow that volume, or trading activity, is
+totally lost. On the contrary, since intraday point and figure
+charts record all price change activity, the heavier or lighter vol-
+ume is reflected in the amount of price changes recorded on the
+
+
+267
+
+Point and Figure Charting
+
+chart. Because volume is one of the more important ingredients
+in determining the potency of support and resistance levels, point
+and figure charts become especially useful in determining at
+which price levels most of the trading activity took place and,
+hence, where the important support and resistance numbers are.
+
+Figure 11.1 compares a bar chart and a point and figure
+chart covering the same time span. In one sense, the charts look
+similar, but, in another sense, quite different. The general price
+and trend picture is captured on both charts, but the method of
+recording prices is different. Notice in Figure 11.2 the alternating
+columns of x’s and o’s. The x columns represent rising prices, while
+the o columns show declining prices. Each time a column of x’s
+moves one box above a previous column of x’s, an upside break-
+out occurs. (See arrows in Figure 11.2.)
+
+Point & Figure Chart
+
+1020
+
+1000
+
+oN bos TF UM @29 10N7 11/07 1242 1998
+
+Figure 11.1 A comparison of a daily bar chart for the S&P 500 Index
+(left) and a point and figure chart (right) for the same time period. The point
+and figure chart uses x columns for rising prices and o columns for declining
+prices.
+
+
+268 Chapter 11
+
+06/23/97 (*SPX) S&P 500 Stock Index 03/12/98
+
+Point & Figure Chart (5x3)
+
+Figure 11.2 A buy signal is given when one x column rises above the top
+of a previous x column (see up arrows). A sell signal is given when a column
+of 0’s falls below a previous 0 column (see down arrows). Signals are more
+precise on point and figure charts.
+
+Correspondingly, when a column of o’s declines one box
+under a previous column of o’s, a downside breakout occurs.
+Notice how much more precise these breakouts are than those on
+the bar chart. These breakouts can, of course, be used as buy and
+sell signals. We’ll have more to say on buy and sell signals a bit
+later. But the charts demonstrate one of the advantages of the
+point and figure chart, mainly the greater precision and ease in
+recognizing trend signals.
+
+Figures 11,3 and 11,4 reveal another major advantage of the
+point and figure chart: flexibility. While all three of the p&f charts
+cover the same price action, we can make them look very different
+to serve different purposes. One way to change the p&f chart is to
+vary the reversal criteria (let’s say from a 3 box reversal to a 5 box
+reversal). The larger the number of boxes required for a reversal, the
+
+
+08/19/97 (*SPX) S&P 500 Stock index 03/17/98
+
+Point & Figure Chart (10x3)
+
+LJ LO
+
+Lf
+rrarid
+
+wie B27? OR OO WIS TOE 1020 “1079 “tome “141 14ta_ 12/11 12029
+
+Figure 11.3 Increasing the box size from 5 points to 10 makes the point
+and figure chart less sensitive and fewer signals are given. This is more suit-
+able for a long term investor.
+
+14/05/97 (*SPX) S&P 500 Stock Index 03/12/98
+
+Point & Figure Chart (3x3) +
+
+al 1020
+
+st
+
+Tor Maine "125 122 tane “ize “1098 "oT 12317902720
+
+Figure 11.4 Reducing the box size to 3 points produces more signals.
+This is better for shorter term trading. The last rally from 920 to 1060 pro-
+duced 6 different buy signals. Protective sell stops can be placed under the
+
+highest column of 0’s (see S1-SS).
+
+
+270 Chapter 17
+
+less sensitive the chart becomes. The second way to vary the chart is
+to change the box size . Figure 2 uses a box size of 5 points. Figure
+11.3 changes the box size from 5 points to 10 points. The number
+of columns has been reduced from 44 in the 5x3 chart in Figure 11.2
+to only 16 columns in Figure 11.3. By using the larger box size in
+Figure 11.3, fewer signals are given. That allows the investor to con-
+centrate on the major trend of a market by avoiding all the short
+term sell signals that are eliminated from the less sensitive chart.
+
+Figure 11.4 reduces the box size from S to 3. That increases
+the sensitivity of the chart. Why would anyone want to do that?
+Because it’s better for shorter term trading. Compare the last rally
+from 920 to 1060 in all three charts. The 10x3 chart (Figure 11.3)
+shows the last column as a series of x’s with no o columns. The 5x3
+chart (Figure 11.2) shows the last upleg in 5 columns—3 x columns
+and 2 o columns. The 3x3 chart (Figure 11.4) breaks the last upleg
+into 11 columns—6 x columns and 5 o columns. By increasing the
+number of corrections during the uptrend (by increasing the num-
+ber of o columns), more repeat buy signals are given either for later
+entry or for adding to winning positions. It also allows the trader
+to raise protective sell stops below the latest columns of o’s. The
+bottom line is that you can alter the look of the point and figure
+chart to adjust its sensitivity to suit your own needs.
+
+CONSTRUCTION OF THE INTRA-
+DAY POINT AND FIGURE CHART
+
+We've already stated that the intraday chart was the original type
+used by point and figure chartists. The technique was originally
+used to track stock market movement. The intent was to capture
+and record on paper each one point move of the stocks under
+consideration. It was felt that accumulation (buying) and distrib-
+ution (selling) could be better detected in this manner. Only
+whole numbers were employed. Each box was given a value of
+one point and each one point move in either direction was
+recorded. Fractions were largely ignored. When the technique was
+later adopted to commodity markets, the value of the box had to
+be adjusted to fit each different commodity market. Let’s con-
+struct an intraday chart using some actual price data.
+
+
+Point and Figure Charting 271
+
+The following numbers describe 9 actual days of trading in
+a Swiss franc futures contract. The box size is 5 points. Therefore,
+every 5 point swing in either direction is plotted. We’ll start with
+a 1 box reversal chart.
+
+4/29 4875 4880 4860 4865 4850 4860 4855
+
+5/2 4870 4860 4865 4855 4860 4855 4860 4855 4860 4855 4865 4855
+
+5/3 4870 4865 4870 4860 4865 4860 4870 4865
+
+5/4 4885 4880 4890 4885 4890 4875
+
+5/5 4905 4900 4905 4900 4905
+
+5/6 4885 4900 4890 4930 4920 4930 4925 4930 4925
+
+5/9 4950 4925 4930 4925 4930 4925 4935 4925 4930 4925 4935 4930 4940 4935
+
+5/10 4940 4915 4920 4905 4925 4920 4930 4925 4935 4930 4940 4935 4940
+
+5/11 4935 4950 4945 4950 4935 4940 4935 4945 4940 4965 4960 4965 4955 4960 4955 4965 4960 4970
+
+Figure 11.5a is what the previously listed numbers would
+look like on the chart. Let’s begin on the left side of the chart. First
+the chart is scaled to reflect a 5 point increment for every box.
+
+Column 1: Put a dot at 4875. Because the next number—
+4880—is higher, fill in the next box up to 4880.
+
+Column 2: The next number is 4860. Move 1 column to the
+right, go down 1 box, and fill in all the o’s down to
+4860.
+
+Column 3: The next number is 4865. Move 1 column to the
+right, move up 1 box and put an x at 4865. Stop
+here. So far you have only 1 x marked in column 3
+because prices have only moved up 1 box. Ona 1
+box reversal chart, there must always be at least 2
+boxes filled in each column. Notice that the next
+number is 4850, calling for o’s down to that num-
+ber. Do you go to the next column to record the col-
+umn of declining o’s? The answer is no because that
+would leave only 1 mark, the x, in column 3.
+Therefore, in the column with the lone x (column 3)
+fill in o’s down to 4850.
+
+
+272 Chapter 11
+
+5000 t
+
+4975
+
+SSA RaEe
+
+4950 as
+
+4928 t t
+
+4900
+
+4875 Fy
+
+rar
+
+iss
+
+t :
++ + 1 t
+T + ot fy
+i us [ i
+
+Figure 11.5a A 5x1 point and figure chart of a Deutsche mark contract
+is shown in the upper chart. The blackened boxes show the end of each day’s
+trading. Figure 11.5b shows the same price data with a 3 box reversal.
+Notice the compression. Figure 11.5c shows a 5 box reversal.
+
+Column 4: The next number is 4860. Move to the next column,
+move 1] box up, and plot in the x’s up to 4860.
+
+Column 5: The next number is 4855. Because this is a move
+down, go to the next column, move down a box, and
+fill the o at 4860. Notice on the table that this is the
+last price of the day. Let’s do one more.
+
+Column 6: The first number on 5/2 is 4870. So far, you only have
+one o in column 5. You must have at least 2 marks in
+each column. Therefore, fill in x’s (because prices are
+advancing) up to 4870. But notice that the last price
+on the previous day is blacked out. This is to help
+keep track of time. By blacking in the last price each
+day, it’s much easier to keep track of the separate days’
+trading.
+
+Feel free to continue through the remainder of the chart to
+sharpen your understanding of the plotting process. Notice that
+
+
+Point and Figure Charting 273
+
+this chart has several columns where both x’s and o’s are present.
+This situation will only develop on the 1 point reversal chart and
+is caused by the necessity of having at least 2 boxes filled in each
+column. Some purists might argue with combining the x’s and o’s.
+Experience will show, however, that this method of plotting prices
+makes it much easier to follow the order of the transactions.
+
+Figure 11.5b takes the same data from Figure 11.5a and trans-
+forms it into a 3 box reversal chart. Notice that the chart is con-
+densed and a lot of data is lost. Figure 11.5c shows a 5 box reversal.
+These are the 3 reversal criteria that have traditionally been used—
+the 1, 3, and 5 box reversal. The 1 box reversal is generally used for
+very short term activity and the 3 box for the study of the interme-
+diate trend. The 5 box reversal, because of its severe condensation, is
+generally used for the study of long term trends. The correct order to
+use is the one shown here, that is, begin with the 1 point reversal
+chart. The 3 and 5 box reversals can then be constructed right off the
+first chart. For obvious reasons, a 1 point reversal chart could not
+possibly be constructed from a 3 or 5 box reversal.
+
+4975
+
+4950 +
+
+4925 = t
+
+4900 wy = I
+
+4875
+
+4850 i
+
+Figure 11.5b Figure 11.5c
+
+
+274 Chapter 17
+
+THE HORIZONTAL COUNT
+
+One principal advantage of the intraday 1 box reversal chart is the
+ability to obtain price objectives through use of the horizontal
+count. If you think back to our coverage of bar charts and price
+patterns, the question of price objectives was discussed. However,
+virtually all methods of obtaining price objectives off bar charts
+were based on what we call vertical measurements. This meant mea-
+suring the height of a pattern (the volatility) and projecting that
+distance upward or downward. For example, the head and shoul-
+ders pattern measured the distance from the head to the neckline
+and swung that objective from the break of that neckline.
+
+Point and Figure Charts Alow
+Horizontal Measurement
+
+The principle of the horizontal count is based on the premise that
+there is a direct relationship between the width of a congestion
+area and the subsequent move once a breakout occurs. If the con-
+Sestion area represents a basing pattern, some estimate can be
+made of the upside potential once the base is completed. Once
+the uptrend has begun, subsequent congestion areas can be used
+to obtain additional counts which can be utilized to confirm the
+original counts from the base. (See Figure 11.6.)
+
+The intent is to measure the width of the pattern.
+Remember we're talking here of intraday 1 box reversal charts.
+The technique requires some modifications for other types of
+charts that we’ll come back to Jater. Once a topping or basing area
+has been identified, simply count the number of columns in that
+top or base. If there are 20 columns, for example, the upside or
+downside target would be 20 boxes from the measuring point.
+The key is to determine which line to measure from. Sometimes
+this is easy and, at other times, more difficult.
+
+Usually, the horizontal line to count across is near the mid-
+dle of the congestion area. A more precise rule is to use the line
+that has the least number of empty boxes in it. Or put the other
+way, the line with the most number of filled in x’s and o’s. Once
+you find the correct line to count across, it’s important that you
+include every column in your count, even the ones that are
+
+
+Point and Figure Charting 275
+
+8600 : +
+
+8578
+
+8550 i
+
+8525
+
+rs
+
+8500 Cec T Lo
+
+Figure 11.6 By counting the number of columns across the horizontal
+congestion area, price objectives can be determined. The wider the congestion
+area, the greater the objective.
+
+empty. Count the number of columns in the congestion area and
+then project that number up or down from the line that was used
+for the count.
+
+PRICE PATTERNS
+
+Pattern identification is also possible on point and figure charts.
+Figure 11.7 shows the most common types.
+
+As you can see, they’re not much different from ones
+already discussed on bar charting. Most of the patterns are varia-
+tions on the double and triple tops and bottoms, head and shoul-
+ders, V's and inverted V’s, and saucers. The term “fulcrum” shows
+up quite a bit in the point and figure literature. Essentially, the ful-
+crum is a well defined congestion area, occurring after a significant
+advance or decline, that forms an accumulation base or a distrib-
+ution top. In a base, for example, the bottom of the area is sub-
+jected to repeated tests, interrupted by intermittent rally
+attempts. Very often, the fulcrum takes on the appearance ofa
+double or triple bottom. The basing pattern is completed when a
+breakout (catapult) occurs over the top of the congestion area.
+
+
+BOTTOMS, TOPs
+FStan I .
+
+iy Ta [FULCRUM | 7
+Syl ws, fe INVERSE FULCRUM an
+
+Grid nn
+
+dhaswee=neskuse sagan rei
+abt bth az’
+
+Bod tats eee
+
+Cae INVERSE OUND Fl
+
+af if - B
+
+Figure 11.7 Reversal patterns. (Source: Alexander H. Wheelan, Study
+Helps in Point and Figure Technique [New York, NY: Morgan, Rogers and
+Roberts, Inc., 1954] p. 25.) Reprinted in 1990 by Traders Press, P.O. Box
+6206, Greenville, SC 29606.]
+
+
+Point and Figure Charting 277
+
+Those reversal patterns with the most pronounced hori-
+zontal ranges obviously lend themselves quite well to the taking of
+count measurements. The V base, in contrast, because of the
+absence of a significant horizontal price area, would not be
+amenable to the taking of a horizontal count. The blackened boxes
+in the chart examples in Figure 11.7 represent suggested buying
+and selling points. Notice that those entry points generally coin-
+cide with the retesting of support areas in a base or resistance areas
+in a top, breakout points, and the breaking of trendlines.

@@ -1,0 +1,326 @@
+
+Figure 4.1 A trading model that works.
+
+62
+
+Figure 4.3 Trade day of the week: Tuesday.
+
+63
+
+Figure 4.5 Trade day of the week: Thursday.
+
+64
+
+Figure 4.6 Trade day of the week: Friday.
+take buy and sells on certain specific days. To get a sense of this, Figures 4.2 through 4.6 show the buys for
+each day of the week, then the sells for each day, and finally we put together the best buy/sell days for a
+working model we can actually trade.
+The listings indicate the best days to buy have been Tuesdays and Thursdays, whereas the best sell
+days have been Wednesdays and Thursdays. Figure 4.7 shows that if we restrict trading to just these days,
+we don't make as much money, only $56,43 7, but just about cut the number of trades in half and boost our
+profits up to $173 on average, a number worth trading for. Your lesson here is that the Trade Day of Week
+(TDW) can make a big difference in your system's performance. Best yet, the drawdown plummets to only
+$3,500 from $10,031 and the accuracy jumps to 84 percent. This is a big improvement, as explained in the
+discussion of money management in Chapter 13.
+
+65
+
+Figure 4.7 Restricting trade days makes a big difference.
+
+66
+
+A Look at Volatility In the S&P 500
+Does this concept have application for the S&P 500?
+Although there can be no doubt about this technique working with a 50 percent volatility expansion, we
+can improve on it a great deal. How? By using something we already know about, the impact of TDW. The
+next set of data shows the volatility breakout performance by each day of the week for
+
+Figure 4.9 Trading on Tuesdays.
+
+67
+
+Figure 4.10 Trading on Wednesdays.
+the S&P 500. The exit is the same as with the bonds shown earlier. Clearly, some are days better than others
+to trade. Figures 4.8 through 4.12 show the buy signals by day of week; Figures 4.13 through 4.17 show
+sell signals by day of week.
+Figure 4.18 shows trading on just the more influential days. The best days to be a buyer were all days
+except Thursday and Friday, while the best sell day was Thursday, with Friday a push, but it is used in the
+following listing. This is not a bad system, it "made" $227,822 with 75 percent accuracy on
+
+Figure 4.11 Trading on Thursdays.
+
+68
+
+69
+
+70
+
+1,333 trades and had a very small drawdown of only $13,737. I would prefer a larger average profit per
+trade than the $170 shown here.
+An astute, thinking trader should be asking questions like, "Could we use a closer volatility expansion
+number to be a buyer on the more bullish days and a farther away entry value on the days that don't work so
+well with the 50 percent value? And how about our exit, would it pay off to hold longer on the more
+bullish/bearish days?"
+
+71
+These questions can continue indefinitely, but do need to be asked to optimize performance. Proof that
+research pays off is offered by Figure 4.19, which shows the use of the preceding rules, except that the buy
+entry comes at 40 percent of the previous day's range added to the open, the sell entry at 200 percent of the
+range subtracted from the open. There is a big difference here; while it actually makes a little less money
+($14,000), the accuracy goes to 83 percent, the average profit per trade is escalated to $251, and our number
+of trades is reduced by 46 percent!
+
+Separating Buyers from Sellers to Find Volatility Using Market Swings
+A third way to measure potential volatility expansions comes from looking at price swings over the
+past several days. Mike Chalek deserves credit for this concept with a system he designed and labeled,
+"Talon." The basic idea is to look at the various swings price has taken from one point to the next over the
+past few years. There are many such points to study.
+The ones I have chosen for this next glimpse into market activity, measure the amount of price
+movement from the high 3 days ago to today's low. That is Step 1. Step 2 is to take the swing distance from
+the high 1 day ago minus the low 3 days ago. Finally, we will use the largest of these values as our basic
+volatility measurement to begin the process of designing a filter or price cushion to add to tomorrow's
+opening for buying or subtract for selling.
+The system does okay; it makes money as the following results on the S&P 500 from 1982 to 1998
+demonstrate (see Figure 4.20).
+
+72
+The rules are to buy at 80 percent of the swing value above the opening and sell at 120 percent of the swing
+value below the opening. Use a dollar stop of $1,750 and my bailout exit. This makes $122,837 from 1982
+to 1998 with an average profit per trade of $228.
+
+Results
+As always though, the question becomes, can we do better? Our last attempt at doing better was to use
+TDW as our filter to substantially improve performance. We will now go beyond this and bring in a
+fundamental consideration-the impact of bond prices on stock prices.
+We will now try this concept as a filter (Figure 4.21). The rule is quite simple, we will only take buy
+signals if the closing price of bonds is greater today than 5 days ago, and only take sells if bonds are lower
+than 3 5 days ago. Our reasoning is well founded in the somewhat common knowledge that higher bond
+prices are bullish for stocks, lower bond prices bearish.
+What a difference this makes! An average profit per trade goes from $228 to $281 while our drawdown
+plummets from $13,025 to only $5,250. Best of all though is that in the original "nonfiltered" trades we had
+a largest losing trade of $8,150, whereas with the bond filter the largest loss was only $2,075!
+
+73
+
+One Step Further
+Your education is nearing completion if you are wondering what happens in this model if we only
+take signals on the best TDWs while the trend of the Bond market is giving us bullish or bearish
+confirmation?
+Again, the results speak for themselves: by combining all these ingredients we increase our chances or
+odds for short-term trading success. 'Notice the number of trades is substantially reduced, this means our
+exposure is less, but our average profit per trade increases. Our profits decline to "only" $76,400 but the
+average profit per trade jumps to $444, drawdown stays about the same at $5,912 but the percent of
+winning trades goes to 90 percent.
+What we have done here is filter out trades that are not backed by all three of our conditions. Filtered
+trading for short-term swings will put you a light year-or two-ahead of all the rest of the short-term traders.
+There is an extra advantage here; by using filters you are placing demands on the market, demands that
+mean you will not trade every day, demands that naturally force you to trade less, not more. Active traders
+are usually losing traders. Those of us who pick and choose our spots to speculate are more inclined to
+come out winners as we have tipped the scales in our favor, which is what intelligent speculation is all
+about.
+
+Chapter 5
+
+The Theory of
+Short-Term Trading
+
+In the short term, theories work, but in the long term, give way to reality
+
+Now that you have an understanding of how markets move from point to point and the basic strategy
+of how to best take advantage of these swings it is time to examine the theory of what we are doing so I can
+then take you back to practical application.
+Our basic concept or working theory is that something causes explosive market moves. These
+explosions put the market into a trend phase, and these trends, for our purpose, last from 1 to 5 days in
+most markets. Our object is to get aboard as close to the start of this explosion as possible.
+Which gives rise to the questions, "What causes these explosions in market activity, when are they
+most apt to occur, and is there anything here we can use to pin down the time and place of these moves>?
+"
+Succinctly stated, those are the problems I have dealt with most of m, life. Long ago, I recognized that
+if I could not identify a problem there was no way on earth I could find its solution. You now know the
+problems so let's look for some solutions. Let me hastily add that I do not have all the answers to this
+gigantic puzzle. There is nothing like losing to bring you to your senses, to teach you that you are not so
+damned smart, that you need more education. I still have losses, plenty of them. so I too, still need more
+education. And always will.
+The biggest "cause" of these moves is probably news. But we have trouble trading on news because,
+first, the news can change as quickly and as unpredictably as the weather. News, or changes in world
+events and marketplaces, can be random; thus, the markets wobble around from one unknown news event
+to the next.
+75
+
+76
+The drunken sailor analogy mathematicians have used is most likely due to news knocking prices back
+and forth. Second, we may be the last guy on the food chain getting such news so we receive it too late.
+Third, there is nothing we can look at or observe that tells us what specific future news might be. Fourth, my
+years of trading strongly suggest that those who are close to the news usually position themselves prior to
+the announcement. (Note: There is not one group taking advantage of news; the group varies from source to
+source.) Bankers might have inside news about the T-Bond market, but not on Cattle, whereas feedlot
+operators might have that data, but nothing on Bonds. There is not an Illuminati controlling all news sources.
+While Mel Gibson's character Jerry Phillips was right on in the movie Conspiracy Theory, do not extend that
+theory to the markets.
+While I was writing this book, a book about some of my archeological exploits, The Gold of Exodus, by
+Howard Blum (New York: Simon & Schuster), was discussed in several magazine and newspaper articles. In
+one of them, where I lived was stated incorrectly as was my occupation, my age, the type of car I drive, and
+my description of what the book is all about' In short, if I can't believe what I read about myself from a
+reporter who personally interviewed me, I suggest you probably can't trust much of what is written about
+Orangejuice, Oats, and Oil.
+The supposedly prestigious Wall Street Journal is no exception. In early 1998, they told readers their
+source inside the Federal Reserve System was certain the Fed Open Market Committee was about to raise
+interest rates. Six weeks later when the Fed released their notes on the meeting, we learned the truth, they
+had voted 11 to 1 to not raise rates! On at least two occasions, reporters of the Wall Street journal have been
+found to be touting stocks they, themselves, had already acquired a position in. Television is not exempt
+from this same problem; CNBC's lead "Inside source" Dan Dorffinan is no longer on air for the same
+allegations of misleading viewers. A few years back, even Ralph Nader was caught, or rather his mother
+was, by the Securities and Exchange Commission, selling short stocks in General Motors and a tire company
+just before Nader attacked them with his consumer complaint law-suits. So what else can we look at if we
+can't really examine news'
+"Price action! Charts” scream technicians and most short-term swing players. The nice thing about
+price action, as reflected on charts, is that there are plenty of things to look at and analyze, the most common
+being (1) price patterns, (2) indicators based on price action, and (3) the trend or momentum of price. Not so
+common, and the fourth one of my big tools, is the relationship one market may have on another. Remember
+the S&P 500
+
+77
+system and how much better it was when we required that bonds be in an uptrend? That is an example of
+market relationships that I discuss in detail a little later on.
+Our final and fifth set of data to key off of comes from following the crowd most often found to be
+wrong. On a short-term basis, the great unwashed public trader is a net loser. Always has been, always will
+be. The figures I have heard bandied about over the years are that 80 percent of the public lose all their
+money, be they stock or commodity traders. Thus coppering their wagers should lead us to those short-term
+explosions and profits. There are various ways to measure the public; these are called sentiment indicators.
+The two best ones I know of are surveys of the public done by Jake Bernstein and Market Vane.
+For short-term traders, I prefer Jake's because he actually calls 50 traders after the close each day to
+find out if they are bullish or bearish on any given market. Since these are short-term traders, and by
+definition usually wrong, we can use them as a guide of when not to be a buyer or seller. I will not use
+them exclusively as an indicator to buy or sell, but as a tool that should not be in agreement with my own
+hand-selected trade. If the public is excessive in their selling, I don't want to be a seller along with them. I
+may not always fade the public, but I sure don't want them on my side of the table.
+Market Vane takes sentiment readings from newsletter writers as opposed to short-term traders; thus
+their index appears to be better suited for a longer-term view of things.
+Well, there you have it, the five major elements I have found that can help with ferreting out
+short-term explosions. We will overlay these "tools" or events on market structure to enable us to hop
+aboard up and down moves. Since all these tools can be quantified, the logical procedure is to convert these
+observations and tools into mathematical models. The next leap of logic traders make is that since math is
+always perfect (two plus two always equals four), there must be a perfect solution to trading and
+mathematics can provide the answer.
+Nothing could be more distant from the truth. There is not a 100 percent correct mechanical approach
+to trading. There are tools and techniques that based on observation usually work, but the reason we lose
+money is that we either reached an incorrect conclusion or did not have enough data to make a correct one.
+So math is not the answer, mechanics is not the answer The truth of the market comes from ample
+observations, a dose of correct logic, and correct conclusions from the data at hand.
+I am telling you this right up front so you do not get lulled into the idea that speculation is a game of
+blindly following the leader, a system. or absolute approach. If any one thing is certain about the markets
+it is that things change. In the early 1960s, an increase in money supply figures was considered very
+bullish and always put stock prices higher.
+
+78
+For whatever reason, in the late 1970s and early 1980s, an increase in money supply figures, as released
+from that largest of all privately held corporations the Federal Reserve, put stock prices down. In the 1990
+time period money supply is barely looked at or felt in the marketplace. What was once sacred became
+apparently meaningless.
+One of the markets I trade the most heavily in, Bonds, traded totally different after 1988 than prior to
+that date. Why? Prior to October of that year there was only one trading session, then we went into night
+sessions and eventually almost a 24-hour market. That changed trading patterns. What is more confusing to
+researchers is that "in the old days" the Fed released reports on Thursday that had huge impact on Friday's
+Bond prices. This effect was so great a popular novel used it as the central theme of a Wall Street swindle.
+As I write this, in 1998, there are no Thursday reports, hence Fridays look and trade differently now.
+If you are to do me any favor as a reader of my work, you will not only learn my basic tools but also
+learn to stay awake and current to what is happening. Great traders, which I hope you become, are smart
+enough to note and respond to changes. They do not lock themselves into a "black box" unchangeable
+trading approach.
+One of the truly great traders from 1960 to 1983 was a former professional baseball player, Frankie Joe.
+Frankie had a great wit and a deep understanding of his approach to trading. He was quite a guy, sharp as a
+tack and a delight to talk with. After we had developed a three-year friendship, he revealed to me his
+technique, it was to sell rallies and buy back on dips in the stock market. That is all there was to it; no more,
+no less. This was a great technique during that time period, it amassed a fortune for Frankie.
+Then along came the most predictable, yet unpredictable, bull market of all time triggered by Ronald
+Reagan's tax and budgetary cuts. It was quite predictable that the bull market would come about. What no
+one realized was that there would be no pullbacks along the way as we had seen for the previous 18 years.
+Not even one of the greatest traders of all time, FrankieJoe. He kept selling rallies and was never able to
+cover on dips; there just weren't any. Eventually, he became so frustrated with losses and the lack of success
+(like all great traders, he was also compulsive about winning), that he apparently committed suicide.
+What works, works in this business, but often not for long, which is why I so admire ballerinas, they
+stay on their toes.
+
+What Is Wrong about the Information Age
+Fundamental principles do not change-that is why they are called fundamentals. "Do unto others as
+you would have others do unto you," was good advice 2,000 years ago and will be good advice 2,000
+years
+
+79
+from now.
+The principles I'm laying out in this book are enduring; I have lived with them for close to 40 years and
+have literally made millions of dollars trading.
+Yet, were I to fall into coma today and wake up 10 years from now I might not use the exact same
+rules with these fundamental principles. Whereas fundamentals are permanent, the application and
+specifics do change and will vary.
+Technology has become king, speeding up every facet of life. We can now learn about anything faster,
+communicate faster, and find out about price changes faster. Indeed, we can buy and sell faster; get rich
+quicker; go broke faster; and lie, cheat, and steal at unbelievable speeds. We can even get sick or healed
+faster than ever before in the history of the world!
+Traders have never had so much information and so much ability to process this information, thanks
+to computers and to Bill and Ralph Cruz, who invented the first and best workable software, System
+Writer, which evolved to Trade Station. Thanks to these products from Omega Research, average joes like
+you and me can now test market ideas. For more than 10 years now, thanks to Bill's foresight, it has been
+possible to ask just about any question to find the "truth of the markets."
+But guess what? This technical revolution in the age of information has brought no concomitant
+breakthrough to the world of speculation. We still have the same numbers of winners and losers. Guys and
+gals with state-of-the-art computers still get blown out on a regular basis. The difference between winners
+and losers is largely based on one simple turn of events, winners are willing to work, to notice changes, and
+to react. Losers want it all without effort; they fall for the pitch of a perfect system and an unchanging guru
+or indicator they are willing to follow blindly. Losers don't listen to others or to the market; they are
+unyielding in their minds and trades.
+On top of that, they consistently fail to abide by the fundamental of successful business, which is to
+never plunge, to manage your money as well as your business by getting rid of bad deals and keeping the
+good ones. Me? I will stick to the fundamentals, as taught, with a healthy willingness to adapt to change.
+When I stay flexible, I do not get bent out of shape.
+
+E. H. Harriman's Rule of Making Millions
+The Harriman family fortune, which endures to this day, was created in the early 1900s by "Old
+man Harriman," who had started his career as a floor runner and wen on to become a major banking and
+
+80
+brokerage power. He made a $15 million profit in 1905 from one play in Union Pacific. This speculator king
+focused on just railroad stocks, the hot issue of his era.
+In 1912, an interviewer asked Harriman about his stock market skills and secrets. The trader replied,
+"If you want to know the secret of making money in the stock market, it is this: Kill your losses. Never let a
+stock run against you more than three-quarters of a point, but if it goes your way, let it run. Move your stops
+up behind it so that it will have room to fluctuate and move higher."
+Harriman learned his cardinal rule from studying trading accounts of customers at a brokerage firm.
+What he discovered was that of the thousands upon thousands of trades in the public accounts, 5- and
+10-point losses outnumbered 5- and 10-point gains. He said, "by fifty to one!" It has always amazed me that
+businesspeople who have tight control and accounting practices in their stores and offices lose all control
+when it comes to trading. I cannot think of a higher authority than E. H. Harriman, nor a more enduring rule
+of speculation than what this man gave us in 1912.
+Like I said, fundamentals don't change.
+
+Chapter 6
+
+Getting Closer
+to the Truth
+
+Beginning proof the market is not random and our first -key- to market explosions.
+
+Losers of Any game typically lament that either the game was rigged. or it is one no one can beat; thus, their
+failure is excusable. Well, the game of the market has been beaten by many people for many years. So while
+I have read the laments of the academicians such as Paul Cootner in his classic, The Random Character of
+Stock Prices, whose morose verdict is that prices cannot be predicted: past price activity has no bearing on
+what will happen tomorrow. or next week for that matter. This is true, he and a host of other apparently
+nontrading authors suggest, because the market is efficient. All that is to be known is known and thus already
+reflected in current prices. Therefore. today's price change can only be caused by new information (news)
+coming to the marketplace.
+The bottom line of these authors is that returns from one day to the next are independent, thus price is
+impacted by random variables which accounts for the notion that prices move totally by random, thus defy
+prediction. Believing in this random walk means acknowledging that the market is efficient, that all is
+known. Obviously, you do not accept this concept; you spent hard-earned money on this book thinking that
+perhaps I. can teach you, something most other traders or investors do not know.
+
+81
+
+82
+You are right! Cootner and his crowd apparently tested for dependence on future action of price in a
+one-dimensional approach. I suspect they may have tested future price change based on some sort of moving
+averages, thus while looking for the right direction, they used the wrong tools.
+If there is no dependency on price action, over a long time period, 50 percent of the days a market
+should close higher and 50 percent of the time lower. It is supposed to be like flipping a coin-the coin has no
+memory. Each new toss is not biased by what went on in the past. If I were to flip such a fair coin on
+Tuesdays, I would get the same 50/50 heads and tails as I would by flipping on any other day of the week.

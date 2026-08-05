@@ -1,0 +1,611 @@
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+77
+
+Forex Multiple Time Frame Strategy
+
+RSI neutral
+
+FIGURE 8.8 The stop is placed above the recent high and above the 38.2 percent
+Fibonacci retracement.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+located above 1.1250. This also satisfies our requirement that the stop
+should be located above the recent high of 1.1245. If we place the stop
+at 1.1260, the stop will be located above the recent high and above the
+Fibonacci level, giving our trade additional protection (see Figure 8.8).
+The entry point of 1.1225, along with the stop at 1.1260, creates risk of
+35 pips per lot. If this is an unacceptable degree of risk, the trade cannot
+be placed.
+
+GETTING OUT
+Next, we’ll need to locate our exit points in order to take profit. I usually
+don’t exit my trades all at once; instead, I like to exit my trades in portions.
+So, if I have entered two lots, I’ll close 50 percent of the trade at each exit. If
+I’ve entered three lots, I’ll exit 33 percent per exit, and so on. The number
+of lots entered is a function of risk management, as we’ll see when we
+progress further. In this trade we will sell short three lots, so we’ll need
+three exits to close the trade.
+We’ll create our first exit by measuring the risk of the trade, which we
+have already determined to be 35 pips per lot. If our trade reaches the point
+at which we are profitable by the amount of pips that are risked (per lot),
+we can then exit a portion of the trade. We need the exchange rate to fall
+to 1.1190 in order to generate a 35-pip profit, so 1.1190 will be our first exit
+point (see Figure 8.9).
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+78
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.9 The initial exit of 1.1190 represents a 1:1 risk-reward ratio.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+FIGURE 8.10 Prior support at the round number of 1.1100 can be used as a
+secondary exit.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Next, we’ll look for areas of prior support (meaning areas that the
+exchange rate had difficulty penetrating on earlier attempts, due to buyers stepping in at those levels). Looking back, we can see that the price
+bounced repeatedly from 1.1100, which is also a round number (round
+numbers often act as support or resistance). Let’s use 1.1100 for our second
+exit (see Figure 8.10).
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+79
+
+FIGURE 8.11 Prior support at 1.0975, a multidecade low at that time.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+A further look shows that the price had difficulty getting through the
+area of 1.0975 on several occasions. Let’s designate this area for our final
+exit (see Figure 8.11).
+
+WELCOME TO THE REAL WORLD
+Let’s take a closer look at those last two exits and think about how they
+can be improved. When we are trading in the real world, does the exchange
+rate always fall to the exact level of support, or are markets slightly more
+random than this?
+If you’ve been trading in the real world, you know that the exchange
+rate or price rarely falls repeatedly to the exact same level of support or
+consistently rises to an exact level of resistance. Sometimes the price falls
+below the anticipated support level, and sometimes it doesn’t quite make
+it all the way down.
+This is why we say that support and resistance are “areas,” not exact
+price points, and we need to use “soft targets” instead of assuming markets
+will perform to precise expectations.
+
+TWEAKING THE EXITS
+When we consider the true nature of trading and acknowledge that there
+is a certain degree of randomness to any trading market, it becomes
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+80
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.12 The second exit of 1.1100 is raised to 1.1115.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+necessary to adjust our exits. Instead of expecting the exchange rate to
+cooperate and reach the “bottom” of support at exactly 1.1100, let’s tweak
+this exit to improve our chances of success.
+According to the daily chart, major resistance is located at 1.1250,
+based on the 38.2 percent Fibonacci retracement that we discussed earlier.
+Since a support level is located at 1.1100, this would constitute a 150-pip
+range from support to resistance (1.1250 − 1.1100 = 150).
+Let’s raise our exit by an amount equivalent to 10% of that range, which
+would be 15 pips (10% of 150 pips). This pushes our second exit higher,
+from 1.1100 to 1.1115. (see Figure 8.12).
+This has the dual effect of placing our exit in a location where it is
+more likely to be reached, above the very bottom of support, and it also
+allows us to exit ahead of the round number of 1.1100. Round numbers
+often act as psychological support or resistance levels, because orders tend
+to accumulate at these points.
+There is still the matter of our final exit, currently located at 1.0975. If
+we apply the same technique to improving this exit, we would first measure
+the distance from support to resistance, which is approximately 275 pips
+(1.1250 − 1.0975 = 275).
+Ten percent of 275 is equal to 27.5 pips (we’ll round it up to 28), so
+let’s raise this exit by 28 pips, to 1.1003. Again, this will raise the exit to an
+area that is more likely to be reached, since it’s in the middle of the support
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+81
+
+FIGURE 8.13 Third exit is raised above round number support of 1.1000.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+area instead of at the very bottom of support. It also raises our stop above
+a huge psychological support level, the round number of 1.1000 (see Figure
+8.13).
+Because the first exit at 1.1190 is not based on support or resistance,
+but instead is a function of the amount of risk taken on the trade, this exit
+will remain unchanged.
+
+EXECUTING THE PLAN
+If the exchange rate moves in our favor and reaches 1.1190, we’ll exit a portion of the trade (in this case one lot, or one-third of the trade) and lower
+our stop to the entry point. In other words, when the exchange rate reaches
+1.1190, the plan is to cover one lot and move the stop on the remaining two
+lots to 1.1225.
+This will have the dual effect of locking in a small profit and eliminating the remaining risk from the trade. Remember, amateurs are
+concerned with how much they can make, while professionals are concerned with how much they can lose. Let’s trade like professionals and
+keep risk at the forefront of our concerns.
+Once our stop has been lowered to the break-even point, our worstcase scenario consists of a 35-pip gain on the first lot and breaking even on
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+82
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.14 The ﬁrst exit is reached; take a partial proﬁt and lower the stop to
+1.1225.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+the second and third lot. Now we have assured ourselves of at least a small
+gain, with the possibility of additional gains, all while having eliminated the
+risk (see Figure 8.14).
+
+SECOND-GUESSING
+At this point, it would not be unusual if the exchange rate were to rise and
+reach our stop, leaving the trader with a small gain. If this were to happen,
+would it mean that something had been done incorrectly or that this was a
+“bad trade”?
+What if the price rises, takes out the stop, and then begins falling? Does
+that mean that there is something wrong with this technique?
+These thoughts are a type of second-guessing that is natural when
+things don’t go exactly according to plan. When confronted with these
+thoughts, it’s important to learn to trust our trading plan and refrain from
+this type of behavior.
+We can’t control the outcome of any individual trade, and markets do
+not always cooperate as we wish they would. It is possible to execute a
+plan perfectly and still lose money on a trade. However, if we create good
+plans and execute them properly on a consistent basis, we will be miles
+ahead of most traders.
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+83
+
+BRINGING IT HOME
+Fortunately, in this case, the massive downtrend kicks in, and a sharp move
+lower ensues. Now the exchange rate has reached our second exit, and it’s
+time to cover another lot, this time at 1.1115. We’ll “celebrate” by lowering
+our stop again, from its current location of 1.1225 to the former location of
+the first exit, at 1.1190 (see Figure 8.15).
+Since we are more concerned with losses than gains, we will once
+again consider our worst-case scenario. We have now locked in a profit
+of 35 pips on the first lot and 110 pips on the second lot. At worst, the exchange rate will rise to 1.1190, taking us out of our third lot for a 35-pip
+profit. Not bad for a worst-case scenario!
+After drifting sideways for a while, the trading gods smile upon us as
+the exchange rate finally dives to reach our last exit point at 1.1003 (see
+Figure 8.16). The trade concludes with a profit of 35 pips on the first lot, a
+profit of 110 pips on the second lot, and a profit of 222 pips on the third lot.
+Good things happen when we trade with the trend!
+
+THE DEVIL’S ADVOCATE
+But wait! I can hear the nagging voice of that devil’s advocate once again,
+saying, “You shouldn’t have raised those exits! If you had just left them
+
+FIGURE 8.15 The second exit is reached; the stop is lowered to the former location of the ﬁrst exit, 1.1190.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+84
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.16 The USD/CAD exchange rate plummets to the third exit.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+where they were, at 1.1100 and 1.0975, the exits still would have been
+reached, and you would have earned more pips!”
+In this case, it’s true that the original exits were reached. Does that
+mean it was wrong to raise the exits? Should we change our strategy so
+that next time we will not adjust the exits?
+Absolutely not! The outcome of any one individual trade is not important, what matters is the outcome over a large sample of trades. If we were
+to change our approach every time things didn’t go exactly according to
+plan, we would be in a constant state of adjusting our strategies.
+In fact, we would not be following a trading strategy at all! Instead,
+we would exist in a perpetual state of second-guessing. To avoid this fate,
+all we have to do is plan our trade and then execute our plan. If we are
+following a good trading plan, we will be pleased with the overall result,
+despite the outcome of any individual trade.
+As we can see in Figure 8.17, the trade fell right to the bottom of support, and then the currency pair began to bounce higher.
+
+WHEN TO STAY OUT
+Since the pair is rising up from support, should we enter a long trade and
+try to profit from a possible bounce? The answer is no. If you recall, the
+original plan was to trade only in the direction of the trend and to reject
+trades that go against the trend.
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+85
+
+FIGURE 8.17 USD/CAD bounces up from 1.0975, a major support area.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Does this mean that trades that go against the trend are never profitable? No, anything can happen in an individual trade. In this case, we see
+that a trader who fought the downtrend in USD/CAD would have profited,
+but it is only one trade. A trader who fights against the trend on a consistent
+basis will have a difficult time finding success.
+When a trader who uses this strategy properly sees the exchange rate
+rising, he or she is not tempted to go long and battle against the odds. The
+proper trading attitude would be to allow the exchange rate to rise, and
+hope that it creates another short entry opportunity. As we will see, this
+is exactly what happened, as the exchange rate climbed once more to the
+Fibonacci level of 1.1250.
+
+RELOADING THE TRADE
+As the exchange rate rises back to 1.1250, the RSI indicator drifts into overbought levels. The RSI then dives back into neutral territory, creating a new
+entry in harmony with the downtrend (see Figure 8.18).
+Now we have another opportunity to capitalize on the downtrend. In
+this case, all of the calculations that were used to create the previous trade
+are still valid (support and resistance have not changed), so we can use the
+same entry, stop, and exits that were used earlier (see Figure 8.19).
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+86
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+RSI overbought
+
+FIGURE 8.18 RSI is overbought as the USD/CAD pair reaches resistance again.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Previous entry
+
+FIGURE 8.19 In this case, the same support levels from the previous trade are
+still applicable.
+Source: FXtrek IntelliChartTM . Copyright 
+c 2001–2006 FXtrek.com, Inc.
+
+After the trade is entered, the exchange rate drifts sideways for hours,
+and our stop is nearly reached on several occasions. Finally, the price hits
+1.1190 and we are able to take a partial profit (see Figure 8.20).
+Just as we exit a portion of the trade for a 35-pip profit, we lower the
+stop from 1.1260 to the entry point of 1.1225, thereby eliminating any further risk from the trade. Now our worst-case scenario is a 35-pip profit on
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+87
+
+Previous entry
+
+FIGURE 8.20 The initial proﬁt is taken as the ﬁrst exit is reached.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+the first lot, and a break-even trade on lots two and three. Sound familiar?
+See Figure 8.21.
+What happens next? The currency pair begins to rise and finally
+reaches our lowered stop (see Figure 8.22).
+
+FANTASY VERSUS REALITY
+Often, this is where the mind begins to fill with doubts and second
+thoughts. For example, what would have happened if we had just left the
+stop at 1.1260?
+Again, we will not allow this type of thinking. Many traders are looking
+for a “holy grail” technique that will allow them to win all the time. Remember the “pleasure principle”; we want to win all the time because winning
+feels good.
+Unscrupulous salesmen understand this, and will try to entice you with
+tales of strategies that “win” 85 percent, 90 percent, or 95 percent of the
+time. Unfortunately, there is no such thing as a “holy grail” strategy, and
+the sooner we stop looking for it, the sooner we can focus on becoming a
+successful trader in the real world.
+The second trade was just as good as the first; it was only the result that
+varied. We cannot control the result of any one trade; we can only control
+our plan and execute it to the best of our ability. Thanks to the use of good
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+88
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.21 The stop is lowered to the entry point, eliminating further risk.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Stop
+hit
+
+FIGURE 8.22 The stop is triggered at the entry point of 1.1225.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+89
+
+Forex Multiple Time Frame Strategy
+
+risk management, we did manage to turn a small profit on the second trade,
+and now we can focus on the next opportunity.
+
+PHANTOM SIGNAL
+Once again, the pair rises toward the Fibonacci resistance level of 1.1250.
+However, not only does the exchange rate fail to reach resistance, but at
+the same time, the RSI fails to rise up to overbought levels. A proper sell
+signal has not been given, but the undisciplined trader will be tempted to
+enter the trade anyway (see Figure 8.23).
+In this case, the undisciplined trader who entered despite the lack of
+a proper sell signal was rewarded, as the exchange rate plunged from the
+resistance area again (see Figure 8.24).
+
+TEMPORARY SUCCESS AND FAILURE
+Does this mean that we should now ignore our rules? Of course not; the
+undisciplined trader will win this time, but this lack of discipline will eventually cost the trader much more than what was gained here.
+Soon, he or she will begin to bend and break other rules, and after a
+while this individual will no longer be following a cogent plan. If it’s okay
+
+RSI neutral
+
+FIGURE 8.23 The exchange rate fails to reach support, and RSI fails to reach
+overbought levels.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+90
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 8.24 Despite the lack of a proper signal, the exchange rate plummets.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+to enter the trade without waiting for a correct sell signal, soon it might be
+okay to trade without a stop. Eventually, a lack of discipline could cost this
+trader his or her account.
+The market has a funny way of temporarily rewarding us for doing the
+wrong thing. We may even get away with doing the wrong thing for so long
+that we begin to believe that we are doing the right thing. We have to ask
+ourselves this question:
+Would I rather have temporary success that is setting me up for a
+long-term failure, or would I rather have temporary failure that is
+setting me up for long-term success?
+The Fear of Missing Out
+This is not to imply that there was any failure on the part of the trader who
+maintained discipline and stayed out of the trade. Always remember, do
+not worry about the trades you do not enter; focus instead on the trades
+that you do enter.
+Undue concern about missed trades implies that there are a finite
+number of trading opportunities, and this is simply not the case. There
+will always be other trading opportunities, and if we are focused on what
+might have been, there is a chance that we might miss a great trade that
+is setting up right now.
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+Forex Multiple Time Frame Strategy
+
+91
+
+THE STOP RUN
+Getting back to the USD/CAD currency pair, by this time we have seen the
+exchange rate rejected numerous times at the 1.1250 Fibonacci resistance
+level. Clearly, sellers are stepping in at this level and using it as an entry
+point in anticipation of a resumption of the downtrend (see Figure 8.25).
+By now, the resistance level has become fairly obvious, so we can assume that there are many traders, both individual and institutional, selling
+short in the vicinity of 1.1250. We have to ask ourselves, where are these
+traders placing their stops? Most likely, the stops are located above resistance. If there is a large amount of selling at this level, then logic dictates
+that there must be a large number of stops above 1.1250.
+In order to think about ways that this may affect our trades going forward, it’s important to understand that a large pool of stops or other orders
+can attract the exchange rate and pull it higher, so that those stops and orders will be executed. Why does this happen?
+Remember that banks have a large role in the forex market, as the
+majority of forex volume passes through the Interbank, a loose affiliation
+of the world’s largest banks. The customers of these banks place a variety
+of orders, and in many cases these banks earn a commission if and when
+these orders are executed.
+Because of this, a large group of orders located together in one area
+becomes an attractive target. If the banks can manage to maneuver the
+
+FIGURE 8.25 USD/CAD sellers step in repeatedly in the area of 1.1250.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap08
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+92
+
+June 2, 2007
+
+15:1
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+exchange rate so that these orders are executed, they will earn commissions. In this case, the likelihood of a large pool of stop orders above 1.1250
+gives the banks an incentive to try to push USD/CAD higher.
+This is easier said than done. The forex market is huge, and therefore
+it would be very expensive to attempt to manipulate the exchange rate in
+an overt manner. Banks cannot control exchange rates in the same manner that a specialist can control a listed stock on the New York Stock Exchange.
+However, if the exchange rate is close to the “target” (that large pool of
+stops and other orders), one or more banks or other institutions might be
+tempted to give the exchange rate a little “push” to execute some of these
+orders.
+By applying enough buying pressure at the right time, it might be possible for a bank to cause the exchange rate to reach the area above resistance
+where stops are located. This is more likely to happen during quiet times
+when liquidity is low.
+This can create a chain reaction. Imagine that there are stops located
+just above 1.1250, and the banks are able to push the price up to a point
+where stops begin to execute. Since we already know that there has been
+considerable selling at 1.1250, then those stops exist to “cover,” or close
+out, short positions.
+Essentially, those stops are buy orders, because the only way to cover a
+short position is through buying. Imagine that stops are being hit at 1.1260;
+in this case, this really means that buy orders are being executed at 1.1260.
+This buying pressure at 1.1260 can push the exchange rate higher to 1.1270,
+where more stops are located. The chain reaction continues until many of
+the stops are eliminated.
+As the price climbs above 1.1250, which had been such a great level
+of resistance, breakout traders will be tempted to enter long positions. Of
+course, you and I will not be tempted to do so, because this breakout is not
+in the direction of the primary trend.
+All forms of trading, including forex, are susceptible to false breakouts,
+and breakouts that run in the opposite direction of the trend have a greater
+likelihood of failure. Still, not every trader takes this into consideration,
+and you can bet that some traders will be going long as the exchange rate
+rises above 1.1250.
+As fate would have it, the USD/CAD pair did manage to break right
+through the Fibonacci resistance at 1.1250 (see Figure 8.26).
+At this point, one of two things will happen—the breakout will either
+succeed or fail. If the breakout succeeds, that is fine with us, because we
+haven’t sold short—at least not yet. We’re not losing any money on the
+trade, and as a rule we don’t worry about trades that we haven’t entered.

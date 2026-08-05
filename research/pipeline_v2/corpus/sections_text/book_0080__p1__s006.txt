@@ -1,0 +1,417 @@
+
+Everything Is Relative Strength Is Everything
+FIGURE 2.18
+
+75
+
+RRG of 10 Economic Sectors (GICS Level I) of S&P 500 Index
+
+been available on the Bloomberg terminal since January 2011. So how are
+they going to help, and who are they going to help?
+Relative Rotation Graphs
+
+The picture in Figure 2.16 shows only a snapshot of the last observations of all
+sectors, similar to the ranking on JdK RS-Ratio we saw in Table 2.2. In order
+to get a clearer picture and to put things into perspective, some historical data
+needs to be added to the graph. This is shown in Figure 2.18.
+This picture shows the 10 economic sectors according to the Global
+Industry Classiﬁcation System (GICS) level I of the S&P 500 universe. In
+this case, however, three weeks of history have been added to every sector,
+creating a “trail” that makes it possible to gauge the direction and the pace of
+the movement. Depending on the number of elements displayed in the scatter
+plot, trails can be longer or shorter. With a lot of elements displayed, long tails
+will make the graph look like spaghetti and make it more or less unreadable.
+
+76
+FIGURE 2.19
+
+New Frontiers in Technical Analysis
+RRG of S&P Energy Sector on a Daily Basis Showing Rotation in Positive
+
+Territory
+
+Try to ﬁnd a balance between the number of elements and the length of the
+tails. If you want to study the rotation of individual elements over a longer
+time period, it’s best to show just one or two elements with a long tail (see
+Figure 2.19). If you want to see the relative interaction of all elements in the
+universe, then show all elements with a shorter tail. Relative Rotation Graphs
+(RRGs) are primarily a visualization tool. The biggest advantage of this type
+of visualization is that it shows the user the relative positions of all elements
+in a universe, not only against a benchmark but also vis-à-vis each other in
+one picture—the big picture in one picture, so to speak. In this way RRGs
+serve as a monitoring tool that investors can use to monitor their universe
+or their portfolio and determine whether their holdings are still on track to
+outperform their benchmark.
+Anyone who is interested in the relative performance and positioning
+of elements in a universe can beneﬁt from the RRG. A universe can be a
+number of sector indices compared to the broader market index, a number
+
+Everything Is Relative Strength Is Everything
+
+77
+
+of individual equities against a market (sector) index, but also a number of
+asset class indices (equities, bonds, real estate, etc.), or even a set of currencies
+vis-à-vis each other.
+Let’s start with an example of an equity portfolio manager who has to beat
+the S&P 500 index. As he realizes that his sector weightings will have a big impact on the overall performance of his portfolio, he checks the relative strength
+of the various sector indices against the S&P 500 index on a regular basis. He
+wants to be overweight in sectors with a strong relative strength and underweight in sectors with a weak relative strength vis-à-vis the broader market.
+Instead of browsing through all the different sectors with a relative
+strength chart against the S&P 500, he could start with a look at a Relative Rotation Graph, similar to the one shown in Figure 2.18, which shows
+the 10 economic sectors of the S&P 500 index against the S&P 500 index.
+At one glance we can see that Energy is the leading sector and that
+Financials just entered the top-right quadrant and looks likely to continue
+higher on the JdK RS-Ratio scale. Overweight or long positions in these two
+sectors make sense. The Industrials sector is inside the top-right quadrant,
+but shows little momentum, and Information Technology is just inside the
+bottom-right quadrant, but also displays hardly any movement over the past
+three weeks. Sectors, or elements in a universe, that move very close to the
+benchmark are unlikely to generate a strong out- or underperformance as they
+move in line with the benchmark. In a large universe, and therefore a crowded
+Relative Rotation Graph, one can safely ignore the elements that are moving
+in a small circle around the benchmark. Concentrate on the elements that are
+moving on the outskirts of the diagram: this is where the real moves take place.
+It is also quickly apparent that Materials and Consumer Discretionary are
+heading toward the bottom-left quadrant and very likely to arrive there soon.
+So these are sectors to keep an eye on, and if overweight or long positions still
+exist, it is time to start reducing them.
+In negative territory, the bottom-left quadrant, we ﬁnd Utilities, Health
+Care, Consumer Staples, and Telecom Services. The latter three are without
+doubt candidates for underweight or short positions.
+Utilities need some extra examination as over the past three weeks relative
+momentum has been picking up rapidly. When this happens at low (or high)
+JdK RS-Ratio levels, it can happen that the pickup of relative momentum is
+a temporary thing and that a rotation takes place at levels < 100 (or > 100)
+on the JdK RS-Ratio scale, that is, without crossing to the right or the left
+of the diagram. This means that the security is still leading but it took some
+time to consolidate its prior outperformance. An example of such a rotation
+is seen in Figure 2.19.
+
+78
+
+New Frontiers in Technical Analysis
+
+The use of RRG as described above is a good way to monitor the current
+holdings in a portfolio and provides a quick visual check of whether the overand underweightings for speciﬁc sectors are still valid and justiﬁable.
+RRG can also be used for pair-trade idea generation. The most obvious
+strategy is to be or to go long the sectors or elements that are crossing into
+or have just crossed into the top-right quadrant, and to be or to go short
+on the sectors or elements that are crossing or have just crossed into the
+bottom-left quadrant. These moves are considered to bear the least amount of
+risk, as the relative moves of the sectors at hand have already been conﬁrmed.
+In the top-right quadrant are the sectors that are showing positive relative
+strength (high JdK RS-Ratio) with a positive relative momentum (high JdK
+RS-Momentum), indicating that relative strength is still getting stronger. The
+bottom-left quadrant are the sectors that are showing weak relative strength
+with relative momentum accelerating to the downside, indicating that relative
+strength is still getting weaker. An example of such a strategy is shown in
+Figure 2.20.
+FIGURE 2.20
+
+RRG of Energy and Utilities with a 17-Week Trail
+
+Everything Is Relative Strength Is Everything
+FIGURE 2.21
+
+79
+
+Bar Charts of Energy and Utilities with RS Line
+
+This RRG shows only two sectors of the S&P universe with a 17-week
+trail. At the beginning of the trail (the most recent point of the series is the
+bigger square marker with the label on top and therefore the beginning is
+the opposite end) the Energy sector (S5ENRS) had just entered the top-right
+quadrant and could be expected to show further outperformance versus the
+S&P 500 index. At the same time the Utilities sector was on the verge of
+crossing into the bottom-left quadrant and therefore very likely to show an
+underperformance versus the S&P 500 going forward. The idea to be captured
+here is to overweight or go long the Energy sector and underweight or go
+short the Utilities sector. When looking at a RRG, conclusions like this are
+easily reached and do not require browsing through numerous charts. To get
+a better grasp of how the paths of these two trails translate back to a “normal”
+RS-line on a traditional chart, see Figure 2.21.
+The top pane shows the weekly bar chart of the Energy sector, the middle
+pane shows the weekly bar chart of the Utilities sector, and the bottom pane
+is the RS line of Energy versus Utilities. The dashed vertical line shows the
+date mark of the beginning of the trail in the RRG in Figure 2.19.
+At the beginning of the trail (11/5/2010) the Energy index traded at
+465.12 and the Utilities at 162.54. At the end of the trail (2/25/11) Energy
+was at 577.37, a 24.1 percent gain, while Utilities were at 160.58, a 1.2 percent
+decline. This results in a 25.3 percent outperformance of Energy over Utilities
+in this period. As the trigger in this case was the entry of the top-right and
+
+80
+FIGURE 2.22
+
+New Frontiers in Technical Analysis
+RRG of Financials and Telecom Services with a 14-Week Trail
+
+the bottom-left quadrant this can be seen as a relatively “safe” strategy as the
+JdK RS-Ratio line at that time is conﬁrmed above the 100-level.
+As the calculation of the JdK RS-Ratio line involves the use of moving
+averages, by deﬁnition some lag is introduced. This means that sectors have
+already gone through a decent move before entering into the top-right or the
+bottom-left quadrant. More adventurous or more aggressive investors could
+therefore also look for sectors in, or very close to, the top-left and bottom-right
+quadrants for trading opportunities, assuming that a rotation will continue
+in the expected direction. Such an example is shown in Figure 2.22.
+At the beginning of the trail the Financials sector is still in the bottomleft quadrant but heading toward, and nearly in, the top-left quadrant. The
+Telecom Services sector at the same time is well inside the bottom-right
+quadrant and heading for the bottom-left quadrant. Assuming a continuation
+of the rotation, investors or traders could start going long or overweight on
+Financials and short or underweight on Telecom Services.
+In Figure 2.23 the 14-period trail is displayed in a regular chart containing
+the weekly bar chart of Financials in the top pane, Telecom Services in the
+
+Everything Is Relative Strength Is Everything
+FIGURE 2.23
+
+81
+
+Bar Charts of Financials and Telecom Services with RS Line
+
+middle pane, and the RS line of Financials to Telecoms in the bottom pane.
+The dashed vertical line marks the beginning of the trails in the RRG in
+Figure 2.22.
+At the beginning of the trail (12/3/2010) Financials were trading at
+203.97 and Telecom Services at 122.75. At the ends of the trail so far
+(2/25/2011), Financials were at 225.73 and Telecom Services at 124.84.
+This represents a gain of 10.3 percent for Financials and 1.7 percent for Telecom Services, that is, an outperformance of 8.6 percent at a point in time
+when Financials have just pushed into the top-right quadrant while Telecom
+Services are heading deeper into the bottom-left quadrant. The relative trend
+is therefore fully intact and may be expected to continue.
+This type of analysis and idea generation using RRGs can be used in
+a lot of different markets, on a lot of different levels, and in all timeframes.
+Strategists and investment committees, for example, can use Relative Rotation
+Graphs to help determine dynamic asset allocations using a universe of indices
+representing various asset classes vis-à-vis some portfolio benchmark. Such an
+example is shown in Figure 2.24.
+This RRG shows a number of asset class indices (all total return and all
+in local currency) against a three-month cash (deposit) index.
+SBWGL: Citigroup World Government Bond Index all maturities Local
+NDDLWI: MSCI World Index Daily Net TR Local
+
+82
+FIGURE 2.24
+
+New Frontiers in Technical Analysis
+X RRG of Asset Classes against a Cash Index
+
+G250GLLC: GPR 250 Property Shares Index World Local
+DJUBSTR: Dow Jones UBS Commodity TR
+HFRXGL: HFRX Global Hedge Fund Index
+The RRG shows that “risk assets” are still very strong, with high readings
+on the JdK RS-Ratio scale, but they are all losing relative momentum, with
+declining JdK RS-Momentum values, while bonds are picking up relative
+momentum. So far at this stage risk assets are still leading but as all are in the
+bottom-right quadrant, a close eye should be kept on any further deterioration
+that could warrant a shift of money out of risk assets into nonrisk assets (i.e.,
+bonds and deposits). Of course, an RRG showing regional equity indices
+against the MSCI world equity index can then give clues as to which regions
+to prefer over others for the money that still remains invested in equity
+markets, assuming allocation to equities will not go down to zero. Another
+step down the decision tree can then be to draw an RRG of sector indices
+against the regional benchmark to determine which sectors to prefer, and
+so forth.
+
+Everything Is Relative Strength Is Everything
+
+83
+
+Conclusion
+
+The application of Relative Strength analysis through the use of RRGs can
+aid investors at every level of the decision tree, from asset allocation to selection of individual equities. Usually the more active traders will use shorter
+timeframes, while longer-term-oriented market participants will want to use
+weekly or even monthly timeframes. Fixed-income investors can use RRGs
+to determine which type (government or corporate), region, or credit-level to
+pick, and at which part of the curve. Forex traders can use an RRG showing
+a number of currencies against a base currency to generate trade ideas. All
+this can even be done on an intraday basis, for example, hourly or in 10minute periods. If you are connected to a real-time feed, this will generate
+a very dynamic picture, showing real-time rotation during the course of the
+trading day.
+Although RRGs are primarily used as a visualization tool, that does not
+rule out using this method for more quantitative and rule-based approaches
+to markets. We are conducting further research into these possibilities and are
+actively designing trading strategies and tailor-made visualizations for various
+types of clients.
+
+New Frontiers in Technical Analysis: Effective Tools
+and Strategies for Trading and Investing
+by Paul Ciana
+Copyright © 2011 Paul Ciana
+
+CHAPTER 3
+
+Applying Seasonality
+and Erlanger Studies
+Philip B. Erlanger, CMT
+Phil Erlanger Research
+
+Seasonality is a very unique indicator. It is a measure derived from historical
+price action extrapolated into the future. This means that its signals are known
+ahead of time—in many cases, substantially ahead of time.
+All ﬁnancial instruments have some seasonal tendencies. These tendencies
+are derived from a plethora of fundamental factors, known and unknown,
+that recur at speciﬁc time periods. A seasonal cycle is a representation of the
+directional tendencies of a security or index at speciﬁc times. In the following
+discussion, the focus is on seasonal cycles based on the calendar year.
+All the thin lines in Figure 3.1 look like random streams of data. They
+are, in fact, the component years of a 15-year history of a stock superimposed
+one on top of another. The result looks more like spaghetti than anything that
+could be useful for investors. However, through the magic of compositing
+algorithms, those thin lines turn into one line (the thick one) that represents
+15 years of action, aligned with the calendar year. Once this little miracle
+is achieved, reams of statistical data are made visible, which makes the
+application of seasonal analysis effective. The ﬁrst portion of this chapter
+explores this in detail.
+
+85
+
+86
+FIGURE 3.1
+
+New Frontiers in Technical Analysis
+Component Years That Comprise a Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+Testing for a Valid Seasonal Cycle
+
+The act of compositing historical data to create seasonal cycles is a process
+that has been used for decades, going back at least as far as the cycles work
+pioneered by Edward R. Dewey that formally began in 1941.
+Seasonal cycles are cycles that tend to move in similar fashions at speciﬁc
+times. They reﬂect fundamental factors that may or may not be known,
+but they occur at regular intervals relative to the calendar year. This is an
+extraordinary statement, because the fundamental proof of such seasonal
+factors has been elusive. Moreover, given that the economic factors that affect
+individual stocks, industries, and the overall economy are diverse, disparate,
+and nonlinear, the identiﬁcation of seasonal factors seems problematic. How
+do you know that a seasonal cycle exists if you can’t see why it exists? Taking
+a composite of data as shown in Figure 3.1 is an insufﬁcient process. One
+can make a great-looking seasonal cycle out of random data, but there is no
+reliability as that cycle is projected into the future—that is, it is invalid.
+The truth about seasonal cycles is that the validity of the seasonal pattern
+can vary greatly from one security to another. Moreover, a great-looking seasonal cycle can be made from random data. Simply compositing the data into
+a cycle as displayed in Figure 3.1 is no guarantee that any seasonal inﬂuence
+is being measured. Phil Erlanger Research has introduced the concept of validating seasonal cycles through the process of testing exogenous datasets. This
+process is called the Cycle-R.
+The idea behind validating a seasonal cycle is simple. Seasonal cycles
+are valid if they reﬂect a meaningful seasonal inﬂuence. The rub is that,
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.2
+
+87
+
+Typical Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+for some stocks, there are no meaningful seasonal inﬂuences. Cycle-R is a
+statistical correlation between seasonal cycles of a particular security derived
+from exogenous portions of that security’s historical price data.
+In Figure 3.2, a seasonal cycle has been created from a typical period
+of historical data that spans the most recent complete 15 years of price data
+for Starbucks (SBUX). This cycle was created on New Year’s Day, January 1,
+2010. In its standard form, it is etched in stone for the entire year of 2010
+(there is an optimized form that will be discussed later in this chapter). The
+unique nature of this indicator is that it is plotted so far in advance. But is
+this a valid seasonal cycle? Is there a true seasonal inﬂuence being measured
+by this pattern?
+In Figure 3.3 there are additional lines plotted around the seasonal cycle.
+These additional lines are themselves seasonal cycles. The thin seasonal cycle is
+derived from the ﬁrst half of the 15-year period. The thicker additional line is
+a seasonal cycle derived from the second half of the 15-year period. Both these
+additional seasonal cycles are therefore derived from exogenous data—totally
+separate portions of the security’s historical price action. The Cycle-R is the
+correlation between these two seasonal cycles. Correlation statistics are simple
+to read. Ranging from –1 to 1, a value of 1 is a perfect correlation, a value
+of 0 is no correlation, and –1 is a perfectly inverse correlation. If the two
+seasonal cycles derived from exogenous data are signiﬁcantly correlated, then
+there must be some measure of true seasonality that exists throughout the
+data set. For Starbucks in the 15 years prior to 2010, the Cycle-R statistic
+is 0.76—a high degree of correlation and, therefore, proof that the seasonal
+cycle is a valid one.
+
+88
+FIGURE 3.3
+
+New Frontiers in Technical Analysis
+Testing for the Validity of the Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+As it turned out, Starbucks did move through 2010 in a fairly close
+pattern to its seasonal cycle. The lows in the seasonal cycle of late January and
+late August were closely matched to the lows in the actual price action (see
+Figure 3.4). The weak period suggested by the seasonal cycle spanned from
+late June through late August, and this turned out to be the weakest period
+for Starbucks in 2010.
+It is important to note that seasonal cycles do not cause movements in
+price action. The cycle simply reﬂects tendencies that are often a product of
+fundamental inﬂuences applied at regular intervals or speciﬁc time periods.
+There is always a possibility that other exogenous factors can come into play
+and swamp the inﬂuence of regular seasonal factors. Therefore, it is important
+to measure how well a stock is following its seasonal cycle over time. Figure
+3.4 includes an additional statistic called 2010 R. This is another correlation
+statistic that measures how well the current year’s price action (in this case,
+2010) is tracking a security’s seasonal cycle. In the case of Starbucks in 2010,
+the correlation is a high 0.80, which indicates that the stock has closely
+followed its seasonal cycle. This statistic is updated throughout the entire
+calendar year on a daily basis.
+
+Optimizing for Greater Validity
+The determination of a Cycle-R statistic as a test of validity can be adjusted
+by limiting the look-back period. In Figure 3.3 we used the standard lookback length of 15 years (although a shorter timeframe can also be used).
+The same test of validity can be performed on any look-back period from
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.4
+
+89
+
+Key Turning Points in Starbucks Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+as long as 15 years or as short as only two years. A two-year sample is not
+particularly reliable because of the short time span, but the Erlanger Chart
+Room program (powered by Bloomberg) can execute the Cycle-R process on
+any user-selected look-back range of 15 years or less. Of the possible set of
+look-back periods, slightly different seasonal cycles are created, each with its
+own particular Cycle-R statistic as a test of validity.
+The key to optimizing the seasonal cycle is to select the look-back period that maximizes the Cycle-R statistic. The largest Cycle-R statistic is so
+measured because the exogenous seasonal cycles are most closely correlated,
+thereby yielding the most valid seasonal cycle.
+In Figure 3.5, American Express is shown with its standard seasonal cycle
+derived from a span of the prior 15 years. The Cycle-R test for validity is
+respectable with a value of 0.54. The key point to this pattern is that the
+seasonal cycle suggests that the high period for the year occurs in late August,
+and that the strength in price remains near its high at year’s end.
+
+90
+FIGURE 3.5
+
+New Frontiers in Technical Analysis
+American Express Standard Seasonal Cycle
+
+Source: Erlanger Chart Room.
+
+In Figure 3.6, American Express is shown with its optimized seasonal
+cycle derived from a smaller span of the prior ﬁve years. This seasonal cycle
+represents a much more “local” seasonal pattern. It is entirely possible that
+seasonal factors can change as fundamentals change, or be transitory on
+a multiyear scale, again as fundamentals change. For example, for American
+Express, a ﬁnancial company, a change in taxation could shift seasonal factors.
+The Cycle-R test for validity is now a value of 0.66—a more valid statistic
+than generated by the standard correlation test over the span of the prior 15
+years. Note that in the optimized seasonal cycle, the pattern suggests that the
+high period for the year occurs in late April/early May, and that the strength
+falls off at year’s end. Remember that both seasonal cycles were constructed
+on January 1, 2010, and therefore the actual price action of 2010 is not a
+factor in their shape. The 2010 peak in price for American Express occurred
+in late April, and though price rallied in December, it fell off considerably,
+even as the overall stock market rose to higher reaction highs.

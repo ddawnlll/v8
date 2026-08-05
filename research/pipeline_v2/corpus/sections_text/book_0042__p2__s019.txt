@@ -1,0 +1,490 @@
+
+Sample Mean for Variable X
+
+x=
+
+Where Xi is an individual observation on variable X
+NG RE 4.14 Sample mean for variable X.
+
+192 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Statistical Measures of Variability (Dispersion)
+Measures of variability describe the degree to which the observations in a
+sample are dispersed about their central tendency. In other words, measures of variability quantify the width of a frequency distribution.
+Among the widely used measures of dispersion are the variance, the
+mean absolute deviation, and the standard deviation. They are important
+in the traditional approach to statistics (i.e., classical statistics). The standard deviation is the square root of the average squared deviation of each
+observation from the mean of the data. The formula for the standard deviation of a sample is shown in Figure 4.15.
+An intuitive notion of dispersion is best conveyed with pictures. Figure 4.16 shows a number of idealized frequency distributions with differing degrees of variation and different central tendencies. They are
+idealized in the sense that the stair-step look that characterizes real frequency distributions has been smoothed away. The key point of Figure
+4.16 is that central tendency and variation (dispersion) are independent
+characteristics of a frequency distribution. In row 1 of Figure 4.16, the
+four distributions have the same degree of variation but different central
+values. In row 2 the distributions have the same central value but different
+degrees of variation. In row 3 all distributions have different central values and different degrees of variation.
+
+Standard Deviation of a Sample of Observations
+
+s
+
+n
+Where:
+
+Xi
+
+Is an individual observation on variable X
+
+X
+
+Is the sample mean on variable X
+
+n
+
+Is number of observations in the sample
+
+FIGURE 4.15 Standard deviation of a sample of observations.
+
+193
+
+Statistical Analysis
+
+I Same Degree of Dispersion but Different Means I
+
+o
+
+5
+
+10
+
+15
+
+I Equal Means but Different Degrees of Dispersion I
+2
+
+3
+
+1?IGURE 4.16
+a distribution.
+
+Central tendency and dispersion are distinct attributes of
+
+PROBABILllY
+The notion of probability is important in statistics because it is used to
+quantify uncertainty. A conclusion reached via statistical inference is uncertain; that is, there is a chance of error. Thus, an inference about the
+value of a population parameter has some chance of being wrong. This
+chance is given in terms of a probability.
+We routinely use informal notions of probability to form expectations
+and make choices. Is the person I find so wonderful now, likely to remain
+so after marriage? What is the chance I will find gold if I dig in a certain
+spot? Is it probable I will feel fulfilled pursing a career in law? Should I
+buy that stock, and if I do, how much profit am I likely to make?
+The informal usage of probability is connected to a cluster of interchangeable terms illustrated in Figure 4.17.
+For our purposes, something more definitive is required. The definition of probability that makes the most sense for the work that lies ahead
+is based on the notion of relative frequency. The relative frequency of an
+event is the number of times the event actually occurred divided by the total number of opportunities on which the event could have occurred. Relative frequency is given as a fraction between 0 and 1. It could rain every
+
+194 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Uncertainty
+Chance
+
+Risk
+
+Probability
+Likelihood
+
+Luck
+Random
+
+FIGURE 4.17 Common notions of probability.
+
+day, but in the month of April the relative frequency of rain has actually
+been 0.366 (11 out of 30 days). If rain never occurred, then its relative frequency would be O. If rain occurred every day, its relative frequency is 1.0.
+Thus, the relative frequency of an outcome is equal to:
+Number of occurrences of an event
+Number of possible opportunities for the event to occur
+
+In the box-of-beads experiment the value of f-g was measured 50
+times. This was the maximum number of opportunities for any specific f-g
+value to occur. In fact, the value f-g = 0.65 occurred on 5 out of 50. Therefore, it had a relative frequency of 5/50 or 0.10.
+Probability is the relative frequency of an event over the long runthe very long run. That is to say, the probability of an event is its relative
+frequency of occurrence given an infinite number of opportunities for its
+occurrence. Probability is stated as a number that lies in the range of 0 to
+1 inclusive. A probability value of 0 means the event never occurs,
+whereas a value of 1.0 means it always occurs.
+Probability is a theoretical notion because it is never possible to observe an infinite number of anything. For practical purposes, however,
+when the number of observations becomes very large, relative frequency
+approaches theoretical probability.
+The Law of Large Numbers
+
+The tendency of relative frequencies to converge to theoretical probabilities, as the number of observations becomes large, is called the Law of
+Large Numbers. 20 The operation of the Law of Large Numbers can be illustrated with coin tossing. The possible outcomes (events) are heads or tails
+and the probability of heads is known to be 0.50. The Law tells us that the
+
+195
+
+Statistical Analysis
+
+relative frequency of heads will converge to its theoretical value, 0.5, as
+the number of coin tosses becomes large. However, even for a large number of tosses, a departure from 0.50 can still occur, though the likely size
+of the departures decreases as the number of tosses increases. For small
+samples, however, The Law of Large Numbers warns us that the relative
+frequency of heads can differ substantially from 0.50. When the number of
+tosses is only three, a value of 1.0 can easily occur-three heads in three
+tosses.
+Figure 4.18 shows the fraction of heads in a coin-toss experiment as
+the number of tosses grows from one to one thousand. When the number
+of tosses (observations) is less than 10, the fraction of heads experienced
+two large deviations from 0.50. At 3 tosses the fraction of heads reached
+0.66 (2 out of 3). At 8, the fraction was 0.375 (3 out of 8). However, as the
+number of tosses increased the random variable, fraction heads, experienced progressively smaller deviations from the expected value of 0.50.
+This is exactly what the Law of Large Numbers predicts.
+Now imagine a naive coin flipper. Upon observing five heads in five
+tosses, he loudly proclaims, "I've found the holy grail of coins. It always
+comes up heads." The Law of Large Numbers says that the poor fellow's
+optimism is unwarranted. This is also likely to be true for the TA researcher who finds a rule with five historical signals, all of which were
+correct. Optimism is most likely unwarranted. Chapter 6 will show that if
+this rule was selected because it was the best perfoIDling rule out of a
+large universe of back-tested rules, that is to say, it was discovered by data
+mining, there would be even less reason to be optimistic about its future
+performance.
+
+F 1.0
+R
+A
+C 0.80
+
+T
+I
+
+a 0.60
+
+~~----0.50
+
+N
+
+0.40
+H 0.20
+E
+A
+0
+
+5
+
+10
+
+100
+
+Number of Coin Flips (log scale)
+FIGURE 4.18 Law of Large Numbers.
+
+1,000
+
+196 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Theoretical versus Empirical Probability
+There are two kinds of probabilities: theoretical and empirical. "Theoretical probabilities can be determined with a good degree of confidence purely on logical grounds. They are derived independent of prior
+experience, most often based on arguments of symmetry."21 In other
+words, they can be deduced without any reference to the world of experience. The probability of a head in a coin toss is a theoretical probability. There is no need to toss it ten thousand times to predict that over
+the long run the probability of heads is 0.50. Simply the fact that the
+coin is fair, that it has two faces, and that it is unlikely to land on its
+edge is sufficient grounds for suspecting heads and tails are equally
+likely. The probabilities for being dealt a royal flush in poker, the occurrence of a six in a dice roll, and the chance of winning Lotto are also
+theoretical because each can be determined by a logical analysis of the
+situation.
+Empirical probabilities are based on observed frequencies. Technical analysis is concerned with this type of probability. The chance of
+new snowfall on Mount Hood during the month of July or the likelihood
+of a rise in the stock market following a 2 percent drop in interest rates
+are examples of empirical probabilities. They can only be detennined
+by observing numerous past instances of the specified conditions
+(Mount Hood in July), and determining the relative frequency of the
+event (new snow).
+When determining empirical probabilities, it is vitally important
+that each instance be characterized by the same set of conditions. In TA
+this is a practical impossibility. Each past instance of a 2 percent drop
+in interest rates is similar with respect to that specific condition, but
+there are numerous other conditions that may not be the same. For example, the level of interest rates prior to the 2 percent drop may differ
+from observation to observation. In one instance, interest rates were at
+5 percent prior to the drop whereas in another they were 10 percent. Of
+course, the level of interest rates could be added to the set of conditions that define each instance, but that has the downside of reducing
+the number of comparable instances. Moreover, there will always be
+other conditions that are not part of the specified condition set. The inability to control all potentially relevant variables is an unfortunate fact
+of life in nonexperimentaVobservational sciences. In contrast, the experimental scientist enjoys the supreme advantage of being able to hold
+constant all or nearly all relevant variables except the one being investigated. Imagine being able to do that in TA! I am told this is how it is in
+the afterlife.
+
+197
+
+Statistical Analysis
+
+PROBABILl1Y DISTRIBUTIONS OF RANDOM VARIABLES
+A probability distribution shows how often we can expect the different
+possible values of a random variable to occur (Le., their relative frequencies). The probability distribution of a random variable is a relative frequency distribution built from an infinite number of observations.
+The concept of a probability distribution can be understood by
+thinking of a sequence of relative frequency distributions, each built
+from increasing numbers of observations and progressively narrower
+bins or intervals. Gradually, the relative frequency distribution becomes
+a probability distribution. With increasing numbers of observations,
+more discrete intervals of decreasing width can be created. 22 As the
+number of observations approaches infinity, the number of intervals
+approaches infinity and their widths shrink to zero. Thus, the relative frequency distribution morphs into what is called a probability
+distribution, more technically referred to as a probability density
+function. 23
+Figures 4.19 though 4.23 show how a relative frequency distribution
+evolves into a probability density function as the number of intervals is
+increased and their interval widths are decreased. The height of each
+bar represents the relative frequency of events falling within the bar's interval. The figures presume that the random variable is a measure of
+price change.
+This succession of diagrams shows that a probability density function
+is, in effect, a relative frequency distribution composed of an infinite number of observations whose intervals are infinitely narrow. Here is where
+things get a bit strange. If the intervals of a probability distribution have
+
+Relative
+Frequency
+
+Price Change Intervals
+
+FIGURE 4.19 Relative frequency distribution based on five intervals.
+
+198 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+Relative
+Frequency
+
+Price Change Intervals
+FIGURE 4.20 Relative frequency distribution based on seven intervals.
+
+Relative
+Frequency
+
+Price Change Intervals
+FIGURE 4.21
+
+Relative frequency distribution based on fifteen intervals.
+
+Relative
+Frequency
+
+Price Change Intervals
+FIG RE 4.22
+
+Relative frequency distribution based on twenty nine intervals.
+
+199
+
+Statistical Analysis
+
+Probability
+Density
+
+No Specific Intervals
+
+FIGURE 4.23
+
+Probability density function.
+
+zero width, then there are zero observations per interval. This seems to
+make no sense! However, it is quite common for mathematical concepts
+to be at odds with common sense. In geometry, a point has location but
+occupies no space (i.e., length, width, and breadth equal zero), a line has
+length but zero width, and so forth.
+The fact that an interval has zero observations has a strange implication-the probability that any single value of a continuous random variable will ever occur is equal to zero. For this reason, it only makes sense
+to speak of the probability that a random variable will assume a value
+within a specified range of values. In other words, it makes sense to speak
+of the probability that a random variable will assume a value between
+specified minimum and maximum values. It also makes sense to speak of
+the probability that a random variable will assume a value that is equal to
+or greater than some specified value or less than or equal to a specified
+value. For example, we can speak of the probability that a value of 3.0 or
+greater will occur. However, it would make no sense to speak of the probability of a value of exactly 3.0. 24
+This somewhat counterintuitive idea fits nicely with rule testing.
+When testing the statistical significance of a rule's past rate of return, we
+will be concerned with the probability that a rate of return of + 10 percent
+or higher could have occurred by chance under the condition that the rule
+has no predictive power. Probability density functions can provide such
+information.
+
+200 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+RElATIONSHIP BE1WEEN PROBABILITY AND
+FRACTIONAL ARFA OF TIlE PROBABILITY DISTRIBUTION
+Let's recap what has been established up to this point:
+1. The probability of an event is its relative frequency of occurrence
+given an infinite number of instances in which the event could have
+occurred.
+2. A probability density function is a relative frequency distribution built
+from an infinite number of observations and intervals of zero width.
+3. The relative frequency of a random variable taking on a value within a
+given interval is equal to the fractional area of the frequency distribution sitting on top of that interval. See Figure 4.24.
+We are now ready to take the final step in this sequence of thinking. It
+is analogous to point 3 in the preceding list, except that the term relative
+frequency distribution is replaced with probability density function. The
+probability that a continuous random variable will assume a value within
+a specified range is equal to the fraction of the probability density func-
+
+Relative
+Frequency
+
+Relative Frequency
+of a Value in This Range = 0.344
+
+FIGURE 4.24
+a distribution.
+
+The correspondence of relative frequency and fractional area of
+
+201
+
+Statistical Analysis
+
+tion encompassed by (sitting above) that range. This concept is illustrated
+in Figure 4.25. It shows the probability that X, a continuous random variable, will assume a value within the range A-B is equal to 0.70.
+In many instances, the interval in question refers to the extreme or
+tail of the distribution. For example, Figure 4.26 shows the probability
+that random variable X will assume a value of B or greater. The probability is 0.15.
+The probability distribution of a random variable is a very useful concept. Even though an individual future observation on random variable X
+is not predictable, a large number of observations form a highly predictable pattern. This pattern is the random variable's probability density
+function.
+Now, here is where these ideas start to come together for us. Chapter
+5 will show that when a hypothesis is represented by the probability distribution of a random variable we will be able to use an observed value of
+the random variable to test the veracity of the hypothesis. This will enable
+us to conclude if a rule's back-tested profitability was due to luck or genuine predictive power.
+The probability distribution used for this purpose is a specific type. It
+is called a san1pling distribution-perhaps the most important one in all of
+statistics and certainly the most important for TA analysts.
+
+P
+R
+
+o 0
+B E
+A N
+B 5
+I I
+L T
+I y
+T
+Y
+
+A
+
+B
+
+Range of Random Variable X
+FIGURE 4.25 The probability random variable X will assume a value between A
+and B equals the fraction of the distribution's total area above the interval A,B.
+
+202 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+P
+
+R
+
+o D
+B E
+A
+B
+I
+L
+I
+T
+Y
+
+N
+S
+I
+T
+Y
+
+Fraction of
+Distribution
+Beyond "B" = 0.15
+of Area
+
+B
+
+Range of Random Variable X
+FIGURE 4.26 The probability random variable X will assume a value equal to or
+greater than B equals the fraction of the distribution's total area equal to or greater
+than B.
+
+THE SAMPLING DISTRIBUTIO : THE MOST IMPOR11\NT
+CONCEPT IN S1l\TISTICAL INFERENCE
+To recap:
+1. A random variable is the outcome of a probability experiment.
+2. Taking a sample of a given number of observations from a population
+and computing the value of a statistic such as the sample's mean is a
+probabilityexperiment. 25
+3. A sample statistic26 is a random variable in the sense that it fluctuates
+unpredictably from one sample of observations to the next. The sample statistic fluctuates randomly because chance determines which
+specific observations wind up in a particular sample, and it is that particular set of observations that determines the value of the statistic for
+that sample. In the box-of-beads experiment, the value f-g varied randomly from one 20-bead sample to the next because the particular set
+of beads that wound up in a given sample was determined by chance.
+4. A relative frequency distribution describes how often the possible
+values of a random variable occur over a very large number of
+observations.
+We are now ready to meet the sampling distribution, the most important concept in statistical inference.
+
+Statistical Analysis
+
+203
+
+The Sampling Distribution Defined
+The sampling distribution is the probability distribution of a random variable, and that random variable happens to be a sample statistic. In other
+words, the sampling distribution shows the various possible values the
+sample statistic can assume, and their associated probabilities. 27 For example, "the sampling distribution of the sample mean refers to the probability
+distribution of all possible means for all possible random samples of a
+given size from some population."28 Here, the sample statistic is the mean.
+The sample statistic in the box-of-beads experiments was f-g. Its random variation across 50 samples, each comprised of 20 beads, was shown
+by the relative frequency distribution in Figure 4.8. If, instead of 50 values
+we were to take all possible 20-bead sanlples-a very large number-this
+theoretical distribution would be f-g's sampling distribution.
+In rule back testing, the sample statistic is a measure of performance
+observed in a back test. In this book that sample statistic will be the rule's
+average rate of return. A back test typically produces a single observed
+value for the performance statistic because we have a single sample of
+market history. Now imagine what it would be like if we were able to test
+a rule in an infinite number of independent samples of market history.
+This would provide an infinite number of values for the perfornlance statistic. If this set of data were then converted into a relative frequency distribution, it would be the statistic's exact sampling distribution. This is
+obviously not possible because we do not have an infinite number of independent samples of historical data. However, statisticians have developed
+several methods to get something that approximates the exact sampling
+distribution closely enough to be useful, despite the fact that we have only
+one sample of historical data and one value of the sample statistic. Two of
+these methods will be discussed later in this chapter.
+
+The Sampling Distribution Quantifies Uncertainty
+The sampling distribution of a statistic is the foundation of statistical inference because it quantifies the uncertainty caused by the randomness of
+sampling (sampling variability).
+As stated above, the sampling distribution displays the relative frequencies of a statistic if it were to be measured in an infinite number of
+random samples of the same size, drawn from the same parent population. The box-of-beads experiments showed that the value of a statistic, f-g
+fluctuated randomly from sample to sample. Figure 4.8 showed that these
+values tend to fall into a well-behaved pattern, not a random chaotic mess.
+The fact that the pattern of random variation is well behaved is what
+makes statistical inference possible.
+
+204 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+It may seem ironic that a sample statistic would show such a regular pattern given that it is, in fact, a random variable. Thankfully for statisticians, it does. Figure 4.8 revealed a central value (i.e., the mean of
+the sampling distribution) of approximately 0.55. It also showed a welldefined pattern of dispersion about this central value. This pattern allowed us to conclude, with a fair degree of assurance, that the value of the
+population parameter F-G was contained within the range 0.40 to 0.65. It
+also allowed us to conclude, although with somewhat diminished confidence, that F-G was more accurately pinned in the range between 0.50
+and 0.60. It was the degree of dispersion in f-g's sampling distribution that
+permitted these statements to be made about the value of the population
+parameter F-G.
+The dispersion of the sampling distribution quantifies the uncertainty
+of our knowledge about the population parameter F-G. The distribution's
+central tendency conveys information about the most likely value of F-G,
+approximately 0.55. Knowing this is nice, but it is not enough. It is also important to know about the reliability of the value 0.55. In other words,
+how accurately does the sampling distribution's central tendency of 0.55
+portray the true value of F-G?
+The reliability (degree of certainty) is conveyed by the dispersion of
+the sampling distribution. The greater the distribution's dispersion around
+its central value, 0.55, the less certain we can be that 0.55 accurately informs us about the true value F-G, the proportion of grey beads in the entire box.
+To illustrate this point consider the two following sampling distributions. Both have central values of 0.55 but their dispersions are quite different. The first shown in Figure 4.27 is a narrow dispersion thereby
+delivering a strong impression that F-G is in the vicinity of 0.55. The distribution in Figure 4.28 is wider thus conveying a less certain message about
+F-G value. It is saying that the true value F-G may be considerably different from the central value of the sampling distribution.
+In summary, certainty is directly related to the dispersion of the sampling distribution. And the certainty of a conclusion about a population
+parameter depends upon the width of the statistic's sampling distribution-greater width means greater uncertainty.
+Suppose it is hypothesized that a rule's expected return is equal to
+zero. Also suppose the rule's back-tested return turns out to be greater
+than zero. Is the positive return sufficient evidence to conclude that the
+hypothesized value of zero is false? The answer will depend on how far
+above zero the back-tested return is relative to the width of the sampling distribution. If the relative deviation is large the hypothesis can be
+rejected. Quantifying the relative deviation and the reasoning behind a

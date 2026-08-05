@@ -1,0 +1,495 @@
+
+W
+
+WATCH LIST BASICS
+At the top of ProphetCharts are the various menus, one of which is named
+Watch Lists. Within it are all the controls you need to manage your watch
+lists. A watch list is a compilation of financial instruments that you collectively name and manage. You control what is inside the list, and you can
+move things to and from various lists to keep them well organized.
+You might not necessarily own the stocks in your watch lists. Some
+watch lists you create might be along the following lines:
+Candidates Long—Stocks you are considering buying.
+Candidates Short—Stocks you are considering selling short.
+70
+
+Watch Lists and Chart Styles
+
+71
+
+FIGURE 4.1 The Watch Lists menu provides all the basic controls needed for
+Watch List management and viewing.
+
+Current Long—Stocks you currently own.
+Current Short—Stocks you currently are short.
+Core List—The main list of stocks you track regularly.
+High Fliers—Volatile stocks.
+Steady Performers—Stable, steadily rising stocks.
+The lists and their contents are really up to you. But the watch lists
+should be given names that suggest their content, and they should be
+unique enough to be useful.
+The Watch Lists menu (Figure 4.1) includes six choices:
+1. Add to Watch List: Add the stock displayed in the chart to a watch list
+
+of your choice.
+2. Create New Watch List: Create and name a new watch list.
+3. Delete Watch List: Delete the watch list of your choice and its contents.
+4. Apply Label Filters: This topic will be covered thoroughly in Chapter
+
+16, but this function bases the contents of the watch lists on the filters
+you apply.
+5. Delete Label: This topic also will be covered in Chapter 16, but this
+function lets you delete a label you previously defined.
+6. View by Symbol: View all of the securities in the watch lists by their
+ticker symbol.
+
+72
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 4.2 When adding a symbol to a watch list, you can choose from any of
+the watch lists in the dropdown menu.
+
+7. View by Company Name: View all of the securities in the watch lists
+
+by their company name (this is the default choice).
+8. Import: You can import a text file of symbols into a watch list with this
+
+function, which can be a big time-saver. For instance, let’s say you find
+a list of all the symbols in the S&P 100 on the Internet. You could save
+that list of symbols to your hard drive and then import that text file via
+ProphetCharts’ import command, saving you the time and trouble of
+entering all those symbols individually.
+When you choose Add to Watch List, ProphetCharts will take whatever
+symbol is displayed currently and add it to whatever watch list you select.
+Figure 4.2 shows the Add Favorite dialog box, which contains a dropdown
+menu of all your watch lists, sorted alphabetically. Choose the list to which
+you want the symbol added and click OK to finish the task.
+To create a new watch list, choose Create New Watch List, and enter
+the name you would like it to have (Figure 4.3). Remember to give it a name
+that helps identify its contents, because once you have a large collection
+of these lists, you will want them to be easy to organize. Also keep in mind
+that your new watch list will be empty at first.
+
+FIGURE 4.3 Type in whatever name you would like to give the watch list, but try
+to make it something that describes the contents you intend for that list.
+
+Watch Lists and Chart Styles
+
+73
+
+FIGURE 4.4 Deleting a watch list permanently removes all the symbols and the
+watch list name. ProphetCharts will conﬁrm you want to delete a list before actually
+doing so.
+
+If you decide to completely eliminate a watch list from your account,
+choose Delete Watch List from the menu. A dropdown menu of all the
+watch lists available (Figure 4.4) will be shown. Choose the one you want
+to delete and click OK. Because the deletion is permanent, ProphetCharts
+will double-check with you to make sure you want to go ahead with the
+deletion. If you confirm it, the watch list will be gone.
+
+MY WATCH LISTS
+Although the Watch Lists menu is useful, you will probably find that the
+My Watch Lists module is a more efficient place to manage your lists. From
+the module you can move items from one list to another, perform drag-anddrop operations, copy items from place to place, rename lists, and perform
+many other functions.
+When you expand My Watch Lists, all of your watch lists will be shown
+in the state you last left them. The lists are shown in alphabetical order,
+and you can either expand them (which means the contents are shown, and
+there will be a minus sign next to the list name) or collapse them (meaning
+only the list name will be shown, and a plus sign will be next to it).
+Figure 4.5 shows a portion of a hypothetical My Watch Lists. The list
+called Candidates Long is expanded, and some of the company names in
+that list are boldfaced, meaning they have been tagged. The list above it
+(Candidate Options) is empty, so there is no plus or minus next to the list
+name. The list beneath it (Candidates Short) is collapsed, so there is a plus
+sign next to it.
+If you were to choose View by Symbol from the Watch Lists menu, the
+same list would resemble Figure 4.6. Note that although symbols are shown
+instead of company names, tagged items still appear in boldface. Note also
+that alphabetically sorted symbols may not necessarily appear in the same
+
+74
+
+FIGURE 4.5 This expanded watch
+list shows the stocks expressed as their
+company name. Some of the securities
+have been tagged, and they are displayed in boldface.
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 4.6 This is the same list of
+securities shown in Figure 4.5, except
+they are displayed by symbol instead of
+name.
+
+order as alphabetically sorted names, since company names and symbols
+do not always correspond (an example being symbol T, which corresponds
+to the company name AT&T).
+
+DRAGGING-AND-DROPPING
+One of the most useful features in ProphetCharts is the ability to drag an
+item from one watch list to another. This makes it quick, easy, and convenient to keep your watch lists organized as you move things from place
+to place.
+For instance, assume you had five watch lists—Candidates Long, Candidates Short, Current Long, Current Short, and Favorite Stocks. Further
+assume you were an active trader and were often examining stocks and
+
+Watch Lists and Chart Styles
+
+75
+
+FIGURE 4.7 This shows three tagged symbols in the Candidates Short module.
+
+opening and closing positions. You can imagine how dynamic these lists
+would become. By being able to drag symbols from one list to another as
+their status changes, you would be able to keep your trading world organized. So a stock you regularly follow (in the Favorite Stocks list) might be
+moved to the Candidates Short list if you were considering selling it short.
+And when you actually sold the stock short, you would move it to Current
+Short. Finally, when you covered the short (hopefully at a lower price) you
+would return it to its regular home, Favorite Stocks.
+Dragging and dropping is as easy and direct as it sounds. Figure 4.7
+shows a list of three tagged stocks in Candidates Short. Assume you
+wanted to drag Harrah’s Entertainment to the Candidate Options list.
+All you need do is point to Harrah’s Entertainment, hold down the
+mouse button, and drag it to the Candidate Options list, as shown in
+Figure 4.8. ProphetCharts shows a light ghost of the company name as you
+are dragging it so it’s easy to aim at your target (that is, the name of the
+watch list to which you want to drag the symbol).
+
+FIGURE 4.8 In this case, the stock Harrah’s Entertainment is being dragged from
+the Candidates Short watch list to the Candidate Options watch list. A light ghost
+image can be seen during the drag-and-drop operation.
+
+76
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 4.9 Once the drag-and-drop is complete, the stock has been moved from
+Candidates Short to Candidate Options. The quantity of stocks is still the same, but
+their arrangement is diﬀerent.
+
+After you release the mouse button, the symbol has been moved from
+one place to another, as shown in Figure 4.9. You can also drag-and-drop
+into the chart area if you want to simply chart a symbol. It’s accomplished
+in exactly the same way: just click on the symbol you want to chart and
+drag it into the chart area. Unlike moving a symbol from one list to another,
+dragging-and-dropping for charting will not remove the symbol from its list.
+
+RIGHT-CLICKING ON SYMBOLS
+Besides the menu and the module, there is a third way of modifying watch
+lists: right-clicking on a symbol within a list. If you do so, a variety of actions for that symbol will appear (Figure 4.10):
+Copy to List—Lets you choose another watch list to which you would
+like to copy this symbol. Unlike drag-and-drop, the symbol will remain in both the original list and the destination list once the action
+is complete.
+Move to List—Similar to the drag-and-drop operation, this lets you
+choose a destination watch list and will remove the symbol from
+the original list and insert it into the destination list.
+Delete—Deletes the symbol from the watch list.
+Tag—Makes the symbol appear in bold so that you can highlight it as
+a symbol to which you want to pay special attention.
+Labels Editor: The three labels-oriented items on this menu will be
+discussed in Chapter 16; choosing this item brings up the labels
+editor dialog box.
+
+Watch Lists and Chart Styles
+
+77
+
+FIGURE 4.10 Right-clicking a stock name in a watch list brings up a menu with
+a variety of possible actions.
+
+Apply Label Filters: Modifies which items in the watch lists are displayed by applying the label filters you choose.
+Apply Label: Lets you apply a specific label to the symbol being rightclicked.
+The Tag menu item is unique since it renames itself if the symbol is
+already tagged (Figure 4.11). In this case, the menu item is Remove Tag,
+and clicking it will make the boldfaced stock change back to its normal
+plain appearance.
+The right-click menu is most convenient for deleting and tagging symbols. Unless you want to make copies of symbols from one list to another,
+using drag-and-drop between lists is much faster and more efficient.
+Besides right-clicking on an individual symbol, you can also right-click
+on a watch list and take any of the following actions, based on the menu
+that pops up:
+Rename Watch List—Lets you type in a new name for the selected
+list. You can also double-click the list name and make the change
+directly, without the menu’s help.
+
+78
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 4.11 If a symbol is already tagged, then the menu item Tag is instead
+called Remove Tag.
+
+Create Watch List—Creates a new, empty watch list.
+Delete Watch List—Yields a dialog box showing you the existing watch
+lists, any one of which you can delete.
+Export Watch List—Lets you take the contents of the selected list and
+save it into a text file on your hard drive.
+Add Current Symbol to Watch List—Adds the charted symbol into the
+selected list.
+View in Grid—Grid charts are covered later in the book; this displays
+the first four charts in the list in a two-by-two grid format.
+Tag All—Tags all the symbols in the list.
+Untag All—Untags all the symbols in the list.
+Copy All—Lets you copy all of the symbols in the list to another list.
+Move All—Lets you move all the symbols from the current list to another list, leaving the original list empty.
+Labels Editor—Again, labels functions will be covered in Chapter 16;
+this brings up the labels editor.
+Apply Label Filters—Lets you apply the label filters to all the lists.
+Apply Label—Lets you apply a label to every symbol in the selected
+list.
+
+CHART STYLES
+Chapter 2 explained the basics of chart creation. There are a great many
+ways in ProphetCharts to adjust a chart’s appearance to your liking. Over
+
+Watch Lists and Chart Styles
+
+79
+
+time, you will probably find certain kinds of charts that work well for you.
+You might like a six-month daily candlestick chart, a 10-day minute-byminute streaming chart, or a 10-year weekly chart.
+Changing the parameters that control a chart to get a different view of
+a security is tedious and time-consuming. That’s why ProphetCharts allows
+you to preserve a wide variety of settings into a chart style. When you create a style, you give yourself instant access to whatever properties a given
+chart has, without having to spend time adjusting menus, checkboxes, and
+other settings.
+A chart style will preserve just about every aspect of a chart. Some of
+the key parameters that make up a chart style are:
+Graph Type—There are seven different kinds of graphs: OHLC, HLC,
+HL, Candle, Line, Area, and Percent. Your chart style will remember which of these you selected.
+Quick Toggles—Are color bars in the chart? Is volume displayed? Are
+drawn items shown? Are studies shown?
+Streaming—Is the chart streaming?
+Log—Is the scale type logarithmic or arithmetic?
+Duration—What is the duration of the chart?
+Frequency—What is the frequency of the chart?
+Technical Studies—What technical studies, if any, are used?
+You don’t have to do anything special to create a chart style except
+create the chart you want and then save it as a style. The Styles menu (Figure 4.12) is where this happens; the top two choices let you save a style or
+delete a style, and beneath that are all the styles you have created (if any).
+Besides the Styles menu, the chart styles you’ve made are also listed in
+the My Chart Styles module (Figure 4.13). You can apply a style from the
+menu by selecting it, and you can apply a style from the module by either
+double-clicking it or dragging and dropping it into the chart area.
+
+CREATING AND SAVING A STYLE
+Once you create a chart whose properties you want to preserve, choose
+Save Settings as a Chart Style from the Styles menu. A dialog box (Figure
+4.14) will appear, asking you what name to give the style.
+You can either type in a name and click OK, or if you want to replace
+an existing style with the present one, you can click the Update an existing
+Chart Style radio button and choose the style you want to replace from the
+dropdown menu (Figure 4.15).
+
+80
+
+FIGURE 4.12 All of the styles you
+have created are in the Styles menu,
+along with the ability to save or delete
+a style.
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 4.13 The chart styles are
+also listed in the My Chart Styles module,
+and any one style can be invoked with a
+double-click or a drag-and-drop into the
+chart area.
+
+It’s important to remember to give your style a meaningful name. Don’t
+use names like Style 1, Style 2, My Style, Stock Chart, and other meaningless terms. Instead, use descriptive language such as Candlestick 6-Month,
+Streaming 10-Day, or Daily 5-Year.
+Another suggestion: because the style names appear in alphabetical
+order, you should use consistent names to group similar styles. For instance, if you have a few minute graphs (that is, intraday graphs), a few
+daily graphs (longer term), and a few streaming graphs, you might choose
+
+Watch Lists and Chart Styles
+
+FIGURE 4.14 The Save Chart Style
+dialog box lets you save a new style or
+replace an existing style.
+
+81
+
+FIGURE 4.15 To replace a chart
+style, choose the style from the dropdown menu.
+
+style names such as Minute 5-Day, Minute 10-Day, Daily 2-Year, Daily
+5-Year, Daily 10-Year, Streaming 2-Day, Streaming 5-Day, and Streaming
+20-Day. That way, when the style names are shown in alphabetical order, it
+will be easier to find the style you want.
+
+TRADING STYLE
+A different kind of style has nothing to do with a software feature, but
+instead this style is about developing yourself as a trader. My belief is that
+learning how to trade is one of the richest processes of self-discovery a
+person can undertake, provided that person is highly dedicated to learning
+the art of trading and has enough introspection and flexibility to learn and
+grow. For myself, the process has been long—measured in decades—and
+difficult, but I can say with confidence that I am a little bit better at what I
+do with each passing year.
+But in the course of trying to learn to be a good trader, you are going
+to need to adopt your own personal style. By style, I don’t mean a bromide
+like “a trader who makes a lot of money” or, less glibly, “one who trades
+what he sees.” I think those are empty characterizations, no better than
+saying your philosophy of life is to try to be a good person and do the right
+thing.
+
+82
+
+CHART YOUR WAY TO PROFITS
+
+My point of view is that trading style encompasses several areas:
+
+r Quantity: How many markets and/or positions do you plan to trade?
+One? A handful? Dozens? Hundreds?
+
+r Basis: What will the basis of your decision be with respect to what
+positions you will undertake?
+
+r Frequency: How often do you plan to enter and exit positions? In
+other words, are you a day trader, a swing trader, or an investor?
+
+r Bias: Do you have a bullish or bearish bias? I believe the vast majority
+of people have a bullish bias, in spite of their declarations of neutrality.
+(The old saw “I trade what I see” is the safe route, similar to a political
+stance of “socially liberal and fiscally conservative”—meaningless.)
+r Security: What kind of securities do you like to trade? E-minis? Penny
+stocks? Blue chips?
+I’m sure there are other elements, but that’s not a bad start. My own
+personal style is along these lines:
+
+r Quantity: I like a lot of small positions in order to spread my risk.
+There are times when I have a couple of hundred positions.
+
+r Basis: I’m a chartist, pure and simple. I use my experience of having
+viewed hundreds of thousands of charts as the rationale for my decision making.
+r Frequency: My preference is holding periods measured in weeks or
+months, although volatile markets can make that unrealistic.
+r Bias: I tend to be somewhat bearishly biased, although I am always
+striving to be as balanced and open-minded about charts as possible.
+r Security: I gravitate toward stocks that trade at least half a million
+shares a day—hopefully much more—and are typically priced between
+$20 and $90.
+You may not have adopted a style of your own yet, but these parameters are worthy of some thought. As you trade in the coming months and
+years, return to this topic, since learning to be a successful trader requires
+being in a constant state of self-evaluation and, hopefully, improvement.
+
+ON TO TECHNICAL STUDIES
+You have learned about two vital features of ProphetCharts: the management of watch lists and the creation of chart styles. Now it’s time to begin
+exploring the powerful library of technical studies at your disposal.
+
+CHAPTER 5
+
+Market and
+Data Types
+
+here are tens of thousands of financial instruments that
+ProphetCharts can display, and it will help you as a trader to
+understand what these instruments are and how they differ in a
+chart. Although just about any kind of time series data can be charted,
+there are some subtle but important differences between these data types
+that we discuss in this chapter.
+
+T
+
+INDEXES
+An index is typically an amalgamation of various instruments that are subject to some kind of mathematical process to yield a meaningful number
+(typically in the form of an average). Well-known examples include the
+Dow Jones Industrial Average (also known as the Dow 30), the Standard &
+Poor’s 500 (also known as the S&P 500 or simply the SPX), and the Gold
+and Silver Index.
+Another similar chartable item is an indicator, which—instead of being computed using individual instruments—is more typically an independent summary of a fact, such as the number of stocks on an exchange
+that rose on a particular day or the total number of shares that traded
+on a particular exchange. For simplicity’s sake, we will refer to both indexes and indicators as “indexes” since they are treated the same way in
+ProphetCharts.
+In ProphetCharts, index symbols are preceded by the dollar sign:
+$INDU represents the Dow 30, $UTIL represents the Dow 15 Utility Index,
+83
+
+84
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 5.1 The index module provides easy access to popular index data.
+
+$NDX represents the NASDAQ 100 Index, $HUI is the Gold Bugs Index, and
+so forth.
+There is an Index module built into ProphetCharts to make the task
+of accessing indexes simpler than memorizing a bunch of arcane symbols.
+If you choose to display the Index module, you will see the list shown in
+Figure 5.1. Double-clicking any of these items will make that index appear,
+using the time duration and frequency you have selected. Some indexes go
+back for a long time; the Dow Jones Industrial Index goes back the farthest,
+with data back to the beginning of 1900. (As an aside, we actually had data
+from the nineteenth century, but Java cannot comprehend time prior to
+1900, so we had to forgo using it).
+As of this writing, the vast majority of indexes in ProphetCharts lack
+volume data. There are a handful of exceptions, but on the whole, the
+volume pane will be blank for any indexes (and all indicators). There are
+some instances where ProphetCharts has volume data, but they begin only
+later in the time series. Figure 5.2, for instance, shows the Dow Utility
+Index with volume data commencing early in 2007. Before that, the volume
+is all zeros.
+Looking at indexes in ProphetCharts should probably be a daily routine for active traders, since the movement of major indexes is a major
+influence on the direction of individual equities. You will probably want to
+create a watch list to store the indexes you most frequently examine.
+
+EQUITIES
+Equities are most typically shares of common stock in public companies,
+although for the purposes of our discussion, they include any instrument
+
+Market and Data Types
+
+85
+
+FIGURE 5.2 Most of the index data in ProphetCharts have no volume data or only
+partial data.
+
+that is traded on a stock exchange (including, for instance, ExchangeTraded Funds, commonly known as ETFs).
+When people speak of equities, they are usually talking about stocks
+such as Google (GOOG), Apple Inc (AAPL), Kelloggs (K), and Johnson &
+Johnson (JNJ). They are also talking about funds such as the NASDAQ
+100 ETF (QQQQ), the gold trust (GLD), the silver trust (SLV), the S&P 500
+“spyders” (SPY), and other popular trading vehicles.
+
+86
+
+CHART YOUR WAY TO PROFITS
+
+Symbols for equities range in length from one alphabetic character
+(such as C, which stands for CitiCorp) to five characters. They typically
+only have alphabetic characters (examples: HD, IBM, F, SHLD), although
+for preferred stocks and other special issues, there may be other symbols
+(for instance, BRK.A for Warren Buffett’s Berkshire Hathaway). You can
+use the search item in the symbols menu to find the symbol of any security.
+The data fields for equities are:
+Open—The opening price (that is, the first traded price) for the given
+time period (usually one day, but in the case of intraday graphs or
+other frequencies, it will be longer or shorter)
+High—The highest price for that time period
+Low—The lowest price for that time period
+Close—The last price for that time period
+Volume—The total number of shares traded during that time period
+Something unique to equity symbols in ProphetCharts are event icons,
+which are automatically displayed on the price chart. Figure 5.3 shows an
+example of a stock with many event icons. Mousing over any of these
+will provide more information about the meaning of the event for that
+stock.
+Because active ProphetCharts users tend to be technical traders, the
+event icons aren’t something that you will probably be using a lot. By
+pressing Ctrl-E, you can toggle between showing and hiding the event
+icons. However, there are times when it is helpful to have an awareness
+of events—particularly market-moving events such as earnings announcements. The four different kinds of event icons displayed are:
+Dividends—This looks like an up-arrow and denotes when a dividend
+is paid and its value.
+Stock Splits—This looks like two overlapping squares and indicates
+when a stock has split and by what amount.
+Conference Calls—This looks like a telephone and indicates a conference call between a company’s management and stock analysts.
+Earnings Announcement—This looks like a dollar sign and shows
+when a company’s quarterly earnings were (or will be)
+announced.
+An example of a dividend event is shown in Figure 5.4. Mousing over
+this arrow icon shows that a 22-cent dividend was paid on September 22,
+2005. As you can see, there are five dividend icons in this particular example, so the span of time displayed is about five quarters (since dividends

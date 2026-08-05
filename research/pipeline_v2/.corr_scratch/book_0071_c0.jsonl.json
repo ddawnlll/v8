@@ -1,0 +1,389 @@
+[
+ {
+  "claim_ref": "book_0071::lead_book_0071_2_011",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_2_012",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_013",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_014",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_2_013",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_015",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_027",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_028",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_029",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_030",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 46,
+  "exact_text": "buying tomorrow at a percentage of today's range added to\ntoday's close",
+  "added_conditions": [
+   "buy at a percentage of today's range added to today's close",
+   "sell by subtracting a percentage of the previous day's range from the close"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_031",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_032",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 65,
+  "exact_text": "the buy\nentry comes at 40 percent of the previous day's range added to the open, the sell entry at 200 percent of the\nrange subtracted from the open",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "buy entry: percent of previous day's range added to the open",
+    "value": "40 percent",
+    "page": 65
+   },
+   {
+    "name": "sell entry: percent of previous day's range subtracted from the open",
+    "value": "200 percent",
+    "page": 65
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_033",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 65,
+  "exact_text": "buy at 80 percent of the swing value above the opening and sell at 120 percent of the swing\nvalue below the opening",
+  "added_conditions": [
+   "only take buy signals if the closing price of bonds is greater today than 5 days ago",
+   "only take sells if bonds are lower than 35 days ago"
+  ],
+  "added_parameters": [
+   {
+    "name": "buy entry: percent of swing value above the opening",
+    "value": "80 percent",
+    "page": 65
+   },
+   {
+    "name": "sell entry: percent of swing value below the opening",
+    "value": "120 percent",
+    "page": 65
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_039",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_040",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_041",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 85,
+  "exact_text": "buy that day at an expansion off the opening price",
+  "added_conditions": [
+   "buy on the opening of the bias day plus a percent of the previous day's range",
+   "exit at the close"
+  ],
+  "added_parameters": [
+   {
+    "name": "buy entry: percent of Friday's range added to Monday opening",
+    "value": ".05 percent",
+    "page": 85
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_042",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_044",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_046",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_047",
+  "verdict": "corroboration",
+  "behavior_id": "contrarian_extreme_reversal",
+  "page": 98,
+  "exact_text": "A \"smash day buy setup\" consists of a\nday that closes lower than the previous day's low",
+  "added_conditions": [
+   "day closes lower than the previous day's low (naked close)",
+   "may take out the previous 3 to 8 days' lows"
+  ],
+  "added_parameters": [
+   {
+    "name": "smash day takes out previous days' lows",
+    "value": "3 to 8 days",
+    "page": 98
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_049",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 98,
+  "exact_text": "If it is broken below, or taken out in the next 1 to 3 days, there is\na great probability the upside breakout was false",
+  "added_conditions": [
+   "uptrending market moves sideways in a box or congestion then breaks out to the upside with a naked close above the entire trading range",
+   "the true low of the breakout day is broken below or taken out in the next 1 to 3 days"
+  ],
+  "added_parameters": [
+   {
+    "name": "congestion box duration before upside breakout",
+    "value": "5 to 10 days",
+    "page": 98
+   },
+   {
+    "name": "window for taking out the breakout day's true low",
+    "value": "1 to 3 days",
+    "page": 98
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_050",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_051",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 122,
+  "exact_text": "If the day after the up close, price moves more than .25 points below the opening, we have a new\n\"amount\" of sellers in the marketplace",
+  "added_conditions": [
+   "sell signal in effect when, after an up close, price moves more than .25 points below the opening"
+  ],
+  "added_parameters": [
+   {
+    "name": "sell signal threshold below opening after an up close",
+    "value": ".25 points",
+    "page": 122
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_052",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 122,
+  "exact_text": "The basics here involve volatility breakouts above or below the opening",
+  "added_conditions": [
+   "only take buy signals after down days, sells after up days"
+  ],
+  "added_parameters": [
+   {
+    "name": "swing value lookback period",
+    "value": "1 to 4 days",
+    "page": 122
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_055",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 137,
+  "exact_text": "take profits at the 3-bar high and await a pullback to the 3-bar low",
+  "added_conditions": [
+   "buy the 3-bar low line after a trend reversal up and take profits at the 3-bar high",
+   "pass on the trade if the 3-bar low would create a trend reversal for selling"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_056",
+  "verdict": "corroboration",
+  "behavior_id": "line_crossover_momentum",
+  "page": 137,
+  "exact_text": "look for market rallies whenever this index moves from negative territory, below the zero line, to above\nit into positive land",
+  "added_conditions": [
+   "sell when the index has been positive and then falls below the zero line"
+  ],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_057",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_059",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_060",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_061",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_062",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_063",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_064",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0071::lead_book_0071_1_065",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

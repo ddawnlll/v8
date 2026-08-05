@@ -1,0 +1,300 @@
+The Conditional Optimized Moving Average System™ (COMAS) incorporates the pivot point moving average approach with another variable.
+This method combines two moving averages. The resulting system provides
+a powerful crossover trigger to enter the market as well as an indicator of
+the move’s strength with the slope and the difference, or separation, of the
+moving average lines.
+A crossover provides both the entry and the exit signals, in addition to
+a set of rules or conditions. This system works on any time frame, five min-
+
+Pivot Point Moving Average System
+
+169
+
+utes and greater, and in any high-volume market. It is an excellent shortterm trading method for highly liquid markets such as forex, for certain futures markets, and for stocks that have ample trading volume. One
+variation of what I use in my trading library with the Genesis Software and
+teach in our Trading Triggers University is the one-period pivot point with
+the three-period moving average of the pivot point. There are other combinations you can use, such as a five-period pivot point moving average of the
+pivot point with a two-period simple moving average of a close. I test various time periods and variables for my parameter settings because of the
+various conditions each market has. After all, bonds move differently than
+the e-mini–Standard & Poor’s (S&P) 500, the mini-Dow, the Russell, or the
+Nadsdaq does. You may agree that forex currencies move differently than
+individual stocks. The bottom line is this: I use the two moving average values to help me identify a shift in momentum of the market; and then as the
+conditions change, such as a close above or below the values of both moving averages, I use the pivot point filtering method to help me identify a potential profit target.
+For the purposes of this book, let me show you how to integrate the
+pivot point with the three-period moving average of the pivot point. In
+Chapter 5, I disclosed how to filter the pivot support and resistance levels
+by labeling the market condition as neutral, bullish, or bearish. You can also
+chart and track the conditional change of the market by plotting the directional change in the two moving average settings. Figure 6.7 shows both
+moving average values declining; but as the pivot point crosses above the
+three-period moving averages, it alerts us that the internal market condition
+is changing to bullish. Once both moving averages start to point up and the
+pivot point is above the three-period pivot point average the market condition confirms we are in a bullish trend. As a general rule, a trader would
+look to buy from an area of support in a market that is trending upward
+(buy pullbacks).
+Figure 6.8 shows a five-minute chart on the e-mini–S&P 500 futures. In
+the preopen outcry session around 8:00 A.M. (yes, you can trade preopen
+outcry session), notice that the market is trading sideways and that the
+moving average values are as well. Then by 8:30 A.M., the market turns
+lower and goes into a congestion phase trading sideways until 9:45 A.M. The
+tall white candle closes above both moving average values and above the
+prior time period’s high (which was a hammer pattern). As the market
+starts to move in a bullish trend mode, focus on the action of the moving averages in relation to prices. The pivot point is above the three-period moving average pivot point; and there are higher highs, higher lows, and higher
+closing values above both moving averages and past highs. This series of
+conditions continued until after the top was formed by a shooting star at
+10:15 A.M. The trigger to go long occurred after the breakout of the sideways
+
+170
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 6.7
+
+FIGURE 6.8
+Used with permission of esignal.com.
+
+Pivot Point Moving Average System
+
+171
+
+range at 1282.25 and after the trigger to exit the trade was initiated at 1288.
+This was a 5.75-point gain per contract. The focus is that prices traded
+above both moving average values and that the three-period pivot point
+moving average acted as support all the way up. Both moving averages
+were moving in tandem with each other, and the slope of both averages was
+pointing in the direction of the trend.
+
+TRADING TIPS
+This is an important point, so let me reiterate—What helps indicate the
+strength of a trend when you use two or more sets of values for your moving averages are:
+• The slopes of the moving averages are both pointing in the direction of
+the trend.
+• The moving averages have a good degree of separation or are equidistant from each other, which indicates a steady trending condition.
+• The moving averages are trending in tangent or are parallel with each
+other, rather than one significantly outpacing the other.
+• If the shorter-term moving average separates or moves too far away
+from the longer-term moving average, then there is a potential for an
+overbought condition. Traders should start looking to liquidate half of
+their positions.
+• When a crossover occurs, traders should liquidate the entire position
+We have not yet covered candle patterns, an integrating component of
+this trading method. Most traders have a basic understanding of candle patterns, and I do go over the more frequent and recurring ones. By now you
+may have seen dojis, shooting stars at tops, and hammers at bottoms in this
+first section of the book. There is a good reason for that, which we will
+cover. Right now, let’s focus on the moving average components.
+Figure 6.9 is a 5-minute chart on the CBOT mini-Dow looking at the
+same time period as the e-mini–S&P in Figure 6.8. Notice the coincidence
+factor as both markets form similar patterns at the same precise moment. I
+bring up this point because it is important that as a day trader you follow
+like or similar markets to see if there is confirmation throughout the sector.
+Besides, if one market rallies, it is likely that the other market will rally as
+well. All 30 stocks in the Dow are traded in the S&P 500. Therefore, they
+can be considered like, or markets that will trade in tandem with each
+other. One market may develop a specific pattern that is more pronounced
+than a pattern in the other market, and you can trade one market based on
+
+172
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 6.9
+Used with permission of esignal.com.
+
+a signal from the other. Notice in Figure 6.9 that the Dow made a lower low
+on that day and was formed by what I call the jackhammer pattern, which
+I will cover later.
+Watch the relationship of the moving averages. Once the long white
+candle formed after the hammer, which is the candle that made the lowest
+low point in the market, the tall white candle closed above both moving average values and above the hammer candle’s high. As prices started to
+move in a bullish trend, focus on the action of the moving averages in relation to prices. The pivot point is above the three-period moving average
+pivot point; prices form a sequence of higher highs, higher lows, and higher
+closing values above both moving averages and the prior time period’s
+highs. This series of conditions continued until after the top was formed by
+a shooting star around 10:15 A.M. in conjunction with the mini-S&P. The
+trigger to enter a long occurred at 10845 until the first lower closing low, or
+conditional change, occurred when prices closed below prior sessions’
+lows and below the moving averages at 10895—a nice clean 50-point trade
+in the mini-Dow, or $250 per contract in less than 50 minutes.
+In Figure 6.10, let’s go over what the 15-minute chart on the spot forex
+
+Pivot Point Moving Average System
+
+173
+
+FIGURE 6.10
+Used with permission of esignal.com.
+
+yen looks like with the COMAS method. If you look at the candle before 10
+A.M., you will see the moving average values actually crossed over first, before the long white candle formed after 10 A.M. This gives an early warning
+and indicates that there is a bullish bias. Keep in mind that it happened before the price action confirmed a bullish trend with the sequence of higher
+highs, higher lows, and higher closing highs. This feature allows you to
+have an early warning system in place that helps spot directional trend
+changes. Look at Figure 6.11 with the daily chart on the spot forex British
+pound. As you can see, the moving average crossover that occured on November 25 foretold of the bullish trend reversal that carries the market
+from the 1.71 level all the way up to the 1.77 area. In that trend run, you will
+see how the moving averages both lined up and acted as support. By the
+time December 15 rolled around, see how the moving averages cross back
+down, giving you an early warning that the trend was in jeopardy; and sure
+enough, a bearish reversal occurred. From the peak made in December, we
+see that the market declined, which triggered a sell signal when the pivot
+point crossed beneath the three-period moving average. That not only indicated a major bearish reversal but also showed that the three-period pivot
+
+174
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 6.11
+Used with permission of esignal.com.
+
+point acted as a resistance line all the way down as prices kept in the bearish sequence of lower highs, lower lows, and lower closing lows. There is
+one more element to that sequence, which is that a dark candle represents
+the market closes below each time period’s open. Keep that in mind when
+we go over candle patterns in Chapter 7.
+As illustrated in Figure 6.12, the COMAS method can work in helping to
+determine changes in market conditions from a consolidating phase to a
+bullish uptrending phase and then back to a downtrending, or bearish, condition phase. This graph illustrates a bearish conditional change in the market once the pivot point crosses beneath the three-period moving average
+pivot point. Once you have identified that a bearish condition exists, then
+you can trigger a short position. As a general rule, a trader should look to
+sell from an area of resistance in a market that is trending to the downside;
+that is, sell rallies. A trader wll see more profits in selling rallies than in buying breaks in declining or bearish trending markets.
+In trading, as in life, timing is everything. There is nothing more frustrating to a trader than to correctly analyze the market, correctly predict
+the direction of the trend, get stopped out due to a premature entry, and
+
+Pivot Point Moving Average System
+
+175
+
+FIGURE 6.12
+
+then watch the market move in the originally predicted direction. As we all
+determine early in our trading careers, being correct about the direction of
+the trend is not enough. We must also be able to anticipate when the market is setting up to trigger an appropriate entry into the market. The pivot
+point combined with a moving average of the pivot point is one method that
+can help you successfully identify when a conditional change may occur in
+the market.
+Let’s look at Figure 6.13, which is a 15-minute chart on the spot forex
+British pound. Notice the period after the long white candle at approximately 9:00 A.M.—prices go in a sideways mode or consolidation phase.
+The moving averages also flatline with a bias toward a downward slope.
+The crossover occurs, followed by a lower closing low, a lower high, and a
+lower low; and the close is below the open. In addition, the price is closing
+beneath both moving averages; and, most important, the three-period pivot
+point moving average acts as resistance, all the way down, until the market
+moves into a consolidating phase.
+The concept of incorporating pivot point analysis with a moving average approach will give you a testable, mechanical, systematic approach to
+trading. In order to execute a trade, you need to have specific elements
+occur. Knowledge of these elements will arm you with critical information
+that can help provide you with protection from overtrading and from suffering from emotional pitfalls.
+
+176
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+FIGURE 6.13
+Used with permission of esignal.com.
+
+1. In order to execute a trade, you need to see a change in market direc-
+
+tion and commitment from the market to illustrate a change in market
+direction by closing above or below the moving averages.
+2. You need to follow some simple rules, such as take buy signals at support and take sell signals at resistance.
+The importance of this trading method is that you must be able to apply
+the techniques on a consistent basis that allows you to make decisions in a
+mechanical and nonemotional way. A common mistake that traders make
+is that they do not test a strategy to make a logical determination about
+whether the strategy is viable for their trading style. Many traders adopt a
+new strategy, trade with it immediately, and start tweaking different components of the strategy. Then they decide that there is no merit to the strategy, since it is not profitable, and begin looking for a different strategy. A
+much better approach is to establish a defined set of trading rules and test
+those rules until an outcome is determined based on a reasonable number
+of trades. Patience to wait for triggers and not act on the anticipation of an
+outcome and discipline to follow through with that trigger are a must if you
+are to be successful. These character traits can be learned and developed
+
+Pivot Point Moving Average System
+
+177
+
+by implementing this methodology. It is what I teach students and other
+highly successful professional traders.
+When the price target has been met and the trigger has presented itself,
+enter the trade without hesitation. Do not think about the entry; this is a
+mechanical process. You have already done your homework, and you have
+satisfied your criteria. Your system is in place, and this is part of the system.
+If you do not place the trade when the trigger executes and confirms, you
+are not trading according to your plan. Successful traders have the courage
+to act and act promptly. It is important to recognize the immediate environment or market condition. Is it up, down, or sideways? After a trend is
+established, let’s say a bullish trend, it should consist of higher highs and
+higher lows; each period should close above the open, and we should see
+higher closing highs. The pivot point moving average should help verify
+this condition. In a bearish trend, we would want to see lower highs and
+lower lows; each period should close below the open of each period. Under
+these circumstances, the pivot point moving average should confirm this
+market condition as well.
+Traders need to identify themselves, which will help them know the
+time frame to follow in a trending market. Are you a day trader? Are you a
+swing trader who may be in a position that lasts two to five days? Or are
+you a position trader? Once you acknowledge what your time objective is,
+you can narrow down your goals and your expectations for the trade. For
+example, when I am day trading, I will generally be able to identify what the
+average range for a day is; I will expect that if I miss 20 percent of the bottom and 20 percent of the top, while waiting for a moving average crossover
+signal, then I can expect to only capture 60 percent of the average daily
+range. Perhaps this can be achieved only once or twice a day.
+
+HOW DO I START?
+First, I need to structure my computer and my charts to a format that is
+conducive to day trading. For stock index contracts, I watch two “like” or
+“tandem” markets in two time periods. These are the CBOT mini-Dow and
+the e-mini–S&P. Lately, due to client requests, I have been alerted to trading the Russell 2000 and the German stock index Deutscher Aktien Index,
+known as the DAX. The DAX, an index portfolio of 30 German blue-chip
+stocks, opens at 3 A.M. (ET) and closes at 11 A.M. (ET). (On a side note, as
+of October 2006, the DAX, based in Frankfurt, Germany, will start accepting non-German companies. In order to qualify for the Index, foreign companies must conduct their operations in Germany.) The DAX 30 actually
+tracks close to moves in the S&P 500 futures. In spot forex, I use the euro
+and a like market, such as the British pound and the yen.
+
+178
+
+CANDLESTICK AND PIVOT POINT TRADING TRIGGERS
+
+For day trading, I use the 5- and 15-minute time periods. All of my chart
+screens look the same: The 5-minute e-mini–S&P and the mini-Dow are on
+the top, and the 15-minute S&P and mini-Dow are on the bottom. All my
+chart pages are set up this way; therefore, all chart pages are synchronized
+so that I do not watch different time periods when switching from one
+screen to another—I have a uniform setting.
+• I find the most reliable day trade signals are confirmed in the 15-minute
+time frame and triggered in the 5-minute time period as well.
+• When both time frames are in sync with each other and when like markets have similar signals, this generates a higher probability trigger.
+As I stated earlier, the parameters I use in this book are a variation of
+what is programmed in my proprietary library with Genesis Software. This
+is a system that generates buy and sell signals based on the principles we
+have gone over in the book so far. More information on this software can be
+found on my web site at www.nationalfutures.com
+Figure 6.14 illustrates how I line up the e-mini–S&P with the mini-Dow
+side by side with the corresponding time periods of 5 minutes at the top and
+15 minutes at the bottom. Stock and forex charts are lined up the same way.
+The greatest feature with this software is that it highlights a sell signal
+with a red triangle pointing down, and it signals a buy trigger with a green
+triangle pointing up. These coincide against resistance levels to sell and
+support levels to buy. As you can see, the sell signals when aligned against
+the pivot point resistance numbers offer a fantastic visual confirmation
+based on my predefined strategies; therefore, it will help eliminate the emotional element and impatience of acting on anticipation rather than on a
+true signal.
+All the signals and methods covered in this book can be applied with
+most charting packages. In fact, 26 years ago, I was calculating the pivot
+point support and resistance numbers with a handheld calculator. The pivot
+point calculator is available on my web site. In addition, this book comes
+with a CD (compact disc) that has a pivot point calculator as well. All that
+needs to be done is to input the data for the high, the low, and the close; and
+the R-2 down to the S-2 numbers will be calculated for you. It is very easy
+to use; all you need are the prices for stocks, futures, or forex markets for
+any time frame. Figure 6.15 shows the monthly price range for Dell Inc.,
+which I will use to demonstrate how powerful this method of market analysis is when combined with certain candlestick patterns.
+Figure 6.16 is Dell with the monthly and weekly pivot support targets
+indicating a possible bottom. Using the higher time frames, such as the
+monthly figures, alerted me to a major bottom. All I then needed to do was
+
+Pivot Point Moving Average System
+
+179
+
+FIGURE 6.14
+Used with permission of www.GenesisFT.com.
+

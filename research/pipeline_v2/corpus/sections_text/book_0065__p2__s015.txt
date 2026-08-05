@@ -1,0 +1,1098 @@
+The term "moving" in moving average is applicable because, as the
+newest data is added to the moving average, the oldest data is dropped.
+Consequently, the average is always moving as the new data is added.
+As seen in the simple moving average example above, each day's
+gold price contributed 1 , to the total moving average (since this was a
+five-day moving average). A nine-day moving average means that each
+day will only be % of the total moving average. Consequently, the longer
+the moving average, the less impact an individual price will have on it.
+The shorter the term of the moving average, the closer it will "hug"
+prices. This is a plus insofar as it is more sensitive to recent price action.
+The negative aspect is that it has a greater potential for whipsaws.
+Longer-term moving averages provide a greater smoothing effect, but
+are less responsive to recent prices.
+The more popular moving averages include the four- , nine- , and
+18-day averages for shorter-term traders and the 13- , 26- , and 40-week
+moving averages for position players. The 13- and 40-week moving averages are popular in Japan. The spectrum of moving average users runs
+from the intra-day trader, who uses moving averages of real-time trades,
+to the hedger who may focus on monthly, or even yearly, moving averages.
+Other than the length of the average, another avenue of analysis is
+based on what price is used to compute the average. Most moving average systems use, as we did in our gold example, closing prices. However, moving averages of highs, lows, and the mid-point of the highs
+and lows have all been used. Sometimes, moving averages of moving
+averages are even used.
+
+THE WEIGHTED MOVING AVERAGE
+A weighted moving average assigns a different weight to each price used to
+compute the average. Almost all weighted moving averages are front
+loaded. That is, the most recent prices are weighted more heavily than
+older prices. How the data is weighted is a matter of preference.
+
+THE EXPONENTIAL MOVING AVERAGE
+AND THE MACD
+The exponential moving average is a special type of weighted moving average. Like the basic weighted moving average, the exponential moving
+
+Candlesticks with Moving Averages
+
+average is front weighted. Unlike other moving averages, though, the
+exponential moving average incorporates all prior prices used in the
+data. This type of moving average assigns progressively smaller weights
+to each of the past prices. Each weight is exponentially smaller than the
+previous weight, hence, the name exponential moving average.
+One of the most popular uses of the exponential moving average is
+for use in the MACD (Moving Average Convergence-Divergence). The
+MACD is composed of two lines. The first line is the difference between
+two exponential moving averages (usually the 26- and 12-period exponential moving averages). The second line of the MACD is made by taking an exponential moving average (usually a 9 period) of the difference
+between the two exponential moving averages used to make the first
+line. This second line is called the signal line. More about the MACD in
+Exhibits 13.7 and 13.8.
+
+HOW TO USE MOVING AVERAGES
+Moving averages can provide objective strategies with clearly defined
+trading rules. Many of the computerized technical trading systems are
+underpinned on moving averages. How can moving averages be used?
+The answer to this is as varied as there are different trading styles and
+philosophies. Some of the more prevalent uses of the moving average
+include:
+1. Comparing the price versus the moving averages as a trend indicator.
+For instance, a good gauge to see if a market is in an intermediateterm uptrend could be that prices have to be above the 65-day moving average. For a longer-term uptrend prices would have to be
+higher than the 40-week moving average.
+2. Using the moving average as support or resistance levels. A close
+
+above the specified moving average would be bullish. A close below
+the moving average would be bearish.
+3. Monitoring the moving average band (also known as envelopes). These
+bands are a certain percentage above or below the moving average
+and can serve as support or resistance.
+4. Watching the slope of the moving average. For instance, if the moving average levels off or declines after a period of a sustained rise, it
+may be a bearish signal. Drawing trendlines on the moving averages
+is a simple method of monitoring their slope.
+5. Trading with a dual moving average system. This is addressed in
+detail later in this chapter.
+
+217
+
+218
+
+The Rule of Multiple Technical Techniques
+
+The examples that follow use various moving averages. They are not
+based on optimum moving averages. An optimum moving average
+today might not be the optimum one tomorrow. The moving averages
+used in this text are widely monitored along with some which are not as
+widely used but which are based on such tools as Fibonacci numbers.
+The moving averages used here are not the important point. What is
+meaningful is how moving averages can be melded with candlesticks.
+I like using the 65-day moving average as a broad spectrum moving
+average. From my experience, it seems to work well in many of the
+futures markets. Exhibit 13.1 illustrates a 65-day moving average that
+offered support to the market at areas 1, 2, and 3. Beside the moving
+average shoring up the market at these points, we see a bullish engulfing pattern at area 1, a hammer and harami at 2, and another hammerlike line at 3.
+Exhibit 13.2 reveals that a confluence of technical factors joined on
+April 2 and 3 to warn alert eyes of trouble ahead. Let us take a look at
+the specifics:
+1. In early March, prices broke under the 65-day moving average. From
+
+that point, the moving average became resistance.
+
+10: 10
+O= 6510
+-H= 6520
+
+. .
+
+L= 6452
+
+L= 6 4 6 % ~.
+.A=
+
+@
+
+SNO DAILY BAR
+
+-52 65 SIM (CLI
+0 SIM (CLI
+0 SIM (CL)
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+<
+
+1990 CQG INC.
+
+..
+
+\
+
+Average
+-. -. . O= 6510 .
+H= 6520
+.L= 6452 ,.
+C= 6464
+129
+
+-
+
+6055.91...................................................................................................................
+
+Mar
+15
+
+112
+
+119
+
+126
+
+15
+
+MUY
+
+Apr
+
+112
+
+I19
+
+126
+
+12
+
+19
+
+(16
+
+123
+
+EXHIBIT 13.1. Soybeans-July 1990, Daily (Simple Moving Average with Candlesticks)
+
+130
+
+J
+
+Candlesticks with Moving Averages
+14 : 09
+O= 1935
+H= 1947
+L= 1892
+L= 1902A
+=
+-5 65 SIM (C1
+0 SIM (C)
+0 SIM (C)
+
+@
+
+CLMO DQILY BAR
+
+.
+
+.
+
+1989 CQG INC.
+
+.
+
+'
+
+:
+A
+
+..........................
+
+'
+
+Dark-cloud
+Cover
+
+65- day
+Moving
+Average
+
+..........................
+
+EXHIBIT 13.2. Crude Oil-June 1990, Daily (Simple Moving Average with Candlesticks)
+
+2. The two candlesticks on April 2 and 3 formed a dark-cloud cover. This
+dark-cloud cover was also a failure at the moving average's resistance
+area.
+3. April 3 was not only a dark-cloud cover and a failure at a moving
+average, but it was also within 7 ticks of a 50% retracement of price
+decline A-B.
+
+Exhibit 13.3 shows that late February's test of the 65-day moving
+average support line was confirmed with a hammer. The market retested
+these lows a few days later and, in the process, formed a tweezers bottom.
+
+219
+
+220
+
+The Rule of Multiple Technical Techniques
+
+7:33
+
+o=
+H=
+
+L=
+L=
+A=
+
+SUKO DGILY BAR
+
+.
+
+..
+
+.
+
+65 SIM [C)
+
+............
+
+;
+
+.
+
+.
+
+@
+
+.
+
+.
+
+1989 CQG INC.
+
+4....
+
+:
+
+.......................................................................................
+
+...
+
+............
+
+..
+
+Hammer
+. .
+
+Moving
+Average
+
+.
+
+.................................................
+
+0=
+
+.
+
+1
+
+.
+
+.
+
+,
+
+.
+
+1
+
+............................................................
+
+H=
+
+L=
+
+c=
+I
+
+118
+
+126
+
+'Jan
+1112
+
+18
+
+115
+
+122
+
+129
+
+'Feb
+15
+
+112
+
+120
+
+126
+
+'Mar
+15
+
+I
+112
+
+EXHIBIT 13.3. Sugar-May 1990, Daily (Simple Moving Average with Candlesticks)
+
+DUAL MOVING AVERAGES
+There are many ways two moving averages can be used. One way is as
+an overbought/oversold indicator or oscillator. This indicator is obtained
+by subtracting the shorter-term moving average from the longer-term
+moving average. This indicator has plus or minus values. Thus a value
+above 0 means the shorter-term moving average is above the longer-term
+moving average. Anything under 0 means the shorter-term moving average is less than the longer-term moving average. In doing this, we are
+comparing the short-term momentum to a longer-term momentum. This
+is because, as discussed earlier, the short-term moving average is more
+responsive to recent price activity. If the short-term moving average is
+relatively far above (or below), the longer-term moving average, the market is said to be overbought (or oversold).
+Another use of two moving averages is to monitor crossovers
+between the short-term and longer-term moving averages. If the shorterterm moving average crosses the longer-term moving average, it could
+be an early warning of a trend change. An example would be if a
+shorter-term moving average crosses above a longer-term moving aver-
+
+221
+
+Candlesticks with Moving Averages
+
+age. This is a bullish signal. In Japan, such a moving average crossover
+is called a golden cross. Thus, if the three-day moving average crosses
+above the nine-day moving average it is a golden cross. A dead cross in
+Japan is the opposite. It is a bearish indication which occurs when the
+shorter-term moving average crosses under the longer-term moving
+average.
+For a short-term overbought/oversold indicator, some technicians
+monitor the current close in relation to the five-day moving average. (See
+Exhibit 13.4.) For instance, if copper's five-day moving average is $1.10
+and today's close is $1.14, copper would be $.04 overbought. In this
+example, the lower graph's line is made up of the five-day moving average subtracted from the current close. As can be seen from this chart,
+when this dual moving average line gets about 400 points (that is, $.04)
+overbought the market become vulnerable-especially with bearish candlestick confirmation. At time period 1, an overbought reading coincided
+with a harami; at period 2, it hit another harami; at 3, it hit a doji; and at
+4, it hit another harami. A market can relieve its overbought condition
+by selling off or by trading sideways. In this example, time periods 1 and
+3 relieved the overbought situation by easing into a lateral band. Periods
+2 and 4 saw selloffs. Overbought markets usually should not be shorted.
+
+,
+
+8:03
+
+CPUO D A I L Y BAR
+
+: 0=
+. H=
+- L=
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+, L=
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+0
+
+1990 CQG INC.
+
+.
+
+. Harami
+
+,
+
+A=
+: . . . . . . . . . . . . . . . I . . . . . . . . . . . . . . .........................................................................................
+
+:
+
+i
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+"
+
+- .....................................
+.
+
+j
+
+.
+
+'I
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+..,
+
+.
+
+l
+
+.: Harami . . . . . .
+
+................
+
+....
+
+.
+
+.
+
+I.
+
+I
+
+......12001:
+
+.
+
+.
+
+I. .
+
+.
+
+.
+
+.
+
+I.
+
+.
+
+:
+
+. o=
+
+1
+
+7/24/90,"!
+
+:
+P'n
+0 ' .
+i .
+
+:.
+
+.
+
+.
+
+I
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.............
+i
+
+.I 10oOC
+
+f .
+
+:
+
+........ .+P?,......... ....................................... .................... .................... ................
+
+I
+
+.
+
+11:
+
+EXHIBIT 13.4. Copper-September 1990, Daily (Dual Moving Averages with Candlesticks)
+
+222
+
+The Rule of Multiple Technical Techniques
+
+,14: 13
+
+@
+
+OMUO DAILY BAR
+
+. O= 6446
+
+H= 6469
+. L = 6415
+-L= 6463V
+.
+, A = +18 13 SIM [CLI
+40 SIM [CL)
+0 SIM (CL)
+
+..
+.
+.
+.
+
+1990 CQG INC.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+:. .................................:........................................
+.:. ...............
+
+H=
+-L=
+t
+
+6334.69
+Fry Pan Bottom
+6166.92 ..................................................................................................................
+- 580[
+
+6469
+6415 ..
+
+. C= 6463
+114
+
+.Jun
+
+121
+
+128
+
+14
+
+.Jul
+
+111
+
+I18
+
+125
+
+12
+
+.Aug
+
+I9
+
+116
+
+123
+
+130
+
+J
+
+16
+
+113
+
+EXHIBIT 13.5. Deutschemark-September 1990, Daily (Dual Moving Averages with Candlesticks)
+
+Instead, they should be used by longs to take defensive measures. The
+reverse is true in oversold markets.
+Two moving averages can be plotted as two lines overlaid on a price
+chart. As previously mentioned, when the shorter-term moving average
+crosses above a longer-term moving average it is called a golden cross by
+the Japanese and is a bullish indication. Exhibit 13.5 has a bullish golden
+cross and a fry pan bottom. The fry pan bottom was confirmed by the
+window on July 2. Note how the window became support in the first
+half of July and how the shorter-term moving average became support
+as the market rallied.
+Dual moving average differences are also used as a divergence vehicle. As prices increase, the technician wants to see the short-term moving average increase relative to the longer-term moving average. This
+would mean increasing positive values for the moving average difference
+line. If prices advance and the difference between the short- and longterm moving averages narrows, the market is indicating that the shorterterm momentum is running out of steam. This suggests an end to the
+price advance.
+In Exhibit 13.6, we have a histogram between two moving averages.
+During time periods 1 and 2, advancing prices were echoed by a
+
+223
+
+Candlesticks with Moving Averages
+14:Ol
+
+@
+
+CLMO DAILY BAR ,
+
+1989 COG INC.
+
+...........
+.
+.
+.
+...................: ................: 2201
+
+...................................................
+
+Dark-cloud
+
+.....
+
+.
+
+4/10/90
+O= 1890
+H= 1909
+L= 1830
+C= 1831
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.......................................................
+.
+. . ..
+
+......
+.......................
+. .
+
+OSC1=
+OSC2=
+
+I
+
+RUG =
+
+I
+
+18
+
+115
+
+122
+
+129 .
+
+.......... ...........
+
+..
+
+.
+
+.
+
+:
+
+t~elj
+
+15
+
+..
+
+112
+
+120
+
+126
+
+. . . . . . . . . . . . ......... .
+
+..
+
+.
+:mar
+
+15
+
+112
+
+119
+
+126
+
+12
+
+EXHIBIT 13.6. Crude Oil-June 1990, Daily (Dual Moving Averages with Candlesticks)
+
+widening differential between the short- and long-term moving averages. This means the shorter-term moving average is increasing more
+quickly than the longer-term moving average. This bodes well for a continuation of the uptrend. Time period 3 is where the market experienced
+problems. The $.50 rally, which began February 23, was mirrored by a
+narrowing of the moving average differential. This reflects a weakening
+of the short-term momentum. Add to this the dark-cloud cover and you
+have a market vulnerable to a price pullback.
+The histogram also displays when the short-term moving average
+crosses above or below the longer-term moving average. When the histogram is below 0, the short-term moving average is under the long-term
+average. When it is above 0, the short-term average is above the longterm moving average. Thus, an oscillator reading under 0 represents a
+bearish dead cross; above 0 would be a bullish golden cross.
+There was a golden cross at time frame A. A few days before this
+golden cross there was a bullish inverted hammer. At B, there was a
+dead cross. At time frame C, prices had rallied but the short-term moving average could not get back above the longer-term moving average
+(that is, the oscillator remained under 0). In addition, a bearish signal
+was sent when the dark-cloud cover formed on April 2 and 3.
+
+.
+
++5l
+
+224
+
+The Rule of Multiple Technical Techniques
+
+15:07
+
+@
+
+BDUO DAILY BAR
+
+1990 CQG INC.
+
+8917 ............................ .
+............................................................................................................
+9600
+..O=
+H= 8924
+
+L= 8902
+.L= 89144
+.A=
+-9
+
+Bearish
+Engulfing
+Pattern
+
+.
+
+.
+
+:
+
+Pattern
+
+.
+
+......
+
+....
+
+.
+
+...................... 9400
+
+...............................................
+.......................................
+
+......................
+
+..
+9000
+8/ 17/90
+
+0- 8917
+-H= 8924
+L= 8902
+'C= 8914
+
+'
+
+0.150 EXP (CL) - 0.075 EX P (CL)
+
+.............
+
+.
+
+..
+
+..
+
+.
+
+.
+
+.
+. . .
+....................................................................
+................
+.........
+......... ............
+=..
+............
+. .
+
+OSCILLATOR BDUO OPILY BAR
+
+EXHIBIT 13.7. Bonds-September 1990, Daily (MACD with Candlesticks)
+
+EXHIBIT 13.8. Coffee-September 1990, Daily (MACD with Candlesticks)
+
+:
+
+Candlesticks with Moving Averages
+
+The MACD has two lines. They are shown on the lower chart in
+Exhibit 13.7. The more volatile solid line is the signal line. A sell signal
+occurs when this signal line crosses below the dashed, less volatile line.
+In this example, the bearish implications of the two bearish engulfing
+patterns were corroborated by the bearish crossovers of the MACD indicators (see arrows).
+In Exhibit 13.8, the signal line of the MACD pushed above the slower
+moving line in early July (see arrow). This was a notable clue that the
+market might be bottoming. Shifting to the candlesticks shows that the
+first morning star's bullish implications were voided by the dark-cloud
+cover. The price decline from this dark-cloud cover ended with another
+morning star. After a temporary set back with the hanging man, the
+market's upward force gained steam.
+
+225
+
+CANDLESTICKS
+WITH OSCILLATORS
+f#+e-rtFlB h if
+"Let every bird sing its own note"
+
+Pattern recognition techniques are often subjective (this includes candlestick techniques). Oscillators are mathematically derived techniques
+which offer a more objective means of analyzing the market. They are
+widely used and are the basis of many computerized trading systems.
+
+OSCILLATORS
+Oscillators include such technical tools as the relative strength index,
+stochastics, and momentum.
+As discussed in greater depth later in this chapter, oscillators can
+serve traders in at least three ways:
+1. Oscillators can be used as divergence indicators (that is, when the
+price and the oscillator move in different directions). They can warn
+that the current price trend may be stalling. There are two kinds of
+divergence. A negative, or bearish, divergence occurs when prices are at
+a new high, but the oscillator is not. This implies the market is internally weak. A positive, or bullish, divergence is when prices are at a new
+low but the oscillator does not hit a new low. The implications are
+that the selling pressure is losing steam.
+
+228 The Rule of Multiple Technical Techniques
+2. As overboughtloversold indicators, oscillators can notify the trader if
+
+the market has become overextended and, thus, vulnerable to a correction. Using an oscillator as an overbought/oversold indicator
+requires caution. Because of how they are constructed, oscillators are
+mainly applied in lateral price environments. Using an oscillator as an
+overboughtloversold indicator when a new major trend is about to
+commence can cause problems. If, for example, there is a break above
+the top of a congestion band, it could indicate the start of a new bull
+leg and the oscillator could stay overbought while prices ascend.
+3. Oscillators can confirm the force behind a trend's move by measuring
+the market's momentum. Momentum measures the velocity of a price
+move by comparing price changes. In theory, the velocity should
+increase as the trend is underway. A flattening of momentum could
+be an early warning that a price move may be decelerating.
+Use oscillator signals to place a position in the direction of the dominant trend. Thus, a bullish oscillator indication should be used to buy, if
+the major trend is up, and to cover shorts, if the major trend is down.
+The same idea applies to a sell signal vis-a-vis an oscillator. Do not short
+on a bearish oscillator signal unless the prevailing trend is heading
+south. If it is not, a bearish oscillator signal should be used to liquidate
+longs.
+
+THE RELATIVE STRENGTH INDEX
+The Relative Strength Index (RSI)' is one of the most popular technical
+tools used by futures traders. Many charting services plot the RSI and
+many traders closely monitor it. The RSI compares the relative strength
+of price advances to price declines over a specified period. Nine and 14
+days are some of the most popular periods used.
+How to Compute the RSI
+The RSI is figured by comparing the gains of up sessions to the losses of
+the down sessions over a given time frame. The calculations used are
+dependent only on closing prices. The formula is:
+RSI = 100 -
+
+(1 %S)
+
+where RS = average up points for periodlaverage down points for
+period
+
+Candlesticks with Oscillators
+
+Thus, computing a 14-day RSI entails adding the total gains made on
+the up days over the last 14 days (on a close-to-close basis) and dividing
+by 14. The same would be done for the down days. These figures provide the relative strength, (RS). This RS is then put into the RSI formula.
+This RSI formula converts the RS data so that it becomes an index with
+a range between 0 and 100.
+
+How to Use RSI
+The two main uses of RSI are as an overbought/oversold indicator and
+as a tool to monitor divergences.
+As an overbought/oversold indicator, the RSI implies that the market
+is overbought if it approaches the upper end of this band (that is, above
+70 or 80). At that point, the market may be vulnerable to a pullback or
+could move into a period of consolidation. Conversely, at the lower end
+of the RSI range (usually below 30 or 20), it is said to reflect an oversold
+condition. In such an environment, there is a potential of a short covering move.
+As a divergence tool, RSI calculations can be helpful when prices
+make a new high for the move and the RSI fails to make a concurrent
+high. This is called a negative divergence and is potentially bearish. A
+positive divergence occurs when prices make a new low, but the RSI
+does not. Divergences are more meaningful when RSI oscillator readings
+are in overbought or oversold regions.
+Exhibit 14.1 displays both a bullish positive and a bearish negative
+RSI divergence which helped these candlestick readings. At the time of
+the January 24 price low, the RSI was 28%. On January 31, a new price
+low for the move occurred. The RSI then was 39%. This was noticeably
+higher than the 28% RSI value of January 24. New price lows and a
+higher RSI level created a bullish positive divergence. Besides the positive divergence, the white line of January 31 engulfed the prior black
+candlestick. This built a bullish engulfing pattern.
+A doji star arose on March 14. The next session created a candlestick
+similar to a hanging man. (The lower shadow was not long enough for
+it to be a classic hanging man, though.) At the time of these potentially
+bearish candlestick indicators, the RSI was also sending out a warning
+alert. Specifically, the new price peaks of March 15 and 16 were mirrored
+by lower RSI readings. This is bearish negative divergence. The market
+made another price surge on March 21, and although this was a new
+price high, RSI levels continued to decline. The result was a pullback to
+the March support area of $1.11.
+In Exhibit 14.2 the decline that began with the bearish engulfing pat-

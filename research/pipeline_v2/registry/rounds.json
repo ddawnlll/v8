@@ -1,0 +1,208 @@
+{
+ "pipeline_version": "research_pipeline_v2.1",
+ "rounds": [
+  {
+   "round": 1,
+   "seed_round": true,
+   "books": [
+    "book_0098",
+    "book_0025",
+    "book_0016",
+    "book_0055",
+    "book_0005",
+    "book_0110",
+    "book_0020",
+    "book_0002",
+    "book_0032",
+    "book_0121"
+   ]
+  },
+  {
+   "round": 2,
+   "seed_round": false,
+   "books": [
+    "book_0056",
+    "book_0115",
+    "book_0083",
+    "book_0014",
+    "book_0038",
+    "book_0107",
+    "book_0079",
+    "book_0048",
+    "book_0114",
+    "book_0052"
+   ]
+  },
+  {
+   "round": 3,
+   "seed_round": false,
+   "books": [
+    "book_0007",
+    "book_0008",
+    "book_0006",
+    "book_0017",
+    "book_0086",
+    "book_0108",
+    "book_0018",
+    "book_0075",
+    "book_0080",
+    "book_0041"
+   ]
+  },
+  {
+   "round": 4,
+   "seed_round": false,
+   "books": [
+    "book_0111",
+    "book_0064",
+    "book_0021",
+    "book_0015",
+    "book_0124",
+    "book_0058",
+    "book_0119",
+    "book_0024",
+    "book_0117",
+    "book_0099"
+   ]
+  },
+  {
+   "round": 5,
+   "seed_round": false,
+   "books": [
+    "book_0105",
+    "book_0001",
+    "book_0084",
+    "book_0118",
+    "book_0050",
+    "book_0042",
+    "book_0065",
+    "book_0096",
+    "book_0103",
+    "book_0072"
+   ]
+  },
+  {
+   "round": 6,
+   "seed_round": false,
+   "books": [
+    "book_0109",
+    "book_0106",
+    "book_0100",
+    "book_0087",
+    "book_0095",
+    "book_0053",
+    "book_0092",
+    "book_0033",
+    "book_0062",
+    "book_0031"
+   ]
+  },
+  {
+   "round": 7,
+   "seed_round": false,
+   "books": [
+    "book_0049",
+    "book_0071",
+    "book_0091",
+    "book_0101",
+    "book_0039",
+    "book_0112",
+    "book_0104",
+    "book_0035",
+    "book_0074",
+    "book_0122"
+   ]
+  },
+  {
+   "round": 8,
+   "seed_round": false,
+   "books": [
+    "book_0076",
+    "book_0019",
+    "book_0069",
+    "book_0097",
+    "book_0081",
+    "book_0116",
+    "book_0054",
+    "book_0022",
+    "book_0047",
+    "book_0034"
+   ]
+  },
+  {
+   "round": 9,
+   "seed_round": false,
+   "books": [
+    "book_0073",
+    "book_0077",
+    "book_0051",
+    "book_0094",
+    "book_0046",
+    "book_0004",
+    "book_0059",
+    "book_0026",
+    "book_0027",
+    "book_0066"
+   ]
+  },
+  {
+   "round": 10,
+   "seed_round": false,
+   "books": [
+    "book_0057",
+    "book_0113",
+    "book_0090",
+    "book_0023",
+    "book_0029",
+    "book_0036",
+    "book_0085",
+    "book_0003",
+    "book_0040",
+    "book_0060"
+   ]
+  },
+  {
+   "round": 11,
+   "seed_round": false,
+   "books": [
+    "book_0061",
+    "book_0037",
+    "book_0063",
+    "book_0089",
+    "book_0013",
+    "book_0082",
+    "book_0044",
+    "book_0028",
+    "book_0123",
+    "book_0030"
+   ]
+  },
+  {
+   "round": 12,
+   "seed_round": false,
+   "books": [
+    "book_0067",
+    "book_0068",
+    "book_0093",
+    "book_0088",
+    "book_0012",
+    "book_0043",
+    "book_0011",
+    "book_0070",
+    "book_0125",
+    "book_0045"
+   ]
+  },
+  {
+   "round": 13,
+   "seed_round": false,
+   "books": [
+    "book_0120",
+    "book_0009",
+    "book_0102",
+    "book_0010",
+    "book_0078"
+   ]
+  }
+ ]
+}

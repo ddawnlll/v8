@@ -1,0 +1,422 @@
+
+33
+
+c02.indd 33
+
+1/13/09 9:56:19 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+traded in the USD/CHF currency pair with only $250 in trading account margin. This is assuming that the maximum leverage of 400:1 is utilized. In other words, for every $1 that a trader
+has invested in a forex account, that trader can control a whopping
+$400 in a currency trade. In this particular example, the $250 in the
+trader’s trading account can control a trade of $100,000, using 400:1
+leverage.
+Of course, like many good things in life, the massive amount
+of leverage offered in foreign exchange trading can be viewed as
+the proverbial double-edged sword. The fact that a small amount of
+money controls a large amount of money in forex trading can certainly serve to magnify profit potential. But on the flip side of the
+coin, the amount of risk inherent in highly leveraged trading like
+this is equally magnified.
+Therefore, it is advisable to use caution when trading with the
+substantial leverage common in forex trading. Highly leveraged trading is aggressive trading that is characterized by both high risk and
+high potential reward.
+
+M argin Call — Insufficient Funds
+The risk that is assumed when trading aggressively in currencies is
+primarily confined to the dreaded margin call. But contrary to the
+popular opinion that a margin call represents the worst-case scenario for a trader, this is far from the truth. The worst case could be
+far worse.
+A margin call is actually a safeguard to protect the trader from
+losing 100%, or even more, of the money in a trading account.
+
+34
+
+c02.indd 34
+
+1/13/09 9:56:19 AM
+
+Margin Call—Insufficient Funds
+
+To owe additional funds to a broker is actually the worst-case scenario, and this uncomfortable situation is largely avoidable because
+of the existence of the margin call.
+Unlike in the world of traditional stock trading, a margin call
+in foreign exchange trading is not actually a physical call from the
+broker to add additional funds to the margin account when equity
+is running low. In forex, if a trader no longer has enough equity in
+the trading account to keep the open position(s) viable, the trading platform software automatically closes out all open positions and
+immediately realizes all losses at the prevailing market rates.
+Although this may seem a bit cold-hearted, there are good reasons for automated margin calls in foreign exchange trading. Prices
+can move extremely fast in the forex market, and because of the
+high leverage involved, every price move is magnified. Therefore,
+when a trader’s equity runs low, the account can become depleted
+quickly and there is usually not enough time to call for more funds.
+As a safeguard measure, the forex margin call closes all open positions to help ensure that the trader does not lose the entire account,
+or worse.
+So when exactly is a margin call triggered? This depends entirely
+on the number and size of the lot(s) traded, the leverage chosen,
+and the equity in the account. But generally speaking, a margin call
+is triggered when a trading account no longer has sufficient equity
+available to maintain the required margin for the positions that are
+currently open.
+For example, suppose a trader has $2500 in a trading account,
+and leverage of 100:1 with a standard lot size of 100,000 units per
+trade have been chosen as the settings for this account. If this trader
+
+35
+
+c02.indd 35
+
+1/13/09 9:56:20 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+wishes to buy one lot (or GBP£100,000) of the GBP/USD pair,
+USD$1970 in margin is required to be put up, as per the exchange
+rate at the time of this writing. This is because £1000 is needed to
+control £100,000 at 100:1 leverage. But since the trading account
+is denominated in U.S. dollars, this £1000 needs to be converted
+into the U.S. dollar equivalent (which, at the current exchange rate,
+comes out to around $1970).
+Each minimum price movement, or pip (explained in the
+next section), is worth exactly USD$10 in this scenario. If we
+assume that this trader does not place any stop losses and the market goes against the position, every price movement against the
+position will bring down the account equity by $10. So, once
+again, if the trader has an initial $2500 in a trading account and
+the margin required to keep the trade open is $1970, the account
+will experience a margin call and the position will automatically
+be closed once equity dips below $1970, which is $530 below the
+initial account equity. At $10 per pip, this constitutes a potential
+pip loss of around 53 pips (minus the spread) before margin call is
+reached.
+The obvious problem with the example just given is that the
+trader entered into an inordinately large trade for the amount of
+funds in the trading account, and the trader also failed to use a stop
+loss. Of course, margin calls and even more horrible doomsday scenarios can easily be avoided just by using some good old-fashioned
+trading prudence. This includes using stop losses and only entering trades that are sized appropriately in proportion to the size of
+the trading account. This will be discussed further in the section
+covering risk and money management in Chapter 6.
+
+36
+
+c02.indd 36
+
+1/13/09 9:56:20 AM
+
+P i p s — T h e C u r r e n c y o f C u r r e n c y Tr a d i n g
+
+P ips — The Currency of Currency Trading
+Up to this point, pips have been lightly touched upon but not properly defined. An extremely important concept in foreign exchange
+trading, a pip is simply the smallest unit of price movement in the
+exchange rate of a currency pair. Pip can stand for “percentage in
+point” or “price interest point.” But regardless of the exact acronym definition, its practical meaning is clear. Traders trade foreign
+exchange in order to earn pips. Earned pips are the reward for a
+good trade, while lost pips are the punishment for a bad trade.
+Loosely akin to the “tick” found in other financial markets, a pip
+most often refers to the smallest change in the fourth decimal place
+of most major currencies. This would be the equivalent of 1/100th of
+one percent, or one basis point. The notable exception to this would
+be currency pairs denominated in Japanese yen, or JPY, in which a
+pip would constitute the smallest change in the second decimal place.
+So, for the vast majority of currency pairs like EUR/USD or
+GBP/CHF or AUD/NZD, the exchange rate format would look
+like x.xxxx, where a change of 0.0001 would constitute a pip movement. On the other hand, for the handful of currency pairs featuring the yen, like USD/JPY or GBP/JPY, the exchange rate format
+would look like xxx.xx, where a change of 000.01 would constitute
+a pip movement.
+Calculating the exact value of each pip for the currency pair
+and lot size traded is the job of the broker’s trading platform, which
+should include some kind of pip calculator created expressly for this
+purpose. In its absence, however, here is a simple calculation:
+Value Per Pip = [Lot Size] ⫻ [Number of Lots] ⫻ [Pip Size]
+
+37
+
+c02.indd 37
+
+1/13/09 9:56:20 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+The result of this equation will be denominated in the quote
+currency (the second currency in the pair). No currency conversion
+is needed for U.S. dollar-denominated trading accounts if the quote
+currency is already USD. To obtain the dollar value per pip if the
+quote currency is anything other than USD, however, the result must
+be converted to dollars using the current exchange rate between the
+quote currency and the U.S. dollar. Here are a few examples:
+Example 1: Pip value for 1 standard lot of USD/JPY = 100,000
+[Lot Size] ⫻ 1 [Number of Lots] ⫻ 000.01 [Pip Size] = ¥1000
+(quote currency in Japanese yen)
+Dollar pip value = ¥1000 ÷ 101.00 [current USD/JPY exchange
+rate] = $9.90/pip
+Example 2: Pip value for 1 standard lot of EUR/GBP = 100,000
+[Lot Size] ⫻ 1 [Number of Lots] ⫻ 0.0001 [Pip Size] ⫽ £10
+(quote currency in British pounds)
+Dollar pip value ⫽ £10 ⫻ 1.9750 [current GBP/USD exchange
+rate] = $ 19.75/pip
+Example 3: Dollar pip value for 1 standard lot of EUR/USD ⫽
+100,000 [Lot Size] ⫻ 1 [Number of Lots] ⫻ 0.0001 [Pip Size] ⫽
+$10/pip (quote currency already in U.S. dollars)
+This may all seem very confusing at first to the beginning trader,
+but again, most forex trading platforms come well-equipped with
+a pip calculator that provides all pip values. If this calculator is not
+offered, it helps to keep in mind that all currency pairs ending in
+USD (as the quote currency) will be $10/pip for a standard lot,
+
+38
+
+c02.indd 38
+
+1/13/09 9:56:20 AM
+
+Spreading the Wealth—Spreads or Commissions
+
+$1/pip for a mini lot, and $0.10/pip for a micro lot. This includes
+heavily traded pairs like EUR/USD, GBP/USD, and AUD/USD.
+For other key pairs like USD/JPY, USD/CHF, and USD/CAD,
+their exchange rates as of this writing conveniently place their pip
+values in the same approximate vicinity as the pairs ending in USD.
+For a standard lot, these pairs are currently at $9.87/pip, $9.99/pip,
+and $9.80/pip, respectively.
+Finally, it should be kept in mind that while the lot size, amount
+of lots traded and specific currency pair traded will certainly affect
+pip value, the leverage chosen by the trader, whether it is 50:1, 400:1
+or somewhere in between, has absolutely no bearing whatsoever on
+pip value.
+
+S preading the Wealth — Spreads or
+Commissions?
+Closely related to pip value is the much-discussed topic of spreads.
+Futures and equities traders have been accustomed to paying commissions to their brokers on each and every trade, pretty much since
+the beginning of time. Within the past decade or so, retail foreign
+exchange brokers began emerging with their promises of no
+commissions.
+Most recipients of this still-enduring marketing message eventually come to realize that the broker must somehow make money, if
+not through the “commissions” label. The moniker for forex broker
+revenue is therefore known as the spread.
+A spread is simply the difference in pips between the bid price
+(exchange rate at which a trader can sell a currency pair) and the
+
+39
+
+c02.indd 39
+
+1/13/09 9:56:20 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+ask price (exchange rate at which a trader can buy a currency pair).
+Often, one may view an exchange rate quoted much like the following: 1.5850/53. This type of quote provides first the bid price
+and then the ask price as a variation of the bid. In this case, the two
+prices are separated by three pips.
+These pips represent the spread, which is essentially the payment
+made to the broker for services rendered, in lieu of commissions.
+With most forex brokers, the spread is manifested immediately on
+trade entry. That is, once a trade is entered, whether it is a buy or
+sell, the open position immediately displays a running loss equivalent to the magnitude of the spread.
+The spread deficit then needs to be overcome by favorable price
+movement before the trader can break even and have the opportunity to profit off the position. It should be made clear that this
+spread is charged only once on an entire trade cycle, from the open
+of the position to the close. Spreads are never charged twice on a
+single round-turn trade.
+Most spreads on the major currency pairs, including EUR/USD,
+USD/JPY, GBP/USD, and USD/CHF, are usually in the vicinity of
+two to five pips wide. Looking back to the previous section on pip
+values, we can easily extrapolate the spread cost per trade.
+For example, if trading one mini lot of EUR/USD, which may
+have a spread of 3 pips with a certain broker, the spread value for
+this trade would be USD $3.00 (as each pip on a EUR/USD mini
+lot is worth USD $1.00). This would constitute the primary transaction cost incurred for making the trade.
+Generally speaking, spreads can either be variable or fixed. Many
+of the variable-spread brokers will advertise their tight spreads that
+
+40
+
+c02.indd 40
+
+1/13/09 9:56:21 AM
+
+Interest—Giving and Receiving
+
+prevail during quiet markets, but then widen the spreads considerably and without notice during the faster, more volatile markets.
+These faster markets usually occur around relatively frequent economic news announcements. Widened spreads during trading can
+potentially wreak havoc on open and/or pending positions. This
+could potentially include missed or prematurely triggered trade
+entries, stop losses, profit limits, or even margin calls.
+Fixed-spread brokers, on the other hand, usually offer spreads
+that are slightly wider, but then actually keep those spreads fixed
+at a constant level, regardless of market conditions. This offers the
+clearly significant advantages of increased price certainty and fewer
+surprises. If a trader plans on ever buying and/or selling currencies
+during any type of fast market, it may perhaps be in the trader’s best
+interest to choose a fixed-spread broker.
+As for whether spreads or commissions are better, the jury is still
+out. As mentioned earlier, spreads and commissions both effectively
+represent a transactional payment by a customer for services offered
+by a broker. Assuming the amount is comparable, there is little difference beyond their labels. As of this writing, the vast majority of
+forex brokers continue to use the spread model, and this situation
+appears unlikely to change significantly within the near-term, foreseeable future.
+
+I nterest — Giving and Receiving
+Though spreads are certainly the primary transactional cost in foreign
+exchange trading, there can also be a secondary cost that depends
+upon the currency pair traded, direction of the trade, and length of
+
+41
+
+c02.indd 41
+
+1/13/09 9:56:21 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+time the position is held. Interestingly enough, this potential secondary cost can either be avoided altogether or even turned into a highyielding positive. In foreign exchange trading, this phenomenon is
+known variously as “swap,” “cost of carry,” or simply “interest.”
+There is actually an entire trading strategy called carry trading
+that is based on earning highly leveraged, high-yield interest returns
+through holding strategic currency positions. This method will
+be discussed in-depth in Chapter 5, which covers specific trading
+strategies.
+For now, though, a simple example will help illustrate the concept of interest in foreign exchange trading. At the time of this writing, the Reserve Bank of Australia shows a relatively high central
+bank interest rate for the Australian dollar at 7.25%. The Bank of
+Japan, on the other hand, has kept the rate on the yen very low at
+0.50%. The differential between these two rates (6.75%) is where the
+potential opportunity, as well as the potential cost, resides.
+As described towards the beginning of this chapter in the section
+“Going Long and Selling Short,” if a trader buys the AUD/JPY pair,
+that trader is essentially buying the Australian dollar (with the currently high interest rate) while simultaneously selling the Japanese
+yen (with the currently low interest rate). The net effect is that the
+position would earn the high rate while paying the low rate. This
+creates a net-positive interest yield for the trader that is approximately based on the rate differential between the two currencies. In
+this AUD/JPY example, the yield is based on the current 6.75% differential (minus an interest spread cost).
+Conversely, if the trader sells the AUD/JPY pair, that trader is
+essentially selling the Australian dollar while simultaneously buying
+
+42
+
+c02.indd 42
+
+1/13/09 9:56:21 AM
+
+Interest—Giving and Receiving
+
+the yen. The net effect is that the position would earn the low rate
+(JPY) while paying the high rate (AUD). This creates a net-negative
+interest deficit for the trader that is approximately based upon
+the rate differential between the two currencies. In this AUD/JPY
+example, the deficit is based upon the current 6.75% differential
+(plus an interest spread cost).
+Usually, traders would hardly get excited about the prospect of
+earning or paying seemingly insignificant sums due to interest, especially within the fast-paced, volatile world of currency trading.
+But an extremely key point here that does often succeed in
+exciting traders is that the interest earned or paid is based on the
+leveraged amount traded, and not just upon the trader’s fractional
+margin amount. In other words, to use the same AUD/JPY example, differential-based interest is actually earned or paid on the leveraged A$100,000 in the standard lot (100:1) trade, and not just on
+the A$1000 that the trader puts up in margin to make the trade.
+This can have enormous implications for traders who routinely hold
+their positions open, as the potential profit or loss every day due to
+interest alone can be very substantial.
+Whether the trader pays or earns the interest, it is calculated
+daily according to the leveraged net interest rate differential of the
+trader’s open position(s), taking into account the inevitable interest rate spread cost. With most foreign exchange brokers, the daily
+amount paid or charged to the trader (depending on the direction
+of the position(s), long or short) is added to or subtracted from the
+trader’s account each day when open positions get “rolled over” (as
+described in Chapter 1). This process generally occurs at the same
+time every trading day, and is usually at the end of each business day,
+
+43
+
+c02.indd 43
+
+1/13/09 9:56:21 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+but the specific time varies among the different foreign exchange
+brokers.
+Whether a trader seeks to avoid interest charges, gain interest
+payments, or neither, it is extremely important to be aware of how
+interest may affect all foreign exchange positions.
+
+H edging — Two Sides of the Same Coin
+The final topic for this chapter on basic foreign exchange trading
+mechanics may not be quite as basic as the other topics in this chapter.
+Hedging is a rather specialized trading function that not every trader
+utilizes. In fact, most foreign exchange brokers do not even offer it on
+their trading platforms. But if available, hedging can be a useful tool
+for those traders who have specific strategies for employing it.
+To hedge is to be long and short in the same currency pair at
+the same time. For example, if a trader buys one lot of USD/JPY
+and sells one lot of USD/JPY at the same time, that trader can be
+said to be in a perfectly hedged trading situation that is completely
+profit/loss-neutral. In other words, any price movement in the currency pair—up, down, or sideways—would not exert the least bit of
+influence on a hedged trade.
+So why, then, would a trader utilize a trading functionality that
+mimics not taking a position at all? Some traders have developed
+strategies—especially those geared toward exploiting news-driven
+price spikes—that involve the strategic use of hedging. For the
+majority of traders that do not employ hedging, though, it is sufficient at least to be aware that hedging exists, and that it can potentially be used for protecting a one-sided currency position.
+
+44
+
+c02.indd 44
+
+1/13/09 9:56:21 AM
+
+Chapter Summary
+
+Those brokers that do not offer hedging simply close the original one-sided position if an opposite position in the same currency
+pair is initiated. For the hedging brokers, however, opposite positions in the same currency pair are treated as two open positions
+that effectively cancel out each other’s running profit/loss.
+One final note about hedging is that since two exactly opposing positions are profit/loss-neutral, and therefore create essentially
+a riskless trading scenario, brokers that offer hedging usually require
+margin on only one side of the hedge. The other, opposing side is
+a margin-free trade. This means that none of the trader’s trading
+equity needs to be used to open and sustain the second leg of a
+hedge.
+
+C hapter Summar y
+Since currencies are always traded in pairs, their value is determined
+by the market on a relative basis rather than an absolute basis. In
+forex trading, one currency can only have value if it is compared
+and contrasted to another currency. Because of this fact that forex is
+all about trading one against another, both going long (buying) and
+selling short (selling) always involve betting on one currency while
+simultaneously betting against another. So being long EUR/USD
+means buying EUR while selling USD, and being short EUR/
+USD means selling EUR while buying USD.
+There are a few methods for entering into forex trades. A market order opens a trade at the current market price. An entry order
+places an order to open a trade if price reaches a certain level predetermined by the trader. Similar to the way trades are entered, they
+
+45
+
+c02.indd 45
+
+1/13/09 9:56:22 AM
+
+B a s i c F o r e i g n E x c h a n g e Tr a d i n g M e c h a n i c s
+
+can also be exited. This can be accomplished through manually closing the trade, which is the exiting equivalent of the market order
+entry, or through predetermined stop losses and profit limits.
+Factors that affect trading significantly include lot size and leverage. Lot size is the actual amount that is being traded, while leverage
+is the degree to which a trader’s financial power can be magnified in
+order to control more in a trade with less capital.
+A margin call is a safety measure that occurs when a trader no
+longer possesses enough equity in the trading account to support
+open position(s). In this event, all open positions are automatically
+closed at the prevailing market rates, thereby preventing even further
+catastrophic account losses.
+Pips are the smallest unit of currency movement, and they serve
+as the primary measure of profit or loss in currency trades. Spreads,
+which are the main transaction cost incurred by traders when trading with the vast majority of forex brokers, are measured in pips.
+A spread is simply the difference between the price at which a currency pair is bought and the price at which it is sold. This difference,
+which varies with each broker, is automatically deducted once from
+each round-turn trade (open and close).
+Interest represents another potential cost of trading, although
+traders may also earn interest on their trading positions. Depending
+on the specific currency pair and the direction in which it is traded
+(long or short), interest can either represent a significant expense on
+positions that are held overnight, or a way to generate daily income
+from holding open trades.
+Finally, hedging is a more advanced topic that involves the simultaneous buying and selling of the same currency pair at the same

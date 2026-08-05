@@ -1,0 +1,551 @@
+unrelated to core operations.
+
+13
+
+14
+
+Chapter 1 | Historical Background
+
+Banks and Broker-Dealers
+Banks and broker-dealers (also known as prime brokers) account for $1.5
+trillion in daily forex turnover. (The actual figure is certainly much higher,
+since trading by other financial institutions is still facilitated by banks. This
+figure represents trading volume in which a bank or broker-dealer served as a
+counterparty.) CLS lists 69 broker-dealers among its members, accounting
+for more than half of worldwide foreign exchange. As you can see from
+Figure 1-5 below, trading activity across the world is dominated by a handful
+of large banks.3 Deutsche Bank is by far the industry leader, followed closely
+by Barclays Capital, UBS, and Citi.
+What’s more, the leading banks have rapidly consolidated their positions.
+The Bank for International Settlements attributes this to investment in
+proprietary trading systems. In other words, as other sources of profit
+(investment and commercial banking) have apparently dried up, banks have
+moved to expand their trading operations, starting with forex. Regardless of
+the reason, there are only half as many dominant forex broker-dealers (ten) as
+there were a decade ago. This is true across every major trading center except
+for Hong Kong.
+
+3 Euromoney Magazine, “Euromoney FX Survey 2011,” May 2011.
+
+Forex for Beginners
+
+Figure 1-5. Concentration of trading volume among large banks
+
+As a result of recent legislation, however, these banks are now prohibited
+from trading for their own accounts, and are generally only permitted to
+facilitate trades on behalf of their customers.
+
+Other Financial Institutions
+While almost all trades are ultimately routed through banks, the majority of
+actual trading is conducted by financial institutions—such as hedge funds,
+pension funds, investment management companies—which are engaged in
+forex trading entirely for speculative purposes. These institutions trade
+
+15
+
+16
+
+Chapter 1 | Historical Background
+primarily through proprietary systems operated by individual banks or multibank trading systems.
+Of course, some of this volume is transacted as legitimate cross-border
+investment. When a corporation invests in an overseas project, it is practicing
+what is referred to as foreign direct investment (FDI). When an investment
+fund buys shares of stock or bonds that trade on an overseas exchange, this is
+known as portfolio investment. Such investments necessarily involve foreign
+currency exchange.
+However, an increasing amount of institutional volume is being transacted in
+the form of high-frequency and/or algorithmic trading. Hedge funds in
+particular have become notorious for their reliance on placing millions of
+rapid-fire trades every day, through systems that are largely automated. They
+seek to profit from miniscule changes in exchange rates and minute
+discrepancies in exchange rates across different trading centers, both of
+which might occur in less than a second. Known as forex arbitrage, this
+strategy typically involves buying a block of currency on one exchange and
+immediately reselling it for a slight profit (less than one PIP) on another
+exchange.
+High-frequency trading already accounts for an estimated 30% of overall
+forex volume (compared to 66% of equities trading volume) and is expected
+to account for a majority of volume as soon as 2012.4 On some exchanges,
+algorithmic (also known as computerized) trading accounts for 45% of total
+volume. This volume has allowed high-frequency traders to place themselves
+at the center of the market. (See Figure 1-6.)
+
+4 Javier Paz,“Retail FX Comes of Age: Leveraged Trading Is Here to Stay,” Aite Group,
+
+March 23, 2011.
+
+Forex for Beginners
+
+Figure 1-6. Relationship of forex participants
+
+High-frequency trading might explain most of the growth in overall volume
+that took place over the last three years, and its use may continue to set the
+pace for growth going forward. Naturally, this has spurred an arms race
+among market participants to develop the fastest networks and most
+sophisticated software.
+Many commentators have lamented this phenomenon. To be sure, highfrequency trading is probably responsible for increased volatility. In addition,
+the sophistication of institutional trading algorithms has made it more
+difficult for amateur traders to profit from technical analysis strategies. On
+the other hand, hedge funds have become a great source of liquidity, driving
+execution times and spreads down to record low levels. Besides, as I’ll
+explain in the chapters that follow, it’s possible to craft a trading strategy that
+takes this trend into account.
+
+Retail Brokers and Retail Traders
+As forex becomes increasingly mainstream, more amateur and professional
+investors are rushing to join in. Households and small non-bank institutions
+now account for an estimated $300 billion in global forex volume,
+representing close to 10% of overall volume and market growth of 400%
+
+17
+
+18
+
+Chapter 1 | Historical Background
+from 2007! Japanese retail traders are especially active in the forex market
+and may account for as much as 30% of trading in the Japanese yen. In fact,
+this phenomenon has become so widespread that the media has begun to
+paint a picture of Japanese women—referred to as Mrs. Watanabes—as
+housewives that sit at home trading forex from their computers while their
+husbands are at work.
+Retail forex brokers have responded by becoming more sophisticated and
+more transparent. They have developed proprietary systems that rival those
+developed by broker-dealers, or engage in white label licensing of existing
+multi-dealer systems. In fact, some retail brokers have been able to lure small
+institutional customers away from broker-dealers. All have expanded their
+operations to offer more currencies, better coverage, lower spreads, and more
+tools for traders. In 2010, two forex brokers (FXCM and Gain Capital
+Group) became the first in the industry to become publicly listed companies,
+and a handful of others are reportedly considering a similar move.
+Meanwhile, discount brokers have quietly expanded into forex. Ameritrade
+entered the forex market through its purchase of ThinkorSwim in 2009.
+Charles Schwab is using a similar strategy for gaining access to forex
+customers, with its acquisition of OptionsExpress. Overall, the industry is
+undergoing a period of rapid consolidation, which should ultimately produce
+a dozen or so solid contenders.
+
+Individuals
+It could also be argued that individuals participate in the forex market on a
+non-speculative basis. When consumer choices are framed in economic
+terms, consumers often respond by buying whatever is cheapest. Thus,
+fluctuations in exchange rates will cause important changes in travel and
+consumption patterns. The silver lining of a battered exchange rate is often a
+pickup in exports. Due to the recent multi-year decline of the US dollar, for
+example, US prices became relatively cheaper in terms of other currencies.
+As a result, US products became more attractive to foreign buyers, and
+multinational companies responded by relocating assembly plants to the
+United States. Overseas tourists have begun to visit the United States in
+droves, and Canadian citizens (especially those that reside near the border)
+have started taking short trips to the United States for the purpose of
+shopping.
+
+Forex for Beginners
+Remittances, on the other hand, typically flow in the opposite direction.
+Migrant workers in countries with strong currencies will remit part of their
+salaries to countries whose currencies are relatively weak. In this way,
+migrant workers are also tailoring their economic behavior so as to take
+exchange rates into account. As I will show in Chapter 3, the pull that this
+exerts on forex markets is not insignificant.
+
+Central Banks
+Most currency traders consider the role of central banks only insofar as their
+policy actions indirectly influence exchange rates. In reality, however,
+central banks are among the largest and most active participants in the forex
+markets. During certain years, the world’s largest banks may buy hundreds of
+billions of dollars worth of foreign currency.
+Despite preaching laissez-faire economics, many central banks closely
+monitor the value of their respective currencies. When exchange rates deviate
+too far from a targeted value, some central banks will then go so far as to
+intervene in forex markets. They do this by buying or selling their home
+currency, causing it to appreciate or depreciate, respectively. These programs
+of intervention inevitably fail over the long-term, but over the short-term
+they can be very effective. That’s probably because central banks have
+control over the money printing presses and nearly unlimited budgets.
+Speculators understand this and may not wish to take positions that aren’t
+consistent with the short-term goals of the central bank.
+In the process, central banks may amass hundreds of billions of dollars in
+foreign exchange reserves. The allocation of these reserves can have a direct
+impact on forex markets, as will be discussed later.
+
+Regulation
+It was only in the wake of the financial crisis that governments became
+serious about regulating the forex market—especially the retail side of the
+market. Due to its regional fragmentation, the market naturally resists
+regulation. A second problem is that forex is traded through a variety of
+financial instruments, and each instrument is technically regulated by a
+different government bureau.
+
+19
+
+20
+
+Chapter 1 | Historical Background
+The Dodd-Frank Consumer Protection Act of 2010 was intended to resolve
+some of these jurisdictional issues. The Commodity Futures Trading
+Commission (CFTC) has taken the lead and is now the official regulator of
+the forex spot market. After several rounds of negotiations and a public
+comment period, the CFTC formally released a set of new regulations in late
+2010.
+As a direct result of these new regulations, all forex firms are now required to
+register with the National Futures Association (NFA), either as futures
+commission merchants (FCMs) or as retail foreign exchange dealers
+(RFEDs). Registering institutions are required to “maintain net capital of $20
+million plus 5 percent of the amount, if any, by which liabilities to retail
+forex customers exceed $10 million”5 in order to protect traders against the
+possibility of broker bankruptcy. In addition, “persons who solicit orders,
+exercise discretionary trading authority or operate pools with respect to retail
+forex also will be required to register, either as introducing brokers,
+commodity trading advisors, commodity pool operators (as appropriate) or as
+associated persons of such entities.”6 Forex brokers must also “disclose on a
+quarterly basis the percentage of non-discretionary accounts that realized a
+profit and to keep and make available records of that calculation.”7 (Actually,
+this calculation has become an excellent tool for first comparing and then
+selecting a broker, as will be shown in Chapter 8.) Finally, American forex
+firms are basically prohibited from offering commodities trading and
+contracts for difference (CFD). Because of their derivative nature, there are
+too many restrictions on trading them over-the-counter (OTC).
+These new rules have also been accompanied by strict enforcement. Firms
+that have failed to register are investigated and prosecuted. The NFA has also
+been quick to bring high-profile cases against legitimate firms. In 2011,
+FXCM was fined a record $8 million for illegally profiting from movements
+in exchange rates, and ordered to pay an additional $8 million in restitution
+to customers.8
+5 “CFTC Releases Final Rules Regarding Retail Forex Transactions,” CFTC, August 30,
+
+2010, www.cftc.gov/PressRoom/PressReleases/pr5883-10.
+6 Ibid.
+7 “Final Rule Regarding Retail Foreign Exchange Transactions,” CFTC, August 30,
+
+2010,
+www.cftc.gov/ucm/groups/public/@newsroom/documents/file/forexfinalrulefactsheet.pdf
+.
+
+Forex for Beginners
+The majority of retail forex brokers have accepted the registration
+requirements. (CitiFX is the only major forex broker that is exempt from
+registering; as a bank, it is not under the same regulatory purview as forex
+brokers.) In fact, many of the brokers lobbied aggressively for the new
+regulations with the intention of raising the barriers to entry and helping
+existing brokers consolidate their market share. The registration requirements
+have also brought much-needed credibility to an industry severely lacking in
+it and a framework for dispute resolution.
+Exchange Traded Funds (including currency ETFs) are regulated by the
+United States Securities and Exchange Commission (SEC), while the
+stockbrokers that facilitate their trading are governed by the National
+Association of Securities Dealers (NASD) and to a lesser extent by the
+Securities Investor Protection Corporation (SIPC).
+The one clause in the new regulations that was resisted by brokers and
+traders alike prohibits leverage that exceeds 50:1 for major currency pairs
+and 20:1 for other currencies. (It should be noted, however, that the CFTC
+did not itself specify the currency pairs that fall into each category.) Brokers
+were naturally upset that a direct source of profit (and a driver of volume)
+was being curtailed. Traders argued that it was an encroachment of
+government and threatened to move their accounts to offshore brokers.
+Indeed, so-called regulatory arbitrage will always be an issue in forex, as
+there will always be US account holders that wish to trade using leverage in
+excess of what US brokers are legally allowed to offer. Not only are these
+traders breaking the law, but they also lose any consumer protection afforded
+by the US legal system. In fact, there have been a handful of cases of US
+traders experiencing difficulty in withdrawing funds from UK brokers.
+Forbes speculated, “These new rules will put a stop to Americans trading
+retail forex offshore to evade CFTC rules. That trend picked up the pace in
+recent years and it may need to be reversed quickly.”9
+With the exception of the European Union, other locales are governed by
+relatively lax forex regulation. Some have even used the lack of regulation as
+a selling point to prospective traders. In some countries—such as
+8 Chana R. Schoenberger, “FXCM to Pay $14 Million in Exchange-Rate Cases,” Wall
+
+Street Journal, October 3, 2011.
+9 Robert A. Green, “New CFTC Forex Trading Rules Call or 50:1 Leverage,” Forbes
+
+Magazine, September 2, 2010.
+
+21
+
+22
+
+Chapter 1 | Historical Background
+Brazil—foreign investors must pay high tax rates in order to transfer funds
+into local currency. In other countries—namely China—forex trading has
+been banned completely, usually because it conflicts with the local monetary
+policy.
+
+Conclusion
+As you can see, the system, structure, and rules of forex market distinguish it
+from almost every other type of financial market. Currencies are traded
+differently from other securities and governed by different regulations.
+Participants behave differently and interact through unique, specialized
+systems. With this foundation, let’s move ahead and examine some of the
+specific vehicles that are used to capture currency fluctuations, and the
+concrete ways in which traders seeking upside exposure to forex utilize them.
+
+CHAPTER
+
+2
+What Are
+Your
+Options?
+Currency Pairs and Investment
+Vehicles
+There are perhaps 160 different currencies in the world. While all currencies
+necessarily have exchange value, the majority of them are not exchanged
+outside of the territories where they are used. The Continuous Linked
+Settlement Bank (CLS) settles trades in only 17 currencies, and liquidity is
+greatest for an even smaller group of selected currencies. These so-called
+major currencies account for more than 90% of global foreign exchange
+volume and tend to be characterized by tight spreads and excellent liquidity.
+Expanding this group to include 20 or so exotic currencies can account for
+more than 97% of overall volume, as shown in Figure 2-1.
+
+24
+
+Chapter 2 | What Are Your Options?
+
+Figure 2-1. Major and exotic currencies, percent of overall trading volume: 2001–20101
+
+Just like stocks have ticker symbols, currencies have three-letter
+abbreviations, known as ISO (International Standards Organization) codes,
+which simplify the quoting and trading of currencies. As you can see from
+Table 2-1, ISO codes tend to be self-explanatory.
+Table 2-1. ISO Codes for Major and Exotic Currencies
+US dollar
+
+USD
+
+Polish zloty
+
+PLN
+
+Euro
+
+EUR
+
+Turkish lira
+
+TLR
+
+Japanese yen
+
+JPY
+
+South African rand
+
+ZAR
+
+British pound
+
+GBP
+
+Brazilian real
+
+BRL
+
+Australian dollar
+
+AUD
+
+Danish krone
+
+DKK
+
+Swiss franc
+
+CHF
+
+New Taiwan dollar
+
+TWD
+
+Canadian dollar
+
+CAD
+
+Hungarian forint
+
+HUF
+
+Hong Kong dollar
+
+HKD
+
+Chinese yuan renminbi
+
+CNY
+
+1 The total sum is 200% because every currency trade always involves two currencies.
+
+Forex for Beginners
+
+Swedish krona
+
+SEK
+
+Malaysian ringgit
+
+MYR
+
+New Zealand dollar
+
+NZD
+
+Thai baht
+
+THB
+
+Korean won
+
+KRW
+
+Czech koruna
+
+CZK
+
+Singapore dollar
+
+SGD
+
+Philippine peso
+
+PHP
+
+Norwegian krone
+
+NOK
+
+Chilean peso
+
+CLP
+
+Mexican peso
+
+MXP
+
+Indonesian rupiah
+
+IDR
+
+Indian rupee
+
+INR
+
+New Israeli shekel
+
+ILS
+
+Russian ruble
+
+RUB
+
+Colombian peso
+
+COP
+
+Remember that currencies fluctuate relative to other currencies, and that they
+must necessarily be traded in pairs. There are hundreds of potential currency
+combinations involving the 30 most popular currencies, but less than 100
+pairs dominate trading in mainstream investment channels. Most retail forex
+brokers offer about 50 pairs.
+There are a few reasons for this. First, most exotic currencies are traded only
+relative to major currencies, rather than against other exotic currencies. You
+would never see a quote for the Czech koruna against the Thai baht, though
+both currencies can easily be exchanged for euros or US dollars. That’s not
+to say that Czech companies and individuals have no way to exchange
+koruna for baht, but rather that volume is too small for international brokerdealers to profitably maintain a liquid market. Second, the forex market is
+governed by the rule of triangular arbitrage, which dictates that for a set of
+three currency pairs, only two of them can fluctuate independently. For
+example, consider the following three currency pairs: dollar/euro, dollar/yen,
+and yen/euro. If the dollar rises by 1% against the euro, and the dollar stays
+flat against the yen, the yen must necessarily rise by 1% against the euro in
+order for market equilibrium to be maintained. These days, computerized
+trading systems can spot even the smallest discrepancies, and arbitrage them
+away in mere milliseconds.
+Besides, it has historically been the case that exotic currencies fluctuate
+relative to the dollar, euro, or other major currencies. There simply isn’t
+
+25
+
+26
+
+Chapter 2 | What Are Your Options?
+enough bilateral trade or cross-border investment between the Czech
+Republic and Thailand for the market to be able to determine a reasonable
+exchange rate between their respective currencies. Instead, both currencies
+will trade relative to the US dollar, and triangular arbitrage will dictate the
+cross rate for the koruna/baht (CZK/THB). For investors that nonetheless
+want direct exposure to CZK/THB, the investment process is fairly
+straightforward. By buying the USD/THB and simultaneously selling the
+CZK/USD, the result is a synthetic CZK/THB position:
+
+USD + CZK = CZK
+THB
+USD
+THB
+
+US Dollar
+The US dollar (or Greenback) is easily the world’s most important currency.
+The relative strength of the US dollar is largely attributable to the facts that
+US economy is the largest in the world and its capital markets are the deepest
+and most liquid. Some also attribute the dollar’s strength to political/military
+factors, while others consider it an outgrowth of the old Bretton Woods
+System. Regardless, the US dollar is the fulcrum of the forex markets, and all
+other exchange rates are based in large part on market participants’
+perceptions of the dollar.
+In addition to its status as the world’s most important currency, the US dollar
+is also the most liquid, and so it is unsurprising that it serves as the world’s
+de facto reserve currency. In fact, roughly 65% of the world’s reserves are
+denominated in US dollars, and as a result, central banks around the world
+collectively hold many trillions of dollars worth of currency on their balance
+sheets. From time to time, central banks will agitate for a new system that
+would leave them less exposed to a sudden devaluation in the US dollar. For
+a variety of reasons, however, they haven’t made much headway in this
+quest. It can be seen from Figure 2-2 that the US dollar is represented in the
+overwhelming majority of forex transactions.
+
+Forex for Beginners
+
+Figure 2-2. Breakdown of forex volume by currency pair
+
+As I explained in Chapter 1, the US dollar’s defining feature is that it is a
+safe-haven currency. During times of global financial, economic, or even
+political uncertainty, the underlying value of the dollar will rise. This point
+was underscored during the height of the global credit crisis in 2008–2009.
+Even though much of the financial distress originated within the United
+States (i.e., the bankruptcies of Lehman Brothers and Bear Stearns, falling
+real estate prices, etc.) the US dollar appreciated in value. That’s because
+investors from the United States and around the world were suddenly
+overcome with fear, and moved their cash to what is perceived as the world’s
+safest location: US government securities. That the US financial system was
+in many ways the source of instability was bizarrely of no concern to the
+
+27
+
+28
+
+Chapter 2 | What Are Your Options?
+forex markets! In addition, whether or not Treasury bonds are actually a good
+investment is certainly open to debate. What’s important is that they are
+perceived as the safest investment in the world, a general sentiment that is
+made clear every time there is even a minor crisis in the financial industry.
+To be sure, the US dollar looks vulnerable on a number of fronts. As this
+book goes to press, the US economic recovery remains precarious, and a
+second recession is not out of the question. The unemployment rate is still
+high, interest rates remain low, housing and stock prices are plummeting, and
+commodity prices are rising. While the trade imbalance seems to have
+stabilized, it is nonetheless tilted heavily towards deficit.
+Some commentators argue that there is a glut of dollars in the money supply
+as a result of two Federal Reserve Bank monetary stimulus programs. Left
+unattended, this could lead to an inflationary surge. Meanwhile, both public
+and private debts continue to reach record levels, and the US sovereign credit
+rating was downgraded from the highest level of AAA in 2011. Due to
+previously unseen levels of political infighting, federal and state
+governments seem incapable of putting the United States on a sustainable
+economic course. For this reason, there are a number of bears that insist the
+period of dollar hegemony will soon come to an end.
+For now at least, however, the dollar seems likely to hold on to its position
+atop the forex markets, if only because of a lack of viable alternatives. (The
+Wizard of Omaha Warren Buffett famously lost more than $1 billion in 2005,
+when he bet on a long-term decline of the dollar.) As we’ll see later, most
+other major currencies are racked by the same financial and economic
+problems as the dollar. Emerging market economies represent the future of
+the global economy, but it will still be many years before their currencies can
+challenge the dollar and the rest of the world’s major currencies.

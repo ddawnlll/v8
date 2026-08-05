@@ -1,0 +1,698 @@
+
+Applying These Strategies with Stocks
+
+259
+
+There is a level of sophistication when it comes to trading stocks that
+only professional traders are privy to. Proprietary stock-trading houses
+lend money to their professional traders far in excess of the 4-to-l leverage that retail traders may be able to enjoy. Sometimes professional stock
+traders enjoy leverage as high as 100-to-l from the prop firms they work
+with. Other professional traders are trained on how to short stocks to their
+advantage. Professional traders add all these capabilities to their knowledge of how to use stock options, single stock futures, and CFDs, and it
+quickly becomes apparent that while the industry rhetoric promotes buying
+stocks for the retail trader, professionals are doing something altogether
+different for themselves behind the scenes.
+While you may not be able to enjoy the same leverage that professional
+traders experience, that doesn't mean you can't learn a little about how the
+various stock derivatives interplay with one another. In this chapter we will
+look at stocks, single stock futures, CFDs, and stock options and how you
+can intermingle all of them together to get optimum results.
+
+Single Stock Futures
+In 2000 the Commodity Futures Modernization Act (CFMA) lifted the ban
+on single stock futures and narrow-based security indices (security futures). Foreign countries such as Australia, Denmark, Portugal, and South
+Africa had become tremendously successful in offering security futures. At
+that time, the United States wanted to catch up with this new investment
+vehicle but had to come up with a mandate to unify the fractured regulatory environment that futures and stocks operated in. With the Internet
+economy changing the way people think, security futures were seen as a
+way to keep the momentum going. Unfortunately, they were held up for
+two years and interest in them waned.
+The mechanics of single stock futures (SSFs) is pretty straightforward.
+They are standardized contracts between a buyer and a seller to exchange
+100 shares of a specific stock in the future . While these contracts do not
+represent ownership, they do convey an obligation of physically delivering
+shares of a traded company if the contract is not offset before the expiration date. Each SSF contract represents 100 shares and has a minimum
+movement size of one cent/share that makes a tick worth one dollar ($1.00).
+As with any futures contract, SSF traders enjoy the benefits of margin.
+The standard margin requirement for all stocks traded as security futures
+is 20 percent of the underlying value of the contract (initial and maintenance margin). This 20 percent minimum may be reduced for certain types
+of futures market positions, such as spread trading. There are also margin reductions for certain offsetting positions in stock options and cash
+securities.
+
+260
+
+ADVANCED STRATEGIES
+
+Contracts for Difference (CFDs)
+CFDs were extensively explored in Chapter 2. Developed in the 1990s in
+London, they are unique from single stock futures and stock options. They
+are an over-the-counter form of stock derivatives. CFDs have no set expiration date, unlike stock options and single stock futures. Yet they also enjoy
+the benefits of margin. Margin can be as low as 10 percent and as high as
+30 percent of the stock's face value.
+CFDs are illegal to trade in the United States due to various U.S. regulations against OTC stock trading. Since no laws against OTC stock trading
+exist in other countries, they are becoming increasingly popular around the
+world. A CFD is simply a contract between a buyer and seller where they
+agree to pay each other the difference between an asset's current value
+and its future value. This concept can be applied to stocks, commodities,
+bonds, and so on. As long as there are two counterparties to the transaction, a CFD contract can be executed.
+
+Stock Options
+Options on stocks are no different from options on futures or forex. They
+are contracts that grant the right to buy the underlying asset, but not an
+obligation to buy the underlying asset. They can come in two forms, calls or
+puts, and they have an agreed-upon strike price and option expiration date
+that the buyer and seller agree upon. Stock options are traded in minimum
+increments of 100 shares. In 1973, the Chicago Board of Option Exchange
+(CBOE) was formed to develop a centralized marketplace for stock option
+trading in the United States.
+
+Stock Index Futures
+In 1982, nine years after the establishment of a centralized options exchange, stock index futures were introduced. Two of the most powerful
+investment regulatory bodies were pitted against one another. The Securities and Exchange Commission (SEC), which traditionally had oversight
+of securities, felt that stock indexes were simply an extension of the stock
+market. The Commodity Futures Trading Commission (CFTC), the SEC's
+futures and commodities counterpart, felt that stock index futures were a
+completely new animal under their exclusive domain.
+The two most powerful financial agencies in the United States had
+to make a compromise. The SEC was granted autonomy over stocks and
+stock options, while the CFTC was allowed to regulate stock index futures.
+Today there are stock indexes on the Dow Jones, S&P 500, NASDAQ, Russell 2000, and a myriad of foreign stock indexes around the world.
+
+Applying These Strategies with Stocks
+
+26.
+
+STRATEGIES
+When it comes to the stock market, there are many ways to protect your
+trading position. You can purchase a stock that doesn't follow the S&P 500
+and short the S&P 500. Single stock futures can be combined with stock
+options or stocks to create synthetic or collar opportunities. Stock options
+can be matched with CFDs to create hard stop opportunities. Everything
+discussed in this book can be applied to the stock market. The following
+four examples highlight how to take advantage of stock opportunities using
+a synthetic, hard stop, and a collar. These stocks were picked at random
+to show that the techniques can be applied in any market regardless of the
+industry it's in.
+
+Synthetic
+In this example we take a technical analysis look at Alcoa Inc. It's listed
+on the New York Stock Exchange and has a single stock future derivative listed on OneChicago. As we have discussed, a synthetic is when you
+go long or short a market and purchase an at-the-money (ATM) option
+to protect your position. This turns your position into a synthetic option
+position.
+In this instance you have the opportunity to trade the actual stock
+for 100 percent cash or utilize two other options' SSFs, which will cost
+you 20 percent of the face value, or a CFD, if you are based outside
+of the United States, which will only cost you 10 percent of the face
+value.
+Purchasing the Alcoa shares outright on May 5th, 2008 would have cost
+you $3,664 for 100 shares at $36. 64/share. We pick that point because it
+crossed over from being a bearish market into a bullish market. As an SSF
+the Alcoa share would only cost you $732.80. The same 100 shares as a CFD
+would cost you $366.40. The primary reason you would not purchase the
+shares outright and look at the two other market places, SSFs and CFDs,
+is to save money up front and to make it easier to create a synthetic put by
+shorting stock shares.
+By freeing up 80 to 90 percent of your capital on the front end, you
+make it easier to purchase the protective put option necessary to turn the
+position into a synthetic call. In Figure 16.1, it costs $1.55/share to purchase
+an Alcoa Inc. put option at a $35.00 strike price. These options move in
+$2.50 increments; this is the best choice for the situation at hand. The final
+put option costs totals $155.
+The profit from Alcoa's move from $36.64 to $44.60 would have been
+$7.96. With 100 shares you would make $796. On an investment of $3,664,
+
+262
+
+ADVANCED STRATEGIES
+
+AA: Alcoalnc (Daily bars)
+
+Stock Synthetic Call
+Position
+Purchase shares here
+,-,
+
+...........
+
+Buy put here for protection
+
+03111108
+
+OSlO7/'08
+
+U _coa Syn~".to:ic: Cal.l. Po.:'to1O!C'
+
+FIGURE 16.1 Alcoa Inc. Synthetic Call Position
+Source : TradeNavigator.com © 2007 . All rights reserved.
+
+that would be a gross return of 21 percent. If you had traded it as an SSF,
+you would have a gross return of 108 percent. If you had traded Alcoa as a
+CFD you would have had a return of 217 percent.
+The put option is designed to protect you in case the market moves
+in the opposite direction. No matter how you look at it, risking the $155
+to insure your position is a small price to pay. Had the market moved in
+the opposite direction by 21 percent, 108 percent, or 217 percent, the put
+option would have been there to pick up the slack and protect you from
+potentially devastating losses.
+
+Hard Stop
+A hard stop is defined as a stop that you can pinpoint with accuracy, so
+that your losses will not exceed a particular price. Soft stops, that is, stop
+orders, are not able to guarantee that you will exit at the price you want.
+Hard stops, while similar to a synthetic trade, are a way of purchasing a
+less expensive option based on your money management rules. If you have
+a rule that sets your maximum loss at 2 percent on a position, a properly
+placed put option can achieve that goal for you. In addition, you can catch
+the move in the market as it drops, without being subjected to any particular shorting stock rules.
+
+263
+
+Applying These Strategies with Stocks
+
+In Figure 16.2 we look at Coca-Cola Inc.
+Coca-Cola is showing strength from February 22,2008 to February :2";".
+2008. Three strong up days convinces us to purchase the stock at $60 per
+share. There is resistance at the $60.50 where it collapsed the pre\iou
+week. Even so, it appears to have enough momentum to carry it.
+The average daily trading range is approximately $1.50/share. Our
+money management rules set our stop loss at 2 percent or $58.80 cents.
+By purchasing a put option at the closest strike price of $57.50 we only
+have to pay $.20 per share. In this case in order to protect ourselws
+from the additional $1.30 loss, the difference between our money management stop loss and the available option strike price, we use a soft stop
+order at $58.80 to exit our stock and a hard stop at $57.50 to cover any
+losses.
+In Figure 16.3 we see Coca-Cola drop in value by over $4.00. Half of
+that loss falls below our stop loss order of $58.80. As the market continues to drop, our put option gains in value. We paid $.20 to buy a put
+option at $57.50. Once the market price breaks below $57.50 our option contract shifts from an out-of-the-money option to an in-the-money
+option. This drives the value of the $57.50 option from $.20/share to
+$1. 15/share. This $1.15 offsets most of the $1.20 we lost, $60.00 minus
+$58.80.
+
+KO: Cooa-Cola Co. (Dally ba .. ,
+02l21J2008 .. 60,05 1..0.53)
+
+~ao
+
+Buy shares on strength
+at $60
+
+...,.
+s ...
+
+....
+
+2% stop loss
+$1 .20/share
+
+,
+
+~.deli''''''\of".com
+
+.
+
+5760
+
+"
+
+5720
+
+,-,5700
+
+,.2.2000
+
+C_~~-CoIa Hard Stop Position
+
+FIGUREJ 6.2 Coca-Cola Hard Stop
+Source : TradeNavigator.com © 2007 . Al l rig hts reserved .
+
+264
+
+ADVANCED STRATEGIES
+
+: 2% stop loss is
+
+i, $1 .20/share
+!
+
+FIGURE 16.3 Coca-Cola Market Drop
+Source : TradeNavigator.com © 2007 . All rights reserved.
+
+If you didn't have the put option protecting the position you would not
+have anything to offset your losses. Every 100 shares would be $120 out of
+your pocket. If you are holding onto an SSF contract, that could represent
+as much as 10 percent of your accounts margin value.
+
+Collar
+The most common option/stock relationship that traders are aware of is
+the covered call. A covered call is considered an income strategy for buy
+and hold stock traders. Covered calls are simple to conceptualize. If the
+market lacks momentum or volatility, you can sell options against your
+shares with a reasonable expectation that the options won't be exercised.
+If they are exercised you have the underlying shares to protect you from
+losing more than you invested.
+A sister strategy to the covered call is the collar. In Chapter 7 we discussed collars in depth. The concept is effectively the same as the covered
+call. The difference is that you also purchase a put option to protect your
+stock position against any drop in price.
+In Figure 16.4 we take a look at Tyco Inc. The market begins a bullish
+move on May 13th, 2008. To protect ourselves from a drop in price,
+
+265
+
+Applying These Strategies with Stocks
+
+TYe : "Tyeo International" (Dally bars)
+
+....
+
+5i3OIOSl2:.2... 4S,1 '1 ....'J
+
+i
+!.... ... .... ... .. ..
+
+.,!'rI ,.lt
+
+1"'750
+
+B; ' ;;....
+
+'
+
+::
+
+I
+~
+
+1
+
+45 50
+.
+
+I
+
+.••. __ 4S,OO
+44.SO
+
+It"
+I
+
+I
+
+Buy Put $45.00
+
+I.t"
+
+I
+
+".00
+
+...
+
+! T~d~~_~.~~m~_ _ru,~~______w~~·==~~.~~~~===-.~
+~~~~~_ ~~.-~=-~
+
+-TyCo I~t Collar Setup
+
+FIGURE 16.4 Tyeo Collar
+Source: TradeNavigator.eom © 2007. All rights reserved .
+
+we purchase an at-the-money put at $45 while simultaneously buying
+shares at $45. The cost of the option is $.90/share. To cover the cost
+of the option we then sell a call at $47.50, a price that Tyco shares
+failed to exceed throughout April. The $47.50 call brings in a premium of
+$.25/share, which means that your total option expense does not exceed
+$.65/share.
+What makes this an attractive opportunity is that there are two ways to
+profit. The first is that you can make $1.85 in profits from the actual stock
+position itself, if the market moves in your direction but doesn't exceed
+the value of the sold call-$2.50 minus the cost of the $.65 in net option
+premiums. The second way to profit is if the market moves down against
+your shares and you gain the increase in value of the put option and the
+entire premium from the call.
+This is no different than the collars we created for futures or forex contracts, yet it is a little-used technique. Depending on where you purchase
+your protective put, you could end up with a net-zero expense, depending
+on the amount of premium you collect on the call you sell. This is a versatile strategy that allows you to extend the buy and hold life of any stock
+that you want to keep in your portfolio.
+
+266
+
+ADVANCED STRATEGIES
+
+CONCLUSION
+The strategies in this book are universal. They are designed to help protect your principal while at the same time maximizing your profit potential. Whether you trade futures, forex, CFDs, or stocks, risk management is
+essential to your success. In today's sophisticated environment of swaps,
+swaptions, off-balance sheet derivative transactions, and interest strips,
+the information provided in this book has been a rudimentary look at what
+you can do to protect yourself.
+Long gone are the days investors could stick to a particular investment type and expect to achieve the same results that they expected even
+a decade ago. With the telecommunication bubble burst, dot-com bubble
+burst, and the real estate bubble burst all happening back-to-back, everyday investors need to have a set of tools to help protect themselves. The
+strategies presented throughout this book have been designed to do just
+that, regardless of the market circumstances.
+
+About the Author
+
+oble DraKoln is the founder of Speculator Academy, wv.,\.
+.speculatoracademy.com, where he focuses on the development.
+management, and promotion of the company's core philosophy of
+"focusing on the trader, not the trading." Prior to this role, DraKoln sen·ed
+as a broker in the retail division of Royal Financial Inc., and as a professional sugar trader. DraKoln got his start in futures at the age of 17. He
+was an assistant to the top producer at a small futures firm. A short yearand-a-half later, he passed the Series 3 license exam- on his first attempt.
+At that point, he became one of the youngest practicing futures brokers in
+the nation. DraKoln speaks regularly at industry conferences in the United
+States and has also spoken at trading conferences in Romania, France.
+Germany, and China. He has written articles for Forbes, Futures magazine, Technical Analysis of Stocks and Commodities, Traders magazine,
+Currency Trader, Cornerstone, Traders Journal, Pristine View, and th e
+eSignal newsletter.
+
+N
+
+267
+
+Index _._accountability,21-22
+active trader time frames, 97-101
+advanced option selling strategies,
+197-216
+advanced strategies, 181-255
+Alcoa Inc., 261-262
+Amaranth Advisors, 8-9
+at-the-money (ATM), 158, 164
+bear put spread, 194
+bull call spread, 194
+collar trade into bull trade, 226
+naked option premiums, 213
+short straddles, 204
+synthetic trade, 261
+Australian Stock Exchange, 37
+Autumn Gold, 22
+average true range (ATR), 250
+backspreads, 171-172
+bearish, 176-178
+bullish, 174-176, 178-179
+collar trade into ratio backspread,
+228-233
+delta, 174
+price, 172-173
+trading, 172-179
+backwardation, 148-149
+Barber, Bard, 19-20
+Barclays, 22
+Barings Bank, 8, 41
+Barnes, Ryan, 76
+basic strategies, 65-89
+bear put spread, 194-195
+Bemanke, Ben, 81
+binary options, 28
+
+Bohr, Niels, 67
+Brazilian Mercantile and Futures
+Exchange (BM&F), 34
+Buffett, Warren, 41, 47
+bull call spread, 193--194, 228
+euro bull call spread, 195, 226
+bull trade, collar trade into,
+219-228
+buy or sell side specialists, 54
+calls:
+com, 163
+covered call, 264
+defined,79
+gold (See Gold)
+straddle call options, 82
+strangle call options, 83, 205
+synthetic, 134-138
+capital,I3--14
+cash market, 38-39, 149-150
+CBOE. See Chicago Board Options
+Exchange (CBOE)
+CBOT. See Chicago Board of Trade
+(CBOT)
+CCI. See Consumer Conference Index
+(CCl)
+CCX. See Chicago Climate Exchange
+(CCX)
+CFDs. See Contracts for differences
+(CFDs)
+CFMA. See Commodity Futures
+Modernization Act of 2000
+(CFMA)
+CITC. See Commodity Futures
+Trading Commission (CITC)
+
+269
+
+270
+charts and strategies, analyzing,
+243- 255
+Chicago Board of Trade (CBOT), 26,
+27, 146-147, 190
+Chicago Board Options Exchange
+(CBOE), 198, 260
+Chicago Climate Exchange (CCX),
+29-30
+Chicago Mercantile Exchange (CME),
+26, 30- 32, 34, 41 , 43,198-199
+China, exchanges, 33
+Citron, Robert, 7-8, 10
+CME. See Chicago Mercantile
+Exchange (CME)
+Coca-Cola, Inc., 263-264
+collars, 113-126,264-265
+bull trade, collar trade into, 219-228
+crude oil protection, 120-121
+definitions, 113, 114
+hold it option, 222, 228, 233
+at inception of trade, 114-119
+locking in profits, 119-122
+long collars, 116-117
+option hedge into collar position,
+239- 242
+options, selling against, 166-167
+pitfalls, 122-123
+ratio backspread, collar trades into,
+228-233
+short collars, 115, 117-119
+Commitment of Traders Report (COT),
+76
+Commodities Futures Trading
+Commission, 7
+Commodity Exchange Act, 21
+Commodity Futures Modernization
+Act of 2000 (CFMA), 27-29, 44,
+260
+Commodity Futures Trading
+Commission (CFTC), 21 , 28, 104,
+260
+Commodity Trading Advisors (CTAs),
+10-11,17-19, 22, 153,155
+concepts, essential, 56-63
+Consumer Conference Index (CCI), 76,
+77
+
+INDEX
+
+Consumer Price Index (Cpr), 76, 77
+Release February 20, 2008, 83-86
+contracts for differences (CFDs), 26,
+35-37,39,185,260
+convert:
+collar trade into bull trade, 225-226
+collar trade into ratio backspread,
+230
+option hedge into collar position,
+240-242
+short strangle into covered position,
+236-238
+corn, 45
+backspreads, 175-177
+call options, 163
+charts and strategies, 251- 253
+collar trade into ratio backspread,
+229-230, 232
+covered options, 162
+Costco,50
+counter-trends, 60-63
+covered call, 264
+covered option trading, 156-167
+covered position, short strangle into,
+236-239
+CPI. See Consumer Price Index (CPI)
+crack spread, 191
+credit (margin), 40-41
+crude oil, 44. See also Oil
+bearish, 159
+breakouts, 161
+collars, 120-121
+inventories February 21, 2008,
+86-89
+put options, 160
+synthetic calls, 136-13 7
+crush spread, 189-191
+CTAs. See Commodity Trading
+Advisors (CTAs)
+daisy chain effect, 37-42, 57- 58, 65
+Dalian Commodity Exchange, 33
+Dattel, Dany, 7, 9
+day traders, 49- 50, 55, 123-124
+delta, 68-69, 109, 129-130, 174, 205
+delta neutral, 68
+
+Index
+
+demo trading, 12
+Dennis, Richard, 47
+designing trade, 3- 64
+discipline, 16-18
+doji,220
+Dow Jones, 28, 43, 123
+Dubai Mercantile Exchange, 33
+economic calendars, 75-76
+economic indicators, general, 78
+ego, 15-16
+E-mini S&P, 94-101,245
+energy trading and futures, 44
+entry price, 59-60
+essentials of trading, 47-64
+Eurex US, 31
+euro, 44-45
+bull call spread, 195, 226
+charts and strategies, 246-249
+collar hold, 222
+collar liquidation, 223
+collars, 11 7-119
+collar trade into bull trade, 226
+ETF,246
+FX short collar, 115
+spot forex traders, 124-125
+synthetiC puts, 139
+event-based trading examples,
+80-89
+exchanges, 27-34. See also specific
+exchange
+execution, 68, 75
+exotic exchanges, 28
+fading the market, 158-164
+Federal Open Market Committee
+(FOMC), 76-77, 80-81, 203
+Federal Reserve Board, 72, 148
+Announcement, February 27, 2008,
+80-81
+flexible traders, 56
+focus of trader's, 52-56
+FOMe. See Federal Open Market
+Committee (FOMe)
+Ford, Henry. 21.,
+Franklin , Ben. 10
+
+27J
+frontspreads, 170-171
+futures, 39-40
+covered option trading, 156-157
+gold, 166
+spread trading, 149- 150
+synthetic (See Synthetic futures,
+long-short; Synthetic futures,
+short strangles into)
+Future Trading Act, 21
+Gann, W.D. , 59
+GDP. See Gross Domestic Product
+(GDP)
+global markets, 42, 57-58. See also
+specific maTkets
+gold,43-44
+chart, 81
+charts and strategies, 249- 250
+counter-trends, 62
+futures breakout, 166
+gold-silver ratio spread, 191-193
+long trend, 61
+naked options, 213
+option hedge into collar position,
+239-242
+short straddles, 204
+straddle call options, 82
+straddles, 72
+strangle call options, 83, 205
+strangles, 73, 74, 207-210
+synthetic calls, 134-1 35
+Goldman Sachs, 3
+Gomez, Lefty, 9
+Gross Domestic Product (GDP), 78
+GS Capital Partners, 4
+hard stops, 103- 111,262- 264
+HedgeStreet, 29
+hedge trading:
+benefits, 93
+defined,91-92
+option hedge into collar position,
+239-242
+pitfalls, 94
+Herstatt, 7
+Hieronyn10us, Thomas A. , 19
+
+272
+
+INDEX
+
+Hunter, Brian, 8, 10
+Hurricane Katrina, 8
+
+motivation, 6-9
+Multi Commodity Exchange (MCX), 34
+
+ICE Futures U.S. (ICElNYBOT), 31
+India, exchanges, 34
+intercommodity spread, 188-193
+crack spread, 191
+crush spread, 189-191
+gold-silver ratio spread, 191-193
+soybean, soybean meal, soybean oil,
+189-191
+interest rate yield curve, 148
+in-the-money (ITM), 158
+intracommodity or intermarket
+spread, 147
+Intrade,28
+ITM. See In-the-money (ITM)
+
+naked options, 202-203, 212-215
+NASDAQ,43
+National Futures Association (NFA), 7,
+21
+New York Mercantile Exchange
+(NYMEX),26,32,191
+New York Stock Exchange, 261
+Nikkei futures market, 8
+North Korea, 29
+NYBQT,31
+NYMEX. See New York Mercantile
+Exchange (NYMEX)
+NYSE Euronext, 31-32, 43
+
+Jobless Claims Report, 76, 77
+Kansas City Board of Trade, 32
+Kerviel, Jerome, 9, 10
+Leeson, Nicholas, 4, 8-10
+Lenin, Vladimir, 198
+loss control, 18-20
+loss, exposure to, 183-196
+bear put spread, 194-195
+bull call spread, 193-194
+intercommodity spread, 188-193
+synthetic futures, long-short,
+183-188
+loss price, 59-60
+Machiavelli, Niccolo, 25
+manipulating strategies, 219-242
+margins:
+exchanges, 27-34
+and markets, 2~6
+and option selling, 201-202
+requirements, 153-154
+markets:
+and margin, 2~6
+specialists, 53-54
+trends, identification, 96-10 1
+The Merchant Bankers (Wechsler), 16
+Minneapolis Grain Exchange, 32
+money, 11-12

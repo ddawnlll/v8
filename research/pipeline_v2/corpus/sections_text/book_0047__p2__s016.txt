@@ -1,0 +1,406 @@
+
+Forex for Beginners
+Most forex brokers maintain an accessible list of rollover rates, which are
+based on the short-term interest rates that they have negotiated with the
+banks that hold their currency on your behalf. Some brokers will quote
+rollover rates on specific currency pairs, while others will quote them on
+individual currencies and leave the math to you. In any event, rates
+differ—sometimes substantially—between brokers for reasons that are
+unclear. The rollover rates for long and short positions are usually inverted,
+but they are not symmetrical. In other words, while you can assume that
+positive rollover for a long position would imply negative rollover for a short
+position, the two rates will almost certainly differ.
+Figure 9-4 shows the rollover rates that FXDD accountholders can expect to
+pay/earn for a handful of currency pairs. Rates are quoted on a long and short
+basis and are expressed in terms of the number of units assessed daily per
+$100,000 lot. For example, a long position in the AUD/CAD would result in
+a daily credit of $7.84 for every $100,000 lot. When you multiply 7.84 by the
+number of days per year (365), the product, 2.9%, represents the annualized
+interest rate differential that you will earn on an AUD/CAD long position.
+On the other hand, a long position in the EUR/TRY would punish the
+position-holder with a daily debit of $58 for every $100,000 lot, which
+corresponds to an annualized rate of -21%. As a result, if you hold this
+position for a year, you can expect to incur interest charges totaling a
+whopping $21,000! Now you can understand why the carry trade is such a
+compelling force in the currency markets!
+
+Figure 9-4. Rollover rates for selected currency pairs (Source: FXDD)
+
+219
+
+220
+
+Chapter 9 | Account Management
+Even if you don’t use rollover rates as a basis for strategy, you must at the
+very least make sure that you are aware of them. A daily debit of only a few
+dollars might not justify a reaction. For a position that remains open for
+many months, however, it can severely impact profitability, for better or for
+worse.
+
+Order Entry
+Now that you understand margin and rollover, the next step is learning how
+to properly key in an order. At this point, it should not come as a surprise to
+you that there is more work involved here than simply clicking the “buy”
+button. You can see from Figure 9-5 (from the Forex.com platform) that
+entering in any order has several parameters.
+
+Figure 9-5. Order entry screen (Source: Forex.com)
+
+First of all, you must select the currency pair that you wish to trade in the
+Product field. Here, I have selected the EUR/USD. Check the Associated
+Order box if the order will impact an existing position. (Many platforms will
+make the connection automatically.) Indicate whether you are inputting a buy
+or a sell order, as well as the number of lots. (This platform assumes units of
+10,000, as shown in the Quantity field.)
+Next, you must indicate the order type from the dropdown menu. If you
+select Market Order, then the order will be executed (instantly) at the current
+bid/ask rates for sell/buy orders, respectively. If you enter a Single order
+(often referred to as a limit order in equities lingo), you can dictate the price
+that you would like to receive, in terms of the Order Rate itself or the
+number of PIPs that it differs from the current price. In this case, I have
+entered a rate of 1.34332, which is approximately 30 PIPs below the current
+market rate, which you can deduce as 1.34032 (1.34332–0.0030).
+Henceforth, your order will be executed only if the price declines by 30 PIPs.
+
+Forex for Beginners
+You must also enter an expiration date (one hour, one day, and so forth) or
+indicate that the order is Good Till Cancelled (GTC).
+You’re probably wondering, “Why wouldn’t everyone insist on more
+favorable rates—rather than accept the current bid/ask rates—when keying in
+orders?” The answer is that the further your rate is from the bid/ask, the less
+likely it is to be executed. In the previous example, it could take an hour for
+the EUR/USD price to drop 30 PIPs, if it drops at all! For some people, this
+is perfectly acceptable, while for others, the possibility of losing out on a
+good trade to save a couple PIPs might seem foolhardy. You could also enter
+in a price that falls between the bid/ask spread and hope for execution. For
+example, if the current spread is 1.3303 and 1.3307, you could try entering in
+1.3306 and see if the order gets filled.
+Bear in mind that some brokers will only show you the amalgamation of all
+of their open orders, while others will show you their entire order book. For
+example, imagine that your broker's order system contains all of the open
+orders in the order book as seen in Figure 9-6.
+
+Figure 9-6. An order book is either consolidated into a bid/ask quote or displayed as is.
+
+The majority of forex brokers will amalgamate this information into a simple
+bid/ask spread (like the one in Figure 9-6) that contains only the highest bid
+and the lowest ask. In the interest in transparency, however, there are some
+brokers that are generous enough to show you their entire order book. In this
+case, if you want to buy more than 11 lots or sell more than 16 lots, part of
+your order would be filled at the less favorable rate. For example, if you
+
+221
+
+222
+
+Chapter 9 | Account Management
+entered a market order to buy 15 lots, 11 would be filled at 1.3308 and the 4
+remaining units would be filled at 1.3309. However, if you instead used a
+single order and stipulated a price of 1.3308, you would ensure that all 15
+lots of your order are filled at 1.3308 or better (or not at all).
+Once you have determined whether you’d prefer a market order or a single
+order, simply click the Submit Order button, and your order will move into
+your Open Orders folder. As soon as it is executed (instantaneously, in most
+cases), your order will show up in your Activities Log and in your Open
+Positions folder. Most trading platforms also support one-click order entry.
+By simply clicking on a quote or a price point in an open chart, you can
+immediately open a long/short position, saving yourself the few seconds that
+it takes to manually key in the order. In some cases, believe it or not, this
+could make a difference!
+
+Forex for Beginners
+
+Figure 9-7. This order entry system enables simultaneous buy/sell orders and stops (Source:
+OANDA)
+
+Of course, you may have noticed that there are a handful of other types of
+orders. Buy and sell stops are probably the most basic. Recall from the
+discussion of strategy in Chapter 7 that stops are used to lock in profits and
+limit losses. Some traders (especially those that plan to monitor their
+accounts in real-time) may enter stops in separately, on an as-needed basis.
+Others may enter them in as soon as they open their positions. Some order
+
+223
+
+224
+
+Chapter 9 | Account Management
+entry systems, like the one shown in Figure 9-7, were specifically designed
+to facilitate this latter tactic.
+In fact, this particular platform is incredibly well designed, since you don’t
+need to manually calculate stop rates. Simply enter in the number of PIPs at
+which you would like to Take Profit and/or the number of PIPs that you will
+Stop Loss. You can even specify a Trailing Stop. Based on my indications in
+Figure 9-7, the system will automatically close out my long EUR/USD
+position if the rate rises by 50 PIPs or falls by 20 PIPs. In addition, as long as
+the EUR/USD rate rises, my trailing stop will automatically adjust to 30 PIPs
+below the most recent high, superseding my original stop order. For example,
+if the price rises by 50 PIPs, from 1.3469 to 1.3519, the system will
+automatically adjust my stop to 1.3499. If the price rises further, my trailing
+stop will adjust proportionately. If the price falls from this level and breaches
+1.3499, my trailing stop will likewise execute automatically.
+There are a handful of other order types (some of which can be seen in the
+drop-down menu in the order entry screen depicted in Figure 9-5), and some
+of which are only available through certain brokers or advanced platforms. A
+One-Cancels-Other order is exactly as it sounds: two orders are entered
+simultaneously, and if one is executed, then the other is automatically
+cancelled. For example, let’s say that you have a theory that the EUR/USD is
+due for a breakout, but you’re not sure of the direction. You could indicate a
+One-Cancels-Other order that either executes a buy if the EUR/USD rate
+increases 30 PIPs or executes a sell if it falls 30 PIPs, whatever happens first.
+An If-Then order, meanwhile, involves the entry of two simultaneous orders,
+but the second order will only go into effect if the first order is executed.
+This can be seen in Figure 9-8. I have entered an If-Then order for the
+EUR/USD that will execute a buy only if the price first falls by 30 PIPs and
+secondarily if the price falls by an additional 30 PIPs from that level. This
+latter stop order will protect me from incurring big losses if the EUR/USD
+slides below the level that I have anticipated.
+
+Forex for Beginners
+
+Figure 9-8. An example of an If-Then order (Source: FXCM)
+
+Autocharting
+In order to become a successful trader, you may also want to take advantage
+of some of the other tools on your trading platform. The autochartist feature,
+for example, is adept at picking up on technical patterns in charts, as seen in
+Figure 9-9.
+
+Figure 9-9. Autochartist tool (Source: FXCM)
+
+You can see how my trading platform has identified dozens of such patterns
+and catalogued their respective directions, time intervals, and quality, among
+other aspects. In the EUR/CZK chart that is displayed on the right-hand side
+
+225
+
+226
+
+Chapter 9 | Account Management
+of Figure 9-9, you can see that the autochartist tool has identified a possible
+Ascending Triangle. It is evidently of good quality and clarity, and the
+autochartist suggests that the pair is due for an upswing.
+
+Backtesting
+Perhaps the most innovative tool available for your use is the automated
+backtester. In an earlier era, technical analysts had to manually apply their
+theories to historic price data in order to determine their validity. Even well
+into the 2000s, computerized backtesting was slow, complex, and only
+available to institutional investors with deep pockets and powerful
+computers. Nowadays, you can simply pull up the backtesting tool and either
+open a pre-defined strategy or develop your own customized strategy. Next,
+key in your preferred currency pair, time interval, start date, and end date.
+Click on the Backtest button, and voilà! Data is immediately forthcoming! In
+Figure 9-10, you can see the results of a six-month backtest I performed on
+the EUR/CHF.
+The purpose of my backtest was to determine whether an exponential moving
+average (EMA) crossover strategy would have been profitable for this pair at
+a daily interval over the designated time period. You can see from the many
+buy and sell arrows in the chart that each time the EMA crossed over the
+moving average, the computer initiated a hypothetical buy or sell order. After
+tallying the results of all of these trades, the program determined that this
+trade was net profitable. (Total profits exceeded total losses, and percent
+profit was positive.)
+For those that are quantitatively inclined, the backtest also computes a
+handful of performance metrics. The average monthly return for each of your
+trades can be generated as well as the standard deviation (also known as
+volatility) of this return. The program can also calculate about a dozen ratios,
+which are designed to assess whether the strategy performed well from a
+risk-adjusted standpoint. In other words, if the total return from the strategy
+was large (but the variability of that return was also high), then the strategy
+isn’t all that robust. For example, if my strategy generated an annualized
+return of 25% (not bad!) but the return fluctuated wildly between -25% and
+75%, then the risk-adjusted return is actually quite low. The risk-to-reward
+ratio is the most basic of these ratios and simply compares gains to losses.
+The Sharpe ratio compares the total return to volatility, while the Sortino
+ratio compares the total return to the volatility in downside movements. (The
+
+Forex for Beginners
+logic behind this last ratio is that a currency pair shouldn’t be punished for
+upside volatility.) As can be seen in Figure 9-10, my strategy produced an
+overall profit but negative risk-to-reward ratios and Sharpe ratios. In short, I
+should probably tinker with this strategy so that it maintains a similar level of
+profit but at a lower risk.
+
+Figure 9-10. Backtesting window within trading platform (Source: FXCM)
+
+I cannot stress the usefulness of the backtest tool enough. As you can see, it’s
+both complex and intricate and may take many practice attempts before a
+backtest can be performed quickly and comprehensibly. Still, if you take the
+time to become fluent in both the process and the concepts that I introduced
+above, you will find the backtest to be an invaluable aid in developing
+trading strategies. Think about it. Why would you want to speculate about
+whether a strategy seems viable when you can definitively establish whether
+or not it is, as well as the extent to which it actually was profitable? Take the
+time to work through the software and test out customized strategies over
+different intervals of time. You may be surprised to see how results differ
+when you tweak the parameters of your strategy only slightly.
+
+227
+
+228
+
+Chapter 9 | Account Management
+Finally, if you feel confident in your strategy, you can consider automating it
+so that your trading platform automatically executes buy and sell orders on
+your behalf each time the conditions of the strategy present themselves. Of
+course, there are certain downsides to using such an approach, as we’ll
+discuss in Chapter 10.
+
+Conclusion
+You should now have a working knowledge base for using your trading
+platform, managing your account, placing orders, and fine-tuning your
+trading strategies. Unfortunately, this is only the starting point, and practice
+makes perfect. Familiarize yourself with all of the tools that your platform
+makes available. Customize the layout in a way that is most useful to you. In
+order to avoid sensory overload, deselect all of the unnecessary windows and
+indicators. Create customized chart templates and indicators, and practice
+using the autocharting software. Develop a handful of different strategies and
+backtest them. Begin to monitor economic indicators and other fundamentals
+that will play a role in your trading strategies.
+Before trading with real money, you should spend weeks (or even months)
+with a demo account. In this way, you can practice keying in orders and get a
+feel for order execution. Try to maintain discipline, even though there aren’t
+real consequences for failed trades. Eventually, you may get to the point
+where you feel comfortable using the trading platform and your trades are
+generating net profits. Then—and only then—should you consider
+transitioning to a real account.
+
+CHAPTER
+
+10
+Pitfalls
+and Risks
+Understanding the Risks of Forex
+and the Mistakes that New Traders
+Make
+While I’ve tried to offer a balanced portrayal of forex, I think it’s natural that
+readers and aspiring traders will still have a rosy view of it. After all,
+investors have been known to have tremendous overconfidence in their own
+abilities, even in the face of contrary results. By definition, you wouldn’t
+start trading currencies unless you believed—or even expected—that you
+could earn a profit doing so, right?
+Both because forex is a zero-sum game and because currency markets are
+more opaque than other securities markets, you should be aware of the risks.
+In this chapter, then, I’ll offer an overview of what can go wrong. As a forex
+trader, it’s important to understand that you will be vulnerable to forces both
+within and outside of your control.
+I’ll also introduce some of the mistakes that new traders make, due both to
+lack of experience and overconfidence. I’ll explain further how you can
+avoid these pitfalls and the steps that you can take to minimize risk. Simply,
+those that aspire to succeed must internalize the old adage, “Hope for the best
+and prepare for the worst.”
+
+230
+
+Chapter 10 | Pitfalls and Risks
+
+Currency Risk
+The most obvious risk in any investing or speculative activity is that the
+market will move against you, causing the value of your position to decline.
+Quite simply, if you have a long position in the AUD/USD, the most basic
+risk that you face is that the Australian dollar will decline relative to the US
+dollar, immediately causing you paper losses and ultimately resulting in
+actual losses. In forex, this risk is especially acute because the currency
+market represents a zero-sum game. By definition, when one trader wins, one
+or more other traders must lose. In short, as a forex investor, you must accept
+the fact that you will lose money on some of your trades.
+In fact, currency risk will always be present in any international investment.
+When you own—or are exposed to price changes in—an asset or security
+that is denominated in a foreign currency, you take on currency risk. For
+example, if you are an American and you buy shares in Sony, you are
+exposing yourself to Japanese yen risk. While Sony could boost its
+profitability, causing its stock prices to rise in Japan, this would be a moot
+development if the yen simultaneously depreciates. Figure 10-1 shows how
+(net positive) currency fluctuations have contributed to asset price returns
+over the last 12 years.
+
+Figure 10-1. Breakdown of international returns between currency fluctuations and
+movements in the underlying asset price (Source: Fidelity Investments).
+
+Forex for Beginners
+There are several things that you can do to limit your exposure to currency
+risk. First of all, you should prepare yourself for the possibility that you will
+lose all of the funds that you apply to currency investing. Accordingly, you
+should only invest money that, if lost, would not materially impact your
+standard of living or financial situation.
+While no one in his or her right mind would plow ahead and invest in forex
+with the expectation of losing, it is a possibility that nonetheless must be
+accepted. As far as new traders are concerned, currency trading is not for the
+unemployed or the cash-strapped. Losing sucks, period. What would be
+worse than merely losing, however, is losing cash that you borrowed from
+your brother or that you cannot afford to part with.
+Second, reduce your leverage to the smallest amount possible. When it
+comes to allowable leverage, currencies (and futures) are the exception in
+finance—not the norm. Leverage of 50:1 is not recommended, let alone
+leverage of 200:1. Simply, when you increase your leverage, you increase
+your risk. Smaller ripples in the underlying currencies will cause massive
+waves in your account balance, hopefully for the better, but potentially also
+for the worse. If you find that striving to meet your trading goals necessitates
+the use of excessive leverage (which I define as greater than 10:1), you
+should scale back your expectations, adjust your trading strategy, or wait
+until you have more risk capital before joining the currency trading fray.
+Regardless of how much leverage you employ, you need to have a hedging
+strategy. For the majority of traders, this is as simple as a fixed 1% stop-loss
+order on all trades. Other traders may experiment with using options
+contracts to hedge risk, especially on long-term positions. Regardless, you
+need to have some method to limit potential losses. If you trade with little or
+no leverage and have a long-term outlook, you may not be bothered by a 5%
+paper loss in your position in the first month. On the other hand, if you are
+swing trading with 5:1 leverage, a 5% decline in the underlying currency pair
+would be unimaginable. By getting in the habit of using stops, you can nip
+any losses in the bud before they wreak havoc on your account balance.
+As part of your hedging strategy, you might also consider scaling out of
+losing trades and scaling into positions that are in the black, perhaps with the
+use of leverage. Used properly, this strategy is a win-win. If your (winning or
+losing) position declines, you will have effectively decreased your losses. If
+it recovers or continues rising, your position will similarly increase in value.
+
+231
+
+232
+
+Chapter 10 | Pitfalls and Risks
+Most importantly, you should always be aware of your potential exposure. If
+your position moved against you suddenly, what would be the impact? Is
+your position leveraged? Are you hedged? Can you afford this loss? These
+are questions that you should be able to answer at all times. A simple way to
+gauge your exposure is to look at the recent volatility of your currency pair(s)
+for the applicable time interval. Pay particular attention to volatility spikes
+that coincided with news releases.
+In Figure 10-2, you can see that weekly volatility for the USD/CAD has
+averaged about 100 PIPs (1%) for more than one year and never exceeded
+135 PIPs. Volatility peaked at this level toward the end of 2011 and is
+currently in a state of protracted decline. If you were to invest in the
+USD/CAD with an intended hold period of 3 weeks, your approximate risk
+exposure would be about 200 PIPs. While you can’t rule out the possibility
+of large, long-tail moves (so-called due to their presence at the far ends of
+any probability distribution curve), you can nonetheless develop an idea of
+how much you could possibly lose if your position moves against you, and
+plan accordingly.
+
+Figure 10-2. USD/CAD volatility chart can be used to gauge risk exposure. (Source:
+Forexticket.co.uk)
+
+Volatility
+In addition to being a useful tool for understanding risk, volatility can also be
+a risk in and of itself. As I have explained on several occasions already,
+volatility may spike around certain planned news releases. If you think that a
+big move is likely and you can’t afford the loss that the news might trigger,
+close your position or scale back your leverage. Even if you aren’t
+deliberately trading the news, you should always be aware of its potential
+impact on your portfolio.
+
+Forex for Beginners
+Volatility is also a risk insofar as it can trigger the premature execution of
+stop orders. Remember that the main purpose of stops is to protect against
+excessive losses. However, it’s possible that sudden volatility could cause the
+currency pair to dip below your stop level due to otherwise unremarkable
+fluctuations. For example, setting up a stop-loss 100 PIPs (about 1%) below
+your entry price might seem like solid hedging. As you can see from Figure
+10-2, however, a fluctuation in the USD/CAD of 100 PIPs would hardly be
+considered exceptional, and placing a stop-loss at this level could
+automatically lead to your position being closed before the pair has a chance
+to rebound. The lesson here is simply to be aware of the impact of volatility
+on your strategy and aim to strike a balance between aggressiveness and
+conservativeness when configuring stop levels.

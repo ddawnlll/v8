@@ -1,0 +1,561 @@
+Trading Binary
+Options
+
+The Bloomberg Financial Series provides both core reference knowledge and
+actionable information for financial professionals. The books are written by
+experts familiar with the work flows, challenges, and demands of investment
+professionals who trade the markets, manage money, and analyze investments
+in their capacity of growing and protecting wealth, hedging risk, and generating revenue.
+Since 1996, Bloomberg Press has published books for financial professionals on investing, economics, and policy affecting investors. Titles are written by leading practitioners and authorities, and have been translated into
+more than 20 languages.
+For a list of available titles, please visit our website at www.wiley.com/go/
+bloombergpress.
+
+Trading Binary
+Options
+Strategies and Tactics
+Second Edition
+
+Abe Cofnas
+
+Cover image: © styleTTT/istockphoto
+Cover design: Wiley
+Copyright © 2016 by Abe Cofnas. All rights reserved.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+The first edition was published by John Wiley & Sons, Inc. in November 2011.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form
+or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as
+permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior
+written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to
+the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax
+(978) 646-8600, or on the Web at www.copyright.com. Requests to the Publisher for permission should
+be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ
+07030, (201) 748-6011, fax (201) 748-6008, or online at www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts
+in preparing this book, they make no representations or warranties with respect to the accuracy
+or completeness of the contents of this book and specifically disclaim any implied warranties of
+merchantability or fitness for a particular purpose. No warranty may be created or extended by sales
+representatives or written sales materials. The advice and strategies contained herein may not be suitable
+for your situation. You should consult with a professional where appropriate. Neither the publisher nor
+author shall be liable for any loss of profit or any other commercial damages, including but not limited
+to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please contact our
+Customer Care Department within the United States at (800) 762-2974, outside the United States at
+(317) 572-3993, or fax (317) 572-4002.
+Wiley publishes in a variety of print and electronic formats and by print-on-demand. Some material
+included with standard print versions of this book may not be included in e-books or in print-ondemand. If this book refers to media such as a CD or DVD that is not included in the version you
+purchased, you may download this material at http://booksupport.wiley.com. For more information
+about Wiley products, visit www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Names: Cofnas, Abe, 1950- author.
+Title: Trading binary options : strategies and tactics / Abe Cofnas.
+Description: Second edition. | Hoboken, New Jersey : John Wiley & Sons, 2016.
+| Includes index.
+Identifiers: LCCN 2016014537| ISBN 978-1-119-19417-0 (cloth) |
+ISBN 978-1-119-19419-4 (epub) | ISBN 978-1-119-19418-7 (ePDF)
+Subjects: LCSH: Options (Finance) | Prices—Forecasting.
+Classification: LCC HG6024.A3 C635 2016 | DDC 332.64/53—dc23
+LC record available at https://lccn.loc.gov/2016014537
+Printed in the United States of America.
+10 9 8 7 6 5 4 3 2 1
+
+Contents
+Preface
+
+vii
+
+Acknowledgments
+
+ix
+
+About the Author
+
+xi
+
+Introduction
+What Are Binary Options and Why Are They Important?
+
+1
+
+Chapter 1
+Key Features of Binary Option Types
+
+7
+
+Chapter 2
+Identifying Profit Return Potential in Binary
+Option Trading
+
+19
+
+Chapter 3
+Sentiment Analysis: New Predictive Tools
+
+27
+
+Chapter 4
+Tracking Fundamental Forces That Impact Markets
+
+43
+
+A Primer for Binary Traders
+
+Chapter 5
+Basic Technical Analysis
+
+69
+
+Chapter 6
+Advanced Technical Analysis: Volatility Tools
+
+97
+
+Chapter 7
+Binary Option Trading Strategies
+
+127
+
+Chapter 8
+Analyzing NFP Data for Binary Trading
+
+163
+v
+
+vi
+
+Contents
+
+Chapter 9
+Risk Management in Theory and Practice
+
+179
+
+Chapter 10
+Metrics for Improving Binary Trading Performance
+
+185
+
+Chapter 11
+Performance Tools and Training for Improving
+Binary Option Trading
+
+199
+
+Afterword
+
+205
+
+Appendix A: Test Your Knowledge
+
+207
+
+Appendix B: More Training Tools and Tests
+
+217
+
+Index
+
+219
+
+Preface
+Are you interested in trading, but don’t like to wait weeks and months for a
+return? Are you following news events and want to financially benefit from
+your knowledge? Are you new to trading and want to participate but avoid
+the long learning curve for mastering trading skills? If these questions are on
+your mind, this book is for you.
+Binary option trading provides excitement and opportunity for achieving
+unusually large returns in less than a week! While there are many variations
+to this type of trading, this book focuses on the regulatory-approved weekly
+binary option trades of the North American Derivative Exchange (Nadex).
+Trades have limited risk to the cost of a position. There is no margin. The
+trade is a bet on the direction of a market by the end of the week. If the trade
+is correct, the payoff is $100 per lot. If it is wrong, the payoff is $0. Simply
+put, it’s a yes-or-no proposition. One can open an account with as little as
+$100 and start trading. This simple structure allows anyone to trade in over
+20 different underlying markets, from currencies to indexes to commodities.
+This book takes the reader through the basic features of the binary option
+instrument. But it does more. It provides a detailed review of fundamental
+and technical analysis useful to making trading decisions. Beginners, as well
+as more experienced traders, will be able to build upon their core trading
+knowledge. More importantly, new online tools and techniques for detecting
+market sentiment are presented, because trading can no longer be separated
+from the Internet and the social media it has generated. The web itself is a
+force on trading decisions and outcomes, as emotions are propagated through
+the web. This phenomenon has made sentiment analysis a major challenge for
+traders. For the binary option trader who is shaping a decision for a weekly
+outcome, or even an intraday outcome, the critical factor will be the actionable knowledge that is applied.
+This book provides real-world examples of how to scan the political and economic news and formulate appropriate binary option trading strategies. Key trading strategies are reviewed with examples. These
+vii
+
+viii
+
+Preface
+
+include: at-the-money; out-of-the-money; in-the-money; deep-in-the-money;
+and deep-out-of-the-money. Also reviewed are case studies of binary option
+trading in relationship to key news events that we have lived through.
+These include: The U.S. congressional elections; the Greek sovereign risk
+crises; turmoil in the Middle East; and the Japanese earthquake. The reader
+will see exactly how these events shaped trading strategies that worked.
+This book is also designed to provide a self-directed performance audit
+capability to the trader. Specific training challenges are provided, including a
+test of your knowledge (see Appendix A).
+No other book provides a comprehensive get-started approach to trading binary options. It is my hope that Trading Binary Options: Strategies and
+Tactics makes a difference and improves your ability to get started in binary
+option trading, but most importantly, to do it the right way!
+
+Acknowledgments
+This book would not have been possible without the support of many people. First, I want to thank Agora Financial Inc., and, in particular, Addison
+Wiggin, for his support in my development of binary options analysis and
+alerts for the Binary Dimensions newsletter. The experience of a weekly provision of real-time alerts and analysis of binary options has provided an invaluable base of knowledge that made this book possible. Joseph Shriefer and
+Rick Barnard of the Agora Financial team have also provided valuable input
+on my analyses. The North American Derivative Exchange (Nadex) has been
+of great assistance in providing access to technical information and data used
+in this book. None of the opinions or alerts in this book has been subject to
+any prior review or approval by Agora Financial Inc. or Nadex. Dean Reese,
+Bryant Lie, Zach Tyvand, and Bill Egan provided important research support. Finally, thanks go to my wife, Paula, who provided the support and
+goodwill at home that sustained me during the intense writing period.
+A.C.
+
+ix
+
+About the Author
+Abe Cofnas is considered a leader in the field of currency trading, analysis,
+and training. He founded learn4x.com (www.learn4x.com) in 2001 as one of
+the first online training programs for currency trading. He has been the Forex
+trader columnist for Modern Trader magazine since 2001, writing over 100
+columns on Forex events.
+He has authored three previous books on trading: The Forex Trading
+Course: A Self-Study Guide to Becoming a Successful Currency Trader (now in
+its second edition); The Forex Options Course: A Self-Study Guide to Trading
+Currency Options; and Sentiment Indicators—Renko, Price Break, Kagi, Point
+and Figure: What They Are and How to Use Them to Trade. He is also the editor
+of Binary Dimensions newsletter, which specializes in binary option alerts.
+He brings extensive understanding of trading from all perspectives,
+including advanced fundamental and political analysis. Cofnas holds two
+master’s degrees from the University of California at Berkeley—a master’s in
+political science and a master’s in public policy analysis. He is Senior Fundamental Strategist for the Market Trader’s Institute.
+Cofnas can be reached at abecofnas@gmail.com.
+
+xi
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 1
+
+Key Features of Binary
+Option Types
+
+This chapter covers the key features of a binary option contract available
+­globally and in the United States. There are two basic types of binary option
+trades. The first is the laddered binary options offered at the Nadex Exchange,
+part of the IG Markets, the Cantor Exchange, the CBOE, the CBOT, and the
+NYSE binaries, also known as Byrds. The NYSE binaries launched in 2016
+and offer binaries on equities. The NYSE entry into binaries allows traders
+to trade weekly binaries on major equities. The CBOE offers binaries on the
+VIX and announced binaries on the China A50 index. These are potential
+game changers for traders who look to use binaries as part of their total trading toolbox.
+Nadex and the Cantor Exchange are CFTC approved. Nadex is owned
+by IG Markets. The Cantor Exchange, owned by Cantor Fitzgerald, is a
+true exchange and does not make a market in the binaries. In other words,
+they don’t take the other side of a trade placed by a customer. Instead,
+liquidity is supplied by independent market makers. The second type of
+binary option trades is the non-laddered platform, simply offering the
+opportunity to bet on the whether the price will be higher or lower at
+expiration. These are not currently allowed in the United States, but are
+popular around the world.
+Later in the chapter, I also discuss the four basic strategies of trading—
+at-the-money, in-the-money, out-of-the-money, and deep-in/out-the-money—
+as well as the role of the market maker in the process. The chapter will end
+with a sample bid/ask scenario.
+7
+
+8
+
+Trading Binary Options
+
+Defining the Key Features
+
+Let’s start by defining the features that shape most of the laddered binary
+option selection and trading. These terms will be used time and again
+throughout this book, so commit these definitions to memory. You’ll come
+to know them well.
+Expiration date: The time that the option expires.
+Settlement value: The value of the option on expiration. It will be $0 or
+a $100-fixed payout.
+Underlying market price: This is the actual real-time market price of the
+underlying contract.
+Contract: This is the basic unit of a trade of one lot. The value of a lot
+varies among firms. For example, one lot at Cantor is $1. One lot at
+Nadex is $100. At IG, 0.01 lots is $100.
+Bid: The premium price that a trader receives for opening to sell a contract.
+Buy: This refers to betting the underlying market will go up. A trader opens
+a trade and pays the ask price associated with a strike price. If the price
+settles above the strike price, then the trader wins the $100 ask price.
+Sell: This refers to betting the underlying market will go down. A trader
+puts on an open sell order. The trader pays for an open sell order
+($100 – bid). It is $100 – (bid). This is equal to putting on a position,
+anticipating a decrease in the price of the underlying market. It is also
+the premium price that a trade pays for closing a position that was
+bought. The sell is also labeled as the put tab at the Cantor Exchange
+Spread: The difference between the bid and the ask. With any new
+market, the spread will tend to be narrow as more volume increases.
+Bid size/offer size: This is the number of positions being bought or sold.
+You will find that the bid and offer size is not useful as an indicator
+of sentiment.
+Commission fee: The trader may pay a commission fee per transaction.
+Nadex charges $1 per transaction. Firms offering Nadex binaries
+may be offering different commissions.
+Start time: At the Nadex, IG markets, and Cantor Exchanges, the start
+time for a binary trader is fixed at the beginning of an interval. A
+five-minute trade interval starts, for example, at 05:00 and ends at
+05:05. A trader can enter the trade before the expiration, but the
+time to expiration is not triggered by the entry. In other platforms
+(discussed later), a rolling start is featured. This means whenever the
+trader puts on a trade, the trade duration clock starts at that point
+and ends at the designated duration.
+
+Key Features of Binary Option Types
+
+9
+
+Settlement value: This is the price the binary firm uses to determine
+whether the trade is a winner or loser. Notice that there is no
+agreement between different firms on what is the settlement value.
+There are different formulas among different firms for determining
+settlement value. Of particular importance is that settlement
+value of binary option underlying markets among offshore firms
+(not regulated in United States, London, or Australia) are often
+manipulated to reduce winners.
+Expiration duration: Binary expirations refer to the duration of the
+option. Among global platforms, durations run the board from
+one-minute to one-week expirations.
+Note: The principles of trading binaries apply to all time frames. The short
+time frames involve more timing skills, and require a focus on momentum
+indicators and pattern breaks. Longer time frames, such as one day and more,
+allow fundamentals to influence the price patterns.
+Notice that missing here are the option features known as the Greeks—
+Delta, Theta, Vega, Volga, and so on. They are not really missing. It’s just that
+they are not necessary to trading weekly or intraday binary options that offer
+fixed payouts.
+
+Strike Price versus Underlying Market Price
+
+Binary options featuring a laddered approach have several features that need
+to be thoroughly understood. Some of these features will be familiar to option
+traders and are common to all options.
+The first feature to understand is the strike price. This is the price target
+a trader anticipates the price will hit at expiration time: at the target, above
+the target, or below the target. It is important to note that there can be up to
+14 strike prices listed by the Nadex Exchange for each underlying contract.
+When you have a set of strike prices to trade, they are called a ladder.
+For example, at Nadex and IG, the weekly binary option ladders are
+statements in which the trader decides to buy the binary option if he agrees
+it will be greater than the associated strike price. If the trader believes the
+­settlement will be lower than the associated strike price, the trade that is put
+on is a sell. See Table 1.1 for examples of binary option ladders. Notice that
+the strike price closest to the indicative price (which is the market price of the
+underlying contract) has an ask value near 50. It is always the case that the
+market price closest to the ask price will be valued near 50.
+
+10
+
+Trading Binary Options
+
+Table 1.1 Snapshot of Binary Contract and Strike Prices
+
+Contract Strike Price
+
+Expiration
+
+Bid
+
+Offer
+
+Indicative
+
+Gold (Feb16) > 1094.5
+
+18-Dec-15
+
+9.50
+
+17.50
+
+1066.7
+
+Gold (Feb16) > 1084.5
+
+18-Dec-15
+
+19.50
+
+27.75
+
+1066.7
+
+Gold (Feb16) > 1074.5
+
+18-Dec-15
+
+33.25
+
+41.50
+
+1066.7
+
+Gold (Feb16) > 1064.5
+
+18-Dec-15
+
+48.75
+
+57.00
+
+1066.7
+
+Gold (Feb16) > 1054.5
+
+18-Dec-15
+
+64.00
+
+72.25
+
+1066.7
+
+Gold (Feb16) > 1044.5
+
+18-Dec-15
+
+77.00
+
+85.00
+
+1066.7
+
+Gold (Feb16) > 1034.5
+
+18-Dec-15
+
+86.00
+
+94.25
+
+1066.7
+
+Another component to understand is the underlying market. The binary
+option specifically tracks a particular market known as the underlying ­market.
+The underlying market for index-related binary strike prices are, except for
+the currency pairs, the near-term futures contracts. For example, a trader
+wanting to put on a position on gold would be watching not only the gold
+spot market, but the gold futures contract that is trading on the Commodity
+Exchange, Inc. (Comex). Similarly, if a trader wants to trade the S&P 500
+binary at Nadex, the actual underlying market is the active future contract.
+The fact that the underlying markets may be a futures contract on the markets does not pose difficulties. The fact is that the spot and near-term futures
+contract for these markets move in close tandem to each other. But the exact
+settlement price is in the futures contract and not the underlying spot market,
+except for the currencies.
+The updated list of what markets can be traded at these exchanges can be
+easily tracked at their respective websites (Table 1.2).
+Table 1.2 Binary Platforms
+
+Firm
+
+Website
+
+North American Derivative
+Exchange (Nadex)
+
+www.nadex.com
+
+IG
+
+www.igmarkets.com
+
+NYSE ByRDs
+
+https://www.nyse.com/products/options-byrds
+
+CBOE
+
+https://www.cboe.com/micro/binaries/introduction.aspx
+
+Cantor Exchange
+
+www.cantorexchange.com
+
+Key Features of Binary Option Types
+
+11
+
+Currency Pairs as an Underlying Market
+
+At Nadex IG and the Cantor Exchange, binary options are available on the
+majors and many cross pairs. USD/JPY, USD/CAD, USD/CHF, EUR/USD,
+GBP/USD, EUR/JPY, GBP/JPY, AUD/JPY, and the AUD/USD. This is a
+broad enough range of currency pairs to enable the trader to play almost any
+strategy and correlate that strategy with global market events. The underlying
+market to track for trading weekly binary currency options is the spot currency market (see Tables 1.2 and 1.3).
+Beginning binary traders should consider the weekly expirations. Trading
+goes from Monday morning at approximately 3 a.m. EST to 3 p.m. EST on
+Friday. The weekly expirations give the trader time to be right, and time for
+fundamentals to work on markets. In recent years, Nadex and IG have added
+20-minute and 5-minute expirations to their binary option platforms. All
+the features of the longer daily and weekly durations are present in the short
+expiration binaries.
+Moneyness
+
+One of the most salient relationships to thoroughly understand is where the
+binary strike price is in relationship to the underlying market. This feature is
+known in the field of option trading as moneyness. Understanding moneyness
+of the binary option contract generates the ability to gauge market sentiment
+and, along with it, the expected probability of success of a particular binary
+option. There are three key metrics to evaluate.
+• At-the-money (ATM): When the strike price is equal to the underlying market price (the spot). For non-laddered binaries, putting a high-low trade on
+is in effect an at-the-money trade!
+• In-the-money (ITM): When the underlying market is greater than the strike
+price. This occurs when a trader is buying the position. When the trader is
+opening a position to sell, the option is in-the-money when the underlying
+market is less than the strike price.
+• Out-of-the-money (OTM): This occurs when a trader is opening the position to buy and when the underlying market is less than the strike price
+and the strike price is above the spot market price. This also occurs when
+a trader is opening a position to sell and the underlying market is greater
+than the strike price.
+
+12
+
+Trading Binary Options
+
+We can add two more important variations of the binary option strike
+price condition: deep-out-of-the-money and deep-in-the-money. These refer to
+the outer strike prices or ladders. A good way to think about where they
+are located from a price point of view is to define deepness in regard to the
+spot price as a 10 percent probability for out-of-the-money and a 90 percent
+probability for in-the-money. Few traders would argue that those levels are
+not deep.
+The condition of being near-the-money is also a credible way of characterizing the relationship between the binary option strike price and its
+moneyness.
+When the binary strike price is roughly at-the-money, the cost of
+buying that strike price will be close to $50 per unit because the market
+interprets an ATM strike price as having an equal probability of going up
+or down. This means that a scan of actual binary strike price ask prices
+that are near $50 can, in fact, serve as quick guide to where the underlying spot market is at, without even looking at a chart. It’s a good idea
+to routinely check ATM prices and see the relationship it has with the
+underlying market.
+Moneyness and Trader Direction
+
+When a binary option strike price is in-the-money (ITM), its meaning, as
+to its profitability, depends on whether the trader has gone long or short.
+For example, if the trader is putting on a long position, he is expecting the
+underlying spot market to go up (Table 1.3). In-the-money means that
+the spot underlying market has already moved above the binary option
+strike price—the underlying market is greater than the strike price. This
+is exactly what the trader wants to see happen for profits to be realized.
+The effect is that the market begins to price higher the cost of buying that
+contract. The crowd becomes optimistic for the price to remain above the
+binary strike price.
+Table 1.3 Moneyness and the Spot Price When Buying Binaries

@@ -1,0 +1,406 @@
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+example, each day both newspapers publish which stocks are making
+new 52-week highs or new 52-week lows. These stocks are often trending
+up or down, depending on whether the security is making a new high or
+a new low. What you want to see is a stock that hasn’t made a new high
+or a new low in a long time and then bursts onto the scene. These stocks
+are often just beginning their trends.
+Another bottom-up method of identifying trending stocks is through
+research services. High Growth Stock (HGS) Investor software, for example, allows users to screen stocks in particular groups, markets, and so
+on by those making new highs or new lows over any chosen time period.
+The period you choose should be long enough to signal a meaningful
+trend, but not so short as to capture stocks moving normally up and
+down. After all, a stock making a new one-day high isn’t very meaningful.
+ Top-down search: You can locate strongly trending stocks by looking at
+strongly trending industry groups. Popular research services like Daily
+Graphs, HGS Investor, and Morningstar provide data on which industry groups are the top performers over the last several months. Just
+because a group is hot right now, however, doesn’t mean it will be hot
+forever; industries fall out of favor just as individual securities do.
+Begin your search by looking at the top ten performing industry groups
+and drilling down to find securities that may be trending. Again, you
+want stocks just making new highs after a period of moving sideways.
+Examine the chart and see if the security is clearly rising. You get more
+tools on measuring trends using indicators in Chapter 5.
+To find candidates to short, examine industry groups that fall in the
+bottom 10 percent of performance. Then drill down into those groups to
+locate individual stocks that are just breaking into new lows. These are
+the prime candidates to short.
+Just because a stock belongs to an industry group that’s in an uptrend
+doesn’t necessarily mean that the stock is also trending or that it’s trending
+upward. It’s possible to find stocks that belong to a hot industry but that are
+falling on hard times. So make sure you’re only buying stocks in strong trends
+in groups that are trending upward and shorting stocks in strong trends in
+groups that are trending downward.
+Figure 6-1 highlights shares of Mosaic Company (symbol: MOS), which is ripe
+for trading a trending stock. On February 13, 2007, shares hit a 52-week high
+and appeared in The Wall Street Journal on February 14, 2007.
+
+121
+
+122 Part II: Determining Your Entry and Exit Points: Technical Analysis
+
+Figure 6-1:
+This security
+hits a new
+52-week
+high and
+is a prime
+candidate
+for trend
+trading.
+
+Knowing when to enter a trend
+The biggest risk swing traders who focus on trends face is the possibility of
+buying or shorting a trend that’s just about to end. Ian Woodward, a professional trader, equates buying or shorting stocks late in their trends to acting
+like an unruly dog chasing speeding cars. Sure, it may be fun for the dog, but
+sooner or later he’s going to get run over.
+To minimize your risk of riding a crashing wave, you must follow some
+system that only enters at the right time. The ideal setup is a security making
+a fresh, new high or low over the last 26 days.
+So how do you know if the trend you’re riding is just beginning or winding
+down? If you don’t have access to a security program that can identify such
+new highs or new lows, then rely on The Wall Street Journal’s daily list of
+stocks hitting 52-week highs or 52-week lows. Additionally, you want to see
+an ADX reading above 20 to indicate the presence of a trend.
+As with all aspects of trading, you can never be 100 percent sure about a
+trade. The best you can do is put the odds in your favor by only entering on
+some type of signal. If the trend is genuine and is going to continue, you’ve
+entered early. If the trend is failing, you’ll know shortly because your signal
+will likely reverse itself if the trend ends or breaks down.
+The signal you use can be based on chart patterns or technical signals. Generally,
+chart patterns give traders earlier warning than technical signals, but technical
+indicators require little interpretation, which makes your job easier. For example,
+a stock rising above its 50-day moving average could be a signal to buy, or a MACD
+crossover (covered in Chapter 5) could be a signal to short (depending on the
+direction of the crossover). Many swing traders only enter trends on the long
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+or short side when a security first makes a new high or new low of X number
+of days, provided this is the first new high or new low in the last month or
+two. Otherwise, you run the risk of buying or shorting a stock that’s extended
+or has been making new highs and new lows for a long time.
+Another approach to entering swing trade orders is to wait for a pause in the
+trend and enter on a day of strength or day of weakness.
+ To enter on a day of strength, you must wait for the stock to form three
+consecutive bars of declining highs. Then you enter on the next bar that
+trades higher than the previous bar’s high.
+ To enter on a day of weakness, you must wait for the stock to form
+three consecutive bars of rising lows. Then you enter on the next bar
+that trades lower than the previous bar’s low.
+In Figure 6-2, the chart of Apple Inc. (symbol: AAPL) shows a strong uptrend
+that began in late July 2007 on a strong gap up in share prices. After rising 40
+percent, shares retraced their steps and made three consecutive lower highs
+marked by the numbers 1, 2, and 3. (Notice that the day prior to number 1
+doesn’t count because its high exceeds the previous bar.) After making four
+lower highs, the stock moved higher and exceeded the high of the fourth bar,
+signaling the continuation of the uptrend and an ideal entry point.
+Whatever signal method you use, make sure to only enter the trade on that
+actual signal. You’ll find dozens of trending stocks that gave signals 5, 10, or
+20 days ago — ignore them. You can’t be disciplined if you’re entering trends
+late. Only enter on a signal you choose.
+
+Figure 6-2:
+A day of
+strength is
+often a good
+opportunity
+to enter
+a strong
+trend.
+
+123
+
+124 Part II: Determining Your Entry and Exit Points: Technical Analysis
+If you look back at Figure 6-1, you’ll notice that the 52-week high registered
+on February 13, 2007, was the first in two months. Remember, you want to
+avoid buying a strong trending stock that has been making new 52-week
+highs every other day. An extended period of time between 52-week highs is a
+means of protecting yourself from buying an extended stock. Enter either on
+the sign of a new high or on a day of strength (the day of strength approach
+will help you avoid getting run over by speeding cars).
+Figure 6-3 highlights the day of strength for Mosaic and the ADX reading
+above 20 on that day. In this example, the day of strength allows ADX time to
+give a clear signal on whether the stock is trending or not. Should you have
+entered on February 14, 2007, the day of the 52-week high? That depends on
+what your trading strategy calls for: If you buy new highs immediately, then
+the answer is yes. However, I recommend using ADX as a means of weeding
+out weak trends from strong trends. In this case, the ADX was below 20 on
+the day the stock made a new high. The ADX indicator didn’t register a reading over 20 until February 20, 2007.
+
+Figure 6-3:
+ADX above
+20 signals
+the existence of a
+trend —
+enter on
+a day of
+strength.
+
+Managing your risk by
+setting your exit level
+Setting your exit level will depend on when you enter the security. I cover
+exit levels in more detail in Chapter 10, but in short, your exit price (think of
+it as your emergency exit) will either be based off a technical-indicator signal,
+a price level, or a time exit (that is, exiting after a certain number of days
+have elapsed). Your target likely will be based off a technical indicator or
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+price level because of the ease of establishing the exit rules. Following is an
+explanation of each of these exit-setting mechanisms:
+ Technical-indicator exit signal: This includes exiting on the break down
+below a moving average or on a crossover of MACD (both of which are
+covered in Chapter 5).
+ Price-level exit level: Entering on a new, 52-week high will require an
+exit level right in the trading range that the stock is emerging from. If
+you bought shares of Mosaic as they made a new high on February 13,
+you would set an exit level between $21 and $22 per share. If the trend is
+real, the stock shouldn’t fall back into its original base.
+ Time-based exit level: Because the target exit price isn’t important to
+demonstrate how to enter and manage the Mosaic trade, I assume a
+simple time-based target of 20 days.
+If you enter on the day of strength that I recommend in the preceding
+section, your exit level is easier to compute than it would be using the other
+methods identified here. In this case, your exit should be based off the low
+directly preceding the day of strength.
+
+Trading Ranges: Perhaps Stasis Is Bliss?
+Finding a security in a trading range can be more difficult than a finding a
+trending stock. Screening for securities making new highs or new lows is
+much easier.
+Technical indicators (which I cover in Chapter 5) can be useful in identifying when a security is in a trading range and when to enter or exit a trade.
+However, not all technical indicators are applicable to trading ranges.
+Trending indicators, as the name suggests, are useful when a security is in a
+trend. Non-trending indicators (often called oscillators), on the other hand,
+should be used when securities are in a trading range. You should choose
+one or two oscillators (at most) to use in a trading system.
+
+Finding a security in a
+strong trading range
+When swing traders want to determine if a security is in a trading range, they
+often use an ADX indicator. The calculator methodology is beyond the scope
+of this book, but I can tell you that most popular charting programs include
+ADX (or include ADX as part of the DMI indicator). What you need to know is
+
+125
+
+126 Part II: Determining Your Entry and Exit Points: Technical Analysis
+that an ADX value below 20 signals a non-trending market, and an ADX value
+above 20 often signals a trending market.
+A range must be wide enough to allow for meaningful profits. For example, if
+a stock trades between $56 and $60, the range would be so tight that profits
+would be eaten up by commissions, taxes, and so on. No hard and fast rule
+exists for how wide is wide enough, but $5 to $7 on a stock trading below $100
+is a good range to target.
+The strength of trading ranges depends on a few factors:
+ Time: The longer a trading range has been in force, the more likely it is
+to continue.
+ Touches of support and resistance: The more times a security touches
+its support and/or resistance level (see Chapter 4), the more powerful
+that support or resistance level is. Look for trading ranges with several
+touches or tests of support and resistance.
+ Flat ranges: When I refer to flat ranges, I mean how much a trading range
+resembles a rectangle. Some trading ranges have resistance levels that rise
+or support levels that fall; these ranges are suspect because they don’t
+clearly identify true areas of support or resistance. In fact, they may be
+some other chart formation entirely. The flatter the support and resistance
+levels, the stronger your conviction should be that the trading range is
+genuine.
+Figure 6-4 shows a chart of MEMC Electronics Materials (symbol: WFR). You
+can see the trading range by eyeballing the chart and identifying clear support and resistance levels. Notice also that the ADX level is below 20 on the
+chart, signaling a non-trending market.
+
+Figure 6-4:
+This chart
+shows a
+trading
+range with
+resistance
+at $65 and
+support at
+$52.
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+
+Entering on a range and
+setting your exit level
+Your entry is likely to be driven by either a day of strength (defined earlier
+in this chapter) or a technical signal. For the MEMC Electronics example, I
+assume you’re using stochastics (an indicator useful in measuring strength
+or weakness in trendless markets; see Chapter 5 for more on stochastics) to
+signal a buy order.
+Stochastics flashes a buy signal when the signal line crosses above the
+moving average from an oversold level. That area is highlighted in Figure
+6-5. In the case of MEMC Electronics, the buy signal from stochastics occurs
+when shares are around $55.
+
+Figure 6-5:
+This chart
+shows a buy
+signal from
+stochastics
+and a profit
+objective
+near the
+upper end of
+the trading
+range.
+
+The target profit in trading ranges is just the opposite side of the trading
+range. In this case, resistance was solid around $65 per share, so a reasonable profit target is $64. Shares of WFR hit that level roughly six weeks after
+the buy signal was generated.
+The risk level of this trading range is located slightly below the support level.
+A meaningful movement in share price below the support level signals the
+trading range has ended, but don’t be strict on what you consider meaningful. For example, if the support level is at $52, a risk level of $51 may be
+unreasonable given the volatility in the chart.
+I prefer to set risk levels right below major, whole, round numbers. Traders
+often fall into the trap of putting stop loss orders or buy stop orders at round
+number levels. The problem with setting risk levels or buy orders at round numbers is that hundreds of other traders may be the doing the exact same thing,
+
+127
+
+128 Part II: Determining Your Entry and Exit Points: Technical Analysis
+meaning that you’re likely to get a bad execution or get whipsawed (shaken
+out of the trade by a rapid price movement).
+For the example shown in Figure 6-5, with support at $52 and an upper resistance level at $65, I recommend placing a stop loss order right below $50
+per share. In my view, a trade below $50 is a good indication that the trading
+range has ended and the stock is beginning a downtrend.
+Note: Right after the buy signal from stochastics is generated, shares of WFR
+trade down sharply, touching a low of $49.70. (Notice, though, that shares
+never close below $53.) If you had set your risk level exit at $50, you would
+have been exited from this trade early.
+
+Comparing Markets to One Another:
+Intermarket Analysis
+Intermarket analysis is an underutilized technique in technical analysis.
+Intermarket technicians analyze currencies, equity markets, bonds, and
+commodities to determine which market holds the most promise. Often, an
+upturn in one market signals an upturn or downturn in another market, and
+intermarket analysis can give you an early lead on a rally or decline in that
+sector or market. Rising bond prices often precede equity market rallies.
+Rising commodity prices, on the other hand, can lead to a downturn in stock
+prices. Knowing the relationships among the four major markets — bonds,
+currencies, commodities, and stocks — means that you can anticipate
+changes in market leadership.
+I begin this review of intermarket analysis by taking a bird’s-eye view of the
+investment landscape. Currencies (specifically, the U.S. dollar) analysis is
+helpful as investors seek to profit from strength or weakness in an investor’s
+domestic currency. Then I cover commodities (for example, oil, gold, and
+copper) because commodity prices have been in a major bull market in the
+last few years. I also get into bond prices and interest rates. Bonds are the
+biggest competitor to the equity markets, so strength or weakness in bonds
+can lead to strength or weakness in equity prices.
+
+Passing the buck: The U.S. dollar
+The U.S. dollar is the world’s reserve currency, or the most widely used currency. The dollar is affected by a host of factors, including the interest rates
+the Federal Reserve sets (known as monetary policy), the national debt, and the
+current budget deficit or surplus. As you may have learned in your economics
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+course, the value of a currency (assuming it freely floats on the world markets)
+is determined by the supply and demand for that currency.
+The Federal Reserve controls short-term interest rates in the United States,
+and short-term interest rates, in turn, have a significant impact on the value
+(or demand) for U.S. dollars. If the Federal Reserve raises interest rates,
+the dollar is likely to strengthen because investors seek out high yields on
+their investments. A government that pays 10 percent interest on short-term
+investments will attract a flood of investors from the outside world, prompting strength in that country’s currency. However, if that government cuts
+interest rates to 2 percent, fewer investors will be willing to loan their money
+to the government or banks in that country (assuming other world yields are
+higher than 2 percent), thus weakening that nation’s currency.
+Fiscal policies affect the dollar but usually take longer to materialize. If the
+U.S. government spends more than it has (that is, it generates budget deficits), the dollar’s value may decrease because a budget deficit represents
+borrowing money today at the expense of paying it back in the future. The
+larger the deficit or national debt, the more pressure on the dollar. Think of
+it this way: The more the government spends, the more available U.S. dollars
+are. By increasing the supply, you decrease prices.
+So how can you make money with this knowledge? Here’s how you may benefit
+when the dollar strengthens or weakens:
+ Dollar strengthening: When the U.S. dollar strengthens, it usually bodes
+well for U.S. stocks and U.S. bonds. International investors are attracted to
+strong currencies because the investors can increase their potential return
+by profiting from the rise in a U.S. stock and a rise in the U.S. currency.
+ Dollar weakening: Weakness in the U.S. dollar can translate into higher
+commodity prices. Look for gold, crude oil, and other world commodities
+to benefit from a weak dollar.
+The chart in Figure 6-6, which shows the U.S. dollar (top) and gold prices
+(bottom), illustrates how intermarket analysis can boost your returns. The
+U.S. dollar began a major decline in August 2007 while gold prices began
+a major advance. If you see the U.S. dollar weaken, look for swing trading
+opportunities on the long side in commodities or commodity-related securities
+(like gold miners or oil explorers). A weak U.S. dollar tends to lead to higher
+commodity prices (in U.S. dollars), and a strong U.S. dollar tends to lead to
+lower commodity prices (in U.S. dollars).
+
+129
+
+130 Part II: Determining Your Entry and Exit Points: Technical Analysis
+
+Figure 6-6:
+Watch the
+strength or
+weakness
+of the U.S.
+dollar for
+clues on the
+direction of
+commodity
+prices.
+
+Tracking commodities
+Commodities come in different flavors:
+ Energy commodities include items like crude oil, heating oil,
+and natural gas.
+ Metal commodities include gold, silver, and platinum.
+ Livestock and meat commodities include live cattle and lean hogs.
+ Agricultural commodities include corn and soybeans.
+Between the 1980s and early 2000, commodities didn’t get much respect and
+were considered unimportant in the so-called new economy. Many traders
+underweighted or divested altogether investments in the commodity space.
+All that changed in 2000. With the equity market top in 2000, investors sought
+out new investment opportunities, and gold, oil, and other commodities
+
+Chapter 6: Analyzing Char ts to Trade Trends, Ranges, or Both
+benefited from the interest. Later, at the turn of the 21st century, demand
+for commodities from emerging markets like China and India rose markedly.
+Because commodity prices in general had been poor investment options in
+prior years, commodity producers hadn’t invested in sourcing new supplies.
+For example, because crude oil prices had been range-bound during much of
+the 1990s, energy firms didn’t invest in new equipment or search for new oil
+discoveries. As a result, prices of these commodities shot up when demand
+increased.
+Most individual investors never buy commodities directly because of the
+sophistication needed to trade futures contracts. But recent innovations have
+allowed equity investors to take advantage of movements in commodity prices.
+For example, a trader wanting to take advantage of a bull market in gold
+prices can purchase shares of GLD, the streetTRACKS Gold shares, which trade
+on the New York Stock Exchange.
+You can track the prices of commodities in many ways, but the most popular
+baskets are the Commodity Research Bureau Index and the Goldman Sachs
+Commodity Index.
+Although commodities can make you a pretty penny (made out of copper, I
+might add), they also give important signals on the direction of other asset
+classes. Commodities represent goods that you and I buy day-to-day —
+whether we realize it or not. When prices of commodities rise, inflation can
+result. Inflation is a principal risk of bond investors because interest payments aren’t adjusted for the value of the dollar.
+Therefore, commodity prices tend to correlate negatively to bond prices
+(and thus, positively correlate with interest rates because bond yields move
+inversely to bond prices). Rising commodity prices usually occur with falling
+bond prices and rising yields. Conversely, falling commodity prices usually
+occur with rising bond prices and falling yields.
+No relationship is guaranteed in the financial market, and it’s possible for
+commodity prices to trend in the same direction as bond prices. But such
+action is unlikely to last long. Bond investors eventually sell bonds if they
+believe the risks of inflation are rising. A small move in the prices of commodities may not convince them that such a risk is imminent, but a sustained rally or
+decline in commodity prices affects the strength or weakness in bond prices.
+Figure 6-7 shows just how that relationship played out in 2006. Commodity
+prices, as measured by the CRB Index, began rallying in late March. Shortly
+thereafter, bond prices fell (and bond yields rose). The bottom chart shows
+the yield on the 30-Year Treasury Bond. As you can see, commodity prices
+and bond yields move in the same direction. As a swing trader, you can use
+this knowledge to your advantage — a sustained rally in commodity prices
+leads to higher bond yields and trading opportunities for bond traders.
+
+131
+
+132 Part II: Determining Your Entry and Exit Points: Technical Analysis

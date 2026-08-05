@@ -1,0 +1,628 @@
+
+Units as a Measure of Risk
+Since the Turtles used the unit as the base measure for position size
+and since those units were adjusted for volatility risk, the unit was
+a measure of the risk both of a position and of the entire portfolio
+of positions.
+
+256 • Way of the Turtle
+
+The Turtles were given risk management rules that limited the
+number of units that we could maintain at any speciﬁc time on four
+different levels. In essence, those rules controlled the total risk that a
+trader could carry, and those limits minimized losses during prolonged
+losing periods as well as during extraordinary price movements.
+An example of an extraordinary price movement was the day
+after the October 1987 stock market crash. The U.S. Federal
+Reserve lowered interest rates by several percentage points
+overnight to boost the conﬁdence of the stock market and the country. The Turtles were loaded short in interest-rate futures: eurodollars, T-bills, and bonds. The losses the next day were enormous. In
+most cases, 40 to 60 percent of account equity was lost in a single
+day. However, those losses would have been correspondingly higher
+without the maximum position limits.
+The limits were as follows:
+Level
+
+Type
+
+Maximum Units
+
+1
+
+Single market
+
+4
+
+2
+
+Closely correlated markets
+
+6
+
+3
+
+Loosely correlated markets
+
+10
+
+4
+
+Single direction, long or short
+
+12
+
+Single markets: A maximum of 4 units per market.
+Closely correlated markets: For markets that were closely correlated, there could be a maximum of 6 units in one particular
+direction (i.e., 6 long units or 6 short units). Closely correlated market groups include heating oil and crude oil; gold and silver; the
+currencies as a group; interest rate futures such as T-bills and
+eurodollars; and so on.
+
+Original Turtle Trading Rules • 257
+
+Loosely correlated markets: For loosely correlated markets,
+there could be a maximum of 10 units in one particular direction.
+Loosely correlated markets included gold and copper; silver and
+copper; and many grain combinations that the Turtles did not trade
+because of position limits.
+Single direction: The maximum number of total units in one
+direction long or short was 12 units. Thus, one theoretically could
+have had 12 units long and 12 units short at the same time.
+The Turtles used the term loaded to represent having the maximum permitted number of units for a particular risk level. Thus,
+loaded in yen meant having the maximum 4 units of Japanese
+yen contracts, completely loaded meant having 12 units, and so
+forth.
+
+Adjusting Trading Size
+There are times when the market does not trend for many months.
+During those times, it is possible to lose a signiﬁcant percentage of
+the equity of the account.
+After large winning trades close out, one may want to increase
+the size of the equity used to compute position size.
+The Turtles did not trade normal accounts with a running balance based on the initial equity. We were given notional accounts
+with a starting equity of zero and a speciﬁc account size. For example, many Turtles received a notional account size of $1 million
+when we started trading in February 1983. That account size was
+adjusted each year at the beginning of the year. It was adjusted up
+or down depending on the success of the trader as measured subjectively by Rich. The increase or decrease typically represented
+
+258 • Way of the Turtle
+
+something close to the addition of the gains or losses that were
+made in the account during the preceding year.
+The Turtles were instructed to decrease the size of the notional
+account by 20 percent each time we went down 10 percent of the
+original account. Thus, if a Turtle trading a $1,000,000 account
+ever was down 10 percent, or $100,000, we would begin trading as
+if we had an $800,000 account until we reached the yearly starting
+equity. If we lost another 10 percent (10 percent of $800,000 or
+$80,000, for a total loss of $180,000), we would reduce the account
+size by another 20 percent for a notional account size of $640,000.
+There are other, perhaps better strategies for reducing or increasing equity as the account goes up or down. These are the rules that
+the Turtles used.
+
+Entries
+The typical trader thinks mostly in terms of the entry signals when
+she is thinking about a particular trading system. Traders believe
+that the entry is the most important aspect of any trading system.
+They might be surprised to ﬁnd that the Turtles used a very simple entry system based on the channel breakout systems taught by
+Richard Donchian.
+The Turtles were given rules for two different but related breakout systems we called System 1 and System 2. We were given full
+discretion to allocate as much of our equity to either system as we
+wanted. Some of us chose to trade all our equity using System 2,
+some chose to use a 50 percent System 1 and 50 percent System
+2 split, and others chose different mixes. The two systems were as
+follows:
+
+Original Turtle Trading Rules • 259
+
+System 1: a shorter-term system based on a 20-day breakout
+System 2: a simpler long-term system based on a 55-day breakout.
+
+Breakouts
+A breakout is deﬁned as the price exceeding the high or low of a
+particular number of days. Thus, a 20-day breakout would be
+deﬁned as exceeding the high or low of the preceding 20 days.
+Turtles always traded at the breakout when it was exceeded during the day and did not wait until the daily close or the open of the
+following day. In the case of opening gaps, the Turtles would enter
+positions on the open if a market opened through the price of the
+breakout.
+
+System 1 Entry
+Turtles entered positions when the price exceeded by a single tick
+the high or low of the preceding 20 days. If the price exceeded the
+20-day high, the Turtles would buy 1 unit to initiate a long position
+in the corresponding commodity. If the price dropped one tick
+below the low of the last 20 days, the Turtles would sell 1 unit to
+initiate a short position.
+System 1 breakout entry signals would be ignored if the last
+breakout would have resulted in a winning trade. Note: For the purposes of this test, the last breakout was considered the last breakout
+in the particular commodity regardless of whether that particular
+breakout was actually taken or was skipped because of this rule.
+This breakout would be considered a losing breakout if the price
+subsequent to the date of the breakout moved 2N against the position before a proﬁtable 10-day exit occurred.
+
+260 • Way of the Turtle
+
+The direction of the last breakout was irrelevant to this rule.
+Thus, a losing long breakout or a losing short breakout would
+enable the subsequent new breakout to be taken as a valid entry
+regardless of its direction (long or short).
+However, if a System 1 entry breakout was skipped because the
+previous trade had been a winner, an entry would be made at the
+55-day breakout to avoid missing major moves. This 55-day breakout was considered the failsafe breakout point.
+At any given point, if a trader was out of the market, there would
+always be some price that would trigger a short entry and another
+different and higher price that would trigger a long entry. If the last
+breakout was a loser, the entry signal would be closer to the current price (i.e., the 20-day breakout) than it would be if it had been
+a winner, in which case the entry signal probably would be farther
+away, at the 55 day breakout.
+
+System 2 Entry
+We entered when the price exceeded by a single tick the high or
+low of the preceding 55 days. If the price exceeded the 55-day high,
+the Turtles would buy 1 unit to initiate a long position in the corresponding commodity. If the price dropped one tick below the low
+of the last 55 days, the Turtles would sell 1 unit to initiate a short
+position.
+All breakouts for System 2 would be taken whether or not the
+previous breakout had been a winner.
+
+Adding Units
+Turtles entered single-unit long positions at the breakouts and
+added to those positions at 1⁄2N intervals after their initial entry. This
+
+Original Turtle Trading Rules • 261
+
+⁄2N interval was based on the actual ﬁll price of the previous order.
+Thus, if an initial breakout order slipped by 1⁄2N, the new order
+would be 1 full N past the breakout to account for the 1⁄2N slippage,
+plus the normal 1⁄2N unit add interval.
+This would continue right up to the maximum permitted number of units. If the market moved quickly enough, it was possible
+to add the maximum 4 units in a single day.
+Here is an example.
+1
+
+Gold
+N  2.50
+55-day breakout  310
+First unit added
+Second unit
+Third unit
+Fourth unit
+
+310.00
+310.00  1⁄2 2.50, or 311.25
+311.25  1⁄2 2.50, or 312.50
+312.50  1⁄2 2.50, or 313.75
+
+Crude Oil
+N  1.20
+55-day breakout  28.30
+First unit added
+Second unit
+Third unit
+Fourth unit
+
+28.30
+28.30  1⁄2 1.20, or 28.90
+28.90  1⁄2 1.20, or 29.50
+29.50  1⁄2 1.20, or 30.10
+
+Consistency
+The Turtles were told to be very consistent in taking entry signals because most of the proﬁts in a particular year might come
+
+262 • Way of the Turtle
+
+from only two or three large winning trades. If a signal was
+skipped or missed, this could have a great effect on the returns
+for the year.
+The Turtles with the best trading records consistently applied
+the entry rules. The Turtles with the worst records and all those
+who were dropped from the program failed to enter positions consistently when the rules indicated.
+
+Stops
+There is an expression: “There are old traders and there are bold
+traders, but there are no old bold traders.” Most traders who do not
+use stops go broke. The Turtles always used stops.
+For most people, it is far easier to cling to the hope that a losing
+trade will turn around than it is to get out of a losing position and
+admit that the trade did not work out.
+Let me make one thing very clear: Getting out of a losing position
+when the rules of a system dictate doing that is critical. Traders who
+do not cut their losses will not be successful in the long term. Almost
+all the examples of trading that got out of control and jeopardized
+the health of the ﬁnancial institution, such as Barings and LongTerm Capital Management, involved trades that were allowed to
+develop into large losses because they were not cut short when they
+were small losses.
+The most important thing about cutting your losses is to have
+predeﬁned the point where you will get out before you enter a position. If the market moves to your price, you must get out, no exceptions, every single time. Wavering from this method eventually will
+result in disaster.
+
+Original Turtle Trading Rules • 263
+
+Note: The reader may have noticed an inconsistency between
+my comments here and those in Chapter 10, where I noted that
+adding stops sometimes harms system performance and is not
+always necessary. The systems outlined previously which work well
+without stops do have an implicit stop because as the price moves
+against the position there will come a point where the moving averages will cross and the losses will be limited. So in a sense, there is
+a stop, it is just not one that is visible or known to the trader. For
+most people, however, the psychological comfort of having a price
+point where they will exit a losing trade is important. This is especially true of beginners. It can be psychologically destabilizing to
+watch a position go against you without having a clear view of the
+point where the pain will end.
+
+Turtle Stops
+Having stops did not mean that the Turtles always had actual stop
+orders placed with the broker.
+Since the Turtles carried such large positions, we did not want
+to reveal our positions or our trading strategies by placing stop
+orders with brokers. Instead, we were encouraged to have a particular price that when hit would cause us to exit our positions by
+using either limit orders or market orders.
+These stops were nonnegotiable exits. If a particular commodity traded at the stop price, the position was exited each time, every
+time, without fail.
+
+Stop Placement
+The Turtles placed their stops on the basis of position risk. No trade
+could incur more than 2 percent risk.
+
+264 • Way of the Turtle
+
+Since 1N of price movement represented 1 percent of account
+equity, the maximum stop that would allow 2 percent risk would
+be 2N of price movement. Turtles’ stops were set at 2N below the
+entry for long positions and 2N above the entry for short positions.
+To keep total position risk at a minimum, if additional units were
+added, the stops for earlier units were raised by 1⁄2N. This generally
+meant that all the stops for the entire position would be placed at
+2N from the most recently added unit. However, in cases in which
+later units were placed at larger spacing because of either fast markets causing skid or opening gaps, there would be differences in the
+stops.
+Here is an example.
+
+Crude Oil
+N = 1.20
+55-day breakout = 28.30
+Entry Price
+
+Stop
+
+28.30
+
+25.90
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+26.50
+
+Second unit
+
+28.90
+
+26.50
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.10
+
+Second unit
+
+28.90
+
+27.10
+
+Third unit
+
+29.50
+
+27.10
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.70
+
+Second unit
+
+28.90
+
+27.70
+
+First unit
+
+Original Turtle Trading Rules • 265
+
+Third unit
+
+29.50
+
+27.70
+
+Fourth unit
+
+30.10
+
+27.70
+
+Here is a case in which a fourth unit was added at a higher price
+because the market opened gapping up to 30.80:
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.70
+
+Second unit
+
+28.90
+
+27.70
+
+Third unit
+
+29.50
+
+27.70
+
+Fourth unit
+
+30.80
+
+28.40
+
+Alternative Stop Strategy: The Whipsaw
+The Turtles were told about an alternative stop strategy that resulted
+in better proﬁtability but was harder to execute because it incurred
+many more losses, which resulted in a lower win/loss ratio. This
+strategy was called the Whipsaw.
+Instead of taking a 2 percent risk on each trade, the stops were
+placed at 1⁄2N for 1⁄2 percent account risk. If a particular unit was
+stopped out, the unit would be reentered if the market reached
+the original entry price. A few Turtles used this method with good
+success.
+The Whipsaw also had the added beneﬁt of not requiring the
+movement of stops for earlier units as new units were added, since
+the total risk would never exceed 2 percent at the maximum 4
+units.
+For example, using Whipsaw stops, the crude oil entry stops
+would be as follows:
+
+266 • Way of the Turtle
+
+Crude Oil
+N  1.20
+55-day breakout  28.30
+Entry Price
+
+Stop
+
+28.30
+
+27.70
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.70
+
+Second unit
+
+28.90
+
+28.30
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.70
+
+Second unit
+
+28.90
+
+28.30
+
+Third unit
+
+29.50
+
+28.90
+
+Entry Price
+
+Stop
+
+First unit
+
+28.30
+
+27.70
+
+Second unit
+
+28.90
+
+28.30
+
+Third unit
+
+29.50
+
+28.90
+
+Fourth unit
+
+30.10
+
+29.50
+
+First unit
+
+Beneﬁts of the Turtle System Stops
+Since the Turtles’ stops were based on N, they adjusted for the
+volatility of the markets. More volatile markets would have wider
+stops, but they also would have fewer contracts per unit. This equalized the risk across all entries and resulted in better diversiﬁcation
+and more robust risk management.
+
+Exits
+There is another old saying: “You can never go broke taking a
+proﬁt.” The Turtles would not agree with this statement. Getting
+
+Original Turtle Trading Rules • 267
+
+out of winning positions too early, that is, “taking a proﬁt” too early,
+is one of the most common mistakes in trading with trend-following systems.
+Prices never go straight up; therefore, it is necessary to let the
+prices go against you if you are going to ride a trend. Early in a
+trend, this often can mean watching decent proﬁts of 10 to 30 percent fade to a small loss. In the middle of a trend, it may mean
+watching a proﬁt of 80 to 100 percent drop by 30 to 40 percent.
+The temptation to lighten the position to “lock in proﬁts” can be
+very great.
+The Turtles knew that where you took a proﬁt could make the
+difference between winning and losing.
+The Turtle System enters on breakouts. Most breakouts do not
+result in trends. This means that most of the trades that the Turtles made resulted in losses. If the winning trades did not earn
+enough on average to offset those losses, the Turtles would have
+lost money. Every proﬁtable trading system has a different optimal
+exit point.
+Consider the Turtle System: If you exit winning positions at a
+1N proﬁt and exit losing positions at a 2N loss, you will need twice
+as many winners to offset the losses from the losing trades.
+There is a complex relationship among the components of a
+trading system. This means that you cannot consider the proper
+exit for a proﬁtable position without considering the entry, money
+management, and other factors.
+The proper exit for winning positions is one of the most important aspects of trading and the least appreciated. However, it can
+make the difference between winning and losing.
+
+268 • Way of the Turtle
+
+Turtle Exits
+The System 1 exit was a 10-day low for long positions and a 10-day
+high for short positions. All the units in the position would be exited
+if the price went against the position for a 10-day breakout.
+The System 2 exit was a 20-day low for long positions and a 20day high for short positions. All the units in the position would be
+exited if the price went against the position for a 20-day breakout.
+As with entries, the Turtles typically did not place exit stop orders
+but instead watched the price during the day and started to phone in
+exit orders as soon as the price traded through the exit breakout price.
+
+These Are Difﬁcult Exits
+For most traders, the Turtle System exits were probably the single
+most difﬁcult part of the Turtle System rules. Waiting for a 10- or
+20-day new low often can mean watching 20 percent, 40 percent,
+or even 100 percent of signiﬁcant proﬁts evaporate.
+There is a very strong tendency to want to exit earlier. It requires
+great discipline to watch your proﬁts evaporate so that you can hold
+on to your positions for the really big move. The ability to maintain discipline and stick to the rules during large winning trades is
+the hallmark of an experienced successful trader.
+
+Tactics
+The architect Mies van der Rohe, when speaking about restraint
+in design, once said: “God is in the details.” This is also true of trading systems. There are some important details that can make a signiﬁcant difference in the proﬁtability of your trading when you are
+using the Turtle trading rules.
+
+Original Turtle Trading Rules • 269
+
+Entering Orders
+As was mentioned before, Richard Dennis and William Eckhardt
+advised the Turtles not to use stops when placing orders. We were
+advised to watch the market and enter orders when the price hit our
+stop price. We also were told that in general it was better to place
+limit orders than market orders. This is the case because limit orders
+offer a chance for better ﬁlls and less slippage than do market orders.
+Any market at all times has a bid and an ask. The bid is the price
+at which buyers are willing to buy, and the ask is the price at which
+sellers are willing to sell. If at any time the bid price becomes
+higher than the ask price, trading takes place. A market order will
+always ﬁll at the bid or ask when there is sufﬁcient volume, and
+sometimes it will ﬁll at a worse price for larger orders.
+Typically, there is a certain amount of relatively random price
+movement that occurs, which is sometimes known as the bounce.
+The idea behind using limit orders is to place your order at the
+lower end of the bounce instead of simply placing a market order.
+A limit order will not move the market if it is a small order, and it
+almost always will move it less if it is a larger order.
+It takes some skill to be able to determine the best price for a
+limit order. However, with practice, you should be able to get better ﬁlls using limit orders placed near the market than you do with
+market orders.
+
+Fast Markets
+At times the market moves very quickly through the order prices,
+and if you place a limit order, it simply will not get ﬁlled. During
+fast market conditions, a market can move thousands of dollars per
+contract in just a few minutes.
+
+270 • Way of the Turtle
+
+During those times, the Turtles were advised not to panic and
+to wait for the market to trade and stabilize before placing their
+orders. Most beginning traders ﬁnd this hard to do. They panic and
+place market orders. Invariably, they do this at the worst possible
+time and frequently end up trading on the high or low of the day
+at the worst possible price.
+In a fast market, liquidity temporarily dries up. In the case of a
+rising fast market, sellers stop selling and hold out for a higher
+price, and they will not recommence selling until the price stops
+moving up. In this scenario, the asks rise considerably and the
+spread between the bid and the ask widens.
+Buyers now are forced to pay much higher prices as sellers continue raising their asks, and the price eventually moves so far and
+so fast that new sellers come into the market, causing the price to
+stabilize and often to reverse quickly and collapse partway back.
+Market orders placed into a fast market usually end up getting
+ﬁlled at the highest price of the run-up, right at the point where
+the market begins to stabilize as new sellers come in.
+The Turtles waited until there was some indication of at least a
+temporary price reversal before placing our orders, and this often
+resulted in much better ﬁlls than would have been achieved with
+a market order. If the market stabilized at a point that was past our
+stop price, we would get out of the market, but we would do so
+without panicking.
+
+Simultaneous Entry Signals
+Many days there was little market movement and little for us to do
+besides monitor existing positions. We might go for days without
+placing a single order. Other days would be moderately busy, with
+
+Original Turtle Trading Rules • 271
+
+signals occurring intermittently over the stretch of a few hours. In
+that case, we would take the trades as they came until they reached
+the position limits for those markets.
+Then there were days when it seemed like everything was happening at once, and we would go from no positions to loaded in a
+day or two. Often this frantic pace was intensiﬁed by multiple signals in correlated markets.
+This was especially true when the markets gapped open through
+the entry signals. You might have a gap opening entry signal in
+crude oil, heating oil, and unleaded gas on the same day. With
+futures contracts, it was also extremely common for many different
+months of the same market to signal at the same time. In those
+moments it was important to act efﬁciently and quickly while trying to keep from panicking and issuing market orders since that
+invariably would have resulted in much worse trade ﬁlls.

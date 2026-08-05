@@ -1,0 +1,421 @@
+
+Fibonacci Drawings
+
+413
+
+FIGURE 15.4 This retracement is shown with a reference line. You can choose
+whether you want the retracement line to be displayed for any drawing.
+
+There are many different ways to apply the predictive power of the
+Fibonacci retracement. Let’s mentally return to the autumn of 2003, a time
+when all the U.S. markets had suffered a severe downturn. Texas Instruments (symbol TXN) was especially hard-hit, losing nearly 90 percent of
+its value.
+Let us further suppose you felt the selling was done with, and you
+wanted to take a large, long position in TXN. You know where you want
+to set your stop price—that’s easy—you will set it just beneath the all-time
+low set in October. But how long do you hold onto the position? When do
+you take profits off the table?
+That question is virtually impossible to answer unless you tell yourself
+to buy and hold in perpetuity. A Fibonacci retracement, however, proves to
+be invaluable in this decision. As Figure 15.6 shows, the stock seems to be
+Fibonacci-friendly. During the stock’s entire descent, it seems to bounce
+off or cling to the various retracement levels. During its last gasp before
+the final fall, it hangs on to the 23.6 percent level before finally succumbing
+and bottoming out at $13. Let us suppose you bought the stock at $15.
+As a skilled chartist, you would know to take profits off the table—at
+least some of them—at around $33 per share, since that is the level that
+
+414
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.5 These arrows help illustrate how the price bounces from level to
+level, both before and after the reference line.
+
+represents major resistance to the price moving higher. In about a year’s
+time, the stock pushed up to that level, and sure enough, it started to fall
+again. It repeated this behavior again and again and again. By taking profits
+at the appropriate time, you would have bagged a very healthy gain and
+been able to invest your money elsewhere (or, if you were particularly confident, perhaps even short TXN as it bounced off the retracement).
+The more obedient the price action is with respect to the Fibonacci
+retracement levels, the more likely it is that these lines will have power
+over future price action. From 1986 to 1991, the prices bounced very firmly
+off the various retracement levels (Figure 15.7), and having done so, the
+prices likewise continued to comply with these retracements after the termination of the reference line.
+
+Fibonacci Drawings
+
+415
+
+FIGURE 15.6 After a severe decline in a stock, the retracement level represents
+a formidable area of resistance.
+
+But here is the remarkable thing—and you may want to read this several times for it to fully sink in—the reference line didn’t even exist until
+1991. In other words, the market was obviously blind to these Fibonacci
+levels in 1986, 1987, 1988, 1989, 1990, and most of 1991. Once the stock
+had peaked and clearly was heading south, a person could lay down a pattern like this only to discover at that time the almost eerie behavior of the
+prices relative to the Fibonacci retracement that was only now just laid
+down. This provides a very clear affirmation that these levels should be
+respected on a going-forward basis with this stock.
+If you hold the mouse cursor over any element of a retracement, more
+information about that element will be displayed. For instance, Figure 15.8
+shows the result of mousing over the 23.6 percent retracement level. A box
+appears that displays the date and value at the start of the reference line,
+the date and value at the end of the reference line, and the percentage and
+dollar value of the particular retracement being moused over.
+Because the Fibonacci retracement is a relatively complex drawn object, there are many aspects of it you can control. There are two ways to invoke the Customize Fibonacci Retracements dialog box (Figure 15.9): you
+can right-click on a retracement and select Customize Fibonacci Retracements from the pop-up menu, or you can hold down your mouse button
+
+416
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.7 If a price seems to bounce oﬀ retracement levels consistently before the reference line, the odds are much stronger it will do so as well after the
+reference line.
+
+while pointing at the retracement tool in the toolbar to get the same selection. This dialog box lets you control these aspects of the retracement:
+Color: Controls the color of the entire Fibonacci drawing.
+Opacity: Controls the transparency of the retracement, ranging from 0
+(invisible) to 1 (solid).
+
+FIGURE 15.8 Mousing over any retracement level will reveal information about
+that level and the entire drawn object.
+
+Fibonacci Drawings
+
+417
+
+FIGURE 15.9 The wide variety of choices in the Customize Fibonacci Retracements dialog box control its appearance and settings.
+
+Show checkboxes: Checking each of these will make particular retracement levels display. At first, all of them are checked. You can turn
+any levels on or off with these checkboxes.
+Value entry boxes: These are the percentage values used to lay down
+the retracements. It is very unlikely you will want to change these.
+Line Style dropdowns: You can choose from three line styles: normal, bold, and dotted. If you want to emphasize or de-emphasize
+any particular level, you may want to change the kind of line
+displayed.
+Show Value checkboxes: This controls which of the retracement lines
+will have their percentage value displayed. These are all on by
+
+418
+
+CHART YOUR WAY TO PROFITS
+
+default. You can simplify the drawing by turning off any of these
+that you want, although knowing the percentage levels being displayed is usually helpful.
+Show Reference Line checkbox: The line that connects the two points
+you click as extremes is displayed by default. If you want to hide
+this line, you can turn this checkbox off.
+Show Price checkbox: If you want the dollar value of each retracement
+level displayed, this checkbox should be checked. Normally you
+get the percentage value shown for each line for which Show Value
+is checked. If you want the dollar value as well, which can be helpful when setting a stop price, you should check this, too.
+Reset button: Clicking this resets all the values and checkboxes to their
+default condition.
+Figure 15.10 shows a Fibonacci retracement with all the normal
+settings, except the Show Value checkboxes are all off and the Show
+Reference Line has been unchecked. This makes for a clean, simple
+look, although some of the key information is being suppressed. You can
+still access numeric data about any retracement level by mousing over
+
+FIGURE 15.10 A sample Fibonacci retracement drawn on a stock chart.
+
+Fibonacci Drawings
+
+419
+
+FIGURE 15.11 A stock will not necessarily follow a retracement path all the way
+back down, but it may still pause at certain levels before reversing direction.
+
+any particular line of interest to you. (As before, the rounded rectangles
+highlighting the reversal and resistance points are drawn here for emphasis
+and are not normally displayed in the charting program.)
+It is impossible to know, of course, when a stock has reached a
+long-term peak or trough. Just because you are able to draw a good
+Fibonacci retracement that seems to line up well with prior price action
+doesn’t mean a major reversal is in the works. What the lines do tell you,
+however, is that if the stock does start moving firmly either up or down, its
+next natural stopping point (either to pause or reverse) is going to be the
+next Fibonacci level.
+Take Figure 15.11 as an example. The very top line represents the termination point of the reference line. A person deciding to sell this stock
+short around this point would need to pay close attention to the retracement levels beneath the current price. In this instance, the price moved
+down two retracement levels before reversing and moving higher. A trader
+short this stock would want to be especially watchful when the stock
+reached any retracement level, because each of them represents a potential
+reversal point, as was the case here.
+
+420
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.12 A retracement will not indicate how long a price will remain at
+any given level, but it provides clear boundaries of support and resistance in both
+directions.
+
+The longer and more substantial a prior price move, the longer it will
+probably take prices to move through the retracement levels in the opposite direction. Figure 15.12 shows the stock chart for Duke Energy, and the
+reference line is displayed. Notice the price action that took place to the
+right of the reference line. It took years, but the price pushed higher and
+higher through the various retracement levels.
+First the price reached the 23.6 percent level, then it backed off. The
+next time, it pierced this level, almost reaching the 38.2 percent level, at
+which time it eased back to the 23.6 percent level (this time as support instead of resistance). It then pushed through the 38.2 percent level to pause
+at the 50 percent level, and so forth. You can follow the steady progression
+on the chart, but it is clear what an invaluable perspective the retracement
+levels would give to a person trading this stock. Without it, a trader is essentially flying blind.
+Fairchild Semiconductor (Figure 15.13) provides another good example of using retracement levels as anticipated reversal points. After a very
+broad downward move from 2000 to 2002, the stock bounces within a very
+wide range. The lower three retracement levels, however, provided excellent indications as to the reversal points during those postcrash gyrations.
+
+Fibonacci Drawings
+
+421
+
+FIGURE 15.13 A stock does not necessarily make a broad down move and then a
+correlating broad up move. It may instead remain range-bound among the Fibonacci
+levels.
+
+As always, drawn objects can be used in combination. If more than one
+object suggests a reversal point, that only strengthens the argument that
+the price will pause or reverse at that level. Healthnet (Figure 15.14) has
+both a retracement and a trend line drawn. There are four rectangles drawn
+on top of the chart. Reading from left to right: the first rectangle shows
+the price bouncing off the supporting trend line as well as the retracement
+level. Once the stock breaks beneath the trend line, the next stopping point
+is two more retracement levels down.
+At this point, the price action becomes very interesting, because a
+trader would want to anticipate how far the stock is going to retrace upward after its recent plunge. The trend line and Fibonacci retracement, acting in concert, provide an excellent clue. The third rectangle shows how the
+price clung tightly to the retracement line, never getting higher than the former supporting trend line (which has changed roles and is now resistance).
+As the stock weakens again, it falls to the next retracement level beneath.
+Used properly, well-drawn retracements are akin to getting tomorrow’s newspaper today: you have a very strong predictor as to what price
+level will be reached next.
+
+422
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.14 This chart has two helpful drawn objects: the retracement levels
+and a trend line, which provides clear resistance when the price tries to move upward
+again.
+
+One instance where the Fibonacci retracement is especially useful is
+after a stock has made a major move, either up or down. After a large movement with a lot of volatility, traders are extremely uncertain as to where the
+next support or resistance level is going to be.
+Take yourself back to the autumn of 2002. All the U.S. stock indexes,
+particularly the NASDAQ, had suffered a brutal bear market. The NASDAQ
+100 ETF, better known as the QQQ (or cubes) had lost about 80 percent of
+its value. Suppose you believed the selling was overdone and you took a
+major long position in this security. (Take note that even though the financial instrument is known as the QQQ, the symbol is QQQQ.)
+The QQQ begins to move higher, producing a profit for you. But how
+long do you hold on? Unless your intent is to hold it forever, you should
+probably try to optimize your holding period so that you get out when the
+recovery seems to have been fully realized. In this instance, the retracement is once again invaluable. Figure 15.15 shows the retracement levels
+placed on top of the QQQQ graph. The stock bottomed out at about $20,
+and the first retracement level is at about $43, a more than 100 percent gain.
+
+Fibonacci Drawings
+
+423
+
+FIGURE 15.15 After the gigantic slide of QQQ, which represents the NASDAQ
+100 stocks, virtually no study except the Fibonacci retracement could have provided
+a good prediction as to how high QQQ would be able to climb back.
+
+It took three years to get there, but as the arrow indicates, the QQQ came
+within pennies of the retracement point, at which time it eased away.
+You may have noticed in the dialog box that the Fibonacci retracements do not end at 100 percent. They can go on to higher ratio levels, such
+as 161.8 percent, 261.8 percent, and higher. So not only can these retracement levels guide you in terms of price action between the two extremes
+of the reference line but also they can give you guidance as to how high or
+low a price may move outside those extremes.
+The stock graph shown in Figure 15.16 provides a fitting example of
+this. The graph encompasses the time range 1985 to 2006, a period of more
+than two decades. The retracement was drawn based on points in 1985
+(the low) and 1991 (the high). From 1987 through 1999, there are many
+instances—just a few of which are highlighted—where the retracement levels have been obeyed.
+What’s more interesting is what happens when the price breaks above
+the 100 percent level. There are three times when the stock paused and consolidated, and in each of those three instances, it matched the retracement
+
+424
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.16 Fibonacci levels beyond 100 percent can be an invaluable predictive tool, as illustrated here.
+
+level perfectly. Thus, the retracements are not only able to provide interpolation between two extremes but also able to extrapolate to price levels
+that haven’t even been experienced by a stock yet. This obviously doubles
+the power and value of a well-placed Fibonacci retracement object.
+Figure 15.17 is a powerful illustration of Fibonacci retracements, as
+well as intermarket analysis. What is shown is the ratio between the New
+Zealand currency (the kiwi) and the U.S. dollar. The retracement levels are
+established based on the extremes of 2001 and 2008, with important hits to
+those levels highlighted in yellow.
+During the financial crisis of 2008–2009, a trader might have put this
+chart to good use in trying to find a good entry point to go long. Although
+NZD/USD fell very hard, it finally found stabilization in early March 2009 at
+the 23.6 percent retracement level, almost to the day that the equity market
+bottomed.
+The retailer Nordstrom has a very Fibonacci-friendly stock chart, illustrated in Figure 15.18. Based on the extreme high (in 2007) and low
+(in 2008), the retracements provided multiple opportunities for a trader to
+profit from both long and short positions, as there was a strong tendency
+to bounce off these levels in both directions.
+
+Fibonacci Drawings
+
+425
+
+FIGURE 15.17 The currency chart NZD/USD provided a powerful indication that
+the equity market had bottomed in early March 2009.
+
+When price levels approach multiple points of support or resistance
+that are in agreement, those levels should be heeded more than if simply one tool was being used. In Figure 15.19, the NASDAQ Composite
+($COMPQ) is approaching both the 38.2 percent Fibonacci retracement
+and the underside of a broken trend line that was started almost 20 years
+earlier. The resolution of this resistance will be history long after the publication of this book, but as of this chart’s capture, prices will have difficulty
+pushing easily past those levels.
+
+FIBONACCI FANS
+By now it should be clear how to draw and use the Fibonacci retracement.
+We now turn our attention to an equally useful tool, the Fibonacci fan. The
+
+426
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.18 Nordstrom’s price action is well-bounded between the retracement levels.
+
+application and interpretation of fans is very similar to retracements. As
+with a retracement, you need to identify a low and a high extreme to place
+your reference line, at which point the fans will be automatically placed
+for you. As with retracement, the fan lines indicate important support, resistance, and consolidation points for price action.
+Except for the fact that fan lines are at an angle, the interpretation
+of these lines is very similar to the application of retracements. Examine
+
+Fibonacci Drawings
+
+427
+
+FIGURE 15.19 Both the failed trend line and the retracement levels suggest the
+NASDAQ Composite faces diﬃculty at present prices.
+
+the chart for Hansen Natural (symbol HANS) in Figure 15.20. To draw this
+Fibonacci fan, a user would:
+1. Choose the Fibonacci fan tool from the toolbar.
+2. Draw a line from the low on February 12, 2003, at 40.62 cents all the
+
+way up to the extreme high of $52.72 on July 6, 2006 (an amazing
+130-fold increase in price in just over three years).
+3. Release the mouse, thus displaying the Fibonacci fans.
+The three arrows on the chart indicate where the price reversed off
+the highest fan line. This is a good confirmation of the Fibonacci-friendly
+nature of this stock with respect to these fan lines. Now suppose you had
+sold this stock short in July as it started to ease. As sensational a run-up
+as this stock has had, it’s obviously very strong and has no clear areas of
+support. The question is: when do you take profits?
+
+428
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.20 These Fibonacci fans are drawn from one extreme to another on
+the symbol HANS. The arrows indicate points where the price touched the top of the
+highest fan line, at which point it reversed each time.
+
+On August 7, 2006, HANS started to plunge on record volume. If you
+owned puts on this stock or had a short position, you would be in the happy
+predicament of wondering when to take profits. Fibonacci fans would have
+yielded a ready answer: because the stock opened beneath one of the fan
+lines, that level of support was clearly already taken out. The next fan line
+down, therefore, would be the next level of support. As Figure 15.21 illustrates, this level offered formidable support for HANS in spite of the
+high-volume plunge in price. Traders covering their positions in this area
+would have had good timing, and those empowered with the insight of the
+Fibonacci fan probably would have done so.
+Although the trading public is obviously not aware of where Fibonacci
+fan lines are placed, there is still a remarkable tendency on the part
+of prices to either cling to a certain fan line or be plainly bounded between two lines, bouncing between the two of them. This applies even
+when fan lines span years, or even decades, which makes them positively remarkable, particularly considering they are sloped (as opposed
+to horizontal zones of support and resistance, which are easier to explain
+away).
+
+Fibonacci Drawings
+
+429
+
+FIGURE 15.21 When HANS got hammered after its earnings announcement, the
+fan line provided a natural stopping point during the plunge.
+
+A number of the following examples are drawn from extremely large
+Fibonacci fans that span many decades. The chart shown in Figure 15.22 is
+just a portion of the Dow Jones Industrial Average on which a 70-year-old
+fan has been drawn. The rectangle has been drawn to highlight how the
+price action not only is bounded by two fan lines but also, for many years,
+tends to cling to one of the lines. This particular section is following the
+dramatic crash of 1987. In spite of all the chaos and tumult surrounding
+that crash, the prices continue their orderly motion between and along the
+fan lines.
+One should pause to consider how simply remarkable this is. The fan
+lines were drawn from the depths of the Great Depression to the peak of
+the Internet bubble (1932 to 2000). The market had no awareness—at least
+none of which it was conscious—of these boundaries. Over the decades,
+billions upon billions of individual decisions are made that move this index
+up and down every day. And in spite of all of these variables, which number
+on an astronomical scale, the index performs in a stunningly orderly and
+systematic fashion.
+Looking at another, broader index—the S&P 500—we can see similar
+fascinating phenomena (Figure 15.23). The arrows show how the highest
+
+430
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.22 Prices will often become bound between the support and resistance provided by fan lines.
+
+and lowest fan lines constrict the price movement. Keep in mind the graph
+is showing a period of more than 70 years. The price reverses on various
+fan lines in many instances, and the two rectangles that are drawn here
+highlight two multidecade years when the prices were bound between two
+fan lines.
+Looking at a specific portion of this index (from 1954 to 1985), we can
+see a neat, tidy progression of tilted rectangles (Figure 15.24). The rectangles move slightly down each time, since this period of market history
+included several vicious bear markets, including the infamous 1973–1974
+bear market. Even when prices made extreme moves, pushing outside the
+bounds of the rectangle, the fan lines still provided support against the
+price moving any lower.
+Experimenting with Fibonacci studies, particularly the fans, can be a
+mesmerizing experience because they seem to wield an almost mysterious
+power over the markets. Figure 15.25 shows a close-up of the Dow Jones
+Industrial Average from 1988 to 1994, which includes the minicrash of 1989.
+This close-up view shows the remarkable tendency, again and again, for
+
+Fibonacci Drawings
+
+431
+
+FIGURE 15.23 The arrows here indicate extreme levels of support and resistance
+during this multidecade movement of the S&P 500, with the rectangles showing just
+a couple of the bounded areas.
+
+FIGURE 15.24 Here we can see a neat and tidy progression of rectangles that
+are bounded by the fan lines.
+
+432
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 15.25 A close-up of the Dow Jones Industrial Average shows the remarkable ability of the fan lines to dictate where resistance will be, even when it was
+predicted decades in the past.
+
+the price to move upward toward and then move away from the higher fan
+line. During the minicrash, the price collapse was stopped short by the fan
+line beneath it.
+The China index, symbol $CZH, had remarkable behavior with respect
+to its fan lines (Figure 15.26). There are eight specific instances highlighted
+in the chart where the price bounced almost perfectly off the fan line. Although prices eventually broke free of this confinement, as they always
+will, for a while this drawing provided remarkable insight into what was
+most likely to happen next with this index.
+The fan lines for American Electric Power (AEP), with points between
+October 10, 2002, and April 5, 2007, also provided potent levels of support
+and resistance as the equity generally turned downward for several years
+(Figure 15.27).
+Emerson Electric’s (EMR) fan lines were established from much
+longer-range data points, beginning at October 4, 1974, and ending December 4, 2007 (Figure 15.28). We see again that selling short when the
+price was at the upper range of fan lines and going long when the price

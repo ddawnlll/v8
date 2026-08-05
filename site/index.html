@@ -34,24 +34,32 @@
     geometry changes are variants of that hypothesis family, not separate
     Experts. Every Expert carries <code>mechanism_family_id</code>, <code>behavior_family_id</code>,
     <code>expert_id</code>, <code>expert_version</code>, and <code>variant_id</code> where applicable.</li>
-<li>Complexity budget: initially at most 3 active Experts and at most one
-    learned component in the decision path (a Candidate Scorer or a single ML
-    Expert challenger — never both at once). Router, shared scorer, ranker, RL
-    execution, and online learning are absent.</li>
+<li>Complexity budget is defined on two separate axes, never collapsed into
+    one number. (a) <strong>Runtime:</strong> the number of active Experts is unbounded;
+    the only limits are determinism and the compute budget. Expert count is
+    not a validity constraint. (b) <strong>Evidence:</strong> the number of behavior
+    families simultaneously carrying a claim on one frozen-OOS evaluation is
+    preregistered and enters the family-level multiplicity correction of
+    rule 11. At most one learned component per pipeline position. Router,
+    shared scorer, ranker, RL execution, and online learning are absent.</li>
 <li>Learning is offline and registry-gated. Outcome data never mutates an
     active Expert's definition; it may only produce challenger versions that
     must pass a frozen-OOS comparison and registry review before promotion.</li>
 <li>Risk admission is deterministic and exposure-aware. The baseline holds one
     active exposure per (instrument, direction); a conflicting Candidate is
     rejected (<code>CAPACITY_REJECTED</code> / <code>EXISTING_EXPOSURE_CONFLICT</code>) and is still
-    measured counterfactually.</li>
+    measured counterfactually. This is an <strong>attribution default</strong>, not a risk
+    ceiling: it keeps realized PnL attributable to a single Expert. Together
+    with the portfolio heat cap it — never the Expert count of rule 14 — is
+    what bounds portfolio scale. Relaxing either is a registry decision
+    (O-012, O-018), never a configuration change.</li>
 <li>Research materializations are compiled once from the tape and reused;
     training reads materialized views, never raw tape, and recompiles only
     when feature, Expert, simulator, or outcome definitions change.</li>
 </ol>
 <h2 id="minimum-coherent-architecture">Minimum coherent architecture</h2>
 <pre><code class="language-text">versioned point-in-time tape/state
-  -&gt; deterministic self-gating Experts (2–3)
+  -&gt; deterministic self-gating Experts (N, unbounded)
   -&gt; candidate event store (all outcomes)
   -&gt; deterministic acceptance + risk cap
   -&gt; canonical Level-1 simulator / single ledger
@@ -478,9 +486,11 @@ population stays measurable (D-009, D-027).</p>
 <p>Router, learned scorer, ranker, learned execution, and online learning are
 absent from this architecture. Each enters only through its registry
 experiment and must beat its immediately simpler baseline on frozen OOS
-(rules 5-6, 14; O-004 / O-005 / O-006 / O-008). Complexity budget: at most 3
-active Experts and at most one learned component, never both at once
-(rule 14).</p>
+(rules 5-6, 14; O-004 / O-005 / O-006 / O-008). Complexity budget: the runtime
+Expert count is unbounded — determinism and the compute budget are the only
+limits — while the preregistered cap applies to the behavior families
+simultaneously carrying a claim on one frozen-OOS evaluation, with at most one
+learned component per pipeline position (rule 14).</p>
 <h2 id="5-file-mapping">5. File mapping</h2>
 <p>The module/file layout is a separate contract, <code>IMPLEMENTATION_LAYOUT.md</code>
 (one file, one responsibility, one owning contract). This spec is normative
@@ -1077,7 +1087,14 @@ preferences are hard constraints, never reward penalties):</p>
 <li><strong>One active exposure per (instrument, direction).</strong> A conflicting
    Candidate is rejected with <code>reason_code = CAPACITY_REJECTED</code>,
    <code>sub_reason = EXISTING_EXPOSURE_CONFLICT</code>, and keeps its counterfactual
-   outcome.</li>
+   outcome. The purpose is <strong>attribution</strong> — one position, one owning Expert,
+   so realized PnL is never split across hypotheses — not a risk ceiling.
+   Since rule 14 stopped capping the Expert count (D-043), this rule and the
+   heat cap below are what actually bound portfolio scale: adding Experts
+   without revisiting them changes which hypotheses are <em>measured</em>, not which
+   positions are <em>held</em>. The contested slot goes to the lexicographically
+   first <code>expert_id</code> (<code>RUNTIME_SCHEDULER_SPEC</code> §5); replacing that with a
+   ranking is gated by O-006 / O-012.</li>
 <li><strong>Portfolio heat cap (D-023).</strong> Heat is the sum of per-position stop risk
    in R (with fixed 1R geometry this equals the number of open positions).
    Correlated clusters are a <strong>fixed instrument list</strong> — no rolling
@@ -1088,8 +1105,10 @@ preferences are hard constraints, never reward penalties):</p>
    would silently enter the deferred ranker gate
    (<code>OPEN_DECISIONS</code> O-006/O-012).</li>
 <li><strong>Mechanical tradability mask (D-024).</strong> Deterministic data-integrity
-   vetoes — funding settlement windows, spread beyond the declared
-   percentile, <code>StateQuality = DEGRADED</code> — are a data-plane concern
+   vetoes — funding settlement windows, entry-bar intrabar range beyond the
+   declared <code>max_bar_range_frac</code> (detail <code>BAR_RANGE</code>; this is <code>(high-low)/close</code>
+   and never a bid-ask spread, which the depth-free tape cannot express),
+   <code>StateQuality = DEGRADED</code> — are a data-plane concern
    (<code>FEED_INGESTION_SPEC</code>), not a regime filter. They add no degrees of
    freedom and are a deterministic-baseline candidate; learned regime labels
    are a separate, router-gated question (<code>O-015</code>).</li>
@@ -1712,11 +1731,17 @@ evaluates every <code>BarClosed</code> event and returns <code>Candidate | None<
 experiment; it is absent by default (<code>V8_CONSTITUTION</code> rule 6).</p>
 <h2 id="3-topology-and-state-ownership">3. Topology and state ownership</h2>
 <ul>
-<li>The research runtime is a <strong>single process</strong>: components are modules with
-  interface contracts (<code>Expert.evaluate</code>, <code>Lifecycle.apply</code>,
+<li>The research runtime is currently a <strong>single process</strong>: components are
+  modules with interface contracts (<code>Expert.evaluate</code>, <code>Lifecycle.apply</code>,
   <code>Simulator.step</code>, <code>Lab.run</code>), not services. There is no hidden shared
   mutable state; all cross-component information flows through <code>MarketState</code>
   values and append-only logs.</li>
+<li>Determinism rests on the <strong>single writer plus a declared evaluation order</strong>
+  (Experts sorted by <code>expert_id</code>), not on the process count. This matters now
+  that rule 14 leaves the Expert count unbounded: growing it is a throughput
+  question, and a future multi-process or multi-threaded evaluation fan-out is
+  an engineering change, not a validity change, as long as the single-writer
+  discipline and the declared order are preserved.</li>
 <li>The <strong>candidate lifecycle service owns transition legality</strong>: only it may
   write <code>CandidateTransition</code> records, and only legal transitions pass
   (<code>CANDIDATE_LIFECYCLE_SPEC</code> §2).</li>
@@ -1742,8 +1767,13 @@ claim is admissible until it is independently renewed.</p>
    its OHLC returns <code>NOT_YET_AVAILABLE</code>.</li>
 <li>Two events with identical timestamps are processed in the declared
    tie-break order, deterministically, across runs.</li>
-<li>Shuffle the evaluation order of independent experts; results and stored
-   events are identical.</li>
+<li>Shuffle the caller's Expert list; results and stored events are identical.
+   The runtime sorts by <code>expert_id</code> before evaluating, so this holds under full
+   exposure contention too, not only when Experts rarely coincide
+   (<code>tests/test_admission_contention.py</code>). The surviving tie-break for a
+   contested exposure slot is therefore that lexicographic order — deterministic
+   but arbitrary; replacing it with a ranking is gated by rule 6 / D-008
+   (O-006 / O-012).</li>
 <li>A replay run and a live-adaptor contract test produce the same event
    stream for the same tape window.</li>
 <li>An expert that reads a fact with <code>available_time &gt; D</code> fails the state
@@ -2204,8 +2234,12 @@ overwriting previous versions.</p>
 </tr>
 </tbody>
 </table>
-<p>Only one learned component may be active in the decision path at any time
-(<code>V8_CONSTITUTION</code> rule 14). A learned component enters through the same
+<p>At most one learned component may be active <strong>per pipeline position</strong>
+(<code>V8_CONSTITUTION</code> rule 14). A Candidate Scorer (step B) and an ML Expert
+challenger occupy different positions; each is gated by its own preregistered
+frozen-OOS comparison against its immediately simpler baseline (rule 5), not by
+a global count. The ladder above fixes the order in which positions are opened.
+A learned component enters through the same
 <code>ExpertContract</code> as a deterministic Expert — the Candidate store must not know
 whether an Expert is an if-statement, a LightGBM, or a GRU. Training happens
 outside the Expert: <code>trainer.fit(frozen_dataset) -&gt; model_artifact_v2 -&gt;
@@ -2222,8 +2256,8 @@ action is masked, not punished.</p>
 <li>Outcome-ledger access from an Expert evaluation raises.</li>
 <li>Retraining reads only materialized views and pinned hashes; raw tape access
    in training fails (<code>DATASET_SPEC</code> section 5).</li>
-<li>A second learned component cannot be admitted while one is already active
-   in the decision path.</li>
+<li>A second learned component cannot be admitted at a pipeline position that
+   already has one active.</li>
 </ol></section>
 <section id="sec-implementation-layout"><h1>IMPLEMENTATION LAYOUT</h1><h1 id="v8-implementation-layout-file-family-v01">V8 Implementation Layout — file family v0.1</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This contract predetermines every file in
@@ -2487,7 +2521,7 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>D-003</td>
 <td>Begin with 2–3 deterministic self-gating Experts</td>
 <td>PROVISIONAL_DECISION</td>
-<td>Smallest attributable routing baseline; no evidence experts beat global models.</td>
+<td>Smallest attributable routing baseline; no evidence experts beat global models. <strong>Revised by D-043:</strong> 2–3 was a starting point for the first slice, never a cap; the runtime Expert count is unbounded.</td>
 </tr>
 <tr>
 <td>D-004</td>
@@ -2589,7 +2623,7 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>D-020</td>
 <td>Complexity budget: &lt;=3 Experts, &lt;=1 learned component, no router/scorer/ranker/RL</td>
 <td>PROVISIONAL_DECISION</td>
-<td>Constitution rule 14; one moving part at a time.</td>
+<td>Constitution rule 14; one moving part at a time. <strong>Revised by D-043:</strong> the &lt;=3 Expert cap conflated runtime capacity with the evidence budget and was already breached by the registry (5 Experts after D-042). The router/scorer/ranker/RL absence is unchanged.</td>
 </tr>
 <tr>
 <td>D-021</td>
@@ -2683,9 +2717,9 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 </tr>
 <tr>
 <td>D-036</td>
-<td>Implementation pin for D-024: manifest constants <code>max_spread_frac = 0.05</code>, <code>funding_window_bars = 1</code>; admission veto <code>TRADABILITY_MASK_VETO</code> (kept <code>NOT_EXECUTED</code> counterfactual) on spread tail, <code>StateQuality == DEGRADED</code>, or entry within the funding window; constants are declared, never fitted (no leakage)</td>
+<td>Implementation pin for D-024: manifest constants <code>max_bar_range_frac = 0.05</code>, <code>funding_window_bars = 1</code>; admission veto <code>TRADABILITY_MASK_VETO</code> (kept <code>NOT_EXECUTED</code> counterfactual) on intrabar-range tail, <code>StateQuality == DEGRADED</code>, or entry within the funding window; constants are declared, never fitted (no leakage)</td>
 <td>PROVISIONAL_DECISION</td>
-<td>CANDIDATE_LIFECYCLE_SPEC §6 item 3 is normative. A fitted percentile would leak future information; declared constants keep the mask zero-degree-of-freedom. <code>AGENT_RUNBOOK</code> Step 3.</td>
+<td>CANDIDATE_LIFECYCLE_SPEC §6 item 3 is normative. A fitted percentile would leak future information; declared constants keep the mask zero-degree-of-freedom. <code>AGENT_RUNBOOK</code> Step 3. <strong>Renamed 2026-08-04</strong> (D-043 follow-up): the field was <code>max_spread_frac</code> and its veto detail <code>SPREAD</code>, but the predicate is <code>(high-low)/close</code> — the entry bar's intrabar range, never a bid-ask spread, which the depth-free tape cannot express. Pure rename: no threshold or decision changed, golden <code>candidate_count</code>/<code>terminal_distribution</code> unchanged, ledger hash re-pinned only because <code>config_hash</code> keys on field names. Whether 0.05 is a meaningful level is now O-019 — "declared, never fitted" answers the leakage objection but not the inertness one.</td>
 </tr>
 <tr>
 <td>D-037</td>
@@ -2722,6 +2756,12 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>Admit <code>src/v8/experts/liquidity_sweep_reclaim.py</code> as the third pilot (<code>liquidity_sweep_reclaim</code> / <code>sweep_reclaim</code>, variant <code>a</code>; LONG after a windowed prior-low sweep reclaimed by the close, SHORT after a prior-high sweep reclaimed; <code>prior_low_ref</code> frozen at detection and excluded from <code>geometry_version</code>) and register the <code>breakout_retest</code> + <code>capitulation</code> backlog families as DATA_BLOCKED until derivatives tape</td>
 <td>PROVISIONAL_DECISION</td>
 <td>Owner decision 2026-08-01 (full-program D-040 series). D-032 file-family rule: a new <code>src/v8/experts/</code> module requires a register decision + CHANGELOG entry. Distinct mechanism/setup/invalidation from <code>failed_breakout</code> (EXPERT_PROTOCOL §1 separate-Expert test). Registry YAML + PILOTS + tests updated together; the dev materialization is re-pinned.</td>
+</tr>
+<tr>
+<td>D-043</td>
+<td>Complexity budget splits into two axes (rule 14 rewritten): (a) runtime Expert count is <strong>unbounded</strong>, limited only by determinism and compute, and is not a validity constraint; (b) the preregistered cap applies to the <code>behavior_family</code> count simultaneously carrying a claim on one frozen-OOS evaluation, entering rule 11's family-level multiplicity correction. "At most one learned component" is scoped <strong>per pipeline position</strong>, not globally. Revises D-003 and D-020</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-04. The single number conflated an engineering question (how many modules evaluate per bar — zero validity content) with a statistical one (how many independent hypotheses are simultaneously under test). The cap was already breached: <code>EXPERTS_REGISTRY.yaml</code> carries 5 Experts after D-042. No code enforced the count, so this is a documentary correction — but it exposes two real couplings recorded as follow-ups: the binding constraints on portfolio scale are rule 16 (one exposure per instrument+direction) and D-023 (<code>max_heat = 3.0</code>), and contested exposure slots are resolved by <code>expert_id</code> lexicographic order. Order-independence itself is safe — <code>lab.run</code> sorts Experts by <code>expert_id</code> before evaluating, so the caller's list order is discarded and the ledger is stable — but the surviving tie-break is the Expert's <em>name</em>: measured on a contention fixture, the lexicographically first of two behaviorally identical Experts wins the slot roughly 2:1, and the advantage follows the name when the names are swapped (<code>tests/test_admission_contention.py</code>). Deterministic and harmless at three Experts; at the unbounded count this decision permits it is a silent name-based allocation policy. Not resolved here: a principled tie-break is a ranker, gated by rule 6 / D-008 (O-006 / O-012). The test fails if one is added, forcing that registry decision. Scorer and ML-Expert-challenger occupy different pipeline positions and are each already gated by rule 5, so the global "never both at once" added no statistical control.</td>
 </tr>
 </tbody>
 </table>
@@ -2834,6 +2874,24 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>Does drawdown-conditioned sizing beat fixed fractional risk?</td>
 <td>drawdown ladder vs fixed 1R, costed OOS</td>
 <td>Literature is empty for crypto perps; the program must produce its own evidence (Novy-Marx cautions on added degrees of freedom).</td>
+</tr>
+<tr>
+<td>O-020</td>
+<td>Should the <code>history</code> lookback window be declared per Expert instead of a global 32 bars?</td>
+<td>Add a declared <code>history_bars</code> to the Expert contract, build the state at <code>max(declared)</code> and let each Expert slice its own; compare ledger determinism and state-build cost against the current global constant</td>
+<td>D-034 pins 32 bars globally with a documented bound (anchors older than the window are unstable). That was sufficient for three pilots whose setups are short-horizon. With rule 14's Expert cap removed (D-043), it becomes a scaling constraint: a behavior family needing a longer lookback — weekly structure, slow regime — cannot be expressed at all, and the limit is invisible because nothing fails, the anchor just silently falls back to the window edge. Deliberately NOT implemented in the D-043 pass: it adds a public field to the Expert contract, which is a D-032 file-family change and needs its own register decision, and it moves the state hash.</td>
+</tr>
+<tr>
+<td>O-019</td>
+<td>Does the D-024 intrabar-range veto (<code>max_bar_range_frac = 0.05</code>) fire at all on the declared dev window, and is 0.05 a defensible level?</td>
+<td>Count <code>TRADABILITY_MASK_VETO</code> / <code>BAR_RANGE</code> firings on the declared 12-month BTCUSDT 1h dev tape (D-041) and report the <code>(high-low)/close</code> distribution with its upper quantiles</td>
+<td>D-036 defends 0.05 as "declared, never fitted", which answers the leakage objection but not the inertness one: a threshold no bar ever crosses is a veto that exists only on paper, and the corpus has never measured its firing rate. Fix the level pre-holdout by the O-017 method (derive on the dev window, fix before the frozen slice, never revisable after a verdict) or record that the veto is inert and remove it. Not a licence to fit: any replacement level is declared once, pre-holdout, and bound into the preregistration.</td>
+</tr>
+<tr>
+<td>O-018</td>
+<td>Should the portfolio heat cap scale with the Expert count, and on what basis?</td>
+<td>Sweep <code>max_heat</code> / <code>max_cluster_heat</code> against a fixed Expert population on the declared dev window; measure <code>EXISTING_EXPOSURE_CONFLICT</code> / <code>PORTFOLIO_HEAT_EXCEEDED</code> frequency and the D-027 attribution-validity diagnostics (<code>execution_share</code>, divergence KS) at each level</td>
+<td>Opened by D-043. With rule 14's Expert cap removed, <code>max_heat = 3.0</code> (<code>src/v8/risk.py</code>) becomes the binding constraint on portfolio scale: adding Experts changes what is <em>measured</em>, not what is <em>held</em>. Raising it is not a configuration tweak — it changes concurrent risk and the executed population that every economic diagnostic reads, so it needs a preregistered comparison like any other component (rule 5). Admit a new level only on a costed frozen-OOS comparison against the current caps; a lower <code>execution_share</code> alone is not a reason to raise it. Caps stay at 3.0 / 2.0 until then.</td>
 </tr>
 </tbody>
 </table>
@@ -4967,6 +5025,89 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-04-rule-14-rewritten-complexity-budget-splits-runtime-from-evidence-d-043">2026-08-04 — Rule 14 rewritten: complexity budget splits runtime from evidence (D-043)</h2>
+<p>The constitution capped "at most 3 active Experts". That single number
+conflated an engineering question (how many modules evaluate per bar — zero
+validity content) with a statistical one (how many independent hypotheses are
+simultaneously under test on one frozen OOS). The cap was already breached:
+<code>EXPERTS_REGISTRY.yaml</code> carries 5 Experts after D-042. No code enforced it, so
+this is a documentary correction.</p>
+<ul>
+<li><strong><code>docs/charter/V8_CONSTITUTION.md</code> — rule 14 rewritten</strong> on two axes:
+  (a) runtime Expert count unbounded, limited only by determinism and compute,
+  explicitly <em>not</em> a validity constraint; (b) the preregistered cap applies to
+  the <code>behavior_family</code> count simultaneously carrying a claim on one frozen-OOS
+  evaluation, entering rule 11's family-level multiplicity correction. The
+  minimum-architecture diagram's <code>(2–3)</code> becomes <code>(N, unbounded)</code>.</li>
+<li><strong>"At most one learned component" rescoped to per pipeline position.</strong> A
+  Candidate Scorer (ladder step B) and an ML Expert challenger sit at different
+  positions and are each already gated by rule 5's preregistered frozen-OOS
+  comparison; the global "never both at once" added no statistical control, only
+  a sequencing preference. <code>LEARNING_PROTOCOL</code> §3 and its cheap test 5 updated.</li>
+<li><strong><code>docs/contracts/ARCHITECTURE_SPEC.md</code> §4, <code>ROADMAP.md</code>, <code>PLAN_V8_FULL.md</code></strong> —
+  the copied "hard cap" wording replaced; router/scorer/ranker/RL absence
+  unchanged.</li>
+<li>
+<p><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-043 added; D-003 and D-020
+  annotated as revised. Both keep <code>PROVISIONAL_DECISION</code>: rule 2's label
+  vocabulary is closed, and the register's own note makes that status the
+  sanctioned reversible one — inventing a <code>SUPERSEDED</code> label would breach rule 2
+  while fixing rule 14.</p>
+</li>
+<li>
+<p><strong><code>tests/test_admission_contention.py</code> (new) — contention is now tested.</strong>
+  <code>RUNTIME_SCHEDULER_SPEC</code> §5 test 3 (Expert-order shuffle) was only exercised
+  by the two pilots, which almost never emit on the same bar — so the claim was
+  verified with <strong>no contention at all</strong>. The new tests use unconditional
+  contenders that collide on one exposure slot every bar, and pin two separate
+  properties: (1) the ledger stays order-independent under full contention,
+  because <code>lab.run</code> sorts Experts by <code>expert_id</code> before evaluating; (2) the
+  surviving tie-break is therefore that lexicographic name — measured, the
+  first-sorting of two behaviorally identical Experts wins contested slots
+  roughly 2:1, and the advantage follows the name when the names are swapped.</p>
+</li>
+<li>
+<p><strong><code>max_spread_frac</code> renamed to <code>max_bar_range_frac</code>; veto detail <code>SPREAD</code> to
+  <code>BAR_RANGE</code>.</strong> The D-024 predicate is <code>(high-low)/close</code> — the entry bar's
+  intrabar range. It is not a bid-ask spread and cannot be: the tape carries no
+  depth. The old name propagated the misnomer into <code>PREREGISTRATION</code> §8 and the
+  runbook, where it read as an execution-cost control. Pure rename across
+  <code>schema.py</code> / <code>risk.py</code> / <code>lab.py</code> / <code>tools/materialize_views.py</code> and the
+  tests; <strong><code>GOLDEN_LEDGER_HASH</code> re-pinned</strong> because <code>config_hash =
+  sha1(asdict(manifest))</code> keys on field names, while <code>data_hash</code>,
+  <code>states_hash</code>, <code>candidate_count</code> (21) and <code>terminal_distribution</code> are
+  unchanged — that invariance is the evidence no decision moved.</p>
+</li>
+<li><strong><code>docs/tr/V8_CONSTITUTION.md</code> — rules 13–17 added.</strong> The Turkish mirror
+  stopped at rule 12 and had never carried the ontology, complexity-budget,
+  learning, risk-admission, or materialization rules. Rule 2's label discipline
+  cannot hold in a corpus that omits the rules; the TR diagram's <code>(2–3)</code> is
+  corrected with the EN one.</li>
+<li><strong>Three open questions registered rather than guessed.</strong> O-018 (should the
+  heat cap scale with the Expert population — caps stay at 3.0 / 2.0 until a
+  preregistered comparison moves them), O-019 (does the 0.05 intrabar-range
+  veto fire at all on the declared dev window; "declared, never fitted" answers
+  leakage but not inertness, and the firing rate has never been measured),
+  O-020 (per-Expert <code>history</code> lookback instead of the global 32 bars —
+  deliberately not implemented here: it adds a public field to the Expert
+  contract, a D-032 change needing its own decision, and it moves the state
+  hash).</li>
+</ul>
+<p>Two couplings are recorded as follow-ups, not resolved here. The binding
+constraints on portfolio scale are rule 16 (one exposure per instrument +
+direction) and D-023 (<code>max_heat = 3.0</code>), not the Expert count — with those in
+place a 400-Expert portfolio holds the same positions as a 3-Expert one. Rule 16
+and <code>CANDIDATE_LIFECYCLE_SPEC</code> §6 now say so explicitly and restate the
+single-exposure rule as the attribution default it is; whether the heat cap
+should scale with the Expert population is opened as <strong>O-018</strong> rather than
+guessed at, and the caps stay at 3.0 / 2.0 until a preregistered comparison
+moves them. And
+contested-slot priority is decided by Expert <em>name</em>, which is deterministic and
+harmless at three Experts but is a silent allocation policy at the count rule 14
+now permits. A principled tie-break is a ranker, gated by rule 6 / D-008
+(O-006 / O-012); the new test fails if one is added, forcing that decision to be
+registered rather than landing silently. No economic claim is made or implied;
+the verdict stays <code>NO_ECONOMIC_CLAIM</code> (rule 12).</p>
 <h2 id="2026-08-02-second-level-provenance-pit-bugfix-pass-7-fixed">2026-08-02 — Second-level provenance + PIT bugfix pass (7 fixed)</h2>
 <p>An adversarial re-audit against the <code>V8_CONSTITUTION</code> bug-class catalogue
 (implementation substitution / parallel economic truth / temporal leakage /
@@ -5702,7 +5843,9 @@ admits a component bumps the version. The sprint breakdown lives in
 <li>Versions evolve by challenger + frozen-OOS + registry, never in place
   (<code>LEARNING_PROTOCOL</code> section 1).</li>
 <li>Every change lands in <code>CHANGELOG.md</code>; every bump in <code>DECISION_REGISTER</code>.</li>
-<li>One moving part at a time; complexity budget is a hard cap (rule 14).</li>
+<li>One moving part at a time; the complexity budget caps simultaneous claims and
+  learned components per pipeline position, never the runtime Expert count
+  (rule 14).</li>
 </ul></section>
 <section id="sec-agent-runbook"><h1>AGENT RUNBOOK</h1><h1 id="v8-agent-runbook-autonomous-build-contract-phase-0-3">V8 Agent Runbook — autonomous build contract (Phase 0-3)</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the execution contract for a
@@ -5831,13 +5974,13 @@ etc. still pass.</p>
 <strong>Spec:</strong> CANDIDATE_LIFECYCLE_SPEC §6 item 3 (D-024).</p>
 <p>Pinned interpretation:</p>
 <ul>
-<li>Manifest constants (no fitting, no leakage): <code>max_spread_frac: float =
+<li>Manifest constants (no fitting, no leakage): <code>max_bar_range_frac: float =
   0.05</code>, <code>funding_window_bars: int = 1</code>.</li>
 <li>A candidate is vetoed at admission with
   <code>reason_code = TRADABILITY_MASK_VETO</code> (kept counterfactual,
-  <code>NOT_EXECUTED</code>) when any of: <code>(high-low)/close &gt; max_spread_frac</code> on the
-  entry bar; <code>StateQuality == DEGRADED</code> at decision time; entry bar within
-  <code>funding_window_bars</code> of a funding boundary.</li>
+  <code>NOT_EXECUTED</code>) when any of: <code>(high-low)/close &gt; max_bar_range_frac</code> on the
+  entry bar (detail <code>BAR_RANGE</code>); <code>StateQuality == DEGRADED</code> at decision time;
+  entry bar within <code>funding_window_bars</code> of a funding boundary.</li>
 <li>The mask is data-plane, not a regime filter: implemented as deterministic
   vetoes in <code>RiskGate</code>-adjacent admission logic (lab), adding no degrees of
   freedom and no learned component.</li>
@@ -6311,9 +6454,13 @@ simulator:</p>
   scalar remains only as a no-funding-tape fallback. The D-024 mask vetoes
   entries within 1 bar of a funding boundary regardless of rate, per the
   locked baseline.</li>
-<li>D-024 mechanical tradability mask (data-plane, frozen): <code>max_spread_frac =
-  0.05</code>, <code>funding_window_bars = 1</code>; vetoed candidates are kept
-  counterfactual (<code>NOT_EXECUTED</code>) with reason <code>TRADABILITY_MASK_VETO</code>.</li>
+<li>D-024 mechanical tradability mask (data-plane, frozen): <code>max_bar_range_frac =
+  0.05</code> (named <code>max_spread_frac</code> until 2026-08-04; it bounds the entry bar's
+  intrabar range <code>(high-low)/close</code>, never a bid-ask spread — the tape carries
+  no depth), <code>funding_window_bars = 1</code>; vetoed candidates are kept
+  counterfactual (<code>NOT_EXECUTED</code>) with reason <code>TRADABILITY_MASK_VETO</code> and
+  detail <code>BAR_RANGE</code> (was <code>SPREAD</code>). The rename changed no threshold and no
+  decision; whether 0.05 is a meaningful level at all is O-019.</li>
 </ul>
 <h2 id="9-dependence-unit">9. Dependence unit</h2>
 <ul>
@@ -6476,4 +6623,4 @@ numbers are produced by the lab's own D-027 computation
   evaluation; (c) provide an authority receipt before any economic verdict.</li>
 <li>The experiment itself (<code>tools/</code>-driven run of <code>v8_slice_001</code>) is <strong>not</strong>
   executed by this session and the frozen holdout is not opened.</li>
-</ul></section><section><h1>Supplied 60-entry reading list: access manifest</h1><table><tr><th>#</th><th>Title</th><th>arXiv</th><th>Access</th><th>Source</th></tr><tr><td>1</td><td>A Comprehensive Survey of Mixture-of-Experts: Algorithms, Theory, and Applications</td><td>2503.07137</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2503.07137.pdf">source</a></td></tr><tr><td>2</td><td>Mixture of Experts in Large Language Models</td><td>2507.11181</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.11181.pdf">source</a></td></tr><tr><td>3</td><td>Towards Understanding Mixture of Experts in Deep Learning</td><td>2208.02813</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2208.02813.pdf">source</a></td></tr><tr><td>4</td><td>A Closer Look into Mixture-of-Experts in Large Language Models</td><td>2406.18219</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2406.18219.pdf">source</a></td></tr><tr><td>5</td><td>A Survey on Mixture of Experts in Large Language Models</td><td>2407.06204</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2407.06204.pdf">source</a></td></tr><tr><td>6</td><td>Mixture of Experts in Large Language Models (HTML version)</td><td>2507.11181</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2507.11181.pdf">source</a></td></tr><tr><td>7</td><td>Mixtral of Experts: Mixtral 8x7B Sparse MoE Language Model</td><td>2401.04088</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2401.04088.pdf">source</a></td></tr><tr><td>8</td><td>Conditional computation in neural networks: principles and research trends</td><td>2403.07965</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2403.07965.pdf">source</a></td></tr><tr><td>9</td><td>Towards Better Selective Classification</td><td>2206.09034</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2206.09034.pdf">source</a></td></tr><tr><td>10</td><td>Optimal strategies for reject option classifiers</td><td>2101.12523</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2101.12523.pdf">source</a></td></tr><tr><td>11</td><td>Selective Time Series Forecasting via Metalearning</td><td>2606.23448</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2606.23448.pdf">source</a></td></tr><tr><td>12</td><td>Selective Learning for Deep Time Series Forecasting</td><td>2510.25207</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2510.25207.pdf">source</a></td></tr><tr><td>13</td><td>Distribution-free Error Guarantees via Conformal Prediction (ML with reject option)</td><td>2506.21802</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2506.21802.pdf">source</a></td></tr><tr><td>14</td><td>On Reject and Refine Options in Multicategory Classification</td><td>1701.02265</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1701.02265.pdf">source</a></td></tr><tr><td>15</td><td>Consistent Algorithms for Multiclass Classification with a Reject Option</td><td>1505.04137</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1505.04137.pdf">source</a></td></tr><tr><td>16</td><td>From Risk to Rescue: An Agentic Survival Analysis Framework for Liquidation Prevention</td><td>2604.14583</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2604.14583.pdf">source</a></td></tr><tr><td>17</td><td>Survival Analysis as Imprecise Classification with Trainable Kernels</td><td>2506.10140</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2506.10140.pdf">source</a></td></tr><tr><td>18</td><td>FinSurvival: A Suite of Large Scale Survival Modeling Tasks from Finance</td><td>2507.14160</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.14160.pdf">source</a></td></tr><tr><td>19</td><td>A General Framework for Survival Analysis and Multi-State Modelling</td><td>2006.04893</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2006.04893.pdf">source</a></td></tr><tr><td>20</td><td>arXiv:1703.08090v1 [stat.ME] (multi-state survival / measurement error)</td><td>1703.08090</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1703.08090.pdf">source</a></td></tr><tr><td>21</td><td>Exchangeable, Markov multi-state survival process</td><td>1810.10598</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1810.10598.pdf">source</a></td></tr><tr><td>22</td><td>KANFormer for Predicting Fill Probabilities via Survival Analysis in Limit Order Books</td><td>2512.05734</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2512.05734.pdf">source</a></td></tr><tr><td>23</td><td>Estimation of Semi-Markov Multi-state Models</td><td>2005.14462</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2005.14462.pdf">source</a></td></tr><tr><td>24</td><td>Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis</td><td>2207.05291</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2207.05291.pdf">source</a></td></tr><tr><td>25</td><td>A Scorecard Model Using Survival Analysis Framework (behavioral credit scorecard)</td><td>2503.05023</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2503.05023.pdf">source</a></td></tr><tr><td>26</td><td>A multi-state model incorporating estimation of excess hazards and multiple time scales</td><td>2012.13926</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2012.13926.pdf">source</a></td></tr><tr><td>27</td><td>SURVIVAEL: Variational Autoencoders for Clustering Time Series in a multi-state survival framework</td><td>—</td><td>UNAVAILABLE</td><td><a href="https://openreview.net/pdf?id=pREEF8_kWNT">source</a></td></tr><tr><td>28</td><td>Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis (HTML version)</td><td>2207.05291</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2207.05291.pdf">source</a></td></tr><tr><td>29</td><td>Advances in Temporal Point Processes: Bayesian, Deep, and LLM Approaches</td><td>2501.14291</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2501.14291.pdf">source</a></td></tr><tr><td>30</td><td>Avoiding Backtesting Overfitting by Covariance-Penalties: an empirical investigation</td><td>1905.05023</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1905.05023.pdf">source</a></td></tr><tr><td>31</td><td>Backtesting Trading Strategies with GAN To Avoid Overfitting</td><td>2209.04895</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2209.04895.pdf">source</a></td></tr><tr><td>32</td><td>How should you discount your backtest PnL?</td><td>1902.01802</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1902.01802.pdf">source</a></td></tr><tr><td>33</td><td>Deep Reinforcement Learning for Cryptocurrency Trading: Practical Approach to Address Backtest Overfitting</td><td>2209.05559</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2209.05559.pdf">source</a></td></tr><tr><td>34</td><td>Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (high-throughput alpha research)</td><td>2507.07107</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.07107.pdf">source</a></td></tr><tr><td>35</td><td>The GT-Score: A Robust Objective Function for Reducing Overfitting in Data-Driven Trading Strategies</td><td>2602.00080</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2602.00080.pdf">source</a></td></tr><tr><td>36</td><td>AlgoXpert Alpha Research Framework: A Rigorous IS–WFA–OOS Protocol for Mitigating Overfitting</td><td>2603.09219</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2603.09219.pdf">source</a></td></tr><tr><td>37</td><td>A Rigorous Walk-Forward Validation Framework for Market ...</td><td>2512.12924</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2512.12924.pdf">source</a></td></tr><tr><td>38</td><td>Markets Are Not Random, They Are Hard to Predict</td><td>2606.08209</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2606.08209.pdf">source</a></td></tr><tr><td>39</td><td>In-Sample and Out-of-Sample Sharpe Ratios for Linear Strategies</td><td>2501.03938</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2501.03938.pdf">source</a></td></tr><tr><td>40</td><td>The Probability of Backtest Overfitting (journal article, CSCV method)</td><td>—</td><td>DOWNLOADED</td><td><a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">source</a></td></tr><tr><td>41</td><td>The Probability of Backtest Overfitting (working paper version)</td><td>—</td><td>DOWNLOADED_ALTERNATE_SOURCE</td><td><a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">source</a></td></tr><tr><td>42</td><td>The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality</td><td>—</td><td>DOWNLOADED_ALTERNATE_SOURCE</td><td><a href="https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf">source</a></td></tr><tr><td>43</td><td>High-Throughput Asset Pricing</td><td>2311.10685</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2311.10685.pdf">source</a></td></tr><tr><td>44</td><td>A SWE-bench-Style Framework for Backtesting Trading Strategies</td><td>2602.00133</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2602.00133.pdf">source</a></td></tr><tr><td>45</td><td>The Price Impact of Generalized Order Flow Imbalance</td><td>2112.02947</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2112.02947.pdf">source</a></td></tr><tr><td>46</td><td>A unified theory of order flow, market impact, and volatility</td><td>2601.23172</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2601.23172.pdf">source</a></td></tr><tr><td>47</td><td>The Subtle Interplay between Square-root Impact, Order Flow Imbalance, and Price Dynamics</td><td>2509.05065</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2509.05065.pdf">source</a></td></tr><tr><td>48</td><td>The Price Impact of Order Book Events</td><td>1011.6402</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1011.6402.pdf">source</a></td></tr><tr><td>49</td><td>Linear models for the impact of order flow on prices I. Propagators: Transient vs. History Dependent Impact</td><td>1602.02735</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1602.02735.pdf">source</a></td></tr><tr><td>50</td><td>A Theory for Market Impact: How Order Flow Affects Stock Price</td><td>0804.3818</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/0804.3818.pdf">source</a></td></tr><tr><td>51</td><td>Empirical Study of Market Impact Conditional on Order-Flow Imbalance</td><td>2004.08290</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2004.08290.pdf">source</a></td></tr><tr><td>52</td><td>Price Impact During Order ... (order submission / impact study, 2023)</td><td>2307.02375</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2307.02375.pdf">source</a></td></tr><tr><td>53</td><td>Returns and Order Flow Imbalances: Intraday Dynamics and Macroeconomic News Effects</td><td>2508.06788</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2508.06788.pdf">source</a></td></tr><tr><td>54</td><td>Cross-Impact of Order Flow Imbalance in Equity Markets</td><td>2112.13213</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2112.13213.pdf">source</a></td></tr><tr><td>55</td><td>Stochastic Price Dynamics in Response to Order Flow Imbalance: Evidence from CSI 300 Index Futures</td><td>2505.17388</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2505.17388.pdf">source</a></td></tr><tr><td>56</td><td>Universal scaling and nonlinearity of aggregate price impact in financial markets</td><td>—</td><td>DOWNLOADED</td><td><a href="https://www.cfm.com/wp-content/uploads/2022/12/301-2017-Universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financial-markets.pdf">source</a></td></tr><tr><td>57</td><td>Linear models for the impact of order flow on prices II. The ...</td><td>—</td><td>DOWNLOADED</td><td><a href="https://ideas.repec.org/p/arx/papers/1604.07556.html">source</a></td></tr><tr><td>58</td><td>Order flow and price formation (survey of price formation from order arrivals)</td><td>—</td><td>DOWNLOADED</td><td><a href="https://ideas.repec.org/p/arx/papers/2105.00521.html">source</a></td></tr><tr><td>59</td><td>Deep Reinforcement Learning for Cryptocurrency Trading (execution &amp; overfitting safeguards)</td><td>2209.05559</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2209.05559.pdf">source</a></td></tr><tr><td>60</td><td>Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (execution-aware alpha testing)</td><td>2507.07107</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2507.07107.pdf">source</a></td></tr></table></section></body></html>
+</ul></section><section><h1>Supplied 60-entry reading list: access manifest</h1><table><tr><th>#</th><th>Title</th><th>arXiv</th><th>Access</th><th>Source</th></tr><tr><td>1</td><td>A Comprehensive Survey of Mixture-of-Experts: Algorithms, Theory, and Applications</td><td>2503.07137</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2503.07137.pdf">source</a></td></tr><tr><td>2</td><td>Mixture of Experts in Large Language Models</td><td>2507.11181</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.11181.pdf">source</a></td></tr><tr><td>3</td><td>Towards Understanding Mixture of Experts in Deep Learning</td><td>2208.02813</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2208.02813.pdf">source</a></td></tr><tr><td>4</td><td>A Closer Look into Mixture-of-Experts in Large Language Models</td><td>2406.18219</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2406.18219.pdf">source</a></td></tr><tr><td>5</td><td>A Survey on Mixture of Experts in Large Language Models</td><td>2407.06204</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2407.06204.pdf">source</a></td></tr><tr><td>6</td><td>Mixture of Experts in Large Language Models (HTML version)</td><td>2507.11181</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2507.11181.pdf">source</a></td></tr><tr><td>7</td><td>Mixtral of Experts: Mixtral 8x7B Sparse MoE Language Model</td><td>2401.04088</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2401.04088.pdf">source</a></td></tr><tr><td>8</td><td>Conditional computation in neural networks: principles and research trends</td><td>2403.07965</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2403.07965.pdf">source</a></td></tr><tr><td>9</td><td>Towards Better Selective Classification</td><td>2206.09034</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2206.09034.pdf">source</a></td></tr><tr><td>10</td><td>Optimal strategies for reject option classifiers</td><td>2101.12523</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2101.12523.pdf">source</a></td></tr><tr><td>11</td><td>Selective Time Series Forecasting via Metalearning</td><td>2606.23448</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2606.23448.pdf">source</a></td></tr><tr><td>12</td><td>Selective Learning for Deep Time Series Forecasting</td><td>2510.25207</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2510.25207.pdf">source</a></td></tr><tr><td>13</td><td>Distribution-free Error Guarantees via Conformal Prediction (ML with reject option)</td><td>2506.21802</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2506.21802.pdf">source</a></td></tr><tr><td>14</td><td>On Reject and Refine Options in Multicategory Classification</td><td>1701.02265</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1701.02265.pdf">source</a></td></tr><tr><td>15</td><td>Consistent Algorithms for Multiclass Classification with a Reject Option</td><td>1505.04137</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1505.04137.pdf">source</a></td></tr><tr><td>16</td><td>From Risk to Rescue: An Agentic Survival Analysis Framework for Liquidation Prevention</td><td>2604.14583</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2604.14583.pdf">source</a></td></tr><tr><td>17</td><td>Survival Analysis as Imprecise Classification with Trainable Kernels</td><td>2506.10140</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2506.10140.pdf">source</a></td></tr><tr><td>18</td><td>FinSurvival: A Suite of Large Scale Survival Modeling Tasks from Finance</td><td>2507.14160</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.14160.pdf">source</a></td></tr><tr><td>19</td><td>A General Framework for Survival Analysis and Multi-State Modelling</td><td>2006.04893</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2006.04893.pdf">source</a></td></tr><tr><td>20</td><td>arXiv:1703.08090v1 [stat.ME] (multi-state survival / measurement error)</td><td>1703.08090</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1703.08090.pdf">source</a></td></tr><tr><td>21</td><td>Exchangeable, Markov multi-state survival process</td><td>1810.10598</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1810.10598.pdf">source</a></td></tr><tr><td>22</td><td>KANFormer for Predicting Fill Probabilities via Survival Analysis in Limit Order Books</td><td>2512.05734</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2512.05734.pdf">source</a></td></tr><tr><td>23</td><td>Estimation of Semi-Markov Multi-state Models</td><td>2005.14462</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2005.14462.pdf">source</a></td></tr><tr><td>24</td><td>Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis</td><td>2207.05291</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2207.05291.pdf">source</a></td></tr><tr><td>25</td><td>A Scorecard Model Using Survival Analysis Framework (behavioral credit scorecard)</td><td>2503.05023</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2503.05023.pdf">source</a></td></tr><tr><td>26</td><td>A multi-state model incorporating estimation of excess hazards and multiple time scales</td><td>2012.13926</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2012.13926.pdf">source</a></td></tr><tr><td>27</td><td>SURVIVAEL: Variational Autoencoders for Clustering Time Series in a multi-state survival framework</td><td>—</td><td>UNAVAILABLE</td><td><a href="https://openreview.net/pdf?id=pREEF8_kWNT">source</a></td></tr><tr><td>28</td><td>Pseudo value-based Deep Neural Networks for Multi-state Survival Analysis (HTML version)</td><td>2207.05291</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2207.05291.pdf">source</a></td></tr><tr><td>29</td><td>Advances in Temporal Point Processes: Bayesian, Deep, and LLM Approaches</td><td>2501.14291</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2501.14291.pdf">source</a></td></tr><tr><td>30</td><td>Avoiding Backtesting Overfitting by Covariance-Penalties: an empirical investigation</td><td>1905.05023</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1905.05023.pdf">source</a></td></tr><tr><td>31</td><td>Backtesting Trading Strategies with GAN To Avoid Overfitting</td><td>2209.04895</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2209.04895.pdf">source</a></td></tr><tr><td>32</td><td>How should you discount your backtest PnL?</td><td>1902.01802</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1902.01802.pdf">source</a></td></tr><tr><td>33</td><td>Deep Reinforcement Learning for Cryptocurrency Trading: Practical Approach to Address Backtest Overfitting</td><td>2209.05559</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2209.05559.pdf">source</a></td></tr><tr><td>34</td><td>Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (high-throughput alpha research)</td><td>2507.07107</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2507.07107.pdf">source</a></td></tr><tr><td>35</td><td>The GT-Score: A Robust Objective Function for Reducing Overfitting in Data-Driven Trading Strategies</td><td>2602.00080</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2602.00080.pdf">source</a></td></tr><tr><td>36</td><td>AlgoXpert Alpha Research Framework: A Rigorous IS–WFA–OOS Protocol for Mitigating Overfitting</td><td>2603.09219</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2603.09219.pdf">source</a></td></tr><tr><td>37</td><td>A Rigorous Walk-Forward Validation Framework for Market ...</td><td>2512.12924</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2512.12924.pdf">source</a></td></tr><tr><td>38</td><td>Markets Are Not Random, They Are Hard to Predict</td><td>2606.08209</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2606.08209.pdf">source</a></td></tr><tr><td>39</td><td>In-Sample and Out-of-Sample Sharpe Ratios for Linear Strategies</td><td>2501.03938</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2501.03938.pdf">source</a></td></tr><tr><td>40</td><td>The Probability of Backtest Overfitting (journal article, CSCV method)</td><td>—</td><td>DOWNLOADED</td><td><a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">source</a></td></tr><tr><td>41</td><td>The Probability of Backtest Overfitting (working paper version)</td><td>—</td><td>DOWNLOADED_ALTERNATE_SOURCE</td><td><a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">source</a></td></tr><tr><td>42</td><td>The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality</td><td>—</td><td>DOWNLOADED_ALTERNATE_SOURCE</td><td><a href="https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf">source</a></td></tr><tr><td>43</td><td>High-Throughput Asset Pricing</td><td>2311.10685</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2311.10685.pdf">source</a></td></tr><tr><td>44</td><td>A SWE-bench-Style Framework for Backtesting Trading Strategies</td><td>2602.00133</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2602.00133.pdf">source</a></td></tr><tr><td>45</td><td>The Price Impact of Generalized Order Flow Imbalance</td><td>2112.02947</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2112.02947.pdf">source</a></td></tr><tr><td>46</td><td>A unified theory of order flow, market impact, and volatility</td><td>2601.23172</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2601.23172.pdf">source</a></td></tr><tr><td>47</td><td>The Subtle Interplay between Square-root Impact, Order Flow Imbalance, and Price Dynamics</td><td>2509.05065</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2509.05065.pdf">source</a></td></tr><tr><td>48</td><td>The Price Impact of Order Book Events</td><td>1011.6402</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1011.6402.pdf">source</a></td></tr><tr><td>49</td><td>Linear models for the impact of order flow on prices I. Propagators: Transient vs. History Dependent Impact</td><td>1602.02735</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/1602.02735.pdf">source</a></td></tr><tr><td>50</td><td>A Theory for Market Impact: How Order Flow Affects Stock Price</td><td>0804.3818</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/0804.3818.pdf">source</a></td></tr><tr><td>51</td><td>Empirical Study of Market Impact Conditional on Order-Flow Imbalance</td><td>2004.08290</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2004.08290.pdf">source</a></td></tr><tr><td>52</td><td>Price Impact During Order ... (order submission / impact study, 2023)</td><td>2307.02375</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2307.02375.pdf">source</a></td></tr><tr><td>53</td><td>Returns and Order Flow Imbalances: Intraday Dynamics and Macroeconomic News Effects</td><td>2508.06788</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2508.06788.pdf">source</a></td></tr><tr><td>54</td><td>Cross-Impact of Order Flow Imbalance in Equity Markets</td><td>2112.13213</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2112.13213.pdf">source</a></td></tr><tr><td>55</td><td>Stochastic Price Dynamics in Response to Order Flow Imbalance: Evidence from CSI 300 Index Futures</td><td>2505.17388</td><td>DOWNLOADED</td><td><a href="https://arxiv.org/pdf/2505.17388.pdf">source</a></td></tr><tr><td>56</td><td>Universal scaling and nonlinearity of aggregate price impact in financial markets</td><td>—</td><td>DOWNLOADED</td><td><a href="https://www.cfm.com/wp-content/uploads/2022/12/301-2017-Universal-scaling-and-nonlinearity-of-aggregate-price-impact-in-financial-markets.pdf">source</a></td></tr><tr><td>57</td><td>Linear models for the impact of order flow on prices II. The ...</td><td>—</td><td>DOWNLOADED</td><td><a href="https://ideas.repec.org/p/arx/papers/1604.07556.html">source</a></td></tr><tr><td>58</td><td>Order flow and price formation (survey of price formation from order arrivals)</td><td>—</td><td>DOWNLOADED</td><td><a href="https://ideas.repec.org/p/arx/papers/2105.00521.html">source</a></td></tr><tr><td>59</td><td>Deep Reinforcement Learning for Cryptocurrency Trading (execution &amp; overfitting safeguards)</td><td>2209.05559</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2209.05559.pdf">source</a></td></tr><tr><td>60</td><td>Machine Learning Enhanced Multi-Factor Quantitative Asset Pricing (execution-aware alpha testing)</td><td>2507.07107</td><td>DUPLICATE_REFERENCE</td><td><a href="https://arxiv.org/pdf/2507.07107.pdf">source</a></td></tr><tr><td>61</td><td>Trading and Exchanges: Market Microstructure for Practitioners (Practitioners&#x27; Draft Copy, Mar 2002)</td><td>—</td><td>DOWNLOADED_AUTHOR_DRAFT</td><td><a href="https://www.acsu.buffalo.edu/~keechung/MGF743/Readings/Trading-Exchanges-Market-Microstructure-Practitioners%20Draft%20Copy.pdf">source</a></td></tr></table></section></body></html>

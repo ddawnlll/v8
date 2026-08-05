@@ -1,0 +1,364 @@
+
+(:11 \PTER 6
+
+Trading with
+Hard Stops
+
+or swing traders, the object is to buy at a new low and sell at a new
+high or to sell at a new high and buy back at a new low. Little thought
+is given to whether the market is in a counter-trend trade or is a resumption of the overall trend. The object is to simply catch a move in the
+markets that extends beyond the intraday activity. By moving from intraday trading to daily chart trading, swing traders can increase their profit potential, but at the same time the exposure to market fluctuations increases.
+This exposure can come in the form of unexpected announcements, supply
+and demand reports, or monthly statistical reports.
+Traders are constantly involved in a balancing act of wanting to catch
+a greater part of a market's trend while at the same time managing their
+risk. The objective is to be riding the wave of the market's direction on the
+backs of those in the know. If for some reason the signs have been misread
+or misinterpreted or if there has been a fundamental shift in the supply and
+demand of the market, the trader wants to be able to react and get out of
+the market as soon as possible. On an intraday trading chart, that could be
+a matter of seconds. On a swing trade, those seconds could translate into
+days. This is the bane of the swing trader: when and where to get out of a
+trade that isn't working, but at the same time not exiting too early, before a
+market makes its move. For years the tool of choice has been the stop loss
+order.
+While in theory the stop loss order makes sense as a tool that can exit
+a trade when the market is going against a position, it is inherently flawed.
+There is a better alternative. In much the same way we used options as a
+hedge in Chapter 5 to protect ourselves against intraday fluctuations of the
+
+F
+
+103
+
+104
+
+BASIC STRATEGI ES
+
+trend and the counter-trend, we are also able to use options as a type of primary or secondary stop loss in order to maintain our money management
+rules, without the same worries that a stop loss order invokes.
+
+STOP LOSS ORDER
+Success as a trader comes from having two distinct skill sets. The first skill
+set revolves around the ability to be able to pick the markets that are moving. The book Winning the Trading Game discussed that in depth. The
+second skill set involves the ability to have a realistic backup plan that you
+can rely on when you aren't able to pick the right direction of a market's
+movement. This book is designed to help you do that. It seems that for
+years the only backup plan for traders has been to guess where to place
+stops or to divine when the market will potentially tum around using a
+host of technical analysis tools-all of this with complete disregard for the
+nature of trading.
+Over the years, tips and tricks have been suggested on how to get the
+most from a stop order, most of them conflicting. The varied wisdom has
+ranged from conservative to reckless:
+• Place a stop order when you put in your initial order.
+• Put your order in first, and then wait and put your stop order in.
+• Never place your stop order in; have a mental stop.
+• Use a parked stop order that you can execute at a moment's notice.
+• Place a stop order at one and a half times true range to avoid getting
+whipsawed.
+• Don't place a stop order too tight.
+• Don't place a stop order too far out.
+The list of sage wisdom goes on and on. Every piece of advice is a vain
+attempt to defeat the inherent nature of the stop loss order. Stops are a
+good idea. In fact, they are designed to be a circuit breaker when all else
+fails, and when used in that way stops are effective. However, this circuit
+breaker behavior is also the inherent flaw of stops. Stops are not a risk
+management tool; they are a panic button to help you out when all else fails.
+On its web site the Commodity Futures Traders Commission defines
+a stop order as "an order that becomes a market order when a particular
+price level is reached." This is a significant definition, because it clearly
+points out that stop orders are a trading fiction. In fact, once they are triggered that is not the end of your trade; it is just the beginning of the end.
+The order is converted into a market order and once that is filled, your
+
+Trading with Hard Stops
+
+105
+
+trade comes to an end. Until that time you are exposed to market inefficiencies; whether it's floor traders, market makers, or currency dealers,
+you are left at their whim to fill your market order at their discretion.
+There is no doubt that a stop order is a great tool, on the face of it.
+You execute a trade, the market moves against the trade, your stop loss
+order is triggered, and your trade is closed out. The problem arises when
+the ideal scenario meets the reality of the markets. Using a stop as your
+primary line of defense lacks both finesse and control, in much the same
+way that using a hand brake on a car is inferior to using the brake pedal
+during stop-and-go traffic.
+Three Scenarios That Expose
+a Stop Loss's Weakness
+Stop loss orders are simply a tool. There is nothing wrong with them when
+used properly and with the proper expectations. When a trader works
+within the confines of the ability of a stop, then the frustration of stop orders can be diminished. The simple fact is that when you know what to
+expect you can't be disappointed.
+There are three situations that occur in trading that using a stop loss
+order can't protect you from: fast-moving markets, consolidating markets,
+and general shifts in supply and demand.
+If the market you are trading experiences anyone of these scenarios,
+then a stop-only approach to trading can and will backfire. In a fast-moving
+market the stop is triggered, turns into a market order, and you get the
+worst possible fill, known as slippage.
+In a consolidating market, if your stop is too tight the market will hit
+your stop loss price, tum into a market order, and get you filled; and then
+the market will turn in the direction you expected all along.
+If a fundamental shift in supply and demand occurs, the stop order may
+be a victim of being placed too far out to compensate for consolidation, and
+will be triggered into a market order that most likely will exceed any initial
+money management strategy that was set in place to help protect a trader's
+account principal in the first place.
+The stop loss order has been promoted and marketed as a onesize-fits-all solution, and in the process it has done more harm than good.
+Last ResOl't of a Desperate Trader
+Stops, by their very nature, are a reactionary tool. They are triggered only
+when the worst possible scenario can occur in a trade. By that time it is
+really too late to do anything.
+How can you realistically operate after a stop has been triggered?
+
+106
+
+BASIC STRATEGIES
+
+If your technical indicators suggest that you reverse your position, then
+how do you do it without chasing the market?
+If you do end up switching your market position, how can you be sure
+you won't be stopped out again, thereby compounding your losses?
+If your technical indicators suggest that you stay in the position, how
+can you justify ignoring your money management rules that tell you to
+get out?
+Loss of capital, slippage, plus the high degree of uncertainty that a stop
+loss comes with make it difficult for a swing trader to strictly rely on it as
+a risk management tool. The stop loss order can only do just that-stop
+loss-and it doesn't even do that all that well. Unfortunately, stopping a
+loss is not the same as managing the potential risk of loss. One is proactive, the other reactive. The reactive nature of a stop loss means that it is
+effective only in times of desperation, when the trader simply can't take
+the pain anymore. This is not how pros trade, and neither should you.
+
+OPTIONS AS AN ALTERNA1'IVE
+TO THE STOP
+There is no other way to say it. There is no other way to look at it. No matter how clever you are at placing a stop loss, if it is triggered that simply
+means that you are on the losing side of the market. This can be frustrating,
+particularly when swing traders thrive on the exact type of market scenarios that stops are weak in.
+Swing traders deliberately seek out fast-moving markets with momentum, consolidating markets with well-defined support and resistance
+points, and fundamental shifts between trends and counter-trends. The
+goal of the swing trader is to be there at the beginning of a sudden run
+in the market, or to exploit the highs and lows of a sideways market just as
+a market consolidates, or to catch the movement of a market as it transitions from a trend to a counter-trend and vice versa. With this specialized
+risk comes a need to minimize exposure to being on the wrong side of the
+market, just in case the unexpected happens.
+The use of stops only guarantees the gradual, and possibly sudden,
+diminishment of a swing trader's capital through slippage and trade loss.
+There is an alternative to using stop losses, however: options. Whereas
+stop losses are triggered and force you out of a trade when the market
+moves against you, options can be triggered into a protective mode when
+the market moves against them. This can be considered a hard stop.
+Anyone who has ever traded realizes that no material benefit is derived
+from being kicked out of the market abruptly. There is the possibility that
+
+Trading with Hard Stops
+
+107
+
+the market will tum back your way and it will cost you more in commissions and missed opportunity if you decide to jump back in. If the market
+doesn't tum back your way, you then have to reevaluate the potential trade
+and in the process miss out on the market's new direction. If a stop is set
+too far out, that means that your losses are compounded with excessive
+slippage. Having the right type of stop in place solves all of those problems.
+By using an option as your stop loss order, you switch the dynanlic of
+your interaction from one of being reactive to one of being proactive. The
+swing trader for once is in control of slippage, market timing, and commission expenses. No more chasing markets, no more false market breakouts,
+and no more missed opportunities. Well ... mostly. Depending on the size
+of your account and your trading objectives, options have the ability to operate as both a primary and a secondary line of defense against adverse
+market moves.
+
+Using Options as a Primary Alternative
+In Chapter 5 we looked at an option as a hedge that you can put in place
+to follow a trend or a counter-trend. Later in Chapter 8 we discuss tying an
+option directly to a futures or spot position in order to make it a synthetic
+option position. This chapter sits comfortably between these two option
+styles.
+When a swing trader uses an option as a primary alternative to a stop
+loss, the intent is to reduce or diminish any exposure to loss while at the
+same time staying one step ahead of the market. This is directly tied into
+the money management plan that is already in place. Large money managers will have in place a standing risk of loss that can't exceed 2 percent of their account value, while individual traders may be more liberal,
+allowing as much as 5 to 10 percent of their accounts to be at risk at any
+given time.
+It is already known that no matter how craftily a stop loss is placed,
+if the market gains momentum, or during a particularly volatile time in the
+forex market, a stop loss can be blown through and exceed any preset stop
+loss amount. A 2 percent loss can become a 3.5 percent loss, or a 10 percent
+loss can become a 13 percent loss or greater. These extra erosions of capital can quickly lead to an account becoming nontradable in a short period
+of time.
+By contrast, an option can be purchased with a strike price that is dose
+to, if not exactly at, a 2 percent, 5 percent, or 10 percent stop loss. Unequivocally, no matter what the market does, the strike price is fixed. The problems that plagued the stop loss order- slippage, missing out on a market's
+reversal, or weathering sideways activity-do not affect the protective option. This doesn't mean that the protective option doesn't have its own set
+
+108
+
+BASIC STRATEGIES
+
+of problems. The issues of premium, account size, and delta, discussed in
+Chapter 4, playa significant role in cutting into profits and changing the
+dynamics of the trade itself.
+
+Option Premium and Your Account Size How you use the option
+as a stop loss tool is dictated by your account size, the markets you trade,
+and your tolerance for risk. This is usually figured out in advance through
+your trading plan. The smaller your account, the further out-of-the-money
+you have to purchase your option. This can work counter to your risk management goal and in fact exceed the 2 percent, 5 percent, and 10 percent
+maximum account loss you may have set for yourself. In those instances
+you really have no choice but to use a regular stop loss order.
+Those who have followed my recommendation in the past to have three
+times the margin for a commodity contract will typically have enough capital in their accounts to acquire a protective option. So if you consider yourself an oil trader and an oil contract's margin is $5,000, then you should
+have $15,000 in your margin account. If you trade spot forex, I recommend
+you have five times the margin for each contract. So if you purchase a euro
+contract that requires only $1,000, have $5,000 in the account.
+Choosing the Right Stril(e Price for Your Option Getting just the
+right option strike price can be a problem. Each futures contract has its
+own incremental option numbering. This can make it difficult to obtain an
+option that is exactly 2 percent, 5 percent, or 10 percent of your account's
+value.
+Let's look back to our $15,000 oil trading account example. If your
+money management rules cap your losses to just 2 percent, then you can't
+risk more than $300, a 5 percent loss would be $750, and a 10 percent loss
+would cap you at $1,500.
+Attempting to use a protective option as a hard stop will be difficult
+at the 2 percent and 5 percent levels. The option strike prices move only
+in $500 increments. This is in stark contrast to the fact that the underlying
+futures contract moves in 1 cent increments, which equal $10 per 1 cent
+move.
+If you were to enter a futures oil contract at $100 per barrel, you could
+put a stop loss order at $300 away from your entry, at $99.70; but if you
+attempted to purchase a protective option, then you would have to get a
+strike price of $99.50. This adds an additional $200 to your protective loss.
+If you attempt to stick to a 5 percent stop loss of $750, your only choice
+is to purchase an option with a strike price of $99.50 or $99.00. That would
+be either $500 or $1,000 away from your entry price. That's either $250 too
+little or $250 too much.
+
+Trading with Hard Stops
+
+109
+
+The only scenario that fits perfectly is the 10 percent ($ 1,500) risk of
+loss. If you enter an oil contract at $100, you could then purchase an option
+with a strike price of $98.50. This would be a perfect match, but it wouldn't
+make sense to readjust your entire money management strategy to make a
+perfect match on the strike price. If anything, it is better to err on the side
+of caution and go with a strike price that may represent a lesser risk of loss
+than a greater risk of loss.
+Delta and Theta Eroding Your Premium Chapter 4 thoroughly explored delta's and theta's effects on premium. It is important to keep in
+mind two facts: First, the protective option is meant to protect the overall position against loss, not necessarily to become profitable. Second, the
+options you will be purchasing will be out-of-the-money; therefore, they
+will be affected more by delta and theta than an in-the-money option.
+
+Using Options as a Secondary Stop Loss
+The second way to use a protective option is in conjunction with a stop.
+The closer an option is to its underlying asset, the more expensive it will
+be. It stands to reason that an option placed at a 2 percent loss threshold
+will be more expensive than an option placed at a 10 percent loss threshold.
+Whether because of account size, number of contracts placed on the trade,
+feeling a premium is too expensive, or simply looking for a way to stagger
+your trades, having a stop loss order in the first position and a protective
+option as a secondary stop loss can be an advantage.
+There are three scenarios that can play out.
+In the first scenario, the market is moving quickly. If a there is a tight
+stop loss order, say at 2 percent, then a trader can exit a losing position
+immediately, with some slippage. The average retail trader would then attempt to chase the market's new direction by entering a new order and
+quite possibly end up being whipsawed.
+A more relaxing alternative is to have the stop loss order in place at
+2 percent and a protective option at 5 percent or 10 percent. The stop loss
+order is triggered and a loss is booked into your account. Instead of chasing
+the market, you wait for it to come to your protective option. If the market
+breaks through the strike price of your protective option, your protective
+option begins to accumulate profits. If the market begins to tum around
+at or near the option strike price, you can reenter your original futures or
+forex position and tum it into a synthetic options position.
+In the second scenario, the market is predictably bouncing between a
+consolidating resistance and support line. As traders we hope for the best,
+but we prepare for the worst with a stop loss order.
+
+110
+
+BASIC STRATEGIES
+
+In the final scenario, the market is shifting from a counter-trend to a
+trend. If your trade is going in the expected direction to the contract's
+price, then you are trading the trend. Any pullback would be considered
+a counter-trend. While the market attempts to choose its ultimate direction it begins to consolidate. These consolidating markets tend to be the
+most difficult for stops to navigate. It is quite rare for any market to move
+straight up or straight down. Along the way the market will pull back.
+Unfortunately, you never know whether the pullback is simply a market
+that is consolidating or there is a fundamental shift in the market's direction. Stops treat both situations the same, so when a stop is triggered you
+are forced out of the market, period. There is little you can do if the market
+was simply consolidating and it halts its move against you and begins to
+move in the direction of your original position. This is known as the whipsaw effect.
+
+CONCLUSION
+Since stops are an all-or-nothing proposition, they leave little room for the
+market's constant consolidation and retracement behavior. This has the effect of you potentially being right about the market, but being stuck on the
+sidelines because you were stopped out. A well-placed option can have the
+opposite effect. If you place an option where you would have placed your
+stop, you are able to hold on to a losing futures position slightly longer.
+Even if the delta of the option is different from the underlying futures contract, as you lose money on the futures position the option helps offset
+some if not all of your losses as it gains in value. This gives you the necessary breathing room to determine whether the market is consolidating or
+changing.
+Finally, stops have difficulty navigating fundamental shifts in the market's supply and demand. When these fundamental shifts occur, the most
+benign result of using a stop is some slippage, as we discussed earlier. In
+the worst-case scenario you could find yourself in a lock-limit market unable to get out, with the potential of losing more money than you invested.
+Once a market is at the lock limit, all trading is halted until the price stabilizes. Markets can be lock-limit for days on end; all the while you have little
+recourse and you are racking up losses at a phenomenal rate.
+When it comes to trading, there are no fix-aIls, simply substitutions. An
+option in place of a stop loss order is just that, a substitution. By comparing
+stop loss orders and options side by side, options clearly come out the winner in each scenario. Over the years the difficulty of using stops alone has
+been recognized. There is a clear alternative to using stops alone to manage
+
+Trading with Hard Stops
+
+111
+
+losses-options-but it requires that you look at trading the same way that
+money managers do. Money managers look at the interdependence of futures and options contracts and the built-in risk management relationship
+that they have with one another to diminish their losses. By taking this
+approach they are able to use finesse and control to protect themselves
+from fast-moving markets, consolidating markets, and fundamental shifts
+in supply and demand, and now you can, too.
+
+(; II '\ .- 'I' I'; It 7
+
+The Markets
+on a Leash
+
+andom House Unabridged Dictionary defines a leash as "to
+~ecure, co~trol, or rest~,ain .. ." or "a chain, strap, etc., for controllmg or leadmg ... ; lead.
+In Chapter 6 we explored using options in place of a stop loss order.
+This strategy, while having the added expense of purchasing either an inthe-money option or an out-of-the-money option, is the simplest way of
+guaranteeing that your losses won't exceed the price you enter the market
+at. Whether it is a hedge position or a synthetic futures position, it is the
+only efficient way to protect your trading position.
+It can be difficult to afford the protective option if your account is too
+small, or if the volatility of the option is too high, making it very difficult
+to pay a reasonable price. That's when you have to make the decision to
+control the cost ofthe option and make the protection affordable enough to
+protect yourself. A small but important technique that puts you in control
+of your trading destiny is the simple ability to sell an option in conjunction
+with your synthetic futures or hedge position. This is how you put your
+trade on a leash.
+The combination of being long the futures, purchasing an at-the-money
+or out-of-the-money put option, and selling an out-of-the-money call is
+called a collar. The mirror opposite can be done for a short position as
+well. A collar is a limited-loss, limited-profit strategy that diminishes your
+overall trading expenses, while still affording you the same protection that
+a protective-option-only strategy gives you.
+In this chapter we look at the long collar and short collar position.
+The intent is to analyze how to use them, the benefits of using them, and
+the drawbacks of using them as a risk management strategy. We then
+
+R
+
+113
+
+114
+
+BASIC STRATEGIES
+
+explore how day traders can convert their spot and CFD positions into
+collar trades that may help them tum their trades into long-term protective
+position trades.

@@ -1,0 +1,56 @@
+
+The RSI Enables Comparisons Between Securities
+
+The nature of the RSI calculation enables the accurate comparison of dif-
+ferent securities on the same chart. In Chart 11-1, there are two series, the
+Dow Jones Utilities Index and the Philadelphia Gold and Silver Share
+Index. The upper panel plots a 45-day ROC and the lower one a 45-day RSI.
+With the ROC, it is not easily possible to compare the two because the
+Utilities Index is far less volatile. On the other hand, you can see that the
+divergence in volatility is far less. Because of this, it is much easier to estab-
+lish universal standards for the overbought and oversold benchmarks. Using
+
+the 14-day default, these levels are traditionally set at 30 for oversold and
+70 for overbought.
+
+Constructing Overbought/Oversold Lines
+
+The default time span for the calculation of an RSI is 14 periods. The over-
+bought and oversold lines are typically drawn at 70 and 30, respectively. In
+an article entitled “How The RSI Behaves,”? Peter W. Aan argued that the
+average value of an RSI top and bottom occurred close to the 72 and 32 le
+els, respectively. This research would indicate that the 70 and 30 levels rec-
+ommended by Wilder should be moved farther apart to better reflect the
+average overbought and oversold values.
+
+It is important to note that the magnitude of the oscillations of the RS!
+is inverse to that of most other momentum series, For example, the ROC
+indicator is subject to wider fluctuations the longer the time span. It works
+
+"Futures, January 1985,
+
+Individual Momentum Indicators I 213
+
+Chart 11-1 RSI versus the ROC. (From www.pring.com.)
+
+[F om = a]
+40 ’ Philadelphia Gold and |
+45-day ROC , M a nae” Silver Share Index :
+204. meek y ve ba
+ad iy ny ped on
+at : a
+
+Me
+
+204 ; oN ye
+
+Dow Jones Utilities i
+
+—|
+a a CE
+spouses ones eee care eer el pe age ee
+
+in an opposite way for the RSI. For the RSI, equilibrium is the halfway point,
+which in this case is the 50 level. It is therefore traditional to place the over-
+bought and oversold lines equidistant from this point.
+

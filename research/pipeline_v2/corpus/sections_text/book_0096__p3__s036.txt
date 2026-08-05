@@ -1,0 +1,327 @@
+
+DO PATTERNS EXIST?
+Some academics and investors believe that patterns do not exist. They believe either that price
+action is completely random or, at least, is indecipherable. We saw in Chapter 4, “The Technical
+Analysis Controversy,” that the concept of randomness is now being questioned, leaving open
+the possibility that order does exist in prices. However, even if order does exist in market prices,
+it is possible that it cannot be recognized with present mathematical models because it is so complex. The methods used in chaos theory, neural networks, and other esoteric mathematical models may prove useful sometime in the future, but not now. Thus, there is still the realistic question
+
+Download at www.wowebook.com
+
+304
+
+Part IV Chart Pattern Analysis
+
+of whether patterns do exist in prices. Technical analysts swear they do but in many cases analysts are not mathematically sophisticated enough to demonstrate their validity.
+As mentioned in Chapter 11, “History and Construction of Charts,” the unpublished article
+by Hasanhodzic et al. (2010) on a study of online video game players (http://arora.ccs.neu.edu)
+attempting to distinguish between financial market price statistics in moving chart form from
+random permutations of the same data with immediate feedback found that these people could
+“consistently distinguish between the two types of time series”(p. 1). This experiment seemed to
+give evidence that humans can learn to distinguish patterns and real data from random series
+whereas computers, so far, cannot.
+If prices do have patterns, what causes them? This has been a debate for at least a century
+and has coalesced into a belief that patterns are the result of human behavior, which, conveniently, is indecipherable. It is, however, why technical analysts are very much interested in the
+new behavioral finance studies. They hope that the biases and tendencies in human behavior now
+being measured and gradually understood by behavioral finance students will eventually explain
+why price patterns seem to exist.
+
+Behavioral Finance and Pattern Recognition
+The first fact to acknowledge about chart patterns is that they have not been proven to exist or to
+be profitable. Although many investors and traders swear by certain formations, their evidence is
+largely anecdotal. Added to this is the tendency to see patterns in random data.
+Humans have a tendency to want patterns in data and other information and to see them
+when they do not exist. Superstitions are derived from the erroneous and coincidental observations of patterns that do not exist but are created because of the desire to have a pattern. B. F.
+Skinner, a famous Harvard psychology professor, studied pigeon behavior in a number of stimulus-response situations to see if the pigeons would react to various stimuli and thus “learn”
+responses. The reward for the correct response was usually food. In one experiment, he decided
+to give pigeons just food without a stimulus to see what they would do. Invariably, in trying to
+make sense out of stimulus-response, the pigeons responded in different manners by creating
+their own stimulus, some bobbing, some developing strange head motions, thus creating their
+own superstition, when a real stimulus did not exist (Skinner, 1947).
+Humans are very similar in their desire to have some kind of stimulus, even if it is a black
+cat crossing the road, and develop supposedly predictive relationships when none actually exists.
+This is a special danger in price analysis because the desire to see a pattern can occur when no
+pattern actually exists.
+Humans are also very poor statisticians and tend to put more weight on recent history than
+what is statistically warranted. An experiment by Kahneman and Tversky (1982) showed that in
+flipping coins, which have a statistical probability of landing on their heads 50% of the time
+regardless of what side they landed on earlier, observers began to expect more heads in the future
+when the sequence of heads turned up more frequently, and they were surprised when that did
+not occur. Their subconscious brains expected more heads because that was the most recent history of flips, even though the odds had not changed. In the technical analysis of patterns, the analyst must guard against superstition or what is often called “market lore.” Frequently these
+
+Download at www.wowebook.com
+
+Chapter 15 Bar Chart Patterns
+
+305
+
+statements contradict other statements or are just plain wrong. An example is that “a descending
+triangle always breaks downward.” You will see how this is not born out by fact when we discuss
+triangles. Pattern and trend analysis must be based on evidence alone.
+Humans also tend to see the future as the past and look backward rather than forward. This
+bias is very likely the reason that trends in prices exist in the first place and why prices rise or fall
+until they reach some exhaustion limit rather than adjusting immediately as the EMH would suggest. For this reason, humans have difficulty in recognizing when past signs or patterns are no
+longer valid. Studies have shown that the human brain releases dopamine (a pleasure sensation
+chemical and, thus, a reward) when a human takes action that has worked before. Thus, the
+pleasurable action is desirable and overcomes any cognitive reasoning that might suspect the
+action is wrong. This problem is especially prevalent and potentially very dangerous in the financial markets where change is constant.
+“In a world without change, the best way to find cheese is to return to the location where it
+was found previously. In a world with change, however, the best way to find cheese is to look
+somewhere new” Burnham (2005, p. 284), paraphrasing from Johnson (1998). In other words,
+the chart pattern and trend reader should look for failure rather than believe in the constancy of
+previous patterns. Schwager (1996) suggests that profitability from failed patterns is often
+greater than from correct patterns.
+
+COMPUTERS AND PATTERN RECOGNITION
+Analysts began recognizing chart patterns in the days when prices were plotted daily by hand.
+Aside from trend lines, patterns were the beginning of technical analysis, and for this reason,
+many nontechnicians mistakenly believe that patterns are all that technicians study. Floor traders
+and market makers still plot intraday charts of prices for their use in trading short periods, but the
+computer has changed technical analysis considerably. On a computer screen, charts of minuteto-minute, even tick-to-tick prices can now be displayed, and from them, various patterns can be
+recognized. This has led to impersonal contact with prices, different from the days when each bar
+was plotted individually and the “feel” for price action was more easily learned. In addition, the
+time horizon for traders off the floor has become shorter. The ability to see almost instantly a
+change in price behavior combined with lower commission costs and less slippage, all due to the
+introduction of computers, has led traders to speculate on shorter-term trends and patterns.
+The computer did not make the study of patterns any easier, however. Patterns change and
+adjust to new markets. Some of the old patterns do not seem to work very well anymore, and others have taken their place. Patterns are also subjectively determined, and in many cases they are
+perhaps invalid. Tests are being made currently on their validity, a difficult enterprise because
+patterns are more visually based than mathematically based. They are peculiar to humans in that
+like recognizing a friend’s face out of a collage of faces, a particular chart pattern must be recognized out of a series of patterns in prices. Like quantifying your friend’s face, quantifying a chart
+pattern is not easily accomplished. Only through practice, many mistakes, and many correct
+interpretations that go wrong is the technical analyst consistently able to recognize patterns. This
+
+Download at www.wowebook.com
+
+306
+
+Part IV Chart Pattern Analysis
+
+is how the art of technical analysis developed before the computer, and although the computer is
+now taking over both in plotting and in analyzing, the chart patterns still exist and are used by
+many practitioners. Recent authors of books on technical chart methods will attest to the
+longevity of certain patterns and their fractal nature. The analysis of price patterns remains,
+though less emphasis is placed on it.
+The analyst using a computer is able to compute more quickly various ratios, averages,
+spreads, and so on. Computer usage also has the advantage of giving the technician the ability to
+test these new calculations as well as the old ones for accuracy and statistical significance. The
+old-time technical analyst had to rely on many years of experience to determine the reliability of
+formations and indicators and often, for example, stayed up late at night with a hand-crank
+adding machine calculating indicators and oscillators. As we know from studies of behavior,
+anecdotal experience can be deceiving, but with the advent of the computer, we can now objectively study many oscillators, averages, and other methods that before were impractical to study.
+The computer has “cleaned” up a lot of the folklore about patterns and trends and eliminated
+those that have little or no validity. It has made technical analysis more of a science than an art.
+Remarkably, though understandable from the previous discussion of human behavior, many of
+these old inaccurate methods are still used.
+
+MARKET STRUCTURE AND PATTERN RECOGNITION
+The markets, of course, have also changed since the beginning of technical analysis and the first
+recognition of patterns, and with this change, patterns have changed and become less accurate.
+First, the proliferation of technical knowledge has led to the recognition of specific patterns
+when they occur. Of course, once a pattern is widely recognized and acted upon, its effectiveness
+diminishes. Thus, patterns in widely traded securities tend to be less accurate than in those quiet
+trading securities that very few traders watch.
+In the stock market, ownership has become concentrated in relatively few hands that tend
+to act in concert. These “hands” are the institutional holders of securities. They tend to act
+together when news is announced; thus, by their large positions and anxiousness to get in or get
+out, they cause patterns to self-destruct. Although it is difficult to prove, when a large institution
+is the dominant owner of a stock and has knowledge of technical principles, there is a temptation
+to “manipulate” a chart formation and cause false breakouts. This can cause havoc with the shortterm trader who is watching the same patterns develop.
+Finally, the advent of derivatives in large quantities has influenced the price and volume
+action in individual securities for reasons other than the prospects for the underlying company.
+Addition or deletion from a market index or basket can suddenly introduce buying or selling
+unrelated to the pattern developing.
+
+Download at www.wowebook.com
+
+307
+
+Chapter 15 Bar Chart Patterns
+
+BOX 15.1 FOR FURTHER READING
+There are many good reference books devoted to the study of patterns in market
+prices. Some of these are listed here.
+Bar Chart Patterns:
+Encyclopedia of Chart Patterns by Thomas N. Bulkowski
+How Charts Can Help You in the Stock Market by William Jiler
+How Technical Analysis Works by Bruce Kamich
+Profits in the Stock Market by H. M. Gartley
+Technical Analysis by Jack Schwager
+Technical Analysis Explained by Martin Pring
+Technical Analysis of Stock Trends by Robert Edwards and John Magee
+Technical Analysis of the Financial Markets by John Murphy
+Point-and-Figure Patterns:
+Point and Figure Charting by Thomas J. Dorsey
+Study Helps in Point & Figure Technique by Alexander Wheelan
+The Chartcraft Method of Point and Figure Trading by Abe Cohen, Earl Blumenthal, and Michael Burke
+The Definitive Guide to Point and Figure by Jeremy du Plessis
+Trading—Short-Term Patterns:
+Connors on Advanced Trading Strategies by Laurence Connors
+Dave Landry’s 10 Best Swing Trading Patterns and Strategies by David Landry
+Encyclopedia of Candlestick Charts by Thomas N. Bulkowski
+Japanese Candlestick Charting Techniques by Steve Nison
+Long-Term Secrets to Short-Term Trading by Larry Williams
+Market Wizards by Jack Schwager
+New Concepts in Technical Trading Systems by J. Welles Wilder, Jr.
+Street Smarts by Laurence Connors and Linda Bradford Rashke
+Trading Systems and Methods by Perry J. Kaufman
+
+BAR CHARTS AND PATTERNS
+From Chapter 11, you know how to plot a bar chart. It is the most common chart of price behavior and has been used ever since continuous trading data became available. In Chapter 12, you
+learned how to determine support and resistance zones and trend lines using bar charts. Bar chart
+patterns form by combining support and resistance zones and trend lines. In all cases, a pattern
+finalizes when a breakout occurs from the pattern. In some instances, a pattern will just dribble
+into inactivity, in which case it should be ignored, but most patterns result in a legitimate breakout in one direction or the other. The breakout may be false, of course, and we look at how to
+
+Download at www.wowebook.com
+
+308
+
+Part IV Chart Pattern Analysis
+
+handle that occurrence. We have observed the peculiarities of drawing trend lines and establishing support and resistance zones in previous chapters, and from the previous discussion, the difficulties in recognizing patterns from imperfect data. Patterns are, thus, never exactly the same
+from example to example and are fit into generic categories with common characteristics based
+principally on the direction of internal trends and their intersections.
+Traditionally, we divide patterns into two categories: continuation and reversal. This is a
+holdover from Schabacker (1930), and used by Edwards and Magee (revised, 2007), who needed
+to break patterns into easily understood and recognizable divisions. Unfortunately, as Edwards
+and Magee recognized, patterns cannot always easily be relegated to a specific reversal or continuation category, and such a description can often be misleading. Instead, patterns can occur in
+both modes. For this reason, we prefer to abandon the standard method of differentiating patterns
+into “continuation” and “reversal,” and although we still use the terms when appropriate, we
+instead describe the simplest patterns first and progress to the more complex.
+
+HOW PROFITABLE ARE PATTERNS?
+Studies of chart performance and reliability are scarce. The problem, of course, is the difficulty
+in defining a chart pattern on a computer. In 1970, one of the authors of this book and Robert
+Levy (1971) devised a method to identify patterns by recording the sequence of reversal points
+relative to their immediate past reversal points. This sounds complex, perhaps, but using only
+five reversal points, almost all simple chart patterns can be identified and their results recorded.
+Arthur Merrill (1997) took this study method and with some variation tested it on the Dow Jones
+Industrial Average. In both studies, the results showed that chart patterns as defined had little predictive ability. Several patterns showed some statistical reliability, but not enough to prove the
+case for technical price patterns in general.
+In a 1988 study by Lo and MacKinlay, more sophisticated statistical methods were used to
+see if patterns existed in individual prices. The study had mixed results. Although it did not
+negate the possibility of patterns, neither did it prove that patterns existed.
+The most comprehensive study to date is that of Bulkowski (2005). Many of the statistics
+mentioned in each pattern section later in the chapter are taken from his more recent work on
+trading classic patterns (2002). The intriguing nature of Bulkowski’s studies is that many of the
+old observations seen in the classic literature are turning out to be questionable, especially for
+maximum performance. As examples, volume trend within a pattern, slope of trends, and breakout volume may not be as relevant as others had originally thought.
+Remember also that Bulkowski’s observations are in retrospect. We can easily identify
+many chart patterns after they have occurred, and when we have observed the results. The real
+talent comes in identifying a chart pattern while it is evolving in real time and profiting from its
+completion. For this ability, only study, practice, and experience will suffice.
+Finally, the results from Bulkowski’s observations are relative only. They cannot be
+assumed to be profitable in the future, as they appeared to be during the trial period. The value of
+his study is not in determining the value of chart pattern analysis itself but in determining which
+of the classic patterns are more profitable with less risk. From Bulkowski’s studies, it appears
+
+Download at www.wowebook.com
+
+309
+
+Chapter 15 Bar Chart Patterns
+
+that pattern analysis outperforms the market (S&P 500) on average in every instance. This might
+or might not be true, but for our purposes, we are more interested in which patterns to study as
+being the most likely to profit over others.
+
+BOX 15.2 USING BREAKOUT PRICE TO SET PRICE TARGETS
+Bar charts can project price targets once a formation completes with the breakout.
+Most targets are measured from the breakout price. Targets are infrequently used
+because most technicians are satisfied with just being on the right side of the trend,
+want only to ride that trend, and believe that targets are generally inaccurate. In many
+patterns, however, this is not so. Generally, the target is calculated by taking the
+height of the pattern and adding it to the breakout price. In each of the following
+trading boxes, we describe the target peculiarities for each pattern and the success
+percentages.
+
+CLASSIC BAR CHART PATTERNS
+We begin by looking at classic chart patterns. These patterns generally have been recognized and
+used for over a hundred years. Only recently have there been tests of their reliability and profitability.
+
+Double Top and Double Bottom
+A double formation is about the simplest of the classic formations. A double top consists of only
+three reversal points: two peaks separated by a trough (see Figure 15.1). For it to be a true double top, the initial price must enter the pattern from below the trough price, and the exit signal
+must occur on the breakout below the trough low price. The two peaks must be at or within 5%
+of each other’s price level, and the middle valley should be around 10% from the highest peak.
+The double top, thus, resembles the rectangle formation (described next) with less detail. The
+pattern forms over 2 to 7 weeks: the longer, the less reliable. The best-performing tops are with
+rounded peaks. These are called “Eve and Eve” double top patterns. The double bottom is the
+mirror image of the double top.
+Newspaper and media commentators who want to sound like technical analysts frequently
+use the term double formation often when it is not a true double pattern. A true formation is only
+valid when the intervening reaction reversal point has been penetrated. The danger of acting prematurely is great; roughly 64% of these patterns fail to penetrate the breakout level and instead
+continue on their original trend. When the pattern is completed with a breakout, however, it is
+very accurate.
+
+Download at www.wowebook.com
+
+310
+
+Part IV Chart Pattern Analysis
+
+Resistance Line
+
+Entry
+Pullback
+
+Support Line
+Breakout
+
+Price
+
+FIGURE 15.1
+
+Double top with breakout down
+
+The failure rates are 11%. This means that the odds of making a profit from a double top
+downward breakout are minimally risky. Bulkowski ranks the overall performance rank at 2 out
+of 21, a very high ranking. This ranking is a composition of the pattern’s failure rate, average
+profit, pullback/throwback rate, and percent of trades reaching a price target.
+
+BOX 15.3 TRADING DOUBLE FORMATIONS
+If one observes a double pattern, several important observations must be made before
+acting to improve the chances of profit. First, never buy until the breakout has
+occurred. Second, look for flat bases either at the same level as the twin bottoms or
+slightly higher and earlier. Third, look for an absence of a consolidation area above
+the formation. Fourth, look for what is called an “Eve & Eve” variety. Volume doesn’t
+seem to be important, though it is usually higher on the first “hump.”
+
+Rectangle (Also “Trading Range” or “Box”)
+In the earlier discussion on trading ranges and sideways trends, we effectively described a rectangle pattern. It is one of the simplest of patterns, consisting of a resistance line above and a support line below (see Figure 15.2). Each resistance or support line must also be a trend line, which
+means that it must touch roughly the same price reversal at least twice. This added requirement
+is what separates it from a double top or bottom formation, which only requires that three price
+reversals occur. Prices are bounded by and oscillate between the two lines, and eventually exit, or
+
+Download at www.wowebook.com
+
+311
+
+Chapter 15 Bar Chart Patterns
+
+break out, in one direction or the other. The pattern can have a slight tilt upward or downward,
+but the trend lines defining the support and resistance zones are always parallel. It appears similar to a horizontal channel. It often has false or premature breakouts, neither of which is predictive of the eventual breakout direction.
+
+Breakout
+Resistance Line
+Entry
+Throwback
+
+Support Line
+
+Shortfall
+Price
+
+FIGURE 15.2
+
+Rectangle with entry up and breakout up
+
+BOX 15.4 FALSE AND PREMATURE BREAKOUTS
+These breakouts are not exits from a formation but instead are minor breakouts
+above or below breakout levels that quickly return into the formation. They can
+occur at support and resistance levels as well as at trend lines. A “false” breakout is
+one that breaks out in the direction opposite from the direction of the final breakout,
+and a “premature” breakout is one that breaks in the same direction as the eventual
+exit breakout. In retrospect, these breakouts can have predictive value, but at the time
+either occurs, it is almost impossible to tell what type it is. When they occur frequently, they warn that a very strict breakout discipline must be used to avoid triggering action before the actual exit breakout.

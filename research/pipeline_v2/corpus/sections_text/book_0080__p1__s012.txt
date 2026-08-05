@@ -1,0 +1,800 @@
+
+170
+
+4
+
+2/5
+
+8
+
+9
+
+10
+
+11 2/12 16
+
+73.06
+
+74.16
+
+17
+
+Cotton Daily Continuation, DevStops
+
+67.37
+
+FIGURE 4.9
+
+18
+
+2010
+
+19 2/22 23
+
+Warning
+
+76.47
+
+24
+
+Dev3
+
+25 2/26 1
+
+Dev2
+Dev1
+
+80.10
+
+2
+
+3
+
+4
+
+81.53
+
+83.40
+
+80.66
+
+84.60
+
+5
+
+9
+
+10
+
+DevStops
+3/8
+
+83.12
+
+68.00
+
+70.00
+
+72.00
+
+74.00
+
+76.00
+
+80.21
+
+79.6721
+60.9577
+76.1722
+
+60.9577
+
+82.029
+
+84.00
+
+Kase StatWareTM and Studies
+
+171
+
+in the cotton example, the average TrueRange at the 73.91 swing high that
+took place just before the move up was 1.87, while at the trade’s exit point
+following the 84.32 high, it was 2.61, an almost 40 percent increase.
+TrueRange and TrueRange Double
+1. TrueRange is very similar to the high–low range of a bar, except that it
+considers gaps.
+2. TrueRange = @max (H, C[1]) − @min (L, C[1]); the range of a pair of
+bars is shown in the next entry.
+3. TRD (TrueRangeDouble) = @max (H, H[1], C[2]) − @min (L, L[1],
+C[2])
+Let’s say the current bar’s high and low are 80 and 79, the previous bar’s high
+and low are 79.1 and 78, and the close of the bar before that is 78.2. The TRD
+is 80 − 78, or 2. If the close of the third bar back had instead been 81, the TRD
+would have been 81 − 78, or 3. If it had been 77, the TRD would have been
+80 − 77, or 3.
+The average double-bar TrueRange is the TRD calculation averaged over n
+bars.
+
+The average double-bar TrueRange is used as a warning line in the
+DevStops.
+
+Considers Variability
+While using a trailing stop based on multiples of ATR is a great improvement
+over a ﬁxed value, nevertheless, even ATR-based stops have drawbacks. First,
+the multipliers are only reasonable guesses. Second, multipliers that would
+work under some market conditions might not work in others.
+By way of example, let’s consider the design of packaging for green beans.
+Let’s say a grocer speciﬁes that each bag must contain a certain number of
+green beans with an average length of 5 inches. One grower packages beans
+ranging from roughly 3 to 7 inches with an average length of 5 inches, the
+other from about 4.8 inches to 5.2 inches, averaging 5 inches. The ﬁrst grower
+needs bags that are about 7 inches long while the second requires bags that
+are only a little under 5.25 inches long.
+In the same way, under identical ATR conditions, the TrueRange from
+bar-to-bar can be quite regular or can vary considerably. Therefore, in a very
+
+172
+
+New Frontiers in Technical Analysis
+
+regular market, stops don’t have to be as large to avoid being stopped out on
+noise, while in a very erratic market, even under the same ATR conditions, the
+stops may have to be much wider. The measure of the variation that captures
+values—such as the difference of two inches for the ﬁrst green bean grower
+and only 0.20 inches for the second green bean grower—is standard deviation.
+Understanding this, the DevStop has been designed to capture values to 1,
+2, and 3 standard deviations over the mean TrueRange. This way, the amount
+of the stop would not only increase or decrease based on the average, but
+would also adjust based on the variability of the ranges involved. In actuality,
+a one-bar reversal would not usually be signiﬁcant enough to exit a trade, so the
+Kase DevStops are based on double bars, or the TrueRange Double (TRD).
+
+Considers Skew
+Only one more adjustment was necessary. Returning to the green bean example, it is not possible for green beans to exist that are zero or fewer inches long; however, even the grower whose largest beans were about 5.2
+inches long would occasionally grow a freak 8-inch green bean. In other
+words, the skew of any normal green bean distribution would be to the right.
+The same is true for markets. It’s never possible for a bar to have a range of
+less than zero, so ranges are bounded by zero on the left or downside, but can
+spike to the upside. Thus the standard deviations used in the Kase DevStops
+have been adjusted to account for skew. There is little to no observable skew
+at one standard deviation. On average there is about 10 percent skew at two
+standard deviations, and 20 percent skew at three standard deviations. In
+conclusion, we use 1, 2.2, and 3.6 standard deviations over the average TRD
+for Kase DevStops Dev1, 2, and 3, respectively.
+Figure 4.10 shows an example of the skew phenomenon common to all
+futures contracts—in this case, corn—on 10 years of daily TRD data. The
+chart shows that range, which is proportional to volatility, is skewed to the
+right. This means that the size of the bars above the mean is larger than would
+be predicted by a normal distribution, necessitating the correction for skew.
+
+Both Logical and Predictable
+Kase DevStops bring statistical discipline to exit and stop-loss methodologies.
+The amount of risk associated with Kase DevStops is calculable ahead of time,
+so that traders can match the volume and risk per unit to their risk appetites.
+In addition, because the stops are statistically based, the chance of being
+
+173
+
+Kase StatWareTM and Studies
+FIGURE 4.10
+
+Crude Oil Distribution of TRD: 10 Years of Daily Data to July 2010
+
+175
+150
+
+Average TRD
+
+Frequency
+
+125
+100
+
+Dev1 - 1 StdDev, 85th Percentile
+
+75
+
+Dev2 - 2.2 StdDev, 95th Percentile
+
+50
+25
+
+Dev3 - 3.6 StdDev, 99th Percentile
+
+0
+0.4
+
+1.8
+
+3.1
+
+4.5
+
+5.9
+$/bbl
+
+7.3
+
+8.7
+
+10.1
+
+11.5
+
+stopped out may be estimated ahead of time. Finally, Kase’s research shows
+the likelihood of hitting subsequent stop levels once an initial stop is hit.
+
+Amounts Calculable
+Given the basis of Kase DevStops, they are logical, and because the stops
+are based on deﬁned math and statistics, they are easily calculable; thus
+their amounts can be estimated in advance for risk assessment purposes.
+The risk amounts associated with each stop are available within StatWare as
+KaseRevAmounts, which is a plot of four lines, each representing the reversal
+value for a given stop.
+Figure 4.11, using the same cotton chart shown earlier, illustrates that
+on the KaseSwing system exit day, Rev3, the approximate maximum amount
+that would normally have to be risked to let proﬁts run was about 6 cents, or
+$3,000 per contract. A user with a risk budget of $300,000 per trade could
+buy 100 contracts. Conversely, if a user wanted to trade double the number of
+contracts, 200, a one quarter-day chart, or about 83 minutes, could be used.
+The reason is that risk is proportional to the square root of time. So increasing
+the volume by a factor of two means that the bar length must be reduced by
+one-quarter. At that point, the trader might set up a 75- or 80-minute bar
+chart and double-check the risk associated with that bar length.
+
+174
+
+Warn
+Dev 1
+Dev 2
+Dev 3
+
+27 261/29 1
+
+2
+
+3
+
+69.5383
+70.5443
+71.7514
+73.1598
+
+CT1 COMB Comdty
+Open
+73.81
+High
+75.09
+Low
+73.21
+Close
+74.91
+
+4
+
+5 2/8 9
+
+10 11 12 2/16 17 18 19 2/22 23 24 25 2/26 1
+2010
+
+Cotton Daily Continuation, Using KaseRevAmounts to Assess Risk
+
+CT1 COMB
+Warn 2.1683
+Rev 1 3.1743
+Rev 2 4.3814
+Rev 3 5.7898
+
+FIGURE 4.11
+
+2
+
+3
+
+4
+
+5 3/8 9
+
+Kase Rev Amounts
+
+Dev Stops
+
+10
+
+2.571
+2.00
+
+4.00
+3.6423
+
+4.9279
+
+6.4277
+6.00
+
+70
+
+75
+
+78.1722
+
+82.029
+80.9577
+80.21
+79.6721
+
+85
+
+175
+
+Kase StatWareTM and Studies
+
+General Odds of Being Stopped Out
+In addition to predictability in amount, there is a general predictability that
+relates to the percent chance of being stopped out on noise at any particular
+point. The reason for this is that there is a direct relationship between a point
+on a bell curve (number of standard deviations above or below the mean)
+and probability. Placing a stop at the warning line, the average TRD means
+that any two-bar reversal has a 50 percent probability of being stopped out
+on noise. One standard deviation equates to about a 15 percent chance, two
+standard deviations about a 2.5 percent chance, and so forth.
+In an ideal world without skew, or in which all reversals were two-bar
+reversals, the probabilities would be exact. In the real world, though, not
+only are range distributions skewed, the degree of skew is not static. The skew
+itself forms a skewed distribution, and so forth, ad inﬁnitum. Even so, the bell
+curve’s probabilities, corrected for skew as described above, generate a sound
+mathematical basis for estimating the reasonableness of DevStop derivation
+and placements.
+
+Follow-Through Odds of Being Stopped Out
+In addition to statistical estimates of being stopped out on noise, Kase’s
+empirical tests have determined the odds of a given stop being hit or closed
+beyond, based on an earlier stop being hit or closed beyond.
+The studies were run on both daily and weekly data, and have been
+evaluated as a group on the most active futures on over 150,000 bars of data.
+Table 4.1 is a hit-hit table showing the odds of hitting a stop based on an
+earlier stop being hit.
+The table shows that if the warning line is hit, then odds for Dev1 to
+be hit are about 80 percent. If Dev1 is hit, odds for Dev2 being hit are
+80 percent, and so forth. If the warning line is hit, odds are about 45 percent
+TABLE 4.1
+
+DevStop Hit-Hit Table
+
+Hit/Hit
+
+Warn Hit
+
+Dev1 Hit
+
+Dev2 Hit
+
+Warn Hit
+
+X
+
+X
+
+X
+
+Dev1 Hit
+
+80%
+
+X
+
+X
+
+Dev2 Hit
+
+63%
+
+80%
+
+X
+
+Dev3 Hit
+
+45%
+
+55%
+
+70%
+
+176
+
+New Frontiers in Technical Analysis
+TABLE 4.2
+
+Using Kase DevStops as a Forecasting Tool
+
+CL Short
+
+Warn
+
+Dev1
+
+Dev2
+
+Dev3
+
+Daily—M
+
+—
+
+78.4
+
+79.6
+
+81.0
+
+Weekly—M
+
+81.0
+
+83.6
+
+86.1
+
+89.1
+
+for a Dev3 hit. This sort of result can be looked at based on hit following hit,
+hit following close, close following close, and hit following close.
+In addition, the results can be clariﬁed further by looking at a higher
+time frame—for example, daily stops versus weekly stops—when moving
+averages are crossed in the same or opposite directions, and when there is a
+match between daily and weekly stops, such as Dev3 on the daily matching
+with Dev1 on the weekly stop. Used in this way, the DevStops becomes a
+forecasting tool.∗
+For example, if Dev3 daily is $6.00 per mmBtu for May natural gas, and
+the warning line has just been hit, odds are around 45 percent that prices rise
+to $6.00. If the weekly DevStops are in the same direction as the daily, and
+$6.00 shows up as a DevStop on the weekly chart, then the odds increase.
+This sort of information can be especially helpful when trading an intraday
+chart, where moderately sized moves on the daily or weekly charts equate to
+large trades on an intraday level.
+Table 4.2 shows how DevStops were actually used in one of Kase’s weekly
+crude oil forecasts. In this example both the daily and weekly DevStops were
+in the same direction, which increased the odds of stops being hit. Crude oil
+was trading at $77.83 and Dev1 on the daily chart had been hit. Dev3 on
+the daily chart and the warning line on the weekly chart were both $81.0.
+Using the statistical probabilities derived for the historic studies, there was a
+61 percent chance to hit $81.0 and a 55 percent chance to close over $81.0.
+Studies also showed that there was an 80 percent chance to hit $78.4
+(daily Dev1) and a 70 percent chance for $79.6 (daily Dev2). If $81.0 was
+met, the statistical studies show that then the odds increase to hit the weekly
+stops. There would then be a 78 percent, 60 percent, and 12 percent chance
+of meeting $83.6 (weekly Dev1), $86.1 (weekly Dev2), and $89.1 (weekly
+Dev3), respectively. So the stops used in this manner become a powerful
+∗
+
+Tables for hit-hit, hit-close, close-close, and close-hit, and tables that go into detail to describe situations in which the daily and weekly stops overlap, although too lengthy to print
+here, are available at KASE<GO> within Bloomberg Professional or at www.kaseco.com/
+DevStopTables/. The link to the tables is “Kase DevStop Tables” and the password is BOOK.
+
+Kase StatWareTM and Studies
+
+177
+
+forecasting tool that can aid in showing the probabilities of meeting certain
+support or resistance levels in a forecast, and, as discussed further on, in
+shaping trading and exit strategies as well.
+
+Allows for Scaling
+The DevStop is displayed as four substops. The ﬁrst is a “warning line” that is
+used, as the name implies, to warn the user that a turn might be taking place,
+and the other three stops represent the three different standard deviation
+settings described above. So the Kase DevStops consist of the warning line
+and Dev1, Dev2, and Dev3. Under most conditions, Dev3 is used as an
+emergency or passive stop that is always in place, just in case. Dev2 may be
+used in a similar fashion when the market is choppy or when outside events
+are causing price action to become erratic.
+The probabilities can also be used for tailoring stops to risk appetite. For
+example, once the warning line is hit, odds are about 45 percent to hit Dev3.
+So, a user might decide to remove 45 percent of the trade. If Dev1 is hit, the
+odds increase to roughly 55 percent, so the user might at that point decide to
+remove an additional 20 percent.
+In addition to the approaches described above, users might want to exit
+altogether at a closer stop, such as the warning line or Dev1, or accelerate
+stops, for example, using Dev1 as an emergency stop based on danger signs
+and exit signals.
+Kase Momentum Divergence Algorithm
+
+A major signal that is used for exits is “momentum divergence,” and along the
+same lines a key danger sign is a momentum divergence setup. Momentum
+divergence is deﬁned as an equal or higher high in price accompanied by
+a lower or equal high in momentum, or an equal or lower low in price
+accompanied by an equal or higher low in momentum. The latter would
+strictly be called convergence, but the word divergence is generally used for
+both in technical analysis.
+Typical traditional momentum indicators include simple oscillators (momentum), the relative strength index (RSI), the stochastic, and the moving
+average convergence/divergence (MACD) histogram. Usually the user identiﬁes momentum divergence by drawing in lines connecting the price peaks and
+momentum peaks. The Kase Momentum Divergence Algorithm (KaseMDA)
+automatically identiﬁes divergences and draws in proper divergence lines on
+both the price chart and momentum studies.
+
+178
+
+New Frontiers in Technical Analysis
+
+Momentum Study
+Momentum, or simple oscillators, is derived by taking the difference of two moving averages. These can be simple moving averages, weighted moving averages,
+or even exponential moving averages. Momentum studies are usually displayed
+as histograms.
+These studies are very easy to calculate. For instance, when using an oscillator
+based on a 10-period moving average and a 30-period moving average, the
+oscillator is the difference between the two moving averages. The formula for
+momentum is:
+MA N1 − MA N2
+where N 2 > N 1.
+
+Correct and Incorrect Divergence Comparisons
+A key provision in making momentum divergence comparisons is to compare
+highs in rising markets and lows in falling markets. Momentum divergence is
+read the same way on all the indicators as described above. Figure 4.12 shows
+correct versus incorrect momentum divergence comparisons. In this ﬁgure,
+a February 2004 pork belly chart with the slow stochastic is examined. The
+stochastic uses a line, shown in the ﬁgure in black, and called the %K, to
+identify divergence.
+The following is a list of eight momentum comparisons that match the
+numbers in Figure 4.12. The solid black lines show conﬁrmed divergences;
+the dashed lines show correct comparisons between price and momentum, but
+are nondivergent; and the dotted lines show incorrect comparisons between
+price and momentum.
+1. This correct signal shows a higher high in price and a lower high in
+momentum.
+2. Here, the two lows in price are properly compared with two lows in
+momentum, but because the second momentum low is lower than the
+ﬁrst, there is no divergence.
+3. This is a correct divergence in that a lower low in price is matched with a
+higher low in momentum.
+4. As in 2, a correct comparison shows no divergence. Also a new high was
+made between the swing lows, causing a formation called bridging, which
+would also invalidate the divergence.
+
+179
+
+2
+
+1
+
+Sep 30
+
+3
+
+Oct 15
+
+1a
+
+4
+
+Oct 31
+2003
+
+%K
+
+5
+
+Pork Bellies, PBG04, with Momentum Comparisons
+
+Sep 15
+
+Stochastic
+
+FIGURE 4.12
+
+Nov 14
+
+6
+
+Nov 28
+
+Dec 15
+
+8
+
+7
+
+Dec 31
+
+2004
+
+17.6726
+0
+
+50
+
+100
+
+82.000
+
+83.150
+
+84.000
+
+86.000
+
+88.000
+
+90.000
+
+92.000
+
+94.000
+
+180
+
+New Frontiers in Technical Analysis
+
+5. This signal is incorrect because the lows in price are rising, not falling.
+6. This is a correct divergence in that a higher high (however slight) matches
+a lower high in momentum.
+7. This incorrect signal compares falling highs.
+8. The last comparison shown correctly identiﬁes divergence with a lower
+low in price matched by a higher low in momentum.
+
+Stochastic
+The stochastic is a ﬁrst derivative or velocity indicator. It is a measure of closing
+price relative to market range and displays as %K and %D lines, which are plotted
+on a scale of 0 to 100. Two horizontal lines are also usually plotted to represent
+the overbought and oversold levels, usually set at 80 and 20.
+Commonly, there are two versions of the stochastic, a “fast” and “slow”
+stochastic. The fast stochastic uses the fast %K as deﬁned below, with the fast
+%D usually a smoothed, three-period average of fast %K. The more widely used
+slow stochastic uses the fast %D as the slow %K, and a smoothed slow %K as
+the slow %D.
+Fast %K = 100∗ (close—lowestlown )/(close-lowestlown )
+Fast %D = Slow %K = average (fast %K, 3)
+Slow %D = Average (fast %D, 3)
+Note: n is equal to the number of bars over which the stochastic is calculated.
+
+Swing Lows and Highs
+Figure 4.13 shows the momentum study and slow stochastic on the same CT
+continuation daily chart during October and November 2008. On October
+15, a slow stochastic low on the %K was made, followed by lows in both
+price and momentum the following day. On November 12, a lower low in
+price was made with higher lows for momentum on November 11 and the
+stochastic on November 7. Thus valid bullish divergences have taken place.
+In the example, the low bar has a plus sign on it, which, as part of the Kase
+StatWare Candlesticks studies, denotes a Harami star. This Harami star is also
+bullish and indicates a move up may take place. In this instance, given the two
+divergence setups and the candlestick pattern, the stop might be pulled into
+the warning line or a combination of the warning line and Dev1. Then the
+trade would have been exited on the conﬁrming price bar on November 13.
+
+181
+
+Oct 15
+
+Price Oscillator
+
+Oct 22
+
+Oct 31
+
+Nov 7
+2008
+
+Nov 14
+
+Nov 21
+
+Nov 28
+
+-4.00
+
+-2.00
+
+1.1572
+0.00
+
+0
+
+50
+
+100
+82.3394
+
+Stochastic
+
+50
+
+55
+
+60
+
+DevStops
+
+Cotton Daily Continuation, Bullish Divergence on Stochastic and Momentum
+
+44.60
+45
+44.09
+43.00
+41.68
+40.15
+
+FIGURE 4.13
+
+182
+
+New Frontiers in Technical Analysis
+
+As shown in Figure 4.13, for divergence to have occurred, a high or low
+must have been made, or, more precisely, a swing high or low. This means
+that to be identiﬁed as a low, the price bar on October 16 had to be preceded
+and followed by bars with higher lows. A common error is to assume that the
+status on November 12 at which point the price was lower than on October
+16 was that of a completed bullish divergence. In fact the status would be
+considered one of a “setup,” generating a danger sign, but not an exit signal.
+Only on November 13, when a higher low was made, conﬁrming the bar on
+November 12 as a low, would the divergence have been complete. KaseSwing
+is embedded into the KaseMDA to properly identify swing highs and lows,
+and does not have to be added by the user as it is automatically incorporated
+in the signals. Even so, as discussed earlier, it may be displayed as a separate
+study at the user’s discretion.
+Date>
+Price
+Stochastic
+Momentum
+
+First Low
+10/16
+10/15
+10/16
+
+Second Low
+11/12
+11/07
+11/11
+
+Tolerance and Plateaus
+In Figure 4.13, the stochastic conﬁrmed three bars before the price conﬁrmed,
+that is, the stochastic low took place three bars before the price low. So the bar
+tolerance for the match between the peak in price and in momentum must
+be addressed in identifying divergence as well in employing the KaseMDA.
+This issue, relating to peaks in divergence identiﬁcation, is shown by the
+arrow 1a, identiﬁed the correct divergence labeled 1 in Figure 4.12. Peaks in
+price and momentum don’t always match up exactly, so it is a good idea to
+allow the peaks to be off by a couple of bars. In “1,” a close look will reveal
+that the second peak on the momentum indicator came one bar before the
+peak on the price. The opposite phenomenon also sometimes takes place,
+with the peak on the momentum indicator coming one bar after the peak on
+price. If the price or momentum peak is only off by one bar, the divergence is
+valid. However, if a divergence is off by four or ﬁve bars, the divergence does
+not count.
+Kase research shows that a tolerance of two or three is generally allowable.
+Less than two requires excessive precision, while a tolerance of more than four
+allows for too many inaccurate divergence signals.
+
+Kase StatWareTM and Studies
+
+183
+
+In addition, as shown in Figure 4.13, lows or highs can form plateaus of
+multiple bars. Normally, if a chart is generating plateaus of more than three
+bars, then the bar length might be too low. In any case, KaseMDA properly
+counts tolerance bars and considers plateaus when deﬁning swing highs
+and lows.
+
+Null Divergence
+Whenever a peak in momentum precedes a peak in price there is a risk that
+the divergence will be nulliﬁed before conﬁrming. Looking again at arrow 1a
+on Figure 4.12, the peak on momentum came one bar early; thus while the
+price was in the process of forming its peak one bar later, the momentum
+indicator could have turned back up and risen above its previous high, which
+is marked by the horizontal dashed line. If that had happened, the divergence
+would have been invalid or “null.” The same principle is true in reverse, that
+is, in the case when the price peaks one bar early. As the momentum peak
+forms, it may be invalidated by the price falling below the second swing low.
+Now let’s look at Figure 4.14, which shows an example of null divergence.
+As noted by the ﬁrst arrow 1, on July 1, the ﬁrst valid momentum low peak
+was one bar after the price low peak and formed a valid price/momentum
+pair. On July 13, a valid price low took place, arrow 2, followed by a low in
+momentum the following day. There must always be a bar following a low
+or high to show that it was actually a peak (as opposed to a new low or high
+following the bar tentatively thought to be a peak). Thus, on July 15 as the
+momentum turned higher, which conﬁrmed the low peak in momentum,
+prices make a new low (see arrow 3), invalidating the previous price low and
+nullifying a divergence, which would have been drawn to the July 13 price
+and July 14 momentum lows, as shown.

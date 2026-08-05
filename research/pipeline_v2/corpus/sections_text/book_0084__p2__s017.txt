@@ -1,0 +1,353 @@
+
+37. CONSENSUS AND COMMITMENT INDICATORS
+
+147
+
+It is not enough to know whether a certain group is short or long. Commercials
+often short futures because many of them own physical commodities. Small traders
+are usually long, reflecting their perennial optimism. To draw valid conclusions from
+the CFTC reports, you need to compare current positions to their historical norms.
+
+Legal Insider Trading
+Officers and investors who hold more than 5 percent of the shares in a publicly
+traded company must report their buying and selling to the Securities and Exchange
+Commission. The SEC tabulates insider purchases and sales, and releases this data to
+the public.
+Corporate insiders have a long record of buying stocks when they’re cheap and
+selling them high. Insider buying emerges after severe market drops, and insider selling accelerates when the market rallies and becomes overpriced.
+Buying or selling by a single insider matters little: an executive may sell shares
+to meet major personal expenses or he may buy them to exercise stock options.
+Analysts who researched legal insider trading found that insider buying or selling
+was meaningful only if more than three executives or large stockholders bought or
+sold within a month. These actions reveal that something very positive or negative is
+about to happen. A stock is likely to rise if three insiders buy in one month and to fall
+if three insiders sell within a month.
+Clusters of insider buying tend to have a better predictive value than clusters of
+selling. That’s because insiders are willing to sell a stock for many reasons (diversification, buying a second home, sending a kid to college) but they are willing to buy
+for one main reason—they expect their company’s stock to go up.
+
+Short Interest
+While the numbers of futures and options contracts held long and short is equal
+by definition, in the stock market there is always a huge disparity between the two
+camps. Most people, including professional fund managers, buy stocks, but very few
+sell them short.
+Among the data reported by exchanges is the number of shares being held short
+for any stock. Since the absolute numbers vary a great deal, it pays to put them into
+a perspective by comparing the number of shares held short to that stock’s float (the
+total number of publicly owned shares available for trading). This number, “Short
+Percent of Float,” tends to run about one or two percent. Another useful way to
+look at short interest is by comparing it to the average daily volume. By doing this,
+we ask a hypothetical question: if all shorts decided to cover, while all other buyers
+stood aside and daily volume remained unchanged, how many days would it take for
+them to cover and bring short interest down to zero? This “Days to Cover” number
+normally oscillates between one and two days.
+When planning to buy or short a stock, it pays to check its Short Percent of Float
+and Days to Cover. If those are high, they show that the bearish side is overcrowded.
+
+148
+
+GENERAL MARKET INDICATORS
+
+FIGURE 37.2â•… AAPL and GMCR shorting data. (Source: Shortsqueeze.com)
+
+Short Interest and Days to Cover
+Compare short interest data for two popular stocks on the day I’m editing this chapter.
+“Short Percent of Float” is 1.86% for Apple, Inc. (AAPL), but nearly 26% for Green Mountain Coffee Roasters, Inc. (GMCR). “Days to Cover” are 0.9 for AAPL but over 15 for GMCR.
+These numbers reflect much more aggressive shorting of GMCR. Not to forget, each and
+every one of those shorts at some point will need to buy in order to cover his short position.
+Perhaps savvy shorts know something very bad about GMCR, but what if its stock rallies even a little? Many bears will run for cover, and as they scramble to cover shorts, the
+stock may soar. Whatever its long-term prospects, it could be sent flying in the near term.
+
+A rally may scare those bears into panicky covering, and send the stock sharply higher.
+That would be good for bulls but bad for bears.
+Fear is a stronger emotion than greed. Bulls may look for bargains but try not to
+overpay, while squeezed bears, facing unlimited losses, will pay any price to cover.
+That’s why short-covering rallies tend to be especially sharp.
+Whenever you look for a stock to buy, check its Short Percent of Float and Days
+to Cover. The usual, normal readings don’t provide any great information, but the
+deviations from the norm often deliver useful insights (Figure 37.2).
+High shorting numbers mark any stock as a dangerous short. By extension, if your
+indicators suggest buying a stock, its high short interest becomes an additional positive factor—there is more fuel for a rally. It makes sense for swing traders to include
+the data on shorting when selecting which of several stocks to buy or sell short.
+I always review these numbers when working up a potential trade.
+
+Get More Forex Books + Secrets at http://forexfinest.com
+
+PA R T 7
+
+Trading Systems
+
+A
+
+system is a set of rules for finding, entering, and exiting trades. Every serious
+trader has one or more systems. Compare this to a surgeon who has systems
+for performing operations. He doesn’t waste time and energy deciding whether to
+order anesthesia, where to make the cut, or how to find the sick organ. He follows a
+well-established routine, which leaves him free to think about strategic issues, finesse
+his technique, or deal with any complications.
+Some people use strictly defined systems that leave very little room for personal
+judgment—we call them mechanical traders. Others use systems that leave plenty
+of room for personal decisions—we call them discretionary traders. There is a very
+thoughtful discussion on matching one’s personality type to various trading styles in
+Richard Weissman’s book Mechanical Trading Systems. Whatever approach you take,
+the key advantage of any system is that you design it when the markets are closed
+and you feel calm. A system becomes your anchor of rational behavior amidst the
+turbulence of the market.
+It goes without saying that a proper system is written down. This needs to be
+done because it’s easy to forget some essential steps when stressed by live markets.
+Dr. Atul Gawande in his remarkable book The Checklist Manifesto makes a convincing
+case for using checklists to raise performance levels in a large variety of demanding
+endeavors, from surgery and construction to trading.
+A mechanical trader develops a set of rules, back-tests them on historical data,
+
+and then puts his system on autopilot. Going forward, his software starts flashing
+orders for entries, target, and stops, and a mechanical trader is supposed to
+149
+
+150
+
+TRADING SYSTEMS
+
+place them exactly as shown. Whether he’ll stick to his plan or attempt to tweak
+or override those signals is another story, but that’s how the system is supposed
+to work.
+An amateur feels relieved that a mechanical system, either his own or purchased
+from a vendor, will relieve him from the stress of decision making. Unfortunately,
+market conditions keep changing, and mechanical systems eventually get out of gear
+and start losing money. The market is not a mechanical entity that follows the laws
+of physics. It is a huge crowd of people acting in accordance with imperfect laws of
+mass psychology. Mechanical methods can help, but trading decisions must take psychology into account.
+A professional trader with a mechanical system continues to monitor its performance like a hawk. He knows the difference between a normal drawdown and a
+period when a system goes out of gear and has to be shelved. A professional trader
+can afford to use a mechanical system precisely because he is capable of discretionary trading! A mechanical system is an action plan, but some degree of judgment is
+always required, even with the best and most reliable plans.
+A discretionary trader approaches each day in the markets afresh. He tends to
+
+examine more factors than a mechanical trader, weigh them differently at different
+times, and be more attuned to changes in current market behavior. A good discretionary system, while giving you plenty of freedom, includes several inviolate rules,
+especially in the area of risk management.
+Both approaches have pluses and minuses. On the plus side, mechanical trading
+can be less emotionally tense. You build your system, turn it on, and go about your
+life without watching every tick. On the minus side, these living and breathing markets have a sneaky way of changing their tunes and behaving differently from how
+they did when you built your system.
+The main plus of discretionary trading is the openness to fresh opportunities. Its
+biggest minus is that people’s judgment tends to slip under stress, when they become
+excited by greed or frightened by sharp moves.
+In my experience, mechanical traders tend to deliver more steady results, but the
+most successful traders use discretionary methods.Your choice is likely to depend on
+your temperament.That’s how we make some of our most important decisions in life—
+where to live, what career to pursue, whom to marry. Our key choices stem from the
+innermost core of our personalities rather than rational thought. In trading, cooler
+and more obsessional people tend to gravitate toward mechanical trading, while the
+more swashbuckling types turn to discretionary trading.
+Paradoxically, at the high end of performance, these two approaches begin to
+converge. Advanced traders combine mechanical and discretionary methods. For example, a friend who is a died-in-the-wool mechanical trader uses three systems in
+his hedge fund but keeps rebalancing capital allocated to each of them. He shifts millions of dollars from System A to System B or C, and back again. In other words, his
+discretionary decisions augment his systematic trading. I am a discretionary trader,
+but follow several strict rules that prohibit me from buying above the upper channel
+Get More Forex Books + Secrets at http://forexfinest.com
+
+38. SYSTEM TESTING, PAPER TRADING, AND THE THREE KEY DEMANDS FOR EVERY TRADE
+
+151
+
+line, shorting below the lower channel line, or putting on trades against the Impulse
+system (described below). These mechanical rules reduce the number of bad discretionary trades.
+Much of this book deals with discretionary trading, but you can use the tools
+described in it for mechanical trading. I wrote this book to help both types of
+traders.
+
+■■38. System Testing, Paper Trading, and
+
+the Three Key Demands for Every Trade
+
+Before trading real money with a system, you need to test it, whether you developed
+it yourself or bought it from a vendor. This can be done in one of two ways. One is
+backtesting: apply your system’s rules to a stretch of historical data, usually several
+years’ worth. The other is forward-testing: trade small positions with real money.
+Serious traders begin with backtesting, and if its results look good, switch to forward-testing; if that works well, they gradually increase position size.
+Looking at printouts of historical results is a nice start, but don’t let good numbers lull you into a false sense of security. The profit-loss ratio, the longest winning
+and losing streaks, the maximum drawdown, and other parameters may appear
+objective, but past results don’t guarantee the system will hold up in the real world
+of trading.
+You may see a very nice printout, but what if, once you begin to trade real money,
+that system delivers five losses in a row? Nothing in your paper testing will have prepared you for that, but it happens all the time.You grit your teeth and put on another
+trade. Another loss.Your drawdown is deepening, and then the system flashes a new
+signal. Will you put on the next trade? Suddenly, an impressive printout looks like a
+very thin reed on which to hang the future of your account.
+There is a cottage industry of programmers who back-test systems for a fee. Some
+traders, too suspicious to disclose their “sure-fire methods,” spend months learning
+to use testing software. In the end, only one kind of backtesting prepares you to
+trade—manual testing. It is slow, time-consuming, and cannot be automated, but
+it’s the only method that comes close to modeling real decision making. It consists
+of going through historical data one day at a time, scrupulously writing down your
+trading signals for the day ahead, and then clicking one bar forward and recording
+new signals and trades for the next day.
+Begin by downloading daily price and volume data for your trading vehicle for a
+minimum of two years (for futures you may use continuous contracts). Open a chart
+and, without looking, swing immediately to its very beginning. Open your spreadsheet, write down your system’s rules at the top of the page, and create columns for
+dates, prices, and signals. Open two windows in your analytic program—one for
+your weekly chart and its indicators, the other for the daily chart. The two most important keyboard keys for testing are <Alt> and <Tab> because they let you switch
+between windows and programs.
+
+152
+
+TRADING SYSTEMS
+
+As you click forward, one day at a time, trends and trading ranges will slowly
+unfold and challenge you. At that point, you’ll be doing much more than testing a set
+of rules. Moving ahead one day at a time will test and improve your decision-making
+skills. This one-bar-at-a-time testing is vastly superior to what you can get from
+backtesting software.
+How will you deal with gap openings, when the market leaps above your buy level
+or drops below your stop at the opening bell? What about limit moves in futures?
+Clicking forward one day at a time and writing down your signals and decisions will
+get you as close to real trading as you can without risking cash. It’ll keep you focused
+on the raw right edge of the market. You’ll never get that from a neat printout of
+a system test. Manual testing will improve your ability not only to understand the
+markets but to make decisions.
+If one-bar-at-a-time testing shows positive results, start trading small positions
+with real money. These days, with brokerage commissions as low as $1 for buying
+or selling 100 shares, you can test your indicators and systems while risking tiny
+amounts. Be sure to keep good records, and if your real-money results continue
+positive, start increasing the size of your trades. Do it in steps, all the way up to your
+normal trade size.
+
+Paper Trading
+Paper trading means recording your buy and sell decisions and tracking them like
+real trades, but with no money at risk. Beginners may start out paper trading, but
+most people turn to it after getting beat up by the markets. Some even alternate between real and paper trades and can’t understand why they seem to make money on
+paper but lose whenever they put on a real trade. There are three reasons.
+First, people are less emotional with paper trades, and good decisions are
+easier to make with no money at risk. Second, in paper trades, you always get
+perfect fills, unlike real trading. Third and most important, good trades often
+look murky when you consider them. The easy-looking ones are more likely to
+lead to problems. A nervous beginner jumps into obvious-looking trades and loses money, but paper trades the more challenging ones. It goes without saying that
+hopping between real and paper trades is sheer nonsense. You either do the one or
+the other.
+Psychology plays a huge role in how your trades turn out, and that’s where paper
+trading fails to deliver. Pretend-trading with no money at risk is like sailing on a
+pond—it does little to prepare you for real sailing on a stormy sea.
+There is only one good reason to paper trade—to test your discipline as well as
+your system.
+If you can download your data at the end of each day, do your homework, write
+down your orders for the day ahead, watch the opening and record your entries,
+then track your market each day, adjusting your profit targets and stops—if you can
+do all of this for several months in a row, recording your actions, without skipping
+a day—then you have the discipline to trade real money. An impulsive person who
+Get More Forex Books + Secrets at http://forexfinest.com
+
+38. SYSTEM TESTING, PAPER TRADING, AND THE THREE KEY DEMANDS FOR EVERY TRADE
+
+153
+
+trades for entertainment will not be able to paper trade that way because it requires
+real work.
+You may open an account with one of several websites set up for paper trading.
+Enter your orders, check whether they have been triggered, and write down those
+“fills.” Enter all paper trades in your spreadsheet and your trading diary. If you have
+the willpower to repeat this process daily for several months, then you have the discipline for successful real trading.
+Still, there is no substitute for trading real money because even small amounts rev
+up emotions more than any paper trade. You’ll learn much more from even small
+real trades than from months of paper trading.
+In recent years, I’ve had a front row seat watching traders progress from paper
+trading to profitable real-money trading. In SpikeTrade.com, we reduce fees for
+members who contribute picks, creating an incentive to do homework. The discipline of submitting a weekly trade plan with entry, target, and stop gets people
+into the habit of being organized and focused. As their picks improve, they start
+earning performance bonuses in our weekly competition. At that point, I may receive an e-mail saying that while they’re doing well in the competition, their private
+trading lags behind. I tell them they’re on the right track and to continue what
+they’re doing. Sure enough, several months later their new skills migrate into real
+trading. Now they may write that their private trading is better than their performance in the competition. Sure—I reply—it’s because you pay more attention to
+real-money trades!
+Speaking of trade setups, it’s essential to write down all relevant numbers before
+you enter a trade.You’re more objective before you put any money at risk; once in a
+trade, you’ll be tempted to give it “more room to run.” That’s how losers turn small
+drawdowns into disasters. I once consulted a man who refused to take a $200 loss
+until it ran into a $98,000 wipeout.
+We’ll focus on risk and money management in a later chapter when I discuss the
+concept of â•›“The Iron Triangle of risk control.” At this point, I only want to make
+clear that risk management is the essential part of serious trading. Forget the days
+when you would look at the ceiling and say, “I’ll trade 500 shares,” “I’ll trade a thousand shares,” or any other arbitrary number. Later in this book, you’ll learn a simple
+formula for sizing your trades, based on your account and risk tolerance.
+At the time of this writing, I have three strategies that I trade. My favorite is a false
+breakout with a divergence. My second choice is a pullback to value during a powerful trend—that’s the strategy of the trade shown on the screen (Figure 38.1). Last, I
+occasionally “fade an extreme”—bet on a reversal of an overstretched trend. Each of
+these strategies has its rules, but the key point is this—I’ll only take a trade that fits
+one of them. No chasing of random cars for this old dog!
+
+Three Key Demands for Every Trade
+There are three essential angles that must be considered for every planned trade.
+We’ll briefly review them here and then elaborate in the chapters on specific trading
+
+154
+
+TRADING SYSTEMS
+
+A
+A
+B
+
+C
+
+FIGURE 38.1â•… Three key demands for every planned trade.(Source: SpikeTrade.com)
+
+This is a screenshot of a trade plan I drew several days prior to writing this chapter (you
+can see how I implemented it in Chapter 55). Notice several essential features that belong
+in every trade plan:
+A. Trade setup—write down the three key numbers for every trade: your entry, target,
+and stop. Before entering the market you need to decide how much you’ll pay, how
+much you’ll risk, and how much you expect to gain. The ratio of potential reward
+to risk should normally be better than two to one. The only time to deviate from
+this rule is when technical signals are especially strong. Of course, don’t fudge your
+target to turn a borderline trade into an acceptable one. Your target needs to be
+realistic.
+B. Risk management—decide in advance how many dollars you’re prepared to risk on
+this trade. Divide that amount by your risk per share—the distance from your entry to
+your stop. This will give you the number of shares you may trade.
+C. Last but not least, every single trade must be based on a specific system or strategy.
+“It looks good to me” isn’t a system! It’s easy to become excited after hearing a stock
+tip or seeing a runaway trend, but the days of chasing stocks like a pup chases cars
+are over. If you want to trade for a living, you need to define your trade plans, strategies, or systems—call them what you like—and enter only those trades that fit their
+criteria.
+
+systems and risk management. The discipline of these three demands is essential for
+anyone serious about trading.
+
+■■39. Triple Screen Trading System
+I developed this system and first presented it to the public in an April 1986 article
+in Futures magazine. I’ve been using it for trading since 1985, and it stood the test of
+time. I continue to tweak it, adding or changing minor features, but its basic principle remains unchanged: making trading decisions using a sequence of timeframes
+and indicators.
+Get More Forex Books + Secrets at http://forexfinest.com
+
+39. TRIPLE SCREEN TRADING SYSTEM
+
+155
+
+Triple Screen applies three tests or screens to every trade. Many trades that seem
+attractive at first are rejected by one or another screen.The trades that pass the Triple
+Screen test are much more likely to succeed.
+The Triple Screen combines trend-following indicators on long-term charts with
+counter-trend oscillators on the intermediate charts. It uses special entry techniques
+for buying or selling short as well as tight money management rules. The Triple
+Screen is more than a trading system: it is a method, a style of trading.
+
+Trend-Following Indicators and Oscillators
+Beginners often look for a magic bullet—a single indicator for making money. If
+they get lucky for a while, they feel as if they discovered the royal road to riches.
+When the magic dies, amateurs give back their profits with interest and look for another magic tool.The markets are too complex to be analyzed with a single indicator.
+Different indicators give contradictory signals in the same market.Trend-following
+indicators rise during uptrends and give buy signals, while oscillators become overbought and give sell signals. Trend-following indicators turn down in downtrends and
+give signals to sell short but oscillators become oversold and give buy signals.
+Trend-following indicators are profitable when markets are moving but lead to
+whipsaws in trading ranges. Oscillators are profitable in trading ranges, but give
+premature and dangerous signals when the markets begin to trend. Traders say: “The
+trend is your friend,” and “Let your profits run.” They also say: “Buy low, sell high.”
+But why sell if the trend is up? And how high is high?
+Some traders try to average out the signals of trend-following indicators and oscillators, but those votes are easy to rig. Just as Republicans and Democrats in the United
+States keep redrawing electoral districts to create “safe” seats, traders keep selecting
+indicators that deliver the votes they want to see. If you use more trend-following
+tools, the vote will go one way, and if you use more oscillators, it’ll go the other way.
+A trader can always find a group of indicators telling him what he wants to hear.
+The Triple Screen trading system is designed to filter out the disadvantages of
+trend-following indicators and oscillators, while preserving their strengths.

@@ -1,0 +1,352 @@
+
+Reducing arbitrage opportunities:
+High-frequency trading
+Most of the large brokerage firms and many large hedge funds have invested
+crazy amounts of time and money to develop high-frequency and algorithmic
+trading strategies. These strategies use computer programs that control billions of dollars and make extremely short-term trades — sometimes holding
+only for seconds — whenever the programs spot short-term discrepancies in
+the market. In some ways, this practice has made the market more efficient,
+because these program traders fix prices that are out of whack in no time. But
+they have also added to volatility, sometimes due to program glitches and sometimes because the trades go on even when they shouldn’t, because no human is
+there to stop them. In fact, many observers of the market microstructure, which
+is the underlying trading environment, think that the amount of high-frequency
+and algorithmic trading has reduced efficiency. They see evidence that the
+larger number of market participants have led to knee-jerk reactions when
+
+Chapter 10: Navigating the Tricky World of Arbitrage and High-Risk Trading
+different programs malfunction or entire systems fail. The downside for the day
+trader is that these programs have eliminated many arbitrage opportunities that
+once made up the bread and butter of many a trader’s earnings.
+
+Scalping, the Dangerous Game
+The law of one price is all well and good, but prices change constantly during
+the day. They go up a little bit, they go down a little bit, and they move every
+time an order is placed.
+Once upon a time, day traders could profit from these movements. The
+process, known as scalping, is not exactly arbitrage. Especially active in
+commodities markets, scalpers look to take advantage of changes in a security’s bid-ask spread. This spread is the difference between the price that a
+broker will buy a security for from those who want to sell it (the bid) and the
+price that the broker will charge those who want to buy it (the ask — also
+called the offer in some markets).
+In normal trading, the bid-ask spread tends to be more or less steady over
+time because the usual flow of supply and demand stays in balance. After
+all, under market efficiency, everyone has the same information, so their
+trading is consistent and allows the broker-dealers to generate a steady
+profit. Sometimes, however, the spread is a little wider or narrower than
+normal, not because of a change in the information in the market but because
+of short-term imbalances in supply and demand.
+A basic scalping strategy looks like this:
+✓ If the spread between the bid and the ask is wider than usual, the ask
+is higher and the bid is lower than it should be. That’s because slightly
+more people want to buy than to sell, so the brokers charge the buyers
+higher prices. The scalper uses this as a sign to sell.
+✓ If the spread between the bid and the ask is narrower than usual, the
+ask is lower and the bid is higher than it would normally be. This situation occurs when sellers slightly outnumber buyers and the broker
+wants to find buyers to pick up the slack. The scalper would be in there
+buying — and hoping that the selling pressure is short lived.
+The scalper has to work quickly to make many small trades. He may buy at
+$20.25, sell at $20.50, and buy again at $20.30. He has to have a low trade cost
+structure in place (discussed later in this chapter) or else he’ll pay out all his
+profits and more to the broker. He also has to be sure that the price changes
+aren’t driven by real information, because that makes market prices too volatile to make scalping profitable. Scalping is akin to “picking up nickels in front
+of a steamroller,” some traders say, because of the risk of focusing on small
+price changes when bigger changes are underway.
+
+181
+
+182 Part II: Exploring Popular Day-Trading Strategies
+For years, scalping was a common day-trading strategy. It was always tricky
+business, given how quickly prices could move within a trend. With the presence of so many high-frequency traders, scalping has become downright dangerous, if not impossible. High-frequency traders can and will move before you
+can. Nowadays, scalping is like picking up pennies as steamrollers come at
+you from all sides.
+Scalping, as defined here, is perfectly legal. However, the word is also used
+to describe some illegal activities, such as promoting a security in public and
+then selling it in private. (Another term for this is pump and dump.) If a celebrity goes on his Twitter feed and talks about how great a stock is so that the
+price goes up and then he sells the stock the next day when everyone else is
+buying, he has committed the crime of scalping.
+
+Those Pesky Transaction Costs
+Pure arbitrage works best in a world where trading is free. In reality, trading
+costs good money. Sometimes you may notice a price discrepancy that seems
+to last forever, but you can’t work it because the profit wouldn’t cover your
+costs. And that actually may be true for everyone else out there.
+In the real world, trading costs money. Consider all the costs of getting
+started: buying equipment, paying for Internet access, learning how to trade.
+Add to those costs the costs of doing business that vary with each transaction: commissions, fees, interest, the bid-ask spread, and taxes. You don’t
+make a profit on a trade unless it covers those costs.
+Even if you work with a broker who charges little or no commission and even
+if your broker charges no interest on day trading margin (loans against your
+securities account), you can bet that your broker is making money off you.
+That broker’s profit is showing up in the spread and the speed of execution,
+so arbitrage still has a cost that must be covered, even on a seemingly free
+account. Trust me, brokerage firms are in business to make money, whether or
+not their customers do.
+Add up those trading costs, and you can find yourself in a frustrating situation: You can see the opportunity staring you in the face, but you can’t take
+it. So the opportunity either sits there, taunting you, or it gets picked off by a
+trader who has lower costs than you do.
+Does that mean you’re out of luck? Not at all. If you know what your costs are,
+you can avoid unprofitable opportunities and take advantage of profitable
+ones. When determining how much you have to clear, don’t consider your
+fixed costs, like your office and your equipment. Those expenses don’t change
+
+Chapter 10: Navigating the Tricky World of Arbitrage and High-Risk Trading
+with any given trade. (Yes, you have to cover them in the long run to stay in
+business, but you can ignore them in the short run.) Instead, figure out how
+much money you give to your broker on any given trade, on an order, per
+share, or per contract basis. Write that number down on a sticky note and put
+it on your monitor so that you remember what you have to clear before you
+risk a trade. Then don’t get so fixated on covering your costs that you avoid
+exiting trades at the right time.
+
+Risk Arbitrage and Its Tools
+In its purest form, arbitrage is riskless because the purchase of an asset in
+one market and the sale of the asset in another happen simultaneously —
+you just let those profits flow right into your account. This situation does
+occur, but not often, and not in a way that lets most day traders compete
+with algorithmic traders.
+Because so few opportunities for true arbitrage exist, most day traders looking at arbitrage strategies actually practice risk arbitrage. Like true arbitrage,
+risk arbitrage attempts to generate profits from price discrepancies, but like
+the name implies, risk arbitrage involves taking some risk. Yes, you buy one
+security and sell another in risk arbitrage, but it’s not always the same security and not always at the same time. For example, a day trader may buy the
+stock of an acquisition target and sell the stock of an acquirer in the hopes of
+making a profit as the deal nears the closing date.
+Risk arbitrage usually involves strategies that unfold over time — possibly
+hours, but usually days or weeks. Pursuing these strategies puts you into the
+world of swing trading (described in Chapter 2), which carries a different set
+of risks than day trading.
+In risk arbitrage, a trader is buying and selling similar securities. Much of the
+risk draws from the fact that the securities are not identical, so the law of
+one price isn’t absolute. Nevertheless, it forms the guiding principle, which
+is this: If you have two different ways to buy the same thing, then the prices
+of each purchase should be proportional. If the prices aren’t proportional,
+there’s an opportunity to make money. And what day trader doesn’t want to
+make money?
+Return is a function of risk. The more risk you take, the greater the return you
+expect to make.
+Arbitrageurs use a mix of different assets and techniques to create these different ways of buying the same thing. The following sections describe some
+of their favorites.
+
+183
+
+184 Part II: Exploring Popular Day-Trading Strategies
+Arbitrating derivatives
+Derivatives are options, futures, and related financial contracts that draw or
+derive their value from the value of something else, such as the price of a
+stock index or the current cost of corn. Derivatives offer a lower-cost, lowerobligation method of getting exposure to certain price changes. In the case of
+agricultural and energy commodities, derivatives are the only practical way
+for a day trader to own them. Because they are so closely tied to the value of
+the underlying security, derivatives form a useful, almost-but-not-quite asset
+for traders looking for arbitrage situations. A trader may see a price discrepancy between the derivative and the underlying asset, thus noticing a
+profitable trading opportunity.
+Using a derivative in tandem with its underlying security, traders can construct a range of risk arbitrage trades (and you can read more about them
+later in this section). For example, a trader looking to set up arbitrage on a
+merger could trade options on the stocks of the buying and selling companies rather than trading the stocks themselves. The more arbitrage opportunities there are, the greater the likelihood of making a low-risk profit.
+
+Levering with leverage
+Leverage is the process of borrowing money to trade in order to increase
+potential returns. The more money the trader borrows, the greater the return
+on capital that she can earn. Leverage is commonly used by day traders,
+because most trades with a one-day time horizon carry low returns unless
+they are magnified through borrowing. (Go to Chapter 9 for detailed coverage
+of leverage.)
+That magic of magnification becomes especially important in arbitrage,
+because the price discrepancies between securities tend to be really small.
+The primary way to get a bigger return is to borrow money to do it.
+Leverage has a downside: Along with improving returns, it increases risk.
+Because even risk arbitrage strategies tend to have low risk, the risk associated with leverage may be acceptable. Just remember that you have to repay
+all borrowed money, no matter what happens to prices. Chapter 9 has more
+information on that.
+
+Short selling
+Short selling (another topic from Chapter 9) creates another set of alternatives for setting up an arbitrage trade — one that’s almost necessary to the
+process. Short selling allows a day trader to profit when a security’s price
+
+Chapter 10: Navigating the Tricky World of Arbitrage and High-Risk Trading
+goes down. The short seller goes to her broker, borrows the security that
+she thinks will decline in price, sells it, and then buys it back in the market
+later so that she has the shares to repay the loan. In essence, the trader is
+selling high (with borrowed money) and buying back low. Assuming she’s
+right and the price does indeed fall, she pockets the difference between the
+price where she sold the security and the price where she bought it back. Of
+course, that difference is her loss if the price goes up instead of down. The
+arbitrageur can use this to bet on assets that are likely to go down in price
+when another asset goes up.
+By adding short selling to the bag of tricks, an arbitrageur can find a lot more
+ways to profit from a price discrepancy in the market. New combinations of
+cheap and expensive assets — and more ways to trade them — give a day
+trader more opportunities to make trades during the day.
+
+Creating synthetic securities
+Feeling creative? Well, then, consider creating synthetic securities when looking for arbitrage opportunities. A synthetic security is a combination of assets
+that have the same profit-and-loss profile as another asset or group of assets.
+For example, a stock is a combination of a short put option, which has value
+if the stock goes down in price, and a long call option, which has value if the
+stock goes up in price. By thinking up ways to mimic the behavior of an asset
+through a synthetic security, a day trader can find more ways for an asset to
+be cheaper in one market than in another, leading to more potential arbitrage
+opportunities.
+A typical arbitrage transaction involving a synthetic security, for example,
+involves shorting the real security and then buying a package of derivatives
+that match its risk and return. Many of the risk-arbitrage techniques covered
+later in this chapter involve the creation of synthetic securities.
+Complex arbitrage trading strategies require more testing and simulation
+trading (covered in Chapter 16) and may possibly involve losses while you
+fine-tune your methods. Be sure you feel comfortable with your trading
+method before you commit big time and big dollars to it.
+
+Arbitrage Strategies for Day Traders
+You can use the tools of arbitrage — derivatives, leverage, short selling,
+synthetic securities — in all sorts of ways to generate potentially profitable
+trades, and that’s what this section of the chapter covers. If you decide to
+do arbitrage, you may discover a few useful strategies to follow. Beware of
+
+185
+
+186 Part II: Exploring Popular Day-Trading Strategies
+picking too many: The trader who tries to do too much is the trader who will
+soon be looking for a new job! Instead, look for an arbitrage strategy that
+matches your approach to the market and make it your own.
+The varieties of arbitrage transactions are listed here in alphabetical order.
+Some are more complex than others, some generate more opportunities than
+others, and some work best if you are willing to swing trade (hold for a few
+days) rather than day trade (close out all positions at the end of the day).
+Keep in mind that this list is not exhaustive; you can find plenty of other
+ways to exploit price differences in the market, but some involve more time
+than a day trader is willing to commit.
+Many arbitrage strategies work best in combination with other strategies,
+such as news-driven trading (discussed in Chapter 8). For example, a news
+announcement may cause people to pay attention to a company’s stock,
+resulting in enough trading activity that day to close a price gap. If you know
+about the pricing problem ahead of time, you can swoop in and make the
+arbitrage that day.
+Other types of arbitrage are certainly out there. Wherever people pay close
+attention to the markets and price changes, they find small price differences to
+turn into large, low-risk profits. If you think you’ve found an arbitrage strategy
+not listed here, by all means, go and test it to see whether it will work for you.
+
+Convertible arbitrage
+As part of designing their capital structure, some companies issue convertible bonds (sometimes called a convertible debenture) or convertible preferred
+stock. These securities are a cross between stocks and bonds. Like an ordinary bond, convertibles pay regular income to those who hold them (interest
+for convertible bonds and dividends for convertible preferred stock), but
+they also act a little like stock because the holders have the right to exchange
+the convertible security for ordinary common stock.
+Here’s an example: A $1,000 convertible bond pays 7.5 percent interest and is
+convertible into 25 shares of stock. If the stock is less than $40 per share, the
+convertible holder will prefer to cash the interest or dividend checks. If the
+company’s stock trades above $40, the convertible holder would make more
+money giving up the income in order to get the stock cheap. Because of the
+benefit of conversion, the interest rate on a convertible security is usually
+below that on a regular corporate bond.
+
+Chapter 10: Navigating the Tricky World of Arbitrage and High-Risk Trading
+Because a convertible security carries a built-in option to buy the underlying
+stock, it generally trades in line with the stock. If the convertible’s price gets
+too high or too low, then an arbitrage opportunity presents itself.
+Consider this case: A day trader notices that a convertible bond is selling at a
+lower price than it should be, given the current level of interest rates and the
+price of the company’s common stock. So he buys the convertibles and sells the
+common stock short (see Chapter 9 for more on short selling). When the stock’s
+price moves back into line, he collects a profit from both sides of the trade.
+
+ETF arbitrage
+An exchange-traded fund, or ETF, is a security based on a stock market index.
+It may be a recognized index or one that has been invented by the company
+that created the ETF to track a particular investment strategy.
+ETFs have been designed with a built-in mechanism to keep the price of the
+funds in line with the underlying securities. A typical ETF has two classes of
+shareholders. The first are authorized participants, which are large trading
+firms that agree to buy the securities in the ETF. The authorized participants
+then give the securities to the ETF company in exchange for creation units,
+which are shares of the fund that the authorized participant can hold, sell
+on the open market, or trade back to the ETF company for the shares. The
+authorized participant will do whatever had the greatest profit potential,
+some built-in arbitrage designed to keep the ETF’s value in line for the second
+class of shareholders, the regular ETF traders.
+Despite this mechanism, an ETF’s value may swing out of line with the underlying index or the underlying fundamentals of the sector that it represents.
+When this happens, a trader can look for an arbitrage opportunity between
+the ETF and an index future, between two different ETFs, or between an ETF
+and a representative stock.
+
+Fixed income and interest-rate arbitrage
+Fixed-income securities are bonds, notes, and related securities that give
+their owners a regular interest payment. They are popular with conservative
+investors, especially retirees, who want to generate a regular income from
+the quarterly interest payments. They are considered to be safe, predictable,
+long-run investments, but they can fluctuate wildly in the short term, which
+makes them attractive to arbitrageurs.
+
+187
+
+188 Part II: Exploring Popular Day-Trading Strategies
+Interest rates are the price of money, and so they affect the value of many
+kinds of securities. Fixed-income securities have a great deal of interest-rate
+exposure because they pay out interest. Some stocks have interest-rate
+exposure, too. Trading in foreign exchange is an attempt to profit from the
+changing price of one currency relative to another, and that’s usually a function of the difference in interest rates between the two countries. Derivatives
+have a regular expiration schedule, so they have some time value, and that’s
+measured through interest rates.
+With so many different assets affected by changes in interest rates, arbitrageurs
+pay attention. With fixed-income arbitrage, the trader breaks out the following:
+✓ The time value of money
+✓ The level of risk in the economy
+✓ The likelihood of repayment
+✓ The inflation-rate effects on different securities
+If one of the numbers is out of whack, the trader constructs and executes an
+arbitrage trade to profit from it.
+Buying bonds outright is rarely practical for a day trader. Instead, day traders
+looking at fixed-income arbitrage and other interest-rate sensitive strategies
+usually rely on interest-rate futures, offered by the CME Group. You can read
+more about interest-rate futures in Chapter 3.
+How would such a trade work? Think of a day trader monitoring interest
+rates on U.S. government securities. He notices that two-year treasury
+notes are trading at a lower yield than expected — especially relative to
+five-year treasury notes. He sells futures on the two-year treasury notes
+and then buys futures on the five-year treasury notes. When the difference
+between the two rates falls back where it should be, the futures trade will
+turn a profit.
+
+Index arbitrage
+Market observers talk a lot about the performance of the S&P 500 Index and
+the Dow Jones Industrial Average. These market indexes represent the activity of the market and are widely published for market observers to follow.
+The performance of the index is based on the performance of a group of securities, ranging from the 3,000 largest companies in the market (the Russell
+3,000) to a mere 30 large companies (the Dow Jones Industrial Average).
+Sure, an arbitrageur could buy all the stocks, and some hedge funds do just
+that. But very few people can afford to pursue that strategy. Instead, they get
+exposure to index performance through the many different securities based on
+
+Chapter 10: Navigating the Tricky World of Arbitrage and High-Risk Trading
+the indexes. Buy-and-hold mutual fund investors can buy funds that hold all the
+same stocks in the same proportion as the index. Those with shorter-term profits in mind can buy exchange-traded funds, which are baskets of stocks listed
+on organized exchanges, or they can trade futures and options on the indexes.
+Arbitrageurs love the idea of an asset — like an index — that has lots of different securities based on its value because it creates lots of opportunities for
+mispricing. Unless the index, the futures, the options, and the exchange-traded
+funds are all in line, some canny day trader can step in and make some money.
+Suppose, for example, that the S&P 500 futures contract is looking mighty cheap
+relative to the price of the S&P 500 Index. A trader can short an exchange-traded
+fund on the index and then buy futures contracts to profit from the difference.
+
+Merger arbitrage
+Every day, companies get bought and sold, and that creates arbitrage opportunities. In fact, one of the better-known arbitrage strategies out there is
+merger arbitrage, in which traders try to profit from the change in stock
+prices after a merger has been announced. This kind of trade starts with the
+trader looking at the following details in the merger announcement:
+✓ The name of the acquiring company
+✓ The name of the company being taken over (and no matter what PR
+people say, there are no mergers of equals)
+✓ The price of the transaction
+✓ The currency (cash, stock, debt)
+✓ The date the merger is expected to close
+Until the date that the merger actually closes, which may be different from
+the date in the merger announcement, any and every one of the announced
+details can change. The acquiring company may learn new information about
+the target company and change its mind. A third company may jump in and
+make an offer for more money. The shareholders may agree to support the
+deal only if they get cash instead of stock. All that drama creates opportunity,
+both for traders looking for one-day opportunities and for those willing to
+hold a position until the merger closing date.
+Here’s an example. Say that Major Bancorp offers to buy Downtown Bank
+for $50 per share in cash. Major Bancorp’s shares will probably fall in price
+because its shareholders will be concerned that the merger will be a lot of
+trouble. Downtown Bank’s shares will go up in price, but not all the way to
+$50, because its shareholders understand the risk that the deal won’t go
+through. An arbitrageur would short Major Bancorp and buy Downtown Bank

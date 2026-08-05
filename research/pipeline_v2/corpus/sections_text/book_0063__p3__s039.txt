@@ -1,0 +1,299 @@
+in Mutual Funds, September 1999, p. 37. The ad said that the data were for the S&P 500
+Index, but it did not give the sample period. By searching for the interval of greatest
+earnings growth, and making no correction for inflation, I can roughly replicate the
+quoted results. To maximize earnings growth, one chooses a start date right after World
+
+NO T E S T O PA G E S 2 04–205
+
+313
+
+War II, when earnings were still depressed by the war, and also at the bottom of the
+recession in October 1945. Lagging four‑quarter‑total S&P earnings went up 48‑fold
+from the second quarter of 1946 to the third quarter of 1997. Between June 1946 and
+April 1998, the S&P Composite Index went up 60‑fold. Lynch’s basic result is therefore more or less confirmed for these intervals. But if one chooses other intervals the
+results look very different. Between the fourth quarter of 1947 and the fourth quarter
+of 1998, earnings went up only 23‑fold, while between December 1947 and April 1999
+the S&P Composite went up 83‑fold. These slightly different sample periods give a
+very different impression than that created by the ad: these results show price growing far more than earnings.
+From 1946 to 1997, the producer‑price index went up seven-fold, and so in fact real
+earnings increased only seven-fold in this period. A seven-fold earnings increase is a
+growth rate of real earnings of about 4% a year. Between the fourth quarter of 1947 and
+the fourth quarter of 1998, the growth rate of real earnings was only 3% per year. The
+growth of inflation‑corrected earnings over this entire interval has not been impressive: no more than the current rate of interest on inflation‑indexed government bonds.
+But the ad—by choosing a sample creatively, by reporting changes over very long
+time intervals, and by not making an inflation correction—fostered the false impression that enormous price increases were warranted by enormous earnings increases.
+18. See John Y. Campbell and Robert J. Shiller, “Valuation Ratios and the Long‑Run
+Stock Market Outlook,” Journal of Portfolio Management, 24 (1998): 11–26; and John Y.
+Campbell and Robert J. Shiller, “Valuation Ratios and the Long-Run Stock Market
+Outlook: An Update,” in Richard Thaler (ed.), Advances in Behavioral Finance II (New
+York: Sage Foundation, 2005).
+19. Some have concluded that the ratios (earnings-price ratios, dividend-price ratios,
+or ratios of other measures of fundamental value to price) predict returns. In his
+textbook Asset Pricing, John Cochrane asserts flatly, in a display box, “Dividend/price
+ratios forecast excess returns on stock.” See John Cochrane, Asset Pricing (Princeton,
+N.J.: Princeton University Press, 2001), p. 389.
+However, the actual academic literature has still not resolved the question of statistical significance. There are unresolved statistical complexities, notably those due to the
+problem of (near) unit roots in the ratios and the endogenous variable problem of dependency of both independent and dependent variables on price. Campbell and I (1989)
+concluded that the apparent forecastability of returns like that shown in Figure 11.1
+is extremely unlikely to be an artifact of the endogenous variable problem; see John Y.
+Campbell and Robert J. Shiller, “The Dividend Ratio Model and Small Sample Bias: A
+Monte Carlo Study.” Economics Letters, 29 (1989): 325–31. See also Robert Stambaugh,
+Jianfeng Yu, and Yu Yuan, “The Long of It: Odds that Investor Sentiment Spuriously
+Predicts Anomaly Returns” (Working Paper No. 18231, Cambridge, Mass.: National
+Bureau of Economic Research, July 2012). But there are also issues of the relevance
+of asymptotic distribution theory in small samples, questions about regime change,
+and measurement issues for the underlying data, as well as difficulty interpreting
+complex statistical evidence that has been selectively presented by a researcher who
+may have a preconceived bias.
+
+314
+
+NOT ES TO PAGES 205–206
+
+Jonathan Lewellen, using U.S. data, argued that there should not be a unit root
+in the ratios, and used this assumption to conclude that the dividend-price ratio, the
+book-to-market ratio, and the earnings-price ratio are statistically significant in predicting returns. See Jonathan Lewellen, “Predicting Returns with Financial Ratios,”
+Journal of Financial Economics, 64 (2004): 209–35.
+However, Walter Torous, Rossen Valkanov, and Shu Yan allow for the possibility
+of unit roots, estimating bounds for the autoregressive parameter, and conclude that
+with U.S. data there is evidence of predictability based on ratios at short-term horizons
+but not at long-term horizons. See Walter Torous, Rossen Valkanov, and Shu Yan, “On
+Predicting Stock Returns with Nearly Integrated Explanatory Variables,” Journal of
+Business, 78(1) (2005): 937–66.
+John Campbell and Motohiro Yogo derived a more powerful test, also based on
+estimated bounds for the autoregressive parameter, and concluded that both the
+dividend-price ratio and the earnings-price ratio are significant in predicting excess
+stock returns using U.S. stock data back to 1871. See John Y. Campbell and Motohiro
+Yogo, “Efficient Tests of Stock Return Predictability” (Working Paper No. w10026,
+Cambridge, Mass.: National Bureau of Economic Research, October 2003).
+Amit Goyal and Ivo Welch did out-of-sample tests of predictive regressions using
+ratios and concluded that the estimated relationships were not stable out of sample. See
+Amit Goyal and Ivo Welch, “Predicting the Equity Premium with Dividend Ratios,”
+Management Science, 49 (2003): 639–54.
+Andrew Ang and Geert Bekaert looked at data on five countries and concluded
+that the predictability of the dividend-price ratio is not robust across countries in
+predicting returns. See Andrew Ang and Geert Bekaert, “Stock Return Predictability:
+Is It There?” unpublished paper, Columbia University, 2004.
+Rossen Valkanov derived some new results about overlapping observations and longrun predictability regressions, and concluded that the dividend-price ratio is not statistically significant in predicting returns. See Rossen Valkanov, “Long-Horizon Regressions:
+Theoretical Results and Applications,” Journal of Financial Economics, 68 (2003): 201–32.
+Erik Hjalmarsson was the first to look at the aggregate stock markets of forty
+countries with pooled regressions, and his results generally, but not always, have been
+unfavorable to the statistical significance of regressions using ratios to predict returns.
+See Erik Hjalmarsson, “Predicting Global Stock Returns with New Methods for Pooled
+and Long-Run Forecasting Regressions,” unpublished paper, Yale University, 2004.
+The issues that separate these papers are at a high level of subtlety. Years of work
+will probably be needed before these issues are fully resolved.
+20. In addition to this long-run tendency toward reversal of trends, there is a
+shorter-run weak tendency toward momentum, for stock prices to continue moving
+in the same direction. See Campbell, Lo, and Mackinlay, The Econometrics of Financial
+Markets; Narasimhan Jegadeesh and Sheridan Titman, “Returns to Buying Winners
+and Selling Losers: Implications for Stock Market Efficiency,” Journal of Finance, 48
+(1993): 65–91; and Bruce N. Lehmann, “Fads, Martingales, and Market Efficiency,”
+Quarterly Journal of Economics, 60 (1990): 1–28.
+21. It was shown long ago that dividends tend to behave over time like a longmoving average of earnings. See John Lintner, “The Distribution of Incomes of
+
+NO T E S T O PA G E S 2 07–209
+
+315
+
+Corporations among Dividends, Retained Earnings and Taxes,” American Economic
+Review, 46 (1956): 97–113.
+22. Using the real data shown in Figure 1.1, an annualized subsequent ten-year
+real return was constructed both for stocks and bonds for each year from 1881 to 2004
+(hence corresponding to returns over ten-year intervals ending from 1891 to 2014). A
+real long-term interest rate was computed by subtracting the average actual inflation
+rate over the preceding ten years from the long-term bond yield. A regression of the
+excess return on both the CAPE and the real interest rate shows a negative coefficient
+for both and an R-squared of 0.41.
+23. Economists Robert Barsky and Brad De Long have argued that stock price movements cannot be considered to have been caused largely by the speculative behavior of
+investors if they correspond to dividend movements. See Robert Barsky and J. Bradford
+De Long, “Why Have Stock Prices Fluctuated?” Quarterly Journal of Economics, 108
+(1993): 291–311. They suggest that perhaps people were rational to suppose that the
+recent growth of dividends would continue indefinitely into the future—even though
+in fact this growth rate has never continued for very long in actual historical data.
+Kenneth Froot and Maurice Obstfeld, reacting to the same appearance of co‑
+movement between prices and dividends, postulated an “intrinsic bubble” model in
+which prices respond in an apparently exaggerated fashion, but in fact rationally, to dividend movements. In their theory, stock prices overreact, in a certain sense, to dividends,
+but yet there are no profit opportunities to trading to take advantage of this overreaction.
+See Kenneth Froot and Maurice Obstfeld, “Intrinsic Bubbles: The Case of Stock Prices,”
+American Economic Review, 81 (1991): 1189–1214. But the fit of their “warranted price” to
+actual price is not much better than the fit of dividends themselves to actual price, except
+that their model, by making stock prices more responsive to dividends when dividends
+are higher, makes warranted price correspond more closely to actual price after 1950.
+24. A nice review of the ups and downs of all these anomalies is found in Siegel,
+Stocks for the Long Run, 5th ed., pp. 326, 176, 336, etc. One study looked at ninety-five
+different stock market anomalies predicting returns published in academic journals
+and found “an upper bound decline in predictability due to statistical bias of 25%,
+and a post-publication decline, which [the authors] attribute both to statistical bias
+and informed trading, of 56%.” See R. David McLean and Jeffrey Pontiff, ”Does
+Academic Research Destroy Return Predictability?” unpublished paper, University
+of Alberta, 2014.
+25. The inconstancy of anomalies reported in studies of market efficiency is also
+due to the varying econometric methodologies employed in the different studies.
+See Tim Loughran and Jay R. Ritter, “Uniformly Least Powerful Tests of Market
+Efficiency,” Journal of Financial Economics, 55 (2000): 361–89.
+26. Merton Miller, “Behavioral Rationality in Finance: The Case of Dividends,” in
+Robin M. Hogarth and Melvin W. Reder (eds.), Rational Choice: The Contrast between
+Economics and Psychology (Chicago: University of Chicago Press, 1986), p. 283.
+27. Robert J. Shiller, “Do Stock Prices Move Too Much to Be Justified by Subsequent
+Movements in Dividends?” American Economic Review, 71(3) (1981): 421–36; Stephen
+LeRoy and Richard Porter, “Stock Price Volatility: A Test Based on Implied Variance
+Bounds,” Econometrica, 49 (1981): 97–113. See also Sanford J. Grossman and Robert J.
+
+316
+
+NOTES TO PAGES 210–211
+
+Shiller, “The Determinants of the Variability of Stock Market Prices,” American Eco‑
+nomic Review, 71 (1981): 222–27.
+28. To compute the dividend present value for any given month, one sums over
+each subsequent month the present discounted value for the given year of the real
+dividends paid in that subsequent year. The present discounted value in the given
+year of a real dividend paid in a subsequent year is the real dividend divided by
+(1 + r)t, where r is the annual real discount rate and t is the number of years between
+the given year and the subsequent year. The dividend present value in Figure 11.2
+was drawn with a constant discount rate r equal to the historical geometric average
+real annual return on the market from 1871 to 2013. The assumption that r is constant
+through time corresponds to an efficient markets assumption that expected returns
+on the market are constant through time, that there are no good or bad times to enter
+the stock market in terms of predictable returns.
+Of course, we do not know now what dividends will be after the latest year for
+which data are available. To compute the dividend present value, I assumed that real
+dividends after 2013 will grow at their actual average geometric growth rate during
+2003–2013. The need to make an assumption about real dividend growth after 2013
+means that the more recent values of the dividend present value shown in the figure
+are unreliable as indicators of actual dividend present value. However, the numbers
+given for the dividend present value a couple of decades or more before 2013 are most
+likely fairly accurate, since for these years the subsequent years after 2013 are heavily
+discounted in the present value calculations.
+Concern has been expressed that recent measured dividends may understate cash
+flow from the firm to investors. Kevin Cole, Jean Helwege, and David Laster (“Stock
+Market Valuation Indicators: Is This Time Different?” Financial Analysts Journal, 52
+[1996]: 56–64) estimate that considering share repurchase as a form of dividend would
+raise dividend‑price ratios in the mid‑1990s by about 80 basis points. This adjustment
+would still leave dividend‑price ratios on the S&P Composite far below their record
+historic lows until that time. Liang and Sharpe, in “Share Repurchases and Employee
+Stock Options,” point out that the Cole, Helwege, and Laster assumption that share
+issues occur at market prices is inaccurate because many issues come about in response
+to the exercise of employee stock options. Consideration of the fact that issues are made
+below market price might be interpreted as suggesting lowering the terminal value
+for the dividend present value below the amount shown in Figure 11.2.
+29. It must be stressed that efficient markets theory does not mean that the stock
+price curve must be more smooth than the dividend present value curve, only that it
+must be—in a sense that must be carefully defined—less volatile overall. I took great
+pains to explain this point in my first article on excess volatility; see Robert J. Shiller,
+“The Volatility of Long‑Term Interest Rates and Expectations Models of the Term
+Structure,” Journal of Political Economy, 87 (1979): 1062–88. But some critics, overlooking
+this explanation, thought they were raising a fresh and original idea when they later
+pointed it out again; see, notably, Allan Kleidon, “Variance Bounds Tests and Stock
+Price Valuation Models,” Journal of Political Economy, 94 (1986): 953–1001. No definitive conclusions can be drawn about efficient markets just by looking at this figure.
+
+NO T E S T O PA G E S 2 12–215
+
+317
+
+Nonetheless the figure is, I believe, quite informative about the lack of big‑picture
+evidence for efficient markets in aggregate U.S. stock market data. Looking at this
+figure can help disabuse us of some possibly erroneous notions about the nature of
+the evidence for market efficiency.
+30. Sanford Grossman and I made much of the possibility that dividend discount
+rates should vary in response to changing economic conditions, as indicated by
+changes in real personal consumption expenditures (in “The Determinants of the
+Variability of Stock Market Prices”), but still described the market overall as excessively volatile.
+31. Their argument had to do with firms’ setting dividends in response to price,
+and thereby achieving a certain sort of nonstationarity in dividends; see Terry A.
+Marsh and Robert C. Merton, “Dividend Variability and Variance Bounds Tests for
+the Rationality of Stock Market Prices,” American Economic Review, 76(3) (1986): 483–98.
+In my reply, I argued that although their model was technically correct, it was hardly
+relevant to actual U.S. experience over the last century; see Robert J. Shiller, “The
+Marsh‑Merton Model of Managers’ Smoothing of Dividends,” American Economic
+Review, 76(3) (1986): 499–503. The entire debate is now moot, since econometric work
+testing for excess volatility no longer relies on assumed stationarity for detrended
+dividends; see, for example, John Y. Campbell and John Ammer, “What Moves Stock
+and Bond Markets? A Variance Decomposition for Long‑Term Asset Returns,” Journal
+of Finance, 48(1) (1993): 3–38.
+32. Campbell and I developed a co‑integrated log‑linear vector‑autoregressive
+model that was capable of representing various forms of the efficient markets model.
+See John Y. Campbell and Robert J. Shiller, “The Dividend‑Price Ratio and Expectations of Future Dividends and Discount Factors,” Review of Financial Studies, 1 (1988):
+195–228; Shiller, Market Volatility; and Campbell et al., Econometrics of Financial Markets,
+pp. 253–337.
+33. See Campbell and Shiller, “The Dividend‑Price Ratio.”
+34. See Campbell and Ammer, “What Moves Stock and Bond Markets?”
+35. See Shiller, Market Volatility, pp. 197–214.
+36. Paul A. Samuelson once said that stock prices are “micro efficient” and “macro
+inefficient.” That is, there is more truth to the efficient markets hypothesis for individual stocks than there is for the stock market as a whole. There is some evidence
+that might be construed as supporting Samuelson’s dictum; see Jeeman Jung and
+Robert J. Shiller, “Samuelson’s Dictum and the Stock Market,” Economic Inquiry 43(2)
+(2005): 221–26. Earlier studies that may be construed as supporting this conclusion
+are Randolph Cohen, Christopher Polk, and Tuomo Vuolteenaho, “The Value Spread,”
+Journal of Finance, 58 (2003): 609–42; and Tuomo Vuolteenaho, “What Drives Firm-Level
+Stock Returns?” Journal of Finance, 57 (2002): 233–64.
+
+Chapter Twelve    Investor Learning—and Unlearning
+1. Economists have long puzzled over why the equity premium has been so
+high historically. How, they wonder, can it be that over the years people haven’t
+invested more in stocks, given that stocks so outperform other investments? See Raj
+
+318
+
+NOT ES TO PAGES 215–220
+
+Mehra and Edward C. Prescott, “The Equity Premium Puzzle,” Journal of Monetary
+Economics, 15 (1988): 145–61. According to the learning theory discussed in this
+chapter, the equity premium puzzle is supposed to be a thing of the past—people
+have finally wised up.
+2. Edgar Lawrence Smith, Common Stocks as Long‑Term Investments (New York:
+Macmillan, 1924).
+3. Kenneth S. Van Strum, Investing in Purchasing Power (Boston: Barron’s, 1925).
+4. Fisher, Stock Market Crash, pp. 202, 99. It is puzzling that he includes the phrase
+“during a period of dollar depreciation,” since he emphasizes elsewhere in the book
+that the 1920s were a period of exceptionally stable prices. Perhaps he meant to say
+“even during a period of dollar depreciation” and may have been referring to one of
+the periods in the 1920s when there was slight inflation. He cannot be referring to the
+exchange rate of the dollar, since we were then on the gold standard.
+5. Dice, New Levels in the Stock Market, p. 126.
+6. Franklin L. Dame, “Public Interest in Business Is Found Growing,” New York
+Herald Tribune, January 2, 1929, p. 30.
+7. Siegel, Stocks for the Long Run, 1st ed., p. 16.
+8. See Ibbotson Associates, Stocks, Bonds, Bills and Inflation, Table 2‑9, p. 46, or consult
+the data on my website, http://www.econ.yale.edu/~shiller.
+9. According to data shown in Ibbotson Associates, Stocks, Bonds, Bills and Inflation,
+Table 2‑11, p. 50, there has been no twenty‑year period since 1926 when stocks underperformed short‑term interest rates. They do not show data on the 1901–21 time period.
+My data, from my book Market Volatility (updated by using the Consumer Price Index
+to measure inflation after 1913), actually show a slight underperformance of stocks
+versus short‑term interest rates for 1966–86 as well as 1901–21, and the difference in
+results between my data and Ibbotson’s for 1966–86 can be attributed to a difference
+in the short‑term interest rate (commercial paper versus Treasury bills) and slight
+differences in timing.
+10. See Philippe Jorion and William N. Goetzmann, “Global Stock Markets in the
+Twentieth Century,” Journal of Finance, 54(3) (1999): 953–80, and also Stephen J. Brown,
+William N. Goetzmann, and Stephen A. Ross, “Survival,” Journal of Finance, 50(3) (1995):
+853–73. Jeremy Siegel points out that with financial returns the median is generally much
+lower than the mean, and the mean appreciation rate over all these countries is not so
+low. See also Elroy Dimson, Paul Marsh, and Mike Staunton, Triumph of the Optimists:
+101 Years of Global Investment History (Princeton, N.J.: Princeton University Press, 2002).
+11. James K. Glassman and Kevin A. Hassett, “Are Stocks Overvalued? Not a
+Chance,” Wall Street Journal, March 30, 1998, p. 18, and “Stock Prices Are Still Far Too
+Low,” March 17, 1999, p. 26; the quote is from the 1999 article.
+12. James K. Glassman and Kevin A. Hassett, Dow 36,000: The New Strategy for
+Profiting from the Coming Rise in the Stock Market (New York: Times Business/Random
+House, 1999), p. 140.
+13. See, for example, Goetzmann and Ibbotson, “Do Winners Repeat? Patterns in
+Mutual Fund Performance”; Elton et al., “Survivorship Bias and Mutual Fund Performance”; and Elton et al., “The Persistence of Risk-Adjusted Mutual Fund Performance.”
+
+NO T E S T O PA G E S 2 21–235
+
+319
+
+14. To the extent that mutual funds make better diversification possible for individual investors, they lower the riskiness of stocks, and therefore the proliferation
+of mutual funds may lower the risk premium that investors require. John Heaton
+and Deborah Lucas conclude that increased diversification “goes at least half way
+towards justifying the current high price dividend ratio in the United States.” Heaton
+and Lucas raise a valid and potentially significant issue; nevertheless their theory is
+a little unsatisfying, as it depicts individuals as completely rational at all times but
+does not explain why people did not invest that much in mutual funds until recently.
+See John Heaton and Deborah Lucas, “Stock Prices and Fundamentals,” unpublished
+paper, Northwestern University, 1999.
+
+Chapter Thirteen    Speculative Volatility in a Free Society
+1. The only countries without central banks are Andorra, Monaco, and the Islamic

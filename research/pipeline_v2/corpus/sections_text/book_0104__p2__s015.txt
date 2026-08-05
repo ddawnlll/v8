@@ -1,0 +1,412 @@
+adjustment and uncertainty. It often manifests itself as a crisis in which several urgent and
+contradicting demands are placed upon the individual, who is forced to set priorities and
+choose between desire and necessity. When approached positively, this may lead to a
+redefinition of the person’s goals or to a reassessment and improvement of working methods.
+
+APPENDIX 3
+
+Characteristics of the Twelve Zodiac Signs
+The following is a list of the characteristics of the 12 zodiac signs.
+Aries: defense, machinery, steel, tools, weapons, non-precious metals. Start-ups.
+Keywords: pioneering, leading, new beginnings, strong willed
+Taurus: bank accounts, tellers, and all things to do with banks, savings and loans.
+Banking and financials. Bonds.
+Keywords: ownership, dependability, sensuality, seeks harmony
+Gemini: telecommunications, writing, speech, letters, mail, phone calls and phones,
+documents, computers, cars, equipment and travel, truckers. Trading.
+Keywords: mentality, versatility, communication, curiosity, dualism
+Cancer: property, home, home products, home appliances, home furnishings, restaurants,
+hotels, nurses, silver. Real estate.
+Keywords: feeling, sensitivity, nurturing, quick to hurt, seeks security
+Leo: investments, stocks, investment banks, people in charge, gold, biotechnology.
+Large caps.
+Keywords: willpower, creativity, expressing the heart, leader
+Virgo: health services and health care plus items related to these, problems with workers or
+personnel. Retail/department stores, vitamins, food. Technical analysis.
+Keywords: service, self-improvement, purity, perfection, practicality
+Libra: lawyers, lawsuits, negotiations, public relations, partnerships, cosmetics, and jewelry.
+Investing.
+Keywords: balance, harmony, justice, concern for others, relationships
+Scorpio: pollution control, insurance, salvage operations, bioterrorism, mining, seismology,
+plumbing supplies, environmental cleanup. Debt. Hostile takeovers. Stockbrokers. Mutual
+funds.
+Keywords: desire, transformation, power, intense, probing, passionate relationships, power
+struggles
+Sagittarius: publishing, teaching, universities, colleges, overseas travel, sports equipment,
+casinos. International affairs.
+Keywords: need to understand, exploration, enthusiasm, searching for truth
+
+Capricorn: real estate, government, people in authority, bosses, management.
+Mega corporation. Blue chips. Savings.
+Keywords: achievement, structure, organization, ambitious, cold
+Aquarius: computers, electrical equipment, appliances, radios, TV, planes, organizations and
+clubs, airlines, aerospace, high technology. Contrarian investing.
+Keywords: humanitarian, unique, revolutionary, idealistic, inventive
+Pisces: drugs, medication, hospitals, institutions, alcohol, oil and gas, shoes, plumbing, water,
+photography, chemicals, windmills, paint, bottled water, nurses, rubber, X-ray, poisons,
+greeting cards. Socially responsible investing.
+Keywords: compassion, universality, inclusiveness, dreamer, intuitive
+
+APPENDIX 4
+
+Formulas in MetaStock Format
+
+*
+
+MOMENTUM TIMING OSCILLATOR AS USED IN
+FIGURE 2.3
+Length1:=Input("Base Unit",2,100,21);
+Length2:=Input("First Period",2,100,13);
+Length3:=Input("Second Period",1,100,8);
+Length4:=Input("Third Period",1,100,8);
+Cycle:=Input("Cycle",1,100,21);
+plot:=Input("Select Plot, 1=OB Lines, 2=AutoLines 3=Cycle Zones", 1,3,3);
+n:=(RSI(Length1)-LLV(RSI(Length1),Length2));
+k:=(HHV((RSI(Length1)),Length2)-LLV(RSI(Length1),Length2));
+k2:=If(k=0,0.000001,k);
+Osc:=100*n/k2;
+OscAvg1:=(2*Mov(Osc,Length3,S)-100);
+OscAvg2:=Mov(OscAvg1,Length4,S);
+StdP:=1.2*Stdev(oscavg2,89);
+StdM:=Neg(1.2*Stdev(oscavg2,89));
+n2:=(Fml("frhlc")-LLV(Fml("frhlc"),Cycle));
+k2:=HHV((Fml("frhlc")),Cycle)-LLV(Fml("frhlc"),Cycle);
+k22:=If(k2=0,0.000001,k2);
+OscAvg12:=(2*Mov((100*n2/k22),Length2,S)-100);
+RwUp:=(45+Stdev(OscAvg12,2));
+RwDn:=Neg(45+Stdev(oscavg12,2));
+Zone:=If(oscavg12>0,RwUp,If(oscavg12<=0,RwDn,RwUp));
+If(plot=1,50,If(plot=2,StdP,Zone));
+If(plot=1,Neg(50),If(plot=2,StdM,Zone));
+OscAvg1; OscAvg2; 0;
+{Frhlc: Function referred to in the formula Momentum Timing Oscillator}
+
+frhlc:=(((RSI(HIGH,13))+(RSI(LOW,13))+(2*(RSI(CLOSE,13))))/4);
+frhlc;
+
+VOLUME ZONE OSCILLATOR AS REFERRED TO
+IN
+FIGURE 2.10
+AND
+FIGURE 5.8
+VZO was developed by Walid Khalil and David Steckler. The following VZO is modified for
+merging of plots of volume ratio compressed indicator and planetary aspects indicators.
+prd:=Input("Period",1,200,13);
+avg:=Input("Average",2,200,8);
+y:=Input("Select Price 1=MP(),2=Typical(),3=Close",1,3,1);
+plot:=Input("Select Plot, 1=vzo, 2=sma, 3=All",1,3,3);
+y:=If(y=1,MP(),If(y=2,Typical(),CLOSE));
+Change:=ROC(y,1,$);
+x:=If(Change>0,VOLUME,-VOLUME);
+vp:=Mov(x,prd,E);
+tv:=If(Mov(VOLUME,prd,E)=0,0.000001,Mov(V,prd,E));
+vzo:=(100+(100*vp/tv))/2;
+vzo1:=Mov(vzo,avg,S);
+If(plot=1,vzo,vzo1);
+If(plot=2,vzo1,vzo);
+70; 50; 30;
+
+VOLUME RATIO COMPRESSED INDICATOR AS
+REFERRED TO IN
+FIGURE 5.3
+Period1:=Input("Period1",1,144,2);
+Period2:=Input("Period2",1,144,10);
+x:=Input("Compressed",0,100,0.2);
+VAvg1:=Mov(Abs(VOLUME),Period1,E);
+VAvg2:=Mov(Abs(VOLUME),Period2,S);
+z:=If(vavg2=0,0.0001,vavg2);
+VolRatio:=100*(VAvg1/z);
+VolRatio*x;
+
+MOVING AVERAGE LINE WITH UPPER AND
+LOWER MIRROR LINES AS REFERRED TO IN
+FIGURE 7.8
+Period:=Input("Period",1,500,89);
+PCent1:=Input("Upper Pecentage",1,200,7);
+PCent2:=Input("Lower Percentage",1,200,7);
+x:=Input("Select Price, 1=mp(),2=typical(),3=close",1,3,3);
+plot:=Input("Select Plot,1=RMA+Mirror, 2=Mirror,3=RMA",1,3,1);
+x:=If(x=1,MP(),If(x=2,Typical(), C));
+RMA:=Mov(x,Period,E)+LinRegSlope(x,Period)*(1);
+MirrorP:=RMA+(RMA*PCent1/100);
+MirrorN:=RMA-(RMA*PCent2/100);
+Mirror:=If(LOW>RMA,MirrorP,If(HIGH<RMA,MirrorN,RMA));
+{Plot PMA on price chart, signals in own window}
+If(plot=1,RMA,If(plot=2,Mirror,RMA));
+If(plot=1,Mirror,If(plot=3,RMA,Mirror));
+
+MID-TERM PERIOD MOVING AVERAGE LINES
+AS REFERRED TO IN
+FIGURE 2.5
+Fast:=Input("Fast MA",1,300,9);
+y:=Input("Select Price 1=MP(),2=Typical(),3=Close",1,3,3);
+plot:=Input("Plot [1]Disparity [2]Two Lines [3]All",1,3,2);
+y:=If(y=1,MP(),If(y=2,Typical(),C));
+Ind1:=Mov(y,Fast,S)+LinRegSlope(y,Fast)*3;
+Ind2:=Mov(y,9,S)+LinRegSlope(y,9);
+iDiff:=(1.382*(Ind1-Ind2)+0.618*Ref(Ind1-Ind2,-1))/2;
+Ind3:=If(Cross(Ind1,Ind2),(Ind1+iDiff),If(Cross(ind2,ind1), (Ind1-iDiff),ind1+idiff));
+If(plot=1,Ind3,If(plot=2,Ind1,Ind3));
+If(plot=2,Ind2,If(plot=1,Ind3,Ind2));
+If(plot=3,Ind1,If(plot=1,Ind3,Ind1));
+*
+
+For educational purposes only and not for the purposes of encouraging trading.
+
+Glossary
+A-B-C correction Alphabetical labeling for a three-wave structure in a correction pattern. Wave
+A is the first wave moving against the prevailing trend of the five-wave structure. Wave B is a
+corrective wave to Wave A. Wave C is the final wave to complete the three-wave structure
+movement. In a zigzag, Wave C exceeds the extreme of Wave A, but not in an irregular A-B-C
+correction.
+alternate count An alternate interpretation of wave counts that is equally applicable to a given
+market situation.
+Alternation, Rule of The alternation of patterns between Wave 2 and Wave 4 in a five-wave
+structure. If Wave 2 is a simple pattern, then Wave 4 is expected to be a complex pattern. In a
+complex correction, if the preceding corrective pattern is a flat, then the pattern following will
+be of another formation.
+confirmation Refers to two different factors agreeing with one another. Volume is said to
+confirm the price action if volume is rising together with the price.
+continuation pattern Refers generally to a corrective pattern such as a triangle, wedge,
+pennant, or flag. Indicates a pause in the prevailing trend.
+divergence Divergence occurs when the directional movement of the price disagrees with that
+of the oscillator. Divergence generally indicates trend reversal.
+dividend yield Dividend per share divided by the current price per share expressed as a
+percentage.
+double top/bottom Refers to a price pattern in an uptrend showing two conspicuous peaks. In
+a downtrend, the price pattern is a double bottom, showing two distinct troughs. Double top is
+generally caused by flats, double bottom by failures. Also known as “M” and “W” patterns.
+Equality, Rule of When one impulse wave is extended in a five-wave structure, the remaining
+two waves tend to be equal.
+extended wave The longest wave in one of the three impulse waves of a five-way structure.
+failure The inability of price to reach a new high in an uptrend or a new low in a downtrend. A
+five-wave structure in which impulse Wave 5 fails to move above the end of Wave 3, or a
+correction in which Wave C fails to move below the end of Wave A.
+Fibonacci ratios The ratio between any two successive numbers in a Fibonacci sequence. After
+the first four numbers of the sequence, the ratio of any number to the next highest number is
+approximately 0.618 (known as the “Golden Ratio”), and to the next lower number
+approximately 1.618. The important ratios are 0.382, 0.618, and 1.618.
+Fibonacci sequence The sequence of numbers (1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89,144, 233, 377,
+etc.), discovered by Leonardo de Pisa, where each successive number in the sequence is the
+sum of the previous two numbers.
+gap Refers to a trading day in which a daily range is completely above or below the previous
+day’s range, displaying a gap between today’s low and yesterday’s high or today’s high and
+yesterday’s low.
+head and shoulder A price pattern that takes its name from the fact that it looks like the head
+and shoulders of a person, either upright or inverted. The pattern often indicates a coming
+move away from the established trading range.
+
+hybrid oscillator An oscillator that is constructed by merging two kinds of components to
+produce the result.
+impulse wave Refers to Wave 1, 3, or 5 of a five-wave structure; a wave that takes an existing
+trend further in the same direction.
+inside day A day in which the range of price is within the range of the previous day’s price
+range. It is a sign of consolidation while the market waits for more signals for a direction. If it
+occurs after a market has had a big move, it is a signal that momentum is waning for that move.
+irregular flat A corrective A3-B3-C5 pattern in which Wave B terminates beyond the start of
+Wave A.
+noise Price fluctuations that can confuse interpretation of the directional movement of the
+market.
+non-trending Price movements that lack any discernible movements in either direction.
+outside day A day in which the previous day’s price range is within the range of today’s price
+range. This is often a signal that the market is about to make a move in the direction of the
+close.
+overbought A market is said to be overbought when an oscillator reaches above the upper
+limit.
+oversold A market is said to be oversold when an oscillator reaches below the lower limit.
+parameter A rule or condition that establishes the format for a trading system or indicator.
+P/E Ratio Price/earnings ratio is a test of a stock’s risk and demand, and is reported as a
+multiple calculated by having the price per share divided by earnings per share.
+protective stops A risk management technique in which the trade is liquidated to stop further
+loss.
+Queuing Theory of Moving Average Crossovers A bullish market is initiated when price crosses
+above its respective averages (e.g., 50-day, 90-day, and 200-day moving average lines) and the
+moving averages also follow in a sequential order with the shorter period moving average
+crossing above the longer period. A bearish market is initiated when price crosses below its
+respective averages and the moving averages also follow in a sequential order with the shorter
+period moving average crossing below the longer period. If price and its respective moving
+averages are not aligned in a sequential order, any short term rally or retracement will be
+short-lived.
+range The difference between the high and low price during a given period.
+rectangle A price pattern formed in a relatively narrow horizontal price range. Rectangles are
+usually complex corrections of double flats or triple flats.
+resistance Refers to a price level at which prices stopped rising.
+retracement A price movement in the opposite direction of the previous trend.
+saucer A pattern depicting a stock whose price has reached bottom and is moving up. Similar
+to a cup-and-handle formation, but the saucer base is shallower and rounder in shape. An
+inverse saucer shows a top in the stock’s price and signals a downturn.
+support Refers to a price level at which prices stop declining.
+trading range Refers to the difference between the high and low prices traded during a period
+of time.
+trend Refers to the directional movement of prices, as in an uptrend when prices are making
+higher highs and higher lows, and as in a downtrend when prices are making lower highs and
+
+lower lows.
+trend line A straight line that connects a series of highs or lows in a trend. An uptrend line
+represents support and a downtrend line represents resistance. Horizontal trend lines generally
+represent consolidation.
+triangle Refers to a continuation pattern or sideways price pattern in which prices fluctuate
+within two converging trend lines. There are contracting, ascending, descending, and diagonal
+triangles. In an expanding triangle, the two trend lines will diverge.
+true range The largest of the following: (1) Today’s high minus today’s low; (2) today’s high
+minus yesterday’s close; or (3) today’s low minus yesterday’s close.
+volatility A measure of the degree of price change from price in the previous period.
+wedge A continuation price pattern that consists of two diverging trend lines, both of which
+slope against the prevailing trend. In a bearish pattern, both trend lines slope upward. In a
+bullish pattern, both trend lines slope downward. A wedge is generally a diagonal triangle.
+whipsaws Losing trades on both sides of a price swing.
+zigzag A correction that is subdivided into an A5-B3-C5 pattern. Wave B in a zigzag is noticeably
+lower than the start of Wave A.
+
+ASTROLOGICAL TERMS
+applying aspect This term refers to a planet that is moving toward an exact aspect with a
+slower-moving planet. An applying aspect can also take place as a planet applies toward a fixed
+point, such as the Midheaven or Ascendant.
+Arabic parts Arabic parts (or lots) are points that are arithmetical constructs of two or more
+components such as planets or house cusps. They are used when a specific issue is being
+examined in a chart. There are historically 32 different parts, but only the Part of Fortune is in
+common use today.
+ascendant The sign of the zodiac that is rising in the east at the moment of birth, and placed on
+the cusp of the first house. Also referred to as the rising sign of a horoscope. One of the four
+personal points in astrology, along with the Sun, Moon, and Midheaven. All are key indicators
+of individual expression.
+aspect The relationship between two planets, or the relationship between a planet and the
+Ascendant or Midheaven. It is the angular distance between these two points.
+birth chart The birth chart is also referred to as the horoscope or natal chart. The birth chart is
+a circle divided into 12 parts, or houses, each of which describes a different area of life
+experience. In financial astrology, they are referred to as first-trade charts.
+conjunction Two or more planets are said to be “conjunct” when they are in the same part of
+the sky. Their energies are combined.
+cusp The cusp of a sign or house is the point at which it begins.
+cycle A cycle is the planetary movement around the entire circle of signs. Pluto is the slowest
+moving planet, and takes 248 years to cycle the entire zodiac. The Sun’s cycle takes one year.
+degree The horoscope has 360 degrees and each sign has 30 degrees. Degrees are used to
+measure exact positions of planets and other astrological factors.
+eclipse An eclipse occurs when one celestial body obscures another; the term is generally used
+to refer to the relationship between the Sun and the Moon. In this book, the Sun and the Moon
+are referred to as planets, while in fact they are luminaries.
+ephemeris A book of tables showing the exact positions of the Sun, Moon, and planets on a
+daily basis.
+financial astrology Financial astrology has been around for centuries. Nowadays, it often refers
+to the practice of predicting cycles in the stock markets by correlating them with planetary
+cycles, or by casting a first-trade horoscope for listed companies and financial markets and
+analyzing them in terms of planetary influences to project future trends.
+full moon The opposition between the Sun and the Moon. The time when the Moon is 180
+degrees from the Sun.
+geocentric The universe, as seen from the Earth. Astrologers are perfectly aware that the Earth
+orbits the Sun. However, a geocentric (earth-centered) frame of reference often makes good
+sense because we humans live on the Earth.
+hard aspect Planets that are 90 degrees apart are called square aspects. Planets that are 180
+degrees apart are called opposition aspects. These aspects are considered difficult and create
+tension. Planets in conjunction can be considered either soft or hard, depending on the planets
+involved.
+
+heliocentric The universe, as seen from the Sun. It is the true picture of the solar system.
+horoscope Another term for birth chart. The word horoscope comes from a Greek word
+meaning “map of the hour.” A horoscope is also called a natal chart, which references the
+unique time and place of an event, inauguration, first trade of a company, or the birth of a
+person.
+house cusp The first degree of any house in a horoscope or birth chart.
+ingress In astrology, an ingress is when any planet enters a new sign and is 00 degrees, 00
+minutes of that sign.
+lunation A complete cycle between two new moons; also known as a synodic month. Lunations
+may also refer to solar or lunar eclipses.
+major aspect The major aspects in astrology are conjunction, sextile, trine, square, and
+opposition.
+midheaven The sign on the cusp of the tenth house of the horoscope is referred to as the
+midheaven or medium coeli. It is the point at which the Sun is at midday at the time and place
+the subject of the horoscope is born. It is one of the four cardinal points in a horoscope and the
+second most powerful following the ascendant.
+minor aspect Some minor aspects in astrology are the semi-square (45 degrees apart), the
+semi-sextile (30 degrees apart), and the quincunx (150 degrees apart).
+new moon The conjunction of the Sun and the Moon. The time when the Moon is at the exact
+same degree as the Sun.
+orb Refers to the range of degrees within which an aspect is considered to be operating. The
+closer the two planets are in degree, or orb, the stronger or more potent the aspect will be. The
+farther the two planets are in degree, the weaker the effect will be.
+Part of Fortune An important Arabic part which benefits the house in which it is located at
+birth.
+ruler Certain planets have been given rulership over certain signs. For further details please
+refer to Appendixes 1, 2, and 3.
+separating aspect A separating aspect refers to a planet that is moving away from an exact
+aspect with a slower-moving planet or a fixed point in a chart.
+soft aspect These aspects are comfortable and harmonious, bringing ease and opportunity.
+Sextiles and trines are considered to be soft aspects. Some conjunctions are considered soft
+aspects, depending on the planets involved.
+stellium Multiple conjunction of three or more planets in the same sign or house. A
+conjunction describes the combined forces of the planets involved; therefore, the stellium
+indicates a massive concentration of energies in the sign and house in question.
+synodic period The term refers to the length of time during which a body in the solar system
+makes one complete orbit of the Sun relative to the Earth; that is, it returns to the same
+elongation.
+transit Astrologers use a wide variety of timing techniques and a “transit” is the primary tool of
+predictive astrology. Transits are the day-to-day movements of the planets and the aspects
+they form to one another. They vary a great deal in their effect depending upon which planets
+are involved.
+
+Bibliography
+
+SUGGESTED READING
+Appel, Gerald.
+Singalert, 1979.
+
+The Moving Average Convergence-Divergence Method. Great Neck, NY:
+
+Elder, Alexander. Trading for a Living: Psychology, Trading Tactics, Money Management. New
+York: John Wiley & Sons, 1993.
+Gartley, H. M. Profits in the Stock Market. Pomeroy, WA: Lambert-Gann, 1981.
+Khalil, Walid, and David Steckler. “In the Volume Zone.”
+Commodities (May 2011).
+
+Technical Analysis of Stocks &
+
+Magee, John J., and Robert D. Edwards. Technical Analysis of Stock Trends. New York: New York
+Institute of Finance, 1966.
+Murphy, John J. Technical Analysis of the Futures Markets. Englewood Cliffs, NJ: Prentice-Hall,
+1986.
+Prechter, Robert R., and Alfred John Frost. Elliott Wave Principle: Key to Stock Market Profits.
+Gainesville, GA: New Classics Library, 1978.
+Pring, Martin J. Technical Analysis Explained. 3rd ed. New York: McGraw-Hill, 1991.
+Raschke, Linda Bradford, and Laurence A. Connors. Street Smarts, High Probability Short Term
+Trading Strategies. Jersey City, NJ: M. Gordon Publishing Group, 1995.
+Schwager, Jack D. The New Market Wizards: Interviews with Top Traders. Columbia, MD:
+Marketplace Books, 2008.
+Wee, Chow-Hou. Sun Zi Art of War: An Illustrated Translation with Asian Perspectives and
+Insights. Upper Saddle River, NJ: Pearson/Prentice Hall, 2003.
+Wilder, J. Welles, Jr. New Concepts in Technical Trading Systems. Greensboro, NC: Trend
+Research, 1978.
+
+ASTROLOGICAL BOOKS
+Farnell, Kim, ed. Astrology. London: Foundry Creative Media Company, 2002.
+McEvers, Joan, ed. Financial Astrology. Woodbury, MN: Llewellyn Worldwide, Ltd., 1991.
+Meridian, Bill. Bill Meridian’s Planetary Stock Trading–III. New York: Cycles Research, 2002.
+Parker, Julia, and Derek Parker. Parkers’ Astrology. New York: DK Publishing, 1991.
+Stathis, Georgia Anna. Business Astrology 101: Weaving the Web between Business and Myth.
+Pleasant Hill, CA: Starcycles Publishing, 2001.
+Michelsen, Neil F., and Rique Pottenger. The American Ephemeris for the 21st Century:
+2001–2050 at Noon. Rev. ed. Epping, NH: ACS Publications, 1996.
+
+CHARTING SOFTWARE PROGRAMS
+MetaStock, Equis International, 90 South 400 West, Suite 620, Salt Lake City, UT 84101.
+www.equis.com
+TradeStation, Omega Research, 9200 Sunset Drive, Miami FL 33173.
+www.tradestation.com
+See also
+http://fc-cd.com/omega.htm
+
+ASTROLOGY SOFTWARE PROGRAMS
+SolarFire8, Astrolabe
+
+www.alabe.com
+
+Astrowin123
+
+www.astrowin.org/astro123.php
+
+FINANCIAL ASTROLOGY SOFTWARE
+PROGRAMS
+AIR Software—The Market Trader/Titanium
+
+www.alphee.com/
+
+TimingSolution—Advanced/Terra Incognito

@@ -1,0 +1,442 @@
+
+460
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+High
+
+Rule Under Fit
+:.--- Rule Over Fit
+Too Simple -------.:
+Too Complex
+,
+,
+Training Set
+Performance
+Test Set
+
+.---
+
+~ """_----9------ ~e7ance
+
+Rule
+Performance
+
+Optimal
+Complexity
+
+--
+
+(Proper degree of fit)
+
+Low
+Low
+
+High
+
+Rule Complexity
+FIGURE 9.8 Optimizing rule complexity.
+
+would be run on the training set. If each moving average were allowed 10
+possible parameter values, a brute-force search would involve 100 tests. 21
+The parameter combination with the highest performance in the training
+set (Le., the best rule) would then be run on the test data set. Assume that
+the best rule earned a 30 percent annualized return in the training data
+and a 15 percent return in the test data. So far, this is nothing but ordinary
+parameter optimization, and because the test data has been used only one
+time, the 15 percent return is an unbiased estimate of the rule's future performance.
+Now, suppose that we are not satisfied with a 15 percent annualized
+return, so we start to data mine a broader universe that includes complex
+rules that build on the simple two moving-average crossover rule. 22 We go
+back to the drawing board and propose a more complex rule by adding a
+rule based on an Wilder's Relative Strength Index (RSI), an indicator that
+measures the rate of price change. In this example, the addition of the RSI
+rule alters the original dual moving-average crossover rule from one that
+always reverses from long to short or short to long to a rule that can remain out of the market altogether. One way to do this would be to use the
+RSI indicator as a filter: If the RSI indicator is greater than a threshold,
+rsi_max, at the time of a sell signal by the basic dual-moving-average
+crossover rule, a neutral position would be taken instead of a short position. Conversely, and if the RSI were less than the threshold, rsLmin, at
+the time of a dual-moving-average buy signal, a neutral position instead of
+
+Case Study Results and the Future of TA
+
+461
+
+a long position would be taken. This more complex rule has four parameters that can be optimized: short moving-average span, long moving-average
+span, rsLmax, and rsLmin. A large number of parameter combinations
+are then run against the training data.
+As expected, the increased complexity allows the four-parameter rule
+to earn a higher return in the training data. Suppose it makes 50 percent in
+the training data compared to 30 percent earned by its two-parameter predecessor. The increased performance in the training data was a predictable
+consequence of the increased complexity (additional parameters). We are,
+however, pleasantly surprised to learn that the four-parameter rule also
+does better in the testing set, earning 20 percent versus the 15 percent
+earned by the basic dual moving-average rule. When a more complex rule
+performs better in the test set, it is reasonable to assume that the additional complexity successfully exploited additional systematic aspects of
+market behavior.
+Therefore, it's back to the drawing board again with another attempt
+to improve the rule performance with yet additional complexity. This involves new conditions with additional paranleters. The new conditions
+might be other filters, or they could be alternative entry signals. At each
+increment in complexity, all the possible combinations of the parameter
+values are evaluated on the training set and the best performing combination is then run against the test set. The process of adding complexity is
+continued until performance in the test set begins to decline. This is the
+signal that the boundary between underfitting and overfitting has been
+crossed; the additional complexity has begun to fit the noise in the training data. The optimal rule is the rule of highest complexity that did the
+best performance in the test set.
+What then is the purpose of the third data segment, the validation set?
+Thus far, it has not been touched. The astute reader will have realized that
+the performance attained by the optimal complexity rule in the test data
+set is positively biased. The repeated visits to the test set to find the rule of
+optinlal complexity induced a positive bias-the data-mining bias. Hence,
+to obtain an unbiased estimate of the optimal complexity rule's expected
+performance in the future, we must go to the validation set. Because the
+validation set was not utilized in the search for optimal parameter values
+or optimal complexity, it remains untainted.
+
+THE FUTURE OF TECHNICAL ANALYSIS
+Technical analysis stands at a fork in the road. Its future depends on the
+path practitioners take. The traditional path continues the nonscientific
+subjectivist tradition of naive theories built on untestable propositions,
+
+462
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+anecdotal evidence, and intuitive analysis. The other path is the scientific
+approach, which I refer to as evidence-based technical analysis (EBTA). It
+is confined to testable methods and objective evidence, rigorously and
+skeptically examined with the appropriate tools of statistical inference.
+Thus, EBTA charts a course between foolish gullibility and relentless
+skepticism.
+I now exercise literary license for literary effect and make the following unfalsifiable, forecast: Technical analysis will be marginalized to the
+extent it does not modernize. There are ample precedents in the history
+of science to substantiate this statement. Astrology, which gave birth to
+the science of astronomy, now languishes on the periphery while its offspring thrives as the mainstream discipline.
+Will TA remain on its traditional unscientific path, thus fating it to be
+cast aside with other ancient practices, or will it adopt EBTA and remain
+vital and relevant? The historical precedents are not favorable. The history of science suggests that few practitioners who are committed to a
+given paradigm ever abandon it. This is consistent with evidence presented in Chapter 2, which established that beliefs are extremely resilient.
+Studies have shown that a belief can survive a complete discrediting of
+the evidence that originally gave rise to the belief. If TA were to remain on
+its traditional path, it would indeed be unfortunate. I believe that this will
+inevitably lead to TA relinquishing territory it originally staked to more
+rigorous disciplines, such as empirical and behavioral finance.
+This is not to suggest that traditional TA will lose all its fans. There
+will always be consumers for the services of soothsayers and seers. Divining the future is, after all, the world's second oldest profession. 23 Some audience is assured because of a deep psychic need to reduce anxiety
+provoked by the uncertainty of the future. According to Scott Armstrong,
+an expert in forecasting theory, the brisk demand for the seers' services is
+most certainly not attributable to forecast accuracy. In his paper, "The
+Seer-Sucker Theory: The Value of Experts in Forecasting,"24 Armstrong argues that people pay heavily for the experts' views, despite their lack of
+accuracy. What customers are really buying is an illusory reduction in uncertainty and an off-loading of responsibility onto the expert. Armstrong
+refers to these consumers as suckers because of the barrage of studies
+cited in his paper showing that experts' forecasts are minimally better
+than those of nonexperts. This lack of accuracy has been found to hold
+true across a range of disciplines, including financial predictions.
+One seminal study cited by Armstrong is by Alfred Cowles,25 who
+studied the track record of the market-guru of the early 1930s, Hamilton,
+the editor of the Wall Street Journal. Despite Hamilton's reputation
+among his readers, Cowles's study showed that, over the period 1902 to
+1929, 50 percent of the guru's forecasts of directional change were wrong.
+
+Case Study Results and the Future of TA
+
+463
+
+Cowles also reviewed the predictive performance of 20 insurance companies, 16 financial services, and 24 financial publications, all of which produced unimpressive records. The same conclusion can be found in the
+statistics provided by Hulbert's financial digest, which currently follows
+the perforn1ance of over 500 investment portfolios recommended by
+newsletters. In one Hulbert study, 57 newsletters were tracked for the 10year period from August 1987 through August 1998. During that time, less
+than 10 percent of the newsletters beat the Wilshire 5000 Index's compound rate of return.
+Am1strong also contends that expertise, beyond a minimal level, adds
+little in the way of predictive accuracy. Thus, consumers would be better off
+buying the least expensive predictions, which are likely to be as accurate as
+the most expensive, or investing the modest effort required to achieve a level
+of accuracy that would be comparable to the most expensive experts.
+Recently, there have been signs that sophisticated consumers of Wall
+Street advice are unwilling to pay for traditional TA. During 2005, two of
+Wall Street's largest brokerage firms shut down traditional TA research departments. 26 Whether this is a random blip or the start of a trend remains
+to be seen.
+Evidence-Based Technjcal Analysis:
+The Scientific Path
+
+Adopting a scientific approach will have immediate benefits for technical
+analysis. The elimination of subjective TA, either by its being reformulated
+into objective testable methods or by jettisoning it altogether, would
+transform TA into a legitimate scientific activity. Only ideas that are
+testable would be entertained, and only those that prove themselves with
+objective evidence would be admitted to its body of knowledge.
+This is not to suggest that, if EBTA were to be adopted, all answers
+will be clear-cut and all debate will end-far from it. Debate is part and
+parcel of the scientific process. Even in the hard sciences, important questions seek resolution, but the questions are about meaningful hypotheses
+that spin off testable consequences.
+EBTA has limits. The major one is the inability to conduct controlled
+experiments, the gold standard of scientific investigation. In a controlled
+experiment, the effect of one variable can be isolated and studied by holding all other variables constant. TA is inevitably an observational science
+that must look to history for new knowledge.
+Technical analysis is not alone in this regard. Archeology, paleontology, and geology also rely on historical data. Nevertheless, they are scientific disciplines because they deal in testable questions and look to
+objective evidence to separate useful from useless ideas.
+
+464
+
+CASE STUDY: SIGNAL RULES FOR THE S&P 500 INDEX
+
+There are statistical procedures that can partly ameliorate the lack
+of experimental controls. For example, when Fosback27 quantified the
+optimism/pessimism of mutual-fund managers, he removed the confounding effect of short-term interest rates on cash reserves with regression analysis. By nullifying the powerful influence of short-term interest
+rates on mutual fund cash reserves, he was able to derive an uncontaminated measure of fund manager psychology called the Fosback Index. In
+a like manner, Jacobs and Levy28 used multiple regression analysis to
+minimize the confounding effects of multiple variables. This allowed
+them to derive purified indicators for the prediction of relative stock
+performance. For example, they were able to measure the pure returnreversaF9 effect, thus revealing it to be one of the most powerful and
+consistent predictors of relative stock performance. In other words,
+they found a TA effect that works, namely, stocks that have been weak
+over the past month tend to have positive relative performance over the
+following month.
+Another disadvantage of not being able to conduct controlled experiments is the inability to produce new samples of data. Technical analysis researchers have one body of market history that gets used over and
+over again. This contributes to the data-mining-bias problem. The more
+rules one tests in a given body of data, the more likely a rule will fit the
+data by accident. The inability to produce new sets of observations,
+which can be done in the experimental sciences, underscores the importance of using statistical inference methods that take the data-mining
+bias into account.
+The Expert's Role in a
+Human-Computer Partnership
+I assert that the future of TA would be best served by a partnership between TA experts and computers. This is not a new prescription. I was
+first exposed to it in the writings of Felsen30 over 30 years ago, and leading
+edge TA practitioners have been taking advantage of advanced data modeling and machine learning for almost as long. 31 Within the past decade,
+numerous articles in peer-reviewed journals have shown the value of applying advanced data-mining methods to technical and fundamental indicators. Valid objective patterns have been found. 32
+This partnership exploits a synergy between human experts and computers. The synergy exists because the information processing abilities of
+these two entities are complimentary-computers are strong where humans are weak and visa versa. I am referring specifically to computers
+armed with data mining software and humans possessing expertise in a
+particular domain: TA, cytology, oil field geology, etc.
+
+Case Study Results and the Future of TA
+
+465
+
+Though it is an oversimplification, people are inventive but computers are not. People can pose questions and hypothesize explanations that
+organize disparate facts into a pattern. However, this uniquely human
+ability has a dark side; it makes us gullible. Our gullibility is a consequence of a mind that evolved to be more prone to a state of belief than
+an attitude of skepticism. Therefore, although we are good at proposing
+ideas, like new indicators or new rules to test, we are ineffectual at the
+equally important task of disposing of poor ideas. Moreover, our intellect
+never evolved to interpret highly complex or random phenomena. This
+shows up in our limited abilities to engage in configural thinking, the intellectual task required when combining a multitude of variables into a
+prediction or judgment.
+Though computers cannot invent, data-mining software allows them
+to dispose of irrelevant indicators and to synthesize complex models that
+can combine numerous variables into predictions. In other words, computers can engage in configural analysis. A computer's ability to synthesize complex high-dimensional models is only limited by the amount of
+data available. This constraint on predictive modeling, known as the curse
+of dimensionality, was named by mathematician Richard Bellman. In
+essence it says that as the number of indicators comprising a multidimensional space is increased, where each indicator is represented by a dimension, the observations populating the space become less dense at an
+exponential rate. A certain level of data density is required to allow datamining software to distinguish valid patterns from background randomness. Maintaining a given level of data density as dimensions are increased
+thus requires an exponentially increasing number of observations. If 100
+observations meet data density requirements at the two-dimensional level,
+1,000 would be required at three dimensions and 10,000 at four dimensions.
+Despite this very real limitation on data mining, modem data-mining software is infinitely better at configural reasoning and complex pattern detection than the smartest humans.
+The bottom line is this: Computers can do what people can't and people can do what computers can't. It is the perfect marriage.
+The Futility of the Subjective Forecaster
+
+Despite the potential of a human-computer synergy many traditional practitioners insist on using subjective methods to derive a forecast or signal
+from a multitude of indicators. They do so in the face of an overwhelming
+body of evidence, that has been accumulating over the last 50 years that
+demonstrates the futility of such an approach. These studies show that, for
+recurrent prediction problems, across a variety of fields, subjective predictions are rarely superior to predictions based on even simple statistical
+
+466
+
+CASE STUDY: SIGNAL RULES FOR THE S&P sao INDEX
+
+rules (models). A recurrent prediction problem is one in which the same
+type of prediction must be made repeatedly on the basis of a similar set of
+information. Examples of recurring prediction problems include technical
+analysis, predicting violence of prisoners being released, predicting if a
+borrower is likely to default on a loan, and so on. The information set that
+is available to the decision maker is a set of readings on a multitude of
+variables. In TA, this would be a set of technical indicator readings. In
+credit evaluation, it would be a set of financial ratios. The task is to determine if there exists a stable functional relationship between the indicators
+and the outcome that is to be predicted, to ascertain what the nature of
+that relationship is, and then to combine the variables according to that
+functional relationship. When the relationship is complex and involves
+more than just a few factors, the decision maker is faced with a configural
+thinking problem that exceeds human intellectual limits. The only choice
+for the subjective expert is to fall back on intuition.
+The seminal study comparing the accuracy of subjective predictions
+(expert intuition) to predictions based on statistical rules (models) was
+done by Paul Meehl 33 in 1954. It was a review of prior studies, known as a
+meta-analysis, which examined 20 studies that had compared the subjective diagnoses of psychologists and psychiatrists with those produced by
+linear statistical models. The studies covered the prediction of academic
+success, the likelihood of criminal recidivism, and predicting the outcomes of electrical shock therapy. In each case, the experts rendered a
+judgment by evaluating a multitude of variables in a subjective manner.
+"In all studies, the statistical model provided more accurate predictions or
+the two methods tied. "34 A subsequent study by Sawyer35 was a meta
+analysis of 45 studies. "Again, there was not a single study in which clinical global judgment was superior to the statistical prediction (termed 'mechanical combination' by Sawyer)."36 Sawyer's investigation is noteworthy
+because he considered studies in which the human expert was allowed access to information that was not considered by the statistical model, and
+yet the model was still superior. For example, the academic performance
+of 37,500 sailors in naval training school was more accurately predicted
+by a model based on test scores than by judges who had access to test
+scores and who had conducted personal interviews. The judges apparently gave too much weight to the nuanced information they thought they
+had obtained in the personal interviews and gave too little to objective
+measurable facts.
+An article by Camerer37 compared the accuracy of experts' subjective
+predictions with two objective methods: the predictions of multivariate
+linear models derived with regression analysis and a second method
+based on a mathematical model of how the experts rendered their judgments. The least accurate predictions were the subjective judgments
+
+467
+
+Case Study Results and the Future of TA
+
+made by experts. The most accurate predictions were made by the linear
+regression model. Figure 9.9 was prepared from data presented by Russo
+and Schoemaker38 summarizing Camerer's results. The figure of merit
+used to compare the forecasting methods was the correlation coefficient
+between predicted outcome and actual outcome. The correlation coefficient can range from 0, signifying the predictions were wortWess, to 1.0
+signifying perfect predictive accuracy. The prediction problems spanned
+nine different fields: (1) academic performance of graduate students, (2)
+life-expectancy of cancer patients, (3) changes in stock prices, (4) mental
+illness using personality tests, (5) grades and attitudes in a psychology
+course, (6) business failures using financial ratios, (7) students' ratings of
+teaching effectiveness, (8) performance of life insurance sales personnel,
+and (9) IQ scores using Rorschach Tests. Note that the average correlation of the statistical model was 0.64 versus the expert average of 0.33. In
+terms of information content, which is measured by the correlation coefficient squared or r-squared, the model's predictions were on average 3.76
+times as informative as the experts'.
+Numerous additional studies comparing expert judgment to statistical
+models (rules) have confirmed these findings, forcing the conclusion that
+people do poorly when attempting to combine a multitude of variables to
+make predictions or judgments. In 1968, Goldberg39 showed that a linear
+prediction model utilizing personality test scores as inputs could discriminate neurotic from psychotic patients better than experienced clinical diagnosticians. The model was 70 percent accurate compared with expert
+accuracy that ranged from 52 percent to 67 percent. A 1983 study showed
+
+0.9
+0.8
+0.7
+
+Correlation
+Predicted
+versus
+Actual
+
+0.5
+0.4
+
+0.2
+0.\
+
+-
+
+l-
+
+-
+
+0.64
+
+-
+
+f--
+
+l-
+
+:..::.- :..:..:...: - r-=-=-=
+
+F-=- -
+
+- 1-=-'-
+
+-:= - r-=-=-: - .:..:I-
+
+F
+
+-
+
+f-F'
+
+f-
+
+f-
+
+-
+
+I-
+
+l-
+
+I-
+
+f--
+
+-
+
+o-
+
+0
+
+Expert
+Mean
+
+0.33
+
+-
+
+-0.1
+
+2
+I~IGURE 9.9
+
+Model
+----------- -- Mean
+
+-
+
+0.6
+
+0.3
+
+Expert 0
+Model 0
+
+------------
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Predictive performance of subjective expert versus objective linear
+model in nine fields.
+
+468
+
+CASE STUDY: SIGNAL RULES FOR THE S&P sao INDEX
+
+how poorly human experts do when the number of variables is increased.
+The task was to predict the propensity for violence among newly admitted
+male psychiatric patients based on 19 inputs. The average accuracy of the
+experts, as measured by the correlation coefficient between their prediction of violence and the actual manifestation of violence, was a poor 0.12.
+The single best expert had a score of 0.36. The predictions of a linear statistical model, using the same set of 19 inputs, achieved a correlation of
+0.82. In this instance the model's predictions were nearly 50 times more informative than the experts'.
+Meehl continued to expand his research of comparing experts and
+statistical models and in 1986 concluded that "There is no controversy in
+social science which shows such a large body of qualitatively diverse studies coming out so uniformly in the same direction as this one. When you
+are pushing 90 investigations [currently greater than 1504°] predicting
+everything from the outcomes of football games to the diagnosis of liver
+disease and when you can hardly come up with a half dozen studies showing even a weak tendency in favor of the clinician, it is time to draw a
+practical conclusion."41
+The evidence continues to accumulate, yet few experts pay heed. The
+most comprehensive study comparing the accuracy of experts' predictions with those produced by linear statistical prediction models was
+done by Grove and Meehl in 1996,42 which covers 136 studies. In 96 percent of these studies, the rules either outperfornled or equaled the experts. In a similar study in 2000, Swets, Monahan, and Dawes compared
+three methods of prediction in medicine and psychology: (1) expert subjective judgment, (2) statistical rules (models), and (3) a combination of
+the first two where the output of the statistical rule was modified by the
+expert's judgment. Their finding was consistent with prior studies, leading
+to the conclusion that experts who continue to operate on the basis of
+subjective judgment, are not only in error in a predictive sense but perhaps in an ethical one as well. 43
+From the foregoing, Hastie and Dawes44 draw the following conclusions.
+1. Experts and novices make subjective judgments by relying on a relatively small number of inputs (3 to 5). Assessments of livestock

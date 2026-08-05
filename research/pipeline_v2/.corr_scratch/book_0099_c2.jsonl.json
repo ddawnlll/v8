@@ -1,0 +1,230 @@
+[
+  {
+    "claim_ref": "book_0099::lead_book_0099_1_107",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 135,
+    "exact_text": "The bottom spike example in Figure 7-2 is, in contrast, an important bar\nnamed a key reversal because on the next few days, the price proceeded to\nmake lower highs and l",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_1_108",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_082",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_1_110",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_084",
+    "verdict": "corroboration",
+    "behavior_id": "volatility_breakout",
+    "page": 119,
+    "exact_text": "Range contraction\nand expansion are powerful forecasting tools of an upcoming breakout. You\ncan start planning the trade.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_091",
+    "verdict": "corroboration",
+    "behavior_id": "volatility_breakout",
+    "page": 119,
+    "exact_text": "The price touching or slightly breaking the top of the band is a continuation\nsignal. Often the price continues to walk up or walk down the band, as shown\nin Figure 14-5. A Bollinger band breakout is just like any other breakout — you\nexpect the price to continue moving in the same direction as the breakout.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_092",
+    "verdict": "corroboration",
+    "behavior_id": "volatility_breakout",
+    "page": 119,
+    "exact_text": "As with Bollinger bands, a breakout above the upper band signals continuation, but because breakouts are a sign of abnormally high volatility, you\ncan usually count on a pullback to the median.",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "lower ATR band width",
+        "value": "150 percent of the ATR (50 percent wider than the upper band)",
+        "page": 119
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_093",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_094",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_095",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_097",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_098",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_100",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_101",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 131,
+    "exact_text": "When bulls fail to get a breakout above the established high,\nit’s a pretty good sign that sellers are happy to unload the security at that\nprice.",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_104",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_105",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_106",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 143,
+    "exact_text": "You buy\nwhen the 5-day moving average crosses above the 20-day moving average\nand sell when the closing price crosses below the 5-day moving average.",
+    "added_conditions": [
+      "a crossover has to exceed the extent of the previous crossover in the same direction"
+    ],
+    "added_parameters": [
+      {
+        "name": "fast moving average",
+        "value": "5-day",
+        "page": 143
+      },
+      {
+        "name": "slow moving average",
+        "value": "20-day",
+        "page": 143
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_107",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 143,
+    "exact_text": "your security may be on a rising trend when suddenly you\nnotice a candlestick, like a hanging man (see Chapter 8), that is a big warning\nand decide to exit early",
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_108",
+    "verdict": "corroboration",
+    "behavior_id": "line_crossover_momentum",
+    "page": 143,
+    "exact_text": "You buy when the 5-day moving average\ncloses above the 20-day moving average (the thicker line) and sell when the\nprice closes belo",
+    "added_conditions": [],
+    "added_parameters": [
+      {
+        "name": "fast moving average",
+        "value": "5-day",
+        "page": 143
+      },
+      {
+        "name": "slow moving average",
+        "value": "20-day",
+        "page": 143
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_110",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_111",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0099::lead_book_0099_2_115",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  }
+]

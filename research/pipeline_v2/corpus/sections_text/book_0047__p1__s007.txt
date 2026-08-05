@@ -1,0 +1,382 @@
+
+CHAPTER
+
+5
+Fundamental
+Analysis
+Analyzing Exchange Rates Based
+on Fundamental Factors
+Fundamental analysis deals with the external factors that move currencies.
+These factors might be quantifiable, like those that fall under the umbrella of
+economics or finance. There are also numerous qualitative factors, such as
+investor sentiment, political developments, and crises of various kinds. As I
+explained in Chapter 3, all of these factors can influence exchange rates, and
+determining just how this takes place is the job of the fundamental analyst.
+At the heart of fundamental analysis is the notion of equilibrium. At any
+given time, a currency pair should trade at a particular rate that balances
+trade and investment flows. Of course, fluctuations in market risk appetite
+and unexpected developments may imply a rate that is well above or below
+what financial-economic conditions justify. If you accept the efficient market
+hypothesis in its weak form—the idea that all public information has already
+been priced into the exchange rate—then this isn’t a major concern.
+Fundamental analysis is ultimately more art than science. As you’ll see from
+the pages that follow, competing narratives abound in the forex markets, and
+this makes fundamental analysis difficult even in the most stable market
+conditions. Still, those that are able to read the tea leaves correctly (and are
+able to develop good forecasts) will find fundamental analysis of exchange
+rates to be a rewarding pursuit.
+
+96
+
+Chapter 5 | Fundamental Analysis
+
+Interest Rate Analysis
+There are two overarching forces which describe how changes in central
+bank interest rates impact exchange rates: interest rate parity and the carry
+trade. Emerging (growth) currencies tend to trade in direct proportion to
+relative interest rate levels since higher rates attract speculative investors.
+Recall that investors in the carry trade seek to profit from positive interest
+rate differentials; hence, the higher the interest rate, the more attractive the
+corresponding currency. Currencies backed by stable (slow growth)
+economies generally fluctuate against one another so as to preserve interest
+rate parity, especially over the long term.
+In other words, interest rate adjustments lead to inverse changes in the
+exchange rates between major currencies. For example, a hike in the US
+federal funds rate should cause the US dollar to fall against the British
+pound, unless the Bank of England takes similar action. Recall from Figure
+3-5 in Chapter 3 that, from 2004 to the present, changes in the US/UK
+interest rate differential presaged corresponding changes in the GBP/USD
+rate. In order for interest rate parity to be maintained, a decline in US interest
+rates (relative to UK rates) should spur risk-averse investors away from the
+pound and toward the US dollar. The same logic can be applied to the Swiss
+franc, Japanese yen, euro, and Canadian dollar.
+This relationship is not set in stone. The actual impact will depend on
+investor sentiment and the prevailing market narrative. When risk appetite is
+extremely high, for example, investors might treat major currencies like
+emerging currencies. In the early 2000s, when the carry trade came into
+vogue, the US dollar rose rapidly against the yen in conjunction with a series
+of federal rate hikes. Similarly, when the Federal Reserve Bank, or
+commonly, the Fed, began cutting rates in 2007, investors moved to unwind
+their carry trade positions and the US dollar plunged against the yen. As a
+result, the USD/JPY underwent a massive correction (Figure 5-1) and interest
+rate parity was restored.
+
+Forex for Beginners
+
+Figure 5-1. USD/JPY response to changing interest rate differential
+
+One way to conceptualize this is that, due to high appetite for risk, spot
+market traders were willing to violate covered interest rate parity in order to
+secure immediate short-term profits. When risk appetite tanked (in the lead
+up to the 2008 credit crisis) and the US/Japan interest rate differential
+simultaneously narrowed, the short-term benefit of holding the US dollar
+against the Japanese yen was eliminated. Another way to understand this is
+that the spot market (which was betting on the dollar) fell out of equilibrium
+with the forward market (which implied a weaker dollar, in accordance with
+covered interest rate parity) and was only restored when speculators in the
+spot market retreated.
+You can see from Figure 5-1 that both the long-term uptrend (from 2004 to
+2007) in the USD/JPY and the long-term downtrend that followed (from
+2007 to present) were preceded by changes in the interest rate differential.
+(To be fair, the downtrend was much due to the inception of the global
+financial crisis, and falling US interest rates were probably more of an effect
+than a cause. I will explore this idea later in greater detail.) A fundamental
+analyst, then, might have seen an opportunity to buy the USD/JPY in 2005
+and a basis for selling in 2007.
+In fact, the carry trade has become one of the most reliable trades in forex.
+When investors buy a high-yielding currency against a low-yielding one,
+
+97
+
+98
+
+Chapter 5 | Fundamental Analysis
+they can capture an interest rate spread. Their expectation is that the
+underlying exchange rate will remain stable so that adverse changes don’t
+erode interest earnings. When market risk appetite is strong, a flood of
+speculative capital into carry trade strategies actually forces the underlying
+exchange rate to rise, and profits from currency appreciation become an
+added bonus for those seeking low-risk interest. When the tide turns,
+however, the whipsaw of money flowing out of carry trades can be just as
+ferocious. This is typically triggered by a change in risk appetite rather than a
+change in interest rate differentials.
+Emerging market currencies represent the primary targets for carry traders
+since their corresponding short-term interest rates are perennially high. Their
+industrialized counterparts, on the flipside, are known for low rates and are
+better utilized on the short end of the carry trade as funding currencies. Of
+course, emerging market currencies are also plagued by higher volatility,
+monetary instability, lower liquidity, and logistical issues related to trading
+them. The benchmark interest rates of Angola and Kenya, for example, are
+perennially among the highest in the world, but, for many reasons, their
+currencies are not well suited for carry trading, let alone normal currency
+speculation.
+Before we get ahead of ourselves, consider that there are in fact many
+different interest rates, depending on which entity is performing the
+calculation. For example, most central banks control a base interest rate that
+they determine outright or merely target (as in the case of the Federal
+Reserve Bank). The Fed has its federal funds rate and discount rate. The
+European Central Bank has its refinancing rate. The Bank of England uses a
+repo rate while the Bank of Japan prefers an overnight call rate. While the
+nuts and bolts of each country’s rate mechanism are slightly different, the
+objective is always the same: to achieve economic stability. For example,
+when an economy is expanding too quickly and price inflation picks up, the
+central bank will raise its benchmark interest rate in order to make saving
+more attractive than borrowing and spending. During a recession, the central
+bank will lower interest rates in order to make saving unattractive (at the
+expense of immediate consumption) and borrowing inexpensive.
+The central bank base rate is the rate at which banks lend to each other using
+deposits held with the central bank. It is typically the lowest rate throughout
+the entire financial system. Moreover, it is typically utilized in exchange rate
+models because it is the easiest to compare across different countries and
+over time. (See Figure 5-2.)
+
+Forex for Beginners
+
+Figure 5-2. Central bank base interest rates for selected economies, change over time
+
+As one moves down the pyramid of size and liquidity, from large bank to
+small business to consumer, interest rates can be expected to rise
+incrementally in order to compensate for the perception of greater credit risk.
+You can also utilize London Interbank Offer Rates (LIBOR) rates, which are
+used for interbank loans and are determined by market forces. Comparing
+sovereign bond yields—like the US 10-year Treasury Bond Rate versus the
+UK 10-year Guilt Rate—is yet another option, though these rates reflect
+differences in government creditworthiness as much as differences in price
+inflation and economic growth and are hence less applicable.
+Except in rare circumstances (such as during crises), interest rate adjustments
+are carried out by central banks only at regularly scheduled meetings. At the
+conclusion of these meetings, all changes in monetary policy (including rate
+changes) are announced to the public through written press releases and/or
+via live press conferences. Fundamental analysts pay especially close
+attention to these meetings, which are the focus of tremendous short-term
+speculation in the credit and forex markets. (Technical analysts are also
+keenly aware of the meetings’ significance and may avoid all trading during
+the volatile periods immediately before and after the announcement.) Most
+central banks will also release the minutes from their meetings, detailing
+what took place, how board members (also known as governors) voted on
+proposed changes in monetary policy, and so forth.
+
+99
+
+100
+
+Chapter 5 | Fundamental Analysis
+Central banks usually telegraph their intentions in advance to avoid shocking
+the markets. Press releases may thus contain insight into the near-future
+direction of monetary policy and are the subject of intense analytical
+scrutiny. In fact, every investment bank employs a research team whose sole
+responsibility is to develop interest rate forecasts, which are then channeled
+into bets in the credit markets. As a result, interest rate futures prices can be
+used as a basis for assessing the “probability” of interest rate hikes and are an
+important tool for fundamental analysts. (In fact, research has shown that
+futures markets slightly underestimate changes in the federal funds rate, but
+they are nonetheless the best insights into where investors believe rates are
+headed.)1
+Per Figure 5-3, the Fed is not expected to raise the federal funds rate from the
+current level of 0.0%–0.25% at its upcoming December meeting. The
+markets wavered slightly from this assumption in July, but have since settled
+on a 0.0% probability.
+
+Figure 5-3. Implied probability of federal funds rate change at December 2011 meeting
+(Source: The Cleveland Fed)
+
+As for how central bank interest rate adjustments impact the forex markets in
+real-time, that depends on investors’ expectations and specific market
+conditions. If the actual change is consistent with analysts’ forecasts, relevant
+1 Ed Nosal, “How Well Does the Federal Funds Futures Rate Predict the Future Federal
+
+Funds Rate?” Economic Commentary, October 2001, http://199.169.201.130/research
+/commentary/2001/1001.pdf.
+
+Forex for Beginners
+exchange rates probably won’t jump by much. If the rate change fails to
+accord with expectations or comes as a complete surprise, you would expect
+instant 50–100 PIP moves across the board.
+Furthermore, in an atmosphere that is considered hospitable to the carry
+trade, a rate hike will make the corresponding currency more attractive to
+speculators and should cause immediate or near-term appreciation. The
+opposite should be true for an interest rate cut. When risk appetite is weak,
+rate changes will be ignored by markets or result in inverse changes to the
+respective currency in line with purchasing power parity. Of course, there are
+exceptions to this rule. When the European Central Bank announced a
+surprise cut in its benchmark rate in November 2011, investors responded by
+selling the euro. That’s not because the euro suddenly became a more
+attractive funding currency for the carry trade, but because the cut triggered
+concerns that the Eurozone sovereign debt crisis had become more serious.
+
+Figure 5-4. Spot market reaction to November 2011 surprise European Central Bank rate cut
+
+101
+
+102
+
+Chapter 5 | Fundamental Analysis
+
+Inflation Analysis
+From the standpoint of fundamental analysis, the importance of inflation is
+twofold: it directly erodes the value of currency and is one of the primary
+drivers of monetary policy.
+Remember from Chapter 3 that purchasing power parity is one of the central
+tenets of exchange rate theory. And for good reason! Inflation makes
+currency less valuable in both absolute and relative terms. As a medium of
+exchange and store of value, a currency is only useful/valuable insofar as it
+can be used to purchase goods and services, both now and in the future. If
+prices are rising by 5% per year, then one unit of currency will necessarily be
+worth 5% less one year from now!
+Given that currencies are valued in terms of one another, inflation rates are
+mainly applicable to the forex markets on a comparative basis. (For instance,
+consider the possibility that inflation rates were synchronized at 5%
+throughout the entire world. In that case, the relative value of their currencies
+would not change, even though domestic consumers would suffer a 5%
+decline in domestic purchasing power.) This is one of the main reasons for
+the steady appreciation of the Japanese yen against the US dollar over the last
+several decades, which has taken place despite a handful of contradicting
+factors. Likewise, several emerging market currencies have stagnated
+because of inflation, their strong economies notwithstanding. As I explained,
+that’s because inflation has the same effect as currency depreciation. If
+macroeconomic fundamentals justify a 10% appreciation in the Brazilian
+real, but the Brazilian rate of inflation exceeds 10%, then the real should
+remain roughly in place in order for economic equilibrium to be maintained.
+While purchasing power parity is a reasonable guide for making multi-year
+exchange rate forecasts, its explanatory power is fairly limited over the short
+term, where the sway of inflation is mainly psychological. As long as the
+inflation rate remains at an acceptable level (which varies from 0%–10%,
+depending on the country and the strength of its economy), it tends to elicit
+little response from consumers and investors. That’s because moderate
+inflation has been shown to be crucial to proper economic function. If
+inflation were too low (or even negative), it would offset the balance between
+saving and investing, induce consumers to hoard cash, and interfere with the
+ability of central banks to conduct monetary policy, among other things. On
+the other hand, high inflation can quickly spiral into hyperinflation, causing
+economic disruption, loss of savings, and even social unrest. None of the
+
+Forex for Beginners
+major currencies has experienced hyperinflation in the modern era of forex.
+Similarly, more than two decades have passed since a bout of hyperinflation
+has plagued any of the top-tier emerging currencies. While some paranoid
+gold bugs would certainly disagree, hyperinflation is not a likely possibility
+in any of the currencies that are discussed in this book.
+At the same time, inflation is problematic for investors because it eats into
+investment returns. When inflation ticks up without a corresponding change
+in interest rates, the real interest rate (also known as the inflation-adjusted
+interest rate) is said to decline. Likewise, a 10% return on an equity
+investment is not so attractive if the rate of inflation is also hovering
+around 10%.
+Emerging market investors are especially sensitive to sudden upticks in
+inflation. That’s because currency appreciation has historically accounted for
+more than half of the returns earned by investors in emerging markets.2
+When inflation ticks up rapidly, emerging market investors will respond by
+shifting money back into industrialized economies until the responsible
+central bank takes steps toward monetary and price stability. By way of
+example, consider the case of the Brazilian real, whose speedy recovery in
+the wake of the financial crisis slowed to a halt in 2010, due in part to fears
+of rising inflation. The Brazilian real resumed its ascent in 2010, when the
+Bank of Brazil finally raised its benchmark Selic rate. This appreciation took
+place in spite of capital controls that were imposed by the central bank to
+deter speculators. (Note Figure 5-5.)
+Of course, the principal application of inflation to the currency markets
+involves its role as a guide for monetary policy decisions. Most central banks
+have an overarching mandate to control inflation. The Federal Reserve Bank
+has slightly more latitude as it is charged both with maximizing employment
+and maintaining price stability. When inflation rises, central banks respond
+by tightening monetary policy in the form of interest rate hikes and other
+adjustments. (At the very least, they will acknowledge inflation in their press
+releases and offer some indication as to whether it is viewed as a problem.)
+This should cause prices to stabilize and economic growth to cool. When
+inflation begins to fall, the central bank will respond by taking necessary
+action, like cutting rates. Indicators of inflation thus receive tremendous
+3 Steve Johnson, “Push to Tap into EM Currency Returns,” Financial Times, February
+
+27, 2011, www.ft.com/intl/cms/s/0/1170ed2e-4112-11e0-bf62-00144feabdc0.html#axzz1
+tlpZ6PJ8.
+
+103
+
+104
+
+Chapter 5 | Fundamental Analysis
+attention from the financial markets as they tend to presage changes in
+interest rates.
+
+Figure 5-5. Impact of rising inflation and falling real interest rates on the Brazilian real
+
+This relationship does break down from time to time. In the wake of the
+financial crisis, emerging market currencies had fallen to multi-year lows.
+Emerging market central banks were happy about this development because
+lower exchange rates made their exports relatively cheaper. The downside of
+this currency depreciation was import inflation. If the price of oil is $90 per
+barrel, for example, South Africa will pay 720 rand per barrel at an exchange
+rate of 8 USD/ZAR, but 810 if the Rand depreciates to 9 USD/ZAR. There
+will also be a trickle-down impact across the entire economy.
+As inflation picked up, then, emerging market central banks pondered raising
+interest rates. They feared, however, that rate hikes would invite speculative
+capital inflows from risk-driven investors eager to shake off the pall of the
+credit crisis. The resulting currency appreciation would affect exports and
+endanger their fragile economic recoveries. Sure enough, falling real interest
+rates caused emerging market currencies to stagnate in early 2010. Inflation
+rose further as emerging market central banks played monetary chicken with
+one another, opting to raise reserve requirement ratios rather than adjust
+interest rates. The Bank of Brazil finally broke down and hiked its
+
+Forex for Beginners
+benchmark Selic rate in late 2010, and other central banks followed suit in
+2011. Their currencies resumed their appreciation shortly thereafter.
+There are a handful of ways in which inflation is measured. Most
+governments have a branch that computes economic statistics. (In the United
+States, this task is delegated to the Departments of Labor and Commerce.)
+The Consumer Price Index (CPI) is perhaps the most comprehensive
+measure of inflation in an economy. Composed of a basket of tens of
+thousands of goods and services, it is designed to mimic the spending
+patterns of a broad spectrum of consumers. Of course, some items/sectors are
+weighted more heavily than others, such that a rise in the price of car tires
+will probably impact overall CPI less than a rise in home prices. CPI data is
+released once a month and is reported on both an overall basis and regional
+bases. It is often modified to exclude certain items, such as food and energy,
+which are considered too volatile. The end product is known as core inflation
+and represents one of the most important guides of monetary policy.
+(Conspiracy theorists will assert that this exclusion is intended to understate
+inflation, but to be fair, it also corrects for sudden declines in food and
+energy prices, as can be seen in Figure 5-6 below.)
+There are a handful of secondary inflation indicators, such as the GDP
+deflator and the producer price index (PPI). The former is computed by the
+US Department of Commerce and is used as a basis for converting nominal
+GDP into real GDP. The latter measures inflation as experienced by
+manufacturers. As is evident from Figure 5-6, producer price indexes are
+closely connected with exchange rate fluctuations, since most manufactured
+goods are assembled with overseas components. Secondary inflation indexes
+include the Commodity Research Board (CRB) Futures Index, which consists
+of prices for 21 commodities, as well as the Employment Cost Index and
+Import Price Index (IPI). (In fact, the Federal Reserve Bank’s statistical
+database contains more than 1,000 different measurements of inflation,
+segmented by economic sector, geographic region, end user, and so on.)
+Most indexes are seasonally adjusted, annualized, and converted into
+percentage form for ease of comparison.
+
+105
+
+106
+
+Chapter 5 | Fundamental Analysis
+
+Figure 5-6. Various indicators of US inflation from 2001 to the present
+
+Some analysts pay close attention to the Housing Price Index (HPI) under the
+belief that home prices play a critical role in guiding monetary policy. While
+the Fed certainly pays lip service to asset prices (including housing prices),
+however, it has insisted that these are outside of its mandate. In the past, the
+Fed has only been influenced by asset bubbles insofar as they threaten to
+affect the economy as a whole and price levels, broadly.
+Component indicators are monitored because they inform predictions for
+future inflation. As this book goes to press, the federal funds rate stands at
+0%, and history suggests that the Fed won’t hike rates until core inflation
+rises. In this case, rising inflation will probably be preceded by an increase in
+producer prices and/or a recovery in housing prices.
+Some economists—Milton Friedman, notably—have argued that price
+inflation is a function of growth in the money supply. The theory goes that, if
+new money enters circulation, the value of existing currency declines. When
+the Fed increased the money supply in 2009 as part of its quantitative easing
+program, for example, critics argued that it would trigger hyperinflation and
+lead to a crash in the US dollar. Chairman of the Federal Reserve Bank Ben
+Bernanke steadfastly responded that if and when inflation creeps upward, the
+Fed would simply withdraw the newly printed money from circulation. (Thus
+far, Bernanke’s position has been upheld.)3 In fact, it has always been the

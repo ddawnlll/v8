@@ -1,0 +1,382 @@
+
+Download at www.wowebook.com
+
+Appendix A Basic Statistics
+
+585
+
+mean will always be less than the arithmetic mean, with one minor exception: They will be equal
+if the return is identical in every period. The greater the variability in the returns, the greater the
+difference will be between the two measures. The previous example, with returns changing from
+–50% to +90% over just a four-year period, illustrates this point. Because investors are probably
+more interested in a high geometric mean return than a high arithmetic mean return, a good
+investment maxim is: Beware of Volatility!
+You will probably have minimal use for the mode in analyzing stock returns. However, the
+arithmetic mean, median, and geometric mean all have their uses. The mean, either arithmetic or
+geometric, is the most common measure.
+
+Measures of Dispersion
+In finance, there are many ways to think about the term “risk.” One way is to view risk as uncertainty about outcomes. If there is more variability in outcome set A than in outcome set B, we
+usually consider A to be the riskier choice. From the previous discussion about geometric mean,
+we know that it will be harder to reach a certain level of terminal wealth with a highly volatile
+investment.
+The two main measures of volatility are the variance and standard deviation. These are
+closely related because the standard deviation is the square root of the variance. The standard
+deviation is used more frequently because it has the advantage of being in the same units as the
+mean; the variance (being equal to the squared standard deviation) is in units that are difficult to
+interpret.
+For simplicity, let us assume that we have only four years of annual returns and want to
+calculate the standard deviation. Assume that the returns are 12%, –5%, 21%, and 12%. We can
+easily add these four numbers and divide by 4 to get the mean of 10%. Next, we compute the
+squared deviations from the mean and total them. Finally, we divide by 3 and take the square
+root. This is shown next (where σ is used to denote standard deviation):
+
+You might be wondering, as most people do, why we divided by 3 instead of 4. We could
+divide by 4 depending on how we interpret what we are doing. In statistics, we talk about a sample versus the population. The population is the entire set of possible outcomes or entire set of
+entities. For example, we can think of the adult population in the United States. A sample is
+when we examine a few outcomes or a few of the entities in the set and try to make inferences
+from them about the entire population. For example, we could conduct a survey of 1,000 randomly chosen adults in the United States as our sample. Therefore, in our numerical example,
+we could divide by 4, if we are assuming that these outcomes represent the entire set of outcomes. However, because we are probably interested in what outcomes may occur for many
+periods in the future, we can interpret the three outcomes as a sample of the population. For
+some complex reasons, we divide by 3 instead of 4 to get what is called an unbiased estimate.
+The number 3 in this case is referred to as degrees of freedom.
+
+Download at www.wowebook.com
+
+586
+
+Part IX Appendices
+
+Initially, there were 4 degrees of freedom. However, when we calculate the mean, which
+we need for the standard deviation, we are said to have used up 1 degree of freedom. Because we
+have 4 – 1 = 3 degrees of freedom remaining, we use that in the denominator. In our case of only
+4 outcomes, the choice of 3 or 4 makes a significant difference in the answer. However, if we
+had, say, 101 observations, the choice of dividing by either 101 or 100 would not make much difference. It is probably wise not to worry too much about whether or not you use n (the number of
+observations) or n – 1 in the denominator; usually it will not make much difference.
+With the concept of standard deviation in hand, we can now see a situation where using
+returns leads you to a different place than using prices. Suppose we observe the following prices
+for a given stock: 40.00, 44.00, 48.40, and 53.24. If we compute the mean, we get 46.41 with a
+standard deviation of 5.70. However, if we ignore any possible dividends and compute returns,
+they are 10%, 10%, and 10%. Notice that when we compute returns, we end up with one less
+observation because we use up one observation by focusing on changes in price. We need a
+beginning price to compute the first period’s return. Alternatively, we need an ending period
+price to calculate the return in the last period. Using returns, we have a mean of 10% and a standard deviation of 0%.
+If we think of risk as volatility, we now have a slight dilemma. If we focus on prices, we
+say that the stock is risky due to the variability, which is measured by the standard deviation of
+5.70. However, if we focus on return, we might say there is no risk at all because there is no
+volatility in the returns, and we have a standard deviation of 0%. Which view is correct? Note
+that the lack of volatility is due to a strong upward trend in the price. Remember the saying, “The
+trend is your friend”? We have just illustrated a possible statistical justification for that statement.
+There is no one correct view; you just have to be aware of what is happening and the implications
+of it for returns compared with prices.
+
+Relationships Between Variables
+Up to this point, we have considered statistics for just one variable. It is now time to broaden our
+perspective and consider more than one variable. As we could expect, things start getting more
+complicated.
+With one variable, we had a measure of variation called variance. The two-variable version of variance is covariance. It is calculated in a manner similar to variance. Let us use four
+months of stock returns for PepsiCo (PEP) and Coca-Cola (KO) to illustrate the calculation.
+PEP’s returns for January–April 2004 were 1.4%, 9.8%, 4.1%, and 1.2%. The returns for KO
+over the same period were –3.0%, 1.5%, 1.2%, and .05%. The mean return for PEP over the
+period was 4.125% (with standard deviation of 4.008%), while the mean return for KO was 5.0%
+(with standard deviation of 2.076%). To calculate covariance, we subtract the mean from each
+PEP observation, subtract the mean from the corresponding KO observation, multiply the results,
+add them together, and divide by the number of observations minus 1. So, we get (the covariance
+between i and j is denoted as covij):
+
+Download at www.wowebook.com
+
+587
+
+Appendix A Basic Statistics
+
+We saw that a major problem with variance was that the units of measurement were not
+meaningful. The same problem exists with covariance; the covariance value is hard to interpret.
+With variance, we solved the problem by taking the square root of the variance. With covariance,
+we solve it in a different manner—we divide the covariance by each of the standard deviations.
+This produces a number that can only range from –1 to +1. We call this number the correlation
+coefficient. Using the example from the previous covariance calculation, we get the following:
+
+This result means that PEP and KO were positively correlated to a reasonably strong
+degree over the period.
+If we have observations of a variable at consecutive time intervals, we refer to the variable
+as a time series variable, time series data, or just time series. If the correlation coefficient
+between two variables is +1, the two variables are perfectly correlated. In this case, when variable X goes up, Y goes up. When X is down, Y is down. If the variables are perfectly negatively
+correlated with a correlation coefficient of –1, the opposite is true—when X is up, Y is down, and
+vice versa. What does a correlation coefficient of 0 mean? It means that there is no discernible
+relationship between the two variables. If X is up, there is nothing meaningful that you can say
+about the value of Y; it could be up or down, or stay the same.
+There are two basic ways to picture time-series correlation relationships between two variables. The first is to graph the two variables against time; the second is to plot one on the x-axis
+and the other on the y-axis. Figure A.1 shows an example of the first type using monthly returns
+for Coke (ticker = KO) and PepsiCo (PEP) from January 2000 through December 2004. The second method is shown in Figure A.2.
+25%
+20%
+15%
+
+Monthly Return
+
+10%
+5%
+0%
+5%
+
+Mar.
+2000
+
+Oct. Apr.
+2000 2001
+
+Nov. May
+2001 2002
+
+Dec.
+2002
+
+June Jan.
+2003 2004
+
+Aug.
+2004
+
+Feb.
+2005
+
+10%
+PEP
+
+15%
+
+KO
+20%
+
+Time
+
+FIGURE A.1 Monthly returns for KO and PEP (January 2000–December 2004)
+
+Download at www.wowebook.com
+
+588
+
+Part IX Appendices
+
+KO Returns
+
+Look at Figure A.1. Notice that there is a general tendency for KO to be up when PEP is
+up, and for KO to be down when PEP is down. If the two stocks had been negatively correlated,
+they would have generally been moving in opposite directions. The actual correlation coefficient
+for the two stocks during this time was 0.489. If we draw two stocks at random from the S&P
+500 and measure the correlation coefficient for their returns, a typical value would be for about
+0.2 to 0.5, which we would call weak positive correlation. We would expect a higher value for
+KO and PEP, compared with two randomly chosen stocks, owing to the fact that they are in the
+same industry.
+
+y ⫽ 0.4564x ⫺ 0.0063
+R2 ⫽ 0.158
+
+PEP Returns
+
+FIGURE A.2 Monthly returns of KO versus PEP (January 2000–December 2004)
+
+Now, consider Figure A.2. In this case, we see the positive correlation from the fact that a
+line of best fit (to be explained shortly) drawn through the returns slopes from the southwest
+quadrant to the northeast quadrant. If the stocks were negatively correlated, the line would go
+from northwest to southeast. What if the correlation was 0? In that case, the scatter of points
+would look like a shotgun scatter around the center; there would be no discernible relationship,
+and the best-fitted line would be horizontal.
+In the previous discussion about correlation, we spoke of a line of best fit. We were intimating about doing a linear regression least-squares fit through the points. Suppose we had the
+same data points as we had in Figure A.2 for two variables, X and Y. If we were to draw a line
+such that the sum of the squared difference between the actual data points and our line was minimized (in other words, the line in question produced a lower sum than every other conceivable
+straight line), we would call it the least-squares regression line, or line of best fit. Statisticians
+have worked out the equation for such a line, so that you can calculate the intercept and slope of
+
+Download at www.wowebook.com
+
+Appendix A Basic Statistics
+
+589
+
+the least-squares regression line without actually having to plot the data and experiment with various lines. The equation for a line is often denoted as Y = a + bX. Using this notation, the equations for the line are as follows:
+
+where n is the number of observations, and Xi is the ith observation of the X variable. The summation symbol, X , simply means to add up all the X observations. The other summations work
+in a similar manner.
+This can all be done extremely easily in Excel. There are several different ways to have
+Excel do regression calculations, but one easy method is to have it put the line and equation on a
+chart of the data, as was done in Figure A.2. Because we are using the KO/PEP data, we would
+interpret this equation as saying, “KO’s returns can be estimated by taking the return for PEP in
+a given month, multiplying PEP’s return by 0.4564 (the slope), and adding –0.0063 (the intercept).”
+There is a very nice side benefit to the correlation coefficient. If we square it, we get a
+value called the r-squared or coefficient of determination. Because the correlation coefficient
+can only have values between –1 and +1, the r-squared value will be between 0 and 1 (because
+squaring results in a nonnegative number). Furthermore, this value is a measure of the goodnessof-fit. If we get an r-squared of 0.45, we are explaining 45% of the variability in KO’s returns
+through its relationship with PEP’s returns. The higher the r-squared, the better the fit. In our
+case, the r-squared value is 0.158, saying that we have explained 15.8% of the variation in KO’s
+returns with our equation. This might sound extremely low to you. However, remember that we
+said typical correlation coefficients between two stocks at random are usually between 0.2 and
+0.5? That means that one stock’s returns can typically explain about 4%–25% (obtained by
+squaring 0.2 and 0.5) of another stock’s returns. In many cases, the correlation coefficient is even
+less than 0.2, meaning that the r-squared may be close to 0.
+Before moving on, it is worthwhile to pause and think about what we just said about typical correlations between stock returns. Stocks do generally tend to move up and down together,
+as evidenced by positive correlation. However, the relationships are not hard and fast, but quite
+loose. Sometimes people refer to stock prices as being very noisy. By this, they mean that any
+relationships are subtle and tenuous. In communication theory, people talk about the signal-tonoise ratio. Imagine listening to a radio broadcast of a speech. With no interference and perfect
+transmission, the words in the speech, which correspond to the signal, are easily identified and
+understood. If there is heavy interference—because the radio station is far away, there is bad
+weather, or someone is using a poor hair dryer in the house—there is much noise. The more
+noise, the lower the signal-to-noise ratio and the harder it is to understand what is being said.
+Similarly, stock prices are noisy with a low signal-to-noise ratio. Any patterns or relationships
+that do exist are not easy to discern.
+n
+
+i
+
+i
+
+1
+
+Download at www.wowebook.com
+
+590
+
+Part IX Appendices
+
+The portion of the unexplained Y variable in each period is called the error term or residual. Let us examine a specific case to illustrate this. In May 2000, PEP’s return was 11.414%,
+while KO’s was 12.963%. Using the regression line equation in Figure A.2, we would estimate
+KO’s return as 4.579% (0.4564 ⫻ 11.414% – 0.63%). Note that we changed the intercept value
+of –0.0063 to percentage notation of –0.63%. The error in our estimate is 8.384% (12.963% –
+4.579%). When we perform regression, we implicitly assume that the error terms are random and
+have no relationship with each other. However, particularly using time series data, the error terms
+themselves may be correlated with each other, which is called autocorrelation or serial dependence. There is a statistical test called the Durbin-Watson test that helps detect autocorrelation. If
+autocorrelation is present, the fitted regression line may be inaccurate.
+In a regression, the variable being explained is called the dependent variable. The variable
+doing the explaining is called the independent variable, or explanatory variable. We can extend
+the idea of regression to more than one independent variable. This is called multiple regression.
+Logically, two explanatory variables are better than one, three are better than two, and so on. In
+fact, virtually any additional explanatory variable we include in a regression will improve the rsquared. For example, we might include monthly average temperature in Paris as an additional
+series to help explain stock returns. This would not make logical sense, and the temperature in
+Paris would not have causal relationship to stock returns, but the r-squared would probably
+increase. When using more than one independent variable, researchers examine what is known as
+the adjusted r-squared. The adjusted r-squared value penalizes the r-squared value as more independent variables are added to the regression equation. In effect, it helps balance benefit versus
+cost; is it beneficial to add a particular variable?
+One frequently encountered problem in performing multiple regressions is what is called
+multicollinearity. This occurs when there is reasonably strong correlation between two or more
+of the independent variables. Suppose, for example, that we were trying to understand the factors
+that affected the stock returns during 2005 of all the S&P 500 stocks. Suppose that for each
+stock, we had values of changes (2005 values minus 2004 values) in assets, sales, earnings, and
+shareholder’s equity. There would probably be strong links between most of these variables, so
+that there would be a high degree of multicollinearity. Several problems are caused by multicollinearity, however. One of the main problems is that it clouds the picture concerning which
+independent variables are statistically significant.
+The term statistically significant revolves around the idea: How likely is it that I would
+observe this outcome purely based on chance alone? Consider a coin-flipping contest. Imagine
+that 80,000 spectators in a football stadium are asked to stand up and flip a quarter. If it lands
+heads, they stay standing. If not, they sit down. After the first toss we would expect that approximately 40,000 people would still be standing. After the next toss we would expect about 20,000
+to remain standing. It would probably take us about 16 tosses to identify the champion cointosser. So if someone in the crowd were to flip 16 heads in a row, we shouldn’t be surprised.
+A threshold of 5% is often used to signify statistical significance. If we observe something
+that we would expect to see less than 5% of the time based strictly on chance alone, then it might
+be deemed statistically significant. If we demanded a more stringent test, then we might use a
+threshold of 1%. But, just because something is statistically significant that does not mean it is
+economically significant. A statistician might say that tests of a certain trading rule show that a
+statistically significant relationship has been found. However, a trader might say: “Yes, that’s
+great, but due to transactions costs and other factors I can’t make money with this rule.”
+
+Download at www.wowebook.com
+
+591
+
+Appendix A Basic Statistics
+
+INFERENTIAL STATISTICS
+With inferential statistics, we try to use observed data to infer things about general characteristics
+of the observed data or characteristics of additional observations. We often test whether a certain
+hypothesis is true or false. A hypothesis might be something like, “The slope of this line is 1.” To
+test hypotheses, we must make some assumptions. The most critical assumptions are the assumptions we make about what is known as the probability distribution.
+The most well-known of all probability distributions is the normal distribution, also
+referred to as a Gaussian distribution because it was first formulated by Karl Gauss, the eighteenth-century German mathematician. It is also known as the bell curve, due to its bell shape. It
+only takes two parameters—the mean and standard deviation—to describe a given normal distribution; there are infinitely many normal distributions due to an infinite number of combinations
+of values for the mean and standard deviation. The normal distribution has three important characteristics:
+• It is bell-shaped, with its peak at the center. The mean, median, and mode are all
+located at the peak.
+• It is symmetric about the mean.
+• It approaches the horizontal axis asymptotically at the left and right tails of the bell
+curve. It extends infinitely in both directions.
+The normal distribution also has special importance due to what is called the central limit
+theorem. If we take repeated samples from a population, calculate the mean of each sample, and
+then plot the distribution of the sample means, they will approximate a normal distribution. As
+the sample size increases, the approximation will improve. The central limit theorem has important implications for a wide variety of statistical tests.
+There are two rule-of-thumb values concerning the normal distribution that are useful to
+memorize. First, approximately two-thirds of the outcomes will lie (either above or below)
+within one standard deviation of the mean. Second, approximately 95% of the outcomes will lie
+within two standard deviations from the mean.
+Are stock prices normally distributed? No, you cannot have negative prices, and with any
+normal distribution, every number is possible, both positive and negative, even though some values are highly improbable as outcomes. Are stock returns normally distributed? No, because we
+cannot have a return lower than –100%, but we can have returns greater than 100%. However,
+returns come much closer to being normally distributed than do stock prices. Looking at PEP’s
+monthly returns from January 2000 through December 2004, we see what is displayed in Figure
+A.3.
+This graph is a histogram. There are various “buckets” for counting returns. Here, the
+buckets are in intervals of 5.0%. Over the 60-month period, 26 returns fell in the interval from
+0.0% to 5.0%. The size of the buckets will have an impact on the appearance; too few will clump
+everything together, while too many will produce a very flat histogram. In this example, we can
+see that PEP’s returns do not look like a perfect normal distribution, but they do generally follow
+a bell shape. There are formal statistical tests designed to assess whether a given sample of outcomes can reasonably be said to follow a normal distribution.
+
+Download at www.wowebook.com
+
+592
+
+Part IX Appendices
+30
+
+Frequency
+
+25
+20
+
+Frequency
+
+PEP Monthly Returns
+
+15
+10
+
+More
+
+20%
+
+15%
+
+10%
+
+5%
+
+0%
+
+5%
+
+10%
+
+15%
+
+0
+
+20%
+
+5
+
+Bin
+
+FIGURE A.3 Histogram of PEP monthly returns (January 2000–December 2004)
+
+Stock returns cannot logically be expected to exactly follow a normal distribution due to
+the impossibility of returns less than –100%. However, what if we take the change in the logarithm (or log) of the prices? These are called log-returns. Do these numbers follow a normal distribution? If they do, we say that the data follows a log-normal distribution. Taking the log
+produces numbers that range from 0 to ∞. For stock returns, log-normality is a more reasonable
+assumption. However, the exact distribution of stock returns has been tough to pin down. Finance
+researchers are still arguing over the best distribution to use for stock returns, as we saw in our
+discussion in Chapter 4.
+Earlier in this appendix, we used the term “degrees of freedom” when discussing standard
+deviation. This term also surfaces in descriptions of probability distributions. The easiest way to
+think of it is just as a parameter needed to specify the distribution. For the normal distribution,
+we needed two parameters, due to the need to specify the mean and standard deviation.
+Three very important distributions are the Chi-Square, t, and F distributions. All of these
+are based on various manipulations of standard normal variables. A standard normal variable is
+one that follows a normal distribution with a mean of 0 and a standard deviation of 1. We can easily transform most variables into standard normal variables. Suppose that we observe a value of
+24 from a sample that has a mean of 20 and a standard deviation of 5. First, we calculate how far

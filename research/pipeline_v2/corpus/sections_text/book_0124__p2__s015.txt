@@ -1,0 +1,510 @@
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+14
+0%
+
+13
+0%
+
+12
+0%
+
+11
+0%
+
+10
+0%
+
+90
+%
+
+80
+%
+
+70
+%
+
+60
+%
+
+50
+%
+
+40
+%
+
+30
+%
+
+20
+%
+
+10
+%
+
+0%
+
+0%
+
+206 • Way of the Turtle
+
+Some Like It Rough
+As the exercises above have demonstrated, a backtest is at best a
+rough approximation of what one may expect in the future. Robust
+measures are better predictors of future performance than are their
+more sensitive counterparts, but the process is still imprecise. Anyone who tells you that you can expect to see a particular level of
+performance is lying or does not know what he is talking about. If
+he is trying to sell you something, I strongly suspect the former.
+Chapter 13 covers some of the methods you can use to make
+your trading more robust—that is, less likely to suffer from wild
+swings in performance.
+
+thirteen
+BULLETPROOF SYSTEMS
+Trading is not a sprint; it’s boxing. The market will beat you up,
+screw with your head, and do anything it can to defeat you.
+But when the bell sounds at the end of the twelfth round,
+you must be standing in the ring in order to win.
+
+ew traders who build trading systems are looking for a single
+supercharged trading system that demonstrates the best possible results in historical testing. They believe a system that shows superior performance via historical data will indicate similar performance
+in future trading. They look at tests showing a system (call it Omega)
+that has a 10 percent better CAGR% and a 0.2 better MAR than
+another system (call it Alpha) and conclude that they would be foolish to trade with Alpha when Omega seems so much better.
+Later, with more experience, one realizes that there is no such
+thing as a perfect system. The Omega system might perform better
+in certain types of market conditions, and because of the prevalence of the most favorable conditions in the past the Omega system might have outperformed the Alpha system signiﬁcantly in
+testing. Unfortunately, there is no guarantee that those conditions
+will occur with the same frequency in the future as they did in the
+
+N
+
+• 207 •
+Copyright © 2007 by Curtis M. Faith. Click here for terms of use.
+
+208 • Way of the Turtle
+
+past. In other words, the distribution of the types of markets may
+be different in the future from what it was in the past. So if the performance differences that were shown in testing between Omega
+and Alpha are a result of the particular distribution of types of markets, those differences could disappear if the distribution is different in the future.
+Consider this example. Suppose Omega works much better than
+Alpha when markets are trending and quiet but Alpha works better when markets are trending and volatile. Now suppose that in
+the 20-year test that was done there were 13 years in which the
+trends that occurred were predominantly quiet and 7 years in
+which the trends were mostly volatile. If the same distribution
+occurs in the future, Omega will have better performance.
+But what if 5 of the 7 years of volatile trends occurred during the
+last 10 years of testing? What if there were changes in market
+behavior as a result of trader effects that would result in trends
+being more volatile in the future? This might indicate that the
+Alpha system would be more likely to have better performance in
+the future since it performs better when there are volatile trends.
+Conversely, what if the market seemed to indicate a likely cyclical
+shift from quiet to volatile markets and back again? Would this not
+make it more likely that the Omega system would perform better
+in the future as the markets shifted back to more quiet trends from
+the period of recent volatile trends?
+
+The Unknowable Future
+In many cases, the reality is that we simply do not have enough information to make these sorts of decisions with any certainty. The rea-
+
+Bulletproof Systems • 209
+
+son for this is that we do not have enough data. Consider the
+sequence QQQVVQ. If this sequence represents the periods of quiet
+versus volatile markets, can one determine with any reliability the
+relative probability of future markets being volatile or quiet? If you
+were paying attention in earlier chapters, you’d realize that a sample
+size of six is not enough to draw any certain conclusions. Even if we
+have a larger sequence such as VQQVQVVQQQQVVQ, it may
+appear that there is a cycle, but there is not enough data for us to
+make that assessment with any reliability.
+In these cases, it is best to come to terms with the fact that we
+do not have enough data and therefore do not know what the future
+will bring; therefore, we cannot predict the relative performance of
+systems in the future accurately except in very broad terms. A
+mature understanding of this reality is critical to building a robust
+trading program. As is the case with many aspects of trading, seeing the truth is a crucial ﬁrst step. Once you see it, you can make
+decisions that reﬂect that truth and adjust your actions accordingly.
+
+Robust Trading
+Robust trading is about building a trading program that will perform
+well no matter what the future brings. It is founded on accepting
+the reality that no one can know the future and that there is a very
+large margin of error inherent in any testing based on historical data.
+Ironically, you will ﬁnd that your trading performance becomes
+more predictable, once you build a trading program that takes into
+account the unknowable nature of the future, The reason for this
+seeming paradox is simple: If your trading program is built on the
+premise that the future is unknowable, you are assured that the
+
+210 • Way of the Turtle
+
+future will bring conditions that your trading program anticipated,
+something you did not predict. In contrast, a trading program built
+on the assumption of a particular set of market characteristics—
+almost any assumption at all, in fact—will suffer if the conditions
+on which the program is based are not present.
+So how do you build a trading program that is not dependent on
+particular market conditions? There are two major attributes in any
+robust trading program: diversity and simplicity. Nature provides
+the best example of how these factors increase robustness. A strong
+analogy can be made between the survival ability of an ecosystem
+and individual species within that system and the robustness of a
+trading program.
+
+Diversity
+At the level of the ecosystem, nature does not rely on one or two
+species to perform a task. It does not have only one type of predator, only one food source, only one herbivore, or only one scavenger to clean up the remains of the dead. Diversity is important
+because it insulates the ecosystem from the effects of radical change
+in the population of one of the species.
+
+Simplicity
+Complex ecosystems are more resilient, and complex species seem
+to have signiﬁcant advantages over simpler ones when the environment is stable. However, during times of change, complex species
+are more likely to die off. At those times, the hardiest species are those
+which are very simple, such as viruses and bacteria. Simple organisms are hardier because they are less dependent on their speciﬁc
+surroundings. That simplicity is signiﬁcantly beneﬁcial when the
+
+Bulletproof Systems • 211
+
+ecosystem is subjected to major change such as that which might
+occur if a large meteor struck the earth or a large volcano eruption
+caused a major drop in temperatures. When the climate changes,
+dependency on the previous climate is a signiﬁcant disadvantage.
+
+Robust Organisms
+There are some species that are complex but still are robust, or able
+to survive in varying conditions. Those species generally developed
+in climates or conditions where they were subjected to constant
+change and therefore developed an ability to survive during those
+changes. Those robust species serve as a model that can be used to
+develop systems that are robust.
+Now that we have considered the two building blocks of robustness in nature—diversity and simplicity—let’s examine ways to add
+them to a trading program. Simplicity can be added by minimizing the rules that create dependencies on speciﬁc market conditions. Diversity can be added by trading as many markets as possible
+that do not correlate with one another. It also can be added by trading many different types of systems at the same time so that no matter what market conditions the future brings, there will be some
+systems in your portfolio that are performing well.
+
+Robust Systems
+The primary ways to make systems more robust is to have rules that
+allow those systems to adapt to different market conditions and to keep
+the systems simple and less susceptible to changes in the market.
+You can build systems that are more robust by making them
+adapt to market conditions as those conditions change. This
+
+212 • Way of the Turtle
+
+approach is analogous to those complex organisms in nature that
+are able to survive in varying conditions because of their superior
+adaptability. A human being is one example. People are able to survive in the deserts of the Sahara and the ice of the Arctic because
+they have the brain power that allows them to adapt to those very
+different environments.
+Any system will perform better under certain market conditions.
+Trend-following systems do better when markets are trending and
+quiet; countertrend systems do better when markets are stable and
+volatile. A portfolio ﬁlter is a rule that can make a system more
+robust because it can ﬁlter out markets when a particular market
+is not in a state that is favorable for a particular system. The
+Donchian Trend system, for example, has a portfolio ﬁlter. It does
+not allow trades when the market is breaking out against the trend,
+as this occurs only when the market is not in a favorable state. A
+breakout in the direction of the trend occurs more often in trending markets. The addition of this ﬁlter makes the system more
+robust.
+In a similar manner, simple rules make systems more robust
+because those rules work in a greater variety of circumstances.
+Complex systems generally are complex because they have been
+designed to take advantage of some conditions or market behavior
+that was noticed during system development. The more those rules
+are added, the more the system becomes tied to a more speciﬁc set
+of market conditions and behaviors. This makes it likelier that the
+future will produce markets that don’t have those particular behaviors or in which the rules no longer work as well.
+Simple rules that are built on more durable concepts will hold
+up in actual trading better than will complex rules that are tailored
+
+Bulletproof Systems • 213
+
+to more speciﬁc market behavior. Keep your systems simple and
+you will ﬁnd that they hold up better over time.
+
+Market Diversiﬁcation
+One of the most effective ways to improve the robustness of your
+overall trading is to include a diverse range of markets. If you trade
+more markets, you increase the chance that you will encounter
+conditions favorable to your trading system in at least one of those
+markets. In the case of trend-following systems, if you trade more
+markets, you boost the odds that for any particular period there will
+be a trend in one of those markets.
+This means that you want to have a portfolio that includes as
+many markets as possible. The markets should present new opportunities, and so they should not be highly correlated to other markets. For example, there are several short-term U.S. interest-rate
+products that move almost in lockstep. Adding more than one of
+these products to your portfolio will not add diversity.
+If you are trading systems that do not require close monitoring,
+you should consider trading foreign markets. Those markets can add
+a lot of diversiﬁcation and help make your trading more robust and
+consistent. Any of the systems shown here that buy on the open
+based on closing price data will be relatively easy to trade on markets around the world because the time-zone differences are less
+important if you have to worry about only market closes and opens.
+
+Deciding Which Markets to Trade
+At this time, the most popular platform for testing systems,
+TradeStation, has the extreme limitation of being unable to test
+
+214 • Way of the Turtle
+
+more than one market at a time. One side effect of this is that many
+traders think in terms of markets, not portfolios. This has led to the
+erroneous belief that some markets should not be included in a
+trend-following portfolio because those markets are not proﬁtable
+or because they underperform compared with others.
+There are two problems with this perspective. First, trends may
+happen only every several years in some markets, and so short tests
+of 5 or 10 years will not show the market’s full potential. Second,
+the beneﬁt of diversiﬁcation for a market may outweigh any negative proﬁtability.
+Consider the cocoa market example from Chapter 4. Recall
+how that market had a long string of losing trades before there
+was a good trend. This is very common. Here’s an example from
+my Turtle days that is particularly noteworthy. In the early part
+of 1985 Rich told us we no longer could trade coffee. I think he
+felt that there was not enough volume for us to trade it and we
+had been consistently losing money with it. That decision caused
+us to lose out on what would have been our single biggest trade
+(see Figure 13-1).
+Since I did not take that trade, I can’t tell you exactly what I
+would have made from memory, and so I performed a test using
+the data from the March 1986 coffee contract. At the time of entry,
+the value for N was 1.29 cents. This meant that I would have been
+trading a unit size of 103 contracts since I traded a $5 million
+account for all of 1985. Because we traded four units at a time, I
+would have been long 412 contracts of coffee for that trade. The
+proﬁt would have been approximately $34,000 per contract. The
+aggregate proﬁt for the trade would have been 412 times $34,000,
+or approximately $14 million, representing a 280 percent return on
+
+Bulletproof Systems • 215
+
+KC: Coffee-CSCE
+280
+
+260
+
+240
+
+Exit
+234.37
+
+220
+
+200
+
+180
+
+160
+
+140
+
+Entry
+141.91
+Initial Stop
+139.16
+
+86
+n
+Ja
+
+D
+
+ec
+
+19
+
+19
+
+85
+
+85
+19
+ov
+N
+
+O
+
+Se
+
+ct
+
+p
+
+19
+
+19
+
+85
+
+85
+
+120
+
+Enter Long
+1985-10-10 Day
+
+Figure 13-1
+
+Exit 65 bars
+1986-01-16 Open
+
+The Coffee Trade We Missed
+
+Copyright 2006 Trading Blox, LLC. All rights reserved worldwide.
+
+the $5 million account for a single trade. No other trade from the
+Turtle era came close to being as big as this trade that we missed.
+Does this mean that one should trade all markets? Are there no
+good reasons to exclude particular markets from trading? The primary
+reason for not trading a particular market is liquidity. Markets that do
+not have active trading and sufﬁcient volume can be much harder to
+trade. The more successful you become, the more this becomes a limiting factor. It was the reason Rich kept us out of the coffee trade.
+When you combined our trading sizes with Rich’s, we were trading
+thousands of contracts in coffee when we entered and exited. That
+was certainly at the edge of viable volume limits. Therefore, Rich’s
+decision was a very rational one, though one I wished he had not
+made before the coffee trade discussed above materialized.
+
+216 • Way of the Turtle
+
+You may be thinking that you can trade an illiquid market if you
+have a small account size. This may be true depending on the type
+of system you are using, but it may be wrong. The problem with
+illiquid markets is not that you cannot get in and out most of the
+time. The problem is that in certain circumstances you can have
+many orders and no traders to take the other side. Illiquid markets
+mean few buyers and sellers. So your single contract buy order
+may be sitting in a pack of 200 to 500 contracts to buy when there
+are no sellers at all. This does not happen as often in more liquid
+markets.
+Illiquid markets are also more susceptible to price shocks. Take
+at look at the charts for rough rice, lumber, propane, and any market that trades less than a few thousand shares a day and compare
+the number of large one-day moves with that in more liquid markets. You will ﬁnd that there are many more days with large unexpected price moves in the illiquid markets.
+
+Different Types of Markets
+There is another reason you might choose to exclude certain markets from your trading. Although I don’t believe that one should
+exclude certain markets because they have not been as proﬁtable
+as others when tested in a simulation, I do believe that there are
+some fundamental differences between certain classes of markets
+that warrant the exclusion of an entire class from trading with a particular class of systems.
+Some traders believe that various individual markets are different and should be treated as such. I think the reality is more complicated. I believe that there are actually three classes of markets
+that behave distinctly differently but that within those classes the
+
+Bulletproof Systems • 217
+
+differences between markets are attributable largely to random
+events. The major classes of markets are as follows:
+1. Fundamentals-driven markets. These are markets such as
+currencies and interest rates in which the trading is not the
+primary force behind the movement; larger macroeconomic
+events and forces drive the price. As time goes on this seems
+to be less and less true, but I would argue that the Federal
+Reserve or a country-speciﬁc equivalent and a country’s
+monetary policy still inﬂuence prices more than do
+speculators in the currency and interest rate markets. These
+markets have the greatest liquidity with the cleanest trends
+and are the easiest for trend followers to trade.
+2. Speculator-driven markets. These are markets such as
+stocks and futures such as coffee, gold, silver, and crude
+oil in which speculators inﬂuence the markets more than
+governments or large hedgers do. The prices are
+perception-driven. These markets are harder for trend
+followers to trade.
+3. Aggregated derivative markets. These are markets in which
+the driving force is speculation, but that speculation is
+diluted because the traded instruments are derivative of
+other markets that are themselves aggregations of individual
+component stocks. A good example is the e-mini S&P
+futures contract. It moves up and down, but its range is
+constrained by the underlying S&P 500 index. The S&P
+index in turn moves only indirectly because of speculators.
+Since an index aggregates the purely speculative moves of
+many stocks, there is an averaging out and a dilution of
+
+218 • Way of the Turtle
+
+momentum. These markets are the hardest ones for trend
+followers to trade.
+My proposition is this: Markets in any of these classes trade the
+same way. You should trade them or not according to liquidity and
+class only. As a Turtle I decided not to trade class 3 at all, whereas
+many of the Turtles chose to trade that class of markets. I felt our
+systems were not good for derivative aggregated markets. It is not
+that you can’t trade them, just that they just cannot be traded as well
+with a medium-term breakout trend-following system like the one
+we traded; so, I never traded the S&P as a Turtle.
+Markets in each of the classes behave similarly. Although you
+certainly will see periods, perhaps years or decades, of differences,
+you will ﬁnd that over the long run this is simply the reﬂection of
+trader memory and the relative rarity and random nature of underlying fundamental causes for large trends.
+
+Trader Memory
+A good example of trader memory is gold and silver. When I ﬁrst
+started trading, it was impossible to make any money in gold
+because the memory of the enormous 1978 trend (when gold went
+to $900 an ounce and silver went to over $50 an ounce) was still
+too fresh in people’s minds. Every time the price even started to
+look like a potential up trend, everyone and his brother would start
+buying gold. That made the price movements very choppy. The
+price would run up and run down and then run up and run down
+again. In short, it was very hard to trade as a trend follower. Now,
+20 years later, most people do not remember the 1978 trend anymore, and so the move in the spring of 2006 was much easier to
+
+Bulletproof Systems • 219
+
+trade than it had been earlier; if you looked at the charts, you would
+say that gold had changed its character.
+I do not think one can tell when the next market such as gold is
+going to change or when the next market such as cocoa is going to
+trend again. The fact that a market has not had a large trend in the
+last 20 years does not make it a bad market to trade. For me, if a
+market has enough volume to trade and is different from the other
+markets in your portfolio, you should trade that market.
+The constraint to market diversiﬁcation is often the amount of
+capital required to trade many markets within acceptable risk limits. This is one of the reasons successful hedge fund operators have
+an easier time than do individual traders and why large traders have
+more consistent performance than do smaller traders. If you can
+afford to trade only 10 markets, you can expect more erratic performance than will be the case if you can afford to trade 50 or 60
+markets simultaneously. It takes at least $100,000 to trade a longterm trend-following system using futures contracts with reasonable
+diversiﬁcation. Even at that level the risk required would be too
+high for most traders.
+
+System Diversiﬁcation
+In addition to diversifying across markets, you can increase the
+robustness of your trading program by diversifying your systems.
+Using more than one system at a time can make a trading program
+signiﬁcantly more robust, especially if the systems are signiﬁcantly
+different.
+Consider two systems. The better one has an RAR% of 38.2 percent with an R-cubed of 1.19, and the worse one has an RAR% of
+
+220 • Way of the Turtle
+
+14.5 percent and an R-cubed of 0.41. If you tested both systems,
+which one would you trade? Would you trade only the better one?
+That seems the logical choice.
+However, that choice ignores the beneﬁts of diversiﬁcation when
+the systems are not correlated. Those beneﬁts are even greater
+when the systems are negatively correlated (i.e., one tends to make
+money when the other one is losing money). That is the case with
+particular systems that provide very signiﬁcant beneﬁts when they
+are combined, as you will see below.
+Trading both systems at the same time has an RAR% of 61.2 percent and an R-cubed of 5.20. Needless to say, that is a signiﬁcant
+improvement over the performance of either system alone.
+The systems mentioned above are actually the two parts of the
+Bollinger Breakout system. The better system trades only long
+volatility channel breakouts, and the worse system trades only short
+volatility channel breakouts. It is fairly easy to understand why these
+systems work well when combined, but the improvement in performance is quite dramatic.
+One can get the same beneﬁts by combining systems that work
+well in different market conditions, such as one that performs well
+in trending markets and another that works well in markets when
+there are no trends. When one is suffering a drawdown, the other
+one may be proﬁtable, and vice versa. This does not always work
+out as smoothly as one might hope, but you can improve the robustness of your trading program greatly with approaches like this.
+As with market diversiﬁcation, the limit to system diversiﬁcation
+is that it often requires signiﬁcant capital or management effort to
+trade many systems at the same time. This is one of the reasons successful hedge fund operators have an easier time than do individ-

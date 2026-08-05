@@ -1,0 +1,510 @@
+[SRG]
+
+Irrational Exuberance
+
+Irrational
+Exuberance
+REVISED AND EXPANDED THIRD EDITION
+
+Robert J. Shiller
+
+Princeton University Press
+Princeton and Oxford
+
+Disclosure: In addition to being a professor at Yale University, the author is currently
+working part-time with Standard & Poor’s to produce home price indices; with the
+Chicago Mercantile Exchange, which maintains a futures market for the S&P/CaseShiller Home Price Indices, as part of the Competitive Markets Advisory Council at
+the CME Group; and with Barclays Bank and its affiliates in producing various investment products. Nothing in this book constitutes, or should be construed as, either an
+offer to sell or a solicitation of an offer to purchase any securities, including any securities that may at any time be offered for sale or sold by any of the above-named
+persons. In the United States, offers to sell and solicitations of offers to buy any securities may be made only by a prospectus (as defined in the Securities Act of 1933, as
+amended) delivered to the prospective purchasers. Similar regulations apply in other
+countries. This book contains various forward-looking statements based on the author’s
+projections, hypotheses, forecasts, estimates, beliefs, and prognoses about future events.
+All forward-looking statements contained herein reflect solely the author’s opinions
+about such future events and are subject to significant uncertainty. Actual events may
+differ materially from those described in such forward-looking statements.
+Copyright © 2015 Robert J. Shiller
+Nobel lecture copyright © 2013 The Nobel Foundation
+Published by Princeton University Press, 41 William Street, Princeton,
+New Jersey 08540
+In the United Kingdom: Princeton University Press, 6 Oxford Street, Woodstock,
+Oxfordshire OX20 1TW
+Proudly sourced and uploaded by [StormRG]
+Kickass Torrents | TPB | ExtraTorrent | h33t
+press.princeton.edu
+Jacket design by Steve Attardo / ninetynorth
+All Rights Reserved
+Library of Congress Cataloging‑in‑Publication Data
+Shiller, Robert J.
+Irrational exuberance / Robert J. Shiller.—Revised and expanded third edition.
+		pages  cm
+Includes bibliographical references and index.
+ISBN 978-0-691-16626-1 (hardcover : alk. paper)
+1. Stocks—United States. 2. Stock exchanges—United States. 3. Stocks—
+Prices—United States. 4. Real property—Prices—United States. 5. Risk.
+6. Dow Jones industrial average. I. Title.
+HG4910.S457  2015 Proudly sourced and uploaded by [StormRG]
+Kickass Torrents | TPB | ET | h33t
+2014036705
+332.63′2220973—dc23
+This book has been composed in Adobe Palatino and Berkeley Old Style Book and
+Black by Princeton Editorial Associates Inc., Scottsdale, Arizona
+Printed on acid-free paper. ∞
+Printed in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+To Ben and Derek
+
+Contents
+
+List of Figures and Tables
+Preface to the Third Edition
+Preface to the Second Edition, 2005
+Preface to the First Edition, 2000
+Acknowledgments
+
+One
+Two
+Three
+
+ix
+xi
+xix
+xxv
+xxxi
+
+The Stock Market in Historical Perspective
+The Bond Market in Historical Perspective
+The Real Estate Market in Historical Perspective
+
+1
+11
+18
+
+Part One
+Structural Factors
+Four
+Five
+
+Precipitating Factors: The Internet, the Capitalist
+Explosion, and Other Events
+Amplification Mechanisms: Naturally Occurring
+Ponzi Processes
+
+39
+70
+
+Part Two
+Cultural Factors
+Six
+Seven
+
+The News Media
+New Era Economic Thinking
+vii
+
+101
+123
+
+viii
+
+Eight
+
+C ONTENTS
+
+New Eras and Bubbles around the World
+
+150
+
+Part Three
+Psychological Factors
+Nine
+Ten
+
+Psychological Anchors for the Market
+Herd Behavior and Epidemics
+
+165
+175
+
+Part Four
+Attempts to Rationalize Exuberance
+Eleven
+Twelve
+
+Efficient Markets, Random Walks, and Bubbles
+Investor Learning—and Unlearning
+
+195
+214
+
+Part Five
+A Call to Action
+Thirteen
+
+Speculative Volatility in a Free Society
+
+225
+
+Appendix Nobel Prize Lecture: Speculative Asset Prices
+Notes
+References
+Index
+
+281
+321
+339
+
+239
+
+Figures and Tables
+
+Figures
+1.1
+1.2
+
+U.S. Stock Prices and Earnings, 1871–2014
+Real Stock Prices in Ten Countries and the World, January
+1995–July 2014
+1.3 U.S. Cyclically Adjusted Price‑Earnings Ratio (CAPE) and
+Interest Rates, 1881–2014
+2.1 U.S. Long-Term Rates and Inflation, 1871–2014
+2.2 Inflation-Indexed Bond Yields for Four Countries, 1985–2014
+3.1 U.S. Home Prices, Building Costs, Population, and Interest
+Rates, 1890–2014
+3.2 Home Prices in a Sample of U.S. Cities, Quarterly, 1983–2014
+3.3 Home Prices in Some World Cities and for the World,
+Quarterly, 1985–2014
+5.1 Stocks as Best Investment, 1996–2014
+5.2 Real Estate as Best Investment, 2003–2013
+5.3 Opinion of Aftermath of a Stock Market Crash, 1996–2014
+5.4 Valuation Confidence Index, 1989–2014
+11.1 Cyclically Adjusted Price‑Earnings Ratio (CAPE) as Predictor
+of Ten‑Year Returns
+11.2 Stock Prices and Dividend Present Values, 1871–2013
+
+ix
+
+3
+5
+7
+14
+16
+20
+25
+26
+71
+72
+73
+88
+205
+210
+
+x
+
+FIGUR ES AND TABLES
+
+A.1 Real S&P Composite Stock Price Index with Two Present
+Values with Constant Discount Rate of Subsequent Real
+Dividends Accruing to the Index, 1871–2013
+A.2 Real S&P Composite Stock Price Index along with Three
+Present Values of Subsequent Real Dividends Accruing to
+the Index, 1871–2013
+A.3 Present Values of Future Changes in Dividends Plotted
+against the Dividend Price Ratio for Forty-Nine U.S.
+Individual Stocks, 1926–76
+A. 4 Two Indices of U.S. Home Prices Divided by the Consumer
+Price Index (CPI-U), 1987–2013
+
+248
+
+252
+
+257
+260
+
+Tables
+8.1
+8.2
+8.3
+
+Largest Recent One‑Year Real Stock Price Index Increases
+Largest Recent One‑Year Real Stock Price Index Decreases
+Largest Recent Five‑Year Real Stock Price Index Increases
+
+151
+152
+153
+
+8.4
+
+Largest Recent Five‑Year Real Stock Price Index Decreases
+
+154
+
+Preface to the Third Edition
+
+O
+
+ne might think that years after the bursting of the speculative bubbles that led to
+the 2007–9 world financial crisis, we should be living in a distinctly different
+post-bubble world. One might think people would have “learned their lesson” and would not again pile into expanding markets, as so many did before
+the crisis, thereby worsening incipient bubbles. But evidence of bubbles has
+accelerated since the crisis. Valuations in the stock and bond markets have
+reached high levels in the United States and some other countries, and valuations in the housing market have been increasing rapidly in many countries.
+All this has been occurring despite a disappointing world recovery from the
+financial crisis, an increasingly tense international situation—with deadly
+wars in Gaza, Iraq, Israel, Syria, and Ukraine—and a wave of potentially disruptive nationalist sentiment and political polarization in the United States,
+Europe, and Asia.
+As of this writing, the International Monetary Fund has just put out a
+warning of overheated housing markets in Asia, Europe, Latin America, and
+in Australia, Canada, and Israel.1 A similar warning has been issued by the
+Bank for International Settlements.2
+The bubbly and apparently unstable situation warrants some concern,
+although not yet generally as extreme as when the first edition of this book
+issued a warning about the overpriced and vulnerable stock market (see the
+reprinted 2000 Preface below), or when the second edition of this book issued
+a warning about the overpriced and vulnerable housing market as well (see
+the reprinted 2005 Preface below).
+xi
+
+xii
+
+PR EFAC E T O T HE T HIR D EDIT ION
+
+By the time this book finds its way into the hands of readers, the markets
+may be in a very different situation. Markets can change very rapidly, and
+the optimistic pricing we see at the time of this writing (in October 2014)
+is hard to predict. Current pricing may not last long when compared with
+publication lag and the time needed for an issue to become part of readers’
+agendas. But I am writing for future readers, years hence, who will read
+about the markets in the mid–second decade of the twenty-first century
+as just one of many examples described in the book—examples of broader
+tendencies and uncertainties.
+Hence, the themes of the first edition of this book, with some updating,
+remain relevant today and probably always will be relevant. When the first
+edition of this book came out in 2000, I took pains to assert that the stock
+market bubble of that time, while exceptionally large, was really nothing
+fundamentally new. Chapter 8 in this edition, “New Eras and Bubbles around
+the World,” details how many times we have had similar, if smaller or more
+localized, stock market booms and crashes. There was something relatively
+new then: the stock market boom that we now know peaked in early 2000
+was worldwide in scope. In the first edition, I called it the Millennium Boom,
+because it came just before the dawn of the new millennium. We might also
+confidently call it the Millennium Bubble now, after it is over. But this boom or
+bubble was not really bigger in its collapse than its counterpart, which peaked
+in 1929. These really large bubbles are rare events, but the Millennium Bubble
+was not unique in history.
+In the second edition (2005), I made much of the fact that for the United
+States as a whole, the boom in home prices nationwide that had begun in
+the late 1990s was the biggest ever, or biggest at least since 1890, when my
+data began. But, at the same time, the new chapter that was added to that
+edition also recounted earlier housing bubbles, and, if you look at centuries
+past, land price bubbles. Centuries ago, real estate speculation would have
+been more likely an investment in land—a farm or a town lot for building a
+home. Another big change in the second half of the twentieth century was
+a massive decline in lending standards for home mortgages. That decline,
+and the magnitude of the housing boom around the world (which we might
+now, after the collapse of home prices in many areas after 2006, confidently
+call a bubble) was unique. We might call this the Ownership-Society Boom,
+associated as it was with a slogan used by George W. Bush in his 2004 U.S.
+presidential campaign to describe his plan to promote widespread ownership
+of homes, stocks, and other investments. (I will call the current stock market
+boom, from 2009 to the time of this writing in 2014, the New-Normal Boom,
+after a term popularized by Bill Gross [then of PIMCO] in 2009.)
+But there is really nothing new about these bubbles—not fundamentally
+new. They are repeats of approximately the same phenomenon, of new era
+
+PRE FA C E T O T H E TH IRD E D ITIO N
+
+xiii
+
+stories proliferating by word-of-mouth contagion, of the distinct feel of mass
+enthusiasm for one kind of investment.
+Improving information technology may accelerate their dynamics.
+Changing patterns of investing are also a factor. The rising impact of international investors and of institutional investors in single-family homes has
+been much noted in recent years. But the basic bubble phenomenon is the
+same. In the future, we will surely have even bigger such bubbles, each built
+up around its new and different new era story, and we will have to invent
+new names for them.
+I was not expecting to hear about housing bubbles when I visited Colombia
+in mid-2013. Yet over and over again I heard about their amazing real estate
+boom. While taking me through the seaside resort town of Cartagena, my
+limousine driver pointed out a number of ordinary-looking homes that had
+recently sold for millions of U.S. dollars.
+The Banco de la República, Colombia’s central bank, has on their website
+a home price index for three major cities: Bogotá, Medellín, and Cali. The
+index shows home price increases of 69% in real (inflation-adjusted) terms
+since 2004. That rate of price growth recalls the U.S. experience, with the S&P/
+Case-Shiller Ten-City Home Price Index for the United States rising 131% in
+real terms from its bottom in 1997 to its peak in 2006.
+The vulnerability we have to bubbles in Colombia and all over the world
+reveals our continuing lack of understanding of these phenomena. Just what
+is a speculative bubble? The Oxford English Dictionary defines a bubble as
+“anything fragile, unsubstantial, empty, or worthless; a deceptive show. From
+17th c. onwards often applied to delusive commercial or financial schemes.”
+The problem is that words like show and scheme suggest a deliberate creation,
+rather than a widespread social phenomenon that is not directed by any
+central impresario.
+Maybe the word bubble is used too carelessly. Eugene Fama certainly
+thinks so. Fama, the most important proponent of the “efficient markets
+hypothesis,” denies that speculative bubbles exist. In his 2014 Nobel lecture,
+Fama states that the word bubble refers to “an irrational strong price increase
+that implies a predictable strong decline.”3 If that is what bubble means, and
+if predictable means that we can specify the date when a bubble bursts, then
+I agree with him that there may be little solid evidence that bubbles exist.
+But that is not my definition of a bubble, for speculative markets are just
+not so predictable.
+In the second edition of this book, I tried to give a better definition of a
+bubble that accords with more enlightened usage of that term. The definition,
+given in Chapter 1, describes a situation in which news of price increases spurs
+investor enthusiasm, in a sort of psychological epidemic. That seems to be the
+core of the meaning of the word as it is most consistently used.
+
+xiv
+
+PR EFAC E T O T HE T HIR D EDIT ION
+
+Implicit in this definition is a suggestion about why it is so difficult for
+“smart money” to profit by betting against bubbles: the psychological contagion promotes a mindset that justifies the price increases, so that participation
+in the bubble might be called almost rational. But it is not rational.
+The story in every country is different, reflecting its own news, which does
+not always jibe with news in other countries. For example, the current story
+in Colombia appears to be that the country’s government, now under the
+well-regarded management of President Juan Manuel Santos Calderón, has
+brought down inflation and interest rates to developed-country levels while
+all but eliminating the threat posed by the FARC rebels, thereby injecting new
+vitality into the Colombian economy. That is a good enough story to drive a
+housing bubble.
+New era stories drive high expectations for investing returns but not
+necessarily high confidence. The high expectations during the upswing of a
+bubble may be more in the form of a sort of wishful thinking rather than an
+expression of confidence. In bubble times, there seems to be a tendency for
+complacency, as an aspect of social psychology, even if people haven’t individually concluded that there is no risk.
+Indeed, once you draw their attention to the risks, people are not so
+confident during a growing bubble. Figure 5.4, which plots investor valuation confidence, was actually exceptionally low at the all-time U.S. stock
+market peak in early 2000. People were certainly aware at some level of
+risks. Moreover, in a survey of homebuyers that Karl Case and I have been
+conducting over the years, we pose the following question to recent homebuyers directly: “Buying a house in this area today involves: 1. A great deal
+of risk; 2. Some risk; 3. Little or no risk.” The answers are puzzling. In 2004,
+when the housing market was showing its fastest price increases, only 19%
+said “little or no risk.” It is not as if everyone thought that “home prices
+can never fall” during the bubble, though they are often accused of having
+thought that. In the 2009 survey, at the depths of the worst recession since
+the Great Depression of the 1930s, the percentage of respondents choosing
+that option was actually lower, at 17.2%.4
+During bubbles, it seems that the psychological ambience is rather one
+of public inattention to the thought that prices could fall, rather than firm
+belief that they can never fall. The new era stories are not new strongly held
+convictions—they are merely ideas foremost in people’s minds that serve as
+justification both for the actions of others and of themselves.
+Because bubbles are essentially subtle social-psychological phenomena,
+they are, by their very nature, difficult to control. Regulatory action since the
+financial crisis might diminish bubbles in the future, but it is yet to be seen
+whether such actions will be sufficient.
+
+PRE FA C E T O T H E TH IRD E D ITIO N
+
+xv
+
+Liquid public markets for home prices do not exist that would allow skeptics
+of housing bubbles to take short positions against these bubbles, which would,
+if it were possible, have the effect of incorporating their doubts into the market
+prices. As we discuss in Chapter 11, if it is difficult to short the market, then a
+basic premise of the efficient markets theory is not met. The so-called “smart
+money” can stop investing in homes altogether, but afterward will not be able
+to take actions to stop others from bidding prices even further up and up. Any
+large group of investors, from anywhere in the world, for example, could bid
+local home prices up to crazy levels if they get the idea to do so, or any large
+institutional investors, playing some kind of game, could do so too. There is
+no reputable theory to say that, in the absence of the possibility of short sales,
+they cannot. Many have tried to make such short sales for single-family homes
+possible, so far with little success.
+In the past few years, some high-tech institutional players, such as the
+Blackstone Group, have begun to invest in single-family homes, and the presence of these players might tend to alter the dynamics of home price bubbles,
+reducing month-to-month momentum in these markets. But high short-term
+momentum in home prices, as well as the longer-term real estate bubbles, are
+surely still with us.
+The word bubble creates a mental picture of an expanding soap bubble,
+which is destined to pop suddenly and irrevocably. But speculative bubbles
+are not so easily ended; indeed, they may deflate somewhat, as the story
+changes, and then reflate.
+It would seem more accurate to refer to these episodes as speculative epidemics. We know that a new epidemic can suddenly appear just as an older one
+is fading if a new form of the virus appears, or if some environmental factor
+increases the contagion rate. Similarly, a new speculative bubble can appear
+anywhere if a new story about the economy appears and if it has enough narrative strength to spark a new contagion of investor thinking.
+This is what happened in the bull market of the 1920s in the United States,
+with its peak in 1929. We have distorted that history by thinking of bubbles
+as a period of dramatic price growth, followed by a sudden turning point
+and a major and definitive crash. In fact, a major boom in real stock prices in
+the United States after “Black Tuesday” brought them halfway back to 1929
+levels by 1930. This was followed by a second crash, another boom from 1932
+to 1937, and a third crash.
+Since the second edition of this book, there has been much discussion
+of the price-earnings ratio that John Campbell of Harvard University and I
+had developed and that this book featured from its first edition: real price
+divided by the ten-year average of real earnings. The press has seemed to
+adopt the name I had sometimes given it, the CAPE (for Cyclically Adjusted
+
+xvi
+
+PR EFAC E T O T HE T HIR D EDIT ION
+
+Price-Earnings ratio), so now I regularly call it that, too. This ratio has appeared
+as the third figure of the first chapter of this book in all editions, though the
+name “CAPE” did not appear in the earlier editions of this book. The ratio
+may be regarded as adjusting the usual price-earnings ratio, which is based
+on one-year earnings, for the business cycle, correcting for the sudden spikes
+in the price-earnings ratio that occur after business recessions when earnings
+may be very low, by averaging earnings over a long period of time.
+As of this writing, the CAPE for the United States stands at 26, higher than
+ever before except for the times around 1929, 2000, and 2007, all major market peaks. But this book is not primarily about the current situation in asset
+markets but about getting a sense of reality about the nature and dynamics
+of these markets.
+The current edition of this book is partly motivated by work I did with
+George Akerlof for our 2009 book Animal Spirits, a book whose title correctly
+suggests some overlap of topics with Irrational Exuberance. The ancient term
+“animal spirits” (in Latin, spiritus animalis) refers to the fluctuations in the
+basic driving force in human actions; it is a term that was resurrected by
+the economist John Maynard Keynes, who gives a view of the economy
+as involving fundamental psychological instabilities. Both fluctuations in
+irrational exuberance and animal spirits are still very much a part of our
+lives. We must still summon our whole arsenal of social sciences to try to
+understand them.
+
+Outline of This Book
+Reproduced here are the Prefaces for the 2005 and 2000 editions of the book,
+to give a sense how this book has evolved over the financial ups and downs.
+The 2005 Preface was issued just before the peak of the Ownership-Society
+Bubble. The 2000 Preface appeared with the first edition, just as the market
+was reaching the peak of the Millennium Bubble.
+The book proper begins with three introductory chapters that place in
+historical context the ups and downs of the three major markets for investors:
+the stock market, the bond market, and the real estate market. Chapter 2 is
+new to this third edition of the book, added in response to widespread concern about a possible bond market bubble. The three chapters allow us to see
+how remarkable fluctuations in these markets have been, and to gain overall
+perspectives on trends in the markets.
+Part One discusses the structural factors that drive market bubbles. This
+part begins, in Chapter 4, with a discussion of the precipitating factors
+that cause market fluctuations: events outside the markets, such as politics,
+technology, and demography. The chapter lists precipitating factors that
+are ultimately, largely through their effects on investor psychology, behind
+
+PRE FA C E T O T H E TH IRD E D ITIO N
+
+xvii
+
+three recent stock market booms: the Millennium Boom, 1982–2000; the
+Ownership-Society Boom, 2003–7; and the New-Normal Boom, 2009 to the
+present. It is important even today to go through the precipitating factors
+of past booms to help us appreciate the diverse kinds of things that may
+drive booms of the future.
+Part Two considers cultural factors that further reinforce the structure
+of the speculative bubble. The news media, discussed in Chapter 6, are
+critical, since they amplify stories that have resonance with investors, often
+regardless of their validity. Chapter 7 analyzes the “new era” theories that
+tend to arise spontaneously from time to time. In this edition, the analysis
+applies to both the stock market and the real estate market. The popularity
+of these theories is seen to derive from activity in the markets themselves,
+not from disinterested analysis of the true merit of these stories. Chapter
+8 looks at the major stock market booms around the world in the past half

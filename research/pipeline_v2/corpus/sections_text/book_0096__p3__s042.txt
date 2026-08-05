@@ -1,0 +1,434 @@
+
+Download at www.wowebook.com
+
+362
+
+Part IV Chart Pattern Analysis
+
+charts is not so much the patterns but the visual ease with which the analyst can “see” intraday
+pressures on price and the price trend. They also have peculiar but memorable names for specific
+patterns that make them engaging.
+As in all patterns, experience will separate the winners from the losers. Anyone using such
+patterns should record in a notebook the successes and failures from interpreting short-term patterns. Reviewing this recording periodically will help the investor develop a better “feel” of his
+ability to act profitably and learn where mistakes more frequently occur. Every trading vehicle
+has its own “personality.” Success is often a function of understanding the peculiarities of the
+trading vehicle most commonly traded.
+
+PATTERN CONSTRUCTION AND DETERMINATION
+The principal data used in short-term patterns—both traditional and candlestick, regardless of
+bar time—is open, close, high, and low. The opening price is traditionally considered the price
+established from any news, emotion, anticipation, or mechanical signals that have built up
+overnight. Most professional day traders, scalpers, and even swing traders prefer to avoid it.
+They wait for some action—a gap or opening range—to take place before judging the tone of the
+market.
+Because the closing price is the final price of the day and the one at which most margin
+accounts are valued, it is like a summary of the bar’s activity. If the close is up, the majority and
+most recent action was positive; if the close is down, the majority and most recent price action
+was to the downside. Professionals use it as a benchmark with which to compare the next day’s
+price action. Most people reading the financial news remember and use it to value their accounts.
+The closing price becomes a benchmark for future action, both long and short term. Some traders
+consider it the most important price of the day, even though it is somewhat arbitrary.
+The high is the upper extreme reached by buyers during the bar and is, thus, a measure of
+buying ability and enthusiasm. On the other hand, the low is the lower extreme reached by sellers during the bar and is, thus, a measure of selling ability and fear.
+The configuration, length of the bar, position on the bar, preceding bar data, and price distance between each determine the pattern. As you might guess, there is a multitude of potential
+combinations, and all have been investigated for ways to profit. We present next just a few of the
+large array of short-term patterns that have shown promise in the past.
+
+TRADITIONAL SHORT-TERM PATTERNS
+Let us look at some of the short-term patterns and their trading implications. These are patterns
+in use today that by themselves are warnings, at best, but not necessarily action patterns, that
+should be followed without a cluster of other evidence. You will notice that none of the patterns
+includes moving averages. Over short time periods, especially when the period is interrupted by
+inactivity, moving averages are not reliable. For example, when using five-minute data, the only
+moving average with any value would be very short because the period from one day to the next
+
+Download at www.wowebook.com
+
+363
+
+Chapter 17 Short-Term Patterns
+
+is interrupted by a long period overnight when no trading activity occurs. In 24-hour markets,
+short-term moving averages have more value because the markets are open continuously.
+
+Gaps
+Gaps occur when either the low for the current bar is above the high for the previous bar or the
+high for the current bar is lower than the low of the previous bar. Figure 17.1 pictures a gap
+down. The “hole” or “void” created in the price history is a “price range at which no shares
+changed hands” (Edwards and Magee, 2007). A price gap might or might not have significance.
+We have seen them before in analyzing breakouts from classic patterns, trend lines, and support
+or resistance zones, and in those instances, the gaps were demonstrating the beginning of a new
+trend. However, gap types differ based on the context in which they occur. Some are meaningful,
+and others can be disregarded.
+
+Gap Down
+
+FIGURE 17.1 A gap down
+
+Download at www.wowebook.com
+
+364
+
+Part IV Chart Pattern Analysis
+
+Gaps often do not occur in market averages that are not themselves traded. For example,
+the day following Saddam Hussein’s capture on December 13, 2003, a majority of stocks opened
+strongly upward on gaps, while the Dow Jones Industrial Average showed an opening price
+roughly the same as that at the close of the previous day and then rose as the prices of the component stocks gradually opened. No gap existed in the DJIA because it is an average, not a security. On the other hand, the DJIA future showed a gap because it is a traded security.
+Breakaway (or Breakout) Gaps
+The most profitable gaps are those that occur at the beginning of a trend, called breakaway gaps.
+We have seen these before when prices suddenly break through a formation boundary and a
+major change in trend direction begins. Breakaway gaps signal that a pattern is completed and a
+boundary penetrated. The size of the gap—the space between the two extremes in which no
+activity occurs—appears to be proportional to the strength of the subsequent price move. Heavy
+volume usually accompanies upward gaps but not necessarily downward gaps. The best manner
+of trading breakaway gaps is to wait a short while for the initial fading or profit-taking by the
+professionals to see if the gap is filled and if not, to enter in the direction of the gap with a stop at
+the point where the gap would be filled. If the gap is filled immediately, a stop and reverse might
+be appropriate, because a sudden failure in a gap is often followed by a large move in the opposite direction from the gap direction, similar to a Specialist’s Breakout.
+David Landry (2003) suggests a method of mechanizing the breakaway gap known as the
+“explosion gap pivot.” A reversal point, often called a pivot, establishes not only where prices
+have reversed direction but also where supply and resistance are likely to occur in the future.1 In
+Landry’s method, a pivot low is the low of a bar that is surrounded on both sides by a bar with a
+higher low, as shown in Figure 17.2. This establishes a reversal point. Requirements that are
+more restrictive can be placed on the pivot point; for example, higher lows may be required for
+two or more bars on either side of the pivot point. For Landry’s method, however, one on both
+sides is sufficient.
+We know that a breakaway gap can be a false gap and that if it is “filled,” the odds of it
+being false increase. Thus, we want a breakaway gap to establish a new high, for at least the past
+20 days, and for the subsequent retracement not to fill the gap. If either of these requirements is
+not met, the gap is ignored. When the retracement does occur, eventually it will create a pivot low
+above the lower edge of the gap. Once this pivot low occurs, a buy entry stop is placed above the
+high of the next bar from the pivot low (the one that establishes the pivot), and a protective stop
+is placed just above the gap lower edge (or Landry suggests just below the pivot low). If the gap
+is then filled, the protective stop will exit the position. Occasionally, the pivot low will be penetrated again, but as long as the gap is not filled, the position should be kept. The reverse configuration is equally applicable to downward breakaway gaps.
+
+1. This reversal “pivot” should not be confused with the “pivot point” used in intraday trading for anticipating potential
+support and resistance levels.
+
+Download at www.wowebook.com
+
+365
+
+Chapter 17 Short-Term Patterns
+
+Entry Buy Stop
+
+Breakaway Gap
+(New High for
+20 Days)
+Pivot Low
+
+Protective Stop
+
+FIGURE 17.2 Explosion gap pivot
+
+Opening Gap
+When the opening price for the day is outside the range of the previous day, it is called an opening gap. After the opening, prices might continue in the direction of the gap, and the gap
+becomes a breakaway gap, or prices might retrace from the opening and fill the gap. Figure 17.3
+shows an opening gap to the downside, with prices retracing and filling the gap during the day.
+This type of pattern is sometimes useful in determining a short-term trend reversal. The history
+of opening gaps in index futures suggests that they should be “faded” (or sold into) on large
+upward openings because they most often “fill” (retrace through the price vacuum) during the
+day. In downward opening gaps, a fill is not as common (Kaufman, 1998). In individual stock
+issues and commodities, a fill is a sign of weakness and should not occur in a breakaway gap. If
+the gap is not filled, usually within the first half hour, the odds of the trend continuing in the
+direction of the gap increase.
+
+Download at www.wowebook.com
+
+366
+
+Part IV Chart Pattern Analysis
+
+Opening Down Gap
+(Later Filled During Day)
+
+FIGURE 17.3 Opening down gap
+
+One way potentially to profit from an opening gap is to watch the first three five-minute
+bars (a three-bar range) and determine the high and low of this range. A breakout of that range in
+the direction of the gap often indicates that the trend will continue in the gap direction; a breakout that moves in the direction of filling the gap will often continue to fill the gap. A danger is
+that the first run from the gap can last longer than the three bars. The three-bar range must, therefore, be obvious, not a continued run in the gap direction. In addition, the breakout from the
+three-bar gap range in the direction of the gap may be false. A tight stop is necessary, or a wait
+for a pullback or throwback from the breakout, a narrow range bar break, or even a small cup and
+handle.
+If the price breaks the three-bar range in the other direction toward the fill, the previous
+day’s close, the fill line, will likely be the target. A bounce between the fill line and the range
+
+Download at www.wowebook.com
+
+Chapter 17 Short-Term Patterns
+
+367
+
+breakout line suggests that the longer-term move will be in the direction of the fill, a reversal of
+the gap. On the other hand, if the prices after a range break in the direction of the fill turn and
+retest the outer extreme of the three-bar range, the odds increase that the longer-term move will
+be in the direction of the gap.
+Runaway Gaps (or Measuring Gaps)
+Gaps that occur along a trend are called runaway gaps. They can appear in strong trends that
+have very few minor corrections and just keep rising or declining without retracements or other
+interruptions. They are also called measuring gaps because, like pennants and flags, they often
+occur at about the middle of a price run, and, thus, the initial distance to them can be projected
+above them for a target price. An upward runaway gap occurs on average 43% of the distance
+from the trend beginning and the eventual peak, whereas a downward gap occurs on average
+57% of the distance (Bulkowski, 2010).
+Exhaustion Gaps
+Exhaustion gaps occur at the end of moves but are not recognized at the time because they have
+the same characteristics as runaway gaps. If a gap is later closed, it is likely an exhaustion gap.
+These gaps appear when a strong trend has reached a point where greed or fear has reached its
+apex. Usually they represent latecomers to the trend who are anxious to jump on or jump off.
+They can occur on light volume but more often occur on heavy volume.
+The sign that such gaps are not runaway gaps is an immediate fill within a few bars of the
+gap. Remember that a runaway gap often occurs midstream in a price run. Prices should not
+immediately reverse and fill a gap unless the end of the run is approaching. Exhaustion gaps
+occur at the end of a move and signal a potential trend reversal. Usually more evidence of an
+exhaustion gap is necessary before an action signal can be justified. Sometimes prices reverse
+immediately, and sometimes they enter a congestion area.
+Other Minor Gaps
+Common gaps are those that occur frequently in illiquid trading vehicles, are small in relation to
+the price of the vehicle, or appear in very short-term trading data. They are of no consequence.
+Pattern gaps occasionally appear within the formation of larger patterns, and generally they are
+filled. Their only significance is to suggest that a congestion area is forming. Ex-dividend gaps
+sometimes occur in stock prices when the dividend is paid and the stock price is adjusted the following day. These have no significance and must not be misinterpreted. Often gaps occur in 24hour futures trading when one market closes and another opens, especially if one market is
+electronic and the other open outcry. These are called suspension gaps and are also meaningless
+unless they occur as one of the four principal gaps described previously.
+
+Download at www.wowebook.com
+
+368
+
+Part IV Chart Pattern Analysis
+
+BOX 17.1 GAPS AND CLASSIC PATTERNS—A CASE STUDY OF APPLE COMPUTER
+Figure 17.4 contains daily bar charts for Apple Computer (AAPL) for September
+2009 through May 2010. What actions might we have taken in this stock, given our
+knowledge of classic patterns and gaps? Each paragraph number below corresponds
+to the number on Figure 17.4.
+1. First we see a small pennant formation with an upward breakout at $167.28.
+We buy the stock on the breakout. Because we don’t have the past history, we
+can’t, at this point make a measured move projection of the eventual target,
+and we decide to just hold the stock with a protective stop below the pennant’s
+lower bound at $164.11. Upward gap1 and gap2 appear next. We use them to
+place trailing stops as the price progresses upward. The pivot low after the
+gap1 is the first trailing stop at $169.70. We now have a locked-in profit even if
+the stop is triggered. Gap2 is a runaway gap. A runaway gap should not retrace
+back into the gap, or it is not a runaway. We, thus, raise the trailing stop to the
+upper edge of the gap at $177.88. Because this is a runaway gap, we can now
+project the target with the measured move method. We do this by measuring
+the price difference between the move beginning ($167.28) and the midpoint
+in the gap ($176.77). This $9.49 we add to the gap2 midpoint to arrive at an
+estimated objective of $176.77 + $9.49 = $186.25. This price is reached two
+days later, at which point we can sell or hang on with a close trailing stop so as
+not to lose the gain we have already achieved. If we sell at the target price, we
+will have profited by $18.97, about 11.3% in nine days.
+2. The price then goes into a flag pattern and when it breaks out at $187.30, we
+buy it again. This breakout is accompanied by gap3, which is later filled. We
+place the protective stop at the low price of the flag at $180.70.
+descending
+triangle
+
+11
+
+Trading With Gaps And Classic Price Patterns
+
+260.00
+gap10
+
+12
+
+gap9
+
+10
+
+gap8
+
+3
+2
+
+gap3
+gap2
+
+1 gap1
+
+flag
+
+gap5
+
+4
+flag
+
+7
+
+gap6
+
+5
+
+gap7
+
+8
+
+230.00
+
+flag
+
+210.00
+
+9
+
+200.00
+
+6
+symmetrical
+triangle
+
+240.00
+
+220.00
+
+broadening pattern
+
+gap4
+
+251.63
+
+190.00
+
+symmetrical
+triangle
+
+180.00
+170.00
+
+pennant
+
+60,000.00
+50,000.00
+40.000.00
+31,306,698
+20,000.00
+Sep 8 14 21
+
+Oct
+
+12 19 26 Nov 9 16 23 Dec 7 14 21 28 ‘10 11 19 25 Feb 8 16 22 Mar 8
+
+15 22
+
+Apr 12 19 26 May
+
+Created using TradeStation
+
+FIGURE 17.4 Case Study: Apple Computer (August 25, 2009–May 7, 2010)
+
+Download at www.wowebook.com
+
+369
+
+Chapter 17 Short-Term Patterns
+
+3. Gap4 occurs and has the initial appearance of a breakout or runaway gap. In
+neither case should prices fill such a gap, and so we move our stop to the upper
+limit of the gap4 at $197.85
+4. Our trailing stop is triggered by an unexpected price decline that negates the
+earlier interpretation of gap4. We profit by $10.55.
+5. The price then forms a downward flag pattern and volume confirms as it
+declines with price. The break upward from the flag triggers another buy at
+$190.73. This is followed by gap5, another likely runaway gap. The measured
+move projection from this gap is $200.73, which is reached on the day following gap5. We can sell at this level and reap another gain, this time of $10.00.
+6. Had we not sold at the target price, we still would have placed a trailing stop at
+the upper level of gap5 at $196.26 and sold the stock on the retracement. We
+might also have sold the stock short on the trailing stop because the filling of
+what’s thought to be a runaway gap is often an exhaustion gap and, therefore,
+a price trend reversal.
+7. Whether we sold the stock short or not, the upward breakout from a symmetrical triangle would require another entry buy at $196.05. Following that triangle, breakout gap7 forms. This also has the appearance of a runaway gap
+(strong price move closing near high on increased volume), and we move a
+trailing stop from below the triangle to the upper edge of the gap at $203.35.
+We also calculate the measured move target of $209.68, which is reached two
+days later. If we sell at the target, we achieve on the trade a profit of $13.63.
+8. If we don’t sell at the target, we certainly are forced to sell when the price
+breaks below our trailing stop at the upper bound of gap7. This breakout is not
+only through the gap but also through the lower bound of a broadening pattern.
+Indeed, with this combination, we will short the stock at the breakout price of
+$203.35 and place a protective stop at the upper bound of the broadening pattern at $215.55. Following the breakout down, the price rallies in a pullback to
+the breakdown level but fails to penetrate back through it on the upside. However, it also fails to continue downward after the pullback and instead forms a
+symmetrical triangle. We place a buy stop each day along the upper bound of
+the triangle as our trailing stop.
+9. We get stopped out with the trailing stop at $196.60, and we buy the stock on
+the basis of the triangle pattern confirmed with declining volume. We place a
+protective stop at the cradle of the triangle where the two bounds meet at
+$189.48 in case the breakout is false. Indeed, the price throws back shortly
+after the breakout but doesn’t penetrate the cradle, and we remain long the
+stock. Gap8 comes after a healthy rise in the stock price. This also has the
+appearance of a runaway gap (high volume, large price move), and we move
+our trailing stop to the upper bound of the gap at $219.70. The measured move
+target from this runaway gap is $234.02. It is reached 18 days later.
+continues
+
+Download at www.wowebook.com
+
+370
+
+Part IV Chart Pattern Analysis
+
+continued
+10. We could sell at the target price, but before the target is reached, a flag pattern
+formed. We move our trailing stop up to the lower edge of the flag at $220.15
+to protect our profit. A flag pattern is also a measured pattern that will give an
+additional price target. The calculation in this instance is to take the high point
+in the flag at $227.73 minus the starting price of the move ($196.60) for an
+estimated price distance of $31.13 that we add to the level at which the price
+breaks out of the flat ($224.64). But prices broke upward from the flag and,
+thus, projected $31.13 to a target of $255.77, our new target.
+11. Our price target is reached 21 trading days after the upward breakout from the
+flag pattern on a large upward gap (gap10). There was a small gap9 preceding
+gap10 and a few others along the way. Each of these gaps failed to show the
+characteristics of a runaway gap and were, thus, ignored. But gap10, aside
+from reaching our objective was substantial and also likely a runaway gap, just
+because of the size of the gap compared with others. If we don’t sell at the target price, we at least move the trailing stop to the upper level of the gap at
+$255.73.
+12. As it turns out, gap10 was an exhaustion gap, something that can only be recognized in retrospect. However, we were stopped out of our trade at the trailing stop and perhaps went short on the exhaustion gap breakdown because this
+type of breakdowns often indicates a trend reversal. That the exhaustion gap
+occurred at the price target from the earlier flag formation confirmed the likelihood of a trend reversal. The sell stop produced a profit of $59.13, a 30%
+gain in less than 3 months.
+The preceding example shows what can be done with just technical analysis alone.
+We did not act on any news or outside market behavior. We simply watched the price
+very closely. Stops were an important part of our strategy. If we had not moved stops
+when we did, we would have suffered at the upward breakout from the symmetrical
+triangle and from the failure of gap10. Risk control is sometimes more important
+than entry technique. Technical analysis takes knowledge, patience, and close watching of price action, but profits can be made.
+
+Spike (or Wide-Range or Large-Range Bar)
+Spikes are similar to gaps except that the empty space associated with a gap is a solid line (in a
+bar chart). Should a breakaway gap occur intraday, for example, the daily bar would not show the
+discontinuity from the gap but instead would show a long bar. The importance of a spike, as in a
+gap, depends on the context surrounding it. A spike can occur on a breakout from a formation,
+midpoint in a strong, accelerating trend, and as the final reversal day at the end of a trend. In the
+
+Download at www.wowebook.com
+
+371
+
+Chapter 17 Short-Term Patterns
+
+earlier discussion of breakouts, we demonstrated the Specialist Breakout. This is often a spike
+because it usually occurs intraday. At the ends of trends when either gross enthusiasm or panic
+appears, the last few bars are often spikes. At the end of an accelerated trend, the last bar within
+the trend is often a spike called a climax (see Figure 17.5). Thus, spikes can represent the beginning or end of a trend. On the other hand, some stocks and commodities, especially those awaiting a news announcement, will have wide-range bars that subside almost immediately within the
+next few days with little net change in trend direction. This behavior is generally associated with
+a stock or commodity that will not follow standard technical rules.
+
+Gasoline Futures
+Spike Peak and
+Buying Climax
+
+Created using TradeStation
+
+FIGURE 17.5 Spike peak and buying climax (July 2005–September 2005)
+
+Dead Cat Bounce (DCB)
+“Dead Cat Bounce” is a graceless term for a failed rally after a sharp decline. Although the term
+has been used for many years on Wall Street and in Chicago, it was probably first used in print
+either in a 1985 Financial Times article by reporter Chris Sherwell in a comment on the sharp
+decline in the Singapore stock market or by Raymond Devoe Jr., research analyst and professional cynic, who advocated using a bumper sticker “Beware the Dead Cat Bounce” in 1986.

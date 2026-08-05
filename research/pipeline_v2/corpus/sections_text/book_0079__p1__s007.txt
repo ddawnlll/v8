@@ -1,0 +1,943 @@
+
+Finding Profit after Kisses
+One very simple exit for profitable last-kiss trades is to exit the trade at
+the next zone. There are other, more sophisticated methods for exiting the
+last-kiss trade covered in Chapter 11.
+
+P1: OTA
+JWBT642-c05
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:22
+
+Printer: Courier Westford
+
+92
+
+NAKED FOREX
+
+1.75040
+1.73720
+1.72400
+1.71080
+1.69760
+1.68440
+1.67120
+1.65760
+
+Exit
+
+1.64440
+1.63120
+1.61800
+1.60480
+1.59160
+
+Sell here
+
+1.57840
+1.56480
+1.55160
+1.53840
+1.52520
+1.51200
+1.49880
+1.48560
+1.47240
+
+24 Aug 1997 19 Aug 1997 14 Dec 1997 8 Feb 1998 5 Apr 1998
+
+31 May 1998 26 Jul 1998 20 Sep 1998 15 Nov 1998 10 Jan 1999 7 Mar 1999 2 May 1999 27 Jun 1999 22 Aug 1999
+
+FIGURE 5.18 This is a last-kiss trade on the GBP/USD weekly chart. The ﬁrst
+arrow marks the last-kiss candlestick, where the sell trade is entered. The second
+arrow marks the candlestick that closed inside the box, triggering the end of the
+trade.
+© 2000–2011, MetaQuotes Software Corp.
+
+TRADING THE LAST KISS
+The last-kiss trade is a nice way to trade high-probability breakout trades.
+Here are the steps for the last-kiss trade:
+
+r Wait for price to consolidate in a box between two zones.
+r The box should have at least two touches on both zones.
+r Wait for price to break beyond one of the zones.
+r Once price returns back to the consolidation box, wait for the market
+to print a last-kiss candlestick on the edge of the box.
+
+P1: OTA
+JWBT642-c05
+
+JWBT642-Nekritin
+
+The Last Kiss
+
+January 11, 2012
+
+21:22
+
+Printer: Courier Westford
+
+93
+
+r For sell trades, a sell stop is placed below the low of the last-kiss candlestick, and for buy trades, a buy stop is placed above the high of the
+last-kiss candlestick.
+r Emergency stop loss is placed in the midpoint of the consolidation box.
+r The profit target is the nearest zone.
+Test the last-kiss trade; you may be surprised at how well this trading
+system filters out fake-outs. To see live last-kiss trades as they unfold in the
+market, go to www.fxjake.com/book.
+
+P1: OTA
+JWBT642-c05
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+94
+
+21:22
+
+Printer: Courier Westford
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+CHAPTER 6
+
+The Big Shadow
+
+Never fear shadows. They simply mean there’s a
+light shining somewhere nearby.
+—Ruth E. Renkel
+
+he big shadow is a two-candlestick, reversal formation and an important catalyst for the naked trader. The big shadow appears on support
+and resistance zones, precisely where the naked trader looks for high
+probability trade set-ups. Once the big shadow prints on a zone, we have a
+valuable hint that the market may soon turn around.
+Two candlesticks make up the big shadow formation. As with most
+naked trading catalysts, they must print on zones to be valid trade set-ups.
+Big shadows are only valid when they appear on zones. A big shadow may
+print on top of the zone (the market is finding support on the zone, a bullish
+big shadow), or the market may print below the zone (the market is finding
+resistance on the zone, a bearish big shadow). The important thing is this:
+The big shadow must print on a zone.
+
+T
+
+WHAT DOES IT LOOK LIKE?
+Some traders may refer to the big shadow as an engulfing candlestick,
+but it is more than that, as there are specific rules associated with the
+big shadow, including how to trade it, and specific optimizers for the
+trading set-up. The big shadow is essentially a two-candlestick formation
+in which the second candle completely dwarfs the first candlestick. This
+second candlestick is known as the big-shadow candlestick. The defining
+95
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+96
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+characteristics of the big-shadow candlestick are as follows: The bigshadow candlestick is much larger than the previous candlestick, the
+big-shadow candlestick has a wide range, and the big-shadow candlestick
+is the largest candlestick the market has seen for some time.
+Figure 6.2 shows another example of the big shadow. This one is another bearish big shadow, this time on the EUR/GBP daily chart.
+
+DOES BIGGER EQUAL BETTER?
+If you spend some time watching the charts, you will notice that some
+shadows are larger than others. The ideal big shadow will have a wide
+range. Look at the examples in Figure 6.1 and Figure 6.2; both big shadow
+CADJPY, Daily 73.436 73.695 73.101 73.140
+
+86.680
+85.927
+84.880
+83.955
+83.055
+82.130
+81.230
+80.305
+79.405
+78.505
+77.580
+76.680
+75.755
+74.855
+73.955
+73.140
+72.130
+71.205
+70.305
+69.380
+68.480
+
+21 Jan 2009 2 Feb 2009 12 Feb 2009 24 Feb 2009 6 Mar 2009 18 Mar 2009 30 Mar 2009 9 Apr 2009
+
+67.580
+21 Apr 2009 1 May 2009 13 May 2
+
+FIGURE 6.1 This bearish big shadow on the CAD/JPY daily chart has a much
+larger range than the previous candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+97
+
+The Big Shadow
+
+1.00160
+0.98935
+0.97800
+0.96485
+0.95260
+0.94035
+0.92810
+0.91585
+0.90360
+0.89135
+0.87910
+0.86685
+0.85460
+0.84235
+0.83010
+0.81785
+0.80560
+0.79335
+0.78110
+0.76920
+0.75695
+0.74470
+23 Oct 2008
+
+4 Nov 2008
+
+14 Nov 2008
+
+26 Nov 2008
+
+8 Dec 2008
+
+18 Dec 2008
+
+31 Dec 2008
+
+FIGURE 6.2 The bearish big shadow here is on the EUR/GBP daily chart. Notice
+how the range of the big-shadow candlestick is much larger than the previous
+candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+candlesticks have a very wide range. Both of these big shadows are the
+largest candlestick the market has seen in some time. In Figure 6.1 the
+bearish big shadow is the largest candlestick the market has seen in several weeks. Likewise, the big bearish big shadow in Figure 6.2 is a very
+large candlestick, the largest candlestick in over one week of trading.
+Ideally, the big shadow should have the greatest range of the previous
+five candlesticks. Smaller big shadow candles may be tempting because
+the stop loss is closer to the entry price, but historically, the very large
+big shadows have a much higher success rate. Back-test this for yourself
+to see if the very large big shadows you trade have a higher success
+rate.
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+98
+
+21:24
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+1.73490
+1.72530
+1.71540
+1.70550
+1.69560
+1.68570
+1.67580
+1.66620
+1.65630
+1.64664
+1.63650
+1.62660
+1.61670
+1.60710
+30 Sep 2009 12 Oct 2009 22 Oct 2009 3 Nov 2009 13 Nov 2009 25 Nov 2009 7 Dec 2009 17 Dec 2009 30 Dec 2009
+
+FIGURE 6.3 This is a bullish big shadow on the daily GBP/CHF daily chart. The
+stop loss is placed a few pips above the high of the bearish big-shadow candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+THE STOP LOSS
+The big shadow stop loss is placed beyond the big shadow. For a bullish
+big shadow, the stop loss is placed a few pips below the low of the big
+shadow candlestick (see Figure 6.3). For the bearish big shadow, the stop
+loss is placed a few pips above the high of the big-shadow candlestick (see
+Figure 6.4).
+
+ENTERING THE TRADE
+The safest way to enter a big-shadow trade is to wait for the market to push
+into an expected direction. This will mean using a buy stop for bullish big
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+99
+
+The Big Shadow
+
+GBPAUD, Daily 1.60960 1.61793 1.60568 1.61165
+
+1.64450
+1.63730
+1.63030
+1.62330
+1.61630
+1.60930
+1.60230
+1.59510
+1.58810
+1.58110
+1.57410
+1.56710
+1.56010
+1.55310
+1.54590
+1.53890
+1.53190
+1.52490
+1.51790
+
+6 Oct 2010 18 Oct 2010 28 Oct 2010 9 Nov 2010 19 Nov 2010 1 Dec 2010 13 Dec 2010 23 Dec 2010 4 Jan 2011
+
+1.51090
+14 Jan 2011 26 Jan 20
+
+FIGURE 6.4 This is a bearish big shadow on the daily GBP/AUD chart. The stop
+loss is placed a few pips above the high of the bearish big-shadows candlestick.
+© 2000–2011, MetaQuotes Software Corp.
+
+shadows, or a sell stop for bearish big shadows. For example, if you would
+like to enter a sell trade on a bearish big shadow, you may consider placing
+your sell stop below the low of the big-shadow candlestick. Likewise, for
+those bullish big shadows, place a buy stop a few pips above the high of
+the big-shadow candlestick. If the market moves in the expected direction,
+your buy stop order will be triggered (see Figure 6.5).
+Many traders look to enter a trade on retracements, when the market
+moves against a trading set-up. Although this may seem like a good idea,
+because it enables an entry at a “cheaper” price, it is also risky. Remember
+that most traders find it difficult to achieve consistent profits. One of
+the reasons for this may be because all failed trade set-ups will retrace
+in the opposite direction, but very few failed trade set-ups, such as the
+big shadow, will take out a new high (for bullish big shadows) or a new
+low (for bearish big shadows). This is why sell stops and buy stops are
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+100
+
+NAKED FOREX
+
+1.74340
+1.72940
+1.71540
+
+1.70100
+1.68700
+1.67300
+1.65860
+
+1.64460
+1.63020
+1.61620
+1.60220
+1.58780
+
+24 Feb 2000
+
+7 Mar 2000
+
+17 Mar 2000
+
+29 Mar 2000
+
+10 Apr 2000
+
+20 Apr 2000
+
+1.57380
+2 May 2000
+
+FIGURE 6.5 A buy stop entry is the safest way to enter a bullish big-shadow
+trade. Here, the market triggers the buy stop of the bullish big shadow on the daily
+USD/CHF chart.
+© 2000–2011, MetaQuotes Software Corp.
+
+recommended for trading the big shadow (and all naked-trading strategies). See Figure 6.6 for an example of how a sell stop avoids a losing trade
+on a CAD/JPY four-hour bearish big shadow.
+It may seem counterintuitive to enter a trade at a poor entry price, but
+if you decide to use buy stops and sell stops to enter your trades, you will
+eliminate many losing trades from your record. This is an extremely simple
+method for avoiding losing trades.
+
+IMPORTANCE OF THE CLOSING PRICE
+The closing price is the most important price for the big-shadow candlestick. A big shadow may completely engulf the prior candlestick. A big
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+101
+
+The Big Shadow
+
+83.690
+83.520
+83.345
+83.175
+83.000
+82.830
+82.655
+82.485
+82.315
+82.140
+81.970
+81.795
+81.625
+81.450
+81.280
+
+27 Jan 00:00
+
+28 Jan 08:00
+
+31 Jan 16:00
+
+2 Feb 00:00
+
+3 Feb 08:00
+
+81.110
+4 Feb 16:00
+
+FIGURE 6.6 A sell stop entry on the CAD/JPY four-hour chart avoids a losing
+trade. The market trades higher and never triggers the sell stop entry. Selling this
+bearish big shadow at a higher price would have resulted in a losing trade.
+© 2000–2011, MetaQuotes Software Corp.
+
+shadow may print on a brilliant zone. A big shadow may even be the largest
+candlestick, with the widest range for a particular market in a very long
+time. However, if the closing price is not in the correct location for the
+big-shadow candlestick, the trade may fail miserably.
+The ideal closing price for a bullish big shadow candlestick is the
+high. The big-shadow candlestick has a very good chance of success if the
+candlestick closes on the high. Obviously, it is rare for the closing price of
+a bullish big-shadow candlestick to be equal to the high. The closer the closing price is to the high for the bullish big-shadow candlestick, the better
+the trade signal. Bullish big shadows with closing prices near the midpoint
+of the candlestick are very poor trading set-ups. The naked trader is only
+interested in high-probability trade set-ups, so if the bullish big shadow
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+102
+
+NAKED FOREX
+
+94.625
+
+94.115
+
+93.620
+
+93.110
+92.615
+92.105
+
+91.610
+91.100
+
+90.605
+90.110
+
+89.600
+89.105
+
+88.595
+
+May 2010
+
+19 May 2010
+
+31 May 2010
+
+10 Jun 2010
+
+88.100
+22 Jun 2010
+
+FIGURE 6.7 This bullish candlestick on the daily USD/JPY chart has a closing price
+down near the midpoint of the candlestick. This is not a bullish big-shadow candlestick formation. Notice how this trade is a loser; the market trades below the stop
+loss.
+© 2000–2011, MetaQuotes Software Corp.
+
+has a closing price down near the midpoint of the candlestick, the trade
+set-up is probably not good enough to take (see Figure 6.7).
+Figure 6.7 is an interesting bullish candlestick, but it is not a bullish big
+shadow because the market never trades higher than the high of the candlestick. Recall that one of the rules of the big shadow is that the market
+must trade higher than the high to trigger the buy stop which is placed a
+few pips above the high. Applying this entry rule would have meant avoiding this losing trade. Therefore, the trade in Figure 6.7 has two faults: The
+market fails to trade higher than the high of the bullish big-shadow candlestick, and closing price of the bullish big-shadow candlestick is too low.
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+103
+
+The Big Shadow
+
+1.31175
+1.30530
+1.29900
+1.29270
+1.28625
+1.27995
+1.27365
+1.26720
+1.26090
+1.25460
+1.24815
+1.24185
+1.23555
+1.22910
+
+14 Jan 2010
+
+26 Jan 2010
+
+5 Feb 2010
+
+17 Feb 2010
+
+1 Mar 2010
+
+FIGURE 6.8 This bearish candlestick on the AUD/NZD daily chart is not an ideal
+bearish big shadow because the closing price is not near the low of the candlestick.
+This trade ends up a loser. The market pushes lower than the low of the big shadow
+to trigger the trade, but three candlesticks later the market takes out the stop loss.
+© 2000–2011, MetaQuotes Software Corp.
+
+For bearish big shadow set-ups, the closing price of the bearish big
+shadow candlestick is also important. The ideal bearish big shadow will
+have a closing price down near the low of the bearish big-shadow candlestick. A bearish big-shadow candlestick with a closing price near the midpoint is a subpar set-up and should be disregarded (see Figure 6.8). The
+very best bearish big-shadow set-ups will have a closing price down near
+the low of the candlestick.
+
+ROOM TO THE LEFT
+Would you like to find the trade that captures a critical turning point in the
+market? You’re probably like most traders: You would like to make a trade
+
+P1: OTA
+JWBT642-new-06
+
+104
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+that catches the market just as it starts to turn around and never returns to
+the turning point.
+If you study these critical turning points in the market, you will notice
+one thing: All these turning points have a similar look. The price action
+at these turning points is, generally speaking, extending beyond where the
+market has been trading prior to the turning point. These turning points
+are typically exhaustion turning points, that is, places where the market
+has just gone too far.
+There is a far simpler way of characterizing these turning points in the
+market. These turning points come in two flavors: all-time highs, where the
+market trades at a very high price, before falling, and never returning to
+that high, and all-time lows, places where the market falls much lower than
+most market participants had anticipated, and then rocket higher, never to
+return to the depths of that low. Traders around the world stare at these
+spots on the chart, wishing that they had entered a trade at these precise
+prices, to capture a windfall profit.
+There is something that all these turning points have in common. These
+critical prices are usually stabbed by the market—an exploratory stab, a
+probe into no man’s land. Look to the left of these turning points, and you
+will find a common theme. Nearly all these all-time lows and all-time highs
+have one thing in common: There is no price action to the left. Go ahead
+and take a look right now. Pull up your chart and see if you can find any
+price action to the left of the very critical all-time highs and all-time lows.
+Obviously, by definition you will not find a lower price than an all-time low,
+and neither will you find a higher price than an all-time high. What you will
+find is that the price patterns are all alone. To the left of these patterns is
+wide-open space. Have you noticed this on your charts?
+You do not have to look to all-time highs and all-time lows; you can
+simply look to critical turning points—places where the market does not
+return to for years. The spots will also have this characteristic: The market
+does not return to those places on the chart where the market rarely trades.
+So, if we look to take our reversal set-ups at those spots on the chart where
+the market has not traded in some time, we are putting the odds in our
+favor.
+The easiest way to conceptualize this idea is to look to the left of your
+price pattern. If you see wide-open space on the chart to the left of your
+catalysts, you may be looking at a critical turning point (see Figure 6.9), a
+great opportunity for you to participate in a long-lasting, profitable trade.
+The general rule is this: The more room to the left, the more likely this spot
+is a long-term high or long-term low.
+Sometimes the market will print a big shadow on a zone that has
+recently seen market activity. For example, in Figure 6.10 we see the
+GBP/JPY weekly chart prints a bearish big shadow. Because the market has
+not printed on this zone for seven weeks, there is some space to the left of
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+105
+
+The Big Shadow
+
+1.54815
+1.52605
+1.50460
+1.48000
+1.46040
+1.43895
+1.41685
+1.39540
+1.37330
+1.35120
+1.32975
+1.30765
+1.28555
+1.26410
+1.24200
+1.21990
+1.19845
+1.17635
+
+30 May 2010 25 Jul 2010
+
+19 Sep 2010
+
+14 Nov 2010
+
+9 Jan 2011
+
+6 Mar 2011
+
+1.15490
+1 May 2011
+
+FIGURE 6.9 The EUR/USD weekly chart prints a bearish big shadow. The formation has much “room to the left”—the market has not traded at this zone in over
+74 weeks. After this big-shadow formation printed, the marked spent over 22 weeks
+away from this price.
+© 2000–2011, MetaQuotes Software Corp.
+
+the bearish big shadow. Although it would be better if the market had not
+printed on this zone for 20 or 30 candlesticks, the fact that the market has
+not printed on this zone for seven candlesticks is perfectly reasonable, and
+thus this trade qualifies as having “room to the left.”
+When choosing a big-shadow trade, or any other reversal trade, look to
+the left of the catalyst. If you see open space to the left, then perhaps the
+set-up will capture a critical turning point in the market.
+However, if you look to the left and you see recent price action at the
+same level, perhaps the market has not reached the exhaustion stage. Figure 6.11 illustrates a bearish big shadow on the GBP/USD four-hour chart
+with virtually no room to the left. These set-ups are rarely ideal big-shadow
+trades. Most naked traders will only consider taking a reversal trade if the
+market has not printed on the zone for at least seven candlesticks. Reversal
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+106
+
+NAKED FOREX
+
+GBPJPY, Weekly
+
+198.740
+194.450
+190.160
+185.870
+181.580
+177.290
+173.000
+168.580
+164.290
+162.700
+160.000
+155.710
+151.420
+147.130
+142.840
+138.550
+134.260
+129.970
+125.680
+121.390
+
+31 Aug 2008 26 Oct 2008 21 Dec 2008 15 Feb 2009 12 Apr 2009
+
+7 Jun 2009
+
+2 Aug 2009
+
+117.100
+27 Sep 2009 22 Nov 2009
+
+FIGURE 6.10 The GBP/JPY weekly chart prints a bearish big shadow with “room
+to the left.” The market has not printed on this zone for seven weeks, giving this big
+shadow some reasonable “room to the left.”
+© 2000–2011, MetaQuotes Software Corp.
+
+set ups with room to the left usually have a much higher success rate than
+those that print in an area on the chart with recent price action.
+An easy way to visualize this “room to the left” rule is to draw a rectangle on your chart that captures the area of the chart that is unique to the
+two-candlestick big-shadow formation and extend this rectangle as far as
+possible to the left.
+
+TWO-CANDLESTICK FORMATION
+A price pattern made up of two candlesticks. The deﬁnition and validity of the
+price pattern is dependent upon characteristics of both candlesticks.
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+The Big Shadow
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+107
+
+GBPUSD,H4
+1.62775
+1.62605
+1.62435
+1.62265
+1.62095
+1.61925
+1.61755
+1.61585
+1.61415
+1.61245
+1.61075
+1.60905
+1.60735
+1.60565
+1.60395
+1.60225
+1.60060
+1.59890
+1.59720
+1.59550
+7 Feb 2011 8 Feb 12:00 9 Feb 20:00 11 Feb 04:00 14 Feb 12:00 15 Feb 20:00 17 Feb 04:00 18 Feb 12:00 21 Feb 20:00 23 Feb 04:00 24 Feb 12
+
+FIGURE 6.11 A big shadow such as this one on the GBP/USD four-hour chart
+has printed on a zone with a lot of recent price action. Perhaps the market has not
+reached a turning point yet.
+© 2000–2011, MetaQuotes Software Corp.
+
+It is important to note that the big-shadow formation is a two-bar formation. This means that any unique space occupied by this catalyst may be
+occupied by both candlesticks. Contrast this to other catalysts such as the
+kangaroo tail (Chapter 8) and the big belt (Chapter 9)—these single candlestick formations may independently occupy unique space on the chart.
+Remember, the further this rectangle extends before running into other
+candlesticks, the better. The very best big shadows will print at an area on
+the chart where the market has not recently traded.
+Take a look at the one-hour CAD/JPY chart in Figure 6.12. You can see
+the market has printed the big shadow on an area on the chart that has not
+seen recent price action in a very long time. The box to the left of the big
+shadow represents all of the “room to the left” for this trade set-up. The
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+108
+
+21:24
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+84.795
+84.650
+84.510
+84.365
+84.220
+84.080
+83.935
+83.790
+83.650
+83.505
+83.360
+83.220
+83.075
+82.930
+82.790
+82.645
+82.500
+82.360
+82.215
+2 May 06:00 12 May 14:00 12 May 22:00 13 May 06:00 13 May 14:00 13 May 22:00 16 May 06:00 16 May 14:00
+
+FIGURE 6.12 Waiting for big shadows with space to the left, such as this bullish
+big shadow on the CAD/JPY one-hour chart will aid you in picking high-probability
+reversal trades.
+© 2000–2011, MetaQuotes Software Corp.
+
+market moved 200 pips higher after triggering the buy stop on this bullish
+big shadow.
+
+PROFITING FROM BIG SHADOWS
+There are many methods for exiting the big-shadow trade, many of these
+methods are explored in Chapter 11. A very simple method for exiting the
+big shadow is to simply place a take-profit target at the nearest zone. For
+bullish big shadows this would mean placing a profit target a few pips below the nearest resistance zone, and for bearish big shadows that would
+mean placing a profit target a few pips above the nearest support zone (see
+Figure 6.13).
+
+P1: OTA
+JWBT642-new-06
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:24
+
+Printer: Courier Westford
+
+The Big Shadow
+
+109
+1.36930
+1.36230
+1.35530
+1.34810
+1.34110
+1.33410
+1.32690
+1.32000
+1.31290
+1.30570
+1.29870
+1.29170
+
+1.28470
+26 Nov 00:00 29 Nov 08:00 30 Nov 16:00 2 Dec 00:00 3 Dec 08:00 6 Dec 16:00 8 Dec 00:00 9 Dec 08:00 10 Dec 16:00 14 Dec 00:00 15 Dec 08:00 16 Dec 16:00
+
+FIGURE 6.13 The nearest zone makes for a very clear proﬁt target. The bearish
+big shadow on the EUR/USD four-hour chart is an excellent sell signal. The market
+falls 171 pips down to the next zone at 1.3200.
+© 2000–2011, MetaQuotes Software Corp.

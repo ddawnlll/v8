@@ -1,0 +1,333 @@
+
+r 100% hedged using vanilla forwards
+r 100% unhedged
+r Option risk reversal
+r Option call spread
+r Option low-delta call
+
+While such an approach to managing risk is extremely helpful in providing the cheapest hedging
+structure for a given risk proﬁle, it is not perfect and relies on a discretionary exchange rate view.
+Further research needs to be done in turning a corporation’s risk proﬁle into a mathematical
+answer rather than a discretionary view. A starting point for this may be found in the type of
+equity market proﬁle the corporation wants to create — value, income, defensive and so forth.
+From this, it may be possible to suggest an optimal proﬁt stream the corporation should generate
+according to this proﬁle and from this in turn we may be able to extrapolate a more exact hedging
+strategy to maintain that proﬁt stream than simply a discretionary view might give.
+As it is, optimization, using a corporate risk optimizer (CROP), can be undertaken for
+transaction, translation or economic currency risk as long as one knows the risks entailed and
+gives a speciﬁc currency view within that. For example, if a corporation is looking for the
+best and most efﬁcient hedging strategy in emerging market currencies, a CROP model can
+integrate the speciﬁc characteristics of those currencies together with the size of the exposure and hedging objectives (efﬁcient frontier, performance maximization, risk minimization).
+
+Managing Currency Risk I
+
+153
+
+Performance can be measured as P&L, an effective hedging rate or a distance to a given budget
+rate. The risk embedded in the hedge is expressed as a VaR number that will be consistent
+with the performance measure. While most CROP models do not provide a hedging process
+for basket currency hedging, they are very useful for ﬁnding the most efﬁcient hedge for individual currency exposures. A CROP model is thus a tool for optimizing hedging strategies for
+currency-denominated cash ﬂows.
+Users of a CROP model are able to deﬁne the nature of their speciﬁc exposure and hedging
+objectives. The model also allows for scenario building, whether it be a neutral market view,
+the incorporation of budget/benchmark rates or the jump risk associated with emerging market
+currencies. If the objective is risk reduction, an efﬁcient frontier can be created to ﬁnd the
+most efﬁcient hedge, which incorporates the cheapest hedge which offsets the most risk. Both
+performance and VaR are measured as effective rates.
+Emerging markets are an example where corporate hedging used to adopt a binary
+approach — that is, to hedge or not to hedge. Options are a perfect tool for hedging, taking account of long periods when emerging market currencies do nothing and also capturing
+dramatic moves when they occur. They are cheaper and leave the corporation less exposed to
+an adverse exchange rate move. Furthermore, a CROP model can give the optimal hedging
+strategy using options or forwards for a given currency view and a given currency exposure.
+The way this works is as follows:
+
+r Determine a possible exchange rate scenario over a speciﬁed time period, say six months.
+r Run a random distribution within the scenario speciﬁed.
+r Calculate the effective hedge rate for each hedging instrument used and the risk in local
+currency points.
+
+r Solve to ﬁnd the hedging strategy with the lowest possible effective hedge rate for various
+accepted levels of uncertainty.
+It should of course be noted that it is not possible to choose a single optimal hedging strategy
+without deﬁning the risk one is allowed or willing to take. In scenarios reﬂecting a perception
+of volatility or jump risk, options will always produce a better or similar effective hedge rate at
+lower uncertainty than the unhedged position. Where the local currency has a relatively high
+yield and low volatility, options will almost always produce a better effective hedging rate than
+forward hedging.
+
+7.11 HEDGING EMERGING MARKET CURRENCY RISK
+Emerging market currencies have important characteristics which a corporation needs to take
+account of with speciﬁc regard to a currency hedging programme:
+
+r Liquidity risk,
+r Convertibility risk,
+r Event risk,
+r Jump risk.
+r Discontinuous price action.
+r Implied volatility is a very poor guide to future spot price action.
+r In emerging market currency crises, the exchange rate weakens in at least two waves after
+an event, with the maximum devaluation usually found in the ﬁrst nine months (and this
+period seems to be decreasing, that is the market “learns”).
+
+154
+
+Currency Strategy
+
+r Interest rates often peak just prior to such an event unless a new exchange rate regime has
+been attempted or the spot move is really large.
+
+r Interest rates become an estimate of the size of the ﬁnal event, making short-term interest
+rates the most volatile.
+
+r Whenever the implied emerging market volatility is below the implied vol of a major (i.e.
+when the Euro–zloty implied is below Euro–dollar) this has proven to be unsustainable in
+the past and a very good level to buy.
+r Besides range trading, emerging market implied vol tends to fall only when the emerging
+market currency is strengthening.
+r Implied vol always increases on emerging market currency weakness.
+
+7.12 BENCHMARKS FOR CURRENCY RISK MANAGEMENT
+Corporations can use a variety of hedging benchmarks to manage their hedging strategies
+more rigorously. Aside from the hedging level as the benchmark (e.g. 75%), corporations
+which want to limit ﬂuctuation in net equity use the reporting period as the benchmark for
+forward hedging. Typically, US companies hedge quarterly whereas European corporations
+use 12-month benchmarks given different disclosure requirements. Accounting rules have a
+major impact on what hedging benchmarks corporations use. Budget rates are also used to
+deﬁne the benchmark hedging performance and tenor of a hedge, as these would generally
+match cash ﬂow requirements.
+Using a benchmark enables the performance of an individual hedge to be measured against
+the standard set for the company as a whole, which should be set out within the currency risk
+management policy.
+
+7.13 BUDGET RATES
+The setting of budget rates is crucially important for a corporation as it can drive not only the
+corporation’s hedging but also its pricing strategy as well. Budget exchange rates can be set in
+several ways. The benchmark or budget rate for an investment in a foreign subsidiary should
+normally be the exchange rate at the close of the previous ﬁscal period, often referred to as
+the accounting rate. On the other hand, when dealing with forecasted cash ﬂows, the issue
+becomes more complex. Theoretically, the budget exchange rate should be derived from the
+domestic sales price, which is the operating cost plus the desired proﬁt margin, as an expression
+of the foreign subsidiary sales price. Thus, if the parent sales price for a good is USD10 and
+the Euro area sales price is EUR15, the budget rate should be 0.67. The actual exchange rate
+for Euro–dollar may be some way away from that. Thus, the corporation needs to evaluate the
+degree of demand for its product relative to changes in the product’s Euro price to see whether
+or not it has leeway to cut its Euro price without also reducing margin substantially in order to
+set a budget rate that is closer to the spot exchange rate. If there is a major difference between
+the spot and budget exchange rates, either the hedging or the pricing strategy may have to be
+reconsidered.
+Corporations can also set the budget rate so as to link in with their sales calendar and thus
+their hedging strategy. If a corporation has a quarterly sales calendar it may want to hedge in
+such a way that its foreign currency sales in one quarter is no less than that of the same quarter
+one year before, implying that it should make four hedges per year, each of one-year tenor.
+Alternatively, instead of hedging at the end of a period, thus using the end-of-period exchange
+
+Managing Currency Risk I
+
+155
+
+rate as its budget rate, the corporation may choose to set a daily average rate as its budget rate.
+In this case, if the corporation chooses as its budget rate the daily average rate for the previous
+ﬁscal year, it only needs to execute one hedge. It stands to reason that the best way of achieving
+this in the market place is to use an average-based instrument such as an option or a synthetic
+forward, entered into on the last day of the previous ﬁscal year, with its starting day being the
+ﬁrst day of the new ﬁscal year. Of late, an option structure known as a double average rate option
+(DARO) has become increasingly popular among multinational corporations. This allows a
+corporation to protect the average value of a foreign currency cash ﬂow over a speciﬁed time
+period relative to another period. This is a simple way of passive currency hedging, taking out
+discretionary uncertainties and instead putting the hedging programme on auto pilot where it
+can be more easily monitored.
+Whether a corporation hedges currency risk passively or actively, once the budget rate is
+set the Treasury is responsible for securing an appropriate hedge rate and ensuring there is
+minimal slippage relative to that hedge rate. Timing and the instruments used are key to being
+able to achieve that. The last point to make on budget rates is that they ﬂow naturally from
+relative price differentials. This however is also the heart of the concept of PPP, which states
+that exchange rates should adjust for relative price differentials of the same good between two
+countries. While PPP models are of relatively little use in forecasting short-term exchange rate
+moves, they have a substantially better record in forecasting exchange rates over the long term.
+Thus, a corporation could do worse than setting the budget rate with a PPP model in mind,
+albeit with the realization that tactical hedging may be necessary either side of that budget
+rate over the short term in order to capture exchange rate deviation from where PPP suggests
+it should be. Finally, it is important to underline that budget rates can provide companies
+with one thing only: a level of reference. Set up randomly, they are of very little use. And at
+some point, prolonged currency moves against the functional currency must be passed on, or
+strategic positioning and hedging must be addressed; in any case two topics well beyond our
+budget rates discussion. In the end, while the process of setting budget rates cannot resolve all
+of a corporation’s issues, it can be dramatically improved by clearly deﬁning the company’s
+sensitivities and benchmarking priorities. The hedging frequency as well as the choice of the
+hedge instrument will naturally ﬂow from this process.
+
+7.14 THE CORPORATION AND PREDICTING EXCHANGE RATES
+A key aspect of corporate pricing strategy is forecasting future exchange rates. Aside from
+using banks to help them do this, the internal models corporations use are typically one or
+more of the following kinds:
+
+r Political event analysis
+r Fundamental
+r Technical
+
+For the reasons we have mentioned earlier in this chapter, it is not a good idea for corporations
+to use the forward rate as a predictor of the future spot rate because of “forward rate bias” —
+the idea that the unbiased forward rate theory does not in fact work. Academics argue that
+markets are efﬁcient and therefore there is no point in corporations trying to “beat the market”
+by forecasting future exchange rates. This supposition is premised on a falsehood — markets
+may be efﬁcient over the long term, but they are inherently inefﬁcient over short time periods.
+The latter can be substantial enough to make a material impact on the corporation’s income
+@Team-FLY
+
+156
+
+Currency Strategy
+
+statement were it to assume a perfectly efﬁcient market and use unbiased forward rate theory
+accordingly.
+The importance of market-based forecasts for the corporation is derived from comparing
+these to anticipated net cash ﬂows. For the corporation, the crucial question is how will these
+cash ﬂows respond if the future spot exchange rate is not equal to the forecast? The nature
+of this kind of forecast is completely different from trying to outguess the foreign exchange
+markets.
+
+7.15 SUMMARY
+In this chapter, we have taken a detailed look at some of the advanced approaches to corporate
+strategy with regard to exchange rates. Managing currency risk is not a luxury but a necessity
+for multinational corporations. That said, just realizing it is a necessity does not make the
+practical reality of hedging any easier. The ﬁeld of how corporations hedge speciﬁc types
+of currency risk has become increasingly sophisticated in the last few years. The issue of
+transaction risk hedging is merely the tip of the iceberg! Below the water line, translation and
+economic currency risk are real issues which ultimately can affect the proﬁtability and the
+market’s valuation of the corporation. Boards ignore these issues at their peril.
+Having taken a look at the corporate world, we switch now to that of the institutional
+investor. Just as with corporations, there is a reluctance within some investors to hedge or
+manage currency risk and for the same reasons, not least that participating in the currency
+market is seen as being outside of the investor’s core competence. This may well be so, but
+the reality is that the investor is a participant in the currency market whether they like it or not.
+Moreover, currency risk can make up a signiﬁcant portion of the investor’s portfolio volatility
+and return. It is to this world of the investor that we now turn.
+
+8
+Managing Currency Risk II — The
+Investor: Currency Exposure within the
+Investment Decision
+Investors and corporations face similar types of risk on foreign currency exposure. For instance,
+investors face transaction risk when they invest abroad. They also face translation risk on assets
+and liabilities if they spread their operations overseas. For its part, the corporate sector clearly
+seems to have moved to a view that currency risk is an unavoidable issue that has to be
+managed independently from the underlying business. Within the investor world, the battle
+for hearts and minds on this issue is ongoing. There remain speciﬁc types of investor who are
+ideologically opposed to the idea of managing currency risk. However, here too, there are signs
+of a gradual shift towards the view that currencies are an asset class in their own right and
+therefore currency risk should be managed separately and independently from the underlying
+assets, as the continuing rise in the number of currency overlay mandates would appear to
+conﬁrm.
+
+8.1 INVESTORS AND CURRENCY RISK
+The relationship between institutional investors and the idea of currency risk has been an uneasy
+one. For a start, there remain an overly large number of investors who are either unwilling or
+unable, due to the speciﬁc regulations of their fund, to consider currency risk as separate and
+independent from the underlying risk of their investment. Such a view is particularly prevalent
+among equity, although it is also present to a smaller extent with ﬁxed income fund managers.
+The aim of this chapter is to err on the practical, to take the ideological out of the equation and
+seek to demonstrate empirically and theoretically that managing currency risk can consistently
+boost a portfolio’s return.
+On the face of it, this chapter may seem targeted at only those who manage currency risk
+on an active basis. This is not the case. Rather, it is aimed at any institutional investor who
+faces in the course of their “underlying business” exposure to a foreign currency, whether or
+not they are in fact allowed to carry out some of the ideas and strategies presented herein. Let
+us start then with two core principles on the issue of currency risk:
+1. Investing in a country is not the same as investing in that country’s currency.
+2. Currency is not the same as cash; the incentive for currency investment is primarily capital
+gain rather than income.
+Almost before we have started, some may view the above as controversial. In my career, I have
+come up against not infrequent opposition to these principles, albeit for varying reasons. The
+answer I have given back has always been the same:
+The dynamics that drive a currency are not the same as those that drive asset markets
+
+158
+
+Currency Strategy
+
+8.2 CURRENCY MARKETS ARE DIFFERENT
+Throughout this book, we have looked, albeit from varying perspectives, at the governing
+dynamics that drive the global currency markets. If we have learned one thing, it is surely this,
+that the currency markets are by their nature predominantly “speculative”. That is to say, the
+majority of currency market participants are what we would deﬁne as “speculators”, using the
+deﬁnition of this book for currency speculation as the trading or investing in currencies without
+any underlying, attached asset. The predominance of speculation within currency markets is
+neither a good nor a bad thing. On the one hand, it provides needed liquidity for those aspects
+of the economy deemed productive rather than speculative. On the other hand, it can and
+frequently does lead to overshooting relative to perceived economic fundamentals.
+The speculative nature of the currency markets may be an important reason why most longterm fundamental equilibrium models work poorly in trying to forecast exchange rates. At the
+least, it serves as an excellent excuse for those who otherwise are unable to forecast exchange
+rates using the traditional methods. All of this may be true, and all of it makes for a very different
+world from those of the equity or ﬁxed income, markets. By necessity, these are not speculative
+by nature since they are themselves underlying assets relating to the economy in some way.
+This is not at all to suggest that speculation does not occur in equities or ﬁxed income, for any
+such suggestion would clearly be foolish. The recent bubble in the NASDAQ should serve as
+an excellent warning for any who think these markets are always fundamentally-driven and
+incapable of speculative excess. That said, this same example is surely notable by its rarity.
+Throughout history, there have indeed been examples of speculative excess across all markets.
+In equity and ﬁxed income markets, relative to “normal” conditions however, these are the
+exception rather than the rule. This is not the case in currency markets, where traditional
+economic theory has all but given up trying to explain short-term moves and longer-term
+exchange rate models have far from perfect results.
+The dynamics of the asset and currency markets are “fundamentally” different. Therefore
+these risks should be dealt with separately and independently from one another. For the international equity fund manager, investing in a country is not the same and should not be the same
+decision as investing in a country’s currency. Eventually, they may have the same risk proﬁle
+over a long period of time. However it is questionable whether the investor’s tracking error
+and Sharpe ratio, not to say the investor themselves, should have to go through that degree of
+stress!
+Equally, currency is not the same as cash. An individual investor may treat currency as cash
+from a relative performance perspective. Unfortunately, however, such a comparison provides a
+false picture. Most currency market participants, and therefore the currency market as a whole,
+do not buy or sell currencies for the income that a “cash” description would of necessity entail.
+On the contrary, they do so for anticipated directional or capital gain. In other words, they are
+seeking to proﬁt from precisely the risk that the investor is not hedging! It is a generalization,
+but nevertheless true that the reluctance to manage currency risk is far more predominant
+among equity fund managers than ﬁxed income fund managers. That may have something to
+do with the intended tenor of the investment, suggesting ﬁxed income fund managers may be
+more short-term in investment strategy than their equity counterparts. Any such view seems
+greatly oversimplistic, and would require a study on its own to verify or otherwise. Many
+cannot manage currency risk simply because the rules of their fund do not allow them so to do.
+There remains however a substantial community of institutional investors who apparently have
+yet to be convinced by either the merits or the need to manage currency risk separately. By
+
+Managing Currency Risk II
+
+159
+
+the end of this chapter, it is my hope that I will have caused many within this community to at
+least reconsider their view as regards currency risk. To summarize this part, the way currencies
+and underlying assets are analysed and the way they trade are both different from each other.
+Consequently, the way they should be managed should also be different.
+
+8.3 TO HEDGE OR NOT TO HEDGE — THAT IS THE QUESTION!
+Central to the idea of managing currency risk separately and independently from the risk
+represented by the underlying asset is the issue of whether or not to hedge that currency risk.
+Just as the idea of separating currency risk continues to attract much debate, so the more speciﬁc
+issue of hedging out that currency risk remains a topic of much controversy and discussion, both
+within the academic world and within the ﬁnancial markets themselves. Indeed, while there
+may be some who take a pragmatic view of compromise, approaching this from the perspective
+of a case-by-case basis, the majority seem polarized between two opposite and opposing camps.
+Within the academic world, this is expressed at opposite ends of the spectrum by Perold and
+Schulman (1988) and by Froot and Thaler (1990, 1993), who advocated on the one hand full
+hedging of currency risk and on the other leaving currency risk unhedged.
+There is a clear division of opinion within the ﬁnancial markets as well, if perhaps marginally
+less pronounced and polarized. Within the institutional investor community, international equity funds are generally known for taking a view of either not hedging currency risk or adopting
+an unhedged currency benchmark. Fixed income funds are clearly more tolerant of the idea of
+hedging currency risk, frequently adopting a currency hedging benchmark that reﬂects such a
+view. We will go through the range of possible currency hedging benchmarks shortly, but for
+now sufﬁce to say that they vary at the most basic level, being hedged (partially or fully) and
+unhedged. The “sell side”, which is used to selling foreign exchange-type products, is well
+versed in the need for hedging availability. Conversely, the ﬁxed income sell side within the
+ﬁnancial industry in general appears to focus more on selling the core product rather than on its
+denomination, or the potential need to separate and hedge out that corresponding currency risk.
+In response, the majority of rigorous studies have distilled this debate down to an elegant
+compromise between risk and reward, focusing less on an absolute answer to the question
+than the need to account for the individual investor’s requirements and the portfolio variance
+across the spectrum of hedging strategies. The debate between hedging or not hedging thus
+remains unresolved, and there appears little prospect on the horizon of that changing. There
+is no one answer to the question of whether or not to hedge currency risk, nor perhaps should
+there be. Any such answer depends crucially on the speciﬁcs of the investor’s portfolio aims
+and constraints. The assumption might on the face of it be that one’s approach to managing
+currency risk can be broken down simply into active or passive — or alternatively not to manage
+currency risk! At a slightly more sophisticated level however, the focus should be on the type
+of returns targeted; that is absolute vs. relative returns.

@@ -1,0 +1,979 @@
+
+ABSOLUTE RETURNS
+To provide context for bitcoin’s behavior in the first eight years of its life,
+we will compare it to other popular investments from both traditional and
+alternative asset classes. In terms of absolute returns, long-term comparisons
+between bitcoin and many other assets make most jaws drop, but it’s important
+to keep endpoint sensitivity in mind. Endpoint sensitivity refers to the starting
+and ending dates chosen for comparison, because over time almost all assets
+fluctuate considerably in value. Choosing a low starting point and a high ending point will yield drastically different comparisons than a high starting point
+and low ending point.
+We have chosen January 3, 2017, as the ending point of analysis for this
+chapter, as that was bitcoin’s eight-year birthday. While designating a fixed
+endpoint, we have the flexibility to choose different starting points (including
+one of bitcoin’s most notable peaks in late 2013). By illustrating both high and
+low starting points, we are able to show the variety of experiences investors
+could have had depending on when they first bought bitcoin. For those concerned with the cherry-picking of numbers, it should be noted that on January
+3, 2017, the price of bitcoin was around $1,000, whereas when this book was
+entering its final stages of editing, bitcoin had risen past $3,000. We nonetheless have stuck with the $1,000 price of bitcoin for the following comparison in
+pursuit of intellectual honesty.
+
+Burniske 02.indd 84
+
+9/9/17 1:46 PM
+
+S&P 500
+
+Dow Jones Industrial Average
+
+NASDAQ 100
+
+Bitcoin
+
+85
+
+$10,000,000
+$1,000,000
+$100,000
+$10,000
+$1,000
+$100
+
+Jul-16
+
+Nov-16
+
+Mar-16
+
+Nov-15
+
+Jul-15
+
+Mar-15
+
+Nov-14
+
+Jul-14
+
+Mar-14
+
+Jul-13
+
+Nov-13
+
+Mar-13
+
+Jul-12
+
+Nov-12
+
+Mar-12
+
+Jul-11
+
+Nov-11
+
+Mar-11
+
+Jul-10
+
+$10
+Nov-10
+
+Value of a $100 Investment Over Time
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+Figure 7.1 n Bitcoin’s performance compared to major
+U.S. stock indices since the start of Mt. Gox
+Data sourced from Bloomberg and CoinDesk
+
+To begin with, we examine the longest-term bitcoin prices we have that
+come from reliable exchange data. Figure 7.1 provides a comparison of bitcoin
+versus three of the most important stock market indices: the S&P 500, the
+Dow Jones Industrial Average (DJIA), and the NASDAQ 100, respectively. It
+assumes a $100 investment was made on July 19, 2010, a few days after Mt. Gox
+was officially open for business and providing the first widely used exchange
+services for bitcoin.
+These broad market indices represent how the stock markets performed
+on average, with the S&P 500 representing approximately 80 percent coverage
+of available U.S. equity market capitalization,2 the DJIA for 30 of the largest
+U.S. stocks by market capitalization,3 and the NASDAQ 100 for big domestic
+and international companies in sectors that include computer hardware and
+software, telecommunications, and biotechnology.4 Note that the graph uses a
+log scale for the y-axis so that the broad market indices can be seen—in other
+words, they’d be invisible on a linear scale.
+Since July 2010, the three broad indices have done well, with U.S. stocks in
+a recovery bull market after the financial crisis of 2008. An initial investment
+of $100 would have grown to $242, $231, and $291, for the S&P 500, DJIA,
+and NASDAQ 100, respectively. Although equity market returns have been
+respectable, they have been dwarfed by bitcoin, which has done phenomenally
+
+Burniske 02.indd 85
+
+9/9/17 1:46 PM
+
+86 CRYPTOASSETS
+
+in the same period—an initial investment of $100 grew to nearly $1.3 million
+by the beginning of January 2017.
+LINEAR VS. LOGARITHMIC
+Two types of scales are commonly used for representing the change in the
+price of assets: linear and logarithmic. Linear price scales show unadjusted
+unit changes in the y-axis. For example, if priced in dollars, $10 in value
+increase will look the same, whether the asset goes from $10 to $20 or $100
+to $110. Logarithmic scales adjust the y-axis—in finance most commonly
+by factors of 10—which allows percent price increases to be compared. For
+example, on a logarithmic y-axis the price move from $10 to $20 will show
+up more clearly than the move from $100 to $110, because the former
+represents a 100 percent price increase while the latter is only a 10 percent
+price increase. What would look the same on a logarithmic scale, however, is
+a move from $10 to $20 and a move from $100 to $200. Logarithmic price
+scales are useful in comparing percent price changes over time, as well as
+compressing data of widely different values into one chart.
+
+We can also compare these indices to bitcoin by calculating the compound
+annual growth rates, or the annual appreciation year-over-year. In this comparison, the post-crisis bull market performance is clear, as the S&P 500 provided nearly 15 percent compound annual returns, 50 percent better than the
+average 9.5 percent it provided investors in the 88 years between 1928 and
+2016.5 Figure 7.2 shows that in spite of the excellent performance of U.S. stock
+markets, bitcoin was a clear standout in this eight-year period with compound
+annual returns of 332 percent.
+Rather than comparing bitcoin to broad market indices, it may be more fair
+to compare it to high growth companies riding similar waves of technological
+innovation. The FANG stocks of Facebook, Amazon, Netflix, and Google have
+been the darling of many tech analysts over the last few years, outperforming the broad market indices and helping to reshape our increasingly digital
+world. However, as Figure 7.3 shows, even the FANG stocks were wildly outperformed by bitcoin since Facebook’s May 2012 initial public offering (IPO).6
+Once again, note that this chart uses a log scale for the y-axis.
+An initial investment of $100 on the day Facebook completed its IPO would
+have turned into $306, $352, $1,276, and $262 for Facebook, Amazon, Netflix,
+
+Burniske 02.indd 86
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+Compound Annual Returns
+
+350%
+
+87
+
+332%
+
+300%
+250%
+200%
+150%
+100%
+50%
+
+14.6%
+
+13.8%
+
+18.0%
+
+S&P 500
+
+Dow Jones
+Industrial Average
+
+NASDAQ 100
+
+0%
+Bitcoin
+
+Performance from 7/19/2010 to 1/3/2017
+
+Figure 7.2 n Bitcoin’s compound annual returns versus
+major U.S. stock indices since the start of Mt. Gox
+
+Facebook
+
+Amazon
+
+Google
+
+Bitcoin
+
+Netflix
+
+$100,000
+
+$10,000
+
+$1,000
+
+$100
+
+Nov-16
+
+Aug-16
+
+Feb-16
+
+May-16
+
+Nov-15
+
+Aug-15
+
+May15
+
+Feb-15
+
+Nov-14
+
+Aug-14
+
+Feb-14
+
+May-14
+
+Nov-13
+
+Aug-13
+
+May-13
+
+Feb-13
+
+Nov-12
+
+Aug-12
+
+$10
+May-12
+
+Value of a $100 Investment Over Time
+
+Data sourced from Bloomberg and CoinDesk
+
+Figure 7.3 n Bitcoin’s performance compared to the FANG stocks since Facebook’s IPO
+Data sourced from Bloomberg and CoinDesk
+
+and Google, respectively, by our end date of January 3, 2017. When matched
+up against these stellar tech names, bitcoin has performed more than an order
+of magnitude better, with an initial investment of $100 growing to $20,133.
+On a relative basis, bitcoin has provided capital appreciation 66-fold, 57-fold,
+16-fold, and 77-fold that of the FANG stocks, respectively, over this period.
+
+Burniske 02.indd 87
+
+9/9/17 1:46 PM
+
+88 CRYPTOASSETS
+
+Compound Annual Returns
+
+250%
+
+212%
+
+200%
+150%
+100%
+50%
+0%
+
+72.7%
+27.1%
+
+31.0%
+
+Facebook
+
+Amazon
+
+23%
+
+Netflix
+
+Google
+
+Bitcoin
+
+Performance from Facebook’s IPO (5 /18 /12) to 1/ 3 / 2017
+
+Figure 7.4 n Bitcoin’s compound annual returns versus
+the FANG stocks since Facebook’s IPO
+Data sourced from Bloomberg and CoinDesk
+
+To provide better context and make the performance of the FANG stocks comparable to the performance of the broad market indices, we can once again convert the above returns into a compound annual rate, as seen in Figure 7.4. Doing
+so reveals that the FANG names have provided annual returns about double that
+of the broad market indices over the last few years, with Netflix as the standout for
+the group. Yet when compared with bitcoin, every other investment pales.
+Remember that, as of January 2017, bitcoin’s network value was 1/20, 1/22,
+1/3, and 1/33 that of the FANG stocks respectively. Therefore, if bitcoin is to
+grow to a similar size, much opportunity remains. Clearly, it’s still early days
+for bitcoin, and even earlier days for its digital siblings.
+If the preceding log graphs all looked relatively similar, that’s because they
+were. Bitcoin’s ascent dwarfed that of other assets, and that’s on a log scale
+y-axis. If the y-axis is linear instead, then all the previous graphs condense
+into Figure 7.5, with Netflix as the only name that moderately differentiates
+from the rest. We also added assets outside of U.S. equities, including U.S.
+bonds, U.S. real estate, gold, and oil.7 Gold and oil investors received a doubly
+short end of the stick, as by January 3, 2017, they had lost 30 percent and 40
+percent of their value, respectively. All other assets provided positive returns
+since Facebook’s IPO.
+At this point, innovative investors might ask what if they didn’t buy at bitcoin’s inception or at Facebook’s IPO? Let’s address this concern directly by
+going back to our prior discussion of endpoint sensitivity and seeing what
+
+Burniske 02.indd 88
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+S&P 500
+
+Dow Jones Industrial Average
+
+NASDAQ 100
+
+Facebook
+Google
+US Real Estate
+
+Amazon
+US Bonds
+Oil
+
+Netflix
+Gold
+Bitcoin
+
+89
+
+Value of a $100 Investment Over Time
+
+$25,010
+$20,010
+$15,010
+$10,010
+$5,010
+
+Sep-16
+
+May-16
+
+Jan-16
+
+Sep-15
+
+May-15
+
+Jan-15
+
+Sep-14
+
+May-14
+
+Jan-14
+
+Sep-13
+
+May-13
+
+Jan-13
+
+Sep-12
+
+May-12
+
+$10
+
+Figure 7.5 n Bitcoin’s ascent versus other major asset classes
+Data sourced from Bloomberg and CoinDesk
+
+would have happened if an investor had picked the worst time to buy bitcoin:
+at the peak of its astronomical ascent in late 2013.
+
+Worst-Case Scenario for Absolute Returns: Buying at the Top
+In late 2013, bitcoin’s network value was over $10 billion, making it a significantly investable asset for retail investors even by capital market standards. On
+November 29, 2013, bitcoin reached $1,242, making one bitcoin worth more
+than one ounce of gold.8
+Clearly, bitcoin had risen a long way from its humble roots. If innovative
+investors had bought at this peak price, their returns would not have been
+nearly as rosy as if they had bought when Mt. Gox launched or when Facebook
+IPO’d. In fact, they would have endured an 80 percent loss in value over the
+following year before bitcoin bottomed in January 2015 and began a long, slow
+climb back to previous highs. By January 3, 2017, $100 invested in bitcoin at
+its peak price would only retain $83, while an investment instrument based on
+the S&P 500, DJIA, or NASDAQ 100 indices would have grown to $133, $133,
+and $146, respectively (Figure 7.6).
+
+Burniske 02.indd 89
+
+9/9/17 1:46 PM
+
+90 CRYPTOASSETS
+
+DJIA
+
+NASDAQ 100
+
+Bitcoin
+
+$160
+$140
+$120
+$100
+$80
+$60
+$40
+$20
+
+Nov-16
+
+Sep-16
+
+Jul-16
+
+May-16
+
+Jan-16
+
+Mar-16
+
+Nov-15
+
+Sep-15
+
+Jul-15
+
+May-15
+
+Mar-15
+
+Jan-15
+
+Nov-14
+
+Jul-14
+
+Sep-14
+
+Mar-14
+
+May-14
+
+Jan-14
+
+$0
+Nov-13
+
+Value of a $100 Investment Over Time
+
+S&P 500
+
+Figure 7.6 n Bitcoin’s performance compared to
+major U.S. stock indices since its November 2013 peak
+Data sourced from Bloomberg and CoinDesk
+
+An investor who purchased bitcoin at its peak on November 29, 2013, rather
+than one of the FANG stocks would have suffered an even more drastic differential in returns. As shown in Figure 7.7, the capital appreciation provided
+Facebook
+
+Amazon
+
+Netflix
+
+Google
+
+Bitcoin
+
+Value of a $100 Investment Over Time
+
+$300
+$250
+$200
+$150
+$100
+$50
+
+Nov-16
+
+Sep-16
+
+Jul-16
+
+May-16
+
+Mar-16
+
+Jan-16
+
+Nov-15
+
+Sep-15
+
+Jul-15
+
+May-15
+
+Mar-15
+
+Jan-15
+
+Nov-14
+
+Sep-14
+
+Jul-14
+
+May-14
+
+Mar-14
+
+Jan-14
+
+Nov-13
+
+$0
+
+Figure 7.7 n Bitcoin’s performance compared to
+the FANG stocks since its November 2013 peak
+Data sourced from Bloomberg and CoinDesk
+
+Burniske 02.indd 90
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+91
+
+US Real Estate
+
+Oil
+
+Bitcoin
+
+Sep-16
+
+Gold
+
+$180
+$160
+$140
+$120
+$100
+$80
+$60
+$40
+$20
+Nov-16
+
+Jul-16
+
+May-16
+
+Jan-16
+
+Nov-15
+
+Sep-15
+
+Jul-15
+
+May-15
+
+Mar-15
+
+Jan-15
+
+Nov-14
+
+Sep-14
+
+Jul-14
+
+May-14
+
+Mar-14
+
+Jan-14
+
+$0
+Nov-13
+
+Value of a $100 Investment Over Time
+
+US Bonds
+
+Mar-16
+
+by Facebook, Amazon, Netflix, and Google would have been 3-fold, 2.3-fold,
+2.9-fold, and 1.8-fold that of bitcoin during this time period. While innovative
+investors who had gotten into bitcoin soon after Facebook IPO’d would have
+been rewarded for their decision, if they had waited a year and a half they
+would have been dealing with a vastly different story.
+At that same peak in price, innovative investors who chose bitcoin over a
+nonequity holding—such as bonds, real estate, gold, or oil—would have been
+the most at peace with their decision (Figure 7.8). The performance of commodities like gold and oil have been far from stellar since November 2013,
+and in the period up to January 2017, bitcoin actually outperformed oil. The
+low interest rate environment meant bonds conserved investors’ capital but
+didn’t grow it much. In this group, U.S. real estate was the only investment that
+appreciated on par with the equity markets.
+At this point, we have provided insight into some of bitcoin’s best and
+worst returns in its relatively short life. However, throughout this book we
+will be making the case that we believe there is much more price appreciation
+potential yet to come from both bitcoin and select cryptocurrencies, crypto­
+commodities, and cryptotokens.
+Dollar cost averaging is a means by which the innovative investor can avoid
+extreme sensitivity to the starting point of investing. As opposed to taking a
+
+Figure 7.8 n Bitcoin’s performance compared
+to non-equity assets since its November 2013 peak
+Data sourced from Bloomberg and CoinDesk
+
+Burniske 02.indd 91
+
+9/9/17 1:46 PM
+
+92 CRYPTOASSETS
+
+big chunk of money and dumping it all into an investment at once, it often
+behooves the investor to average in, deploying capital at a measured cadence.
+In so doing, the investor may buy at the peak but will also be buying all the way
+to the bottom, ultimately averaging a good price if the underlying investment
+has long-term potential for capital appreciation.
+
+VOLATILITY
+While absolute returns are often the topic of trending conversation, if unaccompanied by an investigation of volatility, investors may be overpaying in
+risk for their returns. Put another way, they may be undercompensated for the
+risk they’re taking. In this sense, innovative investors must make sure they’re
+being rewarded for the risk in their portfolio.
+WHY CRYPTOASSETS ARE TYPICALLY
+VOLATILE WHEN FIRST LAUNCHED
+Upon launch, cryptoassets tend to be extremely volatile because they are
+thinly traded markets. A thin market refers to the size of the order book, and
+an order book refers to the list of buys and sells on an exchange. In other
+words, it’s a measure of the number of people wanting to buy and sell at any
+given moment. Figure 7.9 is an image of an order book for Ethereum (ether)
+on Poloniex, a widely used cryptoasset exchange.
+Each order is one row in an order book, and so the more orders there are,
+the thicker the book. If there aren’t many buys and sells, then the order book
+is thin. That said, some orders also need to be of sizeable amounts. If all the
+orders consist of bids to buy or sell $1 of the asset, then it doesn’t matter how
+many orders there are, it will still be a thin order book.
+The thinness of the order book is also referred to as the liquidity of the
+market. If the market is highly liquid, then there are lots of orders and many
+of them are likely large. In this case, value can be traded easily. If the market is illiquid, or thin, then sizeable price swings with low volume will occur
+because someone trying to buy (or sell) a lot of the asset will fill all the available sell (or buy) orders, which drives the price up (or down). As a result, in
+thin or illiquid markets, when investors are bullish they can drive massive
+swings to the upside, just as when investors turn bearish, strong selling volume can quickly drive the price down.
+
+Burniske 02.indd 92
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+93
+
+Figure 7.9 n Order book of buys and sells for ether on Poloniex
+Used with permission from Poloniex.com
+
+When cryptoassets are first launched, they have relatively thin order books
+because the investor base is typically smaller, trading is more infrequent, and
+orders may be small. This can create volatility in the price of the new asset.
+However, as news of the asset’s merit spreads, interest will increase along
+with trading volume. The order book will typically fatten and volatility will
+often decrease.
+
+Burniske 02.indd 93
+
+9/9/17 1:46 PM
+
+94 CRYPTOASSETS
+
+60%
+
+40%
+
+November-16
+
+July-16
+
+March-16
+
+July-15
+
+November-15
+
+March-15
+
+November-14
+
+July-14
+
+March-14
+
+November-13
+
+July-13
+
+March-13
+
+July-12
+
+November-12
+
+March-12
+
+November-11
+
+July-11
+
+March-11
+
+–20%
+
+July-10
+
+0%
+
+November-10
+
+20%
+
+–40%
+
+–60%
+
+Figure 7.10 n Bitcoin’s daily percent price changes since the start of Mt. Gox
+Data sourced from CoinDesk
+
+One of the easiest ways to visualize the volatility of an asset is to see how
+much its price changes day to day, or in other words, the daily percent price
+changes. The bigger the daily percent price changes are, the more volatile the
+asset is. Figure 7.10 illustrates the daily percent price changes of bitcoin from
+the time Mt. Gox opened to January 3, 2017.
+The graph looks like what a seismometer would produce when measuring ground movements during earthquakes. Early in bitcoin’s history there
+were frequent earthquakes, with the price moving more than 50 percent in a
+day. Over time, however, the bitcoin seismometer has registered smaller and
+smaller earthquakes in bitcoin’s price. Bitcoin has become more popular and
+therefore more widely traded, so its market has become more liquid. Therefore,
+when lots of people choose to buy or sell, the market is able to absorb these
+changes much more smoothly.
+Even though bitcoin’s daily percent price changes have decreased dramatically over the years—bringing it into the range of many small capitalization
+growth stocks—it is still a volatile asset. In Figure 7.11, compare the fluctuation of bitcoin’s daily percent price changes in 2016 with that of Twitter and a
+market stalwart like AT&T.
+
+Burniske 02.indd 94
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+Twitter
+
+Bitcoin
+
+95
+
+AT&T
+
+25%
+20%
+15%
+10%
+5%
+0%
+
+6
+
+16
+
+De
+c1
+
+6
+
+6
+
+No
+v-
+
+Oc
+t-1
+
+Se
+p1
+
+6
+Ju
+l-1
+6
+Au
+g16
+
+Ju
+n1
+
+6
+
+16
+M
+ay
+-
+
+6
+ar
+-1
+
+6
+
+Ap
+r-1
+
+–15%
+
+M
+
+Fe
+b1
+
+Ja
+n1
+
+–10%
+
+6
+
+–5%
+
+–20%
+–25%
+
+Figure 7.11 n Bitcoin’s daily percent price changes versus Twitter and AT&T in 2016
+Data sourced from Bloomberg and CoinDesk
+
+Twitter experienced three days in 2016 when its price dropped more than
+15 percent and one day where it jumped more than 20 percent. Bitcoin had
+only two days where its price increased more than 10 percent and only one
+day where it dropped more than 15 percent. AT&T, the slow and steady line
+in the middle, is a $250 billion company that lumbers along with hardly any
+price movement.
+Volatility is most commonly derived by taking the standard deviation of
+the daily percent price changes. The bigger this number is, the more the investor can expect significant swings in the price of the asset they’re holding and
+therefore, the riskier the asset is. Figure 7.12 shows the standard deviation of
+the daily percent price changes of bitcoin, Twitter, and AT&T in 2016.
+4.0%
+3.5%
+
+Volatility
+
+3.0%
+2.5%
+2.0%
+1.5%
+1.0%
+0.5%
+0.0%
+AT&T
+
+Bitcoin
+
+Twitter
+
+Figure 7.12 n Volatility of bitcoin, Twitter, and AT&T in 2016
+Data sourced from Bloomberg and CoinDesk
+
+Burniske 02.indd 95
+
+9/9/17 1:46 PM
+
+96 CRYPTOASSETS
+
+Twitter was 50 percent more volatile than bitcoin in 2016, and bitcoin was
+nearly three times more volatile than AT&T. The latter is to be expected given
+bitcoin’s network value is less than 5 percent that of AT&T’s market cap, and it
+has been around for less than a decade, while AT&T has been around for more
+than a century.
+In examining FANG stocks, we see an interesting pattern with volatility.
+Remembering our discussion of modern portfolio theory, historically the
+most volatile assets have generally been the ones with the greatest returns.
+This relationship between risk (i.e., volatility) and reward is to be expected:
+no reward without the accompanying risk. In Figure 7.13 we see that bitcoin’s
+volatility has been the highest, with Netflix coming in second; and these two
+assets were the best performing. Interestingly, in this period bitcoin’s annual
+returns of 212 percent were threefold that of Netflix’s 73 percent, yet bitcoin’s
+volatility was only 35 percent greater than Netflix. Intuitively, it appears bitcoin has had better risk-reward characteristics than Netflix. Similarly, Google,
+which performed the least well of the FANG stocks with 23 percent returns,
+also had the lowest volatility at 1.5 percent.
+As we learned in the preceding chapter, it’s easy enough to directly calculate
+the risk-reward ratio of different assets. It would appear that in this time period
+(Facebook’s IPO to January 3, 2017) bitcoin has had the best risk-reward ratio
+of all these assets.
+But to make sure, we’ll crunch the numbers.
+5.0%
+
+4.6%
+
+4.5%
+4.0%
+3.4%
+
+Volatility
+
+3.5%
+3.0%
+2.5%
+
+2.5%
+1.9%
+
+2.0%
+
+1.5%
+
+1.5%
+1.0%
+0.5%
+0.0%
+Facebook
+
+Amazon
+
+Netflix
+
+Google
+
+Bitcoin
+
+Figure 7.13 n Volatility of bitcoin and the FANG stocks since Facebook’s IPO
+Data sourced from Bloomberg and CoinDesk
+
+Burniske 02.indd 96
+
+9/9/17 1:46 PM
+
+The Most Compelling Alternative Asset of the Twenty-First Century
+
+97
+
+SHARPE RATIO
+Absolute returns and volatility are important in their own right, but when they’re
+put together they yield the Sharpe ratio, which is an equally important metric for investors to consider. Remember that by dividing the absolute returns9
+by the volatility, we can calibrate the returns for the risk taken. The higher the
+Sharpe ratio, the more the asset is compensating investors for the risk. This is an
+extremely important metric in the context of modern portfolio theory, because
+while an aggressive investor may salivate over sexy returns, the innovative investor is equally aware of the risk necessary to achieve those returns.
+As discussed in the previous chapter, by combining returns and volatility
+into one metric, we can do an apples-to-apples comparison between crypto­
+assets and other traditional and alternative assets. Currently, cryptoassets often
+have much higher volatility than other assets, and the Sharpe ratio enables us
+to understand this volatility in terms of the returns reaped.
+It’s still important to consider volatility outside of the Sharpe ratio in the
+context of the investor’s time horizon. While some volatile assets will have
+excellent Sharpe ratios over long time periods, those investments may not be
+appropriate for someone needing to place a down payment on a house three
+months from now.
+In comparing bitcoin to the FANG stocks, we observed that bitcoin had the
+highest volatility but also the highest returns by far. Interestingly, its Sharpe
+ratio was not just the highest but significantly so. Bitcoin compensated investors twice as well for the risk they took than Facebook did and 40 percent better than Netflix, its closest contender (see Figure 7.14).
+1.8

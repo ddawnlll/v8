@@ -1,0 +1,122 @@
+
+ No one dared say this, however. All operated on the assumption that the computers inevitably would come through in the clutch. 
+
+ “What’s going on with the partition?” Tina asked. A sign on the wall of her galley hinted at her exasperation with the Home of the Future. It read “Smart People Spend Hours Learning to Use New Technology. Smarter People Find Ways to Weasel Out of It.” 
+
+ The three young men remained lost in their computer thoughts. They were all nice young men. They did not wish Tina harm. But the only way they knew to help was through their machines. They failed to respond to the cry from below. 
+
+ “I don’t know,” said Tina. “Maybe I’m just along for the ride here.” 
+
+ The three young men dithered over a single computer until a rude, new clumping sound interrupted their meditations. Allan Prior was making his way down the stairs to see what on earth the shouting was about. The captain knew just enough to be worried. He said, “I heard ‘Lance’ and ‘problem’ in the same sentence.”
+
+The New New Thing 
+
+ 10 
+
+ God Mode 
+
+ A llan Prior was a sailor’s sailor, if such a thing can be said to exist on a 157-foot yacht decorated with thirty million dollars worth of French Impressionist paintings and run by a computer. He had finished the Whitbread around-the-world sailboat race three times, and had won it once. The Whitbread race is one of those rites of passage, like swimming the English Channel or eating one hundred and twenty cream donuts at a sitting, that indicate a man’s willingness to suffer for his art. Back in New Zealand, where Allan grew up, the Whitbread race is a national obsession. In the late 1970s a psychiatrist at the University of Auckland made a study of the strange desire of young New Zealand men to leap into small boats with seven friends, a few sacks of powdered food, and a commitment not to bathe or shave or wipe or sleep for six weeks at a stretch. The psychiatrist evidently decided that the thing had to be seen to be believed, and so made a documentary film of his study. He called his film No Use Calling Home to Mum . 
+
+ When No Use Calling Home to Mum made its debut on New Zealand television, the station’s switchboard received so many protests that they never again aired the film. To this day, if you want to watch it, you have to purchase a samizdat copy for five hundred dollars. No Use Calling Home to Mum was distinguished from other disturbing television programs by its absolute lack of the usual offensive material. The film contained no sex, no nudity, no blasphemy. It advanced no political or religious heresy. It was perhaps the only film ever made to give offense solely through its main characters’ grotesque violations of ordinary standards of personal cleanliness. For thirty days at a stretch the only swipes the young New Zealand sailors made at personal hygiene were from a box of Handi Wipes. When those thirty days were distilled down to an hour and a half of television, the brave young sailors of New Zealand turned their nation’s stomach. 
+
+ Allan Prior had been one of those brave young sailors. The idea of it still pleased him. He was now in his midforties but an odd smile still played across his face whenever he recalled the nauseating details of his youth. He was, in many ways, still living the life of a Whitbread around-the-world sailor. He rarely bathed. He never changed. He attacked his food with an artless violence that impressed his ship mates so deeply that they would relive their last meal with him in the way people do who have just witnessed a traffic accident together. Once, during dinner, the crew members had watched their new captain reach up into his wiry salt-and-pepper hair, pluck loose some strange particle, and eat it. He had made a deep impression on them. However damning No Use Calling Home to Mum might have been, it clearly did not begin to explore their captain’s ability to do things that, if captured on film and broadcast on television, might inspire large numbers of people to call in to complain. 
+
+ Still, Allan enjoyed a serious reputation in sailing circles. He was, in fact, a gifted sailor. He had instincts and experience no computer could match—at least not yet. He was Kasparov in the early days of fighting Deep Blue. At least one of the crew members of Hyperion referred to him without irony as the Legend. 
+
+ Allan had been slow to assimilate the computer. In his mind’s eye, when Allan envisioned a sailboat, he still saw a shell outfitted with a sail and eight Kiwis with skin like leather and no real conviction about personal hygiene. A computer had no place in this picture. In the beginning he’d treated the new technology as a stowaway. “I think he hated us,” Steve says. But over time the programmers, with the owner behind them, came to terms with the captain, or felt they had. “Allan has in a sense been broken,” Lance says. “He’s seen what a disastrous state the software was in. And can be in. And so when it does work, even a little, he’s happy!” 
+
+ That was debatable. Over the past year and a half, as the boat was being built, Allan had developed a hard crust of cynicism about the boys from Silicon Valley. When Jim Clark was around, he did a fair job of disguising his true feelings. But when Clark was nowhere in sight Allan did not deny himself his bit of fun at the expense of the technogeeks hired by Clark to turn his boat into a computer. He’d creep up behind them as they hunched over their terminals and whisper little menacing thoughts into their delicate ears. “During the America’s Cup trials,” he’d say, “we had a separate boat for the computer room—twelve computer nerds throwing up on their keyboards. They were supposed to tell us how we could go faster.” He’d pause for effect. “But it’s a bit of a problem doing anything on a computer when you get the diced carrot stuck behind the ‘e’ key.” 
+
+ It didn’t take a psychiatrist to see that Allan would have been just as happy setting off in one of those wooden boats built by Wolter’s grandfather. Happier, probably. Then, at least, he would not have to pretend to be interested in the endless series of malfunctions brought on board his ship by Clark’s twenty-four computers. 
+
+ This raised the obvious question: Why take the job at all? Allan Prior took the job as captain of Jim Clark’s boat for the same reason pretty much everyone else took the jobs Clark offered them. He thought Clark would make him rich. Clark offered 12,500 stock options in Healthscape, the company born from the Magic Diamond, with the promise of more to come. If Healthscape panned out the way Clark had said it would, Allan would make a million dollars. Maybe more. Allan had cut the deal cut by every captain of one of Clark’s new enterprises: endure the humiliation of not fully understanding your job, and you might never need to work again. 
+
+ By the time Allan arrived beside the computer programmers’ table, a small crowd had gathered around to see what caused the commotion in the galley. No one was sure exactly what had happened, other than that Tina’s table kept vanishing into the ceiling, and that it had been told to vanish by the computer. This sort of confusion was considered normal by a computer programmer, especially by a programmer of Clark’s new sailboat. First you told the machine what to do, then the machine invariably failed to do exactly what you told it to do, and then you spent days trying to figure out why it had refused. This last stage was known as debugging, a word that entered the language back in the early 1960s when some programmers who were having trouble with their computer found that a large moth had landed inside it and died. In the past several months whenever Allan had asked Steve Hague how much longer it would take before he, Allan, didn’t need to worry about the computer, Steve would say, “We’re seeing improvement, but the boat still has bugs.” Allan did not find this sort of talk reassuring. 
+
+ At length Steve told Allan that he had an idea. He hadn’t found the bug. But at least he knew where to look for it. Somehow the computer had been given the signal that someone wanted to watch a movie. It had responded by sealing the kitchen off from the rest of the boat. The instruction “I want to watch a movie” was therefore obviously tied to the instruction “close all the doors and windows.” Lance reminded Steve that at the moment Tina’s table vanished into the ceiling he was working on the boat’s movie system. 
+
+ Allan hovered behind the programmers’ table. His boat was about to cross the Atlantic Ocean, and the DVD player was throwing the boat’s new lords and masters into a tizzy. The captain was meant to be up on the deck bossing people around, not down below being mystified. He leaned in and posed an obvious question. “It couldn’t happen that you’d press the button for the hot water, and the mainsail would go up?” he asked. 
+
+ “Oh, no, no, no,” said Lance. “It’s just that this part of the code hasn’t been tested.” 
+
+ “Yes,” said Allan, “well, we need to make sure that everything is tested.” 
+
+ Allan was inching up to the question that he really wanted to ask. “So in the guest cabin,” he finally said, “you can show the passengers the screen, but they can’t do anything on it, right?” 
+
+ It took a moment for Steve to realize what Allan had asked. He had asked: Do I alone control this boat? It was not a bad question. Everything on the boat could be controlled, at least in theory, from any of the twenty-five flat-panel displays. Allan quite reasonably had wondered: What was to prevent a guest from punching a few buttons and, say, running the boat onto a reef? He was picturing some Silicon Valley nerd genius who’d never been on a boat reeling into his bedroom after putting away a couple of bottles of Jim Clark’s fine wine and taking charge. 
+
+ “No,” said Steve, “we’ve built in different levels of access.” Actually, the programmers had created four levels of access to the computer system. The lowliest deckhand was permitted what they called level-one access. Level-one access allowed the holder to turn off the deck lights, for instance. The highest level was formally called level-four access, and informally known by the programmers as “God Mode.” God Mode enabled the user to control the entire boat from any one computer screen. The good news, for Allan, was that only a few people had been given passwords for God Mode: Allan, Simon, the programmers, and Clark. The bad news was that the secret passwords had leaked not only to the entire crew but also to the Dutch boatyard workers. Allan didn’t want to hear any more about God Mode. 
+
+ “We shut down three-quarters of the features in the guest cabin,” said Steve. “The rationale is you don’t want some guests waking up in the middle of the night, seeing some alarm going off, and thinking that the ship is sinking, when all it is is a refrigerator stopped running.” 
+
+ Allan grunted what sounded like his approval. 
+
+ Steve returned to the task at hand, and pulled up on his screen the code that controlled the movies. Lance had written it—the audiovisual system was really the last piece of code written by Lance that had not been rewritten by someone else, usually Clark. Sure enough, the code took a typically unorthodox, Lance-like approach. When you punched the button for “Movies” on the touch screen, the computer instructed Hyperion to reconfigure itself for your viewing pleasure. The boat came alive with hums and whirs. The big screen in the main salon rose, the lights in the neighboring rooms dimmed, the shutters over the portholes shut, and the various openings leading out of the main salon into the galley below and the bridge above closed. When the boat’s computers were finished, it was just you, your movie, silence, and darkness. 
+
+ “That’s cool,” someone said. “It’s like a James Bond movie.” 
+
+ Lance smiled. It was. 
+
+ “Maybe if you’re James Bond it’s cool,” said Steve. 
+
+ A bright line ran through the programmers’ world, and it divided the air between Lance and Steve. On one side of the line were the aesthetes who took pleasure in the computer’s complexity, and spent a great deal of time writing deliciously elaborate programs that caused others to exclaim “cool!” when they saw it but often had no economic purpose. On the other side of the line were the utilitarians. They were interested only in the computer’s crude and brutish ability to impose its will on the world around it. Lance was in love with the computer’s beauty, Steve with its power. 
+
+ Allan did not recognize this distinction. He simply thought of the young men from Silicon Valley as geeks who didn’t belong on his boat. His strategy was to preserve at least the illusion, if not the fact, of command. “You tell us when we can watch a movie,” he said, sternly. “And we’ll keep an eye out for anything that moves.” For good measure he tossed a bit of technical criticism on top of the disdain. “I’ve been here a long time,” he said, “and I still don’t know where everything is. The dimmers for the lights—where the hell are they? Are they a computer application? Or are they on a wall?” 
+
+ Then he left. And for some inexplicable reason everyone else decided the problem was more or less solved, which it wasn’t. Tina glared at the programmers and said, “If I am at the mercy of this computer, I’ll be a paranoid cook.” She returned to the galley. 
+
+ A fog rolled in. Tim glanced up and marveled at its thickness. 
+
+ Lance said, “Yeah, it looks like the inside of my brain.” 
+
+ Steve shot him a look. “We haven’t figured this out yet,” he said. 
+
+ The truth was, they were more confused than ever. The code suggested that a lot more should happen after Lance told the computer to play a movie than Tina’s table vanishing into the ceiling. Lights should have dimmed, doors should have closed, shutters should have shut, and the giant movie screen should have emerged from its hiding place inside the woodwork. 
+
+ “The question is why the computer is doing this in the first place,” said Lance, philosophically. Lance was blessed with a peace-loving nature. No matter how massive the weight of public opinion against him, he refused to feel as if he was being attacked, or even criticized. 
+
+ “It’s doing it because someone saw it on Star Trek and wanted one just like it,” said Steve, pointedly. 
+
+ Lance ignored him. 
+
+ Next came the standard debugging ritual. When a computer does something unexpected, its programmers often try to provoke it into repeating the behavior. That way they can be sure they have found the source of the problem. At Steve’s insistence Lance retyped the code he had typed one hour before, when Tina’s table first vanished into the ceiling. Nothing happened. The table did not budge. 
+
+ For the next seven minutes the three men stared in silence into the sea blue screens. Many computer thoughts. 
+
+ Finally Steve offered a new hypothesis: it wasn’t Lance’s fault at all. Lance might have programmed the movie system to behave like a James Bond movie, but Lance’s program did not work . All the cool stuff that Lance told the computer to do—dim the lights, raise the movie screen, close the doors and shutters, send tables into the ceilings, light a fire, and pour a glass of Burgundy—had failed to occur. Ergo, Tina’s table should not have moved either. 
+
+ Lance accepted Steve’s new hypothesis with the same indifference he had extended to the one before it. He knew that Steve was still guessing. So did Tim, who returned to his own terminal and asked the computer to run a complete history of itself. A computer, unlike the people who program it, can remember the experiences it has had in life. All of these experiences are electrical, of course, but the electricity is used to store information. The information contains clues to many mysteries. Some of these mysteries are even interesting. 
+
+ While they waited for the computer to search itself, the three young men reasoned aloud. All agreed that what Steve had just said made sense: if Lance had told the computer to play a movie on the big screen in the main salon, a lot more than Tina’s table should have moved. But if someone had told the computer that he wanted to watch a movie in the galley , the computer quite possibly would have responded by merely sealing off the galley. There was no reason this could not have happened. After all, it was possible to watch a movie on any of the boat’s twenty-five flat-panel display screens. Tim and Lance and Steve followed this train of thought to what seemed to be its obvious conclusions: if someone had demanded a movie in the galley, then the problem was not caused by Lance or Steve or Tim. At the moment the computer crime was committed, all three programmers had been sitting together in the long cafeteria table in the main salon. They were each other’s alibi. 
+
+ Steve raised his chin like a coyote preparing to howl at the moon. “ Yonboxum !” he shouted. 
+
+ Jan Bocksum was the beleaguered Dutch fellow at the Huisman Shipyard assigned by Wolter Huisman to help the sailing novices from Silicon Valley gain sufficient understanding of the boat that they could control it. He’d quit, or threatened to, several times over the past two and a half years. He kept saying that he knew how software should be written because he knew how Microsoft wrote software. Microsoft deployed thousands of programmers in human waves whenever it sought to create something new. Jim Clark had deployed three young men on top of a Jenny Craig weight loss center in Menlo Park, California. But Jan Bocksum was given no choice. By edict from Wolter Huisman, he and four or five other stout and sturdy Dutch workers had acquired a working knowledge of Clark’s new computer system. None of them actually knew how to program the boat, but all of them knew how to use the computer. More to the point, they knew the password to gain entry to the system. Any one might have ordered a movie in the galley. 
+
+ Soon enough the Dutch workers stood uneasily beside the long cafeteria table like children called before the principal. 
+
+ “In the past hour and a half,” Steve asked, “did any of you play with the touch screen in the galley?” 
+
+ They shook their heads in unison. Steve looked at them for a moment as if they were political prisoners—which, in a sense, they were. None of the Dutchmen broke down and confessed, however, so Steve dismissed them. “The trouble is,” said Tim after the Dutch workers had left, “they all use the same password. Anyone could have done it, and no one wants to admit it.” 
+
+ The young men returned to their keyboards, and for maybe ten minutes the only sound was of fingers typing. A few minutes later Tim’s computer spewed out the historical record. It, too, was silent on the matter of Tina’s table. So far as the computer was concerned, Tina’s table had levitated all by itself. “What about a wiring problem?” asked Tim. “Well,” said Lance, “Simon has been fastidious about the cable making.” Having ceased to be the prime suspect, Lance had become more animated. He was now leaping to the defense of others. Simon was the crew member responsible for the computer hardware at sea. He’d just returned from his training course in Silicon Valley. He now worshiped the programmers, and the programmers appreciated it. 
+
+ “Nah,” said Steve, “Hyperion 24 received an instruction. It’s just unclear where the instruction came from.” 
+
+ More silence. 
+
+ More tap-tap-tapping on keyboards. Clark turned up to see how they were coming along. Steve explained the problem with Tina’s table. Clark shrugged. His attitude seemed to be that there were so many big things wrong with the software that no one should be overly concerned with small matter such as furniture vanishing into the ceiling. His unconcern acted as a narcotic on the programmers. Steve actually giggled. “I’m not sure I’m cut out to be a manager,” he said. 
+
+ “It’s an affliction that goes with enjoying actual work,” said Clark, and returned to his computer in his cabin. 
+
+ Fifteen minutes later Tim looked up from his keyboard and admitted the obvious. “Well, that’s unsatisfying. We have no idea why it happened. It would be nice to have closure.” Nice…but not necessary. Tim was leading them to a popular solution to an intractable computer bug. Give up! Forget about it! Hope it doesn’t happen again! The boat still had dozens of bugs. What was so special about this one? 
+
+ The three young men breathed easier. The bug that sent Tina’s table into the ceiling underwent a subtle change in status. No longer was it a problem bug. A critical bug. A meaningful bug. It was a bug that could be ignored. It could be hunted down tomorrow, or the next day, or even the next. Or maybe never. Steve snickered, conspiratorially. “It’s going to be difficult to concentrate with Tina shrieking all the time,” he said. “Tina did not quite shriek,” reflected Lance. “It was more of a warble.” The three young men in T-shirts and blue jeans shared a final chuckle and returned to their computers.
+
+The New New Thing 
+
+ 11 
+
+ How Chickens Become Pork 
+
+ I t seemed at least worth asking why anyone would hand his life over to a computer program that made its own programmer uneasy. Each crew member of Hyperion had his reasons. Robert the British engineer hoped to be the first engineer with total command of both computers and boats. Simon the Canadian deckhand had fallen in love with the idea, if not the fact, of computers. Jaime the Australian first mate left a great job with the Japanese America’s Cup challenge for the chance to sail the boat of the future. “This boat has an aura,” he’d say. “Everyone in yachting knows about it, or wants to know about it.” Tina the American chef simply liked Jim Clark more than anyone she’d ever worked for. She was a brilliant cook, and she knew it, and she knew Clark knew it. Clark’s praise counted for a lot with her. 

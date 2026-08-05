@@ -1,0 +1,427 @@
+
+Burniske 03.indd 221
+
+9/9/17 2:41 PM
+
+222 CRYPTOASSETS
+
+For both hot and cold storage, there are two options for controlling the
+private key that the innovative investor can choose from, creating a quadrant
+of four options in total (Figure 14.1). Most exchanges, for example, take care
+of the private key for the customer, so that all the customer has to do is log
+into the exchange as with any typical website. These exchanges qualify as a hot
+wallet where a third party controls the private key. Services such as Coinbase
+provide cold storage where a third party still controls the private key. In situations where a third party controls the private key, often the service doesn’t
+have a private key for each customer’s assets. Instead, the service will have a
+few private keys that secure a large number of clients’ assets, and those keys
+are guarded very carefully.
+
+ Hot Wallet
+ Investor Controls
+Private Key
+
+ Hot Wallet
+ Third Party Controls
+Private Key
+
+ Cold Storage
+ Investor Controls
+Private Key
+
+ Cold Storage
+ Third Party Controls
+Private Key
+
+Figure 14.1 n The four quadrants of securing cryptoassets
+
+If the innovative investor is reluctant to trust a third party, the other option
+is to take control of the private keys directly. While this comes with its own
+risks, like losing the private key, if the proper precautions are taken, it ensures
+autonomy and puts security directly in the owner’s hands.
+
+CUSTODY VIA EXCHANGES
+By default, exchanges must store a customer’s cryptoassets, most commonly
+done by handling the private keys. We’ll repeat, many exchanges don’t even
+have separate private keys for different customers. The exchange has its own
+
+Burniske 03.indd 222
+
+9/9/17 2:41 PM
+
+Investing Directly in Cryptoassets: Mining, Exchanges, and Wallets
+
+223
+
+private keys to the cryptoassets it is responsible for on the respective blockchain
+and then has internal books that record the customer balances. Depending on
+the exchange, there are varying levels of security hygiene and different proportions of the exchange’s assets that are kept in hot or cold storage. Over time,
+these security distinctions have proven critical. For a clearer understanding,
+we’ll cover a few big hacks that occurred on bitcoin exchanges that stored 100
+percent of their bitcoin in hot wallets.
+Let’s begin with the infamous Mt. Gox. While this exchange did much to
+expand the usage and recognition of bitcoin throughout the world, it met its
+end in early 201425 when the company declared bankruptcy after over $450
+million26 of client bitcoin holdings went missing. Although the company was a
+pioneer in providing investors and enthusiasts the opportunity to gain access
+more easily to bitcoin, Mt. Gox also had weak management involved in an
+asset class that was still in its infancy—never a good combination.
+Jed McCaleb was the original owner of Mt. Gox. Early on he learned that
+matching buyers and sellers of bitcoin was more than he bargained for when
+wires for tens of thousands of dollars started to pour in. McCaleb sold the site,
+and its growing activity, to Mark Karpeles, who was known in chat rooms as
+MagicalTux and enjoyed posting kitten videos online. To his credit, Karpeles
+rewrote the site to address the increased interest and activity, and he survived
+through the early days when other bitcoin exchanges quickly folded.27
+Although he exhibited a level of coding competence, Karpeles soon found
+himself out of his league when it came to business. He was not investing in
+his company’s growth, and his coding expertise soon showed cracks as well. A
+more experienced technology shop would have implemented a test environment and version control software for its code, which was the backbone of Mt.
+Gox’s operation. Karpeles didn’t do either, and all code changes were routed
+through him directly, which created bottlenecks when changes were needed
+quickly.
+While Karpeles may have been negligent in many facets of the Mt. Gox business, he did understand the difference between hot and cold storage of bitcoin.
+He put himself in charge of all the private keys for the bitcoin the exchange
+stored. After a hack in 2011, Karpeles decided to move the majority of bitcoin
+offline into cold storage, which required him to write down the private keys
+and place them in safety deposit boxes throughout Tokyo, where the company was located. This required a huge amount of paperwork and accounting,
+which was clearly not a strong point for Karpeles.28 While the keys were in cold
+storage, Karpeles claims that a hacker manipulated him through a transaction
+
+Burniske 03.indd 223
+
+9/9/17 2:41 PM
+
+224 CRYPTOASSETS
+
+malleability bug in the core Bitcoin software.29 While Karpeles’s claims have
+been called into question by many in the bitcoin community, there’s no denying that the major reason for this hack was due to poor security hygiene with
+weak operational protocols put into place by the company for the movement
+of bitcoin. Such negligence cost investors $450 million in bitcoin.
+More recently, a hack of Bitfinex’s exchange cost investors $72 million.30
+The hack was a result of Bitfinex storing 100 percent of its client assets in hot
+wallets. There is debate on why Bitfinex did this. Possibly it was for purposes of
+liquidity, as Bitfinex is one of the most liquid and active exchanges, or it could
+have been a result of regulations put in place. Prior to the hack, Bitfinex had
+settled with the CFTC for $75,000 primarily because its cold storage of bitcoin
+ran afoul of CFTC regulations. The move to place all clients’ assets into hot
+wallets is cited by many as due to the fine and CFTC regulations.31 Either way,
+this hack proved that no matter the security protocols put in place, hot wallets
+are always more insecure than properly executed cold storage because the hot
+wallet can be accessed from afar by anyone with an Internet connection. Only
+a physical break-in would allow a thief to gain access to assets in cold storage.
+At the time of the Mt. Gox hack, bitcoin and its underlying technology was
+still in its infancy and experiencing growing pains, like any other new technology. Famous venture capitalist Fred Wilson wrote soon after the incident, “We
+are witnessing the maturation of a sector and part of that will inevitably be
+failures, crashes, and other messes. Almost every technology that I’ve watched
+come into a mass adoption has gone through these sorts of growing pains.”32
+Innovators and early adopters of any new technology are taking risks, but the
+exchanges are professionalizing over time. Mt. Gox is no more; Bitfinex has
+restructured itself and is humming along. These hacks have taught lessons not
+only to existing and new cryptoasset exchanges, but to clients as well.
+The exchanges that run the highest risk of being hacked are those that have
+the largest amount of assets in hot wallets. Cold storage might impact the ability
+to access assets quickly, but what you lose in accessibility you gain in security.
+
+THE WORLD OF CRYPTOASSET WALLETS
+Storing cryptoassets on an exchange may not always be the safest option. The
+risk is lower for those exchanges that have insurance, keep the majority of their
+assets in cold storage, and employ other best-in-class security measures like
+penetration testing and regular audits. For other exchanges, the risk should
+only be tolerated if the innovative investor is trading regularly and making use
+
+Burniske 03.indd 224
+
+9/9/17 2:41 PM
+
+Investing Directly in Cryptoassets: Mining, Exchanges, and Wallets
+
+225
+
+of the exchange’s capabilities, such as offering newer cryptoassets. If not trading regularly, investors should consider one of the following wallet options to
+store their assets safely.
+Broadly speaking, there are five kinds of wallets: web (cloud), desktop,
+mobile, hardware, and paper. For the sake of brevity, we use bitcoin to illustrate these examples as it provides the scaffolding necessary to investigate similar options for other cryptoassets.
+The best resource for learning more about different kinds of bitcoin wallets is bitcoin.org,33 and we include additional information sources in the
+Resources section of this book. Recognize that as interest and access to more
+cryptoassets continues to grow, the list of wallets to secure these assets will
+grow, too.
+
+Web Wallets
+Most web wallets are not much different from exchanges. The keys are often
+outside the investor’s control and in the hands of a centralized third party. If
+the third party doesn’t employ the proper security techniques, then the crypto­
+assets may be at risk. As with an exchange, the web wallet can be accessed
+from anywhere, which is one of the main benefits. Popular web wallets include
+Blockchain.info and Coinbase. Some web wallets do provide the option of
+controlling the private key, which makes them like a lightweight desktop wallet (covered below) that can be accessed remotely.
+An increasingly prevalent feature in web wallets is vaulting. A vault delays
+the withdrawal process of any cryptoasset so that the holder has time to negate
+any attempted withdrawal. This is primarily a tactic to thwart hackers who may
+have compromised the user’s password and are trying to move cryptoassets to
+another address. Coinbase has the most well-known vaulting service within
+its web wallet.
+CRYPTOASSET VAULTS
+One of the nice features of Coinbase is that it allows a customer to maintain
+an easily accessible balance of bitcoin, as well as a more illiquid but highly
+secure form of storage known as its Vault. Although placing bitcoin balances
+into the Vault enhances security, it does require two-factor authentication and
+time delays before withdrawal. This means that moving funds from the Vault
+
+Burniske 03.indd 225
+
+9/9/17 2:41 PM
+
+226 CRYPTOASSETS
+
+takes 48 hours. Coinbase’s dual functionality is like having a checking and
+a savings account at a bank. Bitcoin that investors need to access quickly
+can be kept in a regular Coinbase account (the checking account), and for
+added security additional bitcoin can be held in a Vault account (the savings
+account).
+
+Desktop Wallets
+With a desktop wallet, the private keys are stored directly on the computer
+where the software is downloaded. The user has full control, and no one else
+can lose, spend, or send his or her bitcoin. There are two kinds of desktop wallets: a full client and a lightweight client. When we say client, it simply refers to
+the functionality of the software application that is running on the computer.
+A full client is a much more intensive software application, whereas a lightweight client provides a more hassle-free approach to storing bitcoin.
+In the early days of Bitcoin, there was only the wallet associated with Satoshi’s
+software, which is now referred to as Bitcoin Core. This wallet is a full client,
+meaning it requires a full download of Bitcoin’s blockchain and therefore substantial bandwidth and storage space. When a computer is running this software, it is counted as a full node in Bitcoin’s network, meaning it has a record of
+every single Bitcoin transaction. Full nodes are great for security and autonomy
+and are the backbone of propagating and verifying bitcoin transactions, but the
+hardware requirements are only for the most hardcore of hobbyists.34
+Lightweight clients, also referred to as thin clients, don’t download Bitcoin’s
+entire blockchain, nor do they propagate or verify new transactions being
+passed through the network. Instead, they rely on full nodes for complete
+information on Bitcoin’s blockchain, and are primarily focused on providing
+transactional information involving only the user’s bitcoin. A lightweight wallet is much more practical for the average user who doesn’t have the means to
+deal with running a full client. With these wallets, the private key(s) are on the
+computer on which the software is downloaded. Popular lightweight clients
+include Coinomi, Electrum, and Jaxx.
+
+Mobile Wallets
+Technically, we are referring to mobile wallets that store the private keys on
+the device, as opposed to a third party’s servers. Mobile wallets are similar to
+
+Burniske 03.indd 226
+
+9/9/17 2:41 PM
+
+Investing Directly in Cryptoassets: Mining, Exchanges, and Wallets
+
+227
+
+lightweight clients in that they don’t download Bitcoin’s blockchain (it would
+break the smartphone). Innovative investors can use them on the go should
+they need to transfer bitcoin to friends to pay for dinner at the local bar that
+accepts bitcoin for beers.
+Numerous wallets appear on app stores as mobile applications but are not
+technically mobile wallets. They are web wallets that provide access through
+a mobile application. The distinction boils down to who is storing the private
+keys. If a third party is storing the private keys and the wallet is accessing that
+information through the Internet, then that is a web wallet even if it’s in the
+form of a mobile application.35 If the private keys are stored on the smartphone, then that mobile application is a mobile wallet, as is the case for mobile
+wallets such as Airbitz and Breadwallet.
+
+Hardware Wallets
+As bitcoin has become more popular and widely used, companies have sprung
+up that create dedicated hardware for storing private keys, and thereby storing
+and sending bitcoin or cryptoassets to others. Several hardware wallets provide a variety of functionality. Some offer a full suite of key generation, storage,
+and sending capabilities; others are simply used as an extra layer of transaction
+confirmation security; others still need to be plugged into a computer to work.
+A few of the more popular wallets are as follows:36
+•
+
+•
+
+•
+
+Trezor. This is one of the more secure ways to store bitcoin, as it generates private keys that never leave the device. This protects the data from
+viruses and malware that may impact other devices or online storage.
+Ledger Nano S. This device plugs into a USB port and allows for the
+storage of bitcoin, ether, and other altcoins. It has a neat OLED display on what looks like a flash drive that provides confirmation when a
+transaction takes place on the device.
+KeepKey. This USB device not only securely stores bitcoin but also provides information on transactions and confirmations on its OLED display. It is also PIN-protected.
+
+While a hardware wallet can always be misplaced, all is not necessarily lost
+if that happens. During the initialization stage of setting up the hardware wallet there is a seed, which is like a backup password. That seed needs to be stored
+in an extremely secure place because if the hardware wallet ever goes missing,
+
+Burniske 03.indd 227
+
+9/9/17 2:41 PM
+
+228 CRYPTOASSETS
+
+the seed will regenerate the private keys that were on the hardware wallet and
+enable access to the bitcoin again.
+Since hardware wallets require specific hardware engineering and associated software engineering, they often don’t support a wide array of crypto­
+assets. Most hardware wallets support bitcoin. The Ledger Nano S provides
+support to some cryptoassets beyond bitcoin, and KeepKey is now integrating with ShapeShift to support additional cryptocurrencies beyond bitcoin.37
+We’re sure to see this space grow over the next few years as more hardware
+wallets expand their capabilities to support various cryptoassets.
+
+Paper Wallets
+One of the simplest ways of storing private keys is also one of the most secure,
+if done properly. Welcome to the paper wallet, which involves writing the long
+alphanumeric string that is the public-private key pair on a piece of paper. A
+paper wallet qualifies as a form of cold storage. The paper wallet can be locked
+away in a safe for decades, and so long as the specific asset’s blockchain continues to exist, that private key can be used to access it. Paper wallets support all
+cryptoassets because all they require are pen and paper. Many store these in a
+fireproof safe deposit box or an equally secure location.
+
+MANY CHOICES, SAME DISCIPLINES
+With all the available choices, it’s vital that investors do their due diligence
+when choosing the wallets and exchanges that best suit their needs. The basic
+progression will be “how to acquire” and “how to store” the cryptoasset, and
+while the same service can provide both functions, it’s useful to consider what
+is most important before making a decision. Just as an investor would take the
+time to consider which financial advisor to use, the innovative investor must
+take time to investigate which cryptoasset “acquirer and storer” to use.
+We recognize that the world of cryptoassets requires new habit patterns,
+an often uncomfortable process, especially when money (in any form, digital
+or paper) is at stake. As the visibility and marketplace grows for cryptoassets,
+options will materialize that don’t require new habit patterns because they will
+incorporate cryptoassets into the investment systems and vehicles with which
+the investor is already familiar. We’re seeing money managers, investment
+firms, and other capital market players step into the fray to investigate and
+
+Burniske 03.indd 228
+
+9/9/17 2:41 PM
+
+Investing Directly in Cryptoassets: Mining, Exchanges, and Wallets
+
+229
+
+create investment vehicles that fit the mold of capital market assets and can be
+housed in brokerage accounts, and potentially even 401(k) plans.
+In the next chapter, we explore the growing capital market investment
+choices available to investors. These still require due diligence, discipline, and
+research, but they do away with the potentially scary components of private
+key storage and setting up new accounts with startups.
+
+Burniske 03.indd 229
+
+9/9/17 2:41 PM
+
+This page intentionally left blank
+
+Burniske 03.indd 230
+
+9/9/17 2:41 PM
+
+Chapter 15
+“Where’s the Bitcoin ETF?”
+
+B
+
+uying cryptoassets through a dedicated cryptoasset exchange is a
+direct avenue for investors to gain access to this new asset class, but
+it does require orienting with a new application and user interface, as
+well as trusting in what might be a young business.
+There is a benefit to incorporating cryptoassets directly into the interface
+you use to manage a preexisting investment portfolio, where prices can be
+tracked easily, asset allocation models can be more carefully monitored, and
+tax benefits can be leveraged. In this chapter, we discuss various capital market
+vehicles that can give the innovative investor access to cryptoassets through
+established investment channels, as well as what may be available in the future.
+We also discuss what the innovative investor should expect from financial
+advisors as this space continues to grow.
+
+BITCOIN INVESTMENT TRUST
+Grayscale Investments offers the largest capital markets vehicle with bitcoin
+exposure, clocking in at north of $200 million or roughly 1 percent of all bitcoin outstanding as of March 2017. Grayscale was established in 2013 by its
+parent company, Digital Currency Group (DCG). Founded by Barry Silbert,
+a serial entrepreneur and influential figure in the Bitcoin community, some
+would say that DCG is in the early stages of becoming the Berkshire Hathaway
+of Bitcoin.1 Grayscale’s focus within DCG’s portfolio of operating compa231
+
+Burniske 03.indd 231
+
+9/9/17 2:41 PM
+
+232 CRYPTOASSETS
+
+nies is to provide digital currency investing options to the capital markets.
+Currently, it has the Bitcoin Investment Trust (BIT), the Ethereum Classic
+(ETC) Investment Trust, and a potential bitcoin ETF (exchange traded fund)
+in filing with the SEC.
+The BIT was the first product that Grayscale brought to market and upon
+launch was only available to accredited investors. The BIT was structured
+to acquire and secure bitcoin in a trust and then provide shares in the trust
+to investors, with each share representing approximately 1/10 the value of a
+single bitcoin. In theory, investors could assume that every 10 shares would
+be backed by a single bitcoin.2 No hedging or leverage is used in the trust;
+it simply holds bitcoin and allows investors to gain access to its price fluctuations without having to deal with the underlying asset. The bitcoin itself
+is stored with Xapo, a firm that specializes in the secure custody of large
+amounts of bitcoin.3 On its website, Grayscale advertises the following about
+the BIT:4
+•
+•
+•
+•
+•
+
+Titled, auditable ownership through a traditional investment vehicle
+Eligibility for tax-advantaged accounts
+Publicly quoted
+Supported by a network of trusted service providers
+Robust security and storage
+
+These services come with a management fee of 2 percent annually. After a
+holding period of one year, investors can sell their shares in the OTCQX markets under the symbol GBTC.5 Through this process, accredited investors can
+exit their initial investment, realizing any profits or losses, and in so doing
+give all levels of investors access to their liquidated shares of the BIT. Other
+investors can buy GBTC through their stockbroker of choice, whether that be
+Fidelity or other firms.
+SELF-DIRECTED IRA
+One of the lesser-known options for investors seeking retirement-based
+investments is the self-directed IRA. While it has been in place since the
+creation of IRAs in 1974, what distinguishes it from the traditional IRA is
+the variety of investment options available. Most people use an IRA to invest
+in equities, bonds, mutual funds, and cash equivalents such as money market instruments. With a self-directed IRA, an investor can go beyond these
+
+Burniske 03.indd 232
+
+9/9/17 2:41 PM
+
+“Where’s the Bitcoin ETF?”
+
+233
+
+investments to include such assets as real estate and gold. This structure provides a level of flexibility for investors that allows for the inclusion of various
+alternative, often riskier, assets into an investment account. This flexibility
+requires numerous additional rules. One such rule is that any investment in
+this account can’t benefit the account owner “indirectly.” For example, an
+indirectly beneficial investment in a self-directed IRA would be the use of
+funds to buy a vacation home or other piece of real estate that the account
+owner would use personally.6 These accounts often come with costly maintenance and management fees, so while they are useful, they require proper
+due diligence and care.
+
+The second leg of the BIT wasn’t always available. In early May 2015, the
+Financial Industry Regulatory Authority (FINRA) gave Grayscale the regulatory approval needed to allow the BIT to become a publicly traded vehicle on
+OTCQX.7 On May 4, 2015, the very first accredited investors who had bought
+into the BIT were given the option to sell their shares of GBTC in the OTCQX
+market.8 The first trade was for 2 shares of GBTC at $44/share. Through the
+entire day there were just 765 shares traded, or just over 75 bitcoin. Admittedly
+a thin market, but this day in May was the first time a bitcoin vehicle was
+traded on a regulated U.S. capital market.
+Through the first quarter of 2017, there is plenty of reason to be excited
+about the BIT and GBTC,9 but they are far from perfect vehicles. Grayscale’s
+creativity in allowing accredited investors to buy into a one-year lockup before
+selling in public markets does have a drawback. Unlike ETFs or mutual funds,
+which can issue more shares to meet market demand, Grayscale is not able to
+issue more shares of GBTC to meet investor demand. Instead, the creation of
+new units of GBTC is entirely dependent on accredited investors being willing
+to sell their shares, which they can only do after one year. Furthermore, now
+that Grayscale has an S-1 filing under review with the SEC they are not able to
+create more shares of the BIT for accredited investors that would like to buy
+into the private placement.
+Meanwhile, the price of GBTC can be bid up or down, depending on what
+people were willing to pay for access to these shares. The first trade for GBTC
+was at $44/share, and each share maps to roughly 1/10 of a bitcoin. So $44/
+share would imply that bitcoin was in the $440 range. Instead, at the time of
+the trade for $44/share, bitcoin was in the low $200s. Someone was willing to
+pay nearly a 100 percent premium to get access to bitcoin as an investment

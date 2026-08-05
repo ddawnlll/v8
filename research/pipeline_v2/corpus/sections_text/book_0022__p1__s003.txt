@@ -1,0 +1,878 @@
+
+THE SHORT FORM
+There was a time in my career when I relished discovering a complex solution, especially
+to a simple problem. The less I understood it, the more enamored I was. No more. Give
+
+c02
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:54
+
+Char Count=
+
+24
+
+COT THEORY
+
+WHEAT - CHICAGO BOARD OF TRADE
+OPTIONS AND FUTURES COMBINED POSITIONS AS OF 06/26/07
+NON-COMMERCIAL
+Long
+
+Short
+
+Spreads
+
+COMMERCIAL
+Long
+
+Short
+
+(CONTRACTS OF 5,000 BUSHELS)
+COMMITMENTS
+109,644
+58,723 120,686 223,762 247,524
+
+Code-001602
+NONREPORTABLE
+POSITIONS
+
+TOTAL
+Long
+
+Short
+
+Long
+
+OPEN INTEREST:
+454,092
+
+Short
+495,176
+
+426,932
+
+41,084
+
+68,244
+
+CHANGES FROM 06/19/07 (CHANGE IN OPEN INTEREST:
+-33,256)
+5,655
+1,019 -27,566
+-9,642
+-5,434 -31,553 -31,981
+
+-1,704
+
+-1,275
+
+8.3
+
+13.8
+
+PERCENT OF OPEN INTEREST FOR EACH CATEGORY OF TRADER
+22.1
+11.9
+24.4
+45.2
+50.0
+91.7
+
+86.2
+
+NUMBER OF TRADERS IN EACH CATEGORY (TOTAL TRADERS:
+119
+114
+130
+74
+117
+288
+
+374)
+282
+
+FIGURE 2.5 The COT Short Form, Data You Can Count On
+
+me the Short Form. In fact, give me just six numbers on the Short Form, and I will be
+content to miss all the stimulation that the Long Form might provide. The key numbers I
+use are the outright positions (long and short) for the three reported trader groups (circled in Figure 2.5). These are also available on the Long Form, as well as in downloadable
+data files. My routine for making sense of these numbers is detailed in Chapter 5, “Net
+Positions.” The Short Form provides all the detail of the top and middle sections of the
+Long Form, absent the seasonal breakdown for a few agricultural markets. Comparative
+simplicity.
+Although a longer data history is available for the Futures Only report, the Options and Futures Combined, which contains weekly figures from 1995, has accumulated
+enough data points to put the Futures Only report on the back shelf for most purposes.
+Obviously the open interest totals increase when you add the options equivalent positions to the futures contracts. But on a percentage basis, there have been surprisingly
+small differences between the two reports. My preference for using the Options and
+Futures version, besides the assurance of a more complete accounting, is because it is
+the basis for the new COT-Supplemental report.
+
+COT-SUPPLEMENTAL COMMODITY INDEX REPORT
+The Commission took a lot of heat in the middle of the first decade of the new millennium, when commodity prices began skyrocketing—many to record highs (at least
+on a nominal basis). This dispute was touched on in Chapter 1. Although the resulting
+COT-Supplemental report is new, and reveals details never before known, it has not yet
+yielded much insight beneficial to price forecasting. First of all, it covers just a dozen
+
+c02
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:54
+
+Char Count=
+
+COT Reports—Counting 1, 2, 3 . . .
+
+25
+
+FIGURE 2.6 Commodity Index Traders Flat-Line
+
+markets. Secondly, the CFTC provided only one year of historical data with its initial release in January 2007. And third, although the report reveals that the commodity index
+traders—primarily swap dealers—are the largest players on the long side of the reported
+markets, it also shows that they do not shift their positions very much (except to roll
+them forward, which is not a factor in the COT report). This lack of movement is apparent on the soybeans chart in Figure 2.6, a typical example.
+Almost certainly there is not enough net position movement to generate trading signals, at least with any regularity. The data might be more informative if we had access
+to the history that shows how those positions were originally accumulated. Perhaps the
+next commodity bull market will reveal the CIT accumulation patterns. Long liquidation
+patterns may appear sooner. It will be interesting to see how these long-only “investors”
+react when commodity prices move against them. Interesting maybe, but we still will not
+have historical patterns for comparison.
+There is a bit of good news in this for those who are concerned that dumping the
+CIT open interest into the commercial category has corrupted the data—perhaps to the
+point of making commercials worthless as trading indicators. So long as the CIT net long
+total acts more like a constant (flat-lined) than a variable, it may not prove too disruptive
+of the commercial net position patterns that have proved so useful in generating trading
+signals. Early evidence—the CIT report is just six months old as I write this—suggests
+that commercial producers have increased their short hedging enough to provide liquidity to CIT players, and a little more. Most likely this is to keep some degree of control
+over market volatility. If so, it replicates their pattern of the late 1980s, when commercials moved to counteract commodity pools, which were expanding their influence in
+these markets.
+
+c02
+
+JWBK143-Briese
+
+26
+
+February 26, 2008
+
+20:54
+
+Char Count=
+
+COT THEORY
+
+In order to assure that any price prediction value found in the COT data is meaningful, repeatable, and reliable; all of the twists and turns accumulated over the course of
+time must be ironed out. Even if you do not intend to create your own data base, it will
+be critical to your analysis to ascertain how the data you use was acquired, assembled,
+and maintained. Beyond this essential housekeeping, there are numerous wrong turns
+to be made along the path to generating useful trading signals. The complete details for
+processing historical COT data are in Appendix B. You really should at least browse this
+material.
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+Char Count=
+
+CHAPTER 3
+
+Player Introductions
+
+If you know your enemies and know yourself, you will win a hundred
+times in a hundred battles. If you only know yourself, but not your
+opponent, you will win one and lose the next. If you do not know
+yourself or your enemy, you will always lose.
+—Sun Tzu ca. 512 B.C.
+
+T
+
+he Commitments of Traders reports aggregate the positions of major players in
+U.S. futures markets each week. Reporting levels are adjusted periodically by the
+CFTC to ensure that roughly 70 to 90 percent of the open interest in each market
+is reported to the Commission. Traders who control positions in excess of these levels
+(large traders) must have their brokers report their actual positions on a daily basis.
+The CFTC then splits these large traders between “commercial” and “non-commercial”
+in accordance with submittals obtained from each trader.
+
+SIZING THEM UP
+Table 3.1 will give you a feel for the size of a large trader’s market position at prices
+and reporting levels prevailing in early 2007. For the most part, large traders controlled
+positions with total contract (notional) values of several millions of dollars (not small
+potatoes).
+This chapter will introduce the players in sufficient detail to provide perspective
+as we dissect their methods and motives in subsequent chapters. Because there are
+so many imprecise references to the Commitments report, this is a comprehensive
+description.
+A typical report in early 2007 listed total open interest for all reportable markets
+at about 40 million contracts. Of these, about 31 million were listed as nonspreading
+
+27
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+Char Count=
+
+28
+
+COT THEORY
+
+TABLE 3.1 Large Trader Reporting Levels and Notional Position Values in 2007
+At Market
+Price
+
+Notional Value
+($millions)
+
+Contract
+Size
+
+Commodity
+
+Contracts
+
+Agricultural
+Wheat
+Corn
+Oats
+Soybeans
+Soybean Oil
+Soybean Meal
+Cotton
+Orange Juice
+Milk, Class III
+Rough Rice
+Live Cattle
+Feeder Cattle
+Lean Hogs
+Sugar No. 11
+Cocoa
+Coﬀee
+
+150
+250
+60
+150
+200
+200
+100
+50
+50
+50
+100
+50
+100
+500
+100
+50
+
+5.00
+4.00
+3.00
+8.00
+0.30
+200.00
+0.50
+1.50
+0.20
+0.1
+1.00
+1.00
+0.70
+0.09
+1800
+1.15
+
+3.75
+5.00
+0.90
+6.00
+3.60
+4.00
+2.50
+1.13
+2.00
+1.00
+4.00
+2.50
+2.80
+5.04
+1.80
+2.16
+
+5,000
+5,000
+5,000
+5,000
+60,000
+100
+50,000
+15,000
+200,000
+200,000
+40,000
+50,000
+40,000
+112,000
+10
+37,500
+
+bushels
+bushels
+bushels
+bushels
+pounds
+tons
+pounds
+pounds
+pounds
+pounds
+pounds
+pounds
+pounds
+pounds
+metric tons
+pounds
+
+Natural Resources
+Lumber
+Copper
+Gold
+Silver Bullion
+Platinum
+Palladium
+No. 2 Heating Oil
+Crude Oil, Sweet
+Gasoline
+Natural Gas
+
+25
+100
+200
+150
+50
+25
+250
+350
+150
+200
+
+0.28
+3.00
+650.00
+13.00
+1300.00
+370.00
+2.0000
+70.00
+2.0000
+7.000
+
+0.77
+7.50
+13.00
+9.75
+3.25
+0.93
+12.00
+24.50
+12.60
+14.00
+
+110,000
+25,000
+100
+5,000
+50
+100
+42,000
+1,000
+42,000
+10,000
+
+board feet
+pounds
+troy ounces
+troy ounces
+troy ounces
+troy ounces
+gallons
+barrels
+gallons
+MMBTUs
+
+1,500
+
+100
+
+150.00
+
+$100,000
+
+face value
+
+2,000
+
+100
+
+200.00
+
+$100,000
+
+face value
+
+2,000
+
+100
+
+200.00
+
+$100,000
+
+face value
+
+1,000
+
+100
+
+200.00
+
+$200,000
+
+face value
+
+3,000
+
+100.00
+
+3,000.00
+
+$1,000,000
+
+600
+50
+400
+400
+100
+
+100.00
+80.00
+0.9500
+0.8000
+0.090000
+
+3,000.00
+4.00
+38.00
+40.00
+4.50
+
+$5,000,000
+x $1000
+100,000
+125,000
+500,000
+
+Financial
+30-Year U.S. Treasury
+Bonds
+10-Year U.S. Treasury
+Notes
+5-Year U.S. Treasury
+Notes
+2-Year U.S. Treasury
+Notes
+3-Month Eurodollar
+Rate
+30-Day Fed Funds
+U.S. Dollar Index
+Canadian Dollar
+Swiss Franc
+Mexican Peso
+
+Unit
+
+CAD
+CHF
+MXP
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+Char Count=
+
+29
+
+Player Introductions
+
+TABLE 3.1 (Continued)
+Commodity
+
+British Pound Sterling
+Japanese Yen
+Euro
+New Zealand Dollar
+Australian Dollar
+Goldman Sachs
+Commodity Index
+Broad-Based Indexes
+S&P 500 Stock Index
+Municipal Bond Index
+Other Broad-Based
+Securities Indexes
+Security Futures
+Products
+Individual Equity
+Security
+
+At Market
+Price
+
+Notional Value
+($millions)
+
+Contract
+Size
+
+400
+400
+400
+100
+400
+100
+
+2.0000
+0.8000
+1.3000
+0.7500
+0.8500
+475
+
+50.00
+40.00
+65.00
+7.50
+34.00
+11.88
+
+62,500
+12,500,000
+125,000
+100,000
+100,000
+X $250
+
+1,000
+300
+200
+
+1500
+
+375.00
+
+X $250
+
+Contracts
+
+Unit
+
+GBP
+JPY
+EUR
+NZD
+AUD
+
+1,000
+200
+
+Other Products
+TRAKRS3
+HedgeStreet Products3
+
+50,000
+125,000
+
+All Other Commodities
+
+25
+
+Source of contract reporting levels: http://www.cftc/gov/. Eﬀective: 01/20/2005.
+
+or outright positions. In aggregate across all markets, each of the three trader
+categories—commercials, speculative funds, and small traders—was fairly evenly split
+between long and short.
+Figure 3.1 shows the percentage of long and short open interest held by each trader
+group. Reported large trader positions (commercials and noncommercials) accounted
+for 88 percent of the total, or about 27 million outright contracts. Across all markets,
+each group holds a fairly balanced portion of long versus short positions.
+These positions were held by 10,750 large traders, whose total market positions are
+depicted in Figure 3.2. (The number of small traders is not reported by the CFTC.) Although the ratio of large funds (noncommercials) to commercials looks fairly balanced,
+when the open interest percentages (Figure 3.1) are divided by the number of large
+traders (Figure 3.2), the average commercial position outsizes the average fund’s by better than 4 to 1. Commercials trade in substantially larger size than funds.
+The COT report also lists concentration ratios—the percentage of total long and
+short open interest held—for the four and eight largest traders. On average in this report,
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+Char Count=
+
+30
+
+COT THEORY
+
+Small
+Trader
+
+Spec ulative
+Funds
+15% 15%
+
+15%
+
+13%
+
+Commercial
+73%
+
+73%
+
+SHORT
+
+LONG
+
+FIGURE 3.1 Open Interest Breakdown by Trader Category
+
+the four largest traders controlled about one-third of open interest, and the eight largest
+traders controlled nearly half. This suggests that a few large traders carry formidable
+clout in some markets. However, these percentages vary widely between markets. (Note:
+The New York Mercantile Exchange [NYMEX] clears a number of energy swap agreements that are made off-exchange. These are not germane to our analysis and will be
+ignored throughout this book.)
+
+Fund Shorts
+2469
+
+Commercial
+Shorts
+3297
+
+Fund Longs
+3207
+
+Commercial
+Longs
+3159
+
+FIGURE 3.2 Number of Large Traders for Each Category
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+Player Introductions
+
+Char Count=
+
+31
+
+THE REPORTING SYSTEM
+The CFTC’s large trader reporting system was described in Chapter 1. The electronic
+reports from brokers are the basis of the weekly Commitments reports. Depending on
+the report, large traders are broken down into either two or three categories. For the
+Futures Only and Options and Futures Combined reports, these are “commercial” and
+“non-commercials”; the COT-Supplemental—added in 2007—pulls out a third category
+of “commodity index traders,” whose numbers are drawn primarily from the “commercial” category in the Combined report.
+You need to be a little careful about relying on press reports concerning large trader
+activities. Wire services routinely report estimated trader activity, and reporters needing
+a reason for a daily price gyration may point the finger at a particular group. The basis of
+these attributions is not clear, but they are not from official sources, are not comprehensive, and may well be misconstrued. In addition, press references to the COT report often
+lack precision in identifying these groups. For instance, the term “large trader” often is
+used when the apparent reference is to large speculators. Obviously all three reporting
+categories are large traders. In this book, I will refer to large noncommercials as “large
+speculators” or “funds”; to commodity index traders as “index traders” or “commodity
+index traders,” “CIT players,” or “swap dealers”; and to commercials as “commercials”
+or, where needed for clarity, as “hedgers,” to distinguish them from index traders.
+Another confusion arises over the difference between the COT data and the Chicago
+Board of Trade’s Liquidity Data Bank. The CBOT data, which is available intraday, is
+based on volume. The COT is open interest. The CBOT does not separate traders between speculative and commercial, but between three levels of exchange members and
+everybody else. The CBOT data reports volume at certain price levels, but does not tell
+you who is taking which side of the trade, and does not tie out to the open positions at
+the end of the session. The COT data comes out only once a week, but it reveals who
+sold how many contracts and who took the other side of the trade. It tells you where
+each group stood on Tuesday’s close. The two reports are not comparable.
+
+COMMERCIAL HEDGERS
+As I alluded to at the beginning of this chapter, the commodity markets were created by
+and for commercials, a small point perhaps, but one to be mindful of. They control the
+overwhelming majority of the open interest in most markets. In Figure 3.1, the Options
+and Futures report from February 2007, commercials control almost three-quarters of
+both the long and short open interest. The caveat is that perhaps half, or even more, of
+the long open interest in the major physical commodity markets is controlled by what the
+CFTC refers to as “non-traditional” commercials (commodity index funds). The growth
+in the popularity of these funds in the early part of this decade is evident in net position patterns and has created a vexing problem for Commitments analysts who cannot
+
+c03
+
+JWBK143-Briese
+
+32
+
+February 26, 2008
+
+20:58
+
+Char Count=
+
+COT THEORY
+
+separate traditional from nontraditional commercial positions (except in the 12 markets
+included in the COT-Supplemental report). True hedgers hold a couple of powerful advantages over other traders.
+First, traditional commercials (hedgers) can generally be expected to hold an informational advantage over other players. These firms have long-standing relationships
+within, and an understanding of their industry, bred of decades or centuries of dealing
+in the cash business. They maintain their own networks of correspondents up and down
+the supply chain. Much of what passes as fundamental news originates with commercial
+houses. Even granting the possibility that fundamental developments are accurately and
+completely conveyed to the public, you would assume that commercials have already
+acted on the information before disseminating it. While we may not be able to overcome
+this informational edge, the Commitments report does serve to level the playing field, if
+you know what to look for (and how to interpret it).
+Secondly, large commercials have deep pockets, which afford them a distinct advantage. They are able to deal when they view prices as favorable, to withstand adverse
+moves, and to trade in sizes large enough to stabilize prices or even to move markets to
+their advantage. (Running stops might be an example.) In some markets, this power can
+be concentrated in the hands of just a few players. If deep pockets did not afford enough
+advantage, commercials operate with the safety net of an offsetting cash position. In a
+perfect hedge, losses on a futures position are offset by equivalent inventory gains. Of
+course, some commercials view the hedging department as a profit center and utilize the
+offsetting cash position as staying power, helping markets along when the time comes.
+Although you need to be mindful of the commercial trading edge, it is essential to
+appreciate that commercial shorts and commercial longs are not (usually) the same entities, nor do they share the same hedging goals. By definition, commercials must demonstrate that they are hedging a legitimate risk that is directly connected to the market they
+are trading. This implies a one-way price risk and means that although they may play
+from either the short or long side, they cannot hedge in both. (A firm may be categorized as a hedger in some markets and a noncommercial in other markets, however.) So,
+despite some shared trading edges, commercials are not a homogeneous group.
+Commercial shorts are producers who sell forward production in futures, with the
+intent of locking in currently quoted selling prices. Commercial longs, as users of the
+product, are the producer’s customers, who buy forward futures contracts in order to
+fix future inventory costs. A couple of simplified examples will help illustrate the key
+differences between commercial producers and users.
+First, take the case of a grain merchant who contracts with growers to buy crops for
+future delivery at a set price. Once the inventory purchase cost is fixed, the firm’s primary
+objective is to market the crop at a profit. If forward futures prices currently offer a favorable margin, the merchant can sell sufficient futures contracts to cover commitments
+until they are marketed. If, in the meantime, grain prices falter, the merchant has only to
+make physical delivery on the futures contract.
+For an alternate example, consider the situation faced by a dog food manufacturer.
+Dog food shipments presumably are not influenced by seasonal factors and can be
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+Player Introductions
+
+20:58
+
+Char Count=
+
+33
+
+reasonably predicted. Standard microeconomic theory would suggest that the quantity
+sold will vary inversely with price. In order to predict sales, financing requirements, production schedules, and so on, at a predictable profit margin, the manufacturer seeks to
+lock in future production costs. Items that cannot be contracted at a fixed cost for future
+delivery, or reasonably inventoried, are candidates for hedging. This list might include
+corn, a main ingredient. Corn supply is subject to a host of seasonal, weather, demand,
+and other variables, which can make future prices volatile. The futures market offers a
+fixed price for future delivery that can be guaranteed by buying long contracts. Rather
+than tying up capital in storage facilities and inventory, the manufacturer can simply buy
+long forward contracts on the futures exchange, intending to take delivery on, for this
+example, the very same contracts being delivered by the grain merchant in example 1.
+There are good reasons for each commercial in our examples to use futures instead
+of contracting with each other directly, but these are beyond our scope. What the user
+and producer have in common is that both their livelihoods are dependent on controlling the price of corn. The fact that the two example firms are on opposite sides of a
+transaction is evidence of divergent hedging needs and, perhaps, strategies. The names
+and faces are anonymous, so we can only guess who these commercials are in each market. Some of these guesses (based on a search of company annual reports) are listed by
+market sector in Part II of this book.
+If producers are naturally short futures and commercial users are naturally long,
+why—given a reasonably balanced supply and demand situation—do their positions not
+simply cancel each other out? Neither of our commercials would be in business without
+an entrepreneurial mindset that encourages taking calculated risks. Thus, if corn prices
+are in a sustained downtrend, the dog food manufacturer may assume inventory risk by
+forgoing full hedge coverage. In the case of strong uptrending prices, the grain merchant
+may delay futures short hedges until he views the rally as overextended (or has simply
+accrued too much potential profit to let slip away).
+The most common method of analyzing Commitments data is by subtracting shorts
+from longs and comparing this “net position” against its historical range. Combining producers and users in this way is effective because a consensus bearish commercial price
+outlook encourages fewer commercial users to buy, while at the same time commercial producers are selling aggressively. The opposite is true when commercials are overwhelmingly bullish. Understanding that the population of commercial hedgers varies between sustained bull and bear market trends is critical to the analysis of commercial net
+position patterns.
+
+LARGE SPECULATORS
+Large speculators include hedge funds, but this is a misnomer in terms of the futures markets. If they were hedging, they would be listed under the commercial category. Hedge
+funds are speculators. The number of large speculators roughly matches the number of
+
+c03
+
+JWBK143-Briese
+
+February 26, 2008
+
+20:58
+
+34
+
+Char Count=
+
+COT THEORY
+
+commercial traders, but the average large speculator position size is dwarfed by the average commercial position’s size. Large speculators typically control around 15 percent
+of the open interest on each side of the market, excluding spreading. Spreading totals are
+typically useful only in the few markets that the CFTC breaks down by “old crop” and
+“new crop.” For most markets, the spreading numbers are meaningless to anyone trying
+to figure out a directional bias.
+The classification of large speculator includes several variations of “funds” illustrating how difficult it is to take inventory of this community. In 2003 the CFTC crossreferenced Institutional Investor’s “Platinum List of the 100 Largest Hedge Funds”
+against their own records and those of the National Futures Association (NFA). They
+found that 65 of the Platinum 100 hedge funds were registered as Commodity Pool Operators (CPOs) and 50 were registered as Commodity Trading Advisors (CTAs) (BrownHruska 2004). The noncommercial category in the COT report, then, includes hedge
+funds, CPOs, and CTAs.
+The fund’s role is to assume price risk from commercials in exchange for a potential
+profit. In the process, they have been shown to provide needed liquidity to the futures
+markets. But they are an easy target of the finger pointers whenever volatility or price
+levels seem out of whack, even though the CFTC and the exchanges are quick to defend
+large speculators as partners in the smooth operation of the markets. They even have
+the economic studies and statistics to prove it. Regardless of causality, the fund positions may contain patterns that could provide a trading edge to those who know what to
+look for.
+The funds are the most homogeneous category reported by the CFTC. They are pure
+speculators with a clear profit motive and, in aggregate, exhibit a fairly consistent and
+rational approach to the markets. Their net positions tend to follow consistent patterns, a
+factor that we may be able to exploit. They are notorious for favoring momentum-based
+(trend-following) algorithmic trading systems. Their net position patterns support this
+view, but they also expose a level of complexity that might be expected from some of the
+brightest minds and best traders in the world.

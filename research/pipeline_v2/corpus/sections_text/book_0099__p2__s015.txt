@@ -1,0 +1,488 @@
+
+Dissecting the Anatomy of a Candlestick
+Ready to dive into the components of the candlestick? The first thing you
+notice is that the candlestick form emphasizes the open and the close. See
+Figure 8-1, the open and the close mark at the top and bottom of the box,
+named the real body. A thin vertical line at the top and bottom of the real
+body, named the shadow, shows the high and the low. (See Chapter 6 for a
+discussion of the basic bar components — open, close, high, and low.)
+I present some more details on the candlestick bar components in the
+following sections.
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+
+UPPER
+SHADOW
+
+HIGH
+
+HIGH
+
+CLOSE
+
+OPEN
+
+OPEN
+
+CLOSE
+
+LOW
+
+LOW
+
+REAL
+BODY
+
+Figure 8-1:
+Candlestick
+bar notation.
+
+LOWER
+SHADOW
+
+Drawing the real body
+The real body encompasses the range between the open and the close. The
+color of the real body tells you how the daily struggle between the bulls and
+the bears played out. Here’s what the colors mean:
+✓ White real body: The close is higher than the open. A white body is bullish, and the longer the body, the more bullish it is. A long candlestick
+indicates that the close was far above the open, implying aggressive
+buying. In the daily battle of bulls and bears, the bulls won.
+✓ Black real body: The close is lower than the open. A black body is bearish, and the longer the body, the more bearish it is. A long black candlestick indicates a preponderance of sellers throughout the session. In the
+daily battle of bulls and bears, the bears won.
+The two candlestick bars in Figure 8-1 show the identical open and close, but
+coloring one of them black creates the optical illusion that it is bigger. That
+black bar demands your attention, which is one reason candlestick charting
+is appealing — and effective. (For more appealing aspects, see the section
+“Appreciating the Candlestick Advantage” in this chapter.)
+Don’t confuse candlestick charting with standard bar notation when it comes
+to color interpretation. In standard bar notation, which I discuss in Chapter 6,
+a bar is colored to denote an up day if the close is higher than the close the
+day before. A down day is when the close is lower than the day before. In
+candlestick notation, only today’s open and today’s close, without reference
+to yesterday’s prices, determines the color of the bar.
+As in all bar analyses, context is crucial. Although you may sometimes use a
+single candlestick bar as an indicator in its own right, most of the time you use
+it in relation to the bars that precede it. One small white-body bar in a sea of
+black bars, for example, may mean the bulls won that day, but it was a minor
+event. The one white bar may signal that the bears are losing power, but you
+wouldn’t use it all by itself to call the end of a black-bar downtrend.
+
+www.pdfdummies.com
+
+139
+
+140 Part III: Observing Market Behavior
+Doing without a real body: The doji
+A candlestick that has no real body or only a very small one is named a doji.
+In a doji, the open and the close are at the same or near the same level. See
+Figure 8-2 for three types of dojis. On its own, a doji doesn’t tell you much
+about market sentiment. You interpret a doji bar in the context of the pattern
+of the preceding bars. A doji implies that sentiment is in a transitional phase.
+It’s a neutral bar, neither bullish nor bearish, that gains meaning from its
+placement within a set of bars.
+When you see a doji after a prolonged uptrend, the doji may mean that the
+buyers are coming to the end of their bullish enthusiasm. (In Chapter 7, I discuss that when the close is at or near the open, market participants are indecisive.) A doji coming immediately after a very long white bar in an uptrend
+shows that the market is tired. This particular doji is named a bearish doji
+star. A bullish doji star is a mirror image — it comes after a big black bar in a
+downtrend. In other cases, it signals an impending reversal.
+The doji form contains important information, regardless of the shadows,
+although shadows have their own additional meaning and are covered in a
+later section. Always take notice of a doji or series of dojis after a trend has
+been in place for a while. It’s a transitional bar and you should always be on
+the lookout for any transition that can affect your trade.
+
+Figure 8-2:
+Doji
+candlestick
+patterns.
+
+PLAIN DOJI
+
+DRAGONFLY DOJI
+
+GRAVESTONE DOJI
+
+Catching the shadow
+The high and the low prices are shown in the shadows, which you can think
+of as a candlewick (on the top) or a tail (on the bottom). Although the
+shadow is secondary to the real body in importance, shadows contribute
+useful information about market psychology, too, and modify your interpretation of the body. Shadows offer special interpretive clues in three instances:
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+✓ The real body is a doji.
+✓ The shadow is missing.
+✓ The shadow is extremely long.
+Want to know more about interpreting shadows in these three situations?
+Keep reading.
+
+Shadows in the doji bar
+In many instances, the doji is just a plain one with ordinary, same-size shadows, as shown in Figure 8-2. However, the two most useful types of doji bars,
+also shown in Figure 8-2, are the following:
+✓ Dragonfly doji: Look for the long, lower shadow that means the open,
+high, and close were the same or nearly the same. Sellers were trying to
+push the price down and succeeded in making a low — but they didn’t
+succeed in getting it to close there. Because the close was back up at or
+near the open, buyers must have emerged before the end of trading and
+bought enough to move the close to the high or nearly to the high.
+How you interpret the dragonfly depends on what bar patterns precede
+it. Your options include the following:
+• If the price move is a downtrend, the dragonfly may mean that
+buyers are emerging and the downtrend may be ending.
+• If the dragonfly appears after a series of uptrending bars, buyers
+failed to push the price over the open to a new high while sellers
+succeeded in getting a low, so the uptrend may be in trouble.
+✓ Gravestone doji: Take a look at that long upper shadow in Figure 8-2.
+This bar, the exact opposite of the dragonfly, is formed when the open,
+low, and close are the same or nearly the same, but a high creates a long
+upper shadow. Although buyers succeeded in pushing the price to a
+high over the open, by the end of the day the bears were fighting back
+and pushed the price back to close near the open and the low. This push
+is a failed effort at a rally, but you can interpret the bar best in the context of the other bars that precede it:
+• If the gravestone bar appears after a series of uptrending bars,
+buyers failed to get the close at the high. Sellers dominated and
+the uptrend is at risk of ending.
+• If the price move is a downtrend, the gravestone doji may mean
+that buyers are emerging and the downtrend may be ending.
+
+www.pdfdummies.com
+
+141
+
+142 Part III: Observing Market Behavior
+Missing shadows
+The absence of a shadow at one end is called a shaven top or a shaven
+bottom. To get a shaven top or bottom, the open or close must be exactly at
+the high or the low, as you can see in Figure 8-3. These candlestick bar notations are called marubozu candles, and you can classify the types of candles
+by using the following descriptions:
+
+Figure 8-3:
+Missing
+shadows.
+
+SHAVEN TOP
+
+SHAVEN BOTTOM
+
+✓ Shaven top: No upper shadow exists when the open or close is at the
+high. A shaven top can be black or white, and come about in two ways:
+• If the open is at the high, the day’s trading was all downhill from
+there. Not only is it a black candlestick, bearish to begin with, but
+it’s also doubly bearish that no net new buying occurred after the
+open.
+• If the close is at the high, the net of the day’s trading was at higher
+prices, which is bullish. The candlestick is also (by definition)
+white — a bullish sign.
+✓ Shaven bottom: No lower shadow exists when the open or the close is
+at the low of the day. A shaven bottom can come in two ways:
+• If the open is at the low, bulls dominated all the day’s trading.
+• If the close is at the low, all the day’s trading points to bearish
+sentiment.
+
+Really long shadows
+When the shadow is as long as the real body, or longer (see Figure 8-4), traders are expressing a sentiment extreme. They may or may not follow through
+the next day by pushing the close to the high or low breaking point, though.
+Evaluating a long shadow can therefore be tricky.
+As a general rule, judge a long shadow by its placement on the chart (relative
+to preceding bars), such as the following:
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+✓ Long upper shadow: The high of the day came well above both the open
+and the close, whether the real body is black or white. Here’s how you
+can interpret a really long upper shadow:
+• If the price series is in an uptrend, the long upper shadow is a
+failure to close near the high. If the uptrend is nearing a resistance
+level (see Chapter 10 for a discussion of resistance), the long
+upper shadow may signal a weakening of the uptrend. If a long
+upper shadow follows a doji bar indicating indecisiveness, you
+should worry that the uptrend may be over.
+• If the price series is on a downtrend, the long upper shadow suggests that some market participants are buying at higher levels.
+Especially if a long upper shadow follows a doji bar, you should
+wonder if the downtrend might be ending.
+✓ Long lower shadow: A long lower shadow means that the low of the day
+came well under both the open and the close, whether the real body is
+black or white. Here’s what that means in the technical analysis world:
+• If the price series is trending down, the long lower shadow is a
+failure to close near the low. If the downtrend is nearing a support
+level (see Chapter 10), the long lower shadow may signal a weakening or an end of the downtrend.
+• If the price series is trending up, the long lower shadow suggests
+that traders were not willing to keep buying at the high levels right
+up to the close. They were exiting under the high, and therefore
+think that new highs are not warranted. This signal can be a warning sign of the trend decelerating or ending.
+
+Figure 8-4:
+Very long
+shadows.
+
+LONG UPPER SHADOW
+
+LONG LOWER SHADOW
+
+www.pdfdummies.com
+
+143
+
+144 Part III: Observing Market Behavior
+Sizing Up Emotions
+Identifying when traders are reaching the end of their emotional tether is one
+of the primary goals of candlestick charting. And a change in the size of the
+bar is one of the best indicators of this. The candlestick technique sensitizes
+you to spot extremes of emotion, which is why it is a valuable tool for marking possible support and resistance at overbought or oversold levels (which I
+discuss in Chapter 2). You can also easily spot range expansion or contraction
+(see Chapter 7).
+For example, at the beginning of the “Dissecting the Anatomy of a
+Candlestick” section, I discuss the idea that the longer the bar, the more
+bullish or bearish it is. If you’re looking at a series of medium-sized bars and
+suddenly see one relatively long bar (as you can see in Figure 8-5), it may be
+telling you that support or resistance has been reached. Support marks an
+extreme level where buyers perceive that the price is relatively cheap, and
+resistance marks an extreme level where sellers perceive that the price is
+relatively high, inspiring profit-taking or least an end to accumulation. (See
+Chapter 10 for all the details.)
+
+RESISTANCE?
+
+Figure 8-5:
+Bar
+placement.
+
+In the top illustration in Figure 8-5, you see a series of three white bars
+making higher opens and higher closes, followed by a doji and an exceptionally long white bar. If you look at this chart in standard bar notation,
+as shown in the bottom illustration of Figure 8-5, you might say to yourself,
+“Higher high, higher lows, higher closes, trend okay.” But the unusually tall
+bar stands out more prominently in candlestick mode — especially following
+the transitional doji — and alerts you to the possibility that all the buyers
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+who were going to buy have just done so in one last burst, and the price may
+have formed a resistance level at the top of the bar (the close, in this case).
+If the long bar were a black bar, denoting that the close was lower than the
+open, you would find it easy to deduce that the up move might be ending.
+A long black bar implies panic selling. But to interpret the white bar as an
+ending burst in an uptrend is more subtle. In fact, an expert in reading standard bars would see the same thing. Candlesticks just make it easier, especially for traders just starting our or who prefer simplicity.
+
+Identifying Special “Emotional Extreme”
+Candlestick Patterns
+Dozens of possible bar placement combinations and permutations are possible. In this section, I cover several of the most popular patterns and how
+you can tell the difference between them. These special “emotional extreme”
+candlestick patterns are unique to candlestick analysis and do not appear in
+the standard bar pattern analysis I discuss in Chapter 9.
+
+Interpreting candlestick patterns
+Two similar candlesticks or candlestick patterns often have the exact opposite interpretation, depending on where they fall in a series. You have to
+memorize the exact patterns to avoid getting confused. I selected just two of
+the many candlestick patterns to illustrate how tricky some candlestick interpretation can get.
+
+Hammer and hanging man
+Both of these candlestick types have a small real body and only one shadow — a
+long lower shadow. While similar, noticing their differences is crucial to your
+interpretation. The long shadow of the hammer extends to the downside off a
+white body, while the long shadow of the hanging man extends to the downside off a body that is either black or white. See Figure 8-6 for an exact image.
+How can it be a hanging man if the body is white? You can tell from the placement among the rising and then falling bars on either side.
+You’d think that the white-body version would automatically be a bullish
+indicator and the black-body version a bearish one, but interpreting this candlestick depends on its placement on the chart, regardless of the real-body
+color. If the candlestick appears in a downtrend, for example, it marks the
+likely end of the trend even if the real body is white.
+
+www.pdfdummies.com
+
+145
+
+146 Part III: Observing Market Behavior
+
+HAMMER
+
+HANGING
+MAN
+
+Figure 8-6:
+Hammer
+and hanging
+man
+patterns.
+
+You may see a hammer in many other contexts, but when it has a white body
+and comes after a series of black downtrending bars, it implies a reversal.
+Note that the close is higher than the previous close, too. In this context, the
+long lower shadow means the sellers were able to achieve a new low, but
+buyers emerged at some point during the day and the close was higher than
+the open, indicating last-minute buying.
+The hanging man looks the same except it usually has a black body coming
+after a series of white uptrending bars. The long lower shadow marks the
+bulls’ failure to prevent the bears making a new low and also from keeping
+the close below the open. You may see this bar in other places within a series
+of bars, but when you see it at the top of an uptrending series, consider that
+the trend is probably over. The wise course is to take your profit and run.
+
+Harami
+A small real-body candlestick that comes after a bigger one is called a harami,
+which means pregnant in Japanese. A harami (see Figure 8-7) implies that a
+change in sentiment is impending. Technically, the harami pattern requires
+two bars, so it doesn’t stand alone. On this chart, I show the shadows of the
+harami bar as also inside the scope of the first big bar, although this isn’t
+essential to identifying the pattern.
+A harami can be white or black, and in fact, it can even be a doji. The smaller
+the real body, the more powerful the implication that a reversal is impending.
+In Figure 8-7, the white bars are seemingly downtrending — already a confusing combination. You also see a large white bar in Figure 8-7.
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+
+HARAMI
+(TWO BARS)
+
+Figure 8-7:
+Harami.
+
+As I discuss in the section “Sizing Up Emotions” in this chapter, the size of
+the bar is important. Both the exceptionally small harami and the exceptionally big bar preceding it express extreme emotion. The big bar means
+a bullish “let’s-buy” emotion. Seeing just the big white bar after a series of
+smaller ones that are downtrending, you may think that the bulls finally got
+the upper hand, and this movement is the start of an uptrend — especially
+because you have an indecision doji just ahead of it. But then the small black
+harami following the big white bar should disillusion you. If an uptrend was
+forming, the harami just put the kibosh on it.
+
+Turning to reversal patterns
+Reversal patterns number at least 40, and identifying reversals is the main
+application of candlesticks. The following are some of the most popular and
+easily identified candlestick reversal patterns.
+
+Bearish engulfing candlestick
+An engulfing pattern signals the reversal of a trend. The word engulfing refers
+to the open and close of the bar encompassing a wider range than the open
+and close of the day before. In Figure 8-8, the engulfing nature is the dominant characteristic so that the lower close pops out at you even though the
+bar also has a higher open. When a bar starts out at a higher open but then
+closes at a lower level, the bears won that day. Not shown in Figure 8-8 is a
+bullish engulfing candlestick, which is white. The higher close is visually compelling because the real body is so big. Like the harami, the engulfing candlesticks require two bars.
+
+Shooting star
+You can characterize the shooting star pattern by a small real body and a long
+upper shadow, as you can see in Figure 8-8. As I discuss in a section “Really
+long shadows” in this chapter, the long upper shadow in an uptrend implies a
+
+www.pdfdummies.com
+
+147
+
+148 Part III: Observing Market Behavior
+failure of the trend — a failure to close near the high. The addition of the doji
+bar indicates traders were already becoming indecisive the day before.
+
+BEARISH ENGULFING CANDLESTICK
+(TWO BARS)
+
+SHOOTING STAR
+
+Figure 8-8:
+Reversal
+patterns.
+
+Continuation patterns
+Candlestick patterns are most often used to identify reversals (see preceding section), but continuation patterns do exist. As the name suggests, a
+continuation pattern gives you confirmation that the trend in place will likely
+continue. This section covers three continuation patterns you may see while
+candlestick charting.
+
+Rising window
+Rising window is the term for a gap, in this case, an upward gap. (A downward gap is a falling window.) You can get more into gaps in Chapter 7.
+In Figure 8-9, the gap separates two white candlesticks, which are themselves
+bullish. The next bar doesn’t “fill the gap” (called “closing the window.”) The
+gap between the two price bars is confirmation of the existing trend, and the
+market’s refusal the following day to go back and fill the gap is further confirmation that the trend is okay.
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+
+RISING WINDOW
+
+GAP
+
+THREE WHITE SOLDIERS
+
+THREE BLACK CROWS
+
+Figure 8-9:
+Continuation
+patterns.
+
+Three white soldiers
+The second exhibit in Figure 8-9 is of three white soldiers. In this pattern, what
+you need to note are the three large white candlesticks in a row. Seeing the
+close consistently over the open for three days confirms that the price series
+is in an uptrend, and the size of the bars indicates its robustness.
+
+Three black crows
+Three black crows is the upside-down mirror image of three white soldiers,
+only with black real bodies. In this pattern (refer to Figure 8-9), you have
+three periods of the close under the open and lower each time, with the bars
+fairly sizeable. The price series is now in a downtrend.
+
+www.pdfdummies.com
+
+149
+
+150 Part III: Observing Market Behavior
+Combining Candlesticks
+with Other Indicators
+You can combine candlesticks with other indicators to get a more-powerful
+description of what is going on in the hearts and minds of the people who
+trade the security.
+Many traders who don’t act directly on the information contained in the
+candlestick patterns still use the notation on every chart because of its visual
+appeal and because a candlestick bar or pattern often confirms some other
+indicator to which they give priority.
+Figure 8-10 shows a set of parallel support and resistance lines called a channel (which I cover in Chapter 11). You use a channel to outline the probable
+limit of future prices moves, either up or down. Note that I describe each
+of the candlesticks on this chart in preceding sections in this chapter. The
+harami is followed by a rising window (upward gap) and a tall, white candle.
+These three candlesticks together are bullish and alert you to go back and
+start the channel at the lowest low, the bar before the harami.
+
+DOJI
+
+RISING
+WINDOW
+Figure 8-10:
+Candlesticks as
+confirmation.
+
+ENGULFING
+BEARISH
+CANDLE
+
+HARAMI
+
+The real bodies in Figure 8-10 proceed to push against the top of the channel
+resistance line, but the doji, which suggests that traders are having second
+thoughts, is followed by two higher white candles. The two white candles
+indicate that the reconsideration of the move on the doji day culminated in
+
+www.pdfdummies.com
+
+Chapter 8: Redrawing the Price Bar: Japanese Candlesticks
+traders’ decision to keep taking the price up. In this occasion, the doji wasn’t
+a reversal indicator, at least not for the next day. After the two white candles
+comes a bearish engulfing candle, a reversal warning that this up move may
+be ending. The engulfing candle alerts you to watch the next day’s activity,
+especially the open, with an eagle eye.
+You can also use candlesticks to confirm relative strength, momentum, and
+many other indicators. Check out Chapter 13 for details on relative strength
+and momentum. Note that in Japan, a favorite indicator to use with candlesticks is the moving average, which I cover in Chapter 12.
+Some traders use specific candlesticks to identify set-ups, or a pattern configuration that is believed to have a high probability of delivering a specific outcome. Say that after a long series of falling bars, you see a doji bar (indicating
+indecisiveness) or a harami that closes near the upper end of the previous
+candle — and then a bullish engulfing candlestick. At the same time, another
+indicator like the stochastic oscillator or relative strength index shows the
+security to be deeply oversold. This scenario is a high-probability trade setup, which means to get out the big guns because you want to buy! You can
+find many resources out there, including in print and online, for great ways
+to combine candlesticks with other indicators. I recommend books and Web
+work by John Person (pivot points and candlesticks) and Stephen Bigalow.

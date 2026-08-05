@@ -1,0 +1,368 @@
+
+Best Ask
+S
+
+1 tick
+
+> 2 ticks
+B
+S’
+
+1 tick
+
+Best Bid
+
+FIGURE 7.3 Ticking Strategy. The original spread must be greater than two ticks.
+
+After the buy order is filled at B, we will try to sell it at S for a profit of at least one tick.
+But if the sell order cannot be filled, then we will sell it at S′ at a loss of one tick.
+
+165
+INTRADAY MOMENTUM STRATEGIES
+
+microstructure or high-frequency trading (Arnuk and Saluzzi, 2012; Durbin,
+2010; Harris, 2003; and Sinclair, 2010). (In my descriptions that follow, I
+focus on making an initial long trade, but, of course, there is a symmetrical
+opportunity on the short side.)
+In markets that fill orders on a pro-rata basis such as the Eurodollar futures trading on CME, the simplest way to benefit from this expectation is
+just to “join the bid” immediately, so that whenever there is a fill on the bid
+side, we will get allocated part of that fill. To ensure that the bid and ask
+prices are more likely to move higher rather than lower after we are filled,
+we join the bid only when the original bid size is much larger than the ask
+size. This is called the ratio trade, because we expect the proportion of the
+original order to be filled is equal to the ratio between our own order size
+and the aggregate order size at the bid price. Once the buying pressure causes the bid price to move up one or more ticks, then we can sell at a profit,
+or we can simply place a sell order at the best ask (if the bid-ask spread is
+larger than the round trip commission per share). If the bid price doesn’t
+move up or our sell limit order doesn’t get filled, we can probably still sell
+at the original best bid price because of the large bid size, with the loss of
+commissions only.
+In markets where the bid-ask spread is bigger than two ticks, there is
+another simple trade to benefit from the expectation of an uptick. Simply
+place the buy order at the best bid plus one tick. If this is filled, then we
+place a sell order at the best ask minus one tick and hope that it is filled. But
+if it is not, we can probably still sell it at the original best bid, with the loss
+of commissions plus one tick. This is called ticking or quote matching. For this
+trade to be profitable, we need to make sure that the round trip commission
+per share is less than the bid-ask spread minus two ticks. This strategy is illustrated in Figure 7.3.
+
+ALGORITHMIC TRADING
+
+166
+
+(Ticking is not a foolproof strategy, of course. The original best bid before it was front-run may be cancelled if the trader knows that he has been
+front-run, leaving us with a lower bid price to unload our inventory. Or the
+whole situation could be set up as a trap for us: the trader who placed the
+original best bid actually wanted to sell us stocks at a price better than her
+own bid. So once we bought her stocks plus one tick, she would immediately cancel the bid.)
+Even when there is no preexisting buying pressure or bid-ask size imbalance, we can create the illusion of one (often called momentum ignition). This
+works for markets with time priority for orders instead of using pro-rata
+fills. Let’s assume we start with very similar best bid and ask sizes. We will
+place a large buy limit order at the best bid to create the impression of buying pressure, and simultaneously place a small sell limit order at the best
+ask. This would trick traders to buy at the ask price since they anticipate
+an uptick, filling our small sell order. At this point, we immediately cancel
+the large buy order. The best bid and ask sizes are now roughly equal again.
+Many of those traders who bought earlier expecting a large buying pressure
+may now sell back their holdings at a loss, and we can then buy them at the
+original best bid. This is called flipping.
+There is a danger to creating the illusion of buying pressure—somebody
+just might call our bluff and actually fill our large buy order. In this case, we
+might have to sell it at a loss. Conversely, if we suspect a large buy order is
+due to flippers, then we can sell to the flippers and drive down the bid price.
+We hope that the flippers will capitulate and sell their new inventory, driving the ask price down as well, so that we can then cover our short position
+below the original bid price. How do we know that the large buy order is due
+to flippers in the first place? We may have to record how often a large bid gets
+canceled instead of getting filled. If you subscribe to the private data feeds
+from the exchanges such as ITCH from Nasdaq, EDGX Book Feed from
+Direct Edge, or the PITCH feed from BATS, you will receive the detailed
+life history of an order including any modifications or partial fills (Arnuk and
+Saluzzi, 2012). Such information may help you detect flippers as well.
+All these strategies and their defenses, bluffs, and counterbluffs illustrate
+the general point that high-frequency traders can profit only from slower
+traders. If only high-frequency traders are left in the market, the net average
+profit for everyone will be zero. Indeed, because of the prevalence of these
+types of high-frequency strategies that “front-run” large bid or ask orders,
+many traditional market makers no longer quote large sizes. This has led to
+a general decrease of the NBBO sizes across many markets. For example,
+
+167
+INTRADAY MOMENTUM STRATEGIES
+
+even in highly liquid stocks such as AAPL, the NBBO sizes are often just
+a few hundred shares. And even for the most liquid ETFs such as SPY on
+ARCA, the NBBO sizes are often fewer than 10,000 shares. Only after these
+small orders are filled will the market maker go back to requote at the same
+prices to avoid being taken advantage of by the high-frequency traders. (Of
+course, there are other reasons for avoiding displaying large quotes: market
+makers do not like to keep large inventories that can result from having their
+large quotes filled.) Similarly, large institutional orders that were formerly
+executed as block trades are now broken up into tiny child orders to be scattered around the different market venues and executed throughout the day.
+Stop hunting is another favorite high-frequency momentum strategy. Research
+in the currencies markets indicated that once support (resistance) levels are
+breached, prices will go further down (up) for a while (Osler, 2000, 2001).
+These support and resistance levels can be those reported daily by banks or
+brokerages, or they can just be round numbers in the proximity of the current price levels.This short-term price momentum occurs because of the large
+number of stop orders placed at or near the support and resistance levels.
+To understand this further, let’s just look at the support levels, as the situation with resistance levels is symmetrical. Once the price drops enough to
+breach a support level, those sell stop orders are triggered and thereby drive
+the prices down further. Given this knowledge, high-frequency traders can,
+of course, create artificial selling pressure by submitting large sell orders
+when the price is close enough to a support level, hoping to drive the next
+tick down. Once the stop orders are triggered and a downward momentum
+is in force, these high-frequency traders can cover their short positions for
+a quick profit.
+If we have access to the order flow information of a market, then we have a
+highly valuable information stream that goes beyond the usual bid/ask/last
+price stream. As Lyons discussed in the context of currencies trading, “order
+flow” is signed transaction volume (Lyons, 2001). If a trader buys 100 units
+from a dealer/market maker/order book, the order flow is 100, and it is
+−100 if the trader sells 100 units instead. What “buying” from an order book
+means is that a trader buys at the ask price, or, equivalently, the trader submits
+a market order to buy. Empirical research indicates that order flow information is a good predictor of price movements. This is because market makers
+can distill important fundamental information from order flow information,
+and set the bid-ask prices accordingly. For example, if a major hedge fund just
+learns about a major piece of breaking news, their algorithms will submit large
+market orders of the same sign in a split second. A market maker monitoring
+
+the order flow will deduce, quite correctly, that such large one-directional
+demands indicate the presence of informed traders, and they will immediately
+adjust their bid-ask prices to protect themselves.The urgency of using market
+orders indicates that the information is new and not widely known.
+Since most of us are not large market makers or operators of an exchange,
+how can we access such order flow information? For stocks and futures markets, we can monitor and record every tick (i.e., changes in best bid, ask, and
+transaction price and size), and thus determine whether a transaction took
+place at the bid (negative order flow) or at the ask (positive order flow). For
+the currencies market, this is difficult because most dealers do not report
+transaction prices. We may have to resort to trading currency futures for
+this strategy. Once the order flow per transaction is computed, we can easily
+compute the cumulative or average order flow over some look-back period
+and use that to predict whether the price will move up or down.
+
+KEY POINTS
+
+ALGORITHMIC TRADING
+
+168
+
+• Intraday momentum strategies do not suffer from many of the
+disadvantages of interday momentum strategies, but they retain some key
+advantages.
+• “Breakout” momentum strategies involve a price exceeding a trading range.
+• The opening gap strategy is a breakout strategy that works for some futures
+and currencies.
+• Breakout momentum may be caused by the triggering of stop orders.
+• Many kinds of corporate and macroeconomic news induce short-term price
+momentum.
+• Index composition changes induce momentum in stocks that are added to
+or deleted from the index.
+• Rebalancing of leveraged ETFs near the market close causes momentum
+in the underlying index in the same direction as the market return from the
+previous close.
+• Many high-frequency momentum strategies involve imbalance between
+bid and ask sizes, an imbalance that is sometimes artificially created by the
+high-frequency traders themselves.
+• Stop hunting is a high-frequency trading strategy that relies on triggering
+stop orders that typically populate round numbers near the current market
+price.
+• Order flow can predict short-term price movement in the same direction.
+
+CHAPTER 8
+
+Risk Management
+
+R
+
+isk management means different things to different people. To novice traders, risk management is driven by “loss aversion”: we simply
+don’t like the feeling of losing money. In fact, research has suggested
+that the average human being needs to have the potential for making $2
+to compensate for the risk of losing $1, which may explain why a Sharpe
+ratio of 2 is so emotionally appealing (Kahneman, 2011). However, this
+dislike of risk in itself is not rational. Our goal should be the maximization of long-term equity growth, and we avoid risk only insofar as it
+interferes with this goal. Risk management in this chapter is based on
+this objective.
+The key concept in risk management is the prudent use of leverage,
+which we can optimize via the Kelly formula or some numerical methods
+that maximize compounded growth rate. But sometimes reality forces us
+to limit the maximum drawdown of an account. One obvious way of accomplishing this is the use of stop loss, but it is often problematic. The other
+way is constant proportion portfolio insurance, which tries to maximize the
+upside of the account in addition to preventing large drawdowns. Both will
+be discussed here. Finally, it may be wise to avoid trading altogether during
+times when the risk of loss is high. We will investigate whether the use of
+certain leading indicators of risk is an effective loss-avoidance technique.
+
+169
+
+■ Optimal Leverage
+
+ALGORITHMIC TRADING
+
+170
+
+It is easy to say that we need to be prudent when using leverage, but much
+harder to decide what constitutes a prudent, or optimal, leverage for a particular strategy or portfolio because, obviously, if we set leverage to zero, we
+will suffer no risks but will generate no returns, either.
+To some portfolio managers, especially those who are managing their own
+money and answerable to no one but themselves, the sole goal of trading is the
+maximization of net worth over the long term. They pay no mind to drawdowns and volatilities of returns. So the optimal leverage to them means one
+that can maximize the net worth or, equivalently, the compounded growth rate.
+We’ll discuss here three methods of computing the optimal leverage
+that maximizes the compounded growth rate. Each method has its own assumptions and drawbacks, and we try to be agnostic as to which method
+you should adopt. But, in all cases, we have to make the assumption that
+the future probability distribution of returns of the market is the same as
+in the past. This is usually an incorrect assumption, but this is the best that
+quantitative models can do. Even more restrictive, many risk management
+techniques assume further that the probability distribution of returns of the
+strategy itself is the same as in the past. And finally, the most restrictive of all
+assumes that the probability distribution of returns of the strategy is Gaussian. As is often the case in mathematical modeling, the most restrictive assumptions give rise to the most elegant and simple solution, so I will start
+this survey with the Kelly formula under the Gaussian assumption.
+If the maximum drawdown of an account with a certain leverage is −100
+percent, this leverage cannot be optimal because the compounded growth
+rate will also be −100 percent. So an optimal leverage implies that we must
+not be ruined (equity reaching zero) at any point in history, rather selfevidently! But sometimes our risk managers (perhaps it is a spouse for independent traders) tell us that we are allowed to have a much smaller magnitude of drawdown than 1. In this case, the maximum drawdown allowed
+forms an additional constraint in the leverage optimization problem.
+No matter how the optimal leverage is determined, the one central
+theme is that the leverage should be kept constant. This is necessary to optimize the growth rate whether or not we have the maximum drawdown constraint. Keeping a constant leverage may sound rather mundane, but can be
+counterintuitive when put into action. For example, if you have a long stock
+portfolio, and your profit and loss (P&L) was positive in the last trading period, the constant leverage requirement forces you to buy more stocks for
+
+Example 8.1: The Implications of the
+Constant Leverage Requirement
+
+this period. However, if your P&L was negative in the last period, it forces
+you to sell stocks into the loss. Example 8.1 illustrates this.
+Many analysts believe that this “selling into losses” feature of the risk
+management techniques causes contagion in financial crises. (In particular,
+this was cited as a cause of the August 2007 meltdown of quant funds; see
+Khandani and Lo, 2007).This is because often many funds are holding similar
+positions in their portfolios. If one fund suffers losses, perhaps due to some
+unrelated strategies, it is prone to liquidate positions across all its portfolios
+due to the constant leverage requirement, causing losses for all other funds
+that hold those positions. The losses force all these other funds to also liquidate their positions and thus exacerbate the losses for everyone: a vicious
+cycle. One might think of this as a tragedy of the commons: self-preservation
+(“risk management”) for one fund can lead to catastrophe for all.
+
+171
+RISK MANAGEMENT
+
+The central requirement for all ways of optimizing leverage described
+in this chapter is that the leverage be kept constant at all times. This
+can have some counterintuitive consequences.
+If you started with $100K equity in your account, and your
+strategy’s optimal leverage was determined to be 5, then you should
+have a portfolio with market value of $500K.
+If, however, you lost $10K in one day and your equity was reduced
+to $90K, with a portfolio market value of $490K, then you need to
+liquidate a further $40K of your portfolio so that its updated market
+value became 5 × $90K = $450K. This selling into the loss may make
+some people uncomfortable, but it is a necessary part of many risk
+management schemes.
+Suppose you then gained $20K the next day. What should your
+portfolio market value be? And what should you do to achieve that
+market value?
+The new portfolio market value should be 5 × ($90K + $20K) =
+$550K. Since your current portfolio market value was just $450K +
+$20K = $470K, this means you need to add $80K worth of (long or
+short) securities to the portfolio. Hopefully, your broker will lend
+you the cash to buy all these extra securities!
+
+Kelly Formula
+If one assumes that the probability distribution of returns is Gaussian, the
+Kelly formula gives us a very simple answer for optimal leverage f:
+f = m / s2 ,
+
+ALGORITHMIC TRADING
+
+172
+
+(8.1)
+
+where m is the mean excess return, and s2 is the variance of the excess
+returns.
+One of the best expositions of this formula can be found in Edward
+Thorp’s (1997) paper, and I also devoted an entire chapter in Quantitative
+Trading (Chan, 2009) to it. It can be proven that if the Gaussian assumption
+is a good approximation, then the Kelly leverage f will generate the highest
+compounded growth rate of equity, assuming that all profits are reinvested.
+However, even if the Gaussian assumption is really valid, we will inevitably
+suffer estimation errors when we try to estimate what the “true” mean and
+variance of the excess return are. And no matter how good one’s estimation method is, there is no guarantee that the future mean and variance will
+be the same as the historical ones. The consequence of using an overestimated mean or an underestimated variance is dire: Either case will lead to
+an overestimated optimal leverage, and if this overestimated leverage is high
+enough, it will eventually lead to ruin: equity going to zero. However, the
+consequence of using an underestimated leverage is merely a submaximal
+compounded growth rate. Many traders justifiably prefer the later scenario,
+and they routinely deploy a leverage equal to half of what the Kelly formula
+recommends: the so-called half-Kelly leverage.
+My actual experience using Kelly’s optimal leverage is that it is best
+viewed as an upper bound rather than as the leverage that must be used.
+Often, the Kelly leverage given by the backtest (or a short period of walkforward test) is so high that it far exceeds the maximum leverage allowed by
+our brokers. At other times, the Kelly leverage would have bankrupted us
+even in backtest, due to the non-Gaussian distributions of returns. In other
+words, the maximum drawdown in backtest is −1 using the Kelly leverage,
+which implies setting the leverage by numerically optimizing the growth
+rate using a more realistic non-Gaussian distribution might be more practical. Alternatively, we may just optimize on the empirical, historical returns.
+These two methods will be discussed in the next sections.
+But just using Kelly optimal leverage as an upper bound can sometimes provide interesting insights. For example, I once calculated that both
+the Russell 1000 and 2000 indices have Kelly leverage at about 1.8. But
+
+exchange-traded fund (ETF) sponsor Direxion has been marketing triple
+leveraged ETFs BGU and TNA tracking these indices. By design, they have a
+leverage of 3. Clearly, there is a real danger that the net asset value (NAV) of
+these ETFs will go to zero. Equally clearly, no investors should buy and hold
+these ETFs, as the sponsor itself readily agrees.
+There is another usage of the Kelly formula besides setting the optimal
+leverage: it also tells us how to optimally allocate our buying power to different portfolios or strategies. Let’s denote F as a column vector of optimal
+leverages that we should apply to the different portfolios based on a common pool of equity. (For example, if we have $1 equity, then F = [3.2 1.5]T
+means the first portfolio should have a market value of $3.2 while the second portfolio should have a market value of $1.5. The T signifies matrix
+transpose.) The Kelly formula says
+F = C −1M
+
+(8.2)
+
+Optimization of Expected Growth Rate Using
+Simulated Returns
+If one relaxes the Gaussian assumption and substitutes another analytic
+form (e.g., Student’s t) for the returns distribution to take into account the
+fat tails, we can still follow the derivations of the Kelly formula in Thorp’s
+
+173
+RISK MANAGEMENT
+
+where C is the covariance matrix of the returns of the portfolios and M is the
+mean excess returns of these portfolios.
+There is an extensive example on how to use this formula in Quantitative
+Trading. But what should we do if our broker has set a maximum leverage
+n
+Fmax that is smaller than the total gross leverage ∑ i|Fi|? (We are concerned
+with the gross leverage, which is equal to the absolute sum of the long and
+short market values divided by our equity, not the net leverage, which is the
+net of the long and short market values divided by our equity.) The usual
+n
+recommendation is to multiply all Fi by the factor Fmax /∑ i|Fi| so that the total gross leverage is equal to Fmax. The problem with this approach is that the
+compounded growth rate will no longer be optimal under this maximum
+leverage constraint. I have constructed Example 8.2 to demonstrate this.
+n
+The upshot of that example is that when Fmax is much smaller than ∑ i|Fi|, it
+is often optimal (with respect to maximizing the growth rate) to just invest
+most or all our buying power into the portfolio or strategy with the highest
+mean excess return.
+
+Example 8.2: Optimal Capital Allocation Under a
+Maximum Leverage Constraint
+When we have multiple portfolios or strategies, the Kelly formula
+says that we should invest in each portfolio i with leverage Fi
+determined by Equation 8.2. But often, the total gross leverage
+n
+∑ i|Fi| computed this way exceeds the maximum leverage Fmax
+imposed on us by our brokerage or our risk manager. With this
+constraint, it is often not optimal to just multiply all these Fi by the
+n
+factor Fmax /∑ i|Fi|, as I will demonstrate here.
+Suppose we have two strategies, 1 and 2. Strategy 1 has annualized
+mean excess return and volatility of 30 percent and 26 percent,
+respectively. Strategy 2 has annualized mean excess return and
+volatility of 60 percent and 35 percent, respectively. Suppose further
+that their returns distributions are Gaussian, and that there is zero
+correlation between the returns of 1 and 2. So the Kelly leverages for
+them are 4.4 and 4.9, respectively, with a total gross leverage of 9.3.
+The annualized compounded growth rate is (Thorp, 1997)

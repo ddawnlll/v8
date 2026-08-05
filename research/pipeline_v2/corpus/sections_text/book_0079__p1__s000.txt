@@ -1,0 +1,759 @@
+High-Probability Techniques for
+Trading without Indicators
+
+nak e d
+forex
+FREE Trading Software and
+Video Tutorial Included
+
+alex nekritin
+
+walter peters , phd
+
+Foreword by Abe Cofnas
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+i
+
+21:10
+
+Printer: Courier Westford
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+Naked Forex
+
+i
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing
+company in the United States. With offices in North America, Europe, Australia and Asia, Wiley is globally committed to developing and marketing
+print and electronic products and services for our customers’ professional
+and personal knowledge and understanding.
+The Wiley Trading series features books by traders who have survived
+the market’s ever changing temperament and have prospered—some by
+reinventing systems, others by getting back to basics. Whether a novice
+trader, professional or somewhere in-between, these books will provide
+the advice and strategies needed to prosper today and well into the future.
+For a list of available titles, please visit our Web site at www
+.WileyFinance.com.
+
+ii
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+Naked Forex
+High-Probability Techniques for
+Trading without Indicators
+
+ALEX NEKRITIN
+WALTER P ETERS, PhD
+
+John Wiley & Sons, Inc.
+
+iii
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+C 2012 by Alex Nekritin and Walter Peters. All rights reserved.
+Copyright 
+
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in
+any form or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright Act,
+without either the prior written permission of the Publisher, or authorization through payment
+of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive,
+Danvers, MA 01923, (978) 750-8400, fax (978) 646-8600, or on the Web at www.copyright.com.
+Requests to the Publisher for permission should be addressed to the Permissions Department,
+John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201) 748-6011, fax (201) 7486008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best
+efforts in preparing this book, they make no representations or warranties with respect to the
+accuracy or completeness of the contents of this book and specifically disclaim any implied
+warranties of merchantability or fitness for a particular purpose. No warranty may be created
+or extended by sales representatives or written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional
+where appropriate. Neither the publisher nor author shall be liable for any loss of profit or any
+other commercial damages, including but not limited to special, incidental, consequential, or
+other damages.
+For general information on our other products and services or for technical support, please
+contact our Customer Care Department within the United States at (800) 762-2974, outside
+the United States at (317) 572-3993 or fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in
+print may not be available in electronic books. For more information about Wiley products,
+visit our web site at www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Nekritin, Alex, 1980Naked Forex : high-probability techniques for trading without indicators / Alex Nekritin,
+Walter Peters.
+p. cm. – (Wiley trading ; 534)
+Includes index.
+ISBN 978-1-118-11401-8 (cloth); ISBN 978-1-118-22435-9 (ebk);
+ISBN 978-1-118-26244-3 (ebk); ISBN 978-1-118-23749-6 (ebk)
+1. Foreign exchange market. 2. Foreign exchange futures. 3. Speculation.
+I. Peters, Walter, 1973- II. Title.
+HG3821.N45 2012
+332.4 5–dc23
+2011043306
+Printed in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+iv
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+For all gun traders as well as those rude and
+cute possums of the world.
+
+v
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+vi
+
+21:10
+
+Printer: Courier Westford
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+Contents
+
+Foreword
+
+ix
+
+Preface
+
+xi
+
+Acknowledgments
+PART ONE
+
+xiii
+
+Naked Forex Trading Revealed
+
+CHAPTER 1 The Fundamentals of Forex Trading
+
+3
+
+CHAPTER 2 Avoiding a Trading Tragedy
+
+9
+
+CHAPTER 3 Back-Testing Your System
+
+25
+
+CHAPTER 4 Identifying Support and Resistance
+Zones
+
+39
+
+PART TWO
+
+Naked-Trading Methodology
+
+CHAPTER 5 The Last Kiss
+
+73
+
+CHAPTER 6 The Big Shadow
+
+95
+
+CHAPTER 7 Wammies and Moolahs
+
+111
+
+CHAPTER 8 Kangaroo Tails
+
+131
+
+CHAPTER 9 The Big Belt
+
+151
+
+vii
+
+P1: OTA/XYZ
+JWBT642-fm
+
+P2: ABC
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:10
+
+Printer: Courier Westford
+
+viii
+
+CONTENTS
+
+CHAPTER 10 The Trendy Kangaroo
+
+163
+
+CHAPTER 11 Exiting the Trade
+
+177
+
+PART THREE
+
+Trading Psychology
+
+CHAPTER 12 The Forex Cycle
+
+203
+
+CHAPTER 13 Creating Your Trading System
+
+209
+
+CHAPTER 14 Becoming an Expert
+
+229
+
+CHAPTER 15 Gaining Confidence
+
+239
+
+CHAPTER 16 Managing Risk
+
+249
+
+About the Trading Software and Video Tutorial
+
+261
+
+About the Authors
+
+263
+
+Index
+
+265
+
+P1: OTA/XYZ
+P2: ABC
+JWBT642-Foreword
+JWBT642-Nekritin
+
+January 7, 2012
+
+11:24
+
+Printer: Courier Westford
+
+Foreword
+
+he Internet engendered the online trading phenomenon. One can
+trade anywhere there is a connection to the World Wide Web. The result has also been the creation of instant experts, trading gurus who
+offer modern versions of snake-oil cures for traders. The web is flooded
+with trading alerts, systems, and blogs that promise returns that will lead
+to instant wealth. Most of the books in the field fail to provide actionable
+knowledge. In this environment, Alex Nekritin and Walter Peters in Naked
+Forex: High-Probability Techniques for Trading without Indicators provide an honest and effective presentation about forex trading that certainly
+beginners need, and that more experienced traders forget they need.
+Naked Forex makes some powerful points about trading forex that really apply to other markets as well. First and foremost, price is the most important indicator of all. All indicators are derived from price. Many traders
+have forgotten this fact because computerization has made it easy to generate new indicators. Indicators work more like training wheels for learning
+to ride a bicycle. They are temporary in their capacity to help traders build
+their skills. They actually limit the evolution of a trader’s performance because they provide a disincentive to “listen” to the market. Naked Forex
+goes into detail on how a trading signal that is indicator-based is inferior to
+what Nekritin and Peters call a “naked” signal.
+Another key insight that the book provides is the importance of knowing one’s personality in trading. Trading systems that are based on untested
+algorithms that are purely technical will surely fail. Nekritin and Peters argue that trading systems should reflect decisions that traders would make
+that are based on looking at charts. Manual backtesting, they suggest, is an
+effective way to identify a trading system’s strengths and weaknesses.
+A third major focus of Naked Forex is the concept of identifying support and resistance zones. The fact is that with the trillions of dollars that
+float each hour through the currency markets, prices reach certain levels
+and stop. One can try to figure out why they stop rising or stop falling. But
+the job of the trader is to observe accurately where the price is and where it
+came from. Price zones provide the naked truth about market sentiment. If
+
+T
+
+ix
+
+x
+
+FOREWORD
+
+a price breaks through a zone, no matter what the reason, it is a signal—and
+a more powerful signal than any indicator. Nekritin and Peters call these
+points of price action market scars. It is a good metaphor because markets
+have memory and so do traders. The authors introduce the “last-kiss trade”
+as a powerful tool in identifying when breakouts have occurred. The book
+is ﬁlled with gems that provide visualizations of price action, such as the
+big shadow, kangaroo tails, and the big belt. Beginners will enjoy the
+part about platforms where experienced traders share the secrets behind
+their strategies which normally are kept hidden.
+As someone who has been training people on how to trade forex for
+nearly 13 years, I welcome this book as one that stands out as a basic manual on how to evaluate and trade the increasingly chaotic forex markets. I
+will use it for my students.
+Abe Cofnas
+author of Trading Binary Options (Bloomberg) and
+editor of TheFearandGreedTraderNewsletter ,
+Agora Financial, Inc.
+
+P1: OTA/XYZ
+P2: ABC
+JWBT642-bprefae
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:12
+
+Printer: Courier Westford
+
+Preface
+
+nfortunately, most forex traders lose out. Profitable trading is reserved for the select few. Expectations drive reality for many things
+in life, and successful trading is no different. Most forex traders have
+three preconceptions about successful trading. These are the three myths
+of successful trading, and the structure of this book is based on each of
+these myths.
+Myth 1: Successful trading must be indicator based. The first part of
+this book dispels this myth. There are many ways to profit in forex, some
+of them do involve indicators, but indicators are not necessary for successful trading. There are professional traders around the globe, many of
+them good friends of mine, who use “naked” charts to make trading decisions. In some ways, indicators delay the progression of the trader because
+the focus is on the indicator, rather than price action. Indicators become
+the scapegoat for losing streaks and often keep losing traders in a holding pattern. It is much easier for the novice trader to begin trading without
+indicators from the beginning.
+Myth 2: Successful trading must be complex. The second part of this
+book is about naked trading systems. These systems are incredibly simple. Do not confuse simplicity with ineptitude. Although these systems are
+simple when applied correctly, they may also yield big profits and build
+confidence in your trading. You may view this as the meat of the book, the
+most important section, but I disagree. I think the third section is the most
+critical to your trading success.
+Myth 3: Successful trading is dependent on the trading system. This is
+probably the most widely held belief among traders. This is precisely why
+there are thousands of trading systems on the market, all promising great
+riches to the brave traders who pony up the money for the next Holy Grail.
+Many veteran traders understand the importance of trading psychology.
+Personal beliefs and attitudes toward risk are the greatest predictors of
+trading success, and the trading system is not nearly as important as many
+traders assume. For most traders, after years of trading, this fact becomes
+apparent. The third section of the book concerns trading psychology and
+
+U
+
+xi
+
+P1: OTA/XYZ
+P2: ABC
+JWBT642-bprefae
+JWBT642-Nekritin
+
+xii
+
+January 11, 2012
+
+21:12
+
+Printer: Courier Westford
+
+PREFACE
+
+how you may both identify and change your thinking, because this is the
+real driving factor in your trading success.
+Many readers will continue to hold onto these myths. In fact, some
+readers (those who believe trading success depends on the trading system)
+will simply read the second section and begin trading the naked trading
+systems. This is unfortunate. The first section is critical because it offers
+reasons for price action trading (a new belief system) and a course of action for becoming an expert at naked trading (new trading habits). The
+third section is where breakeven and slightly profitable traders will learn
+to move into the realm of the true professional trader. All sections of the
+book are important, and it is my hope that by reading it you will find simple
+methods for extracting profits from the market.
+You can trade successfully without indicators. For many traders,
+naked trading is both refreshing and easy to apply. You can trade successfully with simple trading systems. Simple systems are robust and powerful.
+However, ultimately, your success as a trader will depend, not on the trading system, but on how you incorporate your beliefs and attitudes about
+risk into your trading routine. I hope this book will aid you in your journey
+to trading success.
+I also hope that you keep in touch by stopping by the companion web site for this book, complete with live market trades, additional
+tools, and new naked trading systems. You will find this on the Web at
+www.fxjake.com/book.
+Walter Peters, PhD
+Sydney, Australia
+October 2011
+
+P1: OTA/XYZ
+JWBT642-back
+
+P2: ABC
+JWBT642-Nekritin
+
+January 7, 2012
+
+11:28
+
+Printer: Courier Westford
+
+Acknowledgments
+
+here are many people who deserve acknowledgment for this book.
+The list includes but is not limited to the following: Meg Freeborn for
+patience and unique ability to turn rough stones into polished gems
+(I know because I have seen her do it). Eddie Kwong deserves credit for
+putting this book idea in front of the right people. Sean Lydiard is living
+proof that six degrees of separation is fact. Arshia Bolour, who is a true
+brother in every sense of the word. Abe Cofnas, for his patience and kindness in helping me with the conversion from trader to trading author. Evan
+Burton for believing in the book idea and making it happen. Colin Jessup
+for his unique perspective on naked trading. My brother Ashkan Bolour,
+who introduced me to the world of forex so many years ago. My parents
+for unconditionally supporting me in every endeavor. My dissertation committee (and Dr. David Estes in particular) who taught me years ago how to
+write so that others could understand me. My sister for always being there
+for me. And to the first-line editor Melissa McConaghy—without your help,
+I am certain this book would not have happened.
+
+T
+
+—W.P.
+
+xiii
+
+P1: OTA/XYZ
+JWBT642-back
+
+P2: ABC
+JWBT642-Nekritin
+
+January 7, 2012
+
+xiv
+
+11:28
+
+Printer: Courier Westford
+
+P1: OTA
+JWBT642-c01
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:16
+
+Printer: Courier Westford
+
+PART ONE
+
+Naked Forex
+Trading Revealed
+
+1
+
+P1: OTA
+JWBT642-c01
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+2
+
+21:16
+
+Printer: Courier Westford
+
+P1: OTA
+JWBT642-c01
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:16
+
+Printer: Courier Westford
+
+CHAPTER 1
+
+The
+Fundamentals of
+Forex Trading
+Gregory: “Draw thy tool . . .”
+Sampson: “My naked weapon is out.”
+—Shakespeare, Romeo and Juliet
+
+elcome to the world of forex trading. Forex is the largest market
+in the world. Forex traders exchange $4 trillion each day, but is
+forex the best market for you? The answer depends on what you
+are looking for. If you want a market that never sleeps, if you want the
+opportunity to trade at any time of the day, if you would like to make a
+boatload of money in a short amount of time, forex may be for you (it
+should be noted that you may also lose an incredible amount of money in
+a short amount of time). Traders with very little money can begin trading
+forex. In forex, you may take relatively large trades with small amounts
+of money because of the favorable leverage requirements. There are many
+reasons to become a forex trader, but before jumping into the reasons,
+perhaps we should take a closer look at the characteristics of a forex trade.
+
+W
+
+A QUICK LESSON IN CURRENCIES
+“Forex” is simply an abbreviation for “foreign exchange.” All foreign exchange transactions involve two currencies. If an individual trader, a bank,
+a government, a corporation, or a tourist in a Hawaiian print shirt on
+a tropical island decides to exchange one currency for another, a forex
+trade takes place. In every instance, one currency is being bought and,
+3
+
+P1: OTA
+JWBT642-c01
+
+4
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:16
+
+Printer: Courier Westford
+
+NAKED FOREX
+
+simultaneously, another currency is being sold. Currencies must be compared to something else in order to establish value; this is why forex trading
+involves two currencies.
+If you and I go to the beach and I tell you the tide is low right now,
+how do you know this is true? You may decide to compare the current
+water level to the pier. If there are starfish and mussels exposed on the
+pier, you may believe me because you can compare the current water level
+to the previous water level. In forex, we compare currencies in much the
+same way, currencies are traded in pairs and, thus, one currency is always
+compared to another currency.
+An example may be helpful to illustrate how currencies are traded. If
+you are a hotshot forex trader, and you believe that the EUR/USD is going
+to go up, you may decide to buy the EUR/USD. Thus, you think that the
+Euro currency will get stronger, and the U.S. dollar will weaken. You are
+buying the EUR/USD currency pair, another way to look at this is to say
+you are buying Euros and simultaneously selling U.S. dollars. The unique
+(and often difficult to understand) aspect of forex trading to keep in mind
+is this: Each forex transaction involves the buying of one currency pair and
+simultaneously the selling of another currency pair.
+If you have experience buying or selling in any market—the stock market, a futures market, an options market, the baseball card market, or the
+used car market—then you understand markets. For any market transaction a buyer wants to buy something and a seller wants to get rid of something. The forex market is simply a money market, the place where speculators exchange one currency for another. In many ways, the forex market is
+no different from the stock market. The major differences between forex
+and the stock market are as follows: A forex transaction involves buying
+one currency pair and selling another, also, the symbols to identify forex
+pairs are consistent and systematic, unlike the symbols used to identify
+companies listed on a stock exchange.
+Forex traders buy and sell countries. It is true: Forex traders are basically buying “shares” in a country, just as a stock trader buys shares
+in a company. For example, if forex trader Emma decides to sell the
+EUR/USD, she is essentially selling the European Union (and buying the
+United States). To be even more specific, we might suggest Emma is buying
+the economy of the United States, and selling the economy of the European
+Union. Does this mean that Emma must keep tabs on all the economic data
+for all the countries that she is trading? The short answer is no, but we will
+talk more about news and trading based on economic news and data a bit
+further on in this book.
+Just as a stock has a symbol, so do currencies. Table 1.1 illustrates the
+most popular currencies and their symbols. Do you notice a pattern? There
+is a secret code for currencies. The three-letter code for each currency pair
+is composed of the country (first two letters) and the name of the currency
+
+P1: OTA
+JWBT642-c01
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:16
+
+Printer: Courier Westford
+
+5
+
+The Fundamentals of Forex Trading
+
+TABLE 1.1 Major Currencies of the World
+Country
+
+Currency
+
+Symbol
+
+Nickname
+
+Euro Zone
+United States
+Japan
+Great Britain
+Switzerland
+Australia
+New Zealand
+
+Euro
+Dollar
+Yen
+Pound
+Franc
+Dollar
+Dollar
+
+EUR
+USD
+JPY
+GBP
+CHF
+AUD
+NZD
+
+Fiber
+Greenback
+Yen
+Cable
+Swissy
+Aussie
+Kiwi
+
+(last letter). So, for example, the Japanese yen is JPY, the “JP” stands for
+Japan, and the “Y” stands for Yen. The currencies listed in Table 1.1 are the
+major currencies; these are the most widely traded currencies.
+
+PLAYERS OF THE FOREX MARKET
+The forex market is an enormous, growing market. Forex trading doubled
+from 2004 to 2010, and today the amount of money traded in forex each day
+is staggering. The New York Stock Exchange, the world’s largest stock market, turns over about $75 billion each day. Forex traders trade five times
+that amount each day.
+You often hear people claim that because the forex market is so large,
+it is relatively easy for forex traders to jump in and ride the trends in this
+gigantic market, the world’s largest market. However, most forex traders
+trade what is called the retail forex market; this is a different market (akin
+to a parallel universe) to the “real” forex market in which $4 trillion is exchanged each day. In essence, there are two markets in forex. There is
+the interbank market, where banks, hedge funds, governments, and corporations exchange currencies, and there is the retail market. Most forex
+traders trade in the retail forex market, an entirely different market to the
+“real” interbank market.
+In the retail forex market, your competition is the other forex traders
+trading the retail forex market, and, believe it or not, your broker. When
+you make money trading forex, these other traders in the retail market lose,
+and so does your broker. Most retail forex traders do not make money. In
+fact, your forex broker will assume that you are going to lose money in the
+long run. This is a perfectly reasonable assumption, since the large majority
+of forex traders lose money.
+Would you like to know about the secret that forex brokers don’t want
+you to know? Here it is: Forex brokers divide all traders into two groups.
+There are the winners—these are the forex traders who make money—and
+
+P1: OTA
+JWBT642-c01
+
+JWBT642-Nekritin
+
+January 11, 2012
+
+21:16
+
+Printer: Courier Westford
+
+6
+
+NAKED FOREX
+
+then there are the losers—these are the forex traders who lose money.
+Guess which group all new forex traders get put into? Retail forex brokers
+believe that all new customers are unlikely to make money, so all new accounts are placed into the loser group. After several months of consistently
+profitable Forex trading a trader may be placed into the winner group.
+It may sound surprising, but it is true. If you start making money trading forex over several months, you will join the winners. Your retail forex
+broker will begin to hedge your trades. In other words, if you are in the
+winner group, your retail forex broker will take trades in the real forex
+market, the interbank market, to offset the profits accumulated by the winner group. For example, if most of the traders in the winner group have
+decided to buy the EUR/USD, then the broker will put in a trade to buy the
+EUR/USD in the interbank market in the hopes that, if the winners are correct, the forex broker can use the profits in the interbank market to pay the
+winning traders. This is how your retail forex broker deals with winning
+traders.
+What about losing traders? Since most forex traders are losing traders,
+your forex broker assumes that you will not make money when you open
+up an account. Only after you have consistently made money trading forex
+will your broker become concerned with your trading. Guess what happens to all of those losing trades? Those losing trades fatten your broker’s
+pocket. All losing trades are “business profits” for your broker. This is because your broker takes the other side of your forex trade. Although it is
+true that some retail forex brokers match up trade orders so that a trader
+with a buy trade order is paired up with a trader with a sell trade. However, the overwhelming majority of retail forex brokers do not do this.
+Unless you are a consistently winning trader, your broker will take the
+risk on your trades, and assume that your trades will lose money in the
+long run. This is not something that is widely discussed, but it is true.
+Your forex broker wants you to lose, because your losses are your broker’s
+profits.
+How would you like to make the jump from the group of losing traders
+to the group of winning traders? Would you like to join the 5 percent of
+winning traders? I know you can join the 5 percent, and I will show you
+precisely how you can leap into the group of winners in later chapters.

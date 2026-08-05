@@ -1,0 +1,1097 @@
+
+301
+
+302
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+The Psychology—For those who think human behavior and
+decision making make the difference, there are chapters on each of
+these, as well as on emotional intelligence—and how to get it—
+followed by the dangers of Holy Grails.
+The Trading Systems—The risk, the reward, the key questions
+to ask, and the questions Michael is most often asked, along with
+commentary from the master trend followers themselves,
+encompass these chapters.
+The remarkable thing is not that you are looking at this book,
+but that it exists at all. Conventional wisdom says buy low and sell
+high. Each of us got our education in bargain hunting somewhere
+along the line. But what do you do now that your favorite market—
+be it a stock, bond, or commodity—is at an all-time high…or low?
+For a completely different perspective, from people who actually
+make money at this business, take a look inside. Michael Covel has
+written a timely and entertaining account of trend following—how
+it works, how to do it, and who can do it.
+
+About Charles Faulkner
+Charles Faulkner is an international NLP modeler and trainer
+who has worked with traders since 1986. The coauthor of NLP:
+The New Technology of Achievement, he was interviewed on The
+Psychology of Trading by Jack Schwager for his book The New
+Market Wizards: Conversations with America’s Top Traders, with
+other interviews appearing in Robert Koppel’s The Outer Game of
+Trading and The Intuitive Trader and articles in Futures Magazine
+and Stocks, Futures, and Options Magazine. A speaker at the F.I.A.,
+The Market Timers Association, the Chicago Board of Trade’s
+Members Only program, and other professional conferences,
+Charles conducts seminars on the emotions, strategies, beliefs,
+and design of trading systems.
+Charles consults on human factors in financial risk
+management to asset management and commodity firms and
+works with Ed Seykota contributing to his Trading Tribe Process
+(TTP). He trades stocks and futures when his system signals and
+divides his time between the U.S. and the U.K. where his wife and
+stepdaughter reside.
+
+Appendices
+
+303
+
+This page intentionally left blank
+
+Introduction to
+Appendices
+The following appendices are not just “extra” material. They
+are not just research notes. Each appendix adds additional value
+and clarification to the main book text. A careful consideration of
+all eight appendices will provide an even greater trend following
+education.
+• Appendix A, “Trend Following for Stocks”: Cole Wilcox and
+Eric Crittenden of Blackstar Funds have generously provided
+unique research explaining the use of trend following strategies
+on stocks.
+• Appendix B, “Performance Guide”: Historical performance data
+from professional trend followers provides concrete results, not
+just theory.
+• Appendix C, “Short-Term Trading”: Short-term trading is hard,
+but not impossible. Market Wizards Jim Simons and Toby
+Crabel do win as short-term traders, but Ed Seykota offers good
+insight on the difficulty.
+• Appendix D, “Personality Traits of Successful Traders”:
+Understanding the role of personality and temperament in
+great trading can be critical.
+• Appendix E, “Trend Following Models”: Paul Mulvaney of
+Mulvaney Capital Management presents a useful visual model
+for trend following trading.
+• Appendix F, “Trading System Example from Mechanica”: Bob
+Spear of Trading Recipes Software presents a sample trend
+following trading system.
+
+305
+
+Mean reversion works
+almost all the time, and
+then it stops and you are
+kind of out of business.
+So the market is always
+reverting to the mean
+except when it doesn’t,
+and then we [trend
+followers] are on board
+this big huge trend and
+these people lose a lot of
+money. There are two
+competing philosophies
+[trend following versus
+mean reversion]…then
+every eight years you
+[mean reversion] are out
+of business because when
+it doesn’t revert to the
+mean, your philosophy
+loses…mean reversion is
+somewhat uninformed.
+Jerry Parker, Chesapeake Capital
+Futures Industry Association
+Presentation
+
+306
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+• Appendix G, “Critical Questions for Trading Systems”:
+Understand critical questions that must be answered to have a
+successful trend following trading system.
+
+Trend Following
+for Stocks
+Cole Wilcox and Eric Crittenden of Blackstar Funds, LLC
+graciously supplied all of the research in this appendix about trend
+following success on stocks. I view this appendix as a twelfth
+chapter, even though it is not labeled that way.
+
+Does Trend Following Work on Stocks?
+Introduction
+Our firm Blackstar Funds, LLC manages a multi-advisor
+commodity pool that invests primarily in systematic1, long
+volatility2 programs. We focus mainly on trend following programs
+from the commodities, financial futures, and currency trading
+arenas, as they tend to be the most systematic in terms of trading
+and portfolio management. Years of searching for systematic trend
+following programs that focus on stocks, however, have left us
+empty handed. Having spent literally thousands of man hours
+performing due diligence on trend following funds, along with years
+of personal experience trading proprietary capital in stocks, we feel
+uniquely qualified to tackle the question, “Does trend following
+work on stocks?”
+To evaluate the effectiveness of trend following on stocks we
+must first determine:
+• What stocks will be considered?
+• When and how will a stock be purchased?
+• When and how will a stock be sold?
+307
+
+A
+
+308
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+Data Integrity
+Data Coverage
+The database used included 24,000+ individual securities from
+the NYSE, AMEX, and NASDAQ exchanges. Coverage spanned from
+January 1983 to December 2004.
+Survivorship Bias
+The database used for this project included historical data for
+all stocks that were delisted at some point between 1983 and 2004.
+Slightly more than half of the database is composed of delisted
+stocks.
+Corporate Actions
+All stock prices were proportionately back adjusted for
+corporate actions, including cash dividends, splits, mergers, spinoffs, stock dividends, reverse splits, and so on.
+Realistic Investable Universe
+A minimum stock price filter was used to avoid penny stocks.3
+A minimum daily liquidity filter was used to avoid stocks that would
+not have been liquid enough to generate realistic historical results
+from. Both filters were evaluated for every stock and for every day
+of history in the database, mimicking how results would have
+appeared in real time.
+A complete discussion of these data integrity issues can be
+found at the end of this appendix.
+The following chart shows how many stocks would have passed
+the previously mentioned filters for each year of historical testing:
+
+309
+
+Appendix A • Trend Following for Stocks
+
+Investable Universe
+3000
+
+Number of Stocks
+
+2500
+
+2000
+
+1500
+
+1000
+
+500
+
+Entr y and Exit
+Entry
+For the purposes of this project, the entry method chosen was
+the all-time highest close. More specifically, if today’s close is
+greater than or equal to the highest close during the stock’s entire
+history, then buy tomorrow on the open. We chose this method to
+avoid ambiguity. A stock that is at an all time high must be in an
+uptrend by any reasonable person’s definition. This is a trend
+following entry in its purest form.
+The following weekly charts illustrate what would have been
+notable trade entries for the system presented in this appendix. The
+green dots denote instances where the closing price for the week
+was at a new all time high. The horizontal pink line represents the
+previous all time high that would have triggered the initial entry:
+
+Jan-04
+
+Jan-03
+
+Jan-02
+
+Jan-01
+
+Jan-00
+
+Jan-99
+
+Jan-98
+
+Jan-97
+
+Jan-96
+
+Jan-95
+
+Jan-94
+
+Jan-93
+
+Jan-92
+
+Jan-91
+
+Jan-90
+
+Jan-89
+
+Jan-88
+
+Jan-87
+
+Jan-86
+
+Jan-85
+
+Jan-84
+
+Jan-83
+
+0
+
+310
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+Appendix A • Trend Following for Stocks
+
+Exit (Stops)
+Exits are essential to any trend following strategy. We decided
+to use average true range trailing stops because they are universally
+applicable and commonly used by trend following programs. The
+average true is a derivative of the true range indicator, which
+measures the daily movement of a security by calculating the
+greater of:
+• Today’s high minus today’s low
+• Today’s high minus yesterday’s close
+• Yesterday’s close minus today’s low
+The true range illustrates the maximum distance the security’s
+price traveled from the close of one business day to the close of the
+next business day, capturing overnight gaps and intraday price
+swings. The average of this value can be used to integrate the
+volatility of a security into a universally applicable trailing stop.
+Average true range stops effectively account for volatility
+differences between individual securities.
+For example, a 10 ATR stop on a volatile Internet stock might
+be 55 percent away from the stock price:
+
+311
+
+312
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+Alternatively, a 10 ATR stop on a quiet utility stock might only
+be 15 percent away from the stock price:
+
+For the purposes of this project, we chose to exit a stock on the
+open the day after the exit level was breached. The following charts
+illustrate how a 10 ATR stop would have looked on some well known
+stocks from the past:
+Many more graphical illustrations of the stops we used can be
+found at the end of this appendix.
+
+Appendix A • Trend Following for Stocks
+
+Expectancy Studies
+To determine how well these entries and exits would have
+worked in the past, it was necessary to test the combination against
+
+313
+
+314
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+the historical database, while honoring the previously mentioned
+data integrity issues.
+The following distribution shows the results from using an all
+time high entry along with a 10-unit ATR stop. There were 18,000+
+trades during the 22 year test period. Transaction costs of 0.5
+percent round-turn were deducted from each trade to account for
+estimated commission and slippage.
+10000
+
+Trade Results Distribution
+
+2923
+2825
+2504
+1784
+1637
+962
+
+1000
+533
+
+807
+575
+453
+351
+276
+214
+
+139
+79
+
+100
+
+190
+
+175
+136
+
+110
+
+96
+
+82
+
+79
+62
+
+25
+
+60
+
+49 49
+
+40
+
+33
+24
+
+24 22 25
+16
+
+17
+13
+
+11 11
+
+10
+4
+
+1
+
+-90%
+-80%
+-70%
+-60%
+-50%
+-40%
+-30%
+-20%
+-10%
+0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+110%
+120%
+130%
+140%
+150%
+160%
+170%
+180%
+190%
+200%
+210%
+220%
+230%
+240%
+250%
+260%
+270%
+280%
+290%
+300%
+More
+
+Number
+
+292
+
+1179
+
+Return
+
+The X-axis represents the net return from the trade. The Y-axis
+indicates how many trades would have achieved the indicated net
+return. The long volatility component resulting from the combination of a trend following entry and trailing volatility stop is
+immediately recognizable by the significant right skew of the distribution. Seventeen percent of trades would have gained 50 percent
+or more while less than 3 percent of trades would have registered a
+loss equal to or worse than –50 percent.
+At first glance, a winning percentage of 49.3 percent might seem
+less than impressive, but it is relatively high for a trend following
+system. Trend following systems can be very effective with much
+lower winning percentages if the profitable trades are significantly
+larger than the more frequent unprofitable trades. In the case of this
+system, the ratio between average winning trade and average losing
+trade is 2.56; a healthy number in our experience.
+
+Appendix A • Trend Following for Stocks
+
+A positive mathematical expectancy is the bare minimum
+needed to justify the use of or further research of an investing or
+trading system. In the case of this system, the weighted average of
+the trade results distribution yields an expectancy of approximately
+15.2 percent with an average holding period of 305 calendar days.
+Considering the significance of the sample size, depth of the sample
+period, realistic assumptions used, and the right skewed return
+distribution, we felt this was a very solid foundation to build from.
+Other settings for the ATR stop were tested, the range spanned
+from 8 to 12 with a step increment of 0.5. The middle setting of 10
+was chosen for illustration purposes. There were no material
+differences in results among the various settings. Higher ATR levels
+(looser stops) resulted in slightly higher winning percentages and
+slightly lower win/loss ratios. The inverse was true of lower ATR
+levels (tighter stops).
+The next distribution illustrates a collection of all trades, each
+normalized for its own risk. This concept typically requires some
+explanation. Every trade ultimately has a recorded percent return.4
+Every trade also has a recorded percent initial risk5 from the day of
+entry. The result is that we know what the percent return of each
+trade would have been and we know how much risk each trade
+would have subjected us to. The ratio between these two numbers
+is the focus of this section.
+The simplest way to interpret the following distribution is to
+focus on a couple of specific numbers on the X-axis. First the –100
+percent column contains trade results where the absolute value of
+the net loss approximately equaled the initial risk (lost the full
+amount that was expected). Likewise, the 100 percent column
+contains trades where the net gain approximately equaled the
+initial risk. Results worse than –100 percent represent trades where
+we would have lost more than what was budgeted for on the trade
+(negative outlier trades). This is usually the result of a large,
+overnight price decline. Results greater than 100 percent represent
+trades where we would have gained more than what was initially
+risked (positive outlier trades). Consider the following two
+scenarios:
+• We purchase XYZ stock at $15.50. The 10 ATR stop is $11.32.
+Initial risk in this case is 27 percent. Two years later, we sell
+XYZ at $30.75 for a gain of 98 percent. The ratio between gain
+
+315
+
+316
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+and initial risk is 3.63 or 363 percent. This data point would
+therefore go in the 350 percent column in the following
+distribution. The return would have been 363 percent the size
+of the initial risk.
+• We purchase ABC stock at $32.35. The 10 ATR stop is $26.53.
+Initial risk in this case is 18 percent. Three months later the
+company misses its earnings estimate and gaps down well
+below the stop. We sell ABC at $21.15 for a loss of –35 percent.
+The ratio between gain and initial risk is –1.94 or –194 percent.
+This data point would therefore go in the –200 percent column.
+The loss would have been almost double what was budgeted for.
+10000
+4512
+3300
+2648
+1642
+
+Ratio Between % Gained and % Initially Risked
+
+1716
+803
+640
+473
+347
+223 218
+152
+119
+
+91
+
+100
+
+100 101
+
+101
+74
+55 51
+47 50
+32
+25
+
+16
+
+29
+21
+
+22
+17 16 17
+10
+
+10
+
+10 11
+
+8
+
+3
+
+1
+
+1
+
+1
+
+1
+-400%
+-350%
+-300%
+-250%
+-200%
+-150%
+-100%
+-50%
+0%
+50%
+100%
+150%
+200%
+250%
+300%
+350%
+400%
+450%
+500%
+550%
+600%
+650%
+700%
+750%
+800%
+850%
+900%
+950%
+1000%
+1050%
+1100%
+1150%
+1200%
+1250%
+1300%
+1350%
+1400%
+1450%
+1500%
+More
+
+Number of Trades
+
+1184
+
+1000
+
+Ratio Gain to Initial Risk
+
+From the above distribution, one can get a feel for how realistic
+a 10 ATR stop is for real-world trading. Data points to the left of
+–100 percent reflect trades that couldn’t be controlled. There were
+less than 400 trades that caused worse than expected losses. This
+amounts to approximately 2 percent of all historical trades.
+In some ways, this second distribution is more important than
+the first. Normalizing each trade by its own risk reduces the
+possibility that highly volatile stocks will unjustifiably dominate the
+results.
+Having a low number of negative outlier trades can lead to a
+false sense of security. If all or most of the negative outlier trades
+come in one year, the results can be far worse than what was
+
+317
+
+Appendix A • Trend Following for Stocks
+
+expected. The following chart shows how negative outlier trades, as
+a percentage of total trades for the year, would have been
+distributed through time:
+Negative Outlier Trades as a Percent of Total Trades for the Year
+7%
+
+6%
+
+5.8%
+
+5%
+
+4%
+3.0%
+
+3%
+
+3.1%
+
+2.8%
+
+2.8%
+2.4%
+
+2.1%
+
+2.1%
+
+2%
+
+1.8%
+
+2.3%
+
+2.0%
+
+1.9%
+
+1.6%
+
+1.6%
+1.4%
+
+1.3%
+0.7%
+
+0.9%
+
+0.9%
+
+1994
+
+1%
+
+1993
+
+1.1%
+
+1.1%
+
+0.0%
+
+2004
+
+2003
+
+2002
+
+2001
+
+2000
+
+1999
+
+1998
+
+1997
+
+1996
+
+1995
+
+1992
+
+1991
+
+1990
+
+1989
+
+1988
+
+1987
+
+1986
+
+1985
+
+1984
+
+1983
+
+0%
+
+% Negative Outlier Trades
+
+The next chart illustrates how positive outlier trades would
+have been distributed throughout time. These are trades that
+resulted in a net gain that exceeded estimated initial risk. Studies
+such as these provide insight into how effective a system is in
+different market environments.
+Positive Outlier Trades as a Percent of Total Trades for the Year
+80%
+72%
+
+70%
+59%
+
+60%
+
+50%
+44%
+
+42%
+
+43%
+39%
+
+40%
+
+37%
+
+36%
+
+38%
+35%
+
+28%
+
+30%
+
+21%
+
+20%
+11%
+
+11%
+
+10%
+
+9%
+
+10%
+
+12%
+8%
+
+6%
+
+6%
+3%
+0%
+
+% Positive Outlier Trades
+
+2004
+
+2003
+
+2002
+
+2001
+
+2000
+
+1999
+
+1998
+
+1997
+
+1996
+
+1995
+
+1994
+
+1993
+
+1992
+
+1991
+
+1990
+
+1989
+
+1988
+
+1987
+
+1986
+
+1985
+
+1984
+
+1983
+
+0%
+
+318
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+Short Selling
+For the purposes of this project, we decided against testing
+short-selling6 strategies. Our reasons for this have to do with the
+following issues.
+Forced Buy-Ins
+A short seller has to borrow shares before they can short sell
+them. Likewise, the short seller must return (deliver) the shares
+should the brokerage firm call them back. From the historical data
+available, there is no way to know when or if a short seller would
+have been subject to a forced buy-in.7
+Borrowing Shares
+Short selling a security requires borrowing shares from an
+investor who holds them in a margin account. Not all stocks meet
+these criteria all the time; some never meet these criteria at all.
+There is no reliable method to determine what stocks from the
+investable universe would have been realistically shortable in the
+past.
+Limited Expectancy
+With respect to long-term trend following, short selling offers a
+severely limited mathematical expectancy. The price of a stock can
+decline only by a maximum of 100 percent. However, it can rise by
+an infinite amount. This is a significant disability to overcome.
+
+Tax Efficiency
+The average hold time for the average trade came in lower than
+the 12 months necessary to qualify for long-term capital gains
+treatment. However, due to the nature of trend following systems in
+general, this statistic is misleading. There was a significant
+correlation between trade length and profitability, showing that the
+vast majority of historical profits would have qualified for long-term
+capital gains treatment.
+
+319
+
+Appendix A • Trend Following for Stocks
+
+Average Trade Result Relative To Days in Trade
+
+450%
+
+Average Return
+
+350%
+
+Very few
+short term
+capital gains
+
+250%
+
+Majority of
+profits are
+long term
+capital gains
+
+150%
+
+50%
+
+-50%
+-
+
+360
+
+720
+
+1,080
+
+1,440
+
+1,800
+
+2,160
+
+2,520
+
+2,880
+
+3,240
+
+Days in Trade
+
+Diversification
+The following table shows how many positions would have
+resulted from entering stocks at all time highs and exiting with a 10
+ATR stop while honoring all data integrity and realistic universe
+issues. The resulting average number of positions per year exceeds
+that of most mutual funds.
+Year
+
+Average Number of Positions
+
+Year
+
+Average Number of Positions
+
+1983
+
+148
+
+1994
+
+808
+
+1984
+
+74
+
+1995
+
+1078
+
+1985
+
+215
+
+1996
+
+1455
+
+1986
+
+336
+
+1997
+
+1668
+
+1987
+
+319
+
+1998
+
+1305
+
+1988
+
+150
+
+1999
+
+983
+
+1989
+
+439
+
+2000
+
+970
+
+1990
+
+299
+
+2001
+
+722
+
+1991
+
+634
+
+2002
+
+607
+
+1992
+
+782
+
+2003
+
+708
+(continues)
+
+320
+
+Trend Following (Updated Edition): Learn to Make Millions in Up or Down Markets
+
+Year
+
+Average Number of Positions
+
+Year
+
+Average Number of Positions
+
+1993
+
+1046
+
+2004
+
+1197
+
+2005
+
+1779
+
+2006
+
+1767
+
+2007
+
+1854
+
+2008
+
+750
+
+Conclusions
+The evidence suggests that trend following can work well on
+stocks. Buying stocks at new all time highs and exiting them after
+they’ve fallen below a 10 ATR trailing stop would have yielded a
+significant return on average. The evidence also suggests that such
+trading would not have resulted in significant tax burdens relative
+to buy-and-hold investing. Test results show the potential for
+diversification exceeding that of the typical mutual fund. The trade
+results distribution shows significant right skew, indicating that
+large outlier trades would have been concentrated among winning
+trades rather than losing trades. At this stage, we are comfortable
+answering the question, “Does trend following work on stocks?”
+The evidence strongly suggests that it does.
+
+Further Research
+The research described so far in this appendix was only a small
+initial step in a complex process. Portfolio level money management
+is absolutely essential to the success of a trend following system.
+Controlling risk at the portfolio level encompasses initial position
+sizing, scaling into and out of individual positions, total open risk
+constraints, and so on.
+Having determined that a significant positive mathematical
+expectancy does exist for long-term trend following on stocks, we
+took the next step and implemented our proprietary portfolio and
+risk management process.
+
+321
+
+Appendix A • Trend Following for Stocks
+
+Portfolio Simulation 8
+Although a complete discussion is beyond the scope of this
+appendix, the following hypothetical returns reflect the application
+of the portfolio management system we use to manage client and
+proprietary capital.
+The mechanics behind our portfolio management system are
+not disclosed; however, the system strictly adheres to the following
+principles:
+• Losing trades are never added to.
+• Winning trades are reduced only to alleviate risk concentrations.
+• New entries are never skipped.
+• Stop losses are always honored.
+• Total open risk at the portfolio level is always limited to a
+specific number.
+Hypothetical Equity Curve
+Blackstar EquityTrend Following Systems VS. S&P 500 Total Return Index
+$10,000

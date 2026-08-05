@@ -1,0 +1,1965 @@
+{
+  "pipeline_version": "research_pipeline_v2.2",
+  "schema_version": "2.2",
+  "stage": "P4_METHOD_PILOT",
+  "input_corroborations": 1819,
+  "methods": [
+    {
+      "canonical_method_id": "candlestick_one_day_reversal",
+      "parent_behavior_id": "candlestick_reversal_pattern",
+      "method_class": "candlestick_single_line",
+      "method_name_in_source": "One-Day Reversal",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [],
+      "distinguishing_conditions": [
+        "often happens at the end of a long-term move",
+        "high of the day higher than high of the previous day",
+        "close of the day below close of the previous day",
+        "volume of the current day higher than volume of the previous day",
+        "one-day reversal on high volume",
+        "one-day reversal made with the closing transaction at the very top of the day's price range"
+      ],
+      "supporting_claim_refs": [
+        "book_0066::lead_book_0066_2_014",
+        "book_0097::lead_book_0097_1_062",
+        "book_0097::lead_book_0097_1_066",
+        "book_0101::lead_book_0101_2_034"
+      ],
+      "book_ids": [
+        "book_0066",
+        "book_0097",
+        "book_0101"
+      ],
+      "book_count": 3,
+      "corroboration_count": 4,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "chart_impulse",
+      "parent_behavior_id": "trend_exhaustion_reversal",
+      "method_class": "chart_pattern",
+      "method_name_in_source": "Impulse",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [],
+      "distinguishing_conditions": [
+        "reaching a new intermediate high in an uptrend",
+        "volume on the decline exceeds the last rally impulse"
+      ],
+      "supporting_claim_refs": [
+        "book_0074::lead_book_0074_3_005",
+        "book_0092::lead_book_0092_1_121"
+      ],
+      "book_ids": [
+        "book_0074",
+        "book_0092"
+      ],
+      "book_count": 2,
+      "corroboration_count": 2,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "harmonic_ab_cd",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "harmonic_pattern",
+      "method_name_in_source": "AB=CD",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "second correction size",
+          "value": "2.75 points",
+          "page": 158
+        },
+        {
+          "name": "third correction size",
+          "value": "2.0 points",
+          "page": 158
+        },
+        {
+          "name": "AB=CD correction size",
+          "value": "2.5 points",
+          "page": 158
+        }
+      ],
+      "distinguishing_conditions": [],
+      "supporting_claim_refs": [
+        "book_0107::lead_book_0107_1_127"
+      ],
+      "book_ids": [
+        "book_0107"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "harmonic_butterfly",
+      "parent_behavior_id": "trend_exhaustion_reversal",
+      "method_class": "harmonic_pattern",
+      "method_name_in_source": "Butterfly",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "completion extension",
+          "value": "1.272",
+          "page": 84
+        }
+      ],
+      "distinguishing_conditions": [],
+      "supporting_claim_refs": [
+        "book_0107::lead_book_0107_1_071"
+      ],
+      "book_ids": [
+        "book_0107"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_adx",
+      "parent_behavior_id": "momentum_divergence_reversal",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Average Directional Index (ADX)",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "ADX",
+          "value": "below 25 and ideally falling",
+          "page": 67
+        },
+        {
+          "name": "ADX",
+          "value": "greater than 20 and trending upward",
+          "page": 89
+        },
+        {
+          "name": "DMI calculation period",
+          "value": "14 days",
+          "page": 118
+        },
+        {
+          "name": "standard ADX average",
+          "value": "25",
+          "page": 118
+        },
+        {
+          "name": "ADX threshold",
+          "value": "14-day ADX below 20",
+          "page": 68
+        },
+        {
+          "name": "stochastic %K condition",
+          "value": "8-day %K above 70",
+          "page": 68
+        }
+      ],
+      "distinguishing_conditions": [
+        "ADX weakening and falling from higher levels",
+        "stochastic divergence",
+        "reversion back to the mean",
+        "reversals in oscillators such as RSI and stochastics",
+        "failure at key range resistances and bounces on key range supports",
+        "moving averages stacked in sequential order",
+        "ADX greater than 20 and trending upward",
+        "stay in trade as long as the perfect order holds",
+        "sell signal is generated when –DMI crosses above +DMI",
+        "bullish market conditions exist"
+      ],
+      "supporting_claim_refs": [
+        "book_0033::lead_book_0033_1_062",
+        "book_0035::lead_book_0035_1_050",
+        "book_0035::lead_book_0035_1_067",
+        "book_0095::lead_book_0095_1_084",
+        "book_0096::lead_book_0096_4_047"
+      ],
+      "book_ids": [
+        "book_0033",
+        "book_0035",
+        "book_0095",
+        "book_0096"
+      ],
+      "book_count": 4,
+      "corroboration_count": 5,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_atr",
+      "parent_behavior_id": "volatility_breakout",
+      "method_class": "indicator_method",
+      "method_name_in_source": "ATR",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "minimum sell-off",
+          "value": "15 points or 1 ATR",
+          "page": 140
+        },
+        {
+          "name": "stop",
+          "value": "3 to 6 points",
+          "page": 140
+        },
+        {
+          "name": "target",
+          "value": "60 points",
+          "page": 140
+        },
+        {
+          "name": "entry price",
+          "value": "$72.02",
+          "page": 108
+        },
+        {
+          "name": "position split",
+          "value": "1/3",
+          "page": 108
+        },
+        {
+          "name": "profit targets",
+          "value": "plus 1 ATR, plus 2 ATR",
+          "page": 108
+        },
+        {
+          "name": "ATR channel level of the false downside breakout",
+          "value": "−3 ATRs",
+          "page": 47
+        },
+        {
+          "name": "New High-New Low threshold",
+          "value": "-500",
+          "page": 105
+        },
+        {
+          "name": "trailing stop",
+          "value": "2 ATR",
+          "page": 105
+        },
+        {
+          "name": "lower ATR band width",
+          "value": "150 percent of the ATR (50 percent wider than the upper band)",
+          "page": 119
+        },
+        {
+          "name": "Starc band moving average length",
+          "value": "6 weeks",
+          "page": 1
+        },
+        {
+          "name": "Keltner ATR lookback periods",
+          "value": "10",
+          "page": 1
+        },
+        {
+          "name": "Keltner EMA lookback periods",
+          "value": "20",
+          "page": 1
+        },
+        {
+          "name": "Keltner ATR multiplier",
+          "value": "2",
+          "page": 1
+        },
+        {
+          "name": "ATR multiple",
+          "value": "1.5",
+          "page": 1
+        },
+        {
+          "name": "long entry breakout length",
+          "value": "89-day",
+          "page": 94
+        },
+        {
+          "name": "long exit breakdown length",
+          "value": "13-day",
+          "page": 94
+        },
+        {
+          "name": "short entry breakout length",
+          "value": "89-day",
+          "page": 94
+        },
+        {
+          "name": "short exit breakdown length",
+          "value": "13-day",
+          "page": 94
+        },
+        {
+          "name": "average true range period",
+          "value": "15-day",
+          "page": 94
+        },
+        {
+          "name": "lookback_days",
+          "value": "100",
+          "page": 148
+        },
+        {
+          "name": "atr_threshold",
+          "value": "2",
+          "page": 148
+        },
+        {
+          "name": "channel_ma_period_days",
+          "value": "350",
+          "page": 148
+        },
+        {
+          "name": "atr_multiple",
+          "value": "7",
+          "page": 148
+        },
+        {
+          "name": "strength_lookback_months",
+          "value": "3",
+          "page": 67
+        },
+        {
+          "name": "strength_metric",
+          "value": "price change normalized by N (ATR)",
+          "page": 67
+        }
+      ],
+      "distinguishing_conditions": [
+        "sell-off must be at least 15 points or 1 ATR on the daily chart; daily chart trend must be identified first",
+        "gap down on a wide range bar with no downside follow-through",
+        "bought as the stock recovered from a false downside breakout",
+        "took profits in thirds at plus 1 ATR and plus 2 ATR",
+        "false downside breakout reaches minus 3 ATRs and rejects that low",
+        "prices holding above minus 2 ATRs confirmed a bottom was being built",
+        "20-day New High-New Low Index drops below minus 500 (bearish imbalance) then rallies above that level",
+        "buy signals for the entire market, trailed with a 2-ATR close-only stop",
+        "enters when the market moves a specific amount from the open, based on the previous daily ranges of the market",
+        "we risk 2 percent of our equity on each trade",
+        "we trade the lesser quantity of contracts as calculated by 2 percent divided by new risk",
+        "long positions are held in the strongest markets and short positions in the weakest markets"
+      ],
+      "supporting_claim_refs": [
+        "book_0076::lead_book_0076_3_050",
+        "book_0084::lead_book_0084_1_084",
+        "book_0084::lead_book_0084_2_048",
+        "book_0084::lead_book_0084_2_097",
+        "book_0099::lead_book_0099_2_092",
+        "book_0103::lead_book_0103_3_022",
+        "book_0108::lead_book_0108_3_006",
+        "book_0116::lead_book_0116_3_056",
+        "book_0124::lead_book_0124_1_075",
+        "book_0124::lead_book_0124_1_080",
+        "book_0124::lead_book_0124_2_033"
+      ],
+      "book_ids": [
+        "book_0076",
+        "book_0084",
+        "book_0099",
+        "book_0103",
+        "book_0108",
+        "book_0116",
+        "book_0124"
+      ],
+      "book_count": 7,
+      "corroboration_count": 11,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_bollinger_bands",
+      "parent_behavior_id": "mean_reversion_band",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Bollinger Band",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "retracement level",
+          "value": "first standard deviation Bollinger Band",
+          "page": 52
+        },
+        {
+          "name": "Bollinger Band period",
+          "value": "20 bars",
+          "page": 45
+        },
+        {
+          "name": "Bollinger Band width",
+          "value": "2 std dev",
+          "page": 45
+        },
+        {
+          "name": "band violation threshold",
+          "value": "50% out of top band",
+          "page": 45
+        },
+        {
+          "name": "Bollinger Band settings",
+          "value": "5-8-13",
+          "page": 45
+        },
+        {
+          "name": "NR7",
+          "value": "narrowest range price bar of the last seven bars",
+          "page": 115
+        },
+        {
+          "name": "lower ATR band width",
+          "value": "150 percent of the ATR (50 percent wider than the upper band)",
+          "page": 119
+        },
+        {
+          "name": "RSI overbought threshold",
+          "value": 70,
+          "page": 46
+        },
+        {
+          "name": "RSI oversold threshold",
+          "value": 30,
+          "page": 46
+        },
+        {
+          "name": "moving_average_period",
+          "value": "50-day",
+          "page": 84
+        }
+      ],
+      "distinguishing_conditions": [
+        "price above the upper Bollinger band is a sell area",
+        "price below the lower Bollinger band is a buy area",
+        "price at or outside upper Bollinger Band",
+        "price at or beneath lower Bollinger Band",
+        "buy only if the U.S. stock market ended the day marginally lower, flat, or higher so sentiment does not hurt the trade",
+        "buy only if next day's U.S. economic data is expected to be positive or neutral for the trade",
+        "pass on the trade if stocks fell significantly or the next day's data is expected to be dollar negative",
+        "top or bottom band holds firm after the collision",
+        "volatility contracts while price moves sideways and then gaps higher on heavy volume into a high volatility state",
+        "If price touches the upper Bollinger Band and RSI is above 70 (possibly approaching 80), the trend may reverse and decline",
+        "If price touches the lower Bollinger Band and RSI is below 30 (possibly approaching 20), the trend may reverse upward",
+        "price collapsing off the upper Bollinger band",
+        "RSI overbought",
+        "price gaps down the next day",
+        "upper Bollinger band, 50-day moving average, and RSI all overbought",
+        "Bollinger Band sideways and flat"
+      ],
+      "supporting_claim_refs": [
+        "book_0017::lead_book_0017_2_069",
+        "book_0026::lead_book_0026_1_026",
+        "book_0069::lead_book_0069_1_046",
+        "book_0074::lead_book_0074_1_034",
+        "book_0074::lead_book_0074_1_035",
+        "book_0075::lead_book_0075_1_089",
+        "book_0076::lead_book_0076_2_069",
+        "book_0099::lead_book_0099_2_091",
+        "book_0099::lead_book_0099_2_092",
+        "book_0101::lead_book_0101_5_044",
+        "book_0106::lead_book_0106_2_011",
+        "book_0106::lead_book_0106_2_069",
+        "book_0109::lead_book_0109_1_071"
+      ],
+      "book_ids": [
+        "book_0017",
+        "book_0026",
+        "book_0069",
+        "book_0074",
+        "book_0075",
+        "book_0076",
+        "book_0099",
+        "book_0101",
+        "book_0106",
+        "book_0109"
+      ],
+      "book_count": 10,
+      "corroboration_count": 13,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_cci",
+      "parent_behavior_id": "momentum_divergence_reversal",
+      "method_class": "indicator_method",
+      "method_name_in_source": "CCI",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [],
+      "distinguishing_conditions": [
+        "CCI formed lower peaks even as price made higher highs",
+        "RSI is overbought",
+        "range-bound (nontrending) market",
+        "price makes a lower (last) low",
+        "two or more of MACD, MACD histogram, stochastics, RSI, OBV, and CCI register a higher low",
+        "a higher low corresponding with the 200 MA, trendline support, or prior price support is preferred",
+        "buy signal triggered when a bullish candle (doji, hammer, engulfing, morning star, etc.) is printed on the daily chart",
+        "setup follows a blow-off double bottom",
+        "a bullish candlestick (hammer) marks the second low on the day prior to entry"
+      ],
+      "supporting_claim_refs": [
+        "book_0038::lead_book_0038_6_219",
+        "book_0118::lead_book_0118_1_067",
+        "book_0118::lead_book_0118_1_084",
+        "book_0118::lead_book_0118_1_085"
+      ],
+      "book_ids": [
+        "book_0038",
+        "book_0118"
+      ],
+      "book_count": 2,
+      "corroboration_count": 4,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_commitments_of_traders",
+      "parent_behavior_id": "contrarian_extreme_reversal",
+      "method_class": "indicator_method",
+      "method_name_in_source": "COT",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "cot_index_extreme_levels",
+          "value": "100 and 0",
+          "page": 91
+        },
+        {
+          "name": "comm_ratio_index_extreme_levels",
+          "value": "0 or 100",
+          "page": 106
+        },
+        {
+          "name": "COT indicator extreme level",
+          "value": "0 or 100",
+          "page": 186
+        }
+      ],
+      "distinguishing_conditions": [
+        "when the USD is the base currency",
+        "when the COT Index, Spec Ratio Index, and Comm Ratio Index line up",
+        "exit and reassess when signs of a sentiment extreme appear: magazine covers, strong language in headlines or predictions within headlines, a wave count completing five waves in one direction, or extreme COT readings",
+        "if headline language is strong or takes a directional stand, watch for a reversal; if mundane, the trend is likely to continue",
+        "if COT indicators are near 0 or 100, trade the reversal; if not yet extreme, the trend will likely continue"
+      ],
+      "supporting_claim_refs": [
+        "book_0092::lead_book_0092_1_047",
+        "book_0092::lead_book_0092_1_048",
+        "book_0092::lead_book_0092_1_050",
+        "book_0092::lead_book_0092_1_130",
+        "book_0092::lead_book_0092_1_132"
+      ],
+      "book_ids": [
+        "book_0092"
+      ],
+      "book_count": 1,
+      "corroboration_count": 5,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_dma",
+      "parent_behavior_id": "trend_following_channel",
+      "method_class": "indicator_method",
+      "method_name_in_source": "DMA",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "DMA upper average",
+          "value": "six-period average of price highs displaced four places to the right",
+          "page": 115
+        },
+        {
+          "name": "DMA lower average",
+          "value": "six-period average of price lows displaced four places to the right",
+          "page": 115
+        }
+      ],
+      "distinguishing_conditions": [
+        "long trades only when the S&P 500 index is above (or inside from above) its monthly DMA channel",
+        "short trades only when the S&P 500 index is below (or inside from below) its monthly DMA channel"
+      ],
+      "supporting_claim_refs": [
+        "book_0080::lead_book_0080_1_090",
+        "book_0080::lead_book_0080_1_091",
+        "book_0104::lead_book_0104_2_004"
+      ],
+      "book_ids": [
+        "book_0080",
+        "book_0104"
+      ],
+      "book_count": 2,
+      "corroboration_count": 3,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_dmi",
+      "parent_behavior_id": "line_crossover_momentum",
+      "method_class": "indicator_method",
+      "method_name_in_source": "DMI",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "DMI calculation period",
+          "value": "14 days",
+          "page": 118
+        },
+        {
+          "name": "standard ADX average",
+          "value": "25",
+          "page": 118
+        },
+        {
+          "name": "dmi_extreme_level",
+          "value": 35,
+          "page": 50
+        }
+      ],
+      "distinguishing_conditions": [
+        "sell signal is generated when –DMI crosses above +DMI",
+        "exit when –DMI crosses over +DMI while long; the reverse holds for a short position",
+        "DMI extreme levels are different for every stock or commodity and should be analyzed first"
+      ],
+      "supporting_claim_refs": [
+        "book_0095::lead_book_0095_1_084",
+        "book_0095::lead_book_0095_1_085",
+        "book_0096::lead_book_0096_3_048"
+      ],
+      "book_ids": [
+        "book_0095",
+        "book_0096"
+      ],
+      "book_count": 2,
+      "corroboration_count": 3,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_donchian",
+      "parent_behavior_id": "volatility_breakout",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Donchian",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "lookback period",
+          "value": "4 weeks",
+          "page": 18
+        },
+        {
+          "name": "alternative lookback period",
+          "value": "20 trading days",
+          "page": 18
+        },
+        {
+          "name": "channel lookback",
+          "value": "20 days",
+          "page": 32
+        }
+      ],
+      "distinguishing_conditions": [
+        "signals based on weekly closing price",
+        "stop-and-reverse system with no stops or other exit criteria other than the opposite signal",
+        "works in broadly trending markets"
+      ],
+      "supporting_claim_refs": [
+        "book_0096::lead_book_0096_5_017",
+        "book_0101::lead_book_0101_3_019",
+        "book_0112::lead_book_0112_2_088"
+      ],
+      "book_ids": [
+        "book_0096",
+        "book_0101",
+        "book_0112"
+      ],
+      "book_count": 3,
+      "corroboration_count": 3,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_fibonacci_retracement",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Fibonacci Retracement",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "limit exit offset",
+          "value": "10 pips",
+          "page": 163
+        },
+        {
+          "name": "Fibonacci retracement level",
+          "value": "38.2 percent (1.2201)",
+          "page": 11
+        },
+        {
+          "name": "Fibonacci retracement level",
+          "value": "38.2 percent (1.2235)",
+          "page": 11
+        },
+        {
+          "name": "retracement level",
+          "value": "38.2 percent",
+          "page": 78
+        },
+        {
+          "name": "50 percent level",
+          "value": "0.7197",
+          "page": 89
+        },
+        {
+          "name": "Fibonacci retracement level",
+          "value": "38.2 percent",
+          "page": 89
+        },
+        {
+          "name": "Fibonacci retracement support level",
+          "value": "1.2830",
+          "page": 137
+        },
+        {
+          "name": "entry",
+          "value": "$110.00",
+          "page": 17
+        },
+        {
+          "name": "Fibonacci retracement",
+          "value": "pullback entry level",
+          "page": 81
+        },
+        {
+          "name": "Fibonacci retracement",
+          "value": "38.2%",
+          "page": 81
+        },
+        {
+          "name": "Fibonacci retracement levels",
+          "value": "38%, 50%, 62%",
+          "page": 63
+        },
+        {
+          "name": "pullback retracement level",
+          "value": "62% Fibonacci",
+          "page": 159
+        },
+        {
+          "name": "double bottom duration",
+          "value": "8 trading days",
+          "page": 159
+        },
+        {
+          "name": "Fibonacci retracement resistance",
+          "value": "62%",
+          "page": 159
+        },
+        {
+          "name": "Fibonacci retracement tag level",
+          "value": "78%",
+          "page": 159
+        },
+        {
+          "name": "retracement_level",
+          "value": "38%",
+          "page": 35
+        },
+        {
+          "name": "retracement_level",
+          "value": "50%",
+          "page": 35
+        },
+        {
+          "name": "retracement_level",
+          "value": "62%",
+          "page": 35
+        },
+        {
+          "name": "stop_level",
+          "value": "70% (exit if 78% retracement breached)",
+          "page": 35
+        },
+        {
+          "name": "Fibonacci retracement support zone",
+          "value": "50 to 61.8 percent",
+          "page": 150
+        },
+        {
+          "name": "wick length relative to body",
+          "value": "at least 2x the size of the real body",
+          "page": 1
+        },
+        {
+          "name": "Fibonacci retracement level",
+          "value": "50%",
+          "page": 1
+        },
+        {
+          "name": "harmonic resistance level",
+          "value": "16.2",
+          "page": 51
+        },
+        {
+          "name": "fibonacci resistance level",
+          "value": ".618",
+          "page": 51
+        },
+        {
+          "name": "Fibonacci consolidation levels",
+          "value": ".50, .618, .786",
+          "page": 158
+        }
+      ],
+      "distinguishing_conditions": [
+        "uptrend",
+        "entry at convergence of Fibonacci retracement level, upward trend line, or bullish candlestick reversal pattern",
+        "downtrend",
+        "entry at convergence of Fibonacci retracement level, downward trend line, or bearish candlestick reversal pattern",
+        "price stalls at the 38.2 percent Fibonacci retracement level",
+        "major trend is bullish",
+        "buyers found against the 38.2 percent retracement level",
+        "borderline level holds",
+        "correction retraces to 38.2 percent Fibonacci level",
+        "price pulls back to 50 percent Fibonacci level and bounces convincingly",
+        "extended trend without substantial correction within the trend",
+        "correction finds support at previous corrective low and falls short of the 38.2 percent correction",
+        "38.2 percent retracement held on a correction",
+        "price falls sharply and finds support at Fibonacci retracement",
+        "forms at an expected support zone such as a prior price support level, moving average, Fibonacci retracement level, or trendline",
+        "established uptrend",
+        "price retracing down from a recent swing high",
+        "buy if reversal candle at major Fibonacci retracement level or confluence with moving average/trendline/other support",
+        "double Fibonacci retracement confluence at $110.00",
+        "round number price $110.00",
+        "shooting star candle formed at level",
+        "confluence support zone (rising trendline, moving average, prior price support line, or Fibonacci retracement)",
+        "price pulls back toward prior support or Fibonacci retracement",
+        "sell short when trend reasserts itself",
+        "after a sharp uptrend thrust",
+        "a sharp thrust through the 62% retracement signals a possible first failure opportunity",
+        "if a pullback pierces the 62% level, the trend in that time frame ends and a 100% retracement should follow",
+        "the 62% retracement aligns with the 50-day EMA and support from the old high",
+        "trade the opposite way when the wick is longer than the body",
+        "long wick indicates strong selling pressure, long tail indicates intense buying power",
+        "entry may wait for the next candle to retrace to the 50% Fibonacci level of the Pin bar, or enter immediately after the Pin bar closes",
+        "pattern already completed on a larger time frame and the trade already moved in the anticipated direction",
+        "price consolidates above the .50, .618, and .786 Fibonacci levels",
+        "prices consolidate on top of Fibonacci levels in an uptrend or below in a downtrend",
+        "price consolidates above a Fibonacci resistance level in an uptrend or below in a downtrend"
+      ],
+      "supporting_claim_refs": [
+        "book_0001::lead_book_0001_1_086",
+        "book_0001::lead_book_0001_1_087",
+        "book_0007::lead_book_0007_2_017",
+        "book_0007::lead_book_0007_2_018",
+        "book_0007::lead_book_0007_2_093",
+        "book_0007::lead_book_0007_2_099",
+        "book_0007::lead_book_0007_2_104",
+        "book_0007::lead_book_0007_2_112",
+        "book_0007::lead_book_0007_2_143",
+        "book_0007::lead_book_0007_2_155",
+        "book_0026::lead_book_0026_1_047",
+        "book_0026::lead_book_0026_2_005",
+        "book_0026::lead_book_0026_2_016",
+        "book_0026::lead_book_0026_2_045",
+        "book_0048::lead_book_0048_1_058",
+        "book_0048::lead_book_0048_1_062",
+        "book_0074::lead_book_0074_2_001",
+        "book_0074::lead_book_0074_2_032",
+        "book_0074::lead_book_0074_2_056",
+        "book_0075::lead_book_0075_1_121",
+        "book_0075::lead_book_0075_1_122",
+        "book_0075::lead_book_0075_2_034",
+        "book_0104::lead_book_0104_1_050",
+        "book_0105::lead_book_0105_1_008",
+        "book_0107::lead_book_0107_1_038",
+        "book_0107::lead_book_0107_1_098",
+        "book_0107::lead_book_0107_1_128",
+        "book_0107::lead_book_0107_1_129",
+        "book_0107::lead_book_0107_1_132",
+        "book_0111::lead_book_0111_2_101"
+      ],
+      "book_ids": [
+        "book_0001",
+        "book_0007",
+        "book_0026",
+        "book_0048",
+        "book_0074",
+        "book_0075",
+        "book_0104",
+        "book_0105",
+        "book_0107",
+        "book_0111"
+      ],
+      "book_count": 10,
+      "corroboration_count": 30,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_force_index",
+      "parent_behavior_id": "momentum_divergence_reversal",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Force Index",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "Force Index smoothing for short-term trend",
+          "value": "2-day EMA",
+          "page": 124
+        },
+        {
+          "name": "Force Index smoothing for bullish/bearish zones",
+          "value": "13-day EMA",
+          "page": 124
+        },
+        {
+          "name": "Force Index EMA length",
+          "value": "2-day",
+          "page": 127
+        },
+        {
+          "name": "Force Index EMA length",
+          "value": "13-day",
+          "page": 127
+        },
+        {
+          "name": "EMA length (chart)",
+          "value": "26-day",
+          "page": 127
+        },
+        {
+          "name": "trend EMA period",
+          "value": "13-day",
+          "page": 77
+        },
+        {
+          "name": "Force Index EMA period",
+          "value": "2-day",
+          "page": 77
+        },
+        {
+          "name": "Force Index smoothing EMA period",
+          "value": "13-day",
+          "page": 77
+        }
+      ],
+      "distinguishing_conditions": [
+        "2-day EMA of Force Index dips below zero during market rallies: buying opportunities",
+        "2-day EMA of Force Index rallies above zero during market drops: shorting opportunities",
+        "change in prices not confirmed by volume, Force Index flattens and warns a trend is about to reverse",
+        "high volume generating only a small price move, Force Index flattens and warns of a nearing reversal",
+        "weekly trend up, confirmed by a rising EMA",
+        "buy pullbacks marked by the 2-day Force Index dropping below zero",
+        "place buy orders above the latest bar's high once the 2-day Force Index goes negative",
+        "cross above the zero line shows buying volume coming in, longer-term trader buys and holds",
+        "13-day Force Index declining below its zero line and staying there shows bears predominate",
+        "trend up identified by slope of 13-day EMA",
+        "Force Index declines below zero",
+        "bullish divergence between 13-day EMA of Force Index and price"
+      ],
+      "supporting_claim_refs": [
+        "book_0021::lead_book_0021_1_095",
+        "book_0021::lead_book_0021_1_096",
+        "book_0021::lead_book_0021_1_097",
+        "book_0083::lead_book_0083_1_075",
+        "book_0084::lead_book_0084_1_094",
+        "book_0084::lead_book_0084_1_095",
+        "book_0084::lead_book_0084_1_096",
+        "book_0111::lead_book_0111_2_067",
+        "book_0111::lead_book_0111_2_068"
+      ],
+      "book_ids": [
+        "book_0021",
+        "book_0083",
+        "book_0084",
+        "book_0111"
+      ],
+      "book_count": 4,
+      "corroboration_count": 9,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_gann",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Gann",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "Gann retracement level",
+          "value": "25 percent",
+          "page": 52
+        },
+        {
+          "name": "Gann retracement level",
+          "value": "12.5 percent",
+          "page": 52
+        },
+        {
+          "name": "Gann halfway retracement level",
+          "value": "50 percent",
+          "page": 52
+        }
+      ],
+      "distinguishing_conditions": [
+        "if the trend resumes it will exceed the previous high"
+      ],
+      "supporting_claim_refs": [
+        "book_0099::lead_book_0099_1_031"
+      ],
+      "book_ids": [
+        "book_0099"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_ichimoku",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Ichimoku",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "entry_max_distance_tenkan",
+          "value": "200 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_max_distance_kijun",
+          "value": "300 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_buffer",
+          "value": "40 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_buffer",
+          "value": "35 pips",
+          "page": 51
+        },
+        {
+          "name": "exit_buffer",
+          "value": "35 pips",
+          "page": 51
+        }
+      ],
+      "distinguishing_conditions": [
+        "price has to be above Kumo Cloud",
+        "Tenkan Sen is greater than Kijun Sen",
+        "Chikou is showing strong bullish momentum",
+        "all Ichimoku indicators have to be Bullish",
+        "all Ichimoku indicators have to be Bearish",
+        "a pullback equalizes the Ichimoku variables and sets up the trade"
+      ],
+      "supporting_claim_refs": [
+        "book_0115::lead_book_0115_1_040",
+        "book_0115::lead_book_0115_1_042",
+        "book_0115::lead_book_0115_1_063"
+      ],
+      "book_ids": [
+        "book_0115"
+      ],
+      "book_count": 1,
+      "corroboration_count": 3,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_ichimoku_kijun",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Kijun",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "entry_max_distance_tenkan",
+          "value": "200 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_max_distance_kijun",
+          "value": "300 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_buffer",
+          "value": "40 pips",
+          "page": 51
+        }
+      ],
+      "distinguishing_conditions": [
+        "during a trend, price crosses the Tenkan Sen in the opposite direction of the trend but never crosses over the Kijun Sen",
+        "price crosses over the Kijun Sen and then crosses back to continue the major trend",
+        "price has to be above Kumo Cloud",
+        "Tenkan Sen is greater than Kijun Sen",
+        "Chikou is showing strong bullish momentum",
+        "all Ichimoku indicators have to be Bullish",
+        "price equalizes with the Kijun Sen within an ongoing bullish trend"
+      ],
+      "supporting_claim_refs": [
+        "book_0031::lead_book_0031_2_059",
+        "book_0115::lead_book_0115_1_024",
+        "book_0115::lead_book_0115_1_030",
+        "book_0115::lead_book_0115_1_040",
+        "book_0115::lead_book_0115_1_082"
+      ],
+      "book_ids": [
+        "book_0031",
+        "book_0115"
+      ],
+      "book_count": 2,
+      "corroboration_count": 5,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_ichimoku_tenkan",
+      "parent_behavior_id": "trend_continuation_pullback",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Tenkan",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "entry_max_distance_tenkan",
+          "value": "200 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_max_distance_kijun",
+          "value": "300 pips",
+          "page": 51
+        },
+        {
+          "name": "entry_buffer",
+          "value": "40 pips",
+          "page": 51
+        }
+      ],
+      "distinguishing_conditions": [
+        "during a trend, price crosses the Tenkan Sen in the opposite direction of the trend but never crosses over the Kijun Sen",
+        "price is out of equilibrium with the Tenkan Sen",
+        "price has to be above Kumo Cloud",
+        "Tenkan Sen is greater than Kijun Sen",
+        "Chikou is showing strong bullish momentum",
+        "all Ichimoku indicators have to be Bullish"
+      ],
+      "supporting_claim_refs": [
+        "book_0031::lead_book_0031_2_059",
+        "book_0115::lead_book_0115_1_024",
+        "book_0115::lead_book_0115_1_027",
+        "book_0115::lead_book_0115_1_040"
+      ],
+      "book_ids": [
+        "book_0031",
+        "book_0115"
+      ],
+      "book_count": 2,
+      "corroboration_count": 4,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_jdk_rs_ratio",
+      "parent_behavior_id": "line_crossover_momentum",
+      "method_class": "indicator_method",
+      "method_name_in_source": "JdK RS-Ratio",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "RS-Ratio trigger-line period",
+          "value": 9,
+          "page": 75
+        }
+      ],
+      "distinguishing_conditions": [],
+      "supporting_claim_refs": [
+        "book_0080::lead_book_0080_1_061"
+      ],
+      "book_ids": [
+        "book_0080"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_keltner_channel",
+      "parent_behavior_id": "volatility_breakout",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Keltner",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "Starc band moving average length",
+          "value": "6 weeks",
+          "page": 1
+        },
+        {
+          "name": "Keltner ATR lookback periods",
+          "value": "10",
+          "page": 1
+        },
+        {
+          "name": "Keltner EMA lookback periods",
+          "value": "20",
+          "page": 1
+        },
+        {
+          "name": "Keltner ATR multiplier",
+          "value": "2",
+          "page": 1
+        }
+      ],
+      "distinguishing_conditions": [],
+      "supporting_claim_refs": [
+        "book_0076::lead_book_0076_2_069",
+        "book_0103::lead_book_0103_3_022"
+      ],
+      "book_ids": [
+        "book_0076",
+        "book_0103"
+      ],
+      "book_count": 2,
+      "corroboration_count": 2,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_macd",
+      "parent_behavior_id": "momentum_divergence_reversal",
+      "method_class": "indicator_method",
+      "method_name_in_source": "MACD",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "50-period EMA",
+          "value": "50",
+          "page": 107
+        },
+        {
+          "name": "RSI",
+          "value": "14",
+          "page": 107
+        },
+        {
+          "name": "MACD",
+          "value": "12, 26, 9",
+          "page": 107
+        },
+        {
+          "name": "MACD trigger-line period",
+          "value": 9,
+          "page": 61
+        },
+        {
+          "name": "MACD fast and slow periods",
+          "value": "12 and 26",
+          "page": 61
+        },
+        {
+          "name": "RS-MACD moving average periods",
+          "value": "10 and 30",
+          "page": 61
+        },
+        {
+          "name": "EMA lengths",
+          "value": "26- and 13-week",
+          "page": 89
+        },
+        {
+          "name": "MACD parameters",
+          "value": "12-26-9",
+          "page": 89
+        },
+        {
+          "name": "EMA lengths",
+          "value": "26- and 13-day",
+          "page": 98
+        },
+        {
+          "name": "EMA lengths",
+          "value": "13- and 26-day",
+          "page": 95
+        },
+        {
+          "name": "envelope",
+          "value": "4%",
+          "page": 95
+        },
+        {
+          "name": "MACD fast EMA period",
+          "value": "12-day",
+          "page": 118
+        },
+        {
+          "name": "MACD slow EMA period",
+          "value": "26-day",
+          "page": 118
+        },
+        {
+          "name": "MACD signal period",
+          "value": "nine-day moving average",
+          "page": 118
+        },
+        {
+          "name": "moving_average_exit_period",
+          "value": "nine-day",
+          "page": 74
+        },
+        {
+          "name": "MACD fast period",
+          "value": "12",
+          "page": 1
+        },
+        {
+          "name": "MACD slow period",
+          "value": "26",
+          "page": 1
+        },
+        {
+          "name": "MACD signal period",
+          "value": "9",
+          "page": 1
+        },
+        {
+          "name": "short_entry_stop",
+          "value": "one tick below the two bars low",
+          "page": 128
+        },
+        {
+          "name": "RSI period",
+          "value": "14",
+          "page": 212
+        },
+        {
+          "name": "RSI comparison window",
+          "value": "15 days",
+          "page": 212
+        },
+        {
+          "name": "50-day simple moving average period",
+          "value": "50 days",
+          "page": 212
+        },
+        {
+          "name": "200-day simple moving average period",
+          "value": "200 days",
+          "page": 212
+        },
+        {
+          "name": "MACD default values",
+          "value": "9, 12, and 26",
+          "page": 136
+        }
+      ],
+      "distinguishing_conditions": [
+        "pullbacks do not develop extreme countertrend momentum (e.g., make a significant new momentum low reading on the MACD)",
+        "divergence after at least the fifth leg in an uptrend",
+        "momentum divergence on the MACD",
+        "stock slightly overextended in a potential buying climax",
+        "MACD line has been trending below the signal line and then crosses up above the signal line",
+        "the signal would be especially strong if the bullish crossover occurred when the price started to rally off a strong support level",
+        "the histogram suddenly rises significantly higher than it has at any other time in the chart range",
+        "the stock had been trading at a resistance level for two to three weeks",
+        "buy signal when the faster-moving average crosses above the slower-moving average",
+        "bullish divergence: prices fall to a new low but MACD-Histogram traces a shallower bottom",
+        "bearish divergence: prices rise to a new high but MACD-Histogram traces a lower high",
+        "MACD-Histogram crossing its zero line signals the power of the dominant group has been broken",
+        "sell signal when the fast line crosses below the slow line",
+        "signal reversed when the fast line crossed above the slow line",
+        "second bottom slightly lower but the corresponding bottom of MACD-Histogram more shallow than the first",
+        "warns bears are weaker and an upside reversal is likely",
+        "prices go one way but MACD-Histogram moves the other way",
+        "shows the dominant crowd is losing its enthusiasm and the trend is weaker than it appears",
+        "the Dow rallied to a new bull market high but the rally of MACD-H was weaker (bearish divergence)",
+        "prices have reached the lower channel line",
+        "MACD-Histogram traced out a bullish divergence between bottoms A and D with a break at C",
+        "at the upper channel line a new record high of MACD-Histogram suggests that high is likely to be retested or exceeded",
+        "VRSN broke out and closed above resistance while MACD-Histogram could not rise above zero",
+        "the next day VRSN opened below the resistance line, showing the previous day was a false upside breakout",
+        "went short as soon as MACD-Histogram ticked down, creating a bearish divergence",
+        "positive divergence: price makes a new low while the MACD histogram fails to confirm that low, indicating sellers are weakening",
+        "used as profit-taking exit triggers when some clear trigger or catalyst is present",
+        "Look for a weekly MACD that is positive and above the zero line for long buy potential",
+        "Daily pullback identified by the retracement oscillator crossing below the zero line",
+        "Sell stop is cancelled if the higher time frame MACD reverses",
+        "price makes a lower (last) low",
+        "two or more of MACD, MACD histogram, stochastics, RSI, OBV, and CCI register a higher low",
+        "a higher low corresponding with the 200 MA, trendline support, or prior price support is preferred",
+        "buy signal triggered when a bullish candle (doji, hammer, engulfing, morning star, etc.) is printed on the daily chart",
+        "setup follows a blow-off double bottom",
+        "a bullish candlestick (hammer) marks the second low on the day prior to entry",
+        "OBV must rise above a trendline placed over the tops of the indicator",
+        "MACD must be making a series of higher lows while price is within the base",
+        "buy signal triggered at the first green or white candle (close higher than the open) after the candlestick on which the OBV trendline broke to the upside",
+        "50-day simple moving average is significantly below the 200-day simple moving average, signaling a strong downtrend",
+        "bearish candle formation (evening doji reversal) confirmed the sell short signal",
+        "prices continue to advance while the MACD lines form a double top or a series of declining peaks",
+        "negative divergence when weekly MACD lines fall while the Dow Industrials temporarily hit a new record high",
+        "daily MACD lines formed a higher bottom while the price of crude oil hit a new low"
+      ],
+      "supporting_claim_refs": [
+        "book_0006::lead_book_0006_2_071",
+        "book_0006::lead_book_0006_2_093",
+        "book_0006::lead_book_0006_3_028",
+        "book_0006::lead_book_0006_3_034",
+        "book_0006::lead_book_0006_4_011",
+        "book_0015::lead_book_0015_1_061",
+        "book_0021::lead_book_0021_1_091",
+        "book_0021::lead_book_0021_1_112",
+        "book_0021::lead_book_0021_2_107",
+        "book_0021::lead_book_0021_2_108",
+        "book_0021::lead_book_0021_2_109",
+        "book_0021::lead_book_0021_2_113",
+        "book_0029::lead_book_0029_2_000",
+        "book_0050::lead_book_0050_2_081",
+        "book_0072::lead_book_0072_1_080",
+        "book_0072::lead_book_0072_1_081",
+        "book_0072::lead_book_0072_1_082",
+        "book_0079::lead_book_0079_1_010",
+        "book_0080::lead_book_0080_1_058",
+        "book_0083::lead_book_0083_1_071",
+        "book_0084::lead_book_0084_1_075",
+        "book_0084::lead_book_0084_1_076",
+        "book_0084::lead_book_0084_1_077",
+        "book_0084::lead_book_0084_1_079",
+        "book_0084::lead_book_0084_2_049",
+        "book_0084::lead_book_0084_2_091",
+        "book_0095::lead_book_0095_1_087",
+        "book_0095::lead_book_0095_2_054",
+        "book_0099::lead_book_0099_2_068",
+        "book_0103::lead_book_0103_2_021",
+        "book_0111::lead_book_0111_1_100",
+        "book_0111::lead_book_0111_1_104",
+        "book_0111::lead_book_0111_1_105",
+        "book_0111::lead_book_0111_2_028",
+        "book_0112::lead_book_0112_2_040",
+        "book_0112::lead_book_0112_2_064",
+        "book_0117::lead_book_0117_1_105",
+        "book_0117::lead_book_0117_1_107",
+        "book_0117::lead_book_0117_1_108",
+        "book_0118::lead_book_0118_1_084",
+        "book_0118::lead_book_0118_1_085",
+        "book_0118::lead_book_0118_1_090",
+        "book_0118::lead_book_0118_1_097",
+        "book_0122::lead_book_0122_1_089",
+        "book_0122::lead_book_0122_1_092",
+        "book_0122::lead_book_0122_1_094",
+        "book_0122::lead_book_0122_1_095"
+      ],
+      "book_ids": [
+        "book_0006",
+        "book_0015",
+        "book_0021",
+        "book_0029",
+        "book_0050",
+        "book_0072",
+        "book_0079",
+        "book_0080",
+        "book_0083",
+        "book_0084",
+        "book_0095",
+        "book_0099",
+        "book_0103",
+        "book_0111",
+        "book_0112",
+        "book_0117",
+        "book_0118",
+        "book_0122"
+      ],
+      "book_count": 18,
+      "corroboration_count": 47,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_on_balance_volume",
+      "parent_behavior_id": "volume_confirmed_breakout",
+      "method_class": "indicator_method",
+      "method_name_in_source": "OBV",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "EMA length",
+          "value": "22-day",
+          "page": 118
+        },
+        {
+          "name": "max price multiple (new high closing price / 52-week low price)",
+          "value": "3.0",
+          "page": 187
+        },
+        {
+          "name": "max price multiple (52-week high / new low closing price)",
+          "value": "2.0",
+          "page": 212
+        }
+      ],
+      "distinguishing_conditions": [
+        "MCD trades near its recent lows while its OBV indicator trades near the highs",
+        "points to strength and suggests buying rather than selling",
+        "confirmation requires OBV to move in concert with price, making new highs or lows along with new price highs or lows; when it does not, OBV acts as a contrarian indicator signaling false breakouts",
+        "price makes a lower (last) low",
+        "two or more of MACD, MACD histogram, stochastics, RSI, OBV, and CCI register a higher low",
+        "a higher low corresponding with the 200 MA, trendline support, or prior price support is preferred",
+        "buy signal triggered when a bullish candle (doji, hammer, engulfing, morning star, etc.) is printed on the daily chart",
+        "breakout into blue sky territory requires no price resistance within the previous three months",
+        "breakout must be accompanied by the highest OBV reading seen in at least the past three months",
+        "OBV must rise above a trendline placed over the tops of the indicator",
+        "MACD must be making a series of higher lows while price is within the base",
+        "buy signal triggered at the first green or white candle (close higher than the open) after the candlestick on which the OBV trendline broke to the upside",
+        "breakdown into blue sea territory requires no price support within the previous three months",
+        "breakdown must be accompanied by the lowest OBV reading seen in at least the past three months"
+      ],
+      "supporting_claim_refs": [
+        "book_0084::lead_book_0084_1_090",
+        "book_0111::lead_book_0111_2_015",
+        "book_0118::lead_book_0118_1_027",
+        "book_0118::lead_book_0118_1_084",
+        "book_0118::lead_book_0118_1_087",
+        "book_0118::lead_book_0118_1_090",
+        "book_0118::lead_book_0118_1_099"
+      ],
+      "book_ids": [
+        "book_0084",
+        "book_0111",
+        "book_0118"
+      ],
+      "book_count": 3,
+      "corroboration_count": 7,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_pivot_point",
+      "parent_behavior_id": "support_resistance_bounce",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Pivot Point",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "moving average period",
+          "value": "three-period",
+          "page": 183
+        },
+        {
+          "name": "entry",
+          "value": "$4.45",
+          "page": 152
+        },
+        {
+          "name": "R1 (first resistance)",
+          "value": "pivot point value times two minus the low of the pivot day",
+          "page": 72
+        }
+      ],
+      "distinguishing_conditions": [
+        "up-trending market gaps higher above the pivot point",
+        "pivot point not broken by prices trading below that level",
+        "bearish candle patterns such as rickshaw doji formed",
+        "identified bearish condition",
+        "pivot point support coincides with moving average crossover",
+        "buy near crossover",
+        "continuation pivotal point forms after a correction and confirms the move",
+        "sideways action within a channel may warn that forward momentum is gone or imply an impending breakout in the opposite direction",
+        "a breakout a significant distance from the median price is needed to decide whether the old trend resumes or a reversal is at hand"
+      ],
+      "supporting_claim_refs": [
+        "book_0015::lead_book_0015_1_078",
+        "book_0015::lead_book_0015_1_085",
+        "book_0015::lead_book_0015_1_096",
+        "book_0015::lead_book_0015_2_006",
+        "book_0015::lead_book_0015_2_018",
+        "book_0015::lead_book_0015_2_047",
+        "book_0024::lead_book_0024_1_124",
+        "book_0066::lead_book_0066_2_013",
+        "book_0075::lead_book_0075_2_131",
+        "book_0099::lead_book_0099_1_036",
+        "book_0099::lead_book_0099_2_053",
+        "book_0099::lead_book_0099_2_054"
+      ],
+      "book_ids": [
+        "book_0015",
+        "book_0024",
+        "book_0066",
+        "book_0075",
+        "book_0099"
+      ],
+      "book_count": 5,
+      "corroboration_count": 12,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_rs_macd",
+      "parent_behavior_id": "line_crossover_momentum",
+      "method_class": "indicator_method",
+      "method_name_in_source": "RS-MACD",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "MACD trigger-line period",
+          "value": 9,
+          "page": 61
+        },
+        {
+          "name": "MACD fast and slow periods",
+          "value": "12 and 26",
+          "page": 61
+        },
+        {
+          "name": "RS-MACD moving average periods",
+          "value": "10 and 30",
+          "page": 61
+        }
+      ],
+      "distinguishing_conditions": [],
+      "supporting_claim_refs": [
+        "book_0080::lead_book_0080_1_058"
+      ],
+      "book_ids": [
+        "book_0080"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "indicator_stochastic",
+      "parent_behavior_id": "candlestick_reversal_pattern",
+      "method_class": "indicator_method",
+      "method_name_in_source": "Stochastic",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "drop",
+          "value": "100 pips",
+          "page": 65
+        },
+        {
+          "name": "stochastic",
+          "value": "80",
+          "page": 65
+        },
+        {
+          "name": "stochastic overbought level",
+          "value": "80",
+          "page": 89
+        },
+        {
+          "name": "stochastic oversold level",
+          "value": "20",
+          "page": 89
+        },
+        {
+          "name": "support",
+          "value": "1044.83",
+          "page": 137
+        },
+        {
+          "name": "ADX threshold",
+          "value": "14-day ADX below 20",
+          "page": 68
+        },
+        {
+          "name": "stochastic %K condition",
+          "value": "8-day %K above 70",
+          "page": 68
+        },
+        {
+          "name": "stochastic %D smoothing periods",
+          "value": "3",
+          "page": 1
+        },
+        {
+          "name": "stochastic buy threshold",
+          "value": "20 percent",
+          "page": 53
+        }
+      ],
+      "distinguishing_conditions": [
+        "fell at least 100 pips lower and then rose back upward",
+        "stochastic above 80 when the pair hit the level",
+        "stochastic readings reach oversold level",
+        "stochastics above overbought level of 80",
+        "fast stochastic crosses under slow stochastic",
+        "stochastic levels under 20",
+        "stochastic levels cross",
+        "stochastic reading over 80",
+        "three inside down candlestick pattern",
+        "stochastic overbought",
+        "hanging man bearish reversal signal",
+        "three outside down pattern",
+        "fast stochastic crosses under slow",
+        "doji",
+        "fast crosses under slow after doji",
+        "bullish stochastic divergence",
+        "hammer formation",
+        "steep decline ~800 points in 17 days",
+        "support at 1044.83 retested",
+        "bullish belt hold pattern",
+        "monthly R1 support",
+        "ADX weakening and falling from higher levels",
+        "stochastic divergence",
+        "overbought: Stochastic at or above its upper reference line",
+        "oversold: Stochastic at or below its lower reference line",
+        "bullish market conditions exist",
+        "a bullish divergence is when the price makes a new low but the stochastic shows a higher low",
+        "weekly stochastic lines positive (faster %K line above slower %D) means operate only from the buy side",
+        "weekly stochastic lines negative means ignore buy signals on the daily chart and sell short-term overbought readings"
+      ],
+      "supporting_claim_refs": [
+        "book_0003::lead_book_0003_2_043",
+        "book_0017::lead_book_0017_2_073",
+        "book_0017::lead_book_0017_2_074",
+        "book_0017::lead_book_0017_2_075",
+        "book_0017::lead_book_0017_2_079",
+        "book_0017::lead_book_0017_2_080",
+        "book_0017::lead_book_0017_2_081",
+        "book_0017::lead_book_0017_2_082",
+        "book_0021::lead_book_0021_1_099",
+        "book_0024::lead_book_0024_1_097",
+        "book_0024::lead_book_0024_1_107",
+        "book_0033::lead_book_0033_1_062",
+        "book_0083::lead_book_0083_1_072",
+        "book_0096::lead_book_0096_4_047",
+        "book_0099::lead_book_0099_2_080",
+        "book_0103::lead_book_0103_2_017",
+        "book_0111::lead_book_0111_2_006",
+        "book_0112::lead_book_0112_2_039",
+        "book_0122::lead_book_0122_1_080"
+      ],
+      "book_ids": [
+        "book_0003",
+        "book_0017",
+        "book_0021",
+        "book_0024",
+        "book_0033",
+        "book_0083",
+        "book_0096",
+        "book_0099",
+        "book_0103",
+        "book_0111",
+        "book_0112",
+        "book_0122"
+      ],
+      "book_count": 12,
+      "corroboration_count": 19,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "pa_breakout_pullback",
+      "parent_behavior_id": "breakout_retest",
+      "method_class": "other",
+      "method_name_in_source": "Breakout Pullback",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "pullback_correction",
+          "value": "50 percent",
+          "page": 121
+        },
+        {
+          "name": "pullback_retracement",
+          "value": "50 percent",
+          "page": 132
+        },
+        {
+          "name": "moving_average",
+          "value": "25ema",
+          "page": 132
+        }
+      ],
+      "distinguishing_conditions": [
+        "first correction after a fresh breakout",
+        "pullback tests the validity of the break",
+        "pullback is diagonal and orderly",
+        "first pullback to reach the 25ema since the breakout",
+        "pullback found support and formed a higher bottom"
+      ],
+      "supporting_claim_refs": [
+        "book_0119::lead_book_0119_1_092",
+        "book_0119::lead_book_0119_1_102"
+      ],
+      "book_ids": [
+        "book_0119"
+      ],
+      "book_count": 1,
+      "corroboration_count": 2,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "pa_busted",
+      "parent_behavior_id": "failed_breakout_reentry",
+      "method_class": "other",
+      "method_name_in_source": "Busted",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "busted pattern decline threshold",
+          "value": "less than 5%",
+          "page": 68
+        }
+      ],
+      "distinguishing_conditions": [
+        "price drops less than 5% and then begins rebounding"
+      ],
+      "supporting_claim_refs": [
+        "book_0038::lead_book_0038_6_143"
+      ],
+      "book_ids": [
+        "book_0038"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "pa_pinocchio",
+      "parent_behavior_id": "candlestick_reversal_pattern",
+      "method_class": "other",
+      "method_name_in_source": "Pinocchio",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [
+        {
+          "name": "wick length relative to body",
+          "value": "at least 2x the size of the real body",
+          "page": 1
+        },
+        {
+          "name": "Fibonacci retracement level",
+          "value": "50%",
+          "page": 1
+        },
+        {
+          "name": "expiry time",
+          "value": "60 seconds (prohibited)",
+          "page": 1
+        }
+      ],
+      "distinguishing_conditions": [
+        "trade the opposite way when the wick is longer than the body",
+        "long wick indicates strong selling pressure, long tail indicates intense buying power",
+        "entry may wait for the next candle to retrace to the 50% Fibonacci level of the Pin bar, or enter immediately after the Pin bar closes",
+        "bearish pinocchio signal must come after an uptrend",
+        "do not trade in a neutral market",
+        "do not use 60 second expiry time"
+      ],
+      "supporting_claim_refs": [
+        "book_0105::lead_book_0105_1_008",
+        "book_0105::lead_book_0105_1_009"
+      ],
+      "book_ids": [
+        "book_0105"
+      ],
+      "book_count": 1,
+      "corroboration_count": 2,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "strategy_kiss",
+      "parent_behavior_id": "breakout_retest",
+      "method_class": "other",
+      "method_name_in_source": "KISS",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [],
+      "distinguishing_conditions": [
+        "entry deferred until the market comes back to kiss the consolidation box",
+        "sell stop below the low of the last-kiss candlestick",
+        "buy stop above the high of the last-kiss candlestick",
+        "emergency stop loss at the midpoint of the consolidation box",
+        "profit target at the nearest zone"
+      ],
+      "supporting_claim_refs": [
+        "book_0079::lead_book_0079_1_062",
+        "book_0079::lead_book_0079_1_074"
+      ],
+      "book_ids": [
+        "book_0079"
+      ],
+      "book_count": 1,
+      "corroboration_count": 2,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    },
+    {
+      "canonical_method_id": "strategy_trade_the_break",
+      "parent_behavior_id": "failed_breakout_reentry",
+      "method_class": "other",
+      "method_name_in_source": "Trade the Break",
+      "name_provenance": "SOURCE_EXPLICIT",
+      "distinguishing_parameters": [],
+      "distinguishing_conditions": [
+        "rally carries the supertrend label"
+      ],
+      "supporting_claim_refs": [
+        "book_0119::lead_book_0119_2_042"
+      ],
+      "book_ids": [
+        "book_0119"
+      ],
+      "book_count": 1,
+      "corroboration_count": 1,
+      "evidence_label": "LITERATURE_SUPPORTED"
+    }
+  ],
+  "observed_name_mentions": [
+    {
+      "method_id": "chart_kagi",
+      "name_in_source": "Kagi",
+      "claim_ref": "book_0008::lead_book_0008_2_002",
+      "page": 1,
+      "behavior_id": "trend_continuation_pullback"
+    },
+    {
+      "method_id": "indicator_gann_fan_lines",
+      "name_in_source": "Fan Lines",
+      "claim_ref": "book_0019::lead_book_0019_2_073",
+      "page": 169,
+      "behavior_id": "support_resistance_bounce"
+    },
+    {
+      "method_id": "indicator_vwap",
+      "name_in_source": "VWAP",
+      "claim_ref": "book_0057::lead_book_0057_1_026",
+      "page": 1,
+      "behavior_id": "support_resistance_bounce"
+    },
+    {
+      "method_id": "indicator_vwap",
+      "name_in_source": "VWAP",
+      "claim_ref": "book_0057::lead_book_0057_1_030",
+      "page": 1,
+      "behavior_id": "support_resistance_bounce"
+    },
+    {
+      "method_id": "indicator_vwap",
+      "name_in_source": "VWAP",
+      "claim_ref": "book_0057::lead_book_0057_1_035",
+      "page": 1,
+      "behavior_id": "support_resistance_bounce"
+    },
+    {
+      "method_id": "indicator_vwap",
+      "name_in_source": "VWAP",
+      "claim_ref": "book_0057::lead_book_0057_1_040",
+      "page": 1,
+      "behavior_id": "support_resistance_bounce"
+    },
+    {
+      "method_id": "level_spring",
+      "name_in_source": "Spring",
+      "claim_ref": "book_0008::lead_book_0008_1_046",
+      "page": 65,
+      "behavior_id": "liquidity_sweep_reclaim"
+    },
+    {
+      "method_id": "level_spring",
+      "name_in_source": "Spring",
+      "claim_ref": "book_0065::lead_book_0065_2_040",
+      "page": 62,
+      "behavior_id": "liquidity_sweep_reclaim"
+    },
+    {
+      "method_id": "level_spring",
+      "name_in_source": "Spring",
+      "claim_ref": "book_0065::lead_book_0065_2_043",
+      "page": 62,
+      "behavior_id": "liquidity_sweep_reclaim"
+    },
+    {
+      "method_id": "strategy_dual_moving_average",
+      "name_in_source": "Dual Moving Average",
+      "claim_ref": "book_0062::lead_book_0062_2_039",
+      "page": 34,
+      "behavior_id": "line_crossover_momentum"
+    }
+  ],
+  "unassigned_count": 0,
+  "counts": {
+    "methods_total": 30,
+    "corroborations_assigned": 188,
+    "corroborations_left_generic": 1631,
+    "books_covered": 48
+  }
+}

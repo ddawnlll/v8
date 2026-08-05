@@ -1,0 +1,825 @@
+
+Bibliography
+Analysis of Stock Price in Japan. Tokyo: Nippon Technical Analysis
+Association, 1988.
+Hikita, Takehiro. Shin Shuu-Ashi Tohshi Hoh—Tohkel to Kakuritus
+de Toraeru (New weekely chart method—based on statistics and
+probability). IOM Research Publications, 1977.
+Hikita, Takehiro. Daizu no Sekai—Yunyu Daizu no Semekata Mohhekata (The world of Soybeans—attacking methods on imported
+soybeans and how to profit from it). IOM research Publications,
+1978.
+Kaburagi, Shigeru. Sakimono Keisen—Sohba Okuno Hosomichi
+(Futures charts—explained in a detailed way to be an expert in
+trading). Tohshi Nipoh Sha, 1991.
+Kisamori, Kichitaro. Kabushiki Keisen no Mikata Tsukaikata—
+Tohshika no Tameno Senryakuzu (How to read and apply charts
+on stocks—Strategies for the investor). Toyo Keizai Shinpoh Sha,
+1978.
+
+䊏 497 䊏
+
+䊏 498
+
+Bibliography
+
+Lane, George C. Using Stochastics, Cycles, and RSI. Des Plaines, IL,
+1986.
+North Systems. CandlePower 6 Pro Software. Salem, OR, 2005.
+Nison, Steve. Japanese Candlesticks Charting Techniques. New York:
+New York Institute of Finance, 1991.
+Obunsha’s Essential Japanese—English Dictionary. Japan, 1990.
+Ohyama, Kenji. Inn-Yoh Rohsoku-Ashi no Mikata—Jissenfu ni Yoru
+(How to read black and white/negative and positive candlefoot—
+In view of the actual record). Japan Chart Co., Ltd., 1986.
+Sakata Goho wa Fuurin Kazan—Sohba Keisen no Gokui (The Sakata
+Rules are wind, forest, fire, and mountain): 2nd updated 3rd ed.
+Nihon Shohken Shimbun Sha, 1991.
+Author’s note: The above reference was an excellent source for many
+of the candle patterns. The name Fuurin Kazan may be translated
+as Fu—the speed like wind, Rin—that quietness like forest, Ku—
+that battle like fire, and Zan—that immobile positions like mountains. This idiom originated from the Chinese battle strategy the
+Honma was said to have read.
+Shimizu, Seiki. The Japanese Chart of Charts. Tokyo: Tokyo Futures
+Trading Publishing Co., 1986.
+Wilder, J. Welles, Jr. New Concepts in Technical Trading Systems.
+Greensboro, NC: Trend research, 1978.
+
+499 䊏
+Bibliography
+
+Yasui, Taichi. Kabushiki Keisen no Shinzui—Nichi Bei Keisen Bunseki no Subete (A picture of the stock chart). Tokyo: Toyo Keizai
+Shinpoh Sha, 1981.
+Yatsu, Toshikazu. Tensai Shohbashi “Honma Shohkyu Hiden”—
+Kabu Hisshoh Jyutsu (A genius trader Sohkyu Honma into his
+secret—To be confident of victory on stock investments). Diamon
+Sha, 1990.
+Yoshimi, Toshihihko. Toshihiko Yoshimi no Chato Kyoshitsu (A
+classroom on charting). Japan Chart Co., Ltd., 1991.
+
+This page intentionally left blank
+
+ABOUT THE AUTHOR
+Since June, 2005, Gregory L. Morris has been a portfolio manager for
+PMFM, Inc., managing their PMFM Core Advantage Portfolio Trust
+mutual fund. From December, 2003 to May, 2005, Greg had served as
+a Trustee and advisor to the MurphyMorris ETF Fund. He also served
+as Treasurer and Chief Executive Officer of MurphyMorris Money
+Management Co, the Advisor to the Fund. Greg has written his
+second book with McGraw-Hill; The Complete Guide to Market
+Breadth Indicators, a book introducing market breadth for investors.
+Since October, 2002, Greg (also President of G. Morris Advisors, Inc.)
+has been working with StockCharts.com, the leading web-based
+charting service. He is providing consulting services in marketing,
+financial development, and business alliances to StockCharts.com.
+From 1996 to 2002, Greg was CEO of MurphyMorris.Inc., the leading provider of Web-based market analysis tools and commentary,
+with his partner, John Murphy, a former CNBC analyst. MurphyMorris, Inc. was acquired by StockCharts.com, Inc. in October, 2002.
+In 1999, Greg and three associates started MurphyMorris Money
+Management Co. to manage assets for individuals. This focus was
+later changed to address the firm becoming the Advisor to the MurphyMorris ETF Fund in January, 2004, and later merged into the
+PMFM family of funds. From 1994 to 1996, he was President of
+
+䊏 501 䊏
+
+䊏 502
+
+About the Author
+
+G. Morris Corporation, a Dallas, Texas headquartered business that
+provided products and services for investors and traders. His lead
+product was a series of over 450 Indicators & Trading Systems that
+supported most Windows-based technical analysis software packages.
+From 1993 to 1994, Greg was part of MarketArts, Inc. which
+launched the first Windows-based technical analysis software program, “Windows on Wall Street.” In 1992 he published a book on
+Japanese candlestick analysis called CandlePower, now available in
+soft cover as Candlestick Charting Explained (McGraw-Hill). Widely
+recognized as an expert on candlesticks and the developer of candlestick filtering, he has lectured around the world on the subject. In May,
+1989, he was awarded “outstanding alumni for 1989” from Pratt
+County College. From 1982 until 1993, he worked in association with
+N-Squared Computing, producing over 15 technical analysis and
+charting software titles, many of which are actively used today. Greg
+retired in 2004 after 26 years as a Captain with a major airline. He
+graduated from the University of Texas at Austin in 1971, has a BS
+degree in Aerospace Engineering, has authored numerous investmentrelated articles, and appeared many times on Financial News Network
+(FNN). From 1971 to 1977, he was a Navy F-4 fighter pilot aboard
+USS Independence who was selected for, and graduated from, the
+Navy Fighter Weapons School known as Top Gun. Married with two
+adult children (both engineers) and two stepchildren, Greg and his
+wife, Laura, live and office in the mountains of North Georgia.
+
+Index
+Abandoned Baby (sute go), 97, 103–106,
+104, 106, 107, 469, 472
+accuracy
+50 percent vs. 50/50), 436–438
+frequency (surprises) vs., 427–428
+activity of trading, 404
+Advance Block (saki zumari), 127,
+135–138, 135, 137, 138, 139, 144,
+146, 288, 295, 324
+After Bottom Gap Up (tanizoko agari),
+197–200, 197, 199, 200
+After Top Gap Down (yama nobotta ato
+ochiru), 200–203, 201, 203
+aka sanpei. See Three White Soldiers
+aka sansei shian boshi. See Deliberation
+ake no myojyo doji bike. See Morning
+Doji Star
+Analysis of Stock Price, xxii
+anaume, 287
+Arms, Richard, 490
+Arms’ Ease of Movement Indictator in
+filtering, 380, 382
+ate kubi. See On Neck
+bar charts, 3, 4–7, 5, 6, 394, 408–409,
+409, 483
+Bear Call Spreads, 436–437, 437
+bear markets, ix, xii, 21, 22, 395–396,
+395, 396
+Belt Hold (yorikiri), 32–35, 33, 34, 196,
+213, 297, 451, 451, 469
+best performing indicators, 353–359t,
+360t
+
+Black Closing Marubozu (yasunebike),
+14, 220, 226, 232
+Black Crow, 463t
+Black Marubozu, 13–14, 14, 84, 163,
+164, 186, 187
+Black Monday (1987), xi–xii
+Black Opening Marubozu (yoritsuki
+takane), 14
+body (jittai) of chart, 7, 452–453
+color of, 453
+size of, 452–453
+tail and, 438, 439
+Body Gaps, 471
+Boesky, Ivan, vii
+bohraku. See Low Price Gapping
+Play
+bohtoh. See High Price Gapping Play
+Bollinger Bands in filtering, 386, 387,
+388
+Bollinger, John, 386
+Bollinger’s Oscillator in filtering, 386,
+387, 388
+“brake lights” in candlestick analysis,
+411–416, 412, 413, 414, 415
+Breakaway (hanare sante no shinte
+zukae), 181–185, 182, 184, 185,
+245, 442, 464t, 469, 472
+breakdown and reduction of multiple line
+patterns, 455–457
+bull markets, ix, xi, 21, 22, 395–396,
+395, 396, 417–418, 418
+bullish trends and bullish reversals,
+417–418, 418
+
+䊏 503 䊏
+
+䊏 504
+
+Index
+
+CandlePower 6 Pro Software, 505–506
+CandlePower (candle volume) Charting,
+4, 489–494, 490, 491, 492, 493,
+494, 495
+condensed, 495–496, 496
+candlestick analysis, x, xii, xv–xviii,
+xix–xx, 1–9, 479–480
+accuracy of, 427–428, 436–438
+activity of trading and, 404
+anomalies in, 312–316
+best performing indicators, 353–359t,
+360t
+body and tail in, 438, 439
+body (jittai) of chart in, 7, 452–453
+“brake lights” in, 411–416, 412, 413,
+414, 415
+breakdown and reduction of multiple
+line patterns in, 455–457
+bullish trends and, bullish reversals in,
+417–418, 418
+clones vs. reciprocals in, 431, 432
+complex patterns in, 426–427, 427,
+477
+composition and, 444–446, 446
+confirmation in, 455, 457
+cycles of a trend and, 418, 419, 420
+data requirements for, 301–304
+derivative charting methods and, 489
+doji days in, 311, 312, 422–423
+equal values in, 312
+families or groupings of patterns in,
+447–478
+filtering in, 361–390
+frequency of patterns in, 312–316,
+313–315t, 427–428, 428t
+gaps and, 301–304, 303, 438–442,
+440, 441, 442, 463–464,
+470–472, 471, 472
+history and development of, 394
+human psychology and, 305–306, 305
+identification of patterns in, 308–316
+Inside Days in, 457–458, 458, 459
+location and, 410–420
+long days in, 308–309, 423–426, 425,
+426, 452–453
+
+long-term pattern analysis and,
+341–344, 342, 344–349t
+lower shadow (shitakage) of chart in, 7
+mean days between patterns in,
+313–315t
+mean years between patterns in,
+313–315t
+momentum of stock movement and,
+411–416, 412, 413, 414, 415,
+422, 423
+moving averages and smoothing in,
+306–308
+naming of, 421
+need for, 395–396
+news and effect on trading and,
+406–407
+normal days in, 452–453
+number of patterns per year in,
+313–315t
+occurrence of, 313–315t
+one-day family, 449–452
+open prices as prerequisite of, 302–304
+optionable stocks net profit/loss per
+trade, 347–349t
+optionable stocks percentage wins,
+344–346t
+optional stocks percentage rank,
+327–340t
+oscillating patterns and, 397
+performance of, 351–360, 352t,
+353–359t, 360t, 388, 480
+perspective and, 442–444, 444, 445
+philosophy of, 301–316
+pivot points and, 397, 422–423, 423,
+424, 425
+popularity of, 487
+prediction intervals and, 318–320, 319
+price and pattern manipulation and,
+397–399, 398
+qualifiers and, 413–416
+ranking analysis in, 322–325, 323, 325t
+reciprocals in, 431–436, 432, 433t,
+434t, 435–436t
+reliability of pattern recognition in,
+317–349
+
+505 䊏
+Index
+
+retracement in, 416–417, 417
+reversals and, 404–405, 416–417, 416
+rules for, 301–304
+Sakata’s Method and, 282
+selection of, 421–422, 484–485
+sentiment vs. volatility in, 438, 439
+shadows (kage) of chart in, 7–9, 7, 8, 9
+short days in, 310, 422–423, 452–453
+signals in, 411
+similarities among patterns and,
+453–455, 454
+software and computerized, 304–305,
+312–316
+spreads and, 436–437
+statistical ranking and, 321
+success/failure measures for, 317–321
+support and resistance shown in,
+403–404, 403, 404, 415
+tails in, 428–431, 429, 431, 438, 439
+technical indicators and, 407–408, 486
+trader use of, 391–478
+trend determination in, 306–308,
+318–321, 418, 419, 420
+umbrella days in, 310–311
+upper shadow (uwakage) of chart in, 7
+variations in patterns and, 402–406
+volatility and, 438, 439
+Western analysis vs., 392–409, 408,
+487–488
+Candlestick lines, 11–20
+Black Marubozu in, 13–14, 14, 84,
+163, 164, 186, 187
+Closing Marubozu in, 14
+Doji lines in 15–18, 17, 18
+Doji Star in, 16, 62–65, 62, 64, 65,
+145, 448, 451, 452, 453, 463t,
+464t, 469
+Dragonfly Doji (tonbo) in, 18, 18, 30,
+53, 101, 105, 453
+Four-Price Doji in, 18, 18, 18
+Gravestone Doji (tohba or hakaishi),
+17–18, 17, 53, 60, 101, 105, 295
+Hammer (kanazuchi), 18, 19, 27–31,
+28, 43, 47, 97, 101, 120, 153,
+161, 184, 191, 199, 232, 256,
+
+308, 311, 414–415, 422, 429,
+430, 431, 432, 445–446, 446,
+448, 453, 456, 461, 463, 469, 470
+Hammer line in, 18, 19
+Hanging Man (kubitsuri), 18, 19,
+27–31, 28, 172, 308, 311,
+414–415, 415, 429, 430, 431,
+432, 437, 449, 453
+long days in, 12–13, 12
+Long-Legged Doji (juji) in, 16, 17,
+429, 453, 457, 461, 470
+Major Yin, 13
+marubozu in, 13–15, 14
+Opening Marubozu in, 14, 15
+Paper Umbrella (karakasa) in, 19, 19
+Romanji method of Japanese writing
+and, 11–12
+short days in, 13, 13
+Spinning Tops (koma) in, 15, 15, 109,
+144, 288, 295, 437, 449, 453,
+493, 494
+Stars (hoshi) in, 19, 19
+Takuri line in, 18
+White Marubozu in, 14
+yin and yang lines in, 11–12
+Chapman, Tim, xiii, 1
+charting, ix
+choosing a candlestick pattern, 421–422,
+484–485
+clones vs. reciprocals, 431, 432
+Closed Day, 455
+Closing Marabozu, 14, 225, 450–452
+color of body, 453
+Commodity Channel Index (Lambert’s),
+386, 387
+complex patterns, 426–427, 427, 477
+composition, 444–446, 446
+computers. See software for candlestick
+analysis
+Concealing Baby Swallow (kotsubame
+tsutsumi), 186–189, 186, 188, 189,
+192, 463t
+Condensed CandlePower Charting,
+495–496, 496
+confirmation, 455, 457
+
+䊏 506
+
+Index
+
+continuation patterns, 211–280
+four-or-more-day patterns (continuations), 262–280
+Falling Three Method (shita banare
+sanpoo ohdatekomi), 48,
+262–268, 263, 265, 266, 267,
+268, 274, 290, 299, 406–407,
+407, 426, 466t, 469, 475, 475,
+477
+Mat Hold (uwa banare sante oshi),
+113, 265–275, 269, 270, 273,
+274, 275, 299, 466t, 469,
+472
+Rising Three Method (uwa banare
+sanpoo ohdatekomi), 48,
+262–268, 263, 265, 266, 267,
+268, 270, 272, 274, 290, 299,
+406–407, 407, 426, 466t
+Three-Line Strike (sante uchi karasu
+no bake sen), 275–280, 276,
+279, 280, 304, 466t, 469, 476,
+476, 477, 477
+index of, as covered in book, 212
+three-day patterns (continuations),
+236–262
+Downside Gap Three Methods (shita
+banare sanpoo ippon dachi),
+238, 254–258, 255, 257, 258,
+290
+Downside Tasuki Gap (shita banare
+tasuki), 236–240, 237, 239,
+240, 255, 466t
+Rest After Battle (tatakai no akatsuki), 258–261, 259, 261,
+262
+Side-by-Side Black Lines (narabi
+kuro), 246–253, 247, 251, 252,
+253, 467t
+Side-by-Side White Lines (narabi
+aka), 241–246, 242, 245, 246,
+252, 304, 467t, 469, 472
+Upside Gap Three Methods (uwa
+banare sanpoo hatsu oshi), 238,
+254–258, 255, 257, 258, 290,
+442, 472
+
+Upside Tasuki Gap (uwa banare
+tasuki), 236–240, 237, 239,
+240, 255, 442, 466t, 472
+two-day patterns (continuations),
+213–236
+In Neck Line (iri kubi), 56, 57, 222,
+223–229, 224, 227, 228, 229,
+230, 231, 233, 235–236, 304,
+451, 451, 469
+On Neck (ate kubi), 56, 57, 67,
+217–223, 218, 221, 222, 223,
+226, 228, 230, 231, 232, 233,
+235–236, 451, 451, 469
+Separating Lines (iki chigai sen), 69,
+84, 86, 213–217, 214, 215,
+216, 217, 312, 324, 325, 326,
+326t, 451, 451, 466t, 469,
+475
+Thrusting (sashikomi), 56, 57, 222,
+229–236, 230, 233, 234, 235,
+454–455, 454, 469, 474
+Continue Current Trend, 320–321
+cousins, in family pattern groups,
+470
+cycles of a trend, 418, 419, 420
+Dark Cloud Cover (kabuse), 39, 55,
+58–61, 59, 60, 61, 67, 69, 93, 148,
+150, 234, 235, 238, 303, 454–455,
+454, 464t
+data requirements for candlestick analysis, 301–304
+deai sen. See Meeting Lines
+decimalization, 172
+Deliberation (aka sansei shian boshi),
+127, 137, 142–146, 143, 146, 147,
+326, 463t, 469
+derivative charting methods, 489
+Descending Hawk (kakouchu no taka),
+73–76, 73, 75, 76, 463t
+Descent Block (saki zumari kudari),
+138–141, 139, 141, 138, 469,
+477
+Directional Index (Wilder’s) in, 384,
+384
+
+507 䊏
+Index
+
+Dividing Lines (furiwake), 213
+doji bike. See Doji Star
+doji days, 15–18, 17, 18, 47, 108, 109,
+311, 312, 422–423, 430, 437
+Doji Star in, 16, 62–65, 62, 64, 65,
+145, 448, 451, 452, 453, 463t,
+464t, 469
+Dragonfly Doji (tonbo) in, 18, 18, 30,
+53, 101, 105, 453
+Four-Price Doji in, 18, 18
+Gravestone Doji (tohba or hakaishi)
+in, 17–18, 17, 53, 60, 101, 105,
+295
+Hammer line in, 18, 19
+Hanging Man in, 18, 19, 27–31, 28,
+172, 308, 311, 414–415, 415,
+429, 430, 431, 432, 437, 449,
+453
+Long-Legged Doji (juji) in, 16, 17,
+429, 453, 457, 461, 470
+Takuri line in, 18
+Doji Star (doji bike), 16, 62–65, 62, 64,
+65, 145, 448, 451, 452, 453, 463t,
+464t, 469
+Evening Doji Star, 64, 97, 99–103,
+100, 102, 103, 104, 105
+Morning Doji Star, 64, 97, 99–103,
+100, 102, 103, 104, 105, 145
+Double Gap, 472
+double momentum oscillator in filtering,
+382, 383
+Dow Jones Industrial Average, vii
+Dow Theory, viii
+Dow, Charles, viii
+Down Gap Three Methods, 469
+Down Gap Two Rabbits, 469
+Down Tasuki Gap, 469
+Downside Gap Side-by-Side White Lines,
+243
+Downside Gap Three Methods (shita
+banare sanpoo ippon dachi), 238,
+254–258, 255, 257, 258, 290
+Downside Gap Two Rabbits (shita
+banare nihiki usagi), 114–118, 115,
+117, 118, 153
+
+Downside Tasuki Gap (shita banare
+tasuki), 236–240, 237, 239, 240,
+255, 466t
+Dragonfly Doji (tonbo), 18, 18, 30, 53,
+101, 105, 453
+Dumpling Top, 297
+Ease of Movement Indictator in filtering,
+380, 382
+Eight New Price Lines (shinne hatte),
+292–293, 293
+emotions and investing, 2–3
+Engulfing (tsutsumi), 35–40, 36, 38, 39,
+61, 89, 93, 160, 174, 310, 316, 413,
+413, 414, 455–458, 458, 459, 464t,
+469, 470, 474, 475–476, 476, 477,
+491
+equal values and candle patterns, 312
+Evening Doji Star (yoi no myojyo doji
+bike minami jyuju sei), 64, 97,
+99–103, 100, 102, 103, 104, 105
+Evening Star (sankawa yoi no myojyo),
+94–98, 95, 97, 98, 104, 113, 143,
+145, 150, 442, 464t, 472
+exponential smoothing, 307–308
+extended families, 468–470, 469
+Falling Three Method (shita banare sanpoo ohdatekomi), 48, 262–268,
+263, 265, 266, 267, 268, 274, 290,
+299, 406–407, 407, 426, 466t, 469,
+475, 475, 477
+families of patterns, 447–448, 460
+approach and follow-through,
+459–468, 460
+complex patterns in, 477
+cousins in, 470
+extended families in, 468–470,
+469
+Fast Break family, 459, 466–468, 467,
+467t
+Head Fake family, 459, 465–466, 465,
+466t
+Inside and Outside Day families in,
+473–477
+
+䊏 508
+
+Index
+
+families of patterns, continued
+Over and Back family, 459, 463, 464,
+464t
+Steal, 459–461, 460, 461
+Turnover family, 459, 461–463, 462,
+463t
+Tweezers in, 472–478, 473, 474
+Fast Break family, 459, 466–468, 467,
+467t
+filtering, 4, 361–390, 479
+Arms’ Ease of Movement Indictator in,
+380, 382
+Bollinger Bands in, 386, 387, 388
+Bollinger’s Oscillator in, 386, 387, 388
+Commodity Channel Index (Lambert’s), 386, 387
+concept of, 362–364
+Directional Index (Wilder’s) in, 384,
+384
+double momentum oscillator in, 382,
+383
+examples of, 369–375, 371–373t
+indicators used in, 361, 362t,
+365–390, 486
+individual stock analysis using,
+375–388, 376, 377, 378
+linear trend indicator in, 382, 383,
+384
+money flow index in, 379–380, 381
+Moving Average Convergence Divergence Indicator (MACD; Appel’s)
+in, 385, 386
+net percentage gain in, 388, 389t
+parameters for, 368–369
+performance of, 388
+presignal areas for, 363–364, 363, 364
+price detrend oscillator in, 385, 386
+rate of change indicator in, 380, 381
+Relative Strength Index (RSI) (Wells
+Wilder) in, 365–367, 366, 378,
+379
+statistics on, 374t, 374
+Stochastics (%K and %D) (Lane) in,
+365, 367, 368, 377–379, 377, 378
+Four Point Doji, 451
+
+four-or-more-day patterns (continuations), 262–280, 426–427
+Falling Three Method (shita banare
+sanpoo ohdatekomi), 48,
+262–268, 263, 265, 266, 267,
+268, 274, 290, 299, 406–407,
+407, 426, 466t, 469, 475, 475,
+477
+Mat Hold (uwa banare sante oshi),
+113, 265–275, 269, 270, 273,
+274, 275, 299, 466t, 469, 472
+Rising Three Method (uwa banare sanpoo ohdatekomi), 48, 262–268,
+263, 265, 266, 267, 268, 270,
+272, 274, 290, 299, 406–407,
+407, 426, 466t
+Three-Line Strike (sante uchi karasu no
+bake sen), 275–280, 276, 279,
+280, 304, 466t, 469, 476, 476,
+477, 477
+four-or-more-day patterns (reversals),
+181–210, 426–427
+After Bottom Gap Up (tanizoko agari),
+197–200, 197, 199, 200
+After Top Gap Down (yama nobotta
+ato ochiru), 200–203, 201, 203
+Breakaway (hanare sante no shinte
+zukae), 181–185, 182, 184, 185,
+245, 442, 464t, 469, 472
+Concealing Baby Swallow (kotsubame
+tsutsumi), 186–189, 186, 188,
+189, 192, 463t
+Ladder Bottom (hashigo gaeshi), 188,
+189–192, 190, 191, 192, 193,
+463t, 469, 477
+Ladder Top (hashigo teppen),
+193–196, 193, 195, 196, 463t
+Three Gap Downs (mittsu no aki
+kudari), 204–207, 204, 206,
+207
+Three Gap Ups (mittsu no aki agari),
+207–210, 208, 210
+Four-Price Doji, 18
+frequency of patterns, 312–316,
+313–315t, 427–428, 428t
+
+509 䊏
+Index
+
+Fry Pan Bottom (nabezoko), 297–298,
+298
+fundamental analysis, ix, 482
+futures trading, xvi, 484
+Gap Theory, 440
+Gap Three Methods, 466t
+Gap Two Crows, 464t
+Gap Two Rabbits, 464t
+gaps and candlestick analysis, 301–304,
+303, 438–442, 440, 441, 442,
+470–472, 471, 472
+groups of, 463–464
+Granville, Joseph, viii, 490
+Gravestone Doji (tohba or hakaishi) in,
+17–18, 17, 53, 60, 101, 105, 295
+Great Depression, viii, xii
+Griffeth, Bill, x
+growth and popularity of candlestick
+analysis, 487
+gyaku shusen. See Meeting Lines
+gyakusashi niten zoko. See Stick Sandwich
+hakaishi. See Gravestone Doji
+Hammer (kanazuchi), 18, 19, 27–31, 28,
+43, 47, 97, 101, 120, 153, 161, 184,
+191, 199, 232, 256, 308, 311,
+414–415, 422, 429, 430, 431, 432,
+445–446, 446, 448, 453, 456, 461,
+463, 469, 470
+reciprocals in, 431–436, 432, 433t,
+434t, 435–436t
+hanare sante no shinte zukae. See Breakaway
+Hanging Man (kubitsuri), 18, 19, 27–31,
+28, 172, 308, 311, 414–415, 415,
+429, 430, 431, 432, 437, 449, 453
+reciprocals in, 431–436, 432, 433t,
+434t, 435–436t
+Harami, 40–45, 41, 43, 44, 45, 71, 72,
+75, 89, 93, 119, 156, 157, 310, 413,
+457–458, 458, 459, 463t, 468, 469t,
+470, 474–475, 474, 475
+harami age. See Three Inside Up
+
+Harami Cross (harami yose sen), 45–49,
+46, 48, 49, 157, 294, 469, 475
+harami sage. See Three Inside Down
+harami yose sen. See Harami Cross
+hashigo gaeshi. See Ladder Bottom
+hashigo teppen. See Ladder Top
+Head Fake family, 427, 459, 465–466,
+465, 466t
+High Price Gapping Play (bohtoh),
+299–300, 299, 300
+High Waves (tukane nochial), 295,
+295
+high-low bar charts, 3, 4–7, 5, 6, 394,
+408–409, 409, 483
+Hikita, Takehira, xvi
+interview with, 481–488
+Homing Pigeon (shita banare kobato
+gaeshi), 70–72, 71, 72, 73, 78, 326,
+463t, 469, 475
+Honma Constitution, 282. See also
+Sakata’s Method
+Honma, Munehisa (Sohkyu), 281–282
+hoshi. See Stars
+human psychology and candlestick analysis, 305–306
+Hurst, J.M., 306
+Identical Three Crows, 132–134, 132,
+133, 134, 288, 474
+identification of candle patterns,
+308–316
+iki chigai sen. See Separating Lines
+In Neck Line (iri kubi), 56, 57, 222,
+223–229, 224, 227, 228, 229, 230,
+231, 233, 235–236, 304, 451, 451,
+469
+indicators used in filtering, 361, 362t,
+365–390, 407–408, 486
+indices, xvi
+inn. See yin and yang lines
+Inside Days, 455–458, 458, 459, 473–477
+intraday charting, xix
+Inverted Hammer (tohba), 49–53, 50, 53,
+54, 173, 303, 311, 429, 430, 431,
+432, 434, 469, 470
+
+䊏 510
+
+Index
+
+investing vs. trading, 396–397
+iri kubi. See In Neck Line
+Japan and candlestick charting, xxii, 483
+Japanese Candlestick Charting
+Technique, xxii
+Japanese Chart of Charts, The, xxii
+Japanese financial trading history,
+281–282
+jittai. See body (jittai) of chart
+juji. See Long-Legged Doji
+kabuse. See Dark Cloud Cover
+kage. See shadows (kage) of chart
+kakouchu no taka. See Descending Hawk
+kanazuchi. See Hammer
+karakasa. See Paper Umbrella
+karasu. See One Black Crow
+kenuki. See Matching Low; Tweezers
+keri ashi. See Kicking
+Kicking (keri ashi), 83–87, 84, 85, 86,
+87, 303, 324, 325, 451, 451
+kirikomi. See Piercing Line
+kita no mitsuboshi. See Three Stars in the
+North
+koma. See Spinning Tops
+kotsubame tsutsumi. See Concealing
+Baby Swallow
+ku, 287
+kubitsuri. See Hanging Man
+kyoku no santen boshi. See Three Stars
+in the South
+Ladder Bottom (hashigo gaeshi), 188,
+189–192, 190, 191, 192, 193, 463t,
+469, 477
+Ladder Top (hashigo teppen), 193–196,
+193, 195, 196, 463t
+Lambert’s Commodity Channel Index,
+386, 387
+Lane, George, 365
+linear trend indicator in filtering, 382,
+383, 384
+lines. See Candlestick lines
+Litchfield, Ryan, xx, 391, 393, 479, 507
+
+Litton, 493–494, 494
+location and candlestick analysis,
+410–420
+Long Closed Day, 455
+long days, 12–13, 12, 308–309,
+423–426, 425, 426, 452, 457
+Long-Legged Doji (juji) in, 16, 17, 429,
+453, 457, 461, 470
+long-term pattern analysis, 341–344,
+342, 344–349t
+Low Price Gapping Play (bohraku),
+299–300, 299, 300
+lower shadow (shitakage) of chart, 7
+mado, 287
+Major Yang, 14
+Major Yin, 13
+Marabozu, 13–15, 14, 167, 168, 228,
+449–452, 449, 450, 452
+Black Closing Marubozu, 14, 220,
+226, 232
+Marubozu of Yang. See White Marubozu
+Marubozu of Yin. See Black Marubozu
+Mat Hold (uwa banare sante oshi), 113,
+265–275, 269, 270, 273, 274, 275,
+299, 466t, 469, 472
+Matching High (niten tenjo), 79–82, 80,
+82, 326, 463t
+Matching Low (niten zoko/kenuki),
+76–79, 77, 78, 79, 294, 304, 326,
+463t, 469, 474, 475
+mean days between patterns, 313–315t
+mean years between patterns, 313–315t
+Meeting Lines (deai sen), 66–70, 67, 69,
+70, 213, 216, 218, 220, 222, 226,
+228, 303, 312, 326, 326t, 464t, 469
+Merger Mania, vii
+mittsu no aki agari. See Three Gap Ups
+mittsu no aki kudari. See Three Gap
+Downs
+momentum of stock movement,
+411–416, 412, 413, 414, 415, 422,
+423
+money flow index in filtering, 379–380,
+381

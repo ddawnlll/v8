@@ -1,0 +1,480 @@
+
+other scenario. We'll assume Biomet can grow faster starting in year six, and
+
+
+BIOMET 173
+
+Assumptions for Biomet
+
+Current stack price: $29.00
+Shares outstanding {mil} 258.0
+Next year's free cash flaw {mil} $180.00
+Perpetuity growth rate (g) 3.0%
+Discount rate (R) 9.0%
+
+10-Year Valuation Model for Biomet
+
+Step 1: Forecast free cash flow (FCF) for the next 10 years.
+Assumes 15% growth rate for years 1-5; 10% growth rate for years 6-10. Free cash flows in $ millions.
+
+Yr Yr? Yr3. Yr Yr Yr 6 YW? Yr 8 Yr Yr 10
+Free cash flow > 180.0 207.0 238.1 273.8 3148 362.0 398.3 438.1 460.0 483.0
+
+Step 2: Discount these free cash flaws to reflect the present value.
+Discount Factor = (1 + A)" (where R = discount rate and N = year being discounted)
+
+Yrd Yr2 Yr3 Yr4 WS = Yr 6 YW?  YrB Yr9 Yr 10
+
+Free cash flow 180.0 207.0 238.1 2738 3148 362.0 398.3 438.1 460.0 483.0
+= Discount factor 1.09 1.08 1.09 1.09" 1,09 1.09 1.09" 1.09" 1.09" 1.09"
+= Discounted FCF + 165.1 174.2 1838 193.9 2046 2159 217.9 2199 211.8 204.0
+
+Step 3: Calculate the perpetuity value and discount it to the present.
+Perpetuity Value = Yr 10 FOF X {1 +9) (RA — g) (where g = perpetuity growth rate and A = discount rate)
+
+Perpetuity value > (483.0 x 1.03) + (.09—.03) = $8,291.16
+Discounted > $8,291.16 + 1.0910 = $3,602.27
+
+Step 4: Calculate total equity value.
+Add the discounted perpetuity value (above) to the sum of the 10 discounted cash flows (see step 2)
+
+Total equity value > $1,991.13 + $3,502.27 = $5,493.40
+
+Step 5: Calculate per share value.
+Divide total equity value by shares outstanding
+
+Persharevalue + $5,493.40 + 258 = $21.29
+
+Figure 11.14 Valuing Biomet using discounted cash flaw. Source: Morningstar, Inc.
+
+
+174
+
+PUTTING IT ALL TOGETHER
+
+Biomet Yr 6 W7 ¥r8 WO Yr10) Yr 140 Yr 12, Yr 138 Yr 14 Yr 15
+
+Freecash flow($mil} 362 406 454 509 570 638 702 772 849 934
+Growth rate (%} 12 12 12 12 12 10 10 10 10 10
+Present value($mil) 216 222 228 234 241 247-250-252, 2A 2?
+
+Figure 11.15 Biamet’s free cash flow estimates from year 6 anward.
+
+we'll push our forecast horizon out to 15 years, at which time we assume that
+Biomet’s growth rate declines to a steady state of 3 percent (see Figure 11.15).
+
+This set of assumptions results in an estimated intrinsic value per share of
+about $30, which is right around where the shares are trading as of this writing.
+Assuming this is a reasonable scenario, I'd start getting interested in the stock
+at around $24, which would be a 20 percent discount to my estimated intrinsic
+value. I’m not looking for much of a margin of safety because Biomet's strong
+balance sheet, excellent industry prospects, and solid profitability all make it
+less likely that something will go horribly wrong with my assumptions.
+
+However, this process has taught us something very important: For us to
+believe that Biomet’s shares are worth $30, rather than $20, we have to believe
+that the firm can hold off its competition and grow at an above-average rate
+for a long period of time. Companies that can increase free cash flow at an av-
+erage annual rate of 12 percent for a lengthy period of time—which is what
+our second scenario assumes—are few and far between, after all.
+
+This is the key benefit of a discounted cash flow approach to valuation.
+Having thought through a couple of possible scenarios for Biomet, we now
+know exactly what assumptions are incorporated in our estimated intrinsic
+value of $30 per share. Armed with that knowledge, we can make a more in-
+formed investment decision—we wouldn't know as much about the assump-
+tions needed to believe that the stock is reasonably valued if we'd just looked at
+the current P/E relative to the historical average P/E. For example, we should
+probably pay very close attention to Biomet’s competitive position relative to
+other firms in the industry, as well as to any signs that the long-term demand
+for orthopedic devices might be slowing, because those two factors are what
+
+moved our value estimate from $20 to $30.
+
+
+CONCLUSION
+
+Conclusion
+There you have it—real-world application of the tools of fundamental analy-
+sis, in a simplified form, is exactly what we do at Morningstar every day.
+This is some pretty painstaking stuff, and it’s not reasonable to do a super-
+thorough analysis of every single company you investigate. In the real world,
+time is short, so even the pros use shortcuts to help separate the companies that
+really are worth a great deal of analytical time from the ones that are unlikely
+to be good investments. In the next chapter, I show you exactly how to sepa-
+rate the wheat from the chaff when you're trying to narrow down a list of in-
+
+vestment candidates to the ones that are really worth a thorough investigation.
+
+175
+
+
+
+
+I2
+
+The 10-Minute Test
+
+WITH LITERALLY THOUSANDS of companies available to invest in, one of
+the toughest challenges for any investor is figuring out which ones are worth
+detailed examination and which ones aren't. Now that you know the tools of
+in-depth fundamental analysis, | want to give you some tips on narrowing
+down the field. Apply the following tests to any stock that you think might
+be a worthwhile investment, and you should be able to decide in 10 minutes
+whether it warrants much of your time.
+
+In fact, I'll bet that asking the questions in this chapter will allow you to
+eliminate at least half—if not more—of the stocks you run across from con-
+sideration. Throwing out less-promising stocks early in the process will
+leave you more time to investigate and value the ones that really might be
+great investments.
+
+Two caveats before we start: First, these rules of thumb are starting
+points, no more and no less. There are exceptions to every guideline I list in
+this chapter. These shortcuts aren't designed to cover every possible situa-
+tion—but if you apply them, they will eliminate poor investments more
+
+often than not.
+
+
+THE IO-MINUTE TEST
+
+Second, although the following list of questions might seem daunting
+at first, you can answer all of them using a compilation of 10 years’ worth of
+
+financial data that’s available on Morningstar.com.
+
+Does the Firm Pass a Minimum Quality Hurdle?
+
+Avoiding the junk that litters the investment landscape is the first step in our
+10-minute test. Companies with miniscule market capitalizations and firms
+that trade on the bulletin boards (or pink sheets) are the first ones to rule out.
+Also avoid foreign firms that don’t file regular financials with the SEC—even
+some large foreign firms issue only brief press releases each quarter and pub-
+lish full financials only once per year.
+
+Finally, recent initial public offerings (IPOs) are usually not worth your
+time. Companies sell shares to the public only when they think they're getting
+a high price, so [POs are rarely bargains. Moreover, most IPOs are young, un-
+seasoned firms with short track records. The big exception to this rule is firms
+that are spun off from larger parent companies. Spinoffs are often solid com-
+panies with long operating histories that the larger firm no longer wants to
+
+manage, and the stocks can often be attractively valued as well.
+
+Has the Company Ever Made an Operating Profit?
+
+This test sounds simple, but it'll keep you out of a lot of trouble. Very often,
+companies that are still in the money-losing stage sound the most exciting —
+they're investigating a novel treatment for some rare disease, or they're about
+to offer some exciting new product or service, the likes of which the world
+has never seen.
+
+Unfortunately, stocks like this will also blow up your portfolio more often
+than not. They usually have only a single product or service in the pipeline,
+and the eventual viability of the product or service will make or break the
+company. (Going by the statistics of how many start-ups fail, break is a more
+likely occurrence than make.) Unless you're looking for an alternative to lot-
+
+tery tickets, take a pass on any firm that hasn't yet proven it can carn a buck.
+
+Does the Company Generate Consistent Cash Flow from Operations?
+Fast-growing firms can sometimes report profits before they generate cash—but
+
+every company has to generate cash eventually. Companies with negative cash
+
+
+HOW CLEAN IS THE BALANCE SHEET?
+
+flow from operations will eventually have to seek additional financing by selling
+bonds or issuing more shares. The former will likely increase the riskiness of the
+
+firm, whereas the latter will dilute your ownership stake as a shareholder.
+
+Are Returns on Equity Consistently above 10 Percent,
+with Reasonable Leverage?
+Use 10 percent as a minimum hurdle. Ifa nonfinancial firm can’t post ROEs
+over 10 percent for four years out of every five, for example, odds are good
+that it’s not worth your time. For financial firms, raise your ROE bar to 12
+percent. Don’t forget to check leverage to make sure that it’s in line with in-
+dustry norms. A 15 percent ROE generated with minimal leverage is a much
+higher quality result than one generated using lots of leverage.
+
+One exception is that cyclical firms—companies whose results vary
+strongly with the general economy—may have wildly varying results from
+year to year. However, the best will make money and post decent ROEs even
+
+when times are tough.
+
+Is Earnings Growth Consistent or Erratic?
+
+The best companies post reasonably consistent growth rates. If a firm’s earn-
+ings bounce all over the place, it’s either in an extremely volatile industry or
+it’s regularly getting shellacked by competitors. The former is not necessarily
+bad as long as the long-term industry outlook is good and the shares are
+cheap, but the latter is potentially a big problem.
+
+How Clean Is the Balance Sheet?
+
+Firms with a lot of debt require extra care because their capital structures are
+often very complicated. If a nonbank firm has a financial leverage ratio
+above about 4—or a debt-to-equity ratio over 1.0—ask yourself the follow-
+
+ing questions:
+
+> Is the firm in a stable business? Firms in industries such as consumer prod-
+ucts and food can withstand more leverage than economically sensitive
+firms with volatile earnings.
+
+> Has debt been going down or up as a percentage of total assets? One thing you
+
+don't want to see in a highly leveraged firm is even more debt.
+
+179
+
+
+180 THE IO-MINUTE TEST
+
+> Do you understand the debt? Ifa quick glance at the 10-K reveals question-
+able debt and quasi-debt instruments that you can't wrap your head
+around, move on. There are many fine companies out there with simpler
+
+capital structures.
+
+Does the Firm Generate Free Cash Flow?
+
+As we know, free cash flow is the holy grail—cash generated after capital ex-
+penditures that truly increases the value of the firm. Generally, you should
+prefer firms that create free cash to ones that don't and firms that create more
+free cash to ones that create less. As I discussed in Chapter 6, divide free cash
+flow by sales, and use 5 percent asa rough benchmark.
+
+The one exception—and it’s a big one—is that it’s fine for a firm to be
+generating negative free cash flow #f it’s investing that cash wisely in projects
+that are likely to pay off well in the future. For example, neither Starbucks
+nor Home Depot generated meaningful free cash flow until 2001—yet there’s
+no question that they had been creating economic value (and shareholder
+wealth) for many years before 2001. That’s because they were plowing every
+cent they earned right back into their businesses because their management
+teams believed that they still had many high-return investment opportunities
+for the cash they were generating.
+
+So don’t automatically write off firms with negative free cash flow if they
+have solid ROEs and pass the other tests in this chapter. Just be sure you be-
+lieve that the firm really is reinvesting the cash wisely.
+
+How Much “Other” Is There?
+
+Companies can hide many bad decisions in supposedly one-time charges, so
+if firm is already questionable on some other front and has a history of tak-
+ing big charges, take a pass. Not only are charge-happy firms more difficult to
+analyze because of their complicated financials, but numerous charges hint at
+
+a management team that may be trying to burnish poor results.
+
+Has the Number of Shares Outstanding Increased
+Markedly over the Past Several Years?
+If so, the firm is either issuing new shares to buy other companies or granting
+
+numerous options to employees and executives. The former is a red flag because
+
+
+BEYOND THE 10 MINUTES
+
+most acquisitions fail, and the latter is not something you want to see because
+it means that your ownership stake in the firm is slowly shrinking as employees
+exercise their options. If shares outstanding are consistently increasing by more
+than around 2 percent per year—assuming no big acquisitions—think long
+and hard before investing in the firm.
+
+However, if the number of shares is actually shrinking, the company po-
+tentially gets a big gold star. Firms that buy back many shares are returning
+excess cash to shareholders, which is generally a responsible thing to do. Just
+be careful that the company isn’t going hog-wild with share repurchases even
+as their shares keep zooming ever upward because stock repurchases are a
+good use of capital only when the company’s shares are trading for a reason-
+able valuation. You don’t want to see a company buying its own overvalued
+
+stock any more than you want to invest in overvalued shares yourself.
+
+Beyond the 10 Minutes
+If the firm does pass these tests and it looks as though it’s worth a detailed
+examination, here’s how to proceed. This research process will take much
+
+longer than 10 minutes, but it’s worth the effort for an idea that passes the
+
+initial hurdles:
+
+> Look over the 10-year summary balance sheet, income statement, and
+statement of cash flows on Morningstar.com or another Web site. Look
+for trends, and make notes of anything that raises an eyebrow and de-
+serves further investigation. This process should give you an initial road
+map for investigation.
+
+> Read the most recent 10-K filing front to back. Pay special attention to
+the sections that describe the company and its industry, the sections
+about risks and competition, any mention of legal issues (sometimes la-
+beled “commitments and contingencies”), and the “management's discus-
+sion and analysis” section. The latter is where the firm explains, in
+reasonably plain English, why the most recent year’s financial results were
+what they were. Write down anything you don't understand or which you
+want to investigate further. You don’t necessarily need to read every page
+of the 10-k—sometimes firms include scores of pages of mind-numbing
+
+detail about leases, for example—but you should at least skim every page
+
+181
+
+
+182
+
+THE IO-MINUTE TEST
+
+to make sure there’s nothing buried in the text that you do need to know.
+Be on the watch for any sections that describe loans, guarantees, contrac-
+tual obligations, or the like. If the firm is going to owe someone a large
+amount of money in a few years, you need to know about it.
+
+Read the two most recent proxies (form DEF-14A, in the SEC’s jargon).
+Look for reasonable compensation that varies with corporate financial
+performance and a reasonable options-granting policy. Check to make
+sure the board of directors isn’t packed with individuals with close ties to
+management.
+
+Read the most recent annual report, as well as the past two years’ reports, if
+possible, to get a feel for the company. Is the letter to shareholders candid
+and frank, or does management gloss over problems with jargon? Ignoring
+problems won't make them go away, after all. In addition, does the firm
+present industry information to give you context for evaluating it? Does
+the report look as though the firm spent way too much money on it?
+Look at the two most recent quarterly earnings reports and 10-Q filings to
+see whether anything has changed recently. Look for signs that business is
+getting better—or worse—as well as for anything major that has changed
+since the last 10-x. If it’s still available, listen to the most recent quarterly
+conference call. (Companies often archive these on their Web sites for
+some time after the quarter is over.) Does management get defensive or
+evasive when analysts ask tough questions, or does it respond with
+straightforward answers?
+
+Start valuing the stock. Look at the stock’s valuation multiples relative to
+the market, the industry, and the stock’s historical valuation ranges. If the
+firm has low reinvestment needs, low risk, high returns on capital, or a
+high growth rate, be prepared to accept a higher price-to-earnings ratio.
+Do at least a very rough discounted cash flow valuation—think about
+how much free cash flow the firm is likely to generate next year, how fast
+it will grow, and add the discounted value of these cash flows to a perpe-
+tuity value. If your estimated intrinsic value is very different from the
+market price, check your assumptions. Are you being too pessimistic or
+too optimistic? If you recheck your assumptions, the stock still looks un-
+dervalued, and your multiple-based analysis didn’t scream “sell,” you
+
+might just have uncovered a great investment.
+
+
+13
+
+A Guided Tour of the Market
+
+IN THE PREVIOUS chapter, I discussed easy ways to home in on companies
+that will be worth your while. In the next section of the book, we'll focus on
+tools for understanding different areas of the market.
+
+As I said in Chapter 3, it’s easier for companies to make money in some
+industries than in others. Moreover, some industries lend themselves to the
+creation of economic moats more so than others, and these are the industries
+where you'll want to spend most of your time. Although we don’t advocate a
+top-down investment strategy—in which you select areas of the market that
+you think will perform better than others and invest heavily in your top-rated
+industries—the economics of some industries are superior to others. Hence,
+you should spend more time learning about attractive industries than unat-
+tractive ones.
+
+Every industry has its own unique dynamics and set of jargon—and some
+industries (such as financial services) even have financial statements that look
+very different from the ones we discussed in Chapter 5. I asked Morningstar's
+staff of 30 equity analysts to put together a series of chapters covering just
+about every corner of the market. These chapters should help you wade
+
+through the different economics of each industry and understand how
+
+
+184 A GUIDED TOUR OF THE MARKET
+
+companies in each industry can create economic moats—which strategies
+
+work and how you can identify companies pursuing those strategies.
+
+Where to Look
+Because you're likely as pressed for time as every other person with a day job
+who also manages his or her own investments, let me try to briefly steer you
+
+toward some areas of the market that are definitely worth more of your time.
+
+Banks and Financial Services
+
+In general, most financial services firms are in excellent economic positions as
+middlemen for money. Banks in particular enjoy the enviable position of
+paying very little to hold on to depositors’ money (when you consider the
+low rates on checking accounts and all of the fee income that such accounts
+generate), which they then turn around and lend out at substantially higher
+interest rates than they're paying to depositors. In fact, some banks do so well
+at levying fees and cross-selling financial products that depositors literally pay
+the bank to hold their money. Moreover, because banks have somewhat con-
+fusing financial statements, many investors simply pass them by or look at
+only the biggest and most well-known firms. By learning what makes banks
+and other financial services firms tick, you'll be ahead of most investors, and
+because this ground is less picked-over, you'll likely find some solid invest-
+ment ideas as well. (Financial services is such a broad area of the market that
+we've devoted two chapters to the area—one on banks and one on asset man-
+
+agers and insurance companies.)
+
+Business Services
+
+This is the ultimate catchall area of the market, so many investors pass it by.
+That's a shame because it contains some very attractive firms. In addition to
+larger industries such as data processing—which is boring but profitable as
+can be—business services is packed with niche firms that dominate their cor-
+ner of the economy. Cintas, for example, has generated an enormous amount
+of shareholder wealth by convincing companies that it can design and main-
+tain employee uniforms better than employers can. Who would have thought
+that renting uniforms could be so profitable? Moody's (which rates bonds)
+
+and Equifax (which maintains a credit-scoring database) are other examples
+
+
+CONCLUSION
+
+of highly profitable but not-so-well-known firms with strong positions in
+niche industries.
+
+Business services firms often fly beneath the market’s radar because they
+don’t fit neatly into the industry-oriented coverage lists of Wall Street analysts—
+there are usually only a few public companies in any one niche, so the industry
+specialists on Wall Street tend to pass them by. Asa result, the stocks don’t get
+hyped as much to institutional investors. (The other reason companies in this
+area tend to get less attention from Wall Street is that they're usually self
+funding, which means they don’t need many investment banking services.) Less
+attention from Wall Street can mean more opportunity for smart investors, so
+
+don't ignore business services.
+
+Health Care
+
+This area of the market is similar to financial services because the long-term
+demand outlook is very strong, and companies tend to be highly profitable.
+As our Biomet analysis in Chapter 11 showed, even smaller firms can build
+lasting economic moats. Tread carefully with biotechs and some managed-
+care firms, though. Most biotechs are single-product lottery tickets, and most
+managed-care firms are affected by truly arcane regulatory issues—seemingly
+minor changes in Medicare rules can have a huge impact.
+
+Media
+
+Finally, spend some time getting to know the media business. Many media
+companies build moats around themselves through natural oligopolies or
+monopolies—there’s little demand for more than a couple of daily news-
+papers in any one city, for example. Moreover, media is one of the few indus-
+tries in which product vendors are paid before they have to deliver anything,
+because a large amount of media is sold via subscription. Can you imagine
+getting paid on January 1 for the coming year’s work? That’s how many media

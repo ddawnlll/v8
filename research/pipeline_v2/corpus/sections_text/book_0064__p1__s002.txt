@@ -1,0 +1,909 @@
+
+—
+
+Chapter 2 • A Historical Background
+
+up his own communications system. At prearranged times he
+placed men on rooftops to send signals by flags. These men
+stretched the distance from Osaka to Sakata. After dominating
+the Osaka markets, Homma went to trade in the regional
+exchange at Edo (now called Tokyo). He used his insights to
+amass a huge fortune. It was said he had 100 consecutive winning trades.
+His prestige was such that there was the following folk song
+from Edo: "When it is sunny in Sakata (Homma's town), it is
+cloudy in Dojima (the Dojima Rice Exchange in Osaka ) and
+rainy at Kuramae ( the Kuramae exchange in Edo)." In other
+words, when there is a good rice crop in Sakata, rice prices fall
+on the Dojima Rice Exchange and collapse in Edo. This song
+reflects Homma's sway over the rice market. In later years
+Homma became a financial consultant to the government and
+was given the honored title of samurai. He died in 1803.
+Homma's books about the markets ( Sakata Senho and Soba Sani
+No Den) were said to have been written in the 1700s. His trading principles, as applied to the rice markets, evolved into the
+candlestick methodology currently used in Japan.
+Notes
+1 . His first name is sometimes translated as Sokyu and his last name is
+sometimes translated as Honma . This gives you an idea of the difficulty
+of translating Japanese into English. The same Japanese symbols for
+Homma's first name, depending on the translator, can be Sokyu or
+Munehisa. His last name, again depending on the translator, can be either
+Homma or Honma. I chose the English translation of Homma's name as
+used by the Nippon Technical Analysts Association.
+2. Hirschmeier, Johannes, and Tsunehiko, Yui . The Development of Japanese
+Business 1600- 1973 (Cambridge, MA: Harvard University Press, 1975, p.
+31 ).
+/ .>
+
+19
+
+PART 1
+
+THE BASICS
+•4
+
+I#
+
+w
+V%
+
+V
+
+Euen a thousand -mile journey begins with the first step .
+
+CHAPTER 3
+
+CONSTRUCTING THE
+CANDLESTICK LINES
+1
+
+J: -
+
+>:
+
+< T # Tit ft &
+Without oars you cannot cross in a boat .
+
+c
+
+andle charts use the same open, high, low, and close data
+as the traditional Western bar chart. With this in mind, a
+bar chart is shown in Exhibit 3.1. Exhibit 3.2 is a candle chart of
+the same price information as the bar chart.
+Prices seem to jump off the page on the candle chart. It presents a stereoscopic view of the market as it pushes the flat,
+two-dimensional bar chart into almost a three-dimensional
+
+aspect. Candle charts are visually stimulating. Exhibit 3.3
+shows how the same data looks on a bar chart and then a candle chart.
+
+23
+
+24
+
+Part 1 • The Basics
+63
+62
+
+.
+
+81
+
+tt
+
+llJ
+
+m
+i'
+
+m' s
+
+il, ,l
+
+i
+
+ii
+
+60
+
+59
+59
+
+57
+56
+
+55
+54
+
+53
+52
+
+51
+50
+
+49
+48
+47
+
+46
+
+45
+
+44
+
+EMI
+
+TTTTT
+
+EM
+
+TT 2QT
+
+TT /25
+
+1T7TT
+
+127a
+
+Day
+
+© Aspen Graphics. Used by permission .
+
+EXHIBIT 3.1. Lucent—Daily (Bar Chart)
+
+63
+
+62
+
+61
+
+il
+
+^
+
+60
+59
+
+58
+
+ir
+
+V
+:
+:
+ll : : v ,
+i
+
+f
+
+57
+
+1
+I' ii
+
+I
+
+56
+
+55
+54
+
+53
+52
+•
+
+51
+50
+49
+48
+47
+
+46
+
+45
+
+44
+
+EM
+
+EM
+
+EM
+
+TTTTT
+
+EM
+
+E /25
+
+© Aspen Graphics. Used by permission .
+
+EXHIBIT 3.2. Lucent—Daily (Candle Chart)
+
+M
+
+W
+
+Day
+
+Chapter 3 • Constructing the Candlestick Lines
+Time Period Open
+1
+20
+2
+25
+3
+30
+4
+45
+5
+25
+
+High
+
+Low
+15
+10
+15
+35
+25
+
+30
+25
+35
+50
+
+40
+
+Close
+
+25
+15
+20
+40
+35
+
+Bar Chart
+
+Candle Chart
+
+50 45
+40
+35 <D 30
+
+<D
+
+o
+
+O
+
+£ 25
+20
+15
+10
+5
+
+It
+
+I
+
+1
+
+2
+
+I
+
+I
+
+3
+
+5
+
+4
+Time Period
+
+25
+
+50
+45
+40
+35
+30
+25
+20
+15
+10
+5
+I
+
+I
+
+3 4
+Time Period
+
+5
+
+I
+
+1
+
+2
+
+EXHIBIT 3.3. Bar Chart and Candle Chart
+
+High
+
+DRAWING THE CANDLE LINES
+The rectangular sections of the candle lines in Exhibits 3.4 to 3.6
+are called the real body . The real body represents the range
+between the session's open and close. When the real body is
+black (i.e., filled), it means the close of the session was lower
+than the open. If the real body is white (i.e., empty), it shows
+the close was higher than the open.
+The thin lines above and below the real body are the shadows
+(these names are almost lyrical the real body and the shadows
+of these real bodies.) These shadows represent the session's
+price extremes. The shadow above the real body is called the
+upper shadow and the shadow below the real body is the lower
+shadow . Accordingly, the peak of the upper shadow is the high
+of the session and the bottom of the lower shadow is the low of
+the session.
+If a candle line has no upper shadow, it is said to have a
+shaven head . A candle line with no lower shadow has a shaven
+bottom .
+
+—
+
+Close
+Open
+
+>
+
+Real
+Body
+
+Low
+
+EXHIBIT 3.4. White
+Candle Line
+High
+
+I
+
+Open
+
+\ Real
+Close / Body
+Low
+
+EXHIBIT 3.5. Black
+Candle Line
+High
+Open
+
+Close
+Low
+
+High
+
+Close
+Open
+
+Low
+
+EXHIBIT 3.6. Spinning
+Tops
+
+Part 1 • The Basics
+
+26
+
+High
+Open and
+
+Close
+
+\
+
+/
+
+__
+
+High
+
+r Low,
+
+Low
+
+Open, end
+-4— « Close
+
+^
+EXHIBIT 3.7. Examples of
+Doji
+
+We see why these are named candle or candlestick charts; the
+individual lines often look like candles with their wicks. As
+mentioned in the Introduction, we will use the terms candles
+and candlesticks interchangeably throughout the rest of the
+book.
+The Japanese say the real body is "the essence of the price
+movement." This reflects a central concept about the power of
+the real bodies: By looking at the height and color of the real
+body, we get an immediate visual clue whether it's the bulls or
+bears who are in control.
+As such, candle charts will make market analysis faster and
+more efficient. Using the long white candle in Exhibit 3.4 as an
+example, who is in charge? The bulls or bears? Obviously, it's
+the bulls since on that session the market opened near its low
+and closed near its high. Likewise, a long black candle (Exhibit
+3.5) is a visual representation that, at least for that session, the
+bears were in control since the market opened near its high and
+closed near the session lows.
+Candle lines can be drawn using any time frame from
+intraday to daily to weekly charts. For example, a white candle,
+as shown in Exhibit 3.4, if based on a daily chart, would mean
+that the bottom of the real body is the first trade of the day
+(remember, a white real body signifies the open is at the bottom
+of the real body) and the top of the real body is the day's close.
+The intraday peak and trough are the tip of the upper shadow
+and the bottom of the lower shadow, respectively.
+Similarly, a five-minute black candle line tells us that the
+open of that five-minute period is at the top of the black real
+body and the close is at its bottom. The high and low of that
+five-minute session will define the upper and lower shadows.
+A practical application of the real body is using its size as a
+barometer of the market's momentum.
+While a long white and black candle shows the action is onesided, we get a clue that the prior momentum may be losing
+force as the real body becomes smaller. The Japanese term for a
+small real body (black or white) is a spinning top. Exhibit 3.6
+shows examples of spinning tops. The lines illustrated in
+Exhibit 3.6 have upper and lower shadows, but the sizes of the
+shadows are not important. It is the small size of the real body
+that makes these spinning tops.
+
+—
+
+Chapter 3 • Constructing the Candlestick Lines
+
+Spinning tops are components of candle formations including morning and evening stars, harami, hammers, and others
+that will be discussed at length in the appropriate sections.
+Notice something about the real bodies in Exhibit 3.7? There
+aren't any! These lines are named doji (the plural of doji is also
+doji) and they represent a session when the open and close are
+the same (or very close to one another ). Doji have implications
+as a reversal signal. We will look at this aspect later in this chapter and in greater detail in Chapter 8.
+In Exhibit 3.8, during the week of April 1 a descent began
+near 315 via a series of black candles. As the decline ensued the
+real bodies increased in length, reflecting increasing bearish
+momentum. The emergence of the spinning top on April 7
+changed the technical picture from one in which the bears had
+complete control to a market where the bears were losing domination. Since the small real body was only one session's activity, it should be viewed as a tentative clue. Nonetheless, it was
+the first sign of a potential reversal. This represents a major
+advantage of candle charts: They will often let you spot potential market turns as quickly as one session.
+
+340.00
+
+335.00
+330.00
+
+bears in control
+
+:
+
+lv M
+
+ill
+
+to
+If
+
+325.00
+320.00
+315.00
+
+9
+
+.
+
+310.00
+305.00
+300.00
+
+295.00
+
+1«
+
+290.00
+285.00
+
+280.00
+
+spinning
+top
+
+275.00
+
+270.00
+265.00
+
+W
+
+[3/9
+
+13/16
+
+13/23
+
+13/30 14/1
+
+|4/S
+
+14/13
+
+[4/20
+
+© Aspen Graphics. Used by permission.
+
+—
+
+EXHIBIT 3.8. Semi-Conductor Index Daily (Spinning Top)
+
+14/27 14 /29
+
+Day
+
+27
+
+28
+
+Part 1 • The Basics
+
+While the April 7 spinning top was a candle signal, it also
+helped confirm a traditional western technical analysis tool
+specifically, a rising support line constructed by connecting the
+March 10 and March 23 lows. Thus, we have two signals, the
+support line and spinning top, reinforcing support near 285.
+This concept of combining Eastern and Western techniques will
+be the focus of Part 2.
+Another example of a spinning top hinting of a turn is the
+point where the decline from 315 began the April 2 spinning
+top (remember, the color of the small real body is not important) that followed a tall white candle (at which time the bulls
+were in control).
+One of the fascinating aspects of the candles is that they can
+send out warning signals not evident on bar charts. For example,
+look at the prior chart in Exhibit 3.2 and the rally the week of
+January 18. Notice the two candles lines as the stock approached
+the $60 level. If this was a bar chart, this stock would look
+healthy since it was making higher highs, higher lows, and even
+higher closes. However, the candle lines give us a different perspective. To wit, those small real bodies are hinting that the bulls
+do not have full control. Also, note that the high during the week
+of January 18 was also near a resistance area. As such, the small
+real bodies, via the candles, were confirming that resistance
+area.1
+As we've seen, the Japanese place great emphasis on the relationship between the open and close because they are the two
+most emotionally charged points of the trading day. The
+Japanese have a proverb: "The first hour of the morning is the
+rudder of the day." Likewise, the opening is the rudder for the
+trading session. It furnishes the first clue about that day's direction. It is a time when all the news and rumors from overnight
+are filtered and then joined into one point in time.
+The more anxious the trader, the earlier he or she wants to
+trade. Therefore, on the open, shorts may be scrambling for
+cover, potential longs may want to emphatically buy, hedgers
+may need to take a new or get out of an old position, and so
+forth.
+After the flurry of activity on the open, potential buyers and
+sellers now have a benchmark. There are frequent analogies to
+
+—
+
+—
+
+Chapter 3 • Constructing the Candlestick Lines
+
+trading the market and fighting a battle. In this sense, the open
+provides an early view of the battlefield and a provisional indication of friendly and opposing troops.
+The other pivotal price point is the close. We can thus expect
+heavy emotional involvement into how the market closes. The
+close is also a critical price point for many technicians. They
+may wait for a close to confirm a breakout from a significant
+chart point. Margin calls in the futures markets are also based
+on the close. Many computer trading systems (for example,
+moving average systems) are calculated from closes.
+Typical of the military analogies used by candle chart analysis is the way the Japanese refer to unusually big orders on the
+open or close. If a large buy or sell order is pushed into the
+market at or near the close, with the intention of affecting the
+close, the Japanese call this action a "night attack." If this is
+done on the open, it is called, not surprisingly, a "morning
+attack."
+
+CANDLE TERMINOLOGY AND MARKET EMOTION
+Technical analysis is the only way to measure the emotional component
+of the market. We know that many times an ounce of emotion can be
+worth a pound of facts. How else to explain a sudden shift in the market without a change in the fundamentals?
+A fascinating attribute to candle charts is that the names of the candie patterns are a colorful mechanism describing the emotional health
+of the market at the time these patterns are formed. After hearing the
+expression "dark-cloud cover," would you think the market is in an
+see later, this is a
+
+•
+
+moron
+
+.
+
+:
+
+'
+
+'
+
+"
+
+'
+
+'
+
+29
+
+30
+
+Part 1 • The Basics
+
+NOTES
+1. Spinning tops are discussed in more detail in my book Beyond Candlesticks
+( New York: John Wiley and Sons, 1994).
+
+CHAPTER 4
+
+REVERSAL PATTERNS
+Mr
+
+- Tj- feliBB
+Darkness lies one inch ahead .
+
+HPechnicians watch for price clues alerting them to a shift in
+I market psychology and trend. Reversal patterns are these
+technical clues. Western reversal indicators include double tops
+and bottoms, reversal days, head and shoulders, and island
+tops and bottoms. Yet the term "reversal pattern" is somewhat
+of a misnomer. Hearing that term may lead you to think of an
+old trend ending abruptly and then reversing to a new trend.
+This rarely happens. Trend changes usually occur slowly, in
+stages, as the underlying psychology shifts gears. A trend
+reversal signal implies that the prior trend is likely to change,
+but not necessarily reversing. Compare a trend to a car traveling forward. The car 's red brake lights go on and the car stops.
+The brake light was the reversal indicator showing that the
+
+31
+
+32
+
+Part 1 • The Basics
+
+Reversal "--*’:
+Signal
+
+i
+
+EXHIBIT 4.1. Top
+Reversal
+
+Reversal
+Signal
+
+EXHIBIT 4.2. Top
+Reversal
+
+Reversal —
+
+EXHIBIT 4.3. Top
+
+Reversal
+
+prior trend (that is, the car moving forward ) was about to end.
+But now that the car is stationary, will the driver then decide to
+put the car in reverse? Will he or she remain stopped? Will he
+or she decide to go forward again? Without more clues we do
+not know.
+Exhibits 4.1 through 4.3 are some examples of what can happen after a top reversal signal appears. The prior uptrend, for
+instance, could convert into a period of sideways price action.
+Then a new trend lower or higher could start (see Exhibits 4.1
+and 4.2). Exhibit 4.3 illustrates how an uptrend can abruptly
+reverse into a downtrend.
+Remember that when I say "reversal pattern," it means only
+that the prior trend should change but not necessarily reverse.
+It is prudent to think of reversal patterns as trend change patterns. Recognizing the emergence of reversal patterns can be a
+valuable skill. Successful trading entails having both the trend
+and probability on your side. The reversal indicators are the
+market's way of providing a road sign, such as "Caution
+Trend in Process of Change." In other words, the market's psychology is in transformation. You should adjust your trading
+style to reflect the new market environment. There are many
+ways to trade in and out of positions with reversal indicators.
+We shall see many examples of this throughout the book.
+An important principle is to initiate a new position (based on
+a reversal signal) only if that signal is in the direction of the
+major trend. Let us say, for example, that in a bull market, a top
+reversal pattern appears. This bearish signal would not warrant
+a short sale. This is because the major trend is still up. It would,
+however, signal a liquidation of longs. We could then look for a
+bullish signal on the correction to buy since the prevailing
+trend was higher.
+I have gone into detail about the subject of reversal patterns
+because most of the candle indicators are reversals. Now, let us
+turn our attention to the first group of these candle reversal
+indicators, the hammer and hanging man lines.
+
+—
+
+UMBRELLA LINES
+Exhibit 4.4 shows candles with long lower shadows and small
+real bodies (black or white) near the top of the daily range. The
+
+Chapter 4 • Reversal Patterns
+
+lines in Exhibit 4.4 are called umbrella lines because they look
+like umbrellas. Umbrella lines are candles with very long lower
+shadows and a small real body at the top end of the range.
+These umbrella lines are fascinating in that these lines can be
+either bullish or bearish according to the market environment.
+If an umbrella line emerges during a downtrend, it is a signal
+that the downtrend should end. In such a scenario, this umbrella line is labeled a hammer , as in "the market is hammering out"
+a base (see Exhibit 4.5). The actual Japanese word for the hammer is takuri . This word means "trying to gauge the depth of
+the water by feeling for its bottom." This is a perfect analogy for
+the hammer line as the market attempts to grope for a bottom.
+Coincidently, the hammer line looks likes a hammer with its
+head and handle.
+As mentioned above, the character of umbrella lines changes
+based on the prevailing trend before the umbrella line. We saw
+that an umbrella line after a decline is a bullish signal called a
+hammer. However, if either of the lines in Exhibit 4.4 emerges
+after a rally, it is a potential top reversal signal ominously called
+a hanging man (see Exhibit 4.6). The name "hanging man" is
+derived from the fact that it looks like a hanging man with dan-
+
+gling legs.
+It may seem unusual that the same candle line can be both
+bullish and bearish. Yet, for those familiar with Western island
+tops and bottoms, you will recognize that the identical idea
+applies here. The island formation is either bullish or bearish
+depending on where it is in a trend. An island after a prolonged
+rising trend is bearish, while the same island pattern after a
+falling trend is bullish.
+To give a sense of the challenge of unraveling candle charting
+techniques, one of the books I used for my research described
+the umbrella lines in Exhibit 4.4 by saying, "buy from below
+and sell from above." What did that mean? Remember that I
+did know about hammers and hanging man lines at the time I
+read this. It took some time and some research to figure out that
+the author meant that it's bullish after a falling market ("buy
+from below") and potentially bearish after a rising market ("sell
+from above"). The years of research required into unlocking
+these "secrets of the Orient" were due to the fact that most of
+
+33
+
+f1
+
+These Lines Can Be Either Bullish
+or Bearish
+
+Exhibit 4.4. Umbrella
+Lines
+
+\White or
+Black
+
+Exhibit 4.5. Hammer
+
+Th
+
+White or Black
+
+Exhibit 4.6. Hanging Man
+
+34
+
+Part 1 • The Basics
+
+the candle patterns and techniques were described in similarly
+vague descriptions. It's a good thing I like challenges!
+The hammer and hanging man can be recognized by three
+criteria:
+1. The real body is at the upper end of the trading range. The
+color of the real body is not important.
+
+.
+
+2 It has a long lower shadow that should be at least twice the
+height of the real body.
+
+.
+
+3 It should have no, or a very short, upper shadow.
+
+There are three aspects that differentiate the hanging man
+from the hammer trend, extent of the move before the candle
+line, and confirmation. Specifically:
+
+—
+
+• Trend : A hammer must come after a decline. A hanging man
+must come after a rally.
+• Extent of the move before the candle line: A hammer is valid even
+if it comes after a short-term decline, but a hanging man
+should emerge after an extended rally, preferably at an alltime high.
+
+• Confirmation: As will be addressed later, a hanging man
+should be confirmed, while a hammer need not be.
+The longer the lower shadow, the shorter the upper shadow;
+the smaller the real body, the more meaningful the bullish hammer or bearish hanging man. We will now focus on the hammer
+and then the hanging man.
+Hammer
+
+The real body of the hammer can be white or black. This is
+because even if the real body of the hammer is black, we can see
+in Exhibit 4.5 that it still closed near the session highs. We can
+say it is slightly more bullish if the real body of the hammer is
+white (because it closed at the high). The Japanese nickname for
+a white hammer is a "power line." In my experience, the success of the hammer is not dependent on the color of its real
+body.
+The hammer 's long lower shadow and close at, or near, the
+high of the session graphically relays that the market sold off
+
+Chapter 4 • Reversal Patterns
+
+sharply during the session and then bounced back to close at,
+or near, the session's high. This could have bullish ramifications. This aspect of closing at or near the highs is why the
+hammer should have no, or a minuscule, upper shadow. If
+there was a long upper shadow, this would mean the market
+closed well off its highs, which is an important criterion for the
+hammer.
+Since the hammer is a bottom reversal signal, we need a
+falling trend to reverse.
+In Exhibit 4.7 we see a hammer on February 24. It's classic
+because of its extended lower shadow and small real body at
+the top end of the trading range. It also followed a decline. This
+is a necessary condition for a hammer.
+The line on February 22 would not be defined as a hammer
+because it didn't have the required lower shadow of two or
+three times the height of the real body. Such a lower shadow is
+necessary because it would display that the market had been
+pushed down sharply lower during the session, but by the end
+of the session, as the Japanese would say, there was a
+
+© CQG Inc. Used by permission.
+
+—
+
+Exhibit 4.7. Wal-Mart Stores Daily (Hammer)
+
+35
+
+36
+
+Part 1 • The Basics
+
+"kamikaze fight" as the bears lost control as adduced by the
+fact that the market closed at, or near, its session highs. This
+
+was visually shown with a classic hammer on the 24th. You can
+bet that after a day like this classic hammer, the bears are having second thoughts.
+Exhibit 4.7 brings out a vital aspect of candle charting.
+Successful trading with candle charts requires an understanding not only of the candle patterns, but also of where the candle pattern appears and in the context of risk / reward analysis.
+One should always consider the risk / reward aspect before
+placing a trade based on a candle pattern or candle line. Let's
+look at the ideal hammer on the 24th keeping this aspect of
+risk / reward in mind.
+By the time the hammer was completed (remember, we have
+to wait for the close), the stock closed near $48. Thus, if one
+bought at the completion of a hammer (around $48), the risk
+would be under the hammer 's lows of near $43. That is around
+$5. We now have a $5 risk. There is nothing wrong with that if
+your target is much greater than $5. However, for some active
+traders $5 might be too large a risk.
+As such, to help lower the potential risk of the trade, one
+could wait for a correction to within the hammer 's lower shadow (of course, there will be many times when the market will
+not correct after the hammer). By using the hammer 's lows as a
+potential purchase area, we have bought closer to the stop out
+area.
+Let's imagine Trader A recognizes the hammer on February
+24. He is so excited by this beautifully defined hammer that he

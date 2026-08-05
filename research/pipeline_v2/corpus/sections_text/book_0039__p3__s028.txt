@@ -1,0 +1,472 @@
+the modified standard exit strategy with trades entered randomly at the open, Insample, the average trade. lost $1,702, with a standard deviation of $365. The percentage of wins was 31.73%, with a standard deviation of 1.10%. The average
+trade lost less than it did in the tests of the original, unmodified SES. The reduction in the loss on the average trade was undoubtedly caused by the ability of the
+MSES to more quickly escape from bad trades, cutting losses short. The more
+rapid and frequent escapes also explain the decline in the percentage of winning
+trades. There were fewer wins, but the average loss per trade was smaller, an interesting combination. Overall, the MSES should be regarded as an improvement on
+the unmodified standard exit.
+Out-of-sample, the average trade lost $836. Statistically, this was significantly better than the in-sample performance. It seems that, in more recent years,
+this exit provided a greater improvement than it did in earlier years. The markets
+may be more demanding than they were in the past of the ability to close out bad
+trades quickly. Other figures in Table 13-5 indicate a similar pattern of changes.
+Market-by-Market Results for MSES with Random Entries at Open. Table 136 contains the market-by-market results for the MSES with the best set of random
+entries taken at the open. The best set was chosen from the randomizations shown
+in Table 13-5. The Swiss Franc, Light Crude, Heating Oil, COMEX Gold, and
+Live Cattle had positive returns both in- and out-of-sample. For some markets, the
+MSES was able to pull consistent profits out of randomly entered trades! Many
+more markets were profitable in both samples than when the unmodified SES was
+
+TABLE
+
+13-B
+
+Results for the Modified Standard Exit with Random Entries
+at the Open
+
+used, again a sure sign that the more responsive, modified exit is better. As usual,
+and across both samples, the long side was more profitable (lost less) than the
+short side. Surprisingly, out-of-sample, the long side actually turned a very small
+whole-portfolio profit with this exit strategy; it is, however, nothing one would
+want to trade.
+
+T A B L E
+
+13-6
+
+Market-by-Market Results for the Modified
+with Random Entries at the Open
+
+Standard
+
+Exit
+
+30s
+
+CONCLUSION
+The results clearly demonstrate that many of the entry strategies tested in earlier
+chapters using the SES were no better than random entries. Sometimes they were
+worse. The results also indicate that the SES is not a great exit strategy. The
+MSES, which simply lifts the restriction of the exit to the close, performed much
+better and even managed to pull a small profit out-of-sample on the long side. The
+MSES should still be considered a minimalist exit strategy, but the results support
+the contention that a really good exit strategy is, more than anything else, the key
+to successful trading. If the findings from this and previous studies are correct, it
+should be possible to find an exit strategy that can actually extract substantial profits from randomly entered trades, at least in some markets. Such an exit strategy
+would substantiate what many great traders have said: An experienced trader,
+skilled in money management, can make a profit even with a bad system, while a
+novice trader, unskilled in money management, can lose everything trading a great
+system (sysrem, in this context, usually referring to an entry model). In all the
+remaining tests in this book, the MSES will replace the original, unmodified exit
+strategy (SES).
+WHAT HAVE WE LEARNED?
+. A good exit strategy is extremely important. It can even pull profits from
+randomly entered trades! Think of what it could do for trades entered on
+the basis of something better than the toss of the die.
+. Even simple modifications can make a big difference, as evidenced by the
+results above where slight changes proved effective.
+. When combined with the suboptimal SES, many of the entry strategies
+tested in the previous section of this book can be seen to perform no better than the random one. Some even did worse! Of course, a few performed dramatically better than did the random entry model.
+
+C H A P T E R
+
+1 4
+
+Improvements on the Standard
+Exit
+
+In continuation of the endeavor to improve upon the standard exit strategy (SES)
+and develop a good exit, a number of modifications are explored. In the previous
+chapter, it was demonstrated that the exit strategy can have a substantial impact on
+the overall performance of a trading system. To make it more compatible with the
+kinds of exit strategies examined in this and the next chapter, the original SES
+(used in the study of entries) was changed and became the modified SES (or
+MSES): While maintaining consistency, the restriction of exiting at the close was
+removed. It was no longer necessary to restrict the exit to the close, because in the
+study of exits, entries are restricted to the open. In previous chapters, entries were
+not restricted to the open. Therefore, to avoid ambiguity in the simulations, it was
+necessary to restrict exits to the close. The MSES represents a kind of baseline,
+minimalist exit that can serve as a standard for comparing better exit methods, as
+well as provide some consistency and comparability with the unmodified SES. In
+this chapter, variations, both small and large, of the MSES are explored in an
+attempt to find a better exit strategy.
+
+PURPOSE OF THE TESTS
+When specifying the original SES (as well as when modifying it so that inside-thebar stops and limits could be used), specifications for the tightness of the money
+management stop and closeness of the profit target were arbitrary and fixed. For
+long entries, the money management stop was placed at 1 average true range unit
+below the entry price, while the profit target was placed 4 average true range units
+above the entry price. For short entries, the placements were reversed. The intention was to place a stop fairly close in so that losing trades would quickly be taken
+
+310
+
+out, while placing the profit target far enough away so profits would not be cut
+short on trades that were favorable. The first test below examines the performance
+of the stop and profit target when the arbitrary settings are adjusted.
+The second set of tests involves replacing the fixed money management stop
+in the MSES with a more dynamic stop. The minimalist MSES lacks many desir
+able characteristics. One of the features any good trader wants in an exit is the ability to lock in at least some of the paper profit that develops in the course of a
+successful trade, i.e., to avoid having to watch profitable trades turn into losers.
+Locking in some of the profit can be accomplished using a trailing stop: Instead
+of having a money management stop placed a fixed distance from the entry price,
+the stop moves toward current prices as the trade becomes profitable. As prices
+move in the trade’s favor, the stop moves in along with them, locking in a proportion of the developing profits. Should the market reverse, the trade will not be
+closed out at a loss, as might have been the case with the tixed stop, but at a profit, if the moving stop has gone into positive territory. There are several strategies
+for the placement and relocation of a stop designed to prevent winning trades from
+turning into losers and to lock in as much of the unrealized profit as possible. The
+second set of tests explores such strategies.
+Originally, the profit target in the MSES (and SES) was implemented as a
+limit order with a fixed placement. In the third set of tests, the fixed profit target
+is, like the stop in the previous tests, replaced with something more dynamic. It
+would be desirable if the profit target could also move in toward the prices, especially in languishing trades. This would enable the trader to exit at a better price,
+perhaps even with a small profit, in the absence of strong, favorable movement.
+Exiting the market on spikes or noise should lead to more profitable trades than
+simply exiting on a time constraint or waiting for the money management stop to
+be hit. At the same time, the trader does not want the profit target to cut profits
+short. A profit target that is too close might provide a higher percentage of winning trades, but it will also significantly limit the size of the profits. In all likelihood, it will cause the overall strategy to perform less well. It should be
+advantageous to make the profit target dynamic in the same way that the stop was
+made dynamic, i.e., to place the profit target far away from the market at the beginning of the trade, or when the market is steadily moving in a favorable direction,
+In this way, it would not be necessary to settle for a small profit on a potentially
+very profitable trade; the trader could “let profits run.” Conversely, in trades that
+are languishing, or when the market is exhibiting blow-off behavior, the profit target could be made to move in tight to close out the trade, and to do so at the best
+possible price, before the market has a chance to reverse. Modifications of the
+profit target limit order placement are studied below.
+Finally, the time limit exit from the MSES model is adjusted and tested on
+the assumption that, with effective dynamic stops and profit targets, a short time
+limit is no longer so necessary. Trades will be exited quickly by other means if
+
+they are languishing, but will be held for as long as possible if favorable movement is occurring. The intention is to let profits develop and not be cut short simply because of an order to exit on an arbitrary time limit.
+
+TESTS OF THE FIXED STOP AND
+PROFIT TARGET
+The MSES makes use of a fixed stop and profit target that do not change their placements during a trade. Originally, the parameters for the placement of these stops
+were somewhat arbitrxy and certainly not optimal. What happens when these parameters are stepped through a range of values in search of an optimal combination?
+In this test, the money management stop parameter is stepped from 0.5 to 3.5
+in increments of 0.5. The profit target limit parameter is also stepped from 0.5 to
+5 in increments of 0.5. The profit target parameter is simply the multiple of the
+average true range used in placing the profit target limit. Likewise, the money
+management stop parameter is the multiple of the average true range used for placing the money management stop.
+float *lo, float '~1s. float *vol. float *oi. float +dlrv, int nh,
+
+TRDSIM
+
+fcts, float l eqcls) (
+
+313
+
+The code implements the standard random entry at the open and the modified standard exit strategy. The rules for the exit are as follows: A limit order exit
+is placed a certain number of true range units above (long) or below (short) the
+entry price. The number of true range units that the limit order is placed away from
+
+the entry price is specified by the parameter ptlim. Besides the profit target limit,
+an exit stop is placed a specified number of average true range units below (long)
+or above (short) the entry price. The parameter mmsrp determines the number of
+true range units that the stop is placed away from the entry price. Finally, maxhold
+is a parameter that specifies the maximum time any position is held. If they were
+not closed out ,earlier by the profit target limit or money management stop, all
+trades will be closed out with an exit at the close after maxhold days or bars have
+elapsed since entry. In the test, maxhold is fixed at a value of 10, the same value
+used throughout the tests in this book.
+Table 14-l shows the annualized risk-to-reward ratio (ARRR), the percentage of winning trades (WIN%), and the average trade profit or loss (AVTR), for
+every combination of money management stop and profit target limit parameter
+settings. At the right of the table, the AVG or average values (average taken over
+all money management stop parameters) for all the performance figures are presented for each profit target limit parameter value. At the bottom of the table,
+the AVG or averages (taken over all profit target limit parameters) for each of the
+money management stops are shown.
+A number of things are immediately apparent in the results. As the profit target limit got tighter, the percentage of winning trades increased; this was expected.
+A tight profit target has a greater chance of being hit and of pulling a small profit
+out of the market. However, the increased percentage of winning trades with
+tighter profit targets was not sufficient to overcome the effects of cutting profits
+short on trades that had the potential to yield greater profits. Looser profit targets
+performed better than tight ones. For most of the profit target limits, there was an
+optimal placement for the money management stop, between a value of 1.0 and
+2.0 average true range units away from the entry price. As the stop got looser, the
+percentage of winning trades increased, but the other performance figures worsened. As it got tighter, the percentage of winning trades declined along with the
+other measures of performance.
+The overall optimal performance, in terms of both annualized risk-to-reward
+ratio and average trade, was with a profit target limit of 4.5 and a money management stop of 1.5. As deviation from the optimal combination occurred, the annualized risk-to-reward ratio increased, as did the average loss per trade. There was
+relatively little interaction between placement of the profit target and the money
+management stop. The values that were optimal for one varied only slightly as the
+parameter controlling the other was adjusted. Another almost equally good combination of parameters was 1.5 and 4 (profit target and stop, respectively). This
+provided a very slightly better average trade and a trivially worse annualized riskto-reward ratio. It is interesting that the arbitrarily assigned values came fairly
+close to the optimal values, appearing only one cell away from the optimal cells in
+Table 14-l. The optimal values, however, provided 6% more winning trades than
+the arbitrary values of 4 (profit target) and 1 (stop).
+
+T A B L E
+
+14-1
+
+In-Sample Portfolio Performance with Modified Standard Exit and
+Random Entry as a Function of Profit Target Limit (Left) and Money
+Management Stop (Top) Parameters
+
+316
+
+The percentage of wins for the optimal solution was 39%. When the numbers were examined in relationship to those for a profit target limit of 0.5 (with the
+same stop), 69% (instead of 39%) winning trades resulted, but with a much worse
+risk-to-reward ratio and average trade. This clearly shows the importance of letting profits run or, at least, not cutting them short.
+No combinations of parameters yielded profitable results. Given that this is
+a minimalist exit strategy, and that random entries were being used, such an outcome was expected. Nevertheless, the performance of the exit strategy across different parameter combinations can be compared.
+
+Conclusion
+Profits should not be cut short even though a higher percentage of winning trades
+might be gained. Doing so may make the average trade a larger loser or smaller
+winner. In addition, there appears to be an optima1 placement for a fixed money
+management stop. Too wide a stop increases the percentage of wins. However, it
+also increases the overall loss. Too tight a stop keeps the individual losses small,
+but drastically cuts the percentage of winning trades, again resulting in worse
+overall performance. An optimal value provides a moderate percentage of winning
+trades and the best performance. In this case, the optimal distance to place the
+money management stop away from the entry price was 1.5 average true range
+units. With some entry systems, the optima1 placement might be much closer.
+
+TESTS OF DYNAMIC STOPS
+In this group of tests, the fixed money management stop of the MSES is replaced
+with what will; it is hoped, be a much better stop. The placement of the stop is
+dynamically adjusted. The goal is to capture as much unrealized profit as possible,
+while not turning potentially profitable trades into losing ones, as might happen
+with an overly tight, fixed stop.
+There are many ways to adjust the stop so that it follows or trails the market,
+locking in some of the profit that develops in the course of a trade. One popular
+method is, for long positions, to place the stop for the next bar at the lowest of the
+lows of the current and previous bars. The stop is only placed at progressively
+higher levels, never lower levels. For short positions, the stop is placed at the highest of the current bar’s and previous bar’s highs, It is only allowed to move down,
+never up. This simple methodology is examined in the first test.
+The second test is of a dynamic stop that mimics the fixed stop used in the
+MSES. The stop is adjusted up (long) or down (short) based on the current price
+minus (long) or plus (short) a multiple of the average true range. Unlike the stop
+used in the MSES, where the placement was fixed, the placement revisions of
+this stop are based on current market value. The revised placements may only
+
+occur in one direction: up for long positions, down for short ones. The intention
+is to keep the stop a similar statistical distance from the best current price
+achieved at each stage of the trade, just as it was from the original entry price.
+The stop for long positions is calculated as follows: (1) Subtract from the entry
+price a parameter (mmstp) multiplied by the average true range (the result is the
+stop for the next bar). (2) On the next bar, subtract from the current price another parameter (stpa) multiplied by the average true range. (3) If the stop resulting
+from the calculations in Step 2 is greater than the current stop, then replace the
+current stop with the resultant stop: otherwise the stop remains unchanged. (4)
+Repeat Steps 2 and 3 for each successive bar. In the stop for short positions, the
+multiples of the average true range are added to the market prices and the stops
+are ratcheted down.
+The third test involves a more sophisticated approach. For long positions, the
+stop is initialized a certain number of average true range units below the entry
+price, as usual. The stop is then moved up an amount that is determined by how
+far the current prices are above the stop’s current value. For short positions, the initialization occurs above the entry price, and the stop is moved down to an extent
+determined by how far the current prices are below it. The stop initially moves in
+quickly, losing momentam as it reaches the vicinity of the current price level. This
+method involves nothing more than a kind of offset exponential moving average
+(EMA), except that the moving average is initialized in a special way on entry to
+the trade and is only allowed to move in one direction; i.e., the stop is never polled
+further away from the market, only closer. The stop for long positions is calculated as follows: (1) Initialize the stop to be used on the entry bar by subtracting from
+the entry price a parameter (mmstp) multiplied by the average true range. (2) At
+the next bar, subtract from the high a parameter (stpa) multiplied by the average
+true range; then subtract the current placement of the stop, and finally multiply by
+another parameter (srpb). (3) If the resultant number from Step 2 is greater than
+zero, then add that number to the value of the current stop; otherwise the stop
+remains unaltered. (4) Repeat Steps 2 and 3 for each successive bar. In the stop for
+short positions, the multiples of the average true range are added to the market
+prices and only corrections that are negative are added to the stop prices.
+static void Model (float *parms, float Wt. float *opn, float *hi.
+float *lo, float l cls, float *vol. float *oi, float ‘dlrv, int nb,
+TRDSIM
+//
+//
+,,
+//
+//
+//
+
+as,
+
+float
+
+*eqclsl
+
+{
+
+Implements
+random entry tests of the standard exit
+strategy modified to use “dynamic” stops.
+File = x20mod02.c
+vector [I. .MAxPFm, Of parameters
+pa-s
+vector [I. .nbl of dates in YYMMDD form
+d-L
+vector [I. .rlbl Of opening prices
+opn
+
+318
+
+v e c t o r [l. .*I o f h i g h
+
+prices
+vector Ll. .*I of low prices
+- vector [l..nbl Of c1oaing prices
+vector [I. .*I Of volumes
+vector [i..nbl of open interest numbers
+- vector [l..nh] of average dollar volatilities
+number of bars in data series or vectors
+trading simulator class instance
+vector Il..*1 of closing equity levels
+//
+
+declare
+
+static
+
+int
+
+local
+
+scratch
+
+rc,
+
+*contracts,
+
+cb.
+
+variables
+maxhold,
+
+signal,
+
+ranseed;
+
+static float stpa, stpb, matp, ptlim, limprice, stpprice;
+static int entryposted, entrybar, modeltype;
+static float exitatrM+XBAR+ll,
+mum, entryprice, tmp, at*;
+static long iseed;
+,, copy parameters to local variables for clearer reference
+mmstp
+= parms[ll; // used to set the initial stop
+= parms[2]; // additional stop parameter
+stpa
+stp!J
+= parms131; I/ additional stop parameter
+ptlim
+= parma[61; I/ profit target limit in at* units
+modeltype = parms~71; // type of dynamic stop to use
+= parmsL81; // maximum holding period in days
+maxhold
+= parms~91 ; ,, used to Select random seed
+ranseed
+I/ perform whole-series calculations
+~~gTruenange~~exitatr,hi,lo,cls.50,*~;
+
+// ATR for exit
+
+,, seed the random number generator
+// _._ use a different seed for each tradeable
+I/ t*.modelO
+returns a market index CSP=l,
+iwed = -(ranseed + 10 * ts.modelo,;
+mum = rarOC&iseed);
+
+YX=2.
+
+.)
+
+break;
+case
+
+2:
+
+stpprice
+
+=
+
+min(stpprice,
+
+cls[cbl+stpa*a~r~;
+
+break;
+case 3:
+tmp
+
+=
+
+if~mp
+
+(lolcbl
+<
+
++
+
+0.0)
+
+stpa
+
+l
+
+atrl
+
+stpprice
+
++=
+
+stptz
+
+stpprice;
+*
+
+elnp;
+
+break;
+)
+tS.exit6hortlimit(‘*‘,
+ts .exitdlortstop
+iftch-entrybar
+
+limprice~;
+
+(‘J’
+>=
+
+,
+
+stpprice1
+
+maxhold)
+
+i
+
+ts.exitshortclose(‘H’);
+
+1
+I
+)
+
+,/
+
+process
+
+next
+
+bar
+
+I
+
+The code above implements the MSES with the original fixed stop replaced
+with one of the three more responsive, dynamic stops, The parameter modeltype
+selects the stop, and depending on which is to be tested, up to three other controlling parameters are set and adjusted. For the two-bar highest-high/lowestlow (HHLL) stop, the parameter (mmsrp) is the multiple of the average true
+range that is added to or subtracted from the entry price to obtain the stop price
+for the entry bar. The stop price on the entry bar is set to either the lowest low
+of the last two bars or the entry price plus or minus the specified multiple of the
+average true range, whichever is further away from the current market price. For
+the other two kinds of stops (ATR-based and MEMA), the stop price on the entry
+bar is initialized to the usual value, i.e., the entry price minus (long) or plus
+(short) the money management stop parameter (mmsrp) multiplied by the average true range.
+On each bar after the entry bar, the stop price is adjusted. The adjustment
+used depends on the particular type of stop being employed, as selected by the
+modeltype parameter. For the HHLL stop, the highest high or lowest low is calculated according to whether the position is short or long (respectively). If the
+result of the calculation is closer to the current market price than the current stop
+price is, then the current stop price is replaced with the new value. For the next
+model (dynamic ATR-based stop), a second money management stop parameter
+(srpa) is multiplied by the average true range. Then the resultant number is subtracted from (long) or added to (short) the current closing price. If the resultant
+number is closer to the market than the current value of the stop price, the stop
+price is replaced with that number and, therefore, moved in closer to the market.
+For the third type of stop (MEMA), a stop parameter (stpa) is multiplied by the
+average true range, and then subtracted from the current high (longs) or added to
+the current low (shorts) as a kind of offset. The stop price is then subtracted from

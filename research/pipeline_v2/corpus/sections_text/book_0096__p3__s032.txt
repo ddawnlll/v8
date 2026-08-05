@@ -1,0 +1,479 @@
+
+Download at www.wowebook.com
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+265
+
+protects capital. Not every entry is correct and ends up with a profit. Indeed, many traders have
+more losing trades than winning trades, but they are able to profit because of the judicious use of
+their stops. They place protective stops at a level at which they know the trade will have been
+unsuccessful, and when a trade works, they run with the profits until the trend appears to be
+reversing. The protective stop, therefore, is necessary in any investment endeavor. Even standard
+fundamental analysis should use some kind of stop. It is ridiculous to think that when entering a
+trade or investment that it will always be successful and that risk of loss should be disregarded.
+The second reason a protective stop is necessary is to determine what capital risk the trader
+or investor is accepting in the trade. By establishing a stop level (and placing an order to that
+effect), the investors now know exactly what capital risk is being taken. Assume that a stock
+breaks upward out of a resistance zone at $20, and the entry stop is triggered so that the investor
+is now invested in the stock at $20. By analyzing previous support, trend lines, and other technical data, the investor determines that if the stock should sink to $17 (perhaps that is a support
+level or a trend line level adjusted for confirmation), there is something wrong with the analysis
+that suggested that the price would be rising. The need to know what is wrong is unnecessary
+because the stock price action itself is suggesting that something is wrong. Rational investment
+management would then be to get out of the stock until what is wrong is understood and evaluated. Technical analysis tells the investor at what price this exit should be made. Once the $17
+price is determined as the exit point, the risk of the trade has been determined to be $3, the difference between the entry and potential exit prices. Knowing that the risk is $3 makes the money
+management problem considerably easier. Say the investor has $100,000 and never wants to risk
+more than 10% of capital in any one investment. A 3,300 share position with the risk of losing $3
+is a $10,000 risk in a $100,000 portfolio, or 10%. No other investment method is as useful for
+measuring risk of loss. If the best exit point was $16 rather than $17, the risk would be $4 per
+share and the ideal position to limit loss to 10% of the portfolio would then have been 2,500
+shares. By knowing the risk level, the investor can adjust the amount of shares to be purchased.
+This method provides a tremendous advantage in reducing risk.
+All stops should be placed based on the price action of the security and the level at which
+a reversal in trend is likely. Generally, these are trend lines or support or resistance levels. The
+methods using percentages or points from entry do not address the action of the price and are not
+adjusted to it. Instead, these levels are purely arbitrary. These rules will often stop out a position
+before a crucial level is reached or long after it has been penetrated. Exits always should be
+placed at logical levels of price based on the analysis of trend, support and resistance, volatility,
+and pattern, not on the peculiarities of a particular portfolio or on an arbitrary rule.
+
+What Are Trailing Stops?
+When a security is in a recognizable trend, a trailing stop can be used to avoid the potential loss
+of profits. Edwards and Magee called these stops “progressive” stops. These trailing stops are
+necessary because, for instance, in a significant uptrend, the prior support or resistance level may
+become a substantial price distance from the current price. For example, consider Figure 13.7.
+Assume that you initially enter a long position in October, with a protective stop placed at the
+low October price. As the stock continues trading in an uptrend over time, the price gets further
+and further from this initial stop point. By December, you have made a substantial profit. Setting
+
+Download at www.wowebook.com
+
+266
+
+Part III Trend Analysis
+
+a trailing stop will help you lock in that profit if the uptrend reverses. If you kept the stop at the
+original October level, you could watch the price fall by a large amount, and your profits would
+disappear before the protective stop was activated.
+
+trailing stop parallel to
+trend line
+
+TYX - 30 year U.S Treasury Bond Interest Rate
+
+Oct
+
+‘10
+
+Apr
+Created using TradeStation
+
+FIGURE 13.7 Trend line trailing stop (TYX daily: August 17, 2009–July 2, 2010)
+
+Trailing Stops Using a Trend Line
+The easiest method of establishing a trailing stop is to follow the trend line with a confirmation
+filter similar to those used in standard breakouts, as shown in Figure 13.7. For example, an
+uptrending stock has a definite, well-defined, standard trend line drawn beneath the recent price
+history. By setting a stop level below the trend line, to prevent false signals, using the amount
+determined from any of the preceding breakout confirmation methods—for example, a 3% filter—you establish a trailing stop. It must be adjusted with every new bar to travel along with the
+trend line. If it is triggered and the position closed, profits already accrued would not be appreciably affected, at least not as much as waiting for a previous support or resistance level to be
+broken would adversely affect them, yet the stop level is far enough away from the trend line so
+as not to be triggered with a false breakout.
+Another method of trailing stop designed to account for the intrinsic volatility of the security is to measure some fraction of the security’s ATR from its latest reversal point. This method is
+called a “Chandelier Exit.” For example, assume you are long a security rising on an accelerated
+trend that reaches $50. The 14-day ATR for this stock is $2.50. Based on an evaluation of the market strength, you decide to place a stop three times the ATR below the recent highest high. (Usually a multiple of 2.5 to 4.0 times the ATR is used.) Therefore, you place a sell stop at $42.50. You
+don’t consider the trend line or the previous support level, which may be considerably below the
+current price. This method provides a stop based purely on the price and volatility of the security.
+
+Download at www.wowebook.com
+
+267
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+When price rises above $50, the stop moves up with the price rise to three times its new ATR
+below the new high. Figure 13.8 shows what using the Chandelier Exit looks like. Using this
+method reduces the likelihood that a false breakdown will occur because you are adjusting the
+stop for the security’s volatility. This method is especially useful when other levels such as a trend
+line or support level are considerably distant from the current price, and the security is following
+an accelerated upward trend whose end is difficult to predict.
+TYX - 30 year U.S Treasury Bond Interest Rate
+45.00
+Assuming a long position
+
+40.00
+
+35.00
+Chandelier Exit Stop
+3 x 14 day ATR
+30.00
+
+‘09
+
+Feb
+
+Mar
+
+Apr
+
+Mar
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 13.8 Chandelier Exit (TYX daily: December 3, 2008–August 3, 2009)
+
+Trailing Stops Using Parabolic SAR
+Another trend-following method for setting stops is the Parabolic SAR. (SAR stands for “Stop
+and Reversal.”) Developed by Welles Wilder (1978), it was initially intended as a trading system
+because it required a long or short position. However, it has become not only a breakout confirmation rule, but also an excellent, but sometimes very sensitive, stop rule.
+The Parabolic is calculated by using an “acceleration factor” that increases as the price
+moves along its trend. Thus, the name “parabolic” is used because the stop level follows a parabolic curve, as shown in Figure 13.9. The weakness of the formula is that it doesn’t include the
+security’s volatility and is thus subject to many whipsaws. The acceleration factor is arbitrary
+and requires some testing for each security to find the best level with the least whipsaws. The
+concept of a parabolic curve for a stop level is an interesting one, however, and once adjusted for
+a security’s volatility may have more value.
+
+Download at www.wowebook.com
+
+268
+
+Part III Trend Analysis
+
+TYX - 30 year U.S. Treasury Bond Interest Rate
+45.00
+
+40.00
+
+35.00
+
+Parabolic Stop and Reverse (SAR)
+30.00
+
+'09
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 13.9 Parabolic SAR (TYX daily: December 3, 2008–August 3, 2009)
+
+Trailing Stops Using Percentage of Gain
+One final method of determining trailing stops is to place stops at a percentage of each leg in the
+direction of the trend. This requires that a profit is accruing. On the initial favorable leg, for
+example, a stop can be placed at 50% of the gain and moved with the gain until after the first
+retracement. The stop can then be raised as a higher fraction of each successive favorable leg.
+This method is generally inferior to those methods based on the actual price action.
+
+What Are Time Stops?
+Time stops are exit stops used to close a position after a predetermined period of time has passed.
+Time is an investor’s enemy. Uncertainty increases in future time. The longer we look into the
+future, the less accurate our projections are. This uncertainty is one reason why long-term interest rates are usually higher than short-term interest rates—to account for the risk of something
+adverse happening over time. When a trading model or investment method determines that a
+position should be entered, for whatever reason, the longer that time goes on without a profitable
+reaction to the position entry, the higher are the chances that the entered position will be unprofitable. Technical analysis is a method of timing investments or trades. To maximize return on
+capital, capital should not be idle. For this reason, technical analysts often use a time stop to exit
+a position after a predetermined time, especially if the position is not profitable. Time stops are
+also useful in testing mechanical trading methods. All positions must have an entry and exit.
+Often one is unrelated to the other, but without the ability to analyze both the entry and exit, their
+
+Download at www.wowebook.com
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+269
+
+respective strengths and weaknesses are unknown. To analyze the signal entry, a time stop gives
+equal weight to all the entry signals being tested.
+
+What Are Money Stops?
+Instead of using price points at which risk of significant loss is possible, some traders and
+investors use a money stop. This stop is based on the risk one is willing to take in terms of money.
+For example, in the previous description of the protective stop, the investor was willing to risk
+$10,000. Instead of determining from the analysis at what point the security is at risk of major
+loss, the investor determines how far down the security may decline before the $10,000 is lost.
+With this method, investors enter into an arbitrary number of shares at their choosing without any
+analysis of the price point at which the position should be closed and then allow the balance in
+their investment account to tell them when to sell. From the strategic and money management
+viewpoint, this method is a poor way to establish a protective stop. The better method is to determine the risk points in the security and work from there. A money stop is based not only on the
+price change but also on the amount of securities or contracts entered. It is, thus, not a good
+method of determining when the chance of further loss has increased and will often cause expensive whipsaws, especially if the position has a large number of shares or contracts and is exited
+after only a small change in price.
+As you can see, there are numerous variations of stops. The technical analyst usually tests
+a variety on the securities being traded and sticks with the most successful method.
+
+How Can Stops Be Used with Breakouts?
+A breakout above resistance or below support signals a change, usually in trend direction. A
+trend line breakout is a warning of change but not necessarily of a reversal in direction. The most
+used breakout is the breakout from support or resistance. In Chapter 15, we cover chart patterns.
+Almost all patterns are made of trend lines and support or resistance lines. The most reliable
+chart patterns are completed on a breakout, usually through support or resistance. Most strategies
+utilizing chart patterns, therefore, must have a way of recognizing a breakout, measuring its
+importance, and confirming it.
+
+Using Stops When Gaps Occur
+Some traders act directly on the breakout and are willing to pay the extra price generated by the
+enthusiasm associated with the breakout. This is usually a wise decision when the breakout creates a gap (see Gap A in Figure 13.10). A gap occurs when a security opens and trades at a range
+totally outside the previous day’s range. In other words, there is no overlap between one day’s
+trading prices and the previous day’s trading prices, and a gap appears between the bars for the
+two days on a chart. A gap is usually a sign that important information was released during the
+period between the bars that had an extraordinary effect on the buyers and sellers. Usually, if the
+reason for the gap is legitimate, the price continues in the direction in which it broke out. When
+the gap is closed (“covered” or “filled”), however, there is the danger that the gap was false and
+prices will reverse their trend. Thus, a protection stop should be placed below the gap opening.
+We discuss the different kinds of gaps in Chapter 17, “Short-Term Patterns.”
+
+Download at www.wowebook.com
+
+270
+
+Part III Trend Analysis
+
+32.00
+
+DIS - Disney, Walt
+31.00
+
+30.00
+
+29.00
+
+stops at gaps
+28.00
+
+27.00
+
+26.00
+
+Oct
+
+Nov
+
+Dec
+
+‘10
+
+Created using TradeStation
+
+FIGURE 13.10 Gaps (DIS daily: September 4, 2009–February 3, 2010)
+
+Waiting for Retracement
+When a breakout occurs, but a gap is not present, some traders will wait for the pullback or
+throwback before entering a position. To do this, they wait for the initial run from the breakout to
+exhaust itself, calculate a percentage—usually 50%—retracement from the breakout to the high
+or low, and place a limit order at that level. A breakout followed by a pullback is pictured in Figure 13.11. Studies have shown (Thom Hartle, Active Trader Magazine, March 2004) that the percentage retracement is not predictable and varies widely. Thus, these traders run the risk that the
+security will not retrace the percentage or will retrace the percentage and continue correcting
+back to the original stop level. To prevent this, once the percentage retracement level is determined and the limit order is placed, the stop is adjusted to just behind the limit order to prevent
+the retracement from becoming a large loss if it continues. Often the trader will also enter a partial position on the breakout and a partial position at the expected retracement level with a stop
+for the entire position just behind it. This way, the risk of missing the security continuing beyond
+its breakout without a retracement is reduced, and should the retracement occur, a full position
+will be entered at a lower average price.
+
+Download at www.wowebook.com
+
+271
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+48.00
+47.00
+
+pullback
+support zone
+
+46.00
+45.00
+
+breakout
+
+44.00
+43.00
+42.00
+41.00
+
+TYX - 30 year U.S Treasury Bond Interest Rate
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Created using TradeStation
+
+FIGURE 13.11 Breakout and pullback (TYX daily: January 5, 2010–June 24, 2010)
+
+Calculating a Risk/Return Ratio for Breakout Trading
+Usually breakouts from support or resistance run to the next zone of support or resistance. This
+gives the investor or trader a price objective for the breakout. From that price objective, a
+risk/return ratio can be calculated. The return is the difference between the entry price and the
+price objective. The risk is the amount the price must go against the entry price before exited on
+a stop, usually some price on the other side of the breakout. Traditionally, the reward/risk ratio
+should be a minimum of three to one. This gives the investor the odds of making money even
+when two out of three trades fail, assuming the third action provides a three-to-one gain. In
+Chapter 15, “Bar Chart Patterns,” and Chapter 16, “Point-and-Figure Chart Patterns,” we learn
+other methods of determining a price objective. This three-to-one guideline, however, should
+always be the minimum reward/risk ratio. Anything less than three to one increases the odds of
+losing money beyond acceptable amounts.
+In Figure 13.12, we show the support levels and how the price subsequent to a downward
+breakout tends to run to the next support level. Once a downward breakout occurs, the objective
+is the next support level from the previous advance. Depending on where the trade is entered and
+what level is necessary for a stop, a calculation can easily be made as to the reward/risk of the
+trade. Notice in this chart that the trader had a second chance on every downward breakout. The
+price rallied back to the breakout almost immediately in a pullback, and then it declined again to
+the next support level. Such pullbacks do not occur frequently, but the odds of returning to an
+earlier support level are generally good.
+
+Download at www.wowebook.com
+
+272
+
+Part III Trend Analysis
+
+70.00
+
+X - U.S. Steel Corp
+65.00
+Previous support and
+current objective
+
+60.00
+
+55.00
+
+50.00
+Note: Each breakdown reaches
+previous support, and sometimes rallies back
+to the breakout level.
+
+45.00
+
+40.00
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Created using TradeStation
+
+FIGURE 13.12 Breakouts to support levels (X daily: January 15, 2010–July 2, 2010)
+
+Placing Stops for a False (or “Specialist”) Breakout
+Figure 13.13 shows an example of a downward “specialist breakout.” This false breakout triggers
+all the sell stops placed to protect against a loss from a reversal in upward trend or to enter a new
+short position. Prices, with no follow-through, then reverse again, and they break back up
+through the earlier breakout level, leaving many investors with a loss. Those who sold their longs
+on a protective stop no longer have a position, and those who entered a short position now have
+a loss. The false breakout down caught them. It is often called a specialist breakout from the days
+when specialists and market makers would create false breakouts at prices known to be strong
+support or resistance levels and establish a position with the longer trend—in the example, the
+uptrend. Thus, the breakout downward in Figure 13.13, against the longer upward trend, triggered sellers who sold their stock to the specialists or market makers, who then held for the continuation of the earlier trend. Whether these false breakouts are manipulations today is somewhat
+irrelevant, but they do occur quite frequently and, if not protected against, can be very painful.
+To protect against these losses, the astute investor or trader will place another, close buy
+stop (in the example) slightly above the high of the breakout bar, as drawn on the chart. If prices
+quickly reverse upward, the trader will cover losses and make a profit from the second stop being
+triggered, and the earlier long investor will be long again.
+The reaction to a specialist breakout is often so strong and dramatic because it has trapped
+investors in the wrong direction. In itself, it is a tradable formation. In the chart example, should the
+trader have no position but see the downward breakout, rather than trade the breakout, he or she
+could place a stop above the breakout bar in case the breakout is false. If the breakout is false and
+triggers the trader’s entry stop, he or she makes a quick profit, and if it does not trigger, he or she
+doesn’t lose anything. A trader who was fooled by the false breakout could also use this procedure
+
+Download at www.wowebook.com
+
+273
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+for a stop and reverse. If the short is entered on the downward breakout, the buy stop would be
+placed at the upper level of the breakout bar to close the short position and to enter a long position.
+In the example, you can see that the triggered stop would have produced a sizable profit.
+breakout
+
+34.00
+33.00
+32.00
+
+place stop
+and short here
+
+31.00
+30.00
+
+Specialist Breakout
+
+29.00
+28.00
+27.00
+26.00
+25.00
+
+DIS - Disney, Walt
+7
+
+14 21 28 Aug 11 18 25 Sep 8
+
+15 22
+
+Oct 6
+
+Created using TradeStation
+
+FIGURE 13.13 Stop for specialist breakout (DIS daily: July 2, 2008–October 9, 2008)
+
+The most important point about trailing stops, or any kind of stop, is to test the method
+first. It is remarkable how much a stop, if properly placed, can improve performance over that
+from just an arbitrary stop placement.
+
+CONCLUSION
+Breakouts from support, resistance, or trend lines are the primary signal that the price has
+changed direction or is reaccelerating in its original direction. As such, breakouts are usually the
+first signal to act. Because breakouts can be false, and often are, some means of confirming a
+breakout is necessary. We have covered a few methods but none of them is foolproof. The technical analyst must experiment with different methods and find those most satisfactory to his
+method of trading or investing. The same can be said for stops. Although stops need not be as
+precise, they are always necessary when a position has been entered, and they must never be canceled or changed until they are triggered or the position is closed. Their purpose is to keep the
+investor honest and solvent. The rules for breakouts apply equally to stops. They should account
+for either previous support or resistance or trend, should adjust for the security’s volatility, and
+should not be placed too close to the current price as to invite a false signal or whipsaw.
+
+Download at www.wowebook.com
+
+274
+
+Part III Trend Analysis
+
+REVIEW QUESTIONS
+1. Explain what is meant by the term whipsaw. What could cause an investor to experience a
+lot of whipsaws?
+2. The daily open, high, low, and close for two stocks, Biosite Inc. (BSTE) and Coca-Cola
+(KO), for April 15–May 13, 2005 are given in the following table.
+a. Calculate the five-day ATR for the two stocks for this time period.
+b. Compare the volatility of the two stocks given the ATR.
+c. How would these ATRs impact the filter you would want to use for a breakout for
+each of these stocks?

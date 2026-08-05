@@ -1,0 +1,790 @@
+
+the trend is up so you buy one contract.You hold that position until today’s
+n‐day average is less than yesterday’s.When that happens, you exit your long
+position and go short. It’s called a reversal system. You always have a position and that position alternates from long to short to long. The breakout in
+Table 2.1 shows the results when the n‐day average is varied from 10 days to
+100 days in 10‐day increments.
+TABLE 2.1 Swiss Franc Moving Average System 1/1/1980–12/31/1989: Varying
+the n‐Day Average
+Number of Days
+
+Winning Trades
+
+Losing Trades
+
+Profit ($)
+
+Profit‐per‐Trade ($)
+
+10
+
+116
+
+184
+
+31,625
+
+105
+
+20
+
+77
+
+127
+
+64,200
+
+315
+
+30
+
+59
+
+99
+
+50,763
+
+321
+
+40
+
+49
+
+63
+
+61,037
+
+545
+
+50
+
+37
+
+43
+
+72,072
+
+900
+
+60
+
+25
+
+59
+
+45,187
+
+538
+
+70
+
+36
+
+54
+
+56,275
+
+625
+
+80
+
+25
+
+53
+
+55,500
+
+712
+
+90
+
+22
+
+40
+
+63,475
+
+1,023
+
+100
+
+25
+
+39
+
+62,925
+
+983
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+This table illustrates how well the Swiss franc trended in the 80s. There is
+substantial profit at each moving average point. Let’s select the 50‐day moving average point and try to improve results by adding an n‐day look‐back
+filter. One of the tenets of trend trading is to only trade in the direction
+of the long‐term trend. An n‐day look‐back filter is a way to do that. You
+look back n days and if the close today is higher than that close, the trend
+is up and you only take long trades. In looking back n‐days, if today’s close
+is less than the n‐day look‐back close, you only take short trades. When we
+add that logic to our 50‐day reversal system, the results in Table 2.2 are for
+look‐backs ranging from 60 days to 150 days.
+Let’s select the 110‐day look‐back filter as a good addition to the system,
+and now look to add some risk control. Let’s use a “catastrophic stop loss”
+to get us out of trades that move “too far” into loss. When we enter a long
+or short position, the catastrophic stop is placed X dollars away from the
+entry. If that stop is hit, we don’t reenter in the same direction until an
+entry in the other direction is signaled. There are two ways to implement
+this stop. First you can enter the stop as a “good until canceled” stop loss.
+
+9
+
+TABLE 2.2 Swiss Franc Moving Average System 1/1/1980–12/31/1989 with n‐Day
+Look‐Back Trend Filter
+Number of Days
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+10
+
+Winning Trades
+
+Losing Trades
+
+Profit ($)
+
+Profit‐per‐Trade ($)
+
+60
+
+28
+
+36
+
+66,924
+
+1,046
+
+70
+
+31
+
+37
+
+70,987
+
+1,060
+
+80
+
+34
+
+33
+
+75,737
+
+1,130
+
+90
+
+33
+
+33
+
+78,349
+
+1,187
+
+100
+
+31
+
+32
+
+75,849
+
+1,204
+
+110
+
+31
+
+31
+
+79,187
+
+1,276
+
+120
+
+31
+
+31
+
+77,287
+
+1,247
+
+130
+
+29
+
+32
+
+74,487
+
+1,221
+
+140
+
+31
+
+31
+
+77,412
+
+1,249
+
+150
+
+30
+
+29
+
+74,200
+
+1,258
+
+In that case, the stop is always in the market (just when the market’s open;
+nothing trades 24/7). The second way is to not place the stop into the market, but instead wait until there is a close adverse to the stop and exit at the
+next open. In that case you can have losses well in excess of your stop loss,
+but there are two benefits. One benefit is that the stop is not active during
+periods of illiquidity; almost every commodity has bid/ask spreads that
+increase overnight, sometimes dramatically, and with an active stop there’s
+a chance of a horrendous fill. The other benefit is that many times an active
+stop would be hit during the day, but the market reverses from that point
+to close inside the stop. In that case your trade is still alive to turn profitable. The second stop method is used to generate the results in Table 2.3.
+TABLE 2.3 Swiss Franc 50‐Day Moving Average System 1/1/1980–12/31/1989
+with 110‐Day Look‐Back Filter and Catastrophic Stop
+Catastrophic Stop ($)
+
+Winning Trades
+
+Losing Trades
+
+Profit ($)
+
+Profit‐per‐Trade ($)
+
+250
+
+20
+
+40
+
+32,588
+
+526
+
+500
+
+23
+
+40
+
+38,324
+
+608
+
+750
+
+31
+
+33
+
+84,887
+
+1,326
+
+1,000
+
+30
+
+34
+
+82,775
+
+1,293
+
+1,250
+
+30
+
+34
+
+80,512
+
+1,258
+
+1,500
+
+30
+
+35
+
+79,662
+
+1,226
+
+1,750
+
+30
+
+35
+
+77,162
+
+1,187
+
+2,000
+
+31
+
+34
+
+75,425
+
+1,160
+
+It shows the results when we vary the stop loss from $250 to $2,000 in
+$250 increments.
+Obviously, the best stop value to use is $750.
+The following points can be made about this system:
+If the draw‐downs are reasonable, this would be an excellent system to
+trade. The average return per year is about $8,500 and the margin required was generally about $3,000 per contract. I would be very happy
+to trade a system that netted these results.
+
+■
+
+This system is pure and simple: one entry rule, one filter, and one piece
+of risk control logic. I doubt anyone would claim it’s got too many variables or that it’s over‐optimized.
+
+■
+
+A $750 stop is relatively small, so even if you’re stopped out two or three
+times in a row, it’s not a huge dent to your account.
+
+■
+
+The fact that there are more losing trades than winners doesn’t concern
+me. Most longer‐term trend‐following systems only average between 30
+and 45 percent winning trades.
+
+■
+
+The profit‐per‐trade of $1,326 is very comforting because slippage and
+commission won’t be a significant percent of profit.
+
+■
+
+TABLE 2.4 Swiss Franc 50‐Day Moving Average System 1/1/1990–12/31/2010
+with 110‐Day Look‐Back Filter and $750 Catastrophic Stop
+Winning Trades
+
+77
+
+Losing Trades
+
+Profit ($)
+
+Profit‐per‐Trade ($)
+
+154
+
+30,638
+
+133
+
+The system that averaged $8,500 per year in the 1980s averaged only
+about $1,500 a year in the following 21 years. The system was obviously
+tuned up for the 10 years of great trend‐following performance by the Swiss
+franc in the 1980s. In the years that followed, the franc was less “trendy.” We
+curve‐fit to a relatively small amount of data, even though we didn’t weigh
+the system down with a lot of rules, filters, and so on.
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+You know this is supposed to be an example of curve‐fitting, so what happened? Table 2.4 shows the results of trading this system on the Swiss franc
+from 1990 through 2010.
+
+11
+
+Curve‐Fitting Is Proportional to the Number of
+Trades in the Development Sample
+If you compare the two curve‐fitting examples, there’s one similarity: They
+both had a relatively small number of trades in the development sample.
+Let’s postulate that curve‐fitting is proportional to the number of trades
+in the development sample. We know that if we had an infinite number of
+trades, we’d have the entire universe of trades and there could be no curve‐
+fitting. The question is: How many trades are “close enough” to represent
+the infinite sample? An experiment we can use to get an insight into that
+question is to take a commodity and generate a large number of trades,
+then sample from the large number and see how many trades need to be in
+the smaller sample to generate a small difference from the “infinite” sample
+statistics. If the hypothesis is correct, we should see the difference in results
+between the “infinite” sample and our smaller sample sizes get smaller and
+smaller as the number of trades in the sample size increases. Figure 2.1
+shows the thought.
+
+Difference in Results
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+12
+
+Sample Size
+
+FIGURE 2.1 Increasing Sample Size Reduces the Difference in Results from the
+
+Infinite Sample
+
+The only issue with that methodology is generating “difference in results.”
+Fortunately statisticians have solved this problem for us. Their methodology
+is called standard error. You compute the mean value of the infinite sample
+(the average profit‐per‐trade), and then randomly pick n‐trade samples a
+number of times. If you compute the average of each of these samples, and
+
+then compute the standard deviation of the averages, you have the standard
+error. Hopefully, an example will clarify things.
+Suppose you have an infinite number of trades generated by a strategy,
+and that the average profit-per-trade across the infinite sample was $100.
+You decide to randomly pull a number of 10‐trade samples and see how
+closely the results match the infinite distribution. Figure 2.2 represents the
+results of randomly selecting five 10‐trade samples.
+140
+
+120
+
+Value
+
+100
+80
+60
+40
+
+20
+0
+
+0
+
+2
+3
+Sample Number
+
+4
+
+5
+
+Randomly Picking Five 10‐Trade Samples from the Infinite Distribution
+
+of Trades
+
+The average profit‐per‐trade for each sample is:
+Sample 1 mean: 97.94
+Sample 2 mean: 104.6
+Sample 3 mean: 100.17
+Sample 4 mean: 101.43
+Sample 5 mean: 98.89
+The standard deviation across those five average profit‐per‐trade values
+is 2.59; that’s also the standard error. Now for what it means. One standard
+deviation above and below the infinite sample mean of 100 will statistically
+include 68.3 percent of the sample means. So 0.683 multiplied by 5 sample
+means is a value of 4.098 cases. That number of the sample means should be
+inside the 97.41 to 102.59 range (mean of 100 minus 1 standard deviation
+of 2.59 equals 97.41, and mean of 100 plus 2.59 equals 102.59). In our
+
+13
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+FIGURE 2.2
+
+1
+
+case, four of the sample means were inside the range, and one (104.6) was
+outside. If we extended this case to draw hundreds of 10‐trade samples:
+■
+
+■
+
+■
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+14
+
+68.3 percent of the sample means would fall in the range of 100 minus 1
+standard deviation to 100 plus 1 standard deviation.
+95.4 percent of the sample means would fall in the range of 100 minus 2
+standard deviations to 100 plus 2 standard deviations.
+99.7 percent of the sample means would fall in the range of 100 minus 3
+standard deviations to 100 plus 3 standard deviations.
+
+As a trader, this means that if you developed a strategy that had an average profit‐per‐trade of $100 and a standard error of $2.59, you could be
+68.3 percent confident that the true profit‐per-trade of the strategy was
+between $97.41 and $102.59. And you could be 99.7 percent confident that
+the true profit-per-trade was between $92.23 and $107.77. (My statistics
+professor would kill me for stating it that way, but dropping all the statistics
+caveats, that’s basically what it means.)
+That’s how standard error works, but in the real world, you don’t get
+hundreds of n‐trade samples.You only get one sample, and that’s your back‐
+test results. What do you do then? Well, there’s a way to get an estimate of
+the standard error of the mean using just that one sample. Compute the
+standard deviation of the trades in your back‐test and divide by the square
+root of the sample size. Here are the results for our five samples of 10 trades:
+Sample 1: mean = 97.94, standard deviation = 10.26, standard error
+= (10.26/√10) = 3.25
+Sample 2: mean = 104.6, standard deviation = 9.28, standard error
+= 2.94
+Sample 3: mean = 100.17, standard deviation = 11.19, standard error
+= 3.54
+Sample 4: mean = 101.43, standard deviation = 11.34, standard error
+= 3.59
+Sample 5: mean = 98.89, standard deviation = 7.97, standard error = 2.52
+The standard error should be 2.59, as we saw when we used all five of the
+samples. So the standard error results using just one sample don’t match up
+exactly, but each one is close.
+Before we leave hypothetical examples and move to trades, one other
+concept needs to be explored: the variance of the infinite sample. In the
+previous example, our five 10‐trade samples lined up pretty well with our
+
+Sample 1: mean = $263.29, standard error = $165.81
+Sample 2: mean = −$31.05, standard error = $151.96
+Sample 3: mean = −$71.57, standard error = $95.18
+Sample 4: mean = $198.69, standard error = $148.14
+Sample 5: mean = $275.74, standard error = $195.65
+Average mean = $127.02
+Based on the average mean of $127.02, this set of samples turned out
+more positive than the $100 infinite sample mean. The results show the expanded standard error when the infinite distribution has a relatively large
+variance; instead of a standard error of 2.59 when the standard deviation has
+10, the standard error now ranges from $95.18 to $195.65 using a standard
+deviation of $500.
+Again, what this means to the trader is that if his or her back‐test yielded
+10 trades that averaged a profit of $275.74 with a standard error of $195.65
+(Sample 5), he or she could be 68.3 percent confident that the true average
+
+15
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+infinite trade mean of 100. The distance of each sample from the mean of
+100 wasn’t very far. The reason they did is because a standard deviation of
+10 was chosen for the infinite sample when the thousands of trades that
+formed the infinite trade distribution were generated. Using a standard
+deviation of 10 means that 68.3 of the randomly generated trades will
+range from 90 to 110 (100 minus 1 standard deviation to 100 plus 1 standard deviation); 95.4 percent of the randomly generated trades will range
+from 80 to 120 (100 minus 2 standard deviations to 100 plus 2 standard
+deviations); and 99.7 percent of the trades will range from 70 to 130
+(100 minus 3 standard deviations to 100 plus 3 standard deviations). Real
+trade distributions are never this tight. Losers might be hundreds or even
+thousands of dollars, while winners can range the same distance, or more,
+to the plus side. Instead of the three-standard-deviation range of $60 we
+had with our example, real trade distributions can have ranges of many
+thousands of dollars. The bottom line is that the bigger the standard deviation (or variance) of the underlying distribution, the bigger the standard error. The following example parallels the previous example, but
+instead of a standard deviation of 10 for the infinite sample, we’ll use
+a value of 500. That gives us a three-standard-deviation range of 3,000;
+99.7 percent of the trades will be between ‐$1,500 and +$1,500 from
+the average profit‐per‐trade, or trade mean. Here are the results of pulling
+five 10‐trade samples from the “infinite trade pool” whose statistics are a
+trade mean of $100 and a trade standard deviation of $500.
+
+profit-per-trade of the strategy was between $80.09 and $471.39. Maybe
+you would be willing to roll the dice with those odds and trade the strategy,
+but consider this: You could just as easily have yielded Sample 2 in your
+back‐test. In that case your 68.3 percent chance sample mean would lie
+between −$183.01 and $120.91. Not attractive at all.
+This example can be used to highlight another problem we’re all subject to. Think of each of the five samples as a separate back‐test, maybe
+with one parameter value changed slightly per run. We’re likely to think
+we’re on the right track with and Samples 1 and 5, and on the wrong
+track with Samples 2 and 3, but the results come from the same distribution. We just can’t make a judgment on a small sample with a relatively
+large standard deviation.
+
+Testing the Hypothesis that Curve‐Fitting Is Proportional to the Number of Trades in the Sample
+Using Real Trade Data
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+16
+
+After that detour, let’s get back to our hypothesis testing with real trade
+data. Gold was selected because I have daily data going back to 1975. To
+generate a lot of trades, a 20‐day moving average reversal system was used.
+It goes long when the average of the last 20 closes is higher than yesterday’s
+average, and closes the long position and goes short when today’s average of
+the last 20 closes is less than yesterday’s. The following are some the back‐
+test result statistics:
+Winning trades: 233
+Losing trades: 450
+Total profit: $22,400
+Average trade: $32.80
+Largest winning trade: $16,230
+Largest losing trade: $5,150
+Standard deviation of the trades: $1,884
+For this analysis, it’s not important whether this is a tradeable strategy
+or not. All we want to know is how many trades we need in a sample to
+approximate the entire population’s results. For the analysis, the profit
+or loss value for each of the 683 gold trades was placed in a file. Then
+for each sample size the appropriate number of trades was randomly
+selected and the mean of that sample computed. This was done 10,000
+times for each sample size. The standard deviation of the 10,000 sample
+
+means was used to compute the standard error for that sample size. To
+summarize for a sample size of 90 trades: 10,000 times 90 trades were
+randomly selected from the gold trade file containing the 683 trades;
+the average of the 90 trades for each of the 10,000 sets of trades was
+computed; the standard deviation of the 10,000 mean values was computed; and then the standard error was computed by dividing the standard error by the square root of 90. The answer for that computation
+was about $200. Figure 2.3 shows the standard error versus the number
+of trades randomly selected for each sample. Sample size was limited to
+300 because there were only 683 trades in our trade file.
+
+700
+
+Standard Error
+
+600
+500
+400
+300
+200
+
+17
+
+100
+10
+
+30
+
+50
+
+70
+
+90 110 130 150 170 190 210 230 250 270 290
+Number of Trades in Each Sample
+
+FIGURE 2.3 Standard Error versus Sample Size for Gold Trades
+
+The standard error was computed by generating 10,000 samples of each
+sample size, then computing the average value per sample, and then computing the standard deviation of the 10,000 averages. Sample sizes were varied
+from 10 trades per sample to 300 trades per sample in 10‐trade increments.
+Figure 2.3 shows that as the number of trades in each sample increases, the
+standard error decreases. This is in line with our hypothesis. At 300 trades
+per sample, the standard error is about $100. That’s still a rather large difference from the true distribution; the one standard deviation range for that
+case is the mean trade of $32.80 minus $100, or ‐$67.20, to $32.80 plus
+$100, or $132.80. Clearly a bigger sample size is needed to accurately define
+the underlying infinite sample, but we’re pretty much at the limit of the sample size we can use with 683 gold trades standing in as our “infinite sample.”
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+0
+
+To get a bigger infinite sample, Commodity Systems Inc. (CSI) continuous contract data on 37 domestic commodities was used going back as far as
+CSI had data for them. Across those data, the 20‐day reversal system had the
+following back‐test trade statistics:
+Winning trades: 7,875
+Losing trades: 17,107
+Total profit: $845,713
+Average trade: $33.85
+Largest winning trade: $99,641.20
+Largest losing trade: $12,800
+Standard deviation of the trades: $2,316
+Figure 2.4 shows the standard error as a function of trade sample size
+when sample size is incremented from 20 trades to 1,000 trades in steps of
+20 trades.
+600
+
+400
+300
+200
+
+100
+0
+
+20
+60
+100
+140
+180
+220
+260
+300
+340
+380
+420
+460
+500
+540
+580
+620
+660
+700
+740
+780
+820
+860
+900
+940
+980
+
+DEVELOPING A STRATEGY SO IT TRADES LIKE IT BACK‐TESTS
+
+18
+
+Standard Error
+
+500
+
+Number of Trades in Each Sample
+
+FIGURE 2.4 Standard Error versus Sample Size for a Large Group of Commodity Trades
+
+Figure 2.4 shows that even when the sample size is 1,000 trades, the standard error is still relatively large—about $75.
+For a trader there is a practical lesson that can be learned from the foregoing discussion.The larger the variance of your back‐test results, the bigger
+your sample size needs to be to have confidence that the results are a true
+indication of how the strategy will trade in the future. In the first example,
+the standard deviation of the trade sample was 10. That yielded a standard
+
+error of about 2.5 when we pulled 10 samples from the distribution. When
+the standard deviation of the trade sample was increased to 500 and 10
+samples were used, the standard error jumped to a range of about 95 to 195.
+And from the last graph (Figure 2.4), we see that the standard error is about
+500 when the standard deviation of the trades grew to 2,316. There’s good
+news and bad news about these facts for both shorter‐term and longer‐term
+traders:
+■
+
+■
+
+Shorter‐term strategies will have smaller average profits (bad news) but
+smaller average losses (good news). The standard deviation across all
+trades will be relatively smaller, so the standard error will be relatively
+smaller and fewer samples will be needed to minimize curve‐fitting
+(good news).
+Longer‐term strategies will have larger average profits (good news) but
+larger average losses (bad news). The standard deviation across all trades
+will be relatively larger, so the standard error will be relatively larger and
+more samples will be needed to minimize curve‐fitting (bad news).
+
+■ Testing for Curve-Fitting
+
+19
+
+The statistics are over. The point of the previous section was that for most
+trading systems (I won’t say all, but I’m thinking all) you need many
+hundreds to thousands of trades in your back‐test to minimize the effects
+of curve‐fitting and gain the confidence that real trading will match the parameters of your back‐test. I don’t expect someone to statistically test his
+model to see if it’s curve‐fit. I have a relatively easy and robust way for you
+to convince yourself whether a system you develop is minimally curve‐fit,
+or not. It’s called “Build, Rebuild, and Compare,” or BRAC. The method involves using all the historical data for the instrument(s) you intend to trade
+in your development sample. As you build the strategy, keep track of the
+steps you took and the selection logic you used, and if you wind up developing a strategy that performs well, you’ve completed the “Build” part. Next,
+cut some data off the end of your historical data. If you were using 20 years
+of daily‐bar data, you might cut the last year off. Then with the smaller historical database “Rebuild” your strategy using the same steps and decision
+criteria you used the first time. The last step is to input all the historical data
+into the “Rebuilt” strategy and “Compare” the performance over the period
+of the withheld data with the performance of the first strategy over the same

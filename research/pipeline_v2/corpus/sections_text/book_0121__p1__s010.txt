@@ -1,0 +1,1259 @@
+
+and placing a stop below the bottom of the chart
+pattern.
+How often does the basic setup work? The following table provides an answer for many of the chart
+patterns discussed in this book.
+
+Visual Guide to Chart Patterns ■ 199
+
+Chart Pattern
+
+5%
+
+10%
+
+15%
+
+20%
+
+Head-and-shoulders
+bottoms
+
+93%
+
+83%
+
+72%
+
+63%
+
+Double bottoms
+
+91%
+
+81%
+
+71%
+
+63%
+
+Descending triangles
+
+87%
+
+77%
+
+66%
+
+60%
+
+Rectangles
+
+88%
+
+76%
+
+68%
+
+60%
+
+Triple bottoms
+
+88%
+
+75%
+
+64%
+
+56%
+
+Ascending triangles
+
+85%
+
+72%
+
+62%
+
+53%
+
+Symmetrical triangles
+
+85%
+
+71%
+
+60%
+
+52%
+
+Each trade located a stop a penny below the bottom of the chart pattern (the lowest valley), and each
+trade used a buy stop often a penny above the top
+of the chart pattern (as in an ascending triangle) or
+entered when price broke out upward (as in a trendline pierce for the symmetrical triangle).
+I measured how often price reached a target (5
+to 20 percent) and the percentages below the top
+row shows the result. For example, 83 percent of
+head-and-shoulders bottoms gain at least 10 percent.
+This compares to the worst performing of the bunch,
+symmetrical triangles, that show only 71 percent rising at least 10 percent after the breakout.
+To put it another way, you have a 63 percent chance
+of seeing price rise at least 20 percent after the breakout from a head-and-shoulders bottom. The numbers
+do not include commissions or fees. This also assumes
+you traded them perfectly.
+
+The numbers are slightly above those reported in
+the simulations that follow because of the measurement technique used and round oﬀ.
+
+Simulations
+I programmed my computer to test the basic setup.
+I used about a thousand stocks from July 1991 to
+July 2011 but not all stocks covered the entire range.
+Commissions were $10 a trade ($20 round trip).
+I used a 10 percent profit target to exit and a stop a
+penny below the bottom of the chart pattern. I did not
+trail the stop higher. The following two tables show
+the results sorted by the win/loss row.
+Head-andShoulders
+Bottoms
+
+Double
+Bottoms
+
+Rectangles
+
+Triple
+Bottoms
+
+Number of
+trades
+
+1,274
+
+2,201
+
+788
+
+605
+
+Win/loss
+
+82%
+
+82%
+
+75%
+
+75%
+
+Average
+proﬁt/loss
+
+7%
+
+6%
+
+6%
+
+5%
+
+Average
+hold time
+(days)
+
+40
+
+50
+
+39
+
+55
+
+Maximum
+loss
+
+–53%
+
+–40%
+
+–22%
+
+–40%
+
+Average
+win
+
+10%
+
+10%
+
+10%
+
+10%
+
+Average
+loss
+
+–9%
+
+–13%
+
+–8%
+
+–11%
+
+200 ■ CHAPTER 18 Basic Buy Setups
+
+SMART INVESTOR TIP
+Do not assume that performance
+will improve if price is above the
+200-period moving average.
+
+Descending Triangles
+
+Ascending Triangles
+
+Number of trades
+
+597
+
+922
+
+1,243
+
+Win/loss
+
+74%
+
+70%
+
+69%
+
+Average proﬁt/loss
+
+6%
+
+4%
+
+5%
+
+Average hold time
+
+25
+
+46
+
+33
+
+Maximum loss
+
+–33%
+
+–38%
+
+–36%
+
+Average win
+
+10%
+
+10%
+
+10%
+
+Average loss
+
+–4%
+
+–10%
+
+–7%
+
+The head-and-shoulders bottom is the best performing. Winning trades occurred 82 percent of
+the time, making an average of 7 percent in 40 days.
+During that time, one stock dropped by 53 percent,
+but the average loss was 9 percent.
+The worst performing were the triangles, but the
+average loss for descending triangles was -4 percent,
+the lowest of the bunch.
+Keep in mind that once the trade made 10 percent,
+we exited, so the average profit/loss will be below 10
+percent in all cases (since it includes both winning
+and losing trades).
+Additional tests using indicators such as a 50-day
+or 200-day simple moving average and various stop
+locations (5, 10, and 20 percent below the buy price)
+did not change the results significantly.
+The results highlight some facts. First, chart
+patterns dislike profit targets. Why limit gains to
+10 percent when price rises 50 percent or more?
+Second, using a stop will take you out of promising trades, hurting results. Some may think that a
+
+Symmetrical Triangles
+
+win/loss ratio of 2:1 would give good results, so I set
+the simulation to exit on a 10 percent profit with a
+fixed stop loss at 5 percent below the buy price. The
+trades using ascending triangles made an average of
+2 percent (down from 6 percent) and only 56 percent
+were profitable (down from 74 percent). However, the
+largest loss dropped from 33 to 14 percent.
+Placing a stop below the bottom of the chart pattern is often too far away, meaning the loss can be
+significant. The average height of ascending triangles
+was 13 percent (median 11 percent). If you place a
+stop below the bottom of the chart pattern and price
+drops, you will be looking at an average 13 percent
+loss. The biggest loss, 38 percent, happened because
+the triangle was that tall.
+
+Stop Placement
+Correct stop placement is an art backed by research.
+I have looked at many types of techniques for stop
+placement and measured their success rates with
+
+Visual Guide to Chart Patterns ■ 201
+
+9.00
+8.63
+8.00
+
+F
+
+Buy
+
+C
+B
+
+7.00
+
+E
+
+6.00
+
+G
+Sell
+
+D
+
+5.00
+
+A
+
+4.00
+30M
+20M
+10M
+1.384M
+
+Nov
+
+Dec
+2010
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+2011
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+0
+
+2012
+
+Exhibit 18.8: LIZ US Equity (Liz Claiborne Inc)
+
+actual trades. One of the simplest and best is the minor low stop.
+Place a stop loss order some distance below the
+nearest minor low (often I use a penny to a dime
+below). Others tuck a stop order below the value of a
+30-week moving average on the date of the minor low.
+Weinstein discusses this method in his book, Stan
+Weinstein’s Secrets for Profiting in Bull and Bear Markets.
+
+For a similar method, look at Exhibit 18.8.
+The idea for this stop placement technique is to
+hide the stop beneath the prior minor low, and raise
+the stop when price closes at a new high.
+For example, assume that we have a buy order
+a penny above the top trendline of the ascending
+triangle. When the order fills, place a stop a penny or
+two below the prior minor low. That is at A.
+
+SMART INVESTOR TIP
+Placing a stop below a minor
+low works well, but market
+professionals may suspect that
+stops are hiding there and try to
+push the stock to hit those stops.
+
+SMART INVESTOR TIP
+When price closes above a prior
+minor high, raise the stop to
+below the prior minor low.
+
+202 ■ CHAPTER 18â•‡ Basic Buy Setups
+Price climbs to B and then throws back to D. When
+price closes above peak B, which it does at C, raise the
+stop to a penny or two below D.
+Price climbs to a new high at F, retraces to form a
+minor low G, and then closes at new high E. When price
+closes at E, raise the stop to a penny or two below G.
+Keep doing that until you are stopped out. In this
+example, you would have bought at 5.62 and been
+stopped out at 6.08 for a gain of over 8 percent.
+If this chapter made it sound as if making money
+trading chart patterns is easy, the next chapter
+discusses failures. It highlights how difficult making
+money can be and gives tips on how to avoid being
+
+run over by a semi. Hint: Ignore what your uncle said,
+and quit playing in the road.
+
+For Further Reading
+Bulkowski, Thomas N. Trading Classic Chart Patterns.
+New York: John Wiley & Sons, 2002. This book discusses
+a scoring system for chart patterns to help eliminate
+the duds.
+Weinstein, Stan. Stan Weinstein’s Secrets for Profiting in
+Bull and Bear Markets. New York: McGraw-Hill, 1988. This
+book covers stop placement using a moving average.
+
+Visual Guide to Chart Patterns ■ 203
+
+Test Yourself
+Answer the following questions.
+1. Why is placing a buy stop a penny above the top
+trendline in an ascending triangle important?
+A. It means price is going to trend.
+B. It signals a downward breakout.
+C. It prevents the order from executing when
+price stops at the top trendline.
+2. What does “do not chase a stock” mean?
+A. Never fall in love with a stock.
+B. Buying too late can be hazardous to your wealth.
+C. Do not add to an existing position (scaling in).
+
+Answers 1. C; 2. B; 3. C
+
+3. Should you buy an unconfirmed double bottom?
+A. Only if you enjoy losing money.
+B. Yes, but only if the stock, industry, and market
+are trending in diﬀerent directions.
+C. Yes, but recognize that the risk of failure
+increases.
+
+C HA PTER
+
+19
+
+Failures
+C
+
+hart patterns fail and they do so much too often.
+This chapter shows what some of those failures
+look like and gives hints on how to avoid them. The
+first hint is to buy stocks that only go up. If you can
+do that, then you do not need to read the rest of this
+chapter, and you can retire at 36 as I did.
+
+Triangle Failures
+For the rest of you mere mortals, imagine that you
+have a buy stop a penny above the top of the ascending triangle shown in Exhibit 19.1.
+Price breaks out upward at A, and you are overjoyed at getting in on the ground ﬂoor of an advance.
+Then, just three days later, your mood changes
+when price drops and busts the triangle for the first
+time. Fortunately, the stock remains above the bottom
+of the chart pattern where you have a stop loss order.
+Price climbs above the top of the triangle and you
+are smiling again. The smile is brief because price
+
+drops, busting the pattern for the second time. This
+time, the stock drops far enough to hit your stop and
+take you out of the trade for a loss.
+Almost as soon as the stock cashes you out, it turns,
+rises, and busts the triangle for the third time. In fact,
+the busting continues until the stock moves more
+than 10 percent away from the top of the triangle.
+The exhibit shows what a triple busted ascending
+triangle looks like. Before trading ascending triangles,
+look for as many as you can find in the stocks you
+trade. See how price behaves. If they are as treacherous
+as this one, then look elsewhere.
+
+Another Dud
+Too many trades looks like this one. (See Exhibit 19.2.)
+Price begins a long uptrend in late August (some
+of the move is not shown) and forms a descending triangle in the spring of 2011. Price breaks out upward at
+A and climbs for a time before reversing and busting
+
+SMART INVESTOR TIP
+For any chart pattern, ﬁnd as
+many as you can in the stock
+you wish to trade and see how
+the patterns behaved in the past.
+Those patterns can be good clues
+to how price will behave in the
+future.
+
+205
+
+206 ■ CHAPTER 19 Failures
+
+50.00
+49.20
+
+Before buying a stock
+using a chart pattern, try
+to find other similar chart
+patterns in the same
+stock for an indication
+of how the pattern may
+behave.
+
+Bust
+Two
+
+48.00
+
+A
+
+46.00
+44.00
+Bust
+One
+
+42.00
+Bust
+Three
+
+40.00
+38.00
+
+0.5M
+0.165M
+
+Sep
+
+Oct
+Nov
+2010
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+2011
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+0
+
+2012
+
+Exhibit 19.1: NJR US Equity (New Jersey Resources Corp)
+
+SMART INVESTOR TIP
+The longer the price trend leading
+to the start of a chart pattern, the
+worse the performance.
+
+the triangle when it closes below the bottom of the
+chart pattern.
+How often does a bust occur? Answer: 22 percent
+of the time.
+One key to this failure and others like it is the
+length of the upward price trend leading to the chart
+pattern. The earlier the chart pattern appears in that
+trend, the better.
+
+A check of the numbers confirms this. Those
+chart patterns with a short-term period (less than
+three months) from the start of the trend to the
+chart pattern gain an average of 40 percent after an
+upward breakout. Those with an intermediate-term
+trend (three to six months) gain 37 percent, and
+those with a long-term trend (over six months) gain
+just 27 percent.
+
+Visual Guide to Chart Patterns ■ 207
+
+10.00
+
+A chart pattern at the
+end of a long trend may
+signal a trend reversal,
+regardless of the breakout direction.
+
+A
+
+9.00
+
+8.00
+
+7.00
+
+6.00
+5.40
+5.00
+
+4.00
+
+50M
+6.908M
+
+0
+
+Sep
+
+Oct
+Nov
+2010
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Aug
+2011
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+2012
+
+Exhibit 19.2: AMD US Equity (Advanced Micro Devices Inc)
+
+Thus, look how far into the price trend the chart
+pattern appears. Expect that the longer the trend, the
+worse the performance.
+
+Double Bottom Failures
+When I looked at my spreadsheet of trades, much of
+what I saw was blood from double bottoms that failed
+
+to produce a profit. One example of how that can happen is shown in Exhibit 19.3.
+The downtrend begins at G on the far left of the
+chart. When the stock bottoms at double bottom AB,
+the stock had tumbled 38 percent. You might think the
+stock would be a buy at that level, especially when a
+double bottom reversal appears.
+
+208 ■ CHAPTER 19â•‡ Failures
+
+G
+
+18.00
+
+16.00
+
+14.00
+D
+
+F
+
+C
+
+12.21
+12.00
+A
+
+B
+
+E
+
+10.00
+H
+
+10M
+5M
+0.352M
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+
+2011
+
+Jul
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+2012
+
+Exhibit 19.3:â•‡ ACXM US Equity (Acxiom Corp)
+
+The chart pattern confirms at C, so you buy the
+stock and set a stop a penny below B (the lower of
+the two bottoms), at 11.69. Price climbs to D and then
+trouble sets in.
+The stock begins moving down, day after day it
+seems, bottoming at E. “Whew!” you say. “That was
+close!” Indeed it was since the stock bottomed at
+
+11.74, a nickel above your stop. Price recovers along
+with your attitude and you are feeling good about the
+trade.
+At F, the breakaway gap is a sign of good things
+to come. Those who wanted to buy after the throwback might buy at the open of candle F. You can do
+that with a buy stop a penny above the top of the chart
+
+Visual Guide to Chart Patterns ■ 209
+
+pattern (C) placed sometime after E (after the throwback completed).
+Those that bought in on candle F had all of a week
+to exit before the stock collapsed into loss territory.
+The stock continued down, hitting the stop to cash
+you out for a loss and bottoming at H, 24 percent below the stop and 53 percent below the high at G.
+The moral of this story is manifold.
+1. Not having a stop in place can be a bad decision.
+2. It does not have to be a bear market before a stock
+loses a lot of money.
+3. It can be diﬃcult to determine when the market
+(or stock) bottoms.
+
+Head-and-Shoulders Bottom
+Failures
+As with any chart pattern, failures occur when price
+fails to trend in the expected direction. Exhibit 19.4
+shows an example.
+Let us begin with the measure rule to see what
+it says (I discuss how to use the measure rule in
+Chapter 24). The head low is at 5.71 and the neckline
+dot is at 14.38 for a height of 8.67. Added to the breakout price of 12.50, it says the target should be 21.17.
+Does that make sense? No. Why not? Because the
+rise means a gain of 69 percent. That is much too high
+to be realistic. “But the stock reached the target!” I can
+hear you say. My reply: “Don’t confuse the issue with
+facts!”
+
+If you bought this stock at the breakout B or
+soon after, you may have placed a stop below the
+prior minor low. That would be below the right
+shoulder.
+Those traders waiting for a throwback (C) would
+see D as the turn higher or even E and buy. They would
+probably use the low at D or E as the stop, only for
+a ride to the mortuary when their heart stopped as
+price collapsed to F.
+If you were a courageous type, you may have placed
+a stop below the head. That would have worked in this
+case, but the potential loss was huge, 54 percent below
+the breakout! Three hundred joules. Clear!
+This head-and-shoulders bottom forecasted the
+turn from bear market to bull. Three days after F,
+the general market turned bullish. The chart shows
+how tasty the recovery can be after a bear market
+ends.
+
+Rectangle Failures
+One failure of a rectangle top to perform up to expectations I show in Exhibit 19.5.
+Price launches skyward at A and overshoots the
+start of the chart pattern at B. Then price moves sideways, but notice that the bottoms trend higher (blue
+trendline). This pattern is an ascending triangle, but
+the valleys are close enough to the trendline that it is
+fine as a rectangle top as well.
+I say rectangle top and not a bottom because you
+should ignore overshoot (B) just before the chart
+
+SMART INVESTOR TIP
+Use the measure rule to determine
+how far price might move after
+the breakout from a chart pattern.
+If the percentage change is too
+large or predicts a move below
+zero, then discard the prediction.
+
+KEY POINT:
+As soon as you think a bear market
+has ended, buy and hold (from a
+year to 1.5 years). The recovery
+will ﬁll your bank account with joy
+in the color of green bills.
+
+210 ■ CHAPTER 19â•‡ Failures
+60
+
+50
+40
+30
+23.75
+Target
+
+20
+
+A
+B
+LS
+
+C
+
+RS
+
+10
+9.00
+8.00
+7.00
+
+D
+E
+F
+
+6.00
+Head
+
+5.00
+10M
+5M
+1.763M
+
+0
+
+Jun
+
+Jul
+
+Aug
+
+Sep
+2008
+
+Oct
+
+Nov
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+2009
+
+May
+
+Jun
+
+Exhibit 19.4:â•‡ CE US Equity (Celanese Corp)
+
+pattern. The price trend is upward leading to the chart
+pattern, not downward from the top of the one-day
+overshoot.
+Price breaks out upward from the pattern at C,
+but then runs into trouble. The stock bumps its head
+against resistance at the price level of B and at the
+diamond top in February.
+
+Look what happens next. The stock parachutes
+back to earth and lands at D, just above the launch
+price, A.
+Notice how price climbed from E to the diamond
+top and then plummeted back to F on the exit. Was
+this a hint of how the rectangle would react? I will let
+you ponder that.
+
+Visual Guide to Chart Patterns ■ 211
+
+Diamond
+Top
+
+60
+
+B
+
+C
+
+55
+54.70
+D
+
+A
+E
+
+50
+
+F
+
+45
+
+After a swift move up,
+like that shown from A to
+B, a decline often returns
+price (at D) to just above
+the launch price (A).
+
+40
+
+60M
+40M
+20M
+4.840M
+
+Sep
+
+Oct
+
+Nov
+2010
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+Jul
+2011
+
+Aug
+
+Sep
+
+Oct
+
+0
+
+Nov
+
+Dec
+
+2012
+
+Exhibit 19.5: QCOM US Equity (QUALCOMM Inc)
+
+Triple Bottom Failures
+Why do triple bottoms fail to perform up to expectations? The answers can be many, but the simple fact is
+that price fails to trend.
+Look at the triple bottom shown in Exhibit 19.6.
+At E, a brokerage firm initiated coverage with an
+overweight recommendation. At F, the company an-
+
+nounced earnings that appeared to be better than expected. The next day, the stock gaped upward to D but
+then sentiment changed. The stock slid down a hill
+from D in a straight line until hitting trees in the form
+of triple bottom ABC.
+The ABC pattern confirmed when price closed
+above the red line, but the reversal failed to spin price
+
+KEY POINT:
+Chart patterns fail when price
+does not trend.
+
+212 ■ CHAPTER 19 Failures
+
+60
+D
+
+55
+F
+E
+
+50
+
+AB C
+
+45
+43.26
+
+G
+
+40
+
+35
+
+H
+
+30
+
+10M
+1.897M
+
+Sep
+
+Oct
+
+Nov
+2010
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Jun
+Jul
+2011
+
+Aug
+
+Sep
+
+Oct
+
+Nov
+
+Dec
+
+0
+
+2012
+
+Exhibit 19.6: AFL US Equity (Aflac Inc)
+
+SMART INVESTOR TIP
+Large chart patterns perform
+better than small ones.
+
+upward. A stop placed below the bottom of this chart
+pattern would have limited the pain.
+The triple bottom was supposed to act as a
+reversal—and it did—but only for two months. Another
+earnings announcement at G saw price move higher for
+a few days, starting with an area gap. The forces that
+pushed price down from D came back and punished
+the stock again, sending it lower going into the fall.
+
+Notice how small the ABC pattern was. Since we
+know that small patterns tend to underperform their
+larger brothers, this could be a clue to this situation,
+especially combined with the strong run down from D
+(a straight line).
+This triple bottom acted as a half-staﬀ pattern
+appearing midway from D to H.
+
+Visual Guide to Chart Patterns ■ 213
+
+Test Yourself
+Answer the following.
+1. True or false: The longer the price trend leading to
+chart patterns, the worse the performance.
+2. Use the chart pattern measure rule to:
+A. Determine if the company may go bankrupt.
+B. See if it predicts a below zero stock price. That
+means a possible bankruptcy.
+C. Estimate how far price might move.
+
+Answers: 1. True; 2. C; 3. True
+
+3. True or false: The best time to trade chart patterns
+is when price trends.
+
+C HA PTER
+
+20
+
+The Throwback Buy Setup
+A
+
+nother setup that some traders prefer is to wait
+for a throwback to complete before buying. That
+is especially important if you fail to recognize a chart
+pattern before the breakout or if price launches upward in a blastoff move that sends the stock into orbit
+before you can hit the buy button.
+Throwbacks occur when price breaks out upward
+from a chart pattern, but the stock returns to the
+breakout price or trendline boundary within a month.
+A check of the data shows that since 2000, a throwback happened 58 percent of the time in 10,305 chart
+patterns of various types.
+The key to the throwback buy setup is to wait for
+the throwback to complete before taking a position in
+the stock. I have a few ideas on how to do that.
+
+Triangle Throwbacks
+Exhibit 20.1 shows an example of a throwback in an
+ascending triangle.
+
+The chart pattern breaks out upward at B, but within
+a few days, price throws back to the breakout price (A)
+by hitting an air pocket so severe that it would scare
+the living daylights out of most passengers.
+Those owning the stock chew their fingernails as
+the stock gains altitude to G, but then another downdraft sucks the stock lower, crashing below the bottom of the chart pattern at C and stopping them out
+for a loss.
+This chart is an example of how treacherous throwbacks can be. What if you waited for the throwback to
+complete before taking a position in the stock?
+Statistics show that ascending triangles with
+throwbacks have gains averaging 28 percent. Those
+without throwbacks average 42 percent (based on perfect trades). If you wait for a throwback, you will be
+giving up the best performing trades when price turns
+into a jet airliner and takes off.
+By waiting for a throwback to complete, missing
+big winners is the cost of doing business. The good
+
+FAST FACTS
+Throwbacks occur 60 percent of
+the time in ascending triangles.
+In 25 percent of the throwback
+cases, price drops below the bottom of the chart pattern.
+
+215
+
+216 ■ CHAPTER 20 The Throwback Buy Setup
+
+By convention, a throwback occurs after an
+upward breakout when
+price returns to the
+breakout price or trendline boundary within 30
+days.
+
+B
+
+E
+
+55
+
+A
+G
+
+D
+
+51.87
+
+F
+
+50
+
+C
+
+45
+
+40
+
+35
+1.5M
+1M
+0.162M
+
+0
+
+Aug
+
+Sep
+
+Oct
+2010
+
+Nov
+
+Dec
+
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+2011
+
+Jun
+
+Jul
+
+Aug
+
+Exhibit 20.1: KALU US Equity (Kaiser Aluminum Corp)
+
+FAST FACTS
+When a throwback occurs, performance suffers. Breakouts with
+above average volume are more
+likely to throwback than are those
+with below average volume.
+
+news is that you also sidestep 25 percent of the cases
+where the throwback forced price below the bottom
+of the ascending triangle, potentially stopping you out
+for a loss. Waiting means you increase your chance of
+having a winning trade.
+Here is the trading setup based on this idea.

@@ -1,0 +1,624 @@
+
+BECOMING A CHART READER
+
+41
+
+charts in different time frames, but the linkages between
+them are not as intuitive and are often buggy and unstable.
+For most trading purposes this is sufﬁcient, but where you
+need the edge of split-second decision making, there is no
+substitute for higher quality.
+Whatever charting service you use, you should add
+the following indicators to your default chart:
+• Simple moving averages (SMAs): 20 MA, 50 MA,
+
+200 MA
+• Moving average convergence-divergence
+(MACD): 12–26–9 periodicity
+• Stochastics: 5–3 (or 5–3–3) periodicity
+• On balance volume (OBV)
+• Relative strength index (RSI): 5 periodicity
+• Commodity channel index (CCI): 20 periodicity
+If you are confused at this point, don’t worry. Here is
+a simple primer on what these indicators mean and how
+they tend to be used.
+
+Simple Moving Averages (SMAs):
+20, 50, and 200 Settings
+• Theory: An MA measures the consensus, or
+
+average, closing price of a stock over a given
+period of time. A 20 setting shows the average
+price over 20 days, and so on. A simple MA is one
+that takes an equally weighted average of price.
+• Reading the indicator: SMAs represent price
+consensus over a given period of time. When
+
+42
+
+TREND TRADING FOR A LIVING
+
+price gets too far away from the consensus, it
+tends to revert to that consensus like a magnet. In
+turn, SMAs tend to act as barriers to price,
+putting a stop to any trend that runs into it.
+SMAs also indicate trend: if they are sloped up,
+the price trend is up (bullish). If they are sloped
+down, the price trend is down (bearish). If the
+slope is sharp, the trend is strong, and if the slope
+is shallow, the trend is weak. A ﬂat or choppy
+SMA indicates a range-bound market.
+• Uses:
+1. To show areas of support and resistance
+2. To determine the direction and strength of the
+current trend
+• Chart example: Figure 2.1 shows the S&P 500
+proxy (SPY) with both the 20 (dotted line) and
+the 50 (solid line) SMAs overlaid. Note how the
+
+Figure 2.1
+
+Dow Jones Industrial Average with 20/50 SMAs.
+
+BECOMING A CHART READER
+
+43
+
+upward slope on the left of the chart conﬁrms the
+uptrend in price and acts as support for that
+uptrend, while the right of the chart shows the
+SMAs conﬁrming a breakdown in price. The ﬂat
+50 SMA in the right third of the chart indicates a
+choppy, range-bound market.
+
+Moving Average Convergence/Divergence
+(MACD): 12–26–9 Periodicity with
+Histogram (a Bar Graph of Daily
+MACD Readings) Overlay
+• Theory: MACD measures the difference between a
+
+shorter-term consensus of price and a longer-term
+consensus, and works on the assumption that when
+these diverge, the current price trend is increasing
+in strength, and when they converge, the trend is
+decreasing in strength. The periodicity settings
+represent the following: a 12-day moving average
+of price (short-term), a 26-day moving average
+(longer-term), and a 9-day average of the
+difference between the two averages.
+• Reading the indicator: Positive MACD readings
+(above the 0-line) indicate that bulls are in charge
+of the market, while readings below the 0-line
+indicate that bears are in charge. The length of
+the histogram bars can be used to determine the
+strength of trends: the longer the bars, the
+stronger the trend (and vice versa). Also, both the
+MACD signal lines and the MACD histogram
+can be used to show bullish or bearish divergence
+
+44
+
+TREND TRADING FOR A LIVING
+
+from price, which can give tradable signals (the
+term divergence will be explained later).
+Crossovers from positive to negative MACD
+readings, and vice versa, do not offer reliable
+trading signals, since they tend to lag the market.
+• Uses:
+1. As a contrarian indicator when it diverges from
+price
+2. To determine the strength or weakness of price
+trends
+3. To determine whether a market is currently
+bullish or bearish
+• Chart example: In Figure 2.2, the SPY has the
+MACD below it, showing an interesting relationship between indicator and price. Note how as
+
+Figure 2.2
+
+SPY with MACD indicator.
+
+BECOMING A CHART READER
+
+45
+
+the uptrend matures, MACD fails to put in new
+highs even as price does so. This indicates relative
+weakness, or bearish divergence. Also note the moves
+above and below the 0-line with respect to price
+moves. Clearly these shifts cannot be used as
+trading signals since they come too late to catch
+the move, but they are valuable in indicating the
+overall mood (bullish or bearish) of the stock’s
+price.
+
+Stochastics: 5 (%K), 3 (%D) Settings
+• Theory: Stochastics measures the relationship
+
+between the most recent closing price and the
+total price range (highs to lows) over a given
+period of time. A declining stochastics indicates
+that price is tending to close near the lower end of
+its recent trading range (bearish), while a rising
+stochastics indicates that price is tending to close
+near the upper end of its recent trading range
+(bullish). %D is a moving average of %K values
+over a given period.
+• Reading the indicator: Stochastics gives a clear buy
+signal once it passes below the 20-line (oversold)
+and then %K crosses over %D. It gives a clear
+sell signal once it passes above the 80-line
+(overbought) and then %K crosses under %D.
+• Uses:
+1. To register overbought and oversold levels
+in price
+2. To register entry and exit signals for trend
+trades
+
+46
+
+TREND TRADING FOR A LIVING
+
+Figure 2.3
+
+SPY with stochastics indicator.
+
+3. As a contrarian indicator when it diverges from
+
+price
+• Chart example: In Figure 2.3, the SPY has the
+stochastics (5–3) below it. Note how dips to or
+below the 20-line (oversold) often precede sharp
+upward thrusts in price. The signals to sell over
+the 80-line (overbought) are less reliable during
+the uptrend, but offer proﬁtable trading
+opportunities once the index shows some
+weakness in the overall trend.
+
+On Balance Volume (OBV)
+• Theory: Since OBV is measured by adding the
+
+volume of an up day to a running total of volume
+
+BECOMING A CHART READER
+
+47
+
+and subtracting the volume of a down day from
+that total, it gives us a pictorial image of whether
+a stock is being accumulated (more shares being
+bought than sold) or distributed (more shares sold
+than bought) over time. A rising OBV indicates
+accumulation, while a falling OBV indicates
+distribution.
+• Reading the indicator: If a price trend is conﬁrmed
+by supportive volume, OBV will move in concert
+with price, making new highs or lows along with
+new price highs or lows. When it does so, OBV
+conﬁrms the current trend. When it does not,
+OBV acts as a contrarian indicator. OBV
+sometimes acts as a leading indicator: if it rises
+ahead of price, price tends to follow; and vice
+versa if it falls ahead of price.
+• Uses:
+1. To conﬁrm the validity of current trends and
+breakout moves
+2. As a contrarian indictor signaling false
+breakouts and weakening trends
+3. As a leading indicator useful to taking positions
+in breakouts prior to the breakout move
+• Chart example: In Figure 2.4, the SPY has OBV
+below it. OBV is used to conﬁrm price trends, so
+as long as OBV is making new highs, the bullish
+price trend should be bought. But note how OBV
+gave a divergence warning in late February when
+it failed to print a new high as price was hitting
+new highs. The market sold off sharply right after
+that. The OBV was right—traders were
+distributing their shares.
+
+48
+
+TREND TRADING FOR A LIVING
+
+Figure 2.4
+
+SPY with the OBV indicator.
+
+Relative Strength Index (RSI): 5-Period Setting
+• Theory: RSI is measured by dividing an average of
+
+net positive changes in closing prices over a given
+period of time by an average of net negative
+changes in price. As this number increases over
+time, a bullish trend is conﬁrmed. When the
+number decreases, a bearish trend is conﬁrmed.
+• Reading the indicator: RSI should move in concert
+with price during major trends. When RSI
+diverges from price, this represents a tradable
+situation and may indicate a top or bottom to the
+current trend. A reading above 70 indicates
+overbought levels in price, while a reading below
+30 indicates oversold levels in price.
+
+BECOMING A CHART READER
+
+49
+
+• Uses:
+1. As a contrarian indicator, foreshadowing
+
+potential reversals of trend
+2. To conﬁrm the validity of the current trend or
+price breakout
+3. To register overbought and oversold levels in
+price
+• Chart example: In Figure 2.5, the SPY has RSI
+below it. Like other oversold-overbought
+indicators, RSI can be used proﬁtably to alert us
+to buy and sell signals, but only when other
+
+Figure 2.5
+
+SPY with the RSI indicator.
+
+50
+
+TREND TRADING FOR A LIVING
+
+factors are in place. As a stand-alone indicator, it
+is best used to show divergence. On the chart in
+Figure 2.5, we can see clear bearish divergence to
+price in late February and bullish divergence in
+the middle of March.
+
+Commodity Channel Index (CCI):
+20-Period Setting
+• Theory: CCI is calculated by dividing price
+
+increases or decreases over a period of time by a
+mean standard deviation of a consensus or average
+of price over time. The resulting plotted line of
+this calculation will give visual readings of the
+strength of current trends as well as indicate
+“hidden” strength or weakness during relatively
+ﬂat market periods.
+• Reading the indicator: Extreme high and low
+readings in the CCI indicator (⫹200/−200) are
+used by some traders to signal price waves or
+cycles. The indicator can also be used, like other
+single line indicators (RSI, OBV), to signal buys
+and sells when the indicator diverges from price.
+Like other indicators, CCI can be a leading
+indicator when it diverges from price. A relatively
+ﬂat market with a rising or falling CCI can signal
+future direction in price.
+• Uses:
+1. As a contrarian indicator, foreshadowing potential reversals of trend
+2. To conﬁrm the validity of the current trend
+
+BECOMING A CHART READER
+
+51
+
+3. To indicate the beginning and end of price
+
+waves or cycles within a larger trend
+• Chart example: In Figure 2.6, SPY has the CCI
+indicator below it. Again like the RSI indicator,
+we see bearish divergence in late February
+and bullish divergence in mid-March. What
+is unique about CCI is its ability to pinpoint
+cycle changes. The extreme bearish reading we
+see at the end of February and beginning of
+March signals a change of cycle. The shortlived bearish cycle is likely over, and a new
+bullish cycle has begun.
+
+Figure 2.6
+
+SPY with the CCI indicator.
+
+52
+
+TREND TRADING FOR A LIVING
+
+So that’s it. These “sexy six” are the only indicators I
+use consistently in all my trend-trading systems. There are
+other indicators I occasionally use, such as a ﬁve-period
+exponential MA coupled with an eight-period SMA,
+Bollinger Bands, ADX, and Money Flow, but these are used
+mostly in special-case trading situations that fall outside
+the parameters of ordinary, everyday trend-trading strategies. For most trend-trading purposes, the preceding list is
+sufﬁcient.
+
+SETTING UP YOUR CHART
+Now it is time to set up your chart. The foregoing gives
+you a list of all the indicators you should put on your primary chart, along with the speciﬁc settings. These indicators and settings will remain the same whether you are
+looking at weekly, daily, or intraday charts. The trendtrading systems you will learn in this book can be applied
+to all time frames, depending on your trading preferences
+and goals. But for the purposes of simplicity, we will limit
+our examples to the daily chart.
+Some of these indicator settings are conﬁgured to the
+standard default setting you get with most charting applications. But several (stochastics, RSI, CCI) have been set
+to a more sensitive reading, which better supports what we
+are trying to do with trend trading. You can ﬁddle around
+with these numbers if you want to, but I recommend at
+least trying the settings I use ﬁrst.
+Figure 2.7 is a chart of the S&P 500 proxy SPY (Spyders) with all the aforementioned indicators. Take note of
+several things.
+
+BECOMING A CHART READER
+
+Figure 2.7
+
+SPY with all the indicators.
+
+53
+
+54
+
+TREND TRADING FOR A LIVING
+
+1. First, look at how the MAs (20, 50, and 200) went
+from a period of up and down confusion, crossing
+over each other and not giving much of an
+indication of trend, to a period where all three are
+sharply rising, with the 20 (dotted line) over the
+50 (thick solid line) and the 50 over the 200 (thin
+solid line). This change of condition we call a
+change from a range-bound to a strongly uptrending
+market. Both these terms will be deﬁned in greater
+detail in the next section.
+2. Note the oversold and overbought conditions of
+the RSI, stochastics, and CCI indicators and
+compare these values to what price did. Not every
+oversold or overbought condition marks a valid
+buy or sell signal. Indicators need to be taken
+together with other triggers on the price chart
+itself. Oversold and overbought conditions can
+simply become very oversold or very overbought
+before they resolve themselves. As a clear example
+of this, compare the consistently overbought
+action of stochastics during the month of
+November with what price was doing (i.e., going
+up and up).
+3. Note how the OBV indicator can be played with
+trendlines—just like price. A breakout of the
+downtrend line in early November signaled the start
+of a healthy bull run, while the break of the
+uptrend line in mid-January may signal a new
+downtrend in price.
+
+BECOMING A CHART READER
+
+55
+
+4. Note how CCI marked signiﬁcant cycle changes
+whenever it hit extremes of ⫹/⫺200. Except for the
+November high, the other three signals circled on
+the chart proved proﬁtable. CCI can also be played
+like OBV, with trendlines overlaid. The trendline
+break to the upside in mid-October signaled a
+buying opportunity.
+5. Finally, note the bearish divergence that crept into
+the last two months of trading. Note how even
+though the SPY price was making new near-term
+highs, the RSI and MACD indicators were making
+lower highs. This is bearish divergence and ﬂashes a
+caution sign to market bulls. Indeed, several weeks
+later SPY traded down to near 120.00 before
+recovering.
+Figure 2.8 is another chart of the S&P 500 proxy,
+SPY, from a year earlier than the chart that preceded it.
+Here I have highlighted a number of divergences between
+price and the various indicators we use. Whenever price
+sets a higher high or lower low without the indicators following suit, we have a setup that often foreshadows large
+market moves. When divergence is seen between price and
+one or more indicators, trend traders will fade the price and
+trade in the direction of the indicators. Also note again the
+use of trendlines on the OBV indicator and how a break of
+those lines can signal a change in price direction. And
+ﬁnally, take a look at how the indicators, especially stochastics, register oversold and overbought conditions at or
+near major market reversals.
+
+56
+
+Figure 2.8
+
+TREND TRADING FOR A LIVING
+
+SPY with all the indicators.
+
+BECOMING A CHART READER
+
+57
+
+TRENDLINES AND CHANNEL LINES
+It is extremely important in trend trading to determine
+whether the market in general, and the stocks on our watch
+lists in particular, are in a trend, and if so, what kind of
+trend it is. Trendlines and channel lines are among the tools
+we use to do this.
+Trendlines and channel lines are lines drawn over at
+least two tops and under at least two bottoms of major price
+movements. The more tops and bottoms you can intersect
+with the trendline, the more valid the trend. As a general
+rule, we recommend only drawing in a trendline that can
+intersect at least three price points. Note that these price
+points need not be pivots in price (that is, highs and lows
+in price), merely touches of the trendline by individual
+price bars.
+Trendlines help traders identify the dominant trends
+that price has tended to trade within, while channel lines
+demarcate trendless channels or trading ranges with support and resistance points. In short, these lines give us a
+simple, visual reference as to whether the stock is in an
+uptrend or a downtrend, or is stuck in a trading range. Furthermore, if we extend those lines beyond the right edge
+of the chart, we will have a visual map of where the stock
+is likely to trade into the near future. Thus, trendlines are
+an invaluable tool in helping us to make proﬁtable trading
+decisions.
+Trendlines are used to measure uptrends by drawing
+the lines under the lows, while downtrends are measured
+by drawing the lines over the highs. A series of higher lows
+indicates that the bears are getting less aggressive and the
+
+58
+
+TREND TRADING FOR A LIVING
+
+bulls more conﬁdent. That is all we need to know to call
+such movement an uptrend. The reverse is true for a downtrend. An uptrending line drawn below the lows combined
+with a ﬂat line over the highs is still an uptrend. A downtrending line over the highs combined with a ﬂat line under
+the lows is still a downtrend. Again: In an uptrend, only the
+lows count. In a downtrend, only the highs count.
+The following are theoretical examples of both an
+uptrend and a downtrend. Note that the trend is determined by only one side of the formation: the lows for the
+uptrend and the highs for the downtrend. Figure 2.9 is an
+example of an uptrend. Figure 2.10 is an example of a
+downtrend.
+If both trendlines—the one over the highs and the one
+under the lows—are ﬂat, the stock is in what we call a trading channel or trading range. The stock’s price is likely to
+bounce up and down between these channel lines until
+either the upper or the lower line is broken. If the upper
+
+Figure 2.9
+highs.
+
+An uptrend deﬁned by higher lows, not higher
+
+Figure 2.10
+lower lows.
+
+A downtrend, deﬁned by lower highs, not
+
+BECOMING A CHART READER
+
+59
+
+line is broken, we can expect to see a new uptrend develop.
+If the lower channel line is broken, we can expect to see a
+new downtrend develop. The same principles apply when
+we have an uptrending line under the lows combined with
+a downtrending line over the highs. This is still a channel,
+but it is now what we call a narrowing channel or a triangle
+formation. Any breakout from that formation is a tradable
+event.
+Figures 2.11 and 2.12 are theoretical examples of the
+two most common types of trading ranges or channels.
+Both trendlines and channel lines are used in following ways:
+• To determine the status of a price trend: up,
+
+down, or range-bound
+• To project future points of price resistance and
+support
+• To calculate where to put stop-losses
+• To note areas of price containment in order to
+predict breakout moves
+
+Figure 2.11
+
+A sideways trading channel or range.
+
+Figure 2.12
+
+A tightening trading range or triangle.
+
+60
+
+TREND TRADING FOR A LIVING
+
+Figure 2.13
+
+BRCM showing trendlines.
+
+Figure 2.13, the BRCM chart, demonstrates a trading channel or range in August that broke out to the upside.
+This led to choppy trade with short-term up- and downtrends, which then led to a more prolonged downtrend in
+October, followed by a prolonged uptrend into December.
+Note that if a position had been taken during either the
+channel or any of the trending patterns, the stop-loss for
+shorts should have been placed just over the upper trendline (dotted line) and a stop-loss for longs just under the
+lower trendline (solid line) once the trendline was established with at least three points of intersection.
+Figure 2.14 is a classic trading range or channel
+breakout exhibited by BEAS. The stock bounced up and
+down within a 2.00 range for ﬁve months before ﬁnally
+breaking out to the upside. This kind of long-term price
+containment with breakout sends the bullish signal that
+the stock is now ready to trade within a higher price range.
+
+BECOMING A CHART READER
+
+Figure 2.14
+
+61
+
+BEAS showing price channel breakout.
+
+Note also that once the price channel was established by
+sufﬁcient price touches in late July, the lower trendline,
+once extended out to the right, would have been a reasonable place of support to put a bid in for the stock (and the
+same would be true for putting an offer at the upper trendline). Note ﬁnally that the break of the second established
+trading range’s lower trendline in early November signaled
+that it was time to exit the trade and bank the proﬁt. This
+chart thus represents a potential trend trade return of over
+⫹40 percent in about nine weeks: buying BEAS at trendline support (near 11.00) and selling on a trendline break
+near 15.50.
+Two warnings need to be issued regarding the use
+of trend and channel lines. The ﬁrst is that these lines
+are always subjectively drawn. Even when software is
+used to draw trendlines, there is subjectivity at work in
+the way the programmer coded the software. This is to
+
+62
+
+TREND TRADING FOR A LIVING
+
+say that you must always be ready to alter your trendlines in response to new market data. It is all too easy
+to draw in a trend channel where none really exists
+because we have a predisposed bias to the stock moving
+in a certain direction. Trendlines and wishful thinking
+are a dangerous combination. For this reason, always
+apply the following rule to your use of trend and channel lines:
+No trend or trading channel exists until a line can
+be placed on the chart that intersects at least
+three price points. Two price points can yield a
+trendline, but no trading decision should be made
+until a third touch of the line is recorded.
+There is much debate among market technicians and
+traders whether one should run a trend or channel line
+over/under intraday prices (the “tails” or “shadows” on the
+candlesticks) or only the end-of-day price points. There are
+various answers to this question. It has been my general
+experience that closing prices trump intraday swings. Thus,
+if you draw a trend or channel line across the tops or under
+the bottoms of several runs in price, and then ﬁnd that at
+numerous points there are intraday swings in price that
+cannot be contained by those lines, it is okay. As long as
+you contain within the lines the majority consensus represented by the closing price (or the edge of the candle body
+if you are using candlestick charts), I believe you can more
+or less ignore the extreme opinions represented by a few
+wayward intraday runs (or tails). Some do prefer, however,
+to use lines to contain all points in price, including intra-
+
+BECOMING A CHART READER
+
+Figure 2.15
+
+63
+
+RIMM with trendlines.
+
+day swings. Hence, a sound compromise position on drawing trendlines can be heard in the teaching of Alexander
+Elder, who states, “. . . It is better to draw [the line]
+through the edges of congestion areas. Those edges show
+where the majority of traders have reversed direction.”
+(Elder, p. 88)
+In Figure 2.15, the chart of RIMM demonstrates
+Elder’s trendline technique in action. Here we see a downtrend line and subsequent uptrend line passing through
+areas of price congestion rather than at either intraday or
+end-of-day price points.
+A second warning with respect to trend and channel
+lines is that traders often have the tendency to draw too
+many of them. If we keep in mind that such lines are
+merely accidental tools we use to give us a very general
+sense of price containment and are not nearly as mathematically elegant and precise as the other indicators mentioned previously, we will then have a better attitude

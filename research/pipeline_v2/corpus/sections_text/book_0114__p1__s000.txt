@@ -1,0 +1,803 @@
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+Trading
+Price
+Action
+
+TRENDS
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing company in the United States. With offices in North America, Europe, Australia, and
+Asia, Wiley is globally committed to developing and marketing print and electronic
+products and services for our customers’ professional and personal knowledge and
+understanding.
+The Wiley Trading series features books by traders who have survived the
+market’s ever changing temperament and have prospered—some by reinventing
+systems, others by getting back to basics. Whether a novice trader, professional, or
+somewhere in-between, these books will provide the advice and strategies needed
+to prosper today and well into the future.
+For a list of available titles, please visit our Web site at www.WileyFinance.com.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+Trading
+Price
+Action
+
+TRENDS
+TECHNICAL ANALYSIS OF PRICE CHARTS
+BAR BY BAR FOR THE SERIOUS TRADER
+
+AL BR O O KS
+
+John Wiley & Sons, Inc.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+C 2012 by Al Brooks. All rights reserved.
+Copyright 
+
+The first edition of this book, titled Reading Price Charts Bar by Bar: The Technical Analysis of Price
+Action for the Serious Trader, was published in 2009.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+C TradeStation Technologies, Inc. All rights reserved.
+All charts were created with TradeStation. 
+
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form
+or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as
+permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior
+written permission of the Publisher, or authorization through payment of the appropriate per-copy fee
+to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax
+(978) 646-8600, or on the Web at www.copyright.com. Requests to the Publisher for permission should
+be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ
+07030, (201) 748-6011, fax (201) 748-6008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in
+preparing this book, they make no representations or warranties with respect to the accuracy or completeness of the contents of this book and specifically disclaim any implied warranties of merchantability or fitness for a particular purpose. No warranty may be created or extended by sales representatives
+or written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall
+be liable for any loss of profit or any other commercial damages, including but not limited to special,
+incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please contact
+our Customer Care Department within the United States at (800) 762-2974, outside the United States at
+(317) 572-3993 or fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may
+not be available in electronic books. For more information about Wiley products, visit our web site at
+www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Brooks, Al, 1952–
+Trading price action trends : technical analysis of price charts bar by bar for the serious trader / Al
+Brooks.
+p. cm. – (The Wiley trading series)
+“The first edition of this book titled, Reading price charts bar by bar : the technical analysis of price
+action for the serious trader, was published in 2009”–T.p. verso.
+Includes index.
+ISBN 978-1-118-06651-5 (cloth); ISBN 978-1-118-16623-9 (ebk);
+ISBN 978-1-118-16624-6 (ebk); ISBN 978-1-118-16625-3 (ebk)
+1. Stocks–Prices–Charts, diagrams, etc. I. Brooks, Al, 1952– Reading price charts bar by bar.
+II. Title.
+HG4638.B765 2012
+332.63 2042–dc23
+2011029297
+Printed in the United States of America
+10
+
+9 8 7 6 5 4 3 2 1
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+I would like to dedicate this book to my wonderfully kind daughter, Tess Brooks,
+who sees life as filled with opportunities and seeks them out around the world
+without hesitation. She is a bold, original thinker and a doer, and fills her life
+with the dreams that the rest of us have but are too afraid to pursue.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+Contents
+
+Acknowledgments
+List of Terms Used in This Book
+
+PART I
+
+xi
+xiii
+
+Introduction
+
+1
+
+Price Action
+
+35
+
+CHAPTER 1
+
+The Spectrum of Price Action: Extreme
+Trends to Extreme Trading Ranges
+
+55
+
+CHAPTER 2
+
+Trend Bars, Doji Bars, and Climaxes
+
+59
+
+CHAPTER 3
+
+Breakouts, Trading Ranges, Tests,
+and Reversals
+
+77
+
+Bar Basics: Signal Bars, Entry Bars,
+Setups, and Candle Patterns
+
+83
+
+CHAPTER 5
+
+Signal Bars: Reversal Bars
+
+89
+
+CHAPTER 6
+
+Signal Bars: Other Types
+
+101
+
+CHAPTER 7
+
+Outside Bars
+
+155
+
+CHAPTER 8
+
+The Importance of the Close of the Bar
+
+169
+
+CHAPTER 9
+
+Exchange-Traded Funds and
+Inverse Charts
+
+173
+
+CHAPTER 4
+
+vii
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+viii
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+CONTENTS
+
+PART II
+
+PART III
+
+PART IV
+
+CHAPTER 10 Second Entries
+
+177
+
+CHAPTER 11 Late and Missed Entries
+
+181
+
+CHAPTER 12 Pattern Evolution
+
+185
+
+Trend Lines and Channels
+
+191
+
+CHAPTER 13 Trend Lines
+
+195
+
+CHAPTER 14 Trend Channel Lines
+
+209
+
+CHAPTER 15 Channels
+
+219
+
+CHAPTER 16 Micro Channels
+
+249
+
+CHAPTER 17 Horizontal Lines: Swing Points
+and Other Key Price Levels
+
+269
+
+Trends
+
+275
+
+CHAPTER 18 Example of How to Trade
+a Trend
+
+289
+
+CHAPTER 19 Signs of Strength in a Trend
+
+307
+
+CHAPTER 20 Two Legs
+
+319
+
+Common Trend Patterns
+
+323
+
+CHAPTER 21 Spike and Channel Trend
+
+325
+
+CHAPTER 22 Trending Trading Range Days
+
+359
+
+CHAPTER 23 Trend from the Open and Small
+Pullback Trends
+
+383
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+CONTENTS
+
+ix
+
+CHAPTER 24 Reversal Day
+
+415
+
+CHAPTER 25 Trend Resumption Day
+
+423
+
+CHAPTER 26 Stairs: Broad Channel Trend
+
+431
+
+About the Author
+
+437
+
+About the Website
+
+439
+
+Index
+
+441
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-fm
+
+JWBT576-Brooks
+
+October 18, 2011
+
+1:8
+
+Printer: Donnelly
+
+P1: OTA/XYZ
+JWBT576-back
+
+P2: ABC
+JWBT576-Brooks
+
+October 12, 2011
+
+2:38
+
+Printer: Donnelly
+
+Acknowledgments
+
+My primary goal is to present a series of comprehensive books on price action that
+addresses the greatest concern among readers, which was how difficult my earlier
+book, Reading Price Charts Bar by Bar, was to read. I am deeply appreciative of
+all of the constructive comments that readers have provided and those from the
+participants in my daily live webinars. Many of these comments were incredibly
+insightful, and I have incorporated them in this current edition. I am also thankful
+to all of the traders who have been in my live trading room, because they have given
+me the opportunity to say things repeatedly until I could clearly articulate what I
+am seeing and doing. They have also asked many questions that have helped me
+find the words to communicate more effectively, and I have put those words into
+these books.
+I would like to give a special thank-you to Victor Brancale, who spent long
+hours proofreading the manuscripts and providing hundreds of very helpful edits
+and suggestions, and to Robert Gjerde, who built and administers my website and
+has given me candid feedback on the chat room and the website. Finally, I want
+to thank Ginger Szala, the Group Editorial Director of Futures magazine, for giving me ongoing opportunities to publish articles and speak in webinars, and for
+regularly giving me very helpful advice on how to become more involved with the
+trading community.
+
+xi
+
+P1: OTA/XYZ
+JWBT576-back
+
+P2: ABC
+JWBT576-Brooks
+
+October 12, 2011
+
+2:38
+
+Printer: Donnelly
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+List of Terms
+Used in This Book
+
+All of these terms are defined in a practical way to be helpful to traders and not
+necessarily in the theoretical way often described by technicians.
+always in If you have to be in the market at all times, either long or short, this is
+whatever your current position is (always in long or always in short). If at any time
+you are forced to decide between initiating a long or a short trade and are confident
+in your choice, then the market is in always-in mode at that moment. Almost all of
+these trades require a spike in the direction of the trend before traders will have
+confidence.
+barbwire A trading range of three or more bars that largely overlap and one or
+more is a doji. It is a type of tight trading range with prominent tails and often
+relatively large bars.
+bar pullback In an upswing, a bar pullback is a bar with a low below the low of
+the prior bar. In a downswing, it is a bar with a high above that of the prior bar.
+bear reversal
+
+A change in trend from up to down (a bear trend).
+
+blown account An account that your losses have reduced below the minimum
+margin requirements set by your broker, and you will not be allowed to place a
+trade unless you deposit more money.
+breakout The high or low of the current bar extends beyond some prior price of
+significance such as a swing high or low, the high or low of any prior bar, a trend
+line, or a trend channel.
+breakout bar (or bar breakout)
+strong trend bar.
+breakout mode
+through.
+
+A bar that creates a breakout. It is usually a
+
+A setup where a breakout in either direction should have follow-
+
+breakout pullback A small pullback of one to about five bars that occurs within
+a few bars after a breakout. Since you see it as a pullback, you are expecting the
+
+xiii
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+xiv
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+LIST OF TERMS USED IN THIS BOOK
+
+breakout to resume and the pullback is a setup for that resumption. If instead you
+thought that the breakout would fail, you would not use the term pullback and
+instead would see the pullback as a failed breakout. For example, if there was a
+five-bar breakout above a bear trend line but you believed that the bear trend would
+continue, you would be considering shorting this bear flag and not looking to buy a
+pullback immediately after it broke out to the downside.
+breakout test A breakout pullback that comes close to the original entry price
+to test a breakeven stop. It may overshoot it or undershoot it by a few ticks. It can
+occur within a bar or two of entry or after an extended move or even 20 or more
+bars later.
+bull reversal
+
+A change in trend from a downtrend to an uptrend (a bull trend).
+
+buying pressure Strong bulls are asserting themselves and their buying is creating bull trend bars, bars with tails at the bottoms, and two-bar bull reversals. The
+effect is cumulative and usually is eventually followed by higher prices.
+candle A chart representation of price action in which the body is the area between the open and the close. If the close is above the open, it is a bull candle and
+is shown as white. If it is below, it is a bear candle and is black. The lines above and
+below are called tails (some technicians call them wicks or shadows).
+chart type A line, bar, candle, volume, tick, or other type of chart.
+climax A move that has gone too far too fast and has now reversed direction to
+either a trading range or an opposite trend. Most climaxes end with trend channel
+overshoots and reversals, but most of those reversals result in trading ranges and
+not an opposite trend.
+countertrend A trade or setup that is in the opposite direction from the current
+trend (the current always-in direction). This is a losing strategy for most traders
+since the risk is usually at least as large as the reward and the probability is rarely
+high enough to make the trader’s equation favorable.
+countertrend scalp A trade taken in the belief that there is more to go in the
+trend but that a small pullback is due; you enter countertrend to capture a small
+profit as that small pullback is forming. This is usually a mistake and should be
+avoided.
+day trade
+
+A trade where the intent is to exit on the day of entry.
+
+directional probability The probability that the market will move either up or
+down any number of ticks before it reaches a certain number of ticks in the opposite direction. If you are looking at an equidistant move up and down, it hovers
+around 50 percent most of the time, which means that there is a 50–50 chance that
+the market will move up by X ticks before it moves down X ticks, and a 50–50
+chance that it will move down X ticks before it moves up X ticks.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+LIST OF TERMS USED IN THIS BOOK
+
+xv
+
+doji A candle with a small body or no body at all. On a 5 minute chart, the body
+would be only one or two ticks; but on a daily chart, the body might be 10 or more
+ticks and still appear almost nonexistent. Neither the bulls nor the bears control
+the bar. All bars are either trend bars or nontrend bars, and those nontrend bars
+are called dojis.
+double bottom A chart formation in which the low of the current bar is about the
+same as the low of a prior swing low. That prior low can be just one bar earlier or 20
+or more bars earlier. It does not have to be at the low of the day, and it commonly
+forms in bull flags (a double bottom bull flag).
+double bottom bull flag A pause or bull flag in a bull trend that has two spikes
+down to around the same price and then reverses back into a bull trend.
+double bottom pullback A buy setup composed of a double bottom followed by
+a deep pullback that forms a higher low.
+double top A chart formation in which the high of the current bar is about the
+same as the high of a prior swing high. That prior high can be just one bar earlier
+or 20 or more bars earlier. It does not have to be at the high of the day, and it
+commonly forms in bear flags (a double top bear flag).
+double top bear flag A pause or bear flag in a bear trend that has two spikes up
+to around the same price and then reverses back into a bear trend.
+double top pullback A sell setup composed of a double top followed by a deep
+pullback that forms a lower high.
+early longs Traders who buy as a bull signal bar is forming rather than waiting
+for it to close and then entering on a buy stop at one tick above its high.
+early shorts Traders who sell as a bear signal bar is forming rather than waiting
+for it to close and then entering on a sell stop at one tick below its low.
+edge A setup with a positive trader’s equation. The trader has a mathematical
+advantage if he trades the setup. Edges are always small and fleeting because they
+need someone on the other side, and the market is filled with smart traders who
+won’t allow an edge to be big and persistent.
+EMA
+
+See exponential moving average (EMA).
+
+entry bar
+
+The bar during which a trade is entered.
+
+exponential moving average (EMA) The charts in these books use a 20-bar
+exponential moving average, but any moving average can be useful.
+fade To place a trade in the opposite direction of the trend (for example, selling
+a bull breakout that you expect to fail and reverse downward).
+failed failure A failure that fails, resuming in the direction of the original breakout, and therefore a breakout pullback. Since it is a second signal, it is more
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+xvi
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+LIST OF TERMS USED IN THIS BOOK
+
+reliable. For example, if there is a breakout above a trading range and the bar after
+the breakout is a bear reversal bar, if the market trades below that bar, the breakout
+has failed. If the market then trades above the high of a prior bar within the next
+few bars, the failed breakout has failed and now the breakout is resuming. This
+means that the failed breakout became a small bull flag and just a pullback from
+the breakout.
+failure (a failed move) A move where the protective stop is hit before a
+scalper’s profit is secured or before the trader’s objective is reached, usually leading
+to a move in the opposite direction as trapped traders are forced to exit at a loss.
+Currently, a scalper’s target in the Emini of four ticks usually requires a six-tick
+move, and a target in the QQQQ of 10 ticks usually requires a move of 12 cents.
+false Failed, failure.
+five-tick failure A trade in the Emini that reaches five ticks beyond the signal
+bar and then reverses. For example, a breakout of a bull flag runs five ticks, and
+once the bar closes, the next bar has a low that is lower. Most limit orders to take
+a one-point profit would fail to get filled since a move usually has to go one tick
+beyond the order before it is filled. It is often a setup for a trade in the opposite
+direction.
+flat
+
+Refers to a trader who is not currently holding any positions.
+
+follow-through After the initial move, like a breakout, it is one or more bars that
+extend the move. Traders like to see follow-through on the next bar and on the
+several bars after that, hoping for a trend where they stand to make more profit.
+follow-through bar A bar that creates follow-through after the entry bar; it is
+usually the next bar but sometimes forms a couple of bars later.
+fractal Every pattern is a fractal of a pattern on a higher time frame chart. This
+means that every pattern is a micro pattern on a higher time frame and every micro
+pattern is a standard pattern on a smaller time frame.
+gap A space between any two price bars on the chart. An opening gap is a common occurrence and is present if the open of the first bar of today is beyond the
+high or low of the prior bar (the last bar of yesterday) or of the entire day. A moving average gap is present when the low of a bar is above a flat or falling moving
+average, or the high of a bar is below a flat or rising moving average. Traditional
+gaps (breakout, measuring, and exhaustion) on daily charts have intraday equivalents in the form of various trend bars.
+gap bar
+
+See moving average gap bar.
+
+gap reversal A formation in which the current bar extends one tick beyond the
+prior bar back into the gap. For example, if there is a gap up open and the second
+bar of the day trades one tick below the low of the first bar, this is a gap reversal.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+LIST OF TERMS USED IN THIS BOOK
+
+HFT
+
+xvii
+
+See high-frequency trading (HFT).
+
+higher high
+
+A swing high that is higher than a previous swing high.
+
+higher low A swing low that is higher than a previous swing low.
+higher time frame (HTF) A chart covering the same amount of time as the
+current chart, but having fewer bars. For example, compared to the day session
+5 minute Emini chart on an average day, examples of higher time frame charts
+include a 15 minute chart, a tick chart with 25,000 ticks per bar, and a volume chart
+with 100,000 contracts per bar (each of these charts usually has fewer than 30 bars
+on an average day, compared to the 81 bars on the 5 minute chart).
+high-frequency trading (HFT) Also known as algorithmic trading or black box
+trading, it is a type of program trading where firms place millions of orders a day
+in thousands of stocks to scalp profits as small as a penny, and the trading is based
+on statistical analysis rather than fundamentals.
+high/low 1 or 2
+
+Either a high 1 or 2 or a low 1 or 2.
+
+high 1, 2, 3, or 4 A high 1 is a bar with a high above the prior bar in a bull flag or
+near the bottom of a trading range. If there is then a bar with a lower high (it can
+occur one or several bars later), the next bar in this correction whose high is above
+the prior bar’s high is a high 2. Third and fourth occurrences are a high 3 and 4. A
+high 3 is a wedge bull flag variant.
+HTF
+
+See higher time frame (HTF).
+
+ii Consecutive inside bars, where the second is inside the first. At the end of a
+leg, it is a breakout mode setup and can become a flag or a reversal setup. A less
+reliable version is a “bodies-only ii,” where you ignore the tails. Here, the second
+body is inside the first body, which is inside the body before it.
+iii Three inside bars in a row, and a somewhat more reliable pattern than an ii.
+inside bar A bar with a high that is at or below the high of the prior bar and a low
+that is at or above the low of the prior bar.
+institution Also called the smart money, it can be a pension fund, hedge fund,
+insurance company, bank, broker, large individual trader, or any other entity that
+trades enough volume to impact the market. Market movement is the cumulative effect of many institutions placing trades, and a single institution alone usually cannot
+move a major market for very long. Traditional institutions place trades based on
+fundamentals, and they used to be the sole determinant of the market’s direction.
+However, HFT firms now have a significant influence on the day’s movement since
+their trading currently generates most of the day’s volume. HFT firms are a special
+type of institutional firm and their trading is based on statistics and not fundamentals. Traditional institutions determine the direction and target, but mathematicians
+determine the path that the market takes to get there.
+
+P1: OTA/XYZ
+
+P2: ABC
+
+JWBT576-LOT
+
+JWBT576-Brooks
+
+xviii
+
+October 18, 2011
+
+2:13
+
+Printer: Donnelly
+
+LIST OF TERMS USED IN THIS BOOK
+
+ioi Inside-outside-inside—three consecutive bars where the second bar is an outside bar, and the third bar is an inside bar. It is often a breakout mode setup where
+a trader looks to buy above the inside bar or sell below it.
+ledge A bull ledge is a small trading range with a bottom created by two or more
+bars with identical lows; a bear ledge is a small trading range with a top created by
+two or more bars with identical highs.
+leg A small trend that breaks a trend line of any size; the term is used only where
+there are at least two legs on the chart. It is any smaller trend that is part of a
+larger trend and it can be a pullback (a countertrend move), a swing in a trend or
+in a sideways market, or a with-trend move in a trend that occurs between any two
+pullbacks within the trend.
+likely At least 60 percent certain.
+long

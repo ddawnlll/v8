@@ -1,0 +1,15 @@
+[
+  {"claim_ref": "book_0061::lead_book_0061_4_044", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_2_060", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_3_061", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_1_064", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_4_047", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_3_064", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_1_070", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_1_072", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_3_070", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_1_074", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_1_075", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_2_069", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0061::lead_book_0061_3_075", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

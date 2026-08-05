@@ -1,0 +1,419 @@
+[
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_052",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_053",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_054",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_062",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_063",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_057",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_060",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_067",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_061",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_068",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_062",
+    "verdict": "corroboration",
+    "behavior_id": "news_discounting_reaction",
+    "page": 80,
+    "exact_text": "Then examine the crowd’s reaction to\nthe report and trade back into the position when the coast is finally clear.",
+    "added_conditions": [
+      "trade back into the position only after the crowd's reaction to the report settles"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_072",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 81,
+    "exact_text": "1. Euphoria driven by the breakout or breakdown\n2. Fear triggered by a fade against the breakout or breakdown",
+    "added_conditions": [
+      "breakout quality confirmed when the initial breakout is followed by a fade and then renewed confirmation"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_064",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_075",
+    "verdict": "corroboration",
+    "behavior_id": "news_discounting_reaction",
+    "page": 81,
+    "exact_text": "This morning range will contain most of the warm bodies that failed to sit\non their hands when the news was first released. Stalk price movement\nwhile whipsaws punish these bag holders, and then use their pain to get\non board at better entry levels.",
+    "added_conditions": [
+      "stand aside while the news-driven range establishes during the first 45 minutes to two hours, then enter after whipsaws punish the initial chasers"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_066",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_077",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_067",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_068",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_080",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_082",
+    "verdict": "corroboration",
+    "behavior_id": "news_discounting_reaction",
+    "page": 91,
+    "exact_text": "Here’s the theory: Everyone who wants to buy or sell the news takes\na position within the first few hours after it hits the wires. Once they’ve\ncharged off the sidelines, there’s no one left to take that side of the market",
+    "added_conditions": [
+      "best entry into postnews volatility comes on the afternoon following the release or two to three days later, once the initial news flow is exhausted"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_083",
+    "verdict": "corroboration",
+    "behavior_id": "news_discounting_reaction",
+    "page": 91,
+    "exact_text": "News that shocks expectations can trigger buy-sell imbalances that take several days to unwind.",
+    "added_conditions": [
+      "shock news can trigger buy-sell imbalances taking several days to unwind"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_071",
+    "verdict": "corroboration",
+    "behavior_id": "momentum_divergence_reversal",
+    "page": 91,
+    "exact_text": "Stochastics double top breakdowns trigger reliable sell signals. Research in Motion rallies more than 15 points\nin a month and tops out above 85 in June. The last phase of the uptrend carves out a lower high (1) on Stochastics, which breaks to the downside (2) just two days later.",
+    "added_conditions": [
+      "best signals unfold when Stochastics makes a lower high (or higher low) near the 80-20 line and then expands in the opposite direction"
+    ],
+    "added_parameters": [
+      {
+        "name": "stochastics_threshold",
+        "value": "80-20 line",
+        "page": 91
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_084",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_085",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_072",
+    "verdict": "corroboration",
+    "behavior_id": "relative_strength_ranking",
+    "page": 91,
+    "exact_text": "Run the 52-week high or low scan first, creating a list that contains just\nstocks in the top 25% for a strength list or bottom 25% for a weakness\nlist.",
+    "added_conditions": [
+      "run the resulting list through the Price vs. 200-day MA scan"
+    ],
+    "added_parameters": [
+      {
+        "name": "strength_list_cutoff",
+        "value": "top 25% of 52-week high",
+        "page": 91
+      },
+      {
+        "name": "weakness_list_cutoff",
+        "value": "bottom 25% of 52-week low",
+        "page": 91
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_088",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_089",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_073",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_074",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 102,
+    "exact_text": "A stock rallies into a closely\nwatched breakout level, noses above resistance, and then reverses sharply.",
+    "added_conditions": [
+      "the buy-sell swing shifts to the downside with sellers in firm control after the failed breakout"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_090",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_092",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 91,
+    "exact_text": "Once you’ve located the continuation gap, wait for price to pull into a\ntest and place a limit order within its boundaries. The retracement, or\nmove against the primary trend, should run into a brick wall in the\nvicinity of the gap and reverse sharply.",
+    "added_conditions": [
+      "the retracement against the primary trend should reverse sharply in the vicinity of the continuation gap"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_076",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 102,
+    "exact_text": "Get familiar with classic candlestick reversals. Look for hammers\nand dojis at key support or resistance. Watch out for dark cloud\ncover after a big rally. Stay alert for a harami reversal after a big\nbar in either direction.",
+    "added_conditions": [
+      "candlestick reversal signals apply at key support or resistance and after a big rally or big bar"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_093",
+    "verdict": "corroboration",
+    "behavior_id": "failed_breakout_reentry",
+    "page": 103,
+    "exact_text": "Sellers enter the market immediately, knocking the fund back under the\ntwo-day high (2) in a rinse job that yields a vertical selloff.",
+    "added_conditions": [
+      "repeated rinse jobs knock price back under prior highs after each breakout"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_077",
+    "verdict": "corroboration",
+    "behavior_id": "breakout_retest",
+    "page": 102,
+    "exact_text": "the stock breaks above 200-day EMA resistance\nat 17 (1) and then pulls back to test the moving average (2), signaling a\nprice-based entry.",
+    "added_conditions": [
+      "pullback to test the broken moving average signals a price-based entry"
+    ],
+    "added_parameters": [
+      {
+        "name": "moving_average",
+        "value": "200-day EMA",
+        "page": 102
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_078",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_100",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_2_102",
+    "verdict": "corroboration",
+    "behavior_id": "gap_reversion",
+    "page": 103,
+    "exact_text": "Violation of the reverse break is likely to trigger price acceleration\ntoward the gap fill line, which marks the unchanged level from the prior\nsession.",
+    "added_conditions": [
+      "violation of the reverse break line in a gap accelerates price toward the gap fill line"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_089",
+    "verdict": "corroboration",
+    "behavior_id": "volatility_breakout",
+    "page": 115,
+    "exact_text": "It moves\nsideways for a month in a symmetrical triangle pattern (1) while\nBollinger Bands and price bars contract. It then gaps higher (2) on\nheavy volume, shifting from a low into a high volatility state, and\nstalls out at 5.",
+    "added_conditions": [
+      "volatility contracts while price moves sideways and then gaps higher on heavy volume into a high volatility state"
+    ],
+    "added_parameters": [
+      {
+        "name": "NR7",
+        "value": "narrowest range price bar of the last seven bars",
+        "page": 115
+      }
+    ]
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_095",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0075::lead_book_0075_1_100",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  }
+]

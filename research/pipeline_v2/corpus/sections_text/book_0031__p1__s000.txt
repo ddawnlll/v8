@@ -1,0 +1,366 @@
+Currency Trading For Dummies®, 2nd Edition
+by Brian Dolan
+
+Currency Trading For Dummies®, 2nd Edition
+Published by
+Wiley Publishing, Inc.
+111 River St.
+Hoboken, NJ 07030-5774
+www.wiley.com
+Copyright © 2011 by Wiley Publishing, Inc., Indianapolis, Indiana
+Published simultaneously in Canada
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any
+form or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise,
+except as permitted under Sections 107 or 108 of the 1976 United States Copyright Act, without
+either the prior written permission of the Publisher, or authorization through payment of the
+appropriate per-copy fee to the Copyright Clearance Center, 222 Rosewood Drive, Danvers, MA
+01923, 978-750-8400, fax 978-646-8600. Requests to the Publisher for permission should be
+addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken,
+NJ 07030, (201) 748-6011, fax (201) 748-6008, or online at
+http://www.wiley.com/go/permissions.
+Trademarks: Wiley, the Wiley Publishing logo, For Dummies, the Dummies Man logo, A
+Reference for the Rest of Us!, The Dummies Way, Dummies Daily, The Fun and Easy Way,
+Dummies.com, Making Everything Easier!, and related trade dress are trademarks or registered
+trademarks of John Wiley & Sons, Inc. and/or its affiliates in the United States and other countries,
+and may not be used without written permission. All other trademarks are the property of their
+respective owners. Wiley Publishing, Inc., is not associated with any product or vendor mentioned
+in this book.
+Limit of Liability/Disclaimer of Warranty: The contents of this work are intended to further
+general scientific research, understanding, and discussion only and are not intended and should
+not be relied upon as recommending or promoting a specific method, diagnosis, or treatment by
+physicians for any particular patient. The publisher and the author make no representations or
+warranties with respect to the accuracy or completeness of the contents of this work and
+
+specifically disclaim all warranties, including without limitation any implied warranties of
+fitness for a particular purpose. In view of ongoing research, equipment modifications, changes in
+governmental regulations, and the constant flow of information relating to the use of medicines,
+equipment, and devices, the reader is urged to review and evaluate the information provided in
+the package insert or instructions for each medicine, equipment, or device for, among other
+things, any changes in the instructions or indication of usage and for added warnings and
+precautions. Readers should consult with a specialist where appropriate. The fact that an
+organization or Website is referred to in this work as a citation and/or a potential source of
+further information does not mean that the author or the publisher endorses the information the
+organization or Website may provide or recommendations it may make. Further, readers should
+be aware that Internet Websites listed in this work may have changed or disappeared between
+when this work was written and when it is read. No warranty may be created or extended by any
+promotional statements for this work. Neither the publisher nor the author shall be liable for any
+damages arising herefrom.
+For general information on our other products and services, please contact our Customer Care
+Department within the U.S. at 877-762-2974, outside the U.S. at 317-572-3993, or fax 317-5724002.
+For technical support, please visit www.wiley.com/techsupport.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in
+print may not be available in electronic books.
+Library of Congress Control Number: 2011930128
+ISBN: 978-1-118-01851-4
+Manufactured in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+About the Author
+Brian Dolan is the chief currency strategist at GAIN Capital Group, and a 20-plus year veteran of
+the interbank currency market. Brian provides research and market analysis to trading clients of
+GAIN Capital and FOREX.com, the retail division of GAIN Capital Group.
+Brian analyzes the G10 currency markets with a blend of fundamental and technical analysis to
+provide actionable trading strategies.
+
+A frequent commentator on currency-market developments and outlooks for major news media
+including the Wall Street Journal, Reuters, Bloomberg, Dow Jones, CNN Money, and
+MarketWatch.com, Brian has also appeared regularly as a currency analyst on financial TV
+networks CNBC, Bloomberg Television, Fox Business News and BNN in Canada.
+In addition, he has written numerous articles on currency trading, risk management, and technical
+analysis for trading and investment journals such as Currency Trader, Active Trader, SFO
+Magazine, Technical Analysis of Stocks & Commodities, and Futures.
+Prior to joining GAIN Capital, Brian was a vice president at Bank Julius Bär, where he advised
+hedge funds and high-net-worth individuals on currencies. He spent the first 12 years of his FX
+career trading major currency pairs in the interbank market in New York at some of the world’s
+largest banks, including Credit Suisse, Dai-Ichi Kangyo Bank, and American Express Bank, as
+well as two years in Bermuda as a proprietary trader at Butterfield Bank. Brian is a graduate of
+Dartmouth College.
+
+Dedication
+To Brigid, for her love and for hanging in there through the ups and downs; and to Frank and
+Catherine, for inspiring me to create a work for the future, just as you are. In memoriam to my
+mother Peg, father Chuck, and sadly missed brother Tim, who taught me that life is not a dress
+rehearsal.
+
+Author’s Acknowledgments
+My efforts to translate a career’s worth of currency trading experience into a book would be
+extremely thin were it not for the many lessons I garnered from colleagues in the market over the
+years. Readers of this book will benefit from the experience I’ve gained from many of you. Thanks
+to Mark Galant, for founding GAIN Capital and offering me the opportunity to write this book. To
+the trading team at GAIN: Tim O’Sullivan, Anthony Piccolo, Paul Spirgel, Rob Voorhees, Mike
+Goret, Damon Gallo, and Alan Viola — it’s an honor and pleasure to work with some of the best
+in the business. To Glenn Stevens and Samantha Roady, for setting the whole process in motion
+and encouraging me to go the full distance. To Christa Conte and Henry Feintuch of Feintuch
+Communications, for getting the word out to the media and then some. To my research team for
+picking up the slack while I wrote: Eric Viloria, CMT; Chris Tevere, CMT; Kathleen Brooks; and
+Dan Hwang. To Susan Hobbs for her fine editing assistance that made me get to the point, clearly.
+To McLean D. Giles for his technical review. And to the editors and staff at Wiley Publishing,
+especially Stacy Kennedy, for organizing the book in the first place.
+
+Publisher’s Acknowledgments
+We’re proud of this book; please send us your comments through our online registration form
+located at http://dummies.custhelp.com. For other comments, please contact our Customer Care
+Department within the U.S. at 877-762-2974, outside the U.S. at 317-572-3993, or fax 317-5724002.
+Some of the people who helped bring this book to market include the following:
+Acquisitions, Editorial, and Media Development
+Project Editor: Susan Hobbs
+Acquisitions Editor: Stacy Kennedy
+Copy Editor: Susan Hobbs
+Assistant Editor: Erin Calligan Mooney
+Editorial Program Coordinator: Joe Niesen
+Technical Editor: McLean D. Giles
+Editorial Manager: Jennifer Ehrlich
+Editorial Supervisor and Reprint Editor: Carmen Krikorian
+Editorial Assistants: David Lutton, Jennette ElNaggar
+Art Coordinator: Alicia B. South
+Cartoons: Rich Tennant (www.the5thwave.com)
+Composition Services
+Project Coordinator: Patrick Redmond
+Layout and Graphics: Corrie Socolovitch
+Proofreaders: Cara L. Buitron, Melissa Cossell
+Indexer: Steve Rath
+Publishing and Editorial for Consumer Dummies
+Diane Graves Steele, Vice President and Publisher, Consumer Dummies
+
+Kristin Ferguson-Wagstaffe, Product Development Director, Consumer Dummies
+Ensley Eikenburg, Associate Publisher, Travel
+Kelly Regan, Editorial Director, Travel
+Publishing for Technology Dummies
+Andy Cummings, Vice President and Publisher, Dummies Technology/General User
+Composition Services
+Debbie Stailey, Director of Composition Services
+
+Introduction
+The forex market was forever the private domain of hedge funds, global banks, multinational
+corporations, and wealthy private investors the world over. But this all changed a few years ago
+when the Internet-based technological revolution of online trading spread over to the forex
+markets. Today, tens of thousands of individual traders and investors all over the world are
+discovering the excitement and challenges of trading in the forex market.
+No question about it, forex markets can be one of the fastest and most volatile financial markets to
+trade. Money can be made or lost in a matter of seconds or minutes. At the same time, currencies
+can display significant trends lasting several days to weeks and even years. Most importantly,
+forex markets are always moving, providing an accessible and target-rich trading environment.
+In contrast to stock markets, which are more familiar and relatively intuitive to most investors, the
+forex market somehow remains more elusive and seemingly complicated to newcomers.
+I’ve spent my career in the forex market as a trader at some of the world’s largest financial
+institutions. I’ve written Currency Trading For Dummies to pull back the curtain and strip away
+the mystique of the currency market.
+In this book, I show you how the forex market really works, what moves it, and how you can
+actively trade it. I also provide you with the tools to develop a structured game plan you need to
+trade in the forex market and not lose your shirt. I cover
+Getting a handle on the forces that drive currency movements
+Understanding forex market trading conventions and strategies
+Interpreting economic data and official statements
+Finding sources of data and market intelligence
+Gauging market psychology, sentiment, and positioning
+Identifying key traits of individual currency pairs
+Utilizing technical analysis to spot trade opportunities
+The secrets behind Copy Trading - how to make top traders work for you
+Focusing on risk management to minimize losses and keep more of your gains
+
+About This Book
+
+If you’re an active trader looking for alternatives to trading stocks or futures, the forex market is
+hard to beat. Online trading innovations over the past decade have made it accessible, both
+technologically and financially.
+But as an individual trader, gaining access to the forex market is only the beginning. Just because
+you’ve got the keys to a Formula One race car doesn’t mean you’re ready to compete in a Grand
+Prix. First, you have to understand how the car works. Then you have to figure out some of the
+tactics and strategies the pros use. And then you have to get behind the wheel and practice,
+developing your skills, instincts, and tactics as you go.
+To succeed in the forex market, you’re going to have to do the same. This book gives you the nononsense information you need, with the perspective, experience, and insight of two forex market
+veterans.
+Whether you’re an experienced trader in other markets looking to expand into currencies, or a total
+newcomer to trading looking to start out in currencies, this book has what you need. Best of all,
+it’s presented in the easy to use For Dummies format. Divided into easy-to-follow parts, this book
+can serve as both your reference and troubleshooting guide.
+Note: Trading foreign currencies is a challenging and potentially profitable opportunity for
+educated and experienced investors. However, before deciding to participate in the forex market,
+you should carefully consider your investment objectives, level of experience, and risk appetite.
+Most important, don’t invest money you can’t afford to lose. The leveraged nature of forex trading
+means that any market movement will have an equally proportional effect on your deposited funds;
+this may work against you as well as for you. (To manage exposure, employ risk-reducing
+strategies such as stop-loss or limit orders.) Any off-exchange foreign exchange transaction
+involves considerable exposure to risk, including, but not limited to, leverage, creditworthiness,
+limited regulatory protection, and market volatility that may substantially affect the price or
+liquidity of a currency or currency pair. Using an Internet-based trading system also involves
+risks, including, but not limited to, the failure of hardware, software, and Internet connection.
+
+Conventions Used in This Book
+I keep the conventions to a minimum in this book. Here are the ones I use:
+Italics are used for emphasis or to highlight new words or phrases.
+Boldfaced text indicates key words in bulleted lists or the key steps of action lists.
+Monotype font is used to refer to Web addresses and e-mail addresses.
+
+Also, when you see references to eastern time (ET), that means whatever time it is in New York
+City. Part of the year, that’s eastern standard time (EST) and part of the year it’s eastern daylight
+
+time (EDT).
+
+What You’re Not to Read
+This book is designed to be an easy-access reference guide to currency trading. I cover each
+subject in its entirety in individual chapters, and the information doesn’t depend on what comes
+before or after. That means you’re able to jump around to the subjects you want to focus on and
+skip those you feel comfortable with already or just aren’t interested in.
+I highly recommend that complete beginners to trading in financial markets peruse the whole book
+to get a solid idea of all that’s involved. Experienced traders from other markets will probably
+want to focus more on the specific conventions and traits of the forex market — but you may also
+find the technical and fundamental insights as applied to currencies enlightening for your forays
+into trading this market.
+No matter your background, you can skip paragraphs marked with the Technical Stuff icon without
+giving up an understanding of the primary subject. Also, sidebars supplement the primary text —
+you can skip them without missing the main point.
+
+Foolish Assumptions
+Making assumptions is always a risky business, but knowing where I’m coming from may help put
+you at ease. Obviously, not all these assumptions will apply to you, but at least I’ll have it all out
+in the open. In writing this book, I assume that:
+You’ve heard about currency trading and you’re looking to find out more about what’s
+involved before you try it.
+You’re intrigued by the international dimensions of the forex markets and you want to find
+out how to profit from currency movements.
+You’re seeking to diversify your trading activities or hedge your investments.
+You want to discover more about technical analysis and how it can be used to improve
+trading results.
+You understand that trading currencies carries the risk of losses.
+You’re prepared to devote the time and resources necessary to understand what’s
+involved in currency trading.
+You have the financial resources to pursue margin trading, meaning that you’ll never risk
+
+more than you can afford to lose without affecting your lifestyle.
+You aren’t gullible enough to believe the infomercials that promise easy money by trading
+currencies.
+You understand that there is a big difference between gambling and speculating.
+These assumptions should serve as a healthy reality check for you before you decide to jump in to
+currency trading actively. A lot of it is similar to being a weekend golfer and being disappointed
+when your play doesn’t reach pro-level scores. But when you think about it, why should it? The
+pros are out there practicing and playing all day, every day — it’s their full-time job. Most people
+can only hope to get a round in on the weekend or get to the driving range for a few hours a week.
+Keep your perspective about what’s realistic for you, and you’ll be in a much better position to
+profit from actively trading.
+
+How This Book is Organized
+I’ve divided Currency Trading For Dummies into five parts. In this section, I lay them all out for
+you.
+
+Part I: Trading the World’s Largest Financial Market
+This part introduces you to the global forex market and gives you an idea of its size and scope.
+You find out who the players are and what their styles and motivations are. I also look at the
+impact of other financial markets on currencies. This part is also where I cover the nitty-gritty of
+currency trading conventions and tools so you know exactly how and what you’re trading.
+
+Part II: Driving Forces behind Currencies
+In this part I look at the major fundamental and economic drivers that influence currency values.
+Also, whether it’s economic data out of the United Kingdom or a political spat in the land down
+under (that’s Australia, mate!), the forex market moves in response to developments from around
+the world. I show you how to interpret the data and events like a pro, factoring in market
+psychology and positioning. I also draw on my years of experience to offer insights that clue you in
+to how major currencies typically trade so you can know what to expect before you take the
+plunge.
+
+Part III: Developing a Trading Plan
+The military has an old saying: “Proper planning prevents piss-poor performance.” The forex
+
+market is pretty much always open and constantly moving. To swim in this ocean and avoid the
+sharks requires an organized and disciplined approach to trading. In this part, I detail different
+trading styles, highlight concrete strategies, and provide a game plan for spotting trade
+opportunities and being prepared to act on them. I introduce you to my preferred technical analysis
+tools and my approach to using them. I also explore risk-management considerations and rules in
+depth, because what you don’t know can cost you.
+
+Part IV: Executing a Plan
+In this part, I walk you through the various ways of establishing a position in the market, how to
+manage the trade while it’s open, and how to close out the position on the most advantageous
+terms. I also look at the learning curve of a trader and suggest techniques to move you up your
+curve faster.
+
+Part V: The Part of Tens
+Here I offer a series of lists of key characteristics of successful traders, trading pitfalls to avoid,
+risk management rules to live by, and resources to continue your trading education.
+
+Icons Used in This Book
+Throughout this book, you see icons in the margins, highlighting certain paragraphs. Here are the
+icons I use and what they mean:
+
+Theories are fine, but anything marked with a Tip icon tells you what currency traders
+really think and respond to. These are the tricks of the trade.
+
+Paragraphs marked with the Remember icon contain the key takeaways from this book and
+the essence of each subject’s coverage.
+
+Achtung, baby! The Warning icon highlights potential errors and misconceptions that can
+cost you money, your sanity, or both.
+
+You can skip anything marked by the Technical Stuff icon without missing out on the main
+message, but you may find the information useful for a deeper understanding of the subject.
+
+Where to Go from Here
+This book is set up so you can jump right in to the topics that are of greatest interest to you. If
+you’re an absolute newcomer to trading in general and currencies in particular, I recommend
+reading Parts I and II to build a foundation for the other topics. If you have more experience with
+trading, use the table of contents and index to find the subject you have questions about right now.
+This book is a reference — keep it by your computer, and turn to it whenever you have a question
+about currency trading.
+
+Part I
+
+Trading the World’s Largest Financial
+Market
+
+In this part . . .
+I introduce you to the global currency market with an eye to demystifying it. I begin with an
+overview of the currency market and how it’s the ultimate traders’ market. Next, I run you through
+a global currency trading day, so you know what to expect. I also examine how currencies and
+other financial markets are interconnected. Then I show you who the major players are and look at
+their strategies and motivations for trading in the currency market.
+
+Chapter 1
+
+Currency Trading 101
+In This Chapter
+Looking at currency trading as a business
+Getting a sense of what moves currencies
+Developing trading strategies to exploit opportunities
+Implementing the trading plan
+The foreign exchange, or forex, market has exploded onto the scene and is the hot new financial
+market. It’s been around for years, but advances in electronic trading have now made it available
+to individual traders on a scale unimaginable just a few years ago. But just because currency
+trading is more accessible doesn’t mean it’s widely understood.
+I’ve spent my professional career in the forex market and I can’t think of a better traders’ market.
+In my opinion, nothing quite compares to the speed and exhilaration of the forex market or the
+intellectual and psychological challenges of trading in it. I’ve always looked at my work as
+essentially doing the same thing every day, but no two days are ever the same. Not many people
+can say that about their day jobs, and I wouldn’t trade it for the world, no pun intended.
+
+Defining Currency Trading
+At its heart, currency trading is speculation about the value of one currency versus another. The
+key words in that last sentence are speculation and currency. I think that looking at currency
+trading from those two angles is essential.
+On the one hand, currency trading is speculation, pure and simple, just like buying an individual
+stock or any other financial security in the hope that it will make a profitable return. On the other
+hand, the securities on which you’re speculating are the currencies of various countries. Viewed
+separately, that means currency trading is both about the dynamics of market speculation, or
+trading, and the factors that affect the value of currencies. Put them together and you’ve got the
+largest, most dynamic and exciting financial market in the world.
+Throughout this book, I approach currency trading from those two perspectives, looking at them
+separately and blending them together to give you the information you need to trade in the forex
+market.
+
+Speculating as an enterprise
+Let me first tell you what speculating isn’t; speculating is not gambling, and it’s not investing.
+Gambling is about playing with money, even when you know the odds are stacked against you.
+Investing is about minimizing risk and maximizing return, usually over a long time period (months
+or years). Speculating, or active trading (I use the terms interchangeably from here out), is about
+taking calculated financial risks to seek a profitable return, usually over a very short time horizon
+(minutes, hours, or days). You may be more familiar with speculating or active trading as day
+trading, but in the 24-hour-a-day forex market it can very easily turn into overnight trading, too.
+Speculating as an enterprise refers to treating your trading as a serious business venture. In my
+experience, many newcomers to the forex market enter it too lightly and don’t appreciate the
+patience and diligence required to be successful. I hope you’ll take to heart the following
+attributes I think define a successful trader in any market:
+Dedication (time and energy)
+Resources (technological and financial)
+Discipline (emotional and financial)
+Decisiveness (intellectual and psychological)
+Perseverance (risk management and opportunism)
+Knowledge (economic, political, and market dynamics)

@@ -1,0 +1,595 @@
+
+10
+
+Candles
+
+never before available. After you explore with me the beauty and power
+of the candle charts, you will never be able to go back to a bar chart.
+This book will be a self-contained unit. I will not go over all the candle
+patterns; that is done in my first book. However, I will sometimes make
+referencesto the more obscureor rare patterns discussedin my first book.
+This is for the benefit of those who are familiar with all the candle patterns. Do not worry if you have not heard of the pattern before; it will
+not detract from the discussionof the chart.
+Numerous charts and exhibits will quickly and clearly make evident
+how candlescan enhanceyour trading, timing, and investing. As shown
+throughout the book, candles can be merged with any other form of
+technical analysis. Consequently, I have included charts that show how
+to fully utilize the candles' power alone, or when joined with other technical tools.
+Just as important as the recognition of candle patterns is an understanding of the relationship of the candle patterns to the overall technical
+picture. Chapter 4 focuses on this vital, but often neglected, aspect. In
+this chapter, I will addresshow trading with the candles must take into
+account the risk and reward of a potential trade, the stop-out level, and
+the overall trend. I will also address the value of adapting to changing
+market conditions.
+Before I discusstrading with candles, I want to clarify a few points.
+In the futures market, selling short is as common as buying long. This is
+not true in the stock markeU most equity traders look to buy. Consequently, throughout this book when I use the term "bearish" or "selling" when discussinga stock, you should not think of necessarilygoing
+short. Instead, view it as an area to protect existing longs by such means
+as selling covered calls, moving up protective stops, or offsetting all or
+some longs.
+But this book is about more than candles. In Part II I reveal the disparity index, the three-line break, renko charts, and kagi. These techniques, popular in Japan,are virtually unknown in the west and, unlike
+candle charting, little has been written about these techniques, even in
+Japan.
+The disparity index comparesthe closeto a moving average.It is used
+in the same manner as dual moving averages,but it has an interesting
+wrinkle to it. The three-line break, kagi charts, and renko charts are
+popular among Japanesetraders. They are excellent technical tools for
+determining the trend of the market.
+Whether you use the techniques discussedin this book individually
+or in combination with one another, you will discover that they provide
+dynamic advantagesfor those who make use of their tremendouJ potential.
+
+11
+Note to Reader: Many charts in this book, especially in Part II, were
+drawn using technical analysis software from Metastock by EQUIS International (Salt Lake City, UT). A coupon for Metastock Software is
+included at the end of the book.
+
+CHAPTER2
+
+THE BASICS
+d\sdt.
+"lnattentionis Fatal"
+
+HISTORY OF THE CANDLE CHARTS
+rF
+
+I Hg fapanesewere the first to use technical analysisto trade one of the
+world's first futures markets-rice futures. The Japanesestarted trading
+in this market in the 1600s.Interestingly, the birth of the Japaneserice
+futures market was a consequenceof the country's military history.
+After a century of internal warfare among the daimyo ( Japanesefeudal lords), General Tokugawa Ieyasu, who ruled from Edo (the ancient
+name of Tokyo), won the famous battle at Sekigaharain 1600.This was
+the battle that helped unify fapan. Tokugawa thereafterbecameShogun
+of all ]apan. After his victory over the daimyo, General Tokugawa cleverly required that all the feudal lords live in Edo with their families. When
+the lords returned to their respective provinces, the entire family stayed
+at Edo as hostage.The feudal lord's main sourceof income was rice that
+was collectedas tax from the peasantswho worked their land. Sincethis
+rice could not be transported from the daimyo's provinces all the way to
+Edo, they set up warehousesin the port city of Osaka to store their rice.
+Becauseall these powerful daimyo lived so closeto eachother in Edo,
+they attempted to outdo one another in lavish dress,mansions,and other
+"The Edoite
+luxuries. This was reflectedby a popular saying at the time,
+will not keep his earnings overnight." This showed that the daimyo in
+Edo were seen as spendthrifts with an expensive lifestyle. To maintain
+this lifestyle, the daimyo sold rice from their warehouse in Osaka; sometimes thev even sold rice from future harvests. The warehouse would
+
+13
+
+t4
+
+Candles
+
+issue receiptsfor this future rice. These were called empty rice contracts
+("empty tice" since the rice was not in anyone's physical possession)
+and they were sold in the secondarymarket. This was the beginning of
+one of the world's first futures market.
+Trading in rice futures engenderedmuch speculation,and it was from
+this speculationthat Japanesetechnical analysiswas born. The most famous trader in the rice futures market was Homma. Homma traded in
+the rice futures markets in the 1700s.He discoveredthat although there
+was a link between the supply and demand of rice, the markets were
+also strongly influenced by the emotions of the traders. Becauseof this,
+there were times when the market perceived a harvest as different from
+the actual. He reasonedthat studying the emotions of the market could
+help in predicting prices. In other words, he understood that there was
+a differencebetween the value and the price of rice. This differencebetween price and value is as valid today with stocks, bonds, and currencies, as it was with rice centuries ago.
+In the material I had translated, candle charts are often called Sakata
+charts in referenceto the port city of Sakata,where Homma lived. However, basedon my research,it is unlikely that Homma used candlecharts.
+As will be seen later, when I discussthe evolution of the candle charts,
+it was more likely that candle charts were developed in the early part of
+the Meiji period in japan (in the late 1800s).
+whether or not Homma invented charting is open to question. But
+determining whether one person, in this caseHomma, createdcharts or
+used them to trade is not too important. There is a tendency in the West
+to be preoccupied with imposing authorship to one person. It is more
+likely that the candle charts we know today and all the techniques associatedwith them tended to be a processof cumulative authorship by
+severalpeople over many generations.Even if he did not invent candle
+charts, Homma understood that the psychologicalaspect of the market
+was critical to his trading success.And it appearsthat the earliestforms
+of technical analysis in Japan dealt more with the psychology of the
+market rather than charts.
+In the book, The Fountainof GoId-The ThreeMonkeyRecordof Money,
+purportedly written by Homma, the author states: " After 60 years of
+working day and night I have gradually acquired a deep understanding
+of the movements of the rice market." The book then goes on to say:
+"when all are
+bearish, there is cause for prices to rise. when everyone
+is bullish there is causefor the price to fall." This phrase echos what is
+now called contrarian opinion, a tool important to so many traders. yet,
+The Fountainof Gold-The ThreeMonkey Recordof Money, was written in
+1755.It is amazing that before America was a nation, the Japanesewere
+trading with contrarian opinion! The title had me perplexed for some
+
+The Basics
+
+"three monkeys" in the
+time. I did not understand the reference to the
+title. Then in some of my translated material, it said something about
+comparing successfultrading to being like the three monkeys we all knew
+as children-see, hear, and speak no evil. Then it dawned on me; the
+title of the book, The Fountainof Gold-The ThreeMonkeyRecordof Money,
+"fountains of gold," they should
+means that for traders to get to their
+have the characteristicsof these three monkeys. Specifically:
+L. "See no evil"-when yolJ seea bullish (bearish) trend, do not get
+caught up in iU consider it an opportunity to sell (buy).
+In the Fountain of Gold, it states that there is always a rotation of Yang
+(bullishness) and Yin (bearishness). This means that within each bull
+market, there is a bear market, and within a bear market, there is a bull
+market. This view may explain why fapanesecandlestick techniquesplace
+so much emphasis on reversal, rather than continuation, patterns.
+2. "Hear no evil"-when
+on it.
+
+vou hearbullish or bearish news, don't trade
+
+It may be safer to take a position after you determine how the market
+reacts to a news item rather than initiating a trade when the news is
+released. Bernard Baruch, the millionaire stock speculator and presiden"are not
+tial advisor, stated that what is important in market fluctuations
+the events themselves, but the human reactions to these events." Exhibit
+2.L shows that how the market reactsto the news may be just as important as the news itself.
+The Iraqi War started in the first few days of August 1990.Yet, Exhibit
+2.L shows that gold stalled at$425.This $425levelwas gold's high earlier
+in 1990. This failure to take out the prior high was in spite of the fact
+that there was a Mideast War. Gold's failure to rally on suPPosedly
+bullish news sent out volumes of information about the state of the market. To wit, be careful of a market that fails to rally on bullish news. Note
+that after this failure at$425, gold lost its luster as prices returned to their
+pre-Mideast crisis price near $360 within two months.
+"whispering tactics."
+Also be aware of what the Japaneserefer to as
+This is what they call the spreading of false news to trick others in the
+market. Try to keep out of rumor buffeted markets. Isaac Newton once
+said, "I can calculate the motion of heavenly bodies but not the madness
+of people." Why get involved with the madnessof people?
+3. "Speak no evil"-don't
+do in the market.
+
+speakto others about what you are going to
+
+15
+
+16
+
+Candles
+
+EXHIBIT 2.1. Observing the Market's Reactionto FundamentalNews, GoldDecember 1990,Daily
+
+Has the following happened to you? Basedon your analysis,you decide
+to buy into a market. You tell someone else of this decision, but they say
+something negative about that market. Becausethere is always a degree
+of uncertainty, you get nervous and decide not to buy. Then, of course,
+the market rallies.
+If you have carefully studied the market, it is safer not to speak to
+anyone about what you plan on doing unless you believethey have better
+insight than you. Look only to the market to give you direction. In one
+of my favorite passagesinThe Fountainof Gold, it says that ". . . to learn
+about the market ask the market-only then can you become a di:testable
+market demon." Isn't that a wonderful phrase? Wouldn't you love to
+becomea detestable
+marketdemon?The colorful languageused by the Japaneseis just one reason their technical techniquesare so exciting.
+Let us turn our attention to Exhibit 2.2, which illustrates the path that
+ultimately led to the candle charts.
+Evolution of the Candle Charts
+A. Stopping chart-Also referred to as a point, line, or star chart. This
+was the earliest type of chart and was drawn by joining only closing
+
+The Basics
+
+17
+
+(A)
+StoppingCharts(close)
+
+/,4.v J .f+
+t
+(B)
+PoleCharts(High-Low)
+
+:tr
+(D)
+AnchorChart(High-Low-Close-Open)
+
+(c)
+Bar Chart (High-Low-Close)
+
+tf', fi
+,f
+(E)
+CandleChart(High-Low-Close-Open)
+
++ { ' {+ t ".,iTt:l' i l t T
+H
+
+o*
+
+'4
+
+H
+
+EXHIBIT 2.2. The Evolutionary
+Path to the Candlestick Charts
+
+prices. Th"y were named stopping charts becausethat was where the
+prices stopped by the end of the session. Stopping charts were drawn
+with either diagonal lines or horizontal lines connecting the closes.
+B. Pole chart-Its name is derived from the fact that the lines resemble
+poles. This chart added the extra information imparted by showing the
+range between the high and the low of the session.Theselines show not
+only the direction of the move, but the extent of the move for each
+session.
+C. Bar chart-This is a combination of the stopping and pole charts.
+D. Anchor chart-Named as such because it looks like an anchor.
+Based on legend, these charts originated in the Kyoho Era (from 1716)
+from the fact that the usual meeting place for rice traders was port cities.
+The anchor chart was an important event in the evolution of charting.
+With this chart, the opening price was now added and created a chart
+with an open, high, low, and close. Just as important, and something
+unique to fapanesecharts, was that the relationship between the open
+and closewas pictorially displayed. The top and bottom of the anchor's
+vertical line are the high and low of that session.The horizontal line of
+the anchor line is the open. The arrow of the anchor line is the close. If
+the close is higher than the open, the arrow points up; if the close is
+lower, the arrow points down.
+
+18
+
+C-andles
+
+E. Candle chart-The next improvement from the anchor charts was
+the candle chart. Although they are shrouded in mystery, the candles
+probably started in the early part of the Meiji period (from 1868).As can
+be seen in Exhibit 2.28, candle lines were a refinement of the anchor
+chart. The use of black and white real bodies made analyzing the underlying supply and demand situation visually easier to determine than
+with the anchor charts.
+With the arrival of the candle charts, Japanesetechnical analysis flowered as people started thinking in terms of signals and trading strategies.
+Patterns were developed and market prediction became more important.
+Trying to forecast the market took on extra importance in the L870swhen
+the fapanese stock market opened.
+As can be seen from Exhibit 2.2, bar charts were one of the ancestors
+of the more evolved and productive candle charts. In essence,this means
+that since most of the West is still using bar charts, it is also using a less
+evolved form of charting than the Japaneseare with candle charts.
+
+CONSTRUCTION OF THE CANDLE LINE
+The first step in using the power of candles is learning how to construct
+the basic candle line. Exhibits 2.3. and 2.4 show that the candle line
+consists of a rectangular section and two thin lines above or below this
+section. We see why these are named candlestick charts; the individual
+lines often look like candles with their wicks. The rectangular part of the
+candlestick line is called the real body. lt represents the range between
+the session'sopen and close.When the real body is black (e.g., filled in),
+it shows that the closeof the sessionwas lower than the open. If the real
+body is white (that is, empty), it means the close was higher than the
+oPen.
+
+White Real Body
+
+Black Real Body
+
+EXHIBIT 2.3. White Real Bodv
+
+EXHIBIT 2.4. Black Real Body
+
+I
+
+F.-==*
+
+The Basics
+
+The thin lines above and below the real body are the shadows.The
+shadows represent the session'sprice eXtremes.The shadow above the
+real body is referred to as the upper shadow and the shadow under the
+real body is the lower shadow. Accordingly, the peak of the upper shadow
+is the high of the sessionand the bottom of the lower shadow is the low
+of the session.
+Candle charts can be used throughout the trading spectrum, from
+daily, to weekly, and intra-day charting. For a daily chart, one would use
+the open, high, low, and close of the session. For a weekly chart, the
+candle would be composedof Monday's open, then the high and low of
+the week, and Friday's close.On an intra-day basis,it would be the open,
+high, low, and close for the chosen time period (i.e., hourly).
+Exhibit 2.3 shows a strong sessionin which the market opened near
+the low and closed near its high. We know that the close is higher than
+the open becauseof the white real body. Exhibit 2.4 illustrates a long
+black candlestick.This is a bearish sessionin which the market opened
+near its high and closed near its low.
+The |apanesefocus on the relationship between the open and close.
+This makes sense;probably the two most important prices of the day are
+the open and close. It is therefore surprising that American newspapers
+have openings for futures prices, but not for stocks. A member of the
+Nippon TechnicalAnalysts Associationtold me that he found it unusual
+that U.S. newspapers do not have opening stock prices; the Japanese
+have the openings in their papers. He said that he did not know why
+the Americans disregard the openings.
+I would expect that just as almost all technical software vendors now
+carry candle charts, so it may be that as candles become more popular
+in the equity market, newspapers may, by popular request, carry stock
+openings. Until then, in order to obtain the data needed to draw the
+candles (the open, high, low, and close)you need to use a data vendor
+service.These servicesfurnish prices on disks or through modems. The
+data supplied from a data vendor are then transferred into a technical
+analysis software package that will draw the candles based on these
+data.
+A note of caution: Some data vendors who do not have the actual
+opening price of a stock default to the prior session's close as today's
+open. This, in my opinion, is not valid. You must have the true open to
+draw an accuratecandle line. Although an open on a stock will usually
+not be much different from the prior close, there are some candle patterns
+in which a higher or lower opening (compared to the prior close) gives
+valuableinformation. A data vendor that includes actual opens on stocks
+is Dial Data (Brooklyn, NY).
+
+t9
+
+20
+
+REAL BODY AND SHADOWS
+While an individual candle usually should not be used alone to place a
+trade, the size and color of its real body and the length of its shadows
+can provide a wealth of information. Specifically,looking at a line's real
+body and shadows gives a sense of the supply and demand situation.
+This section will discuss this basic idea, and explain how to use real
+bodies and shadows to get clues about the market's underlying strength
+or weakness.By using the candle lines discussedbelow, you may be able
+to get an early and tentative indication of market direction.
+
+THE REAL BODY
+In ]apanese charts, even an individual candle line has meaning, and one
+of the first clues about the vitality of the market is to look at the size and
+color of the real body. To the |apanese, the real body is the essenceof
+the price movement. This is a critical and powerful aspectof candle charts;
+through the height and color of the real body, candle charts clearly and
+quickly display the relative posture of the bulls and the bears.
+This section will be segmented according to the decreasingsize of the
+real bodies. The first part of this section will consequently focus on long
+white and then long black real bodies. After these, attention is turned to
+candles with small real bodies called spinning tops. These diminutive
+real bodies display a market where the bulls and bears are in a tug of
+war.
+This section will conclude with candles that have no real bodies. These
+candles have the same (or nearly the same) opening and closing. Such
+candles, called doji (pronounced d6-gee), reflect a market in a state of
+transition. Doji, as you will see later, can be an important market signal.
+Long White Real Bodies
+A long white real body is defined as a session that opens at or near the
+low of session,and then closesat or near the session'shigh. The close
+should be much higher than the open. For example, if a stock opens at
+$40 and closes at $4ff/v it would not be a long white candle since the
+opening and closing range were relatively close. For a long white candle
+to have meaning, some Japanesecandlestick traders believe that the real
+body should be at least three times as long as the previous day's real
+body.
+
+The Basics
+
+, I
+I
+
+I
+
+t ,
+
+tl
+
+'il"",'
+EXHIBIT 2.5. Long White at a Low Price Level
+
+Long White at a Low Price Level
+A single candle by itself is rarely sufficient reason to forecast an immediate reversal. It could, however, be one clue that the prior trend may
+be changing. For instance, as shown in Exhibit 2.5, a long white real
+body at a low price range may be the first sign of a market bottom. A
+long white candle shows that the ability to rise is virtually unimpeded
+by the bears. The closer the close is to the high of the session,and the
+longer the white real body, the more important the candle line.
+Exhibit 2.6 shows that in late \991.,this stock was stabilizing near $5.
+The first sign that the bulls were attempting to take control was the
+unusually long white real body at 1. Note how this real body was extended compared to the prior real bodies. However, an almost equally
+long, but black real body (for information on black real bodies, seepage
+29), on the week after candle L showed that the bears still had enough
+force to offset the bulls' advance. In early \992, another unusually long
+white candle, shown at2, appeared.This white candle opened on its low
+(since it does not have a lower shadow) and closed on its high (since it
+does not have an upper shadow). Such a candle is exceptionallystrong,
+notably when it is so elongated as in candle 2. Candle 3 was another
+strong white candle that propelled prices to new multi-month highs. With
+the tall white candles L and 2 both appearing near $5, we can see the
+significanceof that $5 support area. Consequently,when prices corrected
+back to this level in fuly and August 1992, it is not surprising that the
+selloff stopped near $5.
+Long White Candle Confirms Support
+As shown in Exhibit 2.7, the tall white candle that rebounds from support
+underscoresthe aggressivenessof the bulls. A long white candle that
+bouncesoff a support area such as a trendline, a moving average,or a.
+retracement level gives extra confirmation of that support.
+
+21
+
+22
+
+Candles
+
+AURORAELECTRIC- WEEKLY
+
+I6. U
+
+15.0
+t5.5
+
+15.5
+t5.0
+14.5
+t4.0
+t3.5
+13.0
+12.5
+L2.O
+11.5
+I1.0
+t0.5
+10.0
+9.5
+9.0
+8.5
+
+t-5.
+
+t4.5
+14.0
+13.5
+13.0
+12.5
+L2.O
+tt.5
+tt.0
+
+.il
+
+U.U
+7 q
+
+7.O
+b.5
+
+b.u
+
+5.0
+4.5
+
+6 n
+
+4.5
+
+'9?
+
+rLE
+
+IlAY JUN JUL
+
+0cT NOU
+
+MetaStockby EQUTSInt'l
+
+EXHIBIT 2.6. Long white Candle at Low price, Aurora Electric-weekly
+
+I
+
+t l
+
+"'I
+Movingaverage
+
+Priorlows
+as support
+2.7.
+
+10.0
+9.5
+s.0
+8.5
+8.0
+7.5
+7.O
+5.5
+5.0
+5.5
+
+u,[,1i"-r+,0[|u*'*"**'?*'rolro*'**ru+n
+
+'91
+
+DGIIBIT
+
+i-u.5
+
+Long White Candle Confirms Support
+
+'93 TLH
+
+23
+
+The Basics
+
+GENLRE_ DAILY
+
+130
+123
+
+130
+L29
+128
+L?7
+L?6
+L25
+L24
+L23
+122
+
+,ilr,
+,il[|il+'
+
+i-o
+L1A
+
+127
+L26
+LZ5
+
+L?4
+LZ3
+
+'
+*l*,.,ofo,,
+il*t,
+oo,[o,oo
+
+122
+L?I
+120
+I 15
+
+118
+LL7
+i-rb
+
+LL4
+113
+LLz
+111
+LL0
+109
+108
+LO7
+
+'92
+
+LZL
+
+120
+119
+118
+TL7
+lt6
+tt5
+114
+lt?

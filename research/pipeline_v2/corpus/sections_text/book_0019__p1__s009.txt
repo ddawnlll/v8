@@ -1,0 +1,454 @@
+
+146
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.10 This chart shows the result of dragging the volume pane above the
+price pane.
+
+pane. As shown in Figure 7.10, your chart will then have these panes in the
+order you have stated.
+As you are dragging objects around the technical study editor, a ghost
+image of what is being dragged appears so you can accurately place it,
+whether it’s a pane or a study. Figure 7.11 shows the Simple Moving Average study being dragged from the Studies list over to the Price pane. It
+will have its default setting (a 30-period moving average), which can be
+changed once the drag-and-drop operation is complete. As you can see,
+there are three panes on this chart—a pane for the MACD study, a Price
+pane with two studies, and a Volume pane (which is grayed-out, since the
+volume is being hidden on this chart based on the Quick Toggles).
+And, as always, once you finish dropping a study to its location, you
+can double-click on that study to adjust its settings (Figure 7.12). You will
+certainly do this with moving averages if you use more than one moving
+average, since they will otherwise all have the same periods.
+
+DELETING STUDIES AND PANES
+If you want to remove a study, just click on it and then click on Delete
+Study. It will be removed at once.
+
+Multiple Studies and Comparisons
+
+147
+
+FIGURE 7.11 You can drag-and-drop a study from the left side to the right, and
+when you do so, a ghost image of what you are dragging appears so you can place
+it in the correct pane.
+
+If the study you are deleting is the only thing in its pane, and the pane
+is not Price or Volume, ProphetCharts will ask you if you would like to go
+ahead and delete the pane at the same time. After all, there is not much
+value in having an empty pane unless you intend to put something else
+there. If you want the pane removed, click on Yes. You can save yourself
+time by checking the “Don’t warn me” checkbox before clicking Yes so that
+ProphetCharts does not need to ask you anymore.
+A more direct way to delete both the pane and all the studies within it
+is to click the close box in the upper-right corner of any pane. When you
+do, a dialog box like the one in Figure 7.13 appears, verifying you want
+to make this deletion. You can click OK to proceed and, as before, you can
+click the “Don’t warn me” checkbox in order not to be advised in the future.
+
+148
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.12 Each study has its own parameters and settings you can ﬁne-tune
+to your liking.
+
+This saves time, but it also means you won’t have a chance to change your
+mind when you delete panes later (you can also reactivate this warning
+later by clicking the Enable Warnings checkbox in the Preferences dialog
+box, accessed from the Chart Settings menu).
+
+CROSSOVERS AND MULTIPLE STUDIES
+Many indicators offer buy or sell signals based on a specific rule. For instance, as you learned in Chapter 6, the RSI indicator issues a buy signal
+when it crosses above the 30 line and a sell signal when it crosses below
+
+FIGURE 7.13 Any time you delete a pane in the technical studies editor, this
+warning box will appear. You can click “Don’t warn me” and then OK if you do not
+want to see this anymore.
+
+Multiple Studies and Comparisons
+
+149
+
+FIGURE 7.14 If you want to see when crossovers take place on a particular technical indicator, check the Show Trade Signals checkbox in the Study Editor.
+
+the 70 line. The MACD provides signals when the MACD line crosses the
+trigger line either upward (buy) or downward (sell).
+ProphetCharts can make it easier for you to see these crossover points
+by providing upward-pointing arrows (“buy”) and downward-pointing
+arrows (“sell”) to show where these signals take place. It is very important
+to take note that these are not explicit trading recommendations. They
+simply indicate when a given indicator has crossed a certain threshold or
+otherwise achieved a predefined parameter. Any application of real money
+in the world of investments must involve your own judgment and decision
+making.
+To make these up and down arrows appear, click on the Show Trade
+Signals checkbox (Figure 7.14) in the technical study in which you want
+arrows to appear.
+If you activate these crossover arrows, you will see the crossovers
+plainly marked, as illustrated in Figure 7.15.
+
+FIGURE 7.15 Buy and sell arrows are displayed on the study if the Show Trade
+Signals checkbox is checked.
+
+150
+
+CHART YOUR WAY TO PROFITS
+
+Before moving on to comparison charts, we will revisit the subject
+of putting multiple studies in a single pane. This is most valuable in the
+Price pane, because independent studies (such as MACD and the Fast
+Stochastic) typically get too crowded and confusing when clustered into
+the same pane.
+Assume you wanted to apply three different exponential moving averages to the price chart. The steps to do this would be:
+
+1. Pull up the price chart of any financial instrument.
+2. Choose Apply Studies from the Studies menu.
+3. Find “Exponential Moving Average” from the Studies list, and double-
+
+click on it three times. This makes three identical studies go into
+the Price pane. These are all marked EMA(30), indicating in shorthand that three 30-period Exponential Moving Averages have been
+added.
+4. Double-click on the first EMA(30) and change the value in the period
+box to 10, then click OK. That will make it a 10-day moving average.
+5. Double-click on the second EMA(30) and change its period value to 50,
+then click OK. Change the third EMA to 100 in the same manner. The
+Price pane will resemble Figure 7.16.
+6. Click the OK button to finish.
+
+The result is shown in Figure 7.17, with three moving averages overlaid
+on the price chart. A legend of the studies appears just beneath the data
+line, showing each of the studies followed by (1) its current numeric value,
+based on where you are pointing on the chart; and (2) its last, most recent
+value from the chart, since the “Show Last Value” checkbox was checked
+on the technical studies editor.
+Now that you understand how to combine technical studies, you can
+use the time-saving Study Sets feature.
+
+FIGURE 7.16 Three exponential moving averages being applied to the Price pane
+in the technical studies editor.
+
+Multiple Studies and Comparisons
+
+151
+
+FIGURE 7.17 Three moving averages on one chart, each of which has its color
+and value display in the legend just under the data line.
+
+SAVING STUDY SETS
+As you become more expert with various studies, you will find certain ones
+that you especially like to use. You will also find that some combinations of
+these studies work well together, since they can be used to help you weigh
+your trading decisions and, in a way, vote on whether you are going to buy
+a stock or not. You may even find yourself so adept with some indicators
+that you adjust their parameters (certainly those involving appearance) to
+your liking.
+It becomes time-consuming and tedious to go through the process
+of applying and adjusting these studies every time. For this reason,
+ProphetCharts provides for study sets. A study set is simply a collection
+of technical studies (including all of its computation and appearance parameters) housed under a name that you assign.
+You may, for example, create a study set named “Three Moving
+Averages,” and another one called “Bullish Breakout System,” and another
+called “Bollingers with PSAR and MACD.” What’s important is that the
+names are distinct and meaningful to you, since study sets are your
+shortcut to applying what might otherwise be a very tedious application of
+settings.
+
+152
+
+FIGURE 7.18 To preserve the technical studies you have used into a single
+set, choose Save Study Set from the Studies menu.
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.19 When you save a study
+set, you can either enter a new name to
+save a new set or update a set you made
+earlier.
+
+Creating a study set is done from either the Studies menu or the technical studies editor. In either case all you do, once you have set up the
+technical studies to your liking, is click Save Study Set (Figure 7.18).
+After you choose this option, a dialog box is presented (Figure 7.19)
+that lets you either enter a new name or save the set onto an existing
+name. The radio buttons in this dialog box control whether or not you are
+going to create a new study set with a new name (the default choice) or if
+you want to overwrite a previously created study set (the second choice),
+in which case you’ll need to choose the study set that you want to replace
+from the dropdown menu. Once you are done, you can click OK to save
+your study set.
+If you decide to edit a study set later, you can do so from within the
+technical studies editor. Just click on the name of the study set in the My
+Study Sets tab, and the definition of that set will appear on the right side
+(Figure 7.20) for you to examine or modify.
+After you have created your study set, you can apply it by choosing it
+from the Studies menu or by double-clicking it from the My Studies module (Figure 7.21). Generally speaking, the more you use ProphetCharts, the
+more customized it becomes, and the study sets are one important aspect
+of this customization.
+The convenience of being able to simply choose a study set and have
+all the customized studies applied instantly (Figure 7.22) will allow you to
+
+Multiple Studies and Comparisons
+
+153
+
+FIGURE 7.20 When a study set is selected, all the components and settings of
+that set are displayed on the right side of the dialog box.
+
+focus more on your trading decisions instead of the adjustment of menus
+and numbers.
+Once again, the “Show Last Values” checkbox was checked in the
+creation of the study set in Figure 7.22, so the most recent values of
+every study appear at the top-left of every pane. Figure 7.23 shows the
+detail from the prior chart, illustrating how the precise value (in this
+case, from the 15-day moving average) is provided just beneath the data
+line.
+
+154
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.21 Whatever study sets you have created in the technical studies editor
+will also show up alphabetically in the My Study Sets module.
+
+COMPARING CHARTS
+Comparing one chart to another is one of the most valuable ways to compare performance across markets. You might want to compare a stock to
+the market in general, or one commodity to another, or a mutual fund to
+a broad stock market index, or even multiple securities together (such as
+five different stocks all at once). Being able to compare gives you a way to
+view relative performance between different financial instruments.
+
+FIGURE 7.22 This chart has three overlaid studies and two independent studies,
+and in the upper-left corner of each pane is a legend showing the values.
+
+Multiple Studies and Comparisons
+
+FIGURE 7.23 If you have selected
+Show Last Value from the Technical Studies dialog box, then the most recent
+value for each study you are using will
+be shown in the legend.
+
+155
+
+FIGURE 7.24 To compare the current chart to another security, select
+Comparison Chart from the Chart Settings menu.
+
+There are two basic kinds of comparison: price and percentage. A price
+comparison plots two or more securities into a price pane, showing their
+actual prices over the requested period of time. Because the prices might
+be very different (for example, comparing a stock of about $3 to another
+of about $80), this can often yield a graph that is not very useful. The other
+kind of comparison is a percentage comparison, which is much more common, since it illustrates the percentage change in price over a certain period of time, irrespective of the price of the securities.
+Once you have a single security chart, you can compare this security to
+one or more others by choosing Comparison Chart from the Chart Settings
+menu (Figure 7.24).
+When you do this, the Comparison Chart dialog box appears (Figure
+7.25). In it are these controls:
+
+r Index selection. A list of major U.S. indexes is presented. You can
+double-click any one of these to add it to the list of items that should
+be compared. Index symbols are often strange and hard to remember,
+so this list makes it convenient to choose an index.
+
+156
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.25 When using the Comparison Chart function, choose from a list of
+Indexes or enter your own symbols for the comparison.
+
+r Enter a symbol entry box. This is where you can enter any valid symbol that you want. It can be anything chartable—an index, a stock, a
+mutual fund, a commodity, an option—just type in the symbol and click
+Add Symbol, and it will be added to the Displayed Items list.
+r Displayed items. These are the items which will be compared to the
+original security charted. There may be anywhere from zero items
+(normal chart, no comparisons) to multiple items in this box. You can
+
+Multiple Studies and Comparisons
+
+157
+
+erase everything to start over by clicking Delete All, or if you want to
+get rid of just one item, click on it and click Delete.
+r Comparison type. The radio buttons, Percentage Comparison and
+Price Comparison, control what kind of comparison will be done. Percentage is the default, since that is usually more useful.
+Figure 7.26 shows that the S&P 100 has been added, as well as the
+symbol IWM. The list of symbols in the lower portion of the dialog box
+
+FIGURE 7.26 The Comparison Chart dialog box lets you enter multiple items so
+that you can compare many other securities to the original one charted.
+
+158
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.27 A Percentage Comparison is the default for the Comparison function, since it’s typically the most useful way to compare various securities, irrespective of their prices.
+
+will appear in alphabetical order, and as you add symbols, you will see
+the resulting comparison chart instantly in the background. When you are
+done, you can click the Close button.
+Figure 7.27 illustrates a percentage comparison. The original security
+plotted was the NASDAQ 100 ETF (symbol QQQQ). Two other items were
+added via the Comparison function: the S&P 100 (symbol $OEX) and the
+Russell 2000 ETF (symbol IWM). These symbols and their most recent
+price values appear just underneath the data line. The chart clearly illustrates how one of these items has widely outperformed the others (as in
+the rest of this book, the colors used are not reproduced in these black
+and white charts, but ProphetCharts does make ample use of color to help
+distinguish one item from another).
+The same comparison chart done with a Price comparison looks very
+different. Because the S&P 100 index was at a value of about 600, whereas
+both the IWM and QQQQ were well under 100, the three graphs get very
+flattened (Figure 7.28), since they are scaled based on the lowest and
+highest values among all three securities. This kind of chart distortion
+makes such a graph almost useless. There are certainly examples where a
+Price comparison would be useful, but those would almost always involve
+similarly-priced instruments.
+
+Multiple Studies and Comparisons
+
+159
+
+FIGURE 7.28 Unless the securities you are comparing have similar prices, it probably doesn’t make sense to do a Price Comparison, since the scales will be very
+distorted.
+
+THE LEFT-SCALE AXIS
+There is one other way to compare securities that is in many ways more
+useful and powerful than using prices or percentages. Very few charting
+systems in the world do it, and it is called Left Scale charting.
+What that means is that two securities are compared, and one of them
+is based on a price axis on the right side of the chart and the second is
+based on a price axis on the left side of the chart. These scales are customfitted to their respective securities, which means that even if the prices are
+extremely different, the resulting chart is readable and undistorted by price
+disparity.
+As an example of this, consider the comparison between the NASDAQ
+100 ETF (symbol QQQQ) and one of its put options. For the sake of this
+example, assume the QQQQ is priced at about $41 and that one of its put
+options (Figure 7.29) is priced in the $1 to $2 range.
+If you wanted to compare the graph of this put option to the graph of
+the underlying security, the most effective way to do it would be with the
+Left Price Scale Chart option in Chart Settings (Figure 7.30). Unlike normal
+
+160
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.29 This graph shows an options chart by itself. Note the relatively low
+price on the y-axis.
+
+Comparison charting, you may compare only two securities at a time with
+this function.
+All you need to do at this point is enter the symbol (Figure 7.31) that
+should be plotted on the left scale. You do not have to compare similar
+instruments (such as a stock versus a stock). The two securities can be
+anything that is otherwise chartable.
+Before examining the result, let us see what a similar comparison
+would yield with the normal Comparison function to understand the benefits of this feature. Figure 7.32 shows a percentage comparison of QQQQ
+versus the put option. As you can see, the put option is far more volatile
+
+FIGURE 7.30 To add another ﬁnancial instrument and have its own y-axis applied, select Add Left Price Scale Chart from the Chart Settings menu.
+
+Multiple Studies and Comparisons
+
+161
+
+FIGURE 7.31 You can enter any kind of symbol into the Left-Axis chart, such as
+an option, an index, a commodity, or a stock.
+
+(with a range of from minus 55 percent to plus 30 percent in this short time
+range), whereas the QQQQ only budges a percent or two. It’s a somewhat
+interesting chart only in the respect that it shows how much more volatile
+an option is than its underlying stock, but you aren’t going to learn much
+more from such a chart.
+The same comparison done based on price is even less useful (Figure
+7.33). The QQQQ is at the very top of the chart, clinging close to the $42.50
+price, while the option bounces along at the bottom of the chart in the $1
+to $2 range. Because the scale is so distorted, both graphs are rendered
+virtually meaningless.
+
+FIGURE 7.32 Comparing an option to its underlying security with a percentage
+comparison is not useful, since the option is almost certainly going to be dramatic.
+
+162
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 7.33 A comparison graph based on price of two very diﬀerently-priced
+securities yields a graph which is not at all useful.
+
+FIGURE 7.34 By using two diﬀerent y-axis scales, ProphetCharts is able to display
+two disparate kinds of ﬁnancial instruments in a form that is still useful in spite of
+their diﬀerent prices.
+
+Multiple Studies and Comparisons
+
+163
+
+But the Left Scale graph (Figure 7.34) does away with the price disparity by having each security depend on its own, independent scale. The
+price range on the left (from 80 cents to nearly $2.70) and the price range
+on the right (from $40.50 to $42.70) give both graphs the room they need
+to present themselves and, to no surprise, the graphs are inversely related
+(one graph being a put option, in this case). Note that in the Option Controls module, the Compare with Stock checkbox automatically loads the
+stock chart corresponding to an option chart. It does this by taking advantage of the Left Scale feature.
+
+SUMMARY
+Both Chapters 6 and 7 have been devoted to mathematical studies and
+chart comparison, and you are now equipped to do some extremely sophisticated charts. As we head into Chapter 8, we will refocus on drawn
+objects, with our initial concentration being on trendlines, one of the most
+basic but essential tools of securities charting.
+
+CHAPTER 8
+
+Trendlines and
+Reversals
+
+rendlines are very basic—but very powerful—drawn objects that can
+be placed onto a chart. In the context of ProphetCharts, a drawn object is an item that is added to a chart to provide insight into likely future price behavior, usually by indicating support or resistance levels. You
+will explore a variety of drawn objects in this and coming chapters, but a
+solid knowledge of the use and interpretation of trendlines is essential to
+your success as a technical analyst.
+The properties of a well-drawn trendline are as follows:
+
+T
+
+r It connects at least two points of a graph (with high points or low
+points), and the more points it touches, the more valid and useful the
+line is.
+r It is never violated by prices between the starting and ending points; in
+other words, all of the stock prices are either below the trendline (in
+which case the line is resistance) or above the trendline (in which case
+the line is support).
+A trendline’s purpose depends on your position with a particular stock.
+If you have a position in a stock, the trendline’s value is to ensure that the
+trend of the stock is intact (Figure 8.1), so that when the trend is violated,
+you exit your position as profitably as possible. If you do not have a position in a stock, the purpose of a trendline is to show you when a possible
+trend change has taken place so that you can consider taking a position in
+the stock.
+164
+
+Trendlines and Reversals
+
+165
+
+FIGURE 8.1 This trendline, going back for years, is intact for this stock during
+its climb from $27.50 to over $100.
+
+Drawing a trendline is very simple for most people, since laying down
+a straight line to “bound” the uptrend or downtrend of a stock makes intuitive sense. The art, however, is discerning when to redraw a trendline,
+because as a stock moves, it may become appropriate to redraw a trendline
+to take into account the more complete price data. The danger, of course,
+is that you can wind up fooling yourself. If your trendlines become so elastic that they bend and move no matter which direction prices are heading,
+then you have eliminated their value.
+Figure 8.2 illustrates this point. It shows the astonishing climb of
+Hansen Natural (HANS) from $2 to more than 100 times that amount.
+The trendline on this chart looks extremely clean, because the price
+stayed above it at all times and, indeed, usually was well above it except
+for the two “touchpoints” at the beginning of the graph and about twothirds of the way from the left side. But as you can see, until the second touchpoint was established, the trendline would have been steeper,
+so the original trendline would have been crossed to the downside, indicating a possible trend change. In retrospect we can see that the
+trend certainly did not change, as the stock continued to soar hundreds
+of percent.
+
+166
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 8.2 Hansen Natural climbed from $2 to over $200 over the course of a
+couple of years, and it never violated its ascending trendline.

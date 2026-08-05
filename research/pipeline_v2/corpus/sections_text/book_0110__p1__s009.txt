@@ -1,0 +1,438 @@
+
+Pullbacks
+For long positions, a pullback entry is based on the concept of ﬁnding an ETF with a
+clearly established trend, and then waiting for the ﬁrst retracement (pullback) down to
+support of either its primary uptrend line or MAs. For short positions, it’s the opposite
+scenario, as in selling short a steadily downtrending ETF when it rallies into resistance
+of its downtrend line or moving MAs.
+With pullback trading, it’s critical to ensure that a clearly deﬁned trend is already in
+place. Otherwise, you risk entering the trade in no-man’s-land by getting in too early.
+
+91
+
+Strategies for Entry
+FIGURE 7.2 ETF Breaking Out above Downtrend Line with Test of Support
+GLD – Daily
+After an ETF breaks a downtrend line,
+wait for confirmation that the
+breakout will hold (A). Point B is
+the entry, above the prior high.
+
+72.00
+70.00
+68.00
+66.00
+65.85
+64.00
+62.00
+
+B
+
+60.00
+58.00
+A
+
+56.00
+20,000,000.00
+10,035,800.00
+
+Apr
+
+May
+
+Jun
+
+Jul
+
+Source: TradeStation
+
+A clearly deﬁned trend means you are looking for at least two higher highs and two
+higher lows for longs (two lower highs and two lower lows for shorts). Starting from the
+ultimate lowest price since the start of the new trend, the higher lows are formed when
+each pullback reverses back up after forming a higher price than the previous low. The
+same is true of a higher high. This trend will also form at least three individual anchor
+points connecting the highs and lows. The time frame of these highs and lows depends
+on the time frame of your trades. If you are swing trading, use the daily charts as the
+basis for your decisions. For longer-term trades, the weekly charts provide the same
+technical information.
+A key point here is to remember a basic rule of trend trading: The longer a trend
+has been intact, the more likely the established trend will continue in the same direction. If an ETF has been steadily trending higher for six months, forming successively
+higher highs and higher lows, odds are much greater that it will continue higher as
+compared to an ETF that has only been trending higher for one month. This is largely
+the result of trendline support becoming a self-fulﬁlling prophecy. When professional
+traders see support of a trendline, they place their buy orders in anticipation of a
+resumption of that trendline. The very act of their doing so is largely what causes
+trendlines to work as a method of low-risk trade entry. It’s essentially a self-fulﬁlling
+prophecy.
+Here again, you must sometimes ﬁght the urge to let human nature dictate its
+logic. When I was a new trader, I constantly avoided long-established trends, thinking
+I was too “late to the party” for a low-risk entry. In the beginning of learning technical analysis, it’s normal to think this, but it’s faulty thinking. Remember that steady
+
+92
+
+Timing Your Entries and Exits
+
+trends are formed through institutional buying of individual sectors. When the “big
+boys” start buying stocks within a particular industry, they typically continue throwing their money in that area until the next promising idea comes along. You only need
+to look at recent charts of the oil and utilities sectors to see that institutional money
+ﬂow can often continue for years. Of course, there is always the risk that your pullback
+entry may also coincide with the end of the trend, but this pullback method of entry
+helps to minimize that risk.
+Though it may be tempting to do so, avoid new trade entries on their ﬁrst test
+of price or trendline support. Rather, stalk the setup like a sniper, waiting for the ﬁrst
+sign of conﬁrmation that the currently established trend is ready to resume. Doing so
+decreases your risk of stopping out immediately after your entry.
+To look for conﬁrmation on pullback entries, you simply drill down to the next
+lowest time frame, and then look for a breakout above resistance. If, for example, you
+are looking to buy a pullback to trendline support on the daily chart interval, you would
+subsequently wait for the newly formed hourly downtrend line to break. When it does,
+you then enter the position in anticipation of a ride back to the prior highs and onward.
+If the pullback comes but never moves back above resistance of the shorter time frame,
+you simply don’t enter the trade.
+Basic trendlines work great for pullback entries, but the 20-day MA is another
+useful indicator, as buyers tend to step in immediately upon the test of the 20-day MA
+support with strongly trending ETFs. Note that the best trending ETFs can go many
+months without ever retracing down to their 50-day MAs. If the 20-day MA happens to converge with support of the trendline, that’s even better. An entry with the
+pullback to the 20-day MA, followed by conﬁrmation of the trendline resumption, is
+illustrated in Figure 7.3, a daily chart of Materials Select Sector SPDR Fund (XLB).
+In Figure 7.3, the initial entry point came at point A, which was the ﬁrst pullback
+to the 20-day MA after the breakout above the high of the consolidation (C). Brief
+probes below support are common after breakouts, but it’s key that the 20-day MA
+caught the price of XLB. If the initial breakout or pullback entry had been missed, any
+of the retracements to the 20-day MA (each one is circled) would have provided other
+opportunities for long entry. After the trend became established and the 20-day MA
+became support, all pullbacks to the 20-day MA could be bought until the price eventually broke the 20-day MA, as it did at point B. Intraday probes below the 20-day
+MA are okay, but a ﬁrm close below the 20-day MA often precedes a steeper correction
+down to the 50-day MA.
+When doing pullback entries, the use of Fibonacci retracement levels is a great
+tool for determining the likelihood of a resumption of the previous trend. If the position deliberates after rallying to only the 38.2 percent or 50 percent retracement level
+from the prior high down to the prior low, you may want to trail a stop higher to lock
+in gains. On the other hand, a rapid rise to the 61.8 percent retracement level indicates good odds of a subsequent rally to the prior high and beyond.
+When waiting for conﬁrmation that the trend is resuming before buying, remember your goal is not to squeeze every potential dollar of proﬁt out of the trade. Rather,
+your job is to take a big chunk out of the middle, with the least amount of risk.
+
+93
+
+Strategies for Entry
+FIGURE 7.3 Pullback Entry to 20-Day MA with Conﬁrmation of Trend Resumption
+XLB – Daily S&P Sel Materials Spdr Fund
+When ETFs are steadily trending higher,
+each pullback to the 20-day EMA
+(circled below) can be bought until
+the ETF closes firmly below the 20-day
+EMA (point B).
+
+35.00
+34.00
+B
+
+33.12
+33.00
+32.99
+
+A
+
+C
+
+32.00
+31.48
+31.00
+
+8,000,000.00
+4,620,000.00
+4,620,000.00
+Feb
+
+Mar
+
+Apr
+
+May
+
+Source: TradeStation
+
+Short-Term Corrections
+When trends are strong and price retracements are minimal or very short-lived, it can
+be tempting to just enter at any price, but waiting for at least a short-term market correction still provides you with the opportunity for proﬁts, without the risk that comes
+from being a “late-to-the-party Charlie” chasing the big moves that already occurred.
+The ﬁrst thing you must remember is that market corrections always happen in one
+of two ways: by price or by time.
+A correction by price (a pullback or retracement) occurs when a stock or index
+reverses against the direction of its primary trend until it hits some sort of resistance
+or support level, depending on whether it’s in a downtrend or uptrend. In a steadily
+downtrending market, retracements up to resistance of both the 20-period and
+40-period MAs on the hourly charts often provide ideal entry points for new short
+positions. A very weak ETF will often retrace only up to the 20-MA and then resume
+the downtrend, while an ETF with a bit more strength might make it all the way up
+to the slower 40-MA.
+Figure 7.4 is a recent example of such a correction by price of the iShares Russell
+2000 (IWM), which was sold short when it rallied into resistance of its 20-MA on
+the hourly chart on May 16, 2006, and was covered for nearly a 4 percent gain three
+days later.
+Looking at the hourly chart in Figure 7.4, notice how the ﬁrst time IWM ran
+into its 20-MA since the sell-off began was on May 16, the same day it was sold short.
+Notice how, following that date, the 20-MA perfectly acted as resistance that ensured
+a continuation of the downtrend. Each bounce into the 20-MA that you see circled in
+Figure 7.4 is a clear example of a short-term correction by price.
+
+94
+
+Timing Your Entries and Exits
+
+FIGURE 7.4 ETF Correction by Price
+IWM – 60 min
+77.00
+Notice how the 20-MA on the 60-min.
+chart acted perfectly as resistance
+over the past five days.
+
+76.00
+75.00
+74.00
+73.00
+72.19
+72.00
+71.49
+71.00
+70.99
+70.00
+
+I sold short
+into the 20-MA
+on May 16.
+I covered into weakness.
+
+14,000,...
+8,417,700
+5/15
+
+5/16
+
+5/17
+
+5/18
+
+5/19
+
+5/22
+
+5/23
+
+Source: TradeStation
+
+When a stock or index is showing absolutely no signs of buying interest, it will
+still correct from a large sell-off, but it will often have a correction by time instead.
+This simply means that, rather than retracing a portion of the trend, it will trade sideways, near the bottom (or top) of the range. A good example of this can be found on
+the daily chart of the Oil Services HOLDR (OIH) in Figure 7.5.
+FIGURE 7.5
+
+ETF Correction by Time, May 2006
+
+OIH – Daily
+
+160.00
+154.26
+151.65
+150.00
+144.56
+140.00
+OIH attempted to bounce off support
+of its 50-day MA two days in a row,
+but failed to do so. It subsequently
+moved lower.
+
+133.18
+130.00
+120.00
+15,498,781.00
+10,233,073.54
+
+Mar
+
+Source: TradeStation
+
+Apr
+
+May
+
+Strategies for Entry
+
+95
+
+Notice how OIH came down to its 50-day MA (the circled area), but failed to
+bounce off that support level. Instead, it “corrected by time” for two short days and
+then broke down to new lows. When this occurs, you can enter a new short position
+on a break out of the range. In this case, you could have shorted OIH when it fell
+below the lows of both May 15 and 16. When the lows also converge with a pivotal
+moving average such as the 50-day MA, it further increases the odds of a successful
+trade. I didn’t short OIH when this occurred, but I did realize a substantial proﬁt from
+a short position in the Energy Select Sector SPDR Fund (XLE), which had a similar
+chart pattern.
+Having a basic understanding of the ways in which markets correct will prevent
+you from being late to the party and selling short at the bottom of a sell-off or buying
+at the top of a breakout. If the ETF has so much relative weakness that a correction by
+time is the only correction you get, it is advisable to reduce your position size in order
+to compensate for the slightly increased risk of not getting the most ideal entry point.
+The same is true of buying ETFs that only correct by time in uptrending markets.
+The Opening-Gap Rules
+
+Due to large changes in overnight supply or demand, the major market indexes, individual stocks, and ETFs often open much higher or lower than where they closed the
+previous day, which is known as a “gap.” Buying long or selling short an ETF that
+hits its trigger price due to an opening gap is sometimes riskier than entering an ETF
+that trades through its trigger price in an orderly fashion. Likewise, open positions
+sometimes gap open beyond their stop prices but immediately reverse in the right
+direction. The following rules will help you manage positions that gap open beyond
+their trigger or stop prices:
+• ETFs that gap open beyond their trigger prices. For a long setup, buy the ETF
+only if it subsequently sets a new high after the ﬁrst 20 minutes of trading. For a
+short setup, sell short the ETF only if it subsequently sets a new low after the ﬁrst
+20 minutes of trading. In both cases, the ETF must exceed its 20-minute high (for
+longs) or 20-minute low (for shorts) by at least 10 cents before you enter the position. Also, don’t follow the gap rules for any opening gap of less than 10 cents above
+or below the trigger price.
+• ETFs that gap open beyond their stop prices. If a long position gaps down to open
+at or below its stop price, continue to hold the position for the ﬁrst 20 minutes of
+trading, at which point the new stop price is adjusted to 10 cents below the low
+of the ﬁrst 20 minutes. For short positions, adjust the stop to 10 cents above the
+high of the ﬁrst twenty minutes.
+The above rules are designed to keep you out of trouble by preventing you from
+entering or closing a trade at the worst price of the day. Nevertheless, just like every
+other rule in trading, there are always exceptions that enable experienced traders
+
+96
+
+Timing Your Entries and Exits
+
+to occasionally deviate from these rules with high success rates. These are nuances
+that cannot be taught, but can only be learned through experience. These rules are
+designed to avert major losses, which is much more important than whether you leave
+some proﬁt on the table or not.
+Here are four ways the opening gap rules apply to trades, in more detail.
+1. If an ETF hits its trigger price due to an opening gap, do not enter the position
+until the ETF trades through the high of the ﬁrst 20 minutes (or the low of the
+ﬁrst 20 minutes if you are looking to short). For example, let’s assume the plan is
+to buy SMH if it trades above 24.55 today. Due to positive news that occurred
+overnight, the broad market gaps up and SMH opens at 24.67, which is 12 cents
+above the trigger price. After opening, the highest price that SMH trades within
+the ﬁrst 20 minutes of trading is 24.79. This means that, despite the fact that the
+trigger price was only 24.55, you do not enter the trade on the open, and you
+enter this trade only if it trades above 24.79 after 20 minutes of trading.
+Even though this sometimes results in paying a higher price for the trade,
+the probability of the ETF going higher is statistically much greater because
+stocks and ETFs that set new highs after their ﬁrst twenty minutes of trading
+typically go much higher. If the ETF is unable to break above its 20-minute
+high, however, the opening gap will often represent the highest price the stock
+will trade that day, which is why you do not want to buy a gap up beyond its
+trigger price unless it breaks the 20-minute high. This rule prevents losses time
+and time again by preventing you from entering a high-risk trade. When entering a trade that has broken above its opening 20-minute high (or low), you
+should tighten the initial stop-loss to a price that is usually equal to twenty cents
+below the low of the morning (or the high of the morning if you are short). It is
+important to raise the stop because you are entering the trade at a higher price
+than initially anticipated.
+2. On some occasions, a trade triggers on the open and fails to set a new high, but
+consolidates by trading sideways near the intraday highs of the ﬁrst 20 minutes.
+If other market internals such as volume, the advance/decline line, and the tick
+are strong, you can sometimes enter a trade despite the fact it has not yet broken
+the high of the ﬁrst 20 minutes. When doing so, the stop is typically set about
+10 cents below the low of the day (gap up), which reduces the risk of entering.
+Buying without a break of the 20-minute opening high or selling short without a
+break of the 20-minute opening low is a riskier and more advanced type of trade
+that beginning traders may wish to forgo.
+3. If there is an opening gap of 2 percent or more in the direction of a trade held
+overnight, you usually close half of the position immediately on the open to
+lock in proﬁts and easy money with at least a 2 percent gain. Otherwise, the gap
+can quickly reverse going into the 9:50 a.m. reversal period, causing proﬁts to
+disappear. It is important to note that half of the position is kept open because it
+often will realize even larger proﬁts on the second half of the shares if the trend
+
+Strategies for Entry
+
+97
+
+continues in the direction of the gap later that morning. When keeping half of
+the share size open after a large opening gap, you should typically tighten the stop
+to just above or just below the high or low of the day (as explained above).
+4. In the event that the market has a large gap (that is, more than 2 percent) in
+the opposite direction of a trade you held overnight and causes your trade to be
+stopped out due to an opening gap, you should consider handling the situation
+as follows: If you are long, let the ETF trade for ﬁve minutes before selling it and
+taking the loss. After the ﬁrst 5 minutes of trading, mark the low price that was set
+during the ﬁrst 5 minutes. If the trade subsequently trades below that 5-minute
+low, immediately cut the loss on the whole position. If the trade never violates
+the 5-minute low, however, hold the trade and watch for a bounce into the 9:50
+a.m. reversal period, which you also mark so that you know what the 20-minute
+high price is. If the trade now heads south, cut the loss by selling into the bounce
+near the 20-minute high. But if the trade takes out the 20-minute high, you can
+continue to trail a stop higher. The purpose of this rule is not to prevent taking a
+loss (because you will usually still have a loss), but rather to minimize the loss by
+waiting for a better opportunity to sell into a rally. If the rally never comes, get
+out when the 5-minute low is violated. Statistically, it is worth the risk to wait out
+the ﬁrst 5 minutes because stocks will usually have at least an initial bounce if they
+get whacked on the open. The inverse of this rule applies if you are short.
+Breakout or Pullback Entry?
+
+By now, you may be asking yourself, which type of entry is better, a breakout or
+pullback? The answer depends on two factors: overall broad market conditions and
+personal comfort level.
+Breakouts work better in certain types of markets, while pullback entries can
+effectively be used in nearly any market environment. The most important thing to
+realize when buying breakouts is that they have a much higher rate of success in bull
+markets than in choppy, range-bound markets. Similarly, breakdown entries are more
+successful in steadily downtrending or bear markets.
+Approximately 80 percent of stocks follow the general pattern of the major
+indexes. Therefore, it is not prudent to attempt breakdown short entries in raging bull
+markets, nor is it wise to buy breakouts in weak markets. While doing so occasionally
+works, why ﬁght against the odds? Go with the overall trend and you’ve automatically
+increased your chances for a proﬁtable trade dramatically.
+Choppy markets yield a low batting average for both breakouts and breakdowns,
+as there is usually a tug-of-war going on between the bulls and bears. If you are buying breakouts and you ﬁnd yourself continually getting “chopped up,” or realizing
+an overall large loss through a series of small losses, take an objective look at overall
+market conditions. Chances are that you’re attempting to do so in the midst of an
+indecisive, possibly quite erratic, broad market. Stick to steadily trending markets,
+
+98
+
+Timing Your Entries and Exits
+
+always trading in the direction of the overall trend, for the highest chance of success
+when buying breakouts or short selling breakdowns.
+Although you might be inclined to dismiss the idea of individual personality
+being a relevant factor in trading, don’t underestimate its importance. If you’re the
+type of person who is always thinking that an ETF at new highs is overbought or too
+expensive, buying breakouts to new highs is probably not a good idea. You’ll either
+ﬁnd yourself selling the position too early, missing most of the proﬁt potential, or selling the position at the ﬁrst hint of a potential short-term correction. Buying a trend
+reversal or a break of a downtrend line may be better suited to your personality. There’s
+nothing wrong with that, as both types of entries have distinct advantages. Be honest
+with yourself and act on your instinct.
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+CHAPTER 8
+
+Strategies for Exit
+Given that an average of 30 to 40 percent of your overall trade entries will result in net
+losses, it’s critical to know when to exit them. If you don’t have a proper understanding
+of when to close positions, proﬁtable trades will frequently turn to losing ones; you
+will prematurely close winning trades without a valid reason and exit losing trades at
+the worst possible times. This chapter presents strategies to help you manage trades
+that are going the right way, as well as strategies for efﬁciently exiting losing positions.
+Strategies for Closing Winning Positions
+
+When you ﬁnd yourself on the winning side of an exchange-traded fund trade, emotions have a natural tendency to run high. Though the best professional traders keep
+their emotions in check with both winning and losing positions, human psychology causes emotions like fear and greed to creep in. Fear of losing unrealized proﬁts
+and greed for higher proﬁts can be equally damaging. Having a sound set of objective strategies for managing winning trades is the best way to keep away from these
+destructive emotions.
+With all types of trade setups, your goal is constantly to take a large chunk of
+proﬁts out of the middle of the move, while leaving the “amateurs” to call absolute
+tops and bottoms. Remembering this rule alone is an excellent way to get a head start
+on properly exiting winning trades. Though you will occasionally get lucky and nail
+an exit at the end of the trend, intentionally trying to do so will inevitably cause substantial proﬁts to be given back.
+The ideal time to close winning positions depends primarily on what type of technical setup caused the original trade entry. For any type of setup other than a breakout
+to a new 52-week high, the general idea is to sell into the strength of a major area of
+resistance before the ETF starts coming back down in price. Breakouts to new highs,
+however, are completely devoid of technical price resistance. As such, I typically use
+a trailing stop strategy on these positions: I continually move my protective stop-loss
+price closer to the market price, preferring instead to allow the trade to hit its protective stop price when bullish momentum dries up (the opposite for short sales).
+
+99

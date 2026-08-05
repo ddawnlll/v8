@@ -1,0 +1,1172 @@
+
+Symbol
+
+Correlation
+
+Axa
+Netherlands Index ETF
+Sage GRP
+Sweden Index ETF
+European Equity Fund
+Emerson Electric
+Tri-Continental Corp.
+Lincoln National Corp.
+Exxon Mobil
+United Technologies
+Boeing Co.
+Altria Group
+Chevron Corp.
+American Express
+Pearson Plc
+Pepsico
+BP Plc
+Caterpillar Inc.
+Public Service Enterprise
+Alltel Corp.
+COGECO
+Merril Lynch & Co.
+Dover Corp.
+Citigroup
+Procter & Gamble
+
+AXA
+EWN
+SGE.L
+EWD
+EEA
+EMR
+TY
+LNC
+XOM
+UTX
+BA
+MO
+CVX
+AXP
+PSO
+PEP
+BP
+CAT
+PEG
+AT
+CGO.TO
+MER
+DOV
+C
+PG
+
+0.986
+0.98
+0.978
+0.977
+0.976
+0.975
+0.973
+0.972
+0.967
+0.961
+0.96
+0.959
+0.958
+0.956
+0.956
+0.955
+0.95
+0.949
+0.947
+0.946
+0.941
+0.934
+0.93
+0.908
+0.905
+
+Index
+CAC40
+AEX
+FTSE
+OMXSPI
+ESTX
+S&P
+NA
+S&P
+S&P
+S&P
+S&P
+S&P
+S&P
+S&P
+FTSE
+S&P
+FTSE
+S&P
+S&P
+S&P
+NA
+S&P
+S&P
+S&P
+S&P
+
+6
+European Indices
+
+A little uncertainty is good for everything.
+–Henry Kissinger
+
+6.1
+
+THE DAX
+
+Trading in DAX futures has recently become very popular among US traders as
+it provides an additional liquid market to trade. The main advantages are currency
+diversification and a wider range of trading times. The German futures exchange
+(Eurex) is open 14 hours a day from 8:00 to 22:00 CET (02:00–16:00 US EST) and the
+longer trading times are convenient for both Australian and US-based traders. You can
+find an intermarket system for trading DAX futures in Chapter 13, but in order to make
+modifications or design your own system you will need a thorough understanding of
+its correlation with other international stock indices, currencies and commodities.
+Correlations between the DAX and major international indices, forex and commodities are depicted in Table 6.1 and correlations with other European indices in
+Table 6.2. The DAX correlated best, with the Euro Stoxx 50. This was not surprising
+as both indices had a number of common component stocks. The second best correlation was with the French CAC 40 index, as both nations–whether they like it or
+not–are joined in the economic community. American indices had to be shifted back
+one day in time in order for the correlation values to have some predictive usefulness
+for the DAX, as all American exchanges closed 41/2 hours later. An alternative approach would be to correlate the DAX opening price with the previous day’s closing
+price of the corresponding American index. This improves the correlation coefficient
+from 0.134 to 0.422 when comparing the last day’s S&P 500 daily change with the
+DAX change between the current day’s open and last day’s close. Similar correlation analysis can be used to predict opening prices of lagging (in the time zone)
+international indices. For example the Nikkei opening price can be predicted based
+
+86
+
+Intermarket Trading Strategies
+
+Table 6.1 Nonparametric correlation between the DAX and major world indices for the
+5-year period until 31 December 2006. The 5-year Spearman’s price correlation coefficient is
+shown in column 3 and the correlation of daily and weekly yields (% changes) in column 4.
+All US indices were shifted one day back since the current day’s closing price is not known at
+the time of the DAX close.
+Yield %
+Index/Commodity
+SP 500 (lag 1 day)
+DJ-30 (lag 1 day)
+NDX (lag 1 day)
+TSX (lag 1 day)
+Euro Stoxx 50
+Stoxx 50
+Tecdax
+CAC 40
+FTSE
+Athens General
+Utility index (lag 1 day)
+Nikkei
+Hang Seng
+10 Yr tr. yld (lag 1 day)
+Bund
+Gold
+Oil (Brent)
+Euro
+Dollar index (lag 1 day)
+Yen
+
+Daily prices
+
+Daily
+
+Weekly
+
+0.913
+0.884
+0.847
+0.881
+0.992
+0.971
+0.833
+0.995
+0.989
+0.980
+0.912
+0.900
+0.852
+0.715
+0.372
+0.660
+0.040
+0.404
+−0.25
+0.030
+
+0.134
+0.125
+0.167
+0.097
+0.878
+0.864
+0.714
+0.862
+0.724
+0.385
+0.085
+0.231
+0.245
+0.062
+−0.338
+−0.15
+−0.039
+−0.21
+0.080
+0.082
+
+0.661
+0.652
+0.614
+0.505
+0.928
+0.887
+0.764
+0.904
+0.767
+0.551
+0.242
+0.535
+0.508
+0.375
+−0.377
+−0.113
+−0.055
+−0.213
+0.170
+0.074
+
+on the last day’s closing price of the S&P 500, or a European index opening can be
+predicted based on both the last day’s closing price of the S&P and the current day’s
+closing of Asian exchanges using a multiple regression model.
+Notice that correlations between DAX and all other non equity index assets (below
+the Hang Seng in Table 6.1) broke down and even reversed sign when taking daily or
+weekly yields. This is because their relationship with the DAX was non linear thus
+invalidating the correlation analysis.
+6.2
+
+CORRELATION WITH STOCKS
+
+In Table 6.3 you can see 15 US stocks (including foreign ADR) with the strongest
+correlation with the DAX over a 5-year period. An analysis by industry reveals that
+the DAX correlated best with interest rate sensitive groups like Utilities, Financials
+and Building Material stocks.
+
+European Indices
+
+87
+
+Table 6.2 Nonparametric correlation between the DAX and major European
+indices for the preceding 5 and 10 year period as of 31 May 2007.
+Index
+
+5 Year
+
+10 Year
+
+Euro Stoxx 50
+Stoxx 50
+CAC 40
+Euronext 100
+FTSE
+SSMI (Swiss)
+MIB-30 (Italian)
+BEL-20 (Belgian)
+Athens General
+Irish Stock Index
+
+0.992
+0.971
+0.995
+0.996
+0.99
+0.99
+0.987
+0.986
+0.98
+0.987
+
+0.966
+0.944
+0.94
+N/A
+0.925
+0.936
+N/A
+0.734
+0.823
+N/A
+
+Table 6.3 Nonparametric correlation between the DAX and the 15 best correlated US
+stocks (including ADRs) during the 5-year period from 1 June 2003 to 1 June 2007. The
+5-year Spearman’s correlation coefficient is shown in column 3 and the stock’s industry
+group in column 4. As was expected, the DAX has the strongest correlation with European
+ADRs like Holland’s Akzo and the Greek Telco OTE.
+Company name
+
+Symbol
+
+Correlation
+
+Akzo Nobel NV
+Hellenic Telecomm
+ING Group NV
+Orient Express
+Mexico Fund
+Chubb Corp.
+General Dynamics
+Cleco Corp.
+DPL
+Manitowoc
+Be Aerospace
+Iconix Brand
+Laboratory Corp.
+Nucor
+Cemex
+
+AKZOY
+OTE
+ING
+OEH
+MXF
+CB
+GD
+CNL
+DPL
+MTW
+BEAV
+ICON
+LH
+NUE
+CX
+
+0.985
+0.979
+0.976
+0.976
+0.976
+0.975
+0.975
+0.975
+0.975
+0.973
+0.973
+0.972
+0.972
+0.972
+0.971
+
+6.3
+
+Industry
+Chemicals
+Telecomm
+Financial
+Lodging
+Country fund
+Financial
+Defense
+Utilities
+Utilities
+Farm Machinery
+Defense
+Apparel
+Drugs
+Steel
+Building materials
+
+EUROPEAN FUTURES
+
+European futures trade long after the closing of equity trading in the corresponding
+exchanges so a more realistic analysis (for trading purposes) would be to correlate
+European index futures with the corresponding US futures. A comparison of the daily
+
+88
+
+Intermarket Trading Strategies
+
+Table 6.4 Nonparametric correlation matrix between international futures for the 5-year
+period from 1 January 2002 to 31 December 2006. The FDAX is the DAX contract trading in
+the Eurex; the ES, YM, NQ and NKD are the S&P 500 e-mini, Dow, Nasdaq 100 and Nikkei
+contracts trading in the CME Globex; the ESTX is the Euro Stoxx 50 contract trading in the
+Eurex; the 6E is the Euro contract trading also in the Globex; the GC is the gold contract
+trading in the Comex; and the ZN is the 10-year Treasury note futures contract trading in the
+Globex.
+Symbol FDAX ES
+YM
+NQ
+NKD
+FCE
+FESX
+6E
+index DAX SP 500 DJ-30 Nasdaq Nikkei CAC 40 Eurostx Euro
+FDAX
+ES
+ER2
+YM
+NQ
+NKD
+FCE
+FESX
+EURO
+GC
+ZN
+
+1
+0.91 0.89
+0.91
+1
+0.98
+0.85
+0.98 0.96
+0.89
+0.98 1
+0.85
+0.96 0.92
+0.90
+0.92 0.92
+0.99
+0.93 0.90
+0.99
+0.88 0.86
+0.41
+0.68 0.71
+0.66
+0.86 0.85
+−0.81 −0.61 −0.60
+
+0.85
+0.90
+0.96
+0.92
+0.93
+0.92
+0.92
+0.92
+1
+0.85
+0.85
+1
+0.86
+0.91
+0.82
+0.86
+0.63
+0.55
+0.81
+0.80
+−0.54 −0.69
+
+GC
+ZN
+Gold 10y TN
+
+0.99
+0.99 0.41 0.66
+0.93
+0.88 0.68 0.86
+0.86
+0.80 0.75 0.93
+0.90
+0.86 0.71 0.85
+0.86
+0.82 0.63 0.81
+0.912
+0.86 0.55 0.80
+1
+0.99 0.44 0.69
+0.99
+1
+0.36 0.59
+0.44
+0.36 1
+0.82
+0.69
+0.59 0.82 1
+−0.80 −0.82 −0.09 −0.33
+
+−0.81
+−0.61
+−0.53
+−0.60
+−0.54
+−0.69
+−0.80
+−0.82
+−0.09
+−0.33
+1
+
+yields in Tables 6.1 and 6.5 reveals a significant improvement of the correlations of
+daily changes which can only be attributed to the time lag factor between indices.
+This was most pronounced in the case of the DAX, whose correlation with the
+S&P improved dramatically from 0.13 (cash index) to 0.55 (futures). There was no
+Table 6.5 Nonparametric correlation matrix of daily % changes between international
+index, currency and bond futures for the 5-year period from 1 January 2002 to 31 December
+2006. Significant correlations are depicted in bold. The ZN is the 10-year Treasury note
+futures trading in the Globex.
+Symbol
+index
+
+FDAX
+DAX
+
+ES
+SP 500
+
+YM
+DJ-30
+
+NQ
+Nasdaq
+
+FCE
+CAC 40
+
+FESX
+Eurostx
+
+6E
+Euro
+
+ZN
+TN
+
+FDAX
+ES
+YM
+NQ
+FCE
+FESX
+EURO
+ZN
+
+1
+0.55
+0.52
+0.49
+0.81
+0.89
+−0.22
+−0.29
+
+0.55
+1
+0.82
+0.86
+0.43
+0.52
+−0.12
+−0.19
+
+0.52
+0.82
+1
+0.67
+0.41
+0.50
+−0.09
+−0.16
+
+0.49
+0.86
+0.67
+1
+0.37
+0.45
+−0.14
+−0.21
+
+0.81
+0.43
+0.41
+0.37
+1
+0.84
+−0.19
+−0.23
+
+0.89
+0.52
+0.50
+0.45
+0.84
+1
+−0.22
+−0.26
+
+−0.2
+−0.1
+−0.1
+−0.1
+−0.2
+−0.2
+1
+0.33
+
+−0.29
+−0.19
+−0.16
+−0.21
+−0.23
+−0.26
+0.33
+1
+
+European Indices
+
+89
+
+significant difference, however, when comparing the direct price correlation between
+future and cash prices in Tables 6.1 and 6.4 as US cash indices were shifted back one
+day in time.
+6.4
+
+TIME FACTOR
+
+It is obvious from Table 6.1 that the correlation of weekly percentage yields is
+stronger than the corresponding daily one. But why stop there? What about higher
+time increments? I have calculated in Table 6.6 Pearson’s correlation of percentage
+Table 6.6 Correlation variation between DAX and S&P futures
+(e-mini) for different time segment percentage yields for the 5-year
+period from 1 July 2002 to 30 June 2007. In the 3rd column is the
+correlation % change (improvement) from the previous time increment.
+Days
+
+Pearson’s correlation
+
+% change
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+25
+30
+35
+40
+45
+50
+75
+100
+
+0.617
+0.719
+0.763
+0.787
+0.803
+0.810
+0.810
+0.817
+0.816
+0.824
+0.825
+0.822
+0.825
+0.821
+0.822
+0.824
+0.823
+0.824
+0.823
+0.825
+0.831
+0.847
+0.853
+0.863
+0.872
+0.876
+0.890
+0.893
+
+16.4
+6.2
+3.1
+2.1
+0.8
+0.0
+0.8
+−0.1
+1.1
+0.1
+−0.4
+0.3
+−0.4
+0.1
+0.2
+0.0
+0.1
+0.0
+0.2
+0.8
+1.9
+0.7
+1.3
+0.9
+0.5
+1.6
+0.3
+
+90
+
+Intermarket Trading Strategies
+
+Figure 6.1 Graph of correlation variation for time intervals ranging from 1 to 100 days of
+percent yields between DAX and S&P futures (e-mini) for the 5-year period from 1 July 2002
+to 30 June 2007.
+
+yields for time intervals ranging from 1 to 100 days between DAX and S&P
+e-mini futures (ES). They are also plotted graphically in Fig. 6.1. A visual inspection of the graph reveals that the correlation improved exponentially for the
+first 5-day period, made a short-term peak at the 10-day increment and actually decreased slightly up to the 15-day time increment. It then started sloping up slightly
+to level off at 75 days. It is worthwhile noting that for longer than 10-day percentage differences, the correlation coefficient improved by only 8 %. Therefore
+a time increment of five to ten days, when taking percentage differences, might
+be the optimum to use when designing short to medium term intermarket trading
+systems.
+
+6.5
+
+INTRADAY
+
+The correlation of intraday percentage changes follows a similar pattern to the daily
+yields above.
+In Table 6.7 I list Pearson’s correlation for up to 1500 minutes (25 hours) of
+percentage yields between the DAX, Euro Stoxx 50 and S&P e-mini futures (ES).
+This was also plotted graphically in Fig. 6.2. The correlation between the DAX and
+
+European Indices
+
+91
+
+Table 6.7 Intraday correlation of 1 to 1500 minute (25 hour) percent changes
+between the DAX , Euro Stoxx and S&P 500 futures for the 3-month period
+from 1 January 2007 to 31 March 2007.
+Minutes
+
+Hours
+
+ESTX
+
+ES
+
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+55
+60
+65
+70
+75
+80
+85
+90
+95
+100
+125
+150
+200
+250
+375
+500
+750
+1000
+1250
+1500
+
+0.08
+0.17
+0.25
+0.33
+0.42
+0.50
+0.58
+0.67
+0.75
+0.83
+0.92
+1
+1.08
+1.17
+1.25
+1.33
+1.42
+1.50
+1.58
+1.67
+2.08
+2.50
+3.33
+4.17
+6.25
+8.33
+12.50
+16.67
+20.83
+25
+
+0.877
+0.888
+0.891
+0.893
+0.895
+0.897
+0.899
+0.900
+0.901
+0.902
+0.904
+0.905
+0.906
+0.907
+0.908
+0.908
+0.908
+0.909
+0.909
+0.908
+0.910
+0.910
+0.913
+0.915
+0.916
+0.918
+0.925
+0.928
+0.928
+0.933
+
+0.724
+0.741
+0.754
+0.763
+0.768
+0.774
+0.780
+0.782
+0.787
+0.789
+0.793
+0.797
+0.802
+0.807
+0.810
+0.812
+0.813
+0.814
+0.815
+0.816
+0.823
+0.830
+0.836
+0.842
+0.850
+0.862
+0.884
+0.897
+0.900
+0.910
+
+Euro Stoxx improved exponentially for the first 10-minute period, made a short-term
+peak at the 75-minute increment, making only marginal improvements for the next
+200 minutes.
+The correlation between the DAX and S&P e-mini futures (ES), on the other hand,
+made a short-term peak at the 75-minute (11/4 hour) increment but continued rising
+at a more moderate rate.
+
+92
+
+Intermarket Trading Strategies
+
+Figure 6.2 Graph of correlation between percent changes of DAX, Euro Stoxx (solid line)
+and e-mini S&P 500 futures (dashed line) for intraday time segments ranging from 5 to 1500
+minutes (25 trading hours) for the 3-month period from 1 January 2007 to 31 March 2007. The
+correlation with Euro Stoxx futures flattens out after the first 75 minutes.
+
+It is worthwhile noting that for longer than 10-minute percentage differences,
+the correlation coefficient between the DAX and Euro Stoxx futures improved by
+only 5 % but its correlation with the S&P e-mini improved substantially (23 %). It
+is therefore better to use longer time spans when designing short- to medium-term
+intermarket trading systems to trade the DAX based on its correlation with the S&P
+e-mini.
+
+7
+Gold
+
+Good judgment is usually the result of experience and experience frequently is
+the result of bad judgment.
+–Robert Lovell
+
+In 1925, in a speech at the University of Cambridge, the English economist John
+Maynard Keynes called the Gold Standard “a barbaric relic” but even though the
+Gold Standard has since been abolished the “barbaric relic” has not lost its value.
+Federal Reserve Board chairman Alan Greenspan once wrote about gold: “This is
+the shabby secret of the welfare statistics’ tirades against gold. Deficit spending
+is simply a scheme for the confiscation of wealth. Gold stands in the way of this
+insidious process. It stands as a protector of property rights . . .”.
+Gold topped $1000 an ounce in March 2008 as investors bid gold prices up amid
+worries about the falling dollar and the sub prime financial crisis. In fact, investors
+who bought gold in 2003 have more than tripled their initial investment, enjoying an
+annualized return of over 20 %.
+One of the reasons gold has surged so much is that it’s much easier to buy.
+For many years it was difficult for ordinary investors to trade gold. The minimum
+amount needed in order to buy gold bullion was $1 million. Buying gold coins or
+jewellery was also a problem because of the hassle of storing and reselling them.
+An alternative way to buy gold was to trade gold futures on the New York Commodities Exchange (COMEX). Most investors, however, do not have a futures account or prefer to trade only stocks because of the volatility and also the rollover
+costs. Investors can now buy shares of SPDR Gold Trust, an exchange-traded
+fund that can be bought and sold like any stock under the ticker symbol GLD.
+Each share represents one-tenth of an ounce of gold, and the shares are highly
+liquid.
+
+94
+
+Intermarket Trading Strategies
+
+In times of a financial crisis, rising inflation, or a weak dollar, gold does well but
+is it a good long-term investment? Gold peaked at about $840 an ounce in 1980
+and was in a continuous decline until 2002. Anyone who invested in gold in 1988
+would have made only 72 % on his initial investment and with inflation factored in
+would have made next to nothing over the 20 years from 1 January 1988 until the
+end of 2007. Meanwhile, a $1000 investment in the S&P 500 would have grown at
+a compound annual return of 10.6 % a year to $7500 in that time. Taking inflation
+into account the stock investor would still have made a 360 % profit and his initial
+$1000 investment would have grown to $4600 at an annualized rate of 7.4 % a year
+during the past 20 years. Investing in stocks generally does better against inflation
+over the long term because companies raise prices when inflation goes up. Growing
+productivity also helps stock prices keep ahead of inflation, which is not the case
+with gold.
+Another reason for gold’s mediocre long-term performance is the most fundamental concept of economics: supply and demand. Unlike other commodities which
+are used in industry and need to be continuously replenished, gold stays in the
+market.
+
+7.1
+
+CORRELATIONS WITH EQUITY AND COMMODITY ASSETS
+
+Gold was traditionally uncorrelated with equities until a character change occurred
+in 2003. Gold started moving in the same direction with the S&P 500 and other
+international equity indices (see Fig. 7.1).
+Before making any hasty conclusions, however, we should examine what the
+other asset classes were doing at the time. During that period the dollar was falling
+precipitously, inflation was rising and the rest of the commodities were also rising. I
+believe that the contemporaneous gold–equity appreciation only happened by chance
+and gold’s gain had nothing to do with rising equity prices and more to do with the
+dollar’s demise and the commodity-induced inflation.
+Gold has been moving in lock step fashion with major averages until the summer
+of 2007 when fears of melt down in US financial markets triggered flight-to-safety
+demand for the yellow metal which decoupled from the S&P and moved to new highs
+in the following months.
+In Tables 7.1 and 7.2 I list the correlation of weekly and two-week (10 working days) percent changes between gold and related equity indices, currencies and
+commodities. You can see that the correlation of weekly yields between gold and
+the S&P 500 changed from near zero to over 0.20 during the most recent 2-year
+period ending on 31 December 2007. For the reasons discussed above, I believe
+that this is only temporary and the correlation with equities will revert to the
+mean.
+
+Gold
+
+95
+
+Figure 7.1 Weekly composite chart of the World Gold Index (thick black line with the
+scale on the right Y-axis) and the S&P 500 (thin grey line with the scale on the left Y-axis).
+Negative correlation is shaded in a gray background and positive with no background. Notice
+the correlation reversal in April 2003.
+
+Table 7.1 Long- and short-term nonparametric correlation of weekly percentage changes
+between the World Gold Index and related commodity and financial indices up to 31
+December 2007. TNX is the CBOE 10 Year Treasury Yield Index, XAU is the Philadelphia
+Gold/Silver Stock Index, CRB is the Commodity Research Bureau Index, Yen is the USD per
+yen exchange rate (JPY.USD) and TSX is the S&P Canada Composite Index.
+Years S&P 500 XAU Silver TSX CRB Dollar Index Euro Yen
+2
+5
+10
+15
+
+0.20
+0.10
+0.02
+0.00
+
+0.78
+0.74
+0.71
+0.71
+
+0.82
+0.74
+0.66
+0.66
+
+0.46
+0.31
+0.18
+0.18
+
+0.63
+0.55
+0.45
+0.43
+
+−0.55
+−0.57
+−0.47
+−0.38
+
+0.54
+0.54
+0.43
+NA
+
+TNX Crude Oil
+
+0.24
+0.03
+0.32 −0.08
+0.26 −0.10
+0.23 −0.07
+
+0.41
+0.23
+0.17
+0.14
+
+96
+
+Intermarket Trading Strategies
+
+Table 7.2 Long- and short-term nonparametric correlation of 10-day percentage changes
+between the World Gold Index (gold spot) and related commodity and financial indices up to
+31 December 2007. TNX is the CBOE 10 Year Treasury Yield Index, XAU is the
+Philadelphia Gold/Silver Stock Index, CRB is the Commodity Research Bureau Index, Yen is
+the USD per yen exchange rate (JPY.USD) and TSX is the S&P Canada Composite Index.
+Years S&P 500 XAU Silver TSX CRB Dollar Index Euro Yen
+2
+5
+10
+15
+
+0.16
+0.09
+0.02
+0.01
+
+0.80
+0.74
+0.72
+0.73
+
+0.80
+0.71
+0.64
+0.63
+
+0.47
+0.34
+0.20
+0.21
+
+0.71
+0.59
+0.47
+0.45
+
+−0.63
+−0.57
+−0.49
+−0.39
+
+0.61
+0.53
+0.47
+NA
+
+TNX Crude Oil
+
+0.32
+0.00
+0.37 −0.10
+0.25 −0.11
+0.23 −0.09
+
+0.51
+0.25
+0.19
+0.15
+
+But this is not the only change in gold’s intermarket relations, and whether they
+will also revert to the mean is doubtful. A close inspection of Table 7.1 reveals that,
+during the last 5-year period since 2003, gold started moving closer to the entire
+commodity complex as represented by the CRB Index.
+The traditional positive correlation between gold and silver has also recently increased significantly from 0.66 (strong) to 0.82 (very strong).
+Gold and silver have always been positively correlated markets and their prices
+tend to move in the same direction. Their relationship, however, is not fundamental.
+The price of one does not move in a particular direction because the other market is
+moving the same way, as both markets are driven by the same fundamentals. This
+doesn’t mean, however, that their relationship cannot be used in exploiting short-term
+market inefficiencies as the fundamental reasons (like the price of the US dollar) might
+not be reflected fully in the price of both at the same time.
+Also, since gold is denominated in US dollars, it is reasonable to assume that it
+will be affected by the Federal Reserve monetary policy. In 2004 the Fed created
+excess liquidity. In the following 3-year period gold broke out from historical prices
+to new 10-year highs. After all, unlike paper money, gold cannot be printed. Longterm bullish factors for gold include explosive money supply growth, the US dollar,
+negative interest rates in the US, inflation and high commodity prices. Negative
+factors include Central Bank selling which can affect the yellow metal negatively in
+the short term.
+Commodity prices may get seriously distorted by the underlying currency fluctuations and it pays to examine them with international eyes. Gold offers the best
+example in recent history.
+To illustrate my point I have prepared two charts (Fig. 7.2). They are both of
+gold, the only difference being the currency gold is priced in. The first one (bold
+line) is in US dollars, and the other in euro. For the 31/2 -year period from the
+beginning of 2002 and until about the middle of 2005 the first gold chart (in dollars)
+showed a strong up trend but this was not the case with the second chart (in euro)
+
+Gold
+
+97
+
+Figure 7.2 Weekly chart of gold spot prices in US dollars (thick bold line with the scale on
+the right Y-axis) and gold in euro (thin line with the scale again on the same axis). As you can
+see, European gold investors didn’t profit from the 2002–2005 rally in gold.
+
+which moved in a sideways range, finishing in April 2005 lower than it started in
+January 2002.
+The gold’s (in dollars) uptrend was caused by a bear market in the dollar, not a bull
+market in gold. During this period, the correct position for an international investor
+was a short dollar position, not a long gold position.
+Gold is also tracking the crude oil market, for signals about futures inflation trends,
+and speculative sentiment towards the US dollar. Although its long-term correlation
+with crude oil futures is not as strong (ρ = 0.41 in Table 7.1) as it is with the CRB
+Index (ρ = 0.63), silver (ρ = 0.82) or the dollar index (ρ = −0.55), it can increase
+dramatically, in periods of rising volatility and sharp dollar declines (Fig. 7.3). During
+the preceding 3-year period there were four such incidents of market sentiment shift
+resulting in extremely close correlation between gold and crude oil (marked A, B,
+C and D in the chart in Fig. 7.3) which happened to coincide with the start of a
+sharp dollar decline. This is because, during periods of undisciplined dollar decline,
+their correlation with the dollar became the dominant price moving factor for both.
+Notice also that gold decoupled from oil two to three weeks before the dollar actually
+bottomed out as the market is always forward looking and discounted the end of the
+dollar’s decline in advance.

@@ -1,0 +1,393 @@
+
+Considering more than price
+Your choice of brokers should be based on much more than who can offer
+you the cheapest price. Although price definitely is a factor in your selection
+of broker, it is one of many factors you need to consider. The most important
+factors are the services that your broker offers and how effective and efficient
+the broker is in carrying out those promised services. Look for brokers that
+offer smart order routing capabilities, but steer clear of the ones that accept
+payment for order flow (see the “Types of orders supported” section, earlier
+in this chapter).
+You may find a brokerage firm that provides all the bells and whistles at the
+cheapest price, but if its systems break down at a critical trading moment
+and you’re not able to implement your trades when you want to, those bells
+and whistles mean nothing, and not being able to rely on them can result in
+huge losses. Look for brokers that allow you to test drive a demo version of
+order entry systems.
+
+Doing a little research
+If you expect to become an active and successful trader and want full access
+so you can trade electronically through the exchanges, you more than likely
+need to research direct-access brokers. If, however, you believe that your
+volume of trades per month will be lower than 50, you may want to consider
+a discount broker that offers access to ECNs. Basically, your choice of brokers
+comes down to the types of services and accounts you need and which
+broker offers the best mix for what you want to do and pay.
+
+43
+
+44
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+Your first step is to make lists of your financial objectives, the types of
+trading you want to do, and the services you know you’re going to need. After
+committing those factors to memory, talk with other traders you know and be
+sure to find out what their experiences have been with various brokers.
+You can also research and compare ratings of brokers on the Internet. Try
+these Web sites:
+✓ SmartMoney: This site also conducts a yearly survey that can give you
+an excellent overview of broker performance. Go to www.smartmoney.
+com, click on “Stocks & Options” in the left-hand menu, and then scroll
+down to “Annual Broker Survey.” The survey lists rankings for basic and
+premium discount brokers and full-service brokers.
+✓ Barron’s: The Web site of the weekly financial magazine (www.barrons.
+com) does an excellent annual evaluation of online brokers and
+direct-access brokers, usually in March. A subscription is required.
+✓ Active Trader magazine (www.activetradermag.com) and Stocks
+and Commodities magazine (www.traders.com) also periodically
+review brokers and trading platforms. Subscriptions are required.
+After narrowing down your choices, check out the disciplinary histories of
+the brokerage firms you’re considering. You can easily do that by calling
+a toll-free hotline operated by the Financial Industry Regulatory Authority
+(FINRA) at 800-289-9999, or checking its Web site at www.finra.org to
+find out what disciplinary actions (if any) have been taken by securities
+regulators or criminal authorities. You also need to call your state regulator
+to be sure the specific broker you’re thinking about working with is licensed
+to do business in your state. This information can be crucial. If you work with
+an unlicensed broker who goes out of business, you may not have any way of
+recovering any lost funds even if an arbitrator or court rules in your favor.
+
+Understanding how you’ll be paying
+After conducting your initial research into brokerage firms and narrowing
+down your choices, be sure you understand how the brokerage firms are
+paid by
+✓ Reviewing each firm’s fee and commission schedule. The schedules
+should include the fees or charges you’re required to pay when opening
+the account and what you pay to maintain and close the account.
+✓ Finding out how your broker is compensated if you’re planning to work
+with a human being rather than trade online. Many brokers receive
+higher compensation when they sell their firm’s own products, so they
+may try to steer you toward them rather than another product that
+may be a better match for your trading objectives. Rarely are brokerage
+products good trading vehicles.
+
+Chapter 3: Going for Broke(r): Discovering Your Brokerage Options
+One other level of protection that you need to check on is the broker’s
+membership in the Securities Investor Protection Corporation (SIPC).
+Although SIPC membership won’t insure you against losses caused by market
+declines, the SIPC does give you some protection if your brokerage firm faces
+insolvency. You can find out more about the SIPC at www.sipc.org.
+
+Getting to Know the Rules
+After you pick your broker, you must be sure you know the trading rules.
+Although federal law mandates margin requirements, sets trade settlement
+rules, and bans free riding (nope, we’re not talking about horseback riding
+here), brokerage firms sometimes have even more stringent rules for their
+clients. We review the federal requirements here, but you need to check with
+your broker to find out any additional rules your chosen firm imposes.
+Rules for stock trading fall under the jurisdiction of the Federal Reserve,
+which specifies its stock trading regulations in Regulation T. Rules spelled
+out under Regulation T encompass margin accounts, broker-dealer accounts,
+securities transactions, credit extended based on securities, and other factors
+related to securities markets. We don’t review all the specifics here, but
+instead we home in on three key areas that impact your trading choices —
+margin requirements, trade settlement, and free riding.
+
+Margin requirements
+The Federal Reserve’s Regulation T specifies how much you can borrow
+when you use a margin account to purchase new shares of stocks on margin.
+This initial margin requirement permits you to borrow up to 50 percent of the
+cost of the new shares. For example, if you open a new margin account with
+a $10,000 cash deposit, you can buy up to $20,000 worth of stock. After your
+$20,000 purchase, your account will have a cash balance of $0, an equity
+balance of $10,000, and a margin balance of $10,000. At this time, all your
+equity is committed to this trade, so you cannot enter any new positions
+unless you deposit additional funds.
+If the stock price increases, your equity balance increases. If the stock
+price decreases, your equity balance decreases. In either case, your margin
+balance remains the same, $10,000. The only way to reduce the outstanding
+margin balance is to deposit extra cash into your account or sell the shares
+of stock.
+When your stock price increases, your equity balance increases and you may
+use the increased equity as collateral to borrow additional money to buy
+additional shares of stocks. You may borrow up to the value of the increased
+equity balance. This will increase your margin balance.
+
+45
+
+46
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+However, if your equity balance decreases, FINRA rules (Rule 431 and Rule
+2520, respectively) regulate the minimum equity position permitted in
+your account. Currently, the minimum is 25 percent of the total value of all
+margined securities. Some brokers may require more.
+In the single-stock example earlier in this chapter, if the total value of the
+stock falls below $13,332, then the equity balance in your portfolio will be
+less than 25 percent of the total value. The math is simple: 25 percent of
+$13,332 is $3,333. Your cash balance is still $0 and your margin balance is
+still $10,000. Subtract $10,000 from $13,332 to determine your equity balance,
+which is $3,332. Your equity balance is less than 25 percent of your total
+account balance.
+When this occurs, your broker will call and demand additional collateral to
+support the outstanding margin loan. This is a margin call. You may meet
+your margin call requirements by depositing more cash or you may deposit
+fully paid, unmargined securities from another account. If you do not deposit
+additional collateral, your broker is permitted to sell up to four times the
+amount of stock required to meet your margin call, and may sell any of the
+stocks in your portfolio.
+If you have more than a few positions, margin calculations become complex.
+It helps to think about it like this: When initiating a new position, you can
+never borrow more than half of the value of the position. To maintain
+sufficient collateral, your broker will insist that the value of your stocks be
+more than enough to cover the loan. Therefore, if your equity balance falls
+below 25 percent of the total portfolio value, your broker will ask for
+additional collateral in the form of a margin call.
+As a trader, you should never satisfy a margin call. Instead, you should close
+the offending position(s). It is possible that an extraordinary event may cause
+the value of your stocks to fall below the amount owned on your outstanding
+margin loan. If this happens, your broker will close your positions, but you
+must still repay the debt. Unlike a cash account, you can lose more than 100
+percent of the money you deposit into a margin account.
+Note: Not all stocks can be bought on margin and neither can all stocks be
+used as collateral. If you want to trade on margin, be sure you understand the
+margin requirements imposed by your broker. Some brokerage firms require
+even stiffer requirements to maintain a margin account, especially if you trade
+volatile or lightly-traded stocks.
+FINRA Rule 2520 was amended in 2001 to restrict day-trading activity. Your
+broker or the FINRA will consider you a pattern day trader after you buy or sell
+any security on the same day in a margin account and execute four or more
+such trades during a five-day business period (excluding Saturdays, Sundays,
+and holidays). If you’re pegged as a pattern day trader, you’re required to
+maintain $25,000 in your margin account, which can seriously impact your day
+trading and other trading activities.
+
+Chapter 3: Going for Broke(r): Discovering Your Brokerage Options
+
+Settling trades
+When you place an order to buy a stock, you must settle that transaction in
+three business days. This settlement cycle is known as T + 3. The brokerage
+firm must receive your payment for any securities you buy no later than
+three days after the trade is executed. If you’re selling a stock, it’s probably
+being held in your brokerage account and will be taken out of that account
+on the day of settlement. Options and government securities trade on a T + 1
+settlement cycle, which means these transactions settle the next trading day.
+
+Free riding
+No, we’re not talking about hopping a train on the sly. Free riding in the
+stock-trading world can get you in a bunch of trouble, so keep reading.
+Basically it means that you must pay for a stock before you can sell it, and
+because it takes three days to settle a stock transaction, that means, in
+theory, you can actually buy a stock and then place an order to sell it before
+the stock purchase actually settles.
+This is a cash account problem. Although many swing and day traders
+actually turn around stock purchases and sales that quickly, they typically
+trade in a margin account and are able to sidestep the problem. Margin
+traders use the unsettled proceeds of a trade as collateral to borrow money
+until the trade is settled. Still, day traders and swing traders must have enough
+cash or buying power in their accounts to cover all purchases of stock.
+Formally, this rule is found in Section 220 of Regulation T, which states that in
+a cash account, a brokerage firm may buy a security on your behalf — or sell a
+security — if either of the following applies:
+✓ You have sufficient funds in the account.
+✓ The firm accepts in good faith your agreement to make a full-cash
+payment for the security before you sell it.
+If you do ever buy and sell a security before the settlement cycle (T + 3) is
+complete — or even on the same day — and without sufficient cash in your
+account, a brokerage firm can make what is called an intraday extension of
+credit (a loan), but that exposes the firm to increased risks — especially the
+risk that you may overextend your financial resources and may not be able to
+settle your trades. Most brokerage firms require active traders who buy and
+then sell securities within the settlement cycle to conduct those activities
+within a margin account.
+If you take a free ride and haven’t made some type of credit arrangement with
+your broker, your broker is likely to freeze your account for 90 days. During
+that 90-day period, the broker requires you to pay for any purchase on the
+
+47
+
+48
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+date that you make the trade. In other words, you lose the option of settling
+your trades within three days. Some brokerage firms require you to have
+enough cash in your account to complete the transaction before you make
+the trade so you thus avoid even the risk of free riding.
+We talk more about these rapid forms of trading (swing trading and day
+trading) in Chapters 16 and 17.
+
+Chapter 4
+
+Putting Your Computer to Work:
+Your Key Business Tool
+In This Chapter
+▶ Streamlining trading activities
+▶ Selecting charting software, fundamental information sources, and research tools
+▶ Choosing a trading platform
+▶ Evaluating computer and Internet resources
+
+B
+
+ack in the old days, you’d call your broker to enter an order and then
+wait for your broker to phone back and report the fill price. Active
+traders? They’d hang out in the broker’s lobby, watching the ticker, boasting
+over winning trades, commiserating over losing trades, and shooting the
+breeze.
+If you kept charts, you either made them yourself or had them delivered
+by postal carrier in book form. They arrived at the end of each week. If you
+couldn’t afford that extravagance, you’d buy monthly summaries and update
+them yourself.
+Every retail investor bought and sold stocks the same way. The pros had the
+advantage, but it was more or less a level playing field for the rest of us.
+Today, you’d be hard-pressed to find a ticker-tape machine in any brokerage
+office. The Internet has changed everything. You can still buy chart books,
+but now they’re delivered via the Internet, and so are stock prices, realtime intraday charts, and research reports. You can enter orders online,
+have your orders filled within seconds, and receive notification showing the
+order’s price almost as quickly.
+Online brokers provide a vast array of research and trading tools for their
+clients. Real-time streaming quotes, proprietary and third-party research,
+sophisticated charts, and extensive order-entry capabilities make today’s
+traders better informed and better equipped than ever before.
+
+50
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+If you’re anything like us, you’re going to spend plenty of time with your
+trading platform. It pays to spend a little time thinking about what information
+you need now, how you’ll use it, and what you may need in the future. With
+just a little foresight, you can set up your trading platform so that it’s
+effective today and yet still be able to upgrade it without completely
+disrupting your day-to-day activities.
+In this chapter, we review the basic computer hardware you need to access
+all there is to offer for traders, explore the software options you’ll want to
+consider for managing your trading activities, and discuss various trading
+platforms and data-feed alternatives. Finally, we give you a road map to the
+options available on the Internet.
+
+Making Use of Your Computer
+Although tracking the market and charting stock prices by hand is an
+excellent learning exercise — it gives you a feel for the market that you can’t
+get by reviewing computer-generated charts — we doubt that you’d want to
+travel to the local library or your broker’s office to research the stocks that
+interest you. The wealth of online information that can help you improve
+your trading results is simply remarkable. This section lists some of the
+things you can do with your computer.
+
+Identifying trading candidates
+With your computer, you can do all of the following:
+✓ Display and interpret price charts
+✓ Research stocks, bonds, IPOs, options, and futures
+✓ Read analyst reports and company reports to the SEC
+✓ Screen stocks for technical or fundamental constraints
+✓ Monitor economic reports, earnings reports, and business news
+✓ Monitor market indexes, sectors, and trading statistics
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+
+Managing your account
+Managing your account can involve some or all of the following:
+✓ Entering and executing trades, and monitoring open orders
+✓ Controlling and tracking order routing
+✓ Receiving almost instantaneous fill reports
+✓ Monitoring and analyzing your portfolio and all open positions
+✓ Tracking profits and losses
+✓ Analyzing your trading history
+
+Improving your trades
+You can become a better trader by doing the following:
+✓ Evaluating trading systems and testing trading ideas
+✓ Keeping trading logs to audit your trading performance
+✓ Monitoring the tax consequences of your trades
+✓ Staying in touch with other traders
+
+Finding Price Charts
+Price charts show the history of a stock’s price over time. These charts
+conceal useful trading information that is revealed with careful analysis.
+Reading, interpreting, and understanding what you see in a price chart are
+described in Chapters 8 through 11.
+Fortunately, price charts are easy to find. If your broker doesn’t provide an
+adequate charting package, you can find excellent charting tools on dozens of
+online sites. If you have to go outside your broker’s environment, you may
+have to put up with Internet banner ads. Most of the charts on free Web sites
+display 20-minute delayed prices. You may have to pay $9.95 to $34.95 a
+month for Internet charts that update in real time.
+
+51
+
+52
+
+Part I: So You Want to Be a Trader: Gathering Your Tools
+At a minimum, you need control over the time frame and the types of charts
+displayed. For example, you probably want 1-minute, 5-minute, 15-minute,
+and 60-minute charts to go with daily, weekly, and monthly charts. Other
+features to look for include these:
+✓ Trading volume. (It’s critical.)
+✓ Moving averages to show average prices over time. You’ll want at least
+two types, simple moving averages and exponential moving averages,
+and you’ll want control over the period being averaged. Moving averages
+are discussed in Chapter 11.
+✓ Indicators and oscillators to help evaluate a stock’s direction and
+momentum. We use the MACD (Moving Average Convergence
+Divergence) indicator and the Stochastics Oscillator. Indicators and
+oscillators are discussed in Chapter 11.
+✓ A variety of chart styles, including bar charts and candlestick charts.
+Bar charts are the most popular stock charts, and they’re the ones we
+use throughout this book. We describe how to read and interpret them
+in Chapter 9. Candlestick charts display the price data using a slightly
+different format that is preferred by some traders. The analysis techniques
+in this book work for both styles.
+✓ Ability to display data in a log or semi-log format. This allows equal
+percentage price changes to appear the same on the price chart, which
+is helpful for comparing the price movements of two differently priced
+stocks. For example, if a $10 stock rises to $20, that’s a 100 percent
+price change. If a $50 stock rises to $100, that’s also a 100 percent price
+increase, but it will look like a much larger price increase on a standard
+price chart. Use a log or semi-log format to show similar percentage
+changes so they look the same on the chart.
+✓ Ability to group charts together so you can quickly scan open positions
+or trade candidates.
+✓ Ability to show support and resistance levels, draw trend lines, and
+make annotations.
+There are two kinds of online charts: real-time charts and delayed-price
+charts. While the charts may be identical, the prices shown in the charts
+are not. Real-time charts display current price data updated within a few
+seconds of the trade. Delayed-price charts do not show the most current
+trades. Instead, the prices shown on the chart are at least 15 to 20 minutes old.
+
+Chapter 4: Putting Your Computer to Work: Your Key Business Tool
+Although many excellent online charting alternatives are out there, they
+typically aren’t as flexible or configurable as the ones offered in stand-alone
+charting packages or integrated trading platforms. And you probably won’t
+have access to trading-system development and testing software that is
+required to create and test your own trading system. The advantages and
+disadvantages of online charts, stand-alone charting packages, and integrated
+trading platforms are discussed in the following sections. We discuss methods
+for developing and testing personalized trading systems in Chapter 15.
+
+Internet charts, delayed prices
+Although real-time charts are desirable, they’re a necessity only for extremely
+active short-term traders. Analyzing the market and developing your trading
+plan are best done before the market in which you plan to make your trades
+opens, or after it closes. Delayed-price charts are more than adequate for
+these planning and analysis activities.
+You can use delayed-price charts to identify support and resistance levels,
+display moving averages, find emerging trends, and select possible entry and
+exit points for tomorrow’s trading day.
+Here are a few sources for online charts:
+✓ BigCharts (www.bigcharts.com): BigCharts is part of the CBS
+MarketWatch family. The site is free and offers an excellent charting
+package with plenty of options, including interactive charts, industry
+analysis, and stock screeners. You can define a list of favorite charts for
+quick review. News and market commentary are also provided.
+✓ Investor’s Business Daily (www.investors.com): Investor’s Business
+Daily (IBD) publishes its proprietary ranking system online and in its
+daily paper. Using the stock-picking methodology developed by publisher
+William O’Neil, the site provides charts and rankings by relative strength
+and earnings growth. Available by subscription.
+✓ Decision Point (www.decisionpoint.com): Decision Point is another
+subscription charting site, but it takes a different approach, providing
+chart books, hundreds of unique charts, and market commentary based
+primarily on technical analysis. If you’re looking for a quick way to scan
+a large group of stocks, this site provides excellent tools. You may find
+that Decision Point is a nice complement to a more traditional charting
+site or charting software package.

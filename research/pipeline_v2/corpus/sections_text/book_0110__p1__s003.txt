@@ -1,0 +1,529 @@
+
+If you’re overwhelmed by the choices that confront you in the world of ETF trading,
+don’t fret. Rather than spending days scouring the Internet building a list of ETFs,
+I suggest downloading the free Morpheus ETF Roundup at www.morpheustrading.com.
+
+Major Types and Families of ETFs
+
+27
+
+This resource will save you many hours of manually researching the available ETF
+families within a particular index.
+This comprehensive, user-friendly reference guide groups all the major U.S.-listed
+ETFs by sector and subsector and allows you to easily compare the various fund families that offer a product within each group. Want to learn more about a particular ETF,
+such as the heaviest-weighted underlying stocks? Simply click any ticker symbol in the
+guide to jump to the Web page for that fund. The Morpheus ETF Roundup is updated
+as necessary, to keep you abreast of ETFs as they are launched.
+An Introduction to Exchange-Traded Notes
+
+Exchange-traded notes (ETNs) were introduced to the ﬁnancial marketplace on June
+12, 2006, by Barclays Bank. They were devised as a means to eliminate tracking error
+associated with exchange-traded funds. Exchange-traded notes are structured debt
+instruments issued by a ﬁnancial institution. A structured debt instrument is a type
+of note that is customized for the beneﬁt of the buyer as an inducement to purchase
+the debt. In the case of ETNs this might include features that could provide higher
+returns or access to markets that the investor may not otherwise have access to. The
+term structured also refers to the fact that ETNs track both a debt obligation and an
+imbedded derivative such as a futures or options contract. ETNs share the characteristics of both debt and equity investments.
+Like ETFs, they trade during normal market hours on an exchange and track the
+value of an underlying asset or index in real time. They offer excellent liquidity as they
+can be traded just like an ETF or stock.
+Unlike ETFs, they represent an unsecured debt obligation of the issuer. As such,
+an ETN’s value is partially derived from the credit rating of the issuer and not just the
+value of an underlying asset. Simply put, an ETN is valued based upon the underlying value of the index (or asset) and the creditworthiness of the issuer. The likelihood
+that the issuing bank will repay the debt is known as credit risk. Consequently, if the
+issuer’s debt rating were to be downgraded, the ETN would fall in value even if
+the value of the index (asset) were to go up in value. If the issuer goes bankrupt, then the
+ETN would be rendered virtually worthless since it is an unsecured debt. ETNs do
+provide lien priority for the investor but there is no guaranteed protection of principal
+if the issuer defaults.
+ETNs provide several advantages over ETFs. The ﬁrst advantage is that ETNs
+don’t suffer from tracking error. Tracking errors occur when an investment deviates
+from the performance of the underlying index, stock, currency, or commodity that it
+is intended to track. For various reasons, this can occur with ETFs. However, since
+ETNs are considered prepaid debt instruments there is no tracking error.
+As a debt instrument, an ETN is a contractual promise by the issuing ﬁnancial
+institution to pay the exact rate of return of the underlying asset/index less any fees.
+Consequently, this eliminates tracking error. ETNs also provide a tax advantage over
+ETFs. ETNs do not own any assets. They are just a promise to pay the investor a
+
+28
+
+ETF Overview and Selection
+
+stated return. Since no underlying assets are owned ETNs do not pay taxable interest or dividends to the investor. Rather, all interest and dividends are rolled into the
+index value. This eliminates ordinary income from the equation. All income is taxed
+as capital gains and is not taxed until the ETN matures or is sold (taxes deferred). The
+Internal Revenue Service has recently made exclusions to this preferential tax treatment for ETNs that trade in currencies.
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+PART II
+
+ETF Selection through
+Technical Analysis
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+CHAPTER 3
+
+The Top-Down Strategy
+With so many types and families of exchange-traded funds (ETFs), it could be difﬁcult to select the ones offering the best proﬁt potential. In this part of the book, you
+will learn a concise, top-down system of technical analysis that simpliﬁes the decision
+process and increases your probability of a successful trade. The beauty of my topdown strategy for selecting and trading ETFs lies in its simplicity. When day trading
+was in vogue in the late 1990s, traders were obsessed with ﬁnding the magic bullet
+that would give them the highest possible level of accuracy in their daily trading decisions. Bollinger bands, oscillators, and the moving average convergence divergence
+(MACD) are just a sampling of the numerous indicators that traders used, and still
+use, in their quest for accuracy. Unfortunately, most traders and investors eventually
+discover that using too many types of technical analysis leads to a bad case of “analysis
+paralysis.” Rather than simply putting on positions that have a good chance of proﬁtable results, they spend all their time analyzing tickers for the perfect setup. This leads
+to unproﬁtable inactivity. The most proﬁtable systems of technical analysis are also
+the most basic and efﬁcient. My top-down strategy is based on simple indicators such
+as price, volume, trendlines, relative strength, and support/resistance levels. Further,
+these indicators are applied in a logical, easy-to-follow order.
+Preferred Time Interval of Trading
+
+In preparation for applying the top-down system, you must ﬁrst determine your preferred time interval of trading; then use that interval to look for a trend. For example,
+a day trader who buys and sells all his positions in the same day should not really care
+about trends in weekly charts, and perhaps even daily charts. Conversely, a position
+trader who typically holds positions for several weeks to several months should not
+care much about trends on intraday charts such as the 5-minute or 15-minute interval. In the middle is a swing trader who looks for trade opportunities with holding
+times of several days to several weeks. An astute swing trader primarily uses daily
+charts for most of the decision making but also uses longer-term weekly charts to conﬁrm his thinking, as well as intraday charts to ﬁnd precision entry points.
+
+31
+
+32
+
+ETF Selection through Technical Analysis
+
+The beauty of my top-down strategy is that it works equally well for all time intervals. Examples throughout this book will focus on both swing and position trading.
+The Top-Down Strategy Deﬁned
+
+The following is a basic summary of my top-down strategy for selecting ETFs, which
+will be discussed in detail in the chapters following this one. The relative simplicity of
+this logical process is illustrated in Figure 3.1.
+Step 1: Determine the direction of the broad market trend.
+• If the major indexes are trending steadily higher, nearly any type of ETF with
+relative strength can be traded.
+• If the major indexes are in a steady downtrend, seek out any ETFs with relative
+weakness.
+• If the major indexes are range-bound, avoid trading in broad-based ETFs that
+track the major indexes.
+
+FIGURE 3.1 Top-Down System of Selecting ETFs
+
+Determine direction of the broad market trend
+
+Uptrending
+
+Downtrending
+
+Range-bound
+
+Find indexes with the
+greatest relative strength
+
+Find indexes with the
+greatest relative weakness
+
+Identify indexes with relative
+strength or weakness, but
+avoid broad-based ETFs
+
+Select strongest ETF
+family within the index
+
+Select weakest ETF
+family within the index
+
+Select strongest and/or
+weakest ETF family
+within the index
+
+Look for volume
+confirmation
+
+Look for volume
+confirmation
+
+Look for volume
+confirmation
+
+Initiate long position
+
+Initiate short position
+
+Initiate long and/or
+short positions
+
+Source: Morpheus Trading Group
+
+The Top-Down Strategy
+
+33
+
+Step 2: Find the individual indexes with the most relative strength or weakness (divergence) compared to the major indexes.
+• Compare the charts of industry sector and specialty ETFs with the S&P 500 or
+the Nasdaq Composite Index.
+• Buy ETFs in the sectors with the most relative strength if the market is
+uptrending overall.
+• Sell short ETFs in the sectors with the most relative weakness if the market is
+downtrending overall.
+As an alternative to the graphical method of looking at charts, use numerical
+percentage-change market minders to identify relative strength or weakness.
+Step 3: Compare all the ETF families within the speciﬁc index to ﬁnd the individual
+ETF with the most strength (or weakness) relative to the corresponding index.
+• Again, overlay charts of each ETF family with the corresponding sector index.
+• Ensure that the ETF is also showing relative strength (or weakness) to itself,
+closing in the upper 30 percent (or bottom 30 percent) of its intraday range
+every day.
+• Monitor changes in volume to conﬁrm institutional buying interest.
+Step 4: Select the resulting long or short ETF position now most likely to outperform
+the market.
+• Use the strategies in this book to:
+• Find the ideal entry points.
+• Exit with maximum proﬁtability or minimal loss.
+Step 5: Find the proper timing for a new position entry in the ETF most likely to
+outperform the stock market.
+• Use strategies in this book to locate ideal technical entry and exit points for new
+ETF trades.
+• Know how to manage overnight gaps in your positions.
+• Trail stops based on trendlines and other technical indicators for maximum
+proﬁtability and conservation of proﬁts.
+Determining the Direction of the Broad Market Trend
+
+The ﬁrst step of my top-down strategy for selecting ETFs is also the most critical of
+all the steps. Approximately 85 to 90 percent of stocks and ETFs move in the same
+general direction as the S&P 500 and the Nasdaq Composite. Therefore, failure to
+clearly identify the direction of the broad market’s trend before even considering which
+ETFs to buy or sell short is a sureﬁre way to lose capital. Though it may be a cheesy,
+worn-out Wall Street cliché, it will serve you quite well to always remember that the
+trend is your friend.
+To ascertain whether or not a steady broad market trend exists, I use a combination of trendlines and moving averages (MAs), both basic technical indicators available
+
+34
+
+ETF Selection through Technical Analysis
+
+on most charting packages, on the charts of the S&P 500, the Nasdaq Composite, and
+the Dow (hereafter, the “major indexes”).
+The ﬁrst test any of the major indexes must pass is the “trendline test.” The number of major indexes that pass the trendline test determines how strongly an overall
+trend is in place. The more broad-based indexes that conﬁrm the presence of the
+trendline test, the more aggressive and conﬁdent you can be about trading and investing in the broad-based ETFs.
+Whether or not a trend exists is, of course, dependent on the time frame you’re
+analyzing. A steady trend may exist on an intraday chart with a 60-minute (hourly)
+time interval, but not on the longer-term daily charts. By the same token, a steady trend
+may exist on the daily charts, but not on the longer-term weekly charts. The following
+example charts are daily charts, which are also referred to as “intermediate-term trends.”
+In looking for an uptrend, draw a trendline from the last major low that was
+formed on a daily chart, through the “swing lows” of each pullback within the context of the uptrend. I prefer candlestick charts, but bar charts are equally effective.
+A primary uptrend is deﬁned as having three anchor points that coincide with at least
+two “higher highs” and two “higher lows.” A higher high is formed when the price of
+an index holds above the last signiﬁcant high upon pulling back from a rally. A higher
+low is formed in the same way. The time frame of these higher highs and higher lows
+depends on your preferred interval of trading or investing. Again, my examples focus
+primarily on the daily charts.
+Figure 3.2 is a daily chart of the S&P 500; the higher lows and higher highs that
+form the trendline’s anchor points are circled. All MAs have been removed from the
+chart so that you can more easily see the annotated trendlines.
+
+FIGURE 3.2 Daily Chart of S&P 500 in an Uptrend: Two Higher Highs and Two Higher Lows
+$SPX.X – Daily S&P 500 Index
+S&P 500 in an uptrend
+
+1,540.00
+1,520.00
+1,507.67
+1,500.00
+
+Second
+higher high
+
+Uptrend ends when
+lower low is set
+
+First
+higher high
+
+1,480.00
+1,460.00
+1,440.00
+
+Second
+higher low
+
+1,420.00
+1,400.00
+
+First
+higher low
+
+1,380.00
+4,000,000.00
+2,993,460.00
+
+Mar
+
+Source: TradeStation
+
+Apr
+
+May
+
+Jun
+
+35
+
+The Top-Down Strategy
+
+To the dismay of long-term investors who only buy stocks and ETFs and never
+sell short, the stock market regularly enters periods of steady downtrends. Fortunately,
+my top-down strategy is designed to help you just as easily proﬁt by trading on the
+short side in conﬁrmed downtrends or bear markets. Downtrend lines are merely
+drawn in the inverse fashion of uptrend lines. Starting with the last major high, you
+connect the subsequent anchor points on the way down, looking for a series of at least
+two lower highs and two lower lows. Again, you want three anchor points to conﬁrm
+an established downtrend. Figure 3.3 is a daily chart of the Nasdaq Composite that
+meets the deﬁnition of a clearly deﬁned downtrend.
+Making sure the index has at least two higher highs and higher lows for uptrends
+is important because it prevents inaccurately labeling an early, possibly premature
+trend as a conﬁrmed uptrend. When an index has only one higher high and one
+higher low, the newborn uptrend has a greater chance of failure because it has not been
+established for a long enough period of time. Figure 3.4 is a daily chart of the Dow
+in which an attempted uptrend failed because it had two higher highs but only one
+higher low, equivalent to just two anchor points. Note that the failure of the uptrend
+occurred when a lower low was formed. This was after the Dow broke below the lower
+boundary of its annotated uptrend line. The long candle that immediately follows the
+break of the trendline marks the lower low that formed in the second week of July.
+If any of the major indexes passes the trendline test, you next use the 20- and
+50-day simple MAs to look for conﬁrmation of the trends. Whether to use simple
+
+FIGURE 3.3 Daily Chart of Nasdaq Composite in a Downtrend: Two Lower Highs and Two
+
+Lower Lows
+$COMPX – Daily
+First
+lower high
+
+2,350.00
+2,300.00
+Second
+lower high
+
+2,250.00
+
+Nasdaq Composite in
+steady downtrend
+
+2,200.00
+2,150.00
+First
+lower low
+
+2,100.00
+Second
+lower low
+
+2,050.00
+2,800,000
+2,512,171
+2,034,969
+1,200,000
+
+Apr
+
+Source: TradeStation
+
+May
+
+Jun
+
+Jul
+
+36
+
+ETF Selection through Technical Analysis
+
+FIGURE 3.4 Daily Chart of the Dow in a Failed Uptrend: Two Higher Highs and Only One
+
+Higher Low
+$DJIA – Daily
+11,600,000
+The Dow failed to confirm an uptrend because it
+formed two higher highs, but only one higher low.
+Notice how sharply it broke down afterward.
+
+11,500,000
+11,400,000
+11,300,000
+11,200,000
+11,100,000
+11,000,000
+10,900,000
+10,800,000
+
+6,500,000
+4,500,000
+2,350,907
+Jun
+
+Jul
+
+Aug
+
+Source: TradeStation
+
+MAs or exponential moving averages (EMAs) is largely a matter of personal choice.
+Simple MAs give an equal weighting to every interval of the MA’s time period, while
+EMAs give a higher weighting to more recent price movement. The debate continues
+about which one is better to use, but it really comes down to personal preference.
+Frankly, I’ve found there usually isn’t much difference between the prices calculated
+using simple or exponential MAs.
+To conﬁrm the formation of trendlines as deﬁned above, the major indexes should
+also be trading above both their 20-day and 50-day MAs. The opposite is true of
+downtrends. If a quick glance ﬁnds this is the case, your work of determining if an
+intermediate-term trend exists is completed. Move on to step 2 of the top-down strategy, which is to ﬁnd the individual indexes with the most strength or weakness relative
+to the major indexes. This step is covered thoroughly in the next chapter.
+Often, the major indexes will rapidly attempt to break out from an extended
+period of sideways, range-bound trading and form a new trend, either up or down.
+When this occurs, clearly deﬁned trendlines with three anchor points may form, but
+the MAs may not necessarily conﬁrm the formation of the new trend.
+In steady uptrends, the prices of the main stock market indexes should be above
+the 20-day MA, which should always be above the 50-day MA. In downtrends, the
+prices of the major indexes should be on the bottom, the 20-day MA in the middle,
+and the 50-day MA above. Any variation of this scenario can provide warning signs
+that the current trend may not be as stable as the initial glance might show.
+
+37
+
+The Top-Down Strategy
+
+First, be on the lookout for instances in which the 20- and 50-day MAs crossed
+over each other’s paths in recent weeks. This usually occurs at least once when a new
+trend forms or a trend reverses, but you don’t want to see multiple crossovers within
+a short period. Further, make sure the 20-day MA is closer to the price of the market than the 50-day MA. This applies both during uptrends and downtrends. The
+presence of numerous MA crossovers or the 50-day MA trading closer to the price
+than the 20-day MA can be warning signs of a choppy (not steadily trending), rangebound market. This is no problem if you determine that a sideways market exists,
+but it’s important not to confuse it with a steadily trending market. Remember that
+the broad-based ETFs should be avoided in sideways markets. In steady broad market trends, you should not see any recent crossovers of the MAs and the 20-day MA
+should be closer to the price of the market than the 50-day MA.
+Figure 3.5 shows an example in which a trendline has been established, as per the
+previously discussed criteria, but the 50-day MA is closer to the price of the market
+than the 20-day MA. There is also a recent crossover of the 50-day MA below the
+20-day MA. This happened because a new uptrend was attempting to establish itself,
+but was not yet conﬁrmed by the MAs.
+When doing your chart analysis of the major indexes, don’t be surprised if you
+ﬁnd the main stock market indexes are commonly not meeting the trendline and
+MA tests for a clearly deﬁned trend. Historically, the major indexes spend nearly as
+much time in choppy, sideways ranges as they do in steady trends. Averaged over the
+years, the major indexes have historically generated solid annualized returns, but that’s
+only because the stock market tends to move swiftly higher in the uptrending years,
+while doing nothing in the range-bound years. My “relative-strength” trading strategy,
+
+FIGURE 3.5 Major Index, Trendlines, and Late MA Conﬁrmation
+$MID.X – Daily S&P Midcap 400 Index
+920.00
+910.00
+900.00
+890.00
+885.06
+880.00
+871.86
+870.00
+862.51
+860.00
+
+The S&P MidCap 400 index formed
+two higher highs and higher lows on its
+daily chart, but notice the 50-day MA
+(the dashed line) was not below the
+20-day MA (the solid line) until the
+uptrend was confirmed in late September.
+
+Jun
+
+Source: TradeStation
+
+Jul
+
+Aug
+
+850.00
+840.00
+830.00
+820.00
+810.00
+Sept
+
+Oct
+
+38
+
+ETF Selection through Technical Analysis
+
+discussed in the next chapter, enables traders and investors to ﬁnd proﬁtable, low-risk
+trading opportunities regardless of the overall market’s trend. Nevertheless, initially
+identifying the primary direction of the trend prevents you from getting off to the
+really bad start that would occur if you were to ﬁght the overall market trend.
+Uptrend, Downtrend, or Range-Bound? Now What?
+
+The reason you identify the direction of the market’s overall trend, or lack thereof,
+is so that you can position yourself to trade ETFs with the most relative strength in
+uptrends, the most relative weakness in downtrends, or both in range-bound markets.
+In markets trending either up or down, you can proﬁtably trade both broad-based
+and industry sector ETFs with the same amount of ease. But in choppy, range-bound
+markets, the sideways trend makes it difﬁcult to proﬁt from trading broad-based ETFs
+such as the S&P 500 SPDR (SPY) or the Dow Diamonds (DIA). Therefore, in a
+range-bound market you may want to focus on trading other types of ETFs that can
+trade independently of the broad market. These include speciﬁc industry sector, international, commodity, or other specialized ETFs.
+To determine whether or not broad-based ETFs should be traded, look for at least
+two of the three major indexes to be in a conﬁrmed trend, as deﬁned in this chapter.
+Sometimes one index lags due to weakness in a key industry sector, but that’s okay.
+Simply avoid trading in the ETF corresponding to that index. Knowing which of the
+broad-based ETFs to select in trending markets is covered in the next chapter, which
+discusses relative strength.
+Sometimes, only one of the major indexes is trending steadily, but the other two
+are not. This is usually due to an anomaly resulting from relative strength within one or
+two industry sectors that institutions are accumulating. If, for example, mutual funds,
+hedge funds, and other institutions are heavily buying the semiconductor sector, but
+little else, the Nasdaq will likely show a lot of bullish divergence (relative strength).
+This is because the Nasdaq is heavily weighted with semiconductor stocks. When this
+occurs, you still label the broad market as being “choppy” and just focus on the industry sector or specialty ETFs with the most relative strength or weakness. But as long
+as at least two of the three major indexes are in conﬁrmed trends, you can trade the
+broad-based ETFs efﬁciently.
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+CHAPTER 4
+
+Finding Indexes with the
+Most Relative Strength
+When the major indexes are in smooth and steady uptrends or downtrends, the broadbased exchange-traded funds (ETFs) can be very efﬁcient trading vehicles. To proﬁt
+in a smoothly trending broad market, you only need to identify which of the broadbased ETFs have the most relative strength and then initiate positions in the same
+direction as the trend. Over the course of an average year, the major indexes are not
+trending steadily a signiﬁcant percentage of the time, but the top-down strategy works
+effectively either way.
+If the major indexes are stuck in range-bound periods, avoid new trade entries in
+the broad-based ETFs. Attempting to trade them in such conditions will inevitably
+lead to a high percentage of trades hitting your predetermined stop-loss prices while
+you watch the positions subsequently move in the direction you originally anticipated.
+The losses of each individual trade will be minor, but there will be an abnormally
+higher percentage of losing trades. The end result is churning of your brokerage
+account. Getting “chopped up,” of course, makes your broker happy, but it will eventually make you broke.
+If the broad market lacks a steady trend, focus on determining which industry sectors or other specialized indexes (international, commodity, currency) are still trending steadily, despite the lack of direction in the major indexes. Those trending higher
+while the major indexes move sideways are identiﬁed as having “relative strength.”
+Sectors with “relative weakness” are those that trend lower while the broad market
+moves sideways to higher.
+Whether the broad market is in a conﬁrmed trend or range-bound, the next step
+in the top-down process—ﬁnding relative strength—is basically the same. The difference is that if there is a conﬁrmed trend, you can look for relative strength anywhere in
+the overall market, but if the broad market is range-bound, you have to exclude those
+ETFs that are tied to the main stock market indexes. Again, any major type of ETF
+can be efﬁciently traded in steadily trending markets, but broad-based ETFs should
+be avoided in choppy or range-bound markets.

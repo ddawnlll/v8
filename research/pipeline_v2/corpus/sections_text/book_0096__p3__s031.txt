@@ -1,0 +1,457 @@
+
+How Is Breakout Confirmed?
+The first requirement for a breakout is a penetration of a previous trend line, or support or resistance zone. The next requirement is confirmation that the penetration is a real breakout, not a
+false one.
+When the exact breakout level is not clear, as in a support or resistance zone, the extreme
+level of the zone is considered the breakout level. For example, in a trading range with a wide
+support zone of horizontal lines from previous support points, the lowest support line would be
+the breakout level. The other horizontal lines are also parts of the zone, but prices will often
+recede into the support zone without breaking through it entirely. Thus, a break of the lowest support point is evidence that the entire support zone has been penetrated. A trend line is a more definite breakout level because it is a line, but even with a trend line, a false breakout often occurs
+and requires redrawing of the trend line. In both these instances, a penetration of the breakout
+level or trend line requires confirmation. Penetrations often occur on an intra-bar basis, and then
+the price closes back on the nonbreakout side of the breakout level or trend line. For an example
+of an intra-bar penetration, see Figure 13.1. Notice that in late February, the price rose above the
+resistance level in intraday trading but closed below. Penetrations of this type are usually false.
+Close Filter
+The major problem from the analyst’s standpoint is that when the penetration is occurring, there
+is usually no other confirming evidence until after the close of trading. Some analysts will act
+immediately on the penetration and wait for the confirmation later. This is dangerous because the
+odds of a false breakout are greater with just an intra-bar penetration, but the entry can be protected with a nearby stop. The least risky confirmation is to wait for the closing price to see if,
+perhaps, the penetration was just due to an intra-bar exogenous occurrence that had little longerterm meaning. If the price ends up on the nonbreakout side of the breakout level at the close of
+trading, it is plain that the intra-day penetration was likely false and new lines might have to be
+drawn to account for it. On the other hand, if the closing price is through the breakout level, the
+odds are higher that the breakout is real (see Figure 13.2).
+Some traders even wait for two bar closes beyond the breakout level for confirmation. This
+increases the risk that some part of the move subsequent to the breakout will be missed, but on
+the other hand, it increases the possibility that the breakout is real.
+
+Download at www.wowebook.com
+
+257
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+intra-bar breakout
+
+48.00
+
+47.00
+
+46.00
+
+45.00
+
+44.00
+
+43.00
+
+42.00
+
+41.00
+
+TYX - 30 year U.S. Treasury Bond Interest Rate
+
+Nov
+
+Dec
+
+'10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Created using TradeStation
+
+FIGURE 13.1 Intra-bar breakout (TYX daily: October 13, 2009–May 27, 2010)
+close breakout
+
+48.00
+47.00
+46.00
+45.00
+
+close breakout
+
+44.00
+43.00
+42.00
+41.00
+
+TYX - 30 year U.S Treasury Bond Interest Rate
+
+Nov
+
+Dec
+
+‘10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Created using TradeStation
+
+FIGURE 13.2 Close breakout (TYX daily: October 13, 2009–May 27, 2010)
+
+Download at www.wowebook.com
+
+258
+
+Part III Trend Analysis
+
+Point or Percent Filter
+Another confirmation method is to establish a breakout zone either a certain number or fraction
+of points or percentage beyond the breakout level, as pictured in Figure 13.3. The theory is that
+if the price can penetrate the breakout level and a prescribed zone beyond it, the penetration must
+be real. The number of points or percentage is determined before the penetration and is helpful in
+computerized models where a definite breakout price needs to be established. Waiting for the
+close after an intra-bar breakout is more difficult to program. The number of points or percentage
+can be arbitrarily or empirically derived. Although the signal can use any percent or number of
+points, the most commonly used is a 3% rule, a level 3% from the ideal breakout point.
+Time
+Rather than looking simply at price, this method looks at time since the penetration. The basis is
+that if the penetration remains outside the breakout zone for a certain time, it must be real. The
+usual time period is two bars, but it can be any length of time. The price must remain beyond, or
+at least close beyond, the breakout level for the required number of bars. A combination of the
+time rule and the close rule uses both rules. This method requires a penetration and close beyond
+the breakout level, and then a second bar in which the price penetrates even further beyond the
+breakout level. For example, in a breakout down, the close must be below the breakout level, and
+the next bar must have a trade below the previous bar’s low for confirmation of the breakout
+down. Figure 13.3 demonstrates this type of breakout to the upside.
+
+48.00
+47.00
+46.00
+45.00
+44.00
+
+1% filter below support zone
+
+43.00
+42.00
+41.00
+TYX - 30 year U.S Treasury Bond Interest Rate
+
+Nov
+
+Dec
+
+‘10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Created using TradeStation
+
+FIGURE 13.3 Breakout filter (TYX daily: October 13, 2009–May 27, 2010)
+
+Download at www.wowebook.com
+
+259
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+Volume
+Increased volume of trading often occurs with a breakout. Heavier trading demonstrates that
+other market players are acting in the direction of the new trend and that there is sufficient power
+behind the penetration. Jiler (1962), however, observes, and cannot explain why, that volume can
+dramatically decline on a breakout, and the breakout is still valid. Usually, volume then increases
+as the trend develops. In Chapter 15, “Bar Chart Patterns,” we look at volume behavior on the
+breakouts from different chart patterns.
+Volatility
+All of the preceding price rules have obvious drawbacks. The principal drawback to most of
+these methods is that they don’t account for the price volatility of the security. By nature, some
+stocks tend to be characterized by more volatile trading; for these stocks, a more significant price
+move can be expected without it signaling a breakout. Remember that a filter using just the close
+doesn’t require that the close be any distance from the breakout level. In highly volatile stocks,
+for example, the close can vary from a trend line or breakout level by a considerable amount and
+still not be a valid breakout.
+A filter rule that uses some arbitrary point or percentage rule is likely to be broken by a
+highly volatile security before a true breakout occurs. In this case, analysts may consider the
+price volatility of the security when determining what the filter for a legitimate breakout should
+be. Three means of calculating volatility are most often used; these are beta, standard deviation
+of price, and Average True Range (ATR).
+Beta is a calculation of the standard deviation of price relative to a market proxy, usually
+the S&P 500. It is not useful in commodities because commodities have little useful correlation
+to the stock market or a commodity average. Indeed, beta’s use has diminished over the years, as
+the underlying assumption that it is a valid measure of risk has been questioned. It does have one
+advantage in that it eliminates the trend of the market from the volatility calculation.
+Standard deviation of price is the basis for most option and other derivative models and
+uses the complete set of prices over some past period in time. Its usefulness as a breakout filter is
+diminished by the fact that it includes the trend of the security in its calculation. The breakout filter must use the volatility about the trend and not include the trend itself. Otherwise, a strongly
+trending stock with little volatility about its trend would have a higher filter than a flat-trending
+stock with wide fluctuations about its mean.
+ATR is a derivation of the Average Range, which is just the average of the difference
+between each bar high and low over some past period. The ATR is calculated using a special formula devised by Wilder himself to reduce the effects of older data (see Chapter 14, “Moving
+Averages”). The ATR is an average of the True Range bar’s close (Wilder, 1978). In doing so, it
+includes whatever effect a price gap between bars might have on the security’s volatility. The
+True Range is the greatest of
+• The difference between the current bar high and low
+• The absolute value of the difference between the prior bar close and the current bar
+high
+
+Download at www.wowebook.com
+
+260
+
+Part III Trend Analysis
+
+• The absolute value of the difference between the prior bar close and the current bar
+low
+The ATR is the average of the True Range over some time period. Being dependent solely
+on the price of the security, the ATR is not influenced by any other average or security and is,
+thus, pure to the security’s own action. It includes the recent trend only so far as the trend has had
+an effect on the range of prices. ATR is an excellent measure of volatility and is used in many
+indicators as well as breakout and stop-loss formulas.
+As a price filter for confirmation of a breakout, by including a multiple of the ATR, the
+breakout level is adjusted for the volatility of the security. As you can see in Figure 13.4, an ATR
+filter expands and contracts over time as price volatility changes. For example, if price volatility
+increases, daily True Ranges will expand, and the ATR will be larger, making it less likely to
+have a false breakout due to the increased price volatility. This means that a highly volatile security will have a wider filter to account for its likelihood of making false breakouts just because of
+its higher volatility. On the other hand, a dull security that has few wild moves will have a narrow
+filter that will trigger the breakout with only a minimum deviation from its usual range.
+
+49.00
+1.5 x 14-day ATR
+48.00 added to resistance
+line
+47.00
+46.00
+45.00
+44.00
+1.5 x 14-day ATR
+deducted from support zone
+
+43.00
+42.00
+41.00
+
+TYX - 30 year U.S Treasury Bond Interest Rate
+
+Nov
+
+Dec
+
+‘10
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+Created using TradeStation
+
+FIGURE 13.4 ATR breakout filter (TYX daily: October 13, 2009–May 27, 2010)
+
+Pivot Point Technique
+The Pivot Point Technique is a method of determining likely support and resistance levels. It is
+widely used by day traders to establish potential price ranges for the day, and it is used as confirmation for breakouts (see Figure 13.5).
+
+Download at www.wowebook.com
+
+261
+
+Chapter 13 Breakouts, Stops, and Retracements
+
+R2:9889.12
+R1:9870.68
+
+PP:9812.26
+
+R1:9810.82
+
+S1:9743.23
+S1:97157.60
+
+PP:9810.82
+
+Dow Jones Industrial Average
+
+S2:9657.18
+
+S1:9638.210
+
+S2:9616.17
+12:00
+
+6/30 12:00
+
+Jul
+
+12:00
+
+7/2
+
+12:00
+
+Created using TradeStation
+
+FIGURE 13.5 Pivot Point technique filter (DJIA intra-day: June 29, 2010–July 2, 2010)
+
+This technique uses the previous bar’s high, low, and close to establish support and resistance
+levels for the current bar. Some formulas use the open as well. A series of points called pivot points
+for the current bar are calculated from price points derived from the previous bar. The theory behind
+using this technique is that as time goes on, the effect of past prices on current prices diminishes.
+Thus, the most recent, previous bar’s action is the best predictor of the current bar’s action.
+This technique uses the following formula (Kaufman, 1998):
+P (pivot point) = (High previous bar + Low previous bar + Close previous bar) ÷ 3
+R1 (first resistance) = (2 × P) – Low previous bar
+S1 (first support) = (2 × P) – High previous bar
+R2 (second resistance) = (P + High previous bar – Low previous bar)
+S2 (second support) = (P – High previous bar + Low previous bar)
+These calculations establish upper and lower levels at which prices are expected to meet
+resistance or support based on the previous period’s action. Floor traders will then enter or exit
+trades around these calculated pivot levels. The use of this formula is, of course, questionable
+because the logic behind it is questionable. The reason that so many intraday price reversals
+occur at pivot points is likely because so many traders use them, and, thus, they become self-fulfilling. In Figure 13.5, you can see that for the three days shown, the pivot points did not provide
+much guidance.
+Traders looking for the validity of daily breakouts, on the other hand, will use the previous
+week or month action to establish current expected resistance and support levels; a price break
+through a current actual resistance or support level would be confirmed if it also broke a pivot
+
+Download at www.wowebook.com
+
+262
+
+Part III Trend Analysis
+
+resistance or support level. As a method of confirming breakouts, the logic behind their use is a
+little more solid. The formula is essentially a measure of the previous day’s volatility projected
+into the following day. Volatility, as we have seen previously, is a useful method for determining
+accurate breakout confirmations.
+Alternative pivot point calculations exist as well as the standard above. Tom DeMark
+developed a means of predicting support and resistance based on adding the relationship between
+the open and close price. There are also Woodie’s and Camarilla pivot point formulas. When all
+of these methods are compared, not one seems to be consistent or accurately estimate future support or resistance levels.
+
+Can a Breakout Be Anticipated?
+So far, we have looked at ways of confirming a breakout after it has occurred. Is it possible to
+determine that a breakout is about to occur before it actually does? Sometimes it is possible to
+anticipate a breakout. Often, volume is a clue that a breakout is about to occur. As we will learn
+later, volume often accompanies the trend. In other words, an increase in volume with a trend is
+supportive of that trend. Thus, when prices are oscillating, for example, beneath a resistance zone
+and volume increases on every small up leg and decreases with every small down leg, the odds
+favor that the price will eventually break up through the resistance zone.
+Prices can also give a hint as to their next directional move. For example, in a trading
+range, if prices begin to reverse upward at a level slightly above the lower boundary of the range
+and then reverse downward right at the resistance zone, it indicates that buyers are becoming a
+little more aggressive with every minor correction and are willing to pay just a little more for the
+security. If this tendency to have slightly rising lows is accompanied by increasing volume on the
+rallies, the probability of an upward breakout through resistance increases.
+Figure 13.6 gives a hypothetical example of price activity hinting that a breakout may soon
+occur. Resistance has existed in the past and has stopped the first price rally. A downward reversal takes place to the point marked C. If volume increased on the initial rise to resistance but
+declined on the correction to C, C becomes a possible entry point in anticipation of a breakout
+above resistance. This is a low-odds, riskier entry point because the chances of it failing to follow
+with an actual breakout are considerably greater than after an actual breakout has occurred, but
+the price at which entry is made is lower, and, thus, the trade, if it works out, is potentially more
+profitable. A trade-off exists between the higher risk of entry prior to the breakout and the higher
+reward of a cheaper entry price. At B, assuming again that volume has increased with the small
+rally, the odds of a breakout have increased over C, but the price is not quite as advantageous. At
+A, we know that a breakout has occurred, and, thus, our risk of a failure has diminished (but has
+not been eliminated because false breakouts can still occur), but the price of entry is considerably
+higher than the other possible entry points. This trade-off between risk and reward is a constant
+problem for the analyst, and the decision as to which breakout method to use is entirely at the
+analyst’s discretion, based on individual reward/risk tolerance. Deciding on the most comfortable relation between risk and reward is a problem that will arise in almost every technical situation, from breakouts to money management, and it is one of the reasons that evaluating technical
+systems is so difficult.
+
+Download at www.wowebook.com
+
+263
+
+Chapter 13 Breakouts, Stops, and Retracements
+Anticipating a Breakout
+A
+Resistance
+
+B
+
+C
+Price
+
+Possible Point of Entry
+
+FIGURE 13.6 Anticipating a breakout
+
+STOPS
+A stop order is an order to buy or sell once a specific price has been reached. For example, a buy
+stop would be an order to buy a security at a specified price above the current price. Should the
+price rise to the specified buy stop price, it will be bought at the market. Conversely, a sell stop is
+an order to sell a security at a specified price below the current price when reached.
+
+What Are Entry and Exit Stops?
+Stop orders, also called “stops,” can be used to enter a position or to exit a position. For example,
+if a price is approaching a resistance level above which a new trend is expected to develop, a buy
+stop order could be placed to be triggered if the resistance level is penetrated in a breakout. Or
+conversely, at a support level, the entry stop order could be placed to sell short once the specified
+level had been breached. These examples are entry stops. Exit stops are used either to protect
+capital from further loss, what Edwards and Magee (2007) call protective stops, or to protect
+profits from deteriorating back into a loss, usually called trailing stops. These stops are defensive in nature and are an absolute necessity once a trade entry has occurred.
+Breakout levels and stop-loss levels or zones are very similar. Exit stop levels are levels
+that signal the analysis might be incorrect or at least that the analysis is uncertain and that a position should be exited to protect capital but not necessarily reentered in the opposite direction.
+Entry stop levels are positioned using the preceding rules for establishing a breakout level or
+zone or anticipation of a breakout through those levels or zones. The methods described previously for confirming breakouts are equally useful in confirming stop levels.
+In an entry stop at a breakout level, an investor is committing new money and taking the
+risk that the breakout is valid. In an exit stop, an investor is closing a position and, thus, not
+decreasing risk. This is not to say that stops should be used carelessly. Indeed, by placing stops
+too close to current price action, an investor can be easily “whipsawed.” A whipsaw occurs when
+an investor buys a security, the security price falls, the investor sells the security, and then the
+
+Download at www.wowebook.com
+
+264
+
+Part III Trend Analysis
+
+security price goes up above the original purchase price. The investor’s original opinion was correct, but he or she still lost money. The word “whipsaw” comes from the timber industry where a
+long, thin, two-man wood saw would often get caught in a log, if not properly handled, and whip
+the sawyers back and forth without cutting the wood and subjecting them to “two damaging and
+usually opposing forces at the same time” (www.Randomhouse.com). The whipsaw resulted
+from lack of analysis and lack of patience, just as in investing.
+
+Changing Stop Orders
+The most important underlying principle for defensive stops, because they protect one’s capital
+but at the same time may imply the original analysis was wrong, is that they should never be
+moved away from the trend of the security. In other words, if one is long a security and has
+placed a stop at a reasonable level below the current price, he should never cancel or reduce the
+stop order. Its purpose is to keep the investor honest. By changing or canceling the stop, especially when the security is trading at a loss, the investor is losing discipline and reacting to emotional pressures having to do with not desiring to admit an error, a natural and strong human
+emotion, but unrelated to the rational assessment of the price action. If a decision about the security originally is made with the best logic and information available and a stop is placed at that
+time at the point at which the analysis will obviously be incorrect, changing it or canceling it
+negates all the original thought and analysis. The stop may be adjusted along with price as a trailing stop or one that follows each successive change in support or resistance in the direction of the
+trend as the position progresses profitably, but it should never be canceled or changed against the
+trend.
+Many investors and traders place stops too close to the current price of the security in
+which they have a position. This often causes whipsaws, even when the stop is adjusted for
+volatility. A defensive stop is a protection device. It is not necessary for short-term trading.
+Often, because they don’t want to lose any amount of profit, investors will place a stop too close
+to the current price and get closed out too early in a longer move. A better method is to allow the
+security “breathing” room and place the protective stop below where the breathing room correction would be serious. We know that security prices retrace their advances in a progression of
+steps along the trend, and we know that we will never buy and sell at the absolute peak or trough.
+We also know that we have to decide upon what time horizon we want to play. Once that is
+decided, to place a stop based on a shorter time period only invites whipsaws. It is better to wait
+for the retracement and let the security “breathe.”
+On the other hand, if the situation is such that the overall market appears ready to reverse,
+and one’s security has run along with the market but is also showing signs of fatigue, a trailing
+stop very close to the current price is sometimes warranted. When the situation is such that a
+position will likely be closed soon anyway, for whatever reason, tightening the stop just allows
+the marketplace to make the decision rather than the investor or trader.
+
+What Are Protective Stops?
+Whenever a position is initiated, usually even before initiation, a protective exit stop level must
+be determined and placed with the entry order. The reasons are twofold. First, the protective stop

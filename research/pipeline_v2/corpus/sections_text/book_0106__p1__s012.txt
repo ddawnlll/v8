@@ -1,0 +1,403 @@
+
+I:U-067: Euro FXIPItj Cad) LIq (Dally bars)
+MOYIn9AVG (C,50) 1l6IIMI2OO8 -1 ,5433 {-O.OO24, .
+
+FIGURE 7.9 Euro Overall Activity
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+1.6200
+
+126
+
+BASIC STRATEGIES
+
+CONCLUSION
+The collar trade is not perfect. Like many of the strategies presented
+throughout the book, it has positives and negatives. Unlike many of the
+strategies in the book, it has a simple way of strengthening an opportunity
+while reducing your overall exposure. It can be applied in multiple situations with varying degrees of versatility. As a retail trader becomes more
+skilled in how the markets interact with one another, this particular strategy will become second nature.
+
+~H /\I·'I''';R
+
+8
+
+Replacing
+Traditional
+Options with
+Synthetic Options
+
+ption trading can be very liberating for individual traders. Options
+offer traders the opportunity to have unlimited profit potential with
+limited risk. No matter who you are, small trader or money manager,
+if you can limit your risk up front it becomes more comfortable to take the
+risk. Options have the ability to provide a high level of comfort. There is
+simply no misunderstanding what you are getting into when you purchase
+an option. If you invest $400 to purchase a call or a put, your risk is limited
+to the $400-no more than that, but possibly less if you sell the option early.
+This is not the case when it comes to all investment products.
+Spot forex, stock, or futures trading cannot afford you the san1e protection that options can. A wrong decision in anyone of these markets and
+your losses can mount up quickly. The usual stop losses or stop limits cannot protect you from slippage or gap ups or gap downs in price. Stop losses
+or stop limits cannot protect you from limit up days or limit down days. Nor
+can they protect you from fundamental changes in a market's supply and
+demand. In the end, no matter what money management goal you have in
+mind, when you trade spot forex, stocks, or futures you have to be willing
+to accept that one bad trade has the potential to wipe out your entire account, and in the case of futures and trading stocks on margin, your losses
+can actually exceed your account value.
+However, while options can limit your risk to the premium paid, by no
+means are they perfect. They have two main problems: choosing the right
+strike price and managing volatility. Although the risk may be limited,
+success is predicated on the ability to pick the right strike price. The risk
+of an option is limited to what is invested, but in order to truly benefit
+
+O
+
+127
+
+128
+
+BASIC STRATEGIES
+
+from purchasing an option, a trader must be an expert at seeing the future .
+However it is done, a trader must pick the exact price that he believes the
+market will not only reach, but exceed, on a certain date. This is known as
+the strike price.
+Choosing the right strike price is difficult, to say the least. A trader who
+is clever enough to choose the current market price is penalized. Buying
+an option at the current market price is known as buying at-the-money.
+Typically, at-the-money options are more expensive and have a tendency to
+be adversely affected by the second problem mentioned earlier, volatility.
+If the trader makes a decision to buy an out-of-the-money option, then the
+trade-off is paying a cheaper premium for a strike price that may likely
+never match up with the underlying asset's price.
+Options are derivatives of an underlying asset. This means that they
+derive all of their value from another more important asset. By themselves
+they actually have no value and thus would not exist. This leads to a complex price relationship between the option's premium and the underlying
+asset's increase or decrease in value.
+Various types of option styles exist, but for the purpose of this book
+we are strictly addressing American-style options. As a rule of thumb,
+American-style options grant the holder the right, but not the obligation,
+to buy or sell the underlying asset at any time. This simple fact increases or
+decreases the perceived demand for the underlying asset, which can affect
+the price of the option, regardless of what the strike price is or how close
+its price is to the underlying asset's price. This tenuous relationship has led
+to many traders, retail and professional alike, to simply not be comfortable
+with buying options. The difficulty of having to calculate the volatility, or
+theta, of the options (we discussed the greeks earlier, in Chapter 4), and
+then having to trade the volatility, independent of the actual price moves,
+can simply make option trading unappealing.
+There is a third alternative, an alternative that couples the limited risk
+of options with the free-flowing opportunity of being in the actual underlying asset. This third alternative also has the unique ability to let a trader leg
+out of his position and profit from a market's move regardless of where it
+goes, up or down. This third alternative is known as the synthetic option.
+It successfully combines the best of all trading worlds.
+
+SYNTHETIC OPTION VERSUS
+STANDARD OPTION
+Synthetic options come in one of two flavors, synthetic calls or synthetic
+puts. They each are designed to simulate a standard call or put option without the drawbacks. A synthetic call is simple to initiate. A long position is
+
+Replacing Traditional Options with Synthetic Options
+
+129
+
+first established in a spot forex market, futures market, or stock market;
+then an at-the-money put is purchased to protect the long position against
+any downside risk. A synthetic put requires that a short position be initiated first and an at-the-money call is purchased to protect the short position from any sudden moves to the long side. They are one of the most
+underused risk management tools available.
+Throughout this book different ways to use options have and will be
+introduced. The two strategies of using options as a hard stop or using
+options as a hedge are distinct from the synthetic option because of one
+factor, the use of an at-the-money option. The at-the-money option is an
+essential component. While it may be more expensive to purchase an atthe-money option, it establishes the necessary maximum protection for the
+long or short position.
+
+The Greeks and Synthetic Options
+When trading a standard option, there is the constant stress of the greeks.
+In Chapter 4 we looked at delta, theta, and vega. The delta assesses how
+much the value of an option moves in relation to its underlying asset. No
+matter how successful the option, it will rarely move dollar for dollar with
+its underlying asset. This is not a problem for synthetic options. Since one
+side of the synthetic option is the actual asset, delta does not playa factor
+when the synthetic option moves into-the-money.
+The greek value theta measures the time value left in a standard option.
+Since options have finite time until expiration, the more time you have until
+they expire the more valuable they can be, regardless of the strike price.
+As every day gets closer and closer to expiration, the time value erodes
+and the option decreases in value proportionate to the time it has left. With
+a synthetic option you can eliminate the time value completely. If one leg
+of the synthetic option is a share of stock, spot forex contract, or contract
+for difference (CFD), there are no time limits on when you have to exit or
+how many times you have to roll the contract over. Therefore, there is no
+built-in time value to actually lose in the position.
+Finally, the third greek component, vega, was created to measure implied volatility. It measures how much an option's price will increase or decrease depending on an option's level of demand. Understanding and using
+vega is great when determining what strike price to purchase for an option.
+Volatility is everything when it comes to options trading. The lack of volatility in any particular option can be so detrimental as to make even a successful strike price be worthless because no one is interested in purchasing it.
+Vega does not have an impact on synthetic options. There is no secondary market of volatility that has to be monitored or followed. If the
+market is moving up, your synthetic long position is gaining in value; if the
+market is moving down, your synthetic short position is gaining in value.
+
+130
+
+BASIC STRATEGIES
+
+Delta, theta, and vega are just a few of the greeks that have an impact
+on option pricing. There are other greeks that are also followed religiously
+by traders who buy and sell options. None of these greek calculations
+directly apply to a synthetic option position. In fact, any attempt to follow
+the greeks for a synthetic option most likely is a waste of time.
+
+Strike Price, Premium, and Synthetic Options
+When you purchase an option, you must decide whether you are going
+to purchase an in-the-money, at-the-money, or out-of-the-money option.
+Depending on which option you purchase, you will pay either an expensive or a low-cost price for your premium. The price that is paid for the
+option premium plays a significant role in how successful an option can be
+in the long run.
+The further out-of-the-money your option is, the less premium you pay.
+At the same time, the further out-of-the-money the option strike price is,
+the less likely it will be for the underlying asset to reach that price. If the
+underlying asset does move in the direction of the strike price, there is a
+missed profit opportunity that occurs due to the difference between where
+the underlying asset started from and when it reaches parity with the option's strike price. On top of that, even after the asset and the option strike
+price do reach the sanle value, the option does not become profitable until
+after the underlying asset exceeds the value of what was paid on the option
+premium. All of this activity takes time, which, as we learned through the
+greeks, options really don't have much of.
+This what-if scenario then forces traders to assume that in order to be
+successful in options trading, the more money that is paid on the premium
+the better off they are. An expensive premium means that the option is
+either at-the-money or in-the-money, but this does not necessarily make it
+better than an out-of-the-money option. The moment an underlying asset
+begins to move against an in-the-money or at-the-money option, the value
+begins to decrease rapidly. Just like an out-of-the-money option, breakeven
+is the premium plus the strike price of the in-the-money or at-the-money
+option. This means that as a trader you already start your trade in the red
+when you purchase your option, and any move against you simply digs you
+a deeper hole.
+For the most part, synthetic options do not have to deal with premium
+and strike prices in the same fashion as standard options. Since the underlying asset is the primary driving force behind all of the activity, the
+initiated position is at-the-money right from the start. There is no premium
+that is being eroded, nor is there any set strike price that needs to be hit
+before any money is made. In fact, the ideal scenario when putting together a synthetic option is to see the protective option's premium erode
+
+Replacing Traditional Options with Synthetic Options
+
+131
+
+in value. That's when you know you have chosen the right side of the
+market.
+However, when the premium erosion of the protective option does
+kick in, it can be a double-edged sword. Every dollar you lose in the protective option is subtracted directly from every dollar you make in the primary
+position. If the protective option is not monitored and acted upon immediately, the synthetic option has the potential to mirror a standard option.
+This means that your profits won't really kick in until the premium of the
+protective option is covered 100 percent. This could end up defeating your
+purpose for executing the synthetic option in the first place: control.
+
+The Elegance of a Synthetic Option
+A standard option has one risk management objective, to limit loss to the
+premium paid. That's it. It is not designed to follow the market's rhythm
+or flow. When you are wrong, your trade ends. For a synthetic option,
+things are not quite the same. Being wrong is just the beginning of something great.
+Whenever a trade begins to move against a standard option or regular
+position, there are two things to consider. First, has there been a fundamental shift in supply and demand that is fueling this shift in the market's direction? Second, how long will this movement last against my position-is
+it a minor correction or a long-term shift?
+For a standard option or regular position trader, if there has been a
+fundamental shift in supply and demand, then the position will most likely
+expire worthless (if it's an option) or accrue heavy losses (if it's a regular
+position). For an option trader, even a minor correction might as well be a
+long-term shift in supply and demand. With time against the option trader's
+position, every day that the trade passes through a correction phase is another day closer to losing everything.
+By themselves, regular positions and options have a hard time with reacting to change. While all kind of crutches can be used to minimize the
+losses of a regular position or a trader can resign himself to losing his premium, there is another side to this story. Synthetic options take the best of
+both worlds by combining protection with instantaneous reaction.
+A synthetic option combines the fast-paced movements of a regular
+position with the limited risk protection of an option, then adds in the ability to switch trading directions instantaneously. These three strengths are
+built right into the trading strategy.
+If the market is having a minor correction, the protective option is
+there to collect value until the market turns back around. If there has been
+a fundamental shift in supply and demand, the losing position can be released and the protective option can easily pick up the slack without being
+
+132
+
+BASIC STRATEGI ES
+
+perceived as chasing the market. These strengths are automatically recognized by the clearing firms; that is why they give synthetic option traders
+low margin rates on their futures positions.
+Stop losses can't reverse your position at the drop of a dime. Limit orders can't. Even standard options fail in this respect. To trade successfully
+over the long run you will need to be able to have the prescience to change
+your market positions even before the market knows where it's going. By
+combining a futures contract or cash contract with an option to create a
+synthetic position, this is done for you automatically.
+This strategy alone puts you in the advanced class as if you were
+hedger or trading professional. Trading with a synthetic reinforces your
+understanding of the interrelationship of the markets and how to hedge.
+This is a significant tool that places you ahead of the competition.
+S~'Ilthetic Option Drawbacks
+
+No matter how great the benefits are, when it comes to trading synthetic
+options there are still some drawbacks. The first drawback is the fact that it
+is capital intensive. The option must be purchased up front and the margin
+or cash for the position must be put in place. This means that you essentially have two trading positions at the same time.
+Another drawback is the erosion of the protective option. Even though
+your profits are made by the primary position, the protective option is still
+subject to the same general problems of all options, time decay and volatility. Whatever money you spend on your protective option's premium has a
+direct effect on your overall profits. Therefore, it is important to maintain
+constant vigilance on the protective option to make sure you are getting
+the maximum value out of the trade. The general rule of thumb mentioned
+in Winning the Trading Game is not to allow a loss of greater than 50 percent of your premium. It can be even less than that if you are certain of the
+market's direction.
+A third problem is the impact that the losing futures or cash position has on the overall trade. While losses mount $1 at a time, the maximum that the protective option can cover is approximately 80 cents of
+that (effects of delta), even if it is in-the-money. This is important to understand when attempting to detemline how effective the protection can
+be. Therefore, the synthetic option cannot be considered a panacea for all
+trading ills.
+A fourth problem is the timing of option expiration versus its samemonth futures counterparts. When marrying the put to the futures or
+cash position, the option's expiration date is a key factor. If the option
+is purchased in the same month as the futures contract, then the option expires three weeks to a month prior to the futures contract. If it
+
+Replacing Traditional Options with Synthetic Options
+
+133
+
+is not done properly, you could be left with either exiting your trade
+early or protecting your trade with a stop or limit order earlier than you
+expected.
+The only alternative to purchasing an option in a near or front month
+is to purchase an option with a further-out expiration date. Yet this alternative has its own consequences. As we discussed earlier, an option has two
+values built in, intrinsic and time value. Therefore, an option purchased in
+a further-out month has more time value built into it. This makes it more
+expensive and more susceptible to changes in volatility.
+Finally, a balance must be struck rather than having an all-or-nothing
+attitude when it comes to synthetic options that work against you. There is
+a school of thought, with this and all of the other risk management strategies, that when the primary position begins to move against you the entire
+trade should be scrapped. There is another school of thought that the trade
+can be legged out of, keeping the winning position and letting the bad position go.
+If the trade is legged out of, then traditional forms of risk management, such as stops or stop limits, have to be put in place. Couple this with
+the loss of the special margin rates you may be getting from the clearing
+firm, and it may not be favorable to leg out. Legging out of a position also
+changes the dynamics of the trade. Where it may have been comfortable
+to put on a swing trade or a position trade with the synthetic option, if it
+is converted to a standard position the trading time frame will have to be
+changed.
+How you tackle these drawbacks to synthetic options is a testament to
+your mettle as a trader. Whether it is the expense of the options, the erosion of the option value, the effects of delta, option expiration, or legging
+out the position to capture the profitable side of a market's move, it is the
+trader who will ultimately decide on how to best use a synthetic option for
+maximum benefit. Typically, during this discovery process, the opportunities of synthetic options will outweigh the drawbacks.
+
+WHEN TO USE A SYNTHETIC OPTION
+A synthetic option is both a subtle and a powerful tool. It is not meant
+to be taken lightly. It is simple to use and its nature lends it to be most
+useful to swing traders. If a market appears to have reached its absolute
+low or high, then a synthetic position can be put in place just in case
+the market doesn't follow through on its turnaround in a new direction.
+As the trade progresses, the synthetic position can be closed out at the end
+of the market's move.
+
+134
+
+BASIC STRATEGIES
+
+Another place a synthetic option can be helpful is when the market
+is bumping against certain levels of resistance and support, with an eye
+to the potential that the market may break through. Traditionally, if the
+market did not break through resistance or support, a stop loss would be
+the only tool getting you out of the position. Instead, the protective option
+is there just in case the market fails its breakout. The synthetic option is
+truly a subtle way of attempting to outsmart the market while covering all
+your bases.
+In the next few examples we will look at breakouts and support and
+resistance patterns, before and after, in order to get an idea of how best to
+use synthetic options.
+
+Synthetic Calls
+To reiterate, a synthetic call involves the simultaneous actions of going
+long a market and buying an at-the-money put in order to protect the position. We will first look at how a synthetic call can be applied to a breakout
+market in gold, and then we will find a point of support in the oil market
+and use a synthetic call to establish a trade.
+Brealmut Example In Figure 8.1 we see that gold prices began an aggressive rally to the long side after failing to break through $850. The market is so strong that it rallies for five days in a row and breaks through the
+
+FIGURE 8.1 Gold Before
+Source: TradeNavigator .com © 2007 . All rights reserved .
+
+135
+
+Replacing Traditional Options with Synthetic Options
+TABLE 8.1
+
+Comparison of Choices
+
+Synthetic Call Option long Futures Call Option
+
+Premium
+
+$1,830 (put)
+
+$0
+
+$2,030
+
+50-day moving average (MA). Both of these signals are bullish. There is resistance at $950, and after that it is at $1,000. To not miss out any further
+on this aggressive move up, we initiate a synthetic call.
+We purchase a put option as close to the money as possible at $930.
+The cost of the put is $1,830. The long gold futures contract is added to
+complete the synthetic call for a spread margin rate of $1,000 (spread and
+SPAN margin rates will vary from brokerage and futures commission merchant [FCM] rates), instead of $4,455. The total synthetic position requires
+a commitment of $2,830.
+This is $1,625 less than an outright futures contract and is $800 more
+than an at-the-money standard call option (see Table 8.1).
+The only way to make the long gold futures and call option work is to
+put stops to protect them in case this gold break turns out not to be sustainable. In Figure 8.2 we see this new rally stall and then collapse below
+the 50-day MA. It attempts to get above the 50-day MA, but the bulls simply cannot get their footing. The price eventually hits a low of $866, right
+around previous support.
+
+Long Futures Market
+
+Op.n",,. ... t' Upe::io.. CIiiioOnCIoM ' V~ '-ot
+
+!j
+
+L.-~llllllllllllllllUuuluulltWW~ULLltlUIIIIIII~·.~~
+""'..........v'_
+
+ClrIll11t
+
+0410110$
+
+OVISM
+
+t4'lIIIIW
+
+,
+
+WI.
+
+FIGURE 8.2 Gold After
+Source: TradeNavigator.com © 2007 . All rights reserved .
+
+05Q7M
+
+_ _ _ _.i!
+
+CMOIGI
+
+136
+
+BASIC STRATEGIES
+
+The put option gains a profit from $930 to $866 for a total of $64. If the
+long futures contract is exited when the market crosses back below the
+50-day MA around $910, the position nets a total of a $44 gain, which would
+net the synthetic call holder approximately $4,000, give or take a few hundred dollars based on delta changes.
+This is a prime example of how a trader can attempt to catch the momentum of a breakout and actually get caught at or near the top. Nothing was done wrong technically, but the underlying fundamental supply
+and demand factors simply could not sustain the move. A standard longoriented position (futures or call option) that simply followed the technical
+analysis would have simply lost money.
+Bouncing Off of Support In Figure 8.3 we take a look at the crude oil
+market as it finds support around $85 per barrel.
+This is the third time that the crude oil market has come down to this
+price level. The prior two times the market bounced up and either broke
+through the 50-day MA or at least hit the 50-day MA. The Relative Strength
+Index (RSI) is showing that the market is oversold, and the price itself is
+sitting on the lower Bollinger band. These all point to the potential that it
+could be a turnaround to the long side.
+Despite all of these technical analysis positives, three glaring negatives
+stick out like sore thumbs. First, the market is having a down day; therefore, any long move is preemptive of the market's actual move. Second,

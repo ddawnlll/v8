@@ -1,0 +1,627 @@
+
+For example, suppose a trader has made a volatility forecast of 20% based on
+historical data, and that the implied volatility is currently 24%. If the trader decides to
+give the implied volatility 75% of the weight, his final forecast will be:
+
+(75% x 24%) +. (25% x 20%) = 23%
+
+On the other hand, if the trader decides to give the implied volatility 25% of the weight,
+his final forecast will be:
+
+2. For further information an ARCH and GARCH models see:
+
+Engle, R.F., “Autoregressive Conditional Heteroskedaticity with Estimates of the Variance of United
+Kingdom Inflation,” Econometrica, Vol. 50, Na. 4, 1982, pages 987-1000.
+
+Bollerslev, T., “Generalized Autoregressive Conditional Heteraskedasticity,” Journal of Economics,
+No. 31, April 1986, pages 307-327.
+
+Bollerslev, T., “A Conditional Heteroskedastic Time Series Model for Speculative Prices and Rates of
+Return,” Review of Economics and Statistics, No. 69, August 1987, pages 542-547,
+
+Nelson, David B., “Conditional Heteraskedasticity in Asset Returns: A New Approach,” Econometrica,
+No. 59, 1991, pages 347-370
+
+Kuberek, Robert C., “Predicting Interest Rate Volatility: A Conditional Heteroskedastic Model of
+Interest Rate Movements,” Journal of Fixed Income, Vol. 1, No. 4, March 1992, pages 21-27.
+
+
+282 Chapter 14
+
+(25% x 24%) + (75% x 20%) = 21%
+
+Finally, if the trader decides to give the implied volatility half the weight, his final
+forecast Will be:
+
+(50% x 24) + (50% x 20) = 22%
+
+A PRACTICAL APPROACH
+
+No matter how painstaking a trader’s method, he is likely to find that his volatility
+forecasts are often incorrect, and sometimes to a large degree. Given this difficulty,
+many traders find it easier to take a more general approach. Rather than asking what
+the correct volatility is, a trader might instead ask, given the current volatility climate,
+what’s the right strategy? Rather than trying to forecast an exact volatility, a trader will
+try to pick a strategy that best fits the volatility conditions in the marketplace. To do this,
+a trader will want to consider several factors:
+
+1, Whatis the long-term mean volatility of the underlying contract?
+
+What has been the recent historical volatility in relation to the mean volatility?
+What is the trend in the recent historical volatility?
+
+Where is implied volatility and what is its trend?
+
+Are we dealing with options of shorter or longer duration?
+
+SNF oD
+
+How stable does the volatility tend to be?
+
+For example, suppose there are ten weeks (approximately 50 trading days) to
+expiration and we are trying to decide on an appropriate volatility strategy. To make a
+decision, we might look at the 50-day historical volatility (the historical volatility which
+corresponds to the amount of time remaining to expiration), its relationship to the
+long-term mean volatility, and of course the implied volatility. Having done this, suppose
+we find the conditions shown in Figure 14-5A. What are our conclusions?
+
+Clearly we are coming off a period of high volatility and seem to be moving
+downward. The recent 50-day historical volatility (approx. 20.6%} is still above the
+long-term historical mean (approx. 18.7%), so there is reason to believe that the
+volatility will continue to decline. The implied volatility is also declining, but still
+appears to be about 1% percentage points higher (22.1%} than the 50-day historical
+volatility. Al! volatility conditions seem to be pointing in the same direction. The
+historical volatility is above the mean but declining, and the implied volatility is above
+the historical volatility and also declining. A short volatility position (negative
+gamma/negative vega] is strongly indicated.
+
+There are of course a variety of short volatility strategies available, and the best
+strategy will still depend on a trader’s experience in the market and the amount of risk
+he is willing to take. Suppose we have additional volatility data (perhaps a volatility cone
+of the type in Figure 14-3) showing that the 50-day volatility can easily vary by as much
+as 10 percentage points. We still want to sell volatility, but given this instability and the
+
+
+283
+
+Volatility Revisited
+
+09
+
+<- ainyn4 jsed x >
+os Or oE OL ) ol O02 Of Om oS 098 Of O08 06
+it 1 5 i 1 L I it a 1 t gL
+Ayiyejoa ues Wa} Buoy | et
+uolyesidxa
++02
+
+Ayyyejoa
+paijdust
+
+Ayye|OA jeouoysiy Lhe
+kep og
+Loo
+mo
+Pe
+L Se
+
+es-p) aunbi4
+
+(9%) ANINE|OA
+
+
+
+284 Chapter 14
+
+fact that implied volatility at 22.2% is only slightly above the 50-day historical volatility,
+perhaps the wisest choice is a less risky strategy such as the purchase of butterflies. If a
+riskier strategy is chosen, perhaps it should be done only in small size. On the other
+hand, if implied volatility is currently 25% and we find that the volatility tends to be
+quite stable, varying only five or six percentage points for any 50-day period, a trader
+may be willing to take ona much riskier position, perhaps selling a straddles or strangles.
+
+In real life the situation is rarely as simple as in Figure 14-5A. For example, consider
+Figure 14-5B. Now the historical volatility is above the historical mean and declining,
+but the implied volatility has already moved ahead of the historical volatility. A trader
+may still choose a short volatility position, but he is unlikely to have the same degree of
+confidence. Indeed, the situation may be even more confused. Suppose the historical
+volatility is above the long-term mean but seems to be increasing (Figure 14-5C}. Or
+suppose implied volatility is moving in the opposite direction of the historical volatility
+(Figure 14-5D}. In each of these situations some factors dictate one type of position,
+while other factors dictate a different position.
+
+Consider the situation in Figure 14-6A where we are thinking of taking a position
+in six-week options (approximately 30 trading days}. The 30-day historical! volatility,
+currently at 15.8%, is well above the long-term mean of 11.2%. However, the trend in
+volatility seems to be up, and there is no telling how long it will take for the volatility
+to revert to its mean of 11.2%. The current implied volatility of 14.6% is also well above
+the long term mean volatility, but is lower than the 30-day historical volatility.
+Corresponding to the upward trend in historical volatility, there also seems to be an
+upward trend in the implied volatility. With so many contradictory signals, a trader is
+unlikely to have a strong opinion about whether he should buy or sell volatility. He may
+choose to take no position at all, preferring to wait for clearer indications.
+
+Suppose, in addition to six-week options, we also have available 19-week options
+(approximately 95 trading days). Volatility data for this contract is shown in Figure
+14-6B. While a trader may be hesitant to take a position in six-week options alone, when
+combined with {9-week options, he may be able to construct a strategy with much more
+acceptable risk characteristics. Here the 95-day historical volatility of 12.6% is above the
+11.2% mean volatility. Moreover the current implied volatility of 19-week options, at
+14.5%, is well above both the 95-day historical volatility and the long-term mean
+volatility. There is a much better chance that the volatility will revert to its mean over
+a 19-week period than over a six-week period, so there are much stronger reasons for
+taking a short volatility position in 19-week options than in six-week options. Still, the
+upward trend in both the historical and implied volatilities will cause some worry if we
+do take a short volatility position. However, if we were to simultaneously take a long
+volatility position in six-week options, we would at least be protected against a
+continuing increase in the volatility of the underlying contract over the next six weeks.
+By creating a short time spread (buy six-week options/sell 19-week options) we can take
+a position which should be profitable based on our knowledge of volatility charac-
+teristics, but which also has acceptable risk characteristics if we are wrong.
+
+A short time spread will not eliminate every risk. The market might suddenly
+become very quiet, with historical volatility quickly dropping to, or even below, its
+
+
+285
+
+Volatility Revisited
+
+09
+
+os 0
+
+ld
+
+0
+
+Ee
+
+02
+nl
+
+enn
+ol
+
+yseq
+fe] 0 ia 02 og- Ov
+
+Os 09° oz"
+
+ab
+
+uolyeaidxe
+
+Ayyiqejoa jeouvoysiy
+Aep og
+
+Ayejon ueaw Wwe} Buoy
+
+Aquge|on
+perdu
+
+6h
+
+Hz &
+
+Ey
+
+eS
+
+Lzz 38
+Lez
+bz
+Gz
+
+qS-pL aunbig
+
+
+
+~_ aunin4 ised _
+
+os Or o€ 0g 0 k Q Ob 02- og: Or- os- og" OL os- 06-
+
+1 1 i
+
+; St
+
+Ay|We|OA UPB W893} Buo|
+
+uonesdxe
+
+Liz &
+B
+5
+Lez 3
+Ayiyejon yeou0ysi4
+Aep 0S had
+Ayye|on be
+paydu
+4
+
+286
+
+9S-PL einBi4
+
+
+
+287
+
+Volatility Revisited
+
+og
+
+~~! auning ised a
+os Ov oe 0¢ OL 0 OlL- Qe- Oe- ov Qs- Qg- OZ- os- 06-
+1 1 LL. = _j 1 L jt 1 1 al Le
+Ayigejon uUeSU LUI} Buo|
+uoyendxa
+
+<
+fe)
+B
+5
+<S
+Ayejoa ee
+perdu!
+Lez
+Ay|ve{OA fedL10}814
+Aep os
+wid
+Se
+ps-p} ean6iy
+
+
+
+Chapter 14
+
+288
+
+02
+
+~<g— oinjng
+OL
+
+0 Sed | a
+
+Ol- Oz- Oe- OF os 09" O2- o8-
+
+L 1
+
+06-
+
+FEE
+
+Aywejon ueaw
+
+(suondo yaem 9) Auize|on pal|duuy
+
+T
+N
+-_
+
+UJ
+o
+_
+
+Qt
+
+(%) AUIE|OA
+
+e9-p1 einBi4
+
+
+
+289
+
+Volatility Revisited
+
+0c
+
+~<q— enn
+ob
+
+(e)
+
+yseq
+
+OL-
+L
+
+Oe OE- or og oo" o2- og-
+
+06-
+
+~AuyejOA ue
+
+Ayqejoa jeouoysly Aep sg
+
+(suondo yaem 64) Ayejoa par dut
+
+ma
+
+FEL
+
+SL
+
+(9%) AyaeIOA,
+
+q9-h}. aunBi4
+
+
+
+290 Chapter 14
+
+long-term mean. At the same time, implied volatility may remain relatively high. Such
+conditions will do the most damage to a short time spread. Still, if we believe that the
+implied volatility tends to follow the historical volatility, we may conclude that it is
+unlikely that the implied volatility will stay high if the historical volatility drops.
+
+A trader will always attempt to pick the strategy which best fits his opinion of
+market conditions, whether a directional opinion or a volatility opinion. Given the fact
+that there is such a wide variety of market conditions, a trader who is familiar with the
+greatest number of strategies will have the best chance of surviving and prospering. He
+will be in a position to pick strategies with the best risk/reward characteristics, strategies
+which will be profitable when things go right, but which won’t give back all the profits
+when things go wrong. This skill comes not only from a technical knowledge of option
+evaluation and theory, but also from a practical knowledge of what really happens in
+the marketplace.
+
+SOME THOUGHTS ON IMPLIED VOLATILITY
+
+Since many option strategies are sensitive to changes in implied volatility, and since
+implied volatility will often play a role in forecasting the volatility of the underlying
+contract, it may be worthwhile to consider some of the characteristics of implied
+volatility.
+
+Implied versus Historical Volatility
+
+Implied volatility can be thought of as a consensus volatility among all market partici-
+pants with respect to the expected amount of underlying price fluctuation over the
+remaining life of an option. In the same way that an individual trader is likely to change
+his volatility forecast in response to changing historical volatility, it is logical to assume
+that the marketplace as a whole will also change its consensus volatility in response to
+changing historical volatility. As the market becomes more volatile, implied volatility
+can be expected to rise; as the market becomes less volatile, implied volatility can be
+expected to fall. Market participants are making the logical assumption that what has
+happened in the past is a good indicator of what will happen in the future.
+
+The influence of historical volatility on implied volatility can be seen in Figure 14-7,
+the historical and implied volatility of U.S. Treasury Bond futures traded on the Chicago
+Board of Trade from 1989 to 1991. In late 1989, and again in mid-1991, there were
+declines in the volatility of Treasury Bond futures, and these were accompanied by
+corresponding declines in implied volatility. From August 1990 through January 1991
+(the period of the Iraqi invasion of Kuwait), there were several sharp increases in the
+volatility of the futures, and these were accompanied by similar increases in implied
+volatility. Clearly, the marketplace, in the form of changing implied volatility, was
+responding to the changing historical volatility of the underlying contract.
+
+Notice, however, that the fluctuations in implied volatility were usually less than
+the fluctuations in historical volatility. When the historical volatility declined, the
+implied volatility rarely declined by an equal amount. And when historical volatility
+increased, the implied volatility rarely increased by an equal amount. Because volatility
+
+
+291
+
+Volatility Revisited
+
+zeuer 16degs leunr 16-494 06100 osinr = O64eW 68-AON 6e-Bny 6e-dy sever
+L L
+
+Ayejoa eoUOIsIU Kep 02 Ls
+
+-9
+
+Le
+
+. _. Le
+
+a Mw
+
+i Ny iy, sa i \ 6 o
+a \ mm ; \ - ray
+vA SOOM GP | \a Z
+, \y pg
+
+\ Eth
+
+\ pos
+v Lat
+Ayyeoa paydut
+
+Let
+
+Leh
+
+" St
+
+AWNEIOA Saunyng puog Ainseadl :Z-ph einbig
+
+
+
+292 Chapter 14
+
+tends to be mean reverting, when historical volatility is above its mean there is a greater
+likelihood that it will decline, and when historical volatility is below its mean there is a
+greater likelihood that it will increase.
+
+Moreover, the further out in time we go, the greater the likelihood that the
+volatility of the underlying contract will return to its mean. (Look again at Figure 14-3.)
+Consequently, the implied volatility of long-term options tends to remain closer to the
+mean volatility of an underlying contract than the implied volatility of short-term
+options. As historical volatility rises, the implied volatility of all options is likely to rise.
+But given the stronger mean reverting characteristics of volatility over long periods of
+time, the implied volatility of long-term options will tend to rise less than the implied
+volatility of short-term options. As historical volatility falls, the implied volatility of all
+options is likely to fall. But the implied volatility of long-term options will tend to fall
+less than the implied volatility of short-term options. This is born out by Figure 14-8,
+the implied volatility of Treasury Bond options for various expiration months from
+September 1990 to May 1991. Note the increase in implied volatilities during January
+1991. But the increase in the implied volatility of the short-term contract (March) was
+much greater than the increase in the implied volatility of the mid-term (June) contract,
+which was in turn greater than the increase in the implied volatility of the long-term
+(September) contract. When implied volatility began to decline in late January 1991 the
+roles were reversed. The March contract declined the most rapidly, followed by the June
+contract, and the September contract. This is typical of the way in which implied
+volatility tends to change in response to changing volatility environments.
+
+Over long periods of time the historical volatility of the underlying contract will be
+the dominant factor affecting implied volatility. Over short periods of time, however,
+other factors can also play a significant, perhaps even a dominant, role. If the market-
+place foresees events which could cause the underlying contract to become more
+volatile, anticipation of these events might cause implied volatility to change in ways
+that are not necessarily consistent with historical volatility. For example, government
+reports on economic conditions are issued periodically, and these reports have been
+known to contain surprises for the interest rate and foreign exchange market. This
+potential for surprise can cause uncertainty in the marketplace, and this uncertainty is
+often reflected in an increase in implied volatility. Going into government reports, there
+is a strong tendency for implied volatility to rise, even in the face of low historical
+volatility in the underlying instrument.
+
+Government reports are not the only factors which add uncertainty to the market.
+Any future events which could have unexpected consequences can have an effect on
+implied volatility. In the currency markets, upcoming meetings of finance ministers—or
+in the energy markets upcoming OPEC meetings—often cause implied volatility to rise.
+In the stock option market, earnings news, the potential success or failure of new
+products, or (most dramatically) the possibility of a takeover, can all cause increases in
+implied volatility, regardless of the historical volatility of the stock.
+
+In a similar way, if the marketplace believes that no significant events are likely to
+occur in the foreseeable future, uncertainty is removed from the market. In such a case
+the implied volatility may start to fall, even if the actual historical volatility has been
+
+
+293
+
+Volatility Revisited
+
+Lee
+
+be-qe4 be-uer
+
+06-080
+
+06-AON 0690 de-des o6-Bny o6-inr
+L
+9
+
+166 | Jequiaides
+
+1661 Ye
+
+1661 eunr
+
+(%) Ane|on payduyy
+
+066} Joquiscsq
+
+0664 Jequiajdag
+rOb
+
+Zt >
+AypyeloA peljduy seanjng puog Ainseas, :g-p1 eunbig
+
+
+
+294 Chapter 14
+
+relatively high. This is why implied volatility sometimes drops right after large moves in
+the underlying contract. Once the big event has occurred, there may be a perception
+that all the uncertainty has been removed from the market.
+
+Regardless of short-term changes in implied volatility, it is still important fora trader
+to remember that the volatility of the underlying contract will eventually overwhelm
+any considerations of implied volatility. As an example, consider the following situation:
+
+futures price = 97.73
+
+time to expiration = 60 days
+interest rate = 6%
+
+implied volatility = 20%
+
+Given these conditions, the 100 call would be trading for 2.17, with an implied delta
+of 40. Suppose we create a delta neutral position by purchasing ten 100 calls for 2.17
+each, and selling four futures contracts at 97.73. What will happen to our position if
+implied volatility rises to 22%?
+
+If implied volatility immediately goes to 22%, the new price of the 100 call wilt be
+2.47, and we will show a profit of
+
+10 x (2.47 -— 2.17) = +3.00
+
+Suppose, however, that the increase in implied volatility occurs very slowly, over a
+period of 20 days, and during this period the price of the underlying futures contract
+remains at 97.73. Under these conditions, even if implied volatility rises from 20% to
+22%, the 100 call will now be worth only 1.87. Our position will then show a loss of
+
+10 x (1.87 ~ 2.17) = -3.00
+
+Even though the implied volatility increased, the fact that the underlying futures
+contract failed to make any significant move resulted in the option’s price declining.
+Now suppose we have the same position (long ten 100 calls, short four futures
+contracts) but this time instead of rising to 22%, the implied volatility drops to 18%.
+What will be the effect on our position?
+If implied volatility immediately drops to 18%, the new price of the 100 call will
+be 1.86, and we will show a loss of
+
+10x (1.86 - 2.17) =-3.10
+
+Suppose, however, that the decline in implied volatility is accompanied by a swift move
+in the underlying contract. If the underlying futures contract falls to 93.00, and implied
+volatility falls to 18%, the price of the 100 call will be .59, and we will show a profit of
+
+4 x (97.73 — 93.00) — 10 x (2.17 — 59) = +3.12
+
+On the other hand, if the underlying futures contract rises to 102.50 while implied
+volatility falls to 18%, the price of the 100 call will be 4.32, and we will again show a
+profit
+
+4 x (97.73 - 102.50) + 10 x (4.32 - 2.17) = +2.42
+
+
+Volatility Revistted 295
+
+In both cases the movement in the underlying contract has more than offset any decline
+in the option’s price due to a decline in implied volatility.
+
+The foregoing examples are of course simplified. As market conditions change-an
+active trader may very well make adjustments to his position in order to remain delta
+neutral. If so, the actual profit or loss will be affected by the cash flow from this
+adjustment process. The important point is that the volatility of the underlying contract,
+whether the contract moves or sits still over time, will eventually overwhelm any
+changes in implied volatility. This is not to say that implied volatility is unimportant.
+The price of a contract is always an important consideration in making trading decisions.
+But in order to trade intelligently, we need to know value as well as price. The value of
+an option is determined by the volatility of the underlying contract over the life of the
+option.
+
+Implied versus Future Volatility
+
+If, as many traders believe, prices in the marketplace reflect all available information
+affecting the value of a contract, the best predictor of the future volatility ought to be
+the implied volatility. Just how good a predictor of future volatility is implied volatility?
+While it would be impossible to answer this question definitively, since that would
+require a detailed study of many markets over long periods of time, we might still gain
+some insight by looking at a limited number of examples.
+
+Clearly, no one knows the future volatility. We can, however, record the implied
+volatility at any moment in time and then, when expiration arrives, look back and
+calculate the actual volatility of the underlying contract between the time we recorded
+the implied volatility and expiration. We can do this every day during an option’s life,
+recording the implied volatility and then at expiration calculating the actual volatility
+that occurred over this period. This has been done in Figures 1 4-9A, 9B, and 9C for the
+June 1992, March 1993, and December 1993 options on Treasury Bond futures. It is
+admittedly dangerous to generalize from such limited data, but are there any conclu-
+sions we might draw from these graphs?
+
+We can see that with a great deal of time remaining to expiration, the future
+volatility of the underlying contract (the solid line) is relatively stable. But as we get
+Closer to expiration the future volatility can become much less stable. This is logical if
+We again recall that the mean reverting characteristics of volatility are much less certain
+over short periods of time than over long periods. One large move in the underlying
+contract with only several days remaining to expiration will result in a sharp increase in
+the volatility to expiration (see Figure 14-9C). On the other hand, if the underlying
+contract is relatively quiet over the last several days in an option’s life, the volatility to
+expiration will collapse (see Figure 14-9B).

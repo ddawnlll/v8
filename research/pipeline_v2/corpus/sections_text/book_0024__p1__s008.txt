@@ -1,0 +1,384 @@
+
+Of course, as with anything related to charts and markets, nothing is
+perfect about trading signals based on these opening patterns, which almost
+require that you be a day trader to use them. All markets form patterns, and
+many of these patterns repeat themselves consistently. But they may not materialize often, and even when you recognize them, there is no guarantee they
+will develop like the textbook examples.
+
+CHAPTER 6
+
+Pivot Point
+Analysis
+A Powerful Weapon
+
+Man’s mind, once stretched by a new idea, never
+regains its original dimension.
+—Oliver Wendell Holmes
+
+ivot point analysis is a famous technique that is used as a price forecasting method by day traders and floor traders alike. I know it is very
+popular among professionals—I am one of them who uses it in my
+studies and market analysis.
+Numerous advisory services, brokerage firms, and independent traders
+use one form of it or another. Support/resistance, price range forecasting,
+pin-pointing tops and bottoms, and target trading are some of the other
+terms that are used to refer to numbers derived by pivot points. For most
+traders on the floors of the exchanges, pivot point numbers are considered
+to be common knowledge from the old school of trading. The influx of
+electronic off-floor day traders has really started to expand, and with that
+expansion comes the need for traders to educate themselves about various
+types of analysis.
+Pivot point analysis is a leading indicator rather than a lagging indicator like most of today’s popular technical indicators that are based on past
+price action. It gives a trader the early advanced target levels that, in many
+cases, turn out to be the actual high or low and sometimes even both for a
+given trading session, as chart examples in Chapters 7, 8, and 9 will show.
+Most novice individual investors and even brokers are not familiar with
+pivot point analysis. Many inexperienced investors may have a hard time
+incorporating this technique into their trading toolbox due to the time that
+
+P
+
+93
+
+94
+
+PIVOT POINT ANALYSIS: A Powerful Weapon
+
+it takes to calculate the numbers. But make no mistake about it. Professionals look at this analysis and so should you.
+
+MY START WITH PIVOT POINTS
+Before going any further, let me explain how I became interested in pivot
+point numbers. I picked up on the method back in 1985 as a colleague was
+showing me how to day-trade the Swiss franc and the deutsche mark. It
+worked fairly well in those days so I incorporated it into my analysis of the
+market for which I really had a passion, bonds.
+After using them for some time as a crutch, I was losing interest as a
+day trader. Then I experimented with using this concept for a longer time
+period, a week. Wow, what a discovery!
+Then I came to the conclusion that I would try to use them on a monthly
+basis because, after all, I was a follower of daily, weekly, and monthly charts.
+In fact, the Chicago Board of Trade used to give out a monthly bond chart,
+and a friend from the floor and I would get together for homework sessions.
+We would do longer-term chart studies using moving averages. I figured, why
+not look at the monthly price target, too? Wow again! I discovered that I
+could look at a potential price range target in the future based on price action in the past. The longer the time frames, the more power these points
+seemed to have.
+I also discovered the power and leverage of options as they were introduced to the futures market with the first options market being, you guessed
+it, bonds. I hit a grand-slam home run that lasted through most of 1986. You
+see, I was bullish and the era of Reaganomics was happening! Interest rates
+were declining from 14 percent and bond prices were exploding (bonds have
+an inverted relationship between yield and price). That was a great time. I
+made a lot of money, and I made other people a lot of money, too.
+I somewhat retired after that and went to Miami and invested in a charter boat business, purchasing an interest in a 42-foot Morgan 416 sailboat.
+The problem is that I never chartered it because I was the one who always
+took it out. So the business was never a business. Have you heard the old
+expression that a boat owner’s two best days are the day he buys a boat and
+the day he sells it? I have to disagree although it is true that boats are a money
+pit and that whenever you buy anything that has “marine” in front of a necessary item to make the vessel run, the price of that part moves exponentially higher in cost.
+The long and short of it is that I got rid of the boat, got married (I am still
+happily married to the same woman), and went back into the futures business. It took time for me to find the groove and to get back into the markets,
+mainly because not only did the markets change but so did the U.S. and
+
+95
+
+Pivot Point Formula
+
+global economies as well. The Persian Gulf war had taken place, the former
+Soviet Union was coming apart, East and West Germany were reuniting and,
+as you know, 24-hour trading was emerging. Markets were now open constantly. New markets were being launched or evolving around the globe,
+too—the CAC, the DAX, the MATIF, and many other foreign stock, futures,
+and options exchanges.
+I got back in business at First American Discount Corp. with Bill Mallers
+Sr., a former chairman of the Chicago Board of Trade. He introduced me to
+this secret technique he was developing for a trading program. As it turned
+out, a portion of this top-secret method was, not surprisingly, pivot point
+analysis. The kicker is that traders are still using this analysis today, and I
+incorporate it on a daily, weekly, and monthly basis. That background is what
+this chapter is all about. I want to demonstrate that the pivot point analysis
+formula works on different markets and on different time frames.
+
+PIVOT POINT FORMULA
+The pivot point number is the sum of the high, low, and close divided by
+three. This is the basis for the other pivot point analysis calculations. Here
+is the common mathematical formula for pivot point analysis where P = pivot
+point, C = close, H = high, and L = low:
+H+L+C
+P = —————
+3
+To get the first resistance level (R1), take the pivot point number times
+two and then subtract the low:
+R1 = (P × 2) – L
+To find the second resistance area (R2), add the high to the pivot point
+number and then subtract the low:
+R2 = (P + H) – L
+For the first support level (S1), take the pivot point number times two
+and then subtract the high:
+S1 = (P × 2) – H
+For the second support area (S2), subtract the high from the pivot point
+number and then add the low:
+S2 = (P – H) + L
+
+96
+
+PIVOT POINT ANALYSIS: A Powerful Weapon
+
+Some people have experimented with different variations to account
+for the entire time period’s price action. For example, one variation adds the
+open to the high, low, and close and then divides by four to derive the pivot
+point value. I do not use this variation as it is an additional variable to input,
+and the importance for the pivot point is in the weight the close has in relationship to the high and low or the range.
+One trader asked me how to change the numbers to take into consideration those markets that trade 20 or 24 hours a day around the clock and
+then experience tremendous gaps on the next day’s regular session open. An
+approach that we discussed was to use the open of the next day instead of
+the close from the prior day to calculate the pivot point. Then the support
+and resistance formulas would apply for the balance of the calculations.
+However, I have several issues with this method. For one, you have no
+time to prepare for your trading day because you need to wait until the
+open. More important, I apply the prior night’s session high or low that would
+include the day session range, whichever figure is greater, and then use the
+day session’s close. For example, the time period for e-mini S&Ps begins at
+3:45 p.m. (Central time), and the close is the following day at 3:15 p.m. I
+use the high and low during that entire session for the day’s range. I apply
+the same concept to other markets, including the mini-sized Dow, bonds,
+currencies, and metals.
+
+BEHIND THE ANALYSIS
+Whatever formula you use to get the pivot point number that is the basis of
+this analysis, you can see that it involves several steps and is somewhat detailed. Here is my interpretation for the rationale behind the calculations.
+Consider the pivot point as the average of the previous session’s trading
+range combined with the closing price. The numbers of support and resistance that are calculated indicate the potential ranges for the next time
+frame, based on the past weight of the market’s strength or weakness derived from calculating the high, low, and distance from the close of those
+points. Pivot point analysis is also used to identify breakout points from
+the support and resistance numbers.
+The previous session’s trading range could be based on an hour, a day,
+a week, or a month. Most trading software includes these numbers on a daily
+basis so that you do not have the tedious chore of doing it the old-fashion
+way—by hand using a calculator. (The really old-fashion way doesn’t use
+even a calculator). Don’t make your job harder; try the easy way using a
+computer program like the one I developed so that I can calculate the numbers on a daily, weekly, and monthly time period relatively quickly and for
+most markets (available to clients by fax or e-mail, or by viewing on line).
+
+Verify, Verify, Verify
+
+97
+
+I do the daily numbers at the end of the day to help me identify the next
+day’s potential range or support and resistance points. It gives me a head
+start on my analysis so I am prepared for the next day’s work. It helps me
+plan my trades. Similarly, the weekly numbers are done at the end of every
+week, and the same goes for the monthly numbers.
+Because most technical analysis is derived from mathematical calculations, the common denominators that are used are the high, low, close, and
+open. These figures are used for plotting most common charts, for example.
+More notable techniques such as moving averages, relative strength index,
+stochastics, and Fibonacci numbers are all calculated using mathematics
+based on those price points of interest. These prices are also what the newspapers publish.
+As technical analysts, we are trying to use past price behavior to help
+us get an indication of future price direction. This approach sounds absurd
+because no one can predict the future, right? Well, I am not trying to predict
+the future. I just want an idea of where prices can go in a given time period,
+based on where they have been. After all, isn’t that similar to the concept of
+drawing trend lines?
+
+VERIFY, VERIFY, VERIFY
+We have all heard the slogan about how to be successful investing in real estate: LOCATION, LOCATION, LOCATION. (Is that another symbolic reference that
+involves the Fibonacci number three?) In the trading business a similar important rule is what I call the rule of multiple verification: VERIFY, VERIFY,
+VERIFY. More than likely, I picked up this belief by reading a book back in
+1981 or 1982 by Arthur Sklarew, Techniques of a Professional Commodity
+Chart Analyst. In writing about the rule of multiple techniques (page 3), he
+states:
+Technicians know very well that price chart analysis is not an exact
+science. No single chart technique yet discovered is infallible. Despite
+this lack of perfection, price chart analysis can very often give reliable forecasts of trend direction . . . Confirmation is therefore an
+essential component of every valid chart signal. In addition to comparing price charts of different contract months and time scales, it
+has been my experience that the accuracy of any technical price forecast can be improved greatly by the application of a principle that I
+call the “Rule of Multiple Techniques.”
+The Rule of Multiple Techniques requires that the chart technician
+not rely solely on one single technical signal or indicator but look
+for confirmation from other technical indicators. The more technical
+
+98
+
+PIVOT POINT ANALYSIS: A Powerful Weapon
+
+indicators that confirm each other, the better the chance of an accurate forecast. The logic behind this rule is that, if individual timeproven techniques tend to be right most of the time, a combination of
+several such techniques that confirm each other will tend to be right
+even more frequently.
+I do not believe Sklarew talked about pivot point analysis as a means of
+technical analysis nor was he aware at the time he wrote that book of the
+art of candle charting. I believe that had he been, those ideas more than
+likely would have been in his book.
+Verify, verify, verify. (Remember that slogan because it has to do with
+the development of my method of analysis described later.) What it really
+means to me is this: Before deciding to invest or make a trade, if I understand the underlying fundamentals, I would want to look at a chart to confirm the trend, and then I would look at varying technical indicators to help
+confirm my beliefs. By incorporating different techniques such as pivot
+point analysis, I have figures that help speed up my analytical process. With
+these numbers I can draw lines on my charts indicating support and resistance levels to see if they help clear the visual picture.
+Let’s do the math calculation on the monthly pivot point support number for sugar that was mentioned in the previous chapter. If you recall, I
+said the target support number was 6.09. The range for the previous month
+(September) for the March 2002 sugar futures contract was a high of 7.80
+cents a pound and a low of 6.40 cents with the close at 6.63 cents. Working
+the formula, you have 20.83 as the total of your prices divided by 3 for a
+pivot point number of 6.943. Multiply the pivot point number by 2 (13.886)
+and subtract the high, and you should show 6.09 (rounded off) as the Support 1 number for the month of October. The sugar chart shown as Figure
+6.1 shows the actual low was 6.11 cents, which occurred eight business days
+into the month of October—two ticks from the projected pivot point support number! In addition, that low of 6.11 was reached in two days, forming
+a double bottom.
+I was already armed with the knowledge from the chart that a three-gap
+formation had formed, signaling the downmove was nearly over, especially
+after the third gap, the exhaustion gap, was identified. Knowledge of the
+monthly pivot number combined with gap analysis provided a strong, highly
+probable buy signal. The results speak for themselves.
+The pivot point analysis method used to target the exact low is not an
+exact science, and you have to allow for a margin of error in using these
+numbers. If anything, it can give you confidence to enter a position and implement a sound trading plan. At the very least, you should not have gotten
+caught up in selling short at that level. If you had identified a buying oppor-
+
+99
+
+Verify, Verify, Verify
+
+High 7.80
+
+Breakaway gap
+Close 6.63
+Midpoint gap
+Low 6.40
+
+Exhaustion gap
+
+FIGURE 6.1
+
+Monthly S1=6.09
+Actual low was 6.11.
+
+Sugar on target. (Source: FutureSource. Reprinted with permission.)
+
+tunity based on the signals on the sugar chart, the biggest dilemma would
+have been to decide where to get out and how long to hold the position.
+Study the price action in February on the live cattle futures chart provided as Figure 6.2. Cattle had approximately a 300-point range during February. So what method would have helped give you a clue to sell near 76.00?
+Let’s apply the pivot point formula on the monthly data, using February’s
+high (76.52), low (73.62), and close (74.20). Once you work the calculations,
+you will see that the price projections were 77.68 for Resistance 2 and 75.94
+for Resistance 1. The actual high was 76.05 made on the ninth trading day
+of the month! Combine the monthly target resistance figures with candle
+charting techniques, which identified a potential variation of a dark cloud
+cover pattern on the seventh trading day of the month, and you are armed
+with a powerful combination. You could have developed a trading plan to
+sell short at R1 75.90 (rounded down) and used appropriate stops. If you
+had done the monthly numbers and said to yourself, “I’ll take a look at that
+market if it gets near my price projections,” you may have acted on a short
+position and profited nicely.
+
+100
+
+PIVOT POINT ANALYSIS: A Powerful Weapon
+
+Variation of dark cloud
+cover and monthly pivot.
+Resistance 75.94.
+The actual high was 76.05.
+
+FIGURE 6.2
+
+Getting short in cattle. (Source: FutureSource. Reprinted with
+
+permission.)
+
+Let’s look at it another way. If you just had the pivot point numbers
+alone and thought the market was going higher, checking the figures first
+might have saved you from buying the high. You may not have necessarily
+gone short, but I believe you would not have gone long either. You should be
+starting to see the value in using pivot point numbers.
+As for the support numbers, the calculations put S1 at 73.04 and S2 at
+71.88. Granted, the market moved below 70.00, but the S2 number would
+have given you a great target to shoot for if you wanted to cover a short position or wanted to look at the market for other clues to initiate a position.
+As you can tell, not many other signals were available, other than the record
+eight to ten candle pattern, to warn that the trend was concluding.
+If professional traders—mainly floor traders—are looking at these
+numbers, why wouldn’t you want to look at them as well? Anything that can
+help you make better decisions for determining a game plan that integrates
+a better level of risk and a potential profit objective can’t be bad. Remember,
+you won’t know where you are going if you don’t know where you have been.
+
+Finding Equilibrium
+
+101
+
+That is what this method helps you to do—navigate future price moves based
+on the previous time frame’s data.
+
+FINDING EQUILIBRIUM
+Keep in mind the reasoning behind the numbers. At any given time, there is
+an equilibrium point around which trading activity occurs. For day traders
+in active markets such as stock index futures or financial instruments, this
+equilibrium point serves as the pivot or focal point for floor traders, the professional locals who trade positions around that point during the day. When
+prices move away from the pivot number up or down, there are zones of
+support and resistance that can be derived from the prior trading period’s
+range. This range around the focal point then sets an established value in
+the market. Violation of these price bands or trade zones leads to changes
+in valuation and the potential entry of new players into the market.
+Trading for the day will usually remain between the first support and
+resistance levels as these professional floor traders make their markets. If
+either of these first levels are penetrated, off-floor traders and other traders
+may be attracted into the market. This increased activity can give the market the momentum it needs to break out into a new range or to move to the
+next target zone.
+These breakout points usually reverse their roles and serve as test
+points once a breakout occurs. For example, the prior resistance becomes
+the new support or the prior support now becomes the new resistance. The
+range of trading has expanded, and if a second support or resistance level is
+broken, then the potential for further momentum develops as longer-term
+traders and new traders may be attracted.
+The price parameters used by floor traders and other industry analysts
+can be calculated with the preceding formulas. Knowledge of these levels
+can help you set your own targets or at least give you insight as to what the
+pros on the floor are using. This knowledge is especially useful when there
+is hardly any outside influence on the market from fundamental changes
+such as news events, economic data, or reports.
+As long as no significant news events have taken place between the
+close and the next trading session’s open, locals tend to move the market
+and trade between themselves and the “paper” or orders from brokerage
+firm customers. These price swings generally will only move between the
+pivot point and the first band of support and resistance.
+If prices move to the first or even second resistance calculation and if
+you have confirmation from an additional technical indicator such as MACD
+or stochastics, the confirmation creates a higher confidence level to act on a
+sell signal. Combine those signals with a familiar candle chart pattern such as
+
+102
+
+PIVOT POINT ANALYSIS: A Powerful Weapon
+
+a dark cloud cover or a bearish engulfing pattern or bearish harami cross and
+you have a powerful sell signal. Because pivot points are developing a large
+following among off-floor traders as well as locals, they should be in your arsenal of technical trading weapons.
+The difference between successful traders and not-so-successful traders
+is what they do with the price data they all have, how fast they process the
+data, and then how they apply or execute that knowledge. Pivot points can
+give you the edge as fast as you calculate the data. A computer can facilitate
+your analysis, but the best trading system I know is still the individual
+trader who has a proper education and a proper method for observing, interpreting, and evaluating a particular trade setup. A great trading system is
+not the computer or software program, but the individual who can make calculated decisions based on the data, an analytical process that pivot point
+analysis can speed up.
+
+PIVOT POINTS IN ACTION
+The easiest way to help show how pivot point analysis works is with a few
+examples. First is a 60-minute candle chart showing S&P 500 index futures
+for August 20–21, 2002, shown as Figure 6.3. Using the pivot point formula,
+you can calculate the target numbers for August 21 from the trading session
+data on August 20. The candles inside the box show the trading range and
+price swings from that day when the high was 949.5, the low was 931.50, and
+the close was 939.8. Calculating the numbers gives you a pivot point of 940,
+producing targets of 958 for R2, 949 for R1, 922 for S2, and 931 for S1.
+If you did your homework or downloaded the analysis from the National Futures research advisory web site after the close on August 20, then
+you would know what I call the key target numbers: R1 of 949 and S1 of 931.
+Examining the chart, a nice trade sell setup evolved after the secondary failure of 949. Even if you didn’t sell short, I believe you would not have gone
+long at that level either. The better setup, however, came as a buy signal
+from the positive reactionary bounce off the 931 key support (S1) number as
+a bullish harami formed. A nice day-trade could have been made with a stop
+placed under the established low of 931.
+Again, if you did not want to go long, then the S1 support level would
+absolutely have saved you from getting caught up in a bear trap by selling
+what turned out to be the exact low of the day. The day’s price action swung
+between the initial high at 949.7 and the fall to 931 before rallying back up
+through 949 to the 952 area, dropping back to the 937 level and then blasting
+off to new highs by the close. Figure 6.3 helps to illustrate the theory that
+markets will establish a range and trade within that range in any given period of time and shows the power of the pivot point method.

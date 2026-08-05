@@ -1,0 +1,819 @@
+
+Other Fine Points for KaseMDA
+Filtering the Momentum Peaks
+Some momentum indicators can generate series of very small peaks that are
+only minutely different from the surrounding data. Therefore, traders may
+wish to ﬁlter out peaks that are very close to the zero line in the case of the
+MACD and KaseCD, and which appear to be very similar to the surrounding
+data on the KasePO. Based on some optimization testing, for purposes of this
+study a 1 percent ﬁlter for peaks was used on the MACD and a 2 percent ﬁlter
+on the KasePO and KaseCD. No ﬁlters were needed on the stochastic or RSI.
+
+184
+
+18
+
+21
+
+KaseCD
+
+FIGURE 4.14
+
+6/22
+
+23
+
+24
+
+25
+
+28
+
+29
+
+6/30
+
+1
+
+1
+
+2004
+
+Natural Gas, NGQ04, Example of Null Divergence
+
+2
+
+6
+
+7
+
+7/8
+
+9
+
+12
+
+13
+
+2
+
+14
+
+7/15
+
+3
+
+16
+
+-50
+
+-25.8956
+
+0.00
+
+50
+
+5.800
+
+5.887
+
+6.000
+
+6.200
+
+6.400
+
+6.600
+
+Kase StatWareTM and Studies
+FIGURE 4.15
+
+185
+
+Low versus Normal Slope Histograms
+
+Figure 4.15 shows a low slope peak on the left, with a rate of change of
+less than 0.5 percent per bar, versus a normal peak on the right, which has a
+slope of 6 percent per bar. The Kase momentum divergence method allows
+for a slope ﬁlter based on this logic.
+Relative Strength Index (RSI)
+The RSI is a momentum indicator that tracks the market momentum up versus
+market momentum down. Thus it measures rate of change between the two
+directions, and so is a ﬁrst derivative or velocity indicator. The formula for the
+RSI follows.
+AvgDOWN = (Close[1] − Close)/n
+AvgUP = (Close − Close[1])/n
+RS = AvgUP/AvgDOWN
+RSI = 100 − (100/1 + RS)
+The RSI is usually plotted as a line, sometimes with its average, on a scale of
+0 to 100, with overbought and oversold thresholds conventionally set at 70 for
+overbought and 30 for oversold.
+
+Difference between Peaks
+When programming divergence, the maximum allowable number of bars
+between peaks must be deﬁned; otherwise, the program theoretically could
+look at an inﬁnite number of bars between peaks. After testing numbers
+between 65 and 100, a range of 89 bars was chosen.
+
+Using KaseMDA for Exits
+Momentum divergence can be used, then, for exits. Indeed, using any combination of two traditional indicators, such as the MACD, stochastic, and RSI,
+in general, the DevStops’ warming line will be hit about nine times out of 10.
+
+186
+
+New Frontiers in Technical Analysis
+
+Moving Average Convergence/Divergence Histogram
+(MACD)
+The MACD is usually calculated by taking the difference between an exponential
+moving average oscillator, generally 12 as N 1 and 26 as N 2, and itself over
+9 periods (N 3), plotted as a histogram. The formula for the MACD follows.
+MACD oscillator = XMA N1 − XMA N2
+MACD histogram = MACD oscillator − XMA (MACD oscillator, N3)
+
+Figure 4.16 shows an S&P continuation chart with the stochastic and
+MACD with the Bloomberg defaults. A bullish stochastic divergence completed on February 2, two bars after the price low, at which time prices were
+just below Dev1. Because only the stochastic had generated a divergence signal at that time, stops might have been pulled into Dev2 or a combination of
+Dev 2 and Dev3. In either case, the stops would have held. On February 9,
+both the stochastic and the MACD divergences completed, two bars after the
+price low. Also the low bar was a bullish hammer pattern, and formed a setup
+for a morning star pattern. With a “double” divergence and a candlestick,
+100 percent might be exited regardless of the stops hit.
+
+Overbought/Oversold Signals on Traditional Indicators
+It might be noted that overbought/oversold (OBOS) signals have not been
+used in the examples given so far in this chapter. The reason is that they can
+be unreliable in two ways. First, traditional indicators tend to remain OBOS
+for long periods of time during trending markets, and crosses in and out of
+the OBOS zones can often be caused by random oscillations. Looking to the
+right side of Figure 4.16, the stochastic was overbought from February 16 to
+April 17, so exiting longs or selling short into an overbought condition would
+not have worked out. Buying or selling when the %K crossed the %D and
+exited the OBOS zones would have led to either whipsaws or late exits. Using
+OBOS signals can be problematic for these reasons.
+In addition, some indicators such as the MACD don’t readily lend themselves to deﬁnitions of OBOS because they don’t scale from zero to 100,
+and/or they don’t automatically adjust for either cycle length or volatility.
+Therefore, there is no universal measure of OBOS. Also, many oscillators
+
+187
+
+Jan 15
+
+MACD
+
+Stochastic
+
+Jan 29
+
+Feb 16
+
+Feb 26
+2010
+
+Morning Star Setup with Hammer
+
+S&P 500 Daily Continuation, Using KaseMDA for Exits
+
+DevStops
+
+FIGURE 4.16
+
+Mar 15
+
+Mar 31
+
+Apr 15
+
+–5
+
+-0.3147
+
+5
+
+0
+
+50
+
+100
+94.9562
+75.1252
+
+1050
+
+1100
+
+1150
+
+1195.60
+
+188
+
+New Frontiers in Technical Analysis
+
+have more or less rounded tops and bottoms, which makes identifying peaks
+difﬁcult, as discussed relative to Figure 4.15.
+The difﬁculty in using OBOS signals with traditional indicators, even
+with about 90 percent follow-through to the DevStop warning line, is a major
+challenge in their use. This and related issues prompted Kase to develop much
+more accurate momentum indicators with clear OBOS signals and superior
+performance.
+Kase PeakOscillator and KaseCD
+
+The PeakOscillator and KaseCD are similar to traditional momentum studies
+but are derived from a mathematically sound, statistically based evaluation of
+trends. The PeakOscillator and the KaseCD automatically adapt to changes
+in dominant cycle length and volatility.
+
+Proper Measure of Trendiness
+When discussing the DevStops, the signiﬁcance of the bell curve was discussed,
+where, for example, a two-standard-deviation move would mean that there
+was only about a 2.5 percent chance that it was random.
+So when thinking about trend, similar logic can be used to see if a market
+is trending or not. The challenge is that a simple analysis of price relative to
+standard deviation of price, such as those captured by Bollinger Bands, does
+not provide this measurement. The proper measure of standard deviation of
+price that actually is relevant is related to volatility. For the Kase DevStops,
+a linear measure of volatility, TrueRange, was used. For the KPO and KCD,
+math from the actual Black formula is used, where volatility is the standard
+deviation of the logarithmic rate of change in price over a certain number of
+bars. The important phrase in the formula is standard deviation. The term
+for volatility or raw volatility could have just as easily been market-standard
+deviation or something along those lines. So volatility itself can be used as the
+underlying measure of a trend’s statistical signiﬁcance.
+The measure of a trend’s statistical signiﬁcance is the Kase Serial Dependency Index, or KSDI. The market’s trendiness up, the KSDIup, is its
+logarithmic rate of change from the low n days ago to the high this bar,
+divided by the volatility, which yields the number of standard deviations or
+ratio to volatility the market has moved up. The reverse measure is taken for
+the KSDIdown, which looks at the logarithmic rate of change from the high
+n bars ago to the low this bar.
+
+Kase StatWareTM and Studies
+
+189
+
+Adapted to Variable Cycle Lengths
+The use of multiple cycle lengths in momentum indicators is not new. In the
+1980s, Larry Williams introduced his Ultimate Oscillator, which uses three
+different cycle lengths rather than just one cycle length and is normalized for
+TrueRange. However, as computing power has improved, it’s possible now to
+optimize cycle lengths over wide ranges rather than just using multiple static
+periods, to do so separately for upward versus downward moves, and to use
+Black’s logarithmically based volatility rather than linear TrueRange.
+During any given period, the duration of up or down moves in the market
+varies, and over the same date range, up move lengths can differ from down
+move lengths. Thus, ﬁxed value indicators or even limited adaptive indicators
+that use the same length for up and down moves are inadequate, because cycle
+lengths vary and the appropriate cycle length for up versus down moves may
+be different.
+Thus, KSDIup ﬁnds the signiﬁcant cycle length for up moves and KSDIdown for down moves, each independently selecting the KSDI value based
+on the number of bars that returns the highest value for either direction.
+
+The Studies
+Once the most signiﬁcant KSDIup and KSDIdown values have been calculated, the KPO and KCD may be calculated. For KPO and KCD, the
+KSDIup and KSDIdown take the place of the moving averages used in traditional oscillators and momentum indicators, and give a very precise measure
+of trend. The KPO is based on the difference between the two KSDIs. Like
+the MACD, a second derivative indictor, and an oscillator of an oscillator, the
+KCD is a second derivative indicator based on an oscillator of the KPO.
+
+Why Use KasePO and KaseCD?
+
+The PeakOscillator and KaseCD precisely identify turns and pinpoint oversold signals. They also catch more and bigger turns when compared to traditional momentum indicators such as RSI, stochastic, and MACD.
+
+More Precise Peaks
+Because the KPO and KCD correct for both volatility and cycle length, or
+are “normalized,” momentum peaks are, in a sense, forced to occupy discrete
+
+190
+
+New Frontiers in Technical Analysis
+
+points. Thus, rather than moving into a nebulous overbought or oversold
+condition, each indicator isolates exact histogram points where peaks might
+be taking place. In a sense, the math in the KPO and KCD can be thought
+of as forcing the histogram toward a peak, as illustrated in Figure 4.17.
+In addition, because KPO and KCD are normalized, their values are
+signiﬁcant regardless as to instrument, bar length, and other market conditions. Thus, deﬁning OBOS can be done precisely for both the KPO
+and KCD.
+
+How Peaks Are Displayed
+Momentum indicators provide measurements as to when an instrument is
+overbought or oversold. This is valuable information, but one of the pitfalls
+to using overbought and oversold conditions is that traditional momentum
+indicators fail to pinpoint turning points. They can also remain overbought
+or oversold for long periods of time. To address these issues, the KPO and
+KCD studies use techniques to match price peaks with momentum peaks
+to pinpoint overbought and oversold signals. These OBOS signals are called
+PeakOuts on the KPO and KCDpeaks on the KCD.
+The KPO’s PeakOut condition is deﬁned by the lesser of a ﬁxed value
+at 100 for overbought conditions and −100 for oversold conditions, or two
+standard deviations of the momentum value over a range of bars, and displayed as a solid line, called the PeakOut line, above or below the histogram’s
+zero line. The ﬁxed values of +/− 100 were derived from a study that examined 80 years of PeakOscillator values and represents the 90th percentile
+historically.
+When the momentum histogram peaks above or below a PeakOut line,
+the KPO then attempts to match the histogram peak with a peak in price
+within a three-bar tolerance, similar to the matching explained relative to
+divergence. If the momentum and price peaks match within the tolerance, a
+PeakOut signal is triggered and labeled on the chart as a “P.”
+The KCD deﬁnes its overbought/oversold threshold using 1.75 standard
+deviations of its value over a range of bars. Rather than drawing a line on the
+oscillator to deﬁne the KCDpeak condition, the KCD histogram bars turn
+a different color (appearing as a shade of gray in the ﬁgures in this chapter)
+when they move above (for positive momentum) or below (for negative
+momentum) this threshold. Peaks in the KCD that meet the OBOS criteria
+are then matched against price peaks within a tolerance. If the KCD and price
+peaks match within the tolerance, a KCDpeak signal is triggered and labeled
+on the chart as a “K.”
+
+191
+
+May 22
+
+Stochastic
+
+KasePO
+
+May 31
+
+Jun 8
+
+Jun 15
+Jun 22
+2007
+
+Jun 29
+
+P
+
+Cotton Daily Continuation, KasePO PeakOut Signals versus Stochastic OBOS
+
+DevStops
+
+FIGURE 4.17
+
+Jul 9
+
+P
+
+Jul 19
+
+P
+
+Jul 23
+
+70
+
+50
+27.44
+18.44
+0
+
+100
+
+-100
+
+1.2947
+
+128.2785
+98.00
+
+55
+
+60
+
+66.60
+65.02
+64.45
+63.08
+
+192
+
+New Frontiers in Technical Analysis
+
+OBOS Signal Usable
+Figure 4.17 shows a daily continuation cotton chart, where the stochastic
+began to rise in mid-May and did not fall out of overbought until mid-July,
+well after prices had turned down. Also, during this time at least four false
+divergences took place, as marked on the indicator itself.
+The KPO did not rise into potential overbought territory until early July,
+and then generated three PeakOut signals as shown. Usually, in a trending
+market the ﬁrst PeakOut is not signiﬁcant, so stops might have been pulled
+into Dev1 until the price peak was exceeded. The second PeakOut took place
+on July 10, at which point the stops might have been pulled into the warning
+line, and in which case the stops held. The stochastic remained overbought
+and did not generate signals at this point.
+Finally a third PeakOut took place on July 16 on a price peak that was part
+of a textbook Harami line and star. Here, the open of the Harami line, which
+was slightly above the warning line, might have been used as an accelerated
+exit. Thus, the exit might have taken place at 66.7 upon the following
+day’s open. Once more, the Stochastic missed the signal, and did not exit
+the overbought zone until much later, when prices had already fallen to
+about 64.5.
+
+Additional Reasons—Better Performance
+Both the Kase indicators, the KPO and KCD, as well as traditional indicators,
+hit the warning line just under 90 percent of the time, but when looked at
+based on other dimensions, the KPO and KCD can be seen to be more
+effective than other indicators.
+Rather than looking forward to see what happens after a signal is generated, stops can be evaluated to ﬁnd out if there was a warning ahead of time,
+in the form of a momentum divergence signal or setup.
+Although momentum indicators average over a 70 percent success rate
+in hitting Dev1 after a signal is generated, stops may often be hit without a
+prior signal. Sometimes a signal is generated before a turn, and sometimes
+not. When a momentum signal fails to take place before a turn, the market
+may turn and trades may be stopped out without warning. Also, when trades
+are missed, sometimes large turns are missed and at other times only small
+pullbacks are missed.
+Kase indicators catch a large majority of turns while traditional indicators
+do not, and the turns that Kase misses tend to be small versus large turns for
+traditional.
+
+Kase StatWareTM and Studies
+
+193
+
+Kase Catches the Larger Signals
+When Kase indicators miss stops, they tend to miss the small turns, like the
+one on June 4 in Figure 4.17, and when the traditional indicators miss stops,
+they tend to miss the large turns, like the one on July 16.
+Looking back at Figure 4.17, there was only one stop hit before the turn
+following the July 16 high. This was a warning line hit on June 4, which the
+stochastic caught but the KPO missed. This illustrates the point about the
+KPO and KCD versus the traditional indicators.
+This points out another beneﬁt of using KPO and KCD versus a combination of traditional indicators: the KPO and KCD, when they do miss turns,
+tend to miss smaller turns, while the traditional indicators miss larger turns.
+Overall, Kase momentum indicators catch an average of 75 percent of the
+turns versus 48 percent for the traditional. This means that out of every 100
+turns, Kase misses 25 and the traditional indicators miss more than double
+that, at 52.
+However, for the larger turns, those that move sufﬁciently to hit Dev3,
+the values are 80 percent and 45; so of every 100 turns, Kase misses 9 larger
+turns and traditional indicators miss 20, or more than double that amount.
+
+Kase Catches More Turns in General
+To illustrate the point that Kase indicators catch more turns, let’s look at
+Figure 4.18. This is a daily chart of the S&P 500 index with the slow stochastic
+and KasePO in the top and bottom subgraphs, respectively. Note the following
+points in the ﬁgure (labeled 1 through 5).
+1. The ﬁrst signal was a KPO PeakOut that warned the move up was possibly
+going to turn. Prices fell to hit Dev3 soon thereafter.
+2. Both the KPO and stochastic showed a bearish divergence just before price
+fell well below Dev3 on May 6.
+3. The PeakOut allowed traders to lock in most of the gain made when prices
+plummeted on May 6 and before the bounce back up hit Dev 2.
+4. The bullish KPO divergence once again allowed traders to lock in some of
+their proﬁts before the turn to hit Dev2 another time. The stochastic did
+not trigger this divergence.
+5. The ﬁnal signal on this chart was another bullish divergence that was
+caught by the KPO and missed by the stochastic. The run hit Dev3 and
+continued to move higher.
+This comparison shows that in most cases, the KPO generated momentum divergence signals while the stochastic did not.
+
+194
+
+Apr 15
+
+Stochastic
+
+KasePO
+
+1
+P
+
+FIGURE 4.18
+
+2
+
+Apr 30
+
+P
+3
+
+May 14
+
+4
+
+May 28
+2010
+
+Daily S&P 500 Index, Stochastic versus KasePO
+
+Jun 15
+
+Jun 30
+
+5
+
+Jul 15
+
+0
+
+50
+
+88.5906
+
+-100
+
+86.0031
+36.8745
+0.00
+
+200
+
+1000
+
+1106.13
+1092.76
+1083.17
+1071.66
+1058.23
+1050
+
+1150
+
+1200
+
+1250
+
+Kase StatWareTM and Studies
+
+195
+
+Predicting Turns
+While Kase and traditional indicators hit the warning line with the same
+frequency after a signal takes place, the question must be asked in the opposite
+direction, as well. That is, how often are DevStops hit and how often do turns
+take place that are preceded by a signal? For example, if there are 100 turns and
+the stochastic has 10 divergence signals, 9 of which hit the warning line, that
+would mean that it has a 90 percent success rate in terms of follow-through
+after a signal, but predicts only 9 percent of the turns.
+Studies show that two traditional indicators are effective in terms of
+catching turns: the RSI and stochastic. Even with this optimal combination,
+these indicators catch turns about 48 percent of the time, while the KPO and
+KCD catch about 75 percent. So, out of about 100 turns, Kase misses 25 and
+the RSI/stochastic combination misses over 50 percent, or more than twice
+the turns that Kase does.
+Figure 4.19 illustrates how Kase indicators caught a turn while traditional
+indicators missed it. The chart shows a crude oil daily perpetual chart for
+the end of 2004 and beginning of 2005. Prices peaked at $69.47 and a
+KCD divergence conﬁrmed, with a PeakOut taking place at the price high
+and conﬁrming the following day. These signals would have allowed proﬁttaking well before the market dropped signiﬁcantly. Neither the RSI nor the
+stochastic were divergent, so with traditional indicators, the turn would have
+been missed altogether.
+Figure 4.20 shows how the KPO caught a number of corrections as well
+as a major high and low for the July 2010 daily natural gas chart, and the RSI
+did not. Arrow 1 shows that the KPO was turning and its peak was coincident
+with the price peak. The RSI has three peaks over the same date range, so,
+while momentum was rising, it would have been a challenge to easily assign
+an RSI peak. If using the clearest peak, then the RSI divergence would have
+completed three days late, just below Dev3.
+On December 3, another low was made that was followed by a run-up
+of almost $1.20, or 25 percent. The turn was caught one day after the low by
+the KPO and was missed entirely by a nondivergent RSI (see arrow 2).
+The next rally peaked at $6.072 on December 29 and fell to $4.035 on
+March 30. RSI did not diverge at the $6.072 peak. KPO not only caught the
+more than $2.00 decline, but was coincident with the peak (see arrow 3). At
+the trough, the KPO generated an oversold signal, a PeakOut, as shown by
+the “P” at the end of the chart, exactly coincident with the low.
+The daily June 2010 soybean chart shown in Figure 4.21 compares the
+MACD with the KCD. Following a high on Jan 7 at the far left of the chart
+
+196
+
+Dec 30
+
+Jan 9
+
+Jan 17
+
+Jan 23
+2006
+
+Jan 31
+
+Feb 7
+
+Feb 14
+
+Stochastic
+
+Dec 22
+2005
+
+50
+27.7007
+0
+100
+
+RSI
+
+1.9869
+
+50
+
+-99.5568
+100
+
+0
+
+97.0823
+
+KasePO
+
+57.65
+
+62.82
+61.77
+60.31
+60.12
+
+65
+
+70
+
+50
+0.00
+-50
+-87.156
+
+P
+
+Daily Crude Oil Continuation, Kase versus Traditional Indicators
+
+KaseCD
+
+FIGURE 4.19
+
+197
+
+2
+
+Nov 13
+
+KasePO
+
+RSI
+
+Nov 30
+2009
+
+Dec 15
+
+3
+
+Dec 31
+
+Jan 15
+
+Jan 29
+
+P
+
+Feb 16 Feb 26
+Mar 15
+2010
+
+Natural Gas, NGN10 Daily, KasePO versus RSI, Natural Gas Daily, NGN10
+
+DevStops
+
+1
+
+FIGURE 4.20
+
+Mar 31
+
+P
+
+Apr 15
+
+Apr 30
+
+-77.9738
+-130.00
+–200
+
+0
+
+100
+
+0
+
+50
+41.4614
+
+100
+
+4.107
+3.919
+3.820
+3.702
+3.564
+
+4.500
+
+5.000
+
+5.500
+
+6.000
+
+198
+
+Jan 15
+
+MACD
+
+KaseCD
+
+Jan 29
+
+Feb 15
+
+Feb 26
+2010
+
+Soybeans, JSM10 Daily, KaseCD versus MACD
+
+DevStops
+
+FIGURE 4.21
+
+Mar 15
+
+Mar 31
+
+Apr 15
+
+K
+
+-200
+
+400
+258.1789
+200
+0
+
+100
+64.7542
+0.00
+
+200
+
+39000
+
+40000
+
+41000
+
+42138.9258
+
+44199.00
+44000
+6326.7578
+43200.00
+42940.0664
+
+45000
+
+Kase StatWareTM and Studies
+
+199
+
+where both indicators were divergent, prices had fallen from 45250 to 40550
+by February 3. The MACD made a lower low and was nondivergent, so
+MACD missed the turn. Prices rose until February 25, fell until March 24,
+then rose again to peak at 44890, close to the earlier high. In these cases, the
+MACD missed all the turns, as it was either a nondivergent peak, had only
+one amorphous peak, and/or only had values on the wrong side of the zero
+line. The KCD caught all the turns—the earlier three by standard momentum
+divergence signals and the fourth with an overbought KCDpeak signal.
+Kase Permission Stochastic and Screen
+
+Trades taken in the direction of a major trend tend to be more successful
+than trades against the trend. This is because market moves are more or less
+structurally similar regardless of timeframe. If the trend is not conﬁrmed on
+the longer bar length, then the move on the shorter bar length may be only
+noise or a minor ﬂuctuation within the larger timeframe. Thus, it’s good
+practice to screen trades with a longer bar length ﬁlter.
+The challenge of using longer bar lengths to conﬁrm signals is that of
+waiting for the longer timeframe to conﬁrm: for example, waiting until the
+end of the week for a weekly to conﬁrm a daily, or to the end of an hour for
+an hourly to conﬁrm a 10-minute chart. Other complications are that most
+charting systems don’t allow for setting up daily charts in other than multiples
+of ﬁve—that is, weekly—so screening a daily with a three-day is not possible.
+Also, sometimes it is not possible to chart two bar lengths such as a 55-tick
+and a 144-tick on the same chart.
+As an example of having to wait for a longer timeframe to conﬁrm, if
+Slow Stochastic crossovers were being used as entry signals on a daily chart,
+a weekly would be used for a ﬁlter. Thus a trader receiving a signal on a day
+other than Friday would have to wait one to ﬁve days for a conﬁrming signal.
+Figure 4.22 shows how a daily/weekly ﬁltering technique would work.
+The charts shown are a crude oil daily continuation on the top, and a weekly
+continuation on the bottom. On Oct 8, 2009 the daily SlowK crossed above
+the SlowD. Let’s assume that constituted a buy signal, pending “permission”
+or conﬁrming ﬁlter on the weekly chart.
+Looking at the weekly chart, by October 9, the weekly SlowK was still
+below the SlowD on the weekly chart. An entire additional week must pass
+until the trade is permissioned long by a crossover at the end of the following
+week, on October 16. So it took an additional six trading days for the entry
+signal received on October 8 to be conﬁrmed on the weekly chart and even

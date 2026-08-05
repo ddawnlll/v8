@@ -1,0 +1,648 @@
+momentum in the upward and downward direction, or what is commonly
+referred to as overbought and oversold respectively. It is also important to point
+out that an RSI level of 50 signiﬁes equal performance of up-periods versus
+down-periods. The most common look-back period for RSI is 14. Some prefer
+9 or 21, and I’ve seen some go as low as 3 and 5.
+RSI is traditionally interpreted as “Sell when overbought and buy when
+oversold.” This interpretation can be meaningful primarily in range-bound
+markets with areas of predeﬁned support and resistance. It is important for
+RSI to conﬁrm the direction of price. If price and RSI fail to conﬁrm each
+other near support or resistance or during breaks of these levels, a change in
+trend may be near. We can deﬁne conﬁrmation as new highs or new lows in
+both instruments at approximately the same time.
+If RSI travels above 70 while price fails to break resistance, you may
+choose to be bearish in anticipation of a pullback because high levels of
+momentum did not lead to price breaking resistance. Alternatively, if price
+pierces resistance but RSI does not reach overbought, momentum is not
+behind the new highs so you may choose to be bearish.
+
+20
+
+New Frontiers in Technical Analysis
+
+The opposite would be true for a bullish view. When RSI travels below
+30 and price is holding above support, you might choose to be bullish because
+large downside momentum did not force a break of support. Alternatively,
+when RSI is above 30 and price pierces support you may choose to be bullish
+because momentum to the downside is not strong and the break of support
+may only be temporary.
+Volume analysis is very complementary to these methods of using RSI.
+If volume is light near resistance or support, it suggests market participants
+have ﬁnished pushing price in that direction. There will be more discussion
+of volume later.
+RSI in a trending market is viewed differently. When a market is trending,
+all we want to know is if it’s going to continue or reverse. If the overall trend
+is down and RSI reaches an overbought reading, the trend may be changing
+to an upward direction. The start of a trend change usually appears like
+sideways movement. Therefore the rally that occurred in the downtrend to
+cause the overbought reading is likely to at least partially correct itself because
+the market isn’t fully conﬁdent in a change in trend yet. A trend change can
+be conﬁrmed if RSI stays above oversold in the correction and when price
+starts to break resistance or set higher highs.
+RSI analysis can be more complex than what was just discussed. Another
+way to interpret RSI is to identify periods of divergence. Divergence acts as a
+warning sign that the trend may be changing. Bearish divergence (an opportunity to sell) occurs when price is making higher highs and RSI is making
+lower highs. Bullish divergence (an opportunity to buy) is the opposite, when
+price is making lower lows and RSI is making higher lows. The reason bearish
+divergence is a warning sign of a change in trend is because price is getting
+more expensive, but it is doing so at a slower rate. Market participants are still
+pushing price higher but not as fast as they were when price was cheaper.
+Finally, it is fairly common for RSI to be biased to the larger trend for
+that security and the overall market. During uptrends, the RSI level tends to
+become more overbought and less oversold. During downtrends, the RSI line
+tends to become more oversold and less overbought. Therefore, in uptrends
+you could anticipate the overbought level to be more like 75–80 and oversold
+levels to be 35–40. In downtrends you could anticipate overbought levels of
+55–60 and oversold levels of 20–25. These levels are a rule of thumb. What
+is important is that when you use RSI, you start seeing the transition of RSI
+levels in a downtrend to RSI levels in a range to RSI levels in an uptrend.
+The violation of these levels is alerting and conﬁrming to a change in the
+behavior of trend. Let’s take a look at an example of both divergence and
+overbought/oversold bias.
+
+Evidence of the Most Popular Technical Indicators
+
+21
+
+In Figure 1.12 there are seven zones to discuss where price and RSI
+movements depict trend direction. In zone 1, price is in a downtrend and
+is being coffered lower by a downward-sloping resistance line. Price set
+four lower lows while RSI made three higher lows and did not get oversold on the fourth low (and was only .37 below the third low). This tells
+us price is reaching the lowest levels in a long time but at a slower and
+slower rate. Bullish divergence had presented itself and warned of a potential
+bottom.
+In zone 2, price breaks above the downward sloping resistance line but
+RSI fails at 60, the overbought level for a downtrend. In zone 3, price stays
+above the lows of zone 1 and RSI reaches 34, which is closer to oversold in
+an uptrend than a downtrend. June, July, and August is starting to look more
+and more like a range-bound market, or a double bottom, than a downtrend,
+as RSI stays above 30 and below 70.
+In zone 4, price breaks the range-bound highs and RSI breaks above 60
+and then through 70, conﬁrming the uptrend. All RSI lows between zone 4,
+5, and 6 are above the oversold level of 40; in fact they are at least 45, or
+showing very bullish momentum. In zone 6, price has a huge thrust to the
+upside with RSI exceeding 80. Price continued to higher highs after that, but
+RSI did not reach overbought, showing lack of momentum into higher prices.
+Price and momentum were diverging, bearishly, warning that price may be
+forming a top.
+In zone 7, RSI crossed below 45 for the ﬁrst time in a long time while
+price broke down through multiple support levels. We can look for one of two
+situations to occur that will specify a change in trend from up to sideways.
+The ﬁrst is if price continues to decline and RSI reaches 30–35. The second
+would be if price moves higher and fails to exceed the prior highs of 17–17.50,
+all while RSI does not exceed 60 (the overbought level for a downtrend).
+
+Moving Average Convergence/Divergence
+Also known as MACD, moving average convergence/divergence, this indicator
+falls in the trending category of studies mostly because it is based on moving
+averages. By design, trending studies will experience some lag in their signals,
+so they are best when used to conﬁrm signals from other indicators. Something
+that is noteworthy about MACD and perhaps contributes to its popularity
+is that it weights the most recent data points more, or exponentially calculates
+to reduce its lag.
+The default settings for this study across all systems are largely the same.
+The MACD1 line is the spread between the 12- and 26-period exponential
+
+22
+
+1
+
+Apr
+
+May
+
+Jun
+
+Bullish Divergence
+Jul
+
+2
+
+Aug
+2010
+
+3
+
+Sep
+
+4
+
+Oct
+
+Nov
+
+5
+
+Dec
+
+Jan
+
+Feb
+2011
+
+Bearish Divergence
+
+6
+
+Mar
+
+7
+
+Alcoa, Inc., with Examples of Bullish and Bearish RSI Divergence and Multiple Overbought and Oversold Levels
+
+Bullish Divergence
+
+FIGURE 1.12
+
+20
+0
+
+100
+80
+60
+40
+
+10.00
+
+11.00
+
+13.00
+12.00
+
+14.00
+
+15.00
+
+16.00
+
+18.00
+17.00
+
+Evidence of the Most Popular Technical Indicators
+
+23
+
+moving average. The signal line is the 9-period exponential moving average
+of the MACD1 line. I ﬁnd that very few people actually change these periods.
+Hopefully this explanation will encourage you to experiment. In Chapter 2,
+by Julius de Kempenaer, you’ll see that he prefers the spread between the 10and 30-week moving averages. Interestingly enough, almost everyone seems
+to keep the signal at a period of 9.
+This produces an indicator that will oscillate between a positive and
+negative value. A rule of thumb for many indicators is that when the value of
+a line in an indicator turns positive, it is bullish, and when it turns negative, it
+is bearish. A second rule of thumb to consider is that when a faster-moving line
+(in this case the MACD1 line) crosses above a slower-moving line (signal),
+a buy signal has occurred, and when a faster-moving line crosses below a
+slower-moving line, a sell signal has occurred. Remember, these are rules of
+thumb, not guarantees.
+In Figure 1.13 there are two exponential moving averages on the price
+chart. The dashed line is a 12-day average and the solid line is a 26-day average.
+Below that is the MACD indicator where the MACD1 line is dashed and the
+signal line is solid. According to the legends, the EMAVG (12) is 70.315 and
+the EMAVG (26) is 68.4248. The 12-day average minus the 26-day average
+equals 1.8902, which is equal to the MACD1 line in the bottom panel. If
+the shorter-term average is less than the longer-term average, the MACD1
+line value will be negative. If the shorter-term average is greater than the
+longer-term average, the MACD1 line value will be positive. Therefore, the
+MACD1 line is visualizing the crossing of the exponential moving averages
+on the price chart.
+The other component of the MACD indicator is the signal line. This
+line is plotted to trail or smooth the MACD1 line for two reasons. First, it
+allows the indicator to generate earlier signals of a potential change in trend.
+It provides earlier sell signals when the MACD1 line crosses below the signal
+line and earlier buy signals when the MACD1 line crosses above the signal
+line. Considering where these crosses occur is important. The MACD1 line
+crossing below the signal line while positive is an early sell signal. If the
+MACD1 line crosses above the signal line while positive and far from the zero
+line, a buy signal has not occurred because the trend is already very bullish.
+Second, the signal line conﬁrms a trend change when it turns into a positive
+or negative value after the MACD1 line turns.
+Last, the slope of the MACD1 and signal line—positive, negative, or
+transitioning—can have a bearing on the overall direction of trend. In situations shown in zone 2 of Figure 1.13, you’ll see how this can become
+important.
+
+24
+
+BA US
+
+Jun
+
+2008
+
+Sep
+
+MACD (12,26) 1.8902
+
+Dec
+
+2
+
+Mar
+
+Jun
+2009
+
+Bullish Divergence
+
+Sig (9) 1.5122
+
+Bullish Divergence
+
+1
+
+Sep
+
+EMAVG (12) on close 70.315
+
+Dec
+
+Mar
+
+EMAVG (26) on close 68.4248
+
+Moving Average Convergence/Divergence Example: Boeing Company
+
+Boeing Co/The - Last Price 71.64 -.16
+
+FIGURE 1.13
+
+3
+
+Jun
+2010
+
+Sep
+
+Dec
+
+4
+
+Mar
+2011
+
+-8.00
+
+-6.00
+
+-4.00
+
+-2.00
+
+1.8902
+0.00
+
+4.00
+
+6.00
+
+30
+
+40
+
+50
+
+60
+
+71.64
+66.4210
+
+80
+
+Evidence of the Most Popular Technical Indicators
+
+25
+
+In Figure 1.13, four zones have been highlighted to provide an example
+of how the indicator works. In zone 1, price is in a downtrend as deﬁned by
+the resistance of the downward-sloping trend line and the 12-day exponential
+moving average. As price reaches lower lows in March 2009, MACD makes
+higher lows. This can be considered bullish divergence, as we discussed in the
+RSI example. I ﬁnd that fewer people consider divergence on MACD, but
+I have come across some who do. In this instance, the divergence between
+MACD and price means the rolling spread between the two moving averages
+of price has become smaller despite price going lower. In other words, the
+moving averages are closer to a bullish cross than at the last low in price, and
+now price is even lower.
+In the transition from zone 1 into zone 2, price broke above the trend line
+and both moving averages. In the center of zone 2, the MACD1 line turned
+positive. If you were using just the moving averages on price, you may have
+been concerned because price dipped below them and then they bearishly
+crossed. Deeper interpretation of the MACD can help in situations like this.
+The MACD1 line did not cross the signal line and it hovered at, and to just
+below, the zero line. Most important, it stayed above the signal line and the
+signal line maintained a bullish direction, or a positive slope. At the end of
+zone 2, the signal line turned positive.
+In zone 3, price had its ﬁrst bearish signal in the uptrend, which is
+represented by the MACD1 line crossing below the signal line. From zone 3
+to the end of the chart a range-bound market formed where deﬁned support
+and resistance is present, at about $58 and $74 respectively.
+In zone 4, the moving averages on price turned ﬂat or sideways and the
+MACD1 and signal line took a dive, coming very close to the baseline (or
+zero). At this point we can still consider the trend as up. For it to continue,
+we will need to see price close above prior highs of $74.22, and the MACD
+lines to be pointing higher (positive slope). If price breaks below $58.78, the
+MACD lines will likely have turned negative already and a downtrend will be
+present.
+
+Bollinger Bands
+In basic theory, the Bollinger Bands study attempts to point out overbought
+or oversold markets. It does so by calculating a moving average of price
+and measuring two standard deviations above and below it. The traditional
+application will measure two standard deviations above and below a 20-period
+moving average. Therefore, in general terms, price should be inside of these
+bands about 95 percent of the time.
+
+26
+
+New Frontiers in Technical Analysis
+
+The generally accepted signals are to sell if price closes above the upper
+band (+2sd) and buy if price closes below the lower band (–2sd). In doing
+so, a market participant expects price to revert to the mean, which is where
+he or she would exit the trade.
+Because of the chosen method of calculating this study, the distance
+between the bands will vary. Narrower bands signify a low-volatility market,
+or a smaller average dispersion of data points. Wider bands signify a more
+volatile market, or a larger average dispersion of data points. Knowing which
+scenario to trade and how to do it is important.
+From my experiences, wider bands offer better opportunities than narrow
+bands for a mean reversion trade. Narrow bands are more useful for determining the future direction of trend. In Figure 1.14, there are two shaded zones,
+zone 1 and zone 2. There is also a derivative of the Bollinger Band in the
+lower panel called bandwidth. The bandwidth is a measure of how far apart
+the upper and lower deviation bands have been. The horizontal line drawn
+on the bandwidth is an average of the bandwidth over that timeframe. This
+tells us if the security is experiencing high or low volatility on a relative basis.
+A regression line or average line with standard deviations could be applied as
+well.
+Zone 1 is an ideal situation for a mean reversion trade. The arrow points
+to a bar and is labeled “Sell” where price closed above the upper band. Notice
+the bar before it opened above it but did not close above it. The level of the
+close is most important in this scenario, and in many other indicators. The
+day after the sell bar, price actually crept slightly higher, but then reverted
+to the mean, providing a gain of $0.67. This was an ideal situation to sell
+because the bandwidth was well above the average and price traded above the
+upper band the day.
+There is also a “Buy” signal in zone 1. This signal wasn’t as ideal as the sell
+signal because the bands were at average distance. You may notice when the
+bandwidth is average to wide, price tends to ride the band for just a couple
+of periods. So the ﬁrst break or test of the band is likely followed by another.
+If you were going to buy at that point on the chart, you waited through four
+periods of sideways movement for price to revert higher. If you were long, it
+was encouraging to see that price never closed below the close of the buy bar.
+Then price reverted to the mean for a gain of $0.91.
+Zone 2 is an application I see or hear less of than the one shown in
+zone 1. The concept of low volatility suggests a pause in the prior direction
+of trend. Essentially, investors are done chasing price higher or lower and
+price begins moving sideways. Price doesn’t move sideways forever. Therefore
+the identiﬁcation of narrow bands over a period of time combined with a
+
+27
+
+Sep 30
+
+Oct 15
+
+BollW (MSFT) 8.1725
+
+Oct 29
+
+Sell
+
+Nov 15
+2010
+
+1
+
+Nov 30
+
+Buy
+
+Bollinger Bands: Microsoft Corporation
+
+Microsoft Corp - Last Price 25.5128 + .2682
+
+FIGURE 1.14
+
+Dec 15
+
+Dec 31
+
+Sell?
+
+Jan 14
+
+Buy?
+
+Jan 31
+Feb 14
+2011
+
+2
+
+Buy?
+
+Feb 28
+
+6.00
+4.00
+
+8.1725
+
+14.00
+12.00
+10.00
+
+23.00
+
+24.00
+
+25.00
+
+25.5128
+25.1797
+
+26.00
+
+26.2524
+
+27.00
+
+27.3252
+
+28.00
+
+29.00
+
+30.00
+
+28
+
+New Frontiers in Technical Analysis
+
+breakthrough of those bands suggests a new direction of trend, not a mean
+reversion trade. That trade will likely come again a little later after volatility,
+or a greater-than-average bandwidth, returns.
+In zone 2, there is an arrow pointing to a bar marked “Sell?” At that point
+in time, the bandwidth was very narrow. Since price was in an uptrend and
+volatility declined, suggesting a pause or potential reversal in trend, it is not
+advisable to sell because the proﬁt opportunity is much less than the zone 1
+examples because the moving average is closer to the deviation bands. The
+next arrow in zone 2 says “Buy?” The same logic can be applied here. The
+bands are narrow, there is low volatility to proﬁt from, and we’re uncertain if
+price is forming a topping or continuation pattern.
+Toward the end of zone 2 is a second “Buy?” point. Once you see price
+setting lower lows and the bandwidth rising above average, a new trend is
+likely beginning, in this instance to the downside. In this scenario you could
+attempt to sell the riding of the lower band to proﬁt from the continually
+expanding volatility. The “riding of the bands” mentioned earlier tends to
+occur for longer timeframes when bands go from narrow to expanding. You
+could also wait for a few volatile bars where price gaps below the two-standarddeviation band while bandwidth expands and consider a mean reversion trade
+like zone 1.
+
+Stochastics
+Stochastics (STO) is a momentum study similar to RSI. It oscillates between
+0 and 100 and has overbought and oversold levels that are typically set at 80
+and 20. The indicator has one line that calculates the actual stochastic and
+then three additional lines that smooth the stochastic repeatedly. These lines
+are called %K, %D, %DS, and %DSS respectively. For some undisclosed
+reason, the calculations of this study on multiple charting applications differ
+from one another. According to the Bloomberg Professional Service, the %D
+and %DS, or the once- and double-smoothed stochastic, tend to be the go-to
+series of the indicator, so we will focus our discussion on these.
+The goal of the study is to tell a market participant if price is closing closer
+to the highs or lows over time. As you can imagine, in an uptrend we would
+expect price to be closing closer to the highs, and in a downtrend closer to
+the lows. Therefore, the turning down of the stochastic while overbought and
+crossing back into the neutral zone (below 80) is a bearish signal. The turning
+up of the stochastic while oversold and crossing back into the neutral zone
+(above 20) is a bullish signal. Divergence, as discussed with RSI and MACD,
+
+Evidence of the Most Popular Technical Indicators
+
+29
+
+can most certainly be applied to the stochastic indicator and is something
+Cynthia Kase delves into further in Chapter 4.
+Figure 1.15 displays the previously discussed signals. Zone 1 is a classic
+signal of bearish divergence. The %D and %DS lines stayed overbought for
+quite some time and ﬁnally began diverging from rising price. When the %D
+and %DS lines both exited overbought territory, or crossed below 80, is also
+when the bearish divergence was conﬁrmed.
+Zone 2 just barely had a buy signal from the stochastic lines as the %D
+reached 17 and the %DS reached 20. It is ideal to question signals like this
+until a clearer, more opportunistic situation appears, like the bullish divergence
+that occurred right after it.
+Zone 3 had a few signals going on. Price broke above a downward-sloping
+trend line and the highs of the prior consolidation. You may have noticed
+that this is a candle chart, which allows us to apply candle pattern theory,
+an important part of interpreting market actions. During the three trading
+days after the break above the prior consolidation highs, three doji candles
+appeared. (A doji candle represents market participant indecision and balance
+between supply and demand. The buyers balance out the sellers and vice
+versa. It signals a pause in the prior trend.)
+The ﬁrst candle in zone 3 gapped higher at the open and closed lower on
+the day, engulﬁng the prior doji candle, or forming a bearish engulﬁng pattern.
+This pattern is a trend-reversal signal because the current day’s trading activity
+completely reversed throughout the course of the day and turned yesterday’s
+indecision to bearish by closing lower. Therefore, the bullish trend line break
+and the highs above the prior consolidation highs were being reconsidered.
+The second candle in zone 3 caused a bearish cross of the stochastic lines
+and shortly thereafter they crossed below 80, providing a sell signal. If candle
+pattern analysis is of interest to you, I would strongly suggest you review the
+recommended readings at the end of this chapter.
+In zone 4, price formed a long-legged doji and then reversed to the upside.
+In zone 5, we received a sell signal from a possible position taken from zone
+4. Zone 6 is another example of a standard buy signal.
+
+Directional Movement Indicator
+The directional movement indicator (DMI) falls into the category of a trending
+study. The calculation is somewhat in-depth, so I’ve come to explain it as
+follows. In an uptrend, we should expect price to make higher highs and
+higher lows. In a downtrend, we should expect price to make lower lows and
+lower highs. The mapping of this relationship over time is more or less the
+
+30
+
+Apr 15
+
+Apr 30
+
+Bearish
+Divergence
+
+1
+
+Bearish
+Divergence
+
+Stochastics on the S&P 500
+
+Mar 31
+
+FIGURE 1.15
+
+May 14
+
+Bullish
+Divergence
+May 28
+Jun 15
+2010
+
+Bullish
+2 Divergence
+3
+
+Jun 30
+
+4
+
+Jul 15
+
+Jul 30
+
+Aug 16
+
+5
+
+Aug 31
+
+6
+
+0
+
+26.3519
+19.0659
+
+40
+
+60
+
+80
+
+100
+
+1050
+
+1080.29
+
+1100
+
+1150
+
+1200
+
+1250
+
+Evidence of the Most Popular Technical Indicators
+
+31
+
+goal of the +DMI and –DMI lines, which represent up movement and down
+movement, respectively. In theory, if the +DMI is greater than the –DMI,
+it is bullish. If the –DMI is greater than the +DMI, it is bearish. We can’t
+jump to these conclusions, however, until we consider the average directional
+movement (ADX).
+Derived from the +DMI and –DMI lines, the ADX line suggests that
+the market is trending in the direction of the greater DMI line if it is above
+25. If it is below 25, it suggests that the trend is weak or range bound. If the

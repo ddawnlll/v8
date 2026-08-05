@@ -1,0 +1,475 @@
+Suppose another week passes and the value of the asset has fallen to 99.07. Using
+the new market conditions, the 100 call would now have a delta of 46. In order to
+replicate the call position, the hedger must now sell off 16% of the asset, so that he owns
+only 46% of his original holding.
+
+Notice what the hedger is doing. He is periodically rehedging his original holding
+to create a position with the same delta characteristics as the call. If he continues to do
+this over the ten-week period, he has, in effect, created a ten-week call at an exercise
+price of 100.
+
+The reader may have already realized that we are simply repeating the example in
+Figure 5-1, but in a slightly different form. In that example, we purchased an under-
+priced call and replicated the sale of the same call through a continuous rehedging
+process. In our current example we are also replicating the call through a continuous
+rehedging process. But here we want to purchase the call rather than sell it. All our
+adjustments are therefore the opposite of those in Figure 5-1. Note also that at week ten
+(expiration), instead of liquidating the position, as we did in Figure 5-1, we plan to buy
+in the remainder of the asset. It was always our intention to retain our entire holding of
+the asset at expiration. The replicated position in our current example is shown in Figure
+13-8.
+
+In order to replicate the call, the hedger will have to buy back some of the asset
+when the market rises and sell some of the asset when the market falls. The unfavorable
+adjustments (buying high, selling low) suggests that there will be a cost associated with
+this rehedging process. What will the cost be? If the replication process offers the same
+protection as owning a 100 put, then one might expect the cost of the replication
+Process to be the same as the theoretical value of the ten week 100 put. This ts indeed
+the case. Using the previously listed inputs, the Black-Scholes model yields a theoretical
+value for the 100 put of 2.55. This is identical to the cost of the replication process
+described in Figure 13-8.
+
+The rehedging process is an attempt to replicate the automatic rehedging charac-
+teristics of the option. As a hedge against an underlying position, an option has the very
+desirable characteristic of offering greater protection as the market moves adversely, and
+less protection as the market moves favorably. In effect, the option automatically
+rehedges itself to fit the required amount of protection. This is the influence of the
+gamma on the option’s delta. When a hedger attempts to replicate the characteristics of
+an option by continuously rehedging the underlying position himself, he is simply trying
+to replicate the automatic rehedging (gamma) characteristics of the option. The cost of
+the option, or the cost of the rehedging process, is the price the hedger pays for the
+option’s gamma characteristics.
+
+Since we need to continuously compute the delta to replicate an option through a
+rehedging process, this method of replication requires us to use a theoretical pricing
+model. We are therefore likely to encounter many of the same problems which we
+encounter anytime we use a theoretical pricing model to evaluate an option. Is the
+model itself correct? Do we have the right inputs? Leaving aside the question of the
+
+
+Hedging with Options 271
+
+Figure 13-8
+% of Asset
+Asset Delta of Needed for Required
+Week Value 100 call Replication Adjustment
+0 1014.35 57 57% sell 43%
+4 102.26 62 62% buy 5%
+2 99.07 46 46% sell 16%
+3 400.39 53 53% buy 7%
+4 400.76 56 56% buy 3%
+5 103.59 74 74% buy 18%
+6 99,26 45 45% sell 29%
+7 98.28 35 38% sell 10%
+8 99.98 50 50% buy 15%
+9 103,78 93 93% buy 43%
+10 102.54 100 100% buy 7%
+
+model’s correctness, anyone wishing to use this method will have to come up with a
+reasonable volatility estimate. If the volatility estimate turns out to be too high or too
+low, the cost of replicating the option will be more or less than originally expected. But
+notice that the cost of replication will always be the right cost. If the market is more
+volatile than expected, the cost will be greater in terms of required adjustments. But the
+value of the option would also have been greater. Higher volatility means a higher
+theoretical value. In the same way, if the market is less volatile than expected, the cost
+will be less in terms of required adjustments. The value of the option would also have
+been less. Lower volatility means a lower theoretical value.
+
+This process of continuously rehed ging an underlying position to replicate an option
+position is often referred to as portfolio insurance. The method can be used to protect
+any long or short position against adverse movement, but it is most commonly used by
+fund managers who wish to insure the value of the securities in a portfolio against a
+drop in value. For example, suppose a manager has a portfolio of securities currently
+valued at $100 million. If he wants to insure the value of the portfolio against a drop in
+value below $90 million, he can either buy a $90 million put, or he can replicate the
+characteristics of a $90 million call, If he is unable to find someone willing to sell him
+a $90 million put, he can evaluate the characteristics of the $90 million call and
+continuously buy or sell the portion of his portfolio required to replicate the call position.
+In effect, he has created his own put.
+
+Unfortunately, the costs of buying and selling a large number of securities in odd
+amounts may be quite high. While the concept of portfolio insurance may be attractive
+from a theoretical perspective, the transaction costs may make the process too expensive
+to be of practical value. Is there any way a fund manager can use portfolio insurance
+while keeping transaction costs within acceptable bounds? One common method
+involves using futures contracts as a substitute for the portfolio holding. If the mix of
+Securities in a portfolio approximates an index, and futures contracts are available on
+that index, the manager can approximate the results of portfolio insurance by purchas-
+ing or selling futures contracts to increase or decrease the holdings in his portfolio. In
+
+
+272 Chapter 13
+
+the United States several index futures are available, the most popular being the futures
+contract on the S&P 500 index traded at the Chicago Mercantile Exchange. Many fund
+Managers use S&P 500 futures to insure their portfolios against adverse movement in
+the stock market. This method is not without risk, since the S&P 500 index is unlikely
+to exactly duplicate the holdings of any one portfolio. Still, the risk may be acceptable
+given the reduced transaction costs.
+
+Even if options are available on an underlying asset, a hedger may still choose to
+effect a portfolio insurance strategy himself rather then purchasing the option in the
+marketplace. For one thing, he may consider the option too expensive. If he believes
+the option is theoretically overpriced, in the long run it will be cheaper to continuously
+rehedge the portfolio. Or he may find insufficient liquidity in the option market to absorb
+the number of option contracts he needs to hedge his position. Finally, the expiration
+of options which are available may not exactly correspond to the period over which he
+wants to protect his position. If an option is available, but expires earlier than desired,
+the hedger might still choose to purchase options in the marketplace, and then pursue
+a portfolio insurance strategy over the period following the option’s expiration. For all
+these reasons, portfolio insurance has become an increasingly popular method of
+protecting a position in an underlying asset.
+
+
+a 14 %
+
+Volatility Revisited
+
+While there are many ways in which traders interpret volatility, in theory the value of
+an option depends on only one volatility, the volatility of the underlying contract which
+will occur over the life of the option. Of course, this volatility is unknown to a trader
+since it will occur in the future. Nevertheless, if a trader wants to use a theoretical
+pricing model, he will be required to make some prediction about the volatility of the
+underlying contract over the life of the option.
+
+Making an intelligent volatility forecast can be a difficult and frustrating exercise,
+especially for a new option trader. The forecasting of directional price movements
+through technical analysis is a commonly studied area in trading, and there are many
+sources to which a trader can turn for information on this subject. Unfortunately,
+volatility is a much newer concept, and there is relatively little to guide a trader. In spite
+of this difficulty, an option trader must make some effort to come up with a reasonable
+volatility input if he is going to rely on a theoretical pricing model to make intelligent
+trading decisions.
+
+SOME VOLATILITY CHARACTERISTICS
+
+The first step in making a sensible volatility forecast is to understand some of the basic
+characteristics of volatility. First, let’s compare two graphs. Figure 14-1 shows Deutsche-
+mark prices from 1982 to 1991. Figure 14-2 shows the 50-day volatility of Deutsche-
+marks over the same period. Are there any generalizations one can make from these
+graphs? Obviously both prices and volatility sometimes rise and sometimes fall. But
+unlike the prices of an underlying instrument, which appear to move freely in either
+direction, there seems to be an equilibrium number to which the volatility always
+returns. Over a period of three years, from early 1985 to late 1987, the price of
+Deutschemarks rose from a low of 29 to a high of 63. While prices fluctuated after 1987,
+they never reached the lows of the early 1980s. Someday, economic forces may cause
+Deutschemarks to rise or fall dramatically, never again returning to prices in the 50s or
+60s. In other words, prices of an underlying contract are open-ended. There is no reason
+Why they have to return to some previous level.
+
+Such does not appear to be the case with volatility. The 50-day volatility of
+Deutschemarks over the 10-year period in question fluctuated from a low of 5% to a
+high of 20%. Yet no matter how much it fluctuated, at some point volatility always
+Teversed itself and retraced almost all of its previous rise or fall. Indeed, we might try to
+find an equilibrium volatility such that there are equal fluctuations above and below this
+
+273
+
+
+274
+
+1661
+
+; O661
+
+I 6861
+
+j 8861
+
+; 2861
+
+; 9861
+
+S861 ve6l e86l ce6l
+4 1 J 1
+
+SZ
+
+Wa Jed syuay
+
++09
+
+-S9
+
+OL
+1661-Z861 S0o}ig YABWIEYISINDG :}-p1 anbi4
+
+
+
+Volatility Revisited 275
+
+number. In the case of Deutschemarks, this equilibrium volatility seems to be about 11%
+to 12%. Volatility may rise well above 12%, or fall well below 11%, but eventually it
+always seems to return to this area.
+
+If we were to generalize about volatility characteristics from the Deutschemark
+volatility in Figure 14-2, we might surmise that an underlying contract is likely to have
+a typical long-term average, or mean volatility. Moreover, the volatility of the underlying
+contract appears to be mean reverting. When volatility rises above the mean, one can
+be fairly certain that it will eventually fall back to its mean; when volatility falls below
+the mean, one can be fairly certain that it will eventually rise to its mean. There is a
+constant gyration back and forth through this mean.
+
+This mean reverting characteristic of volatility can also be seen in Figure 143,
+which shows the distribution of Deutschemark volatility from 1982 to 1991. Beginning
+at the extreme left on the x-axis (the amount of time remaining to expiration), we can
+see that over any two-week period during the 10 years in question, there was a 20%
+chance that volatility would be either less than 6.0% or greater than 17.3% (the 10th
+and 90th percentiles}. There was a 50% chance that volatility would be either less than
+7.6% or greater than 13.0% (the 25th and 75th percentiles]. The mean volatility for any
+two week period was 9.7%. Moving to the extreme right on the x-axis, we can see that
+over any 50 week period there was a 20% chance that volatility would be either less
+than 9.8% or greater than 14%. There was a 50% chance that volatility would be either
+less than 10.6% and greater than 12.7%. The mean volatility for any 50-week period
+was about 11.5%.
+
+Figure 14-3 has an easily identifiable structure. As one moves further out in time
+the percentile lines tend to converge towards the mean, and the mean becomes stable.
+This reinforces the assumption that volatility is indeed mean reverting, This type of
+volatility graph, sometimes referred to as a volatility cone, is an effective method of
+presenting the volatility characteristics of an underlying instrument.!
+
+What else can we say about volatility? Looking at the more detailed Deutschemark
+volatility chart in Figure 14-4, we might surmise that volatility has some trending
+characteristics. From July 1989 through June 1990 there was a downward trend in
+volatility. From July 1990 to April 1991 there was an upward trend. And from April
+1991 to October 1991 there was again a downward trend. Moreover, within these
+major trends there were minor trends as volatility rose and fell for short periods of time.
+In this respect volatility charts seem to display some of the same characteristics as price
+charts, and it would not be unreasonable to apply some of the same principles used in
+technical analysis to volatility analysis. It is important to remember, however, that while
+price changes and volatility are related, they are not the same thing. If a trader tries to
+apply exactly the same rules of technical analysis to volatility analysis, he is likely to find
+that in some cases the rules have no relevance, and that in other cases the rules must
+be modified to take into account the unique characteristics of volatility. Since the author
+
+1. For amare detailed discussion of volatility cones, see:
+Burghardt, Galen and Lane, Morton; “How to Tell if Options are Cheap”; The Journal of Portfolio
+Management, Winter 1990, pages 72-78.
+
+
+276
+
+166}
+
+_ 0661
+
+_ 6861
+
+_ 8861
+
+2861
+n
+
+; 9861 _ 9861 _ v86l ; e86l _ c86t
+
+-Ol
+
+Lob
+
+(%) AUIBEIOA
+
+LS
+
+ce
+1661-286) AWNeloA yAewUeydsyneq Aeqg-os :2-r} esnbi4
+
+
+
+277
+
+Volatility Revisited
+
+uolesdxy 0} SyaapA
+os Lb Ott Lv ge GE ce 62 92 €2 O24 At tl LL g S tA
+
+1 L L 1 1 1 1 L L i i 1 i
+
+ainueded OL
+
+aiquadied YSZ
+
+ueipay
+
+a[NUBdIBd UIGL
+
+FH
+8tU9d419q YIO6
+
+oh
+
+Tbh
+
+gt
+
+1661-2861 UoNNiAsig AyNejOA yseWeYyosyneq :¢-pL enbiy
+
+(%) AUneIOA
+
+
+
+Chapter 14
+
+278
+
+e6-uer
+
+L6-des
+
+be-une
+
+16-a4
+
+96290
+
+o6:inr
+
+O6-1R. «6 -AON 68-Bny 68-1dy 6aver
+1 i
+
+N
+(%) AUjyeloA
+
+SI
+
+1661-6861 Anejo, yAeWeYyosjneq Aeg-0S *r-rl einbly
+
+
+
+Volatility Revisited 279
+
+claims no particular expertise in the area of technical analysis, the reader is left to his
+own devices in this regard.
+
+VOLATILITY FORECASTING
+
+Given the volatility characteristics that we have identified, how might we go about
+making a volatility forecast? First we need some volatility data. Suppose we have the
+following historical volatility data on a certain underlying instrument;
+
+last 30 days 24%
+last 60 days 20%
+last 120 days 18%
+last 250 days 18%
+
+Certainly, we would like as much volatility data as possible. But if this is the only data
+available, how might we use it to make a forecast? One method might be to simply take
+the average volatility over the periods which we have:
+
+(24% + 20% + 18% + 18%) / 4 = 20%
+
+Using this method, each piece of data is given identical weight. Might it not be
+reasonable to assume that some data is more important than other data? A trader might
+assume, for example, that the more current the data, the greater its importance. Since
+the 24% volatility over the last 30 days is clearly more current than the other volatility
+data, perhaps 24% should play a greater role in our volatility forecast. We might, for
+example, give twice as much weight to the 30-day data as to the other data:
+
+(40% x 24%} + (20% x 20%) + (20% x 18%) + (20% x 18%) = 20.8%
+
+Our forecast has gone up slightly because of the extra weight given to the more recent
+data.
+
+Of course, if it is true that the more recent volatility over the last 30 days is more
+important than the other data, it follows that the volatility over the last 60 days ought
+to be more important than the volatility over the last 120 days and 250 days. It also
+follows that the volatility over the last 120 days must be more important than the
+volatility over the last 250 days. We can factor this into our forecast by using a regressive
+weighting, giving more distant volatility data progressively less weight in our forecast.
+For example, we might calculate:
+
+(40% x 24%) + (30% x 20%} + (20% x 18%) + (10% x 18%} = 21.0%
+
+Here we have given the 30-day volatility 40% of the weight, the 60-day volatility 30%
+of the weight, the 120-day volatility 20% of the weight, and the 250-day volatility 10%
+of the weight.
+
+We have made the assumption that the more recent the data, the greater its
+importance. Is this always true? If we are interested in evaluating short-term options, it
+may be true that data which covers short periods of time is the most important. But
+Suppose we are interested in evaluating very long-term options. Over long periods of
+
+
+280 Chapter 14
+
+time the mean reverting characteristic of volatility is likely to reduce the importance of
+any short-term fluctuations in volatility. In fact, over very long periods of time the most
+reasonable volatility forecast is simply the long-term mean volatility of the instrument.
+Therefore the relative weight we give to the different volatility data will depend on the
+amount of time remaining to expiration for the options in which we are interested.
+
+Ina sense, all the historical volatility data we have at our disposal are current data;
+they simply cover different periods of time. How do we know which data is the most
+important? In addition to the mean reverting characteristic, volatility also tends to
+exhibit serial correlatton. The volatility over any given period is likely to depend on, or
+correlate with, the volatility over the previous period, assuming that both periods cover
+the same amount of time. If the volatility of a contract over the last four weeks was 15%,
+the volatility over the next four weeks is more likely to be close to 15% than far away
+from 15%. We can again use the weather analogy from Chapter 4. If the high
+temperature yesterday was 25°, and we had to guess what the high temperature today
+would be, a guess of 30° would make more sense than a guess of 50°. Once we realize
+this, we might logically choose to give the greatest weight to the volatility data covering
+a time period closest to the life of the options in which we are interested. That is, if we
+are trading very long-term options, the long-term data should get the most weight. If we
+are trading very short-term options, the short-term data should get the most weight. And
+if we are trading intermediate-term options, the intermediate-term data should get the
+most weight.
+
+Suppose we are interested in evaluating six-month options. How should we weight
+our data? Since 120 (trading) days is closest to six months, we can give the 120-day data
+the greatest weight, and give other data correspondingly lesser weight:
+
+(15% x 24%} + (25% x 20%) + (35% x 18%} + (25% x 18%} = 19.4%
+
+Alternatively, if we are interested in 10-week options, we can give the greatest
+weight to the 60-day volatility data:
+
+(25% x 24%) + (35% x 20%) + (25% x 18%) + (15% x 18%] = 20.2%
+
+In the foregoing examples we used only four historical volatilities, but the more
+volatility data which is available, the more accurate any volatility forecast is likely to be.
+Not only will more data, covering different periods of time, give a better overview of
+the volatility characteristics of an underlying instrument, but it will enable a trader to
+more closely match historical volatilities to options with different amounts of time to
+expiration. In our example we used historical volatilities over the last 60 days and 120
+days as approximations to forecast volatilities for six-month and 10-week options.
+Ideally, we would like historical data covering exactly a six-month period and exactly a
+10-week period.
+
+The method we have described is one which many traders intuitively use to
+forecast volatility. It depends on identifying the typical characteristics of volatility, and
+then projecting a volatility over the forecasting period. Theoreticians have recently tried
+to take essentially the same approach to volatility forecasting, and this has led to the
+development of autoregressive conditional heteroskedasticity (ARCH) and generalized
+
+
+Volatility Revisited 281
+
+autoregressive conditional heteroskedasticity (GARCH) volatility models. A detailed
+discussion of such models is beyond the scope of this text, since they can be mathemati-
+cally complex and are not widely used amang traders. Nevertheless, an option trader
+should be aware that these models do exist, and that they are simply an attempt to apply
+the mean reverting and serial correlation characteristics of volatility to volatility forecast-
+ing.”
+Thus far we have focused only on the historical volatility characteristics of the
+underlying instrument in trying to forecast a volatility. Is there any other information
+which might be useful? No individual trader can hope to know everything affecting
+price changes in an underlying contract. Perhaps there are factors which could affect
+the future volatility, but about which the trader is unaware. If one believes that such
+information is likely to be reflected in the prices of the contracts being traded, one way
+to ferret out additional volatility information is to look at the prices of options. In other
+words, a trader will want to look at the implied volatility in the marketplace to find the
+consensus volatility. Once he has done this, he will want to use this information in any
+volatility forecast he intends to make.
+
+How much weight should a trader give the implied volatility? Some traders
+subscribe to the efficient market principle, and believe that the implied volatility is
+always the best volatility forecast since it reflects all available information. Most traders
+believe, however, that while the implied volatility is important, it isn’t the whole story.
+Typically, a trader might give the implied volatility a weighting somewhere between
+25% and 75% in making a volatility forecast. How much depends on the trader’s
+confidence in forecasting a volatility based on historical volatility data? If a trader feels
+very confident about his forecast, he might give the implied volatility as little as a 25%
+weight; if he feels uncertain about his forecast, he might give the implied volatility as
+much as a 75% weight. Of course, his confidence level will depend on his experience,
+as well as how conclusive the historical data is.

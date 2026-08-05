@@ -1,0 +1,12 @@
+[
+  {"claim_ref": "book_0008::lead_book_0008_1_155", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_156", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_158", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_159", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_160", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_161", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_164", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_167", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_169", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0008::lead_book_0008_1_170", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

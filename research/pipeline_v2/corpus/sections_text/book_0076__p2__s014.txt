@@ -1,0 +1,203 @@
+Contract Specifications—What Does a Trader Need to Know to Trade the Key Commodity Markets?
+I want to spend a little time going into the contract specifics for some of the markets I just discussed. For newer traders, the most confusing thing about futures
+contracts is that, unlike stocks, each futures market has different pricing specifications and trades in different months. This makes it tricky to figure out how much a
+move is worth to a trader’s P&L, and it is a pain to try to figure out how to bring up a quote. (Note that I have listed all the month codes in the chapter on propulsion
+plays, but I will also review some of them here.)
+If a stock trader is buying IBM or RIM M , they both work the same way, even though they are different stocks. A move of $1 in either stock has the same impact
+on a trader’s P&L. Unfortunately, that’s not how it works in the futures markets. Again, if you are already familiar with these, feel free to skim. M y intention for
+newer traders is that you’ll be able to use this as a quick reference guide now and down the road as you look at trading additional contracts. Please note that all times
+discussed are based on the eastern time zone.
+Mini-sized Dow (YM). The YM trades on the CBOT (now CM E Group). It opens for business at 6:00 p.m. eastern time on Sunday, and trades until 4:15 p.m.
+eastern on M onday afternoon. It reopens for trading 15 minutes later, at 4:30 p.m. eastern, shuts down for maintenance from 5:30 p.m. to 6:00 p.m., then trades
+continuously again until 4:15 p.m. the next day. It does this all week, closing for the weekend at 4:15 p.m. eastern time on Friday. The contract months are M arch
+(H), June (M ), September (U), and December (Z). The YM moves in increments of 1 point, which equals $5 per contract. Catching a 30-point move using one
+contract would equal $150. Although this contract trades nearly 24 hours, I usually focus on it only during the regular cash market session, from 9:30 a.m. to 4:15
+p.m. The quote format on TradeStation for the M arch 2012 contract is YM H12. The continuous symbol on TradeStation is @YM . For thinkorswim, the M arch
+2012 contract is/YM H2./YM is the continuous symbol. Continuous means that the contract will automatically change from M arch to June to September, and so
+on, on rollover days. This is used for charting purposes so that there is literally one “continuous” chart of all the different contract months. This is useful for
+looking back over several months or years of data. You actually can’t trade the “continuous” contract—only a specified month.
+E-mini S&P (ES). The ES trades on the CM E, with the same hours as the YM . The contract months are M arch (H), June (M ), September (U), and December (Z).
+The ES moves in increments of 0.25 point, which equals $12.50 per contract, or $50 for a full 1-point move. A 3-point move in the ES using one contract would
+equal $150. Although this contract trades nearly 24 hours, I usually focus on it only during the regular cash market session, from 9:30 a.m. to 4:15 p.m. Quote
+formats are the same as those for YM ; just substitute ES for YM .
+E-mini Nasdaq (NQ). Hours are the same as for the ES and YM . The NQ moves in increments of 0.25 point, which equals $5 per contract, or $20 for a full 1point move. A 3-point move in the NQ using one contract would equal $60. For quotes, use the same formats as those for YM and ES, but substitute the NQ
+symbol.
+E-mini Russell (TF). The TF (formally ER) used to trade on the CM E, and now trades on the ICE (Intercontinental Exchange). Although retail traders don’t know
+about this or frankly care, there was a huge battle between the CM E and the ICE to get this contract. The ICE paid more than $50 million for the rights to trade
+Russell products, and the contract switched over from the CM E to the ICE. This is all “invisible” to retail traders, as it’s still just a clickable trade on your
+computer, no matter what the exchange. This contract is attractive to trade because it jumps around and has large P&L swings. It opens on Sunday evening at 6:00
+p.m. eastern time, then trades through 6:00 p.m. eastern time the next day. It then stops trading for two hours, reopens at 8:00 p.m. eastern time, and trades
+through until 6:00 p.m. eastern time the next day, repeating the process through the rest of the week. One of my favorite ways to use the Russell is as a leading
+indicator. It will often time a breakdown or breakout before the other three indexes just discussed. The contract months are M arch (H), June (M ), September (U),
+and December (Z). The TF moves in increments of 0.10 point, which equals $10 per contract, or $100 for a full 1-point move. A 3-point move in the TF using
+one contract would equal $300. For quotes, use the same formats as given previously and substitute the symbol TF.
+German DAX and Euro STOXX 50. I want to include a brief note on these indexes, because I’ve seen a lot of press on them in recent months. First, the DAX.
+This is the German equivalent of the Dow. This is a good market to trade, but it is not for beginners. I’ve seen many traders who normally trade 10 YM or 10 ES
+lots, which are interchangeable, jump into the DAX and also trade 10 lots. They heard that the DAX was like the Dow because it has a trading range similar to the
+Dow, and it’s made up of 30 big stocks like the Dow, so they go ahead and use a 20-point stop, just like they would on the Dow. When their stop is hit, they
+think they should have lost only $1,000, but it ends up being $6,500. The bottom line is that the DAX is a large contract. It trades in a similar range as the YM ,
+but instead of $5 a point, it’s worth 25 euros a point. If the exchange rate is 1.2937 (that is, how many dollars a euro is worth), that makes each point worth
+$32.34. This is like trading a little over 6 YM or ES contracts. In the 10-lot example, it would be the equivalent of trading 65 lots on the YM or ES. This is
+obviously important to know. The DAX trades from 2:00 a.m. until 1:00 p.m. eastern standard time in the winter. With daylight savings, that changes to 3:00
+a.m. to 2:00 p.m. eastern standard time. To get quotes on this contract, you have to sign up for Eurex with your data feed, which runs about $9 a month. The
+contract trades M arch, June, September, and December. The Euro STOXX 50 Index is a futures contract that provides a blue-chip representation of the Eurozone
+and is much more comparable to the ES in size and liquidity. If you are up late at night and want to trade Europe, then trade this contract. The symbol on
+TradeStation for the DAX is @FDAX for the continuous contract. For the Euro STOXX 50, it’s @FESX.
+Full-sized 100-oz. gold (GC) and 5,000-oz silver (SI). I’ve talked a lot about the stock index futures, so let me talk briefly about gold and silver. If you trade gold,
+you will be in good company. No other market in the world has the universal appeal of the gold market. For centuries, gold has been coveted for its unique blend
+of rarity, beauty, and near-indestructibility. Nations have embraced gold as a store of wealth and a medium of international exchange, and individuals have sought
+to possess gold as insurance against the daily fluctuations of paper money. Gold is also a vital industrial metal, as it is an excellent conductor of electricity, it is
+extremely resistant to corrosion, and it is one of the most chemically stable of the elements, making it critically important in electronics and other high-tech
+applications. That’s all well and good, right? But as a trader, all I really care about is whether the market in question provides good trading opportunities. Over the
+last several years, gold has become a great market to trade, with plenty of volatility and trending price action. The pit starts trading at 8:20 a.m. and ends at 2:00
+p.m., and during this time there is a lot of action and volume. The electronic version trades right along with the pit, then continues trading into the night, giving
+nearly 24-hour access to gold prices. The contract months for gold can get complicated. The official months are “the current month, the next two months, and any
+68
+
+February, April, August, and October falling within a 23-month period and any June and December falling within a 60-month period.” For the setups I’m using,
+I’m looking at the front month or the next month out, which means that every month is in play. The rest of the available trading months are for people who are
+looking at hedging many years into the future. I like to establish trades in this contract during pit session hours for day trades, but I will also trade it overnight if
+the setup is strong. Gold moves in increments of 10 cents, and each 10 cents is worth $10 per contract. A full $1 move in the price of gold is worth $100 per
+contract. Note that to get quotes, traders have to be signed up for COM EX data through their quote vendor. What about silver? The 5,000-oz silver contract is a
+big one. Each 1-point move is worth $5,000, and it moves in ½-cent increments. Each 1-cent move is $50.00. Silver is a thinly traded contract, and frankly, it’s not
+for beginners.
+E-micro gold (MGC). This is a newer contract that is
+the size of the GC contract and answers the question, “What if I don’t really want to trade 100 ounces
+of gold at a time?” This contract represents 10 ounces of gold, so instead of a full $1.00 move affecting your P&L by $100.00, it would affect your P&L by only
+$10.00.
+Full-sized 30-year bond (US—pit, ZB—electronic). Interest-rate futures were pioneered by the CBOT in 1975 in response to a growing market need for tools that
+could protect against sharp and frequent swings in the cost of money. U.S. Treasury bond futures were introduced first, followed by futures on 10-year, 5-year,
+and 2-year U.S. Treasury notes. Over the past two decades, contract volume has exploded, reflecting the growth of the underlying instruments and profound
+changes in the marketplace. If you focus primarily on the stock market, it is critical that you become familiar with bonds. The bond markets dwarf the equity
+markets. Therefore, it is important for you to know when money is flowing out of bonds or into bonds. The bond markets and the stock markets also have an
+interesting relationship. Sometimes they move directly opposite each other, during periods of portfolio reallocation. This happens when huge funds have to sell
+stocks and buy bonds to readjust the percentage of capital that they have invested in each. During these times, new highs in the bond market lead to new lows in
+the stock market, and thus bonds become a great leading indicator. The pit contract trades from 8:20 a.m. to 3:00 p.m., M onday through Friday. The electronic
+version trades until 5:00 p.m. and reopens three hours later, at 8:00 p.m., Sunday through Thursday. I always trade the electronic version. The contract months
+are M arch (H), June (M ), September (U), and December (Z). The bonds move in increments of
+, which is called a tick, and are worth $31.25 per contract;
+equals 1 full point, which is $1,000 per contract.
+Ten-year notes (TY—pit, ZN—electronic). The 10- year notes trade on the CBOT (now CM E Group) and are the same as the 30-year bonds in terms of trading
+hours and trading months. The notes move in increments of
+are great for both swing and day trading.
+
+, which are called ticks and are worth $15.625 per contract. These are very liquid contracts and
+
+Soybeans (S). M y appreciation of the grain markets came about through an accident. I own a 1,000-acre farm in Palisade, Nebraska, and because of that I started
+watching the grain futures prices. I liked the way they traded, and, once I learned about the contract specifications, I realized that they trade very similarly to the
+E-mini S&Ps and mini-sized Dow. Soybeans trade in the pit from 10:30 a.m. to 2:15 p.m., M onday through Friday. There is also an electronic session that runs
+from 8:31 p.m. to 7:00 a.m. The symbol for this is ZS, but I don’t watch this session or trade it. I focus on this contract during the pit hours, but I trade the
+electronic contract. Soybeans move in increments of ¼ cent, and each ¼ cent is worth $12.50. A full cent is worth $50. This is just like the E-mini S&Ps, where
+they move in quarter-point increments worth $12.50, and a full point is worth $50. An 8-cent move in soybeans is just like an 8-point move in the ES or an 80point move in the YM and is worth $400. Soybeans trade in September (U), November (X), January (F), M arch (H), M ay (K), July (N), and August (Q).
+Soybeans are the most volatile of the three grains. They generally trade in a range equal to 1½ times that of the ES and YM .
+Corn (C). Everything about corn is the same as that for soybeans except that the contract months are December, M arch, M ay, July, and September. This is the
+quietest of the three grains. A one-cent move is worth $50, just like in soybeans. There is a saying in trading circles that goes, “If you can’t make money trading,
+then trade corn.”
+Wheat (W). Everything about wheat is the same as that for corn, and a one-cent move in this market is also worth $50. Note that all quarter-cent moves in grains
+are recorded as eighths. So a price of 3414 actually means 3.41½ (3.41 and
+
+), and 3416 means 3.41¾ (3.41 and
+
+).
+
+Currency futures. I’m lumping all of these together in one category. Currencies trade in both the futures market and the “cash” market, which is commonly known
+as forex. I’m not a big fan of the forex cash market, as it is unregulated. The cash forex guys completely outmarketed the regulated exchanges when it came to
+trading currencies, which is why a lot of people are surprised to hear that you can actually trade currencies on a regulated futures exchange. The currencies that
+matter are called the majors (the major world currencies as they trade against the U.S. dollar), and they are as follows: the euro (EC/6E), the Australian dollar
+(AD/6A), the Canadian dollar (CD/6C), the British pound (BP/6B), the Swiss franc (SF/6S), and the Japanese yen (JY/6J). For the symbols, I listed those for
+both the pit session (EC) and the corresponding electronic contract (6E). There is no need to trade the smaller markets, such as the M exican peso/U.S. dollar or
+the krona/shekel cross. There are plenty of opportunities in the big contracts, which of course are also the most liquid. Also note that if you hear quotes for the
+“eurodollar,” that’s the bond market. The currency is just called the euro or euro FX. Currency futures trade nearly 24 hours, kicking off the week at 6:00 p.m.
+eastern time on Sunday. The contract months are M arch, June, September, and December. The contracts all move in 1-cent increments, with 100 cents equaling a
+full “big figure” move (for example, from 1.4300 to 1.4400 is a 100-tick or “full point” move). It is important to note that the contracts do have different tick
+values, and they are as follows: EC, JY, and SF: $12.50 per tick and $1,250.00 per full point; AD and CD: $10.00 per tick and $1,000.00 per full point; BP: $6.25
+per tick and $625.00 per full point. Note that those prices are for both the pit and the electronic contracts. Note that you can also trade “U.S. dollar futures,” and
+the symbol is DX. This symbol is a composite of all the major currencies listed previously as they relate to the U.S. dollar.
+Mini (E-micro) currency futures. These are the newer kids on the block, and they are
+the size of the full-sized contracts listed previously. The symbols are
+M 6E, M 6A, M 6S, M 6J, M 6C, and M 6B. Not surprisingly, M 6E refers to the “E-micro euro,” and so forth. Whereas the full-sized EC contract moves $12.50
+69
+
+per tick, the M 6E moves $1.25 per tick. For those who are new to currencies and futures in general, these are good contracts in which to get the proverbial feet
+wet.
+Crude oil (CL). Oil has become a big focus for stock prices ever since it shot above $70 a barrel and kept on going. This is not a market for beginning traders, but it
+is helpful to understand how it works from a trader’s perspective. This contract trades on the NYM EX (New York M ercantile Exchange, now part of the CM E
+Group). Oil moves in increments of 1 cent. A 1-cent move equals $10 per contract, so a full $1 move in the price of oil equates to $1,000 per contract. The pit
+opens at 10:00 a.m. and closes at 2:30 p.m. After-hours trading starts at 3:15 p.m. and goes through until 9:30 a.m. There are contracts for each month for many
+years out.
+
+70
+
+Figure 4.8
+Mini-crude oil (QM). The contract for mini-crude oil is the same as the big contract, except that a 1-cent move is worth $5 per contract, and a full $1 move is
+worth $500 per contract. For oil, be aware that contracts expire early—a September contract will expire in August.
+
+71
+
+Various single-stock futures. These are discussed in detail in the chapter on propulsion plays. One contract represents 100 shares of stock, so a 1-point move
+with one contract represents $100 to a trader’s P&L.
+
+That is the basic information for the trader on these futures contracts. One important thing to keep in mind is how all these contracts translate in terms of price
+movement with respect to the risk management techniques traders choose to utilize in their own trading plan. Let’s take a look at an example stop loss taken in the
+NQ.
+Figure 4.8 shows a 12-point loss that was taken in the NQ, which equates to a loss of $240 per contract. If a trader wants to use a monetary stop of approximately
+$240 for every trade in every market, then it is helpful to create a reference sheet of how this translates into other markets. This way, a trader will be less prone to
+making a pricing error when it comes to figuring out appropriate stop losses in various futures markets. In this chart, we can see that a 12-point stop in the Nasdaq is
+equal to a 4.75-point stop in the S&Ps, which is equal to a 48-point stop in the YM , which is equal to a 2.40-point stop on the Russell (on the chart, this is shown as
+symbol ER; it now trades under the symbol TF), which is equal to an 8-tick stop on the 30-year bonds, which is equal to a 19-tick stop on the euro. This also equals a
+24-cent stop on crude oil, a 48-cent stop on mini-crude oil, a 2.40 stop on gold, a 7.20 stop on mini-gold, and a 4¾-cent stop on the grains. That’s the golden rule in
+futures— know your monetary stop, and then be able to know what that means in tick values across the contracts you’d like to trade. Whereas I might trade 10 ES
+contracts on a setup, I would trade only 2 SI (silver) contracts on the same setup.
+Easy enough? Let’s take a quick peek at the forex markets.
+
+Currencies and Forex for Newbies: How Do They Really Work?
+Again, this section is geared toward traders who are not familiar with the forex cash markets, so experienced forex traders should feel free to skip ahead, although the
+section on “How Can You Hedge Your Own Life in the Forex M arkets?” might be of interest. Also note that I trade these currencies on the previously listed futures
+exchanges. However, I think it is helpful to understand the cash markets, as they do give a detailed overview of how the currency markets work. There is no difference
+in trading currencies in the “forex cash markets” or the “futures markets” except for one minor detail: the futures markets are regulated. I’m more comfortable putting
+my hard-earned cash into a regulated environment.
+This section started off very, very long—as any section that starts with the phrase “In the beginning” inevitably will. A fellow forex trader, Todd Gordon, helped
+me to go through this several times and cut it down to the bare essentials. On a side note, when I first wrote this book, Todd worked as a corporate flunky. Now, in
+2011, he’s got his own company and his own show on CNBC. Ah, to see the baby birds leave the nest.
+The foreign exchange market, also referred to as “forex” or “FX,” is the largest financial market in the world, with a daily average turnover of well over $1 trillion—
+30 times larger than the combined volume of all U.S. equity markets. “Foreign exchange” is literally the simultaneous buying of one currency and selling of another.
+Currencies are traded in pairs; for example, euro/U.S. dollar (EUR/USD) or U.S. dollar/Japanese yen (USD/JPY). The most liquid of these currencies are called the
+majors and make up more than 85 percent of all daily transactions in this market. The majors are made up of the following:
+
+Forex trading begins each day in Sydney and moves around the globe as the business day begins in each financial center, first to Sidney and Tokyo, then the
+Eurozone, then to London, and finally to New York. This is truly a 24-hour market, and investors can respond to currency fluctuations caused by economic, social,
+and political events at the time they occur—day or night.
+One thing I like about the forex markets is that the 24-hour trading day includes four major market opens that offer the same volatility and liquidity found in the onetime-per-day 9:30 a.m. EST stock market opening. The first is the Japanese open at 8:00 p.m. EST, then the Eurozone opens at 12:00 a.m. EST, the third is London at
+3:00 a.m. EST, and bringing up the rear is the New York open at 8:30 a.m. EST. Although I generally stick to the New York open and sometimes the Japanese open,
+there are many traders I know who trade all the opens or whose schedules are dictated by their work, which for some people can include odd hours. With the
+availability of these four opens, a trader can fit at least one of these times into any schedule.
+The FX markets are also the deepest, most participated-in markets in the world. Daily turnover equates to more than $1.2 trillion, 16 times the volume of the
+Nasdaq and the NYSE combined. (See Figure 4.9.)
+
+72
+
+Figure 4.9
+The forex markets are among the most technical markets in the world, meaning that they respond well to most technical analysis studies. It is not uncommon to see a
+300-pip breakout move stop and change trend at a technical level to within 5 pips. (A “pip” is to forex as a “point” is to the stock index futures.)
+A trader also doesn’t have to worry about contract rollovers in the forex market. It is possible to buy a few lots of the EUR/USD, GBP/USD, and AUD/USD, place
+a stop, and forget about it for months at a time. FX dealers automatically roll your position from one day to the next for you to prevent the event of delivery.
+In addition, most FX dealers offer a negative-balance protection guarantee that ensures that your account will never reach a position of negative equity, which can
+happen in the stock market for traders who are maxed out on margin as well as the futures market. There is an interesting way to take advantage of this. People can
+open up FX accounts at different dealers and deposit a small portion of their overall trading capital. They can go long a currency in one account and short the same
+currency in another account, then just leave both accounts alone, with no stops or targets. While the two positions are open, they will offset each other equally, so it’s
+a perfect hedge. If one of the currencies then gets into a prolonged move, one of the accounts will get closed when the account equity gets to zero. At this point, the
+trader is still at breakeven on the trade because the losses in one account are offset by gains in the other account. If the currency then continues to trend in the open
+account, the trader benefits from already being “in the move.” I don’t do this personally, but a few traders I know have done this and have had instances where
+accounts in the neighborhood of $20,000 have turned into accounts in the neighborhood of $400,000 on the backs of a couple of great moves. The key is that these
+traders take the positions and literally forget about them for six months. The currency just has to trend one way or the other. This obviously involves some luck, and I
+wouldn’t call it a “core strategy of any wise retirement plan.” M y favorite reason for trading the forex markets (and this applies equally well to currency futures
+markets) is that they trend better than any other markets. Once a market gets going, it can easily trend for weeks and months in a nice steady march higher or lower.
+Unlike the stock market, which can often consolidate for years at a time (although not since the financial crisis of 2008), there are real trends happening all the time in
+the forex markets. Stock market traders talk of missing the big moves of the dotcom days. Today the dot-com moves are happening in the forex markets.
+The biggest complaint I’ve heard people say about forex is that the FX dealers are taking the other side of their trade. I usually hear this from people who have
+overtraded their account and have lost all their money. This is really true in any market—somebody is always taking the other side of your trade. In my experience
+with forex, however, it is the high-frequency day traders who don’t last. On the other hand, the traders who place smaller positions and let them work out over the
+course of a few days to a few weeks or longer do well. As in any trade, market makers can mess with a position in the very short term, but over the course of a swing
+trade, they have no power. When George Soros was short the British pound and was told that the British government had allocated the equivalent of 20 billion U.S.
+dollars to stabilize the currency, he shrugged and said, “That will help them for 30 minutes. Then what are they going to do?” He made more than a billion dollars on
+that trade.

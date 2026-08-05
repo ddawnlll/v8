@@ -1,0 +1,261 @@
+[
+ {
+  "page": 1,
+  "char_start": 0,
+  "char_end": 2664,
+  "line_start": 1,
+  "line_end": 35
+ },
+ {
+  "page": 2,
+  "char_start": 2665,
+  "char_end": 5597,
+  "line_start": 36,
+  "line_end": 78
+ },
+ {
+  "page": 3,
+  "char_start": 5598,
+  "char_end": 8496,
+  "line_start": 79,
+  "line_end": 122
+ },
+ {
+  "page": 4,
+  "char_start": 8497,
+  "char_end": 11094,
+  "line_start": 123,
+  "line_end": 167
+ },
+ {
+  "page": 5,
+  "char_start": 11095,
+  "char_end": 13755,
+  "line_start": 168,
+  "line_end": 210
+ },
+ {
+  "page": 6,
+  "char_start": 13756,
+  "char_end": 14515,
+  "line_start": 211,
+  "line_end": 227
+ },
+ {
+  "page": 8,
+  "char_start": 14517,
+  "char_end": 15708,
+  "line_start": 229,
+  "line_end": 258
+ },
+ {
+  "page": 9,
+  "char_start": 15709,
+  "char_end": 18410,
+  "line_start": 259,
+  "line_end": 298
+ },
+ {
+  "page": 10,
+  "char_start": 18411,
+  "char_end": 21063,
+  "line_start": 299,
+  "line_end": 340
+ },
+ {
+  "page": 11,
+  "char_start": 21064,
+  "char_end": 21564,
+  "line_start": 341,
+  "line_end": 354
+ },
+ {
+  "page": 12,
+  "char_start": 21565,
+  "char_end": 22940,
+  "line_start": 355,
+  "line_end": 389
+ },
+ {
+  "page": 13,
+  "char_start": 22941,
+  "char_end": 25538,
+  "line_start": 390,
+  "line_end": 433
+ },
+ {
+  "page": 14,
+  "char_start": 25539,
+  "char_end": 27834,
+  "line_start": 434,
+  "line_end": 471
+ },
+ {
+  "page": 15,
+  "char_start": 27835,
+  "char_end": 30724,
+  "line_start": 472,
+  "line_end": 515
+ },
+ {
+  "page": 16,
+  "char_start": 30725,
+  "char_end": 33318,
+  "line_start": 516,
+  "line_end": 558
+ },
+ {
+  "page": 17,
+  "char_start": 33319,
+  "char_end": 35688,
+  "line_start": 559,
+  "line_end": 601
+ },
+ {
+  "page": 18,
+  "char_start": 35689,
+  "char_end": 38539,
+  "line_start": 602,
+  "line_end": 649
+ },
+ {
+  "page": 19,
+  "char_start": 38540,
+  "char_end": 40949,
+  "line_start": 650,
+  "line_end": 694
+ },
+ {
+  "page": 20,
+  "char_start": 40950,
+  "char_end": 43733,
+  "line_start": 695,
+  "line_end": 735
+ },
+ {
+  "page": 21,
+  "char_start": 43734,
+  "char_end": 46582,
+  "line_start": 736,
+  "line_end": 775
+ },
+ {
+  "page": 22,
+  "char_start": 46583,
+  "char_end": 48346,
+  "line_start": 776,
+  "line_end": 816
+ },
+ {
+  "page": 23,
+  "char_start": 48347,
+  "char_end": 50756,
+  "line_start": 817,
+  "line_end": 859
+ },
+ {
+  "page": 24,
+  "char_start": 50757,
+  "char_end": 53343,
+  "line_start": 860,
+  "line_end": 902
+ },
+ {
+  "page": 25,
+  "char_start": 53344,
+  "char_end": 56084,
+  "line_start": 903,
+  "line_end": 943
+ },
+ {
+  "page": 26,
+  "char_start": 56085,
+  "char_end": 58477,
+  "line_start": 944,
+  "line_end": 986
+ },
+ {
+  "page": 28,
+  "char_start": 58479,
+  "char_end": 59772,
+  "line_start": 988,
+  "line_end": 1020
+ },
+ {
+  "page": 29,
+  "char_start": 59773,
+  "char_end": 60536,
+  "line_start": 1021,
+  "line_end": 1036
+ },
+ {
+  "page": 30,
+  "char_start": 60537,
+  "char_end": 61242,
+  "line_start": 1037,
+  "line_end": 1058
+ },
+ {
+  "page": 32,
+  "char_start": 61244,
+  "char_end": 63341,
+  "line_start": 1060,
+  "line_end": 1092
+ },
+ {
+  "page": 33,
+  "char_start": 63342,
+  "char_end": 64005,
+  "line_start": 1093,
+  "line_end": 1107
+ },
+ {
+  "page": 34,
+  "char_start": 64006,
+  "char_end": 65621,
+  "line_start": 1108,
+  "line_end": 1182
+ },
+ {
+  "page": 35,
+  "char_start": 65622,
+  "char_end": 67708,
+  "line_start": 1183,
+  "line_end": 1272
+ },
+ {
+  "page": 36,
+  "char_start": 67709,
+  "char_end": 69755,
+  "line_start": 1273,
+  "line_end": 1363
+ },
+ {
+  "page": 37,
+  "char_start": 69756,
+  "char_end": 71967,
+  "line_start": 1364,
+  "line_end": 1459
+ },
+ {
+  "page": 38,
+  "char_start": 71968,
+  "char_end": 73538,
+  "line_start": 1460,
+  "line_end": 1531
+ },
+ {
+  "page": 39,
+  "char_start": 73539,
+  "char_end": 74389,
+  "line_start": 1532,
+  "line_end": 1551
+ },
+ {
+  "page": 40,
+  "char_start": 74390,
+  "char_end": 74390,
+  "line_start": 1552,
+  "line_end": 1512
+ }
+]

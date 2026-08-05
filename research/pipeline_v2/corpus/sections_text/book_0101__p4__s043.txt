@@ -1,0 +1,440 @@
+moves. Therefore, the lower-priced stocks should have more leeway for their
+gyrations. We will need a wider stop for them than we will for the less
+volatile “blue chips.”
+Similarly, we can take our Sensitivity Indexes (EN: Betas in considering a
+stock relative to the market, and Volatilities for absolute measure of one stock against
+another) to give us a picture of the individual habits of the stock. Although
+two stocks may be selling at the same price at a given moment, you would
+expect a high-beta, high-volatility stock to make wider swings than a
+low-beta, low-volatility stock; therefore, you will set your stops wider on
+the higher-volatility stock.
+We must take these factors into account and work out some sort of simple
+rule of thumb that we can follow. Let us arbitrarily assume an imaginary
+stock of “average” habits and a price of 25. Let us further assume that we
+will be satisfied, in this particular case, with stop protection 5% below the
+last established Minor Bottom.
+For a stock of the same sensitivity selling at 5, we would need about
+half again as much stop leeway (on a percentage basis). That is, the stop
+would be placed 7.5% below the last Bottom (EN9: Significant low). We arrive
+at this by taking the normal expected range of an average stock at price 25,
+which is represented by the Index Figure 15.5, and comparing it with the
+normal range of a stock selling at 5, which is 24. These are merely relative
+indexes and mean only that the stock selling at 5 will normally move about
+24%, while the stock selling at 25 is making a move of about 15.5%. We
+multiply the basic stop distance of 5% by the fraction 24/15.5, and we get
+approximately 7.5%.
+In exactly the same way, we introduce the relative sensitivity of the stock,
+using the Sensitivity Index. If this Index should be 1.33, we multiply the stop
+distance again by this figure and get 10%. In the case of a stock having a
+sensitivity of 2.00 at this same price, our stop distance would be 15%. If the
+sensitivity of the stock were only 0.66, we would get 5%.
+In any case, the stop distance, expressed as a percentage, is obtained by
+dividing the Normal Range-for-Price by 15.5, then multiplying by the Sensitivity Index, and multiplying this result by 5%. (This operation can be done
+most easily and quickly with a calculator or computer routine.)
+All of the foregoing may seem needlessly complicated to the average
+reader. We realize that many will not care to take the time and trouble to
+work out an exact, scientific stop level for each of their occasional commitments. However, the method of determining where stops should be placed
+in a systematic and consistent way has been given in some detail here, so
+that the principles involved will be perfectly clear, and so that you can change
+or adapt the various factors if you feel your experience justifies changes.
+For most ordinary purposes, a simplified table of stop distances will be
+sufficient. This table, which follows, gives you the approximate stop distance
+you would get by the method outlined above, for stocks in various price
+classifications and of various degrees of sensitivity.
+
+AU3772_book.fm Page 437 Saturday, November 18, 2006 5:29 PM
+
+Chapter twenty-seven:
+
+Stop Orders
+
+437
+
+Table of Stop Distances
+(Expressed in Percent of the Price of the Stock)
+
+Price
+Over 100
+40 to 100
+20 to 40
+10 to 20
+5 to 10
+Under 5
+a
+
+Conservative
+Sensitivity
+under 0.75
+
+Median
+Sensitivity
+0.75 to 1.25
+
+Speculative
+Sensitivity
+over 1.25
+
+Implied
+Volatility
+under 0.40
+
+Implied
+Volatility
+0.41–0.79
+
+Implied
+Volatility
+over 0.79
+
+5%
+5%
+5%
+5%
+5%a
+5%a
+
+5%
+5%
+5%
+6%
+7%
+10%
+
+5%
+6%
+8%
+10%
+12%
+15%
+
+Note: Ordinarily, stocks in these price ranges would not be in the
+conservative group.
+
+EN: The informed reader may consider an alternative to Magee’s Sensitivity
+Index which I have conjectured here — that is, basing the stop distance on implied
+volatility, which would present a dynamic method of adjustment. Implied volatility
+is produced from, for instance, the Black–Scholes Model when the model is solved
+for volatility rather than price, taking the market price as the given.
+The stop level should be marked on your chart as a horizontal line as
+soon as an actual or theoretical transaction has been entered into, and it
+should be maintained until the transaction is closed, or until progressive
+stops (which we will explain in a moment) have been started in order to
+close it out. In the case of purchases, the stop level ordinarily will be at the
+indicated distance below the last previous Minor Bottom. In the case of short
+sales, it ordinarily would be at the indicated distance above the last Minor
+Top.
+To determine the position of this stop level, simply figure what the
+percentage distance would amount to at the price of the stock. If you are
+dealing with a stock selling at 30 and the stop distance comes out 10%, then
+allow 3 points under your last Minor Bottom.
+To make this even easier, if you are using the TEKNIPLAT paper, you
+will see that it is possible to divide each of the two cycles making up a chart
+sheet into five spaces. If the center of the paper were numbered 10, then
+these spaces would be from 10 to 12, 12 to 14, 14 to 16, 16 to 18, and 18 to
+20. Each of these “jumps” is made up of 16 of the smallest vertical spaces.
+In the lowest section, it will take about four of these small spaces to make
+5%. It will take five in the second position, six in the third position, seven
+in the fourth, and eight in the top position. You will soon learn to count out
+an approximate stop interval of 15% or 8% or 12% at any price level, without
+a moment’s hesitation.
+
+AU3772_book.fm Page 438 Saturday, November 18, 2006 5:29 PM
+
+438
+
+Technical Analysis of Stock Trends
+
+In no case would we ever set a protective stop level at less than a 5%
+interval, even for the most conservative, high-priced stocks.
+These questions remain: “What constitutes a Minor Bottom? What makes
+an established Minor Top? How do we know how to choose the basing point
+(EN9: cf. Chapter 28) from which to measure off our stop level interval?”
+What constitutes a Bottom or a Top will be taken up in the next chapter. For
+the present, let us accept the proposition that we will determine the correct
+basing point and that we will always, always set our stop level at the moment
+we make the commitment.
+It is understood, of course, that protective stops under long stock are
+never moved down, nor are protective stops over shorts ever moved up. As
+soon as the stock has moved in the right direction far enough to establish a
+new basing point, the stop level is moved up (on longs) or down (on shorts),
+using the same rules for determining the new stop level as were used in
+fixing the original level.
+
+The Progressive Stop
+There is another use of the stop which is properly considered here. This is
+the progressive stop, used to close out a stock that has made a profitable
+move, or in some cases where a stock has given a danger signal before either
+completing a profitable move or violating a previous Minor Bottom.
+You will find that on many moves, the stock will progress in the primary
+direction for several days, and then may develop exceptional volume. Often,
+this occurs just as the stock reaches an important trendline or pattern border
+or Resistance Area. This heavy volume means one of two things. Usually it
+means that the Minor Move has come to an end, that this is the top of the
+rise for the moment. Occasionally, however, the volume may signal the start
+of a breakaway move that may run up several (and perhaps many) points,
+almost vertically. (The reverse situation, of course, may develop on downside
+moves.)
+If, noticing the heavy volume following a good rise, and assuming that
+this day marks the end of the move, you sell the stock at the market or at a
+limit, you are going to be dreadfully disappointed if this should be one of
+those rare cases where the stock opens next day on an upside gap and
+continues 3, 5, or 20 points up in the following days. On the other hand,
+experience will have shown you that it will not pay to expect that sort of
+move very often. You will know that, nine times out of ten, you will be better
+off out of the stock.
+Very well. After such a day when volume is exceptionally high (provided
+this is not the first day of breakout into new high ground beyond the last
+previous Minor Top), cancel your protective stop and set a stop order for
+the day only, just ⅛ point under the closing price. For example, you have
+bought a stock at 21. It goes up on moderate volume, smashes through the
+old Minor Top one day at 23 on very heavy volume, the next day continues
+to 23¾ on moderate volume, the third day advances on moderate volume
+
+AU3772_book.fm Page 439 Saturday, November 18, 2006 5:29 PM
+
+Chapter twenty-seven:
+
+Stop Orders
+
+439
+
+to 24¼, and, finally, the fourth day makes a rise to 25 on much heavier volume
+than it has shown on any day of the rise except the day it broke through 23.
+The morning after this close at 25, you will notice the volume signal. You
+will cancel your protective stop, which may be at 18, and you will place a
+stop order, for the day only, to sell on stop at 24⅞. In most cases, this will
+mean that your stock will be stopped out on the first sale of the day. And
+you may get a slightly lower price than you would get with a straight market
+order. On the other hand, after a day of high volume activity, you are not
+likely to be left in a thin market; there should be bids enough, near the top,
+to get you out at or near your stop price.
+Meanwhile, you are protected against losing the stock if there should be
+a continued move in the right direction. Suppose the opening the morning
+after you set your stop at 24⅞ should be a gap at 25¼, and that prices then
+move up further, closing at 26. (On “runaway” moves of this sort, the closing
+for the day during the move is likely to be at the top.) You will then set your
+stop, again for a single day only, at 25⅞. If the stock then opens at 26⅜ and
+moves up to 28, you will set another day stop at 27⅞, which, let us assume,
+is caught at the opening the following day at 27⅝. In this example, you risked
+only ⅛ point on the first day, and eventually netted an extra gain of 2⅝
+points. This, it should be pointed out, is all net gain, since your commissions
+are approximately the same in either case.
+A progressive stop of this sort can be indicated on the chart by any mark
+you choose to use; for example, a band of short diagonal lines. When a stock
+moves for several days in a runaway move, you may repeat this mark each
+day, indicating a tight stop ⅛ point under the close for each successive day,
+until finally, one of these stops is caught. In the case of short sales, a buy
+stop is used in precisely the same way as the selling stop we have discussed,
+to follow the stock down on a sharp runaway dive.*
+This use of stop orders is indicated wherever a stock has reached its
+reasonable objective on high volume, or where it has exceeded its objective
+and is moving out of the Trend Channel in free air, so to speak, and in some
+cases, where the stock has failed to reach its objective.
+If your stock, for instance, is rising in a Trend Channel, and, about
+halfway between the lower and upper trendlines, suddenly develops great
+volume, then a progressive tight stop will protect you against the threatened
+failure of the move. Extreme volume in such a case, before there has been a
+breakout to a new high above the last Minor High, is definitely a warning
+and a threat. This would be especially true if there were also a gap or a OneDay Reversal at this point.
+* In the case of a stock which has presumably completed its profitable move and has given a
+Minor Top signal by volume, you may place a near (EN: or “Hair-trigger” Stop) (⅛ point) stop
+the first day. If the stock moves up the next day, without abnormal volume, you may leave the
+stop at this same point each day until another “blowoff” or Top signal appears; that is, until
+you see another day of heavy volume, a gap, or a One-Day Reversal, and then move the stop
+up to ⅛ point below the close of that day. This method often works out somewhat better than
+the continuously progressive near stop.
+
+AU3772_book.fm Page 440 Saturday, November 18, 2006 5:29 PM
+
+440
+
+Technical Analysis of Stock Trends
+
+The one day on which a tight stop would not be applied after heavy
+volume had appeared would be the day the stock made a new high, running
+entirely through the previous Minor Top and closing above it. This action
+generally means the move is not yet completed. However, should the move
+continue higher and again show heavy volume, even if it is the very next
+day, we would then protect with a progressive stop.
+In this chapter, as throughout the book, the expression “heavy volume”
+means heavy only with respect to the recent volume of sale in the stock you
+are watching. A thousand shares may be significantly heavy volume in some
+thin issues, whereas 10,000 shares would be no more than a normal turnover
+in more actively traded stocks. The volume chart itself will show, by a market
+peak, when a day of abnormally heavy volume occurs.
+It should be understood that the progressive stops we have been discussing are intended to take short-term gains, or to close out an exceptionally
+profitable runaway move terminating in an Intermediate Climax. While the
+extreme conditions that call for this type of operation are by no means rare,
+they are not the usual, everyday action of the market. In the case of ordinary
+Minor Tops, even when they are fairly apparent on the basis of Trend Channels, volume peak, and other indications, many traders and investors will
+prefer to wait out the expected reaction rather than pay additional commissions and lose a position that is still presumably in a favorable Major Trend.
+In short, the progressive stop is a device which may be very useful on
+occasion, but it is intended to cope with a special and somewhat unusual move.
+The protective stops, on the other hand, offer the average trader, the
+man who is not able to spend his entire time studying the market, or who
+has not had long experience, a device by which he can limit his possible loss.
+He will be protected from his own unwillingness to close out the bad holding,
+and so, he will avoid the ruinous condition of becoming frozen into a hopeless situation. Since he will be taken out automatically, regardless of whether
+he has an ultimate gain or loss, he will have the capital to use in better-looking issues and will not have to worry about the prospects of recovery in his
+stock after it has gone many points against him.
+However, if one has sufficient knowledge and sufficient determination to
+get out as soon as the trend has shown convincing evidence on a turn, there is
+less need for the stop orders. EN: This editor believes that only the proven
+trader-investor should trade without a stop in the market. The reader may determine
+if he meets this criterion by examining his portfolio to see if he has ever let a loss run,
+or allowed a significant profit to slip away. If so he, or she, or they, or it, is not proven.
+It is possible for such a person to operate successfully without them; and there
+are some advantages in doing this, since a stop order will occasionally be caught
+by a false move or an extended dull reaction. There are also advantages in not
+using stop orders for the experienced technician who is looking toward a
+possible long-term gain and who is willing to wait out a Secondary reaction.
+But it is a thousand times better for the person who is not sure of his methods
+to be stopped out early, then to be left holding a stock bought at, say 60, when
+it has declined to 29 — or to 5!
+
+AU3772_C028.fm Page 441 Tuesday, November 21, 2006 1:25 PM
+
+chapter twenty-eight
+
+What Is a Bottom — What
+Is a Top?
+EN9: In this extremely important chapter I have left intact Magee’s usage of “Tops
+and Bottoms.” It will be less potentially confusing for the reader to think of “highs
+and lows” as that terminology is commonly used in the business in the modern era.
+Also, thinking in terms of highs and lows is an important concept in itself. Thus,
+for a bull trend, higher highs, higher lows. And when this pattern is broken in an
+important way the trader should be alert for a trend change. And, as the use of
+eighths is of the essence in Figure 210, I have left the discussion in eighths while
+the reader knows that decimals are now used in the markets.
+In this chapter, we are not talking about what makes a Major Top or Bottom,
+nor what makes an Intermediate Top or Bottom. We are speaking of the Minor
+Tops and Bottoms that give us important hooks on which to hang our
+technical operations. Stop-order levels, trendlines, objectives, Supports and
+Resistances are determined by these Minor Tops and Bottoms. They are of
+prime importance to us as traders.
+Usually, these Minor Tops and Bottoms are well marked and perfectly
+clear. Often they are not. Sometimes, it is not possible to say definitely that
+this or that place is or is not a Top or Bottom. But it is possible to set certain
+standards, practical working rules, that will help us in making these points;
+and these rules will not fail us too often.
+A good rule for setting stop levels is to consider that a Bottom has been
+made when the stock has moved “three days away” from the day marking
+the suspected low of the Bottom. If a stock reacts for some days and finally
+makes a low at 24, with a high for that day at 25, then we will not have an
+established Bottom until we have had 3 days in which the stock sells at no
+lower than 25⅛. The entire price range for 3 full days must be entirely above
+the top price for the day making the low. This is the “three days away” rule,
+and it would apply in reverse in declining markets, where the range for
+3 days must be entirely below the entire range of the day making the high.
+This gives a rule for setting an original stop order. It also gives a rule
+for changing the stop order. As soon as the stock has moved 3 days away
+from a new Bottom, we move the stop order to a position below that Bottom.
+(We have already explained in Chapter 27 how we determine the distance
+this stop level should be below the Bottom.)
+441
+
+AU3772_C028.fm Page 442 Tuesday, November 21, 2006 1:25 PM
+
+442
+
+Technical Analysis of Stock Trends
+
+17
+16
+AMERICAN CABLE & RADIO
+
+ACR
+
+15
+14
+1945–1946
+13
+12
+11
+10
+Sales
+100’s
+
+250
+200
+150
+100
+50
+JULY
+AUGUST
+SEPTEMBER OCTOBER
+NOVEMBER DECEMBER
+7 14 21 28 4 11 18 25 1 8 15 22 29 6 13 20 27 3 10 17 24 1 8 15 22 29 5
+
+FIGURE 210. Advance of a protective stop order in a long commitment. The daily
+chart of American Cable and Radio in the summer of 1945 made a Rounded Bottom,
+part of a long period of Consolidation following the advance which ended in July
+1944. A breakout on heavy volume occurred September 12, and purchases were then
+possible on any Minor Reactions.
+The first protective stop would immediately be placed 6% below the previous
+Minor Bottom of August 21, using the table given in Chapter 27. This would put the
+stop level at 9⅞. On September 19 and 20, we would have 2 days of market action
+entirely “away” from the September 17 Minor Bottom, and, on September 28, a third
+day. We would then move the stop up to 6% under the September 17 Bottom, or to
+10⅝. The next move would come after the new high closing of October 11, which is
+more than 3% higher than the October 1 Minor Peak. The stop would now be placed
+at 11⅞. On November 2, a new high close was registered more than 3% over the
+October 15 Minor Peak; the stop would be raised to 12¾. On November 15, another
+high closing topped by over 3% the Minor Peak made on November 7. The stop
+would be moved up again, this time to 13½. November 29 made the third day the
+entire range was “three days away” from the November 26 Bottom, and the stop
+was upped to 13¾. The closing on December 5 gave us a 3% advance over the
+November 17 high, and again we moved the stop, raising it to 14⅞. Finally, on January
+3, 1946, this stop was caught as shown on the chart. In a Bear Market, protective
+stops would be moved down in exactly the same manner to protect a short sale. EN9:
+A number of inconsistencies exist in this figure and caption which are clarified later in the text.
+
+AU3772_C028.fm Page 443 Tuesday, November 21, 2006 1:25 PM
+
+Chapter twenty-eight:
+
+What Is a Bottom — What Is a Top?
+
+443
+
+Protective stops for long stocks can move only up. A stop level, once
+established, is never to be moved down except when the stock goes ex-dividend or ex-rights; then the stop may be dropped the amount of the dividend
+or rights. Similarly, protective stops for short sales are to be moved only
+down, and may not be raised. (In the case of ex-dividends and ex-rights, the
+short-sale stop would be dropped the amount of the dividend or rights.)
+There are certain situations where it is difficult to determine Bottoms
+and Tops; where, indeed, it seems as though a Consolidation or Correction
+had been made without any significant move in the Secondary Direction. In
+such cases (as contrasted to the obvious situation where the stock moves up
+or down in series of well-marked steps and reactions, like a staircase), you
+will need all your judgment and experience to determine where the Minor
+Basing Points actually occur.
+
+Basing Points
+Let us call the levels which determine where stops should be placed Basing
+Points. In a Bull Market Move, we will consider the Bottom of each Minor
+Reaction as a Basing Point, from which we will figure our stop-order level
+as soon as the stock has moved up to “three days away.” We will also use
+each Minor Top as a Basing Point in a Bull Move. In a Bear Market, we will
+consider the Tops of each rally and also each Minor Bottom as Basing Points
+for the protective stops, in the same way.
+Where a stock makes a substantial move in the Primary Direction, say
+a move of 15% or more, and then moves back at least 40% of the distance
+covered from the previous Basing Point to the end of the Primary Move, that
+surely gives us a Basing Point as soon as the stock again starts off in the
+Primary Direction. However, if the stock reacts less than 40%, perhaps even
+marks time at the same level for a week or more, that should also be considered a Basing Point as soon as the move in the Primary Direction is
+continued (provided the volume indications are right).
+The daily volume, as we have seen, is like the trained nurse’s clinical
+thermometer; it tells a great deal about what is happening in a stock, more
+than the superficial symptoms of price alone. There are three times at which
+you may look for exceptionally heavy volume: (1) on the day of breakout
+from a pattern or a period of inaction, especially if the breakout is on the
+upside; (2) on the day on which the stock goes into new ground in the
+Primary or Intermediate Direction, that is, goes above the last Minor Top in
+a Bull Market, or below the last Minor Bottom in a Bear Market; and (3) the
+day on which the Minor Move is completed or nearly completed, that is, the
+new Minor Top in a Bull Market and the Minor Bottom in a Bear Market.
+To this we might add that extra heavy volume on any other day during a
+move in the Primary Direction is likely to indicate that the move is at an
+end and will not complete the hoped-for advance or decline.

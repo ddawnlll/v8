@@ -1,0 +1,305 @@
+
+OF
+
+OPTIMIZERS
+
+There are many kinds of optimizers, each with its own special strengths and weak
+nesses, advantages and disadvantages. Optimizers can be classified along such
+dimensions as human versus machine, complex versus simple, special purpose
+versus general purpose, and analytic versus stochastic. All optimizers-regardless
+of kind, efficiency, or reliability-execute a search for the best of many potential
+solutions to a formally specified problem.
+lmpllcit Optimizers
+A mouse cannot be used to click on a button that says “optimize.” There is no special command to enter. In fact, there is no special software or even machine in
+sight. Does this mean there is no optimizer? No. Even when there is no optimizer
+apparent, and it seems as though no optimization is going on, there is. It is known
+as implicit optimization and works as follows: The trader tests a set of rules based
+upon some ideas regarding the market. Performance of the system is poor, and so
+the trader reworks the ideas, modifies the system’s rules, and runs another simulation Better performance is observed. The trader repeats this process a few
+times, each time making changes based on what has been learned along the way.
+Eventually, the trader builds a system worthy of being traded with real money.
+Was this system an optimized one? Since no parameters were ever explicitly
+adjusted and no rules were ever rearranged by the software, it appears as if the
+trader has succeeded in creating an unoptimized system. However, more than one
+solution from a set of many possible solutions was tested and the best solution was
+selected for use in trading or further study. This means that the system was optimized after all! Any form of problem solving in which more than one solution is
+examined and the best is chosen constitutes de facto optimization. The trader has
+a powerful brain that employed mental problem-solving algorithms, e.g., heuristically guided trial-and-error ones, which are exceptionally potent optimizers.
+
+32
+
+This means that optimization is always present: optimizers are always at work.
+There is no escape!
+Brute
+
+Force
+
+Optimizers
+
+A brute force optimizer searches for the best possible solution by systematically
+testing all potential solutions, i.e., all definable combinations of rules, parameters,
+or both. Because every possible combination must be tested, brute force optimization can be very slow. Lack of speed becomes a serious issue as the number
+of combinations to be examined grows. Consequently, brute force optimization is
+subject to the law of “combinatorial explosion.” Just how slow is brute force optimization? Consider a case where there are four parameters to optimize and where
+each parameter can take on any of 50 values. Brute force optimization would
+require that 504 (about 6 million) tests or simulations be conducted before the
+optimal parameter set could be determined: if one simulation was executed every
+1.62 seconds (typical for TradeStation), the optimization process would take about
+4 months to complete. This approach is not very practical, especially when many
+systems need to be tested and optimized, when there are many parameters, when
+the parameters can take on many values, or when you have a life. Nevertheless,
+brute force optimization is useful and effective. If properly done, it will always
+find the best possible solution. Brute force is a good choice for small problems
+where combinatorial explosion is not an issue and solutions can be found in minutes, rather than days or years.
+Only a small amount of programming code is needed to implement brute
+force optimization. Simple loop constructs are commonly employed. Parameters
+to be optimized are stepped from a start value to a stop value by some increment
+using a For loop (C, C+ +, Basic, Pascal/Delphi) or a Do loop (FORTRAN). A
+brute force optimizer for two parameters, when coded in a modem dialect of
+Basic, might appear as follows:
+
+Because brute force optimizers are conceptually simple and easy to program,
+they are often built into the more advanced software packages that arc available
+for traders.
+As a practical illustration of bmte force optimization, TradeStation was used
+to optimize the moving averages in a dual moving-average crossover system.
+Optimization was for net profit, the only trading system characteristic that TradeStation can optimize without the aid of add-on products, The Easy Language code
+for the dual moving-average trading model appears below:
+
+The system was optimized by stepping the length of the first moving average
+(LenA) from 2 to 10 in increments of 2. The length of the second moving average
+(LenB) was advanced from 2 to 50 with the same increments. Increments were set
+greater than 1 so that fewer than 200 combinations would need to be tested
+(TradeStation can only save data on a maximum of 200 optimization runs). Since
+not all possible combinations of values for the two parameters were explored, the
+optimization was less thorough than it could have been; the best solution may have
+been missed in the search. Notwithstanding, the optimization required 125 tests,
+which took 3 minutes and 24 seconds to complete on 5 years of historical, end-ofday data, using an Intel 486 machine running at 66 megahertz. The results generated by the optimization were loaded into an Excel spreadsheet and sorted for net
+profit. Table 3-l presents various performance measures for the top 25 solutions.
+In the table, LENA represents the period of the shorter moving average,
+LENB the period of the longer moving average, NetPrft the total net profit,
+LtNerPlft the net profit for long positions, S:NefPrji the net profit for short positions, PFact the profit factor, ROA the total (unannualized) return-on-account,
+MaxDD the maximum drawdown, #Trds the total number of trades taken, and
+%Prji the percentage of profitable trades.
+Since optimization is a problem-solving search procedure, it frequently
+results in surprising discoveries. The optimization performed on the dual movingaverage crossover system was no exception to the rule. Conventional trading wisdom says that “the trend is your friend.” However, having a second moving average
+that is faster than the first, the most profitable solutions in Table 3. I trade against
+the trend. These profitable countertrend solutions might not have been discovered
+without the search performed by the optimization procedure.
+
+34
+
+T A B L E
+
+Successful user-guided optimization calls for skill, domain knowledge, or
+both, on the part of the person guiding the optimization process. Given adequate
+skill and experience, not to mention a tractable problem, user-guided optimization
+can be extremely efficient and dramatically faster than brute force methods. ‘Ibe
+speed and efficiency derive from the addition of intelligence to the search process:
+Zones with a high probability of paying off can be recognized and carefully examined, while time-consuming investigations of regions unlikely to yield good
+results can be avoided.
+User-guided optimization is most appropriate when ballpark results have
+already been established by other means, when the problem is familiar or well
+understood, or when only a small number of parameters need to be manipulated.
+As a means of “polishing” an existing solution, user guided-optimization is an
+excellent choice. It is also useful for studying model sensitivity to changes in rules
+or parameter values.
+Genetic Optimizers
+
+Imagine something powerful enough to solve all the problems inherent in the
+creation of a human being. That something surely represents the ultimate in
+problem solving and optimization. What is it? It is the familiar process of evolution. Genetic optimizers endeavor to harness some of that incredible problem-solving power through a crude simulation of the evolutionary process. In
+terms of overall performance and the variety of problems that may be solved,
+there is no general-purpose optimizer more powerful than a properly crafted
+genetic one.
+Genetic optimizers are Stochustic optimizers in the sense that they take
+advantage of random chance in their operation. It may not seem believable that
+tossing dice can be a great way to solve problems, but, done correctly, it can be!
+In addition to randomness, genetic optimizers employ selection and recombination. The clever integration of random chance, selection, and recombination is
+responsible for the genetic optimizer’s great power. A full discussion of genetic
+algorithms, which are the basis for genetic optimizers, appears in Part II.
+Genetic optimizers have many highly desirable characteristics. One such
+characteristic is speed, especially when faced with combinatorial explosion. A
+genetic optimizer can easily be many orders of magnitude faster than a brute force
+optimizer when there are a multiplicity of rules, or parameters that have many possible values, to manipulate. This is because, like user-guided optimization, genetic
+optimization can focus on important regions of solution space while mostly ignoring blind alleys. In contrast to user-guided optimization, the benefit of a selective
+search is achieved without the need for human intervention.
+Genetic optimizers can swiftly solve complex problems, and they are also
+more immune than other kinds of optimizers to the effects of local maxima in the
+
+36
+
+fitness surface or, equivalently, local minima in the cost surface. Analytic methods
+are worst in that they almost always walk right to the top of the nearest hill or bottom of the nearest valley, without regard to whether higher hills or lower valleys
+exist elsewhere. In contrast, a good genetic optimizer often locates the globally
+best solution-quite an impressive feat when accomplished for cantankerous fitness surfaces, such as those associated with matrices of neural connection weights.
+Another characteristic of genetic optimization is that it works well with fitness surfaces marked by discontinuities, flat regions, and other troublesome irregularities. Genetic optimization shares this characteristic with brute force,
+user-guided, annealing-based, and other nonanalytic optimization methods.
+Solutions that maximize such items as net profit, return on investment, the Sharpe
+Ratio, and others that define difficult, nonanalytic fitness landscapes can be found
+using a genetic optimizer. Genetic optimizers shine with difficult fitness functions
+that lie beyond the purview of analytic methods. This does not mean that they cannot be used to solve problems having more tractable fitness surfaces: Perhaps
+slower than the analytic methods, they have the virtue of being more resistant to
+the traps set by local optima.
+Overall, genetic optimizers are the optimizers of choice when there are many
+parameters or rules to adapt, when a global solution is desired, or when arbitrarily
+complex (and not necessarily differentiable or continuous) fitness or cost functions
+must be handled. Although special-purpose optimizers can outperform genetic optimizers on specific kinds of problems, for general-purpose optimization, genetic
+optimizers are among the most powerful tools available.
+What does a genetic optimizer look like in action? The dual moving-average
+crossover system discussed earlier was translated to Cl 1 so that the genetic optimizer in the C-Trader toolkit could be used to solve for the two system parameters, LenA and LenB. LenA, the period of the first moving average, was examined
+over the range of 2 through 50, as was LenB, the period of the second moving average. Optimization was for net profit so that the results would be directly comparable with those produced earlier by brute force optimization. Below is the Cl 1
+code for the crossover system:
+
+CWR 3
+
+Optimizers and Optimimion
+
+I/ take no trades in lo&back period
+if(clt[cbl c 910302) ( eqclsLcb1 = 0.0; continue; )
+
+To solve for the best parameters, brute force optimization would require that 2,041
+tests be performed; in TradeStation, that works out to about 56 minutes of computing time, extrapolating from the earlier illustration in which a small subset of
+the current solution space was examined. Only 1 minute of running time was
+required by the genetic optimizer; in an attempt to put it at a significant disadvantage, it was prematurely stopped after performing only 133 tests.
+The output from the genetic optimizer appears in Table 3-2. In this table, PI represents the period of the faster moving average, P2 the period of the slower moving
+average, NETthe total net profit, NETLNG the net profit for long positions, NETSiS
+the net profit for short positions, PFAC the profit factor, ROA% the annualized rehm
+on account, DRAW the maximum drawdown, TRDS the number of trades taken by the
+system, WIN% the percentage of winning trades, AVGT the profit or loss resulting
+from the average trade, and FZTthe fitness of the solution (which, in this instance, is
+merely the total net p&it). As with the brute force data in Table 3-1, the genetic data
+have been sorted by net profit (fitness) and only the 25 best solutions were presented.
+
+Top 25 Solutions Found Using Genetic Optimization in C-Trader Toolkit
+
+Comparison of the brute force and genetic optimization results (Tables 3- 1 and 3-2,
+respectively) reveals that the genetic optimizer isolated a solution with a greater net
+profit ($172,725) than did the brute force optimizer ($145,125). This is no surprise
+since a larger solution space, not decimated by increments, was explored. The surprise is that the better solution was found so quickly, despite the handicap of a prematurely stopped evolutionary process. Results like these demonstrate the incredible
+effectiveness of genetic optimization.
+Optimization by Simulated Annealing
+
+Optimizers based on annealing mimic the thermodynamic process by which liquids freeze and metals anneal. Starting out at a high temperature, the atoms of a
+liquid or molten metal bounce rapidly about in a random fashion. Slowly cooled,
+they mange themselves into an orderly configuration-a crystal-that represents
+a minimal energy state for the system. Simulated in software, this thermodynamic
+process readily solves large-scale optimization problems.
+As with genetic opimization, optimization by simulared annealing is a very
+powerful Stochastic technique, modeled upon a natural phenomenon, that can find
+globally optimal solutions and handle ill-behaved fitness functions. Simulated
+annealing has effectively solved significant combinatorial problems, including
+
+CHAPTER 3
+
+Optimizers and Optimization
+
+39
+
+the famous “traveling salesman problem,” and the problem of how best to arrange the
+millions of circuit elements found on modem integrated circuit chips, such as
+those that power computers. Methods based on simulated annealing should not be
+construed as limited to combinatorial optimization; they can readily be adapted to
+the optimization of real-valued parameters. Consequently, optimizers based on
+simulated annealing are applicable to a wide variety of problems, including those
+faced by traders.
+Since genetic optimizers perform so well, we have experienced little need to
+explore optimizers based on simulated annealing. In addition, there have been a
+few reports suggesting that, in many cases, annealing algorithms do not perform
+as well as genetic algorithms. Because of these reasons, we have not provided
+examples of simulated annealing and have little more to say about the method.
+
+Analytic Optimizers
+Analysis (as in “real analysis” or “complex analysis”) is an extension of classical
+college calculus. Analytic optimizers involve the well-developed machinery of
+
+analysis, specifically differential calculus and the study of analytic functions, in
+the solution of practical problems. In some instances, analytic methods can yield
+a direct (noniterative) solution to an optimization problem. This happens to be the
+case for multiple regression, where solutions can be obtained with a few matrix
+calculations. In multiple regression, the goal is to find a set of regression weights
+that minimize the sum of the squared prediction errors. In other cases, iterative
+techniques must be used. The connection weights in a neural network, for example, cannot be directly determined. They must be estimated using an iterative procedure, such as back-propagation.
+Many iterative techniques used to solve multivariate optimization problems (those involving several variables or parameters) employ some variation
+on the theme of steepest ascent. In its most basic form, optimization by steepest ascent works as follows: A point in the domain of the fitness function (that
+is, a set of parameter values) is chosen by some means. The gradient vector at
+that point is evaluated by computing the derivatives of the fitness function with
+respect to each of the variables or parameters; this defines the direction in ndimensional parameter space for which a fixed amount of movement will produce the greatest increase in fitness. A small step is taken up the hill in fitness
+space, along the direction of the gradient. The gradient is then recomputed at
+this new point, and another, perhaps smaller, step is taken. The process is
+repeated until convergence occurs.
+A real-world implementation of steepest ascent optimization has to specify
+how the step size will be determined at each iteration, and how the direction
+defined by the gradient will be adjusted for better overall convergence of the optimization process. Naive implementations assume that there is an analytic fitness
+
+surface (one that can be approximated locally by a convergent power series) having hills that must be climbed. More sophisticated implementations go further,
+commonly assuming that the fitness function can be well approximated locally by
+a quadratic form. If a fitness function satisfies this assumption, then much faster
+convergence to a solution can be achieved. However, when the fitness surface has
+many irregularly shaped bills and valleys, quadratic forms often fail to provide a
+good approximation. In such cases, the more sophisticated methods break down
+entirely or their performance seriously degrades.
+Worse than degraded performance is the problem of local solutions. Almost
+all analytic methods, whether elementary or sophisticated, are easily trapped by
+local maxima: they generally fail to locate the globally best solution when there
+are’ many hills and valleys in the fitness surface. Least-squares, neural network
+predictive modeling gives rise to fitness surfaces that, although clearly analytic,
+are full of bumps, troughs, and other irregularities that lead standard analytic techniques (including back-propagation, a variant on steepest ascent) astray. Local
+maxima and other hazards that accompany such fitness surfaces can, however, be
+sidestepped by cleverly marrying a genetic algorithm with an analytic one. For titness surfaces amenable to analytic optimization, such a combined algorithm can
+provide the best of both worlds: fast, accurate solutions that are also likely to be
+globally optimal.
+Some fitness surfaces are simply not amenable to analytic optimization.
+More specifically, analytic methods cannot be used when the fitness surface has
+flat areas or discontinuities in the region of parameter space where a solution is to
+be sought. Flat areas imply null gradients, hence the absence of a preferred direction in which to take a step. At points of discontinuity, the gradient is not defined;
+again, a stepping direction cannot be determined. Even if a method does not
+explicitly use gradient information, such information is employed implicitly by
+the optimization algorithm. Unfortunately, many fitness functions of interest to
+traders-including, for instance, all functions that involve net profit, drawdown,
+percentage of winning trades, risk-to-reward ratios, and other like items-have
+plateaus and discontinuities. They are, therefore, not tractable using analytic methods.
+Although the discussion has centered on the maximization of fitness, everything said applies as well to the minimization of cost. Any maximization technique
+can be used for minimization, and vice versa: Multiply a fitness function by - 1 to
+obtain an equivalent cost function; multiply a cost function by - 1 and a fitness function is the result. If a minimization algorithm takes your fancy, but a maximization
+is required, use this trick to avoid having to recode the optimization algorithm.
+Linear
+
+Programming
+
+The techniques of linear programming are designed for optimization problems
+involving linear cost or fitness functions, and linear constraints on the parameters
+
+or input variables. Linear programming is typically used to solve resource allocation problems. In the world of trading, one use of linear programming might be
+to allocate capital among a set of investments to maximize net profit. If riskadjusted profit is to be optimized, linear programming methods cannot be used:
+Risk-adjusted profit is not a linear function of the amount of capital allocated to
+each of the investments; in such instances, other techniques (e.g., genetic algorithms) must be employed. Linear programming methods are rarely useful in the
+development of trading systems. They are mentioned here only to inform readers
+of their existence.
+HOW TO FAIL WITH OPTIMIZATION
+Most traders do not seek failure, at least not consciously. However, knowledge of
+the way failure is achieved can be of great benefit when seeking to avoid it. Failure
+with an optimizer is easy to accomplish by following a few key rules. First, be sure
+to use a small data sample when running sirindations: The smaller the sample, the
+greater the likelihood it will poorly represent the data on which the trading model
+will actually be traded. Next, make sure the trading system has a large number of
+parameters and rules to optimize: For a given data sample, the greater the number
+of variables that must be estimated, the easier it will be to obtain spurious results.
+It would also be beneficial to employ only a single sample on which to run tests;
+annoying out-of-sample data sets have no place in the rose-colored world of the
+ardent loser. Finally, do avoid the headache of inferential statistics. Follow these
+rules and failure is guaranteed.
+What shape will failure take? Most likely, system performance will look
+great in tests, but terrible in real-time trading. Neural network developers call this
+phenomenon “poor generalization”; traders are acquainted with it through the
+experience of margin calls and a serious loss of trading capital. One consequence
+of such a failure-laden outcome is the formation of a popular misconception: that
+all optimization is dangerous and to be feared.
+In actual fact, optimizers are not dangerous and not all optimization should be
+feared. Only bad optimization is dangerous and frightening. Optimization of large
+parameter sets on small samples, without out-of-sample tests or inferential statistics, is simply a bad practice that invites unhappy results for a variety of reasons.
+Small Samples
+Consider the impact of small samples on the optimization process. Small samples
+of market data are unlikely to be representative of the universe from which they
+are drawn: consequently, they will probably differ significantly from other samples obtained from the same universe. Applied to a small development sample, an
+optimizer will faithfully discover the best possible solution. The best solution for

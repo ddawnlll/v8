@@ -1,0 +1,850 @@
+
+Index
+
+backspread (volatility spread)
+breakouts and, 239, 242
+call, 224, 227–233
+concept review, 223
+deﬁned, 223
+delta of, 227–228, 233–234
+expiry selection and, 243
+gamma of, 229–230, 235–236
+investment objectives, 238–241
+losses, taking, 246
+news and, 240–241
+proﬁts, taking, 244–245
+put, 224–226, 233–238
+risk management, 246
+rolling, 244–245
+special situations and, 241
+strategy composition, 224–226
+strategy overview, 223–224
+strategy selection, 242–243
+strike selection and, 242
+theta of, 232–233, 237–238
+trade management, 243–246
+trend direction and, 242
+vega of, 231–232, 236–237
+bear spread (bear vertical spread)
+bear call spread (short call spread,
+credit call spread), 32–34
+bear put spread (long put spread,
+debit put spread), 33–35
+deﬁned, 34
+delta of, 40–41
+gamma of, 41–43
+synthetic, 69, 70
+
+theta of, 43–45
+vega of, 43
+box, vertical spread and, 53–56,
+69, 70
+breakout(s)
+backspread and, 239, 242
+deﬁned, 95, 119
+straddles and, 119, 122
+strangles and, 119, 122
+bull spread (bull vertical spread)
+bull call spread (long call
+spread, debit call spread),
+30–31, 33
+bull put spread (short put spread,
+credit put spread), 31, 33–34
+deﬁned, 33
+delta of, 35–37
+gamma of, 37–38
+synthetic, 69–70
+theta of, 39–40
+vega of, 37–39
+butterﬂy
+See also condor
+concept review, 127
+deﬁned, 29
+delta of, 134–135
+as directionless strategy, 127, 131,
+132, 134, 144–153
+expiry selection and, 148
+gamma of, 136–137
+investment objectives, 144–146
+long, 127–139
+losses, taking, 153
+
+263
+
+264
+
+Index
+
+proﬁts, taking, 149–151
+resistance and, 144–146
+risk management, 153
+short, 127
+strategy composition, 128–133
+strategy overview, 127
+strategy selection, 146–148
+strike selection and, 147–148
+support and, 144–146
+theta of, 138–139
+trade management, 149–153
+vega of, 137–138
+buy-write, 13–14
+calendar spread, diagonal, 157
+calendar spread, horizontal. See time
+spread
+call backspread
+delta of, 227–228
+gamma of, 229–230
+1-to-2, 227–233
+put backspread versus, 224
+strategy composition, 224
+theta of, 232–233
+vega of, 231–232
+call ratio spread
+delta of, 196–198
+gamma of, 198–199
+1-to-2, 196–202
+put ratio spread versus, 192
+strategy composition, 192–194
+theta of, 201–202
+vega of, 199–201
+call versus put
+backspread, 224
+ratio spread, 192
+time spread, 164–166, 177–180
+vertical spread, 45, 52
+Chicago Board Options Exchange
+(CBOE), 18
+collar
+See also reverse-collar
+concept review, 65
+delta of, 71–72
+as directional strategy, 66, 79–81, 86
+gamma of, 72
+as hedging vehicle, 68–70, 78,
+90–91
+implied volatility and, 68, 83–85
+investment objectives, 79–81
+market forecast and, 80–83
+resistance and, 82
+
+risk appetite and, 85
+risk management, 80–81
+rolling, 86–88
+strategy composition, 66–67
+strategy overview, 65–66
+strategy selection, 81–85
+synthetic options positions,
+role of, 69
+theta of, 74–75
+trade management, 85–91
+trigger, failure to, 89–90
+unsuccessful position, 88–89
+vega of, 72–74
+condor
+See also butterﬂy
+concept review, 127
+delta of, 139–140
+as directionless strategy, 127, 132,
+134, 144–153
+expiry selection and, 148
+gamma of, 140–141
+investment objectives, 144–146
+long, 127–133, 139–144
+losses, taking, 153
+proﬁts, taking, 149–151
+resistance and, 144–146
+risk management, 153
+short, 127
+strategy composition, 128–133
+strategy overview, 127
+strategy selection, 146–148
+strike selection and, 147–148
+support and, 144–146
+theta of, 143
+trade management, 149–153
+vega of, 142
+congestion, deﬁned, 191
+consolidation/consolidation pattern
+(continuation/continuation
+pattern), deﬁned, 95, 223
+conversion, 21
+deﬁned, 4
+covered-write
+break-even point, 15
+concept review, 3–4
+deﬁned, 4
+delta of, 7–9
+downside protection, 5–6, 18
+gamma of, 9–10
+implied volatility and, 18–20
+income generation and, 5, 18
+investment objectives, 13–15
+
+Index
+
+as long-term strategy, 13
+market forecast and, 16–17
+modiﬁcations, 6
+return rates, 14–15
+return to call, 14, 15
+return to unchanged, 14–15
+risk appetite and, 17–18
+risk management, 6–7
+as short-term trading strategy, 13–14
+strategy composition, 5–6
+strategy overview, 4–5
+strategy selection, 15–20
+theta of, 12–13
+trade management, 20–24
+upside limitations, 6
+vega of, 10–12
+credit, 33, 34
+credit call spread (bear call spread,
+short call spread), 32–34
+credit put spread (bull put spread,
+short put spread), 31, 33–34
+debit, 33, 34
+debit call spread (bull call spread, long
+call spread), 30–31, 33
+debit put spread (bear put spread,
+long put spread), 33–35
+delta
+of backspread, 227–228, 233–235
+of bear spread, 40–41
+of bull spread, 35–37
+of butterﬂy, 134–135
+of call backspread, 227–228
+of call ratio spread, 196–198
+of collar, 71–72
+of condor, 139–140
+of covered-write, 7–9
+deﬁned, 3
+of long butterﬂy, 134–135
+of long condor, 139–140
+of long straddle, 100–102
+of long strangle, 105–107
+of long time spread, 162–164
+of put backspread, 233–234
+of put ratio spread, 202–203
+of ratio spread, 196–198, 202–203
+of reverse-collar, 75–76
+of short straddle, 109–111
+of short strangle, 114–115
+of short time spread, 167–169
+of straddle, 100–102, 109–111
+of strangle, 105–107, 114–115
+
+of time spread, 162–164,
+167–169
+of vertical spread, 35–37, 40–41
+delta neutral, 101
+diagonal calendar spread, 157
+directional strategy
+collar as, 66, 79–81, 86
+reverse-collar as, 66, 79–81, 86
+time spread as, 173
+vertical spread as, 30, 45–49
+directionless (nondirectional)
+strategy
+butterﬂy as, 127, 131, 132, 134,
+144–153
+condor as, 127, 132, 134, 144–153
+identifying the directionless
+market, 144
+straddle as, 95, 118, 120
+strangle as, 95, 118, 120
+time spread as, 173–174
+down and out, 23
+downside protection, covered-write
+and, 5–6, 18
+extrinsic value, deﬁned, 3
+gamma
+of backspread, 229–230, 235–236
+of bear spread, 41–43
+of bull spread, 37–38
+of butterﬂy, 136–137
+of call backspread, 229–230
+of call ratio spread, 198–199
+of collar, 72
+of condor, 140–141
+of covered-write, 9–10
+deﬁned, 3
+of long butterﬂy, 136–137
+of long condor, 140–141
+of long straddle, 102
+of long strangle, 107–108
+of long time spread, 164–165
+of put backspread, 235–236
+of put ratio spread, 204–205
+of ratio spread, 198–199,
+204–205
+of reverse-collar, 76
+of short straddle, 111–112
+of short strangle, 115–116
+of short time spread, 169
+of straddle, 102, 111–112
+of strangle, 107–108, 115–116
+
+265
+
+266
+
+Index
+
+of time spread, 164–165, 169
+of vertical spread, 37–38, 41–43
+Greeks, the. See delta; gamma;
+theta; vega
+hedging vehicle, collar and reversecollar as, 68–70, 78, 90–91
+horizontal calendar spread. See time
+spread
+implied volatility
+collar and, 68, 83–85
+covered-write and, 18–20
+deﬁned, 3, 29
+ratio spread and, 210–212
+reverse-collar and, 68, 83–85
+straddle and, 119, 122–123
+strangle and, 119, 122–123
+time spread and, 174–177
+vertical spread and, 47–49, 51
+implied volatility skew
+collar and, 84–85
+deﬁned, 65, 84
+ratio spread and, 210
+reverse-collar and, 84–85
+income generation
+covered-write and, 5, 18
+vertical spread and, 49, 51–52
+intrinsic value, deﬁned, 3
+jelly roll
+deﬁned, 157, 177–178
+long, 157, 178, 180
+practical uses of, 179–180
+short, 157, 178, 189
+value of, 178–179
+long butterﬂy
+delta of, 134–135
+gamma of, 136–137
+long call butterﬂy, 128
+long iron butterﬂy, 129
+strategy composition, 128–133
+theta of, 138–139
+vega of, 137–138
+when to use, 127
+long call spread (bull call spread,
+debit call spread), 30–31, 33
+long condor
+delta of, 139–140
+gamma of, 140–141
+
+long call condor, 128
+long iron condor, 130–131
+strategy composition,
+128–133
+theta of, 143
+vega of, 142
+when to use, 127
+long put spread (bear put spread,
+debit put spread), 33–35
+long straddle
+delta of, 100–102
+gamma of, 102
+investment objectives, 118
+market forecast and, 119–121
+risk management, 120–121
+strategy composition, 96–97
+strategy overview, 95
+theta of, 104–105
+trade management, 121, 122
+vega of, 103
+long strangle, 95, 97–98
+delta of, 105–107
+gamma of, 107–108
+investment objectives, 118
+market forecast and, 119–121
+risk management, 120–121
+strategy composition, 97–98
+strategy overview, 95
+theta of, 109
+trade management, 121, 122
+vega of, 108
+long time spread
+delta of, 162–164
+gamma of, 164–165
+investment objectives,
+172–173
+jelly roll, 157, 177–180
+strategy composition,
+159–162
+theta of, 166
+vega of, 165
+market forecast
+collar and, 80–83
+covered-write and, 16–17
+reverse-collar and, 80–83
+straddles and, 119–121
+strangles and, 119–121
+time spread and, 173, 175–176
+vertical spread and, 45–50
+maturity value, 53
+
+Index
+
+mean-reversion, deﬁned, 127, 147
+moneyness, 9
+nondirectional strategy. See
+directionless strategy
+pivot price, 82
+present value, 53–54
+pricing anomalies
+time spread and, 177
+vertical spread and, 52–54
+put backspread
+call backspread versus, 224
+delta of, 233–234
+gamma of, 235–236
+1-to-2, 233–238
+strategy composition, 225–226
+theta of, 237–238
+vega of, 236–237
+put ratio spread
+call ratio spread versus, 192
+delta of, 202–203
+gamma of, 204–205
+strategy composition, 194–196
+theta of, 206
+vega of, 205
+put versus call. See call versus put
+ratio spread
+call, 192–194, 196–202
+concept review, 191
+congestion and, 210–211
+contratrend moves and, 208–209
+deﬁned, 191
+delta of, 196–198, 202–203
+expiry selection and, 212
+gamma of, 198–199, 204–205
+implied volatility and, 210–212
+investment objectives, 207–210
+long strikes and, 217
+losses, taking, 217–218
+proﬁts, taking, 213
+put, 192, 194–196, 202–206
+resistance and, 210
+risk appetite and, 192
+risk management, 212–213,
+217–218
+short strikes and, 213–216
+special situations and, 209–210
+strategy composition, 192–196
+strategy overview, 191–192
+
+strategy selection, 210–212
+strike selection and, 211
+support and, 210
+theta of, 201–202, 206
+trade management, 212–218
+trend deceleration and, 209
+vega of, 199–201, 205
+volatility skew plays and, 210
+resistance/resistance level
+butterﬂy and, 144–146
+collar and, 82
+condor and, 144–146
+deﬁned, 65, 127, 144
+identifying, 144–145
+ratio spread and, 210
+return rates
+covered-call, 14–15
+vertical spread, 35
+reverse-collar
+See also collar
+concept review, 65
+delta of, 75–76
+as directional strategy, 66, 79–81, 86
+gamma of, 76
+as hedging vehicle, 68–70, 78,
+90–91
+implied volatility and, 68, 83–85
+investment objectives, 79–81
+market forecast and, 80–83
+risk appetite and, 85
+risk management, 80–81
+rolling, 86–88
+strategy composition, 67
+strategy overview, 65–66
+strategy selection, 81–85
+support and, 83
+synthetic options positions,
+role of, 69
+theta of, 77–78
+trade management, 85–91
+trigger, failure to, 89–90
+unsuccessful position, 88–89
+vega of, 76
+risk appetite
+collar and, 85
+covered-write and, 17–18
+ratio spread and, 192
+straddle and, 123
+strangle and, 123
+reverse-collar and, 85
+vertical spread and, 35, 50–51
+
+267
+
+268
+
+Index
+
+rolling
+backspread, 244–245
+collar, 86–88
+reverse collar, 86–88
+straddle, 122
+strangle, 122
+vertical spread, 58, 60–61
+short butterﬂy, when to use, 127
+short call spread (bear call spread,
+credit call spread), 32–34
+short condor, when to use, 127
+short put spread (bull put spread,
+credit put spread), 31, 33–34
+short straddle
+delta of, 109–111
+gamma of, 111–112
+investment objectives, 118
+market forecast and, 120–121
+risk management, 121
+strategy composition, 98
+strategy overview, 95
+theta of, 113–114
+trade management, 121–123
+vega of, 112–113
+short strangle
+delta of, 114–115
+gamma of, 115–116
+investment objectives, 118
+market forecast and, 120–121
+risk management, 121
+strategy composition, 99–100
+strategy overview, 95
+theta of, 117
+trade management, 121–123
+vega of, 116–117
+short time spread
+delta of, 167–169
+gamma of, 169
+investment objectives, 172–174
+jelly roll, 157, 177–180
+strategy composition, 159–162
+theta of, 170–171
+vega of, 170
+sideways market. See directionless
+strategy
+skew, implied volatility. See implied
+volatility skew
+stop-loss order, deﬁned, 65, 95
+straddle
+See also strangle
+breakouts and, 119, 122
+
+concept review, 95
+delta of, 100–102, 109–111
+as directionless strategy, 95,
+118, 120
+gamma of, 102, 111–112
+implied volatility and, 119,
+122–123
+investment objectives, 118
+long, 95–97, 100–105, 118–122
+market forecast and, 119–121
+risk appetite and, 123
+risk management, 120–121
+rolling, 122
+short, 95, 98, 109–114, 118, 120–123
+strategy composition, 96–98
+strategy overview, 95
+strategy selection, 119–121
+theta of, 104–105, 113–114
+trade management, 121–123
+vega of, 103, 112–113
+strangle
+See also straddle
+breakouts and, 119, 122
+concept review, 95
+delta of, 105–107, 114–115
+as directionless strategy, 95,
+118, 120
+gamma of, 107–108, 115–116
+implied volatility and, 119,
+122–123
+investment objectives, 118
+long, 95, 97–98, 105–109,
+118–122
+market forecast and, 119–121
+risk appetite and, 123
+risk management, 120–121
+rolling, 122
+short, 95, 99–100, 114–118,
+120–123
+strategy composition, 97–100
+strategy overview, 95
+strategy selection, 119–121
+theta of, 109, 117
+trade management, 121–123
+vega of, 108, 116–117
+support/support level
+butterﬂy and, 144–146
+condor and, 144–146
+deﬁned, 65, 127, 144
+identifying, 144
+ratio spread and, 210
+reverse-collar and, 83
+
+Index
+
+synthetic
+bear spread, 69, 70
+bull spread, 69–70
+deﬁned, 4, 29
+options positions, role of, 69
+term structure, deﬁned, 157
+theta
+of backspread, 232–233, 237–238
+of bear spread, 43–45
+of bull spread, 39–40
+of butterﬂy, 138–139
+of call backspread, 232–233
+of call ratio spread, 201–202
+of collar, 74–75
+of condor, 143
+of covered-write, 12–13
+deﬁned, 3
+of long butterﬂy, 138–139
+of long condor, 143
+of long straddle, 104–105
+of long strangle, 109
+of long time spread, 166
+of put backspread, 237–238
+of put ratio spread, 206
+of ratio spread, 201–202, 206
+of reverse-collar, 77–78
+of short straddle, 113–114
+of short strangle, 117
+of short time spread, 170–171
+of straddle, 104–105, 113–114
+of strangle, 109, 117
+of time spread, 166, 170–171
+of vertical spread, 39–40, 43–45
+time decay, 5, 133
+time spread (horizontal calendar
+spread)
+call versus put, 164–166, 177–180
+concept review, 157
+deﬁned, 157–158
+delta of 162–164, 167–169
+as directional strategy, 173
+as directionless strategy, 173–174
+early arrival, 183
+exit, how to, 181–182
+gamma of, 164–165, 169
+implied volatility and, 174–177
+investment objectives, 172–175
+jelly roll, 157, 177–180
+late arrival, 184–186
+long, 157, 159–166, 172–173,
+177–180
+
+losses, taking, 181–182
+market forecast and, 173, 175–176
+naming conventions, 158–159
+pricing anomalies and, 177
+proﬁts, taking, 181–182
+short, 157, 159–162, 167–171,
+177–180
+strategy composition, 159–162
+strategy overview, 157–159
+strategy selection, 175–180
+short, 159–162, 167–174
+theta of, 166, 170–171
+trade management, 180–186
+vega of, 165, 170
+trading range market.
+See directionless strategy
+trigger price, 82
+up and out, 21
+vega
+of backspread, 231–232, 236–237
+of bear spread, 43
+of bull spread, 38–39
+of butterﬂy, 136–137
+of call backspread, 231–232
+of call ratio spread, 199–201
+of collar, 72–74
+of condor, 142
+of covered-write, 10–12
+deﬁned, 3
+of long butterﬂy, 136–137
+of long condor, 142
+of long straddle, 103
+of long strangle, 108
+of long time spread, 165
+of put backspread, 236–237
+of put ratio spread, 205
+of ratio spread, 199–201, 205
+of reverse-collar, 76
+of short straddle, 112–113
+of short strangle, 116–117
+of short time spread, 170
+of straddle, 103, 112–113
+of strangle, 108, 116–117
+of time spread, 165, 170
+of vertical spread, 38–39, 43
+vertical spread
+bear, 32–35, 40–45
+box and, 53–56, 69, 70
+bull, 30–40, 69–70
+call versus put, 45, 52
+
+269
+
+270
+
+Index
+
+concept review, 29
+deﬁned, 4, 29–30
+delta of, 35–37, 40–41
+as directional strategy, 30, 45–49
+exit, how to, 57–58
+exit, when to, 56–57
+gamma of, 37–38, 41–43
+implied volatility and, 47–49, 51
+income generation and, 49, 51–52
+investment objectives, 45–49
+market forecast and, 45–50
+naming conventions, 33–35
+pricing anomalies and, 52–54
+purpose of, 51
+return rates, 35
+risk appetite and, 35, 50–51
+
+risk management, 47–48
+rolling, 58, 60–61
+strategy composition, 30–35
+strategy overview, 29–30
+strategy selection, 49–56
+theta of, 39–40, 43–45
+trade management, 56–58, 60–61
+vega of, 38–39, 43
+VIX, deﬁned, 223
+volatility, implied. See implied
+volatility
+volatility skew. See implied volatility
+skew
+volatility spread. See backspread
+written option, deﬁned, 4–5
+
+Option Spread Strategies: Trading Up, Down, and Sideways Markets
+by Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson
+Copyright © 2009 by International Trading Institute, Ltd.
+
+About the Authors
+Anthony J. Saliba has been a pioneer and active participant in the
+derivatives markets for more than twenty-five years. His derivatives activities have spanned derivatives trading, training, and developing electronic trading systems and solutions. He began his career trading equity
+options as an independent market maker at the Chicago Board Options
+Exchange (CBOE) in 1979. Over the next decade, he gained extensive
+experience in trading currencies, equities, and S&P 500 and S&P 100 contracts. In each of these markets, he emerged as a respected presence and
+quickly acquired a reputation as one of the top traders. His trading accomplishments, most notably his success during the crash of ’87, earned him a
+place in the national bestseller Market Wizards: Interviews with Top Traders,
+by Jack Schwager.
+Due to his innovative trading ideas, Saliba has become an internationally
+recognized consultant on the emergence and function of electronic markets
+and trading systems. He is often quoted in industry publications, including
+the Wall Street Journal, the Financial Times, and www.theStreet.com, and is
+frequently invited to speak at industry forums. He has founded numerous
+industry-related companies, including Saliba Partners, LLC (1984–1999),
+a proprietary options trading firm that included a Designated Primary
+Market Maker (DPM) floor operation on the Chicago Board Options
+Exchange; International Trading Institute, Ltd. (1989), a derivatives consulting and training firm providing advanced options trading education to
+large institutional market participants; First Traders Analytical Solutions,
+LLC (1992), a provider of front- and middle-office trading, pricing, and
+risk-management systems; LiquidPoint, LLC (1999), a broker-dealer offering options execution/facilitation and enhanced liquidity and potential
+price improvement for many large Wall Street firms; and Saliba Portfolio
+Management, LLC (2002), a portfolio management firm providing stateof-the-art investment enhancement techniques through the use of derivatives. In July 2007, Saliba’s firm, LiquidPoint, LLC, became part of BNY
+ConvergEx Group, a leading global agency brokerage and investment technology firm. Saliba is a director of BNY ConvergEx Group and continues to
+serve as president and CEO of LiquidPoint.
+Joseph C. Corona has been actively involved in trading options for
+more than twenty-five years. During this time he traded on the floors of the
+Chicago Board Options Exchange, the Chicago Board of Trade, the Chicago
+
+271
+
+272
+
+About the Authors
+
+Mercantile Exchange, and the London International Financial Futures and
+Options Exchange, as well as in the over-the-counter markets and the major
+electronic venues. During the course of his career he has traded equity, equity index, fixed income, currency, energy, and commodities options both
+as a market maker and proprietary trader. In addition, he has extensive
+experience in the training and management of derivatives traders and has
+built and managed trading desks in the United States, Europe, and Asia.
+Corona has also been an adjunct instructor at International Trading
+Institute since 1990, delivering courses in advanced options trading and
+risk analysis techniques to hundreds of traders and trading desks in North,
+South, and Central America; Europe; and Asia. He also contributes to various
+financial markets websites and is a frequent speaker at industry conferences.
+Karen E. Johnson joined Saliba in 1992 and has been actively involved
+in the start-up and/or management of a number of Saliba-affiliated companies, including Saliba Partners, First Traders Analytical Solutions,
+LiquidPoint, SalibaCo, LLC, International Trading Institute, and Saliba
+Portfolio Management. Her focus has been in the areas of business and
+product development, operations management, and sales.
+Johnson is the former president of International Trading Institute and
+currently serves on its board of directors. Throughout her sixteen years
+with the Saliba companies, she has spent much of her time working with
+global financial institutions developing curricula and training programs
+for both established markets and such emerging marketplaces as Mexico,
+Panama, Colombia, Korea, Malaysia, and Poland.
+Her previous publishing experience includes developing the concept
+and managing the writing and publication of The Options Workbook: Fundamental Spread Concepts and Strategies, by Anthony J. Saliba and the staff of
+International Trading Institute. Currently in its third edition, it has proven
+to be an excellent educational tool for the novice investor or trader.
+
+About International Trading Institute
+Anthony J. Saliba’s awareness of the need for derivatives education
+in the marketplace inspired him to start International Trading Institute
+(ITI) in 1989. ITI offers hands-on options trading workshops delivered by
+professional traders. The hallmark of the ITI curriculum is the fostering
+of rigor and discipline in trading and risk management. ITI is an internationally renowned firm that has trained more than five thousand students
+from over thirty countries in the past nineteen years. Clientele include
+many large global financial institutions such as Citibank, DeutscheBank,
+UBS, and Credit Suisse. We invite you to visit our website, www.itichicago
+.com, for more information about our workshops or for additional option
+strategy lessons and commentary.
+
+Option Spread Strategies: Trading Up, Down, and Sideways Markets
+by Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson
+Copyright © 2009 by International Trading Institute, Ltd.
+
+About Bloomberg
+Bloomberg L.P., founded in 1981, is a global information services,
+news, and media company. Headquartered in New York, the company has
+sales and news operations worldwide.
+Serving customers on six continents, Bloomberg, through its whollyowned subsidiary Bloomberg Finance L.P., holds a unique position within
+the financial services industry by providing an unparalleled range of features in a single package known as the Bloomberg Professional® service.
+By addressing the demand for investment performance and efficiency
+through an exceptional combination of information, analytic, electronic
+trading, and straight-through-processing tools, Bloomberg has built a
+worldwide customer base of corporations, issuers, financial intermediaries,
+and institutional investors.
+Bloomberg News, founded in 1990, provides stories and columns on
+business, general news, politics, and sports to leading newspapers and
+magazines throughout the world. Bloomberg Television, a 24-hour business and financial news network, is produced and distributed globally
+in seven languages. Bloomberg Radio is an international radio network
+anchored by flagship station Bloomberg 1130 (WBBR-AM) in New York.
+In addition to the Bloomberg Press line of books, Bloomberg
+publishes Bloomberg Markets magazine. To learn more about Bloomberg,
+call a sales representative at:

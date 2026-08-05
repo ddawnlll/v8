@@ -1,0 +1,622 @@
+TRADING ETFs
+
+Since 1996, Bloomberg Press has published books for ﬁnancial professionals on investing, economics, and policy affecting investors. Titles are written by leading practitioners and authorities, and have been translated into more than 20 languages.
+The Bloomberg Financial Series provides both core reference knowledge and
+actionable information for ﬁnancial professionals. The books are written by experts
+familiar with the work ﬂows, challenges, and demands of investment professionals
+who trade the markets, manage money, and analyze investments in their capacity of
+growing and protecting wealth, hedging risk, and generating revenue.
+For a list of available titles, please visit our web site at www.wiley.com/go/
+bloombergpress.
+
+TRADING ETFs
+Gaining an Edge with Technical Analysis
+Second Edition
+
+Deron Wagner
+
+Copyright © 2012 by Deron Wagner. All rights reserved.
+The ﬁrst edition of this book was published in 2008 by Bloomberg Press.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form or by any means,
+electronic, mechanical, photocopying, recording, scanning, or otherwise, except as permitted under Section 107 or 108
+of the 1976 United States Copyright Act, without either the prior written permission of the Publisher, or authorization
+through payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers,
+MA 01923, (978) 750-8400, fax (978) 646-8600, or on the Web at www.copyright.com. Requests to the Publisher
+for permission should be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street,
+Hoboken, NJ 07030, (201) 748-6011, fax (201) 748-6008, or online at http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in preparing
+this book, they make no representations or warranties with respect to the accuracy or completeness of the contents
+of this book and speciﬁcally disclaim any implied warranties of merchantability or ﬁtness for a particular purpose.
+No warranty may be created or extended by sales representatives or written sales materials. The advice and strategies
+contained herein may not be suitable for your situation. You should consult with a professional where appropriate.
+Neither the publisher nor author shall be liable for any loss of proﬁt or any other commercial damages, including
+but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please contact our Customer
+Care Department within the United States at (800) 762-2974, outside the United States at (317) 572-3993, or
+fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may not be
+available in electronic books. For more information about Wiley products, visit our web site at www.wiley.com.
+ISBN 978-1-118-10913-7 (cloth); ISBN 978-1-118-21775-7 (ebk); ISBN 978-1-118-21776-4 (ebk);
+ISBN 978-1-118-21777-1 (ebk)
+Printed in the United States of America
+10 9 8 7 6 5 4 3 2 1
+
+For my lovely wife and children—Bee, Ben, and Ocean.
+Thanks for the positive mental attitude and for always
+giving me the inspiration to be the best I can be.
+
+Contents
+Foreword
+
+ix
+
+Acknowledgments
+
+xi
+
+PART I: ETF OVERVIEW AND SELECTION
+CHAPTER 1
+Why Use Technical Analysis with ETFs?
+
+3
+
+CHAPTER 2
+Major Types and Families of ETFs
+
+11
+
+PART II: ETF SELECTION THROUGH TECHNICAL ANALYSIS
+CHAPTER 3
+The Top-Down Strategy
+
+31
+
+CHAPTER 4
+Finding Indexes with the Most Relative Strength
+
+39
+
+CHAPTER 5
+Selecting the Best ETFs
+
+55
+
+CHAPTER 6
+Supplementing the Basics
+
+69
+
+PART III: TIMING YOUR ENTRIES AND EXITS
+CHAPTER 7
+Strategies for Entry
+
+87
+
+CHAPTER 8
+Strategies for Exit
+
+99
+
+vii
+
+viii
+
+Contents
+
+CHAPTER 9
+Ten ETFs Bought Long
+
+113
+
+CHAPTER 10
+Ten ETFs Sold Short
+
+139
+
+PART IV: FINE-TUNING YOUR STRATEGY
+CHAPTER 11
+Tailoring Your Approach
+
+165
+
+CHAPTER 12
+Additional Pointers
+
+177
+
+Afterword
+
+191
+
+Suggested Reading
+
+193
+
+About the Author
+
+195
+
+Index
+
+197
+
+Foreword
+Top traders rarely call attention to their many accomplishments, content to execute
+and perfect their own market views, free from self-promotion and outside noise.
+Deron Wagner is that type of rare individual, a two-decade trader and long-time fund
+manager, with unique market insights that are simple, profound, and highly actionable. For that reason, I’m pleased to introduce readers to the second edition of his
+book Trading ETFs: Gaining an Edge with Technical Analysis.
+I ﬁrst met Deron just outside a lecture hall in Dallas, TX back in the year 2000,
+right after the Internet bubble burst. He had just released his ﬁrst book, at the same
+time that my ﬁrst book, The Master Swing Trader, was set to hit the ﬁnancial bookshelves. That brief meeting and industry chit chat fostered a mutual respect and partnership that has endured for the last twelve years.
+For a good part of the last decade, I’ve been fortunate enough to publish Deron’s
+daily market insights at my web site, “Hard Right Edge.” It’s been the site’s most
+popular column throughout its tenure, hands down, but I’m not surprised because his
+technical proﬁciency reﬂects a depth of knowledge and conﬁdence that inspires traders at all experience levels to return on a daily basis. Clearly it’s become an invaluable
+tool in their trading methodologies.
+In addition, Deron’s long-time focus on exchange-traded funds (ETFs) has honed
+a market strategy perfectly in tune with today’s fast paced derivative-driven electronic
+market environment. For that reason alone, I expect that readers of Trading ETFs:
+Gaining an Edge with Technical Analysis will gain valuable insights that are unavailable
+through any other market source, online or in print.
+Don’t be fooled by the apparent simplicity of Deron’s systematic approach. Under
+the hood, he presents a powerful trading system based on classic market principles
+that work in euphoric bull markets as well as gut-wrenching bear markets. More
+importantly, these reliable strategies are unaffected by the computer-driven program
+algorithms we’ve come to know as high-frequency trading (HFT).
+This is an amazing accomplishment in a challenging environment that’s forced all
+types of market players to reassess the positive expectancy of their trading edges. This
+resilience offers another advantage in reading this excellent book. Simply stated, it will
+help your own strategies to overcome the dominance of lighting fast computer trading
+in the day to day price action.
+
+ix
+
+x
+
+Foreword
+
+So, whether you’re a new trader just starting out on your journey, or a seasoned
+veteran looking for new insights and a stimulating read to get your performance back
+on the fast track, I’m proud to recommend this outstanding book.
+Alan Farley
+November 2011
+
+Acknowledgments
+I would like to express special gratitude to the following people, each of whom ultimately
+contributed to the outcome of this book in a big way, whether they realize it or not:
+Evan Burton—For his persistence and efforts in getting this project launched.
+Meg Freeborn—For doing a fantastic job with the editing.
+Ed Balog—For his excellent efforts in contributing to this book and our trading
+operations.
+Mo Correa—For all her hard work, dedication, and assistance in a variety of ways.
+Mike Sincere—For helping me get started in the publishing world.
+Barry Dorfman—For his assistance in getting me started in the trading business.
+Oded Daniel—For being my entrepreneurial mentor and business partner.
+Toby McIntosh—For the ongoing inspiration and ideas.
+Rick Pedicelli—For being my right-hand man in the trading business, through both
+thick and thin.
+Rose Harman—For her awesome, incomparable administrative skills, hard work, and
+loyalty over the years.
+Chris Chang—For the dedication and effort he has shown through his contributions.
+My mother and father—Without them, I guarantee this book never would have been
+possible!
+I also wish to express my sincere appreciation for the support of all subscribers to
+my daily ETF newsletter, The Wagner Daily. It’s your ongoing enthusiasm that keeps
+me excited to share my knowledge.
+I would also like to thank the following people:
+Marvin Appel, Paul Bahder, Steve Bell, Jack Burgoyne, Victor Butko, Greg Capra,
+Mark Cole, Murray Coleman, Carlos Correa, Nick Cosma, Zishan Danish, Jeffrey Doan,
+the Dolbin family, the Doncaster family, Sandy and Zendy Edge, Alan Farley, Brandon
+Fredrickson, the Getsri family, Sherrie Hale, Toni Hansen, Don Helton, Dwin Horne,
+
+xi
+
+xii
+
+Acknowledgments
+
+Arlene Hurtzel (my awesome grandmother), Uffe Kristiansen, John and Carmen Lakatis,
+Phillip-Michael “Ted” Lee, Rickard Lilliestierna, Steve and Jean Moss, Dennis Ramm,
+Jason Rivas, Don Rubin, Kristopher Sarosiek, David Segarra, Kate Sosnoff, Tom Sosnoff,
+Lennon Tam, Joel Townsend, Robb Vaughn, Christoph Votruba, Matthew Wagner, Roger
+and Hazel Wagner, Jeff Williams, and Bo Yoder.
+Finally, thanks to the entire team at Wiley for working hard to pull this all together!
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+PART I
+
+ETF Overview
+and Selection
+
+Trading ETFs: Gaining an Edge with Technical Analysis, Second Edition
+by Deron Wagner
+Copyright © 2012 Deron Wagner
+
+CHAPTER 1
+
+Why Use Technical Analysis
+with ETFs?
+Unlike most books on exchange-traded funds (ETFs), this one offers you strategies
+based on technical analysis, not fundamental analysis. When I began trading professionally in 1999, before ETFs took the market by storm, people tried to convince me
+of the merits of studying fundamental factors, such as price-to-earnings (P/E) ratios,
+balance sheets, earnings growth, and news events. I’ve always believed that a deep
+knowledge of these items is theoretically important, but fundamentals seem to have a
+direct impact only on the long-term direction of a stock. In the short to intermediate
+term, the correlation between the actual price action of an ETF and its fundamentals
+is rarely signiﬁcant. Technical analysis, however, tells me everything I need to know
+about the odds of a trade continuing in the current direction or reversing.
+Because an ETF consists of a diverse plethora of individual stocks, using fundamental analysis of the underlying stocks to predict the price movement of the actual
+ETF brings less than satisfactory results. The only way to have a greater than 50–50
+chance of predicting the short- and intermediate-term trends of ETFs is through
+sound technical analysis. This is why my hedge fund, Morpheus Capital LP, is one
+of the few professional hedge funds that primarily bases its investment and trading
+decisions on the technical analysis strategies I share with you in this book, rather than
+more traditional fundamental analysis and “long-term” investing. Although the techniques presented here are designed to work ideally with ETFs, individual stock traders
+can successfully apply the same techniques.
+To understand the problems with a fundamentals-based system of analysis,
+consider the effect news events such as earnings reports often have on stocks and
+ETFs. How many times has a company reported what is perceived as a strong earnings report, only to see the stock price go down several points the next day? A positive
+price reaction to a poor earnings report is equally common. The increase or decrease
+in the price of the stock that can occur in anticipation of a positive or negative earnings report is one of the reasons these inverse price reactions occur. With technical
+analysis, however, news events are irrelevant to your analysis. The price and volume of
+the stock or ETF already tells you everything you need to know. If the equity has been
+trending higher for quite some time, odds are favorable that it will continue to do so.
+3
+
+4
+
+ETF Overview and Selection
+
+Likewise, a stock or ETF stuck in a protracted downtrend will remain that way until
+the chart pattern proves otherwise.
+I have designed this book to provide a logical, step-by-step process that enables
+you to easily master ETF trading using technical analysis. Whether you’re a professional, full-time investor or someone who wishes to learn new techniques for actively
+managing his personal portfolio, you will beneﬁt from the strategies.
+In Part I, the ﬁrst chapter provides you with a brief history of the growth of
+ETFs, which has made my strategies possible, as well as my thoughts on some of the
+advantages of investing and trading in ETFs instead of individual stocks. Chapter 2
+describes the numerous fund families from which you can choose ETF products, as
+well as the unique types of ETFs that began coming to market around 2005. In addition to the popular ETFs composed simply of individual stocks, ETF offerings on the
+market now include currency, commodity, ﬁxed-income, inversely correlated “short
+ETFs,” leveraged ETFs, and even ETFs that are both inversely correlated and leveraged. There are also ETNs (exchange-traded notes), which are structured as ﬁnancial
+instruments, similar to bonds but possessing credit risk.
+In Part II, I dive into the “meat and potatoes of the strategy by showing you
+speciﬁcally how technical analysis is used to trade ETFs. Chapter 3 details my topdown strategy of ETF trading, which always improves your odds of success by identifying the overall trend of the broad market, determining which sector indexes
+are showing the most relative strength compared to the overall stock market, and
+then selecting the speciﬁc ETF family with the most relative strength compared to
+the corresponding sector index. Chapter 4 details the method of ﬁnding the sector
+indexes with the most relative strength. Chapter 5 drills down to the speciﬁc ETF
+families with the most relative strength, and Chapter 6 provides supplemental technical indicators and chart patterns.
+After learning how to select the best ETFs for trading and investing, the next
+step is ﬁguring out the proper timing for entries and exits into those positions. This
+is covered extensively in Part III. Chapter 7 provides strategies for determining ideal
+entry points, and Chapter 8 shows you when to exit your positions. Chapters 9 and 10
+put it all together by graphically walking you through actual trades I have made using
+the strategies offered in the ﬁrst eight chapters. The actual outcome of the trades,
+using real capital, is also presented. Chapter 9 discusses 10 actual ETFs I bought long.
+Chapter 10 discusses 10 ETFs I sold short. Many nuances of the entire technical
+analysis strategy can be gleaned from these two chapters, as they are real-life situations,
+not merely the theory behind the strategy.
+In Part IV, I provide you with a host of pointers to help ﬁne-tune your strategy after
+you put it into action. Topics such as position sizing, getting efﬁcient ETF executions,
+and identifying relative strength intraday are all covered in Chapter 11. Chapter 12 provides some ﬁnal thoughts and pointers to “take along with you.” I encourage you to take
+your time reading the material, unlike a novel you might breeze through, so that you
+can fully digest the concepts presented. You may realize the greatest beneﬁt through ﬁrst
+reading the book cover to cover, and then going back and reviewing the more detailed
+sections to ensure you have a thorough understanding of the key points.
+
+Why Use Technical Analysis with ETFs?
+
+5
+
+History and Growth of ETFs
+
+Although you probably already have a basic understanding of ETFs, it’s important to
+understand just how many options you have when selecting potential ETF trades. The
+astonishing growth both in the quantity and types of ETFs may surprise you.
+An exchange-traded fund is a basket of stocks that trades on an exchange with the
+same simplicity and liquidity of an individual stock. Traders and investors can buy
+or sell shares in the collective performance of an entire stock, bond, commodity, or
+even currency portfolio by buying or selling a single security. ETFs add the ﬂexibility, ease, volatility, and liquidity of stock trading to the beneﬁts of traditional indexfund investing. The American Stock Exchange (Amex) launched the ﬁrst U.S.-based
+ETF in 1993 as a simple way for more aggressive retail investors to buy the entire
+realm of stocks that made up the Standard & Poor’s 500 Index. Trading under the
+ticker symbol SPY, the Standard and Poor’s Depositary Receipt (SPDR) was born.
+The Amex devised the ETF because it wanted to attract stock market investors who
+had become more interested in trading and investing in individual stocks than mutual
+funds. Although many investors enjoyed the high rates of return that individual stocks
+provided throughout the 1990s, many people still preferred the perceived “safety”
+that traditional mutual funds offered. Hence, the ETF was introduced as a way for
+investors to combine the potentially high returns of individual stock trading with the
+beneﬁts of diversiﬁcation that mutual funds provided.
+In February 1994, one year after its ofﬁcial launch, SPY was trading an average
+daily volume of only 250,000 shares. Its popularity quickly spread, and the average daily
+volume of SPY increased more than 12 times to over 3 million shares per day by the
+beginning of 1998, ﬁve years after its launch. Although such a large initial increase in
+volume may seem impressive, it was only the beginning for the popularity of SPY. The
+absolute lows of last decade’s equity bear market, which were set in October 2002,
+marked the largest percentage increase in the average daily volume of SPY. In October
+2002, the 50-day average daily volume of SPY was 48 million shares per day. By mid2007, SPY was already clocking in at more than 200 million shares trading hands on
+an average day. That represented an astronomical increase in daily trading activity of
+approximately 80,000 percent in 13 years.
+The bear market of 2000 to 2002 was partially responsible for generating interest in SPY and other ETFs as investors grew tired of attempting to pick individual
+winning stocks during such adverse conditions and found it easier to simply choose
+an ETF that suited their goals. SPY and other major ETFs have seen a remarkable
+increase in turnover, which began accelerating parabolically in the years 2000 through
+2006. To grasp the astonishing growth of the ﬁrst domestic ETF, look at the volume
+bars on the monthly chart of SPY in Figure 1.1.
+Thanks to SPY, the concept of having transparent exposure to an entire broad-based
+index through the simplicity of buying an individual stock caught on quickly. This
+popularity rapidly spurred demand for the launch of more diverse ETF offerings. A
+second domestic ETF was launched in 1995, and the rest is history. By 2003, just
+10 years after the introduction of SPY, the number of domestic ETF offerings had
+
+6
+
+ETF Overview and Selection
+
+FIGURE 1.1 S&P 500 SPDR (SPY) Monthly Volume Chart from 1993 to 2006
+
+1,600,000,000
+1,400,000,000
+1,200,000,000
+1,176,949,888
+1,000,000,000
+
+The astonishing growth in trading activity in recent
+years was largely responsible for the plethora of
+new ETFs that have hit the markets, creating more
+and more opportunities for ETF traders and investors.
+
+800,000,000
+600,000,000
+400,000,000
+200,000,000
+
+1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
+
+Source: TradeStation
+
+grown to 119. Four short years later, by 2007, the number of ETFs traded on the U.S.
+exchanges had increased ﬁvefold to more than 600. As of the end of 2010, the number
+of ETFs had swollen to nearly 1,000. Now, as of July 2011, there are more than 1,000
+ETFs. Figure 1.2 shows how rapidly the total number of ETFs has multiplied since
+SPY was launched in 1993.
+FIGURE 1.2 Annual Growth in Number of ETFs since 1993
+Historical annual growth in number of ETFs
+3
+
+92
+
+1000
+900
+7
+
+79
+72
+
+800
+
+8
+
+Total number of ETFs
+9
+
+62
+
+700
+600
+500
+
+35
+9
+
+400
+
+2
+15
+
+9
+11
+
+3
+11
+
+80
+30
+
+29
+
+19
+
+2
+
+1
+
+1
+
+19
+
+100
+
+2
+10
+
+200
+
+4
+20
+
+300
+
+0
+1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
+
+Data: Investment Company Institute (ici.org)
+
+7
+
+Why Use Technical Analysis with ETFs?
+FIGURE 1.3 Total Combined Asset Growth of ETFs since 1993
+Historical total asset growth of all ETFs
+
+$9
+
+$1,200,000
+
+92
+0
+,0
+0
+
+$7
+
+$1,000,000
+
+77
+0
+,0
+
+Total assets (in millions)
+
+0
+00
+,0
+31
+$5 00
+,0
+
+08
+
+$6
+
+$800,000
+
+$4
+50
+
+20
+
+,8
+
+40
+
+,5
+
+83
+
+,9
+
+43
+
+,1
+
+5
+
+3
+
+99
+
+2,
+
+$8
+
+58
+
+5,
+
+$6
+3
+
+8
+
+07
+
+56
+
+87
+
+3,
+
+$3
+
+5,
+
+$1
+
+11
+
+,7
+
+,4
+
+52
+
+,0
+
+$6
+
+$2
+
+64
+
+24
+
+$4
+
+$4
+
+$1
+
+$200,000
+
+02
+
+$1
+
+50
+
+$1
+
+$400,000
+
+27
+
+$2
+
+00
+
+$3
+
+,5
+
+22
+
+$600,000
+
+$0
+1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
+
+Data: Investment Company Institute (ici.org)
+
+But it’s not only the number of ETFs that has increased dramatically: The total
+asset growth of ETFs has been equally impressive. Figure 1.3 illustrates the total combined asset growth of ETFs since 1993.
+From 1994 to 2000, total assets in ETFs doubled every year. Since 2000, the
+growth has obviously slowed a bit, but combined assets are still increasing at nearly 50
+percent per year. The only year with declining asset growth was in 2008, which was
+probably attributed to a sharp decline in global equity markets that year.
+Considering that the birth of these innovative instruments began with a single ETF
+just 18 years ago, the growth is astounding. With no signs of waning interest, the asset
+growth shown in the preceding ﬁgure indicates that there is enough sustainable demand
+to continue meeting the constantly expanding number of ETF offerings.
+The diverse mix of ETFs provides technical traders with more opportunities than ever.
+While you are probably familiar with the commonplace ETFs that track major indexes
+such as the S&P 500, the Dow, or the Nasdaq, it’s important to understand the full range
+of instruments in your ETF trading arsenal. The next chapter looks at each of the major
+types of ETFs, as well as at the popular ETF families that constitute each type.
+Trading ETFs versus Individual Stocks

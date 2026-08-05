@@ -1,0 +1,415 @@
+
+BACKTESTING AND AUTOMATED EXECUTION
+
+ret_sim(isnan(ret_sim))=0;
+
+have observed the test statistic R: P(H0|R). But the procedure we outlined
+previously actually just computed the conditional probability of obtaining
+a test statistic R given that the null hypothesis is true: P(R|H0). Rarely is
+P(R|H0) = P(H0|R).
+Even though hypothesis testing and the rejection of a null hypothesis
+may not be a very satisfactory way to estimate statistical significance, the
+failure to reject a null hypothesis can inspire very interesting insights. Our
+Example 1.1 shows that any random returns distribution with high kurtosis
+can be favorable to momentum strategies.
+■ When Not to Backtest a Strategy
+
+ALGORITHMIC TRADING
+
+22
+
+We have spent much effort earlier convincing you that you should backtest
+every strategy that comes your way before trading it. Why would we recommend against backtesting some strategies? The fact is that there are some
+published strategies that are so obviously flawed it would be a waste of time
+to even consider them. Given what you know now about common pitfalls of
+backtesting, you are in a good position to judge whether you would want to
+backtest a strategy without even knowing the details. We will look at a few
+examples here.
+Example 1: A strategy that has a backtest annualized return of 30 percent and a Sharpe ratio of 0.3, and a maximum drawdown duration of
+two years.
+Very few traders (as opposed to “investors”) have the stomach for a strategy that remains “under water” for two years. The low Sharpe ratio coupled
+with the long drawdown duration indicates that the strategy is not consistent. The high average return may be just a fluke, and it is not likely to repeat itself when we start to trade the strategy live. Another way to say this
+is that the high return is likely the result of data-snooping bias, and the long
+drawdown duration will make it unlikely that the strategy will pass a crossvalidation test. Do not bother to backtest high return but low Sharpe ratio
+strategies. Also, do not bother to backtest strategies with a maximum drawdown duration longer than what you or your investors can possibly endure.
+Example 2: A long-only crude oil futures strategy returned 20 percent
+in 2007, with a Sharpe ratio of 1.5.
+A quick check of the total return of holding the front-month crude oil futures in 2007 reveals that it was 47 percent, with a Sharpe ratio of 1.7. Hence,
+this trading strategy is not in any way superior to a simple buy-and-hold
+
+23
+BACKTESTING AND AUTOMATED EXECUTION
+
+strategy! Moral of the story: We must always choose the appropriate benchmark to measure a trading strategy against. The appropriate benchmark of
+a long-only strategy is the return of a buy-and-hold position—the information ratio rather than the Sharpe ratio.
+Example 3: A simple “buy-low-sell-high” strategy picks the 10 lowestpriced stocks at the beginning of the year and holds them for a year.
+The backtest return in 2001 is 388 percent.
+The first question that should come to mind upon reading this strategy is:
+Was the strategy backtested using a survivorship-bias-free stock database?
+In other words, does the stock database include those stocks that have since
+been delisted? If the database includes only stocks that have survived until
+today, then the strategy will most likely pick those lucky survivors that happened to be very cheap at the beginning of 2001. With the benefit of hindsight, the backtest can, of course, achieve a 388 percent return. In contrast,
+if the database includes delisted stocks, then the strategy will most likely
+pick those stocks to form the portfolio, resulting in almost 100 percent
+loss. This 100 percent loss would be the realized return if we had traded
+the strategy back in 2001, and the 388 percent return is an inflated backtest
+return that can never be realized. If the author did not specifically mention
+that the data used include delisted stocks, then we can assume the backtest
+suffers from survivorship bias and the return is likely to be inflated.
+Example 4: A neural net trading model that has about 100 nodes generates a backtest Sharpe ratio of 6.
+My alarms always go off whenever I hear the term neural net trading model, not to mention one that has 100 nodes. All you need to
+know about the nodes in a neural net is that the number of parameters to be fitted with in-sample training data is proportional to the
+number of nodes. With at least 100 parameters, we can certainly fit the
+model to any time series we want and obtain a fantastic Sharpe ratio.
+Needless to say, it will have little or no predictive power going forward
+due to data-snooping bias.
+Example 5: A high-frequency E-mini S&P 500 futures trading strategy
+has a backtest annual average return of 200 percent and a Sharpe ratio
+of 6. Its average holding period is 50 seconds.
+Can we really backtest a high-frequency trading strategy? The performance of a high-frequency trading strategy depends on the order types
+used and the execution method in general. Furthermore, it depends crucially on the market microstructure. Even if we have historical data of the
+entire order book, the profit from a high-frequency strategy is still very
+
+dependent on the reactions of other market participants. One has to question whether there is a “Heisenberg uncertainty principle” at work: The
+act of placing or executing an order might alter the behavior of the other
+market participants. So be very skeptical of a so-called backtest of a highfrequency strategy.
+Life is too short to backtest every single strategy that we read about, so
+we hope awareness of the common pitfalls of backtesting will help you select what strategies to backtest.
+■ Will a Backtest Be Predictive of
+
+Future Returns?
+
+ALGORITHMIC TRADING
+
+24
+
+Even if we manage to avoid all the common pitfalls outlined earlier and there
+are enough trades to ensure statistical significance of the backtest, the predictive power of any backtest rests on the central assumption that the statistical properties of the price series are unchanging, so that the trading rules
+that were profitable in the past will be profitable in the future. This assumption is, of course, invalidated often in varying degrees: A country’s economic
+prospect changes, a company’s management changes, and a financial market’s
+structure changes. In the past decade in the United States, we have witnessed
+numerous instances of the last category of changes. Among them:
+■
+
+Decimalization of U.S. stock quotes on April 9, 2001. (Prior to this date,
+U.S. stocks were quoted in one-eighth or one-sixteenth of a penny.) This
+caused bid-ask spreads to decrease, but also caused the “displayed liquidity”
+at the best bid and ask prices to decrease (Arnuk and Saluzzi, 2012).This in
+turn caused profitability of many statistical arbitrage strategies to decrease
+while increasing the profitability of many high-frequency strategies.
+
+■
+
+The 2008 financial crisis that induced a subsequent 50 percent collapse of
+average daily trading volumes (Durden, 2012). Retail trading and ownership of common stock is particularly reduced. This has led to decreasing
+average volatility of the markets, but with increasing frequency of sudden
+outbursts such as that which occurred during the flash crash in May 2010 and
+the U.S. federal debt credit rating downgrade in August 2011. The overall
+effect has been a general decrease in profits for mean-reverting strategies,
+which thrive on a high but constant level of volatility.
+
+■
+
+The same 2008 financial crisis, which also initiated a multiyear bear
+market in momentum strategies, as discussed in Chapter 6.
+
+■
+
+The SEC’s Regulation NMS implemented in July 2007, which also
+contributed to the drastic decrease in the average trade sizes and the obsolescence of the NYSE block trade (Arnuk and Saluzzi, 2012).
+
+■
+
+The removal of the old uptick rule for short sales in June 2007 and the
+reinstatement of the new Alternative Uptick Rule in 2010.
+
+Strategies that performed superbly prior to each of these “regime shifts”
+may stop performing and vice versa. Backtests done using data prior to
+such regime shifts may be quite worthless, while backtests done using
+recent data may be no more indicative of future profits if and when a future regime shift is to occur. The general point of this is that algorithmic
+trading is not just about algorithms, programming, and mathematics: An
+awareness of such fundamental market and economic issues is also needed
+to inform us on whether a backtest is predictive and will continue to be
+predictive.
+■ Choosing a Backtesting and Automated
+
+Execution Platform
+
+1. Buying a special-purpose backtesting and execution platform, and
+implementing your strategy using that platform’s special-purpose
+graphical user interface (GUI) or programming language.
+2. Writing your own backtest and execution program in a generic
+programming language such as C++, either in a completely standalone manner with piecemeal purchases of software libraries to make
+the task easier or within an integrated development environment
+(IDE) that comes with a comprehensive library catering to algorithmic trading.
+We consider some criteria for making this choice next.
+
+How Good Is Your Programming Skill?
+If you have little skill in programming, then the only choice is to pick a
+special-purpose trading platform. These platforms unburden the user from
+
+25
+BACKTESTING AND AUTOMATED EXECUTION
+
+Software companies have worked very hard to provide traders with a wide
+variety of backtesting and automated execution platforms that cater to every possible level of programming skills.We are faced with two basic choices
+when it comes to deciding on a trading platform:
+
+BOX 1.1
+
+ALGORITHMIC TRADING
+
+26
+
+having to learn a programming language by presenting a graphical “dragand-drop” user interface for building a trading strategy. Examples of these
+products are Deltix and Progress Apama. However, I have found that these
+GUIs can be quite limiting in the variety of strategies that you can build,
+and in the long run, it is far more efficient to become adept in a programming language in order to express your strategy. (Note that Deltix and
+Progress Apama also allow other ways to specify a strategy, as explained
+below.)
+Traders possessing the next level of programming skill should consider
+implementing both backtesting and automated execution using one of the
+scripting languages. These languages do not require compilation, and you
+can instantly see the results the moment you finish typing in the mathematical or logical expressions. Many traders’ favorite backtesting platform,
+Microsoft Excel, perhaps used in conjunction with Visual Basic (VB) macros,
+belongs to this category. But it is actually quite hard to build a reasonably
+complicated strategy in Excel, and even harder to debug it. Excel also is not
+a particularly high-performance language, so if your strategy is very computationally intensive, it is not going to work. If you use Excel for automated
+executions, you may find that you have to use DDE links provided by your
+brokerage for market data updates, and you will likely need to add Visual
+Basic macros to handle more complicated trading logic, which is quite inefficient. (However, see Box 1.1 for an Excel-like trading platform that is
+supercharged for efficiency.)
+Excel on Steroids—The FXone Automated Execution Platform
+There is a currency trading platform called FXone that looks like Excel, but the
+underlying computational engine is written in a high-performance language
+like C++ instead of relying on VB macros. It is a true tick-driven application:
+Every tick (in the FX case, a tick is a new quote) triggers a recalculation of
+all the values in all of the cells of the spreadsheet. Furthermore, it has an
+internal cache for real-time data so that different cells that require the same
+data to compute can simply retrieve it from the cache, instead of duplicating
+subscriptions of the same data. It is also a true multithreaded platform at two
+different levels. First, different strategies written on different Excel workbooks
+can get market data updates and submit orders simultaneously. Second,
+different cells within the same workbook can also get updates and act on
+new data simultaneously. That is to say, even if the calculation in one cell
+happens to take very long to complete, it will not prevent other cells from
+responding to a new tick by, say, submitting an order. A screenshot of FXone
+is shown in Figure 1.1.
+
+BACKTESTING AND AUTOMATED EXECUTION
+
+FIGURE 1.1 Screenshot of FXone.
+
+27
+
+BOX 1.1 (Continued )
+
+ALGORITHMIC TRADING
+
+28
+
+Many special-purpose trading platforms, including QuantHouse and
+RTD Tango and the aforementioned Deltix and Progress Apama, also include ways for coding a strategy with their own proprietary programming
+languages, which are usually quite simple and easy to learn, maybe as easy
+as Visual Basic. Aside from the institutional platforms mentioned here,
+many retail traders are familiar with MetaTrader, NinjaTrader, Trading
+Blox, or TradeStation Easy Language. I have not tried all of these platforms
+personally, but I have a lingering suspicion that despite the apparent ease of
+use and other advantages I mention later, they all in some way place some
+limitations on the type of strategies that can be backtested and executed.
+Requiring just slightly more skills than programming in VB, traders will
+find the scripting languages of MATLAB, R, and Python offer vastly more
+ease of debugging, much greater flexibility in the type of strategies that can
+be backtested, and higher efficiency in backtesting large data sets. These are
+what we call “REPL” languages. REPL is programmer-speak for “Read-EvalPrint-Loop.” That is, you can type in a mathematical expression, and the
+program will immediately evaluate it and print out the answer, and get ready
+for you to input the next expression. It works exactly like a handheld calculator, but better: You can also save all these expressions in a file, and have
+the program automatically execute them sequentially. The syntax of these
+languages is designed to be more intuitive and easier to understand than
+conventional programming languages such as C++ and much more flexible
+in terms of the type of variables that can be used in a program. Scalars, arrays, and strings are all basically dealt with using a similar syntax and passed
+along to functions in the same way.
+MATLAB can also utilize Java, C++, or C# libraries or application programming interfaces (APIs) and call functions implemented in those libraries or APIs. This allows MATLAB to take advantage of the more efficient
+implementations in those conventional languages when a task is particularly
+computationally intensive. Also, there are far more libraries and APIs that
+are written in those conventional languages than those written in MATLAB,
+R, or Python, so this feature is often essential.
+Many algorithmic traders are aware that MATLAB, R, and Python are
+excellent languages for backtesting. But less well known is the fact that
+they can be turned into execution platforms as well with the addition
+of some toolboxes. Most brokerages have APIs written in Java, C++, or
+C#; and, as I said earlier, MATLAB can call functions in APIs written in
+such languages, though it does take some familiarity with these languages
+
+29
+BACKTESTING AND AUTOMATED EXECUTION
+
+to know how to call these functions. If you would prefer a solution that
+obviates making “foreign-language” API calls in MATLAB, there are a
+number of commercial products available. MATLAB’s own Datafeed Toolbox can send orders to Trading Technologies’ X_TRADER. To connect
+MATLAB to Interactive Brokers, undocumentedmatlab.com has developed an API called IB-Matlab. Another vendor, www.exchangeapi.com,
+has a similar API called quant2ib, as well as one called quant2tt for connecting MATLAB to Trading Technologies. For other brokerages, www.
+pracplay.com offers a bridge from MATLAB or R to 15 or more brokers
+for a monthly fee. A free, open-source MATLAB API for connecting to
+Interactive Brokers was developed by Jev Kuznetsov and is available for
+download from MATLAB Central’s File Exchange. Meanwhile, the MATFIX software from agoratron.com lets your MATLAB program send orders using the Financial Information eXchange (FIX) protocol to brokers
+or exchanges. You can also use MATLAB to call the Java or .NET functions in QuickFIX, an open source FIX engine (Kozola, 2012). For Python users, the free, open-source software IbPy will connect your Python
+trading program to Interactive Brokers. While these add-ons to MATLAB
+and Python make it possible to connect to a broker, they nevertheless do
+not shield you from all the complexity of such connections. And, more
+important, it is cumbersome to use the same program for both backtesting and execution.
+If you are a hard-core programmer, you will, of course, have no problem backtesting and automating execution directly in the most flexible,
+most efficient, and most robust of programming languages, such as aforementioned trio of Java, C++, or C#. As I said earlier, all brokerages or
+exchanges that cater to algorithmic traders provide APIs in one or more
+of these languages, or they allow you to submit orders using the FIX
+messages, which in turn can be created and transmitted using a program
+written in one of these languages. (For example, QuickFIX, mentioned
+previously, is available in C++, C#, VB, Python, and Ruby.) But even
+here the software industry has come to make our strategy implementation
+easier and more robust by providing IDEs designed just for backtesting.
+In fact, many of the special-purpose trading platforms (Deltix, Progress
+Apama, QuantHouse, RTD Tango, etc.) include ways for coding strategies
+using general-purpose, advanced programming languages that make them
+resemble IDEs. There are also free, open-source class libraries or IDEs
+that I describe in the next section.
+
+Can Backtesting and Execution Use
+the Same Program?
+
+ALGORITHMIC TRADING
+
+30
+
+Special-purpose execution platforms typically hide the complexity of connecting to a brokerage or exchange, receiving live market data, sending orders and receiving order confirmations, updating portfolio positions etc.
+from the programmer. Meanwhile, special-purpose backtesting platforms
+typically come integrated with historical data. So for many special-purpose
+trading platforms, the backtest program can be made the same as the live
+execution program by factoring out the pure trading logic into a function,
+unencumbered with details of how to retrieve data or where to submit orders, and switching between backtesting mode and live execution mode can
+be done by pushing a button to switch between feeding in historical data
+versus live market data.
+This ease of switching between backtesting and live execution is more
+than just convenience: It eliminates any possibility of discrepancies or errors in transcribing a backtest strategy into a live strategy, discrepancies that
+often plague strategies written in a general programming language whether
+it is C++ or MATLAB. Just as importantly, it eliminates the possibility of
+look-ahead bias. As explained before, look-ahead bias means mistakenly incorporating future, unknowable information as part of the historical data
+input to the backtest engine. Special-purpose platforms feed in historical
+market data into the trade generating engine one tick or one bar at a time,
+just as it would feeding in live market data. So there is no possibility that
+future information can be used as input. This is one major advantage of using
+a special-purpose trading platform.
+There is one more advantage in using a platform where the backtesting
+and live execution programs are one and the same—it enables true tickbased high-frequency trading strategies backtesting. This is because most industrial-strength live execution programs are “event-driven”; that is, a trade
+is triggered by the arrival of a new tick, not the end of an arbitrary time
+bar. So if the input historical data is also tick-based, we can also backtest a
+high-frequency strategy that depends on the change of every tick or even
+every change in the order book. (I said “in theory” assuming that your hardware is powerful enough. Otherwise, see the discussion later in this chapter
+in the section “What Type of Asset Classes or Strategies Does the Platform
+Support?”) Of course, we can backtest tick-based strategies in MATLAB by
+feeding every tick into the program as well, though that is quite a cumbersome procedure.
+
+TABLE 1.2
+
+Comparisons of Open-Source Integrated Development Environments
+(IDEs) for Backtesting and Automated Execution
+
+IDE
+
+Language(s)
+
+Asset
+class(es)
+
+Tick
+based?
+
+CEP
+enabled?
+
+ActiveQuant
+
+Java, MATLAB, R
+
+Various
+
+CTS, FIX, Trading
+Technologiessupported brokers
+
+Yes
+
+No
+
+Algo-Trader
+
+Java
+
+Various
+
+Interactive Brokers,
+FIX
+
+Yes
+
+Yes
+
+Marketcetera
+
+Java, Python, Ruby Various
+
+Various, FIX
+
+Yes
+
+Yes
+
+OpenQuant
+
+.NET (C#, VB)
+
+Various
+
+Various, FIX
+
+?
+
+No
+
+TradeLink
+
+.NET (C#, C++, Various
+VB), Java, Pascal,
+Python
+
+Various, FIX
+
+Yes
+
+No
+
+Broker(s)
+
+What Type of Asset Classes or Strategies Does the
+Platform Support?
+While using a special-purpose platform for trading strategies has several
+important advantages described earlier, few but the most high end of these
+
+31
+BACKTESTING AND AUTOMATED EXECUTION
+
+If you are a competent programmer who prefers the flexibility of a general
+purpose programming language, yet you want to use the same program for
+both backtesting and live trading because of the preceding considerations,
+you can still use the institutional-grade special-purpose platforms as IDEs,
+or you can use the many open-source IDEs available: Marketcetera, TradeLink, Algo-Trader, ActiveQuant. I call them IDEs, but they are more than
+just a trading strategy development environment: They come with libraries
+that deal with the nuts and bolts of connecting to and exchanging data with
+your broker, much like a special-purpose platform does. Many of them are
+also integrated with historical data, which is an important time saver. As
+an added bonus, these open-source IDEs are either free or quite low-cost
+compared to special-purpose platforms. I display in Table 1.2 the languages,
+markets, and brokers that they support. (FIX as a broker means that the
+system can directly access any execution venues via the FIX protocol, regardless of clearing broker.) I also indicate whether the IDE is tick based
+(sometimes called event driven or stream based ).
+One should note that Table 1.2 only compares features of open-source
+IDEs. The institutional-grade special-purpose platforms typically have all of
+these features.

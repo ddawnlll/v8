@@ -1,0 +1,672 @@
+
+Filtering momentum
+A smooth line is visually more helpful, but you may want momentum to be
+more responsive to price changes. Therefore, you could shorten the number
+of days in the comparison from ten to (say) three. A three-day momentum
+indicator is more sensitive, but it also crosses the zero/100 line repeatedly
+when the price isn’t trending, or is trending only slightly, generating small
+losses called whipsaws. (See Chapter 12 for more on whipsaws.)
+The standard solution to whipsaws is to filter the signal. Instead of making the
+zero/100 line the buy/sell rule, you can dictate that the indicator has to rise
+(say) 2 percent over the zero/100 line for a buy and fall 2 percent under it for
+a sell. You can also delay accepting the buy/sell signal for one or more days.
+You can backtest both kinds of filters by using historical data.
+
+www.pdfdummies.com
+
+Chapter 13: Measuring Momentum
+Depending on the security, up moves and down moves aren’t ordinarily symmetrical in size, duration, or speed. Sometimes your security has up moves
+that accelerate strongly but decelerate in a sloppy, slow manner. Remember,
+every security has it owns habits.
+For instance, if a security usually delivers a momentum reading of plus 130
+to minus 130, this reading means that the price tends to speed up or slow
+down by not more than 30 percent over the course of any ten-day period.
+Some securities are like old Chevy pickups — their momentum lumbers from
+plus 120 to minus 120 over many months, while other securities are sprightly
+Aston Martins that zip between plus 150 and minus 150 in a few weeks.
+Many commentators speak of a momentum cycle as though it were a scientific
+fact of life. It’s not, but you must make up your own mind on whether price
+cycles are real, and if they are real, whether they’re useful to your trading.
+Sometimes you can see an eerie regularity in the momentum indicator, especially in longer time frames (like weekly and monthly data).
+
+Applying Momentum
+The momentum trading rule is simple: Buy when the indicator crosses above
+the zero line and sell when it crosses below the zero line. The zero line is the
+level at which the current price is equal to the price x number of days ago.
+When the momentum indicator crosses above zero, the price trend is upward,
+and the indicator is signaling you to buy. When it crosses below zero, the
+trend is downward, and the indicator is signaling you to sell.
+However, because momentum measures the rate of change and not the price
+itself, it has some peculiar properties, which I discuss in detail in the following
+sections.
+
+Discovering divergence
+Momentum can be a confusing indicator, because your eye is accustomed
+to interpreting a line that is pointing upward as having to do with the dollar
+value. But in this case, this upward line refers only to the speed of the price
+change. The distinction is driven home when you have a price that is rising
+while momentum is falling.
+Divergence refers to momentum that moves in the direction opposite to the
+direction of the price trend. Divergence also refers to momentum higher or
+lower, but less high or low than a previous peak or trough, while the price
+trend is making a new higher high or lower low. Technically, they’re both
+going in the same direction, so it’s a misnomer to call it a divergence, but when
+momentum falls proportionately short of the price move, you can think of it as
+a failure to confirm. See Figure 13-2 for a visual of the divergence concept.
+
+www.pdfdummies.com
+
+233
+
+234 Part V: Flying with Dynamic Analysis
+
+Figure 13-2:
+Momentum
+and price
+divergence.
+
+In Figure 13-2, the price is making a series of new highs, but about midway
+through the rise, momentum stops making new highs and starts going in the
+other direction. Then it flattens, meaning that the new price gains aren’t as
+robust as the older price gains. Notice that momentum crosses the buy/sell
+midline on the very next day after the highest price high. This instance is an
+ideal example of using momentum as a buy/sell indicator in its own right.
+If you sell when the momentum indicator crosses the buy/sell line, you exit
+near the peak.
+Volume can be a useful adjunct to momentum-price divergence. As I note in
+Chapter 11 regarding breakouts, as a price trend is peaking, you usually see
+an abnormal rise in volume. A volume spike often foreshadows the end of a
+strong trend. If you have both spiking volume and momentum-price divergence, get ready to bail out — the end of the move is nigh.
+
+Confirming trend indicators
+A change in momentum is a reliable guide to a change in price trend. A new
+uptrend is almost always preceded by rising momentum. Most of the time,
+momentum peaks ahead of the price peak, generating divergence in the direction of momentum and price — a valuable warning that the trader should be
+getting ready to exit.
+
+www.pdfdummies.com
+
+Chapter 13: Measuring Momentum
+You can use momentum indicators alone to generate buy/sell signals, but
+momentum indicators are excellent confirming indicators, too. A confirmation rule requires that both indicators agree before you make a trade. Using
+momentum to confirm another indicator
+✓ Raises the probability of a trade being profitable
+✓ Reduces the total number of trades
+✓ Reduces the proportion of whipsaw trades
+
+Determining the Relative
+Strength Index (RSI)
+You may wonder why you have to wait for the momentum indicator line to
+cross the zero line. Why not make the buy/sell decision when the momentum
+indicator changes direction — just after an indicator top or a bottom? After
+all, you expect a move to keep going in the same direction after it starts.
+A technical trader named J. Welles Wilder, Jr. answered the question. He pointed
+out that you want to make the trading decision at the change of direction only
+by ensuring that the average up move is greater than the average down move
+over a certain number of days (or the other way around for a sell signal). In
+other words, the average momentum is relatively higher (or lower), hence the
+name relative strength. Be sure to differentiate between the comparative relative
+strength between two securities and the internal relative strength I discuss here.
+The RSI is much faster than momentum in signaling an impending price
+change, making RSI a good tool for timing profit-taking, especially if you are
+using a shorter-term version (say 5 days rather than the standard 14 days).
+However, the RSI falls short in the reliability department when it comes to
+buy/sell signals. For that reason, traders use RSI more often as a confirming
+indicator, while they use other indicators to obtain the buy/sell signal.
+In the following sections, I outline how you can do the relative strength index
+(RSI) math and visualize it on a chart. Plus, you can also discover some of the
+nuances of using the RSI.
+
+Calculating the RSI
+The RSI measures the relative speed of price changes. The relative strength
+index uses averages over several days rather than single price points.
+However, it uses the ratio method, like momentum. To figure the RSI, you
+first calculate relative strength (RS) over a specific number of days. The
+calculation looks like this:
+
+www.pdfdummies.com
+
+235
+
+236 Part V: Flying with Dynamic Analysis
+RS = Average of Close – Previous Close on Up Days/Average of Previous
+Close minus Current Close on Down Days
+RSI = 100 – (100/(1+ RS)
+Reversing the order of Close/Previous Close on Down Days eliminates negative numbers and delivers absolute values. This arithmetic process creates
+an oscillator that is limited to a range of zero to 100. When the indicator is at
+or near zero, it means that the security is fully oversold. When it is at 100, the
+security is overbought.
+The relative strength index and indeed most oscillators rarely go all the way
+to zero or 100 percent, but rather vary between the 30 and 70 percent mark
+of the entire range. In some instances, you may find that the 20 to 80 percent
+mark is better, or even 10 to 90 percent.
+The RSI, like most oscillators, is limited by one of its arithmetic components,
+the high-low range over x periods. You may have a 75-day uptrend, for example, that has five or six sell signals generated by an RSI that is using 14 days as
+the base range. They’re false signals if you’re a long-term trend-follower, but
+splendid opportunities to goose return if you’re a swing trader. As I explain in
+Chapter 4, the trend-follower has one set of buy/sell signals, while the swing
+trader has multiple entries and exits. The RSI is a top swing trader tool.
+
+Picturing RSI
+In Figure 13-3, the RSI is shown in the top window, with two momentum indicators in the second window (a raw momentum indicator and a smoothed
+one containing more days), and the price chart itself in the main window. The
+gray trendlines are hand drawn, just for orientation.
+On the left of the chart, as the price is rising, the RSI and momentum rise,
+too. RSI, however, hits and surpasses the 70 percent limit and starts turning
+down the very next day after the highest close. Momentum also turns down,
+but doesn’t cross the center sell line for another two weeks. The RSI then
+falls to the bottom of its range at an index reading of 30 percent.
+Because you’re using averages, the indicator has a normal range of between
+30 and 70 percent of the maximum range, although touches of the maximum
+extremes do occur as follows:
+✓ Overbought: When the RSI is at or over the 70 percent level, the security is considered overbought (which I describe in Chapter 2). An overbought condition is when the security has moved so far and so fast that
+traders want to take profit. You can automatically sell when the security
+becomes overbought (when it crosses the 70 percent line), or you can
+use the line as a confirming indicator with other indicators.
+
+www.pdfdummies.com
+
+Chapter 13: Measuring Momentum
+In Figure 13-3, using the crossover of the 70 percent line as a sell signal
+in its own right is the correct trading action.
+✓ Oversold: When RSI hits the 30 percent level, the security is considered oversold. A security is oversold when everyone who was going to
+sell has already sold, and the security is now relatively cheap (inviting
+buyers back in).
+But notice that the RSI in Figure 13-3 first hits the oversold level about
+two and half weeks before the price itself actually makes its lowest low.
+That’s because the price was making new lows, but the 14-day average
+down move was getting smaller each day — the down move was decelerating. In this instance, the RSI was giving a premature signal and it
+would’ve been better to consider crossing the oversold line as a warning
+rather than a sell signal.
+When trends are strong, securities can remain overbought or oversold for
+long periods. However, a divergence between the price and the indicator is a
+warning sign that the price move may be coming to an end. In Figure 13-3, for
+example, the RSI serves as a sell signal at the overbought level, but doesn’t
+provide an equally clear buy signal when it first meets the oversold level.
+Instead of reversing smartly, the RSI indicator meanders down around the
+oversold line for several weeks. So, on one occasion it’s a buy/sell signal, and
+on the next occasion, it’s a warning.
+
+OVERBOUGHT
+
+70
+60
+50
+40
+
+OVERSOLD
+
+30
+
+130
+120
+110
+100
+90
+80
+85
+80
+75
+70
+
+Figure 13-3:
+Relative
+strength
+index (RSI).
+
+65
+60
+55
+5
+August
+
+12
+
+19
+
+26
+
+3
+9
+September
+
+16
+
+23
+
+30
+7
+October
+
+14
+
+21
+
+www.pdfdummies.com
+
+28
+
+4
+November
+
+237
+
+238 Part V: Flying with Dynamic Analysis
+In the place on the chart in Figure 13-3 between the overbought and oversold
+areas, the indicator is going sideways near the 30 percent line and the price
+is still falling. By analyzing the internal dynamics of the price (the ratio of average up days to average down days), the RSI indicator tells you not to sell the
+security short at this point, even though the price is still falling, because it is
+about to reverse to an up move. (Remember, to sell short is to sell the security first and buy it back later at a cheaper price.)
+If you’re a buy-only trader, hang on. Your chance is coming. Finally, you can
+see that an up move starts again and hits the overbought level on the righthand side of the chart in Figure 13-3. Again, the RSI peaks on the same day
+as the price high. Notice that momentum peaks a week earlier, but has not
+crossed the buy/sell centerline before the chart ends.
+
+Using the Rest of the Price Bar:
+The Stochastic Oscillator
+So far, the momentum indicators all use the closing price. But a lot can be
+going on in other parts of the price bar, such as closes near the high versus
+closes near the low. When the close is near the high and each high is higher
+than the day before, you not only have an uptrend, but an uptrend that is
+accelerating. In a rally, you expect prices to close near the high of the daily
+high-low range. In a sell-off, you expect the price to close near the low of the
+daily high-low range.
+Two relationships are particularly important: The high-low range over x
+number of days, and the relationship of the close to the high or the low over
+the same x number of days. (If you use the low, the resulting indicator is
+named the stochastic oscillator, and if you use the high, the indicator is named
+the Williams %R, after its inventor, Larry Williams.) In the following sections,
+I outline how to use the stochastic oscillator as an indicator.
+No indicator name is worse than this one. The word stochastic refers to
+randomness, which of course is the exact opposite of what you’re trying to
+achieve in applying technical concepts — finding order. It gets worse — the
+first component of the indicator is named the %K, because that was the letter
+of the alphabet assigned to the list of experimental formulas by its inventor,
+George Lane. The second component of the indicator is called %D, for the
+same reason. %K is called the “fast” stochastic and %D is called the “slow”
+stochastic, as you can discover in the next section. The good news: %K and
+%D appear only in the stochastic oscillator and aren’t used anywhere else in
+technical analysis.
+
+www.pdfdummies.com
+
+Chapter 13: Measuring Momentum
+
+Step 1: Putting a number to
+the fast stochastic %K
+The %K indicator takes the difference between today’s close and the lowest
+low of the past five days and divides that by the widest high-low range of the
+past five days. The ratio is then multiplied by 100 to make it an oscillator that
+ranges between 0 and 100, again with a normal spread between 30 and 70
+percent or from 20 to 80 percent. Five days is the standard parameter used
+for the indicator, although you can use software to find a number of days that
+better fits your particular security.
+The %K indicator shows you how much energy the price move has relative to the range. If today the closing price is higher than it was yesterday,
+it is farther away from the lowest low than it was yesterday, too. If neither
+day put in a new high or low, the high-low range usually remains the same.
+Arithmetically, therefore, today’s %K is a higher number than yesterday’s,
+and the line on the chart has to rise, as follows:
+%K = (Current Close – Lowest Low)/(Highest High – Lowest Low) x 100
+But here’s a brainteaser: What about the case in which the high-low range
+over the past five days is $5 to $12 and today’s price is $12? If today’s close
+is $12, the highest high, the top part (numerator) of the ratio is today’s close
+($12) minus the lowest low, $5, or $7, exactly the same as the five-day range,
+or the bottom part of the ratio (denominator). As you discovered in grade
+school doing fractions, $7 divided by $7 is 1, and if you multiply it by 100,
+your oscillator reading is 100. The indicator is telling you that the price is as
+high as it gets relative to the range.
+And a lot of good that does you! You already know that the price made a new
+closing high today. When that happens, the %K gives a reading of 100 percent,
+which by definition is an overbought condition — even if the price is still trending
+upward! This is exactly what happens in the section of the chart in Figure 13-4
+marked by an ellipse. You see that the price has moved smartly up, with several
+gaps to boot (see Chapter 7 for a discussion of gaps). When the %K indicator (the
+thin line) reaches 100 percent, it’s telling you that the security is overbought. If
+you used the %K line alone as a buy/sell indicator, you might sell at this point —
+and miss out on another $10 rise in the security.
+The stochastic oscillator gives a false overbought or oversold reading at a
+new highest high or lowest low, because the highest high or lowest low is then
+used in both the numerator and denominator of the ratio. Therefore, the stochastic oscillator works best in a sideways price movement. This is also true
+of the Williams %R, which is essentially the same indicator, only upside down.
+
+www.pdfdummies.com
+
+239
+
+240 Part V: Flying with Dynamic Analysis
+100
+
+OVERBOUGHT
+
+90
+80
+70
+60
+50
+40
+30
+20
+10
+
+OVERSOLD
+
+0
+85
+80
+75
+70
+65
+
+Figure 13-4:
+Stochastic
+oscillator.
+
+60
+55
+12
+5
+August
+
+19
+
+26
+
+3
+9
+September
+
+16
+
+23
+
+30
+7
+October
+
+14
+
+21
+
+28
+
+4
+November
+
+Step 2: Refining %K with %D
+So far you just have one line in the indicator. What you really want is the
+equivalent of the zero/100 line in momentum — some kind of crossover
+guideline to tell you whether to buy or sell, so you don’t have to guess by
+eye. In the stochastic oscillator, the crossover line is named %D and is
+formed by a short-term simple moving average of %K (the higher line in
+Figure 13-4). A moving average always smoothes and slows down the price
+series so %D is sometimes called the smoothed indicator as well as the “slow”
+indicator. When you put the two indicator lines together, you get crossovers
+of the first indicator line by the smoothed shorter-term indicator line that
+give you exact buy/sell signals.
+You can calculate %D with the following formula:
+%D = Three-Day Simple Moving Average of %K
+When %K crosses above %D, it’s a buy signal, and the other way around for
+a sell signal. It’s convenient when crossovers occur promptly at overbought
+or oversold levels but you will see plenty of crossovers that occur when the
+security is not overbought or oversold. Note that you can add numerous
+fancy modifications to the stochastic oscillator, including a “slowing” factor
+in %K. And as with any indicator, you can change the number of days in the
+lookback period.
+
+www.pdfdummies.com
+
+Chapter 13: Measuring Momentum
+
+Fiddling with the stochastic
+oscillator on the chart
+You can sometimes see patterns on a chart of the stochastic oscillator that
+are meaningful. For example, see Figure 13-5 that shows some of the nuances
+of the stochastic oscillator. Here the stochastic oscillator shows a series of
+three higher highs in the indicator that have %D rising over %K in “right”
+crossovers (to the right-hand side of the peak), implying hidden power is in
+the up move on the left-hand side of the chart that cannot be discerned from
+just looking at the prices themselves.
+But look again. Under the first bump up in the stochastic, only two days have
+lower closes (and one duplicate close). You could also draw a support line
+under the lower closes or series of “knees,” as Lane called them. As it happens, this time the final downside crossover beats the break of the support
+line by five days, but that is not always the case.
+
+3
+
+2
+
+90
+80
+
+1
+
+70
+60
+
+%K
+
+50
+40
+
+%D
+
+30
+20
+10
+0
+1.485
+1.480
+1.475
+1.470
+1.465
+1.460
+1.455
+1.450
+1.445
+1.440
+1.435
+
+Figure 13-5:
+Bullish
+divergence.
+
+1.430
+1.425
+1.420
+1
+2
+February
+
+5
+
+6
+
+7
+
+8
+
+9
+
+12
+
+13
+
+14
+
+15
+
+16
+
+19
+
+20
+
+21
+
+22
+
+23
+
+26
+
+27
+
+28
+
+1
+2
+March
+
+5
+
+6
+
+7
+
+8
+
+9
+
+12
+
+13
+
+14
+
+15
+
+16
+
+19
+
+20
+
+21
+
+You can become obsessed with the stochastic oscillator. Aficionados study
+charts for divergences, like when the price hits a new low but the stochastic oscillator fails to confirm and in fact shows a higher low. This type of situation is what
+you can see in Figure 13-5 and is named a bullish divergence. Similarly, a bearish
+divergence is when the price is making a higher high but the stochastic forms a
+lower high. The point is that momentum isn’t confirming the price action.
+
+www.pdfdummies.com
+
+241
+
+242 Part V: Flying with Dynamic Analysis
+After looking for divergences, traders then move on to pinpointing the
+number associated with the divergence. Is it above or below the midpoint at
+50 percent? A bullish divergence over the 50 percent line is favorable. In a
+very real sense, the stochastic oscillator is bar reading on steroids.
+The stochastic oscillator became fabulously popular in the 1990s as technology permitted the spread of swing trading to the general public. “Trade
+like the professionals!” was the sales pitch, and an accurate one, too, in the
+sense that professionals are heartless about not holding a security that isn’t
+performing. The fad for this indicator, however, resulted in some technical
+writers making exaggerated claims for it. The stochastic oscillator has some
+serious drawbacks, such as having almost no trend identification capability
+and often signaling a premature exit.
+Do not use the stochastic oscillator in a strongly trending market. When
+your security exhibits an abnormally long period of trendedness, you can
+get jumpy wondering how long it will last. However, this type of situation is
+when the stochastic oscillator isn’t useful and can be downright dangerous.
+See Figure 13-6. The stochastic oscillator rises up from the oversold level in
+the oval and a little later the price rises over the hand-drawn resistance line.
+Surely this is a buy signal! But the price turns around after only a few days and
+puts in a lower low. If you’re a very short-term trader, you may have been able
+to eke out a small gain from the buy signal, but not from this instance of the
+stochastic oscillator alone.
+
+90
+80
+70
+60
+50
+40
+30
+20
+10
+0
+1.180
+1.175
+1.170
+1.165
+1.160
+1.155
+1.150
+1.145
+1.140
+1.135
+1.130
+1.125
+1.120
+1.115
+1.110
+1.105
+1.100
+1.095
+1.090
+1.085
+1.080
+1.075
+1.070
+1.065
+1.060
+1.055
+1.050
+1.045
+1.040
+1.035
+1.030
+1.025
+
+Figure 13-6:
+Stochastic
+oscillator
+in error.
+26
+
+3
+May
+
+10
+
+17
+
+24
+
+7
+June
+
+14
+
+21
+
+28
+
+5
+
+12
+
+July
+
+www.pdfdummies.com
+
+19
+
+26
+
+2
+
+9
+August
+
+1
+
+Chapter 14
+
+Estimating Volatility
+In This Chapter
+▶ Introducing volatility
+▶ Doing some volatility calculations
+▶ Getting the hang of Bollinger bands
+▶ Focusing on volatility breakout as a trading tool

@@ -655,7 +655,7 @@ def test_funding_schedule_wired_through_lab_run(tmp_path):
 
 # --- D-024 mechanical tradability mask (CANDIDATE_LIFECYCLE_SPEC 6.3) -------
 # Deterministic data-integrity vetoes at admission, applied before any risk
-# admission: entry-bar spread beyond max_spread_frac, StateQuality == DEGRADED,
+# admission: entry-bar spread beyond max_bar_range_frac, StateQuality == DEGRADED,
 # entry bar closing within funding_window_bars of a funding boundary. A vetoed
 # candidate is REJECTED with reason TRADABILITY_MASK_VETO and keeps a
 # NOT_EXECUTED counterfactual outcome.
@@ -696,8 +696,8 @@ def _inflate_bar_high(rows: list[TapeRow], idx: int, mult: float = 1.10) -> list
 
 
 def test_mask_vetoes_spread_tail_bar(tmp_path):
-    """Entry bar with (high-low)/close > max_spread_frac -> TRADABILITY_MASK_VETO
-    (detail SPREAD), never executed, counterfactual NOT_EXECUTED preserved."""
+    """Entry bar with (high-low)/close > max_bar_range_frac -> TRADABILITY_MASK_VETO
+    (detail BAR_RANGE), never executed, counterfactual NOT_EXECUTED preserved."""
     rows = _inflate_bar_high(_pullback_tape_with_offset(0), 62)   # entry bar
     lab = Lab(tmp_path)
     lab.ingest(rows)
@@ -709,7 +709,7 @@ def test_mask_vetoes_spread_tail_bar(tmp_path):
     cid = vetoed[0]['candidate_id']
     detail = [rec for rec in lab.candidates.read()
               if rec.get('kind') == 'tradability_veto' and rec['candidate_id'] == cid]
-    assert detail and detail[0]['detail'] == 'SPREAD'
+    assert detail and detail[0]['detail'] == 'BAR_RANGE'
     outs = [rec for rec in lab.outcomes.read() if rec['candidate_id'] == cid]
     assert len(outs) == 1 and outs[0]['label_status'] == 'NOT_EXECUTED'
 
@@ -741,27 +741,27 @@ def test_mask_degraded_state_vetoes():
     """StateQuality == DEGRADED at decision time vetoes, whatever the bar."""
     ok_bar = {'open': 100.0, 'high': 101.0, 'low': 99.0, 'close': 100.0}
     assert tradability_mask_veto(ok_bar, 'DEGRADED', 3 * HOUR_NS,
-                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 max_bar_range_frac=0.05, funding_window_bars=1,
                                  funding_hours=8, interval_ns=HOUR_NS) == (True, 'DEGRADED')
     assert tradability_mask_veto(ok_bar, 'COMPLETE', 3 * HOUR_NS,
-                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 max_bar_range_frac=0.05, funding_window_bars=1,
                                  funding_hours=8, interval_ns=HOUR_NS) == (False, None)
     # A bar ending EXACTLY on a boundary enters after that settlement
     # (open-interval start) and is NOT vetoed — the documented non-veto must
     # be pinned, not just the veto side.
     boundary = 8 * HOUR_NS
     assert tradability_mask_veto(ok_bar, 'COMPLETE', boundary,
-                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 max_bar_range_frac=0.05, funding_window_bars=1,
                                  funding_hours=8, interval_ns=HOUR_NS) == (False, None)
     # One bar before the boundary is vetoed (imminent settlement).
     assert tradability_mask_veto(ok_bar, 'COMPLETE', boundary - HOUR_NS,
-                                 max_spread_frac=0.05, funding_window_bars=1,
+                                 max_bar_range_frac=0.05, funding_window_bars=1,
                                  funding_hours=8, interval_ns=HOUR_NS) == (True, 'FUNDING_WINDOW')
 
 
 def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
     """Thresholds at defaults never veto the synthetic baseline via spread or
-    state quality (no SPREAD/DEGRADED vetoes on seed-7). Funding-window vetoes
+    state quality (no BAR_RANGE/DEGRADED vetoes on seed-7). Funding-window vetoes
     may still occur — with 1h bars some bar is always within 1h of an 8h
     boundary; that is a schedule property of the synthetic epoch, not a
     threshold overreach."""
@@ -770,7 +770,7 @@ def test_mask_defaults_do_not_veto_spread_or_quality_on_baseline(tmp_path):
     assert r.candidate_count > 0
     details = [rec.get('detail') for rec in lab.candidates.read()
                if rec.get('kind') == 'tradability_veto']
-    assert not any(d in ('SPREAD', 'DEGRADED') for d in details), details
+    assert not any(d in ('BAR_RANGE', 'DEGRADED') for d in details), details
 
 
 # --- Phase 2: feature groups + lineage (MARKET_STATE_CONTRACT 2, 5) ---------

@@ -1,0 +1,718 @@
+
+The EROC Can Act as a Bias Indicator
+
+Source: Bloomberg LP.
+
+136
+FIGURE 3.36
+
+New Frontiers in Technical Analysis
+The EROC on a Five-Minute Basis
+
+Source: Bloomberg LP.
+
+weekly EROC is in a negative pattern, only short-sale triggers are taken on
+a daily basis (buy signals are ignored). In Figure 3.34, those times when the
+EROC fell below its signal line were not good times to sell short because
+the bias of the weekly EROC was positive. When the weekly EROC is in a
+positive pattern, only buy triggers are taken on a daily basis (sell-short signals
+are ignored).
+A similar scenario can be seen in Figure 3.36, an intraday chart of the
+S&P 500 index. There were both buy and sell EROC trigger signals. Some
+worked out well, others not so much. Because the bias (as measured by the
+daily EROC) happened to be positive, only buy triggers are contemplated.
+
+Erlanger Nantucket Sleighride
+The Nantucket Sleighride (NS) is a set of three subindicators: the ENS, the
+ENS Fast, and the ENS OB/OS. The ENS can act as a bias, setup, and
+trigger indicator. It is a composite of very sensitive direction measures, and
+its name is derived from its aggressive nature in following a trend. Wherever
+the “harpooned whale” goes, the user will be dragged, like the whalers on a
+Nantucket sleighride, in that direction.
+The idea behind the ENS is to highlight the meaty part of a trend as
+soon as it unfolds (see Figure 3.37). For the ENS and ENS Fast, the meaty
+part of the trend is highlighted by the time spent in the extreme zones, which
+are delineated by the indicator’s time spent above 50 (uptrend) or below –50
+(downtrend). These are colored green and red, respectively. Once the ENS
+rises above 50, an uptrend is considered to be underway. The meaty part of
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.37
+
+137
+
+The ENS Highlights the Meaty Parts of a Trend
+
+Source: Bloomberg LP.
+
+the uptrend is complete when the ENS falls back below 50. Once the ENS
+falls below –50, a downtrend is considered to be underway. The meaty part
+of the downtrend is complete when the ENS moves back above –50.
+The ENS Fast indicator is designed to give the user an early indication
+of entry into the meaty portion of a trend. Long-entry (short-exit) signals are
+considered with the ﬁrst move above 50, with a long-exit (short-entry) at the
+ﬁrst move below –50.
+There is a third version of ENS, the ENS OB/OS indicator, which is
+designed to reﬂect overbought and oversold levels in a trend.
+The oversold moments of the ENS OB/OS indicator, like the one on
+February 15 in Figure 3.38, is an important setup for an upside reversal of
+trend. In Figure 3.38 the trigger for that upside reversal occurred late in
+the day of February 15 when the ENS Fast indicator moved above 50 (the
+green level in the ENS Fast). The new uptrend was conﬁrmed when the ENS
+Standard moved above 50 (the green level in the ENS).
+The overbought moments of the ENS OB/OS indicator were also an
+important setup for a downside reversal of trend. The trigger for a downside
+reversal occurred on February 18 when the ENS Fast indicator moved below
+–50 (the red level in the ENS Fast). The new downtrend was conﬁrmed when
+the standard ENS moved below –50 (the red level in the ENS). Generally the
+ENS conﬁrms the ENS Fast in the next bar.
+
+138
+FIGURE 3.38
+
+New Frontiers in Technical Analysis
+The ENS Setups and Triggers on an Intraday Basis
+
+Source: Bloomberg LP.
+
+The ENS can be used as a bias indicator. As is often the case for bias
+indicators, select an interval larger than the one used for triggers. If triggers
+are taken using daily data, select the ENS or ENS Fast on a weekly basis as a
+bias for which side of the market to trade. For example, as long as the ENS
+Fast on a weekly basis is above 50 (green zone), the bias is for long trades only
+on trades triggered on a daily basis. As long as the ENS Fast on a weekly basis
+is below –50 (red zone), the bias is for short trades only on trades triggered on
+a daily basis. It is also appropriate to use the weekly ENS as a bias indicator
+and another type of indicator as a trigger, like the daily EROC.
+
+Erlanger Crossover and Crossover Spread
+The Erlanger Crossover (EC) indicator is primarily a trigger indicator. Trigger
+strategies are patterns in an indicator that typically point to a time to execute
+a trade. The EC uses “true range” technology to eliminate whipsaws while
+maintaining timely trigger signals.
+The trigger mechanism in the Erlanger Crossover is a simple process of
+buying when the “fast” line (plotted as a solid line) rises above the “slow” line
+(plotted as a dashed line), and selling (or short selling) when the “fast” line
+moves below the “slow” line. As is the case with all triggers, it is helpful to
+have appropriate setup indications in place before acting upon such trigger
+
+139
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.39
+
+The Erlanger Crossover with Its Signal Line
+
+ES MO
+1185
+
+1180.75
+1180
+
+1175
+
+100
+
+EC Spread
+
+50
+12.5566
+-31.6607
+-30
+
+Erlanger Volume Swing
+B
+
+C
+
+20
+0.00
+
+A
+07:00
+
+-13.3098
+-20
+08:00
+
+09:00
+
+10:00
+
+11:00
+
+12:00
+
+13:00
+
+14:00
+
+Nov 30 2010
+
+Source: Bloomberg LP.
+
+indicators. In Figure 3.39, the S&P 500 e-mini contract (ES MO) is plotted
+on a ﬁve-minute basis, the Erlanger Crossover turns negative at points A and
+C, and positive at point B.
+Notice that the Erlanger Crossover “fast” line turns direction substantially
+ahead of the actual crossover. This momentum of the Erlanger Crossover is
+at the heart of the EC Spread, which is simply the difference between the
+Erlanger Crossover “fast” and “slow” lines of the Erlanger Crossover.
+The EC Spread is a multiuse tool. It has the trigger information contained
+in the Erlanger Crossover, setup patterns that often precede price direction
+changes, and is a trader’s tool for money management.
+The EC Spread also has its own signal line that acts to identify clear
+changes in the direction of the EC Spread (i.e., the momentum of the Erlanger Crossover). The key indications of the EC Spread occur when the EC
+Spread moves through its signal line, and also when the EC Spread moves
+above or below its zero level. The latter is, of course, another way of depicting
+
+140
+
+New Frontiers in Technical Analysis
+
+FIGURE 3.40
+
+The EC Spread Measures the Momentum of the Erlanger Crossover
+
+ES MO
+1185
+
+1179.50
+
+1175
+
+200
+
+Erlanger Crossover
+
+100
+-3.8072
+-100
+-121.7655
+
+X3
+
+X2
+
+EC Spread
+
+100
+
+0.00
+
+A
+
+C
+
+B
+
+-68.8464
+-100
+-117.9583
+
+X1
+07:00
+
+08:00
+
+09:00
+
+10:00
+
+11:00
+
+12:00
+
+13:00
+
+14:00
+
+15:00
+
+Nov 30 2010
+
+Source: Bloomberg LP.
+
+crossovers of the Erlanger Crossover, and as such is a trigger mechanism. The
+movement of the EC Spread through its signal line is an early warning that
+suggests a trend change in price. This use of the signal line is a setup situation,
+but it also serves as a useful money management tool. In Figure 3.40, point
+X1 shows an upturn of the EC Spread through its signal line—a good time to
+exit, or pare down a short position. As a typical money management process,
+traders look for an early signal to take 50 percent of a position off of the table,
+and another signal to close out the entire position. In this case, point B could
+be the latter and it also serves as an entry trigger for a long trade. Point X2
+serves as a money management signal to sell 50 percent of a long position place
+at point B, and either point X3 or C could close out the entire long position.
+
+Erlanger Volume Swing
+The Erlanger Volume Swing (EVS) index is a ratio between up and down volume. In the EVS, the total volume for a given day is divided into two portions
+
+Applying Seasonality and Erlanger Studies
+
+141
+
+according to the position of the close between the day’s true high—the higher
+of today’s high and yesterday’s low—and the true low—the lower of today’s
+low and yesterday’s high. True high and true low eliminate the problems of
+limit days and more suitably distribute volume on gap days. The separate
+up-volume and down-volume are then smoothed exponentially.
+Setup strategies are patterns in an indicator that typically precede a change
+in price. The Erlanger Volume Swing index is an oscillator. As such, the user
+looks for higher highs and lower lows in price to be conﬁrmed by the EVS.
+When nonconﬁrmations occur, trend changes are more likely forthcoming.
+For instance, a failure of the EVS to conﬁrm a higher high in price is a setup
+for a downside reversal. When the EVS fails to conﬁrm a lower low in price,
+a setup for a rally reversal is in order. Once a setup is observed, the EVS can
+also be used as a trigger into a trade.
+Trigger strategies are patterns in an indicator that typically point to a
+time to execute a trade. Triggers are best executed following appropriate setup
+patterns. An EVS trigger for a long trade is made when the EVS moves above
+the zero level. A trigger for a short trade is made when the EVS moves below
+the zero level.
+In Figure 3.41, we have added the EVS to the chart of the S&P 500
+e-mini futures contract. At point “A,” the EVS triggers into a sell position by
+dipping below the zero line—well ahead of the EC Spread. It’s a good idea
+to use a combination of trigger indicators, as is depicted here. One is not
+necessarily better than the other. The value is that these are representations of
+different criteria, so when they agree, a case for the signal is therefore more
+valid. Point “B” is a buy signal in the EVS that slightly lags the buy signal in
+the EC Spread. Note the positive divergence of the EVS with price (dashed
+lines) leading up to point “B.” At point “C,” the EVS broke out to a higher
+reaction high before the market, indicating expanding positive volume ahead
+of the price action.
+
+Erlanger Put/Call Ratio
+Tracking Options Ratios is designed to highlight the prevailing sentiment of
+options traders, and as such falls under the category of a setup indicator. Setup
+strategies are patterns in an indicator that typically precede a change in price.
+Bullish or bearish sentiment tends to become extreme after extended price
+action. For example, a lengthy uptrend will engender widespread enthusiasm.
+The rub is that when most have entered the market, there are fewer on the
+sidelines to keep the trend going by joining the crowd. This overcommitted
+
+142
+
+New Frontiers in Technical Analysis
+
+FIGURE 3.41
+
+The Erlanger Volume Swing Helps to Conﬁrm Other Signals
+1188.00
+
+ES MO
+
+1185.00
+1184.00
+1182.00
+
+1179.50
+1178.00
+1176.00
+1174.00
+
+Erlanger Crossover
+
+200
+
+C
+
+100
+
+A
+
+-3.8072
+
+-121.7655
+
+B
+07:00
+
+08:00
+
+09:00
+
+10:00
+
+11:00
+
+12:00
+
+13:00
+
+14:00
+
+15:00
+
+Nov 30 2010
+
+Source: Bloomberg LP.
+
+state of bullish participation in the marketplace often sets up the price action
+for a reversal; in the case in Figure 3.42, it is a downturn.
+The key features of the Erlanger Options Ratios are the measurement of
+volume-weighted values of all options contracts, and that they are computed
+on a median basis. We also plot these ratios on a put/call and a call/put
+ratio basis. This better shows the peaks and valleys of put and call activity at
+extremes. In Figure 3.42, the Diamonds Trust ETF (DIA) is plotted with the
+Call/Put Median and the Put/Call Median. In February, an advance in price
+was set up by a high Put/Call Median. The advance was triggered when the
+price action rose above its DMA channel. The big story in Figure 3.42 was
+what happened later in April and May. The Call/Put Median rose to very high
+levels in April, setting up the DIA for a decline that was triggered in early May
+with the DIA’s drop below its DMA channel. Like all sentiment indicators,
+we always use a price study to activate the sentiment setup. For the options
+ratios, we typically use the daily DMA channel as a trigger.
+The Erlanger Options studies can be applied to individual stocks. The
+following example looks at Best Buy Co., Inc.
+
+143
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.42
+
+The Erlanger Options Ratios Measure Options Trading on a 10-Day
+
+Median Basis
+
+DIA-SPDR DJIA TRUST
+110
+
+Trigger
+105
+
+Trigger
+
+103.4767
+101.1717
+100.32
+
+Call/Put Median
+1.500
+
+1.000
+
+Setup
+
+0.786
+0.500
+
+Put/Call Median
+1.500
+1.272
+1.000
+
+Setup
+0.500
+Jan
+
+Feb
+
+Mar
+
+Apr
+
+May
+
+2010
+
+Source: Bloomberg LP.
+
+Figure 3.43 shows how high the Erlanger Put/Call Median rose in
+mid-March, 2010. The prior decline in price encouraged excessive negative
+betting on the part of the options traders. This was a setup for a rally that was
+triggered by the price of Best Buy (BBY) rising above its DMA channel. It
+wasn’t until the options traders changed allegiance and became super-bullish
+in late April that the price action wavered. This interplay between sentiment
+and price action is at the heart of our squeeze-play philosophy. Trading setups
+and triggers such as these that are in line with the big-picture bias is a strategy
+that, by design, is a logical one that adds value to the decision-making process.
+
+Erlanger Trend Direction
+Erlanger Trend Direction (a proprietary indicator of Phil Erlanger Research)
+is used to measure the coincident trend underway. There are four “states” (see
+Figure 3.44) to this indicator: uptrend (green above the zero line), correction
+or pullback within an uptrend (red above the zero line), downtrend (red below
+
+144
+
+New Frontiers in Technical Analysis
+
+FIGURE 3.43
+
+Erlanger Options Patterns Are Setups for Contrary Moves
+50
+
+Best Buy
+45
+
+Trigger
+40
+
+Trigger
+
+Trigger
+
+37.6333
+38.7787
+35
+
+30
+
+Call/Put Median
+
+Setup
+2.000
+
+1.000
+
+Setup
+
+0.617
+
+Put/Call Median
+1.621
+1.300
+
+1.000
+
+Setup
+0.500
+Dec
+2009
+
+Mar
+
+Jun
+
+Sep
+2010
+
+Dec
+2011
+
+Source: Bloomberg LP.
+
+the zero line), and correction or rally within a downtrend (green below the
+zero line).
+It might help to think of the trend direction mechanism as a coincident
+(to slightly lagging) indicator. Traders/investors have many reasons to get long
+or short a position, but if the trend direction moves contrary to expectations,
+it is time to reevaluate. It is not uncommon to see changes from advance to
+decline phase on shorter timeframes while the larger trend direction remains
+unchanged. So, the hourly can go through a number of cycles while the
+daily remains unchanged. The daily can go through a number of cycles
+while the weekly remains unchanged. Each smaller cycle is a test of the next
+larger cycle.
+The trend direction indicator is best used in conjunction with (and to
+conﬁrm) other indicators. Waiting for the trend indicator to agree with the
+DMA channel can help to minimize whipsaws.
+
+145
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.44
+
+Erlanger Trend Directions’ Four Signals
+50
+
+45
+41.403
+40.016
+
+35
+
+ETD––Erlanger Trend Direction
+Uptrend
+
+Downtrend
+Jan
+
+Pullback
+
+Rally
+Feb
+
+Downtrend
+Mar
+
+2010
+
+Apr
+
+May
+
+Source: Bloomberg LP.
+
+Monitoring
+In the Erlanger Chart Room program powered by Bloomberg
+(www.erlangerchartroom.com), users can track their positions using key metrics from the available Erlanger Studies. Monitoring is a valuable process that
+enables the portfolio manager to follow key technical metrics as they unfold
+in real time. It is not possible to effectively perceive all the pertinent charts for
+a universe or portfolio of securities on a real-time basis. By monitoring the
+progress of key technical patterns security by security in a quote sheet format,
+it becomes easy to identify their progress and change in status.
+In Figure 2.45, the columns in the quote sheet are designed to highlight
+short and long squeeze plays by tracking key sentiment setup situations such
+as shorts as a percentage of ﬂoat, short selling intensity, Erlanger Short Ratio
+(current short interest divided by the 12-month average of average daily
+volume), and the Erlanger Option Rank (the higher the Option Rank, the
+more dominant put activity is to call activity). The key to these setup indicators
+is to identify excess in bullish or bearish sentiment. The last column is the
+Erlanger Trend Direction (ETD), which identiﬁes the trend underway—in
+this case on a daily basis. For a short squeeze situation, we are looking for those
+stocks that have an excess of negative sentiment but are in an uptrend—these
+are situations where the market is telling us that the negative bettors are
+
+146
+FIGURE 3.45
+
+New Frontiers in Technical Analysis
+Monitoring Squeeze Play Factors
+
+Source: Erlanger Chart Room.
+
+wrong. The columns in Figure 3.45 are sorted ﬁrst by ETD and second by
+Short Intensity. Stocks UTX and IBM are in a short squeeze situation. HPQ
+is in a long squeeze situation because its short intensity is at a low 23 percent
+(indicating little negative betting, hence too much bullishness) and its trend
+(ETD) is down—thus the HPQ bulls are feeling the squeeze pressure of lower
+price action.
+Earlier in this chapter we discussed the merits of using the monthly DMA
+channel as a bias for trades triggered using daily DMA channels. This was
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.46
+
+147
+
+Dow 30 Industrial Stocks—DMA Channel Factors
+
+Source: Erlanger Chart Room.
+
+especially valid for high beta stocks. In Figure 3.46, a quote sheet is set up for
+the Dow 30 issues with the ﬁrst sort on the monthly DMA channel column
+and a secondary sort on the daily column. There is also a column for beta so
+the portfolio manager can focus on higher beta issues. With one simple quote
+sheet, the portfolio manager can identify those issues that are in a positive
+or negative bias situation, ﬁltering for beta—a process that we identiﬁed as a
+
+148
+FIGURE 3.47
+
+New Frontiers in Technical Analysis
+Dow 30 Industrial Stocks—Erlanger Value Line Factors
+
+Source: Erlanger Chart Room.
+
+superior strategy. Taking long positions in positive bias situations with those
+issues marked as “above” the daily DMA channel is now a snap. Similarly,
+ﬁnding short positions in negative bias situations with those issues marked as
+“below” the daily DMA channel is just as easy.
+It is almost an impossibility to track the value lines of 30 securities by
+perusing charts, even with a real-time system. However, quote sheets that not
+only identify the value line levels, but also highlight when the price action
+moves through the key levels, can make this effort a reality. At the beginning
+of the trading day, the table in Figure 3.47 shows the support, resistance,
+and pivot Erlanger Value Lines, along with the prior day’s last two-hour
+high and low.
+As Figure 3.48 shows, as the trading day unfolds, the cells for the key
+Erlanger Value Lines “support” and “resistance” change color if price has
+moved through their values for the day. Knowing which stocks have moved
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.48
+
+149
+
+Dow 30 Industrial Stocks—Erlanger Value Line Factors Change during the
+
+Trading Session
+
+Source: Erlanger Chart Room.
+
+below their support level (colored in red, symbols GE, WMT) and those that
+have moved above their resistance level (colored in green, symbols CAT, KO,
+MMM, and MSFT) allow the trader to focus in on securities on the move. This
+is especially pertinent when the market itself is having a quiet day—something
+extraordinarily positive is boosting a stock when it rises above its resistance
+level when the market is ﬂat. Conversely, something extraordinarily negative is
+weighing on a stock when it falls below its support level when the market is ﬂat.
+Opening ranges are an effective bias tool for short-term traders. By tracking the opening ranges of a universe of stocks that traders favor for short-term
+trading, the trader can instantly identify those stocks that are positively and
+negatively biased in the ﬁrst few minutes of trading. Figure 3.49 shows that
+as the minutes unfold from the opening bell, the trader can see those stocks
+
+150
+FIGURE 3.49
+
+New Frontiers in Technical Analysis
+Dow 30 Industrial Stocks—Tracking the Opening Ranges
+
+Source: Erlanger Chart Room.
+
+strong enough to rise above their 5-minute and 60-minute opening highs (in
+this case, CAT, KO, MSFT, and UTX). The trader can also see those stocks
+weak enough to fall below their 5-minute and 60-minute opening lows (in
+this case, DIS, GE, INTC, JNJ, and WMT). Additionally, tracking universes
+like the Dow 30 Industrials can give the portfolio manager a unique insight as
+to how a particular day’s trading is unfolding. Where is the strength? Where is
+the weakness? How broad is the strength or weakness? These questions can be
+answered by a quick glance at a quote sheet similar to the one in Figure 3.50.
+Monitoring quote sheets with Erlanger studies can also highlight setups
+and triggers. In Figure 3.50, all the ENS cells are colored when they reach
+values above 50 or below –50. When the ENS is above 50, a triggered uptrend
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.50
+
+151
+
+Dow 30 Industrial Stocks—Tracking the Erlanger Nantucket Sleighride
+
+Signals
+
+Source: Erlanger Chart Room.
+
+is underway. Interestingly, none of those uptrending issues are above 50 on
+the weekly ENS OB/OS, which suggests that no uptrending issue has yet to
+reach overbought on an intermediate (weekly) basis.
+Earlier in this chapter, we showed how the weekly EROC can be used
+as a bias indicator for those who trade on daily price data. In Figure 3.51,
+this EROC trading process is displayed by sorting the weekly EROC column
+
+152
+FIGURE 3.51
+
+New Frontiers in Technical Analysis
+Dow 30 Industrial Stocks—Tracking the EROC Trigger and Setup Signals
+
+Source: Erlanger Chart Room.
+
+ﬁrst to show bias, followed by the secondary sort of the daily EROC as the
+trigger. There are a host of buy triggers in Figure 3.51, with only two short-sell
+triggers (BA and HPQ). A buy trigger is initiated when the daily EROC rises
+above both the EROC zero level and its signal line (signiﬁed by “up”) while
+the weekly EROC is in the same condition. A sell short trigger is initiated
+when the daily EROC falls below both the EROC zero level and its signal
+line (signiﬁed by “down”) while the weekly EROC is in the same condition.
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.52
+
+153
+
+Dow 30 Industrial Stocks—Tracking a Combination of Erlanger Studies
+
+Source: Erlanger Chart Room.
+
+In Figure 3.52, a combination of trigger factors is listed. The primary sort
+is the daily EROC column, with the secondary sort the daily DMA channel
+and the tertiary sort the daily ENS. Also included in this quote sheet is the
+Erlanger Volume Swing (EVS). By monitoring quote sheets such as the one in
+Figure 3.52, the trader can instantly determine which securities have triggered
+on all four indicators.
+The use of quote sheets deployed to intelligently contain the various
+Erlanger Studies provides the medium for monitoring portfolios and makes
+effective use of the real-time changes in technical status, which is so important
+to bottom-line performance.

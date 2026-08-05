@@ -1,0 +1,781 @@
+
+MINERS
+One of the most important, but often overlooked, indicators of a cryptoasset’s
+ongoing health is the support of the underlying security system. For proof-ofwork based systems, such as Bitcoin, Ethereum,1 Litecoin, Monero, and many
+185
+
+Burniske 03.indd 185
+
+9/9/17 2:41 PM
+
+186 CRYPTOASSETS
+
+more, security is a function of the number of miners and their combined compute (or hashing) power.
+Since miners are the ones validating transactions and building the asset’s
+blockchain, their combined compute power needs to be robust enough to fend
+off attackers that want to trick the network into processing invalid transactions. The only way attackers can process invalid transactions is if they own
+over half of the compute power of the network, so it’s critical that no single
+entity ever exceeds 50 percent ownership. If they do, then they can perform
+what’s referred to as a 51 percent attack, in which they process invalid transactions. This involves spending money they don’t have and would ruin confidence in the cryptoasset. The best way to prevent this attack from happening is
+to have so many computers supporting the blockchain in a globally decentralized topography that no single entity could hope to buy enough computers to
+take majority share.
+Buying and maintaining these computers is costly, and miners are not volunteering their time and money out of altruism. Instead, more computers are
+only added to the network when more entities see the ability to profit from
+doing so. In other words, miners are purely economically rational individuals—mercenaries of compute power—and their profit is largely driven by the
+value of the cryptoasset as well as by transaction fees. Therefore, the more the
+price goes up, and the more transactions are processed, the more likely new
+computers will be added to help support and secure the network.2 In turn, the
+greater hardware support there is for the network, the more people will trust in
+its security, thereby driving more people to buy and use the asset.
+A clearly positively reinforcing cycle sets in that ensures that the larger the
+asset grows, the more secure it becomes—as it should be. The security should
+be different for a pawn shop with $3,000 in the cash register versus a Wells
+Fargo branch with $2 million in the vault. The same goes for the security of a
+cryptoasset with a network value of $300,000 versus $3 billion.
+
+Hash Rates as a Sign of Security
+One way to determine the relative safety of a cryptoasset is through its hash
+rate. A cryptoasset’s hash rate is representative of the combined power of the
+mining computers connected to the network. For example, Figures 13.1 and
+13.2 show Bitcoin’s hash rate and Ethereum’s hash rate over time, both of which
+display hyper growth characteristics.
+
+Burniske 03.indd 186
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+187
+
+4,500,000
+4,000,000
+Hash Rate (TH/s)
+
+3,500,000
+3,000,000
+2,500,000
+2,000,000
+1,500,000
+1,000,000
+500,000
+0
+Jan-09 Jan-10 Jan-11 Jan-12 Jan-13 Jan-14 Jan-15 Jan-16 Jan-17
+
+Figure 13.1 n Bitcoin’s hash rate rise since inception
+Data sourced from Blockchain.info
+
+18,000
+16,000
+Hash Rate (GH/s)
+
+14,000
+12,000
+10,000
+8,000
+6,000
+4,000
+2,000
+Jan-17
+
+Feb-17
+
+Dec-16
+
+Oct-16
+
+Nov-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Mar-16
+
+Jan-16
+
+Feb-16
+
+Dec-15
+
+Oct-15
+
+Nov-15
+
+Sep-15
+
+Jul-15
+
+Aug-15
+
+0
+
+Figure 13.2 n Ethereum’s hash rate rise since inception
+Data sourced from Etherscan.io
+
+As of March 2017, Bitcoin’s hash rate had increased 3-fold over March 2016,
+while Ethereum’s hash rate had increased 10-fold. While Ethereum is experiencing faster growth, which could be taken as a sign that more miners are
+enthusiastic about their potential profits from supporting Ethereum, it is also
+growing off a smaller initial hash rate than Bitcoin.
+At the risk of being repetitive, more hash rate signifies more computers
+are being added to support the network, which signifies greater security. This
+
+Burniske 03.indd 187
+
+9/10/17 5:49 PM
+
+188 CRYPTOASSETS
+
+typically only happens if the value of the cryptoasset and its associated transactions are increasing, because miners are profit-driven individuals. While
+hash rate often follows price, sometimes price can follow hash rate. This happens in situations where miners expect good things of the asset in the future,
+and therefore proactively connect machines to help secure the network. This
+instills confidence, and perhaps the expected good news has also traveled to
+the market, so the price starts going up.
+Once it’s been ascertained that the hash rate is growing, often the best way
+to compare the relative security of cryptoassets is through a calculation of the
+equipment securing the network. Using a dollar value is helpful because it
+gives us an idea of how much a bad actor would have to spend to re-create the
+network, which is what the actor would need to launch a 51 percent attack.
+As of March 2017, a Bitcoin mining machine that produced 14 terahash per
+second (TH/s) could be bought for $2,300. The idea of TH/s can be thought
+of as similar to a personal computer’s clock speed, which is often measured in
+gigahertz (GHz), and similarly represents the number of times a machine can
+execute instructions per second. It would take 286,000 of the aforementioned
+14 TH/s machines to produce 4,000,000 TH/s, which was the hash rate of the
+Bitcoin network at the time. Hence, Bitcoin’s network could be re-created with
+a $660 million spend, which would give an attacker control of 50 percent of
+the network. Yes, 50 percent, because if the hash rate started at 100, and an
+attacker bought enough to re-create it (100), then the hash rate would double
+to 200, at which point the attacker has a 50 percent share.
+Ethereum’s mining network, on the other hand, is less built out because it’s
+a younger ecosystem that stores less value. As of March 2017, a 230 megahash
+per second (MH/s) mining machine could be purchased for $4,195,3 and it
+would take 70,000 of these machines to recreate Ethereum’s hash rate, totaling
+$294 million in value. Also, because Ethereum is supported by GPUs and not
+ASICs, the machines can more easily be constructed piecemeal by a hobbyist
+on a budget.
+Using $660 million for Bitcoin and $294 million for Ethereum, while the
+network values for the two cryptocurrencies are respectively US$17.1 billion
+and $4.7 billion, we get a range of 3.9 cents to 6.3 cents of capital expenditure
+per dollar secured by the network. This range is a good baseline for the innovative investor to use for other cryptoassets to ensure they are secured with a
+similar level of capital spend as Bitcoin and Ethereum, which are the two best
+secured assets in the blockchain ecosystem.
+
+Burniske 03.indd 188
+
+9/10/17 5:49 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+189
+
+BE CAREFUL WHEN DIRECTLY COMPARING
+HASH RATES BETWEEN CRYPTOASSETS
+While it may initially seem logical to do, it’s often not appropriate to directly
+compare the hash rate of different cryptoassets to judge relative security,
+because the type of machines providing the hash rate can vary among different blockchains, as can their cost. As we covered in Chapters 4 and 5, different blockchain architectures use different hash functions in the consensus
+process. Different hash functions are suitable for different kinds of chips, be
+they CPUs, GPUs, or ASICs, and these chips come in computers that vary
+in cost. For example, Bitcoin is mined with ASICs, which yield the greatest hash rate per dollar spent, while Ethereum is mined mostly with GPUs.
+Therefore, $1,000 will purchase more hash rate for a Bitcoin computer than
+an Ethereum computer, and it is this dollar value that’s most important in
+deterring attackers from attempting to recreate the network. Hence, while
+as of March 2017 Bitcoin’s hash rate of 4,000,000 TH/s was technically
+250,000-fold higher than Ethereum’s 16,000 GH/s, this does not mean
+Bitcoin was 250,000 times more secure than Ethereum.
+
+Decentralized Assets Should Have Decentralized Miners
+Overall, hash rate is important, but so too is its decentralization. After all, if the
+hash rate is extremely high but 75 percent of it is controlled by a single entity,
+then that is not a decentralized system. It is actually a highly centralized system and therefore vulnerable to the whims of that one entity. If a cryptoasset is
+vulnerable to the whims of a single entity or small oligarchy, then that person
+or small group could choose to perform a 51 percent attack at some point,
+either to crush the value of the asset (a malicious kamikaze attack), or to try to
+profit from spending money they don’t have. Such a risk must be considered
+and avoided.
+Figures 13.3, 13.4, and 13.5 are charts showing the hash rate distribution
+among miners for Ethereum, Litecoin, and Bitcoin as of March 2017.
+It’s apparent that Litecoin is the most centralized, while Bitcoin is the
+most decentralized. A way to quantify the decentralization is the HerfindahlHirschman Index (HHI), which is a metric to measure competition and market concentration.4 For example, the U.S. Department of Justice uses the HHI
+when examining potential mergers and acquisitions, to assess how they may
+
+Burniske 03.indd 189
+
+9/10/17 5:49 PM
+
+190 CRYPTOASSETS
+
+1%
+
+1% 1% 1%
+1%
+
+2%
+3%
+3%
+
+22%
+
+6%
+4%
+6%
+20%
+
+7%
+9%
+
+13%
+
+F2pool
+
+Ethermine
+
+DwarfPool1
+
+Ethfans.org
+
+Miningpoolhub_1
+
+A
+
+Ethpool_2
+
+Nanopool
+
+Coinotron
+
+Bitclubpool
+
+Poolgpu
+
+B
+
+C
+
+D
+
+Alpereum
+
+E
+
+Figure 13.3 n Ethereum’s hash rate distribution
+Data sourced from Etherscan.io
+
+3.2%
+
+1.2%
+1.8%
+
+0.6%
+0.6%
+
+0.4%
+0.4%
+0.4%
+0.2%
+
+0.2%
+
+4.8%
+34.6%
+
+7.8%
+8.2%
+
+10.6%
+14.2%
+10.8%
+
+F2pool
+
+Batpool
+
+LTC1BTC
+
+BW.com
+
+HappyChina
+Give Me Coins
+LiteGuardian
+
+LitecoinPool.org
+
+A
+
+LTC.top
+
+Antpool
+
+TBDice.org
+
+NiceHash
+
+Coinotron
+
+WeMineLTC
+
+B
+
+P2Pool
+
+Figure 13.4 n Litecoin’s hash rate distribution
+Data sourced from https://www.litecoinpool.org/pools
+
+Burniske 03.indd 190
+
+9/10/17 5:49 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+191
+
+0.5% 0.3%
+0.7% 0.5%
+0.3%
+0.8%
+0.2%
+1.2%
+0.2%
+1.4%
+1.5%
+2.5%
+2.5%
+15.6%
+3.7%
+3.9%
+12.2%
+
+4.1%
+4.4%
+5.2%
+
+11.8%
+
+5.9%
+6.6% 6.6% 6.8%
+
+AntPool
+BTCC Pool
+
+F2Pool
+BTC.TOP
+
+BitFury
+
+ViaBTC
+
+Bixin
+
+GBMiners
+
+BW.COM
+
+SlushPool
+
+BW.COM
+
+1Hash
+
+BitClub Network
+
+Bitcoin.com
+
+Telco 214
+
+Unknown
+
+CANOE
+
+Kano CKPool
+
+BATPOOL
+
+HAOZHUZHU
+
+GoGreenLight
+
+xbtc.exx.com&bw.com
+
+shawnp0wers
+
+Phash.IO
+
+Solo CKPool
+
+Figure 13.5 n Bitcoin’s hash rate distribution
+Data sourced from https://blockchain.info/pools
+
+influence the centralization of the industry.5 The metric is calculated by taking
+the percent market share of each entity, squaring each market share, and summing these squares before multiplying by 10,000.
+For example, a system that has two players with 50 percent market share
+apiece would have an HHI of 5,000, because (0.52) + (.52) = 0.5, and 0.5 × 10,000
+= 5,000. For the HHI, anything less than 1,500 qualifies as a competitive marketplace, anything between 1,500 to 2,500 is a moderately concentrated marketplace, and anything greater than 2,500 is a highly concentrated marketplace.6
+Blockchain networks should never classify as a highly concentrated marketplace, and ideally, should always fall into the competitive marketplace category. The more concentrated a marketplace is, the closer a single entity can be
+to gaining majority share of the compute power and performing a 51 percent
+attack. Figure 13.6 shows that both Bitcoin and Ethereum qualify as competitive marketplaces, while Litecoin is a moderately concentrated marketplace.7
+
+Burniske 03.indd 191
+
+9/9/17 2:41 PM
+
+192 CRYPTOASSETS
+
+2000
+1800
+1600
+
+HHI Index
+
+1400
+1200
+1000
+800
+600
+400
+200
+0
+
+Bitcoin
+
+Ethereum
+
+Litecoin
+
+Figure 13.6 n The health of Bitcoin, Ethereum,
+and Litecoin’s mining ecosystems based on the HHI
+Data sourced from Etherscan.io, litecoinpool.org, and Blockchain.info
+
+The centralization of miners in different blockchain networks varies over
+time depending on how much growth the cryptoasset experiences and the
+evolution of the compute infrastructure to support it. For example, Figure 13.7
+is a graph of Bitcoin’s HHI index over time.
+Mining HHl
+
+Centralized Industry
+
+Competitive Industry
+
+3000
+2500
+2000
+1500
+1000
+500
+
+Jan-12
+Mar-12
+May-12
+Jul-12
+Sep-12
+Nov-12
+Jan-13
+Mar-13
+May-13
+Jul-13
+Sep-13
+Nov-13
+Jan-14
+Mar-14
+May-14
+Jul-14
+Sep-14
+Nov-14
+Jan-15
+Mar-15
+May-15
+Jul-15
+Sep-15
+Nov-15
+Jan-16
+Mar-16
+May-16
+Jul-16
+Sep-16
+Nov-16
+
+0
+
+Figure 13.7 n Bitcoin’s HHI over time
+Data sourced from Andrew Geyl
+
+Burniske 03.indd 192
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+193
+
+At times, Bitcoin has been a moderately concentrated marketplace, just as
+Litecoin mining is currently a moderately concentrated marketplace. Litecoin
+recognizes the impact that large mining pools can have on the health of its
+ecosystem and the quality of its coin. To that point, Litecoin developers have
+instituted an awareness campaign called “Spread the Hashes” for those mining
+litecoin to consider spreading out their mining activities.8 The campaign recommends that litecoin computers mine with a variety of mining pools rather
+than concentrating solely in one.
+
+Geographic Distribution of Miners
+Beyond hash rate and the percent distribution of hash rate ownership, it’s also
+important to know how geographically distributed the computers are that are
+maintaining a cryptoasset’s blockchain. After all, if the miners for a cryptoasset
+are all in a single country, then that cryptoasset could be at the mercy of that
+nation’s government. This provides a macroeconomic view that should be
+incorporated into our fundamental analysis of these assets.
+Much has been made about how many of the largest mining firms have
+facilities in China or Iceland 9 where the cost of electricity is low. However, by
+looking at all the Bitcoin nodes (a location where the Bitcoin software has been
+downloaded and Bitcoin’s blockchain is being maintained), locating where the
+overall activity is concentrated becomes clearer. Figure 13.8 shows the distribution of bitcoin nodes10 on a global basis.
+
+Figure 13.8 n Bitcoin node distribution as of April 2017
+Source: https://bitnodes.21.co/
+
+Burniske 03.indd 193
+
+9/9/17 2:41 PM
+
+194 CRYPTOASSETS
+
+People are often confused when they see Figure 13.8 as the United States
+and Germany have the most Bitcoin nodes, while China is lower in the list,
+which at face value seems to contradict the idea that most miners are in China.
+Not all nodes are made equal. A single node could have a large number of
+mining computers behind it, hence capturing a large percentage of the overall
+network’s hash rate, while another node could have a single mining computer
+supporting it, amounting to a tiny fraction of Bitcoin’s hash rate. A node is
+merely a point of connection to the network, and they differ drastically in the
+compute power they contribute. Hence, the combination of geographic node
+distribution and hash rate concentration amongst the nodes gives a fuller picture of the decentralization of hardware supporting a cryptoasset.
+
+SOFTWARE DEVELOPERS
+William Mougayar, author of The Business Blockchain, has written extensively
+about how to identify and evaluate new blockchain ventures and sums up the
+importance of developers succinctly: “Before users can trust the protocol, they
+need to trust the people who created it.”11 As we touched upon in the prior
+chapter, investigate the prior qualifications of lead developers for a protocol as
+much as possible.
+While the initial pedigree of developers is important, so too is their longterm commitment. Developers shouldn’t create a protocol and simply walk
+away. These systems are made of open-source software, which must evolve
+over time to stay secure and relevant. If no one is maintaining the software,
+then two things will happen: One, bugs will be found and exploited by bad
+actors. Two, without enough developers, the software will stagnate, ultimately
+losing out to more compelling projects.
+Developers have their own network effect: the more smart developers there
+are working on a project, the more useful and intriguing that project becomes
+to other developers. These developers are then drawn to the project, and a
+positively reinforcing flywheel is created. On the other hand, if developers
+are exiting a project, then it quickly becomes less and less interesting to other
+developers, ultimately leaving no one to captain the software ship. With no one
+at the helm, then the companies and users relying upon it will ultimately defect
+as well, all of which will drop the value of the cryptoasset.
+While developer activity is incredibly important, it is also notoriously hard
+to quantify with accuracy. Most cryptoasset projects are stored and orches-
+
+Burniske 03.indd 194
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+195
+
+trated through GitHub, which has its own set of graphs of developer activity.
+Graphs include categories like contributors, commits, code frequency, punch
+card, and network, though many of them lack meaningful data. For example,
+while a graph can be seen on contributions, sometimes more contributions
+can be a negative factor if it was associated with a major bug being found in
+the software and developers rushing to fix it. Furthermore, each cryptoasset
+is composed of many different projects, which makes getting a broad view on
+GitHub hard to do.
+As a solution, CryptoCompare has sought to amalgamate developer activity
+and metrics to make it easier to compare the different cryptoassets. Figure 13.9
+is a graph with a metric CryptoCompare has created called Code Repository
+Points,12 which they explain as follows: “Code Repository points are awarded
+as follows: 1 for a star, 2 for a fork (somebody trying to create a copy or just
+play with the code), and 3 for each subscriber.”
+A star is when someone stars code on GitHub, which users do to bookmark
+the code and show appreciation for it.13 We explained forks in detail in Chapter
+5 around the DAOsaster, but in this instance, a fork is a good thing. It refers to
+a situation where new developers forked the code of the cryptoasset to experiment with it. Recall that this is how Litecoin, Dash, and Zcash were created
+from Bitcoin: developers forked Bitcoin’s code, modified it, and then re-released
+the software with different functionality. Subscribers refer to people wanting to
+stay actively involved with the code. In short, the more code repository points,
+the more developer activity has occurred around the cryptoasset’s code.
+45,000
+
+Code Repository Points
+(Stars, Forks, Subscribers)
+
+40,000
+35,000
+30,000
+25,000
+20,000
+15,000
+10,000
+5,000
+0
+
+Bitcoin
+
+Ethereum
+
+Dash
+
+Ripple
+
+Monero
+
+Figure 13.9 n Code repository points for different cryptoassets (March 29, 2017)
+Data sourced from CryptoCompare
+
+Burniske 03.indd 195
+
+9/9/17 2:41 PM
+
+196 CRYPTOASSETS
+
+However, what’s unfair about this metric is that bitcoin has been around
+for over eight years, while other cryptoassets have been around for a fraction
+of that time. Standardizing for the amount of time the cryptoassets have been
+under construction yields the graph in Figure 13.10.14
+14.0
+
+Code Repository Points Per Day
+
+12.0
+10.0
+8.0
+6.0
+4.0
+2.0
+0.0
+
+Bitcoin
+
+Ethereum
+
+Dash
+
+Ripple
+
+Monero
+
+Figure 13.10 n Frequency of developer activity for different cryptoassets
+(March 29, 2017)
+Data sourced from CryptoCompare
+
+Using this standardized measure for developer activity, it’s clear Bitcoin and
+Ethereum are two standout projects. With Dash as the baseline, Ripple developers are 80 percent more active and Monero developers 40 percent more.
+However, the phrase “You get what you pay for” comes to mind. With network
+values of $17.1 billion for Bitcoin and $4.7 billion for Ethereum, it makes sense
+that their developers are so active. Their activity has clearly built a valuable
+platform that many people are drawn to use. With Dash, Ripple, and Monero
+at network values of $600 million, $360 million, and $280 million respectively,
+it’s understandable that they don’t have as wide and active a developer base.
+To calibrate for network value, in Figure 13.11 we take the total network
+value of a cryptoasset and divide it by the cumulative repository points, the
+idea being that a certain amount of work has gone into creating each cryptoasset, begging the question, “What is the dollar value per repository point?”
+The higher this number, the dearer each repository point is valued, and potentially overvalued.
+Using this methodology, as of March 2017 Dash was the cryptoasset architecture most valued by the market, as people were paying roughly $500,000 per
+
+Burniske 03.indd 196
+
+9/9/17 2:41 PM
+
+Operating Health of Cryptoasset Networks and Technical Analysis
+
+197
+
+$600,000
+$500,000
+$400,000
+$300,000
+$200,000
+$100,000
+$0
+
+Bitcoin
+
+Ethereum
+
+Dash
+
+Ripple
+
+Monero
+
+Figure 13.11 n Dollar value per code repository point for different cryptoassets
+(March 29, 2017)
+Data sourced from CryptoCompare
+
+repository point, though this does not mean it will stay that way. Interestingly,
+Bitcoin and Ethereum are very close, while Ripple and Monero seemingly have
+the most undervalued developers.
+Another good site for monitoring overall developer activity is OpenHub.15
+For example, OpenHub shows the number of lines of code that have been written for a project, as shown in Figure 13.12.
+900,000
+800,000
+700,000
+600,000
+500,000
+400,000
+300,000
+200,000
+100,000
+0
+
+Bitcoin
+
+Ethereum
+
+Monero
+
+Figure 13.12 n Lines of code written for Bitcoin, Ethereum,
+and Monero as shown by OpenHub
+Data sourced from OpenHub
+
+Burniske 03.indd 197
+
+9/9/17 2:41 PM
+
+198 CRYPTOASSETS
+
+Possessing more lines of code is not necessarily better for an asset.
+Sometimes the opposite is true, and less is more because a great developer can
+write the same program in half the number of lines as a mediocre developer.
+Bitcoin, Ethereum, and Monero are quite different, so it’s hard to compare
+them directly. Bitcoin aims to be minimalist, while Monero has added privacy
+functionality, and Ethereum is the most expansive in scope. Most important,
+all three rank as Very High Activity on OpenHub’s activity meter.
+While these metrics of developer activity are by no means authoritative,
+they give some idea of what to look for when exploring the commitment and
+activity of the developers behind a cryptoasset.
+
+COMPANY SUPPORT
+Similar in difficulty to assessing developer support is assessing company support for a cryptoasset. Websites like SpendBitcoins.com16 inform visitors how
+many places accept a specific cryptoasset; a metric important for cryptocurrencies but not so much for cryptocommodities and cryptotokens.
+A different approach is to monitor the number of companies supporting
+a cryptoasset, which can be done by tracking venture capital investments.
+CoinDesk provides some of this information as seen in Figure 13.13. Though,
+as we will address in Chapter 16 on ICOs, the trend in this space is moving
+away from venture funding and toward crowdfunding.
+Getting a longitudinal view on how companies are supporting a cryptoasset
+over time is more important than a single snapshot. One of the best metrics
+we have found as a proxy for company support is the number of exchanges
+that support a cryptoasset. As a cryptoasset gains greater legitimacy and support, an increasing number of exchanges carry it. As mentioned in Chapter
+9, the last exchanges to add a cryptoasset are the most regulated exchanges,
+such as Bitstamp, GDAX, and Gemini. These exchanges have strong brands
+and relations with regulators that they need to protect, so they won’t support a
+cryptoasset until it has undergone thorough technological and market-based
+vetting. A simple Google search is enough to discern which exchanges support
+which cryptoassets. Volume aggregators like CoinMarketCap also give insight
+into which exchanges support which currencies.17

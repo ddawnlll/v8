@@ -1,0 +1,341 @@
+
+FIGURE 7.4
+
+Daily chart of the same stock shown in
+Figure 7.3
+. The upper panel is the hybrid oscillator of a long and short momentum. The short momentum
+is the MACD histogram. The middle panel is the chart of the stock price with a BIC trend
+indicator, a pair of medium–time frame moving averages, and three longer-term moving
+averages. The bottom panel is the volume percentage plot between a 2-day moving average
+and a 10-day moving average of volume. For purpose of explanation of the system, end-ofweek references are marked by perpendicular lines, which will not be plotted during trading.
+
+Let’s look at the weekly chart in
+Figure 7.3
+. The stock had been rising quietly since December 2009 (see
+Figure 7.2
+), and entered into a rectangle consolidation. The consolidation ended at the breakout of the
+pattern at end-of-week (EOW) October 23, 2009, which started the uptrend, pushing the price
+to a new high of $3.30. Thereafter, the stock went into a triangle consolidation (see the blue
+circles marked 1, 2, 3, 4, and 5), which failed to uphold prices. Price broke away from the
+triangle pattern at end-of-week April 9, 2010, and started its downtrend move until end-ofweek September 3, 2010.
+The upper panel in
+Figure 7.3
+is the weekly momentum oscillator. The plot in histogram is the shorter time frame
+momentum of MACD. The line plot is the longer time frame momentum. The shorter time
+frame momentum has greater volatility and catches the minor fluctuation. It has an advantage
+by giving early divergence signals. The longer time frame momentum is less volatile and
+complements the shorter time frame and moving average system in confirmation of a probable
+trend reversal.
+The weekly chart in
+Figure 7.3
+turned bullish at end-of-week October 23, 2009. For that week, daily prices moved above
+both the BMA and RMA, and the BMA also crossed above the RMA. The longer-term moving
+averages (50-day, 90-day, and 200-day) were also moving in order of alignment, indicating a
+probable bullish rally (see Chapter 6, Key Indicators). Both short- and long-term momentum
+showed bullish reversals confirmed by increased volume. This indicates a good opportunity to
+
+buy in response to a probable change in trend. A buy should be taken on the next immediate
+trading day, Tuesday morning, October 27, 2009 (Monday being a holiday). The price at the
+open of the day was $1.45. A tactical trading technique is to purchase two lots of the stock. The
+purpose of this technique will unfold as the process of trading is described further.
+Prices trended up strongly for five weeks and began to slow down to form a diagonal pattern
+(see markings 1, 2, 3, 4, and 5 in chart in
+Figure 7.3
+). Although the pattern was bearish, prices failed to fall below the trough at Point 4 of the
+pattern, and the BIC trend indicator did not show any weaknesses. Weekly price movements
+indicate a continuing upward trend; weekly moving averages, RMA, and BMA were diverging,
+and long-term momentum was still trending upward.
+In
+Figure 7.4
+, on Wednesday, January 20, 2010, although the BIC trend indicator remained positive, price
+did not make a new high. Instead, it closed the day with a bearish candlestick pattern, dark
+cloud cover. Long- and short-term momentum trends also remained listless, and together with
+the bearish price pattern, signaled a likely pause of the uptrend. This was confirmed on January
+21 with the daily price falling below both the RMA and BMA, and the change of the color of the
+BIC trend indicator to neutral. A hangman candlestick was formed on January 22, as price
+continued downward. The week closed with a wide range bearish spinning top, and daily price
+fell below both the RMA and BMA with increased volume. Long and short momentum
+continued to be weak. It warned of a corrective phase in progress, which was confirmed by
+both weekly and daily BIC trend indicators to neutral color. One lot of the position was sold on
+Monday morning of January 25, 2010, at $3.01, keeping one lot on hand just in case the market
+should turn bullish again.
+On January 26, 2010, the daily price fell below the previous bar closing price, RMA also
+crossed below BMA, and the BIC trend indicator showed its first red bearish signal after a 14week bull run. It might be deemed a coincidence, but a red bar after a long period is often a
+portent of further weakness. It is like seeing the first fall of snow as a sign of the coming winter.
+Prices trended downward to break below the 50-day average line, and started to settle at this
+level, vacillating around the average line. Weekly prices did not show any sign of extreme
+weakness, its RMA still trading above its BMA. The BIC trend indicator maintained its neutrality.
+On February 23, prices made a bullish reversal. Prices crossed above both the RMA and BMA,
+and the RMA also crossed above the BMA. Long and short momentum also made a bullish
+reversal with increased volume. A rally was likely to follow. However, no new position was
+added as the reward to risk ratio was about 1:3; that is to say for every 10 cents to be gained
+there is a probable risk of 30 cents loss. Also the weekly momentum trend remained weak and
+the two weekly moving averages, RMA and BMA, were converging, which did not seem to
+support the daily price rally. And on March 26, the last position of one lot was sold at the
+opening price of $2.80, when both daily and weekly momentum confirmed the weakness of the
+rally. The average disposal price for the two lots was about $2.90 per share, which captured
+approximately 75 percent of the uptrend move, from the low of the date of entry to the highest
+price reached by the stock.
+After the disposal, price tried to rally as at end-of-week April 9, 2010, but failed to maintain
+its momentum. It finally crashed below its 50-day moving average line and its 90-day average
+line for another 9-week period of bearish mood.
+At end-of-week June 18, price made an attempt to rally, but was stopped at the resistance
+level of its 50-day moving average (see point 2 circled in red). There were no buying setups
+
+offering a 3:1 reward to risk ratio. The downward trend continued till March 9 when prices
+made a significant thrust above the RMA and BMA lines, supported by the positive movement
+of the momentum oscillator. Prices went into a trading range for one week. On September 17,
+the uptrend movement was confirmed when both daily and weekly charts turned positive. A
+buy order for two lots was entered on the next trading day, September 20, 2010, at $2.45,
+which saw a breakaway gap. A protective stop would have been set at $2.35, being the low of
+the preceding bar. On October 14, price spiked up to close at the day’s high of $2.57.
+The preceding describes a detailed scenario of a trading system that applies the concept of
+using crossovers between price and its averages and the crossovers of different time spans of
+moving averages in weekly and daily charts. The use of weekly charts is mainly to filter out
+noise created by daily prices, and also to avoid overtrading. The strategy is to trade in the
+direction of the larger time frame (the weekly trend) and to execute the trade based on the
+smaller time frame (the daily trend).
+Moving average is perhaps the simplest and most widely used method applied to identify the
+trend of price movement. Generally, moving averages are used (1) as a forecast value for the
+next projected time period, (2) as a means of measurement, and (3) as a supportive indicator to
+other trading systems.
+The formulas for plotting various indicators described in this chapter are in MetaStock
+format. The following are the formulas for plotting the long momentum oscillator as shown in
+Figure 7.4
+.
+{“Long Momentum”}
+Prd1:=Input("Smooth",1,144,5);
+Prd2:=Input("Average 1",1,144,1);
+Prd3:=Input("Average 1",1,144,7);
+x:=Input("Oscillator Multiplier",1,1000,1);
+mmt1:=x*(Mov(ROC(CLOSE,21,$),prd1,S)+ROC(CLOSE,13,$))/2;
+Mov(mmt1,prd2,S);
+Mov(mmt2,prd3,S);
+The basic formula for calculating the various moving average lines is as follows:
+Period:=Input("MA Period",1,300,n);
+SF:=Input("Slope Factor",-20,20,n1);
+sma:=Mov(close,period,s) + LinRegSlope(close,period) * SF;
+sma;
+The formula for the volume indicator is as follows:
+prd1:=Input("Fast Period",1,300,2);
+prd2:=Input("Slow Period",1,300,10);
+evp:=Input("Extreme Volume Percentage",1,500,200);
+
+vavg1:=Mov(volume,prd1,s);
+vavg2:=Mov(volume,prd2,s);
+z:=If(vavg2=0,0.0001,vavg2);
+VolRatio:=100*(VAvg1/z);
+VolRatio;
+100;
+evp;
+Here is another example on the trading concept of “Look at the weekly, trade on the daily.”
+Figure 7.5
+shows the weekly chart of a stock that had declined since November 9, 2007, from a high of
+$25.40. It fell by approximately 86.4 percent to a low of $3.46 on October 31, 2008. It made a
+three-wave rally to a high of $11.50 at lower volume on June 5, 2009, and continued downward
+to a low of $5.57 at the week ending February 25, 2011.
+FIGURE 7.5
+Weekly chart showing probable trading range of the stock and the interesting progression of a
+30-day cycle period.
+
+From the weekly chart, it is interesting to note that price momentum has reached its
+oversold zone level on three occasions: October 31, 2008, December 24, 2009, and February
+25, 2011. There is a period of approximately 60 weeks between each low. And the week ending
+February 25, 2011, is approximately 90 weeks from the high of June 5, 2009. From the low of
+December 24, 2009, to October 22, 2010, prices managed to hold at approximately 50 percent
+to 61.8 percent of the Fibonacci Retracement support zone, as momentum moved upward to
+overbought zone. This reflects the improvement of the strength in price. After making a double
+top, momentum fell as prices failed to hold above the support levels and reached an oversold
+position with a low of $5.57 at week ending February 25, 2011. The oversold position provides
+a setup for traders to look at probable trade opportunity on the daily.
+Now let’s look at the daily chart as shown in
+
+Figure 7.6
+.
+FIGURE 7.6
+Daily chart showing the interplay of moving averages and probable trade entry and exit signals
+(upper panel). The middle panel is the momentum indicator, with its overbought/oversold
+indicator. The bottom panel is the volume histogram. Note the divergence of both momentum
+from price and volume from price.
+
+As early as February 1, 2011, the daily price momentum had been in an oversold position. For
+the next 30 days, momentum did not make any new low, which reflected the stabilization of
+price and depicted a divergence between price movements.
+On February 24, 2011, price made a downward thrust by a wide range bar with increased
+volume, which became the range for the next five trading bars. This was followed by five inside
+narrow bars. An entry signal was alerted on March 4, 2011, when price crossed above both
+medium time frame moving averages and momentum also crossed above the zero line. The
+bullish signal was supported by the built-in-color trend indicator and increased volume. On
+March 7, 2011, price traded in a narrow range similar to that of the previous day, again allowing
+opportunity to enter a trade for two units of the stock.
+On March 8, 2011, price made a strong rally, crossing above the 10 percent band of the 90day moving average line. Price continued its uptrend for the next seven trading days. Although
+prices had crossed above the three longer time frame moving averages, the 50-day, 90-day, and
+200-day, showing an underlying strength of the trend, the three moving averages were not in
+alignment. This suggested that the positive trend would be short-lived if prices failed to
+consolidate at this level. Average volume traded had dwindled, and the first sign of weakness in
+trend was shown on March 17, 2011, when the built-in-color trend indicator changed its bullish
+blue color to black and momentum crossed below its average line. Following that, on March 22,
+2011, price made a bearish hammer pattern, and an exit signal was made for one unit of the
+trade on the next day.
+Prices continued to fluctuate in narrow ranges. Although the 50-day moving average line
+crossed above the 200-day moving average line on April 15, 2011, the 90-day moving average
+line remained relatively flat and diverged from the 50-day and 200-day moving averages. And
+on April 27, 2011, the first red bearish bar appeared and signaled the exit of the remaining one
+unit of the stock.
+
+TRADING WITH ICHIMOKU
+The concept of the trading method and Queuing Theory can also be applied to Ichimoku
+charting technique. The complete Ichimoku indicator comprises five lines, Tenkan-sen, Kijunsen, Senkou span A, Senkou span B, and Chikou span. In
+Figure 7.7
+, Chikou span is not plotted. Chikou span is the closing price of the current candlestick, plotted
+backward by the period of the Kijun-sen.
+FIGURE 7.7
+Using Ichimoku lines to track trade opportunities. Support of RSI and volume indicators
+appears in the bottom panel.
+
+Figure 7.7
+is an illustration of how the principles of the trading method described in this book can also
+be applied to various indicators. As an example, the chart uses the popular indicators such as
+Ichimoku indicator, volume, and RSI (relative strength index).
+The popular Ichimoku Cloud, shown in
+Figure 7.7
+, is the filled space between the faster line, Senkou span A, and the slower line, Senkou span
+B. The Ichimoku Cloud often acts as the equilibrium zone of price movements, and it marks an
+area of support and resistance. When price moves above the cloud, it is said it has broken out
+of the resistance area, and when price moves below the cloud, it has fallen from the supporting
+area. When prices are trading or fluctuating in the area of the cloud, it normally indicates a tugof-war between sellers and buyers in a trading range, where price movements can sometimes
+become unpredictable. Ichimoku Cloud can vary in depth and thickness. A thicker cloud
+indicates higher past price volatility, and a thinner and shallower cloud indicates lower
+volatility.
+The Tenkan-sen is the faster line and the Kijun-sen is the slower line. An uptrend is triggered
+when price crosses above both lines and also crosses above the cloud, as marked in Point A in
+Figure 7.7
+. Crossing of the Tenkan-sen from below to above the Kijun-sen signifies positive signal, and
+crossing of the Tenkan-sen from above to below the Kijun signifies negative signal, as marked
+
+by Point B.
+The Queuing Theory, as it is described in Chapter 6, will work in Ichimoku charting technique.
+When a trend is positive, the various Ichimoku lines, the Tenkan-sen, Kijun-sen, and the cloud
+(formed by Senkou span A and Senkou span B) should also be in sequential order to price.
+When any of these lines is not in sequence with the price, the trend in progress may be shortlived. When prices have moved to an extreme level, a change in trend is anticipated, as marked
+by Points T2 and T3 in
+Figure 7.7
+.
+When price is making a change in trend, its movements are often hidden in pattern
+formations such as divergence between the price and momentum oscillator, price and volume,
+price spread and volume, and convergence and divergence of various moving averages.
+Divergence that hints of an impending change does not necessarily take place at the exact
+turning point, but may have been in the making weeks ago.
+Extreme levels of prices or proximity of extreme levels are often reflected in the divergence
+between price and momentum oscillator, as shown in Points T1 and T2 of
+Figure 7.7
+. Generally, momentum oscillators in an uptrend tend to rally quickly to overbought levels
+before price makes its peak. And as momentum starts to slow down while price catches up, it
+will create a divergence between the slope of price and oscillator. At T1, the momentum
+oscillator rallies to its overbought level, and retraces gradually to T2, where price makes its
+peak.
+The importance of volume, covered in Chapter 5, cannot be ignored. Volume helps to
+confirm the validity and the strength of the trend. At Point A of
+Figure 7.7
+, the rally of price above the cloud was supported by increased volume. At point T2, the rally
+of price to its peak was not supported by volume in comparison to the volume at breakout or at
+point T1. The rally to point T3 also was not supported by volume comparative to T2, indicating a
+weakness in the rally. Although price reached a new high to $17.18, the rally was not supported
+by increased volume comparative to volume at the price level of $12.68. In addition, the
+Ichimoku lines and the cloud were not in sequential order, indicating a weakening or slowdown
+of the uptrend.
+Figure 7.8
+is another chart using only the Ichimoku cloud, two sets of moving averages, volume, and
+RSI indicators. No description of interpretation is being made, but readers are urged to see for
+themselves how they would have traded in this stock.
+FIGURE 7.8
+Chart displaying plots of Ichimoku Cloud, moving averages, RSI, and volume indicators.
+
+CONCLUSION
+The aim of reading stock charts is to track trading opportunities by identifying price behavior,
+which is based on recognition of past price patterns and price analysis, to anticipate the
+probable outcome.
+The concept of the trading method described in this book is for end-of-day (EOD) traders,
+and the method is centered on a trend-following concept. To reduce risks, the method
+embodies as its main tenet the usage of two time frames to better gauge trade entries and
+exits. The combination of the four dimensions related to trend, as discussed in earlier chapters,
+will help traders to identify different market environments and to switch a trading strategy
+from trending mode to mean reversal mode using the momentum oscillator and Queuing
+Theory. The method will assist traders to differentiate between a market that is in a corrective
+phase and one that is in an impulse phase and to anticipate areas of support and resistance
+levels, so they may plan their trading strategy accordingly.
+These are the basic assumptions of the methodology:
+Watch the weekly and trade the daily; trade entry or exit should be looked at from the
+weekly chart first before making any entry or exit trade. Weekly charts should be used
+to support the daily charts in determining whether the current phase of the market is a
+trending or non-trending phase in the longer time frame, and whether the current
+phase of the market offers a trade entry with a lower risk or a trade exit that will
+safeguard investment value.
+When a market is making a change in trend for the better, each of the four dimensional
+aspects of trend (price patterns, volume, price momentum, and interaction of price and
+moving averages) will also be adjusting itself in the positive direction. When the trend
+has developed, the four dimensions of trend will act in tandem with each other to
+sustain the trend.
+Queuing Theory on moving averages is not confined to any particular set or group of
+moving averages. There are no preset numbers of moving averages to be used, nor is
+there any preset period to be applied to any specific moving averages. The key principle
+is that when a stock is in a strong trend, its various relative moving averages will move
+to align in sequential order until price reaches its extremes and starts to reverse the
+order of alignment. A price rally in which its relative moving averages fail to follow in
+sequential order will tend to be short-lived. Generally, it indicates the market is going
+into a corrective phase.
+No mandatory requirements are set in regard to the use of indicators. Traders may
+continue to use their preferred indicator or indicators, which they are familiar with and
+which they have used confidently in their trading.
+A good trading system is one that gives a trader an edge in executing his trades, whether in a
+volatile trading market or in a narrow-range market. Designing a system of trade requires
+patience. A good start is to write down your thoughts on what you want to achieve through the
+system. Just take note that there is not one single trading system that will detect precisely the
+price movements of every stock. Every stock has its own characteristics, business activities and
+prospects, earnings and dividend ratios, price movement patterns, groups of investors, and so
+forth. However, there is one similarity in every trading system. That is, when a stock has a
+strong trend, almost every trading system is good. Similarly, there is no one single oscillator
+with identical parameters that will fit across the board for all stocks, and though most
+
+oscillators are momentum based, their results will differ and the visual output will also differ.
+Every opportunity comes with a time element; time regulates opportunity. Many traders
+habitually fail at time management. Many traders may sit on nonperforming stocks for months
+and tie up their investment capital while good opportunities pass by, while other traders may
+miss major support and resistance that appears on the next higher time frame. In short, traders
+must acknowledge the importance of time and manage time as efficiently as price, combining
+price and time triggers for protective stop-loss management. It may be justified to consider
+using time to activate trade exits on nonperforming stocks even when price stops have not
+been breached. And it may even be more justified to sell at the time of a bear crunch and to
+enter the market when time aspects improve the odds for profit.
+In investments and trading, success requires three elements: money management, trading
+methodology, and understanding of time. Time is the least understood. Time has great
+influence on the market because when the time is up, trend changes. One common issue with
+time is often seen in the accumulation or distribution of a stock. When such activity is over,
+prices will break out of the accumulation pattern upward or break out of the distribution
+pattern downward. Other issues with time include understanding time in trend continuation
+and trend correction. Time remains the hardest of the three elements to master. Chapter 9 may
+help traders learn more of how to use financial astrology to choose the best timing for their
+trades and to find the best time in their personal cycles to trade.
+
+CHAPTER 8
+
+Formulating Your Trading Plan
+
+In 1992, Jack Schwager published The New Market Wizards. The chapter titled “The Silence of
+the Turtles” covers an interview with Harold Seidler, one of the many market wizards
+mentioned in the book. In this interview, Jack asked Harold, “What advice would you give
+someone in regards to being successful in the markets?” Harold replied: “I think the single most
+important element is having a plan. First, a plan forces discipline, which is an essential
+ingredient to successful trading. Second, a plan gives you a benchmark against which you can
+measure your performance.”
+Trading is an exercise in well-planned strategy. It is said that to have good trading results, a
+trader needs to spend 70 percent of his time in planning and only about 30 percent in trading.
+He formulates a plan and follows it in a firm and disciplined way.
+The ability to make decisions confidently in trading is to get rid of the fear factor. Fear arises
+when there is uncertainty. Fear is a hindrance to making good decisions and having a trading
+plan will help alleviate fear. A trading plan does not have to be complicated, but it has to be
+clear. It has to blend with the trader’s character and thinking.
+The trading plan should include the basic elements of deciding the type of trades that suit
+the trader, the method of selecting stocks, the conditions for trade entries and exits, and the
+contingent steps to protect capital.
+In this book, examples of trading are not based on real-time data, but on end-of-day data.

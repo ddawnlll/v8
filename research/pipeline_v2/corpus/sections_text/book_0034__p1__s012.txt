@@ -1,0 +1,839 @@
+
+105
+
+106 Part II: Exploring Popular Day-Trading Strategies
+Limiting portions: Fixed fractional
+Fixed-fractional trading assumes that you want to limit each trade to a set
+portion of your total account, often between 2 and 10 percent. Within that
+range, you trade a larger percentage of money in less risky trades and a
+smaller amount of money for more risky trades. (In other words, this method
+isn’t all that “fixed,” but no one asked me to pick a name for the system!)
+Here’s the fixed fractional equation for calculating fixed-fractional trade
+proportions.
+
+N =f
+
+(
+
+equity
+|trade risk|
+
+)
+
+N is the number of contracts or shares of stock you should trade, f is the
+fixed fraction of your account that you have decided to trade, equity is the
+value of your total account, and trade risk is the amount of money you could
+lose on the transaction. Because trade risk is a negative number, you need
+to convert it to a positive number to make the equation work. Those vertical
+bars in the equation (| |) are the sign for absolute value, and that means that
+you convert the number between them to a positive number.
+Here’s an example that uses the equation. Assume that you’ve decided to
+limit each trade to 10 percent of your account, you have a $20,000 account,
+and you are looking at contracts with a value of $3,500. You want to set your
+trade based on the assumption that the contracts go to zero, to look at the
+worst-case scenario. Plugging the numbers into the equation and doing the
+math gives you
+
+0.57 = 0.10
+
+(
+
+20,000
+|−3,500|
+|
+|
+
+)
+
+Of course, you probably can’t trade 0.57 of a contract, so in this case, you
+would have to round up to one.
+
+Protecting profits: Fixed ratio
+Developed by a trader named Ryan Jones, the fixed-ratio money-management
+system is used in trading options and futures. The idea behind fixed-ratio
+trading is to help you increase your exposure to the market while protecting
+your accumulated profits.
+
+Chapter 6: Managing Your Money and Positions
+To find the optimal number of options or futures contracts to trade, you use
+this equation
+
+N = 0.50
+
+�√
+
+1 + 8 (P∕Δ) + 1
+
+�
+
+N is the number of contracts or shares of stock that you should trade, P is
+your accumulated profit to date, and Δ (delta) is the dollar amount you would
+need before you could trade a second contract or another lot of stock. (Don’t
+confuse this delta with the delta used to measure of volatility; see the sidebar
+“Measuring volatility” for more information.)
+For example, the minimum margin for Chicago Mercantile Exchange E-mini
+S&P 500 futures contract, which gives you exposure to the Standard & Poor’s
+500 stock index, is $3,500. Until you have another $3,500 in your account, you
+can’t trade a second contract. If you use fixed-ratio money management to
+trade this future, your delta is $3,500.
+Here’s an example that uses fixed-ration calculation. Assume your delta is
+$3,500 and that you have $10,000 in account profits. If you plug in the
+numbers and calculate, you see that you should trade 2.94 contracts:
+
+2.94 = 0.50
+
+(√
+)
+(
+)
+1 + 8 10,000∕3,500 + 1
+
+What this means is that you can trade only one or two contracts, nothing
+in between. That’s one of the imperfections of most money-management
+systems.
+
+Sticking to 10 percent: Gann
+William Gann developed a complicated system for identifying securities
+trades. Part of his system was a list of rules for managing money, and many
+traders follow that if nothing else.
+The primary rule is this: Divide your money into ten equal parts and never
+place more than one 10 percent portion on a single trade. This strategy helps
+control your risk, whether or not you use Gann. (Gann is discussed in
+Chapter 7.)
+
+107
+
+108 Part II: Exploring Popular Day-Trading Strategies
+Finding the ideal percentage:
+Kelly Criterion
+The Kelly Criterion lets you determine the ideal percentage of your portfolio
+to put at risk. To calculate how much of your portfolio to put at risk, you
+need to know what percentage of your trades are expected to win, the return
+from a winning trade, and the ratio performance of winning trades to losing
+trades. The shorthand that many traders use for the Kelly Criterion is edge
+divided by odds, and in practice, the formula looks like this:
+
+Kelly% = W −
+
+(
+
+1−W
+R
+
+)
+
+W is the percentage of winning trades, and R is the ratio of the average gain
+of the winning trades relative to the average loss of the losing trades.
+To see this formula in action, consider a system that loses 40 percent of the
+time with a loss of 1 percent and that wins 60 percent of the time with a gain
+of 1.5 percent. (Look familiar? I used this same example at the beginning of
+the chapter.) Plugging that info into the Kelly formula, the right percentage to
+trade is 33.3 percent:
+
+Kelly% = W −
+
+(
+
+1−W
+R
+
+)
+
+= 0.60 −
+
+(
+
+1 − 0.60
+0.015∕0.010
+
+)
+
+= 3.33%
+
+In this situation, as long as you limit your trades to no more than 33 percent
+of your capital, you should never run out of money. The problem, of course,
+is that if you have a long string of losses, you can find yourself with too little
+money to execute a trade. Many traders use a “half-Kelly” strategy, limiting
+each trade to half the amount indicated by the Kelly Criterion, as a way to
+keep the trading account from shrinking too quickly. They are especially
+likely to do this if the Kelly Criterion generates a number greater than about
+20 percent, as it does in this example.
+This money-management method emerged from statistical work done at Bell
+Laboratories in the 1950s. The goal was to figure out the best ways to manage
+signal-noise issues in long-distance telephone communications. Very quickly,
+the mathematicians who worked on it saw that it could be applied to gambling, and in no time, the formula took off. In fact, a math professor, Edward
+O. Thorpe, used the Kelly Criterion with great success to win big at blackjack
+in Las Vegas in the early 1960s, which led to a change in casino rules.
+In a casino, the rules are against you. If you find an edge, in no time, you’ll be
+asked to leave, and the rules may be changed. In the financial markets, the
+odds are even or slightly in your favor, so you have a better opportunity to
+make money by practicing your strategies.
+
+Chapter 6: Managing Your Money and Positions
+
+Doubling down: Martingale
+The martingale style of money management is common with serious casino
+gamblers, and many traders apply it as well. It’s designed to improve the
+amount of money you can earn in a game that has even odds. Most casino odds
+favor the house (roulette wheels used to be evenly black and red, but casinos
+found that they could make more money if they inserted a green slice for zero,
+thus throwing off the odds). Day trading, on the other hand, is a zero-sum game,
+especially in the options and futures markets. For every winner, there is a loser,
+so the odds of any one trade being successful are even. The martingale system
+is designed to work in any market where the odds are even or in your favor.
+Under the martingale strategy, you start with a set amount per trade, say
+$2,000. If your trade succeeds, you trade another $2,000. If your trade loses,
+you double your next order (after you close or limit the first trade) so that
+you can win back your loss. (You may have heard gamblers talk about
+doubling down? Well, this is what they’re doing.)
+Under the martingale system, you always come out ahead as long as you have
+an infinite amount of money to trade. See the problem? You can run out of
+money before you have a trade that works. The market, on the other hand, has
+almost infinite resources because of the huge volume of participants coming
+and going all over the world. In short, you’re at an enormous disadvantage. As
+long as you have a disadvantage, thoughtful money management is critical.
+
+Letting a program guide you:
+Monte Carlo simulation
+If you have the programming expertise or buy the right software, you can run
+what’s called a Monte Carlo simulation, named for the famous casino town.
+In this calculation, you enter in your risk and return parameters and your
+account value and let the program run. It then returns the optimal trade size.
+The system is not perfect; it can’t incorporate every market situation that
+you’ll face, and it has the fractional trade problem that the other systems do.
+But it has one big advantage: It can incorporate random changes in the
+markets in ways that simpler money-management models cannot.
+There are different schools of thought about the statistical theories that go
+into a Monte Carlo simulation. Fortunately, you don’t have to know them to
+use the system’s estimates of the return in the market to help you determine
+your position sizes as the market changes.
+A Monte Carlo simulation is more dynamic than most of the other money-­
+management systems, but it isn’t as easy to use. For that reason, it isn’t a do-ityourself project unless you have extensive experience creating these programs.
+If you are interested, you need to find a suitable program. Many brokerage firms
+
+109
+
+110 Part II: Exploring Popular Day-Trading Strategies
+include Monte Carlo simulation packages in their day trading platforms. If you
+want to find stand-alone software, two options are offered by Probilitech, a lowend system available at http://probilitech.com, and Oracle Corporation’s
+Crystal Ball, a high-end system discussed at www.oracle.com/us/products/
+middleware/bus-int/crystalball/index.html.
+
+Considering past performance: Optimal F
+The Optimal F system of money management was devised by Ralph Vince, and
+he’s written several books about this and other money-management issues
+(see the appendix for more information). The idea is that you determine the
+ideal fraction of your money to allocate per trade based on past performance.
+If your Optimal F is 18 percent, then each trade should be 18 percent of your
+account — no more, no less. The system is similar to the fixed-fraction and
+fixed-ratio methods discussed earlier but with a few differences.
+To find the number of shares of stock, N, to trade under Optimal F, you use
+this equation:
+
+N=
+
+(
+)
+F × equity
+risk
+price
+
+F is a factor based on the basis of historical data, risk is the biggest percentage loss that you experienced in the past, equity is the amount of money in
+your account, and price is the current price. Using these numbers, you can
+find the contracts or shares you need to buy.
+Here’s an example: Assume your account has $25,000, your biggest loss (risk)
+was 40 percent, your F is 30 percent, and you’re looking at a stock trading at
+$25 per share. Plug in the numbers and calculation to find that you should
+buy 750 shares:
+
+750 =
+
+(
+
+0.30 × 25,000
+0.40
+
+)
+
+25
+
+The Optimal F number itself is a mean based on historical trade results. The
+risk number is also based on past returns, and that’s one problem with this
+method: It kicks in only after you have some trade data. A second problem is
+that you need to set up a spreadsheet to calculate it (so read Ralph Vince’s
+book if you want to try it out). Some traders only use Optimal F in certain
+market conditions, in part because the history changes each time a trade is
+made, and that history doesn’t always lead to usable numbers.
+
+Chapter 6: Managing Your Money and Positions
+
+Seeing How Money Management
+Affects Your Return
+Describing why you need money management is one thing, but showing you
+how it works is more fun. And because I love making spreadsheets (we all
+need a hobby, right?), I pulled one together to show you how different ways
+of managing your money may affect your return.
+In Figure 6-2, I started with the expected return assumptions that I used
+in the earlier example: 40 percent of the time a trade loses, and it loses 1
+percent. The trade wins 60 percent of the time, and winning trades are up
+1.5 percent. I pick a hypothetical account of $20,000 and set up mock trades
+using these expected return numbers. Then I compared the performance
+of martingale and Kelly money management to betting the whole account
+each time.
+As the calculations in Figure 6-2 show, you end up with the most money
+from trading the entire account. That doesn’t mean you always get the
+most money this way, just that that’s how the numbers worked out in this
+case, given the 60/40 win ratio and a 3/2 winning size/losing size ratio.
+(Keep in mind that if you were using a Kelly or martingale system, you’d
+probably be doing something with the rest of the account rather than just
+letting it sit there.)
+This is just an example, applying some different strategies to different hypothetical returns. I’m not recommending any one system over another. The best
+system for you depends on what assets you’re trading, your personal trading
+style, and how much money you have to trade.
+
+Planning for Your Profits
+In addition to determining how much to trade each time you place an order,
+you need a plan for what to do with the profits that accumulate in your
+account. That’s as much a part of money management as calculating your
+probability of ruin and determining trade size.
+Are you going to add the money to your account and trade it as before?
+Leverage your profits by trading them more aggressively than your core
+account? Pull money out and put it into long-term investments? Or a
+combination of the three? The following sections explore some of your
+options.
+
+111
+
+112 Part II: Exploring Popular Day-Trading Strategies
+Martingale: Starting with 10% and Doubling Losses
+Intial Account Value % Traded
+Performance
+Trade 1
+1.5%
+$ 20,000
+10%
+Trade 2
+1.5%
+$ 20,030
+Trade 3
+-1.0%
+$ 20,060
+Trade 4
+-1.0%
+$ 20,040
+Trade 5
+1.5%
+$ 20,000
+Trade 6
+1.5%
+$ 20,120
+Trade 7
+-1.0%
+$ 20,150
+Trade 8
+-1.0%
+$ 20,130
+Trade 9
+1.5%
+$ 20,090
+Trade 10
+1.5%
+$ 20,210
+Kelly: Trading 33%
+Performance
+Trade 1
+1.5%
+Trade 2
+1.5%
+Trade 3
+-1.0%
+Trade 4
+-1.0%
+Trade 5
+1.5%
+Trade 6
+1.5%
+Trade 7
+-1.0%
+Trade 8
+-1.0%
+Trade 9
+1.5%
+Trade 10
+1.5%
+Betting Everything
+
+Figure 6-2:
+How money
+management affects
+your return.
+
+Performance
+Trade 1
+1.5%
+Trade 2
+1.5%
+Trade 3
+-1.0%
+Trade 4
+-1.0%
+Trade 5
+1.5%
+Trade 6
+1.5%
+Trade 7
+-1.0%
+Trade 8
+-1.0%
+Trade 9
+1.5%
+Trade 10
+1.5%
+
+Intial Account Value % Traded
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,000
+20,100
+20,200
+20,133
+20,066
+20,166
+20,267
+20,199
+20,132
+20,233
+
+33%
+33%
+33%
+33%
+33%
+33%
+33%
+33%
+33%
+33%
+
+Intial Account Value % Traded
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,000
+20,300
+20,605
+20,398
+20,194
+20,497
+20,805
+20,597
+20,391
+20,697
+
+100%
+100%
+100%
+100%
+100%
+100%
+100%
+100%
+100%
+100%
+
+Amount Traded
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+2,000
+2,000
+2,000
+4,000
+8,000
+2,000
+2,000
+4,000
+8,000
+2,000
+
+Amount Traded
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+6,660
+6,693
+6,727
+6,704
+6,682
+6,715
+6,749
+6,726
+6,704
+6,738
+
+Amount Traded
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,000
+20,300
+20,605
+20,398
+20,194
+20,497
+20,805
+20,597
+20,391
+20,697
+
+Ending Account Value % Change
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,030
+20,060
+20,040
+20,000
+20,120
+20,150
+20,130
+20,090
+20,210
+20,240
+
+1.20%
+
+Ending Account Value
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,100
+20,200
+20,133
+20,066
+20,166
+20,267
+20,199
+20,132
+20,233
+20,334
+
+1.67%
+
+Ending Account Value
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+
+20,300
+20,605
+20,398
+20,194
+20,497
+20,805
+20,597
+20,391
+20,697
+21,007
+
+5.04%
+
+Compounding interest
+Compound interest is a simple concept: Every time you get a return, that
+return goes into your account. You keep earning a return on it, which
+increases your account size some more. You keep earning a return on
+your return, and pretty soon, the numbers get to be pretty big.
+To benefit from that compounding, many traders add their profits back
+into their accounts and keep trading them as a way to build account size.
+Although day traders earn little to no interest (which is compensation for
+loaning out money — say, by buying bonds), the basic principle holds: By
+returning profits to the trading account to generate even more profits, the
+account should grow over time.
+
+Chapter 6: Managing Your Money and Positions
+This practice of keeping profits in the account to trade makes a lot of sense for
+smaller traders who want to build their accounts and take more significant
+positions over time.
+
+Pyramiding power
+Pyramiding involves taking trading profits and borrowing heavily against them
+to generate even more profits. Traders usually do this during the day, using
+unrealized profits in trades that are not yet closed as collateral for loans used
+to establish new positions. If the new positions are profitable, the trader can
+keep borrowing until it’s time to close everything at the end of the day.
+Pyramiding works great as long as the markets are moving in the right direction. If all the positions in the pyramid remain profitable, you can make a lot of
+money during the course of the day. But if one of those positions turns against
+you, then the structure collapses and you end up with a call on your margin.
+Figure 6-3 starts with an initial trade of $2,000 and assumes a return of 10 percent on each transaction — not realistic, necessarily, but it makes for a nice
+chart. If the profits from each trade are used as collateral for borrowing, and
+if that 10 percent return holds all day, then the trader can make 17 percent by
+pyramiding those gains. If a reversal hits before the end of the trading session
+and the positions lose 10 percent, then pyramiding magnifies the losses —
+assuming your broker would let you keep borrowing. After all, the borrowed
+money has to be repaid regardless of what happens in the market.
+Pyramiding is not related to a pyramid scheme. In trading terms, pyramiding
+is a way to borrow against your profits to generate even bigger profits. A pyramid scheme is a fraud that requires participants to recruit new members,
+and fees paid by the new members go to the older ones. Eventually, the pyramid collapses because recruiting new members gets too difficult and those at
+the bottom get nothing. Be aware that some investment frauds have been
+structured as pyramid schemes. Steer clear of deals that sound fabulous and
+require you to recruit others.
+Pyramiding increases your trading risk but also your expected return. It’s a
+useful way to grow a portion of your trading account, especially when the
+market is favoring your trading system. This technique is good for mediumsized accounts, which have enough money that, if a pyramid were to collapse
+on you, you’d still have enough to stay in the market.
+
+Making regular withdrawals
+Because day trading can be so risky, many traders look to diversify their total
+financial risk. One way to do this is to pull money out of the trading account to
+put into a less volatile long-term investment. Many traders routinely pull out
+
+113
+
+114 Part II: Exploring Popular Day-Trading Strategies
+a percentage of their profits and put that money into government bonds, a lowrisk mutual fund, or real estate. None of these investments is as glamorous or
+exciting as day trading, but that’s the point: Trading is hard work, and anyone
+can lose money any day, no matter how big his account is or how much money
+he’s made so far. By moving some money out, a trader can build a cushion for
+a bad trading stretch, prepare for retirement, and have some money to walk
+away for a short period or even forever. Having money in low-risk investments
+can greatly reduce the stress and the fear that go with trading.
+The larger the account, the easier it is to pull money out, but even smaller
+traders should consider taking 5 or 10 percent of each quarter’s profits and
+moving them into another type of investment. Many brokerage firms can set
+up automatic withdrawal plans that zap money from your trading account
+to a stock or bond mutual fund if you don’t trust yourself to do it.
+Pyramiding magnifies returns
+Assume that you need to maintain 25% margin
+Initial
+Trade
+Equity
+First trade
+Second trade
+Third trade
+Fourth trade
+Fifth trade
+Sixth trade
+
+$ 2,000
+$ 200
+$
+80
+$
+32
+$
+13
+$
+5
+
+Return on initial $2,000 trade:
+Percentage return:
+
+$
+
+Amount Total Trade
+Borrowed
+Size
+$ $ 600
+$ 240
+$ 96
+$ 38
+$ 15
+
+$ 2,000
+$ 800
+$ 320
+$ 128
+$
+51
+$
+20
+
+Profit at
+Negative
+10% Return
+$
+$
+$
+$
+$
+$
+
+200
+80
+32
+13
+5
+2
+
+332
+17%
+
+. . . And pyramiding magnifies losses
+Initial
+Trade
+Equity
+First trade
+Second trade
+Third trade
+Figure 6-3: Fourth trade
+Pyramiding Fifth trade
+magnifies Sixth trade
+returns and
+losses. Return on initial $2,000 trade:
+Percentage return:
+
+$ 2,000
+$ 200
+$
+80
+$
+32
+$
+13
+$
+5
+$ (332)
+-17%
+
+Amount Total Trade
+Borrowed
+Size
+$ $ 600
+$ 240
+$ 96
+$ 38
+$ 15
+
+$ 2,000
+$ 800
+$ 320
+$ 128
+$
+51
+$
+20
+
+Profit at
+Negative
+10% Return
+$ (200)
+$ (80)
+$ (32)
+$ (13)
+$ (5)
+$ (2)
+
+Chapter 7
+
+Technical Analysis 101
+In This Chapter
+▶ Researching markets and trades
+▶ Using technical analysis to forecast prices
+▶ Gleaning information from the charts
+▶ Reviewing schools of thought in technical analysis
+▶ Avoiding the traps that technical analysts can fall into
+
+I
+
+n some ways, day trading is easy. Open up an account with a brokerage
+firm and off you go, buying and selling securities! But how are you going
+to know when to buy and when to sell? That’s not a simple matter. Most day
+traders fail because it’s easy to place the order but hard to know whether the
+order is the right one.
+Traders use different research systems to evaluate the market and have
+access to tools that can help them figure out when a security is likely to go
+up in price and when it is likely to go down. Two primary types of investment research systems exist: technical analysis and fundamental analysis.
+Technical analysis, which is widely used by day traders, looks at the supply
+and demand for a security and how it shows up in price data. Fundamental
+analysis, which is less commonly used by day traders, looks at the financial
+and operational factors that affect a security’s value. This chapter tells you
+what you need to know about each.
+
+Don’t be fooled by anyone offering to sell you a guaranteed system for
+making money in day trading. Anyone with a surefire system has already
+made a fortune and retired to a private island in a tropical climate. He or she
+is too busy enjoying drinks with umbrellas in them to share that trading
+system with you.
+
+116 Part II: Exploring Popular Day-Trading Strategies
+Comparing Research Techniques
+Used in Day Trading
+Day traders need to make decisions fast, and they need to have a framework
+for doing so. That’s why they rely on research. But what kind? Most day traders rely heavily on technical research, which is an analysis of charts formed
+by price patterns to measure the relative supply and demand for the
+security. But some people use fundamental analysis to help inform their
+decisions, too.
+Research systems fall into two categories: fundamental and technical:
+✓ Fundamental research looks at the specific factors that affect a security’s value. What’s the relationship between the trade deficit and futures
+on two-year treasury notes? What’s the prediction for summer rainfall in
+Iowa, and how will that affect December corn futures? How dependent is
+a company on new products to generate earnings growth?
+✓ Technical research looks at the supply and demand for the security
+itself. Are people buying more and more shares? Is the price going up
+a lot as they buy more, or does the price go up just a little bit? Does it
+seem like everyone who is likely to buy has already bought, and what
+does that mean for the future price?

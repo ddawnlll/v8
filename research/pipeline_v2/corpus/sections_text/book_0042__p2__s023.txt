@@ -1,0 +1,586 @@
+
+2. Zero centering: Subtract the mean daily return from each day's return in the original sample.
+
+238 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+3. Place the zero-centered data in a bucket.
+4. Select a daily return at random from the bucket and note its value.
+5. Place that return back in the bucket, and then thoroughly stir the
+bucket (some statisticians prefer their samples shaken rather than
+stirred).
+6. Perfornl steps 4 and 5 exactly N - 1 more times (e.g., 1,230) creating
+a total of N (1,231) randomly selected observations. This completes
+the first bootstrapped sample.
+7. Compute the mean return for the N (1,231) observations in the first
+resample. This is one value of the bootstrapped mean.
+8. Perform steps 6 through 9 a large number of times (5,000) yielding a
+large number of bootstrapped means.
+9. Form the sampling distribution of the means.
+10. Compare the observed mean return of the rule to the sampling distribution and determine the fraction of the 5,000 means comprising the
+sampling distribution that exceed the observed mean return of the
+rule to determine the p-value. See Figure 5.12.
+
+Monte Carlo Permutation Method (MCP)
+Monte Carlo simulation, invented by Stanislaw Ulam (1909-1984), is a
+general method for solving mathematical problems by random sampling.
+The Monte Carlo permutation method for rule testing was developed by
+Dr. Timothy Masters. He is the first to propose this approach as a way to
+
+Null Hypothesis
+
+0%
+Average
+Return
+
+of
+Tested
+Rule
+
+p-value = 0.04
+
+o
+FIGURE 5.12 Comparing the rule's mean return to the bootstrapped sampling
+distribution of the mean.
+
+239
+
+Hypothesis Tests and Confidence Intervals
+
+produce the sampling distribution to test the statistical significance of a
+rule's back-tested performance. It is presented as an alternative to White's
+reality check.
+Although the Monte Carlo method has been in existence for a long
+time, it had not been previously applied to rule testing. This was made
+possible by Dr. Masters' insight that the Monte Carlo method could generate the sampling distribution of a rule with no predictive power. This is accomplished by randomly pairing or permuting the detrended daily returns
+of the market (e.g., S&P 500) with the ordered 13 times series representing
+the sequence of daily rule output values. Recall that the Ho tested by the
+Monte Carlo permutation method asserts that the returns of the rule being
+evaluated are a sample from a population of returns that were generated
+by a rule with no predictive power. The daily returns of such a rule can be
+simulated by randomly pairing the rule's output values (+1 and -1) with
+the market's price changes. The random pairing of the rule output values
+with market changes destroys any predictive power that the rule may
+have had. I refer to this random pairing as a noise rule.
+The process of randomly pairing market-price changes with rule output values is illustrated in Figure 5.13. The daily time series of rule output
+values are simply those that were produced by the rule that is being evaluated in their original order. After the sequence of output values has been
+randomly paired with what is effectively a scrambled version of the market's history, the mean daily return of the noise rule can be computed.
+This value appears in the grey box at the end of each row. To produce the
+sampling distribution we need many such values.
+
+Time Series of
+Rule Output Values
+
++1
+
++1
+
++1
+
++1
+
+-1
+
+-1
+
+·1
+
+·1
+
+-1
+
+-1
+
+Randomized SPSOO
+-0.8 +0.3
+Return,
+
+-0.9 -2.6 +3.1 +1.7 -0.8 -2.6 +1.2 -0.4
+
+Randomized Rule
+Return,
+
+-0.9 -2.6 - 3.1
+
+-0.8 +0.3
+
+Randomized SPSOO -0.4 +1.2
+Return z
+Randomized Rule
+Return z
+
+-0.4 +1.2
+
+-1.7 +0.8 +2.6 -1.2
+
+-2.6 -0.8 +1.7 +3.1
+
++0.4
+
+-2.6 -0.9 +0.3 -0.8
+
+-2.6 -0.8 -1.7 - 3.1 +2.6 +0.9 -0.3
+
++0.8
+
+Randomized SPSOO
+Return 3
+-2.6 +1.7
+
+-0.4 -0.9 -0.8
+
+Randomized Rule
+Return 3
+
+-0.4 -0.9 +0.8 +0.8 -0.3 -1.2 +2.6 -3.1
+
+FIGURE 5.13
+
+-2.6 +1.7
+
+-0.8 +0.3 + 1.2 -2.6 +3.1
+
+Monte Carlo permutation method.
+
+Mean
+Return,
+
+-0.62
+Mean
+Return z
+
+-0.34
+Mean
+Return 3
+
+-0.26
+
+240 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+To produce additional values of noise rule mean returns, the same
+time series of actual rule output values is paired with (permuted with) numerous scrambled (randomized) versions of market-price changes. The illustration shows only three Monte Carlo permutations but in practice it
+would be done a large number of times, perhaps 5,000. The 5,000 values
+for average return are then used to form the sampling distribution of the
+mean return earned by a noise rule-a rule with no predictive power.
+
+Pl'ocedure. The sequence of steps to generate the sampling distribution by the Monte Carlo permutation method is as follows:
+1. Obtain a sample of one-day market-price changes for the period of
+time over which the TA rule was tested, detrended as described in
+Chapter 1.
+2. Obtain the time series of daily rule output values over the back-test
+period. Assume for this illustration that there were 1,231 such values, one rule output value for each day on which the rule was tested.
+3. Place the market's detrended one-day-forward price changes on a
+piece of paper. Place them in a bin and stir.
+4. Randomly select a market-price change from the bin and pair it with
+the first (earliest) rule output value. Do not put the price change
+back in the bin. In other words this sampling is being done without
+replacement.
+5. Repeat step 4 until all the returns in the bin have been paired with a
+rule output value. In this example there will be a total of 1,231 such
+pairings.
+6. Compute the return for each of the 1,231 random pairings. This is
+done by multiplying the rule's output value (+1 for long, -1 for short)
+by the market's one-day-forward price change.
+7. Compute the average return for the 1,231 returns obtained in step 6.
+8. Repeat steps 4 through 7 a large number of times (e.g., 5,000).
+9. Form the sampling distribution of the 5,000 values obtained in step 8.
+10. Place the tested rule's rate of return on the sampling distribution and
+compute the p-value (the fraction of random rule returns equal to or
+greater than the tested rule's return).
+
+Application of Computer Intensive Methods
+to Back-Test of a Single Rule
+This section demonstrates the application of the two computer-intensive
+hypothesis testing methods to a single rule: 91 day channel breakout l4 us-
+
+Hypothesis Tests and Confidence Intervals
+
+241
+
+ing the Dow Jones Transportation Index (input series 4) as the rule's input
+series. This rule, which is designated as TT-4-91, and all others tested in
+Part 1\vo of this book are described in detail in Chapter 8. The main point
+for current purposes is to demonstrate the hypothesis test. The rule was
+used to generate long and short signals on the S&P 500 index from November 1980 through June 2005. Over this period of time, the rule earned
+an annualized return of 4.84 percent using detrended S&P 500 data to
+compute the rule's daily returns. The expected annual return of a rule with
+no predictive power is zero on detrended data.
+Both the bootstrap and the Monte Carlo permutation methods were
+used to test the null hypothesis that the rule has no predictive power. The
+question is this: Is TT-4-91's +4.84 percent return sufficient to reject the
+null hypothesis?
+Testing Rule Performance Using Bootstrap: White's Reality
+Check. To generate the sampling distribution of the average return, the
+
+specific steps taken starting with the detrended S&P 500 data are:
+1. Zero Centering the Daily Rule Returns: Because the rule generates a
+positive return (+4.84 percent) on the detrended market data, the average daily return of the rule (approximately 0.0192 percent per day)
+is subtracted from the return earned by the rule each day. This transformation creates a set of daily returns whose average value is zero,
+thereby making the data conform to Ho- Note-this is not to be confused with the detrending of the S&P 500 data.
+2. Resampling the Daily Returns: The zero-centered daily returns as
+computed in the preceding step are sampled with replacement. This
+must be done exactly 6,800 times (the number of observations in the
+original sample) for the Bootstrap Theorem to hold true.
+3. Compute the Mean Return: The mean daily return is computed for the
+6,800 resampled returns. This is the first bootstrapped mean.
+4. Repeat steps 2 and 3 5,000 times. This obtains 5,000 values for the resampled mean.
+5. Create the bootstrapped distribution of resampled means.
+6. Compare rule's +4.84 percent return to the sampling distribution to
+determine the fraction of the sampling distribution's area that lies at
+values equal to or greater than +4.84 percent per annum. This is done
+by counting the fraction of the 5,000 bootstrapped means that have
+values equal to or greater than this return.
+Results: 11 0 Reiected-Rule Possibly lias Predictive Power.
+
+Figure 5.14 shows the bootstrapped sampling distribution with the actual
+
+242 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+0.12 , - - - - - - - - - - - - - - - - - - - - - - - - - ,
+
+TI-4-911
+... +4.84% 1-----------------------------
+
+0.10 ---------------------------------------..-.....-.--.--.-0.08 ---.------.--.-.-
+
+--.-------.------.--.
+
+0.06 ------.--------------------------------------0.04 -----------------------.------.--.-.-.-.
+
+II
+
+I(
+
+p~~;~~e 1-------------------
+
+0.02
+I
+
+-0.15
+FIGURE 5.14
+
+I
+
+I
+
+-0.10
+
+I•.
+
+I
+
+-0.05
+
+o
+
+I
+
+0.05
+
+I
+
+0.10
+
+I
+
+I
+
+0.15
+
+Bootstrapped sampling distribution for rule TI-4-91 and its p-value.
+
+performance of rule TT-4-91 superimposed. The p-value of 0.0692 indicates that .069 of the 5,000 bootstrapped means were equal to or greater
+than +4.84 percent. This means that if the rule's expected return were
+truly equal to zero, about 7 times out of 100, the rule would earn a return
+of +4.84 percent or greater simply due to chance (sampling variability).
+Statisticians would regard such a result as possibly significant. As will be
+seen in Chapter 6, the amount of searching that led to the discovery of the
+rule, specifically whether the rule was found amongst a large group of
+back-tested rules, can impact the p-value and the rule's significance. Consequently, the results quoted here assume that this was the only rule proposed for back testing.
+l'esting Rule Performance with Monte ~arlo Permutation
+Method. The following steps describe the process of applying the
+Monte Carlo Permutation Method to a rule's back-tested performance:
+
+1. The time series of daily rule output values is laid out in its proper sequence over the time period of the rule back test. As stated earlier
+there will be 6,800 of these daily +1 and -1 values.
+2. Each of the 6,800 detrended one day forward price changes is inscribed on a ball. These 6,800 balls are placed in a bin.
+
+Hypothesis Tests and Confidence Intervals
+
+243
+
+3. The bin is shaken, and then, one at a time, the balls are drawn at random and paired with an individual rule output value. Thus, each of the
+rule's daily output values is matched with a single one day forward
+S&P 500 return. This is done without replacement until all balls have
+been paired with a rule output value. Because there are exactly 6,800
+daily market returns and 6,800 rule output values, the bin will be
+empty when this step is complete.
+4. Multiply each rule value (+1 or -1) by the associated S&P 500 return.
+This gives the return that would be earned by the noise rule over the
+next day. This step will produce 6,800 daily rule returns.
+5. Average the 6,800 values obtained in step 4. This is the first Monte
+Carlo permuted mean return for a noise rule.
+6. Steps 3 through 5 must be repeated 5,000 times.
+7. Produce the sampling distribution from the 5,000 Monte Carlo means.
+8. Compare the return of the TT-4-91 rule with the sampling distribution
+and determine the fraction of Monte Carlo means that equal or exceed
+the return earned by the rule. This is the p-value.
+Monte Carlo Results: Rule Possibly lias Predictive Power.
+Confirming the bootstrapped result, the Monte Carlo method gives a p-value
+that is almost identical.
+
+ESTIMA1'ION
+Estimation is the other form of statistical inference. In contrast to hypothesis testing, which is oriented to the acceptance or rejection of a claim
+made about the value of a population parameter, estimation's purpose is
+to approximate the value of the population parameter. In our case, it will
+be used to estimate the expected return of a rule.
+
+Point Estimates
+There are two kinds of estimates: point and interval. A point estimate is a
+single value that approximates the population parameter, for example the
+rule has an expected return oj 10 percent. An interval estimate is a range
+of values within which the population parameter lies with a given level of
+probability. The following statement would exemplify this: The rule's ex-
+
+pected return lies within the range 5 percent to 15 percent with a probability ojO.95.
+Actually, we already have been making point estimates, but they have
+
+244 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+not been described as such. Every time we compute a sample mean and
+use it to approximate the population mean, we are making a point estimate. This fact is easily overlooked. Some commonly used point estimators are: the mean, median, standard deviation, and the variance. The
+estimate is computed from a sample of observations taken from the population. In other words, a point estimate is a sample statistic. The formula
+to compute a sample mean is shown in Figure 5.15.
+The use of means (averages) is so ubiquitous in TA that it is taken for
+granted, yet the sample mean turns out to be an elegant and powerful estimator. It provides a single value that is, in an important sense, the best
+(most informative) estimate of the population's mean. This is an important fact.
+Just how informative the sample mean is becomes clear when we
+consider the criteria used to judge the quality of an estimator. Good estimators should be: unbiased, consistent, efficient, and suffldent. In terms
+of these four criteria, it can be shown that the sample mean is the best estimator of the population mean. 15
+An estimator is unbiased if its expected value is equal to the population value. Said differently, if an estimator is unbiased its deviations from
+the true population value have an average value of zero. The sample
+mean's deviations from the population mean are unbiased. This allows us
+to say that a rule's mean return in a historical sample is an unbiased estimate of its mean return in the inunediate practical future.
+Another criterion of a point estimator's goodness is its consistency.
+An estimator is said to be consistent if its value converges to the value of
+
+Sample Mean of Variable X
+
+x
+
+n
+
+x-
+
+n
+
+Where Xi is an individual observation on variable X
+FIGURE 5.15 Sample mean of variable X.
+
+Hypothesis Tests and Confidence Intervals
+
+245
+
+the population parameter as sample size is increased. The Law of Large
+Numbers tells us that this is so for the sample mean.
+Estimators should also be efficient. This criterion relates to the width
+of its sampling distribution. As mentioned earlier, an estimator is a sample
+statistic, and thus has a sampling distribution. The most efficient estimator is the one that produces the narrowest sampling distribution. In other
+words, the most efficient estimator has the smallest standard error. 16 Both
+the sample mean and the sample median are unbiased and consistent estimators of the population mean for populations that are distributed symmetrically. However, the sample mean is more efficient than the sample
+median. For large san1ples, the standard error of the mean is about 80 percent smaller than the sample median's standard error. 17
+The final trait of a good point estimator is called its sufficiency. "An
+estimator is sufficient if it makes such use of all the available sample data
+that no other estimator would add any information about the paran1eter
+being estimated."L8 The sample mean is sufficient in this sense.
+
+Interval Estimates-The Confidence Interval
+More informative than the point estimate is the interval estin1ate, also
+known as a confidence interval. It is described in this section.
+What 1)0 Confidence Intervals 'I'ell Us'! A point estimate has limited value because it conveys no sense of the uncertainty in the estimate
+due to sampling error. The confidence interval solves this problem by
+combining the infom1ation of the point estimate with the infonnation
+about the estimator's sampling distribution.
+A confidence interval is a range of values that surround the point estimate. The interval is defined by upper and lower values called bounds. In
+addition, the interval is accompanied by a probability number that tells us
+how likely it is that the true value of the population parameter falls within
+the bounds of the confidence interval. By convention the probability is
+stated as a percentage rather than a fraction. Thus, a 90 percent confidence interval for the mean has a 0.90 probability of enclosing within its
+bounds the population's true mean value.
+When thinking about what a confidence interval tells us, it is best to
+think of what would happen if one were to construct a large number of 90
+percent confidence intervals, each based on an independent sample of
+data taken from the population. If this were to be done, about 90 percent
+of the intervals would actually encompass the value of the population's
+parameter. By extension, about 10 percent of the confidence intervals
+would fail to include the population parameter. This is illustrated in Figure 5.16 for 10 confidence intervals. Ten is a small number, which I used to
+
+246 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+True Population Mean
+
+•
+
+Means
+&
+90% Confidence
+Intervals
+For
+10 Independent
+Samples
+
+FIGURE 5.16
+
+!1
+
+•
+
+I
+
+••
+
+1
+
+I
+
+:. •I
+
+I
+
+Error
+90% CI
+Fails To
+Enclose
+Population
+Mean
+
+I
+
+•I
+•
+•
+1
+
+I
+
+•
+
+1
+
+90 percent confidence intervals (.90 probability correct).
+
+keep the figure simple. The true, but unknown, population mean is indicated by the Greek letter Jl (mu). The sample mean is identified by the dot
+within each confidence interval. Note that one of the confidence intervals
+fails to enclose the population mean.
+The researcher can choose whatever confidence level is desired. For
+example a 99 percent confidence level contains the true population mean
+with a probability of 0.99. Of course, there is a price to be paid for the
+higher level of confidence-the interval is wider. In other words, the price
+for higher confidence is reduced precision. Note in Figure 5.17, by increasing the confidence level to 99 percent, the error made by the 90 percent
+
+True Population Mean
+
+•
+
+Means
+
+&
+99%
+
+1
+
+Confidence
+Intervals
+For 10
+Independent
+Samples
+
+FIGURE 5.17
+
+:.
+•
+
+.:
+
+•
+I
+
+1-1----411.1-:-------jl
+
+• •
+• •
+
+99% CI
+Correct
+Where
+90% CI
+Was
+Wrong
+
+99 percent confidence intervals (.99 probability correct).
+
+Hypothesis Tests and Confidence Intervals
+
+247
+
+confidence interval in Figure 5.16 has been eliminated. The reduced error
+rate was accomplished by using a wider (less precise) confidence interval.
+If a rule were to be back tested on one hundred independent samples
+of data and a 90 percent confidence interval were constructed about the
+mean return observed in each sample, approximately 90 percent of these
+confidence intervals would contain the rule's true or expected return in
+the population. Figure 5.18 shows a 90 percent confidence interval for a
+rule that earned a 7 percent return in a back test. We can be certain, with a
+probability of 0.90, that the rule has an expected return between 2 percent
+and 12 percent.
+l'he Conlidence Interval and Its Connection to the Sampling
+Distribution. Confidence intervals are derived from the same sampling distribution that is used to compute the p-values for a hypothesis
+test. Given what we have already leamed about sampling error (sampling
+variability), it can be said that the value of a sample mean is equal to the
+unknown value of the population mean, plus or minus its sampling error.
+This relationship is shown by the upper formula in Figure 5.19. By rearranging the terms of this formula we get the lower formula in Figure 5.19.
+It says that the value of the population mean is equal to the known value
+of the sample mean plus or minus sampling error.
+The bottom formula tells us that, although we do not know the precise value of the population mean, we can take the value of the sample
+mean, which we do know, and the sampling distribution of the mean,
+which we also know, and obtain a range of values that contains the population mean with a specified level of probability. In operational terms,
+this tells us that if we were to repeat the following procedure 1,000
+
+times-compute a sample mean and a 90 percent confidence interval-
+
+Rule Return
+Was 7% In
+Historical Sample
+
+7%
+Rate of Return
+
+FIGURE 5.18 90 percent confidence interval for rule back test.
+
+248 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+The known sample mean is
+the unknown population mean with error
+
+x = ~ +/- Sampling Error
+The unknown population mean is
+the known sample mean with error
+
+~
+
+= X +/-
+
+Sampling Error
+
+FIGURE 5.19 The known sample mean is the unknown population mean with
+error.
+
+the population mean would lie within approximately 900 of the 1,000 confidence intervals. This concept is illustrated when the procedure is repeated only 10 times in Figure 5.20. Note that one of the 10 confidence
+intervals fails to include the population mean. The point of this section is
+that the confidence interval's width is derived from the width of the sampling distribution.
+As was said earlier, the confidence interval is based on the same sampling distribution that is used in the hypothesis test. However, in the case
+of the confidence interval, the sampling distribution is simply shifted from
+the position it occupies in a hypothesis test. In the hypothesis test, the
+sampling distribution is centered at the hypothesized value of the population mean, for example, zero. In the case of a confidence interval, the sampling distribution is centered over the sample mean, for example, 7
+percent. This concept is illustrated in Figure 5.21.
+Generating Confidence Intervals with the Bootstrap. Bootstrapping can be used to derive confidence intervals. The procedure is almost identical to the one used to generate the sampling distribution for a
+hypothesis test.
+There are numerous methods for computing bootstrap confidence intervals. The one presented here, the bootstrap percentile method, is popular, easy to use, and generally gives good results. More sophisticated
+methods are beyond the scope of this text.
+It should be pointed out that the Monte Carlo permutation method
+cannot be used to generate confidence intervals. This is because the

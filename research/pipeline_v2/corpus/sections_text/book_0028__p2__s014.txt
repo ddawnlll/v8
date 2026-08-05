@@ -1,0 +1,617 @@
+In Figure 9.9, we compare bitcoin, ether, and dash’s volatility since the end
+of 2015. Bitcoin has the lowest volatility because its markets are the most liquid
+and it has the greatest diversity of support from different exchanges and asset
+trading pairs. While bitcoin has sustained its low volatility, ether has come
+down significantly, and dash has varied widely. We included dash because we
+posit that it will continue to have problems with volatility over time. While it
+is gaining in acceptance, which should decrease its volatility, its software architecture creates a liquidity problem by requiring masternodes (entities similar
+to miners, but unique to Dash’s architecture) to lock up a large amount of the
+dash outstanding. Such a requirement impedes the liquidity of dash’s markets,
+thereby making the markets more prone to volatility.
+ETH
+
+DASH
+
+BTC
+
+18%
+16%
+14%
+12%
+10%
+8%
+6%
+4%
+2%
+Mar-17
+
+Feb-17
+
+Jan-17
+
+Dec-16
+
+Nov-16
+
+Oct-16
+
+Sep-16
+
+Aug-16
+
+Jul-16
+
+Jun-16
+
+May-16
+
+Apr-16
+
+Mar-16
+
+Feb-16
+
+Jan-16
+
+Dec-15
+
+Nov-15
+
+0%
+
+Figure 9.9 n Daily volatility of bitcoin, dash, and ether
+Data sourced from CryptoCompare
+
+Interestingly, just because an asset has a rapid price increase doesn’t mean
+it must do so in a volatile manner. For example, through 2016, bitcoin more
+than doubled in price but decreased in volatility. Its daily gains and occasional
+losses were close enough to the mean not to register as overly volatile. Such
+behavior can indicate big traders are taking positions in an asset; often they
+gauge how much they are moving the price of an asset and make sure not to do
+so above a certain percentage point. In this way, they minimize volatility and
+slowly ease into a big position over a series of days, weeks, or months.
+As these assets mature and their volatility decreases, recall that this can help
+boost the Sharpe ratio. Recall that since the Sharpe ratio is absolute returns13
+
+Burniske 02.indd 131
+
+9/9/17 1:46 PM
+
+132 CRYPTOASSETS
+
+divided by volatility, if volatility comes down, then the returns don’t have to be
+as stupendously good for the Sharpe ratio to still be a standout.
+
+MARKETPLACE BEHAVIOR: CORRELATIONS
+As an asset class is first emerging, it will be uncorrelated with the broader
+capital markets because there is not much overlap between the early adopters
+of that asset and the broader capital market investors. This is exactly what we
+saw with bitcoin when it was first invented and was only known to a small core
+group of developers and adopters (see Figure 9.10).
+
+Capital Markets
+
+Cryptoassets
+
+Figure 9.10 n Cryptoassets as an emerging asset class
+
+At that time, with minimal overlap between bitcoin and capital market
+investors, bitcoin’s correlation with other common asset classes was close to
+zero; events that made the broader capital markets move had no effect on bitcoin, and vice versa (see Figure 9.11).
+As bitcoin’s use grew, so too did its fame. It is now routinely discussed in
+publications such as the Wall Street Journal, the New York Times, and Forbes
+on a near-weekly basis. As a result, not only has it become part of the conversation, it’s also becoming an investment vehicle for a larger audience within
+the broader capital markets.14 A graphical depiction of the increased reach of
+cryptoassets can be seen in Figure 9.12.
+Bitcoin’s increased acceptance among capital market investors explains
+why it has surged on news that could be detrimental to other markets, such as
+Brexit, the surprise Trump election win, and the devaluation of the Chinese
+
+Burniske 02.indd 132
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+133
+
+1.00
+0.80
+0.60
+0.40
+0.20
+0.0
+
+–0.04
+
+0.02
+
+0.00
+
+–0.02
+
+0.00
+
+S&P 500
+
+Gold
+
+US Real Estate
+
+Oil
+
+US Bonds
+
+–0.20
+–0.40
+–0.60
+–0.80
+–1.00
+
+Figure 9.11 n Bitcoin’s average 30-day rolling correlation with other major assets
+from January 2011 to January 2017
+Data sourced from Bloomberg and CoinDesk
+
+Capital Markets
+
+Cryptoassets
+
+Figure 9.12 n Cryptoassets as a mature asset class
+
+yuan.15 Despite the many PBoC interventions, Chinese citizens used bitcoin
+to protect themselves against the erosion in value of their national currency.
+Figure 9.13 holds the key to inferring such behavior. On the left side of the
+figure, the y-axis shows the number of Chinese yuan needed to buy one dollar.
+As this number increases, the value of the Chinese yuan decreases, because
+more yuan are needed to buy one dollar. On the right side of the figure, the
+
+Burniske 02.indd 133
+
+9/9/17 1:46 PM
+
+134 CRYPTOASSETS
+
+USD/CNY
+
+Bitcoin
+
+6.9
+
+900
+
+6.8
+
+800
+
+500
+
+6.5
+
+400
+
+6.4
+
+300
+
+11/9/16
+
+10/9/16
+
+9/9/16
+
+8/9/16
+
+7/9/16
+
+6/9/16
+
+5/9/16
+
+0
+4/9/16
+
+6.1
+3/9/16
+
+100
+2/9/16
+
+6.2
+
+1/9/16
+
+200
+
+12/9/15
+
+6.3
+
+11/9/15
+
+USD/CNY
+
+600
+
+6.6
+
+Bitcoin (USD)
+
+700
+
+6.7
+
+Figure 9.13 n Bitcoin’s price history in relation to the devaluation of the Chinese yuan
+Source: https://www.washingtonpost.com/news/wonk/wp/2017/01/03/
+why-bitcoin-just-had-an-amazing-year/?utm_term=.64a6cfdf7398
+
+price of bitcoin is shown. As the yuan decreases in value, the price of bitcoin
+increases. Such a correlation implies that people are likely buying bitcoin to
+protect themselves from further devaluation of the yuan.
+While we expect to see bitcoin become increasingly correlated—either positively or negatively—with other broadly used asset classes, as new cryptoassets
+are born, they will likely have a low to zero correlation with the broader capital
+markets. At best, what they will show is some form of correlation with bitcoin,
+as it is of the same asset class. It should be expected that examples within an
+asset class will move together in some fashion. For example, leading up to the
+decision on the Winklevoss bitcoin ETF on March 10, 2017, bitcoin became
+increasingly correlated with ether and monero, and increasingly negatively
+correlated with litecoin (see Figure 9.14).
+Since litecoin is such a close derivative of bitcoin, investors likely became
+concerned that people would rotate out of litecoin and move into bitcoin if
+the bitcoin ETF was approved. Ether and monero, on the other hand, are significantly different cryptoassets and therefore are held as complementary to
+bitcoin in a crypto portfolio. As bitcoin rose and fell, so too did these assets.
+This reinforces the need for the innovative investor to become knowledgeable
+about these assets’ specific characteristics and recognize where correlations
+may or may not occur.
+
+Burniske 02.indd 134
+
+9/9/17 1:46 PM
+
+The Evolution of Cryptoasset Market Behavior
+
+Ethereum (ETH)
+
+Litecoin (LTC)
+
+135
+
+Monero (XMR)
+
+1
+0.8
+0.6
+0.4
+0.2
+3/9/17
+
+3/6/17
+
+3/3/17
+
+2/28/17
+
+2/25/17
+
+2/22/17
+
+2/19/17
+
+2/16/17
+
+2/13/17
+
+2/7/17
+
+2/10/17
+
+2/4/17
+
+2/1/17
+
+1/29/17
+
+1/26/17
+
+1/23/17
+
+1/20/17
+
+1/17/17
+
+1/14/17
+
+1/11/17
+
+–0.2
+
+1/8/17
+
+1/5/17
+
+0
+
+–0.4
+–0.6
+–0.8
+–1
+
+Figure 9.14 n Bitcoin’s correlation with ether, litecoin, and monero, leading up to the
+SEC’s rejection of the Winklevoss ETF
+Data sourced from CryptoCompare
+
+We expect to see more of this correlation trend play out. At best, newer
+cryptoassets will show some behavior tied to bitcoin and its siblings, either
+positively or negatively. Then as the cryptoasset grows, so too will its capital
+pool, and soon enough this will overlap with more traditional assets, strengthening its price relationship with the broader capital markets.
+Although we’re seeing maturation of these assets and greater overlaps with
+others, it’s fair to consider bitcoin and cryptoassets to be in their early stages.
+There is still a lack of understanding by most investors. Innovative investors
+may be more educated on this topic than most, but they will encounter those
+who see cryptoassets as speculative pump-and-dump vehicles or worse. The
+next two chapters will address these arguments by putting cryptoassets in the
+context of the history of past investment bubbles, scams, and speculation.
+
+Burniske 02.indd 135
+
+9/9/17 1:46 PM
+
+This page intentionally left blank
+
+Burniske 02.indd 136
+
+9/9/17 1:46 PM
+
+Chapter 10
+The Speculation of Crowds and
+“This Time Is Different” Thinking
+
+O
+
+n its path to maturity, bitcoin’s price has experienced euphoric rises and
+harrowing drops, as have many cryptoassets. One of the most common complaints among bitcoin and cryptoasset naysayers is that these
+fluctuations are driven by the Wild West nature of the markets, implying that
+crypto­assets are a strange new breed that can’t be trusted. While each crypto­
+asset and its associated markets are at varying levels of maturity, associating
+Wild West behavior as unique to cryptoasset markets is misleading at best.
+Equities, which many consider to be transacted on the most transparent,
+efficient, and fair markets in the world, had a rocky first couple of centuries.
+Yes, centuries. Not only were these markets prone to mass speculation, as people raced to buy and sell based on mostly fabricated rags-to-riches stories, but
+many times the markets were rigged against participants. Misleading prospectuses, manipulation of share prices, false accounting, and issuance of forged
+paper shares all led to losses.1 The reality is that some of the most trusted markets in the world today also had Wild West beginnings.
+By examining the most famous examples of markets gone wrong, specifically the sequence of events, the innovative investor is better informed by
+history to protect present and future wealth. When patterns reappear, it’s
+a good time to exit right, or at least reassess one’s investment strategy. This
+thinking is prudent with regard to any investment, including a venture into
+cryptoassets.
+
+137
+
+Burniske 02.indd 137
+
+9/9/17 1:46 PM
+
+138 CRYPTOASSETS
+
+These examples also show that cryptoassets are not going through bizarre
+growing pains unique to them. Instead, they are experiencing the same evolutionary process that new asset classes over hundreds of years have had to go
+through as they matured. For those interested in a thorough history of such
+events, we highly recommend Edward Chancellor’s Devil Take the Hindmost:
+A History of Financial Speculation.
+While the way in which markets become dangerous to investors changes
+over time, and often becomes less insidious the more the asset and its associated markets mature, the potential for markets to destabilize never disappears.
+Much of the world learned that lesson during the financial crisis of 2008.
+Broadly, we categorize five main patterns that lead to markets destabilizing:
+•
+•
+•
+•
+•
+
+The speculation of crowds
+“This time is different”
+Ponzi schemes
+Misleading information from asset issuers
+Cornering
+
+The first two will be detailed in this chapter, while the latter three we reserve for
+the next chapter. In addition to historical examples from decades past, we also
+give examples of how these patterns have manifested in cryptoasset markets.
+
+THE SPECULATION OF CROWDS
+While often given a bad name, speculation in and of itself is not a bad thing.
+For millennia, speculation has been integral to markets and trading, with
+some of the earliest evidence coming from second-century BC Rome.2 The
+root of the word speculate comes from the Latin specular, which means “to
+spy out, watch, observe, examine, explore.”3 Speculators are keenly focused
+on the movement of the market, observing its swings and taking action
+accordingly.
+Speculators, generally, differ from investors in the duration they intend to
+hold assets. They do not buy an asset with the intent to hold it for years. Rather,
+they buy the asset for an abbreviated period before selling it likely to the next
+speculator. Sometimes they do this to capitalize on short-term information
+they believe will move the market, other times they do it because they expect
+to ride the momentum of the market, regardless of its fundamentals. In short,
+they try to profit within the roller-coaster ride.
+
+Burniske 02.indd 138
+
+9/9/17 1:46 PM
+
+The Speculation of Crowds and “This Time Is Different” Thinking
+
+139
+
+In comparison, the innovative investor diligently investigates the fundamentals of value for investing, and exits that investment when the markets no
+longer appear rational.
+In our view, no matter the investment, it’s important to discern when one
+is investing and when one is speculating. Benjamin Graham and David Dodd
+attempted to define the difference between investing and speculation in their
+book Security Analysis 4: “An investment operation is one which, upon thorough
+analysis, promises safety of principal and a satisfactory return. Operations not
+meeting these requirements are speculative.”
+In his book The Intelligent Investor,5 Graham recognized that speculation
+would always be present in the investing world, but he saw a need to distinguish between “good” and “bad” speculation.6 He wrote, “There is intelligent
+speculation as there is intelligent investing. But there are many ways in which
+speculation may be unintelligent.”
+While speculators have often been scorned, they were perhaps most
+famously denigrated by Franklin D. Roosevelt in his inaugural address on
+March 4, 1933. As America was struggling through the Great Depression,
+which many pinned on the stock market crash of 1929, there was strong
+resentment against speculators. Every crisis loves a scapegoat. In his speech,
+Roosevelt called them “money changers” to invoke religious judgment:
+Primarily this is because rulers of the exchange of mankind’s
+goods have failed through their own stubbornness and their own
+incompetence, have admitted their failure, and have abdicated.
+Practices of the unscrupulous money changers stand indicted
+in the court of public opinion, rejected by the hearts and minds
+of men.
+True they have tried, but their efforts have been cast in the
+pattern of an outworn tradition. Faced by failure of credit they
+have proposed only the lending of more money. Stripped of the
+lure of profit by which to induce our people to follow their false
+leadership, they have resorted to exhortations, pleading tearfully
+for restored confidence. They know only the rules of a generation
+of self-seekers. They have no vision, and when there is no vision
+the people perish.
+The money changers have fled from their high seats in the
+temple of our civilization. We may now restore that temple to the
+
+Burniske 02.indd 139
+
+9/9/17 1:46 PM
+
+140 CRYPTOASSETS
+ancient truths. The measure of the restoration lies in the extent
+to which we apply social values more noble than mere monetary
+profit.7
+
+While Roosevelt’s judgment is understandable, market realities show that
+speculation has its place in the investment world. Speculators often jump on
+opportunities more quickly than does a typical investor, which begins the process of pricing new information into the value of an asset. In seeking to profit
+from opportunity, speculators help drive the search between buyers and sellers
+for a mutually agreed upon price. When a shortage of an asset is on the horizon, whether it be energy commodities or electronic hardware, speculators
+will quickly bid up the price of that good. As a result, more suppliers are drawn
+to the market, accelerating the alleviation of the shortage in classic supply and
+demand economics.
+When it comes to innovation, such as the introduction of railroads, automobiles, or the Internet, speculation served to allocate money to the rapid
+buildout of the infrastructures necessary to support these sweeping innovations. Speculators are the ones who first allocate money because they have
+the highest tolerance for risk and are always on the lookout for new information. While speculation typically ends with a supply glut because too much
+money eventually pours into the innovation, the glut is often temporary. The
+arrival and implementation of copious amounts of capital may lead to an
+excess of capacity, but as the innovation gains mass adoption over the following decades, the abundance of infrastructure proves useful. Such was the case
+with the rapid buildout of railways in Europe in the mid-1800s and the deployment of fiber optic cables to support the Internet in the 1990s.
+Single speculators, or small groups of them, typically do not destabilize
+markets. It is when the groups turn into crowds that the negative ramifications
+build. In this sense, the vitriol should not be directed so much at speculation,
+but instead at crowd behavior that overtakes the capital markets.
+Crowd theory was pioneered by Gustave Le Bon, whose most famous work
+was The Crowd: A Study of the Popular Mind. In his later book The Psychology
+of Revolution, Le Bon wrote:
+Man, as part of a multitude, is a very different being from the
+same man as an isolated individual. His conscious individuality vanishes in the unconscious personality of the crowd. . . .
+
+Burniske 02.indd 140
+
+9/9/17 1:46 PM
+
+The Speculation of Crowds and “This Time Is Different” Thinking
+
+141
+
+Among the other characteristics of crowds, we must note their
+infinite credulity and exaggerated sensibility, their short-sightedness, and their incapacity to respond to the influences of reason.
+Affirmation, contagion, repetition, and prestige constitute almost
+the only means of persuading them. Reality and experience have
+no effect upon them.8
+
+These characteristics are dangerous in the context of a market. Credulity, or
+to be more direct, gullibility, leads the masses to readily believe what they are
+told, whether by fellow speculators or the management behind different assets
+coming to market.
+Credulity is often what draws individual speculators to the crowd, and
+once there, the speculator is trapped within groupthink. The four characteristics of persuasion Le Bon mentions only exacerbate the situation:
+Affirmation leads the credulous to more strongly believe in their strategies
+when the market continues to go up, and that thinking spreads like a contagion. This pattern is repeated, again and again, as the speculators chase
+the returns of the most prestigious of assets. Unfortunately, when the market
+turns and the prestige is gone, the contagion of terror spreads just as quickly
+through the speculative crowd.
+
+Tulipmania
+The most famous instance of mass speculation in a commodity happened in
+the Dutch Republic in the 1630s. As with most periods of mass speculation,
+the time was right. With their merchants fueling trade, the Dutch enjoyed
+the highest salaries of any in Europe, financial innovation was in the air, and
+money was free-flowing. Shares of the Dutch East India Company had been
+rewarding shareholders handsomely for their investments.9 Fueled by enthusiasm, wealthy citizens poured money into properties, leading to a robust
+housing market. The ongoing appreciation of asset values created an excess
+of wealth to fund further asset purchases, setting up a positively reinforcing
+feedback loop into asset bubble territory.10
+While the wealthy sowed the grounds for an asset bubble, initially not
+everyone could take part. Dutch East India shares were expensive and illiquid,
+making them inaccessible to all but the rich, and the same went for prized
+properties.
+
+Burniske 02.indd 141
+
+9/9/17 1:46 PM
+
+142 CRYPTOASSETS
+
+A tulip, on the other hand, was much more affordable. Yet due to a quirk
+of nature, an affordable tulip had the potential to morph into one that would
+make its owner rich. A virus transmitted by aphids turned solid-colored tulips
+into a prized variegated variety, with streaks of lighter hues through darker
+colors, resembling flames.11 The cause of such variegation was not known at
+the time and so lent itself to speculation, as people tried to predict which tulips
+would develop the unique coloration.
+On the other side of the transformation, however, was death, as the virus
+eventually killed the tulip. Speculators, therefore, passed the tulips around like
+hot potatoes, hoping they could sell them to the next speculator for a higher
+price, until the last person was left with a claim on a dead tulip.
+Tulips had promised value since their introduction to Europe in the
+mid-1500s, but it was not until 1634 and the spread of the virus that prices
+increased exponentially, causing what is commonly referred to as Tulipmania.
+What began with small groups of speculators turned into crowds of speculators, as outsiders from other countries were drawn to Dutch tulip markets
+upon hearing stories of the immense riches to be gained. Meanwhile, the experienced withdrew from participation or shunned the tulip trade, as explained
+by Chancellor:
+The wealthy amateur bulb collectors, who had long shown a
+readiness to pay vast sums for the rarer varieties, withdrew their
+custom as prices began to soar, while the great Amsterdam merchants continued investing their trading profits in town houses,
+East India stock, or bills of exchange—for them, tulips remained
+merely an expression of wealth, not a means to that end.12
+
+Since much of a tulip’s life is spent as a bulb and not a blossom, it lends itself
+to a futures market, which the Dutch called a windhandel, or the wind trade.13
+A futures market is where a buyer and a seller agree to the future price of a
+good. When that specific time arrives, the buyer must pay the seller the agreed
+upon amount.
+However, in those days, waiting for that agreed-upon time was not fast
+enough for the crowds of speculators. The tulip futures contracts themselves
+were traded, sometimes as many as 10 times in a day.14 Considering these
+trades were made person to person, 10 trades in a day was representative of a
+liquid and frenzied market.
+
+Burniske 02.indd 142
+
+9/9/17 1:46 PM
+
+The Speculation of Crowds and “This Time Is Different” Thinking
+
+143
+
+With the futures market, the value of tulips could be abstracted even more.
+People didn’t have to worry about the actual delivery of the tulip—they just
+had to make sure they could sell the contract for a higher price than they
+themselves had bought it for. While the frenzy over tulips had been building
+for a few years, the mania peaked during the winter of late 1636 and early
+1637, when the tulip bulbs were still dormant in the ground. Therefore, the
+period of greatest speculation during Tulipmania was not accompanied by a
+single blossoming tulip changing hands.15
+Two factors made the crowd speculation even worse. According to a study
+in The Economist, government officials were in on the action themselves and
+moved to change the futures contracts to options. The result was that:
+Investors who had bought the right to buy tulips in the future
+were no longer obliged to buy them. If the market price was not
+high enough for investors’ liking, they could pay a small fine and
+cancel the contract. The balance between risk and reward in the
+tulip market was skewed massively in investors’ favour. The inevitable result was a huge increase in tulip options prices.16

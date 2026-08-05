@@ -1,0 +1,358 @@
+Harmonic Trading: Volume Two
+Advanced Strategies for Profiting from the
+Natural Order of the Financial Markets
+
+Scott M. Carney
+
+Vice President, Publisher: Tim Moore
+Associate Publisher and Director of Marketing: Amy Neidlinger
+Executive Editor: Jim Boyd
+Editorial Assistant: Pamela Boland
+Operations Manager: Gina Kanouse
+Senior Marketing Manager: Julie Phifer
+Publicity Manager: Laura Czaja
+Assistant Marketing Manager: Megan Colvin
+Cover Designer: Chuti Prasertsith
+Managing Editor: Kristy Hart
+Project Editor: Betsy Harris
+Copy Editor: Geneil Breeze
+Proofreader: Water Crest Publishing, Inc.
+Senior Indexer: Cheryl Lenser
+Senior Compositor: Gloria Schurick
+Manufacturing Buyer: Dan Uhrig
+© 2010 by HarmonicTrader.com LLC
+Published by Pearson Education, Inc.
+Publishing as FT Press
+Upper Saddle River, New Jersey 07458
+This book is sold with the understanding that neither the author nor the publisher is engaged in rendering legal, accounting,
+or other professional services or advice by publishing this book. Each individual situation is unique. Thus, if legal or
+financial advice or other expert assistance is required in a specific situation, the services of a competent professional should
+be sought to ensure that the situation has been evaluated carefully and appropriately. The author and the publisher disclaim
+any liability, loss, or risk resulting directly or indirectly, from the use or application of any of the contents of this book.
+FT Press offers excellent discounts on this book when ordered in quantity for bulk purchases or special sales. For more information,
+please contact U.S. Corporate and Government Sales, 1-800-382-3419, corpsales@pearsontechgroup.com. For sales outside the
+U.S., please contact International Sales at international@pearson.com.
+Company and product names mentioned herein are the trademarks or registered trademarks of their respective owners.
+All rights reserved. No part of this book may be reproduced, in any form or by any means, without permission in writing from the
+publisher.
+Printed in the United States of America
+First Printing May 2010
+ISBN-10: 0-13-705151-4
+ISBN-13: 978-0-13-705151-9
+Pearson Education LTD.
+Pearson Education Australia PTY, Limited.
+Pearson Education Singapore, Pte. Ltd.
+Pearson Education North Asia, Ltd.
+Pearson Education Canada, Ltd.
+Pearson Educatión de Mexico, S.A. de C.V.
+Pearson Education—Japan
+Pearson Education Malaysia, Pte. Ltd.
+Library of Congress Cataloging-in-Publication Data
+Carney, Scott M., 1969Harmonic trading / Scott M. Carney.
+v. cm.
+Contents: v. 2. Profiting from the natural order of the financial —
+ISBN-13: 978-0-13-7051519-2 (v. 2 : pbk. : alk. paper)
+ISBN-10: 0-13-705151-4 (v. 2 : pbk.)
+1. Investment analysis. 2. Investments. 3. Portfolio management. I. Title.
+HG4529.C368 2010
+332.63’2042—dc22
+2009051044
+
+This book is dedicated to Jacob Carney.
+This book represents the endless possibility of the future.
+Don’t ever forget that you are capable of anything in this life.
+I love you, buddy, and I will always be there for you.
+
+This page intentionally left blank
+
+Contents
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1
+Chapter 1
+
+Contemporary Market Case Studies from a
+Harmonic Trading Perspective . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .11
+
+Chapter 2
+
+Harmonic Impulse Waves . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .55
+
+Chapter 3
+
+New Harmonic Patterns . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .73
+
+Chapter 4
+
+Harmonic Patterns Relative to the Trend . . . . . . . . . . . . . . . . . . . . . .111
+
+Chapter 5
+
+BAMM Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .141
+
+Chapter 6
+
+RSI BAMM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .161
+Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .271
+Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .273
+Index . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .275
+
+Acknowledgments
+I want to thank my family. They have been there for me through it all. I am truly grateful for their
+love, support, and encouragement.
+I would like to thank Tracy Knudsen of Lowry Report for her professional insights and
+friendship. In a competitive industry such as ours, you have always gone out of your way to
+make me feel accepted. This has meant a great deal to me. Thank you, Tracy.
+I would like to thank Peter B. Mauthe of Rhoads Lucca Capital Management. I truly appreciate
+your interest in new trading ideas and, more importantly, knowing me as a person. Your
+encouragement has meant a great deal to me. Thanks, Peter.
+I would like to thank Veronique Lashinski. It means a great deal that you would show an interest
+in these new ideas and get to know me personally. Thanks, Veronique.
+I would like to thank Jim Kane of KaneTrading.com. More than anything, our friendship is what
+means the most to me. I miss our dinner meetings at La Indita but know that with one phone
+call, we can always pick up right where we left off. Thanks, Jimmy.
+I would like to thank Guy Cohen of OptionEasy.com for taking the time to show an interest in
+these new ideas and generously helping to realize the publication of both books.
+I would like to thank the special friends that I have in my life—you know who you are without
+being named, but here you go anyway: Michael and Tania, Wolf, Jav and Missy, John and
+Carla, Laure, Hans and Dania, Paul and Carmen, Christy, Gus and Maha, Troy and Lauren
+(Magee Alums), Scott and Christie, Heather, Jon and Jen, Stephen (Quad Connection),
+Brownie, Rich and Rosaria, Bob, Lisa and Molly, Tom and Danielle, David and Leyla, Bill and
+Marla, Paul, John, Max and Kim, Larry and Gina, OPCs ’87. Although we might not see each
+other frequently, you are important people in my life, and I think of you often.
+A special thanks to Stephanie Kramer. I appreciate your effort with this endeavor and look
+forward to your continued contribution to Harmonic Trading.
+I would like to thank the members of the American Association of Professional Technical
+Analysis (A.A.P.T.A.) who generously promote the field of Technical Analysis so others may
+prosper.
+Finally, I would like to thank all of those individuals whom I have had the pleasure of getting to
+know as a result of the Harmonic Trading methodology. I am honored to have this approach be
+embraced by so many people. Since we are all students of the market, I truly hope that this
+material facilitates your technical studies. I believe that the Harmonic Trading methodology will
+dramatically improve your trading results and ultimately benefit your life. It is my purist desire
+that this material be received as a positive contribution to those in search of answers to the
+financial markets.
+
+About the Author
+Scott M. Carney is President and Founder of HarmonicTrader.com, and the originator of the
+Harmonic Trading approach. He personally defined this unprecedented methodology that
+employs a unique system of price pattern recognition and Fibonacci measurement techniques
+to define opportunities in the financial markets. Among his many discoveries, Scott has defined
+most of the harmonic patterns, including the Bat, the ideal Gartley, and the Crab. He has been
+recognized for other contributions to Technical Analysis, including the concept of the Potential
+Reversal Zone (PRZ), the 0.886 retracement, and the 38.2% trailer. Carney has been a
+columnist for StockCharts.com, TradingMarkets.com, and eSignal.com, and he has been
+featured on CNN. He is a full member of the Market Technicians Association (www.mta.org)
+and the American Association of Professional Technical Analysts (www.aapta.us).
+
+This page intentionally left blank
+
+Introduction
+
+After years of research, Harmonic Trading has evolved into a distinct and comprehensive
+methodology that effectively analyzes the financial markets. The basic tenets of pattern
+recognition as quantified by harmonic ratios define a system that provides immensely pertinent
+technical information and identifies trading opportunities unlike any other methodology. It is
+important to consider the substantial advancement of Harmonic Trading since its inception.
+The release of my first book, The Harmonic Trader, marked the beginning of the entire
+methodology. The new measurement techniques presented in this book quantified price action
+in a unique manner. These new ideas created the framework of an unprecedented Fibonacci
+measurement and price pattern recognition system that consistently defined profitable trading
+opportunities. Although it was not my intention to formulate such a system, these strategies
+were the result of extensive research to discover the most effective relationships that were
+encompassed by these measurement tools. Through it all, I precisely refined many general
+concepts and publicly divulged many “secret” strategies that comprised the fundamentals of the
+Harmonic Trading approach.
+The unprecedented combinations of specific ratios that differentiated similar price structures
+as exact patterns defined an effective trading methodology, yielding relevant technical
+information in an unprecedented fashion. Although others years before me have utilized
+Fibonacci ratios within the realm of Technical Analysis, the concept of exact ratio alignments
+presented a new means to define M-type and W-type price structures. These precise patterns
+offered greater accuracy in the often vague discipline of pattern recognition for many traders.
+Although the rules that define harmonic patterns seem to be common knowledge today, it
+wasn’t too long ago that these strategies were practically considered avant-garde within the
+field of Technical Analysis. This new application of Fibonacci ratios created a system of rules
+that defined price patterns in an unprecedented fashion. For example, the common definition
+for the Gartley pattern—requiring a 0.618 retracement and a 0.786 retracement at the B and D
+points, respectively—which was originally outlined in The Harmonic Trader, has become the
+standard within the technical community.
+These strategies have proven themselves effective through the years, but this success has
+engendered many Harmonic Trading-related systems that have skewed the basic tenets of the
+approach. These outfits have espoused the mystical charm of Fibonacci ratios to present more
+1
+
+2
+
+Harmonic Trading: Volume Two
+
+of a “secret code” to the financial markets than a proven system of measurement strategies
+within the discipline of Technical Analysis. Although I will address the problem of misinformation
+and unscrupulous “gurus” a little later in this Introduction, there are two critical concepts to be
+mindful of while studying this material:
+• Harmonic Trading is more than Fibonacci. Anyone somewhat familiar with this
+methodology understands that Harmonic Trading is much more than general Fibonacci
+analysis. The entire Harmonic Trading approach comprises a variety of tools that include
+more than simple Fibonacci measurement techniques and integrates a complex system
+of execution and management strategies. Moreover, the new ideas presented in this
+book incorporate an even wider gamut of unprecedented trading tools.
+• Harmonic Trading is still evolving. In my first book, I presented a number of technical
+measurement strategies that quantified price patterns with respect to their alignment of
+Fibonacci ratios. The Harmonic Trader was unprecedented in that it was the first
+material to emphasize the importance of exact alignments and to employ specific ratio
+combinations that differentiated a variety of patterns. Although The Harmonic Trader
+outlined the framework of this methodology, Harmonic Trading: Volume One
+represented a substantial advancement to the basic approach. Those two books
+represent more than 500 pages of some of the most comprehensive pattern strategies
+within the field of Technical Analysis and dedicate a considerable portion of the material
+to identification techniques, outlining the strict rules that validate structures as patterns.
+This book builds upon that foundation and improves upon the entire methodology to
+outline effective trading strategies from start to finish.
+Since its release in 1999, many have tried to lay claim to the ideas that were first espoused
+in The Harmonic Trader. Despite other interpretations, Harmonic Trading: Volume One truly
+distinguished this approach from the often misguided and misappropriated use of basic
+Fibonacci strategies. Meanwhile, this book advances the basic tenets of Harmonic Trading
+offering greater “standardization” of pattern structures and improved confirmation strategies
+that optimize trading decisions.
+As these strategies evolve, there will continue to be a need for more thorough statistical
+validation to improve the application of these methods and to enhance the overall accuracy of
+the approach. In fact, this is a driving principle behind the entire Harmonic Trading system—
+always improve upon what works. Although this may challenge the old adage: “If it ain’t broke,
+don’t fix it,” the effectiveness of this approach (and of any trading methodology) depends upon
+continual improvement. I offer comprehensive case studies throughout this material. I will
+continue to compile research to validate the effectiveness of the Harmonic Trading approach.
+Furthermore, new concepts such as the RSI BAMM and the 5-0 pattern represent substantial
+improvements upon the initial foundation of this methodology.
+
+New Ideas in Harmonic Trading
+The strategies outlined in this book are entirely new concepts that build upon the prior material
+presented within the Harmonic Trading approach. Many new topics will be presented with
+particular emphasis on the Harmonic Impulse Waves, patterns within established trends, and
+
+Introduction
+
+3
+
+BAMM Theory. In particular, the entire RSI BAMM strategy will be outlined. I will present new
+patterns such as the 5-0, the Reciprocal AB=CD, and the Alternate Bat. Although Volume Two
+references many of the basic tenets of the Harmonic Trading approach, this material consists
+of mostly new ideas and trading strategies. The new patterns and expanded measurement
+techniques significantly advance the primary identification tools established within this
+approach. For example, the 5-0, the Alternate Bat, and the Reciprocal AB=CD are important
+new structures within the existing array of harmonic patterns. Furthermore, these new
+structures also comprise the basic framework of more advanced techniques. Hence, Volume
+Two represents a significant evolutionary step and an essential new direction that enhances the
+existing methodology immensely.
+The most significant concept presented in this book and the most profound advancement of
+the entire Harmonic Trading methodology is outlined in the RSI BAMM methodology. This new
+complex system incorporates a standard technical indicator—the Relative Strength Indicator
+(RSI)—with advanced Harmonic Trading measurement techniques. The RSI BAMM employs
+precise ratio measurements and exact structural pattern specification to identify critical
+technical price levels. All of the material in Volume Two—especially the RSI BAMM—offers
+unprecedented strategies that identify the areas where overall trend divergence and harmonic
+pattern completions define the most critical technical levels. In addition, the new ideas
+presented in this material advance the basic theory of price pattern recognition by requiring
+other technical conditions to exist to validate potential opportunities with improved accuracy.
+Specifically, the advancement of the RSI BAMM separates the minor reactive moves from the
+more substantial trading opportunities and provides extensive technical information regarding
+the future potential direction of the price action. Although this material will take some time to
+digest, I believe these advanced concepts dramatically enhance the entire Harmonic Trading
+system, furthering its efficacy in pinpointing the best trading opportunities.
+
+Technical Entities Continued…
+In Harmonic Trading: Volume One, I discussed the importance of specific pattern alignments as
+defined “technical entities.” It is important to note that the prescribed set of harmonic ratios that
+define these structural entities has been differentiated, analyzed, and refined to develop
+pattern-specific strategies for each situation. Although I covered it extensively in Volume One,
+it is important to remember that “The Great Gartley Controversy” emphasized the necessity
+of pattern differentiation and underscored the essential argument that not all patterns (Gartleys)
+are the same. New “technical entities” in the form of unprecedented harmonic price patterns
+outlined in this book, such as the 5-0, the Alternate Bat, and the Reciprocal AB=CD, further
+the basic identification strategies of M-type and W-type price structures. These new patterns
+adhere to the primary principle of defining specific technical situations based upon their
+respective ratio alignments. Clearly, the material presented in Volume Two furthers the
+specification of the Harmonic Trading methodology by offering a new level of strategic analysis.
+The improved measuring techniques enhance the precision and the overall accuracy of this
+approach in its ability to define the most critical turning points in the financial markets.
+
+4
+
+Harmonic Trading: Volume Two
+
+Harmonic Trading: Volume One was a major advancement of the principles of the primary
+pattern identification theory. The addition of unprecedented measurement techniques such as
+new harmonic ratios, new patterns, and other comprehensive strategies, expanded the existing
+array of effective trading tools and substantially bolstered the overall Harmonic Trading
+discipline. Volume One presented a step-by-step approach with effective strategies for the
+entire trading process. From initial identification to trade execution to money management, a
+comprehensive plan was presented with each aspect thoroughly considered. In this regard, I
+have been pleased that this material provides a solid decision-making framework of probable
+answers for all possible questions that might arise during the trading process. From pattern
+identification to the eventual execution of a trade, all possible actions have been outlined to
+facilitate decisions, especially when unexpected real-time considerations can affect the
+outcome.
+The material in The Harmonic Trader and Harmonic Trading: Volume One effectively defined
+this system. However, through the years, I have continually strived to improve the Harmonic
+Trading approach and build upon this foundation. Hence, I present Volume Two. It is important
+to note that the material within this book takes Harmonic Trading into new territory. Most of the
+ideas outlined in Harmonic Trading: Volume Two are unprecedented, and they have not been
+released previously in any other material. Volume Two advances the comprehensive
+methodology of pattern identification presented in Volume One to incorporate new technical
+measures that refine and filter the best trading opportunities. Advanced techniques, such as
+the RSI BAMM, represent my most sophisticated trading techniques to date. It is my desire to
+distinguish Harmonic Trading as a serious discipline within the field of Technical Analysis. Such
+distinction has become increasingly important to me in recent years, as certain individuals have
+attempted to capitalize on the burgeoning popularity of Fibonacci-related trading strategies,
+while tarnishing the inherent principles of Harmonic Trading.
+
+Imitators and Agitators
+I am compelled to discuss the importance of ethical and accurate reference information
+regarding these techniques and for that matter, much of the educational material regarding
+trading the financial markets available today. I have been disappointed with the misinformation
+and blatant misuse of the concepts first espoused within the Harmonic Trading approach. I’m
+willing to accept this risk in exchange for the advancement of trading knowledge and for the
+positive contribution to help others in search of the answers to the financial markets.
+When I first began discussing Harmonic Trading on various websites in the 1990s, I was
+admittedly naive. I openly shared strategies that advanced the basic Fibonacci trading mantra
+of that era. It was my desire to share with others in the hope that they would provide feedback
+ultimately furthering this discipline. Although I received a fantastic response from an
+overwhelming number of traders, I realized that other Fibonacci-related “educators” were
+picking up on the ideas, as well. I welcomed their response and actively sought to “talk shop”
+with these traders. Unfortunately, I quickly learned that most of these so-called educators were
+
+Introduction
+
+5
+
+just teaching basic and somewhat vague Fibonacci strategies. These people promoted their
+products by making absurd and controversial statements of phenomenal success. In fact, most
+of these outfits were only in the business of selling products and not really trading. In some
+instances, certain research of mine was presented as their own. I realized that I needed to
+exercise greater discretion and to strive to establish Harmonic Trading as a distinct
+methodology apart from basic Fibonacci analysis.
+Harmonic Trading is a distinct approach to the financial markets within the field of Technical
+Analysis. The main problem relates more to the misinformation or blatant manipulation of the
+intrigue and mystery that anything related to Fibonacci ratios inherently possesses. With the
+recent popularity of books such as The Da Vinci Code, the subject of mystical conspiracy-type
+stories that possess a secret order based upon the “golden proportions” of divine numbers has
+opened a Pandora’s box of P. T. Barnums in the investment industry. Their ability to flourish and
+to attract the general public’s attention proves that the inherent curiosity regarding this subject
+matter can be an easy sell. It seems apparent that harmonic-related trading strategies have
+become an increasingly popular marketing slogan. Again, I must emphasize that the entire
+“harmonic concept” of pattern recognition based upon exact Fibonacci ratio alignments did not
+exist until The Harmonic Trader was released in the late 1990s. In addition, the entire subject of
+Fibonacci was a minor niche within the field of Technical Analysis. Harmonic Trading techniques
+have impacted the technical community and contributed to this recent popularity while others
+have jumped on the coattails of this approach.
+For me, the degree of misinformation spewed to the public with catch phrases such as
+“market-harmonics, trading in harmony, harmonic secrets” have lumped a great deal of lessthan-credible information with the strategies that truly work. It is important for me to take a little
+time to show some of the troublesome examples that have been offered to the public. I strongly
+urge people to be cautious regarding outrageous claims of the effectiveness of any system that
+will make “quick riches” in the financial market, whether it is Fibonacci ratios or fundamentals.
+The problem with such claims, especially when the subject of Fibonacci is involved, is that
+it is simply exploited for its marketing value. In this business, marketing is the key to selling
+your financial products, as I have unfortunately realized. Unlike many of the financial product
+vendors, I am not dependent on book sales to make my living. I do this because I am
+passionate about trading the financial markets and the strategies that unlock its secrets.
+I strongly recommend that you perform thorough due diligence before signing up for
+seminars, purchasing software, or spending substantial money for educational products and
+services that make outlandish claims. Believe me, Harmonic Trading possesses some of the
+most effective trading strategies available, but success still depends upon diligent and
+dedicated work to turn patterns into profits.

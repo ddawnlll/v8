@@ -358,7 +358,7 @@ class Lab:
                 # (NOT_EXECUTED) like the other rejections below.
                 vetoed, veto_reason = tradability_mask_veto(
                     bar.payload, state.quality, bar.available_time,
-                    max_spread_frac=manifest.max_spread_frac,
+                    max_bar_range_frac=manifest.max_bar_range_frac,
                     funding_window_bars=manifest.funding_window_bars,
                     funding_hours=manifest.funding_hours,
                     interval_ns=interval_ns)

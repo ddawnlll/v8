@@ -1,0 +1,503 @@
+Technical
+Analysis
+Explained
+
+The Successful Investor’s Guide
+to Spotting Investment Trends
+and Turning Points
+
+Fourth Edition
+
+Martin J. Pring
+
+McGraw-Hill
+
+New York Chicago San Francisco
+
+Lisbon London Madrid Mexico City Milan
+New Delhi San Juan Seoul Singapore
+Sydney Toronto
+
+
+
+Library of Congress Cataloging-in-Publication Data
+
+Pring, Martin J.
+Technical analysis explained / the successful investor's guide to spotting
+investment trends and turning points / by Martin Pring. —4th ed.
+pcm.
+ISBN 0-07-138193-7
+1, Investment analysis. J. Tide
+
+HG4529 .P75 2002
+332.63'22—dc21 2001044981
+
+McGraw-Hill $2
+
+A Division of The McGraw-Hill Companies
+
+Copyright ©2002 by McGraw-Hill. All rights reserved. Printed in the United States
+of America. Except as permitted under the United States Copyright Act of 1976, no
+part of this publication may be reproduced or distributed in any form or by any
+means, or stored in a data base or retrieval system, without the prior written per-
+mission of the publisher.
+
+67890 DOC/DOC 0876
+ISBN: 0-07-138193-7
+
+The sponsoring editor for this book was Stephen Isaacs and the production super-
+visor was Clare Stanley. It was set in New Baskerville by MacAllister Publishing
+Services, LLC.
+
+Printed and bound by R. R. Donnelley & Sons Company.
+
+This publication is designed to provide accurate and authoritative information in
+
+regard to the subject matter covered. It is sold with the understanding that neither
+
+the author nor the publisher is engaged in rendering legal, accounting, or other
+
+professional service. If legal advice or other expert assistance is required, the ser-
+vices of a competent professional person should be sought.
+
+—From a Declaration of Principles jointly adopted
+
+by a Committee of the American Bar
+
+Association and a Committee of Publishers
+
+McGraw-Hill books are available at special quantity discounts to use as premiums
+and sales promotions, or for use in corporate training programs. For more infor-
+mation, please write to the Director of Special Sales, Professional Publishing,
+McGraw-Hill, Two Penn Plaza, New York, NY 10121-2298. Or contact your local
+bookstore.
+
+This book is printed on recycled, acid-free paper containing a minimum of
+50% recycled de-inked fiber.
+
+To my son, Thomas William Pring
+
+
+
+Contents
+
+Preface
+Acknowledgments
+
+Introduction
+
+Part I. Trend-Determining Techniques
+1 The Market Cycle Model
+
+a2,
+
+- 3.
+
+- 4.
+
+5.
+
+Financial Markets and the Business Cycle
+Dow Theory
+Typical Parameters for IntermediateTrends
+Price Patterns
+Smaller Price Patterns
+One- and Two-Bar Price Patterns
+Trendlines
+Moving Averages
+Momentum Principles
+
+Individual Momentum Indicators I
+
+13
+15
+26
+36
+50
+63
+98
+111
+136
+154
+179
+211
+
+
+
+vi Contents Contents ix
+
+_/12. Individual Momentum Indicators II 237 30. Technical Analysis of Global Stock Markets 564
+13. Candle Charts 257 31. Technical Analysis of Individual Stocks 574
+14. Point and Figure Charting 277 Epilogue ; 593
+15. Miscellaneous Techniques for Determining Appendix The Elliott Wave 595
+Trends 287 600
+Glossary
+16. The Concept of Relative Strength 304
+ad Bibliography 604
+17. Putting the Indicators Together: The DJ 609
+Transports 1990-2001 322 Index
+Part II. Market Structure 329 ee
+_ 18. Price: The Major Averages 331 B
+_~ 19. Price: Group Rotation 352 : :
+_- 20. Time: Longer-Term Cycles 364 i
+21. Practical Identification of Cycles 391 e
+i
+_7 22. Volume: General Principles 397 be
+_ 23. Volume Oscillators 409 i
+~ 24. Breadth 435 3
+Part Ill. Other Aspects of Market Behavior 461 i
+25. Why Interest Rates Affect the Stock Market 463
+_7 26. Sentiment Indicators 485
+27. Applying Technical Analysis to the Theory
+of Contrary Opinion 511
+28. Checkpoints for Identifying Primary Stock
+Market Peaks and Troughs 526
+29. Automated Trading Systems 539 - t
+
+
+
+= Preface
+
+There is no reason why anyone cannot make a substantial amount of money
+in the financial markets, but there are many reasons why many people will
+not. As with most ‘endeavors in life, the key to success is knowledge and
+action. This book has been written in an attempt to shed some light on the
+internal workings of the markets and to help expand the knowledge compo-
+nent, leaving the action to the patience, discipline, and objectivity of the indi-
+vidual investor.
+
+The mid- to late 1980s saw the expansion of investment and trading
+opportunities to a global e,in terms of both the cash and the futures
+markets. In the 1990s, isinovations in the communications industry enabled
+anyone to plot data on an intraday basis for relatively little cost. Today,
+numerous charting sites have sprung up on the Internet, so virtually any-
+one now has the ability to practice technical analysis. As a consequence of
+the technological revolution, time horizons have been greatly shortened. I
+am not sure that this is a good thing because short-term trends experience
+more random noise than longer-term ones. This means that the technical
+indicators are not as effective. The fourth edition of Technical Analysis
+Explained has been expanded and totally revised to keep abreast of many of
+these changes, and to include some technical innovations and evolvement
+in my own thinking since the publication of the third edition.
+
+Every chapter has been thoroughly reworked and expanded. In the inter-
+est of efficiency, some have been dropped and others substituted.
+Considerable attention continues to be focused on the U.S. equity market,
+but many of the marketplace examples feature international stock indexes,
+currencies, commodities, and precious metals. Special chapters also feature
+technical analysis of the credit markets and global equities. In most cases,
+the marketplace examples have been updated, but some older ones from
+
+
+
+xii Preface
+
+previous editions have been left in deliberately to give the book some his-
+torical perspective. These historical examples also underscore the point that
+nothing has really changed in the last 100 years. The same true and tried
+principles are as relevant today as they always were. I have no doubt what-
+soever that this will continue to be so in the future. ;
+
+Thus, technical analysis could be applied in New York in 1850, in Tokyo
+in 1950, and in Moscow in 2150. This is true because Price action in finan-
+cial markets is a reflection of human nature, and human nature remains
+more or less constant. Technical principles can also be applied to any freely
+traded entity in any time frame. A trend reversal signal on a 5-minute bar
+chart is based on the same indicators as one on a monthly chart; only the
+significance is different. Shorter time frames reflect shorter trends and are
+therefore less significant.
+
+Several new chapters, have been added in this edition. One of the areas
+I become more impresséd with the more I study it is the concept of one-
+and two-bar price reversals. They are also Felevant for intraday and swing
+traders. Consequently, a brand new chapter on this subject has been intro-
+duced in this edition. In view of their growing popularity, candlesticks, pre-
+viously relegated to an Appendix, now receive full treatment. A third
+chapter has been added to the momentum section so that material on the
+Directional Movement System, the Chande Momentum Oscillator, the
+Relative Momentum Index, and the parabolic (not a true momentum indi-
+cator, but valuable nonetheless) could be included. In addition, the expan-
+sion of the momentum section has left room for some of my own new ideas
+concerning momentum interpretation, such as extreme swings, mega-
+overboughts and mega-oversolds, and so on. The volume section also
+includes an additional chapter so that indicators such as the Demand Index
+and Chaikin Money Flow could be covered. Greater emphasis is also placed
+on volume momentum. The concept of relative strength is a very important
+and underappreciated arm of technical analysis. It too has been upgraded
+to full chapter status. Finally, a new chapter on applying technical analysis
+to contrary opinion theory expands our coverage of the psychological
+aspects of trading and investing. _
+
+Since the 1970s, the time horizon of virtually all market participants has °
+shrunk considerably. As a result, technical analysis has become very popular
+for implementing short-term timing strategies. This use may lead to great dis-
+appointment: In my experience, there is a rough correlation between the
+reliability of the technical indicators and the time span being monitored. This
+is why most of the discussion here has been oriented toward intermediate
+and long-term trends. Even short-term traders with a 1- to 3-week time hori-
+zon need to have some understanding of the direction and maturity of the
+main or primary trend. This is because mistakes are usually made by taking
+
+xiii
+Preface
+
+on positions that go against the direction of the main igaal a whipsaw is
+i elop, it will us arise from a contratren .
+OTe nuocental, ccohaieal szaly should be regarded as the art of assess
+ing the technical position of a particular security with the aid of seve : sce
+entifically researched indicators. Although many of the me | anistic
+techniques described in this book offer reliable indications of changing i‘
+ket conditions, all suffer from the common characteristic that they cans an
+often do, fail to operate satisfactorily. This attribute presents no probi mm ‘°
+the consciously disciplined investor or trader, since a good working x nowr
+edge of the principles underlying major price movements in financi: ar
+kets and a balanced view of the overall technical position offer a superi
+within which to operate. ;
+ine is after all, no substitute for independent thought. The action of
+the technical indicators illustrates the underlying characteristics of any mar
+ket, and it is up to the analyst to put the pieces of the jigsaw puzzle together
+rking hypothesis.
+nina cake tymo means easy, as initial success can lead to overconfidence
+and arrogance. Charles H. Dow, the father of technical analysis, once wrote
+words to the effect that “Pride of opinion caused the downfall of more men
+on Wall Street than all the other opinions put together.’ This is tne
+because markets are essentially a reflection of people in action. Now ly,
+such activity develops on a reasonably predictable path. Since people can
+—and do—change their minds, price trends in the market can deviate une
+pectedly from their anticipated course. To avoid serious trouble, inves ons
+and especially traders, must adjust their attitudes as changes in the tec!
+ition emerge. .
+sedition to pecuniary rewards, a study of the market can also reveas
+much about human nature, both from observing other people in action ani
+from the aspect of self-development. As investors react to the constant ae
+gle through which the market will undoubtedly put them, they will also am
+a little about their own makeup. Washington Irving might well have een
+referring to this challenge of the markets when he wrote, Little min: s ar
+taxed and subdued by misfortune but great minds rise above it.
+
+Martin J. Pring
+
+
+
+Acknowledgments
+
+This book has evolved over the last 20 years and has grown from a text of
+under 250 pages in the first edition to over 600 in the current one.
+
+The material for the fourth edition of this book has been gathered from
+a substantial number of sources, and I am deeply indebted to the many orga-
+nizations that have given their permission to reproduce charts and figures
+without which this book would not have been possible. Special thnks go to
+Tim Hayes and Ned Davis at Ned Davis research for providing many of the
+charts on sentiment and flow of funds indicators.
+
+Appreciation also goes to Danny Pring who came up with the title for the
+first edition of this book. It’s a great title and has followed it ever since.
+
+Thanks also to my colleagues at Pring Research including Jimmie Sigsway
+whose efficiency and dedication allowed my writing to progress in a serene
+atmosphere uninterrupted by the construction going on around us. Anyone
+who has experienced the rebuilding of a home/office complex will know
+what I mean. She is also a grat mother in law!
+
+Above all thanks go to my wife Lisa, who tirelessly reconstructed most of
+the charts and figures from my pathetic PowerPoint illustrations while
+simultaneously running a home, taking care of our son Thomas, maintain-
+ing our web site (pring.com) and managing a major house renovation.
+
+Introduction
+
+‘To investors willing to buy and hold common stocks for the long term, the
+stock market has offered excellent rewards over the years in terms of both
+dividend growth and capital appreciation. The market is even more chal-
+lenging, fulfilling, and rewarding to resourceful investors willing to learn
+the art of market timing through a study of technical analysis.
+
+The advantages of this approach over the buy-and-hold approach wers-,
+particularly marked between 1966 and 1982. The market made no headway
+at all, as measured by the Dow Jones Industrial Average (DJIA), in the 16
+years between 1966 and 1982. Yet there were some substantial price fluctu-
+ations. Although the DJIA failed to record a net advance between 1966 and
+1982, the period included five major advances totaling over 1500 Dow
+points. The potential rewards of market timing were therefore significant.
+
+A long-term investor fortunate enough to sell at the five tops in 1966,
+1968, 1973, 1979, and 1981 and to reinvest the monéy at the troughs of 1966,
+1970, 1974, 1980, and 1982 would have seen the total investment (exclud-
+ing transactions costs and capital gains tax) grow from a theoretical $1000
+(that is, $1 for every Dow point) in 1966 to over $10,000 by October 1983.
+In contrast, an investor following a buy-and-hold approach would have real-
+ized a mere $250 gain over the same period. Even during the spectacular
+rise that began in August 1982, technical analysis would have proved use-
+ful, since that period witnessed a considerable variation in performance
+
+tween different indust ‘oups. .
+a bull market, such as the one that occurred in the 1980s and 1990s, is a
+once-in-a-generation affair. In fact, it was a record in 200 years of recorded
+U.S. stock market history. This implies that the opening decade of the
+twenty-first century will be a more difficult and challenging period, and that
+market timing will prove to be of crucial importance.
+
+
+
+Technical Analysis Explained
+
+In practice, of course, it is impossible to buy and sell consistently at exact
+turning points, but the enormous potential of this approach still leaves
+plenty of room for error, even when commission costs and taxes are included
+in the calculation. The rewards for identifying major market junctures and
+taking the appropriate action can be substantial,
+
+Originally, technical analysis was applied principally in the equity market,
+but its popularity has gradually expanded to embrace commodities, debt
+instruments, currencies, and other international markets, In the days of the
+old market, participants had a fairly long time horizon, stretching over
+months or years. There have always been short-term traders and scalpers,
+but the technological revolution in communications has shortened the time
+horizon of just about everyone involved in markets. When holding periods
+are lengthy, it is possible to indulge in the luxury of fundamental analysis,
+but when time is short, timing is everything. In such an environment, tech-
+nical analysis really comes into its own.
+
+To be successful, the technical approach involves taking a position con-
+trary to the expectations of the crowd. This requires the patience, objectiv-
+ity, and discipline to acquire a financial asset at a time of depression and
+gloom, and liquidate it in an environment of euphoria and excessive opti-
+mism. The level of pessimism or optimism will depend on the turning point.
+Short-term peaks and troughs are associated with more moderate extremes
+in sentiment than longer-term ones. The aim of this book is to explain the
+technical characteristics to be expected at all of these market turning
+points, particularly major ones, and to help to assess them objectively.
+
+Technical Analysis Defined
+
+During the course of the book when itis time to emphasize a specific but
+important point, it will be highlighted in the following way:
+
+The technical approach to investment is essentially a reflection of the idea
+that prices move in trends that are determined by the changing attitudes of
+investors toward a variety of economic, monetary, political, and Psycholog-
+
+Introduction
+
+ical forces. The art of technical analysis, for it is an art, is to eb igen
+ranensel ot selon caxtpstagn and.rika ce thoteanendiamedl the male ofthe 4
+dence shows or proves that the trend has reversed. The evidence in Sores
+represented by the numerous scientifically derived indicators descril
+prt nature remains more or less constant and tends to react to a
+ilar situations in consistent ways. By studying the nature of ab nee
+turning points, it is possible to develop some characteristics tha| fret, i
+to identify market tops and bottoms. Therefore, technical analysis fang etrt
+the assumption that people will continue to make the same wierd, ponder
+in the past. Human relationships are extremely complex an uit Ps =
+in identical combinations. The markets, which are a reflection 0} hang’ ted
+action, never duplicate their performance exactly, but the pty tant ra
+ilar characteristics is sufficient to enable technicians to i si Jj aes
+points. Since no single indicator has signaled, or indeed we ? nad etd
+top or bottom, technical analysts have developed an arsenal of too!
+isolate these points.
+
+Three Branches of
+Technical Analysis
+
+i ii : sentiment,
+ical analysis can be broken down into three essential areas: sen!
+
+area nae and market structure indicators. Data and rina aa a
+: i ket. For other financial -
+three areas are available for the U.S. stock mar: saan
+kets, the statistics are more or less confined to the market eg presk uae
+tors. The major exceptions are futures markets based in the Uni g thet
+for which short-term sentiment data are available. The following 2 ent
+
+on sentiment and flow-of-funds indicators relate to the U.S. stock mar!
+
+Sentiment Indicators
+
+Sentiment or expectational indicators monitor the actions * rites ven
+ket participants, such as ae ran ee te pai < ae
+jalists. Just as the pendulum ofa cl y ‘
+
+peg A so the et a indexes (which monitor Las pr oat
+of investors) move from one extreme at a bear market bottom a mE
+at a bull market top. The assumption on which these indicators bya
+is that different groups of investors are consistent in their action: seme
+market turning points. For example, insiders (that is, key employ’
+
+
+
+4 Technical Analysis Explained
+
+major stockholders of a company) and New York Stock Exchange (NYSE)
+members as a group have a tendency to be correct at market turning points;
+in aggregate, their transactions are on the buy side toward market bottoms
+and on the sell side toward tops.
+
+Conversely, advisory services as a group are often wrong at market turn-
+ing points, since they consistently become bullish at market tops and bear-
+ish at market troughs. Indexes derived from such data show that certain
+readings have historically corresponded to market tops, while others have
+been associated with market bottoms. Since the consensus or majority opin-
+ion is normally wrong at market turning points, these indicators of market
+psychology are a useful basis from which to form a contrary opinion.
+
+Flow-of-Funds Indicators
+
+The area of technical analysis that involves what are loosely termed flow-of-
+funds indicators analyzes the financial position of various investor groups in
+an attempt to measure their potential capacity for buying or selling stocks.
+Since there has to be a purchase for each sale, the ex post, or actual dollar
+balance between supply and demand for stock, must always be equal. The
+price at which a stock transaction takes place has to be the same for the buyer
+and the seller, so naturally the amount of money flowing out of the market
+must equal that put in. The flow-of-funds approach is therefore concerned
+with the before-the-fact balance between supply and demand, known as the
+ex ante relationship. If at a given price there is a preponderance of buyers over
+sellers on an ex ante basis, it follows that the actual (ex post) price will have
+to rise to bring buyers and sellers into balance.
+
+Flow-of-funds analysis is concerned, for example, with trends in mutual
+fund cash positions and those of other major institutions, such as pension
+funds, insurance companies, foreign investors, bank trust accounts, and cus-
+tomers’ free balances, which are normally a source of cash on the buy side.
+On the supply side, flow-of-funds analysis is concerned with new equity offer-
+ings, secondary offerings, and margin debt.
+
+This money flow analysis also suffers from disadvantages. Although the
+data measure the availability of money for the stock market (for example,
+mutual fund cash position or pension fund cash flow), they give no indica-
+tion of the incltfidtion of market participants to use this money for the pur-
+chase of stocks, or of their elasticity or willingness to sell at a given price on
+the sell side. The data for the major institutions and foreign investors are
+not sufficiently detailed to be of much use, and in addition they are reported
+well after the fact. In spite of these drawbacks, flow-of-funds statistics may
+be used as background material.
+
+Introduction 5
+
+A superior approach to flow-of-funds analysis is derived from an exami-
+nation of liquidity trends in the banking system, which measures financial
+pressure not only on the stock market, but on the economy as well.
+
+Market Structure Indicators
+
+This area of technical analysis is the main concern of this book, embracing
+market structure or the character of the market indicators. These indicators mon-
+itor the trend of various price indexes, market breadt , cycles, volume, and
+so on in order to evaluate the health of the’ prevailing trend.
+
+Indicators that monitor the trend of a price include moving averages,
+peak-and-trough analysis, price patterns, and trendlines. Such techniques
+can also be applied to the sentiment and flow-of-funds indicators discussed
+previously. This is because these indicators also move in trends. When the
+trend of psychology, as reflected in these series, reverses, prices are also likely
+to change direction.
+
+Most of the time, price and internal measures, such as market breadth,
+momentum, and volume, rise and fall together, but toward the end of mar-
+ket movements, the paths of many of these indicators diverge from the
+price. Such divergences offer signs of technical deterioration during
+advances, and technical strength following declines. Through judicious
+observation of these signs of latent strength and weakness, technically ori-
+ented investors are alerted to the possibility of a reversal in the trend of
+the market itself. —

@@ -1,0 +1,531 @@
+average correlation calculated in Table 8.1 from a different sample from 1 January
+2007 to 31 March 2007 was r = 0.788 (in bold) which is pretty close to the average
+in the chart in Fig. 8.2. In addition to the short-term variations mentioned above,
+
+Figure 8.2 Intraday (15 minute) composite chart of the S&P e-mini (ESZ7), plotted with a
+thick bold line and the Euro Stoxx 50 (FESXZ7) December 2007 contracts from 18 September
+2007 to 18 October 2007. The 10-day moving average of the correlation of the 30-minute
+changes is plotted in the top window.
+
+116
+
+Intermarket Trading Strategies
+
+the correlation can also digress from the mean during long time periods, caused by
+temporary decoupling of the underlying equity indices which is usually caused by a
+component stock specific problem not present in the other index.
+
+8.4
+
+LAGGING OR LEADING?
+
+In practice, the main purpose of a predictive model is not to get the maximum
+explanatory value from a contemporaneous correlation analysis but to find a predictive
+market that shows changes and disparities between forecasted and observed values,
+warning of dangers and opportunities well ahead of time. In this context, we want
+the observed values to diverge from the statistically predicted values at times. This
+can only be accomplished by a leading/lagging correlation analysis which is simply
+a list of the correlations between values of a time series and other values of a related
+time series displaced at specified time intervals (lags).
+Some problems arise in running a correlation analysis between US and European
+index futures, mainly because of the different time zones and trading hours. To deal
+with the time zone problem I had to convert all time zones to Central European time
+(CET) and in order to avoid division by zero errors in the correlation calculation
+(when one of the contracts was not trading), I deleted all US futures data when the
+European futures were closed (from 22:00 to 7:50 CET).
+Although European index futures trade long after the underlying equity markets
+have closed, after 17:30 CET (when the European equity exchanges close) they move
+only on news from the other side of the Atlantic.
+To deal with this problem and examine the effect of the US equity markets on
+European futures after the underlying main equity exchanges have closed or vice
+versa, I have divided the data into five separate groups according to the time of day.
+In the first group I have included only data until 14:30 CET (8:30 US EST). This is
+the time when European stock action and news are prevailing before the release of
+any important US economic news.
+The second time segment was until US market open (15:30 CET or 9:30 US EST).
+The third group included only data until 17:30 CET (10:30 US EST) which is the
+closing time of most European stock exchanges. In the fourth group I have included
+all available data from 8:00 to 22:00 CET and, lastly, in the fifth group I have
+included only data after 15:30 CET (9:30 US EST). This is the time segment when
+the prevailing news that drives the markets originates mostly from the United States.
+In addition, in order to determine which one was leading or lagging, the S&P
+e-mini was shifted both forward and backward in time.
+Table 8.2 presents the leading, lagging and synchronous (coincident) correlations
+of 30-minute yields during the different time segments of the trading day between the
+S&P e-mini and Euro Stoxx futures, the DOW e-mini and the DAX, and in Table 8.3
+you can see the intraday variability of the correlation between DAX and Euro Stoxx
+futures.
+
+Intraday Correlations
+
+117
+
+Table 8.2 Intraday correlation of 30-minute intraday yields (percentage changes) between
+S&P 500 e-mini futures, the Euro Stoxx, the DAX and DOW e-mini futures for specific time
+of day segments. Column 3 shows only data until 14:30 CET (Central European time) or 8:30
+US EST, Column 4 shows only data until US market open (9:30 US EST), Column 5 shows
+only data until European close (17:30 CET) and Column 6 shows only data after US market
+open (9:30 US EST). The S&P data were shifted forward and back in time in order to
+calculate lagging and leading correlations.
+TIME (CET)
+30 min
+yields
+
+lead/lag
+
+<14:30
+
+<15:30
+US open
+
+<17:30
+EUR close
+
+08:00–22:00
+All day
+
+>15:30
+
+ESTX
+ESTX
+ESTX
+YM
+YM
+YM
+DAX
+DAX
+DAX
+
+synchronous
+lagging
+leading
+synchronous
+lagging
+leading
+synchronous
+lagging
+leading
+
+0.811
+0.663
+0.668
+0.606
+0.512
+0.485
+0.818
+0.676
+0.668
+
+0.795
+0.65
+0.655
+0.596
+0.503
+0.483
+0.797
+0.658
+0.654
+
+0.781
+0.632
+0.634
+0.680
+0.569
+0.558
+0.776
+0.635
+0.63
+
+0.788
+0.652
+0.649
+0.690
+0.583
+0.571
+0.774
+0.644
+0.64
+
+0.815
+0.676
+0.665
+0.735
+0.615
+0.609
+0.798
+0.663
+0.655
+
+The following conclusions were drawn from the leading, lagging and synchronous
+time segmented correlations in Tables 8.2 and 8.3:
+• The best synchronous correlation was between S&P e-mini and Euro Stoxx futures
+(r = 0.788 in bold in the Column-5 of Table 8.2 and r = 0.815 after 15:30 CET).
+The Euro stoxx was slightly leading the e-mini up to 15:30 CET but the lead
+Table 8.3 Intraday correlation of 30-minute intraday yields (percentage changes) between
+the Euro Stoxx and DAX futures for specific time of day segments. In the first row only data
+until US market open (15:30 CET) were used, in the second row only data until European
+market close (17:30 CET) were used, and in the fourth row only data after US market open
+(9:30 US EST) were used. In order to calculate lagging and leading correlation the Euro
+Stoxx data were shifted forward and back in time.
+DAX
+
+<15:30
+<17:30
+10:00–22:00
+>15:30
+
+Time of day CET
+
+synchronous
+
+lagging
+
+leading
+
+Before US open
+Before EUR close
+All day
+After US open
+
+0.857
+0.883
+0.897
+0.948
+
+0.696
+0.716
+0.740
+0.789
+
+0.687
+0.707
+0.731
+0.781
+
+118
+
+Intermarket Trading Strategies
+
+Figure 8.3 Intraday (5 minute) composite chart of the S&P e-mini (thick bold line) and
+Euro Stoxx 50 (thin line with the scale on the right Y-axis) contracts from 18–20 December
+2007. The 5 bar moving average of the correlation of the 30-minute changes between the S&P
+e-mini and Euro Stoxx futures is also plotted in the top window. To illustrate the correlation
+variability during the trading day, vertical lines are drawn at the EUREX open (8:00 CET),
+at 14:30 CET (US pre-open), 17:30 CET (European equity close) and 22:00 CET (EUREX
+futures close). Euro Stoxx futures trade in the EUREX from 8:00 am CET to 22:00 CET. To
+avoid division by zero errors in the correlation calculation when the Euro Stoxx doesn’t trade,
+non overlapping e-mini data (from 22:00 to 8:00 CET) were deleted.
+
+reversed dramatically to a considerable lag (r lagging = 0.676 vs. r leading =
+0.665) after the US market open. It is therefore better to avoid intermarket trading
+signals before 15:30 CET when designing an intermarket system to trade the Euro
+Stoxx based on its correlation with the S&P e-mini.
+• The DAX futures lagged both the Euro Stoxx futures (Table 8.3) and the S&P
+e-mini (Table 8.2) for all time frames; a slight lag up to European close deteriorated significantly after 17:30 CET (European close). As the DAX correlated
+significantly better with Euro Stoxx futures than with the e-mini, it is better to
+use this relationship in designing an intermarket system to trade DAX futures,
+at least until US market open. After 15:30 both European futures lagged the US
+futures; therefore replacing the Euro Stoxx with the e-mini might have a lead time
+advantage, despite the lower correlation.
+
+Intraday Correlations
+
+119
+
+• Surprisingly, the DOW e-mini, despite the underlying index sharing all of its
+component stocks with the S&P 500, did not correlate with the S&P e-mini as
+well as Euro Stoxx futures. In addition, the DOW lagged the S&P e-mini during
+all time segments. It is therefore preferable to trade the DOW e-mini based on its
+correlation with the S&P e-mini and not the other way around.
+The variability of the correlation during the trading day, presented in Table 8.2 in
+tabular form, can also be seen graphically in the chart in Fig. 8.3 where the correlation
+of 30-minute changes between the S&P e-mini and Euro Stoxx futures is plotted
+in the top window. For example, you can see that on 18 December 2007, the correlation
+rose to a maximum during the first time segment (before 14:30 CET) and then fell to
+an intraday low during the second and third time segments. It then rose again exactly
+to the level of the morning high during the end of the last time segment (after about
+22:00 CET).
+In designing intermarket systems to trade stock index futures, it is therefore better
+to use intermarket generated signals only when the underlying equity markets are
+closed and the leadership switches to related markets that are still open.
+
+9
+Intermarket Indicators
+
+I’m a great believer in luck, and I find the harder I work, the more I have of it.
+–Thomas Jefferson
+Classic technical analysis indicators, such as moving averages, only indicate the
+possible likelihood of the continuation of the current trend and they are certainly no
+guarantee of future direction, which can reverse on a dime.
+The indicators presented in this chapter, unlike moving averages, will help you
+judge the direction of tomorrow’s price, and possible trend reversals using intermarket
+correlations.
+
+9.1
+
+RELATIVE STRENGTH
+
+Relative strength (RS) is a popular indicator which compares one security with
+another or with a benchmark index, for example a specific US stock with the S&P
+500.
+Relative strength in the stock market was popularized in the 1980s by William
+O’Niel in his classic How to Make Money in Stocks. O’Niel is also the founder of
+R
+100 stock list featuring
+Investor’s Business Daily, where he publishes the IBD
+companies that show superior earnings and strong price performance relative to the
+market average.
+The relative strength is calculated by dividing the price of one security by the
+benchmark. The ratio is further smoothed by a moving average in order to eliminate
+the effect of erratic price movements or “noise” from daily price fluctuations.
+When this ratio is rising, the numerator is outperforming the denominator and vice
+versa.
+In Fig. 9.1 I use the ratio between the Gold ETF (GLD) and the dollar index
+(DXY). To remove daily noise the ratio is smoothed by its 3-day exponential moving
+
+Intermarket Indicators
+
+123
+
+sell signals triggered by the oscillator crossing its 4-day moving average from below
+on oversold (less than 50) levels and crossing its moving average from above on
+overbought (over 80) levels respectively.
+The relative strength between a stock and the appropriate index can also be used to
+evaluate one’s stock portfolio. If the relative strength drops below its moving average
+while the price of the security is still rising, then it is time to consider heading for the
+exit while the stock is still strong.
+This tactic can be combined with a moving average strategy to help you get out at
+a better price than if you were using a moving average of the price alone.
+
+9.2
+
+BOLLINGER BAND DIVERGENCE
+
+This indicator was first introduced in my article “Detecting Breakouts” in Technical
+Analysis of STOCKS & COMMODITIES (see Bibliography) in order to calculate
+the divergence between price and money flow. It can also be used to calculate the
+divergence between a security and a related market. First the relative position of
+both securities in the Bollinger Bands is calculated and the divergence is derived by
+subtracting the relative position of the intermarket security from the base security.
+Indicator values vary from −100 to +100, values less than zero indicate negative
+divergence and over zero positive divergence. Buy signals are generated when the
+indicator reaches a peak above a certain level (usually 10 to 30) and subsequently
+declines. Similarly, sell signals are triggered when the indicator reaches a bottom
+below a certain level (usually −10 to −30) and rises.
+The formula for the relative position of a security in the Bollinger Bands is derived
+as follows:
+SEC1BOL=(C-BollingerBBottom)/(BollingerBTop-BollingerBBottom)
+but BollingerBandBottom=MA−2SD
+
+(9.1)
+(9.2)
+
+and BollingerBandTop=MA+2SD.
+
+(9.3)
+
+Substituting from (9.2) and (9.3) in (9.1) we get
+SEC1BOL=(C-MA+2SD)/4SD.
+
+(9.4)
+
+The formula above will produce the relative position of a security in the Bollinger
+Bands. Values of 1 indicate that it has reached the top band and values of zero indicate
+that it has reached the bottom band. To eliminate negative values (when price falls
+below the bottom band) the final value is increased by one and the formula becomes:
+SEC1BOL=1+(C-MA+2SD)/4SD
+
+(9.5)
+
+124
+
+Intermarket Trading Strategies
+
+The divergence is then calculated by taking the 3-day exponential moving average
+percentage difference between the relative position of the related intermarket security
+and the security to be traded as follows:
+DIVERGENCE=EMA(3)[(SEC2BOL−SEC1BOL)/SEC1BOL ∗ 100]
+
+(9.6)
+
+where SEC1BOL=Relative position of the base security in the Bollinger
+Bands; SEC2BOL=Relative position of the intermarket security in the Bollinger
+Bands; MA=Moving average; SD=Standard deviation; EMA=Exponential Moving
+Average.
+There are some limitations with the underlying Bollinger Band theory that should
+be understood before applying it to trading:
+• The formula involves the calculation of the standard deviation which makes the assumption of normality and it is therefore subject to error when the price distribution
+deviates significantly from normality.
+• Because of scaling factors the formula doesn’t work so well with negatively correlated markets.
+You can find the MetaStock code for all intermarket indicators in Appendix A. There
+are two ways of entering data for the intermarket security (SEC2). The first method
+(used in the relative strength indicator) is by referencing the symbol and folder in the
+first line of the code. For example in the line
+SEC2:=Security(“C:\MetastockData\INTERMARKET\DXY0”,C);
+C:\Metastock Data\INTERMARKET is the folder in my hard drive where historical
+data for the dollar index is located; DXY0 is the symbol for the Dollar Index; and C
+indicates that I want to reference only the closing price.
+An alternative method (used in the case of the Bollinger Band divergence indicator)
+is to drag and drop the indicator on the dollar index chart until it changes color to pink
+(the dollar index and not the indicator). This method cannot be used, however, when
+back-testing an indicator. An advantage of using the first method is that there is no
+need to have a chart of the intermarket security plotted in order to use the indicator.
+Tradestation users can only use the second method and a chart of the intermarket
+security should be always plotted together with the base security.
+
+9.3
+
+INTERMARKET DISPARITY
+
+The disparity index was first introduced by Steve Nison in his book Beyond Candlesticks: New Japanese Charting Techniques Revealed (see Bibliography) and it has
+since been incorporated in the majority of popular technical analysis software.
+
+122
+
+Intermarket Trading Strategies
+
+Figure 9.1 Composite chart of the Gold ETF (GLD) and the dollar index (DXY) for the
+2-year period from July 2005 to July 2007. The 3-day moving average of the gold/dollar
+relative strength is depicted in the middle window and the 2000-day intermarket momentum
+oscillator (see Section 9.6) in the top window. Up and down arrows indicate sell and buy
+signals triggered by the oscillator crossing its 4-day moving average at overbought (over 80)
+and oversold (less than 50) levels respectively.
+
+average (EMA). This is plotted in the middle window and, to avoid confusing it
+with Wilder’s Relative Strength Index, I called it Intermarket Relative Strength.
+Classic technical analysis trendlines can be drawn by joining tops or bottoms. On
+27 March 2006 the gold/dollar ratio broke the trendline drawn over the three previous
+peaks (the first, shorter trendline on the left of the chart in Fig. 9.1) and the price of
+the gold ETF surged 27 % from 55.7 to 71.1. Similarly, on 27 October 2006 the ratio
+broke its 5-month down trendline (second trendline in the middle) which indicated a
+trend reversal for gold.
+The relative strength, however, cannot keep rising indefinitely, flagrantly violating
+long-term relationships. To determine overbought and oversold levels, I normalize it
+on a scale from 1 to 100 using the intermarket momentum oscillator (the formula is
+included in Section 9.6 below).
+Values over a specific value (e.g. 80) indicate overbought levels and below another
+lower value (e.g. 50) oversold levels. In Fig. 9.1, I marked some possible buy and
+
+Intermarket Indicators
+
+125
+
+Figure 9.2 Composite chart of the gold (GLD) and silver (SLV) ETF. The 20-day intermarket
+Bollinger Band divergence indicator is depicted in the top window. Horizontal lines are drawn
+at the 15, 0 and −15 % divergence levels. Up arrows indicate buy signals triggered by Bollinger
+Band divergence peaks above the 15 % divergence level. Similarly, down arrows indicate sell
+signals triggered by Bollinger Band divergence troughs but only below the −15 % negative
+divergence level.
+
+It is defined as the percentage difference or “disparity” of the latest close to a
+chosen moving average, and the formula is:
+((Close − MA(Close, 30))/MA(Close, 30))∗ 100.
+To calculate the intermarket disparity I subtract the disparity index of the base
+security from the disparity index of the intermarket security according to the following
+formula:
+DS1=(SEC1-MA(SEC1))/MA(SEC1)∗ 100
+DS2=(SEC2-MA(SEC2))/MA(SEC2)∗ 100
+Intermarket Disparity (ID)=c∗ DS2-DS1
+
+(9.7)
+(9.8)
+
+where SEC1 = the base security (the security that you want to predict); SEC2 =
+the intermarket security. c has been introduced to take into account the sign of the
+correlation coefficient and can be either +1 in cases of positive correlation between
+
+126
+
+Intermarket Trading Strategies
+
+Figure 9.3 Composite chart of the gold ETF (GLD) and the dollar index (DXY). The 30-day
+intermarket disparity indicator is depicted in the top window. Buy signals are triggered by the
+intermarket disparity reaching a top and turning down on 3 % or greater positive divergence.
+Similarly sell signals are generated by the intermarket disparity reaching a bottom and turning
+up but only for divergence values below −3 % (negative divergence).
+
+SEC1 and SEC2 or −1 in case of negatively correlated markets (like gold and the
+dollar index).
+The interpretation is similar to the Bollinger Band indicator. Positive and negative
+values indicate positive and negative divergence respectively. A sell signal is generated when the divergence reaches a bottom and reverses below a certain negative
+level and a buy signal is generated when the indicator reaches a top and falls above a
+certain positive level. Unlike the Intermarket momentum oscillator (see Section 9.6
+below), there are no upper or lower limits as these vary according to the securities
+being compared and their correlation.
+A similar method was used by Murray Ruggiero in his book Cybernetic Trading
+Strategies (see Bibliography) to develop the mechanical trading signals based on
+intermarket divergence.
+The difference between the two methods is that Ruggiero considers buy signals between positively correlated markets only when DS1<0 and DS2>0 and sell
+signals only when DS1>0 and DS2<0 whereas the intermarket disparity indicator
+(ID) described above calculates the divergence precisely. It can issue buy signals when
+DS2-DS1 rises above a certain level even when both securities are above their moving
+
+Intermarket Indicators
+
+127
+
+average (both DS1 and DS2 are positive), which usually occurs when the disparity of
+the intermarket security (DS2) is considerably higher than DS1. Similarly Ruggiero’s
+method issues buy signals between negatively correlated markets only when DS1<0
+and DS2<0 and sell signals when DS1>0 and DS2>0 whereas the ID indicator can
+issue buy signals even when both DS1 and DS2 are negative, which occurs only when
+the disparity of the intermarket security (DS2) is considerably lower than DS1.
+
+9.4
+
+INTERMARKET LRS DIVERGENCE
+
+This indicator was first introduced in my article “Volume Flow Performance” in
+Technical Analysis of STOCKS & COMMODITIES (see Bibliography) in order to
+calculate the divergence money flow divergence between price and the volume flow
+indicator.
+
+Figure 9.4 Composite chart of the gold ETF (GLD) and the CRB Index (CRB). The 15-day
+intermarket divergence LRS indicator is depicted in the top window. Buy signals are triggered
+by the intermarket LRS divergence reaching a top and turning down on positive divergence
+levels of 15 or greater. Similarly, sell signals are generated by the intermarket LRS divergence
+reaching a bottom and turning up, but only for divergence values below the −30 level (negative
+divergence).
+
+128
+
+Intermarket Trading Strategies
+
+It can also be used (with some modifications) to calculate the divergence of a
+security from its related intermarket. First the linear regression slope of both securities
+is calculated and the intermarket slope is then adjusted to take into account the
+difference in volatilities between the two securities. The divergence is then derived
+by subtracting the base security slope from the intermarket. Values below zero indicate
+negative divergence and values over the zero line positive divergence. Buy signals are
+generated when the indicator reaches a peak above a certain level (usually between
+10 and 40) and subsequently declines. Similarly, sell signals are triggered when the
+indicator reaches a bottom below a certain level (usually from −10 to −40) and rises.
+Divergence levels vary according to the intermarket securities chosen for comparison.
+
+9.5
+
+INTERMARKET REGRESSION DIVERGENCE
+
+The linear regression equation, derived in Chapter 3, is used to make a prediction of
+likely values of the dependent variable or the security to be predicted (gold in our
+examples), based on values of a correlated market. This method can only be used
+with price differences or yields as raw prices violate the two basic assumptions of
+regression: linearity and normality.
+The regression line usually crosses through the origin and can be therefore ignored
+so the regression equation is reduced to:
+Y(Pred)=r∗ StDev(Y)/StDev(X)∗ X
+
+(9.9)
+
+where r=Pearson’s correlation between the related markets; Y=percentage yield
+of the security to be predicted (actual); Y(Pred)=predicted percentage yield;
+X=percentage yield of the intermarket security; StDev=standard deviation;
+and the divergence is Y(Pred)−Y(actual).
+
+(9.10)
+
+Where a scatterplot reveals that the regression line does not cross the origin then
+we can add the Y-Intercept from formula (3.3) in Chapter 3 to formula (9.9) which
+becomes:
+Y(Pred) = r∗ StDev(Y)/StDev(X)∗ X+MA(Y)-MA(X)∗ r∗ StDev(Y)/StDev(X).
+(9.11)

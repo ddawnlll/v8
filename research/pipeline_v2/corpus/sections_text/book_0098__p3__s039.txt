@@ -1,0 +1,543 @@
+
+A Simple Technique Combining
+an Oscillator with an MA
+
+A technique that enables investors to take advantage of both trending and
+trading range markets is to combine an MA and an oscillator in such a way
+that buy signals are triggered when the oscillator has fallen to a predeter-
+
+
+
+550 Part Ill: Other Aspects of Market Behavior
+
+mined oversold level and the price itself subsequently crosses above an MA,
+The position is liquidated if the price crosses below the MA. On the other
+hand, if the oscillator crosses to an overbought level prior to an MA
+crossover, part of the position will be sold in recognition of the possibility
+that the market might be experiencing a trading range. The other part of
+the position will continue to ride until an MA sell signal is triggered.
+
+This approach will make it possible to capitalize on the potential of a
+trending market, but some profits will be taken in case subsequent market
+action turns out to be part of a volatile trading range.
+
+Recognizing that oscillators often diverge at important market turning
+points, an alternative might be to wait for the oscillator to move to an
+extreme for a second time before buying on an MA crossover. The same
+rules as previously described would be used for selling.
+
+Marketplace Example
+
+Now it is time to take an actual example of a system by combining these two
+techniques. The security I chose is a continuous contract for U.S. T-bonds,
+an MA, and a price oscillator, as shown in Chart 29-3. A price oscillator is
+calculated by dividing a short-term MA by a longer-term one. In this case, I
+used a one-period MA, that is, the close as the shorter average and the 10-
+day simple MA as the longer-term one. The 10-day average is plotted in the
+upper panel with the oscillator underneath.
+
+Chart 29-3 shows the way the system works. It is really very simple: Buy when
+the price crosses above a MA (as it does in late July at point A). Then sell either
+when it crosses below the average or when the price oscillator reaches a spe-
+cific predetermined level. The oscillator reaches the designated overbought
+level a few days later (B). In this case, I selected the + and —2 percent. This
+means the overbought and oversold lines are the equivalent of the price being
+2 percent above and below the 10-day MA. Then, in early August, the price
+crosses below the average and this initiates a short signal (C). The position is
+covered at the end of the month fairly close to the actual low as the oscilla-
+tor touches its oversold zone (D). The next buy signal comes on a MA
+crossover in early September (£). The oscillator never has a chance to move
+to the +2% level because the MA crossover comes first. The next short sig-
+nal is a whipsaw, followed by the final buy that resulted in a small profit (F)-
+
+I optimized (optimization is the systematic search for the best indicator
+formula) this system by using one variable for the MA and the oscillator, and
+another for each of the overbought and oversold conditions. The best oveT™
+all returns were given by the 26/2/—4 combination, as you can see in Table
+29-2. This was not the one I finally chose, because I like to see identical lew
+els for the overbought and oversold triggering points. The rationale for this
+
+Automated Trading Systems 551
+
+Chart 29-3 Treasury bonds and a 1/10 price oscillator. (From Martin Pring, Breaking the
+Black Box, McGraw-Hill, New York, 2002.)
+
+116-4
+tad Treasury bonds continuous B c
+4124
+1104 ue a ~
+1095 MW. s wv
+907 4 y
+106 4 F
+108 4 whi
+ri i ipsaw
+IMO Pee HONK te DB
+A eee eee ne eee Nee ee ee = --
+“40 [i7_ ba p 8 D5 —2 ps[S 2 fio pe Pe we os
+Faly August September [October
+Table 29-2 Treasury Bonds
+U.S. Treasury Bonds 200003 Continuous
+Profit Percent Total Win Lost Average OP1 OP2 OP3
+6039 160.39 387 126 261 2.6001 26 2 -4.
+5680 156.80 388 137 251 2.2558 26 2 2
+5573, 155.73 365 131 234 2.2056 28 2 -2
+5362 153.62 425 133 292 2.7005 24 2 4
+4968 149.68 426 145 281 2.3202 24 2 -2
+4452 144,52 365 119 246 2.6470 28 5 -2
+4389 143.89 365 119 246 2.6598 28 6 -2
+3052 130.52 387 127 260 2.4372 26 2 -3
+2980 129.80 353 110 243 2.7424 30 5 -2
+2833 128.33 365 118 246 2.4860 28 2 -3
+
+arises from the fact that oscillator sensitivity to overbought and oversold con-
+ditions depends on the direction of the primary trend. In a bull market,
+oscillators move to higher overbought levels and rallies are generated from
+moderate oversold levels. If you know you are in a bull market, you could
+skew the triggering points to the upside, and vice versa. Unfortunately, we
+never learn that the primary trend has reversed until sometime later. Also,
+if we go with numbers skewed to a bull market environment, the system is
+definitely going to be under pressure when a bear market begins. It makes
+sense to evenly balance the overboughts and oversolds. That is why I chose
+
+
+
+552 Part Il: Other Aspects of Market Behavior
+
+the 28/2/~—2 combination. I could have chosen the 26/2/—2 combo, but
+the profit was only slightly better. The 28-day MA generated fewer signals,
+and fewer signals mean fewer chances for mistakes.
+
+On the face of it, the number of losing signals of 234 to 131 winners looks
+pretty grim. However, when you look at the more detailed report of
+Table 29-3, the average win was 2.2 times greater than the average loss, which
+shows this system does a reasonable job of cutting losses short. The top panel
+of Chart 29-4 shows the equity line. The starting amount of $1 was increased
+to $2.55. Even though the system trailed the buy-hold approach, there were
+no major drawdowns in terms of peak-to-trough equity. The one in 1994 of
+10 percent was the worst. Not bad, considering the 150 percent gain was
+achieved at a 9.4 percent annualized rate.
+
+Other tests on many closed-end mutual funds covering the 1980s and
+1990s have shown that the a 28/5/—5 combination of a 28-day MA and a
+close divided by a 28-day MA using + and — 5 as the overbought/oversold
+triggering points worked consistently well.
+
+A10/10/—10 combination for the Russell 2000 has worked magnificently
+since 1978, offering a return by 2001 of an equity in excess of $20 starting
+from $1 in 1978. The equity line for this system in Chart 29-5 shows no peri-
+ods of serious drawdown.
+
+All these systems assumed a 0.01 percent commission and an interest rate
+of 5 percent when not exposed to the market. No shorts were initiated, only
+long positions.
+
+Table 29-3 Treasury Bonds
+
+Current position Short _ Date position entered 10/19/98
+Buy/Hold profit 112 Days in test 6291
+Buy/Hold pct gain/loss 111.88 Annual B/H pct gain/loss 6.49
+Total closed trades 365 Commission paid 0.20
+Avg profit per trade 0.00 Avg Win/Avg Loss ratio 2.21
+Total long trades 183 Total short trades 182
+Winning long trades 70 Winning short trades 61
+‘Total winning trades 131 Total losing trades 2
+Amount of winning trades 4.15 Amount of losing trades —3.5 1
+Average win 0.03 Average loss =n
+Largest win 0.10 Largest loss ~o 9
+Average length of win 8.05 Average length of loss 4°
+Longest winning trade 21 Longest losing trade 1
+
+Automated Trading Systems 553
+
+Chart 29-4 Treasury bonds, 1981-1998, and a 1/28 price oscillator. (From Martin Pring,
+Breaking the Black Box, McGraw Hill, New York, 2002.)
+
+2.6
+Equity line 1/28 price oscillator
+
+204
+
+165
+
+105
+
+si Bs Bs Bs 8? 8 ipo po er ba 3 a BS be b7 8
+
+Chart 29-5 Russell 2000 Index, 1978-2001. (From Martin Pring, Breaking the Black Box,
+McGraw-Hill, New York, 2002.)
+
+7
+
+2005
+
+1007 Russell 2000 equity fine (10/10/10)
+
+aa
+5007
+Russell 2000
+
+‘f7e [80 [et lez [83 je4 je5 86 87 [68 l89 [90 91 Joz J93 (94 (95 [96 Jo7 (98 [99 joo Jo’
+
+
+
+554 Part Ill: Other Aspects of Market Behavior
+
+The Triple Indicator System
+
+One important principle that should be followed when designing a system
+incorporating several triggering mechanisms is to make sure it incorporates
+different indicators based on different time frames. The contrasted time
+frames are important because prices at any one time are determined by the
+interaction of many different time cycles. We cannot make provisions for
+all of them, of course. If we can ensure there is a good time difference that
+separates the indicator construction, we will at least have made an attempt
+to monitor more than one cycle.
+
+A system I devised in the late 1970s combines an MA crossover with a sig-
+nal from two rate of change (ROC) indicators. These are a 10-week simple
+MA, a 6-week ROG, and a 13-week ROC. Thus, we have two different types
+of indicators: a trend-following MA and two oscillator types. The system also
+consists of three different time frames. The buy and sell rules are very sim-
+ple. Buy when the price is above the 10-week MA and both ROCs are above
+zero. Sell when all three go negative, that is, when the ROCs cross below
+zero and the price crosses its MA. Signals cannot be generated unless all
+three agree. This is because we want to make sure the various cycles
+reflected in the three different time frames are all in gear. Originally, when
+I introduced this system, it was applied to the pound/dollar relationship
+because it was one that trended very consistently.
+
+Let’s take a close look at Chart 29-6 to see how it works by starting off with
+a simple 10-week MA crossover between mid-1974 and 1976. Buy signals are
+once again indicated by the upward-pointing arrows and short positions by
+the downward-pointing ones. There were 13 signals for a total profit of $0.19
+on an initial $1 investment, from both the long and the short side. This com-
+pares to the buy-hold approach, with a loss of almost $0.70. Taken on its
+own, this was a fairly commendable performance, but let’s remember that
+for a significant portion of the time, that is, most of 1975 and 1976, the
+British pound was in a sustained downtrend. It is true there were a number
+of whipsaws in late 1975 and early 1976. These are shown in the two ellipses,
+but they were of minor consequence as it turned out. .
+
+The next step is to introduce a 13-week ROC. Buy and sell signals are trig-
+gered when the 13-week ROC crosses above and below its zero reference
+line. This approach, shown in Chart 29-7, nets a gain of $0.23 with six sig-
+nals. This was better than the results with the MA crossover, especially since
+fewer signals dramatically reduced the potential for whipsaws. Even so, there
+were a couple of nasty whipsaws in 1976.
+
+The next step is to introduce a second ROC indicator to filter out some
+of the whipsaws. A 6-week ROC was chosen mainly because it spans approx”
+imately half the time span of the 13-week series. The result was an improved
+$0.24, but the number of signals increased to 12. The 6-week ROC is shown
+in the middle panel of Chart 29-8. _
+
+Automated Trading Systems 555
+
+Chart 29-6 British pound system and a 10-week MA. (From Martin Pring, Breaking the
+Black Box, McGraw-Hill, New York, 2002.)
+
+1.364
+
+$1.19
+1304
+
+€quity line for a 10-week MA crossover
+
+200+
+
+—
+ae
+
+eas ON OVER IMAMBPN A So NDE MA MY W IAIS Io INO T
+
+Chart 29-7 British pound system and a 13-wseek ROC. (From Martin Pring, Breaking the
+Black Box, McGraw-Hill, New York, 2002.)
+
+1.304
+125 4
+1204
+1.164
+1.104
+1.06 4
+1,004
+
+q +
+
+Equity line for a 13-week ROC zero crossover
+
+4 13-week ROC
+
+74 SN Over MAM Q sO ND Ver MA IM AB ND I
+
+
+
+556 Part Il: Other Aspects of Market Behavior
+
+Chart 29-8 British pound using three indicators. (From Martin Pring, Breaking the
+
+system
+Black Box, McGraw-Hill, New York, 2002.)
+
+Putting the Indicators Together
+
+I put all three indicators together in Chart 29-8 so you can see how their
+integration improves things. The actual result was a slight increase in profit
+over the previous 6-week ROC test. However, the important thing was that
+the signals were reduced to only three. A closer look at Chart 29-8 shows
+that the first sell comes in October 1974, as the 6-week ROC follows the oth-
+ers into negative territory. Then, in December, the 13-week ROC crosses
+above zero and this is closely followed by an MA crossover. Finally, the 6
+week series moves above zero for a buy signal. All three then move into neg-
+ative territory in April 1975. The MA and 6-week ROC go bearish
+simultaneously, and this is then followed by the 13-week series. The system
+stays bearish all the way through late 1976. It almost goes bullish when the
+price crosses its average and the 6-week ROC goes positive in February 1976.
+However, the 13-week series, which had been bearish, now goes bullish, but
+by this time, the currency had slipped below its MA and the 6-week series
+fell below zero. As a result, all three indicators were never in agreement.
+The same is true in the July-August period of 1976 when the two ROC indi-
+cators take turns in being bullish and bearish. Students of my momentum
+course will recognize this as a form of a negative complex divergence. The
+combination of all three indicators works extremely well in this environ-
+ment. This is about as good as it gets.
+
+Automated Trading Systems THY f
+
+Appraising the System
+
+I introduced this approach in my book International Investing Made Easy! in
+1981 with some hesitancy, because there was obviously no guarantee it would
+continue to operate profitably. It was subsequently reintroduced in the third
+edition of this book in 1992 with the same proviso. What I said was, “It is
+important to understand this approach will not necessarily offer such large
+rewards in the future. The example of the British pound must be treated
+as the exception rather than the rule, but it is introduced to give you an
+incentive to experiment along these lines.”
+
+The system continued to work extremely well, as you can see by looking
+back at the equity line in the upper panel in Chart 29-9. However, I am glad
+I used the cautionary statement, because once we move past 1993, the sys-
+tem falls apart. Just look at the declining equity line between 1993 and 1998
+in Chart 29-10. This was due to the many whipsaws arising from the trading
+range that followed the drop from $2.00 in 1993. This goes to show that even
+if a system works well for 20 years, as this one had, market conditions can
+and do change, so you must be prepared for such instances. Obviously, we
+do not know until some time after the fact that the market environment has
+
+Chart 29-9 British pound system results, 1983-1998. (From Martin Pring, Breaking the
+
+Black Box, McGraw-Hill, New York, 2002.)
+20+ Equity line for the British pound system A
+
+10-4
+
+200 +
+190 5
+
+18044 Pound
+170 4
+160 5
+1,
+
+1404
+130 +
+1204
+1105
+
+mol_es_¢_ bs be 67 be 9 Bo ft b2 §3 ba 5 Be 7 fe
+
+‘McGraw-Hill, 1980.
+
+
+
+558 Part lll: Other Aspects of Market Behavior
+
+Chart 29-10 British pound system using a 30 MA. (From Martin Pring, Bi
+Black Box, McGraw-Hill, New York, 2002.) 0-day MA. (Fi in Pring, Breaking the
+
+Abandon
+
+m“ the system
+
+2.07 Equity line for the British pound system
+
+200 4
+1904
+180 4
+1704
+160-4
+160
+140
++304
+1204
+1104
+
+B3__[e4 (66 e673 69 [00 Bi b2 bs 4 Bs he er he
+
+changed. Is there anything we can do to avoid such situations? One possi-
+bility is to run a very long term MA or trendline through the equity line.
+
+In Chart 29-10, I have plotted a 300-week simple MA. I used 300 weeks
+because I felt it necessary for the system to undergo a fairly long period
+before it can be considered out of touch. After all, with the pound system,
+the history goes back to the early 1970s, so 6 years is not a particularly long
+time. The idea is when the equity line crosses below the MA something is
+seriously wrong with the system, and it should be at least temporarily aban-
+doned. At this point, it would make sense to reappraise it and see if it could
+be improved, and I do not mean by introducing special rules to block out
+a bad period. You could also wait until the equity line crosses back above
+the MA again.
+
+The Advantages of Diversification
+
+The second possibility is to use the same system on different markets, that
+is, diversify. Once again, we need to make sure the system tests well on any
+of the markets that are to be traded. Chart 29-11 features the same system
+for the Nikkei. It has a very profitable, but more consistent, feel to it. There
+are a few drawdowns in the early 1990s. The initial one in 1992 was just over
+20 percent, but by and large it operated very successfully over this 12-year
+period. This system has also been successfully applied to individual stocks
+
+Automated Trading Systems 559
+
+Chart 29-11 British pound system applied to the Nikkei. (From Martin Pring, Breaking the
+Black Box, McGraw-Hill, New York, 2002.)
+
+5005 Equity fine (pound system)
+
+a 300-week MA
+400
+3007) Nikkei
+200
+
+100
+
+183 e4 [85 [86 [87 [69 [90 |o4 [92 jo3 Jed [95 [96 [o7 oe 99 [00 [0
+
+and the S&P Composite, AAA bond yields, and the DM when it was actively
+traded.
+
+Introducing an
+Intermarket System
+
+The Relationship
+
+So far, we have just considered particular securities or markets in isolation,
+using statistically derived data from that security alone. An alternative
+approach is to adopt a tried and tested intermarket relationship as a cross-
+reference. Better results are often obtained in this way. An intermarket rela-
+tionship develops when one market consistently influences another. The first
+step is to rationalize why such a relationship exists in the first place. Perhaps
+the most basic relationship is between equity prices and short-term interest
+rates. This was described in Chapter 25 where it was established that changes
+in the trend of short-term interest rates lead equity prices.
+
+What we do not know is the lead time or the magnitude of the ensuing
+stock rally. The answer is to classify the trend of money-market prices, which
+is what the inverted short rate actually is, with an MA crossover. When a ris-
+ing trend of money-market prices has been established, it is then time to
+look at the trend of equities to see when they respond. The rationale is that
+a rising trend of money-market prices sets the scene for an equity bull mar-
+
+
+
+560 Part Ill: Other Aspects of Market Behavior
+
+ket. However, this is not confirmed until the S&P Composite crosses above
+its MA. Just think of this as something akin to an unconscious swimmer
+receiving mouth-to-mouth resuscitation. You know the treatment is good for
+the patient, just as falling rates are good for equity prices. However, we do
+not know how much treatment is required and whether the patient will
+recover until he or she is able to breathe by him- or herself. In our analogy,
+the stock market is shown to respond to the interest-rate treatment when it
+crosses its MA.
+
+Here is how it works. Look at Chart 29-12 . In October 1981, the inverted
+commercial paper yield crosses above its 12-month MA (shown in the
+ellipse), indicating the environment is now bullish for equities. However,
+the equity market does not respond by bottoming out until August 1982.
+When the S&P rallies above its 12-month MA (A), it indicates that the mar-
+ket is responding to the positive interest-rate environment. In this case, the
+crossover comes in August 1982. At that time, both trends are bullish and
+so is the system. It remains positive until either series moves back below its
+average, which, in this case, developed in June 1983 (B). It then goes bull-
+ish again in January 1985 (C).
+
+Finally, the inverted yield falls below its average in early 1987 (D). The mar-
+ket continues to rally, but the system is no longer bullish. In most instances,
+it would be better to generate the sell signals after the S&P crosses below its
+average. In this instance, though, the 1987 crash was over before the average
+
+was penetrated. Since the risk increases as the money-market series crosses. :
+
+below its average, it is probably best to act on the signal in two parts. This
+
+Chart 29-12 S&P Composite versus 3-month commercial paper yield. (From Martin
+Pring, Breaking the Black Box, McGraw-Hill, New York, 2002.)
+
+300 4 -..|
+260] S&P Composite
+
+200 +
+
+160 +
+
+e Peer TTT Bg TT eo TSE gar oe Ase
+
+Automated Trading Systems 561
+
+would involve taking off half the position as the money-market series goes
+negative and then liquidating the rest when the S&P crosses its average.
+
+Figure 29-5 shows the risk and reward for the system between 1948 and
+1991. The vertical axis measures the reward on an annualized basis and the
+risk is measured on the horizontal axis. In this sense, risk is measured as
+volatility. The best place for any system to be is in the top left-hand corner,
+often referred to as the northwest quadrant. This is where the reward is high
+and the risk, or volatility, is low. In the case of this system, the star labeled
+“positive environment” reflects the risk and reward of our stock/interest-
+rate system. At close to 25 percent annualized return, with about 5 percent
+volatility, it is clearly a superior system. The star labeled “entire period”
+reflects the buy-hold approach where the return is just under 10 percent
+with a bit over 12 percent volatility. Finally, the “negative environment” rep-
+resents those periods when the system is not positive. It could be a bear mar-
+ket or there could be times when the interest-rate side of the equation is
+negative, but the S&P is still above its average. At any rate, you can certainly
+appreciate the difference of a 25 percent low-risk return when the system
+is bullish and the high-risk/low-reward period when it is not. In conclusion,
+not only was the reward from the system excellent, but the way in which it
+was earned, with low risk, was tremendous too.
+
+The system says nothing about periods when the market is above its aver-
+age and rates are not, since those are obviously bullish periods as well.
+However, once rates move above their 12-month MA, there is a real danger
+that the next correction could be the first downleg in a bear market. It is
+true that sooner or later the S&P Composite will cross below its MA, thereby
+stopping us out, but why run the risk when good returns and little volatil-
+ity can be had under more favorable conditions?
+
+Figure 25-5 Risk/reward ratio for the S&P composite versus 3-month commercial paper
+yield. (From Martin Pring, Breaking the Black Box, McGraw-Hill, New York, 2002.)
+
+* Positive Environment
+
+Entire Period .
+
+Negative Environment .
+
+4 6 8 10 12 14 16
+Risk
+
+
+
+562 Part Il: Other Aspects of Market Behavior
+
+If you are a short-term trader, you probably feel this approach is worse
+than useless, However, it can be put to very good use if you realize that when
+the system is bullish, short sell signals are likely to result in losses. They are
+not just going against the main trend, but are occurring in one of the most
+bullish equity environments you can get. By the same token, you can use
+this knowledge to position yourself from the long side when a short-term
+buy signal is triggered. I am not going to say that sharp corrections will never
+happen when this system is positive, because there have been periods such
+as 1971 when a fairly large retracing move did materialize. It is merely that

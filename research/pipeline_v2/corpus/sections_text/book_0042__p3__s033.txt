@@ -1,0 +1,405 @@
+
+348 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+fraction of their capital to bet on the next coin toss. If a head results, the
+payoff is twice the amount of the bet. If a tail results, only the amount of the
+bet is lost. We play the game for 75 flips. This game has a very favorable expectation. 36 However, even in a game with such a favorable expectancy,
+many students wind up losing money because they bet too aggressively
+(Le., the fraction of capital wagered on a bet is too large). A formula worked
+out by Kelly, an electrical engineer at Bell Labs in the 1950s, now known as
+the Kelly Criterion, specifies the optimal fraction to bet on each coin flip so
+as to maximize the growth rate of the bettor's capital. The optimal fraction
+depends on the probability of a win and the ratio of the average win to average loss. In this particular game, the optimal fraction to wager on each bet
+is 0.25. If this level is exceeded, the bettor faces greater risk without the
+benefit of a faster growth of capital. If one were to employ a bet fraction of
+0.58 it is likely all funds would be lost, despite the favorable expectation.
+This is what happens to an arbitrageur with good information who uses too
+much leverage.
+Another constraint on an arbitrage's ability to enforce efficient pricing is the lack of perfect substitute securities. An ideal (riskless) arbitrage transaction involves the simultaneous purchase and sale of a pair
+of securities with identical future cash flows and identical risk characteristics. An arbitrage transaction based on securities that do not conform to this ideal necessarily involves risk. And it is risk that limits the
+degree to which arbitrage activity can force prices to efficient levels.
+When a broad class of assets, such as all stocks, become overpriced, as
+they did in the spring of 2000, there is no substitute security to use as
+the long-side hedge to a short sale of the entire stock market. Even in
+the case where the securities in an arbitrage transaction are close substitutes, there can be substantial risks. Each stock has its own specific
+or idiosyncratic risks, and this makes arbitrageurs wary. For example, if
+GM were undervalued and it were purchased against an offsetting short
+sale in Ford, there would be the risk that some bullish event unique to
+Ford or a bearish event unique to GM would create a loss for the arbitrage trader.
+There are still other constraints that prevent arbitrage from playing
+the price-policing role envisioned by EMH. Arbitrageurs do not have unlin1ited funds to correct pricing errors nor do they have total freedom to
+pursue any and all opportunities. Most arbitrage investors manage money
+for other investors in the form of hedge funds. The management contracts
+under which the fund managers operate typically constrain their actions
+to some degree. Without a completely free hand and unlimited funds,
+some mispricings will remain unarbitraged.
+As a result of these limits, the EMH assumption that all arbitrage opportunities will be eradicated appears to be an oversimplification.
+
+Theories of Nonrandom Price Motion
+
+349
+
+Empirical Challenges to EM"
+The EMH is not only riddled with logical inconsistencies, its predictions
+are contradicted by a growing body of empirical evidence. This section
+summarizes these findings.
+Excessh'e I-.'ice Volatility. If security prices were as tightly connected to fundamental values as EMH asserts, then the magnitude of price
+changes should be similar to the magnitude of changes in the underlying
+fundamentals. However, studies show prices are far more volatile than
+fundamentals. For exan1ple, when fundamental value is defined as the net
+present value of future dividends,37 changes in fundamental value are unable to explain the high volatility of prices. The technology stock bubble
+that ruptured in the spring of 2000 and the bubble in Japanese stock
+prices in the late 1980s are examples of price movements that cannot be
+explained by changes in fundamental value.
+EMH also predicts that large price changes should occur only when
+significant new information enters the market. The evidence does not
+agree. For example, the stock market crash of October 1987 was not accompanied by news that would have justified a price drop that exceeded
+20 percent. A 1991 study by Cutler cited by Shleifer38 exantined the 50
+largest one-day price movements since the end of World War II. Many of
+these price events were not associated with significant news announcements. In a similar study, Roll39 showed that fluctuations in the price of
+frozen orange juice futures often occurred without any developments in
+the weather, the major fundamental influence on that market. Roll also
+showed that individual stock movements are often not associated with
+corporate news events.
+Evidence of I-.'ice Predictability with Stale Information. The
+evidence most danming to EMH are studies showing that price movements can be predicted to a meaningful degree with publicly known
+(stale) information. In other words, strategies based on stale information
+can generate risk-adjusted returns that beat the market. If it were true that
+prices quickly incorporate all known information, as EMH asserts, this
+should not be possible.
+
+How Cross-Sectional Predictability Studies Are Performed. The
+April 2001 issue of Journal of Finance notes that many predictability
+studies show that publicly available information is not fully reflected in
+stock prices and that numerous strategies based on this information are
+profitable. 40 These studies measure the degree to which indicators based
+on public inforn1ation are able to forecast the relative performance of
+
+350 METHODOLOGICAL. PSYCHOLOGICAL. PHILOSOPHICAL. STATISTICAL FOUNDATIONS
+stocks. 4l Indicators tested included a stock's price-to-earnings ratio,
+its price-to-book-value ratio, its recent relative price performance, and
+so forth.
+Predictability studies employ a cross-sectional design. That is to
+say, they examine a large cross section of stocks at a given point in
+time, for example, all stocks in the S&P 500 Index as of December 31,
+1999. For that date, the stocks are ranked on the basis of an indicator4 2
+that is being examined for its predictive power, such as a stock's rate of
+return over the past six months (price momentum). With this done, the
+stocks are arranged into a number of portfolios on the basis of rank,
+with each portfolio containing an equal number of stocks. Ten portfolios is a common number. Thus portfolio 1 would contain the top 10
+percent of all stocks ranked by their prior six-month rate of return.
+That is to say, the portfolio is composed of those stocks whose prior
+six-month rate of return was in greater than the ninetieth percentile. A
+second portfolio is formed containing stocks ranked from the eightieth
+percentile to the eighty-ninth percentile, and so on until a final portfolio
+is formed from the 10 percent of stocks with the worst prior six-month
+performance.
+To determine if six-month momentum has predictive power, the future performance of the top decile portfolio (1) is compared to the
+future performance of the bottom decile portfolio (10). The forward
+prediction horizon is typically one time period. Therefore, using
+monthly data, it would be one month. 43 Typically these studies quantify
+the indicator's predictive power as the return earned by a long portfolio
+versus a short portfolio. In other words, a long position is assumed to
+be taken in all portfolio 1 stocks and a short position in all portfolio 10
+stocks. For example, if in a given time period, the long portfolio earned
+7 percent while the short portfolio lost 4 percent (e.g., the stocks sold
+short went up 4 percent), the long-versus-short strategy would have
+earned 3 percent. Although in this example the indicator used to rank
+stocks was the six-month price momentum, any item of information
+that was known at the time the portfolios are constructed could be
+used. I illustrate this concept in Figure 7.6, where the indicator used is
+each stock's PIE ratio.
+I just described how a cross-sectional study is carried out for a single
+month (December 1999). However, cross-sectional studies are carried out
+over many months (cross-sectional time series). Thus, the predictive
+power of an indicator is measured as the average return on portfolio 1 minus the average return on portfolio 10 over an extended period of time.
+Such studies often examine a number of candidate predictor variables.
+This idea is illustrated in Figure 7.7.
+
+351
+
+Theories of Nonrandom Price Motion
+
+N Stocks
+Ranked by
+PE
+for Month 1
+
+1"'-.
+
+1. Lowest PE
+2. 2nd Lowest PE
+3. 3rd Lowest PE
+
+../
+
+Universe
+
+N
+Stocks
+
+10 Ranked
+Portfolios
+Formed
+
+----.
+
+-
+
+•
+•
+•
+
+Future
+Performance
+Differential
+
+1. Lowest PE
+2. 2nd Lowest PE
+
+•
+•
+•
+
+----.
+
+Retu rn Port. # 1
+
+t
+
+----. I 1 vs. 10 Diff. I
+
+~
+
+Return Port. #10
+
+10. Highest PE
+
+N. Highest PE
+I~IGURE
+
+7.fj
+
+Cross-sectional study to determine the predictive power of P!E ratio.
+
+I-- -
+
+PE PIB Cap. Mom. Etc.
+Stock 1
+
+-'--
+
+Stock 2
+
+-f--f--- -'-.... f - -
+
+Stock 3
+
+....
+
+'--
+
+I--
+
+Month 1
+
+etc.
+Man th 5
+
+Month 4
+
+Month 3
+
+Month 2
+Stock n
+
+-
+
+~
+
+--
+
+/
+
+Time
+
+/
+
+Predictor
+Variables
+FIGURI~ 7.7
+
+Cross-sectional time series study.
+
+Predictability Studies Contradicting Semistrong EMH. The semistrong form of EMH is the boldest testable version of EMH.44 It asserts
+that no information in the public domain, fundamental or technical, can
+be used to generate risk-adjusted returns in excess of the market index.
+The bottom line of numerous well-conducted cross-sectional time series
+studies is this: Price movements are predictable to some degree with
+
+352 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+stale public information, and excess risk-adjusted returns are possible.
+Here, I summarize some of these key findings:
+• Small capitalization effect: A stock's total market capitalization,
+defined as the number of shares outstanding multiplied by its price
+per share, is predictive of future returns. 45 Stocks in a portfolio composed of the lowest decile portfolio of market capitalization earned
+about 9 percent per year more than stocks in the highest decile portfolio. 46 This effect is most pronounced in the month of January. Recent studies show this indicator's predictive power has disappeared
+since the mid to late 1980s.
+• Price-to-earnings ratio effect: Stocks with low PIE ratios outperform stocks with high PIE ratios. 47
+• Price-to-book-value effect: Stocks with low price to book value ratios outperform stocks with high price to book value ratios.'ls The
+cheapest stocks, in terms of price to book, outperformed the most expensive stocks by almost 20 percent per year.
+• Earnings surprise with technical confirmation: Stocks reporting
+unexpected earnings or giving earnings guidance that is confirmed by
+strong price and volume action on the day after the news is announced earn an annualized return spread (longs - shorts) over the
+next month of over 30 percent. 49 This strategy is a marriage of fundamental and technical information.
+•·redictability Studies Contl'adicting the Weak Form of EMU.
+
+The weak form of EMH is the least bold version of the theory. It claims
+that only a subset of public information, past prices, and price rehlrns 50 is
+unhelpful in earning excess returns. The following studies show that stale
+prices and other data used in technical indicators are indeed useful. This
+is very good news for TA and very bad news for EMH. The narrowest,
+most timid, and most difficult to falsify version of EMH has been contradicted with evidence.
+• Momentum persistence: Jegadeesh and Titman (1993)51 showed
+that price momentum measured over the past six to twelve months
+persists. In other words, the stocks that have been strongest over the
+past 6 months, 7 months, 8 months, and so on, up to 12 months, tend
+to outperform over the following 6 to 12 months. Their study simulated a strategy of holding long positions in stocks with the highest returns over the prior 6 months (top decile) and holding short positions
+in stocks with the worst performance (lowest decile). The portfolio of
+long and short positions was then held for 6 months. This strategy
+
+Theories of Nonrandom Price Motion
+
+353
+
+earned an annualized return of 10 percent. In light of this evidence,
+even one of the high priests of EMH, Eugene Fama, had to admit that
+past stock returns can predict future stock returns. 52 Score a big one
+forTA!
+• Momentum reversal: Although stocks with strong trends over the
+past 6 to 12 months tend to maintain those trends over the following 6 to 12 months, something different is observed when momentum is measured over longer time spans. Strong trends measured
+over the prior three to five years display a tendency to reverse. De
+Bondt and Thaler tested a strategy of buying stocks with the most
+negative five-year trends (losers) and selling short stocks with the
+most positive five-year trends (winners). The long-versus-short
+portfolio averaged an 8 percent annualized return over the next
+three years,53 and most importantly, this return difference was not
+attributable to risk. The prior losers (future winners) were not
+more risky than the prior winners (future losers).54 This contradicts
+a central proposition of EMH that higher returns can only be earned
+by assuming higher risks. Additionally, it bolsters the notion that a
+very simplistic form of TA is useful.
+• Nonreversing momentum: When a stock's momentum is measured
+by its proximity to its 52-week high, rather than its prior rate of return, profits are greater and momentum does not reverse. 55 The author of this study speculates that investors become mentally
+anchored to prior 52-week price highs. Anchoring is lrnown to prevent people from making appropriate adjustments to new information. The author of this study, Michael Cooper, conjectured that this
+prevents stocks near their 52-week highs from responding to new
+fundamental developments as rapidly as they should. Retarded news
+response engenders systemic price trends (momentum) that correct
+the mispricing.
+• Momentum confirmed by trading volume: Further support for the
+validity of TA comes from studies showing that, when trading volume
+is used conjointly with price momentum, even higher returns can be
+earned. That is to say, a synergism can be attained by combining price
+and volume indicators. The return of the combination is 2 to 7 percent
+higher than the return can be earned using price momentum alone. 56
+Stocks with high volume and positive price momentum do better going forward than stocks with positive price momentum alone. Moreover, stocks with high volume and negative price momentum do
+worse going forward than stocks that merely have negative price momentum. Said differently, the discrimination power of price momentum is greater for high-volume stocks.
+
+354 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+EM" Digs for a Defense
+When an established theory is contradicted with empirical evidence, its
+supporters do not simply roll over and say never mind. The cognitive
+mechanisms of belief persistence (see Chapter 2) don't work that way for
+trained scientists any more than they do for common folk. Cynical observers of science say adherents to a theory that has been falsified never
+really change their minds. They have far too much invested in its survival
+to do that. With time, they just fade away.
+With EMH having served, and served well, for 40+ years, as the foundation of finance, its backers were just not about to go away with heads
+hanging low. Two of its standard bearers (read pall bearers), Eugene Fama
+and Kenneth French, said gains earned by stale-information strategies
+such as price-to-book value and market capitalization were nothing more
+than fair compensation for risk. Recall that EMH does not deny the possibility that stale public information can earn profits. It merely says that
+when those gains are adjusted for risk, they will not be better than investing in an index fund.
+So long as the term risk is left undefined, EMH defenders are free to
+conjure up new forms of risk after the fact. As Elliott wavers have
+proven, after-the-fact fiddling allows any prior observations to be explained or explained away. And that, it seems to me, is what Fama and
+French did. 57 They invented a new, ad hoc risk model using three risk
+factors to replace the old standby, the capital asset pricing model,58
+which uses only one risk factor, a stock's volatility relative to the market
+index. Quite conveniently, the two new risk factors that Fama and
+French decided to add were the price-to-book ratio and market capitalization. By citing these as proxies for risk, Fama and French neatly explained away their predictive power. "According to the new risk model,
+stocks of smaller firms (low-market cap) or firms with low market-tobook ratios are fundamentally riskier companies and thus must offer
+higher average returns to compensate the investors willing to own them.
+Conversely, large capitalization stocks because they are safer, and high
+price-to-book ratio stocks, which are in effect growth stocks with more
+certain future prospects, earn lower average returns because they expose their owners to lower risk. "59
+This was nothing more than an ad hoc after-the-fact explanation conjured up to save a dying theory. Had Fama and French predicted that
+price-to-book and market capitalization were valid risk factors before
+these variables were discovered to earn excess returns, that would have
+been a much different story. It would have shown that EMH was a powerful theory whose deductive consequences were confirmed by subsequent
+observations. However, Fama and French did not do this. They invented
+
+Theories of Nonrandom Price Motion
+
+355
+
+the new risk factors after price-to-book and market cap had been shown
+to produce excess returns.
+As pointed out earlier, Fama and French justified their new risk model
+by suggesting that low market-cap and low price relative to book are signals of corporations at higher risk of failure. If this were true, it would imply (predict) that value strategies (buying low price-to-book stocks) and
+small cap strategies would earn subpar returns in bad economic tin1es,
+when distressed companies are most likely to suffer.
+Empirical evidence contradicts this prediction. A 1994 study found no
+evidence that value strategies do worse when the economy suffers. 5O Also,
+the disappearance of the excess return to small-cap stocks in the last 15
+years presents a problem. If cap size were indeed a legitimate risk factor,
+the returns to strategies based on it should continue to earn a risk premium. Finally, neither the Fama-French risk model, nor any other EMH
+model, is able to explain the predictive power of price momentum indicators or the conjoint effect of price momentum and trading volume.
+
+BEIIAViORAL FINANCE: A THEORY OF NONRANDOl\1
+PRICE MOTION
+ew theory is needed when existing theory confronts dissonant evidence.
+EMH has now been bombarded with a lot of evidence that contradicts its
+predictions. It is time for a new theory.
+The relatively new field of behavioral finance has come forward with
+several variations of a new theory of financial market behavior that explains phenomena that EMH cannot. These theories are scientifically
+meaningful in that they do not simply explain (fit) what has occurred, but
+they make testable predictions that have been confirn1ed by subsequent
+observational studies.
+Behavioral finance incorporates elements of cognitive psychology,
+economics, and sociology to explain why investors depart from full rationality and therefore why markets depart from full efficiency. By considering the impact of emotions, cognitive errors, irrational preferences, and
+the dynamics of group behavior, behavioral finance offers succinct explanations of excess market volatility as well as the excess returns earned by
+stale information strategies.
+Behavioral finance does not assume that all investors are irrational.
+Rather, it views the market as a mixture of decision makers who vary in
+their degree of rationality. When irrational investors (noise traders) trade
+with rational investors (arbitrageurs), markets can depart from efficient
+pricing. In fact, market efficiency is a rather special condition that is less
+
+356 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+probable than other more plausible market conditions, where prices are
+likely to diverge from rational levels and thus likely to experience systematic predictable movements toward those levels. 51 This explains why systematic strategies based on stale information can profit.
+This is all quite ironic with respect to TA. As discussed in Chapter 2,
+cognitive errors can explain how people form erroneous beliefs in the
+validity of subjective TA in the absences of sound supportive evidence
+or even in the face of contradictory evidence. At the same time, however, cognitive errors may also explain the existence of market inefficiencies that spawn the systematic price movements that allow objective
+TA methods to work. That which explains the foolishness of subjective
+TA practitioners also explains the reasonableness of some objective TA
+methods.
+Foundations of Behavioral Finance
+
+Behavioral finance rests on two foundational pillars: The limited ability of
+arbitrage to correct pricing errors, and the limits of human rationality. 52
+When both notions are combined, behavioral finance is able to predict
+specific departures from market efficiency that produce systematic price
+movements. For example, under certain circumstances, trends are predicted to persist, whereas, under other circumstances, trends are predicted to reverse. We will consider each of these pillars.
+Limits of i\1·bitl'a~e. To recap briefly, arbitrage is not the perfect enforcer of efficient pricing that EMH assumes. The lack of perfect security
+substitutes turns arbitrage from a risk-free, no-investment-required transaction into one that requires capital and incurs risk. Even where there are
+very good substitute securities, there is a risk that prices will diverge further from rational values before returning to them. Moreover, the investors who supply trading capital to arbitrageurs don't have unlimited
+patience, or unlimited capital. Consequently, they do not grant unlimited
+latitude to arbitrageurs in terms of the types of opportunities that can be
+considered for exploitation.
+These constraints explain why security prices do not always react
+properly to new information. Sometimes, prices underreact, and sometimes, they overreact. Add to this the impact of noise traders, who act on
+uninformative signals,63 and it becomes clear how security prices can systematically depart from rational levels for extended periods of time.
+Limits of Human Rationality. The constraints on arbitrage predict
+that inefficiencies will occur, but they alone do not predict under what
+conditions the inefficiencies will manifest. For example, arbitrage con-

@@ -1,0 +1,737 @@
+
+Sector Put/Call Ratios
+Just like the case with the VIX, for every underlying market offering binary
+options, there is also a corresponding sector index, or group of funds that
+
+116
+
+Trading Binary Options
+
+provide option data on the sentiment regarding that market. This is also
+important to review because the sentiment on an underlying market may be
+related, or not, to the overall market it is a part of. Once an underlying market
+is being considered for trading the binaries, an important additional step in
+shaping the directional trade is to check on the put/call ratios of the sector.
+How can this be done? To be able to do this, the trader can locate exchange
+traded funds (ETFs) that offer options on them and then determine the associated put/call volume. The CBOE is a great site for locating this information.
+Let’s look at some examples of using ETFs and the put/call ratio in preparing to trade gold binaries. One can look at GLD, a gold ETF, and at the
+same time check the put/call ratio. During the period shown in Figure 6.16,
+gold had reached new highs and sold off only to recover again. The put/call
+ratio for gold on 0.9947 shows a neutral mood for the market and is leaning
+neither bullish nor bearish. The binary option trader has to use this sentiment
+information to confirm which way he wants to trade.
+Similarly, if a trader was looking to put on binary options on the oil market, USO, an ETF on oil provides option sentiment data to use (Figure 6.17).
+In addition to scanning the USO chart, the put/call ratio provides a gauge
+on the mood of traders on this market. Oil had reached highs because of
+Figure 6.16 Gold ETF
+
+150
+
+140
+
+135
+
+130
+
+March
+
+Source: Bloomberg Financial, L.P.
+
+June
+
+September
+
+Price
+
+145
+
+Advanced Technical Analysis: Volatility Tools
+
+117
+
+Figure 6.17 USO ETF
+
+44
+
+40
+
+Price
+
+42
+
+38
+
+36
+
+Source: Bloomberg Financial, L.P.
+
+Middle East turbulence, and then sold off. The chart looks like a sideways
+action. Looking at the put/call ratio, the trader finds a 1.0102 ratio, indicating slightly bearish sentiment.
+There should be no doubt that a greater insight into the sentiment of the
+market is gained by examining options on the ETF.
+Volatility Smiles
+
+When markets are leaning bullish or bearish, the extent of the shift in sentiment to one side may be predictive of price action that follows in the days
+ahead. Option traders try to detect the strength of bearish and bullish sentiment by looking at volatility smiles. The volatility smile is simply a graphic
+of the volatility surface. It reflects an imbalance in the implied volatilities of
+an option at the same strike price. Either the implied volatility of puts at the
+same strike price is greater than the implied volatility of calls at that strike
+price or vice-versa. If the market crowd were neutral in regard to direction,
+there would be no skew. It would be a perfect smile! But that hardly ever
+occurs. The more experienced binary option traders may want to use volatility
+
+118
+
+Trading Binary Options
+
+smiles to see which way the market is leaning. It provides more evidence, not
+necessarily where the market will go, but where the opinion pool is clustering.
+When the volatility smile is extremely skewed to puts or calls, it can be
+interpreted as confirming a strategy to follow the skew. Alternatively, it can
+also be interpreted as representing an exaggerated condition and a reversal is
+coming. On its own, a volatility smile cannot be used as the only source of
+a confirmation on direction. It’s also important to locate the volatility smile
+for weekly or one-month durations as its relevance to binary option decisions
+declines when the smiles are using longer-term time frames.
+An effective way to apply volatility smiles to binary option trading is to
+evaluate the presence of a smile or a skew as a way of confirming the mood of
+the market. Then compare the results of the review with your own opinion.
+Is your binary option bet going with the skew or betting that it will reverse?
+Let’s look at a snapshot of some volatility smiles and relate them to the
+mood of the market at that time.
+The EUR/USD on May 30 showed a volatility smile that is leaning to
+the put side. This is very bearish. In fact, Figure 6.18 shows that the one-week
+smile is much more bearish than the one-month smile, because the implied
+volatility curve is shifted upward.
+Figure 6.18 EUR/USD One-Week versus Three-Month Volatility Smiles
+
+15
+
+13
+
+12
+
+1W
+
+1M
+
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+
+11
+
+Implied Volatility
+
+14
+
+Advanced Technical Analysis: Volatility Tools
+
+119
+
+Figure 6.19 AUD/USD Three-Month Volatility Smile
+16
+
+14
+
+Implied Volatility
+
+15
+
+13
+
+12
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+
+The AUD/USD pair shows a very steep bias to puts. This would make a
+binary trader think twice about going long the AUD/USD. An appropriate
+strategy when the volatility smile is skewed so far is to go with the crowd with
+a deep-in-the-money strategy (Figure 6.19).
+The GBP/USD volatility smile also shows, compared to the AUD/USD,
+a steeper lean to the put side (Figure 6.20). The USD/CHF volatility smile
+here is interesting because it shows, in contrast to the EUR/USD (Figure
+6.18), a bit more of a sentiment for calls, but still very bearish (Figure 6.21).
+The USD/CAD pair is the only one of the majors that has a smile that is
+favoring the call side, showing a very strong bias for a stronger dollar (Figure
+6.22). Traders looking for a stronger Canadian dollar because of stronger oil
+would think twice about it.
+The USD/JPY volatility smile was almost the only one close to being
+balanced and showing a normal smile (Figure 6.23). This correlates with a
+sideways action and, in fact, a normal smile supports a breakout strategy since
+the market is not showing any domination regarding direction.
+Our last volatility smile is the GBP/JPY cross pair. We see a very strong
+preference for a weakening of this pair. Once again seeing this, the choice
+facing the trading is to either be contrarian and go the other way, or join the
+crowd (Figure 6.24).
+
+120
+
+Trading Binary Options
+
+Figure 6.20 GBP/USD Three-Month Volatility Smile
+
+10.0
+
+9.5
+
+Implied Volatility
+
+10.5
+
+9.0
+
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+Figure 6.21 USD/CHF Three-Month Volatility Smile
+
+13.0
+
+12.5
+
+12.0
+
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+
+Implied Volatility
+
+13.5
+
+Advanced Technical Analysis: Volatility Tools
+
+121
+
+Figure 6.22 USD/CAD Volatility Smile
+11.0
+
+10.0
+
+9.5
+
+Implied Volatility
+
+10.5
+
+9.0
+
+8.5
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+
+Figure 6.23 USD/JPY Volatility Smile
+12.5
+
+11.5
+
+11.0
+
+10.5
+
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Bloomberg Financial, L.P.
+
+Implied Volatility
+
+12.0
+
+122
+
+Trading Binary Options
+
+Figure 6.24 GBP/JPY Volatility Smile
+
+14
+
+13
+
+12
+
+5P 10P 15P 20P 25P 30P 35P 40P 45P ATM 45C 40C 35C 30C 25C 20C 15C 10C 5C
+
+Source: Foundation for the Study of Cycles, Inc.
+
+Figure 6.25 S&P 500 Cycle
+
+Implied Volatility
+
+15
+
+Advanced Technical Analysis: Volatility Tools
+
+123
+
+Figure 6.26 EUR/USD Cycle
+
+Source: Foundation for the Study of Cycles, Inc.
+
+The difficulty with volatility smiles is that it takes special software offered
+by third parties to generate the visuals. They are, however, available for the
+more sophisticated trader through special software and applications. Also,
+the more quant-oriented traders can generate their own volatility smiles from
+grabbing option data from the web. In any case, traders who access volatility
+smiles will find it a useful tool to gain an edge.
+Fear of Recession
+
+The emergence out of the financial collapse of 2008 occurred in 2015 as
+the United States fully recovered in its financial condition. The increase in
+interest rates on December 16 signaled a shift in the confidence about the
+U.S. economy. The statement of the FOMC on December 16 is perhaps
+one of the most important statements that traders should study. (See the
+full statement in Chapter 4). In reading it, the Federal Reserve is signaling
+what it will look at in deciding future interest rate increases. A focus on
+inflation and whether it will be near 2 percent is one important parameter.
+The decision to raise rates, however, introduces a new fear: fear of a recession.
+If the U.S. economic recovery weakens or stalls, it will generate a fear of
+recession and increased volatility in the U.S. dollar, gold, and related markets.
+The trader could have an edge if they understand and monitor that one of
+the indicators of a recession will be the shape of the yield curve. An inverse
+yield curve is accepted as a strong indicator of a recession (Estrella and Trubin 2006). When the yield curve inverts, it is generally accepted as a predictor
+
+124
+
+Trading Binary Options
+
+of a coming recession. An inverted yield curve is the difference (spread)
+between the 10-year Treasury note and the three-month Treasury bill. We can
+see in Table 6.3 that the probability of a recession is greater than 50 percent
+when the spread gets above –1.00.
+The spread as of December 17, the day after the Federal Reserve raised
+rates by 25 basis points was 1.985. This value is a result of the calculation:
+U.S. Treasury 10-Year Bonds (2.2395) – (U.S. Treasury Three-Month Bill
+(0.2545.) = 1.985.
+It is very far away from the negative value necessary to signal a recession.
+Nevertheless, it’s a good idea for the trader to keep track of this relationship
+from time to time.
+A sentiment-based component for predicting a recession that should be used
+is the frequency of the word “recession” mentioned in Google search engines. If
+the frequency increases, it is a clue that there is increased concern about it.
+Table 6.3 Estimated Recession Probabilities for Probit Model Using
+the Yield Curve Spread (Four Quarters Ahead)
+
+Recession Probability (%)
+
+Value of Spread (% Points)
+
+5
+
+1.21
+
+10
+
+0.76
+
+15
+
+0.46
+
+20
+
+0.22
+
+25
+
+0.02
+
+30
+
+–0.17
+
+40
+
+–0.50
+
+50
+
+–0.82
+
+60
+
+–1.13
+
+70
+
+–1.46
+
+80
+
+–1.85
+
+90
+
+–2.40
+
+Note: The yield curve spread is defined as the spread between the interest rates on the
+10-year Treasury notes and the three-month Treasury bill.
+Source: Federal Reserve Bank of New York, Current Issues in Economics and Finance,
+2, (7), June 1996; Arturo Estrella and Frederic S. Mishkin, “The Yield Curve as
+a Predictor of U.S. Recessions.” Accessed January 22, 2016 at http://core.ac.uk/
+download/files/153/6867393.pdf.
+
+Advanced Technical Analysis: Volatility Tools
+
+125
+
+Tracking Money Supply as an Indicator of Growth
+
+The fear of a recession in the United States is likely to be linked to a change
+in the money supply. If the money supply is insufficient, then the economy
+is likely to not have the liquidity necessary to stimulate growth. After the
+2008 crisis, banks reduced their lending, which froze the economy. The Great
+Recession that followed the 2008 collapse was very long substantially because
+of the lack of money growth. The recession officially began in December
+2007 and ended in June 2009. Roughly 80 percent of the money supply is
+determined by banks providing credit and loans and 20 percent is provided
+by the United States government. The trader now has the benefit of access to
+good data on the money supply. It is published by the Center for Financial
+Stability (www.centeroffinancialstablity). The trader should look at the measure called CFS Divisia M4, “which is the broadest and most important measure of money.” M4 includes notes and coins and bank accounts. It is not a
+coincidence that as this broad measure of money supply increases, the financial condition of the economy also increases. It is a good idea to keep track of
+this important M4 measure.
+Figure 6.27 M4 Money Supply
+
+10
+8
+
+0
+
+6
+4
+2
+
+−2
+
+−4
+
+0
+−2 −6
+−4
+−6 −8
+
+DIVMM4IY Index
+BFCIUS Index-0.2818
+
+−8
+2007
+
+2008
+
+2009
+
+2010
+
+2011
+
+2012
+
+2013
+
+2014
+
+2015
+
+126
+
+Trading Binary Options
+
+reviewing the Tools
+
+In this chapter, we’ve seen how to use several advanced technical analysis
+tools, including Bollinger Bands, the VIX Index, put/call ratios, and volatility smiles. We also reviewed how to track an emerging fear of recession using
+U.S. Treasury data. Lastly, we saw how cycle indicators can also work in the
+trader’s favor. These tools, combined with those discussed in the basic technical analysis chapter, form a solid foundation for understanding what it takes
+to trade binary options successfully.
+
+look Online
+For more information on tools for advanced technical analysis, here is a list of
+online resources to explore:
+Commodity-based ETF options:
+www.cboe.com/micro/commodity/introduction.aspx
+List of Currency ETFs and ETNs:
+http://etf.about.com/od/foreignetfs/a/List_of_Currency_ETFs.htm
+Options on ETFs
+www.cboe.com/Products/optionsOnETFs.aspx
+Introduction to VIX Futures and Options:
+www.cboe.com/micro/VIX/vixintro.aspx
+CBOE Daily Market Statistics:
+www.cboe.com/data/mktstat.aspx
+
+reference
+Estrella, Arturo, and Mary R. Trubin. 2006. “The Yield Curve as a Leading Indicator: Some
+Practical Issues.” Current Issues in Economics and Finance 12 (5, July/August): 1–7.
+
+Trading Binary Options: Strategies and Tactics, Second Edition
+By Abe Cofnas
+Copyright © 2016 by Abe Cofnas
+
+Chapter 7
+
+Binary Option Trading
+Strategies
+
+This chapter provides a review and sampling with real-world conditions in
+which basic binary option trading strategies combine and build upon fundamental, technical, and sentiment analyses. These examples act as case studies
+for learning how markets react to different events. Try to compare the trading strategies and actions reviewed here with your own approach to market
+conditions described. As always, once an underlying market is selected, the
+challenge is to determine the most highly probable winning binary strategy
+to apply. This chapter will help you meet that challenge. We first review core
+strategies and then explore trading examples.
+The Core Strategies
+
+There are many strategy variations, but there are basically seven major binary
+option trading strategies that provide the set of options to respond to most
+global market-related events.
+1. In-the-money (ITM)
+2. Deep-in-the-money (DITM)
+3. At-the-money (ATM)
+4. Out-of-the-money (OTM)
+5. Deep-out-of-the-money (DOOM)
+6. Range trades
+7. Breakout trades
+127
+
+128
+
+Trading Binary Options
+
+In no uncertain terms, every trader who is considering binary option
+trading needs to understand and master these strategies and determine when
+they apply. We explore them in a variety of examples in this chapter.
+
+In-the-Money or Deep-in-the-Money
+Consider the scenario of a trader recognizing a trending market condition.
+What strategy works in this case? If the trend is strong and the headlines
+seem to be screaming at you, one can sense momentum in the markets. Such
+conditions provide confirmation for an in-the-money strategy, which is a
+trend-following approach. After scanning the headlines, check if the trend
+strength continues. A good gauge is to see if the trend line is approaching a
+37- to 45-degree angle, or whether the price just broke through its 50-day
+moving average. Ask yourself: Is the trend being confirmed by a sequence of
+new daily highs or new daily lows? It is a good idea to use price break charts
+to quickly visualize trend strength. If the answer is confirming a bull or bear
+trending condition, a DITM trade makes a lot of sense. Such a strategy reflects
+confidence that the trend direction will continue to be strong. While the term
+deep-in-the-money is very subjective, it is reasonable to consider trades that
+risk $75–$85 to be deep-in-the-money. They are priced high by the market
+because the expected probability that they will settle as a winner is high. The
+trader putting on a DITM is following or joining the crowd. If it is a bullish
+strategy (Figure 7.1), the binary strike price is priced near 80 ask. If it is a
+bear strategy, it is selling and receiving the bid price, which is a resistance leg
+above the spot price with an ask price in the range of 20 to 14 (Figure 7.2).
+The trader should note that the distance of the binary strike price from the
+spot price in binaries that are priced at 75 to 85 are often near 2 percent. That
+means it takes a big market move to lose those positions.
+Figure 7.1 Model of Buying a Deep-in-the-Money Binary Option
+
+Spot Price
+
+Buy-Binary Option
+Support Ladder at
+Ask price of 80 to 90
+
+Binary Expiration Date
+
+Binary Option Trading Strategies
+
+129
+
+Figure 7.2 Model of Selling a Deep-in-the-Money Binary Option
+Sell-Binary Option
+Resistance Ladder at
+Bid price of 10-15
+
+Spot Price
+
+Binary Expiration Date
+
+At-the-Money or Near-the-Money
+For market conditions that point to the weakening of a trend and a possible
+momentum move, follow an at-the-money (ATM) strategy. An ATM contract
+is priced around $45 to $55 and this reflects a bit more market uncertainty.
+But if the ATM is riding with the trend direction, it is a safer play than a
+similarly priced binary option contract that is embedded in a sideways action.
+It also provides a potential return of almost 100 percent if it is settled in-themoney by Friday expiration. An at- or near-the-money binary option play
+can also be in response to a sideways pattern if the price is still hovering near
+its support or resistance level. Think of at-the-money as a bet on a bounce.
+It works if the market has enough energy in it to move the price out of its
+pattern. Binary option trades that offer higher or lower trading decisions only
+are in fact at-the-money trades.
+
+Out-of-the-Money and Deep-Out-of-the Money
+At the other extreme of strategies for playing the trend is an out-of-the-money
+(OTM) trade. An OTM trade of a trending underlying market is a bet that
+the trend will not only continue but will be able to sharply rise. A deep-outof-the-money (DOOM) binary play is a long shot and an anticipation trade
+(Figure 7.3). The trader is going for a high-roller return and is willing to take
+the risk. Let’s look at some real-time examples of strategic and tactical thinking in shaping the binary option trading strategy.
+
+130
+
+Trading Binary Options
+
+Figure 7.3 Deep-Out-of-the-Money Binary Trade
+Buy-Binary Option
+Resistance Ladder at
+Ask price between 25 and
+40.
+
+OR
+
+Spot Price
+
+Sell-Binary Option
+Resistance Ladder at Bid price
+between 60 and 70
+
+Instant of
+Data Release
+
+Expiration
+Date
+
+Range Traders
+
+The range trade has as a distinctive feature one in which the trade is immediately half correct. In a range trade, one cannot be wrong on both strike prices.
+The range trade has as its feature selling an upper resistance strike price, and
+buying a lower support strike price (Figure 7.4). The wider the range, the more
+probable the price will stay within the range. The risk of the range trade is
+half the sum of the risks of both legs. The reward of the range trade is that the
+trader keeps the amount he sold for at the bid price, and wins 100-ask price.
+Figure 7.4 Binary Option Range Trade
+Sell-Binary Option
+Resistance Ladder at
+between 10 and 15
+
+Spot Market
+
+Buy-Binary Option Support
+Ladder at between 80 and 90
+
+Expiration Date
+
+Binary Option Trading Strategies
+
+131
+
+Breakout Trades
+
+The breakout trade is the inverse of the range trade. The trader selects a range, an
+upper and lower strike price, and bets that the price will settle outside the range.
+It doesn’t matter whether the price breaks through the upper resistance strike
+price or the lower resistance strike price. The reward or profit will be the same.
+The breakout trade is essentially a play on volatility (Figure 7.5). The
+trader isn’t betting on direction. She is simply anticipating that the move will
+be big enough to break through the selected range.
+The breakout trade is ideal for trading key economic data releases such as
+the NFP report because these releases move the markets.
+It takes time to become adept at matching price patterns with the best
+binary strategy. Figure 7.6 is a quick guide for finding the binary strategy
+most appropriate to the identified market condition.
+World Events and Binary Trades
+
+Applying binary option strategies to real market conditions is where the trader
+will gain experience and sharpen his or her skills. The beauty of weekly binary
+option trading is that at the start of every week, the trader has the opportunity to observe how the market has reset its balance of fears and detect
+whether there have been any shifts in sentiment. The binary trader is in effect
+a trader of world events. The following examples will help reinforce your
+understanding of binary trading.
+Figure 7.5 Breakout Trade
+
+Buy-Binary Option
+Resistance Ladder
+
+Instant of
+Data Release
+
+Spot Price
+
+Sell Binary Option
+Support Ladder
+
+Option
+Expiration
+
+132
+
+Trading Binary Options
+
+Figure 7.6 Summary of Trading Strategy and Market Conditions
+Market Condition
+
+Trending
+
+Strength
+
+Binary Strategy
+
+Strong
+
+Buy
+Deep-in-the-Money
+
+Weak
+
+Aging
+
+Buy or Sell
+At-the-Money
+
+Sell
+Out-of-the-Money
+
+New
+
+Buy
+At-the-Money
+
+Aging
+
+Sell
+At-the-Money
+
+Parabolic
+
+Sell
+Out-of-the-Money
+
+Sideways
+
+Sell
+Strangle
+
+Gold as a Fundamental and Fear Play
+Gold offers examples of how two fundamental forces set the stage for binary
+option trading. The first force is gold fear of inflation, and the second force
+is gold as a haven basket in times of crisis. Over the years, many gold price
+patterns reflect these two forces. Let’s take a closer look.
+The week of April 18, 2011, is our first case. During that week, gold
+price action patterns presented a mixed binary option trading opportunity
+as shown in Figure 7.7. The debt crisis at that time in Europe also became
+reflected in the difference between the yields of the German versus the Greek
+bonds (see Figure 7.8).
+
+Binary Option Trading Strategies
+
+133
+
+Figure 7.7 Hour Gold Spot Price During Greek Crisis from April 18 to April 23, 2011
+1515
+1510
+
+1500
+1495
+
+Spot Price
+
+1505
+
+1490
+1485
+1480
+
+Source: Bloomberg Financial, L.P.
+
+Yield

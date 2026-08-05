@@ -1,0 +1,936 @@
+{
+  "stage": "A2.1",
+  "total_records": 5756,
+  "candidates": [
+    {
+      "name": "MACD",
+      "count": 50,
+      "books": 13
+    },
+    {
+      "name": "Busted",
+      "count": 23,
+      "books": 1
+    },
+    {
+      "name": "RSI",
+      "count": 22,
+      "books": 8
+    },
+    {
+      "name": "DMA",
+      "count": 17,
+      "books": 1
+    },
+    {
+      "name": "Impulse",
+      "count": 16,
+      "books": 2
+    },
+    {
+      "name": "Butterfly",
+      "count": 15,
+      "books": 2
+    },
+    {
+      "name": "Momentum",
+      "count": 12,
+      "books": 1
+    },
+    {
+      "name": "Elliott",
+      "count": 10,
+      "books": 6
+    },
+    {
+      "name": "Gartley",
+      "count": 10,
+      "books": 2
+    },
+    {
+      "name": "Buddha",
+      "count": 7,
+      "books": 2
+    },
+    {
+      "name": "OBV",
+      "count": 7,
+      "books": 4
+    },
+    {
+      "name": "Double Bottom",
+      "count": 6,
+      "books": 1
+    },
+    {
+      "name": "Double Top",
+      "count": 6,
+      "books": 1
+    },
+    {
+      "name": "JdK RS-Ratio",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "Risk\nThe",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "Shoulders Top",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "Signal",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "Stalled",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "TSB",
+      "count": 4,
+      "books": 1
+    },
+    {
+      "name": "ATM TSB",
+      "count": 3,
+      "books": 1
+    },
+    {
+      "name": "Anti",
+      "count": 3,
+      "books": 1
+    },
+    {
+      "name": "Bat",
+      "count": 3,
+      "books": 1
+    },
+    {
+      "name": "Bullish Bat",
+      "count": 3,
+      "books": 1
+    },
+    {
+      "name": "Dark",
+      "count": 3,
+      "books": 3
+    },
+    {
+      "name": "GES",
+      "count": 3,
+      "books": 1
+    },
+    {
+      "name": "Piercing",
+      "count": 3,
+      "books": 3
+    },
+    {
+      "name": "Bollinger Band",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "COMAS",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "COT-based",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Climax",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Composite COT",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Confirmation\nThe",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Consolidation",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Crowd Behavior\nThe Directional",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "DMI",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Decline",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "Deliberation",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "Equity",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Flat",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Holy Grail",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Market\nBear Market\nTall",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Narrow",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "QQQ",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Reversal",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "Short",
+      "count": 2,
+      "books": 1
+    },
+    {
+      "name": "Stochastics",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "Tenkan",
+      "count": 2,
+      "books": 2
+    },
+    {
+      "name": "A-B-C",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "AADB",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "ADX line shown in Figure",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "ADX that tells you when a marke",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "AND BEARS POWER\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "ATR Channel Breakout",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Adam",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Aharami",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Ahigh",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "An RSI",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Answer\nHer",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "August",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Average True Range",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Basic Elliott",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Bollinger\nBands",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Bollinger Breakout\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Bollinger bands",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Boy Plunger for nothing",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Breakdown\nMarket Type\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Broadening Top",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Broken",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Bruce",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Bullish\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "COT Index",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "COT THEORY",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "CTAs for",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Central Bank Agreement on Gold",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Channel",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Characteristics This",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Chicago",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Complex",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Congestion",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Continuation",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Crab",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Crossing",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "D extension",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "DJIA",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "DeTrended OscI",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Diamonds",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Directional Movement",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Disciplining Device\nThe",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Discovering",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Divergence",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Doji lines",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Donchian Trend",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Dual Moving Average",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Earnings\nBusted",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Efficient Market",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Eve",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Expanded Flat",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "FTSE",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Fan Lines",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Fib",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Fibonacci Retracement",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Future",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Gann",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Graham-and-Doddsville",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "HPI",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Half-mast",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Harvey and said",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Head-and-Shoulders Top",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Horn Tops",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "IHS",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Ichimoku Tenkan",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "In-Neck\nIn-neck",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Independence Day",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Inverted\nThe",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Investors Intelligence for trac",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Its",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "January Effect",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "JdK\nRS-Ratio",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "June",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "KISS",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Keltner",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Kijun",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "LINE\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Linear",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Loss Aversion",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Lower",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Marabozu",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Market Conditions\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Mechanica",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "MetaStock",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Moving Average Convergence Divergence",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "OEX",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "ON THE PATTERNS\nAnother",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "ONLY ONE METHOD\nWhich",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "On-neck",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "One-Day Reversal",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "OneCoin was met with much inter",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Oscillator Rec",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Overriding",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Overtrading\nSome",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "PATTERN\nThe Gartley",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Parabolic",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Petrifying",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Pinocchio",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Positive Directional",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Positive and Negative",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Price",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Pure Price",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "RS-MACD",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Rally\nMarket Type\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Ratio",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Retracement Osc",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Ribbon Study",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Rijun Sen",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Rounded\nBottom\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "S-H-S",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "SIMPLE BUT EFFECTIVE\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "SPRING\nMarket Type\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Sell",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Sharp Momentum",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Shooting star",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Shoulders Bottom",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Spike",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Spring-the",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Straight",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Summer-the",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Their",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Trade Management The Butterfly",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Trend\nThis Donchian Trend",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Triangle",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Triple Moving Average\nThis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Turtle Soup",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "UK Open The",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Ulis",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Unemployment",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "VFI",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Visual Dictionary",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Volume",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Wall Street powerhouses",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Warning",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Wedge",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Whatever",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Whichever",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Wide",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Your",
+      "count": 1,
+      "books": 1
+    },
+    {
+      "name": "Zigzag",
+      "count": 1,
+      "books": 1
+    }
+  ]
+}

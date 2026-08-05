@@ -1,0 +1,388 @@
+
+228
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 9.4 This graph shows a small amount of expansion, allowing you to see
+about six weeks into the future.
+
+FIGURE 9.5 This is a more extreme example of showing the future, since this
+Fibonacci time series has its next data point decades away.
+
+Expansion and Channels
+
+229
+
+this analysis is possible, even though the next line in the series is decades
+in the future, in approximately 2043.
+As a practical matter, it is useful to leave the chart permanently expanded, and although the amount of expansion is up to you, allocating approximately the rightmost 10 percent and the uppermost 5 percent of the
+chart to a “price-free” chart area is usually enough. You will find it invaluable in being able to speculate on future price movement, particularly since
+all the objects you have drawn (such as trendlines, Fibonacci studies, and
+so forth) will project into the future. You can use those as guides to predict future support and resistance levels, and when combined with the data
+line, you can pinpoint those predicted dates and prices.
+
+PARALLEL LINES
+In Chapter 8, you learned how to use and draw trendlines. The tool next
+to the trendline tool, which is the channel tool (Figure 9.6), lets you draw
+two parallel trendlines easily in order to bound price data in a channel
+pattern.
+Channel patterns are rarer than trendline patterns, simply because it is
+much easier to find prices bouncing off a consistent support or resistance
+level than it is to find prices bouncing within both support and resistance
+in a parallel fashion. In the case of a supporting trendline, you will probably see prices touching the trendline below and not having any particular
+pattern above it, and with a resisting trendline, you will see prices touching
+the trendline above and not having any meaningful shape below. In other
+words, trendlines bounce off either the upper or lower price action, and
+otherwise the price action may be just noise.
+With a channel, however, prices are confined within parallel trendlines.
+Because this pattern is much more unusual, it is also much more meaningful. The prices are obeying more complex mechanics, and thus when prices
+exit that channel in either direction, the move up or down will likely be
+more potent. As always, the longer the pattern, the more meaningful the
+breakout from the pattern, and a breakout from a channel is usually more
+significant than a breakout from a single trendline.
+
+FIGURE 9.6 The channel tool is represented by two small parallel trendlines.
+
+230
+
+CHART YOUR WAY TO PROFITS
+
+Drawing a channel is very similar to drawing a trendline. You follow
+these steps:
+1. Click on the channel tool.
+2. Click in the chart area where you want to begin your first trendline.
+3. Drag the mouse to where you want this trendline to end and click once
+
+more.
+4. At this point, another parallel line will appear. As you move the mouse
+
+up and down, this parallel line will follow your mouse movement.
+5. Place the line at its destination and click the mouse button to complete
+
+the drawing. You will now have a drawn channel.
+As with the trendline, you can right-click on a drawn channel (Figure 9.7) to make use of other features, one of which is unique to the channel. Here is what each item from the menu does:
+Move: Allows you to move the channel or change its angle. When you
+select this, three handles appear: one at the start point of the first
+trendline, another on the end point of the first trendline, and another on the end point of the second trendline. You can drag any
+of these handles to change the angle of the channel (the full 360
+degrees of a circle are available) or to adjust the distance of the
+second trendline from the first.
+Duplicate: This creates an identical channel (same size, angle, color)
+near the first one, and this duplicate channel will have all three
+handles preselected so you can immediately move it to the desired
+location.
+
+FIGURE 9.7 When you right-click on a channel, this popup menu appears.
+
+Expansion and Channels
+
+231
+
+Change Style/Color: Brings up the same dialog box as was shown in
+Figure 8.16, allowing you to change the color, opacity, weight, and
+pattern of the channel. You can also preserve these settings so they
+are used as the default for all future channel drawings.
+Extend: As with the same option for trendlines, the Extend function
+makes the trendlines (and the median line, if selected) extend infinitely into the future. This is especially useful if you are using an
+expanded chart, as described earlier in this chapter.
+Show Median Line: This option is unique to the channel tool. It creates
+another parallel trendline exactly between the upper and lower
+trendlines of the channel. There are instances (such as with Figure 9.4) in which not only the prices are bounded by a channel but
+also tend to cling to the middle line between the upper and lower
+trendlines. This can make for more insightful and precise analysis.
+Delete: Choosing this deletes the selected channel. If you make a mistake, you can always undo your decision with the Undo command
+(Ctrl-Z).
+Delete All Drawings: Choosing this deletes all the drawn objects on the
+current chart. If you make a mistake, you can always undo your
+decision with the Undo command (Ctrl-Z).
+Being able to spot channels on a chart can be challenging, because you
+have to ascertain whether price action is intended to fit a uniform, parallel
+pattern. Experimentation with drawings is the best approach when you
+are learning, since there is no harm in creating and deleting channels if you
+find that you were wrong. And if your drawing doesn’t quite conform to the
+price action, you can also use the Move command to adjust the position of
+the channel so prices line up within the boundaries.
+The application of channels is very similar to that of trendlines. If you
+are in a position, you should stay in that position so long as the prices stay
+within the boundaries (Figure 9.8). And if you are not in a position, you
+may want to wait until the price breaks above (bullish) or below (bearish) the channel before taking action. You should also keep in mind that
+breakouts are more potent if they are contrary to the primary trend of the
+channel. In other words, a breakout above a descending channel is especially bullish, and a breakdown below an ascending channel is especially
+bearish, because in each case, the breakout is in opposition to the former
+trend.
+As mentioned before, channel patterns are unusual, but they do happen, and the longer they last, the more meaningful they are. Any price
+trend will eventually change, so as a channel gets progressively old, the
+likelihood of its staying within that channel diminishes, and the potency of
+the move once it escapes that channel increases. As Figure 9.9 shows, it is
+
+232
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 9.8 An open position can be held as long as the price action remains
+bounded by the support and resistance levels.
+
+FIGURE 9.9 Prices can remain within channels for many months, or even years.
+
+Expansion and Channels
+
+233
+
+hazardous to try to anticipate the breakout from a channel until is actually
+happens, since prices can stay within the confines of a channel for months
+or even years.
+
+BREAKDOWNS AND BREAKOUTS
+When prices do finally leave their channels—and they always will,
+eventually—those holding positions in those securities are wise to close
+them out, and those looking for an entry point should examine the chart as
+an opportunity. Figure 9.10 illustrates typical action after a channel is broken. In this instance, prices were trending slowly lower, making a series
+of lower highs and lower lows. A person exploiting this channel may have
+seized on opportunities to buy the stock when it was at the lower support
+line and sell the stock short when it was at the upper resistance line. But as
+the chart shows, the fourth time it touched the support line, it subsequently
+broke it, and the downfall in price from there was fast and powerful.
+
+FIGURE 9.10 This channel shows how swiftly prices fell after prices violated the
+lower support line.
+
+234
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 9.11 In a bullish move, prices pushed above support in this chart and
+moved signiﬁcantly higher.
+
+Prices can move out of a channel in either direction, of course. Figure 9.11 shows a channel made of two horizontal, parallel trendlines. This
+also happens to be an inverted head and shoulders pattern, which you will
+read about in Chapter 13. After prices moved above resistance, they swiftly
+more than doubled, and a person purchasing this stock after the breakout
+would have had a profit almost immediately after the trade since prices
+never dipped beneath the former resistance line.
+Channels appear in three different forms: ascending (a series of higher
+highs and higher lows), descending (lower highs and lower lows), and horizontal (equal highs and equal lows). A stock breaking above its ascending channel or breaking below its descending channel isn’t usually a good
+trade, because it is simply moving in the same direction at a faster rate. The
+better trades are those where a reversal pattern takes place.
+Figure 9.12, for example, shows a stock that was moving higher
+within an ascending channel. When it finally broke beneath support late
+in October, it lost about 20 percent of its value, and the stock was clearly
+in a downtrend versus its prior uptrend.
+Because channels are made of a trendline pair, the same guidelines can
+apply. The idea of prices moving back toward the trendline after a breakout
+
+Expansion and Channels
+
+235
+
+FIGURE 9.12 Channels do not have to be horizontal to be eﬀective. Breakouts
+contrary to the prior trend are often the most potent.
+
+is still true. For example, when prices break beneath a channel’s supporting line, they can move higher (in spite of the bearish signal) and touch
+the line that used to represent support (Figure 9.13). It is also helpful, after a channel violation, to watch for the formation of new patterns, since
+the channel by definition has become a pattern of the past. Looking at Figure 9.13 once again, the prices formed a clear topping pattern spanning
+nearly a year once prices cut beneath support in October. In addition, you
+can see prices moving from $36 to $46 even after this pattern failure, since
+prices were clinging to the underside of the former support line before they
+succumbed to the new pattern’s direction.
+Another interesting thing about channels is that they often represent
+temporary changes in trend. Figure 9.14 offers a real-life example. At the
+beginning of the chart, the stock was moving down badly, descending from
+$15 to $8.50 per share. Following this weakness, the stock began a countermove lasting nearly two years, and the prices nearly tripled. Once the
+channel was broken, the descent in prices began anew. What’s particularly
+interesting about this channel is that the channel itself was defined early
+
+236
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 9.13 After prices fell below support, they gradually weakened over the
+months ahead.
+
+on: The price points established in the first few months of the channel accurately predicted the entire move. Had a trader made use of this channel,
+he would have benefited from virtually the entirety of the price move, since
+by and large the stock went up until it broke beneath the support line.
+The very best channel-based trades are those where prices break out
+in the direction opposite the channel. Figure 9.15 provides a fitting example. Prices had been moving steadily lower, bottoming at less than $2.50.
+When prices more than doubled after that, they were up against the upper
+resistance line. Once they broke above that line, however, the subsequent
+move nearly quadrupled prices from that level. Although a person entering
+this trade might begrudge the fact that they had already missed a 100 percent move (from $2.50 to $5.00), the fact is that until the prices are outside
+the channel, there is no basis for that trade. There were many other occasions when the price was at resistance and could have broken out, but
+it did not. Only until the reversal is confirmed with a breakout is there a
+rational reason to place the trade.
+
+Expansion and Channels
+
+237
+
+FIGURE 9.14 This channel was entered into when the stock was much weaker.
+The channel represents a time of consistent strength.
+
+FIGURE 9.15 Breaking above a descending channel usually precedes signiﬁcant
+upward moves.
+
+238
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 9.16 Other patterns may form within channels, which can oﬀer more
+thorough insight into a stock’s future behavior.
+
+Just because prices are bound by a channel does not mean that a channel is the only pattern that can take place during that timespan, especially if
+a channel is somewhat lengthy. There are many instances where patterns
+can appear within other patterns, and having an awareness of those can
+yield fresh insight into the stock’s future behavior.
+In Figure 9.16, the price of the Russell 2000 index moved within the
+confines of a very large channel for many months. But inside the channel,
+a series of different patterns appears: The three horizontal lines indicate
+breakouts from smaller bullish patterns. By having an awareness of these
+smaller patterns, you could look for repeated behavior. So not only would
+you be aware of a broad-based uptrend, but you could make predictions
+based on the smaller patterns—in this case, bullish patterns within a much
+larger bullish pattern, which made the case especially strong for holding
+onto this winning position.
+
+SUMMARY
+In this chapter and the prior one, you have studied line-based patterns: that
+is, trendlines and channels. Understanding and using these are essential to
+
+Expansion and Channels
+
+239
+
+good charting. But these straight-line patterns are relatively easy to find,
+and there are many other kinds of patterns that are important to your
+knowledge of technical analysis but may not be so obvious.
+In the next chapter, we will begin this journey into more ambiguous
+patterns by studying rounded tops and rounded bottoms. These are patterns which can help you predict reversals of a security from which you
+can profit.
+
+CHAPTER 10
+
+Rounded Tops
+and Saucers
+
+wo of the most important events that occur repeatedly in technical
+analysis are breakouts and reversals. A breakout is the act of a price
+escaping from a relatively tight price range, either to the upside (a
+breakout above resistance) or the downside (a failure below support). A
+reversal is the act of a price changing directly either from (1) up to down
+or (2) from down to up. What is going on in each case is the same—an
+escape from a price range. The terminology differs only to state what has
+happened prior to that escape.
+Breakouts and reversals are crucial events to discern on a chart since
+they can make you money, and two of the most common patterns found
+on charts that relate to these events are rounded tops (at the peak of a
+chart) and saucers (at the bottom). There are many terms used for this
+phenomenon. A rounded top, as the name suggests, is price action at the
+upper end of a chart, and it is sometimes called a distribution top or an
+inverted saucer. A saucer, which is typically at the low end of a chart’s
+recent price range, is also referred to as a rounded bottom, a basing pattern,
+or a dish pattern.
+Tops and bottoms are not always as clean and neat as saucers and
+tops, so we will begin by examining the more fundamental price breakouts, which are the progenitors of saucers and tops. A breakout is the
+escape from a price range bounded by a lower line (support) and an upper line (resistance). Figure 10.1 illustrates a breakout pattern in which the
+price action had been around $7 to $9 for many months. When prices broke
+above the resistance line in mid-June, the stock swiftly moved up several
+hundred percent.
+
+T
+
+240
+
+Rounded Tops and Saucers
+
+241
+
+FIGURE 10.1 This stock bounced between $7 and $9 for a year before ﬁnally
+breaking above its resistance level. Notice the pullback to the former resistance level
+after the breakout, after which the price soared.
+
+A longer-term chart is provided by Owens Illinois (Figure 10.2), whose
+stock was forming a base from 1992 through 1996. Traders sometimes refer
+to this price action as hammering out a base, because there is a tug-of-war
+happening between buyers and sellers as they try to establish a fair price
+for the stock. This is a search for equilibrium or price discovery, since the
+market is working at discovering what the proper price is for the security.
+
+FIGURE 10.2 Owens Illinois (symbol OI) tripled after it broke above this breakout
+pattern.
+
+242
+
+CHART YOUR WAY TO PROFITS
+
+As this goes on—especially over a period of years, such as with this
+example—the stock amasses a larger and larger group of owners of the
+stock within a fairly narrow price range. Once external events finally push
+prices out of this range, the momentum behind that push will be strong,
+because so many holders will be in a winning position, eager to acquire
+more shares.
+The psychology behind a mass of buyers holding a security at a particular price is important, and in a way it is the very basis of technical analysis.
+Generally speaking, traders prefer profits to losses. Owners of a security
+whose price moves higher will feel increasingly positive about that stock
+and will feel compelled to buy more, because their profits are increasing. If
+there is a large mass of such buyers, this kind of buying can feed on itself.
+A stock that has been trapped within a small price range for a long term
+will have two important ingredients for a potential upside move: (1) a large
+quantity of buyers within that price range, eager to add to their position
+if the stock breaks out of the range, and (2) a strong support level at that
+price range, which will create a firm floor for prices if an initial breakout
+weakens. If a stock breaks above its price range and then starts sinking,
+that same mass of owners of the stock is going to be reluctant to sell their
+holdings as the price softens, which will cause the price to firm as sellers
+dry up. This army of security owners within that price range is a potent
+force, both for pushing the stock higher and for protecting the stock from
+falling through the well-established price range.
+An extraordinary example of the power of a long-term base is shown
+with Newport Corporation in Figure 10.3. The stock hammered out a
+
+FIGURE 10.3 Newport Corporation (symbol NEWP) exploded in both price and
+volume in 2000, going up almost twentyfold in a very short time.
+
+Rounded Tops and Saucers
+
+243
+
+gargantuan base over nearly two decades, from 1983 to 1999. When it finally
+broke above $10, the ascent was fast and furious, with a nearly twentyfold
+increase in value within just over a year. Notice also the gigantic increase
+in volume during this time, which is illustrative of the ascent feeding on
+itself. Having waited so many years for the stock to finally wake up and do
+something, buyers were falling all over themselves to acquire more shares
+once it finally did burst above its well-established resistance level.
+
+PRICE PULLBACKS
+One nice feature of breakouts is that they often give traders a second
+chance to get in after the breakout. This temporary softening in prices after
+the breakout is known as a pullback, and it is caused by a portion of the
+owners of the stock anxious to bank their profits on their stock’s newfound
+price activity.
+Imagine a hypothetical group of 1,000 people, each of whom owns
+shares in a company that has been trading between $10 and $12 for years.
+If the stock finally breaks out and hits $15, you can understand the excitement of these owners, since they have been holding a do-nothing stock for
+years and it is finally showing signs of life.
+Although most of these owners may be patient enough to let their profits build, a subset of this group is going to want to get out of the stock
+immediately and take their profits. The psychology behind this group is understandable, too—after all, their stock has done absolutely nothing, and
+now it is giving them an opportunity to get out with some extra cash. So
+some people—let’s say 100 of the group of 1,000—immediately place orders to sell the stock at the current market price.
+This influx of selling is going to cause the price to soften, at least temporarily. It usually will head back to the upper end of its former trading
+range, at which point selling will dry up since any newfound profits the
+group enjoyed have now vanished, eliminating the compulsion to sell the
+stock for a quick profit. This temporary softening of prices is the pullback,
+and those people watching the stock chart closely can take advantage of
+this by acquiring the stock at the prebreakout price. It is an especially attractive opportunity because the stock has, in a manner of speaking, tipped
+its hand about its price direction since it has finally broken out of its price
+range.
+The stock of the company Potash, shown in Figure 10.4, broke above
+the upper end of its price range and swiftly moved from $38 to $44. It then
+started slipping back to $38, and for the first few months of 2004, the stock
+bobbled between a miniature price zone of $38 to $44 before doubling in
+
+244
+
+CHART YOUR WAY TO PROFITS
+
+FIGURE 10.4 Potash (symbol POT) more than doubled after this beautiful saucer
+breakout.
+

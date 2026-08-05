@@ -1,0 +1,304 @@
+
+Figure 3.1 is self-explanatory, but here are the key points to understand about candlesticks:
+Candles usually have a body and wick (called a shadow) on both ends; however, any of these
+individual parts may be missing from a given candle as we'll see below. Together, they cover the
+entire price range over the given period the candle represents. The body alone represents the
+range between the open and closing price for a given period, and the wicks, or shadows, show
+the upper and lower price ranges.
+Each candle displays all price information: the high, low, and open and closing prices for a given
+period, depending on the chart's time frame. Here are two examples of candle information:
+1. Each candle on a one-minute chart covers the opening, closing, and high and low prices
+for one minute.
+2. Each candle on a daily chart shows this price information for an entire day.
+Any good trading platform should provide candlestick charts ranging from one second to one
+month.
+Body color tells us the price direction for the given period. The most common color coding is
+green bodies for higher closes and red for lower ones. In this book, we generally use dark gray
+for higher closes and light gray for lower ones, as seen in Chapter 2, Figures 2.3, and 2.7.
+
+Relationship between Body, Wick, and Its Significance
+The length of the bodies and the wicks, in absolute terms and relative to each other, can tell us a great
+deal about market sentiment over the duration of a given candle. That can be significant for candles
+covering longer periods like an entire day, week, or month. As with any technical indicator, candles
+and their patterns over shorter durations are less meaningful because price movements within a given
+
+day or less often can be caused by random money flows unrelated to any real market sentiment.
+Here's the key to understanding the relationship between wick (or shadow) and body length and the
+meaning of an individual candle: The longer the wicks are relative to the body, the greater the
+indecision and the greater the back and forth struggle between buyers and sellers, and the more likely
+the current trend will cease or reverse. Conversely, the shorter the wicks are relative to the body, the
+more decisive the move up or down, and the more likely that the move will continue in the same
+direction.
+Figure 3.2 represents the Bullish “Marubozu” Type and suggests strong buying pressure. A long
+higher close body with few or no shadows shows buyers outnumbered sellers and were in control
+during the entire period covered by the candle, steadily pushing price higher. The longer the candle
+body, the greater the buying strength.
+FIGURE 3.2 Bullish “Marubozu” Chart
+
+Figure 3.3 illustrates a Bearish “Marubozu” Type and suggests strong selling pressure. A long
+lower close body with few or no shadows shows that sellers outnumbered sellers and were in control
+during the entire period covered by the candle, steadily pushing price lower. The longer the candle
+body, the greater the selling strength.
+FIGURE 3.3 Bearish “Marubozu” Chart
+
+Figure 3.4 illustrates the Doji Type which is neutral or indecisive, with sellers and buyers evenly
+matched. Similarly, small body relative to the wicks suggests the same indecisiveness to a lesser
+degree. If the body was red, the sellers were modestly stronger; if green, the opposite is true.
+FIGURE 3.4 Doji Chart
+
+Lower Wicks
+A relatively long lower wick suggests initial strong pessimism and selling which reversed as buying
+increased at the lower bargain price, and short sellers took profits. In other words, a lower price
+level was tested and held firm, turning back attempts to drive price lower. A short lower shadow
+suggests less indecision, less testing of lower prices, and lighter selling pressure that required few
+buyers to reverse it.
+If the currency pair closes at its low for the period covered, the candle won't have a lower wick.
+
+Upper Wicks
+Conversely, a relatively long upper wick suggests initial optimism or buying pressure that reversed as
+sellers stepped in and buyers took profits. In other words, a higher price level was tested and held
+firm, turning back attempts to drive price higher. A short upper wick shows less indecision, less
+testing of higher prices, less struggle between buyers and sellers.
+If the closing price is the high for the period covered, the candle won't have an upper wick.
+
+SUPPORT AND RESISTANCE (S/R) BASICS
+Before proceeding, you'll need a basic understanding of s/r. We'll deal with these both in greater
+
+depth later, but for now just understand that when we discuss price support or resistance, we mean
+exactly what these terms imply. For the sake of simplicity, assume we're referring to long positions,
+that is, trades for which the goal is to buy low and sell high. As we'll discuss further on, definitions of
+support and resistance are reversed for short positions, so we'll ignore those for now.
+Support, as the name suggests, is a price level, trend line, or other indicator that acts like a floor,
+preventing price from falling lower. It's where buying tends to occur repeatedly over a given
+period. Support draws in new buyers because it's seen as the lowest, bargain price for a given
+period. If support is breached for more than a brief period, that usually means market perception
+of the asset's value has fallen, and price will continue lower until the next support level. The
+stronger the support, the more bearish (pessimistic) the signal if that support level is breached.
+Resistance is just the opposite of support. It is a price level, trend line, or other indicator that
+acts like a ceiling, preventing price from rising. If resistance is breached for more than a brief
+period, that usually means price will continue higher until the next resistance level. The stronger
+the resistance, the more bullish optimistic the signal if that level is breached.
+Support or resistance (s/r when discussing these together) are rarely exact price points, but rather
+are defined zones or areas, with their range depending on a variety of circumstances covered
+later.
+S/R can be as simple as a price level at which price tends to reverse direction, or it can be made up
+of multiple trend lines or other technical indicators (that we'll learn about later) that all converge on
+an area and mutually reinforce the s/r zone
+The strength of an s/r area depends on various factors, such as age (older is better), how often it has
+been tested and held firm, the number and quality of various kinds of s/r indicators that converge on a
+given price level, and whether or not it's near a large round-number price level. Let's look at some
+real-life examples.
+As shown in Figure 3.5, the EURUSD daily chart of June 10 to July 25, 2011, you will see the
+following:
+A. June 21–22: The pair of long upper wicks (a “tweezers tops” pattern, covered in Chapter 4)
+showed strong resistance level around 1.4400, caused by selling pressure from some combination
+of those who were long the pair taking profits and short sellers opening new positions. The June
+14–15 candles show prior resistance around 1.4400. Round numbers have a psychological
+appeal as natural buy or sell points, so certain round numbers tend to become significant s/r
+points.
+B. June 23: The lack of much upper wick tells us that prices mostly fell from the start of the day.
+The long lower wick indicates that the pair managed to recover over half of its losses before the
+official close of the day's trading in the New York session. The lower wick shows sellers tested
+all the way down to around 1.4130 before buyers stepped in and short sellers took profits. Think
+of the long lower wick as a blind man's cane, probing for obstacles.
+C. June 23–26: This 1.4130 support level was tested each day as selling continued, but this level
+held firm. The June 24 (Friday) candle's lower opening and even longer red body shows
+continued firm selling pressure, but roughly equal upper and lower wicks reflect some indecision
+about how low to go. The June 26 (Monday) candle is a small light gray (this would be shown in
+red) body with small wicks, meaning price direction was mostly straight down but with
+
+weakening selling pressure. This weakening selling pressure was confirmed by the rally that
+followed.
+D. June 27: A strong reversal as prices rebounded off this support level. The long dark gray (this
+would be shown in green) body shows decisive buyer control, with prices closing near the top of
+the day's range, and it “engulfs” or retakes the prior two days' losses. Such candles are called
+“bullish engulfing” patterns because they “consume” and recoup the prior days' losses.
+E. June 30: Long upper wick again serves like a blind man's cane hitting an obstacle as the
+market gropes around to locate near-term resistance. Combined with the short dark gray (green)
+body near the bottom of the daily price range, which means there was little gain on the day,
+suggests the uptrend is weakening, as indeed it was.
+F. July 3–4: Taken together, we see that the market opened above the 1.4550 resistance level
+twice but couldn't advance. On July 4th, after six straight days of gains and having hit resistance,
+sellers began taking control, probing lower before buyers stepped in, but could not prevent a
+lower close on the day. In Chapter 4, we'll learn that this kind of candle, with a small body, little
+or no upper wick, and a long lower wick relative to the overall candle range is a bearish sign
+when it occurs during an uptrend and is confirmed by the next candle closing lower (as was the
+case on July 6th). It's called a “hanging man.” Its long lower wick, topped by a small body,
+combined with a lower close in the next candle, presents an intuitively clear picture of the market
+rejecting higher prices.
+G. July 12: This is essentially the same form of candle as on July 4; however, during a downtrend
+(and especially after an eight-day long downtrend and close at what was strong long-term support
+around 1.4000), this is considered a bullish reversal sign, called a hammer, as sellers probe
+lower support but buyers send sellers retreating and recover most of the day's (or any other
+period's) losses. In other words, this long lower shadow is a graphic image of the market
+rejecting lower prices. Once again, the lower wick may have hit bottom. Like the bearish hanging
+man shown on July 4th, this bullish twin hammer required confirmation from the next candle and
+got it with the next day's bullish engulfing candle (it engulfed or recouped the prior day's move).
+It signaled the start of a move higher over the coming sessions.
+H. July 17: The candle had a mere line instead of a body, meaning that the opening and closing
+prices were the same or nearly so—price unchanged. The market ruled undecided, a tie between
+buyers and sellers. Such candles are called dojis. As signs of indecision, they often suggest a
+possible reversal of the current trend. This form of doji, with its prominent lower wick, that
+occurs after a downtrend near strong support around 1.4000, suggests a market groping for a
+bottom. That was the case, as the following days confirmed this bullish sign and buyers took over
+and sent prices higher.
+I. July 25: This doji, with equidistant wicks, shows complete indecision or perfect balance
+between buyers and sellers.
+FIGURE 3.5 EURUSD Daily Chart, June 10 to July 25, 2011
+Source: MetaQuotes Software Corp.
+
+Analyze This!
+What do you think happened to the EURUSD after the indecisive doji of July 25 (H)? Consider
+the following evidence:
+The EURUSD has had five straight days of gains, the last three with increasing strength.
+Looking at the month covered by this daily chart, the current price level of 1.4409 has served
+as near-term resistance because looking at the far left, middle, and far right sides of the
+chart, the pair has failed twice before to make a sustained move above it.
+The current price level of 1.4409 is essentially the same as 1.4400. As we'll learn in greater
+detail when we study s/r, round numbers tend to serve as natural support or resistance
+because humans are psychologically wired to think in terms of round numbers. The more
+zeros, the more psychologically significant the number. That's why $4.99 feels cheaper than
+$5.00.
+July 25 (H) shows a doji candle, a classic sign of indecision.
+For the sake of simplicity, we'll ignore the overall bearish fundamental factors that were
+behind the July price declines.
+So, what do you think happened? Do you think the pair finished the day higher, lower, or the
+same? Here's what happened. If you thought the price would pull back, you were right. In
+Figure 3.6, after the undecided doji, the pair made a head-fake higher and pulled back (note the
+2 candles that follow H). We'll talk more later about these “false breakouts,” why they happen,
+and what you can do to protect yourself against being fooled by them.
+FIGURE 3.6 EURUSD Daily Chart 20, June 3 to August, 2011
+Source: MetaQuotes Software Corp.
+
+Ideally, your reasons should have gone something like this.
+The pair was at a significant near-term resistance level and was showing indecision. The more
+likely move is a pullback as long positioned traders take profits from the prior solid run
+higher. Markets expect some pullback, so unless new bullish news arrives, the element of selffulfilling prophecy operates. Traders create the reality they expect.
+
+CANDLE CHART TIME FRAMES: LENGTH MATTERS
+Before concluding this section on candle charts, you need to know more about chart time frames and
+which ones you should use when starting out. As in other areas of life, longer is better.
+We mentioned earlier that each candle presents the price action over a specific period, or to use
+traders' jargon, a time frame. Most trading platforms' charting modules allow you to view candles
+representing time frames ranging anywhere from a second to a month.
+As you'll see, the time frame of the chart from which you trade matters. It matters a lot. The short
+version—stick to trading off of longer time frame charts, like four hour, daily, weekly, or monthly
+candles, until you are successful trading moves over these longer periods. Only then should you even
+consider trying to day trade currencies.
+
+Different Time Frames, Different Trading Techniques, and Styles
+The following is an overview of the differences in trading techniques and styles:
+1. Those trading over short time frame charts, that is, short holding periods and trading off of
+charts with candles that form over a matter of minutes or hours:
+They rely almost exclusively on TA and especially risk management. In these time frames,
+prices move with unpredictable large block trades of big players, most fundamentals except
+for news items are irrelevant, and most technical indicators are less reliable, so keeping the
+frequent losses low is key.
+
+They actively monitor their positions more closely, so be on the lookout for breaking news
+that could change everything. They must make many real-time decisions quickly and must not
+let emotions shake them from their trading plan.
+They allow only small losses because gains over short periods are smaller than over longer
+periods.
+They tend to stick to trading highly leveraged spot (cash) market instruments, that is, trading
+currency pairs themselves via an online broker's trading platform because they need:
+24/5 access in order to catch opportunities that come and go quickly.
+High leverage in order to earn adequate profits from the small price moves that occur
+over a matter of minutes or hours without needing to commit six-figure sums that would be
+beyond the means of most traders.
+2. Those holding positions over weeks, months, or years, using charts with daily, weekly, or
+monthly candles:
+In addition to using technical analysis to plan entries and exits, will add a heavy dose of
+long-term fundamental analysis involving the health of the underlying economies of the
+currencies they trade, like trends in rates of interest, growth, employment, consumer
+spending, and so on. These factors can matter, and because they don't change quickly,
+multimonth trends are reliable; they don't reverse often.
+Allow larger total pip losses and looser stop losses because of the larger moves that occur
+over longer periods, and because riding established, reliable long-term trends requires
+looser stop losses.
+Don't need to actively watch positions. They can plan trades and enter orders to enter and
+exit in advance and thus can monitor trades less frequently.
+In addition to directly trading currency pairs with online brokers, they have the option of
+trading unleveraged instruments like currency exchange-traded funds (ETFs) or monthly
+binary options, or other instruments. They are playing longer-lasting, larger price moves, and
+so may neither want leverage (which makes it harder to stay in a position for a long time and
+wait out the moves against you) nor need it (because the price moves are large enough
+already). As we'll discuss later, that absence of leverage makes it simpler to trade because
+you don't need the same degree of risk and money management.
+
+Different Time Frames, Different Trends
+The trend, meaning the overall price direction, that you'll see on any chart depends greatly on your
+time frame. Seeing a variety of trends nested within longer-term trends is common.
+For example, look at this AUDJPY monthly chart shown in Figure 3.7.
+FIGURE 3.7 AUDJPY Monthly Chart, October 1, 2007, to June 1, 2011
+Source: MetaQuotes Software Corp.
+
+During this period risk assets like the AUDJPY were in an overall downtrend. The AUDJPY is a
+classic risk pair, meaning that it tends to move in the same direction as other risk assets, like stock
+indexes or oil, because the two currencies occupy opposite ends of the hierarchy of risk currencies.
+The AUD is the number one risk currency, and the JPY is typically the ultimate safe haven. In times of
+optimism or risk appetite, the AUD is usually strong and the JPY is weak, so the pair tends to move
+sharply higher. In times of pessimism or risk aversion, it moves firmly downward because the JPY
+tends to be strong and the AUD tends to be weak. Remember, pairs move in the direction of the base
+currency.
+Note how the picture changes for someone viewing a daily chart anytime from September 2010 to
+February 20 2011, as shown in the chart in Figure 3.8.
+FIGURE 3.8 AUDJPY Daily Chart, July 12, 2010, to February 20, 2011
+Source: MetaQuotes Software Corp.
+
+Although the pair was in a long-term downtrend, embedded within this downtrend was a shorter
+term, multimonth uptrend that was tradable even for conservative longer-term (multiweek or month)
+forex traders. In particular, note:
+By November 2010, the AUDJPY was in an established uptrend because it had formed a series
+of both lower highs since August 2010 and higher highs by early November.
+As shown in the chart in Figure 3.9, by late December, the pair had formed an ascending channel
+(two parallel trend lines) that was formed by three higher highs and two higher lows. As we'll
+see later, these upper and lower channel lines are useful indicators of s/r that we use (usually in
+combination with other indicators for confirmation) to select low-risk, high-yield entry and exit
+points when planning and executing our multiday, weekly, or monthly trades.
+FIGURE 3.9 AUDJPY Daily Chart, July 12, 2010, to February 20, 2011
+Source: MetaQuotes Software Corp.
+
+In sum, the time frame you choose to trade will influence every aspect of your trading. As we'll
+discuss in Chapter 5, longer time frames can help put the odds of success in your favor and, when
+used properly, will reduce your risk.
+
+IDENTIFYING SUPPORT AND RESISTANCE (S/R) TO
+BUY LOW, SELL HIGH, OR VICE VERSA
+Here's another useful oversimplification. The whole point of TA is to help us buy low, sell high, or
+vice versa when shorting a currency pair. That is, we use TA to more precisely identify the likely low
+and high prices for a given period. These become our low-risk entry points and high-yield exit points.
+
+Definitions of S/R Are Reversed for Long and Short Positions
+Definitions of s/r can get confused when discussing short positions, so let's clarify this now. Though
+definitions of s/r are reversed for long and short trades, they are conceptually the same:
+When we're buying (or going long) the pair, the likely low price is support, and the high price is
+resistance.
+When we're selling (or going short) the pair, the likely high price is support, and the low price is
+resistance.
+In other words, we define support as the area where you want to open a position because it's the
+floor that you hope will support your trade and protect you from losses. Resistance is the area where
+you want to close positions because it acts like a ceiling that resists further gains. You always enter
+near support (whether that's the high or low price) and sell near resistance (whether that's the
+high or low price). Conceptually, s/r are the same regardless of whether you're long or short.
+Understand this, and you'll avoid a lot of confusion.
+
+With these definitions of s/r clarified, we can now state the general principle for locating low-risk,
+high-yield trade situations.
+
+The General Rule for Identifying Low-Risk High-Yield Trades
+Once we know how to use TA tools to identify likely s/r in a given time frame (for example daily,
+weekly, or monthly candle charts), we can scan charts for situations where the distance between the
+support and resistance is the greatest and where price is approaching support, which allows us a lowrisk entry point to buy or sell the currency pair.
+We then:
+Place entry limit orders to open positions near support. For long positions, support is near the
+likely low, and for short positions support is near the likely high for a given period. We enter
+near support because the odds of price moving against us are lower, and if support is breached,
+that's a signal to exit while our losses are small.
+Place exit limit orders (for taking profits) near resistance. For long positions resistance is near
+the likely high, and for short positions it's near the likely low.
+There are details and exceptions, but that's what you're seeking when you scan charts looking for
+opportunities. Whether you choose to enter slightly before or after price hits support is a judgment
+call that is influenced by a variety of factors. For example, if you're more worried about missing the
+trade and are confident it will work as planned, or think support is very strong, you might want to
+jump in earlier. If you feel the opposite, you'd set your entry limit order a bit below support.

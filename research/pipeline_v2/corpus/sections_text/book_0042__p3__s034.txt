@@ -1,0 +1,381 @@
+
+Theories of Nonrandom Price Motion
+
+357
+
+straints do not tell us under which circumstances markets are more likely
+to underreact to new information than overreact. That is where the second pillar of behavioral finance, the limits of human rationality, comes in.
+As we learned in Chapter 2, cognitive psychology has revealed that,
+under conditions of uncertainty, human judgment tends to err in predictable (systematic) ways. By taking into account the systematic errors
+of human judgment, behavioral finance can predict the type of departure
+from market efficiencies that are most likely to occur in a given set of circumstances.
+Of the two pillars of behavioral finance, more is understood about the
+limits of arbitrage than about investor irrationality. This is because arbitrageurs are expected to be rational, and economic theory has a firmer
+grasp on the behavior of rational actors than irrational ones. For example,
+it is not yet clear which specific cognitive biases and systematic judgment
+errors are most important in finance, but a picture is gradually emerging.
+This section describes the current state of behavioral finance's understanding of irrational investor behavior and the systematic price movements that arise as a result of them.
+In contrast to traditional finance theory, behavioral finance asserts investors make biased judgments and choices. In effect, market prices systematically deviate from rational values because investors systematically
+deviate from full rationality. However, these mistakes are not a sign of ignorance, but rather a consequence of the generally effective ways human
+intelligence has developed to cope with complexity and uncertainty.
+Behavioral finance and EMH are similar in that they both contend that
+the market eventually does get it right-that is, prices ultimately converge
+toward rational valuations. They merely differ about the character of
+these departures and their duration. EMH says prices depart from rational
+levels randomly and briefly. Behavioral finance says some departures are
+systematic and last long enough to be exploited by certain investment
+strategies.
+Psychological Factors
+
+In Chapter 2 we saw the way cognitive errors in1pact subjective technicians and result in erroneous beliefs. In the context of behavioral finance,
+we will consider how cognitive errors impact investors and result in systematic price movements. The cognitive errors discussed in the sections
+that follow are not completely distinct, nor do they operate independently.
+However, they are presented separately for the purpose of clarity.
+ConservaUsm lIias, ConlirmaUon Bias, and Belief InerUa.
+The conservatism bias64 is the tendency to give too little weight to new
+
+358 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+information. Consequently, people fail to modify their prior beliefs as
+much as the new information would warrant. Prior beliefs tend to be conserved. Because of this, investors tend to underreact to new information
+that is relevant to security values and so security prices fail to respond adequately. Over time, however, prices do systematically catch up with
+value. This gradual, purposeful adjustment appears on a chart as a price
+trend. This is illustrated in Figure 7.5.
+This conservatism bias is encouraged by the confirmation bias, which
+causes people to accept evidence that is consistent with a prior belief and
+reject or give too little credence to evidence that contradicts it. Thus,
+when investors hold an existing view about a security and new information arrives that confirms that belief, they will tend to give it more weight
+than it deserves and overreact to it. Conversely, when new information arrives that contradicts the prior belief, they tend to treat it skeptically and
+underreact.
+The confirmation bias also causes investors' beliefs, whatever they
+may be, to become more extreme over time. The reason is as follows:
+Over time, news items arrive as a random mixture of confirmatory and
+contradictory information. However, the confirmation bias causes them
+to be treated differently. Confirmatory information is given credence,
+thus strengthening the prior belief, while contradictory information will
+tend not to be believed and thus have a negligible impact on the investors' prior belief. Consequently, over time it is likely that prior beliefs
+strengthen.
+However, prior beliefs can be subject to a radical and irrational weakening if several bits of contradictory information arrive in a streak. Even
+though streaks are common in a random sequence, investors may commit
+the crime of small numbers and attribute too much significance when several pieces of information that contradict the prior beliefs arrive sequentially. In other words, the random streak may be erroneously interpreted
+as an authentic trend. These ideas are illustrated in Figure 7.8.
+In Chapter 2
+we saw that, in uncertain situations, people rely on heuristics to simplify
+and speed complex cognitive tasks like estimating probabilities. One
+heuristic, not discussed thus far, is called anchoring. It is relied upon to
+estimate quantities. The rule is applied as follows: An initial estimate of
+the quantity is made, based on preliminary information called the anchor. Then upward or downward adjustments are made to the initial estimate based on additional information. The anchoring rule seems to
+make sense.
+However, in practice, people commonly make two mistakes when applying this heuristic. First, initial estimates can be strongly influenced by a
+
+1'00 !\'Iuch Anchoring and 1'00 Little Adjustment.
+
+359
+
+Theories of Nonrandom Price Motion
+
+i
+
+Contradictory News
+
+Confirmatory News
+
+Strong
+
+1 ,,
+, '
+
+1 ,,
+
+11 1
+,--1'
+I
+
+1---;
+
+I
+
+I
+
+I
+
+...
+
+1- - -
+
+I
+
+Belief
+Strength
+
+i
+
+i
+
+' -
+
+-
+
+- I
+
+i
+
+Confirmation Bias
+&
+Conservatism Bias
+
+'
+
+... -
+
+-
+
+I
+
+1
+
+•
+
+I
+
+1
+
+1
+
+i
+Crime of
+Small Numbers
+
+Weak
+
+Time
+FIGUKI~ 7.8
+
+Revising beliefs.
+
+completely irrelevant anchor. This occurs even when the anchor's irrelevance is completely obvious. Second, even in cases where the initial estimate is based on relevant anchoring information, there is a tendency for
+subsequent adjustments up or down to be too small (the conservatism
+bias). In other words, the additional information is given too little weight
+relative to the initial estimate.
+The tendency to seize on an irrelevant anchor was demonstrated in a
+study in which people were asked to estimate the length of the Mississippi
+River (actual length = 2,348 miles). Subjects were first asked if the length
+was greater than or less than some arbitrary length. This number assumed
+the role of anchor in the subject's minds. When the question posed was: Is
+the length greater or less than 800 miles? Most people correctly said the
+Mississippi was longer than 800 miles. Subjects were then asked to give an
+estimate of its actual length. Other subjects were given the number 5,000
+miles in the greater than or less than part of the question. Again, most people correctly said the river's length was less than 5,000 miles, but their estimates of the river's actual length were, on average, greater than the
+estimates given by subjects who were asked to make a comparison with
+800 miles. This revealed that the subjects seized on the number of miles
+given in the question as an anchor, and then made inadequate adjustments
+
+360 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+from there. If the figure 800 or 5,000 were not truly influencing the estimate, the estimates of length would have been about the same, irrespective of whether the question involved a comparison with 800 miles or
+5,000 miles. 65 The anchor had a strong influence.
+Another experiment showed that people will anchor on a number
+even when it is obviously irrelevant.66 Subjects were asked about facts
+that are typically not part of common knowledge-for example, "What
+is the percentage of African nations in the United Nations?" The answers to each question involved a percentage (0 to 100). Before each
+question, a wheel of fortune with 100 numbered slots was spun in front
+of the subjects. The study showed that the subjects' answers were
+strongly affected by the wheel's obviously random result. For example,
+if the wheel landed on the number 10, the median estimate was 25 percent, but when the wheel stopped on 65 the median estimate was 45
+percent.
+The anchoring heuristic is thought to be related to investor underreaction. Underreactions to bullish news cause asset prices to remain too
+cheap, whereas underreactions to bearish news leave prices too dear.
+Over time, the market's temporary state of inefficiency is resolved as
+prices drift (trend) to the rational level. Thus, anchoring can help explain
+the occurrence of price trends.
+Anchoring may explain the profitability of a momentum strategy alluded to earlier. 67 It is based on a simple technical indicator, a stock's
+proximity to its 52-week high. Because this information is available in
+newspapers and on various web sites, investors may fixate (anchor) on it.
+In other words, investors may fixate or anchor on the 52-week high price
+if a stock is currently trading near that level. In effect, the stock gets stuck
+near its 52-week high. Thus the price fails to respond properly to new bullish information, and it becomes temporarily underpriced. Ultimately the
+pricing error is corrected as the stock responds with a systematic movement higher.
+Anchol'in~ to Stol'ies.
+
+Investors not only become anchored to numbers; they can get stuck on intuitively compelling68 stories, too. The effect
+is the same; prices do not respond efficiently to new information and thus
+depart from rational valuations.
+Stories are compelling because "much of human thinking that results
+in action is not quantitative, but instead takes the form of storytelling and
+justification."69 As pointed out in Chapter 2, investors rely more on causal
+narratives than on weighing and combining evidence to estimate probabilities and make decisions. People seem to need simple rationales to justify
+their actions. 7o The most compelling rationales are plausible, easily understood, easily retold, cause and effect chains filled with concrete and color-
+
+Theories of Nonrandom Price Motion
+
+36.
+
+ful details. These are the tales that captivate investors and incite buying
+and selling. These are the stories that get stuck in investors' minds.
+Optimism and Ovel'Conlidence. To recap, people are generally too
+confident about the quality and precision of their knowledge. Thus, investors tend to be overconfident about their private interpretations of
+public information and overly optimistic about the profits they will
+achieve. The combined effect of overconfidence and overoptimism leads
+investors to overreact to their private information, and in tum pushes security prices too far. Overextended price movements lead to price reversals and systematic movements back toward rational levels.
+'I'he Crime of Small Numbers (Sample Size Neglect). The crime
+of small numbers is the failure to consider the number of observations
+comprising a sample being used to form a conclusion. Thus, it is fallacious
+to judge whether a datum was produced by a random or nonrandom
+process or to estimate a population parameter on the basis of a small sample. For example, if a sequence of 10 coin flips produces 7 heads, it would
+be invalid to conclude the coin has a 0.7 probability of producing heads.
+The true head rate for a coin can be reliably inferred from only a large
+number of flips.
+Investors who neglect sample size are easily deceived when trying to
+decide if a time series is random or not. For example, by generalizing too
+hastily from too little evidence, investors may incorrectly conclude that a
+few quarters of positive earnings growth indicate that the company has established a valid growth trend. We have already seen that a small cluster
+of positive quarters can easily occur in a random-earnings stream. Thus,
+the crin1e of small numbers helps explain why investors may overreact to
+a short sequence of good earnings reports.
+The crime of small numbers can cause two different judgment errors:
+the gambler's fallacy and the clustering illusion. Which of these two errors
+results depends on the observer's prior belief about the process being
+watched. Suppose an investor is watching a sequence of price changes
+that are truly independent of each other (a random walk).
+If the investor holds a prior belief that the process is random, the error will most likely be the gambler's fallacy. Recall that on the basis of
+common sense we expect random processes to display more flip-flops and
+fewer streaks (trends) than actually do occur. As a result, a streak of positive price changes will lead naive observers to falsely conclude that a
+trend reversal (a negative price change) is due. Thus, after five heads, the
+observer erroneously concludes a tail is more likely than 50/50, its true
+likelihood. In reality, a random-walk sequence has no memory. Thus, the
+occurrence of a positive streak does not alter the probability of the next
+
+362 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+outcome in any way. The false expectation of a reversal is called the "gambler's fallacy" because the statistically naive tend to make this mistake
+when watching a roulette wheel; a sequence of black outcomes is thought
+to increase the chance of a red. Wrong!
+The other fallacy stemming from sample-size neglect is the clustering
+illusion. It occurs when an observer has no prior belief about whether the
+process generating the data is random or nonrandom The clustering illusion is the misperception of order (nonrandornness) in data that is actually a random walk. Again, imagine someone observing the outcomes of a
+process that is truly a random walk trying to determine if the process is
+random or nonrandom (orderly, systematic).71 Recall that small samples
+of random walks often appear more trended (clustered) than common
+sense would lead us to expect (the hot hand in basketball). As a result of
+the clustering illusion, a sequence of positive price or earnings changes is
+wrongly interpreted as a legitimate trend, when it is nothing more than an
+ordinary streak in a random walk.
+Social Factors: Imitative Behavior, Herding,
+and Information Cascades 72
+We have just seen how investor behavior viewed at the level of the inclividual investor can explain several types of systematic price movement. This
+section examines investor behavior at the group level to explain systematic price movements. In contrast to conventional TA theories of investor
+psychology, we will see that some group behaviors are quite rational.
+When faced with uncertain choices, people often to look to the behavior of others for cues and imitate their actions. This is what is meant by
+herd behavior. I should clarify that herd behavior is not defined by similarity of action. Similar actions by many individuals can also occur when individuals have made similar choices but those choices have been arrived
+at independently. Herd behavior refers specifically to similarity of action
+arising from imitation. As I will point out, the choice to imitate can be entirely rational.
+There is a major difference between similar behaviors arising from
+herding and similar behaviors arising from many individual decision makers making the same choice independently. Herd behavior stops the diffusion of infonnation throughout a group, but independent decision making
+does not. When infonnation diffusion is impeded, it becomes more likely
+that investors will make the same mistakes and prices will systematically
+diverge from rational levels.
+To see why herd behavior impedes the spread of infonnation, consider the opposite case, where inclividuals evaluate infonnation independently and make autonomous choices. Suppose a large number of
+
+Theories of Nonrandom Price Motion
+
+363
+
+investors are independently evaluating a stock. Some may mistakenly
+value it too high, while others mistakenly value it too low. Because the
+mistakes are made independently, they will tend to be offsetting, making
+the average valuation error close to zero. Here, each investor has made an
+individual appraisal and in effect acted on a unique signal. This makes it
+far more likely that all the available information about the stock will have
+been considered and built into the price of the stock. Even if no single investor was in full possession of all the facts, the group, taken as a whole,
+is likely to be nearly fully informed.
+In contrast, when investors elect to imitate the behavior of others
+rather than deciding independently, all the relevant information about the
+stock is less likely to be fully diffused throughout the entire group, making it more likely that the stock's price will not reflect all relevant information. However, an individual investor electing to imitate may be
+making a perfectly rational choice. Not everyone has the time or expertise to evaluate a stock, so it can make sense to copy an investor with a
+good track record, such as Warren Buffett. Once Buffett does his analysis
+and makes his buy or sell decision known, investors may cease their own
+efforts to gather information and evaluate the stock. This makes it more
+likely that, if some factor has escaped Buffett's notice, it will remain unnoticed by the community of investors. So here is a case where individuals take actions that are fully rational on an individual basis but harmful
+to them as a group.
+At one time it was thought that imitative behavior was a consequence of social pressure to conform. Early experimental
+evidence seemed to confirm this. 73 In one study, an authentic subject was
+asked to estimate the length of line segments in the presence of fake subjects who also gave estimates. The fakes, who were actually part of the experiment, intentionally gave wrong answers. Even though the correct
+answer was obvious, the authentic subjects often went along with the
+group rather than give the obviously correct answer. However, a later experiment,74 in which the authentic subject was isolated from the group of
+confederates, showed the subject still imitated the group's obviously
+wrong answer. This finding implied that social pressure does not explain
+imitative behavior. A better explanation emerged. The subjects seemed to
+be relying on a social heuristic: When one's own judgment is contradicted
+by the majority, follow the majority. In other words, people operate with
+an implicit rule: The majority is unlikely to be wrong.
+"This behavior is a matter of rational calculation: in everyday living
+we have learned that when a large group of people is unanimous in its
+judgment on a question of simple fact, the members of the group are almost certainly right. "75 Similarly, most of us operate with the principle
+Why Do We Imitate?
+
+364 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+that, when an expert tells us something that contradicts our common
+sense, we tend to heed the expert. So it is entirely rational under conditions of uncertainty to look to the advice of experts or the actions of the
+majority.
+Information Cascades and lIerd lIehavior. The uncertainties of
+investing make it likely that investors would rely on an imitation heuristic rather than independent decision making. This has important implications for the emergence of systematic price behavior because imitation
+gives rise to "information cascades. "76 An information cascade is a chain
+of imitative behavior that was initiated by the action of one or just a few
+individuals. In some instances that initiating action may have been a random choice.
+The emergence of an information cascade can be illustrated with a hypothetical example. Suppose two new restaurants open for business on
+the same day, right next door to each other. The first hungry customer to
+arrive must choose one, and has little information on which to base a decision. That customer's choice is, therefore, a random decision. However,
+when the second customer arrives, there is an additional piece of information: one of the restaurants has a patron. This may trigger the second customer to go into the same place. Because the first customer's selection
+was a guess, we know that the second customer's choice was based on an
+uninformative signal. When the third customer arrives and sees one
+restaurant empty and the other with two customers, the chance is increased that the third customer will also make an imitative choice. In the
+end, a cascade of dependent choices, triggered by the first customer's random choice, may ultimately cause one establishment to thrive and the
+other to fail, and it is entirely possible that the failing establishment offered better food.
+Thus, an initial random event sets the course of history down one particular path (restaurant 1 succeeds) rather than another path (restaurant 2
+succeeds). As time goes on, the likelihood that one restaurant will thrive
+increases while the likelihood that the second establishment will fail increases. In the same way, an initial random price movement can trigger successive rounds of imitative investor behavior, resulting in a long-duration
+large amplitude price swing.
+Now consider what would have happened if many customers had
+made independent restaurant choices, allowing both establishments to be
+sampled by many customers. By combining their findings, they would
+have discovered which was the better of the two restaurants. However, in
+an information cascade, imitative behavior prevents the accumulation and
+sharing of many independent appraisals. Thus, information cascades
+block the diffusion of information and rational choice.
+
+Theories of Nonrandom Price Motion
+
+365
+
+The information cascade model reveals the flaw in the common sense
+notion that financial market prices are determined by a process like voting, in which many individuals make their own assessment. 77 In an information cascade, investors make the rational choice of copying the actions
+of others, rather than expending the considerable effort required to arrive
+at an independent choice. Voters do one thing, and investors sometimes
+do something entirely different.
+We have seen
+that information cascades can explain why the rational behavior of individual investors can impede the diffusion of information. This is important for
+TA because the rate at which infoffilation spreads among investors can explain the occurrence of systematic price movements. EMH assmnes almost
+instantaneous information diffusion and, consequently, almost instantaneous price adjustments. Such price adjustments are too quick to be exploited by TA methods. However, information that diffuses slowly allows for
+gradual, systematic price movements that can be exploited by TA methods.
+Despite the prevalence of advanced communications technology, the
+preferred method of exchanging investment information is still a good
+story told person to person. This predilection, a result of several million
+years of evolution, has been confirmed by the studies of behavioral-economist Robert Shiller. He has shown that the word-of-mouth effect is strong
+even anl0ng people who read a lot. A story about a hot new issue has
+greater impact in conversation than a statistic about the high failure rate
+of new companies.
+The way stories spread among investors has been studied with mathematical models sin1ilar to those used by epidemiologists to study the spread
+of disease within a population. Unfortunately, these models have not been
+as accurate in the investor domain as they have been in the realm of biology.
+This is explained by the fact that the mutation rate of circulating ideas is far
+higher than the mutation rate of organisms. However, the models have been
+enlightening in another way; they explain how stories spread so rapidly.
+One reason a "new" story can spread so rapidly is that it is not really
+new. Investors' minds are already infested with many fan1iliar story scripts,
+and it does not matter that the panoply of stories residing in investors'
+minds contradict each other. For example, investors can be comfortable
+with the notion that the stock market cannot be predicted and at the same
+time hold the opposing notion that it can. No doubt, most investors have
+been exposed to experts who have espoused both points of view. Our minds
+are able to acconunodate a wide variety of contradictory ideas because the
+scripts lie there inert with no demand that we choose one side or the other.
+Nevertheless, this state of affairs can change rapidly. Even a slight
+random perturbation in the news or the market's behavior can cause an

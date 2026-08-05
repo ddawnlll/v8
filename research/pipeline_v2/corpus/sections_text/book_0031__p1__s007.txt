@@ -1,0 +1,319 @@
+
+OCO orders are highly recommended for every open position.
+Contingent orders
+
+A contingent order is a fancy term for combining several types of orders to create a
+complete currency trade strategy. You’ll use contingent orders to put on a trade while you’re
+asleep, or otherwise indisposed, knowing that you’re contingent order has got all the bases
+covered and your risks are defined. Contingent orders are also referred to as if/then orders.
+If/then orders require the If order to be done first, and then the second part of the order
+becomes active, so they’re sometimes called If done/then orders.
+Let’s look at a trade idea and see how a contingent order works. Say NZD/USD has been trading
+in a range between 0.6700 and 0.6800 and is currently sitting in the middle at 0.6750/53. You
+think it’s going to go higher, but you don’t want to jump in at the middle of the range and risk
+watching it go down before it goes up. So you use a contingent order to implement your strategy,
+even if you’re not watching the market.
+Because you’re ultimately looking to buy on a dip toward 0.6700 to get long, you would place an
+if/then limit order to buy at 0.6710, the if part of the order. The contingent, or then, part of the
+order only becomes active if the if part is triggered and you enter a position.
+The then part consists of either a stop order or a take-profit order, or preferably both in the form
+of an OCO order.
+Continuing with this example, your contingent order may be to place a stop order below 0.6700, in
+case the range breaks and you’re wrong. So you may place your stop-loss order at 0.6690 to sell
+what you bought in the if part. This type of contingent order is called an if/then stop loss. You may
+
+opt for only an if/then stop-loss order if you want to limit your downside risk, but let your upside
+gains run.
+If you think the upside is limited to the range highs at 0.6800, you may want to add a contingent
+take-profit order at 0.6790 to sell what you bought at 0.6710, in addition to your stop-loss order.
+Now if your position is opened at 0.6710, you have an OCO order to stop sell at 0.6690 or take
+profit sell at 0.6790. Now you have a complete trade strategy with defined risk parameters.
+If the market continues to trade in the range, it may drop from the level you saw (0.6750/53)
+before you went to bed. If it hits 0.6710, then your long position is established and your OCO
+orders are activated. If the range holds and the price moves back up to the range highs, your take
+profit at 0.6790 might be triggered. If the range fails to hold, your stop-loss order will limit your
+losses and close out your trade for you.
+
+Be careful about using if/then orders with only a contingent take-profit order. Not using a
+stop loss to protect your downside is always very risky. At the minimum, always use an
+if/then stop loss to limit your risks.
+If you use an if/then OCO order and the market behaves as you expect, you could awaken to find
+that you bought at 0.6710 and took profit (sold) at 0.6790, all while you slumbered through the
+night. Or you could awaken to find that your if order to buy was done, but the market has yet to hit
+your stop-loss or take-profit levels. But at least your open position is protected by the activated
+OCO order. Worst-case scenario in this example: You wake up and find that your if limit order
+was filled and your stop was triggered on a break through the bottom of the range, giving you a
+loss. The key is that you effectively managed your risk.
+
+Spreads and orders in online currency trading
+Now that I’ve covered the different order types, I think it’s important for you to be aware of how
+online trading platforms typically handle traders’ orders. I spent some time earlier in this chapter
+discussing forex market spreads. There was a good reason for that: Online forex brokers accept
+your orders according to their trading policies, which are spelled out in detail in the contract
+you’ll have to sign to open up an online trading account. Make sure you read that section to be
+absolutely certain what your broker’s order execution policies are. Ideally, brokers should publish
+their order execution policies on their website. Either way, it should be clear and easy to
+understand.
+
+The key feature of most brokers’ order policies is that your orders will be executed based
+on the price spread of the trading platform. That means that your limit order to buy will only
+be filled if the trading platform’s offer price (where they sell) reaches your buy rate. A limit
+order to sell will only be triggered if the trading platform’s bid price (where they buy)
+
+reaches your sell rate.
+In practical terms, let’s say you have an order to buy EUR/USD at 1.2855 and the broker’s
+EUR/USD spread is around 3 pips. Your buy order will only be filled if the platform’s price deals
+1.2852/55. If the lowest price is 1.2853/56, no cigar, because the broker’s lowest offer of 56
+never reached your buying rate of 55. The same thing happens with limit orders to sell.
+
+Stop-loss execution policies are typically different than limit order executions. To prevent
+filling your stop order at a worse rate than you requested, most forex brokers utilize the
+spread to trigger the stop.
+Stop orders to sell are triggered if the broker’s bid price reaches your stop order rate. In
+concrete terms, if your stop-loss order to sell is at 1.2820 and the broker’s lowest price
+quote is 1.2820/23, your stop will be filled at 1.2820.
+Stop-loss orders to buy are triggered if the platform’s offer price reaches your stop-loss
+rate. If your stop order to buy is at 1.2875 and the broker’s high quote is 1.2872/75, your
+stop will be filled at 1.2875.
+The benefit of this practice is that some firms will guarantee against slippage on your stop-loss
+orders in normal trading conditions. (Rarely, if ever, will a broker guarantee stop losses around
+the release of economic reports or other volatile events.)
+Nuances and strategies of trading with orders are explored further in Chapters 13 and 14.
+
+Part II
+
+Driving Forces behind Currencies
+
+In this part . . .
+I start out by looking at the main macroeconomic drivers that move currency markets. If you slept
+through Econ 101, don’t worry — I take a mercifully brief (yet thorough) look at the economic and
+structural forces that drive currency rates. Then I shift gears a bit and explore how market
+psychology and sentiment filter those economics and dictate day-to-day price movements. Next, I
+look at the key individual economic reports — both U.S. and foreign — to give you a trader’s
+insight into what they mean and how you can profit from them. I wrap up by providing our insights
+into the fundamental trading behavior of the major and minor currency pairs and crosses.
+
+Chapter 5
+
+Looking at the Big Picture
+In This Chapter
+Getting to know the main drivers of currency rates
+Monitoring monetary policy and interest rates
+Understanding official currency policies and intervention
+Gauging risk sentiment and financial stability
+The forex market is inherently a big-picture market. FX traders focus on
+Interest rates and monetary policy developments.
+Economic growth and inflation data.
+Political elections and economic policies in major economies.
+Geopolitical risks, trade conflicts, and terror attacks.
+Major movements in other financial markets.
+On a daily basis, currency traders have to sort through myriad economic reports, interpret the
+comments of political and financial officials from around the world, take stock of geopolitical
+developments, and assess movements in other financial markets. They do all this to help them
+determine what direction major currencies are likely to move.
+Unfortunately, there is no set recipe for absorbing the daily flow of data and news to produce a
+clear-cut answer. Even if there were, many different market actors are pursuing their own
+interests, which may not be profit maximizing (see Chapter 3). Throw in market sentiment and
+future expectations, and you’re looking at market participants interpreting the same data and
+reaching different conclusions, or maybe reaching the same conclusions but at different times. In
+this chapter, I lay the foundation for building the framework to make sense of the many policy,
+data, and news inputs that affect the forex markets every day.
+The first step in laying the foundation is to get a handle on interest rates and monetary policy,
+because they’re the final product of most of the other inputs. Unless you’re an economist or banker,
+following monetary policy developments probably is not one of your favorite hobbies. But if
+you’re going to actively trade in the forex market, you need to get a handle on monetary policy and
+interest rates. I’m not trying to turn you into an economist or an interest-rate analyst — I just want
+to give you the lowdown on how interest rates affect currencies.
+
+In this chapter, I lay it all out so you can make sense of how it works, what goes into it, and how
+it’s communicated to the market. Later in the chapter, I get into the key elements of official
+currency policies and what happens when governments intervene in forex markets. Lastly, I take a
+look at the Great Financial Crisis of 2008–2009 (GFC) to see what lessons it holds for currency
+traders.
+
+Currencies and Interest Rates
+If the guiding principle in real estate is “location, location, location,” in currency trading it’s
+“interest rates, interest rates, interest rates.” The most significant overall determinant of a
+currency’s value relative to other currencies is the nature and direction of monetary policy set by a
+country’s central bank. This is because monetary policy is aimed at influencing domestic interest
+rates, which drive currency rates relative to other currencies with different interest rates.
+Domestic interest rates also influence overall economic activity, with lower interest rates
+typically stimulating borrowing, investment, and consumption, while higher interest rates tend to
+reduce borrowing and increase saving over consumption.
+Interest rates are important to currencies because they influence the direction of global capital
+flows and serve as benchmarks for what investors expect to earn investing in a particular country.
+This situation applies most directly to fixed income investing (bonds), which comprise the lion’s
+share of investments, but it also influences equity and other investment flows. All other things
+being equal, if you could invest in a government-backed bond that yields 6 percent or one that
+yields 2 percent, which would you choose? The one with the higher yield, of course. And that’s
+exactly what happens with currencies. Currencies with higher yields (higher interest rates) tend to
+go up, and currencies with lower yields (lower interest rates) tend to weaken.
+
+Although I’ve stressed interest rates as one of the primary drivers of currency rates, interest
+rates are not the only determinant of currency values. Plenty of other elements come into play,
+affecting currency rates both in short-term trading and in long-term trends. To use an analogy,
+think of the stage in a theater. Now think of interest rates as being the backdrop and the
+lighting on that stage. Various actors come and go; sets and props are changed between acts;
+but all the action on the stage takes place against the backdrop and under the lights. Interest
+rates provide the backdrop and set the lighting for most major currency movements, even if
+they’re not always the center of attention.
+
+The future is now: Interest rate expectations
+It’s not just the current level of interest rates that matter. Markets are always adjusting to
+
+changing circumstances and anticipating future developments. When it comes to currencies
+and interest rates, forex markets are focused more on the direction of future interest rate
+moves (higher or lower) than they are on the current levels because they’re already priced in
+by the market. So even though a currency may have a low interest rate, market expectations of
+higher interest rates in the future frequently will cause the currency to appreciate.
+And what drives interest rate expectations? The evolving economic outlook based on incoming
+data (I look at understanding and interpreting economic data in Chapters 6 and 7), economic
+assessments and guidance by monetary policymakers (see “Watching the central bankers” section
+later in this chapter), and a host of other economic, fiscal, and political developments (some of
+which I look at later in this chapter).
+
+Keep an eye on various interest rate futures markets, such as the Fed Funds futures contract
+for U.S. rates, to see what expectations markets are pricing in. These can be found on
+financial websites like Bloomberg.com, Reuters.com, and Marketwatch.com. The
+commentary will usually note that markets have priced in, say, 18 bps of tightening by the
+next FOMC meeting, meaning the market is expecting a 72 percent chance of a 25 bp rate hike
+(18 bps/25 bps ?= 72 percent).
+The outlook period, or the time frame in which markets are expecting interest rates to change, can
+span several months or quarters into the future. Depending on the economic circumstances and the
+outlook, markets may price-in interest rate changes a full year in advance, driving short term
+yields and currency levels in the process. Subsequent currency and yield fluctuations are based on
+incoming data and official guidance relative to the expectations markets have priced-in.
+
+Relative interest rates
+It’s important to remember that currencies always come in pairs. Rather than focusing solely on a
+particular currency’s interest rate level or outlook, forex markets tend to focus on the potential
+difference between two currencies’ prospective interest rate changes. If two major currencies’
+central banks are both expected to be raising rates by the same amount in the future, there’s little
+reason for one to outperform the other. But if one is expected to raise rates higher or faster, there
+are grounds for one currency to strengthen relative to the other.
+
+Interest-rate differentials
+The difference between the interest rates of the two currencies, known as the interest-rate
+differential or spread, is the key rate to watch. An increasing or widening interest-rate differential
+will generally favor the higher-yielding currency, whereas a falling or narrowing interest-rate
+differential will tend to favor the lower-yielding currency.
+
+Some of the largest currency swings occur when two countries’ interest rate cycles are
+moving, or are thought to be set to move, in opposite directions. And they don’t necessarily
+have to both be moving — one currency could see expectations of higher/lower rates,
+whereas the other’s rates are set to stay on hold. By focusing on the interest-rate differential,
+you can detect such changes more readily than by focusing on the rates of any individual
+currency.
+Traders should monitor the interest-rate differentials among the major currencies by looking at the
+spreads between short-term government debt yields to spot shifts that may not otherwise be
+evident. For example, U.S. 2-year yields may decline by 5 bps (basis points, or a hundredth of 1
+percent) — not an unusual daily development. Around the same time, Australian 2-year yields may
+move 5 bps higher — again, nothing earth shattering there viewed on its own. But add the two
+together, and you’re looking at a 10 bps move between the two, and that’s something to pay
+attention to. If the same thing happens again the following day, now you’re looking at a 20 bps
+change in the differential, which is nearly equivalent to a typical 25 bps interest rate change from a
+central bank. You can be sure that if the Reserve Bank of Australia (RBA) unexpectedly raised
+interest rates by 1⁄4 percent, or the Fed surprised everyone by cutting rates by 1⁄4 percent, there
+would be some sharp swings in AUD/USD. The same holds true for changes in the interest-rate
+differentials, and they occur on a daily basis rather than the monthly meetings of most central
+banks.
+
+Nominal and real interest rates
+The interest rate to focus on is not always just the nominal interest rate (the base interest rates
+you see, such as the yield on a bond). Markets focus on real interest rates (inflation-adjusted
+rates, which is the nominal interest rate minus the rate of inflation [usually consumer price index]).
+So even though a bond may carry a nominal yield of, say, 8.5 percent, if the annual rate of inflation
+in the country is 4.5 percent, the real yield on the bond is closer to 4 percent.
+This phenomenon is most evident in emerging market economies facing hyperinflation. Even
+though nominal interest rates may be 20 percent, if the annual rate of inflation is 25 percent, the
+real yield is –5 percent. Hyperinflation and negative yields lead to capital flight. The result is
+extreme weakness in the domestic currency, even though nominal interest rates may be extremely
+high.
+The same can be true with very low interest rates and deflation (negative inflation), such as what
+happened in Japan over the past decade. With interest rates at very low levels, eventually zero,
+and facing deflation, real Japanese yields were significantly higher than the nominal zero rates on
+offer. (Remember: If you subtract a negative number, it’s the same as adding that positive
+number.) As a result, the JPY experienced overall appreciation in this period despite very low
+nominal rates and abysmal economic prospects.
+
+In the following sections, I introduce the key objectives of monetary policy, take you through the
+tool kits of monetary policymakers, and show you how to stay on top of the evolving interest rate
+picture.
+
+Monetary Policy 101
+Monetary policy is the set of policy actions that central banks use to achieve their legal mandates.
+Most central banks function under legislative mandates that focus on two basic objectives:
+Promoting price stability (a.k.a. restraining inflation)
+Promoting sustainable economic growth, sometimes with an explicit goal of promoting
+maximum employment
+
+Although it’s a no-brainer that promoting economic growth is more important to those of us
+who work for a living, central bankers like to focus primarily on inflation. Low inflation
+fosters stable business and investment environments, so central bankers see it as the best way
+to promote long-run economic growth. Low inflation is also an end in itself because high
+inflation erodes assets and undermines capital accumulation. Some central banks, such as the
+European Central Bank (ECB), have only one mandate — to ensure price stability — with
+other policy objectives (growth and employment) explicitly relegated to secondary status.
+Still other central banks — the Swiss National Bank, for example — have a mandate to
+ensure a stable currency, though most countries have delegated that responsibility to the
+national finance ministry/treasury department.
+
+Looking at benchmark interest rates
+The primary lever of monetary policy is changes to benchmark interest rates, such as the federal
+funds rate in the United States or the refinance rate in the Eurozone. Changes in interest rates
+effectively amount to changes in the cost of money, where higher interest rates increase the cost of
+borrowing and lower interest rates reduce the cost of borrowing. The benchmark rates set by
+central banks apply to the nation’s banking system and determine the cost of borrowing between
+banks. Banks in turn adjust the interest rates they charge to firms and individual borrowers based
+on these benchmark rates, affecting domestic retail borrowing costs. Other tools in the monetary
+policy toolkit used by central bankers are
+Changes to money supply: The overall amount of money in circulation, or the greater the
+money supply, the lower the cost
+Reserve requirements: The amount of capital required to be set aside by the banking
+
+system; money that cannot be used for lending
+
+Easy money, tight money
+The main thrust (or bias, as markets call it) of monetary policy generally falls into two categories:
+expansionary or restrictive. An expansionary monetary policy aims to expand or stimulate
+economic growth, while a restrictive bias aims to slow economic growth, usually to fight off
+inflation.
+
+Expansionary monetary policy
+Expansionary monetary policy (also known as accommodative or stimulative monetary policy) is
+typically achieved through lowering interest rates (that is, reducing the costs of borrowing in the
+hope of spurring investment and consumer spending). Cutting interest rates is also known as
+easing interest rates and is frequently summed up in the term easy monetary policy. Central banks
+can also increase the money supply — the overall quantity of money in the economy — which also
+works to lower borrowing costs. A reduction in the reserve requirement of banks frees up capital
+for lending, adding to the money supply and reducing borrowing costs as well.
+An expansionary monetary policy is typically employed when economic growth is low, stagnant,
+or contracting, and unemployment is rising. Central banks of the major economies reacted to the
+fallout from the GFC and the global recession by slashing interest rates to historically low levels,
+near zero in the case of the United States, Switzerland, and Japan.
+
+Restrictive monetary policy
+Restrictive monetary policy (also known as contractionary or tighter monetary policy) is
+achieved by raising, or “tightening,” interest rates. Higher interest rates increase the cost of
+borrowing, and work to reduce spending and investment with the aim of slowing economic growth
+and lowering inflation.
+Central banks typically employ a tighter monetary policy when an economy is believed to be
+expanding too rapidly. The fear from the central banker’s perspective is that heightened demand
+coupled with the low cost of borrowing may lead to inflation beyond levels considered acceptable
+to the long-run health of an economy. With too much money chasing the same or too few goods,
+prices begin to rise, and inflation rears its ugly head. Rapid wage gains, for example, may lead to
+increased personal consumption, driving up the cost of all manner of retail products.
+
+Changing rates incrementally
+Changes in monetary policy usually involve many small shifts in interest rates, because central
+bankers are generally reluctant to shock an economy by adjusting interest rates too drastically.
+
+Even the potential for large interest rate changes could contribute to uncertainty among investors
+and businesses, potentially disrupting or delaying well-laid business plans, thereby harming the
+overall economy in the process. Typical interest rate changes among the major central banks
+center on 1⁄4 percent or 25 basis points (a basis point is 1/100th of 1 percent, or 0.01 percent),
+with 50 bps (or 1⁄2 percent) as the next most frequent rate adjustment.
+The GFC and the accompanying global recession caused key central banks to slash rates rapidly,
+with cuts of 75 to 100 bps coming in rapid succession in some cases. Having cut benchmark rates
+to near zero, several major central banks felt compelled to undertake additional unconventional
+easing measures to support their economies.

@@ -1,0 +1,128 @@
+[
+ {
+  "page": 1,
+  "char_start": 0,
+  "char_end": 2212,
+  "line_start": 1,
+  "line_end": 35
+ },
+ {
+  "page": 2,
+  "char_start": 2213,
+  "char_end": 6680,
+  "line_start": 36,
+  "line_end": 106
+ },
+ {
+  "page": 3,
+  "char_start": 6681,
+  "char_end": 11216,
+  "line_start": 107,
+  "line_end": 171
+ },
+ {
+  "page": 4,
+  "char_start": 11217,
+  "char_end": 15173,
+  "line_start": 172,
+  "line_end": 241
+ },
+ {
+  "page": 5,
+  "char_start": 15174,
+  "char_end": 19419,
+  "line_start": 242,
+  "line_end": 312
+ },
+ {
+  "page": 6,
+  "char_start": 19420,
+  "char_end": 23072,
+  "line_start": 313,
+  "line_end": 391
+ },
+ {
+  "page": 7,
+  "char_start": 23073,
+  "char_end": 27318,
+  "line_start": 392,
+  "line_end": 471
+ },
+ {
+  "page": 8,
+  "char_start": 27319,
+  "char_end": 31977,
+  "line_start": 472,
+  "line_end": 539
+ },
+ {
+  "page": 9,
+  "char_start": 31978,
+  "char_end": 36369,
+  "line_start": 540,
+  "line_end": 604
+ },
+ {
+  "page": 10,
+  "char_start": 36370,
+  "char_end": 40404,
+  "line_start": 605,
+  "line_end": 672
+ },
+ {
+  "page": 11,
+  "char_start": 40405,
+  "char_end": 43280,
+  "line_start": 673,
+  "line_end": 717
+ },
+ {
+  "page": 12,
+  "char_start": 43281,
+  "char_end": 48332,
+  "line_start": 718,
+  "line_end": 793
+ },
+ {
+  "page": 13,
+  "char_start": 48333,
+  "char_end": 51719,
+  "line_start": 794,
+  "line_end": 920
+ },
+ {
+  "page": 14,
+  "char_start": 51720,
+  "char_end": 57771,
+  "line_start": 921,
+  "line_end": 1234
+ },
+ {
+  "page": 15,
+  "char_start": 57772,
+  "char_end": 64052,
+  "line_start": 1235,
+  "line_end": 1533
+ },
+ {
+  "page": 16,
+  "char_start": 64053,
+  "char_end": 70762,
+  "line_start": 1534,
+  "line_end": 1822
+ },
+ {
+  "page": 17,
+  "char_start": 70763,
+  "char_end": 71755,
+  "line_start": 1823,
+  "line_end": 1870
+ },
+ {
+  "page": 18,
+  "char_start": 71756,
+  "char_end": 71756,
+  "line_start": 1871,
+  "line_end": 1853
+ }
+]

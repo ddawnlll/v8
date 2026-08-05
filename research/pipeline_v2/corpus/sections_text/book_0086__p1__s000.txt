@@ -1,0 +1,621 @@
+OPTION SPREAD
+STRATEGIES
+
+Also by
+ANTHONY J. SALIBA
+with Joseph C. Corona and Karen E. Johnson
+Option Strategies for Directionless Markets:
+Trading with Butterflies, Iron Butterflies, and Condors
+
+Related titles also available from Bloomberg Press
+BLOOMBERG MARKET ESSENTIALS: TECHNICAL ANALYSIS
+Fibonacci Analysis
+by Constance Brown
+DeMark Indicators
+by Jason Perl
+
+Breakthroughs in Technical Analysis:
+New Thinking from the World’s Top Minds
+edited by David Keller
+New Insights on Covered Call Writing:
+The Powerful Technique That Enhances Return
+and Lowers Risk in Stock Investing
+by Richard Lehman and Lawrence G. McMillan
+New Thinking in Technical Analysis:
+Trading Models from the Masters
+edited by Rick Bensignor
+Trading ETFs:
+Gaining an Edge with Technical Analysis
+by Deron Wagner
+Trading Option Greeks:
+How Timing, Volatility, and Other Pricing Factors Drive Profit
+by Dan Passarelli
+
+A complete list of our titles is available at
+www.bloomberg.com/books
+ATTENTION CORPORATIONS
+This book is available for bulk purchase at special discounts. Special
+editions or chapter reprints can also be customized to specifications.
+For information, please e-mail Bloomberg Press, press@bloomberg.com,
+Attention: Director of Special Markets or phone 212-617-7966.
+
+OPTION SPREAD
+STRATEGIES
+Trading Up, Down,
+and Sideways Markets
+ANTHONY J.
+
+SALIBA
+BLOOMBERG PRESS
+NEW YORK
+
+with Joseph C. Corona
+and Karen E. Johnson
+
+© 2009 by International Trading Institute, Ltd. All rights reserved. Protected under the Berne
+Convention. Printed in Canada. No part of this book may be reproduced, stored in a retrieval
+system, or transmitted, in any form or by any means, electronic, mechanical, photocopying,
+recording, or otherwise, without the prior written permission of the publisher except in the case of
+brief quotations embodied in critical articles and reviews. For information, please write: Permissions
+Department, Bloomberg Press, 731 Lexington Avenue, New York, NY 10022 or send an e-mail to
+press@bloomberg.com.
+BLOOMBERG, BLOOMBERG ANYWHERE, BLOOMBERG.COM, BLOOMBERG MARKET
+ESSENTIALS, Bloomberg Markets, BLOOMBERG NEWS, BLOOMBERG PRESS, BLOOMBERG
+PROFESSIONAL, BLOOMBERG RADIO, BLOOMBERG TELEVISION, and BLOOMBERG
+TRADEBOOK are trademarks and service marks of Bloomberg Finance L.P. (“BFLP”), a Delaware
+limited partnership, or its subsidiaries. The BLOOMBERG PROFESSIONAL service (the “BPS”)
+is owned and distributed locally by BFLP and its subsidiaries in all jurisdictions other than
+Argentina, Bermuda, China, India, Japan, and Korea (the “BLP Countries”). BFLP is a whollyowned subsidiary of Bloomberg L.P. (“BLP”). BLP provides BFLP with all global marketing and
+operational support and service for these products and distributes the BPS either directly or
+through a non-BFLP subsidiary in the BLP Countries. All rights reserved.
+This publication contains the authors’ opinions and is designed to provide accurate and authoritative
+information. It is sold with the understanding that the authors, publisher, and Bloomberg L.P. are
+not engaged in rendering legal, accounting, investment-planning, or other professional advice. The
+reader should seek the services of a qualified professional for such advice; the authors, publisher, and
+Bloomberg L.P. cannot be held responsible for any loss incurred as a result of specific investments or
+planning decisions made by the reader.
+
+First edition published 2009
+1 3 5 7 9 10 8 6 4 2
+Library of Congress Cataloging-in-Publication Data
+Saliba, Anthony J.
+Option spread strategies : trading up, down, and sideways markets / Anthony J. Saliba with Joseph
+C. Corona and Karen E. Johnson. — 1st ed.
+p. cm.
+Includes index.
+Summary: “Proven author Anthony Saliba provides step-by-step instructions for spread trading
+techniques for options traders. Saliba helps readers understand the nuances of each technique, when to
+employ each spread strategy, and how to adjust when market conditions change. This hands-on guide
+includes quizzes and a final exam to help readers test their comprehension”—Provided by publisher.
+ISBN 978-1-57660-260-7 (alk. paper)
+1. Stock options. 2. Options (Finance) I. Corona, Joseph C., 1957- II. Johnson, Karen E., 1967- III. Title.
+HG6042.S245 2009
+332.64'53—dc22
+2008040986
+
+Important Disclosures
+Following are several important disclosures we are required to make
+according to the rules of the Chicago Board Options Exchange (CBOE), by
+which we are governed. We encourage you to read them.
+• Prior to buying or selling an option, one must receive a copy of the
+booklet “Characteristics and Risks of Standardized Options.” Copies of this document are available at www.theocc.com/publications/
+risks/riskchap1.jsp or from International Trading Institute, Ltd., 311
+South Wacker Dr., Suite 4700, Chicago, IL 60606.
+• Options involve risk and are not suitable for all investors.
+• In order to trade strategies discussed in this book, an individual must
+first have his account approved by a broker/dealer for that specific
+trading level.
+• No statement in this book should be construed as a recommendation
+to purchase or sell a security or as an attempt to provide investment
+advice.
+• Writers of uncovered calls or puts will be obligated to meet applicable margin requirements for certain option strategies discussed in
+this book.
+• For transactions that involve buying and writing multiple options in
+combination, it may be impossible at times to simultaneously execute
+transactions in all of the options involved in the combination.
+• There is increased risk exposure when you exercise or close out of
+one side of a combination while the other side of the trade remains
+outstanding.
+• Because all option transactions have important tax considerations,
+you should consult a tax adviser as to how taxes will affect the outcome of contemplated options transactions.
+• The examples in this book do not include commissions and other costs.
+Transaction costs may be significant, especially in option strategies
+
+vi
+
+Important Disclosures
+
+calling for multiple purchases and sales of options, such as spreads
+and straddles.
+• Most spread transactions must be done in a margin account.
+• Supporting documentation for any claims and statistical information
+is available upon request by contacting International Trading Institute, Ltd., 311 South Wacker Dr., Suite 4700, Chicago, IL 60606.
+
+Contents
+Acknowledgments
+
+ix
+
+Introduction
+
+xi
+
+1 The Covered-Write
+
+2
+
+2 Verticals
+
+28
+
+3 Collars and Reverse-Collars
+
+64
+
+4 Straddles and Strangles
+
+94
+
+5 Butterflies and Condors
+
+126
+
+6 Calendar Spreads
+
+156
+
+7 Ratio Spreads
+
+190
+
+8 Backspreads
+
+222
+
+Appendix: Final Exam
+
+249
+
+Index
+
+263
+
+Acknowledgments
+Our goal with this book was to take a basic approach to teaching the intricacies of advanced option strategies so investors could successfully put
+them to use in their own portfolios. I wish to thank my coauthors, Karen
+Johnson and Joe Corona, for their diligent efforts on this project.
+In addition, I wish to express my gratitude to several of our staff, including David Schmueck, Christopher Hausman, and Scott Mollner, for
+their proofreading and edits of the manuscript.
+I would like to extend a special thank you to the staff at Bloomberg
+Press, including Stephen Isaacs, JoAnne Kanaval, and Judith Sjo-Gaber,
+and to Kelli Christiansen at bibliobibuli, all of whom were very helpful
+and patient throughout the process.
+Lastly, I wish to thank my agent, Cynthia Zigmund, for presenting me
+with this opportunity.
+
+Anthony J. Saliba
+Founder
+International Trading Institute
+
+ix
+
+Introduction
+
+T
+
+he fact that listed option trading volumes are exploding is not news.
+As of May 1, 2008, volume is up approximately 41 percent over 2007,
+which was also a record year. Option volumes have grown at a rate
+of approximately 30 percent per year for the last four years, and have more
+than tripled since 2000.
+The forces driving option growth are much larger than recent market
+volatility and the need to hedge risk—after all, much of the double-digit
+growth took place during the low-volatility years of 2003 through early
+2007. Several forces have combined to give the individual investor greater
+access to the options markets and to help level the playing field for the
+individual and the professional options traders:
+Technology—All exchanges are now fully or partially electronic. This
+has opened up access to the individual options trader, as brokers now supply front-end systems that offer direct connections to every exchange and
+tools to help analyze, execute, and manage position risk.
+Commissions—Commission rates continue to plummet as brokers leverage technology and compete for business.
+Number of viable exchanges—The number of options exchanges continues to defy predictions and grow. With the recent addition of the Nasdaq Options Market (NOM), the number has now reached seven. These
+exchanges are in competition for the business of individual investors, and
+fee reductions and other incentives are the result.
+Educational resources—The number of entities dedicated to options
+education and training continues to increase, along with the number of investors utilizing their services. The exchanges, the Options Industry Council, brokers, and other private entities offer robust programs at low cost.
+Tighter bid-ask spreads—Although it is having a large negative impact on institutional options traders, the penny pilot program is very beneficial to the smaller individual investor because it has tightened spreads
+in many popular names.
+
+xi
+
+xii
+
+Introduction
+
+The bigger news in the U.S.-listed options market is the growth in the
+electronic trading of spreads. Behind the scenes the volume of trading of
+complex option structures has outpaced overall growth in options trading.
+This book is dedicated to the art (and science) of spread trading. A number
+of factors have contributed to the explosion in spread trading:
+Electronic spread books—Currently the Chicago Board Options Exchange (CBOE) and the International Securities Exchange (ISE) offer electronic
+spread books (the Philadelphia Stock Exchange [PHLX] is not far behind).
+These electronic “complex order books” allow traders the potential to electronically enter and trade multileg spread orders of various strategies—all of
+which are covered in this book—without the risk of being “legged” (missing
+one side of the spread). Spreads also can be traded in penny increments even
+if their underlying options cannot.
+Ease of entry and exit—These same electronic spread books are accessible through the same front-end systems offered by most brokers. (If a
+broker doesn’t offer direct access to the spread books, it is time to switch
+brokers.)
+Portfolio-based margining—In the past, the margining of spreads
+sometimes made them economically unrealistic for many investors. The
+availability of portfolio-based margining at many brokers has made spread
+margining more realistic and affordable for many investors.
+Limited-risk strategies—Spreads offer investors different ways to
+participate in market scenarios in a limited-risk fashion. Vertical spreads,
+butterflies, condors, and time spreads are all limited-risk strategies that the
+investor can use to address different market scenarios. (After the recent
+subprime meltdown, limiting risk has once again become fashionable.)
+Spread trading is the new frontier for the individual options trader, and
+this frontier is opening up rapidly. This book is dedicated to spread strategies, both of the limited-risk and unlimited-risk varieties, and to how and
+when to use them.
+
+Option Spread Strategies: Trading Up, Down, and Sideways Markets
+by Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson
+Copyright © 2009 by International Trading Institute, Ltd.
+
+1
+
+The CoveredWrite
+
+CONCEPT REVIEW
+Intrinsic value: The amount by which an option is “in-the-money.”
+Extrinsic value: The portion of an option price that cannot be
+attributed to intrinsic value.
+Implied volatility: The volatility component of an option’s theoretical pricing model determined by using current prices along with
+other known variables. It may be viewed as the market’s forecast
+of what the average volatility of the underlying instrument might
+be during the time remaining before its expiration.
+Delta: The sensitivity (rate of change) of an option’s theoretical
+value (assessed value) to a $1 move of the underlying instrument.
+Gamma: The sensitivity (rate of change) of an option’s delta with
+respect to a $1 change in the price of the underlying instrument.
+Theta: The sensitivity (rate of change) of theoretical option prices
+to the passage of small periods of time. Theta measures the rate
+of decay in the time value of options. Theta may be expressed as
+the amount of erosion of an option’s theoretical value over one
+day in time.
+Vega: The sensitivity (rate of change) of an option’s theoretical
+value to a change in implied volatility. Vega may be expressed as
+the number of points of theoretical value gained or lost from a
+1-percent rise or fall in implied volatility.
+
+3
+
+Chapter 1
+
+The Covered-Write
+
+Synthetic: Two or more trading vehicles (for example, call, put, and
+underlying) packaged together to emulate another trading vehicle
+or spread. Some examples:
+(long call  long put  long underlying) (short call  short put
+ short underlying)
+(long put  long call  short underlying) (short put  short call
+ long underlying)
+(long underlying  long call  short put) (short underlying
+ short call  long put)
+Conversion: A position that consists of a long underlying, a short
+call, and a long put with the same strike price, which is considered
+a market neutral position.
+Vertical spread: The simultaneous purchase and sale of options of
+the same class and with the same expiration times but with different strike prices. Depending on which strike is bought and which
+strike is sold, vertical spreads can be either bullish or bearish. For
+example, with XYZ July 100/105 call vertical spread, a bullish trader
+would buy the 100 call and sell the 105 call, whereas a bearish
+trader would buy the 105 call and sell the 100 call.
+
+STRATEGY OVERVIEW
+A covered-write is a strategy that combines a long stock position and
+a short call (Figure 1.1). In options parlance a written option is an option
+that is sold, in this case a call, and a short call is covered by a long stock
+8
+Long Stock
+
+6
+
+Short Call
+
+4
+
+Profit/Loss
+
+4
+
+2
+0
+–2
+–4
+–6
+–8
+38
+
+39
+
+40
+
+41
+
+42
+
+43
+
+44
+
+45
+
+46
+
+47
+
+48
+
+49
+
+Underlying Price
+
+Figure 1.1 Components of a Covered-Write P&L Diagram
+
+50
+
+51
+
+52
+
+Strategy Composition
+
+position, hence the name covered-write. The calls are sold in equal amounts
+against the long underlying shares. In the United States, the contract size
+of a stock option is usually 100 shares; therefore, one call would be sold
+against 100 shares, five calls against 500 shares, and so on. The strike price
+and expiration date of the call(s) chosen can vary depending on the investment objective, market view, and risk appetite of the investor, as well as
+the pricing of the calls themselves.
+
+STRATEGY COMPOSITION
+Components:
+
+Sell one 45 call at $2.25
+Purchase 100 shares of XYZ stock at $45.00
+
+Maximum Profit:
+
+Limited to the premium received for the sale of the call,
+plus any increase in value of the underlying up to the
+strike price of the short call ($2.25)
+
+Maximum Loss:
+
+Substantial loss on the downside for the long underlying
+position (limited by zero), less the premium received
+for the sale of the call
+
+Breakeven:
+
+Price paid for the underlying minus the premium
+received for the sale of the call ($42.75)
+
+The writing of a call against a long stock position serves two purposes:
+It generates potential income and provides some downside protection.
+However, in return, the investor gives away any upside price appreciation
+in the stock above the strike price.
+• Income Generation
+The price of an option has two components, intrinsic value and extrinsic
+value. Intrinsic value is the amount, if any, that the option is “in the money.”
+A call option is in-the-money if the stock price is higher than the strike price.
+Any remaining value is extrinsic value. Extrinsic value is the additional premium carried by an option based on many factors including, but not limited to, interest rate levels, dividend flows, time to expiration, and implied
+volatility levels. The extrinsic value of an option declines as time passes,
+and upon expiration it is gone entirely. This phenomenon is known as time
+decay (see Figure 1.2). Sellers of options benefit from time decay (which is
+referred to as the Greek “theta”) as the extrinsic value in an option declines
+over time. This provides income for the investor in a covered-write strategy,
+as over time the extrinsic value of the written (sold) call will decline.
+• Downside Protection
+Writing a call also offers some downside protection for the long stock
+position, as the premium(s) collected from selling the call can partially
+
+5
+
+6
+
+Chapter 1
+
+The Covered-Write
+
+Extrinsic
+Value
+
+Expiration
+
+Time
+
+Figure 1.2 Extrinsic Value Diagram
+offset a decline in the stock price. However, this protection is only equal
+to the amount of the premium collected when the call was written. Once
+the magnitude of the stock decline exceeds the premium collected, the
+protection ends.
+• Upside Limitations
+A covered-write is a neutral to mildly bullish strategy. The reason it
+is only a mildly bullish strategy is that the profit potential of the position
+to the upside is limited by the short call. If the stock price rises above the
+strike price, the short call becomes in-the-money and begins to accumulate intrinsic value as the stock price rises, eventually offsetting any gains
+in the stock with losses in the short call. Also, if the stock rises above the
+strike price and the investor takes no action, it is likely for the stock to be
+“called away” by the owner of the call. This may have unpleasant tax consequences that should be considered.
+
+Modifications
+In the event that the underlying stock falls too far, or rises too high,
+modifications to the position will have to be made to either limit risk, as in
+the case of the former, or extend the range of profitability, as in the case of
+the latter. We will discuss modifications later in the chapter. These modifications may increase execution costs, affecting profitability.
+
+RISK MANAGEMENT: THE GREEKS
+OF THE COVERED-WRITE
+The “Greeks” are metrics used to quantify the sensitivity of option
+prices to changes in underlying market conditions. They can be effective
+risk management tools and are especially helpful for understanding and
+managing the risk of positions. They can also be applied to positions
+that are combinations of options and underlying positions, such as a
+
+The Greeks
+
+covered-write. To evaluate the sensitivity of a position to changing market conditions, the Greeks of the various components of the position are
+simply summed, giving an aggregate exposure for the position. It must
+be understood, however, that as market conditions change, the Greeks
+themselves also change, so the Greeks of any position are in a constant
+state of flux.
+Basic pricing models calculate the theoretical price of an option based
+on six inputs used to describe market conditions:
+• Underlying price
+• Strike price
+• Time to expiration
+• Interest rates
+• Dividends (if any)
+• Implied volatility
+Since a covered-write position is part option and part stock, it is the
+Greeks of the option component of the position that will change; the Greeks
+of the stock component of the position will remain constant. A brief review
+of the basic Greeks follows, to help the reader understand how a coveredwrite position behaves as market conditions change.
+
+THE GREEKS
+Delta
+Delta describes the sensitivity (rate of change) of an option’s price
+with respect to changes in the underlying price. Expressed as a percentage, it represents an equivalent amount of the underlying at a given
+moment in time. Calls are assigned a positive delta (call option prices
+are positively correlated with the underlying price); puts are assigned
+a negative delta (put option prices are negatively correlated with the
+underlying price). The delta of a call option can range between 0.00
+(0 percent) and 1.00 (100 percent), while the delta of a put option can range
+between 0.00 (0 percent) and 1.00 (100 percent). (See Figures 1.3 and
+1.4.) A short position in any of the above call or put options reverses the
+delta; for example, a short call will have a negative delta and a short put
+will have a positive delta.
+
+Examples
+By what amount can one expect the price of a call with a delta of 0.50
+(50 percent) to change if the stock price rises by 1.00?
+1.00  0.50  0.50
+
+7
+
+The Covered-Write
+
+1.0
+5 days
+15 days
+
+0.8
+
+30 days
+60 days
+
+Call Delta
+
+Chapter 1
+
+90 days
+
+0.6
+
+180 days
+
+0.4
+
+0.2
+
+0
+85
+
+90
+
+95
+
+100
+
+105
+
+110
+
+115
+
+105
+
+110
+
+115
+
+Underlying Price
+
+Figure 1.3 100 Call Delta vs. Underlying Price
+
+0
+5 days
+15 days
+
+–0.2
+
+30 days
+60 days
+
+Put Delta
+
+8
+
+90 days
+
+–0.4
+
+180 days
+
+–0.6
+
+–0.8
+
+–1.0
+85
+
+90
+
+95
+
+100
+
+Underlying Price
+
+Figure 1.4 100 Put Delta vs. Underlying Price
+
+A long call with a delta of 0.50 (50 percent) represents what equivalent
+amount of the underlying stock?
+100  0.50  50 shares
+The delta of an underlying position is constant, and is represented by
+the actual amount and position in the shares; for example, long 100 shares
+is a delta of 100, and short 100 shares is a delta of 100.
+
+The Greeks
+
+• Delta of a Covered-Write
+The delta of a covered-write position is simply the sum of the deltas of
+the components.
+
+Example
+What is the delta of a covered-write consisting of 100 shares of long
+stock and short 1 call with a .50 delta?
+100  (100  .50)  100  (50)  50 shares
+Note that the delta of the call is reversed because it is a short call.
+
+Gamma
+The delta of an option does not remain constant because it is sensitive
+to changes in market conditions, one of these being changes in underlying
+price. Gamma describes the sensitivity (rate of change) of an option’s delta
+with respect to changes in the underlying price. The convention is to express
+gamma in terms of the change in delta produced by a one-point move in
+the underlying. For example, if the delta of a 100 call changed from 0.50 to
+0.60 as the underlying moved from 100.00 to 101.00, the call would be said

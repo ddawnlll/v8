@@ -1,0 +1,274 @@
+
+What Is the Best Way to Get in Right Before a Big Move?
+I use the squeeze signal on various time frames, as I like it for both day trading and swing trading. On the mini-sized Dow, for example, a squeeze can move the market
+10 to 20 YM points on a two-minute chart or a 377 tick chart, 30 to 50 points on a 15-minute chart, and several hundred points on a daily chart. The kicker, of course,
+is that the smaller the time frame, the more frequent the signals. A two-minute chart may fire off three to five signals in a day, while the daily chart will fire off six to
+seven signals over the course of an entire year.
+Although I spend a large amount of my trading day focused on the E-mini S&Ps and the mini-sized Dow, there are also plenty of times when these indexes are dead
+in the water. On days when the indexes are trading in a range that is narrower than Donald Trump’s political ambitions, I look to the currencies, gold, bonds, oil, and
+individual stocks for my next setup. M y two favorite setups in the currencies are the squeeze play and what I call the box play—a setup that comes up in a later
+chapter. For currencies, I execute these on the eight currency pairs I’ve already mentioned, and I prefer to do these in the futures markets when possible. Let’s take a
+look at some setups.
+
+What Are the Trading Rules for Buys (Sells Are Reversed)?
+1. Set up a 24-hour chart so that the overnight activity can be accounted for in this indicator setup.
+2. The “heads-up” on this indicator is the first black dot. This is not a trade signal, but rather a heads-up that a trade signal is setting up. This indicates when the
+Bollinger Bands are trading inside the Keltner Channels.
+3. The signal on the indicator is the first gray dot after a series of black dots. This indicates that the Bollinger Bands have come back outside of the Keltner Channels.
+This is shown in detail in the charts that follow.
+4. Once the first gray dot appears after a series of black dots, I go long if the histogram is above zero. Once the signal fires, I just place a market order. This is a
+momentum play, and I don’t want to be messing around with limit orders that may not get filled. Note: though unusual, there are also instances in which, when the
+signal fires, momentum is below zero, yet it is ascending. This also constitutes a long signal.
+5. For day trades (five-minute charts or smaller), I place the following minimum money management stops. If the stop is also near a key price support level, I will take
+that into consideration and adjust accordingly. For example, if my entry is 1104.00 on the S&Ps and the daily pivot is at 1101.75, I would move my stop to just
+below that pivot level, or 1101.50, for a stop of 2.50 instead of 2.00. I find that nine times out of ten, I just use the default stop. Remember, too, that if you are
+unsure of what stop to use, then you can place the 14-period average true range (ATR) on your chart, double the current value, and use that as your stop.
+
+• YM : 20 points
+• ES: 2 points
+• NQ: 4 points
+• TF: 1.50 points
+
+217
+
+• EC: 20 ticks
+• EURUSD: 20 pips
+• US: 7 ticks
+• Gold: 1.50
+• Stocks: 50 cents
+6. For swing plays and position trades (taken off the daily charts), I place the following stops. I take into consideration the same key levels as discussed in item 4, and
+of course it is very beneficial to look at a 14-period ATR on the daily charts, as the range on this time frame can expand and contract dramatically with increases
+and decreases in volatility. The main point here is that if you are trying to catch a bigger move in the ES, there is no point in using a 2-point ES stop because the
+probability of being stopped out is too high.
+• YM : 150 points
+
+• ES: 15 points
+• NQ: 25 points
+• TF: 8 points
+• EC: 100 ticks
+• EURUSD: 100 pips
+• US: 35 ticks
+• Gold: 20.00
+• Stocks: $2.50
+7. M y target is based purely on the momentum of the trade. Once the momentum index signal starts to weaken, I get out of the trade at the market.
+8. I don’t trail stops.
+Let’s first look at examples from the first edition of this book, and then we will take a look at some updated examples.
+
+Mini-Sized Dow—September 2004 Contract, August 18, 2004
+1. Figure 11.1 shows how to set up the elements of this play in whatever time frame a trader wishes to view. For intraday trading, I like to watch the five-minute chart.
+The one-and two-minute charts are good for scalping, but these signals are not as powerful as those of the five-minute chart, though they are tradable. The Keltner
+Channels are the pair of thick black lines and are set at the default parameters of 20 and 1.5 on TradeStation. The Bollinger Bands are the thinner gray lines and are
+set at the default settings of 20 and 2.0. At the bottom is a 12-period (on the close) momentum index oscillator. At point 1, the Bollinger Bands have gone inside
+the Keltner Channels. This indicates that the market is going into a quiet period, and it is a heads-up. This is not a signal— it is just a heads-up that when the
+Bollinger Bands pop back out, it will be time to take a trade.
+
+218
+
+219
+
+Figure 11.1
+
+2. At point 2, the Bollinger Bands have come back outside the Keltner Channels. It is time to take a trade.
+3. If the momentum index oscillator is above zero at the time of point 2, I go long. If it is below zero at this point, I go short. I don’t mess around with limit orders. I
+just jump it at the market, hitting the current offers. This is just an example of what triggers the entry and exits. I look at specific plays in a moment.
+
+Mini-Sized Dow—September 2004 Contract, August 18, 2004
+1. One of the things we did was turn all the things in Figure 11.1 into an easy-to-read indicator, which is what I now use on my own charts, as seen in Figure 11.2. We
+have developed this for TradeStation, eSignal, thinkorswim, Infinity Futures, Ninja Trader, and other platforms as well. When the Bollinger Bands go inside the
+Keltner Channels, the dots turn black. This is a heads-up that the markets have entered a quiet period.
+
+220
+
+221
+
+Figure 11.2
+
+2. At point 2, the Bollinger Bands come back out of the Keltner Channels.
+3. Since the momentum index oscillator is above zero at point 3, this is a long signal.
+4. On the indicator itself at the bottom of the chart, this is all measured by when the dots turn back to gray after being black. This occurs at point 4. The black dots are
+the heads-up that the market has “gone quiet” and is about to release a truckload of energy. When I see that first gray dot after the series of black dots, I know it is
+time to take a trade. If the histogram is above the zero line, I go long, and if it is below the zero line, I go short. Again, this is just to show you how the indicator
+works. In the next examples, I go over some actual plays. I prefer to take off all the “clutter” that is on the price chart and just use the indicator. But now you
+know how the indicator works.
+
+Mini-Sized Dow—September 2004 Contract, August 20, 2004
+1. On this two-minute chart of the mini-sized Dow, we get a black dot a little after 10:00 a.m. eastern (see Figure 11.3). This is a signal that the Bollinger Bands have
+narrowed and are now trading inside the Keltner Channels. I know that when I get the next gray dot, I will have a trade signal. In this case, the gray dot happens right
+away. Usually there is more than one black dot, but once in a while it will have just the single instance, and that’s okay. Common sense dictates that the more black
+dots there are, the more powerful the potential move will be. In my experience, this is not true, as I have seen one-dot signals that have bigger moves than twenty-dot
+signals on numerous occasions. I find it is best to just take the signal when it comes. Humans tend to mess up their trading when they try to outthink their positions.
+When the next gray dot appears, the histogram is above zero, so I place an order to buy the YM at the market. I am filled at 10,164. I place a 20-point stop at 10,144.
+M y target is open, as I’ll be waiting for the momentum index to falter as my exit signal.
+
+222
+
+223
+
+Figure 11.3
+
+2. The market pushes higher, and I’m watching the histogram. As long as it makes higher highs, I stay in the trade. When it makes its first lower high, I will get out. At
+10:30 a.m. eastern we get a lower high on the histogram, and I exit at the market. I’m out at 10,198 for a gain of 34 points.
+
+Mini-Sized Dow—September 2004 Contract, June 28, 2004
+1. On June 28, 2004, the markets trade in a tight range all morning, creating a long series of black dots on the five-minute YM chart (see Figure 11.4). Remember, the
+black dots indicate that during this time frame, the Bollinger Bands are trading inside of the Keltner Channels, marking a period of very low volatility. A little after
+1:30 p.m. eastern, the first gray dot appears in the sequence. The histogram is below zero, so I take a short at the market. I’m filled at 10,426, and I place a 20point stop at 10,446.
+
+224
+
+225
+
+Figure 11.4
+
+2. The goal is to stay in the trade as long as the histogram is making lower lows (or in the case of a long, higher highs). It makes its first higher low nearly two hours
+later, and I exit at the market. (If you were just watching the momentum index oscillator, you would exit as it starts to turn higher.) I’m out at 10,325 for a gain of
+101 points, or $505 per contract—a very smooth, low-stress, and profitable trade. This is a great example of a trade where it pays to sit on your hands until you
+are given a clear exit signal. In fact, part of my reward system isn’t focused on profits— it’s focused on my ability to follow a setup from entry to exit. Every
+trader should have a reward system like this: not for making money, but for hanging in there and following the setup—staying in the trade until you get a specific
+exit signal. Taking tiny profits is easy, which is what most traders do. And that is why most traders fail; they always succumb to the easy way out, the bad habits
+that the markets naturally encourage and reinforce. When a trade is going your way, stick your hands underneath your butt cheeks.
+
+Mini-Sized Dow—September 2004 Contract, September 10, 2004
+1. On September 10, 2004, the five-minute squeeze on the YM fires off (see Figure 11.5). About an hour earlier, there was a single gray dot, and I went long here.
+However, the very next dot went back to black. This means that the Bollinger Bands came out of the Keltner Channels, but then went right back in. This is a rare
+occurrence, but when it happens, I just get out and wait for a solid signal. In that case, I was in and out and lost 6 YM points. About 50 minutes later, we get the
+setup again, and the dots turn gray. For this next trade, with the histogram above zero, I go long and place a 20-point stop. I am in at 10,263, and I place a stop at
+10,243.
+
+226
+
+227
+
+Figure 11.5
+
+2. The histogram continues to move higher until 1:30 p.m. eastern, at which point it starts to lose momentum. I cut the position loose at 10,309 for a gain of 46 points.
+
+Mini-Sized Dow—September 2004 Contract, July 1, 2004
+1. A little after 10:00 a.m. eastern on July 1, 2004, the first gray dot appears on the five-minute YM chart (see Figure 11.6). The histogram is below zero, so I go short
+at the market. M y entry is at 10,402.
+
+228
+
+229
+
+Figure 11.6
+
+2. The markets drift down, and the histogram begins to level off. The markets continue to make lower lows, and suddenly the selling accelerates, pushing the
+histograms down deep into their range. They begin to bottom out at around 11:20 a.m. eastern, and I cover at the market. I’m out at 10,312 for a gain of 90 points.
+
+Mini-Sized Dow—September 2004 Contract, September 2, 2004
+1. On September 2, 2004, the five-minute YM chart goes into alert status at around 1:15 p.m. eastern (see Figure 11.7). Six black dots appear, showing that the
+Bollinger Bands are trading inside the Keltner Channels. When the next gray dot appears at 1:50 p.m., the histogram is above zero, so I go long at the market. I am
+filled at 10,183. I place a 20-point stop at 10,163.
+
+230
+
+231
+
+Figure 11.7
+
+2. The market cruises higher, and the histogram begins to start making lower lows at 3:30 p.m. eastern. I exit at the market and am out at 10,278, for a gain of 95 points.
+Not every five-minute squeeze ends up with a big move like this, but I’ve found that when there is a big move, it is generally kicked off by a squeeze on the fiveminute chart. I have a rule in trading that says, “Never fight the direction of the five-minute squeeze!” It supersedes all my other intraday trading rules and setups.
+Remember when I talked about all these plays working in conjunction with one another? If there is a five-minute long squeeze in place and we are rallying up to a
+pivot level, then I’m not going to place a short at that pivot level. Never fight the five-minute squeeze.
+
+Mini-Sized Dow—September 2004 Contract, August 25, 2004
+1. On August 25, 2004, the five-minute squeeze goes into alert status at around 11:45 a.m. eastern, as evidenced by the first black dot (see Figure 11.8). About 20
+minutes later, the dots change back to gray. The histogram is above zero, so I take a long at the market. I was filled at 10,113, and I immediately place a stop at
+10,093 and leave my target as open.
+
+232
+
+233
+
+Figure 11.8
+
+2. About an hour and a half later, the histogram starts to make lower highs, and I get out at the market. I’m out at 10,149 for a gain of 36 points.
+
+Mini-Sized Dow—September 2004 Contract, August 20, 2004
+1. I like this example because it clearly shows the power of an intraday consolidation move (see Figure 11.9). It’s like a chart of the young wife’s life played by Geena
+Davis in Thelma and Louise. There is the narrow consolidation of life energy for a while, and then Thelma busts out and nothing can hold her back. Her
+personality explodes, and she finally experiences life—just like the squeeze. The first gray dot appears just after 2:00 p.m. eastern, and the histogram is above
+zero, so I go long at the market. I’m filled at 10,172, and I place a 20-point stop.
+
+234
+
+235
+
+Figure 11.9
+
+2. The market pops higher, and a little less than an hour later, the momentum starts to slide. I exit at 10,221 for a gain of 49 points.
+
+Mini-Sized Dow—September 2004 Contract, August 18, 2004
+1. On August 18, 2004, the market spends most of the morning consolidating, and, as the volatility comes out of the market, the Bollinger Bands contract and start to
+trade inside the Keltner Channels (see Figure 11.10). This shows up in the form of black dots. When I get the first gray dot, the histogram is above zero, and I go
+long at the market. I’m filled at 10,003, and I immediately place a 20-point stop at 9983.
+
+236
+
+237
+
+Figure 11.10
+
+2. The markets push higher and start to lose momentum. I exit at 10,034 for a gain of 31 points.
+3. A few hours later, we get a single black dot that is quickly followed by another gray dot. I take the signal. Since the histogram is above zero, I go long at the market,
+and I’m filled at 10,056. I place a 20-point stop.
+4. The histogram is strong right into the close. I stay in the trade until 4:10 p.m. eastern and exit at the market. I’m out at 10,082 for a gain of 26 points.
+Mini-Sized Dow—September 2004 Contract, July 28, 2004
+1. On July 28, 2004, the YM creeps higher for most of the day, and then a little after 2:00 p.m. eastern, I get a black dot (see Figure 11.11). Shortly thereafter, we go
+back to gray, and since the histogram is above zero, I go long. I’m filled at 10,028, and I place a 20-point stop at 10,008 and leave my target as open.
+
+238
+
+239
+
+Figure 11.11
+
+2. A little more than an hour later, the histogram makes a lower high. I exit at the market, and I’m filled at 10,103 for a gain of 75 points.
+
+30-Year Bond—September 2004 Contract, August 18, 2004
+1. I love using the five-minute squeeze on the YM , but it works on other markets as well. Figure 11.12 is a chart of the 30-year bonds. At around 11:30 a.m. eastern,
+the dots turn black, signaling that we are entering into a period of very low volatility. About 90 minutes later, we get a gray dot at point 1, and since the histogram
+is above zero, I go long at the market. I’m filled at 111
+. I place a 7-tick stop at 111
+ticks, that equates to $218.75, or approximately 44 YM points.)
+
+240
+
+. (If you aren’t familiar with bonds, 1 tick is $31.25. So if you lose 7
+
+241
+
+Figure 11.12
+
+2. The momentum starts to peter out about 40 minutes later, and when the histogram makes a lower high at point 2, I exit at the market. I’m out at 111
+for a gain
+of 2 ticks. At one point I was up 10 ticks on the trade (the equivalent of 63 YM points), but the market rolled over quickly, which can happen. That’s why it’s
+called fishing, and it’s not guaranteed to catch a fish. The key to successful trading is to stay in the signal until it ends. This way, when a big move does take place,
+a trader will be able to stay in the trade and let the profits run. Work on developing successful habits, not staring at the P&L.
+
+30-Year Bond—September 2004 Contract, August 10, 2004
+1. On this five-minute chart of the bonds, we go into black dot territory at around 10:45 a.m. eastern, and I sit back and wait for the next gray dot to appear (see Figure
+11.13). This happens a little after 12 noon at point 1, and since the histogram is below zero, I short at the market. I’m filled at 110
+. I place a stop at 111
+. Remember, one full point in the bonds is composed of 32 ticks. When it goes to
+and they move up one tick to 110
+, this reads as 111, and so on.
+
+242
+
+, it becomes a new point. For example, when bonds are at 110
+
+243
+
+Figure 11.13
+
+2. The momentum to the downside builds, and bonds sell off. Once the histogram makes a higher low at point 2, I cover my short at the market, and I’m out at 110
+for a gain of 4 ticks.
+3. At around 1:30 p.m. eastern, we go back into black dot mode, and I prepare for my next trade. About 45 minutes later, we get our first gray dot at point 3, and since
+the histogram is below zero, I short at the market. I’m in at 110
+
+. I place a stop at 110
+
+.
+

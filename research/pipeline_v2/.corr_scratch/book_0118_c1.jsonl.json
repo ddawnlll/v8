@@ -1,0 +1,147 @@
+[
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_087",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 187,
+    "exact_text": "the current breakout into blue sky\nterritory (no price resistance within the previous\nthree months) should be accompanied by the\nhighest OBV reading seen in at least the past\nthree months",
+    "added_conditions": [
+      "breakout into blue sky territory requires no price resistance within the previous three months",
+      "breakout must be accompanied by the highest OBV reading seen in at least the past three months"
+    ],
+    "added_parameters": [
+      {"name": "max price multiple (new high closing price / 52-week low price)", "value": "3.0", "page": 187}
+    ]
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_090",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 187,
+    "exact_text": "OBV must rise above a trendline placed over\nthe tops of the indicator.",
+    "added_conditions": [
+      "OBV must rise above a trendline placed over the tops of the indicator",
+      "MACD must be making a series of higher lows while price is within the base",
+      "buy signal triggered at the first green or white candle (close higher than the open) after the candlestick on which the OBV trendline broke to the upside"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_091",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_092",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 212,
+    "exact_text": "This setup is really the inverse of the\npullback setup mentioned previously. Here we are looking\nfor a stock that is strongly or weakly downtrending but has\nrallied up off its lows to reach a major moving average,\nwhich should act as resistance.",
+    "added_conditions": [
+      "wait to enter until confirmation of an overbought condition as seen in the stochastics indicator",
+      "a confirming bearish candlestick of some kind is required"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_094",
+    "verdict": "corroboration",
+    "behavior_id": "candlestick_reversal_pattern",
+    "page": 212,
+    "exact_text": "The chart has a bearish engulﬁng pattern for\ntoday.",
+    "added_conditions": [
+      "20-day simple moving average of close for today is less than 50-day simple moving average of close for today"
+    ],
+    "added_parameters": [
+      {"name": "60-day simple moving average of volume minimum", "value": "500,000", "page": 212},
+      {"name": "60-day simple moving average of close minimum", "value": "10", "page": 212},
+      {"name": "daily close vs close five days ago multiplier", "value": "1.15", "page": 212}
+    ]
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_095",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_096",
+    "verdict": "corroboration",
+    "behavior_id": "trend_continuation_pullback",
+    "page": 212,
+    "exact_text": "a sell short signal is triggered\nwhen a bearish candle of some kind (doji,\ngravestone, engulﬁng, evening star, etc.) is\nprinted on the daily chart.",
+    "added_conditions": [
+      "the last (higher) price high may correspond with the 200 MA, trendline resistance, or prior price resistance",
+      "preceding setup conditions must have been met"
+    ],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_097",
+    "verdict": "corroboration",
+    "behavior_id": "momentum_divergence_reversal",
+    "page": 212,
+    "exact_text": "bearish divergence is seen between\nthe two price highs and two key indicators (RSI and\nMACD histogram)",
+    "added_conditions": [
+      "50-day simple moving average is significantly below the 200-day simple moving average, signaling a strong downtrend",
+      "bearish candle formation (evening doji reversal) confirmed the sell short signal"
+    ],
+    "added_parameters": [
+      {"name": "RSI period", "value": "14", "page": 212},
+      {"name": "RSI comparison window", "value": "15 days", "page": 212},
+      {"name": "50-day simple moving average period", "value": "50 days", "page": 212},
+      {"name": "200-day simple moving average period", "value": "200 days", "page": 212}
+    ]
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_098",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_099",
+    "verdict": "corroboration",
+    "behavior_id": "volume_confirmed_breakout",
+    "page": 212,
+    "exact_text": "the current breakdown into blue sea\nterritory (no price support within the previous\nthree months) should be accompanied by the\nlowest OBV reading seen in at least the past three",
+    "added_conditions": [
+      "breakdown into blue sea territory requires no price support within the previous three months",
+      "breakdown must be accompanied by the lowest OBV reading seen in at least the past three months"
+    ],
+    "added_parameters": [
+      {"name": "max price multiple (52-week high / new low closing price)", "value": "2.0", "page": 212}
+    ]
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_102",
+    "verdict": "generic",
+    "behavior_id": null,
+    "page": null,
+    "exact_text": null,
+    "added_conditions": [],
+    "added_parameters": []
+  },
+  {
+    "claim_ref": "book_0118::lead_book_0118_1_103",
+    "verdict": "corroboration",
+    "behavior_id": "trend_exhaustion_reversal",
+    "page": 234,
+    "exact_text": "a stock that is in an uptrend but is ready to fall\nout of that trend in dramatic fashion. The wedge is created\nwhen the oscillations of the uptrend get narrower and narrower. To render the setup valid, we need to see indicators\ntell us two things about price behavior within the wedge:\nits momentum has to be slowing down",
+    "added_conditions": [
+      "momentum has to be slowing down within the wedge",
+      "there needs to be evidence that shares are being distributed within the wedge"
+    ],
+    "added_parameters": []
+  }
+]

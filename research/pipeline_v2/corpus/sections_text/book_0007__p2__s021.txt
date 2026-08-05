@@ -1,0 +1,584 @@
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+Printer: Yet to come
+
+CHAPTER 9
+
+Fibonacci
+Retracements:
+The Hybrid Tool
+
+efining trends. Anticipating trends. Attacking currency trends.
+Trends. Trends. Trends and then nontrends, but nontrends transition into . . . yes, trends. Trends are great, but I often get a lot of
+questions from retail traders about the painful corrections—those times
+when the market reverses the trend and corrects 100, 200, 300 pips, or
+even more.
+We all know that the market’s price action does not go up (or down)
+in a straight line, but in steps. Two or three steps up and one step down.
+When the steps correct, they can be the killer moves that get traders out of
+synch with the market. Traders need the most help during these corrective
+moves. When the market is trending and a trader is on the trend, fear should
+be reduced. Profits are accumulating, the trend is directional. Trading is
+about targeting the next levels that keep the trend moving in the direction
+and managing the profit—not managing a loss.
+The fear starts to surface when the trend starts to correct. All of a
+sudden the profits are being depleted and there is uncertainty as to how far
+the correction can go. How can fear be controlled during these times?
+Tools like moving averages (MAs) and trend lines are in place to flash
+the warning signs of a potential correction. If the price is trending higher
+and the price moves below the 100 bar MA on the five-minute chart, the
+short-term bias turns negative, and the uptrend has a chink in its armor.
+If the price moves below an upward-sloping trend line, the uptrend has a
+chink in its armor. The MAs and trend lines provide profit-taking clues for
+the trend traders. When they change direction, traders should evaluate the
+position and look to exit or take some profit.
+
+D
+
+205
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+206
+
+19:31
+
+Printer: Yet to come
+
+TOOLS AND STRATEGIES
+
+Doing this will preserve profit and hopefully accumulate additional
+equity over time. However, corrections are, by definition, just a temporary anti-trend move. That is, the trend should be reestablished at some
+point.
+If your mission is to make the most money with the least amount of
+risk, it would be great if the corrections could be measured and defined. If
+they could, then traders could anticipate when the correction is over and
+look to reenter the trend at that time. Since the correction is measured, risk
+could also be defined. With risk defined, fear is kept low.
+Furthermore, if a correction can be measured, and the bias is the opposite of the major trend, could a trader benefit from the corrective move?
+That is, could the trader trade against the major trend and take advantage of the profit potential of a significant correction—or what is called
+a countertrend—in the opposite direction?
+The good news is all of the above can be done.
+There are ways to measure corrections and anticipate when a correction might end, with defined risk. There are also ways to trade significant corrections and to measure profit potentials for those moves. If done,
+money can be made not only trading the trend, but also trading the corrective countertrend. The way this is all done is through the third and final
+tool I use to attack currency trends. The tool is what I call a hybrid tool; a
+tool that is a jack of all trades and does a little of everything. That tool is
+the Fibonacci retracement.
+
+INTRODUCTION TO FIBONACCI
+As mentioned in Part I of the book, Fibonacci was a thirteenth-century Italian mathematician who developed a sequence of numbers used to estimate
+the growth of a rabbit population (believe it or not). Whether the equation worked, or was even provable over an elapsed time period, I do not
+know. However, the sequence, along with its relationship to a mathematical constant, has certainly stirred the thinking of many scholars, scientists,
+engineers, artists, and yes, even financial technicians.
+You might recall a relatively recent use of the Fibonacci sequence in
+Dan Brown’s bestselling book and blockbuster movie The Da Vinci Code.
+In the book (and movie), the protagonist uses the Fibonacci sequence to
+open the glass scroll that provides the clues for the whereabouts of the
+Holy Grail. As a trading tool, Fibonacci retracements may also be a Holy
+Grail for traders.
+Fibonacci sequences can seem mystical at times. However, the sequence does show up in ordering many things in nature. Trees exhibit the
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+Printer: Yet to come
+
+207
+
+Fibonacci Retracements: The Hybrid Tool
+
+sequence in their branch and leaf patterns. The human body composition,
+as an example, utilizes the Fibonacci numbers 3 and 5. There are:
+
+r Five appendages of the human body: the head, two arms, two legs
+r Five fingers
+r Five toes
+r Three parts of the arm: shoulder, elbow, wrist
+r Three parts of the leg: ankle, knee, hip
+r Three divisions to each finger
+The financial markets, through Elliott Wave theory, have also incorporated the Fibonacci sequence in their analysis to predict the movements of
+the stock market.
+Elliott Wave technicians plot wave patterns that utilize the Fibonacci
+sequence. For example, there are thought to be five waves up for the major trend, and three waves down in a correction (those 5 and 3 numbers
+again!). The five up and three down combination keeps the trend moving
+in the intended upward direction. Within the waves there are similar numbered sequences.
+If you ever see an Elliott Wave technician’s charts, they are filled with
+lots of numbers that count the 1-2-3-4-5 waves and then the letters A-B-C,
+proxies for the three wave corrections.
+Part of the idea of using the 5-3 sequence in financial markets is that
+a market, like the stock market, is a subset of the overall world around it.
+So, for instance, if the world is growing in population (people populate like
+rabbits, but at a slower pace), there are similar growth patterns in the economy. That translates into a similar growth pattern in the value of the stock
+market. Hence, in a very simplistic analogy, stock prices rise along with
+this pattern of growth in the population and along the same progression.
+That is a theory, at least, and to the proponents of Elliott Waves, it
+helps explain movements of markets like the stock market over long-term
+periods.
+
+The Fibonacci Sequence
+The Fibonacci sequence is the basis of Fibonacci retracements. The
+Fibonacci sequence is a progression of values that follows a discernable
+numerical pattern. Table 9.1 shows the start of the sequence of values.
+TABLE 9.1 The Fibonacci Sequence
+F0 F1 F2 F3 F4 F5 F6 F7
+0
+
+1
+
+1
+
+2
+
+3
+
+5
+
+8
+
+F8
+
+F9
+
+F10 F11 F12
+
+13 21 34 55
+
+89
+
+F13
+
+F14
+
+F15
+
+F16
+
+144 233 377 610 987
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+208
+
+Printer: Yet to come
+
+TOOLS AND STRATEGIES
+
+The Fibonacci sequence starts with zero and 1, denoted by F0 and F1
+in the graph. To get the next number, you add these two numbers together
+to get 1 again (0 + 1 = 1). These are the first male and female of the rabbit
+population. The sequence is now 0, 1, and 1. Adding the last two numbers
+in the sequence (1 + 1) yields the next number, 2, and takes the sequence
+to 0, 1, 1, and 2 (F3 ). Summing the last two digits again (1 + 2) yields the
+next value, 3. Continuing with the pattern yields 2 + 3 = 5. So we can now
+see the derivation of the digits 3 and 5 as Fibonacci numbers.
+After 5 the numerical progression continues with the following sequence: 3 + 5 = 8, 5 + 8 = 13, 8 +13 = 21, 13 + 21 = 34, 21 +34 = 55,
+34 + 55 = 89, 55 + 89 = 144, and so on. As you can see, the birth rate of
+rabbits grows rather rapidly (not surprising).
+A mathematical mysticism in the sequence is seen when you take
+two successive numbers—say 144 and 233—and divide the larger number by the smaller number. The value approaches the decimal from what
+is called the golden ratio. The golden ratio, or phi (as it also referred in
+mathematical terms), is a mathematical constant just like the more popular pi (3.14159265 . . .). The constant for phi, however, is approximately
+1.6180339887.
+So, taking successive Fibonacci sequence values such as 144 (at F12 )
+and 233 (at F13 ) yields the following value,
+144/233 = 0.61802575 . . .
+Taking another two successive digits like 377 (at F14 ) and 610 (at F15 )
+yields a value of
+377/610 = 0.6180327 . . .
+The farther out you go in the Fibonacci sequence the closer the ratio
+approaches to the 0.6180339887 . . . decimal from phi (not that these numbers are not close already).
+
+The Golden Ratio
+Although there is an equation that is used to calculate phi, and plenty of
+written discussion on phi or the golden ratio in books and on the Internet,
+this book is really not the platform to explore too deeply into it as a derived
+value. In fact, to those of us who may be challenged mathematically, like
+me, it can be well over our heads.
+However, what financial technicians have realized through time is that
+the golden ratio has been able to bring some order in many disciplines
+outside of trading. Perhaps it can do the same thing for trading.
+A chart of any financial instrument can seem chaotic to the untrained
+eye. There are moves up, then smaller moves down if the instrument is in
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+Fibonacci Retracements: The Hybrid Tool
+
+19:31
+
+Printer: Yet to come
+
+209
+
+FIGURE 9.1 The Golden Ratio of 61.8 Percent Provides Support for the EURUSD
+
+an uptrend. The moves down are called corrections. The overall move up
+is of course the trend.
+Since market trends do not (usually) go up in a straight line but instead go up, correct, go up, correct, market technicians looked for ways
+to make sense of the corrections. That sense was manifested in Fibonacci
+retracements. The golden ratio of 0.618 or 61.8 percent was one of those
+retracements. It helps bring order to traders’ chaotic charts.
+For example, Figure 9.1 shows the EURUSD on an hourly chart. The
+price trends to the upside from a low at 1.3537 and makes a high at 1.3796,
+before starting a correction to the downside. A Fibonacci retracement
+overlay from the low at 1.3537 to the high at 1.3796 is placed on the chart.
+The price moves back lower and stops the fall after testing the 61.8 percent
+Fibonacci retracement level (the golden ratio) at the 1.36359 level (low
+reaches 1.3639). From there, a move back to the upside begins.
+The Fibonacci retracement at the golden ratio point provided a definable target for the corrective move. It gave a low-risk borderline that
+traders could buy against, and when it held, it gave the trader a clue the
+trend was resuming. It took chaos and made sense of the move.
+
+The 38.2 Percent and 50 Percent Levels
+The golden ratio is not the only retracement level used by traders. Note in
+Figure 9.1 that there are other Fibonacci retracement levels plotted in the
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+210
+
+Printer: Yet to come
+
+TOOLS AND STRATEGIES
+
+TABLE 9.2 The Fibonacci Sequence
+F0 F1 F2 F3 F4 F5 F6 F7
+0
+
+1
+
+1
+
+2
+
+3
+
+5
+
+8
+
+F8
+
+F9
+
+F10 F11 F12
+
+13 21 34 55
+
+89
+
+F13
+
+F14
+
+F15
+
+F16
+
+144 233 377 610 987
+
+chart. The financial market tends to use two other retracement levels for
+market trends. Specifically, the 38.2 percent and the 50 percent levels are
+key levels to monitor.
+The 38.2 percent Fibonacci retracement is also derived by the
+Fibonacci sequence. However, instead of using consecutive numbers in the
+sequence, the derivation of this value skips over one value, then divides
+the smaller number into the larger number. The subsequent number yields
+a value of approximately 0.382 or 38.2 percent.
+For example, taking the Fibonacci sequence number 89 (at F11 in
+Table 9.2) and dividing it by 233 (at F13, skipping F12 ) equals 0.38197 or
+38.2 percent (rounded up).
+89/233 = 0.38197
+
+or
+
+38.2%
+
+Try taking F14 (377) and dividing it by F16 (987). Do you get 0.382 or
+38.2 percent? Of course you do. In fact, you get 0.38196555, or .382 rounded
+up.
+Going back to Figure 9.1, note that on the way down from the high
+at 1.3796, the market decline stalled as the price approached the 38.2 percent retracement level at the 1.3697 level (low reached 1.3701). After the
+test, and the modest move higher, the resumption of the corrective move
+down broke through the 38.2 percent Fibonacci level on its way to the low
+at 1.3539. This is not a coincidence. The market will often look to use the Fibonacci numbers as borderline targets (i.e., exits on the Bearish Highway).
+The final Fibonacci retracement level that I use in my analysis is the
+50 percent retracement level. The midpoint of any low-to-high range has
+traditionally been a level the market pays attention to as a level of support
+or resistance (a borderline level). The digits 1 and 2 are also Fibonacci
+numbers, but unlike the consecutive numbers further in the sequence that
+when divided together yield a value approaching the golden ratio, dividing
+1 by 2 yields 50 percent. This is another reason why 50 percent is included
+as a Fibonacci level—and borderline—for traders.
+
+PLACING RETRACEMENTS ON A CHART
+The Fibonacci sequence, the derivation of the golden ratio, and the Fibonacci retracement levels are certainly worth knowing and understanding. However, what is more important to understand is how and when to
+apply Fibonacci retracement lines on your charts.
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+Fibonacci Retracements: The Hybrid Tool
+
+Printer: Yet to come
+
+211
+
+Typically, when a market trends higher, the trend is characterized by
+higher highs and higher lows. Whenever a trend starts from a low, reaches
+a peak, then starts to come down (or corrects), this is grounds for putting
+Fibonacci retracement lines on a chart. This describes a bullish Fibonacci
+retracement.
+When the market trends lower, the trend is characterized by lower
+highs and lower lows. Whenever a trend starts from a high, reaches a low,
+then starts to move back higher (or corrects), this is grounds for putting
+bearish Fibonacci retracement lines on a chart. With the lines in place,
+traders can measure and anticipate what prices the correction can target.
+Those targets become borderlines and exits on the correction highway.
+
+Bullish Fibonacci Retracements
+When the market trends higher, peaks at a high, and starts a correction
+lower, the Fibonacci retracement lines should be drawn on the chart. Most
+technical charting packages have this functionality as a standard tool. At
+FXDD (my firm), we use the MetaTrader charting and trading platform,
+and the Fibonacci lines are drawn automatically by anchoring the cursor
+on a low (or high) and dragging the cursor to a high (or low).
+Figure 9.2 shows the EURUSD on a five-minute chart. Fibonacci
+retracements can be drawn on any time frame chart (i.e., five-minute,
+
+FIGURE 9.2 A Bullish Fibonacci Retracement Correction
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+212
+
+19:31
+
+Printer: Yet to come
+
+TOOLS AND STRATEGIES
+
+one-hour, four-hour, daily, weekly, or hourly) to show the start of the trend,
+the end of a trend, and the expected Fibonacci retracement levels.
+The first step to set a bullish Fibonacci retracement is to define a low.
+In Figure 9.2, the low is at point 1. This is where the bottom of the Fibonacci
+is anchored.
+The next step is to define a high. In the example, the EURUSD broke
+above the 100 and 200 bar MA levels and accelerated higher. At point 2 the
+momentum fades, and a corrective move lower begins. When a low and
+high are clearly defined, set the Fibonacci retracement lines from point 1
+to point 2.
+When done, the chart shows three corrective levels. The 38.2 percent
+line comes in at 1.30115 (point A). The midpoint or 50 percent retracement line comes in at 1.30045 (point B), and the 61.8 percent Fibonacci
+retracement comes in at 1.29975. The three are now targets for the corrective move lower.
+The minimal, or smallest, completed correction of the trend move
+would pause at the 38.2 percent line. The middle, or medium, correction
+move would stop at the 50 percent line, while a larger, more substantial, correction would go all the way to the 61.8 percent line. The length
+of the correction of the trend typically gives a clue as to the strength of
+the trend.
+In our example, the correction falls to 1.3010, just below the 1.3012
+38.2 percent Fibonacci retracement level (point A). The price stalls briefly
+at the level before moving higher. The trend picks up steam after the break
+of the old high at 1.3034 level.
+The correction was small (to the 38.2 percent level), and this led to a
+strong move back to the upside. If the correction extended to the 61.8 percent line, one could expect that the move back higher might not be as robust. Note, however, that this is not always the case. So be on the lookout
+for less momentum, but if the trend picks up steam do not be surprised
+either.
+
+Bearish Fibonacci Retracement
+The setting of a bearish Fibonacci retracement is the exact opposite of the
+bullish alternative. In this case, the major trend is down or bearish for a
+currency pair. Lower lows and lower highs define the bearish trend. When
+a bottom is formed and there are reasons to expect a meaningful correction
+higher, a Fibonacci retracement can be placed on the chart. The process
+starts by defining a high extreme, then defining the low extreme.
+Figure 9.3 shows the GBPUSD as it trends down from point 1 to point
+2. The trend move down takes the pair from a 1.4741 high (point 1) to a low
+(point 2) of 1.4387 (or 354 pips). Along the way, the price falls below the
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+Fibonacci Retracements: The Hybrid Tool
+
+Printer: Yet to come
+
+213
+
+FIGURE 9.3 A Bearish Fibonacci Retracement Correction
+
+100 hour MA (solid MA line) at the 1.4614 level and the 200 hour MA
+(dashed MA line) at the 1.4534, securing a firm bearish bias. A new low
+is made on the break of 1.4399 but can only reach 1.4387 (at point 2). The
+quick correction off the new low moves the price back above the 1.4399
+level. Since the low was rejected so quickly, traders might expect a correction higher.
+If a correction is anticipated, applying a Fibonacci from the high at
+point 1 to the low at point 2 is appropriate. The Fibonacci retracement
+levels are 1.4522 at the 38.2 percent level, 1.4564 at the 50 percent level,
+and 1.4606 for the 61.8 percent level.
+The correction takes the price up from the lows to test the 38.2 percent
+Fibonacci retracement at 1.4522 (point A) in six hours. The price finds sellers against the level initially. This is an acceptable place to sell to reestablish a bearish trend position. Risk is defined (10 to 15 pips is all that is
+needed initially), and the market is stalling at the level. The trader should
+look to target a move back to the lows at 1.4387.
+The price sells off from point A at 1.4522, but finds buyers below at
+1.4485 area and rotates back higher. The failure to move lower says the
+market is not ready to trend lower just yet.
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+19:31
+
+214
+
+Printer: Yet to come
+
+TOOLS AND STRATEGIES
+
+When the 38.2 percent retracement level is broken at 1.4522, a sharp
+move higher pushes the price to the 50 percent Fibonacci target at the
+1.4564 level (point B). Like the 38.2 percent retracement level, the 50 percent level finds sellers who are looking to reestablish a short position
+with risk defined and limited (a stop above the 50 percent level can be
+expected).
+This time, the price trends farther down. A final test of the 38.2 percent
+retracement level at point C finds aggressive sellers, which ultimately leads
+to a move back to the 1.4387 lows. Whether a bullish Fibonacci retracement
+or a bearish Fibonacci retracement, the dynamics for setting the levels are
+consistent:
+
+r Find the trend high (or trend low).
+r Find the trend low (or trend high).
+r Overlay a Fibonacci extending from the high to low (or low to high).
+r Target the 38.2, 50, and 61.8 percent Fibonacci retracement levels for
+the corrective move.
+The next step is to understand the uses of this versatile trading tool.
+
+USING FIBONACCI RETRACEMENTS
+As we learned in Chapters 7 and 8, following the tools like moving averages
+and trend lines will provide clues for bullish or bearish bias. If the price is
+above the MA or trend line, the bias is bullish. If the price is below the MA
+or trend line, the bias is bearish.
+The Fibonacci retracements are not the same type of tool. They have a
+role in trends and defining trends at times. Other times they are important
+in defining the countertrends or the moves that are against the trend. This
+gives them a role as a hybrid tool. Not quite fully a trend-defining tool, not
+quite fully a corrective-trend-defining tool, the advantage is they do both.
+There are two distinct uses for Fibonacci retracements. Each addresses different market dynamics related to corrections and trends:
+1. They measure targets for corrective or countertrend moves. In this
+
+role, they do not define a trend, but define a move opposite the trend.
+By defining the targets for the corrective moves, they provide traders
+with the ability to anticipate when the trend will be reestablished. In
+this role, the Fibonacci retracement is a way to attack the currency
+trend, but from a corrective level.
+
+P1: OTA
+JWBT439-c09
+
+JWBT439-Michalowski
+
+January 18, 2011
+
+Fibonacci Retracements: The Hybrid Tool
+
+19:31
+
+Printer: Yet to come
+
+215
+
+2. They can be used to target a profit level for a countertrend trade. After
+
+a large trend move, a correction can take the currency pair hundreds
+and sometimes thousands of pips in the opposite direction. There are
+times when traders can anticipate a countertrend and trade that corrective move with limited risk and a high profit potential. In this type
+of strategy, the Fibonacci levels become profit targets for those countertrend trades.
+As a hybrid tool for traders, Fibonacci retracements complete the toolbox for attacking currency trends.
+
+Reestablishing a Trend Position
+Remember our game plan: to trade trends and keep fear to a minimum.
+Well, it is hard to trade the trends when the market is correcting. So what
+can a trader do during these times to keep the game plan intact? Proactive
+traders will look to exit trend positions when the bias turns from bullish
+to bearish or bearish to bullish in anticipation of a correction. Then, when
+the correction has run its course, traders will look to reestablish the trend
+position at a more favorable level. This is the first major use of Fibonacci
+retracements.
+Remember that corrections are excellent opportunities for the market to refuel for the next leg of the bullish (or bearish) trend. As a result,
+traders that take advantage of the Fibonacci retracement levels to get back
+on a trend are actually attacking currency trends from a better price level.
+They also should benefit from a juiced up market that is ready to continue
+the major trend.
+In addition, Fibonacci retracements may also be a way for traders who
+are not on the trend to get on it. The fact is, we cannot all be trading when a
+trend starts. Some may be at work. Some may be on vacation. Maybe some
+are running an errand or even asleep. Some may simply not pull the trigger
+when the trend begins. If the start of a trend is missed but the trader wants
+to participate in the trend, I encourage traders to wait for a time where risk
+is defined and limited. Fibonacci retracements provide those borderline
+points where getting on the trend is at a more favorable level with lower
+defined risk.
+So although corrections run opposite the trend, and Fibonacci retracements define corrective levels, the levels that are defined are actually at
+points where traders look to attack currency trends. They also define risk
+because each Fibonacci level is a borderline where the bias is bullish on
+one side and bearish on the other. As such, fear should also be minimized.
+Reestablishing positions using Fibonacci retracements is a key require-

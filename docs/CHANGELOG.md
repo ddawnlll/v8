@@ -3,6 +3,87 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-04 — Rule 14 rewritten: complexity budget splits runtime from evidence (D-043)
+
+The constitution capped "at most 3 active Experts". That single number
+conflated an engineering question (how many modules evaluate per bar — zero
+validity content) with a statistical one (how many independent hypotheses are
+simultaneously under test on one frozen OOS). The cap was already breached:
+`EXPERTS_REGISTRY.yaml` carries 5 Experts after D-042. No code enforced it, so
+this is a documentary correction.
+
+- **`docs/charter/V8_CONSTITUTION.md` — rule 14 rewritten** on two axes:
+  (a) runtime Expert count unbounded, limited only by determinism and compute,
+  explicitly *not* a validity constraint; (b) the preregistered cap applies to
+  the `behavior_family` count simultaneously carrying a claim on one frozen-OOS
+  evaluation, entering rule 11's family-level multiplicity correction. The
+  minimum-architecture diagram's `(2–3)` becomes `(N, unbounded)`.
+- **"At most one learned component" rescoped to per pipeline position.** A
+  Candidate Scorer (ladder step B) and an ML Expert challenger sit at different
+  positions and are each already gated by rule 5's preregistered frozen-OOS
+  comparison; the global "never both at once" added no statistical control, only
+  a sequencing preference. `LEARNING_PROTOCOL` §3 and its cheap test 5 updated.
+- **`docs/contracts/ARCHITECTURE_SPEC.md` §4, `ROADMAP.md`, `PLAN_V8_FULL.md`** —
+  the copied "hard cap" wording replaced; router/scorer/ranker/RL absence
+  unchanged.
+- **`docs/decisions/DECISION_REGISTER.md`** — D-043 added; D-003 and D-020
+  annotated as revised. Both keep `PROVISIONAL_DECISION`: rule 2's label
+  vocabulary is closed, and the register's own note makes that status the
+  sanctioned reversible one — inventing a `SUPERSEDED` label would breach rule 2
+  while fixing rule 14.
+
+- **`tests/test_admission_contention.py` (new) — contention is now tested.**
+  `RUNTIME_SCHEDULER_SPEC` §5 test 3 (Expert-order shuffle) was only exercised
+  by the two pilots, which almost never emit on the same bar — so the claim was
+  verified with **no contention at all**. The new tests use unconditional
+  contenders that collide on one exposure slot every bar, and pin two separate
+  properties: (1) the ledger stays order-independent under full contention,
+  because `lab.run` sorts Experts by `expert_id` before evaluating; (2) the
+  surviving tie-break is therefore that lexicographic name — measured, the
+  first-sorting of two behaviorally identical Experts wins contested slots
+  roughly 2:1, and the advantage follows the name when the names are swapped.
+
+- **`max_spread_frac` renamed to `max_bar_range_frac`; veto detail `SPREAD` to
+  `BAR_RANGE`.** The D-024 predicate is `(high-low)/close` — the entry bar's
+  intrabar range. It is not a bid-ask spread and cannot be: the tape carries no
+  depth. The old name propagated the misnomer into `PREREGISTRATION` §8 and the
+  runbook, where it read as an execution-cost control. Pure rename across
+  `schema.py` / `risk.py` / `lab.py` / `tools/materialize_views.py` and the
+  tests; **`GOLDEN_LEDGER_HASH` re-pinned** because `config_hash =
+  sha1(asdict(manifest))` keys on field names, while `data_hash`,
+  `states_hash`, `candidate_count` (21) and `terminal_distribution` are
+  unchanged — that invariance is the evidence no decision moved.
+- **`docs/tr/V8_CONSTITUTION.md` — rules 13–17 added.** The Turkish mirror
+  stopped at rule 12 and had never carried the ontology, complexity-budget,
+  learning, risk-admission, or materialization rules. Rule 2's label discipline
+  cannot hold in a corpus that omits the rules; the TR diagram's `(2–3)` is
+  corrected with the EN one.
+- **Three open questions registered rather than guessed.** O-018 (should the
+  heat cap scale with the Expert population — caps stay at 3.0 / 2.0 until a
+  preregistered comparison moves them), O-019 (does the 0.05 intrabar-range
+  veto fire at all on the declared dev window; "declared, never fitted" answers
+  leakage but not inertness, and the firing rate has never been measured),
+  O-020 (per-Expert `history` lookback instead of the global 32 bars —
+  deliberately not implemented here: it adds a public field to the Expert
+  contract, a D-032 change needing its own decision, and it moves the state
+  hash).
+
+Two couplings are recorded as follow-ups, not resolved here. The binding
+constraints on portfolio scale are rule 16 (one exposure per instrument +
+direction) and D-023 (`max_heat = 3.0`), not the Expert count — with those in
+place a 400-Expert portfolio holds the same positions as a 3-Expert one. Rule 16
+and `CANDIDATE_LIFECYCLE_SPEC` §6 now say so explicitly and restate the
+single-exposure rule as the attribution default it is; whether the heat cap
+should scale with the Expert population is opened as **O-018** rather than
+guessed at, and the caps stay at 3.0 / 2.0 until a preregistered comparison
+moves them. And
+contested-slot priority is decided by Expert *name*, which is deterministic and
+harmless at three Experts but is a silent allocation policy at the count rule 14
+now permits. A principled tie-break is a ranker, gated by rule 6 / D-008
+(O-006 / O-012); the new test fails if one is added, forcing that decision to be
+registered rather than landing silently. No economic claim is made or implied;
+the verdict stays `NO_ECONOMIC_CLAIM` (rule 12).
+
 ## 2026-08-02 — Second-level provenance + PIT bugfix pass (7 fixed)
 
 An adversarial re-audit against the `V8_CONSTITUTION` bug-class catalogue

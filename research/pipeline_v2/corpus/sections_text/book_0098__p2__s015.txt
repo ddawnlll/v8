@@ -1,0 +1,660 @@
+We should remember that longer time spans in the RSI calculation result
+in shallower swings and vice versa. Consequently, the 70/30 combination is
+inappropriate when the time span differs appreciably in either direction
+from the standard 14-day period. Chart 11-2, for example, features a 9-day
+RSI for the Eurodollar for which an 80/20 combination gives a much bet-
+ter feel for the overbought/oversold extreme than the 70/30 default value.
+This is due to the fact that shorter time spans result in wider RSI oscillations.
+The lower panel features a 65-day RSI in which the narrower swings result
+in a more appropriate 65/35 combination. In this instance, neither of the
+default 70/30 values is reached at any time.
+
+The terms long and short time Spans refer to the type of data under con-
+sideration in a relative sense. For example, a 60-day RSI would represent a
+long span for daily data, but for monthly numbers, a 60-day (2-month) span
+
+
+
+214 Part I: Trend-Determining Techniques
+
+Chart 11-2 Eurodollar, 1994-1997, RSI overbought/oversold lines. (From www.pring.com.)
+
+95.0 4 Furodoliar
+945 3
+
+94.0 3
+93.5 4
+93.04
+3 9-day RS! Overbought/ oversold are at 80/20
+A A
+og NAY KAM CALA al PY
+Overboughtioversold are at 65/35 yl
+“ Mea
+50 +
+— — Se,
+
+would be very short. Some consideration should therefore be given to this
+factor when the choice of a specific RSI time span is being made. Chart
+11-3 plots two RSIs for identical time Periods (60 days or 3 months).
+However, the overbought and oversold lines are drawn at different levels
+because one calculation is based on daily and the other on monthly data.
+
+Because RSIs based on shorter-term time spans experience greater volatil-
+ity, they are more suitable for pointing out overbought and oversold con-
+ditions. On the other hand, longer-term spans are more stable in their
+trajectories and therefore lend themselves better to the purpose of con-
+structing trendlines and price patterns.
+
+Time Spans
+
+The RSI can be plotted for any time span. In his book New Commodity Trading
+Systems, Perry Kaufman questions the exclusivity of the 14-day time span
+selection (the default for most charting packages). He Points out that max-
+imum divergence occurs when the moving average (MA) is exactly half the
+time span of the dominant cycle. In other words, if you make the assump-
+tion that the primary trend of the stock market revolves around the 4-year
+business cycle, an MA of 24 months will give you the greatest divergence
+between the high and low Points of the cycle. In the case of the 28-day cycle,
+14 days is the correct choice, but it is important to understand that there
+
+Individual Momentum Indicators 1 215°
+
+Chart 11-3 RSI comparing time frames. (From www.pring.com.)
+
+qe memeay 4 flyy, ff V_] (A f{_¥
+EME We WY
+4 } ON a |
+= SESS Seat Re Ee ae ey ee sae ae SE
+pe 60-day RSI :
+gaara YY,
+454 [
+bes t i
+
+are many other cycles apart from the lunar cycle. Working on this assump-
+tion, for example, would mean that a 14-hour RSI would be inappropriate
+if the dominant cycle was something other than 28 hours. The same would
+be true for weekly and monthly data. ;
+In practice, a 14-day time span works quite well, but only for shorter peri-
+ods. I also use 9-, 25-, 30-, and 45-day spans. For weekly data, the calendar
+quarters operate effectively, so 13-, 26-, 39-, and 52-week spans are adopted.
+As for monthly charts, the same recommended spans for the ROC are also
+Suitable for the RSI, that is, 9, 12, 18, and 24 months. .
+For longer-term charts, covering perhaps 2 years of weekly data, a time
+Span of about 8 weeks offers enough information to identify intermediate-
+term turning points. A 26-week RSI results in a momentum series that oscil-
+lates in a narrower range, but nevertheless usually lends itself to trendline
+Construction. Very long term charts, going back 10 to 20 years, seem to
+Tespond well to a 12-month time span. Crossovers of the 30 percent over-
+Sold and 70 percent overbought barriers provide a very good indication of
+Major long-term buying and selling points. When the RSI Pushes through
+these extremes and then crosses back toward the 50 level, it often warns of
+4 reversal in the primary trend.
+To isolate ane ae doin it is important to remember that the best
+°pPortunities lie where long-term momentum, such as a 12-month RSI, is
+°versold. If you can also identify an intermediate- and a short-term oversold
+
+
+
+216 Part I: Trend-Determining Techniques
+
+condition, all three trends, primary, intermediate-term, and short-term, are
+then in a classic conjunction to give a high-probability buy signal.
+
+RSI Interpretation
+
+Extreme Readings and Failure Swings Any time an RSI moves above
+its overbought zone or below its oversold zone, it indicates that the security
+in question is ripe for a turn. The significance depends upon the time frame
+under consideration. For example, an overbought reading in a 14-day RSI,
+as shown in Chart 11-4, is nowhere near as significant as an RS] constructed
+with a 12-:month time span, as in Chart 11-5. An overbought or oversold read-
+ing merely indicates that, in terms of probabilities, a counterreaction is over-
+done or overdue. It presents an opportunity to consider liquidation or
+acquisition, but not an actual buy or sell signal. This can come only when
+the price series itself gives a trend-reversal signal.
+
+For instance, in Chart 11-6 featuring Centura Banks, the overbought read-
+ing in June 2000 was confirmed by a nice trend break in the price, as was
+the oversold reading that had previously been registered in February.
+Compare this to the December 1999 oversold reading that was not con-
+firmed by a price break and did not generate any meaningful rally.
+
+More often than not, the RSI traces out a divergence, as indicated in Fig.
+11-1. In this case, the second crossover of the extreme level at points A and
+
+Chart 11-4 German Bunds, 1995-1996, RSI and trendlines. (From www.pring.com.)
+
+100 : German Bund Futures
+995
+985
+97 -
+261 a
+
+96 5
+
+M ae!
+¥ yf it an
+
+80-] 41 “sey RsI
+70
+
+ep |Oc lov [Dec |1996 [Feb | [Mar Apr May lun. ul
+ap [6c han Bee RSS Feb Wry Wsy Da aT
+
+Individual Momentum Indicators ] 217
+
+Chart 11-5 Spot Nickel, 1981-2001, RSI, trendlines, failure swings, and extreme crossovers.
+(From www.pring.com.)
+
+[20004
+1600-4 spot ($) Nickel LME
+40004
+
+ka 4
+_ swing
+
+804 12 I. RSI A
+
+Pte al
+
+EE 2 (es ba ee [66 e7 ee eo BO pi 2 bs Jes Bs we fr pe os joo oy
+
+Chart 11-6 Centura Banks, 1999-2000 RSI, trendlines, and price patterns. (From
+www. pring.com.}
+
+604
+454 he
+404
+
+4 “ha
+20] t we
+
+Y
+
+8 iis
+pay [un Tui” er RE [aor Ivey Tun’ Mul’ Aug’ [Seg
+
+
+
+218 Part I: Trend-Determining Techniques
+
+B usually offers good buy and sell alerts. These divergences are often called
+failure swings. Chart 11-7 shows an example of a bullish failure swing for J.P.
+Morgan in October 2000. Chart 11-5 shows a longer-term failure swing for
+Spot Nickel.
+
+Trendline Violations and Pattern Completions The RSI can also be
+used in conjunction with trendline violations. Generally speaking, the
+longer the time span for any particular period (daily, weekly, or monthly),
+the better the opportunity for trendline construction. Important buy and
+sell signals are generated when trendlines for both price and the RSI are
+violated within a relatively short period (refer to Chart 11-4). An example
+of the RSI’s capability to form price patterns is shown in Chart 11-6, where
+we see three situations in which it traced out a head-and-shoulders (H&S) for-
+mation. Each one was confirmed by a trend break in the price. Note how
+the inverse pattern, formed in the summer of 1999, involved several false
+oversold crossover buy signals, However, it was not until the pattern was com-
+
+pleted that the price confirmed any of this by rallying above its 3-month
+down trendline.
+
+Smoothing the RSI _ It is a perfectly legitimate technique to smooth the
+RSI. One of my favorite approaches is to smooth a 9-day RSI with an 8-day
+MA. Because the fluctuations are not as great as the raw data, the overbought
+
+and oversold lines are drawn at 70 and 30, not at my usual default of 80/20
+for a 9-day span.
+
+Price
+
+a
+
+wee
+wv Yay RSI
+30 man
+a AON
+
+Failure swing B
+
+Y Failure swing A
+
+Figure 11-1 RS failure swings.
+
+Individual Momentum Indicators I 219
+
+Chart 11-7. J.P. Morgan, 2000-2001, RSI, trendlines, and failure swings. This chart shows
+a 14-day RSI for J.P. Morgan. Note the two trendline violations that signaled declines in
+September 2000 and February 2001. Also, there was a bullish failure swing at the October
+low. It’s true that the price confirmed with a trendline violation, but the trendline was not that
+impressive since it was quite steep and was only touched by one rally. Little wonder that the
+stock needed to test the low again before taking off to the upside. (From www.pring.com.)
+
+604
+64
+sod
+464
+wo4
+
+J.P. Morgan Failure swing confirmation
+
+664 14-day RSI
+
+30 A
+Py y*
+
+[EBS Wey" “Dun” bol Tug" [sep loc’ “Nov” [bec 001 [Feo “Rtar’” | TAR
+
+Failure swing
+
+Chart 11-8 features such an indicator plotted inversely with the 30-year
+Yield to correspond with movements in bond prices. This smoothing tech-
+nique is very useful from the point of view of flagging reversals when the
+indicator moves beyond its normal overbought and oversold extremes. The
+dashed arrows point to changes in trends signaled by the RSI moving to an
+extreme, but where no reasonable price confirmation was given. The solid
+arrows show the three instances where the overbought and oversold
+extremes were confirmed with price trend breaks. This form of interpreta-
+tion works pretty well except in periods experiencing strong linear up- or
+downtrends.
+
+Application to Peak-and-Trough Progression
+
+The RSI often traces out a series of rising or falling peaks and troughs,
+Which, when reversed, offer important buy or sell alerts. Chart 11-9 shows
+that the 14-day RSI for SunTrust Banks experienced two peak-and-trough
+Teversals, each of which was confirmed by a price trend break. These are
+flagged by the arrows.
+
+
+
+220 Part |: Trend-Determining Techniques
+
+Chart 11-8 30-year Government Yield, 1998-2001, RSI and overbought and oversold
+crossovers. (From www.pring.com.)
+
+30-year Yield (Inverted)
+
+3 8-day MA of 9-day RS
+‘ A
+W
+
+22 [IND [is99 MW A IM Ys oN Booo Aw UY As fo NP poor
+
+2 oes
+
+Chart 11-9 SunTrust Banks’ 1997 RSI and peak-and-trough analysis. (From
+www.pring.com.)
+
+=] = SS q
+{Suntrust Banks we tg II ye?
+8044, hy Wt
+jie Lael 4 yet H ]
+455 Peak-and-trough ! /
+f ASI sell signal ;
+70
+664
+60 4 14-day RS!
+§54
+503
+454
+404 Peak-andtrough
+353 RSI buy signal
+rr TT TT T = TTT
+hoor . February” March ; * “Tapril "(May
+
+i
+;
+'
+!
+
+Individual Momentum Indicators 1 221
+
+Two Variations on the RSI
+Chande Momentum Oscillator
+
+The Chande momentum oscillator (CMO), named after its inventor, Dr.
+Tushar Chande, is a variation on the RSI, yet is uniquely different. It has
+three characteristics:
+
+¢ The calculations are based on data that have not been smoothed. This
+means that extreme short-term movements are not hidden, so the indi-
+cator reaches overbought and oversold extremes more often, but not
+enough to result in too many signals.
+
+* The scale is confined within the —100 to +100 range. This means that
+the zero level becomes the equilibrium point. With the RSI, the 50 level
+is the equilibrium point and is not always readily identifiable. With zero
+as the pivotal point, it is easier to see those periods when momentum is
+positive, and those when it is negative. The zero equilibrium therefore
+makes comparisons between different securities that much easier.
+
+* The formula uses both up and down days in the calculation.
+
+Interpretation &
+
+Chart 11-10 compares a 14-day RSI with a 14-day CMO. The first thing to
+notice is that the CMO reaches an overbought and oversold extreme more
+times than the RSI, such as in February and June 2000 and in January 2001.
+Sometimes it is possible to construct more timely and better trendlines for
+the CMO, though occasionally it works the other way. The March 2000
+break, for instance, came off as a better trendline for the CMO than the RSI;
+So too did the breaks from trendlines AB and CD. The two trendlines in the
+Summer of 2000 were slightly better for the RSI. Note also that both series
+experienced positive divergences at the October 2000 low, but the one for
+the CMO was a much stronger signal since the September bottom was well
+above that of mid-October. It does not always work in favor of the CMO, but
+Iprefer this indicator because of the more numerous overbought and over-
+Sold Teadings, and the plus and minus scaling, which makes it easier to spot
+Positive and negative readings.
+
+One approach that I have found helpful is to plot a 20-day CMO and
+Smooth it with a 10-day MA, such as that plotted in Chart 11-11. I then take
+3 smoothing of this indicator, in this case a 10-day simple MA, the dashed
+Tine that hugs the CMO, MA crossovers are then used to generate buy and
+Sell alerts, However, since there are numerous crossovers, it is important to
+make an attempt at filtering out those that are not likely to work out by only
+
+
+222 Part I: Trend-Determining Techniques
+
+Chart 11-10 FTSE, 2000-2001, comparing the RSI with the CMO. (From www. pring.com,)
+
+6800 4
+6500 4
+6400 4
+6300 4
+6200 4
+61004 ~~
+(6000 4
+
+Fig}0 4
+ae 14-day RSI
+
+A
+
+—
+604 Woe
+# Aas
+404 B
+30 a
+
+14-day CMO
+60
+
+jeial Feb” Waar’ " [apr Iway" “Dun” bul” JAug” [Sep [oct "Nov [pec “Boor Fa
+
+using those that develop at an extreme level in view of the fact that they tend
+to be more accurate. This should then be confirmed by a trend break in
+the price itself. Some examples are shown in Chart 11-11.
+
+Relative Momentum Index
+
+The relative momentum index, or RMI as it is known, is another variation
+on the RSL In the calculation of the RMI, the standard RSI formula is mod-
+ified to allow for a momentum factor. This indicator first came to my atten-
+tion as an article in the February 1993 Stocks and Commodities magazine by
+Roger Altman.
+
+This modification has two effects. First, it smooths the indicator and, se
+ond, it accentuates the degree of the fluctuation. The result is a less jagged
+oscillator that experiences more overbought and oversold readings. The
+RMI requires two parameters: the time frame and the momentum factor.
+
+If the RMI has a momentum factor of 1, the indicator is identical to the
+RSI. It is only when the momentum factor is greater than 1 that the two
+series diverge.
+
+Chart 11-12 shows two variations on the RMI. The middle panel features
+a 14-day span with an 8-day momentum factor, and the lower one a 45-daY
+
+Individual Momentum Indicators I 223
+
+Chart 11-11 Hang Seng’s 1998-2000 smoothed CMO.
+
+Hang Seng
+
+1500 ~
+4000 5
+
+10-day MA of a 14-day CMO. :
+0+ :
+
+EEE he] TOctiNov[Dec [i999 Mar Apr|May(Jun|Jul JAug|Sep|Oct|Nov|Decf000 [Mar [Apr |
+
+span with a 10-day momentum factor. Since it is an RSI-based indicator,
+longer-term spans involve less volatility. Note that the fluctuations in the 45-
+day series are much Jess pronounced than the 14-day RMI. ,
+
+Generally speaking, the longer-term span offers slower and more delib-
+rate movements that lend themselves more easily to trendline construction.
+Several examples are shown in Chart 11-12. I particularly like the late 1998
+signal since it is confirmed by a simultaneous breakout above the trendline
+and the 200-day MA. Whenever a price crosses above a trendline and a reli-
+able MA at the same time, it emphasizes the strength of the signal since they
+reinforce each other as dynamic resistance areas.
+
+RSI Conclusion
+
+Most of the time, the RSI and its two variations, like all oscillators, do
+Not tell us very much. The RSI can be really useful when it triggers diver-
+Bences, completes price patterns, or violates trendlines. When such an
+Occurrence is also confirmed by a trend-reversal signal in the price itself, it
+'S usually a wise policy to pay attention, because the RSI has a good record
+of reliability,
+
+
+
+224 Part I: Trend-Determining Techniques
+
+Chart 11-12 AT&T, 1996-2001, two RMI variations. (From www.pring.com.)
+
+100-] RMI (14/8)
+
+m A in A 4
+SIAC wI MG WA ACA
+
+—
+
+V | V ew Tw
+7 RMI (45/10) an aw .
+
+mim wh aa an # Vo
+
+8s SS |1997
+
+hese
+
+Trend Deviation (Price Oscillator)
+
+A trend-deviation indicator is obtained by dividing or subtracting a security's
+price by a measure of trend, which is usually a form of MA. It is also possible
+to base a trend deviation using linear regression techniques. However, we will
+concentrate on the MA method here. This approach is also called a price oscil-
+lator in some charting packages. There are two methods of calculation: sub-
+traction and division. Division is preferred, since it is more reflective of
+Proportionate moves. For a discussion of this topic, you are referred to
+Chapter 5 and Chapter 8, which compare logarithmic and arithmetic scales.
+
+Since the average represents the trend being monitored, this oscillator
+indicates how fast the Price is advancing or declining in relation to that
+trend. An oscillator based on a trend-deviation calculation is, in fact, a hor-
+izontal representation of the envelope analysis discussed in Chapter 9, but
+in this graphic format, it also shows subtle changes of underlying technical
+strength and weakness.
+
+Figures 11-2(a) and (b) show these two approaches for the same indica
+tor. The upper and lower envelopes are both drawn ata level that is 10 per
+cent from the actual MA, which means that when the price touches the 100
+line, it is really at the same level as the MA. When the momentum index is
+at 110, the price index is 10 percent above its MA, and so on. Chart 11-15
+for the S&P Composite Index also indicates how a trend-deviation indict
+tor using the closing price and a 25-day MA is calculated.
+
+Individual Momentum Indicators | 225
+
+110
+100
+_MA+O% 90
+
+Moving
+[ --*" overage
+
+27 MA-10 %
+
+Jon. Feb. Mor. Apr. May Jon. Feb. Mar. Apr. May
+(a) ()
+
+Figure 11-2 Envelopes and momentum.
+
+Chart 11-13 S&P Composite, 1996-1997, calculation of a trend-deviation indicator. (From
+www.pring.com.)
+
+$004 S&P Composite / hind)
+
+750 3 iy ®K
+
+Price is above Zo-dlay MA Price is below |
+
+the MA
+_| Trend Deviation (1/25)
+¥
+
+44
+
+Zero = The same
+level as the MA
+
+The interpretation of a trend-deviation indicator is based on the same
+Principles described in Chapter 10. This method can be used to identify
+
+~ Vergences as well as overbought and oversold zones, but it appears to come
+
+nto its own when used in conjunction with trendline construction and MA
+“Tossovers,
+
+
+
+226 Part I: Trend-Determining Techniques
+
+Trendline Construction
+
+Chart 11-14 shows the Morgan Stanley Capital International (MSCI)
+Hungary Index together with a trend deviation calculated from a close
+divided by a 45-day MA. This is a fairly jagged indicator and lends itself to
+overbought/oversold, trendline, and price pattern analysis. In March 2000,
+we see the completion of an H&S top in the indicator, which was later con-
+firmed by a trendline violation in the price. Later, the oscillator traces out
+a double bottom formation and the price violates a 3month down trend-
+line and crosses above its 25-day MA. This should have warranted a good
+rally, but instead the price initially advanced and then traded in a sideways
+range, later to be followed by a new low.
+
+In theory, this breakout should have worked. In retrospect, it was because
+the price had begun a bear market, but this example is a good reminder
+anyway that even the best laid technical principles can and do fail from time
+to time: all the more reason to plan an exit strategy prior to making a trade or invest-
+ment in case things do not go according to plan.
+
+Trend Deviation and MAs
+
+An alternative approach with trend-deviation indicators is to smooth out
+unwanted volatility with the aid of two MAs, as shown in Chart 11-15. The
+actual trend-deviation series is calculated by taking a 26-week MA of the clos-
+
+Chart 11-14 MSCI Hungary Index and a trend-deviation indicator, 1999-2000. (From
+www.pring.com.)
+
+soo 4 MSCI Hungary Index
+
+7005
+
+Trend deviation (1/45) -H
+
+wp 8 pt
+a
+
+MA
+
+0 (Ma.
+4 wd
+B B
+
+["Toct!" Iow”[Bec” "2000" Feb [Mar Tapr” ay Dun hur” us Ba
+
+Individual Momentum Indicators I 227
+
+ing price divided by a 52-week MA. The second series is simply a 10-week
+MA of the first. Buy and sell alerts are then triggered as the smoothed trend-
+deviation indicator crosses above or below.its 10-week MA. Then look for a
+confirmation from the price itself, Two examples are shown in Chart 11-15,
+one for a top and the other for a bottom.
+
+This is very much a guerilla approach because the buy alert indicated by
+the dashed arrow was signaled almost at the top of the rally. This example
+
+"demonstrates the importance of picking and choosing between signals, only
+
+selecting those that develop close to a turning point. If this filtering
+approach is not taken, then there is considerable risk that action will be
+taken close to the end of the trend.
+
+A useful method that greatly reduces such whipsaw activity, but still
+offers timely signals, is to advance the 52-week MA by 10 weeks when the
+trend-deviation calculation is being made. This means that each weekly close
+is divided by the 52-week MA as it appeared 10 weeks before. This new
+calculation has been plotted in the center panel of Chart 11-16.
+
+In this example, the whipsaw in late 2000 was filtered out since the trend-
+deviation indicator fails to cross decisively below its MA. I am not suggest-
+ing this as the only legitimate combination for weekly charts, but it is one
+that appears to operate quite well. There is always a trade-off when you try
+to make signals less sensitive and in this case we find that there is occasionally
+asmall delay compared to the nonadvanced 52-week MA. The most obvious
+
+Chart 11-15 S&P Airlines, 1995-2001, and a smoothed trend-deviation indicator. (From
+www.pring.com.)
+
+500+ SEP Airlines
+
+0.1.4 Trend deviation (26/52)
+oad . ve
+
+0.04
+004
+
+29 wa
+
+O14
+
+2 a soo Boo oo
+
+
+
+228 Part I: Trend-Determining Techniques
+
+Chart 11-16 S&P Airlines, 1995-2001, and two smoothed trend-deviation indicators. (From
+www.pring.com.)
+
+S&P Airlines
+§00 4
+
++ Trend Deviation (26/52 Advanced10)
+024 —~
+O15
+o0
+O44
+4 Trend Deviation (26/52)
+014 a
+004
+00
+004
+014
+
+peed a oT Pore Bae
+
+No whipsaw
+
+one on this chart developed at the beginning of 1997, where the lagged
+series in the center panel crossed its MA at a slightly higher price. In most
+instances though, this is a small price to pay if a costly whipsaw can be
+avoided.

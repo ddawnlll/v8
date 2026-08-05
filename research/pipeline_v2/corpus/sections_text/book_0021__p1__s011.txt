@@ -1,0 +1,406 @@
+
+METHOD—TECHNICAL ANALYSIS
+
+A
+
+Tail
+
+113
+
+B
+
+C
+
+Figure 5.12 Force Index—13-Day EMA
+A longer-term Force Index, smoothed with a 13-day EMA, identifies longerterm shifts of power between bulls and bears. When it is below zero, bears
+are in control, and when it is above that line, the bulls are in charge.
+Divergences between the peaks of this indicator and price peaks precede
+market tops, whereas divergences between their lows precede important
+bottoms.
+In area A, Force Index traces a lower peak during the final price peak. It
+reveals that bulls are weak and a top is likely. A few days later, the EMA ticks
+down, confirming that a new downtrend has begun. A mirror image of this
+pattern occurs in area B, where we see a lower closing price, a higher bottom of Force Index, and a few days later an uptick of the EMA, auguring an
+important rally. Notice also the double bottom in that area—a kangaroo tail,
+followed by a retest of the lows. This is one of many examples of patterns and
+indicators reinforcing each other. In area C Force Index traces a bearish
+divergence and warns you that the bull move is over. A few days later the
+EMA ticks down, and it’s all downhill from there. The market keeps sending
+you messages—all you have to do is listen.
+At the right edge of the chart the market is declining, confirmed by the
+falling EMA. Force Index is starting to trace a bullish divergence; it is time to
+tighten stops on short positions.
+
+114
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+A divergence between an EMA of Force Index and price shows that the
+trend is ready to reverse. Divergences between the patterns of peaks or
+bottoms of Force Index and prices show that the trend is becoming
+weaker. The power of this message depends on the length of the EMA with
+which we smooth our Force Index. If we use a very short EMA of Force
+Index, such as two days, its divergences help pinpoint the ends of shortterm trends lasting a week or so. If we use a 13-day or longer EMA of
+Force Index, we can identify the ends of longer-term moves that last months.
+If the trend is up and you are long, take profits when the two-day EMA
+of Force Index traces a bearish divergence—a lower peak in the indicator during a higher price in the market. If you are short, take profits when
+the two-day EMA of Force Index traces a bullish divergence—a higher
+bottom in the indicator during a lower price in the market. Take your
+profits and monitor the market from the sidelines. It is cheaper to exit and
+reenter than sit through a countertrend move.
+It is essential to combine Force Index with trend-following indicators. If
+you use this oscillator alone, it will lead to overtrading because it is so sensitive. In that case, only your broker will make money. The signals of a
+short-term oscillator must be filtered using a long-term trend-following
+indicator. This is the key principle of the Triple Screen trading system.
+
+The Fifth Bullet
+A clip for an old army rifle held only five bullets. Going into action with
+such a weapon forced one to take good aim instead of shooting wildly.
+This is a good attitude for trading the markets.
+By now, we have selected four bullets—exponential moving averages,
+channels, MACD-Histogram, and Force Index. A moving average and
+MACD are trend-following indicators. Channels, Force Index, and MACDHistogram are oscillators. What fifth bullet shall we pick?
+To help you choose your fifth bullet, we’ll review several more tools.
+Feel free to range beyond this menu, but make sure to understand how
+each indicator is constructed and what it measures. Test your indicators to
+develop confidence in their signals.
+In Trading for a Living I described more than a dozen technical indicators. There are dozens more in other books on technical analysis.
+Quality and the depth of understanding are more important than quantity.
+A drowning amateur, grasping at straws, keeps adding indicators. A
+mature trader selects a few effective tools, learns to use them well, and
+focuses on system development and money management.
+
+METHOD—TECHNICAL ANALYSIS
+
+115
+
+There are no magic bullets in the markets. There is no perfect or
+ultimate indicator. A trader who becomes preoccupied with indicators
+quickly reaches the point of diminishing returns. Your choice of analytic
+tools depends on your trading style. The idea is to select your tools and
+quickly move on to where the real money is—system development and
+risk management.
+Elder-ray Elder-ray is an indicator developed by this author and named
+for its similarity to x-rays. It shows the structure of bullish and bearish
+power below the surface of the markets. Elder-ray combines a trendfollowing moving average with two oscillators to show when to enter
+and exit long or short positions. Most software developers fail to include Elder-ray in their packages, but you can do it yourself with minimal
+programming.
+To plot Elder-ray, divide your computer screen into three horizontal
+panels. Plot a chart of the stock you plan to analyze in the top panel and
+add an exponential moving average. The second and third panels will
+contain Bull Power and Bear Power, plotted as histograms. Here are the
+Elder-ray formulae:
+Bull Power = High − EMA
+Bear Power = Low − EMA
+A moving average reflects the average consensus of value. The high of
+each bar reflects the maximum power of bulls during that bar. The low of
+each bar marks the maximum power of bears during that bar.
+Elder-ray works by comparing the power of bulls and bears during each
+bar with the average consensus of value. Bull Power reflects the maximum
+power of bulls relative to the average consensus, and Bear Power the maximum power of bears relative to that consensus.
+We plot Bull Power in the second windowpane as a histogram. Its
+height reflects the distance between the top of the price bar and the
+EMA—the maximum power of bulls. We plot Bear Power in the third windowpane. Its depth reflects the distance between the low of the price bar
+and the EMA—the maximum power of bears.
+When the high of a bar is above the EMA, Bull Power is positive. When
+the entire bar sinks below the EMA, which happens during severe declines, Bull Power becomes negative. When the low of a bar is below the
+EMA, Bear Power is negative. When the entire bar rises above the EMA,
+which happens during wild rallies, Bear Power becomes positive.
+
+116
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+The slope of a moving average identifies the current trend of the market. When it rises, it shows that the crowd is becoming more bullish; it is
+a good time to be long. When it falls, it shows that the crowd is becoming
+more bearish; it is a good time to be short. Prices keep getting away from
+a moving average but snap back to it, as if pulled by a rubber band. Bull
+Power and Bear Power show the length of that rubber band. Knowing the
+
+A
+bull power
+
+B
+
+C
+
+D
+
+E
+
+bear power
+
+Figure 5.13 Elder-ray
+“Buy low, sell high” sounds good, but traders and investors seem to have
+been more comfortable buying Lucent above 70 than below 7. Perhaps they
+are not as rational as the efficient market theorists would like us to believe?
+Elder-ray gives rational traders a glimpse into what is going on below the surface of the market.
+When the trend, identified by the 22-day EMA, is down and bulls are
+under water, the rallies back to the surface mark shorting opportunities
+(arrows A and B). Prices draw a kangaroo tail in area C, and a sharp rally follows. A rise from 5.50 to 11.50 is nothing to sneeze at; cheaper stocks tend
+to have bigger percentage gains. In area D, Lucent slides to a new low, but
+Bear Power traces a more shallow bottom, completing a bullish divergence.
+That false downside breakout traps bears. As the rally accelerates, Bear
+power becomes positive and each dip of Bear power back to its zero line
+marks a buying opportunity (area E).
+
+METHOD—TECHNICAL ANALYSIS
+
+117
+
+normal height of Bull or Bear Power reveals how far prices are likely to get
+away from their moving average before returning. Elder-ray offers one of
+the best insights into where to take profits—at a distance away from the
+moving average that equals the average Bull Power or Bear Power.
+Elder-ray gives buy signals in uptrends when Bear Power turns negative and then ticks up. A negative Bear Power means that the bar is straddling the EMA, with its low below the average consensus of value. Waiting
+for Bear Power to turn negative forces you to buy value rather than chase
+runaway moves. The actual buy signal is given by an uptick of Bear Power,
+which shows that bears are starting to lose their grip and the uptrend is
+about to resume. Take profits at the upper channel line or when a trendfollowing indicator stops rising. Profits may be greater if you ride the
+uptrend to its conclusion, but taking profits at the upper channel line is
+more reliable.
+Elder-ray gives shorting signals in downtrends when Bull Power turns
+positive and then ticks down. We can identify the downtrend by a declining daily or weekly EMA. A positive Bull Power shows that the bar is straddling the EMA, with its high above the average consensus of value.
+Waiting for Bull Power to turn positive before shorting forces you to sell
+at or above value instead of chasing waterfall declines. The actual shorting signal is given by a downtick of Bull Power, which shows that bulls
+are starting to slip and the downtrend is about to resume. Once short, take
+profits at the lower channel line or when the trend-following indicator
+stops falling, depending on your style. You can make more money by
+holding on for the duration of the downtrend, but it is easier to achieve
+steady results by taking profits at the lower channel line. A beginning
+trader is better off learning to catch short swings, while leaving long-term
+trend trading for a later stage of development.
+Stochastic This oscillator identifies overbought and oversold conditions, helping us buy low or sell high. Just as important, it helps avoid
+buying at high prices or shorting at low prices. This indicator was popularized by George Lane decades ago and is now included in most software packages.
+Stochastic measures the capacity of bulls to close prices near the top of
+the recent trading range and the capacity of bears to close them near the
+bottom. It ties the high of the range, representing the maximum power
+of bulls, with the low, representing the maximum power of bears, and
+with closing prices, the final balance in the markets, representing the
+actions of smart money.
+
+118
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+Bulls may push prices higher during the day, or bears may push them
+lower, but Stochastic measures their performance at closing time—the crucial money-counting time in the markets. If bulls lift prices during the day
+but cannot close them near the high of the recent range, Stochastic turns
+down, identifying weakness and giving a sell signal. If bears push prices
+down during the day but cannot close them near the lows, Stochastic turns
+up, identifying strength and giving a buy signal.
+There are two types of Stochastic: Fast and Slow. Both consist of two
+lines: the fast line, called %K, and the slow line, called %D. We construct
+Fast Stochastic in two steps and Slow Stochastic in three steps:
+1. Obtain %K, the fast line.
+%K =
+
+Close today − Low n
+• 100
+High n − Low n
+
+where Close today = today’s close
+Lown = the lowest low for the selected number of bars
+Highn = the highest high for the selected number of bars
+n
+= the number of bars for Stochastic (selected by the trader)
+We have to choose the number of days, or bars, over which to calculate
+Stochastic—the value of n. If we use a low number, below 10, Stochastic
+will focus on the recent bars and flag minor turning points. If we choose
+a wider window, Stochastic will look at more data and flag major turns,
+missing minor ones.
+How wide should we make the Stochastic window? Since we use oscillators to catch reversals, short-term windows are better; we should reserve
+longer time windows for trend-following indicators. Five or seven days are
+a good starting point, but consider testing longer parameters to find the
+ones that work best in your market.
+2. Obtain %D, the slow line. We obtain %D by smoothing the fast line
+%K over a number of bars that is shorter than %K. For example, if we
+decide to plot a five-day Stochastic, we will use the value of five for the
+%K formula, above, and three bars for the %D formula, below:
+%D =
+
+(
+
+Three -bar sum of Close today − Low n
+Three -bar sum of (High n − Low n )
+
+) 100
+•
+
+METHOD—TECHNICAL ANALYSIS
+
+119
+
+Fast Stochastic is very sensitive to price changes, making its lines appear
+jagged. It pays to add one more step and convert it into a smoother Slow
+Stochastic. Of course, a computer does this all automatically.
+3. Convert Fast Stochastic into Slow Stochastic. The slow line of Fast
+Stochastic becomes the fast line of Slow Stochastic. Repeat step 2, above,
+to obtain the slow line %D of Slow Stochastic.
+Stochastic is designed to oscillate between 0 and 100. Low levels mark
+oversold markets, and high levels mark overbought markets. Overbought
+means too high, ready to turn down. Oversold means too low, ready to
+turn up. Draw horizontal reference lines at levels that have marked previous
+tops and bottoms, starting with 15 near the lows and 85 near the highs.
+Look for buying opportunities when Stochastic nears its lower reference
+line. Look for selling opportunities when Stochastic nears its upper reference line. Buying when Stochastic is low is emotionally hard because markets usually look terrible near bottoms, which is precisely the right time to
+buy. When Stochastic rallies to its upper reference line, it tells you to start
+looking for selling opportunities. This also goes against the grain emotionally. When Stochastic rallies to a top, the market often looks fantastic,
+which is a good time to sell.
+We should not use Stochastic alone, in a mechanical manner. When a
+strong uptrend takes off, Stochastic quickly becomes overbought and starts
+flashing sell signals. In a powerful bear market, Stochastic becomes oversold
+and flashes premature buy signals. This indicator works well only if you use
+it with a trend-following indicator and take only those Stochastic signals that
+point in the direction of the main trend.
+Should a trader wait for Stochastic to turn up to recognize a buy signal?
+Should he wait for it to turn down to recognize a sell signal? Not really,
+because by the time Stochastic turns, a new move is usually under way. If
+you are looking for an opportunity to enter, the mere fact of Stochastic
+reaching an extreme gives you a signal.
+Go long when Stochastic traces a bullish divergence, that is, when prices
+fall to a new low but the indicator makes a more shallow low. Go short
+when Stochastic traces a bearish divergence, that is, when prices rise to a
+new high but the indicator ticks down from a lower peak than during the
+previous rally. In an ideal buying situation, the first Stochastic low is below
+and the second above the lower reference line. The best sell signals occur
+when the first top of Stochastic is above and the second below the upper
+reference line.
+
+120
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+A
+
+B
+
+C
+
+D
+
+E F
+
+G
+
+H
+
+I
+
+Figure 5.14 Stochastic
+It may feel good to buy when prices are high and it brings relief to sell
+when prices fall, but Stochastic helps you do the right thing—buy low and
+sell high. When it declines to its lower reference line, it tells you the
+market is oversold and gives a signal to buy (points B, C, and F). Whether
+you buy or not, low Stochastic prevents you from shorting when it falls to
+low levels.
+When Stochastic rises to its upper reference line, it gives a sell signal
+(points A, D, G, and H). A sell signal may be premature in a strong uptrend,
+but whether you take it or not, one thing is clear—it is too late to buy.
+Stochastic helps you avoid chasing trends.
+Divergences give the strongest signals. At point E, Exxon rises to a double top, while Stochastic traces a lower top—a bearish divergence, a strong
+sell signal. A powerful rally begins in March, but by May there is a bearish
+divergence—a sign that the party is coming to an end. There is one more
+chance to sell and go short when a triple bearish divergence appears at
+point I—it is all downhill from there.
+At the right edge of the chart XOM is declining, confirmed by the falling
+EMA. Stochastic is trying to trace a bullish divergence, but the second bottom is almost as low as the first; the bears are very strong, and the decline
+is likely to continue.
+
+METHOD—TECHNICAL ANALYSIS
+
+121
+
+Do not buy when Stochastic is above its upper reference line and do not
+sell short when it is below its lower reference line. These “no go” rules are
+probably the most useful messages of Stochastic. Moving averages are better than Stochastic at identifying trends, MACD-Histogram is better at identifying reversals, channels are better at identifying profit targets, and Force
+Index is sharper at catching entry and exit points. The trouble with them
+is that they give action signals most of the time. Stochastic identifies danger zones, just like a line of red flags on a ski slope marks unsafe areas
+for skiers. It says “no go” just when you feel tempted to chase a trend.
+Ready to Hunt? Your choice of indicators depends on personal preferences, just like selecting a car. Be sure to combine trend-following indicators,
+which identify trends, with oscillators, which identify reversals.
+In addition to the indicators described above, you may want to take a
+look at the Directional indicator, which does a good job of signaling
+trends. It consists of several components, one of which, ADX, helps identify new bull markets. Williams %R is an oscillator similar to Stochastic,
+especially useful for showing when to pyramid winning positions. Relative
+Strength Index (RSI) is an oscillator based entirely on closing prices. It
+helps track the behavior of market professionals who tend to dominate
+markets at closing time. All of them are described in Trading for a Living.
+Keep in mind that no single indicator can guarantee you victory in the
+trading game. Trend-following indicators, such as moving averages, catch
+trends but produce whipsaws in trading ranges. Oscillators identify tops
+and bottoms during trading ranges but flash premature countertrend signals when the markets begin to run. Trading signals are easy to recognize
+in the middle of the chart, but hard to see at the right edge.
+There is no magic indicator. All indicators are building blocks of trading systems. A good system uses several tools, combining them so that
+their negative features filter each other out, while their positive features
+remain undisturbed.
+
+C H A P T E R
+S I X
+
+TRADING
+
+B
+
+eginners become emotional when they trade, but if you want to
+survive and succeed, you must develop discipline. The moment
+you become aware of feeling fear or joy, use that as a signal to tighten
+your discipline and follow your system. You developed that system
+when the markets were closed and you felt calm. Now it gives you
+your only chance of survival and success in the markets.
+The idea of an automatic trading system is fundamentally flawed. If
+those systems could work, then the smartest guy with the biggest computer would have cornered the market long ago. Automatic systems do
+not work because the market is not a mechanical or electronic entity
+that follows the laws of physics. It is a huge crowd of people acting in
+accordance with the imperfect laws of mass psychology. Physics and
+mathematics can help, but trading decisions must take psychology into
+account.
+When you talk with a pro, one of the first questions he’ll ask—or
+not even ask because he’ll know the answer from a few of your comments—is whether you are a discretionary trader or a system trader.
+A discretionary trader takes in market information and analyzes it using
+several technical tools. He is likely to shift and apply somewhat different
+tools to different markets at different times. His decision-making tree has
+many branches, and he follows them at different times as market conditions change. All branches are connected to the sturdy trunk of his decision-making tree, an inviolate set of rules for risk control.
+A system trader develops a mechanical set of rules for entering and
+exiting trades. He backtests them and puts them on autopilot. At that
+point, an amateur and a pro go in opposite directions. An amateur,
+frightened by the market, feels relieved that a system, either his own
+123
+
+124
+
+THE THREE M’S OF SUCCESSFUL TRADING
+
+or bought from someone else, will free him from worry. Market conditions always change and all systems self-destruct, which is why every
+amateur with a mechanical system must lose money in the end. A pro
+who puts his system on autopilot continues to monitor it like a hawk.
+He knows the difference between a normal drawdown period and a
+time when a system deteriorates and has to be shelved and replaced.
+A professional system trader can afford to use a mechanical system precisely because he is capable of discretionary trading!
+In my experience, system traders tend to achieve more consistent
+results, but the best and most successful traders use the discretionary
+approach. The choice depends on your temperament rather than a
+cold business decision. Some people feel attracted to system trading,
+others to discretionary trading. Much of what you read in this book
+deals with discretionary trading. All of these components can be used
+in systematic trading. This book is written to help both types of traders.
+A trading system is an action plan for the market, but no plan can
+anticipate everything. A degree of judgment is always required, even
+with the best and most reliable plans.
+Think of any other plan or system in your life. For example, you
+probably have a system for taking your car out of the garage. You need
+to open the garage door, start the car, warm up the engine, and pull
+the car out into the street without bumping into walls, running over tricycles, or getting hit by passing trucks.
+You have a system in the sense that you perform the same actions
+each time in the same sequence, not thinking of the routine but paying attention to what is important—watching out for dangers, such as
+kids on bicycles, or freshly fallen snow, or a neighbor crossing the
+sidewalk. When you detect an obstacle, you deviate from your system,
+and return to it after the situation returns to normal. You would not try
+to design a complete system, which would include dealing with the
+snow, and the bicyclists, and the neighbors because that system would
+be too complex and still could never be complete—a neighbor could
+come into your car’s path from another angle. A system automates routine actions and allows you to exercise discretion when needed.
+And that’s what you need in the markets—a system for finding
+trades, setting stops, establishing profit targets—all the while paying
+attention to a heavy truck headed toward you in the shape of a Federal
+Reserve announcement or a kid on a tricycle in the form of a disappointing earnings report. Many beginners set themselves the impossible

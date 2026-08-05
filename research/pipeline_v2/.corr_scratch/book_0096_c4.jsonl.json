@@ -1,0 +1,11 @@
+[
+  {"claim_ref": "book_0096::lead_book_0096_2_078", "verdict": "corroboration", "behavior_id": "monetary_policy_cycle_signal", "page": 83, "exact_text": "The Federal Reserve estimates that an inverted yield curve predicts recessions two to six quarters ahead.", "added_conditions": ["when the long-rates advanced 1.1 percentage points above short-rates, the stock market advanced 10.8% per annum on average", "when the yield curve inverted, the stock market declined on average 7.2% per annum"], "added_parameters": [{"name": "long-rate premium above short-rate", "value": "1.1 percentage points", "page": 83}, {"name": "recession lead time", "value": "two to six quarters", "page": 83}, {"name": "stock market advance per annum when long-rates above short-rates", "value": "10.8%", "page": 83}, {"name": "stock market decline per annum when yield curve inverted", "value": "7.2%", "page": 83}]},
+  {"claim_ref": "book_0096::lead_book_0096_2_088", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_090", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_091", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_093", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_102", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_106", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_108", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
+  {"claim_ref": "book_0096::lead_book_0096_2_109", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []}
+]

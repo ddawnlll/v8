@@ -1,0 +1,322 @@
+
+Download at www.wowebook.com
+
+Chapter 4 The Technical Analysis Controversy
+
+47
+
+(Tversky and Kahneman, 1983), miscalibration of probabilities (Lictenstein et al., 1982), hyperbolic discounting (Laibson, 1997), and regret (Bell, 1982; Clarke et al., 1994). More and more of
+these kinds of studies are demonstrating that investors often act irrationally.
+Preference in markets is directly related to the assumption that investors are risk averse.
+The EMH assumes that investors will be willing to take on more risk only if they are compensated by receiving a higher expected rate of return. Thus, the EMH assumes that investors will
+optimize their decisions based on their perception of and ability to assume risk. Many psychologists and experimental economists have found empirically “specific behavioral biases that are
+ubiquitous to human decision-making under uncertainty, several of which lead to undesirable
+outcomes for an individual’s economic welfare…” (Lo, 2004).
+The most famous early experiment was by Daniel Kahneman of the University of British
+Columbia and Amos Tversky (1979) of Stanford in which a number of participants were asked
+about preferences for different probability costs and outcomes. Invariably, they chose, when presented with potential gains, a risk-aversion strategy, and when presented with potential losses, a
+risk-seeking strategy. In the financial markets, this kind of decision making can be disastrous. It
+suggests that investors have a strong tendency to sell winning positions and to keep losing positions, quite contrary to the rationality assumption of the EMH. For the duo’s work in behavioral
+finance, Kahneman received the Nobel Prize for Economics in 2002. Unfortunately, Tversky
+died in 1996 and was, therefore, ineligible.
+Advocates of the EMH argue that although irrational players can sometimes affect prices
+for a short time, prices are quickly brought back into equilibrium to their true value by a rational
+arbitrage that profits at the expense of the players with irrational beliefs. Thus, prices may stray
+from their true value occasionally but will quickly return to them. The stray prices are “noise”
+about the true value and provide opportunity for the insightful arbitrageur. Prices always return
+to their true value, and irrationality, although it does occur, is never in control of prices because
+profitable, competitive arbitrage will always return those prices to their true value.
+This brings us to the question of whether arbitrage actually does bring prices back to equilibrium or whether there are other forces, either of human bias or emotion, that can overwhelm
+the rational force of the arbitrageur.
+
+Will Arbitrage Keep Prices in Equilibrium?
+Price equilibrium at the intrinsic value of a security in the EMH relies on arbitrageurs acting on
+a profit motive to bring prices back to equilibrium if they should stray. In practice, the ability for
+arbitrage is less likely than the EMH assumes. It is too risky for reasons other than volatility.
+Ideally, risk-averse arbitrage is “the simultaneous purchase and sale of the same, or essentially similar, security in two different markets at advantageously different prices” (Sharpe and
+Alexander, 1990). In many market instances, there is no substitutable alternative for the arbitrageur, or arbitrageurs are unable to trade alternatives for practical reasons such as lack of liquidity, lack of margin, trading costs, and so on. Arbitrage depends on sufficient liquidity for the
+arbitrageur to get into a position and, most important, to get out. In periods of fast markets and
+emotional panic, liquidity is often absent, leaving the risk to the arbitrageur that a position cannot be closed. Trading costs, in addition to slippage from illiquidity, are a concern to the arbitrageur. Trading costs must be minimal because with the small spreads involved, they can reduce
+
+Download at www.wowebook.com
+
+48
+
+Part I Introduction
+
+a large portion of potential profit. These factors of liquidity and costs often convince the potential arbitrageur to go elsewhere to make a profit.
+When there is no substitutable alternative for arbitrage, one side or the other of a run away
+from the theoretical intrinsic equilibrium value can continue. There is nothing to check it. The
+absence of a tradable vehicle to provide a risk-averse arbitrage might not be available. This is
+true, for example, in the entire stock and bond market. If “irrational exuberance”1 (a term used by
+Yale Professor Robert Shiller) develops, as it did in the 1920s and 1990s, and prices rise significantly above their equilibrium value, there is no security that arbitrageurs can use to arbitrate
+prices back to their rational value without incurring substantial capital risk. Without an arbitrage
+vehicle, prices can trend in one direction without the arbitrage check to bring them back to
+rational values.
+As opposed to the EMH, technical assumptions include the ability for prices to trend, in
+which case the arbitrageur, if he exists, may be overwhelmed by and may even join the consistent
+trend of prices away from true value. In addition, when a trend is completed and reverses,
+researchers such as DeBondt and Thaler (1985) empirically observe that those prices often trend
+in the opposite direction well beyond rational value. This cyclicality in price direction and extent
+is assumed by technical analysis to be due to irrational behavior overcoming rational arbitrage.
+
+BOX 4.2 A CASE STUDY IN THE FAILURE OF FINANCIAL THEORY—THE LONG-TERM
+CAPITAL MANAGEMENT DEBACLE
+The failure of rationality and arbitrage in the face of irrational behavior was empirically but unfortunately demonstrated by the collapse of Long-Term Capital Management (LTCM) in 1998. Managed by extremely knowledgeable and sophisticated
+professionals, this fund had two Nobel Prize winners, Scholes and Miller, on its
+advisory staff. It leveraged itself by avoiding Federal Reserve margin requirements
+and otherwise sane ratios of safety into almost 30-to-1 positions of investments to
+cash and controlled thereby over 300 billion dollars’ worth of arbitraged positions. In
+addition, it held over a trillion dollars in derivative obligations that, had they failed,
+would have brought that amount of exposure to otherwise secure positions in the
+banks that were on the other side of these contracts, and it would have forced them to
+liquidate also. In other words, LTCM was in a position to bring down the U.S. and
+perhaps world financial system if it failed.
+One of the problems of pure arbitrage is that the marketplace, over very short time
+periods, is efficient enough that bid-ask spreads are extremely small and the potential profit so minimal that meaningful profit can only come from a very large position, similar to a grocery store making many small profits on high turnover. Leverage
+
+1. “Shiller used the phrase during testimony before the Federal Reserve, and Alan Greenspan repeated it in his famous
+December 1996 speech.” (Interview of Professor Shiller by Chris Rugaber, Motley Fool [Fool.com], April 11, 2001). The
+apparent origin of the phrase, however, goes back to Hamilton (1922).
+
+Download at www.wowebook.com
+
+49
+
+Chapter 4 The Technical Analysis Controversy
+
+must then be used to increase the size of the position. The danger is that although
+leverage can increase profit, it can also increase the risk of capital loss to the point
+where, depending on the size of the leverage, a small movement against a position
+can wipe out the underlying assets. With a 30-to-1 leverage and 300 billion in contracts, a move of only 3.4% against the positions would be enough to wipe out the
+fund and force liquidation. This is essentially what happened to LTCM.
+Here was a portfolio managed on the most modern versions of finance theory that
+collapsed because certain unrealistic assumptions were made, based on the EMH,
+and where “mispricing” became worse before it became better, forcing the covering
+of positions at the worst time and thus exacerbating the mispricing even more.
+Investors flocking to safety and liquidity in the aftermath of the Russian
+(debt) default in August 1998 were stronger, at least for several months,
+than the forces of rationality. (Lo, 2004)
+Thus, even when a series of theoretically riskless spread positions were entered
+with rational expectations, the reaction to an event overwhelmed those positions, and
+lack of liquidity as well as the pressure of margin calls created a substantial collapse.
+Finally, several major banks and brokerage firms, with the insistence and support of
+the Federal Reserve, had to take over the assets of LTCM, force it out of business,
+and gradually liquidate its positions over time as the market spreads improved.
+The lesson learned from this expensive adventure into the EMH was that market
+forces may abide by the principles of efficiency a majority of the time, but occasionally and unexpectedly, irrational forces can overwhelm rationality and cause a disaster. Several months after the LTCM debacle, arbitrage professionals analyzed the
+LTCM portfolio and agreed that the positions were reasonable, and after a time the
+spreads initiated did return to their mean. In other words, had LTCM not been so
+highly leveraged and had it been able to withstand the short-term losses, it would
+eventually have profited. To achieve a high return on capital, however, LTCM needed
+leverage. Leverage introduced another risk, over the risk of volatility—the risk of
+ruin. And when the markets ran outside the normal distribution of returns and developed a “fat tail,” LTCM was out of business. This is why the assumption of a normal
+distribution in price returns can be hazardous. It is also why the subject of behavioral
+finance was born.
+
+BEHAVIORAL FINANCE AND TECHNICAL ANALYSIS
+Behavioral finance is a quickly growing subfield of the finance discipline. This branch of inquiry
+focuses on social and emotional factors to understand investor decision making. Behavioral
+
+Download at www.wowebook.com
+
+50
+
+Part I Introduction
+
+finance studies have pointed to cognitive biases, such as mental accounting, framing, and overconfidence, which impact investors’ decisions. These studies suggest that investors act irrationally, at times, and can drive prices away from the EMH true value. Investor sentiment and
+price anomalies, either as trends or patterns, have been the bulk of technical analysis study. Sentiment and psychological behavior have always been the unproven but suspected reason for these
+trends and patterns, and human bias has always been in the province of trading system development and implementation.
+The EMH is based upon a deductive reasoning process. In this deductive reasoning
+process, financial economists began with assumptions, such as markets are composed of rational
+individuals maximizing utility. Then using logic and increasingly complicated mathematical
+equations, they deduced theories that must follow from the assumptions. This deductive
+approach results in theories, but as we have seen with the EMH, these theories do not always
+square with observations of real-world data.
+Those who practice behavioral finance follow an inductive approach of watching realworld events and looking for patterns. The inductive reasoning process is based upon observation; a major drawback of the inductive process, however, is that just because a phenomenon has
+repeated itself and a pattern is detected, there is no guarantee that the relationship will continue
+in the future. To conclude that the phenomenon will continue to occur depends upon subscribing
+to a theory of why it would continue.
+The deductive process has resulted in the EMH, a theory that has not been supported by
+observation. The inductive process of behavioral finance has resulted in a collection of observations, many which contradict the EMH, but lacks a theory to support the usefulness of these
+observations in the future. The evidence presented by behavioral finance supports the use of
+technical analysis. However, behavioral finance lacks a theory to explain why the observations
+seen occur. Without such a theory, the academic world has been slow to let go of its adherence to
+the EMH.
+Although the divide between theory and observation remains, progress is occurring as academics attempt to develop theories that are consistent with market observations. For example,
+Andrew Lo (2004) applies principles of evolution such as competition, adaptation, and natural
+selection to financial interactions and proposes the Adaptive Markets Hypothesis. Lo claims that
+many of the observations behavioralists cite as counterexamples to the EMH are consistent with
+an evolutionary model of investors adapting to a changing environment using simple heuristics.
+At this point, behavioral finance does not provide an alternative theory to the EMH, but
+empirical studies questioning the EMH in its purest form have bolstered the credibility of technical analysis with more sophisticated investigations of technical rules, and they have added hope
+that the academic world will eventually catch up to the real world of markets.
+
+PRAGMATIC CRITICISMS OF TECHNICAL ANALYSIS
+In addition to the theoretical criticisms of technical analysis, there are some pragmatic criticisms
+of technical analysis.
+
+Download at www.wowebook.com
+
+Chapter 4 The Technical Analysis Controversy
+
+51
+
+Some investors incorrectly believe that technical analysis is only for the short-term trader
+and is not useful to the long-term investor. Because new and relevant fundamental information
+on a security doesn’t change minute-by-minute or day-by-day, a short-term trader must rely
+more on technical analysis. The short-term trader must rely on an interpretation of market price
+behavior rather than on news and company announcements. In this instance, technical analysis
+gives the trader more of an advantage than fundamental analysis. This happenstance has led to
+the incorrect belief that technical analysis is only for the short-term trader. But, technical analysis is the study of price, and people determine prices. People affect long-term prices as much as
+short-term prices. Analysis of price behavior over the long term is just as valuable to the investor
+as analysis over the short term is to the trader. Indeed, the professional managers who have been
+the most successful have been so because they used technical analysis for long-term decisions.
+Other opponents of technical analysis claim that if successful, technical analysis would
+cancel itself out by being self-fulfilling. A corollary to this claim is that technical rules that
+worked in the past might not work in the future. Such a criticism assumes that technical analysis
+will fail when all investors practice it, including the self-same critics. So far, the widespread,
+ubiquitous use of technical analysis is illusory. Many rules, both technical and fundamental, suffer the fate of becoming too popular. Look at the concept of “diversification” into noncorrelated
+assets, an idea much toted before the 2008 stock market decline took all noncorrelated assets
+down at the same time. Another example of this phenomenon is the small capital effect. Historically, smaller capitalized stocks tended to outperform larger capitalized stocks, but this fundamental rule no longer holds true. These are investment fads, not principles. Technical analysis,
+having been around for hundreds of years, is not a fad. There is no question that methods of pattern analysis seem not to work as well as in the past. This is also a problem with all investment
+analysis. As markets become more efficient, competition becomes more fierce and any method
+having some modicum of success is quickly jumped on until it becomes neutralized. Although it
+occurs with technical analysis, it is not unique to it. As for technical rules working in the future,
+who is to say? All rules are subject to change. At least technical analysis works with reliable data;
+most rules have been tested; and risk levels can be established to limit loss of capital.
+An additional criticism of technical analysis is that most technical rules require subjective
+judgment and are, thus, fallible. On the other hand, what form of investment analysis doesn’t
+require subjective judgment? Why is technical analysis singled out? Certainly, fundamental analysts must judge whether to buy, sell, hold, or ignore a security they are analyzing. It is true that
+technical analysis of charts is subjective, and some call it an “art” or “skill,” but the demonstration of data on a chart is just another means of time-series analysis. Most theoreticians also use
+charts to clarify their hypotheses. One sure aspect of technical analysis, unlike others, is that the
+data used is as timely and accurate as any data can be. Actually, technical analysis is becoming
+more “mechanical” as quantitative experts use computers to determine statistical rules for action
+and money management. Some believe this may “blow up” and denigrate technical analysis or at
+least drive it back to the subjective rules, as did the LTCM debacle for the EMH about arbitrage,
+but for now technical analysis is becoming the less subjective of the two major forms of investment analysis.
+
+Download at www.wowebook.com
+
+52
+
+Part I Introduction
+
+WHAT IS THE EMPIRICAL SUPPORT FOR TECHNICAL ANALYSIS?
+Despite the theoretical criticisms, can technical analysts use past price data to predict future price
+movement? Over the years, hundreds of studies have been conducted to test the efficacy of technical trading rules. Cheol-Ho Park and Scott Irwin conducted one of the most extensive reviews
+of these tests. In their 2003 report, they review 92 post-1986 academic studies that tested the
+profitability of technical analysis strategies.2
+Of the 92 studies reviewed, 58 of the studies concluded that positive results could be
+gained from using technical analysis; only 24 of the studies concluded that the use of technical
+strategies led to negative results. Under the Random Walk Hypothesis, because prices returns are
+independent of each other, no technical trading strategy can be consistently profitable. Believers
+in the Random Walk Hypothesis would admit that a strategy could appear to be profitable expost, but that this profitability was simply due to luck, not a successful technical trading rule.
+However, the fact that two-thirds of the studies that Park and Irwin reviewed showed positive
+results could not be attributed to luck. Of course, as Park and Irwin point out, criticism can be
+made of some of the reviewed studies in that the various testing methods used by the researchers
+were in some cases subject to data snooping and ex-post selection of trading rules; some of these
+studies may also be flawed due to difficulties in estimating risk and transaction costs. It is
+unlikely, however, that all 58 positive studies are at fault for testing deficiencies. Park and Irwin’s
+summary results at least show possible refutation of the Random Walk and the Efficient Markets
+Hypotheses, something that until recently had not been accomplished with rigorous testing of
+trading rules.
+
+CONCLUSION
+Like any practical discipline, especially one working with an indefinite and fickle subject such as
+the marketplace, technical analysis has problems. The Random Walk Hypothesis is not perfect;
+yet at many times, prices appear to behave randomly. The EMH has many holes that cannot be
+explained, yet prices seem to be very efficient and the possibility of profit often slim. Fundamental analysis has its problems, most of which were exaggerated during the market decline in the
+early 2000s and more recently in 2007–2009, but there is little question that stock prices, commodity prices, and currency rates change over the long run due to the fundamental changes in the
+economy and structure of markets. Technical analysis is no different. It has many flaws, is difficult to learn, is subject to error and bias, and often falls on its face. Nevertheless, technical analysis can be extremely useful to investors wanting to profit from timing and trend riding while
+limiting risk.
+
+2. Many tests of technical trading strategies conducted before the mid-1980s focused on only one or two trading systems,
+did not test for statistical significance of trading profits, and did not correctly address issues of risk.
+
+Download at www.wowebook.com
+
+Chapter 4 The Technical Analysis Controversy
+
+53
+
+REVIEW QUESTIONS
+1. You walk into a room where some friends have been playing a coin toss game. They ask
+you to guess whether the coin will land on heads or tails on the next toss. Does the fact that
+your friends have knowledge about how many heads and tails have already occurred in the
+game give them any advantage over you in guessing whether a coin will land on heads or
+tails on the next coin toss? Explain.
+2. Supporters of the Random Walk Hypothesis claim that stock prices have no “memory.”
+What do they mean by this claim?
+3. What does the term fat tails mean? How do fat tails differ from the tails that would occur
+in a normal distribution?
+4. If the probability of a 10% decline in stock prices occurring on any particular day is 1 in
+1,000 and stock returns are random, explain why the probability of having a 10% decline
+in stock prices on two consecutive days is only 1 in 1,000,000.
+5. What are some of the problems associated with information that bring the EMH into question?
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+P A R T
+
+I I
+
+MARKETS AND MARKET
+INDICATORS
+C HAPTER 5
+
+A N O VERVIEW OF M ARKETS
+
+C HAPTER 6
+
+D OW T HEORY
+
+C HAPTER 7
+
+S ENTIMENT
+
+C HAPTER 8
+
+M EASURING M ARKET S TRENGTH
+
+C HAPTER 9
+
+T EMPORAL PATTERNS AND C YCLES
+
+C HAPTER 10 F LOW OF F UNDS
+
+55
+
+Download at www.wowebook.com
+
+This page intentionally left blank
+
+Download at www.wowebook.com
+
+C H A P T E R
+
+5
+
+AN OVERVIEW OF MARKETS
+
+CHAPTER OBJECTIVES
+After studying this chapter, you should be familiar with
+
+• The market characteristics required for investors to use technical analysis
+• The types of markets in which technical analysis can be used
+• The differences between informed, uninformed, and liquidity market players
+• The differences between price-weighted, market capitalization weighted, and equally
+weighted averages
+Technical analysis is widely used in freely traded markets. In the United States and most major
+industrial countries, technical analysis is used in the currency, equity, fixed income, and commodity markets. Professional traders and investors, as well as individuals who are investing their
+own funds, use the techniques of technical analysis. An obvious use of technical analysis is to
+make money. Investors attempt to buy a security at a low price and sell it at a high price; technical analysis helps identify profitable buying and selling opportunities. In addition to aiding the
+investor with determining profitable buying and selling opportunities, technical analysis can be
+used to manage risk.
+For an investor to use technical analysis in a market, easy access, fungibility, sufficient liquidity, and continuous trading must characterize the market. Although there are many freely
+traded markets in the world in which technical analysis is used, the most common, and the one
+this book will most frequently address, is the U.S. stock market.

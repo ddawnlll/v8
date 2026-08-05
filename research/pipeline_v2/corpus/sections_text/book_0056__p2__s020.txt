@@ -1,0 +1,499 @@
+
+retracement, internal price (In-Ret)
+
+In trading, usually refers to the amount of money that may be lost if a trade moves
+against the initial position. A more proper definition is the probability of an event occurring. Also see capital exposure.
+
+risk
+
+risk/reward The amount of money at risk versus the potential reward. Usually shown
+
+as a ratio such as 3:1, which is really the reward to risk, or $3 potential profit for $1
+risk (capital exposure). The risk per unit can be defined by the difference between the
+entry price and initial protective stop price. The reward is always just a best guess of the
+probable minimum move the market is likely to make.
+swing breakout entry strategy Once the conditions for a trade are made, initiate a go-long
+or go-short entry at a price one tick above/below the recent swing high or low. Place
+the initial protective stop-loss one tick below/above the swing high or low made prior to
+entry. The principle is that the conditions for a reversal or trend continuation have been
+met and the trade is entered as the market moves above/below a swing high or low in the
+anticipated trend direction.
+
+Trades market swings that typically last two to three days or more. Has a
+much better chance for success than a day trader. Trades for points, not for ticks. May
+need to monitor the market during trading hours.
+
+swing trader
+
+A set of completely objective rules that determine the exact entry, stoploss, and exit prices. Also called mechanical trading. “You can’t buy success.” To my
+knowledge, no trading system has been sold that has been consistently profitable in realtime trading over time. Instead of buying a system, give the system cost and your trading
+account to the charity of your choice. Put your money to good use rather than blowing it
+on a futile endeavor.
+
+system, trading
+
+Time Band In a bull trend, the overlap of the recent high-high cycle range and the recent
+low-high cycle range. If the recent time cycle rhythm continues, the assumption is the
+next high will be made in the Time Band (overlap) range. Outliers may be eliminated
+when measuring the L-L or L-H ranges. In a bear trend, the Time Band is the overlap of
+the recent low-low and high-low time ranges.
+time retracement (TR) Compares the time range of a corrective section to the prior trend
+section. The most frequently used TR ratios are 38.2 percent, 50 percent, 61.8 percent,
+100 percent, and 162 percent. Simple ABC corrections are usually complete in the 38.2 to
+61.8 percent time retracement range. Complex corrections are usually complete by the
+100 percent time retracement of the prior trend section.
+trade management
+
+The general term for how each trade is managed from entry to exit.
+
+The plan as to how the business of trading will be conducted, including conditions for entry, entry to exit strategies, maximum capital exposure, and trade management. Every successful trader has a trade plan. See Chapter 9 for the four key elements
+of a trade plan.
+
+trade plan
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+254
+
+GLOSSARY
+
+trailing one-bar-high/low Once the conditions for entry have been met, including the
+smaller time frame momentum reversal, a go-long or go-short entry is trailed one tick
+above/below the high/low of the previous bar. Used on all time frames of data.
+trend The main price direction. The side of the market you want to trade. Trends are
+often complete in five sections, also called an Elliott wave impulse trend.
+
+GLOSSARY BY CHAPTER
+The terms with no specific chapter reference are given first, followed by the terms specific to each chapter.
+The amount of capital (money) that may be lost if a trade moves against
+the initial position. In other words, the potential cost to find out if the trade decision
+will be profitable or not. Often called risk. The initial capital exposure per unit is the
+difference between the entry price and the initial protective stop price.
+
+capital exposure
+
+day trader A very short-term trader who is usually glued to the monitor during market
+
+hours and enters and exits a trade during one trading day. The odds of success are very
+small unless the day trader has first perfected a consistently profitable trading plan for
+swing or position trades.
+Fibonnacci (Fib) ratios See dynamic ratios (Chapter 4).
+overbalance (of time and/or price) A term coined by W. D. Gann when the time and/or price
+
+of a correction is greater than the time and/or price of prior corrections. Warns that the
+larger time frame trend may be reversing for either a higher time frame correction or a
+new trend in the opposite direction.
+Trades longer-term trends lasting from several days to several weeks.
+Trades for points, not for ticks. A successful position trader will probably make
+more money over time for the same capital and risk as a roomful of successful day
+traders—that is, if you could find enough successful day traders to fill a room. Most
+of the legendary traders of the past century have been position traders. “The big money
+is made in the big trends.” (W. D. Gann). A position trader rarely if ever monitors the
+market during trading hours.
+
+position trader
+
+In trading, usually refers to the amount of money that may be lost if a trade moves
+against the initial position. A more proper definition is the probability of an event occurring. Also see capital exposure.
+
+risk
+
+swing trader Trades market swings that typically last two to three days or more. Has a
+
+much better chance for success than a day trader. Trades for points, not for ticks. May
+need to monitor the market during trading hours.
+
+Chapter 2 Multiple Time Frame Momentum Strategy
+bear, momentum When a momentum indicator is negative. In a two-line indicator, the
+fast line is below the slow line. A basic part of the high probability strategy is to trade in
+the direction of the momentum. Only short trades would be considered if the momentum
+is bearish unless the momentum is bear OS.
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+255
+
+Glossary
+
+bear OS, momentum When an indicator is bearish and has reached the oversold (OS)
+zone. With a two-line indicator, the fast line is below the slow line and both lines have
+reached the oversold zone. In most cases, bear OS momentum warns that the downside
+should be limited before a momentum low and probable price low is made.
+bearish reversal, momentum When momentum changes from a bullish to a bearish trend.
+With two-line indicators, when the fast line crosses below the slow line. A momentum
+bearish reversal is often a setup for a short trade or to exit a long trade.
+bull, momentum When a momentum indicator is positive. In a two-line indicator, the fast
+line is above the slow line. A basic part of the high probability strategy is to trade in the
+direction of the momentum. Only long trades would be considered if the momentum is
+bullish unless the momentum is bull OB.
+
+When an indicator is bullish and has reached the overbought zone.
+With a two-line indicator, the fast line is above the slow line and both lines have reached
+the overbought zone. In most cases, bull OB momentum warns that the upside should be
+limited before a momentum high and probable price high is made.
+
+bull OB, momentum
+
+bullish reversal, momentum When momentum changes from a bearish to a bullish trend.
+
+With two-line indicators, when the fast line crosses above the slow line. A momentum
+bullish reversal is often a setup for a long trade or to exit a short trade.
+Dual Time Frame Momentum Strategy
+
+See Multiple time Frame Momentum Strategy.
+
+lookback period The number of bars an indicator looks back to calculatethe current indicator value. A relatively short lookback period will result in an indicator being relatively
+sensitive to recent price volatility and trends. A relatively long lookback period will result
+in the indicator being relatively slow to change.
+Multiple Time Frame Momentum Strategy A strategy to place trades only when at least
+two time frames of momentum are in the same direction, such as weekly and daily, or
+daily and 60-minute. The basic strategy is to trade in the direction of the larger time
+frame and execute the trade following a smaller time frame momentum reversal in the
+direction of the larger time frame momentum. Can use more than two time frames of
+momentum. (See Dual Time Frame Momentum Strategy Rules in text for bull OB and
+bear OS exceptions.)
+momentum indicator Most price-based indicators are also called momentum indicators.
+In most cases, the momentum indicator represents the rate-of-change over the lookback
+period. The rate-of-change may reflect whether the trend of the market is speeding up
+or slowing down compared with prior trends. Momentum does not always trend in the
+same direction as the price trend.
+oscillator indicators
+
+Usually used interchangeably with momentum indicator.
+
+overbought (OB) An indicator level, usually expressed as a percentage of the minimum
+to maximum range of possible indicator values, that represents when an indicator is
+at a relatively high level, usually around 70 to 80 percent. For many indicators, if they
+reach an overbought level, the upside in price should be limited before a price high
+is made.
+oversold (OS) An indicator level, usually expressed as a percentage of the minimum to
+
+maximum range of possible indicator values, that represents when an indicator is at a
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+256
+
+GLOSSARY
+
+relatively low level, usually around 20 to 30 percent. For many indicators, if they reach
+an oversold level, the downside in price should be limited before a price low is made.
+price/momentum bearish divergence When price makes a new high but the momentum
+indicator makes a lower high. Warns that the advance is slowing down and a price high
+may soon be made, followed by a decline.
+price/momentum bullish divergence When price makes a new low but the momentum indi-
+
+cator makes a higher low. Warns that the decline is slowing down and a price low may
+soon be made, followed by an advance.
+
+Chapter 3
+Practical Pattern Recognition for Trends and Corrections
+ABC (simple) correction A frequent correction pattern of three swings where the third
+swing (Wave-C) exceeds the extreme of the first swing (Wave-A). Also called a zigzag. A
+three-swing correction may also be an irregular ABC where the Wave-C does not exceed
+the extreme of the Wave-A. The time and price targets to complete a three-section ABC
+correction are very predictive. The assumption is always that a correction will make at
+least three sections.
+complex correction Any correction with more than three sections (waves). The form
+of a complex correction cannot be predicted in advance. The time and price targets
+for a complex correction are not as easily identified in advance as for a simple ABC
+correction.
+countertrend A correction against the main trend. The assumption is always that a correction will make at least three sections. An important part of a trading plan is to identify the possible end of a correction in order to place a trade in the direction of the
+trend.
+E-wave Elliott wave pattern analysis. See Elliott wave.
+Elliott wave (E-wave) Pattern analysis approach developed by R. N. Elliott. The idea is that
+trends and corrections are usually made in a limited number of patterns that conform to
+rules and guidelines that help distinguish if the section is part of a trend or correction.
+One of the most important values of Elliott wave pattern analysis is to help recognize if a
+market is in a position to complete a trend or correction. Trends are usually made in five
+distinct sections. Corrections should be at least three sections but may evolve into much
+more complex structures.
+impulse trend An Elliott wave term for a five-section trend. Since many trends are complete with five waves, the trader should always be alert for the end of a trend if a market
+is making a fifth wave.
+overlap guideline If a market trades back into the range of the last section, it has overlapped that section. This is a important guideline that warns the market should be making
+a correction and not a new trend.
+trend The main price direction. The side of the market you want to trade. Trends are
+often complete in five sections, also called an Elliott wave impulse trend.
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+Glossary
+
+257
+
+Chapter 4 Beyond Fib Retracements
+alternate price projection (APP) Compares the price range of swings in the same direc-
+
+tion. The most frequently used percentage alternate price projections are 62 percent, 100
+percent, and 162 percent. Some times called price extensions by other authors and in
+some software programs. The principle is that the price range of sections is often one of
+the key APP ratios of recent sections. An APP is made from three pivot points. The price
+range between two pivots is measured and projected from a third pivot.
+dynamic ratios A series of geometric and harmonic ratios used for Dynamic Time and
+Price Strategies, including .382, .50, .618, .786, 1.00, 1.272, 1.618, and 2.618. The uniqueness of the Dynamic Time and Price Strategies as taught in this book is that different
+ratios are used for time or price analysis. Plus the ratios are applied in unique ways depending on whether the market is making a trend or a correction.
+end-of-wave (EOW) price and time targets A unique Dynamic Time and Price Strategy
+approach to project in advance the high probability time or price targets to complete
+a trend or correction. In this book, the EOW targets for a simple ABC and a five-wave
+trend are taught.
+retracement, external price (Ex-Ret) Retracements greater than 100 percent. The most
+frequently used percentage external retracements are 127 percent, 162 percent, and
+262 percent. Mostly used to help identify the price target for the final section of a correction or trend, such as a Wave-C of an ABC correction or a Wave-5 of a five-wave
+trend.
+
+Retracements less than 100 percent. The most frequently used percentage internal retracements are 38.2 percent, 50 percent, 61.8 percent,
+and 78.6 percent. Used to help identify the price target of a correction. Most corrections
+end at or very near one of the four key internal retracements. Chapter 4 teaches how to
+use other price techniques to qualify in advance which In-Ret is likely to be the end of a
+correction.
+
+retracement, internal price (In-Ret)
+
+Chapter 5 Beyond Traditional Cycles
+Compares the time range of swings in the same direction.
+The most frequently used percentage alternate time projections are 62 percent, 100 percent, and 162 percent. The principle is that the time range of sections is often one of
+the key ATP ratios of recent sections. An ATP is made from three pivot points. The time
+range between two pivots is measured and projected from a third pivot.
+
+alternate time projection (ATP)
+
+dynamic ratios A series of geometric and harmonic ratios used for Dynamic Time and
+Price Strategies, including .382, .50, .618, .786, 1.00, 1.272, 1.618, and 2.618. The uniqueness of the Dynamic Time and Price Strategies as taught in this book is that different
+ratios are used for time or price analysis. Plus the ratios are applied in unique ways depending on whether the market is making a trend or a correction.
+
+A unique Dynamic Time and Price Strategy approach to project in advance the high probability time or price targets to complete a trend
+
+end-of-wave (EOW) price and time targets
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+258
+
+GLOSSARY
+
+or correction. In this book, the EOW targets for a simple ABC and a five-wave trend are
+taught.
+outlier When determining the cycle ranges, an outlier is a time range that is much longer
+or shorter than the other ranges. The outlier ranges may be not be included when determining the cycle ranges.
+Time Band In a bull trend, the overlap of the recent high-high cycle range and the recent
+low-high cycle range. If the recent time cycle rhythm continues, the assumption is that
+the next high will be made in the Time Band (overlap) range. Outliers may be eliminated
+when measuring the L-L or L-H ranges. In a bear trend, the Time Band is the overlap of
+the recent low-low and high-low time ranges.
+time retracement (TR) Compares the time range of a corrective section to the prior trend
+section. The most frequently used TR ratios are 38.2 percent, 50 percent, 61.8 percent,
+100 percent, and 162 percent. Simple ABC corrections are usually complete in the 38.2 to
+61.8 percent time retracement range. Complex corrections are usually complete by the
+100 percent time retracement of the prior trend section.
+
+Chapter 6 Entry Strategies and Position Size
+entry strategy The strategy to determine the entry conditions and specific entry and
+initial stop-loss prices. The entry strategies recommended in this book are completely
+objective once the trade conditions have been met. The two recommended entry strategies in this book are the momentum reversal trailing one-bar-high (low) and the swing
+breakout.
+
+Following a smaller time frame
+momentum reversal in the direction of the larger time frame momentum, the entry price
+is trailed one tick above/below the last completed bar. The entry price is adjusted with
+each new bar if the trade has not been executed, as long as the smaller time frame momentum has not made another reversal in the opposite direction. If the trade entry order
+is executed, the initial protective stop is placed one tick below/above the swing low/high
+made prior to entry. The principle is that the trade is only entered if the market takes out
+a bar high or low in the direction of the trade.
+
+momentum reversal trailing one-bar-high/low entry strategy
+
+position size The number of trading units (contracts, shares, lots) for the trade. The
+
+maximum position size should represent capital exposure of no more than 3 percent
+of the account. (See Chapter 6 for how to calculate maximum position size.)
+swing breakout entry strategy Once the conditions for a trade are made, initiate a go-long
+or go-short entry at a price one tick above/below the recent swing high or low. Place
+the initial protective stop-loss one tick below/above the swing high or low made prior to
+entry. The principle is that the conditions for a reversal or trend continuation have been
+met and the trade is entered as the market moves above/below a swing high or low in the
+anticipated trend direction.
+trailing one-bar-high/low Once the conditions for entry have been met, including the
+smaller time frame momentum reversal, a go-long or go-short entry is trailed one tick
+above/below the high/low of the previous bar. Used on all time frames of data.
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+259
+
+Glossary
+
+Chapter 7 Exit Strategies and Trade Management
+exit strategy The conditions to exit an open trade. The exit strategy must be determined
+before the trade is entered. The exit strategy may be completely objective, such as trailing
+the stop at the one-bar-high/low following a momentum reversal. Or the exit strategy
+may be more subjective and adjusted as a market progresses. Even if the exit strategy is
+more subjective, the objective of the trade and general conditions to consider exiting the
+trade should be defined in advance. See trade examples in Chapters 7 and 8 for how exit
+strategies are adjusted as a market progresses and provides new information.
+
+Every trade should be taken with at least two units. The exit strategy
+is different for each unit. One unit is considered short-term and is exited if the market
+reaches a minor corrective target. The second unit is considered long-term and is exited
+at a trend target. A multiple-unit trade plan should increase net profitability over time.
+
+multiple-unit trading
+
+risk/reward The amount of money at risk versus the potential reward. Usually shown as
+
+a ratio such as 3:1, which is really the reward to risk or $3 potential profit for $1 risk
+(capital exposure). The risk per unit can be defined as the difference between the entry
+price and the initial protective stop price. The reward is always just a best guess of the
+probable minimum move the market is likely to make.
+trade management
+
+The general term for how each trade is managed from entry to exit.
+
+The plan as to how the business of trading will be conducted, including conditions for entry, entry to exit strategies, maximum capital exposure, and trade management. Every successful trader has a trade plan. See Chapter 9 for the four key elements
+of a trade plan.
+
+trade plan
+
+Chapter 9 The Business of Trading and Other Matters
+A set of completely objective rules that determine the exact entry, stoploss, and exit prices. Also called mechanical trading. “You can’t buy success.” To my
+knowledge, no trading system has been sold that has been consistently profitable in realtime trading over time. Instead of buying a system, give the system cost and your trading
+account to the charity of your choice. Put your money to good use rather than blowing it
+on a futile endeavor.
+
+system, trading
+
+The plan as to how the business of trading will be conducted, including conditions for entry, entry to exit strategies, maximum capital exposure, and trade management. Every successful trader has a trade plan. See Chapter 9 for the four key elements
+of a trade plan.
+
+trade plan
+
+P1: a/b
+gloss
+
+P2: c/d
+
+QC: e/f
+
+JWBK244-Miner
+
+T1: g
+August 8, 2008
+
+8:49
+
+Printer: Yet to come
+
+P1: PIC/PIC
+bib
+
+P2: c/d
+
+JWBK244-Miner
+
+QC: e/f
+
+T1: g
+
+July 2, 2008
+
+0:58
+
+Printer: Yet to come
+
+Bibliography
+
+Armstrong, Martin A. The Greatest Bull Market in History, vol. 1 & 2 . Princeton Economics, 1986.
+Belveal, L. Dee. Charting Commodity Market Price Behavior. Traders Press, 2000.
+Boroden, Carolyn. Fibonacci Trading: How to Master the Time and Price Advantage, McGraw
+Hill, 2008.
+Burnham, Terry. Mean Markets and Lizard Brains. John Wiley & Sons, 2005.
+Chande, Tushar S., and Stanley Kroll. The New Technical Trader. John Wiley & Sons, 1994.
+Elder, Dr. Alexander. Come Into My Trading Room. John Wiley & Sons, 2002.
+. Entries and Exits: Visits to Sixteen Trading Rooms. John Wiley & Sons, 2006.
+Gann, W. D. How to Make Profits in Commodities. Lambert Publishing Company, 2003.
+. 45 Years in Wall Street. Lambert Publishing Company, 2002.
+. Truth of the Stock Tape and Wall Street Stock Selector. Lambert Publishing Company,
+2003.

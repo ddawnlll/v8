@@ -1,0 +1,417 @@
+
+Major currency pairs
+The major currency pairs all involve the U.S. dollar on one side of the deal. The designations of
+the major currencies are expressed using International Standardization Organization (ISO) codes
+for each currency. Table 4-1 lists the most frequently traded currency pairs, what they’re called in
+conventional terms, and what nicknames the market has given them.
+
+Major cross-currency pairs
+Although the vast majority of currency trading takes place in the dollar pairs, cross-currency pairs
+serve as an alternative to always trading the U.S. dollar. A cross-currency pair, or cross or
+crosses for short, is any currency pair that does not include the U.S. dollar. Cross rates are
+derived from the respective USD pairs but are quoted independently and usually with a narrower
+spread than you could get by trading in the dollar pairs directly. (The spread refers to the
+difference between the bid and offer, or the price at which you can sell and buy and spreads are
+applied in most financial markets.)
+
+Crosses enable traders to more directly target trades to specific individual currencies to
+take advantage of news or events. For example, your analysis may suggest that the Japanese
+yen has the worst prospects of all the major currencies going forward, based on interest rates
+or the economic outlook. To take advantage of this, you’d be looking to sell JPY, but against
+which other currency? You consider the USD, potentially buying USD/JPY (buying
+USD/selling JPY), but then you conclude that the USD’s prospects are not much better than
+the JPY’s. Further research on your part may point to another currency that has a much better
+outlook (such as high or rising interest rates or signs of a strengthening economy), say the
+Australian dollar (AUD). In this example, you would then be looking to buy the AUD/JPY
+cross (buying AUD/selling JPY) to target your view that AUD has the best prospects among
+major currencies and the JPY the worst.
+
+Cross trades can be especially effective when major cross-border mergers and acquisitions
+(M&A) are announced. If a U.K. conglomerate is buying a Canadian utility company, the UK
+company is going to need to sell GBP and buy CAD to fund the purchase. The key to trading
+on M&A activity is to note the cash portion of the deal. If the deal is all stock, then you don’t
+need to exchange currencies to come up with the foreign cash.
+The most actively traded crosses focus on the three major non-USD currencies (namely EUR, JPY,
+and GBP) and are referred to as euro crosses, yen crosses, and sterling crosses. The remaining
+currencies (CHF, AUD, CAD, and NZD) are also traded in cross pairs. Tables 4-2, 4-3, and 4-4
+highlight the key cross pairs in the euro, yen, and sterling groupings, respectively, along with their
+market names. (Nicknames never quite caught on for the crosses.) Table 4-5 lists other crosscurrency pairs.
+
+Table 4-2 Euro Crosses
+ISO Currency Pair Countries
+
+Market Name
+
+EUR/CHF
+
+Eurozone/Switzerland
+
+Euro-Swiss
+
+EUR/GBP
+
+Eurozone/United KingdomEuro-sterling
+
+EUR/CAD
+
+Eurozone/Canada
+
+Euro-Canada
+
+EUR/AUD
+
+Eurozone/Australia
+
+Euro-Aussie
+
+EUR/NZD
+
+Eurozone/New Zealand
+
+Euro-Kiwi
+
+Table 4-3 Yen Crosses
+ISO Currency Pair Countries
+
+Market Name
+
+EUR/JPY
+
+Eurozone/Japan
+
+Euro-yen
+
+GBP/JPY
+
+United Kingdom/Japan Sterling-yen
+
+CHF/JPY
+
+Switzerland/Japan
+
+Swiss-yen
+
+AUD/JPY
+
+Australia/Japan
+
+Aussie-yen
+
+NZD/JPY
+
+New Zealand/Japan
+
+Kiwi-yen
+
+CAD/JPY
+
+Canada/Japan
+
+Canada-yen
+
+Table 4-4 Sterling Crosses
+ISO Currency Pair Countries
+
+Market Name
+
+GBP/CHF
+
+United Kingdom/Switzerland Sterling-Swiss
+
+GBP/CAD
+
+United Kingdom/Canada
+
+Sterling-Canadian
+
+GBP/AUD
+
+United Kingdom/Australia
+
+Sterling-Aussie
+
+GBP/NZD
+
+United Kingdom/New Zealand Sterling-Kiwi
+
+Table 4-5 Other Crosses
+
+Table 4-5 Other Crosses
+ISO Currency Pair Countries
+
+Market Name
+
+AUD/CHF
+
+Australia/Switzerland Aussie-Swiss
+
+AUD/CAD
+
+Australia/Canada
+
+AUD/NZD
+
+Australia/New Zealand Aussie-Kiwi
+
+CAD/CHF
+
+Canada/Switzerland
+
+Aussie-Canada
+
+Canada-Swiss
+
+Base currencies and counter currencies
+When you look at currency pairs, you may notice that the currencies are combined in a seemingly
+strange order. For instance, if sterling-yen (GBP/JPY) is a yen cross, then why isn’t it referred to
+as “yen-sterling” and written “JPY/GBP”? The answer is that these quoting conventions evolved
+over the years to reflect traditionally strong currencies versus traditionally weak currencies, with
+the strong currency coming first.
+It also reflects the market quoting convention where the first currency in the pair is known as the
+base currency. The base currency is what you’re buying or selling when you buy or sell the pair.
+It’s also the notional, or face, amount of the trade. So if you buy 100,000 EUR/JPY, you’ve just
+bought 100,000 euros and sold the equivalent amount in Japanese yen. If you sell 100,000
+GBP/CHF, you just sold 100,000 British pounds and bought the equivalent amount of Swiss francs.
+The second currency in the pair is called the counter currency, or the secondary currency. Hey,
+who said this stuff was complicated? Most important for you as an FX trader, the counter currency
+is the denomination of the price fluctuations and, ultimately, what your profit and losses will be
+denominated in. If you buy GBP/JPY, it goes up, and you take a profit, your gains are not in pounds,
+but in yen. (I run through the math of calculating profit and loss later in this chapter.)
+
+The long and the short of it
+Forex markets use the same terms to express market positioning as most other financial markets
+do. But because currency trading involves simultaneous buying and selling, being clear on the
+terms helps — especially if you’re totally new to financial market trading.
+
+Going long
+No, I’m not talking about running out deep for a football pass. A long position, or simply a long,
+refers to a market position in which you’ve bought a security. In FX, it refers to having bought a
+currency pair, meaning you’ve bought the base currency and sold the counter currency. When
+you’re long, you’re looking for prices to move higher, so you can sell at a higher price than where
+you bought. When you want to close a long position, you have to sell what you bought. If you’re
+buying at multiple price levels, you’re adding to longs and getting longer.
+
+Getting short
+A short position, or simply a short, refers to a market position in which you’ve sold a security
+that you never owned. In the stock market, selling a stock short requires borrowing the stock (and
+paying a fee to the lending brokerage) so you can sell it. In forex markets, it means you’ve sold a
+currency pair, meaning you’ve sold the base currency and bought the counter currency. So you’re
+still making an exchange, just in the opposite order and according to currency-pair quoting terms.
+When you’ve sold a currency pair, it’s called going short or getting short, and it means you’re
+looking for the pair’s price to move lower so you can buy it back at a profit. If you sell at various
+price levels, you’re adding to shorts and getting shorter.
+
+In most other markets, short selling either comes with restrictions or is considered too
+risky for most individual traders. In currency trading, going short is as common as going long.
+“Selling high and buying low” is a standard currency trading strategy.
+
+Currency pair rates reflect relative values between two currencies and not an absolute price
+of a single stock or commodity. Because currencies can fall or rise relative to each other,
+both in medium- and long-term trends and minute-to-minute fluctuations, currency pair prices
+are as likely to be going down at any moment as they are up. To take advantage of such
+moves, forex traders routinely use short positions to exploit falling currency prices. Traders
+from other markets may at first feel uncomfortable with short selling, but it’s just something
+you have to get your head around.
+
+Squaring up
+If you have no position in the market, it’s called being square or flat. If you have an open position
+and you want to close it, it’s called squaring up. If you’re short, you need to buy to square up. If
+you’re long, you need to sell to go flat. The only time you have no market exposure or financial
+risk is when you’re square.
+
+Profit and Loss
+Profit and loss (P&L) is how traders measure success and failure. You don’t want to be looking at
+the forex market as some academic or thrill-seeking exercise. Real money is made and lost every
+minute of every day. If you’re going to trade currencies actively, you need to get up close and
+personal with P&L.
+A clear understanding of how P&L works is especially critical to online margin trading, where
+your P&L directly affects the amount of margin you have to work with. (I introduce online margin
+
+trading in Chapter 2.) Changes in your margin balance will determine how much you can trade and
+how long you can trade if prices move against you.
+
+Leverage amplifies risk and reward
+Online margin trading is usually based on leverage, where the brokerage effectively lets you
+borrow more money than you have deposited as collateral. Leverage refers to the ratio of that loan
+to your collateral. A leverage ratio of 50:1, for example, means that your collateral can be
+leveraged 50 times. More concretely, if you open an account with $1,000, you could trade a
+position size as large as $50,000. At 100:1, that same $1,000 margin deposit could control a
+position size of $100,000. But those calculations miss the point.
+
+The real point of leverage is what it does to your trading results: It amplifies any gains or
+losses equally. If your trade is profitable, great. You just made more than you otherwise
+could have. But if your trade misses, the result is a larger loss than you may be willing or
+able to tolerate. Above all, don’t be deluded into trying to maximize position size. Stay
+focused on your P&L targets when devising a trade strategy and what those results mean for
+your margin balance. (Margin/leverage considerations for trade strategies are discussed in
+greater depth in Chapter 13.)
+
+Many newcomers to the currency market seek out the highest leverage ratios available,
+sometimes opening accounts offshore in questionable jurisdictions. Use leverage sparingly;
+that 50:1 is more than ample to trade actively, yet prudently.
+
+Margin balances and liquidations
+When you open an online currency trading account, you’ll need to pony up cash as collateral to
+support the margin requirements established by your broker. That initial margin deposit becomes
+your opening margin balance and is the basis on which all your subsequent trades are
+collateralized. Unlike futures markets or margin-based equity trading, online forex brokerages do
+not issue margin calls (requests for more collateral to support open positions). Instead, they
+establish ratios of margin balances to open positions that must be maintained at all times.
+If your account’s margin balance falls below the required ratio, even for just a few seconds, your
+broker probably has the right to close out your positions without any notice to you. In most cases,
+that only happens when an account has losing positions. If your broker liquidates your positions,
+that usually means your losses are locked in and your margin balance just got smaller.
+
+Be sure you completely understand your broker’s margin requirements and liquidation
+policies. Requirements may differ depending on account size and whether you’re trading
+standard lot sizes (100,000 currency units) or minilot sizes (10,000 currency units). Some
+brokers’ liquidation policies allow for all positions to be liquidated if you fall below margin
+requirements. Others close out the biggest losing positions or portions of losing positions
+until the required ratio is satisfied again. You can find the details in the fine print of the
+account opening contract that you sign. Always read the fine print to be sure you understand
+your broker’s margin and trading policies.
+
+Unrealized and realized profit and loss
+Most online forex brokers provide real-time mark-to-market calculations showing your
+margin balance. Mark-to-market is the calculation that shows your unrealized P&L based on
+where you could close your open positions in the market at that instant. Depending on your
+broker’s trading platform, if you’re long, the calculation will typically be based on where
+you could sell at that moment. If you’re short, the price used will be where you can buy at that
+moment. Your margin balance is the sum of your initial margin deposit, your unrealized P&L,
+and your realized P&L.
+Realized P&L is what you get when you close out a trade position, or a portion of a trade position.
+If you close out the full position and go flat, whatever you made or lost leaves the unrealized P&L
+calculation and goes into your margin balance. If you only close a portion of your open positions,
+only that part of the trade’s P&L is realized and goes into the margin balance. Your unrealized
+P&L will continue to fluctuate based on the remaining open positions and so will your total margin
+balance.
+If you’ve got a winning position open, your unrealized P&L will be positive and your margin
+balance will increase. If the market is moving against your positions, your unrealized P&L will be
+negative and your margin balance will be reduced. FX prices are constantly changing, so your
+mark-to-market unrealized P&L and total margin balance will also be constantly changing.
+
+Calculating profit and loss with pips
+Profit-and-loss calculations are pretty straightforward in terms of math — it’s all based on
+position size and the number of pips you make or lose. A pip is the smallest increment of price
+fluctuation in currency prices. Pips can also be referred to as points; I use the two terms
+interchangeably.
+
+It’s unclear where the term pip came from. Some say it’s an abbreviation for percentage in
+point, but it could also be the FX answer to bond traders’ bips, which refers to bps, or basis
+points (meaning 1⁄100 of 1 percent).
+Just a couple paragraphs earlier, I mentioned that the pip is the smallest increment of currency
+price fluctuations. Not so fast. Even the venerable pip has been broken down into decimals or
+fractionals. Decimals or fractionals refer to one-tenth of a pip. The good news for traders is that
+typically means narrower trading spreads. Instead of trading on a whole pip spread of 3 pips, you
+might see a spread of 2.6 or 2.2 pips, which can lead to lower transaction costs over time.
+For now, though, to get a handle on P&L calculations, you’re better off sticking with whole pips.
+Take a look at a few currency pairs to get an idea of what a pip is. (I leave out the decimalized pip
+version for simplicity sake for the rest of this chapter.) Most currency pairs are quoted using five
+digits. The placement of the decimal point depends on whether it’s a JPY currency pair — if it is,
+there are two digits behind the decimal point. For all other currency pairs, there are four digits
+behind the decimal point. In all cases, that last itty-bitty digit is the pip.
+Here are some major currency pairs and crosses, with the pip underlined:
+EUR/USD: 1.3053
+USD/CHF: 1.0567
+USD/JPY: 84.23
+GBP/USD: 1.5085
+EUR/JPY: 110.65
+Focus on the EUR/USD price first. Looking at EUR/USD, if the price moves from 1.3053 to
+1.3073, it’s just gone up by 20 pips. If it goes from 1.3053 down to 1.3003, it’s just gone down by
+50 pips. Pips provide an easy way to calculate the P&L. To turn that pip movement into a P&L
+calculation, all you need to know is the size of the position. For a 100,000 EUR/USD position, the
+20-pip move equates to $200 (EUR 100,000 × 0.0020 = $200). For a 50,000 EUR/USD position,
+the 50-point move translates into $250 (EUR 50,000 × 0.0050 = $250).
+Whether the amounts are positive or negative depends on whether you were long or short for each
+move. If you were short for the move higher, that’s a - (minus sign) in front of the $200; if you
+were long, it’s a + (plus sign). EUR/USD is easy to calculate, especially for USD-based traders,
+because the P&L accrues in dollars.
+
+If you take USD/CHF, you’ve got another calculation to make before you can make sense of
+it. That’s because the P&L is going to be denominated in Swiss francs (CHF), because CHF
+
+is the counter currency. If USD/CHF drops from 1.0567 to 1.0527 and you’re short USD
+100,000 for the move lower, you’ve just caught a 40-pip decline. That’s a profit worth CHF
+400 (USD 100,000 × 0.0040 = CHF 400). Yeah, but how much is that in real money? To
+convert it into USD, you need to divide the CHF 400 by the USD/CHF rate. Use the closing
+rate of the trade (1.0527), because that’s where the market was last, and you get USD 379.98.
+
+Factoring profit and loss into margin calculations
+The good news is that online FX trading platforms calculate the P&L for you automatically, both
+unrealized while the trade is open and realized when the trade is closed. So why did I just drag
+you through the math of calculating P&L using pips? Because online brokerage platforms will start
+calculating your P&L for you only after you enter a trade.
+
+To structure your trade and manage your risk effectively (How big a position? How much
+margin to risk?), you’re going to need to calculate your P&L outcomes before you enter the
+trade. Understanding the P&L implications of a trade strategy you’re considering is critical to
+maintaining your margin balance and staying in control of your trading. This simple exercise
+can help prevent you from costly mistakes, like putting on a trade that’s too large, or putting
+stop-loss orders beyond prices where your account falls below the margin requirement. At
+the minimum, you need to calculate the price point at which your position will be liquidated
+when your margin balance falls below the required ratio. (I cover this subject more
+extensively in Chapter 13.) Fortunately, many online brokers provide a pip calculator
+application that makes it even easier.
+
+Understanding Rollovers and Interest Rates
+One market convention unique to currencies is rollovers. A rollover is a transaction where an
+open position from one value date (settlement date) is rolled over into the next value date.
+Rollovers represent the intersection of interest-rate markets and forex markets. In short, you will
+either earn or pay interest on open positions held overnight.
+
+Currency is money, after all
+Rollover rates are based on the difference in interest rates of the two currencies in the pair you’re
+trading. That’s because what you’re actually trading is good old-fashioned cash. That’s right:
+Currency is cold, hard cash with a fancy name. When you’re long a currency (cash), it’s like
+having a deposit in the bank. If you’re short a currency (cash), it’s like having borrowed a loan.
+Just as you would expect to earn interest on a bank deposit or pay interest on a loan, you should
+expect an interest gain/expense for holding a currency position over the change in value.
+
+The catch in currency trading is that if you carry over an open position from one value date to the
+next, you have two bank accounts involved. Think of it as one account with a positive balance (the
+currency you’re long) and one with a negative balance (the currency you’re short). But because
+your accounts are in two different currencies, the two interest rates of the different countries will
+apply.
+
+The difference between the interest rates in the two countries is called the interest-rate
+differential. The larger the interest-rate differential, the larger the impact from rollovers. The
+narrower the interest-rate differential, the smaller the effect from rollovers. You can find
+relevant interest-rate levels of the major currencies from any number of financial-market
+websites, but www.reuters.com and www.bloomberg.com have especially good resources.
+Look for the base or benchmark lending rates in each country.
+
+So how do interest rates get turned into currency rates? After all, interest rates are in
+percent and currency rates are, well, not in percent. The answer is that deposit rates yield
+actual cash returns, which are netted, producing a net cash return. That net cash return is then
+divided by the position size, which gives you the currency pips, which is the rollover rate.
+The following calculation illustrates how this works. I’ve simplified matters by using just one
+interest rate for each currency. In the real world, each currency would have a slightly different
+interest rate depending on whether you’re borrowing or lending (depositing).
+Position: Long AUD/USD 100,000 at 1.0200 (long AUD/short USD 102,000)
+AUD interest rate: 4.75 percent per annum → 1 day = 0.0475 × (1 ÷ 365) = 0.01301 percent
+AUD deposit earns: 100,000 × 0.0001301 = AUD +13.01
+USD interest rate: 0.25 percent per annum → 1 day = 0.0025 × (1 ÷ 365) = 0.0006849 percent
+USD loan costs: 102,000 × 0.000006849 = USD - 0.70
+Because AUD/USD pips are denominated in USD, convert the AUD to USD: AUD 13.01 ×
+1.0200 = USD 13.27.
+Net the USD amounts 13.27- 0.70 = USD +12.57 ÷ 100,000 = 0.0001257
+On a long AUD 100,000 position, the rollover earns 0.0001257 or +1.257 pips.
+
+Value dates and trade settlement
+When I talk about currency trading, I’m implicitly referring to trading the spot forex market.
+
+A spot market is one that’s trading for immediate delivery of whatever security is being
+traded. But in the real world, immediate means a few business days, to allow banks and
+financial firms time to settle a trade (make payment, deliver/receive a security).
+In forex markets, spot refers to trade settlement in two business days, which is called the value
+date. That time is needed to allow for trade processing across global time zones and for currency
+payments to be wired around the world.
+The forex market operates on a 24-hour trade date basis beginning at 5 p.m. eastern time (ET) and
+ending the next day at 5 p.m. ET. So if it’s a Monday, spot currencies are trading for value on
+Wednesday (assuming no holidays). At 5 p.m. ET on Monday, the trade date becomes Tuesday and
+the value date is shifted to Thursday. If you have an open position on Monday at 5 p.m. ET closing,
+your position will be rolled over to the next value date, in this case from Wednesday to Thursday,
+or a one-day rollover.
+If you close your position the next day (Tuesday) and finish the trade date square, there are no
+rollovers because you have no position. The same is true if you never carry a position through the
+daily 5 p.m. ET close.

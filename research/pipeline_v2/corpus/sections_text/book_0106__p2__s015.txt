@@ -1,0 +1,620 @@
+
+Selling Options against Futures or Cash Position
+The simplest approach to implementing a covered option position involves
+the combination of a cash position with an option. The crux of the idea is
+
+Gunning for Premiums with Covered Options
+
+157
+
+that when a stock's shares flatten out or get weaker in price call options
+can be sold to generate income.
+If the stock's price goes down the trader gains the premium, which
+diminishes his losses in the shares. If the price goes up the stock trader has
+one of two choices-buy back the option at a higher premium or give up
+any gains in his shares above and beyond the option strike price. The same
+scenario can be played out for the futures, forex, or CFD markets.
+
+Initiating a Covered Position Few decisions have to be made when
+it comes to trading covered positions in the stock market. Those people
+who buy stocks are automatically long-side specialists who therefore understand that they will only be selling calls. Also since there is no leverage
+on the stock itself it is simpler to purchase one stock option for every 100
+shares of stock owned. Finally, since the option is sold as a secondary position to the actual stock shares the option strike price is not given much
+thought.
+The ease with which covered option positions can be implemented in
+the stock market gives us a contrast to the difficulty that can be associated
+with the futures and forex markets. When it comes to putting on covered
+option positions in the futures market, unlike stocks, there are too many
+choices. Since longs and shorts are treated equally in the futures market
+covered positions can be implemented with puts or calls. Delta also has
+a larger impact on the option selling decision. The less the delta is, the
+more likely multiple options at the same strike price will be sold in order
+to match the movement of the underlying asset.
+Finally, in a covered position the sold option may actually be the primary position with the futures or spot contract acting as the protective
+position. This makes the option strike price more important based on how
+much premium can be collected.
+The spot forex market has one flaw that the futures market doesn't
+have-lack of a true option market. Spot forex options tend to be customized contracts between the traders and the deal makers. This makes for
+liquidity issues and can limit the strike prices that deal makers are willing
+to work with. In the end, since there is no centralized exchange in the spot
+forex market, it is difficult for spot options to be both fairly priced and liquid enough to be realistically used in a covered option scenario. This does
+not mean, though, that you can't cross trade with forex futures options to
+create the exact same trades.
+In this section we look at two different ways to initiate a covered option position. One is an aggressive way to put on a covered position. This
+action, when all of the indicators are pointing one way and a covered option is intentionally initiated in the opposite direction, is known as fading
+the market. The second way to initiate a covered option is when a position
+
+158
+
+BASIC STRATEGI ES
+
+has already gained a profit and is stalling out. In fact, if done properly it can
+actually give the winning position a way to weather temporary pullbacks
+or retracements.
+To make covered options
+work a strict approach must be taken. First, make sure you are a trend or
+counter-trend trader, long side or short side specialist. This specialization
+is paramount to having a consistent approach when selling options. In the
+stock market you are forced to be a trend specialist, but in futures or spot
+forex you can be either a trend or a counter-trend specialist. Choosing a
+side helps dictate how comfortable you will be with your option selling
+decisions and how you will react to the market's moves.
+Second, the delta can play an important role in the number of options
+you will want to sell. If the option's delta is moving at one third of the
+underlying contract's actual price it makes sense to sell three options, not
+one, in order to gain the full benefit of protective option. This can backfire
+if the delta and volatility gets closer to the value of the underlying asset
+while at the same time prices are moving against you.
+Third, you must make a decision regarding what type of option will be
+sold. While three types of options are available-out-of-the-money, in-themoney CITM) , and at-the-money CATM)-only two, ITM and ATM, are of
+importance to futures and forex option sellers. Stock traders want to hold
+on to their stock position, but futures and forex are happy to collect as
+much premium as possible while totally disregarding the underlying position. This can best be accomplished with an ITM option, but if the trader
+has a conservative streak then selling an ATM option may be a better bet.
+Finally, there is an issue of timing. There are no rules set in stone requiring that a sold option must be held until expiration. If a profit is evident,
+then the option can be bought back ahead of time. This requires the option
+seller to have a set goal on his profit targets and to stay in control of the
+maximum loss on his underlying futures or forex position.
+Rules for Worldng with Covered Options
+
+The following are two examples of
+a market setup that is perfect for selling an option. The prices are sitting
+around the 50-day MA and to the naked eye the market could go either up
+or down. Based on the technical analysis it can clearly be seen that the
+market will be going long or short. Then the covered option is put in place
+to fade the actual direction of where the market is predicted to go.
+Fading the market means that if the market signals suggest that the
+market will move up in value, long, you initiate a covered put position to
+collect the premium. If the market signals suggest that the market will drop
+in value, short, you initiate a covered call position to collect the premium.
+Examples of Fading the llfarket
+
+159
+
+Gunning for Premiums with Covered Options
+
+This allows the trader to put on in-the-money trades and collect a significant premium in the process.
+
+Long Market, Covered Put Position Crude oil's price in Figure 10.1 is
+$85.40 and there is support sitting at $84.25. That means there is at least
+$1.15 difference before the market may stop moving downward and decide
+to tum around. With that in mind you can sit on the sidelines before initiating a covered put trade. You are looking to put the odds in your favor.
+If the market breaks through support then you can initiate a covered call
+strategy.
+In Figure 10.2 the market hits the $84.25 support line and bounces back
+around, stopping beneath the 50-day MA. As we know from Winning the
+Trading Game, the 50-day MA plays a significant role in determining a market's direction. If it can successfully break through the 50-day MA, a new
+long market will be initiated; if it hits the 50-day MA and collapses, it will
+continue its bearish trend aggressively.
+With all of the momentum on the bullish side, this is the perfect setup
+to put on a covered put. You want to make sure you collect the premium
+with few or no problems. So as it gets close to the 50-day MA it makes sense
+to sell a put, with the hope it will break through the 50-day MA and start
+
+Cl.067: cfU~ OM NY (PH) CadjUq (OaliY bafa)
+02lO6l2OO3 .. as.40 {~f.21}
+
+Crude Oil Bearish Momentum
+
+.1
+- .100Jltr
+
+- 9&.00
+
+18.00
+
+Crude Oil Support
+
+7UIl
+
+- 72.00
+
+i Tr~N'v' tor.com
+121f0l07
+
+FIGURE 10.1
+
+Bearish Crude Oil
+
+Source: TradeNavigato r.com © 2007 . All rights reserved.
+
+:160
+
+BASIC STRATEGIES
+
+I"t
+
+Il,t'it .r',
+
+-----tt"'"------'.r------ ,---------I~ I
+1
+
+I'r
+
+c__________ ,- •• ___________________ •
+
++.1
+
+Sell $90 Crude Oil Put
+
+FIGURE 10.2 Initiating a Covered Put
+Source: TradeNavigator.com © 2007. All rights reserved .
+
+a new bullish trend. Just in case the market drops in value you execute a
+short position, to cover the sold put.
+In Table 10.1 several strike prices are compared to the premiums that
+can be collected. Since the market in Figure 10.2 has an overall bearish
+bias it makes sense that the put options with a higher strike price are more
+expensive than the premiums that are closer to the money.
+In Figure 10.3 the price breaks above the 50-day MA and stays above it
+for 2 or 3 days. This is a significant clue to whether this is a false breakout
+or there has been a fundamental shift in the supply and demand of the
+commodity. It also signals you to exit your short position and stop eroding
+the premium you have collected.
+
+TABLE 10.1
+Strike Price
+
+90.50
+90.00
+89 . 50
+
+Oil Put Option Premiums
+Premium
+
+Dollar Amount
+
+5.20
+4.39
+4.09
+
+$5,200
+$4,390
+$4,090
+
+161
+
+Cunning for Premiums with Covered Options
+CL~7: Crude OM NY (Pit) Cadj Uq([)ally baR)
+
+81),00
+
+Sell $90 Crude OJ, Put
+
+10J23n)T
+
+Crude Oil Br!NIJ<;g,!4
+
+11106lO7"
+
+' 1112010"7 ;
+~
+
+''''''''1
+
+01 MS
+
+FIGURE 10.3 Crude Oil Breakout
+Source : TradeNavigator.com © 2007 . All rights reserved.
+
+In this instance you enter your short position at $90 and exit your short
+position at $91.15 for a total loss of $1,115. This is subtracted directly from
+the premium you collected depending on the strike price you sold.
+There are a few things to keep in mind when you unwind your position. First, once you get out of the protective short you will need to put a
+stop on the sold call in order avoid losing the premium you have already
+made. Second, you will immediately lose the special margin rate you were
+receiving; therefore you will need to have enough margin in the account to
+maintain the position. Finally, you need to be sure that you are willing to
+exit the trade without carrying it all the way until expiration. At some point
+you will be risking too much premium compared to what you will earn if
+you hold the position until expiration, so keep the rule of risking one to
+gain two in mind.
+
+Short Market, Covered Long Position In the covered long position we take
+a look at the com market. In Figure 10.4 we can see that the com market
+has built up a lot of bullish momentum. It has filled at $4.60 and is heading
+straight for the resistance at $4.90. Again, we are looking for a setup to
+occur. If com breaks $4.90 it can get as high as $5.20.
+In Figure 10.5 we see the com market slow down and reverse at the
+$4.90 price. At the time the com $4.90 options are worth $1,400. If you sell
+
+'
+
+162
+
+BASIC STRATEGIES
+
+1::067: Com CBT (Pit) CadfU.t(Oally b...)
+
+.....
+Com Bullish Momentum
+
+Com Resistance
+
+\ .
+' TraGeNle::o~
+
+0llOSt1J7~~
+'lIW<1=7"""""'~"""""~~-;;"""""~7~~;"""="=7-""""'
+05/1="'7~-=
+_=7"'--'-~'
+
+Com 8tJlrtsh Momentum
+
+FIGUltE 10.4 Corn Bullish Momentum
+Source: TradeNavigator.com © 2007. All rights reserved .
+
+c:061r<:'om CBT (Pit) Cadj lIcrib.llyb....)
+Com market weakening momentum
+
+i
+
+1.1
+
+11,1 ..."nIIIIIJt..... itj.......
+
+..............
+
+~" c.mM.~t.~
+
+.... :
+
+,... . . ... . .. '1111 !IIL .. .. . ... s." ~~ c'mC'~" f
+111,lb11111tI)1,11' t .tl~IIII'i.11,111,11
+
+, 1rad!'H.v· .tor.com
+O2.I'2;Wl
+
+0JI0W07
+
+03l23i07
+
+IW09ro1
+
+Q.4I2.3J07
+
+05ID7,'07
+
+Initiating Com Covered Optian
+
+FIGURE 10.5 Initiating Corn Covered Option
+Source: TradeNavigator.com © 2007. All rights reserved .
+
+05fl1J07
+
+1l6AlW7
+
+j~
+
+163
+
+Gunning for Premiums with Covered Options
+TABLE 10.2 Corn Call Option Premiums
+Strike Price
+
+495
+490
+485
+
+Premium
+
+Dollar Amount
+
+23
+
+$1,150
+$1,400
+$1,500
+
+28
+30
+
+a call option at that price a premium of $1,400 can be collected. A long
+position is put into play to cover the position in case the market breaks
+through $4.90. This is a preemptive move. Unlike the previous example,
+the market has proven itself for several down days. The only reason it is
+worthwhile to take a chance on it is because of gravity. Markets have a
+tendency to fall faster than they can move up. So as a rule I have a tendency
+to be more adventurous when taking signals for the short side as opposed
+to the long side (see Table 10.2).
+In Figure 10.6 everything is against com. The price is collapsing off
+the upper Bollinger band, RSI is overbought, and the price gaps down the
+next day. The long position cannot be exited fast enough. In fact, slippage
+would most likely end up giving back half of your collected premium. But
+that's okay-you have the protected position to ensure you don't expose
+
+FIGURE 10.6 Corn Price Collapse
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+164
+
+BASIC STRATEGIES
+
+yourself to unlimited losses. If the market had shot up your position would
+have been naked. This is the trade-off of having a protective position.
+E.. ha .. ci .. g the Profits of a Wi ....i ..g Positio.. Another type of covered option position can come after holding onto a successful position for
+some time. If a position trade has been placed on and has become successful, for instance if a long spot forex has racked up decent returns, but
+suddenly stalls out, there is an opportunity to sell a call option to generate
+income from the successful position. As soon as the market returns to the
+direction of the winning trade the sold call is immediately offset, hopefully
+with a small profit or at least at break-even. This strategy works just as
+easily for traders who are in a successful short trade.
+In Figure 10.7 a trader has entered the S&P 500 on a 50-day MA
+crossover. As the market moves up for a significant gain the S&P 500 slows
+its move upward at 1560 and the market begins to move sideways. This is
+a definite bearish signal after such a long move upward.
+There is an opportunity to sell a call at these heights and generate a
+significant income. An at-the-money full-size option can easily command
+thousands in premium. Therefore you can have the best of both worlds; you
+can protect your trade from any temporary pullback with money collected
+
+SP.()67: S&P 500 Index (Pit) Cad) LIq (OaBy bart)
+MovlngAvg IC,50) 0511712001- 1561.7I·ial
+
+f
+
+- .1580.0 '
+
+, Initiating a covered option on a successful position
+
+- '570.0
+
+I· .···· . · · · . ······· . . ·· · · . · . ·. . . . . ··. ·. . . . · · . . ·. . . . ~. ,,,o.o
+
+,t'l ' ,
+
+Market Stalling Sell S&P 1560 Call
+
+.+h
+
+. '!""
+
+"t f153"
+
+l ·,,'
+
+1
+
+• 1490,0
+1480.0
+- 1470.0
+
+'4SO.0
+- 14CD.O
+
+Buy Market at Crossing of 50 day MA
+
+:- 14S0,0
+
+1.uo.o
+U10.0
+
+f ~~~=··~~1~~~~~.. ~"~=O'~~
+~
+7 =-~~
+~7,--.. ·.
+· ~~~
+.. ·· ~~
+.. ·~
+.. ·-··.. ·M~~~-·~
+.. ·~~~
+.. ·M
+· ..~
+.. ~··.. ·.. ~~w
+.. ·~.. -.. ·-.. ·-..,.. ~~
+.. · .. ~;'-"'-'~'~~
+S&P 500 Price Stall
+
+FIGURE 10.7 S&P 500 Price Stall
+Source: TradeNavigator.com © 2007. All rights reserved.
+
+Gunning for Premiums with Covered Options
+
+J65
+
+from the premium. You will also reduce your margin requirements since
+the position is a covered option sale.
+In Figure 10.8 we see the S&P 500 drop in value and come back to the
+50-day MA. At that time the long position and the sold call should be exited.
+Profits should be set aside and a reassessment of the trade should be made
+to determine what the new direction could be.
+1\\'0 Advanced Covered Option Strategies
+
+In Chapter 7 and Chapter 8 we looked at two different strategies that involved options, collars, and synthetic options. In each instance we used a
+protective option to protect the cash, futures, or stock position. The protective option was put in place to protect against any sudden drops or jumps,
+but with a little more imagination an option can be sold on either type of
+position to generate income to add to the overall profit of the position.
+
+Selling an Option against a Synthetic Option This strategy is
+slightly advanced because there are three moving parts, but it is another
+way to initiate a covered option position, and thus it's important to expose you to the idea. As we learned in Chapter 8, a synthetic option is the
+combination of an at-the-money option and a futures, spot, or cash market.
+SP-06l: sap 500 Index IPn) CadJ Llq joaHy bars)
+
+I S&P 500 Reverses
+I
+
+r·········· ....................................................
+M~~k;t 'Stalling Sell S&P 1560 Cail
+
+I
+i
+
+........./
+
+I ·l+·~.·t.,
+
+"''.
+
+1,1 ~_..--~
+
+I!i 11+111 II"
+1 r
+
+Buy Market at Crossing of 50 day MA
+
+FIGURE JO.S S&P 500 Price Reverses
+Source: TradeNavigator.com © 2007. All rights reserved .
+
+166
+
+BASIC STRATEGIES
+
+Whether you go long or short, the protective option is purchased to protect
+against any risk of loss.
+There is no set rule that the position the option is covering has to solely
+be the futures , spot, or cash position. In fact another option can be added
+to the mix. An option can be sold out-of-the-money, a few points away from
+the synthetic's protective option. If the position is working in favor of the
+underlying asset, then the extra premium is added to your overall profits. If
+the position fails, the protective option covers any price move that may occur in the sold option. You give up the profits from any market move against
+your position, but at the same time you have a way to capitalize on your
+protective option or at the very least have a way to pay for part or all of it.
+Let's take a market example from Chapter 8.
+In Figure 10.9 we see the market rally through the 50-day MA. A put
+was purchased at $930. The option cost $1,830. It would take little effort
+to sell a put at $925 or at $935, if you're aggressive. A sold option at either
+strike price will produce enough premium to either match or cover the cost
+of the purchased option.
+
+Selling an Option against a Collar In Chapter 7 we attacked the collar trade. By now you may have figured out that the very nature of a collar
+is based on the covered option concept and the synthetic option combined.
+Even though the sold option is a far out-of-the-money option, once the
+
+GC2-067:-- GOld COIM. (Comb) Cad} L.iq (Dlity bara)
+
+Jul. bill IIUlJlIlIJJJJJJliJJ
+IIVIlI08
+
+I!2.<71J'D&
+
+G3It2iO!I
+
+FIGUlm 10.9 Gold Futures Breakout
+Source: TradeNavigator.com © 2007 . All rights reserved .
+
+Cunning for Premiums with Covered Options
+
+167
+
+underlying asset breaks through the strike price it immediately turns into
+a covered position.
+But the fact that a synthetic option is the core component of a collar
+means that an option can be sold out of the money against the purchased
+option to produce a little extra income as well.
+
+CONCLUSION
+Selling options can be a complex proposition. Myths, like the belief that 80
+to 90 percent of options expire worthless, do more harm than good when
+making an informed decision to sell options. Add to that the impact that
+margin rules have on the ability to sell options, plus the effects that volatility has on choosing the right option to sell, and it's easy to see that in the
+wrong hands option selling can be disastrous.
+Selling options requires a healthy dose of respect and discipline. Once
+it is accepted that the option has the potential for unlimited losses, the
+proper measures can be taken to minimize or eliminate that loss. Proper
+measures can mean selling an option against a futures or spot position,
+tying a sold option to the tail of a synthetic option, or being aggressive with
+a straddle or strangle position. As long as a trader is willing to step out of
+the box when it comes to selling options, its liabilities can become assets
+over time.
+As with all of the strategies presented in this book, the goal is to put
+you in control of how you interact with the market. Whether that means
+combining various tools so the odds are in your favor or avoiding this strategy altogether, then so be it. Whatever will make you ultimately feel comfortable with selling options is exactly how you should employ them in
+your trading. This strategy is solely a means to an end-increased profits
+coupled with diminished risk. If you fail to see an opportunity, don't force
+it. Just let it flow.
+
+CHI\P'fEK 11
+
+Outflanldng
+the Market
+
+n Chapter 9 spread trading was explained in detail for futures contracts
+and the cash market. In this chapter spread trading is being explored
+once again, but from an option perspective. There are many different
+types of option spreads, from iron condors to horizontal spreads to vertical
+spreads, along with a myriad of other exotically named spreads. Many of
+these are outside the scope of this book, either because they are too exotic
+or because they cannot be easily tied back into a futures or cash position.
+In no way does that mean that they are inferior, and in fact you can benefit
+from learning how they work.
+For the purposes of this book, the most effective option spread for
+our dual goals of minimizing losses and maximizing profits is a very specific ratio spread. The overall definition of the ratio spread requires that an
+unequal number of long and short positions be held. There can be a multitude of ways to execute this strategy. In one scenario a ratio spread can,
+if done properly, limit the overall risk of a trader through simultaneously
+diminishing losses and practically setting up a free trading opportunity. In
+another scenario of the ratio spread, things can be exactly the opposite.
+This type of ratio spread can expose a trader to unlimited losses if the market moves aggressively. In fact, being on the wrong side ofthis type of ratio
+spread can ruin all but the most astute trader's account.
+Distinguishing between these ratio spreads is just the tip of the iceberg
+when it comes to trading the ratio spreads. There is the matter of being able
+to select the proper ratio based on the underlying asset's market direction,
+and there is the question of whether the ratio between longs and shorts
+should relate to price or delta or both. Regardless of how the ratio spread
+
+I
+
+169
+
+170
+
+BASIC STRATEGIES
+
+is implemented, it is a simple way for a trader to participate in various
+market moves without having to risk too much of his own capital, which
+can be important if you are trading with tight capital constraints.
+
+FRONTSPREADS AND BACKSPREADS
+Since a ratio spread is simply the act of holding an unequal number of long
+and short positions, two different permutations of this scenario can occur.
+Either you can buy one call or put and sell two calls or puts (known as
+a frontspread) or you can sell one call or -put and buy two calls or puts
+(known as a backspread).
+
+Frontspl'eads
+Let's look at the frontspread first. The frontspread is typically considered
+the default ratio spread. It simply requires that an option be purchased at a
+set price, preferably out-of-the-money, and two options be sold at a slightly
+higher strike price. The goal is to profit from the difference between the
+option strike prices. The trade is designed as a way to exploit a decrease in
+option volatility. It is assumed that with less volatility the options are less
+likely to move, and the premiums, along with the call's profit gains between
+strike prices, are assured.
+The downside of the frontspread is self-evident, though. As highlighted
+earlier, there is an inherent flaw when it comes to selling options. When an
+option is sold the trader is subject to the potential of unlimited losses. This
+means that when a frontspread ratio spread is initiated the trader is at an
+automatic disadvantage. If the underlying asset takes off in price and the
+option volatility increases, then the sold options will gain in value quickly.
+While there is one purchased option covering the increase in value of one
+sold option, the second option is uncovered and thus exposes the trader to
+unlinlited loss potential.
+For example, a trader may purchase a gold put for $950 and then sell
+two gold puts at $940. There is an apparent belief that there is a window
+of trading opportunity between $950 to $940, or $1,000 in profits. The two
+sold options, particularly at this close strike price range, produce enough
+premium to pay for most if not all of the bought gold put.
+The primary drawback would be if the price of gold drops past $940,
+then the unlimited risk of one of the sold options kicks in. The secondary
+drawback is if the price actually moves in the opposite direction. In this
+example if gold moves from $950 to $960 the purchased option begins to

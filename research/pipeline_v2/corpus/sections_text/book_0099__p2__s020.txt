@@ -1,0 +1,753 @@
+
+www.pdfdummies.com
+
+Chapter 11: Transforming Channels into Forecasts
+
+0.705
+0.700
+0.695
+0.690
+0.685
+
+EXTENSION
+STARTS HERE
+
+0.680
+0.675
+0.670
+0.665
+0.660
+0.655
+0.650
+0.645
+0.640
+0.635
+
+Figure 11-5:
+Two
+standard
+error
+channels.
+
+0.630
+
+CHANNEL BROKEN
+TO THE UPSIDE
+
+0.625
+0.620
+0.615
+
+ptember
+
+October
+
+November
+
+December
+
+2003
+
+February
+
+March
+
+April
+
+May
+
+As a practical matter, every time a price breaks a channel line, you face a
+higher risk. The channel defines what is normal, and any foray outside the
+channel is not normal. What does this breakout in Figure 11-5 mean?
+✓ The latest high prices can mark a third shift to a new, more steeply sloping channel yet to be drawn.
+✓ A blowout breakout may be forming.
+✓ The price series may subside back into the channel.
+You have no way to know which of these three outcomes is the most likely
+from the information on the chart. You may choose to exit on every channel
+line breakout, or you can add another indicator to guide your decision.
+
+Confirming hand-drawn channels
+You can validate a hand-drawn support and resistance channel by superimposing a standard error channel on top of it. Starting at the same low (or high)
+point that you used to draw by hand, draw the standard error channel and see
+how closely it tracks your hand-drawn lines. Sometimes the standard error
+channel falls exactly on top of your hand-drawn lines, which is “scientific”
+validation that you drew them right and they accurately represent the trend.
+More often, the standard error channel has a slightly different slope.
+
+www.pdfdummies.com
+
+197
+
+198 Part IV: Finding Patterns
+Trading a security that moves neatly within its channel, especially a validated
+double channel (hand-drawn and standard error), reduces the stress of trading.
+
+Sizing up the special features of
+the linear regression channel
+You use the linear regression channel the same way you use a hand-drawn
+channel — to estimate the future range and to determine when a trend has
+ended by observing a breakout of one of the channel lines.
+The linear regression has a few special characteristics, though. For instance,
+when it comes to the linear regression channel, you want to know the following:
+✓ The linear regression doesn’t encompass every price extreme in a
+series. It encompasses a very high percentage of them. Therefore, some
+price bars will always break the channel lines without invalidating the
+channel, unlike the situation in a hand-drawn channel.
+✓ To make it more unlikely that you’ll mistake a normal breaking of the
+channel line with a breakout, you can widen the channel lines to encompass the first two or three highest highs and lowest lows, and then
+extend it out. This modification is named a Raff regression channel after
+Gilbert Raff, the man who devised it.
+✓ You can adjust the width of the channel lines by instructing your software to use three errors rather than the usual two. A three-error channel encloses 99 percent of the prices. This is handy for a just-emerging
+channel where you don’t have many prices yet.
+✓ The linear regression is self-adjusting. Every time you update the channel, your software includes the new day’s data and modifies both the
+linear regression line and the slope and width of the channel accordingly. It’s therefore a bit of an odd duck — a set of straight lines that
+isn’t fixed, at least until you fix it by halting the updating process.
+✓ In order to see a breakout to confirm a trend change, you have to stop
+drawing at some point. Otherwise, the channel simply adjusts to the new
+data and you never get a breakout. Don’t forget, it automatically incorporates all the price data you put into it. Garbage in, garbage out.
+You can draw new channels on top of your existing forecast channel. You
+begin at the same starting point but continue the true channel to the current
+day. If the width and the slope of the fresh true channel are about the same
+as your forecast channel, you deem the forecast channel to be stable. A stable
+channel implies that the forecast embedded in the farther-out lines is probably pretty good. If you notice that the new, true channel that incorporates the
+latest prices is starting to widen, narrow, or change slope, examine the price
+bars themselves to see if they indicate a trend change. See Chapter 6 and 7 for
+information on the price bars.
+
+www.pdfdummies.com
+
+Chapter 11: Transforming Channels into Forecasts
+
+Discovering the drawbacks of
+linear regression channels
+Linear regression channels are more difficult to work with than hand-drawn
+support and resistance — you have to exercise more judgment, and it is
+more of an art. Some of the complications are
+✓ Not a majority process: A large number of people draw support and
+resistance lines and channels, but not everyone draws linear regression
+channels. A big part of why technical analysis works is that many people
+are observing the same thing and acting on it, like breakouts. The same
+can’t be said of linear regression channels.
+✓ May not stand alone: You can draw a very large number of channels on
+the same chart, and each of them is “right.” Often you draw one channel
+from an obvious starting point but after fixing it and extending it out into
+the future, you find that you can draw another channel from a nearby
+starting point that points to a different outcome. I call this dueling channels, and it always occurs at trend turning points.
+✓ Not really “scientific”: The linear regression channel is scientific in
+the sense that the software calculates it to enclose a preponderance
+of prices, but that doesn’t mean that you started it or stopped it at the
+ideal spot, or that the channel extension is correct. The mathematical
+principle isn’t subjective, but your application is always subjective.
+Consider that your car works on scientific principles of internal combustion and the like, but that doesn’t necessarily make you a good driver.
+
+Pivot Point Support and
+Resistance Channel
+What do you do when you stop getting higher highs (in an uptrend) or lower
+lows (in a downtrend)? In other words, the price is still within its channel but
+now it is moving sideways.
+The pause in movement may be temporary, but the sideways action can also
+be a warning that forward momentum is gone. From this you may deduce that
+if you’re going to take profit, now is the time. The sideways action may also
+imply that a breakout in the opposite direction is impending.
+One technique for dealing with sideways moves within a channel is to draw
+horizontal support and resistance lines off pivot points. Technical traders
+use the term pivot point in many different ways. One standard definition
+is that the pivot point is the center bar of three bars (or more) where the
+center bar is the highest high or lowest low. Another definition of pivot is the
+
+www.pdfdummies.com
+
+199
+
+200 Part IV: Finding Patterns
+median price (the numerical average of the high, low, and close). Other traders cook up yet more definitions. Today, the median price version is probably the most accepted. Keep reading for more handy tips on pivot points.
+
+Calculating the first zone of
+support and resistance
+The logic of the pivot point is that after a trend pauses, you need a breakout
+that’s a significant distance from the median price to decide whether the old
+trend will resume or a reversal is really at hand. So you start with the median
+price and to that you add a factor to get upside resistance, and you subtract
+a factor to get downside support.
+To calculate the first (inner) line of resistance, multiply the pivot point value
+by two and, from that number, subtract the low of the pivot day. This is named
+R1. To calculate the first (inner) line of support, or S1, multiply the pivot value
+by two and, from that number, subtract the high of the pivot day. This procedure sounds like a lot of arithmetic, but don’t sweat it. It’s easy enough to do
+in a spreadsheet or by hand, and many trading platforms offer it as a standard
+option. Plus, the procedure itself is quite sensible — you use a multiple of the
+median price to estimate a range going forward that subtracts the high and
+the low to yield a norm. Any price higher or lower would be an extreme. If the
+upcoming price breaks the horizontal support and resistance lines calculated
+this way, the direction of the breakout is your clue that the trend is truly over.
+You can create a series of pivot support and resistance lines according to
+these formulas or some variation of them:
+Pivot Point = (High + Close + Low)/3Support 1 = 2 × Pivot – High
+Support 2 = Pivot – (R1 – S1)
+Support 3 = Low – 2 × (High – Pivot)
+Resistance 1 = 2 × Pivot – Low
+Resistance 2 = Pivot + (R1 – S1)
+Resistance 3 = High + 2 × (Pivot – Low)
+In Figure 11-6, R3 is very close to the highest high and S3, while higher
+than the recent lowest low, meets the hand-drawn support line connecting
+two lows. Pivot point analysis has become very popular in recent years.
+Advocates say that by projecting out a reasonable range to the next few
+days, you can easily see a breakout, and pivot points are therefore predictive
+instead of lagging, like every other indicator. This is not, strictly speaking,
+accurate. Any band or channel has predictive value in the sense that upcoming prices, if they are normal, will remain within the band or channel and a
+violation of the channel top or bottom constitutes a breakout. What is valuable about pivot points is that when many market participants are looking at
+the same lines, you can expect price movement at exactly those lines.
+
+www.pdfdummies.com
+
+Download from Wow! eBook <www.wowebook.com>
+
+Chapter 11: Transforming Channels into Forecasts
+
+1230
+1220
+1210
+1200
+1190
+1180
+1170
+1160
+1150
+1140
+
+R3
+
+1130
+1120
+
+R2
+
+1110
+
+R1
+
+1100
+1090
+1080
+
+S1
+
+A
+
+1070
+1060
+
+S2
+
+1050
+
+S3
+
+Figure 11-6:
+Pivot point
+support and
+resistance.
+
+1040
+1030
+1020
+1010
+1000
+
+29 5
+12
+April
+
+19
+
+26
+
+3
+10
+May
+
+17
+
+24
+
+1 7
+June
+
+14
+
+21
+
+28
+
+6
+July
+
+12
+
+19
+
+26
+
+2
+9
+August
+
+16
+
+23
+
+30 7 13
+September
+
+20
+
+27
+
+4
+11
+October
+
+18
+
+25
+
+1
+No v
+
+Using pivot support and resistance
+You can use pivot support and resistance all by itself, and many day traders
+do. You can also add other indicators like the two moving average crossover
+(see Chapter 12). In the case I present in Figure 11-7, if you had bought at
+Point A, you would set your target at R1 if you are risk averse, R2 if you are
+an optimist, and R3 if you are swinging at the bases. Note that a test of a previous high is commonplace in a bounce off a low. If you’re able to go short,
+you may sell at R3 and target a gain to S3, which conveniently meets the
+hand-drawn support line.
+What’s important about the pivot-based support and resistance lines is that
+they effectively outline a period of activity where traders don’t know the
+trend. Bulls try to make a new high and get only a few pennies worth. Bears
+try to make a new low but fail to get a significant lower low.
+Pivot analysis is most useful in periods of congestion or sideways action after
+an old trend has ended and a new one has not yet emerged.
+
+www.pdfdummies.com
+
+201
+
+202 Part IV: Finding Patterns
+1230
+1220
+1210
+1200
+1190
+1180
+1170
+1160
+1150
+1140
+1130
+1120
+1110
+1100
+1090
+
+Figure 11-7:
+Pivot point
+levels
+overlaid
+with a
+standard
+error
+channel.
+
+1080
+1070
+1060
+1050
+1040
+1030
+1020
+1010
+1000
+29 5
+12
+April
+
+19
+
+26
+
+3
+10
+May
+
+17
+
+24
+
+1 7
+June
+
+14
+
+21
+
+28
+
+6
+July
+
+12
+
+19
+
+26
+
+2
+9
+August
+
+16
+
+23
+
+30 7 13
+September
+
+20
+
+27
+
+4
+11
+October
+
+18
+
+25
+
+1
+No v
+
+In Figure 11-7, you can see two standard error channels overlaid on the same
+pivot point chart as in Figure 11-6. The first channel is drawn from the intermediate high in the topmost oval, and the second channel is drawn from the
+lowest low in the bottommost oval. Both channels slope upward, suggesting
+it is a credible identification of the direction, and both are near the handdrawn support line. This evidence certainly suggests that an uptrend has
+formed, and yet the moves are choppy and failing to make new highs or new
+lows. It’s a range-trading market and the up-sloping standard error channel
+could be just wishful thinking. In contrast, the pivot-based support and resistance “channel” offers hands-on, specific places to buy and sell whether the
+trend uptrend is the real deal or not.
+
+www.pdfdummies.com
+
+Part V
+
+Flying with
+Dynamic Analysis
+
+www.pdfdummies.com
+
+M
+
+In this part . . .
+
+ath-based indicators are commonplace today, even
+among non-technicians. The purpose of these indicators is to refine and better quantify the same questions
+asked in all technical methods: Is the security trending?
+How strong is the trend? Is the trend ending?
+Every indicator uses basic arithmetic to fiddle with the
+various components of a series of bars. If you have a
+grasp of the bar components, you don’t need to bother
+with the exact formulas unless you like formulas. In this
+part, I walk you through the most commonly used indicators and show how they capture various aspects of crowd
+behavior.
+
+www.pdfdummies.com
+
+Chapter 12
+
+Using Dynamic Lines
+In This Chapter
+▶ Going over the simple moving average
+▶ Getting to know a few other moving averages
+▶ Working with more than one moving average
+▶ Finding out about convergence and divergence
+
+M
+
+oving averages are the workhorses of technical analysis. Most traders
+start out in technical analysis with moving averages, and some traders never see a need to look into any other technique — that’s how successful moving averages can make your trading.
+A moving average is an arithmetic method of smoothing price numbers so
+that you can see and measure a trend. A straight line (see Chapter 10) is a
+good visual organizing device, but a dynamic line — the moving average —
+more accurately describes what’s really going on. In addition, you don’t need
+to choose starting and ending points, removing that aspect of subjectivity,
+although choosing how many periods to put in your moving averages is subjective. In this chapter, I discuss several different ways you can calculate and
+use moving averages to get buy/sell trading signals.
+
+Be careful not to attribute a forecasting capability to the moving average. Moving
+averages are trend-following. The moving average is a lagging indicator — it can
+still be rising after your price hits a brick wall and crashes.
+
+Introducing the Simple Moving Average
+You know what an average is — you measure ten of something, add up the
+measurements, and divide by ten. Here’s how you get the average “moving”:
+Start by finding the average of a number of prices — say ten. The next day you
+add the newest price to the total and subtract the oldest price, keeping the
+total number of prices constant at ten. The standard simple moving average
+uses the close, because the close is the summary of the period’s action and
+sentiment (see Chapter 6).
+
+www.pdfdummies.com
+
+206 Part V: Flying with Dynamic Analysis
+Yes, using the moving average means recalculating the whole thing every
+time you have a new price. Before PCs, it was a laborious process. In fact,
+a preference for the 10-day average started in the 1930s, because it’s easy
+to calculate by hand (plus it measures two weeks), and it remains popular today. (For a discussion on choosing the number of days to use with a
+moving average, see the “Fixing lag” section later in the chapter.) Figure 12-1
+displays a 10-day simple moving average.
+Right off the bat, you can see that the moving average clings to the prices and
+represents their movements better than a straight line and, at the same time,
+smoothes away the occasional erratic price. You almost stop seeing price
+variations after you draw the moving average on a chart.
+
+85
+
+80
+
+OUTLIER
+75
+
+70
+
+65
+
+60
+
+Figure 12-1:
+Simple
+moving
+average.
+
+55
+
+29
+
+5
+August
+
+12
+
+19
+
+26
+
+3
+9
+September
+
+16
+
+23
+
+30
+7
+October
+
+14
+
+21
+
+28
+
+4
+11
+November
+
+Starting with the crossover rule
+When the price is moving upward or downward, so is the moving average line, albeit with a lag. After a price turning point, the price crosses the
+moving average line. At the V-shaped bottom on Figure 12-1, for example,
+prices are below the line until the gap (ellipse), and then prices cross above
+the line. (See Chapter 7 for information on gaps.)
+The crossover rule states that you buy at the point where the price crosses
+above the moving average line and sell at the point where it falls below the
+moving average line. In practice, you execute the trades the next day at the
+open if you’re working with daily data.
+
+www.pdfdummies.com
+
+Chapter 12: Using Dynamic Lines
+You can easily see that the moving average on Figure 12-1 captured the
+trends. The crossovers captured the trend reversals, too. The result is
+buying at lows and selling at highs. The moving average crossover rule generates a profit. What could be better? Right about now, you may be tempted to
+shout “Eureka! I have discovered a systematic, objective trading system.”
+Not so fast. For one thing, the price doesn’t always obediently stay above the
+moving average after an upside crossover (or below the moving average after
+a downside crossover). See the price bars on Figure 12-1 marked “Outlier.”
+First you get a close above the moving average and then the next bar is almost
+entirely above the moving average. An outlier is just what it sounds like — a
+data point that lies far off the trendline. This particular chart is tidy — it has
+only a pair of outliers. Usually you see a lot more.
+If you use the crossover rule to buy and sell a security every time the close
+crosses the moving average, you get a lot of buy/sell signals that reverse in
+fairly short order, as this one does. In Figure 12-1, you don’t know at the time
+it’s happening that the outliers are abnormal. For all you know, the crossover
+above the moving average is a genuine indication of a reversal. You know only
+after the price resumes the down move that they were outliers.
+Table 12-1 shows the gains and losses following the moving average crossover trading rule. Notice that I include the short side, which is selling something you don’t own in the expectation that you’ll be able to buy it later at a
+cheaper price. To sell short is only to reverse the normal order of the buy/
+sell equation. Usually you buy before you sell, but if you see a price clearly
+trending downward, in many cases you can sell it today and buy it back later
+for a profit. Even if you never sell short, calculating total profitability accurately is important when you evaluate a trading rule like the moving average
+crossover rule. For one thing, a rule that applies equally well to down moves
+as to up moves is more likely to be correct in all cases. For another, the end
+of a short sale may be the start of a purchase trade.
+To evaluate a trading technique, including moving averages, you judge its
+effectiveness on the basis of its profitability from identifying trends going in
+both directions.
+
+Table 12-1
+
+Hypothetical Profit from the Simple Moving
+Average Crossover Rule
+
+No. of Days
+
+Action
+
+Price
+
+19 days
+
+Buy
+Sell
+
+$70.61
+$76.00
+
+Crossover
+Profit
+
+Buy-andHold
+$70.61
+
+$5.39
+(continued)
+
+www.pdfdummies.com
+
+207
+
+208 Part V: Flying with Dynamic Analysis
+Table 12-1 (continued)
+No. of Days
+
+Action
+
+Price
+
+14 days
+
+Sell
+Buy
+
+$76.00
+$76.40
+
+($.40)
+
+2 days
+
+Buy
+Sell
+
+$76.40
+$71.50
+
+($4.90)
+
+28 days
+
+Sell
+Buy
+
+$71.50
+$62.00
+
+$9.50
+
+Buy
+Sell
+
+$62.00
+$78.50
+
+38 days
+Total
+
+Crossover
+Profit
+
+Buy-andHold
+
+$16.50
+
+$78.50
+
+$26.09 (37%)
+
+$7.89 (11%)
+
+If you traded every crossover signal as shown in Table 12-1, the return is
+$26.09 on starting capital of $70.61, or 37 percent in less than one year. This
+gain is more than three times higher than simply buying at the beginning of
+the period and holding to the end. But in the process of trading the crossovers, you take two losses caused by the outliers.
+In measuring the profitability of the crossover rule, I assume a policy of stopand-reverse, which means you close out one trade and put on another in the
+opposite direction at the same time and at the same price. This method is the
+conventional way to calculate the profitability of a trading rule, at least the
+first time around. Later you may adjust your entry and exit rules, as I discuss
+in the section “Filtering out whipsaws” section later in this chapter.
+
+Dealing with the dreaded whipsaw
+A buy/sell signal that’s wrong (in hindsight) is called a false signal. In moving
+average work, the false signal is a crossover that reverses within a few days,
+like the outliers in Figure 12-1. False signals usually reverse fairly quickly,
+putting you back in the trade in the right direction, but in the meanwhile,
+you take a small loss, called a whipsaw loss. Whipsaw refers to the whipping
+action of the price quickly moving through the moving average in both directions, resulting in a series of back-and-forth trades. Whipsaws occur in even
+the best-behaved trend and are common in a sideways market where traders
+are indecisive about trend direction.
+Whipsaws have a pernicious effect on your profit and loss statement in two ways:
+✓ When trading a trend-following technique like the moving average crossover, you make most of your gains by riding big trends, and you accept
+that gains are going to be reduced by the occasional whipsaw at reversal
+points, sideways periods, and any spiky outlier. But if your big trends
+also contain whipsaws, you end up overtrading, which is to make a lot of
+trades for only a small net gain or loss.
+
+www.pdfdummies.com
+
+Chapter 12: Using Dynamic Lines
+✓ Overtrading almost always results in net losses because on every trade
+you have to pay brokerage commissions and fees. In all the cases in this
+chapter, I am conveniently not subtracting commissions and fees, but
+remember that they reduce profits and raise losses in real life.
+
+Filtering out whipsaws
+Instead of using the raw crossover of price and moving average to generate a
+buy/sell signal, you can set up additional tests, called filters. If the crossover
+passes the filter tests, chances are it’s a valid buy/sell signal and not a flash
+in the pan. Filters come in several varieties, and you can apply any or all of
+them to reduce the number of trades. Note that filters may delay entry and
+exit, and therefore may reduce total gains while reducing whipsaw losses.
+Consider the following filters:
+✓ Time: The close has to remain above (or below) the moving average for
+an additional x number of periods after the crossover date.
+✓ Extent: The price has to surpass the moving average numerical value by
+x percent of the price or x percent of some other measure, such as the
+trading range of the past y days (see Chapter 7 for information on the
+trading range).
+✓ Volume: The crossover has to be accompanied by a significant rise in
+volume.
+✓ Extreme sentiment: In an uptrend crossover, the low has to surpass the
+moving average and not just the close; in a downtrend, the high has to
+be under the moving average, and not just the close. See Chapter 6 for a
+discussion of the high, low, and close.

@@ -1,0 +1,519 @@
+
+FIGURE 9.10 USD/CAD Double Zeros Example
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+120
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+the second half of the position at 1.2081. As a result, we earned 40 pips on
+the first position and 86 pips on the second position. Once again, this trade
+worked particularly well because 1.2000 was a triple zero level.
+Although the examples covered in this chapter are all to the long side,
+the strategy also works to the short side.
+
+WAITING FOR THE REAL DEAL
+The lack of volume data in the FX market has forced day traders to develop different strategies that rely less on the level of demand and more on
+the micro structure of the market. One of the most common characteristics that day traders try to exploit is the market’s 24-hour around-the-clock
+nature. Although the market is open for trading throughout the course of
+the day, the extent of market activity during each trading session can vary
+significantly.
+Traditionally, trading tends to be the quietest during the Asian market
+hours, as we indicated in Chapter 4. This means that currencies such as the
+EUR/USD and GBP/USD tend to trade within a very tight range during these
+hours. According to the Bank for International Settlements’ Triennial Central Bank Survey of the FX market published in September 2004, the United
+Kingdom is the most active trading center, capturing 31 percent of total volume. Adding in Germany, France, and Switzerland, European trading as a
+whole accounts for 42 percent of total FX trading. The United States, on
+the other hand, is second only to the United Kingdom for the title of most
+active trading center, but that amounts to only approximately 19 percent
+of total turnover. This makes the London open exceptionally important because it gives the majority of traders in the market an opportunity to take
+advantage of events or announcements that may have occurred during late
+U.S. trading or in the overnight Asian session. This becomes even more
+critical on days when the Federal Open Market Committee (FOMC) of the
+Federal Reserve meets to discuss and announce monetary policy because
+the announcement occurs at 2:15 p.m. New York time, which is past the
+London close.
+The British pound trades most actively against the U.S. dollar during the European and London trading hours. There is also active trading during the U.S./European overlap, but besides those time frames, the
+pair tends to trade relatively lightly because the majority of GBP/USD trading is done through U.K. and European market makers. This provides a
+great opportunity for day traders to capture the initial directional intraday
+real move that generally occurs within the first few hours of trading in the
+London session. This strategy exploits the common perception that U.K.
+traders are notorious stop hunters. This means that the initial movement at
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+Technical Trading Strategies
+
+121
+
+the London open may not always be the real one. Since U.K. and European
+dealers are the primary market makers for the GBP/USD, they have tremendous insight into the extent of actual supply and demand for the pair. The
+trading strategy of waiting for the real deal first sets up when interbank
+dealing desks survey their books at the onset of trading and use their client
+data to trigger close stops on both sides of the markets to gain the pip differential. Once these stops are taken out and the books are cleared, the
+real directional move in the GBP/USD will begin to occur, at which point
+we look for the rules of this strategy to be met before entering into a long
+or short position. This strategy works best following the U.S. open or after
+a major economic release. With this strategy you are looking to wait for
+the noise in the markets to settle down and to trade the real market price
+action afterward.
+
+Strategy Rules
+Long
+1. Early European trading in GBP/USD begins around 1:00 a.m. New York
+
+time. Look for the pair to make a new range low of at least 25 pips
+above the opening price (the range is defined as the price action between the Frankfurt and London power hour of 1 a.m. New York time
+to 2 a.m. New York time).
+2. The pair then reverses and penetrates the high.
+3. Place an entry order to buy 10 pips above the high of the range.
+4. Place a protective stop no more than 20 pips away from your entry.
+5. If the position moves lower by double the amount that you risked,
+
+cover half and trail a stop on the remaining position.
+Short
+1. GBP/USD opens in Europe and trades more than 25 pips above the high
+
+of the Frankfurt and London power hour.
+2. The pair then reverses and penetrates the low.
+3. Place an entry order to sell 10 pips below the low of the range.
+4. Place a protective stop no more than 20 pips away from your entry.
+5. If the position moves lower by double the amount that you risked,
+
+cover half and trail a stop on the remaining position.
+
+Examples
+Let us go ahead and take a look at some examples of this strategy in action. Figure 9.11 is a textbook example of the strategy of waiting for the
+real deal. We see that the GBP/USD breaks upward on the London open,
+
+P1: JYS
+c09
+JWBK299-Lein
+
+122
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+FIGURE 9.11 GBP/USD May 2005 Real Deal Example
+(Source: www.eSignal.com)
+
+reaching a high of 1.8912 approximately two hours into trading. The currency pair then begins to trend lower ahead of the U.S. market open and
+we position for the trade by putting an entry order to short 10 pips below
+the Frankfurt open to the London open range of 1.8804 at 1.8794. Our stop
+is then placed 20 pips higher at 1.8814, while our take-profit order is placed
+at 1.8754, which is double the amount risked. Once the take-profit order on
+the first lot is fulfilled, we move the stop to breakeven at 1.8794 and trail
+the stop by the two-bar high. The second lot eventually gets stopped out at
+1.8740, and we end up earning 40 pips on the first position and 54 pips on
+the second position.
+The next example is shown in Figure 9.12. In this example, we also see
+the GBP/USD break upward on the London open, reaching a high of 1.8977
+right at the U.S. open. The currency pair then begins to trend lower during
+the early U.S. session, breaking the Frankfurt open to the London open
+range low of 1.8851. Our entry point is 10 pips below that level at 1.8841.
+Our short position is triggered, and we place our stop 20 pips higher at
+1.8861 and the first take-profit level at 1.8801, which is double the amount
+risked. Once our limit order is triggered, we move the stop to breakeven at
+1.8841 and trail the stop by the two-bar high. The second lot gets stopped
+out at 1.8789, and we end up earning 40 pips on the first position and 52
+pips on the second position.
+The third example is shown in Figure 9.13. In this example, we also
+see the GBP/USD break upward on the London open, reaching a high of
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+Technical Trading Strategies
+
+FIGURE 9.12 GBP/USD April 2005 Real Deal Example
+(Source: www.eSignal.com)
+
+FIGURE 9.13 GBP/USD March 2005 Real Deal Example
+(Source: www.eSignal.com)
+
+123
+
+P1: JYS
+c09
+JWBK299-Lein
+
+124
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+1.9023 right before the U.S. FOMC meeting. The currency pair then breaks
+lower on the back of the meeting, penetrating the Frankfurt open to the
+London open range low of 1.8953. Our entry order is already placed 10
+pips below that level at 1.8943. Our short position is triggered and we
+place our stop 20 pips higher at 1.8963 and the first take-profit level at
+1.8903, which is double the amount risked. Once our limit order is triggered, we move the stop to breakeven at 1.8943 and trail the stop by
+the two-bar high. The second lot gets stopped out at 1.8853, and we
+end up earning 40 pips on the first position and 90 pips on the second
+position.
+
+INSIDE DAY BREAKOUT PLAY
+Throughout this book, volatility trading has been emphasized as one of the
+most popular strategies employed by professional traders. There are many
+ways to interpret changes in volatilities, but one of the simplest strategies is
+actually a visual one and requires nothing more than a keen eye. Although
+this is a strategy that is very popular in the world of professional trading,
+new traders are frequently amazed by its ease, accuracy, and reliability.
+Breakout traders can identify inside days with nothing more than a basic
+candlestick chart.
+An inside day is defined as a day where the daily range has been contained within the prior day’s trading range, or, in other words, the day’s
+high and low do not exceed the previous day’s high and low. There need to
+be at least two inside days before the volatility play can be implemented.
+The more inside days, the higher the likelihood of an upside surge in volatility, or a breakout scenario. This type of strategy is best employed on daily
+charts, but the longer the time frame, the more significant the breakout opportunity. Some traders use the inside day strategy on hourly charts, which
+does work to some success, but identifying inside days on daily charts
+tends to lead to an even greater probability of success. For day traders
+looking for inside days on hourly charts, chances of a solid breakout increase if the contraction precedes the London or U.S. market opens. The
+key is to predict a valid breakout and not get caught in a false breakout
+move. Traders using the daily charts could look for breakouts ahead of major economic releases for the specific currency pair. This strategy works
+with all currencies pairs, but has less frequent instances of false breakouts in the tighter range pairs such as the EUR/GBP, USD/CAD, EUR/CHF,
+EUR/CAD, and AUD/CAD.
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+Technical Trading Strategies
+
+15:17
+
+Printer: Yet to come
+
+125
+
+Strategy Rules
+Long
+1. Identify a currency pair where the daily range has been contained
+
+within the prior day’s range for at least two days (we are looking for
+multiple inside days).
+2. Buy 10 pips above the high of the previous inside day.
+3. Place a stop and reverse order for two lots at least 10 pips below the
+low of the nearest inside day.
+4. Take profit when prices reach double the amount risked or begin to
+trail the stop at that level.
+Protect against false breakouts: If the stop and reverse order is triggered,
+place a stop at least 10 pips above the high of the nearest inside day and
+protect any profits larger than what you risked with a trailing stop.
+Short
+1. Identify a currency pair where the daily range has been contained
+
+within the prior day’s range for at least two days (we are looking for
+multiple inside days).
+2. Sell 10 pips below the low of the previous inside day.
+3. Place a stop and reverse order for two lots at least 10 pips above the
+high of the nearest inside day.
+4. Take profit when prices reach double the amount risked or begin to
+trail the stop at that level.
+Protect against false breakouts: If the stop and reverse order is triggered,
+place a stop at least 10 pips below the low of the nearest inside day and
+protect any profits larger than what you risked with a trailing stop.
+
+Further Optimization
+For further optimization, technical formations can be used in conjunction
+with the visual identification to place a higher weight on a specific direction
+of the breakout. For example, if the inside days are building and contracting toward the top of a recent range such as a bullish ascending triangle
+formation, the breakout has a higher likelihood of occurring to the upside.
+The opposite scenario is also true: if inside days are building and contracting toward the bottom of a recent range and we begin to see that a bearish
+
+P1: JYS
+c09
+JWBK299-Lein
+
+126
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+descending triangle is in formation, the breakout has a higher likelihood
+of occurring to the downside. Aside from triangles, other technical factors
+that can be considered include significant support and resistance levels.
+For example, if there are significant Fibonacci and moving average support zones resting below the inside day levels, this indicates either a higher
+likelihood of an upside breakout or at least a higher probability of a false
+breakout to the downside.
+
+Examples
+Let us take a look at a few examples. Figure 9.14 is a daily chart of the euro
+against the British pound, or the EUR/GBP. The two inside days are identified on the chart and it is clear visually that both of those days’ ranges, including the highs and lows, are contained within the previous day’s range.
+In accordance with our rules, we place an order to go long 10 pips above
+the high of the previous inside day at 0.6634 and an order to sell 10 pips
+below the low of the previous inside day at 0.6579. Our long order gets
+triggered two bars after the most recent inside day. We then proceed to
+place a stop and reverse order 10 pips below the low of the most recent
+inside day at 0.6579. So basically, we went long at 0.6634 with a stop at
+0.6579, which means that we are risking 45 pips. When prices reach our
+target level of double the amount risked (90 pips) or 0.6724, we have two
+
+FIGURE 9.14 EUR/GBP Inside Day Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+15:17
+
+Technical Trading Strategies
+
+Printer: Yet to come
+
+127
+
+choices—either close out the entire trade or begin trailing the stop. More
+conservative traders should probably square positions at this point, while
+more aggressive traders could look for more profit potential. We choose to
+close out the trade for a 90-pip profit, but those who stayed in and weathered a bit of volatility could have taken advantage of another 100 pips of
+profits three weeks later.
+Figure 9.15 is another example of inside day trading, this time using the
+daily chart of the New Zealand dollar against the U.S. dollar (NZD/USD).
+The difference between this example and the previous one is that our stop
+and reverse order actually gets triggered, indicating that the first move was
+a false breakout. The two inside days are labeled on the chart. In accordance with our rules, after identifying the inside days, we place an order
+to buy on the break of the high of the previous inside day and an order
+to sell on the break of the low of the previous inside day. The high on
+the first or previous inside day is 0.6628. We place an order to go long at
+0.6638 or to go short at 0.6618. Our long order gets triggered on the first
+day of the break at 0.6638 and we place a stop and reverse order 10 pips
+below the low of the most recent inside day (or the daily candle before the
+breakout), which is 0.6560. However, instead of continuing the breakout,
+the pair reverses and we close our first position at 0.6560 with a 78-pip loss.
+We then enter into a new short position with the reverse order at 0.6560.
+The new stop is then 10 pips above the high of the most recent inside day at
+
+FIGURE 9.15 NZD/USD Inside Day Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+128
+
+September 15, 2008
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+0.6619. When NZD/USD moves by double the initial amount risked, conservative traders can take profit on the entire position while aggressive traders
+can trail the stop using various methods, which may be dependent on how
+wide the trading range is. In this example, since the daily trading range
+is fairly wide, we choose to close the position once the price reaches our
+limit of 0.6404 for a profit of 156 pips and a total profit on the entire trade of
+78 pips.
+The final example uses technicals to help determine a directional bias
+of the inside day breakout. Figure 9.16 is a daily chart of EUR/CAD. The
+inside days are once again identified directly on the chart. The presence of
+higher lows suggests that the breakout could very well be to the upside.
+Adding in the MACD histogram to the bottom of the chart, we see that
+the histogram is also in positive territory right when the inside days are
+forming. As such, we choose to opt for an upside breakout trade based on
+technical indicators. In accordance with the rules, we go long 10 pips above
+the high of the previous inside day at 1.6008. Our short trade gets triggered
+first, but then our stop and reverse order kicks in. Our long trade is then
+triggered and we place our new stop order 10 pips below the low of the
+most recent inside day at 1.5905. When prices move by double the amount
+that we risked to 1.6208, we exit the entire position for a 200-pip profit.
+With the inside day breakout strategy, the risk is generally pretty high
+if done on daily charts, but the profit potentials following the breakout are
+
+FIGURE 9.16 EUR/CAD Inside Day Chart
+(Source: www.eSignal.com)
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+Technical Trading Strategies
+
+15:17
+
+Printer: Yet to come
+
+129
+
+usually fairly large as well. More aggressive traders can also trade more
+than one position, which would allow them to lock in profits on the first half
+of the position when prices move by double the amount risked and then
+trail the stop on the remaining position. Generally these breakout trades
+are precursors to big trends, and using trailing stops would allow traders
+to participate in the trend move while also banking some profits.
+
+THE FADER
+More often than not, traders will find themselves faced with a potential
+breakout scenario, position for it, and then only end up seeing the trade
+fail miserably and have prices revert back to range trading. In fact, even
+if prices do manage to break out above a significant level, a continuation
+move is not guaranteed. If this level is very significant, we frequently see
+interbank dealers or other traders try to push prices beyond those levels
+momentarily in order to run stops. Breakout levels are very significant levels, and for this very reason there is no hard-and-fast rule as to how much
+force is needed to carry prices beyond levels into a sustainable trend.
+Trading breakouts at key levels can involve a lot of risk and as a result, false breakout scenarios appear more frequently than actual breakout
+scenarios. Sometimes prices will test the resistance level once, twice, or
+even three times before breaking out. This has fostered the development
+of a large contingent of contra-trend traders who look only to fade breakouts in the currency markets. Yet fading every breakout can also result in
+some significant losses because once a real breakout occurs, the trend is
+generally strong and long-lasting. So what this boils down to is that traders
+need a methodology for screening out consolidation patterns for trades
+that have a higher potential of resulting in a false breakout. The following
+rules provide a good basis for screening such trades. The fader strategy is
+a variation of the waiting for the real deal strategy. It uses the daily charts
+to identify the range-bound environment and the hourly charts to pinpoint
+entry levels.
+
+Strategy Rules
+Long
+1. Locate a currency pair whose 14-period ADX is less than 35. Ideally
+
+the ADX should also be trending downward, indicating that the trend
+is weakening further.
+2. Wait for the market to break below the previous day’s low by at least
+15 pips.
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+130
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+3. Place an entry order to buy 15 pips above the previous day’s high.
+4. After getting filled, place your initial stop no more than 30 pips away.
+5. Take profit on the position when prices increase by double your risk,
+
+or 60 pips.
+Short
+1. Locate a currency pair whose 14-period ADX is less than 35. Ideally
+
+the ADX should also be trending downward, indicating that the trend
+is weakening further.
+2. Look for a move above the previous day’s high by at least 15 pips.
+3. Place an entry order to sell 15 pips below the previous day’s low.
+4. Once filled, place the initial protective stop no more than 30 pips above
+
+your entry.
+5. Take profits on the position when it runs 60 pips in your favor.
+
+Further Optimization
+The false breakout strategy works best when there are no significant economic data scheduled for release that could trigger sharp unexpected
+movements. For example, prices often consolidate ahead of the U.S.
+nonfarm payrolls release. Generally speaking, they are consolidating for
+a reason and that reason is because the market is undecided and is either
+positioned already or wants to wait to react following that release. Either
+way, there is a higher likelihood that any breakout on the back of the release would be a real one and not one that you want to fade. This strategy
+works best with currency pairs that are less volatile and have narrower
+trading ranges.
+
+Examples
+Figure 9.17 is an hourly chart of the EUR/USD. Applying the rules just
+given, we see that the 14-period ADX dips below 35, at which point we
+begin looking for prices to break below the previous day’s low of 1.2166
+by 15 pips. Once that occurs, we look for a break back above the previous
+day’s high of 1.2254 by 15 pips, at which point we enter into position at
+1.2269. The stop is placed 30 pips below the entry price at 1.2239, with the
+limit exit order placed 60 pips above the entry at 1.2329. The exit order gets
+triggered a few hours later for a total profit of 60 pips with a risk of 30 pips.
+Figure 9.18 is an example of the fader trading strategy on the short
+side. Applying the rules to the hourly chart of the GBP/USD, we see that the
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+Technical Trading Strategies
+
+FIGURE 9.17 EUR/USD Fader Chart
+(Source: www.eSignal.com)
+
+FIGURE 9.18 GBP/USD Fader Chart
+(Source: www.eSignal.com)
+
+15:17
+
+Printer: Yet to come
+
+131
+
+P1: JYS
+c09
+JWBK299-Lein
+
+September 15, 2008
+
+132
+
+15:17
+
+Printer: Yet to come
+
+DAY TRADING AND SWING TRADING THE CURRENCY MARKET
+
+14-period ADX dips below 35, at which point we begin to look for prices to
+break 15 pips above the previous day’s high of 1.8865 or below the previous
+day’s low of 1.8760. The break above occurs first, at which time we look for
+prices to reverse and break back below the previous day’s low. A few hours
+later, the break occurs and we sell 15 pips below the previous day’s low at
+1.8745. We then place our stop 30 pips away at 1.8775 with a take profit

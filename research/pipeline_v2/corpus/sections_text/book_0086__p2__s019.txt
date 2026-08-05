@@ -1,0 +1,509 @@
+If an investor thought the market was about to make a sharp move in
+either direction, would he consider a long at-the-money calendar spread
+or a short at-the-money calendar spread to take advantage of this?
+For Questions 13–16 assume the market has been going sideways for some
+time and that implied volatilities are very low.
+13. An investor buys the calendar spread, and the strike price is exactly the same as the underlying price. Specify the direction of the
+spread’s delta, gamma, theta, and vega.
+Delta: positive, negative, or neutral
+Gamma: positive, negative, or neutral
+Theta: positive, negative, or neutral
+Vega: positive, negative, or neutral
+14. An investor decides that the long calendar spread is the proper
+trade, but that the market has a slightly positive bias. Where should
+
+Final Exam Part I
+
+he locate his long calendar spread relative to the current underlying
+price?
+a. Above the current price
+b. At the current price
+c. Below the current price
+15. An investor correctly predicted that the market would go sideways
+and implied volatility would collapse, and he has a profitable atthe-money long iron butterfly. Now he believes volatility has gotten
+too low, and he would like to have a long volatility position. If he
+covered the short straddle component, this would leave him with a
+_____________ .
+16. An investor receives a sell signal indicating he can expect a sharp
+move down within twenty-four to forty-eight hours. He decides he
+wants to buy puts. What maturity level would be optimal, long-dated
+or short-dated?
+17. An investor wants to put on a bull spread. The call spread market is
+$3.55–$3.65, while the put spread market is $1.35–$1.40. The box is
+valued at $4.95. Should he buy the call spread or sell the put spread?
+18. An investor wants to initiate a bear spread. The call spread is
+$1.40–$1.50, while the put spread is $3.50–$3.60. The box value is
+$4.90. Should he sell the call spread or buy the put spread?
+19. If an investor had on the long XYZ Dec. 40/45/50/55 call condor, his
+maximum profit would be $5.00 ⫹ the premium paid to initiate the
+position. True or false?
+20. A covered call is a long stock and a short call. It has the same risk/
+reward profile as a synthetic __________ .
+21. Can a long jelly roll be viewed as a long or a short call time spread,
+and a long or a short put time spread?
+For Questions 22–25 consider the following position:
+Long 1 March 300/310 call vertical at $7.00
+Short 1 March 320/330 call vertical at $3.50
+22. What position is this?
+23. Risk is limited to ___________ .
+24. Loss begins above ____________ and below _____________ .
+25. The maximum profit is ____________ .
+
+251
+
+252
+
+Appendix
+
+For Questions 26–28 determine whether the strategies are bullish, bearish,
+and/or neutral in terms of directional bias.
+26. ⫹Oct. 50 call, ⫺Nov. 50 call (underlying at 45)
+27. ⫹95 put, ⫺90 put
+28. Short the 30/35/40 butterfly (underlying at 35)
+29. The short 60/65/70 call butterfly is a combination of the ___________
+spread and the ___________ spread.
+30. If an investor buys the at-the-money time spread, and the underlying stock moves significantly in either direction, would the spread
+increase or decrease in value?
+31. _______________ is the slope of the difference between the implied
+volatilities of different strike prices for a given expiration.
+32. Does the gamma of at-the-money options increase or decrease as expiration approaches, and does the gamma of in-the-money and out-ofthe-money options increase or decrease as expiration approaches?
+33. Which of the following would help a trader who is long strangles?
+a. The underlying market moves up sharply.
+b. Implied volatility begins to fall.
+c. The market moves down sharply.
+d. The underlying market trades in a small range between the strikes.
+34. What are the risks when implementing the following ratio spread?
+XYZ stock is trading at $27.75
+Buy 1 Sept. 25 call at $3.75
+Sell 3 Sept. 30 calls at $1.25 each
+a. Stock stays between $25.00 and $30.00.
+b. Stock climbs over $35.00.
+c. Stock drops to $25.00.
+d. Implied volatility increases.
+35. Buying a straddle is often done in anticipation of which: an increase
+or a decrease in implied volatility?
+36. A motive for putting on a backspread is the anticipation of a
+a. Stable market
+b. Gapping market
+c. Grinding trend
+d. Sideways market
+
+Final Exam Part I
+
+37. Where would a loss occur if an investor were selling the following
+butterfly?
+XYZ is trading at $34.75
+Sell 1 May 30 call at $5.125
+Buy 2 May 35 calls at $0.75 each
+Sell 1 May 40 call at $0.125
+a. $37
+b. $34
+c. $33
+d. $35
+38. When an investor buys an at-the-money time spread, the
+position is:
+a. Long vega, short gamma
+b. Long gamma, short vega
+c. Long vega, long gamma
+d. Short vega, short gamma
+39. If a long time spread widens on a down move, it could mean:
+a. Implied volatility increased.
+b. The delta of the spread is remaining constant.
+c. Theta increased.
+d. Vega decreased.
+40. The value of the 40/45 call vertical is $2.75, and the value of the 45/50
+call vertical is $1.875. What is the value of the 40/45/50 call butterfly?
+41. If an investor bought stock at $104.00 and sold a 100 strike call
+against it for $5.50, what is the break-even point (assume thirty
+days to expiration)?
+42. An investor has on the 110/120 collar. What spreads does he need to
+buy and to sell in order to roll the position to the next expiration cycle?
+43. An investor could roll the 90/95 reverse-collar by buying the 95/100
+vertical call spread. True or false?
+44. An investor is long a 75/80 call spread and would like to roll it up
+to the 80/85 call vertical. To accomplish this roll, he should sell the
+75/80/85 call butterfly. True or false?
+45. Combining a long time spread with a short time spread creates a
+__________ .
+46. If an investor has the 70/75/80 iron butterfly position on, what does
+she need to do to convert it to a bear spread?
+
+253
+
+254
+
+Appendix
+
+47. An investor has on a long butterfly position and wants additional
+range of coverage. He can purchase an additional butterfly and turn
+his position into a ______________ .
+48. If support levels are broken and an investor anticipates that the stock
+is going to continue to fall, he could initiate a put backspread just
+below each support level. True or false?
+49. A call ratio spread can be viewed as a ________________ with an
+extra short call at the upper strike.
+50. An upward sloping term structure refers to a situation in which longdated implied volatilities are much lower than shorter-dated implied
+volatilities. True or false?
+
+Final Exam Answer Key
+1. Higher
+2. e
+3. A call backspread would be incorrect, as a put backspread would be
+a possibility.
+4. False. Implied volatilities would be lower.
+5. Higher
+6. True
+7. c
+8. True
+9. Buy
+10. Call backspread
+11. Buy a further out-of-the-money call to create a long butterfly.
+12. Short at-the-money calendar spread
+13. Delta: neutral
+Gamma: negative
+Theta: positive
+Vega: positive
+14. Above the current price
+15. Long strangle
+16. Short dated
+17. Sell the put spread. (If the call spread ask price ⫹ the put spread bid
+price is greater than the box value, sell the put spread—$3.65 ⫹ $1.35 ⬎
+$4.95, so sell the put spread at $1.35.)
+18. Sell the call spread. (If the call spread bid ⫹ the put spread ask is
+greater than the box value, sell the call spread—$1.40 ⫹ $3.60 ⬎
+$4.95, so sell the call spread at $1.40.)
+19. False: $5.00 ⫺ the premium paid
+20. Short put
+21. Long, short
+22. Long condor
+23. $3.50 (amount paid for the condor)
+24. $326.50, $303.50
+25. $6.50
+
+Final Exam Part I
+
+26. Bearish
+27. Bearish
+28. Bullish or bearish
+29. Vertical bull, vertical bear
+30. Decrease
+31. Volatility skew
+32. Increase, decrease
+33. a, c
+34. b, d
+35. Increase
+36. b
+37. b, d
+38. a
+39. a, c
+40. $0.875
+41. $98.50 ($104 ⫺ $5.50)
+42. Buy the 110 put calendar spread; sell the 120 call calendar spread.
+43. False; he needs to sell the vertical call spread.
+44. True
+45. Jelly roll
+46. Close out the 70/75 bull put spread.
+47. Long condor
+48. True
+49. Bull call spread
+50. False. It occurs when short-dated implied volatilities are lower than
+longer-dated volatilities.
+
+255
+
+256
+
+Appendix
+
+FINAL EXAM PART II
+(Each question is worth 2 points)
+
+Scenario 1
+You have purchased 100 shares of XYZ stock at $45.50. You do not anticipate much movement over the next 30 days and elect to short the 47.50 call
+at $1.50.
+1. Explain two ways that the position can make money.
+2. Explain how the position can lose money.
+3. What is the position known as, and can it be considered a synthetic?
+4. The stock rallies to $48.50, breaking key resistance in the process, and
+you do not want to be called away on your long stock. The 47.50 call
+is now priced at $2.00 and the 50 call is priced at $0.75. What action
+can you take to protect your position?
+5. Describe the new risk-reward properties of the action taken in
+Question 4.
+
+Scenario 2
+You are looking at a market index currently trading at 1365. After doing your
+market analysis, you believe that the market can move lower to the 1300–1325
+area by expiration. There is a confluence of technical indicators showing that
+1300 is solid support. The two trades you are considering are purchasing the
+1350 put at $23.00 or purchasing the 1300–1350 put spread at $15.00.
+1. Based on your thesis, which trade would you prefer to initiate?
+2. The stock moves down as anticipated to 1300. What are two ways
+that you can “get out” of this position?
+3. Describe the Greeks of boxes.
+4. Assume you elected to “box” this trade. What are some risks associated with boxes?
+5. Break down all the synthetic positions in a long box.
+
+Scenario 3
+You have been long ABC stock in your family trust for many years. It has
+appreciated tremendously, and you figure that just as you have insurance
+
+Final Exam Part II
+
+on your home and car, you should implement an insurance plan on your
+investment in case a catastrophic event occurs.
+1. What can you do to protect your investment in ABC stock without
+too much capital outlay, and what is the strategy called?
+2. ABC stock is currently at $125.00. The six-month 100 put is trading
+at $3.00 and the six-month 135 call is trading at $6.50. Use these two
+options to construct your strategy and discuss the risk, reward, and
+break-even points.
+3. The stock drops below $100.00. You are quite pleased that the 100 put
+is now providing protection. However, you do not want to exercise
+the long 100 put and thus trigger a sale. What action can you take to
+avoid this?
+4. Describe the Greeks with this strategy.
+5. What is a similar strategy that can be implemented if a trader is short
+stock instead of long stock?
+
+Scenario 4
+You are a volatility trader. You seek to trade stocks that have a tremendous
+amount of movement in either direction.
+1. What basic strategies would you look to implement?
+2. A pharmaceutical company is subject to approval of what could be
+the next “wonder” drug. The stock has moved up in anticipation of
+approval, but approval would mean even more movement to the upside.
+If approval is not granted, you anticipate that the stock will correct. In
+any case a large move is on the horizon. The stock is at $100.00. The
+100 call is trading at $20.00, and the 100 put is trading at $19.00. What
+strategy can you use? Discuss the risk, reward, and breakeven.
+3. Approval for the drug is granted and the stock moves from $100.00
+to $120.00 on the day of the announcement. You are extremely excited
+that your hard work has paid off. Unfortunately, the 100 straddle that
+you purchased is trading at $40.00, only $1.00 more than you paid for
+it. What has happened?
+4. You liquidate your straddle. You believe the stock should move sideways now, but you want to give it a little room. The 100 put is trading at
+$5.00 and the 140 call is at $4.50 with the stock at $120.00. What can you
+trade? Discuss the risk, reward, breakeven, and exposure to vega.
+5. New developments are coming to light that could begin to move the
+stock. You don’t want to take off the position but are getting more
+
+257
+
+258
+
+Appendix
+
+concerned that volatility will begin to increase. The stock is still at
+$120.00. You want to take advantage of movement without the risk
+of having an intensive vega play like the 100 straddle you previously
+held. What can you do and what is that package called?
+
+Scenario 5
+Range-bound markets are your favorite. The idea of making money while
+the stock sits and not having unlimited loss exposure excites you.
+1. What kinds of limited-risk strategies can be used in range-bound
+markets?
+2. DEF stock is at $55.00. Use the following prices:
+Calls
+
+Strike
+
+Puts
+
+ⴙ3.50
+
+52.5
+
+ⴙ0.50
+
+ⴙ1.75
+
+55
+
+ⴙ1.35
+
+ⴙ0.75
+
+57.5
+
+ⴙ3.00
+
+What are the risk, reward, and break-even points if you were to
+purchase the 52.5/55/57.5 put butterfly?
+3. Where do you want the stock to be to realize your maximum gain?
+4. You don’t quite think that you are going to hit the bull’s-eye, and
+the stock could actually be in the small zone of 55–58. Can you trade
+another put butterfly that will increase the odds of making a profit,
+and what is that new position called?
+5. If you are long the 52.5/55/57.5 put butterfly and then sell the
+52.5/55/57.5 call butterfly, what is your position?
+
+Answer Key
+Scenario 1
+1. The position can make money if the stock remains unchanged at $45.50.
+The 47.50 call would expire out-of-the-money and you would retain
+the entire premium of $1.50. The stock could also rally up to $47.50, in
+which case you would have a $2.00 gain on the stock in addition to the
+$1.50 collected from the expiring call. This would be a total of $3.50,
+which represents the maximum reward for this strategy. In addition, a
+decline in volatility would reduce the option premium of the 47.50 call;
+depending on the price of the stock, this could also make money.
+
+Final Exam Part II
+
+2. This position is only partially hedged by the 47.50 call. The stock
+can drop by the amount of the call premium collected before the
+position begins to lose money. This is at $44.00 ($45.50 ⫺ $1.50),
+which represents the breakeven. If the stock drops any further,
+there is no more protection and you will lose dollar for dollar. In
+addition, a rise in volatility would increase the premium of the
+short call and depending on the stock price could also cause the
+position to lose money.
+3. This position is known as a covered call. This is actually a misnomer.
+The only party covered is your brokerage/clearing firm. They consider it a “covered” because you already have long stock in your
+account in case the call is assigned. It can also be referred to as a
+buy-write or covered-write. The position is synthetically known as
+a short put. Short options have unlimited risk (stock price to zero in
+this case). Covered calls are much riskier then they are perceived to
+be because the stock is not protected all the way down to zero, only a
+portion of it.
+4. The best way to protect your position is to roll up the 47.50 call. You
+can do this by purchasing the 47.50/50 call spread for $1.25. At this
+point you are now short the 50 call at $0.25 credit. Remember that
+you took in a $1.50 credit initially for the 47.50 call. You now have
+made $3.00 on the appreciation of the stock and could still collect a
+credit if the 50 call remains out-of-the-money at expiration.
+5. The new position allows the stock to move up to $50.00 without having
+to worry about being assigned. You are still holding a $0.25 credit, so
+the stock could move lower by this amount before you begin to give
+back profits. The breakeven of the new position is at $48.25. The maximum reward is $1.75 (50.00 ⫺ 48.50 ⫹ 0.25), which occurs at $50.00.
+Again, this is a synthetic short put, so there is risk if the stock drops all
+the way to zero.
+
+Scenario 2
+1. The 1300–1350 put spread for $15.00 is the better choice here. If the
+index drops to 1325, which is the top of the predicted zone, both
+the put spread and the 1350 put will be worth $25.00 at expiration.
+The put spread costs $15.00 versus $23.00 for the 1350 put. If the
+index drops to 1300, then both trades will be worth $50.00. This will
+be a profit of $35.00 for the put spread and $27.00 for the 1350 put.
+Breakeven is 1335 for the put spread versus 1327 for the 1350 put.
+2. The simplest way to get out of this position is by selling the 1300–
+1350 put spread. This may not be the best choice, however. If the
+index declines you will be dealing with in-the-money puts that have
+high deltas. Market makers will widen out the bid-ask spreads to
+compensate themselves for the higher delta risk. Thus, it might be
+more difficult to execute the put spread is when dealing with wider
+
+259
+
+260
+
+Appendix
+
+bid-ask spreads. The calls, on the other hand, will be out-of-themoney and have smaller deltas and thus tighter bid-ask spreads.
+It would be easier to execute the 1300–1350 call spread. Purchasing
+this would “box” the trade and lock in profits, although increase
+commission costs.
+3. Boxes do not have any delta, gamma, theta, or vega risk. They are
+considered “flat” positions. They may have exercise risk.
+4. Since we know the value of a box at expiration with certainty, the
+value of that box today is the present value of the difference between
+strikes (European style expiration). Boxes do have rho risk. Changes
+in interest rates will change the value of the box. Additional risks
+include pin risk at expiration and possible assignment risk if the box
+is American style.
+5. A long box consists of a long call spread and a long put spread. It also
+is a long combo at the lower strike and a short combo at the higher
+strike. It can be viewed as a reversal at the lower strike and a conversion at the higher strike with the stock canceling itself out. It can also
+be viewed as a long gut and a short strangle. Knowing all the synthetic relationships can help a trader lock in profits and reduce risk.
+
+Scenario 3
+1. A put with strike price below the current stock price can be purchased and a call with a strike price above the current stock price can
+be sold. This will provide downside protection, and the sale of the
+call will reduce the cost of the insurance. Depending on the strikes
+selected this can be implemented for a debit, for even money, or for a
+credit. This strategy is called a collar.
+2. Using these options, you can construct the collar for $3.50 credit. If
+the stock remains unchanged you will keep the entire premium of
+the collar, thus generating income in a sideways market. The maximum reward is at 135, where the stock gains $10.00 and you still
+keep the entire premium of the collar for a total gain of $13.50. On
+the downside there is protection if the stock drops down to $121.50,
+because you have collected $3.50 from the collar. There is a zone
+where you will lose until the stock drops below the put strike and
+then begins to protect dollar for dollar on the downside.
+3. The 100 put will have to be rolled down. This can be achieved by
+selling put spreads and collecting a credit. The credit you collect
+is like cashing in the insurance policy without giving up the full
+insurance.
+4. The Greeks can be very tricky with collars. The important thing to
+know is whether you are approaching a long option or a short option
+
+Final Exam Part II
+
+and whether it is a call or put. Knowing the basic properties of the
+Greeks, you can then figure out how they change. When the stock
+is anywhere between the strikes, you will have a net positive delta
+because of the long stock. If the stock drops below the put strike the
+long put will approach ⫺100 deltas, taking the position down to zero
+deltas and fully hedging the position. On the upside, the short call
+will approach negative deltas, taking the position to zero deltas, thus
+eliminating any more potential gains. Gamma, theta, and vega will
+increase in absolute terms as you approach a strike and then decrease
+as you move away.
+5. A reverse-collar can be implemented by shorting the downside
+put and buying the upside call. Because of how the equity skew is
+priced, this can almost always be achieved for credits and could offer
+good risk-reward parameters for traders who short stock.
+
+Scenario 4
+1. A trader that seeks volatility will be looking to trade strategies that
+have a great deal of exposure to vega. Two very vega-sensitive
+strategies involve straddles and strangles.
+2. The 100 straddle can be obtained by purchasing the 100 call and the
+100 put for a $39.00 debit. This strategy’s maximum risk is the debit
+paid, $39.00. The reward may be considered unlimited if the stock
+continues to rally. There are two break-even points: the strike plus
+the debit, 139, and the strike minus the debit, 61.
+3. The volatility of the options collapsed after the announcement. This
+is very typical. As people are placing their “bets” by purchasing
+puts and calls, market makers are increasing the premiums. When
+the announcement happens, people begin to cash in their winning
+“tickets” or unload their losing trades. This reduces the volatility and
+reduces option prices. This is the case here. Even though the movement that was anticipated occurred, the volatility was crushed and
+the position made very little money.
+4. Shorting the 100/140 strangle would be appropriate. The strangle
+would collect $9.50, which is your maximum reward. The break-even
+points are 100 ⫺ 9.50 ⫽ 90.50 and 140 ⫹ 9.50 ⫽ 149.50. This gives the
+stock some room to move without incurring losses. Since you are
+short options, the maximum risk is unlimited and the vega is negative. You want volatility to decrease.
+5. Purchasing the 120 straddle while still holding the short 100/140
+strangle would place you in the iron butterfly. This will result in
+profit if the stock moves up or down, away from the 120 strike, and
+gives you less exposure to vega in case you are wrong about the
+stock movement and volatility continues to decline.
+
+261
+
+262
+
+Appendix
+
+Scenario 5
+1. Butterflies, condors, and their iron equivalents are limited-risk strategies that can be used during sideways or consolidating markets.
+2. The put fly can be purchased for $0.80. This is the maximum loss.
+This is a 2.50-point butterfly, so the maximum gain is $1.70. The
+break-even points are the lowest strike plus debit, or 53.30, and the
+highest strike minus debit, or 56.70.
+3. With all butterflies, your maximum gain is realized at the middle
+strike.
+4. Purchasing the 55/57.5/60 put butterfly will turn your position into
+the 52.5/55/57.5/60 put condor, which realizes its maximum profit
+if the stock falls in the 55/57.5 zone, thus increasing your odds of a
+profit.
+5. You are short the 52.5/55 box and long the 55/57.5 box.
+
+Option Spread Strategies: Trading Up, Down, and Sideways Markets
+by Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson
+Copyright © 2009 by International Trading Institute, Ltd.

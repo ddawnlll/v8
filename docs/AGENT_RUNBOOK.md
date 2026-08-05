@@ -146,13 +146,13 @@ etc. still pass.
 
 Pinned interpretation:
 
-- Manifest constants (no fitting, no leakage): `max_spread_frac: float =
+- Manifest constants (no fitting, no leakage): `max_bar_range_frac: float =
   0.05`, `funding_window_bars: int = 1`.
 - A candidate is vetoed at admission with
   `reason_code = TRADABILITY_MASK_VETO` (kept counterfactual,
-  `NOT_EXECUTED`) when any of: `(high-low)/close > max_spread_frac` on the
-  entry bar; `StateQuality == DEGRADED` at decision time; entry bar within
-  `funding_window_bars` of a funding boundary.
+  `NOT_EXECUTED`) when any of: `(high-low)/close > max_bar_range_frac` on the
+  entry bar (detail `BAR_RANGE`); `StateQuality == DEGRADED` at decision time;
+  entry bar within `funding_window_bars` of a funding boundary.
 - The mask is data-plane, not a regime filter: implemented as deterministic
   vetoes in `RiskGate`-adjacent admission logic (lab), adding no degrees of
   freedom and no learned component.

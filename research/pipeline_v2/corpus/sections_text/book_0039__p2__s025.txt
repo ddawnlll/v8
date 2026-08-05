@@ -1,0 +1,317 @@
+
+Tests 1 through 3: Long-Emiy-at-Open
+Model Tested on Entry at Open, on Limit,
+and on Stop. Table 12-4 indicates that, in-sample, the model was strongly profitable
+for the NYFE (but not the S&P X0), the British Pound, the Deutschemark, the
+Japanese Yen, Palladium, most of the Wheats, Kansas Wheat, Cocoa, and Lumber,
+and Light Crude (if entry at open is omitted). Out-of-sample, the NYFE had no
+trades, the British Pound and the Deutschemark continued to be strongly profitable
+across all three order types, and many of the other markets in which strong in-sample
+profitability was observed had no trades. Out-of-sample, some markets that had not
+traded in-sample traded profitably (especially Unleaded Gasoline, Silver, and
+Coffee), which indicates that the model continued to perform well, not merely in a
+different time period, but on a different set of markets.
+
+Testi 4 through 6: Short-Entry-at-Open
+
+Model Tested on Entry at Open, on Limit,
+
+and on Stop. In-sample, the T-Bills, the Deutschema& the Swiss Franc, the
+Canadian Dollar, Pork Bellies, Oats, Kansas Wheat, Orange Juice, and Lumber all
+showed strong profits. The British Pound and Deutschemark held up out-of-sample.
+The Swiss Franc was profitable out-of-sample, hut only with the limit order. It lost
+when entry was at open or on stop. The other markets either did not trade out-of-sample or had losses. Out-of-sample, the NYFE traded strongly profitably across all three
+order types, but did not trade profitably in-sample.
+Figure 12-1 depicts portfolio equity growth for long trades taken with entry
+at open. As is evident, there was a steady, stair-like growth in equity, the stair-like
+
+Breakdown of Performance By Market and Test
+
+Portfolio Equity Growth for Long Model with Entry at the Open
+
+quality resulting from the small number of trades taken. The occasional, strongly
+profitable trade caused a sudden step up in equity. The least-squares line fitted to
+the equity curve reveals consistent growth in both samples, but slightly greater in
+the early years.
+The equity growth for the long model with entry on limit, which helps to
+control transaction costs, is shown in Figure 12-2. Again, the stair-like growth
+in equity is apparent. However, the equity growth was more even; i.e., there was
+no slowing down of growth in recent year-in fact, the fitted line is almost
+straight. Out-of-sample performance was almost identical to in-sample performance.
+Figure 12-3 shows portfolio equity growth for the best evolved short-enttyat-open model, evaluated with entry actually at the open. Again, the stair-like
+appearance is present. However, except for a strong spurt of growth between
+August 1989 and June 1993, the curve is essentially flat. Overall, the equity was
+seen rising, except for the flat regions.
+
+F I G U R E
+
+12-2
+
+Portfolio Equity Growth for Long Model with Entry on a Limit
+
+The Rules for the Solutions Tested
+Rules for Long Entry.
+
+The chromosome that represented the best solution for
+long entries at the open contained three genes. Each gene was composed of four
+numbers and corresponded to a specific rule.
+The numbers for Gene 1 were 4, 850,65, and 653, which specified an openinterest decline rule (case 4), a look-back of 34, and a threshold of 0.042, respectively. The last number (653) was not used or translated because the rule did not
+require three blanks to be filled in, only two. If this information is taken and translated into plain language, the rule says that the open interest must decline at least
+4.2% over the past 34 bars for the rule to evaluate as TRUE. In other words, the
+open interest 34 bars ago (relative to the current bar) minus the open interest 1 bar
+ago, divided by the open interest 34 bars ago, was greater than 0.042.
+The numbers for Gene 2 were 1, 256, 530, and 709. The fust number (1)
+specified a simple price comparison mle (case I). When the additional numbers
+were translated to the correct lookbacks and thresholds, it is apparent that this rule
+fires (evaluates as TRUE) when the close 3 days ago is greater than the close 14
+days ago plus 3.46 times the average true range.
+
+Porlfolio
+
+Equity Growth for Shot-l
+
+Model with Entry at the Open
+
+The numbers for Gene 3 were 5, 940, 47, and 610. Rule template 5 (case 5),
+which is the open-interest incline rule, was specified by the first number. Fully
+instantiating this rule reveals that the rule evaluates as TRUE if the market’s open
+interest has risen at least 5.6% in the past 44 days.
+If the conditions for all three rules, specified by Genes 1 through 3, were met
+on a given bar, a buy signal was generated.
+It is interesting that two rules involved open interest, a variable not usually considered in many popular approaches to trading. It is also noteworthy that the two
+open-interest rules, when put together, seem almost contradictory: The current open
+interest had to be greater than the open interest 44 bars ago, but less than the open
+interest 34 bars ago. The model appears to be somewhat trend-following in that a
+recent closing price had to be greater than an older closing price before an entry was
+taken. However, time was left for a small pull-back; i.e., the increase in price only had
+to be observed 3 bars ago, not in the current bar. The set of rules is not one that would
+be easy to discover in a normal manner, without the aid of a genetic algorithm.
+Rules for Shorf Enfry.
+
+A similar analysis can be done for the shorts as for the
+longs. The numbers corresponding to the chromosome that represented the best
+
+solution for short entries at the open were 5, 890, 391, and 532 (Gene 1); 5,705,
+760, and 956 (Gene 2); and 10, 163,999, and 196 (Gene 3). When the string of
+three genes was translated, it was revealed that two rules deal with open interest
+and one with the MACD oscillator. The first open-interest role states that the
+open interest 1 bar ago must be at least 38% greater than the open interest 38
+bars ago. The second open-interest rule states that the open interest 1 bar ago
+must be at least 75% greater than the open interest 25 bars ago. The third rule
+states that the slope of the MACD-with a shorter moving average length of 2
+and a longer moving average length of 50-must be down, suggesting a current
+downward trend. If the conditions for all three rules, specified by the three
+genes, were met on a given bar, a sell signal was generated. Again, these rules
+would not have been easily discovered when developing a trading model in a
+more traditional manner.
+
+CONCLUSION
+As was the case in our earlier study, the use of a GA to select and instantiate rule
+templates continued to work well as a means of developing a trading system, or,
+at least, an entry model. Results were still impressive, despite such problems as
+inadequate numbers of trades in many of the solutions generated. The approach is
+certainly one that can serve as the basis for further development efforts. In this
+exercise, only a small base of rule templates, involving such fairly simple elements
+as price comparisons, moving averages, and indicators, were used. Undoubtedly,
+much better results could be obtained by using a more sophisticated and complete
+set of role templates as grist for the genetic mill.
+
+WHAT HAVE WE LEARNED?
+. Long positions tend to perform better than short positions for the markets
+in our standard portfolio and with the models that were tested. Therefore,
+it is probably more worthwhile to place development efforts on a system
+that emphasizes the long rather than short side.
+. Genetic algorithms appear to be an effective means of discovering small
+inefficiencies that are buried in a mountain of efficient market behaviors.
+n When used correctly, and in such a manner as discussed above, overoptimization (curve-fitting) does not seem to be a serious problem, despite
+the optimization power of genetic algorithms. Restrictions on the number
+and complexity of the rules in any solution seems to be the key element
+in controlling the curve-fitting demon.
+. Evolution, as used herein, has the great benefit of producing explicit rules
+that can be translated into plain language and understood. Unlike neural
+
+network systems, the trading rules produced by GAS are not hidden in an
+inscrutable black box.
+. Using genetics in the manner described above has the benefit of producing a large number of distinct, yet profitable, solutions. It would be easy
+evolve and then put together a portfolio of systems.
+
+P A R T
+
+T H R E E
+
+.~
+
+THE STUDY OF EXITS
+Introduction
+
+I n Part II, the focus was on the timing of trade entries. The extent to which various
+methodologies are useful in the process of deciding when, where, and how to enter
+a trade was examined. Tests were conducted on everything from cycles to sunspot
+activity, from simple rule-based approaches to advanced genetic algorithms and
+neural networks. In order that a reasonably fair comparison of entry methods could
+be made, the exit strategy was intentionally kept simple and constant across all
+tests. A fixed money management stop, a profit target limit, and an exit at market
+after a given number of bars, or days, in the trade were used. In Part III, attention
+will be shifted to the problem of how to get out of a trade once in, i.e., to exit strategies, an issue that has often been neglected in the trading literature.
+THE IMPORTANCE OF THE EXIT
+In many ways, a good exit is more critical and difficult to achieve than a good entry.
+The big difference is that while waiting for a good opportunity to enter a trade, there
+is no market risk. If one opportunity to enter is missed, another will always come
+along-and a good, active trading model should provide many such opportunities.
+When a trade is entered, however, exposure to market risk occurs simultaneously.
+Failing to exit at an appropriate moment can cost dearly and even lead to the dreaded margin call! We actually know someone who made a quick, small fortune trading, only to lose it all (and then some) because the exit strategy failed to include a
+good money management stop! To get out of a trade that has gone bad, it is not a
+good idea to simply wait for the next entry opportunity to come along. Similarly,
+erring on the side of safety and exiting at the drop of a hat can also drain a trading
+
+282
+
+account, albeit less dramatically through slow attrition. The problem with frequent
+and hasty exits is that many small losses will occur due to the sacrifice of many
+potentially profitable trades, and trades that are profitable will be cut short before
+reaching their full profit potential. A good exit strategy must, above all, strictly control losses, but it must not sacrifice too many potentially profitable trades in the
+process; i.e., it should allow profitable trades to fully mature.
+How important is the exit strategy? If risk can be tightly controlled by quickly bailing from losing trades, and done in such a way that most winning trades am
+not killed or cut short, it is possible to turn a losing system into a profitable one!
+It has been said that if losses are cut short, profits will come. A solid exit strategy
+can, make a profitable system even more lucrative, while reducing equity volatility and drawdown. Most importantly, during those inevitable bad periods, a good
+exit strategy that incorporates solid money management and capital preservation
+techniques can increase the probability that the trader will still be around for the
+next potentially profitable trade.
+GOALS OF A GOOD EXIT STRATEGY
+There am two goals that a good exit strategy attempts to achieve. The first and
+most important goal is to strictly control losses. The exit strategy must dictate how
+and when to get out of a trade that has gone wrong so that a significant erosion of
+trading capital can be prevented. This goal is often referred to as money management and is frequently implemented using stop-loss orders (money management
+stops). The second goal of a good exit strategy is to ride a profitable trade to full
+maturity. The exit strategy should determine not only when to get out with a loss,
+but also when and where to get out with a profit. It is generally not desirable to
+exit a trade prematurely, taking only a small profit out of the market. If a trade is
+going favorably, it should be ridden as long as possible and for as much profit as
+reasonably possible. This is especially important if the system does not allow multiple reentries into persistent trends. “The trend is your friend,” and if a strong
+trend to can be ridden to maturity, the substantial profits that will result can more
+than compensate for many small losses. The protit-taking exit is often implemented with trailing stops. profit targets, and time- or volatility-triggered market
+orders. A complete exit strategy makes coordinated use of a variety of exit types
+to achieve the goals of effective money management and profit taking.
+KINDS OF EXITS EMPLOYED IN AN EXIT
+STRATEGY
+There are a wide variety of exit types to choose from when developing an exit
+strategy. In the standard exit strategy, only three kinds of exits were used in a simple, constant manner. A fixed money management exit was implemented using a
+stop order: If the market moved against the trade more than a specified amount.
+
+the position would be stopped out with a limited loss. A p&It rarget exit was
+implemented using a limit order: As soon as the market moved a specified amount
+in favor of the trade, the limit would be hit and an exit would occur with a known
+profit. The time-based exir was such that, regardless of whether the trade was profitable, if it lasted more than a specified number of bars or days, it was closed out
+with an at-the-market order.
+There are a number of other exit types not used in tbe standard exit strategy:
+trailing exits, critical threshold exits, volatility exits, and signal exits. A trailing
+exit, usually implemented with a stop order and, therefore, often called a trailing “top, may be employed when the market is moving in favor of the trade. This
+stop is moved up, or down, along with the market to lock in some of the paper
+profits in the event that the market changes direction. If the market turns against
+the trade, the trailing stop is hit and the trade is closed out with a proportion of
+the profit intact. A critical threshold exit terminates the trade when the market
+approaches or crosses a theoretical barrier (e.g., a trendline, a support or resistance level, a Fibonacci retracement, or a Gann line), beyond which a change in
+the interpretation of current market action is required. Critical threshold exits
+may be implemented using stop or limit orders depending on whether the trade
+is long or short and whether current prices are above or below the barrier level.
+If market volatility or risk suddenly increases (e.g., as in the case of a “blow-off
+top), it may be wise to close out a position on a volatility exit. Finally, a signal
+exit is simply based on an expected reversal of market direction: If a long position is closed out because a system now gives a signal to go short, or because an
+indicator suggests a turning point is imminent, a signal exit has been taken.
+Many exits based on pattern recognition are signal exits.
+
+Money Management Exits
+Every exit strategy must include a money management exit. A money management
+exit is generally implemented using a stop order. Therefore, it is often referred to
+as a money management stop. Such a stop closes out a trade at a specified amount
+of adverse excursion (movement against the trade), or at a specified price below
+(if long) or above (if short) the price at which the trade was entered. A money management stop generally stays in place for the duration of the trade. Its purpose is
+to control the maximum risk considered tolerable. Of course, the potential risk
+may be greater than what was expected. The market could go limit up (or down)
+or have a large overnight gap. Trading without a money management stop is like
+flying in a rickety old plane without a parachute,
+The issue is not whether a money management stop should be used. Rather,
+it is determining the optimal placement of the stop. There are many ways to decide
+where to place money management stops, The simplest placement occurs by
+assessing the maximum amount of money that can be risked on a given trade. For
+
+example, if a trade on the S&P 500 is entered and the trader is not be willing to
+risk more than $1,500, a money management stop that uses a $1,500 stop-loss
+order would be specified. If the market moves against the trade more than $1,500
+(three S&P points), the stop gets hit and the position is closed out. Another way to
+set the money management stop is on the basis of volatility. In volatile markets and
+periods, it may be a good idea to give trades more room to breathe, i.e., to avoid
+having the stop so close to the market that potentially profitable trades get stopped
+out with losses.
+A good way to set a money management stop is on the basis, of a price barrier, such as a trendline or support/resistance level. In such cases, the stop also
+serves as a critical threshold exit. For example, if there are a number of trend and
+support lines around 936.00 on the S&P 500, and a long position at 937.00 has just
+been entered, it might be worth considering the placement of a stop a little below
+936.00, e.g., at 935.50. Setting a protective stop at 935 is logical since a break
+through support suggests that the trend has changed and that it is no longer smart
+to be long the S&P 500. In this example, only $750 is at risk, substantially less
+than the $1,500 risked when using the money management stop that was based on
+a dollar amount. A tighter stop can often be set using a barrier or critical price
+model than would be the case using a simple dollar-amount model.
+As hinted above, setting a money management stop involves a compromise. It
+is good to have a very tight stop, since losing trades then involve only tiny, relatively
+painless losses. However, as the stop is righrened (i.e., moved closer to the entry or
+current price), the likelihood of it getting triggered increases, even if the market eventually moves in favor of the trade. For example, if a $50 stop loss is set, almost all
+trades on the S&P 500, regardless of entry method, will be stopped out with small
+losses. As a stop gets tighter, the percentage of winning trades will decrease. The stop
+eventually ends up sacrificing most of what would have been profitable trades. On the
+other hand, if the stop is too loose, although the winning trades are retained, the
+adverse excursion on those winners, and the losses on the losing trades, will quickly
+become intolerable. The secret is to find a stop that effectively controls losses with
+out sacrificing too many of the trades that provide profits.
+Trailing
+
+Exits
+
+A rrailing exit is usually implemented with a so-called trailing stop. The purpose
+behind this kind of exit is to lock in some of the profits, or to provide protection
+with a stop that is tighter than the original money management stop, once the market begins to move in the trade’s favor. If a long position in the S&P 500 is taken
+and a paper profit ensues, would it not be desirable to preserve some of that profit in case the market reverses? This is when a trailing stop comes in useful. If a
+$1,500 money management stop is in place and the market moves more than
+$1,500 against the trade, the position is closed with a $1,500 loss. However, if the
+
+market moves $1,000 in the trade’s favor, it might be wise to move the old money
+management stop closer to the market’s current price, perhaps to $500 above the
+current market price. Now, if the market reverses and the stop gets hit, the trade
+will be closed out with a $500 profit, rather than a $1,500 loss! As the market
+moves further in favor of the trade, the trailing stop can be moved up (or down, if
+in a short position), which is why it is called a trailing stop, i.e., it is racheted up
+(or down), trailing the market-locking in more of the increasing paper profit.
+Once it is in place, a good trailing stop can serve both as an adaptive money
+management exit and as a profit-taking exit, all in one! As an overall exit strategy,
+it is not bad by any means. Trailing stops and money management stops work hand
+in hand. Good traders often use both, starting with a money management stop, and
+then moving that stop along with the market once profits develop, converting it to
+a trailing stop. Do not be concerned about driving the broker crazy by frequently
+moving stops around to make them trail the market. If trading is frequent enough
+to keep commissions coming in, the broker should not care very much about a few
+adjustments to stop orders. In fact, a smart broker will be pleased, realizing that
+his or her client is much more likely to survive as an active, commission-producing trader, if money management and trailing stop exits are used effectively.
+How is the placement of a trailing stop determined? Many of the same principles discussed with regard to money management exits and stops also apply to
+trailing exits and stops. The stop can be set to trail, by a fixed dollar amount, the
+highest (or lowest, if short) market price achieved during the trade. The stop can
+be based on a volatility-scaled deviation. A moving threshold or barrier, such as a
+trend or Gann line, can be used if there is one present in a region close enough to
+the current market action. Fixed barriers, like support/resistance levels, can also be
+used: The stop would be jumped from barrier to harrier as the market moves in the
+trade’s favor, always keeping the stop comfortably trailing the market action.
+Profit Target Exits
+
+A projit target exit is usually implemented with a limit order placed to close out a
+position when the market has moved a specified amount in favor of the trade. A
+limit order that implements a profit target exit can either be fixed, like a money
+management stop, or be moved around as a trade progresses, as with a trailing
+stop. A fixed profit target can be based on either volatility or a simple dollar
+amount. For example, if a profit target of $500 is set on a long trade on the S&P
+500, a sell-at-limit order has been placed: If the market moves $500 in the trade’s
+favor, the position is immediately closed. In this way, a quick profit may be had.
+There are advantages and disadvantages to using a profit target exit. One
+advantage is that, with profit target exits, a high percentage of winning trades can
+be achieved while slippage is eliminated, or even made to work in the trader’s
+favor. The main drawback of a profit target exit is that it can cause the trader to

@@ -1,0 +1,207 @@
+out usually occurs only when there’s a change in trend. This is one of those setups where stops that are too tight will have a bad impact. Trade smaller size and let
+the trade work itself out.
+5. Bonus: if the move gets too near the lower band, indicating a potential change in trend, as happened at point B, the trader has the option of bailing out on the trade
+on a move back to the mean, closing out the trade at a “scratch” or small loss. Double bonus: A trader can also start out with half size, double up to full size on a
+move toward the lower band, then get out on a move back to the mean for a profit. This is one of my favorite ways to turn losing trades into small winners. The
+key, of course, is money management and fully understanding what a full-sized position means for your account. It does not mean “doubling up” to position sizes
+that are too large for your account. It is critical to still keep a hard stop in place during these types of trades.
+6. Another tip: one of the most common questions I get is something along the lines of, “What kind of stop would you use on the Swiss franc on the hourly chart?” or,
+“What kind of stop would you use on Amazon on a daily chart?” or even, “What kind of stop would you use on crude oil on a 512-tick chart?” or, perhaps,
+209
+
+something like, “What kind of stop would you use on the ES on a 15-minute chart?” or, quite possibly, something along the lines of, “What kind of stop would
+you use on the euro on a five-minute chart?” (After about the 10th time in a matter of minutes, I start to get a nervous tick in my left eye.) Here’s the answer: no
+matter what market you are looking at and no matter what your time frame, you can put a 14-period average true range indicator on your chart. Whatever that
+value is, double it, and you have your stop. Voilà!
+7. Also note that at point A, the market just runs away, and during a move like this, it’s typical not to get filled on a reversion to the mean for days, sometimes weeks
+at a time. This setup is geared to catch bits and pieces of a market that is in a quiet trend or quietly trading sideways. It’s not meant to capture momentum.
+8. Key point: the one major flaw with this setup is that it can miss entire big moves, as big moves will push beyond the ATR bands. This is where the squeeze comes
+into play, which we will look at next.
+
+This Sounds Awesome—Why Isn’t Everybody Doing This?
+Okay, at this point, you are probably thinking, “If it’s that easy, why isn’t everybody doing this setup?” Alas, a lot of people have tried. The concept of reversion to
+the mean is not original by any stretch of the imagination. There are two things that I’ve seen that throw traders for a loop on this setup. The first is the temptation, in
+referring to the same SF chart, for traders to short moves to the upper band in a clearly defined uptrend. Yes, it will work at times, but it’s inherently dangerous, as we
+saw at point A. Just go with the trend, don’t fight it. This also holds true for downtrending markets—there is little need to pursue a strategy of buying the lower bands
+when you can just short retracements back to the mean. That’s rule 1. (Advanced traders with large accounts and a scale in methodology can pull this off— shorting
+uptrends to the upper bands and buying downtrends to the lower bands. Newer traders with smaller accounts get chewed up and spit out trying to do this. However,
+using options, vertical credit spreads can safely be initiated at these levels, which I’ll discuss shortly.) The second rule is that this trade becomes irrelevant once a
+squeeze fires off.
+Figure 10.4 shows the SF daily chart with a squeeze at the bottom of the chart. I’ll explain the squeeze setup and mechanics in more detail in the next chapter. For
+now, here’s the short version. The darker-colored dots at point 1 indicate a tight compression of volatility that is about to be released. This compression lasts, in this
+case, for 13 bars. The first lighter-colored dot after the series of darker dots (as indicated at point 2) signifies that this energy is ready to be released. At this point in
+time, a trade is triggered. If the histogram is above zero at this time (as it is here), it indicates a long trade. If the histogram had been below zero, then it would have
+indicated a short trade.
+
+Figure 10.4
+
+210
+
+This squeeze is valid as long as the histogram continues moving higher. When the histogram finally loses momentum (as indicated by the darker-colored bars) the
+squeeze is no longer “in play.”
+There are a few key things to know about the squeeze in relation to the reversion to the mean trades, as well as some general tips on how I utilize this setup.
+1. I typically focus on reversion to the mean (RTM ) plays on daily charts only. I don’t use them on intraday charts. I will sometimes utilize weekly charts for longerterm plays.
+2. I look at various commodities, including stock index futures, and also individual stocks with this setup. For individual stocks, I’m utilizing these RTM setups to do
+option strategies, such as buying delta 0.70 options to capture the move back to the upper band (in the case of an uptrending stock).
+3. The RTM trade is valid all the time … except when a squeeze has fired off.
+4. Once a squeeze fires off, disregard the bands completely. They are now utterly worthless. The bands will not hold prices in check when a squeeze has fired off. In
+fact, once a squeeze has fired off (that’s what I call the first lighter-colored dot, such as point 2 in Figure 10.4), I just take the bands off the chart. Once the
+squeeze is over, I’ll put the bands back on the chart.
+5. For the squeeze, I’ll enter a trade for a directional momentum play. Here’s where it gets interesting.
+6. A squeeze actually expands the average true range of a market. This is why doing reversion to the mean trades during a squeeze is an exercise in futility. Imagine all
+the people out there trying to do these trades that don’t know about or understand the squeeze. This trade works out great for them 70 percent of the time, but
+then they give back all their profits and then some the remaining 30 percent of the time. This is typically when a squeeze is in play and they have no idea about
+the concept.
+7. For a squeeze, I generally like to scale out based on the concept of expanding average true range levels. For example, if and when the trade is up 1 average true range
+(in the case of the Swiss franc, 120 ticks), I’ll take off a quarter of the position. Then I’m looking to see if we can move to 2 ATR, or 240 ticks. If we get there, I’ll
+take off another quarter and tighten my stop to my entry. Then if we get to 3 ATR, I’ll take off another quarter. For the last piece, I’ll hold on until the
+momentum rolls over, as indicated by point 3 in Figure 10.4. Of course, if the squeeze loses momentum at any time during the trade, it means that the squeeze is
+over and it’s time to bail on the position, even if the first ATR target hasn’t been hit yet.
+In Figure 10.5, we have a daily chart of AM ZN with the RTM bands and the squeeze. At points 1 and 2, a squeeze fires off long. During this time, I buy in-themoney calls (delta of 0.70 or better) on AM ZN, and my plan is to scale out of the first part as we hit the various ATR levels, and then hang on to a chunk of it for the
+entire ride, which in the case of the first squeeze is considerable. This is the type of move where an option can go up 500 percent or more. AM ZN moves steadily
+higher from $125.00 a share to $160.00 a share in about one month. Note: with option plays on daily squeezes, plan on being in the trade for one to three weeks.
+Therefore, if you are one week out from expiration, go ahead and buy the options on the next month out. Of course, during this squeeze, the RTM bands are to be
+completely ignored until the squeeze loses momentum, as indicated by the two darker-colored momentum bars. Once this takes place, the squeeze is officially over,
+and we can go back to RTM trading. We did get another squeeze at point 2. This resulted in a nice pop in the stock, but the move was short-lived.
+
+211
+
+Figure 10.5
+For the reversion to the mean trades, there are examples at points 3, 4, 5, 6, and 7. The distance between the middle band and the upper band is about $6.00. In these
+cases, I’m buying in-the-money calls on pullbacks to the band, then closing them out when AM ZN moves up about $4.50. Remember, the bands are 1.5 times the
+ATR, and I’m interested in capturing only 1 ATR. With a delta 0.70 option, this means that I’m capturing $3.15 in the option. A typical scenario here would be
+buying a call option at $9.00 and then selling it a few days later for $12.15. One thing that is nice about RTM trades that go with the trend is that they are typically
+quick. This is great for option trading, as we already know how fast the clock is ticking on the premium decay from reading Chapter 5.
+At point 5, this trade gets stopped out. I bought the calls on the pullback to the mean, then the stock plummeted. Of course, a few days later it was back to its
+upper band again. This is why they call it “trading” and not “how to know exactly what’s going to happen next in the markets.”
+We’ve looked at plenty of uptrending examples, so let’s look at a downtrending example. Figure 10.6 is a daily chart of GS (Goldman Sachs), which on principle is a
+stock that I will only short. Now that we are familiar with this setup, I’ll start moving more quickly. At points 1, 2, 3, and 4, I’m able to buy in-the-money puts (yep,
+delta of 0.70) and close them out on a move back to the lower band. Trade 4 took nine days to hit its target, while the other trades all hit their targets in one to three
+days. At point 5, a squeeze fired off short, and it turned out to be a very quiet trade, in essence a normal reversion to the mean trade. That happens sometimes with a
+squeeze. Not every squeeze trade is a big trade, but a lot of big trades are the result of a squeeze. At point 6, I initiate another RTM trade, as the squeeze has lost
+momentum.
+I will use this setup on just about anything, although to reiterate, I do not follow it on intraday time frames. The daily chart is my first choice, although I will also
+check the weekly chart for longer-term plays. Are there other ways to utilize this setup with options? Absolutely.
+Figure 10.7 is a screen shot of AM ZN on a daily chart, rallying right into its upper band on October 12, 2011, as it hit a high of $241.84. On October 11, via our
+www.SimplerOptions.com options trading alert service, we placed an order to sell a vertical credit spread at $2.30 on the weekly options, which was the price that this
+spread would hit should AM ZN actually rally into that level. It did rally, and we got filled.
+For those who aren’t sure what “selling a vertical credit spread” means, I’ll do a quick walk-through. The goal with this trade is to sell premium and take advantage
+of the rapid premium decay into expiration. This is especially attractive when a stock gets extended (up or down) right into its TTM reversion bands. It’s even more
+attractive if this happens with only a few days until options expiration. With the advent of weekly options, these types of setups happen with increased frequency. The
+goal is to sell an at-the-money option (the higher-priced option), and then hedge your risk by buying the next strike out (the cheaper option).
+
+212
+
+Figure 10.6
+
+213
+
+Figure 10.7
+Figure 10.8 shows the actual position. At point 1, I’m short 100 of the 240 call options (shown as –100 on the TD Ameritrade thinkorswim platform). This means
+that I sold them to someone else, and I hope they expire worthless so that I can collect the entire premium. However, I didn’t want to have completely open exposure,
+either. What if AM ZN gapped up $50.00 the next day on some crazy news? I’d be hosed. That’s just not worth the risk, however unlikely the event. To protect
+myself and limit my losses, I also bought 100 of the 245 calls, as seen at point 2. This way, if AM ZN does skyrocket higher, my loss is limited, as the 245 calls would
+increase in value, and my loss would be limited to the spread between the two strikes. In this screen shot, you can see that I’m making money on the options I sold.
+They are up $31,300.00. I’m losing money on the options I bought; they are down $17,150.00. M y net profit on the trade is +$14,150.00. Since I sold this spread for
+$2.30, my maximum profit (should AM ZN close under $240) is $230 per contract, or $23,000 on 100 contracts. M y maximum loss is the spread difference (245 – 240
+= $5.00), which is 5.00 – 2.30 = $2.70, or $270 per contract. Of course, there is no need to hold the trade into expiration. If the spread is “in the money” there is a risk
+of being assigned the stock before expiration. This happens rarely but it happens, and isn’t a big deal. Once assigned the stock, you just close out the stock position.
+This is why I started www.SimplerOptions.com. There are a lot of ways to make option trading more complicated. This site is designed for both newer and advanced
+traders to “trade along” with our trades on a step by step basis and be able to ask questions and learn as you go.
+
+214
+
+Figure 10.8
+This “difference” between the two option prices is calculated continually, so it’s easy to track. Figure 10.9 shows the actual vertical price of the “240/245.” Since I
+sold it for 2.30, and it’s currently trading at 1.39 bid/1.56 ask, I’m up on the spread. M y stop loss on the spread was 3.50, and if the vertical combination had reached
+that level, I would have been stopped out. Once you understand the power of this concept, it then becomes a matter of just being patient and waiting for a nice
+extended entry, such as a slam into the one of the bands right before expiration.
+
+Figure 10.9
+Now that we have covered reversion to the mean, it’s time to dive into the squeeze. For more examples, visit www.tradethemarkets.com/rtm to see how this works
+across different markets. For traders interested in options, visit our sister website www.simpleroptions.com/trades for a series of video tutorials on the best ways to
+trade options.
+
+215
+
+11
+The Squeeze:
+What Is the Best Way
+to Get positioned for
+the Big Market Moves?
+Is It Better to Trade for Cash Flow or to Create Wealth?
+In the previous chapter, we discussed reversion to the mean (RTM ) trading, and how it’s the best type of trading to do “unless there is a squeeze.” And that really is
+trading in a nutshell—playing the reversion back to the mean via something like a pivot, an extreme $TICK reading, or an outer reversion band test, or riding a freshly
+released burst of momentum via something like the squeeze. If one of these isn’t being set up, then the other is. Be patient and pick your poison.
+The squeeze is a setup that I use for everything: day trading, swing trading, and position trading. It’s the best indicator I’ve found for setting up longer-term moves,
+especially on the larger daily, weekly, and monthly time frames. In fact, I find it very difficult to look at a chart without this indicator. It gives me a lot of information
+about the nature of the current market and time frame with a quick glance. We aren’t talking about “overbought or oversold,” which, like most Twitter updates, is both
+self-serving and useless. We are talking about seeing whether a market is neutral (in which case we focus on RTM trading) or, if it’s not neutral, whether it’s building
+up energy, about to release energy, or about to run out of energy. This is very useful information for deciding when and where to allocate trading capital, as well as
+deciding what type of trading strategy to utilize with that capital. Want one quick example of how this information is useful? You might think that when a trade is
+“about to run out of energy,” it is merely a signal to exit a current position. It is that, yes, but it is also so much more. When a squeeze is running out of energy, it’s
+also one of the best times to start selling options premium. (Buh-bam!) But I digress. We still need to discuss what a squeeze actually represents.
+In a nutshell, I like to use RTM trading for the creation of income (taking profits out of an account) and squeeze-type momentum trades on larger time frames for the
+creation of wealth (gradually building up the value of an account over time). Can a trader utilize squeezes on smaller time frames, though, for day trading? Like a fiveminute chart? Absolutely, and I’ll cover specific examples that utilize smaller time frames for day trading. But where this setup really shines is on the bigger time
+frames. Hourly charts, two-hour, daily, weekly, monthly … there is never any reason to not understand what is going on with the bigger time frames, and, should a
+squeeze be firing off on one of these larger time frames, there is never any reason to fight it on the lower time frames. For example, if a 60-minute chart has fired off a
+long squeeze on the S&P 500, then only the uninformed are pulling their hair out entering short signals on the five-minute chart during that time. “Jeez,” they say, “this
+thing just keeps going higher!” Yep.
+Even if a weekly squeeze is too long a time frame for your own trading plan, at the very least it pays to be aware of it so that you are not “fighting against it” on the
+smaller time frames. That is, if the weekly squeeze on AAPL has fired off a short signal (hey, it could happen), then why waste time buying the dips on the daily
+chart? These trades are very likely going to be stopped out until that weekly squeeze short signal is over. It’s as if one person offered you $8.00 an hour to flip
+burgers, and another guy offered you $100.00 an hour to do the exact same job. Which offer would you take? Fighting the weekly squeeze is like taking the $8.00-anhour job, when you could just “go with the squeeze” and get the $100.00-per-hour job. By following the larger time frames, a trader is always moving along the path of
+least resistance— trading in alignment with the larger time frames. Knowledge is power.
+On average, a squeeze signal lasts about six bars. This means that a signal on a monthly chart can last for six months, while a signal on a one-minute chart can last for
+six minutes. The signal is the same no matter what the time frame; it’s just the duration of “being in the trade” that changes.
+Why bother with swing trades and overnight exposure? I know that some traders freak out when they have overnight exposure, and that’s fine. I, for one, have
+trouble sleeping if I don’t have a position on. The benefit of these types of swing trades is that a person is “in” the market and already positioned for the move. While
+day traders can catch a few points here and there, it’s the swing traders that catch big multiday and even multiweek moves. It’s okay to prefer one type of trading over
+the other. The key with trading is to find the niche in which you will shine.
+The markets spend a lot of time in trading ranges, building up energy for their next major move. By the time the move fires off, it is usually out of the blue and
+violent, leaving many day traders behind. This includes the times when a market will gap open and then spend the rest of the day stuck in a narrow range, totally
+bypassing the day traders. That’s why we call this move a “gap and crap.” By keeping some exposure in positions on a swing-type basis, I will frequently participate
+in larger moves that leapfrog over many of the day traders. The secret to swing trading is realizing that “being positioned” is half the battle, and not stressing out over a
+position that is not working out right away. The markets never break when they are expected to, and they will do so only when they are good and ready, usually when
+the greatest number of people are unprepared. Sometimes being positioned means waiting weeks for the move to finally unfold. This requires patience and the ability
+to step aside and not obsessively stare at the charts all day. This is a huge problem for most traders. They sit back, they watch the charts, they get emotional, and they
+get faked out and close the trade. Typically, once that process has completed itself— faking out as many traders as possible—the markets will make their move. If
+everybody is expecting a move, then everybody will already be positioned for it. If everybody is positioned for a big down move, then everybody is already short and
+there is no one left to sell. It’s a great system. It’s also how the markets always have worked and always will work.
+One of the best trading books I’ve ever read on managing “swing trader anxiety” is called How I Made Two Million Dollars in the Stock Market, by Nicolas Darvas.
+This book was written a few decades ago and remains one of my favorites. It’s a quick, easy read and very entertaining. For anyone who has trouble hanging on to
+swing positions and jumps out too early, this book is a must read.
+It is important to position size correctly for swing trades. In general, if traders cannot sleep because they are worrying about their overnight positions, then they are
+trading too large in relation to their account size. Swing trades have larger stops, and their position size must be reduced accordingly. There is a very easy way to
+manage this—establish a monetary stop and work backward from there. For example, if traders are not willing to lose more than $500 on a trade, then all they have to
+do is look at the parameters for the setup and do the math to figure out the position size. Using $500 as a benchmark, a day trade that requires a 20-point stop in the
+mini-sized Dow futures would equate to a position size of five contracts. However, if a swing trade in the mini-sized Dow called for a 100-point stop, then these same
+traders are going to use one lot. M onetarily, these stops are identical because of the reduced position size on the swing trade.
+
+How Does a Trader Redefine Volatility and Use It to His Advantage?
+216
+
+The squeeze takes advantage of quiet periods in the market, when the volatility has decreased significantly and the market is building up energy for its next major move
+higher or lower. M y wife and I have three young children, and recently she deemed me responsible enough to watch them by myself on a Saturday at the house. After
+she left, I made sure all the doors that led outside and into the bedrooms were closed and locked so that I wouldn’t lose track of them. I discovered very quickly that if
+they were making noise, they were fine. But if things suddenly got very, very quiet, then something bad was fixin’ to happen. This is when I would come around the
+corner and see the two older ones trying to stuff the younger one into a potted plant. Energy, having been built up, was being released.
+For students of Bollinger Bands, periods of low volatility are identified as the times when the bands “move closer together.” This is the equivalent of “the kids being
+quiet around the corner.” That is, this particular market has gotten “too quiet” and is about to release a truckload of energy.
+This is always great in hindsight, but in real time, how does a trader know that the current narrowness of the Bollinger Bands is really narrow enough to qualify as
+low volatility and to qualify as “just about to release a lot of energy”? This setup answers that question by adding the Keltner Channels as well as a momentum index
+oscillator.
+For readers who are unaware of how these indicators work, I’ll take a few moments to explain them here. Bollinger Bands are a type of envelope that is plotted at
+standard deviation levels above and below a moving average. This produces an effect of having the bands widen during periods of higher volatility and contract during
+less volatile periods. During periods of lower volatility, in sideways-moving markets, the bands contract toward the moving average. Keltner Channels are based on a
+standard moving average. The actual band lines are offset from the central moving average value by a positive and negative standard deviation value to provide upper
+and lower bands. While the Bollinger Bands expand and contract as the markets alter between periods of high and low volatility, the Keltner Channels stay in more of a
+steady range. The momentum index oscillator is used to estimate the direction, velocity, and turning points of market movements. Does this make sense? If not, that’s
+fine. I don’t understand how electricity works, but I know when I plug my computer into an electric outlet, it will turn on. Now let’s look at how I use all this for a
+setup.
+The quiet periods I’m looking for are identified when the Bollinger Bands narrow in width to the point where they are actually inside of the Keltner Channels. This
+marks a period of reduced volatility and signals that the market is taking a significant breather, building up steam for its next move. The trade signal occurs when the
+Bollinger Bands then move back outside the Keltner Channels. I use a 12-period momentum index oscillator to determine whether to go long or short. If the oscillator is
+above zero when this happens, I go long; if it is below zero, I go short. These are all canned studies that come with most charting packages. For the parameters, I just
+use the default settings on TradeStation. These readings are 20 and 1.5 for the Keltner Channels and 20 and 2 for the Bollinger Bands. We also took an extra step and
+turned all these into an indicator that makes them easier to read on the chart; I’ll explain this in a moment.

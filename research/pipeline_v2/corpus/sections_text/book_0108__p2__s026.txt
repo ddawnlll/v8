@@ -1,0 +1,442 @@
+
+POSITION SIZING USED BY OTHER SYSTEMS
+The performance of the world’s greatest traders, in my opinion, has
+been driven by position sizing. However, let’s look at the systems
+we’ve been discussing throughout this book and at the position sizing that they use. In most cases that will be quite easy, because they
+don’t even talk about position sizing.
+
+308
+
+Stock Market Models
+
+William O’Neil’s CANSLIM Method
+William O’Neil does not address the issue of “how much” to own in
+any given position. He only addresses the issue of how many stocks
+to own. He says that even a multimillion dollar portfolio should
+onlv own six or seven stocks. People with a portfolio of $20,000 to
+$160,000 should limit themselves to four or five stocks. People with
+$5,000 to $20,000 should limit themselves to three stocks, while people with even less should probably only invest in two.
+This discussion sounds like the equal units approach with a
+slight twist. It suggests that you divide your capital into equal
+units, but that the number of units should depend upon the
+amount of money you have. A very small account should probably
+only have two units of perhaps $1,500 each or less. When you have
+about $5,000, then move to three units. Now you want each unit to
+grow to approach at least $4,000 per unit (i.e., you could afford to
+buv 100 shares of a $40 stock). When you can do this with five units
+($iO,OOO), then do so. At this point, you keep the same number of
+units until you can grow the size of a unit to about $25,000 to
+$50,000. At $50,000, you might want to move to as many as six or
+seven units.
+The Warren Buffett Approach to Investing
+Buffett is only interested in owning a few of the very best businesses-those that meet his exceptional criteria. He wants to own
+as much of those few businesses as he can, since it should give him
+excellent returns and he never plans to sell. Now that he has billions of dollars at his disposal, he can afford to own multiple companies. As a result, he simply adds more companies to his portfolio
+as they meet his criteria.
+This is a rather unique style of position sizing. However, Buffett
+is the richest professional investor in the United States (and the second richest man, after Bill Gates). Who can argue with that kind of
+success? Perhaps you should consider this~style of position sizing!
+Motley Fool Foolish-Four Approach
+In this approach you are only buying four stocks. 4s a result, the
+position-sizing methodology is an equal units approach-but again
+
+with a twist. This time the twist is to make one unit twice as big as
+the rest. This unit is used to purchase the stock with the best odds of
+giving you the biggest gain-the stock that has the second highest
+yield in the Dow 30 industrials. The remaining units are equal and
+only half as big. Since this method doesn’t have an exit point, it
+would be difficult to improve upon it through position sizing.
+Futures Market Models
+
+Kaufman Adaptive Moving-Average Approach
+Kaufman doesn’t really discuss position sizing in his book, Smarter
+Trading. He does discuss some of the results of position sizing such
+as risk and reward. By risk he means the annualized standard deviation of the equity changes and by reward he means the annualized
+compounded rate of return. He suggests that when two systems
+have the same returns, the rational investor will choose the system
+with the lowest risk.
+Kaufman also brings up another interesting point in his discussion-the 50.year rule. He says that levees were built along the
+Mississippi River to protect them from the largest flood that has
+occurred in the last 50 years. This means that water will rise above
+the levee, but not very often-perhaps once in a lifetime. Similarly,
+professional traders who design their systems properly may be
+faced with a similar situation. They may design their system carefully, but once in a lifetime they may be faced with extreme price
+moves that have the potential to wipe them out.
+Safety, as we have indicated by the various position-sizing
+models, relates directly to the amount of equity you have and the
+amount of leverage you are willing to risk. As your capital grows,
+if you diversify and deleverage, then your capital will be safer. If
+you continue to leverage your profits, then you risk the chance of a
+complete loss.
+Kaufman suggests that you can control your worst-case risk
+by looking at the standard deviation of your risk when testing at
+the selected leverage level. For example, if you have a 40 percent
+return and the variability of your drawdowns suggests that 1
+standard deviation is 10 percent, then you know that in any given
+year:
+
+CHAPTER I?
+
+310
+
+. You have a 16 percent chance (1 standard deviation) of a 10
+
+percent drawdown’
+. You have a 2.5 percent chance (2 standard deviations) of a
+20 percent drawdown
+. You have a 0.5 percent chance (3 standard deviations) of a
+30 percent drawdown
+These results are excellent, but if you believe you will be in serious
+trouble if you lose 20 percent or more, Kaufman suggests that you
+only trade a portion of the funds allocated to you.
+Kaufman also talks about asset allocation,s which he defines
+as “the process of distributing investment funds into one or more
+markets or vehicles to create an investment profile with the most
+desirable return/risk ratio.” Asset allocation may simply amount
+to trading half of vour capital with one active investment (i.e., a
+stock portfolio) while the rest of your capital is in short-term yieldbearing instruments such as government bonds. On the other
+hand, asset allocation may involve combining many investment
+vehicles in a dynamic approach-such as actively trading stocks,
+commodities, and the forex market.
+It’s clear from Kaufman’s discussion, although he doesn’t
+state it directly, that he is used to using the first position-sizing
+model-the one unit per so much capital. His form of reducing risk
+is simply to increase the capital required to trade one unit.
+Gallacher’s Fundamental Trading
+Gallacher actually has an extensive chapter on position sizing in his
+book, Winner Take All. He says that risk is directly related to exposure in the market and he appears to detest the percent risk model
+presented here because it does not control exposure. For example,
+3 percent risk on any size account could be 1 unit or 30 units
+depending upon where your stop is. There is no way, Gallacher
+argues, that the risk with 1 unit is not less than the risk in 30 units.
+For example, he states, “an account trading one contract of a commoditv and risking $500 is a much less risky proposition than an
+account trading two contracts of that same commodity and riski&
+$250 on each,” Gallacher’s statement is true, and everyone accepting the percent risk model should understand it. The stop is only
+the price at which your broker is told to sell. It does not in any way
+
+What Do You Mean Position Siring?
+
+311
+
+guarantee that price. This is one reason we recommend the percent
+volatility model for anyone who wants to trade tight stops.
+Gallacher also points out that your risk increases not only with
+exposure, but also with time. The longer you trade the market, the
+greater the opportunity you have to be exposed to a tremendous
+price shock. A trader, trading one unit with all the money in the
+world, could eventually lose everything, Gallacher believes. That
+belief probably is true for most traders, but not all traders,
+Trading different investments, Gallacher contends, only
+speeds up the effects of time. He argues that trading N positions for
+1 year is the same as trading one position for N years in terms of the
+potential equity drawdown.
+Gallacher recommends that you find the largest expected
+equity drop (LEED) that you will tolerate-perhaps 25 percent or
+perhaps 50 percent. He asks that you assume that this LEED will
+occur tomorrow. It probably won’t, but you need to assume that it
+will occur.
+He goes on to calculate a distribution of potential drawdowns
+by using the system’s expectancy and the possible distribution of
+daily ranges for various commodities. He then recommends a mtiimum trading amount for various commodities so as not to experience a 50 percent drawdown. In other words, Gallacher is recommending a version of the typical one unit per so much equity in
+your account, but that amount varies depending upon the daily
+volatility of the investment.
+The amount needed per unit of trading also differs depending
+upon whether you are trading one, two, or four simultaneous units.
+For example, he would recommend one unit per $40,000 for each
+$1,000 in daily range traded if the instrument is traded by itself. He
+recommends one unit per $28,000 for each $1,000 in daily range
+traded if the instrument is traded with one other. And, lastly, he recommends one unit per $20,000 for each $1,000 in daily range when
+traded with three other, instruments.
+Let’s look at an example by looking at corn. Suppose the current price of corn varies by 4 cents per day. This amounts to a daily
+price variation of $200 (since one unit is 5,000 bushels). Based on
+Gallacher’s model, since $200 is 20 percent of $1,000, you could
+trade one unit with 20 percent of $40,000 or one unit per $8,000. If
+you were trading corn with one other instrument, you could trade
+
+PART
+
+312
+
+3
+
+Understandiig
+
+the Key Parts of Your System
+
+one unit per $5,600. And if you were trading with three other simultaneous instruments, you could trade one unit per $4,000.
+Gallacher’s method is an excellent variation of the one-unitper-so-much-equity model, because it equates the various instmments according to their volatility. Thus, his method overcomes
+one of the basic limitations of that model. It does so by adding some
+complexity, but nevertheless it’s an interesting way to trade.
+Ken Roberts’ l-Z-3 Methodology
+Roberts’ first position-sizing principle is that you don’t need much
+money to trade commodities.9 He answers the question of how
+much by saying only trade one contract. Unfortunately, he’s catering to people who only have $1,000 to $10,000 in their account.
+Thus, the primary position-sizing rule is only trade one contract.
+Roberts does say that one shouldn’t take any risk over $1,000,
+which means that he avoids certain commodities like the S&l’s,
+deutschemark, yen, and perhaps even coffee-because the risk
+involved would typically be greater than $1,000. This statement
+makes Roberts sound conservative. Roberts does not include a
+position-sizing algorithm in his system. This can be dangerous, in
+my opinion, because you might still take a position in the market
+when most position-sizing algorithms would indicate that you
+should not do so.
+NO
+S
+_.T E
+-It’s not even a good exit methodology, as explained in the exit
+chapter, because you take losses with a full position and you take
+your maximum profits with only a partial position.
+See William Ziemba, “A Betting Simulation, the Mathematics of
+Gambling and Investment, Gambling Times, 1987,80, pp. 46-7.
+When this chapter was first written, an S&l’contract
+amounted to
+about $450,000 worth of stock. However, the contract has since been
+reduced in size by 50 percent.
+Athena is a trademark of Athena Management
+Systems. Athena is the
+goddess of wisdom, and the software, in my opinion, is indeed wise.
+You can see a demonstration of Athena at our web site at
+httD: / /www.iitm.com.
+
+CHAI’ER
+
+12
+
+What Do You Mean Position Siring?
+
+313
+
+5. TradeStation is a registered trademark of Omega Research.
+6. I originally used a random entry study with various futures contracts
+in this chapter. In that study, with over 10 years of data, we showed
+returns ranging from $382,853 to nearly 1,700 times that amount at
+$640 million. Again, those returns were all achieved on the same
+signals and the only difference was the position-sizing algorithm. I
+elected not to include those results in this chapter because I felt
+people would complain that they were not realistic. Again, my
+purpose was not so much to show spectacular results as it was to
+show how much impact position sizing can have. As a result, I
+substituted those results in this chapter with the results using the
+Dow 30 stocks. You can still see the other study on our web site at
+http://www.iitm.com.
+7. You can figure it this way: 68 percent of the variability falls between
++ 1 and -1 standard deviation, so 32 percent remains. This also
+means that there is 16 percent (half of 32 percent) beyond 1 standard
+deviation of 10 percent. In the same way, 95 percent of the returns will
+fall between + 2 and -2 standard deviations. Thus, half of 5 percent
+leaves 2.5 percent outside of ~2 standard deviations. Lastly, 99 percent
+falls between + 3 and -3 standard deviations. Thus, by the same
+logic, only 0.5 percent of the results will be worse than -3 standard
+deviations. However, Kaufman is making the assumption that returns
+are normally distributed. Since market prices are not, returns may not
+be either.
+8. Asset allocation was shown by Brinson, Singer, and Beebower
+(“Determinants of Portfolio Performance 11: An Update.” Financial
+Annlysk Journal, 1991,47,40-49) to account for 91.5 percent of the
+variability of returns of 82 pension plans over a lo-year period. Stock
+selection and other types of decision making had very little influence
+on the returns. Brinson et al.‘s definition of “asset allocation” was
+really position sizing-since it just indicated what percentage of the
+capital was in stocks, bonds, and cash. Professionals then became
+very excited about asset allocation, but its meaning was changed to
+reflect the lotto bias-it now seems to mean “selecting the right
+assets.”
+9. In my opinion, this assumption allows a lot of people to trade and
+makes it seem as if there is little risk involved. Readers of this book
+should be able to judge the risk of this assumption for themselves at
+this point.
+
+CHAPTER 13
+
+Conclusion!
+
+To be a money master, you must first be a self-master.
+,. P A4orp
+If you understand the psychological foundation for system design,
+then I’ve accomplished a major objective in writing this book. The
+source of the Holy Grail is inside you. You must assume total
+responsibility for what you do and for what happens to you. You
+must determine what you want from a system and detail a plan
+with the appropriate objectives. You must have a way to “cut your
+losses short and let your profits run, ” which is all about exits. Exits
+are a major part of developing a high positive expectancy system.
+If you understand the six key elements of making money in
+the market and their relative importance, then I’ve met a second
+objective in writing this book. Those six key elements include (1)
+system reliability, (2) reward-to-risk ratio, (3) cost of trading, (4)
+your trading opportunity level, (5) the size of your equity, and (6)
+your position-sizing algorithm. You should understand the relative
+importance of each of these factors and why successful trading isn’t
+about “being right” or “being in control” of the market.
+Lastly, if you have a good plan in mind about how to develop
+a trading system that will meet your objectives, then I’ve met my
+third key objective in writing this book. You should understand the
+
+CHAPTER
+
+13
+
+Conclusion!
+
+315
+
+parts of a trading system and the role that each part plays. If not,
+then review Chapter 4. You should know how setups, timing, protective stops, and profitable exits combine to create a high
+expectancy system. You should understand the key role that opportunity plays and how it relates to trading cost. And most importantly, you should understand how important the size of your trading equity is and how it relates to various anti-martingale
+position-sizing algorithms.
+If you have met those three key objectives, then you have a
+wonderful start. However, there is still much to learn in your trading journey that is beyond the scope of this book. As a result, I want
+to provide a brief overview of some of those areas in this final chapter. Since there is so much material to cover, I’ve elected to cover it
+in a question-and-answer format, which allows me to be extremely
+focused and to the point.
+So if someone understands everything covered in this book, then
+what’s left? It seems quite extensive.
+
+A number of areas remain. We’ve talked about what’s involved in
+a trading system and the relative importance of each element.
+However, we haven’t extensively discussed data, software, testing
+procedures, order execution, portfolio design, and managing other
+people’s money. We’ve touched on those topics, but not in depth.
+Most importantly, we haven’t discussed the process of trading at all
+and all of the psychological elements that are involved with discipline and the day-to-day details of trading or investing.
+Okay, so let’s take each of those topics one by one. Where can
+readers get more information, and what information do they
+need to know? Let’s start out with data.
+
+The topic of data is a broad one and could be the basis for a minibook. First of all, you must understand that data only represent the
+market. The data are not the actual market. Second, data may not
+really be what they appear to be. By the time the average person
+gets market data, there are usually a number of sources of potential
+
+316
+
+PART 3
+
+Understanding the Key Pars of Your System
+
+errors. Consequently, if you get data from two different vendors
+and run the exact same system over the exact same markets and
+years, you can come up with different results. The reason will be
+differences in the data. Obviously, this affects both your historical
+testing and your day-to-day trading.
+There are basically two conclusions you will eventually make
+about data. First, nothing in this business is that exact. Second, you
+need to find reliable vendors and be certain that they stay reliable.
+We’ve written a newsletter about data which I’ll be happy to send
+you for free. The address and phone number are in the back of the
+book.
+
+Okay, what about software? What should people look for in software?
+
+CHAFER
+
+13
+
+Conclusion!
+
+31,
+
+because we were just looking at the accuracy of collecting on-line
+data. However, we were using some well-known, very popular
+software to do the data collection and run the simple system. Yet
+when that software was run in real time, it got one set of results.
+When that software was run again in a historical mode on the same
+data it had collected, it got a different set of results. That shouldn’t
+happen, but it did. And in my opinion, that’s quite scary.
+If you approach the world of trading and investing as a perfectionist, you will be frustrated over and over again. Nothing is
+exact. You can never know how it will really turn out. Instead,
+trading is very much a game of discipline, of being in touch with
+the flow of the markets, and of being able to capitalize upon that
+flow. People who can do that can make a lot of money in the markets.
+
+That sounds very pessimistic. Why test at all?
+
+The news is not that great. Most software is designed to appeal to
+people’s psychological weaknesses. Most of it optimizes results to
+make you think that you have a great system when you may not
+even have a profitable system. The software typically tests one
+market at a time over many years. That’s not the way professionals
+trade. But it will allow you to get very optimistic results because
+those results are curve-fitted to the market.
+I would strongly recommend that you at least be aware that
+this is what most of the software does. In addition, you need software that will help you concentrate on the more important elements of trading or investing--such as position sizing. I strongly
+recommend the Athena software in this regard. I helped initiate the
+deyelopment of this software because we were unable to find other
+so&are to help people size their positions, and adequately test the
+results of various position-sizing algorithms.
+
+% you can get an understanding of what works and what doesn’t
+work. You shouldn’t believe everything I’ve told you. Instead, you
+need to prove to yourself that something is true. When something
+seems reasonably true, then you can develop some confidence in
+using it. You must have that confidence or you’ll be lost when you
+are dealing with the markets.
+You probably cannot be exact. But no science is exact. People
+used to think that physics was exact, but now we know that the
+very act of measuring something changes the nature of the observation. Whatever it is, you are a part of it. You cannot help that
+because it is probably the nature of reality. And it again illustrates
+my point about the search for the Holy Grail System being an inner
+
+What about testing? What do people need to know about testing?
+
+Are there any more issues around testing?
+
+Testing is not exact. We used a well-known software program and
+ran a simple program that entered the market on a two-day breakout and exited after one day. The program~was really simple
+
+Yes, there are a lot of issues around robustness, knowing what you
+
+search.
+
+want, statistics. These are way beyond the scope of this book, but
+we do tend to cover them in our newsletter. In fact, we periodically
+
+318
+
+CHAPTER
+
+take people through the process of designing a system around a
+particular concept.
+
+chance, when you trade a portfolio of markets, to open up many
+more trading opportunities. That means you will get your big
+trade-perhaps several of them in a year. It means you might have
+enough opportunity to never have a losing quarter or perhaps a
+losing month.
+Multiple systems give you the same advantage-more opportunity. Multiple systems can be particularly good if they are noncorrelated. It means that you will always have some winners. Your
+drawdowns will be less or nonexistent. And if that occurs, you will
+have a much greater capital base to come from (for position sizing)
+when a giant winner comes along.
+I think that people who understand these principles can easily
+make 50 percent per year. I already have some supertraders in my
+program who are doing much better than that, and we are going to
+prove the point much more extensively in the future. However, one
+of the keys to making all this happen is having sufficient funds. If
+your snow wall is too small, you’ll get wiped out by the first big
+black snowball that comes along. And that will occur no matter
+how good your system is or how well prepared you are.
+
+Okay, let’s talk about order execution.
+Order execution is important from the viewpoint of communication. You must have a broker who understands what you want and
+what you are trying to do. When you can communicate that, you
+will get help in what you are trying to do.
+So what does that mean?
+Well, first you must know your system inside out. You must understand your concept. Then you must convey what you are doing to
+your pit broker and what you expect from him or her. For example,
+if you are a trend follower and you are trading breakouts, you will
+want to trade real breakouts, Communicate that to your broker. You
+can find someone who will act with a little discretion on your order.
+If the market is really moving, you’ll be executed. But if a few
+traders are just testing new high prices, then you don’t want to be
+executed because the market won’t have any follow-through. If you
+communicate that to your broker, you can get the kind of service
+that will put you only in the kind of markets you want. If you don’t
+communicate what you want, you won’t get that kind of service.
+Your broker also needs to know what you will pay for execution What I just talked about is great for a long-term trend follower,
+but is terrible for a day trader. A day trader just needs good execution with a minimum of cost and a minimum of slippage. However,
+you will never get minimum costs unless you communicate that to
+your broker.
+What about portfolio testing and~multiple systems?
+Again, we have a potential topic for a book. But think about the
+opportunity factor that we’ve discussed in this book. You have a

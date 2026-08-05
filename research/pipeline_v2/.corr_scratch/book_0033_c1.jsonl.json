@@ -1,0 +1,422 @@
+[
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_069",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_070",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_2_068",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_071",
+  "verdict": "corroboration",
+  "behavior_id": "mean_reversion_band",
+  "page": 111,
+  "exact_text": "Look for reversal in oscillators (RSI or stochastics at extreme point).",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_072",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 111,
+  "exact_text": "Enter on a break of significant high or low.",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_078",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 122,
+  "exact_text": "looking for opportunities to buy on dips",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_083",
+  "verdict": "corroboration",
+  "behavior_id": "mean_reversion_band",
+  "page": 122,
+  "exact_text": "locate a currency pair that is trading well below its intraday\n20-period simple moving average",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "SMA period",
+    "value": "20",
+    "page": 122
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_084",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_085",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_086",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_088",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_089",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_090",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 135,
+  "exact_text": "An inside day is defined as a day where",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_091",
+  "verdict": "corroboration",
+  "behavior_id": "volatility_breakout",
+  "page": 135,
+  "exact_text": "Buy 10 pips above the high of the previous inside day.",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "entry offset (pips)",
+    "value": "10",
+    "page": 135
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_092",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_093",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 135,
+  "exact_text": "indicating that the first move was\na false breakout",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_094",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_095",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 135,
+  "exact_text": "if prices do manage to break out above a significant level, a continuation\nmove is not guaranteed",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_096",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 135,
+  "exact_text": "Look for a move above the previous day’s high by at least 15 pips.",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "breakout threshold (pips)",
+    "value": "15",
+    "page": 135
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_097",
+  "verdict": "corroboration",
+  "behavior_id": "failed_breakout_reentry",
+  "page": 148,
+  "exact_text": "The break above occurs first, at which time we look for\nprices to reverse and break back below the previous day’s low",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "breakout threshold (pips)",
+    "value": "15",
+    "page": 148
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_098",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 148,
+  "exact_text": "make a new two-day low\nand then rally back beyond the previous 20-day high",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "pullback period (days)",
+    "value": "2",
+    "page": 148
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_099",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_100",
+  "verdict": "corroboration",
+  "behavior_id": "trend_continuation_pullback",
+  "page": 148,
+  "exact_text": "reversed over the\nnext two days to break below the original 20-day low",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_101",
+  "verdict": "corroboration",
+  "behavior_id": "trend_following_channel",
+  "page": 148,
+  "exact_text": "identify situations where the price is trading within a narrow channel, and\nthen trade in the direction of a breakout from the channel",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_102",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_103",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_104",
+  "verdict": "corroboration",
+  "behavior_id": "line_crossover_momentum",
+  "page": 148,
+  "exact_text": "Buy five candles after the initial formation of the perfect order (if it still\nholds)",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "entry delay (candles)",
+    "value": "5",
+    "page": 148
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_105",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_106",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 148,
+  "exact_text": "when an economic number deviates significantly from the\nconsensus forecast, there is usually a knee-jerk reaction accompanied by\ndecent follow-through",
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_107",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 148,
+  "exact_text": "Enter into a position no more than 20 minutes before a major news\nreport will be released.",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "entry timing",
+    "value": "20 minutes before news release",
+    "page": 148
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_108",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_109",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_110",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 148,
+  "exact_text": "Enter into a position 5 minutes after a major news report is released.",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "entry timing",
+    "value": "5 minutes after news release",
+    "page": 148
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_111",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_112",
+  "verdict": "corroboration",
+  "behavior_id": "news_discounting_reaction",
+  "page": 162,
+  "exact_text": "Enter the second half of the position 5 minutes after a major news\nreport is released.",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "entry timing",
+    "value": "5 minutes after news release",
+    "page": 162
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_113",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_115",
+  "verdict": "corroboration",
+  "behavior_id": "line_crossover_momentum",
+  "page": 162,
+  "exact_text": "Wait for the price to cross above both moving averages by 15 pips,",
+  "added_conditions": [],
+  "added_parameters": [
+   {
+    "name": "cross buffer (pips)",
+    "value": "15",
+    "page": 162
+   }
+  ]
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_117",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_118",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ },
+ {
+  "claim_ref": "book_0033::lead_book_0033_1_119",
+  "verdict": "generic",
+  "behavior_id": null,
+  "page": null,
+  "exact_text": null,
+  "added_conditions": [],
+  "added_parameters": []
+ }
+]

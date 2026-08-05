@@ -1,0 +1,404 @@
+on the call, he plans to exercise his put; if he does get assigned on the call, he will let
+the put expire worthless. In order to make a decision, he must know whether the call
+will be exercised. Unfortunately, he won't know this until the day after expiration,
+when he either does or does not receive an assignment notice. But then it will be too
+late because the call will have expired.
+
+It may seem that an option which is exactly at-the-money at expiration will never
+be exercised since, in theory, it has no value. In fact many at-the-money options do get
+exercised. Even though such an option has no theoretical value, it does have some
+
+
+Option Arbitrage 225
+
+practical value. For example, suppose the owner of a call which is exactly at-the-money
+at expiration wants to take a long position in the underlying contract. He has two
+choices. He can either exercise the call or buy the underlying contract. Since most
+exchanges where options are traded include the right of exercise in the original
+transaction cost, it is almost always cheaper to exercise the call. Even if there is a charge
+for exercise, it will be less than the cost of trading the underlying contract. Anyone
+owning an at-the-money option, and choosing to take a long or short position at
+expiration, will find that it is cheaper to exercise the option than buy or sell the
+underlying contract.
+
+Clearly, the trader who is short an at-the- money option at expiration has a problem.
+What can he do?
+
+One course might be to guess whether the trader will be assigned. If the market
+appears to be strong on the last trading day, the trader might assume that it will continue
+higher on the day following expiration. If the person who holds the call sees the situation
+similarly, it is logical to assume that the call will be exercised. Hence, the trader will
+choose not to exercise the put. Unfortunately, if the trader is wrong, and he does not
+get assigned on the call, he will find himself with a long underlying position which he
+would rather not have. Conversely, if the market appears to be weak on the last trading
+day, the trader might make the assumption that he will not be assigned on the call. He
+will therefore choose to exercise the put. But again, if he is wrong and does get an
+assignment notice, he will find himself with an unwanted short underlying position on
+the day following expiration.
+
+The risk of a wrong guess can be further compounded by the fact that conversions
+and reversals, because of their low risk, are usually done in large size. If the trader
+guesses wrong, he may find himself naked long or short not one, but several hundred
+underlying contracts.
+
+There can be no certain solution to the problem of pin risk. With many, perhaps
+thousands, of open contracts outstanding, some at-the-money options will be exercised
+and some won't. If the trader lets the position go to expiration and relies on luck, he is
+at the mercy of the fates, and that is a position which an intelligent option trader prefers
+to avoid. The practical solution is to avoid carrying conversions and reversals to
+expiration when there is a real possibility of expiration right at the exercise price. If the
+trader has a large number of June 100 conversions or reversals, and expiration is
+approaching with the underlying market close to 100, the sensible course is to reduce
+the pin risk by reducing the size of the position. If the trader doesn’t reduce the size, he
+may find that he is under considerable pressure to get out of a large number of risky
+Positions at the last moment.
+
+Sometimes even a careful trader will find that he has some at-the-money conver-
+sions or reversals outstanding as expiration approaches. One way to eliminate the pin
+risk which still exists is to liquidate the position at the prevailing market prices.
+Unfortunately, this is likely to be a losing proposition since the trader will be forced to
+trade each contract at an unfavorable price, either buying at the offer or selling at the
+bid. Fortunately, it is often possible to trade out of such a position al! at once at a fair
+Price.
+
+
+226 Chapter 11
+
+Since conversions and reversals are common strategies in all option markets, a
+trader who has an at-the-money conversion and is worried about pin risk can be fairly
+certain that there are also traders in the market who have at-the-money reversals and
+are also worried about pin risk. If the trader with the conversion could finda trader with
+a reversal and cross positions with him, both traders would eliminate the pin risk
+associated with their positions. This is why, on option exchanges, one often finds traders
+looking for other traders who want to trade conversions or reversals at even money.
+This simply means that a trader wants to trade out of his position at a price which is fair
+to everyone involved, so that everyone can avoid the problem of pin risk. Whatever
+profit a trader expected to make from the conversion or reversal presumably resulted
+from the initial trade, not from the closing trade.
+
+Certain options, such as stock indices and Eurodollars, are settled at expiration in
+cash rather than with the delivery of an actual underlying contract. When such an
+option expires, the amount of cash which flows into or out of a trader’s account is simply
+the amount by which the option is in-the-money, i.e., the difference between the
+underlying price and the option’s exercise price. There is no pin risk associated with
+options which settle in this manner because no underlying position results from exercise
+or assignment.
+
+Interest rate risk, execution risk, and pin risk are common to all markets, regardless
+of the underlying contract. There are, however, certain risks which are unique to a
+market depending on the characteristics of the underlying market.
+
+Settlement Risk in the Futures Market
+
+Let’s go back to our original conversion where a trader is short a June 100 call, long a
+June 100 put, and long an underlying contract. Suppose the underlying contract is a
+June futures contract which is trading at 102.00. If there are three months remaining
+to June expiration, interest rates are 8%, and all options are subject to stock-type (cash)
+settlement, the value of the June 100 synthetic market (the difference between the June
+100 call and the June 100 put) is:
+
+futures price — exercise price — carry on 2 points for 3 months =
+102 — 100 - (2 x 3/12 x 8%) = 1.96
+
+Suppose a trader is able to sell a June 100 call for 5.00, buy a June 100 put for 3.00,
+and sell a June futures contract for 102.00. If interest rates do not change, and assuming
+there will not be a problem with pin risk, at expiration the trader should realize a profit
+of .04, since he has done the June 100 conversion at .04 better than its value.
+
+Suppose that shortly after the trader initiates this conversion, the underlying June
+futures contract falls to 98.00. The synthetic (short) side of the position will now show
+a profit of four points: the short call and long put together will appreciate by four points.
+But because the options are settled like stock, the profit on the synthetic side will only
+be a paper profit, and will not be fully realized until expiration. On the other hand, the
+trader is also long a June futures contract, and this contract, since it is subject to
+futures-type settlement, will result in an immediate four point debit when the market
+drops four points. To cover this four point debit, the trader will either have to borrow
+
+
+Option Arbitrage 227
+
+the money or take the money out of an existing, interest-bearing account. In either case
+there will be a loss in interest, and this interest loss will not be offset by the paper profit
+from the option position. If the loss in interest is great enough, it may more than offset
+the profit of .04 which the trader originally expected from the position. And in the most
+extreme case, where the trader does not have access to the funds required to feed the
+futures position, the trader may be forced to liquidate the position. Needless to say,
+forced liquidations are never profitable.
+
+Of course, this works both ways. A rise in the price of the underlying futures
+contract to 106.00 will result in a four point loss to the synthetic side: the short call and
+long put together will decline by four points. But the loss on the synthetic side will only
+be a paper loss, and will not be fully realized until expiration. On the other hand, the
+rise in the futures contract will result in an immediate cash credit, a credit on which the
+trader can earn interest. This interest will increase his potential profit beyond the
+original expected profit of .04,
+
+Most futures option traders think of conversions and reversals as being delta
+neutral, but in fact this is not necessarily true. With the underlying futures contract at
+102, the deltas in our example might be:
+
+Option Position Delta Position
+short June 100 call ~60
+long June 100 put ~38
+long June futures contact +100
+total +2
+
+The two extra deltas reflect the fact that the trader would prefer the market to rise rather
+than fall, so that cash will flow into his account from the futures position. The interest
+from this cash flow can represent an unexpected profit or loss, in the case of a decline
+in the futures price.
+
+Two deltas are really no risk, except when we remember that conversions and
+reversals, because of their low risk, are often done in very large size. A trader who
+executes 500 conversions has a risk delta equal to 500 x +2 = +1000. This is the same
+as being naked long 10 futures contracts. The risk comes from the interest that can be
+earned on any cash credit, or which must be paid on any cash debit, resulting from
+movement in the underlying futures contract.
+
+The amount by which the delta of a synthetic futures position will differ from 100
+depends on the interest risk associated with the position. This in turn depends on two
+factors: the general level of interest rates and the amount of time remaining to
+expiration. The higher the interest rate and the more time remaining to expiration, the
+greater the risk. The lower the interest rate and the Jess time remaining to expiration,
+the less the risk. A 10% interest rate with nine months to expiration represents a much
+greater risk than a 4% interest rate with one month remaining to expiration. In the
+former case, the deltas of a synthetic position may add up to 94, while in the latter case
+the deltas may add up to 99.
+
+Note that there is no settlement risk when both contracts are subject to the same
+settlement procedure. If all contracts are subject to stock-type settlement, no cash flow
+
+
+228 Chapter 1 1
+
+results from fluctuations in the prices of the contracts prior to expiration. If all contracts
+are subject to futures-type settlement, any credit or debit resulting from changes in the
+price of the underlying futures contract will be offset by an equal but opposite cash flow
+from. changes in prices of the option contracts.
+
+Dividend Risk in the Stock Market
+
+Consider a stock trading at 10214, with three months to June expiration, interest rates
+at 8%, and a dividend of 11% expected prior to expiration. The value of the June 100
+synthetic (the difference between the 100 call and the June 100 put) is:
+
+stock price — exercise price + carry on 100 to expiration — expected dividends =
+10214 - 100 + (100 x 3/12 x 8%) -114=3
+
+Suppose a trader is able to sell a June 100 call for 744, buy a June 100 put for
+4//, and buy stock for 1021. If interest rates do not change, and assuming there will
+not be a problem with pin risk, at expiration the trader should realize a profit of 14,
+since he has done the June 100 conversion at 1% better than its value.
+
+Since the trader owns the stock, part of his profit comes from the !'% point
+dividend which he expects to receive when the stock goes ex-dividend. If the dividend
+changes unexpectedly, it could affect the trader’s eventual profit. If, for example, the
+company is doing poorly and decides to cut its dividend in half, to 34, the trader’s
+conversion will be worth % less, and his profit of '/4 will turn into a loss of 14. Of course,
+if the company is doing well and decides to increase its dividend to two points, the
+conversion will be worth 14 more, and the trader’s profit will increase from 14 ta 34.
+Clearly, the possibility of a change in the expected dividend represents a risk to a
+conversion or reversal. Moreover, if multiple dividends are expected over the life of the
+strategy, the impact of a change in the company’s dividend policy can be greatly
+magnified.
+
+BOXES
+
+As we have seen, a conversion or reversal entails risk because these strategies combine
+a synthetic position in options with a position in the underlying contract. The risk arises
+because a synthetic position in options and an actual position in the underlying contract
+can have different characteristics, either in terms of settlement procedure, as in the
+futures option market, or in terms of the dividend payout, as in the stock option market.
+How might we eliminate this risk?
+
+One way to eliminate this risk is to eliminate the position in the underlying
+contract. Consider a conversion:
+
+short a call
+long a put
+long an underlying contract
+
+
+Option Arbitrage 229
+
+If we want to maintain this position, but would also like to eliminate the risk that goes
+with holding an underlying position, we might replace the long underlying position with
+something that acts like an underlying contract, but which isn’t an underlying contract.
+For example, we might replace the long underlying position with a deeply in-the-money
+call. Now our position is:
+
+short a call
+long a put
+long a deeply in-the-money call
+
+If the deeply in-the-money call has a delta of 100, and therefore acts like a long
+underlying contract, the position will have the same characteristics as the conversion,
+
+In the same way, instead of replacing the underlying position with a deeply
+in-the-money call, we can sell a deeply in-the-money put:
+
+short a call
+long a put
+short a deeply in-the-money put
+
+If the deeply in-the-money put has a delta of -100, and therefore acts like an underlying
+contract, the position will again have the same characteristics as the conversion.
+
+This type of position, where the underlying instrument in a conversion or reversal
+is replaced with a deeply inthe-money option, is known as a three-way. While
+eliminating some risks, a three-way is not without its own problems. If a trader sells a
+deeply in-the-money option to complete his three-way, he still has the risk of the market
+going through the exercise price. Indeed, as the underlying market moves closer and
+closer to the exercise price of the deeply in-the-money option, the option will act less
+and less like a position in the underlying contract. The combination of contracts will
+then act less and less like a true conversion or reversal.
+
+What else acts like an underlying contract but isn’t an underlying contract? A
+synthetic underlying position obviously fills the bill. In addition to a three-way, we might
+also consider replacing an underlying position in a conversion or reversal with a
+synthetic equivalent. For example, our original position might be a 100 conversion:
+
+short a June 100 call
+long a June 100 put
+long an underlying contract
+
+Suppose we also execute a reversal at 90:
+
+long a June 90 call short a June 100 call
+short a June 90 put long a June 100 put
+short an underlying contract long an underlying contract
+
+The long and short underlying contracts cancel out, leaving:
+
+long a June 90 call short a June 100 call
+short a June 90 put long a June 100 put
+
+
+230 Chapter 11
+
+We are left with a synthetic long position at the 90 exercise price, and a synthetic short
+position at the 100 exercise price. Or we can think of the position as a reversal at one
+exercise price, and a conversion at a different exercise price.
+
+This position, known as a box, is similar to a conversion or reversal, except that
+any risk associated with holding a position in the underlying contract has been
+eliminated because the underlying position has been replaced with a synthetic underly-
+ing position at a different exercise price. A trader is long (short) the box when he is
+synthetically long (short) the lower exercise price and synthetically short (long) the
+higher exercise price. The example position is long a June 90/100 box.
+
+At expiration, regardless of the price of the underlying contract, a trader who has
+a box will simultaneously buy the underlying contract at one exercise price and sell the
+underlying contract at the other exercise price. The value of the box at expiration will
+therefore be exactly the amount between exercise prices. In our example, at expiration
+the 90/100 box will be worth exactly 10 points because the trader will simultaneously
+buy the underlying contract at 90 and sell itat 100. If itis worth 10 points at expiration,
+how much is it worth today? If the options are subject to stock-type settlement, the value
+of the box today will be the value of the box at expiration less carrying costs. If our
+10-point box expires in three months with interest rates at 8%, the value today is:
+
+10 - (10 x 3/12 x 8%) = 10—.20 = 9.80
+
+Since a box eliminates the risk associated with carrying a position in the underlying
+contract, boxes are even less risky than conversions and reversals, which are themselves
+low-risk strategies. When all options are European (there is no risk of early exercise),
+and the options are settled in cash rather than through delivery of the underlying
+contract (there is no pin risk), the purchase or sale of a box is identical to lending or
+borrowing funds over the life of the options. In our example, a trader who sells a
+10-point box for 9.80 has essentially borrowed funds from the buyer of the box for three
+months at an interest rate of 8%. If a trader were willing to pay a higher rate to borrow
+funds, he could sell the box at a lower price, for example 9.70. This corresponds to a
+rate over three months of 12%. When no other method is available, a trading firm might
+be able to raise needed short-term cash by selling boxes. Since the firm will probably
+have to sell the boxes at a price lower than the theoretical value, this will increase the
+firm’s borrowing costs. Moreover, if the options can be exercised early, or if there is a
+danger of pin risk at expiration, this method of borrowing may not be without its own
+risks,
+
+We originally introduced a box as a conversion at one exercise price and a reversal
+at a different exercise price. Since the long and short underlying positions cancel out,
+we are left with two synthetic underlying positions. The June 90/100 box was written:
+
+long a June 90 call short a June 100 call
+short a June 90 put long a June 100 put
+
+The left side of the box is a synthetic long at 90 and the right side is a synthetic short at
+100. Instead of dividing the box into right and left sides, we can also divide it into top
+and bottom sides. Notice that the top side is a bull vertical call spread (long June 90
+
+
+Option Arbitrage 231
+
+call/short June 100 call}, while the bottom side is a bear vertical put spread (long June
+100 put/short June 90 put). Since a box is a combination of two vertical spreads, the
+combined prices of the vertical spreads must add up to the value of the box.
+
+For example, with three months remaining to expiration and interest rates at 8%,
+the value of our June 90/100 box is 9.80. Suppose a trader knows that the June 90/100
+vertical call spread is trading for six points. Without any additional information, the
+trader can estimate the fair market price of for the June 90/100 vertical put spread. He
+knows 90/100 box is worth 9.80, and that the value ofa call and put vertical spread
+must add up to the value of the box. The price of the put spread must therefore be:
+
+9.80 — 6 = 3.80
+
+If the trader believes he can either buy or sell the call vertical spread at six points, and
+he is asked for a market in the put spread, he will probably make his market around an
+assumed value of 3.80. He might, for example, make a market of 3.50 bid/4.10 ask. If
+he is able to buy the put vertical for 3.50, he can then try to buy the call vertical for
+6.00. If he is successful, he will have paid a total of 9.50 for a box with a theoretical
+value of 9.80. Conversely, if he is able to sell the put vertical for 4.10, he can then try
+to sell the call vertical for 6.00. If he is successful, he will have sold a box with a
+theoretical value of 9.80 at a price of 10.10.
+
+JELLY ROLLS
+
+Another method of eliminating a position in the underlying contract is to take a synthetic
+position in a different expiration month, rather than at a different exercise price as with
+a box. For example, suppose we have executed the following reversal:
+
+long a June 100 call
+short a June 100 put
+short an underlying contract
+
+Suppose we now execute the following conversion:
+
+short a September 100 call
+long a September 100 put
+long an underlying contract
+
+If the underlying contract for both June and September is identical, they will cancel out,
+leaving us with:
+
+long a June 100 call short a September 100 call
+short a June 100 put long a September 100 put
+
+These combined long and short synthetic positions taken at the same exercise prices but
+in different expiration months is known as a jelly rol? or simply a roll. The strategy is
+
+3. This very unscientific sounding term seems to have originated among traders on the Chicago Board
+Options Exchange.
+
+
+232 Chapter 11
+
+most common in the stock option market where the underlying for both months is the
+same.
+
+What should be the value of a roll in the stock option market? In our example, the
+sale of the June/September 100 roll, the trader will buy stock at 100 at June expiration
+and sell the same stock at 100 at September expiration. The value of the roll is the cost
+of holding the stock for the three-month period from June to September. If interest rates
+are 8%, the holding costs are:
+
+100 x 3/12 x 8% = 2.00
+
+Therefore, the roll should have a value of two points. Expressed another way, the
+difference between the June 100 synthetic (the June 100 call less the June 100 put) and
+the September 100 synthetic (the September 100 call less the September 100 put}
+should be exactly two points.
+
+Now suppose that the stock pays a quarterly dividend of 4 point. Since the trader
+will own the stock for the period from June to September, he will receive the 34 point
+dividend. The value of the roll is now the two-point carrying cost less the 34 point
+dividend, or 1%. The full value of the roll is:

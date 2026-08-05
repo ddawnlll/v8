@@ -1,0 +1,764 @@
+are two general types of sizing techniques. The first maintains a fixed size
+throughout the trading. This is the method we used in your system development when we used a $5,000 stock position at each signal for our stock
+scalping strategy, and one‐lot commodity position for our trend‐following
+strategy. When you use a fixed size for trading, equity growth is linear. If
+you make $10,000 a year and start with $50,000, at the end of five years
+your equity would be $100,000. Note that in the first year, your return was
+20 percent ($10,000/$50,000), but in the last year your return was only
+11.1 percent ($10,000/$90,000). For this reason the appropriate return
+metric is dollars per year, not percent. And the appropriate draw‐down
+metric is dollar draw‐down, not percent draw‐down.
+The second general form of sizing techniques scales position size as the
+account changes. In the previous example, where 20 percent was the return the first year, size would be scaled up so the 20 percent return per
+year is maintained. At the end of five years, the equity would be just under
+$125,000 and the return each year would have been 20 percent. In this case
+equity is rising exponentially. Figure 11.1 shows the equity run‐up for the
+two strategies.
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+176
+
+140,000
+120,000
+
+Compounded
+
+100,000
+80,000
+
+Non-Compounded
+
+60,000
+40,000
+20,000
+0
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+FIGURE 11.1 Non‐Compounded Return (Fixed Size) versus Compounded Return
+
+(Increasing Size)
+
+So what are some of the sizing techniques that let you take advantage of
+the exponential growth? We will look at some techniques using the commodity strategy that was finished in Chapter 6. That strategy had 7,113
+trades and averaged $387 per trade.
+
+Optimal F
+Optimal f is a sizing method popularized by Ralph Vince in money management books of the early 1990s. His method is an offshoot of the Kelly
+criterion and seeks to grow equity at an optimal rate. He actually developed
+the methodology much earlier than the book publication dates, as it was
+the sizing method used by Larry Williams when he ran $10,000 to over
+$1,000,000 in a 1982 trading contest. Like the Kelly criterion, optimal f
+does not look to manage risk. It is strictly concerned with growing equity
+as fast as possible.
+To use the optimal f sizing strategy, the following steps must be taken:
+■
+
+Using the entire sequence of trades, the optimal f trading point must be
+found. This point can be located in a number of ways, but the simplest
+is by brute force. You vary the optimal f fraction from 0.01 to 1.00 in
+steps of 0.01 until you find the point that maximizes the terminal wealth
+relative (TWR). The TWR is the product of the individual trade returns
+as a fraction of the largest loss when traded at a size of the fraction f. An
+example will clarify. Suppose your strategy has made 10 trades and the
+biggest loser was $1,000. An individual trade return would be:
+177
+
+So if the first trade made $400, and you were using an f value of 0.5,
+the trade return would be 1.20. That’s a 20 percent profit on a starting
+value of 1. If the first trade lost $400, the trade return would be 0.80,
+which is a 20 percent loss on a starting value of 1. When all the individual
+trade returns are multiplied together, you have the TWR value for that f
+value. The optimal f value is the f value that yields the largest TWR.
+■ Once you have the optimal f value, you can determine the optimum trade
+sizing by dividing the largest loss by the optimal f fraction. If optimal f
+turned out to be 0.25 in our 10‐trade example, we would divide the largest loss of $1,000 by 0.25 to get $4,000. To trade at optimal f, we would
+trade one contract for each $4,000 in our account.
+■
+
+A byproduct of the analysis is the geometric mean return (GMR) for
+the strategy. The GMR is the nth root of the TWR at the optimal f point
+where n is the number of trades. Vince claims that this is a measure of
+how good this strategy is at building wealth when a compounding money
+management sizing technique such as optimal f is used. I have tried to
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+Individual trade return = (1 + f * (trade profit/biggest loss))
+
+verify this claim, but there are issues. The main problem is that the only
+number used for a trade is its profit or loss. It could have started out with
+a huge loss and ended up a big winner, or it could have had a large open‐
+equity give‐back at the end. Neither of these trade problems would show
+up in the calculations. I think the gain‐to‐pain ratio on an equity curve
+that includes the profit or loss of every trade for every bar is a better way
+to measure the worth of a strategy.
+Using the commodity strategies’ 7,113 trades,Table 11.1 summarizes the
+pertinent “brute force” runs used to determine the optimal f trading point.
+TABLE 11.1 Brute Force Results when Looking for Optimal F.
+Fraction f
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+178
+
+TWR $
+
+GMR
+
+0.88
+
+5.63e+53
+
+1.01755
+
+0.89
+
+6.41e+53
+
+1.01757
+
+0.90
+
+7.02e+53
+
+1.01758
+
+0.91*
+
+7.36e+53
+
+1.01759
+
+0.92
+
+7.35e+53
+
+1.01758
+
+0.93
+
+6.96e+53
+
+1.01758
+
+0.94
+
+6.18e+53
+
+1.01756
+
+* Optimal f point
+
+This table shows that trading at a fraction of 0.91 yields the highest TWR,
+$7.53e+53—a staggering amount of money. Across the 7,113 trades, the
+largest losing trade was $9,783. Dividing the largest loser by the optimal f amount of 0.91, we see that we should trade one contract for every
+$10,750.55 of equity.
+When I tried to build an equity curve using this sizing, the strategy went
+bust after two years. Trading a contract every $10,750.55 is just too aggressive. It wasn’t until I used a value of $22,000 of equity per contract that I got
+a full run‐through. The statistics for that run were:
+Average annual return: 358.1 percent
+Average annual max draw‐down: 62.8 percent
+Max draw‐down: 99.3 percent
+I believe the breakdown between theory and practice is due to the
+following:
+■
+
+Optimal f treats trades as consecutive instantaneous‐outcome events,
+just like gambling. You play one hand, and either win or lose. There’s no
+
+change in bankroll until the play is over. In trading, account equity can
+vary considerably while the trade plays out.
+■
+
+Optimal f places the next bet after the outcome of the current play is
+known, and the bankroll value is again fixed. In trading, trades can go on
+before the others are complete using the current bankroll amount. You
+can be in a number of losing trades at a time and be way oversized relative
+to the amount you would have on had the trades completed sequentially.
+
+These points are borne out when I make the same equity run, but only
+use the closed trades; the results are very close to what optimal f predicts.
+The bottom line is that if you make trades one at a time and wait for the
+first one to complete before entering the next, the optimal f value will hold
+up much better. And if the trades are relatively short, with equity buildup
+or loss during the trade period staying very small, optimal f will probably be
+very accurate. Still, you will go through enormous draw‐downs.
+
+Fixed Risk or Fixed Fractional
+
+Corn trade with $200 risk per contract
+Coffee trade with $1,000 risk per contract
+Fixed risk of $1,500 per position
+Account equity of $500,000
+Solution: 7 corn contracts and 1 coffee contract (number of contracts
+rounded down)
+Fixed Risk, Compounding Example:
+Corn trade with $200 risk per contract
+Coffee trade with $1,000 risk per contract
+Fixed risk of 1 percent per position
+Account equity of $500,000
+Solution: 25 corn contracts and 5 coffee contracts
+
+179
+INTRODUCTION TO MONEY MANAGEMENT
+
+This approach seeks to size so that every trade has the same risk. If you’re
+trading in a non‐compounding manner, the fixed risk will be a dollar
+amount, like $2,000. If you’re trading to compound returns, the fixed risk
+is a percent of equity, either closed equity, or open‐ plus closed‐trade equity.
+The risk is based on the distance to the catastrophic stop—in other words,
+the max loss potential of the trade. The following breakout contrasts the
+non‐compounding and compounding approaches:
+Fixed Risk, Non‐Compounding Example:
+
+With the non‐compounding example, you’ll note that if account equity
+were $50,000 or $5,000,000, the solution would be the same.
+As a non‐compounding example, let’s compare the solution we had trading our commodity system with a one‐lot at each signal versus a number of
+fixed risk amounts. Table 11.2 shows the comparison.
+TABLE 11.2 Comparison of Non‐Compounding Sizing Approaches
+Average Annual Return
+(%)
+
+Average Annual
+Max Draw‐Down
+(%)
+
+Max Draw‐Down
+(%)
+
+Gain‐to‐Pain Ratio
+
+1‐Lot
+
+85,315
+
+34,419
+
+74,977
+
+2.48
+
+$1,500 Fixed Risk
+
+71,635
+
+30,549
+
+51,862
+
+2.35
+
+Approach
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+180
+
+$1,750 Fixed Risk
+
+92,610
+
+37,267
+
+66,558
+
+2.49
+
+$2,000 Fixed Risk
+
+114,873
+
+43,043
+
+74,931
+
+2.67
+
+$2,250 Fixed Risk
+
+128,978
+
+50,314
+
+86,543
+
+2.56
+
+$2,500 Fixed Risk
+
+153,192
+
+58,367
+
+104,375
+
+2.62
+
+Table 11.2 shows that equalizing the risk across all trades can lead to
+a better trading solution than buying a one‐lot at each trade. As the fixed
+risk number is raised further, the gain‐to‐pain ratio steadies out to a value
+of about 2.75. The variability is caused by the fractional contracts that are
+dropped in the rounding process. Also, for the lower fixed risk numbers,
+not all trades were taken, because the risk of even a one‐lot exceeded the
+threshold of $1,500 or $2,000.
+Let’s now look at the compounding fixed-risk solution for a number of
+fixed-risk percentage values. Table 11.3 again uses all 7,113 trades in the
+commodity strategy.
+TABLE 11.3 Performance when Fixed Risk Is Used in a Compounding Approach
+Percent Risked
+per Trade
+
+Average Annual Return
+(%)
+
+Average Annual
+Max Draw‐Down
+(%)
+
+Max Draw‐Down
+(%)
+
+Gain‐to‐Pain Ratio
+
+1
+
+79.7
+
+19.9
+
+39.8
+
+4.00
+
+2
+
+162.6
+
+32.3
+
+61.6
+
+5.04
+
+3
+
+243.0
+
+41.4
+
+75.4
+
+5.87
+
+4
+
+316.9
+
+48.6
+
+84.5
+
+6.52
+
+5
+
+378.4
+
+54.0
+
+90.7
+
+7.01
+
+6
+
+424.3
+
+57.8
+
+95.4
+
+7.34
+
+7
+
+447.2
+
+61.5
+
+98.8
+
+7.27
+
+Table 11.3 raises a couple of interesting points:
+■
+
+■
+
+The more risked per trade, the better the trading solution, as measured
+by the gain‐to‐pain ratio. This is in contrast to the non‐compounding
+fixed-risk case, where the gain‐to‐pain steadies out at sizes where fractional contracts cease to be a factor.
+The fixed-risk solution is better than the optimal f solution. Table 11.4
+compares the two runs.
+TABLE 11.4 Comparison of Optimal f and Fixed Risk Solutions
+Average Annual Return
+
+Average Annual
+Max Draw‐Down
+
+Max Draw‐Down
+
+Gain‐to‐Pain Ratio
+
+Optimal f: $22,000
+per contract
+
+358.1
+
+62.8
+
+99.3
+
+5.70
+
+Fixed risk: 7
+percent
+
+447.2
+
+61.5
+
+98.8
+
+7.27
+
+Method
+
+Fixed Ratio
+This approach was detailed by Ryan Jones in his book, The Trading Game. The
+approach increases size linearly at ever‐increasing steps of equity. The steps
+increase each time by the delta amount, the amount your account equity
+must grow before you resize. If you start trading a $10,000 account and
+choose a delta value of $2,000, you trade one contract per trade until your
+account grows to $12,000. At that point the step is increased by the delta
+value to $4,000, and two contracts per trade are taken. Then when the account reaches $16,000, you can trade three contracts.
+You can see from the way contracts are added that the biggest risk is assumed early on. If each trade has a $500 risk, you start out risking $500 on a
+$10,000 account, or 5 percent. When the account hits the value of $12,000
+and you’re trading two contracts, the risk is 8.3 percent. At $16,000 and 3
+contracts, the risk is 9.375 percent. At the next level, the risk decreases to
+9.09 percent and continues to decrease from that point on. If you averaged
+$300 per trade and made 1,000 trades, at the end of the sequence, you’d
+
+181
+INTRODUCTION TO MONEY MANAGEMENT
+
+Clearly, relating size to the risk of the trade is a better approach than
+risking the same number of contracts for each trade at a given equity value:
+The return and gain‐to‐pain ratios are higher, and both draw‐down metrics
+are less. This approach, with small variations, is the approach most money
+managers use to size their trades.
+
+only be risking less than 0.4 percent a trade, not even one‐tenth of the level
+you started at. You’ll also note that the smaller the delta value, the greater
+the risk. Using a delta of $1,000, the risk peaks at 12.5 percent per trade at
+four contracts, versus the peak of 9.375 percent at three contracts for the
+case where delta is $2,000.
+Using our commodity strategy, Table 11.5 shows the results when trading
+at a variety of delta values.
+
+TABLE 11.5 Fixed Ratio Trading at Various Delta Levels
+Delta
+
+$ 1,000
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+182
+
+Average Annual Return Average Annual Max Draw‐Down
+(%)
+(%)
+
+Max Draw‐Down
+(%)
+Gain‐to‐Pain Ratio
+
+28.8
+
+18.8
+
+56.7
+
+1.53
+1.61
+
+$ 2,000
+
+26.2
+
+16.2
+
+47.6
+
+$ 3,000
+
+24.7
+
+14.8
+
+42.5
+
+1.67
+
+$ 5,000
+
+22.8
+
+13.2
+
+36.3
+
+1.73
+
+$10,000
+
+20.3
+
+11.2
+
+28.7
+
+1.81
+
+$20,000
+
+18.0
+
+9.4
+
+22.3
+
+1.91
+
+$30,000
+
+16.7
+
+8.4
+
+19.1
+
+1.99
+
+This is a compounding approach, but the gain‐to‐pain ratios are lower
+than the two non‐compounding approaches we looked at (one‐lot trading
+and fixed risk). This solution doesn’t come close to competing with the
+compounding fixed-risk approach. I think the problem is the very unequal
+approach to risk. At the start of a run the risk per trade is many times what
+it is at the end. Since you never know when draw‐down will hit, why risk
+way more at any point in the trade stream?
+
+Sizing Summary
+There’s a reason most money managers use a fixed-risk trading approach.
+It’s because it is a very fast way to build equity, and risk is equalized on every position by the sizing. Additionally, you can tailor the risk level so that
+draw‐down is within your risk tolerance envelope. Given the equity buildup
+advantage of compounding equity versus a non‐compounding approach, you
+may wonder why anyone would consider using a fixed size for trading. The
+answer is that no one probably would unless they have to. But the fact of the
+matter is, most traders have to. The reason is that their account size is too
+small to see the benefits of variable sizing.
+
+■ Small versus Large Account Size
+
+Small‐Account Performance Metrics
+There are many ways to measure the success of a trading system and the
+money management strategies used in trading it. The best methods seek to
+measure both return and risk. Small‐account traders should be most concerned with risk because that is what will drive them from the game. In this
+section, three measures of risk will be examined: open‐ and closed‐trade
+draw‐down, closed‐trade draw‐down, and start‐trade draw‐down. Most
+traders use draw‐down as a measure of the capital required to trade a given
+methodology. The maximum historical draw‐down (sometimes multiplied
+by some factor to account for a future larger draw‐down) plus margin requirements are deemed the requirements to successfully trade the methodology. As will be shown, the conventional open‐ and closed‐trade draw‐down
+metric is really meaningless to the small‐account trader. That’s because it
+inflates the risk associated with trading a system and a given money management strategy. The closed‐trade draw‐down is a better measure of risk, but
+the best measure is a metric I’ve developed: start‐trade draw‐down. This is
+
+183
+INTRODUCTION TO MONEY MANAGEMENT
+
+The best traditional money management sizing approach I know is to risk a
+small percentage of equity on each trade. But sometimes your account size
+won’t let you do that. If you’re trading commodities and your system has a
+$1,000 stop, the risk for one trade on a $10,000 account is 10 percent. That’s
+not a small risk to take on one trade. A small account is then defined as one
+that cannot be traded risking a small fixed percentage of equity on each trade.
+This point illustrates the important difference between small‐account
+and large‐account traders: Small‐account traders are forced to take greater
+relative risk than large‐account traders. Small‐account traders are always a
+small number of adverse trades away from a margin call, while large‐account
+traders who risk a small percentage of equity on each trade are always a very
+large number of adverse trades away from a margin call.
+Because a small‐account trader is on the edge, money management is crucial to success. It should be the aim of every small‐account trader to grow his
+equity to large‐account status so he can enjoy the benefits of large‐account
+trading. Besides walking in from the edge, the large‐account trader enjoys
+money management strategies not available to the small‐account trader. In
+the remainder of this chapter, the appropriate performance metrics will be
+detailed for small accounts and large accounts.
+
+the draw‐down a trader can expect to see when a given system and strategy
+are started.
+On the reward side, annual return is a meaningful metric, but a better
+metric for the small‐account trader is start‐trade return. This is the average
+first‐year return a trader can expect when he or she starts trading the system.
+
+Small‐Account Metrics: Open‐ and Closed‐Trade
+Draw‐Down
+If the equity curve is built by taking the sum of closed‐trade equity and the
+profits/losses in all open positions, the resultant equity curve is an open‐ and
+closed‐trade equity curve. Open‐ and closed‐trade equity corresponds to the
+bottom‐line figure on your brokerage statement each day. If a system and money
+management strategy are traded for a length of time, the resultant open‐ and
+closed‐trade equity curve can be examined for draw‐downs. A draw‐down is
+defined as a peak‐to‐trough equity drop, as shown in Figure 11.2.
+Figure 11.2 shows a number of draw‐downs. The largest is used by many
+traders as a measure of the reserves above margin requirements needed to trade
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+184
+$7,000
+$6,000
+
+Drawdown
+$5,000
+$4,000
+$3,000
+
+Drawdown
+
+$2,000
+$1,000
+
+−$1,000
+
+Drawdown
+
+−$2,000
+
+FIGURE 11.2 Open‐ and Closed‐Trade Equity Growth
+
+the strategy. For strategies that use trend‐following systems, this is usually not
+true. A large part of the draw‐down can be due to open‐equity profit retracement. To illustrate this, suppose that the graph is not the result of a number of
+trades, but the result of one trade. In that case, you got in the trade, had a draw‐
+down of $1,000, built up to a trade profit of $4,000, had another draw‐down
+of $2,000, built up an additional $3,000 of profit over the initial peak, and then
+ended the trade with a $3,000 draw‐down to cash out the trade with a $4,000
+profit. As a small‐account trader, the worst position you were in was at the start
+when you went $1,000 below your starting equity (the start‐trade draw‐down
+for this trade).The biggest draw‐down of $3,000 was out of open‐equity profits.
+It hurt to give back that $3,000, but that $3,000 draw‐down had nothing to do
+with the minimum capital required to execute the trade. The capital required
+was start‐trade draw‐down ($1,000) plus the margin requirements.
+Thus, open‐ and closed‐trade draw‐down figures can be misleading to
+a small‐account trader. Using that draw‐down figure plus margin requirements as the minimum required to trade the strategy will usually overstate
+the equity required.
+
+Small‐Account Metrics: Closed‐Trade
+Draw‐Down
+
+Small‐Account Metrics: Start‐Trade Draw‐Down
+This is the risk metric that the small‐account trader should be most interested
+in. It is found by looking at the open‐ and closed‐trade equity curve and finding the lowest equity point below the starting equity. In the equity curve in
+Figure 11.2, the start‐trade draw‐down would be $1,000. This is the figure a
+small‐account trader is interested in because it, plus margin requirements, is
+the amount an account must have in starting equity to trade the methodology
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+A closed trade equity curve is formed by adding the profit/loss from each
+trade as it ends to the previous equity, and plotting the result on the date
+the trade is liquidated. This draw‐down figure will not include open‐equity
+profit retracement since the trade results are not added to equity until the
+day the trade ends, but it also neglects to show if a winning trade was ever
+in a losing position. Since open‐equity retracement on good trades can be
+much larger than the negative segments of winning trades, closed‐trade
+draw‐down is a better reflection of the reserves needed to trade a strategy,
+but it still isn’t exactly what the small‐account trader is interested in.
+
+185
+
+successfully, if the trader started trading at the start of the equity run. If an equity curve is generated at the start of each trade in the methodologies’ hypothetical history, all the start‐trade draw‐downs can be found.Thus, if there were
+200 trades in the methodology back‐testing, 200 equity curves would be generated and the start‐trade draw‐down for each one found.This is extremely useful
+information to the small‐account trader, because the largest start‐trade draw‐
+down can be found, as well as statistics on the entire start‐trade draw‐down
+distribution. The following example will illustrate the usefulness of start‐trade
+draw‐down and contrast it with the other two draw‐down metrics.
+
+Small‐Account Metrics: Draw‐Down Example
+The open‐ and closed‐trade equity curve shown in Figure 11.3 was built
+from the one‐lot trades signaled by the Donchian trend‐following commodity system developed in Chapters 4 through 6.
+
+3,000,000
+
+186
+
+2,000,000
+
+INTRODUCTION TO MONEY MANAGEMENT
+
+2,500,000
+
+1,500,000
+1,000,000
+
+0
+
+1/1/1980
+26/3/1981
+19/6/1982
+12/9/1983
+5/12/1984
+28/2/1986
+24/5/1987
+16/8/1988
+9/11/1989
+2/2/1991
+27/4/1992
+21/7/1993
+14/10/1994
+7/1/1996
+1/4/1997
+25/6/1998
+18/9/1999
+11/12/2000
+6/3/2002
+30/5/2003
+22/8/2004
+15/11/2005
+8/2/2007
+3/5/2008
+27/7/2009
+20/10/2010
+
+500,000
+
+FIGURE 11.3 Donchian System Open‐ and Closed‐Trade Equity Curve
+
+The following are the draw‐down metrics:
+Average yearly maximum open‐ and closed‐trade draw‐down: $29,643
+Average yearly maximum closed‐trade draw‐down: $20,552
+Average yearly maximum start‐trade draw‐down: $22,136
+Maximum open‐ and closed‐trade draw‐down: $81,150
+Maximum closed‐trade draw‐down: $44,632
+Maximum start‐trade draw‐down: $48,781

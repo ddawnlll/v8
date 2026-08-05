@@ -1,0 +1,329 @@
+more significant a signal when it is broken. For example, support that has not been broken for
+over a year is considered stronger than support that has held for only a few weeks or hours. In
+Figure 4.1, note how the strongest, major support and resistance levels are the oldest and rarely
+reached or breached.
+3. The number of times tested: After age, this is the next most important criteria for judging
+strength of a price level as s/r. The more times price hits a given level and that level holds, the
+stronger it is and more significant if broken. Often age and number of times tested go together.
+See Figures 4.1 and 4.2 for examples of how repeated tests of a price level define it as an s/r
+area.
+4. Multiple types of s/r converge: The more kinds of s/r that meet at one price or narrow price
+range, the more they reinforce each other and strengthen that s/r point. The stronger each of these
+are (older, tested, etc.), the stronger that s/r area. We'll see an example of mutually reinforcing s/r
+indicators at the end of this chapter.
+
+FIGURE 4.2 EURUSD Monthly Chart, September 1, 2005, to September 1, 2011
+Source: MetaQuotes Software Corp.
+
+Longer Time Frames Offer More Reliable S/R Indicators
+The longer the chart's time frame, the more established and reliable the key price levels and other s/r
+indicators.
+For example, the EURUSD monthly chart shown in Figure 4.2 shows the major long-term s/r levels
+from a nearly six-year period from late 2005 to late 2011. Deep support is around 1.1700 to 1.2000.
+Strong resistance is around 1.6000. During this period, each represented extreme market sentiment
+and a major reversal point. We can see that around 1.5000 and 1.4000 are significant levels.
+Having more reliable data is one of the advantages that come from working on charts with daily or
+longer time frame candles. We'll look at more advantages of longer time frame trading in Chapter 5.
+
+Check Shorter Time Frames to Detect Interim S/R Levels
+As we see above, different time frames contain different s/r points and trends. Over any given time
+frame, a number of minor s/r points from shorter time frames can be nested within the upper and
+lower price extremes that serve as the strongest s/r of different price levels of longer time frames.
+The longer the time frame you're viewing, the more these minor levels appear.
+Whatever time frame you trade from, you need to check shorter-term time frames (typically, about a
+fifth of the time frame from which you trade) to be aware of these so you can anticipate possible
+pauses or reversals and a possible need to exit a position at these levels. Sometimes, these are shortterm gyrations or pauses, and sometimes they can be the start of longer-term reversals.
+For example, additional minor s/r levels show up more when we look at the same period covered
+in the monthly chart in Figure 4.2 for the EURUSD, but a finer resolution is present via the weekly
+chart shown in Figure 4.3 with some of the price areas that serve as more intermediate-term s/r.
+FIGURE 4.3 EURUSD Weekly Chart, Week of September 25, 2005, to Week of July 24, 2011
+
+Source: MetaQuotes Software Corp.
+
+The areas around 1.2600, 1.2800, 1.300, 1.4200, and 1.4800 serve as important s/r levels. Look
+closer, and you'll find others as well.
+The EURUSD daily chart in Figure 4.4 gives a clear view of the major s/r levels:
+Firm support around 1.4340 and 1.4375
+Firm resistance at 1.4515 and lesser resistance at 1.4440 and then 1.4410.
+FIGURE 4.4 EURUSD Daily Chart, July 22 to August 1, 2011
+Source: MetaQuotes Software Corp.
+
+Within this same period, note the lesser s/r levels on the EURUSD hourly chart in Figure 4.5 for the
+same period.
+FIGURE 4.5 EURUSD 1 Hour Chart, July 22 to August 1, 2011
+Source: MetaQuotes Software Corp.
+
+For example, we can see lesser s/r levels worth noting: 1.4255, 1.4345, 1.4360, 1.4375, 1.4480,
+and so on.
+
+TRENDS AND TREND LINES
+In addition to being an essential element of TA in their own right, trend lines are one of the most basic
+forms of s/r, along with price levels. First, here are some principles that apply to all kinds of trend
+lines.
+
+Trends Vary with Time Frame
+Over any given period of time, price can only move up, down, or sideways in a trading range. The
+sequence of candles in a given time frame forms the trend. I keep emphasizing time frame because the
+strength and trustworthiness of trends (and other technical indicators) varies radically with time
+frame, because they are more established and tested on the longer time frame charts. For whatever
+time frame you trade from, remember to always check:
+At least one longer time frame to get a sense of the bigger overall trend within which you're
+trading. Ideally, you want to trade in the direction of that larger trend although there will often be
+tradable counter moves within the longer-term trend. As a rule of thumb, the longer time frame
+should be four to six times longer than the chart from which you trade. For example those trading
+off of daily charts would check weekly charts for the bigger trend.
+At least one shorter time frame to check the minor trends and s/r levels nested within your trading
+time frame so you know where the trend may pause or reverse and be a possible exit point to take
+profits or cut losses. Again the rule of four to six times applies. For example, those trading off of
+daily charts would look at four-hour charts.
+Similarly, time frames of much greater or lesser magnitude can usually be ignored.
+
+Defining Trends, and Constructing Trend Lines
+Here's how we define and construct trend lines:
+Uptrend definition and trend line construction: An uptrend is comprised of a series of at least
+two (preferably more) higher lows and higher highs. To construct an uptrend line, we will need
+to connect at least two higher lows. For example, see the long rising line on left side of Figure
+4.6? From the start of the uptrend on May 2 until May 27, 2011, we had an uptrend. Note the brief
+downtrends within the overall uptrend. Such temporary counter moves are common and normal
+within longer-term trends.
+Downtrend definition and trend line construction: A downtrend is a series of at least two
+(preferably more) progressively lower highs and lower lows. To construct a downtrend line, we
+will need to connect at least two lower highs. For example, see the long falling line on the right
+side of Figure 4.6. Note that there was also a normal shorter-term counter move higher in the
+middle part of this downtrend in the first half of July 2011.
+FIGURE 4.6 USDCAD Daily Chart, April 29, 2011, to July 22, 2011
+Source: MetaQuotes Software Corp.
+
+Like much of TA, a degree of subjectivity exists about how you apply and interpret these tools. For
+example, some may choose to connect only closing prices to form their trend lines, and others may
+include wicks to better reflect the overall direction or reflect a more conservative strategy of catching
+only the deepest tests of support or resistance as entry points. Traders have different strategies
+concerning how close to a trend line to enter or exit positions As with other kinds of s/r, view trend
+lines as bands rather than precise lines of s/r.
+Finally, in Chapter 2, you learned currencies trade in pairs. When we speak about a pair trending
+higher or lower, remember that we're really referring to how the base currency (the one on the left) is
+moving relative to the counter currency. In any given pair, one currency is moving up or down versus
+the other. So, when traders see the EURUSD dropping, they may say the pair is falling or the USD is
+rising versus the Euro. They're saying the same thing, just from opposite perspectives of the base and
+counter currencies.
+
+Types of Trend Lines
+Trend lines come in four basic types:
+1. Single up or downtrend lines
+2. Channels, including flat trading ranges
+3. Moving averages (MAs)
+4. Bollinger Bands (BBs), a variation on MAs
+These are the must-know basic tools of trend analysis. For further study, you'll want to learn about
+Average Directional Index (ADX), Directional Movement Index (DMI), and others, which you can
+research on the Internet.
+Here you will learn how to use a set of analytical tools not just separately but in combinations,
+because that's how you'll actually make trading decisions. That way you can get started making
+intelligent, well-planned trades on practice accounts and then with real money. Unlike many forex
+books, we'll avoid overloading you with superficial understandings of more tools than you can or
+
+should use, with little idea of which to use, when to use them, or in what kinds of combinations.
+
+Single Uptrend or Downtrend Lines
+Let's look more at single trend lines. As the name suggests, these individual trend lines are lines we
+draw to better highlight the overall price direction over a given period. Figure 4.6 provides an
+example of how we plot up, down, or flat range trading trend lines.
+The figure suggests:
+An uptrend is a series of higher lows and higher highs, as we see from May 2nd to the 22nd. To
+plot an uptrend line, draw a line that connects as many of the higher lows of the candle bodies as
+possible, while best capturing the overall upward slope, even if that means having some
+candlesticks either not touching the line or crossing it. Trends rarely move in neat straight lines,
+so varying degrees of overlapping candles are okay.
+A downtrend is a series of lower highs and lower lows. To plot a downtrend line, you want to
+connect as many of the lower highs as possible while best showing the overall downward slope
+even if that means having some outlier candlesticks.
+Again, as with any other kind of s/r, trend lines should be viewed as bands or areas of s/r rather
+than precise points, and candlesticks rarely line up in a straight rising, falling, or flat line. Thus, you
+can have a few outlier candlesticks or wicks above or below your uptrend line. The goal is to best
+capture the overall slope of the line. Again, variations in speed and direction within the overall
+trend are expected.
+
+Channels: Better Than Single Trend Lines
+Instead of single trend lines, you can draw their clearer, more useful version: channels.
+As the name suggests, channels (aka tunnels or sleeves) are parallel trend lines that surround a
+rising or falling trend at an angle that shows the overall slope of the trend up, down, or sideways. As
+with single trend lines, the goal is to draw lines that show the overall slope of the trend . We want
+to capture the likely trading range, so don't worry if you've some outlying candles that extend beyond
+or fall within your channel lines when keeping them parallel.
+Figures 4.7 and 4.8 show some examples of a rising, flat, and falling channel.
+FIGURE 4.7 Rising Channel AUDJPY Daily Chart, September 6, 2010, to February 21, 2011
+Source: MetaQuotes Software Corp.
+
+FIGURE 4.8 Flat Channel or Trading Range AUDJPY Daily Chart, May 16, 2010, to September 14,
+2010
+Source: MetaQuotes Software Corp.
+
+The big advantage of channels over single trend lines is they provide clearer, more useful
+information than single trend lines. In addition to trend direction, they provide the following
+advantages.
+
+Channels Provide Guidance for Both Entry and Exit Points
+
+As long as you're trading in the direction of the trend, these upper and lower limits may be attractive
+entry and exit points if, as always, confirmed by other indicators.
+Be cautious, however, about using these to trade against the trend (i.e., opening short positions at
+the top of a rising channel or long positions at the bottom of a falling channel). Playing both ends of
+the channel works well when you trade in the trend's direction, or if the slope of the channel is very
+mild and the channel is wide. Don't trade against the trend if the trend is steep and/or the range of the
+channel is narrow, because you may run out of room to exit profitably if the price doesn't move in
+your favor fast enough. When you trade against a channel, resistance gets closer with each candle and
+the odds of a successful trade drop rapidly.
+
+Beware of Trading against the Trend Using Channels as S/R for Entries
+and Exits—An Example
+In Figure 4.9, see how an otherwise well-planned trade can be foiled by trading against a channel that
+is sloping too steeply or is too narrow.
+FIGURE 4.9 Falling Channel EURCHF Daily Chart, April 11 to June 24, 2011
+Source: MetaQuotes Software Corp.
+
+Look what can happen when you trade against the slope or trend using channel lines as entry and
+exits:
+1. You correctly identify a good entry point for a long EURCHF position near the bottom of the
+downtrending EURCHF.
+2. You entered near the low of the day around 1.2485, with a planned sell limit to take profits
+entered in advance on your trading platform around 1.2701, a realistic target which the price had
+hit two out of the three prior days.
+3. You used solid risk management. Your planned loss was only about a third of your likely gain.
+You'd earn about 216 pips, so you could afford to set a generously wide stop loss order 63 pips
+
+down at 1.2422 and have a better than 3:1 reward-risk ratio. If you're correct, you gain over three
+times what you'd lose if your stop loss is hit. When we cover risk management, you'll see how
+these kinds of reward-risk ratios are what we want to remain profitable even when we're wrong
+the majority of our trades.
+4. Theoretically, this looks like a worthwhile trade setup backed by sound risk management.
+You've a low-priced entry, and your likely loss is only about a third of the likely gain.
+5. However, even though the channel was wide enough to trade profitably (over 300 pips) and
+you had entered near the bottom of it, the trend was falling hard and, by May 16, the upper trend
+line (resistance) was below what had been an otherwise realistic profit-taking point only five
+days earlier. Now that profit target was right at resistance and no longer a good bet.
+6. If you were alert and lucky, you might have decided to exit that day, even at the low for the day
+at 1.2565 with a profit of 82 pips, not bad, but about the same size as your stop loss of 63 pips, a
+reward-risk ratio slightly better than 1:1. To stay profitable over the long run, you will want your
+gains from winning trades to produce at least two to three times the losses from your losers. That
+way you're profitable even with fewer than 50 percent winning trades. More on this when we
+cover RAMM.
+7. If you weren't monitoring the trade, your stop loss was hit May 20 as the falling upper trend
+line held as resistance and price kept falling.
+The big lesson here is don't trade against a channel's trend unless the slope is gentle and the channel
+is wide. When in doubt, don't. Use the resistance line only as an area for taking profits.
+
+Channels Offer Stronger Trend Reversal Signals from Breakouts in the
+Opposite Direction of the Channel
+The other big advantage of channels over single trend lines is that when the lower line of a rising
+channel or upper line of a falling channel is breached, that is a potentially significant trend reversal
+signal because such a move requires a significant change in market sentiment. Breakouts in the
+direction of the channel are not a signal of changing sentiment and often signal the trend may have
+spent itself as the final supporters of the trend have joined in.
+Trading sideways moving markets like that shown in Figure 4.9 requires the use of channels to
+gauge the height of that range and locate s/r. Their distance should capture the overall range even if
+some candlesticks extend outside or remain well within the lines.
+Even though trend lines are useful tools, their construction can often be subjective, and that's why
+we view them as areas or bands of s/r rather than as precise, discrete lines.
+To avoid the subjective human element of trend lines, we turn to moving averages, the product of an
+objective mathematical calculation.
+
+Moving Averages (MAs)
+As the name implies, moving average (MA) lines for a given period don't plot the price at a given
+moment. Instead, each point on these lines is the average closing price for a certain number of prior
+completed candlesticks or periods.
+For example, at any given point in time, a 200-period MA plots the average price over the past 200
+
+periods. On a one-minute chart, in which each candlestick shows price movement over one minute,
+the 200-period MA is comprised of a series of average closing prices for the past 200 one-minute
+candles. On a daily chart, the 200-period moving average shows a series of average closing prices
+over the past 200 days.
+As each new closing price is added, the oldest one is dropped from the calculation, hence the term
+moving average, or MA. In other words, what makes these MAs is that for each new candlestick, the
+calculation replaces the oldest closing price with the latest one. For example, over a 251-candlestick
+period, the 200-period MA calculation would drop the closing price from the 250th candle and
+replace it with the one from the most recent, the 251st period. These 200 most recent closing prices
+would be totaled and divided by 200 to give the latest price level of the 200-period MA. This is the
+formula for the most basic MA, the Simple Moving Average (SMA).
+
+Advantages of MAs
+MAs have two advantages over the other types of trend lines previously discussed:
+1. They clarify trend direction: As a series of average prices over a given period rather than realtime prices, MAs filter out random price movements and present a smoother, clearer picture of
+the trend for the period they cover versus the series of candlesticks. Because MAs are dynamic
+and changing trend lines, MAs can provide a useful look at the more subtle price fluctuations
+within the overall trend that hand-drawn straight trend lines or channels will miss.
+2. They are often more reliable s/r because everyone's MAs look the same: They're built from an
+objective mathematical formula, so unlike trend and channel lines, a given type (SMA, EMA,
+WMA) and duration of MA for a given time frame looks the same on everyone's chart and
+presents the same picture of trend and s/r for all viewing it. That's a valuable attribute. By
+watching the most widely followed MAs, you have a better idea of what the rest of the herd
+believes to be the s/r of these trend lines. That allows you to anticipate and exploit their moves.
+
+Disadvantages of Simple MAs and Their Alternatives
+The main disadvantage of using single SMA lines is that by their nature of being a series of average
+prior prices, they lag the current price. We'll see later in Chapter 8 that using multiple MA lines
+together can turn MAs from lagging indicators into leading indicators.
+To partially remedy this time lag for individual SMAs, Exponential Moving Averages (EMAs) and
+Weighted Moving Averages (WMAs) are available. Leaving aside the mathematical distinctions,
+know that though SMAs weigh the oldest and newest prices equally, WMAs and EMAs assign greater
+weight to the most recent data and are a bit more responsive to recent price changes. No clear
+consensus exists on which is better or more popular. Whether one or another works better for you
+will be a matter of experiment (see later discussion of back testing). The more responsive WMA and
+EMA are more accurate if recent prices are more indicative of where the trend is going. Sometimes
+that is true, and sometimes it's not.
+
+The Most Important MAs to Watch
+The 5-, 10-, 20-, 50-, 100-, and 200-period MAs are widely followed in most markets and time
+
+frames. They are the standard sampling of shorter and longer-duration MAs and provide a degree of
+self-fulfilling prophecy. They indicate s/r because traders believe they are s/r points. The longerduration MAs are particularly popular s/r indicators. For example, even the mainstream financial
+press aimed at laymen will usually mention if a major stock index crosses its 50- or 200-day MA.
+The forex media (which exists almost exclusively on the Internet) will quickly note if a major pair
+hits or crosses one of the longer-duration MAs like its 50-, 100-, or 200-day MA. Similarly, because
+MAs in longer timeframes are older, 20-, 50-, or 200-day, week, and month MAs get more attention
+because they provide much more significant s/r than those durations in shorter time frames.
+By all means, tinker with slight variations on these. For example, some prefer to shorten their
+sampling period to get a head start on the crowd (at the risk of getting a premature, false signal).
+Slightly longer or shorter sampling periods have their advantages and disadvantages. Following is a
+summary.
+
+MA Duration and Age: Advantages and Disadvantages
+To understand and use MAs, you need to understand the relative strengths and weaknesses of the
+longer- and shorter-duration MAs, and the older ones you'll see on daily to monthly charts versus the
+younger MAs in the shorter time frames. Here's what you need to know.
+
+Shorter Durations (5, 10, 20 Periods): More Responsive to Price
+Changes, Weaker, Less Significant S/R
+The advantages:
+More responsive to price changes and are quicker to indicate a change in trend.
+Are better at showing short-term trends.
+May provide warning of trend changes when they cross longer-duration MAs (see Chapter 8 on
+MA crossovers).
+The disadvantages:
+Weaker, less significant s/r, so they don't provide as reliable signals of trend continuation or
+reversal as the longer-duration MAs when they are breached or when they hold.
+Shorter-duration MAs don't display the overall trend as well as longer-duration MAs when
+prices are bouncing around because the shorter-duration MAs follow each price move so
+closely.
+
+Longer Duration (50, 100, 200 Periods): Less Responsive to Price
+Changes, Stronger, More Significant S/R
+The advantages:
+Stronger, more significant s/r provide more reliable signals of trend continuation or reversal
+when they are breached or when they hold.
+They are better than the shorter-duration MAs at displaying the overall trend when prices are
+volatile because a more sustained trend is needed to move these MAs.
+The disadvantages:
+
+The longer the duration, the further they lag current price action.
+
+The Same Advantages and Disadvantages Apply When Comparing
+Younger versus Older MAs
+The same durations on longer time frame charts are older than those on shorter time frame charts.
+Thus a 200-day MA is a much more significant s/r than a 200-hour MA but is less responsive to
+price and trend changes.
+
+Examples of Long- and Short-Term MA Behavior
+Let's look at some examples of how long- and short-term MAs behave. In Figures 4.10 and 4.11, the
+shorter MAs, the more closely they follow price. The longer the MAs, the smoother they are and the
+less often they tend to be breached.
+FIGURE 4.10 EURUSD Weekly Chart, November 23, 2008, to October 1, 2010
+Source: MetaQuotes Software Corp.

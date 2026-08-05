@@ -1,0 +1,1348 @@
+
+120
+TABLE 3.10
+
+New Frontiers in Technical Analysis
+Dow Industrials Component Issues “Big B”
+Moving with Bias
+Less Ignoring Bias
+(monthly “Big B”)
+
+Beta
+
+Symbol
+
+2.12
+
+AA
+
+132.87%
+
+2.08
+
+AXP
+
+74.49%
+
+1.32
+
+BA
+
+102.91%
+
+2.31
+
+BAC
+
+215.63%
+
+1.85
+
+CAT
+
+−90.88%
+
+1.25
+
+CSCO
+
+359.41%
+
+0.7
+
+CVX
+
+−16.79%
+
+1.46
+
+DD
+
+26.83%
+
+1.18
+
+DIS
+
+81.77%
+
+1.69
+
+GE
+
+256.89%
+
+0.79
+
+HD
+
+−51.39%
+
+1.02
+
+HPQ
+
+91.58%
+
+0.71
+
+IBM
+
+−184.21%
+
+1.15
+
+INTC
+
+15.82%
+
+0.6
+
+JNJ
+
+−101.15%
+
+1.12
+
+JPM
+
+108.75%
+
+0.55
+
+KFT
+
+25.74%
+
+0.58
+
+KO
+
+−77.70%
+
+0.47
+
+MCD
+
+−8.48%
+
+0.84
+
+MMM
+
+−137.35%
+
+0.64
+
+MRK
+
+85.94%
+
+1.01
+
+MSFT
+
+−43.30%
+
+0.66
+
+PFE
+
+93.05%
+
+0.48
+
+PG
+
+−69.51%
+
+0.62
+
+T
+
+73.92%
+
+0.59
+
+TRV
+
+−138.13%
+
+Applying Seasonality and Erlanger Studies
+TABLE 3.10
+
+121
+
+(Continued )
+Moving with Bias
+Less Ignoring Bias
+
+Beta
+
+Symbol
+
+(monthly “Big B”)
+
+1.05
+
+UTX
+
+−73.90%
+
+0.61
+
+VZ
+
+66.15%
+
+0.35
+
+WMT
+
+−110.33%
+
+0.41
+
+XOM
+
+−29.27%
+
+1.23625
+
+= Average Beta of Bias Performers
+
+0.745
+
+= Average Beta of Bias Nonperformers
+
+Source: Erlanger Chart Room.
+
+using the monthly DMA channel as a bias for determining when to be buying
+or selling. Table 3.11 is the same as Table 3.9, except that we have ﬁltered out
+those stocks with a beta below 1.
+The beneﬁt of ﬁltering out low beta stocks is a smaller universe populated with stocks that move in ways that make following the big-picture bias
+signiﬁcantly more effective.
+Table 3.12 shows the comparison of the effectiveness of following the
+big-picture bias of all Dow issues versus Dow issues for high beta Dow issues.
+The Big B for the high beta universe is four times that for all Dow stocks.
+Average losers are roughly equivalent, but average gainers are 39 percent larger
+for the high beta universe.
+One useful buy trigger signal is when price moves above the DMA channel; a sell trigger is signaled when price moves below the DMA channel. It is
+important for portfolio managers or traders to determine the interval appropriate for their type of trading, and match that to the DMA channel when
+used for triggers, and increase the interval when using the DMA channel for
+bias determination. For example, if you trade on daily data, use daily DMA
+channels for triggers and weekly or monthly data for bias determination. If
+you trade on ﬁve-minute bars, use ﬁve-minute (or smaller) DMA channels as
+triggers and 29-minute or 60-minute DMA channels for bias determination.
+Let’s consider the triggered trades for General Electric (GE) using the
+daily DMA channel for the negative big-picture bias period of 1/31/2008
+through 9/30/2009, as delineated in Table 3.8.
+
+122
+
+New Frontiers in Technical Analysis
+
+TABLE 3.11 Big-Picture Bias—Dow Industrials Component Issues with Beta of 1 or
+Higher (from 2000 to November 5, 2010)
+
+Avg # of Avg # of
+Ignoring
+Average Average Months Months
+Bias
+Winners Losers Winner Loser Winners Losers Beta
+
+Symbol
+
+Moving
+with Bias
+
+BAC
+
+219.38%
+
+3.75%
+
+3
+
+3
+
+85.37% −12.24% 31.00
+
+10.67
+
+2.31
+
+AA
+
+74.71% −58.16%
+
+3
+
+10
+
+67.99% −12.93% 17.33
+
+7.20
+
+2.12
+
+AXP
+
+36.32% −38.17%
+
+3
+
+5
+
+39.36% −16.35% 20.67
+
+10.40
+
+2.08
+
+CAT
+
+10.90%
+
+101.78%
+
+3
+
+8
+
+38.55% −13.09% 16.67
+
+8.00
+
+1.85
+
+GE
+
+179.10% −77.79%
+
+5
+
+2
+
+39.21% −8.48% 20.60
+
+11.00
+
+1.69
+
+DD
+
+−20.11% −46.94%
+
+3
+
+8
+
+24.09% −11.55% 16.67
+
+8.00
+
+1.46
+
+BA
+
+203.92%
+
+101.01%
+
+4
+
+3
+
+61.75% −14.37% 23.75
+
+6.33
+
+1.32
+
+CSCO
+
+329.57% −29.84%
+
+5
+
+2
+
+66.87% −2.39% 21.00
+
+10.00
+
+1.25
+
+DIS
+
+63.72% −18.05%
+
+4
+
+4
+
+28.38% −12.45% 21.50
+
+7.00
+
+1.18
+
+INTC
+
+−60.25% −76.07%
+
+3
+
+8
+
+17.27% −14.01% 15.00
+
+10.25
+
+1.15
+
+JPM
+
+103.51%
+
+−5.24%
+
+5
+
+1
+
+22.61% −9.54% 22.60
+
+8.00
+
+1.12
+
+UTX
+
+77.37%
+
+151.27%
+
+3
+
+6
+
+51.92% −13.06% 29.00
+
+7.00
+
+1.05
+
+HPQ
+
+142.10%
+
+50.52%
+
+4
+
+3
+
+43.59% −10.76% 23.50
+
+10.33
+
+1.02
+
+MSFT
+
+−84.50% −41.20%
+
+4
+
+9
+
+7.17% −12.58% 14.75
+
+7.22 1.01
+
+3.71
+
+5.14 42.44% −11.70% 21.00
+
+Average:
+
+91.12%
+
+1.21%
+
+8.67
+
+1.47
+
+Source: Erlanger Chart Room.
+
+Table 3.13 shows all the GE trigger trades, sorted by up and down signals.
+Both long and short trades showed proﬁts overall, but the gains for short trades
+(based on down triggers) were almost three and a half times those of long
+trades (based on up triggers). This is understandable given that short trades
+in an overall negative bias period are expected to fare better than long trades.
+As is the case with any indicator used as a trigger, the idea is to view trigger
+signals as a mechanical process for entering and exiting a trade. The trigger
+itself is not the main reason behind a transaction, but rather an indication
+that the market has begun to move in the expected direction based on other
+factors. Typically, those other factors are classiﬁed as setup indicators.
+The DMA channel can also serve as a setup measure, though this is a
+rare occurrence. For example, if there is an upturn in price, we look for price
+
+123
+
+34.30%
+
+All Dow Stocks:
+
+Source: Erlanger Chart Room.
+
+91.12%
+
+Beta =>1 Dow Stocks:
+
+Moving
+with Bias
+
+11.66%
+
+1.21%
+
+Ignoring
+Bias
+
+3.60
+
+3.71
+
+Winners
+
+6.07
+
+5.14
+
+Losers
+
+30.44%
+
+42.44%
+
+Average
+Winner
+
+Avg # of
+Months
+Winners
+21.00
+20.85
+
+Average
+Loser
+−11.70%
+−11.84%
+
+8.22
+
+8.67
+
+Avg # of
+Months
+Losers
+
+23%
+
+90%
+
+Moving with Bias
+Less Ignoring Bias
+(Monthly “Big B”)
+
+TABLE 3.12 Big-Picture Bias—Dow Industrials Component Issues: All Dow Stocks versus High Beta Dow Stocks (from 2000 to
+November 5, 2010)
+
+124
+
+New Frontiers in Technical Analysis
+
+TABLE 3.13 Daily DMA Triggers—GE during Negative Bias Period, January 31, 2008 to
+September 30, 2009
+
+Direction
+
+Start Date
+
+Close
+
+End Date
+
+Close
+
+P/L
+
+DOWN
+
+2/6/2008
+
+34.20
+
+3/12/2008
+
+33.96
+
+0.71%
+
+DOWN
+
+4/9/2008
+
+36.44
+
+4/24/2008
+
+32.81
+
+11.06%
+
+DOWN
+
+5/7/2008
+
+32.57
+
+6/5/2008
+
+31.06
+
+4.86%
+
+DOWN
+
+6/6/2008
+
+30.04
+
+7/8/2008
+
+28.06
+
+7.06%
+
+DOWN
+
+7/15/2008
+
+26.65
+
+7/17/2008
+
+28.00
+
+−4.82%
+
+DOWN
+
+8/19/2008
+
+28.71
+
+9/8/2008
+
+29.09
+
+−1.31%
+
+DOWN
+
+9/9/2008
+
+28.12
+
+11/4/2008
+
+20.77
+
+35.39%
+
+DOWN
+
+11/10/2008
+
+18.45
+
+11/28/2008
+
+17.17
+
+7.45%
+
+DOWN
+
+12/15/2008
+
+16.95
+
+1/2/2009
+
+17.07
+
+−0.70%
+
+DOWN
+
+1/12/2009
+
+15.83
+
+3/10/2009
+
+8.87
+
+78.47%
+
+DOWN
+
+5/13/2009
+
+12.91
+
+6/1/2009
+
+13.86
+
+−6.85%
+
+DOWN
+
+6/15/2009
+
+13.15
+
+7/14/2009
+
+11.64
+
+12.97%
+
+DOWN
+
+8/17/2009
+
+13.36
+
+8/24/2009
+
+14.20
+
+−5.92%
+
+DOWN
+
+9/1/2009
+
+13.34
+
+9/8/2009
+
+14.50
+
+−8.00%
+
+Total:
+
+130.37%
+
+Direction
+
+Start Date
+
+Close
+
+End Date
+
+Close
+
+P/L
+
+UP
+
+1/31/2008
+
+35.36
+
+2/6/2008
+
+34.20
+
+−3.28%
+
+UP
+
+3/12/2008
+
+33.96
+
+4/9/2008
+
+36.44
+
+7.30%
+
+UP
+
+4/24/2008
+
+32.81
+
+5/7/2008
+
+32.57
+
+−0.73%
+
+UP
+
+6/5/2008
+
+31.06
+
+6/6/2008
+
+30.04
+
+−3.28%
+
+UP
+
+7/8/2008
+
+28.06
+
+7/15/2008
+
+26.65
+
+−5.02%
+
+UP
+
+7/17/2008
+
+28.00
+
+8/19/2008
+
+28.71
+
+2.54%
+
+UP
+
+9/8/2008
+
+29.09
+
+9/9/2008
+
+28.12
+
+−3.33%
+
+UP
+
+11/4/2008
+
+20.77
+
+11/10/2008
+
+18.45
+
+−11.17%
+
+UP
+
+11/28/2008
+
+17.17
+
+12/15/2008
+
+16.95
+
+−1.28%
+
+UP
+
+1/2/2009
+
+17.07
+
+1/12/2009
+
+15.83
+
+−7.26%
+
+125
+
+Applying Seasonality and Erlanger Studies
+TABLE 3.13
+
+(Continued )
+
+Direction
+
+Start Date
+
+Close
+
+End Date
+
+Close
+
+P/L
+
+UP
+
+3/10/2009
+
+8.87
+
+5/13/2009
+
+12.91
+
+45.55%
+
+UP
+
+6/1/2009
+
+13.86
+
+6/15/2009
+
+13.15
+
+−5.12%
+
+UP
+
+7/14/2009
+
+11.64
+
+8/17/2009
+
+13.36
+
+14.78%
+
+UP
+
+8/24/2009
+
+14.20
+
+9/1/2009
+
+13.34
+
+−6.06%
+
+UP
+
+9/8/2009
+
+14.50
+
+9/30/2009
+
+16.42
+
+13.24%
+
+Total:
+
+36.88%
+
+Source: Erlanger Chart Room.
+
+to stay above the DMA channel. We are also concerned with the slope of the
+DMA channel. Figure 3.20 and 3.21 are examples of analyzing the DMA
+Channel Slope as setups.
+The steeper the slope of the DMA channel, the more powerful the advance
+phase, which brings us to the heart of the matter. Stocks generally transit from
+advance phase to decline phase and back to advance phase—so on and so forth.
+How the current phase unfolds can set up the tone of the next phase. If an
+advance phase is mediocre, the next decline phase is more likely to be nasty.
+If a decline phase is mild (as was the case in the circled areas in Figure 1.4), a
+setup is established for a relatively stronger move in the next advance phase.
+The DMA channel’s slope helps in monitoring the tone of the current trend.
+FIGURE 3.20
+
+Apple with Its Weekly DMA Channel Slope as Setups
+
+Source: Bloomberg LP.
+
+126
+FIGURE 3.21
+
+New Frontiers in Technical Analysis
+Google with Its Weekly DMA Channel Slope as Setups
+
+Source: Bloomberg LP.
+
+Erlanger Value Lines
+The Erlanger Value Lines (EVL) study is the only Erlanger indicator designed
+speciﬁcally for tracking intraday price action. All other Erlanger indicators in
+Bloomberg can be used in any timeframe. The Erlanger Value Lines can be
+calculated on stocks, indexes, futures, Forex, and ETFs. Any instrument with
+intraday activity can be graphed using the Erlanger Value Lines in Bloomberg.
+The Erlanger Value Lines highlight those key levels that ﬂoor traders
+focus on during the trading day. The goals as a user of the Erlanger Value
+Lines are to reveal potential entry and exit targets, and to determine a bias for
+taking long or short trades.
+The three core lines of the Erlanger Value Lines (see Figure 3.22) are
+resistance, pivot, and support. Each morning these levels are set at the open of
+trading. Sometimes the range between these levels can be very wide; at other
+times the range between these levels can be narrow; it depends on the action
+from the prior day.
+Besides plotting resistance, pivot, and support lines, the prior day’s ﬁnal
+two-hour high and the prior day’s ﬁnal two-hour low are also plotted. It
+is fascinating that a day later these levels can still become potential intraday
+resistance or support levels. These should be watched by anyone who is trading
+the market or a particular stock to try and gain an edge.
+Of particular use are the opening range extremes, which are useful in
+determining bias and also aid in handling large opening gaps. The opening
+range lines are the dashed lines. This particular chart shows the opening hourly
+highs and lows, but traders often use shorter periods for opening range tactics,
+including 1 minute, 5 minute or 30-minute opening ranges. The Erlanger
+
+127
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.22
+
+Erlanger Value Lines
+1204.00
+1203.41
+
+RESISTANCE
+
+S&P 500
+
+1202.00
+1200.00
+
+YEST LAST TWO-HOUR HIGH
+
+1198.62
+1198.00
+YEST LAST TWO-HOUR LOW
+
+1195.74
+FIRST-HOUR OPENING RANGE HIGH
+
+PIVOT
+
+1194.16
+1193.56
+1192.00
+1190.00
+1189.40
+1188.49
+1188.00
+
+SUPPORT
+
+FIRST-HOUR OPENING RANGE LOW
+
+10:00
+
+10:30
+
+11:00
+11:30
+Nov 26 2010
+
+12:00
+
+1186.93
+1186.00
+
+12:30
+
+Source: Bloomberg LP.
+
+Studies properties dialog allows you to customize these lines to any opening
+range value.
+The major use of the Erlanger Value lines is the determination of bias
+for intraday trades as the trading day unfolds. On days when price is trading
+between the support and resistance value lines, the traders on the ﬂoor or those
+making a market are in control. These are periods when the bias is neutral,
+and the trader can either refrain from trading, or take both long and short
+positions using tactics designed for choppy, sideways markets. When price
+moves above the resistance value line, the bias turns positive, and generally
+only long trades are taken. When price falls below the support value line, the
+bias turns negative, and generally only short trades are taken.
+Periods when a stock is trading above the resistance value line, the buyers
+are in control. The shaded area in Figure 3.23 highlights the range of trading
+above the resistance value line. The bias is positive at such times, which calls
+for acting on “buy” triggers only.
+
+128
+FIGURE 3.23
+
+New Frontiers in Technical Analysis
+Resistance Value Line
+
+Source: Bloomberg LP.
+
+Periods when price is trading below the support value line, the sellers
+are clearly in control. The shaded area in Figure 3.24 highlights the range of
+trading below the support value line. The bias is negative at such times, which
+calls for acting only on “sell” or “sell short” triggers.
+During an occasional trading day, one will sometimes ﬁnd that a stock
+breaks support early, but as the day wears on it moves back above support (see
+Figure 3.25). The sellers have lost control. A stock that breaks the support
+value line and then repositions itself above the support value line is exhibiting
+positive recovery action—the sellers had their chance and failed. This is
+conﬁrmed by a move above the pivot value line. A stock breaking above the
+FIGURE 3.24
+
+Support Value Line
+
+Source: Bloomberg LP.
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.25
+
+129
+
+Value Line Recovery with Move through Pivot Line
+
+Source: Bloomberg LP.
+
+resistance value line but later repositioning itself below the resistance value line
+is exhibiting negative reversal action—the buyers had their chance and failed.
+As was the case in Figure 3.24, most times, once support is broken, the
+sellers remain in control for the entire day and it makes sense to execute short
+trades only.
+Likewise, when resistance is taken out there is no reason to be a seller;
+instead, enjoy the ride by executing long trades only. If you were thinking
+about putting on a short position, it may be better to wait until the current
+strength plays itself out. Figure 3.26 shows the USO ETF testing its resistance
+line as support and then rising to a higher reaction high (see arrow in Figure
+3.26), after which price rose into the close. Such successfully tested breakouts
+FIGURE 3.26
+
+Positive Bias with Move above Resistance Value Line
+
+Source: Bloomberg LP.
+
+130
+FIGURE 3.27
+
+New Frontiers in Technical Analysis
+Negative Bias with Test of Pivot Value Line
+
+Source: Bloomberg LP.
+
+are strong patterns, especially because short sellers recognize they are in trouble
+and are “squeezed” out of their negative bets.
+Short-term traders may also attempt to trade off pivot levels. These levels
+act as targets and triggers for short-term trades. It is uncanny how these levels
+stop or turn back short-term price swings.
+A pivot level that is broken to the downside often indicates a good time
+to sell or sell short. As shown in Figure 3.27, when the pivot value line is
+tested as resistance (just after hour 13 in Figure 3.27), long holders recognize
+they have made a mistake and are squeezed out as they sell out. This adds to
+the downside impetus.
+Conversely, when price breaks out above a pivot level is often a good time
+to cover a short or to go long (see hour 14 in Figure 3.25).
+The factors that inﬂuence price action on an intraday basis are often
+legion. On the odd occasion these factors contribute to a breakdown in the
+system, as occurred on May 6, 2010, aka “ﬂash-crash” day. Unintended sell
+orders occurred in part because the day was faring poorly.
+In Figure 3.28, the S&P 500 e-mini futures contract is plotted in ﬁveminute intervals for the day of May 6, 2010—the now infamous ﬂash-crash
+day. The crash portion of the day occurred in the latter portion of the trading
+session. The day began innocuously enough, until price dipped below the
+support value line. Price then rallied to test the support value line as resistance,
+and then fell away to lower lows, which were followed by steady declines into
+the crash. Our point isn’t that the value lines “predicted” the ﬂash crash. Our
+point is that when factors, known and unknown, weigh on the price action,
+a disciplined approach to trading intraday gives the trader a better chance of
+being on the right side of the market in such situations. Having a disciplined
+
+131
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.28
+
+Flash Crash Followed Move below Support Value Line
+
+Source: Bloomberg LP.
+
+approach with effective metrics goes a long way to surviving, if not beneﬁting
+from, days like May 6, 2010.
+The Erlanger Value Lines have another set of lines that we use for
+bias—those opening range value lines. Traders often use the ﬁrst-hour high
+and ﬁrst-hour low as support and resistance levels. If price breaks above the
+ﬁrst-hour high, the near-term bias turns positive. If price breaks below the
+ﬁrst-hour low, the near-term bias turns negative.
+Opening ranges are great bias tools in their own right. As the trading day
+unfolds, the action usually emerges from the opening ﬁve-minute range soon
+after it is completed. The bias is dictated by which way price emerges from the
+ﬁve-minute range. In Figure 3.29 the price fell below the opening ﬁve-minute
+FIGURE 3.29
+
+Five-Minute Opening Range as Bias
+High of opening Five-Minute Range
+
+216.32
+215.42
+
+Low of opening Five-Minute Range
+
+214.00
+212.00
+210.00
+208.74
+208.00
+
+XAU––Phila Gold & Silver Index
+10:00
+
+11:00
+
+12:00
+
+13:00
+
+Jan 13 2011
+
+Source: Bloomberg LP.
+
+14:00
+
+15:00
+
+16:00
+
+132
+FIGURE 3.30
+
+New Frontiers in Technical Analysis
+First-Hour Opening Range as Bias
+
+Source: Bloomberg LP.
+
+range in the next interval. The rest of the day was weak. This is not always
+the case. Sometimes price can change direction intraday enough to affect the
+bias. This is where larger opening ranges come in as a strategic tool.
+Figure 3.30 is the same as Figure 3.29, except the range displayed represents the ﬁrst hour of trading. Figure 3.29 has already told us that the bias is
+negative because price broke below the ﬁve-minute opening range. The low
+of the 60-minute opening range held for many hours, but eventually price
+fell below that level. This break below the 60-minute opening range signiﬁed
+a more signiﬁcant negative bias and began a steady fall into the close.
+Opening ranges are especially helpful in dealing with opening gaps. Opening gaps can be problematic because in some cases the market keeps moving in
+the same direction, but sometimes there can be a reversal. In Figure 3.31, the
+FIGURE 3.31
+
+Opening Ranges and Support/Resistance Lines Working Together to
+
+Deﬁne Bias
+
+Source: Bloomberg LP.
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.32
+
+133
+
+Clusters of Value Lines Add to Their Signiﬁcance
+
+Source: Bloomberg LP.
+
+SMH opened with a gap so large the ﬁrst tick was above that day’s resistance
+value line. Even though that was an instantaneously positive bias indication,
+markets sometimes stall or fall back after such opens. The ﬁve-minute opening range can be extremely helpful in such cases. In Figure 3.31, the SMH
+rose above the 5-minute and 60-minute opening range highs that were well
+above the resistance value line—a powerful pattern that reduced the chances
+of a reversal.
+All Erlanger Value Lines can be used as short-term target levels. This is
+especially true if a few are clustered together. Figure 3.32 shows the early price
+of the OIH ETF falling into a cluster of value lines that included the prior
+day’s last two-hour low, the pivot value line, and the 60-minute opening low.
+The OIH wrestled with this cluster until it broke below at 11:40 A.M. In the
+midafternoon hours the OIH rallied to test this cluster as resistance. Toward
+the end of the day the OIH fell back and broke below the support value line.
+This cluster of value lines proved to be a highly signiﬁcant area of resistance
+for the day.
+
+Erlanger Rate-of-Change
+The Erlanger Rate-of-Change (EROC) is the quintessential momentum indicator that serves as both a setup and a trigger tool. It is speciﬁcally designed to
+show timely divergences that other momentum or rate-of-change indicators
+omit. It can be used on any time interval. It includes a signal line. The line
+shading is green when the EROC is above the zero level and red when it is
+below the zero level.
+Typically, there is a performance tradeoff with rate-of-change or momentum oscillators. Shorter period rate-of-change indicators are good triggers
+because they move in sync with price action when they move above or below
+
+134
+FIGURE 3.33
+
+New Frontiers in Technical Analysis
+The EROC Uncovers Negative Divergences
+
+Source: Bloomberg LP.
+
+their zero levels. However, shorter period rate-of-change indicators tend to
+diverge with price too early to be useful as a setup indicator. Longer period rateof-change indicators are better setups because they tend to diverge with price
+just before a change in direction. However, longer period rate-of-change indicators are sluggish to move with price action and therefore are poor triggers.
+The EROC is designed to behave well as both a setup and a trigger measure.
+Setup strategies are patterns in an indicator that typically precede a change
+in price. The EROC is best used as a setup when it diverges from the price
+action, especially at extreme levels of the EROC.
+For instance, a failure of the EROC to conﬁrm a higher high in price is
+a setup for a downside reversal. Figure 3.33 shows these negative divergences
+at the dotted lines. Negative divergences are setups for a turndown in price.
+They do not guarantee that a turndown will happen; they simply show that
+upside momentum is dangerously light and likely not able to support the
+higher high in price. From a strategy point of view, such setups are acted upon
+when a “sell” trigger is activated.
+Trigger strategies are patterns in an indicator that typically point to a
+time to execute a trade. Triggers are best executed following appropriate setup
+patterns. There are two ways to use EROC as a trigger. When the EROC
+moves above the signal line is the standard trigger for a long trade. Another
+trigger for a long trade is when the EROC moves above the zero level. A
+particularly strong long trigger is when both occur at the same time. When
+the EROC moves below the signal line is the standard trigger for a short trade.
+Another trigger for a short trade is when the EROC moves below the zero
+level. A particularly strong short trigger is when both occur at the same time.
+In Figure 3.33, both negative divergences caused the EROC to move below
+
+Applying Seasonality and Erlanger Studies
+FIGURE 3.34
+
+135
+
+The EROC Shows the Meaty Trends
+
+Source: Bloomberg LP.
+
+its signal line. The effective trigger to sell was when the EROC sank below its
+zero level.
+The EROC is also useful in identifying the meaty part of trends. The
+lightly shaded area of the EROC in Figure 3.34 highlights those times when
+the EROC is both above the zero level and above its signal line. Those times
+when the EROC fell below its signal line were good times to take proﬁts on
+long positions, but not necessarily good times to sell short. Why is this?
+The EROC also serves as a bias indicator. Figure 3.35 is a weekly chart
+of the S&P 500 index with its weekly EROC. The “meaty” trend zones are
+lightly shaded. If we trade the S&P 500 on a daily basis using the EROC,
+it is logical to use the weekly EROC as a bias. This means that when the
+FIGURE 3.35

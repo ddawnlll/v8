@@ -1,0 +1,377 @@
+the series is greater than the threshold and a value of -1 at other times.
+Binary Rules from Multiple Thresholds
+As pointed out earlier, binary rules are derived, quite naturally, from a sin-
+
+gle threshold because the threshold defines two mutually exclusive and
+exhaustive conditions: the time series is either above or below threshold.
+However, binary rules can also be derived using multiple thresholds, but
+employing more than one threshold creates the possibility that the input
+lOa
+
+75
+50
+25
+
+a
+
+Rule
+
++i
+
+Output_I
+
+.
+
+: :
+:
+
+L
+
+FIGURE 1.3 Rule with a single fixed threshold.
+
+!
+
+20 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+
+time series can assume more than two conditions. Consequently, multiple
+threshold rules require a more sophisticated logical operator than the simple inequality operator (greater-than or less-than), which suffices for single threshold rules.
+When there are two or more thresholds, there are more than two possible conditions. For example, with two thresholds, an upper and lower,
+there are three possible conditions for the input time series. It can be
+above the upper, below the lower, or between the two thresholds. To create a binary rule in this situation, the rule is defined in terms of two mutually exclusive events. An event is defined by the time series crossing a
+particular threshold in a particular direction. Thus, one event triggers one
+of the rule's output values, which is maintained until a second event,
+which is mutually exclusive of the first, triggers the other output value.
+For example, an upward crossing of the upper threshold triggers a + 1, and
+a downward crossing of the lower threshold triggers a-I.
+A logical operator that implements this type of rule is referred to as a
+flip-flop. The name stems from the fact that the rule's output value flips
+one way, upon the occurrence of one event, and then flops the other way,
+upon the occurrence of the second event. Flip-flop logic can be used with
+either variable or fixed threshold rules. An example of a rule based on two
+variable thresholds is the moving average band rule. See Figure 1.4. Here,
+the moving average is surrounded by an upper and lower band. The bands
+may be a fixed percentage above and below the moving average, or the deviation of the bands may vary based on of the recent volatility of the
+times, as is the case with the Bollinger Band. 6 An output value of + 1 is triggered by an upward piercing of the upper threshold. This value is retained
+
+Price
+
+Rule
+Output
+
++1
+
+I·.....·······]
+
+-1
+
+L
+
+t.... · ...... ···· .. · .... ··
+
+.:
+
+FIGURE 1.4 Moving average bands rule.
+
+.................... -..
+
+Objective Rules and Their Evaluation
+
+21
+
+until the lower threshold is penetrated in the downward direction, causing
+the output value to change to -l.
+Obviously, there are many other possibilities. The intent here has
+been to illustrate some of the ways that input time series can be transformed into a tinle series of recommended market positions.
+Hayes 7 adds another dimension to threshold rules with di'rectional
+modes. He applies multiple thresholds to a stationary time series such as a
+diffusions indicator. At a given point in time, the indicator's mode is defined by the zone it occupies and its recent direction of change (e.g., up or
+down over the most recent five weeks). Each zone is defined by an upper
+and lower threshold (e.g., 40 and 60). Hayes applies this to a proprietary
+diffusion indicator called Big Mo. With two thresholds and two possible
+directional modes (up/down), six mutually exclusive conditions are defined. A binary rule could be derived from such an analysis by assigning
+one output value (e.g., +1) to one of the six conditions, and then assigning
+the other output value (i.e., -1) to the other five possibilities. Hayes asserts that one of the modes, when the diffusion indicator is above 60 and
+its direction is upward, is associated with stock market returns (Value
+Line Composite Index) of 50 percent per armum. This condition has occurred about 20 percent of the time between 1966 and 2000. However,
+when the diffusion indicator is > 60, and its recent change is negative, the
+market's annualized return is zero. This condition has occurred about 16
+percent of the time. D
+
+TRt\DITIONAL RULES AND INVERSE RULES
+Part Two of this book is a case study that evaluates the profitability of approximately 6,400 binary long/short rules applied to the S&P 500 Index.
+Many of the rules generate market positions that are consistent with traditional principles of technical analysis. For example, under traditional TA
+principles, a moving-average-cross rule is interpreted to be bullish (output
+value +1) when the analyzed time series is above its moving average, and
+bearish (output value of -1) when it is below the moving average. I refer
+to these as traditional TA rules.
+Given that the veracity oftraditional TA maybe questionable, it is desirable to test rules that are contrary to the traditional interpretation. In
+other words, it is entirely possible that patterns that are traditionally assumed to predict rising prices may actually be predictive of falling
+prices. Alternatively, it is possible that neither configuration has any predictive value.
+This can be accomplished by creating an additional set of rules whose
+
+22 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Price
+Moving
+Average
+
+~11 l
+
+Traditional Rule
+
+r---ou--ouLou_ouou__jouououou--ou. • Ti me
+
++ 11f--1
+FIGURE •. 5
+
+~t-------- ..•
+
+Inverse Rule
+Traditional rules and inverse rules.
+
+output is simply the opposite of a traditional TA rule. I refer to these as
+
+inverse rules. This is illustrated in Figure 1.5. The inverse of the movingaverage-cross rule would output a value of -1 when the input time series
+is above its moving average, and + 1 when the series is below its moving
+average.
+There is yet another reason to consider inverse rules. Many of the
+rules tested in Part Two utilize input series other than the S&P 500, for example the yield differential between BAA and AAA corporate bonds. It is
+not obvious how this series should be interpreted to generate signals.
+Therefore, both up trends and down trends in the yield differential were
+considered as possible buy signals. The details of these rules are taken up
+in Chapter 8.
+
+THE USE OF BENCHMARKS IN RULE EVALUATION
+In many fields, performance is a relative matter. That is to say, it is performance relative to a benchmark that is informative rather than an absolute
+level of performance. In track and field, competitors in the shot-put are
+compared to a benchmark defined as best distance of that day or the best
+ever recorded in the state or world. To say that someone put the shot 43
+feet does not reveal the quality of performance, however if the best prior
+effort had been 23 feet, 43 feet is a significant accomplishment!
+This pertains to rule evaluation. Performance figures are only informative when they are compared to a relevant benchmark. The isolated
+
+Objective Rules and Their Evaluation
+
+23
+
+fact that a rule earned a 10 percent rate of return in a back test is meaningless. If many other rules earned over 30 percent on the same data, 10
+percent would indicate inferiority, whereas if all other rules were barely
+profitable, 10 percent might indicate superiority.
+What then is an appropriate benchmark for TA rule performance?
+What standard must a rule beat to be considered good? There are a number of reasonable standards. This book defines that standard as the performance of a rule with no predictive power (i.e., a randomly generated
+signal). This is consistent with scientific practice in other fields. In medicine, a new drug must convincingly outperform a placebo (sugar pill) to
+be considered useful. Of course, rational investors might reasonably
+choose a higher standard of performance but not a lesser one. Some other
+benchmarks that could make sense would be the riskless rate of return,
+the return of a buy-and-hold strategy, or the rate of return of the rule currently being used.
+In fact, to be considered good, it is not sufficient for a rule to simply
+beat the benchmark. It must beat it by a wide enough margin to exclude
+the possibility that its victory was merely due to chance (good luck). It is
+entirely possible for a rule with no predictive power to beat its benchmark
+in a given sample of data by sheer luck. The margin of victory that is sufficient to exclude luck as a likely explanation relates to the matter of statistical significance. This is taken up in Chapters 4, 6, and 6.
+Having now established that the benchmark that we will use is the return that could be earned by a rule with no predictive power, we now face
+another question: How much might a rule with no predictive power earn?
+At first blush, it might seem that a return of zero is a reasonable expectation. However, this is only true under a specific and rather limited set of
+conditions.
+In fact, the expected return of a rule with no predictive power can be
+dramatically different than zero. This is so because the performance of a
+rule can be profoundly affected by factors that have nothing to do with its
+predictive power.
+The Conjoint Effect of Position Bias and
+Market Trend on Back-Test Performance
+
+In reality, a rule's back-tested performance is comprised of two independent components. One component is attributable to the rule's predictive
+power, if it has any. This is the component of interest. The second, and unwanted, component of performance is the result of two factors that have
+nothing to do with the rule's predictive power: (1) the rule's long/short position bias, and (2) the market's net trend during the back-test period.
+This undesirable component of performance can dramatically influence
+
+24 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+back-test results and make rule evaluation difficult. It can cause a rule
+with no predictive power to generate a positive average return or it can
+cause a rule with genuine predictive power to produce a negative average
+return. Unless this component of performance is removed, accurate rule
+evaluation is impossible. Let's consider the two factors that drive this
+component.
+The first factor is a rule's long/short position bias. This refers to the
+amount of time the rule spent in a + 1 output state relative to the amount
+of time spent in a -1 output state during the back test. If either output
+state dominated during the back test, the rule is said to have a position
+bias. For example, if more time was spent in long positions, the rule has a
+long position bias.
+The second factor is the market's net trend or the average daily price
+change of the market during the period of the back test. If the market's net
+trend is other than zero, and the rule has a long or short position bias, the
+rule's performance will be impacted. In other words, the undesirable component of performance will distort back-test results either by adding to or
+subtracting from the component of performance that is due to the rule's
+actual predictive power. If, however, the market's net trend is zero or if
+the rule has no position bias, then the rule's past profitability will be
+strictly due to the rule's predictive power (plus or minus random variation). This is demonstrated mathematically later.
+To clarify, imagine a TA rule that has a long position bias but that we
+know has no predictive power. The signals of such a rule could be simulated by a roulette wheel. To create the long position bias, a majority of
+the wheel's slots would be allocated to long positions (+1). Suppose that
+one hundred slots are allocated as follows; 75 are + 1 and 25 are -1. Each
+day, over a period of historical data, the wheel is spun to determine if a
+long or short position is to be held for that day. If the market's average
+daily change during this period were greater than zero (Le., net trend upward), the rule would have a positive expected rate of return even though
+the signals contain no predictive information. The rule's expected rate of
+return can be computed using the formula used to calculate the expected
+value of a random variable (discussed later).
+Just as it is possible for a rule with no predictive power to produce a
+positive rate of return, it is just as possible for a rule with predictive
+power to produce a negative rate of return. This can occur if a rule has a
+position bias that is contrary to the market's trend. The combined effect of
+the market's trend and the rule's position bias may be sufficient to offset
+any positive return attributable to the rule's predictive power. From the
+preceding discussion it should be clear that the component of performance due to the interaction of position bias with market trend must be
+eliminated if one is to develop a valid performance benchmark.
+
+Objective Rules and Their Evaluation
+
+25
+
+At first blush, it might seem as if a rule that has a long position bias
+during a rising market trend is evidence of the rule's predictive power.
+However, this is not necessarily so. The rule's bullish bias could simply be
+due to the way its long and short conditions are defined. If the rule's long
+condition is more easily satisfied than its short condition, all other things
+being equal, the rule will tend to hold long positions a greater proportion
+of the time than short positions. Such a rule would receive a performance
+boost when back tested over historical data with a rising market trend.
+Conversely, a rule whose short condition is more easily satisfied than its
+long condition would be biased toward short positions and it would get a
+performance boost if simulated during a downward trending market.
+The reader may be wondering how the definition of a rule can induce
+a bias toward either long or short positions. This warrants some explanation. Recall that binary reversal rules, the type tested in this book, are always in either a long or short position. Given this, if a rule's long (+1)
+condition is relatively easy to satisfy, then it follows that its short condition (-1) must be relatively difficult to satisfy. In other words, the condition required for the -1 output state is more restrictive, making it likely
+that, over time, the rule will spend more time long than short. It is just as
+possible to formulate rules where the long condition is more restrictive
+than the short condition. All other things being equal, such a rule would
+recommend short positions more frequently than long. It would be contrary to our purpose to allow the assessment of a rule's predictive power
+to be impacted by the relative strictness or laxity of the way in which its
+long and short conditions are defined.
+To illustrate, consider the following rule, which has a highly restrictive short condition and, therefore, a relatively lax long condition. The
+rule, which generates positions in the S&P 500 index, is based on the Dow
+Jones Transportation Average. 1O Assume that a moving average with
+bands set at +3 percent and -3 percent is applied to the DJTA. The rule is
+to be short the S&P 500 while the DJTA is below the lower band, by definition a relatively rare condition, and long at all other times. See Figure 1.6.
+Clearly, such a rule would benefit if the S&P were in an uptrend over the
+back-test period.
+Now let's consider the back test of two binary reversal rules which
+are referred to as rule 1 and rule 2. They are tested on S&P 500 data over
+the period January 1, 1976 through December 2004. During this period of
+approximately 7,000 days, the S&P 500 had an average daily return of
++0.035 percent per day compounded, or +9.21897 percent annualized. Assume that rule 1 was in a long state 90 percent of the time and rule 2 was
+in a long state 60 percent of the time. Also, suppose that neither rule has
+predictive power-as if their output values were determined by a roulette
+wheel with 100 slots. The output for rule 1 is based on a roulette wheel
+
+26 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Price
+DJTA
+
+~
+
+Time
+
+Rule
+Output
++_11 1----------------i-+-;------------.--------'--+-----------.. ---------- -.. -
+
+:.;~ ....:
+
+-
+
+~
+
+L..~..l
+
+FIGURE 1.6 Rule with restrictive short condition and long position bias.
+
+with 90 slots assigned a value of +1 and the remaining 10 assigned a value
+of -1. The output for rule 2 is based on a wheel with 60 slots assigned a + 1
+value and 40 a value of -1. By the Law of Large Numbers,ll it is reasonable
+to expect that over the 7,000 days, rule 1 will be long very close to 90 percent of the time and rule 2 will be long approximately 60 percent of the
+time. Although the rules have different long/short biases, they have equal
+predictive power-none. However, their expected rates of return will be
+quite different over this segment of market history.
+The expected return of a rule depends upon three quantities; (1) the
+proportion of time the rule spent in long positions, (2) the proportion of
+time spent in short positions (1 minus the proportion of time long) and (3)
+the market's average daily price change during the historical test period.
+The expected return (ER) is given by the following equation.
+Expected Return
+
+ER = [p(L) x ADC] - [p(S) x ADC]
+Where
+p(L) - probability of long position (proportion long)
+p(S) - probability of short position (proportion short)
+ADC: average daily change in market traded
+
+Based on this calculation, the expected return for rule 1 is .028 percent per day or 7.31 percent annualized. l2 The expected return for rule 2 is
+
+Objective Rules and Their Evaluation
+
+27
+
+0.007 percent per day or 1.78 percent annualized. 13 This demonstrates that
+the rules' historical performance misleads us in two ways. First, both
+rules generate positive returns, yet we know that neither has any predictive power. Second, rule 1 appears to be superior to rule 2 even though we
+know they have equal predictive power-none.
+When testing actual trading rules, one way to remove the deceptive effect due to the interaction of position bias and market trend would be to
+do the following: Subtract the expected return of a nonpredictive rule
+with the same position bias as the rule tested from the observed return of
+the tested rule. For example, assume that we did not know rules 1 and 2
+had no predictive power. Simply by knowing their historical position bias,
+90 percent long for rule 1 and 60 percent for rule 2, and knowing the market's average daily return over the back-test period, we would be able to
+compute the expected returns for rules with no predictive power having
+these position biases using the equation for the expected return already
+shown. The expected returns for each rule and would then be subtracted
+from each rule's observed performance. Therefore, from rule 1's backtested return, which was 7.31 percent, we would subtract 7.31 percent,
+giving a result of zero. The result properly reflects rule 1's lack of predictive power. From rule 2's return of 1.78 percent, we would subtract a value
+of 1.78 percent, also giving a value of zero, also revealing its lack of predictive power.
+The bottom line is this: by adjusting the back-tested (observed) performance by the expected return of a rule with no predictive power having an equivalent position bias, the deceptive component of performance
+can be removed. In other words, one can define the benchmark for any
+rule as the expected return of a nonpredictive rule with an equivalent position bias.
+
+A Simpler Solution to Benchmarking:
+Detrending the Market Data
+The procedure just described can be quite burdensome when many rules
+are being tested. It would require that a separate benchmark be computed
+for each rule based on its particular position bias. Fortunately there is an
+easier way.
+The easier method merely requires that the historical data for the
+market being traded (e.g., S&P 500 Index) be detrended prior to rule testing. It is important to point out that the detrended data is used only for the
+purpose of calculating daily rule returns. It is not used for signal generation if the time series of the market being traded is also being used as a
+rule input series. Signals would be generated from actual market data (not
+detrended).
+
+28 METHODOLOGICAL, PSYCHOLOGICAL, PHILOSOPHICAL, STATISTICAL FOUNDATIONS
+Detrending is a simple transformation, which results in a new market
+data series whose average daily price change is equal to zero. As pointed
+out earlier, if the market being traded has a net zero trend during the backtest period, a rule's position bias will have no distorting effect on performance. Thus, the expected return of a rule with no predictive power, the
+benchmark, will be zero if its returns are computed from detrended market data. Consequently, the expected return of a rule that does have predictive power will be greater than zero when its returns are computed
+from detrended data.
+To perform the detrending transformation, one first determines the
+average daily price change of the market being traded over the historical
+test period. This average value is then subtracted from each day's price
+change.
+The mathematical equivalence between the two methods discussed,
+(1) detrending the market data and (2) subtracting a benchmark with a
+equivalent position bias, may not be immediately obvious. A detailed
+mathematical proof is given in the Appendix, but if you think about it, you
+will see that if the market's average daily price change during the historical testing period is equal to zero, then rules devoid of predictive power
+must have an expected return of zero, regardless of their long/short position bias.
+To illustrate this point, let's return to the formula for computing the expected value of a random variable. You will notice that if the average daily
+price change of the market being traded is zero, it does not matter what
+p(long) or p(short) are. The expected return (ER) will always be zero.
+ER = [p (long) x avg. daily return] - [p (short) x avg. daily return]
+
+For example, if the position biases were 60 percent long and 40 percent short, the expected return is zero.
+0= [0.60) x OJ - [0.40 x 0] Position Bias: 60 percent long, 40 percent short
+
+If, on the other hand, a rule does have predictive power, its expected
+return on detrended data will be greater than zero. This positive return reflects the fact that the rule's long and short positions are intelligent rather
+than random.
+
+Using Logs of Daily Price Ratio Instead
+of Percentages
+Thus far, the returns for rules and the market being traded have been discussed in percentage terms. This was done for ease of explanation. How-

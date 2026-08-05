@@ -1,0 +1,628 @@
+
+FIGURE 9.10 Volatility can vary widely from one currency pair to another. Here,
+the daily chart of the EUR/GBP pair shows an ATR of just 35 pips.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Let’s think about this for a minute: One currency pair moves about
+148 pips per day, and the other moves about 35 pips per day. Imagine that
+a protective stop is placed at an appropriate distance (i.e., “x” number of
+pips) for one pair. Would a stop placed at this distance also be appropriate
+for the other, if the two pairs are in similar situations?
+
+COMPARING APPLES TO APPLES
+The answer is: most definitely not. Consider a 30-pip stop; this might be
+considered a close stop for the GBP/USD currency pair, because 30 pips is
+equal to just about 20 percent of the average daily range of that pair (148
+pips). Meanwhile, a 30-pip stop could be considered a wide stop for the
+EUR/GBP pair, because it is equal to nearly 90 percent of the pair’s average
+daily range of 35 pips.
+Because of this, a 30-pip stop (or any fixed number of pips) cannot
+be considered an effective stop in every situation, because volatility varies
+so widely from one currency pair to another. While we can’t use a fixed
+number of pips in an effective manner, we can use the ATR indicator to
+help calculate the location of our stop.
+Consider the difference in ATR readings in the above example;
+GBP/USD’s average daily range is more than four times the average daily
+range of EUR/GBP. So it stands to reason that, all other things being equal,
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+110
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+a protective stop for the GBP/USD pair should be about four times as wide
+(four times as many pips) as a protective stop for the EUR/GBP pair. This
+allows us to make an “apples to apples” comparison of the two currency
+pairs, and compensates for the variable of volatility.
+
+ATR CALCULATION
+For our strategy, we will use 50 percent of the daily ATR to determine the
+location of our stop. Since this strategy is based on the theory of support
+(in the case of a long trade) at the 10-day EMA, we will place the stop under
+the 10-day exponential moving average by an amount of pips equivalent to
+50 percent of the daily ATR, and we will trail the stop manually beneath the
+moving average.
+This way, if support at the moving average fails, our stop will be hit and
+we will be taken out of the trade. However, as long as the moving average
+support holds, we can remain in the trade, and then trail the stop higher if
+the trend remains intact.
+
+Huge Potential
+If we are fortunate and the pair continues trending strongly, the potential
+exists for a big winning trade. When we enter a trade of this nature, the
+best-case scenario would be that the pair continues to trend for a very
+long time. When this happens, the size of a winning trade can become
+astounding.
+In this example, we see the EUR/USD currency pair is in an uptrend.
+The moving averages are in the proper order for an uptrend, and the exchange rate has remained above the 10-day EMA for at least 10 days (see
+Figure 9.11). We have met the necessary criteria to enter the trade.
+
+THE ENTRY
+As the exchange rate falls to the 10-day EMA, we’ll enter a long position. We
+can enter as soon as we observe the exchange rate dipping to the moving
+average; there is no need to wait for the candle to close. The entry point is
+1.2645
+Now that we have entered the trade, we need to calculate the location
+of the stop. The trader measures the ATR (14 periods) for the daily chart,
+and the result is 0.0110 (see Figure 9.12). This is another way of saying that
+the average daily range of EUR/USD is 110 pips per day at this time.
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+The FX-Ed Trend Technique
+
+111
+
+EUR/USD in porper order
+and exchange rate above 10 EMA
+for 10 consecutive days
+
+FIGURE 9.11 The EUR/USD pair meets the proper criteria to enter a trade.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+FIGURE 9.12 The trade is entered as the exchange rate falls to the 10-day EMA.
+The ATR measures 110 pips, so the stop will be placed 55 pips beneath the EMA.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+112
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+THE STOP
+We will locate the stop underneath the 10-day EMA, by a number of pips
+that is equal to half of the daily range of the currency pair. Since the ATR is
+110 pips, and 50 percent of 110 pips is = 55 pips, the stop will be located 55
+pips beneath our entry point of 1.2645. This places our initial stop at 1.2590.
+Since this strategy is designed to identify and exploit very strong
+trends, we want to be sure that we take full advantage of those trends when
+we do find them. The point is that we shouldn’t be in a big hurry to get out
+of the trade because, for all we know, the pair might continue trending for
+weeks.
+
+Trailing the Stop
+Let’s acknowledge this point by designing the stop so that we can trail it
+along beneath the moving average, instead of aiming for a specific target.
+We will raise the stop every time a daily candle closes.
+Since we are trading within an uptrend, we will not lower the stop
+under any circumstances. We will keep the stop beneath the 10-day EMA,
+at an amount equal to 50 percent of the daily ATR, until the exchange rate
+finally breaks down and reaches our stop.
+The initial entry and stop are calculated according to the current
+(open) daily candle, but as the trade progresses we will move the stop
+and calculate the ATR and the 10-day EMA according to the most recently
+closed candle.
+
+THE TRADE
+On Day 1, we enter the trade at 1.2645. After we enter, the exchange rate
+continues to dip to about 1.2630 (see Figure 9.13). Because our initial stop
+at 1.2590 was not reached, the trade continues into the next day.
+On Day 2, our stop is not hit as the exchange rate is now firmly above
+the 10-day EMA (see Figure 9.14).
+We do not raise the stop, because from this point on the protective stop
+must be calculated according to the most recently closed candle. Since
+the most recently closed candle is the same candle that was open when
+we entered the trade, we cannot raise our stop yet. The daily ATR dips to
+0.0109.
+Finally, the Day 2 candle closes, and we enter Day 3, and we can
+now raise the stop. First, we must calculate the 10-day EMA for the most
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+The FX-Ed Trend Technique
+
+113
+
+FIGURE 9.13 The exchange rate dips brieﬂy beneath the moving average on the
+ﬁrst day of the trade. This is when the risk is greatest.
+Source: FXtrek IntelliChartTM . Copyright 
+c 2001–2006 FXtrek.com, Inc.
+
+FIGURE 9.14 The stop cannot be raised until the Day 2 daily candle is closed.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+recently closed (Day 2) candle. We can see that the 10-day EMA has now
+climbed to 1.2673 (see Figure 9.15).
+The ATR is still perched at 110 pips, so the stop must be raised so that
+it is 55 pips (half of the ATR) beneath the moving average. This means that
+as Day 3 begins, we can raise our stop to 1.2618 (the new location of the
+exponential moving average of 1.2673 minus 55 pips).
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+114
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 9.15 On Day 3, the stop is raised to keep pace with the moving average.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+Note that our risk was originally 55 pips per lot, and now this has been
+reduced to 27 pips per lot (entry of 1.2645 minus the new stop of 1.2618).
+If we can continue raising the stop, we will further reduce, and perhaps
+eliminate, any remaining risk from the trade.
+As the candle closes on Day 3, the moving average has risen to 1.2687,
+and the ATR has dropped to 108 (see Figure 9.16). Our stop will be placed
+beneath the moving average by 54 pips (50 percent of the ATR reading of
+108), so our stop will be raised to 1.2633 (1.2687 minus 54 pips). Since our
+entry point was 1.2645, we have now lowered the risk on this trade to 12
+pips per lot (1.2645 entry, 1.2633 stop).
+During the Day 4 candle, the exchange rate dips beneath the 10-day
+EMA for the first time since our entry. However, the low of the Day 4 candle
+is 1.2664, so our stop of 1.2633 is untouched and the trade continues. As
+long as the exchange rate doesn’t fall sharply below the 10-day EMA, the
+trade is still alive.
+As the Day 4 candle closes, and we enter Day 5, the 10-day EMA has
+moved up again, this time to 1.2698 (see Figure 9.17). The ATR reading is
+still 108, and half of 108 = 54, so our stop is trailed higher to 1.2644 (1.2698
+minus 54 pips = 1.2644). Our total risk on this trade has now been reduced
+to one pip per lot.
+During Day 5, we get quite a scare as the exchange rate dives beneath
+the 10-day EMA again, falling to 1.2656, missing our stop by just 12 pips
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+The FX-Ed Trend Technique
+
+115
+
+FIGURE 9.16 Now that the Day 3 candle has closed, the stop is raised again,
+and is now placed 54 pips beneath the EMA to compensate for the slight reduction
+in ATR.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+FIGURE 9.17 The Day 4 candle closes, and we enter Day 5. A close call as the
+exchange rate falls through the EMA and nearly reaches the stop.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+116
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+FIGURE 9.18 After the Day 5 candle closes, we raise the stop again. The stop is
+now above the entry point.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+before reversing and bouncing back above the moving average. Luckily,
+institutional traders use the dip to add to their positions, and by the time
+the Day 5 candle closes, the exchange rate is back above 1.2800, and the
+moving average has climbed to 1.2720 (see Figure 9.18).
+The added volatility has caused the ATR to bounce back up to 110, so
+the next time we calculate our stop, it will be located 55 pips (50 percent
+of 110) beneath the 10-day EMA. This raises our protective stop to 1.2665
+(1.2720 minus 55 pips = 1.2665).
+Not only has all of the risk been eliminated from the trade, our stop is
+now 20 pips above our entry point of 1.2645. Our worst-case scenario is a
+gain of 20 pips per lot, but if the pair continues to trend, our profit could be
+considerably larger.
+Let’s jump ahead to Day 17; since we survived our close call on Day 5,
+the exchange rate has slipped beneath the 10-day EMA once, and just by a
+few pips (see Figure 9.19). Therefore, our stop has not been threatened, as
+the EUR/USD currency pair continues to trend higher.
+By the end of Day 17, the moving average has climbed all the way to
+1.2947, and our stop has been trailed higher to 1.2892. Since we entered
+this trade 17 days earlier at 1.2645, our stop is now 247 pips above our entry
+point. Our worst-case scenario is now a gain of 247 pips per lot! Remember,
+our risk on the trade was never more than 55 pips per lot.
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+The FX-Ed Trend Technique
+
+117
+
+Day 5
+“close call”
+FIGURE 9.19 Days 5 through 17: since the exchange rate has barely touched the
+EMA, the stop has not been hit and the trade is still in eﬀect.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+DON’T FISH FOR MINNOWS
+At this point, I’m sure some of you are thinking, “Ed, I only want to gain
+10 pips per day; I don’t want to hold my trades for 17 days!” Try to look at
+it this way: If you had actually gained 10 pips per day, for 17 consecutive
+days, you would have gained only 170 pips profit versus our worst-case scenario of 247 pips. Plus, if this trend continues, the gain may become even
+larger.
+Also, if you are placing short-term trades with a small profit potential,
+you are paying the spread over and over again. The spread is your number
+one obstacle to profitability, and the more often you pay it, the more of
+your money you are giving away to the market maker. An active, shortterm trader is the market maker’s best friend. Not to mention the fact that
+you are working very hard. Short-term trading is very labor intensive!
+Meanwhile, the trader using the FX-Ed Trend Technique is moving the
+stop once per day. That’s it. As they say in the business world, “Do you
+want to work harder, or do you want to work smarter?”
+Plus, I think you’ll find that once you place a trade that earns hundreds
+of pips, you might find it difficult to go back to your old ways. You’ll wonder
+why you’ve been wasting your time picking up pennies off the ground when
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+118
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+Low-Maintenance Method
+This method of trading is very low maintenance. Remember, we are not
+involved in a contest to see who can place the most trades.
+Some traders, especially novices, seem to think that the more trades
+they place, the more money they will make. In reality, there is no correlation between the number of trades you place and the amount of profit
+you earn. One really good trade will earn more money than dozens of
+mediocre trades, so I encourage you to choose your trades carefully.
+The only thing that the trader has to do with this strategy is move the
+stop once per day, after the daily candle closes. This is a perfect strategy
+for people who do not want to spend their entire day staring at a video
+screen.
+It’s a great strategy for people who are working full time and can’t
+monitor the market on a constant basis. Or it could be a longer-term strategy that a trader can use in conjunction with shorter-term strategies. As
+we will see from the various strategies discussed in this book, there is no
+need to limit ourselves to just one strategy!
+all the while there was real money to be made. Why fish for minnows when
+there are bigger fish in the sea?
+
+BACK TO THE TRADE
+Let’s jump ahead again, this time to Day 27 (see Figure 9.20). Just by glancing at the chart, we know that the stop has not been hit because it is well
+under the 10-day EMA, which has been touched only sporadically since
+our “close call” on Day 5. There have been no incursions of more than a
+few pips since then, and clearly, big traders are “loading the boat” every
+time the exchange rate drops to the moving average.
+The 10-day EMA is now all the way up to 1.3256, and the ATR, bolstered
+by the increase in volatility, has risen to 118 pips per day (not shown). 118
+divided by 2 = 59, so the stop must now be placed 59 pips beneath the
+moving average, at 1.3197 (1.3256 minus 59 pips = 1.3197).
+This means that we have now locked in a profit of 552 pips (the stop of
+1.3197, minus the entry point of 1.2645 = 552 pips). Even if our stop is hit
+tomorrow, we are holding a substantial gain!
+All good things must come to an end, and this trade is no different.
+Two days later, on Day 29, the moving average has climbed to 1.3308
+(see Figure 9.21). The ATR has backed off a bit to 112, so our stop will
+be placed 56 pips (50 percent of 112) beneath the moving average, at 1.3252.
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+119
+
+The FX-Ed Trend Technique
+
+“close call”
+
+FIGURE 9.20 The exchange rate remains above the EMA through Day 27. Because the ATR has climbed to 118 pips per day, the stop is 59 pips beneath the
+EMA.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+“close call”
+
+FIGURE 9.21 The moving average continues to rise, and on Day 29 we raise the
+stop for what will be the ﬁnal time.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+120
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+(1.3308 minus 56 pips = 1.3252). Our worst-case scenario is a profit of 607
+pips (1.3252 minus the entry point of 1.2645).
+
+DENOUEMENT
+Finally, the stop is executed, and the trade is closed (see Figure 9.22). Our
+profit of 607 pips should make up for quite a few small losses!
+We can’t expect the FX-Ed Trend Technique to work this well every
+time, but it takes only a few large winners to really improve your overall
+trading results. Even if we only occasionally capture an outsized profit, it
+will work wonders for our profit/loss statement.
+
+THE NEWS VERSUS THE TREND
+What happens when political or economic events clash with a strong trend?
+If the trend meets all of the criteria as mentioned earlier, then any type of
+news event that creates a reaction against the trend is likely to have only
+a temporary effect. For an example of this, I’d like to take you back to the
+year 2003.
+
+Trade closed
+
+“close call”
+
+FIGURE 9.22 The exchange rate collapses and falls sharply beneath the 10-Day
+EMA, and the stop is ﬁnally executed at 1.3252.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+121
+
+The FX-Ed Trend Technique
+
+GBP/USD
+uptrend
+
+10-day EMA
+
+FIGURE 9.23 A strong uptrend in GBP/USD in late 2003. Moving averages are in
+the proper order for an uptrend (not shown).
+Source: FXtrek IntelliChartTM . Copyright 
+c 2001–2006 FXtrek.com, Inc.
+
+At that time, the United States had invaded Iraq, and Saddam Hussein,
+the deposed leader of the Iraq, had gone into hiding. During the second half
+of the year, the U.S. dollar was in a steep downtrend against most of the
+major currencies of the world, including the Great Britain pound.
+Here we can see about a month’s worth of activity, with the GBP/USD
+pair finding support repeatedly at the 10-day EMA (see Figure 9.23). The
+10, 20, 50 and 200 period EMAs are in the proper order for an uptrend (not
+shown).
+During a mid-December weekend, the news spread that Hussein had
+been captured in Iraq. It was early on a Sunday in New York when I heard
+the news, so the markets weren’t open yet. We had plenty of time to absorb
+all of the available information and consider the possible consequences of
+this event. To many traders, it seemed that this was good news for the U.S.
+dollar.
+When trading commenced a few hours later, the knee-jerk reaction
+of the market was a stronger U.S. dollar, and the buck quickly gained
+across the board. Within a few minutes of the open, then GBP/USD pair fell
+120 pips, reflecting the strength of the dollar bulls, who appeared to be in
+control—or so it seemed at the time.
+
+APPEARANCES CAN BE DECEIVING
+Trend traders had a different perspective on the situation. GBP/USD was
+clearly in a roaring uptrend, and the sudden USD strength created an entry
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+122
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+GBP/USD
+uptrend
+
+Hussein
+captured
+
+10-day EMA
+
+FIGURE 9.24 U.S. dollar bulls, excited by the capture of Saddam Hussein, push
+the exchange rate down to the 10-day EMA.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+opportunity for trend traders, as the currency pair dipped below its 10-day
+EMA.
+Instead of climbing aboard the “buy the U.S. dollar” bandwagon, trend
+traders looked at the bigger picture and followed their plan. The dip had
+created an excellent entry point to go long the British pound against the
+U.S. dollar. By the time the daily candle closed, traders who entered long
+on the 10-day EMA had earned a profit of over 100 pips in just a few hours
+(see Figure 9.24).
+I’m sure that many traders happily took the 100-pip profit and closed
+the trade, but those who stuck with the trade were rewarded handsomely.
+The trend, which had been so evident prior to Hussein’s capture, was still
+very much alive. In fact, 23 trading days would pass before the price would
+again make contact with the 10-day EMA (see Figure 9.25).
+The entry point for this trade, placed on December 15, 2003, was
+1.7372. The next time the exchange rate made contact with the 10-day
+EMA, the moving average was located at 1.8233 (see Figure 9.26). The ATR
+reading was 160, so our stop would be placed 80 pips beneath the moving
+average, at 1.8153. That stop would be executed on Day 24, and the gain
+from the trade would equal 781 pips per lot (1.8153 exit, minus the entry
+point of 1.7372 = 781 pips).
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+15:55
+
+Char Count=
+
+123
+
+The FX-Ed Trend Technique
+
+GBP/USD uptrend
+
+Hussein
+captured
+10-day EMA
+
+FIGURE 9.25 Nearly a month would pass before the GBP/USD exchange rate
+again touched the 10-day EMA.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+GBP/USD uptrend
+
+Hussein
+captured
+10-day EMA
+
+FIGURE 9.26 The stop is executed on Day 24, after a substantial gain.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 
+
+chap09
+
+JWPR014-Ponsi (JWBK014-Ponsi)
+
+June 2, 2007
+
+124
+
+15:55
+
+Char Count=
+
+TRADING STRATEGIES FOR TRENDING MARKETS
+
+MORE THAN ONE CHANCE
+Even long before the Hussein trade, there were numerous chances to go
+long this pair, based on this technique. Looking back over a four-month
+period in Figure 9.27, notice how many times the GBP/USD currency pair
+bounced off of the moving average.
+Though not every trade would have been successful, there were many
+chances for profitable long trades. Also, the size of the losing trades
+would be limited by the protective stop. There is no limit to the size of
+the winning trades, since we are allowing the trends to run until they
+collapse.
+The same is true with our earlier EUR/USD example. Notice how the
+exchange rate keeps returning to the 10-day EMA, creating numerous long
+entry opportunities (see Figure 9.28). Every one of the entries below would
+have resulted in a successful trade, with the exception of the Day 27 entry,
+which would have resulted in a small loss.
+This abundance of opportunities teaches us that we should not “chase”
+after a missed entry, because there are often many available chances to
+enter a trade.
+
+GBP/USD uptrend
+
+Hussein
+captured
+
+10-day EMA
+
+FIGURE 9.27 Prior to Hussein’s capture, there were many entry opportunities
+based on this technique. While some of the entries failed, the majority led to successful trades.
+c 2001–2006 FXtrek.com, Inc.
+Source: FXtrek IntelliChartTM . Copyright 

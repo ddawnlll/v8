@@ -1,0 +1,1209 @@
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max. consec. winners
+Avg # bars in winners
+
+Max. intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg Joss
+Max consec. winners
+
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Performance Summary: All Trades
+
+$207900.00
+$370587.50
+
+143
+93
+
+$18575.00
+$3984.81
+1.22
+
+10
+7
+
+-$38550.00
+2.28
+$38550.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade (win & loss)
+
+Max. consec. losers
+Avg # bars in losers
+
+Max. # contracts held
+Return on account
+
+Performance Summary: Long Trades
+
+$167537.50
+$259750.00
+
+83
+59
+
+$18575.00
+$4402.54
+115
+
+9
+7
+
+-$38550.00
+2.82
+$38550.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+Performance Summary: Short Trades
+
+$40362.50
+$110837.50
+
+60
+34
+
+$16075.00
+$3259.93
+1.20
+
+6
+7
+
+-$25400.00
+1.57
+$25400.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+$0.00
+-$162687.50
+
+50
+
+~$20725.00
+-$3253.75
+$1453.85
+
+3
+7
+
+1
+539%
+
+$0.00
+—$92212.50
+
+71%
+24
+
+~$17975.00
+~$3842.19
+$2018.52
+
+2
+7
+
+1
+435%
+
+$0.00
+-$70475.00
+
+57%
+26
+
+~$20725.00
+-$2710.58
+$672.71
+
+NDOT
+
+159%
+
+
+
+Market Timing for Swing Trading
+
+TRIN REVERSALS
+
+Tn Connors On Advanced Trading, Larry Connors published his TRIN Thrusts
+strategy. This strategy seeks to go long when the NYSE TRIN indicator had
+a one-day thrust lower of 30% (or more) and seeks to go short when the
+TRIN had a one-day thrust of 30% or more higher. I found this system use-
+ful, especially when combined with other market indicators. However, in
+and of itself, I found the system generated too many signals for use in
+swing trading. Therefore, I decided to take the research one step further to
+find a TRIN-based system that would generate fewer signals and showed an
+edge geared more towards the swing trader—that is, one that would predict
+market direction over three to seven days. Larry originally published my re-
+search in the October 1998, issue of his Professional Traders Journal. Special
+thanks to:Larry for allowing me to republish the system.
+
+To those not familiar with the TRIN indicator, it was developed by Rich-
+ard Arms in 1967 and was originally called the Arm’s Index. The indica-
+tor is calculated by taking the ratio of Advancing Issues to Declining
+issues and dividing that by the ratio of advancing volume to declining
+volume. This formula is illustrated below.
+
+Advancing Issues / Declining Issues
+Advancing Volume / Declining Volume
+
+If more volume is associated with advancing stocks than declining
+stocks, the TRIN will be less than 1.0. Conversely, if more volume is asso-
+ciated with declining stocks rather than advancing stocks, the TRIN will
+be greater than 1.00. Common Wall Street wisdom states that a TRIN
+reading above 1.00 suggests a market is oversold and due for a bounce
+and that a reading below 1.00 suggests a market is overbought and due
+to sell off. Be warned though, little money, if any, can be made by follow-
+ing “common Wall Street wisdom.”
+
+Rather than look for absolute levels of the average TRIN, I define an
+overbought market as when the three-day average of the TRIN is hitting
+20- to 30-period lows and an oversold market as when the three-day av-
+erage of the TRIN is hitting 20- to 30-period highs. As you likely know,
+just because a market is oversold doesn’t mean it can’t go lower. And,
+just because a market is overbought, doesn’t mean it can’t go higher.
+Therefore, once the three-day average of the TRIN is at one of these ex-
+
+133
+
+
+
+a
+134 Chapter 10
+
+tremes, I then wait for the moving average of the TRIN to turn. This sug-
+gests that a major reversal has begun to take place from a market
+extreme.
+
+Here are the rules for TRIN reversals:
+For Buys:
+
+1. The three-day simple moving average of the NYSE TRIN must make
+at least a 30-period high (shorter periods, say 20-period highs, will
+generate more but less accurate signals).
+
+2. If today’s three-day moving average of the TRIN is less than yester-
+day’s (a “flip down” in the moving average) then buy the market on
+the close.
+
+3. Exit three to seven days later.
+
+For Short Sales:
+
+1. The three-day simple moving average of the NYSE TRIN must make
+at least a 30-period low (shorter periods, say a 20-period low, will gen-
+erate more but less accurate signals).
+
+2. If today’s three-day moving average of the TRIN is greater than yes-
+terday’s (a “flip up” in the moving average) then sell short the market
+on the close.
+
+3. Exit (on the close) three to seven days later.
+
+
+
+I
+Market Timing for Swing Trading
+
+Here we have several back-to-back examples using the system to time
+the December 1999 S&P index futures.
+
+FIGURE 10.5
+
+135
+
+S&P 500 Index-GME(da 12/99 Daily 10/29/1999 | 1420
+lh, pen Fowl cc Legge
+| | Nee ET
+eileen = an Hi bens : Teaty A +1300
+O.. eae olf @. +1260
+TAIN wi Three-day SMA : , * Toe 2
+
+—a
+
+‘Sep Oct
+
+Created with SuperCharts by Omega Research © 1997
+
+1. On 08/30/1999, the three-period moving average of the NYSE TRIN
+indicator makes a 30-period high. On 08/31/1999, the moving average
+tums down (today’s average is less than yesterday’s).
+
+2. Buy the market on the close.
+3. Exit on the close seven days later.
+
+4. On 10/06/1999, the three-period moving average of the TRIN makes a
+30-period low. On 10/07/1999, the moving average turns up.
+
+5. Sell short the contract on the close.
+6. Exit seven days later.
+
+7. The same day, 10/15/1999, the TRIN average turns down after hitting
+a 30-period high, signaling a buy signal.
+
+8. Exit seven days later.
+
+
+
+LE
+136 Chapter 10
+
+Here are the results using a continuous S&P futures contract ($250 per
+point) over the last ten years. Exits were a fixed exit on the close of the
+seventh day. No stops or money management were used.
+
+Notice that the system historically has had a better than 70% accuracy
+rate on the long side and also shows some promise on the short side by
+being historically 58% accurate. These numbers reflect the longer-term
+bull market and would likely reverse when we encounter a prolonged
+
+bear market.
+
+
+
+Market Timing for Swing Trading 137
+
+TRIN REVERSALS S&P 500 INDEX—CME-DAILY 01/02/1990-10/02/2000
+
+Performance Summary: All Trades
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+$201850.00
+$358387.50
+
+135
+88
+
+$35125.00
+$4072.59
+1.22
+
+9
+7
+
+-$23975.00
+2.29
+$23975.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+Performance Summary: Long Trades
+
+$137712.50
+$200475.00
+
+73
+52
+
+$16375.00
+$3855.29
+1.29
+
+6
+7
+
+~$17675.00
+3.19
+$17675.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+Performance Summary: Short Trades
+
+$64137.50
+$157912.50
+
+62
+36
+
+$35125.00
+$4386.46
+1.22
+
+7
+6
+
+~$32800.00
+1.68
+$32800.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Retum on account
+
+$0.00
+~$156537.50
+
+-$13100.00
+-$3330.59
+$1495.19
+
+4
+7
+
+1
+842%
+
+$0.00
+-$62762.50
+
+71%
+21
+
+-$7900.00
+$2988.69
+$1886.47
+
+2
+7
+
+779%
+
+-S0.00
+-$93775.00
+58%
+26
+-$13100.00
+
+-$3606.73
+$1034.48
+
+4
+7
+
+196%
+
+
+
+138
+
+Chapter 10
+
+CVR HI—MODIFIED
+
+The Chicago Board Options Exchange Volatility Index (VIX) measures the
+implied volatility (a measurement of cost) of the short-term (30 days)
+at-the-money OEX options. Market sell offs are normally associated with
+high VIX readings as panic drives the cost of these options higher. Con-
+versely, during a gradual rising market, the VIX tends to drop as traders be-
+come complacent toward the market and option prices fall. Therefore, the
+VIX, in a sense, is a measurement of fear in the market. High readings (sug-
+gesting panic) normally occur near market bottoms and low readings (sug-
+gesting compliancy) normally occur near market tops. This makes the VIX a
+great contrary indicator.
+
+Larry Connors, CEO of TradingMarkets.com, has done extensive research
+on using the VIX to predict short-term stock market moves. His Connors
+VIX Reversal (CVR) systems are based on the fact that volatility is mean
+(average) reverting. In other words, periods of higher-than-normal vola-
+tility are normally followed by lower or more average volatility. Con-
+versely, periods of lower-than-normal volatility are normally followed by
+higher or more average periods of volatility. His CVR systems essentially
+look to position when the VIX reaches an extreme and begins to reverse
+
+In 1997, while conducting research with Larry for Connors On Advanced
+Trading, Larry and I] discovered that once the VIX was 10% or more away
+from its moving average, the stock market had a nearly 70% chance of re-
+versing over the next three-to-seven days as the VIX returned to more
+average levels. Based on this research, we co-created the Connors VIX
+Reversal III (CVR II).
+
+I’ve taken this research one step further and require that the VIX not only
+be at least 10% away from its moving average but must also reverse
+intraday. This suggests that the market is not only at an extreme but also
+has begun to reverse from that extreme. This “intraday reversal” is sim-
+ply defined as the VIX closing below its open (suggesting volatility has
+begun to implode) for buys or for short sales, the VIX must close above
+its open (suggesting volatility has begun to increase).
+
+Here are the rules for CVR II]-Modified:
+
+
+
+Market Timing for Swing Trading
+
+For Buys
+
+1.
+2.
+
+Today, the low of the VIX must be above its 10-day moving average.
+
+Today, the VIX must close at least 10% above its 10-day moving aver-
+age.
+
+Today, the VIX must close below its open.
+Once rules 1 through 3 have been met, buy the market on the close.
+
+Exit (on the close) the day the VIX trades (intraday) below yesterday’s
+10-day moving average (reversion to the mean).
+
+For Short Sales
+
+1.
+2.
+
+Today, the high of the VIX must be below its 10-day moving average.
+
+Today, the VIX must close at least 10% below its 10-day moving aver-
+age.
+
+Today, the VIX must close above its open.
+
+Once rules 1 through 3 have been met, sell short the market on the
+close.
+
+Exit (on the close) the day the VIX trades (intraday) above yesterday’s
+10-day moving average (reversion to the mean).
+
+139
+
+
+
+a
+140 Chapter 10
+
+FIGURE 10.6
+
+S&P 500-Index-CME(da 06/00-Daily: 05/24/2000
+
+1. The low of the CBOE Volatility Index (VIX) is greater than its 10-day
+moving average.
+
+2. The VIX closes below its open and its close is more than 10% above its
+10-day moving average. This suggests the VIX has reached an extreme
+high and has begun to reverse.
+
+3. Buy the market on the close.
+
+4, The VIX trades back below its moving average suggesting that volatil-
+ity has dropped to more normal levels.
+
+5. Exit the market on the close.
+6. The high of the VIX is below its 10-day moving average.
+
+7. The VIX closes above its open and its close is more than 10% below its
+10-day moving average. This suggests the VIX has reached an extreme
+low and has begun to reverse.
+
+8. Go short on the close.
+
+
+
+|
+Market Timing for Swing Trading 141
+
+9. The VIX trades back to its 10-day moving averages, suggesting that
+volatility has risen to more normal levels.
+
+10. Exit the market on the close.
+
+Here are the results over the last seven years using a continuous S&P fu-
+tures contract ($250 per point). No stops or money management was
+used. Historically, the system has shown that the market has a 76%
+chance of reversing over the next three days. Like virtually all mechani-
+cal systems over the past few years, the results on the long side (84% cor-
+rect) are much greater than those on the short side (56% correct). Again,
+this reflects the bull market of the 1990s. This will likely reverse when we
+encounter a longer-term bear market.
+
+
+
+142 Chapter 10
+
+CVR3-MODIFIED S&P 500 INDEX—CME-DAILY 04/26/1993-10/02/2000
+
+Performance Summary: All Trades
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+
+Max consec. winners
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+Total net profit
+Gross profit
+
+Total # of trades
+Number winning trades
+
+Largest winning trade
+Average winning trade
+Ratio avg win/avg loss
+Max consec. winners
+
+Avg # bars in winners
+
+Max intraday drawdown
+Profit factor
+Account size required
+
+$150512.50
+$203750.00
+
+63
+48
+
+$21300.00
+$4244.79
+1.20
+
+12
+3
+
+-$33175.00
+3.83
+$33175.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade (win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+Performance Summary: Long Trades
+
+$105937.50
+$146087.50
+
+45
+38
+
+$21300.00
+$3844.41
+0.67
+
+10
+3
+
+~$28400.00
+3.64
+$28400.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade(win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+Performance Summary: Short Trades
+
+$44575.00
+$57662.50
+
+18
+10
+
+$10800.00
+$5766.25
+3.52
+
+6
+3
+
+-$9825.00
+4.41
+$9825.00
+
+Open position P/L
+Gross loss
+
+Percent profitable
+Number losing trades
+
+Largest losing trade
+Average losing trade
+Avg trade (win & loss)
+
+Max consec. losers
+Avg # bars in losers
+
+Max # contracts held
+Return on account
+
+$0.00
+-$53237.50
+
+15
+
+~$19275.00
+~$3549.17
+$2389.09
+
+3
+6
+
+454%
+
+$0.00
+-$40150.00
+
+84%
+7
+
+-$19275.00
+$5735.71
+$2354.17
+
+1
+7
+
+1
+373%
+
+$0.00
+-$13087.50
+56%
+8
+-$5225.00
+-$1635.94
+$2476.39
+
+ob
+
+454%
+
+
+
+Market Timing for Swing Trading 14
+
+WALK-THROUGH
+
+Now that I have defined the steps I go through to gauge the overall mar-
+ket, let's walk through a period in early January 2000 when we had mul-
+tiple buy signals.
+
+FIGURE 10.7
+
+esearch © 1997
+
+After trading well above its 50-day and 200-day moving averages for
+quite some time, the Nasdaq begins to correct. On January 5, 2000, the
+Nasdaq Composite forms a third back-to-back (1), (2), (3) Trend Knock-
+out (TKO).
+
+
+
+a
+144 Chapter 10
+
+Looking to the S&P 500, I see that it has probed below its 50-day moving
+average but reversed and rallied to close right at the average.
+
+FIGURE 10.8
+
+‘S&P 5 500 Stock (Index-Daily 01/05/2000 “c=1402.10 en
+
+t
+
+i beeen bored beveees eee beveees ~ rn --- 4460
+
+
+
+|
+Market Timing for Swing Trading 145
+
+On the close of trading of 01/05/2000, a CVR III-Modified buy signal is
+triggered.
+
+FIGURE 10.9
+
+-—
+
+Volatility Index (Cboe)-Daily 01/05/2000 | Open.
+
+1. The low of the VIX is above its 10-day simple moving average.
+
+2. The VIX closes 10% above the 10-day simple moving average (rule 2)
+and closes below its open (rule 3).
+
+
+
+a
+146 Chapter 10
+
+An Oscillator Swing System buy signal is also triggered on the close of
+
+01/05/2000:
+FIGURE 10.10
+S&P 500. Index-CME(da.03/00-Daily 01/05/2000.
+
+I
+
+3-19. 287 OOOSOSCSCSCSsS
+
+1. The S&P futures are not in a downtrend by a having low ADX read-
+ing of 18 (not shown).
+
+2. The 3-10 oscillator drops for five consecutive days.
+
+3. The S&P futures close above their open.
+
+
+
+a
+Market Timing for Swing Trading 147
+
+On 01/05/2000, the three-day average of the TRIN suggests that a buy
+signal is near:
+
+FIGURE 10.11
+
+NYSE Short Term Trading-Daily.. 01/05/2000 C=1,.22......l2.2
+
+1. The three-day average of the TRIN hits a 30-day high.
+
++
+
+2. The TRIN drops sharply, suggesting that we could get a buy signal (a
+flip down in the three-day average of the TRIN) within a day.
+
+
+
+|
+148 Chapter 10
+
+Now that we know the overall market is set up to rally, we take the next
+step and begin looking for the strongest sector(s).
+
+FIGURE 10.12
+
+1. The AMEX Biotech Index (BTK) is in a strong uptrend.
+2. The index has a sharp sell off.
+
+3. On 01/05/2000, after probing lower, the index rallies to close well.
+This intraday reversal suggests the correction is over and the sector is
+poised to resume its strong uptrend.
+
+
+
+Market Timing for Swing Trading 149
+
+Now that we have the overall market and sector behind us, we look for
+individual stocks in the sector that are set up.
+
+FIGURE 10.13
+
+Alexio
+
+1. Alexion Pharmaceuticals (ALXN), a biotech, is in a strong uptrend.
+2. The stock pulls back.
+
+3. On 01/05/2000, after gapping lower, the stock reverses to close well.
+This intraday reversal suggests the correction is complete and the
+stock is poised to rally. We will look to go long tomorrow at 29 3/16,
+1/16 above today’s high.
+
+
+
+a
+150 Chapter 10
+
+Gilead Sciences (GILD), a biotech, sets up as a Bow Tie (Chapter 7).
+
+FIGURE 10.14
+
+GILEAD SCIENCES INC-Daily 01/05/2000 C=53.312
+
+1. The moving averages converge and begin to spread out.
+
+2. A lower low. We will look to go long tomorrow at 53 15/16, 1/16
+above today’s high.
+
+
+
+Market Timing for Swing Trading 151
+
+On 01/05/2000, CV Therapeutics (CVTX) sets up as a Trend Pivot Pull-
+back and a low-volatility situation.
+
+FIGURE 10.15
+
+CV Therapeutics Inc-Daily 01/05/2000 C=23.500 (|
+
+1. CVFX is in a strong uptrend.
+2. The stock forms a Trend Pivot Pullback on 01/04/2000 (Chapter 6).
+
+3. On 01/05/2000, the ratio of the 6/100 historical volatility drops below
+50%, suggesting that a large move is imminent. We will look to go
+long tomorrow at 26 11/16, 1/16 above the pivot high (2).
+
+
+
+a
+152 Chapter 10
+
+On 1/6/2000 we get entries on CVTX, GILD and ALXN:
+
+FIGURE 10.16
+
+01/06/2000 C=25.750 ; 30
+
+CV Therapeutics Inc-Daily
+
+
+
+Market Timing for Swing Trading 153
+
+FIGURE 10.17
+
+FIGURE 10.18
+
+GILEAD SCIENCES INC-Daily 01/06/2000 C=56.937
+
+“ | r t 1A bse
+
+
+
+a
+154 Chapter 10
+
+The entries are further confirmed (after the close) on 01/06/2000, by a
+buy signal in the Trin Reversal System.
+
+FIGURE 10.19
+
+NYSE Short Term Trading-Daily..01/06/2000.C=1.00...,..... L22
+
+1. On 01/05/2000, the three-day average of the TRIN hits a 30-day high.
+
+2. On 01/06/2000, the average “flips down” (today’s average is less than
+yesterday’s) signaling a buy signal in the Trin Reversal System.
+
+
+
+Market Timing for Swing Trading 155
+
+Over the next few days, the S&P, Nasdaq, Biotech Index and the stocks
+that were set up: CVTX, GILD and ALXN all trade higher.
+
+FIGURE 10.20
+
+S&P 500 Stock Index-Daily 01/1 0/2000 C=1457.60
+ptt |
+
+Sr
+
+[71489
+
+i +1420 :
+if :
+
++1380
+
+hy am
+
+pa serene
+
+Ts : os ; 180
+
+. r Nov 1 — le — 5000
+ome *Fleated with superCharts by Omega research © 199
+
+FIGURE 10.21
+
+NASDAQ Composite Index-Daily 01/10/2000 ; La200 |
+| atl | r4900
+
+it tf L3800 |
+
++3600
++3400 §
+L3200
++3000
++2809 |
+
++2600 |
+'Nov ‘Dec 2000 |
+ee Created with superl_harts by Omega Research ©1997
+
+
+
+a
+156 Chapter 10
+
+FIGURE 10.22
+
+FIGURE 10.23
+
+CV Therapeutics Inc-Daily 01/11/2000 C=32.937
+: : : ntry ;
+etTtt+ i
+b/T0U HV Ratio !
+13 20 27 2000 10
+
+FE Be ated wih Super nans by Omega Hesearc
+
+
+
+Market Timing for Swing Trading 157
+
+FIGURE 10.24
+
+GILEAD SCIENCES INC-Daily 01/10/2000 G=74.187 |
+
+FIGURE 10.25
+
+Alexion Pharma Inc-Daily 01/10/2000 C=33.125
+
+‘2000
+Tealed wih SuperCharts by Omega Research © 1997
+
+
+
+158
+
+Chapter 10
+
+SUMMARY
+
+As you can see, the odds are stacked in your favor as a swing trader by
+combining discretionary analysis, mechanical systems and sector analysis
+along with setups in individual issues.
+
+\e)
+
+Q&A
+
+Where can I find more information about the VIX indicator?
+
+Contact the Chicago Board Options Exchange at www.cboe.com. Also,
+Connors VIX Reversal Signals are published nightly on
+TradingMarkets.com.
+
+Do you only trade when you have signals and setups in the indi-
+ces/sectors such as those mentioned in your walk-through?
+
+I'll trade as long as I have some sort of feel for the market. If I don’t,
+then I'll take smaller position sizes. If these trades turn into losing po-
+sitions, I may stop trading until I have a better feel for the markets.
+But, yes, ideally, I like to see systems kicking in along with patterns in
+the overall indices and sectors.
+
+In your walk-through, you had systems, patterns in the overall indices
+and sectors all occurring around the same time frame. During these
+times, do you tend to take larger positions sizes?
+
+Yes, to some extent. There are only a few times a year when every-
+thing lines up. During these times, I may take a larger position size or
+possibly increase my leverage by taking an options trade. But, even
+though I know what the market should do, I keep risks in check just in
+case I’m wrong.
+
+

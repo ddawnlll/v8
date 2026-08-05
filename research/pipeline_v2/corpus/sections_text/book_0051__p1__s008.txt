@@ -1,0 +1,480 @@
+
+08 506455-ch04.indd 63
+
+9/24/09 10:17:11 PM
+
+64
+
+Part I: What Fundamental Analysis Is and Why You Should Use It
+
+Learning a key fundamental math skill:
+Percentage changes
+If you’ve noticed so far, I’ve tried to spare you from much ugly math in the
+first couple of pages. And hoping not to scare you off, I try to introduce math
+topics in this book gently and only when it’s relevant.
+But there’s one math skill that you’ll encounter so frequently in fundamental
+analysis, you might as well tackle it now. And that’s the concept of percentage
+change. Because fundamental analysis is infatuated with looking at increases
+and decreases in business factors, such as sales and revenues, the percentage change is a way to put gains and declines into context. For instance, if I
+told you that the price of a sweater rose $50 this year, that doesn’t tell you
+much. But if I told you the price was $50 before, then you know that the price
+doubled to $100.
+You calculate a percentage change this way:
+New number – old number ÷ old number × 100
+Going back to the sweater example, the new price is $100 and the old price
+was $50, so:
+100 – 50 ÷ 50 × 100 = 100%
+If a value rises by 100%, then it has doubled. Similarly, if a number rises
+by 200%, it has tripled and 300%, quadrupled. Some make the mistake, for
+instance, of seeing the 2 in the 200% and saying it has doubled when it has in
+fact, tripled.
+
+How to Get the Fundamental
+Data You Need
+You might have the fastest car in the neighborhood, but if you don’t have any
+gas, you’re not going to get far. So goes fundamental analysis. You might build
+the fanciest financial spreadsheet, but it’s not going to do you any good if you
+don’t have the raw financial numbers to put in it.
+Until the dawn of the Internet, getting fundamental data could be a real
+hassle. You would have to call or write a company and ask it to mail — yes,
+mail — its 10-K, 10-Q and annual report to you.
+
+08 506455-ch04.indd 64
+
+9/24/09 10:17:11 PM
+
+Chapter 4: Getting Your Hands on Fundamental Data
+
+65
+
+Thankfully, the days of having to deal strictly with paper financial statements
+are over. But the skills of the fundamental analyst must keep up with the electronic age. In this section, you’ll find out how to quickly, and for no cost, get
+your hands on the fundamental data you’ll need to complete your analysis.
+
+Getting acquainted with
+the SEC’s database
+You can spend thousands of dollars for access to Web sites that provide fundamental data. But really, to get started, you don’t have to spend a dime.
+The SEC’s website at www.sec.gov is a treasure trove for fundamental analysis. You’ll find all the financial forms discussed above in this chapter, and
+then some. All the fundamental data are stored in the SEC’s Interactive Data
+Electronic Applications, or IDEA, database. You can use IDEA to look up any
+public company’s filings and even download the financial statements to your
+computer so you can do further analysis.
+You might hear or read references to the SEC’s EDGAR database. EDGAR was
+the SEC’s primary financial-form database prior to IDEA. EDGAR is still available on the SEC’s site, but it’s not worth the time. IDEA can do everything
+EDGAR could and adds additional information.
+
+Step-by-step directions on accessing
+company fundamentals using IDEA
+Now that you know how powerful IDEA is, it’s time to dive in and discover
+how to get what you need from it. For the example below, I’ll show you how
+to get the 10-Q, 10-K and proxy statement for General Electric. Just follow
+these steps:
+1. Log into the SEC’s Web site at www.sec.gov.
+2. Click the “Search” link on the upper right-hand corner of the page.
+3. Enter the name of the company in the Company name blank.
+It’s the first blank in the top of the blue-shaded box. Type in general electric for this example.
+4. Scroll down and click the Find Companies button.
+
+08 506455-ch04.indd 65
+
+9/24/09 10:17:11 PM
+
+66
+
+Part I: What Fundamental Analysis Is and Why You Should Use It
+5. Choose the company name.
+Because General Electric has separate business units, you’ll see companies like General Electric Capital Assurance Co. But you want the main
+company, so click on the red numbers to the left of where it says General
+Electric Co.
+6. Click on the form you want.
+If you want GE’s 10-Q, scroll down until you see the form 10-Q listed and
+click on the “Documents” button. If you want the 10-K, choose 10-K, and
+the proxy is marked as 14-A.
+7. Click on the red code under the document in the first line.
+This line should have the form under the “Type” head, which in this case
+is the 10-Q. When you’re downloading the 10-K, the line should read 10-Q.
+When you’re scrolling down through the list of forms, you might notice that
+some have a blue button that says “Voluntary Interactive Data.” These forms
+are presented in a special format that computers can read, called eXtensive
+Business Reporting Language or XBRL. Financial statements available in
+XBRL can be easily processed and downloaded. If you click on the Voluntary
+Interactive Data button, you’ll be moved to an area of the SEC’s Web site that
+lets you view financial reports using XBRL. You can easily skip between the
+income statement and balance sheet without scrolling, for instance. XBRL
+also lets you easily download the financial statements to a spreadsheet. Since
+it’s not required to file using XBRL, only a handful of companies do. But that’s
+changing.
+Most of the major Web portals, such as Yahoo, at finance.yahoo.com, and
+MSN, at money.msn.com, provide summaries of companies’ primary financial
+statements. MSN Money also lets you access all the regulatory forms. Most
+companies, too, put their financial data on their Web sites. But as a fundamental analyst, it’s important to know how to get the data direct from the source:
+The SEC’s IDEA database.
+
+Pulling fundamental data from
+Web sites into spreadsheets
+Sometimes reading a company’s financial statements using the SEC’s IDEA isn’t
+enough. If you want to perform the analysis you’ll find out about in the next
+part of this book, you’ll likely need to download the data into a spreadsheet.
+If the company you’re analyzing provides XBRL data, it’s easy to download
+into a spreadsheet.
+
+08 506455-ch04.indd 66
+
+9/24/09 10:17:11 PM
+
+Chapter 4: Getting Your Hands on Fundamental Data
+
+67
+
+Luckily, there’s a handy trick using Microsoft Excel all fundamental analysts
+should know about. While it’s possible to cut-and-paste the financial data
+from a company filing into a spreadsheet, the results can be a disorganized
+mess. Instead, use an Excel function that’s built to order. Here’s how:
+1. Open the filing.
+Find the filing you’re interested in downloading using the steps above.
+Copy the Web address from the address bar in your browser by highlighting the address and holding the Control button and the C key.
+2. Open Microsoft Excel.
+3. Instruct Excel to find the filing.
+Choose Excel’s “Data” pull-down menu, and then select Import External
+Data and then New Web Query.
+4. Provide the Web address of the filing.
+Paste the filing’s address by holding down the Control button and
+choose the V key, in the address bar at the top.
+5. Import the filing.
+Click the Import button at the bottom of the page.
+6. Select the relevant financial data.
+Scroll down until you see the financial data you would like to download.
+Click the small yellow arrow next to the data.
+After you follow these steps, the financial information you want, such as the
+company’s income statement or balance sheet, will automatically appear in
+a spreadsheet. This will be a handy skill that can help you with the analysis
+you’d do later in the book.
+
+Finding stocks’ dividend histories
+Dividends are periodic cash payments some companies make to their shareholders. The dividends are paid out of the company’s cash as a way of returning profits to the shareholders. Dividends are a very important piece of your
+total return on an investment.
+Don’t ignore dividends. These cash payments, over time, account for about
+one-third of the total return investors make on the market, according to
+Standard & Poor’s. The remaining two-thirds of total return come from the
+stock price rising.
+
+08 506455-ch04.indd 67
+
+9/24/09 10:17:11 PM
+
+68
+
+Part I: What Fundamental Analysis Is and Why You Should Use It
+Dividends are also important ways to help value a company, as you will discover
+in Chapter 8. Companies that pay dividends generally pay them quarterly.
+The best way to look up a dividend history is on the company’s Web site.
+Going back to the GE example, go to www.ge.com and click on the investor
+relations link at the top of the page. Next, click on the Stock Information link
+on the left-hand side. You’ll see a link for Dividend History, which listed GE’s
+dividend payments going back for nearly a decade.
+
+Getting stock-split information
+When a company’s stock price rises dramatically and begins to approach $50
+a share or more, the executives might decide to split the shares. The theory
+goes that some naïve investors, who read too much into a stock’s per-share
+price, might assume a stock trading for $50 or more is too expensive.
+In a stock split, the company cuts its share price, say in half, by cutting the
+shares into multiple shares. For instance, let’s say you own 100 shares in a
+stock trading for $60 a share. If the company has a 2-for-1 split, you will suddenly have 200 shares, but they’ll be worth $30 apiece. Management feels some
+investors are more likely to buy stock in a company for $30 a share than $60.
+Some investors assume that a stock split is a major boon since they suddenly
+have more shares. But, as discussed in Chapter 3, the per-share price of a
+stock doesn’t tell you much. The value of your shares is still $6,000, whether
+you own 100 shares at $60 or 200 shares at $30 a share. The company’s market
+value also stays the same.
+Understanding when stock splits occur is important for fundamental analysis, though, since it can affect the number of shares outstanding, which is
+described in Chapter 3. You’ll need an accurate count of shares outstanding
+to do some of the fundamental analysis later in the book.
+Fortunately, many companies provide stock-split histories on their Web sites.
+For instance, if you follow the instructions above to get GE’s dividends, you’ll
+notice stock splits are listed on the same page.
+MSN Money also helps you look up if, and when, a company split its shares.
+Here’s how:
+1. Log into www.live.com.
+2. Enter “quote:” in the search box followed by the stock’s symbol.
+For GE, for instance, enter quote:GE and click the green icon that looks
+like a magnifying glass.
+
+08 506455-ch04.indd 68
+
+9/24/09 10:17:11 PM
+
+Chapter 4: Getting Your Hands on Fundamental Data
+
+69
+
+3. Click on the small stock chart that appears in the search results.
+This will take you to MSN’s Charting feature.
+4. Click on the Download MSN Money Investment Toolbox link that
+appears in the chart.
+This will download a small piece of software that will let you get
+advanced charts. You only need to follow this step once.
+5. Observe the chart.
+If the stock has been split, you’ll see a small box that’s half white and
+half red. For instance, the chart tells you that GE last split its stock, by 3
+for 1, on May 8, 2000.
+
+08 506455-ch04.indd 69
+
+9/24/09 10:17:11 PM
+
+70
+
+Part I: What Fundamental Analysis Is and Why You Should Use It
+
+08 506455-ch04.indd 70
+
+9/24/09 10:17:11 PM
+
+Part II
+
+How to Perform
+Fundamental
+Analysis
+
+09 506455-pp02.indd 71
+
+9/24/09 10:27:53 PM
+
+Y
+
+In this part . . .
+
+ou may already know what fundamental analysis is,
+but you may not be clear on how to use this important technique to evaluate investments. I’ve designed this
+part to step you through how to thoroughly analyze a
+company and dig into its key financial statements, including the income statement, the balance sheet, and the
+statement of cash flow. I also show you how financial
+ratios can help you get quick and insightful information
+about companies. Lastly, you can discover how to unearth
+some of the more sensitive items about a company’s management by using the proxy statement.
+
+09 506455-pp02.indd 72
+
+9/24/09 10:27:53 PM
+
+Chapter 5
+
+Analyzing a Company’s Profitability
+Using the Income Statement
+In This Chapter
+▶ Understanding what a company’s profit is and how it’s reflected on the income statement
+▶ Finding out why learning to analyze the income statement is key to fundamental analysis
+▶ Digging into how to read an income statement and to understand a company better
+▶ Discovering how to compare a company’s reported profit to what is expected
+
+I
+
+n everything from sports to school, you’ve probably been trained to
+measure results. At the end of the game or class semester, you either get
+a score or grade that determines how well or poorly you did, and how you
+measured up to expectations and ranked against your peers.
+When you measure the success of a company, you really don’t do anything
+differently than when you gauge the results of last night’s basketball game.
+Fundamental analysts carefully evaluate a company’s income statement to
+see how well the company did, examining how much money it brought in,
+how much it spent to operate, and the final amount of profit it generated.
+Companies lay out all of their critical information for you in their income
+statement. In this chapter, you dig into the parts of the income statement
+necessary for fundamental analysis. Better yet, this chapter gives you the
+tools to know how to read those parts, which is critical when you want to
+determine whether a company’s stock is cheap or expensive (see Chapters 10
+and 11 for more on determining a stock’s worth). Don’t let the cryptic appearance of the income statement scare you. The pointers in this chapter prepare
+you to get everything you need out of the income statement.
+
+10 506455-ch05.indd 73
+
+9/24/09 10:28:34 PM
+
+74
+
+Part II: How To Perform Fundamental Analysis
+
+Digging Deep Into the Income Statement
+When you invest in a company by buying its stock, you’re probably not doing
+it to be charitable. By buying shares of stock, you’re claiming a piece of the
+company’s future revenue and profits. If all goes well, the company will grow
+and your stake will become more valuable.
+The trick, though, is knowing how to make sure the company is keeping its
+end of the bargain by making money. That’s where the income statement
+comes in. Companies that have issued stock on a stock market exchange
+such as the New York Stock Exchange or Nasdaq, or borrow money from the
+public, are required to issue an income statement. The income statement
+spells out in gory detail how the company did during each quarter and year.
+Fundamental analysis requires you to pay close attention to the income statement for any sign the company isn’t progressing as it should or, conversely,
+doing better than many thought it could.
+
+Cutting through to the key parts
+Luckily for investors, the accountants have somewhat standardized the way
+companies must prepare the income statement. No two income statements
+look identical, and subtle differences can make comparing one company’s
+income statement with other companies’ problematic, (you can read about
+making comparisons more in Chapter 16). Income statements can also vary
+a bit depending on what line of business a company is in. Still, income statements tend to follow the same basic structure.
+You can dedicate a great deal of time obsessing over every nuance of financial
+statements, including the income statement. If that’s of interest to you, check
+out Reading Financial Reports For Dummies (Wiley), which gets into the nittygritty of financial reporting. In this book, though, you’ll get a look at the basic
+layout of the income statement and what you’ll need to do some serious fundamental analysis.
+The basic structure of an income statement includes these items:
+✓ Revenue: This is how much money the company brought in by selling
+goods and services. Revenue is often called the “top line.”
+✓ Cost of goods sold: It takes money to make money. Cost of goods measures what a company must spend to actually create the good or service
+sold. These are direct costs, meaning they are costs for items that may
+literally go into the products. Cost of goods sold, for many manufacturing
+
+10 506455-ch05.indd 74
+
+9/24/09 10:28:34 PM
+
+Chapter 5: Analyzing a Company’s Profitability Using the Income Statement
+
+75
+
+companies, is the largest single cost of doing business. For instance, with
+an automaker, the cost of goods sold might include the cost of steel used
+to build the cars.
+✓ Operating expenses: Indirect expenses are incurred by companies as
+they conduct business, but may not go directly into the product. These
+costs are usually necessary or important, but peripheral. These indirect costs are called operating expenses or better known as overhead.
+Operating expenses may include:
+• Marketing expenses: Include advertising and other promotional
+expenses.
+• Research and development: What a company spends to cook up
+new products or services to sell to customers.
+• Administrative expenses: Expenses connected with support
+staff, such as legal, human resources, and other functions that are
+directly tied to manufacturing the product.
+✓ Other income: Companies sometimes bring in money for things other
+than selling products and services. This income is recorded as other
+income. For instance, a company might win a legal settlement or sell a
+factory.
+✓ Other expenses. Similarly to how other income doesn’t qualify as revenue, other expenses do not qualify as normal operating expenses. Other
+expenses might include the cost to restructure a unit of the company,
+paying severance to lay off employees, or depreciation — accounting for
+wear and tear (see the sidebar, “Appreciating depreciation”).
+✓ Earnings before interest and taxes. After you subtract cost of goods
+sold, operating expenses, and other expenses from revenue, what you’re
+left with is earnings before interest and taxes.
+✓ Interest expense. Most companies borrow money to fund their operations or to buy inventory. Here, the company discloses how much it’s
+paying to borrow money.
+✓ Taxes. Companies must pay taxes too. Here, companies disclose how
+much they they paid to Uncle Sam.
+✓ Net income. Finally, after paying all these costs and expenses, what’s
+left is the profit, or net income. This is how much the company earned
+during the period, based on accounting rules or GAAP.
+Ever hear a company say it used GAAP? No I don’t mean that they used
+expense accounts to buy khakis and collared shirts at a popular clothing
+store. Instead, I’m talking about GAAP — Generally Accepted Accounting
+Principles — painstakingly detailed rules that instruct companies on the right
+way to report results.
+
+10 506455-ch05.indd 75
+
+9/24/09 10:28:34 PM
+
+76
+
+Part II: How To Perform Fundamental Analysis
+
+Appreciating depreciation
+Accountants normally classify depreciation
+as an other expense. This can sometimes be
+a tough thing for nonaccountants to understand. Depreciation is an accounting method of
+recording wear and tear on things like factories
+or equipment. Think of it this way. If you buy a
+car for $15,000, in a year’s time that car might
+
+only be worth $13,000. But while you’re out
+$2,000 in value, you didn’t actually have to write
+a check for $2,000 to anyone. The same applies
+to a machine a company might use to make
+products. The erosion of value of the machine
+is an expense that goes into the cost of making
+the product being sold.
+
+Taking in the Top Line: Revenue
+For a fundamental analyst reading an income statement, revenue is a critical
+item because it tells you how:
+✓ Rapidly the company is growing (or shrinking): Comparing revenue
+generated during a year or quarter with revenue reported in the same
+period a year ago can be very telling. This simple comparison tells you
+whether the company’s growth is on an uptrend or downtrend.
+✓ Strong demand is for a company’s products: Companies love to brag
+about how popular their products are. But revenue is where hype can
+be quantified. Strong demand for a product will show up in the revenue
+line, even if the company’s expenses are out of line and still losing
+money.
+✓ A company ranks in sheer size next to its rivals: While there are many
+ways to measure a company’s size, such as number of employees, revenue is as good a benchmark as any other. If you want to find out which
+company is the biggest in a competitive field, you should always check
+out revenue first.
+Fundamental analysts pay close attention to revenue for the reasons listed
+above, but there’s also reason to be skeptical. Accounting rules give companies a great deal of leeway in how and when they record or “recognize” revenue. The most classic distortion may occur when a company books revenue
+before the product is actually bought or received by a customer. Regulators,
+for this reason, warned companies to be more conservative when booking
+revenue. The General Accounting Office, a unit of the government charged
+to study waste in both the private and public sectors, found that improper
+revenue recognition was to blame for more than a third of misstated financial
+statements. Always be skeptical of revenue.
+
+10 506455-ch05.indd 76
+
+9/24/09 10:28:34 PM
+
+Chapter 5: Analyzing a Company’s Profitability Using the Income Statement
+
+77
+
+Breaking down a company’s revenue
+Most companies will provide several revenue figures. Generally, there will be
+a total revenue line that totals up the money the company brought in from all
+its business units. But if the company is complex, it might break total revenue
+down into its component parts so you can see which units are performing best.
+Due to its large size and wide array of technology businesses, International
+Business Machines is a great example of how you can use the revenue line to
+peer deeply into a company’s operations. Below, in Table 5-1, is a breakdown
+of IBM’s 2008 results, to give you an idea of how digging into what makes up
+total revenue can be revealing about a business:
+
+Table 5-1
+
+IBM’s Total Revenue Breakdown in 2008
+
+Source of revenue
+
+Revenue ( in billions)
+
+Global technology services
+
+$39.3
+
+Global business services
+
+$19.6
+
+Systems and technology
+
+$19.3
+
+Software
+
+$22.1
+
+Global financing
+
+$2.6
+
+Other
+
+$0.8
+
+Total revenue
+
+$103.6
+
+Source: IBM (www.ibm.com/investor/4q08/press.phtml)
