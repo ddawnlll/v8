@@ -1,4 +1,0 @@
-[
-  {"claim_ref": "book_0018::lead_book_0018_1_124", "verdict": "corroboration", "behavior_id": "candlestick_reversal_pattern", "page": 1, "exact_text": "evening star pattern", "added_conditions": ["a close under the real body of the candle to confirm that the bears have taken over"], "added_parameters": []},
-  {"claim_ref": "book_0018::lead_book_0018_1_137", "verdict": "corroboration", "behavior_id": "candlestick_reversal_pattern", "page": 1, "exact_text": "the bearish engulfing pattern", "added_conditions": ["a close under the rising window's support area to validate the potentially bearish implications of the shooting star", "once the market closed above the high of that pattern it would be viewed as a break of resistance"], "added_parameters": []}
-]

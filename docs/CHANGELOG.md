@@ -1,5 +1,17 @@
 # V8 Changelog
 
+## 2026-08-05 — Handbook eight-family research admission (D-044)
+
+- Added three FORMALIZED, closed-bar, handbook-derived challenger Experts:
+  trend-exhaustion reversal, volatility-compression breakout, and venue-volume
+  × realized-range breakout. Added deterministic participation features
+  `relative_volume` and `range_ratio`; these do not represent order flow.
+- Registered the eight-family research map. Range/value and cross-market
+  families remain `DATA_BLOCKED` for missing PIT inputs; discretionary
+  geometry/projection is `REJECTED` absent an objective annotation protocol.
+- No frozen OOS opened and no profitability, execution, or promotion claim is
+  made.
+
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 

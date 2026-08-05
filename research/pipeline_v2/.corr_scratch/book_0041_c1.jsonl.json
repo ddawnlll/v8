@@ -1,9 +1,0 @@
-[
-  {"claim_ref": "book_0041::lead_book_0041_1_114", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_118", "verdict": "corroboration", "behavior_id": "support_resistance_bounce", "page": 187, "exact_text": "near long-term support/resistance levels", "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_119", "verdict": "corroboration", "behavior_id": "support_resistance_bounce", "page": 187, "exact_text": "near support when going long or near resistance when selling short", "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_120", "verdict": "corroboration", "behavior_id": "news_discounting_reaction", "page": 187, "exact_text": "exploit immediate market reactions to major news and economic data announcements", "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_125", "verdict": "corroboration", "behavior_id": "contrarian_extreme_reversal", "page": 201, "exact_text": "buy the market at a bottom or short the market at a top", "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_130", "verdict": "generic", "behavior_id": null, "page": null, "exact_text": null, "added_conditions": [], "added_parameters": []},
-  {"claim_ref": "book_0041::lead_book_0041_1_131", "verdict": "corroboration", "behavior_id": "momentum_divergence_reversal", "page": 201, "exact_text": "price and an oscillator are diverging in direction", "added_conditions": [], "added_parameters": []}
-]

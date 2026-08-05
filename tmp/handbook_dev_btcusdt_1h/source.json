@@ -1,0 +1,189 @@
+{
+  "archives": [
+    {
+      "channel": "funding",
+      "month": "2025-01",
+      "zip_sha256": "df725010d55458866eb5a47e9ee708c6796c9d7e77b14c38342cea11f381815e"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-02",
+      "zip_sha256": "e918b90fb33df3a3317feea13807a892047f1ec86eeac100bdb7b3dd83285d46"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-03",
+      "zip_sha256": "a3b95cfb315641fbfddc61eb32adf2a2588afb7a3973a61f464aca007ad43e3f"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-04",
+      "zip_sha256": "01dbb7bd0135f98bd63bdde6b943cde1accc1770cabf92f68a1ec0653ced3888"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-05",
+      "zip_sha256": "e7355e2775b88009c984db1783bb8ed6b5f24ede2b52bb764151b5722d6a5e42"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-06",
+      "zip_sha256": "a1f4a40953740fa83ee9ad97776ff8325d1958654a67f1325614071a983819d4"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-07",
+      "zip_sha256": "b097dff828f6e43fece23db0d3cb98042a9d7bc19693b8cbfd051d88eb973b7b"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-08",
+      "zip_sha256": "1180129860b6e196e8d70bb9719e81573aa6b4acb423ba5ee7f82f10c836f7ab"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-09",
+      "zip_sha256": "21dc6570fc6bffad0e7b5f9e99211b82ad07c95ab4f18c3a2daa3b95ec98344c"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-10",
+      "zip_sha256": "9ecdedab6344fc4cdb154763266b8e09627a71c3cc5574cf868158b541c259c2"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-11",
+      "zip_sha256": "23735400405627d610123e3a43db3e98ae7addb93459cd670e65a7659a5f081b"
+    },
+    {
+      "channel": "funding",
+      "month": "2025-12",
+      "zip_sha256": "35318b789f020b0e04c9043112480743855554e52e1d188437cbdaa67246d51d"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-01",
+      "zip_sha256": "fcdc796484f395830d418588a34a26baed8849dbef0ff2b56173247e493ff51f"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-02",
+      "zip_sha256": "80df1dd669dc1e3afc360c9da8b9a949a127fce088eedbf5bf708bd37b0a1f58"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-03",
+      "zip_sha256": "5c069d5e9597a44fd0e213395082e59ff223fb99c9eab3a2a5a2a5622ba7867c"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-04",
+      "zip_sha256": "51cdeb4de7d5ef1d4eece80b6115e391bdf7a2d0803bf9ad8371ab23340b22d3"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-05",
+      "zip_sha256": "445b65fd6b17bfcfb5e4d035db29fad34f729fa078f0449024db42621be84e6e"
+    },
+    {
+      "channel": "funding",
+      "month": "2026-06",
+      "zip_sha256": "cff97ce688329592bccbbf5873b5c7021649e093f5f5806e332c5b4fb7fd6a00"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-01",
+      "zip_sha256": "9ebc05c9b3d5ab3591edf65bc5c7e5dbc2f96c1efc4adc4ea198c651a99a41b1"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-02",
+      "zip_sha256": "077d761098eb5f2dbde65457833b9edab41ea6475284a77fcce0d4bec1bfb5cf"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-03",
+      "zip_sha256": "08043384c3336b0fa3eeee06e113a6f1eceb6d3fbe7b2971e9b9fa83625fdfb9"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-04",
+      "zip_sha256": "2adf7c1be412e43b04a128e997f4cb1e5e7f895f55b6e1bf66621807f221f274"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-05",
+      "zip_sha256": "2e736b9e792d5ae9d4607d7426e4530020762cb898d580b18d3fb0faf9d2ba8e"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-06",
+      "zip_sha256": "d1d9d5dbc540c19dd882305937f864f59ffffe3f5449a6b05b3f95efe7ca4fbc"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-07",
+      "zip_sha256": "3f471677b97cd3c5c21e9c1420bd7d58c1fe4041a3d2e195369277298ca01ea2"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-08",
+      "zip_sha256": "a240d3f766cd5c3db4e0702cf660ae54e327ec67aba169dda55abc90cae055f2"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-09",
+      "zip_sha256": "b15817c45e6ca13a907772591664a57e00b711fecbd4285f2a16ced3c7023019"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-10",
+      "zip_sha256": "b173469216acad36058ecfb0a5432471ec58b3c49032246d4d687dd3af8ae34a"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-11",
+      "zip_sha256": "75c4069b8ff93aa5e4064e885077426fd60f1cf6239a728b2d4ca543c0210d5a"
+    },
+    {
+      "channel": "kline",
+      "month": "2025-12",
+      "zip_sha256": "41e977a06b7806ce1398aca5f9075befffd1e6303db891795f3b179c762709ec"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-01",
+      "zip_sha256": "6c15ac5fd895f26bf8e12b99df6ab9aff637dc94b37128e92c75c19887d0e3b3"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-02",
+      "zip_sha256": "886fca9764139a1d71d97ca28e0a2cb30fe7d6f44df9be2539452c02e3c4e775"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-03",
+      "zip_sha256": "41199df2dd62c333ea306d28de331bfffbbfed03609d100c63b2de1d173f7414"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-04",
+      "zip_sha256": "c822801b16eb317f4672e376a73664f2e5f9180409c57b6c7517707f4f873e8c"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-05",
+      "zip_sha256": "9a367708c90de999a7a9d3114fd111ff28203b13c8daef77d154b5216fb571f7"
+    },
+    {
+      "channel": "kline",
+      "month": "2026-06",
+      "zip_sha256": "30bba473837a672a6a00a181a447446852414e6927bbda6684f873571788e9aa"
+    }
+  ],
+  "interval": "1h",
+  "row_count": 14742,
+  "schema_version": "binance-um-v1-ms",
+  "symbol": "BTCUSDT",
+  "tape_hash": "34bf311cab0b348dd655975da51b448ee25a9f4f"
+}

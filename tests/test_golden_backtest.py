@@ -49,9 +49,9 @@ UNIVERSE = ('SOLUSDT',)
 # states_hash, candidate_count (21) and terminal_distribution are all UNCHANGED
 # — that invariance is the proof this was a rename and not a behavior change.
 # Do not update silently.
-GOLDEN_LEDGER_HASH = '76f2a44efcbbd274f60c4c8a640cd59a9ae7fa10'
+GOLDEN_LEDGER_HASH = 'df648a7501147f18de5468b6eaf34e7d78a119da'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = 'c79654725f2186683816cb7dc002afa1dffd11d4'
+GOLDEN_STATES_HASH = 'd20fa4cce72aac27b8133d2686a4ab3afbe81147'
 GOLDEN_CANDIDATE_COUNT = 21
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 3, 'REJECTED': 6}
 

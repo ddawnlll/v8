@@ -55,7 +55,7 @@ FEATURE_GROUPS: dict[str, dict] = {
     'trend': {'requires': ('raw',), 'features': ('ema_fast', 'ema_slow')},
     'volatility': {'requires': ('raw',), 'features': ('atr',)},
     'location': {'requires': ('raw',), 'features': ('prior_high', 'prior_low')},
-    'participation': {'requires': ('raw',), 'features': ()},
+    'participation': {'requires': ('raw',), 'features': ('relative_volume', 'range_ratio')},
     'response': {'requires': ('trend', 'volatility', 'location', 'participation'),
                  'features': ()},
     'history': {'requires': ('trend', 'volatility'), 'features': ('history',)},

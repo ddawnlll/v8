@@ -20,6 +20,9 @@ src/v8/
     trend_pullback.py    TrendPullbackExpert
     failed_breakout.py   FailedBreakoutExpert
     liquidity_sweep_reclaim.py  LiquiditySweepReclaimExpert
+    trend_exhaustion_reversal.py TrendExhaustionReversalExpert
+    compression_breakout.py      CompressionBreakoutExpert
+    volume_range_breakout.py     VolumeRangeBreakoutExpert
   lifecycle.py       transition legality, CandidateRegistry, episode_key,
                      ExposureBook
   risk.py            RiskGate (deterministic admission)
@@ -28,7 +31,7 @@ src/v8/
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
-tools/
+  tools/
   build_monograph.py            docs corpus -> site/index.html, site/tr.html
   data.py                       Binance archive -> verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
@@ -36,6 +39,7 @@ tools/
   materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
                                 pinned manifest, fail-closed hashes)
   download_v8_reading_list.py   research manifest downloader
+  build_handbook_8_validation.py  development-only handbook-family pipeline probe + standalone report
 tests/
   test_vertical_slice.py        contract tests (pytest)
   test_tape_audit.py            offline tape audit tests
@@ -63,6 +67,9 @@ tape — no code module until then); `tools/run_experiment.py` (the
 | `experts/trend_pullback.py` | trend-pullback-continuation family | `TrendPullbackExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/failed_breakout.py` | failed-breakout-reentry family | `FailedBreakoutExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/liquidity_sweep_reclaim.py` | liquidity-sweep-reclaim family (third pilot, D-042) | `LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
+| `experts/trend_exhaustion_reversal.py` | closed-bar run-break reversal family | `TrendExhaustionReversalExpert` | EXPERT_PROTOCOL; D-044 |
+| `experts/compression_breakout.py` | closed-bar volatility compression then range-break family | `CompressionBreakoutExpert` | EXPERT_PROTOCOL; D-044 |
+| `experts/volume_range_breakout.py` | venue-volume and realized-range confirmed breakout family | `VolumeRangeBreakoutExpert` | EXPERT_PROTOCOL; D-044 |
 | `lifecycle.py` | legal transitions; registry projection; episode identity; exposure book | `CandidateRegistry.apply/is_duplicate`, `episode_key`, `ExposureBook` | CANDIDATE_LIFECYCLE_SPEC §2; D-018, D-026 |
 | `risk.py` | deterministic admission; heat cap | `RiskGate.admit/release`; `RiskVerdict` | CANDIDATE_LIFECYCLE_SPEC §6; D-023 |
 | `simulator.py` | canonical Level-1 simulator; R units; excursions; two execution modes | `CanonicalSimulator.step/run/hash`, `risk_unit`, `OpenPosition` | SIMULATION_TRUTH_SPEC; D-028, D-030 |
@@ -73,6 +80,7 @@ tape — no code module until then); `tools/run_experiment.py` (the
 | `tools/data.py` | Binance archive -> verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit) | CLI `build/verify/audit/load` | FEED_INGESTION_SPEC §5; DATASET_SPEC §1 |
 | `tools/vision_backfill.py` | Vision monthly klines -> JSONL PIT tape (three clocks) + audit | CLI `--symbol --interval --month --out [--audit]` | FEED_INGESTION_SPEC §4-5 |
 | `tools/materialize_views.py` | DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch | CLI `--manifest --store` | DATASET_SPEC §5; compile-once (rule 17) |
+| `tools/build_handbook_8_validation.py` | PIT 1h-derived multi-timeframe development probe and standalone handbook report | CLI `--tape --out-dir` | D-044; no frozen OOS |
 | `tests/test_vertical_slice.py` | runnable contract gates (vertical slice) | pytest | audit gate; PROJECT_EVIDENCE_AUDIT |
 
 ## 3. Layering rules

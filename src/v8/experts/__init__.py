@@ -9,6 +9,10 @@ from .base import Expert
 from .trend_pullback import TrendPullbackExpert
 from .failed_breakout import FailedBreakoutExpert
 from .liquidity_sweep_reclaim import LiquiditySweepReclaimExpert
+from .trend_exhaustion_reversal import TrendExhaustionReversalExpert
+from .compression_breakout import CompressionBreakoutExpert
+from .volume_range_breakout import VolumeRangeBreakoutExpert
 
 __all__ = ['Expert', 'TrendPullbackExpert', 'FailedBreakoutExpert',
-           'LiquiditySweepReclaimExpert']
+           'LiquiditySweepReclaimExpert', 'TrendExhaustionReversalExpert',
+           'CompressionBreakoutExpert', 'VolumeRangeBreakoutExpert']

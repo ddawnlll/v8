@@ -75,6 +75,8 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         closes = [float(b.payload['close']) for b in closed]
         highs = [float(b.payload['high']) for b in closed]
         lows = [float(b.payload['low']) for b in closed]
+        volumes = [float(b.payload.get('volume', 0.0)) for b in closed]
+        ranges = [h - l for h, l in zip(highs, lows)]
 
         def add(name: str, value: float | None, consumed: list,
                 quality: str = 'COMPLETE', null_reason: str | None = None) -> None:
@@ -121,6 +123,17 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             add('ema_slow', slow_series[-1], closed)
             add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14,
                 closed[-14:])
+        # Participation is deliberately a bar-volume / realized-range context,
+        # not order flow or liquidity.  The depth-free tape cannot identify
+        # queue, aggressor, or book imbalance.  Both denominators exclude the
+        # current closed bar, preserving a stable comparison baseline.
+        if len(closed) >= 21:
+            prior_volume = sum(volumes[-21:-1]) / 20
+            prior_range = sum(ranges[-21:-1]) / 20
+            add('relative_volume', volumes[-1] / prior_volume if prior_volume > 0 else None,
+                closed[-21:], null_reason='SOURCE_GAP')
+            add('range_ratio', ranges[-1] / prior_range if prior_range > 0 else None,
+                closed[-21:], null_reason='SOURCE_GAP')
         # D-026 history feature group: last 32 closed bars as a tuple of
         # (event_id, open, high, low, close, ema_fast, ema_slow), oldest first,
         # per-bar EMAs over the full close series. This is the anchor scan the

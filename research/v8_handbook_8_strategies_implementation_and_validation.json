@@ -1,0 +1,266 @@
+{
+  "report_id": "v8_handbook_8_strategies_implementation_and_validation",
+  "status": "PRE-EXPERIMENTAL / EVIDENCE-BOUND",
+  "development_only": true,
+  "source_tape": "tmp\\handbook_dev_btcusdt_1h\\tape.jsonl",
+  "full_source_row_count": 14742,
+  "development_slice_row_count": 2251,
+  "max_base_bars": 2000,
+  "code_hash": "63f94b499269c3db9b689275506ff695bcc4c11c",
+  "strategies": [
+    {
+      "id": "SF-01",
+      "family": "Trend continuation",
+      "experts": [
+        "trend_pullback"
+      ],
+      "status": "FORMALIZED / development simulation",
+      "basis": "Handbook Ch. 5, 11"
+    },
+    {
+      "id": "SF-02",
+      "family": "Trend exhaustion / reversal",
+      "experts": [
+        "trend_exhaustion_reversal"
+      ],
+      "status": "FORMALIZED / development simulation",
+      "basis": "Handbook Ch. 5, 7, 9"
+    },
+    {
+      "id": "SF-03",
+      "family": "Volatility contraction to expansion",
+      "experts": [
+        "compression_breakout"
+      ],
+      "status": "FORMALIZED / development simulation",
+      "basis": "Handbook Ch. 7, 21"
+    },
+    {
+      "id": "SF-04",
+      "family": "Failed move / re-entry",
+      "experts": [
+        "failed_breakout",
+        "liquidity_sweep_reclaim"
+      ],
+      "status": "FORMALIZED / development simulation",
+      "basis": "Handbook Ch. 7"
+    },
+    {
+      "id": "SF-05",
+      "family": "Participation-conditioned price action",
+      "experts": [
+        "volume_range_breakout"
+      ],
+      "status": "FORMALIZED / development simulation",
+      "basis": "Handbook Ch. 6"
+    },
+    {
+      "id": "SF-06",
+      "family": "Range / value mean reversion",
+      "experts": [
+        "range_value_mean_reversion"
+      ],
+      "status": "DATA_BLOCKED",
+      "basis": "Handbook Ch. 12, 17, 20; needs PIT volume-at-price / profile"
+    },
+    {
+      "id": "SF-07",
+      "family": "Cross-market / relative strength context",
+      "experts": [
+        "cross_market_relative_strength"
+      ],
+      "status": "DATA_BLOCKED",
+      "basis": "Handbook Ch. 22–24; needs PIT multi-asset/breadth/sentiment"
+    },
+    {
+      "id": "SF-08",
+      "family": "Practitioner geometry and projection",
+      "experts": [
+        "practitioner_geometry_projection"
+      ],
+      "status": "REJECTED",
+      "basis": "Handbook Ch. 10, 18, 19; subjective without frozen annotation"
+    }
+  ],
+  "development_runs": {
+    "1h": {
+      "bars": 2000,
+      "tape_hash": "baf8e07167fabb9e19a6be0651b30f453c3cab31",
+      "detected_by_expert": {
+        "compression_breakout": 100,
+        "failed_breakout": 560,
+        "liquidity_sweep_reclaim": 137,
+        "trend_exhaustion_reversal": 46,
+        "trend_pullback": 65,
+        "volume_range_breakout": 180
+      },
+      "report": {
+        "experiment_id": "handbook_8_dev_1h",
+        "code_hash": "63f94b499269c3db9b689275506ff695bcc4c11c",
+        "data_hash": "baf8e07167fabb9e19a6be0651b30f453c3cab31",
+        "candidate_count": 1088,
+        "terminal_distribution": {
+          "CLOSED": 419,
+          "INVALIDATED": 122,
+          "REJECTED": 547
+        },
+        "ledger_hash": "03529f9de8380d00629489b059096c2351bd688f",
+        "verdict": "NO_ECONOMIC_CLAIM",
+        "exposure_conflicts": 436,
+        "evaluation_distribution": {
+          "NO_HABITAT": 116,
+          "CANDIDATE": 2512,
+          "NO_SETUP": 9372
+        },
+        "data_invalid": false,
+        "rejection_distribution": {
+          "EXISTING_EXPOSURE_CONFLICT": 436,
+          "TRADABILITY_MASK_VETO": 111
+        },
+        "n_executed": 419,
+        "n_portfolio_rejected": 436,
+        "execution_share": 0.49005847953216375,
+        "divergence_ks": 0.10691686190361493,
+        "tooling_hash": "501e147f3cb980811adc2aa194a2a9b1b74c087f",
+        "risk_gate_hash": "b8346b9daf7c3d392306bbdbae22b8ef4afc79b1"
+      }
+    },
+    "4h": {
+      "bars": 500,
+      "tape_hash": "55ae2b09adbd36360f6f75a26bd78cef24a8fd4c",
+      "detected_by_expert": {
+        "compression_breakout": 25,
+        "failed_breakout": 144,
+        "liquidity_sweep_reclaim": 33,
+        "trend_exhaustion_reversal": 14,
+        "trend_pullback": 17,
+        "volume_range_breakout": 51
+      },
+      "report": {
+        "experiment_id": "handbook_8_dev_4h",
+        "code_hash": "63f94b499269c3db9b689275506ff695bcc4c11c",
+        "data_hash": "55ae2b09adbd36360f6f75a26bd78cef24a8fd4c",
+        "candidate_count": 284,
+        "terminal_distribution": {
+          "CLOSED": 79,
+          "REJECTED": 173,
+          "INVALIDATED": 32
+        },
+        "ledger_hash": "082cdf30b2b7f018737ce7b7512b2e5db37b8973",
+        "verdict": "NO_ECONOMIC_CLAIM",
+        "exposure_conflicts": 53,
+        "evaluation_distribution": {
+          "NO_HABITAT": 116,
+          "CANDIDATE": 619,
+          "NO_SETUP": 2265
+        },
+        "data_invalid": false,
+        "rejection_distribution": {
+          "TRADABILITY_MASK_VETO": 120,
+          "EXISTING_EXPOSURE_CONFLICT": 53
+        },
+        "n_executed": 79,
+        "n_portfolio_rejected": 53,
+        "execution_share": 0.5984848484848485,
+        "divergence_ks": 0.05517076665870552,
+        "tooling_hash": "501e147f3cb980811adc2aa194a2a9b1b74c087f",
+        "risk_gate_hash": "b8346b9daf7c3d392306bbdbae22b8ef4afc79b1"
+      }
+    },
+    "1d": {
+      "bars": 83,
+      "tape_hash": "f01e6e7df56aaa8ecff183b0232ee2e3e4ef7fd4",
+      "detected_by_expert": {
+        "failed_breakout": 22,
+        "liquidity_sweep_reclaim": 5,
+        "trend_exhaustion_reversal": 4,
+        "trend_pullback": 1,
+        "volume_range_breakout": 6
+      },
+      "report": {
+        "experiment_id": "handbook_8_dev_1d",
+        "code_hash": "63f94b499269c3db9b689275506ff695bcc4c11c",
+        "data_hash": "f01e6e7df56aaa8ecff183b0232ee2e3e4ef7fd4",
+        "candidate_count": 38,
+        "terminal_distribution": {
+          "REJECTED": 34,
+          "INVALIDATED": 2,
+          "EXPIRED": 2
+        },
+        "ledger_hash": "4e21953670d36ed38c694ae1305ea98eb83d1f0c",
+        "verdict": "NO_ECONOMIC_CLAIM",
+        "exposure_conflicts": 0,
+        "evaluation_distribution": {
+          "NO_HABITAT": 116,
+          "CANDIDATE": 80,
+          "NO_SETUP": 302
+        },
+        "data_invalid": false,
+        "rejection_distribution": {
+          "TRADABILITY_MASK_VETO": 34
+        },
+        "n_executed": 0,
+        "n_portfolio_rejected": 0,
+        "execution_share": null,
+        "divergence_ks": null,
+        "tooling_hash": "501e147f3cb980811adc2aa194a2a9b1b74c087f",
+        "risk_gate_hash": "b8346b9daf7c3d392306bbdbae22b8ef4afc79b1"
+      }
+    },
+    "1w": {
+      "bars": 11,
+      "tape_hash": "ebeb9efb02a1ea8cfcc6ddd6c932034d7ef93652",
+      "detected_by_expert": {},
+      "report": {
+        "experiment_id": "handbook_8_dev_1w",
+        "code_hash": "63f94b499269c3db9b689275506ff695bcc4c11c",
+        "data_hash": "ebeb9efb02a1ea8cfcc6ddd6c932034d7ef93652",
+        "candidate_count": 0,
+        "terminal_distribution": {},
+        "ledger_hash": "f284135d5794629db0d6af0d940a821062b64ff3",
+        "verdict": "NO_ECONOMIC_CLAIM",
+        "exposure_conflicts": 0,
+        "evaluation_distribution": {
+          "NO_HABITAT": 66
+        },
+        "data_invalid": false,
+        "rejection_distribution": {},
+        "n_executed": 0,
+        "n_portfolio_rejected": 0,
+        "execution_share": null,
+        "divergence_ks": null,
+        "tooling_hash": "501e147f3cb980811adc2aa194a2a9b1b74c087f",
+        "risk_gate_hash": "b8346b9daf7c3d392306bbdbae22b8ef4afc79b1"
+      }
+    }
+  },
+  "risk_execution_contract": {
+    "admission": "Existing deterministic RiskGate; no Expert submits orders or sizes positions.",
+    "exposure": "One active exposure per (instrument, direction); conflicts retained counterfactually.",
+    "heat": "Existing portfolio and cluster heat caps; no ranker or scorer added.",
+    "funding": "Tape-driven venue funding schedule; slice stops before uncovered settlement horizon.",
+    "sf05_limit": "relative_volume and range_ratio are bar aggregates, not order flow or order-book liquidity."
+  },
+  "validation": {
+    "focused_command": "python -m pytest tests/test_expert_registry.py tests/test_artifact_status.py::test_registry_nothing_promoted tests/test_funding_wiring.py::test_audit_passes_sorted_mixed_tape tests/test_golden_backtest.py::test_golden_backtest_regression -q",
+    "focused_result": "10 passed",
+    "full_suite_environment_blockers": [
+      "missing duckdb/tooling dependencies during collection",
+      "missing certification and pipeline_v2 fixture artifacts"
+    ],
+    "report_integrity": "8 strategy rows; inline CSS/JS-free HTML; raw JSON embedded in HTML"
+  },
+  "sources": [
+    "Lim (2016), The Handbook of Technical Analysis: Ch. 5, 6, 7, 10–12, 17–24, 28 (local user-supplied PDF).",
+    "Cont, Kukanov & Stoikov (2014), The Price Impact of Order Book Events, arXiv:1011.6402 — OHLCV is not order-book flow.",
+    "Koshiyama & Firoozye (2019), The Impact of Backtest Overfitting on Out-of-Sample Performance, arXiv:1905.05023.",
+    "Sermpinis et al. (2018), Technical Analysis and FDR, arXiv:1811.06766.",
+    "Lo, Mamaysky & Wang (2000), Foundations of Technical Analysis, NBER w7613 — patterns require explicit formalization."
+  ],
+  "hard_limits": [
+    "No frozen OOS opened.",
+    "No profitability or execution-validity claim.",
+    "SF-06/SF-07 fail closed on missing PIT data.",
+    "SF-08 rejected as subjective."
+  ]
+}

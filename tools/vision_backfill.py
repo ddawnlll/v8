@@ -325,7 +325,16 @@ def sort_tape(out_dir: Path) -> dict:
     tmp.write_text(
         ''.join(json.dumps(r, sort_keys=True) + '\n' for r in sorted_rows),
         encoding='utf-8')
-    os.replace(tmp, out_dir / 'tape.jsonl')
+    destination = out_dir / 'tape.jsonl'
+    try:
+        os.replace(tmp, destination)
+    except PermissionError:
+        # Some Windows file-indexing/AV configurations transiently deny a
+        # replace even after the reader has closed. Preserve deterministic
+        # content rather than leaving a complete sorted temp un-applied; the
+        # following audit re-verifies the resulting tape hash.
+        destination.write_bytes(tmp.read_bytes())
+        tmp.unlink(missing_ok=True)
     meta = _load_provenance(out_dir)
     if meta:
         meta['row_count'] = len(sorted_rows)

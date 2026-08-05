@@ -61,7 +61,7 @@ def test_registry_nothing_promoted():
     data = yaml.safe_load((REPO / 'docs' / 'EXPERTS_REGISTRY.yaml').read_text())
     for entry in data['experts']:
         assert entry['status'] in EXPERT_PROTOCOL_STATUS
-        assert entry['status'] in ('FORMALIZED', 'DATA_BLOCKED')
+        assert entry['status'] in ('FORMALIZED', 'DATA_BLOCKED', 'REJECTED')
     # The ops vocabulary is exactly the OPERATIONS_SPEC four-status ladder.
     assert list(STATUS_VOCABULARY) == ['research', 'shadow', 'paper', 'live']
 

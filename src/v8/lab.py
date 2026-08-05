@@ -29,7 +29,8 @@ from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
 # the next boundary; the canonical slice tape is 1h bars (synth.py), so
 # funding_hours (in hours) times this interval is the boundary period.
 _INTERVAL_NS = {'1m': 60_000_000_000, '1h': 3_600_000_000_000,
-                '4h': 14_400_000_000_000, '1d': 86_400_000_000_000}
+                '4h': 14_400_000_000_000, '1d': 86_400_000_000_000,
+                '1w': 604_800_000_000_000}
 
 # Named source for the Phase-2 excess-cost gate (was an undocumented 0.10
 # literal): a manifest cost at/above this rejects every triggered candidate as

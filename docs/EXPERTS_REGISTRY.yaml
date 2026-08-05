@@ -43,6 +43,30 @@ experts:
     requires: [location, volatility, history]
     status: FORMALIZED
     owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
+  - expert_id: trend_exhaustion_reversal
+    expert_version: v1
+    mechanism_family_id: trend_exhaustion
+    behavior_family_id: run_break_reversal
+    variant_id: 'a'
+    requires: [trend, volatility, history]
+    status: FORMALIZED
+    owning_spec: Handbook Ch. 5/7 formalization; EXPERT_PROTOCOL; D-044
+  - expert_id: compression_breakout
+    expert_version: v1
+    mechanism_family_id: volatility_regime_transition
+    behavior_family_id: compression_breakout
+    variant_id: 'a'
+    requires: [volatility, location, history]
+    status: FORMALIZED
+    owning_spec: Handbook Ch. 7/21 formalization; EXPERT_PROTOCOL; D-044
+  - expert_id: volume_range_breakout
+    expert_version: v1
+    mechanism_family_id: participation_confirmation
+    behavior_family_id: volume_range_breakout
+    variant_id: 'a'
+    requires: [location, volatility, participation, history]
+    status: FORMALIZED
+    owning_spec: Handbook Ch. 6 formalization; EXPERT_PROTOCOL; D-044
   - expert_id: breakout_retest
     expert_version: v1
     mechanism_family_id: breakout_retest
@@ -59,3 +83,27 @@ experts:
     requires: [trend, volatility, history]
     status: DATA_BLOCKED
     owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
+  - expert_id: range_value_mean_reversion
+    expert_version: v1
+    mechanism_family_id: auction_value_reversion
+    behavior_family_id: range_value_reversion
+    variant_id: 'a'
+    requires: [location, participation]
+    status: DATA_BLOCKED
+    owning_spec: Handbook Ch. 12/17; requires PIT market-profile or volume-at-price data; no OHLC proxy
+  - expert_id: cross_market_relative_strength
+    expert_version: v1
+    mechanism_family_id: cross_market_context
+    behavior_family_id: relative_strength_context
+    variant_id: 'a'
+    requires: [trend, participation]
+    status: DATA_BLOCKED
+    owning_spec: Handbook Ch. 22-24; requires PIT multi-instrument universe and breadth/sentiment data; no BTC-only proxy
+  - expert_id: practitioner_geometry_projection
+    expert_version: v1
+    mechanism_family_id: discretionary_geometry
+    behavior_family_id: subjective_projection
+    variant_id: 'a'
+    requires: [history]
+    status: REJECTED
+    owning_spec: Handbook Ch. 10/18/19; source concept is not objectively enumerable without an external frozen annotation protocol
