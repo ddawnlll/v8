@@ -107,6 +107,34 @@ class CandidateRegistry:
         self._apply_projection(rec)
         return rec
 
+    def position_action(self, candidate_id: str, action: str, fraction: float,
+                        price: float, knowledge_time: int,
+                        source: str = 'lifecycle') -> dict:
+        """Append one non-terminal PositionAction event (EXEC-2, EX-13).
+
+        A PositionAction records active position management on an open
+        (EXECUTED) position WITHOUT changing state — the position continues, so
+        no transition fires and `current()` is untouched. PARTIAL_EXIT is the
+        only action today: `fraction` is the closed fraction (0 < f < 1), `price`
+        the bar-close fill of the closed leg. The vocabulary is extensible
+        (ADD / FULL_EXIT / REENTER / HEDGE / CASH are P2, EX-13); FULL_EXIT and
+        REENTER need an explicit PnL-attribution decision before they are added
+        (CRIT-2.8). Distinct from the simulator endpoint set: PARTIAL_EXIT is a
+        lifecycle fact, never a CounterfactualOutcome.endpoint, and a partial
+        never produces an outcome (one terminal outcome per candidate).
+
+        The event joins the candidates ledger (kind `position_action`, no
+        `to_state`), so it is append-only, replayable and bound into
+        ledger_hash like the `suppressed_duplicate` / `tradability_veto`
+        records.
+        """
+        rec = {'kind': 'position_action', 'candidate_id': candidate_id,
+               'action': action, 'fraction': fraction, 'price': price,
+               'knowledge_time': knowledge_time, 'source': source,
+               'event_id': f'{candidate_id}:action:{action}:{knowledge_time}'}
+        self.log.append(rec)
+        return rec
+
     def is_duplicate(self, key: str) -> bool:
         """True iff the key already produced a DETECTED episode.
 

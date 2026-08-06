@@ -53,9 +53,33 @@ class TapeRow:
 FEATURE_GROUPS: dict[str, dict] = {
     'raw': {'requires': (), 'features': ('close',)},
     'trend': {'requires': ('raw',), 'features': ('ema_fast', 'ema_slow')},
-    'volatility': {'requires': ('raw',), 'features': ('atr',)},
-    'location': {'requires': ('raw',), 'features': ('prior_high', 'prior_low')},
-    'participation': {'requires': ('raw',), 'features': ()},
+    'volatility': {'requires': ('raw',), 'features': (
+        'atr', 'bb_mid', 'bb_upper', 'bb_lower', 'bb_pct_b', 'bb_bandwidth',
+        'atr_locational', 'atr_filtered_2sigma', 'atr_2sigma_active',
+        'keltner_u', 'keltner_l', 'starc_u', 'starc_l', 'atr_trend_phase')},
+    'location': {'requires': ('raw',), 'features': (
+        'prior_high', 'prior_low',
+        'swing_high_5', 'swing_high_10', 'swing_high_20',
+        'swing_low_5', 'swing_low_10', 'swing_low_20',
+        'window_high_10', 'window_low_10', 'window_high_20', 'window_low_20',
+        'window_high_50', 'window_low_50',
+        'range_height_10', 'range_height_20', 'range_height_50',
+        'fib_levels', 'pivot_points_day', 'consolidation_range', 'gap_levels',
+        'atr_band_stop')},
+    'candle_shape': {'requires': ('raw',), 'features': (
+        'real_body', 'body_range_ratio', 'upper_shadow', 'lower_shadow',
+        'close_position', 'inside_bar', 'outside_bar', 'gap_size', 'gap_dir')},
+    'oscillator': {'requires': ('raw',), 'features': (
+        'rsi14', 'stoch_k', 'stoch_d', 'stochrsi', 'cci20', 'macd',
+        'macd_signal', 'macd_hist', 'mom_14', 'roc_14', 'adx14',
+        'osc_obos_quantile')},
+    'participation': {'requires': ('raw',), 'features': (
+        'volume', 'vol_zscore', 'vol_min_proximity', 'vol_smooth_ma', 'obv',
+        'adl', 'cmf_20', 'vwap', 'bar_class')},
+    'session': {'requires': ('raw',), 'features': (
+        'hour_of_day_utc', 'impulsive_window', 'bar_of_session', 'day_index')},
+    'positioning': {'requires': ('raw',), 'features': (
+        'funding_rate', 'open_interest', 'long_short_skew')},
     'response': {'requires': ('trend', 'volatility', 'location', 'participation'),
                  'features': ()},
     'history': {'requires': ('trend', 'volatility'), 'features': ('history',)},
@@ -143,6 +167,34 @@ class CandidateDraft:
     # clock. This is the episode-identity primitive (CANDIDATE_LIFECYCLE_SPEC
     # section 1). Empty string only for drafts that never enter the registry.
     setup_anchor_event_id: str = ''
+    # RM-01 size primitive: position size in units of one standard position.
+    # Heat (D-023) is `size * stop_r`, so at size=1.0, stop_r=1.0 the heat
+    # formula is byte-identical to the pre-size 1R gate. `size` is a declared
+    # geometry policy (fixed-fractional; RM-15 — never compounding); the
+    # RiskGate drawdown ladder (O-016, equity.RiskState) scales the EFFECTIVE
+    # size at admission, which is what the executed OpenPosition records.
+    # `risk_geometry` may additionally carry `risk_frac` (fraction of the
+    # entry price that is one R — the D-028 risk-unit fallback) and
+    # `risk_per_trade` (fraction of account equity risked per 1R at size 1.0);
+    # the account-level risk_per_trade lives on ExperimentManifest and wins.
+    #
+    # EXEC-1..6 (O-013) declared management keys — all optional; the default
+    # geometry is unchanged. They are pure functions of excursion + frozen
+    # keys, never fitted:
+    # - `breakeven_roll_at_mfe_r` (+ `breakeven_margin_r`, default
+    #   round_trip_cost_r): one-shot roll of the effective stop to entry +/-
+    #   margin once mfe_r reaches the threshold (EX-01). Endpoint stays STOP.
+    # - `trail_stop_atr`: chandelier trail — the effective stop ratchets to
+    #   k*ATR behind the extreme every bar (EX-05). Endpoint stays STOP.
+    # - `scale_out_ratio` (>0 enables) + `scale_out_at_mfe_r`: one-shot partial
+    #   close of fraction f = stop_r/(stop_r+target_r) at bar close; the
+    #   remainder continues. NON-TERMINAL — a PARTIAL_EXIT PositionAction, never
+    #   an endpoint and never an outcome (EX-02/04).
+    # - `time_exit_bars`: distinct endpoint TIME_EXIT at bar close (EX-09/12).
+    # - `pyramid_add_rules`: declared but P2 — pyramiding is OFF; declaring it
+    #   fails closed (EX-03; `simulator.midpoint_stop` is the tested primitive).
+    # - `limit_price`: the barrier for FILL_AT_LIMIT (EXEC-4, EX-11).
+    size: float = 1.0
 
 
 @dataclass(frozen=True)
@@ -169,7 +221,9 @@ class CounterfactualOutcome:
     candidate_id: str
     horizon_bars: int
     endpoint: str               # TARGET | STOP | EXPIRY | THESIS_INVALIDATED
-    #                             | INVALIDATED_BEFORE_TRIGGER
+    #                             | TIME_EXIT | INVALIDATED_BEFORE_TRIGGER
+    #                             (PARTIAL_EXIT is NOT an endpoint — it is a
+    #                             non-terminal lifecycle PositionAction, EX-02)
     net_r: float
     label_status: str           # MATURE | RIGHT_CENSORED | NOT_EXECUTED
     simulator_hash: str
@@ -183,6 +237,22 @@ class CounterfactualOutcome:
     mae_r: float = 0.0          # max adverse excursion, R (>= 0)
     mfe_r: float = 0.0          # max favourable excursion, R (>= 0)
     ambiguous_bars: int = 0     # bars touching both barriers (STOP_FIRST applied)
+    # D-045 (detrended null): `net_r` alone cannot be re-centered on a
+    # same-exposure passive benchmark, because the R denominator is not
+    # recoverable downstream — `simulator.risk_unit` falls back to
+    # `entry_price * risk_frac` when a draft declares no `atr_ref`, so the
+    # unit depends on the fill. Recomputing either outside the simulator
+    # would be the second copy of the formula the run() docstring forbids.
+    # These are recorded by the simulator at the fill it actually used.
+    entry_price: float = 0.0        # executed entry fill; 0.0 = never entered
+    risk_unit_price: float = 0.0    # price distance of one R at that fill
+    # Passive entry->exit close move in R, direction-FREE (unsigned by
+    # `direction`): what the instrument did over the holding window, with no
+    # barrier path and no cost. Signing it is the caller's job, which is what
+    # lets a permutation test re-pair positions with moves (METH-3 / EV G-03
+    # prerequisite: "net-R alone is insufficient"). Recorded now so that test
+    # does not force a second simulator hash bump.
+    market_move_r: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -196,6 +266,13 @@ class ExperimentManifest:
     end_ns: int
     interval: str = '1h'
     round_trip_cost_r: float = 0.07
+    # Fill policy (SIMULATION_TRUTH_SPEC): FILL_AT_BAR_CLOSE is the locked
+    # baseline (entry at next-bar close). FILL_AT_LIMIT (EXEC-4, EX-11) is a
+    # barrier entry: the order rests at the draft's declared
+    # risk_geometry['limit_price'] and fills when a bar's range trades through
+    # it (fill = the limit exactly); the entry bar is inspected for a FILL only,
+    # never for exits; an order that never fills never enters (NOT_EXECUTED).
+    # Anything outside SUPPORTED_FILL_POLICIES fails closed.
     fill_policy: str = 'FILL_AT_BAR_CLOSE'
     # Versioned venue inputs (SIMULATION_TRUTH_SPEC 3-5): funding settles at
     # integer-hour UTC boundaries divisible by funding_hours, before any order
@@ -221,6 +298,17 @@ class ExperimentManifest:
     max_bar_range_frac: float = 0.05
     funding_window_bars: int = 1
     authority_receipt: str | None = None
+    # RM-02: fraction of account equity risked per 1R position at size 1.0
+    # (1R = risk_per_trade x initial equity). Makes R interpretable as % of
+    # account and drives the trade-unit budget (RM-07: trade_units =
+    # 100/risk_per_trade) and the O-016 equity curve (equity.py). Frozen
+    # manifest constant, declared pre-holdout — never fitted.
+    risk_per_trade: float = 0.01
+    # RM-08: minimum executed-episode adequacy bar for a positive verdict
+    # annotation. The book's 300-500 trade floor, declared pre-holdout; the
+    # prereg §12 n_f >= 30 stays the statistical gate — this is an
+    # annotation (NO_ECONOMIC_CLAIM note below the bar), never a hard fail.
+    min_trades: int = 300
 
 
 @dataclass(frozen=True)
@@ -273,3 +361,23 @@ class LabReport:
     # ledger_hash (risk_config_hash); this field is the report-side copy, so a
     # consumer can see which gate ran without re-deriving it from the ledger.
     risk_gate_hash: str = ''
+    # --- Risk/sizing diagnostics (RM-01..19; O-016) -------------------------
+    # All report-only, derived deterministically from the executed-outcome
+    # ledger and the equity feed (lab.py + equity.py). Never bound into any
+    # hash. `economic_note` carries the NO_ECONOMIC_CLAIM annotations for the
+    # RM-07 trade-unit budget and the RM-08 min_trades bar when the executed
+    # episode count is below them — a note, not a hard fail, and never a
+    # change to the D-027 `verdict` string.
+    size_scheme: str = 'fixed_fractional'      # sizing policy that ran (RM-15)
+    risk_per_trade: float | None = None        # manifest: fraction of equity risked per 1R
+    min_trades: int | None = None              # manifest: RM-08 adequacy bar (default 300)
+    trade_units: float | None = None           # 100/risk_per_trade (RM-07 budget)
+    final_equity: float | None = None          # normalized equity after the last episode
+    max_drawdown: float | None = None          # deepest peak-to-trough on the equity curve (<= 0)
+    drawdown_sized_episodes: int = 0           # episodes admitted under a drawdown band
+    risk_of_ruin: float | None = None          # MC P(ruin) over the realized sequence
+    profit_factor: float | None = None         # gross win / gross |loss| over executed net_r
+    w_min: float | None = None                 # spread-adjusted breakeven win rate 1/(1+R/r')
+    worst_case_r: float | None = None          # worst realized single-episode net_r (RM-10)
+    worst_case_portfolio_r: float | None = None  # theoretical: -max_heat (all stops at once)
+    economic_note: str | None = None           # NO_ECONOMIC_CLAIM annotation when below bars

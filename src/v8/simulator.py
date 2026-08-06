@@ -26,6 +26,35 @@ favourable excursion in R). V7's audit found excursion far more predictable
 than direction (ICs +0.124/+0.152 vs +0.015 signed-return), and the vendored
 V7 simulator records both; dropping them would discard the only evidence that
 can decide whether post-entry management is worth adding (O-013).
+
+POSITION MANAGEMENT (EXEC-1..6, O-013). All declared, optional risk_geometry
+keys; the default geometry (the pilots' frozen geometry) keeps step()/run()
+byte-identical on every field that existed before this change set. Declared
+management is a pure function of excursion + frozen keys:
+- `breakeven_roll_at_mfe_r` (+ `breakeven_margin_r`, default = round_trip_cost_r):
+  one-shot roll of the effective stop to entry +/- margin once mfe_r reaches
+  the threshold (EX-01). Endpoint stays STOP.
+- `trail_stop_atr`: chandelier trail — the effective stop ratchets to k*ATR
+  behind the extreme (entry +/- mfe_r*unit) every bar (EX-05). Endpoint STOP.
+- `scale_out_ratio` (> 0 enables) + `scale_out_at_mfe_r`: one-shot partial
+  close of fraction f = stop_r/(stop_r+target_r) at bar close; the remainder
+  continues. NON-TERMINAL: StepResult.closed_fraction < 1.0 and the lab records
+  a PARTIAL_EXIT PositionAction (lifecycle), never an outcome and never an
+  endpoint (EX-02/04).
+- `time_exit_bars`: distinct endpoint TIME_EXIT at bar close once
+  bars_held >= time_exit_bars and price has not reached stop/target (EX-09/12).
+- `pyramid_add_rules`: DECLARED but P2 — pyramiding stays OFF; a draft that
+  declares it fails closed (EX-03). The `midpoint_stop` primitive is implemented
+  and tested.
+Management updates apply from the bar AFTER the one that triggered them (a
+bar-atomic OHLC cannot order intrabar events; a stop raised by this bar's
+excursion never fires on the same bar).
+
+FILL POLICIES (EXEC-4). SUPPORTED_FILL_POLICIES = FILL_AT_BAR_CLOSE (locked
+baseline) | FILL_AT_LIMIT (barrier entry: fills at the declared
+risk_geometry['limit_price'] when a bar's range trades through it; the entry
+bar is inspected for a FILL only, never for exits; never-filling orders never
+enter).
 """
 from __future__ import annotations
 
@@ -84,24 +113,77 @@ class OpenPosition:
     entry_time_ns: int | None = None
     settlements: int = 0
     funding_paid_r: float = 0.0
+    # RM-01: the EFFECTIVE size this position was admitted at (draft.size
+    # scaled by the O-016 drawdown ladder, equity.RiskState). R-multiples are
+    # size-independent, so step()/run() never read it; the lab records it for
+    # the equity feed and the sizing evidence (size x stop_r heat invariant,
+    # D-023). A semantic field addition per CRIT-3: sim.hash() re-versions to
+    # canonical-sim-v7 REGARDLESS of output byte-identity.
+    size: float = 1.0
+    # EXEC-1/2/3 position management (O-013). `stop_level` is the EFFECTIVE
+    # dynamic stop once management has moved it (breakeven roll, chandelier
+    # trail); None = the static geometry stop still applies. `stop_rolled` is
+    # the one-shot breakeven-roll latch; `scaled_out` the one-shot scale-out
+    # latch. `remaining` is the fraction of the position still held after
+    # scale-outs (1.0 = no partial yet) and `realized_r` the R accumulated on
+    # closed fractions (EXEC-2): total episode net_r at the terminal close is
+    # `realized_r + remaining * leg_r - cost - funding`, so a scaled-out leg's
+    # profit is not lost when the remainder later stops. `remaining` is a
+    # MANAGEMENT fraction — `size` (the admission size, drawdown-scaled) never
+    # enters the net_r formula, which keeps R-multiples size-independent
+    # (D-028: a stop-out is -1R-cost whatever the effective size).
+    stop_level: float | None = None
+    stop_rolled: bool = False
+    scaled_out: bool = False
+    realized_r: float = 0.0
+    remaining: float = 1.0
 
 
 @dataclass(frozen=True)
 class StepResult:
     closed: bool
     endpoint: str | None = None      # TARGET | STOP | EXPIRY | THESIS_INVALIDATED
+    #                                  | TIME_EXIT (non-terminal: None)
     net_r: float | None = None
     label_status: str | None = None  # MATURE | RIGHT_CENSORED
     next_pos: OpenPosition | None = None
     funding_settled: int = 0         # funding_settled events booked this step
+    # EXEC-2: fraction of the position closed this step. 1.0 = terminal (the
+    # whole position exited); <1.0 = a non-terminal PARTIAL_EXIT — the
+    # position continues at remaining*(1-f) with its stop unchanged. The
+    # endpoint vocabulary is untouched by a partial (it is not an endpoint;
+    # the lab records it as a lifecycle PositionAction).
+    closed_fraction: float = 1.0
 
 
-# Only this fill policy is implemented. A manifest-declared policy outside
-# this set must fail closed — a hash that claims a fill semantics the stepper
-# does not implement is a lie (OPERATIONS_SPEC sections 1, 5: shadow/paper
-# share one code path and the fill source is a manifest input, never a silent
+# The implemented fill policies. A manifest-declared policy outside this set
+# must fail closed — a hash that claims a fill semantics the stepper does not
+# implement is a lie (OPERATIONS_SPEC sections 1, 5: shadow/paper share one
+# code path and the fill source is a manifest input, never a silent
 # divergence).
-SUPPORTED_FILL_POLICIES = ('FILL_AT_BAR_CLOSE',)
+#
+# EXEC-4 (EX-11): FILL_AT_LIMIT is a barrier entry — the order rests at the
+# declared risk_geometry['limit_price'] and fills on the first bar whose range
+# trades through it (fill price = the limit exactly, conservative limit
+# semantics). The entry bar is inspected for a FILL only, never for exits: the
+# exit loop starts on the bar AFTER the fill bar, so the "entry bar is never
+# inspected for exits" invariant (SIMULATION_TRUTH_SPEC) holds by construction.
+# A limit that never trades through never enters (NOT_EXECUTED).
+SUPPORTED_FILL_POLICIES = ('FILL_AT_BAR_CLOSE', 'FILL_AT_LIMIT')
+
+
+def midpoint_stop(entry_price: float, add_price: float) -> float:
+    """EXEC-3 (EX-03) primitive: midway stop between the original entry and a
+    pyramiding add (`midpoint = (entry + add_price)/2`, the book's
+    "roll both stops to midway between the two entry levels"). A pyramid add
+    on the same (instrument, direction) is the SAME exposure with larger size
+    (D-018 is per instrument-direction), so this is the correct stop for an
+    add — if price reverses and takes out the midway stop, the second lot's
+    profit neutralizes the first lot's loss. Pyramiding itself is P2 and stays
+    OFF (a draft declaring `pyramid_add_rules` fails closed in step()); this
+    function is the verified math primitive the P2 work builds on.
+    """
+    return (float(entry_price) + float(add_price)) / 2.0
 
 
 class CanonicalSimulator:
@@ -209,7 +291,15 @@ class CanonicalSimulator:
         expiry = int(geom['expiry_bars'])
         sign = 1.0 if long else -1.0
         target = entry + sign * target_r * unit
-        stop = entry - sign * stop_r * unit
+        base_stop = entry - sign * stop_r * unit
+        # EXEC-1: the effective stop is the dynamic stop_level once management
+        # has moved it (breakeven roll / chandelier trail), else the static
+        # geometry stop. Management updates below apply from the NEXT bar — a
+        # stop raised by this bar's excursion never fires on the same bar that
+        # made the excursion (bar-atomic OHLC cannot order intrabar events, so
+        # the conservative reading is that the new barrier did not exist while
+        # this bar was trading).
+        stop = pos.stop_level if pos.stop_level is not None else base_stop
         bars_held = pos.bars_held + 1
         high, low = float(bar['high']), float(bar['low'])
 
@@ -231,16 +321,86 @@ class CanonicalSimulator:
             endpoint = 'TARGET'
         elif not thesis_valid:          # thesis died before price did
             endpoint = 'THESIS_INVALIDATED'
+        # EXEC-5 (EX-09/10/12): a declared time-line exit — the position exits
+        # at bar close once bars_held reaches time_exit_bars, as long as price
+        # did not reach stop/target first. Distinct endpoint from EXPIRY (a
+        # time exit is a declared management horizon, not the tape-end expiry).
+        elif 'time_exit_bars' in geom and bars_held >= int(geom['time_exit_bars']):
+            endpoint = 'TIME_EXIT'
         elif bars_held >= expiry:
             endpoint = 'EXPIRY'
 
         next_pos = replace(pos, bars_held=bars_held, mae_r=mae_r, mfe_r=mfe_r,
                            ambiguous_bars=ambiguous_bars)
         if endpoint is None:
+            # --- EXEC-1/2/3 position management (all bar-close, non-terminal) --
+            # Runs only when no terminal exit fires this bar; a bar that stops
+            # or targets out is closed, never managed.
+            #
+            # Pyramiding (EXEC-3): the geometry key is DECLARED and documented
+            # (the midpoint-stop math primitive is `midpoint_stop`), but full
+            # pyramiding with midway stops is P2 and stays OFF — a draft that
+            # requests it fails closed rather than silently trading a partial
+            # implementation.
+            if 'pyramid_add_rules' in geom:
+                raise ValueError(
+                    'pyramid_add_rules is declared but pyramiding is P2 and '
+                    'not implemented (EXEC-3); a draft that requests it fails '
+                    'closed — the declared key must be absent')
+            stop_level = pos.stop_level
+            stop_rolled = pos.stop_rolled
+            # EXEC-1 breakeven roll (EX-01): once mfe_r reaches the declared
+            # threshold, roll the stop to entry +/- breakeven_margin_r ("roll
+            # slightly farther out to account for slippage and trading costs",
+            # Ch28); the margin defaults to the round-trip cost. One-shot.
+            if 'breakeven_roll_at_mfe_r' in geom and not stop_rolled \
+                    and mfe_r >= float(geom['breakeven_roll_at_mfe_r']):
+                margin = float(geom.get('breakeven_margin_r',
+                                        self.round_trip_cost_r))
+                stop_level = entry - sign * margin * unit
+                stop_rolled = True
+            # EXEC-1 trailing (EX-05, chandelier): trail the stop k*R behind
+            # the extreme (entry +/- mfe_r*unit), ratcheting every bar — the
+            # stop only moves toward profit. `trail_stop_atr` is k; the R unit
+            # is the geometry's declared ATR-based risk unit, so the chandelier
+            # is k x ATR as the book defines it.
+            if 'trail_stop_atr' in geom:
+                k = float(geom['trail_stop_atr'])
+                trail = entry + sign * (mfe_r - k) * unit
+                if stop_level is None:
+                    stop_level = max(base_stop, trail) if long \
+                        else min(base_stop, trail)
+                else:
+                    stop_level = max(stop_level, trail) if long \
+                        else min(stop_level, trail)
+            next_pos = replace(next_pos, stop_level=stop_level,
+                               stop_rolled=stop_rolled)
+            # EXEC-2 scale-out / partial exit (EX-02): on the bar whose mfe_r
+            # crosses scale_out_at_mfe_r, close the fraction
+            # f = stop_r/(stop_r+target_r) (the book's exact formula,
+            # Ch28: Stopsize/(Stopsize+Reward)) at this bar's close; the
+            # remainder continues at size*(1-f) with the stop unchanged. This
+            # is a NON-TERMINAL event: closed_fraction < 1.0, endpoint stays
+            # None, and the lab records a lifecycle PositionAction. Scale-out
+            # is enabled only when scale_out_ratio > 0 (default 0 = off).
+            if geom.get('scale_out_ratio', 0.0) > 0.0 and not pos.scaled_out \
+                    and mfe_r >= float(geom['scale_out_at_mfe_r']):
+                f = stop_r / (stop_r + target_r)
+                leg_r = sign * (float(bar['close']) - entry) / unit
+                next_pos = replace(next_pos,
+                                   remaining=pos.remaining * (1 - f),
+                                   # R realized on the closed fraction of the
+                                   # ORIGINAL position = remaining * f * leg_r.
+                                   realized_r=pos.realized_r
+                                   + pos.remaining * f * leg_r,
+                                   scaled_out=True)
+                return StepResult(False, None, None, None, next_pos,
+                                  funding_settled=new_settlements,
+                                  closed_fraction=f)
             return StepResult(False, next_pos=next_pos,
                               funding_settled=new_settlements)
 
-        if endpoint in ('EXPIRY', 'THESIS_INVALIDATED'):
+        if endpoint in ('EXPIRY', 'THESIS_INVALIDATED', 'TIME_EXIT'):
             exit_price = float(bar['close'])
         elif endpoint == 'TARGET':
             exit_price = target                       # limit semantics
@@ -248,8 +408,15 @@ class CanonicalSimulator:
             open_ = float(bar['open'])
             exit_price = min(stop, open_) if long else max(stop, open_)
 
-        net_r = sign * (exit_price - entry) / unit - self.round_trip_cost_r \
-            - pos.funding_paid_r
+        # EXEC-2 accounting: total episode net_r = the R realized on closed
+        # fractions (realized_r) + the remaining fraction's final leg, minus
+        # one round-trip cost and the funding paid. At remaining=1.0 with no
+        # partial, realized_r == 0 and this is byte-identical to the pre-EXEC
+        # formula (sign*(exit-entry)/unit - cost - funding). The admission
+        # `size` never enters: R-multiples stay size-independent (D-028).
+        net_r = pos.realized_r \
+            + pos.remaining * (sign * (exit_price - entry) / unit) \
+            - self.round_trip_cost_r - pos.funding_paid_r
         label = 'MATURE' if endpoint in ('TARGET', 'STOP', 'THESIS_INVALIDATED') \
             else 'RIGHT_CENSORED'
         return StepResult(True, endpoint, net_r, label, next_pos,
@@ -259,44 +426,31 @@ class CanonicalSimulator:
         """Net R of closing an open position at `final_close` (tape-end close).
 
         The single authority for the net formula: the lab's tape-end epilogue
-        and any future force-close must call this instead of re-deriving
-        `sign*(close-entry)/unit - cost - funding_paid` — a second copy of the
-        formula in another module would silently diverge the moment the cost
-        or funding policy changes (parallel-truth rule).
+        and any future force-close must call this instead of re-deriving it — a
+        second copy of the formula in another module would silently diverge the
+        moment the cost, funding or partial-exit accounting changes
+        (parallel-truth rule). Same formula as step()'s terminal branch:
+        `realized_r + size*(sign*(final-entry)/unit) - cost - funding_paid`.
         """
         sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
         unit = risk_unit(pos.draft, pos.entry_price)
-        return sign * (final_close - pos.entry_price) / unit \
+        return pos.realized_r \
+            + pos.remaining * (sign * (final_close - pos.entry_price) / unit) \
             - self.round_trip_cost_r - pos.funding_paid_r
 
-    def run(self, draft: CandidateDraft, bars: list[dict],
-            times: list[int] | None = None,
-            thesis_valid=None) -> CounterfactualOutcome:
-        """Batch counterfactual: entry at first bar close, entry bar not inspected.
+    def _exit_loop(self, pos: OpenPosition, bars: list[dict],
+                   times: list[int] | None, from_idx: int,
+                   thesis_valid, placeholder: str, entry: float,
+                   unit: float, horizon: int = 0) -> CounterfactualOutcome:
+        """Step an open position to a terminal close or the tape end.
 
-        The caller re-binds `candidate_id`; this path never sees the real id.
-        `times` are the bars' decision clocks (parallel to `bars`) and drive
-        funding settlement; None = no venue time -> no funding.
-
-        `thesis_valid(bar_time, bar_payload) -> bool` mirrors the owning Expert's
-        post-entry thesis check on the executed path: a thesis that dies before
-        price does closes at that bar's close (THESIS_INVALIDATED) instead of
-        being held to STOP/TARGET/EXPIRY. Without it the counterfactual and
-        executed populations are computed under different exit policies (the
-        O-014/D-027 attribution bias). Default None = thesis always valid, which
-        keeps time-less/time-free callers byte-identical to prior behavior.
+        Shared by both fill policies — the EXIT policy is identical; only the
+        entry differs, so one copy of the loop (parallel-truth rule). `from_idx`
+        is the first bar AFTER the entry/fill bar, preserving the invariant
+        that the entry bar is never inspected for exits. `horizon` counts
+        stepped bars so the two entry paths report consistent holding times.
         """
-        placeholder = f'cf:{draft.birth_time}'
-        if not bars:
-            return CounterfactualOutcome(placeholder, 0, 'EXPIRY', 0.0,
-                                         'RIGHT_CENSORED', self.hash())
-        entry = float(bars[0]['close'])
-        entry_time = times[0] if times else None
-        pos = OpenPosition(candidate_id=placeholder, draft=draft,
-                           entry_price=entry, entry_bar_index=0,
-                           entry_time_ns=entry_time)
-        horizon = 0
-        for i, b in enumerate(bars[1:], start=1):
+        for i, b in enumerate(bars[from_idx:], start=from_idx):
             horizon += 1
             tv = True
             if thesis_valid is not None and times is not None:
@@ -310,28 +464,145 @@ class CanonicalSimulator:
                     label_available_time=times[i] if times else 0,
                     mae_r=res.next_pos.mae_r if res.next_pos else 0.0,
                     mfe_r=res.next_pos.mfe_r if res.next_pos else 0.0,
-                    ambiguous_bars=res.next_pos.ambiguous_bars if res.next_pos else 0)
+                    ambiguous_bars=res.next_pos.ambiguous_bars if res.next_pos else 0,
+                    entry_price=entry, risk_unit_price=unit,
+                    # Passive move over the SAME window: entry to the exit
+                    # bar's close, ignoring the barrier the position actually
+                    # took. Unsigned by direction on purpose (D-045).
+                    market_move_r=(float(b['close']) - entry) / unit)
             if res.next_pos is None:
                 break
             pos = res.next_pos
         # Never closed within the tape: expire at the final close, in R.
-        sign = 1.0 if draft.direction == 'LONG' else -1.0
-        unit = risk_unit(draft, entry)
-        net = sign * (float(bars[-1]['close']) - entry) / unit \
+        sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
+        net = pos.realized_r \
+            + pos.remaining * (sign * (float(bars[-1]['close']) - entry) / unit) \
             - self.round_trip_cost_r - pos.funding_paid_r
         return CounterfactualOutcome(placeholder, horizon, 'EXPIRY', net,
                                      'RIGHT_CENSORED', self.hash(),
                                      label_available_time=times[-1] if times else 0,
                                      mae_r=pos.mae_r, mfe_r=pos.mfe_r,
-                                     ambiguous_bars=pos.ambiguous_bars)
+                                     ambiguous_bars=pos.ambiguous_bars,
+                                     entry_price=entry, risk_unit_price=unit,
+                                     market_move_r=(float(bars[-1]['close'])
+                                                    - entry) / unit)
+
+    def _limit_entry(self, draft: CandidateDraft, bars: list[dict]
+                     ) -> tuple[int, float] | None:
+        """EXEC-4 (EX-11) fill-only inspection: the first bar whose range
+        trades through the declared limit, and the limit price.
+
+        LONG fills when low <= limit; SHORT fills when high >= limit. Fill
+        price is the limit exactly (conservative limit semantics — a buy whose
+        bar gaps below the limit still pays the limit). Returns None when no
+        bar in the window trades through: the order never fills.
+        """
+        if 'limit_price' not in draft.risk_geometry:
+            raise ValueError(
+                'FILL_AT_LIMIT requires risk_geometry[limit_price] (a declared '
+                'barrier); none declared — fail closed')
+        limit = float(draft.risk_geometry['limit_price'])
+        long = draft.direction == 'LONG'
+        for i, b in enumerate(bars):
+            hi, lo = float(b['high']), float(b['low'])
+            if (long and lo <= limit) or (not long and hi >= limit):
+                return i, limit
+        return None
+
+    def run(self, draft: CandidateDraft, bars: list[dict],
+            times: list[int] | None = None,
+            thesis_valid=None) -> CounterfactualOutcome:
+        """Batch counterfactual: entry per the fill policy, entry bar never
+        inspected for exits.
+
+        The caller re-binds `candidate_id`; this path never sees the real id.
+        `times` are the bars' decision clocks (parallel to `bars`) and drive
+        funding settlement; None = no venue time -> no funding.
+
+        Entry: FILL_AT_BAR_CLOSE fills at the first bar's close (the locked
+        baseline); FILL_AT_LIMIT rests at the declared limit and fills when a
+        bar's range trades through it (EXEC-4), or never enters (EXPIRY /
+        NOT_EXECUTED) if no bar does. Both then step the position through the
+        shared exit loop from the bar AFTER the fill, so the entry bar is
+        inspected for a FILL only, never for exits (SIMULATION_TRUTH_SPEC).
+
+        `thesis_valid(bar_time, bar_payload) -> bool` mirrors the owning Expert's
+        post-entry thesis check on the executed path: a thesis that dies before
+        price does closes at that bar's close (THESIS_INVALIDATED) instead of
+        being held to STOP/TARGET/EXPIRY/TIME_EXIT. Without it the counterfactual
+        and executed populations are computed under different exit policies (the
+        O-014/D-027 attribution bias). Default None = thesis always valid, which
+        keeps time-less/time-free callers byte-identical to prior behavior.
+        """
+        placeholder = f'cf:{draft.birth_time}'
+        if not bars:
+            return CounterfactualOutcome(placeholder, 0, 'EXPIRY', 0.0,
+                                         'RIGHT_CENSORED', self.hash())
+        if self.fill_policy == 'FILL_AT_LIMIT':
+            found = self._limit_entry(draft, bars)
+            if found is None:
+                # The limit never traded through within the tape: the candidate
+                # never entered. Never-entered convention: EXPIRY / 0.0 /
+                # NOT_EXECUTED, knowable at the tape end.
+                return CounterfactualOutcome(
+                    placeholder, 0, 'EXPIRY', 0.0, 'NOT_EXECUTED', self.hash(),
+                    label_available_time=times[-1] if times else 0)
+            fill_idx, entry = found
+            unit = risk_unit(draft, entry)
+            entry_time = times[fill_idx] if times else None
+            pos = OpenPosition(candidate_id=placeholder, draft=draft,
+                               entry_price=entry, entry_bar_index=fill_idx,
+                               entry_time_ns=entry_time)
+            return self._exit_loop(pos, bars, times, fill_idx + 1,
+                                   thesis_valid, placeholder, entry, unit)
+
+        entry = float(bars[0]['close'])
+        # One R in price at the fill actually used (D-045): recorded on every
+        # outcome so the detrended null can be re-centered downstream without
+        # re-deriving the denominator (which depends on the fill whenever the
+        # draft declares risk_frac rather than atr_ref).
+        unit = risk_unit(draft, entry)
+        entry_time = times[0] if times else None
+        pos = OpenPosition(candidate_id=placeholder, draft=draft,
+                           entry_price=entry, entry_bar_index=0,
+                           entry_time_ns=entry_time)
+        return self._exit_loop(pos, bars, times, 1, thesis_valid,
+                               placeholder, entry, unit)
 
     def hash(self) -> str:
+        # v8: EXEC-1..6 (O-013 position management, this change set).
+        # OpenPosition gained stop_level/stop_rolled/scaled_out/realized_r/
+        # initial_size; step() gained the breakeven roll, the chandelier trail,
+        # the scale-out partial exit and the TIME_EXIT endpoint; the endpoint
+        # vocabulary gained TIME_EXIT; SUPPORTED_FILL_POLICIES gained
+        # FILL_AT_LIMIT (EXEC-4). Even at fully-default geometry every step()
+        # semantics changed, so every outcome re-versions REGARDLESS of output
+        # byte-identity at the defaults. (The task brief said "bump to
+        # canonical-sim-v6"; v6 and v7 were already taken by D-045 and the
+        # CRIT-3 size field, so EXEC lands as v8 — one bump per semantic
+        # change, the tag names the policy era.)
+        #
+        # v7: OpenPosition gained `size` (RM-01, CRIT-3). This re-versions
+        # every outcome REGARDLESS of output byte-identity — the R-multiple
+        # ledger is byte-identical at size=1.0, but the RECORD (and the
+        # simulator's semantic vocabulary) changed, so a v6 ledger must never
+        # compare equal to a v7 one. (_SIMULATOR_SRC_HASH already moved; the
+        # tag names the policy era. The CRIT-3 instruction said "bump to v6";
+        # v6 was already taken by the D-045 record change, so the size field
+        # lands as v7 — the principle is a bump per semantic change.)
+        #
+        # v6: CounterfactualOutcome records entry_price / risk_unit_price /
+        # market_move_r (D-045, the detrended null's inputs). No net_r, no
+        # endpoint and no excursion changes value — every prior outcome is
+        # byte-identical on its old fields — but the RECORD changed, so the
+        # ledger re-versions rather than silently comparing equal to a v5 one.
+        #
         # v5: tape-driven funding schedule (D-041). The version tag is part of
         # the hash so pre-change ledgers can never compare equal to post-change
         # ones; funding PARAMETERS bind into the hash but the schedule VALUES
         # are tape data bound by data_hash (SIMULATION_TRUTH_SPEC: outputs bind
         # simulator hash). v5 bumps regardless of funding_rate_r=0.0 because
         # the settlement policy changed.
-        return sha1_hex(('canonical-sim-v5', self.fill_policy,
+        return sha1_hex(('canonical-sim-v8', self.fill_policy,
                          self.round_trip_cost_r, self.funding_rate_r,
                          self.funding_hours, _SIMULATOR_SRC_HASH))

@@ -22,8 +22,9 @@ from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
 from .store import AppendOnlyLog
 from .marketstate import build_state
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
-from .simulator import CanonicalSimulator, OpenPosition
+from .simulator import CanonicalSimulator, OpenPosition, risk_unit
 from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
+from .equity import RiskState, trade_units_for
 
 # D-024 funding-window veto measures bars from the entry bar's close time to
 # the next boundary; the canonical slice tape is 1h bars (synth.py), so
@@ -42,6 +43,16 @@ EXCESS_COST_THRESHOLD_R = 0.10
 # execution_share floor 0.25; population-divergence two-sample KS <= 0.20.
 EXECUTION_SHARE_FLOOR = 0.25
 POPULATION_DIVERGENCE_KS_MAX = 0.20
+
+# RM-17: the book's profit-factor band for an effective system, recorded as an
+# external benchmark in the report. Report diagnostic only — the verdict stays
+# the prereg §11 R-based gates (PF ignores per-outcome cost by construction).
+PROFIT_FACTOR_BAND = (1.5, 2.0)
+
+# Sizing scheme name reported in LabReport (RM-15: fixed-fractional of the
+# initial account, never compounding; the O-016 drawdown ladder is layered on
+# top via equity.RiskState).
+SIZE_SCHEME = 'fixed_fractional'
 
 
 def _d027_verdict(authority_receipt: str | None,
@@ -179,14 +190,28 @@ class Lab:
                         label_status: str, simulator_hash: str,
                         horizon_bars: int = 0, label_available_time: int = 0,
                         mae_r: float = 0.0, mfe_r: float = 0.0,
-                        ambiguous_bars: int = 0) -> None:
+                        ambiguous_bars: int = 0, entry_price: float = 0.0,
+                        risk_unit_price: float = 0.0,
+                        market_move_r: float = 0.0) -> None:
+        """The one place an outcome record is written.
+
+        D-045: the executed path does NOT go through `simulator.run` — it
+        steps positions bar by bar and closes them here — so the detrending
+        inputs have to be supplied at each entered call site. They stay 0.0
+        for candidates that never entered, which is what
+        `passive_benchmark_r` fails closed on rather than centering a
+        position that was never held.
+        """
         out = CounterfactualOutcome(candidate_id=candidate_id, horizon_bars=horizon_bars,
                                     endpoint=endpoint, net_r=net_r,
                                     label_status=label_status,
                                     simulator_hash=simulator_hash,
                                     label_available_time=label_available_time,
                                     mae_r=mae_r, mfe_r=mfe_r,
-                                    ambiguous_bars=ambiguous_bars)
+                                    ambiguous_bars=ambiguous_bars,
+                                    entry_price=entry_price,
+                                    risk_unit_price=risk_unit_price,
+                                    market_move_r=market_move_r)
         self.outcomes.append(record_dict(out, source='simulator'))
 
     def run(self, manifest: ExperimentManifest, experts: list,
@@ -202,15 +227,34 @@ class Lab:
             raise ValueError(
                 'store already contains a run; one store directory = one '
                 "immutable run's evidence (use a fresh store dir)")
-        gate = risk_gate or RiskGate()
+        # O-016 equity wiring (RM-06): the composition root builds the
+        # deterministic RiskState from the frozen manifest risk_per_trade and
+        # attaches it to the gate. The lab feeds it realized net_r in episode
+        # order at every position close; RiskGate.admit reads its drawdown
+        # multipliers for sizing (heat is invariant, so admission is
+        # byte-identical either way). A caller-provided gate without equity
+        # gets the same state — there is one equity path per run.
+        equity = RiskState(risk_per_trade=manifest.risk_per_trade)
+        gate = risk_gate or RiskGate(equity=equity)
+        if gate.equity is None:
+            gate.equity = equity
         # Risk admission is a run-configuration input, not a code constant: a
-        # custom gate (heat caps, clusters) must be bound into the ledger and
-        # surfaced, or two runs with different admission policies would be
-        # byte-identical in every hash whenever no cap is actually breached.
+        # custom gate (heat caps, clusters, equity ladder) must be bound into
+        # the ledger and surfaced, or two runs with different admission/sizing
+        # policies would be byte-identical in every hash whenever no cap is
+        # actually breached.
+        _equity = getattr(gate, 'equity', None)
+        equity_config = None if _equity is None else (
+            type(_equity).__name__,
+            getattr(_equity, 'risk_per_trade', None),
+            tuple(getattr(_equity, 'bands', ()) or ()),
+            getattr(_equity, 'initial_equity', None),
+        )
         risk_config = (type(gate).__module__, type(gate).__name__,
                        getattr(gate, 'max_heat', None),
                        getattr(gate, 'max_cluster_heat', None),
-                       tuple(sorted((getattr(gate, 'clusters', {}) or {}).items())))
+                       tuple(sorted((getattr(gate, 'clusters', {}) or {}).items())),
+                       equity_config)
         risk_config_hash = sha1_hex(risk_config)
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
@@ -273,6 +317,11 @@ class Lab:
         # can evaluate the owning Expert's still_valid at each stepped clock.
         states_by_time: dict[int, MarketState] = {}
         conflicts = 0
+        # RISK diagnostics (report-only): episodes admitted under a drawdown
+        # band (O-016 firing count) and the executed geometry for the
+        # spread-adjusted breakeven win rate (RM-11).
+        drawdown_sized_episodes = 0
+        executed_geometry: list[tuple[float, float]] = []   # (target_r, stop_r)
 
         def counterfactual(cid: str, draft, from_idx: int) -> CounterfactualOutcome:
             tail = bars[from_idx:]
@@ -352,7 +401,29 @@ class Lab:
                                          label_available_time=as_of)
                     del pending[cid]
                     continue
-                entry = float(bar.payload['close'])
+                # EXEC-4 (EX-11): FILL_AT_LIMIT entry. The order rests at the
+                # declared limit_price; this bar is inspected for a FILL only
+                # (never for exits — the invariant holds because the position
+                # opens with entry_bar_index == i and the step loop skips the
+                # entry bar). An unfilled bar leaves the order resting (entry
+                # bar slides one bar); a never-filling order stays TRIGGERED
+                # and the epilogue records the never-entered convention.
+                if sim.fill_policy == 'FILL_AT_LIMIT':
+                    if 'limit_price' not in draft.risk_geometry:
+                        raise ValueError(
+                            'FILL_AT_LIMIT requires risk_geometry[limit_price]; '
+                            f'{draft.expert_id} {cid} declares none — fail closed')
+                    limit = float(draft.risk_geometry['limit_price'])
+                    filled = (draft.direction == 'LONG'
+                              and float(bar.payload['low']) <= limit) \
+                        or (draft.direction == 'SHORT'
+                            and float(bar.payload['high']) >= limit)
+                    if not filled:
+                        info['entry_bar'] = i + 1   # rest: try the next bar
+                        continue
+                    entry = limit
+                else:
+                    entry = float(bar.payload['close'])
                 # D-024 mechanical tradability mask, applied before any risk
                 # admission: data-plane integrity veto, kept counterfactual
                 # (NOT_EXECUTED) like the other rejections below.
@@ -379,7 +450,10 @@ class Lab:
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
                                          label_available_time=out.label_available_time,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
-                                         ambiguous_bars=out.ambiguous_bars)
+                                         ambiguous_bars=out.ambiguous_bars,
+                                         entry_price=out.entry_price,
+                                         risk_unit_price=out.risk_unit_price,
+                                         market_move_r=out.market_move_r)
                     del pending[cid]
                     continue
                 verdict = gate.admit(draft)
@@ -393,15 +467,28 @@ class Lab:
                                          'NOT_EXECUTED', sim.hash(), out.horizon_bars,
                                          label_available_time=out.label_available_time,
                                          mae_r=out.mae_r, mfe_r=out.mfe_r,
-                                         ambiguous_bars=out.ambiguous_bars)
+                                         ambiguous_bars=out.ambiguous_bars,
+                                         entry_price=out.entry_price,
+                                         risk_unit_price=out.risk_unit_price,
+                                         market_move_r=out.market_move_r)
                     del pending[cid]
                     continue
                 self.registry.apply(cid, 'TRIGGERED', 'ACCEPTED', 'risk_accept', as_of)
                 self.registry.apply(cid, 'ACCEPTED', 'ORDER_SUBMITTED', 'submit_order', as_of)
                 self.registry.apply(cid, 'ORDER_SUBMITTED', 'EXECUTED', 'fill_observed', as_of)
+                # The executed position is sized at the gate's EFFECTIVE size
+                # (draft.size after the O-016 drawdown ladder). R-multiples
+                # are size-independent, so the outcome ledger is unchanged;
+                # the size feeds the equity curve (RM-06) and the report.
+                if verdict.size < draft.size:
+                    drawdown_sized_episodes += 1
+                executed_geometry.append(
+                    (float(draft.risk_geometry.get('target_r', 1.0)),
+                     float(draft.risk_geometry.get('stop_r', 1.0))))
                 open_positions[cid] = OpenPosition(candidate_id=cid, draft=draft,
                                                    entry_price=entry, entry_bar_index=i,
-                                                   entry_time_ns=bar.available_time)
+                                                   entry_time_ns=bar.available_time,
+                                                   size=verdict.size)
 
             # PHASE 1b: step open positions on this bar (never on the entry bar).
             # The owning Expert re-checks its thesis first: a dead thesis is a
@@ -413,18 +500,42 @@ class Lab:
                 thesis_ok = owner.still_valid(state, pos.draft) if owner else True
                 res = sim.step(pos, bar.payload, thesis_valid=thesis_ok,
                                bar_time=bar.available_time)
+                if res.closed_fraction < 1.0 and res.next_pos is not None:
+                    # EXEC-2: NON-TERMINAL partial exit. The closed fraction is
+                    # booked at this bar's close and the position continues at
+                    # size*(1-f). Recorded as a lifecycle PositionAction — never
+                    # an outcome (one terminal outcome per candidate) and never
+                    # an endpoint (the endpoint vocabulary is unchanged). The
+                    # closed leg's R is accumulated on the position
+                    # (realized_r) and realized at the terminal close.
+                    self.registry.position_action(
+                        cid, 'PARTIAL_EXIT', fraction=res.closed_fraction,
+                        price=float(bar.payload['close']), knowledge_time=as_of)
+                    open_positions[cid] = res.next_pos
+                    continue
                 if res.closed and res.endpoint and res.net_r is not None:
                     closed_pos = res.next_pos or pos
+                    unit = risk_unit(pos.draft, pos.entry_price)
                     self._record_outcome(cid, res.endpoint, res.net_r,
                                          res.label_status or 'MATURE', sim.hash(),
                                          pos.bars_held + 1,
                                          label_available_time=bar.available_time,
                                          mae_r=closed_pos.mae_r, mfe_r=closed_pos.mfe_r,
-                                         ambiguous_bars=closed_pos.ambiguous_bars)
+                                         ambiguous_bars=closed_pos.ambiguous_bars,
+                                         entry_price=pos.entry_price,
+                                         risk_unit_price=unit,
+                                         market_move_r=(float(bar.payload['close'])
+                                                        - pos.entry_price) / unit)
                     reason = {'TARGET': 'position_flat', 'STOP': 'position_flat',
-                              'THESIS_INVALIDATED': 'thesis_invalidated'}.get(
+                              'THESIS_INVALIDATED': 'thesis_invalidated',
+                              'TIME_EXIT': 'expiry_reached'}.get(
                                   res.endpoint, 'expiry_reached')
                     self.registry.apply(cid, 'EXECUTED', 'CLOSED', reason, as_of)
+                    # O-016 equity feed: episode net_r is fraction-weighted
+                    # (realized_r + remaining*leg) and size-independent, so it
+                    # is booked against the admission size (pos.size), which
+                    # scale-outs never reduce. Deterministic — never wall clock.
+                    gate.equity.on_episode_closed(res.net_r, pos.size)
                     gate.release(pos.draft)
                     del open_positions[cid]
                 elif res.next_pos is not None:
@@ -483,7 +594,10 @@ class Lab:
                             'NOT_EXECUTED', sim.hash(), out.horizon_bars,
                             label_available_time=out.label_available_time or last_as_of,
                             mae_r=out.mae_r, mfe_r=out.mfe_r,
-                            ambiguous_bars=out.ambiguous_bars)
+                            ambiguous_bars=out.ambiguous_bars,
+                            entry_price=out.entry_price,
+                            risk_unit_price=out.risk_unit_price,
+                            market_move_r=out.market_move_r)
                     del pending[cid]
                     continue
                 info['entry_bar'] = i + 1
@@ -570,12 +684,21 @@ class Lab:
             # (simulator.close_out); re-deriving it here would silently diverge
             # the moment the cost/funding policy changes.
             net = sim.close_out(pos, final_close)
+            unit = risk_unit(pos.draft, pos.entry_price)
             self._record_outcome(cid, 'EXPIRY', net, 'RIGHT_CENSORED',
                                  sim.hash(), pos.bars_held,
                                  label_available_time=last_as_of,
                                  mae_r=pos.mae_r, mfe_r=pos.mfe_r,
-                                 ambiguous_bars=pos.ambiguous_bars)
+                                 ambiguous_bars=pos.ambiguous_bars,
+                                 entry_price=pos.entry_price,
+                                 risk_unit_price=unit,
+                                 market_move_r=(final_close
+                                                - pos.entry_price) / unit)
             self.registry.apply(cid, 'EXECUTED', 'CLOSED', 'expiry_reached', last_as_of)
+            # O-016 equity feed for tape-end realizations (same as in-loop):
+            # fraction-weighted, size-independent net_r against the admission
+            # size (pos.size), which scale-outs never reduce.
+            gate.equity.on_episode_closed(net, pos.size)
             gate.release(pos.draft)
         for cid, info in list(pending.items()):
             if self.registry.current(cid) == 'TRIGGERED':
@@ -675,6 +798,53 @@ class Lab:
         if manifest.data_hash and manifest.data_hash != data_hash:
             raise ValueError(
                 f'manifest data_hash {manifest.data_hash} != live tape {data_hash}')
+        # --- Risk/sizing diagnostics (RM-01..19; O-016). Report-only --------
+        # Computed from the executed-outcome ledger and the equity feed; never
+        # bound into ledger_hash (all inputs are already inside it).
+        trade_units = trade_units_for(manifest.risk_per_trade)
+        final_equity = equity.final_equity()
+        max_drawdown = equity.max_drawdown()
+        risk_of_ruin = equity.risk_of_ruin()
+        # RM-17 profit factor: gross win / gross |loss| over executed net_R
+        # (after cost). None when no episode or nothing to divide (no losses).
+        gross_win = sum(r for r in executed_net_r if r > 0.0)
+        gross_loss = sum(r for r in executed_net_r if r < 0.0)
+        if gross_loss < 0.0:
+            profit_factor = gross_win / -gross_loss
+        elif executed_net_r:
+            profit_factor = None          # no losing episode: unbounded PF
+        else:
+            profit_factor = None
+        # RM-11 spread-adjusted breakeven win rate: w_min = 1/(1 + R/r') with
+        # R/r' = (target_r - cost)/(stop_r + cost) — the cost-degraded reward
+        # to risk (Ch3.3). Mean over the executed geometry (uniform for the
+        # pilots). None when no position executed.
+        w_vals = []
+        for target_r, stop_r in executed_geometry:
+            reward = target_r - manifest.round_trip_cost_r
+            risk = stop_r + manifest.round_trip_cost_r
+            if reward > 0.0 and risk > 0.0:
+                w_vals.append(1.0 / (1.0 + reward / risk))
+        w_min = (sum(w_vals) / len(w_vals)) if w_vals else None
+        # RM-10 worst case: realized worst single-episode net_R and the
+        # theoretical portfolio worst case (every heat slot stopped at once).
+        worst_case_r = min(executed_net_r) if executed_net_r else None
+        worst_case_portfolio_r = -float(gate.max_heat)
+        # RM-07/RM-08 annotations: below the trade-unit budget or the
+        # min_trades bar, the run carries a NO_ECONOMIC_CLAIM note — a
+        # report annotation, never a hard fail and never a change to the
+        # D-027 verdict string (a dev window that cannot field enough
+        # episodes cannot support a positive economic reading).
+        notes: list[str] = []
+        if n_executed < trade_units:
+            notes.append(
+                f'NO_ECONOMIC_CLAIM: executed episodes {n_executed} < '
+                f'trade-unit need {trade_units:.0f} (RM-07 budget)')
+        if n_executed < manifest.min_trades:
+            notes.append(
+                f'NO_ECONOMIC_CLAIM: executed episodes {n_executed} < '
+                f'min_trades {manifest.min_trades} (RM-08 adequacy bar)')
+        economic_note = '; '.join(notes) if notes else None
         verdict = _d027_verdict(manifest.authority_receipt,
                                 execution_share, divergence_ks)
         # Zero-trade provenance: surface WHY (evaluations never found a setup,
@@ -701,4 +871,17 @@ class Lab:
                          execution_share=execution_share,
                          divergence_ks=divergence_ks,
                          tooling_hash=_tooling_hash(),
-                         risk_gate_hash=risk_config_hash)
+                         risk_gate_hash=risk_config_hash,
+                         size_scheme=SIZE_SCHEME,
+                         risk_per_trade=manifest.risk_per_trade,
+                         min_trades=manifest.min_trades,
+                         trade_units=trade_units,
+                         final_equity=final_equity,
+                         max_drawdown=max_drawdown,
+                         drawdown_sized_episodes=drawdown_sized_episodes,
+                         risk_of_ruin=risk_of_ruin,
+                         profit_factor=profit_factor,
+                         w_min=w_min,
+                         worst_case_r=worst_case_r,
+                         worst_case_portfolio_r=worst_case_portfolio_r,
+                         economic_note=economic_note)

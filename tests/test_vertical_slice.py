@@ -460,7 +460,7 @@ def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
     # Hash-canary contract: the simulator hash binds the module source, so a
     # step()/run() semantics change moves every outcome's simulator_hash.
     assert CanonicalSimulator().hash() == _sh(
-        ('canonical-sim-v5', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
+        ('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
          _SIMULATOR_SRC_HASH))
     assert CanonicalSimulator().hash() != _sh(
         ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))
@@ -945,8 +945,9 @@ def test_unsupported_fill_policy_fails_closed(tmp_path):
     with pytest.raises(ValueError, match='unsupported fill_policy'):
         lab.run(_manifest(fill_policy='FILL_AT_BAR_OPEN'),
                 [TrendPullbackExpert(), FailedBreakoutExpert()])
-    # The implemented policy is exactly the locked baseline.
-    assert SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE',)
+    # The implemented policies: the locked baseline plus EXEC-4's
+    # FILL_AT_LIMIT. Anything else fails closed above.
+    assert SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE', 'FILL_AT_LIMIT')
     assert CanonicalSimulator().fill_policy == 'FILL_AT_BAR_CLOSE'
 
 

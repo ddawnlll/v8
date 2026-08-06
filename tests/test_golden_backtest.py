@@ -48,10 +48,62 @@ UNIVERSE = ('SOLUSDT',)
 # FIELD NAMES; no threshold, predicate, or decision changed. data_hash,
 # states_hash, candidate_count (21) and terminal_distribution are all UNCHANGED
 # — that invariance is the proof this was a rename and not a behavior change.
-# Do not update silently.
-GOLDEN_LEDGER_HASH = '76f2a44efcbbd274f60c4c8a640cd59a9ae7fa10'
+# Re-pinned 2026-08-06 (D-045, RECORD SHAPE ONLY): CounterfactualOutcome gained
+# entry_price / risk_unit_price / market_move_r so the detrended null (METH-1)
+# can re-center on a same-exposure passive benchmark without re-deriving the R
+# denominator outside the simulator, and sim.hash() moved to canonical-sim-v6.
+# Measured against the pre-change code on this exact fixture: all 21 outcomes'
+# net_r are element-wise identical, and endpoint, label_status, data_hash,
+# states_hash, candidate_count (21) and terminal_distribution are UNCHANGED.
+# Only ledger_hash moved, because the outcome RECORD gained fields — that
+# invariance is the proof this added evidence rather than changing a decision.
+# Re-pinned 2026-08-06 (FEATURE-GRAPH EXTENSION FG-1..FG-7, G-01..G-43): the
+# feature-group ontology gained candle_shape/oscillator/session/positioning,
+# activated participation, and extended volatility/location (73 new features;
+# FEATURE_GRAPH_VERSION re-computes). Every MarketState lineage_hash now binds
+# the new features, so states_hash and ledger_hash moved by construction.
+# Measured against the pre-change code on this exact fixture: candidate_count
+# (21), terminal_distribution, and data_hash are UNCHANGED — no expert, setup,
+# trigger, or price decision changed; only the state identity widened. That
+# invariance is the proof this added feature evidence rather than changing a
+# decision. Re-pinned 2026-08-06 (RISK-1..6, RECORD/SIZE SHAPE + MANIFEST
+# FIELDS): CandidateDraft gained `size` (RM-01), OpenPosition gained `size`
+# (CRIT-3: sim.hash() re-versions to canonical-sim-v7 REGARDLESS of output
+# byte-identity), ExperimentManifest gained risk_per_trade/min_trades, and the
+# lab wires the O-016 drawdown ladder (equity.RiskState) into the risk-gate
+# hash. Measured against the pre-change code on this exact fixture: every one
+# of the 21 outcomes' net_r is element-wise identical (size is
+# size-independent in R; heat size*stop_r is invariant; the tape never enters
+# a drawdown band), and data_hash, states_hash, candidate_count (21) and
+# terminal_distribution are UNCHANGED. Only ledger_hash moved (evaluations
+# records carry draft.size, outcomes carry the re-versioned simulator_hash,
+# config_hash keys on the new manifest fields, risk_config binds the equity
+# ladder) — the invariance is the proof this added sizing evidence rather than
+# changing a decision. Re-pinned once more the same day: the sim.hash()
+# version-tag docstring was extended to record the v6/v7 provenance, which
+# moved _SIMULATOR_SRC_HASH (module source is bound) and every outcome's
+# simulator_hash; candidate_count/terminal_distribution/data_hash/states_hash
+# stayed unchanged again.
+# Re-pinned 2026-08-06 (EXEC-1..6, O-013 POSITION MANAGEMENT): OpenPosition
+# gained stop_level/stop_rolled/scaled_out/realized_r/remaining; step() gained
+# the breakeven roll, chandelier trail, scale-out partial exit and the
+# TIME_EXIT endpoint; SUPPORTED_FILL_POLICIES gained FILL_AT_LIMIT;
+# sim.hash() -> canonical-sim-v8. The pilots' frozen geometry declares none of
+# the management keys, so measured against the pre-change code on this exact
+# fixture every executed outcome's net_r/endpoint/label is byte-identical
+# (verified by diffing the two runs), and data_hash, states_hash,
+# candidate_count (21) and terminal_distribution are UNCHANGED. Only
+# ledger_hash moved, because every outcome record carries the re-versioned
+# simulator_hash — the invariance is the proof this added management
+# mechanics without changing default-geometry decisions. Re-pinned once more
+# the same day: a precision edit to the scale-out realized_r accumulation
+# (scaled by `remaining` — value-identical at the one-shot scale-out, but the
+# module source moved, so _SIMULATOR_SRC_HASH and every outcome's
+# simulator_hash moved again); data/states/candidate/terminal unchanged. Do
+# not update silently.
+GOLDEN_LEDGER_HASH = '38dd2283d6524c8aadf789ef38e44a827e1e50d6'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = 'c79654725f2186683816cb7dc002afa1dffd11d4'
+GOLDEN_STATES_HASH = '26369d02afc4d879011fd15be7a8894f4b68fb65'
 GOLDEN_CANDIDATE_COUNT = 21
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 3, 'REJECTED': 6}
 

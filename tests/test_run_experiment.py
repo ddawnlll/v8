@@ -112,6 +112,80 @@ def test_holdout_hash_mismatch_fails_closed(tmp_path):
         run_experiment(m)
 
 
+def test_report_scores_the_detrended_series_and_shows_the_bias(tmp_path):
+    """D-045: the primary family statistic is the DETRENDED mean, with the raw
+    mean kept beside it. On a tape with any drift the two must differ, and the
+    difference must have opposite sign for the LONG and the SHORT family —
+    that opposition is the position-bias component the uncentered null missed.
+    """
+    tape = tmp_path / 'holdout.jsonl'
+    h = _write_tape(tape, seed=7, n_bars=400)
+    report = run_experiment(_manifest(tmp_path, tape, h))
+    assert report['detrending']['estimated_on'] == 'frozen-oos-window'
+    drift = report['detrending']['mean_log_drift_per_bar']
+    assert drift != 0.0                          # the fixture must have a trend
+    long_fam = report['families']['trend_continuation']         # LONG pilot
+    short_fam = report['families']['failed_breakout_reentry']   # SHORT pilot
+    for fam in (long_fam, short_fam):
+        assert fam['mu_hat'] != fam['mu_hat_raw'], 'detrending was a no-op'
+        assert fam['position_bias_component'] == pytest.approx(
+            fam['mu_hat_raw'] - fam['mu_hat'])
+    # A LONG family collects the drift for free; a SHORT family pays it.
+    assert long_fam['position_bias_component'] > 0.0
+    assert short_fam['position_bias_component'] < 0.0
+
+
+def test_report_carries_the_multiplicity_denominator(tmp_path):
+    """D-046: every family statistic states the search universe it was tested
+    against, and flags when the declared search exceeds the retained variants
+    (the Reality Check then saw only part of it and the p is optimistic)."""
+    tape = tmp_path / 'holdout.jsonl'
+    h = _write_tape(tape, seed=7, n_bars=400)
+    report = run_experiment(_manifest(tmp_path, tape, h))
+    for fid in ('trend_continuation', 'failed_breakout_reentry'):
+        fam = report['families'][fid]
+        assert fam['search_universe_size'] >= fam['variants_evaluated']
+        assert fam['multiplicity_undercounted'] is (
+            fam['search_universe_size'] > fam['variants_evaluated'])
+        # Both pilots declare a search of 1 (prereg §4: parameters frozen in
+        # code against synthetic tapes before the dev window existed).
+        assert fam['search_universe_size'] == 1
+        assert fam['multiplicity_undercounted'] is False
+
+
+def test_report_carries_effective_search_size_and_expected_false_positives(tmp_path):
+    """METH-2/METH-6 (G-01/G-11): the scored report states the honest family
+    size (effective_search_size, D-046) and the Aronson expected-false-
+    positives line (N x alpha_f) beside every family, plus the program-level
+    total. Both pilots declare search_universe_size = 1, so the per-family
+    expectation at alpha_f = 0.025 is 0.025 and the program total 0.05."""
+    tape = tmp_path / 'holdout.jsonl'
+    h = _write_tape(tape, seed=7, n_bars=400)
+    report = run_experiment(_manifest(tmp_path, tape, h))
+    for fid in ('trend_continuation', 'failed_breakout_reentry'):
+        fam = report['families'][fid]
+        assert fam['effective_search_size'] == fam['search_universe_size'] == 1
+        assert fam['expected_false_positives'] == pytest.approx(1 * 0.025)
+    assert report['expected_false_positives']['total'] == pytest.approx(2 * 0.025)
+
+
+def test_executed_episode_without_a_recorded_r_unit_fails_closed(tmp_path):
+    """A pre-D-045 ledger cannot be detrended. Scoring it would silently fall
+    back to the uncentered null, so the runner refuses instead."""
+    from tools.run_experiment import _family_exposures
+    store = tmp_path / 'store'
+    store.mkdir()
+    (store / 'candidates.jsonl').write_text(json.dumps({
+        'candidate_id': 'c1', 'expert_id': 'trend_pullback',
+        'direction': 'LONG'}) + '\n', encoding='utf-8')
+    (store / 'outcomes.jsonl').write_text(json.dumps({
+        'candidate_id': 'c1', 'net_r': 0.5, 'label_status': 'MATURE',
+        'horizon_bars': 8, 'entry_price': 0.0,
+        'risk_unit_price': 0.0}) + '\n', encoding='utf-8')
+    with pytest.raises(ValueError, match='no risk_unit_price'):
+        _family_exposures(store)
+
+
 def test_block_bootstrap_deterministic_and_one_sided():
     net_rs = [0.05] * 60 + [0.1] * 40
     a = block_bootstrap_lower_bound(net_rs)
