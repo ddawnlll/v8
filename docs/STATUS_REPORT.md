@@ -8,6 +8,43 @@ required reading. RUNLOG.md holds the full per-step evidence. This file is a
 session artifact; it is not corpus and does not perturb the monograph probe.
 
 ---
+**Follow-up (2026-08-06, adversarial audit + evidence-quality kaizen):** an
+adversarial audit of the 27 expert families against their hypotheses and the
+Handbook of Technical Analysis found and fixed three implementation bugs, one
+methodological defect (D-052), and registered the version discipline for the
+changed families (O-023/D-053). Five commits (`e8400bc`, `d923f39`, `2fd12b8`,
+`566fcd8`, `cdcee12`); 628/628 tests pass; working tree clean.
+
+- **Bug fixes (code now matches its own hypothesis):** failed_breakout two-step
+  gate (Ch7.3 p228 breakout leg — the old gate fired on a plain downtrend);
+  marketstate `_fib_levels` origin-based extensions (Ch10.5.1/10.5.2 — every
+  level was one impulse-range off); volume_climax detection-bar anchor (distinct
+  climaxes no longer collapse); fib swing-guard removal (gated on the wrong,
+  significance-filtered pair).
+- **D-052:** block-bootstrap block-size was bar-counts applied to an
+  episode-indexed series; at block >= n the bootstrap collapsed to a point
+  mass (`ci_lower == mu_hat`) and rejected H0 by construction. Now an
+  n-adaptive episode-unit rate with a fail-closed non-degeneracy invariant and
+  a stable tail index. Verified on the pinned baseline: spurious H0 rejections
+  1 -> 0 (`obv_adl_regime` +0.0150 -> -0.3067).
+- **Corrected dev-window picture (in-sample, not a claim):** with the fixes,
+  NO family with n >= 30 shows a positive detrended lower bound. The previous
+  "top-5 positive detR" table was substantially an artifact of the
+  failed_breakout gate + negative drift + rule-16 exposure crowding (e.g.
+  failed_breakout detrended +1.9 -> -10.2, liquidity_sweep +6.1 -> -6.3 once
+  the spurious SHORTs stopped blocking its exposure slot). Verdict stays
+  NO_ECONOMIC_CLAIM.
+- **Version discipline (O-023/D-053):** failed_breakout stays v1
+  (bug-completion, strict subset 369 -> 76); volume_climax and fib_projection
+  are v2 challengers (the fixes add episodes a v1 gate could not produce);
+  prereg §4 amended to the fixed failed_breakout predicate (legal pre-holdout).
+- **Open decisions recorded:** O-022 (rule-16 exposure coupling means family
+  results are not independent), O-023 (version discipline).
+- **Operator action unchanged but now with amended prereg:** run `v8_slice_001`
+  per the amended prereg when the frozen holdout (first two published months
+  after 2026-07-01) is available. The prereg §4 amendment is pre-holdout and
+  legal (§16); the holdout is still untouched and unopened.
+
 **Follow-up (2026-08-01, full-program push D-040/D-042): Phases 1-4 CODE is
 now 100% written.** The remaining Phase-4 work is the experiment RUN, which is
 gated on the frozen holdout existing (prereg §13) — not on code.
