@@ -50,6 +50,16 @@ threshold, registry multiplicity, or hypothesis was tuned.
   were never part of `requires`; `fib_levels` is a location-group feature the
   fib experts still declare via 'location').
 
+## 2026-08-06 — O-022 measured: rule-16 exposure blocking matrix + D-027 execution_share distribution
+
+Quantified the cross-family coupling on the corrected dev diagnostic: of
+11,673 `EXISTING_EXPOSURE_CONFLICT` rejections, all had a same-direction open
+slot at the block time; bollinger_breakout blocked 4,115 (incl. 1,226 of its
+own — self-blocking). Per-family D-027 `execution_share` clears the 0.25 floor
+for only 6 of 21 families; 15 sit below (5 under 0.10). Recorded in O-022 as
+measured evidence: on the current slate the D-027 attribution gate would score
+~6 families on the OOS and mark the rest `ATTRIBUTION_UNSAFE_*`.
+
 ## 2026-08-06 — v2 challenger registration for the bug-fixed families (O-023, D-053)
 
 Operator chose O-023's admission condition: `failed_breakout` stays v1
