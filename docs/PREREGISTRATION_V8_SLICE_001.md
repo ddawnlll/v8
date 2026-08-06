@@ -27,10 +27,13 @@ verdict.
   - `trend_continuation` / `pullback_in_trend` → expert `trend_pullback` v1
   - `liquidity_vacuum_reentry` / `failed_breakout_reentry` → expert
     `failed_breakout` v1
-- A family is the multiplicity unit (rule 13): both pilots are their family's
-  first variant; any threshold/geometry change during the experiment would be
-  a **new variant of the same family** and would count against the same
-  family-level correction — none is admitted by this record.
+- The family is the top-level (Bonferroni) multiplicity unit; a variant is
+  never a new Expert (rule 13). Both pilots are their family's first and only
+  evaluated variant (`variants_evaluated: [a]`); any threshold/geometry
+  change during the experiment would be a new variant of the same family and
+  would trigger the within-family Reality-Check test of section 11 (D-044) —
+  none is admitted by this record, so section 11's single-configuration path
+  applies.
 
 ## 2. Formal null and alternative (per family)
 
@@ -194,14 +197,45 @@ Per family `f`, on the frozen OOS window:
 ## 11. Test
 
 - Per family: one-sided test `H1: μ_f > 0` at the **family-corrected** level
-  `α_f = 0.025` (Bonferroni 0.05/2 across the two families on the primary
-  metric — the only error-rate procedure; no alternative is left open).
-  Bootstrap CI is the **percentile method, one-sided**: the lower bound is
-  the 2.5th percentile of the block-bootstrap distribution of `μ̂_f` under
-  the section-9 rule; the family passes if that lower bound exceeds 0
-  **and** `n_f ≥` the minimum coverage of section 12.
-- **Family-level control:** all variants explored inside a family (none so
-  far beyond `variant a`) count as one multiplicity unit (rule 13).
+  `α_f = 0.05/F` (Bonferroni across the F preregistered families on the
+  primary metric — the only cross-family error-rate procedure; no alternative
+  is left open). This level is unchanged by D-044 and stays
+  conservative-but-valid regardless of inter-family correlation. D-050
+  (2026-08-06, pre-holdout): F grew from the two pilots to 28 code-admitted
+  families (3 pilots + 24 extraction families + open_interest DATA_BLOCKED
+  excluded from the active test set, capitulation excluded — active F = 27,
+  so `α_f = 0.05/27 ≈ 0.00185`). The level stays conservative-but-valid; it
+  is noted here rather than silently recomputed in code.
+- **Within-family control (D-044, revises the prior rule-13 cross-reference):**
+  `variants_evaluated` — every configuration of the family evaluated on the
+  development window, losing variants included, frozen before the holdout is
+  touched (`docs/EXPERTS_REGISTRY.yaml`) — decides which of two tests applies:
+  - **`len(variants_evaluated) == 1`** (both pilots, currently): the original
+    single-configuration test is unchanged. Bootstrap CI is the **percentile
+    method, one-sided**: the lower bound is the 2.5th percentile of the
+    section-9 block-bootstrap distribution of `μ̂_f`; the family passes if
+    that lower bound exceeds 0 **and** `n_f ≥` the minimum coverage of
+    section 12.
+  - **`len(variants_evaluated) > 1`**: the family's `α_f` budget is spent via
+    a block-bootstrap Reality-Check max-statistic test (White 2000 Procedure
+    RC, `HYPOTHESIS_LAB_PROTOCOL.md` Sources; implemented in
+    `src/v8/statistics.reality_check_p_value`) over all evaluated variants'
+    episode series, using the **same section-9 block-size rule** (24 unless
+    lag-1 autocorrelation of episode `net_R` exceeds 0.10, then 168) so the
+    dependence unit is identical to the single-configuration case. All
+    variants in a family fire on the same setup predicate and therefore share
+    an aligned episode grid (rule 13), which is what makes the max-statistic
+    resampling valid here without a cross-family time panel. The family
+    passes if the Reality-Check p-value is `< α_f` **and** the argmax
+    variant's own `μ̂ > 0` **and** its `n ≥` the minimum coverage of
+    section 12. A variant that is not the argmax cannot pass on this record
+    regardless of its own `μ̂`, by construction of the max statistic.
+  - Cross-family pooling of this test into one N-configuration statistic
+    (spanning both families' variants at once, replacing the top-level
+    Bonferroni too) is **not** implemented — families fire on disjoint
+    episode grids and a correct pooled test needs a bar-level panel, not an
+    episode-level one. Tracked as O-021; the two-level structure above is the
+    interim design.
 - Attribution gate (D-027) is evaluated first: if
   `ATTRIBUTION_UNSAFE_LOW_COVERAGE` or
   `ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE` fires (section 15), the run is

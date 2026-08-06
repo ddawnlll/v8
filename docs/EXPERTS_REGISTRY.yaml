@@ -5,6 +5,31 @@
 # No registry experiment is registered and nothing is promoted
 # (V8_CONSTITUTION rule 13). The code-side projection must match this file
 # exactly (tests/test_expert_registry.py), so the ontology cannot drift.
+#
+# variants_evaluated (D-044): every variant_id of this family evaluated on
+# the development window, losing variants included — not just the reported
+# variant_id below. This is what PREREGISTRATION_V8_SLICE_001 section 11
+# reads to decide whether the family's alpha budget is spent by the
+# single-configuration percentile-bootstrap test (len == 1) or the
+# within-family Reality-Check max-statistic test (len > 1). A variant
+# dropped after evaluation is still listed here — it cannot be un-evaluated.
+#
+# search_universe_size (D-046): the TOTAL number of configurations the search
+# actually consumed to arrive at this family — every threshold, lookback,
+# filter and indicator variant tried, the direction-sign choice, and losers
+# discarded before they ever earned a variant_id. `variants_evaluated` is the
+# subset whose episode series were retained, so it is only a LOWER BOUND on
+# the search; Aronson Ch8 p390-391 requires the complete record, because a
+# family p-value computed from the retained subset is optimistic by exactly
+# the amount the search exceeded it (his 6,402-rule case collapses to 3 units
+# under a family-counts-as-one rule and turns p=0.82 into a false pass).
+#
+# All five pilots declare 1. That is not an omission: preregistration §4
+# records that every detector parameter (EMA 5/20, ATR 14, the 32-bar
+# prior-high window, expiry 8) was frozen in code against synthetic tapes
+# BEFORE the real development window existed, and no development search was
+# performed — so there is no undisclosed configuration to count. A family that
+# tunes anything on data must raise this number and re-run the Reality Check.
 
 expert_status_vocabulary:
   - PROPOSED
@@ -17,45 +42,499 @@ expert_status_vocabulary:
   - MERGED
   - QUARANTINED
   - DATA_BLOCKED
-
 experts:
-  - expert_id: trend_pullback
-    expert_version: v1
-    mechanism_family_id: trend_continuation
-    behavior_family_id: pullback_in_trend
-    variant_id: 'a'
-    requires: [trend, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: failed_breakout
-    expert_version: v1
-    mechanism_family_id: liquidity_vacuum_reentry
-    behavior_family_id: failed_breakout_reentry
-    variant_id: 'a'
-    requires: [location, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: liquidity_sweep_reclaim
-    expert_version: v1
-    mechanism_family_id: liquidity_sweep_reclaim
-    behavior_family_id: sweep_reclaim
-    variant_id: 'a'
-    requires: [location, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: breakout_retest
-    expert_version: v1
-    mechanism_family_id: breakout_retest
-    behavior_family_id: breakout_retest
-    variant_id: 'a'
-    requires: [location, volatility, history]
-    status: DATA_BLOCKED
-    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
-  - expert_id: capitulation
-    expert_version: v1
-    mechanism_family_id: capitulation_exhaustion
-    behavior_family_id: capitulation
-    variant_id: 'a'
-    requires: [trend, volatility, history]
-    status: DATA_BLOCKED
-    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
+- expert_id: trend_pullback
+  expert_version: v1
+  mechanism_family_id: trend_continuation
+  behavior_family_id: pullback_in_trend
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - trend
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: failed_breakout
+  expert_version: v1
+  mechanism_family_id: liquidity_vacuum_reentry
+  behavior_family_id: failed_breakout_reentry
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: liquidity_sweep_reclaim
+  expert_version: v1
+  mechanism_family_id: liquidity_sweep_reclaim
+  behavior_family_id: sweep_reclaim
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: breakout_retest
+  expert_version: v1
+  mechanism_family_id: breakout_retest
+  behavior_family_id: breakout_retest
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042 (D-049)
+- expert_id: capitulation
+  expert_version: v1
+  mechanism_family_id: capitulation_exhaustion
+  behavior_family_id: capitulation
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - trend
+  - volatility
+  - history
+  status: DATA_BLOCKED
+  owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code
+    module
+- expert_id: failed_breakout_2b
+  expert_version: v1
+  mechanism_family_id: liquidity_vacuum_reentry
+  behavior_family_id: failed_breakout_reentry
+  variant_id: b
+  variants_evaluated:
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  - candle_shape
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: trend_pullback_depth
+  expert_version: v1
+  mechanism_family_id: trend_continuation
+  behavior_family_id: pullback_in_trend
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  search_universe_size: 7
+  requires:
+  - trend
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: range_breakout_1to1
+  expert_version: v1
+  mechanism_family_id: consolidation_breakout
+  behavior_family_id: range_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  - participation
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: candlestick_reversal
+  expert_version: v1
+  mechanism_family_id: bar_shape_reversal
+  behavior_family_id: candlestick_reversal
+  variant_id: hammer
+  variants_evaluated:
+  - hammer
+  - shooting_star
+  - bullish_engulfing
+  - bearish_engulfing
+  - bullish_harami
+  - bearish_harami
+  - three_white_soldiers
+  - three_black_crows
+  search_universe_size: 8
+  requires:
+  - candle_shape
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: rsi_stoch_reversion
+  expert_version: v1
+  mechanism_family_id: oscillator_reversion
+  behavior_family_id: overbought_oversold_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - oscillator
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: macd_stoch_trend
+  expert_version: v1
+  mechanism_family_id: trend_filtered_oscillator
+  behavior_family_id: macd_stoch_cross
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - oscillator
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: divergence_12_setups
+  expert_version: v1
+  mechanism_family_id: momentum_divergence
+  behavior_family_id: standard_divergence_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - oscillator
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: bollinger_breakout
+  expert_version: v1
+  mechanism_family_id: volatility_band
+  behavior_family_id: band_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: bollinger_reversion
+  expert_version: v1
+  mechanism_family_id: volatility_band
+  behavior_family_id: band_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - trend
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: donchian_breakout
+  expert_version: v1
+  mechanism_family_id: channel_breakout
+  behavior_family_id: channel_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_retracement_continuation
+  expert_version: v1
+  mechanism_family_id: fib_level_reaction
+  behavior_family_id: fib_retracement_continuation
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  search_universe_size: 10
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_projection_reversal
+  expert_version: v1
+  mechanism_family_id: fib_level_reaction
+  behavior_family_id: fib_projection_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: pattern_measuring_objective
+  expert_version: v1
+  mechanism_family_id: geometric_pattern_breakout
+  behavior_family_id: geometric_pattern_breakout
+  variant_id: head_shoulders
+  variants_evaluated:
+  - head_shoulders
+  - double_top
+  - triangle
+  search_universe_size: 3
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: volume_confirmed_breakout
+  expert_version: v1
+  mechanism_family_id: volume_confirmation
+  behavior_family_id: volume_confirmed_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - location
+  - volatility
+  - participation
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: volume_climax_reversal
+  expert_version: v1
+  mechanism_family_id: volume_exhaustion
+  behavior_family_id: volume_climax_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - trend
+  - volatility
+  - participation
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: obv_adl_regime
+  expert_version: v1
+  mechanism_family_id: volume_oscillator_regime
+  behavior_family_id: volume_oscillator_regime
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - participation
+  - trend
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: ichimoku_cloud
+  expert_version: v1
+  mechanism_family_id: cloud_trend
+  behavior_family_id: cloud_trend
+  variant_id: c
+  variants_evaluated:
+  - c
+  search_universe_size: 1
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: floor_trader_pivot
+  expert_version: v1
+  mechanism_family_id: pivot_level_reaction
+  behavior_family_id: pivot_level_reaction
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - location
+  - volatility
+  - history
+  - session
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: market_profile_value_area
+  expert_version: v1
+  mechanism_family_id: value_area_reversion
+  behavior_family_id: value_area_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 5
+  requires:
+  - session
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: gap_exhaustion
+  expert_version: v1
+  mechanism_family_id: gap_reaction
+  behavior_family_id: gap_reaction
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - candle_shape
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: open_interest_divergence
+  expert_version: v1
+  mechanism_family_id: positioning_divergence
+  behavior_family_id: oi_price_divergence
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 6
+  requires:
+  - positioning
+  - participation
+  - volatility
+  - history
+  status: DATA_BLOCKED
+  owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); code
+    self-gates to NO_HABITAT
+- expert_id: funding_crowding_reversal
+  expert_version: v1
+  mechanism_family_id: positioning_divergence
+  behavior_family_id: funding_crowding_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - positioning
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: pandf_breakout
+  expert_version: v1
+  mechanism_family_id: boxed_price_breakout
+  behavior_family_id: boxed_price_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 8
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042

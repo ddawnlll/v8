@@ -3,6 +3,173 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-06 — Handbook+Evidence extraction lands: feature graph, 24 expert families, risk & execution management (D-048/49/50)
+
+The two-book extraction round (D-042) reaches code: the feature-group ontology
+widens to 11 groups / 73 new features (FG-1..FG-7, G-01..G-43), 24 expert
+families are implemented and registered (EXP-01..24, E-05/E-06 survivors +
+E-01..E-24), and risk/execution management lands (RISK-1..6, EXEC-1..6).
+
+- **`docs/decisions/DECISION_REGISTER.md`** — D-048 (risk additions), D-049 (feature graph), D-050 (expert admission).
+- **`src/v8/schema.py`** — FEATURE_GROUPS +7 groups (candle_shape/oscillator/session/positioning, participation activated, volatility/location extended); CandidateDraft.size; ExperimentManifest.risk_per_trade/min_trades; CounterfactualOutcome endpoint vocabulary extended (TIME_EXIT).
+- **`src/v8/marketstate.py`** — 73 new feature computations (Wilder RSI/MACD/ADX, Bollinger, swing lattice with Ch27.2 ATR range filter, fib levels, pivot, consolidation, gap, OBV/ADL/CMF, session, funding/OI); add() value widened to tuple/list; no-signal -> numeric sentinel (never None, D-024 veto preserved).
+- **`src/v8/experts/*`** — 24 new expert files (one per behavior family, D-033), each with variants_evaluated (D-044) + search_universe_size (D-046). CRIT fixes applied: E-01 variants b..g (CRIT-4), E-07 declared subset (CRIT-6), E-17 self-gating regime (CRIT-7).
+- **`src/v8/equity.py`** (new) — RiskState drawdown ladder (RM-06, O-016 challenger) + trade_units_for (RM-07).
+- **`src/v8/risk.py`** — size-aware heat (size*stop_r, byte-identical at 1.0), equity wiring, min-trades/PF gates.
+- **`src/v8/simulator.py`** — breakeven roll + chandelier trail, scale-out (closed_fraction + PARTIAL_EXIT), pyramid plumbing, FILL_AT_LIMIT, TIME_EXIT; sim.hash() -> canonical-sim-v7.
+- **`src/v8/statistics.py`** — D-045 detrending (passive_benchmark_r/detrend_net_r) retained; METH-1..6 extensions follow in the next entry.
+- **`docs/EXPERTS_REGISTRY.yaml`** — 28 entries (24 new FORMALIZED, open_interest DATA_BLOCKED, breakout_retest FORMALIZED); registry test derives expected set from code.
+- **`tests/`** — test_feature_groups.py, 24 test_expert_*.py, test_risk.py, test_execution.py; golden re-pinned (hashes moved by construction, candidate_count 21 + terminal_distribution unchanged throughout).
+## 2026-08-06 — Position management and fill policies land as declared, optional mechanics (EXEC-1..6, D-047)
+
+The handbook's execution additions (EX-01..EX-12 in `books/reports/HAND_RISK_EXEC.md`,
+gated by OPEN_DECISIONS O-013 — admission still requires replicated OOS gain vs
+static geometry) become first-class, DECLARED risk_geometry keys and one new
+fill policy. Every key is optional; the pilots' frozen geometry declares none,
+so step()/run() output on default geometry is byte-identical to pre-change code
+(verified by diffing the executed outcomes of both code versions on the golden
+fixture). This is the O-013 mechanics layer: the question "does active position
+management beat static geometry" can now be asked.
+
+- **`src/v8/simulator.py`** — EXEC-1 breakeven roll + chandelier trail
+  (`breakeven_roll_at_mfe_r` / `breakeven_margin_r` = `round_trip_cost_r` /
+  `trail_stop_atr`; `OpenPosition.stop_level` + `stop_rolled`; endpoint stays
+  STOP); EXEC-2 scale-out partial exit (`scale_out_ratio` > 0 enables +
+  `scale_out_at_mfe_r`; `StepResult.closed_fraction` < 1.0 is a NON-TERMINAL
+  event; `OpenPosition.remaining`/`realized_r` fraction-weighted R accounting);
+  EXEC-5 TIME_EXIT endpoint (`time_exit_bars`, distinct from EXPIRY); EXEC-4
+  `FILL_AT_LIMIT` fill policy (barrier entry at `risk_geometry['limit_price']`,
+  fill-only entry-bar inspection, never-filling orders never enter); EXEC-3
+  `pyramid_add_rules` declared but P2/off (fail closed on request;
+  `midpoint_stop` primitive implemented + tested). `hash()` →
+  `canonical-sim-v8`. Funding path untouched (the funding goldens are
+  byte-identical). Management updates apply from the bar AFTER the bar that
+  triggered them (bar-atomic OHLC cannot order intrabar events).
+- **`src/v8/lifecycle.py`** — `CandidateRegistry.position_action`: the
+  append-only `PositionAction` event (`kind: position_action`), EXEC-2's
+  PARTIAL_EXIT. Non-terminal: no transition, `current()` unchanged, joins the
+  candidates ledger and therefore `ledger_hash`.
+- **`src/v8/lab.py`** — executed path records PARTIAL_EXIT PositionActions and
+  continues the position; FILL_AT_LIMIT executed entry (resting order, never
+  entered → the epilogue's never-entered convention); TIME_EXIT closes the
+  position (`expiry_reached`); equity feed books fraction-weighted net_r
+  against the admission size.
+- **`src/v8/schema.py`** — endpoint vocabulary documented with TIME_EXIT;
+  PARTIAL_EXIT documented as a non-terminal PositionAction, never an endpoint;
+  `risk_geometry` management keys and `limit_price` documented on
+  `CandidateDraft`; `ExperimentManifest.fill_policy` documents FILL_AT_LIMIT.
+- **`tests/`** — `test_execution.py` (new: EXEC-1..6 unit + lab end-to-end,
+  including the fill-only entry-bar invariant and a managed-geometry lab run),
+  `test_lifecycle.py` (new: PositionAction append-only/non-transition/replay),
+  hash-canary goldens re-pinned to `canonical-sim-v8`,
+  `SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE', 'FILL_AT_LIMIT')`,
+  golden-backtest ledger re-pinned (outcome records carry the re-versioned
+  `simulator_hash`; data/states/candidate/terminal unchanged).
+- **Not done here:** O-013's admission gate (replicated OOS gain vs static
+  geometry) is a preregistration/experiment act, not code; RM-04 two-tier heat
+  consumption of `stop_rolled` is dormant in `risk.py` until a register
+  decision revises D-023's domain (CRIT-2.6); pyramiding (EXEC-3) and the full
+  EX-13 action lattice (ADD/REENTER/HEDGE) are P2.
+
+## 2026-08-06 — The net-R null is detrended, and the search universe is declared (D-045, D-046)
+
+Two multiplicity/centering defects from the handbook evidence extraction
+(`books/reports/EV_METHODS.md` G-01/G-02, issues METH-1 and METH-2), both
+landed pre-holdout while prereg §16 still permits it — no manifest, store or
+outcome ledger exists yet.
+
+**D-045 — the null was mis-centered.** `μ_f ≤ 0` on raw episode net_R is
+mean-zero only for a no-skill rule on *detrended* data (Aronson Ch1 p23-27,
+Appendix A). On a trending tape a long-biased family earns positive expected
+net_R with zero predictive power, and every pilot carries long-direction
+setups — so the single-config lower-bound gate and the Reality Check were
+both testing against a null the tape had already moved. Episode net_R is now
+centered on a same-exposure passive benchmark before any gate; the raw mean
+survives beside it as a diagnostic and the difference is published as
+`position_bias_component`. Signal generation never sees a detrended value.
+
+**D-046 — the search universe was undeclared.** `variants_evaluated` (D-044)
+counts only the configurations whose episode series were retained; parameter
+grids, discarded indicator variants and the direction-sign choice are search
+the family also consumed. The registry now declares the total, the runner
+publishes it with every family statistic, and an undercount is flagged rather
+than silently inflating significance.
+
+- **`src/v8/schema.py`** — `CounterfactualOutcome` gains `entry_price`,
+  `risk_unit_price`, `market_move_r`. Recorded, never re-derived: `risk_unit`
+  depends on the fill whenever a draft declares `risk_frac` instead of
+  `atr_ref`, so the R denominator is not recoverable downstream.
+- **`src/v8/simulator.py`** — populates them; `hash()` → `canonical-sim-v6`.
+- **`src/v8/lab.py`** — the executed path does not go through `simulator.run`
+  (it steps positions and closes them in `_record_outcome`), so the fields are
+  supplied at each entered call site too; they stay 0.0 for never-entered
+  candidates.
+- **`src/v8/statistics.py`** — `EpisodeExposure`, `mean_log_drift_per_bar`,
+  `passive_benchmark_r`, `detrend_net_r`, `placebo_exposures`,
+  `appendix_a_invariant`. `invariant_holds` is deliberately unimplemented and
+  raises: the "≈ 0" tolerance is itself a preregistered constant and is left
+  to an explicit operator choice rather than a silent default.
+- **`docs/EXPERTS_REGISTRY.yaml`** — required `search_universe_size`; all five
+  pilots declare 1, consistent with prereg §4 (parameters frozen in code
+  against synthetic tapes before the dev window existed).
+- **`tools/run_experiment.py`** — scores the detrended series, reports the
+  drift estimate, the raw/detrended pair and the search accounting; fails
+  closed on a pre-D-045 ledger that carries no `risk_unit_price`.
+- **`tests/`** — `test_detrended_null.py` (new: reproduces the position bias,
+  then asserts it is removed), plus runner and registry gates. Goldens
+  re-pinned: `net_r`, endpoints, labels, `data_hash`, `states_hash`,
+  `candidate_count` and `terminal_distribution` are all UNCHANGED and only
+  `ledger_hash` moved — the evidence this changed the record, not a decision.
+- **Not done here:** prereg §2/§10/§11 still describe the uncentered null in
+  prose; the `invariant_holds` threshold is unchosen. Both are operator acts.
+
+## 2026-08-06 — Within-family variant multiplicity fixed: Reality-Check replaces "variants count as one unit" (D-044)
+
+Preregistration §11 said "all variants explored inside a family count as one
+multiplicity unit (rule 13)." That over-read rule 13's ontology (a variant is
+not a new Expert) into a statistical claim (variant search is
+multiplicity-free), which is false: best-of-N variant search inside one
+family reintroduces exactly the selection bias rule 11 exists to control
+(the canonical case is Aronson's 6,402-rule study, which understates its own
+search by an order of magnitude under a themes-only counting rule). The bug
+was harmless while every pilot sat at `variant_id: 'a'`; it stops being
+harmless the moment variant search starts, which literature extraction is
+about to do. Cross-family Bonferroni (`α_f = 0.05/F`) is unchanged — still
+valid, only conservative under correlation, and not the urgent half of this.
+
+- **`docs/decisions/DECISION_REGISTER.md`** — D-044 added.
+- **`docs/PREREGISTRATION_V8_SLICE_001.md`** — §1 and §11 revised: within a
+  family, `len(variants_evaluated) == 1` keeps the original single-config
+  percentile-bootstrap test; `> 1` spends the family's `α_f` via
+  `src/v8/statistics.reality_check_p_value` (White 2000 Procedure RC,
+  already `LITERATURE_SUPPORTED` in `HYPOTHESIS_LAB_PROTOCOL.md`'s Sources
+  section) over all evaluated variants' episode series, using the same
+  section-9 block-size rule. Cross-family pooling into one N-configuration
+  statistic is explicitly **not** implemented — families fire on disjoint
+  episode grids and a correct pooled test needs a bar-level panel, not an
+  episode-level one (O-021).
+- **`docs/EXPERTS_REGISTRY.yaml`** — new required field `variants_evaluated`
+  per entry (losers included, not just the reported `variant_id`); all five
+  current entries carry `['a']` since no variant search has happened yet.
+- **`src/v8/statistics.py`** (new) — `reality_check_p_value`,
+  `select_block_size`, stdlib-only, explicit seed, aligned-episode-grid
+  inputs only. Not yet wired into a runner: `tools/run_experiment.py` (the
+  `v8_slice_001` Phase-4 runner) does not exist yet, so this is unit-tested
+  on synthetic data only.
+- **`tests/test_reality_check.py`** (new) — determinism, p-value bounds,
+  block-contiguity, `select_block_size` against known-autocorrelation
+  synthetic series, mismatched-length and empty-input rejection.
+- **`tests/test_expert_registry.py`** — gates `variants_evaluated` presence
+  and that the reported `variant_id` is a member of it.
+- **`docs/contracts/IMPLEMENTATION_LAYOUT.md`** — `statistics.py` and
+  `tests/test_reality_check.py` rows added (D-032: new files are registry
+  decisions).
+- **`docs/decisions/OPEN_DECISIONS.md`** — O-021 opened: whether and how to
+  pool the Reality-Check test across families (bar-level panel), deferred
+  rather than built ad hoc.
+- Legal pre-holdout per prereg §16, same basis as D-041: the frozen holdout
+  has not been opened or downloaded.
+
 ## 2026-08-04 — Rule 14 rewritten: complexity budget splits runtime from evidence (D-043)
 
 The constitution capped "at most 3 active Experts". That single number

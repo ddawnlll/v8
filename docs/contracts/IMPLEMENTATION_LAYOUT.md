@@ -25,6 +25,7 @@ src/v8/
   risk.py            RiskGate (deterministic admission)
   simulator.py       CanonicalSimulator (step/run), OpenPosition, risk_unit
   lab.py             Lab runner (3-phase loop) + recursive code hash
+  statistics.py      within-family Reality-Check multiplicity test (D-044)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
@@ -42,6 +43,8 @@ tests/
   test_expert_registry.py       registry consistency tests
   test_data_pipeline.py         offline data.py planning/checksum tests
   test_materialize_views.py     materialization roundtrip + fail-closed tests
+  test_reality_check.py         within-family multiplicity test (D-044)
+  test_detrended_null.py        position-bias reproduction + detrending (D-045)
 ```
 
 Planned, not yet present: further Expert modules land under
@@ -58,15 +61,17 @@ tape — no code module until then); `tools/run_experiment.py` (the
 | `schema.py` | canonical frozen dataclasses; `sha1_hex`, `record_dict` | `sha1_hex(obj)`; dataclasses `TapeRow` .. `LabReport` | DATASET_SPEC §1 |
 | `store.py` | append-only JSONL log; inbox dedup; canonical replay order | `AppendOnlyLog.append/read/replay_tape/hash` | PERSISTENCE_REPLAY_SPEC §3-4 |
 | `marketstate.py` | availability-gated state for decision clock D | `build_state(rows, as_of, universe)`; `FutureRowError` | MARKET_STATE_CONTRACT §1, §6 |
-| `experts/__init__.py` | pilot expert registry; stable re-export surface | `from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL §3 |
+| `experts/__init__.py` | expert registry; stable re-export surface (3 pilots + 24 extraction families, D-050) | `from v8.experts import Expert, <28 Expert classes>` | EXPERT_PROTOCOL §3; D-042, D-050 |
 | `experts/base.py` | Expert base contract; post-entry thesis predicate | `Expert.evaluate`, `Expert.still_valid`, `Expert._need` | EXPERT_PROTOCOL §2; D-029 |
 | `experts/trend_pullback.py` | trend-pullback-continuation family | `TrendPullbackExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/failed_breakout.py` | failed-breakout-reentry family | `FailedBreakoutExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/liquidity_sweep_reclaim.py` | liquidity-sweep-reclaim family (third pilot, D-042) | `LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `lifecycle.py` | legal transitions; registry projection; episode identity; exposure book | `CandidateRegistry.apply/is_duplicate`, `episode_key`, `ExposureBook` | CANDIDATE_LIFECYCLE_SPEC §2; D-018, D-026 |
-| `risk.py` | deterministic admission; heat cap | `RiskGate.admit/release`; `RiskVerdict` | CANDIDATE_LIFECYCLE_SPEC §6; D-023 |
-| `simulator.py` | canonical Level-1 simulator; R units; excursions; two execution modes | `CanonicalSimulator.step/run/hash`, `risk_unit`, `OpenPosition` | SIMULATION_TRUTH_SPEC; D-028, D-030 |
+| `risk.py` | deterministic admission; size-aware heat (`size*stop_r`); equity drawdown ladder; trade-unit/min-trades gates | `RiskGate.admit/release`; `RiskVerdict`; `equity.RiskState` | CANDIDATE_LIFECYCLE_SPEC §6; D-023, D-048 |
+| `equity.py` | deterministic fixed-fractional equity + drawdown ladder (RM-06/O-016 challenger) and trade-unit budget (RM-07) | `RiskState`, `DRAWDOWN_BANDS`, `trade_units_for` | CANDIDATE_LIFECYCLE_SPEC §6; D-048 |
+| `simulator.py` | canonical Level-1 simulator; R units; excursions; breakeven/trail/scale-out/pyramid/FILL_AT_LIMIT/TIME_EXIT (EXEC-1..6); two execution modes | `CanonicalSimulator.step/run/hash`, `risk_unit`, `OpenPosition`; sim.hash() v7 | SIMULATION_TRUTH_SPEC; D-028, D-030, D-047 |
 | `lab.py` | preregistered run: tape -> report; 3-phase loop; composition root; recursive code hash over the whole package | `Lab.ingest/run`; `_code_hash` | HYPOTHESIS_LAB_PROTOCOL; D-010, D-027, D-033 |
+| `statistics.py` | (a) block-bootstrap Reality-Check max-statistic test over a family's `variants_evaluated` episode series (White 2000 Procedure RC); stdlib-only, explicit seed, aligned-episode-grid inputs only (cross-family pooling deferred, O-021). (b) the detrended null: same-exposure passive benchmark per episode, the zero-skill placebo family, and the Appendix A invariant check. `invariant_holds` is intentionally unimplemented and raises — its tolerance is a preregistered constant awaiting an operator choice | `reality_check_p_value`, `select_block_size`, `EpisodeExposure`, `mean_log_drift_per_bar`, `passive_benchmark_r`, `detrend_net_r`, `placebo_exposures`, `appendix_a_invariant` | PREREGISTRATION_V8_SLICE_001 §11; D-044, D-045 |
 | `synth.py` | deterministic synthetic tape — contracts only, not economics | `make_synthetic_tape(seed, n_bars, symbol, base)` | rule 10 |
 | `simtruth/` | vendored V7 reference simulation | import-only rewrite (`sim.py`, `market.py`, `features.py`, `events.py`, `indicators.py`, `evaluate.py`) | D-022; authority stays FAIL |
 | `tools/build_monograph.py` | reproducible EN/TR monograph build | CLI `--lang --docs --out` | CHANGELOG build rule |
