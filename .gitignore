@@ -22,3 +22,8 @@ research/tape/
 # Downloaded papers (derived from public archives; research/manifest tracks
 # them, tools/download_v8_reading_list.py re-fetches)
 research/papers/
+
+# Handbook extraction source PDF + derived working dir (reproducible via
+# tools/extract_handbook_*.py; review reports live in the books submodule)
+/The Handbook of Technical Analysis - The Practitioner's Comprehensive Guide to Technical Analysis 2016.pdf
+research/handbook_technical_analysis_2016/
