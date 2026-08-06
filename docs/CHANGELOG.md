@@ -20,6 +20,20 @@ E-01..E-24), and risk/execution management lands (RISK-1..6, EXEC-1..6).
 - **`src/v8/statistics.py`** — D-045 detrending (passive_benchmark_r/detrend_net_r) retained; METH-1..6 extensions follow in the next entry.
 - **`docs/EXPERTS_REGISTRY.yaml`** — 28 entries (24 new FORMALIZED, open_interest DATA_BLOCKED, breakout_retest FORMALIZED); registry test derives expected set from code.
 - **`tests/`** — test_feature_groups.py, 24 test_expert_*.py, test_risk.py, test_execution.py; golden re-pinned (hashes moved by construction, candidate_count 21 + terminal_distribution unchanged throughout).
+
+## 2026-08-06 — Retire v2 research subsystems from version control (D-051)
+
+The v2.3 research-corpus pipeline (`research/pipeline_v2/`) and the standalone
+`research_base/` package were superseded by the `src/v8/` runtime and are
+removed from the tree, along with `research/revision/` visual-preview artifacts,
+`research/text/` corpus copies, and the three revision-monograph builders whose
+data sources they were (`tools/build_v8_revision.py`,
+`tools/generate_gemini_master_html.py`, `tools/generate_10k_gemini_master_html.py`).
+
+- **`docs/decisions/DECISION_REGISTER.md`** — D-051 (PROVISIONAL_DECISION).
+- No prereg, contract, or test references the retired paths (verified); the 615-test suite and monograph build are unchanged.
+- Recoverable from git history (introduced in `a051a20`) should the v2.3 ledger be needed again.
+
 ## 2026-08-06 — Position management and fill policies land as declared, optional mechanics (EXEC-1..6, D-047)
 
 The handbook's execution additions (EX-01..EX-12 in `books/reports/HAND_RISK_EXEC.md`,
