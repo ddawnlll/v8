@@ -8,6 +8,7 @@ and is not covered here (runbook step 4).
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 import zipfile
 from pathlib import Path
@@ -196,6 +197,44 @@ def test_archive_revision_fails_closed(tmp_path):
     with pytest.raises((SystemExit, ValueError), match='refusing to ingest revised archive'):
         backfill_main(['--symbol', 'BTCUSDT', '--interval', '1h',
                        '--month', '2025-01', '--out', str(out)])
+
+
+def test_provenance_is_keyed_by_symbol_not_just_month(tmp_path):
+    """A second instrument's archive for the SAME month is not a revision of
+    the first's. Keying provenance on (channel, month) alone was correct only
+    while a tape dir held one symbol: the moment a second one arrives its
+    2025-01 zip has a different checksum and was refused as a 'revised
+    archive', so a multi-instrument tape could not be built at all."""
+    out = tmp_path / 'out'
+    out.mkdir()
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', 'sha-btc')
+    # Same month, different symbol, different checksum -> admitted.
+    check_archive_revision(out, '2025-01', 'sha-eth', 'kline', 'ETHUSDT')
+    write_source_meta(out, 'ETHUSDT', '1h', '2025-01', 'sha-eth')
+
+    meta = json.loads((out / 'source.json').read_text(encoding='utf-8'))
+    assert meta['symbols'] == ['BTCUSDT', 'ETHUSDT']
+    assert {(a['symbol'], a['month']) for a in meta['archives']} == {
+        ('BTCUSDT', '2025-01'), ('ETHUSDT', '2025-01')}
+    # No single top-level symbol once the tape is multi-instrument, or the
+    # audit would rebuild a zip name that never existed.
+    assert meta['symbol'] == ''
+
+    # The revision guard still bites WITHIN a symbol.
+    with pytest.raises(ValueError, match='refusing to ingest revised archive'):
+        check_archive_revision(out, '2025-01', 'sha-btc-revised', 'kline',
+                               'BTCUSDT')
+
+
+def test_revision_guard_stays_armed_when_symbol_is_omitted(tmp_path):
+    """Callers predating the symbol argument pass none; an unmatched key would
+    silently ADMIT a revised archive, so the omission must resolve to the
+    tape's own single symbol rather than to an empty one."""
+    out = tmp_path / 'out'
+    out.mkdir()
+    write_source_meta(out, 'BTCUSDT', '1h', '2025-01', 'sha-btc')
+    with pytest.raises(ValueError, match='refusing to ingest revised archive'):
+        check_archive_revision(out, '2025-01', 'sha-different')
 
 
 def test_audit_flags_duplicate_rows(tmp_path):

@@ -2802,6 +2802,9 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 | D-049 | Feature-graph extension FG-1..FG-7 (G-01..G-43): <code>FEATURE_GROUPS</code> gains <code>candle_shape</code>/<code>oscillator</code>/<code>session</code>/<code>positioning</code>, activates <code>participation</code>, extends <code>volatility</code>/<code>location</code> (73 new features, verbatim formulas from the Handbook §0; no-signal conditions emit numeric sentinels, never None — the D-024 DEGRADED veto stays a data-integrity veto). <code>FEATURE_GRAPH_VERSION</code> re-computes and every state lineage_hash binds the new features | PROVISIONAL_DECISION | Handbook Ch6/8/9/10/12/13/14/21/26; CRIT-1 (Ch27.2 ATR range filter on swing significance); measured against pre-change: candidate_count/terminal_distribution/data_hash unchanged — feature evidence added, no decision changed |
 | D-050 | The 24 handbook+evidence extraction expert families are admitted (EXP-01..24; D-042's pilot set extends to 28 code modules): each self-gates, carries frozen <code>variants_evaluated</code> (D-044) + honest <code>search_universe_size</code> (D-046); <code>breakout_retest</code> moves DATA_BLOCKED -&gt; FORMALIZED (code now exists, D-049-of-E-11); <code>open_interest_divergence</code> stays DATA_BLOCKED (no OI on the current tape; code self-gates to NO_HABITAT); <code>capitulation</code> remains DATA_BLOCKED (no code) | PROVISIONAL_DECISION | Handbook E-01..E-24 cards; CRIT-4 (failed_breakout_2b variants b..g, variant 'a' reserved for the original pilot), CRIT-6 (divergence declared subset), CRIT-7 (no hidden pending state; regime gate is per-expert precondition, not a router) |
 | D-051 | Retire the v2 research subsystems from version control: <code>research/pipeline_v2/</code> (v2.3 research-corpus pipeline — corpus, prompts, registry, rounds, workflows, schemas, legacy_v1, scratch) and <code>research_base/</code> (standalone <code>v8research</code> package with its own pyproject) are removed from the tree, along with <code>research/revision/</code> visual-preview artifacts and <code>research/text/</code> corpus copies; the three revision-monograph builders whose data sources they were (<code>tools/build_v8_revision.py</code>, <code>tools/generate_gemini_master_html.py</code>, <code>tools/generate_10k_gemini_master_html.py</code>) are removed with them. Superseded by the <code>src/v8/</code> runtime (Phases 0-4) as the single research codebase | PROVISIONAL_DECISION | Housekeeping 2026-08-06, pre-holdout: no prereg field, contract, or code path references the retired paths (verified by grep — the 615-test suite and monograph build are unaffected). Recoverable from git history (introduced in <code>a051a20</code>) should the v2.3 ledger be needed again |</p>
+<p>| D-052 | Preregistration §9's block-size rule is corrected from bar-units to an n-adaptive episode-unit rate, and the block bootstrap gains a fail-closed <code>block_size &lt; n</code> invariant. The rule's two-tier mechanical shape is unchanged (lag-1 autocorrelation gate at 0.10 selects the tier); only the tier VALUES change: <code>round(n**(1/3))</code> by default, doubled when the gate fires, hard-capped at <code>n // 2</code>. The prior constants 24 / 168 were bar-counts ("one day" / "one week" of 1h bars) applied to an episode-indexed <code>net_R</code> series — a unit error, visible in §9's own prose ("24 episode-blocks (one day)"). The resample count stops being a constant chosen independently of alpha: <code>resamples_for_alpha(alpha)</code> returns the smallest N with <code>int(N * alpha) &gt;= 100</code>, floored at the preregistered 2000, so the one-sided bound is a stable order statistic at whatever family count is in force. The rule had been duplicated in <code>v8.statistics.select_block_size</code> and <code>tools/run_experiment._block_size</code>; the tool now delegates to the module, making one rule of record | PROVISIONAL_DECISION | Defect reproduced mechanically: when <code>block_size &gt;= n</code> the circular sampler emits a cyclic rotation of all n indices, so every resample contains each element exactly once and <code>block_bootstrap_means</code> returns ONE unique value across all 2000 resamples — the bootstrap collapses to a point mass and <code>ci_lower == mu_hat</code> at zero width, so any family with a positive mean and <code>n &gt;= MIN_EPISODES</code> rejects H0 by construction. On the pinned 2026-08-06 dev baseline 8 of 21 families with episodes had <code>block &gt;= n</code>, and exactly one spurious rejection resulted (<code>obv_adl_regime</code>, n=50, block=168, <code>ci_lower == mu_hat == +0.0150</code>). Degeneracy is the endpoint of a bias, not an isolated case: at <code>block/n ≈ 0.3–0.5</code> (every family with n=45..100) the resample variance is already understated, biasing toward rejection. Outcome-neutrality of the choice is evidenced: the three candidate rules considered — (A) clamp-only <code>min(24|168, n//2)</code>, (B) the adopted <code>n**(1/3)</code> rate, (C) converting the bar target through observed median inter-episode spacing (16–197 bars, giving blocks of 1–5) — all yield ZERO H0 rejections on that baseline, so no rule could have been selected for the verdict it produces. (A) is rejected because it fixes only the pathological endpoint and leaves the anti-conservative bias; (C) is rejected as spacing-dependent, hence not mechanical. The resample-count defect was invisible at the two-family runner's own <code>alpha_f</code> (0.05/2 -&gt; index 50) and appeared only under the slate-wide Bonferroni alpha, where the same 2000 put the bound at <code>int(2000 * 0.0017857) = 3</code> — the 4th-smallest of 2000 resample means estimating a 0.18th percentile; the alpha-tied rule yields 56000 (index 100) for the 28-family slate and 4000 for the two-family runner. Cost measured before adoption: 4.2 s per family at n=1000, 0.6 s at n=100. Verified on the pinned baseline (identical <code>ledger_hash</code> 452d91bcf890 before and after, so the comparison is uncontaminated by concurrent expert edits): degenerate families 8 -&gt; 1 (the survivor is n=1, where a bootstrap has no variance by construction and the §12 gate already withholds a verdict), H0 rejections 1 -&gt; 0, and every former zero-width row gained a real interval (<code>obv_adl_regime</code> +0.0150 -&gt; -0.3067). Intervals widened across the slate (e.g. <code>liquidity_sweep_reclaim</code> -0.267 -&gt; -0.420), confirming the old rule understated uncertainty rather than merely failing at the endpoint. 628/628 tests pass. Frozen pre-holdout; ratified before the frozen OOS opens, never after seeing holdout results |</p>
+<p>| D-053 | The 2026-08-06 bug-fix pass's behavior changes are versioned per O-023's admission condition: <code>failed_breakout</code> stays <strong>v1</strong> (a bug-completion — the fixed episode series is a strict subset of the old, 369 -&gt; 76, so v1 never contained the buggy gate as a deliberate configuration); <code>volume_climax_reversal</code> and <code>fib_projection_reversal</code> become <strong>v2 challengers</strong> (the fixed series ADDS episodes a v1 gate could not produce — climax-bar anchor 67 -&gt; 380, origin-based extensions 2 -&gt; 7 — so they are new behavior needing their own D-044/D-046 accounting and a fresh registry entry). v1's buggy behavior is archived by this decision, not silently replaced | PROVISIONAL_DECISION | The frozen OOS must run on the version the preregistration names (rule 15 / D-023: "versions evolve by challenger + frozen-OOS + registry decision, never in place"). v2 keeps the family's <code>variants_evaluated</code> and <code>search_universe_size</code> (the fix is a hypothesis-completion, not a threshold search — D-044/D-046 unchanged) but a NEW <code>expert_version</code> (v2), which enters the episode_key so v1 and v2 episodes never collide. Operator-chosen on 2026-08-06 (O-023, option "O-023 kriteri"). frozen pre-holdout; the prereg must name v2 for these families before the frozen OOS opens |
+| D-053 | Experts declare the MarketState they need, and the runtime serves exactly that. Three additive parts: (a) <code>Expert.intervals</code> + <code>Expert.depth</code> join <code>requires</code> as frozen specification, audited against consumption like <code>requires</code> already is; (b) a new <code>src/v8/interval.py</code> aggregates the base-interval tape into any declared integer-multiple interval, and <code>MarketState</code> features gain an interval namespace (<code>{sym}.{tf}.{feature}</code>; the base interval stays unprefixed so every existing Expert and test is unaffected); (c) each Expert receives a MarketState containing exactly its declared groups x intervals x depth, while ONE canonical superset state per decision clock remains the persisted audit record — the per-Expert object is a projection of it, never an independently built state. A run-start feasibility gate validates every declared (interval, depth) against the tape and emits an explicit per-Expert <code>EVALUABLE</code> / <code>NOT_EVALUABLE(reason)</code> verdict | PROVISIONAL_DECISION | Motivated by the 2026-08-06 expert inventory: the binding constraint on 12 of 27 families is not the 1h tape but the global 32-bar <code>history</code> pin (O-020) — <code>ichimoku_cloud</code> needs 78 bars and has 3 of 4 variants declared-but-not-evaluated, <code>breakout_retest</code> variant d is unimplemented, <code>donchian_breakout</code> falls back from a 55-bar to a 50-bar anchor scan, and <code>pattern_measuring_objective</code> cannot express its patterns at all. Only <code>market_profile_value_area</code> demonstrably needs true higher-interval bar structure (it hand-rolls <code>SESSION_BARS = 24</code>); <code>floor_trader_pivot</code> is already served by the existing <code>pivot_points_day</code>. Keeping ONE persisted state per clock preserves the property that every Expert saw the same world at clock D — per-Expert persisted states would multiply the ledger 27x, break <code>ExpertEvaluation.state_id</code> as a shared audit anchor, and make a leakage defect in one Expert's state invisible. The feasibility gate closes the failure mode the same inventory exposed: <code>donchian_breakout</code> (384 triggers, 0 executions) was indistinguishable in the report from a family with no signal, and the six zero-episode families in fact split across three unrelated causes (absent data channel, depth block, exposure-slot contention). Interval aggregation invariants are fixed: buckets anchored to a fixed UTC epoch and never to tape start (otherwise dev and holdout windows produce different bars), aggregate <code>available_time</code> = the availability of the LAST constituent base bar, and a partial trailing bucket is never emitted as closed | </p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -2935,6 +2938,18 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>Should the D-044 within-family Reality-Check test be pooled across families into one N-configuration statistic, replacing the top-level Bonferroni too?</td>
 <td>Build a bar-level (not episode-level) panel: for every bar in the frozen OOS window, each evaluated configuration across all families contributes its episode <code>net_R</code> if one is anchored/live at that bar, else 0; run <code>reality_check_p_value</code>-style resampling over that panel instead of per-family episode series</td>
 <td>Opened by D-044. Within a family, all variants fire on the same setup predicate, so episode grids are already aligned and <code>src/v8/statistics.reality_check_p_value</code> applies directly. Across families the grids are disjoint (different <code>episode_key</code> sets, different bar counts), so the same function cannot be called on the union without either misaligning series or fabricating a shared index. White's (2000) original construction assumes a common time index for all N rules, which a bar-level zero-filled panel would restore — but that changes what "no signal" means for a family that fires rarely (mostly zeros) versus one that fires often, and needs its own validity argument before being trusted. Admit pooling only after that argument is made and tested on synthetic data with a known ground truth; until then the two-level structure (Bonferroni across families, Reality-Check within a family) stays the interim design and is not merely conservative — it is the version actually verified.</td>
+</tr>
+<tr>
+<td>O-022</td>
+<td>Family results are NOT independent under rule 16's one-exposure-per-(instrument, direction) gate: a family's SHORT episodes are crowded out while another family's SHORT position is open, so the executed populations are coupled. Does this bias the family-level verdicts, and how should it be handled?</td>
+<td>Measure cross-family admission blocking on the dev window: for each REJECTED <code>EXISTING_EXPOSURE_CONFLICT</code>, record which family/direction held the blocking slot; report the blocking matrix and how each family's executed <code>n</code> and <code>mu_hat</code> change when the blocker is removed from the population (the failed_breakout -&gt; liquidity_sweep flip, n 55 -&gt; 73 and mu_hat +0.111 -&gt; -0.086 when failed_breakout's spurious SHORTs were fixed, is the concrete observed case)</td>
+<td>Opened by the 2026-08-06 audit. <strong>Measured on the corrected dev diagnostic (2026-08-06, D-052 code):</strong> of 11,673 <code>EXISTING_EXPOSURE_CONFLICT</code> rejections, ALL had a same-direction open slot at the block time; <code>bollinger_breakout</code> alone blocked 4,115 candidates (incl. 1,226 of its own — self-blocking: the family's own open positions suppress its re-entries). Per-family <code>execution_share = n_executed / (n_executed + n_portfolio_rejected)</code> (the D-027 definition): only 6 of 21 families clear the 0.25 floor (bollinger_breakout 0.273, bollinger_reversion 0.567, trend_pullback 0.313, liquidity_sweep 0.308, fib_projection 0.350, divergence 0.400); 15 sit below, five of them under 0.10 (pandf 0.004, market_profile 0.065, trend_pullback_depth 0.098, obv_adl 0.104, macd 0.116). On the current slate the D-027 attribution-validity gate would score only ~6 families on the OOS and mark the rest <code>ATTRIBUTION_UNSAFE_*</code>. Two readings: (a) the coupling is an honest feature of a single-portfolio evaluation and the per-family verdicts are conditional on the OTHER families being present — document it as such and keep the per-family tests; (b) the coupling corrupts the per-family multiplicity accounting (each family's search was implicitly conditioned on the portfolio's exposure history), so a family-level verdict needs either a de-coupled evaluation (one family per run, at the cost of portfolio realism) or a bar-level panel that models the exposure contention (see O-021). Until a preregistered comparison exists, record the blocking matrix alongside every dev/OOS report and do not read a family's verdict as if it were measured in isolation.</td>
+</tr>
+<tr>
+<td>O-023</td>
+<td>The 2026-08-06 bug fixes changed the behavior of registered families (failed_breakout two-step gate, fib origin-based extensions, climax-bar anchor): are these v1 bug-completions (the code now matches its own frozen hypothesis) or v2 challengers (new behavior needing a fresh registry decision + multiplicity accounting)?</td>
+<td>Compare each fixed family's old vs new episode series on the frozen dev window; if the fixed series is a strict subset of the old (fewer, hypothesis-conforming episodes — failed_breakout n 369 -&gt; 76), treat as bug-completion and keep v1; if the series is NOT a subset (new episodes the old gate could not produce — volume_climax 67 -&gt; 380, fib_projection 2 -&gt; 7), the behavior is new and needs a v2 entry</td>
+<td>Bug-completions keep v1 and their registered <code>search_universe_size</code>/<code>variants_evaluated</code> (the search never contained the buggy behavior as a deliberate configuration). Families whose fix ADDS episodes a v1 gate could not have produced are challengers: register a v2 variant (or a new family) with its own D-044/D-046 accounting before any frozen OOS uses it, per "versions evolve by challenger + frozen-OOS + registry decision, never in place" (rule 15, D-023). The frozen OOS must run on the version the preregistration names.</td>
 </tr>
 </tbody>
 </table>
@@ -5068,6 +5083,157 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-07-declared-per-expert-marketstate-d-053-block-bootstrap-defect-d-052">2026-08-07 — Declared per-Expert MarketState (D-053) + block-bootstrap defect (D-052)</h2>
+<p>Two changes to the evidence machinery, both frozen pre-holdout.</p>
+<p><strong>D-052 — the block bootstrap manufactured one false positive per run.</strong>
+Preregistration section 9's block-size constants (24 / 168) are bar-counts
+("one day" / "one week" of 1h bars) applied to an episode-indexed <code>net_R</code>
+series. When <code>block_size &gt;= n</code> the circular sampler draws a cyclic rotation
+holding every index exactly once, so all 2000 resample means equal the sample
+mean: the interval collapses to zero width and any family with a positive mean
+and <code>n &gt;= 30</code> rejects H0 by construction. On the pinned dev baseline 8 of 21
+families with episodes had <code>block &gt;= n</code>, and exactly one spurious rejection
+resulted. Degeneracy is the endpoint of a bias, not an isolated case — at
+<code>block/n ~ 0.3-0.5</code> (every family with n=45..100) the resample variance is
+already understated.</p>
+<ul>
+<li><strong><code>src/v8/statistics.py</code></strong> — <code>select_block_size</code> becomes an n-adaptive
+  episode-unit rate (<code>round(n**(1/3))</code>, doubled above the 0.10 lag-1 gate,
+  capped at <code>n // 2</code>); <code>_block_bootstrap_indices</code> raises on <code>block &gt;= n</code>.</li>
+<li><strong><code>tools/run_experiment.py</code></strong> — <code>_block_size</code> delegates to the module (the
+  rule existed in two copies); <code>resamples_for_alpha</code> ties the resample count to
+  alpha so the bound stays a stable order statistic (at 0.05/28 the old 2000
+  put it at index 3); the <code>2.5th-percentile</code> misnomer is corrected.</li>
+<li>Verified on an unchanged ledger (<code>452d91bcf890</code> before and after): degenerate
+  families 8 -&gt; 1 (the survivor is n=1, where a bootstrap has no variance by
+  construction), H0 rejections 1 -&gt; 0, every former zero-width row gained a real
+  interval, and intervals widened slate-wide.</li>
+</ul>
+<p><strong>D-053 — Experts declare the MarketState they need.</strong> The 27-family inventory
+found the binding constraint was not the 1h tape but the global 32-bar
+<code>history</code> pin: <code>ichimoku_cloud</code> needs 78 bars and declares 3 of 4 variants
+unevaluated, <code>breakout_retest</code> drops variant d, <code>donchian_breakout</code> falls back
+to a 50-bar anchor scan, <code>pattern_measuring_objective</code> cannot express its
+patterns. Only <code>market_profile_value_area</code> demonstrably needs higher-interval
+bar structure.</p>
+<ul>
+<li><strong><code>src/v8/interval.py</code></strong> (new) — exact up-only aggregation of the base tape
+  into declared intervals; buckets anchored to a fixed UTC epoch (never tape
+  start), aggregate <code>available_time</code> = its last constituent's, partial trailing
+  buckets never emitted as closed.</li>
+<li><strong><code>src/v8/experts/base.py</code></strong> — <code>intervals</code> + <code>depth</code> join <code>requires</code> as
+  frozen specification; both default to pre-D-053 behavior.</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — <code>build_multi_state</code> namespaces higher intervals
+  <code>{sym}.{tf}.{feature}</code> (base stays unprefixed); <code>project_state</code> serves each
+  Expert exactly its declared groups x intervals x depth; the 32-bar pin becomes
+  <code>HISTORY_DEPTH_DEFAULT</code>, a default rather than a ceiling.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — the canonical state carries the union of declarations
+  and ONE state per clock is still what the ledger records; <code>Lab.feasibility</code>
+  refuses a declaration the tape cannot serve in words, so an unservable Expert
+  is never indistinguishable from a signal-less one.</li>
+<li><strong><code>tools/vision_backfill.py</code></strong> — archive provenance is keyed by
+  (symbol, channel, month). Keying on (channel, month) was correct only while a
+  tape dir held one instrument: a second symbol's 2025-01 archive was misread as
+  a revision of the first's, so a multi-instrument tape could not be built.</li>
+<li><strong><code>tools/build_multi_tape.py</code></strong> (new) — drives the backfill over a
+  symbol x month grid into one tape, refusing any month at or past the frozen
+  holdout anchor.</li>
+</ul>
+<p>Golden backtest re-pinned twice, both times provenance-only: <code>_BUILDER_SRC_HASH</code>
+is a whole-file hash, so adding functions re-versions every state's
+<code>code_version</code> even when no formula moves. <code>data_hash</code>, <code>candidate_count</code> (15)
+and <code>terminal_distribution</code> unchanged both times, and a run with the projection
+disabled reproduces the enabled run's four ledger hashes byte-for-byte.</p>
+<h2 id="2026-08-06-expert-bug-fix-pass-two-step-failed_breakout-gate-origin-based-fib-extensions-climax-bar-anchor-fib-swing-guard-removal">2026-08-06 — Expert bug-fix pass: two-step failed_breakout gate, origin-based fib extensions, climax-bar anchor, fib swing-guard removal</h2>
+<p>Adversarial audit of the 27 expert families against their hypotheses and the
+Handbook of Technical Analysis (Lim 2016) found and fixed three implementation
+bugs plus four audit/doc drift items. All are code-correctness fixes — the
+code now matches its own documented hypothesis and the cited book; no
+threshold, registry multiplicity, or hypothesis was tuned.</p>
+<ul>
+<li><strong><code>src/v8/experts/failed_breakout.py</code></strong> — the detection gate fired a SHORT on
+  ANY close below the windowed prior high, never verifying the breakout leg
+  ("a close above the prior high that fails back below it", Ch7.3 p228). A
+  plain downtrend with no close-breakout produced candidates. Gate and anchor
+  predicate now require a prior bar that CLOSED above its own prior high; the
+  frozen level is the breakout level; the anchor is the first failure bar
+  after the breakout (dedup stable, no window-edge anchor slide).</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — <code>_fib_levels</code> projected extensions from the
+  impulse END extreme; the book's formula is origin-based ("Upside extension =
+  Trough + (Range x Ratio)", Ch10.5.1 p404 / "Downside = Peak - ...", 10.5.2
+  p405). Every extension level moved one full impulse-range. Retracements
+  unchanged. Consumers: <code>fib_projection_reversal</code>.</li>
+<li><strong><code>src/v8/experts/volume_climax_reversal.py</code></strong> — the D-026 anchor resolved to
+  the trend-run start (the trend predicate is near-always-true), collapsing
+  every distinct climax inside one trend into a single episode. The anchor is
+  now the detection (climax) bar; the per-bar trend predicates became dead code
+  and were removed.</li>
+<li><strong><code>src/v8/experts/fib_projection_reversal.py</code></strong> — removed the swing-lattice
+  consistency guard that gated on the significance-FILTERED swing_high_10 /
+  swing_low_10 pair (a different pair than the unfiltered confirmed-swings
+  anchor <code>_fib_levels</code> uses) — it vetoed states with a valid anchor and
+  NO_HABITAT'd states where the filtered pair was absent. <code>fib_levels</code> is the
+  habitat gate and its own consistency guard. Same fix in
+  <code>fib_retracement_continuation.py</code>. Docstring corrected: Fig10.51 is a LONG
+  reversal at a DOWNWARD 161.8% projection, not a short at an up-projection.</li>
+<li><strong><code>tests/</code></strong> — new <code>test_expert_failed_breakout.py</code> (two-step gate,
+  no-breakout regression, fresh-high rejection, anchor, still_valid,
+  warmup); updated fib projection levels to origin-based values in
+  <code>test_expert_fib_projection_reversal.py</code> and <code>test_feature_groups.py</code>;
+  registry CONSUMPTION manifest corrected (<code>failed_breakout</code> no longer reads
+  <code>prior_high</code>); golden backtest re-pinned (candidate_count 21 -&gt; 15 after the
+  two-step gate, then states/ledger only after the fib fix); vertical-slice
+  exposure-conflict assertion relaxed (the gate fix removed the overlap on the
+  synthetic fixture; the guard is pinned end-to-end in
+  <code>test_admission_contention.py</code>).</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — unchanged (the removed swing features
+  were never part of <code>requires</code>; <code>fib_levels</code> is a location-group feature the
+  fib experts still declare via 'location').</li>
+</ul>
+<h2 id="2026-08-06-o-022-measured-rule-16-exposure-blocking-matrix-d-027-execution_share-distribution">2026-08-06 — O-022 measured: rule-16 exposure blocking matrix + D-027 execution_share distribution</h2>
+<p>Quantified the cross-family coupling on the corrected dev diagnostic: of
+11,673 <code>EXISTING_EXPOSURE_CONFLICT</code> rejections, all had a same-direction open
+slot at the block time; bollinger_breakout blocked 4,115 (incl. 1,226 of its
+own — self-blocking). Per-family D-027 <code>execution_share</code> clears the 0.25 floor
+for only 6 of 21 families; 15 sit below (5 under 0.10). Recorded in O-022 as
+measured evidence: on the current slate the D-027 attribution gate would score
+~6 families on the OOS and mark the rest <code>ATTRIBUTION_UNSAFE_*</code>.</p>
+<h2 id="2026-08-06-v2-challenger-registration-for-the-bug-fixed-families-o-023-d-053">2026-08-06 — v2 challenger registration for the bug-fixed families (O-023, D-053)</h2>
+<p>Operator chose O-023's admission condition: <code>failed_breakout</code> stays v1
+(bug-completion — fixed series is a strict subset, 369 -&gt; 76); the two families
+whose fixes ADD behavior become v2 challengers.</p>
+<ul>
+<li><strong><code>src/v8/experts/volume_climax_reversal.py</code></strong>, <strong><code>fib_projection_reversal.py</code></strong> — <code>expert_version</code> bumped v1 -&gt; v2 (enters the episode_key, so v1 and v2 episodes never collide).</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — the two families' <code>expert_version</code> v2.</li>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-053 decision; <strong><code>docs/decisions/OPEN_DECISIONS.md</code></strong> — O-022/O-023 (exposure coupling across families, version discipline).</li>
+<li><strong><code>tests/test_expert_volume_climax_reversal.py</code></strong> — version assertion v2.</li>
+</ul>
+<h2 id="2026-08-06-d-052-block-bootstrap-block-size-rule-corrected-from-bar-units-to-n-adaptive-episode-units">2026-08-06 — D-052: block-bootstrap block-size rule corrected from bar-units to n-adaptive episode units</h2>
+<p>The prereg §9 block-size rule applied bar-counts (24 / 168 — "one day" /
+"one week" of 1h bars) to an episode-indexed <code>net_R</code> series: a unit error,
+visible in §9's own prose ("24 episode-blocks (one day)"). The fix makes the
+tier values n-adaptive episode-unit rates — <code>round(n**(1/3))</code>, doubled when
+the lag-1 autocorrelation gate fires, hard-capped at <code>n // 2</code> — and the tool
+now delegates to the module's <code>select_block_size</code> (one rule of record).</p>
+<ul>
+<li><strong><code>src/v8/statistics.py</code></strong> — <code>select_block_size</code> re-expressed in episode
+  units; <code>_block_bootstrap_indices</code> gains a fail-closed <code>block_size &lt; n</code>
+  invariant (at <code>block_size &gt;= n</code> every resample is a rotation of the whole
+  series and the bootstrap collapses to a point mass at the sample mean —
+  a zero-width <code>ci_lower == mu_hat</code> that rejected H0 by construction).</li>
+<li><strong><code>tools/run_experiment.py</code></strong> — <code>_block_size</code> delegates to
+  <code>select_block_size</code>; new <code>resamples_for_alpha</code> keeps the tail index a
+  stable order statistic (<code>int(N * alpha) &gt;= 100</code>); <code>N_RESAMPLES</code> 2000 -&gt;
+  60000 (the bound was <code>int(2000 * 0.05/28) = 3</code> — the 4th-smallest draw
+  standing in for a 0.18th percentile).</li>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-052 decision with the
+  mechanical reproduction, outcome-neutrality of the rule choice across the
+  three candidate rules, and the measured cost.</li>
+<li><strong><code>tests/</code></strong> — invariant tests for the non-degeneracy (point-mass rejection,
+  width under the rule), the episode-unit tier values, and the stable tail
+  index in <code>test_statistics_ext.py</code> / <code>test_reality_check.py</code> /
+  <code>test_run_experiment.py</code>.</li>
+</ul>
 <h2 id="2026-08-06-handbookevidence-extraction-lands-feature-graph-24-expert-families-risk-execution-management-d-0484950">2026-08-06 — Handbook+Evidence extraction lands: feature graph, 24 expert families, risk &amp; execution management (D-048/49/50)</h2>
 <p>The two-book extraction round (D-042) reaches code: the feature-group ontology
 widens to 11 groups / 73 new features (FG-1..FG-7, G-01..G-43), 24 expert
@@ -6785,7 +6951,7 @@ experts:
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
 - expert_id: fib_projection_reversal
-  expert_version: v1
+  expert_version: v2
   mechanism_family_id: fib_level_reaction
   behavior_family_id: fib_projection_reversal
   variant_id: a
@@ -6838,7 +7004,7 @@ experts:
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
 - expert_id: volume_climax_reversal
-  expert_version: v1
+  expert_version: v2
   mechanism_family_id: volume_exhaustion
   behavior_family_id: volume_climax_reversal
   variant_id: a
@@ -7068,8 +7234,15 @@ simulator:</p>
   <code>ema_fast = EMA(5)</code>, <code>ema_slow = EMA(20)</code>; LONG entry at next-bar close;
   anchor = first bar of the current consecutive run of the predicate
   (episode identity, never the decision clock).</li>
-<li><code>failed_breakout</code>: setup predicate <code>close &lt; prior_high</code> (per-bar prior high
-  within the 32-bar window); SHORT entry at next-bar close.</li>
+<li><code>failed_breakout</code>: two-step setup predicate (Ch7.3 p228): a prior bar's
+  CLOSE first exceeds its own per-bar prior high within the 32-bar window (the
+  breakout leg), and the newest bar's close is back BELOW that frozen breakout
+  level (the failure leg); the frozen level is the pre-breakout max high.
+  SHORT entry at next-bar close. (Amended pre-holdout on 2026-08-06: the
+  ratified text pinned the single-leg <code>close &lt; prior_high</code> gate, which the
+  audit proved fired on a plain downtrend with no breakout anywhere — a
+  bug-completion, not a parameter change; the fixed detector is the v1 the
+  prereg now names.)</li>
 <li><strong>Parameter provenance:</strong> all detector parameters (EMA 5/20, prior-high
   window 32, ATR 14) and the geometry were fixed in frozen code
   (<code>src/v8/</code>, session-1 steps 1-2, built against synthetic tapes) <strong>before the

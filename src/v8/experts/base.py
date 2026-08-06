@@ -26,16 +26,60 @@ class Expert:
     # declared set is part of the frozen specification and is audited against
     # actual consumption (tests/test_expert_registry.py).
     requires: tuple[str, ...] = ()
+    # D-053 — the MarketState this Expert asks for, alongside `requires`:
+    #
+    # `intervals`: bar intervals beyond the run's base interval. Empty means
+    #   "base interval only" (every pre-D-053 Expert). A declared interval must
+    #   be an exact integer multiple of the base or the run fails closed at the
+    #   feasibility gate — aggregation is up-only, so a 1h tape can never serve
+    #   a 15m declaration.
+    # `depth`: bars of `history` this Expert needs, per interval. An int
+    #   applies to every declared interval; a dict names them individually.
+    #   This is a REQUEST, not a guarantee: the gate refuses a depth the tape
+    #   cannot cover rather than quietly serving a short window, because a
+    #   silently-truncated history is what turned three families into
+    #   documented-deviation proxies (O-020).
+    #
+    # Interval is part of the hypothesis, never a search axis: an Expert
+    # evaluated on three intervals is three multiplicity units, which is why
+    # the declaration is frozen per variant rather than chosen per run.
+    intervals: tuple[str, ...] = ()
+    depth: int | dict[str, int] = 32
+
+    def declared_depth(self, interval: str) -> int:
+        """Bars of history this Expert asks for on `interval`."""
+        if isinstance(self.depth, dict):
+            return int(self.depth.get(interval, 32))
+        return int(self.depth)
+
+    def declared_intervals(self, base_interval: str) -> tuple[str, ...]:
+        """Every interval this Expert reads, base included, deduplicated and
+        base-first so the serving order is deterministic."""
+        out = [base_interval]
+        for tf in self.intervals:
+            if tf not in out:
+                out.append(tf)
+        return tuple(out)
 
     def registry_entry(self) -> dict:
         """The code-side registry projection. docs/EXPERTS_REGISTRY.yaml must
         match it exactly; tests/test_expert_registry.py enforces that, so the
-        ontology cannot drift from the registry."""
-        return {'expert_id': self.expert_id, 'expert_version': self.version,
-                'mechanism_family_id': self.mechanism_family_id,
-                'behavior_family_id': self.behavior_family_id,
-                'variant_id': self.variant_id, 'requires': list(self.requires),
-                'status': 'FORMALIZED'}
+        ontology cannot drift from the registry.
+
+        `intervals`/`depth` appear only when they differ from the defaults, so
+        a base-interval Expert projects exactly as it did before D-053 and the
+        registry needs no migration for families that never left 1h.
+        """
+        entry = {'expert_id': self.expert_id, 'expert_version': self.version,
+                 'mechanism_family_id': self.mechanism_family_id,
+                 'behavior_family_id': self.behavior_family_id,
+                 'variant_id': self.variant_id, 'requires': list(self.requires),
+                 'status': 'FORMALIZED'}
+        if self.intervals:
+            entry['intervals'] = list(self.intervals)
+        if self.depth != 32:
+            entry['depth'] = self.depth
+        return entry
 
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
         raise NotImplementedError

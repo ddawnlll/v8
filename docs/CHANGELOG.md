@@ -3,6 +3,70 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-07 — Declared per-Expert MarketState (D-054) + block-bootstrap defect (D-052)
+
+Two changes to the evidence machinery, both frozen pre-holdout.
+
+**D-052 — the block bootstrap manufactured one false positive per run.**
+Preregistration section 9's block-size constants (24 / 168) are bar-counts
+("one day" / "one week" of 1h bars) applied to an episode-indexed `net_R`
+series. When `block_size >= n` the circular sampler draws a cyclic rotation
+holding every index exactly once, so all 2000 resample means equal the sample
+mean: the interval collapses to zero width and any family with a positive mean
+and `n >= 30` rejects H0 by construction. On the pinned dev baseline 8 of 21
+families with episodes had `block >= n`, and exactly one spurious rejection
+resulted. Degeneracy is the endpoint of a bias, not an isolated case — at
+`block/n ~ 0.3-0.5` (every family with n=45..100) the resample variance is
+already understated.
+
+- **`src/v8/statistics.py`** — `select_block_size` becomes an n-adaptive
+  episode-unit rate (`round(n**(1/3))`, doubled above the 0.10 lag-1 gate,
+  capped at `n // 2`); `_block_bootstrap_indices` raises on `block >= n`.
+- **`tools/run_experiment.py`** — `_block_size` delegates to the module (the
+  rule existed in two copies); `resamples_for_alpha` ties the resample count to
+  alpha so the bound stays a stable order statistic (at 0.05/28 the old 2000
+  put it at index 3); the `2.5th-percentile` misnomer is corrected.
+- Verified on an unchanged ledger (`452d91bcf890` before and after): degenerate
+  families 8 -> 1 (the survivor is n=1, where a bootstrap has no variance by
+  construction), H0 rejections 1 -> 0, every former zero-width row gained a real
+  interval, and intervals widened slate-wide.
+
+**D-054 — Experts declare the MarketState they need.** The 27-family inventory
+found the binding constraint was not the 1h tape but the global 32-bar
+`history` pin: `ichimoku_cloud` needs 78 bars and declares 3 of 4 variants
+unevaluated, `breakout_retest` drops variant d, `donchian_breakout` falls back
+to a 50-bar anchor scan, `pattern_measuring_objective` cannot express its
+patterns. Only `market_profile_value_area` demonstrably needs higher-interval
+bar structure.
+
+- **`src/v8/interval.py`** (new) — exact up-only aggregation of the base tape
+  into declared intervals; buckets anchored to a fixed UTC epoch (never tape
+  start), aggregate `available_time` = its last constituent's, partial trailing
+  buckets never emitted as closed.
+- **`src/v8/experts/base.py`** — `intervals` + `depth` join `requires` as
+  frozen specification; both default to pre-D-054 behavior.
+- **`src/v8/marketstate.py`** — `build_multi_state` namespaces higher intervals
+  `{sym}.{tf}.{feature}` (base stays unprefixed); `project_state` serves each
+  Expert exactly its declared groups x intervals x depth; the 32-bar pin becomes
+  `HISTORY_DEPTH_DEFAULT`, a default rather than a ceiling.
+- **`src/v8/lab.py`** — the canonical state carries the union of declarations
+  and ONE state per clock is still what the ledger records; `Lab.feasibility`
+  refuses a declaration the tape cannot serve in words, so an unservable Expert
+  is never indistinguishable from a signal-less one.
+- **`tools/vision_backfill.py`** — archive provenance is keyed by
+  (symbol, channel, month). Keying on (channel, month) was correct only while a
+  tape dir held one instrument: a second symbol's 2025-01 archive was misread as
+  a revision of the first's, so a multi-instrument tape could not be built.
+- **`tools/build_multi_tape.py`** (new) — drives the backfill over a
+  symbol x month grid into one tape, refusing any month at or past the frozen
+  holdout anchor.
+
+Golden backtest re-pinned twice, both times provenance-only: `_BUILDER_SRC_HASH`
+is a whole-file hash, so adding functions re-versions every state's
+`code_version` even when no formula moves. `data_hash`, `candidate_count` (15)
+and `terminal_distribution` unchanged both times, and a run with the projection
+disabled reproduces the enabled run's four ledger hashes byte-for-byte.
+
 ## 2026-08-06 — Expert bug-fix pass: two-step failed_breakout gate, origin-based fib extensions, climax-bar anchor, fib swing-guard removal
 
 Adversarial audit of the 27 expert families against their hypotheses and the

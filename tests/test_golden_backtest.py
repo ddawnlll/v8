@@ -120,10 +120,25 @@ UNIVERSE = ('SOLUSDT',)
 # data_hash, candidate_count (15) and terminal_distribution are UNCHANGED
 # (the golden experts TrendPullback/FailedBreakout consume no fib feature —
 # no decision changed), only states_hash and ledger_hash moved. Do not update
-# silently.
-GOLDEN_LEDGER_HASH = '639fb804b2cc89a8d451b1fa569e2d17186620fb'
+# silently. Re-pinned for D-053 (declared multi-interval MarketState): the
+# marketstate module gained `build_multi_state`, `project_state` and the group
+# closure helper, which moves `_BUILDER_SRC_HASH` — a whole-FILE hash, so it
+# re-versions every state's provenance `code_version` even though no formula
+# and no emitted value changed. Measured against the pre-change code on this
+# exact fixture: data_hash, candidate_count (15) and terminal_distribution are
+# UNCHANGED, and running the same two Experts with the per-Expert projection
+# disabled reproduces this run's candidates/evaluations/outcomes/states hashes
+# byte-for-byte — the projection withholds only features these Experts never
+# read. states_hash and ledger_hash moved by provenance alone. Re-pinned once
+# more the same session (D-053 declared depth): the 32-bar `history` pin became
+# HISTORY_DEPTH_DEFAULT, a default rather than a ceiling, and `build_state`
+# takes the depth as a parameter. Both golden Experts declare the default 32,
+# so the emitted history window is byte-identical; only `_BUILDER_SRC_HASH`
+# moved again. Measured on this exact fixture: data_hash, candidate_count (15)
+# and terminal_distribution UNCHANGED.
+GOLDEN_LEDGER_HASH = '06ff61fb3e3940d0bf812baee841ac9c46313601'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = '3b73b01bc5360b79c31d896c91f85a583c178bb7'
+GOLDEN_STATES_HASH = 'a29a16847bb0da64fe4074acaad3c7a4f7b4f1c7'
 GOLDEN_CANDIDATE_COUNT = 15
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 1, 'REJECTED': 2}
 

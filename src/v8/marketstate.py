@@ -39,6 +39,16 @@ _BUILDER_SRC_HASH = sha1_hex(Path(__file__).read_bytes())
 HOUR_NS = 3_600_000_000_000
 DAY_NS = 86_400_000_000_000
 
+# D-026/O-020 `history` window. 32 was a global pin, and the 2026-08-06 expert
+# inventory measured its cost: `ichimoku_cloud` needs 78 bars for the displaced
+# cloud and declares 3 of 4 variants unevaluated, `breakout_retest` drops
+# variant d, `donchian_breakout` falls back from a 55-bar to a 50-bar anchor
+# scan, and `pattern_measuring_objective` cannot express its patterns at all.
+# It is now the DEFAULT rather than the ceiling: an Expert declares the depth
+# it needs (D-053) and the run serves max(declared), with each Expert's view
+# truncated to its own declaration so a deeper neighbour cannot widen it.
+HISTORY_DEPTH_DEFAULT = 32
+
 # --- Declared, LOCKED constants (D-036 pattern: "declared, never fitted"). ---
 # FG-3 (G-18): 2-sigma ATR filter band lookback.
 ATR_FILTER_BAND_N = 20
@@ -462,7 +472,8 @@ def _day_index(event_time_ns: int) -> int:
 
 
 def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
-                feature_version: str = 'v1') -> MarketState:
+                feature_version: str = 'v1',
+                history_depth: int = HISTORY_DEPTH_DEFAULT) -> MarketState:
     prev_t = -1
     for r in rows:
         if r.available_time > as_of:
@@ -744,7 +755,7 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         # per-bar EMAs over the full close series. This is the anchor scan the
         # pilots use to find setup_anchor_event_id (CANDIDATE_LIFECYCLE_SPEC 1).
         if closed:
-            window = closed[-32:]
+            window = closed[-history_depth:]
             hist = tuple(
                 (b.event_id, float(b.payload['open']), float(b.payload['high']),
                  float(b.payload['low']), float(b.payload['close']),
@@ -796,3 +807,150 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         state_id=sha1_hex((as_of, universe, lineage)),
         as_of=as_of, universe=universe, features=features,
         lineage_hash=lineage, quality=quality, provenance=provenance)
+
+
+def build_multi_state(rows: list[TapeRow], as_of: int,
+                      universe: tuple[str, ...], *, base_interval: str,
+                      intervals: tuple[str, ...] = (),
+                      depths: dict[str, int] | None = None,
+                      feature_version: str = 'v1') -> MarketState:
+    """One canonical state per decision clock, carrying every declared interval.
+
+    The base interval is built exactly as before and keeps its unprefixed keys,
+    so this is a superset of the pre-D-053 state rather than a replacement.
+    Each higher interval is aggregated from the same rows and run through the
+    SAME feature builder, then namespaced `{sym}.{tf}.{feature}` — one formula
+    of record per feature, never a second implementation that could drift.
+
+    Point-in-time safety is inherited rather than re-argued: an aggregate's
+    `available_time` is its last constituent's, so a 4h bar spanning 08:00-12:00
+    simply does not exist among the rows at 09:00 and cannot be built into the
+    09:00 state.
+    """
+    from .interval import aggregate, is_derivable
+
+    depths = depths or {}
+    base = build_state(rows, as_of, universe, feature_version,
+                       depths.get(base_interval, HISTORY_DEPTH_DEFAULT))
+    extra: dict[str, FeatureValue] = {}
+    for tf in intervals:
+        if tf == base_interval:
+            continue
+        if not is_derivable(base_interval, tf):
+            raise ValueError(
+                f'{tf} is not derivable from base interval {base_interval}')
+        agg = aggregate(rows, base_interval, tf)
+        if not agg:
+            continue                      # not enough base bars for one bucket
+        sub = build_state(agg, as_of, universe, feature_version,
+                          depths.get(tf, HISTORY_DEPTH_DEFAULT))
+        for key, fv in sub.features.items():
+            sym, _, name = key.partition('.')
+            nk = f'{sym}.{tf}.{name}'
+            extra[nk] = FeatureValue(
+                nk, fv.value, fv.dtype, fv.feature_version,
+                fv.max_input_available_time, quality=fv.quality,
+                null_reason=fv.null_reason, group=fv.group,
+                input_lineage_hash=fv.input_lineage_hash)
+    if not extra:
+        return base
+
+    features = dict(base.features)
+    features.update(extra)
+    quality = 'DEGRADED' if base.quality == 'DEGRADED' \
+        or any(v.quality == 'DEGRADED' for v in extra.values()) else 'COMPLETE'
+    lineage = sha1_hex({k: [v.value, v.max_input_available_time, v.group,
+                            v.feature_version]
+                        for k, v in sorted(features.items())})
+    prov = dict(base.provenance or {})
+    prov['intervals'] = [base_interval] + [t for t in intervals
+                                           if t != base_interval]
+    return MarketState(
+        state_id=sha1_hex((as_of, universe, lineage)),
+        as_of=as_of, universe=universe, features=features,
+        lineage_hash=lineage, quality=quality, provenance=prov)
+
+
+# --- D-053 per-Expert projection -------------------------------------------
+
+
+def group_closure(groups: tuple[str, ...] | list[str]) -> frozenset[str]:
+    """A declared group set plus everything it transitively `requires`.
+
+    An Expert declaring `history` is also declaring the graph beneath it: the
+    group table says `history` requires `trend` and `volatility`, which in turn
+    require `raw`. Serving the declared groups alone would withhold `close`
+    from every Expert in the registry, none of which declares `raw`.
+    """
+    out: set[str] = set()
+    stack = list(groups)
+    while stack:
+        g = stack.pop()
+        if g in out or g not in FEATURE_GROUPS:
+            continue
+        out.add(g)
+        stack.extend(FEATURE_GROUPS[g]['requires'])
+    return frozenset(out)
+
+
+def feature_interval(key: str, base_interval: str,
+                     known_intervals: frozenset[str]) -> str:
+    """The interval a feature key belongs to.
+
+    Base-interval features stay unprefixed (`BTCUSDT.atr`) so every pre-D-053
+    Expert and test reads exactly what it always read; higher intervals carry a
+    namespace segment (`BTCUSDT.4h.atr`).
+    """
+    parts = key.split('.')
+    if len(parts) >= 3 and parts[1] in known_intervals:
+        return parts[1]
+    return base_interval
+
+
+def project_state(state: MarketState, *, groups: tuple[str, ...] | list[str],
+                  intervals: tuple[str, ...], base_interval: str,
+                  known_intervals: frozenset[str],
+                  depths: dict[str, int] | None = None) -> MarketState:
+    """The MarketState one Expert asked for: a VIEW of the canonical state.
+
+    `state_id` and `lineage_hash` are carried through unchanged, deliberately.
+    The projection is not a state in its own right — it is the same world at
+    the same clock with the undeclared parts withheld, so an `ExpertEvaluation`
+    still references the one canonical state every Expert saw. Minting a new id
+    here would fork the audit anchor per Expert and destroy the property that
+    two Experts' decisions at clock D are comparable.
+
+    Withholding rather than absence: a feature outside the declaration is not
+    "missing data" (which would read as NO_HABITAT) — it was never requested.
+    An Expert that reads outside its declaration raises KeyError at the access
+    site, which is what turns the registry audit from a test-time check into a
+    runtime one.
+    """
+    allowed_groups = group_closure(groups)
+    wanted = set(intervals) | {base_interval}
+    features = {
+        k: v for k, v in state.features.items()
+        if v.group in allowed_groups
+        and feature_interval(k, base_interval, known_intervals) in wanted
+    }
+    # Depth is per-Expert, not per-run: the canonical state holds
+    # max(declared) so one deep Expert does not force everyone to recompute,
+    # and each view is truncated back to its own declaration so it also cannot
+    # WIDEN anyone else's window. A shallower Expert must see exactly the
+    # history it asked for, or the depth declaration would be advisory.
+    if depths:
+        for k, v in list(features.items()):
+            if not k.endswith('.history') or not isinstance(v.value, tuple):
+                continue
+            d = depths.get(feature_interval(k, base_interval, known_intervals))
+            if d is None or len(v.value) <= d:
+                continue
+            features[k] = FeatureValue(
+                v.name, v.value[-d:], v.dtype, v.feature_version,
+                v.max_input_available_time, quality=v.quality,
+                null_reason=v.null_reason, group=v.group,
+                input_lineage_hash=v.input_lineage_hash)
+    return MarketState(
+        state_id=state.state_id, as_of=state.as_of, universe=state.universe,
+        features=features, lineage_hash=state.lineage_hash,
+        quality=state.quality, provenance=state.provenance)

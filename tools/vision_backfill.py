@@ -344,25 +344,39 @@ def _load_provenance(out_dir: Path) -> dict:
 
 
 def check_archive_revision(out_dir: Path, month: str, zip_sha256: str,
-                           channel: str = 'kline') -> None:
-    """Fail closed if a recorded (channel, month) is re-run with a DIFFERENT
-    zip: a venue-corrected archive has the same event times (same event_ids),
-    so the store's dedup would silently keep the superseded rows while the
-    provenance records the new checksum — a silent data corruption. A revised
-    archive invalidates the existing tape; it must be rebuilt in a fresh dir."""
+                           channel: str = 'kline', symbol: str = '') -> None:
+    """Fail closed if a recorded (symbol, channel, month) is re-run with a
+    DIFFERENT zip: a venue-corrected archive has the same event times (same
+    event_ids), so the store's dedup would silently keep the superseded rows
+    while the provenance records the new checksum — a silent data corruption.
+    A revised archive invalidates the existing tape; rebuild in a fresh dir.
+
+    The key includes the SYMBOL. Keying on (channel, month) alone was correct
+    only while a tape dir held one instrument: the moment a second symbol is
+    ingested, its 2025-01 archive has a different checksum than the first
+    symbol's 2025-01 and is misread as a revision of it, so a multi-instrument
+    tape could never be built at all.
+    """
     prov = _load_provenance(out_dir)
-    recorded = {(a.get('channel', 'kline'), a['month']): a['zip_sha256']
+    legacy_symbol = prov.get('symbol', '')
+    # An omitted symbol means "the tape's own", which is unambiguous exactly
+    # while the tape holds one instrument. Resolving it here keeps the guard
+    # armed for single-symbol callers that predate the symbol argument — an
+    # unmatched key would silently admit a revised archive.
+    symbol = symbol or legacy_symbol
+    recorded = {(a.get('symbol', legacy_symbol), a.get('channel', 'kline'),
+                 a['month']): a['zip_sha256']
                 for a in prov.get('archives', [])}
     # Legacy single-month source.json (top-level month/zip_sha256, written by
     # the pre-per-month fix) must still guard the revision: otherwise a revised
     # archive silently passes and the store keeps superseded bars.
     if not prov.get('archives') and 'month' in prov and 'zip_sha256' in prov:
-        recorded[('kline', prov['month'])] = prov['zip_sha256']
-    key = (channel, month)
+        recorded[(legacy_symbol, 'kline', prov['month'])] = prov['zip_sha256']
+    key = (symbol, channel, month)
     if key in recorded and recorded[key] != zip_sha256:
         raise ValueError(
-            f'refusing to ingest revised archive: {channel}/{month} was '
-            f'recorded with sha256 {recorded[key]}, the current zip is '
+            f'refusing to ingest revised archive: {symbol} {channel}/{month} '
+            f'was recorded with sha256 {recorded[key]}, the current zip is '
             f'{zip_sha256}. A corrected archive invalidates the existing tape '
             '— rebuild it in a fresh out dir.')
 
@@ -375,12 +389,17 @@ def write_source_meta(out_dir: Path, symbol: str, interval: str, month: str,
     idempotent (the entry is kept); a different zip was already rejected by
     check_archive_revision."""
     prov = _load_provenance(out_dir)
-    archives = {(a.get('channel', 'kline'), a['month']): a
+    legacy_symbol = prov.get('symbol', symbol)
+    archives = {(a.get('symbol', legacy_symbol), a.get('channel', 'kline'),
+                 a['month']): {**a, 'symbol': a.get('symbol', legacy_symbol)}
                 for a in prov.get('archives', [])}
-    archives[(channel, month)] = {'channel': channel, 'month': month,
-                                  'zip_sha256': zip_sha256}
+    archives[(symbol, channel, month)] = {
+        'symbol': symbol, 'channel': channel, 'month': month,
+        'zip_sha256': zip_sha256}
     stored = AppendOnlyLog(out_dir / 'tape.jsonl').read()
-    meta = {'symbol': symbol, 'interval': interval,
+    symbols = sorted({a['symbol'] for a in archives.values()})
+    meta = {'symbol': symbols[0] if len(symbols) == 1 else '',
+            'symbols': symbols, 'interval': interval,
             'archives': [archives[m] for m in sorted(archives)],
             'row_count': len(stored),
             'tape_hash': sha1_hex(stored), 'schema_version': SCHEMA_VERSION}
@@ -497,8 +516,12 @@ def audit_tape(out_dir: Path, funding_hours: int = 8) -> dict:
         if meta.get('tape_hash') != sha1_hex(rows):
             problems.append('tape hash differs from recorded source.json')
         for archive in meta.get('archives', []):
+            # Per-archive symbol: a multi-instrument tape has no single
+            # top-level symbol, and reconstructing the zip name from one would
+            # look for a file that never existed.
+            sym = archive.get('symbol') or meta.get('symbol', '')
             zip_path = out_dir / _zip_name(
-                meta['symbol'], meta.get('interval', '1h'),
+                sym, meta.get('interval', '1h'),
                 archive.get('channel', 'kline'), archive['month'])
             if not zip_path.exists():
                 problems.append(
@@ -507,7 +530,8 @@ def audit_tape(out_dir: Path, funding_hours: int = 8) -> dict:
             elif sha256_file(zip_path) != archive['zip_sha256']:
                 problems.append(
                     f'zip sha256 differs from recorded source.json for '
-                    f'{archive.get("channel", "kline")}/{archive["month"]}')
+                    f'{sym} {archive.get("channel", "kline")}/'
+                    f'{archive["month"]}')
     if problems:
         raise TapeAuditError('; '.join(problems))
     return {'row_count': len(rows), 'payload_hashes_ok': True,
@@ -584,7 +608,7 @@ def main(argv: list[str] | None = None) -> int:
 
     rows = build_tape_from_zip(zip_path, args.symbol, args.interval,
                                args.latency_ns, channel)
-    check_archive_revision(out, args.month, actual, channel)
+    check_archive_revision(out, args.month, actual, channel, args.symbol)
     appended, skipped = write_tape(out, rows)
     meta = write_source_meta(out, args.symbol, args.interval, args.month,
                              actual, channel)

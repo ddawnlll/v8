@@ -20,7 +20,7 @@ from pathlib import Path
 from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
                      CounterfactualOutcome, record_dict, sha1_hex)
 from .store import AppendOnlyLog
-from .marketstate import build_state
+from .marketstate import build_state, build_multi_state, project_state
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
 from .simulator import CanonicalSimulator, OpenPosition, risk_unit
 from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
@@ -165,6 +165,25 @@ def _geometry_version(draft) -> str:
     return sha1_hex(structural)
 
 
+def _view_for(expert, state, base_interval: str,
+              known_intervals: frozenset[str]):
+    """The MarketState `expert` declared, projected from the canonical state.
+
+    An Expert that declares no feature groups (the base contract, and the
+    synthetic Experts in the test fixtures) receives the state untouched, so
+    D-053 adds nothing to a run whose Experts made no declaration.
+    """
+    groups = getattr(expert, 'requires', ())
+    if not groups:
+        return state
+    intervals = expert.declared_intervals(base_interval)
+    return project_state(state, groups=groups, intervals=intervals,
+                         base_interval=base_interval,
+                         known_intervals=known_intervals,
+                         depths={tf: expert.declared_depth(tf)
+                                 for tf in intervals})
+
+
 class Lab:
     """One store directory = one immutable run's evidence."""
 
@@ -213,6 +232,33 @@ class Lab:
                                     risk_unit_price=risk_unit_price,
                                     market_move_r=market_move_r)
         self.outcomes.append(record_dict(out, source='simulator'))
+
+    @staticmethod
+    def feasibility(expert, base_interval: str, n_base_bars: int) -> tuple[str, str]:
+        """Can this tape serve what this Expert declared? (D-053)
+
+        Returns ('EVALUABLE', '') or ('NOT_EVALUABLE', reason). The gate exists
+        because an unservable Expert and a signal-less one are otherwise
+        indistinguishable in the report: `donchian_breakout` produced 384
+        triggers and 0 executions, and read as "no edge" when the truth was
+        "never measured". A refused declaration must say so in words.
+        """
+        from .interval import bars_per, is_derivable
+
+        for tf in expert.declared_intervals(base_interval):
+            try:
+                if not is_derivable(base_interval, tf):
+                    return ('NOT_EVALUABLE',
+                            f'{tf} is not an integer multiple of the base '
+                            f'interval {base_interval}; aggregation is up-only')
+            except ValueError as exc:
+                return ('NOT_EVALUABLE', str(exc))
+            need = expert.declared_depth(tf) * bars_per(base_interval, tf)
+            if need > n_base_bars:
+                return ('NOT_EVALUABLE',
+                        f'depth {expert.declared_depth(tf)} on {tf} needs '
+                        f'{need} base bars, tape has {n_base_bars}')
+        return ('EVALUABLE', '')
 
     def run(self, manifest: ExperimentManifest, experts: list,
             risk_gate: RiskGate | None = None) -> LabReport:
@@ -361,6 +407,28 @@ class Lab:
         # O(N) instead of the O(N^2) per-bar tape rescan that dominated run
         # time at N>1000. Consuming in event-sorted replay order here would
         # silently skip a row that is admissible at the current clock.
+        # D-053: the canonical state carries the UNION of every active Expert's
+        # declared intervals, so one state per clock still serves all of them.
+        # Experts declaring nothing leave the union at {base} and the state is
+        # byte-identical to the pre-D-053 one.
+        from .interval import INTERVAL_NS
+
+        declared_union: list[str] = []
+        # Depth union: the canonical state holds max(declared) per interval so
+        # one deep Expert does not make everyone recompute, and each Expert's
+        # view is truncated back to its own declaration in `_view_for`.
+        depth_union: dict[str, int] = {}
+        for ex in experts:
+            if not hasattr(ex, 'declared_intervals'):
+                continue
+            for tf in ex.declared_intervals(manifest.interval):
+                if tf != manifest.interval and tf not in declared_union:
+                    declared_union.append(tf)
+                depth_union[tf] = max(depth_union.get(tf, 0),
+                                      ex.declared_depth(tf))
+        declared_union.sort(key=lambda t: INTERVAL_NS.get(t, 0))
+        known_intervals = frozenset(INTERVAL_NS)
+
         acc_rows: list = []
         pit_it = iter(pit)
         next_row = next(pit_it, None)
@@ -369,8 +437,10 @@ class Lab:
                     and next_row.available_time <= bar.available_time:
                 acc_rows.append(next_row)
                 next_row = next(pit_it, None)
-            states_by_time[bar.available_time] = build_state(
-                acc_rows, bar.available_time, self.universe)
+            states_by_time[bar.available_time] = build_multi_state(
+                acc_rows, bar.available_time, self.universe,
+                base_interval=manifest.interval,
+                intervals=tuple(declared_union), depths=depth_union)
 
         for i, bar in enumerate(bars):
             as_of = bar.available_time
@@ -608,7 +678,12 @@ class Lab:
             # experts to produce identical stored events — the evaluation and
             # DETECTED record order is part of the ledger hash.
             for ex in sorted(experts, key=lambda e: e.expert_id):
-                ev = ex.evaluate(state)
+                # D-053: each Expert evaluates the MarketState it declared — a
+                # projection of the one canonical state, not a state of its own
+                # (state_id is carried through, so the ledger still shows every
+                # Expert deciding against the same world at this clock).
+                ev = ex.evaluate(_view_for(ex, state, manifest.interval,
+                                           known_intervals))
                 self.evaluations.append(record_dict(ev, source='expert'))
                 if ev.draft is None:
                     continue
