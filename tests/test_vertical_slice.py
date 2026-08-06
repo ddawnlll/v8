@@ -89,10 +89,12 @@ def test_vertical_slice_runs_deterministically(tmp_path):
     r1 = lab.run(m, [TrendPullbackExpert(), FailedBreakoutExpert()])
     assert r1.candidate_count > 0
     assert r1.verdict == 'NO_ECONOMIC_CLAIM'
-    # Stepped runtime: positions live across bars, so same-direction overlap
-    # is now real and the exposure guard fires naturally.
-    assert r1.exposure_conflicts > 0
     # No dangling candidates: every born candidate reaches a terminal state.
+    # (The exposure guard firing end-to-end is pinned in
+    # test_admission_contention.py with candidates that actually collide on
+    # one slot; after the failed_breakout two-step gate fix this synthetic
+    # fixture no longer produces same-direction overlap, so this run is
+    # conflict-free by construction.)
     assert sum(r1.terminal_distribution.values()) == r1.candidate_count
     # Rejected candidates keep a NOT_EXECUTED counterfactual outcome.
     assert any(rec.get('label_status') == 'NOT_EXECUTED' for rec in lab.outcomes.read())

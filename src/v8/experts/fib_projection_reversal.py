@@ -3,9 +3,11 @@
 Hypothesis (Ch10.15 p400-401, Fig10.51; Ch10.20-10.21): after an intact
 impulse, price that extends into a measured Fibonacci extension/projection of
 the impulse range and then REJECTS the level by a close is a reversal setup.
-The book's worked setup is a short at the 161.8% projection of an up-impulse
-(the "initial stop just below the 161.8% projection level" applies to the
-mirror long at a down-impulse projection). Detected on closed bars only.
+The book's worked setup (Fig10.51) is a LONG reversal at the 161.8% DOWNWARD
+projection: the range BC is projected downward from point E, price tests the
+161.8% level at D and pulls back to higher prices, and the trader "exit[s] ...
+and subsequently reverse[s] into a long position". Detected on closed bars
+only.
 
 The projection level set is `{sym}.fib_levels`, a self-describing tuple
 (anchor_price, direction, retracements, extensions) anchored on the most
@@ -97,8 +99,7 @@ class FibProjectionReversalExpert(Expert):
         t = state.as_of
         sym = state.universe[0]
         need = [f'{sym}.close', f'{sym}.atr', f'{sym}.history',
-                f'{sym}.fib_levels', f'{sym}.swing_high_10',
-                f'{sym}.swing_low_10']
+                f'{sym}.fib_levels']
         if not self._need(state, need):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
@@ -111,12 +112,13 @@ class FibProjectionReversalExpert(Expert):
                 or not isinstance(hist, (tuple, list)) or not hist:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
-        # Swing-lattice consistency guard (same as fib_retracement_continuation).
-        swh = f[f'{sym}.swing_high_10'].value
-        swl = f[f'{sym}.swing_low_10'].value
-        if swh and swl and swh > 0.0 and swl > 0.0 and not (swh > swl):
-            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
-                                    'NOT_APPLICABLE', 'NO_HABITAT', t)
+        # The fib anchor's own consistency is the guard: `_fib_levels` returns
+        # None when the confirmed swing pair is degenerate, and the level set
+        # is checked below. The significance-filtered swing_high_10/
+        # swing_low_10 features are a DIFFERENT pair (CRIT-1 range filter) than
+        # the unfiltered confirmed swings the anchor uses — gating on them
+        # vetoed states with a valid anchor and NO_HABITAT'd states where the
+        # filtered pair was absent entirely.
         anchor_price, direction, _retr, _ext = fibs
         if direction not in (1.0, -1.0) or anchor_price <= 0.0:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,

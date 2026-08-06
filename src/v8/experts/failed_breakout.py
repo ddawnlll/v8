@@ -19,16 +19,29 @@ class FailedBreakoutExpert(Expert):
     variant_id = 'a'
     requires = ('location', 'volatility', 'history')
 
+    def _last_breakout(self) -> tuple[int, float] | None:
+        """(idx, level) of the most recent close-breakout in the window: bar j
+        whose CLOSE exceeded the max high of the bars BEFORE it (the pre-move
+        high-water mark), and the level that bar broke. The failed-breakout
+        thesis needs this first leg — a close that first went above the prior
+        high — before a later close back below it can be a "failure"
+        (Ch7.3 p228). None when no bar in the window ever closed above its own
+        prior high (a plain downtrend is not a failed breakout)."""
+        for j in range(len(self._hist) - 1, 0, -1):
+            prior = max(h for (_e, _o, h, _l, _c, _ff, _ss) in self._hist[:j])
+            if self._hist[j][4] > prior:
+                return j, float(prior)
+        return None
+
     def _setup_pred(self, i: int, bar: tuple) -> bool:
-        """Per-history-bar predicate (pinned D-026 interpretation): a close
-        below the per-bar prior high (max high of the bars before it in the
-        window). The detection gate in evaluate() uses the SAME reference (the
-        windowed prior of the newest bar), so the anchor cannot slide."""
+        """Per-history-bar predicate (pinned D-026 interpretation): bar i is in
+        the failure run — it closed below the FROZEN breakout level AFTER the
+        breakout bar (`_breakout_idx`). Bars before the breakout are not
+        failure bars, so the anchor cannot slide across the breakout."""
         if i == 0:
-            return False                       # no prior bar: no prior high
-        event_id, _open, high, _low, close, _f, _s = bar
-        prior = max(h for (_e, _o, h, _l, _c, _ff, _ss) in self._hist[:i])
-        return close < prior
+            return False
+        _e, _o, _h, _l, close, _f, _s = bar
+        return i > self._breakout_idx and float(close) < self._level
 
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
         t = state.as_of
@@ -45,16 +58,23 @@ class FailedBreakoutExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
         self._hist = tuple(hist_value)
-        # ONE prior-high reference for the gate AND the anchor: the max high
-        # over the history window, excluding the newest bar. The state feature
-        # prior_high is the ALL-BARS max, which an old spike outside the window
-        # would pin forever — a gate on that diverges from the windowed anchor,
-        # fires on every bar and defeats episode-key dedup.
-        self._ref_prior_high = float(max(
-            h for (_e, _o, h, _l, _c, _ff, _ss) in self._hist[:-1]))
+        # The two-step hypothesis, not a bare "price below the prior high":
+        # a prior bar must first have CLOSED above its own prior high (the
+        # breakout leg, Ch7.3 p228), and the newest bar must have closed back
+        # below that SAME breakout level (the failure leg). The level is
+        # FROZEN at detection (prior_high_ref pattern) — a live reference
+        # (recomputed every clock) drifts upward with the adverse move and the
+        # documented thesis invalidation ('a close back above the prior high')
+        # never fires on a reversal.
+        breakout = self._last_breakout()
+        if breakout is None:
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_SETUP', t)
+        self._breakout_idx, self._ref_prior_high = breakout
         if not (close < self._ref_prior_high):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
+        self._level = self._ref_prior_high
         # The invalidation reference is FROZEN at detection: a live reference
         # (recomputed every clock) drifts upward with the adverse move and the
         # documented thesis invalidation ('a close back above the prior high')

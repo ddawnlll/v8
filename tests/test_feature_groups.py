@@ -217,7 +217,9 @@ def test_location_window_and_fib_features():
     assert anchor == pytest.approx(97.0)
     assert direction == -1.0
     assert retr[0] == pytest.approx((0.236, 97.0 + 0.236 * 5.0))
-    assert ext[0] == pytest.approx((1.0, 97.0 - 5.0))
+    # Extensions project from the impulse ORIGIN (the older extreme, the 102
+    # peak) — book Ch10.5.2 "Peak - (Range x Ratio)" — not from the anchor low.
+    assert ext[0] == pytest.approx((1.0, 102.0 - 5.0))
     assert len(retr) == len((0.236, 0.382, 0.5, 0.618, 0.786))
     assert len(ext) == 10
 

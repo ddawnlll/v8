@@ -55,7 +55,7 @@ DATA_BLOCKED = ('capitulation', 'open_interest_divergence')
 # reads via _need); audited against the declared requires (EXPERT_PROTOCOL 1).
 CONSUMPTION = {
     'trend_pullback': {'close', 'ema_fast', 'ema_slow', 'atr', 'history'},
-    'failed_breakout': {'close', 'prior_high', 'atr', 'history'},
+    'failed_breakout': {'close', 'atr', 'history'},
     'liquidity_sweep_reclaim': {'close', 'atr', 'history'},
 }
 

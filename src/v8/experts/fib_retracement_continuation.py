@@ -92,8 +92,7 @@ class FibRetracementContinuationExpert(Expert):
         t = state.as_of
         sym = state.universe[0]
         need = [f'{sym}.close', f'{sym}.atr', f'{sym}.history',
-                f'{sym}.fib_levels', f'{sym}.swing_high_10',
-                f'{sym}.swing_low_10']
+                f'{sym}.fib_levels']
         if not self._need(state, need):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
@@ -106,14 +105,13 @@ class FibRetracementContinuationExpert(Expert):
                 or not isinstance(hist, (tuple, list)) or not hist:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
-        # Swing-lattice consistency guard: when the significant-swing features
-        # carry a level, the fib anchor direction must agree with their
-        # ordering. 0.0 is the "no significant swing" sentinel (skipped).
-        swh = f[f'{sym}.swing_high_10'].value
-        swl = f[f'{sym}.swing_low_10'].value
-        if swh and swl and swh > 0.0 and swl > 0.0 and not (swh > swl):
-            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
-                                    'NOT_APPLICABLE', 'NO_HABITAT', t)
+        # The fib anchor's own consistency is the guard: `_fib_levels` returns
+        # None when the confirmed swing pair is degenerate, and the level set
+        # is checked below. The significance-filtered swing_high_10/
+        # swing_low_10 features are a DIFFERENT pair (CRIT-1 range filter) than
+        # the unfiltered confirmed swings the anchor uses — gating on them
+        # vetoed states with a valid anchor and NO_HABITAT'd states where the
+        # filtered pair was absent entirely.
         anchor_price, direction, _retr, _ext = fibs
         if direction not in (1.0, -1.0) or anchor_price <= 0.0:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,

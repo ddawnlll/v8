@@ -49,34 +49,12 @@ class VolumeClimaxReversalExpert(Expert):
     HIGH_VOL_REVERSAL_BAR = 1.0  # bar_class value: high-volume reversal bar
     VARIANTS = ('d', 'c', 'b', 'a')     # single-draft gate priority
 
-    def _downtrend_pred(self, i: int, bar: tuple) -> bool:
-        _e, _o, _h, _l, _c, ema_fast, ema_slow = bar
-        return ema_fast < ema_slow
-
-    def _uptrend_pred(self, i: int, bar: tuple) -> bool:
-        _e, _o, _h, _l, _c, ema_fast, ema_slow = bar
-        return ema_fast > ema_slow
-
-    def _below_slow_pred(self, i: int, bar: tuple) -> bool:
-        _e, _o, _h, _l, close, _f, ema_slow = bar
-        return close < ema_slow
-
-    def _above_slow_pred(self, i: int, bar: tuple) -> bool:
-        _e, _o, _h, _l, close, _f, ema_slow = bar
-        return close > ema_slow
-
-    def _up_close_pred(self, i: int, bar: tuple) -> bool:
-        _e, o, _h, _l, close, _f, _s = bar
-        return close > o
-
-    def _down_close_pred(self, i: int, bar: tuple) -> bool:
-        _e, o, _h, _l, close, _f, _s = bar
-        return close < o
-
     def _evaluate_variants(self, state: MarketState, sym: str,
-                           f: dict, close: float) -> tuple[str, str, tuple] | None:
-        """(variant_id, direction, anchor_predicate) for the first variant
-        whose gate fires, in declared priority order; None = stand down."""
+                           f: dict, close: float) -> tuple[str, str] | None:
+        """(variant_id, direction) for the first variant whose gate fires, in
+        declared priority order; None = stand down. The setup is the CURRENT
+        bar (the climax / overextension bar), so no per-bar anchor predicate is
+        needed: the D-026 anchor is the detection bar (see evaluate())."""
         zs = f.get(f'{sym}.vol_zscore')
         z_over = (zs is not None and zs.value is not None
                   and float(zs.value) >= self.CLIMAX_Z)
@@ -88,9 +66,9 @@ class VolumeClimaxReversalExpert(Expert):
                     # The reversal bar's own direction decides the fade.
                     o = self._hist[-1][1]
                     if close > o:
-                        return ('d', 'LONG', self._up_close_pred)
+                        return ('d', 'LONG')
                     if close < o:
-                        return ('d', 'SHORT', self._down_close_pred)
+                        return ('d', 'SHORT')
             elif variant == 'c':
                 prox = f.get(f'{sym}.vol_min_proximity')
                 if prox is not None and prox.value is not None \
@@ -100,9 +78,9 @@ class VolumeClimaxReversalExpert(Expert):
                         continue
                     slow_v = float(slow.value)
                     if close < slow_v:
-                        return ('c', 'LONG', self._below_slow_pred)
+                        return ('c', 'LONG')
                     if close > slow_v:
-                        return ('c', 'SHORT', self._above_slow_pred)
+                        return ('c', 'SHORT')
             elif variant == 'b':
                 if z_over:
                     fast = f.get(f'{sym}.ema_fast')
@@ -110,7 +88,7 @@ class VolumeClimaxReversalExpert(Expert):
                     if fast is not None and fast.value is not None \
                             and slow is not None and slow.value is not None \
                             and float(fast.value) > float(slow.value):
-                        return ('b', 'SHORT', self._uptrend_pred)
+                        return ('b', 'SHORT')
             else:  # 'a'
                 if z_over:
                     fast = f.get(f'{sym}.ema_fast')
@@ -118,7 +96,7 @@ class VolumeClimaxReversalExpert(Expert):
                     if fast is not None and fast.value is not None \
                             and slow is not None and slow.value is not None \
                             and float(fast.value) < float(slow.value):
-                        return ('a', 'LONG', self._downtrend_pred)
+                        return ('a', 'LONG')
         return None
 
     def evaluate(self, state: MarketState) -> ExpertEvaluation:
@@ -149,7 +127,7 @@ class VolumeClimaxReversalExpert(Expert):
         if hit is None:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
-        variant, direction, pred = hit
+        variant, direction = hit
         # The climax extreme is FROZEN at detection: the level below which a
         # selling climax is not exhausted (LONG) / above which a buying climax
         # is not exhausted (SHORT). A live-recomputed extreme drifts with the
@@ -157,7 +135,14 @@ class VolumeClimaxReversalExpert(Expert):
         level = float(self._hist[-1][3]) if direction == 'LONG' \
             else float(self._hist[-1][2])
         ref_key = 'prior_low_ref' if direction == 'LONG' else 'prior_high_ref'
-        anchor = self.find_setup_anchor(self._hist, pred)
+        # The setup is a discrete EVENT — the climax bar itself — and the
+        # per-bar volume state is not carried in the history tuples, so the
+        # D-026 anchor is the DETECTION bar (the newest closed bar), never the
+        # run start of a trend predicate. Anchoring on the trend run would
+        # collapse every distinct climax inside one trend into a single episode
+        # (episode_key hashes the anchor): a second selling climax in the same
+        # downtrend would be suppressed as a duplicate instead of re-entering.
+        anchor = self._hist[-1][0]
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,

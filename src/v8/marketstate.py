@@ -306,22 +306,31 @@ def _fib_levels(swing_high, swing_low):
     (anchor_price, direction, retracements, extensions) where direction is +1
     for an up-impulse (retracements below the anchor high) and -1 for a
     down-impulse (retracements above the anchor low); None when no anchor pair
-    exists (pre-anchor data absence)."""
+    exists (pre-anchor data absence).
+
+    Extension base is the impulse ORIGIN (the older extreme), not the END:
+    the book's formula is "Upside extension = Trough + (Range x Ratio)" and
+    "Downside extension = Peak - (Range x Ratio)" (Ch10.5.1 p404 / 10.5.2
+    p405). Projecting from the END extreme puts every extension level one full
+    impulse-range beyond the book's level for the same ratio label (a 1.618
+    extension would sit at the book's 2.618)."""
     if swing_high is None or swing_low is None:
         return None
     i_h, h = swing_high
     i_l, l = swing_low
     # The impulse runs from the older extreme to the newer one; the anchor
-    # extreme is the END of the impulse (the newer extreme). rng = h - l is
-    # always positive (a swing high sits above a swing low).
+    # extreme is the END of the impulse (the newer extreme, used for the
+    # retracements), and the ORIGIN is the older extreme (the book's extension
+    # base). rng = h - l is always positive (a swing high sits above a swing
+    # low).
     if i_h > i_l:
-        extreme, rng, direction = h, h - l, 1.0    # up-impulse low->high
+        extreme, origin, rng, direction = h, l, h - l, 1.0   # up-impulse low->high
     else:
-        extreme, rng, direction = l, h - l, -1.0   # down-impulse high->low
+        extreme, origin, rng, direction = l, h, h - l, -1.0  # down-impulse high->low
     if rng <= 0:
         return None
     retr = tuple((r, extreme - direction * r * rng) for r in FIB_RETRACEMENTS)
-    ext = tuple((r, extreme + direction * r * rng) for r in FIB_EXTENSIONS)
+    ext = tuple((r, origin + direction * r * rng) for r in FIB_EXTENSIONS)
     return (extreme, direction, retr, ext)
 
 

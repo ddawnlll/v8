@@ -3,6 +3,80 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-06 — Expert bug-fix pass: two-step failed_breakout gate, origin-based fib extensions, climax-bar anchor, fib swing-guard removal
+
+Adversarial audit of the 27 expert families against their hypotheses and the
+Handbook of Technical Analysis (Lim 2016) found and fixed three implementation
+bugs plus four audit/doc drift items. All are code-correctness fixes — the
+code now matches its own documented hypothesis and the cited book; no
+threshold, registry multiplicity, or hypothesis was tuned.
+
+- **`src/v8/experts/failed_breakout.py`** — the detection gate fired a SHORT on
+  ANY close below the windowed prior high, never verifying the breakout leg
+  ("a close above the prior high that fails back below it", Ch7.3 p228). A
+  plain downtrend with no close-breakout produced candidates. Gate and anchor
+  predicate now require a prior bar that CLOSED above its own prior high; the
+  frozen level is the breakout level; the anchor is the first failure bar
+  after the breakout (dedup stable, no window-edge anchor slide).
+- **`src/v8/marketstate.py`** — `_fib_levels` projected extensions from the
+  impulse END extreme; the book's formula is origin-based ("Upside extension =
+  Trough + (Range x Ratio)", Ch10.5.1 p404 / "Downside = Peak - ...", 10.5.2
+  p405). Every extension level moved one full impulse-range. Retracements
+  unchanged. Consumers: `fib_projection_reversal`.
+- **`src/v8/experts/volume_climax_reversal.py`** — the D-026 anchor resolved to
+  the trend-run start (the trend predicate is near-always-true), collapsing
+  every distinct climax inside one trend into a single episode. The anchor is
+  now the detection (climax) bar; the per-bar trend predicates became dead code
+  and were removed.
+- **`src/v8/experts/fib_projection_reversal.py`** — removed the swing-lattice
+  consistency guard that gated on the significance-FILTERED swing_high_10 /
+  swing_low_10 pair (a different pair than the unfiltered confirmed-swings
+  anchor `_fib_levels` uses) — it vetoed states with a valid anchor and
+  NO_HABITAT'd states where the filtered pair was absent. `fib_levels` is the
+  habitat gate and its own consistency guard. Same fix in
+  `fib_retracement_continuation.py`. Docstring corrected: Fig10.51 is a LONG
+  reversal at a DOWNWARD 161.8% projection, not a short at an up-projection.
+- **`tests/`** — new `test_expert_failed_breakout.py` (two-step gate,
+  no-breakout regression, fresh-high rejection, anchor, still_valid,
+  warmup); updated fib projection levels to origin-based values in
+  `test_expert_fib_projection_reversal.py` and `test_feature_groups.py`;
+  registry CONSUMPTION manifest corrected (`failed_breakout` no longer reads
+  `prior_high`); golden backtest re-pinned (candidate_count 21 -> 15 after the
+  two-step gate, then states/ledger only after the fib fix); vertical-slice
+  exposure-conflict assertion relaxed (the gate fix removed the overlap on the
+  synthetic fixture; the guard is pinned end-to-end in
+  `test_admission_contention.py`).
+- **`docs/EXPERTS_REGISTRY.yaml`** — unchanged (the removed swing features
+  were never part of `requires`; `fib_levels` is a location-group feature the
+  fib experts still declare via 'location').
+
+## 2026-08-06 — D-052: block-bootstrap block-size rule corrected from bar-units to n-adaptive episode units
+
+The prereg §9 block-size rule applied bar-counts (24 / 168 — "one day" /
+"one week" of 1h bars) to an episode-indexed `net_R` series: a unit error,
+visible in §9's own prose ("24 episode-blocks (one day)"). The fix makes the
+tier values n-adaptive episode-unit rates — `round(n**(1/3))`, doubled when
+the lag-1 autocorrelation gate fires, hard-capped at `n // 2` — and the tool
+now delegates to the module's `select_block_size` (one rule of record).
+
+- **`src/v8/statistics.py`** — `select_block_size` re-expressed in episode
+  units; `_block_bootstrap_indices` gains a fail-closed `block_size < n`
+  invariant (at `block_size >= n` every resample is a rotation of the whole
+  series and the bootstrap collapses to a point mass at the sample mean —
+  a zero-width `ci_lower == mu_hat` that rejected H0 by construction).
+- **`tools/run_experiment.py`** — `_block_size` delegates to
+  `select_block_size`; new `resamples_for_alpha` keeps the tail index a
+  stable order statistic (`int(N * alpha) >= 100`); `N_RESAMPLES` 2000 ->
+  60000 (the bound was `int(2000 * 0.05/28) = 3` — the 4th-smallest draw
+  standing in for a 0.18th percentile).
+- **`docs/decisions/DECISION_REGISTER.md`** — D-052 decision with the
+  mechanical reproduction, outcome-neutrality of the rule choice across the
+  three candidate rules, and the measured cost.
+- **`tests/`** — invariant tests for the non-degeneracy (point-mass rejection,
+  width under the rule), the episode-unit tier values, and the stable tail
+  index in `test_statistics_ext.py` / `test_reality_check.py` /
+  `test_run_experiment.py`.
+
 ## 2026-08-06 — Handbook+Evidence extraction lands: feature graph, 24 expert families, risk & execution management (D-048/49/50)
 
 The two-book extraction round (D-042) reaches code: the feature-group ontology

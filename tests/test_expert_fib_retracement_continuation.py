@@ -228,8 +228,7 @@ def test_variants_evaluated_complete_and_each_fires():
 def test_requires_audited_against_consumption():
     ex = FibRetracementContinuationExpert()
     assert ex.requires, 'requires must be non-empty'
-    consumed = {'close', 'atr', 'history', 'fib_levels', 'swing_high_10',
-                'swing_low_10'}
+    consumed = {'close', 'atr', 'history', 'fib_levels'}
     read_groups = {FEATURE_TO_GROUP[n] for n in consumed}
     allowed = set(ex.requires) | {'raw'}
     assert read_groups <= allowed

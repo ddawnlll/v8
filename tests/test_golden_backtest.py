@@ -101,11 +101,31 @@ UNIVERSE = ('SOLUSDT',)
 # module source moved, so _SIMULATOR_SRC_HASH and every outcome's
 # simulator_hash moved again); data/states/candidate/terminal unchanged. Do
 # not update silently.
-GOLDEN_LEDGER_HASH = '38dd2283d6524c8aadf789ef38e44a827e1e50d6'
+# Re-pinned 2026-08-06 (FAILED_BREAKOUT TWO-STEP GATE, BUG-FIX): the family
+# now requires the breakout leg — a prior bar must first CLOSE above its own
+# prior high (Ch7.3 p228) before a close back below that level is a "failed
+# breakout". The old gate fired on any close below the windowed prior high
+# (a plain downtrend, never a failure). Measured against the pre-change code
+# on this exact fixture: data_hash and states_hash are UNCHANGED (the tape and
+# the state identity are identical — the fix moved no feature), while
+# candidate_count dropped 21 -> 15 and terminal_distribution moved from
+# {CLOSED:12, INVALIDATED:3, REJECTED:6} to {CLOSED:12, INVALIDATED:1,
+# REJECTED:2}; the six lost candidates were spurious SHORT detections with no
+# breakout premise. ledger_hash moved by construction. Re-pinned once more the
+# same day (FIB_EXTENSIONS ORIGIN BASE, BUG-FIX): marketstate._fib_levels now
+# projects extensions from the impulse ORIGIN per the book (Ch10.5.1/10.5.2)
+# instead of the END extreme — every extension level moved one impulse-range,
+# so the fib_levels feature VALUE changed and every MarketState lineage_hash
+# recomputes. Measured against the pre-change code on this exact fixture:
+# data_hash, candidate_count (15) and terminal_distribution are UNCHANGED
+# (the golden experts TrendPullback/FailedBreakout consume no fib feature —
+# no decision changed), only states_hash and ledger_hash moved. Do not update
+# silently.
+GOLDEN_LEDGER_HASH = '639fb804b2cc89a8d451b1fa569e2d17186620fb'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = '26369d02afc4d879011fd15be7a8894f4b68fb65'
-GOLDEN_CANDIDATE_COUNT = 21
-GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 3, 'REJECTED': 6}
+GOLDEN_STATES_HASH = '3b73b01bc5360b79c31d896c91f85a583c178bb7'
+GOLDEN_CANDIDATE_COUNT = 15
+GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 1, 'REJECTED': 2}
 
 
 def _manifest() -> ExperimentManifest:
