@@ -55,7 +55,7 @@ from .base import Expert
 class FibProjectionReversalExpert(Expert):
     """Reversal at a measured Fibonacci extension level, rejected by a close."""
     expert_id = 'fib_projection_reversal'
-    version = 'v1'
+    version = 'v2'
     mechanism_family_id = 'fib_level_reaction'
     behavior_family_id = 'fib_projection_reversal'
     variant_id = 'a'

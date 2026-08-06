@@ -50,6 +50,17 @@ threshold, registry multiplicity, or hypothesis was tuned.
   were never part of `requires`; `fib_levels` is a location-group feature the
   fib experts still declare via 'location').
 
+## 2026-08-06 — v2 challenger registration for the bug-fixed families (O-023, D-053)
+
+Operator chose O-023's admission condition: `failed_breakout` stays v1
+(bug-completion — fixed series is a strict subset, 369 -> 76); the two families
+whose fixes ADD behavior become v2 challengers.
+
+- **`src/v8/experts/volume_climax_reversal.py`**, **`fib_projection_reversal.py`** — `expert_version` bumped v1 -> v2 (enters the episode_key, so v1 and v2 episodes never collide).
+- **`docs/EXPERTS_REGISTRY.yaml`** — the two families' `expert_version` v2.
+- **`docs/decisions/DECISION_REGISTER.md`** — D-053 decision; **`docs/decisions/OPEN_DECISIONS.md`** — O-022/O-023 (exposure coupling across families, version discipline).
+- **`tests/test_expert_volume_climax_reversal.py`** — version assertion v2.
+
 ## 2026-08-06 — D-052: block-bootstrap block-size rule corrected from bar-units to n-adaptive episode units
 
 The prereg §9 block-size rule applied bar-counts (24 / 168 — "one day" /

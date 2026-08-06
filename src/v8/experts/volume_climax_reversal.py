@@ -35,7 +35,7 @@ from .base import Expert
 class VolumeClimaxReversalExpert(Expert):
     """Fade a volume climax / overextension at a local extreme."""
     expert_id = 'volume_climax_reversal'
-    version = 'v1'
+    version = 'v2'
     mechanism_family_id = 'volume_exhaustion'
     behavior_family_id = 'volume_climax_reversal'
     variant_id = 'a'

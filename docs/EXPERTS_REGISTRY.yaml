@@ -327,7 +327,7 @@ experts:
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
 - expert_id: fib_projection_reversal
-  expert_version: v1
+  expert_version: v2
   mechanism_family_id: fib_level_reaction
   behavior_family_id: fib_projection_reversal
   variant_id: a
@@ -380,7 +380,7 @@ experts:
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
 - expert_id: volume_climax_reversal
-  expert_version: v1
+  expert_version: v2
   mechanism_family_id: volume_exhaustion
   behavior_family_id: volume_climax_reversal
   variant_id: a

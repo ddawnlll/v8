@@ -45,7 +45,7 @@ def _state_at(rows, idx):
 def test_ontology_declared():
     e = VolumeClimaxReversalExpert()
     assert e.expert_id == 'volume_climax_reversal'
-    assert e.version == 'v1'
+    assert e.version == 'v2'
     assert e.mechanism_family_id == 'volume_exhaustion'
     assert e.behavior_family_id == 'volume_climax_reversal'
     assert e.variant_id == 'a'
