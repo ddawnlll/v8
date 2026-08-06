@@ -240,23 +240,36 @@ def invariant_holds(placebo_mean_raw: float,
         placebo_mean_raw)
 
 
-def select_block_size(episode_net_r: Sequence[float], small: int = 24,
-                       large: int = 168, threshold: float = 0.10) -> int:
-    """Preregistration section 9's mechanical block-size rule: lag-1
-    autocorrelation of episode `net_R` picks 24 (one day) or 168 (one week).
-    Fixed thresholds, not a free parameter — mirrors the prose rule exactly.
+def select_block_size(episode_net_r: Sequence[float], *,
+                      threshold: float = 0.10) -> int:
+    """Preregistration section 9's mechanical block-size rule (D-052).
+
+    Two tiers selected by the lag-1 autocorrelation of episode `net_R` — the
+    original mechanical shape, unchanged. What changed is the tier VALUES: the
+    former 24 / 168 were bar-counts ("one day" / "one week" of 1h bars) applied
+    to an episode-indexed series, a unit error. The replacement is the standard
+    block-bootstrap rate `round(n**(1/3))` in episode units, doubled when the
+    gate fires.
+
+    The `n // 2` cap is what keeps the estimator defined: at `block_size >= n`
+    the circular sampler returns a rotation of the whole series, every resample
+    holds each element exactly once, and the bootstrap collapses to a point
+    mass at the sample mean (zero-width interval). `_block_bootstrap_indices`
+    enforces that invariant independently — this cap is the rule side of it.
     """
     n = len(episode_net_r)
-    if n < 3:
-        return small
+    if n < 4:
+        return 1
     mean = sum(episode_net_r) / n
     c0 = sum((x - mean) ** 2 for x in episode_net_r)
+    base = max(1, round(n ** (1.0 / 3.0)))
     if c0 == 0:
-        return small
+        return max(1, min(base, n // 2))
     c1 = sum((episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean)
               for i in range(n - 1))
     lag1 = c1 / c0
-    return large if abs(lag1) > threshold else small
+    block = 2 * base if abs(lag1) > threshold else base
+    return max(1, min(block, n // 2))
 
 
 def _block_bootstrap_indices(n: int, block_size: int, rng: random.Random) -> list[int]:
@@ -270,6 +283,16 @@ def _block_bootstrap_indices(n: int, block_size: int, rng: random.Random) -> lis
         return []
     if block_size <= 0:
         raise ValueError('block_size must be positive')
+    # D-052 fail-closed invariant. With block_size >= n one block already
+    # covers the series: the draw is a cyclic rotation holding every index
+    # exactly once, so EVERY resample mean equals the sample mean and the
+    # bootstrap distribution is a point mass — a zero-width interval that
+    # rejects H0 for any positive mean. Silent, and indistinguishable from a
+    # real result in the report, so it must raise rather than degrade.
+    if n >= 2 and block_size >= n:
+        raise ValueError(
+            f'block_size {block_size} >= n {n}: degenerate block bootstrap '
+            '(every resample is a rotation of the whole series)')
     out: list[int] = []
     while len(out) < n:
         start = rng.randrange(n)

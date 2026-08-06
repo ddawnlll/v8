@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -31,7 +32,8 @@ from v8.lab import Lab  # noqa: E402
 from v8.schema import ExperimentManifest, sha1_hex  # noqa: E402
 from v8.statistics import (EpisodeExposure, block_bootstrap_means,  # noqa: E402
                            detrend_net_r, effective_search_size,
-                           expected_false_positives, mean_log_drift_per_bar)
+                           expected_false_positives, mean_log_drift_per_bar,
+                           select_block_size)
 from v8.store import AppendOnlyLog  # noqa: E402
 from v8.experts import TrendPullbackExpert, FailedBreakoutExpert  # noqa: E402
 
@@ -54,14 +56,21 @@ N_FAMILIES = len(FAMILIES)
 ALPHA_FAMILY = 0.05
 ALPHA_F = ALPHA_FAMILY / N_FAMILIES          # Bonferroni per-family alpha
 # Block bootstrap (prereg §9): a fixed mechanical rule, not a free parameter.
-# 24 episode-blocks (one day) by default; if the estimated lag-1
-# autocorrelation of the family's episode net_R exceeds 0.10 in magnitude,
-# 168 (one week). Fixed seed so the lower bound is reproducible run-to-run.
-BLOCK_SIZE_DEFAULT = 24
-BLOCK_SIZE_WEEK = 168
+# Two tiers picked by the lag-1 autocorrelation of the family's episode net_R;
+# the tier values are n-adaptive episode-unit rates (D-052 — the former 24 /
+# 168 were bar-counts applied to an episode-indexed series). The rule itself
+# lives in `v8.statistics.select_block_size`, the one rule of record; this
+# module delegates. Fixed seed so the bound is reproducible run-to-run.
 LAG1_AUTOCORR_GATE = 0.10
-N_RESAMPLES = 2000
+N_RESAMPLES = 2000                           # floor; see resamples_for_alpha
 BOOTSTRAP_SEED = 7
+# D-052: the one-sided bound is the `int(N * alpha)`-th smallest resample mean,
+# so N is not independent of alpha. This runner's own alpha_f is 0.05/2 = 0.025
+# (index 50 at N=2000 — adequate), but a slate-wide Bonferroni alpha makes the
+# same constant fail: at 0.05/28 the index is 3, the 4th-smallest of 2000 draws
+# standing in for a 0.18th percentile. Tie N to alpha rather than pinning a
+# constant that is only correct for one family count.
+MIN_TAIL_ORDER_STATISTIC = 100
 # Holdout anchor: the frozen OOS is strictly after the dev window (prereg
 # §13). 2026-07-01 00:00 UTC in ns.
 HOLDOUT_ANCHOR_NS = 1782864000000000000
@@ -83,22 +92,38 @@ def _lag1_autocorrelation(xs: list[float]) -> float:
     return num / den if den else 0.0
 
 
+def resamples_for_alpha(alpha: float, *, minimum: int = N_RESAMPLES) -> int:
+    """Resample count that makes the one-sided bound at `alpha` a stable order
+    statistic (D-052): enough draws that `int(N * alpha) >= 100`, never fewer
+    than the preregistered floor. Deterministic in alpha — a rule, not a tuned
+    constant. Measured cost at N=56000: 4.2 s per family at n=1000."""
+    if not 0.0 < alpha < 1.0:
+        raise ValueError(f'alpha must be in (0, 1), got {alpha}')
+    return max(minimum, math.ceil(MIN_TAIL_ORDER_STATISTIC / alpha))
+
+
 def _block_size(net_rs: list[float]) -> int:
-    """Prereg §9 mechanical block-size rule: 24 by default; 168 when the
-    lag-1 autocorrelation of the family's episode net_R exceeds 0.10 in
-    magnitude. Fixed, never tuned."""
-    return BLOCK_SIZE_WEEK if abs(_lag1_autocorrelation(net_rs)) > LAG1_AUTOCORR_GATE \
-        else BLOCK_SIZE_DEFAULT
+    """Prereg §9 mechanical block-size rule (D-052), delegated to
+    `v8.statistics.select_block_size` so the tool and the decision-path module
+    cannot drift apart — they were two copies of the same rule, and the
+    bar-unit defect had to be fixed in both."""
+    return select_block_size(net_rs, threshold=LAG1_AUTOCORR_GATE)
 
 
 def block_bootstrap_lower_bound(net_rs: list[float], *,
-                                n_resamples: int = N_RESAMPLES,
+                                n_resamples: int | None = None,
                                 seed: int = BOOTSTRAP_SEED) -> float:
-    """2.5th-percentile lower bound of the block bootstrap on episode net_R
-    (prereg §9: mechanical block-size rule + fixed seed). One-sided at alpha_f
-    via the percentile method; H0 (mu_f <= 0) is rejected only when this bound
-    > 0 AND n_f >= MIN_EPISODES (composite §11/§12 test). Deterministic for a
-    fixed seed; an empty sample returns 0.0 (no signal).
+    """One-sided lower bound of the block bootstrap on episode net_R at
+    `ALPHA_F` (prereg §9: mechanical block-size rule + fixed seed). H0
+    (mu_f <= 0) is rejected only when this bound > 0 AND n_f >= MIN_EPISODES
+    (composite §11/§12 test). Deterministic for a fixed seed; an empty sample
+    returns 0.0 (no signal).
+
+    The bound is the alpha_f-th percentile, NOT the 2.5th: the docstring and
+    the `ci_lower_2p5_*` field name said 2.5 while the code always used
+    ALPHA_F (D-052 — naming corrected, arithmetic unchanged). `n_resamples`
+    defaults to `resamples_for_alpha(ALPHA_F)` so the tail index stays a
+    stable order statistic when the family count (hence alpha_f) changes.
 
     METH-4 / EV_METHODS E-04 sampler unification: the resamples come from
     `v8.statistics.block_bootstrap_means`, the SAME circular fixed-block
@@ -109,12 +134,14 @@ def block_bootstrap_lower_bound(net_rs: list[float], *,
     block = _block_size(net_rs)
     if not net_rs:
         return 0.0
+    if n_resamples is None:
+        n_resamples = resamples_for_alpha(ALPHA_F)
     means = block_bootstrap_means(net_rs, block, n_resamples, seed)
     means.sort()
-    # The 2.5th-percentile LOWER bound: int(n_resamples * alpha_f) of the
-    # sorted resample means sits below alpha_f of the distribution. (The
-    # 97.5th percentile would be the UPPER bound — the wrong side for a
-    # one-sided H0: mu_f <= 0 test; caught by the dev-tape smoke run.)
+    # The LOWER bound: int(n_resamples * alpha_f) of the sorted resample means
+    # sits below alpha_f of the distribution. (The upper percentile would be
+    # the wrong side for a one-sided H0: mu_f <= 0 test; caught by the dev-tape
+    # smoke run.)
     return means[int(n_resamples * ALPHA_F)]
 
 

@@ -102,21 +102,35 @@ def test_block_bootstrap_indices_empty_series():
     assert _block_bootstrap_indices(0, 4, random.Random(1)) == []
 
 
-def test_select_block_size_low_autocorrelation_stays_daily():
+def test_select_block_size_low_autocorrelation_uses_base_rate():
+    """D-052: below the 0.10 gate the block is the base rate round(n**(1/3)),
+    in EPISODE units. (Was 24 — a bar-count applied to an episode series.)"""
     # Balanced +1/-1 period-4 pattern: lag-1 autocorrelation ~ -0.025.
-    series = [1.0, -1.0, -1.0, 1.0] * 10
-    assert select_block_size(series) == 24
+    series = [1.0, -1.0, -1.0, 1.0] * 10               # n=40 -> round(3.42)=3
+    assert select_block_size(series) == 3
 
 
-def test_select_block_size_high_autocorrelation_goes_weekly():
+def test_select_block_size_high_autocorrelation_doubles_the_rate():
+    """D-052: above the gate the base rate doubles — still an episode-unit
+    rate, never the former 168-bar constant."""
     # Monotonic ramp: lag-1 autocorrelation approaches 1.
-    series = [float(i) for i in range(50)]
-    assert select_block_size(series) == 168
+    series = [float(i) for i in range(50)]             # n=50 -> 2*round(3.68)=8
+    assert select_block_size(series) == 8
 
 
 def test_select_block_size_short_series_defaults_small():
-    assert select_block_size([0.1, 0.2]) == 24
-    assert select_block_size([]) == 24
+    assert select_block_size([0.1, 0.2]) == 1
+    assert select_block_size([]) == 1
+
+
+def test_select_block_size_never_reaches_n():
+    """The invariant the former rule violated: a block that reaches n makes
+    every resample a rotation of the whole series, collapsing the bootstrap to
+    a point mass. Must hold for every length, at both tiers."""
+    ramp = [float(i) for i in range(200)]              # lag-1 ~ 1 (upper tier)
+    for n in range(2, 200):
+        assert select_block_size(ramp[:n]) < n
+        assert select_block_size([1.0, -1.0] * (n // 2) or [1.0]) < max(2, n)
 
 
 def test_reality_check_result_is_frozen_dataclass():

@@ -12,14 +12,48 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
 import pytest
 
-from v8.statistics import (PermutationRealityCheckResult, bootstrap_ci,
+from v8.statistics import (PermutationRealityCheckResult, block_bootstrap_means,
+                           bootstrap_ci,
                            detrend_net_r, effective_independent_episodes,
                            effective_search_size, expected_false_positives,
                            mean_log_drift_per_bar,
                            monte_carlo_permutation_p_value,
                            placebo_exposures, practical_significance,
                            reality_check_p_value, regime_slices,
-                           streak_vs_null)
+                           select_block_size, streak_vs_null)
+
+
+# --- D-052: block-bootstrap non-degeneracy invariants ----------------------
+# Properties that must hold for EVERY input, not examples. The bar-unit block
+# defect survived a full example-based suite because those tests asserted the
+# rule's output value (24 / 168) — the same wrong assumption the code held.
+# An invariant cannot be satisfied by agreeing with the code.
+
+
+def test_block_bootstrap_rejects_a_block_that_reaches_n():
+    """With block_size >= n the circular sampler draws a rotation of the whole
+    series: every resample holds each element once, so every resample mean is
+    the sample mean. Must raise — a silent point mass is indistinguishable
+    from a real interval in the report."""
+    xs = [0.3, -1.0, 0.7, -0.2, 1.5, -0.9, 0.1]
+    for bad in (len(xs), len(xs) + 1, 168):
+        with pytest.raises(ValueError, match='degenerate block bootstrap'):
+            block_bootstrap_means(xs, bad, 50, 7)
+
+
+def test_block_bootstrap_is_never_a_point_mass_under_the_rule():
+    """For any sample the mechanical rule admits (n >= 2, values not all
+    equal), the resample distribution must have width. This is the property
+    the report's `ci_lower == mu_hat` rows violated."""
+    rng = random.Random(11)
+    for n in (5, 17, 30, 50, 74, 168, 200):
+        xs = [rng.gauss(0.0, 0.9) for _ in range(n)]
+        block = select_block_size(xs)
+        assert block < n                              # rule side of the invariant
+        means = block_bootstrap_means(xs, block, 200, 7)
+        assert len(set(means)) > 1, f'point mass at n={n}, block={block}'
+
+
 
 
 # --- METH-1: centering correctness (G-02 / Aronson Appendix A) -------------

@@ -18,7 +18,9 @@ import pytest
 
 from v8.schema import sha1_hex
 from v8.synth import make_synthetic_tape
-from tools.run_experiment import (block_bootstrap_lower_bound, run_experiment,
+from tools.run_experiment import (ALPHA_F, N_RESAMPLES,
+                                  block_bootstrap_lower_bound,
+                                  resamples_for_alpha, run_experiment,
                                   _block_size, _lag1_autocorrelation)
 
 HOLDOUT_ANCHOR_NS = 1782864000000000000      # 2026-07-01 00:00 UTC
@@ -208,16 +210,54 @@ def test_block_bootstrap_lower_bound_is_the_LOWER_percentile():
 
 
 def test_block_size_mechanical_rule():
-    """Prereg §9: block 24 by default; 168 when the lag-1 autocorrelation of
-    the family's episode net_R exceeds 0.10 in magnitude."""
+    """Prereg §9 / D-052: the lag-1 gate at 0.10 still picks the tier; the tier
+    values are the episode-unit rate round(n**(1/3)), doubled above the gate.
+    The runner delegates to `v8.statistics.select_block_size` — one rule of
+    record, so the tool and the decision-path module cannot drift."""
     import random
     rng = random.Random(42)                           # i.i.d. -> ~0 autocorr
     low_ac = [rng.uniform(-0.01, 0.01) for _ in range(60)]
     assert abs(_lag1_autocorrelation(low_ac)) < 0.10
-    assert _block_size(low_ac) == 24
+    assert _block_size(low_ac) == 4                   # n=60 -> round(3.91)=4
     high_ac = [0.05] * 40 + [0.1] * 40                # step -> strong +ac
     assert abs(_lag1_autocorrelation(high_ac)) > 0.10
-    assert _block_size(high_ac) == 168
+    assert _block_size(high_ac) == 8                  # n=80 -> 2*round(4.31)=8
+    # The defect this rule replaces: both tiers must stay strictly below n, or
+    # the bootstrap collapses to a point mass and rejects H0 by construction.
+    assert _block_size(low_ac) < len(low_ac)
+    assert _block_size(high_ac) < len(high_ac)
+
+
+def test_resamples_for_alpha_keeps_the_tail_index_stable():
+    """D-052: the bound is the int(N * alpha)-th smallest resample mean, so N
+    cannot be a constant chosen independently of alpha. The defect was not
+    visible at THIS runner's alpha_f (0.05/2 -> index 50) — it appeared once a
+    slate-wide Bonferroni alpha was used, where the same 2000 put the index at
+    3: the 4th-smallest draw standing in for a 0.18th percentile."""
+    slate_alpha = 0.05 / 28
+    assert int(2000 * slate_alpha) == 3                    # the defect, pinned
+    # The property, over every family count the slate could plausibly take.
+    for n_families in range(1, 65):
+        alpha = 0.05 / n_families
+        assert int(resamples_for_alpha(alpha) * alpha) >= 100
+    assert resamples_for_alpha(ALPHA_F) >= N_RESAMPLES     # floor never lowered
+    for bad in (0.0, 1.0, -0.1):
+        with pytest.raises(ValueError, match='alpha must be in'):
+            resamples_for_alpha(bad)
+
+
+def test_lower_bound_has_width_at_the_defect_shape():
+    """Regression for the exact report row that motivated D-052: a positive
+    mean at n=50 used to select block 168, collapse the bootstrap to a point
+    mass, and return ci_lower == mean > 0 — an H0 rejection with a zero-width
+    interval. The bound must now sit strictly below the mean."""
+    import random
+    rng = random.Random(3)
+    net_rs = [rng.gauss(0.015, 0.9) for _ in range(50)]
+    mu = sum(net_rs) / len(net_rs)
+    lower = block_bootstrap_lower_bound(net_rs)
+    assert lower < mu                                  # strict: real width
+    assert _block_size(net_rs) < len(net_rs)
 
 
 def test_window_overlapping_dev_is_not_the_holdout(tmp_path):
